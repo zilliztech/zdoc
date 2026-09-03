@@ -1,23 +1,10 @@
 {
-  "generated_at": "2026-09-03T10:58:16.097Z",
+  "generated_at": "2026-09-03T18:32:31.999Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
   "changed_records": [
-    {
-      "record_id": "recvlPmS9UHKQT",
-      "table_id": "tbl9BeCMjBmalJVb",
-      "table_name": "Get Started",
-      "title": "Deployment and Plan Comparison",
-      "labels": "Plan Comparison",
-      "slug": "select-zilliz-cloud-service-plans",
-      "doc_token": "Ghq9wEiOOivgeIkmj2HcHC9onXe",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/Ghq9wEiOOivgeIkmj2HcHC9onXe",
-      "reasons": [
-        "wiki node edit time changed"
-      ]
-    },
     {
       "record_id": "recvu9l6Byga4h",
       "table_id": "tbl9BeCMjBmalJVb",
@@ -28,335 +15,96 @@
       "doc_token": "RiylwqPvoi1mrNk79qOc7M2cnph",
       "doc_link": "https://zilliverse.feishu.cn/wiki/RiylwqPvoi1mrNk79qOc7M2cnph",
       "reasons": [
-        "new canonical record"
-      ]
-    },
-    {
-      "record_id": "recvoElQfmE1Z8",
-      "table_id": "tbl9BeCMjBmalJVb",
-      "table_name": "Get Started",
-      "title": "July 2026 Release Notes",
-      "labels": "July, 2026",
-      "slug": "release-notes-2607",
-      "doc_token": "CUuywySLVil4MKkmYZecUl9snLg",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/CUuywySLVil4MKkmYZecUl9snLg",
-      "reasons": [
-        "wiki node edit time changed"
-      ]
-    },
-    {
-      "record_id": "recvlVTvgmcd0O",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "title": "Manage Projects",
-      "labels": "Projects",
-      "slug": "manage-projects",
-      "doc_token": "NXypwJ2ySiv7RAkyKb5cZ9SKnvf",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/NXypwJ2ySiv7RAkyKb5cZ9SKnvf",
-      "reasons": [
-        "wiki node edit time changed"
-      ]
-    },
-    {
-      "record_id": "recvlVUEVTk9b3",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "title": "Manage Cluster",
-      "labels": "Manage Cluster",
-      "slug": "manage-cluster",
-      "doc_token": "PharwAysCiBzvgkuqqecmNzunQf",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/PharwAysCiBzvgkuqqecmNzunQf",
-      "reasons": [
-        "wiki node edit time changed"
-      ]
-    },
-    {
-      "record_id": "recvlVU6HDfP71",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "title": "Create Global Cluster",
-      "labels": "Create Global Cluster",
-      "slug": "create-global-cluster",
-      "doc_token": "MZ2WwklE5ifX4hkO4ZOcXz0indc",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/MZ2WwklE5ifX4hkO4ZOcXz0indc",
-      "reasons": [
-        "wiki node edit time changed"
-      ]
-    },
-    {
-      "record_id": "recvlVXMAUCmgx",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "title": "Manage Notification Channels",
-      "labels": "Manage Notification Channels",
-      "slug": "manage-notification-channels",
-      "doc_token": "ARpTwYXlIi7ZLtkEHx5ciUK6nuc",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/ARpTwYXlIi7ZLtkEHx5ciUK6nuc",
-      "reasons": [
-        "wiki node edit time changed"
-      ]
-    },
-    {
-      "record_id": "recvm27Y8Z4pkq",
-      "table_id": "tblgHPdSvZP8gUz6",
-      "table_name": "Client Libraries",
-      "title": "Install SDKs",
-      "labels": "",
-      "slug": "install-sdks",
-      "doc_token": "J274wT61xiEM4fkYeL8cMb4Pnbd",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/J274wT61xiEM4fkYeL8cMb4Pnbd",
-      "reasons": [
         "wiki node edit time changed"
       ]
     }
   ],
   "changed_tokens": [
-    "ARpTwYXlIi7ZLtkEHx5ciUK6nuc",
-    "CUuywySLVil4MKkmYZecUl9snLg",
-    "Ghq9wEiOOivgeIkmj2HcHC9onXe",
-    "J274wT61xiEM4fkYeL8cMb4Pnbd",
-    "MZ2WwklE5ifX4hkO4ZOcXz0indc",
-    "NXypwJ2ySiv7RAkyKb5cZ9SKnvf",
-    "PharwAysCiBzvgkuqqecmNzunQf",
     "RiylwqPvoi1mrNk79qOc7M2cnph"
   ],
   "expanded_tokens": [
-    "A33MwQX84iXyQNkzopece3oenye",
-    "AAqUwQW3qia3akkjfDNc0kwanlh",
-    "AICcwQ55yiNqEPkjdV6cb2i8nqe",
-    "ARpTwYXlIi7ZLtkEHx5ciUK6nuc",
-    "BTrNwoEfYii1e9kf0BScWDpcnA2",
-    "ByBTwOfgIie7e2k090Mc1EPknSf",
-    "CK0ewQWC2iz6lakP0kscqogbnGh",
-    "CPLrwghdWiSvGBkdeEecGjgLnSb",
-    "CUuywySLVil4MKkmYZecUl9snLg",
-    "CWT2wh5YriZfPZkGlgCcWxVnnAf",
-    "DbPIw4jLOiEabCk5uptc6EZ1nbf",
-    "DknbwaLS3iAAiUk9ifPc1Vmvnze",
-    "E1BCwXVouiDrtpkWp5ecvdXHnAb",
-    "EO58wVRLpiTBXQkceRjccN28nrh",
-    "ETsNwO7T0iR5GDkvuMxcJG7JnIb",
-    "EV41wG08BiOWW8kbo9xcTGoPnKd",
-    "Ex99woZlsico4FkfwxGckjRRnqf",
-    "GLxhwO5vWiWkTBkoNCPcg4ahnbe",
-    "GMdhwQQCRi2QaLkimNOcc3qNnbh",
-    "Ghq9wEiOOivgeIkmj2HcHC9onXe",
-    "HHXewT7wTiM1zqkySjHcMNX5n9b",
-    "I2CHwfDHKilTMukoZ13cR2M4nzb",
-    "I5qmw4fxDiBxBQksrNwcLHQpnTc",
-    "J0jDwYQb8il1biknRo4cazHPn5d",
-    "J274wT61xiEM4fkYeL8cMb4Pnbd",
-    "JGFQwMcVmiikeOkhepGcQ8Ken0e",
-    "JaLdw76LPiX003kLpKHcA0n8n2d",
-    "KnnBwce9JifxvXkd070cvgUPnag",
-    "LQwnwNY73iCd8Hkj55ZczQTOn6g",
-    "M5dXwsGOOiPdAjkWLZUc2Pxonuh",
+    "CmR5wFcybi3iMokOJBxcXDQcntg",
+    "DBrAwCfu3ids0Okxhlbcz12KnPc",
+    "Er7Yw6Qnuiy8CBkDkH3cetOHnDf",
+    "GsofwhPKqi0Bfkkk7YqcRzndnah",
+    "Ke8ownBFFiAmZFkBnWec81qEn70",
+    "KhJhw2lOBirGhekK8jbcZkb2nVg",
+    "KrbjwFhy3iojF3k97XmcvvXMnW7",
+    "L11Mw0GRTiKALikJaEycwj1wnKg",
     "MTqjwwUKhiyns4kGV7Lc7PRlnwb",
-    "MUL3wkn7Yi3YoFkYk59csf8bnNc",
-    "MYHwwhKtri4MMJku6BbcMjF4n1d",
     "MZ2WwklE5ifX4hkO4ZOcXz0indc",
     "MyKpwdBxUizDsukJm5Kc8orenbT",
     "NXypwJ2ySiv7RAkyKb5cZ9SKnvf",
     "NmFBwTRj9iFuC8kXno6cqRbmnfh",
     "NvDLw4kFji0xeWkc4Hpc9wUfnRh",
-    "O1qjwpv0Ri9afmkSUwWcU2aTn5f",
-    "PAViwMSb3iVMzuk56z3c1zfRnwh",
-    "PBZwwNqWjiikeYkXgHPcGhLznTh",
-    "PIfLwbrMmiOZKAkqtpScjnhinXf",
-    "PharwAysCiBzvgkuqqecmNzunQf",
-    "PuxkwMWvbiHxvTkHsVkcMZP9n5f",
-    "RY8ww0NDQi8yU9kNpjicHP7Gn4b",
     "RiylwqPvoi1mrNk79qOc7M2cnph",
-    "RlhDw3Fr9iCpWSkylfAcyes1nLh",
-    "RoxawNJhki1vXXkFsEEc7laMnxe",
-    "SXBNw91txiJhL6kq2ARcvYbRntg",
-    "Ti5uwysf0iZhuyk4xvjcFmsSnhG",
-    "UPg7wiU71ioeELk8I8KcLDYqncb",
-    "YHG0wCYxfiZILvkZ2VLclmvsn7g",
-    "YMYFwJhUuibUTxkJ1lTcNVSxnhg",
-    "ZACVwXqTbiCqR3kS9YAccuaQnId",
-    "ZBEiwpvlbijhYDkmnNScc7zyn5d",
-    "ZWwJwKjeDi7SJGkzUQ0c7XfBnqh"
+    "TqR1wKJMni2xCkkwNf4c52eKnKd",
+    "VcI1wZ5mQiGqdPkCzHccj1RLnbd",
+    "XvTLwH1TEiEHdJksnyIcMCixnic"
   ],
   "removed_records": [],
   "removed_tokens": [],
   "reasons_by_token": {
-    "Ghq9wEiOOivgeIkmj2HcHC9onXe": [
-      "wiki node edit time changed"
-    ],
     "RiylwqPvoi1mrNk79qOc7M2cnph": [
-      "new canonical record"
-    ],
-    "CUuywySLVil4MKkmYZecUl9snLg": [
       "wiki node edit time changed"
-    ],
-    "NXypwJ2ySiv7RAkyKb5cZ9SKnvf": [
-      "wiki node edit time changed"
-    ],
-    "PharwAysCiBzvgkuqqecmNzunQf": [
-      "wiki node edit time changed"
-    ],
-    "MZ2WwklE5ifX4hkO4ZOcXz0indc": [
-      "wiki node edit time changed"
-    ],
-    "ARpTwYXlIi7ZLtkEHx5ciUK6nuc": [
-      "wiki node edit time changed"
-    ],
-    "J274wT61xiEM4fkYeL8cMb4Pnbd": [
-      "wiki node edit time changed"
-    ],
-    "MyKpwdBxUizDsukJm5Kc8orenbT": [
-      "outgoing reference from ARpTwYXlIi7ZLtkEHx5ciUK6nuc"
-    ],
-    "UPg7wiU71ioeELk8I8KcLDYqncb": [
-      "outgoing reference from ARpTwYXlIi7ZLtkEHx5ciUK6nuc"
-    ],
-    "NvDLw4kFji0xeWkc4Hpc9wUfnRh": [
-      "outgoing reference from ARpTwYXlIi7ZLtkEHx5ciUK6nuc"
-    ],
-    "ETsNwO7T0iR5GDkvuMxcJG7JnIb": [
-      "outgoing reference from CUuywySLVil4MKkmYZecUl9snLg"
-    ],
-    "PAViwMSb3iVMzuk56z3c1zfRnwh": [
-      "outgoing reference from CUuywySLVil4MKkmYZecUl9snLg"
-    ],
-    "JaLdw76LPiX003kLpKHcA0n8n2d": [
-      "outgoing reference from CUuywySLVil4MKkmYZecUl9snLg"
-    ],
-    "KnnBwce9JifxvXkd070cvgUPnag": [
-      "outgoing reference from CUuywySLVil4MKkmYZecUl9snLg"
-    ],
-    "O1qjwpv0Ri9afmkSUwWcU2aTn5f": [
-      "outgoing reference from CUuywySLVil4MKkmYZecUl9snLg"
-    ],
-    "YMYFwJhUuibUTxkJ1lTcNVSxnhg": [
-      "outgoing reference from CUuywySLVil4MKkmYZecUl9snLg"
-    ],
-    "CWT2wh5YriZfPZkGlgCcWxVnnAf": [
-      "outgoing reference from CUuywySLVil4MKkmYZecUl9snLg"
-    ],
-    "I2CHwfDHKilTMukoZ13cR2M4nzb": [
-      "outgoing reference from CUuywySLVil4MKkmYZecUl9snLg"
-    ],
-    "YHG0wCYxfiZILvkZ2VLclmvsn7g": [
-      "outgoing reference from CUuywySLVil4MKkmYZecUl9snLg"
-    ],
-    "PBZwwNqWjiikeYkXgHPcGhLznTh": [
-      "outgoing reference from CUuywySLVil4MKkmYZecUl9snLg"
-    ],
-    "CPLrwghdWiSvGBkdeEecGjgLnSb": [
-      "outgoing reference from CUuywySLVil4MKkmYZecUl9snLg"
-    ],
-    "PuxkwMWvbiHxvTkHsVkcMZP9n5f": [
-      "outgoing reference from CUuywySLVil4MKkmYZecUl9snLg"
-    ],
-    "MUL3wkn7Yi3YoFkYk59csf8bnNc": [
-      "incoming reference to CUuywySLVil4MKkmYZecUl9snLg"
-    ],
-    "ByBTwOfgIie7e2k090Mc1EPknSf": [
-      "outgoing reference from Ghq9wEiOOivgeIkmj2HcHC9onXe"
-    ],
-    "ZACVwXqTbiCqR3kS9YAccuaQnId": [
-      "outgoing reference from Ghq9wEiOOivgeIkmj2HcHC9onXe"
-    ],
-    "I5qmw4fxDiBxBQksrNwcLHQpnTc": [
-      "outgoing reference from Ghq9wEiOOivgeIkmj2HcHC9onXe"
-    ],
-    "AICcwQ55yiNqEPkjdV6cb2i8nqe": [
-      "outgoing reference from Ghq9wEiOOivgeIkmj2HcHC9onXe"
-    ],
-    "RoxawNJhki1vXXkFsEEc7laMnxe": [
-      "outgoing reference from Ghq9wEiOOivgeIkmj2HcHC9onXe"
-    ],
-    "JGFQwMcVmiikeOkhepGcQ8Ken0e": [
-      "outgoing reference from Ghq9wEiOOivgeIkmj2HcHC9onXe"
-    ],
-    "Ex99woZlsico4FkfwxGckjRRnqf": [
-      "outgoing reference from Ghq9wEiOOivgeIkmj2HcHC9onXe"
-    ],
-    "J0jDwYQb8il1biknRo4cazHPn5d": [
-      "outgoing reference from Ghq9wEiOOivgeIkmj2HcHC9onXe"
-    ],
-    "HHXewT7wTiM1zqkySjHcMNX5n9b": [
-      "outgoing reference from Ghq9wEiOOivgeIkmj2HcHC9onXe"
     ],
     "NmFBwTRj9iFuC8kXno6cqRbmnfh": [
-      "outgoing reference from Ghq9wEiOOivgeIkmj2HcHC9onXe"
+      "outgoing reference from RiylwqPvoi1mrNk79qOc7M2cnph"
     ],
-    "SXBNw91txiJhL6kq2ARcvYbRntg": [
-      "outgoing reference from Ghq9wEiOOivgeIkmj2HcHC9onXe"
+    "MyKpwdBxUizDsukJm5Kc8orenbT": [
+      "outgoing reference from RiylwqPvoi1mrNk79qOc7M2cnph"
     ],
-    "E1BCwXVouiDrtpkWp5ecvdXHnAb": [
-      "outgoing reference from Ghq9wEiOOivgeIkmj2HcHC9onXe"
+    "GsofwhPKqi0Bfkkk7YqcRzndnah": [
+      "outgoing reference from RiylwqPvoi1mrNk79qOc7M2cnph"
     ],
-    "GLxhwO5vWiWkTBkoNCPcg4ahnbe": [
-      "outgoing reference from Ghq9wEiOOivgeIkmj2HcHC9onXe"
+    "Er7Yw6Qnuiy8CBkDkH3cetOHnDf": [
+      "outgoing reference from RiylwqPvoi1mrNk79qOc7M2cnph"
     ],
-    "M5dXwsGOOiPdAjkWLZUc2Pxonuh": [
-      "outgoing reference from Ghq9wEiOOivgeIkmj2HcHC9onXe"
+    "KhJhw2lOBirGhekK8jbcZkb2nVg": [
+      "outgoing reference from RiylwqPvoi1mrNk79qOc7M2cnph"
     ],
-    "PIfLwbrMmiOZKAkqtpScjnhinXf": [
-      "outgoing reference from Ghq9wEiOOivgeIkmj2HcHC9onXe"
+    "DBrAwCfu3ids0Okxhlbcz12KnPc": [
+      "outgoing reference from RiylwqPvoi1mrNk79qOc7M2cnph"
     ],
-    "CK0ewQWC2iz6lakP0kscqogbnGh": [
-      "incoming reference to Ghq9wEiOOivgeIkmj2HcHC9onXe"
+    "TqR1wKJMni2xCkkwNf4c52eKnKd": [
+      "outgoing reference from RiylwqPvoi1mrNk79qOc7M2cnph"
     ],
-    "EV41wG08BiOWW8kbo9xcTGoPnKd": [
-      "incoming reference to Ghq9wEiOOivgeIkmj2HcHC9onXe"
+    "XvTLwH1TEiEHdJksnyIcMCixnic": [
+      "outgoing reference from RiylwqPvoi1mrNk79qOc7M2cnph"
     ],
-    "MYHwwhKtri4MMJku6BbcMjF4n1d": [
-      "incoming reference to Ghq9wEiOOivgeIkmj2HcHC9onXe"
+    "VcI1wZ5mQiGqdPkCzHccj1RLnbd": [
+      "outgoing reference from RiylwqPvoi1mrNk79qOc7M2cnph"
     ],
-    "AAqUwQW3qia3akkjfDNc0kwanlh": [
-      "outgoing reference from J274wT61xiEM4fkYeL8cMb4Pnbd"
+    "Ke8ownBFFiAmZFkBnWec81qEn70": [
+      "outgoing reference from RiylwqPvoi1mrNk79qOc7M2cnph"
     ],
-    "BTrNwoEfYii1e9kf0BScWDpcnA2": [
-      "incoming reference to J274wT61xiEM4fkYeL8cMb4Pnbd"
+    "KrbjwFhy3iojF3k97XmcvvXMnW7": [
+      "outgoing reference from RiylwqPvoi1mrNk79qOc7M2cnph"
     ],
-    "DknbwaLS3iAAiUk9ifPc1Vmvnze": [
-      "incoming reference to J274wT61xiEM4fkYeL8cMb4Pnbd"
+    "MZ2WwklE5ifX4hkO4ZOcXz0indc": [
+      "outgoing reference from RiylwqPvoi1mrNk79qOc7M2cnph"
     ],
-    "ZWwJwKjeDi7SJGkzUQ0c7XfBnqh": [
-      "incoming reference to J274wT61xiEM4fkYeL8cMb4Pnbd"
+    "NXypwJ2ySiv7RAkyKb5cZ9SKnvf": [
+      "outgoing reference from RiylwqPvoi1mrNk79qOc7M2cnph"
     ],
-    "ZBEiwpvlbijhYDkmnNScc7zyn5d": [
-      "incoming reference to MZ2WwklE5ifX4hkO4ZOcXz0indc"
+    "L11Mw0GRTiKALikJaEycwj1wnKg": [
+      "outgoing reference from RiylwqPvoi1mrNk79qOc7M2cnph"
     ],
-    "A33MwQX84iXyQNkzopece3oenye": [
-      "outgoing reference from NXypwJ2ySiv7RAkyKb5cZ9SKnvf"
+    "CmR5wFcybi3iMokOJBxcXDQcntg": [
+      "outgoing reference from RiylwqPvoi1mrNk79qOc7M2cnph"
     ],
     "MTqjwwUKhiyns4kGV7Lc7PRlnwb": [
-      "outgoing reference from NXypwJ2ySiv7RAkyKb5cZ9SKnvf"
+      "outgoing reference from RiylwqPvoi1mrNk79qOc7M2cnph"
     ],
-    "LQwnwNY73iCd8Hkj55ZczQTOn6g": [
-      "incoming reference to NXypwJ2ySiv7RAkyKb5cZ9SKnvf"
-    ],
-    "RY8ww0NDQi8yU9kNpjicHP7Gn4b": [
-      "outgoing reference from PharwAysCiBzvgkuqqecmNzunQf"
-    ],
-    "DbPIw4jLOiEabCk5uptc6EZ1nbf": [
-      "incoming reference to PharwAysCiBzvgkuqqecmNzunQf"
-    ],
-    "EO58wVRLpiTBXQkceRjccN28nrh": [
-      "incoming reference to PharwAysCiBzvgkuqqecmNzunQf"
-    ],
-    "GMdhwQQCRi2QaLkimNOcc3qNnbh": [
-      "incoming reference to PharwAysCiBzvgkuqqecmNzunQf"
-    ],
-    "RlhDw3Fr9iCpWSkylfAcyes1nLh": [
-      "incoming reference to PharwAysCiBzvgkuqqecmNzunQf"
-    ],
-    "Ti5uwysf0iZhuyk4xvjcFmsSnhG": [
-      "incoming reference to PharwAysCiBzvgkuqqecmNzunQf"
+    "NvDLw4kFji0xeWkc4Hpc9wUfnRh": [
+      "outgoing reference from RiylwqPvoi1mrNk79qOc7M2cnph"
     ]
   },
   "warnings": [],
   "affected_tables": [
     "tbl9BeCMjBmalJVb",
     "tblWv7PjNDsexddH",
-    "tblZMzoITXNsyKmQ",
-    "tblgHPdSvZP8gUz6",
-    "tblh7utKxg0dgdTo"
+    "tblZMzoITXNsyKmQ"
   ],
   "current_table_targets": {
     "tbl9BeCMjBmalJVb": [
@@ -451,8 +199,8 @@
     "tblZMzoITXNsyKmQ": "Management"
   },
   "snapshot_basis": {
-    "generated_at": "2026-09-03T03:24:18.318Z",
-    "records": 393
+    "generated_at": "2026-09-03T11:01:05.907Z",
+    "records": 394
   },
   "source_scope": "partial"
 }

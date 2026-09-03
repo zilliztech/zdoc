@@ -108,7 +108,7 @@ import Grid from '@site/src/components/Grid';
 
         - **Project alerts for log forwarding failures — You can now create project alerts for Audit Log, Access Log, and Slow Log forwarding failures. Zilliz Cloud notifies configured recipients when forwarding fails, helping you identify issues quickly. Audit Log billing is automatically paused and resumes when forwarding recovers. For details, refer to [Manage Project Alerts](./manage-project-alerts)
 
-        - ⚠️ CONFIRM **On-Demand Compute for BYOC [To be reviewed]** — BYOC projects can now enable On-Demand Compute per Data Plane from the new On-Demand entry under Serving Clusters, and use On-Demand Clusters, external collections, and project databases inside your own cloud account. For details, refer to [Quick Start to On-Demand Search](/docs/byoc/quick-start-to-on-demand-search), [On-Demand Database](/docs/byoc/on-demand-database), and [Manage External Collections (Console)](/docs/byoc/manage-external-collections-console).
+        - **On-Demand Compute for BYOC** — BYOC projects can now enable On-Demand Compute per Data Plane from the new On-Demand entry under Serving Clusters, and use On-Demand Clusters, external collections, and project databases inside your own cloud account. For details, refer to [Quick Start to On-Demand Search](/docs/byoc/quick-start-to-on-demand-search), [On-Demand Database](/docs/byoc/on-demand-database), and [Manage External Collections (Console)](/docs/byoc/manage-external-collections-console).
 
     </div>
 
