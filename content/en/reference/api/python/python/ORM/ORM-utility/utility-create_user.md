@@ -1,10 +1,10 @@
 ---
 title: "create_user() | Python | ORM"
-slug: /python/python/ORM-utility/utility-create_user
+slug: /python/python/utility-create_user
 sidebar_label: "create_user()"
 beta: NEAR DEPRECATE
 added_since: Inherit
-last_modified: v3.0.x
+last_modified: false
 deprecate_since: false
 notebook: false
 description: "This operation creates a new user with a corresponding password. | Python | ORM"

@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "group": "python",
   "complete": true,
-  "generatedAt": "2026-08-01T11:27:37.110Z",
-  "sourceRunId": "30695964668",
+  "generatedAt": "2026-09-03T11:09:09.735Z",
+  "sourceRunId": "33746285496",
   "records": [
     {
       "canonicalToken": "A96udk9seoF5x5xywQZcLasanIe",
@@ -117,15 +117,6 @@
       "canonicalToken": "BDP4dew9to9tQoxNEMPcBR5xnZb",
       "title": "RemoteBulkWriter",
       "contentPath": "content/en/reference/api/python/python/DataImport/DataImport-RemoteBulkWriter/DataImport-RemoteBulkWriter.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "BDupd28JqoNY9HxVOTfcv86enRe",
-      "title": "create_user()",
-      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -575,7 +566,7 @@
     {
       "canonicalToken": "EglSdm1jkozDSlxq6SEc4CRonVe",
       "title": "create_user()",
-      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/utility-create_user.md",
+      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-create_user.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1853,7 +1844,7 @@
     {
       "canonicalToken": "OD8mdC5aXo0XHbxSthRczioXnaf",
       "title": "FieldSchema",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FieldSchema/MilvusClient-FieldSchema.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -2223,6 +2214,15 @@
       "canonicalToken": "S278drWUVoRZ5fx8XkfcWaZfnwh",
       "title": "create_database()",
       "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Database/Database-create_database.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "S5rRdLq3moeQ7XxY89bcjJOAn1d",
+      "title": "create_user()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,

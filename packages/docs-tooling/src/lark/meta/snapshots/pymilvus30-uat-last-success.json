@@ -8,7 +8,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-09-03T03:36:13.342Z",
+  "generated_at": "2026-09-03T11:09:09.389Z",
   "source_dir": "./packages/docs-tooling/src/lark/meta/sources/python/v3.0.x",
   "base_app_token": "Hk05b5eI6aXXSSsd6j9cqwwMn5a",
   "records": [
@@ -474,12 +474,17 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "publish_targets": [],
-      "publish_status": "WIP",
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "MKrAdumLvohQfDxgpMwcEB8dnqb"
       ],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/python/python/MilvusClient/MilvusClient-FieldSchema/MilvusClient-FieldSchema.md"
+      ]
     },
     {
       "record_id": "recu3QvHdAvpGQ",
@@ -570,10 +575,10 @@
       "placement_type": "canonical",
       "title": "create_user()",
       "slug": "Authentication-create_user",
-      "doc_token": "BDupd28JqoNY9HxVOTfcv86enRe",
-      "doc_link": "https://zilliverse.feishu.cn/docx/BDupd28JqoNY9HxVOTfcv86enRe",
-      "source_file": null,
-      "source_hash": null,
+      "doc_token": "EglSdm1jkozDSlxq6SEc4CRonVe",
+      "doc_link": "https://zilliverse.feishu.cn/docx/EglSdm1jkozDSlxq6SEc4CRonVe",
+      "source_file": "EglSdm1jkozDSlxq6SEc4CRonVe.json",
+      "source_hash": "bb3e464bb066ac6e93f85e80f2f37b85ba3c340ca1fc84a067f02ec31f144b8f",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
@@ -587,7 +592,9 @@
       ],
       "publish_status": "Draft",
       "outgoing_tokens": [],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-create_user.md"
+      ]
     },
     {
       "record_id": "recu3QwshpGluL",
@@ -4352,7 +4359,7 @@
       "doc_token": "DvaZdhYnyoo7lOxNIBwc5eKEn7d",
       "doc_link": "https://zilliverse.feishu.cn/docx/DvaZdhYnyoo7lOxNIBwc5eKEn7d",
       "source_file": "DvaZdhYnyoo7lOxNIBwc5eKEn7d.json",
-      "source_hash": "1315d0e37d27948f4eabbe521adebfada267e87e0d8b94562ef674c66d312d6f",
+      "source_hash": "62f4afabcd5e313df46589a75fb420a267a51e24d8718338b755c3d035e5fa20",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
@@ -5120,7 +5127,7 @@
       "doc_token": "ISZadjHwyopWr5xRdJ2cqxVanEg",
       "doc_link": "https://zilliverse.feishu.cn/docx/ISZadjHwyopWr5xRdJ2cqxVanEg",
       "source_file": "ISZadjHwyopWr5xRdJ2cqxVanEg.json",
-      "source_hash": "f1c771e913911c4439e287d4f40e49ef081bc367696adab9575ff7874361d91c",
+      "source_hash": "dc49012878396a15bc7f152ef4689bd7cd2018bef0a3cea0fc00dd4a6dc1f7b3",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
@@ -5135,7 +5142,7 @@
       "publish_status": "Draft",
       "outgoing_tokens": [
         "CmFKd9eG2oE6xmx9dIGcVPycnth",
-        "EVKhdy0vwoSLSux2RW2c660unjh",
+        "OD8mdC5aXo0XHbxSthRczioXnaf",
         "OSehdj15Ao3AUvxOIJucXzU8nWW"
       ],
       "output_paths": [
@@ -7444,10 +7451,10 @@
       "placement_type": "canonical",
       "title": "create_user()",
       "slug": "utility-create_user",
-      "doc_token": "EglSdm1jkozDSlxq6SEc4CRonVe",
-      "doc_link": "https://zilliverse.feishu.cn/docx/EglSdm1jkozDSlxq6SEc4CRonVe",
-      "source_file": "EglSdm1jkozDSlxq6SEc4CRonVe.json",
-      "source_hash": "96a99dceffd1a97ac58532f67129c31ac26a1d5a6e663345e6afe43dc5b75ea6",
+      "doc_token": "S5rRdLq3moeQ7XxY89bcjJOAn1d",
+      "doc_link": "https://zilliverse.feishu.cn/docx/S5rRdLq3moeQ7XxY89bcjJOAn1d",
+      "source_file": "S5rRdLq3moeQ7XxY89bcjJOAn1d.json",
+      "source_hash": "e51d52011f9ec69576ae9bd7c4f4c1c9d1530cf18b991fe6257983ac7ec29b60",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
@@ -7461,9 +7468,7 @@
       ],
       "publish_status": "Draft",
       "outgoing_tokens": [],
-      "output_paths": [
-        "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/utility-create_user.md"
-      ]
+      "output_paths": []
     },
     {
       "record_id": "recu3Qz3KkIgry",

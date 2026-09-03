@@ -1,9 +1,9 @@
 ---
 title: "create_user() | Python | MilvusClient"
-slug: /python/python/utility-create_user
+slug: /python/python/Authentication-create_user
 sidebar_label: "create_user()"
-beta: NEAR DEPRECATE
-added_since: Inherit
+beta: false
+added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
@@ -12,10 +12,10 @@ type: docx
 token: EglSdm1jkozDSlxq6SEc4CRonVe
 sidebar_position: 4
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
   - zilliz
   - zilliz cloud
   - cloud

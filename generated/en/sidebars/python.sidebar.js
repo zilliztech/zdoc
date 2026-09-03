@@ -1,10 +1,5 @@
 module.exports = [
   {
-    "type": "doc",
-    "id": "api/python/python/python",
-    "label": "Python SDK Reference"
-  },
-  {
     "type": "category",
     "label": "DataImport",
     "key": "category:api/python/python/dataimport",
@@ -172,9 +167,9 @@ module.exports = [
           },
           {
             "type": "doc",
-            "id": "api/python/python/MilvusClient/MilvusClient-Authentication/utility-create_user",
+            "id": "api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-create_user",
             "label": "create_user()",
-            "key": "doc:api/python/python/MilvusClient/MilvusClient-Authentication/utility-createuser"
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Authentication/authentication-createuser"
           },
           {
             "type": "doc",
@@ -898,6 +893,19 @@ module.exports = [
             "id": "api/python/python/MilvusClient/MilvusClient-EmbeddingList/EmbeddingList-to_numpy",
             "label": "to_numpy()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-EmbeddingList/embeddinglist-tonumpy"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "FieldSchema",
+        "key": "category:api/python/python/MilvusClient/milvusclient-fieldschema",
+        "items": [
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-FieldSchema/MilvusClient-FieldSchema",
+            "label": "FieldSchema",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-FieldSchema/milvusclient-fieldschema"
           }
         ]
       },
