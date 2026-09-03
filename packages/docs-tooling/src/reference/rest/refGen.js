@@ -404,7 +404,7 @@ class refGen {
             slug: version,
             group_route: `/restful/${version}`,
             beta_tag: CONFIG.betaDefaults[version],
-            description: ''
+            description: this.lookupDescription(version)
           }))
         }
 
