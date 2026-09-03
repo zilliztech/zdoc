@@ -53,7 +53,7 @@ prepare                                            initialize_translation_card
 | `reconciliation_preflight` | 发布前预检：下载 checkpoint、生成翻译 reconciliation plan | selection + checkpoint artifacts | `fetch-reconciliation-plans-{run_id}-{run_attempt}` | 否 |
 | `publish_ready` | **coordinator FIFO 串行推 dev**（`publication-coordinator.js`，`contents:write`，`timeout-minutes: 360`） | selection + ready descriptors | `publication-results-{workflow}-{run_id}-{run_attempt}`、`final_target_sha` | ✅ |
 | `reconcile_reference_state` | 派生态 reconcile + push（`fetch-reference-reconciliation.js reconcile`，`contents:write`） | selection + results | 派生态 commit | ✅ |
-| `record_pending_reconciliation` | `run_translations=false` 时记录 pending plan 证据 | selection + results | `fetch-pending-reconciliation-{run_id}-{run_attempt}` | 否 |
+| `record_pending_reconciliation` | `run_translations=false` 且所选组存在 Translation unit 时记录 pending plan 证据；REST 等 spec-generated 非 Translation source group 跳过 | selection + results | `fetch-pending-reconciliation-{run_id}-{run_attempt}` | 否 |
 | `source_publication_barrier` | 阻断：选定 source 未全部发布成功则不允许 paid 翻译 | selection + results | 无（gate） | 否 |
 | `prepare_translation_handoff` | 生成并自校验 schema-v3 handoff | selection + results + plans | `translation-handoff-v3-{run_id}-{run_attempt}` | 否 |
 | `dispatch_translations` | `gh workflow run translate-codex.yml` 派发子 run | handoff | 子 run URL/ID + `docs-translation-handoff-{run_id}` metadata | 否 |
@@ -70,6 +70,7 @@ prepare                                            initialize_translation_card
 | `source_publication_barrier` | `run_translations==true` 且 `publish==true` 且 `reconcile_reference_state.result == success` |
 | `prepare_translation_handoff` | 同上 + `source_publication_barrier.result == success` |
 | `dispatch_translations` | `run_translations==true` 且 `publish==true` 且 handoff 成功 |
+| `record_pending_reconciliation` | `always()` 且 `publish==true` 且 `run_translations==false` 且 `has_translation_units==true` 且 `publish_ready.result==success` 且 `reconcile_reference_state.result==success` |
 
 ## 3. Translation 阶段链（translate-codex.yml）
 

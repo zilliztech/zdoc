@@ -1511,6 +1511,16 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         /git\s+(?:-C\s+[^\s]+\s+)?push|reference-manifest|restore-generated-state|validate-reference|publicationPaths|mapfile -t paths/.test(referenceRun)) {
       errors.push('fetch-docs.yml: Fetch must independently reconcile Reference derived state after source publication')
     }
+    const recordPending = caller?.jobs?.record_pending_reconciliation
+    const recordPendingCondition = String(recordPending?.if || '')
+    if (!recordPendingCondition.includes('always()') ||
+        !recordPendingCondition.includes("needs.prepare.outputs.publish == 'true'") ||
+        !recordPendingCondition.includes("needs.prepare.outputs.run_translations == 'false'") ||
+        !recordPendingCondition.includes("needs.prepare.outputs.has_translation_units == 'true'") ||
+        !recordPendingCondition.includes("needs.publish_ready.result == 'success'") ||
+        !recordPendingCondition.includes("needs.reconcile_reference_state.result == 'success'")) {
+      errors.push('fetch-docs.yml: pending reconciliation evidence must be recorded only for run_translations=false groups that actually yield translation units')
+    }
     const sourceBarrier = caller?.jobs?.source_publication_barrier
     const sourceBarrierNeeds = Array.isArray(sourceBarrier?.needs) ? sourceBarrier.needs : []
     const sourceBarrierSteps = sourceBarrier?.steps || []
