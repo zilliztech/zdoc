@@ -111,6 +111,7 @@ function parseCheckpointManifest(bytes, selected) {
   if (manifest.masterSha !== selected.toolingSha) throw new Error('Checkpoint manifest tooling SHA mismatch')
   if (manifest.devBaselineSha !== selected.sourceBaselineSha) throw new Error('Checkpoint manifest source baseline mismatch')
   if (!Array.isArray(manifest.files) || !Array.isArray(manifest.deletions)) throw new Error('Checkpoint manifest files and deletions must be arrays')
+  if (manifest.authoritativeReplacements !== undefined && !Array.isArray(manifest.authoritativeReplacements)) throw new Error('Checkpoint manifest authoritative replacements are invalid')
   if (!manifest.validation || !Array.isArray(manifest.validation.commands) || manifest.validation.passed !== true) throw new Error('Checkpoint manifest validation is invalid')
   return manifest
 }

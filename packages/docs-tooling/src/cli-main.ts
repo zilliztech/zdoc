@@ -170,7 +170,15 @@ async function executeRevisionInventoryBuild(argv: string[], repositoryRoot: str
   const inventoryBytes = serializeRevisionInventory(candidate, baseline && baselineBytes !== undefined
     ? {inventory: baseline, bytes: baselineBytes}
     : undefined);
-  const report = {group, changes, editedToday: editedToday(candidate.records, new Date(generatedAt))};
+  const authoritativeReplacements = changes
+    .filter(change => change.previousContentPath && change.contentPath && change.previousContentPath !== change.contentPath)
+    .map(change => ({
+      sourcePath: change.previousContentPath!,
+      replacementSourcePath: change.contentPath!,
+      authority: `lark-revision:${candidate.sourceRunId}:${change.canonicalToken}`,
+    }))
+    .sort((left, right) => left.sourcePath.localeCompare(right.sourcePath, 'en'));
+  const report = {group, changes, authoritativeReplacements, editedToday: editedToday(candidate.records, new Date(generatedAt))};
   writeRepositoryFile(repositoryRoot, outputPath, inventoryBytes, 'Revision inventory output path');
   writeRepositoryFile(repositoryRoot, `${reportDir}/${group}.json`, `${JSON.stringify(report, null, 2)}\n`, 'Revision JSON report path');
   writeRepositoryFile(repositoryRoot, `${reportDir}/${group}.md`, renderRevisionDiffMarkdown(group, changes), 'Revision Markdown report path');

@@ -101,6 +101,14 @@ jobs:
           git switch --detach "$DEV_SHA"
           git switch -c "$sync_branch"
           git merge --no-ff --no-commit "$TOOLING_SHA"
+          # Master-authoritative files may have an older dev-side copy. Resolve
+          # those paths explicitly to the exact reviewed master/tooling version
+          # before candidate verification; ordinary dev-owned publication state
+          # remains at the dev baseline.
+          mapfile -t authoritative_paths < <(node -e "const c=require('./deploy/contracts/master-tooling-sync.json'); for (const p of c.masterAuthoritativePaths) console.log(p)")
+          if ((${#authoritative_paths[@]})); then
+            git checkout "$TOOLING_SHA" -- "${authoritative_paths[@]}"
+          fi
           git commit -m "chore(dev): sync master tooling ${short_sha}" \
             -m "Tooling-SHA: ${TOOLING_SHA}" \
             -m "Dev-Baseline-SHA: ${DEV_SHA}" \
