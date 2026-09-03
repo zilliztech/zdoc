@@ -27,9 +27,9 @@ The [@zilliz/milvus2-sdk-node](https://github.com/milvus-io/milvus-sdk-node) is 
 ## Installation
 
 ```bash
-npm install @zilliz/milvus2-sdk-node
+npm install @zilliz/milvus2-sdk-node@3.0.5
 # or
-yarn add @zilliz/milvus2-sdk-node
+yarn add @zilliz/milvus2-sdk-node@3.0.5
 ```
 
 **Requirements:** Node.js v18+
