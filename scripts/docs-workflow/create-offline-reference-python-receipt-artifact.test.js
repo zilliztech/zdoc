@@ -42,3 +42,29 @@ test('rejects a mismatched baseline before writing an artifact', () => {
     assert.equal(fs.existsSync(output), false)
   } finally { fs.rmSync(fixture.repository, {recursive: true, force: true}) }
 })
+
+test('rejects a candidate ref outside the fixed Python staging namespace', () => {
+  const fixture = runFixture(); const output = path.join(fixture.repository, 'tmp', 'offline-reference-python-receipt.json')
+  try {
+    assert.throws(() => createReceiptArtifact({repositoryRoot: fixture.repository, candidateRef: 'refs/heads/offline-reference-candidates/rest/test', candidateSha: fixture.candidate, toolingSha: fixture.baseline, sourceCheckpointSha: fixture.baseline, targetBaselineSha: fixture.baseline, receiptJsonEnv: 'RECEIPT_JSON', outputFile: output}, {RECEIPT_JSON: JSON.stringify(fixture.receipt)}), /outside the fixed Python staging namespace/)
+    assert.equal(fs.existsSync(output), false)
+  } finally { fs.rmSync(fixture.repository, {recursive: true, force: true}) }
+})
+
+test('rejects a malformed candidate SHA', () => {
+  const fixture = runFixture(); const output = path.join(fixture.repository, 'tmp', 'offline-reference-python-receipt.json')
+  try {
+    assert.throws(() => createReceiptArtifact({repositoryRoot: fixture.repository, candidateRef: 'refs/heads/offline-reference-candidates/python/test', candidateSha: `${fixture.candidate.slice(0, -1)}Z`, toolingSha: fixture.baseline, sourceCheckpointSha: fixture.baseline, targetBaselineSha: fixture.baseline, receiptJsonEnv: 'RECEIPT_JSON', outputFile: output}, {RECEIPT_JSON: JSON.stringify(fixture.receipt)}), /candidateSha must be an exact lowercase Git SHA/)
+    assert.equal(fs.existsSync(output), false)
+  } finally { fs.rmSync(fixture.repository, {recursive: true, force: true}) }
+})
+
+test('refuses to overwrite an existing receipt artifact', () => {
+  const fixture = runFixture(); const output = path.join(fixture.repository, 'tmp', 'offline-reference-python-receipt.json')
+  try {
+    const options = {repositoryRoot: fixture.repository, candidateRef: 'refs/heads/offline-reference-candidates/python/test', candidateSha: fixture.candidate, toolingSha: fixture.baseline, sourceCheckpointSha: fixture.baseline, targetBaselineSha: fixture.baseline, receiptJsonEnv: 'RECEIPT_JSON', outputFile: output}
+    const environment = {RECEIPT_JSON: JSON.stringify(fixture.receipt)}
+    createReceiptArtifact(options, environment)
+    assert.throws(() => createReceiptArtifact(options, environment), /EEXIST/)
+  } finally { fs.rmSync(fixture.repository, {recursive: true, force: true}) }
+})

@@ -26,6 +26,24 @@ test('offline Python receipt producer is immutable and read-only', () => {
   assert.doesNotMatch(source, /contents: write|git push|TRANSLATION_AGENT_API_KEY|REVIEW_AGENT_API_KEY/)
 })
 
+test('workflow policy rejects a writer permission slipped into the receipt producer job', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'receipt-producer-writer-policy-'))
+  try {
+    fs.cpSync(sourceDirectory, directory, {recursive: true})
+    const file = path.join(directory, 'upload-offline-reference-python-receipt.yml')
+    const source = fs.readFileSync(file, 'utf8')
+    const mutated = source.replace('    permissions:\n      contents: read\n', '    permissions:\n      contents: read\n      actions: write\n')
+    assert.notEqual(mutated, source)
+    fs.writeFileSync(file, mutated)
+    assert.ok(validateWorkflowPolicies(directory).includes(
+      'upload-offline-reference-python-receipt.yml: receipt producer must require immutable inputs and remain read-only without writers or paid credentials',
+    ))
+  } finally {
+    fs.rmSync(directory, {recursive: true, force: true})
+  }
+})
+
 test('workflow policy keeps spec-generated REST out of canonical Translation selection', () => {
   // Keep the copy under scripts/ so selection.js's relative require('../lib/load-typescript')
   // (it now derives GROUPS from the registry) still resolves to the real helper.

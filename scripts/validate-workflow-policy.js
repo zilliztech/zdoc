@@ -394,7 +394,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const requiredInputs = ['candidate_ref', 'candidate_sha', 'tooling_sha', 'source_checkpoint_sha', 'target_baseline_sha', 'receipt_json']
       if (workflow.permissions?.contents !== 'read' || job?.permissions?.contents !== 'read' ||
           requiredInputs.some(input => workflow.on?.workflow_dispatch?.inputs?.[input]?.required !== true) ||
-          !job || /contents:s*write|actions:s*write|git push|TRANSLATION_AGENT_API_KEY|REVIEW_AGENT_API_KEY/.test(source)) {
+          !job || /contents:\s*write|actions:\s*write|git push|TRANSLATION_AGENT_API_KEY|REVIEW_AGENT_API_KEY/.test(source)) {
         errors.push(`${file}: receipt producer must require immutable inputs and remain read-only without writers or paid credentials`)
       }
       const requiredFragments = [
