@@ -69,6 +69,7 @@ export interface RevisionChange {
   revisionId: string | null
   objectEditTime: string | null
   contentPath: string | null
+  previousContentPath: string | null
 }
 
 const optionalString = (value: unknown): string | undefined =>
@@ -243,6 +244,7 @@ function change(
     revisionId: deleted ? null : record.revisionId,
     objectEditTime: record.objectEditTime,
     contentPath: record.contentPath,
+    previousContentPath: prior?.contentPath ?? null,
   }
 }
 

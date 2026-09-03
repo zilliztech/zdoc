@@ -87,6 +87,8 @@
         "scripts/docs-workflow/fetch-reference-reconciliation*",
         "scripts/docs-workflow/source-publication-barrier*",
         "scripts/docs-workflow/repair-fetch-dev*",
+        "packages/docs-tooling/src/cli-main.ts",
+        "packages/docs-tooling/src/lark/revisionInventory.ts",
         ".github/workflows/fetch-docs.yml",
         ".github/workflows/_fetch-content-group.yml",
         ".github/workflows/_verify-docs.yml",

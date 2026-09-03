@@ -122,7 +122,7 @@ test('prepares an authenticated empty plan when the source checkpoint is unchang
   }
 })
 
-test('approves Chinese SDK deletions automatically and writes plans', () => {
+test('rejects Chinese SDK deletions without authoritative replacement metadata', () => {
   const fixture = repositoryFixture('java')
   try {
     const selection = selectionFixture('java', fixture.baseline)
@@ -136,9 +136,9 @@ test('approves Chinese SDK deletions automatically and writes plans', () => {
       outputDir,
       reviewOutputDir: reviewDir,
     })
-    assert.equal(summary.status, 'approved')
+    assert.equal(summary.status, 'rejected')
     assert.equal(summary.reviewRequired, 0)
-    assert.equal(summary.approved, 2)
+    assert.equal(summary.approved, 0)
     assert.equal(fs.existsSync(path.join(outputDir, 'translation-reconciliation-plan-ja-JP-java.json')), true)
     assert.equal(fs.existsSync(path.join(outputDir, 'translation-reconciliation-plan-zh-CN-reference-java.json')), true)
   } finally {
