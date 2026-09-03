@@ -2803,6 +2803,13 @@
     },
     {
       "manual": "python",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/utility-create_user.md",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Authentication/utility-create_user.md",
+      "changeKind": "source_renamed",
+      "rationale": "Approved source path replacement for Fetch reconciliation"
+    },
+    {
+      "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/DataImport/DataImport-BulkImport/DataImport-BulkImport.md",
       "targetPath": "content/zh-CN/reference/api/python/python/DataImport/DataImport-BulkImport/DataImport-BulkImport.md",
       "changeKind": null,
@@ -2877,13 +2884,6 @@
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Authentication/MilvusClient-Authentication.md",
       "changeKind": null,
       "rationale": "Imported baseline retirement from the clean-room Reference migration"
-    },
-    {
-      "manual": "python",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/utility-create_user.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Authentication/utility-create_user.md",
-      "changeKind": "source_renamed",
-      "rationale": "Approved source path replacement for Fetch reconciliation"
     },
     {
       "manual": "python",
