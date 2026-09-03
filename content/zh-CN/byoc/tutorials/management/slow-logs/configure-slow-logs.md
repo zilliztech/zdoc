@@ -1,5 +1,5 @@
 ---
-title: "配置慢日志 | Cloud"
+title: "配置慢日志 | BYOC"
 slug: /configure-slow-logs
 sidebar_label: "配置慢日志"
 beta: FALSE
@@ -7,10 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "本指南介绍 Zilliz Cloud 上慢日志的完整生命周期管理，包括启用、调整设置和禁用。 | Cloud"
+description: "本指南介绍 Zilliz Cloud 上慢日志的完整生命周期管理，包括启用、调整设置和禁用。 | BYOC"
 type: origin
 token: NLDRwGZoXiGyIUkGh5Oc2q6dnJe
-sidebar_position: 13
+sidebar_position: 1
 displayed_sidebar: default
 
 ---

@@ -10,7 +10,7 @@ notebook: FALSE
 description: "我们很高兴地宣布Zilliz Cloud 2.2.1的发布。此版本引入了一系列增强和新功能，包括一个新的 CU 类型及现金充值功能。 | Cloud"
 type: origin
 token: Ra4qwdd7kicpt6k9Y2tc3OJ5niX
-sidebar_position: 27
+sidebar_position: 28
 displayed_sidebar: releasesSidebar
 
 ---

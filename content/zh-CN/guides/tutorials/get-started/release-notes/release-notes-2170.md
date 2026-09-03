@@ -10,7 +10,7 @@ notebook: FALSE
 description: "此次发布在 Zilliz Cloud 的多个功能中提供了更精致、更直观的用户体验。从重新设计的迁移控制台到基于策略的告警和改进的 mmap 控制，我们专注于让您的工作流程更快、更灵活且更易于管理。无论是管理基础设施、监控环境还是寻求支持，新的 AI 助手功能都让您与 Zilliz Cloud 的联络更加顺畅。 | Cloud"
 type: origin
 token: TC2VwH24niqw5wk2S66ccMhxnFe
-sidebar_position: 13
+sidebar_position: 14
 displayed_sidebar: releasesSidebar
 
 ---

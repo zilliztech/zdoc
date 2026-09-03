@@ -10,7 +10,7 @@ notebook: FALSE
 description: "此次发布引入了诸多新工具和功能增加。主要包括：针对使用 Pipelines 从对象存储中采集数据的新 Connectors、提升搜索相关性的 Rerankers、针对系统静态分析的新指标监控 API、以及跨云数据导入功能。这些功能扩大了数据采集范围、提高了搜索精度和运维洞察能力，让云上向量数据度的管理更加便捷。 | Cloud"
 type: origin
 token: Y9hnwYoyIi9xgZkGG7Ycexl4nlb
-sidebar_position: 23
+sidebar_position: 24
 displayed_sidebar: releasesSidebar
 
 ---

@@ -29,10 +29,10 @@ Zilliz Cloud 中的访问控制模型围绕两个概念构建：**主体**和**�
 | 概念 | 含义 | 示例 |
 | --- | --- | --- |
 | 主体（Principal） | 可以被授予访问权限的身份。 | 组织成员、项目协作者、集群用户 |
-| 角色（Role） | 一组命名权限。 | 组织管理员、组织账单管理员、项目管理员、Cluster Admin、Data Operator、Data Viewer、自定义角色。 |
+| 角色（Role） | 一组命名权限。 | 组织管理员、组织账单管理员、项目管理员、Data Admin、Data Operator、Data Viewer、自定义角色。 |
 | 角色分配（Role Assignment） | 将角色授予主体的操作。 | 在 Project A 中将项目角色授予一名用户。 |
 | 作用域 （Scope） | 角色生效的边界。 | 组织、项目、集群。 |
-| 有效访问权限（Effective Access） | 直接分配和组分配合并后的最终访问权限。 | 用户从同步组获得 Data Viewer，并从直接的项目角色分配获得 Cluster Admin。 |
+| 有效访问权限（Effective Access） | 直接分配和组分配合并后的最终访问权限。 | 用户从同步组获得 Data Viewer，并从直接的项目角色分配获得 Data Admin。 |
 
 # 主体\{#principals}
 

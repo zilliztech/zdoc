@@ -10,7 +10,7 @@ notebook: FALSE
 description: "我们很高兴地宣布Zilliz Cloud 2.1.0的发布。此版本引入了一系列增强和功能，包括 RESTful API 接口和阿里云云市场。 | Cloud"
 type: origin
 token: DsIxwJXnJiM2k7klUY0cr5dunBh
-sidebar_position: 29
+sidebar_position: 30
 displayed_sidebar: releasesSidebar
 
 ---

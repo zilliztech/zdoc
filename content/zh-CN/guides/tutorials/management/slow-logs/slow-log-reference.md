@@ -1,5 +1,5 @@
 ---
-title: "慢查询日志参考 | BYOC"
+title: "慢查询日志参考 | Cloud"
 slug: /slow-log-reference
 sidebar_label: "慢查询日志参考"
 beta: FALSE
@@ -7,10 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "慢查询日志以 JSON Lines 格式投递，即每行一个 JSON 对象。每一行都是一个独立的 JSON 对象，表示一次操作。以下示例展示了一条 Search 请求对应的慢查询日志记录： | BYOC"
+description: "慢查询日志以 JSON Lines 格式投递，即每行一个 JSON 对象。每一行都是一个独立的 JSON 对象，表示一次操作。以下示例展示了一条 Search 请求对应的慢查询日志记录： | Cloud"
 type: origin
 token: NhIhwuigsi0tOVk2GNEcFuaTnYb
-sidebar_position: 14
+sidebar_position: 2
 displayed_sidebar: default
 
 ---

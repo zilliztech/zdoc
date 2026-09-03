@@ -30,7 +30,7 @@ import Procedures from '@site/src/components/Procedures';
 
 ## 创建项目\{#create-a-project}
 
-每个组织中默认自带项目 Default Project，其版本为**企业版**且不可删除。在注册账号完成后的引导流程中，您需要选择要部署工作负载的云地域，随后系统会在该地域自动创建该默认项目。您可以根据业务需求，自行创建更多项目。当您创建项目时，您也会成为该项目的[项目管理员](./manage-platform-roles#manage-project-roles)。
+每个组织中默认自带项目 Default Project，其版本为**企业版**。在注册账号完成后的引导流程中，您需要选择要部署工作负载的云地域，随后系统会在该地域自动创建该默认项目。您可以根据业务需求，自行创建更多项目。当您创建项目时，您也会成为该项目的[项目管理员](./manage-platform-roles#manage-project-roles)。
 
 ### 限制\{#limits}
 

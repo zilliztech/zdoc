@@ -10,7 +10,7 @@ notebook: FALSE
 description: "该版本为 Zilliz Cloud 带来了几项关键更新，首先是 Zilliz Cloud Serverless 的 GA，它提供自动扩展功能，可节省高达 50 倍的成本。Milvus 2.4 功能现已实现 GA，引入了 Sparse Vector、多向量 Hybrid Search和带有模糊匹配的倒排索引等功能。该版本还包括公开预览版中的多副本功能，允许用户通过在多个可用区（AZ）的副本间分配工作负载来提高查询吞吐量和可用性。此外，Zilliz Cloud 的新迁移服务支持从开源 Milvus、pgvector 和 Elasticsearch 迁移，并可在 Zilliz Cloud 内实现组织内和跨组织数据迁移。用于备份、恢复、迁移和作业管理的扩展 RESTful API 使用户能够构建自动化操作工作流。进一步增强的功能包括支持项目只读角色以及重命名群集和快照的功能。 | Cloud"
 type: origin
 token: R8XCwgfEGiPOrLkI03WcdDVAnMg
-sidebar_position: 19
+sidebar_position: 20
 displayed_sidebar: releasesSidebar
 
 ---

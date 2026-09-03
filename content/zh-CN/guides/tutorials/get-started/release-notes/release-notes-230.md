@@ -10,7 +10,7 @@ notebook: FALSE
 description: "我们很高兴地宣布 Zilliz Cloud 2.3.0 的发布。此版本引入了一系列创新 Beta 特性和功能改进。 | Cloud"
 type: origin
 token: BuuSwsbhEiIHDJkB9YSc63xAnrh
-sidebar_position: 26
+sidebar_position: 27
 displayed_sidebar: releasesSidebar
 
 ---

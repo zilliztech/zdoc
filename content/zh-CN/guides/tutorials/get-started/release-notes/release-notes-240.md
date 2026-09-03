@@ -10,7 +10,7 @@ notebook: FALSE
 description: "我们很高兴地宣布 Zilliz Cloud 2.4.0 的发布。此版本引入了一系列增强和功能更新。主要包括 Partition SDK、集群管理接口以及其它方面的功能性增强。 | Cloud"
 type: origin
 token: GKNPwvWhZi7D6mkag72cIDWqnbf
-sidebar_position: 25
+sidebar_position: 26
 displayed_sidebar: releasesSidebar
 
 ---

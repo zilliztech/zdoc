@@ -175,6 +175,12 @@ module.exports = [
           },
           {
             "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2609",
+            "label": "2026/09",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2609"
+          },
+          {
+            "type": "doc",
             "id": "tutorials/get-started/release-notes/release-notes-2607",
             "label": "2026/07",
             "key": "doc:tutorials/get-started/release-notes/release-notes-2607"
@@ -1230,12 +1236,6 @@ module.exports = [
                 "id": "tutorials/development/function/text-embedding-funcs/siliconflow",
                 "label": "硅基流动",
                 "key": "doc:tutorials/development/function/text-embedding-funcs/siliconflow"
-              },
-              {
-                "type": "doc",
-                "id": "tutorials/development/function/text-embedding-funcs/hugging-face",
-                "label": "Hugging Face",
-                "key": "doc:tutorials/development/function/text-embedding-funcs/hugging-face"
               }
             ]
           },
@@ -1329,12 +1329,6 @@ module.exports = [
                     "id": "tutorials/development/function/reranking-functions/model-based-rerankers/siliconflow-model-ranker",
                     "label": "硅基流动 Ranker",
                     "key": "doc:tutorials/development/function/reranking-functions/model-based-rerankers/siliconflow-model-ranker"
-                  },
-                  {
-                    "type": "doc",
-                    "id": "tutorials/development/function/reranking-functions/model-based-rerankers/hugging-face-ranker",
-                    "label": "Hugging Face Ranker",
-                    "key": "doc:tutorials/development/function/reranking-functions/model-based-rerankers/hugging-face-ranker"
                   }
                 ]
               }
@@ -2167,19 +2161,20 @@ module.exports = [
         "type": "category",
         "label": "慢查询日志",
         "key": "category:tutorials/management/slow-logs",
-        "items": []
-      },
-      {
-        "type": "doc",
-        "id": "tutorials/management/configure-slow-logs",
-        "label": "配置慢日志",
-        "key": "doc:tutorials/management/configure-slow-logs"
-      },
-      {
-        "type": "doc",
-        "id": "tutorials/management/slow-log-reference",
-        "label": "慢查询日志参考",
-        "key": "doc:tutorials/management/slow-log-reference"
+        "items": [
+          {
+            "type": "doc",
+            "id": "tutorials/management/slow-logs/configure-slow-logs",
+            "label": "配置慢日志",
+            "key": "doc:tutorials/management/slow-logs/configure-slow-logs"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/management/slow-logs/slow-log-reference",
+            "label": "慢查询日志参考",
+            "key": "doc:tutorials/management/slow-logs/slow-log-reference"
+          }
+        ]
       },
       {
         "type": "category",
@@ -2677,12 +2672,6 @@ module.exports = [
             "href": "/docs/siliconflow",
             "label": "硅基流动",
             "key": "ref:tutorials/ai-models/text-embedding-models/siliconflow"
-          },
-          {
-            "type": "link",
-            "href": "/docs/hugging-face",
-            "label": "Hugging Face",
-            "key": "ref:tutorials/ai-models/text-embedding-models/hugging-face"
           }
         ]
       },
@@ -2696,12 +2685,6 @@ module.exports = [
             "href": "/docs/siliconflow-model-ranker",
             "label": "硅基流动 Ranker",
             "key": "ref:tutorials/ai-models/reranking-models/siliconflow-model-ranker"
-          },
-          {
-            "type": "link",
-            "href": "/docs/hugging-face-ranker",
-            "label": "Hugging Face Ranker",
-            "key": "ref:tutorials/ai-models/reranking-models/hugging-face-ranker"
           }
         ]
       }

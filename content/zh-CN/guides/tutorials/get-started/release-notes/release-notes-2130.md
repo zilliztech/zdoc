@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Milvus 2.5.x 的相关特性在 Zilliz Cloud 进行公测阶段。本次发布在语义检索的基础上引入了全文搜索能力。通过对 BM25 及稀疏向量的支持，为您提供更好地检索和存储性能。全文搜索功能允许您在搜索请求中直接传入查询文本，而无须提前将其转换成对应的向量表示。另外，本次更新针对上传大量小文件导致的性能问题做了性能优化。 | Cloud"
 type: origin
 token: Jv0uwMRw4iQvOtkCkRNcXeAjnpd
-sidebar_position: 16
+sidebar_position: 17
 displayed_sidebar: releasesSidebar
 
 ---

@@ -10,7 +10,7 @@ notebook: FALSE
 description: "在本次发布中，Zilliz Cloud 带来了一系列 Milvus 2.4 的新功能，包括稀疏向量支持、增强的多向量和混合搜索、倒排索引、模糊匹配以及文档级召回的分组检索能力。同时，此次发布还引入了 Float16 和 BFloat16 数据类型，以提高检索效率。此外，Pipelines 功能现在会在每次数据摄取和搜索请求时返回令牌使用统计信息。您可以在发票页面上找到详细的统计数据。 | Cloud"
 type: origin
 token: XP0BwhWFFiazrikwL94cJIsSnYb
-sidebar_position: 21
+sidebar_position: 22
 displayed_sidebar: releasesSidebar
 
 ---

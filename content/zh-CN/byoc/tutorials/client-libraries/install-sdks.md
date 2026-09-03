@@ -36,10 +36,11 @@ Zilliz Cloud 提供托管式 Milvus 向量数据库服务。您可以按需安�
 
 下表罗列了各个 Milvus 版本对应的兼容 SDK 版本。
 
-| **Milvus 版本** | **Python SDK** | **Node.js SDK** | **Java SDK** | **Go SDK** |
-| --- | --- | --- | --- | --- |
-| `2.6.x` | `2.6.9` | `2.6.10` | `2.6.14` | `2.6.2` |
-| `2.5.x` | `2.5.18` | `2.5.13` | `2.5.15` | `2.5.6` |
+| **Milvus 版本** | **Python SDK** | **Node.js SDK** | **Java SDK** | **Go SDK** | **C++** |
+| --- | --- | --- | --- | --- | --- |
+| `3.0.x` | `3.0.1` | `3.0.5` | `3.0.8` | `3.0.0-beta` | `3.0.2` |
+| `2.6.x` | `2.6.17` | `2.6.17` | `2.6.24` | `2.6.5` | `2.6.6` |
+| `2.5.x` | `2.5.18` | `2.5.13` | `2.5.15` | `2.5.6` | -- |
 
 ## 安装 PyMilvus：Python SDK\{#install-pymilvus-python-sdk}
 
@@ -54,8 +55,8 @@ PyMilvus 是 Milvus 的 Python SDK。您可以在 [GitHub](https://github.com/mi
 执行以下命令，安装 PyMilvus：
 
 ```bash
-# Install pymilvus compatible with Milvus v2.5.x
-python -m pip install pymilvus==2.5.18
+# Install pymilvus
+python -m pip install pymilvus
 
 # Update PyMilvus to the newest version
 python -m pip install --upgrade pymilvus
@@ -63,8 +64,6 @@ python -m pip install --upgrade pymilvus
 # Verify installation success
 python -m pip list | grep pymilvus
 ```
-
-如果您的集群兼容 **Milvus v2.6.x** 的公测版本，请将上述版本号由 `2.5.18` 修改为 `2.6.9`。
 
 ## 安装 Node.js SDK\{#install-nodejs-sdk}
 
@@ -77,10 +76,9 @@ python -m pip list | grep pymilvus
 </Admonition>
 
 ```bash
-# Install Node.js SDK compatible with Milvus v2.5.x
-npm install @zilliz/milvus2-sdk-node@2.5.13
+npm install @zilliz/milvus2-sdk-node
 # Alternatively,
-yarn add @zilliz/milvus2-sdk-node@2.5.13
+yarn add @zilliz/milvus2-sdk-node
 
 # Upgrade to the latest version
 npm update @zilliz/milvus2-sdk-node
@@ -103,8 +101,6 @@ const { MilvusClient } = require("@zilliz/milvus2-sdk-node")
 import { MilvusClient } from "@zilliz/milvus2-sdk-node"
 ```
 
-如果您的集群兼容 **Milvus v2.6.x** 的公测版本，请将上述版本号由 `2.5.13` 修改为 `2.6.4`。
-
 ## 安装 Java SDK\{#install-java-sdk}
 
 您可以使用 Apache Maven 或 Gradle / Grails 下载 Java SDK。您可以在 [GitHub](https://github.com/milvus-io/milvus-sdk-java) 找到相关源代码。
@@ -118,7 +114,7 @@ import { MilvusClient } from "@zilliz/milvus2-sdk-node"
     <dependency>
          <groupId>io.milvus</groupId>
          <artifactId>milvus-sdk-java</artifactId>
-         <version>2.5.15</version>
+         <version>2.6.24</version>
      </dependency>
     ```
 
@@ -128,10 +124,10 @@ import { MilvusClient } from "@zilliz/milvus2-sdk-node"
 
     ```bash
     # Install Java SDK compatible with Milvus v2.5.x
-    compile 'io.milvus:milvus-sdk-java:2.5.15'
+    compile 'io.milvus:milvus-sdk-java:2.6.24'
     ```
 
-如果您的集群兼容 **Milvus v2.6.x** 的公测版本，请将上述版本号由 `2.5.15` 修改为 `2.6.14`。
+如果您的集群兼容 **Milvus v3.0.x** 的公测版本，请将上述版本号由 `2.6.24` 修改为 `3.0.8`。
 
 ## 安装 Go SDK\{#install-go-sdk}
 
@@ -139,18 +135,24 @@ import { MilvusClient } from "@zilliz/milvus2-sdk-node"
 
 ```bash
 # Install Go SDK compatible with Milvus v2.5.x
-go get -u github.com/milvus-io/milvus-sdk-go/v2@v2.5.6
+go get -u github.com/milvus-io/milvus-sdk-go/v2@v2.6.5
 ```
 
-如果您的集群兼容 **Milvus v2.6.x** 的公测版本，请将上述版本号由 `2.5.6` 修改为 `2.6.2`。
+如果您的集群兼容 **Milvus v3.0.x** 的公测版本，请将上述版本号由 `2.6.5` 修改为 `3.0.0-beta`。
 
-## 相关文档\{#related-docs}
+## 安装 C++ SDK\{#install-cpp-sdk}
 
-- [创建集群](./create-cluster)
+您可以参考如下命令安装 C++ SDK。您可以在 [GitHub](https://github.com/milvus-io/milvus-sdk-cpp) 找到相关源代码。
 
-- [创建 Collection](./manage-collections-sdks)
+```shell
+git clone https://github.com/milvus-io/milvus-sdk-cpp.git
+cd milvus-sdk-cpp
+bash scripts/install_deps.sh
+make
 
-- [插入 Entity](./insert-entities)
+# install the sdk
+make install       # install to /usr/local
+```
 
-- [基本 Vector Search](./single-vector-search)
+如果您的集群兼容 **Milvus v3.0.x** 的公测版本，请将上述版本号由 `v3.0.2` 版本。
 

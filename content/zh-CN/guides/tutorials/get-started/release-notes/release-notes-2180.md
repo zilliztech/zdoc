@@ -10,7 +10,7 @@ notebook: FALSE
 description: "在本次发布中，Zilliz Cloud 推出了多项强大的新功能，旨在提升运维效率、灵活性和用户体验。这些更新包括对集群级别定时自动扩缩容的支持、通过全新的 Merge Data API 实现 Schema 演进、推出用于简化数据接入流程的云原生数据层 Stage、支持从集群级备份中进行跨数据库的部分数据恢复，以及为 JSON Path 索引提供 UI 支持。这些功能共同帮助用户更高效地管理复杂的工作负载，降低维护开销，并加快在生成式 AI 时代下的开发周期。 | Cloud"
 type: origin
 token: QxMewBHpRisntJkA1NncBNSZnQc
-sidebar_position: 12
+sidebar_position: 13
 displayed_sidebar: releasesSidebar
 
 ---

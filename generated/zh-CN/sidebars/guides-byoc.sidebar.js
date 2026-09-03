@@ -1660,19 +1660,20 @@ module.exports = [
         "type": "category",
         "label": "慢查询日志",
         "key": "category:tutorials/management/slow-logs",
-        "items": []
-      },
-      {
-        "type": "doc",
-        "id": "tutorials/management/configure-slow-logs",
-        "label": "配置慢日志",
-        "key": "doc:tutorials/management/configure-slow-logs"
-      },
-      {
-        "type": "doc",
-        "id": "tutorials/management/slow-log-reference",
-        "label": "慢查询日志参考",
-        "key": "doc:tutorials/management/slow-log-reference"
+        "items": [
+          {
+            "type": "doc",
+            "id": "tutorials/management/slow-logs/configure-slow-logs",
+            "label": "配置慢日志",
+            "key": "doc:tutorials/management/slow-logs/configure-slow-logs"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/management/slow-logs/slow-log-reference",
+            "label": "慢查询日志参考",
+            "key": "doc:tutorials/management/slow-logs/slow-log-reference"
+          }
+        ]
       },
       {
         "type": "category",

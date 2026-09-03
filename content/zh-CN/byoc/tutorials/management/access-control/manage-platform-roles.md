@@ -61,7 +61,7 @@ import Procedures from '@site/src/components/Procedures';
 | 角色 | 最适合 | 典型权限 |
 | --- | --- | --- |
 | Project Admin | 项目所有者和平台管理员。 | 完整的项目管理，包括协作者、角色、集群生命周期、计算和数据访问。 |
-| Cluster Admin | 数据库管理员和平台工程师。 | 集群管理，例如 scaling、备份、集群操作和数据访问。 |
+| Data Admin | 数据库管理员和平台工程师。 | 数据管理，例如 scaling、备份、集群操作和数据访问。 |
 | Data Operator | 应用团队和数据工程师。 | 读写数据操作，包含有限的项目管理。 |
 | Data Viewer | 分析师、开发者和只读应用程序。 | 用于查看、查询和搜索工作流的只读访问。 |
 

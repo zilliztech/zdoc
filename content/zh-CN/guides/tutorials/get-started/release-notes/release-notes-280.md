@@ -10,7 +10,7 @@ notebook: FALSE
 description: "本次发布，Zilliz Cloud 带来了全新的 Serverless 订阅方案。该方案无须特殊配置，支持平滑扩容，适用于查询量变化较大的各类应用场景。当前，该方案处于 Beta 阶段，您可以在 阿里云华东1（杭州） 区域创建一个限时免费的 Serverless 集群。另外，本次发布还对监控指标、检索精度控制及数据导入做了相应的增强。 | Cloud"
 type: origin
 token: Nj7Hw23HBiVgc6kpfehc6r6bnIg
-sidebar_position: 22
+sidebar_position: 23
 displayed_sidebar: releasesSidebar
 
 ---

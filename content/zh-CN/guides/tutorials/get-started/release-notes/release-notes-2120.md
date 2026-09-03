@@ -10,7 +10,7 @@ notebook: FALSE
 description: "在本次发布中，Zilliz Cloud 推出了预付费订阅计划，旨在帮助财务审批流程复杂的企业客户简化采购流程，确保业务顺畅运行；新创建的 Collection 根据订阅计划和集群类型采用不同的全局 mmap 策略，Dedicated 集群还支持针对特定列自定义原始数据和索引的 mmap 策略，提升搜索性能并扩展容量；Dedicated 集群现支持创建 Database，并在 Collection 级别实现基于角色的访问控制（RBAC），助力数据管理和多租户方案；此外，新增十级召回率调优和召回率估算功能，方便优化搜索参数，提升搜索精度与性能。 | Cloud"
 type: origin
 token: YLFKwQdzAiyVxckcvcecQ4DPnKf
-sidebar_position: 17
+sidebar_position: 18
 displayed_sidebar: releasesSidebar
 
 ---

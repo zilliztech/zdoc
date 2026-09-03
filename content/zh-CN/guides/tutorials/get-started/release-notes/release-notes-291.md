@@ -10,7 +10,7 @@ notebook: FALSE
 description: "在本次更新中，Zilliz Cloud 开始支持 Milvus 的 RESTful API v2，提供了与开源版本一致的用户接口和扩展能力。新的文档聊天机器人也为能够更好地支持用户获取需要的信息。本次发布还引入了任务中心，可以为用户提供了一个直观的界面，用于管理和跟踪备份、还原、迁移、导入和 Collection 复制等任务的进度和状态。Dedicated 集群的自动缩放功能也开始提供私有预览，可根据设置的 CU 大小阈值动态调整集群可使用的资源。其他增强功能包括更多的集群监控指标、进一步优化的集群管理界面和用户电子邮件模板。 | Cloud"
 type: origin
 token: MgXbwjdzeiJRpnkF562cE6cVnCf
-sidebar_position: 20
+sidebar_position: 21
 displayed_sidebar: releasesSidebar
 
 ---

@@ -10,7 +10,7 @@ notebook: FALSE
 description: "本文介绍了 Zilliz Cloud 平台和集群的使用限制信息。如需了解更多限制信息，可向我们提交请求。 | Cloud"
 type: origin
 token: A8UFwSbMniMl6IkpJkNc4HsHnLc
-sidebar_position: 20
+sidebar_position: 18
 displayed_sidebar: default
 
 ---

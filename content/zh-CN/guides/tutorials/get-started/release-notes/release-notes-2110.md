@@ -10,7 +10,7 @@ notebook: FALSE
 description: "本次发布推出了全新界面，为您带来全新体验。另外，Zilliz Cloud 目前已支持从 Qdrant 和 腾讯云 VectoDB 搬迁数据，提供了更加丝滑的支付流程，并重新设计了帐单页面。 | Cloud"
 type: origin
 token: FLPuwOsvjiiui0kuvgec2hkonVb
-sidebar_position: 18
+sidebar_position: 19
 displayed_sidebar: releasesSidebar
 
 ---
