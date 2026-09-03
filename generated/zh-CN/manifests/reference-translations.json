@@ -3091,7 +3091,7 @@
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-AlterIndexProperties.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-AlterIndexProperties.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "3758fe45bfdd9e78e01d6d07809be9099e2346b0236f29138df43fd302c13a10",
       "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "status": "retired"
@@ -3100,7 +3100,7 @@
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Compact.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-Compact.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "dd4fe902d4c95e4940ae050b6f6fce896a735825082c74091adcd27adc997c9e",
       "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "status": "retired"
@@ -3109,7 +3109,7 @@
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-CreateIndex.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-CreateIndex.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "735e63c0c18678f5fa9a81ec5087cc63d8502cc0ae422dbd1e4cfc5075537ca1",
       "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "status": "retired"
@@ -3118,7 +3118,7 @@
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-DescribeIndex.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-DescribeIndex.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "44cbdc1ea91a006681c3482a6b616c2edff0247c24857054bbe697246073bcb1",
       "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "status": "retired"
@@ -3127,7 +3127,7 @@
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-DropIndex.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-DropIndex.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "62573b3bbf3a0537b2e60e77cced2b13a3ef31c8968e1e87c850542a8328bfb9",
       "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "status": "retired"
@@ -3136,7 +3136,7 @@
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-DropIndexProperties.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-DropIndexProperties.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "c80c6c408c9b9457d43949ae735dd43d6cfcc5f142d23a48593952d9325e1d93",
       "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "status": "retired"
@@ -3145,7 +3145,7 @@
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-GetCompactionState.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-GetCompactionState.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "f43ed0698fd210368fcbd3f1f16d9037ea27c879d95f7ec20abca563fa18dba3",
       "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "status": "retired"
@@ -3154,7 +3154,7 @@
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-GetLoadState.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-GetLoadState.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "370d7c63f21bca477fef4e17689ee4495fff4527e95faafb86fe7a6c57aa1a01",
       "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "status": "retired"
@@ -3163,7 +3163,7 @@
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-ListIndexes.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-ListIndexes.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "3896965d3d7333bb586009e0c73f6b6e256509d25d16b4b78e103401084b8cb6",
       "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "status": "retired"
@@ -3172,7 +3172,7 @@
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-LoadCollection.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-LoadCollection.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "892020a5c53a7bd93384bce231857114683350a74ae0d0fae2c4fa2f92ec83e8",
       "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "status": "retired"
@@ -3181,7 +3181,7 @@
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-LoadPartitions.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-LoadPartitions.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "7252dcf102f09130bcc3c4b5114658408ccf9317bd93d9648be47fd18033b349",
       "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "status": "retired"
@@ -3190,7 +3190,7 @@
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-RefreshLoad.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-RefreshLoad.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "ab409119ce93298058955dc59dc91369b65cbb14d9aafcf21616491805cca1e0",
       "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "status": "retired"
@@ -3199,7 +3199,7 @@
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-ReleaseCollection.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-ReleaseCollection.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "6c1a6d296575ea82c5330a408f019d3a6409b0dd2e52ec2417ece80fbb922097",
       "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "status": "retired"
@@ -3208,7 +3208,7 @@
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-ReleasePartitions.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-ReleasePartitions.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "f0a86d01ea28c0fdc098245209cd3ec112801e6ae3e62bd16ecb9e82b1354628",
       "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "status": "retired"
@@ -3217,7 +3217,7 @@
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-CreatePartition.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Partition/v2-Partition-CreatePartition.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "900742d755a0300156fb78ea3aba8e0e556d727892966af019f88904851f28d4",
       "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "status": "retired"
@@ -3226,7 +3226,7 @@
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-DropPartition.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Partition/v2-Partition-DropPartition.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "fbb28825452218249807484e6cc54affbc7c339f559d81595ff29054dea0e735",
       "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "status": "retired"
@@ -3235,7 +3235,7 @@
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-GetPartitionStats.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Partition/v2-Partition-GetPartitionStats.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "199f63746c6378ec4782846fa3c0d5a3a24b029b77ffd54e63f50a19fffb3c1a",
       "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "status": "retired"
@@ -3244,7 +3244,7 @@
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-HasPartition.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Partition/v2-Partition-HasPartition.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "eefd8679356b08aa44c45a7512f2b7533b61a1844c8fc0d44abb7ba0570deb86",
       "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "status": "retired"
@@ -3253,7 +3253,7 @@
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-ListPartitions.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Partition/v2-Partition-ListPartitions.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "bd2dcbdfa9f891c10d5b4193f966f80132bc9cd9f202f46d38de9ff26091e0bb",
       "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "status": "retired"
@@ -6493,7 +6493,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/DataImport/DataImport-BulkImport/DataImport-BulkImport.md",
       "targetPath": "content/zh-CN/reference/api/python/python/DataImport/DataImport-BulkImport/DataImport-BulkImport.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "130aa76e6d245c9bb67c2e55d4ec3b14a4f3e007aed0538175456db99401a474",
       "status": "retired"
@@ -6601,7 +6601,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/DataImport/DataImport.md",
       "targetPath": "content/zh-CN/reference/api/python/python/DataImport/DataImport.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "6aea95ed0213b4d8988da272af761a2d2d2bdc720f8c6b0dbe417ecd40846075",
       "status": "retired"
@@ -7114,7 +7114,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels.md",
       "targetPath": "content/zh-CN/reference/api/python/python/EmbeddingModels/EmbeddingModels.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "c1e2aa0a7e6dc757e7bf5aefaf8544ea115e357bce49f58906a94d06149a8bb3",
       "status": "retired"
@@ -7159,7 +7159,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-create_user.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-create_user.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "57c264c010415e09084249e403d7718ead7c74e72bde584ad13365cd59130ec3",
       "status": "retired"
@@ -7276,7 +7276,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/MilvusClient-Authentication.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Authentication/MilvusClient-Authentication.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "ad9c6a33da5debea78d02130fb18e5f0323d9c22ea50479015dd4a4947331611",
       "status": "retired"
@@ -7330,7 +7330,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Client/MilvusClient-Client.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Client/MilvusClient-Client.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "509d738c9b7358c4d1d3ccb79d189ae038e3e34ad7c97c1e33f85fdd82d4449a",
       "status": "retired"
@@ -7348,7 +7348,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-add_field_1.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-add_field_1.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "c137362f06c611dbac57cc770845051954b831632507485b12b49a5f5df7e3d0",
       "status": "retired"
@@ -7366,7 +7366,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-construct_from_dict_1.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-construct_from_dict_1.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "dbab9622841a54d7ebb08f7741ff9fe47242afd8a7eed25faf84e7fa35699d23",
       "status": "retired"
@@ -7393,7 +7393,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-to_dict_1.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-to_dict_1.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "80d992ed00e1327b7fc4512e1b4adfb37f72421ed2c193464ec8c5867dd97b0b",
       "status": "retired"
@@ -7411,7 +7411,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-verify_1.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-verify_1.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "058d0eb78cedeb6433c464296334a202f195df750026a924ad05fc8391fe5ea8",
       "status": "retired"
@@ -7672,7 +7672,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/MilvusClient-Collections.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Collections/MilvusClient-Collections.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "04358cd5c786aa8be68870b6c062cfb79416ea6aec7ab5a5c26f3444ea6f286f",
       "status": "retired"
@@ -7753,7 +7753,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Database/MilvusClient-Database.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Database/MilvusClient-Database.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "c5b09d448dc19ac9909c618728a2b7f39a1d853b5d6a6bf36ce242a20a561564",
       "status": "retired"
@@ -8095,7 +8095,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/MilvusClient-Management.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Management/MilvusClient-Management.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "494b67239a5baf614e6e669da47b300374d1ad95bc4ed5d229129cc252ef100b",
       "status": "retired"
@@ -8104,7 +8104,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Partitions/MilvusClient-Partitions.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Partitions/MilvusClient-Partitions.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "2d9d03b4dd1f866ce8203994502eee2c8897e5763f3a326673afa7804c7fadee",
       "status": "retired"
@@ -8293,7 +8293,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-Vector.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-Vector.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "7bd630007fbacf6f0f09d7c1679279e01abef39946363e81155429aab7bcf9cf",
       "status": "retired"
@@ -8320,7 +8320,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-GroupBy.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-GroupBy.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "88a1ad091fb0804b012ff3e964ea89da5319f19d8831d4401e1a9488b8791bdd",
       "status": "retired"
@@ -8428,7 +8428,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "1f7dc2489b42721642ad815841f57923539298699f183692e81fa340028224da",
       "status": "retired"
@@ -8698,7 +8698,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-add_field.md",
       "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-add_field.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "3e7016262651c276c588f4c9488a009d2a3856fbdd0562456e5ab94d8f881888",
       "status": "retired"
@@ -8707,7 +8707,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-construct_from_dict.md",
       "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-construct_from_dict.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "478e9a5c0944325a869aca38a48310b9b046e66d94937f48876d65ce0f2d754f",
       "status": "retired"
@@ -8725,7 +8725,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-to_dict.md",
       "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-to_dict.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "17e27962c7d6553dfa3ae1056bf53a06b3620b6ef3451187afe380bd30bf2d69",
       "status": "retired"
@@ -8743,7 +8743,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-verify.md",
       "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-verify.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "67bc3f1cf8bfd229fe0ea106691f673f0fb08c21e7d5ba685c50b0742c3adeae",
       "status": "retired"
@@ -8842,7 +8842,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-FieldSchema/FieldSchema-construct_from_dict.md",
       "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-FieldSchema/FieldSchema-construct_from_dict.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "8a97b08fbe66d89defadfa18d5742733904564086b324608dbfbd77e158922e3",
       "status": "retired"
@@ -8851,7 +8851,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-FieldSchema/FieldSchema-to_dict.md",
       "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-FieldSchema/FieldSchema-to_dict.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "ce5900e93f9aae81b21667a5d57f391f2981d0db4e101ab8d5e2ae63ad6d67dd",
       "status": "retired"
@@ -8860,7 +8860,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-FieldSchema/ORM-FieldSchema.md",
       "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-FieldSchema/ORM-FieldSchema.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "95fabbacaf6cf16315e8e516382a925c803308542193bd7b23f9a065e5fc7a8c",
       "status": "retired"
@@ -9067,7 +9067,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-db/ORM-db.md",
       "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-db/ORM-db.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "fb44ba6b1e6a73202ea1f3bc75daba6555859e7aae4d3b7b6c916189b51e44bb",
       "status": "retired"
@@ -9112,7 +9112,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-utility/ORM-utility.md",
       "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-utility/ORM-utility.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "17387a8286f74d0a918f5806ca325025d64f138f82750ce3d520dc92caaf9215",
       "status": "retired"
@@ -9508,7 +9508,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM.md",
       "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "a2f006f70b0f17f7415f6220e807d0966e533935dba85928adb8c787077cf746",
       "status": "retired"
@@ -9607,7 +9607,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/Rerankers/Rerankers.md",
       "targetPath": "content/zh-CN/reference/api/python/python/Rerankers/Rerankers.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "b6aff6cfcfd8a162c9ef6e0c15e11116c56f1e96351db54e77052c0338e3e06b",
       "status": "retired"
@@ -9679,7 +9679,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/Volume/Volume.md",
       "targetPath": "content/zh-CN/reference/api/python/python/Volume/Volume.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "ddced0133fe734e05b9baf6b723a2818c57888830bd16976eb999dde9103e7c4",
       "status": "retired"
@@ -9699,119 +9699,119 @@
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-CompactionState.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-CompactionState.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "0a74f10f31b283f6b9a5b3d08d2e6075fc4798d31b9c2986e3dae99ae6302045"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-CreateIndexTask.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-CreateIndexTask.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "3e551038b1730d9ec80779531ad0360b9e9a8254621f3cb9aa5c748d86cb61f4"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Flush.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-Flush.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "b3a2c4ec280cc0024b465ba7ffe16f4ff00eb3ad17a2f8cf19d6c12c2fe2ceeb"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-FlushTask.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-FlushTask.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "f286f8deea06ed98a2f78679535bb98e1d015ca84e830e4f6ce570212e42649a"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewAutoIndex.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewAutoIndex.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "0193aa12f3e675993ae0c4554547b98250258d1f29b63d68c571e4d49b783865"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewBitmapIndex.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewBitmapIndex.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "6bcd7677af1861271dfb4c6680f27db15a8431c30b9254249b9e7328b1423ce6"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewDiskANNIndex.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewDiskANNIndex.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "5c2e36749a2295cb67948c63e1bb044855690ae5881589001dfb4b7fb912e350"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewInvertedIndex.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewInvertedIndex.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "88473ef839fce52057514b9ff5a52d30a34145d04fba7e6e18b8045ffd9c4f6a"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewRTreeIndex.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewRTreeIndex.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "b4e7a2f22103797be34386bcbf0d5f7c38e9c705ea8ddf55f8b3a03251d6d53a"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewSortedIndex.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewSortedIndex.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "4531d8a78ddc1c9dda88562e436e4989ca844f85666bd1ea46edb3dd2e8303fe"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewTrieIndex.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewTrieIndex.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "147aa2e61f8413dd95e8856db644366436da251da950b4accb317e9dd7b42954"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Management-Index.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Management-Index.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "df30ebd90b0fd20ab6e89878702e10b2e4fdb5044d00203f99e6a4643e62c555"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-IndexDescription.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-IndexDescription.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "c0311c072943b830c49fe7fd2045e76504b05b0287d79163594510a1630faff5"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-IndexType.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-IndexType.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "d88c65ba550e50d4a1c0c4a96259aca1d7949a6d71e3ddf3b6f1b5c7583dffb1"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-LoadState.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-LoadState.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "6a276ef6f8964ea34f1d66c33aeaea9048d900cada815f95d9bf9d9d436b45ab"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-LoadTask.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-LoadTask.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "6353df7ea8ca30ce02a87f9dbc8b8cdc5819ec51733e6f0e76608f905da38f13"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-MetricType.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-MetricType.md",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "4bd87883d973c4baa52e21e7beaaf6d0ddb4ad747056465d34b9e71ee946b75e"
     }
   ],
@@ -9820,7 +9820,7 @@
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/project-operations-v2/upgrade-project-v2.mdx",
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/control-plane/project-operations-v2/upgrade-project-v2.mdx",
-      "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
+      "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
       "sourceHash": "1b4f8b9e207ec888fca81b717ddf73a4638f0de46de224bec89853eef44a7b65",
       "locale": "zh-CN",
       "reason": "x-include-langs"
