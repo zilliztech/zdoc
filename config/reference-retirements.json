@@ -2887,13 +2887,6 @@
     },
     {
       "manual": "python",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/utility-create_user.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Authentication/utility-create_user.md",
-      "changeKind": "source_renamed",
-      "rationale": "Approved source path replacement for Fetch reconciliation"
-    },
-    {
-      "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Client/Client-session.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Client/Client-session.md",
       "changeKind": null,
