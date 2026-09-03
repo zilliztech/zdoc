@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "Role インスタンスは、あなたの . へのアクセスに対して特定の権限を持つロールを表します。 | Python | ORM"
+description: "A Role instance represents a role with specific privileges to access your . | Python | ORM"
 type: docx
 token: LZL1d0kckouPXNxJLCmcwbCTnkG
 sidebar_position: 11
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # Role
 
-**Role** インスタンスは、あなたの . へのアクセスに対して特定の権限を持つロールを表します。
+**Role** インスタンスは、特定の権限を持つロールを表します。
 
 ```python
 class pymilvus.Role
 ```
 
-## Constructor\{#constructor}
+## コンストラクタ\{#constructor}
 
-名前およびその他のパラメータでロールを構築します。
+名前とその他のパラメータからロールを構築します。
 
 ```python
 Role(
@@ -48,17 +48,17 @@ Role(
 )
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="注意">
 
-コンストラクタを呼び出しただけではロールは作成されません。ロールを作成するには、role オブジェクトの `create()` メソッドを明示的に呼び出す必要があります。
+コンストラクタを呼び出すだけではロールは作成されません。ロールを作成するには、ロールオブジェクトの `create()` メソッドを明示的に呼び出す必要があります。
 
 </Admonition>
 
-**PARAMETERS:**
+**パラメータ:**
 
 - **name** (*string*) - 
 
-    **[REQUIRED]**
+    **[必須]**
 
     作成するロールの名前。
 
@@ -68,21 +68,21 @@ Role(
 
     デフォルト値は **default** で、この操作がデフォルト接続を使用することを示します。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *Role*
 
-**RETURNS:**
+**戻り値:**
 
-Role オブジェクト。
+ロールオブジェクト。
 
-**EXCEPTIONS:**
+**例外:**
 
 - **MilvusException**
 
-    この例外は、この操作中にエラーが発生した場合に送出されます。
+    この操作中にエラーが発生すると、この例外が発生します。
 
-## Examples\{#examples}
+## 例\{#examples}
 
 ```python
 from pymilvus import Role
@@ -93,7 +93,6 @@ role = Role(
 )
 ```
 
-## Methods\{#methods}
+## メソッド\{#methods}
 
 以下は `Role` クラスのメソッドです:
-

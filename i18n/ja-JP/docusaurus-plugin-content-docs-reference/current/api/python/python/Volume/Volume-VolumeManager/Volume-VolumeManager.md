@@ -7,15 +7,15 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "`VolumeManager` インスタンスは、Zilliz Cloud の Volume サービスへの接続を維持します。volume を作成、一覧表示、または削除する前に、`VolumeManager` インスタンスを初期化する必要があります。 | Python"
+description: "`VolumeManager` インスタンスは、Zilliz Cloud のボリュームサービスへの接続を維持します。ボリュームの作成、一覧表示、または削除を行う前に、`VolumeManager` インスタンスを初期化する必要があります。 | Python"
 type: docx
 token: G5c6dxWkno5FRAxeDMycR6AVntf
 sidebar_position: 5
 keywords: 
-  - ベクトル検索
+  - Vector search
   - knn algorithm
   - HNSW
-  - 非構造化データとは
+  - What is unstructured data
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # VolumeManager
 
-`VolumeManager` インスタンスは、Zilliz Cloud の Volume サービスへの接続を維持します。volume を作成、一覧表示、または削除する前に、`VolumeManager` インスタンスを初期化する必要があります。
+`VolumeManager` インスタンスは、Zilliz Cloud のボリュームサービスへの接続を維持します。ボリュームの作成、一覧表示、または削除を行う前に、`VolumeManager` インスタンスを初期化する必要があります。
 
 ```python
 class pymilvus.bulk_writer.volume_manager import VolumeManager
@@ -39,13 +39,13 @@ class pymilvus.bulk_writer.volume_manager import VolumeManager
 
 <Admonition type="info" icon="📘" title="Notes">
 
-volume は、データのマージ、移行、インポートなどのさらなる処理のためにデータを保持できる中間ストレージです。詳細については、[Volume](/docs/volume) を参照してください。
+ボリュームは、データのマージ、移行、インポートなどの追加処理のためにデータを保持できる中間ストレージスポットです。詳細については、Managed Volumes and External Volumes を参照してください。
 
 </Admonition>
 
-## コンストラクター\{#constructor}
+## コンストラクタ\{#constructor}
 
-このコンストラクターは、Zilliz Cloud の Volume サービスへの接続を維持するために設計された新しい `VolumeManager` インスタンスを初期化します。
+このコンストラクタは、Zilliz Cloud のボリュームサービスへの接続を維持するために設計された新しい `VolumeManager` インスタンスを初期化します。
 
 ```python
 VolumeManager(
@@ -58,15 +58,15 @@ VolumeManager(
 
 - **cloud_endpoint** (*str*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    `https:*//*api.cloud.zilliz.com` である Zilliz Cloud endpoint。
+    `https://api.cloud.zilliz.com` である Zilliz Cloud エンドポイント。
 
 - **api_key** (*str*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    Zilliz Cloud の Volume サービスで volume を管理するための十分な権限を持つ、あなたの Zilliz Cloud API key。Zilliz Cloud API key を取得するには、[API Keys](/docs/manage-api-keys) の手順に従ってください。
+    Zilliz Cloud のボリュームサービスでボリュームを管理するのに十分な権限を持つ Zilliz Cloud API キー。Zilliz Cloud API キーを取得するには、[API Keys](/docs/manage-api-keys) の手順に従ってください。
 
 **戻り値の型:**
 
