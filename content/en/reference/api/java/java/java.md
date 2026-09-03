@@ -31,14 +31,14 @@ The SDK requires Java 8 or later. Add the core artifact with Maven:
 <dependency>
     <groupId>io.milvus</groupId>
     <artifactId>milvus-sdk-java</artifactId>
-    <version>2.6.22</version>
+    <version>3.0.8</version>
 </dependency>
 ```
 
 Or use Gradle:
 
 ```groovy
-implementation 'io.milvus:milvus-sdk-java:2.6.22'
+implementation 'io.milvus:milvus-sdk-java:3.0.8'
 ```
 
 Use the same release number for `io.milvus:milvus-sdk-java-bulkwriter` when your application needs BulkWriter. Check Maven Central or the SDK repository before pinning a version in production.
@@ -72,7 +72,7 @@ try {
 
 ## Resources
 
-- [Java SDK v2 Reference](./v2)
+- [Java SDK v2 Reference](./java/v2-Client-ConnectConfig)
 - [Java SDK source repository](https://github.com/milvus-io/milvus-sdk-java)
 - [Java SDK examples](https://github.com/milvus-io/milvus-sdk-java/tree/master/examples)
 

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "8ff43cd0be3b6d0320e1a3d6a6df81eff98e9c65",
+  "sourceCommit": "18575aa6f02d476b24f05f5c74a307e51d8ecc5a",
   "records": [
     {
       "manual": "cli",
@@ -1350,7 +1350,7 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/go.md",
-      "sourceHash": "a4cc81b2498dbc1044da9bf46d61754b0e15751ab6c94e6811db33f4b92394f6"
+      "sourceHash": "6960c86c51cbae412700a4c80494ceca46180dc03687e918c3b2edd9e38c0df3"
     },
     {
       "manual": "go",
@@ -2050,7 +2050,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/java.md",
-      "sourceHash": "1884882c3436cb5aa58d42aa29300a8980b2cbf92eeadfa9e60c5ec414fa228e"
+      "sourceHash": "3d29114e7afd7496847df6f139b0ee089ffc030ad0713b0d1207855153823797"
     },
     {
       "manual": "java",

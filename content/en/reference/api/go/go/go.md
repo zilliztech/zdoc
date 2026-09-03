@@ -71,7 +71,7 @@ fmt.Println(collectionNames)
 
 ## Resources
 
-- [Go SDK v2 Reference](./v2)
+- [Go SDK v2 Reference](./go/v2-Client-ClientConfig)
 - [Go SDK v2 source](https://github.com/milvus-io/milvus/tree/master/client)
 - [Go package documentation](https://pkg.go.dev/github.com/milvus-io/milvus/client/v2)
 
