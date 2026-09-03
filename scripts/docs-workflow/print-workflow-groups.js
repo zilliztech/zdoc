@@ -3,6 +3,7 @@
 
 const {loadTypeScript} = require('../lib/load-typescript')
 const workflow = loadTypeScript('../../packages/docs-tooling/src/manuals/derive/workflowUnits.ts')
+const {buildTranslationSelection} = require('../translation/selection')
 
 const mode = process.argv[2]
 if (mode === '--sdk-groups') process.stdout.write(workflow.sdkGroupIds().join(' '))
@@ -14,6 +15,18 @@ else if (mode === '--selected-sdk-groups-json') {
   const sdk = new Set(workflow.sdkGroupIds())
   process.stdout.write(JSON.stringify(selected.filter(group => sdk.has(group))))
 }
+else if (mode === '--has-translation-units') {
+  const groups = workflow.parseSelectedGroups(process.argv[3] || '')
+  const hasTranslationUnits = groups.some(group => {
+    try {
+      buildTranslationSelection({locale: 'all', group})
+      return true
+    } catch {
+      return false
+    }
+  })
+  process.stdout.write(String(hasTranslationUnits))
+}
 else if (mode === '--validate-groups') {
   try {
     workflow.parseSelectedGroups(process.argv[3] || '')
@@ -22,4 +35,4 @@ else if (mode === '--validate-groups') {
     process.exit(2)
   }
 }
-else throw new Error('Usage: print-workflow-groups.js --sdk-groups|--sdk-snapshot-groups|--groups-json|--sdk-groups-json|--validate-groups <value>')
+else throw new Error('Usage: print-workflow-groups.js --sdk-groups|--sdk-snapshot-groups|--groups-json|--sdk-groups-json|--selected-sdk-groups-json|--validate-groups|--has-translation-units <value>')
