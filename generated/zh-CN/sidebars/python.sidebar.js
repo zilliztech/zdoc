@@ -172,9 +172,9 @@ module.exports = [
           },
           {
             "type": "doc",
-            "id": "api/python/python/MilvusClient/MilvusClient-Authentication/utility-create_user",
+            "id": "api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-create_user",
             "label": "create_user()",
-            "key": "doc:api/python/python/MilvusClient/MilvusClient-Authentication/utility-createuser"
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Authentication/authentication-createuser"
           },
           {
             "type": "doc",
