@@ -8,7 +8,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-09-02T10:44:59.681Z",
+  "generated_at": "2026-09-03T00:28:00.233Z",
   "source_dir": "./packages/docs-tooling/src/lark/meta/sources/python/v3.0.x",
   "base_app_token": "Hk05b5eI6aXXSSsd6j9cqwwMn5a",
   "records": [
@@ -4294,7 +4294,7 @@
       "doc_token": "ShzCdNgEGozKi3xa3lUcHpxQnaf",
       "doc_link": "https://zilliverse.feishu.cn/docx/ShzCdNgEGozKi3xa3lUcHpxQnaf",
       "source_file": "ShzCdNgEGozKi3xa3lUcHpxQnaf.json",
-      "source_hash": "9a615dfa6692832c165f9317a43ed2cc893cacd20bd433db9974f53a47a528fc",
+      "source_hash": "0d9203eba3251eb8150c137cbeb37a773c733a6dae133749e6e3aa032ae40647",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
@@ -4352,7 +4352,7 @@
       "doc_token": "DvaZdhYnyoo7lOxNIBwc5eKEn7d",
       "doc_link": "https://zilliverse.feishu.cn/docx/DvaZdhYnyoo7lOxNIBwc5eKEn7d",
       "source_file": "DvaZdhYnyoo7lOxNIBwc5eKEn7d.json",
-      "source_hash": "98fb938251f3eb89221e562950221cb6f7ac36a1e5215ab890a13a621c33c5f2",
+      "source_hash": "1315d0e37d27948f4eabbe521adebfada267e87e0d8b94562ef674c66d312d6f",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
@@ -4366,7 +4366,6 @@
       ],
       "publish_status": "Draft",
       "outgoing_tokens": [
-        "CFS4dOq2LowXPSxB124cBwQsn0c",
         "GaCYdVohYoHFhrx897zcmcNfn6e",
         "PfJNdkuMDoCqqcxm6S2cDD6TnFh",
         "SojTdgw1joOuA8xMzb5cMUFYnce"
