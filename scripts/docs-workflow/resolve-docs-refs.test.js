@@ -47,7 +47,7 @@ function repositoryFixture() {
 }
 
 test('declares disjoint tooling and English source ownership', () => {
-  assert.deepEqual(DOCS_REF_PATHS.source, ['content/en', 'generated/en', 'sidebar-overrides/en']);
+  assert.deepEqual(DOCS_REF_PATHS.source, ['content/en', 'generated/en']);
   assert.equal(DOCS_REF_PATHS.tooling.includes('.github/workflows'), true);
   assert.equal(DOCS_REF_PATHS.tooling.includes('packages/docs-tooling'), true);
   assert.doesNotThrow(() => assertDisjointOwnership(DOCS_REF_PATHS));

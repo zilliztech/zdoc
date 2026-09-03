@@ -84,11 +84,11 @@ test('SDK and CLI groups declare master-owned landing pages to preserve', () => 
   assert.deepEqual(getGroupPaths('python').preservedEnglish, [
     'content/en/reference/api/python/python/python.md',
   ]);
-  assert.deepEqual(getGroupPaths('java').preservedEnglish, []);
+  assert.deepEqual(getGroupPaths('java').preservedEnglish, ['content/en/reference/api/java/java/v2/java.md']);
   assert.deepEqual(getGroupPaths('node').preservedEnglish, [
     'content/en/reference/api/nodejs/nodejs/nodejs.md',
   ]);
-  assert.deepEqual(getGroupPaths('go').preservedEnglish, []);
+  assert.deepEqual(getGroupPaths('go').preservedEnglish, ['content/en/reference/api/go/go/v2/go.md']);
   assert.deepEqual(getGroupPaths('cli').preservedEnglish, [
     'content/en/reference/cli/cli/Overview.md',
   ]);

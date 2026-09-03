@@ -20,7 +20,7 @@ const DOCS_REF_PATHS = Object.freeze({
     'pnpm-workspace.yaml',
     'tsconfig.json',
   ]),
-  source: Object.freeze(['content/en', 'generated/en', 'sidebar-overrides/en']),
+  source: Object.freeze(['content/en', 'generated/en']),
 });
 
 function normalizedPath(value) {

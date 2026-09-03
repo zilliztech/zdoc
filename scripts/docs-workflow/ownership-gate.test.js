@@ -10,7 +10,7 @@ const {execFileSync} = require('node:child_process');
 const {devOwnedChanges} = require('./ownership-gate.js');
 
 const contract = {
-  devOwnedPaths: ['content', 'generated', 'sidebar-overrides/en'],
+  devOwnedPaths: ['content', 'generated'],
   masterAuthoritativePaths: ['content/en/reference/api/cpp/cpp/cpp.md'],
 };
 
@@ -49,8 +49,5 @@ test('devOwnedChanges flags dev-owned changes but not landing pages or tooling',
   git(root, 'commit', '-q', '-m', 'head');
   const head = git(root, 'rev-parse', 'HEAD');
 
-  assert.deepEqual(devOwnedChanges(root, base, head, contract), [
-    'content/en/page.md',
-    'sidebar-overrides/en/cpp.json',
-  ]);
+  assert.deepEqual(devOwnedChanges(root, base, head, contract), ['content/en/page.md']);
 });

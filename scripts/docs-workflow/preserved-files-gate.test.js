@@ -37,22 +37,26 @@ function fakeRegistry() {
   };
 }
 
-test('preservedFilePaths keeps only English publications and joins outputDir', () => {
-  assert.deepEqual(preservedFilePaths(fakeRegistry()), ['content/en/ref/foo/foo/foo.md']);
+test('preservedFilePaths includes English and Chinese publications and joins outputDir', () => {
+  assert.deepEqual(preservedFilePaths(fakeRegistry()), [
+    'content/en/ref/foo/foo/foo.md',
+    'content/zh-CN/ref/foo/foo/foo.md',
+  ]);
 });
 
 test('checkPreservedFiles passes when the file is declared and tracked', () => {
   const root = repo();
   write(root, 'content/en/ref/foo/foo/foo.md', 'landing\n');
+  write(root, 'content/zh-CN/ref/foo/foo/foo.md', 'landing\n');
   git(root, 'add', '-A');
   git(root, 'commit', '-q', '-m', 'landing');
 
   const {paths, errors} = checkPreservedFiles({
     cwd: root,
     registry: fakeRegistry(),
-    contract: {masterAuthoritativePaths: ['content/en/ref/foo/foo/foo.md']},
+    contract: {masterAuthoritativePaths: ['content/en/ref/foo/foo/foo.md', 'content/zh-CN/ref/foo/foo/foo.md']},
   });
-  assert.deepEqual(paths, ['content/en/ref/foo/foo/foo.md']);
+  assert.deepEqual(paths, ['content/en/ref/foo/foo/foo.md', 'content/zh-CN/ref/foo/foo/foo.md']);
   assert.deepEqual(errors, []);
 });
 
@@ -69,6 +73,8 @@ test('checkPreservedFiles flags a preserved file missing its masterAuthoritative
   });
   assert.deepEqual(errors, [
     'content/en/ref/foo/foo/foo.md is a preservedFile but is not listed in masterAuthoritativePaths',
+    'content/zh-CN/ref/foo/foo/foo.md is a preservedFile but is not listed in masterAuthoritativePaths',
+    'content/zh-CN/ref/foo/foo/foo.md is a preservedFile but is not tracked on master',
   ]);
 });
 
@@ -85,5 +91,7 @@ test('checkPreservedFiles flags a preserved file not tracked on master', () => {
   });
   assert.deepEqual(errors, [
     'content/en/ref/foo/foo/foo.md is a preservedFile but is not tracked on master',
+    'content/zh-CN/ref/foo/foo/foo.md is a preservedFile but is not listed in masterAuthoritativePaths',
+    'content/zh-CN/ref/foo/foo/foo.md is a preservedFile but is not tracked on master',
   ]);
 });

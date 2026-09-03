@@ -7,12 +7,10 @@ const { isMasterAuthoritative, loadContract } = require('./master-tooling-sync.j
 
 // Each publication's `preservedFiles` are relative to its `outputDir` (see
 // `publication()` in registry.ts), so the full repository path is the two joined.
-// Only English publications are master-authoritative landing pages; zh-CN
-// `preservedFiles` are translation landing pages owned by `dev`.
+// English and zh-CN `preservedFiles` are master-authoritative landing pages.
 function preservedFilePaths(registry = loadTypeScript('../../packages/docs-tooling/src/manuals/registry.ts')) {
   const paths = [];
   for (const entry of registry.publicationEntries(registry.manualRegistry)) {
-    if (entry.site !== 'en') continue;
     const files = entry.publication.preservedFiles;
     if (!files || files.length === 0) continue;
     for (const file of files) {

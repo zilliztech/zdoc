@@ -104,6 +104,12 @@ describe('site-owned publication groups', () => {
     expect(resolvePublicationGroupWorkflow('en', 'node').preservedPaths).toEqual([
       'content/en/reference/api/nodejs/nodejs/nodejs.md',
     ]);
+    expect(resolvePublicationGroupWorkflow('en', 'go').preservedPaths).toEqual([
+      'content/en/reference/api/go/go/v2/go.md',
+    ]);
+    expect(resolvePublicationGroupWorkflow('en', 'java').preservedPaths).toEqual([
+      'content/en/reference/api/java/java/v2/java.md',
+    ]);
     expect(resolvePublicationGroupWorkflow('en', 'cli').preservedPaths).toEqual([
       'content/en/reference/cli/cli/Overview.md',
     ]);
@@ -112,6 +118,15 @@ describe('site-owned publication groups', () => {
       'content/en/reference/api/restful/restful/versioning.md',
       'content/en/reference/api/restful/restful/v1/error-codes.md',
       'content/en/reference/api/restful/restful/v2/error-codes-v2.md',
+    ]);
+  });
+
+  it('preserves Chinese Reference landing pages', () => {
+    expect(resolvePublicationGroupWorkflow('zh-CN', 'rest').preservedPaths).toEqual([
+      'content/zh-CN/reference/api/restful/restful/restful.md',
+      'content/zh-CN/reference/api/restful/restful/versioning.md',
+      'content/zh-CN/reference/api/restful/restful/v1/error-codes.md',
+      'content/zh-CN/reference/api/restful/restful/v2/error-codes-v2.md',
     ]);
   });
 

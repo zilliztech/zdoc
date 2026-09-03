@@ -20,6 +20,14 @@
       "reason": "Sidebar category landing links must preserve navigation while keeping category expansion controls separate."
     },
     {
+      "id": "docs-reference-ownership",
+      "paths": ["scripts/docs-workflow/resolve-docs-refs.js", "scripts/docs-workflow/resolve-docs-refs.test.js", "scripts/docs-workflow/ownership-gate.js", "scripts/docs-workflow/ownership-gate.test.js"],
+      "focusedTests": ["node --test scripts/docs-workflow/resolve-docs-refs.test.js scripts/docs-workflow/ownership-gate.test.js"],
+      "harnesses": [],
+      "gates": ["pnpm test:workflow-policy", "git diff --check"],
+      "reason": "Reference ownership boundaries determine which files enter tooling and which site-owned overrides remain editable on master."
+    },
+    {
       "id": "rest-reference-fragments",
       "paths": [
         "packages/docs-tooling/src/reference/rest/meta/openapi/**",
@@ -337,6 +345,14 @@
       "reason": "Branch ownership and tooling promotion changes can alter which master changes may enter dev and which runtime paths must be preserved."
     },
     {
+      "id": "site-owned-sidebar-overrides",
+      "paths": ["sidebar-overrides/en/**", "sidebar-overrides/zh-CN/**"],
+      "focusedTests": [],
+      "harnesses": [],
+      "gates": ["pnpm build:en", "pnpm build:zh-CN", "git diff --check"],
+      "reason": "Sidebar override configuration is site-owned policy that can be adjusted on master and is consumed by site builds rather than produced by Fetch."
+    },
+    {
       "id": "published-content-and-generated-state",
       "paths": [
         ".translation-cache/**",
@@ -349,8 +365,7 @@
         "packages/docs-tooling/src/lark/meta/assembly/**",
         "packages/docs-tooling/src/lark/meta/reports/**",
         "packages/docs-tooling/src/lark/meta/snapshots/**",
-        "reference/**",
-        "sidebar-overrides/en/**"
+        "reference/**"
       ],
       "focusedTests": [
         "pnpm check:localization-input-inventory",

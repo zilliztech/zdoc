@@ -89,7 +89,6 @@ test('the ownership contract covers every generated publication root and keeps r
     'packages/docs-tooling/src/lark/meta/assembly',
     'packages/docs-tooling/src/lark/meta/reports',
     'packages/docs-tooling/src/lark/meta/snapshots',
-    'sidebar-overrides/en',
   ]) assert.ok(contract.devOwnedPaths.includes(root), `missing dev-owned root: ${root}`);
   assert.deepEqual(contract.masterAuthoritativePaths, [
     'config/reference-retirements.json',
@@ -97,6 +96,8 @@ test('the ownership contract covers every generated publication root and keeps r
     'config/translation/reconciliation-policy-exceptions.json',
     'content/en/guides/tutorials/home.md',
     'content/en/reference/api/cpp/cpp/cpp.md',
+    'content/en/reference/api/go/go/v2/go.md',
+    'content/en/reference/api/java/java/v2/java.md',
     'content/en/reference/api/nodejs/nodejs/nodejs.md',
     'content/en/reference/api/python/python/python.md',
     'content/en/reference/api/restful/restful/restful.md',
@@ -104,6 +105,16 @@ test('the ownership contract covers every generated publication root and keeps r
     'content/en/reference/api/restful/restful/v2/error-codes-v2.md',
     'content/en/reference/api/restful/restful/versioning.md',
     'content/en/reference/cli/cli/Overview.md',
+    'content/zh-CN/reference/api/cpp/cpp/cpp.md',
+    'content/zh-CN/reference/api/go/go/v2/go.md',
+    'content/zh-CN/reference/api/java/java/v2/java.md',
+    'content/zh-CN/reference/api/nodejs/nodejs/nodejs.md',
+    'content/zh-CN/reference/api/python/python/python.md',
+    'content/zh-CN/reference/api/restful/restful/restful.md',
+    'content/zh-CN/reference/api/restful/restful/v1/error-codes.md',
+    'content/zh-CN/reference/api/restful/restful/v2/error-codes-v2.md',
+    'content/zh-CN/reference/api/restful/restful/versioning.md',
+    'content/zh-CN/reference/cli/cli/Overview.md',
   ]);
   assert.deepEqual(contract.candidateDerivedPaths, ['deploy/contracts/localization-inputs.inventory.json']);
 });

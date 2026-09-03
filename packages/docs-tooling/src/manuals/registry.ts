@@ -266,7 +266,7 @@ const definitions: ManualDefinition[] = [
     sourceOrder: ['chinese-v0.1', 'english-v1.3', 'chinese-v1.3', 'english-v1.4', 'chineseTranslation'],
     publications: {
       en: publication('en', 'english-v1.4', 'reference/cli/cli', 'reference', 'cli', 'zilliz', ['reference/cli/v0.1', 'reference/cli/v1.3'], ['Overview.md']),
-      'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/cli/cli', 'reference', 'cli', 'zilliz', ['reference/cli/v0.1', 'reference/cli/v1.3']),
+      'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/cli/cli', 'reference', 'cli', 'zilliz', ['reference/cli/v0.1', 'reference/cli/v1.3'], ['Overview.md']),
     },
     presentation: {
       referenceKind: 'cli',
@@ -298,7 +298,7 @@ const definitions: ManualDefinition[] = [
     sourceOrder: ['english-v2.6', 'english-v3.0', 'chineseTranslation'],
     publications: {
       en: publication('en', 'english-v3.0', 'reference/api/cpp/cpp', 'reference', 'cpp', 'zilliz', undefined, ['cpp.md']),
-      'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/api/cpp/cpp', 'reference', 'cpp'),
+      'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/api/cpp/cpp', 'reference', 'cpp', 'zilliz', undefined, ['cpp.md']),
     },
     presentation: {
       referenceKind: 'cpp',
@@ -330,8 +330,8 @@ const definitions: ManualDefinition[] = [
     },
     sourceOrder: ['english-v2.4', 'english-v2.6', 'english-v3.0', 'chineseTranslation'],
     publications: {
-      en: publication('en', 'english-v3.0', 'reference/api/go/go/v2', 'reference', 'go', 'zilliz', ['reference/api/go/go/v1']),
-      'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/api/go/go/v2', 'reference', 'go', 'zilliz', ['reference/api/go/go/v1']),
+      en: publication('en', 'english-v3.0', 'reference/api/go/go/v2', 'reference', 'go', 'zilliz', ['reference/api/go/go/v1'], ['go.md']),
+      'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/api/go/go/v2', 'reference', 'go', 'zilliz', ['reference/api/go/go/v1'], ['go.md']),
     },
     presentation: {
       referenceKind: 'go',
@@ -390,8 +390,8 @@ const definitions: ManualDefinition[] = [
     },
     sourceOrder: ['english-v1-2.4', 'english-v2-2.4', 'english-v2.5', 'english-v2.6', 'english-v3.0', 'chineseTranslation'],
     publications: {
-      en: publication('en', 'english-v3.0', 'reference/api/java/java/v2', 'reference', 'java', 'zilliz', ['reference/api/java/java/v1']),
-      'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/api/java/java/v2', 'reference', 'java', 'zilliz', ['reference/api/java/java/v1']),
+      en: publication('en', 'english-v3.0', 'reference/api/java/java/v2', 'reference', 'java', 'zilliz', ['reference/api/java/java/v1'], ['java.md']),
+      'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/api/java/java/v2', 'reference', 'java', 'zilliz', ['reference/api/java/java/v1'], ['java.md']),
     },
     presentation: {
       referenceKind: 'java',
@@ -424,7 +424,7 @@ const definitions: ManualDefinition[] = [
     sourceOrder: ['english-v2.4', 'english-v2.5', 'english-v2.6', 'english-v3.0', 'chineseTranslation'],
     publications: {
       en: publication('en', 'english-v3.0', 'reference/api/nodejs/nodejs', 'reference', 'node', 'zilliz', undefined, ['nodejs.md']),
-      'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/api/nodejs/nodejs', 'reference', 'node'),
+      'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/api/nodejs/nodejs', 'reference', 'node', 'zilliz', undefined, ['nodejs.md']),
     },
     presentation: {
       referenceKind: 'nodejs',
@@ -468,7 +468,7 @@ const definitions: ManualDefinition[] = [
     sourceOrder: ['english-v2.4', 'english-v2.5', 'english-v2.6', 'english-v3.0', 'chineseTranslation'],
     publications: {
       en: publication('en', 'english-v3.0', 'reference/api/python/python', 'reference', 'python', 'zilliz', undefined, ['python.md']),
-      'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/api/python/python', 'reference', 'python'),
+      'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/api/python/python', 'reference', 'python', 'zilliz', undefined, ['python.md']),
     },
     presentation: {
       referenceKind: 'python',
@@ -503,7 +503,12 @@ const definitions: ManualDefinition[] = [
         'v1/error-codes.md',
         'v2/error-codes-v2.md',
       ]),
-      'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/api/restful/restful', 'reference', 'restful', 'zilliz', undefined, ['restful.md']),
+      'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/api/restful/restful', 'reference', 'restful', 'zilliz', undefined, [
+        'restful.md',
+        'versioning.md',
+        'v1/error-codes.md',
+        'v2/error-codes-v2.md',
+      ]),
     },
     presentation: {
       referenceKind: 'restful',
