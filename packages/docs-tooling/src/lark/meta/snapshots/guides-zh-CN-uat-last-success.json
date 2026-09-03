@@ -9,7 +9,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-09-03T11:14:28.603Z",
+  "generated_at": "2026-09-03T18:35:40.837Z",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides-zh-CN",
   "base_app_token": "I6YUb1M0JajHrqsJGcLcZNh7neP",
   "records": [
@@ -765,14 +765,14 @@
         "parent_node_token": "WaK2wHyYYic8oXkq4aScjE1Inlg",
         "node_create_time": "1788417847",
         "obj_create_time": "1788417847",
-        "obj_edit_time": "1788430468",
+        "obj_edit_time": "1788433045",
         "revision_id": null
       },
       "node_token": "ZVtsw12VCipuFNkRdrdcz9U2nKN",
       "origin_node_token": "ZVtsw12VCipuFNkRdrdcz9U2nKN",
       "obj_token": "ItjndAlkkog003xAFmXcKnl8nog",
       "obj_type": "docx",
-      "obj_edit_time": "1788430468",
+      "obj_edit_time": "1788433045",
       "revision_id": null,
       "publish_targets": [
         "Zilliz.SaaS"
@@ -10200,7 +10200,7 @@
       "doc_token": "ETznwYhvpitgrtk4Y7dcLSv0nLc",
       "doc_link": "https://zilliverse.feishu.cn/wiki/ETznwYhvpitgrtk4Y7dcLSv0nLc",
       "source_file": "ETznwYhvpitgrtk4Y7dcLSv0nLc.json",
-      "source_hash": "e148c4e06f621db607af936f3ee81a1261663d2e25d380bc3ffe48b2448c8591",
+      "source_hash": "37394c13554a5119bf8a2e13ca302851b691928aecf68565a4d1e088ea71edcd",
       "node_metadata": {
         "requested_token": "ETznwYhvpitgrtk4Y7dcLSv0nLc",
         "requested_node_token": "ETznwYhvpitgrtk4Y7dcLSv0nLc",
