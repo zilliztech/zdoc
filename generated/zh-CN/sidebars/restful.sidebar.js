@@ -680,36 +680,6 @@ module.exports = [
               },
               {
                 "type": "doc",
-                "id": "api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-groups-v2",
-                "label": "列出群组 (V2)",
-                "key": "doc:api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-groups-v2"
-              },
-              {
-                "type": "doc",
-                "id": "api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-group-roles-v2",
-                "label": "列出群组角色 (V2)",
-                "key": "doc:api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-group-roles-v2"
-              },
-              {
-                "type": "doc",
-                "id": "api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-group-members-v2",
-                "label": "列出群组成员 (V2)",
-                "key": "doc:api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-group-members-v2"
-              },
-              {
-                "type": "doc",
-                "id": "api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/grant-role-to-group-v2",
-                "label": "为群组授予角色 (V2)",
-                "key": "doc:api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/grant-role-to-group-v2"
-              },
-              {
-                "type": "doc",
-                "id": "api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/revoke-role-from-group-v2",
-                "label": "撤销群组角色 (V2)",
-                "key": "doc:api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/revoke-role-from-group-v2"
-              },
-              {
-                "type": "doc",
                 "id": "api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-member-roles-v2",
                 "label": "列出成员角色 (V2)",
                 "key": "doc:api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-member-roles-v2"
