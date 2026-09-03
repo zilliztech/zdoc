@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "1f2eb3d1d3715766805afac9773888c8d3d7526f",
+  "sourceCommit": "5687f14b2ca3701c524e5101f2753a7f66023cb2",
   "records": [
     {
       "manual": "cli",
@@ -4660,7 +4660,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-query.md",
-      "sourceHash": "fba168968daa9c42ca597e977d890370a6960489f15c68176dd62dba971ac6b2"
+      "sourceHash": "4a9b89af6ddd10404bf08fb32bd53154bc6164c3296cc89e680a56f9ce8a0310"
     },
     {
       "manual": "python",
@@ -4670,7 +4670,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-search.md",
-      "sourceHash": "b6e4662d7ff0574f63557737680d489511475020446f7d527ecae40de3c98677"
+      "sourceHash": "59594b93a024ca87e4642addd6793dc6df40f8180e27e56b690108bcc5efbdb5"
     },
     {
       "manual": "python",
@@ -5330,7 +5330,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v1/control-plane/cloud-meta/cloud-meta.mdx",
-      "sourceHash": "b4dad33d655240191fb0c044dc6023aee05ebf56919270546461f89e05b384a2"
+      "sourceHash": "0694f91ef801e1bc69a5c1381d0b053818876473fba8018a4e0caf0dd68d007c"
     },
     {
       "manual": "rest",
@@ -5345,7 +5345,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v1/control-plane/cluster-operations/cluster-operations.mdx",
-      "sourceHash": "fb1bd3d800e5b17f1038f4591d1f1c0a7d1a12b51b6c04db8b3e6a7da124dfbc"
+      "sourceHash": "047964e69dbadc59ce4b0e7814d8f42df4cb45270485f027a8bb89c6717ce57a"
     },
     {
       "manual": "rest",
@@ -5400,7 +5400,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v1/control-plane/control-plane.mdx",
-      "sourceHash": "fa3ae5ef557b9a0b1fe1a258c91c6108c7f6b76871d03c9555e5728f6db0cd1a"
+      "sourceHash": "33a7ae9a0006b7bb02074a349ee3e65bd43e521eb85260f8e8def72fd97318a1"
     },
     {
       "manual": "rest",
@@ -5410,7 +5410,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v1/control-plane/import-operations/import-operations.mdx",
-      "sourceHash": "fc364a3845e53330f9858ace75bf88c2427491dca63f60c546cde572904d07a7"
+      "sourceHash": "b77f6b6aa643587e05e7d9fcc067d963439b455c156b56bf29785125cebefede"
     },
     {
       "manual": "rest",
@@ -5445,7 +5445,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v1/control-plane/pipeline-operations/pipeline-operations.mdx",
-      "sourceHash": "9eb8652a4f7a124069be1bf618afeade8ddefb0949841873c5753d7e510619bc"
+      "sourceHash": "cb5893cfc17bee5db92eb68c905ec492e04e2e11b32376b9fb93a79af3e5a77c"
     },
     {
       "manual": "rest",
@@ -5455,7 +5455,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v1/data-plane/collection-operations/collection-operations.mdx",
-      "sourceHash": "3811354b9608402fb1d0fb8925d59fd763f940630f398313e1f8f0e9df3cec9d"
+      "sourceHash": "83c06b7e2d73a78b1bcbbf483715690ce24723f3aaaea22518f225d5ffff0288"
     },
     {
       "manual": "rest",
@@ -5480,7 +5480,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v1/data-plane/data-plane.mdx",
-      "sourceHash": "145b967bef7baa16a7b8e15392b8843b2351daed5df52e8645266f3edae17779"
+      "sourceHash": "aa8615010f520fa1c67b3b85f16ee66de5fead12b5ea330e7c82964efa38ae44"
     },
     {
       "manual": "rest",
@@ -5515,7 +5515,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v1/data-plane/vector-operations/vector-operations.mdx",
-      "sourceHash": "a7dab593dabf278f29ff5d38249619b4e8ba97d67a4920902f702fb8fa6cc441"
+      "sourceHash": "92ad77d75053da8d5dc21ff1ce63b3efe2d986f125d0db4ae4e2a84d773bdbe4"
     },
     {
       "manual": "rest",
@@ -5525,12 +5525,12 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v1/v1.mdx",
-      "sourceHash": "7c4e2874873e7c468a44aa3d9d6ac388a5baab58bf92246db2d23d96cfb863fc"
+      "sourceHash": "903337244c46eee0ed162d4c6e5b5b004d5df85683bb5ebbe9cdda916e623f70"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/backup-and-restore-v2/backup-and-restore-v2.mdx",
-      "sourceHash": "842efe9c6e669391a39f3cc1fee7c15fa8fd04e0999d58760fc0da5f8da1aa6f"
+      "sourceHash": "fe2f14b305acbe13bcefaa3ccd2e467cb0d091c4a459dde05a5fa9e7a79ea0c3"
     },
     {
       "manual": "rest",
@@ -5580,12 +5580,12 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/cloud-access-control-operations-v2.mdx",
-      "sourceHash": "91d449b4be275cb2f7583f90bce24e6ab7b99da727d82a3774b1980770f5aa1c"
+      "sourceHash": "f5c75a9d0cf873d95a344c7aa2bbe3ec4839a1ba5ecf4f1760c6ebe3ff1a9a17"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/create-cloud-role-v2.mdx",
-      "sourceHash": "b8253e02b8716888bfd43aff88f67c92925918241537845b55d02951aa55c56a"
+      "sourceHash": "d73904bb2f2e03ceba9642f6dd4979d3c0e5d8d4df96155ecd4074c28d412fcd"
     },
     {
       "manual": "rest",
@@ -5595,7 +5595,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/describe-cloud-role-v2.mdx",
-      "sourceHash": "4b8808b9bcb91c94a77972912b977e11ea99726b2be2bc9d9deb96d928f5edb8"
+      "sourceHash": "9f213249fc18abfcf16163b0629d58b400b14dce5bcccd23d37034955c0a45e0"
     },
     {
       "manual": "rest",
@@ -5605,7 +5605,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/grant-role-to-member-v2.mdx",
-      "sourceHash": "f6cea961445a619bbf89f58ec2284a88033610e53c405dc4596436616587d20a"
+      "sourceHash": "295038eec2539a823798178ce8010f6e11582bf923b4b95cdff41eaee2649797"
     },
     {
       "manual": "rest",
@@ -5615,7 +5615,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-cloud-roles-v2.mdx",
-      "sourceHash": "b4157977571b94f63974acba161dc83ab3d82d57e18c56484c6395c085bd24e7"
+      "sourceHash": "1afbee902877807a1f71ba573a28934bbac4b5b6123e8c4500b3ea775ab534fd"
     },
     {
       "manual": "rest",
@@ -5635,7 +5635,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-member-roles-v2.mdx",
-      "sourceHash": "16c5d61e41107af22cbcba4462aa70b4e643e1828a0acda613fb2736fce3e4f6"
+      "sourceHash": "b32f6b9f29f9c0c32b28ad539d9314ea960dc97a7e8d9053e514f0c956849b46"
     },
     {
       "manual": "rest",
@@ -5650,17 +5650,17 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/revoke-role-from-member-v2.mdx",
-      "sourceHash": "831637f8d37edaf0cf26e5e848d596977a3ba09547bfb57ff9a00a4261b59c5a"
+      "sourceHash": "9f2ff4c9c06f18f199bbd04f7f7496f70d7d4a490182a78318a841f07902b1c9"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/update-cloud-role-v2.mdx",
-      "sourceHash": "9061b93f8bc5dae3cc22f66923251bd118611e0cc9a520051c399b55d423a9f9"
+      "sourceHash": "2bc726ccdf75c65020679dbb1210ebd5499a2fe1d198765369ca3fe23ba22d57"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-api-key-operations-v2/cloud-api-key-operations-v2.mdx",
-      "sourceHash": "aedc6558ab5d7d60844f4a2b19b242332b49134480b53a750ec0644592151683"
+      "sourceHash": "5ff352a6a7d1bd12131556ad9bcebf9110e749d6cc8667c3df4c7e2c443d394a"
     },
     {
       "manual": "rest",
@@ -5690,7 +5690,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-job-v2/cloud-job-v2.mdx",
-      "sourceHash": "319f5a378524319d5fa404be8d1d211457aa2a8814ca91df92423705925df101"
+      "sourceHash": "6b5c3eafdea64cca6346e1c5c0299a71bb05a8bb4ef24ebfd7f1b4198c9eaad2"
     },
     {
       "manual": "rest",
@@ -5700,7 +5700,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-meta-v2/cloud-meta-v2.mdx",
-      "sourceHash": "6d9ee7c46ffe20133f368ce20082e966a1d748c06d93acd29d31f6ae009ee427"
+      "sourceHash": "ebe91d54d6c8347da3a91905bd5a383dc11e18cd098a3571860fb04c948552ec"
     },
     {
       "manual": "rest",
@@ -5715,7 +5715,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-migration-v2/cloud-migration-v2.mdx",
-      "sourceHash": "baf6a5b3a39ac2550bc7c4fe6768e5d0fe7a89f1cdc4c7cacbc3658d9102275c"
+      "sourceHash": "4b5d555dda08d9e2ac1fca74030ca50d5e39fce8e60f5afefcfe25647032899c"
     },
     {
       "manual": "rest",
@@ -5735,7 +5735,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cluster-operations-v2/cluster-operations-v2.mdx",
-      "sourceHash": "44f6a96822765efc1fb3f81f57c48dcbd99b68799341a031a182be40c06423c4"
+      "sourceHash": "642f0a395a64f9007506dc3814eb40e8cb1344a4f0fdaaf5a2ec94a4982c2901"
     },
     {
       "manual": "rest",
@@ -5795,12 +5795,12 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/control-plane.mdx",
-      "sourceHash": "ba6b4fa889a1b53bfd3249c34f5ce872ccbb318cf0db3215e74c9f66d7a234d0"
+      "sourceHash": "b68ab1b40cc3c9f813c7fc15c1ebefa797b1ce021328a12019abefc2c97d23f2"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/extract-load-and-transform-v2/extract-load-and-transform-v2.mdx",
-      "sourceHash": "3771657c6ba1b2c0c95c54de1ffd13b32e7f792ab266c6771fa04092cd62ac64"
+      "sourceHash": "7f5231250541aabac8c3a5728a797eaf2c6bc775aebb206ee0e5e40a0e2458c9"
     },
     {
       "manual": "rest",
@@ -5845,7 +5845,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/global-clusters-v2/global-clusters-v2.mdx",
-      "sourceHash": "23ff0d00345f008bb2b5a6d7e115bd27c2c8146c42424fc05aa428ffd06355bc"
+      "sourceHash": "9f27eb4bd42ea8d0462428a02a10f44294e1668c4583c5a332afbdd12215bfa9"
     },
     {
       "manual": "rest",
@@ -5885,7 +5885,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/import-operations-v2/import-operations-v2.mdx",
-      "sourceHash": "17f771bf086f925772ee7ccdb841fba31373adc1c523718c76d0b1b7803449c1"
+      "sourceHash": "309de210aa90913d117e4cc6244db03b4f52642a7b277a97a97f65878f820913"
     },
     {
       "manual": "rest",
@@ -5900,7 +5900,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/invoices-v2/invoices-v2.mdx",
-      "sourceHash": "2953b052e8c17b2e17e15810f04c5d6da010626c307362480adc677396d2261f"
+      "sourceHash": "676fc90b523f27c95951d872a4435df25f039280f8c3a8a5fea425ecd994ed05"
     },
     {
       "manual": "rest",
@@ -5925,7 +5925,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/metrics-and-alerts-v2/metrics-and-alerts-v2.mdx",
-      "sourceHash": "c9b426593d6ce92a8112b657cb8f2d16ba596fac94316da64fe2e404694dafdb"
+      "sourceHash": "12cc0b62260818df4bfdfa791e9d73e6b31d007b0bb201a1fc7d8903d8aab871"
     },
     {
       "manual": "rest",
@@ -5960,7 +5960,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/on-demand-cluster-operations-v2/on-demand-cluster-operations-v2.mdx",
-      "sourceHash": "597025f3724a2f01eff6668660fb3946013f5630c35ff5e346a68bc140d76153"
+      "sourceHash": "1f4044552f68e18feea935cc62e39cd3f6caea7a8036fed4d20c079b8d14a5d5"
     },
     {
       "manual": "rest",
@@ -5980,7 +5980,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/on-demand-compute-v2/on-demand-compute-v2.mdx",
-      "sourceHash": "1e45452a54d7d9cda99f3b336963beb760d851276799657eefbd653bde9d9394"
+      "sourceHash": "de2c89ebf0a86046f18f3d4cab4777b2f38a769bf68d2f5d1d9a5fd3c3fd26cf"
     },
     {
       "manual": "rest",
@@ -6010,7 +6010,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/private-endpoint-operations-v2/private-endpoint-operations-v2.mdx",
-      "sourceHash": "e75a46891d8ba97c1bec70c18c20004cf59d64355f5e76befe0878aba6bbef47"
+      "sourceHash": "ba67cea50949ecc16e180699ee8f21e31bde710cef3c237df01754bbaa30016c"
     },
     {
       "manual": "rest",
@@ -6040,7 +6040,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/project-operations-v2/project-operations-v2.mdx",
-      "sourceHash": "5c36f923d33e22be819e36ef0f86dc7b711fd63fc3fec864ae9b03fc8b3d241c"
+      "sourceHash": "07b6c7d0e988404fcb40a6e21db04d37a3673cda0559409026f8979e303dc3ce"
     },
     {
       "manual": "rest",
@@ -6065,27 +6065,32 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/spark-job-v2/create-spark-anomaly-detection-job-v2.mdx",
-      "sourceHash": "54d7abea19fc2143c2eb6869b2f92992f3bff34e1d9a696086c022c2823beba5"
+      "sourceHash": "13aceaf14a2496fae41264588373a82cfc2c767942aa26fd26394fed7a153c60"
     },
     {
       "manual": "rest",
-      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/spark-job-v2/create-spark-jar-job-v2.mdx",
-      "sourceHash": "9e5b024cdea6f234d1321f75a699315c81b99e3133fc3134c466751a9981aa1f"
+      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/spark-job-v2/create-spark-backfill-job-v2.mdx",
+      "sourceHash": "7c144a80784b4a69e99ce848b4bf3a0302e9507dac439aa4ce47d43364adec59"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/spark-job-v2/create-spark-backfill-precheck-job-v2.mdx",
+      "sourceHash": "81de48156a7707359c93593a826ae6c9db61b08e7db49c8032a73cc5c5010ff3"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/spark-job-v2/create-spark-k-means-job-v2.mdx",
-      "sourceHash": "314adbabd589a4320b7fb3b78a1567e12212cb0466eca4f04d71729314efb786"
+      "sourceHash": "d62a95b619fecefaed0dbb85daa90de8826681c32472fc36f2478fdec7f3c266"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/spark-job-v2/create-spark-pk-deduplication-job-v2.mdx",
-      "sourceHash": "0cc74183f050b6672927e94dfda4c1f5abc50fa9f15adac298c186812d0680a7"
+      "sourceHash": "3e027e97b14155d432d4dd43c9a759e53b0ddaeb11f0c962afc06822bc3878b3"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/spark-job-v2/create-spark-vector-deduplication-job-v2.mdx",
-      "sourceHash": "82c7976f751eba007525e7bbd0fc481f5e8837be7a3d53bbbd7304388430e509"
+      "sourceHash": "b3ca2dae567fe707b461256fc8f7083ce0968318b2ed4040f67c97bac904c54d"
     },
     {
       "manual": "rest",
@@ -6100,7 +6105,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/spark-job-v2/spark-job-v2.mdx",
-      "sourceHash": "962137381ab5dee3df0c71c5adb6de0366f1dcb298c3aeb54ef23b4faba64610"
+      "sourceHash": "8a05cc2945fa7a268dc2fb8b55d790ab7b72f0d0caf8a553edbba97b073ace91"
     },
     {
       "manual": "rest",
@@ -6130,7 +6135,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/storage-integration-operations-v2/storage-integration-operations-v2.mdx",
-      "sourceHash": "7b0f61e6f8cb88891abe6f49e248c78ef1a1eebab7afee769ebea8845afbc79b"
+      "sourceHash": "39ed363fcf6c065956bd7eba80b6f90759d2bdb8fc72e072bb3eafe358db9626"
     },
     {
       "manual": "rest",
@@ -6145,7 +6150,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/usage-v2/usage-v2.mdx",
-      "sourceHash": "e57d7ca17dfd79e5b6ebcbbda09fa4573a30603e701489c504bc01950342ed23"
+      "sourceHash": "44eaac57c952618a1e8c05edb105c4bf69038beec4d73bb2708300cfd44122b8"
     },
     {
       "manual": "rest",
@@ -6175,12 +6180,12 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/volume-operations-v2/volume-operations-v2.mdx",
-      "sourceHash": "f63e39b9224efa7db96d1ee001dd1dd452e533d7febc72ac2658ec2256a80979"
+      "sourceHash": "162c0f7a2874011777076cd7b46cf9ce719f98d95e092003372fa18bf77eeaf4"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/alias-operations-v2/alias-operations-v2.mdx",
-      "sourceHash": "c60561eb3658f8641f5cd268aac5821dda9b8d01d6392d38c464bc57159df5f3"
+      "sourceHash": "ebbb86ebe5aa4be24dde062d107a38cfcf4203aee195b9df3dc2e2aa1e188fac"
     },
     {
       "manual": "rest",
@@ -6215,7 +6220,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/cluster-role-operations-v2/cluster-role-operations-v2.mdx",
-      "sourceHash": "6454ab02de74574d95147d77efd4ec82d1c90b2a93fcecb35b67b117f6b223bb"
+      "sourceHash": "b10a3a483f5f6e85b8c18f2ebbc7ef62e3d86163ec1d136b3766ba910e451e6c"
     },
     {
       "manual": "rest",
@@ -6260,7 +6265,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/cluster-user-operations-v2/cluster-user-operations-v2.mdx",
-      "sourceHash": "1aa98ce01575bbc944477b7a7c28282a2304d922fed6cde9e88d167b4bc5fe78"
+      "sourceHash": "a0304c7408f4aaf118724568fb9028584e0efb86690a1aa064ef056506c07a16"
     },
     {
       "manual": "rest",
@@ -6310,12 +6315,12 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/collection-operations-v2/add-function-field-to-collection-v2.mdx",
-      "sourceHash": "1ccb9711f4dd67f7ede179f61942246b1cb1cc3f717af5df310a801e3e0f6992"
+      "sourceHash": "eaf69096f94e340e582dbbf94d45d83edf126134fc2a853eee3c5fe2947a576d"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/collection-operations-v2/add-function-to-collection-v2.mdx",
-      "sourceHash": "c220b4fcd4c3ec5478c19201544fc41573519abcd1a3318fee4062b271848d00"
+      "sourceHash": "a29440616adbcc6f863d0c450621803dc352b51bbae2cdb882e16ca73b0c53c8"
     },
     {
       "manual": "rest",
@@ -6330,12 +6335,12 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/collection-operations-v2/alter-function-in-collection-v2.mdx",
-      "sourceHash": "38be5a955d439ca050114339cf42c9fe47299910bfccb28851cf438aadf1e747"
+      "sourceHash": "13635ead7acf74392a376f799795ec6bf1b62c40011a08181cc2abc9eb5c7383"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/collection-operations-v2/collection-operations-v2.mdx",
-      "sourceHash": "936a3cc7f4f09e2a492d793a48568c07f69c3ade7ff3b7363bf9120c27450e8b"
+      "sourceHash": "f15ba26ebb7beef3222b78ea2093c19d9a72787a3cb70e9f3eaf898e1908c1ec"
     },
     {
       "manual": "rest",
@@ -6345,7 +6350,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/collection-operations-v2/create-collection-v2.mdx",
-      "sourceHash": "d22c9b6291a8389a4c86109c03fd60d1d2d63da1b9207f244eae9e53f7be8e63"
+      "sourceHash": "ed93ab225c630c81847842faaff661015390aa3777f5117eb4b8cf6bd8acd4bc"
     },
     {
       "manual": "rest",
@@ -6455,7 +6460,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/data-plane.mdx",
-      "sourceHash": "43d57bf94e6de84dc634d96d5bdca87921836b02ea9926c898c7f035165ca69e"
+      "sourceHash": "39a0d4ebf6dc8da6cec031fec31f49a315ea741a79d3326e822eb8f2a08c6e81"
     },
     {
       "manual": "rest",
@@ -6475,7 +6480,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/database-operations-v2/database-operations-v2.mdx",
-      "sourceHash": "87acbf1d3295e07e8d3bf1f81821bc381c033d13d8d1442b3ffefc436e8253ec"
+      "sourceHash": "81f780701dc0424c8f67354eef3acb346ba7e976940ea087a8fc2e4a0a56c2f6"
     },
     {
       "manual": "rest",
@@ -6525,7 +6530,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/index-operations-v2/index-operations-v2.mdx",
-      "sourceHash": "412baba4298d2d248c0d21ccecb3816032a3cb21c3a4ae4a7ef183ac22f86c37"
+      "sourceHash": "80eee74efe47de30a7376ade187fb5cf21cd4e410826f1ca2e5b97903d543763"
     },
     {
       "manual": "rest",
@@ -6565,7 +6570,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/partition-operations-v2/partition-operations-v2.mdx",
-      "sourceHash": "5111d229b442c757c33c30d077bd79061d6031af7233ff3510464328080c856b"
+      "sourceHash": "5390ea99ae78738a9a54967a547a2447e864c0fae729fcd839ece36431aa515f"
     },
     {
       "manual": "rest",
@@ -6595,7 +6600,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/privilege-group-operations-v2/privilege-group-operations-v2.mdx",
-      "sourceHash": "99e4b8a7af951c1ec7544a45c21f47f12721e6df9ce2d1fbf12bd5f17289e537"
+      "sourceHash": "e2118d3d20bee2c10dfbc3502e3e39c29d075a62a95e227e013ed099dea3ed95"
     },
     {
       "manual": "rest",
@@ -6640,7 +6645,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/vector-operations-v2/vector-operations-v2.mdx",
-      "sourceHash": "85937779112ea47fa8e84cac0394ad54d36e997d30c3433573b46af9fa51c5a9"
+      "sourceHash": "9eeeab4e48531d59ed7f41c243ac5e837cf1547f75e619e3da8d1196e9fc0b9e"
     },
     {
       "manual": "rest",
@@ -6650,7 +6655,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/v2.mdx",
-      "sourceHash": "0ea1034da18f1404711e4aecf6ccfc3c272432254d833f368ba29dd5953292c8"
+      "sourceHash": "24d530320f29ba31d9fb9a0fed5f74b5cb9e863af2ee07c565d8944227b9044f"
     },
     {
       "manual": "rest",

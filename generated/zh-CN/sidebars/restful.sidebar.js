@@ -585,6 +585,18 @@ module.exports = [
                 "id": "api/restful/restful/v2/control-plane/spark-job-v2/create-spark-anomaly-detection-job-v2",
                 "label": "创建 Spark 异常检测任务 (V2)",
                 "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/create-spark-anomaly-detection-job-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/control-plane/spark-job-v2/create-spark-backfill-job-v2",
+                "label": "创建 Spark 回填任务 (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/create-spark-backfill-job-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/control-plane/spark-job-v2/create-spark-backfill-precheck-job-v2",
+                "label": "创建 Spark 回填预检任务 (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/create-spark-backfill-precheck-job-v2"
               }
             ]
           },
