@@ -57,11 +57,11 @@ Zilliz Cloud 提供多样的项目版本类型以满足不同的用户需求。�
      <td><p>2 种类型可供选择：</p><ul><li><p>性能型</p></li><li><p>容量型</p></li></ul></td>
    </tr>
    <tr>
-     <td><p><a href="./cloud-providers-and-regions">云服务提供商和地域</a></p></td>
+     <td><p>云服务提供商和地域</p></td>
      <td><p>阿里云</p></td>
      <td><p>阿里云</p></td>
-     <td><p>阿里云、腾讯云、亚马逊云科技</p></td>
-     <td><p>阿里云、腾讯云、亚马逊云科技</p></td>
+     <td><p>阿里云、腾讯云、亚马逊云科技</p><Admonition type="info" icon="📘" title="Note"> 详情请参考[云服务提供商和地域](https://docs.zilliz.com.cn/docs/cloud-providers-and-regions)。 </Admonition></td>
+     <td><p>阿里云、腾讯云、亚马逊云科技</p><Admonition type="info" icon="📘" title="Note"> 详情请参考[云服务提供商和地域](https://docs.zilliz.com.cn/docs/cloud-providers-and-regions)或[联系我们](http://zilliz.com.cn/contact-sales)。 </Admonition></td>
    </tr>
    <tr>
      <td><p>Query CU 数量</p></td>
@@ -99,11 +99,11 @@ Zilliz Cloud 提供多样的项目版本类型以满足不同的用户需求。�
 
 |  | **Free** | **Serverless** | **Dedicated 企业版** | **Bring Your Own Cloud (BYOC)** |
 | --- | --- | --- | --- | --- |
-| [跨集群迁移](./offline-migration) |  | 从 Free 集群迁移 | ✔ | ✔ |
+| 跨集群迁移 |  | 从 Free 集群迁移 | ✔ | ✔ |
 | 在线迁移 |  | ✔ | ✔ | ✔ |
-| [从外部数据源迁移](./external-migration-basics) | ✔ | ✔ | ✔ | ✔ |
-| Volume | ✔ | ✔ | ✔<br/>详情请参考 [Managed Volume](./managed-volume) 和 [External Volume](./external-volume) | ✔<br/>请[联系我们](http://support.zilliz.com.cn) |
-| [高速数据传输](./import-data) |  | ✔ | ✔ | ✔ |
+| 从外部数据源迁移 | ✔ | ✔ | ✔<br/>详情请参考[外部迁移概述](https://docs.zilliz.com.cn/docs/external-migration-basics)。 | ✔ |
+| Volume | ✔ | ✔ | ✔<br/>详情请参考 [Managed Volume](https://docs.zilliz.com.cn/docs/managed-volume) 和 [External Volume](https://docs.zilliz.com.cn/docs/external-volume)。 | ✔<br/>请[联系我们](http://support.zilliz.com.cn) |
+| 高速数据传输 |  | ✔ | ✔ | ✔ |
 | [回收站](./use-recycle-bin) | ✔ | ✔ | ✔ | ✔ |
 
 ### 数据安全与合规\{#data-security-and-compliance}
@@ -116,13 +116,13 @@ Zilliz Cloud 提供多样的项目版本类型以满足不同的用户需求。�
 | [API 密钥管理](./manage-api-keys) |  | ✔ | ✔ | ✔ |
 | 数据传输加密和静态加密 | ✔ | ✔ | ✔ | ✔ |
 | [备份与恢复](./create-backup) |  |  | ✔ | ✔ |
-| 跨地域备份 |  |  | ✔<br/>详情请参考[跨地域备份](./backup-to-other-regions) |  |
+| 跨地域备份 |  |  | ✔<br/>详情请参考[跨地域备份](https://docs.zilliz.com.cn/docs/backup-to-other-regions)。 |  |
 | 持续数据保护 |  |  | [联系我们](http://zilliz.com.cn/contact-sales) | [联系我们](http://zilliz.com.cn/contact-sales) |
 | PITR |  |  | [联系我们](http://zilliz.com.cn/contact-sales) | [联系我们](http://zilliz.com.cn/contact-sales) |
 | 数据脱敏（Tokenization） |  |  | [联系我们](http://zilliz.com.cn/contact-sales) | [联系我们](http://zilliz.com.cn/contact-sales) |
-| 集群 IP 地址白名单 |  |  | ✔<br/>详情请参考 [设置集群 IP 白名单](./setup-whitelist) |  |
+| 集群 IP 地址白名单 |  |  | ✔<br/>详情请参考[设置集群 IP 白名单](https://docs.zilliz.com.cn/docs/setup-whitelist)。 |  |
 | [控制台 IP 地址白名单](./setup-console-ip-allowlist) |  |  | ✔ | ✔ |
-| VPC 私网连接（Private Link） |  |  | ✔<br/>详情请参考[创建阿里云私网连接（Private Link）](./aliyun-private-link)、[创建腾讯云私有连接（Private Link）](./tencent-private-link)和 [创建亚马逊云科技 PrivateLink](./setup-a-private-link-aws) | ✔ |
+| VPC 私网连接（Private Link） |  |  | ✔<br/>详情请参考[创建阿里云私网连接（Private Link）](https://docs.zilliz.com.cn/docs/setup-a-private-link-alicloud)、[创建腾讯云私有连接（Private Link）](https://docs.zilliz.com.cn/docs/setup-a-private-link-tencent-cloud)和[创建亚马逊云科技 PrivateLink](https://docs.zilliz.com.cn/docs/setup-a-private-link-amazon-cloud)。 | ✔ |
 | ISO/ICE 27001、GDPR 合规与安全认证 | ✔ | ✔ | ✔ | ✔ |
 | HIPPA 合规 |  |  | ✔ | ✔ |
 

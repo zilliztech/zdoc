@@ -32,7 +32,7 @@ import Procedures from '@site/src/components/Procedures';
 
 </Admonition>
 
-Zilliz Cloud 不会针对私网连接收费，但您的云服务提供商可能会[收取一定费用](https://help.aliyun.com/zh/privatelink/product-overview/billing-description)。
+Zilliz Cloud 不会针对私网连接收费，但您的云服务提供商可能会[收取一定费用](https://cloud.tencent.com/document/product/1451/57263)。
 
 ## 配置思路\{#configuration-roadmap}
 
@@ -56,7 +56,7 @@ Zilliz Cloud 不会针对私网连接收费，但您的云服务提供商可能�
 
 ## 创建 Private Endpoint\{#create-private-endpoint}
 
-本节将按照配置思路详细介绍如何为您的 Zilliz Cloud 阿里云集群创建私网连接。
+本节将按照配置思路详细介绍如何为您的 Zilliz Cloud 腾讯云集群创建私网连接。
 
 登陆 Zilliz Cloud，选择合适的项目。在项目左侧导航栏中选择**网络 > 私网连接**，并单击**创建 Private Endpoint**。
 
