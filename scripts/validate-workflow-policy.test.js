@@ -2400,6 +2400,51 @@ test('fetch preparation blocks paid translation until publication readiness regr
   assert.equal(workflow.jobs.prepare.permissions.contents, 'write')
 })
 
+test('record_pending_reconciliation runs only for publish runs without translation units when the selected groups yield translation units', () => {
+  const workflow = yaml.load(fs.readFileSync(path.join(process.cwd(), '.github/workflows/fetch-docs.yml'), 'utf8'))
+  assert.equal(
+    workflow.jobs.prepare.outputs.has_translation_units,
+    '${{ steps.translation_units.outputs.has_translation_units }}',
+  )
+  const condition = String(workflow.jobs.record_pending_reconciliation.if)
+  assert.match(condition, /always\(\)/)
+  assert.match(condition, /needs\.prepare\.outputs\.publish == 'true'/)
+  assert.match(condition, /needs\.prepare\.outputs\.run_translations == 'false'/)
+  assert.match(condition, /needs\.prepare\.outputs\.has_translation_units == 'true'/)
+  assert.match(condition, /needs\.publish_ready\.result == 'success'/)
+  assert.match(condition, /needs\.reconcile_reference_state\.result == 'success'/)
+})
+
+test('print-workflow-groups detects whether selected groups yield translation units', () => {
+  const run = (group) => spawnSync(
+    process.execPath,
+    ['scripts/docs-workflow/print-workflow-groups.js', '--has-translation-units', group],
+    {encoding: 'utf8'},
+  )
+  assert.equal(run('rest').stdout, 'false')
+  assert.equal(run('python').stdout, 'true')
+  assert.equal(run('all').stdout, 'true')
+  assert.equal(run('guides').stdout, 'true')
+  assert.equal(run('rest,python').stdout, 'true')
+})
+
+test('workflow policy rejects pending reconciliation evidence for groups without translation units', () => {
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'pending-reconciliation-policy-'))
+  try {
+    fs.cpSync('.github/workflows', directory, {recursive: true})
+    const file = path.join(directory, 'fetch-docs.yml')
+    const original = fs.readFileSync(file, 'utf8')
+    const mutated = original.replace("needs.prepare.outputs.has_translation_units == 'true' && ", '')
+    assert.notEqual(mutated, original)
+    fs.writeFileSync(file, mutated)
+    assert.ok(validateWorkflowPolicies(directory).includes(
+      'fetch-docs.yml: pending reconciliation evidence must be recorded only for run_translations=false groups that actually yield translation units',
+    ))
+  } finally {
+    fs.rmSync(directory, {recursive: true, force: true})
+  }
+})
+
 test('workflow policy rejects fetch preparation without immutable inventory preflight', () => {
   const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'fetch-inventory-preflight-policy-'))
   try {
