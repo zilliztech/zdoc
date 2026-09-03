@@ -111,11 +111,12 @@ async function prepareFetchReconciliationPreflight(options) {
       cleanupDirectories.push(extracted.cleanupDirectory)
       const worktree = createWorktree(repository, runnerTemp, targetBaselineSha)
       worktrees.push(worktree)
-      await applyCheckpointArtifact({artifactDir: extracted.artifactDir, targetDir: worktree, site: unit.site})
+      const manifest = await applyCheckpointArtifact({artifactDir: extracted.artifactDir, targetDir: worktree, site: unit.site})
       const sourceCheckpointSha = commitCandidate({repository, worktree, unit})
       sourceCheckpoints[sourceGroup] = {
         sourceBaselineSha: selection.sourceBaselineSha,
         sourceCheckpointSha,
+        authoritativeReplacements: manifest.authoritativeReplacements || [],
       }
       candidateCommits.push({sourceGroup, unitKey, sourceCheckpointSha})
     }

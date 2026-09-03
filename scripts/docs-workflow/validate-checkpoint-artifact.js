@@ -16,7 +16,9 @@ const referenceSidebarSet = new Set(referenceSidebars());
 
 const COMMON_KEYS = ['schemaVersion', 'stage', 'group', 'masterSha', 'devBaselineSha', 'createdAt', 'ownershipVersion', 'files', 'deletions', 'snapshotManual'];
 const TRANSLATION_IDENTITY_KEYS = ['translationTarget', 'sourceSite', 'targetSite', 'sourceCheckpointSha', 'toolingSha'];
+const SOURCE_REPLACEMENT_KEYS = ['sourcePath', 'replacementSourcePath', 'authority'];
 const SCHEMA_1_KEYS = [...COMMON_KEYS, 'validation'];
+const SCHEMA_1_SOURCE_KEYS = [...COMMON_KEYS, 'validation', 'authoritativeReplacements'];
 const SCHEMA_1_TRANSLATION_KEYS = [...SCHEMA_1_KEYS, ...TRANSLATION_IDENTITY_KEYS];
 const SCHEMA_2_KEYS = [...COMMON_KEYS, 'batch', 'batchInput', ...TRANSLATION_IDENTITY_KEYS];
 const SCHEMA_3_NUMBERED_KEYS = [...SCHEMA_2_KEYS, 'reconciliation'];
@@ -159,7 +161,7 @@ async function validateCheckpointArtifact(artifactDir, expected = {}) {
   if (manifestStat.isSymbolicLink() || !manifestStat.isFile()) throw new Error('Manifest must be a regular non-symlink file');
   const manifest = JSON.parse((await readRegularNoFollow(manifestPath, 'Manifest')).toString('utf8'));
   await expected.testHooks?.afterManifestRead?.({ artifactDir: pinnedArtifactDir, manifest });
-  if (manifest.schemaVersion === 1) exactKeys(manifest, manifest.stage === 'translation' ? SCHEMA_1_TRANSLATION_KEYS : SCHEMA_1_KEYS, 'manifest');
+  if (manifest.schemaVersion === 1) exactKeys(manifest, manifest.stage === 'translation' ? SCHEMA_1_TRANSLATION_KEYS : (Object.hasOwn(manifest, 'authoritativeReplacements') ? SCHEMA_1_SOURCE_KEYS : SCHEMA_1_KEYS), 'manifest');
   else if (manifest.schemaVersion === 2 || manifest.schemaVersion === 3) {
     if (manifest.stage !== 'translation') throw new Error(`Unsupported schemaVersion for ${manifest.stage || 'unknown'} stage: ${manifest.schemaVersion}`);
     const numbered = Object.hasOwn(manifest, 'batch');
@@ -231,6 +233,19 @@ async function validateCheckpointArtifact(artifactDir, expected = {}) {
     for (let j = i + 1; j < manifest.deletions.length; j++) if (pathsConflict(manifest.deletions[i], manifest.deletions[j])) throw new Error('Ambiguous ancestor deletion paths');
   }
   if (manifest.stage === 'source') {
+    if (!Array.isArray(manifest.authoritativeReplacements)) manifest.authoritativeReplacements = [];
+    const replacementSources = new Set();
+    for (const [index, replacement] of manifest.authoritativeReplacements.entries()) {
+      exactKeys(replacement, SOURCE_REPLACEMENT_KEYS, `authoritative replacement ${index}`);
+      if (!validPath(replacement.sourcePath) || !validPath(replacement.replacementSourcePath) || replacement.sourcePath === replacement.replacementSourcePath) throw new Error(`Invalid authoritative replacement ${index}`);
+      if (!isOwned(replacement.sourcePath, ownedPaths) || !isOwned(replacement.replacementSourcePath, ownedPaths)) throw new Error('Authoritative replacement path is outside group ownership');
+      if (typeof replacement.authority !== 'string' || !replacement.authority.trim()) throw new Error('Authoritative replacement authority must be non-empty');
+      if (replacementSources.has(replacement.sourcePath)) throw new Error('Duplicate authoritative replacement source path');
+      replacementSources.add(replacement.sourcePath);
+      if (!manifest.deletions.includes(replacement.sourcePath)) throw new Error(`Authoritative replacement source must be listed in deletions: ${replacement.sourcePath}`);
+      if (!manifest.files.some(entry => entry.path === replacement.replacementSourcePath)) throw new Error(`Authoritative replacement target must be listed in files: ${replacement.replacementSourcePath}`);
+    }
+    if (!sorted(manifest.authoritativeReplacements.map(value => value.sourcePath))) throw new Error('Authoritative replacements must be sorted');
     for (const preservedPath of group.preservedPaths) {
       if (!filePaths.includes(preservedPath)) throw new Error(`Source checkpoint is missing declared preserved path: ${preservedPath}`);
     }
