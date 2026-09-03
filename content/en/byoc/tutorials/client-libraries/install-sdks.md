@@ -34,10 +34,11 @@ Zilliz Cloud offers a managed Milvus vector database as a service. Four SDK opti
 
 The following table lists the compatible SDK versions of each Milvus version.
 
-| **Milvus Version** | **Python SDK** | **Node.js SDK** | **Java SDK** | **Go SDK** |
-| --- | --- | --- | --- | --- |
-| `2.6.x` | `2.6.9` | `2.6.10` | `2.6.14` | `2.6.2` |
-| `2.5.x` | `2.5.18` | `2.5.13` | `2.5.15` | `2.5.6` |
+| **Milvus Version** | **Python SDK** | **Node.js SDK** | **Java SDK** | **Go SDK** | **C++** |
+| --- | --- | --- | --- | --- | --- |
+| `3.0.x` | `3.0.1` | `3.0.5` | `3.0.8` | `3.0.0-beta` | `3.0.2` |
+| `2.6.x` | `2.6.17` | `2.6.17` | `2.6.24` | `2.6.5` | `2.6.6` |
+| `2.5.x` | `2.5.18` | `2.5.13` | `2.5.15` | `2.5.6` | -- |
 
 ## Install PyMilvus: Python SDK\{#install-pymilvus-python-sdk}
 
@@ -50,8 +51,8 @@ Ensure your **Python** version exceeds **3.8** prior to installation.
 </Admonition>
 
 ```bash
-# Install pymilvus compatible with Milvus v2.5.x
-python -m pip install pymilvus==2.5.18
+# Install pymilvus
+python -m pip install pymilvus
 
 # Update PyMilvus to the newest version
 python -m pip install --upgrade pymilvus
@@ -59,8 +60,6 @@ python -m pip install --upgrade pymilvus
 # Verify installation success
 python -m pip list | grep pymilvus
 ```
-
-If your cluster is compatible with **Milvus v2.6.x (Public Preview),** please change `2.5.18` in the above commands to `2.6.9`.
 
 ## Install Node.js SDK\{#install-nodejs-sdk}
 
@@ -73,10 +72,9 @@ Ensure your **Node.js** version is **14** or above prior to installation.
 </Admonition>
 
 ```bash
-# Install Node.js SDK compatible with Milvus v2.5.x
-npm install @zilliz/milvus2-sdk-node@2.5.13
+npm install @zilliz/milvus2-sdk-node
 # Alternatively,
-yarn add @zilliz/milvus2-sdk-node@2.5.13
+yarn add @zilliz/milvus2-sdk-node
 
 # Upgrade to the latest version
 npm update @zilliz/milvus2-sdk-node
@@ -99,8 +97,6 @@ const { MilvusClient } = require("@zilliz/milvus2-sdk-node")
 import { MilvusClient } from "@zilliz/milvus2-sdk-node"
 ```
 
-If your cluster is compatible with **Milvus v2.6.x (Public Preview),** please change `2.5.13` in the above commands to `2.6.10`.
-
 ## Install Java SDK\{#install-java-sdk}
 
 Use Apache Maven or Gradle/Grails to obtain the SDK. Access the [source code on GitHub](https://github.com/milvus-io/milvus-sdk-java).
@@ -112,7 +108,7 @@ Use Apache Maven or Gradle/Grails to obtain the SDK. Access the [source code on 
     <dependency>
          <groupId>io.milvus</groupId>
          <artifactId>milvus-sdk-java</artifactId>
-         <version>2.5.15</version>
+         <version>2.6.24</version>
      </dependency>
     ```
 
@@ -120,10 +116,10 @@ Use Apache Maven or Gradle/Grails to obtain the SDK. Access the [source code on 
 
     ```bash
     # Install Java SDK compatible with Milvus v2.5.x
-    compile 'io.milvus:milvus-sdk-java:2.5.15'
+    compile 'io.milvus:milvus-sdk-java:2.6.24'
     ```
 
-If your cluster is compatible with **Milvus v2.6.x (Public Preview),** please change `2.5.15` in the above commands to `2.6.14`.
+If your cluster is compatible with **Milvus v3.0.x (Public Preview),** please change `2.6.24` in the above commands to `3.0.8`.
 
 ## Install Go SDK\{#install-go-sdk}
 
@@ -131,7 +127,23 @@ The Go SDK is available via `go get`. Explore its [source code on GitHub](https:
 
 ```bash
 # Install Go SDK compatible with Milvus v2.5.x
-go get -u github.com/milvus-io/milvus-sdk-go/v2@v2.5.6
+go get -u github.com/milvus-io/milvus-sdk-go/v2@v2.6.5
 ```
 
-If your cluster is compatible with **Milvus v2.6.x (Public Preview),** please change `2.5.6` in the above commands to `2.6.1`.
+If your cluster is compatible with **Milvus v3.0.x (Public Preview),** please change `2.6.5` in the above commands to `3.0.0-beta`.
+
+## Install C++ SDK\{#install-c-sdk}
+
+The C++ SDK is available as follows. Explore its [source code on GitHub](https://github.com/milvus-io/milvus-sdk-cpp).
+
+```shell
+git clone https://github.com/milvus-io/milvus-sdk-cpp.git
+cd milvus-sdk-cpp
+bash scripts/install_deps.sh
+make
+
+# install the sdk
+make install       # install to /usr/local
+```
+
+If your cluster is compatible with **Milvus v3.0.x (Public Preview),** please use the `3.0.2` release.

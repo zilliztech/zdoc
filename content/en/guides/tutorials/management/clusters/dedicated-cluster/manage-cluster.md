@@ -177,7 +177,7 @@ To try the latest preview features, you need to upgrade the compatible Milvus ve
 
 ## Convert to a global cluster\{#convert-to-a-global-cluster}
 
-If you need to convert an existing Dedicated cluster to a [global cluster](./global-cluster-explained), follow the steps below.
+If you need to convert an existing cluster to a [global cluster](./global-cluster-explained), follow the steps below.
 
 <Admonition type="info" icon="📘" title="Note">
 

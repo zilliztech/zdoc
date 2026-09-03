@@ -175,6 +175,18 @@ For details, refer to [Resume Cluster](/reference/restful/resume-cluster-v2).
 
 Once the resume operation is successful, a job record will be generated. You can check the progress on the [Jobs](./job-center) page.
 
+## Convert to a global cluster\{#convert-to-a-global-cluster}
+
+If you need to convert an existing cluster to a [global cluster](./global-cluster-explained), follow the steps below.
+
+<Admonition type="info" icon="📘" title="Note">
+
+Global clusters are compatible only with Milvus 2.6.x. You cannot convert a regular cluster that is compatible with Milvus 3.0.x to a global cluster.
+
+</Admonition>
+
+<Supademo id="cmm5p53sh3hogdtfhemesjhv0" title=""  />
+
 ## Drop\{#drop}
 
 When a cluster is no longer needed, you can drop it. You can drop a cluster via the web console or programatically.

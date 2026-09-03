@@ -28,8 +28,6 @@ Before deploying any resources, you need to first decide whether to use **SaaS**
 
 - If you choose BYOC, feature support aligns with the SaaS Business Critical plan.
 
-Use this guide to compare Zilliz Cloud plans and choose the right plan before [creating a project](./manage-projects#create-a-project).
-
 ## Select Deployment (SaaS vs. BYOC)\{#select-deployment-saas-vs-byoc}
 
 | **Decision factor** | **Choose SaaS if...** | **Choose BYOC if...** |

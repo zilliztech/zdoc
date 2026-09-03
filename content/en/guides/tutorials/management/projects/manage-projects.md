@@ -32,7 +32,7 @@ This guide will walk you through the steps of managing projects.
 
 ## Create a project\{#create-a-project}
 
-Each organization comes with a default **Enterprise** project named `Default Project`. During onboarding, you select the cloud region where you want to deploy your workload, and the system automatically creates this default project in that region. The default project cannot be deleted. Based on your workload and business needs, you can create additional projects. When you create a project, you automatically become the [Project Admin](./manage-platform-roles#predefined-project-roles) of the project.
+Each organization comes with a default **Enterprise** project named `Default Project`. During onboarding, you select the cloud region where you want to deploy your workload, and the system automatically creates this default project in that region. Based on your workload and business needs, you can create additional projects. When you create a project, you automatically become the [Project Admin](./manage-platform-roles#predefined-project-roles) of the project.
 
 ### Limits\{#limits}
 

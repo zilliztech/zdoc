@@ -212,7 +212,7 @@ The **Webhook** option offered by Zilliz Cloud allows you to set up a custom not
 
 Example webhook notification:
 
-```python
+```json
 {
   "orgId": "org-elqqyqjnsdfvcxmpjugfmj",
   "projectId": "proj-a641f9272ca1c5005760e4",

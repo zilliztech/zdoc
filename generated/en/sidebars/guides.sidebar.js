@@ -175,6 +175,12 @@ module.exports = [
           },
           {
             "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2609",
+            "label": "Sept, 2026",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2609"
+          },
+          {
+            "type": "doc",
             "id": "tutorials/get-started/release-notes/release-notes-2607",
             "label": "July, 2026",
             "key": "doc:tutorials/get-started/release-notes/release-notes-2607"
