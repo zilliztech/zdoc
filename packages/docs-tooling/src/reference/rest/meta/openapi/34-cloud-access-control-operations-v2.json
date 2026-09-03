@@ -46,6 +46,28 @@
             }
           },
           {
+            "name": "roleType",
+            "in": "query",
+            "required": true,
+            "description": "The role scope to filter by.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "org",
+                "project"
+              ]
+            },
+            "example": "org",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "要筛选的角色作用域。"
+              },
+              "ja-JP": {
+                "description": "フィルタリングするロールのスコープ。"
+              }
+            }
+          },
+          {
             "name": "projectId",
             "in": "query",
             "required": false,
@@ -287,7 +309,7 @@
               },
               "examples": {
                 "1": {
-                  "summary": "Organization role",
+                  "summary": "Organization role (not currently supported)",
                   "value": {
                     "roleName": "Org Manager",
                     "description": "Can view members and manage org roles",
@@ -3228,10 +3250,10 @@
         "properties": {
           "resourceType": {
             "type": "string",
-            "description": "The second-level resource the statement targets, e.g. `serving_cluster`, `volume`, `project_member`, `project_role`.",
+            "description": "The second-level resource the statement targets. Organization-level types: `org_member`, `group`, `api_key`, `org_role`, `project_role`, `project`, `billing`, `authentication`, `org_control_ops`, `recovery`. Project-level types: `project_member`, `security`, `backup`, `observability`, `serving_cluster`, `on_demand_cluster`, `volume`, `storage_integration`, `model_provider_integration`, `kms_integration`, `datadog_integration`, `serving_cluster_data`, `on_demand_compute_data`, `volume_data`.",
             "x-i18n": {
               "zh-CN": {
-                "description": "策略语句针对的二级资源，例如 `serving_cluster`、`volume`、`project_member`、`project_role`。"
+                "description": "策略语句针对的二级资源。组织级类型：`org_member`、`group`、`api_key`、`org_role`、`project_role`、`project`、`billing`、`authentication`、`org_control_ops`、`recovery`。项目级类型：`project_member`、`security`、`backup`、`observability`、`serving_cluster`、`on_demand_cluster`、`volume`、`storage_integration`、`model_provider_integration`、`kms_integration`、`datadog_integration`、`serving_cluster_data`、`on_demand_compute_data`、`volume_data`。"
               },
               "ja-JP": {
                 "description": "ステートメントが対象とする第 2 レベルのリソース(例: `serving_cluster`、`volume`、`project_member`、`project_role`)。"
@@ -3298,10 +3320,10 @@
               "type": "string"
             },
             "minItems": 1,
-            "description": "Which instances the statement covers: `*` for all, or explicit ids (validated against the role's project). Required on `serving_cluster`, `on_demand_cluster`, `volume`, `serving_cluster_data`, `volume_data`, `storage_integration`, `model_provider_integration`, `kms_integration` and `datadog_integration`, unless the statement's only privilege is `create`. Everywhere else, including `on_demand_compute_data`, omit it — it is rejected on write and never returned.",
+            "description": "Which instances the statement covers: `*` for all, or explicit ids (validated against the role's project). Required on `serving_cluster`, `on_demand_cluster`, `volume`, `serving_cluster_data`, `volume_data`, `storage_integration`, `model_provider_integration`, `kms_integration` and `datadog_integration`, unless the statement's only privilege is `create`. For `on_demand_compute_data`, predefined roles return `[\"*\"]`; on write this field is rejected and should be omitted. Everywhere else, omit it — it is rejected on write and never returned.",
             "x-i18n": {
               "zh-CN": {
-                "description": "策略覆盖的实例：`*` 表示所有，或显式 id（会依据角色的项目进行校验）。在 `serving_cluster`、`on_demand_cluster`、`volume`、`serving_cluster_data`、`volume_data`、`storage_integration`、`model_provider_integration`、`kms_integration` 和 `datadog_integration` 上必填，除非该语句的唯一权限是 `create`。其他资源类型（包括 `on_demand_compute_data`）请省略——写入时会被拒绝且永不返回。"
+                "description": "策略覆盖的实例：`*` 表示所有，或显式 id（会依据角色的项目进行校验）。在 `serving_cluster`、`on_demand_cluster`、`volume`、`serving_cluster_data`、`volume_data`、`storage_integration`、`model_provider_integration`、`kms_integration` 和 `datadog_integration` 上必填，除非该语句的唯一权限是 `create`。对于 `on_demand_compute_data`，预定义角色返回 `[\"*\"]`；写入时此字段会被拒绝应省略。其他资源类型请省略——写入时会被拒绝且永不返回。"
               },
               "ja-JP": {
                 "description": "ステートメントが対象とするインスタンス: すべての場合は `*`、または明示的な ID(ロールのプロジェクトに対して検証されます)。`serving_cluster`、`on_demand_cluster`、`volume`、`serving_cluster_data`、`volume_data`、`storage_integration`、`model_provider_integration`、`kms_integration`、`datadog_integration` では、ステートメントの唯一の特権が `create` でない限り必須です。それ以外の場所(`on_demand_compute_data` を含む)では省略してください — 書き込み時には拒否され、返されることはありません。"
@@ -3397,13 +3419,13 @@
           },
           "projectId": {
             "type": "string",
-            "description": "The project ID for a project-scoped role. This field is absent for an organization-scoped role.",
+            "description": "The project ID for a project-scoped role. For an organization-scoped role, this field returns an empty string.",
             "x-i18n": {
               "zh-CN": {
-                "description": "项目级角色所属的项目 ID。组织级角色不返回此字段。"
+                "description": "项目级角色的项目 ID。对于组织级角色，此字段返回空字符串。"
               },
               "ja-JP": {
-                "description": "プロジェクトスコープのロールのプロジェクト ID。組織スコープのロールではこのフィールドは存在しません。"
+                "description": "プロジェクトスコープのロールのプロジェクト ID。組織スコープのロールの場合、このフィールドは空の文字列を返します。"
               }
             }
           },
@@ -3813,40 +3835,15 @@
               }
             }
           },
-          "email": {
+          "principalId": {
             "type": "string",
-            "format": "email",
-            "description": "The email address when the principal is a user.",
+            "description": "The principal identifier. For `user` type, this is the user ID (e.g., `usr-xxxxxxxxxxxxxxxxxxxxxx`). For `apikey` type, this is the API key ID (64-character hex string). For `group` type, this is the group ID.",
             "x-i18n": {
               "zh-CN": {
-                "description": "主体为用户时的邮箱地址。"
+                "description": "主体标识符。`user` 类型为用户 ID（如 `usr-xxxxxxxxxxxxxxxxxxxxxx`）；`apikey` 类型为 API Key ID（64 位十六进制字符串）；`group` 类型为群组 ID。"
               },
               "ja-JP": {
-                "description": "プリンシパルがユーザーの場合のメールアドレス。"
-              }
-            }
-          },
-          "groupId": {
-            "type": "string",
-            "description": "The group ID when the principal is a group.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "主体为群组时的群组 ID。"
-              },
-              "ja-JP": {
-                "description": "プリンシパルがグループの場合のグループ ID。"
-              }
-            }
-          },
-          "apiKeyId": {
-            "type": "string",
-            "description": "The API key ID when the principal is an API key.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "主体为 API Key 时的 API Key ID。"
-              },
-              "ja-JP": {
-                "description": "プリンシパルが API key の場合の API key ID。"
+                "description": "プリンシパル識別子。`user` タイプの場合はユーザー ID(`usr-xxxxxxxxxxxxxxxxxxxxxx` など)、`apikey` タイプの場合は API key ID(64 文字の 16 進文字列)、`group` タイプの場合はグループ ID です。"
               }
             }
           },
@@ -3890,6 +3887,7 @@
         },
         "required": [
           "principalType",
+          "principalId",
           "principalName",
           "assignedBy",
           "assignedAt"

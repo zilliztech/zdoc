@@ -2038,7 +2038,7 @@
                 "collectionName": "test_collection",
                 "schema": {
                   "fieldName": "new_field",
-                  "dataType": "DataType.VARCHAR",
+                  "dataType": "VARCHAR",
                   "nullable": true,
                   "defaultValue": "default_value",
                   "elementTypeParams": {
@@ -2769,7 +2769,7 @@
                 "collectionName": "my_collection",
                 "function": {
                   "name": "bm25_fn",
-                  "type": "FunctionType.BM25",
+                  "type": "BM25",
                   "inputFieldNames": [
                     "text"
                   ],
@@ -2944,7 +2944,7 @@
                 "functionName": "bm25_fn",
                 "function": {
                   "name": "bm25_fn",
-                  "type": "FunctionType.BM25",
+                  "type": "BM25",
                   "inputFieldNames": [
                     "text"
                   ],
@@ -5973,13 +5973,13 @@
           },
           "dimension": {
             "type": "integer",
-            "description": "The number of dimensions a vector value should have.\nThis is required if **idType** of this field is set to **DataType.FLOAT\\_VECTOR** or **DataType.Binary\\_VECTOR**.",
+            "description": "The number of dimensions a vector value should have.\nThis is required if **idType** of this field is set to **FloatVector** or **BinaryVector**.",
             "x-i18n": {
               "zh-CN": {
-                "description": "向量值的维度数。\n若该字段的 **idType** 为 **DataType.FLOAT\\_VECTOR** 或 **DataType.Binary\\_VECTOR**，则该字段为必填项。"
+                "description": "向量值的维度数。\n若该字段的 **idType** 为 **FloatVector** 或 **BinaryVector**，则该字段为必填项。"
               },
               "ja-JP": {
-                "description": "ベクトル値が持つべき次元数。\nこのフィールドの **idType** が **DataType.FLOAT\\_VECTOR** または **DataType.Binary\\_VECTOR** に設定されている場合に必須です。"
+                "description": "ベクトル値が持つべき次元数。\nこのフィールドの **idType** が **FloatVector** または **BinaryVector** に設定されている場合に必須です。"
               }
             },
             "x-added-at": "2.6.x",
