@@ -29,10 +29,10 @@ The access control model in Zilliz Cloud is built around two concepts: **princip
 | Concept | Meaning | Examples |
 | --- | --- | --- |
 | Principal | An identity that can be granted access. | Organization members, project members, cluster users, groups. |
-| Role | A named permission set. | Organization Owner, Billing Admin, Project Admin, Cluster Admin, Data Operator, Data Viewer, custom roles. |
+| Role | A named permission set. | Organization Owner, Billing Admin, Project Admin, Data Admin, Data Operator, Data Viewer, custom roles. |
 | Role assignment | The act of granting a role to a principal. | Grant a project role to a user in Project A. |
 | Scope | The boundary where the role applies. | Organization, project, cluster. |
-| Effective access | The final access after direct assignments and group assignments are combined. | A user gets Data Viewer from a synced group and Cluster Admin from a direct project role assignment. |
+| Effective access | The final access after direct assignments and group assignments are combined. | A user gets Data Viewer from a synced group and Data Admin from a direct project role assignment. |
 
 # Principals\{#principals}
 

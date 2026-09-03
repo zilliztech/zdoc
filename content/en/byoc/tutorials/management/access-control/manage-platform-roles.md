@@ -61,7 +61,7 @@ The following table explains the 4 pre-defined project roles.
 | Role | Best for | Typical permissions |
 | --- | --- | --- |
 | Project Admin | Project owners and platform administrators. | Full project administration, including collaborators, roles, cluster lifecycle, compute, and data access. |
-| Cluster Admin | Database administrators and platform engineers. | Cluster administration, such as scaling, backup, cluster operations, and data access. |
+| Data Admin | Database administrators and platform engineers. | Data administration, such as scaling, backup, cluster operations, and data access. |
 | Data Operator | Application teams and data engineers. | Read and write data operations with limited project administration. |
 | Data Viewer | Analysts, developers, and read-only applications. | Read-only access for viewing, querying, and search workflows. |
 
