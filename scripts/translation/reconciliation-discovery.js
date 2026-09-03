@@ -279,7 +279,17 @@ function discoverReconciliation(options) {
     }, replacements.get(sourcePath), completenessReceiptSha256))
   }
 
-  for (const change of changes) if (change.status === 'D') addCandidate(change.path, 'source_delta')
+  for (const change of changes) if (change.status === 'D') {
+    if (target === 'zh-CN-reference' && sourceBaseline.has(change.path) && !replacements.has(change.path)) {
+      const targetPath = mapSourcePathForTarget(target, change.path)
+      if (targetPath && (targetBaseline.has(targetPath) || targetState.has(targetPath))) {
+        const error = new Error(`Missing authoritative replacement metadata for source deletion ${change.path}; refusing to infer rename or authorize deletion`)
+        error.code = 'RECONCILIATION_REJECTED'
+        throw error
+      }
+    }
+    addCandidate(change.path, 'source_delta')
+  }
   if (sourceBaselineSha !== sourceCheckpointSha) {
     for (const targetPath of new Set([...targetBaseline, ...targetState])) {
       const sourcePath = mapTargetPathForSource(target, targetPath)

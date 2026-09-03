@@ -20,7 +20,7 @@ function sourceCheckpointsFromFetchResults({selection, results, locale = 'all', 
   const publications = sourcePublicationsFromFetchResults({selection, results, locale, group})
   return Object.freeze(Object.fromEntries(Object.entries(publications).map(([sourceGroup, value]) => [
     sourceGroup,
-    Object.freeze({sourceBaselineSha: value.sourceBaselineSha, sourceCheckpointSha: value.sourceCheckpointSha}),
+    Object.freeze({sourceBaselineSha: value.sourceBaselineSha, sourceCheckpointSha: value.sourceCheckpointSha, ...(value.authoritativeReplacements?.length ? {authoritativeReplacements: value.authoritativeReplacements} : {})}),
   ])))
 }
 
@@ -93,6 +93,7 @@ function prepareFetchReconciliationPlans(options) {
         toolingSha: selection.toolingSha,
         sourceBaselineSha: sourceCheckpoint.sourceBaselineSha,
         sourceCheckpointSha: sourceCheckpoint.sourceCheckpointSha,
+        authoritativeReplacements: sourceCheckpoint.authoritativeReplacements,
         targetBaselineSha,
         planOutput: planFile,
         reviewOutput: reviewFile,
