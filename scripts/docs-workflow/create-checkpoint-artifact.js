@@ -177,6 +177,15 @@ async function createCheckpointArtifact(options) {
     if (translationIdentity.sourceCheckpointSha !== devBaselineSha || translationIdentity.toolingSha !== masterSha) throw new Error('Translation checkpoint identity must match immutable source and tooling SHAs');
   }
   if (options.validationCommands !== undefined && (!Array.isArray(options.validationCommands) || !options.validationCommands.every((command) => typeof command === 'string'))) throw new Error('validationCommands must be an array of strings');
+  if (options.authoritativeReplacements !== undefined && (!Array.isArray(options.authoritativeReplacements) || options.includeTranslationCache)) throw new Error('authoritativeReplacements must be an array for source artifacts');
+  if (options.authoritativeReplacements) {
+    const seen = new Set();
+    for (const [index, value] of options.authoritativeReplacements.entries()) {
+      if (!value || typeof value !== 'object' || Array.isArray(value) || JSON.stringify(Object.keys(value).sort()) !== JSON.stringify(['authority', 'replacementSourcePath', 'sourcePath'])) throw new Error(`Invalid authoritative replacement metadata ${index}`);
+      if (typeof value.sourcePath !== 'string' || typeof value.replacementSourcePath !== 'string' || typeof value.authority !== 'string' || !value.authority.trim() || value.sourcePath === value.replacementSourcePath || seen.has(value.sourcePath)) throw new Error(`Invalid authoritative replacement metadata ${index}`);
+      seen.add(value.sourcePath);
+    }
+  }
   const numberedTranslation = batch !== undefined;
   if (numberedTranslation) {
     if (groupName !== 'guides') throw new Error('Numbered schema 2 translation artifacts currently require group guides');
@@ -254,6 +263,7 @@ async function createCheckpointArtifact(options) {
       if (reconciliation.result) await writeFile(path.join(staging, 'reconciliation-result.json'), reconciliation.result.bytes, {flag: 'wx'});
     }
     const createdAt = options.createdAt === undefined ? new Date().toISOString() : new Date(options.createdAt).toISOString();
+    const authoritativeReplacements = options.includeTranslationCache ? [] : (options.authoritativeReplacements || []);
     const common = { stage: options.includeTranslationCache ? 'translation' : 'source', group: groupName, masterSha, devBaselineSha, createdAt, ownershipVersion: 1, files, deletions, snapshotManual: group.snapshotManual, ...(translationIdentity || {}) };
     const evidenceEntry = (name, value, documentSha256) => value ? {path: name, size: value.size, sha256: value.sha256, documentSha256} : null;
     const reconciliationManifest = reconciliation ? {
@@ -266,7 +276,7 @@ async function createCheckpointArtifact(options) {
       ? { schemaVersion: reconciliation ? 3 : 2, ...common, batch, batchInput: { path: 'batch-input.json', size: batchInput.bytes.length, sha256: batchInput.sha256 }, ...(reconciliation ? {reconciliation: reconciliationManifest} : {}) }
       : reconciliation
         ? {schemaVersion: 3, ...common, validation: {commands: options.validationCommands || [], passed: true}, reconciliation: reconciliationManifest}
-        : { schemaVersion: 1, ...common, validation: { commands: options.validationCommands || [], passed: true } };
+        : { schemaVersion: 1, ...common, validation: { commands: options.validationCommands || [], passed: true }, ...(authoritativeReplacements.length ? {authoritativeReplacements} : {}) };
     const temporary = path.join(staging, `.manifest.${process.pid}.tmp`);
     await writeFile(temporary, `${JSON.stringify(manifest, null, 2)}\n`, { flag: 'wx' });
     await rename(temporary, path.join(staging, 'manifest.json'));
@@ -288,12 +298,12 @@ async function createCheckpointArtifact(options) {
   }
 }
 
-function usage() { return 'Usage: node create-checkpoint-artifact.js --group <group> --master-sha <sha> --dev-baseline-sha <sha> --baseline-dir <dir> --workspace <dir> --output <dir> [--include-translation-cache --translation-target <target> --source-site <site> --target-site <site> --source-checkpoint-sha <sha> --tooling-sha <sha>] [--batch-index <n> --batch-number <n> --batch-count <n> --batch-size <n> --pending-count <n> --pending-set-sha256 <sha> --batch-input <path>] [--reconciliation-plan <path> [--reconciliation-approval <path>] [--reconciliation-result <path>]] [--validation-command <string> ...]'; }
+function usage() { return 'Usage: node create-checkpoint-artifact.js --group <group> --master-sha <sha> --dev-baseline-sha <sha> --baseline-dir <dir> --workspace <dir> --output <dir> [--authoritative-replacements <json>] [--include-translation-cache --translation-target <target> --source-site <site> --target-site <site> --source-checkpoint-sha <sha> --tooling-sha <sha>] [--validation-command <string> ...]'; }
 function parseArgs(args) {
   if (args.length === 1 && args[0] === '--help') return { help: true };
   if (args.includes('--help')) throw new Error('--help must be used alone');
   const result = { validationCommands: [] };
-  const names = { group: 'group', 'master-sha': 'masterSha', 'dev-baseline-sha': 'devBaselineSha', 'baseline-dir': 'baselineDir', workspace: 'workspace', output: 'output', 'batch-input': 'batchInputPath', 'translation-target': 'translationTarget', 'source-site': 'sourceSite', 'target-site': 'targetSite', 'source-checkpoint-sha': 'sourceCheckpointSha', 'tooling-sha': 'toolingSha', 'reconciliation-plan': 'reconciliationPlanPath', 'reconciliation-approval': 'reconciliationApprovalPath', 'reconciliation-result': 'reconciliationResultPath' };
+  const names = { group: 'group', 'master-sha': 'masterSha', 'dev-baseline-sha': 'devBaselineSha', 'baseline-dir': 'baselineDir', workspace: 'workspace', output: 'output', 'authoritative-replacements': 'authoritativeReplacements', 'batch-input': 'batchInputPath', 'translation-target': 'translationTarget', 'source-site': 'sourceSite', 'target-site': 'targetSite', 'source-checkpoint-sha': 'sourceCheckpointSha', 'tooling-sha': 'toolingSha', 'reconciliation-plan': 'reconciliationPlanPath', 'reconciliation-approval': 'reconciliationApprovalPath', 'reconciliation-result': 'reconciliationResultPath' };
   const batchNames = { 'batch-index': 'batchIndex', 'batch-number': 'batchNumber', 'batch-count': 'batchCount', 'batch-size': 'batchSize', 'pending-count': 'pendingCount', 'pending-set-sha256': 'pendingSetSha256' };
   const seen = new Set();
   for (let i = 0; i < args.length;) {
@@ -304,12 +314,12 @@ function parseArgs(args) {
     else if (names[key] || batchNames[key]) {
       if (seen.has(key)) throw new Error(`Duplicate argument: --${key}`);
       seen.add(key);
-      result[names[key] || batchNames[key]] = batchNames[key] && key !== 'pending-set-sha256' ? Number(value) : value;
+      result[names[key] || batchNames[key]] = key === 'authoritative-replacements' ? JSON.parse(value) : (batchNames[key] && key !== 'pending-set-sha256' ? Number(value) : value);
     }
     else throw new Error(`Unknown argument: --${key}`);
     i += 2;
   }
-  for (const [flag, name] of Object.entries(names)) if (!['batch-input', 'translation-target', 'source-site', 'target-site', 'source-checkpoint-sha', 'tooling-sha', 'reconciliation-plan', 'reconciliation-approval', 'reconciliation-result'].includes(flag) && result[name] === undefined) throw new Error(`Missing required argument: --${flag}`);
+  for (const [flag, name] of Object.entries(names)) if (!['batch-input', 'authoritative-replacements', 'translation-target', 'source-site', 'target-site', 'source-checkpoint-sha', 'tooling-sha', 'reconciliation-plan', 'reconciliation-approval', 'reconciliation-result'].includes(flag) && result[name] === undefined) throw new Error(`Missing required argument: --${flag}`);
   const presentBatch = Object.values(batchNames).filter((name) => result[name] !== undefined);
   if (presentBatch.length !== 0 && presentBatch.length !== Object.keys(batchNames).length) throw new Error('All translation batch arguments must be provided together');
   if (presentBatch.length) {

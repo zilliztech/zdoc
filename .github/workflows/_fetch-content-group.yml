@@ -266,6 +266,12 @@ jobs:
       - name: Create source checkpoint artifact
         run: |
           validation_command="node scripts/run-doc-build-stage.js --build \"pnpm run build:$SITE\" --skipLinkChecks"
+          replacement_args=()
+          revision_report="tmp/docs-tooling/revision-diff/$GROUP.json"
+          if [[ "$SITE" == en && -f "$revision_report" ]]; then
+            replacements="$(node -e 'const fs=require("node:fs"); const p=JSON.parse(fs.readFileSync(process.argv[1],"utf8")); process.stdout.write(JSON.stringify(p.authoritativeReplacements || []))' "$revision_report")"
+            replacement_args+=(--authoritative-replacements "$replacements")
+          fi
           node scripts/docs-workflow/create-checkpoint-artifact.js \
             --group "$GROUP" \
             --master-sha "$MASTER_SHA" \
@@ -273,6 +279,7 @@ jobs:
             --baseline-dir "$BASELINE_DIR" \
             --workspace "$GITHUB_WORKSPACE" \
             --output "$CHECKPOINT_DIR" \
+            "${replacement_args[@]}" \
             --validation-command "node scripts/validate-generated-sidebars.js --site $SITE" \
             --validation-command "$validation_command"
 
