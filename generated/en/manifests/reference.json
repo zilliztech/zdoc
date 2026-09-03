@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "419c8b4e78d63b37d6062ab10c65fe39d7712672",
+  "sourceCommit": "8ff43cd0be3b6d0320e1a3d6a6df81eff98e9c65",
   "records": [
     {
       "manual": "cli",
@@ -5585,7 +5585,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/create-cloud-role-v2.mdx",
-      "sourceHash": "d73904bb2f2e03ceba9642f6dd4979d3c0e5d8d4df96155ecd4074c28d412fcd"
+      "sourceHash": "520e89b988d4913377dd3efbb77618adc702f0f1eab5515339995e61cd59131b"
     },
     {
       "manual": "rest",
@@ -5595,7 +5595,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/describe-cloud-role-v2.mdx",
-      "sourceHash": "9f213249fc18abfcf16163b0629d58b400b14dce5bcccd23d37034955c0a45e0"
+      "sourceHash": "5486552646c308ae88c7f9cd4d15dd48b248e7fa163e31e6fd0d6c3a1f946f15"
     },
     {
       "manual": "rest",
@@ -5610,12 +5610,12 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-cloud-role-principals-v2.mdx",
-      "sourceHash": "cd6f7491ce7cf928c83cc9b4dbe73c043e9d9f62d13d207884a2f929fd5d076e"
+      "sourceHash": "a1a00618c34762587d82cc0e45accae4baf2003586f71c06c7564c501fd60ea4"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-cloud-roles-v2.mdx",
-      "sourceHash": "1afbee902877807a1f71ba573a28934bbac4b5b6123e8c4500b3ea775ab534fd"
+      "sourceHash": "7293ebbb2924aa59326da1d8b8d1207f1e5ee42a23b1c49c382c77af555fbaaf"
     },
     {
       "manual": "rest",
@@ -5655,7 +5655,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/update-cloud-role-v2.mdx",
-      "sourceHash": "2bc726ccdf75c65020679dbb1210ebd5499a2fe1d198765369ca3fe23ba22d57"
+      "sourceHash": "6b09841eb2e44410a86a4f970e48fa2db8a3e4f12f37664c4add2d8cb3d4c2fa"
     },
     {
       "manual": "rest",
@@ -6305,7 +6305,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/collection-operations-v2/add-collection-field-v2.mdx",
-      "sourceHash": "1a85b8af343008228a6df545d9b8697d77b28d6ede5ec64127973e61a662515c"
+      "sourceHash": "8bb91d97fdc97f59d0277a0d95366d08b31b27bc4d132dad9246d9de1cbb80fe"
     },
     {
       "manual": "rest",
@@ -6320,7 +6320,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/collection-operations-v2/add-function-to-collection-v2.mdx",
-      "sourceHash": "a29440616adbcc6f863d0c450621803dc352b51bbae2cdb882e16ca73b0c53c8"
+      "sourceHash": "34dade4a8df62601b4a82dcce935cb586a147fb6a7873367c473891e1e81c542"
     },
     {
       "manual": "rest",
@@ -6335,7 +6335,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/collection-operations-v2/alter-function-in-collection-v2.mdx",
-      "sourceHash": "13635ead7acf74392a376f799795ec6bf1b62c40011a08181cc2abc9eb5c7383"
+      "sourceHash": "8b627b5ae80c3b8bf8dcd5a6d4cdddc50a590d848d38ed90a5cf519ab1457722"
     },
     {
       "manual": "rest",
@@ -6350,7 +6350,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/collection-operations-v2/create-collection-v2.mdx",
-      "sourceHash": "ed93ab225c630c81847842faaff661015390aa3777f5117eb4b8cf6bd8acd4bc"
+      "sourceHash": "1c21e2e7c5b8b5a03811b28384f2043621b55d0ad0891c564c63b9e9a360f385"
     },
     {
       "manual": "rest",
