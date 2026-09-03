@@ -26,7 +26,7 @@ The [PyMilvus](https://github.com/milvus-io/pymilvus) Python SDK is the official
 You can run the following command in your terminal to install the latest PyMilvus or update your PyMilvus to this version.
 
 ```shell
-pip install --upgrade pymilvus==v2.3.7
+pip install --upgrade pymilvus==3.0.1
 ```
 
 After the installation, you can check the pymilvus version by running the following
@@ -36,7 +36,7 @@ from pymilvus import __version__
 
 print(__version__)
 
-# v2.3.7
+# 3.0.1
 ```
 
 ## Connect to Cluster
