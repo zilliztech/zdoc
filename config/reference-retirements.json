@@ -1361,15 +1361,15 @@
     },
     {
       "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-getLoadingProgress.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection-getLoadingProgress.md",
+      "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-getLoadState.md",
+      "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection-getLoadState.md",
       "changeKind": "source_deleted",
       "rationale": "Approved declared Java v1 retirement after generated historical reconciliation review"
     },
     {
       "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-getLoadState.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection-getLoadState.md",
+      "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-getLoadingProgress.md",
+      "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection-getLoadingProgress.md",
       "changeKind": "source_deleted",
       "rationale": "Approved declared Java v1 retirement after generated historical reconciliation review"
     },
@@ -1830,15 +1830,15 @@
     },
     {
       "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-clientIsReady.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Client/v2-Client-clientIsReady.md",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-ConnectConfig.md",
+      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Client/v2-Client-ConnectConfig.md",
       "changeKind": null,
       "rationale": "Imported baseline retirement from the clean-room Reference migration"
     },
     {
       "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-ConnectConfig.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Client/v2-Client-ConnectConfig.md",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-clientIsReady.md",
+      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Client/v2-Client-clientIsReady.md",
       "changeKind": null,
       "rationale": "Imported baseline retirement from the clean-room Reference migration"
     },
@@ -1853,27 +1853,6 @@
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Client/v2-Client.md",
-      "changeKind": null,
-      "rationale": "Imported baseline retirement from the clean-room Reference migration"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-addCollectionFunction.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-addCollectionFunction.md",
-      "changeKind": null,
-      "rationale": "Imported baseline retirement from the clean-room Reference migration"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-addCollectionStructField.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-addCollectionStructField.md",
-      "changeKind": null,
-      "rationale": "Imported baseline retirement from the clean-room Reference migration"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-alterCollectionFunction.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-alterCollectionFunction.md",
       "changeKind": null,
       "rationale": "Imported baseline retirement from the clean-room Reference migration"
     },
@@ -1914,13 +1893,6 @@
     },
     {
       "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-dropCollectionFunction.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-dropCollectionFunction.md",
-      "changeKind": null,
-      "rationale": "Imported baseline retirement from the clean-room Reference migration"
-    },
-    {
-      "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-EmbeddingList-getData.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-EmbeddingList-getData.md",
       "changeKind": null,
@@ -1935,15 +1907,43 @@
     },
     {
       "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-getLoadStateV2.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-getLoadStateV2.md",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-addField.md",
+      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-addField.md",
       "changeKind": null,
       "rationale": "Imported baseline retirement from the clean-room Reference migration"
     },
     {
       "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-addField.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-addField.md",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-addCollectionFunction.md",
+      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-addCollectionFunction.md",
+      "changeKind": null,
+      "rationale": "Imported baseline retirement from the clean-room Reference migration"
+    },
+    {
+      "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-addCollectionStructField.md",
+      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-addCollectionStructField.md",
+      "changeKind": null,
+      "rationale": "Imported baseline retirement from the clean-room Reference migration"
+    },
+    {
+      "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-alterCollectionFunction.md",
+      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-alterCollectionFunction.md",
+      "changeKind": null,
+      "rationale": "Imported baseline retirement from the clean-room Reference migration"
+    },
+    {
+      "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-dropCollectionFunction.md",
+      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-dropCollectionFunction.md",
+      "changeKind": null,
+      "rationale": "Imported baseline retirement from the clean-room Reference migration"
+    },
+    {
+      "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-getLoadStateV2.md",
+      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-getLoadStateV2.md",
       "changeKind": null,
       "rationale": "Imported baseline retirement from the clean-room Reference migration"
     },
@@ -1963,15 +1963,8 @@
     },
     {
       "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Database/v2-Database-currentUsedDatabase.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Database/v2-Database-currentUsedDatabase.md",
-      "changeKind": null,
-      "rationale": "Imported baseline retirement from the clean-room Reference migration"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Database/v2-Database.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Database/v2-Database.md",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-appendRow.md",
+      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-appendRow.md",
       "changeKind": null,
       "rationale": "Imported baseline retirement from the clean-room Reference migration"
     },
@@ -1984,13 +1977,6 @@
     },
     {
       "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-appendRow.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-appendRow.md",
-      "changeKind": null,
-      "rationale": "Imported baseline retirement from the clean-room Reference migration"
-    },
-    {
-      "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-getTotalRowCount.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-getTotalRowCount.md",
       "changeKind": null,
@@ -1998,15 +1984,15 @@
     },
     {
       "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-append_row.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-append_row.md",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-appendRow.md",
+      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-appendRow.md",
       "changeKind": null,
       "rationale": "Imported baseline retirement from the clean-room Reference migration"
     },
     {
       "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-appendRow.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-appendRow.md",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-append_row.md",
+      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-append_row.md",
       "changeKind": null,
       "rationale": "Imported baseline retirement from the clean-room Reference migration"
     },
@@ -2070,6 +2056,20 @@
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport.md",
+      "changeKind": null,
+      "rationale": "Imported baseline retirement from the clean-room Reference migration"
+    },
+    {
+      "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Database/v2-Database-currentUsedDatabase.md",
+      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Database/v2-Database-currentUsedDatabase.md",
+      "changeKind": null,
+      "rationale": "Imported baseline retirement from the clean-room Reference migration"
+    },
+    {
+      "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Database/v2-Database.md",
+      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Database/v2-Database.md",
       "changeKind": null,
       "rationale": "Imported baseline retirement from the clean-room Reference migration"
     },
@@ -2397,6 +2397,20 @@
     },
     {
       "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-DataType.md",
+      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-DataType.md",
+      "changeKind": "source_deleted",
+      "rationale": "Approved Node source retirement from Fetch run 30996821699 checkpoint review"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-FunctionType.md",
+      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-FunctionType.md",
+      "changeKind": "source_deleted",
+      "rationale": "Approved Node source retirement from Fetch run 30996821699 checkpoint review"
+    },
+    {
+      "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-addCollectionField.md",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-addCollectionField.md",
       "changeKind": "source_deleted",
@@ -2439,13 +2453,6 @@
     },
     {
       "manual": "node",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-DataType.md",
-      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-DataType.md",
-      "changeKind": "source_deleted",
-      "rationale": "Approved Node source retirement from Fetch run 30996821699 checkpoint review"
-    },
-    {
-      "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-describeCollection.md",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-describeCollection.md",
       "changeKind": "source_deleted",
@@ -2457,13 +2464,6 @@
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-dropCollectionFunction.md",
       "changeKind": null,
       "rationale": "Imported baseline retirement from the clean-room Reference migration"
-    },
-    {
-      "manual": "node",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-FunctionType.md",
-      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-FunctionType.md",
-      "changeKind": "source_deleted",
-      "rationale": "Approved Node source retirement from Fetch run 30996821699 checkpoint review"
     },
     {
       "manual": "node",
@@ -2530,34 +2530,6 @@
     },
     {
       "manual": "node",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/Database/Database-alterDatabase.md",
-      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Database/Database-alterDatabase.md",
-      "changeKind": null,
-      "rationale": "Imported baseline retirement from the clean-room Reference migration"
-    },
-    {
-      "manual": "node",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/Database/Database-describeDatabase.md",
-      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Database/Database-describeDatabase.md",
-      "changeKind": null,
-      "rationale": "Imported baseline retirement from the clean-room Reference migration"
-    },
-    {
-      "manual": "node",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/Database/Database.md",
-      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Database/Database.md",
-      "changeKind": null,
-      "rationale": "Imported baseline retirement from the clean-room Reference migration"
-    },
-    {
-      "manual": "node",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-bulkInsert.md",
-      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/DataImport/DataImport-bulkInsert.md",
-      "changeKind": null,
-      "rationale": "Imported baseline retirement from the clean-room Reference migration"
-    },
-    {
-      "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-BulkWriter.md",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/DataImport/DataImport-BulkWriter.md",
       "changeKind": null,
@@ -2579,13 +2551,6 @@
     },
     {
       "manual": "node",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-createImportJobs.md",
-      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/DataImport/DataImport-createImportJobs.md",
-      "changeKind": null,
-      "rationale": "Imported baseline retirement from the clean-room Reference migration"
-    },
-    {
-      "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-FlushEvent.md",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/DataImport/DataImport-FlushEvent.md",
       "changeKind": null,
@@ -2595,13 +2560,6 @@
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-Formatter.md",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/DataImport/DataImport-Formatter.md",
-      "changeKind": null,
-      "rationale": "Imported baseline retirement from the clean-room Reference migration"
-    },
-    {
-      "manual": "node",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-getImportState.md",
-      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/DataImport/DataImport-getImportState.md",
       "changeKind": null,
       "rationale": "Imported baseline retirement from the clean-room Reference migration"
     },
@@ -2642,6 +2600,34 @@
     },
     {
       "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-Storage.md",
+      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/DataImport/DataImport-Storage.md",
+      "changeKind": null,
+      "rationale": "Imported baseline retirement from the clean-room Reference migration"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-bulkInsert.md",
+      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/DataImport/DataImport-bulkInsert.md",
+      "changeKind": null,
+      "rationale": "Imported baseline retirement from the clean-room Reference migration"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-createImportJobs.md",
+      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/DataImport/DataImport-createImportJobs.md",
+      "changeKind": null,
+      "rationale": "Imported baseline retirement from the clean-room Reference migration"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-getImportState.md",
+      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/DataImport/DataImport-getImportState.md",
+      "changeKind": null,
+      "rationale": "Imported baseline retirement from the clean-room Reference migration"
+    },
+    {
+      "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-listImportJobs.md",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/DataImport/DataImport-listImportJobs.md",
       "changeKind": null,
@@ -2656,8 +2642,22 @@
     },
     {
       "manual": "node",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-Storage.md",
-      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/DataImport/DataImport-Storage.md",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Database/Database-alterDatabase.md",
+      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Database/Database-alterDatabase.md",
+      "changeKind": null,
+      "rationale": "Imported baseline retirement from the clean-room Reference migration"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Database/Database-describeDatabase.md",
+      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Database/Database-describeDatabase.md",
+      "changeKind": null,
+      "rationale": "Imported baseline retirement from the clean-room Reference migration"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Database/Database.md",
+      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Database/Database.md",
       "changeKind": null,
       "rationale": "Imported baseline retirement from the clean-room Reference migration"
     },
@@ -2803,13 +2803,6 @@
     },
     {
       "manual": "python",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/utility-create_user.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Authentication/utility-create_user.md",
-      "changeKind": "source_renamed",
-      "rationale": "Approved source path replacement for Fetch reconciliation"
-    },
-    {
-      "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/DataImport/DataImport-BulkImport/DataImport-BulkImport.md",
       "targetPath": "content/zh-CN/reference/api/python/python/DataImport/DataImport-BulkImport/DataImport-BulkImport.md",
       "changeKind": null,
@@ -2887,6 +2880,13 @@
     },
     {
       "manual": "python",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/utility-create_user.md",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Authentication/utility-create_user.md",
+      "changeKind": "source_renamed",
+      "rationale": "Approved source path replacement for Fetch reconciliation"
+    },
+    {
+      "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Client/Client-session.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Client/Client-session.md",
       "changeKind": null,
@@ -2896,6 +2896,62 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Client/MilvusClient-Client.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Client/MilvusClient-Client.md",
+      "changeKind": null,
+      "rationale": "Imported baseline retirement from the clean-room Reference migration"
+    },
+    {
+      "manual": "python",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-add_field.md",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-add_field.md",
+      "changeKind": null,
+      "rationale": "Imported baseline retirement from the clean-room Reference migration"
+    },
+    {
+      "manual": "python",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-add_field_1.md",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-add_field_1.md",
+      "changeKind": null,
+      "rationale": "Imported baseline retirement from the clean-room Reference migration"
+    },
+    {
+      "manual": "python",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-construct_from_dict.md",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-construct_from_dict.md",
+      "changeKind": null,
+      "rationale": "Imported baseline retirement from the clean-room Reference migration"
+    },
+    {
+      "manual": "python",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-construct_from_dict_1.md",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-construct_from_dict_1.md",
+      "changeKind": null,
+      "rationale": "Imported baseline retirement from the clean-room Reference migration"
+    },
+    {
+      "manual": "python",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-to_dict.md",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-to_dict.md",
+      "changeKind": null,
+      "rationale": "Imported baseline retirement from the clean-room Reference migration"
+    },
+    {
+      "manual": "python",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-to_dict_1.md",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-to_dict_1.md",
+      "changeKind": null,
+      "rationale": "Imported baseline retirement from the clean-room Reference migration"
+    },
+    {
+      "manual": "python",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-verify.md",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-verify.md",
+      "changeKind": null,
+      "rationale": "Imported baseline retirement from the clean-room Reference migration"
+    },
+    {
+      "manual": "python",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-verify_1.md",
+      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-verify_1.md",
       "changeKind": null,
       "rationale": "Imported baseline retirement from the clean-room Reference migration"
     },
@@ -2952,62 +3008,6 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/MilvusClient-Collections.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Collections/MilvusClient-Collections.md",
-      "changeKind": null,
-      "rationale": "Imported baseline retirement from the clean-room Reference migration"
-    },
-    {
-      "manual": "python",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-add_field_1.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-add_field_1.md",
-      "changeKind": null,
-      "rationale": "Imported baseline retirement from the clean-room Reference migration"
-    },
-    {
-      "manual": "python",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-add_field.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-add_field.md",
-      "changeKind": null,
-      "rationale": "Imported baseline retirement from the clean-room Reference migration"
-    },
-    {
-      "manual": "python",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-construct_from_dict_1.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-construct_from_dict_1.md",
-      "changeKind": null,
-      "rationale": "Imported baseline retirement from the clean-room Reference migration"
-    },
-    {
-      "manual": "python",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-construct_from_dict.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-construct_from_dict.md",
-      "changeKind": null,
-      "rationale": "Imported baseline retirement from the clean-room Reference migration"
-    },
-    {
-      "manual": "python",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-to_dict_1.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-to_dict_1.md",
-      "changeKind": null,
-      "rationale": "Imported baseline retirement from the clean-room Reference migration"
-    },
-    {
-      "manual": "python",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-to_dict.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-to_dict.md",
-      "changeKind": null,
-      "rationale": "Imported baseline retirement from the clean-room Reference migration"
-    },
-    {
-      "manual": "python",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-verify_1.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-verify_1.md",
-      "changeKind": null,
-      "rationale": "Imported baseline retirement from the clean-room Reference migration"
-    },
-    {
-      "manual": "python",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-verify.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-verify.md",
       "changeKind": null,
       "rationale": "Imported baseline retirement from the clean-room Reference migration"
     },
@@ -3244,13 +3244,6 @@
     },
     {
       "manual": "python",
-      "sourcePath": "content/en/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-construct_from_dict_1.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-construct_from_dict_1.md",
-      "changeKind": null,
-      "rationale": "Imported baseline retirement from the clean-room Reference migration"
-    },
-    {
-      "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-construct_from_dict.md",
       "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-construct_from_dict.md",
       "changeKind": null,
@@ -3258,8 +3251,8 @@
     },
     {
       "manual": "python",
-      "sourcePath": "content/en/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-to_dict_1.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-to_dict_1.md",
+      "sourcePath": "content/en/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-construct_from_dict_1.md",
+      "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-construct_from_dict_1.md",
       "changeKind": null,
       "rationale": "Imported baseline retirement from the clean-room Reference migration"
     },
@@ -3272,8 +3265,8 @@
     },
     {
       "manual": "python",
-      "sourcePath": "content/en/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-verify_1.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-verify_1.md",
+      "sourcePath": "content/en/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-to_dict_1.md",
+      "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-to_dict_1.md",
       "changeKind": null,
       "rationale": "Imported baseline retirement from the clean-room Reference migration"
     },
@@ -3286,8 +3279,8 @@
     },
     {
       "manual": "python",
-      "sourcePath": "content/en/reference/api/python/python/ORM/ORM-db/ORM-db.md",
-      "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-db/ORM-db.md",
+      "sourcePath": "content/en/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-verify_1.md",
+      "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-verify_1.md",
       "changeKind": null,
       "rationale": "Imported baseline retirement from the clean-room Reference migration"
     },
@@ -3311,6 +3304,13 @@
       "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-FieldSchema/ORM-FieldSchema.md",
       "changeKind": "source_deleted",
       "rationale": "Approved historical source/target reconciliation from immutable dev state"
+    },
+    {
+      "manual": "python",
+      "sourcePath": "content/en/reference/api/python/python/ORM/ORM-db/ORM-db.md",
+      "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-db/ORM-db.md",
+      "changeKind": null,
+      "rationale": "Imported baseline retirement from the clean-room Reference migration"
     },
     {
       "manual": "python",
