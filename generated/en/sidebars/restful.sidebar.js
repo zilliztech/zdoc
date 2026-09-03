@@ -570,12 +570,6 @@ module.exports = [
               },
               {
                 "type": "doc",
-                "id": "api/restful/restful/v2/control-plane/spark-job-v2/create-spark-jar-job-v2",
-                "label": "Create Spark JAR Job (V2)",
-                "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/create-spark-jar-job-v2"
-              },
-              {
-                "type": "doc",
                 "id": "api/restful/restful/v2/control-plane/spark-job-v2/create-spark-pk-deduplication-job-v2",
                 "label": "Create Spark PK Deduplication Job (V2)",
                 "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/create-spark-pk-deduplication-job-v2"
@@ -597,6 +591,18 @@ module.exports = [
                 "id": "api/restful/restful/v2/control-plane/spark-job-v2/create-spark-anomaly-detection-job-v2",
                 "label": "Create Spark Anomaly Detection Job (V2)",
                 "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/create-spark-anomaly-detection-job-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/control-plane/spark-job-v2/create-spark-backfill-job-v2",
+                "label": "Create Spark Backfill Job (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/create-spark-backfill-job-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/control-plane/spark-job-v2/create-spark-backfill-precheck-job-v2",
+                "label": "Create Spark Backfill Precheck Job (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/create-spark-backfill-precheck-job-v2"
               }
             ]
           },

@@ -1,0 +1,31 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_position: 7
+slug: /restful/create-spark-backfill-job-v2
+beta: FALSE
+title: "Create Spark Backfill Job (V2) | RESTful"
+description: "Creates a Spark Backfill job. The project is selected by the projectId path parameter. | RESTful"
+hide_table_of_contents: true
+sidebar_label: "Create Spark Backfill Job (V2)"
+sidebar_custom_props:
+  badges:
+    - "post"
+keywords: 
+  - zilliz cloud
+  - zilliz
+  - cloud
+  - "Create Spark Backfill Job (V2)"
+  - "post"
+  - RESTful
+  - API
+---
+
+# Create Spark Backfill Job (V2)
+
+import RestSpecs from '@site/src/components/RestSpecs';
+
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="en-US" />
+
+export const specs = {"summary":"Create Spark Backfill Job","description":"Creates a Spark Backfill job. The project is selected by the projectId path parameter.","x-i18n":{"zh-CN":{"summary":"创建 Spark 回填任务","description":"创建 Spark 回填任务。项目由 projectId 路径参数指定。"},"ja-JP":{"summary":"Spark バックフィルジョブを作成","description":"Spark バックフィルジョブを作成します。プロジェクトは projectId パスパラメーターで指定します。"}},"tags":["Spark Job (V2)"],"parameters":[{"name":"Authorization","in":"header","required":true,"description":"The authorization token.","x-i18n":{"zh-CN":{"description":"授权令牌。"},"ja-JP":{"description":"認証トークン。"}},"schema":{"type":"string"}},{"name":"Idempotency-Key","in":"header","required":false,"description":"A unique key that makes repeated create requests idempotent.","x-i18n":{"zh-CN":{"description":"用于确保重复创建请求幂等的唯一键。"},"ja-JP":{"description":"作成リクエストを繰り返しても冪等となる一意のキーです。"}},"schema":{"type":"string"}},{"name":"projectId","in":"path","required":true,"description":"The project ID.","x-i18n":{"zh-CN":{"description":"项目 ID。"},"ja-JP":{"description":"プロジェクト ID。"}},"schema":{"type":"string"}}],"requestBody":{"required":true,"content":{"application/json":{"schema":{"type":"object","description":"Request to create a Spark Backfill job.","x-i18n":{"zh-CN":{"description":"创建 Spark 回填任务的请求体。"},"ja-JP":{"description":"Spark バックフィルジョブを作成するリクエスト。"}},"properties":{"clusterId":{"type":"string","description":"The target cluster ID.","x-i18n":{"zh-CN":{"description":"目标集群 ID。"},"ja-JP":{"description":"対象クラスター ID。"}}},"dbName":{"type":"string","description":"The database name.","x-i18n":{"zh-CN":{"description":"数据库名称。"},"ja-JP":{"description":"データベース名。"}}},"collectionName":{"type":"string","description":"The collection name.","x-i18n":{"zh-CN":{"description":"集合名称。"},"ja-JP":{"description":"コレクション名。"}}},"fields":{"type":"array","items":{"type":"string"},"description":"The target fields.","x-i18n":{"zh-CN":{"description":"目标字段。"},"ja-JP":{"description":"対象フィールド。"}}},"columnMapping":{"type":"object","additionalProperties":{"type":"string"},"description":"Source-to-target column mapping.","x-i18n":{"zh-CN":{"description":"源列到目标列的映射。"},"ja-JP":{"description":"ソース列から対象列へのマッピング。"}}},"mode":{"type":"string","description":"The backfill mode.","x-i18n":{"zh-CN":{"description":"回填模式。"},"ja-JP":{"description":"バックフィルモード。"}}},"resourceSize":{"type":"string","enum":["SMALL","MEDIUM","LARGE","XLARGE","2XLARGE","3XLARGE"],"description":"The Spark resource size.","x-i18n":{"zh-CN":{"description":"Spark 资源规格。"},"ja-JP":{"description":"Spark のリソースサイズ。"}}},"timeoutSeconds":{"type":"integer","format":"int64","description":"The timeout in seconds.","x-i18n":{"zh-CN":{"description":"超时时间（秒）。"},"ja-JP":{"description":"タイムアウト（秒）。"}}}},"required":["clusterId","dbName","collectionName","fields","columnMapping","mode","resourceSize","timeoutSeconds"]}}}},"responses":{"201":{"description":"Backfill job created.","content":{"application/json":{"schema":{"type":"object","description":"Summary information about a Spark batch job.","x-i18n":{"zh-CN":{"description":"Spark 批处理任务的摘要信息。"},"ja-JP":{"description":"Spark バッチジョブの概要情報です。"}},"properties":{"jobId":{"type":"string","description":"The job ID.","x-i18n":{"zh-CN":{"description":"任务 ID。"},"ja-JP":{"description":"コントロールプレーンのジョブ ID です。"}}},"projectId":{"type":"string","description":"The project ID the job belongs to.","x-i18n":{"zh-CN":{"description":"任务所属的项目 ID。"},"ja-JP":{"description":"ジョブが属するプロジェクトの ID。"}}},"type":{"type":"string","description":"The job type.","x-i18n":{"zh-CN":{"description":"任务类型。"},"ja-JP":{"description":"ジョブタイプです。Sparkジョブの場合、値は `SPARK` です。"}}},"description":{"type":"string","description":"The job description.","x-i18n":{"zh-CN":{"description":"任务描述。"},"ja-JP":{"description":"ジョブの説明。"}}},"status":{"type":"string","description":"The job status.","x-i18n":{"zh-CN":{"description":"任务状态。"},"ja-JP":{"description":"Spark バッチジョブのステータスです。"}}},"regionId":{"type":"string","description":"The cloud region ID.","x-i18n":{"zh-CN":{"description":"云地域 ID。"},"ja-JP":{"description":"Sparkジョブが実行されるクラウドリージョンです。"}}},"clusterId":{"type":"string","description":"The cluster ID.","x-i18n":{"zh-CN":{"description":"集群 ID。"},"ja-JP":{"description":"Sparkジョブに関連付けられた Zilliz Cloudクラスターです。"}}},"createdAt":{"type":"string","description":"Creation time (ISO 8601).","x-i18n":{"zh-CN":{"description":"创建时间（ISO 8601）。"},"ja-JP":{"description":"Sparkジョブが作成された時刻です。"}}},"startedAt":{"type":"string","description":"Start time (ISO 8601).","x-i18n":{"zh-CN":{"description":"开始时间（ISO 8601）。"},"ja-JP":{"description":"Sparkジョブの実行が開始された時刻です。ジョブの開始前は、このフィールドが存在しない場合があります。"}}},"finishedAt":{"type":"string","description":"Finish time (ISO 8601).","x-i18n":{"zh-CN":{"description":"结束时间（ISO 8601）。"},"ja-JP":{"description":"Sparkジョブが終了ステータスに達した時刻です。アクティブなジョブでは、このフィールドが存在しない場合があります。"}}},"durationSeconds":{"type":"integer","format":"int64","description":"The duration in seconds.","x-i18n":{"zh-CN":{"description":"持续时间（秒）。"},"ja-JP":{"description":"経過実行時間（秒）です。アクティブなジョブの場合、この値は現在時刻までで計算されます。"}}}},"required":["jobId","projectId","type","status","regionId"]}}}},"400":{"description":"Invalid Backfill request."},"401":{"description":"Unauthorized."},"404":{"description":"Project or referenced resource not found."}}}
+export const endpoint = "/v2/projects/{projectId}/jobs/backfill"
+export const method = "post"
