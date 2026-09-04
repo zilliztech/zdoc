@@ -83,7 +83,9 @@ A dictionary that contains the row count in the specified partition.
 }
 ```
 
-<Admonition type="info" icon="📘" title="**Why doesn't the row count match the number of entities inserted?**">
+<Admonition type="info" icon="📘" title="Note">
+
+Why doesn't the row count match the number of entities inserted?
 
 The data that you insert will go through a process before it is finally saved. Initially, it will flow in as data streams. Then, it will be stored in segments as entities. Milvus will select an appropriate growing segment to store the data in streams until the segment reaches its upper limit and becomes sealed.
 

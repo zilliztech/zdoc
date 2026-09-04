@@ -78,7 +78,7 @@ utility.mkts_from_unixtime(
 **RETURNS:**
 A hybrid timestamp, which is a non-negative integer ranging from **0** to **18446744073709551615**.
 
-## **Examples**\{#examples}
+## Examples\{#examples}
 
 ```python
 import time

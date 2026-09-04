@@ -130,7 +130,7 @@ client.add_collection_field(
 )
 ```
 
-**Example 2:** Add a field with default value
+<strong>Example 2:</strong> Add a field with default value
 
 ```python
 client.add_collection_field(

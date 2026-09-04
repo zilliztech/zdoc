@@ -35,7 +35,7 @@ This operation resets the password for a specific user.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-This operation differs from **update_password()** in that this operation also resets the current connection using the newly set credentials.
+This operation differs from <strong>update_password()</strong> in that this operation also resets the current connection using the newly set credentials.
 
 </Admonition>
 

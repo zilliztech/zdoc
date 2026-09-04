@@ -43,7 +43,7 @@ flush(
 
 <Admonition type="info" icon="📘" title="Note">
 
-Can I call `flush()` after every data insertion?
+Can I call flush() after every data insertion?
 
 When new data is inserted, it is written into growing segments. Once the size of a growing segment reaches its upper limit, Zilliz Cloud automatically seals the segment. 
 

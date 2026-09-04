@@ -60,7 +60,7 @@ VolumeManager(
 
     **[REQUIRED]**
 
-    The Zilliz Cloud endpoint, which is `https:*//*api.cloud.zilliz.com`.
+    The Zilliz Cloud endpoint, which is `https:<em>//</em>api.cloud.zilliz.com`.
 
 - **api_key** (*str*) -
 
