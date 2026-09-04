@@ -107,7 +107,7 @@ import { MilvusClient } from "@zilliz/milvus2-sdk-node"
 
 - Apache Maven
 
-    只需将以下依赖项添加到 **pom.xml**：
+    只需将以下依赖项添加到 **`pom.xml`**：
 
     ```xml
     <!-- Install Java SDK compatible with Milvus v2.5.x -->

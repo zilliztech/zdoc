@@ -60,7 +60,7 @@ TEXT 字段支持空值。要启用此功能，请将 nullable 设置为 True。
 
 `TEXT` 和 `VARCHAR` 都用于存储字符串值，但适用于不同的应用需求。对于用于标识、分类或过滤 Entity 的短小且长度有界的元数据，请使用 `VARCHAR`。对于可为 LLM 或 Agent 提供足够上下文以读取、引用、总结或构建 Prompt 的较长源内容，请使用 `TEXT`。
 
-| **对比项** | **VARCHAR** | **TEXT** |
+| **对比项** | **`VARCHAR`** | **`TEXT`** |
 | --- | --- | --- |
 | 适用场景 | 用于标识、分类或过滤 Entity 的短元数据，例如 `title`、`tag`、`category`、`external_id`。 | LLM 或 Agent 工作流使用的较长源内容，例如 `content`、`passage`、`article_body`、`log_message`。 |
 | 长度设置 | 必须设置 `max_length`，用于定义字段可存储的最大字节数。最大值为 65,535 字节。如果值可能超过此限制，请使用 `TEXT`。 | 无需设置 `max_length`，因此 Schema 无需为文本值设置固定的字节上限。 |

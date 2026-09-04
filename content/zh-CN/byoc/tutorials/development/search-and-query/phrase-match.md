@@ -21,9 +21,9 @@ import TabItem from '@theme/TabItem';
 
 # Phrase Match
 
-短语匹配允许您搜索包含查询词为精确短语的文档。默认情况下，这些词必须按相同顺序且彼此直接相邻出现。例如，查询 **"robotics machine learning"** 会匹配类似 *"…typical robotics machine learning models…"* 这样的文本，其中 **"robotics"**、**"machine"** 和 **"learning"** 按顺序出现，中间没有其他词。
+短语匹配允许您搜索包含查询词为精确短语的文档。默认情况下，这些词必须按相同顺序且彼此直接相邻出现。例如，查询 **"robotics machine learning"** 会匹配类似 *"…typical **robotics machine learning** models…"* 这样的文本，其中 **"robotics"**、**"machine"** 和 **"learning"** 按顺序出现，中间没有其他词。
 
-然而，在现实场景中，严格的短语匹配可能过于死板。你可能希望匹配类似*"…machine learning models widely adopted in robotics…"*这样的文本。这里，相同的关键词存在，但并非相邻或按原始顺序排列。为处理这种情况，短语匹配支持 `slop` 参数，该参数引入了灵活性。`slop` 值定义了短语中各词项之间允许的位置偏移数量。例如，当`slop` 值为 1 时，对 **"machine learning"** 的查询可以匹配类似 *"...machine deep learning..."* 这样的文本，其中一个词（**"deep"**）分隔了原始词项。
+然而，在现实场景中，严格的短语匹配可能过于死板。你可能希望匹配类似*"…machine learning models widely adopted in robotics…"*这样的文本。这里，相同的关键词存在，但并非相邻或按原始顺序排列。为处理这种情况，短语匹配支持 `slop` 参数，该参数引入了灵活性。`slop` 值定义了短语中各词项之间允许的位置偏移数量。例如，当`slop` 值为 1 时，对 **"machine learning"** 的查询可以匹配类似 *"...**machine** deep **learning**..."* 这样的文本，其中一个词（**"deep"**）分隔了原始词项。
 
 ## 概述\{#overview}
 

@@ -225,13 +225,13 @@ export multi_analyzer_params='{
 
 在此步骤中，定义集合模式时需要包含以下四个关键字段：
 
-- **主键字段 (id)**：集合中每个实体的唯一标识符。设置 `auto_id=True` 时，Zilliz Cloud 会自动生成这些 ID。
+- **主键字段 (`id`)**：集合中每个实体的唯一标识符。设置 `auto_id=True` 时，Zilliz Cloud 会自动生成这些 ID。
 
-- **语言标识字段 (language)**：此 `VARCHAR` 字段对应 `multi_analyzer_params` 中指定的 `by_field`。它存储每个实体的语言标识，用于指示 Zilliz Cloud 应使用哪个 Analyzer。
+- **语言标识字段 (`language`)**：此 `VARCHAR` 字段对应 `multi_analyzer_params` 中指定的 `by_field`。它存储每个实体的语言标识，用于指示 Zilliz Cloud 应使用哪个 Analyzer。
 
-- **文本内容字段 (text)**：此 `VARCHAR` 字段存储你要分析和搜索的实际文本数据。必须将 `enable_analyzer=True`，以启用该字段的文本分析功能。`multi_analyzer_params` 配置会直接附加到此字段，从而建立文本数据与特定语言 Analyzer 之间的关联。
+- **文本内容字段 (`text`)**：此 `VARCHAR` 字段存储你要分析和搜索的实际文本数据。必须将 `enable_analyzer=True`，以启用该字段的文本分析功能。`multi_analyzer_params` 配置会直接附加到此字段，从而建立文本数据与特定语言 Analyzer 之间的关联。
 
-- **向量字段 (sparse)**：此字段用于存储 BM25 函数生成的稀疏向量。这些向量表示文本数据的可分析形式，也是 Zilliz Cloud 实际用于搜索的内容。
+- **向量字段 (`sparse`)**：此字段用于存储 BM25 函数生成的稀疏向量。这些向量表示文本数据的可分析形式，也是 Zilliz Cloud 实际用于搜索的内容。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>

@@ -195,7 +195,7 @@ print(schema)
 
 - `enable_dynamic_field=True`
 
-    该参数默认为 **False**，表示 Schema 中未定义的字段将会被忽略。将其设置为 **True** 将允许 **BulkWriter** 将未在 Schema 中定义的字段以键值对的形式存储到一个名为 **&#36;meta** 的预留 JSON 字段中。
+    该参数默认为 **False**，表示 Schema 中未定义的字段将会被忽略。将其设置为 **True** 将允许 **BulkWriter** 将未在 Schema 中定义的字段以键值对的形式存储到一个名为 **$meta** 的预留 JSON 字段中。
 
 </TabItem>
 

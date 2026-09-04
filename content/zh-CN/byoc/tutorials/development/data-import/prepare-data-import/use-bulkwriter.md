@@ -795,15 +795,15 @@ System.out.println(batchFiles);
        </tr>
        <tr>
          <td><p><strong>JSON</strong></p></td>
-         <td><ul><li><p><em>https://remote_bucket.oss-cn-hangzhou.aliyuncs.com/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</em></p></li><li><p><em>https://remote_bucket.oss-cn-hangzhou.aliyuncs.com/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.json</em></p></li></ul></td>
+         <td><ul><li><p><em><code>https://remote_bucket.oss-cn-hangzhou.aliyuncs.com/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></em></p></li><li><p><em><code>https://remote_bucket.oss-cn-hangzhou.aliyuncs.com/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.json</code></em></p></li></ul></td>
        </tr>
        <tr>
          <td><p><strong>Parquet</strong></p></td>
-         <td><ul><li><p><em>https://remote_bucket.oss-cn-hangzhou.aliyuncs.com/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</em></p></li><li><p><em>https://remote_bucket.oss-cn-hangzhou.aliyuncs.com/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.parquet</em></p></li></ul></td>
+         <td><ul><li><p><em><code>https://remote_bucket.oss-cn-hangzhou.aliyuncs.com/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></em></p></li><li><p><em><code>https://remote_bucket.oss-cn-hangzhou.aliyuncs.com/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.parquet</code></em></p></li></ul></td>
        </tr>
        <tr>
          <td><p><strong>NumPy</strong></p></td>
-         <td><ul><li><p><em>https://remote_bucket.oss-cn-hangzhou.aliyuncs.com/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</em></p></li><li><p><em>https://remote_bucket.oss-cn-hangzhou.aliyuncs.com/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/&ast;.npy</em></p></li></ul></td>
+         <td><ul><li><p><em><code>https://remote_bucket.oss-cn-hangzhou.aliyuncs.com/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></em></p></li><li><p><em><code>https://remote_bucket.oss-cn-hangzhou.aliyuncs.com/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/&ast;.npy</code></em></p></li></ul></td>
        </tr>
     </table>
 

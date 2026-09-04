@@ -27,7 +27,7 @@ import TabItem from '@theme/TabItem';
 
 Zilliz Cloud 为您提供了两种统计集合中 Entity 数量的方法。
 
-- **查询以count(&ast;)作为输出字段**
+- **查询以`count(*)`作为输出字段**
 
     要获取 Collection 中 Entity 的确切数量，您应该使用此方法并确保：
 
@@ -41,7 +41,7 @@ Zilliz Cloud 为您提供了两种统计集合中 Entity 数量的方法。
 
     您可以在查询中指定多个 Partition 名称，以获取这些 Partition 中对应的 Entity 计数。有关详细信息，请参阅[以 count(*) 作为输出字段的查询](./count-entities#query-with-count-as-the-output-field)。
 
-- **使用get_collection_stats()**
+- **使用`get_collection_stats()`**
 
     虽然你可以使用上述方法获取 Collection 的确切计数，但不建议在所有场合都使用它。这个过程本质上是一个查询，频繁调用可能会导致网络抖动，或者影响与你的业务相关的搜索和查询。
 
@@ -351,7 +351,7 @@ milvusClient.getCollectionStats({
 
 ## 常见问题解答\{#faqs}
 
-- **为什么在我插入一些实体后，使用get_collection_stats()或get_partition_stats()获取的实体计数没有反映目标集合或分区中的实际实体数量？**
+- **为什么在我插入一些实体后，使用`get_collection_stats()`或`get_partition_stats()`获取的实体计数没有反映目标集合或分区中的实际实体数量？**
 
     这些方法仅报告内部跟踪器记录的内容，由于所有数据操作都是异步的，因此可能与实际实体计数不同。
 
