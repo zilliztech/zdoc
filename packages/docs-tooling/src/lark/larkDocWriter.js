@@ -1681,6 +1681,7 @@ class larkDocWriter {
 
         let content = await this.__text_elements(elements)
         content = this.__clean_headings(content)
+        content = this.__stripHeadingEmphasis(content)
 
         if (content.length > 0) {
             
@@ -1799,6 +1800,30 @@ class larkDocWriter {
             .replace(/>/g, '&gt;')
     }
 
+    // Admonition titles render as plain headings (already font-weight: 600 via
+    // theme styles), so emphasis markers must be stripped instead of preserved.
+    // Stripping at normalization time also lets type detection match styled
+    // Chinese keywords (e.g. **警告**) instead of falling through to info.
+    __stripMarkdownStyles(text) {
+        return String(text ?? '')
+            .replace(/\*\*([^*]+)\*\*/g, '$1')
+            .replace(/\*([^*\s][^*]*)\*/g, '$1')
+            .replace(/~~([^~]+)~~/g, '$1')
+            .replace(/`([^`]+)`/g, '$1')
+            .trim()
+    }
+
+    // Headings already carry strong typography via site CSS, so emphasis
+    // markers only produce nested <strong>/<em> inside an already-bold heading.
+    // Inline code is preserved: headings like "Update `data.tf`" legitimately
+    // render and keep their semantic code style.
+    __stripHeadingEmphasis(text) {
+        return String(text ?? '')
+            .replace(/\*\*([^*]+)\*\*/g, '$1')
+            .replace(/\*([^*\s][^*]*)\*/g, '$1')
+            .replace(/~~([^~]+)~~/g, '$1')
+    }
+
     __normalizeAdmonitionBody(lines) {
         let body = Array.isArray(lines) ? lines.join('\n') : String(lines ?? '')
         let bodyLines = body.split('\n')
@@ -1822,8 +1847,8 @@ class larkDocWriter {
         const pad = ' '.repeat(indent)
         const body = this.__normalizeAdmonitionBody(bodyLines)
         const bodyWithIndent = body ? body.split('\n').map(line => pad + line).join('\n') : ''
-        const titleAttr = this.__escapeJsxAttribute(title || 'Notes')
         const iconAttr = this.__escapeJsxAttribute(icon)
+        const titleAttr = this.__escapeJsxAttribute(title || 'Notes')
 
         return [
             `${pad}<Admonition type="${type}" icon="${iconAttr}" title="${titleAttr}">`,
@@ -1835,7 +1860,7 @@ class larkDocWriter {
     }
 
     __normalize_admonition_title(rawTitle, bodyLines) {
-        const title = String(rawTitle || '').trim();
+        const title = this.__stripMarkdownStyles(rawTitle);
         const body = Array.isArray(bodyLines) ? [...bodyLines] : [];
         const titleLooksLikeSentence = title.length > 72 || /[.!?]$/.test(title) || /\[[^\]]+\]\([^)]+\)/.test(title) || /`/.test(title);
 
@@ -2846,7 +2871,7 @@ class larkDocWriter {
             if ((!prev || prev_element_type === 'equation' || (prev && !prev[prev_element_type]['text_element_style'][style_name])) && style[style_name] && (!next || next_element_type === 'equation' || (next && !next[next_element_type]['text_element_style'][style_name]))) {
                 let prefix_spaces = content.match(/^\s*/)[0];
                 let suffix_spaces = content.match(/\s*$/)[0];
-                content = `${prefix_spaces}${decorator}${content.trim()}${decorator}${suffix_spaces}`;
+                content = `${prefix_spaces}${this.__wrapStyledContent(content.trim(), decorator, next)}${suffix_spaces}`;
             }
 
             // first element
@@ -2868,6 +2893,21 @@ class larkDocWriter {
         }
 
         return content;
+    }
+
+    // CommonMark right-flanking rule: a closing ** after CJK/Unicode punctuation
+    // (e.g. "结构化字段：") followed immediately by non-whitespace text is not a
+    // valid closer and renders literally. Use an HTML tag pair in that case.
+    __wrapStyledContent(trimmedContent, decorator, next) {
+        const closesBeforeText = next && next.text_run && typeof next.text_run.content === 'string'
+            && /[^\s\p{P}\p{S}]/u.test(next.text_run.content.charAt(0));
+        const endsWithPunctuation = /\p{P}\p{S}*$/u.test(trimmedContent);
+        const htmlPairs = {'**': ['<strong>', '</strong>'], '*': ['<em>', '</em>'], '~~': ['<del>', '</del>']};
+        if (decorator === '`' || !closesBeforeText || !endsWithPunctuation) {
+            return `${decorator}${trimmedContent}${decorator}`;
+        }
+        const pair = htmlPairs[decorator];
+        return pair ? `${pair[0]}${trimmedContent}${pair[1]}` : `${decorator}${trimmedContent}${decorator}`;
     }
 
     async __mention_doc(element) {
