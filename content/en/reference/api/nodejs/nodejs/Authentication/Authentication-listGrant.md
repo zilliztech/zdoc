@@ -67,7 +67,7 @@ await milvusClient.listGrant(data)
 
     The timeout duration of this operation.
 
-*Returns Promise\<SelectGrantResponse>*
+***Returns** Promise\<SelectGrantResponse>*
 
 This method returns a promise that resolves to a **SelectGrantResponse** object.
 
@@ -137,7 +137,7 @@ This method returns a promise that resolves to a **SelectGrantResponse** object.
 
 - **status** (*ResStatus*) -
 
-    A **ResStatus object.
+    A **ResStatus** object.
 
     - **code** (*number*) -
 
