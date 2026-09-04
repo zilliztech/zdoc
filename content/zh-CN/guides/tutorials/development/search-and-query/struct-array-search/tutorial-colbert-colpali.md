@@ -34,7 +34,7 @@ ColBERT（arXiv: [2004.12832](https://arxiv.org/abs/2004.12832)）是一个文�
 
 ### Token-wise encoding\{#token-wise-encoding}
 
-在 ColBERT 的数据导入过程中，每个文档会被切分为 token，然后向量化并存储为一个 EmbeddingList，如 $d \rightarrow E_d = [e_\{d1\}, e_\{d2\}, \dots, e_\{dn\}] ∈ \R^\{n×d\}$。当查询到来时，也会被 token 化、向量化并存储为一个 EmbeddingList，如 $q \rightarrow E_q = [e_\{q1\}, e_\{q2\}, \dots, e_\{qm\}] ∈ \R^\{m×d\}$。
+在 ColBERT 的数据导入过程中，每个文档会被切分为 token，然后向量化并存储为一个 EmbeddingList，如 $d \rightarrow E_d = [e_{d1}, e_{d2}, \dots, e_{dn}] ∈ \R^{n×d}$。当查询到来时，也会被 token 化、向量化并存储为一个 EmbeddingList，如 $q \rightarrow E_q = [e_{q1}, e_{q2}, \dots, e_{qm}] ∈ \R^{m×d}$。
 
 在上述公式中：
 
@@ -46,9 +46,9 @@ ColBERT（arXiv: [2004.12832](https://arxiv.org/abs/2004.12832)）是一个文�
 
 - $E_q$：表示查询的 EmbeddingList。
 
-- $[e_\{d1\}, e_\{d2\}, \dots, e_\{dn\}] ∈ \R^\{n×d\}$：表示文档的 EmbeddingList 中的 Vector Embedding 数量位于 $\R^\{n×d\}$ 范围内。
+- $[e_{d1}, e_{d2}, \dots, e_{dn}] ∈ \R^{n×d}$：表示文档的 EmbeddingList 中的 Vector Embedding 数量位于 $\R^{n×d}$ 范围内。
 
-- $[e_\{q1\}, e_\{q2\}, \dots, e_\{qm\}] ∈ \R^\{m×d\}$：表示查询的 EmbeddingList 中的 Vector Embedding 数量位于 $\R^\{m×d\}$ 范围内。
+- $[e_{q1}, e_{q2}, \dots, e_{qm}] ∈ \R^{m×d}$：表示查询的 EmbeddingList 中的 Vector Embedding 数量位于 $\R^{m×d}$ 范围内。
 
 ### Late interaction\{#late-interaction}
 
@@ -73,7 +73,7 @@ ColPali（arXiv: [2407.01449](https://arxiv.org/abs/2407.01449?spm=a2ty_o01.2999
 
 ColPali 使用的 VLM 称为 PaliGemma（arXiv: [2407.07726](https://arxiv.org/html/2407.07726v2#S1)），由图像编码器（**SigLIP-400M**）、decoder-only 语言模型（**Gemma2-2B**）以及一个将图像编码器输出投影到语言模型向量空间的线性层组成，如上图所示。
 
-在数据导入期间，以原始图像表示的文档页会被切分为多个视觉 patch，每个 patch 都会被 Embedding，生成一个 Vector Embedding 列表。随后，这些 Embedding 会被投影到语言模型的向量空间，得到最终 EmbeddingList，如 $d \rightarrow E_d = [e_\{d1\}, e_\{d2\}, \dots, e_\{dn\}] ∈ \R^\{n×d\}$。当查询到来时，查询会被 token 化，每个 token 都会被 Embedding，生成一个 Vector Embedding 列表，如 $q \rightarrow E_q = [e_\{q1\}, e_\{q2\}, \dots, e_\{qm\}] ∈ \R^\{m×d\}$。然后应用 **MAX_SIM** 比较两个 EmbeddingList，并得到查询与文档页之间的最终评分。
+在数据导入期间，以原始图像表示的文档页会被切分为多个视觉 patch，每个 patch 都会被 Embedding，生成一个 Vector Embedding 列表。随后，这些 Embedding 会被投影到语言模型的向量空间，得到最终 EmbeddingList，如 $d \rightarrow E_d = [e_{d1}, e_{d2}, \dots, e_{dn}] ∈ \R^{n×d}$。当查询到来时，查询会被 token 化，每个 token 都会被 Embedding，生成一个 Vector Embedding 列表，如 $q \rightarrow E_q = [e_{q1}, e_{q2}, \dots, e_{qm}] ∈ \R^{m×d}$。然后应用 **MAX_SIM** 比较两个 EmbeddingList，并得到查询与文档页之间的最终评分。
 
 ## ColBERT 文本检索系统\{#colbert-text-retrieval-system}
 

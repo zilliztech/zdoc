@@ -987,19 +987,19 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/exponential-decay.md",
-      "sha256": "ffa0d00fc16f1b6270df17951776bff54b03e01b38775a6005149ef49d27e6fb",
+      "sha256": "76ab85b3ae0472bb4a39cf26f52cd07e1b02d795ef2d00693ef824a450ebc604",
       "docToken": "T9XBwGwawiC5awkP210cc779nUb",
       "revisionId": null
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/gaussian-decay.md",
-      "sha256": "7f3fb8d82caaf8b5e4c591c8ccaa2a604fbe3e6ad43a0d0f6a94035eedd83f68",
+      "sha256": "bcb827dd2a08229d7de942f26f9836d26550dbca6a1e497e184e96144f9162f2",
       "docToken": "Legxw7ksGi1G0Skd085ckWIznJh",
       "revisionId": null
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/linear-decay.md",
-      "sha256": "98a8acaf0329048fa5ee7d4a9e1db43ec8f14bfeca8042f06ddda742f819633b",
+      "sha256": "36e03af7c0bd3ada4fc9d4b83277c044dd53703036f72efba0191148bf9155d0",
       "docToken": "S745w3MiLialCBkd1sfcBnvLnHg",
       "revisionId": null
     },
@@ -1389,7 +1389,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/search-and-query/struct-array-search/tutorial-colbert-colpali.md",
-      "sha256": "5987a0f7964abbb9cb1544914d88d6d683d6dcf65eca02abaa2b268976eb7e0f",
+      "sha256": "583ef064b40b8ace5b1fcacb21eb05c6f7f6dba40f9c7f1899a7cf535c93a62c",
       "docToken": "Pl4Qwn8oZiQGI1kwHPEcjOXynyh",
       "revisionId": null
     },
@@ -1437,7 +1437,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/vector-index/minhash-lsh.md",
-      "sha256": "66c16db0ec130df31ed9848007ce01136da26198137b00b38a8ee6b8f22941aa",
+      "sha256": "d1408a165ad6aa3d89cc380d169778dbeca40425e0b4e1bd93d6b86e4cdd2f89",
       "docToken": "FVyuwwzfiimAL1keHx8cHbcinUv",
       "revisionId": null
     },
@@ -2523,19 +2523,19 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/exponential-decay.md",
-      "sha256": "5109de351e3ff7ddd5420569103f6df7229ee1536c05def85955cad1873e42e8",
+      "sha256": "684c8c03023d4a2a4745e3485ae048d5969f78ba85131f179042ffe2e693cf1b",
       "docToken": "T9XBwGwawiC5awkP210cc779nUb",
       "revisionId": null
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/gaussian-decay.md",
-      "sha256": "cffcc8358a441fc6100adf8c7f2c50ba8c30672a7e98c0b61cc754c8d0de8d6c",
+      "sha256": "2ee642f1d114591c6b8f2a6c9850708e018d882e635e3b26802642a028456707",
       "docToken": "Legxw7ksGi1G0Skd085ckWIznJh",
       "revisionId": null
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/linear-decay.md",
-      "sha256": "46588bc2192b5d51c63b7ceb4e06fc9c89d1498b07e1555ad9edf3d859383a07",
+      "sha256": "2b9a24c41c7a080fe8ee239a7962301e8487e09b2f96f10d5a483418154944cd",
       "docToken": "S745w3MiLialCBkd1sfcBnvLnHg",
       "revisionId": null
     },
@@ -2937,7 +2937,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/search-and-query/struct-array-search/tutorial-colbert-colpali.md",
-      "sha256": "55c5ac2552434e7ccc2c61c10419873ce7a572a615b6e8727191bb8a54636f4c",
+      "sha256": "3add316a2687e6439e3454392ecb1f887e14be278991692ae536bae34f43decb",
       "docToken": "Pl4Qwn8oZiQGI1kwHPEcjOXynyh",
       "revisionId": null
     },
@@ -3039,7 +3039,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/vector-index/minhash-lsh.md",
-      "sha256": "7b3648c4f973bcdb3fe5b645bbfacbe27378ee19fbd4a88fa3b3910596770fb3",
+      "sha256": "3f217ac31ce57ac650521b918ba7baf84dabd987953680d4377b3a607956a51c",
       "docToken": "FVyuwwzfiimAL1keHx8cHbcinUv",
       "revisionId": null
     },

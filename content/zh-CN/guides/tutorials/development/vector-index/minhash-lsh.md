@@ -41,7 +41,7 @@ Zilliz Cloud 中的 **MINHASH_LSH** 索引通过结合两种强大的技术，�
 Jaccard 相似度用于衡量两个集合 A 和 B 之间的重叠程度，其正式定义为：
 
 $$
-J(A, B) = \frac\{|A \cap B|\}\{|A \cup B|\}
+J(A, B) = \frac{|A \cap B|}{|A \cup B|}
 $$
 
 其取值范围为 0（完全不相交）到 1（完全相同）。

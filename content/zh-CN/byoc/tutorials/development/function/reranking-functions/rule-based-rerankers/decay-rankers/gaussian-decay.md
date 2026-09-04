@@ -69,18 +69,18 @@ import TabItem from '@theme/TabItem';
 计算高斯衰减得分的数学公式为：
 
 $$
-S(doc) = \exp\left( -\frac\{\left( \max\left(0, \left|fieldvalue_\{doc\} - origin\right| - offset \right) \right)^2\}\{2\sigma^2\} \right)
+S(doc) = \exp\left( -\frac{\left( \max\left(0, \left|fieldvalue_{doc} - origin\right| - offset \right) \right)^2}{2\sigma^2} \right)
 $$
 
 其中：
 
 $$
-\sigma^2 = -\frac\{scale^2\}\{2 \cdot \ln(decay)\}
+\sigma^2 = -\frac{scale^2}{2 \cdot \ln(decay)}
 $$
 
 用通俗易懂的语言来解释就是：
 
-1. 计算字段值离原点的距离：$|fieldvalue_\{doc\} - origin|$
+1. 计算字段值离原点的距离：$|fieldvalue_{doc} - origin|$
 
 1. 减去偏移量（如果有的话），但结果永远不能小于零：$\max(0, distance - offset)$
 

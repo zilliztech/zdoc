@@ -83,18 +83,18 @@ import TabItem from '@theme/TabItem';
 计算线性衰减分数的数学公式为：
 
 $$
-S(doc) = \max\left( \frac\{s - \max(0, |fieldvalue_\{doc\} - origin| - offset)\}\{s\}, 0 \right)
+S(doc) = \max\left( \frac{s - \max(0, |fieldvalue_{doc} - origin| - offset)}{s}, 0 \right)
 $$
 
 其中：
 
 $$
-s = \frac \{scale\}\{(1.0 - decay)\}
+s = \frac {scale}{(1.0 - decay)}
 $$
 
 用通俗易懂的语言来解释一下：
 
-1. 计算字段值离原点的距离：$|fieldvalue_\{doc\} - origin|$。
+1. 计算字段值离原点的距离：$|fieldvalue_{doc} - origin|$。
 
 1. 减去偏移量（如果有的话），但结果永远不能小于零：$\max(0, distance - offset)$。
 
