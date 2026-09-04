@@ -36,6 +36,7 @@
         "packages/docs-ui/src/en/theme/Navbar/MobileSidebar/**",
         "packages/docs-ui/src/shared/components/Supademo/**",
         "packages/docs-ui/src/shared/theme/DocRoot/Layout/**",
+        "packages/docs-ui/src/shared/theme/DocItem/Layout/**",
         "apps/docs/src/css/custom.css"
       ],
       "focusedTests": [],
