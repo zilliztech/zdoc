@@ -14,10 +14,9 @@ export default function Supademo({ id, title, isShowcase }) {
                     loading="lazy"
                     title={title}
                     allow="clipboard-write; fullscreen"
-                    frameborder="0"
+                    frameBorder="0"
                     webkitallowfullscreen="true"
                     mozallowfullscreen="true"
-                    allowfullscreen
                     className={styles.iframe} />
             </div>
         )
@@ -29,12 +28,10 @@ export default function Supademo({ id, title, isShowcase }) {
                 loading="lazy"
                 title={title}
                 allow="clipboard-write; fullscreen"
-                frameborder="0"
+                frameBorder="0"
                 webkitallowfullscreen="true"
                 mozallowfullscreen="true"
-                allowfullscreen
                 className={styles.iframe} />
         </div>
     )
 }
-
