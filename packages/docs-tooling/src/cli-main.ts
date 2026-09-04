@@ -211,7 +211,7 @@ async function validateCommittedRevisionInventories(argv: string[], repositoryRo
     const group = resolvePublicationGroup('zh-CN', 'guides');
     if (!group.publicationManifest) throw new Error('Chinese Guides publication manifest is not registered');
     const manifestPath = path.join(repositoryRoot, group.publicationManifest);
-    const manifest = parseSourcePublicationManifest(readFileSync(manifestPath, 'utf8'), group);
+    const manifest = parseSourcePublicationManifest(readFileSync(manifestPath, 'utf8'), group, repositoryRoot);
     for (const record of manifest.records) {
       const file = path.join(repositoryRoot, record.path);
       if (!existsSync(file) || !lstatSync(file).isFile() || lstatSync(file).isSymbolicLink()) {
