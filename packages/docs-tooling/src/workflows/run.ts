@@ -171,7 +171,11 @@ export function serializeSourcePublicationManifest(
   return `${JSON.stringify(manifest, null, 2)}\n`;
 }
 
-export function parseSourcePublicationManifest(contents: string, group: PublicationGroup): SourcePublicationManifest {
+export function parseSourcePublicationManifest(
+  contents: string,
+  group: PublicationGroup,
+  repositoryRoot?: string,
+): SourcePublicationManifest {
   let input: unknown;
   try {
     input = JSON.parse(contents);
@@ -181,10 +185,16 @@ export function parseSourcePublicationManifest(contents: string, group: Publicat
   if (!input || typeof input !== 'object' || Array.isArray(input)) throw new Error('Chinese Guides source publication manifest must be an object');
   const value = input as Record<string, unknown>;
   const keys = Object.keys(value);
-  if (keys.length !== 5 || keys.some(key => !['schemaVersion', 'site', 'group', 'files', 'records'].includes(key))) {
+  // PR #526 made records mandatory, but dev still carries the legacy 4-key manifest shape.
+  // Accept that shape and migrate it in place so an immutable legacy baseline can still be
+  // read and then rewritten with the new schema.
+  const legacyKeys = ['schemaVersion', 'site', 'group', 'files'];
+  const isLegacy = keys.length === 4 && keys.every(key => legacyKeys.includes(key));
+  if (!isLegacy && (keys.length !== 5 || keys.some(key => !['schemaVersion', 'site', 'group', 'files', 'records'].includes(key)))) {
     throw new Error('Chinese Guides source publication manifest must contain exactly schemaVersion, site, group, files, and records');
   }
-  if (value.schemaVersion !== 1 || value.site !== 'zh-CN' || value.group !== 'guides' || !Array.isArray(value.files) || !Array.isArray(value.records)) {
+  if (value.schemaVersion !== 1 || value.site !== 'zh-CN' || value.group !== 'guides' || !Array.isArray(value.files)
+    || (!isLegacy && !Array.isArray(value.records))) {
     throw new Error('Chinese Guides source publication manifest identity is invalid');
   }
   const files = value.files.map(file => {
@@ -195,7 +205,18 @@ export function parseSourcePublicationManifest(contents: string, group: Publicat
   if (new Set(files).size !== files.length || files.some((file, index) => file !== sorted[index])) {
     throw new Error('Chinese Guides source publication manifest files must be unique and sorted');
   }
-  const records = value.records.map(record => {
+  const records: SourcePublicationRecord[] = isLegacy
+    ? files.map(file => {
+        if (repositoryRoot === undefined) {
+          throw new Error('Chinese Guides source publication manifest legacy records require a repository root');
+        }
+        const target = resolveOwnedRepositoryPath(repositoryRoot, file, 'Chinese Guides source publication legacy file');
+        if (!existsSync(target) || !lstatSync(target).isFile() || lstatSync(target).isSymbolicLink()) {
+          throw new Error(`Chinese Guides source publication legacy file is missing or unsafe: ${file}`);
+        }
+        return {path: file, sha256: sha256(readFileSync(target)), docToken: null, revisionId: null};
+      })
+    : (value.records as readonly unknown[]).map(record => {
     if (!record || typeof record !== 'object' || Array.isArray(record)) throw new Error('Chinese Guides source publication manifest records must be objects');
     const entry = record as Record<string, unknown>;
     const recordKeys = Object.keys(entry);
@@ -543,7 +564,7 @@ function readManifestAt(repositoryRoot: string, relativePath: string, group: Pub
   if (!existsSync(target)) {
     throw new Error(`Chinese Guides source publication manifest must be a regular file: ${relativePath}`);
   }
-  return parseSourcePublicationManifest(readSecureFile(repositoryRoot, target, 'Chinese Guides source publication manifest').toString('utf8'), group);
+  return parseSourcePublicationManifest(readSecureFile(repositoryRoot, target, 'Chinese Guides source publication manifest').toString('utf8'), group, repositoryRoot);
 }
 
 function sourceForManifestFile(repositoryRoot: string, group: PublicationGroup, target: string): string {
