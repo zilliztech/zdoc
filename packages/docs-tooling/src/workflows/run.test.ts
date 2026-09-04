@@ -1,4 +1,5 @@
 import {existsSync, linkSync, mkdtempSync, mkdirSync, readFileSync, renameSync, rmSync, symlinkSync, writeFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 
@@ -30,9 +31,17 @@ function write(root: string, relative: string, contents = 'x\n'): void {
   writeFileSync(target, contents);
 }
 
+function stagedRecordFor(root: string, manual: string, file: string): {path: string; sha256: string} {
+  return {
+    path: file,
+    sha256: createHash('sha256').update(readFileSync(path.join(root, 'tmp/docs-tooling/zh-CN', manual, file))).digest('hex'),
+  };
+}
+
 function unsafeManifest(files: readonly string[]): string {
   return `${JSON.stringify({schemaVersion: 1, site: 'zh-CN', group: 'guides', files}, null, 2)}\n`;
 }
+
 
 const guidesAttestation = 'tmp/docs-tooling/zh-CN/groups/guides/.docs-tooling-validated-stage.json';
 
@@ -47,13 +56,18 @@ function preparedGuidesStage(root: string): Readonly<{
   const byocSidebar = 'generated/zh-CN/sidebars/guides-byoc.sidebar.js';
   const files = ['content/zh-CN/guides/tutorials/a.md', byocFile, sidebar, byocSidebar];
   for (const file of files) write(root, file, `live ${file}\n`);
-  write(root, 'generated/zh-CN/manifests/guides-source-publication.json', serializeSourcePublicationManifest(files));
+  write(root, 'generated/zh-CN/manifests/guides-source-publication.json', serializeSourcePublicationManifest(files, {repositoryRoot: root}));
   write(root, stagedFile, 'staged a\n');
   write(root, `tmp/docs-tooling/zh-CN/guides-byoc/${byocFile}`, 'staged b\n');
   write(root, `tmp/docs-tooling/zh-CN/guides/${sidebar}`, 'staged sidebar\n');
   write(root, `tmp/docs-tooling/zh-CN/guides-byoc/${byocSidebar}`, 'staged byoc sidebar\n');
   const stagedManifest = 'tmp/docs-tooling/zh-CN/groups/guides/generated/zh-CN/manifests/guides-source-publication.json';
-  write(root, stagedManifest, serializeSourcePublicationManifest(files));
+  write(root, stagedManifest, serializeSourcePublicationManifest(files, {records: [
+      stagedRecordFor(root, 'guides', 'content/zh-CN/guides/tutorials/a.md'),
+      stagedRecordFor(root, 'guides-byoc', byocFile),
+      stagedRecordFor(root, 'guides', sidebar),
+      stagedRecordFor(root, 'guides-byoc', byocSidebar),
+    ]}));
   writePublicationGroupDiagnostics(root, 'zh-CN', 'guides');
   return {
     stagedFile,
@@ -473,7 +487,7 @@ describe('Chinese Guides source publication', () => {
       'generated/zh-CN/sidebars/guides-byoc.sidebar.js',
     ];
     for (const file of files) write(root, file, `live ${file}\n`);
-    write(root, 'generated/zh-CN/manifests/guides-source-publication.json', serializeSourcePublicationManifest(files));
+    write(root, 'generated/zh-CN/manifests/guides-source-publication.json', serializeSourcePublicationManifest(files, {repositoryRoot: root}));
     write(root, 'tmp/docs-tooling/zh-CN/guides/content/zh-CN/guides/tutorials/a.md', 'staged a\n');
     write(root, 'tmp/docs-tooling/zh-CN/guides/generated/zh-CN/sidebars/guides.sidebar.js', 'staged sidebar\n');
     write(root, 'tmp/docs-tooling/zh-CN/guides-byoc/generated/zh-CN/sidebars/guides-byoc.sidebar.js', 'staged byoc sidebar\n');
@@ -488,7 +502,10 @@ describe('Chinese Guides source publication', () => {
     )).rejects.toThrow(/symlink|ancestor|stage|unsafe/i);
     expect(readFileSync(path.join(outside, 'zh-CN/manifests/sentinel'), 'utf8')).toBe('keep\n');
 
-    write(outside, 'zh-CN/manifests/guides-source-publication.json', serializeSourcePublicationManifest(files));
+    write(outside, 'zh-CN/manifests/guides-source-publication.json', serializeSourcePublicationManifest(files, {records: files.map(file => ({
+      path: file,
+      sha256: createHash('sha256').update(`outside ${file}\n`).digest('hex'),
+    }))}));
     await expect(executePublicationGroup(
       {site: 'zh-CN', group: 'guides', stage: 'publish'},
       {repositoryRoot: root, atomicReplace: vi.fn(async () => undefined)},
@@ -500,7 +517,7 @@ describe('Chinese Guides source publication', () => {
     const root = temporaryRoot();
     const baselineRoot = temporaryRoot();
     const outside = temporaryRoot();
-    const manifest = serializeSourcePublicationManifest([]);
+    const manifest = serializeSourcePublicationManifest([], {repositoryRoot: root});
     write(root, 'generated/zh-CN/manifests/guides-source-publication.json', manifest);
     write(baselineRoot, 'generated/zh-CN/manifests/guides-source-publication.json', manifest);
     write(outside, 'baseline-restore/sentinel', 'keep\n');
@@ -522,7 +539,7 @@ describe('Chinese Guides source publication', () => {
     const root = temporaryRoot();
     const baselineRoot = temporaryRoot();
     const outside = temporaryRoot();
-    const manifest = serializeSourcePublicationManifest([]);
+    const manifest = serializeSourcePublicationManifest([], {repositoryRoot: root});
     write(root, 'generated/zh-CN/manifests/guides-source-publication.json', manifest);
     write(baselineRoot, 'generated/zh-CN/manifests/guides-source-publication.json', manifest);
     write(outside, 'sentinel', 'keep\n');
@@ -543,8 +560,10 @@ describe('Chinese Guides source publication', () => {
     const root = temporaryRoot();
     const baselineRoot = temporaryRoot();
     const directoryEntry = 'content/zh-CN/guides/tutorials/directory.md';
-    write(root, 'generated/zh-CN/manifests/guides-source-publication.json', serializeSourcePublicationManifest([]));
-    write(baselineRoot, 'generated/zh-CN/manifests/guides-source-publication.json', serializeSourcePublicationManifest([directoryEntry]));
+    write(root, 'generated/zh-CN/manifests/guides-source-publication.json', serializeSourcePublicationManifest([], {repositoryRoot: root}));
+    write(baselineRoot, 'generated/zh-CN/manifests/guides-source-publication.json', serializeSourcePublicationManifest([directoryEntry], {records: [
+      {path: directoryEntry, sha256: createHash('sha256').update('directory placeholder\n').digest('hex')},
+    ]}));
     write(baselineRoot, `${directoryEntry}/child.md`, 'not a regular manifest file\n');
     const atomicReplace = vi.fn(async () => {
       throw new Error('Atomic replacement must not run for a directory manifest entry');
@@ -566,12 +585,15 @@ describe('Chinese Guides source publication', () => {
     const baselineRoot = temporaryRoot();
     const copiedFile = 'content/zh-CN/guides/tutorials/a.md';
     const missingFile = 'content/zh-CN/guides/tutorials/z.md';
-    write(root, 'generated/zh-CN/manifests/guides-source-publication.json', serializeSourcePublicationManifest([]));
+    write(root, 'generated/zh-CN/manifests/guides-source-publication.json', serializeSourcePublicationManifest([], {repositoryRoot: root}));
     write(baselineRoot, copiedFile, 'copied before failure\n');
     write(
       baselineRoot,
       'generated/zh-CN/manifests/guides-source-publication.json',
-      serializeSourcePublicationManifest([copiedFile, missingFile]),
+      serializeSourcePublicationManifest([copiedFile, missingFile], {records: [
+        {path: copiedFile, sha256: createHash('sha256').update('copied before failure\n').digest('hex')},
+        {path: missingFile, sha256: createHash('sha256').update('missing from baseline\n').digest('hex')},
+      ]}),
     );
     const atomicReplace = vi.fn(async () => undefined);
 
@@ -613,8 +635,8 @@ describe('Chinese Guides source publication', () => {
     for (const file of baselineFiles) write(baselineRoot, file, `baseline ${file}\n`);
     write(root, 'generated/zh-CN/sidebars/guides.sidebar.js', 'module.exports = []\n');
     write(baselineRoot, 'generated/zh-CN/sidebars/guides.sidebar.js', 'module.exports = []\n');
-    write(root, 'generated/zh-CN/manifests/guides-source-publication.json', serializeSourcePublicationManifest(currentFiles));
-    write(baselineRoot, 'generated/zh-CN/manifests/guides-source-publication.json', serializeSourcePublicationManifest(baselineFiles));
+    write(root, 'generated/zh-CN/manifests/guides-source-publication.json', serializeSourcePublicationManifest(currentFiles, {repositoryRoot: root}));
+    write(baselineRoot, 'generated/zh-CN/manifests/guides-source-publication.json', serializeSourcePublicationManifest(baselineFiles, {repositoryRoot: baselineRoot}));
 
     await executePublicationGroup(
       {site: 'zh-CN', group: 'guides', stage: 'fetch'},
@@ -651,7 +673,7 @@ describe('Chinese Guides source publication', () => {
       'generated/zh-CN/sidebars/guides.sidebar.js',
       'generated/zh-CN/sidebars/guides-byoc.sidebar.js',
       'generated/zh-CN/sidebars/tools.sidebar.js',
-    ]));
+    ], {repositoryRoot: root}));
     write(root, 'tmp/docs-tooling/zh-CN/guides/content/zh-CN/guides/tutorials/new.md', 'new\n');
     write(root, 'tmp/docs-tooling/zh-CN/guides/content/zh-CN/guides/tutorials/tools/new.md', 'new tools\n');
     write(root, 'tmp/docs-tooling/zh-CN/guides/generated/zh-CN/sidebars/guides.sidebar.js', 'new sidebar\n');
@@ -666,9 +688,21 @@ describe('Chinese Guides source publication', () => {
       'generated/zh-CN/sidebars/guides-byoc.sidebar.js',
       'generated/zh-CN/sidebars/tools.sidebar.js',
     ];
-    write(root, `${groupStage}/generated/zh-CN/manifests/guides-source-publication.json`, serializeSourcePublicationManifest(nextFiles));
+    write(root, `${groupStage}/generated/zh-CN/manifests/guides-source-publication.json`, serializeSourcePublicationManifest(nextFiles, {records: [
+      stagedRecordFor(root, 'guides', 'content/zh-CN/guides/tutorials/new.md'),
+      stagedRecordFor(root, 'guides', 'content/zh-CN/guides/tutorials/tools/new.md'),
+      stagedRecordFor(root, 'guides-byoc', 'content/zh-CN/byoc/tutorials/new.md'),
+      stagedRecordFor(root, 'guides', 'generated/zh-CN/sidebars/guides.sidebar.js'),
+      stagedRecordFor(root, 'guides-byoc', 'generated/zh-CN/sidebars/guides-byoc.sidebar.js'),
+      stagedRecordFor(root, 'guides', 'generated/zh-CN/sidebars/tools.sidebar.js'),
+    ]}));
     writePublicationGroupDiagnostics(root, 'zh-CN', 'guides');
-    await validatePreparedGuides(root);
+    writeManualStageDiagnostics(root, 'zh-CN', 'guides', 'guides');
+    writeManualStageDiagnostics(root, 'zh-CN', 'guides', 'guides-byoc');
+    await executePublicationGroup(
+      {site: 'zh-CN', group: 'guides', stage: 'validate'},
+      {repositoryRoot: root, aliyunOssValidator: {validatePublication: vi.fn().mockResolvedValue(undefined)}},
+    );
 
     await executePublicationGroup(
       {site: 'zh-CN', group: 'guides', stage: 'publish'},
@@ -692,12 +726,16 @@ describe('Chinese Guides source publication', () => {
       'generated/zh-CN/sidebars/guides-byoc.sidebar.js',
     ];
     for (const file of currentFiles) write(root, file, `current ${file}\n`);
-    write(root, 'generated/zh-CN/manifests/guides-source-publication.json', serializeSourcePublicationManifest(currentFiles));
+    write(root, 'generated/zh-CN/manifests/guides-source-publication.json', serializeSourcePublicationManifest(currentFiles, {repositoryRoot: root}));
     write(root, 'tmp/docs-tooling/zh-CN/guides/content/zh-CN/guides/tutorials/ordinary.md', 'staged ordinary\n');
     write(root, 'tmp/docs-tooling/zh-CN/guides/generated/zh-CN/sidebars/guides.sidebar.js', 'staged guides sidebar\n');
     write(root, 'tmp/docs-tooling/zh-CN/guides-byoc/generated/zh-CN/sidebars/guides-byoc.sidebar.js', 'staged byoc sidebar\n');
     mkdirSync(path.join(root, 'tmp/docs-tooling/zh-CN/guides-byoc/content/zh-CN/byoc/tutorials'), {recursive: true});
-    write(root, 'tmp/docs-tooling/zh-CN/groups/guides/generated/zh-CN/manifests/guides-source-publication.json', serializeSourcePublicationManifest(currentFiles));
+    write(root, 'tmp/docs-tooling/zh-CN/groups/guides/generated/zh-CN/manifests/guides-source-publication.json', serializeSourcePublicationManifest(currentFiles, {records: [
+      stagedRecordFor(root, 'guides', 'content/zh-CN/guides/tutorials/ordinary.md'),
+      stagedRecordFor(root, 'guides', 'generated/zh-CN/sidebars/guides.sidebar.js'),
+      stagedRecordFor(root, 'guides-byoc', 'generated/zh-CN/sidebars/guides-byoc.sidebar.js'),
+    ]}));
     writePublicationGroupDiagnostics(root, 'zh-CN', 'guides');
     await validatePreparedGuides(root);
     write(root, 'content/zh-CN/guides/tutorials/ordinary.md', 'changed after fetch\n');
@@ -716,12 +754,16 @@ describe('Chinese Guides source publication', () => {
     const byocSidebar = 'generated/zh-CN/sidebars/guides-byoc.sidebar.js';
     const currentFiles = [shared, sidebar, byocSidebar];
     for (const file of currentFiles) write(root, file, `current ${file}\n`);
-    write(root, 'generated/zh-CN/manifests/guides-source-publication.json', serializeSourcePublicationManifest(currentFiles));
+    write(root, 'generated/zh-CN/manifests/guides-source-publication.json', serializeSourcePublicationManifest(currentFiles, {repositoryRoot: root}));
     write(root, `tmp/docs-tooling/zh-CN/guides/${shared}`, 'candidate A\n');
     write(root, `tmp/docs-tooling/zh-CN/guides/${sidebar}`, 'candidate sidebar\n');
     write(root, `tmp/docs-tooling/zh-CN/guides-byoc/${byocSidebar}`, 'candidate byoc sidebar\n');
     mkdirSync(path.join(root, 'tmp/docs-tooling/zh-CN/guides-byoc/content/zh-CN/byoc/tutorials'), {recursive: true});
-    write(root, 'tmp/docs-tooling/zh-CN/groups/guides/generated/zh-CN/manifests/guides-source-publication.json', serializeSourcePublicationManifest(currentFiles));
+    write(root, 'tmp/docs-tooling/zh-CN/groups/guides/generated/zh-CN/manifests/guides-source-publication.json', serializeSourcePublicationManifest(currentFiles, {records: [
+      stagedRecordFor(root, 'guides', shared),
+      stagedRecordFor(root, 'guides', sidebar),
+      stagedRecordFor(root, 'guides-byoc', byocSidebar),
+    ]}));
     writePublicationGroupDiagnostics(root, 'zh-CN', 'guides');
     await validatePreparedGuides(root);
 
@@ -736,7 +778,7 @@ describe('Chinese Guides source publication', () => {
       write(root, 'content/zh-CN/guides/tutorials/b.md', 'published B\n');
       write(root, 'generated/zh-CN/manifests/guides-source-publication.json', serializeSourcePublicationManifest([
         shared, 'content/zh-CN/guides/tutorials/b.md', sidebar, byocSidebar,
-      ]));
+      ], {repositoryRoot: root}));
     });
     const secondReplace = vi.fn(async () => undefined);
 
@@ -797,6 +839,44 @@ describe('Chinese Guides source publication', () => {
     const root = temporaryRoot();
     expect(() => serializeSourcePublicationManifest([
       'generated/zh-CN/manifests/tools-translations.json',
-    ])).toThrow(/outside Chinese Guides ownership/i);
+    ], {repositoryRoot: root})).toThrow(/outside Chinese Guides ownership/i);
+  });
+
+  it('rejects manifest records that do not match files or hashes', () => {
+    const files = ['content/zh-CN/guides/tutorials/a.md'];
+    expect(() => serializeSourcePublicationManifest(files, {records: []})).toThrow(/records must match files/i);
+    expect(() => serializeSourcePublicationManifest(files, {records: [
+      {path: files[0], sha256: 'not-a-hash'},
+    ]})).toThrow(/records must match files/i);
+    expect(() => serializeSourcePublicationManifest(files, {records: [
+      {path: 'content/zh-CN/guides/tutorials/other.md', sha256: createHash('sha256').update('x\n').digest('hex')},
+    ]})).toThrow(/records must match files/i);
+  });
+
+  it('validates staged publication file hashes against manifest records', async () => {
+    const root = temporaryRoot();
+    const stagedFile = 'content/zh-CN/guides/tutorials/a.md';
+    const stagedSidebar = 'generated/zh-CN/sidebars/guides.sidebar.js';
+    const byocSidebar = 'generated/zh-CN/sidebars/guides-byoc.sidebar.js';
+    write(root, `tmp/docs-tooling/zh-CN/guides/${stagedFile}`, 'staged a\n');
+    write(root, `tmp/docs-tooling/zh-CN/guides/${stagedSidebar}`, 'staged sidebar\n');
+    write(root, 'tmp/docs-tooling/zh-CN/guides-byoc/generated/zh-CN/sidebars/guides-byoc.sidebar.js', 'staged byoc sidebar\n');
+    mkdirSync(path.join(root, 'tmp/docs-tooling/zh-CN/guides-byoc/content/zh-CN/byoc/tutorials'), {recursive: true});
+    write(root, 'tmp/docs-tooling/zh-CN/groups/guides/generated/zh-CN/manifests/guides-source-publication.json', serializeSourcePublicationManifest([
+      stagedFile, stagedSidebar, byocSidebar,
+    ], {records: [
+      stagedRecordFor(root, 'guides', stagedFile),
+      stagedRecordFor(root, 'guides', stagedSidebar),
+      stagedRecordFor(root, 'guides-byoc', byocSidebar),
+    ]}));
+    writePublicationGroupDiagnostics(root, 'zh-CN', 'guides');
+    await validatePreparedGuides(root);
+
+    // Tamper the staged copy: the recorded hash must fail closed.
+    write(root, `tmp/docs-tooling/zh-CN/guides/${stagedFile}`, 'tampered staged a\n');
+    await expect(executePublicationGroup(
+      {site: 'zh-CN', group: 'guides', stage: 'validate'},
+      {repositoryRoot: root, aliyunOssValidator: {validatePublication: vi.fn().mockResolvedValue(undefined)}},
+    )).rejects.toThrow(/hash mismatch/i);
   });
 });

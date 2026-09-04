@@ -60,6 +60,12 @@ type SourcePublicationManifest = Readonly<{
   site: 'zh-CN';
   group: 'guides';
   files: readonly string[];
+  records: readonly SourcePublicationRecord[];
+}>;
+
+type SourcePublicationRecord = Readonly<{
+  path: string;
+  sha256: string;
 }>;
 
 type InventoryEntry = Readonly<{path: string; sha256: string}>;
@@ -119,15 +125,35 @@ function assertManifestFilePath(group: PublicationGroup, value: string): string 
   return value;
 }
 
-export function serializeSourcePublicationManifest(files: readonly string[]): string {
+export function serializeSourcePublicationManifest(
+  files: readonly string[],
+  options: Readonly<{records?: readonly SourcePublicationRecord[]; repositoryRoot?: string}> = {},
+): string {
   const group = resolvePublicationGroupWorkflow('zh-CN', 'guides').group;
   const normalized = files.map(file => assertManifestFilePath(group, file));
   if (new Set(normalized).size !== normalized.length) throw new Error('Source publication manifest files must be unique');
+  const sorted = [...normalized].sort((left, right) => left.localeCompare(right, 'en'));
+  const records = options.records
+    ?? (options.repositoryRoot
+      ? sorted.map(file => ({
+          path: file,
+          sha256: sha256(readFileSync(path.join(path.resolve(options.repositoryRoot), file))),
+        }))
+      : null);
+  if (!records) throw new Error('Source publication manifest serialization requires records or a repository root');
+  const sortedRecords = [...records].sort((left, right) => left.path.localeCompare(right.path, 'en'));
+  const recordPaths = new Set(sortedRecords.map(record => record.path));
+  if (sortedRecords.length !== sorted.length
+    || sorted.some(file => !recordPaths.has(file))
+    || sortedRecords.some(record => !/^[0-9a-f]{64}$/u.test(record.sha256))) {
+    throw new Error('Source publication manifest records must match files with lowercase 64-character hashes');
+  }
   const manifest: SourcePublicationManifest = {
     schemaVersion: 1,
     site: 'zh-CN',
     group: 'guides',
-    files: [...normalized].sort((left, right) => left.localeCompare(right, 'en')),
+    files: sorted,
+    records: sortedRecords,
   };
   return `${JSON.stringify(manifest, null, 2)}\n`;
 }
@@ -142,10 +168,10 @@ function parseSourcePublicationManifest(contents: string, group: PublicationGrou
   if (!input || typeof input !== 'object' || Array.isArray(input)) throw new Error('Chinese Guides source publication manifest must be an object');
   const value = input as Record<string, unknown>;
   const keys = Object.keys(value);
-  if (keys.length !== 4 || keys.some(key => !['schemaVersion', 'site', 'group', 'files'].includes(key))) {
-    throw new Error('Chinese Guides source publication manifest must contain exactly schemaVersion, site, group, and files');
+  if (keys.length !== 5 || keys.some(key => !['schemaVersion', 'site', 'group', 'files', 'records'].includes(key))) {
+    throw new Error('Chinese Guides source publication manifest must contain exactly schemaVersion, site, group, files, and records');
   }
-  if (value.schemaVersion !== 1 || value.site !== 'zh-CN' || value.group !== 'guides' || !Array.isArray(value.files)) {
+  if (value.schemaVersion !== 1 || value.site !== 'zh-CN' || value.group !== 'guides' || !Array.isArray(value.files) || !Array.isArray(value.records)) {
     throw new Error('Chinese Guides source publication manifest identity is invalid');
   }
   const files = value.files.map(file => {
@@ -156,7 +182,28 @@ function parseSourcePublicationManifest(contents: string, group: PublicationGrou
   if (new Set(files).size !== files.length || files.some((file, index) => file !== sorted[index])) {
     throw new Error('Chinese Guides source publication manifest files must be unique and sorted');
   }
-  return deepFreeze({schemaVersion: 1, site: 'zh-CN', group: 'guides', files});
+  const records = value.records.map(record => {
+    if (!record || typeof record !== 'object' || Array.isArray(record)) throw new Error('Chinese Guides source publication manifest records must be objects');
+    const entry = record as Record<string, unknown>;
+    const recordKeys = Object.keys(entry);
+    if (recordKeys.length !== 2 || recordKeys.some(key => !['path', 'sha256'].includes(key))) {
+      throw new Error('Chinese Guides source publication manifest records must contain exactly path and sha256');
+    }
+    if (typeof entry.path !== 'string' || entry.path !== assertManifestFilePath(group, entry.path)) {
+      throw new Error('Chinese Guides source publication manifest record path is invalid');
+    }
+    if (typeof entry.sha256 !== 'string' || !/^[0-9a-f]{64}$/u.test(entry.sha256)) {
+      throw new Error('Chinese Guides source publication manifest record sha256 must be a lowercase 64-character hash');
+    }
+    return {path: entry.path, sha256: entry.sha256};
+  });
+  const recordSorted = [...records].sort((left, right) => left.path.localeCompare(right.path, 'en'));
+  if (new Set(records.map(record => record.path)).size !== records.length
+    || records.length !== files.length
+    || records.some((record, index) => record.path !== files[index] || record !== recordSorted[index])) {
+    throw new Error('Chinese Guides source publication manifest records must be unique, sorted, and match files');
+  }
+  return deepFreeze({schemaVersion: 1, site: 'zh-CN', group: 'guides', files, records});
 }
 
 export function publicationGroupStagePath(site: SiteId, group: string): string {
@@ -421,10 +468,15 @@ function stagedManifestPath(repositoryRoot: string, group: PublicationGroup, gro
 
 function writeStagedManifest(repositoryRoot: string, group: PublicationGroup, groupName: string): void {
   const target = stagedManifestPath(repositoryRoot, group, groupName);
+  const files = stagedManifestFiles(repositoryRoot, group);
+  const records = files.map(file => ({
+    path: file,
+    sha256: sha256(readFileSync(sourceForManifestFile(repositoryRoot, group, file))),
+  }));
   writeSecureAtomicFile(
     repositoryRoot,
     target,
-    serializeSourcePublicationManifest(stagedManifestFiles(repositoryRoot, group)),
+    serializeSourcePublicationManifest(files, {records}),
     'Staged source publication manifest',
     {replace: true},
   );
@@ -458,6 +510,15 @@ function sourceForManifestFile(repositoryRoot: string, group: PublicationGroup, 
       {finalKind: 'file'},
     );
   }
+  throw new Error(`No staged manual owns manifest file: ${target}`);
+}
+
+function stageOwningManual(group: PublicationGroup, target: string): string {
+  for (const manual of group.manuals) {
+    const publication = resolveManualPublication(manual, group.site).publication;
+    if (target === publication.sidebarPath || target.startsWith(`${publication.contentRoot}/`)) return manual;
+  }
+  if (group.site === 'zh-CN' && group.manuals.includes('guides') && target === 'generated/zh-CN/sidebars/tools.sidebar.js') return 'guides';
   throw new Error(`No staged manual owns manifest file: ${target}`);
 }
 
@@ -630,8 +691,12 @@ function validateStagedManifest(repositoryRoot: string, group: PublicationGroup,
   if (JSON.stringify(manifest.files) !== JSON.stringify(inventory)) {
     throw new Error('Chinese Guides staged files must exactly match the authoritative source publication manifest');
   }
-  for (const file of manifest.files) {
-    sourceForManifestFile(repositoryRoot, group, file);
+  for (const record of manifest.records) {
+    const source = sourceForManifestFile(repositoryRoot, group, record.path);
+    const actual = sha256(readFileSync(source));
+    if (actual !== record.sha256) {
+      throw new Error(`Chinese Guides staged publication file hash mismatch: ${record.path}`);
+    }
   }
   return manifest;
 }
@@ -666,10 +731,13 @@ async function publishManifestOwnedGroup(
       if (JSON.stringify(snapshotManifest.files) !== JSON.stringify(staged.files)) {
         throw new Error('Atomic Chinese Guides source publication manifest changed during validation');
       }
-      for (const file of snapshotManifest.files) {
-        const target = resolveOwnedRepositoryPath(snapshot.publicationRoot, file, 'Manifest-owned publication snapshot file');
+      for (const record of snapshotManifest.records) {
+        const target = resolveOwnedRepositoryPath(snapshot.publicationRoot, record.path, 'Manifest-owned publication snapshot file');
         if (!existsSync(target) || !lstatSync(target).isFile() || lstatSync(target).isSymbolicLink()) {
-          throw new Error(`Manifest-owned publication snapshot file is missing or unsafe: ${file}`);
+          throw new Error(`Manifest-owned publication snapshot file is missing or unsafe: ${record.path}`);
+        }
+        if (sha256(readFileSync(target)) !== record.sha256) {
+          throw new Error(`Manifest-owned publication snapshot file hash mismatch: ${record.path}`);
         }
       }
     },
