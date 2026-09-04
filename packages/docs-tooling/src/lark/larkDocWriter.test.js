@@ -185,6 +185,16 @@ async function testStyledWhitespacePreservesCombinedMarkdownSpans() {
   assert.equal(markdown, '***label*** description');
 }
 
+async function testBoldEndingWithPunctuationBeforeTextUsesHtmlPair() {
+  const markdown = await createWriter([]).__text_elements([
+    textRun('结构化字段：', { bold: true }),
+    textRun('包含时间戳、执行耗时。'),
+  ]);
+
+  assert.equal(markdown, '<strong>结构化字段：</strong>包含时间戳、执行耗时。');
+  await assertMdxCompiles(markdown);
+}
+
 function testKeywordPickerUsesStableSeed() {
   const writer = createWriter([]);
   assert.deepEqual(
@@ -231,6 +241,28 @@ async function testHeadingsPreserveInlineLessThanOperatorsAndCustomAnchors() {
     lessThanOrEqual,
     '### 示例 6：使用小于或等于（`<=`）操作符过滤{#example-6-filtering-with-less-than-or-equal-to}'
   );
+}
+
+async function testHeadingStripsEmphasisButKeepsInlineCode() {
+  const writer = createWriter([]);
+
+  // Feishu bold headings become plain heading text: site CSS already renders
+  // headings bold, and nested <strong> inside a heading adds no value.
+  const bold = await writer.__heading({elements: [
+    textRun('Tier 1 \u2013 Mission-Critical Workloads', { bold: true }),
+    textRun('{#tier-1-mission-critical-workloads}'),
+  ]}, 4);
+  assert.equal(
+    bold,
+    '#### Tier 1 \u2013 Mission-Critical Workloads{#tier-1-mission-critical-workloads}'
+  );
+
+  // Inline code is semantic content in headings and must survive the strip.
+  const code = await writer.__heading({elements: [
+    textRun('Step 2: Update '),
+    textRun('data.tf', { inline_code: true }),
+  ]}, 2);
+  assert.equal(code, '## Step 2: Update `data.tf`{#step-2-update-datatf}');
 }
 
 async function testHeadingRepairsMangledAnchor() {
@@ -352,6 +384,46 @@ async function testCalloutPreservesMarkdownBody() {
   assert.match(markdown, /    - \*\*Free & Serverless\*\*/);
   assert.match(markdown, /        `https:\/\/\{cluster-id\}\.serverless\.\{region\}\.vectordb\.zillizcloud\.com`/);
   assert.doesNotMatch(markdown, /<ul>|<li>|<p>/);
+
+  await assertMdxCompiles(markdown);
+}
+
+async function testCalloutStripsStyledTitleMarkers() {
+  const callout = {
+    block_id: 'callout-styled',
+    block_type: 19,
+    callout: { emoji_id: 'blue_book' },
+    children: ['styled-title', 'body'],
+  };
+
+  const blocks = [
+    callout,
+    textBlock('styled-title', 'callout-styled', [
+      textRun('说明', { bold: true }),
+    ]),
+    textBlock('body', 'callout-styled', [textRun('正文内容。')]),
+  ];
+
+  const markdown = await createWriter(blocks).__callout(callout, 0);
+
+  assert.match(markdown, /<Admonition type="info" icon="📘" title="说明">/);
+  assert.doesNotMatch(markdown, /title="\*\*/);
+
+  const warning = {
+    block_id: 'callout-warning-styled',
+    block_type: 19,
+    callout: { emoji_id: 'construction' },
+    children: ['warning-title', 'warning-body'],
+  };
+
+  const warningBlocks = [
+    warning,
+    textBlock('warning-title', 'callout-warning-styled', [textRun('警告', { bold: true })]),
+    textBlock('warning-body', 'callout-warning-styled', [textRun('警告正文。')]),
+  ];
+
+  const warningMarkdown = await createWriter(warningBlocks).__callout(warning, 0);
+  assert.match(warningMarkdown, /<Admonition type="warning" icon="🚧" title="警告">/);
 
   await assertMdxCompiles(markdown);
 }
@@ -963,15 +1035,18 @@ async function run() {
   await testStyledWhitespaceClosesMarkdownSpans();
   await testStyledWhitespaceKeepsAContinuousMarkdownSpan();
   await testStyledWhitespacePreservesCombinedMarkdownSpans();
+  await testBoldEndingWithPunctuationBeforeTextUsesHtmlPair();
   testKeywordPickerUsesStableSeed();
   testHeadingSlugDropsVisibilitySuffixes();
   await testHeadingsPreserveInlineLessThanOperatorsAndCustomAnchors();
+  await testHeadingStripsEmphasisButKeepsInlineCode();
   await testHeadingRepairsMangledAnchor();
   testHeadingCleanupStillRemovesActualHtmlTags();
   await testConvertedHeadingLinkDropsVisibilitySuffixes();
   await testConvertedAnchorLinkToleratesTargetWithoutBlocks();
   testFeatureCardMarkerParserAcceptsReadableSpacing();
   await testCalloutPreservesMarkdownBody();
+  await testCalloutStripsStyledTitleMarkers();
   await testQuotePreservesMarkdownBody();
   await testCalloutWarningUsesWarningType();
   await testCalloutDestructiveSentenceKeepsDangerAndMovesTitleToBody();
