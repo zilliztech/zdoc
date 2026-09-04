@@ -88,6 +88,9 @@ const consecutivePlaintextSdkBlocks = [
     'print(collections)',
     '```',
 ].join('\n');
+const gaussianDecayFormula = String.raw`$$
+S(doc) = \exp\left( -\frac{\left( \max\left(0, \left|fieldvalue_{doc} - origin\right| - offset \right) \right)^2}{2\sigma^2} \right)
+$$`;
 
 async function compileToString(content) {
     const { compile } = await import('@mdx-js/mdx');
@@ -430,6 +433,22 @@ async function testLarkDocWriterEscapesPlainTextBraces() {
     await compileToString(patched);
 }
 
+async function testMathBracesRemainLatexGrouping() {
+    const patched = await applyMdxPatches(gaussianDecayFormula);
+    assert.equal(patched, gaussianDecayFormula);
+    assert.ok(!patched.includes('\\frac\\{'));
+    assert.ok(!patched.includes('fieldvalue_\\{doc\\}'));
+
+    const writer = new LarkDocWriter('', '', 'defaultSidebar');
+    assert.equal(await writer.__mdx_patches(gaussianDecayFormula), gaussianDecayFormula);
+
+    const inline = 'Use $fieldvalue_{doc}$ with a prose placeholder such as {field-name}.';
+    assert.equal(
+        await applyMdxPatches(inline),
+        'Use $fieldvalue_{doc}$ with a prose placeholder such as \\{field-name\\}.',
+    );
+}
+
 async function run() {
     await testNormalizeCodeTagContent();
     await testNormalizationPreservesFencedCodeBlocks();
@@ -459,6 +478,7 @@ async function run() {
     await testCppNamespaceTypesWithoutClosingAngleAreEscaped();
     await testPlainTextBracesAreEscaped();
     await testLarkDocWriterEscapesPlainTextBraces();
+    await testMathBracesRemainLatexGrouping();
     console.log('mdxPatcher regression tests passed');
 }
 

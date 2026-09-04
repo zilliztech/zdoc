@@ -298,6 +298,14 @@
       "reason": "Manual registry changes alter unit order, matrix jobs, artifact names, sidebars, and replay cardinality."
     },
     {
+      "id": "shared-mdx-normalization",
+      "paths": ["packages/docs-tooling/src/mdx/validate*"],
+      "focusedTests": ["node packages/docs-tooling/src/mdx/validate.test.cjs"],
+      "harnesses": ["pnpm test:replay:all"],
+      "gates": ["pnpm test:workflow-policy"],
+      "reason": "Shared MDX normalization feeds both Lark Fetch rendering and Translation repair, including math syntax consumed by the Docusaurus renderer."
+    },
+    {
       "id": "docs-site-build",
       "paths": ["apps/docs/**", "packages/site-config/**"],
       "focusedTests": [
