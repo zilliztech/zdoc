@@ -413,6 +413,18 @@
       "harnesses": [],
       "gates": [],
       "reason": "Translation agent, chunking, review, and recovery-artifact logic are covered by the Translation unit/integration suite."
+    },
+    {
+      "id": "publication-group-manifest-evidence",
+      "paths": [
+        "packages/docs-tooling/src/workflows/run.ts",
+        "packages/docs-tooling/src/workflows/groups.ts",
+        "generated/zh-CN/manifests/guides-source-publication.json"
+      ],
+      "focusedTests": ["pnpm vitest run packages/docs-tooling/src/workflows/run.test.ts packages/docs-tooling/src/workflows/groups.test.ts"],
+      "harnesses": [],
+      "gates": ["pnpm test:workflow-matrix", "pnpm test:workflow-policy", "git diff --check"],
+      "reason": "Publication-group manifests bind per-file source hashes for the Chinese Guides source publication evidence chain; serialization and validation must stay fail-closed with the ownership contract."
     }
   ]
 }

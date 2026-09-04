@@ -44,6 +44,7 @@ function repositoryFixture(group = 'guides', options = {}) {
     const targetRoot = `content/zh-CN/reference/api/${group}/${group}/v2`
     for (let index = 0; index < 5; index += 1) write(repository, `${sourceRoot}/doc-${index}.md`, `# Doc ${index}\n`)
     write(repository, `${targetRoot}/doc-0.md`, '# 翻译\n')
+    write(repository, `i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/${group}/${group}/v2/doc-0.md`, '# 翻訳\n')
   }
   write(repository, '.translation-cache/ja-JP.json', '{"files":{}}\n')
   git(repository, ['add', '.'])
@@ -138,9 +139,12 @@ test('rejects Chinese SDK deletions without authoritative replacement metadata',
     })
     assert.equal(summary.status, 'rejected')
     assert.equal(summary.reviewRequired, 0)
-    assert.equal(summary.approved, 0)
+    assert.equal(summary.approved, 1)
+    assert.equal(summary.rejected, 1)
+    assert.equal(summary.records.find(record => record.target === 'ja-JP').operationCount, 1)
+    assert.equal(summary.records.find(record => record.target === 'zh-CN-reference').status, 'rejected')
     assert.equal(fs.existsSync(path.join(outputDir, 'translation-reconciliation-plan-ja-JP-java.json')), true)
-    assert.equal(fs.existsSync(path.join(outputDir, 'translation-reconciliation-plan-zh-CN-reference-java.json')), true)
+    assert.equal(fs.existsSync(path.join(outputDir, 'translation-reconciliation-plan-zh-CN-reference-java.json')), false)
   } finally {
     fs.rmSync(fixture.repository, {recursive: true, force: true})
   }
