@@ -27,7 +27,7 @@ In Zilliz Cloud, you can express these pattern constraints in scalar filters wit
 
 <Admonition type="info" icon="📘" title="Note">
 
-This page describes pattern matching in scalar filter expressions used by `query`, `search`, and hybrid search. These expressions evaluate field values and do not change the tokens produced by an analyzer. To filter tokens during text analysis, refer to [Regex Analyzer Filter](./regex-filter).
+This page describes pattern matching in scalar filter expressions used by query, search, and hybrid search. These expressions evaluate field values and do not change the tokens produced by an analyzer. To filter tokens during text analysis, refer to [Regex Analyzer Filter](./regex-filter).
 
 </Admonition>
 

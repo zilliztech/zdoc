@@ -44,7 +44,7 @@ The **availability phase** of a feature indicates its maturity, stability, and r
 
 - **General Availability (GA):** 
 
-    - **Definition:** GA features are fully released, production-ready, and actively supported.
+    - <strong>Definition:</strong> GA features are fully released, production-ready, and actively supported.
 
     - **Access**: Enabled by default for most users, except for a few features—such as those enterprise features with pricing considerations—which require [contacting sales](https://zilliz.com/contact-sales) for activation.
 
@@ -52,7 +52,7 @@ The **availability phase** of a feature indicates its maturity, stability, and r
 
 - **Deprecation Notice:** 
 
-    - **Definition:** Features in this phase are still functional and accessible but are no longer under active development except for critical bug fixes.
+    - <strong>Definition:</strong> Features in this phase are still functional and accessible but are no longer under active development except for critical bug fixes.
 
     - **Access**: Still available, but a formal deprecation announcement has been issued via email.
 
@@ -60,7 +60,7 @@ The **availability phase** of a feature indicates its maturity, stability, and r
 
 - **Deprecated:** 
 
-    - **Definition:** The feature has been fully removed from Zilliz Cloud and is no longer accessible or supported.
+    - <strong>Definition:</strong> The feature has been fully removed from Zilliz Cloud and is no longer accessible or supported.
 
     - **Access**: Unavailable.
 

@@ -64,7 +64,7 @@ import Grid from '@site/src/components/Grid';
 
         - **Better UX**: Clearer field mappings and certificate upload validation help prevent misconfigurations.
 
-        - **Enhanced documentation:** with **visual, IdP-specific examples**, reducing the need to switch constantly between Zilliz UI and IdP admin console.
+        - <strong>Enhanced documentation:</strong> with **visual, IdP-specific examples**, reducing the need to switch constantly between Zilliz UI and IdP admin console.
 
         ## Enhancements\{#enhancements}
 

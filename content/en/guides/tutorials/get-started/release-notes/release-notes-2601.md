@@ -40,11 +40,11 @@ import Grid from '@site/src/components/Grid';
 
         Zilliz supports elevating your security posture with AWS KMS integration now. Essential for strict compliance (GDPR, HIPAA), this feature secures your sensitive assets using keys exclusively managed and governed by you.
 
-        - **Comprehensive Data Protection:** Rigorously encrypts assets across all storage tiers and processing states, eliminating security gaps throughout the entire data lifecycle.
+        - <strong>Comprehensive Data Protection:</strong> Rigorously encrypts assets across all storage tiers and processing states, eliminating security gaps throughout the entire data lifecycle.
 
-        - **Secure Isolation & Architecture:** Granular security boundaries isolation via Encryption Zones, backed by a 3-Tier Envelope Hierarchy (Root Key → Encryption Zone Key → Data Key). This strictly isolates databases to prevent cross-tenant access while optimizing performance.
+        - <strong>Secure Isolation & Architecture:</strong> Granular security boundaries isolation via Encryption Zones, backed by a 3-Tier Envelope Hierarchy (Root Key → Encryption Zone Key → Data Key). This strictly isolates databases to prevent cross-tenant access while optimizing performance.
 
-        - **Lifecycle Governance:** Supports automated zero-downtime rotation, instant data lockdown via key revocation, and immutable configurations to prevent security drift.
+        - <strong>Lifecycle Governance:</strong> Supports automated zero-downtime rotation, instant data lockdown via key revocation, and immutable configurations to prevent security drift.
 
         For details, refer to [Customer-Managed Encryption Keys](./cmek) and [AWS KMS](./aws-kms).
 
@@ -54,7 +54,7 @@ import Grid from '@site/src/components/Grid';
 
         - **BYOC-I Deployment for Maximum Control:** Hosts the Data Plane entirely within your Azure subscription. Ensures you maintain absolute control over your data sovereignty and security policies.
 
-        - **Terraform Automation:** Accelerates deployment via the official Terraform Provider, fully automating complex networking and authentication for reproducible Infrastructure-as-Code (IaC).
+        - <strong>Terraform Automation:</strong> Accelerates deployment via the official Terraform Provider, fully automating complex networking and authentication for reproducible Infrastructure-as-Code (IaC).
 
         For details, refer to [Deploy BYOC-I on Microsoft Azure](/docs/byoc/deploy-byoc-i-azure).
 
@@ -118,11 +118,11 @@ import Grid from '@site/src/components/Grid';
 
         The Global Cluster creates a unified database architecture across multiple geographic regions by linking a primary cluster with cross-region secondary clusters for automated replication. This solution provides robust Disaster Recovery (DR), ensuring your mission-critical applications remain resilient and your data durable, even in the event of a regional outage.
 
-        - **Automated Global Deployment:** The system handles the seamless orchestration of Primary-Secondary topologies with one click, allowing you to provision a Global Cluster in a single step with automated data replication channels.
+        - <strong>Automated Global Deployment:</strong> The system handles the seamless orchestration of Primary-Secondary topologies with one click, allowing you to provision a Global Cluster in a single step with automated data replication channels.
 
-        - **Seamless DR Expansion:** Support for the dynamic addition of secondary clusters to active production instances. You can now upgrade a running dedicated cluster to a multi-region global architecture smoothly without service interruption or downtime.
+        - <strong>Seamless DR Expansion:</strong> Support for the dynamic addition of secondary clusters to active production instances. You can now upgrade a running dedicated cluster to a multi-region global architecture smoothly without service interruption or downtime.
 
-        - **Enhanced Observability:** A new Global Topology dashboard provides a unified view of your cluster hierarchy. You can now monitor real-time replication latency and synchronization status across regions from one interface.
+        - <strong>Enhanced Observability:</strong> A new Global Topology dashboard provides a unified view of your cluster hierarchy. You can now monitor real-time replication latency and synchronization status across regions from one interface.
 
         **Coming Soon:**
         We are expanding our resilience toolkit. The next phase will introduce Failover for automatic switching during region-level outages, and a Global Endpoint that reroutes SDK traffic, significantly reducing Recovery Time Objectives (RTO).
@@ -133,9 +133,9 @@ import Grid from '@site/src/components/Grid';
 
         **Bring Your Own Cloud (BYOC)** deployments now support the complete Zilliz Cloud autoscaling ecosystem. This update aligns BYOC with our SaaS offering, granting access to all previously released optimizations (like automatic scale-down) as well as the **latest capabilities**.
 
-        - **Dynamic Scaling:** Available for both CUs and Replicas, the system intelligently adjusts resources based on real-time load to optimize performance and cost, with simple Min/Max configuration.
+        - <strong>Dynamic Scaling:</strong> Available for both CUs and Replicas, the system intelligently adjusts resources based on real-time load to optimize performance and cost, with simple Min/Max configuration.
 
-        - **Scheduled Scaling:** Full support for the new Advanced Mode. Users can now leverage standard Cron expressions and multi-schedule logic to automate precise resource adjustments for complex, predictable business cycles.
+        - <strong>Scheduled Scaling:</strong> Full support for the new Advanced Mode. Users can now leverage standard Cron expressions and multi-schedule logic to automate precise resource adjustments for complex, predictable business cycles.
 
         For details, refer to [Manual Scaling](./manual-scaling), [Auto-scaling](./auto-scaling), and [Scheduled Scaling](./scheduled-scaling).
 
@@ -143,11 +143,11 @@ import Grid from '@site/src/components/Grid';
 
         Gain authority over operational access to your data plane. Ensuring that Zilliz engineers have access to your infrastructure only when explicitly permitted.
 
-        - **Just-in-Time (JIT) Privileges:** Grant temporary access during troubleshooting windows and revoke it immediately once resolved.
+        - <strong>Just-in-Time (JIT) Privileges:</strong> Grant temporary access during troubleshooting windows and revoke it immediately once resolved.
 
-        - **Operational Isolation:** Revoking access creates a strict barrier without disrupting essential observability pipelines (Metrics, Logs, and Alerts).
+        - <strong>Operational Isolation:</strong> Revoking access creates a strict barrier without disrupting essential observability pipelines (Metrics, Logs, and Alerts).
 
-        - **Governance & Compliance:** All access grants and revocations are immutably logged in your Audit Logs for complete accountability and security reviews.
+        - <strong>Governance & Compliance:</strong> All access grants and revocations are immutably logged in your Audit Logs for complete accountability and security reviews.
 
         For details, refer to [Deploy BYOC on AWS](/docs/byoc/deploy-byoc-aws#technical-support-access), [Deploy BYOC-I on AWS](/docs/byoc/deploy-byoc-i-aws#technical-support-access), and [Deploy BYOC on GCP](/docs/byoc/deploy-byoc-gcp#technical-support-access).
 
@@ -167,7 +167,7 @@ import Grid from '@site/src/components/Grid';
 
         - **Enhanced Metrics Dashboards**: Visual threshold guidelines have been added to help users identify optimal utilization levels for scaling CUs and Replicas.
 
-        - **RESTful API & Terraform Enhancements:** Now supports [Auto Scaling](/reference/restful/modify-cluster-v2), [Cross-Region Backup](/reference/restful/create-backup-v2), [Tiered Storage for Create Cluster](/reference/restful/create-dedicated-cluster-v2), and [Business Critical Plan for Create Project](/reference/restful/create-project-v2), improving disaster recovery and storage management, enabling more efficient automation programming.
+        - <strong>RESTful API & Terraform Enhancements:</strong> Now supports [Auto Scaling](/reference/restful/modify-cluster-v2), [Cross-Region Backup](/reference/restful/create-backup-v2), [Tiered Storage for Create Cluster](/reference/restful/create-dedicated-cluster-v2), and [Business Critical Plan for Create Project](/reference/restful/create-project-v2), improving disaster recovery and storage management, enabling more efficient automation programming.
 
     </div>
 

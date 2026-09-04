@@ -128,7 +128,7 @@ Functions fall into two main categories based on when they are applied:
 
 To decide whether you need to create partitions or use partition key, you can consider the following factors:
 
-- **Multi-tenancy strategies:** If you need to support millions of tenants, please use partition key. If you need strong physical data isolation between tenants, please use partitions. For details, refer to [Implement Multi-tenancy](./multi-tenancy).
+- <strong>Multi-tenancy strategies:</strong> If you need to support millions of tenants, please use partition key. If you need strong physical data isolation between tenants, please use partitions. For details, refer to [Implement Multi-tenancy](./multi-tenancy).
 
 - **Resource management:** If you prefer creating and managing partitions on you own, you can choose to use partitions. If you need automatic creation and management of partitions, please use partitions keys.
 
@@ -222,9 +222,9 @@ Zilliz Cloud supports the following management operations on created collections
 
 - **Manage partitions within a collection:** For collections with **partition key** **enabled**, you do not need to manually manage partitions. For collections with partition key **disabled**, you can manually manage partitions and perform the following operations:
 
-    - **Create partition:** You can create a maximum of 1,024 partitions in each collection. For details, see [Zilliz Cloud Limits](./limits#collections).
+    - <strong>Create partition:</strong> You can create a maximum of 1,024 partitions in each collection. For details, see [Zilliz Cloud Limits](./limits#collections).
 
-    - **Drop partition:** The default partition cannot be dropped and dropping a partition irreversibly deletes all data within it. You must release a collection first before dropping any partitions in it.
+    - <strong>Drop partition:</strong> The default partition cannot be dropped and dropping a partition irreversibly deletes all data within it. You must release a collection first before dropping any partitions in it.
 
 - **View collection alias**: You can view the aliases of all collections in a cluster on the collection list page.
 

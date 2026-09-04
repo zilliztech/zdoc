@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 Failed payments can affect your organization’s billing status and access to paid Zilliz Cloud features. This guide explains common causes of payment failure, what happens when payment cannot be completed, and how to restore your organization.
 
-<Admonition type="info" icon="📘" title="**Note**">
+<Admonition type="info" icon="📘" title="Note">
 
 To manage payment and billing settings, you must be an **Organization Owner** or **Organization Billing Admin**.
 

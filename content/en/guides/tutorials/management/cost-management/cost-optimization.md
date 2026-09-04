@@ -133,7 +133,7 @@ The [`build_level`](./tune-index-build-level)[ parameter ](./tune-index-build-le
 
 **Case Study:** A 16 CU capacity-optimized cluster holds 80M vectors by default. Switching to `Capacity-first` increases this to 112M, or allows the same 80M vectors to fit in 12 CUs—**saving 25% in CU costs**.
 
-<Admonition type="info" icon="📘" title="**Note**">
+<Admonition type="info" icon="📘" title="Note">
 
 The `build_level` parameter cannot be modified once set. Changing it requires dropping and recreating the index. We recommend evaluating your requirements before creating a collection. This parameter only supports floating-point vector types (FLOAT_VECTOR, FLOAT16_VECTOR, and BFLOAT16_VECTOR).
 
@@ -145,7 +145,7 @@ The [`level`](./tune-recall-rate)[ parameter](./tune-recall-rate) (1–10) contr
 
 - **Level 1–3:** Ideal for most scenarios (90–95% recall).
 
-- **Level 4–7:** High-precision scenarios. Trade approximately 2–3× latency for 95–98% recall.
+- <strong>Level 4–7:</strong> High-precision scenarios. Trade approximately 2–3× latency for 95–98% recall.
 
 - **Level 8–10:** Extreme precision for high-stakes scenarios (e.g., medical, fraud detection), but significantly increases latency and compute cost.
 
@@ -167,7 +167,7 @@ The [`level`](./tune-recall-rate)[ parameter](./tune-recall-rate) (1–10) contr
 
 - For capacity-optimized clusters, the default policy is already storage-first; no additional tuning is generally needed.
 
-<Admonition type="info" icon="📘" title="**Note**">
+<Admonition type="info" icon="📘" title="Note">
 
 The Collection must be released before modifying mmap settings, then reloaded afterward. Misconfiguration may cause performance degradation or OOM errors — validate in a test environment first.
 
@@ -333,7 +333,7 @@ Beyond technical optimization, taking full advantage of Zilliz's promotional pro
 
 ### Enterprise customers\{#enterprise-customers}
 
-- **Contact sales for a custom quote:** Enterprise customers can receive discounts through annual subscriptions; [contact sales](https://zilliz.com/contact-sales) for specific pricing.
+- <strong>Contact sales for a custom quote:</strong> Enterprise customers can receive discounts through annual subscriptions; [contact sales](https://zilliz.com/contact-sales) for specific pricing.
 
 - **Cloud Marketplace subscriptions:** Subscribing through [AWS](./subscribe-on-aws-marketplace), [Google Cloud](./subscribe-on-gcp-marketplace), [Azure](./subscribe-on-azure-marketplace) Marketplace allows you to consolidate Zilliz Cloud charges into your cloud bill and apply any existing enterprise discounts.
 

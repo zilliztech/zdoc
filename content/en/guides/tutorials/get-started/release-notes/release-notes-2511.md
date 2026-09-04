@@ -60,7 +60,7 @@ import Grid from '@site/src/components/Grid';
 
         - **Migration Support enabling Full text search** - Now you can enable BM25 function to best leverage full text search functionalities powered by Milvus when migrating from popular vector databases. For details, refer to [Migrate from Milvus to Zilliz Cloud Via Endpoint](./via-endpoint#getting-started) and [External Migration Basics](./external-migration-basics#configure-full-text-search-for-text-data).
 
-        - **Alert Support Interval Setting -** You can customize the notification interval for ongoing alerts to ensure they remain noticeable without becoming disruptive. New alerts default to a one-hour interval. For details, refer to [Manage Project Alerts](./manage-project-alerts#alert-settings).
+        - <strong>Alert Support Interval Setting -</strong> You can customize the notification interval for ongoing alerts to ensure they remain noticeable without becoming disruptive. New alerts default to a one-hour interval. For details, refer to [Manage Project Alerts](./manage-project-alerts#alert-settings).
 
     </div>
 

@@ -56,9 +56,9 @@ Storage Cost = Storage Unit Price x Data Size x Duration
 
 The billing rules of cluster, volume storage is slightly different from backup storage and cold data access.
 
-- **Dedicated & Serverless Cluster, Volume, and Database Storage:** Billed hourly, minimum charge of 1 hour.
+- <strong>Dedicated & Serverless Cluster, Volume, and Database Storage:</strong> Billed hourly, minimum charge of 1 hour.
 
-- **Backup Storage:** Billed daily, minimum charge of 1 day.
+- <strong>Backup Storage:</strong> Billed daily, minimum charge of 1 day.
 
 ## Examples\{#examples}
 

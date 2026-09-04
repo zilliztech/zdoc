@@ -74,7 +74,7 @@ Indexing CU Cost = Indexing CU Unit Price × Number of Indexing CU x Time
 
 - **Time**: The time it takes to complete the index building job. Note that only the job execution time is counted. Queue waiting time and failed jobs are not billed. The minimum billing unit is 1 minute. Any usage shorter than 1 minute is billed as 1 minute.
 
-<Admonition type="info" icon="📘" title="**Note**">
+<Admonition type="info" icon="📘" title="Note">
 
 On the [Usage](./analyze-cost) and [Invoice](./view-invoice) pages, indexing CU costs are shown as totals by database rather than by individual job.  
 

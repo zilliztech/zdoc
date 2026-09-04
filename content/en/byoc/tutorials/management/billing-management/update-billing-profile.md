@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 The billing profile contains the organization and contact information used for billing, invoices, and tax records. Keep your billing profile up to date so invoices are issued with the correct company, address, and contact details. 
 
-<Admonition type="info" icon="📘" title="**Note**">
+<Admonition type="info" icon="📘" title="Note">
 
 To manage billing profile, you must be an **Organization Owner** or **Organization Billing Admin**.
 

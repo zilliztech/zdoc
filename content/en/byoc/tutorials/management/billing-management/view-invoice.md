@@ -92,7 +92,7 @@ Zilliz Cloud offers three cluster types: Free, Serverless, and Dedicated. Charge
 
 Additional charges include:
 
-- **Backup Costs:** Calculated as `Backup File Size x Backup Retention Period` and measured in  "GB-month", which refers to the usage of 1 GB of backup file retained for 1 month. **Backup is billed at a minimum of 1 day, even for shorter retention period.** This means if the backup file is created but kept for less than one day, it will still be charged at the rate for one day.
+- **Backup Costs:** Calculated as `Backup File Size x Backup Retention Period` and measured in  "GB-month", which refers to the usage of 1 GB of backup file retained for 1 month. <strong>Backup is billed at a minimum of 1 day, even for shorter retention period.</strong> This means if the backup file is created but kept for less than one day, it will still be charged at the rate for one day.
 
 - **Storage Costs:** Calculated as `Current Storage Size x Cluster Runtime` and measured in "GB-Hour", which refers to the usage of 1 GB of data stored for 1 hour. **Storage is billed at a minimum of 1 hour, even for shorter storage durations.** 
 
@@ -120,7 +120,7 @@ To edit the billing profile, refer to [Update Billing Profile](./update-billing-
 
     **Explanation:** The billing period starts at 00:00:00 (UTC) on the first day of the previous month and ending at 23:59:59 (UTC) on the last day of that month. 
 
-    **Example:** Zilliz Cloud issues the invoice for August on September 1, 2024, with the billing period running from August 1, 2024, at 00:00:00 (UTC) to August 31, 2024, at 23:59:59 (UTC). 
+    <strong>Example:</strong> Zilliz Cloud issues the invoice for August on September 1, 2024, with the billing period running from August 1, 2024, at 00:00:00 (UTC) to August 31, 2024, at 23:59:59 (UTC). 
 
 1. **How precise are the amounts displayed in the usage details on Zilliz Cloud?**
 

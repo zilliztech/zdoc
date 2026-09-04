@@ -34,7 +34,7 @@ All Zilliz Cloud clusters created after this release are compatible with **Milvu
 
     Zilliz Cloud supports migrations between Zilliz Cloud clusters, from Milvus instances, and from several external sources. For details on the possible data sources, refer to [Zilliz to Zilliz Migrations](./migrate-between-clusters).
 
-- **Advanced collection & configuration tools:** Confidently handle complex collection and field mappings with improved data type support, dynamic-to-fixed field conversion, and intuitive controls for configuring field and shard settings — all within a responsive, user-friendly interface.
+- <strong>Advanced collection & configuration tools:</strong> Confidently handle complex collection and field mappings with improved data type support, dynamic-to-fixed field conversion, and intuitive controls for configuring field and shard settings — all within a responsive, user-friendly interface.
 
     ![O3AebUiCjonYFSxLrbucDp5SnOb](https://zdoc-images.s3.us-west-2.amazonaws.com/o3aebuicjonyfsxlrbucdp5snob.png "O3AebUiCjonYFSxLrbucDp5SnOb")
 

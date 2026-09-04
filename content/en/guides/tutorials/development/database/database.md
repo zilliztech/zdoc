@@ -483,7 +483,7 @@ You can switch from one database to another without reconnecting when using an S
 
 <Admonition type="info" icon="📘" title="Note">
 
-RESTful API does not support switching databases on a persistent connection. For RESTful API requests, specify the target database in each request body when the operation supports `dbName`.
+RESTful API does not support switching databases on a persistent connection. For RESTful API requests, specify the target database in each request body when the operation supports dbName.
 
 </Admonition>
 

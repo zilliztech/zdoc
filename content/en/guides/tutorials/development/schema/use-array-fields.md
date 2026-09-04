@@ -36,7 +36,7 @@ Here's an example of how ARRAY fields store data:
 
 - **Default Values**: ARRAY fields do not support default values. However, you can set the `nullable` attribute to `True` to allow null values. For details, refer to [Nullable & Default](./nullable-fields).
 
-- **Data Type:** All elements in an ARRAY field must share the same data type, which is defined by the `element_type` parameter. When `element_type` is set to `VARCHAR`, you must also specify the `max_length` for array elements. The `element_type` accepts any scalar data type, `JSON`, and `STRUCT`.
+- <strong>Data Type:</strong> All elements in an ARRAY field must share the same data type, which is defined by the `element_type` parameter. When `element_type` is set to `VARCHAR`, you must also specify the `max_length` for array elements. The `element_type` accepts any scalar data type, `JSON`, and `STRUCT`.
 
 - **Array Capacity**: The number of elements in an ARRAY field must be less than or equal to the maximum capacity defined when the Array was created, as specified by `max_capacity`. The value should be an integer within the range from **1** to **4096**.
 

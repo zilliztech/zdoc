@@ -68,7 +68,7 @@ import Grid from '@site/src/components/Grid';
 
         - **Delivered to your bucket:** Choose a Storage Integration and a directory. Logs are written as JSON Lines files under `/<cluster-id>/slow/<date>/`.
 
-        - **Analysis-ready fields:**  Include timestamp, execution duration, Database, Collection, SDK and version, client IP, Trace ID, and status for downstream observability and analysis.
+        - <strong>Analysis-ready fields:</strong>  Include timestamp, execution duration, Database, Collection, SDK and version, client IP, Trace ID, and status for downstream observability and analysis.
 
         For details, refer to [Configure Slow Logs](./configure-slow-logs) and [Slow Logs Reference](./slow-log-reference).
 

@@ -38,7 +38,7 @@ In this guide, Zilliz Cloud acts as the Service Provider (SP) and Google Workspa
 
 ## Before you start\{#before-you-start}
 
-- Your Zilliz Cloud organization has at least one **Dedicated (Enterprise)** cluster.
+- Your Zilliz Cloud organization has at least one <strong>Dedicated (Enterprise)</strong> cluster.
 
 - You must have the Admin role in the Google Admin console.
 

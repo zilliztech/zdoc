@@ -84,7 +84,7 @@ import Grid from '@site/src/components/Grid';
 
         Vector fields now support the `nullable` attribute, making it possible to add a new vector field to an existing collection — a capability many customers have been waiting for. With nullable vectors, you can evolve your schema by adding vector columns after collection creation, then backfill embeddings at your own pace while the collection remains fully operational.
 
-        <Admonition type="info" icon="📘" title="**Notes**">
+        <Admonition type="info" icon="📘" title="Notes">
 
         Nullable Vector requires the latest Milvus 2.6.x version on Serving Clusters. On-Demand Clusters running Milvus 3.0.x already support this feature.
 

@@ -54,7 +54,7 @@ The following table compares the subscription options.
 | Marketplace Public Offer | The standard Zilliz Cloud listing available on a cloud marketplace. | Self-service subscription with standard pricing and terms. | Uses the public pricing, contract terms, and billing rules shown on the marketplace listing page. | Available only for Zilliz Cloud **SaaS** deployments through **AWS, Google Cloud, Mircosoft** Marketplace. |
 | Marketplace Private Offer | A custom offer created by Zilliz for your organization. | Enterprise procurement, discounts, committed spend, custom terms, or BYOC purchases. | Can include negotiated pricing, custom contract duration, payment schedule, and other commercial terms. | Available for both Zilliz Cloud **SaaS** and **BYOC** deployments through **AWS, Google Cloud, Mircosoft** Marketplace. |
 
-<Admonition type="info" icon="📘" title="**Note**">
+<Admonition type="info" icon="📘" title="Note">
 
 An AWS Marketplace Free Trial is started and managed through AWS Marketplace. If you upgrade after the trial, future charges are billed through AWS Marketplace. This option is suitable for teams that want procurement and billing through AWS Marketplace.
 

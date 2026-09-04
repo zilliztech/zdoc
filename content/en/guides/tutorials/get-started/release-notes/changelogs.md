@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Last updated Aug 6, 2026 | Cloud"
+description: "Last updated Sept 3, 2026 | Cloud"
 type: origin
 token: MUL3wkn7Yi3YoFkYk59csf8bnNc
 sidebar_position: 1
@@ -22,7 +22,7 @@ import Grid from '@site/src/components/Grid';
 
 # Changelogs
 
-**Last updated:** Aug 6, 2026
+**Last updated:** Sept 3, 2026
 
 <Grid columnSize="2" widthRatios="25,74">
 
@@ -41,6 +41,28 @@ import Grid from '@site/src/components/Grid';
 </Grid>
 
 ## 2026\{#2026}
+
+<Grid columnSize="2" widthRatios="25,74">
+
+    <div>
+
+        **[Sept 3](./release-notes-2609)[, 2026](./release-notes-2609)**
+
+    </div>
+
+    <div>
+
+        - 🔐 **Enhanced [access control](./access-control-overview)** — Separate organization and project roles, create custom project roles, assign roles to IdP-synced groups, [provision users and groups with SCIM](./scim-provisioning-overview), and manage roles through APIs.
+
+        - 🐢 **[Slow logs for Dedicated clusters](./configure-slow-logs)** — Capture slow Search, Hybrid Search, and Query requests and deliver the logs to your own object storage for analysis.
+
+        - 📈 **Configure replicas and autoscaling at cluster creation** — Set [replica counts and Query CU](./create-cluster) autoscaling ranges when creating Dedicated or Global Clusters.
+
+        - 🌎 **Region-aware project navigation** — [Manage project](./manage-projects) resources by region, add or remove regions more easily, and streamline cluster creation in multi-region projects.
+
+    </div>
+
+</Grid>
 
 <Grid columnSize="2" widthRatios="25,74">
 

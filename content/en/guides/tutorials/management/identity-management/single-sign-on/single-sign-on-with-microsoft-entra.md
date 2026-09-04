@@ -38,7 +38,7 @@ In this guide, Zilliz Cloud acts as the Service Provider (SP) and Microsoft Entr
 
 ## Before you start\{#before-you-start}
 
-- Your Zilliz Cloud organization has at least one **Dedicated (Enterprise)** cluster.
+- Your Zilliz Cloud organization has at least one <strong>Dedicated (Enterprise)</strong> cluster.
 
 - You have access to the Microsoft Entra admin center. For more information, refer to [Microsoft Entra documentation](https://learn.microsoft.com/en-us/entra/fundamentals/entra-admin-center).
 

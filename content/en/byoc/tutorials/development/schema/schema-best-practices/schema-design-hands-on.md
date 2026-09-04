@@ -47,7 +47,7 @@ Effectively addressing business needs begins with analyzing the types of queries
 
     - Combining multiple criteria in hybrid queries (e.g., in visual search, considering semantic similarity of both images and their captions)
 
-- **Search Methods:** Choose the appropriate search techniques that align with the types of queries your users will perform. Different methods serve different purposes and can often be combined for more powerful results:
+- <strong>Search Methods:</strong> Choose the appropriate search techniques that align with the types of queries your users will perform. Different methods serve different purposes and can often be combined for more powerful results:
 
     - **Semantic search**: Uses dense vector similarity to find items with similar meaning, ideal for unstructured data like text or images.
 

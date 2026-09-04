@@ -1393,7 +1393,7 @@ You can also use the Zilliz Cloud console to perform the above operations. For d
 
 <Supademo id="cmfxfue5c41ld10k86la66x1v" title=""  />
 
-<Admonition type="info" icon="📘" title="**Note**">
+<Admonition type="info" icon="📘" title="Note">
 
 Analyzer configurations are immutable after collection creation. To change the analyzer configuration, create a new collection with the desired settings and [migrate](./migrate-between-clusters) your data.
 

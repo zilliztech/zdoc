@@ -24,7 +24,7 @@ Monitor billing alerts to track recent usage, credit status, payment method vali
 
 This guide explains billing-related alerts. To learn how to configure billing alerts, see [Manage Organization Alerts](./manage-organization-alerts).
 
-<Admonition type="info" icon="📘" title="**Note**">
+<Admonition type="info" icon="📘" title="Note">
 
 To view or manage billing alerts, you must be an **Organization Owner** or **Organization Billing Admin**.
 
@@ -42,7 +42,7 @@ Zilliz Cloud provides the following billing alert metrics.
 | Credit Card Validity (days) | Number of days before the saved credit card expires. | [Replace the credit card](./subscribe-by-adding-credit-card#replace-a-credit-card) before expiry to avoid payment failures. |
 | Advance Pay Balance ($) | Remaining prepaid Advance Pay balance. | [Add funds](./advance-pay#add-funds-to-advance-pay) when the balance is low to prevent payment issues or service interruption. |
 
-## **Recommended alerts**\{#recommended-alerts}
+## Recommended alerts\{#recommended-alerts}
 
 Configure alerts based on your organization’s payment method and usage pattern.
 

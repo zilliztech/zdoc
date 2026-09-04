@@ -25,7 +25,7 @@ The `regex` filter is a regular expression filter: any token produced by the tok
 
 <Admonition type="info" icon="📘" title="Note">
 
-This page describes the `regex` filter in the analyzer pipeline. It filters tokens produced by a tokenizer and affects the terms generated during text analysis. To filter entities with scalar expressions such as `field =~ "pattern"` or `field !~ "pattern"` in `query`, `search`, or hybrid search, refer to [Pattern Matching](./pattern-match).
+This page describes the regex filter in the analyzer pipeline. It filters tokens produced by a tokenizer and affects the terms generated during text analysis. To filter entities with scalar expressions such as field =~ "pattern" or field !~ "pattern" in query, search, or hybrid search, refer to [Pattern Matching](./pattern-match).
 
 </Admonition>
 

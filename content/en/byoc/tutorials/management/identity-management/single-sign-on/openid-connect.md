@@ -38,7 +38,7 @@ In this guide, Zilliz Cloud acts as the Service Provider (SP) and Okta acts as t
 
 ## Before you start\{#before-you-start}
 
-- Your Zilliz Cloud organization has at least one **Dedicated (Enterprise)** cluster.
+- Your Zilliz Cloud organization has at least one <strong>Dedicated (Enterprise)</strong> cluster.
 
 - You have Admin access to the Okta console. For more information, refer to [Okta official documentation](https://help.okta.com/en-us/content/topics/security/administrators-learn-about-admins.htm).
 
