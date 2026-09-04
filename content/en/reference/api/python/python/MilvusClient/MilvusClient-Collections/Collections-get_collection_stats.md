@@ -75,7 +75,7 @@ get_collection_stats(
 
     The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response returns or error occurs.
 
-- **\&ast;\&ast;kwargs** -
+- **\*\*kwargs** -
 
     Additional keyword arguments for future extensibility.
 
