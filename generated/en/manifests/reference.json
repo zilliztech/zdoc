@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "b7cdc82e800606784b011b2c9ffd3552446ea272",
+  "sourceCommit": "18fd81fc7b5e4849fe030a20c63fbf68ff98b3e0",
   "records": [
     {
       "manual": "cli",
@@ -1565,7 +1565,7 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-GetRefreshExternalCollectionProgress.md",
-      "sourceHash": "6d9c67f1db2e9ce411ec24dfeca98309bf2404abbbb99f0d496d57b71cbf2d81"
+      "sourceHash": "5a7327fada36960c882810d3b3cd1f66851e2287420904c3c91edec2872c1326"
     },
     {
       "manual": "go",
@@ -1585,12 +1585,12 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-ListRefreshExternalCollectionJobs.md",
-      "sourceHash": "a3d7eb2d86fef32b0aaee26c636744eed520e39e1d724454970329a0a7f44629"
+      "sourceHash": "9bfe6e2a9714a2465a99cd1c0f681dff9c13b7c280e1f8c90f0ff2bd9388eb1b"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollection.md",
-      "sourceHash": "fa8026ae6659c1aead11abffa58e06518c91288960eaa71cde8519e5b8eb610c"
+      "sourceHash": "74f602f1b0f6fefcbd3865784b38899b7c6cb82050e5a1522216533ba0885287"
     },
     {
       "manual": "go",
@@ -1915,7 +1915,7 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-ListRestoreSnapshotJobs.md",
-      "sourceHash": "2f6de3f50359f661d0fe5c2ac264e0001999dca74034be67d23fd0d1c554abfc"
+      "sourceHash": "691d075de7a9f386d2cf1c6823d428c68123298bbfca93cf0989021f9e55b9c3"
     },
     {
       "manual": "go",
@@ -3030,7 +3030,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-listGrant.md",
-      "sourceHash": "137e9f670c0be33af092784600748e713a117424ca55f69f51a1baff75534fad"
+      "sourceHash": "28d374b440317febfa57ca5cb999a3d1ac46dcc48fa1e86a8a4bdd1f68176d58"
     },
     {
       "manual": "node",
@@ -3180,7 +3180,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-createCollection.md",
-      "sourceHash": "65d3bc283145e5a96e0c707fc4cac6ef03941c349d083652fa1eb79b5d5b5ae3"
+      "sourceHash": "9104b6db691056c398a2abcd940db1847d9cf6c308bc558d23bf066471372e5e"
     },
     {
       "manual": "node",
@@ -3760,7 +3760,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-BGEM3EmbeddingFunction/EmbeddingModels-BGEM3EmbeddingFunction.md",
-      "sourceHash": "b3786123e25c1d97e8b4894ec95769e17786abdafa6481148018fff6fbc52443"
+      "sourceHash": "ca08cc48d3b75a9a74caa8243a1bea646ce637e3694e0e3ee4e994c9104a046f"
     },
     {
       "manual": "python",
@@ -3885,7 +3885,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-Model2VecEmbeddingFunction/EmbeddingModels-Model2VecEmbeddingFunction.md",
-      "sourceHash": "f140b5fc259b48ba7c2942b86c84aa2573bb7ca7ab642ca0b5bbbd055d1607e5"
+      "sourceHash": "cc569bc7434945a386f636fd6ec7df4462d894799dbe00d8fdba128d9f86ae8b"
     },
     {
       "manual": "python",
@@ -3945,7 +3945,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-OpenAIEmbeddingFunction/EmbeddingModels-OpenAIEmbeddingFunction.md",
-      "sourceHash": "13d20e83a7f284ae392c58b76bcffde08ba9f67f6b4c781e573844e7135a17dc"
+      "sourceHash": "d33e15ddc26daf507c8c971d55e75ae6fd96fa63ff5bfed5f486fd198a1f3596"
     },
     {
       "manual": "python",
@@ -3965,7 +3965,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-SentenceTransformerEmbeddingFunction/EmbeddingModels-SentenceTransformerEmbeddingFunction.md",
-      "sourceHash": "be2a256d5402cedb5c8070d5fe64ddb207682378859f5dff232af1a889961e41"
+      "sourceHash": "f72b07417d6faf56b6b194a39cc5a57de63a3a2a8fd80986fa7e44c3cfe51f87"
     },
     {
       "manual": "python",
@@ -3985,7 +3985,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-SpladeEmbeddingFunction/EmbeddingModels-SpladeEmbeddingFunction.md",
-      "sourceHash": "9763dcf9b4e61885e563052cb2f4adb4739d6892a726ae4591e766771a1dffdb"
+      "sourceHash": "338bfeb12f4c148c0ec1d071cbb7459c2111fc2dd76bb55496de32ab1bb5f20c"
     },
     {
       "manual": "python",
@@ -4025,7 +4025,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/FileResource/FileResource-add_file_resource.md",
-      "sourceHash": "6a509956659a28377fc012425aba614deab20b569ae313a1ad39547d67618921"
+      "sourceHash": "72daa5bb30eca254a2ad22b1117760fc983550abf2233250b7fd9774c7114e58"
     },
     {
       "manual": "python",
@@ -4155,7 +4155,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/MilvusClient-CollectionSchema.md",
-      "sourceHash": "a317e02dc65a269e7da7d1ea0400e1e8b994cebce32a8af9d072187eca4bdff2"
+      "sourceHash": "1b9a60b11c727ec71450ee6ce8708176ca6d920e4ddae1158540e38e613352ec"
     },
     {
       "manual": "python",
@@ -4210,12 +4210,12 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-create_collection.md",
-      "sourceHash": "012bd08a9c666ad54d929a7fe711bf5d6768be934c2bb2f76c0be6dcb65192a7"
+      "sourceHash": "db25bfed3ce1734960c921a77cc92f0abe02e08b9b3d22975296a94bd539765c"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-create_schema.md",
-      "sourceHash": "8712cfb32cafb1830628f5e4d78453f3db21443777e216e87574ed271d4f4d3a"
+      "sourceHash": "b47dd7b5b43d39431f568a4b29a7e9d1aa981b3c6cc18ded84f69f1dfc8ccb4c"
     },
     {
       "manual": "python",
@@ -4225,7 +4225,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-describe_collection.md",
-      "sourceHash": "d0a977b846686cded0c8012ae274582731af3110a13f2c186836fabf80212241"
+      "sourceHash": "814a62b0f0c6f2f51f2f34dd366dc9882aa85f40883854e9f585479bc5e6672a"
     },
     {
       "manual": "python",
@@ -4255,7 +4255,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-get_collection_stats.md",
-      "sourceHash": "ddbca9a8815c9a38cefc3ade42092fef40198d1917e389af661fd78bc6763a89"
+      "sourceHash": "d7b294f6f323bf1d153019a0c4b17cc0925c99ca2355a28d2886c9432f29077a"
     },
     {
       "manual": "python",
@@ -4850,17 +4850,17 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-CollectionSchema/ORM-CollectionSchema.md",
-      "sourceHash": "ef52fd63dbc315eef30b032ada638cff314927fd6b3f784152b4da5594d69763"
+      "sourceHash": "7343ea1aa2371b3f25aa8f31fc1496244ba3f3f203fd169ee01e610864788685"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-Connections/Connections-add_connection.md",
-      "sourceHash": "ea8d5817f574f22853e452b1f81afd36c04a58e30203e72b547aa4f700958dbf"
+      "sourceHash": "c001dfc0307bc8a46ba46ab16c8e0cea539274e311aefc3f1625cfacbee138f3"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-Connections/Connections-connect.md",
-      "sourceHash": "0b064e69d2b7bce2fac47ea2e788055fc0493a890ee138487344993811128470"
+      "sourceHash": "3c00ed75f6cdb2cc66646e9367b7adf60c132ce1625b3346e9004f4e47336658"
     },
     {
       "manual": "python",
@@ -5060,7 +5060,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-utility/utility-do_bulk_insert.md",
-      "sourceHash": "231e0f8d05e9345806abb469752c41d4dd89911ea7ec25e58fd20180e099d43a"
+      "sourceHash": "7a20fc0979462d5aa11b4b5e3c657b1e972c3c7225eacfcfd324a187e421e429"
     },
     {
       "manual": "python",
@@ -5265,7 +5265,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/Rerankers/Rerankers-CrossEncoderRerankFunction/Rerankers-CrossEncoderRerankFunction.md",
-      "sourceHash": "8034173e7d29ab0798209d780223bd3c99d47b8968acf33324a0c63123a84a44"
+      "sourceHash": "e40a5a83fa156c4ae5f44784c4a8e48aa5e6a92f628819f65e30faa175edfa19"
     },
     {
       "manual": "python",
