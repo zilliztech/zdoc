@@ -187,6 +187,7 @@ describe('diff classification', () => {
     expect(diffRevisionInventories(baseline, candidate)).toEqual([
       {
         type: 'fetch_failed', canonicalToken: 'failed', title: 'Failed',
+        previousContentPath: null,
         previousRevisionId: '1', revisionId: null, objectEditTime: null, contentPath: null,
       },
     ])
@@ -203,10 +204,12 @@ describe('diff classification', () => {
     const markdown = renderRevisionDiffMarkdown('python', [
       {
         type: 'updated', canonicalToken: 'b', title: 'Bee | docs', previousRevisionId: '1',
+        previousContentPath: 'reference/b.md',
         revisionId: '2', objectEditTime: '1785254400', contentPath: 'reference/b.md',
       },
       {
         type: 'created', canonicalToken: 'a', title: 'Aye', previousRevisionId: null,
+        previousContentPath: null,
         revisionId: '1', objectEditTime: '1785168000', contentPath: 'reference/a.md',
       },
     ])
