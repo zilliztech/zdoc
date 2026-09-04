@@ -44,18 +44,18 @@ type RBACMeta struct {
 
 **FIELDS:**
 
-- **Users** (*[]*UserInfo*)
+- **Users** (<em>[]</em>UserInfo*)
 
     The users.
 
-- **Roles** (*[]*Role*)
+- **Roles** (<em>[]</em>Role*)
 
     The list of assigned roles.
 
-- **RoleGrants** (*[]*RoleGrants*)
+- **RoleGrants** (<em>[]</em>RoleGrants*)
 
     The role grants.
 
-- **PrivilegeGroups** (*[]*PrivilegeGroup*)
+- **PrivilegeGroups** (<em>[]</em>PrivilegeGroup*)
 
     The privilege groups.

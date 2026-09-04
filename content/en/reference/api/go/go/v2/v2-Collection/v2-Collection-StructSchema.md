@@ -65,7 +65,7 @@ entity.NewStructSchema()
 
 Represents the schema of a struct field, including nested field definitions.
 
-- **Fields** (*[]*Field*) -
+- **Fields** (<em>[]</em>Field*) -
 
     This contains the struct-array sub-field definitions.
 

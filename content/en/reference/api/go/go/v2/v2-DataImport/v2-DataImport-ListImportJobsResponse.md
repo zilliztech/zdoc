@@ -60,7 +60,7 @@ type ImportJobRecord struct {
 - **Message** (*string*) -<br/>
   Inherited from `ResponseBase`. Error description when `Status` is non-zero.
 
-- **Data.Records** (*[]\*ImportJobRecord*) -<br/>
+- **Data.Records** (&lt;em>[]\</em>ImportJobRecord*) -<br/>
   The slice of job records returned for the current page. May be empty when no jobs match the filter.
 
 **ImportJobRecord fields:**

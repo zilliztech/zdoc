@@ -63,7 +63,7 @@ resp, err := bulkwriter.BulkImport(ctx, option)
 
 **RETURN TYPE:**
 
-*\*BulkImportResponse, error*
+&lt;em>\</em>BulkImportResponse, error*
 
 **RETURNS:**
 

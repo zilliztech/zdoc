@@ -62,7 +62,7 @@ resp, err := bulkwriter.GetImportProgress(ctx, option)
 
 **RETURN TYPE:**
 
-*\*GetImportProgressResponse, error*
+&lt;em>\</em>GetImportProgressResponse, error*
 
 **RETURNS:**
 

@@ -85,7 +85,7 @@ result, err := client.RunAnalyzer(ctx, option)
 
 **RETURN TYPE:**
 
-*[]*entity.AnalyzerResult, error*
+<em>[]</em>entity.AnalyzerResult, error*
 
 **RETURNS:**
 
