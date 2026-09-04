@@ -87,6 +87,17 @@ function MobileActionLinks() {
   const uiText = useDocsUiText();
   return (
     <div className="mobile-action-links">
+      <a
+        href="https://cloud.zilliz.com/signup"
+        className="mobile-action-link mobile-action-link--primary"
+        target="_blank"
+        rel="noopener noreferrer">
+        Sign Up Free
+      </a>
+      <div className="mobile-language-links" aria-label="Language">
+        <a href="/docs/home" className="mobile-action-link">English</a>
+        <a href="/ja-JP/docs/home" className="mobile-action-link">Japanese</a>
+      </div>
       <button
         type="button"
         className="mobile-action-link"

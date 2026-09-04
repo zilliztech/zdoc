@@ -20,6 +20,30 @@
       "reason": "Sidebar category landing links must preserve navigation while keeping category expansion controls separate."
     },
     {
+      "id": "docs-ui-grid",
+      "paths": [
+        "packages/docs-ui/src/shared/components/Grid/**"
+      ],
+      "focusedTests": [],
+      "harnesses": [],
+      "gates": ["pnpm test:workflow-matrix", "git diff --check"],
+      "reason": "Grid layout styles must preserve column geometry while allowing the first heading in each column to align without excess top spacing."
+    },
+      {
+        "id": "docs-ui-layout",
+      "paths": [
+        "packages/docs-ui/src/en/theme/Navbar/Content/**",
+        "packages/docs-ui/src/en/theme/Navbar/MobileSidebar/**",
+        "packages/docs-ui/src/shared/components/Supademo/**",
+        "packages/docs-ui/src/shared/theme/DocRoot/Layout/**",
+        "apps/docs/src/css/custom.css"
+      ],
+      "focusedTests": [],
+      "harnesses": [],
+      "gates": ["pnpm test:workflow-matrix", "git diff --check"],
+      "reason": "Shared docs navigation, mobile drawer, embedded demos, and document shell must preserve responsive controls, valid iframe markup, and a bounded content scroller."
+      },
+      {
       "id": "rest-reference-fragments",
       "paths": [
         "packages/docs-tooling/src/reference/rest/meta/openapi/**",
@@ -214,6 +238,7 @@
         "packages/docs-tooling/src/lark/guidesBaseRecordSemantics.js",
         "packages/docs-tooling/src/lark/index.js",
         "packages/docs-tooling/src/lark/larkDocWriter.js",
+        "packages/docs-tooling/src/lark/larkDocWriter.test.js",
         "packages/docs-tooling/src/lark/larkDocWriter.beta.test.js",
         "scripts/docs-workflow/generate-guides-sidebars*",
         "scripts/docs-workflow/prepare-guides-bootstrap-stage*",

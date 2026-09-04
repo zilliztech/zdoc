@@ -399,13 +399,16 @@
 
 @media (max-width: 767px) {
   .docsWrapper {
-    height: auto;
-    overflow: visible;
+    height: calc(100vh - var(--ifm-navbar-height));
+    height: calc(100dvh - var(--ifm-navbar-height));
+    min-height: 0;
+    overflow: hidden;
   }
 
   .docRoot {
     flex-direction: column;
-    overflow: visible;
+    min-height: 0;
+    overflow: hidden;
   }
 
   /* Chat open → fixed-height 50/50 split: doc scrolls on top, chat docked bottom */
