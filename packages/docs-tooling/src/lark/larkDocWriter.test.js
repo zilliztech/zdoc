@@ -145,6 +145,46 @@ function testExampleHttpUrlsSkipsFencedCodeBlocks() {
   assert.equal(result, markdown);
 }
 
+async function testStyledWhitespaceClosesMarkdownSpans() {
+  const cases = [
+    {style: 'bold', decorator: '**'},
+    {style: 'italic', decorator: '*'},
+    {style: 'strikethrough', decorator: '~~'},
+    {style: 'inline_code', decorator: '`'},
+  ];
+
+  for (const {style, decorator} of cases) {
+    const markdown = await createWriter([]).__text_elements([
+      textRun('label', {[style]: true}),
+      textRun(' ', {[style]: true}),
+      textRun('description'),
+    ]);
+
+    assert.equal(markdown, `${decorator}label${decorator} description`);
+  }
+}
+
+async function testStyledWhitespaceKeepsAContinuousMarkdownSpan() {
+  const markdown = await createWriter([]).__text_elements([
+    textRun('first', {bold: true}),
+    textRun(' ', {bold: true}),
+    textRun('second', {bold: true}),
+    textRun(' description'),
+  ]);
+
+  assert.equal(markdown, '**first second** description');
+}
+
+async function testStyledWhitespacePreservesCombinedMarkdownSpans() {
+  const markdown = await createWriter([]).__text_elements([
+    textRun('label', {bold: true, italic: true}),
+    textRun(' ', {bold: true, italic: true}),
+    textRun('description'),
+  ]);
+
+  assert.equal(markdown, '***label*** description');
+}
+
 function testKeywordPickerUsesStableSeed() {
   const writer = createWriter([]);
   assert.deepEqual(
@@ -920,6 +960,9 @@ async function run() {
   testExampleHttpUrlsPreservesRawExampleUrls();
   testExampleHttpUrlsSkipsInlineCodeSpans();
   testExampleHttpUrlsSkipsFencedCodeBlocks();
+  await testStyledWhitespaceClosesMarkdownSpans();
+  await testStyledWhitespaceKeepsAContinuousMarkdownSpan();
+  await testStyledWhitespacePreservesCombinedMarkdownSpans();
   testKeywordPickerUsesStableSeed();
   testHeadingSlugDropsVisibilitySuffixes();
   await testHeadingsPreserveInlineLessThanOperatorsAndCustomAnchors();

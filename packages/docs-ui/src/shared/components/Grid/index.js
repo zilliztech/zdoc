@@ -1,6 +1,8 @@
+import styles from './styles.module.css';
+
 function GridColumn({ widthRatio, children }) {
   return (
-    <div style={{ flex: `${widthRatio} 0 0` }}>
+    <div className={styles.column} style={{ flex: `${widthRatio} 0 0` }}>
       {children}
     </div>
   );
@@ -19,7 +21,7 @@ export default function Grid({ columnSize, widthRatios, children }) {
   }
 
   return (
-    <div style={{ display: 'flex', width: '100%', marginTop: '10px', gap: '10px' }}>
+    <div className={styles.grid}>
       {columns}
     </div>
   );
