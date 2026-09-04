@@ -2563,9 +2563,6 @@ nav[aria-label="Breadcrumb"] span[class*='pageBreadcrumbSeparator'] {
   z-index: 1 !important;
 }
 
-.navbar-sidebar--show .navbar-sidebar__backdrop {
-  pointer-events: auto !important;
-}
 
 /* The topbar stays visible above the panel → hide the panel's redundant header */
 .navbar-sidebar__brand {
@@ -2714,14 +2711,29 @@ nav[aria-label="Breadcrumb"] span[class*='pageBreadcrumbSeparator'] {
   color: #175fff !important;
 }
 
+.mobile-language-links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--zd-surface-border);
+}
+
+.mobile-language-links .mobile-action-link {
+  justify-content: center;
+}
+
+.mobile-language-links .mobile-action-link + .mobile-action-link {
+  border-left: 1px solid var(--zd-surface-border);
+}
+
 @media (max-width: 767px) {
-  /* Collapse Ask AI / Log In / Search into the hamburger menu; keep Sign Up in the topbar */
+  /* Mobile actions live in the full-width hamburger panel. */
   .navbar-support-link,
   .navbar-askai-wrap,
   .navbar-login-link,
   .navbar-search-wrap,
   .navbar-medium-actions,
-  .navbar-action-divider {
+  .navbar-action-divider,
+  .navbar-signup-btn {
     display: none !important;
   }
 

@@ -455,7 +455,7 @@
 @media (max-width: 767px) {
   .navbarInner {
     grid-template-columns: minmax(0, 1fr) auto;
-    padding: 0 1.25rem;
+    padding: 0 1rem;
     gap: 0.5rem;
   }
 
@@ -489,8 +489,10 @@
   }
 
   .docsLink,
-  .brandDivider {
-    display: inline-flex;
+  .brandDivider,
+  .languageDropdown {
+    /* The base dropdown declaration appears later in this module. */
+    display: none !important;
   }
 }
 
