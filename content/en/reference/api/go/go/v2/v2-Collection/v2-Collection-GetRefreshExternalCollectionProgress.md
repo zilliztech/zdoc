@@ -53,7 +53,7 @@ result, err := client.GetRefreshExternalCollectionProgress(option)
 
 **RETURN TYPE:**
 
-*&ast;entity.RefreshExternalCollectionJobInfo*
+**entity.RefreshExternalCollectionJobInfo*
 
 **RETURNS:**
 

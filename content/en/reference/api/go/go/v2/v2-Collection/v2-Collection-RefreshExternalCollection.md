@@ -76,7 +76,7 @@ result, err := client.RefreshExternalCollection(option)
 
 **RETURN TYPE:**
 
-*&ast;RefreshExternalCollectionResult*
+**RefreshExternalCollectionResult*
 
 **RETURNS:**
 

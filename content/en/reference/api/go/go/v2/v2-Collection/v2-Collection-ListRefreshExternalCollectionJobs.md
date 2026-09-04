@@ -53,7 +53,7 @@ result, err := client.ListRefreshExternalCollectionJobs(option)
 
 **RETURN TYPE:**
 
-*[]&ast;entity.RefreshExternalCollectionJobInfo*
+*[]*entity.RefreshExternalCollectionJobInfo*
 
 **RETURNS:**
 
