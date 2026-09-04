@@ -17,9 +17,11 @@ import {
 import {
   executePublicationGroup,
   parsePublishGroupArgs,
+  parseSourcePublicationManifest,
   serializeSourcePublicationManifest,
   writePublicationGroupDiagnostics,
 } from './run.ts';
+import {resolvePublicationGroup} from './groups.ts';
 
 function temporaryRoot(): string {
   return mkdtempSync(path.join(tmpdir(), 'docs-tooling-group-'));
@@ -857,6 +859,33 @@ describe('Chinese Guides source publication', () => {
     ]})).toThrow(/records must match files/i);
   });
 
+  it('migrates a legacy 4-key Chinese Guides manifest into the records schema in place', () => {
+    const root = temporaryRoot();
+    const group = resolvePublicationGroup('zh-CN', 'guides');
+    const file = 'content/zh-CN/guides/tutorials/a.md';
+    write(root, file, 'legacy a\n');
+    const manifest = parseSourcePublicationManifest(unsafeManifest([file]), group, root);
+    expect(manifest.records).toHaveLength(1);
+    expect(manifest.records[0].path).toBe(file);
+    expect(manifest.records[0].sha256).toBe(createHash('sha256').update('legacy a\n').digest('hex'));
+    expect(manifest.records[0].docToken).toBeNull();
+    expect(manifest.records[0].revisionId).toBeNull();
+  });
+
+  it('fails closed when a legacy manifest file is missing or unsafe', () => {
+    const root = temporaryRoot();
+    const group = resolvePublicationGroup('zh-CN', 'guides');
+    const file = 'content/zh-CN/guides/tutorials/a.md';
+    expect(() => parseSourcePublicationManifest(unsafeManifest([file]), group, root)).toThrow(/missing or unsafe/i);
+  });
+
+  it('rejects a legacy manifest with an unexpected extra key', () => {
+    const root = temporaryRoot();
+    const group = resolvePublicationGroup('zh-CN', 'guides');
+    const legacy = JSON.stringify({schemaVersion: 1, site: 'zh-CN', group: 'guides', files: [], extra: true}, null, 2) + '\n';
+    expect(() => parseSourcePublicationManifest(legacy, group, root)).toThrow(/exactly schemaVersion, site, group, files, and records/i);
+  });
+
   it('validates staged publication file hashes against manifest records', async () => {
     const root = temporaryRoot();
     const stagedFile = 'content/zh-CN/guides/tutorials/a.md';
@@ -937,7 +966,8 @@ describe('Chinese Guides source publication', () => {
     );
 
     const staged = JSON.parse(readFileSync(path.join(root, 'tmp/docs-tooling/zh-CN/groups/guides/generated/zh-CN/manifests/guides-source-publication.json'), 'utf8'));
-    const byPath = new Map(staged.records.map((record: {path: string}) => [record.path, record]));
+    type StagedRecord = {path: string; sha256: string; docToken: string | null; revisionId: string | null};
+    const byPath = new Map<string, StagedRecord>(staged.records.map((record: StagedRecord) => [record.path, record]));
     expect(byPath.get(stagedFile)).toEqual({
       path: stagedFile,
       sha256: createHash('sha256').update('---\ntoken: DOCtokenA\n---\nstaged a\n').digest('hex'),

@@ -336,6 +336,26 @@ describe('docs-tooling executable composition root', () => {
     expect(tampered.stderr).toMatch(/hash mismatch: content\/zh-CN\/guides\/tutorials\/a\.md/);
   });
 
+  it('accepts a legacy 4-key Chinese Guides manifest for --site zh-CN validation', () => {
+    const repositoryRoot = temporaryRoot();
+    seedReferenceSidebars(repositoryRoot, ['guides']);
+    for (const group of ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest']) {
+      writeJson(repositoryRoot, `generated/en/manifests/lark-revisions/${group}.json`, revisionInventory(group));
+    }
+    const file = 'content/zh-CN/guides/tutorials/a.md';
+    mkdirSync(path.join(repositoryRoot, path.dirname(file)), {recursive: true});
+    writeFileSync(path.join(repositoryRoot, file), 'legacy a\n');
+    writeJson(repositoryRoot, 'generated/zh-CN/manifests/guides-source-publication.json', {
+      schemaVersion: 1,
+      site: 'zh-CN',
+      group: 'guides',
+      files: [file],
+    });
+    const valid = runCli(repositoryRoot, ['validate-revision-inventory', '--site', 'zh-CN']);
+    expect(valid.status).toBe(0);
+    expect(valid.stderr).toBe('');
+  });
+
   it('writes site-qualified Guides source configuration for workflows', () => {
     const repositoryRoot = temporaryRoot();
     const output = path.join(repositoryRoot, 'github-output');
