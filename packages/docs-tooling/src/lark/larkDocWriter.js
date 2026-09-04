@@ -2750,26 +2750,42 @@ class larkDocWriter {
         let content = element['text_run']['content'];
         let style = element['text_run']['text_element_style'];
 
+        if (content.match(/^\s+$/) && !asis) {
+            if (style['inline_code']) {
+                content = this.__style_markdown(element, elements, 'inline_code', '`', content);
+            }
+            if (style['bold']) {
+                content = this.__style_markdown(element, elements, 'bold', '**', content);
+            }
+            if (style['italic']) {
+                content = this.__style_markdown(element, elements, 'italic', '*', content);
+            }
+            if (style['strikethrough']) {
+                content = this.__style_markdown(element, elements, 'strikethrough', '~~', content);
+            }
+            return content;
+        }
+
         if (!content.match(/^\s+$/) && !asis) {
             element['text_run']['content'] = content.replace(/\$/g, '&#36;') // escape $ for markdown
                                                 .replace(/\*/g, '&ast;') // escape * for markdown
             
             if (style['inline_code']) {
-                content = this.__style_markdown(element, elements, 'inline_code', '`');
+                content = this.__style_markdown(element, elements, 'inline_code', '`', content);
                 content = content.replaceAll('&#36;', '$')
                 content = content.replaceAll('&ast;', '*')
             }
                          
             if (style['bold']) {
-                content = this.__style_markdown(element, elements, 'bold', '**');
+                content = this.__style_markdown(element, elements, 'bold', '**', content);
             }
 
             if (style['italic']) {
-                content = this.__style_markdown(element, elements, 'italic', '*');
+                content = this.__style_markdown(element, elements, 'italic', '*', content);
             }
 
             if (style['strikethrough']) {
-                content = this.__style_markdown(element, elements, 'strikethrough', '~~');
+                content = this.__style_markdown(element, elements, 'strikethrough', '~~', content);
             }
 
             if ('link' in style) {
@@ -2800,15 +2816,30 @@ class larkDocWriter {
         return content;
     }
 
-    __style_markdown(element, elements, style_name, decorator) {
+    __style_markdown(element, elements, style_name, decorator, input_content) {
         let element_type = element['equation'] ? 'equation' : 'text_run';
-        let content = element[element_type]['content'];
+        let content = input_content ?? element[element_type]['content'];
         let style = element[element_type]['text_element_style'];
 
         let prev = elements[elements.indexOf(element) - 1] || null;
         let prev_element_type = prev? prev['equation'] ? 'equation' : 'text_run' : null;
         let next = elements[elements.indexOf(element) + 1] || null;
         let next_element_type = next? next['equation'] ? 'equation' : 'text_run' : null;
+
+        if (content.match(/^\s+$/) && style[style_name]) {
+            const previousHasStyle = prev && prev_element_type === 'text_run' && prev[prev_element_type]['text_element_style'][style_name];
+            const nextHasStyle = next && next_element_type === 'text_run' && next[next_element_type]['text_element_style'][style_name];
+
+            // Feishu may give trailing whitespace its own styled run. Keep that
+            // whitespace outside the Markdown span while preserving a styled run
+            // that continues on both sides.
+            if (!previousHasStyle && nextHasStyle) {
+                return `${content}${decorator}`;
+            }
+            if (previousHasStyle && !nextHasStyle) {
+                return `${decorator}${content}`;
+            }
+        }
 
         if (!content.match(/^\s+$/)) {
             // single element
