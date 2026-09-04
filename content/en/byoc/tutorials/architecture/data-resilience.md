@@ -36,11 +36,11 @@ Zilliz Cloud, as a fully managed vector database service, delivers enterprise-gr
 
 ### Core Metrics\{#core-metrics}
 
-- **Recovery Point Objective (RPO):** The maximum acceptable data loss, measured in time. For example, an RPO of 5 minutes means up to 5 minutes of recent data may be lost during a failure.
+- <strong>Recovery Point Objective (RPO):</strong> The maximum acceptable data loss, measured in time. For example, an RPO of 5 minutes means up to 5 minutes of recent data may be lost during a failure.
 
-- **Recovery Time Objective (RTO):** The maximum permissible time from failure onset to full service restoration, including failure detection, failover decision-making, and actual recovery.
+- <strong>Recovery Time Objective (RTO):</strong> The maximum permissible time from failure onset to full service restoration, including failure detection, failover decision-making, and actual recovery.
 
-- **Service Level Agreement (Uptime SLA):** Zilliz Cloud’s commitment to service availability is usually expressed as a percentage (for example, 99.95% uptime means no more than 21.6 minutes of downtime each month).
+- <strong>Service Level Agreement (Uptime SLA):</strong> Zilliz Cloud’s commitment to service availability is usually expressed as a percentage (for example, 99.95% uptime means no more than 21.6 minutes of downtime each month).
 
 ### Fault Tolerance Scope\{#fault-tolerance-scope}
 
@@ -80,7 +80,7 @@ Cross-region HA will be available in November 2025.
 
 ### Business Tiering & Resilience Recommendations\{#business-tiering-and-resilience-recommendations}
 
-#### **Tier 1 – Mission-Critical Workloads**\{#tier-1-mission-critical-workloads}
+#### Tier 1 – Mission-Critical Workloads\{#tier-1-mission-critical-workloads}
 
 - **Characteristics:** 24/7 operation; even minutes of downtime cause significant loss; extremely high business value
 
@@ -90,7 +90,7 @@ Cross-region HA will be available in November 2025.
 
 - **Expected Cost:** High
 
-#### **Tier 2 – Important Business Systems**\{#tier-2-important-business-systems}
+#### Tier 2 – Important Business Systems\{#tier-2-important-business-systems}
 
 - **Characteristics:** 24/7 operation; high stability requirements
 
@@ -100,7 +100,7 @@ Cross-region HA will be available in November 2025.
 
 - **Expected Cost:** Medium–High
 
-#### **Tier 3 – General Applications**\{#tier-3-general-applications}
+#### Tier 3 – General Applications\{#tier-3-general-applications}
 
 - **Characteristics:** Operates during business hours; cost-sensitive; tolerates some recovery time
 
@@ -110,7 +110,7 @@ Cross-region HA will be available in November 2025.
 
 - **Expected Cost:** Low–Medium
 
-#### **Tier 4 – Non-Critical Workloads**\{#tier-4-non-critical-workloads}
+#### Tier 4 – Non-Critical Workloads\{#tier-4-non-critical-workloads}
 
 - **Characteristics:** Non-essential systems; cost-sensitive; accepts scheduled maintenance windows
 
