@@ -44,6 +44,8 @@ Ensure that:
 
 - You can create IAM policies and roles in the AWS account that owns the external S3 bucket.
 
+- You can update the IAM permission policy attached to the selected BYOC data plane's storage role.
+
 - The S3 bucket is in the same AWS Region as the BYOC data plane that will use the integration.
 
 <Admonition type="info" icon="📘" title="Notes">
@@ -200,7 +202,55 @@ The external ID binds the role to this integration and protects the cross-accoun
 
 </Admonition>
 
-## Step 5: Validate and add the integration\{#step-5-validate-and-add-the-integration}
+## Step 5: Allow the BYOC storage role to assume the customer role\{#step-5-allow-the-byoc-storage-role-to-assume-the-customer-role}
+
+The customer role's trust policy is only one side of the authorization. The selected data plane's storage role must also have an identity-based policy that allows `sts:AssumeRole` on the new customer role.
+
+The role name typically ends with `-storage-role`. Locate the exact role ARN in Zilliz Cloud:
+
+<Procedures>
+
+1. Open your project, and click **Data Planes** in the left navigation.
+
+1. Click the data plane that will use the bucket integration to open **View Data Plane Details**.
+
+    ![Open the data plane that will use the external bucket.](https://zdoc-images.s3.us-west-2.amazonaws.com/open-the-data-plane-that-will-use-the-external-bucket.png "Open the data plane that will use the external bucket.")
+
+1. Scroll to **Credential Settings > Storage**.
+
+1. Copy the complete **IAM Role ARN**. Use this ARN even if the role name does not end with `-storage-role`.
+
+    ![The IAM Role ARN under Credential Settings > Storage is the data plane storage role.](https://zdoc-images.s3.us-west-2.amazonaws.com/the-iam-role-arn-under-credential-settings-greater-storage-is-the-data-plane-storage-role.png "The IAM Role ARN under Credential Settings > Storage is the data plane storage role.")
+
+1. In the AWS account that contains the BYOC data plane, open the IAM role identified by that ARN.
+
+1. Create or update a customer-managed permission policy attached to that storage role.
+
+1. Set `Resource` to the exact role ARN created in step 4. Do not use `*`.
+
+    ```json
+    {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Sid": "AllowAssumeExternalBucketRole",
+          "Effect": "Allow",
+          "Action": "sts:AssumeRole",
+          "Resource": "<CUSTOMER_BUCKET_ROLE_ARN>"
+        }
+      ]
+    }
+    ```
+
+    <Admonition type="info" icon="📘" title="Both policies are required">
+
+    The storage role's permission policy must allow the call, and the customer role's trust policy must trust the caller with the correct external ID. Missing either side causes role assumption to fail.
+
+    </Admonition>
+
+</Procedures>
+
+## Step 6: Validate and add the integration\{#step-6-validate-and-add-the-integration}
 
 <Procedures>
 
@@ -218,6 +268,8 @@ The external ID binds the role to this integration and protects the cross-accoun
 
 - Create a dedicated IAM role for each bucket integration.
 
+- On the BYOC storage role, grant `sts:AssumeRole` only on the exact customer role ARN.
+
 - Keep the policy scoped to the exact bucket and choose **Read only** unless the workflow must write objects.
 
 - Keep S3 Block Public Access enabled. Bucket integration does not require public bucket access.
@@ -233,4 +285,4 @@ The external ID binds the role to this integration and protects the cross-accoun
 | `bucket region not match` | The bucket and selected BYOC data plane are in different Regions. | Select the matching Region or use a bucket in the data plane's Region. |
 | `NoSuchBucket` | The bucket name is incorrect or the bucket no longer exists. | Enter only the exact bucket name, without `s3://` or a path. |
 | `AccessDenied` for `GetBucketLocation` | The IAM permission policy is missing, not attached, or blocked by another AWS policy. | Confirm the role has `s3:GetBucketLocation` on the bucket and review permission boundaries, bucket policies, and service control policies. |
-| Role assumption failed | The role ARN, trusted principal, or external ID does not match. | Copy the generated trust policy again and verify that the role ARN belongs to the bucket owner's AWS account. |
+| Role assumption failed | The storage role lacks `sts:AssumeRole`, or the role ARN, trusted principal, or external ID does not match. | Check both sides: the storage role's identity policy must allow the customer role ARN, and the customer role's trust policy must contain the generated principal and external ID. |

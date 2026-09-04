@@ -1,6 +1,6 @@
 # guides Incremental Fetch Plan
 
-Generated: 2026-09-04T07:17:34.227Z
+Generated: 2026-09-04T18:30:15.805Z
 Mode: incremental
 Build env: uat
 Source dir: `packages/docs-tooling/src/lark/meta/sources/guides`
@@ -8,18 +8,20 @@ Previous snapshot: 2026-09-04T05:10:29.965Z
 
 ## Summary
 
-- Changed docs: 0
-- Expanded docs: 0
+- Changed docs: 2
+- Expanded docs: 2
 - Removed docs: 0
 - Warnings: 0
 
 ## Changed Docs
 
-- None
+- Integrate with Amazon S3 (FuX7w7cfZisGBmk8chnco3msnud): wiki node edit time changed
+- Integrate with Google Cloud Storage (Q8LHwWmyjiPOQJkpDq8cU3bxnwg): wiki node edit time changed
 
 ## Expanded Tokens
 
-- None
+- FuX7w7cfZisGBmk8chnco3msnud: wiki node edit time changed
+- Q8LHwWmyjiPOQJkpDq8cU3bxnwg: wiki node edit time changed
 
 ## Removed Docs
 

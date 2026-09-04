@@ -83,18 +83,18 @@ This behavior mirrors how event planning typically works—imminent events are m
 The mathematical formula for calculating a linear decay score is:
 
 $$
-S(doc) = \max\left( \frac\{s - \max(0, |fieldvalue_\{doc\} - origin| - offset)\}\{s\}, 0 \right)
+S(doc) = \max\left( \frac{s - \max(0, |fieldvalue_{doc} - origin| - offset)}{s}, 0 \right)
 $$
 
 Where:
 
 $$
-s = \frac \{scale\}\{(1.0 - decay)\}
+s = \frac {scale}{(1.0 - decay)}
 $$
 
 Breaking this down in plain language:
 
-1. Calculate how far the field value is from the origin: $|fieldvalue_\{doc\} - origin|$.
+1. Calculate how far the field value is from the origin: $|fieldvalue_{doc} - origin|$.
 
 1. Subtract the offset (if any) but never go below zero: $\max(0, distance - offset)$.
 

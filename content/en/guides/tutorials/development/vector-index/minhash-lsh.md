@@ -41,7 +41,7 @@ This guide walks you through the concepts, prerequisites, setup, and best practi
 Jaccard similarity measures the overlap between two sets A and B, formally defined as:
 
 $$
-J(A, B) = \frac\{|A \cap B|\}\{|A \cup B|\}
+J(A, B) = \frac{|A \cap B|}{|A \cup B|}
 $$
 
 Where its value ranges from 0 (completely disjoint) to 1 (identical).

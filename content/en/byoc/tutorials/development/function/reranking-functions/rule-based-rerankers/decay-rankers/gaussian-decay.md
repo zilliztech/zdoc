@@ -69,18 +69,18 @@ This behavior mimics how people naturally think about distance relevance—nearb
 The mathematical formula for calculating a Gaussian decay score is:
 
 $$
-S(doc) = \exp\left( -\frac\{\left( \max\left(0, \left|fieldvalue_\{doc\} - origin\right| - offset \right) \right)^2\}\{2\sigma^2\} \right)
+S(doc) = \exp\left( -\frac{\left( \max\left(0, \left|fieldvalue_{doc} - origin\right| - offset \right) \right)^2}{2\sigma^2} \right)
 $$
 
 Where:
 
 $$
-\sigma^2 = -\frac\{scale^2\}\{2 \cdot \ln(decay)\}
+\sigma^2 = -\frac{scale^2}{2 \cdot \ln(decay)}
 $$
 
 Breaking this down in plain language:
 
-1. Calculate how far the field value is from the origin:  $|fieldvalue_\{doc\} - origin|$
+1. Calculate how far the field value is from the origin:  $|fieldvalue_{doc} - origin|$
 
 1. Subtract the offset (if any) but never go below zero: $\max(0, distance - offset)$
 

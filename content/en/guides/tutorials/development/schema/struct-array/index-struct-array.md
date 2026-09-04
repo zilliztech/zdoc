@@ -147,7 +147,7 @@ Use the following table to understand the metric types applicable to a StructArr
 The following formula applies when you calculate the distance between the query embedding list and a vector subfield in a StructArray field.
 
 $$
-Distance(\{q\}, \{v\})=\Sigma_\{i=1\}^\{n\}(Max_\{j=1\}^\{m\}Distance(q_i,v_j))
+Distance({q}, {v})=\Sigma_{i=1}^{n}(Max_{j=1}^{m}Distance(q_i,v_j))
 $$
 
 In the above formula, $q$refers to an embedding list of $n$elements, while $v$ refers to a StrctArray subfield containing $m$elements.

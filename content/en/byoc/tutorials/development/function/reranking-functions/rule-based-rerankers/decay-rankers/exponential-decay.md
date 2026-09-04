@@ -81,18 +81,18 @@ This behavior mimics how news relevance typically works—very recent stories st
 The mathematical formula for calculating an exponential decay score is:
 
 $$
-S(doc) = \exp\left( \lambda \cdot \max\left(0, \left|fieldvalue_\{doc\} - origin\right| - offset \right) \right)
+S(doc) = \exp\left( \lambda \cdot \max\left(0, \left|fieldvalue_{doc} - origin\right| - offset \right) \right)
 $$
 
 Where:
 
 $$
-\lambda = \frac\{\ln(decay)\}\{scale\}
+\lambda = \frac{\ln(decay)}{scale}
 $$
 
 Breaking this down in plain language:
 
-1. Calculate how far the field value is from the origin: $|fieldvalue_\{doc\} - origin|$.
+1. Calculate how far the field value is from the origin: $|fieldvalue_{doc} - origin|$.
 
 1. Subtract the offset (if any) but never go below zero: $\max(0, distance - offset)$.
 

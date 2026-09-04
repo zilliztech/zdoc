@@ -164,7 +164,7 @@ BM25 is a widely used text relevance measurement method, specifically designed f
 The BM25 scoring is calculated as follows:
 
 $$
-score(D, Q)=\sum_\{i=1\}^\{n\}IDF(q_i)\cdot \{\{TF(q_i,D)\cdot(k_1+1)\}\over\{TF(q_i, D)+k_1\cdot(1-b+b\cdot \{\{|D|\}\over\{avgdl\}\})\}\}
+score(D, Q)=\sum_{i=1}^{n}IDF(q_i)\cdot {{TF(q_i,D)\cdot(k_1+1)}\over{TF(q_i, D)+k_1\cdot(1-b+b\cdot {{|D|}\over{avgdl}})}}
 $$
 
 Parameter description:
@@ -178,7 +178,7 @@ Parameter description:
 - $IDF(q_i)$: Inverse document frequency, calculated as:
 
     $$
-    IDF(q_i)=\log(\{N-n(q_i)+0.5\over n(q_i)+0.5\} + 1)
+    IDF(q_i)=\log({N-n(q_i)+0.5\over n(q_i)+0.5} + 1)
     $$
 
     where $N$ is the total number of documents in the corpus, and$n(q_i)$ is the number of documents containing term $q_i$.
@@ -196,18 +196,18 @@ Parameter description:
 The **maximum similarity**, also known as **MAX_SIM**, measures the similarity between vector embedding lists instead of plain vector embeddings. The main idea is to split each document into contextual chunks or tokens, create vector embeddings for each of them, and store them as a list of embeddings per document. When a query is received, it is also divided into tokens, and an embedding list is generated accordingly. 
 
 $$
-score(Q, D) = \sum_\{i=1\}^m\max_\{j=1\}^ncos(e_\{q_i\}, e_\{d_j\})
+score(Q, D) = \sum_{i=1}^m\max_{j=1}^ncos(e_{q_i}, e_{d_j})
 $$
 
 The distance or similarity score between the query and the documents is calculated using the above formula, known as the maximum similarity (**MAX_SIM**). The arguments in the formula are as follows:
 
-- $Q$: The query text provided by the user, which has been split into a vector embedding list, like $E_Q = [e_\{q_1\}, ..., e_\{q_m\} ]$.
+- $Q$: The query text provided by the user, which has been split into a vector embedding list, like $E_Q = [e_{q_1}, ..., e_{q_m} ]$.
 
-- $D$: A document being evaluated, which has been divided into a vector embedding list, like $E_D = [e_\{d_1\}, ... e_\{d_n\}]$.
+- $D$: A document being evaluated, which has been divided into a vector embedding list, like $E_D = [e_{d_1}, ... e_{d_n}]$.
 
-- $e_\{q_i\}$: The *i-th* vector embedding in the query embedding list.
+- $e_{q_i}$: The *i-th* vector embedding in the query embedding list.
 
-- $e_\{d_j\}$: The *j-th* vector embedding in the document.
+- $e_{d_j}$: The *j-th* vector embedding in the document.
 
 To determine the similarity score between the query and a document, the vector embeddings of each query token are compared with those in the document to get a list of similarity scores. Then the highest scores from all score lists are summed to produce the final score.
 
