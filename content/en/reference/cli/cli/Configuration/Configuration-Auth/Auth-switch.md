@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation switches to a different organization.
 
-**Note:** `zilliz auth switch` is a deprecated alias kept for backwards compatibility. Use the top-level `zilliz switch` command in new scripts.
+<strong>Note:</strong> `zilliz auth switch` is a deprecated alias kept for backwards compatibility. Use the top-level `zilliz switch` command in new scripts.
 
 ## Synopsis\{#synopsis}
 

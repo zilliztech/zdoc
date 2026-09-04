@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation shows the current authentication status.
 
-**Note:** `zilliz auth status` is a deprecated alias kept for backwards compatibility. Use `zilliz whoami` (alias `zilliz info`) in new scripts.
+<strong>Note:</strong> `zilliz auth status` is a deprecated alias kept for backwards compatibility. Use `zilliz whoami` (alias `zilliz info`) in new scripts.
 
 ## Synopsis\{#synopsis}
 

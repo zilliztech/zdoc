@@ -129,7 +129,7 @@ zilliz alert update
 
 - **--action** (*array*) -
 
-    Indicates the notification action as in `type:config`. For example, `email:user*@*example.com`.
+    Indicates the notification action as in `type:config`. For example, `email:user<em>@</em>example.com`.
 
     You can use this option with different cluster IDs in the same command.
 
