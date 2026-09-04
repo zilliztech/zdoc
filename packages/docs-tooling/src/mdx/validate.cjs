@@ -299,70 +299,6 @@ function escapeCurrencyDollars(content) {
     return result.join('\n');
 }
 
-/**
- * Pre-processing: escape unescaped { and } inside math blocks ($...$ and $$...$$)
- * so MDX does not try to parse them as JSX expressions.
- *
- * The remarkMathFix remark plugin (in docusaurus.config.ts) later converts \{ → {
- * and \} → } inside math AST nodes, restoring the original LaTeX for KaTeX.
- *
- * Only escapes braces that are NOT already preceded by a backslash.
- */
-function escapeMathBraces(content) {
-    const lines = content.split('\n');
-    const result = [];
-    const fence = createFenceTracker();
-    let inDisplayMath = false;
-
-    for (let line of lines) {
-        const stripped = line.trim();
-
-        // Track fenced code blocks
-        fence.update(line);
-
-        if (fence.inCodeBlock) {
-            result.push(line);
-            continue;
-        }
-
-        if (isMdxEsmLine(line)) {
-            result.push(line);
-            continue;
-        }
-
-        // Track display math blocks ($$...$$)
-        if (stripped === '$$') {
-            inDisplayMath = !inDisplayMath;
-            result.push(line);
-            continue;
-        }
-
-        if (inDisplayMath) {
-            // Escape unescaped braces inside display math
-            line = line.replace(/(?<!\\)([{}])/g, '\\$1');
-            result.push(line);
-            continue;
-        }
-
-        // Handle inline math ($...$) — escape braces inside $ delimiters
-        // Split by inline code spans first (odd-indexed segments are inside backticks)
-        const codeParts = line.split(/(`+[^`]+`+)/);
-        line = codeParts.map((part, i) => {
-            if (i % 2 !== 0) return part; // Inside inline code — leave unchanged
-
-            // Find inline math spans: $...$ (not $$, not inside code)
-            return part.replace(/(?<!\$)\$(?!\$)((?:[^$\\]|\\.)+)\$/g, (match, mathContent) => {
-                const escaped = mathContent.replace(/(?<!\\)([{}])/g, '\\$1');
-                return '$' + escaped + '$';
-            });
-        }).join('');
-
-        result.push(line);
-    }
-
-    return result.join('\n');
-}
-
 function stripTagsFromCodeContent(inner) {
     return inner.replace(/<\/?[A-Za-z][^>]*>/g, '');
 }
@@ -771,6 +707,7 @@ function escapePlainTextBraces(content) {
     const lines = content.split('\n');
     const fence = createFenceTracker();
     const result = [];
+    let inDisplayMath = false;
 
     for (let line of lines) {
         fence.update(line);
@@ -780,20 +717,39 @@ function escapePlainTextBraces(content) {
             continue;
         }
 
+        if (line.trim() === '$$') {
+            inDisplayMath = !inDisplayMath;
+            result.push(line);
+            continue;
+        }
+
+        // remark-math claims math before MDX parses expressions, so LaTeX braces
+        // are already safe. Preserve them byte-for-byte instead of turning
+        // grouping braces into the literal-brace commands \{ and \}.
+        if (inDisplayMath) {
+            result.push(line);
+            continue;
+        }
+
         // Split by inline code spans; odd-indexed segments are inside backticks
         const parts = line.split(/(`+[^`]+`+)/);
         line = parts.map((part, i) => {
             if (i % 2 !== 0) return part; // Inside inline code — leave unchanged
 
-            return part.replace(
-                // The identifier class allows '-' so hyphenated placeholder/slug
-                // tokens (e.g. "{verify-the-connection}", "{cluster-id}") are
-                // escaped too. Without it they compile as subtraction expressions
-                // ("verify - the - connection") and crash SSG with a
-                // "ReferenceError: <first token> is not defined".
-                /(?<![=\\<>"'/]){([A-Za-z_$][A-Za-z0-9_.$-]*)}/g,
-                '\\{$1\\}',
-            );
+            // Odd-indexed segments are inline math. Apply placeholder escaping
+            // only to prose surrounding them.
+            return part.split(/((?<!\$)\$(?!\$)(?:[^$\\]|\\.)+\$)/g).map((segment, segmentIndex) => {
+                if (segmentIndex % 2 !== 0) return segment;
+                return segment.replace(
+                    // The identifier class allows '-' so hyphenated placeholder/slug
+                    // tokens (e.g. "{verify-the-connection}", "{cluster-id}") are
+                    // escaped too. Without it they compile as subtraction expressions
+                    // ("verify - the - connection") and crash SSG with a
+                    // "ReferenceError: <first token> is not defined".
+                    /(?<![=\\<>"'/]){([A-Za-z_$][A-Za-z0-9_.$-]*)}/g,
+                    '\\{$1\\}',
+                );
+            }).join('');
         }).join('');
 
         result.push(line);
@@ -893,7 +849,6 @@ async function applyMdxPatches(content, options = {}) {
         patchedContent = convertHtmlCommentsToMdx(patchedContent);
         patchedContent = escapeCurrencyDollars(patchedContent);
         patchedContent = escapeNonHtmlTags(patchedContent);
-        patchedContent = escapeMathBraces(patchedContent);
         patchedContent = escapeHtmlElementBraces(patchedContent);
         patchedContent = escapePlainTextBraces(patchedContent);
         let maxIterations = 50; // Prevent infinite loops
@@ -1132,7 +1087,6 @@ module.exports = {
     convertHtmlCommentsToMdx,
     findUnnormalizedCodeTags,
     findMalformedProceduresBlocks,
-    escapeMathBraces,
     escapeHtmlElementBraces,
     escapePlainTextBraces,
     escapeNonHtmlTags,
