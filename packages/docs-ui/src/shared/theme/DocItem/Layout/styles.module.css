@@ -201,7 +201,11 @@
      splits evenly on both sides of the content), while the TOC stays at the row's
      right edge. Content stays capped for readability. */
   .docItemRow:not(:has(.docItemColCentered)) .docItemCol {
-    flex: 0 1 auto;
+    /* flex: 1 1 0, not 0 1 auto: an auto flex-basis shrink-wraps the column
+       to its widest unbreakable child (a wide table, code block, or long method
+       signature), so pages in the same section rendered at different widths. A
+       zero basis fills the available space first, then max-width caps it. */
+    flex: 1 1 0;
     margin-left: auto;
     margin-right: auto;
   }
