@@ -66,6 +66,8 @@ type SourcePublicationManifest = Readonly<{
 type SourcePublicationRecord = Readonly<{
   path: string;
   sha256: string;
+  docToken: string | null;
+  revisionId: string | null;
 }>;
 
 type InventoryEntry = Readonly<{path: string; sha256: string}>;
@@ -127,7 +129,11 @@ function assertManifestFilePath(group: PublicationGroup, value: string): string 
 
 export function serializeSourcePublicationManifest(
   files: readonly string[],
-  options: Readonly<{records?: readonly SourcePublicationRecord[]; repositoryRoot?: string}> = {},
+  options: Readonly<{
+    records?: readonly SourcePublicationRecord[];
+    repositoryRoot?: string;
+    evidenceByPath?: ReadonlyMap<string, {docToken: string; revisionId: string | null}>;
+  }> = {},
 ): string {
   const group = resolvePublicationGroupWorkflow('zh-CN', 'guides').group;
   const normalized = files.map(file => assertManifestFilePath(group, file));
@@ -135,17 +141,24 @@ export function serializeSourcePublicationManifest(
   const sorted = [...normalized].sort((left, right) => left.localeCompare(right, 'en'));
   const records = options.records
     ?? (options.repositoryRoot
-      ? sorted.map(file => ({
-          path: file,
-          sha256: sha256(readFileSync(path.join(path.resolve(options.repositoryRoot), file))),
-        }))
+      ? sorted.map(file => {
+          const evidence = options.evidenceByPath?.get(file) ?? null;
+          return {
+            path: file,
+            sha256: sha256(readFileSync(path.join(path.resolve(options.repositoryRoot), file))),
+            docToken: evidence?.docToken ?? null,
+            revisionId: evidence?.revisionId ?? null,
+          };
+        })
       : null);
   if (!records) throw new Error('Source publication manifest serialization requires records or a repository root');
   const sortedRecords = [...records].sort((left, right) => left.path.localeCompare(right.path, 'en'));
   const recordPaths = new Set(sortedRecords.map(record => record.path));
   if (sortedRecords.length !== sorted.length
     || sorted.some(file => !recordPaths.has(file))
-    || sortedRecords.some(record => !/^[0-9a-f]{64}$/u.test(record.sha256))) {
+    || sortedRecords.some(record => !/^[0-9a-f]{64}$/u.test(record.sha256))
+    || sortedRecords.some(record => record.docToken !== null && typeof record.docToken !== 'string')
+    || sortedRecords.some(record => record.revisionId !== null && typeof record.revisionId !== 'string')) {
     throw new Error('Source publication manifest records must match files with lowercase 64-character hashes');
   }
   const manifest: SourcePublicationManifest = {
@@ -158,7 +171,7 @@ export function serializeSourcePublicationManifest(
   return `${JSON.stringify(manifest, null, 2)}\n`;
 }
 
-function parseSourcePublicationManifest(contents: string, group: PublicationGroup): SourcePublicationManifest {
+export function parseSourcePublicationManifest(contents: string, group: PublicationGroup): SourcePublicationManifest {
   let input: unknown;
   try {
     input = JSON.parse(contents);
@@ -186,8 +199,8 @@ function parseSourcePublicationManifest(contents: string, group: PublicationGrou
     if (!record || typeof record !== 'object' || Array.isArray(record)) throw new Error('Chinese Guides source publication manifest records must be objects');
     const entry = record as Record<string, unknown>;
     const recordKeys = Object.keys(entry);
-    if (recordKeys.length !== 2 || recordKeys.some(key => !['path', 'sha256'].includes(key))) {
-      throw new Error('Chinese Guides source publication manifest records must contain exactly path and sha256');
+    if (recordKeys.length !== 4 || recordKeys.some(key => !['path', 'sha256', 'docToken', 'revisionId'].includes(key))) {
+      throw new Error('Chinese Guides source publication manifest records must contain exactly path, sha256, docToken, and revisionId');
     }
     if (typeof entry.path !== 'string' || entry.path !== assertManifestFilePath(group, entry.path)) {
       throw new Error('Chinese Guides source publication manifest record path is invalid');
@@ -195,7 +208,11 @@ function parseSourcePublicationManifest(contents: string, group: PublicationGrou
     if (typeof entry.sha256 !== 'string' || !/^[0-9a-f]{64}$/u.test(entry.sha256)) {
       throw new Error('Chinese Guides source publication manifest record sha256 must be a lowercase 64-character hash');
     }
-    return {path: entry.path, sha256: entry.sha256};
+    if ((entry.docToken !== null && typeof entry.docToken !== 'string')
+      || (entry.revisionId !== null && typeof entry.revisionId !== 'string')) {
+      throw new Error('Chinese Guides source publication manifest record Feishu anchors must be strings or null');
+    }
+    return {path: entry.path, sha256: entry.sha256, docToken: entry.docToken as string | null, revisionId: entry.revisionId as string | null};
   });
   const recordSorted = [...records].sort((left, right) => left.path.localeCompare(right.path, 'en'));
   if (new Set(records.map(record => record.path)).size !== records.length
@@ -466,13 +483,52 @@ function stagedManifestPath(repositoryRoot: string, group: PublicationGroup, gro
   );
 }
 
+function guidesSnapshotEvidence(repositoryRoot: string, group: PublicationGroup): ReadonlyMap<string, string | null> {
+  if (group.site !== 'zh-CN' || !group.manuals.includes('guides')) return new Map();
+  const snapshotPath = resolveSecureRepositoryPath(
+    repositoryRoot,
+    'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json',
+    'Guides source snapshot candidate',
+    {allowMissing: true},
+  );
+  if (!existsSync(snapshotPath)) return new Map();
+  const snapshot = JSON.parse(readSecureFile(repositoryRoot, snapshotPath, 'Guides source snapshot candidate').toString('utf8')) as {
+    records?: ReadonlyArray<{doc_token?: unknown; revision_id?: unknown; node_metadata?: {revision_id?: unknown} | null; output_paths?: readonly unknown[]}>;
+  };
+  const revisionByToken = new Map<string, string | null>();
+  for (const record of snapshot.records ?? []) {
+    const docToken = typeof record.doc_token === 'string' && record.doc_token ? record.doc_token : null;
+    if (!docToken) continue;
+    const revisionId = typeof record.revision_id === 'string' && record.revision_id
+      ? record.revision_id
+      : (typeof record.node_metadata?.revision_id === 'string' && record.node_metadata.revision_id
+        ? record.node_metadata.revision_id
+        : null);
+    revisionByToken.set(docToken, revisionId);
+  }
+  return revisionByToken;
+}
+
+function stagedFileDocToken(source: string): string | null {
+  const contents = readFileSync(source, 'utf8');
+  const match = contents.match(/^token:\s*['"]?([^'"\r\n]+)['"]?\s*$/mu);
+  return match?.[1]?.trim() || null;
+}
+
 function writeStagedManifest(repositoryRoot: string, group: PublicationGroup, groupName: string): void {
   const target = stagedManifestPath(repositoryRoot, group, groupName);
   const files = stagedManifestFiles(repositoryRoot, group);
-  const records = files.map(file => ({
-    path: file,
-    sha256: sha256(readFileSync(sourceForManifestFile(repositoryRoot, group, file))),
-  }));
+  const revisionByToken = guidesSnapshotEvidence(repositoryRoot, group);
+  const records = files.map(file => {
+    const source = sourceForManifestFile(repositoryRoot, group, file);
+    const docToken = stagedFileDocToken(source);
+    return {
+      path: file,
+      sha256: sha256(readFileSync(source)),
+      docToken,
+      revisionId: docToken ? revisionByToken.get(docToken) ?? null : null,
+    };
+  });
   writeSecureAtomicFile(
     repositoryRoot,
     target,

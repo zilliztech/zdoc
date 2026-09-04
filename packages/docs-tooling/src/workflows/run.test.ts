@@ -31,10 +31,12 @@ function write(root: string, relative: string, contents = 'x\n'): void {
   writeFileSync(target, contents);
 }
 
-function stagedRecordFor(root: string, manual: string, file: string): {path: string; sha256: string} {
+function stagedRecordFor(root: string, manual: string, file: string): {path: string; sha256: string; docToken: string | null; revisionId: string | null} {
   return {
     path: file,
     sha256: createHash('sha256').update(readFileSync(path.join(root, 'tmp/docs-tooling/zh-CN', manual, file))).digest('hex'),
+    docToken: null,
+    revisionId: null,
   };
 }
 
@@ -505,6 +507,8 @@ describe('Chinese Guides source publication', () => {
     write(outside, 'zh-CN/manifests/guides-source-publication.json', serializeSourcePublicationManifest(files, {records: files.map(file => ({
       path: file,
       sha256: createHash('sha256').update(`outside ${file}\n`).digest('hex'),
+      docToken: null,
+      revisionId: null,
     }))}));
     await expect(executePublicationGroup(
       {site: 'zh-CN', group: 'guides', stage: 'publish'},
@@ -562,7 +566,7 @@ describe('Chinese Guides source publication', () => {
     const directoryEntry = 'content/zh-CN/guides/tutorials/directory.md';
     write(root, 'generated/zh-CN/manifests/guides-source-publication.json', serializeSourcePublicationManifest([], {repositoryRoot: root}));
     write(baselineRoot, 'generated/zh-CN/manifests/guides-source-publication.json', serializeSourcePublicationManifest([directoryEntry], {records: [
-      {path: directoryEntry, sha256: createHash('sha256').update('directory placeholder\n').digest('hex')},
+      {path: directoryEntry, sha256: createHash('sha256').update('directory placeholder\n').digest('hex'), docToken: null, revisionId: null},
     ]}));
     write(baselineRoot, `${directoryEntry}/child.md`, 'not a regular manifest file\n');
     const atomicReplace = vi.fn(async () => {
@@ -591,8 +595,8 @@ describe('Chinese Guides source publication', () => {
       baselineRoot,
       'generated/zh-CN/manifests/guides-source-publication.json',
       serializeSourcePublicationManifest([copiedFile, missingFile], {records: [
-        {path: copiedFile, sha256: createHash('sha256').update('copied before failure\n').digest('hex')},
-        {path: missingFile, sha256: createHash('sha256').update('missing from baseline\n').digest('hex')},
+        {path: copiedFile, sha256: createHash('sha256').update('copied before failure\n').digest('hex'), docToken: null, revisionId: null},
+        {path: missingFile, sha256: createHash('sha256').update('missing from baseline\n').digest('hex'), docToken: null, revisionId: null},
       ]}),
     );
     const atomicReplace = vi.fn(async () => undefined);
@@ -846,10 +850,10 @@ describe('Chinese Guides source publication', () => {
     const files = ['content/zh-CN/guides/tutorials/a.md'];
     expect(() => serializeSourcePublicationManifest(files, {records: []})).toThrow(/records must match files/i);
     expect(() => serializeSourcePublicationManifest(files, {records: [
-      {path: files[0], sha256: 'not-a-hash'},
+      {path: files[0], sha256: 'not-a-hash', docToken: null, revisionId: null},
     ]})).toThrow(/records must match files/i);
     expect(() => serializeSourcePublicationManifest(files, {records: [
-      {path: 'content/zh-CN/guides/tutorials/other.md', sha256: createHash('sha256').update('x\n').digest('hex')},
+      {path: 'content/zh-CN/guides/tutorials/other.md', sha256: createHash('sha256').update('x\n').digest('hex'), docToken: null, revisionId: null},
     ]})).toThrow(/records must match files/i);
   });
 
@@ -878,5 +882,69 @@ describe('Chinese Guides source publication', () => {
       {site: 'zh-CN', group: 'guides', stage: 'validate'},
       {repositoryRoot: root, aliyunOssValidator: {validatePublication: vi.fn().mockResolvedValue(undefined)}},
     )).rejects.toThrow(/hash mismatch/i);
+  });
+
+  it('binds staged Feishu evidence from the snapshot candidate and published token frontmatter', async () => {
+    const root = temporaryRoot();
+    const stagedFile = 'content/zh-CN/guides/tutorials/a.md';
+    const sidebar = 'generated/zh-CN/sidebars/guides.sidebar.js';
+    const byocSidebar = 'generated/zh-CN/sidebars/guides-byoc.sidebar.js';
+    const files = [stagedFile, sidebar, byocSidebar];
+    write(root, 'content/zh-CN/guides/tutorials/home.md', '---\ntoken: homeToken\n---\nlive home\n');
+    for (const file of files) write(root, file, `live ${file}\n`);
+    write(root, 'generated/zh-CN/manifests/guides-source-publication.json', serializeSourcePublicationManifest(files, {repositoryRoot: root}));
+    write(root, `tmp/docs-tooling/zh-CN/guides/${stagedFile}`, '---\ntoken: DOCtokenA\n---\nstaged a\n');
+    write(root, `tmp/docs-tooling/zh-CN/guides/${sidebar}`, 'staged sidebar\n');
+    write(root, 'tmp/docs-tooling/zh-CN/guides-byoc/generated/zh-CN/sidebars/guides-byoc.sidebar.js', 'staged byoc sidebar\n');
+    mkdirSync(path.join(root, 'tmp/docs-tooling/zh-CN/guides-byoc/content/zh-CN/byoc/tutorials'), {recursive: true});
+    write(root, 'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json', `${JSON.stringify({
+      schema_version: 3,
+      manual: 'guides',
+      targets_built: [],
+      build_env: 'uat',
+      generated_at: '2026-09-04T00:00:00.000Z',
+      source_dir: 'packages/docs-tooling/src/lark/meta/sources/guides-zh-CN',
+      records: [
+        {record_id: 'rec1', table_id: 'tbl1', placement_type: 'canonical', title: 'A', doc_token: 'DOCtokenA', source_file: 'DOCtokenA.json', source_hash: '0'.repeat(64), outgoing_tokens: [], node_metadata: {revision_id: '42'}},
+      ],
+      navigation_records: [],
+      table_digests: {},
+    })}\n`);
+    writePublicationGroupDiagnostics(root, 'zh-CN', 'guides');
+
+    const stagedFiles = new Map([
+      [`tmp/docs-tooling/zh-CN/guides/${stagedFile}`, '---\ntoken: DOCtokenA\n---\nstaged a\n'],
+      [`tmp/docs-tooling/zh-CN/guides/${sidebar}`, 'staged sidebar\n'],
+      ['tmp/docs-tooling/zh-CN/guides-byoc/generated/zh-CN/sidebars/guides-byoc.sidebar.js', 'staged byoc sidebar\n'],
+    ]);
+    const fetchKeepsStagedFiles = (context: CommandContext): void => {
+      const staged = publicationStagePaths(context);
+      mkdirSync(staged.outputPath, {recursive: true});
+      mkdirSync(path.dirname(staged.sidebarPath), {recursive: true});
+      writeFileSync(staged.sidebarPath, 'module.exports = []\n');
+      for (const [relative, contents] of stagedFiles) {
+        const target = path.join(context.repositoryRoot, relative);
+        if (!path.relative(context.stagePath, target).startsWith('..')) {
+          mkdirSync(path.dirname(target), {recursive: true});
+          writeFileSync(target, contents);
+        }
+      }
+    };
+
+    await executePublicationGroup(
+      {site: 'zh-CN', group: 'guides', stage: 'fetch'},
+      {repositoryRoot: root, fetch: fetchKeepsStagedFiles},
+    );
+
+    const staged = JSON.parse(readFileSync(path.join(root, 'tmp/docs-tooling/zh-CN/groups/guides/generated/zh-CN/manifests/guides-source-publication.json'), 'utf8'));
+    const byPath = new Map(staged.records.map((record: {path: string}) => [record.path, record]));
+    expect(byPath.get(stagedFile)).toEqual({
+      path: stagedFile,
+      sha256: createHash('sha256').update('---\ntoken: DOCtokenA\n---\nstaged a\n').digest('hex'),
+      docToken: 'DOCtokenA',
+      revisionId: '42',
+    });
+    expect(byPath.get(sidebar)).toEqual({path: sidebar, sha256: byPath.get(sidebar).sha256, docToken: null, revisionId: null});
+    expect(byPath.get(byocSidebar)).toEqual({path: byocSidebar, sha256: byPath.get(byocSidebar).sha256, docToken: null, revisionId: null});
   });
 });

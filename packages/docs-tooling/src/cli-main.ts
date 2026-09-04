@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import {appendFileSync, existsSync, lstatSync, mkdirSync, readFileSync, readdirSync, realpathSync, writeFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
 import {createRequire} from 'node:module';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
@@ -187,7 +188,8 @@ async function executeRevisionInventoryBuild(argv: string[], repositoryRoot: str
 
 async function validateCommittedRevisionInventories(argv: string[], repositoryRoot: string): Promise<void> {
   const options = parseOptions(argv.slice(1));
-  if (requiredOption(options, 'site') !== 'en') throw new Error('Revision inventory validation supports only --site en');
+  const site = requiredOption(options, 'site');
+  if (site !== 'en' && site !== 'zh-CN') throw new Error('Revision inventory validation supports only --site en or --site zh-CN');
   for (const group of listPublicationGroups('en')) {
     // A reference manual that is registered but not yet fetched (its content and generated
     // sidebars are dev-owned and produced by the fetch pipeline) has no revision inventory on
@@ -202,6 +204,23 @@ async function validateCommittedRevisionInventories(argv: string[], repositoryRo
     const file = resolveSafeRevisionPath(repositoryRoot, relativePath, 'Revision inventory path', true);
     const inventory = await readRevisionInventory(file, `Revision inventory ${group}`);
     if (inventory.group !== group) throw new Error(`Revision inventory ${group} has group ${inventory.group}`);
+  }
+  if (site === 'zh-CN') {
+    const {parseSourcePublicationManifest} = await import('./workflows/run.ts');
+    const {resolvePublicationGroup} = await import('./workflows/groups.ts');
+    const group = resolvePublicationGroup('zh-CN', 'guides');
+    if (!group.publicationManifest) throw new Error('Chinese Guides publication manifest is not registered');
+    const manifestPath = path.join(repositoryRoot, group.publicationManifest);
+    const manifest = parseSourcePublicationManifest(readFileSync(manifestPath, 'utf8'), group);
+    for (const record of manifest.records) {
+      const file = path.join(repositoryRoot, record.path);
+      if (!existsSync(file) || !lstatSync(file).isFile() || lstatSync(file).isSymbolicLink()) {
+        throw new Error(`Chinese Guides publication file is missing or unsafe: ${record.path}`);
+      }
+      if (createHash('sha256').update(readFileSync(file)).digest('hex') !== record.sha256) {
+        throw new Error(`Chinese Guides publication file hash mismatch: ${record.path}`);
+      }
+    }
   }
   process.stdout.write('Revision inventories validated.\n');
 }
