@@ -10,13 +10,26 @@ type AstNode = {
   value?: string;
   properties?: {className?: unknown[]; [key: string]: unknown};
   children?: AstNode[];
+  data?: {hChildren?: AstNode[]};
 };
+
+function restoreMathBraces(value: string): string {
+  return value.replace(/\\\{/g, '{').replace(/\\\}/g, '}');
+}
 
 export function remarkMathFix() {
   return (tree: AstNode): void => {
     visit(tree as never, (node: AstNode) => {
       if ((node.type === 'math' || node.type === 'inlineMath') && typeof node.value === 'string') {
-        node.value = node.value.replace(/\\\{/g, '{').replace(/\\\}/g, '}');
+        node.value = restoreMathBraces(node.value);
+        // remark-math caches the hast representation during parsing. rehype-katex
+        // reads that cached text, not node.value, so repair it as well for MDX
+        // already published by the legacy brace-escaping pipeline.
+        visit({type: 'root', children: node.data?.hChildren ?? []} as never, (child: AstNode) => {
+          if (child.type === 'text' && typeof child.value === 'string') {
+            child.value = restoreMathBraces(child.value);
+          }
+        });
       }
     });
   };

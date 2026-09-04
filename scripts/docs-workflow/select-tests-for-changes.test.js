@@ -79,6 +79,14 @@ test('selector maps shared contracts and recovery changes to focused, replay, an
   assert.equal(selected.commands.includes('pnpm test:replay:recovery'), false)
 })
 
+test('selector maps shared MDX normalization to its regression and aggregate replay', () => {
+  const selected = selectTests(['packages/docs-tooling/src/mdx/validate.cjs'])
+  assert.deepEqual(selected.areas.map(area => area.id), ['shared-mdx-normalization'])
+  assert.equal(selected.commands.includes('node packages/docs-tooling/src/mdx/validate.test.cjs'), true)
+  assert.equal(selected.commands.includes('pnpm test:replay:all'), true)
+  assert.equal(selected.commands.includes('pnpm test:workflow-policy'), true)
+})
+
 test('selector maps REST OpenAPI fragments to publication and integrated-spec checks', () => {
   const selected = selectTests([
     'packages/docs-tooling/src/reference/rest/meta/openapi/32-spark-job-v2.json',
