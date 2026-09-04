@@ -304,10 +304,36 @@ describe('docs-tooling executable composition root', () => {
     expect(result.stderr).toMatch(expected);
   });
 
-  it('rejects revision inventory validation for sites other than English', () => {
-    const result = runCli(temporaryRoot(), ['validate-revision-inventory', '--site', 'zh-CN']);
+  it('rejects revision inventory validation for unsupported sites', () => {
+    const result = runCli(temporaryRoot(), ['validate-revision-inventory', '--site', 'fr']);
     expect(result.status).not.toBe(0);
     expect(result.stderr).toMatch(/site.*en/i);
+  });
+
+  it('validates Chinese Guides publication file hashes for --site zh-CN', () => {
+    const repositoryRoot = temporaryRoot();
+    seedReferenceSidebars(repositoryRoot, ['guides']);
+    for (const group of ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest']) {
+      writeJson(repositoryRoot, `generated/en/manifests/lark-revisions/${group}.json`, revisionInventory(group));
+    }
+    const file = 'content/zh-CN/guides/tutorials/a.md';
+    mkdirSync(path.join(repositoryRoot, path.dirname(file)), {recursive: true});
+    writeFileSync(path.join(repositoryRoot, file), 'published a\n');
+    writeJson(repositoryRoot, 'generated/zh-CN/manifests/guides-source-publication.json', {
+      schemaVersion: 1,
+      site: 'zh-CN',
+      group: 'guides',
+      files: [file],
+      records: [{path: file, sha256: createHash('sha256').update('published a\n').digest('hex'), docToken: 'DOCa', revisionId: '2'}],
+    });
+    const valid = runCli(repositoryRoot, ['validate-revision-inventory', '--site', 'zh-CN']);
+    expect(valid.status).toBe(0);
+    expect(valid.stderr).toBe('');
+
+    writeFileSync(path.join(repositoryRoot, file), 'tampered a\n');
+    const tampered = runCli(repositoryRoot, ['validate-revision-inventory', '--site', 'zh-CN']);
+    expect(tampered.status).not.toBe(0);
+    expect(tampered.stderr).toMatch(/hash mismatch: content\/zh-CN\/guides\/tutorials\/a\.md/);
   });
 
   it('writes site-qualified Guides source configuration for workflows', () => {
