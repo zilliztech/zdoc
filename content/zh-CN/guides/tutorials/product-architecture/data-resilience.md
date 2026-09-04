@@ -20,7 +20,7 @@ import Admonition from '@theme/Admonition';
 
 # 数据弹性
 
-Zilliz Cloud 作为全托管的向量数据库服务，提供企业级的**高可用性（High Availability, HA）和灾难恢复（Disaster Recovery, DR）**能力，确保您的关键业务数据和服务在各种故障场景下的持续可用性。
+Zilliz Cloud 作为全托管的向量数据库服务，提供企业级的<strong>高可用性（High Availability, HA）和灾难恢复（Disaster Recovery, DR）</strong>能力，确保您的关键业务数据和服务在各种故障场景下的持续可用性。
 
 ### 核心能力\{#core-capabilities}
 
