@@ -56,7 +56,7 @@ Audit logs are forwarded directly to a user-designated object storage bucket at 
 
 - **File Path**: `/<Cluster ID>/<Log type>/<Date>`
 
-- **File Naming Convention**: `<File name><File name suffix>` in the format *HH:MM:SS-&#36;UUID*, where *HH:MM:SS* represents the time in UTC and *&#36;UUID* is a unique random string. Example: `09:16:53-jz5l7D8Q`.
+- **File Naming Convention**: `<File name><File name suffix>` in the format *HH:MM:SS-$UUID*, where *HH:MM:SS* represents the time in UTC and *$UUID* is a unique random string. Example: `09:16:53-jz5l7D8Q`.
 
 Below are examples of audit log entries forwarded to a bucket:
 

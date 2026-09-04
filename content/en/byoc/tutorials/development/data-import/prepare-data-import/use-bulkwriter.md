@@ -845,9 +845,9 @@ Possible folder structures are as follows:
 
     | **File Type** | **Valid Import Paths** |
     | --- | --- |
-    | **JSON** | *s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*<br/>*s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.json* |
-    | **Parquet** | *s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*<br/>*s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.parquet* |
-    | **NumPy** | *s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*<br/>*s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/&ast;.npy* |
+    | **JSON** | *`s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/`*<br/>*`s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.json`* |
+    | **Parquet** | *`s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/`*<br/>*`s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.parquet`* |
+    | **NumPy** | *`s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/`*<br/>*`s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*.npy`* |
 
 - If the generated file exceeds the specified segment size
 
@@ -885,9 +885,9 @@ Possible folder structures are as follows:
 
     | **File Type** | **Valid Import Paths** |
     | --- | --- |
-    | **JSON** | *s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/* |
-    | **Parquet** | *s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/* |
-    | **NumPy** | *s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*<br/>*s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/&ast;.npy* |
+    | **JSON** | *`s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/`* |
+    | **Parquet** | *`s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/`* |
+    | **NumPy** | *`s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/`*<br/>*`s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*.npy`* |
 
 ## Related topics\{#related-topics}
 

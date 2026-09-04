@@ -32,13 +32,13 @@ The `language_identifier` performs a series of steps to process a text string, a
 
 1. **Input:** The workflow begins with a text string as input.
 
-1. **Language detection:** This string is first passed to a language detection engine, which attempts to identify the language. Zilliz Cloud supports two engines: **whatlang** and **lingua**.
+1. **Language detection:** This string is first passed to a language detection engine, which attempts to identify the language. Zilliz Cloud supports two engines: **`whatlang`** and **`lingua`**.
 
 1. **Analyzer selection:**
 
     - **Success:** If the language is successfully detected, the system checks if the detected language name has a corresponding analyzer configured in your `analyzers` dictionary. If a match is found, the system applies the specified analyzer to the input text. For example, a detected "Mandarin" text would be routed to a `jieba` tokenizer.
 
-    - **Fallback:** If detection fails, or if a language is successfully detected but you have not provided a specific analyzer for it, the system defaults to a pre-configured **default analyzer**. This is a crucial point of clarification; the `default` analyzer is a fallback for both detection failure and an absence of a matching analyzer.
+    - **Fallback:** If detection fails, or if a language is successfully detected but you have not provided a specific analyzer for it, the system defaults to a pre-configured **`default` analyzer**. This is a crucial point of clarification; the `default` analyzer is a fallback for both detection failure and an absence of a matching analyzer.
 
 After the appropriate analyzer is chosen, the text is tokenized and processed, completing the workflow.
 

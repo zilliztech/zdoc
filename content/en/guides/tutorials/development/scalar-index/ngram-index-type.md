@@ -281,7 +281,7 @@ client.drop_index(
 
 ## Best practices\{#best-practices}
 
-- **Choose min_gram and max_gram to match search behavior**
+- **Choose `min_gram` and `max_gram` to match search behavior**
 
     - Start with `min_gram=2`, `max_gram=3`.
 

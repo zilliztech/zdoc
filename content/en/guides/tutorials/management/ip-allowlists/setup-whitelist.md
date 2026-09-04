@@ -40,7 +40,7 @@ Ensure the following prerequisites are met before proceeding:
 
 1. Navigate to the specific organization and project where the allowlist is to be configured.
 
-1. In the left-side navigation pane, choose **Security** >  Cluster IP Allowlist**.
+1. In the left-side navigation pane, choose **Security** >  **Cluster IP Allowlist**.
 
 1. Click **Add IP Address**.
 

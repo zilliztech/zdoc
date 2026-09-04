@@ -34,31 +34,31 @@ We're delighted to unveil our new AWS Frankfurt region, designed to better cater
 
 Explore the future with our latest beta features, available for dedicated clusters. Upgrade now to experience these enhancements:
 
-- *Range Search*
+- ***Range Search***
 
     Redefine your queries with [Range Search](./range-search), enabling you to set a radius for your searches. Unlike traditional ANN Search, Range Search ensures the inclusion of all vectors within the specified radius, providing a more comprehensive view.
 
-- *Upsert*
+- ***Upsert***
 
     Seamlessly manage dynamic datasets with [Upsert](./upsert-entities), a fusion of 'update' and 'insert'. Enjoy increased efficiency for datasets where changes are frequent.
 
-- *Cosine Metric Type*
+- ***Cosine Metric Type***
 
     Experience advanced vector search with [Cosine](./search-metrics-explained#cosine-similarity), [Inner Product](./search-metrics-explained#inner-product-ip), and [Euclidean Distance](./search-metrics-explained#euclidean-distance-l2) support. Cosine metric eliminates the need for prior vector normalization, streamlining your search process.
 
-- *Access Control*
+- ***Access Control***
 
     Securely access dedicated clusters and serverless instances with [API Key](./manage-api-keys) or [username password authentication](./cluster-credentials).
 
-- *Return Raw Vectors*
+- ***Return Raw Vectors***
 
     Specify vector fields in your [search parameters](./single-vector-search#use-output-fields) to receive them as part of your search results.
 
-- *JSON_CONTAINS Filter*
+- ***JSON_CONTAINS Filter***
 
     Refine searches further with the [JSON_CONTAINS operator](./json-filtering-operators), allowing you to specify filtering conditions based on JSON field values.
 
-- *Entity Count*
+- ***Entity Count***
 
     Get a quick overview of [the total number of entities within loaded collections](./single-vector-search#use-output-fields) for better data management.
 
@@ -66,23 +66,23 @@ Explore the future with our latest beta features, available for dedicated cluste
 
 We've also implemented several enhancements to improve your overall experience:
 
-- *New Role for RBAC*
+- ***New Role for RBAC***
 
     Grant Project Member [Role](./manage-platform-roles#predefined-project-roles) to project collaborators for more streamlined collaboration.
 
-- *Billing Optimizations*
+- ***Billing Optimizations***
 
     Enjoy more efficient billing management with streamlined processes.
 
-- *Advanced [Pricing Calculator](https://zilliz.com/pricing#calculator)*
+- ***Advanced [Pricing Calculator*](https://zilliz.com/pricing#calculator)**
 
     Get comprehensive estimations that combine primary keys, vector fields, and string fields for a more accurate pricing overview.
 
-- *Self-Service Account Deletion*
+- ***Self-Service Account Deletion***
 
     Easily [delete your own accounts](./email-accounts#close-your-account) or [organizations](./organization-settings#delete-organization) for greater control over your profile.
 
-- *Stability Enhancements*
+- ***Stability Enhancements***
 
     We've addressed known issues to enhance the reliability of our service.
 

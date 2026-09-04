@@ -69,7 +69,7 @@ Common use cases include:
 
 ## Supported data types\{#supported-data-types}
 
-The dynamic field supports all scalar data types provided by Zilliz Cloud, including both simple and complex values. These data types apply to the **values of keys stored in &#36;meta**.
+The dynamic field supports all scalar data types provided by Zilliz Cloud, including both simple and complex values. These data types apply to the **values of keys stored in `$meta`**.
 
 **Supported types include:**
 

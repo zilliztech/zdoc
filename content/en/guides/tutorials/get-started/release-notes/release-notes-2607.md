@@ -100,7 +100,7 @@ import Grid from '@site/src/components/Grid';
 
         ## Enhancements\{#enhancements}
 
-        - **Global Cluster: The global cluster supports both RESTful APIs and Terraform for your automation workflows.
+        - **Global Cluster:** The global cluster supports both RESTful APIs and Terraform for your automation workflows.
 
         - **Expanded Azure availability for On-Demand Search:** On-Demand Search with managed collections is now available in Azure East US. For details, refer to [Cloud Providers & Regions](./cloud-providers-and-regions) and [On-Demand Cluster](/docs/on-demand-cluster).
 

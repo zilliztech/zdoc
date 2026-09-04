@@ -209,7 +209,7 @@ The parameters in the above code are described as follows:
 
 - `enable_dynamic_field=True`
 
-    The value defaults to **False**. Setting this to **True** allows **BulkWriter** to include undefined fields and their values from the generated files as key-value pairs and place them in a reserved JSON field named **&#36;meta**. 
+    The value defaults to **False**. Setting this to **True** allows **BulkWriter** to include undefined fields and their values from the generated files as key-value pairs and place them in a reserved JSON field named **$meta**. 
 
 </TabItem>
 

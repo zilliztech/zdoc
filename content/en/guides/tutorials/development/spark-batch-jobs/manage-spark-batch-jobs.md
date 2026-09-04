@@ -48,7 +48,7 @@ curl --request GET \
   --header "Authorization: Bearer ${API_KEY}"
 ```
 
-To narrow the results, add one or more optional filters. The following example lists **running** Spark batch jobs in **aws-us-west-2** whose names begin with **pk-dedup**. It returns up to **50** jobs per page.
+To narrow the results, add one or more optional filters. The following example lists **running** Spark batch jobs in **`aws-us-west-2`** whose names begin with **`pk-dedup`**. It returns up to **50** jobs per page.
 
 ```bash
 export API_KEY="xxxxxxxxxxxxxxxxxxxxxxxxxxxx"

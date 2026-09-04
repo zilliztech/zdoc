@@ -27,7 +27,7 @@ This article demonstrates how to count entities in a collection and explains why
 
 Zilliz Cloud provides two ways for you to count entities in a collection. 
 
-- **Query with count(&ast;) as the output field**
+- **Query with `count(*)` as the output field**
 
     To get the precise entity count in a collection, you should use this method and ensure that:
 
@@ -41,7 +41,7 @@ Zilliz Cloud provides two ways for you to count entities in a collection.
 
     You can specify multiple partition names in the query to obtain corresponding entity counts in these partitions. For details, see [Query with count(*) as the output field](./count-entities).
 
-- **Use get_collection_stats()**
+- **Use `get_collection_stats()`**
 
     Although you can get the exact count of a collection using the method above, it is not recommended to use it everywhere. The process is basically a query, and frequent calls can cause network jitters or affect searches and queries related to your business. 
 
@@ -431,7 +431,7 @@ You can also use the **Partitions** tab of a collection to find the estimated nu
 
 ## FAQs\{#faqs}
 
-- **Why does the entity count obtained using get_collection_stats() or get_partition_stats() not reflect the actual number of entities in the target collection or partition after I have inserted some entities?** 
+- **Why does the entity count obtained using `get_collection_stats()` or `get_partition_stats()` not reflect the actual number of entities in the target collection or partition after I have inserted some entities?** 
 
     These methods only report what an internal tracker records, which may differ from the actual entity counts because all data operations are asynchronous.
 

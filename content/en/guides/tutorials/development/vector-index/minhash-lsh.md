@@ -432,5 +432,5 @@ The following table lists the parameters that can be configured in `search_param
 | Parameter | Description | Value Range | Tuning Suggestion |
 | --- | --- | --- | --- |
 | `mh_search_with_jaccard` | Whether to perform exact Jaccard similarity computation on candidate results for refinement. | true, false | Use `true` for applications requiring high precision (e.g., deduplication). Use `false` for faster approximate search when slight accuracy loss is acceptable. |
-| `refine_k` | Number of candidates to retrieve before Jaccard refinement. Only effective when `mh_search_with_jaccard` is `true`. | [*top_k*, *top_k &ast; 10*] | Set to 2-5x the desired *top_k* for good recall-performance balance. Higher values improve recall but increase computation cost. |
+| `refine_k` | Number of candidates to retrieve before Jaccard refinement. Only effective when `mh_search_with_jaccard` is `true`. | [*top_k*, *top_k * 10*] | Set to 2-5x the desired *top_k* for good recall-performance balance. Higher values improve recall but increase computation cost. |
 | `mh_lsh_batch_search` | Whether to enable batch optimization for multiple simultaneous queries. | true, false | Use `true` when searching with multiple queries simultaneously for better throughput. Use `false` for single-query scenarios to reduce memory overhead. |

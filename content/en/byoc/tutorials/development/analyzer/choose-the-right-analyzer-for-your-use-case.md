@@ -292,7 +292,7 @@ For content where languages are unpredictable or mixed within documents:
    </tr>
 </table>
 
-**When to use icu**:
+**When to use `icu`**:
 
 - Mixed languages where language identification is impractical.
 

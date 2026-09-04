@@ -60,7 +60,7 @@ TEXT fields support null values. To enable this feature, set nullable to True. F
 
 `TEXT` and `VARCHAR` both store string values, but they support different application needs. Use `VARCHAR` for short, bounded metadata that identifies, categorizes, or filters entities. Use `TEXT` for longer source content that gives an LLM or agent enough context to read, cite, summarize, or build a prompt.
 
-| **Aspect** | **VARCHAR** | **TEXT** |
+| **Aspect** | **`VARCHAR`** | **`TEXT`** |
 | --- | --- | --- |
 | Best for | Short metadata used to identify, categorize, or filter entities, such as `title`, `tag`, `category`, `external_id`. | Longer source content used by LLM or agent workflows, such as `content`, `passage`, `article_body`, `log_message`. |
 | Length setting | Requires `max_length`, which defines the maximum number of bytes the field can store. The maximum value is 65,535 bytes.  If a value may exceed this limit, use `TEXT`. | Does not require `max_length`, so the schema does not need a fixed byte limit for the text value. |

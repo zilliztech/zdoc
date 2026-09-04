@@ -168,7 +168,7 @@ Before you can access your cluster via the private link allocated by Zilliz Clou
 
 ### Create firewall rules\{#create-firewall-rules}
 
-To allow private access to your managed cluster, add appropriate firewall rules. The following snippet shows how to allow traffic through TCP port 22. Note that you need to set **VPC_NAME** to the name of your VPC.
+To allow private access to your managed cluster, add appropriate firewall rules. The following snippet shows how to allow traffic through TCP port 22. Note that you need to set **`VPC_NAME`** to the name of your VPC.
 
 ```bash
 VPC_NAME={{vpc-name}};

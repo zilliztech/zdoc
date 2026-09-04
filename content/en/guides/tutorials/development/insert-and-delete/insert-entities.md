@@ -27,7 +27,7 @@ Entities in a collection are data records that share the same set of fields. Fie
 
 - **Fields added after collection creation**: If you add new fields to a collection after creation and do not specify values during insertion, MilvusZilliz Cloud automatically populates them with defined default values or `NULL` if no defaults are set. For details, refer to [Alter Collection Schema](./add-fields-to-an-existing-collection).
 
-- **Duplicate handling**: The standard `insert` operation does not check for duplicate primary keys. Inserting data with an existing primary key creates a new entity with the same key, leading to data duplication and potential application issues. To update existing entities or avoid duplicates, use the **upsert** operation instead. For more information, refer to [Upsert Entities](./upsert-entities).
+- **Duplicate handling**: The standard `insert` operation does not check for duplicate primary keys. Inserting data with an existing primary key creates a new entity with the same key, leading to data duplication and potential application issues. To update existing entities or avoid duplicates, use the **`upsert`** operation instead. For more information, refer to [Upsert Entities](./upsert-entities).
 
 </Admonition>
 
@@ -37,7 +37,7 @@ In Zilliz Cloud clusters, an **Entity** refers to data records in a **Collection
 
 When inserting an Entity into a Collection, the Entity to be inserted can only be successfully added if it contains all the fields defined in the Schema. The inserted Entity will enter a Partition named **_default** in the order of insertion. Provided that a certain Partition exists, you can also insert Entities into that Partition by specifying the Partition name in the insertion request.
 
-Zilliz Cloud also supports dynamic fields to maintain the scalability of the Collection. When the dynamic field is enabled, you can insert fields that are not defined in the Schema into the Collection. These fields and values will be stored as key-value pairs in a reserved field named **&#36;meta**. For more information about dynamic fields, please refer to Dynamic Field.
+Zilliz Cloud also supports dynamic fields to maintain the scalability of the Collection. When the dynamic field is enabled, you can insert fields that are not defined in the Schema into the Collection. These fields and values will be stored as key-value pairs in a reserved field named **$meta**. For more information about dynamic fields, please refer to Dynamic Field.
 
 ## Insert Entities into a Collection\{#insert-entities-into-a-collection}
 

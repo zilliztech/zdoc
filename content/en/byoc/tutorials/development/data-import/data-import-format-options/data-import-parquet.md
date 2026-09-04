@@ -34,7 +34,7 @@ You are advised to use [the BulkWriter tool](./use-bulkwriter) to prepare your r
 
 - **Whether to enable dynamic fields**
 
-    When the target collection enables dynamic fields, if you need to store fields that are not included in the pre-defined schema, you can specify the **&#36;meta** column during the write operation and provide the corresponding key-value data.
+    When the target collection enables dynamic fields, if you need to store fields that are not included in the pre-defined schema, you can specify the **$meta** column during the write operation and provide the corresponding key-value data.
 
 - **Case-sensitive**
 

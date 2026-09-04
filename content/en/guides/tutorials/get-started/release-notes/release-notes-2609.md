@@ -48,7 +48,7 @@ import Grid from '@site/src/components/Grid';
 
         - **Redesigned Access Control pages:** Members, Groups, and Project Roles tabs, plus an Invite Member flow that sets the organization role and optional project access in one step. For details, refer to [Manage Platform Users](./manage-platform-users).
 
-        <Admonition type="info" icon="📘" title="**Notes**">
+        <Admonition type="info" icon="📘" title="Notes">
 
         - **Organization Owners no longer inherit project access.** Organization roles now cover organization settings, members, billing, and authentication only. An Organization Owner needs a project role to manage or access a project's resources. An Organization Owner who creates a project receives the Project Admin role on it automatically.
         
@@ -104,9 +104,9 @@ import Grid from '@site/src/components/Grid';
 
         - **Manage collection aliases in the console** — The collection list and Overview pages now show aliases, and you can create, alter, and delete aliases from the Actions menu without SDK calls. For details, refer to [Manage Collections (Console)](./manage-collections-console).
 
-        - **Clearer source and target selection for migration — The cross-cluster migration wizard now filters clusters by the project selected on each side, so only valid source and target clusters are shown. For details, refer to [Offline Migration](./offline-migration).
+        - **Clearer source and target selection for migration** — The cross-cluster migration wizard now filters clusters by the project selected on each side, so only valid source and target clusters are shown. For details, refer to [Offline Migration](./offline-migration).
 
-        - **Project alerts for log forwarding failures — You can now create project alerts for Audit Log, Access Log, and Slow Log forwarding failures. Zilliz Cloud notifies configured recipients when forwarding fails, helping you identify issues quickly. Audit Log billing is automatically paused and resumes when forwarding recovers. For details, refer to [Manage Project Alerts](./manage-project-alerts)
+        - **Project alerts for log forwarding failures** — You can now create project alerts for Audit Log, Access Log, and Slow Log forwarding failures. Zilliz Cloud notifies configured recipients when forwarding fails, helping you identify issues quickly. Audit Log billing is automatically paused and resumes when forwarding recovers. For details, refer to [Manage Project Alerts](./manage-project-alerts)
 
         - **On-Demand Compute for BYOC** — BYOC projects can now enable On-Demand Compute per Data Plane from the new On-Demand entry under Serving Clusters, and use On-Demand Clusters, external collections, and project databases inside your own cloud account. For details, refer to [Quick Start to On-Demand Search](/docs/byoc/quick-start-to-on-demand-search), [On-Demand Database](/docs/byoc/on-demand-database), and [Manage External Collections (Console)](/docs/byoc/manage-external-collections-console).
 
