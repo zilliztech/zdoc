@@ -126,7 +126,7 @@ Zilliz Cloud 现已登录亚马逊云科技 Marketplace。本章主要介绍如�
 
 1. **权限不足**
 
-    组织旁将展示**“权限不足的”**标签，界面如下所示。
+    组织旁将展示<strong>“权限不足的”</strong>标签，界面如下所示。
 
     ![insufficient-permission-subscription-cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/insufficient-permission-subscription-cn.png "insufficient-permission-subscription-cn")
 
@@ -134,7 +134,7 @@ Zilliz Cloud 现已登录亚马逊云科技 Marketplace。本章主要介绍如�
 
 1. **所有组织都已绑定云市场订阅**
 
-    组织旁将展示**“已绑定云市场订阅”**标签，界面如下所示。
+    组织旁将展示<strong>“已绑定云市场订阅”</strong>标签，界面如下所示。
 
     ![marketplace-already-linked-subscription-cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/marketplace-already-linked-subscription-cn.png "marketplace-already-linked-subscription-cn")
 

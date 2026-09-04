@@ -84,7 +84,7 @@ import Grid from '@site/src/components/Grid';
 
         向量字段现已支持 `nullable` 属性，这意味着您可以为已有 Collection 新增向量字段——这是众多用户期待已久的能力。借助 Nullable Vector，您可以在 Collection 创建后动态演进 Schema、按需添加向量列，然后在 Collection 正常运行的同时逐步回填 embedding 数据。
 
-        <Admonition type="info" icon="📘" title="**说明**">
+        <Admonition type="info" icon="📘" title="说明">
 
         Nullable Vector 需要 Serving Cluster 升级至最新的 Milvus 2.6.x 版本。On-Demand Cluster 运行的 Milvus 3.0.x 已支持该功能。未升级至最新版本的 Serving Cluster 不支持 Nullable 向量字段。
 

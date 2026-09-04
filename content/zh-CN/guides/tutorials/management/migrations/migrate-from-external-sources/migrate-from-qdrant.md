@@ -74,10 +74,10 @@ Qdrant Payload 默认映射为 Dynamic Field 以实现最大灵活性，转换�
 | Integer | INT64 | 如果 Payload 中的字段类型为 Integer，当转换为固定字段后，该字段将变为 INT64 类型。 |
 | Float | DOUBLE | 如果 Payload 中的字段类型为 Float，当转换为固定字段后，该字段将变为 DOUBLE 类型。 |
 | Bool | BOOL | 如果 Payload 中的字段类型为 Bool，当转换为固定字段后，该字段将变为 BOOL 类型。 |
-| Keyword | VARCHAR | 如果 Payload 中的字段类型为 Keyword，当转换为固定字段后，该字段将变为 VARCHAR 类型。<br/>**注意：**该字段的最大长度固定为 65,535 字节且不可修改，容量计算以实际字段长度为准。 |
+| Keyword | VARCHAR | 如果 Payload 中的字段类型为 Keyword，当转换为固定字段后，该字段将变为 VARCHAR 类型。<br/><strong>注意：</strong>该字段的最大长度固定为 65,535 字节且不可修改，容量计算以实际字段长度为准。 |
 | Geo | JSON | 如果 Payload 中的字段类型为 Geo，当转换为固定字段后，该字段将变为 JSON 类型。 |
-| Datetime | VARCHAR | 如果 Payload 中的字段类型为 Datetime，当转换为固定字段后，该字段将变为 VARCHAR 类型。<br/>**注意：**该字段的最大长度固定为 65,535 字节且不可修改，容量计算以实际字段长度为准。 |
-| UUID | VARCHAR | 如果 Payload 中的字段类型为 UUID，当转换为固定字段后，该字段将变为 VARCHAR 类型。<br/>**注意：**该字段的最大长度固定为 65,535 字节且不可修改，容量计算以实际字段长度为准。 |
+| Datetime | VARCHAR | 如果 Payload 中的字段类型为 Datetime，当转换为固定字段后，该字段将变为 VARCHAR 类型。<br/><strong>注意：</strong>该字段的最大长度固定为 65,535 字节且不可修改，容量计算以实际字段长度为准。 |
+| UUID | VARCHAR | 如果 Payload 中的字段类型为 UUID，当转换为固定字段后，该字段将变为 VARCHAR 类型。<br/><strong>注意：</strong>该字段的最大长度固定为 65,535 字节且不可修改，容量计算以实际字段长度为准。 |
 
 ## Array 类型支持\{#array-type-support}
 

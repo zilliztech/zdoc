@@ -45,7 +45,7 @@ MinHash 是 Zilliz Cloud 内置 Function，不需要外部模型推理或预处�
 
 ![PV7SbwQY1oVMMdxuqjmcH4y4nId](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/pv7sbwqy1ovmmdxuqjmch4y4nid.png "PV7SbwQY1oVMMdxuqjmcH4y4nId")
 
-### **共享文本处理流水线 \{#shared-text-processing-pipleline}**
+### 共享文本处理流水线 \{#shared-text-processing-pipleline}
 
 文档写入和查询处理都会将原始文本传入同一套四阶段转换流程：
 

@@ -20,7 +20,7 @@ import Admonition from '@theme/Admonition';
 
 # 版本说明书（2024/05/30）
 
-本次发布，Zilliz Cloud 带来了全新的 Serverless 订阅方案。该方案无须特殊配置，支持平滑扩容，适用于查询量变化较大的各类应用场景。当前，该方案处于 Beta 阶段，您可以在 **阿里云华东1（杭州）** 区域创建一个限时免费的 Serverless 集群。另外，本次发布还对监控指标、检索精度控制及数据导入做了相应的增强。
+本次发布，Zilliz Cloud 带来了全新的 Serverless 订阅方案。该方案无须特殊配置，支持平滑扩容，适用于查询量变化较大的各类应用场景。当前，该方案处于 Beta 阶段，您可以在 <strong>阿里云华东1（杭州）</strong> 区域创建一个限时免费的 Serverless 集群。另外，本次发布还对监控指标、检索精度控制及数据导入做了相应的增强。
 
 ## Milvus 兼容性\{#milvus-compatibility}
 
@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 全新的 Serverless 订阅方案是为查询规模变化较大的应用量身打造的，无须特殊配置和调优即可使用。Serverless 集群还支持平滑扩容，可以满足您的多种负载需求，保障快速验证时的易用性。
 
-Serverless 集群当前处于 Beta 阶段，您可以在 **阿里云华东1（杭州）** 区域创建一个限时免费的 Serverless 集群，无须添加任何支付方式。
+Serverless 集群当前处于 Beta 阶段，您可以在 <strong>阿里云华东1（杭州）</strong> 区域创建一个限时免费的 Serverless 集群，无须添加任何支付方式。
 
 关于更多详情，可参考 [Serverless 版本](./free-trials)的详细介绍。
 

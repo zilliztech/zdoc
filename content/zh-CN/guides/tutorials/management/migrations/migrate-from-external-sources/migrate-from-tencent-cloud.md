@@ -70,7 +70,7 @@ Zilliz Cloud 采样 100 行数据检测 JSON 数据结构，必要时可手动�
 
 | 腾讯云字段类型 | Zilliz Cloud 字段类型 | 描述 |
 | --- | --- | --- |
-| string | VARCHAR | 如果 JSON 中的字段类型为 string，当转换为固定字段后，该字段将变为 VARCHAR 类型。<br/>**注意：**该字段的最大长度固定为 65,535 字节且不可修改，容量计算以实际字段长度为准。 |
+| string | VARCHAR | 如果 JSON 中的字段类型为 string，当转换为固定字段后，该字段将变为 VARCHAR 类型。<br/><strong>注意：</strong>该字段的最大长度固定为 65,535 字节且不可修改，容量计算以实际字段长度为准。 |
 | uint64 | INT32 | 如果 JSON 中的字段类型为 uint64，当转换为固定字段后，该字段将变为 INT32 类型。 |
 | double | DOUBLE | 如果 JSON 中的字段类型为 double，当转换为固定字段后，该字段将变为 DOUBLE 类型。 |
 | array | ARRAY | 如果 JSON 中的字段类型为 array，当转换为固定字段后，该字段将变为 ARRAY 类型。 |

@@ -117,7 +117,7 @@ import Admonition from '@theme/Admonition';
 
 **实际案例：** 假设您有一个 16 CU 的容量型集群，默认平衡型模式可存储 8000 万向量。切换到容量优先后可存储 1.12 亿向量——同样的数据量只需要 12 CU 就够了，**节省 25% 的 CU 成本**。如果您的场景对 recall 要求在 90% 以上就可以接受（大多数推荐、日志分析场景），这就是白送的优化。
 
-<Admonition type="info" icon="📘" title="**说明**">
+<Admonition type="info" icon="📘" title="说明">
 
 Build level 设置后不可修改，需要 drop 并重建索引。建议在创建集合前做好评估。仅支持浮点向量类型 (FLOAT_VECTOR, FLOAT16_VECTOR, BFLOAT16_VECTOR)。
 
@@ -151,7 +151,7 @@ Build level 设置后不可修改，需要 drop 并重建索引。建议在创�
 
 - 对于容量型集群，默认策略已经是存储优先，一般不需要额外调整。
 
-<Admonition type="info" icon="📘" title="**说明**">
+<Admonition type="info" icon="📘" title="说明">
 
 修改 mmap 设置前需要释放 Collection，修改后再重新加载 Collection。**配置不当可能导致性能下降甚至 OOM**，建议在测试环境验证。
 
@@ -308,7 +308,7 @@ Dedicated 集群最大的成本陷阱是"按峰值配置，全天候运行"。Zi
 | 添加支付方式 | -- | 优惠券有效期延长至 1 年 | 绑定支付方式后未用完的优惠券自动延长有效期至 1 年 |
 | 回收站 | 免费 | — | 删除的数据在回收站中不产生任何费用 |
 
-**建议：**首次注册后请尽早添加支付方式，将¥300 优惠券的有效期从 30 天延长到 1 年，以便充分做技术评估。
+<strong>建议：</strong>首次注册后请尽早添加支付方式，将¥300 优惠券的有效期从 30 天延长到 1 年，以便充分做技术评估。
 
 ### 专项计划\{#dedicated-programs}
 
@@ -319,7 +319,7 @@ Dedicated 集群最大的成本陷阱是"按峰值配置，全天候运行"。Zi
 
 ### 企业和大客户\{#enterprise-customers}
 
-- **联系销售获取自定义报价。**企业客户可以通过包年订阅获取折扣，具体价格请[联系销售](https://zilliz.com.cn/contact-sales)。
+- <strong>联系销售获取自定义报价。</strong>企业客户可以通过包年订阅获取折扣，具体价格请[联系销售](https://zilliz.com.cn/contact-sales)。
 
 - **云市场订阅：** 通过[阿里云](https://docs.zilliz.com.cn/docs/subscribe-on-aliyun-marketplace)、[亚马逊云科技](https://docs.zilliz.com.cn/docs/subscribe-on-amazon-marketplace)的云市场订阅，可以将 Zilliz Cloud 费用合并到云账单中，使用企业在公有云已享受的折扣。
 

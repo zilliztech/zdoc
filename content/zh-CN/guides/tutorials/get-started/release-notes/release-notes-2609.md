@@ -44,7 +44,7 @@ import Grid from '@site/src/components/Grid';
 
         - **访问控制页面改版**：原成员页面改版为访问控制页面，新增项目角色，组织角色页签；邀请成员时可一步设置组织角色及可选的项目访问权限。更多内容，可以查看[管理平台用户](./manage-platform-users)。
 
-        <Admonition type="info" icon="📘" title="**说明**">
+        <Admonition type="info" icon="📘" title="说明">
 
         - **Organization Owner 不再自动继承项目访问权限。** 组织角色现仅涵盖组织设置、成员、账单与认证；Organization Owner 需要持有项目角色，才能管理或访问项目内的资源。Organization Owner 自行创建项目时，会自动获得该项目的 Project Admin 角色。
         
@@ -64,7 +64,7 @@ import Grid from '@site/src/components/Grid';
 
         - **投递到您的存储桶**：选择 Storage Integration 及目录，日志以 JSON Lines 文件写入 `/<cluster-id>/slow/<date>/`。
 
-        - **结构化字段：**包含时间戳、执行耗时、Database、Collection、SDK 及版本、客户端 IP、Trace ID 和状态，便于后续监控和分析。
+        - <strong>结构化字段：</strong>包含时间戳、执行耗时、Database、Collection、SDK 及版本、客户端 IP、Trace ID 和状态，便于后续监控和分析。
 
         更多内容，可以查看[配置慢日志](./configure-slow-logs)及[慢查询日志参考](./slow-log-reference)。
 
@@ -102,7 +102,7 @@ import Grid from '@site/src/components/Grid';
 
         - **迁移时更清晰地选择源集群与目标集群** ：跨集群迁移向导现在会按两侧所选项目过滤集群，只展示可用的源集群与目标集群。更多内容，可以查看[离线迁移](./offline-migration)。
 
-        - **日志推送异常支持项目告警：**您现在可以为审计日志、访问日志和慢日志推送异常创建项目告警。推送异常时，Zilliz Cloud 会通过配置的渠道通知接收者，帮助您及时发现问题。审计日志推送异常期间将暂停计费，并在推送恢复后自动继续计费。更多内容，可以查看[管理项目告警](./manage-project-alerts)。
+        - <strong>日志推送异常支持项目告警：</strong>您现在可以为审计日志、访问日志和慢日志推送异常创建项目告警。推送异常时，Zilliz Cloud 会通过配置的渠道通知接收者，帮助您及时发现问题。审计日志推送异常期间将暂停计费，并在推送恢复后自动继续计费。更多内容，可以查看[管理项目告警](./manage-project-alerts)。
 
         - **按量计费账单支持月度自动开票**：对于按量计费账单，如您未在出账后 3 个自然日内申请开票，系统将于每月固定日期自动开具增值税专用发票；已开票账单不会重复开票，包年订单仍需手动申请。更多内容，可以查看[开具发票](./manage-invoice)。
 

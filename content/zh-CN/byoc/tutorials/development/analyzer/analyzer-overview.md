@@ -31,9 +31,9 @@ import Supademo from '@site/src/components/Supademo';
 
 使用 Analyzer 可能会影响性能：
 
-- **Full text search：**对于 Full text search，**DataNode** 和 **QueryNode** 通道的数据消费速度会变慢，因为它们必须等待分词完成。因此，新写入的数据需要更长时间才能用于搜索。
+- <strong>Full text search：</strong>对于 Full text search，**DataNode** 和 **QueryNode** 通道的数据消费速度会变慢，因为它们必须等待分词完成。因此，新写入的数据需要更长时间才能用于搜索。
 
-- **关键词匹配：**对于关键词匹配，索引创建速度也会变慢，因为必须先完成分词才能构建索引。
+- <strong>关键词匹配：</strong>对于关键词匹配，索引创建速度也会变慢，因为必须先完成分词才能构建索引。
 
 </Admonition>
 
@@ -777,9 +777,9 @@ schema->SetEnableDynamicField(false);
 
 1. **配置并验证内置 Analyzer** （`english`）**：**
 
-    - **配置：**定义内置英语 Analyzer 的参数。
+    - <strong>配置：</strong>定义内置英语 Analyzer 的参数。
 
-    - **验证：**使用 `run_analyzer` 检查该 Analyzer 配置是否生成预期的分词结果。
+    - <strong>验证：</strong>使用 `run_analyzer` 检查该 Analyzer 配置是否生成预期的分词结果。
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
     <TabItem value='python'>
@@ -895,9 +895,9 @@ schema->SetEnableDynamicField(false);
 
 1. **配置并验证自定义 Analyzer：**
 
-    - **配置：**定义一个自定义 Analyzer，使用标准分词器、内置小写过滤器，以及用于限制 token 长度和移除停用词的自定义过滤器。
+    - <strong>配置：</strong>定义一个自定义 Analyzer，使用标准分词器、内置小写过滤器，以及用于限制 token 长度和移除停用词的自定义过滤器。
 
-    - **验证：**使用 `run_analyzer` 确认自定义 Analyzer 配置能够按预期处理文本。
+    - <strong>验证：</strong>使用 `run_analyzer` 确认自定义 Analyzer 配置能够按预期处理文本。
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
     <TabItem value='python'>
@@ -1393,7 +1393,7 @@ if (!status.IsOk()) {
 
 <Supademo id="cmfxiu7c342st10k8ql0xi1av" title=""  />
 
-<Admonition type="info" icon="📘" title="**说明**">
+<Admonition type="info" icon="📘" title="说明">
 
 创建 Collection 后，Analyzer 配置不可更改。要更改 Analyzer 配置，请使用所需设置创建新的 Collection，然后[迁移](./migrate-between-clusters)数据。
 

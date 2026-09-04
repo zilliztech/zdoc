@@ -287,7 +287,7 @@ curl --request POST \
 
 在将权限添加到权限组后，您可以将该权限组授予某个角色。更多详情请参考[管理集群角色（SDK）](./cluster-roles-sdk)。
 
-#### **从自定义权限组中移除权限**\{#remove-privileges-from-a-custom-privilege-group}
+#### 从自定义权限组中移除权限\{#remove-privileges-from-a-custom-privilege-group}
 
 以下示例展示了如何从权限组 `privilege_group_1` 中移除权限 `PrivilegeRestoreRBAC`。
 

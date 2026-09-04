@@ -34,7 +34,7 @@ import Grid from '@site/src/components/Grid';
 
         ## 自动扩缩容升级\{#autoscaling-upgrade}
 
-        **我们将对 Zilliz Cloud 中的自动扩缩容功能进行重大升级，以提供更好的自动化资源管理体验。** 以下是主要改进：
+        <strong>我们将对 Zilliz Cloud 中的自动扩缩容功能进行重大升级，以提供更好的自动化资源管理体验。</strong> 以下是主要改进：
 
         - **智能自动扩缩容**：您将不再需要手动设置扩容的容量阈值。我们的系统将根据实时工作负载需求自动确保最佳性能和资源利用率。
 

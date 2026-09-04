@@ -82,7 +82,7 @@ import Admonition from '@theme/Admonition';
 | 慢查询数量 ✦ | 统计慢查询数量，包括 search 和 query 请求数。默认情况下，查询延时超过 5 秒的查询被视为慢查询。<br/>该指标仅适用于 **Dedicated 企业版** 或 **BYOC**。有关更多集群类型信息，请参阅 [Zilliz Cloud 版本对比](./select-zilliz-cloud-service-plans)。 | 通过适当调整集群配置，可以识别存在问题的查询并优化性能。 |
 | 集群写入性能使用率 | 集群的 insert/upsert 操作存在相应的速率限制。当前写入速率与限制的比值即为集群的写入性能利用率。<br/>该指标仅适用于 **Dedicated 企业版** 或 **BYOC**。有关更多集群类型信息，请参阅 [Zilliz Cloud 版本对比](./select-zilliz-cloud-service-plans)。 | 如果该利用率过高（建议超过 80%），建议您降低写入速率。 |
 | Flush 次数 | 统计对集群操作的 flush 次数。<br/>该指标仅适用于 **Dedicated 企业版** 或 **BYOC**。有关更多集群类型信息，请参阅 [Zilliz Cloud 版本对比](./select-zilliz-cloud-service-plans)。 | 过于频繁的 flush 操作会影响集群的整体性能。有关 flush 操作的相关限制，请参阅[使用限制](./limits#flush)。 |
-| 缓存命中率 | 集群中所有查询的平均缓存命中率。单次查询缓存命中率 = (总扫描数据量-冷数据扫描数据量)/总扫描数据量。<br/>该指标仅适用于兼容 Milvus 2.6.x 版本的 **Dedicated （分层存储型）**集群。如需使用该指标，请[提交工单](http://support.zilliz.com.cn)将您的集群 Milvus 版本升级至 2.6.x。 | 监控该指标，可以识别集群的查询性能。 |
+| 缓存命中率 | 集群中所有查询的平均缓存命中率。单次查询缓存命中率 = (总扫描数据量-冷数据扫描数据量)/总扫描数据量。<br/>该指标仅适用于兼容 Milvus 2.6.x 版本的 <strong>Dedicated （分层存储型）</strong>集群。如需使用该指标，请[提交工单](http://support.zilliz.com.cn)将您的集群 Milvus 版本升级至 2.6.x。 | 监控该指标，可以识别集群的查询性能。 |
 
 ### 数据\{#data}
 

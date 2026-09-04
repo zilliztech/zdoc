@@ -9,7 +9,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-09-03T18:35:40.837Z",
+  "generated_at": "2026-09-04T05:36:00.676Z",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides-zh-CN",
   "base_app_token": "I6YUb1M0JajHrqsJGcLcZNh7neP",
   "records": [
@@ -605,7 +605,7 @@
       "doc_token": "JziCwn071iCV1tkX4NZcwGSDnmc",
       "doc_link": "https://zilliverse.feishu.cn/wiki/JziCwn071iCV1tkX4NZcwGSDnmc",
       "source_file": "JziCwn071iCV1tkX4NZcwGSDnmc.json",
-      "source_hash": "4348917d1faf330dad846d92a35a9bb4bd94c12876508fd557254cea5cda9574",
+      "source_hash": "b8a7f0f611645057bb7e42652ae9ccef4486efcdef0d63ec8c56183094351000",
       "node_metadata": {
         "requested_token": "JziCwn071iCV1tkX4NZcwGSDnmc",
         "requested_node_token": "JziCwn071iCV1tkX4NZcwGSDnmc",
@@ -619,14 +619,14 @@
         "parent_node_token": "QxcnwBks8izBAQkjP8Ycl1cEnQh",
         "node_create_time": "1760078491",
         "obj_create_time": "1760078491",
-        "obj_edit_time": "1788347023",
+        "obj_edit_time": "1788490219",
         "revision_id": null
       },
       "node_token": "JziCwn071iCV1tkX4NZcwGSDnmc",
       "origin_node_token": "JziCwn071iCV1tkX4NZcwGSDnmc",
       "obj_token": "RRNVdK24loVaN1xo5ZfcbAI7nwh",
       "obj_type": "docx",
-      "obj_edit_time": "1788347023",
+      "obj_edit_time": "1788490219",
       "revision_id": null,
       "publish_targets": [
         "Zilliz.SaaS"
@@ -665,6 +665,7 @@
         "GKEewZ99aij5Twk7OecceHdsnMg",
         "GKNPwvWhZi7D6mkag72cIDWqnbf",
         "GMOpwnUH0iYRN1kbRidcET0cnKg",
+        "HA7nwc7s2i1mmDkdT62cAyZxnwb",
         "HUDPwedOIi1eqikLQUVcvACgnwg",
         "HtzdwrGPZi4bvnksR75ccetInrf",
         "IEqzwRohQiApM6kTrMLccyWcncb",
@@ -685,9 +686,11 @@
         "LdpTwpzkFinz6lkW3Jpce7QQnJd",
         "LgvSwz0qxiSMbik6BlbcSiTpn6g",
         "Lv3Awu3uHiZ99AkGKXYc7D0JnCd",
+        "MAFcwBTqqiR5YZkdkd4cADg0nub",
         "MgXbwjdzeiJRpnkF562cE6cVnCf",
         "Mj2bw4KFYikkOJkLCOtcDQn0nph",
         "N6tlwTPPvi0FXvkj4fccCgtTnOg",
+        "NLDRwGZoXiGyIUkGh5Oc2q6dnJe",
         "NYFIwLbc7iFeMbkP7T4cFfXJnLT",
         "NYaTwrUG1iT6CCkUSnJcCQPqnsb",
         "NZ3BwhuN0ip6MqkT4pQcqyO7nDd",
@@ -719,6 +722,7 @@
         "SU1DwjEeii0p2ik3odJcQ55Unbf",
         "SabAwl5dZiOOavkPsJdcqvB3n7f",
         "Sdb7w7kjmi8NsMkxR3lcJs92nlc",
+        "SgDzwGKoHiV6flk3OJ9cGFaZnuf",
         "T944whOEaiDKWbkhJVUcLxmNnRg",
         "T9nXwdrWqinfgCk4BFDcDhf8nOe",
         "TC2VwH24niqw5wk2S66ccMhxnFe",
@@ -737,6 +741,7 @@
         "XP0BwhWFFiazrikwL94cJIsSnYb",
         "Xz97wLGqdiZXFxke1DlcEefpn7b",
         "Y9hnwYoyIi9xgZkGG7Ycexl4nlb",
+        "ZVtsw12VCipuFNkRdrdcz9U2nKN",
         "Ze9bwp7rJis0HGkYXftcC1k8nic"
       ],
       "output_paths": []

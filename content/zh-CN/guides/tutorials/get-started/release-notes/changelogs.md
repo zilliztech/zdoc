@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "最近更新：2026 年 7 月 21 日 | Cloud"
+description: "最近更新：2026 年 9 月 3 日 | Cloud"
 type: origin
 token: JziCwn071iCV1tkX4NZcwGSDnmc
 sidebar_position: 1
@@ -22,7 +22,7 @@ import Grid from '@site/src/components/Grid';
 
 # 变更日志
 
-**最近更新**：2026 年 7 月 21 日
+**最近更新**：2026 年 9 月 3 日
 
 <Grid columnSize="2" widthRatios="24,75">
 
@@ -41,6 +41,28 @@ import Grid from '@site/src/components/Grid';
 </Grid>
 
 ## 2026\{#2026}
+
+<Grid columnSize="2" widthRatios="24,75">
+
+    <div>
+
+        **[2026 年 9 月 3 日](./release-notes-2609#enhanced-access-control-with-custom-project-roles)**
+
+    </div>
+
+    <div>
+
+        - 🔐 **权限体系升级** — 组织角色与项目角色正式分离，并支持自定义项目角色和通过 API 管理角色，让组织级与项目级权限可以独立配置。现有角色会自动映射到新的权限模型。更多详情，可参考[访问控制概览](./access-control-overview)。
+
+        - 🐢 **Dedicated 集群支持慢查询日志** — Enterprise 项目的 Dedicated 集群现在可以记录慢 Search、Hybrid Search 和 Query 请求，并将日志投递到用户自己的对象存储，方便性能分析和问题排查。更多详情，可参考[配置慢日志](./configure-slow-logs)。
+
+        - 📈 **创建集群时即可配置 Replica 和自动扩缩容** — 创建 Dedicated 集群或 Global Cluster 时，可以直接设置 Replica 数量和 Query CU 自动扩缩容范围，无需在集群启动后再调整。更多内容，可参考[创建按量计费集群](./create-pay-as-you-go-cluster)及[创建全球集群](./create-global-cluster)。
+
+        - 🌎 **项目资源支持按地域管理** — 控制台现在按 Region 组织项目资源，并新增项目级 Region 选择器、更集中的 Region 管理，以及更顺畅的多 Region 集群创建流程。更多内容，可参考[项目管理](./manage-projects)。
+
+    </div>
+
+</Grid>
 
 <Grid columnSize="2" widthRatios="24,75">
 

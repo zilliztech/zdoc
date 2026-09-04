@@ -27,7 +27,7 @@ import TabItem from '@theme/TabItem';
 
 <Admonition type="info" icon="📘" title="Note">
 
-本页介绍 `query`、`search` 和混合搜索所用标量过滤表达式中的模式匹配。这些表达式用于计算字段值，不会改变分析器生成的 token。若要在文本分析期间过滤 token，请参阅[正则表达式分析器过滤器](./regex-filter)。
+本页介绍 query、search 和混合搜索所用标量过滤表达式中的模式匹配。这些表达式用于计算字段值，不会改变分析器生成的 token。若要在文本分析期间过滤 token，请参阅[正则表达式分析器过滤器](./regex-filter)。
 
 </Admonition>
 

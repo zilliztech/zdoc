@@ -38,7 +38,7 @@ Zilliz Cloud 现已登录阿里云云市场。本章主要介绍如何在阿里�
 
 1. 关于 Zilliz Cloud 帐号：
 
-    1. 如果您已注册 Zilliz Cloud，并计划通过阿里云云市场缴纳您名下组织产生的费用。您可以在**“帐单概览”**页面或**“创建集群”**页面找到前往阿里云云市场的入口。
+    1. 如果您已注册 Zilliz Cloud，并计划通过阿里云云市场缴纳您名下组织产生的费用。您可以在<strong>“帐单概览”</strong>页面或<strong>“创建集群”</strong>页面找到前往阿里云云市场的入口。
 
     1. 如果您尚未注册 Zilliz Cloud，并计划通过阿里云云市场缴纳您名下组织产生的费用。您可以直接前往[阿里云云市场](https://market.aliyun.com/products/56024006/cmgj00063418.html)。
 
@@ -84,7 +84,7 @@ Zilliz Cloud 现已登录阿里云云市场。本章主要介绍如何在阿里�
 
     ![N4Lkbn8bgoKOVixW0x9c19lIn6e](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/n4lkbn8bgokovixw0x9c19lin6e.png "N4Lkbn8bgoKOVixW0x9c19lIn6e")
 
-    此时，您可以前往**“帐单概览”**页面。如果“云市场扣费渠道”区域右下角出现“查看阿里云帐单”链接，恭喜您成功开通阿里云云市场扣费渠道。
+    此时，您可以前往<strong>“帐单概览”</strong>页面。如果“云市场扣费渠道”区域右下角出现“查看阿里云帐单”链接，恭喜您成功开通阿里云云市场扣费渠道。
 
     ![HsZ9bVAnEo5dOpxVSaBcezaknjd](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/hsz9bvaneo5dopxvsabcezaknjd.png "HsZ9bVAnEo5dOpxVSaBcezaknjd")
 
@@ -150,7 +150,7 @@ Zilliz Cloud 现已登录阿里云云市场。本章主要介绍如何在阿里�
 
 1. **权限不足**
 
-    组织旁将展示**“权限不足的”**标签，界面如下所示。
+    组织旁将展示<strong>“权限不足的”</strong>标签，界面如下所示。
 
     ![insufficient-permission-subscription-cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/insufficient-permission-subscription-cn.png "insufficient-permission-subscription-cn")
 
@@ -158,7 +158,7 @@ Zilliz Cloud 现已登录阿里云云市场。本章主要介绍如何在阿里�
 
 1. **所有组织都已绑定云市场订阅**
 
-    组织旁将展示**“已绑定云市场订阅”**标签，界面如下所示。
+    组织旁将展示<strong>“已绑定云市场订阅”</strong>标签，界面如下所示。
 
     ![marketplace-already-linked-subscription-cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/marketplace-already-linked-subscription-cn.png "marketplace-already-linked-subscription-cn")
 

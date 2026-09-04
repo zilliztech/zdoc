@@ -333,7 +333,7 @@ milvusClient.getCollectionStats({
 
 ### 指标\{#metrics}
 
-您可以在集群的**实体计数**和**已加载实体（近似值）**的**指标**选项卡中找到它们。这两个值都是估算值。曲线中的值是通过[使用](./count-entities#use-get_collection_stats)[`get_collection_stats()`](./count-entities#use-get_collection_stats)获取的。如果没有进一步的数据插入和删除，**实体计数**曲线最终将反映当前集合中实体的实际数量。
+您可以在集群的**实体计数**和<strong>已加载实体（近似值）</strong>的**指标**选项卡中找到它们。这两个值都是估算值。曲线中的值是通过[使用](./count-entities#use-get_collection_stats)[`get_collection_stats()`](./count-entities#use-get_collection_stats)获取的。如果没有进一步的数据插入和删除，**实体计数**曲线最终将反映当前集合中实体的实际数量。
 
 ![MCbMbZ8McoWwc3xDzBtcd7ebn4f](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/mcbmbz8mcowwc3xdzbtcd7ebn4f.png "MCbMbZ8McoWwc3xDzBtcd7ebn4f")
 

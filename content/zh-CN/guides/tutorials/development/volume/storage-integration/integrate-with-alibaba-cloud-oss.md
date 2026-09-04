@@ -58,7 +58,7 @@ Zilliz Cloud 支持与阿里云对象存储 OSS 集成。
 
 1. 进入目标项目，点击左侧导航栏的**集成中心**。
 
-1. 在**阿里云对象存储服务（OSS）**区域，点击 **+ 添加配置**。
+1. 在<strong>阿里云对象存储服务（OSS）</strong>区域，点击 **+ 添加配置**。
 
 1. 在弹出的对话框中，完成基础设置：
 
@@ -85,7 +85,7 @@ Zilliz Cloud 支持与阿里云对象存储 OSS 集成。
 
 1. 登录 [OSS 管理控制台](https://oss.console.aliyun.com/)。
 
-1. 在左侧导航栏，单击 **Bucket 列表，**然后单击**创建 Bucket**。
+1. 在左侧导航栏，单击 <strong>Bucket 列表，</strong>然后单击**创建 Bucket**。
 
 1. 在**创建 Bucket** 面板，按如下说明配置各项参数。
 
@@ -97,7 +97,7 @@ Zilliz Cloud 支持与阿里云对象存储 OSS 集成。
 
     有关更多创建信息，请参考[如何创建存储空间](https://help.aliyun.com/zh/oss/user-guide/create-a-bucket-4)。
 
-1. 返回 [Zilliz Cloud 控制台](https://cloud.zilliz.com.cn/login)。在**创建 OSS 存储空间（Bucket）**步骤中，选择刚才创建的 **Bucket 名称** 和 **Bucket 地域**。然后继续执行[步骤 3](./integrate-with-alibaba-cloud-oss)。
+1. 返回 [Zilliz Cloud 控制台](https://cloud.zilliz.com.cn/login)。在<strong>创建 OSS 存储空间（Bucket）</strong>步骤中，选择刚才创建的 **Bucket 名称** 和 **Bucket 地域**。然后继续执行[步骤 3](./integrate-with-alibaba-cloud-oss)。
 
 </Procedures>
 
@@ -118,7 +118,7 @@ Zilliz Cloud 支持与阿里云对象存储 OSS 集成。
 1. 在**创建权限策略**页面，单击**脚本编辑**页签。
 
 1. 将 Zilliz Cloud 提供的策略内容复制并粘贴到脚本编辑器中。
-以下是一个示例脚本策略。具体的策略内容，请以 Zilliz Cloud 控制台中**创建权限策略（RAM Policy）**步骤提供的内容为准。
+以下是一个示例脚本策略。具体的策略内容，请以 Zilliz Cloud 控制台中<strong>创建权限策略（RAM Policy）</strong>步骤提供的内容为准。
 
     ```json
     {
@@ -178,7 +178,7 @@ Zilliz Cloud 支持与阿里云对象存储 OSS 集成。
 
 1. 在角色详情页面的**信任策略**页签，编辑信任策略。将 Zilliz Cloud 控制台提供的 JSON 角色信任策略复制并粘贴到编辑器中。
 
-    以下是示例角色信任策略。具体的策略内容，请以 Zilliz Cloud 控制台中**创建权限策略（RAM Policy）**步骤提供的内容为准。
+    以下是示例角色信任策略。具体的策略内容，请以 Zilliz Cloud 控制台中<strong>创建权限策略（RAM Policy）</strong>步骤提供的内容为准。
 
     ```json
     {

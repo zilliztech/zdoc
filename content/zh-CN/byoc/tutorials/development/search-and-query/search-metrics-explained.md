@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 在度量向量相似性时，相似度类型发挥着关键作用。选择恰当的相似度类型可以极大地提升分类与聚类的效果。
 
-目前，Zilliz Cloud 支持以下相似度类型：欧氏距离（`L2`）、内积（`IP`）、余弦相似度（`COSINE`）、`JACCARD` 和 `HAMMING`**，**以及 `BM25`（适用于稀疏向量列的全文搜索）。
+目前，Zilliz Cloud 支持以下相似度类型：欧氏距离（`L2`）、内积（`IP`）、余弦相似度（`COSINE`）、`JACCARD` 和 `HAMMING`<strong>，</strong>以及 `BM25`（适用于稀疏向量列的全文搜索）。
 
 下表总结了不同字段类型与其对应的相似度类型的映射关系。
 

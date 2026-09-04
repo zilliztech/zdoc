@@ -21,9 +21,9 @@ import TabItem from '@theme/TabItem';
 
 # Phrase Match
 
-短语匹配允许您搜索包含查询词为精确短语的文档。默认情况下，这些词必须按相同顺序且彼此直接相邻出现。例如，查询 **"robotics machine learning"** 会匹配类似 *"…typical **robotics machine learning** models…"* 这样的文本，其中 **"robotics"**、**"machine"** 和 **"learning"** 按顺序出现，中间没有其他词。
+短语匹配允许您搜索包含查询词为精确短语的文档。默认情况下，这些词必须按相同顺序且彼此直接相邻出现。例如，查询 **"robotics machine learning"** 会匹配类似 *"…typical **robotics machine learning** models…"* 这样的文本，其中 **"robotics"**、**"machine"** 和 <strong>"learning"</strong> 按顺序出现，中间没有其他词。
 
-然而，在现实场景中，严格的短语匹配可能过于死板。你可能希望匹配类似*"…machine learning models widely adopted in robotics…"*这样的文本。这里，相同的关键词存在，但并非相邻或按原始顺序排列。为处理这种情况，短语匹配支持 `slop` 参数，该参数引入了灵活性。`slop` 值定义了短语中各词项之间允许的位置偏移数量。例如，当`slop` 值为 1 时，对 **"machine learning"** 的查询可以匹配类似 *"...**machine** deep **learning**..."* 这样的文本，其中一个词（**"deep"**）分隔了原始词项。
+然而，在现实场景中，严格的短语匹配可能过于死板。你可能希望匹配类似<em>"…machine learning models widely adopted in robotics…"</em>这样的文本。这里，相同的关键词存在，但并非相邻或按原始顺序排列。为处理这种情况，短语匹配支持 `slop` 参数，该参数引入了灵活性。`slop` 值定义了短语中各词项之间允许的位置偏移数量。例如，当`slop` 值为 1 时，对 <strong>"machine learning"</strong> 的查询可以匹配类似 *"...**machine** deep **learning**..."* 这样的文本，其中一个词（**"deep"**）分隔了原始词项。
 
 ## 概述\{#overview}
 
@@ -39,13 +39,13 @@ import TabItem from '@theme/TabItem';
 
     - **slop = 0** 表示这些词项必须**按确切顺序且紧邻出现** （即，中间没有额外的词）。
 
-        - 在示例中，只有**doc_1**（**"machine"**在**pos=0**，**"learning"**在**pos=1**）完全匹配。
+        - 在示例中，只有**doc_1**（<strong>"machine"</strong>在**pos=0**，<strong>"learning"</strong>在**pos=1**）完全匹配。
 
     - **slop = 2**允许匹配的词元之间最多有两个位置的灵活性或重排。
 
         - 这允许反转顺序（**“学习机”**）或标记之间存在小间隙。
 
-        - 因此，**doc_1**、**doc_2**（**"learning"**在**pos=0**，**"machine"**在**pos=1**）和**doc_3**（**"learning"**在**pos=1**，**"machine"**在**pos=2**）都匹配。
+        - 因此，**doc_1**、**doc_2**（<strong>"learning"</strong>在**pos=0**，<strong>"machine"</strong>在**pos=1**）和**doc_3**（<strong>"learning"</strong>在**pos=1**，<strong>"machine"</strong>在**pos=2**）都匹配。
 
 ## 开启词组匹配\{#enable-phrase-match}
 
@@ -737,11 +737,11 @@ const auto filter = R"(PHRASE_MATCH(text, 'machine learning'))";
 
 - `slop` (可选)：一个整数，指定匹配标记中允许的最大位置数。
 
-    - `0`（默认）：仅匹配精确短语。示例：匹配目标为 **"machine learning"** 的过滤表达式将精确匹配 **"machine learning"**，但不匹配 **"machine boosts learning"** 或 **"learning machine"**。
+    - `0`（默认）：仅匹配精确短语。示例：匹配目标为 **"machine learning"** 的过滤表达式将精确匹配 **"machine learning"**，但不匹配 <strong>"machine boosts learning"</strong> 或 **"learning machine"**。
 
-    - `1`：允许细微变化，例如多一个词或位置稍有偏移。示例：匹配目标为 **"machine learning"** 的过滤表达式将匹配 **"machine boosts learning"**（**"machine"** 和 **"learning"** 之间有一个词），但不匹配 **"learning machine"**（词序颠倒）。
+    - `1`：允许细微变化，例如多一个词或位置稍有偏移。示例：匹配目标为 <strong>"machine learning"</strong> 的过滤表达式将匹配 **"machine boosts learning"**（<strong>"machine"</strong> 和 <strong>"learning"</strong> 之间有一个词），但不匹配 **"learning machine"**（词序颠倒）。
 
-    - `2`：允许更多灵活性，包括颠倒词序或中间最多两个词。示例：匹配目标为 **"machine learning"** 的过滤表达式将匹配 **"learning machine"**（词序颠倒）或 **"machine quickly boosts learning"**（**"machine"** 和 **"learning"** 之间有两个词）。
+    - `2`：允许更多灵活性，包括颠倒词序或中间最多两个词。示例：匹配目标为 <strong>"machine learning"</strong> 的过滤表达式将匹配 **"learning machine"**（词序颠倒）或 **"machine quickly boosts learning"**（<strong>"machine"</strong> 和 <strong>"learning"</strong> 之间有两个词）。
 
 ### 短语匹配查询\{#query-with-phrase-match}
 
@@ -749,7 +749,7 @@ const auto filter = R"(PHRASE_MATCH(text, 'machine learning'))";
 
 #### 示例：slop = 0（完全匹配）\{#example-slop-0-exact-match}
 
-此示例返回包含确切短语 **"machine learning"** 且中间没有任何额外内容的文档。
+此示例返回包含确切短语 <strong>"machine learning"</strong> 且中间没有任何额外内容的文档。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -857,7 +857,7 @@ if (!status.IsOk()) {
 
 #### 示例：slop = 1\{#example-slop-1}
 
-在这里，我们允许有1的容差。该过滤器应用于包含短语 **"learning machine"** 的文档，具有一定的灵活性。
+在这里，我们允许有1的容差。该过滤器应用于包含短语 <strong>"learning machine"</strong> 的文档，具有一定的灵活性。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -988,7 +988,7 @@ if (!status.IsOk()) {
 
 #### 示例：slop = 2\{#example-slop-2}
 
-此示例允许有 2 的容差，这意味着在 **"machine"** 和 **"learning"** 这两个词之间最多允许有两个额外的内容（或位置变换的词）。
+此示例允许有 2 的容差，这意味着在 <strong>"machine"</strong> 和 <strong>"learning"</strong> 这两个词之间最多允许有两个额外的内容（或位置变换的词）。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
