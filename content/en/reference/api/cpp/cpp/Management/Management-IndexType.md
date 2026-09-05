@@ -99,7 +99,7 @@ enum class IndexType {
 
 - **MINHASH_LSH** (1003) - MinHash-based LSH index. Designed for Jaccard similarity on binary vectors.
 
-*Scalar fields (INT*, FLOAT, DOUBLE, VARCHAR, BOOL, ARRAY):*
+*Scalar fields (INT*, FLOAT, DOUBLE, VARCHAR, BOOL, ARRAY):&ast;
 
 - **TRIE** (1101) - Prefix-tree index. **VARCHAR only.** Enables prefix filtering; fastest for string equality and prefix queries.
 

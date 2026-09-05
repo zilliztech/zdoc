@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "This class describes a single field in a collection schema. Pass `FieldSchema` instances to `CollectionSchema:AddField()` when defining a collection's structure. `FieldSchema` supports a fluent With builder API so definitions can be chained on a single line. | Cloud"
+description: "This class describes a single field in a collection schema. Pass `FieldSchema` instances to `CollectionSchema:AddField()` when defining a collection's structure. `FieldSchema` supports a fluent With&ast; builder API so definitions can be chained on a single line. | Cloud"
 type: docx
 token: CmVxdb9mxoe1UixZ3nxc2fmCnOg
 sidebar_position: 24
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # FieldSchema
 
-This class describes a single field in a collection schema. Pass `FieldSchema` instances to `CollectionSchema::AddField()` when defining a collection's structure. `FieldSchema` supports a fluent With* builder API so definitions can be chained on a single line.
+This class describes a single field in a collection schema. Pass `FieldSchema` instances to `CollectionSchema::AddField()` when defining a collection's structure. `FieldSchema` supports a fluent With&ast; builder API so definitions can be chained on a single line.
 
 ```c++
 FieldSchema();
