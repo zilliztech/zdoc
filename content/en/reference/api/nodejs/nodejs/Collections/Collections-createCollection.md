@@ -115,7 +115,7 @@ await milvusClient.createCollection({
 
 - **enable_dynamic_field** (*boolean)* -
 
-    Whether to use a reserved JSON field named **$meta** to store undefined fields and their values in key-value pairs.
+    Whether to use a reserved JSON field named **&#36;meta** to store undefined fields and their values in key-value pairs.
 
     The value defaults to **True**, indicating that the meta field is used.
 
@@ -252,7 +252,7 @@ await milvusClient.createCollection({
 
 - **enable_dynamic_field** (*boolean)* -
 
-    Whether to use a reserved JSON field named **$meta** to store undefined fields and their values in key-value pairs.
+    Whether to use a reserved JSON field named **&#36;meta** to store undefined fields and their values in key-value pairs.
 
     The value defaults to **True**, indicating that the meta field is used.
 
@@ -599,7 +599,7 @@ await milvusClient.createCollection({
 
 - **enable_dynamic_field** (*boolean)* -
 
-    Whether to use a reserved JSON field named **$meta** to store undefined fields and their values in key-value pairs.
+    Whether to use a reserved JSON field named **&#36;meta** to store undefined fields and their values in key-value pairs.
 
     The value defaults to **True**, indicating that the meta field is used.
 

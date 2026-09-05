@@ -61,7 +61,7 @@ await milvusClient.listGrant(data)
 
 - **objectName** (*string*)
 
-    The name of a specific object in the specified object group. Using a wildcard (*) indicates that all privileges in the specified group are to be granted.
+    The name of a specific object in the specified object group. Using a wildcard (&ast;) indicates that all privileges in the specified group are to be granted.
 
 - **timeout** (*number*) 
 
