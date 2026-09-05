@@ -59,7 +59,7 @@ list_grant(
 
     The name of a target object of the type specified in **object**.
 
-    It can be a collection name, a user name, or a wild card (*).
+    It can be a collection name, a user name, or a wild card (&ast;).
 
 - **db_name** (*str*)
 

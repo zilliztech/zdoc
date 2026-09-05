@@ -237,7 +237,7 @@ A dictionary that contains detailed information about the specified collection.
 
 - **enable_dynamic_field** (*bool*) -
 
-    Whether to use the reserved JSON field **$meta** to save non-schema-defined fields and their values as key-value pairs.
+    Whether to use the reserved JSON field **&#36;meta** to save non-schema-defined fields and their values as key-value pairs.
 
 - **created_timestamp** (*int*) -
 

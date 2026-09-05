@@ -72,7 +72,7 @@ do_bulk_insert(
     
             - A valid set of NumPy files should be named after the fields in the schema of the target collection, and the data in them should match the corresponding field definitions. 
     
-                If the target collection allows dynamic fields, create an extra file named **$meta.npy** to include the dynamic fields and their values.
+                If the target collection allows dynamic fields, create an extra file named **&#36;meta.npy** to include the dynamic fields and their values.
     
             For details on preparing the source data files, refer to [Insert Entities from Files](https://milvus.io/docs/bulk_insert.md).
     
