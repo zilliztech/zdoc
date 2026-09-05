@@ -159,9 +159,9 @@ IAM 资源控制 Zilliz Cloud 平台使用的身份、凭证和角色。
 
 | 资源 | 展示分类 | 可选权限 | 对象级授予 | Org Owner | Billing Admin | Public | Project Admin | Data Admin | Data Operator | Data Viewer |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `serving_cluster_data` | Compute & storage | Read, Write, * | Yes | `-` | `-` | `-` | `*` | `*` | `Read, Write` | `Read` |
-| `on_demand_compute_data` | Compute & storage | Read, Write, * | No | `-` | `-` | `-` | `*` | `*` | `Read, Write` | `Read` |
-| `volume_data` | Compute & storage | Read, Write, * | Yes | `-` | `-` | `-` | `*` | `*` | `Read, Write` | `Read` |
+| `serving_cluster_data` | Compute & storage | Read, Write, &ast; | Yes | `-` | `-` | `-` | `*` | `*` | `Read, Write` | `Read` |
+| `on_demand_compute_data` | Compute & storage | Read, Write, &ast; | No | `-` | `-` | `-` | `*` | `*` | `Read, Write` | `Read` |
+| `volume_data` | Compute & storage | Read, Write, &ast; | Yes | `-` | `-` | `-` | `*` | `*` | `Read, Write` | `Read` |
 
 配置数据权限时，`Write` 表示包含 `Read`。选择 `*` 会授予 `Read` 和 `Write`。
 

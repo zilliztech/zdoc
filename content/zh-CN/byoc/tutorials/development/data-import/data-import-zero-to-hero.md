@@ -195,7 +195,7 @@ print(schema)
 
 - `enable_dynamic_field=True`
 
-    该参数默认为 **False**，表示 Schema 中未定义的字段将会被忽略。将其设置为 **True** 将允许 **BulkWriter** 将未在 Schema 中定义的字段以键值对的形式存储到一个名为 **$meta** 的预留 JSON 字段中。
+    该参数默认为 **False**，表示 Schema 中未定义的字段将会被忽略。将其设置为 **True** 将允许 **BulkWriter** 将未在 Schema 中定义的字段以键值对的形式存储到一个名为 **&#36;meta** 的预留 JSON 字段中。
 
 </TabItem>
 
@@ -540,7 +540,7 @@ writer = RemoteBulkWriter(
 
 - `segment_size=512*1024*1024`
 
-    此参数决定了 **BulkWriter** 如何对原始数据进行分段。该参数默认值为 512 MB (512 * 1024 * 1024)。如果您的数据集包含数据量较大时，可以考虑使用该参数对数据进行合理分段。
+    此参数决定了 **BulkWriter** 如何对原始数据进行分段。该参数默认值为 512 MB (512 &ast; 1024 &ast; 1024)。如果您的数据集包含数据量较大时，可以考虑使用该参数对数据进行合理分段。
 
 </TabItem>
 
@@ -580,7 +580,7 @@ RemoteBulkWriter remoteBulkWriter = new RemoteBulkWriter(remoteBulkWriterParam);
 
 - `withChunkSize(512*1024*1024)`
 
-    此参数决定了 **BulkWriter** 如何对原始数据进行分段。该参数默认值为 512 MB (512 * 1024 * 1024)。如果您的数据集包含数据量较大时，可以考虑使用该方法对数据进行合理分段。
+    此参数决定了 **BulkWriter** 如何对原始数据进行分段。该参数默认值为 512 MB (512 &ast; 1024 &ast; 1024)。如果您的数据集包含数据量较大时，可以考虑使用该方法对数据进行合理分段。
 
 </TabItem>
 

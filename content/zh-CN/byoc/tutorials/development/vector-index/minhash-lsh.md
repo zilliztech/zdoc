@@ -428,6 +428,6 @@ for i, hit in enumerate(refined_results[0]):
 | **参数** | **说明** | **取值范围** | **调优建议** |
 | --- | --- | --- | --- |
 | `mh_search_with_jaccard` | 是否对候选结果执行精确的 Jaccard 相似度计算以进行精排。 | true、false | 对于精度要求高的应用（如去重），使用 true。当可以接受一定精度损失以换取更快的近似搜索时，使用 false。 |
-| `refine_k` | 在执行 Jaccard 精排前要检索的候选数量。仅在 mh_search_with_jaccard 为 true 时生效。 | [top_k, top_k * 10] | 建议设为目标 top_k 的 2-5 倍，以兼顾召回率和性能。该值越大召回越好，但计算成本也越高。 |
+| `refine_k` | 在执行 Jaccard 精排前要检索的候选数量。仅在 mh_search_with_jaccard 为 true 时生效。 | [top_k, top_k &ast; 10] | 建议设为目标 top_k 的 2-5 倍，以兼顾召回率和性能。该值越大召回越好，但计算成本也越高。 |
 | `mh_lsh_batch_search` | 是否在多个查询并发执行时启用批量优化。 | true、false | 同时执行多个查询时使用 true 以获得更高的吞吐。单查询场景下使用 false 以降低内存开销。 |
 

@@ -110,7 +110,7 @@ import Admonition from '@theme/Admonition';
 | --- | --- | --- |
 | Collection 数量 | 集群中已创建的 Collection 数量。 | - |
 | Entity 数量 ✦ | 集群或 Collection 中通过 Insert 和 Bulk Insert 操作插入的 Entity 总数。<br/>该指标同样适用于按需计算 Database 中的 Managed Collection 和 External Collection。<br/>在右侧扩展的下拉菜单中选择指定的 collection，将显示该 collection 中已插入的 entity 数量。 | - |
-| 已加载 Entity 数量近似值 ✦ | 集群或 Collection 中已加载 Entity 数量的近似值。<br/>在右侧扩展的下拉菜单中选择指定的 collection，将显示该 collection 中已加载的 entity 数量。<br/>该指标仅适用于 **Dedicated 企业版** 或 **BYOC**。有关更多集群类型信息，请参阅 [Zilliz Cloud 版本对比](./select-zilliz-cloud-service-plans)。 | 如需查看精确、实时的 Entity 计数，请参考 Collection 详情页中的“已加载 Entity 数量”或者使用 [count(*)](https://docs.zilliz.com.cn/docs/single-vector-search#use-count-as-output-field)。 |
+| 已加载 Entity 数量近似值 ✦ | 集群或 Collection 中已加载 Entity 数量的近似值。<br/>在右侧扩展的下拉菜单中选择指定的 collection，将显示该 collection 中已加载的 entity 数量。<br/>该指标仅适用于 **Dedicated 企业版** 或 **BYOC**。有关更多集群类型信息，请参阅 [Zilliz Cloud 版本对比](./select-zilliz-cloud-service-plans)。 | 如需查看精确、实时的 Entity 计数，请参考 Collection 详情页中的“已加载 Entity 数量”或者使用 [count(&ast;)](https://docs.zilliz.com.cn/docs/single-vector-search#use-count-as-output-field)。 |
 | 未加载的 Collection 数量 | 统计集群中未加载的 collection 数量。<br/>该指标仅适用于 **Dedicated 企业版** 或 **BYOC**。有关更多集群类型信息，请参阅 [Zilliz Cloud 版本对比](./select-zilliz-cloud-service-plans)。 | 可凭借该指标判断是否需要清理数据或继续加载 collection。 |
 
 ### 其他\{#others}

@@ -1105,6 +1105,6 @@ if (!status.IsOk()) {
 
 ### 使用 Dynamic Field\{#enable-dynamic-field}
 
-在 Collection 中，Dynamic Field 是一个名为 $meta 的保留字段。当您启用该字段后，Zilliz Cloud 会将 Entity 中携带的所有未在 Schema 中定义的字段以键值对的形式存放在 Dynamic Field 中。
+在 Collection 中，Dynamic Field 是一个名为 &#36;meta 的保留字段。当您启用该字段后，Zilliz Cloud 会将 Entity 中携带的所有未在 Schema 中定义的字段以键值对的形式存放在 Dynamic Field 中。
 
 关于 Dynamic Field 的更多内容，可以参考 [使用 Dynamic Field](./enable-dynamic-field)。

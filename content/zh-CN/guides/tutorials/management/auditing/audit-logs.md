@@ -54,7 +54,7 @@ import Procedures from '@site/src/components/Procedures';
 
 - **文件路径**： `/<Cluster ID>/<Log type>/<Date>`
 
-- **文件命名规则**：具体格式为 `<File name><File name suffix>`。`<File name>`的格式为 *HH:MM:SS-$UUID*：*HH:MM:SS* 代表日志产生时的 UTC 时间戳；*$UUID* 代表一个随机字符串，如 `09:16:53-jz5l7D8Q`。
+- **文件命名规则**：具体格式为 `<File name><File name suffix>`。`<File name>`的格式为 *HH:MM:SS-&#36;UUID*：*HH:MM:SS* 代表日志产生时的 UTC 时间戳；*&#36;UUID* 代表一个随机字符串，如 `09:16:53-jz5l7D8Q`。
 
 以下是转发到存储桶的审计日志条目示例：
 

@@ -59,7 +59,7 @@ import Admonition from '@theme/Admonition';
 
 | **集群部署方式** | **限制** | **描述** |
 | --- | --- | --- |
-| Serving-Dedicated | CU 规格 * Replica 数量 &lt;=204,800 | 在自助操作时，单个 Serving-Dedicated 集群最多使用 2,048 个 CU。如果创建了 Replica，CU 规格与 Replica 数量的乘积不得超过 204,800。 |
+| Serving-Dedicated | CU 规格 &ast; Replica 数量 &lt;=204,800 | 在自助操作时，单个 Serving-Dedicated 集群最多使用 2,048 个 CU。如果创建了 Replica，CU 规格与 Replica 数量的乘积不得超过 204,800。 |
 | On-demand | 8&lt;= CU 规格 &lt;= 256 | 自助操作时，单个 On-demand 集群的 CU 配置范围为 8–256。 |
 
 如需创建超过 2048 个 CU 规格的集群，请[联系我们](https://zilliz.com.cn/contact-sales?firstname=xushuang&lastname=hu&company=Zilliz&name=Zilliz&email=xushuang.hu@zilliz.com&fullname=hu%20xushuang&phone=--&country=)。

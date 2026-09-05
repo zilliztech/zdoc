@@ -471,4 +471,4 @@ client.drop_function_field(
 
 如果启用了动态字段，可以添加与现有动态字段键同名的标量字段。在常规 Query 输出中，新标量字段会遮蔽该动态字段键，但原始动态数据仍保留在 `$meta` 中。
 
-例如，如果现有 Entity 存储了名为 `source` 的动态键，之后又添加了名为 `source` 的标量字段，则常规输出中的 `source` 指向该标量字段。若要访问原始动态值，请使用 `$meta[&quot;source&quot;]` 等 $meta 路径语法。
+例如，如果现有 Entity 存储了名为 `source` 的动态键，之后又添加了名为 `source` 的标量字段，则常规输出中的 `source` 指向该标量字段。若要访问原始动态值，请使用 `$meta[&quot;source&quot;]` 等 &#36;meta 路径语法。

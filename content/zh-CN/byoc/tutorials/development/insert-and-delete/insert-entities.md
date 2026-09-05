@@ -37,7 +37,7 @@ Collection 中的 Entity 是指共享相同字段集的数据记录。存储在�
 
 在向 Collection 插入 Entity 时，待插入的 Entity 只有在包含 Schema 中定义的所有字段时才能成功插入。插入的 Entity 将会按照插入的先后顺序进入名为 **_default** 的 Partition 中。在确保某个 Partition 存在的前提下，你也可以通过在插入请求中指定该 Partition 名称的方式向该  Partition 中插入 Entity。
 
-为了保持 Collection 的扩展性，Zilliz Cloud 也支持动态字段。在开启动态字段后，您可以向 Collection 中插入 Schema 中未定义的字段。这些字段和值将会以键值对的形式存放在一个名为 $meta 的保留字段中。关于动态字段的相关内容，可以参考[Dynamic Field](./enable-dynamic-field)。
+为了保持 Collection 的扩展性，Zilliz Cloud 也支持动态字段。在开启动态字段后，您可以向 Collection 中插入 Schema 中未定义的字段。这些字段和值将会以键值对的形式存放在一个名为 &#36;meta 的保留字段中。关于动态字段的相关内容，可以参考[Dynamic Field](./enable-dynamic-field)。
 
 ## 向 Collection 中插入 Entity\{#insert-entities-into-a-collection}
 

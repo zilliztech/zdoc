@@ -795,7 +795,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/collection/load-release-collections.md",
-      "sha256": "2b57e0f7fb1160f1b8126e358834f6e2195705b6c4c05e2ea3d9b28dfc5a168f",
+      "sha256": "a3cfe78cc2020e3ed3b1ab0bfb21f3b026d21681acff421e3a7435650b4e7476",
       "docToken": "G7jYwhWH4iVtGakm2BHcGuzIn3f",
       "revisionId": null
     },
@@ -807,7 +807,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/collection/manage-collections-sdks.md",
-      "sha256": "2d12d5bda01300a5089e1a7b013bf9620e9a678d931de63c03db8716e2a85236",
+      "sha256": "a64f7f0e444e7bfd0156885bb9d39751c0574d53f8dd25ca2bd35f15739d8e65",
       "docToken": "SQQowEMkwiwYvWkwETbczgj8nUh",
       "revisionId": null
     },
@@ -867,19 +867,19 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/data-import/data-import-format-options/data-import-json.md",
-      "sha256": "c696b4d429b222bbcd4241795a02404a770f0c17c156fd81ae1d9c53160a317b",
+      "sha256": "41165ce497bd7489740a04ee89920e13ea99f6c619d7bd7be9951413207e4951",
       "docToken": "RYZAw68ioikyLpktFZFcyhKcn2f",
       "revisionId": null
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/data-import/data-import-format-options/data-import-numpy.md",
-      "sha256": "bc21c7968625162d09df0713251d8fc02a0e7d05a0452f0d9103caa906446836",
+      "sha256": "331dc3e4c105cb99a2fe156ae60b11182661b86d08843906ae5ea86008c05962",
       "docToken": "QyBEwkTplilK9LksUSjcP2k1nNf",
       "revisionId": null
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/data-import/data-import-format-options/data-import-parquet.md",
-      "sha256": "2e25aa30f3bf819f71dd8b30fab2add11cca905a021348b8a78615576d31c92e",
+      "sha256": "cb48096fa0011831f16ac9e5d32ae3b7920db16aeb920fdee3a1b0cc9b491a45",
       "docToken": "Fi1DwQyUXiPVIvk4GNocAB51nNf",
       "revisionId": null
     },
@@ -891,7 +891,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/data-import/data-import-zero-to-hero.md",
-      "sha256": "62d7b1b6508115ab7b2a1f6937dc14c4cfc9d2f98427fe4bbd816f8db420aea7",
+      "sha256": "81c4cfad78632034f4edd15ede4538a4f81f8f710b109f3777435c2e7ee505bd",
       "docToken": "FXGWwcjyViaQm8kvJgScITzBnr3",
       "revisionId": null
     },
@@ -1011,7 +1011,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/insert-and-delete/count-entities.md",
-      "sha256": "1b22932dcd1535fd2d8692d7e070b4073dab55364fa44f0b0ebf49d90685bca6",
+      "sha256": "825557e6b6c54ace50f3a066d306949b7b8ce50951ea0970a3f56352ed6ae762",
       "docToken": "SabAwl5dZiOOavkPsJdcqvB3n7f",
       "revisionId": null
     },
@@ -1023,7 +1023,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/insert-and-delete/insert-entities.md",
-      "sha256": "48d3381b887a439bbbf4615fb6b5851056c67f970840650a79461ae91c704e31",
+      "sha256": "9a7f333dc9b8a3f7827517a1abf74a9078e45d6fdc833d3e7bd228da515767f4",
       "docToken": "WzdvwWV9tiM4lRkhg3JcMPv3ngb",
       "revisionId": null
     },
@@ -1065,7 +1065,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/schema/add-fields-to-an-existing-collection.md",
-      "sha256": "377d3f81efc6847ecc09f842ece7a260b666cf36545cacb0f0b81ba0e17abcc7",
+      "sha256": "f9428b8adba9986ad074b68e264fa0cd49c3974963d9d028e0de2a0215f38771",
       "docToken": "JU6ZwfYLpilJ6vkncdzcLtFLnjf",
       "revisionId": null
     },
@@ -1347,7 +1347,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/search-and-query/search-metrics-explained.md",
-      "sha256": "366e93e2c92720d9b9f36f71f7c17377c6c05bf6add59c6f0cc665c6e72f6e07",
+      "sha256": "4245253055b10069cf6613c341bb733d0d7bc1b9d81963261cc55b6399295641",
       "docToken": "U7tHwmHPCikQxWkzoSzcr8Lunmf",
       "revisionId": null
     },
@@ -1437,7 +1437,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/vector-index/minhash-lsh.md",
-      "sha256": "d1408a165ad6aa3d89cc380d169778dbeca40425e0b4e1bd93d6b86e4cdd2f89",
+      "sha256": "a450c912856578d60146ab4270c4cb83959cd77776e59340d8582d5d4966df27",
       "docToken": "FVyuwwzfiimAL1keHx8cHbcinUv",
       "revisionId": null
     },
@@ -1557,7 +1557,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/register-with-zilliz-cloud.md",
-      "sha256": "e079306bec236ff4b6deefc8c08913f65198d5440b40ff04d6ae6815d8f87190",
+      "sha256": "26bfb496c75e80f98535927dbdedbde5c20fde705a070ac1dd472a0acc1b7cd9",
       "docToken": "CCVpw6BVti8P8LkfcdJcdRH1nHg",
       "revisionId": null
     },
@@ -1605,7 +1605,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/access-control/privilege-reference/platform-privileges.md",
-      "sha256": "085ff62b93e0ce220a53003ec333ed51909d044c519946a542ba09fcc67385a3",
+      "sha256": "1d07b1d9f8e471383b88ad25839ff00a1af5602d8270b56cee633f62b1307cc4",
       "docToken": "VUtXwhev1ibEBakSLqaciuWSnte",
       "revisionId": null
     },
@@ -1635,7 +1635,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/auditing/audit-logs.md",
-      "sha256": "83740a8151680484c888dad74ab5caeaffc99caea85a82b41ffcd7da597064af",
+      "sha256": "b99a5f96304be0af3b89cc7c2fd51dc4daf750257362e7532a74be8c691de860",
       "docToken": "OcSgw7LJwiyuC2kdymbcWDV6nNg",
       "revisionId": null
     },
@@ -1653,7 +1653,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/authentication/email-accounts.md",
-      "sha256": "7e3269258c2a6238fbdb7f92c6069510870be2d4e795cbe3339dd4f55d940a11",
+      "sha256": "c80383f3c8cd5f054dcfa6ff7b6c37209029d1fe2d6945129ebb3f3e52999fbf",
       "docToken": "SVnkw5IkNiOfALkijr1cw91vn3L",
       "revisionId": null
     },
@@ -1851,7 +1851,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/limits/limits.md",
-      "sha256": "90251a96d6da1a67e53dd882bbf7c678748308066321b9687a3e6830a13ca9b9",
+      "sha256": "ebeaf0d6e463cb880c4d14c239b6539974eb1eedf044806e9e6c9ad25d86c1ca",
       "docToken": "A8UFwSbMniMl6IkpJkNc4HsHnLc",
       "revisionId": null
     },
@@ -1875,7 +1875,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/metrics-alerts/metrics-alerts-reference.md",
-      "sha256": "b23a11900f65486dee3fe2565b7396f5e8fc3d82211d2c52d8f59799165be173",
+      "sha256": "5a3986a0f9240fcccb80dbf5661ffbf7d665d2e423c4fa8761cdf77be9f8963a",
       "docToken": "Rca8w6kRRiy7a9kr6adczTcGnoh",
       "revisionId": null
     },
@@ -1971,7 +1971,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/product-architecture/data-resilience.md",
-      "sha256": "11651243c1903b74e6bbda59ed2fb09badf542704403454b648fe9b0cfcf059d",
+      "sha256": "27326d68f7f79daa66e072f2d921b52089a6238513833b562f2e12f11dedd580",
       "docToken": "MJ6QwAPKRiHs6pkkNELc2WfinOs",
       "revisionId": null
     },
@@ -2307,7 +2307,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/collection/load-release-collections.md",
-      "sha256": "feea3efbce3c931a5e483ff2a4771cb832d3aa820fbd9a92881873d572ef4e56",
+      "sha256": "fa5ab3fc872b5e5840b13f1477fe341afd128ed26a16f3fecd621769d9fe48b7",
       "docToken": "G7jYwhWH4iVtGakm2BHcGuzIn3f",
       "revisionId": null
     },
@@ -2319,7 +2319,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/collection/manage-collections-sdks.md",
-      "sha256": "d7aa8f23943ef4e9909b4aefaf118a7d94eb10a0c1533a13bbcfa1f5bc8f4133",
+      "sha256": "fe7c55db37b4a3154c3aef2f1a66c9aff4a7bfb10beb340e9f678196a05ec4ea",
       "docToken": "SQQowEMkwiwYvWkwETbczgj8nUh",
       "revisionId": null
     },
@@ -2391,19 +2391,19 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/data-import/data-import-format-options/data-import-json.md",
-      "sha256": "8e5f5cf24256930e4154273ea1d21485032d7ff92c08081c9c14db3b870744fe",
+      "sha256": "d006a88c085fed1aa171767e0f3c9c05fe4b065bf2405bf8dfafd60ed2e34ff5",
       "docToken": "RYZAw68ioikyLpktFZFcyhKcn2f",
       "revisionId": null
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/data-import/data-import-format-options/data-import-numpy.md",
-      "sha256": "769d4461a370d39b4becda182963bf463cf6549026be0a0af06321fedaf2ffb5",
+      "sha256": "e2cecb78872396f83dac9dcc70b471ab9e6b5867e7d80fed1cc679a6f1a99ece",
       "docToken": "QyBEwkTplilK9LksUSjcP2k1nNf",
       "revisionId": null
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/data-import/data-import-format-options/data-import-parquet.md",
-      "sha256": "a945c1dd97fd006f9782b3049cff5a64777693f3d985a8474899621b423683a8",
+      "sha256": "b0265272ea803445ecab4804797375c4a9bfa76bbca4e905eef3125d04e94ac5",
       "docToken": "Fi1DwQyUXiPVIvk4GNocAB51nNf",
       "revisionId": null
     },
@@ -2415,7 +2415,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/data-import/data-import-zero-to-hero.md",
-      "sha256": "bdbbc47bef3bd4ffa22043bf1716b31b02941a98799b8836dd7447e04d7f96bf",
+      "sha256": "04ccca39e631f7a667bfbf44ac3b3662bc9cad87e2d6f27d6e9de770fcda02e4",
       "docToken": "FXGWwcjyViaQm8kvJgScITzBnr3",
       "revisionId": null
     },
@@ -2553,7 +2553,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/insert-and-delete/count-entities.md",
-      "sha256": "3853b30238b537819626695863d323993bb0c98d0c127577526e491ea702ed99",
+      "sha256": "e6f6f2b69a01baae2abd678c1d1b46c8f7e414aa80de6fcf48fc9d585f6b40a7",
       "docToken": "SabAwl5dZiOOavkPsJdcqvB3n7f",
       "revisionId": null
     },
@@ -2565,7 +2565,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/insert-and-delete/insert-entities.md",
-      "sha256": "8b76140d2a519951bb280cc4eb3f226c89be52223bb987e9c0be667a880a9372",
+      "sha256": "a52ca8613f30e83278c308d663ef08d8ef37d443e2cccb4381ce1cbe978f18e4",
       "docToken": "WzdvwWV9tiM4lRkhg3JcMPv3ngb",
       "revisionId": null
     },
@@ -2607,7 +2607,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/schema/add-fields-to-an-existing-collection.md",
-      "sha256": "fc4aa33b69dbf0b183079353f32fb4754b60cbcf1e0ecf5ef59102ad35bf8a40",
+      "sha256": "e5de35721e176f0c33d20d9bfdbe0484b2dd09faf6236d88acc110df1ca4d135",
       "docToken": "JU6ZwfYLpilJ6vkncdzcLtFLnjf",
       "revisionId": null
     },
@@ -2895,7 +2895,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/search-and-query/search-metrics-explained.md",
-      "sha256": "5119f93216775991adef086166ce6f5ba6d862d5a2aac7e6e698af00fd82523a",
+      "sha256": "52d99931e2e4c113be1c828059d5c347315147b1a3b83bb0085ff7f67fe70964",
       "docToken": "U7tHwmHPCikQxWkzoSzcr8Lunmf",
       "revisionId": null
     },
@@ -3039,7 +3039,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/vector-index/minhash-lsh.md",
-      "sha256": "3f217ac31ce57ac650521b918ba7baf84dabd987953680d4377b3a607956a51c",
+      "sha256": "935bec5dc8e106f33744df576bfbc22bf0671e8ef7177462a6fbf89793f1e5b9",
       "docToken": "FVyuwwzfiimAL1keHx8cHbcinUv",
       "revisionId": null
     },
@@ -3207,7 +3207,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/register-with-zilliz-cloud.md",
-      "sha256": "6cda31ab8cb7a903aaa463824cd1e339dce35eed4814d0cda27e804bea88eb29",
+      "sha256": "255d7a6fc44b09f32abc3745ef9b17ea43007cb12925f865cc49e5214bea11cf",
       "docToken": "CCVpw6BVti8P8LkfcdJcdRH1nHg",
       "revisionId": null
     },
@@ -3441,7 +3441,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/access-control/privilege-reference/platform-privileges.md",
-      "sha256": "b21982d9d0b42334e5df61b4eea112540c039f2216e7cd0f7dc8ba42837a4dc6",
+      "sha256": "0cee92d190542b8c05fb114ec745cb905dd9498a310a1fd42586e5e6adc30d09",
       "docToken": "VUtXwhev1ibEBakSLqaciuWSnte",
       "revisionId": null
     },
@@ -3471,7 +3471,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/auditing/audit-logs.md",
-      "sha256": "634b7c6ced8867ab07ae452b112f0b16a334277979c514e0f87820731330f072",
+      "sha256": "a2b656dac2cd439a38c3adedc8e88e3bcdb824b7c6db1a2bd1e5029ef4e9bd3f",
       "docToken": "OcSgw7LJwiyuC2kdymbcWDV6nNg",
       "revisionId": null
     },
@@ -3489,7 +3489,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/authentication/email-accounts.md",
-      "sha256": "2e290eb7a6d65bb75f92b3e49c16dafbf76db588fc12b77124675efeacfa61f7",
+      "sha256": "9e40fd6172cd563245fc72db441c98f90d8761156d8d7a5ddfbf192f8ace19d3",
       "docToken": "SVnkw5IkNiOfALkijr1cw91vn3L",
       "revisionId": null
     },
@@ -3777,7 +3777,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/cost-management/understand-cost/serverless-cluster-cost.md",
-      "sha256": "043263f348c2476dcd7d7406374f93c0a8a258e20d18c85fc977a6206784941f",
+      "sha256": "0e47c722154ac6b0ee5cdb6e13911617f65157085b7eacd65457f3b8a9c59400",
       "docToken": "MfZawdBV9iFGi4k7HRbcyyj2nCh",
       "revisionId": null
     },
@@ -3843,7 +3843,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/limits/limits.md",
-      "sha256": "2306091ad89d9427ea1b0978cc7e70862ad882afe6273f0470af9be05e4a5e61",
+      "sha256": "fbcf63d64167201d9b669bf3f37528300e39544ee9739ac55022a922e1a7d0b0",
       "docToken": "A8UFwSbMniMl6IkpJkNc4HsHnLc",
       "revisionId": null
     },
@@ -3867,7 +3867,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/metrics-alerts/metrics-alerts-reference.md",
-      "sha256": "c9f4cf571c8910a056d42a31d9529fd00e03a3f3f2b3937f87e1b8c2bf79e796",
+      "sha256": "372e656a74ba4f7b0101855384b9e64ffbe12a655b835aab5aee35993bf69f4b",
       "docToken": "Rca8w6kRRiy7a9kr6adczTcGnoh",
       "revisionId": null
     },
@@ -4035,7 +4035,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/product-architecture/data-resilience.md",
-      "sha256": "95520690e59b0958d65ab39def0cd708737540d0d31c56bcdbacc52f7a745d44",
+      "sha256": "5a9851f2fba78ddd7c84deb6574f673e9ccbf05f76f568ee8d232262d670c2ff",
       "docToken": "MJ6QwAPKRiHs6pkkNELc2WfinOs",
       "revisionId": null
     },

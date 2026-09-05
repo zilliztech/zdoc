@@ -32,7 +32,7 @@ import Admonition from '@theme/Admonition';
 | `FLOAT16_VECTOR` | 2-32,768 | `COSINE`, `L2`, `IP` | `COSINE` |
 | `BFLOAT16_VECTOR` | 2-32,768 | `COSINE`, `L2`, `IP` | `COSINE` |
 | `SPARSE\_FLOAT\_VECTOR` | 无需指定维度 | `IP`, `BM25`（仅用于全文搜索） | `IP` |
-| `BINARY_VECTOR` | 8-32,768*8 | `HAMMING`, `JACCARD` | `HAMMING` |
+| `BINARY_VECTOR` | 8-32,768&ast;8 | `HAMMING`, `JACCARD` | `HAMMING` |
 
 <Admonition type="info" icon="📘" title="说明">
 

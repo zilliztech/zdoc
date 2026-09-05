@@ -39,7 +39,7 @@ Zilliz Cloud 为您提供了两种统计集合中 Entity 数量的方法。
 
     在接收到此类查询时，Zilliz Cloud会向查询节点发送请求，并统计已加载到内存中的 Entity 数量。
 
-    您可以在查询中指定多个 Partition 名称，以获取这些 Partition 中对应的 Entity 计数。有关详细信息，请参阅[以 count(*) 作为输出字段的查询](./count-entities#query-with-count-as-the-output-field)。
+    您可以在查询中指定多个 Partition 名称，以获取这些 Partition 中对应的 Entity 计数。有关详细信息，请参阅[以 count(&ast;) 作为输出字段的查询](./count-entities#query-with-count-as-the-output-field)。
 
 - **使用`get_collection_stats()`**
 

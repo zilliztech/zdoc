@@ -64,7 +64,7 @@ import Admonition from '@theme/Admonition';
 
 - 包含大写字母（A–Z）、小写字母（a–z）和数字（0–9）
 
-- 至少包含一个特殊字符（如 !@#$%^&*）
+- 至少包含一个特殊字符（如 !@#&#36;%^&&ast;）
 
 ## 开启或关闭 MFA\{#enable-and-disable-mfa}
 

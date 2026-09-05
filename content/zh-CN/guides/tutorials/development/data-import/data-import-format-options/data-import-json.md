@@ -53,7 +53,7 @@ JSON Lines 是一种文本格式，每一行都是一个完整且合法的 JSON 
 
 - **是否启用 Dynamic Field**
 
-    当目标 Collection 启用了 Dynamic Field 并且您希望导入 Schema 中未定义的字段时，您可以在导入数据中纳入一个名为 **$meta** 的字段，并将所有未在 Schema 中定义的字段以键值对的方式存放到 **$meta** 字段中。
+    当目标 Collection 启用了 Dynamic Field 并且您希望导入 Schema 中未定义的字段时，您可以在导入数据中纳入一个名为 **&#36;meta** 的字段，并将所有未在 Schema 中定义的字段以键值对的方式存放到 **&#36;meta** 字段中。
 
 - **大小写**
 

@@ -389,7 +389,7 @@ std::cout << std::to_string(response.State()) << std::endl;
 
 需要注意的是，当您选择只加载部分字段时，只有在 `load_fields` 中的字段可以做为过滤条件（filter）和输出字段（Output Fields）使用。请务必在 `load_fields` 包含主键和至少一个已创建索引的向量字段。
 
-您还可以使用 `skip_load_dynamic_field` 来决定是否加载 Dynamic Field。Dynamic Field 是一个名为 **$meta** 的预留 JSON 字段，用于以键值对的形式存放各 Entity 中所有未在 Schema 中定义的字段及其值。在加载 Dynamic Field 时，字段中所有键都会被加载，并可用于过滤和输出。如果 Dynamic Field 中的键无须参与过滤或输出，您可以将 `skip_load_dynamic_field` 设置为 `True`。
+您还可以使用 `skip_load_dynamic_field` 来决定是否加载 Dynamic Field。Dynamic Field 是一个名为 **&#36;meta** 的预留 JSON 字段，用于以键值对的形式存放各 Entity 中所有未在 Schema 中定义的字段及其值。在加载 Dynamic Field 时，字段中所有键都会被加载，并可用于过滤和输出。如果 Dynamic Field 中的键无须参与过滤或输出，您可以将 `skip_load_dynamic_field` 设置为 `True`。
 
 如果在执行本操作后需要 Load 更多字段，请务必先对 Collection 执行 Release 操作，避免因索引结构发生变化而引发系统报错。
 
