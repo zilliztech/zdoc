@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "9e93d3a6d9a40cdc289c4b86fed68d6a70252be1",
+  "sourceCommit": "22327d1899b299c126940833fbfa38860272adf7",
   "records": [
     {
       "manual": "cli",
@@ -595,7 +595,7 @@
     {
       "manual": "cli",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Role/Role-revokeprivilege.md",
-      "sourceHash": "489da0f3e3218f2bb91d1f54c8cd2940b3e8d786834e6fa399a59acc7c1ee1ae"
+      "sourceHash": "f733a177a0514d3057a3b9200cb9a39f0df0a434502fca20ef2c8e5628b72435"
     },
     {
       "manual": "cli",
@@ -970,7 +970,7 @@
     {
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-FieldSchema.md",
-      "sourceHash": "24f50cbd4c2b810a12788098d749638e5cfe0016c53d999715f1af81f76ca0e8"
+      "sourceHash": "d25ff3ab5874da1796488467f690c356fe36b21f100908087e5843137661fe1c"
     },
     {
       "manual": "cpp",
@@ -1170,7 +1170,7 @@
     {
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-IndexType.md",
-      "sourceHash": "0615adb8291543d7ed239064870a6455ce3b804ca961ee1b44fd1d26fe21df62"
+      "sourceHash": "7a01aaf7e25f60f8b62f2e61c15ef716abbd6016a0cce618c6b702b8b0dc115b"
     },
     {
       "manual": "cpp",
@@ -1355,7 +1355,7 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-BackupRBAC.md",
-      "sourceHash": "5961e9c470a6ee667c3a60c1f77f198ca7cd6d8bf093065405993abeb452fb54"
+      "sourceHash": "09495824e8c877fa21de192810b65482d81bf54bb85c89692de7f84cf6dacfcb"
     },
     {
       "manual": "go",
@@ -1370,12 +1370,12 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DescribeRole.md",
-      "sourceHash": "f91b8d0d937e1f23868fae5d5425af4c630023767d99302c1edefa0e88c41836"
+      "sourceHash": "dc2b00a97f92c3e22ccfb7e5669e332369691429dec15ff7e70a07d9b68da89d"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DescribeUser.md",
-      "sourceHash": "e8bc5043c2712d86c065c1751b784b5c0f18b4b08deda93819be1aa521626cb4"
+      "sourceHash": "4ac85377377aefb0a0e1afc3307c812cacbadff154dbcd8c3406333b76ffb096"
     },
     {
       "manual": "go",
@@ -1400,7 +1400,7 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-ListPrivilegeGroups.md",
-      "sourceHash": "198f70fc914530c165444b490addc151add18aed7b3df235aa51657432549570"
+      "sourceHash": "ad2879db7fca46812c1a0aeb78b79e6fbb042aa70e654ba95e4eda584094ec26"
     },
     {
       "manual": "go",
@@ -1420,7 +1420,7 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RBACMeta.md",
-      "sourceHash": "b7893b93fa77aa46c556b709de34083a7dd37ee1895329ad0abe5ab923d51530"
+      "sourceHash": "028e0f9e5cdbaec201e0e7db26f3c943bdfe1b5f2a79e9d301d977fc51b4c161"
     },
     {
       "manual": "go",
@@ -1455,7 +1455,7 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Client/v2-Client-ClientConfig.md",
-      "sourceHash": "11d0dc2d9de2422b3cc6211db507c2c6f1a5a2717a4d4cf5033bbb9798d474c2"
+      "sourceHash": "9a4511fe4ca6f59a44bcd1e5c9b56a096dfa7d39b8852833c039c1dc8ea59d11"
     },
     {
       "manual": "go",
@@ -1475,12 +1475,12 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Client/v2-Client-New.md",
-      "sourceHash": "6755b9c5fbd4c71b84bf6a2940df2424a72dfec28425c2df78e098a84c419199"
+      "sourceHash": "dcf655d908a74a186792a691e6b855c0b6f9f04ffa7989235b0e46d73434bf18"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-AddCollectionField.md",
-      "sourceHash": "bc1a43cb91902c6af97c2e75f5ef383e3a0a448db717de8443a304f615d05909"
+      "sourceHash": "db0d20d77a612aa85dc16af0d12b6ef2b20d25a512457d7b03afea603262b314"
     },
     {
       "manual": "go",
@@ -1515,17 +1515,17 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-CreateCollection.md",
-      "sourceHash": "46c07c629d558c111f2e95d1e60d5da4790fce1ae594cdece24628cb2a529211"
+      "sourceHash": "3c3bd5774bc0890b3b620ffc355897ba5a310148e80d08ac3e8aabded96a426c"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-DescribeAlias.md",
-      "sourceHash": "1367dbe41342ba3bfd41fdb1dc7e9b6977d6f9b9ffbeefc29080a0beeb66d80d"
+      "sourceHash": "219c2ebf4120821379def78de0e6857b427c09a940d55b4b219cb64343298aa2"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-DescribeCollection.md",
-      "sourceHash": "d2c3767372da6a1d67a367d67410f6c3fe2c0ae94fe5ddfb4e59a309210d6ea3"
+      "sourceHash": "1eeade2024b1a88a914f124aeeca7387a4bb913bec07d48278793e19672b965b"
     },
     {
       "manual": "go",
@@ -1565,7 +1565,7 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-GetRefreshExternalCollectionProgress.md",
-      "sourceHash": "5a7327fada36960c882810d3b3cd1f66851e2287420904c3c91edec2872c1326"
+      "sourceHash": "6d9c67f1db2e9ce411ec24dfeca98309bf2404abbbb99f0d496d57b71cbf2d81"
     },
     {
       "manual": "go",
@@ -1585,12 +1585,12 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-ListRefreshExternalCollectionJobs.md",
-      "sourceHash": "9bfe6e2a9714a2465a99cd1c0f681dff9c13b7c280e1f8c90f0ff2bd9388eb1b"
+      "sourceHash": "a3d7eb2d86fef32b0aaee26c636744eed520e39e1d724454970329a0a7f44629"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollection.md",
-      "sourceHash": "74f602f1b0f6fefcbd3865784b38899b7c6cb82050e5a1522216533ba0885287"
+      "sourceHash": "fa8026ae6659c1aead11abffa58e06518c91288960eaa71cde8519e5b8eb610c"
     },
     {
       "manual": "go",
@@ -1610,12 +1610,12 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-Schema.md",
-      "sourceHash": "bf2c2e1ff236be2c7999a552e7cc339798cede4b16d9a1392534f3417b4d8769"
+      "sourceHash": "c3926d0c6770607836a48f34f0567c9f868be9c3fdf1ade0bdee0c364719051a"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-StructSchema.md",
-      "sourceHash": "dbdd7c1672421c42def691cb24b7c2fc8cffb9beb30e06d29507c9ec2227c82a"
+      "sourceHash": "98e45126b45ac0faf7d1ddec76b943fc303649671ac4006ecb1ea2cae7007262"
     },
     {
       "manual": "go",
@@ -1625,12 +1625,12 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection.md",
-      "sourceHash": "c59e6b3ee76847811fbfa13ef169b22da75714784dac064c34297c1f0e99a902"
+      "sourceHash": "55b213c6aaadc0ca307c214bd2f912f7849be46992296f657e46548a294c3aba"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-BulkImport.md",
-      "sourceHash": "1a0753c3a8f6779b92f202f1120739683a9c6cbfe6a379482e91203223f82bbe"
+      "sourceHash": "ddb80e922804b1eec93a922733ce86bd726790fd42575e145d0718e9e5a72cef"
     },
     {
       "manual": "go",
@@ -1645,7 +1645,7 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-GetImportProgress.md",
-      "sourceHash": "a4189caeb4881bd96a10e2cf5deef739e897c96c9339dcf06be3be907c9fb5d2"
+      "sourceHash": "97fd7ecef71ef8ee0ec619255b9c77f51069bf4409b6f0c38659b72fb6362aa1"
     },
     {
       "manual": "go",
@@ -1655,12 +1655,12 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-GetImportProgressResponse.md",
-      "sourceHash": "3a6afd805391a7f58618bd1061a0b331ebe3fb7d4bb97e83b1b73fd17ae17f42"
+      "sourceHash": "3b4a7622e14764baf99aff16f56162d696a8e296f6bd00c5bdfb51f00ff2320b"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-ListImportJobs.md",
-      "sourceHash": "d966e20d20d624cace7b73c4cac096a8866ead6e0a0b1e24b2bad515900e6ac5"
+      "sourceHash": "051bb86e3cbd256c3cc4e91d7d9833b4c4ad8e841b6473aab35d769c17a3a825"
     },
     {
       "manual": "go",
@@ -1670,7 +1670,7 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-ListImportJobsResponse.md",
-      "sourceHash": "e2580c51ca6dd2050cea6310d60ad5c6baf38d5f0d239d62d740e828eb561be0"
+      "sourceHash": "3ede02db3320b8be7fad33762352c86e539584f900ed7826de502b72f43f1807"
     },
     {
       "manual": "go",
@@ -1685,7 +1685,7 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Database/v2-Database-DescribeDatabase.md",
-      "sourceHash": "ef20673eb42c431bcdbd01cd932ce437a869796cd21aaf36cd2fe2524f44dbb1"
+      "sourceHash": "adf067422b856cc5910efa3178fedebb7d0f90896e2fb895776fcc8396f4e54c"
     },
     {
       "manual": "go",
@@ -1730,7 +1730,7 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-CreateIndex.md",
-      "sourceHash": "735e63c0c18678f5fa9a81ec5087cc63d8502cc0ae422dbd1e4cfc5075537ca1"
+      "sourceHash": "b1048c13eae16d1a58fc488033f48a98188d158cad291882d7ca57883449da31"
     },
     {
       "manual": "go",
@@ -1755,7 +1755,7 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Flush.md",
-      "sourceHash": "b3a2c4ec280cc0024b465ba7ffe16f4ff00eb3ad17a2f8cf19d6c12c2fe2ceeb"
+      "sourceHash": "298188522a7b1917d06d657aef29cd0286ec552b9e95edc9a03cd7a45e15db89"
     },
     {
       "manual": "go",
@@ -1915,7 +1915,7 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-ListRestoreSnapshotJobs.md",
-      "sourceHash": "691d075de7a9f386d2cf1c6823d428c68123298bbfca93cf0989021f9e55b9c3"
+      "sourceHash": "2f6de3f50359f661d0fe5c2ac264e0001999dca74034be67d23fd0d1c554abfc"
     },
     {
       "manual": "go",
@@ -2020,7 +2020,7 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-RunAnalyzer.md",
-      "sourceHash": "3a833da6dd029ee116d466b0ff4a2efa6aaf778383756a4bd9e4bee730404359"
+      "sourceHash": "1b5eae2dfec2db1c0549c7e8bc48003f36d18e2bffd675e4455990cd9e6a7495"
     },
     {
       "manual": "go",
@@ -3030,7 +3030,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-listGrant.md",
-      "sourceHash": "28d374b440317febfa57ca5cb999a3d1ac46dcc48fa1e86a8a4bdd1f68176d58"
+      "sourceHash": "0001ca3995f89f49c340462f6a840102f7c3141832a3fc5a967fa184840cf46e"
     },
     {
       "manual": "node",
@@ -3180,7 +3180,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-createCollection.md",
-      "sourceHash": "9104b6db691056c398a2abcd940db1847d9cf6c308bc558d23bf066471372e5e"
+      "sourceHash": "65d3bc283145e5a96e0c707fc4cac6ef03941c349d083652fa1eb79b5d5b5ae3"
     },
     {
       "manual": "node",
@@ -3760,7 +3760,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-BGEM3EmbeddingFunction/EmbeddingModels-BGEM3EmbeddingFunction.md",
-      "sourceHash": "ca08cc48d3b75a9a74caa8243a1bea646ce637e3694e0e3ee4e994c9104a046f"
+      "sourceHash": "b3786123e25c1d97e8b4894ec95769e17786abdafa6481148018fff6fbc52443"
     },
     {
       "manual": "python",
@@ -3885,7 +3885,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-Model2VecEmbeddingFunction/EmbeddingModels-Model2VecEmbeddingFunction.md",
-      "sourceHash": "cc569bc7434945a386f636fd6ec7df4462d894799dbe00d8fdba128d9f86ae8b"
+      "sourceHash": "f140b5fc259b48ba7c2942b86c84aa2573bb7ca7ab642ca0b5bbbd055d1607e5"
     },
     {
       "manual": "python",
@@ -3945,7 +3945,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-OpenAIEmbeddingFunction/EmbeddingModels-OpenAIEmbeddingFunction.md",
-      "sourceHash": "d33e15ddc26daf507c8c971d55e75ae6fd96fa63ff5bfed5f486fd198a1f3596"
+      "sourceHash": "13d20e83a7f284ae392c58b76bcffde08ba9f67f6b4c781e573844e7135a17dc"
     },
     {
       "manual": "python",
@@ -3965,7 +3965,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-SentenceTransformerEmbeddingFunction/EmbeddingModels-SentenceTransformerEmbeddingFunction.md",
-      "sourceHash": "f72b07417d6faf56b6b194a39cc5a57de63a3a2a8fd80986fa7e44c3cfe51f87"
+      "sourceHash": "be2a256d5402cedb5c8070d5fe64ddb207682378859f5dff232af1a889961e41"
     },
     {
       "manual": "python",
@@ -3985,7 +3985,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-SpladeEmbeddingFunction/EmbeddingModels-SpladeEmbeddingFunction.md",
-      "sourceHash": "338bfeb12f4c148c0ec1d071cbb7459c2111fc2dd76bb55496de32ab1bb5f20c"
+      "sourceHash": "9763dcf9b4e61885e563052cb2f4adb4739d6892a726ae4591e766771a1dffdb"
     },
     {
       "manual": "python",
@@ -4155,7 +4155,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/MilvusClient-CollectionSchema.md",
-      "sourceHash": "1b9a60b11c727ec71450ee6ce8708176ca6d920e4ddae1158540e38e613352ec"
+      "sourceHash": "a317e02dc65a269e7da7d1ea0400e1e8b994cebce32a8af9d072187eca4bdff2"
     },
     {
       "manual": "python",
@@ -4210,12 +4210,12 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-create_collection.md",
-      "sourceHash": "db25bfed3ce1734960c921a77cc92f0abe02e08b9b3d22975296a94bd539765c"
+      "sourceHash": "012bd08a9c666ad54d929a7fe711bf5d6768be934c2bb2f76c0be6dcb65192a7"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-create_schema.md",
-      "sourceHash": "b47dd7b5b43d39431f568a4b29a7e9d1aa981b3c6cc18ded84f69f1dfc8ccb4c"
+      "sourceHash": "8712cfb32cafb1830628f5e4d78453f3db21443777e216e87574ed271d4f4d3a"
     },
     {
       "manual": "python",
@@ -4225,7 +4225,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-describe_collection.md",
-      "sourceHash": "814a62b0f0c6f2f51f2f34dd366dc9882aa85f40883854e9f585479bc5e6672a"
+      "sourceHash": "d0a977b846686cded0c8012ae274582731af3110a13f2c186836fabf80212241"
     },
     {
       "manual": "python",
@@ -4255,7 +4255,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-get_collection_stats.md",
-      "sourceHash": "d7b294f6f323bf1d153019a0c4b17cc0925c99ca2355a28d2886c9432f29077a"
+      "sourceHash": "ddbca9a8815c9a38cefc3ade42092fef40198d1917e389af661fd78bc6763a89"
     },
     {
       "manual": "python",
@@ -4850,17 +4850,17 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-CollectionSchema/ORM-CollectionSchema.md",
-      "sourceHash": "7343ea1aa2371b3f25aa8f31fc1496244ba3f3f203fd169ee01e610864788685"
+      "sourceHash": "ef52fd63dbc315eef30b032ada638cff314927fd6b3f784152b4da5594d69763"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-Connections/Connections-add_connection.md",
-      "sourceHash": "c001dfc0307bc8a46ba46ab16c8e0cea539274e311aefc3f1625cfacbee138f3"
+      "sourceHash": "ea8d5817f574f22853e452b1f81afd36c04a58e30203e72b547aa4f700958dbf"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-Connections/Connections-connect.md",
-      "sourceHash": "3c00ed75f6cdb2cc66646e9367b7adf60c132ce1625b3346e9004f4e47336658"
+      "sourceHash": "0b064e69d2b7bce2fac47ea2e788055fc0493a890ee138487344993811128470"
     },
     {
       "manual": "python",
@@ -4975,7 +4975,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-Role/Role-grant.md",
-      "sourceHash": "0c4301a24a527ab8209fd46ab1d8f5616d55fcbe8d72432bccd27e137efe4abd"
+      "sourceHash": "a7957dcc86fee34ff158bba475c86871a6398fd802269d6488042f5c9e6d3923"
     },
     {
       "manual": "python",
@@ -4985,7 +4985,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-Role/Role-list_grant.md",
-      "sourceHash": "210359683299340efaa685b9900d2c0cfe07e2142b8baf6585abea3d6b44697d"
+      "sourceHash": "ef2b9c04ef97fd874d1cd5b6e7fe78ee53e876923b84c9d09f3703d2d67512a5"
     },
     {
       "manual": "python",
@@ -5000,7 +5000,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-Role/Role-revoke.md",
-      "sourceHash": "009985153db0f877f05245be9a4da3ea51529d891f8c30609306b4a4ac5b7cb8"
+      "sourceHash": "d653b83941a6d6469ca65d578cffa12a1ceb0a165d364ad67e83b51efc3521cb"
     },
     {
       "manual": "python",
@@ -5060,7 +5060,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-utility/utility-do_bulk_insert.md",
-      "sourceHash": "7a20fc0979462d5aa11b4b5e3c657b1e972c3c7225eacfcfd324a187e421e429"
+      "sourceHash": "231e0f8d05e9345806abb469752c41d4dd89911ea7ec25e58fd20180e099d43a"
     },
     {
       "manual": "python",
@@ -5265,7 +5265,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/Rerankers/Rerankers-CrossEncoderRerankFunction/Rerankers-CrossEncoderRerankFunction.md",
-      "sourceHash": "e40a5a83fa156c4ae5f44784c4a8e48aa5e6a92f628819f65e30faa175edfa19"
+      "sourceHash": "8034173e7d29ab0798209d780223bd3c99d47b8968acf33324a0c63123a84a44"
     },
     {
       "manual": "python",
