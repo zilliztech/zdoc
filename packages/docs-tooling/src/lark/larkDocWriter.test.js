@@ -110,9 +110,11 @@ function createWriter(blocks) {
 async function assertMdxCompiles(markdown) {
   const { compile } = await import('@mdx-js/mdx');
   const remarkMath = (await import('remark-math')).default;
-  await compile(`import Admonition from '@theme/Admonition';\n\n${markdown}`, {
+  const rehypeKatex = (await import('rehype-katex')).default;
+  return compile(`import Admonition from '@theme/Admonition';\n\n${markdown}`, {
     development: false,
     remarkPlugins: [remarkMath],
+    rehypePlugins: [rehypeKatex],
   });
 }
 
@@ -183,6 +185,44 @@ async function testStyledWhitespacePreservesCombinedMarkdownSpans() {
   ]);
 
   assert.equal(markdown, '***label*** description');
+}
+
+async function testProseDollarsDoNotBecomeMathDelimiters() {
+  const writer = createWriter([]);
+
+  // Real Chinese source shapes that caused unicodeTextInMathMode warnings:
+  // currency amounts in one prose run and repeated $meta identifiers split
+  // across styled runs. Genuine equations arrive as equation elements instead.
+  const currencyRuns = [textRun('$2.38 是最终价格，而 $2.46 是挂牌价格。')];
+  const dynamicFieldRuns = [
+    textRun('纳入一个名为 '),
+    textRun('$meta', {bold: true}),
+    textRun(' 的字段，并将所有未在 Schema 中定义的字段以键值对的方式存放到 '),
+    textRun('$meta', {bold: true}),
+    textRun(' 字段中。'),
+  ];
+  const currency = await writer.__text_elements(currencyRuns);
+  const dynamicField = await writer.__text_elements(dynamicFieldRuns);
+  const inlineCode = await writer.__text_elements([
+    textRun('$meta', {inline_code: true}),
+  ]);
+  const equation = await writer.__text_elements([
+    {equation: {content: 'x + y', text_element_style: {}}},
+  ]);
+
+  assert.equal(currency, '&#36;2.38 是最终价格，而 &#36;2.46 是挂牌价格。');
+  assert.equal(
+    dynamicField,
+    '纳入一个名为 **&#36;meta** 的字段，并将所有未在 Schema 中定义的字段以键值对的方式存放到 **&#36;meta** 字段中。'
+  );
+  assert.equal(inlineCode, '`$meta`');
+  assert.equal(equation, '$$\nx + y\n$$\n');
+  assert.equal(currencyRuns[0].text_run.content, '$2.38 是最终价格，而 $2.46 是挂牌价格。');
+  assert.equal(dynamicFieldRuns[1].text_run.content, '$meta');
+  const compiledCurrency = await assertMdxCompiles(currency);
+  const compiledDynamicField = await assertMdxCompiles(dynamicField);
+  assert.doesNotMatch(String(compiledCurrency), /katex/);
+  assert.doesNotMatch(String(compiledDynamicField), /katex/);
 }
 
 async function testBoldEndingWithPunctuationBeforeTextUsesHtmlPair() {
@@ -1035,6 +1075,7 @@ async function run() {
   await testStyledWhitespaceClosesMarkdownSpans();
   await testStyledWhitespaceKeepsAContinuousMarkdownSpan();
   await testStyledWhitespacePreservesCombinedMarkdownSpans();
+  await testProseDollarsDoNotBecomeMathDelimiters();
   await testBoldEndingWithPunctuationBeforeTextUsesHtmlPair();
   testKeywordPickerUsesStableSeed();
   testHeadingSlugDropsVisibilitySuffixes();
