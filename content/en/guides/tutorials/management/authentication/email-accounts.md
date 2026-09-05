@@ -64,7 +64,7 @@ Your password must be at least 8 characters long and include at least 3 of the f
 
 - Numbers (0–9)
 
-- Special characters (e.g., !@#$%^&*)
+- Special characters (e.g., !@#&#36;%^&&ast;)
 
 ## Enable and disable MFA\{#enable-and-disable-mfa}
 

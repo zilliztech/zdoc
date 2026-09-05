@@ -40,11 +40,11 @@ Organization-level metrics help you track billing-related issues across all proj
 
 | Metric | Description | Recommended action |
 | --- | --- | --- |
-| Usage Amount in the Past Day ($) | Cumulative usage charges over a the past day. | Monitor vs. budget; optimize usage or adjust budget as needed. |
+| Usage Amount in the Past Day (&#36;) | Cumulative usage charges over a the past day. | Monitor vs. budget; optimize usage or adjust budget as needed. |
 | Credit Validity (day) | Days left before free credits expire. | Use or extend credits before expiry. |
-| Remaining Credits ($) | Balance of free credits. | Top up when low to maintain account functionality. |
+| Remaining Credits (&#36;) | Balance of free credits. | Top up when low to maintain account functionality. |
 | Credit Card Validity (day) | Days until the saved card expires. | Update or replace card before expiry to avoid payment failures. |
-| Advance Pay Balance ($) | Remaining pre-paid funds. | Add funds when low to prevent service interruption. |
+| Advance Pay Balance (&#36;) | Remaining pre-paid funds. | Add funds when low to prevent service interruption. |
 
 ## Cluster and collection metrics\{#cluster-and-collection-metrics}
 
@@ -150,7 +150,7 @@ The **Availability** column lists the compute resources that support each metric
    <tr>
      <td><p>Cache Hit Rate (%)</p></td>
      <td><p>The average cache hit rate of all queries in the cluster, calculated as: Cache hit rate per query = (Total scanned data − Cold data scanned) / Total scanned data.</p></td>
-     <td><p><strong>Serving Clusters only</strong>: Dedicated (Tiered-storage) / BYOC</p><p>&ast;<em>This metric is only available to tiered-storage clusters compatible with Milvus 2.6.x. To access this metric, <a href="http://support.zilliz.com">contact us</a> to upgrade your cluster Milvus version.</em></p></td>
+     <td><p><strong>Serving Clusters only</strong>: Dedicated (Tiered-storage) / BYOC</p><p><em>&ast;This metric is only available to tiered-storage clusters compatible with Milvus 2.6.x. To access this metric, <a href="http://support.zilliz.com">contact us</a> to upgrade your cluster Milvus version.</em></p></td>
      <td><p>Track to identify cluster query performance.</p></td>
    </tr>
 </table>

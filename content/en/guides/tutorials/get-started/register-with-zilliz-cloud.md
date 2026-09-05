@@ -60,7 +60,7 @@ Follow the steps below to create a Zilliz Cloud account using your work email an
 
     - Numbers (0–9)
 
-    - Special characters (e.g., !@#$%^&*)
+    - Special characters (e.g., !@#&#36;%^&&ast;)
 
 1. Check the box next to **I agree to the [Terms of Service](https://zilliz.com/terms-and-conditions) and [Privacy Policy](https://zilliz.com/privacy-policy)**.
 

@@ -209,7 +209,7 @@ The parameters in the above code are described as follows:
 
 - `enable_dynamic_field=True`
 
-    The value defaults to **False**. Setting this to **True** allows **BulkWriter** to include undefined fields and their values from the generated files as key-value pairs and place them in a reserved JSON field named **$meta**. 
+    The value defaults to **False**. Setting this to **True** allows **BulkWriter** to include undefined fields and their values from the generated files as key-value pairs and place them in a reserved JSON field named **&#36;meta**. 
 
 </TabItem>
 
@@ -609,7 +609,7 @@ The above writer generates files in JSON format and uploads them to the root fol
 
 - `segment_size=1024*1024*1024`
 
-    This determines whether **BulkWriter** segments the generated files. The value defaults to 1024 MB (1024 * 1024 * 1024). If your dataset contains a great number of records, you are advised to segment your data by setting **segment_size** to a proper value.
+    This determines whether **BulkWriter** segments the generated files. The value defaults to 1024 MB (1024 &ast; 1024 &ast; 1024). If your dataset contains a great number of records, you are advised to segment your data by setting **segment_size** to a proper value.
 
 </TabItem>
 
@@ -649,7 +649,7 @@ The above writer generates files in Parquet format and uploads them to the root 
 
 - `withChunkSize(1024*1024*1024)`
 
-    This determines whether **BulkWriter** segments the generated files. The value defaults to 1024 MB (1024 * 1024 * 1024). If your dataset contains a great number of records, you are advised to segment your data by setting **withChunkSize** to a proper value.
+    This determines whether **BulkWriter** segments the generated files. The value defaults to 1024 MB (1024 &ast; 1024 &ast; 1024). If your dataset contains a great number of records, you are advised to segment your data by setting **withChunkSize** to a proper value.
 
 </TabItem>
 

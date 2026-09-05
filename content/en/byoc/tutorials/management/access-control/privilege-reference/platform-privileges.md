@@ -159,9 +159,9 @@ Data resources control project-level access to data-bearing resources. These pri
 
 | Resource | Display category | Available privileges | Object-level grant | Org Owner | Billing Admin | Public | Project Admin | Data Admin | Data Operator | Data Viewer |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `serving_cluster_data` | Compute & storage | Read, Write, * | Yes | `-` | `-` | `-` | `*` | `*` | `Read, Write` | `Read` |
-| `on_demand_compute_data` | Compute & storage | Read, Write, * | No | `-` | `-` | `-` | `*` | `*` | `Read, Write` | `Read` |
-| `volume_data` | Compute & storage | Read, Write, * | Yes | `-` | `-` | `-` | `*` | `*` | `Read, Write` | `Read` |
+| `serving_cluster_data` | Compute & storage | Read, Write, &ast; | Yes | `-` | `-` | `-` | `*` | `*` | `Read, Write` | `Read` |
+| `on_demand_compute_data` | Compute & storage | Read, Write, &ast; | No | `-` | `-` | `-` | `*` | `*` | `Read, Write` | `Read` |
+| `volume_data` | Compute & storage | Read, Write, &ast; | Yes | `-` | `-` | `-` | `*` | `*` | `Read, Write` | `Read` |
 
 When configuring data privileges, `Write` implies `Read`. Selecting `*` grants both `Read` and `Write`.
 

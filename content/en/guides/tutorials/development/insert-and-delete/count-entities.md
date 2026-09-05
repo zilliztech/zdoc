@@ -39,7 +39,7 @@ Zilliz Cloud provides two ways for you to count entities in a collection.
 
     When receiving such queries, Zilliz Cloud sends requests to the query node and counts the entities already loaded into memory.
 
-    You can specify multiple partition names in the query to obtain corresponding entity counts in these partitions. For details, see [Query with count(*) as the output field](./count-entities).
+    You can specify multiple partition names in the query to obtain corresponding entity counts in these partitions. For details, see [Query with count(&ast;) as the output field](./count-entities).
 
 - **Use `get_collection_stats()`**
 

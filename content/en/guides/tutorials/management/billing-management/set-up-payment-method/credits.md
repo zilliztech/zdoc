@@ -105,5 +105,5 @@ Zilliz Cloud provides billing alerts that help you monitor credits and payment h
 | **Metric** | **Description** | **Recommended action** |
 | --- | --- | --- |
 | Credit Validity (days) | Number of days before free credits expire. | Use eligible credits before expiry or contact [Zilliz sales](http://zilliz.com/contact-sales) if you need to extend the credit expiration to fully complete your PoC. |
-| Remaining Credits ($) | Remaining credit balance. | Add or configure another payment method before credits run out. You can contact [Zilliz sales](http://zilliz.com/contact-sales) for more PoC credits. |
+| Remaining Credits (&#36;) | Remaining credit balance. | Add or configure another payment method before credits run out. You can contact [Zilliz sales](http://zilliz.com/contact-sales) for more PoC credits. |
 

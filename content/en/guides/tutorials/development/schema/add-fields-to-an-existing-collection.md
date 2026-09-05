@@ -471,4 +471,4 @@ Storage space can be reclaimed later during compaction. Compaction is a backgrou
 
 If dynamic field is enabled, you can add a scalar field with the same name as an existing dynamic field key. The new scalar field masks the dynamic field key in normal query output, but the original dynamic data is preserved in `$meta`.
 
-For example, if existing entities store a dynamic key named `source`, and you later add a scalar field named `source`, normal output for `source` refers to the scalar field. To access the original dynamic value, use the $meta path syntax, such as `$meta["source"]`.
+For example, if existing entities store a dynamic key named `source`, and you later add a scalar field named `source`, normal output for `source` refers to the scalar field. To access the original dynamic value, use the &#36;meta path syntax, such as `$meta["source"]`.

@@ -33,7 +33,7 @@ The table below summarizes the mapping between different field types and their c
 | `BFLOAT16_VECTOR` | 2-32,768 | `COSINE`, `L2`, `IP` | `COSINE` |
 | `INT8_VECTOR` | 2-32,768 | `COSINE`, `L2`, `IP` | `COSINE` |
 | `SPARSE\_FLOAT\_VECTOR` | No need to specify the dimension. | `IP`, `BM25` (used only for full text search) | `IP` |
-| `BINARY_VECTOR` | 8-32,768*8 | `HAMMING`, `JACCARD`, `MHJACCARD` | `HAMMING` |
+| `BINARY_VECTOR` | 8-32,768&ast;8 | `HAMMING`, `JACCARD`, `MHJACCARD` | `HAMMING` |
 
 <Admonition type="info" icon="📘" title="Notes">
 

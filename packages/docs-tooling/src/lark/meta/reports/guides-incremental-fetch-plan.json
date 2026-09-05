@@ -1,59 +1,17 @@
 {
-  "generated_at": "2026-09-04T18:30:15.805Z",
+  "generated_at": "2026-09-05T02:34:08.510Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
-  "changed_records": [
-    {
-      "record_id": "recvtXguuU3VST",
-      "table_id": "tblWv7PjNDsexddH",
-      "table_name": "Development",
-      "title": "Integrate with Amazon S3",
-      "labels": "AWS S3",
-      "slug": "integrate-with-aws-s3",
-      "doc_token": "FuX7w7cfZisGBmk8chnco3msnud",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/FuX7w7cfZisGBmk8chnco3msnud",
-      "reasons": [
-        "wiki node edit time changed"
-      ]
-    },
-    {
-      "record_id": "recvtXgJhgdjur",
-      "table_id": "tblWv7PjNDsexddH",
-      "table_name": "Development",
-      "title": "Integrate with Google Cloud Storage",
-      "labels": "Google Cloud Storage",
-      "slug": "integrate-with-gcp",
-      "doc_token": "Q8LHwWmyjiPOQJkpDq8cU3bxnwg",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/Q8LHwWmyjiPOQJkpDq8cU3bxnwg",
-      "reasons": [
-        "wiki node edit time changed"
-      ]
-    }
-  ],
-  "changed_tokens": [
-    "FuX7w7cfZisGBmk8chnco3msnud",
-    "Q8LHwWmyjiPOQJkpDq8cU3bxnwg"
-  ],
-  "expanded_tokens": [
-    "FuX7w7cfZisGBmk8chnco3msnud",
-    "Q8LHwWmyjiPOQJkpDq8cU3bxnwg"
-  ],
+  "changed_records": [],
+  "changed_tokens": [],
+  "expanded_tokens": [],
   "removed_records": [],
   "removed_tokens": [],
-  "reasons_by_token": {
-    "FuX7w7cfZisGBmk8chnco3msnud": [
-      "wiki node edit time changed"
-    ],
-    "Q8LHwWmyjiPOQJkpDq8cU3bxnwg": [
-      "wiki node edit time changed"
-    ]
-  },
+  "reasons_by_token": {},
   "warnings": [],
-  "affected_tables": [
-    "tblWv7PjNDsexddH"
-  ],
+  "affected_tables": [],
   "current_table_targets": {
     "tbl9BeCMjBmalJVb": [
       "zilliz.paas",
@@ -147,7 +105,7 @@
     "tblZMzoITXNsyKmQ": "Management"
   },
   "snapshot_basis": {
-    "generated_at": "2026-09-04T05:10:29.965Z",
+    "generated_at": "2026-09-04T18:30:27.922Z",
     "records": 394
   },
   "source_scope": "partial"

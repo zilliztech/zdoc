@@ -36,11 +36,11 @@ Zilliz Cloud provides the following billing alert metrics.
 
 | **Metric** | **Description** | **Recommended action** |
 | --- | --- | --- |
-| Usage Amount in the Past Day ($) | Cumulative usage charges over the past day. | Compare usage against your budget. If usage is higher than expected, review recent activity and [optimize workloads](./cost-optimization) or adjust the budget as needed. |
+| Usage Amount in the Past Day (&#36;) | Cumulative usage charges over the past day. | Compare usage against your budget. If usage is higher than expected, review recent activity and [optimize workloads](./cost-optimization) or adjust the budget as needed. |
 | Credit Validity (days) | Number of days before free credits expire. | Use eligible credits before they expire, or [contact sales](http://zilliz.com/contact-sales) if you need help with credit validity. |
-| Remaining Credits ($) | Remaining balance of free credits. | Set up another payment method, such as [Credits](./credits) or [Credit Card](./subscribe-by-adding-credit-card), before credits run out to avoid service interruption. |
+| Remaining Credits (&#36;) | Remaining balance of free credits. | Set up another payment method, such as [Credits](./credits) or [Credit Card](./subscribe-by-adding-credit-card), before credits run out to avoid service interruption. |
 | Credit Card Validity (days) | Number of days before the saved credit card expires. | [Replace the credit card](./subscribe-by-adding-credit-card#replace-a-credit-card) before expiry to avoid payment failures. |
-| Advance Pay Balance ($) | Remaining prepaid Advance Pay balance. | [Add funds](./advance-pay#add-funds-to-advance-pay) when the balance is low to prevent payment issues or service interruption. |
+| Advance Pay Balance (&#36;) | Remaining prepaid Advance Pay balance. | [Add funds](./advance-pay#add-funds-to-advance-pay) when the balance is low to prevent payment issues or service interruption. |
 
 ## Recommended alerts\{#recommended-alerts}
 

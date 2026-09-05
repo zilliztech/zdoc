@@ -32,11 +32,11 @@ For scalar fields, **AUTOINDEX** provides an efficient mapping between field typ
 
 | Field Type | AUTOINDEX Resolves to | Description |
 | --- | --- | --- |
-| `VARCHAR` | **BITMAP** (C* < 100) / **INVERTED** ( C ≥ 100) | String data type. For details, refer to [String Field](./use-string-field). |
+| `VARCHAR` | **BITMAP** (C&ast; < 100) / **INVERTED** ( C ≥ 100) | String data type. For details, refer to [String Field](./use-string-field). |
 | `INT8`, `INT16`, `INT32`, `INT64` | **BITMAP** (C < 100) / **STL_SORT** (C ≥ 100) | Integer. For details, refer to [Boolean & Number](./use-number-field). |
-| `FLOAT`, `DOUBLE` | **BITMAP** (C* < 100) / **INVERTED** ( C ≥ 100) | Floating point. For details, refer to [Boolean & Number](./use-number-field). |
+| `FLOAT`, `DOUBLE` | **BITMAP** (C&ast; < 100) / **INVERTED** ( C ≥ 100) | Floating point. For details, refer to [Boolean & Number](./use-number-field). |
 | `BOOL` | **BITMAP** | Boolean. For details, refer to [Boolean & Number](./use-number-field). |
-| `ARRAY` | **BITMAP** (C* < 100) / **INVERTED** ( C ≥ 100) | Homogeneous array of scalar values. For details, refer to [Array Field](./use-array-fields). |
+| `ARRAY` | **BITMAP** (C&ast; < 100) / **INVERTED** ( C ≥ 100) | Homogeneous array of scalar values. For details, refer to [Array Field](./use-array-fields). |
 | `GEOMETRY` | **RTREE** | Geometric data that stores spatial information. For details, refer to [Geometry Field](./use-geometry-field). |
 | `TIMESTAMPTZ` | **STL_SORT** | time zone-aware ISO 8601 inputs, stored as UTC for consistent filtering and ordering across time zones. For details, refer to [TIMESTAMPTZ Field](./use-timestamptz-field). |
 

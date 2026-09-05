@@ -56,16 +56,16 @@ The table below provides a quick reference chart of vCU usage and costs for writ
 
 For larger datasets, simply scale the vCU usage and cost proportionately. For example, writing 10 million 768-dimensional vectors would use approximately 7.5 million vCUs and cost around &#36;30.
 
-| **Data Size (*)** | **Write vCU usage (million)** | **Write Cost** |
+| **Data Size (&ast;)** | **Write vCU usage (million)** | **Write Cost** |
 | --- | --- | --- |
 | 1 million 128-dim vectors | 0.125 | &#36;0.5 |
 | 1 million 768-dim vectors | 0.75 | &#36;3 |
 | 1 million 1536-dim vectors | 1.5 | &#36;6 |
 | 1 million 2560-dim vectors | 2.5 | &#36;10 |
 
-**The data size in the table above excludes scalars.*
+*&ast;The data size in the table above excludes scalars.*
 
-**If your schema contains multiple vector fields, the write cost increases linearly. For example, if your schema has two 128-dimensional vector fields, the vCU usage for writing 1 million entities is 0.125 × 2 = 0.25, and the write cost is approximately &#36;0.5 × 2 = &#36;1.*
+*&ast;If your schema contains multiple vector fields, the write cost increases linearly. For example, if your schema has two 128-dimensional vector fields, the vCU usage for writing 1 million entities is 0.125 × 2 = 0.25, and the write cost is approximately &#36;0.5 × 2 = &#36;1.*
 
 For a precise calculation of the write vCU usage and cost, please refer to the following metrics:
 
@@ -117,7 +117,7 @@ Vector Database Cost (Read) = vCU Unit Price x Read vCU Usage
 
 The table below provides examples of vCU usage and costs for 1 million read requests on varying amounts of data:
 
-| **Scan Data Size (*)** | **Read vCU Usage (million)** | **Read Cost** |
+| **Scan Data Size (&ast;)** | **Read vCU Usage (million)** | **Read Cost** |
 | --- | --- | --- |
 | 1 million 128-dim vectors | 5 | &#36;20 |
 | 1 million 768-dim vectors | 15 | &#36;60 |
@@ -129,7 +129,7 @@ The table below provides examples of vCU usage and costs for 1 million read requ
 | 10 billion 1536-dim vectors | 1,495 | &#36;5980 |
 | 1 million 2560-dim vectors | 30 | &#36;120 |
 
-**The data size in the table above excludes scalars.* 
+*&ast;The data size in the table above excludes scalars.* 
 
 In the table above, it can be noted that when the data size grow from 1 million to 10 million and even to 100 million, the vCU usage does not increase proportionately. 
 
