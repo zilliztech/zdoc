@@ -77,7 +77,7 @@ zilliz role revoke-privilege
 
     **[REQUIRED]**
 
-    Indicates the object name (or * for all).
+    Indicates the object name (or &ast; for all).
 
 - **--privilege** (*string*) -
 
