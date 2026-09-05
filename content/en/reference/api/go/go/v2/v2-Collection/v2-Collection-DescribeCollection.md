@@ -53,7 +53,7 @@ result, err := client.DescribeCollection(ctx, option)
 
 **RETURN TYPE:**
 
-*[collection* ](./v2-Collection)entity.Collection, err error*
+*[collection* ](./v2-Collection)entity.Collection, err error&ast;
 
 **RETURNS:**
 

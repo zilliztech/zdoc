@@ -134,7 +134,7 @@ Represents the schema of a collection, including field definitions, functions, a
 
     This indicates whether Milvus automatically generates primary keys.
 
-- **Fields** (<em>[]</em>Field*) -
+- **Fields** (<em>[]</em>Field&ast;) -
 
     This contains the collection field definitions.
 
@@ -142,7 +142,7 @@ Represents the schema of a collection, including field definitions, functions, a
 
     This indicates whether the dynamic field is enabled.
 
-- **Functions** (<em>[]</em>Function*) -
+- **Functions** (<em>[]</em>Function&ast;) -
 
     This contains the built-in function definitions.
 

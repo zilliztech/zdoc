@@ -64,7 +64,7 @@ resp, err := bulkwriter.ListImportJobs(ctx, option)
 
 **RETURN TYPE:**
 
-&lt;em>\</em>ListImportJobsResponse, error*
+&lt;em>\</em>ListImportJobsResponse, error&ast;
 
 **RETURNS:**
 

@@ -59,7 +59,7 @@ result, err := client.ListRestoreSnapshotJobs(option)
 
 **RETURN TYPE:**
 
-*[]*milvuspb.RestoreSnapshotInfo*, *error*
+*[]&ast;milvuspb.RestoreSnapshotInfo*, *error*
 
 **RETURNS:**
 

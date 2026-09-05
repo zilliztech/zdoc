@@ -53,7 +53,7 @@ result, err := client.DescribeUser(ctx, option)
 
 **RETURN TYPE:**
 
-**[entity.User](./v2-Authentication-User), error*
+&ast;*[entity.User](./v2-Authentication-User), error*
 
 **RETURNS:**
 

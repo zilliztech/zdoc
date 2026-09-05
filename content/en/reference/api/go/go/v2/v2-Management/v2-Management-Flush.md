@@ -53,7 +53,7 @@ result, err := client.Flush(ctx, option)
 
 **RETURN TYPE:**
 
-**[FlushTask](./v2-Management-FlushTask), error*
+&ast;*[FlushTask](./v2-Management-FlushTask), error*
 
 **RETURNS:**
 

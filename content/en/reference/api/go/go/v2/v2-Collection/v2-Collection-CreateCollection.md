@@ -45,7 +45,7 @@ func (c *Client) CreateCollection(ctx context.Context, option CreateCollectionOp
 
     The name of the collection to create.
 
-- **collectionSchema** (**entity.Schema*) -
+- **collectionSchema** (&ast;*entity.Schema*) -
 
     **[REQUIRED]**
 

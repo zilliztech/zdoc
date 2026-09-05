@@ -53,7 +53,7 @@ result, err := client.DescribeAlias(ctx, option)
 
 **RETURN TYPE:**
 
-**[entity.Alias](./v2-Collection-Alias), error*
+&ast;*[entity.Alias](./v2-Collection-Alias), error*
 
 **RETURNS:**
 

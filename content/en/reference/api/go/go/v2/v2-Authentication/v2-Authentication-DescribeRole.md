@@ -60,7 +60,7 @@ result, err := client.DescribeRole(ctx, option)
 
 **RETURN TYPE:**
 
-**[entity.Role](./v2-Authentication-Role), error*
+&ast;*[entity.Role](./v2-Authentication-Role), error*
 
 **RETURNS:**
 

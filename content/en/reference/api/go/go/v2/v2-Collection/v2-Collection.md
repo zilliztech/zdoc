@@ -58,7 +58,7 @@ type Collection struct {
 
     collection name
 
-- **[Schema](./v2-Collection-Schema)** (**[Schema](./v2-Collection-Schema)*)
+- **[Schema](./v2-Collection-Schema)** (&ast;*[Schema](./v2-Collection-Schema)*)
 
     collection schema, with fields schema and primary key definition
 

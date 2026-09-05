@@ -53,7 +53,7 @@ result, err := client.DescribeDatabase(ctx, option)
 
 **RETURN TYPE:**
 
-**entity.Database, error*
+&ast;*entity.Database, error*
 
 **RETURNS:**
 

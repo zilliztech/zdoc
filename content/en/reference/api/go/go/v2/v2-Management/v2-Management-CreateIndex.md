@@ -68,7 +68,7 @@ result, err := client.CreateIndex(ctx, option)
 
 **RETURN TYPE:**
 
-**[CreateIndexTask](./v2-Management-CreateIndexTask), error*
+&ast;*[CreateIndexTask](./v2-Management-CreateIndexTask), error*
 
 **RETURNS:**
 

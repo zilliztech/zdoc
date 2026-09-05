@@ -39,7 +39,7 @@ func (c *Client) BackupRBAC(ctx context.Context, option BackupRBACOption, callOp
 
 **RETURN TYPE:**
 
-**[entity.RBACMeta](./v2-Authentication-RBACMeta), error*
+&ast;*[entity.RBACMeta](./v2-Authentication-RBACMeta), error*
 
 **RETURNS:**
 

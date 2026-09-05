@@ -95,7 +95,7 @@ Configuration for creating a Milvus client, including address, authentication, T
 
     Dial options for GRPC.
 
-- **RetryRateLimit** (**RetryRateLimitOption*) -
+- **RetryRateLimit** (&ast;*RetryRateLimitOption*) -
 
     option for retry on rate limit inteceptor.
 
@@ -103,7 +103,7 @@ Configuration for creating a Milvus client, including address, authentication, T
 
     This prevents the client from establishing the gRPC connection when set to true.
 
-- **TelemetryConfig** (**TelemetryConfig*) -
+- **TelemetryConfig** (&ast;*TelemetryConfig*) -
 
     This configures client telemetry settings.
 

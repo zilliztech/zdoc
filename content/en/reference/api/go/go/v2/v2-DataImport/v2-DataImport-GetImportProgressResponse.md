@@ -71,7 +71,7 @@ type ImportProgressDetail struct {
 - **Message** (*string*) -<br/>
   Inherited from `ResponseBase`. Error description when `Status` is non-zero.
 
-- **Data** (&lt;em>\</em>ImportProgressData*) -<br/>
+- **Data** (&lt;em>\</em>ImportProgressData&ast;) -<br/>
   The progress payload for the requested job.
 
 **ImportProgressData fields:**

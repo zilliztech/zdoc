@@ -39,7 +39,7 @@ func New(ctx context.Context, config *ClientConfig) (*Client, error)
 
 **RETURN TYPE:**
 
-**Client, error*
+&ast;*Client, error*
 
 **RETURNS:**
 

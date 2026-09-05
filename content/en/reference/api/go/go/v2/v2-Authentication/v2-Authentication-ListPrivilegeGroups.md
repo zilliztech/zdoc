@@ -39,7 +39,7 @@ func (c *Client) ListPrivilegeGroups(ctx context.Context, option ListPrivilegeGr
 
 **RETURN TYPE:**
 
-<em>[]</em>entity.PrivilegeGroup, error*
+<em>[]</em>entity.PrivilegeGroup, error&ast;
 
 **RETURNS:**
 
