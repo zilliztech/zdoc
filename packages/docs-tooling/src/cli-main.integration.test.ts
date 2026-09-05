@@ -318,13 +318,13 @@ describe('docs-tooling executable composition root', () => {
     }
     const file = 'content/zh-CN/guides/tutorials/a.md';
     mkdirSync(path.join(repositoryRoot, path.dirname(file)), {recursive: true});
-    writeFileSync(path.join(repositoryRoot, file), 'published a\n');
+    writeFileSync(path.join(repositoryRoot, file), '---\ntoken: DOCa\n---\npublished a\n');
     writeJson(repositoryRoot, 'generated/zh-CN/manifests/guides-source-publication.json', {
       schemaVersion: 1,
       site: 'zh-CN',
       group: 'guides',
       files: [file],
-      records: [{path: file, sha256: createHash('sha256').update('published a\n').digest('hex'), docToken: 'DOCa', revisionId: '2'}],
+      records: [{path: file, sha256: createHash('sha256').update('---\ntoken: DOCa\n---\npublished a\n').digest('hex'), docToken: 'DOCa', revisionId: '2'}],
     });
     const valid = runCli(repositoryRoot, ['validate-revision-inventory', '--site', 'zh-CN']);
     expect(valid.status).toBe(0);
@@ -334,6 +334,29 @@ describe('docs-tooling executable composition root', () => {
     const tampered = runCli(repositoryRoot, ['validate-revision-inventory', '--site', 'zh-CN']);
     expect(tampered.status).not.toBe(0);
     expect(tampered.stderr).toMatch(/hash mismatch: content\/zh-CN\/guides\/tutorials\/a\.md/);
+  });
+
+  it('rejects a Chinese Guides manifest whose Feishu token does not match published frontmatter', () => {
+    const repositoryRoot = temporaryRoot();
+    seedReferenceSidebars(repositoryRoot, ['guides']);
+    for (const group of ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest']) {
+      writeJson(repositoryRoot, `generated/en/manifests/lark-revisions/${group}.json`, revisionInventory(group));
+    }
+    const file = 'content/zh-CN/guides/tutorials/a.md';
+    const contents = '---\ntoken: DOCactual\n---\npublished a\n';
+    mkdirSync(path.join(repositoryRoot, path.dirname(file)), {recursive: true});
+    writeFileSync(path.join(repositoryRoot, file), contents);
+    writeJson(repositoryRoot, 'generated/zh-CN/manifests/guides-source-publication.json', {
+      schemaVersion: 1,
+      site: 'zh-CN',
+      group: 'guides',
+      files: [file],
+      records: [{path: file, sha256: createHash('sha256').update(contents).digest('hex'), docToken: 'DOCwrong', revisionId: '2'}],
+    });
+
+    const result = runCli(repositoryRoot, ['validate-revision-inventory', '--site', 'zh-CN']);
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toMatch(/doc token mismatch: content\/zh-CN\/guides\/tutorials\/a\.md/);
   });
 
   it('accepts a legacy 4-key Chinese Guides manifest for --site zh-CN validation', () => {

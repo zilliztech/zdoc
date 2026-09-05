@@ -28,6 +28,7 @@ class larkDocScraper {
         this.target_type = target_type
         this.doc_source_dir = doc_source_dir
         this.base_tables = null
+        this.nodeMetadataByToken = new Map()
         this.limiter = new Bottleneck({
             maxConcurrent: FEISHU_MAX_CONCURRENT,
             minTime: FEISHU_MIN_TIME_MS,
@@ -70,6 +71,18 @@ class larkDocScraper {
         return jres.data.node
     }
 
+    async fetch_docx_metadata(documentToken) {
+        await this.__ensure_token()
+        const url = `${FEISHU_HOST}/open-apis/docx/v1/documents/${encodeURIComponent(documentToken)}`
+        const jres = await this.__fetchFeishuJson(url, { method: 'get' }, `get docx metadata ${documentToken}`)
+        const document = jres?.data?.document
+        if (jres.code !== 0 || !document || document.document_id !== documentToken
+            || !Number.isInteger(document.revision_id) || document.revision_id < 1) {
+            throw new Error(`[docx-metadata] Failed to resolve current revision for ${documentToken}: ${JSON.stringify(jres)}`)
+        }
+        return document
+    }
+
     __wiki_obj_type_from_link(link) {
         if (!link) return null
         try {
@@ -110,6 +123,9 @@ class larkDocScraper {
                 if (node.node_type === 'shortcut' && node.origin_node_token) {
                     node = await this.fetch_wiki_node(node.origin_node_token)
                 }
+                const document = node.obj_type === 'docx'
+                    ? await this.fetch_docx_metadata(node.obj_token)
+                    : null
                 metadataByToken.set(record.doc_token, {
                     requested_token: record.doc_token,
                     requested_node_token: requestedNodeToken,
@@ -124,7 +140,7 @@ class larkDocScraper {
                     node_create_time: node.node_create_time || null,
                     obj_create_time: node.obj_create_time || null,
                     obj_edit_time: node.obj_edit_time || null,
-                    revision_id: node.revision_id || node.revision || null,
+                    revision_id: document ? String(document.revision_id) : null,
                 })
             } catch (error) {
                 console.warn(`[wiki-node] ${error.message}`)
@@ -138,6 +154,7 @@ class larkDocScraper {
                 console.log(`${progressLabel}: resolved ${processed}/${canonicalRecords.length} wiki node(s)`)
             }
         }
+        this.nodeMetadataByToken = metadataByToken
         return metadataByToken
     }
 
@@ -1506,7 +1523,34 @@ class larkDocScraper {
         }
     }
 
-    async __fetch_blocks(node, page_token=null, attempt=1) {
+    async __fetch_block_pages(node, token, revisionId, pageToken=null) {
+        const query = new URLSearchParams({ document_revision_id: String(revisionId) })
+        if (pageToken) query.set('page_token', pageToken)
+        const url = `${FEISHU_HOST}/open-apis/docx/v1/documents/${encodeURIComponent(token)}/blocks?${query.toString()}`
+        const jres = await this.__fetchFeishuJson(url, { method: 'get' }, `get docx blocks ${token} revision ${revisionId}`)
+        if (jres.code !== 0) {
+            throw new Error(`[fetch_blocks] Failed to fetch blocks for token ${token} at revision ${revisionId}: ${JSON.stringify(jres)}`)
+        }
+        if (pageToken === null) {
+            node.blocks = { items: jres.data.items, counts: jres.data.items.length }
+        } else {
+            jres.data.items.forEach(item => node.blocks.items.push(item))
+            node.blocks.counts = node.blocks.items.length
+        }
+        if (jres.data.has_more && jres.data.page_token) {
+            await this.__fetch_block_pages(node, token, revisionId, jres.data.page_token)
+        }
+    }
+
+    __record_docx_revision(node, token, revisionId) {
+        const normalized = String(revisionId)
+        node.revision_id = normalized
+        for (const metadata of this.nodeMetadataByToken.values()) {
+            if (metadata?.obj_token === token) metadata.revision_id = normalized
+        }
+    }
+
+    async __fetch_blocks(node, attempt=1) {
         var token;
         const keys = Object.keys(node)
         if (keys.includes('obj_type') && node.obj_type == 'docx') {
@@ -1516,24 +1560,10 @@ class larkDocScraper {
         }
 
         if (token) {
-            const page_token_expr = page_token ? `?page_token=${page_token}` : ''
-            let url = `${FEISHU_HOST}/open-apis/docx/v1/documents/${token}/blocks${page_token_expr}`
-            let jres = await this.__fetchFeishuJson(url, { method: 'get' }, `get docx blocks ${token}`)
-
-            if (jres.code == 0) {
-                if (page_token === null) {
-                    node.blocks = {}
-                    node.blocks.items = jres.data.items
-                    node.blocks.counts = jres.data.items.length
-                } else {
-                    jres.data.items.forEach(item => node.blocks.items.push(item))
-                    node.blocks.counts = node.blocks.items.length
-                }
-
-                if (jres.data.has_more && jres.data.page_token) {
-                    await this.__fetch_blocks(node, jres.data.page_token)
-                }
-
+            try {
+                const document = await this.fetch_docx_metadata(token)
+                this.__record_docx_revision(node, token, document.revision_id)
+                await this.__fetch_block_pages(node, token, document.revision_id)
                 if (node.blocks.counts > 0) {
                     for (let item of node.blocks.items) {
                         if (Object.keys(item).includes('sheet')) {
@@ -1546,15 +1576,15 @@ class larkDocScraper {
                         }
                     }
                 }
-            } else {
+            } catch (error) {
                 const MAX_ATTEMPTS = 3
                 if (attempt < MAX_ATTEMPTS) {
                     const backoff = attempt * 2000
-                    console.warn(`[fetch_blocks] Unexpected error code ${jres.code} for token ${token} (attempt ${attempt}/${MAX_ATTEMPTS}). Retrying in ${backoff}ms...`)
+                    console.warn(`[fetch_blocks] ${error.message} (attempt ${attempt}/${MAX_ATTEMPTS}). Retrying the complete document in ${backoff}ms...`)
                     await this.__wait(backoff)
-                    await this.__fetch_blocks(node, page_token, attempt + 1)
+                    await this.__fetch_blocks(node, attempt + 1)
                 } else {
-                    throw new Error(`[fetch_blocks] Failed to fetch blocks for token ${token} after ${MAX_ATTEMPTS} attempts. Last error code: ${jres.code} — ${JSON.stringify(jres)}`)
+                    throw new Error(`[fetch_blocks] Failed to fetch blocks for token ${token} after ${MAX_ATTEMPTS} complete-document attempts: ${error.message}`)
                 }
             }
         }
