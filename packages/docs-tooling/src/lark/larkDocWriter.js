@@ -2792,13 +2792,18 @@ class larkDocWriter {
         }
 
         if (!content.match(/^\s+$/) && !asis) {
-            element['text_run']['content'] = content.replace(/\$/g, '&#36;') // escape $ for markdown
-                                                .replace(/\*/g, '&ast;') // escape * for markdown
-            
+            // A text_run is prose, not a Feishu equation. Escape Markdown
+            // delimiters in the value we return so remark-math cannot pair
+            // currency/identifier dollars across Chinese prose. Keep the source
+            // block unchanged: style-boundary detection below still needs the
+            // original neighbouring runs, and callers may reuse the source.
+            const markdownContent = content.replace(/\$/g, '&#36;')
+                                           .replace(/\*/g, '&ast;')
+
             if (style['inline_code']) {
                 content = this.__style_markdown(element, elements, 'inline_code', '`', content);
-                content = content.replaceAll('&#36;', '$')
-                content = content.replaceAll('&ast;', '*')
+            } else {
+                content = markdownContent;
             }
                          
             if (style['bold']) {
