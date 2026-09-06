@@ -504,7 +504,7 @@ function stagedManifestPath(repositoryRoot: string, group: PublicationGroup, gro
   );
 }
 
-function guidesSnapshotEvidence(repositoryRoot: string, group: PublicationGroup): ReadonlyMap<string, string | null> {
+export function guidesSnapshotEvidence(repositoryRoot: string, group: PublicationGroup): ReadonlyMap<string, string | null> {
   if (group.site !== 'zh-CN' || !group.manuals.includes('guides')) return new Map();
   const snapshotPath = resolveSecureRepositoryPath(
     repositoryRoot,
@@ -525,15 +525,39 @@ function guidesSnapshotEvidence(repositoryRoot: string, group: PublicationGroup)
       : (typeof record.node_metadata?.revision_id === 'string' && record.node_metadata.revision_id
         ? record.node_metadata.revision_id
         : null);
+    if (revisionByToken.has(docToken)) {
+      throw new Error(`Guides source snapshot candidate contains duplicate doc token: ${docToken}`);
+    }
     revisionByToken.set(docToken, revisionId);
   }
   return revisionByToken;
 }
 
-function stagedFileDocToken(source: string): string | null {
-  const contents = readFileSync(source, 'utf8');
+export function sourcePublicationDocToken(contents: string): string | null {
   const match = contents.match(/^token:\s*['"]?([^'"\r\n]+)['"]?\s*$/mu);
   return match?.[1]?.trim() || null;
+}
+
+export function validateSourcePublicationManifestFiles(
+  repositoryRoot: string,
+  group: PublicationGroup,
+  manifest: SourcePublicationManifest,
+  options: Readonly<{validateFeishuAnchors?: boolean}> = {},
+): void {
+  for (const record of manifest.records) {
+    const file = resolveOwnedRepositoryPath(repositoryRoot, record.path, 'Chinese Guides publication file');
+    if (!existsSync(file) || !lstatSync(file).isFile() || lstatSync(file).isSymbolicLink()) {
+      throw new Error(`Chinese Guides publication file is missing or unsafe: ${record.path}`);
+    }
+    const contents = readFileSync(file);
+    if (sha256(contents) !== record.sha256) {
+      throw new Error(`Chinese Guides publication file hash mismatch: ${record.path}`);
+    }
+    if (options.validateFeishuAnchors
+      && sourcePublicationDocToken(contents.toString('utf8')) !== record.docToken) {
+      throw new Error(`Chinese Guides publication file doc token mismatch: ${record.path}`);
+    }
+  }
 }
 
 function writeStagedManifest(repositoryRoot: string, group: PublicationGroup, groupName: string): void {
@@ -542,7 +566,7 @@ function writeStagedManifest(repositoryRoot: string, group: PublicationGroup, gr
   const revisionByToken = guidesSnapshotEvidence(repositoryRoot, group);
   const records = files.map(file => {
     const source = sourceForManifestFile(repositoryRoot, group, file);
-    const docToken = stagedFileDocToken(source);
+    const docToken = sourcePublicationDocToken(readFileSync(source, 'utf8'));
     return {
       path: file,
       sha256: sha256(readFileSync(source)),

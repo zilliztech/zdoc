@@ -238,6 +238,8 @@
         "scripts/docs-workflow/guides-*",
         "packages/docs-tooling/src/lark/guidesBaseRecordSemantics.js",
         "packages/docs-tooling/src/lark/index.js",
+        "packages/docs-tooling/src/lark/larkDocScraper.js",
+        "packages/docs-tooling/src/lark/larkDocScraper.test.js",
         "packages/docs-tooling/src/lark/larkDocWriter.js",
         "packages/docs-tooling/src/lark/larkDocWriter.test.js",
         "packages/docs-tooling/src/lark/larkDocWriter.beta.test.js",
@@ -250,7 +252,10 @@
         ".github/workflows/_fetch-guides-sources.yml",
         ".github/workflows/_render-guides-table.yml"
       ],
-      "focusedTests": ["pnpm test:guides-workflow"],
+      "focusedTests": [
+        "node packages/docs-tooling/src/lark/larkDocScraper.test.js",
+        "pnpm test:guides-workflow"
+      ],
       "harnesses": ["pnpm test:replay:fetch"],
       "gates": ["pnpm test:workflow-policy"],
       "reason": "Guides cache, assembly, render, and table artifacts feed site-qualified Fetch units and final card evidence."
@@ -427,6 +432,8 @@
       "paths": [
         "packages/docs-tooling/src/workflows/run.ts",
         "packages/docs-tooling/src/workflows/groups.ts",
+        "packages/docs-tooling/src/workflows/run.test.ts",
+        "packages/docs-tooling/src/workflows/groups.test.ts",
         "generated/zh-CN/manifests/guides-source-publication.json"
       ],
       "focusedTests": ["pnpm vitest run packages/docs-tooling/src/workflows/run.test.ts packages/docs-tooling/src/workflows/groups.test.ts"],
