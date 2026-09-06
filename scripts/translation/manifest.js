@@ -193,10 +193,14 @@ function candidateOwnership({group, target}) {
   if (forceTranslationPaths.length > 0 && target !== 'zh-CN-reference') {
     throw new Error('Forced Reference landing translation requires target zh-CN-reference')
   }
+  const preservedSourcePaths = [...new Set([...paths.preservedEnglish, ...forceTranslationPaths])]
   return {
     group,
-    ownedSourcePaths: paths.englishOutputs.filter(sourcePath => sourcePath.startsWith('content/en/')),
-    preservedSourcePaths: [...new Set([...paths.preservedEnglish, ...forceTranslationPaths])],
+    ownedSourcePaths: [...new Set([
+      ...paths.englishOutputs.filter(sourcePath => sourcePath.startsWith('content/en/')),
+      ...preservedSourcePaths,
+    ])],
+    preservedSourcePaths,
     forceTranslationPaths,
   }
 }

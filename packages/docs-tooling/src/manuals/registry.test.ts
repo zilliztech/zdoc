@@ -340,6 +340,15 @@ describe('manual registry contract', () => {
     expect(chinese.publication.preservedFiles).toEqual(['restful.md']);
   });
 
+  it('declares Java and Go landing pages outside their versioned output roots', () => {
+    expect(resolveManualPublication('java', 'en').publication.preservedPaths).toEqual([
+      'content/en/reference/api/java/java/java.md',
+    ]);
+    expect(resolveManualPublication('go', 'en').publication.preservedPaths).toEqual([
+      'content/en/reference/api/go/go/go.md',
+    ]);
+  });
+
   it('rejects retired paths that overlap any active publication target', () => {
     const retiring = manual({
       id: 'retiring',

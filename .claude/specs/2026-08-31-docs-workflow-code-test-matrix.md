@@ -43,7 +43,7 @@ The current master-authoritative exceptions are:
 - `config/translation/reconciliation-policy.json`
 - `config/translation/reconciliation-policy-exceptions.json`
 - `content/en/guides/tutorials/home.md`
-- the preserved C++, Node.js, Python, REST, and CLI landing/error/versioning files enumerated by `masterAuthoritativePaths`
+- the preserved C++, Go, Java, Node.js, Python, REST, and CLI landing/error/versioning files enumerated by `masterAuthoritativePaths`
 
 Do not infer ownership merely from the top-level directory: `content/**` is normally dev-owned, but the exact preserved files above are master-owned; most of `packages/**` is master-owned, but the three Lark metadata roots are dev-owned. If the ownership contract changes, update its tests, this table, and the selector in the same PR. Jenkins and release verification must use the final exact `dev` SHA, not the `master` tooling SHA or a branch name.
 
@@ -51,6 +51,7 @@ Do not infer ownership merely from the top-level directory: `content/**` is norm
 
 | Code surface | Modify or add tests here | Required replay harness | Broader gates |
 |---|---|---|---|
+| Publication diagnostics and exact owned targets (`packages/docs-tooling/src/publication/diagnostics*`) | `pnpm vitest run packages/docs-tooling/src/publication/diagnostics.test.ts`; cover identity hashing and every separately replaced path | `pnpm test:replay:fetch` | `pnpm test:workflow-policy` + `git diff --check` |
 | REST OpenAPI fragments and fragment migration inventory (`packages/docs-tooling/src/reference/rest/meta/openapi/**`, `fragment-migration.json`) | `integratedSpecBuilder`, `integratedSpecArtifacts`, `fragmentCollection`, integrated-spec CLI, and completeness-receipt tests | `pnpm test:rest-publication-contract` | `pnpm test:workflow-matrix` + `git diff --check` |
 | Reference navigation validation (`packages/docs-tooling/src/validation/referenceNavigation*`) | `pnpm vitest run packages/docs-tooling/src/validation/referenceNavigation.test.ts`; ordinary locales remain fail-closed, while independently generated REST navigation is validated per site without an English-structure dependency | — | `pnpm test:workflow-policy` + `git diff --check` |
 | Reference Translation manifest (`packages/docs-tooling/src/reference/translationManifest*`) | Focused manifest unit and integration tests; preserve generic Translation pairing, REST generation ownership, and explicit language exclusions | — | `pnpm test:rest-publication-contract` |

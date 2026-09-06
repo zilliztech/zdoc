@@ -13,11 +13,7 @@ function preservedFilePaths(registry = loadTypeScript('../../packages/docs-tooli
   const paths = [];
   for (const entry of registry.publicationEntries(registry.manualRegistry)) {
     if (entry.site !== 'en') continue;
-    const files = entry.publication.preservedFiles;
-    if (!files || files.length === 0) continue;
-    for (const file of files) {
-      paths.push(`${entry.publication.outputDir}/${file}`);
-    }
+    paths.push(...registry.publicationPreservedPaths(entry.publication));
   }
   return [...new Set(paths)].sort();
 }
