@@ -1258,14 +1258,22 @@ async function defaultPublish(
   if (!context.publicationDiagnostics) throw new Error('Validated publication diagnostics are missing');
   const localizedTargets = localizedRestTargets(context.request.site, context.publication as ManualPublication);
   const localizedOutputDirs = localizedTargets.map(target => target.outputDir);
+  const preservedPaths = context.publication.preservedPaths ?? [];
   const ownedTargets = publicationOwnedTargets(context.request.site, context.publication as ManualPublication);
-  const removalTargets = ownedTargets.filter(target => target !== context.publication.outputDir && target !== context.publication.sidebarPath && !localizedOutputDirs.includes(target));
+  const removalTargets = ownedTargets.filter(target => target !== context.publication.outputDir
+    && target !== context.publication.sidebarPath
+    && !localizedOutputDirs.includes(target)
+    && !preservedPaths.includes(target));
   await replace({
     publicationRoot: context.repositoryRoot,
     baselineCommit: context.publicationDiagnostics.baselineCommit,
     replacements: [
       {source: staged.outputPath, target: context.publication.outputDir},
       {source: staged.sidebarPath, target: context.publication.sidebarPath},
+      ...preservedPaths.map(target => ({
+        source: resolveSecureRepositoryPath(context.stagePath, target, 'Staged preserved publication file', {finalKind: 'file'}),
+        target,
+      })),
       ...localizedTargets.map(localized => ({
         source: resolveSecureRepositoryPath(context.stagePath, localized.outputDir, 'Staged localized REST outputDir'),
         target: localized.outputDir,
