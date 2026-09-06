@@ -9,7 +9,7 @@ import {
   type CliDependencies,
   type CommandContext,
 } from '../cli.ts';
-import {resolveManualPublication} from '../manuals/registry.ts';
+import {publicationPreservedPaths, resolveManualPublication} from '../manuals/registry.ts';
 import type {SiteId} from '../manuals/schema.ts';
 import {atomicReplace, ownedTreeCommit, type AtomicReplaceOptions} from '../publication/atomicReplace.ts';
 import {publicationOwnedTargets} from '../publication/diagnostics.ts';
@@ -750,11 +750,11 @@ async function prepareTreeOwnedBaseline(
     }
     for (const manual of group.manuals) {
       const publication = resolveManualPublication(manual, group.site).publication;
-      for (const relativePath of publication.preservedFiles ?? []) {
+      for (const relativePath of publicationPreservedPaths(publication)) {
         copyRegularPublicationFile(
           repositoryRoot,
           restoreStage,
-          `${publication.outputDir}/${relativePath}`,
+          relativePath,
         );
       }
     }

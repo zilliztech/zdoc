@@ -237,6 +237,7 @@ function publication(
   generatorTarget: ManualPublication['generatorTarget'] = 'zilliz',
   retiredPaths?: string[],
   preservedFiles?: string[],
+  preservedPaths?: string[],
 ): ManualPublication {
   return {
     enabled: true,
@@ -249,7 +250,20 @@ function publication(
     missingContent: 'error',
     ...(retiredPaths ? {retiredPaths} : {}),
     ...(preservedFiles ? {preservedFiles} : {}),
+    ...(preservedPaths ? {preservedPaths} : {}),
   };
+}
+
+export function publicationPreservedPaths(publication: Readonly<{
+  outputDir?: string;
+  preservedFiles?: readonly string[];
+  preservedPaths?: readonly string[];
+}>): readonly string[] {
+  if (!publication.outputDir) throw new Error('Publication outputDir is required to resolve preserved paths');
+  return Object.freeze([
+    ...(publication.preservedFiles ?? []).map(file => `${publication.outputDir}/${file}`),
+    ...(publication.preservedPaths ?? []),
+  ]);
 }
 
 const definitions: ManualDefinition[] = [
@@ -330,7 +344,7 @@ const definitions: ManualDefinition[] = [
     },
     sourceOrder: ['english-v2.4', 'english-v2.6', 'english-v3.0', 'chineseTranslation'],
     publications: {
-      en: publication('en', 'english-v3.0', 'reference/api/go/go/v2', 'reference', 'go', 'zilliz', ['reference/api/go/go/v1']),
+      en: publication('en', 'english-v3.0', 'reference/api/go/go/v2', 'reference', 'go', 'zilliz', ['reference/api/go/go/v1'], undefined, ['content/en/reference/api/go/go/go.md']),
       'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/api/go/go/v2', 'reference', 'go', 'zilliz', ['reference/api/go/go/v1']),
     },
     presentation: {
@@ -390,7 +404,7 @@ const definitions: ManualDefinition[] = [
     },
     sourceOrder: ['english-v1-2.4', 'english-v2-2.4', 'english-v2.5', 'english-v2.6', 'english-v3.0', 'chineseTranslation'],
     publications: {
-      en: publication('en', 'english-v3.0', 'reference/api/java/java/v2', 'reference', 'java', 'zilliz', ['reference/api/java/java/v1']),
+      en: publication('en', 'english-v3.0', 'reference/api/java/java/v2', 'reference', 'java', 'zilliz', ['reference/api/java/java/v1'], undefined, ['content/en/reference/api/java/java/java.md']),
       'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/api/java/java/v2', 'reference', 'java', 'zilliz', ['reference/api/java/java/v1']),
     },
     presentation: {

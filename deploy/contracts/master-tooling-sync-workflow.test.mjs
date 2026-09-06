@@ -97,6 +97,8 @@ test('the ownership contract covers every generated publication root and keeps r
     'config/translation/reconciliation-policy-exceptions.json',
     'content/en/guides/tutorials/home.md',
     'content/en/reference/api/cpp/cpp/cpp.md',
+    'content/en/reference/api/go/go/go.md',
+    'content/en/reference/api/java/java/java.md',
     'content/en/reference/api/nodejs/nodejs/nodejs.md',
     'content/en/reference/api/python/python/python.md',
     'content/en/reference/api/restful/restful/restful.md',

@@ -15,7 +15,7 @@ The sync (`sync-master-tooling-to-dev.yml`) enforces ownership through `deploy/c
 
 ### The landing-page exception (the most common trap)
 
-`preservedFiles` (typically the manual's landing page) live *under* the dev-owned `content/` root but are actually master-authored: the fetch restores them from `MASTER_SHA`. For master to touch them legally, each preserved path **must** be declared in `masterAuthoritativePaths` in `deploy/contracts/master-tooling-sync.json`. `isDevOwned()` checks `masterAuthoritativePaths` first, so a declared landing page is treated as master-owned.
+`preservedFiles` (relative to a publication's `outputDir`) and `preservedPaths` (exact repository-relative paths for a landing outside a versioned `outputDir`) live *under* the dev-owned `content/` root but are actually master-authored: the fetch restores them from `MASTER_SHA`. For master to touch them legally, each preserved path **must** be declared in `masterAuthoritativePaths` in `deploy/contracts/master-tooling-sync.json`. `isDevOwned()` checks `masterAuthoritativePaths` first, so a declared landing page is treated as master-owned.
 
 When a manual declares `preservedFiles`, do **both**:
 
