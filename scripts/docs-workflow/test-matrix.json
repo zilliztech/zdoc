@@ -339,11 +339,17 @@
     },
     {
       "id": "docs-tooling-cli-dispatch",
-      "paths": ["packages/docs-tooling/src/cli-main*", "packages/docs-tooling/src/cli.ts"],
-      "focusedTests": ["pnpm vitest run packages/docs-tooling/src/cli-main.integration.test.ts"],
+      "paths": [
+        "packages/docs-tooling/src/cli-main*",
+        "packages/docs-tooling/src/cli.ts",
+        "packages/docs-tooling/src/validation/validation.test.ts"
+      ],
+      "focusedTests": [
+        "pnpm vitest run packages/docs-tooling/src/cli-main.integration.test.ts packages/docs-tooling/src/validation/validation.test.ts"
+      ],
       "harnesses": [],
       "gates": ["pnpm test:workflow-policy"],
-      "reason": "cli-main.ts is the docs-tooling executable composition root; its integration test spawns the CLI end-to-end and must stay green for any dispatch change."
+      "reason": "The docs-tooling CLI composes dispatch, secure staging, validation, and atomic publication; its integration and validation suites must stay green for any boundary change."
     },
     {
       "id": "external-link-watchdog-tooling",
