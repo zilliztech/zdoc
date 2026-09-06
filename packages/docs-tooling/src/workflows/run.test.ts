@@ -16,6 +16,7 @@ import {
 } from '../publication/diagnostics.ts';
 import {
   executePublicationGroup,
+  guidesSnapshotEvidence,
   parsePublishGroupArgs,
   parseSourcePublicationManifest,
   serializeSourcePublicationManifest,
@@ -976,5 +977,18 @@ describe('Chinese Guides source publication', () => {
     });
     expect(byPath.get(sidebar)).toEqual({path: sidebar, sha256: byPath.get(sidebar).sha256, docToken: null, revisionId: null});
     expect(byPath.get(byocSidebar)).toEqual({path: byocSidebar, sha256: byPath.get(byocSidebar).sha256, docToken: null, revisionId: null});
+  });
+
+  it('rejects duplicate Feishu tokens in the Guides snapshot candidate', async () => {
+    const root = temporaryRoot();
+    write(root, 'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json', `${JSON.stringify({
+      records: [
+        {doc_token: 'DOCduplicate', node_metadata: {revision_id: '1'}},
+        {doc_token: 'DOCduplicate', node_metadata: {revision_id: '2'}},
+      ],
+    })}\n`);
+
+    expect(() => guidesSnapshotEvidence(root, resolvePublicationGroup('zh-CN', 'guides')))
+      .toThrow(/duplicate doc token: DOCduplicate/i);
   });
 });

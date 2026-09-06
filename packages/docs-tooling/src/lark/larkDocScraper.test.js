@@ -713,8 +713,14 @@ async function testBaseNavigationCreatesRootWhenSourceCacheIsEmpty() {
 }
 
 async function testChineseBaseNavigationUsesEnglishTableSlug() {
+  const originalSite = process.env.ZDOC_SITE;
+  process.env.ZDOC_SITE = 'zh-CN';
+  delete require.cache[require.resolve('./guidesTableSlugs')];
+  delete require.cache[require.resolve('./larkDocScraper')];
   const larkDocScraper = require('./larkDocScraper');
-  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-doc-scraper-'));
+  const temporaryRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-doc-scraper-'));
+  const tempDir = path.join(temporaryRoot, 'guides-zh-CN');
+  fs.mkdirSync(tempDir);
   const scraper = new larkDocScraper('root-token', 'base-token:*', 'wiki', tempDir);
   scraper.use_all_base_tables = true;
   scraper.records = [{
@@ -730,9 +736,6 @@ async function testChineseBaseNavigationUsesEnglishTableSlug() {
     },
   }];
   scraper.base_tables = [{ table_id: 'tbl-management', name: '运维指南', index: 0 }];
-  const originalSite = process.env.ZDOC_SITE;
-  process.env.ZDOC_SITE = 'zh-CN';
-
   try {
     await scraper.__apply_base_navigation({ partialTables: true });
     const root = JSON.parse(fs.readFileSync(path.join(tempDir, 'root-token.json'), 'utf8'));
@@ -740,7 +743,9 @@ async function testChineseBaseNavigationUsesEnglishTableSlug() {
   } finally {
     if (originalSite === undefined) delete process.env.ZDOC_SITE;
     else process.env.ZDOC_SITE = originalSite;
-    fs.rmSync(tempDir, { recursive: true, force: true });
+    delete require.cache[require.resolve('./guidesTableSlugs')];
+    delete require.cache[require.resolve('./larkDocScraper')];
+    fs.rmSync(temporaryRoot, { recursive: true, force: true });
   }
 }
 
@@ -841,6 +846,13 @@ async function testFetchWikiNodeMetadataResolvesShortcutRevisionFields() {
 
   scraper.__fetchFeishuJson = async (url) => {
     fetched.push(url);
+    if (url.includes('/docx/v1/documents/')) {
+      const documentId = decodeURIComponent(url.split('/documents/')[1]);
+      return {
+        code: 0,
+        data: { document: { document_id: documentId, revision_id: documentId === 'raw-docx-token' ? 11 : 22 } },
+      };
+    }
     if (url.includes('shortcut-token')) {
       return {
         code: 0,
@@ -865,7 +877,6 @@ async function testFetchWikiNodeMetadataResolvesShortcutRevisionFields() {
             obj_type: 'docx',
             title: 'Docx Source',
             obj_edit_time: '1800000001',
-            revision_id: 'rev-docx',
           },
         },
       };
@@ -880,7 +891,6 @@ async function testFetchWikiNodeMetadataResolvesShortcutRevisionFields() {
           obj_type: 'docx',
           title: 'Source',
           obj_edit_time: '1800000000',
-          revision_id: 'rev-2',
         },
       },
     };
@@ -911,14 +921,54 @@ async function testFetchWikiNodeMetadataResolvesShortcutRevisionFields() {
     },
   ]);
 
-  assert.equal(fetched.length, 3);
+  assert.equal(fetched.length, 5);
   assert.equal(fetched.some(url => url.includes('raw-docx-token') && url.includes('obj_type=docx')), true);
   assert.equal(metadata.get('shortcut-token').node_token, 'origin-token');
   assert.equal(metadata.get('shortcut-token').requested_node_token, 'shortcut-token');
   assert.equal(metadata.get('shortcut-token').obj_edit_time, '1800000000');
-  assert.equal(metadata.get('shortcut-token').revision_id, 'rev-2');
+  assert.equal(metadata.get('shortcut-token').revision_id, '22');
   assert.equal(metadata.get('raw-docx-token').obj_type, 'docx');
-  assert.equal(metadata.get('raw-docx-token').revision_id, 'rev-docx');
+  assert.equal(metadata.get('raw-docx-token').revision_id, '11');
+}
+
+async function testFetchBlocksPinsRevisionAndRetriesWholeDocument() {
+  const larkDocScraper = require('./larkDocScraper');
+  const scraper = new larkDocScraper('', '', 'wiki', '/tmp');
+  scraper.token = 'tenant-token';
+  scraper.__wait = async () => {};
+  scraper.nodeMetadataByToken = new Map([['wiki-token', { obj_token: 'docx-token', revision_id: 'old' }]]);
+  const urls = [];
+  let metadataCalls = 0;
+
+  scraper.__fetchFeishuJson = async (url) => {
+    urls.push(url);
+    if (!url.includes('/blocks?')) {
+      metadataCalls += 1;
+      return { code: 0, data: { document: { document_id: 'docx-token', revision_id: metadataCalls === 1 ? 7 : 8 } } };
+    }
+    const parsed = new URL(url, 'https://example.test');
+    const revision = parsed.searchParams.get('document_revision_id');
+    const page = parsed.searchParams.get('page_token');
+    if (revision === '7' && page === null) {
+      return { code: 0, data: { items: [{ block_id: 'stale-page' }], has_more: true, page_token: 'next' } };
+    }
+    if (revision === '7' && page === 'next') return { code: 1770021, msg: 'too old document' };
+    if (revision === '8' && page === null) {
+      return { code: 0, data: { items: [{ block_id: 'fresh-page-1' }], has_more: true, page_token: 'next' } };
+    }
+    return { code: 0, data: { items: [{ block_id: 'fresh-page-2' }], has_more: false } };
+  };
+
+  const node = { obj_type: 'docx', obj_token: 'docx-token' };
+  await scraper.__fetch_blocks(node);
+
+  assert.equal(metadataCalls, 2);
+  assert.equal(node.revision_id, '8');
+  assert.equal(scraper.nodeMetadataByToken.get('wiki-token').revision_id, '8');
+  assert.deepEqual(node.blocks.items.map(item => item.block_id), ['fresh-page-1', 'fresh-page-2']);
+  assert.equal(urls.filter(url => url.includes('/blocks?document_revision_id=7')).length, 2);
+  assert.equal(urls.filter(url => url.includes('/blocks?document_revision_id=8')).length, 2);
+  assert.equal(urls.some(url => url.includes('document_revision_id=8&page_token=next')), true);
 }
 
 async function testFetchWikiNodeUsesEndpointSpecificLimiter() {
@@ -932,17 +982,17 @@ async function testFetchWikiNodeUsesEndpointSpecificLimiter() {
   const callTimes = [];
   scraper.__fetchFeishuJson = async () => {
     callTimes.push(Date.now());
+    const index = callTimes.length;
     return {
       code: 0,
       data: {
         node: {
-          node_token: `node-${callTimes.length}`,
+          node_token: `node-${index}`,
           node_type: 'origin',
-          obj_token: `docx-${callTimes.length}`,
-          obj_type: 'docx',
-          title: `Source ${callTimes.length}`,
+          obj_token: `sheet-${index}`,
+          obj_type: 'sheet',
+          title: `Source ${index}`,
           obj_edit_time: '1800000000',
-          revision_id: `rev-${callTimes.length}`,
         },
       },
     };
@@ -1046,9 +1096,8 @@ async function testWikiMetadataProgressLogsResolutionCounts() {
         node_token: 'node-token',
         node_type: 'origin',
         obj_token: 'docx-token',
-        obj_type: 'docx',
+        obj_type: 'sheet',
         title: 'Source',
-        revision_id: 'rev-1',
       },
     },
   });
@@ -1559,6 +1608,7 @@ async function run() {
   await testBaseDocHydrationRefetchesVirtualCanonicalSources();
   await testBaseDocHydrationSkipsCanonicalWithEmptyProgress();
   await testFetchWikiNodeMetadataResolvesShortcutRevisionFields();
+  await testFetchBlocksPinsRevisionAndRetriesWholeDocument();
   await testFetchWikiNodeUsesEndpointSpecificLimiter();
   await testBaseScanProgressLogsTablesAndRecords();
   await testWikiMetadataProgressLogsResolutionCounts();
