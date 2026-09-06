@@ -224,6 +224,39 @@ describe('docs-tooling CLI boundary', () => {
       .toBe('# Hand-authored Python landing\n');
   });
 
+  it('preserves an exact Java root landing outside the versioned output through publication', async () => {
+    const repositoryRoot = temporaryRoot();
+    const landing = 'content/en/reference/api/java/java/java.md';
+    const outputDir = 'content/en/reference/api/java/java/v2';
+    const sidebar = 'generated/en/sidebars/java.sidebar.js';
+    const stage = 'tmp/docs-tooling/en/java';
+    const liveLanding = path.join(repositoryRoot, landing);
+    mkdirSync(path.dirname(liveLanding), {recursive: true});
+    writeFileSync(liveLanding, '# Hand-authored Java landing\n');
+    mkdirSync(path.join(repositoryRoot, outputDir), {recursive: true});
+    writeFileSync(path.join(repositoryRoot, outputDir, 'old.md'), '# Old generated page\n');
+    mkdirSync(path.dirname(path.join(repositoryRoot, sidebar)), {recursive: true});
+    writeFileSync(path.join(repositoryRoot, sidebar), 'module.exports = ["old"]\n');
+    const fetch = (context: Parameters<NonNullable<Parameters<typeof executeDocsToolingCommand>[1]>['fetch']>[0]) => {
+      const paths = publicationStagePaths(context);
+      expect(readFileSync(path.join(context.stagePath, landing), 'utf8')).toBe('# Hand-authored Java landing\n');
+      rmSync(paths.outputPath, {recursive: true, force: true});
+      mkdirSync(paths.outputPath, {recursive: true});
+      writeFileSync(path.join(paths.outputPath, 'new.md'), '# New generated page\n');
+      mkdirSync(path.dirname(paths.sidebarPath), {recursive: true});
+      writeFileSync(paths.sidebarPath, 'module.exports = ["new"]\n');
+    };
+    const args = ['--manual', 'java', '--group', 'java', '--site', 'en', '--stage', stage];
+
+    await executeDocsToolingCommand(['fetch', ...args], {repositoryRoot, fetch});
+    await executeDocsToolingCommand(['validate', ...args], {repositoryRoot});
+    await executeDocsToolingCommand(['publish', ...args], {repositoryRoot});
+
+    expect(readFileSync(liveLanding, 'utf8')).toBe('# Hand-authored Java landing\n');
+    expect(readFileSync(path.join(repositoryRoot, outputDir, 'new.md'), 'utf8')).toBe('# New generated page\n');
+    expect(existsSync(path.join(repositoryRoot, outputDir, 'old.md'))).toBe(false);
+  });
+
   it('uses the selected Chinese adapters for staged Markdown and validates Aliyun through injection', async () => {
     const repositoryRoot = temporaryRoot();
     const aliyunOssValidator = {validatePublication: vi.fn().mockResolvedValue(undefined)};
