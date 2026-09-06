@@ -45,6 +45,7 @@ const PublicationIdentitySchema = z.object({
   overridePath: NullableString,
   missingContent: z.enum(['error', 'explicitly-disabled']),
   preservedFiles: z.array(z.string().min(1)),
+  preservedPaths: z.array(z.string().min(1)),
   retiredPaths: z.array(z.string().min(1)),
   sha256: z.string().regex(SHA256),
 }).strict();
@@ -86,8 +87,9 @@ const PublicationAnchorSchema = z.object({
 export type PublicationDiagnostics = Readonly<z.infer<typeof PublicationDiagnosticsSchema>>;
 export type PublicationAnchor = Readonly<z.infer<typeof PublicationAnchorSchema>>;
 
-type PublicationIdentityInput = Readonly<Omit<ManualPublication, 'preservedFiles' | 'retiredPaths'>> & Readonly<{
+type PublicationIdentityInput = Readonly<Omit<ManualPublication, 'preservedFiles' | 'preservedPaths' | 'retiredPaths'>> & Readonly<{
   preservedFiles?: readonly string[];
+  preservedPaths?: readonly string[];
   retiredPaths?: readonly string[];
 }>;
 
@@ -146,6 +148,7 @@ function publicationIdentity(publication: PublicationIdentityInput): z.infer<typ
     overridePath: publication.overridePath ?? null,
     missingContent: publication.missingContent,
     preservedFiles: [...(publication.preservedFiles ?? [])].sort((left, right) => left.localeCompare(right, 'en')),
+    preservedPaths: [...(publication.preservedPaths ?? [])].sort((left, right) => left.localeCompare(right, 'en')),
     retiredPaths: [...(publication.retiredPaths ?? [])].sort((left, right) => left.localeCompare(right, 'en')),
   };
   return {...identity, sha256: sha256(identity)};
@@ -178,6 +181,7 @@ export function publicationOwnedTargets(site: SiteId, publication: PublicationId
     publication.outputDir,
     publication.sidebarPath,
     ...localizedRestTargets(site, publication).map(target => target.outputDir),
+    ...(publication.preservedPaths ?? []),
     ...(publication.retiredPaths ?? []).map(retiredPath => `content/${site}/${retiredPath}`),
   ].sort((left, right) => left.localeCompare(right, 'en')));
 }

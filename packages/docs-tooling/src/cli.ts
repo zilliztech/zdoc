@@ -13,7 +13,7 @@ import type {AliyunOssValidator, PublicationContext} from '@zilliz/publication-a
 import {resolveSiteProfile} from '@zilliz/site-config';
 
 import {resolveManualPublication, type SourceEntry} from './manuals/registry.ts';
-import {manualRegistry, publicationEntries} from './manuals/registry.ts';
+import {manualRegistry, publicationEntries, publicationPreservedPaths} from './manuals/registry.ts';
 import type {ManualDefinition, ManualPublication, ManualSource, SiteId} from './manuals/schema.ts';
 import {atomicReplace, withAtomicPublicationGroupFence, type AtomicReplaceOptions, type AtomicValidationSnapshot} from './publication/atomicReplace.ts';
 import {
@@ -914,17 +914,16 @@ function stageGeneratedRestSidebar(context: CommandContext): void {
 }
 
 function stagePreservedPublicationFiles(context: CommandContext, replace = false): void {
-  const outputPath = publicationStagePaths(context).outputPath;
-  for (const relativePath of context.publication.preservedFiles ?? []) {
+  for (const repositoryRelativePath of publicationPreservedPaths(context.publication)) {
     const sourcePath = resolveOwnedRepositoryPath(
       context.repositoryRoot,
-      `${context.publication.outputDir}/${relativePath}`,
+      repositoryRelativePath,
       'Preserved publication source',
     );
     if (!existsSync(sourcePath) || !lstatSync(sourcePath).isFile()) {
-      throw new Error(`Preserved publication file is missing or is not a regular file: ${context.publication.outputDir}/${relativePath}`);
+      throw new Error(`Preserved publication file is missing or is not a regular file: ${repositoryRelativePath}`);
     }
-    const targetPath = resolveOwnedRepositoryPath(outputPath, relativePath, 'Preserved staged publication file');
+    const targetPath = resolveOwnedRepositoryPath(context.stagePath, repositoryRelativePath, 'Preserved staged publication file');
     writeSecureAtomicFile(
       context.repositoryRoot,
       targetPath,

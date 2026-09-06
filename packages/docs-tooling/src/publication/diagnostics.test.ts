@@ -297,4 +297,9 @@ describe('localized REST publication targets', () => {
     expect(owned).toContain('content/en/reference/api/restful/restful');
     expect(owned).toContain('generated/en/sidebars/restful.sidebar.js');
   });
+
+  it('includes repository-relative preserved landing paths in the owned targets', () => {
+    const java = resolveManualPublication('java', 'en').publication;
+    expect(publicationOwnedTargets('en', java)).toContain('content/en/reference/api/java/java/java.md');
+  });
 });
