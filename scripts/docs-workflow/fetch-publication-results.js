@@ -77,7 +77,11 @@ function failureSourceState(units) {
 function aggregateSourceGroupsFromFetchResults(input) {
   const value = validateFetchPublicationDocuments(input)
   const selectedGroup = value.selection.inputs.selectedGroup
-  const requestedGroups = selectedGroup === 'all' ? listContentGroups() : [selectedGroup]
+  // `selectedGroup` may be a comma-separated selection (for example `java,go`).
+  // Keep the projection at the same group granularity as the aggregate schema;
+  // treating the raw input as one group makes FETCH_GROUP_UNIT_KEYS lookup
+  // undefined and fails with an opaque `.map()` TypeError.
+  const requestedGroups = selectedGroup === 'all' ? listContentGroups() : [...parseSelectedGroups(selectedGroup)]
   const resultsByUnit = new Map(value.results.units.map(unit => [unit.unitKey, unit]))
   const groups = {}
   for (const group of requestedGroups) {
