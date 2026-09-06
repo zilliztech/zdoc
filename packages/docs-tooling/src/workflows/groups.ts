@@ -1,4 +1,4 @@
-import {manualRegistry, resolveManualPublication} from '../manuals/registry.ts';
+import {manualRegistry, publicationPreservedPaths, resolveManualPublication} from '../manuals/registry.ts';
 import type {ManualDefinition, SiteId} from '../manuals/schema.ts';
 
 export type PublicationGroupStage = 'fetch' | 'validate' | 'publish';
@@ -188,7 +188,7 @@ export function resolvePublicationGroupWorkflow(site: SiteId, groupName: string)
   const resolved = group.manuals.map(manual => resolveManualPublication(manual, site));
   const sourceManuals = distinct(resolved.flatMap(entry => entry.sourceChain.map(source => source.source.generatorManual)));
   const sourceSnapshots = distinct(resolved.map(entry => entry.source.snapshotPath));
-  const preservedPaths = distinct(resolved.flatMap(entry => (entry.publication.preservedFiles ?? []).map(file => `${entry.publication.outputDir}/${file}`)));
+  const preservedPaths = distinct(resolved.flatMap(entry => publicationPreservedPaths(entry.publication)));
   return deepFreeze({
     group,
     sourceManuals,

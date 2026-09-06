@@ -10,6 +10,14 @@
       "reason": "Build provenance preserves candidate ownership checks within each independently built site without coupling English and Chinese release inputs."
     },
     {
+      "id": "publication-diagnostics",
+      "paths": ["packages/docs-tooling/src/publication/diagnostics.ts", "packages/docs-tooling/src/publication/diagnostics.test.ts"],
+      "focusedTests": ["pnpm vitest run packages/docs-tooling/src/publication/diagnostics.test.ts"],
+      "harnesses": ["pnpm test:replay:fetch"],
+      "gates": ["pnpm test:workflow-policy", "git diff --check"],
+      "reason": "Publication diagnostics bind the declared publication identity and exact owned targets used by atomic Fetch validation."
+    },
+    {
       "id": "docs-ui-sidebar-category",
       "paths": [
         "packages/docs-ui/src/shared/theme/DocSidebarItem/Category/**"

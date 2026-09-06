@@ -4,7 +4,7 @@ import path from 'node:path';
 
 import {z} from 'zod';
 
-import {manualRegistry, publicationEntries} from '../manuals/registry.ts';
+import {manualRegistry, publicationEntries, publicationPreservedPaths} from '../manuals/registry.ts';
 import {assertSafeRepositoryRelativePath, resolveOwnedRepositoryPath} from '../validation/ownership.ts';
 
 const SHA256 = /^[a-f0-9]{64}$/u;
@@ -283,13 +283,13 @@ export function unseededReferencePreservedSourcePaths(repositoryRoot: string): R
   const paths = new Set<string>();
   for (const {manual, site, publication} of publicationEntries(manualRegistry)) {
     if (manual.kind !== 'reference' || site !== 'en') continue;
-    const preservedFiles = publication.preservedFiles;
-    if (!preservedFiles || preservedFiles.length === 0) continue;
+    const preservedPaths = publicationPreservedPaths(publication);
+    if (preservedPaths.length === 0) continue;
     // A manual whose canonical English sidebar has not been seeded yet (dev-owned,
     // produced by the fetch pipeline) keeps its preserved landing page on master but is
     // not yet part of the translation source tree — exclude it until it is first fetched.
     if (existsSync(path.join(repositoryRoot, publication.sidebarPath))) continue;
-    for (const file of preservedFiles) paths.add(`${publication.outputDir}/${file}`);
+    for (const preservedPath of preservedPaths) paths.add(preservedPath);
   }
   return paths;
 }

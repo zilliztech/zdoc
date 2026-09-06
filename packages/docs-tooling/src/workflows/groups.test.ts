@@ -97,12 +97,18 @@ describe('site-owned publication groups', () => {
     }
   });
 
-  it('preserves hand-authored Reference landing pages inside generated output directories', () => {
+  it('preserves hand-authored Reference landing pages at their canonical repository paths', () => {
     expect(resolvePublicationGroupWorkflow('en', 'python').preservedPaths).toEqual([
       'content/en/reference/api/python/python/python.md',
     ]);
     expect(resolvePublicationGroupWorkflow('en', 'node').preservedPaths).toEqual([
       'content/en/reference/api/nodejs/nodejs/nodejs.md',
+    ]);
+    expect(resolvePublicationGroupWorkflow('en', 'java').preservedPaths).toEqual([
+      'content/en/reference/api/java/java/java.md',
+    ]);
+    expect(resolvePublicationGroupWorkflow('en', 'go').preservedPaths).toEqual([
+      'content/en/reference/api/go/go/go.md',
     ]);
     expect(resolvePublicationGroupWorkflow('en', 'cli').preservedPaths).toEqual([
       'content/en/reference/cli/cli/Overview.md',

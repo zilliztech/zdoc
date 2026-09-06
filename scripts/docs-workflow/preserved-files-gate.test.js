@@ -33,12 +33,28 @@ function fakeRegistry() {
       {site: 'en', publication: {outputDir: 'content/en/ref/foo/foo', preservedFiles: ['foo.md']}},
       {site: 'zh-CN', publication: {outputDir: 'content/zh-CN/ref/foo/foo', preservedFiles: ['foo.md']}},
     ],
+    publicationPreservedPaths: publication => [
+      ...(publication.preservedFiles ?? []).map(file => `${publication.outputDir}/${file}`),
+      ...(publication.preservedPaths ?? []),
+    ].sort(),
     manualRegistry: [],
   };
 }
 
 test('preservedFilePaths keeps only English publications and joins outputDir', () => {
   assert.deepEqual(preservedFilePaths(fakeRegistry()), ['content/en/ref/foo/foo/foo.md']);
+});
+
+test('preservedFilePaths supports repository-relative landing paths outside outputDir', () => {
+  const registry = fakeRegistry();
+  registry.publicationEntries = () => [{
+    site: 'en',
+    publication: {
+      outputDir: 'content/en/ref/foo/foo/v2',
+      preservedPaths: ['content/en/ref/foo/foo/foo.md'],
+    },
+  }];
+  assert.deepEqual(preservedFilePaths(registry), ['content/en/ref/foo/foo/foo.md']);
 });
 
 test('checkPreservedFiles passes when the file is declared and tracked', () => {
