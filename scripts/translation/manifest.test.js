@@ -311,7 +311,7 @@ function testFullChineseBootstrapIncludesEveryActiveSource() {
   })
 }
 
-function testReferenceLandingGroupForcesExactlyFiveCurrentTargets() {
+function testReferenceLandingGroupForcesCurrentTargetsForBothLocales() {
   withTempDir(siteDir => {
     const landings = [
       'content/en/reference/api/python/python/python.md',
@@ -345,12 +345,14 @@ function testReferenceLandingGroupForcesExactlyFiveCurrentTargets() {
 
     assert.deepEqual(manifest.items.map(item => item.sourcePath), [...landings].sort())
     assert.ok(manifest.items.every(item => item.reason === 'stale_source'))
-    assert.throws(() => buildManifest({
+    const japanese = buildManifest({
       siteDir,
       target: 'ja-JP',
       group: 'reference-landings',
       sourceCheckpointSha: 'f'.repeat(40),
-    }), /requires target zh-CN-reference/i)
+    })
+    assert.deepEqual(japanese.items.map(item => item.sourcePath), [...landings].sort())
+    assert.ok(japanese.items.every(item => item.reason === 'missing_target'))
   })
 }
 
@@ -595,7 +597,7 @@ function run() {
   testActiveReferenceSourceIsNotHiddenByStaleRetirement()
   testCliLeavesRetirementAuthorizationToReconciliationPolicy()
   testFullChineseBootstrapIncludesEveryActiveSource()
-  testReferenceLandingGroupForcesExactlyFiveCurrentTargets()
+testReferenceLandingGroupForcesCurrentTargetsForBothLocales()
   testLegacyJapaneseCacheKeysMapToCanonicalSources()
   testCheckpointedCacheRemovesCompletedFilesFromNextManifest()
   testContentGroupsFilterBeforeMaxFilesAndRecordCheckpoint()

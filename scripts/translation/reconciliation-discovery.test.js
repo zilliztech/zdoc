@@ -63,7 +63,14 @@ test('shares canonical bidirectional mappings and exact group ownership', () => 
   assert.equal(mapTargetPathForSource('zh-CN-reference', chinese), source)
   assert.deepEqual(ownedSourcePaths('python', 'zh-CN-reference'), ['content/en/reference/api/python/python'])
   assert.deepEqual(ownedTargetPaths('python', 'zh-CN-reference'), ['content/zh-CN/reference/api/python/python'])
-  assert.throws(() => ownedSourcePaths('reference-landings', 'ja-JP'), /unsupported reconciliation group/i)
+  assert.deepEqual(ownedSourcePaths('reference-landings', 'ja-JP'), [
+    'content/en/reference/api/python/python/python.md',
+    'content/en/reference/api/java/java/java.md',
+    'content/en/reference/api/nodejs/nodejs/nodejs.md',
+    'content/en/reference/api/go/go/go.md',
+    'content/en/reference/cli/cli/Overview.md',
+    'content/en/reference/api/cpp/cpp/cpp.md',
+  ])
 })
 
 test('discovers source-delta deletion from immutable SHAs with canonical evidence', () => {
