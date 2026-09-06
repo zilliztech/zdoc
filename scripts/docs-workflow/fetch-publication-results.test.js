@@ -161,6 +161,40 @@ test('projects canonical group states and preserves later-unit continuation outc
   assert.equal(projected.groups.python.source, 'source_published')
 })
 
+test('projects comma-separated artifact-only selections into individual group rows', () => {
+  const selected = selection('java,go', {publish: false, runTranslations: false})
+  const artifactResults = validatePublicationResults({
+    schemaVersion: 1,
+    document: 'publication-results',
+    workflow: 'fetch',
+    repository: selected.repository,
+    runId: selected.runId,
+    runAttempt: selected.runAttempt,
+    selectionSha256: selected.selectionSha256,
+    mode: 'artifact_only',
+    targetBranch: selected.targetBranch,
+    initialTargetSha: selected.initialTargetSha,
+    finalTargetSha: selected.initialTargetSha,
+    startedAt: '2026-08-04T08:00:00.000Z',
+    completedAt: '2026-08-04T09:00:00.000Z',
+    overallStatus: 'success',
+    units: selected.units.map((unit, index) => ({
+      ...resultUnit(unit, index, 'ready'),
+      readyAt: `2026-08-04T08:01:${String(index).padStart(2, '0')}.000Z`,
+      resultSha: null,
+      commitShas: [],
+    })),
+    orchestratorFailure: null,
+  }, {selection: selected})
+  assert.deepEqual(aggregateSourceGroupsFromFetchResults({selection: selected, results: artifactResults}), {
+    requestedGroups: ['java', 'go'],
+    groups: {
+      java: {source: 'artifact_ready'},
+      go: {source: 'artifact_ready'},
+    },
+  })
+})
+
 test('verifies successful result ancestry for success and known partial failure targets', () => {
   const repository = fs.mkdtempSync(path.join(os.tmpdir(), 'fetch-publication-results-'))
   git(repository, ['init', '-b', 'main'])
