@@ -94,8 +94,12 @@ test('consumes the Chinese manifest-owned Guides registry contract', () => {
 });
 
 test('derives preservation metadata without a legacy path map', () => {
-  assert.deepEqual(getContentGroup('java').preservedPaths, []);
-  assert.deepEqual(getContentGroup('go').preservedPaths, []);
+  assert.deepEqual(getContentGroup('java').preservedPaths, [
+    'content/en/reference/api/java/java/java.md',
+  ]);
+  assert.deepEqual(getContentGroup('go').preservedPaths, [
+    'content/en/reference/api/go/go/go.md',
+  ]);
 });
 
 test('configures durable translation batches for Guides only', () => {
