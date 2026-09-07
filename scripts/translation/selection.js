@@ -22,14 +22,15 @@ function selectionItem(locale, group, order) {
 }
 
 function targetsFor(group, locale) {
-  if (locale === 'ja-JP') return (group === 'reference-landings' || group === 'rest') ? [] : ['ja-JP'];
+  if (locale === 'ja-JP') return group === 'rest' ? [] : ['ja-JP'];
   if (locale === 'zh-CN') {
     if (group === 'reference-landings') return ['zh-CN'];
     if (group === 'rest') return [];
     return group === 'guides' ? [] : ['zh-CN'];
   }
   if (locale === 'all') {
-    if (group === 'reference-landings' || group === 'rest') return [];
+    if (group === 'reference-landings') return ['ja-JP', 'zh-CN'];
+    if (group === 'rest') return [];
     return group === 'guides' ? ['ja-JP'] : ['ja-JP', 'zh-CN'];
   }
   throw new Error(`Unsupported translation locale: ${locale}`);
@@ -37,9 +38,6 @@ function targetsFor(group, locale) {
 
 function buildTranslationSelection({locale, group}) {
   if (!['all', 'ja-JP', 'zh-CN'].includes(locale)) throw new Error(`Unsupported translation locale: ${locale}`);
-  if (group === 'reference-landings' && locale !== 'zh-CN') {
-    throw new Error(`Unsupported translation selection: ${locale}/${group}`);
-  }
   if (group !== 'all' && group !== 'reference-landings' && !GROUPS.includes(group)) {
     throw new Error(`Unsupported translation selection: ${locale}/${group}`);
   }
