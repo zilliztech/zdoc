@@ -155,6 +155,13 @@ const REFERENCE_SOURCE_MANIFEST = 'generated/en/manifests/reference.json';
 const REFERENCE_TRANSLATION_MANIFEST = 'generated/zh-CN/manifests/reference-translations.json';
 const REFERENCE_RETIREMENT_REGISTRY = 'config/reference-retirements.json';
 const REFERENCE_RECONCILIATION_LEDGER = 'generated/zh-CN/manifests/reference-reconciliation-ledger.json';
+const REFERENCE_SUPPLEMENTAL_TRANSLATION_MAPPINGS = Object.freeze([
+  Object.freeze({
+    manual: 'guides',
+    sourcePath: 'content/en/guides/tutorials/home.md',
+    targetPath: 'content/zh-CN/guides/tutorials/home.md',
+  }),
+]);
 const EXTERNAL_SNAPSHOT_WORKTREE = 'external-snapshot';
 const EXTERNAL_SNAPSHOT_TRACKED_INPUTS = 'deploy/contracts/localization-inputs.inventory.json';
 const GIT_STDERR_LIMIT = 512;
@@ -325,8 +332,11 @@ export function createGitTranslationSourceProvenanceVerifier(
       recordsBySourceCommit.set(record.sourceCommit, records);
     }
     for (const [sourceCommit, records] of recordsBySourceCommit) {
+      const historicalRoots = [...new Set([sourceRoot, ...records
+        .map(record => record.sourcePath)
+        .filter(sourcePath => !sourcePath.startsWith(`${sourceRoot}/`))])];
       const listing = runner(
-        ['ls-tree', '-r', '-t', '-z', '--full-tree', sourceCommit, '--', sourceRoot],
+        ['ls-tree', '-r', '-t', '-z', '--full-tree', sourceCommit, '--', ...historicalRoots],
         {encoding: 'buffer', maxBuffer: GIT_MAX_BUFFER},
       );
       if (listing.error || listing.signal || listing.status !== 0) {
@@ -522,6 +532,7 @@ function authenticateHistoricalReferenceManifestState(options: Readonly<{
     sourceManifest: options.state.sourceManifest,
     translationManifest: options.state.translationManifest,
     verifyFiles: false,
+    supplementalMappings: REFERENCE_SUPPLEMENTAL_TRANSLATION_MAPPINGS,
     manualForPath: options.manualForPath,
     verifySourceProvenance: options.verifyTranslationSourceProvenance
       ?? createGitTranslationSourceProvenanceVerifier(options.repositoryRoot, REFERENCE_SOURCE_ROOT),
@@ -677,6 +688,7 @@ export async function executeReferenceDocsToolingCommand(
         targetRoot: REFERENCE_TARGET_ROOT,
         sourceManifest: manifestState.sourceManifest,
         translationManifest: manifestState.translationManifest,
+        supplementalMappings: REFERENCE_SUPPLEMENTAL_TRANSLATION_MAPPINGS,
         manualForPath,
         verifySourceProvenance: dependencies.verifyTranslationSourceProvenance
           ?? (externalSnapshot
@@ -739,6 +751,7 @@ export async function executeReferenceDocsToolingCommand(
       previousTranslationManifest: previousManifestState?.translationManifest,
       sourceSnapshot,
       targetSnapshot,
+      supplementalMappings: REFERENCE_SUPPLEMENTAL_TRANSLATION_MAPPINGS,
     });
     validateReferenceSource({repositoryRoot, sourceRoot: REFERENCE_SOURCE_ROOT, sourceManifest: manifests.sourceManifest, manualForPath});
     validateReferenceTranslation({
@@ -747,6 +760,7 @@ export async function executeReferenceDocsToolingCommand(
       targetRoot: REFERENCE_TARGET_ROOT,
       sourceManifest: manifests.sourceManifest,
       translationManifest: manifests.translationManifest,
+      supplementalMappings: REFERENCE_SUPPLEMENTAL_TRANSLATION_MAPPINGS,
       manualForPath,
       verifySourceProvenance: dependencies.verifyTranslationSourceProvenance
         ?? createGitTranslationSourceProvenanceVerifier(repositoryRoot, REFERENCE_SOURCE_ROOT),
@@ -802,6 +816,7 @@ export async function executeReferenceDocsToolingCommand(
         targetRoot: REFERENCE_TARGET_ROOT,
         sourceManifest,
         translationManifest,
+        supplementalMappings: REFERENCE_SUPPLEMENTAL_TRANSLATION_MAPPINGS,
         manualForPath,
         verifySourceProvenance: dependencies.verifyTranslationSourceProvenance
           ?? (externalSnapshot

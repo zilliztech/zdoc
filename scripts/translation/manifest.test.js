@@ -314,6 +314,7 @@ function testFullChineseBootstrapIncludesEveryActiveSource() {
 function testReferenceLandingGroupForcesCurrentTargetsForBothLocales() {
   withTempDir(siteDir => {
     const landings = [
+      'content/en/guides/tutorials/home.md',
       'content/en/reference/api/python/python/python.md',
       'content/en/reference/api/java/java/java.md',
       'content/en/reference/api/nodejs/nodejs/nodejs.md',
@@ -326,7 +327,8 @@ function testReferenceLandingGroupForcesCurrentTargetsForBothLocales() {
       const source = `# ${sourcePath}\n`
       write(path.join(siteDir, sourcePath), source)
       write(path.join(siteDir, targetPath), `# translated ${sourcePath}\n`)
-      const manual = sourcePath.includes('/api/python/') ? 'python'
+      const manual = sourcePath.includes('/guides/') ? 'guides'
+        : sourcePath.includes('/api/python/') ? 'python'
         : sourcePath.includes('/api/java/') ? 'java'
           : sourcePath.includes('/api/nodejs/') ? 'node'
             : sourcePath.includes('/api/go/') ? 'go'
