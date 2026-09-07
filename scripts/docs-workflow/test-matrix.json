@@ -287,7 +287,8 @@
         "scripts/docs-workflow/reconciliation-*",
         "scripts/translation/apply-reconciliation-plan*",
         "scripts/generate-reconciliation-policy.js",
-        "packages/docs-tooling/src/manuals/derive/reconciliationPolicy.ts"
+        "packages/docs-tooling/src/manuals/derive/reconciliationPolicy.ts",
+        "config/translation/reconciliation-policy.json"
       ],
       "focusedTests": ["pnpm test:reconciliation-workflow"],
       "harnesses": ["pnpm test:replay:translation"],

@@ -128,6 +128,7 @@ test('loads the exact initial automatic and review-required policy', () => {
     assert.equal(policy.targets['zh-CN-reference'][group].maxPercent, 100)
   }
   assert.equal(policy.targets['zh-CN-reference']['reference-landings'].mode, 'review_required')
+  assert.equal(policy.targets['ja-JP']['reference-landings'].mode, 'review_required')
   assert.equal(Object.isFrozen(policy.targets['ja-JP'].guides), true)
 })
 

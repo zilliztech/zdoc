@@ -13,6 +13,13 @@ const {getContentGroup} = require('./content-groups')
 const {finalizePublicationSelection, writePublicationDocument} = require('./publication-contracts')
 const {buildTranslationPublicationReady, buildTranslationPublicationSelection} = require('./translation-publication-selection')
 const {translationOwnedPaths} = require('./validate-checkpoint-artifact')
+const {loadTypeScript} = require('../lib/load-typescript')
+const {
+  buildReferenceManifests,
+  parseReferenceRetirementRegistry,
+  serializeReferenceManifest,
+} = loadTypeScript('../../packages/docs-tooling/src/reference/translationManifest.ts')
+const {defaultReferenceManualForPath} = loadTypeScript('../../packages/docs-tooling/src/cli.ts')
 const {
   authenticateAndExtractArchive,
   cleanupGuidesPairs,
@@ -174,6 +181,22 @@ function put(root, relative, value) {
   const file = path.join(root, relative)
   fs.mkdirSync(path.dirname(file), {recursive: true})
   fs.writeFileSync(file, value)
+}
+
+function refreshReferenceSourceManifest(repository, sourceCommit) {
+  const sourceManifestPath = path.join(repository, 'generated/en/manifests/reference.json')
+  const translationManifestPath = path.join(repository, 'generated/zh-CN/manifests/reference-translations.json')
+  const manifests = buildReferenceManifests({
+    repositoryRoot: repository,
+    sourceRoot: 'content/en/reference',
+    targetRoot: 'content/zh-CN/reference',
+    sourceCommit,
+    manualForPath: defaultReferenceManualForPath,
+    retirementRegistry: parseReferenceRetirementRegistry(JSON.parse(fs.readFileSync(path.join(repository, 'config/reference-retirements.json'), 'utf8'))),
+    previousSourceManifest: JSON.parse(fs.readFileSync(sourceManifestPath, 'utf8')),
+    previousTranslationManifest: JSON.parse(fs.readFileSync(translationManifestPath, 'utf8')),
+  })
+  fs.writeFileSync(sourceManifestPath, serializeReferenceManifest(manifests.sourceManifest))
 }
 
 function archiveCheckpoint(root, artifactDirectory, name) {
@@ -350,6 +373,7 @@ async function realFaultFixture(t) {
   put(sourceRepository, '.translation-cache/ja-JP.json', '{"files":{}}\n')
   put(sourceRepository, 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/python.md', 'old\n')
   put(sourceRepository, 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/java.md', 'old\n')
+  refreshReferenceSourceManifest(sourceRepository, toolingSha)
   git(sourceRepository, 'add', '.')
   git(sourceRepository, 'commit', '-m', 'seed')
   git(sourceRepository, 'remote', 'remove', 'origin')
@@ -508,12 +532,20 @@ async function realReplayFixture(t) {
   const runRoot = path.join(root, 'run')
   const evidenceRoot = path.join(root, 'evidence')
   const bareRemote = path.join(root, 'replay.git')
+  const targetRepository = path.join(root, 'target')
   fs.mkdirSync(runRoot)
   const toolingSha = git(process.cwd(), 'rev-parse', 'HEAD')
+  git(root, 'clone', process.cwd(), targetRepository)
+  git(targetRepository, 'config', 'user.name', 'Replay Test')
+  git(targetRepository, 'config', 'user.email', 'replay@example.com')
+  refreshReferenceSourceManifest(targetRepository, toolingSha)
+  git(targetRepository, 'add', 'generated/en/manifests/reference.json')
+  git(targetRepository, 'commit', '-m', 'refresh Reference publication state')
+  const targetBaselineSha = git(targetRepository, 'rev-parse', 'HEAD')
   const inputHandoff = handoff()
   inputHandoff.toolingSha = toolingSha
-  inputHandoff.targetBaselineSha = toolingSha
-  inputHandoff.units = inputHandoff.units.map(unit => ({...unit, sourceBaselineSha: toolingSha, sourceCheckpointSha: toolingSha, targetBaselineSha: toolingSha}))
+  inputHandoff.targetBaselineSha = targetBaselineSha
+  inputHandoff.units = inputHandoff.units.map(unit => ({...unit, sourceBaselineSha: targetBaselineSha, sourceCheckpointSha: targetBaselineSha, targetBaselineSha}))
   const built = buildTranslationPublicationSelection({
     handoff: inputHandoff, repository: 'zilliztech/zdoc', runId: 40000000002, runAttempt: 1,
     publish: false, runTranslations: true,
@@ -567,8 +599,8 @@ async function realReplayFixture(t) {
       const ownedPaths = translationOwnedPaths(unit.target, getContentGroup(unit.group))
       const baselineWorkspace = path.join(unitRoot, 'baseline-workspace')
       const checkpointWorkspace = path.join(unitRoot, 'checkpoint-workspace')
-      copyOwnedPaths(process.cwd(), baselineWorkspace, ownedPaths)
-      copyOwnedPaths(process.cwd(), checkpointWorkspace, ownedPaths)
+      copyOwnedPaths(targetRepository, baselineWorkspace, ownedPaths)
+      copyOwnedPaths(targetRepository, checkpointWorkspace, ownedPaths)
       if (unit.target === 'ja-JP' && !fs.existsSync(path.join(baselineWorkspace, '.translation-cache/ja-JP.json'))) {
         put(baselineWorkspace, '.translation-cache/ja-JP.json', '{"files":{}}\n')
         put(checkpointWorkspace, '.translation-cache/ja-JP.json', '{"files":{}}\n')
@@ -576,9 +608,9 @@ async function realReplayFixture(t) {
       for (const [kind, workspace] of [['baseline', baselineWorkspace], ['checkpoint', checkpointWorkspace]]) {
         const output = path.join(unitRoot, `${kind}-artifact`)
         await createCheckpointArtifact({
-          group: unit.group, masterSha: toolingSha, devBaselineSha: toolingSha,
-          baselineDir: process.cwd(), workspace, output, includeTranslationCache: true,
-          translationTarget: unit.target, sourceCheckpointSha: toolingSha, toolingSha,
+          group: unit.group, masterSha: toolingSha, devBaselineSha: targetBaselineSha,
+          baselineDir: targetRepository, workspace, output, includeTranslationCache: true,
+          translationTarget: unit.target, sourceCheckpointSha: targetBaselineSha, toolingSha,
           validationCommands: ['true'],
         })
         const archive = archiveCheckpoint(unitRoot, output, kind)
@@ -623,16 +655,16 @@ async function realReplayFixture(t) {
   fs.writeFileSync(path.join(runRoot, 'jobs.json'), `${JSON.stringify({jobs})}\n`)
   fs.writeFileSync(path.join(runRoot, 'run-metadata.json'), `${JSON.stringify({
     schemaVersion: 1, runId: selection.runId, runAttempt: selection.runAttempt, repository: selection.repository,
-    toolingSha, initialTargetSha: toolingSha, selectionSha256: selection.selectionSha256,
+    toolingSha, initialTargetSha: targetBaselineSha, selectionSha256: selection.selectionSha256,
     canonicalUnitKeys: selection.units.map(unit => unit.unitKey), fifoUnitKeys: deriveFifoUnitKeys(selection, jobs), artifacts,
     guidesBatchArtifacts: [{
       id: 9003, name: `translation-report-ja-JP-guides-${selection.runId}-batch-1`,
       digest: `sha256:${sha256(guidesBatchFile)}`, fileSha256: sha256(guidesBatchFile), archive: path.relative(runRoot, guidesBatchFile),
     }],
   }, null, 2)}\n`)
-  git(root, 'clone', '--bare', process.cwd(), bareRemote)
+  git(root, 'clone', '--bare', targetRepository, bareRemote)
   git(root, '--git-dir', bareRemote, 'config', '--remove-section', 'remote.origin')
-  git(root, '--git-dir', bareRemote, 'update-ref', 'refs/heads/dev', toolingSha)
+  git(root, '--git-dir', bareRemote, 'update-ref', 'refs/heads/dev', targetBaselineSha)
   return {root, runRoot, evidenceRoot, bareRemote, selection}
 }
 

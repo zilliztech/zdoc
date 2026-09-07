@@ -27,12 +27,13 @@ const EXPECTED_UNIT_KEYS = [
   'translation/ja-JP/go', 'translation/zh-CN-reference/go',
   'translation/ja-JP/cli', 'translation/zh-CN-reference/cli',
   'translation/ja-JP/cpp', 'translation/zh-CN-reference/cpp',
+  'translation/ja-JP/reference-landings',
   'translation/zh-CN-reference/reference-landings',
 ]
 
 function handoff() {
   const groups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'cpp', 'rest', 'reference-landings']
-  const selectedUnitKeys = EXPECTED_UNIT_KEYS.slice(0, -1)
+  const selectedUnitKeys = EXPECTED_UNIT_KEYS.slice(0, -2)
   return {
     schemaVersion: 2,
     locale: 'all',
@@ -164,7 +165,7 @@ test('builds all Translation publication units in the canonical ready-descriptor
   assert.equal(selection.inputs.selectedGroup, 'all')
   assert.equal(selection.toolingSha, SHA_A)
   assert.equal(selection.initialTargetSha, SHA_B)
-  assert.deepEqual(selection.units.map(unit => unit.unitKey), EXPECTED_UNIT_KEYS.slice(0, -1))
+  assert.deepEqual(selection.units.map(unit => unit.unitKey), EXPECTED_UNIT_KEYS.slice(0, -2))
 
   for (const unit of selection.units) {
     const handoffUnit = handoff().units.find(candidate => candidate.target === unit.target && candidate.group === unit.group)

@@ -190,9 +190,6 @@ function candidateOwnership({group, target}) {
   const paths = getGroupPaths(group)
   const definition = getContentGroup(group)
   const forceTranslationPaths = definition.forceTranslationPaths || []
-  if (forceTranslationPaths.length > 0 && target !== 'zh-CN-reference') {
-    throw new Error('Forced Reference landing translation requires target zh-CN-reference')
-  }
   const preservedSourcePaths = [...new Set([...paths.preservedEnglish, ...forceTranslationPaths])]
   return {
     group,

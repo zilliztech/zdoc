@@ -61,6 +61,17 @@ test('preserves the manual-only Chinese reference landings selection', () => {
   }]);
 });
 
+test('selects Japanese and all-locale Reference landings', () => {
+  assert.deepEqual(buildTranslationSelection({locale: 'ja-JP', group: 'reference-landings'}), [{
+    locale: 'ja-JP', target: 'ja-JP', group: 'reference-landings', sourceGroup: 'reference-landings',
+    order: 0, publicationOrder: 0,
+  }]);
+  assert.deepEqual(
+    buildTranslationSelection({locale: 'all', group: 'reference-landings'}).map(item => `${item.target}/${item.group}`),
+    ['ja-JP/reference-landings', 'zh-CN-reference/reference-landings'],
+  );
+});
+
 test('derives the canonical source-group set from the manual registry', () => {
   const groups = [...new Set(buildTranslationSelection({locale: 'all', group: 'all'}).map(item => item.sourceGroup))];
   assert.deepEqual(groups, [...sourcePublicationGroups()].filter(group => group !== 'rest'));
@@ -68,6 +79,5 @@ test('derives the canonical source-group set from the manual registry', () => {
 
 test('fails unsupported locale and group combinations before translation', () => {
   assert.throws(() => buildTranslationSelection({locale: 'zh-CN', group: 'guides'}), /unsupported/i);
-  assert.throws(() => buildTranslationSelection({locale: 'all', group: 'reference-landings'}), /unsupported/i);
   assert.throws(() => buildTranslationSelection({locale: 'ja-JP', group: 'tools'}), /unsupported/i);
 });
