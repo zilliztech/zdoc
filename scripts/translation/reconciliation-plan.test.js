@@ -107,7 +107,15 @@ test('rejects unknown keys, unsafe paths, noncanonical mappings, and invalid own
   assert.throws(() => plan({operations: [operation('delete_target', {sourcePath: 'content/en/reference/api/python/../old.md'})]}), /safe normalized/i)
   assert.throws(() => plan({operations: [operation('delete_target', {targetPath: 'content/zh-CN/reference/api/java/java/old.md'})]}), /canonical.*mapping/i)
   assert.throws(() => plan({operations: [operation('delete_target', {sourcePath: 'content/en/reference/api/java/java/old.md', targetPath: 'content/zh-CN/reference/api/java/java/old.md'})]}), /ownership/i)
-  assert.throws(() => plan({target: 'ja-JP', group: 'reference-landings'}), /group/i)
+  const japaneseLanding = plan({
+    target: 'ja-JP',
+    group: 'reference-landings',
+    operations: [operation('delete_target', {
+      sourcePath: 'content/en/reference/api/python/python/python.md',
+      targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/python.md',
+    })],
+  })
+  assert.equal(japaneseLanding.target, 'ja-JP')
 })
 
 test('rejects duplicate source, target, operation identities, and conflicting kinds', () => {

@@ -132,6 +132,7 @@ export const TRANSLATION_UNIT_ORDER = Object.freeze([
       `translation/zh-CN-reference/${id}`,
     ]
   )),
+  'translation/ja-JP/reference-landings',
   'translation/zh-CN-reference/reference-landings',
 ]) as readonly string[];
 
@@ -143,6 +144,7 @@ export const MONITOR_TRANSLATION_UNIT_ORDER = Object.freeze([
     `translation/ja-JP/${id}`,
     `translation/zh-CN-reference/${id}`,
   ]),
+  'translation/ja-JP/reference-landings',
   'translation/zh-CN-reference/reference-landings',
 ]) as readonly string[];
 
@@ -205,7 +207,7 @@ export function referenceLandingsZhCn(): readonly string[] {
 export function reconciliationTargetGroups(): Readonly<Record<string, readonly string[]>> {
   const sdk = sdkGroupIds();
   return Object.freeze({
-    'ja-JP': Object.freeze(['guides', ...sdk]),
+    'ja-JP': Object.freeze(['guides', ...sdk, 'reference-landings']),
     'zh-CN-reference': Object.freeze([...sdk, 'reference-landings']),
   });
 }

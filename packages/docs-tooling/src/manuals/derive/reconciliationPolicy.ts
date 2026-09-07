@@ -71,6 +71,7 @@ export function generateReconciliationPolicyJson(): string {
       if (root) landingRoots.push(root);
     }
   }
+  jaJp['reference-landings'] = landingsReviewRule(landingRoots);
   zhCnReference['reference-landings'] = landingsReviewRule(landingRoots);
 
   const policy = {
@@ -83,4 +84,3 @@ export function generateReconciliationPolicyJson(): string {
   };
   return `${JSON.stringify(policy, null, 2)}\n`;
 }
-
