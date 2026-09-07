@@ -70,6 +70,7 @@ export const ManualPublicationSchema = z.object({
   missingContent: z.enum(['error', 'explicitly-disabled']),
   preservedFiles: z.array(RepositoryRelativePathSchema).optional(),
   preservedPaths: z.array(RepositoryRelativePathSchema).optional(),
+  externallyOwnedFiles: z.array(RepositoryRelativePathSchema).optional(),
   retiredPaths: z.array(RepositoryRelativePathSchema).optional(),
 }).strict();
 

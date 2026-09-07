@@ -666,6 +666,7 @@ describe('Chinese Guides source publication', () => {
   it('publishes manifest-owned Cloud, BYOC, and Tools without touching Chinese Reference', async () => {
     const root = temporaryRoot();
     const groupStage = 'tmp/docs-tooling/zh-CN/groups/guides';
+    write(root, 'content/zh-CN/guides/tutorials/home.md', 'translated home stays\n');
     write(root, 'content/zh-CN/guides/tutorials/old.md', 'old\n');
     write(root, 'content/zh-CN/guides/tutorials/tools/old.md', 'old tools\n');
     write(root, 'content/zh-CN/byoc/old.md', 'old\n');
@@ -717,6 +718,7 @@ describe('Chinese Guides source publication', () => {
     );
 
     expect(readFileSync(path.join(root, 'content/zh-CN/guides/tutorials/new.md'), 'utf8')).toBe('new\n');
+    expect(readFileSync(path.join(root, 'content/zh-CN/guides/tutorials/home.md'), 'utf8')).toBe('translated home stays\n');
     expect(readFileSync(path.join(root, 'content/zh-CN/byoc/tutorials/new.md'), 'utf8')).toBe('new\n');
     expect(readFileSync(path.join(root, 'content/zh-CN/guides/tutorials/tools/new.md'), 'utf8')).toBe('new tools\n');
     expect(readFileSync(path.join(root, 'generated/zh-CN/sidebars/tools.sidebar.js'), 'utf8')).toBe('new tools sidebar\n');
@@ -977,6 +979,7 @@ describe('Chinese Guides source publication', () => {
     });
     expect(byPath.get(sidebar)).toEqual({path: sidebar, sha256: byPath.get(sidebar).sha256, docToken: null, revisionId: null});
     expect(byPath.get(byocSidebar)).toEqual({path: byocSidebar, sha256: byPath.get(byocSidebar).sha256, docToken: null, revisionId: null});
+    expect(byPath.has('content/zh-CN/guides/tutorials/home.md')).toBe(false);
   });
 
   it('rejects duplicate Feishu tokens in the Guides snapshot candidate', async () => {

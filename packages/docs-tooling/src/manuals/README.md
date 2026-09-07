@@ -17,6 +17,8 @@ The sync (`sync-master-tooling-to-dev.yml`) enforces ownership through `deploy/c
 
 `preservedFiles` (relative to a publication's `outputDir`) and `preservedPaths` (exact repository-relative paths for a landing outside a versioned `outputDir`) live *under* the dev-owned `content/` root but are actually master-authored: the fetch restores them from `MASTER_SHA`. For master to touch them legally, each preserved path **must** be declared in `masterAuthoritativePaths` in `deploy/contracts/master-tooling-sync.json`. `isDevOwned()` checks `masterAuthoritativePaths` first, so a declared landing page is treated as master-owned.
 
+`externallyOwnedFiles` also preserves files while Fetch replaces a publication directory, but it does not make them master-authored or include them in the Fetch source-publication manifest. Use it only for a file produced by another publication unit inside the replaced directory. Chinese Guides declares `home.md` this way because the landing is produced by Translation; Fetch carries the live file through the atomic replacement without claiming it as Chinese Lark source evidence.
+
 When a manual declares `preservedFiles`, do **both**:
 
 1. commit the landing page file(s) to `master`, and
