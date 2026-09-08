@@ -293,6 +293,128 @@ You can modify the settings, such as the name, description, and auto-suspend set
 
     ![M2XMwoWoih17BRbqhGhcb6i9njg](https://zdoc-images.s3.us-west-2.amazonaws.com/M2XMwoWoih17BRbqhGhcb6i9njg.png)
 
+## Configure a keep-warm schedule\{#configure-a-keep-warm-schedule}
+
+A keep-warm schedule keeps an on-demand cluster running during recurring weekly windows. When a keep-warm window starts, Zilliz Cloud resumes the on-demand cluster if it is suspended. During the window, `Auto Suspend` is suppressed. When the window ends, the on-demand cluster follows its existing auto-suspension policy again.
+
+Keep-warm schedule does not turn off `Auto Suspend` permanently and does not actively suspend an on-demand cluster when a keep-warm window ends.
+
+<Admonition type="info" icon="📘" title="Note">
+
+To suspend an on-demand cluster during a keep-warm window, disable or delete the keep-warm schedule first.
+
+</Admonition>
+
+Each on-demand cluster can have one keep-warm schedule. A schedule can contain 1 to 5 weekly rules. Each rule uses the organization's system time zone and includes the days of the week, a start time, and an end time.
+
+### Via RESTful API\{#via-restful-api}
+
+You can create, update, view, enable, disable, or delete the keep-warm schedule of an on-demand cluster.
+
+#### Create or update a keep-warm schedule\{#create-or-update-a-keep-warm-schedule}
+
+When you create or update a keep-warm schedule, submit the complete list of rules. Zilliz Cloud replaces the existing rules with the submitted rules in a single operation.
+
+The following example creates a keep-warm schedule for weekdays from `09:00` to `18:00`.
+
+```bash
+
+```
+
+Example response:
+
+```bash
+
+```
+
+#### View a keep-warm schedule\{#view-a-keep-warm-schedule}
+
+The following example checks the keep-warm schedule of an on-demand cluster.
+
+```bash
+
+```
+
+Example response:
+
+```json
+
+```
+
+If no schedule is configured, the request succeeds and returns `configured` as `false`.
+
+#### Enable or disable a keep-warm schedule\{#enable-or-disable-a-keep-warm-schedule}
+
+To enable or disable a keep-warm schedule, send a PUT request with the full rule set and the desired `enabled` value.
+
+<Admonition type="info" icon="📘" title="Note">
+
+Disabling a schedule keeps all configured rules. If the on-demand cluster is in a keep-warm window, Zilliz Cloud exits keep-warm mode immediately. The schedule does not suspend the on-demand cluster.
+
+</Admonition>
+
+The following example disables an existing keep-warm schedule.
+
+```bash
+
+```
+
+Example response:
+
+```bash
+
+```
+
+#### Delete a keep-warm schedule\{#delete-a-keep-warm-schedule}
+
+Deleting a keep-warm schedule removes the schedule and all rules. It does not delete the on-demand cluster, data, events, or audit records.
+
+```bash
+
+```
+
+Example response:
+
+```json
+
+```
+
+### Via web console\{#via-web-console}
+
+![EnHUwxZCUhT8hlbvMJRchiAQnfY](https://zdoc-images.s3.us-west-2.amazonaws.com/EnHUwxZCUhT8hlbvMJRchiAQnfY.png)
+
+<Procedures>
+
+1. Navigate to your target on-demand cluster.
+
+1. Open the **Actions** menu and click **Manage Keep-warm Schedule**.
+
+1. Turn on **Enable Keep-warm Schedule**.
+
+1. In **Schedule Rules**, add one or more weekly rules.
+
+1. For each rule, configure the repeat days, start time, and end time.
+
+1. Review the next transition time.
+
+1. Click **Save**.
+
+</Procedures>
+
+The cluster details page shows the keep-warm schedule status as **On**, **Off**, **Not configured**, or **Schedule unavailable**. If a schedule is configured, it also shows the rule count, the system time zone, and the next transition time.
+
+If the on-demand cluster is currently in a keep-warm window, the page shows a secondary **Keep-warm** tag next to the primary cluster status.
+
+![IF04w32RNhEbr7b8OBUcM8n3nnc](https://zdoc-images.s3.us-west-2.amazonaws.com/IF04w32RNhEbr7b8OBUcM8n3nnc.png)
+
+Disabling a schedule keeps all configured rules. If the on-demand cluster is in a keep-warm window, Zilliz Cloud exits keep-warm mode immediately. The schedule does not suspend the on-demand cluster. To disable a keep-warm schedule, turn off **Enable Keep-warm Schedule** and click **Save** as shown below.
+
+![OzydwQkLjhVsoBbckHzciUAbnmc](https://zdoc-images.s3.us-west-2.amazonaws.com/OzydwQkLjhVsoBbckHzciUAbnmc.png)
+
+Deleting a schedule permanently removes all rules. To delete a keep-warm schedule, click **Delete Schedule** and confirm the operation as shown below. 
+
+![SBkEwV2bihQXhDbdTlIcnnYknSd](https://zdoc-images.s3.us-west-2.amazonaws.com/SBkEwV2bihQXhDbdTlIcnnYknSd.png)
+
 ## Drop an on-demand cluster\{#drop-an-on-demand-cluster}
 
 <Admonition type="danger" icon="🚧" title="Danger">

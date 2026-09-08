@@ -96,6 +96,8 @@ Upgrade your cluster Milvus version to access these features.
 
 - [On-demand compute](./on-demand-cluster)
 
+- [Spark Batch Jobs](./spark-batch-jobs)
+
 <Admonition type="info" icon="📘" title="📘 Notes">
 
 If your region does support this feature, [contact us](http://support.zilliz.com) to request more regions

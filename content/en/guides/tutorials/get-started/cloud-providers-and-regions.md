@@ -224,7 +224,7 @@ Region support can vary by workload type, deployment option, and feature. Use th
    </tr>
    <tr>
      <td><p>BYOC</p></td>
-     <td><p>✅ All regions</p><p>Plus ap-east-1 (Hong Kong SAR)</p></td>
+     <td><p>✅ All regions</p><p>Plus:</p><ul><li><p>ap-east-1 (Hong Kong SAR)</p></li><li><p>ap-southeast-7 (Thailand)</p></li></ul></td>
      <td><p>✅ All regions</p></td>
      <td><p>✅ All regions</p></td>
    </tr>
@@ -272,6 +272,12 @@ Region support can vary by workload type, deployment option, and feature. Use th
    <tr>
      <td><p><a href="./cmek">CMEK</a></p></td>
      <td><p>✅ All regions</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p><a href="/docs/spark-batch-jobs">Spark Batch Jobs</a></p></td>
+     <td><p>ℹ️   Part of the regions:</p><ul><li>us-west-2</li></ul></td>
      <td><p>❌</p></td>
      <td><p>❌</p></td>
    </tr>

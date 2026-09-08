@@ -2,7 +2,7 @@
 title: "Manage Spark Batch Jobs | Cloud"
 slug: /manage-spark-batch-jobs
 sidebar_label: "Manage Spark Batch Jobs"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -19,6 +19,12 @@ import Admonition from '@theme/Admonition';
 
 
 # Manage Spark Batch Jobs
+
+<FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
+
+This feature is only available in the AWS us-west-2 regions. It is not available on Google Cloud and Microsoft Azure.
+
+</FeatureNote>
 
 Spark batch jobs run asynchronously and move through several states from submission to completion. This page explains the job lifecycle and then shows how to list jobs, retrieve job details, and cancel jobs that are still in a cancelable state.
 

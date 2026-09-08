@@ -279,35 +279,40 @@ curl --request POST \
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include <vector>
+
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-auto status = client->Connect(connect_param);
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"));
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    std::cerr << "Failed to connect: " << status.Message() << std::endl;
+    return;
 }
 
-std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
-auto request = milvus::SearchRequest()
-                   .WithCollectionName("quick_setup")
-                   .WithLimit(3)
-                   .WithAnnsField("vector")
-                   .AddFloatVector(query_vector);
+std::vector<float> queryVector = {
+    0.35803764F, -0.60234958F, 0.18414013F, -0.26286206F, 0.90294385F
+};
 
-milvus::SearchResponse response;
-status = client->Search(request, response);
+auto searchRequest = milvus::SearchRequest()
+                         .WithCollectionName("quick_setup")
+                         .WithAnnsField("vector")
+                         .WithLimit(3)
+                         .WithMetricType(milvus::MetricType::IP)
+                         .AddFloatVector(queryVector);
+
+milvus::SearchResponse searchResponse;
+status = client->Search(searchRequest, searchResponse);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    std::cerr << "Search failed: " << status.Message() << std::endl;
+    return;
 }
 
-for (auto& result : response.Results().Results()) {
-    std::cout << "TopK results:" << std::endl;
-    milvus::EntityRows output_rows;
-    status = result.OutputRows(output_rows);
-    for (const auto& row : output_rows) {
-        std::cout << "\t" << row << std::endl;
+for (const auto& result : searchResponse.Results().Results()) {
+    const auto ids = result.Ids().IntIDArray();
+    for (size_t i = 0; i < result.Scores().size(); ++i) {
+        std::cout << "id=" << ids[i] << ", score=" << result.Scores()[i] << std::endl;
     }
 }
 ```
@@ -317,7 +322,22 @@ for (auto& result : response.Results().Results()) {
 <TabItem value='shell'>
 
 ```shell
-# Zilliz CLI
+zilliz vector search \
+  --collection quick_setup \
+  --body '{
+  "data": [
+    [
+      0.3580376395471989,
+      -0.6023495712049978,
+      0.18414012509913835,
+      -0.26286205330961354,
+      0.9029438446296592
+    ]
+  ],
+  "annsField": "vector",
+  "limit": 3
+}' \
+  --output json
 ```
 
 </TabItem>
@@ -569,28 +589,29 @@ curl --request POST \
 <TabItem value='c++'>
 
 ```c++
-std::vector<std::vector<float>> query_vectors = {
-    {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592},
-    {0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104}
+std::vector<std::vector<float>> queryVectors = {
+    {0.041732933F, 0.013779674F, -0.027564144F, -0.013061441F, 0.009748648F},
+    {0.0039737443F, 0.003020432F, -0.0006188639F, 0.03913546F, -0.00089768134F},
 };
-auto request = milvus::SearchRequest()
-                   .WithCollectionName("quick_setup")
-                   .WithLimit(3)
-                   .WithAnnsField("vector")
-                   .WithFloatVector(std::move(query_vectors));
 
-milvus::SearchResponse response;
-auto status = client->Search(request, response);
+auto searchRequest = milvus::SearchRequest()
+                         .WithCollectionName("quick_setup")
+                         .WithAnnsField("vector")
+                         .WithLimit(3)
+                         .WithFloatVectors(std::move(queryVectors));
+
+milvus::SearchResponse searchResponse;
+auto status = client->Search(searchRequest, searchResponse);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    std::cerr << "Search failed: " << status.Message() << std::endl;
+    return;
 }
 
-for (auto& result : response.Results().Results()) {
+for (const auto& result : searchResponse.Results().Results()) {
     std::cout << "TopK results:" << std::endl;
-    milvus::EntityRows output_rows;
-    status = result.OutputRows(output_rows);
-    for (const auto& row : output_rows) {
-        std::cout << "\t" << row << std::endl;
+    const auto ids = result.Ids().IntIDArray();
+    for (size_t i = 0; i < result.Scores().size(); ++i) {
+        std::cout << "id=" << ids[i] << ", score=" << result.Scores()[i] << std::endl;
     }
 }
 ```
@@ -600,7 +621,29 @@ for (auto& result : response.Results().Results()) {
 <TabItem value='shell'>
 
 ```shell
-# Zilliz CLI
+zilliz vector search \
+  --collection quick_setup \
+  --body '{
+  "data": [
+    [
+      0.041732933,
+      0.013779674,
+      -0.027564144,
+      -0.013061441,
+      0.009748648
+    ],
+    [
+      0.0039737443,
+      0.003020432,
+      -0.0006188639,
+      0.03913546,
+      -0.00089768134
+    ]
+  ],
+  "annsField": "vector",
+  "limit": 3
+}' \
+  --output json
 ```
 
 </TabItem>
@@ -633,7 +676,23 @@ for hits in res:
 <TabItem value='java'>
 
 ```java
-// java
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Arrays;
+
+SearchReq searchReq = SearchReq.builder()
+        .collectionName("quick_setup")
+        .annsField("vector")
+        // highlight-start
+        .ids(Arrays.<Object>asList(551L, 296L, 43L))
+        // highlight-end
+        .limit(3)
+        .metricType(IndexParam.MetricType.IP)
+        .build();
+
+SearchResp searchResp = client.search(searchReq);
+System.out.println(searchResp.getSearchResults());
 ```
 
 </TabItem>
@@ -641,7 +700,17 @@ for hits in res:
 <TabItem value='javascript'>
 
 ```javascript
-// node.js
+const res = await client.search({
+    collection_name: "quick_setup",
+    anns_field: "vector",
+    // highlight-start
+    ids: [551, 296, 43],
+    // highlight-end
+    limit: 3,
+    metric_type: "IP",
+})
+
+console.log(res.results)
 ```
 
 </TabItem>
@@ -649,7 +718,29 @@ for hits in res:
 <TabItem value='go'>
 
 ```go
-// go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/column"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+queryIDs := column.NewColumnInt64("id", []int64{551, 296, 43})
+resultSets, err := client.Search(ctx, milvusclient.NewSearchByIDsOption(
+    "quick_setup", // collectionName
+    3,             // limit
+    queryIDs,
+).WithANNSField("vector").
+    WithSearchParam("metric_type", "IP"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+for _, resultSet := range resultSets {
+    fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
+    fmt.Println("Scores: ", resultSet.Scores)
+}
 ```
 
 </TabItem>
@@ -675,7 +766,28 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
 <TabItem value='c++'>
 
 ```c++
-// cpp
+auto searchRequest = milvus::SearchRequest()
+                         .WithCollectionName("quick_setup")
+                         .WithAnnsField("vector")
+                         // highlight-start
+                         .WithIDs({551, 296, 43})
+                         // highlight-end
+                         .WithLimit(3)
+                         .WithMetricType(milvus::MetricType::IP);
+
+milvus::SearchResponse searchResponse;
+auto status = client->Search(searchRequest, searchResponse);
+if (!status.IsOk()) {
+    std::cerr << "Search failed: " << status.Message() << std::endl;
+    return;
+}
+
+for (const auto& result : searchResponse.Results().Results()) {
+    const auto ids = result.Ids().IntIDArray();
+    for (size_t i = 0; i < result.Scores().size(); ++i) {
+        std::cout << "id=" << ids[i] << ", score=" << result.Scores()[i] << std::endl;
+    }
+}
 ```
 
 </TabItem>
@@ -683,7 +795,19 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
 <TabItem value='shell'>
 
 ```shell
-# Zilliz CLI
+zilliz vector search \
+  --collection quick_setup \
+  --data '[]' \
+  --body '{
+  "ids": [
+    1,
+    2,
+    3
+  ],
+  "annsField": "vector",
+  "limit": 3
+}' \
+  --output json
 ```
 
 </TabItem>
@@ -867,26 +991,25 @@ curl --request POST \
 <TabItem value='c++'>
 
 ```c++
-std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
-auto request = milvus::SearchRequest()
-                   .WithCollectionName("quick_setup")
-                   .AddPartitionName("partitionA")
-                   .WithLimit(3)
-                   .WithAnnsField("vector")
-                   .AddFloatVector(query_vector);
+auto searchRequest = milvus::SearchRequest()
+                         .WithCollectionName("quick_setup")
+                         .WithAnnsField("vector")
+                         // highlight-next-line
+                         .AddPartitionName("partitionA")
+                         .WithLimit(3)
+                         .AddFloatVector(queryVector);
 
-milvus::SearchResponse response;
-auto status = client->Search(request, response);
+milvus::SearchResponse searchResponse;
+auto status = client->Search(searchRequest, searchResponse);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    std::cerr << "Search failed: " << status.Message() << std::endl;
+    return;
 }
 
-for (auto& result : response.Results().Results()) {
-    std::cout << "TopK results:" << std::endl;
-    milvus::EntityRows output_rows;
-    status = result.OutputRows(output_rows);
-    for (const auto& row : output_rows) {
-        std::cout << "\t" << row << std::endl;
+for (const auto& result : searchResponse.Results().Results()) {
+    const auto ids = result.Ids().IntIDArray();
+    for (size_t i = 0; i < result.Scores().size(); ++i) {
+        std::cout << "id=" << ids[i] << ", score=" << result.Scores()[i] << std::endl;
     }
 }
 ```
@@ -896,7 +1019,25 @@ for (auto& result : response.Results().Results()) {
 <TabItem value='shell'>
 
 ```shell
-# Zilliz CLI
+zilliz vector search \
+  --collection quick_setup \
+  --body '{
+  "data": [
+    [
+      0.3580376395471989,
+      -0.6023495712049978,
+      0.18414012509913835,
+      -0.26286205330961354,
+      0.9029438446296592
+    ]
+  ],
+  "annsField": "vector",
+  "partitionNames": [
+    "partitionA"
+  ],
+  "limit": 3
+}' \
+  --output json
 ```
 
 </TabItem>
@@ -1086,26 +1227,28 @@ curl --request POST \
 <TabItem value='c++'>
 
 ```c++
-std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
-auto request = milvus::SearchRequest()
-                   .WithCollectionName("quick_setup")
-                   .WithLimit(3)
-                   .WithAnnsField("vector")
-                   .AddOutputField("color")
-                   .AddFloatVector(query_vector);
+auto searchRequest = milvus::SearchRequest()
+                         .WithCollectionName("quick_setup")
+                         .WithAnnsField("vector")
+                         .WithLimit(3)
+                         .WithMetricType(milvus::MetricType::IP)
+                         // highlight-next-line
+                         .AddOutputField("color")
+                         .AddFloatVector(queryVector);
 
-milvus::SearchResponse response;
-auto status = client->Search(request, response);
+milvus::SearchResponse searchResponse;
+auto status = client->Search(searchRequest, searchResponse);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    std::cerr << "Search failed: " << status.Message() << std::endl;
+    return;
 }
 
-for (auto& result : response.Results().Results()) {
-    std::cout << "TopK results:" << std::endl;
-    milvus::EntityRows output_rows;
-    status = result.OutputRows(output_rows);
-    for (const auto& row : output_rows) {
-        std::cout << "\t" << row << std::endl;
+for (const auto& result : searchResponse.Results().Results()) {
+    const auto ids = result.Ids().IntIDArray();
+    const auto colors = result.OutputField<milvus::VarCharFieldData>("color");
+    for (size_t i = 0; i < result.Scores().size(); ++i) {
+        std::cout << "id=" << ids[i] << ", score=" << result.Scores()[i]
+                  << ", color=" << colors->Data()[i] << std::endl;
     }
 }
 ```
@@ -1115,7 +1258,25 @@ for (auto& result : response.Results().Results()) {
 <TabItem value='shell'>
 
 ```shell
-# Zilliz CLI
+zilliz vector search \
+  --collection quick_setup \
+  --body '{
+  "data": [
+    [
+      0.3580376395471989,
+      -0.6023495712049978,
+      0.18414012509913835,
+      -0.26286205330961354,
+      0.9029438446296592
+    ]
+  ],
+  "annsField": "vector",
+  "outputFields": [
+    "color"
+  ],
+  "limit": 3
+}' \
+  --output json
 ```
 
 </TabItem>
@@ -1152,7 +1313,33 @@ res = client.search(
 <TabItem value='java'>
 
 ```java
-// java
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.aggregation.AggDirection;
+import io.milvus.v2.service.vector.request.aggregation.OrderByField;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Arrays;
+import java.util.Collections;
+
+FloatVec queryVector = new FloatVec(new float[]{0.35803764f, -0.6023496f, 0.18414013f, -0.26286206f, 0.90294385f});
+SearchReq searchReq = SearchReq.builder()
+        .collectionName("product_catalog")
+        .data(Collections.singletonList(queryVector))
+        .annsField("embedding")
+        .limit(20)
+        .outputFields(Arrays.asList("id", "price", "rating", "category"))
+        // highlight-start
+        .orderByFields(Collections.singletonList(
+                OrderByField.builder()
+                        .fieldName("price")
+                        .direction(AggDirection.ASC)
+                        .build()
+        ))
+        // highlight-end
+        .build();
+
+SearchResp searchResp = client.search(searchReq);
+System.out.println(searchResp.getSearchResults());
 ```
 
 </TabItem>
@@ -1160,7 +1347,20 @@ res = client.search(
 <TabItem value='javascript'>
 
 ```javascript
-// nodejs
+const res = await client.search({
+    collection_name: "product_catalog",
+    data: query_vector,
+    anns_field: "embedding",
+    limit: 20,
+    output_fields: ["id", "price", "rating", "category"],
+    // highlight-start
+    order_by_fields: [
+        { field: "price", order: "asc" }
+    ],
+    // highlight-end
+})
+
+console.log(res.results)
 ```
 
 </TabItem>
@@ -1168,7 +1368,30 @@ res = client.search(
 <TabItem value='go'>
 
 ```go
-// go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+queryVector := []float32{0.35803764, -0.6023496, 0.18414013, -0.26286206, 0.90294385}
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "product_catalog", // collectionName
+    20,                // limit
+    []entity.Vector{entity.FloatVector(queryVector)},
+).WithANNSField("embedding").
+    WithOutputFields("id", "price", "rating", "category").
+    WithSearchParam("order_by_fields", "price:asc"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+for _, resultSet := range resultSets {
+    fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
+    fmt.Println("Prices: ", resultSet.GetColumn("price").FieldData().GetScalars())
+}
 ```
 
 </TabItem>
@@ -1184,7 +1407,31 @@ res = client.search(
 <TabItem value='c++'>
 
 ```c++
-// cpp
+auto searchRequest = milvus::SearchRequest()
+                         .WithCollectionName("product_catalog")
+                         .WithAnnsField("embedding")
+                         .WithLimit(20)
+                         .WithOutputFields({"id", "price", "rating", "category"})
+                         // highlight-start
+                         .AddOrderByField(milvus::OrderByField(
+                             "price", milvus::AggregationDirection::ASC))
+                         // highlight-end
+                         .AddFloatVector(queryVector);
+
+milvus::SearchResponse searchResponse;
+auto status = client->Search(searchRequest, searchResponse);
+if (!status.IsOk()) {
+    std::cerr << "Search failed: " << status.Message() << std::endl;
+    return;
+}
+
+for (const auto& result : searchResponse.Results().Results()) {
+    const auto ids = result.Ids().IntIDArray();
+    const auto prices = result.OutputField<milvus::Int64FieldData>("price");
+    for (size_t i = 0; i < result.GetRowCount(); ++i) {
+        std::cout << "id=" << ids[i] << ", price=" << prices->Data()[i] << std::endl;
+    }
+}
 ```
 
 </TabItem>
@@ -1192,7 +1439,28 @@ res = client.search(
 <TabItem value='shell'>
 
 ```shell
-# Zilliz CLI
+zilliz vector search \
+  --collection quick_setup \
+  --body '{
+  "data": [
+    [
+      0.3580376395471989,
+      -0.6023495712049978,
+      0.18414012509913835,
+      -0.26286205330961354,
+      0.9029438446296592
+    ]
+  ],
+  "annsField": "vector",
+  "outputFields": [
+    "price"
+  ],
+  "orderByFields": [
+    "price:asc"
+  ],
+  "limit": 3
+}' \
+  --output json
 ```
 
 </TabItem>
@@ -1224,7 +1492,37 @@ res = client.search(
 <TabItem value='java'>
 
 ```java
-// java
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.aggregation.AggDirection;
+import io.milvus.v2.service.vector.request.aggregation.OrderByField;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Arrays;
+import java.util.Collections;
+
+FloatVec queryVector = new FloatVec(new float[]{0.35803764f, -0.6023496f, 0.18414013f, -0.26286206f, 0.90294385f});
+SearchReq searchReq = SearchReq.builder()
+        .collectionName("product_catalog")
+        .data(Collections.singletonList(queryVector))
+        .annsField("embedding")
+        .limit(20)
+        .outputFields(Arrays.asList("id", "price", "rating", "category"))
+        // highlight-start
+        .orderByFields(Arrays.asList(
+                OrderByField.builder()
+                        .fieldName("price")
+                        .direction(AggDirection.ASC)
+                        .build(),
+                OrderByField.builder()
+                        .fieldName("rating")
+                        .direction(AggDirection.DESC)
+                        .build()
+        ))
+        // highlight-end
+        .build();
+
+SearchResp searchResp = client.search(searchReq);
+System.out.println(searchResp.getSearchResults());
 ```
 
 </TabItem>
@@ -1232,7 +1530,21 @@ res = client.search(
 <TabItem value='javascript'>
 
 ```javascript
-// nodejs
+const res = await client.search({
+    collection_name: "product_catalog",
+    data: query_vector,
+    anns_field: "embedding",
+    limit: 20,
+    output_fields: ["id", "price", "rating", "category"],
+    // highlight-start
+    order_by_fields: [
+        { field: "price", order: "asc" },
+        { field: "rating", order: "desc" },
+    ],
+    // highlight-end
+})
+
+console.log(res.results)
 ```
 
 </TabItem>
@@ -1240,7 +1552,31 @@ res = client.search(
 <TabItem value='go'>
 
 ```go
-// go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+queryVector := []float32{0.35803764, -0.6023496, 0.18414013, -0.26286206, 0.90294385}
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "product_catalog", // collectionName
+    20,                // limit
+    []entity.Vector{entity.FloatVector(queryVector)},
+).WithANNSField("embedding").
+    WithOutputFields("id", "price", "rating", "category").
+    WithSearchParam("order_by_fields", "price:asc,rating:desc"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+for _, resultSet := range resultSets {
+    fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
+    fmt.Println("Prices: ", resultSet.GetColumn("price").FieldData().GetScalars())
+    fmt.Println("Ratings: ", resultSet.GetColumn("rating").FieldData().GetScalars())
+}
 ```
 
 </TabItem>
@@ -1256,7 +1592,35 @@ res = client.search(
 <TabItem value='c++'>
 
 ```c++
-// cpp
+auto searchRequest = milvus::SearchRequest()
+                         .WithCollectionName("product_catalog")
+                         .WithAnnsField("embedding")
+                         .WithLimit(20)
+                         .WithOutputFields({"id", "price", "rating", "category"})
+                         // highlight-start
+                         .WithOrderByFields({
+                             milvus::OrderByField("price", milvus::AggregationDirection::ASC),
+                             milvus::OrderByField("rating", milvus::AggregationDirection::DESC),
+                         })
+                         // highlight-end
+                         .AddFloatVector(queryVector);
+
+milvus::SearchResponse searchResponse;
+auto status = client->Search(searchRequest, searchResponse);
+if (!status.IsOk()) {
+    std::cerr << "Search failed: " << status.Message() << std::endl;
+    return;
+}
+
+for (const auto& result : searchResponse.Results().Results()) {
+    const auto ids = result.Ids().IntIDArray();
+    const auto prices = result.OutputField<milvus::Int64FieldData>("price");
+    const auto ratings = result.OutputField<milvus::DoubleFieldData>("rating");
+    for (size_t i = 0; i < result.GetRowCount(); ++i) {
+        std::cout << "id=" << ids[i] << ", price=" << prices->Data()[i]
+                  << ", rating=" << ratings->Data()[i] << std::endl;
+    }
+}
 ```
 
 </TabItem>
@@ -1264,7 +1628,30 @@ res = client.search(
 <TabItem value='shell'>
 
 ```shell
-# Zilliz CLI
+zilliz vector search \
+  --collection quick_setup \
+  --body '{
+  "data": [
+    [
+      0.3580376395471989,
+      -0.6023495712049978,
+      0.18414012509913835,
+      -0.26286205330961354,
+      0.9029438446296592
+    ]
+  ],
+  "annsField": "vector",
+  "outputFields": [
+    "price",
+    "rating"
+  ],
+  "orderByFields": [
+    "price:asc",
+    "rating:desc"
+  ],
+  "limit": 3
+}' \
+  --output json
 ```
 
 </TabItem>
@@ -1412,26 +1799,25 @@ curl --request POST \
 <TabItem value='c++'>
 
 ```c++
-std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
-auto request = milvus::SearchRequest()
-                   .WithCollectionName("quick_setup")
-                   .WithLimit(3)
-                   .WithAnnsField("vector")
-                   .WithOffset(10)
-                   .AddFloatVector(query_vector);
+auto searchRequest = milvus::SearchRequest()
+                         .WithCollectionName("quick_setup")
+                         .WithAnnsField("vector")
+                         .WithLimit(3)
+                         // highlight-next-line
+                         .WithOffset(10)
+                         .AddFloatVector(queryVector);
 
-milvus::SearchResponse response;
-auto status = client->Search(request, response);
+milvus::SearchResponse searchResponse;
+auto status = client->Search(searchRequest, searchResponse);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    std::cerr << "Search failed: " << status.Message() << std::endl;
+    return;
 }
 
-for (auto& result : response.Results().Results()) {
-    std::cout << "TopK results:" << std::endl;
-    milvus::EntityRows output_rows;
-    status = result.OutputRows(output_rows);
-    for (const auto& row : output_rows) {
-        std::cout << "\t" << row << std::endl;
+for (const auto& result : searchResponse.Results().Results()) {
+    const auto ids = result.Ids().IntIDArray();
+    for (size_t i = 0; i < result.Scores().size(); ++i) {
+        std::cout << "id=" << ids[i] << ", score=" << result.Scores()[i] << std::endl;
     }
 }
 ```
@@ -1441,7 +1827,23 @@ for (auto& result : response.Results().Results()) {
 <TabItem value='shell'>
 
 ```shell
-# Zilliz CLI
+zilliz vector search \
+  --collection quick_setup \
+  --body '{
+  "data": [
+    [
+      0.3580376395471989,
+      -0.6023495712049978,
+      0.18414012509913835,
+      -0.26286205330961354,
+      0.9029438446296592
+    ]
+  ],
+  "annsField": "vector",
+  "limit": 3,
+  "offset": 3
+}' \
+  --output json
 ```
 
 </TabItem>
@@ -1624,7 +2026,25 @@ for (auto& result : response.Results().Results()) {
 <TabItem value='shell'>
 
 ```shell
-# Zilliz CLI
+zilliz vector search \
+  --collection quick_setup \
+  --body '{
+  "data": [
+    [
+      0.3580376395471989,
+      -0.6023495712049978,
+      0.18414012509913835,
+      -0.26286205330961354,
+      0.9029438446296592
+    ]
+  ],
+  "annsField": "vector",
+  "searchParams": {
+    "level": 10
+  },
+  "limit": 3
+}' \
+  --output json
 ```
 
 </TabItem>
@@ -1811,6 +2231,7 @@ for (auto& result : response.Results().Results()) {
 
 ```shell
 # Zilliz CLI
+# Recall-rate metadata is not currently exposed by the CLI.
 ```
 
 </TabItem>
@@ -1843,7 +2264,25 @@ res = client.search(
 <TabItem value='java'>
 
 ```java
-// java
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Collections;
+
+FloatVec queryVector = new FloatVec(new float[]{0.35803764f, -0.6023496f, 0.18414013f, -0.26286206f, 0.90294385f});
+SearchReq searchReq = SearchReq.builder()
+        .collectionName("quick_setup")
+        .annsField("vector")
+        .data(Collections.singletonList(queryVector))
+        .limit(3)
+        .metricType(IndexParam.MetricType.IP)
+        // highlight-next-line
+        .timezone("America/Havana")
+        .build();
+
+SearchResp searchResp = client.search(searchReq);
+System.out.println(searchResp.getSearchResults());
 ```
 
 </TabItem>
@@ -1851,7 +2290,17 @@ res = client.search(
 <TabItem value='javascript'>
 
 ```javascript
-// js
+const res = await client.search({
+    collection_name: "quick_setup",
+    anns_field: "vector",
+    data: query_vector,
+    limit: 3,
+    metric_type: "IP",
+    // highlight-next-line
+    params: { timezone: "America/Havana" },
+})
+
+console.log(res.results)
 ```
 
 </TabItem>
@@ -1859,7 +2308,31 @@ res = client.search(
 <TabItem value='go'>
 
 ```go
-// go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+queryVector := []float32{0.35803764, -0.6023496, 0.18414013, -0.26286206, 0.90294385}
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "quick_setup", // collectionName
+    3,             // limit
+    []entity.Vector{entity.FloatVector(queryVector)},
+).WithANNSField("vector").
+    WithSearchParam("metric_type", "IP").
+    WithOutputFields("event_time").
+    WithSearchParam("timezone", "America/Havana"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+for _, resultSet := range resultSets {
+    fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
+    fmt.Println("Event times: ", resultSet.GetColumn("event_time").FieldData().GetScalars())
+}
 ```
 
 </TabItem>
@@ -1889,19 +2362,29 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
 <TabItem value='c++'>
 
 ```c++
-std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
-auto request = milvus::SearchRequest()
-                   .WithCollectionName("quick_setup")
-                   .WithLimit(3)
-                   .WithAnnsField("vector")
-                   .AddFloatVector(query_vector)
-                   .WithMetricType(milvus::MetricType::IP)
-                   .WithTimezone("America/Havana");
+auto searchRequest = milvus::SearchRequest()
+                         .WithCollectionName("quick_setup")
+                         .WithAnnsField("vector")
+                         .WithLimit(3)
+                         .WithMetricType(milvus::MetricType::IP)
+                         .AddOutputField("event_time")
+                         // highlight-next-line
+                         .WithTimezone("America/Havana")
+                         .AddFloatVector(queryVector);
 
-milvus::SearchResponse response;
-auto status = client->Search(request, response);
+milvus::SearchResponse searchResponse;
+auto status = client->Search(searchRequest, searchResponse);
 if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
+    std::cerr << "Search failed: " << status.Message() << std::endl;
+    return;
+}
+
+for (const auto& result : searchResponse.Results().Results()) {
+    const auto ids = result.Ids().IntIDArray();
+    const auto eventTimes = result.OutputField<milvus::TimestamptzFieldData>("event_time");
+    for (size_t i = 0; i < result.GetRowCount(); ++i) {
+        std::cout << "id=" << ids[i] << ", event_time=" << eventTimes->Data()[i] << std::endl;
+    }
 }
 ```
 
@@ -1910,7 +2393,26 @@ if (!status.IsOk()) {
 <TabItem value='shell'>
 
 ```shell
-# Zilliz CLI
+zilliz vector search \
+  --collection quick_setup \
+  --body '{
+  "data": [
+    [
+      0.3580376395471989,
+      -0.6023495712049978,
+      0.18414012509913835,
+      -0.26286205330961354,
+      0.9029438446296592
+    ]
+  ],
+  "annsField": "vector",
+  "outputFields": [
+    "event_time"
+  ],
+  "timezone": "America/Havana",
+  "limit": 3
+}' \
+  --output json
 ```
 
 </TabItem>

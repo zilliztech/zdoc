@@ -2,7 +2,7 @@
 title: "Vector Similarity Deduplication | Cloud"
 slug: /vector-similarity-dedup
 sidebar_label: "Vector Similarity Deduplication"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -21,6 +21,12 @@ import Admonition from '@theme/Admonition';
 import Procedures from '@site/src/components/Procedures';
 
 # Vector Similarity Deduplication
+
+<FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
+
+This feature is only available in the AWS us-west-2 regions. It is not available on Google Cloud and Microsoft Azure.
+
+</FeatureNote>
 
 Vector similarity deduplication identifies records with highly similar embeddings and groups them as semantic duplicates. Use this job to reduce semantic redundancy, such as paraphrased text, slightly modified images, or multiple versions of similar content.
 

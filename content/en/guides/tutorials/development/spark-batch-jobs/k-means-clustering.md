@@ -2,7 +2,7 @@
 title: "K-Means Clustering | Cloud"
 slug: /k-means-clustering
 sidebar_label: "K-Means Clustering"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -21,6 +21,12 @@ import Admonition from '@theme/Admonition';
 import Procedures from '@site/src/components/Procedures';
 
 # K-Means Clustering
+
+<FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
+
+This feature is only available in the AWS us-west-2 regions. It is not available on Google Cloud and Microsoft Azure.
+
+</FeatureNote>
 
 K-Means clustering groups records with similar embeddings into a specified number of clusters. Use this job to explore the distribution of your vector data, organize records into coarse semantic groups, or prepare datasets for sampling, analysis, and other downstream workflows.
 

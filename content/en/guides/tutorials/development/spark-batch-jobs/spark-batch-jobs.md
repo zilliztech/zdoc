@@ -2,7 +2,7 @@
 title: "Spark Batch Jobs | Cloud"
 slug: /spark-batch-jobs
 sidebar_label: "Spark Batch Jobs"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -21,6 +21,12 @@ import Admonition from '@theme/Admonition';
 import Procedures from '@site/src/components/Procedures';
 
 # Spark Batch Jobs
+
+<FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
+
+This feature is only available in the AWS us-west-2 regions. It is not available on Google Cloud and Microsoft Azure.
+
+</FeatureNote>
 
 Spark batch jobs let you run distributed, offline processing on large datasets managed in Zilliz Cloud. Use built-in jobs to deduplicate, cluster, or inspect vector data.
 

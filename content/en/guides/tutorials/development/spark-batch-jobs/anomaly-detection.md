@@ -2,7 +2,7 @@
 title: "Anomaly Detection | Cloud"
 slug: /anomaly-detection
 sidebar_label: "Anomaly Detection"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -21,6 +21,12 @@ import Admonition from '@theme/Admonition';
 import Procedures from '@site/src/components/Procedures';
 
 # Anomaly Detection
+
+<FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
+
+This feature is only available in the AWS us-west-2 regions. It is not available on Google Cloud and Microsoft Azure.
+
+</FeatureNote>
 
 Anomaly detection identifies records whose vector embeddings differ substantially from the broader data distribution. Use this job to find unusual records that may represent data-quality issues, rare cases, processing errors, or samples that require further review.
 

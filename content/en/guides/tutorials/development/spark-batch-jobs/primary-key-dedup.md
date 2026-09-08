@@ -2,7 +2,7 @@
 title: "Primary-Key Deduplication | Cloud"
 slug: /primary-key-dedup
 sidebar_label: "Primary-Key Deduplication"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -21,6 +21,12 @@ import Admonition from '@theme/Admonition';
 import Procedures from '@site/src/components/Procedures';
 
 # Primary-Key Deduplication
+
+<FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
+
+This feature is only available in the AWS us-west-2 regions. It is not available on Google Cloud and Microsoft Azure.
+
+</FeatureNote>
 
 Primary-key deduplication identifies records that share the same primary key and removes redundant copies from a large dataset. Use this job to clean up duplicates introduced by repeated imports, pipeline retries, migrations, or overlapping data sources.
 
