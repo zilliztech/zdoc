@@ -1428,21 +1428,22 @@ function readJsonIfPresent(siteDir, relativePath, fallback) {
 
 function loadProgressState(siteDir, manifest, cacheOverride) {
   const target = resolveTranslationTarget(manifest.target)
-  if (target.state.kind === 'cache') {
+  const progressState = target.candidateState || target.state
+  if (progressState.kind === 'cache') {
     return {
       kind: 'cache',
-      path: target.state.path,
+      path: progressState.path,
       target,
       value: cacheOverride || readCache(siteDir, target.locale),
     }
   }
-  const value = readJsonIfPresent(siteDir, target.state.path, {schemaVersion: 1, records: []})
+  const value = readJsonIfPresent(siteDir, progressState.path, {schemaVersion: 1, records: []})
   return {
-    kind: target.state.kind,
-    path: target.state.path,
+    kind: progressState.kind,
+    path: progressState.path,
     target,
     sourceCheckpointSha: manifest.sourceCheckpointSha,
-    value: target.state.kind === 'reference-manifest' ? parseReferenceTranslationManifest(value) : value,
+    value: progressState.kind === 'reference-manifest' ? parseReferenceTranslationManifest(value) : value,
   }
 }
 

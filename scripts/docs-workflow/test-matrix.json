@@ -234,7 +234,8 @@
         "packages/docs-tooling/src/validation/translation.ts",
         "packages/docs-tooling/src/validation/translationProvenance.test.ts",
         "scripts/translation/migrate-ja-publication-manifest*",
-        "deploy/evidence/ja-publication-source-checkpoints-*"
+        "deploy/evidence/ja-publication-source-checkpoints-*",
+        ".claude/specs/2026-09-04-publication-evidence-chains-unification-design.md"
       ],
       "focusedTests": [
         "pnpm vitest run packages/docs-tooling/src/reference/translationManifest.test.ts packages/docs-tooling/src/validation/translationProvenance.test.ts packages/docs-tooling/src/reference/translationManifest.integration.test.ts packages/docs-tooling/src/translation/candidates.test.ts packages/docs-tooling/src/translation/targets.test.ts && node --test scripts/translation/migrate-ja-publication-manifest.test.js"

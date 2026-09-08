@@ -22,6 +22,17 @@ function writeJson(repositoryRoot: string, relativePath: string, value: unknown)
   writeFileSync(absolutePath, `${JSON.stringify(value, null, 2)}\n`);
 }
 
+function initGitRepository(repositoryRoot: string): void {
+  spawnSync('git', ['init'], {cwd: repositoryRoot, encoding: 'utf8'});
+  spawnSync('git', ['config', 'user.email', 'docs@example.com'], {cwd: repositoryRoot, encoding: 'utf8'});
+  spawnSync('git', ['config', 'user.name', 'Docs Bot'], {cwd: repositoryRoot, encoding: 'utf8'});
+}
+
+function commitGitRepository(repositoryRoot: string, message: string): void {
+  spawnSync('git', ['add', '.'], {cwd: repositoryRoot, encoding: 'utf8'});
+  spawnSync('git', ['commit', '-m', message], {cwd: repositoryRoot, encoding: 'utf8'});
+}
+
 function runCli(repositoryRoot: string, args: string[]) {
   return spawnSync(process.execPath, ['--experimental-strip-types', cliMain, ...args], {
     cwd: repositoryRoot,
@@ -49,6 +60,51 @@ function seedReferenceSidebars(repositoryRoot: string, groups: readonly string[]
     mkdirSync(path.dirname(absolutePath), {recursive: true});
     writeFileSync(absolutePath, 'module.exports = []\n');
   }
+}
+
+function seedJapaneseReferenceFixture(repositoryRoot: string): void {
+  initGitRepository(repositoryRoot);
+  const sourceFiles = [
+    ['content/en/byoc/tutorials/home.md', '# English byoc home\n', 'guides'],
+    ['content/en/guides/tutorials/home.md', '# English guides home\n', 'guides'],
+    ['content/en/reference/api/python/page.md', '# English reference page\n', 'python'],
+  ] as const;
+  for (const [relativePath, contents] of sourceFiles) {
+    mkdirSync(path.dirname(path.join(repositoryRoot, relativePath)), {recursive: true});
+    writeFileSync(path.join(repositoryRoot, relativePath), contents);
+  }
+  commitGitRepository(repositoryRoot, 'seed japanese reference sources');
+  const sourceCommit = spawnSync('git', ['rev-parse', 'HEAD'], {cwd: repositoryRoot, encoding: 'utf8'}).stdout.trim();
+  writeJson(repositoryRoot, 'generated/en/manifests/reference.json', {
+    schemaVersion: 1,
+    sourceCommit,
+    records: [{
+      manual: 'python',
+      sourcePath: 'content/en/reference/api/python/page.md',
+      sourceHash: createHash('sha256').update('# English reference page\n').digest('hex'),
+    }],
+  });
+  const translations = [
+    ['content/en/byoc/tutorials/home.md', 'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/home.md', '# Japanese byoc home\n', 'guides'],
+    ['content/en/guides/tutorials/home.md', 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/home.md', '# Japanese guides home\n', 'guides'],
+    ['content/en/reference/api/python/page.md', 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/page.md', '# Japanese reference page\n', 'python'],
+  ] as const;
+  for (const [, targetPath, contents] of translations) {
+    mkdirSync(path.dirname(path.join(repositoryRoot, targetPath)), {recursive: true});
+    writeFileSync(path.join(repositoryRoot, targetPath), contents);
+  }
+  writeJson(repositoryRoot, 'generated/ja-JP/manifests/reference-translations.json', {
+    schemaVersion: 1,
+    records: translations.map(([sourcePath, targetPath, contents, manual]) => ({
+      manual,
+      sourcePath,
+      targetPath,
+      sourceCommit,
+      sourceHash: createHash('sha256').update(readFileSync(path.join(repositoryRoot, sourcePath))).digest('hex'),
+      targetHash: createHash('sha256').update(contents).digest('hex'),
+      status: 'translated',
+    })),
+  });
 }
 
 const revisionRecord = (canonicalToken: string, revisionId = '1') => ({
@@ -149,6 +205,23 @@ describe('docs-tooling executable composition root', () => {
     const english = runCli(repositoryRoot, ['validate-publication-provider', '--site', 'en']);
     expect(english.status, english.stderr || english.stdout).toBe(0);
     expect(english.stdout).toMatch(/does not require/i);
+  });
+
+  it('validates Japanese Reference provenance through the manifest-backed path', () => {
+    const repositoryRoot = temporaryRoot();
+    seedJapaneseReferenceFixture(repositoryRoot);
+
+    const result = spawnSync(process.execPath, [
+      '--experimental-strip-types', cliMain,
+      'validate-reference', '--site', 'ja-JP',
+    ], {
+      cwd: repositoryRoot,
+      encoding: 'utf8',
+      env: process.env,
+    });
+
+    expect(result.status, result.stderr || result.stdout).toBe(0);
+    expect(result.stderr).toBe('');
   });
 
   it('fails Chinese publication preflight before fetch when OSS storage is incomplete', () => {
