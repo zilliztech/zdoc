@@ -22,6 +22,7 @@ import {
   createPublicationDiagnostics,
   localizedRestTargets,
   publicationOwnedTargets,
+  restDerivationManifestTargets,
   readAndValidatePublicationDiagnostics,
   writePublicationAnchor,
   writePublicationDiagnostics,
@@ -296,6 +297,22 @@ describe('localized REST publication targets', () => {
     expect(owned).toContain('i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful');
     expect(owned).toContain('content/en/reference/api/restful/restful');
     expect(owned).toContain('generated/en/sidebars/restful.sidebar.js');
+    expect(owned).toContain('generated/en/manifests/rest-derivation.json');
+    expect(owned).toContain('generated/ja-JP/manifests/rest-derivation.json');
+  });
+
+  it('derives one manifest per generated locale and none for SDK manuals', () => {
+    const english = resolveManualPublication('rest', 'en').publication;
+    const chinese = resolveManualPublication('rest', 'zh-CN').publication;
+    const python = resolveManualPublication('python', 'en').publication;
+    expect(restDerivationManifestTargets('en', english)).toEqual([
+      {locale: 'en', manifestPath: 'generated/en/manifests/rest-derivation.json'},
+      {locale: 'ja-JP', manifestPath: 'generated/ja-JP/manifests/rest-derivation.json'},
+    ]);
+    expect(restDerivationManifestTargets('zh-CN', chinese)).toEqual([
+      {locale: 'zh-CN', manifestPath: 'generated/zh-CN/manifests/rest-derivation.json'},
+    ]);
+    expect(restDerivationManifestTargets('en', python)).toEqual([]);
   });
 
   it('includes repository-relative preserved landing paths in the owned targets', () => {

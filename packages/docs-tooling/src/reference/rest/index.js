@@ -6,6 +6,7 @@ const fs = require('node:fs')
 const { loadSpecifications } = require('./specLoader')
 const { loadFragmentCollection } = require('./fragmentCollection')
 const { publishBilingualControlPlaneSpecs, publishIntegratedSpecs } = require('./integratedSpecPublisher')
+const {writeRestDerivationManifest} = require('./restDerivationManifest')
 
 function registerFetchCommand(command) {
     command
@@ -16,6 +17,9 @@ function registerFetchCommand(command) {
         .option('-t, --target <string>', 'Publication target of the API Reference', 'zilliz')
         .option('--api-surface <apiSurface>', 'Explicit page surface: data-plane or control-plane')
         .option('--upload-s3', 'Upload merged OpenAPI specs to S3 and update about page', false)
+        .option('--derivation-manifest <path>', 'Write the locale REST derivation manifest')
+        .option('--tooling-sha <sha>', 'Tooling Git SHA for the derivation manifest')
+        .option('--generated-at <utc>', 'UTC generation time for the derivation manifest')
         .action(async (opts) => {
             let lang = opts.lang
             let target = opts.target
@@ -50,6 +54,16 @@ function registerFetchCommand(command) {
 
             refGen.make_groups()
             refGen.write_refs()
+
+            if (opts.derivationManifest) {
+                writeRestDerivationManifest({
+                    fragmentRoot: opts.specifications,
+                    locale: lang === 'en-US' ? 'en' : lang,
+                    toolingSha: opts.toolingSha,
+                    generatedAt: opts.generatedAt,
+                    outputPath: opts.derivationManifest,
+                })
+            }
 
             if (opts.upload_s3) {
                 try {

@@ -184,9 +184,19 @@ export function publicationOwnedTargets(site: SiteId, publication: PublicationId
     publication.outputDir,
     publication.sidebarPath,
     ...localizedRestTargets(site, publication).map(target => target.outputDir),
+    ...restDerivationManifestTargets(site, publication).map(target => target.manifestPath),
     ...(publication.preservedPaths ?? []),
     ...(publication.retiredPaths ?? []).map(retiredPath => `content/${site}/${retiredPath}`),
   ].sort((left, right) => left.localeCompare(right, 'en')));
+}
+
+export function restDerivationManifestTargets(site: SiteId, publication: PublicationIdentityInput): readonly Readonly<{locale: 'en' | 'zh-CN' | 'ja-JP'; manifestPath: string}>[] {
+  if (!publication.sidebarPath.endsWith('/restful.sidebar.js')) return Object.freeze([]);
+  const locales = site === 'en' ? ['en', ...localizedRestTargets(site, publication).map(target => target.lang)] : [site];
+  return Object.freeze(locales.map(locale => Object.freeze({
+    locale: locale as 'en' | 'zh-CN' | 'ja-JP',
+    manifestPath: `generated/${locale}/manifests/rest-derivation.json`,
+  })));
 }
 
 // The English REST manual is also generated for each docusaurus-i18n locale in the
