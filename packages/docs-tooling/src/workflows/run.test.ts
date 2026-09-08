@@ -675,6 +675,7 @@ describe('Chinese Guides source publication', () => {
     write(root, 'generated/zh-CN/sidebars/guides-byoc.sidebar.js', 'old byoc sidebar\n');
     write(root, 'generated/zh-CN/sidebars/tools.sidebar.js', 'old tools sidebar\n');
     write(root, 'generated/zh-CN/manifests/guides-source-publication.json', serializeSourcePublicationManifest([
+      'content/zh-CN/guides/tutorials/home.md',
       'content/zh-CN/guides/tutorials/old.md',
       'content/zh-CN/guides/tutorials/tools/old.md',
       'content/zh-CN/byoc/old.md',
@@ -723,6 +724,8 @@ describe('Chinese Guides source publication', () => {
     expect(readFileSync(path.join(root, 'content/zh-CN/guides/tutorials/tools/new.md'), 'utf8')).toBe('new tools\n');
     expect(readFileSync(path.join(root, 'generated/zh-CN/sidebars/tools.sidebar.js'), 'utf8')).toBe('new tools sidebar\n');
     expect(readFileSync(path.join(root, 'content/zh-CN/reference/api/python/keep.md'), 'utf8')).toBe('reference stays\n');
+    expect(JSON.parse(readFileSync(path.join(root, 'generated/zh-CN/manifests/guides-source-publication.json'), 'utf8')).files)
+      .toEqual([...nextFiles].sort((left, right) => left.localeCompare(right, 'en')));
     expect(() => readFileSync(path.join(root, 'content/zh-CN/guides/tutorials/old.md'), 'utf8')).toThrow();
     expect(ownedTreeCommit(root, nextFiles)).toMatch(/^sha256:/);
   });

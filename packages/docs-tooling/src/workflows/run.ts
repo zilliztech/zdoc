@@ -822,7 +822,14 @@ async function publishManifestOwnedGroup(
     {source: resolveOwnedRepositoryPath(repositoryRoot, stagedRelativeManifest, 'Staged source publication manifest'), target: group.publicationManifest},
   ];
   const next = new Set(staged.files);
-  const removals = current.files.filter(file => !next.has(file));
+  const externallyOwnedPaths = new Set(group.manuals.flatMap(manual => {
+    const publication = resolveManualPublication(manual, group.site).publication;
+    return (publication.externallyOwnedFiles ?? [])
+      .map(file => `${publication.outputDir}/${file}`);
+  }));
+  const removals = current.files.filter(file => (
+    !next.has(file) && !externallyOwnedPaths.has(file)
+  ));
   const ownedTargets = [...new Set([...replacements.map(entry => entry.target), ...removals])]
     .sort((left, right) => left.localeCompare(right, 'en'));
   await replace({
