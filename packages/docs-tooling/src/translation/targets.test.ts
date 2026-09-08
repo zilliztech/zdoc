@@ -8,7 +8,8 @@ describe('translation target contracts', () => {
       id: 'ja-JP',
       sourceSite: 'en',
       locale: 'ja-JP',
-      state: {kind: 'cache', path: '.translation-cache/ja-JP.json'},
+      state: {kind: 'reference-manifest', path: 'generated/ja-JP/manifests/reference-translations.json'},
+      candidateState: {kind: 'cache', path: '.translation-cache/ja-JP.json'},
       validation: ['validate-mdx', 'validate-coverage', 'build:en'],
       mappings: [
         {

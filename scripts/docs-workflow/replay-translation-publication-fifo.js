@@ -858,7 +858,17 @@ function verifyCoordinatorFaultEvidence({fault, evidenceRoot}) {
     const failed = results.units.find(unit => unit.status === 'publish_failed' && /cache conflict/iu.test(unit.failure?.message || ''))
     const later = failed && results.units.find(unit => unit.status === 'published' && unit.sequence > failed.sequence)
     if (results.overallStatus !== 'failure' || !failed || failed.commitShas.length || !later || !later.commitShas.some(sha => commits.includes(sha))) {
-      throw new Error('Cache-conflict evidence does not prove a commit-free conflict followed by a real write')
+      throw new Error(`Cache-conflict evidence does not prove a commit-free conflict followed by a real write: ${JSON.stringify({
+        overallStatus: results.overallStatus,
+        commits,
+        units: results.units.map(unit => ({
+          unitKey: unit.unitKey,
+          sequence: unit.sequence,
+          status: unit.status,
+          commitShas: unit.commitShas,
+          failure: unit.failure,
+        })),
+      })}`)
     }
   } else if (fault.scenario === 'reconciliation-failure') {
     const reconciliationEvents = events.filter(event => event.type.startsWith('reconciliation_'))

@@ -240,22 +240,24 @@ async function applyCheckpointArtifact(options = {}) {
   for (const entry of manifest.files) payloadStats.set(entry.path, await lstat(path.join(payload, entry.path)));
 
   const mergedStates = new Map();
-  const statePath = manifest.stage === 'translation' ? resolveTranslationTarget(manifest.translationTarget).state.path : null;
-  const statePaths = statePath && manifest.files.some(entry => entry.path === statePath)
-    ? [statePath]
+  const translationTarget = manifest.stage === 'translation' ? resolveTranslationTarget(manifest.translationTarget) : null;
+  const stateDescriptors = translationTarget
+    ? [translationTarget.state, ...('candidateState' in translationTarget ? [translationTarget.candidateState] : [])]
+      .filter(state => manifest.files.some(entry => entry.path === state.path))
     : [];
-  if (statePaths.length) {
+  if (stateDescriptors.length) {
     if (typeof options.baselineDir !== 'string' || !options.baselineDir) throw new Error('baselineDir is required for translation cache merge');
     const baseline = await safeTarget(options.baselineDir);
     if (insideOrEqual(target, baseline) || insideOrEqual(baseline, target) || insideOrEqual(artifact, baseline) || insideOrEqual(baseline, artifact)) throw new Error('Baseline must not overlap artifact or target');
-    for (const mergePath of statePaths) {
+    for (const state of stateDescriptors) {
+      const mergePath = state.path;
       const [a, b, t] = await Promise.all([
         readNoFollow(path.join(payload, mergePath), payloadStats.get(mergePath), () => hooks?.afterCacheLstat?.({ kind: 'artifact', file: path.join(payload, mergePath) })),
         readStateNoFollow(baseline, mergePath, 'baseline', hooks),
         readStateNoFollow(target, mergePath, 'target', hooks),
       ]);
       const parsed = [parseObject(b, 'Baseline translation state'), parseObject(a, 'Artifact translation state'), parseObject(t, 'Target translation state')];
-      const merged = manifest.translationTarget === 'ja-JP'
+      const merged = state.kind === 'cache'
         ? mergeCache(...parsed)
         : mergeManifest(...parsed);
       mergedStates.set(mergePath, merged);
@@ -294,7 +296,7 @@ async function applyCheckpointArtifact(options = {}) {
       await hooks?.beforeCommit?.({ rel }); await verifyGuard(guard); await atomicWrite(destination, bytes); guard = await captureGuard(target, mutationPaths); await verifyGuard(guard); await hooks?.afterCopy?.({ rel });
     }
     complete = true;
-    return Object.freeze({ group: manifest.group, copied: manifest.files.length, deletions: manifest.deletions.length, translationCacheMerged: statePaths.length > 0 });
+    return Object.freeze({ group: manifest.group, copied: manifest.files.length, deletions: manifest.deletions.length, translationCacheMerged: stateDescriptors.length > 0 });
   } finally {
     if (!complete) {
       try {
