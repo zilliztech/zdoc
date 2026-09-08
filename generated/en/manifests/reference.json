@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "9f2d08220fa155319e3cdc14cfe6117aab730b39",
+  "sourceCommit": "397c1d22feac410d7246aee87f891e90608c8c40",
   "records": [
     {
       "manual": "cli",
@@ -5730,12 +5730,12 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-migration-v2/migrate-to-existing-cluster-v2.mdx",
-      "sourceHash": "dee1c901a67808e925e5920c96b58be3fef03c49765e4894361c461f5d83b288"
+      "sourceHash": "d527868d123b3e5d032ebd57f33734726d8562aeea1bdfe2c14aa5ebf2b4510a"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-migration-v2/migrate-to-new-dedicated-cluster-v2.mdx",
-      "sourceHash": "aef367bfdb350a7a5a2e96f0c24b378e2c6ab80ea6d08295e8489875407e3777"
+      "sourceHash": "36efa4bc0b51efa2be5f4265d17d0ce5ee2711ff46ee28bac5cfe50c20690084"
     },
     {
       "manual": "rest",
