@@ -47,6 +47,15 @@ test('splits an oversized section at complete paragraph boundaries', () => {
   assert.equal(chunks.some(chunk => chunk.source.includes('First paragraph') && chunk.source.includes('Third paragraph')), false)
 })
 
+test('keeps default packed chunks within the 20k request budget', () => {
+  const paragraph = character => `${character.repeat(10050)}\n\n`
+  const source = `# One\n\n${paragraph('a')}${paragraph('b')}Tail.\n`
+  const chunks = chunkDocument(source)
+  assertLossless(source, chunks)
+  assert.ok(chunks.length > 1)
+  assert.ok(Math.max(...chunks.map(chunk => chunk.source.length)) <= 20000)
+})
+
 test('does not split inside protected Markdown or MDX blocks', () => {
   const fixtures = [
     '```python\nprint("# not a heading")\n```\n',
@@ -99,7 +108,7 @@ test('keeps timeout-prone guides below a 20k request budget by default', () => {
       `${file} exceeded the safe request budget`,
     )
   }
-  assert.ok(DEFAULT_MAX_CHARS >= 20000)
+  assert.equal(DEFAULT_MAX_CHARS, 20000)
 })
 
 test('allows one indivisible block to exceed the maximum', () => {
