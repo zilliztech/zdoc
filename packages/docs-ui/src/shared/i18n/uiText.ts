@@ -42,6 +42,7 @@ export interface DocsUiText {
     close: string;
     thinking: string;
     searching: string;
+    readingPage: string;
     today: string;
     previousSevenDays: string;
     older: string;
@@ -169,6 +170,7 @@ const english: DocsUiText = {
     close: 'Close chat',
     thinking: 'Thinking',
     searching: 'Searching',
+    readingPage: 'Reading page...',
     today: 'Today',
     previousSevenDays: 'Previous 7 days',
     older: 'Older',
@@ -334,6 +336,7 @@ const chinese: DocsUiText = {
     close: '关闭对话',
     thinking: '思考中',
     searching: '搜索中',
+    readingPage: '正在读取页面...',
     today: '今天',
     previousSevenDays: '过去 7 天',
     older: '更早',
