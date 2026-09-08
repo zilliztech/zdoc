@@ -46,6 +46,7 @@ const PublicationIdentitySchema = z.object({
   missingContent: z.enum(['error', 'explicitly-disabled']),
   preservedFiles: z.array(z.string().min(1)),
   preservedPaths: z.array(z.string().min(1)),
+  externallyOwnedFiles: z.array(z.string().min(1)),
   retiredPaths: z.array(z.string().min(1)),
   sha256: z.string().regex(SHA256),
 }).strict();
@@ -87,9 +88,10 @@ const PublicationAnchorSchema = z.object({
 export type PublicationDiagnostics = Readonly<z.infer<typeof PublicationDiagnosticsSchema>>;
 export type PublicationAnchor = Readonly<z.infer<typeof PublicationAnchorSchema>>;
 
-type PublicationIdentityInput = Readonly<Omit<ManualPublication, 'preservedFiles' | 'preservedPaths' | 'retiredPaths'>> & Readonly<{
+type PublicationIdentityInput = Readonly<Omit<ManualPublication, 'preservedFiles' | 'preservedPaths' | 'externallyOwnedFiles' | 'retiredPaths'>> & Readonly<{
   preservedFiles?: readonly string[];
   preservedPaths?: readonly string[];
+  externallyOwnedFiles?: readonly string[];
   retiredPaths?: readonly string[];
 }>;
 
@@ -149,6 +151,7 @@ function publicationIdentity(publication: PublicationIdentityInput): z.infer<typ
     missingContent: publication.missingContent,
     preservedFiles: [...(publication.preservedFiles ?? [])].sort((left, right) => left.localeCompare(right, 'en')),
     preservedPaths: [...(publication.preservedPaths ?? [])].sort((left, right) => left.localeCompare(right, 'en')),
+    externallyOwnedFiles: [...(publication.externallyOwnedFiles ?? [])].sort((left, right) => left.localeCompare(right, 'en')),
     retiredPaths: [...(publication.retiredPaths ?? [])].sort((left, right) => left.localeCompare(right, 'en')),
   };
   return {...identity, sha256: sha256(identity)};

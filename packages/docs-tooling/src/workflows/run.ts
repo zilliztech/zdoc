@@ -488,6 +488,9 @@ function stagedManifestFiles(repositoryRoot: string, group: PublicationGroup): r
       'Staged publication manifest inventory',
     ).flatMap(entry => {
       const relative = entry.path.slice(`${stageRoot}/`.length);
+      const externallyOwnedPaths = (publication.externallyOwnedFiles ?? [])
+        .map(file => `${publication.outputDir}/${file}`);
+      if (externallyOwnedPaths.includes(relative)) return [];
       return [assertManifestFilePath(group, relative)];
     });
   });

@@ -41,6 +41,7 @@ export type CandidateBuildOptions = Readonly<{
   ownedSourcePaths: readonly string[];
   preservedSourcePaths: readonly string[];
   forceTranslationPaths?: readonly string[];
+  excludedSourcePaths?: readonly string[];
   changedSourcePaths?: readonly string[];
   mode: 'full' | 'incremental';
   retirementRegistry?: ReferenceRetirementRegistry;
@@ -168,8 +169,8 @@ function previousRecords(target: TranslationTarget, value: unknown, ownedPaths: 
 }
 
 function mappings(target: TranslationTarget): ReadonlyArray<{sourceRoot: string; targetRoot: string}> {
-  if (target.id !== 'ja-JP') return [{sourceRoot: target.sourceRoot, targetRoot: target.targetRoot}];
-  return target.mappings.map(mapping => {
+  if (target.id === 'zh-CN-reference' && !target.mappings) return [{sourceRoot: target.sourceRoot, targetRoot: target.targetRoot}];
+  return target.mappings!.map(mapping => {
     if (!mapping.sourceRoot || !mapping.targetRoot) throw new Error('Japanese translation mappings require source and target roots');
     return {sourceRoot: mapping.sourceRoot, targetRoot: mapping.targetRoot};
   });
@@ -234,6 +235,7 @@ function mappingForSource(target: TranslationTarget, sourcePath: string): {sourc
 }
 
 function manualForReferenceSource(sourcePath: string): string | undefined {
+  if (sourcePath === 'content/en/guides/tutorials/home.md') return 'guides';
   const relativePath = sourcePath.slice('content/en/reference/'.length);
   const ownership = [
     ['api/python', 'python'],
@@ -286,8 +288,9 @@ export function buildTranslationCandidates(options: CandidateBuildOptions): Read
   if (owned.length === 0) throw new Error('Owned translation source paths must not be empty');
   const preserved = new Set(normalizePaths(options.preservedSourcePaths, 'Preserved translation source path'));
   const forced = new Set(normalizePaths(options.forceTranslationPaths ?? [], 'Forced translation source path'));
+  const excluded = new Set(normalizePaths(options.excludedSourcePaths ?? [], 'Excluded translation source path'));
   const changed = new Set(normalizePaths(options.changedSourcePaths ?? [], 'Changed translation source path'));
-  for (const [label, paths] of [['Preserved', preserved], ['Forced', forced], ['Changed', changed]] as const) {
+  for (const [label, paths] of [['Preserved', preserved], ['Forced', forced], ['Excluded', excluded], ['Changed', changed]] as const) {
     for (const sourcePath of paths) if (!isOwnedPath(sourcePath, owned)) throw new Error(`${label} translation source path is outside group ownership: ${sourcePath}`);
   }
   const targetMappings = mappings(target);
@@ -319,6 +322,7 @@ export function buildTranslationCandidates(options: CandidateBuildOptions): Read
   for (const mapping of targetMappings) {
     if (!intersectsOwnership(mapping.sourceRoot, owned)) continue;
     for (const [sourcePath, sourceHash] of sourceFiles(options.repositoryRoot, mapping.sourceRoot, owned)) {
+      if (excluded.has(sourcePath)) continue;
       activeSources.add(sourcePath);
       if (target.id === 'zh-CN-reference' && referenceLanguageExclusionReason(options.repositoryRoot, sourcePath, 'zh-CN')) continue;
       if (target.id === 'ja-JP' && referenceLanguageExclusionReason(options.repositoryRoot, sourcePath, 'ja-JP')) continue;

@@ -64,6 +64,7 @@ test('shares canonical bidirectional mappings and exact group ownership', () => 
   assert.deepEqual(ownedSourcePaths('python', 'zh-CN-reference'), ['content/en/reference/api/python/python'])
   assert.deepEqual(ownedTargetPaths('python', 'zh-CN-reference'), ['content/zh-CN/reference/api/python/python'])
   assert.deepEqual(ownedSourcePaths('reference-landings', 'ja-JP'), [
+    'content/en/guides/tutorials/home.md',
     'content/en/reference/api/python/python/python.md',
     'content/en/reference/api/java/java/java.md',
     'content/en/reference/api/nodejs/nodejs/nodejs.md',
@@ -71,6 +72,8 @@ test('shares canonical bidirectional mappings and exact group ownership', () => 
     'content/en/reference/cli/cli/Overview.md',
     'content/en/reference/api/cpp/cpp/cpp.md',
   ])
+  assert.equal(mapSourcePathForTarget('zh-CN-reference', 'content/en/guides/tutorials/home.md'), 'content/zh-CN/guides/tutorials/home.md')
+  assert.equal(mapTargetPathForSource('zh-CN-reference', 'content/zh-CN/guides/tutorials/home.md'), 'content/en/guides/tutorials/home.md')
 })
 
 test('discovers source-delta deletion from immutable SHAs with canonical evidence', () => {

@@ -54,12 +54,13 @@ function translationOwnedPaths(targetId, group) {
     return [...new Set([...roots, target.state.path])];
   }
   if (target.id === 'zh-CN-reference') {
-    const roots = group.ownedPaths.flatMap((owned) => {
-      if (owned === target.sourceRoot) return [target.targetRoot];
-      if (owned.startsWith(`${target.sourceRoot}/`)) return [`${target.targetRoot}/${owned.slice(target.sourceRoot.length + 1)}`];
-      if (target.sourceRoot.startsWith(`${owned}/`)) return [target.targetRoot];
+    const mappings = target.mappings || [{sourceRoot: target.sourceRoot, targetRoot: target.targetRoot}];
+    const roots = group.ownedPaths.flatMap((owned) => mappings.flatMap((mapping) => {
+      if (owned === mapping.sourceRoot) return [mapping.targetRoot];
+      if (owned.startsWith(`${mapping.sourceRoot}/`)) return [`${mapping.targetRoot}/${owned.slice(mapping.sourceRoot.length + 1)}`];
+      if (mapping.sourceRoot.startsWith(`${owned}/`)) return [mapping.targetRoot];
       return [];
-    });
+    }));
     if (roots.length === 0) throw new Error(`Translation target ${target.id} is not compatible with group ${group.snapshotManual}`);
     const sidebarNames = group.snapshotManual === 'reference-landings'
       ? referenceLandingSidebars()
