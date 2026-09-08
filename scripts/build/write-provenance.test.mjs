@@ -364,6 +364,18 @@ test('Japanese candidate workspace records staged BYOC target deletions', () => 
   assert.deepEqual(manifest.localizationInputs.candidateWorkspace.deleted, [deletedPath]);
 });
 
+test('Japanese candidate workspace owns its dirty candidate state cache', () => {
+  const root = fixture();
+  write(root, '.translation-cache/ja-JP.json', '{"files":{"candidate":{}}}\n');
+
+  const {manifest} = run(root, {environment: candidateEnvironment({
+    ZDOC_PROVENANCE_CANDIDATE_TARGET: 'ja-JP',
+  })});
+
+  assert.ok(manifest.localizationInputs.candidateWorkspace.records.some(record =>
+    record.path === '.translation-cache/ja-JP.json' && /^[0-9a-f]{64}$/u.test(record.sha256)));
+});
+
 test('Chinese candidate workspace ignores Japanese inputs owned by the other site', () => {
   const root = fixture();
   fs.appendFileSync(

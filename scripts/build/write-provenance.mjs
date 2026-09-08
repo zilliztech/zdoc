@@ -223,7 +223,7 @@ function translationTargetInputDefinition(target) {
     return {
       site: target.sourceSite,
       roots: target.mappings.map(mapping => mapping.targetRoot),
-      required: [target.state.path],
+      required: [target.state.path, ...(target.candidateState ? [target.candidateState.path] : [])],
     };
   }
   return {
