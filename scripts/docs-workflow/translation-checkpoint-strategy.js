@@ -158,7 +158,8 @@ async function compose({latestDevSha, inputs: rawInputs}) {
   let publicationWorktree = null
   try {
     publicationWorktree = createWorktree(repositoryRoot, runnerTemp, 'translation-checkpoint.', latestDevSha)
-    const statePath = resolveTranslationTarget(unit.target).state.path
+    const target = resolveTranslationTarget(unit.target)
+    const statePath = target.candidateState?.path || target.state.path
     const contentPlan = captureContentPlan(inputs.checkpoint, inputs.baseline, publicationWorktree, statePath)
     await (inputs.dependencies?.applyCheckpointArtifact || applyCheckpointArtifact)({
       artifactDir: inputs.checkpoint.resolvedDir,

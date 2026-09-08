@@ -35,7 +35,8 @@ export const TranslationTargetSchema = z.discriminatedUnion('id', [
     id: z.literal('ja-JP'),
     locale: z.literal('ja-JP'),
     mappings: z.array(MappingSchema).length(3).readonly(),
-    state: z.object({kind: z.literal('cache'), path: RepositoryPathSchema}).strict(),
+    state: z.object({kind: z.literal('reference-manifest'), path: RepositoryPathSchema}).strict(),
+    candidateState: z.object({kind: z.literal('cache'), path: RepositoryPathSchema}).strict(),
   }).strict(),
   z.object({
     ...CommonTarget,

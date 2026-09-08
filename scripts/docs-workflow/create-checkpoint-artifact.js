@@ -215,8 +215,13 @@ async function createCheckpointArtifact(options) {
   const output = initialSafety.canonicalOutput;
   const ownedPaths = options.includeTranslationCache ? translationOwnedPaths(translationIdentity.translationTarget, group) : group.ownedPaths;
   const [baseline, current] = await Promise.all([collect(baselineDir, ownedPaths), collect(workspace, ownedPaths)]);
-  const translationStatePath = translationIdentity ? resolveTranslationTarget(translationIdentity.translationTarget).state.path : null;
-  if (options.includeTranslationCache && !current.has(translationStatePath)) throw new Error('Workspace translation state is required for translation artifacts');
+  const translationTarget = translationIdentity ? resolveTranslationTarget(translationIdentity.translationTarget) : null;
+  const translationStatePaths = translationTarget
+    ? [translationTarget.state.path, ...('candidateState' in translationTarget ? [translationTarget.candidateState.path] : [])]
+    : [];
+  if (options.includeTranslationCache && !translationStatePaths.some(statePath => current.has(statePath))) {
+    throw new Error('Workspace translation state is required for translation artifacts');
+  }
   const filePaths = [...current.keys()].sort();
   const deletions = [...baseline.keys()].filter((rel) => !current.has(rel)).sort();
   const parent = path.dirname(output);
