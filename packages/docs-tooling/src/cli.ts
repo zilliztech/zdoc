@@ -43,6 +43,7 @@ import {
   parseReferenceRetirementRegistry,
   parseReferenceSourceManifest,
   parseReferenceTranslationManifest,
+  readReferenceTree,
   serializeReferenceManifest,
   unseededReferencePreservedSourcePaths,
   type ReferenceRetirementRegistry,
@@ -153,6 +154,7 @@ const REFERENCE_SOURCE_ROOT = 'content/en/reference';
 const REFERENCE_TARGET_ROOT = 'content/zh-CN/reference';
 const REFERENCE_SOURCE_MANIFEST = 'generated/en/manifests/reference.json';
 const REFERENCE_TRANSLATION_MANIFEST = 'generated/zh-CN/manifests/reference-translations.json';
+const JAPANESE_REFERENCE_TRANSLATION_MANIFEST = 'generated/ja-JP/manifests/reference-translations.json';
 const REFERENCE_RETIREMENT_REGISTRY = 'config/reference-retirements.json';
 const REFERENCE_RECONCILIATION_LEDGER = 'generated/zh-CN/manifests/reference-reconciliation-ledger.json';
 const REFERENCE_SUPPLEMENTAL_TRANSLATION_MAPPINGS = Object.freeze([
@@ -161,6 +163,11 @@ const REFERENCE_SUPPLEMENTAL_TRANSLATION_MAPPINGS = Object.freeze([
     sourcePath: 'content/en/guides/tutorials/home.md',
     targetPath: 'content/zh-CN/guides/tutorials/home.md',
   }),
+]);
+const JAPANESE_REFERENCE_TRANSLATION_MAPPINGS = Object.freeze([
+  Object.freeze({sourceRoot: 'content/en/guides/tutorials', targetRoot: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials'}),
+  Object.freeze({sourceRoot: 'content/en/byoc/tutorials', targetRoot: 'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials'}),
+  Object.freeze({sourceRoot: REFERENCE_SOURCE_ROOT, targetRoot: 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current'}),
 ]);
 const EXTERNAL_SNAPSHOT_WORKTREE = 'external-snapshot';
 const EXTERNAL_SNAPSHOT_TRACKED_INPUTS = 'deploy/contracts/localization-inputs.inventory.json';
@@ -444,6 +451,44 @@ export function defaultReferenceManualForPath(filePath: string): string {
   const selected = candidates[0];
   if (!selected) throw new Error(`Reference file is not owned by a registered manual: ${filePath}`);
   return selected.manual;
+}
+
+function compareReferenceRecords(
+  left: {manual?: string; sourcePath?: string; targetPath?: string},
+  right: {manual?: string; sourcePath?: string; targetPath?: string},
+): number {
+  return (left.manual ?? '').localeCompare(right.manual ?? '')
+    || (left.sourcePath ?? '').localeCompare(right.sourcePath ?? '')
+    || (left.targetPath ?? '').localeCompare(right.targetPath ?? '');
+}
+
+function japaneseReferenceManualForPath(filePath: string): string {
+  if (
+    filePath.startsWith('content/en/guides/tutorials/')
+    || filePath.startsWith('content/en/byoc/tutorials/')
+    || filePath.startsWith('i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/')
+    || filePath.startsWith('i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/')
+  ) {
+    return 'guides';
+  }
+  if (filePath.startsWith('content/en/reference/')) return defaultReferenceManualForPath(filePath);
+  if (filePath.startsWith('i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/')) {
+    return defaultReferenceManualForPath('content/en/reference/' + filePath.slice('i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/'.length));
+  }
+  throw new Error('Japanese Reference file is outside canonical publication mappings: ' + filePath);
+}
+
+function buildJapaneseReferenceSourceManifest(repositoryRoot: string, sourceCommit: string): ReferenceSourceManifest {
+  const records: ReferenceSourceManifest['records'] = [];
+  const seen = new Set<string>();
+  for (const mapping of JAPANESE_REFERENCE_TRANSLATION_MAPPINGS) {
+    for (const [sourcePath, sourceHash] of readReferenceTree(repositoryRoot, mapping.sourceRoot)) {
+      if (seen.has(sourcePath)) throw new Error('Duplicate Japanese source mapping: ' + sourcePath);
+      seen.add(sourcePath);
+      records.push({manual: japaneseReferenceManualForPath(sourcePath), sourcePath, sourceHash});
+    }
+  }
+  return parseReferenceSourceManifest({schemaVersion: 1, sourceCommit, records: records.sort(compareReferenceRecords)});
 }
 
 function readJson(repositoryRoot: string, relativePath: string): unknown {
@@ -781,8 +826,8 @@ export async function executeReferenceDocsToolingCommand(
     return;
   }
   if (argv[0] === 'validate-reference') {
-    if (argv.length !== 3 || argv[1] !== '--site' || (argv[2] !== 'en' && argv[2] !== 'zh-CN')) {
-      throw new Error('Usage: docs-tooling validate-reference --site <en|zh-CN>');
+    if (argv.length !== 3 || argv[1] !== '--site' || (argv[2] !== 'en' && argv[2] !== 'zh-CN' && argv[2] !== 'ja-JP')) {
+      throw new Error('Usage: docs-tooling validate-reference --site <en|zh-CN|ja-JP>');
     }
     const sourceManifest = parseReferenceSourceManifest(readJson(repositoryRoot, REFERENCE_SOURCE_MANIFEST));
     const sourceSnapshot = captureReferenceTree(repositoryRoot, REFERENCE_SOURCE_ROOT);
@@ -800,6 +845,19 @@ export async function executeReferenceDocsToolingCommand(
     let unavailableNavigationIds: ReadonlySet<string> = new Set();
     if (argv[2] === 'en') {
       // Source ownership, revision, and hashes were validated above.
+    } else if (argv[2] === 'ja-JP') {
+      const japaneseSourceManifest = buildJapaneseReferenceSourceManifest(repositoryRoot, sourceManifest.sourceCommit);
+      validateReferenceTranslation({
+        repositoryRoot,
+        sourceRoot: REFERENCE_SOURCE_ROOT,
+        targetRoot: 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current',
+        rootMappings: JAPANESE_REFERENCE_TRANSLATION_MAPPINGS,
+        sourceManifest: japaneseSourceManifest,
+        translationManifest: parseReferenceTranslationManifest(readJson(repositoryRoot, JAPANESE_REFERENCE_TRANSLATION_MANIFEST)),
+        manualForPath: japaneseReferenceManualForPath,
+        verifySourceProvenance: dependencies.verifyTranslationSourceProvenance
+          ?? createGitTranslationSourceProvenanceVerifier(repositoryRoot, REFERENCE_SOURCE_ROOT),
+      });
     } else {
       if (existsSync(path.join(repositoryRoot, REFERENCE_RECONCILIATION_LEDGER))) {
         validateReferenceReconciliationLedger(parseReferenceReconciliationLedger(readJson(repositoryRoot, REFERENCE_RECONCILIATION_LEDGER)));
@@ -825,10 +883,12 @@ export async function executeReferenceDocsToolingCommand(
       });
       unavailableNavigationIds = unavailableReferenceTargetIds({sourceManifest, translationManifest});
     }
-    const validateNavigation = dependencies.validateReferenceNavigation ?? validateReferenceNavigation;
-    validateNavigation(unavailableNavigationIds.size > 0
-      ? {repositoryRoot, site: argv[2], excludedDocumentIds: unavailableNavigationIds}
-      : {repositoryRoot, site: argv[2]});
+    if (argv[2] !== 'ja-JP') {
+      const validateNavigation = dependencies.validateReferenceNavigation ?? validateReferenceNavigation;
+      validateNavigation(unavailableNavigationIds.size > 0
+        ? {repositoryRoot, site: argv[2], excludedDocumentIds: unavailableNavigationIds}
+        : {repositoryRoot, site: argv[2]});
+    }
     dependencies.write?.(`validated Reference provenance for ${argv[2]}`);
     return;
   }
