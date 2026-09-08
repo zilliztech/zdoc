@@ -5,6 +5,7 @@ import type {Source, ChatMessage, ChatHistoryEntry, AgentType, ConfidenceLevel, 
 import {getFeedbackEndpoint} from './endpoints';
 import {createAgentStreamState, parseAgentStreamEvent, type AgentStreamUpdate} from './agentStream';
 import {getChatAgentConfig} from './agentConfig';
+import {fetchPageContext} from './pageContext';
 import {useDocsUiText} from '../../i18n/uiText';
 export type {Source, FeedbackRating, ChatMessage, ChatHistoryEntry, AgentType, ConfidenceLevel, GroundingCitation} from './types';
 
@@ -241,7 +242,7 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: Cha
     const outgoing = contextPrefix + text;
 
     const userMessage: ChatMessage = {role: 'user', text: outgoing};
-    const updatedMessages = [...messagesRef.current, userMessage, {role: 'assistant' as const, text: ''}];
+    const updatedMessages = [...messagesRef.current, userMessage, {role: 'assistant' as const, text: '', status: uiText.chat.readingPage}];
     setMessages(updatedMessages);
     setInput('');
     setIsStreaming(true);
@@ -251,13 +252,13 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: Cha
     requestGenerationRef.current = generation;
     const startedAt = Date.now();
     const eventCounts: Record<string, number> = {};
-    const pageContext = getPageContext();
+    const debugPageContext = getPageContext();
     chatDebug('chat.client.send.started', {
       requestId,
       pagePath: location.pathname,
       messageCount: updatedMessages.length,
       userText: text,
-      pageContext,
+      pageContext: debugPageContext,
     });
 
     let controller: AbortController | null = null;
@@ -269,6 +270,16 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: Cha
       if (!conversationIdRef.current) conversationIdRef.current = uuid();
       const conversationId = conversationIdRef.current;
       const {agentConfigCode, site} = getChatAgentConfig(siteConfig.customFields?.site);
+      const pageContext = await fetchPageContext(location.pathname, controller.signal);
+      if (!isCurrentRequest()) return;
+      setMessages(prev => {
+        const updated = [...prev];
+        const last = updated[updated.length - 1];
+        if (last && last.role === 'assistant' && !last.text) {
+          updated[updated.length - 1] = {...last, status: undefined};
+        }
+        return updated;
+      });
       const requestBody = {
         message: outgoing,
         session_id: sessionIdRef.current,
@@ -276,6 +287,7 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: Cha
         streaming_mode: 'token',
         site,
         agent_config: {agent_config_code: agentConfigCode},
+        page_context: pageContext,
       };
       chatDebug('chat.client.fetch.started', {
         requestId,
