@@ -219,10 +219,11 @@
         "packages/docs-tooling/src/translation/candidates*",
         "packages/docs-tooling/src/translation/schema.ts",
         "packages/docs-tooling/src/translation/targets*",
-        "packages/docs-tooling/src/validation/translation.ts"
+        "packages/docs-tooling/src/validation/translation.ts",
+        "scripts/translation/migrate-ja-publication-manifest*"
       ],
       "focusedTests": [
-        "pnpm vitest run packages/docs-tooling/src/reference/translationManifest.test.ts packages/docs-tooling/src/reference/translationManifest.integration.test.ts packages/docs-tooling/src/translation/candidates.test.ts packages/docs-tooling/src/translation/targets.test.ts"
+        "pnpm vitest run packages/docs-tooling/src/reference/translationManifest.test.ts packages/docs-tooling/src/reference/translationManifest.integration.test.ts packages/docs-tooling/src/translation/candidates.test.ts packages/docs-tooling/src/translation/targets.test.ts && node --test scripts/translation/migrate-ja-publication-manifest.test.js"
       ],
       "harnesses": [],
       "gates": ["pnpm test:rest-publication-contract"],
