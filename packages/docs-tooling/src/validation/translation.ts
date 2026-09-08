@@ -20,6 +20,7 @@ export type TranslationSourceProvenance = Readonly<{
   sourceCommit: string;
   sourceManifestCommit: string;
   sourcePath: string;
+  sourcePathAtCommit: string;
   sourceHash: string;
   expectedHistoricalSource: 'blob' | 'missing';
 }>;
@@ -112,6 +113,7 @@ export function validateReferenceTranslation(options: ValidateReferenceTranslati
         sourceCommit: record.sourceCommit,
         sourceManifestCommit: sourceManifest.sourceCommit,
         sourcePath: record.sourcePath,
+        sourcePathAtCommit: record.sourcePathAtCommit ?? record.sourcePath,
         sourceHash: record.sourceHash,
         expectedHistoricalSource: supplemental || source !== undefined ? 'blob' : 'missing',
       });

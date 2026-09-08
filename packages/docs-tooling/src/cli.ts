@@ -333,7 +333,7 @@ export function createGitTranslationSourceProvenanceVerifier(
     }
     for (const [sourceCommit, records] of recordsBySourceCommit) {
       const historicalRoots = [...new Set([sourceRoot, ...records
-        .map(record => record.sourcePath)
+        .map(record => record.sourcePathAtCommit)
         .filter(sourcePath => !sourcePath.startsWith(`${sourceRoot}/`))])];
       const listing = runner(
         ['ls-tree', '-r', '-t', '-z', '--full-tree', sourceCommit, '--', ...historicalRoots],
@@ -345,13 +345,13 @@ export function createGitTranslationSourceProvenanceVerifier(
       const historicalEntries = parseHistoricalTree(Buffer.isBuffer(listing.stdout) ? listing.stdout : Buffer.from(listing.stdout), sourceCommit);
       const blobs = new Map<string, TranslationSourceProvenance[]>();
       for (const record of records) {
-        const entry = historicalEntries.get(record.sourcePath);
+        const entry = historicalEntries.get(record.sourcePathAtCommit);
         if (record.expectedHistoricalSource === 'missing') {
-          if (entry) throw new Error(`Historical retired source path must be missing at ${record.sourceCommit}: ${record.sourcePath}`);
+          if (entry) throw new Error(`Historical retired source path must be missing at ${record.sourceCommit}: ${record.sourcePathAtCommit}`);
           continue;
         }
         if (!entry || !['100644', '100755'].includes(entry.mode) || entry.type !== 'blob') {
-          throw new Error(`Historical source path is missing or is not a regular Git blob at ${record.sourceCommit}: ${record.sourcePath}`);
+          throw new Error(`Historical source path is missing or is not a regular Git blob at ${record.sourceCommit}: ${record.sourcePathAtCommit}`);
         }
         blobs.set(entry.objectId, [...(blobs.get(entry.objectId) ?? []), record]);
       }
@@ -373,7 +373,7 @@ export function createGitTranslationSourceProvenanceVerifier(
       for (const [objectId, blobRecords] of blobs) {
         for (const record of blobRecords) {
           if (hashes.get(objectId) !== record.sourceHash) {
-            throw new Error(`Historical source hash mismatch at ${record.sourceCommit}: ${record.sourcePath}`);
+            throw new Error(`Historical source hash mismatch at ${record.sourceCommit}: ${record.sourcePathAtCommit}`);
           }
         }
       }
