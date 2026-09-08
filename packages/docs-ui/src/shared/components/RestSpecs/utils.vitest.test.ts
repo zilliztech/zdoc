@@ -1,5 +1,5 @@
 import {describe, expect, it} from 'vitest';
-import {chooseParamExample, getBaseUrl, getDefaultResponseStatus, getResponseEntries, getTokenPlaceholder} from './utils.js';
+import {chooseParamExample, getBaseUrl, getDefaultResponseStatus, getLocalizedDescription, getResponseEntries, getTokenPlaceholder} from './utils.js';
 
 const planeConfig = {
   dataPlaneKeywords: {
@@ -88,5 +88,24 @@ describe('RestSpecs response selection', () => {
 
     expect(getResponseEntries(responses).map(({status}) => status)).toEqual(['200', '202', '500', 'default']);
     expect(getDefaultResponseStatus(responses)).toBe('200');
+  });
+});
+
+describe('RestSpecs localized operation description', () => {
+  const operation = {
+    description: 'Import prepared data files into a collection.',
+    'x-i18n': {
+      'zh-CN': {description: '将准备好的数据文件导入 Collection。'},
+      'ja-JP': {description: '準備済みのデータファイルをコレクションにインポートします。'},
+    },
+  };
+
+  it('selects the Chinese and Japanese descriptions for the page intro', () => {
+    expect(getLocalizedDescription(operation, 'zh-CN')).toBe('将准备好的数据文件导入 Collection。');
+    expect(getLocalizedDescription(operation, 'ja-JP')).toBe('準備済みのデータファイルをコレクションにインポートします。');
+  });
+
+  it('falls back to the source description when the locale is absent', () => {
+    expect(getLocalizedDescription(operation, 'en-US')).toBe('Import prepared data files into a collection.');
   });
 });
