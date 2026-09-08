@@ -2,7 +2,7 @@
 title: "向量近似去重 | Cloud"
 slug: /vector-similarity-dedup
 sidebar_label: "向量近似去重"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -21,6 +21,12 @@ import Admonition from '@theme/Admonition';
 import Procedures from '@site/src/components/Procedures';
 
 # 向量近似去重
+
+<FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
+
+此功能仅适用于以下阿里云地域：华东1（杭州）、华东2（上海）、华北2（北京）、华南1（深圳）、美国（弗吉尼亚）、新加坡。
+
+</FeatureNote>
 
 向量近似去重识别数据集中高度近似的向量数据，并将它们组织成一个语义重复组。您可以使用向量近似去重任务来减少诸如重述文本、稍作修改的图片或者多个版本的相似内容等冗余数据。
 

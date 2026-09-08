@@ -2,7 +2,7 @@
 title: "Spark 批量任务 | Cloud"
 slug: /spark-batch-jobs
 sidebar_label: "Spark 批量任务"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -21,6 +21,12 @@ import Admonition from '@theme/Admonition';
 import Procedures from '@site/src/components/Procedures';
 
 # Spark 批量任务
+
+<FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
+
+此功能仅适用于以下阿里云地域：华东1（杭州）、华东2（上海）、华北2（北京）、华南1（深圳）、美国（弗吉尼亚）、新加坡。
+
+</FeatureNote>
 
 Spark 批量任务让你可以以分布式、离线的方式处理托管在 Zilliz Cloud 上的大规模数据集。具体来说，您可以创建批量任务，完成去重、聚类等任务，或分析您的向量数据。
 

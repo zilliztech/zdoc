@@ -469,7 +469,6 @@
     "content/zh-CN/guides/tutorials/get-started/release-notes/release-notes-290.md",
     "content/zh-CN/guides/tutorials/get-started/release-notes/release-notes-291.md",
     "content/zh-CN/guides/tutorials/get-started/select-zilliz-cloud-service-plans.md",
-    "content/zh-CN/guides/tutorials/home.md",
     "content/zh-CN/guides/tutorials/management/access-control/access-control-overview.md",
     "content/zh-CN/guides/tutorials/management/access-control/manage-cluster-roles/cluster-roles-sdk.md",
     "content/zh-CN/guides/tutorials/management/access-control/manage-cluster-roles/cluster-roles.md",
@@ -2991,45 +2990,45 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/spark-batch-jobs/anomaly-detection.md",
-      "sha256": "ddd591636c221b1c4a45a7f4ace43618f551fcbb3b15a3607593c3037316a16a",
+      "sha256": "cfeb89040ade5ee41cb451a209f22999ec6c382cca8504373386bac6aacb8e10",
       "docToken": "RDfLw6XYHiELxGkr2pucgQ1Snyh",
-      "revisionId": "1107"
+      "revisionId": "1108"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/spark-batch-jobs/data-backfill.md",
-      "sha256": "3b4c9749ecca5f6d26ca5feae972de1b2dbf09f4a06a0846373577c5be1c9e0a",
+      "sha256": "f9b58c3c375d06638ce75f1fa430087d95f013bfdfef2e0684627dd14df6b000",
       "docToken": "KYhxw6kczixgIMkFKOlc1srinPw",
-      "revisionId": "2174"
+      "revisionId": "2175"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/spark-batch-jobs/k-means-clustering.md",
-      "sha256": "c07f41ed7bdc350b58439107e1755294719bf77aaaf922d9c33198ee98a4cfd5",
+      "sha256": "4b4f82e1c95ecba8be0afda64e2da1a1110cf86ef1fb8ae771bc7a8a082e1070",
       "docToken": "VIyWwOfUFiQaNkkdsqVca9Gqnve",
-      "revisionId": "563"
+      "revisionId": "565"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/spark-batch-jobs/manage-spark-batch-jobs.md",
-      "sha256": "aa0768c938ce838d13819b7f6f07d76fcdcd4bd77a662c23752de03b4a2a529a",
+      "sha256": "2ef80d63c37a5d85fc1dc119c1a32f5c430e14900b1835e1f728cbb7bff16b12",
       "docToken": "VOt1wvC7jid1sOkWeFOct55Fn0e",
-      "revisionId": "1405"
+      "revisionId": "1406"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/spark-batch-jobs/primary-key-dedup.md",
-      "sha256": "0434ac15ce12ca109868882b5b0e8a397775d7fb6483f0e50a305b5e05af03b9",
+      "sha256": "c15579d600b95a56b398cbcb1403063bc253bd45fe9074eb548fc123d02b7f41",
       "docToken": "PLmWwXhMyiUErvkeRtAcL9kJnib",
-      "revisionId": "1460"
+      "revisionId": "1461"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/spark-batch-jobs/spark-batch-jobs.md",
-      "sha256": "d8bd49c6910a237601b6961742f2125f98717c3e2aefecbc194ac226a3456690",
+      "sha256": "b5f1a9fcfff9c6279e410b76510df1a437210ec2793851f71d4f8b7568f8da25",
       "docToken": "KQT0wFr1TiDE72ksEUDcJ1B8nyc",
-      "revisionId": "2743"
+      "revisionId": "2744"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/spark-batch-jobs/vector-similarity-dedup.md",
-      "sha256": "e559dbcc7f3619e2dd93212c1d71d58d03f6076e1bf421e71d60d2d0bee7f4dc",
+      "sha256": "f9dd9eb7bd342fcbe0ae15600d78913533028e57df662c379c2a9ca80b79f234",
       "docToken": "XWOtw0B8zimLDAkc1AQcwIL0n7R",
-      "revisionId": "2017"
+      "revisionId": "2019"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/vector-index/autoindex-explained.md",
@@ -3075,9 +3074,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/cloud-providers-and-regions.md",
-      "sha256": "b019ba8219aae9ae8e9bcb5990379bd1b1cbcf000e299b245f78dc79618ec356",
+      "sha256": "86a44a194c27c788aa23df429d8fb4ce2b3f56e5e4130751d20a472079ca8baf",
       "docToken": "BErdww1kOirndzkHrKoc2ibynlb",
-      "revisionId": "402"
+      "revisionId": "420"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/cu-types-explained.md",
@@ -3171,9 +3170,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/feature-availability.md",
-      "sha256": "e2ab725ca803d98cbc6e6d8d0dbeb3a7ae6c9565ed453915d30f007bdbfd3753",
+      "sha256": "b57be23aaab159023fd27ae7f2eb3e88925e5f549f0224840cff413364518375",
       "docToken": "EZ2jwCJD7iazqKkmSGRcBfjWnCh",
-      "revisionId": "392"
+      "revisionId": "393"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/free-trials.md",
@@ -3402,12 +3401,6 @@
       "sha256": "5c6135fde196e9cee82c9ff89637fc12f5430227e4a4970463575ecb00fdf4cf",
       "docToken": "XNCIwt9i6iFgEDkEQE9cTMf8nSe",
       "revisionId": "1479"
-    },
-    {
-      "path": "content/zh-CN/guides/tutorials/home.md",
-      "sha256": "bc168617a5c4ba0d73b85033234816ef8efa8d605ffa6936fc7e5547ac607f8e",
-      "docToken": "I5PAwH8MFi67Myky6EYcAxuVnNe",
-      "revisionId": null
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/access-control/access-control-overview.md",

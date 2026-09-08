@@ -2,7 +2,7 @@
 title: "异常点检测 | Cloud"
 slug: /anomaly-detection
 sidebar_label: "异常点检测"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -21,6 +21,12 @@ import Admonition from '@theme/Admonition';
 import Procedures from '@site/src/components/Procedures';
 
 # 异常点检测
+
+<FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
+
+此功能仅适用于以下阿里云地域：华东1（杭州）、华东2（上海）、华北2（北京）、华南1（深圳）、美国（弗吉尼亚）、新加坡。
+
+</FeatureNote>
 
 异常点检测能够识别输入的数据记录中与其它记录迥异的数据。您可以使用该类任务找出数据记录中代表数据质量问题、罕见异常、数据处理错误或者需要进一步采样分析的异常数据。
 

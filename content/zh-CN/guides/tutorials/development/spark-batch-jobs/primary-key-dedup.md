@@ -2,7 +2,7 @@
 title: "主键去重 | Cloud"
 slug: /primary-key-dedup
 sidebar_label: "主键去重"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -21,6 +21,12 @@ import Admonition from '@theme/Admonition';
 import Procedures from '@site/src/components/Procedures';
 
 # 主键去重
+
+<FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
+
+此功能仅适用于以下阿里云地域：华东1（杭州）、华东2（上海）、华北2（北京）、华南1（深圳）、美国（弗吉尼亚）、新加坡。
+
+</FeatureNote>
 
 主键去重任务识别大规模数据集中主键相同的记录，并移除冗余的数据。当因重复导入、数据预处理流水线重试、数据迁移或数据源重叠等原因导致数据集中存在重复数据时，可以使用该任务进行主键去重。
 

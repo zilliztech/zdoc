@@ -2,7 +2,7 @@
 title: "数据回填 | Cloud"
 slug: /data-backfill
 sidebar_label: "数据回填"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -21,6 +21,12 @@ import Admonition from '@theme/Admonition';
 import Procedures from '@site/src/components/Procedures';
 
 # 数据回填
+
+<FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
+
+此功能仅适用于以下阿里云地域：华东1（杭州）、华东2（上海）、华北2（北京）、华南1（深圳）、美国（弗吉尼亚）、新加坡。
+
+</FeatureNote>
 
 数据回填能力可方便您将存放在 Zilliz Cloud Volume 中的数据填入 Zilliz Cloud Collection 中既有 Entity 的指定字段中。具体来说，数据回填任务通过主键来匹配数据文件和 Collection 中的数据。您可通过创建数据回填任务，为Collection 中的新增字段填充数据、为在指定字段上缺少数据的 Entity 补充数据，或者直接替换 Collection 中指定字段的数据。
 

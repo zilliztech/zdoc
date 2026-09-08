@@ -2,7 +2,7 @@
 title: "K-Means 聚类 | Cloud"
 slug: /k-means-clustering
 sidebar_label: "K-Means 聚类"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -21,6 +21,12 @@ import Admonition from '@theme/Admonition';
 import Procedures from '@site/src/components/Procedures';
 
 # K-Means 聚类
+
+<FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
+
+此功能仅适用于以下阿里云地域：华东1（杭州）、华东2（上海）、华北2（北京）、华南1（深圳）、美国（弗吉尼亚）、新加坡。
+
+</FeatureNote>
 
 K-Means 聚类会将嵌入特征相似的记录归入指定数量的聚类中。可通过该任务探索向量数据的分布情况，将记录整理为粗略的语义分组，或是为采样、分析及其他下游工作流准备数据集。
 

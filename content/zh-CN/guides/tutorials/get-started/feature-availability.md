@@ -96,6 +96,8 @@ Zilliz Cloud 文档中，每个功能会以标签形式标注其当前支持阶�
 
 - [按需计算](./on-demand-cluster)
 
+- [Spark 批量任务](./spark-batch-jobs)
+
 <Admonition type="info" icon="📘" title="📘 说明">
 
 如果您项目所在的云地域不支持此功能，请[联系我们](http://zilliz.com.cn/contact-sales)。

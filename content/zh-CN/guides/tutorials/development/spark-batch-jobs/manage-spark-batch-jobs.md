@@ -2,7 +2,7 @@
 title: "管理 Spark 批量任务 | Cloud"
 slug: /manage-spark-batch-jobs
 sidebar_label: "管理 Spark 批量任务"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -19,6 +19,12 @@ import Admonition from '@theme/Admonition';
 
 
 # 管理 Spark 批量任务
+
+<FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
+
+此功能仅适用于以下阿里云地域：华东1（杭州）、华东2（上海）、华北2（北京）、华南1（深圳）、美国（弗吉尼亚）、新加坡。
+
+</FeatureNote>
 
 Spark 批量任务异步执行，并在从提交到完成期间会经过多个不同的状态。本文将解释任务的生命周期，并展示如何查看任务列表、获取任务详情，以及取消一个处于可取消状态的任务。
 
