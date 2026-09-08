@@ -97,6 +97,16 @@ test('selector maps REST OpenAPI fragments to publication and integrated-spec ch
   assert.equal(selected.commands.includes('pnpm test:workflow-matrix'), true)
 })
 
+test('selector maps REST reference rendering to its localized component regression', () => {
+  const selected = selectTests([
+    'packages/docs-ui/src/shared/components/RestSpecs/index.js',
+    'packages/docs-ui/src/shared/components/RestSpecs/utils.js',
+  ])
+  assert.deepEqual(selected.areas.map(area => area.id), ['docs-ui-rest-specs'])
+  assert.equal(selected.commands.includes('pnpm vitest run packages/docs-ui/src/shared/components/RestSpecs/utils.vitest.test.ts'), true)
+  assert.equal(selected.commands.includes('pnpm test:workflow-matrix'), true)
+})
+
 test('workflow and replay infrastructure changes select structural and aggregate gates', () => {
   const selected = selectTests(['.github/workflows/replay-tests.yml', 'package.json'])
   assert.deepEqual(selected.areas.map(area => area.id), ['workflow-yaml', 'replay-infrastructure'])
