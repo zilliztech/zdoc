@@ -31,6 +31,23 @@ function sseResponse(events: unknown[]): Response {
   });
 }
 
+function markdownResponse(text = '# Test page') {
+  return new Response(text, {status: 200, headers: {'Content-Type': 'text/markdown; charset=utf-8'}});
+}
+
+function isMarkdownUrl(url: unknown): boolean {
+  return typeof url === 'string' && url.endsWith('.md');
+}
+
+function routeChatFetch(chatResponses: Response[]): void {
+  let idx = 0;
+  vi.mocked(fetch).mockImplementation((input: RequestInfo | URL) => {
+    const url = typeof input === 'string' ? input : String(input);
+    if (isMarkdownUrl(url)) return Promise.resolve(markdownResponse());
+    return Promise.resolve(chatResponses[idx++] ?? sseResponse([{type: 'done', data: {}}]));
+  });
+}
+
 function rawSseResponse(events: unknown[]): Response {
   const encoder = new TextEncoder();
   const stream = new ReadableStream({
@@ -94,13 +111,17 @@ describe('ChatProvider request debugging', () => {
       }),
       getRandomValues: (arr: Uint8Array) => arr.fill(1),
     });
-    vi.stubGlobal('fetch', vi.fn(() => Promise.resolve(sseResponse([
-      {type: 'session', data: {sessionId: 'server-session-1'}},
-      {type: 'agent', data: {type: 'general', name: 'Docs Agent'}},
-      {type: 'tool-call', data: {tool: 'search', count: 1, query: 'short secret notice'}},
-      {type: 'delta', data: {text: 'assistant secret answer'}},
-      {type: 'done', data: {stop_reason: 'end_turn'}},
-    ]))));
+    vi.stubGlobal('fetch', vi.fn((input: RequestInfo | URL) => {
+      const url = typeof input === 'string' ? input : String(input);
+      if (isMarkdownUrl(url)) return Promise.resolve(markdownResponse());
+      return Promise.resolve(sseResponse([
+        {type: 'session', data: {sessionId: 'server-session-1'}},
+        {type: 'agent', data: {type: 'general', name: 'Docs Agent'}},
+        {type: 'tool-call', data: {tool: 'search', count: 1, query: 'short secret notice'}},
+        {type: 'delta', data: {text: 'assistant secret answer'}},
+        {type: 'done', data: {stop_reason: 'end_turn'}},
+      ]));
+    }));
   });
 
   afterEach(() => {
@@ -116,7 +137,7 @@ describe('ChatProvider request debugging', () => {
       await result.current.send('secret user prompt');
     });
 
-    const [url, init] = vi.mocked(fetch).mock.calls[0];
+    const [url, init] = vi.mocked(fetch).mock.calls[1];
     expect(url).toBe('/api/chat');
     expect((init as RequestInit).headers).toMatchObject({
       'Content-Type': 'application/json',
@@ -131,6 +152,7 @@ describe('ChatProvider request debugging', () => {
       streaming_mode: 'token',
       site: 'docs.zilliz.com',
       agent_config: {agent_config_code: 'zilliz_docs_agent'},
+      page_context: {content: '# Test page'},
     });
   });
 
@@ -142,7 +164,7 @@ describe('ChatProvider request debugging', () => {
       await result.current.send('production question');
     });
 
-    const [, init] = vi.mocked(fetch).mock.calls[0];
+    const [, init] = vi.mocked(fetch).mock.calls[1];
     expect(JSON.parse((init as RequestInit).body as string)).toMatchObject({
       site: 'docs.zilliz.com.cn',
       agent_config: {agent_config_code: 'zilliz_docs_cn_agent'},
@@ -174,7 +196,7 @@ describe('ChatProvider request debugging', () => {
 
   it('reports the data-only done marker as a done debug event', async () => {
     const debugSpy = vi.spyOn(console, 'debug').mockImplementation(() => {});
-    vi.mocked(fetch).mockResolvedValueOnce(rawSseResponse(['[DONE]']));
+    routeChatFetch([rawSseResponse(['[DONE]'])]);
     const {result} = renderHook(() => useChatContext(), {wrapper: wrapper(true)});
 
     await act(async () => {
@@ -188,7 +210,7 @@ describe('ChatProvider request debugging', () => {
   });
 
   it('renders raw agent events without duplicate text', async () => {
-    vi.mocked(fetch).mockResolvedValueOnce(rawSseResponse([
+    routeChatFetch([rawSseResponse([
       {type: 'connected', session_id: 'pending_1'},
       {type: 'session_id', session_id: 'server-session-1'},
       {type: 'status', phase: 'Searching docs'},
@@ -200,7 +222,7 @@ describe('ChatProvider request debugging', () => {
       {type: 'confidence', level: 'high'},
       {type: 'completed'},
       '[DONE]',
-    ]));
+    ])]);
 
     const {result} = renderHook(() => useChatContext(), {wrapper: wrapper(false)});
     await act(async () => {
@@ -217,23 +239,24 @@ describe('ChatProvider request debugging', () => {
   });
 
   it('reuses the server session and conversation id on the next turn', async () => {
-    vi.mocked(fetch)
-      .mockResolvedValueOnce(rawSseResponse([
+    routeChatFetch([
+      rawSseResponse([
         {type: 'session_id', session_id: 'server-session-1'},
         {type: 'chunk', data: {type: 'text', text: 'first answer'}},
         '[DONE]',
-      ]))
-      .mockResolvedValueOnce(rawSseResponse([
+      ]),
+      rawSseResponse([
         {type: 'chunk', data: {type: 'text', text: 'second answer'}},
         '[DONE]',
-      ]));
+      ]),
+    ]);
     const {result} = renderHook(() => useChatContext(), {wrapper: wrapper(false)});
 
     await act(async () => result.current.send('first question'));
     await act(async () => result.current.send('second question'));
 
-    const firstInit = vi.mocked(fetch).mock.calls[0][1] as RequestInit;
-    const secondInit = vi.mocked(fetch).mock.calls[1][1] as RequestInit;
+    const firstInit = vi.mocked(fetch).mock.calls[1][1] as RequestInit;
+    const secondInit = vi.mocked(fetch).mock.calls[3][1] as RequestInit;
     expect(JSON.parse(secondInit.body as string)).toMatchObject({
       message: 'second question',
       session_id: 'server-session-1',
@@ -245,13 +268,14 @@ describe('ChatProvider request debugging', () => {
   });
 
   it('stores and restores session transport state with chat history', async () => {
-    vi.mocked(fetch)
-      .mockResolvedValueOnce(rawSseResponse([
+    routeChatFetch([
+      rawSseResponse([
         {type: 'session_id', session_id: 'server-session-1'},
         {type: 'chunk', data: {type: 'text', text: 'first answer'}},
         '[DONE]',
-      ]))
-      .mockResolvedValueOnce(rawSseResponse([{type: 'chunk', data: {type: 'text', text: 'follow-up'}}]));
+      ]),
+      rawSseResponse([{type: 'chunk', data: {type: 'text', text: 'follow-up'}}]),
+    ]);
     const {result} = renderHook(() => useChatContext(), {wrapper: wrapper(false)});
 
     await act(async () => result.current.send('first question'));
@@ -262,7 +286,7 @@ describe('ChatProvider request debugging', () => {
     act(() => result.current.loadChat(chatId));
     await act(async () => result.current.send('history follow-up'));
 
-    const followUpInit = vi.mocked(fetch).mock.calls[1][1] as RequestInit;
+    const followUpInit = vi.mocked(fetch).mock.calls[3][1] as RequestInit;
     expect(JSON.parse(followUpInit.body as string)).toMatchObject({
       session_id: 'server-session-1',
       conversationId: 'client-conversation-1',
@@ -271,9 +295,12 @@ describe('ChatProvider request debugging', () => {
 
   it('posts an interrupt and ignores late stream events after stop', async () => {
     const controlled = controlledRawSseResponse();
-    vi.mocked(fetch)
-      .mockResolvedValueOnce(controlled.response)
-      .mockResolvedValueOnce(new Response(null, {status: 204}));
+    vi.mocked(fetch).mockImplementation((input: RequestInfo | URL) => {
+      const url = typeof input === 'string' ? input : String(input);
+      if (isMarkdownUrl(url)) return Promise.resolve(markdownResponse());
+      if (url.endsWith('/interrupt')) return Promise.resolve(new Response(null, {status: 204}));
+      return Promise.resolve(controlled.response);
+    });
     const {result} = renderHook(() => useChatContext(), {wrapper: wrapper(false)});
 
     let sendPromise: Promise<void>;
@@ -285,12 +312,12 @@ describe('ChatProvider request debugging', () => {
     await waitFor(() => expect(result.current.messages.at(-1)?.text).toBe('partial'));
 
     act(() => result.current.stop());
-    expect(fetch).toHaveBeenNthCalledWith(2, '/api/chat/interrupt', expect.objectContaining({
+    expect(fetch).toHaveBeenNthCalledWith(3, '/api/chat/interrupt', expect.objectContaining({
       method: 'POST',
       keepalive: true,
       headers: expect.objectContaining({'X-Conversation-ID': 'client-conversation-1'}),
     }));
-    expect(JSON.parse(vi.mocked(fetch).mock.calls[1][1]?.body as string)).toEqual({
+    expect(JSON.parse(vi.mocked(fetch).mock.calls[2][1]?.body as string)).toEqual({
       session_id: 'server-session-1',
       conversationId: 'client-conversation-1',
     });
@@ -299,5 +326,49 @@ describe('ChatProvider request debugging', () => {
     controlled.close();
     await act(async () => sendPromise!);
     expect(result.current.messages.at(-1)?.text).toBe('partial');
+  });
+
+  it('falls back to url when page markdown is unavailable', async () => {
+    vi.mocked(fetch).mockImplementation((input: RequestInfo | URL) => {
+      const url = typeof input === 'string' ? input : String(input);
+      if (isMarkdownUrl(url)) return Promise.resolve(new Response('Not Found', {status: 404}));
+      return Promise.resolve(sseResponse([{type: 'done', data: {stop_reason: 'end_turn'}}]));
+    });
+    const {result} = renderHook(() => useChatContext(), {wrapper: wrapper(false)});
+
+    await act(async () => {
+      await result.current.send('question');
+    });
+
+    const [, init] = vi.mocked(fetch).mock.calls[1];
+    expect(JSON.parse((init as RequestInit).body as string)).toMatchObject({
+      page_context: {url: 'http://localhost:3000/docs/home'},
+    });
+  });
+
+  it('shows the reading-page status while page context is being fetched', async () => {
+    let resolveMarkdown: (value: Response) => void;
+    vi.mocked(fetch).mockImplementation((input: RequestInfo | URL) => {
+      const url = typeof input === 'string' ? input : String(input);
+      if (isMarkdownUrl(url)) {
+        return new Promise<Response>(resolve => {
+          resolveMarkdown = resolve;
+        });
+      }
+      return Promise.resolve(sseResponse([{type: 'done', data: {stop_reason: 'end_turn'}}]));
+    });
+    const {result} = renderHook(() => useChatContext(), {wrapper: wrapper(false)});
+
+    let sendPromise: Promise<void>;
+    act(() => {
+      sendPromise = result.current.send('question');
+    });
+
+    await waitFor(() => expect(result.current.messages.at(-1)?.status).toBe('Reading page...'));
+    await act(async () => {
+      resolveMarkdown!(markdownResponse('# Real page'));
+      await sendPromise!;
+    });
+    expect(result.current.messages.at(-1)?.status).toBeUndefined();
   });
 });
