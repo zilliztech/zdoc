@@ -127,7 +127,8 @@ describe('manual registry contract', () => {
     expect(resolveManualPublication('guides', 'en').publication.generatorTarget).toBe('zilliz.saas');
     expect(resolveManualPublication('guides-byoc', 'en').publication.generatorTarget).toBe('zilliz.paas');
     expect(resolveManualPublication('guides', 'en').publication.preservedFiles).toEqual(['home.md']);
-    expect(resolveManualPublication('guides', 'zh-CN').publication.preservedFiles).toEqual(['home.md']);
+    expect(resolveManualPublication('guides', 'zh-CN').publication.preservedFiles).toBeUndefined();
+    expect(resolveManualPublication('guides', 'zh-CN').publication.externallyOwnedFiles).toEqual(['home.md']);
   });
 
   it('retains verified archival source identities without making them implicit fallbacks', () => {

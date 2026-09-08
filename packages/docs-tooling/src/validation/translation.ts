@@ -35,6 +35,7 @@ export type ValidateReferenceTranslationOptions = Readonly<{
   verifyFiles?: boolean;
   manualForPath?: (repositoryRelativePath: string) => string;
   verifySourceProvenance?: TranslationSourceProvenanceVerifier;
+  supplementalMappings?: readonly Readonly<{sourcePath: string; targetPath: string; manual: string}>[];
 }>;
 
 export type ValidateReferenceSourceOptions = Readonly<{
@@ -65,6 +66,7 @@ export function validateReferenceTranslation(options: ValidateReferenceTranslati
   const sourceManifest = parseReferenceSourceManifest(options.sourceManifest);
   const translationManifest = parseReferenceTranslationManifest(options.translationManifest);
   const sourceRecords = new Map<string, ReferenceSourceManifest['records'][number]>();
+  const supplementalBySource = new Map((options.supplementalMappings ?? []).map(mapping => [mapping.sourcePath, mapping]));
   for (const record of sourceManifest.records) {
     assertBelowRoot(record.sourcePath, options.sourceRoot, 'Source path');
     if (sourceRecords.has(record.sourcePath)) throw new Error(`Duplicate canonical source: ${record.sourcePath}`);
@@ -75,9 +77,16 @@ export function validateReferenceTranslation(options: ValidateReferenceTranslati
   const targetPaths = new Set<string>();
   const sourceProvenance: TranslationSourceProvenance[] = [];
   for (const record of translationManifest.records) {
-    assertBelowRoot(record.sourcePath, options.sourceRoot, 'Translation source path');
-    assertBelowRoot(record.targetPath, options.targetRoot, 'Translation target path');
-    if (relativeBelowRoot(record.sourcePath, options.sourceRoot) !== relativeBelowRoot(record.targetPath, options.targetRoot)) {
+    const supplemental = supplementalBySource.get(record.sourcePath);
+    if (supplemental) {
+      if (record.targetPath !== supplemental.targetPath || record.manual !== supplemental.manual) {
+        throw new Error(`Supplemental translation mapping is not canonical: ${record.sourcePath}`);
+      }
+    } else {
+      assertBelowRoot(record.sourcePath, options.sourceRoot, 'Translation source path');
+      assertBelowRoot(record.targetPath, options.targetRoot, 'Translation target path');
+    }
+    if (!supplemental && relativeBelowRoot(record.sourcePath, options.sourceRoot) !== relativeBelowRoot(record.targetPath, options.targetRoot)) {
       throw new Error(`Translation mapping must use the same canonical relative path: ${record.sourcePath} -> ${record.targetPath}`);
     }
     if (translationsBySource.has(record.sourcePath)) throw new Error(`Duplicate source mapping: ${record.sourcePath}`);
@@ -86,11 +95,11 @@ export function validateReferenceTranslation(options: ValidateReferenceTranslati
     targetPaths.add(record.targetPath);
 
     const source = sourceRecords.get(record.sourcePath);
-    if (!source && !(record.status === 'retired' && record.sourceHash === EMPTY_FILE_SHA256)) {
+    if (!source && !supplemental && !(record.status === 'retired' && record.sourceHash === EMPTY_FILE_SHA256)) {
       throw new Error(`Orphan target has no active or retired source mapping: ${record.targetPath}`);
     }
     if (source && source.manual !== record.manual) throw new Error(`Translation manual mismatch: ${record.sourcePath}`);
-    if (options.manualForPath) {
+    if (options.manualForPath && !supplemental) {
       if (options.manualForPath(record.sourcePath) !== record.manual || options.manualForPath(record.targetPath) !== record.manual) {
         throw new Error(`Translation manual does not match source and target ownership: ${record.sourcePath}`);
       }
@@ -98,13 +107,13 @@ export function validateReferenceTranslation(options: ValidateReferenceTranslati
     if (source && source.sourceHash !== record.sourceHash && record.sourceCommit === sourceManifest.sourceCommit) {
       throw new Error(`Declared source hash mismatch: ${record.sourcePath}`);
     }
-    if (record.sourceCommit !== sourceManifest.sourceCommit) {
+    if (record.sourceCommit !== sourceManifest.sourceCommit || supplemental) {
       sourceProvenance.push({
         sourceCommit: record.sourceCommit,
         sourceManifestCommit: sourceManifest.sourceCommit,
         sourcePath: record.sourcePath,
         sourceHash: record.sourceHash,
-        expectedHistoricalSource: source === undefined ? 'missing' : 'blob',
+        expectedHistoricalSource: supplemental || source !== undefined ? 'blob' : 'missing',
       });
     }
     if (record.status === 'unchanged' && record.sourceHash !== record.targetHash) {

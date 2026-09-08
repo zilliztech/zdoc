@@ -13,8 +13,9 @@ test('Chinese SDK validation is scoped to the selected group', () => {
   assert.equal(JSON.stringify(commands).includes('validate-reference'), false);
 });
 
-test('Chinese Reference landing validation checks each canonical landing file', () => {
+test('Chinese landing validation checks Guides home and each Reference landing file', () => {
   assert.deepEqual(commandsForTranslationGroup({target: 'zh-CN-reference', group: 'reference-landings'}), [
+    ['pnpm', ['docs-tooling', 'validate-mdx', '--path', 'content/zh-CN/guides/tutorials/home.md', '--check']],
     ['pnpm', ['docs-tooling', 'validate-mdx', '--path', 'content/zh-CN/reference/api/python/python/python.md', '--check']],
     ['pnpm', ['docs-tooling', 'validate-mdx', '--path', 'content/zh-CN/reference/api/java/java/java.md', '--check']],
     ['pnpm', ['docs-tooling', 'validate-mdx', '--path', 'content/zh-CN/reference/api/nodejs/nodejs/nodejs.md', '--check']],

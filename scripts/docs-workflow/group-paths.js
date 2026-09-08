@@ -9,6 +9,9 @@ const TRANSLATION_ROOT = 'i18n/ja-JP';
 const REFERENCE_I18N_ROOT = `${TRANSLATION_ROOT}/docusaurus-plugin-content-docs-reference/current`;
 
 function referenceTranslationPath(ownedPath) {
+  if (ownedPath === 'content/en/guides/tutorials/home.md') {
+    return 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/home.md';
+  }
   const prefix = 'content/en/reference/';
   if (!ownedPath.startsWith(prefix)) return null;
   return `${REFERENCE_I18N_ROOT}/${ownedPath.slice(prefix.length)}`;

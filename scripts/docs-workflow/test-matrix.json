@@ -215,10 +215,14 @@
     {
       "id": "reference-translation-manifest",
       "paths": [
-        "packages/docs-tooling/src/reference/translationManifest*"
+        "packages/docs-tooling/src/reference/translationManifest*",
+        "packages/docs-tooling/src/translation/candidates*",
+        "packages/docs-tooling/src/translation/schema.ts",
+        "packages/docs-tooling/src/translation/targets*",
+        "packages/docs-tooling/src/validation/translation.ts"
       ],
       "focusedTests": [
-        "pnpm vitest run packages/docs-tooling/src/reference/translationManifest.test.ts packages/docs-tooling/src/reference/translationManifest.integration.test.ts"
+        "pnpm vitest run packages/docs-tooling/src/reference/translationManifest.test.ts packages/docs-tooling/src/reference/translationManifest.integration.test.ts packages/docs-tooling/src/translation/candidates.test.ts packages/docs-tooling/src/translation/targets.test.ts"
       ],
       "harnesses": [],
       "gates": ["pnpm test:rest-publication-contract"],

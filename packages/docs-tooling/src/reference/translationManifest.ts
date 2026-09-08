@@ -208,6 +208,7 @@ export type BuildReferenceManifestOptions = Readonly<{
   previousTranslationManifest?: ReferenceTranslationManifest;
   sourceSnapshot?: ReferenceTreeSnapshot;
   targetSnapshot?: ReferenceTreeSnapshot;
+  supplementalMappings?: readonly Readonly<{sourcePath: string; targetPath: string; manual: string}>[];
 }>;
 
 function sha256(bytes: Buffer): string {
@@ -485,6 +486,15 @@ export function buildReferenceManifests(options: BuildReferenceManifestOptions):
       targetHash: target?.hash ?? EMPTY_FILE_SHA256,
       status: source && target ? (source.hash === target.hash ? 'unchanged' : 'translated') : 'retired',
     });
+  }
+  records.sort(compareRecords);
+  const supplementalBySource = new Map((options.supplementalMappings ?? []).map(mapping => [mapping.sourcePath, mapping]));
+  for (const record of previousTranslationManifest?.records ?? []) {
+    const supplemental = supplementalBySource.get(record.sourcePath);
+    if (supplemental && record.targetPath === supplemental.targetPath && record.manual === supplemental.manual
+      && !records.some(candidate => candidate.sourcePath === record.sourcePath)) {
+      records.push(record);
+    }
   }
   records.sort(compareRecords);
   pendingRecords.sort(compareRecords);

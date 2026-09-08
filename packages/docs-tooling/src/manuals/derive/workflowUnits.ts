@@ -189,19 +189,21 @@ export function referenceRootsZhCn(): Readonly<Record<string, string>> {
 }
 
 export function referenceLandingsEn(): readonly string[] {
-  return Object.freeze(
-    referenceManuals()
+  return Object.freeze([
+    'content/en/guides/tutorials/home.md',
+    ...referenceManuals()
       .filter((manual) => manual.presentation!.referenceKind !== 'restful')
       .map((manual) => `content/en/reference/${manual.presentation!.documentIdPrefix}/${manual.presentation!.landingPage.split('/').at(-1)}`),
-  );
+  ]);
 }
 
 export function referenceLandingsZhCn(): readonly string[] {
-  return Object.freeze(
-    referenceManuals().filter((manual) => manual.presentation!.referenceKind !== 'restful').map((manual) => {
+  return Object.freeze([
+    'content/zh-CN/guides/tutorials/home.md',
+    ...referenceManuals().filter((manual) => manual.presentation!.referenceKind !== 'restful').map((manual) => {
       return `content/zh-CN/reference/${manual.presentation!.documentIdPrefix}/${manual.presentation!.landingPage.split('/').at(-1)}`;
     }),
-  );
+  ]);
 }
 
 export function reconciliationTargetGroups(): Readonly<Record<string, readonly string[]>> {
@@ -219,6 +221,7 @@ export const RECONCILIATION_TARGET_MAPPINGS = Object.freeze({
     Object.freeze(['content/en/reference', 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current']),
   ]),
   'zh-CN-reference': Object.freeze([
+    Object.freeze(['content/en/guides/tutorials', 'content/zh-CN/guides/tutorials']),
     Object.freeze(['content/en/reference', 'content/zh-CN/reference']),
   ]),
 }) as Readonly<Record<string, readonly (readonly string[])[]>>;

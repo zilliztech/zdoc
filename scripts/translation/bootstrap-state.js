@@ -12,17 +12,12 @@ const {
   parseReferenceTranslationManifest,
   referenceLanguageExclusionReason,
 } = loadTypeScript('../../packages/docs-tooling/src/reference/translationManifest.ts');
+const {referenceLandingsEn} = loadTypeScript('../../packages/docs-tooling/src/manuals/derive/workflowUnits.ts');
 
 const NOFOLLOW = typeof fs.constants.O_NOFOLLOW === 'number' ? fs.constants.O_NOFOLLOW : 0;
 const SHA256 = /^[a-f0-9]{64}$/;
 const COMMIT_SHA = /^[a-f0-9]{40}$/;
-const REFERENCE_LANDING_SOURCES = Object.freeze([
-  'content/en/reference/api/python/python/python.md',
-  'content/en/reference/api/java/java/java.md',
-  'content/en/reference/api/nodejs/nodejs/nodejs.md',
-  'content/en/reference/api/go/go/go.md',
-  'content/en/reference/cli/cli/Overview.md',
-]);
+const REFERENCE_LANDING_SOURCES = referenceLandingsEn();
 const REFERENCE_LANDING_TARGETS = Object.freeze(REFERENCE_LANDING_SOURCES.map(sourcePath => sourcePath.replace('content/en/', 'content/zh-CN/')));
 
 function canonicalGroups(groups) {
@@ -94,12 +89,18 @@ function treeHasMarkdown(root, relativePath) {
 }
 
 function expectedReferenceManual(sourcePath) {
+  if (sourcePath === 'content/en/guides/tutorials/home.md') return 'guides';
   if (typeof sourcePath !== 'string' || !sourcePath.startsWith('content/en/reference/')) return undefined;
   const relative = sourcePath.slice('content/en/reference/'.length);
   return [
     ['api/python', 'python'], ['api/java', 'java'], ['api/nodejs', 'node'],
     ['api/go', 'go'], ['api/cpp', 'cpp'], ['api/restful', 'rest'], ['cli', 'cli'],
   ].find(([prefix]) => relative === prefix || relative.startsWith(`${prefix}/`))?.[1];
+}
+
+function expectedLandingTarget(sourcePath) {
+  if (sourcePath === 'content/en/guides/tutorials/home.md') return 'content/zh-CN/guides/tutorials/home.md';
+  return `content/zh-CN/reference/${sourcePath.slice('content/en/reference/'.length)}`;
 }
 
 function assessLegacyBootstrap({target, group, state, sourceManifest, repositoryRoot = canonicalRoot()}) {
@@ -111,7 +112,15 @@ function assessLegacyBootstrap({target, group, state, sourceManifest, repository
   try { parsedState = parseReferenceTranslationManifest(state); }
   catch (error) { throw new Error(`Cannot assess legacy bootstrap for ${group}: invalid Reference translation manifest: ${error.message}`); }
   const landingSources = new Set(REFERENCE_LANDING_SOURCES);
-  const selectedSourceRecords = parsedSourceManifest.records.filter(record => group === 'reference-landings'
+  const sourceRecordsWithLanding = [...parsedSourceManifest.records];
+  if (group === 'reference-landings') {
+    const guidesHome = 'content/en/guides/tutorials/home.md';
+    if (!sourceRecordsWithLanding.some(record => record.sourcePath === guidesHome)) {
+      const sourceHash = sha256File(repositoryRoot, guidesHome);
+      if (sourceHash) sourceRecordsWithLanding.push({manual: 'guides', sourcePath: guidesHome, sourceHash});
+    }
+  }
+  const selectedSourceRecords = sourceRecordsWithLanding.filter(record => group === 'reference-landings'
     ? landingSources.has(record.sourcePath)
     : record.manual === group);
   if (group === 'reference-landings') {
@@ -140,7 +149,7 @@ function assessLegacyBootstrap({target, group, state, sourceManifest, repository
     }
     for (const record of retired) {
       const expectedManual = expectedReferenceManual(record.sourcePath);
-      const expectedTargetPath = `content/zh-CN/reference/${record.sourcePath.slice('content/en/reference/'.length)}`;
+      const expectedTargetPath = expectedLandingTarget(record.sourcePath);
       const belongsToGroup = group === 'reference-landings' ? landingSources.has(record.sourcePath) : expectedManual === group;
       if (!COMMIT_SHA.test(record.sourceCommit || '') || !belongsToGroup || record.manual !== expectedManual || record.targetPath !== expectedTargetPath) {
         throw new Error(`Bootstrap state for ${group} is inconsistent: invalid retired record ownership for ${record.sourcePath}`);
@@ -204,7 +213,7 @@ function assessLegacyBootstrap({target, group, state, sourceManifest, repository
     const entry = coverage.get(source.sourcePath);
     if (!entry) throw new Error(`Bootstrap state for ${group} is inconsistent: uncovered current source ${source.sourcePath}`);
     const record = entry.record;
-    const expectedTargetPath = `content/zh-CN/reference/${source.sourcePath.slice('content/en/reference/'.length)}`;
+    const expectedTargetPath = expectedLandingTarget(source.sourcePath);
     const expectedManual = expectedReferenceManual(source.sourcePath);
     const belongsToGroup = group === 'reference-landings' ? landingSources.has(source.sourcePath) : expectedManual === group;
     if (!belongsToGroup || record.manual !== expectedManual || record.targetPath !== expectedTargetPath) {

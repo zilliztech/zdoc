@@ -238,6 +238,7 @@ function publication(
   retiredPaths?: string[],
   preservedFiles?: string[],
   preservedPaths?: string[],
+  externallyOwnedFiles?: string[],
 ): ManualPublication {
   return {
     enabled: true,
@@ -251,6 +252,7 @@ function publication(
     ...(retiredPaths ? {retiredPaths} : {}),
     ...(preservedFiles ? {preservedFiles} : {}),
     ...(preservedPaths ? {preservedPaths} : {}),
+    ...(externallyOwnedFiles ? {externallyOwnedFiles} : {}),
   };
 }
 
@@ -258,11 +260,13 @@ export function publicationPreservedPaths(publication: Readonly<{
   outputDir?: string;
   preservedFiles?: readonly string[];
   preservedPaths?: readonly string[];
+  externallyOwnedFiles?: readonly string[];
 }>): readonly string[] {
   if (!publication.outputDir) throw new Error('Publication outputDir is required to resolve preserved paths');
   return Object.freeze([
     ...(publication.preservedFiles ?? []).map(file => `${publication.outputDir}/${file}`),
     ...(publication.preservedPaths ?? []),
+    ...(publication.externallyOwnedFiles ?? []).map(file => `${publication.outputDir}/${file}`),
   ]);
 }
 
@@ -375,7 +379,7 @@ const definitions: ManualDefinition[] = [
     sourceOrder: ['english', 'chinese'],
     publications: {
       en: publication('en', 'english', 'guides/tutorials', 'guides', 'guides', 'zilliz.saas', undefined, ['home.md']),
-      'zh-CN': publication('zh-CN', 'chinese', 'guides/tutorials', 'guides', 'guides', 'zilliz.saas', undefined, ['home.md']),
+      'zh-CN': publication('zh-CN', 'chinese', 'guides/tutorials', 'guides', 'guides', 'zilliz.saas', undefined, undefined, undefined, ['home.md']),
     },
   },
   {

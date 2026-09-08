@@ -120,6 +120,37 @@ function restMdx(includeLangs?: readonly string[]): string {
 }
 
 describe('Reference translation provenance', () => {
+  it('preserves the authenticated cross-root Guides landing record during Reference regeneration', () => {
+    const {repositoryRoot, sourceRoot, targetRoot} = fixture();
+    writeFileSync(path.join(repositoryRoot, sourceRoot, 'api/python/page.md'), '# source\n');
+    writeFileSync(path.join(repositoryRoot, targetRoot, 'api/python/page.md'), '# target\n');
+    const sourcePath = 'content/en/guides/tutorials/home.md';
+    const targetPath = 'content/zh-CN/guides/tutorials/home.md';
+    mkdirSync(path.dirname(path.join(repositoryRoot, sourcePath)), {recursive: true});
+    mkdirSync(path.dirname(path.join(repositoryRoot, targetPath)), {recursive: true});
+    writeFileSync(path.join(repositoryRoot, sourcePath), '# Home\n');
+    writeFileSync(path.join(repositoryRoot, targetPath), '# 首页\n');
+    const supplemental = {
+      manual: 'guides', sourcePath, targetPath, sourceCommit: 'a'.repeat(40),
+      sourceHash: sha256('# Home\n'), targetHash: sha256('# 首页\n'), status: 'translated' as const,
+    };
+    const result = buildReferenceManifests({
+      repositoryRoot, sourceRoot, targetRoot, sourceCommit: 'b'.repeat(40),
+      manualForPath: () => 'python',
+      previousTranslationManifest: translationManifest({records: [supplemental]}),
+      supplementalMappings: [{manual: 'guides', sourcePath, targetPath}],
+    });
+    expect(result.translationManifest.records).toContainEqual(supplemental);
+    const verifySourceProvenance = vi.fn();
+    validateReferenceTranslation({
+      repositoryRoot, sourceRoot, targetRoot,
+      sourceManifest: result.sourceManifest,
+      translationManifest: result.translationManifest,
+      supplementalMappings: [{manual: 'guides', sourcePath, targetPath}],
+      verifySourceProvenance,
+    });
+    expect(verifySourceProvenance).toHaveBeenCalledWith([expect.objectContaining({sourcePath, expectedHistoricalSource: 'blob'})]);
+  });
   it('accepts an authenticated canonical source without a target mapping as pending', () => {
     expect(() => validateReferenceTranslation({
       repositoryRoot: '/unused',

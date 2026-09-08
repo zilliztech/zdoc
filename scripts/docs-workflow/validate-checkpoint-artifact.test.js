@@ -128,8 +128,9 @@ test('rejects a source artifact missing its declared preserved landing', async (
   );
 });
 
-test('maps the Reference landing group to six exact Chinese targets plus translation state', () => {
+test('maps the landing group to Guides home, six Reference targets, and translation state', () => {
   assert.deepEqual(translationOwnedPaths('zh-CN-reference', require('./content-groups').getContentGroup('reference-landings')), [
+    'content/zh-CN/guides/tutorials/home.md',
     'content/zh-CN/reference/api/python/python/python.md',
     'content/zh-CN/reference/api/java/java/java.md',
     'content/zh-CN/reference/api/nodejs/nodejs/nodejs.md',
