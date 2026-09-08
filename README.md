@@ -270,6 +270,21 @@ Stop at the first failed boundary and classify the failure before retrying:
 - **Reconciliation review:** a `translation-reconciliation-review-*.json` artifact is produced when a deletion or path change requires human authorization. Generate the deterministic approval PR with `scripts/docs-workflow/reconciliation-review-pr.js`, review the exact plan, expected mutations, source/target identities, and policy exception body, then merge only when the decision should remain standing. Do not hand-edit or push policy files directly to `dev`; after merge, run the normal master-to-dev tooling sync.
 - **Card/reporting failure:** the card is observability, not the Git writer. Preserve the publication selection/results and final verification artifacts, then use the final card artifact or monitor finalization evidence to determine whether the business flow actually succeeded.
 
+### Migrate the Japanese publication manifest
+
+After the migration tooling has reached `dev` through the normal master-to-dev sync, run the migration against an isolated checkout of the exact current `dev` commit. The retained-report receipt binds legacy cache entries to authenticated Translation run artifacts and source checkpoints; the command still verifies every checkpoint source blob and current Japanese target hash before writing the manifest.
+
+```bash
+node scripts/translation/migrate-ja-publication-manifest.js \
+  --repository <isolated-dev-checkout> \
+  --source-commit <exact-dev-sha> \
+  --revision HEAD \
+  --source-evidence deploy/evidence/ja-publication-source-checkpoints-2026-09-08.json \
+  --audit-output <absolute-audit-output>
+```
+
+A nonzero rejected count is a safe stop. Do not edit the generated Japanese manifest or substitute a newer source hash. Preserve the audit output, receipt checksum, exact `dev` SHA, and subsequent Japanese validation/build logs with the migration PR.
+
 ### Publish retained Japanese Guides offline
 
 Use [`publish-offline-translation.yml`](.github/workflows/publish-offline-translation.yml) only when authenticated Japanese Guides output already exists but cannot truthfully satisfy the schema-v2/v3 Translation batch-set contract. This path does not invoke Translation or review agents and does not synthesize `translation-guides-batch-set` evidence. It validates one exact candidate commit and promotes it through the normal publication coordinator.
