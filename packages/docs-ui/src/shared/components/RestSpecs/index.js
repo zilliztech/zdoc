@@ -3,7 +3,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import RestHeader from '../RestHeader/index.js';
 import Admonition from '@theme/Admonition'
 import CodeBlock from '@theme/CodeBlock'
-import { textFilter, getBaseUrl, getRandomString, chooseParamExample, filterSchemaOptions, getExampleLabel, getResponseEntries, getDefaultResponseStatus, isControlPlane, getTokenPlaceholder } from './utils.js'
+import { textFilter, getBaseUrl, getRandomString, chooseParamExample, filterSchemaOptions, getExampleLabel, getResponseEntries, getDefaultResponseStatus, getLocalizedDescription, isControlPlane, getTokenPlaceholder } from './utils.js'
 import { i18n } from './i18n.js'
 import styles from'./index.module.css';
 import { cond, set } from 'lodash';
@@ -703,7 +703,7 @@ export default function RestSpecs(props) {
         return true
     }) : []
 
-    const short = textFilter(description, target)
+    const short = textFilter(getLocalizedDescription(props.specs, lang), target)
     const headerParams = validParams ? validParams.filter(param => param.in === 'header') : []
     const headersExample = headerParams.map(param => `--header "${param.name}: ${param.example}"`).join(' \\\n').replace(/{{/g, '${').replace(/}}/g, '}')
     const pathParams = validParams ? validParams.filter(param => param.in === 'path') : []

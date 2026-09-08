@@ -37,6 +37,18 @@
       "gates": ["pnpm test:workflow-matrix", "git diff --check"],
       "reason": "Grid layout styles must preserve column geometry while allowing the first heading in each column to align without excess top spacing."
     },
+    {
+      "id": "docs-ui-rest-specs",
+      "paths": [
+        "packages/docs-ui/src/shared/components/RestSpecs/**"
+      ],
+      "focusedTests": [
+        "pnpm vitest run packages/docs-ui/src/shared/components/RestSpecs/utils.vitest.test.ts"
+      ],
+      "harnesses": [],
+      "gates": ["pnpm test:workflow-matrix", "git diff --check"],
+      "reason": "REST reference rendering must select localized operation and schema text while preserving source-language fallbacks."
+    },
       {
         "id": "docs-ui-layout",
       "paths": [
