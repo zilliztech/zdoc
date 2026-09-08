@@ -145,8 +145,8 @@ function validatePreviousRecordPaths<T extends Readonly<{sourcePath: string; tar
   return ownedRecords;
 }
 
-function previousRecords(target: TranslationTarget, value: unknown, ownedPaths: readonly string[]): PreviousRecordState {
-  if (target.state.kind === 'cache') {
+function previousRecords(kind: PreviousRecordState['kind'], value: unknown, ownedPaths: readonly string[]): PreviousRecordState {
+  if (kind === 'cache') {
     if (!value || typeof value !== 'object') return {kind: 'cache', records: []};
     const files = (value as {files?: Record<string, {sourceHash?: string; targetPath?: string}>}).files ?? {};
     const canonical = new Map<string, CachePreviousRecord>();
@@ -299,8 +299,13 @@ export function buildTranslationCandidates(options: CandidateBuildOptions): Read
       throw new Error(`Owned translation source path is outside target mappings: ${sourcePath}`);
     }
   }
-  const previousState = previousRecords(target, readJson(options.repositoryRoot, target.state.path), owned);
-  const previous: readonly PreviousRecord[] = previousState.records;
+  const previousState = previousRecords(target.state.kind, readJson(options.repositoryRoot, target.state.path), owned);
+  const candidateState = 'candidateState' in target
+    ? previousRecords(target.candidateState.kind, readJson(options.repositoryRoot, target.candidateState.path), owned)
+    : previousState;
+  const previous: readonly PreviousRecord[] = candidateState === previousState
+    ? previousState.records
+    : [...previousState.records, ...candidateState.records];
   if (previousState.kind === 'reference-manifest') {
     for (const record of previousState.records) {
       const mapping = mappingForSource(target, record.sourcePath);
