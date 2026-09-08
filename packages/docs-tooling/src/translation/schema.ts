@@ -44,6 +44,7 @@ export const TranslationTargetSchema = z.discriminatedUnion('id', [
     locale: z.literal('zh-CN'),
     sourceRoot: RepositoryPathSchema,
     targetRoot: RepositoryPathSchema,
+    mappings: z.array(MappingSchema).min(1).readonly().optional(),
     state: z.object({kind: z.literal('reference-manifest'), path: RepositoryPathSchema}).strict(),
   }).strict(),
 ]);

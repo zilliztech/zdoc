@@ -16,6 +16,7 @@ const {validateReconciliationPlan} = require('./reconciliation-plan')
 const {buildTranslationCandidates} = loadTypeScript('../../packages/docs-tooling/src/translation/candidates.ts')
 const { resolveManualPublication } = loadTypeScript('../../packages/docs-tooling/src/manuals/registry.ts')
 const { resolvePublicationGroupWorkflow } = loadTypeScript('../../packages/docs-tooling/src/workflows/groups.ts')
+const { referenceLandingsEn } = loadTypeScript('../../packages/docs-tooling/src/manuals/derive/workflowUnits.ts')
 
 const SHA = /^[0-9a-f]{40}$/
 
@@ -72,11 +73,18 @@ function sourceMappingsForTarget(target) {
       targetRoot: 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current',
     },
   ]
-  if (target === 'zh-CN-reference') return [{
-    type: 'reference',
-    sourceRoot: 'content/en/reference',
-    targetRoot: 'content/zh-CN/reference',
-  }]
+  if (target === 'zh-CN-reference') return [
+    {
+      type: 'guides',
+      sourceRoot: 'content/en/guides/tutorials',
+      targetRoot: 'content/zh-CN/guides/tutorials',
+    },
+    {
+      type: 'reference',
+      sourceRoot: 'content/en/reference',
+      targetRoot: 'content/zh-CN/reference',
+    },
+  ]
   throw new Error(`Unknown translation target: ${target}`)
 }
 
@@ -87,7 +95,7 @@ function localeForTarget(target) {
 }
 
 function typeForSource(target, sourcePath) {
-  const mapping = sourceMappingsForTarget(target).find(candidate => sourcePath.startsWith(`${candidate.sourceRoot}/`))
+  const mapping = sourceMappingsForTarget(target).find(candidate => sourcePath === candidate.sourceRoot || sourcePath.startsWith(`${candidate.sourceRoot}/`))
   if (!mapping) throw new Error(`Translation candidate is outside target mappings: ${sourcePath}`)
   return mapping.type
 }
@@ -199,6 +207,9 @@ function candidateOwnership({group, target}) {
     ])],
     preservedSourcePaths,
     forceTranslationPaths,
+    excludedSourcePaths: group === 'guides'
+      ? referenceLandingsEn().filter(sourcePath => sourcePath.startsWith('content/en/guides/'))
+      : [],
   }
 }
 
@@ -257,6 +268,7 @@ function buildManifest({ siteDir, target = 'ja-JP', locale = localeForTarget(tar
     ownedSourcePaths: ownership.ownedSourcePaths,
     preservedSourcePaths: ownership.preservedSourcePaths,
     forceTranslationPaths: ownership.forceTranslationPaths,
+    excludedSourcePaths: ownership.excludedSourcePaths,
     changedSourcePaths: sourceChanges?.changedEnglish || [],
     mode,
     retirementRegistry: readRetirementRegistry(siteDir, target),

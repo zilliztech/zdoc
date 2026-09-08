@@ -55,12 +55,13 @@ test('checkpoints the English Reference root manifest with every English produce
   }
 });
 
-test('defines a bounded translation-only Reference landing group', () => {
+test('defines a bounded translation-only landing group', () => {
   const landings = getContentGroup('reference-landings');
   assert.deepEqual(landings.manuals, []);
   assert.equal(landings.snapshotManual, 'reference-landings');
   assert.equal(landings.translate, true);
   assert.deepEqual(landings.ownedPaths, [
+    'content/en/guides/tutorials/home.md',
     'content/en/reference/api/python/python/python.md',
     'content/en/reference/api/java/java/java.md',
     'content/en/reference/api/nodejs/nodejs/nodejs.md',
