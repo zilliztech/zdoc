@@ -220,14 +220,16 @@
         "packages/docs-tooling/src/translation/schema.ts",
         "packages/docs-tooling/src/translation/targets*",
         "packages/docs-tooling/src/validation/translation.ts",
-        "scripts/translation/migrate-ja-publication-manifest*"
+        "packages/docs-tooling/src/validation/translationProvenance.test.ts",
+        "scripts/translation/migrate-ja-publication-manifest*",
+        "deploy/evidence/ja-publication-source-checkpoints-*"
       ],
       "focusedTests": [
-        "pnpm vitest run packages/docs-tooling/src/reference/translationManifest.test.ts packages/docs-tooling/src/reference/translationManifest.integration.test.ts packages/docs-tooling/src/translation/candidates.test.ts packages/docs-tooling/src/translation/targets.test.ts && node --test scripts/translation/migrate-ja-publication-manifest.test.js"
+        "pnpm vitest run packages/docs-tooling/src/reference/translationManifest.test.ts packages/docs-tooling/src/validation/translationProvenance.test.ts packages/docs-tooling/src/reference/translationManifest.integration.test.ts packages/docs-tooling/src/translation/candidates.test.ts packages/docs-tooling/src/translation/targets.test.ts && node --test scripts/translation/migrate-ja-publication-manifest.test.js"
       ],
       "harnesses": [],
       "gates": ["pnpm test:rest-publication-contract"],
-      "reason": "Reference manifest changes must preserve generic Translation pairing while keeping spec-generated REST ownership and language exclusions independent."
+      "reason": "Reference manifest changes must preserve historical source-path provenance and retained-report receipts while keeping spec-generated REST ownership and language exclusions independent."
     },
     {
       "id": "checkpoint-artifacts-and-ownership",

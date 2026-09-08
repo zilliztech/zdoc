@@ -29,6 +29,7 @@ const SourceRecordSchema = z.object({
 const TranslationRecordSchema = z.object({
   manual: z.string().regex(/^[a-z][a-z0-9-]*$/u),
   sourcePath: RepositoryPathSchema,
+  sourcePathAtCommit: RepositoryPathSchema.optional(),
   targetPath: RepositoryPathSchema,
   sourceCommit: z.string().regex(COMMIT_SHA),
   sourceHash: z.string().regex(SHA256),
@@ -159,6 +160,7 @@ const ReferenceRetirementRegistrySchema = z.object({
 export interface TranslationRecord {
   manual: string;
   sourcePath: string;
+  sourcePathAtCommit?: string;
   targetPath: string;
   sourceCommit: string;
   sourceHash: string;
