@@ -1,8 +1,9 @@
 #!/usr/bin/env node
-import {spawnSync as nodeSpawnSync} from 'node:child_process';
+import {execFileSync, spawnSync as nodeSpawnSync} from 'node:child_process';
 import {createHash, randomUUID} from 'node:crypto';
 import {closeSync, constants, existsSync, fsyncSync, lstatSync, mkdirSync, openSync, readFileSync, realpathSync, renameSync, unlinkSync, writeFileSync} from 'node:fs';
 import path from 'node:path';
+import {createRequire} from 'node:module';
 
 import {
   createPublicationAdapterRegistry,
@@ -20,6 +21,7 @@ import {
   capturePublicationDiagnostics,
   localizedRestTargets,
   publicationOwnedTargets,
+  restDerivationManifestTargets,
   readAndValidatePublicationDiagnostics,
   writePublicationAnchor,
   writePublicationDiagnostics,
@@ -70,6 +72,11 @@ import {
   resolveOwnedRepositoryPath,
 } from './validation/ownership.ts';
 import {canonicalPublicationGroupForManual} from './workflows/groups.ts';
+
+const requireFromCli = createRequire(import.meta.url);
+const {validateRestDerivationManifest} = requireFromCli('./reference/rest/restDerivationManifest.js') as {
+  validateRestDerivationManifest: (options: {fragmentRoot: string; manifestPath: string; locale: string}) => unknown;
+};
 
 export type DocsToolingCommand = 'fetch' | 'validate' | 'publish';
 
@@ -1051,7 +1058,7 @@ async function validatePublicationStage(context: CommandContext): Promise<Readon
   diagnostics: PublicationDiagnostics;
 }>> {
   const diagnostics = readAndValidatePublicationDiagnostics(context.repositoryRoot, context.stagePath, diagnosticsIdentity(context));
-  const inventory = await validatePublicationFilesystem(context.stagePath, context.publication as ManualPublication);
+  const inventory = await validatePublicationFilesystem(context, context.stagePath);
   return {inventory, diagnostics};
 }
 
@@ -1122,13 +1129,21 @@ async function validateSelectedPublicationAdapters(
   await selected.registry.validatePublication(selected.ids, publicationAdapterContext(context, publicationRoot));
 }
 
-async function validatePublicationFilesystem(root: string, publication: ManualPublication): Promise<StageInventory> {
+async function validatePublicationFilesystem(context: CommandContext, root: string): Promise<StageInventory> {
+  const publication = context.publication as ManualPublication;
   const outputPath = resolveSecureRepositoryPath(root, publication.outputDir, 'Publication content artifact', {allowMissing: true});
   const sidebarPath = resolveSecureRepositoryPath(root, publication.sidebarPath, 'Publication sidebar artifact', {allowMissing: true});
   if (!securePathExists(root, outputPath, 'Publication content artifact')) throw new Error(`Publication content artifact is missing: ${publication.outputDir}`);
   if (!securePathExists(root, sidebarPath, 'Publication sidebar artifact')) throw new Error(`Publication sidebar artifact is missing: ${publication.sidebarPath}`);
   resolveSecureRepositoryPath(root, outputPath, 'Publication content artifact', {finalKind: 'directory'});
   resolveSecureRepositoryPath(root, sidebarPath, 'Publication sidebar artifact', {finalKind: 'file'});
+  if (context.source.sourceType === 'rest') {
+    const fragmentRoot = assertExistingSource(context.repositoryRoot, context.source as ManualSource);
+    for (const target of restDerivationManifestTargets(context.request.site, publication)) {
+      const manifestPath = resolveSecureRepositoryPath(root, target.manifestPath, 'REST derivation manifest', {finalKind: 'file'});
+      validateRestDerivationManifest({fragmentRoot, manifestPath, locale: target.locale});
+    }
+  }
   const inventory = validateStageFilesystem(root);
   const integrity = await scanIntegrity(root, {
     repository: 'zdoc',
@@ -1154,7 +1169,7 @@ async function validatePublicationSnapshot(
     || expectedOwnedPaths.some((target, index) => snapshot.ownedPaths[index] !== target)) {
     throw new Error('Atomic publication snapshot owned paths do not match the validated publication contract');
   }
-  await validatePublicationFilesystem(snapshot.publicationRoot, context.publication as ManualPublication);
+  await validatePublicationFilesystem(context, snapshot.publicationRoot);
   await validateSelectedPublicationAdapters(context, selected, snapshot.publicationRoot);
 }
 
@@ -1288,6 +1303,18 @@ async function defaultFetch(context: CommandContext, runner: GeneratorRunner, en
   if (source.sourceType === 'rest') {
     const specifications = assertExistingSource(context.repositoryRoot, source);
     const staged = publicationStagePaths(context);
+    let toolingSha: string;
+    try {
+      toolingSha = execFileSync('git', ['rev-parse', 'HEAD'], {cwd: context.repositoryRoot, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore']}).trim();
+    } catch {
+      // Unit fixtures supply a repository-shaped directory without Git metadata;
+      // the executing checkout remains the authoritative generator identity.
+      toolingSha = execFileSync('git', ['rev-parse', 'HEAD'], {cwd: process.cwd(), encoding: 'utf8'}).trim();
+    }
+    const generatedAt = new Date().toISOString();
+    const derivationTargets = restDerivationManifestTargets(context.request.site, context.publication as ManualPublication);
+    const primaryDerivation = derivationTargets.find(target => target.locale === context.request.site);
+    if (!primaryDerivation) throw new Error(`REST derivation manifest target is missing for ${context.request.site}`);
     runGenerator(
       context,
       runner,
@@ -1297,6 +1324,9 @@ async function defaultFetch(context: CommandContext, runner: GeneratorRunner, en
         '--output_path', staged.outputPath,
         '--lang', context.request.site === 'en' ? 'en-US' : 'zh-CN',
         '--target', 'zilliz',
+        '--derivation-manifest', resolveSecureRepositoryPath(context.stagePath, primaryDerivation.manifestPath, 'Staged REST derivation manifest', {allowMissing: true}),
+        '--tooling-sha', toolingSha,
+        '--generated-at', generatedAt,
       ],
       environment,
       false,
@@ -1312,6 +1342,9 @@ async function defaultFetch(context: CommandContext, runner: GeneratorRunner, en
           '--output_path', localizedOutputPath,
           '--lang', localized.lang,
           '--target', 'zilliz',
+          '--derivation-manifest', resolveSecureRepositoryPath(context.stagePath, derivationTargets.find(target => target.locale === localized.lang)!.manifestPath, 'Staged localized REST derivation manifest', {allowMissing: true}),
+          '--tooling-sha', toolingSha,
+          '--generated-at', generatedAt,
         ],
         environment,
         false,
@@ -1332,12 +1365,14 @@ async function defaultPublish(
   const staged = publicationStagePaths(context);
   if (!context.publicationDiagnostics) throw new Error('Validated publication diagnostics are missing');
   const localizedTargets = localizedRestTargets(context.request.site, context.publication as ManualPublication);
+  const derivationTargets = restDerivationManifestTargets(context.request.site, context.publication as ManualPublication);
   const localizedOutputDirs = localizedTargets.map(target => target.outputDir);
   const preservedPaths = context.publication.preservedPaths ?? [];
   const ownedTargets = publicationOwnedTargets(context.request.site, context.publication as ManualPublication);
   const removalTargets = ownedTargets.filter(target => target !== context.publication.outputDir
     && target !== context.publication.sidebarPath
     && !localizedOutputDirs.includes(target)
+    && !derivationTargets.some(derivation => derivation.manifestPath === target)
     && !preservedPaths.includes(target));
   await replace({
     publicationRoot: context.repositoryRoot,
@@ -1352,6 +1387,10 @@ async function defaultPublish(
       ...localizedTargets.map(localized => ({
         source: resolveSecureRepositoryPath(context.stagePath, localized.outputDir, 'Staged localized REST outputDir'),
         target: localized.outputDir,
+      })),
+      ...derivationTargets.map(target => ({
+        source: resolveSecureRepositoryPath(context.stagePath, target.manifestPath, 'Staged REST derivation manifest', {finalKind: 'file'}),
+        target: target.manifestPath,
       })),
     ],
     removals: removalTargets,
