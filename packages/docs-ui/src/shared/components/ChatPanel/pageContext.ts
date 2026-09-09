@@ -28,7 +28,7 @@ export async function fetchPageContext(pathname: string, signal?: AbortSignal): 
       return url ? {url} : {};
     }
 
-    return {content};
+    return {url, content};
   } catch {
     return url ? {url} : {};
   }
