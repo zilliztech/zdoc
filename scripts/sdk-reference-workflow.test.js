@@ -102,6 +102,23 @@ test('SDK snapshot wrapper clearly rejects groups without an SDK Lark snapshot',
   }
 })
 
+test('selected SDK group count always matches the filtered producer matrix', () => {
+  for (const selection of ['all', 'guides', 'python', 'guides,python', 'python,java']) {
+    const run = mode => spawnSync('node', ['scripts/docs-workflow/print-workflow-groups.js', mode, selection], { encoding: 'utf8' })
+    const groups = run('--selected-sdk-groups-json')
+    const count = run('--selected-sdk-group-count')
+    assert.equal(count.status, 0, `${selection}: count mode must exit 0`)
+    assert.equal(groups.status, 0, `${selection}: groups mode must exit 0`)
+    assert.equal(count.stdout, String(JSON.parse(groups.stdout).length), `${selection}: count must match filtered groups length`)
+  }
+  // A Guides-only selection yields an empty producer matrix; the workflow
+  // guards produce_sdk_reference with this count so GitHub skips the job
+  // instead of failing strategy evaluation on an empty 'group' vector.
+  const guidesOnly = spawnSync('node', ['scripts/docs-workflow/print-workflow-groups.js', '--selected-sdk-group-count', 'guides'], { encoding: 'utf8' })
+  assert.equal(guidesOnly.status, 0)
+  assert.equal(guidesOnly.stdout, '0')
+})
+
 test('Guides assembly promotes the source candidate only after combined validation', () => {
   const source = fs.readFileSync('.github/workflows/_assemble-guides.yml', 'utf8')
   assertGuidesAssemblySnapshotLifecycle(source)
@@ -143,6 +160,7 @@ test('docs workflow orchestrates independent checkpointed publication lanes', ()
 
   const sdkMatrix = workflow.jobs.produce_sdk_reference
   assert.equal(sdkMatrix.name, 'produce_${{ matrix.group }}')
+  assert.match(sdkMatrix.if, /needs\.prepare\.outputs\.selected_sdk_count != '0'/)
   assert.equal(sdkMatrix.strategy.matrix.group, '${{ fromJSON(needs.prepare.outputs.selected_sdk_groups) }}')
   assert.equal(sdkMatrix.with.group, '${{ matrix.group }}')
   assert.equal(sdkMatrix.with.publication_unit_key, 'source/${{ matrix.group }}')
