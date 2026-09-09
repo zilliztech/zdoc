@@ -585,6 +585,21 @@
       "focusedTests": ["node --test scripts/translation/semanticSeeds.test.js scripts/translation/loadSheddingWorkflow.test.js scripts/translation/reportSummary.test.js"],
       "harnesses": ["pnpm test:replay:translation"],
       "gates": ["pnpm test:translation", "pnpm test:workflow-policy"],
-      "reason": "Cross-run semantic-unit reuse feeds published baseline translations into the existing checkpoint pipeline; planner pairing, fallback policy, workflow opt-in wiring, and runner integration must stay compatible with recovery and publication contracts."    }
+      "reason": "Cross-run semantic-unit reuse feeds published baseline translations into the existing checkpoint pipeline; planner pairing, fallback policy, workflow opt-in wiring, and runner integration must stay compatible with recovery and publication contracts."    },
+    {
+      "id": "docs-ui-ui-text",
+      "paths": [
+        "packages/docs-ui/src/shared/i18n/**",
+        "packages/docs-ui/src/en/navigation/SecondaryNavbar/**",
+        "packages/docs-ui/src/en/theme/DocSidebar/**"
+      ],
+      "focusedTests": [
+        "pnpm vitest run packages/docs-ui/src/shared/i18n/uiText.test.ts",
+        "pnpm vitest run packages/docs-ui/src/en/theme/DocSidebar/manualReferenceSidebar.test.ts"
+      ],
+      "harnesses": [],
+      "gates": ["pnpm test:workflow-matrix", "git diff --check"],
+      "reason": "Docs UI text dictionary drives navbar, sidebar, search, and chat copy per site and locale; keep locale selection, secondary navbar label mapping, and Japanese copy deterministic."
+    }
   ]
 }
