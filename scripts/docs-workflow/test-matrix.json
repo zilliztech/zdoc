@@ -578,6 +578,13 @@
       "harnesses": [],
       "gates": ["pnpm test:workflow-matrix", "pnpm test:workflow-policy", "git diff --check"],
       "reason": "Publication-group manifests bind per-file source hashes for the Chinese Guides source publication evidence chain, and the retired-manifest governance registry keeps the deprecated import shell and the non-evidence Tools translation manifest out of publication and provenance inputs; serialization and validation must stay fail-closed with the ownership contract."
-    }
+    },
+    {
+      "id": "semantic-seed-reuse",
+      "paths": ["scripts/translation/semanticSeeds*", ".github/workflows/_translate-content-group.yml", ".claude/specs/2026-09-09-semantic-seed-incremental-translation.md"],
+      "focusedTests": ["node --test scripts/translation/semanticSeeds.test.js scripts/translation/loadSheddingWorkflow.test.js scripts/translation/reportSummary.test.js"],
+      "harnesses": ["pnpm test:replay:translation"],
+      "gates": ["pnpm test:translation", "pnpm test:workflow-policy"],
+      "reason": "Cross-run semantic-unit reuse feeds published baseline translations into the existing checkpoint pipeline; planner pairing, fallback policy, workflow opt-in wiring, and runner integration must stay compatible with recovery and publication contracts."    }
   ]
 }

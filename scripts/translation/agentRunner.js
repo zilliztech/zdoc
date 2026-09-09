@@ -1698,6 +1698,36 @@ function recoveryEntryIdentity(value) {
   return `${value.sourcePath}\0${value.targetPath}`
 }
 
+function loadSemanticSeedIndex(seedDir, manifest) {
+  let summary
+  try { summary = JSON.parse(fs.readFileSync(path.join(seedDir, 'summary.json'), 'utf8')) }
+  catch (error) { throw new Error(`Semantic seed summary is invalid: ${String(error?.message || error)}`) }
+  if (summary.schemaVersion !== 1 || summary.kind !== 'semantic-translation-seeds') throw new Error('Semantic seed summary header is invalid')
+  for (const key of ['target', 'locale', 'group', 'sourceCheckpointSha']) {
+    if (summary[key] !== manifest[key]) throw new Error(`Semantic seed summary ${key} does not match the current manifest`)
+  }
+  const reportsBySourcePath = new Map()
+  for (const [sourcePath, record] of Object.entries(summary.files || {})) {
+    if (typeof record?.reportFile !== 'string' || !record.reportFile) continue
+    if (!/^[0-9a-z][\w./-]*\.json$/i.test(record.reportFile) || record.reportFile.includes('..')) {
+      throw new Error(`Semantic seed report file is unsafe: ${record.reportFile}`)
+    }
+    reportsBySourcePath.set(sourcePath, record.reportFile)
+  }
+  return {summary, reportsBySourcePath}
+}
+
+function mergeSeedAndRecoveryReports(seedReport, recoveryReport) {
+  if (!seedReport) return recoveryReport
+  if (!recoveryReport) return seedReport
+  const byId = new Map(seedReport.entries.map(entry => [entry.id, entry]))
+  for (const entry of recoveryReport.entries) byId.set(entry.id, entry)
+  return {
+    ...seedReport,
+    entries: [...byId.values()].sort((left, right) => left.id.localeCompare(right.id)),
+  }
+}
+
 function loadRecoveryAnalysis({file, manifest, siteDir, identity, chunkOptions}) {
   let analysis
   try { analysis = JSON.parse(fs.readFileSync(file, 'utf8')) }
@@ -1953,6 +1983,8 @@ async function main() {
       })
       : {restored: [], pending: manifest.items, rejected: []}
   const work = partitionRecoveryWork(manifest, recovery.restored, recovery.pending)
+  const semanticSeedsDir = args.get('--semantic-seeds') || ''
+  const semanticSeeds = semanticSeedsDir ? loadSemanticSeedIndex(path.resolve(siteDir, semanticSeedsDir), manifest) : null
   const callModel = work.pending.length > 0
     ? await createProviderCall(loadAgentConfigsFromEnv(), {
         maxRetries: maxProviderRetries,
@@ -1987,12 +2019,16 @@ async function main() {
       processItem: async entry => {
         const item = entry.item
         console.log(`[translation-agent] ${item.sourcePath}`)
-        const targetItem = {...item, target: manifest.target}
+        const seedReportFile = semanticSeeds?.reportsBySourcePath.get(item.sourcePath)
+        const seedReport = seedReportFile
+          ? JSON.parse(fs.readFileSync(path.join(path.resolve(siteDir, semanticSeedsDir), seedReportFile), 'utf8'))
+          : null
+        const targetItem = {...item, target: manifest.target, ...(seedReport ? {semanticSeedUnits: seedReport.entries.length} : {})}
         const result = await processItemWithRetry(targetItem, {
           maxRetries: fileRetries,
           providerRetryLimit: maxProviderRetries,
           adaptiveCallLimit,
-          initialSemanticCheckpoints: item.recoverySemanticCheckpoints,
+          initialSemanticCheckpoints: mergeSeedAndRecoveryReports(seedReport, item.recoverySemanticCheckpoints),
           log: console,
           initialChunkCheckpoints: item.recoveryChunkCheckpoints,
           fileTimeoutMs,
@@ -2062,6 +2098,8 @@ module.exports = {
   loadAgentConfigsFromEnv,
   loadChunkLimits,
   loadRecoveryAnalysis,
+  loadSemanticSeedIndex,
+  mergeSeedAndRecoveryReports,
   normalizeBaseUrl,
   parsePositiveInteger,
   parseNonNegativeInteger,
