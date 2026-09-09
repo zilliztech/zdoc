@@ -102,6 +102,8 @@ paths=(
   "generated/en/sidebars/restful.sidebar.js"
   "generated/en/manifests/reference.json"
   "generated/en/manifests/lark-revisions"
+  "generated/en/manifests/rest-derivation.json"
+  "generated/ja-JP/manifests/rest-derivation.json"
   "generated/zh-CN"
   "packages/docs-tooling/src/lark/meta/snapshots"
   "packages/docs-tooling/src/lark/meta/assembly"
