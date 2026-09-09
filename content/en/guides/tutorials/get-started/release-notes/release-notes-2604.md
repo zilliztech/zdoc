@@ -26,6 +26,22 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
+        **2026-04-27**
+
+    </div>
+
+    <div>
+
+        **New Region**: 🇰🇷 Seoul, Korea (AWS)
+
+    </div>
+
+</Grid>
+
+<Grid columnSize="2" widthRatios="20,80">
+
+    <div>
+
         **2026-04-11**
 
     </div>
@@ -95,3 +111,4 @@ import Grid from '@site/src/components/Grid';
     </div>
 
 </Grid>
+

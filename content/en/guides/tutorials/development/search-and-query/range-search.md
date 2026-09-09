@@ -53,7 +53,7 @@ This section demonstrates how to conduct a range search. The search requests in 
 
 In the following code snippets, set `radius` to `0.4` and `range_filter` to `0.6` so that Zilliz Cloud returns all entities whose distances or scores to the query vector fall within **0.4** to **0.6**.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -273,6 +273,38 @@ for (auto& result : response.Results().Results()) {
         std::cout << "\t" << row << std::endl;
     }
 }
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+zilliz vector search \
+  --collection my_collection \
+  --body '{
+    "data": [
+        [
+            0.3580376395471989,
+            -0.6023495712049978,
+            0.18414012509913835,
+            -0.26286205330961354,
+            0.9029438446296592
+        ]
+    ],
+    "annsField": "vector",
+    "limit": 3,
+    "searchParams": {
+        "params": {
+            "radius": 0.4,
+            "range_filter": 0.6
+        }
+    }
+}' \
+  --output json
 ```
 
 </TabItem>

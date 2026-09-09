@@ -53,7 +53,7 @@ By default, Grouping Search returns only one entity per group. If you want to in
 
 This section provides example code to demonstrate the use of Grouping Search. The following example assumes the collection includes fields for `id`, `vector`, `chunk`, and `docId`.
 
-```python
+```plaintext
 [
         {"id": 0, "vector": [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592], "chunk": "pink_8682", "docId": 1},
         {"id": 1, "vector": [0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104], "chunk": "red_7025", "docId": 5},
@@ -70,7 +70,7 @@ This section provides example code to demonstrate the use of Grouping Search. Th
 
 In the search request, set both `group_by_field` and `output_fields` to `docId`. Zilliz Cloud will group the results by the specified field and return the most similar entity from each group, including the value of `docId` for each returned entity.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -278,6 +278,35 @@ for (auto& result : response.Results().Results()) {
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+zilliz vector search \
+  --collection my_collection \
+  --body '{
+  "data": [
+    [
+      0.14529211512077012,
+      0.9147257273453546,
+      0.7965055218724449,
+      0.7009258593102812,
+      0.5605206522382088
+    ]
+  ],
+  "annsField": "vector",
+  "limit": 3,
+  "groupingField": "docId",
+  "outputFields": [
+    "docId"
+  ]
+}' \
+  --output json
+```
+
+</TabItem>
 </Tabs>
 
 In the request above, `limit=3` indicates that the system will return search results from three groups, with each group containing the single most similar entity to the query vector.
@@ -286,7 +315,7 @@ In the request above, `limit=3` indicates that the system will return search res
 
 By default, Grouping Search returns only one entity per group. If you want multiple results per group, adjust the `group_size` and `strict_group_size` parameters.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -483,6 +512,37 @@ for (auto& result : response.Results().Results()) {
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+zilliz vector search \
+  --collection my_collection \
+  --body '{
+  "data": [
+    [
+      0.14529211512077012,
+      0.9147257273453546,
+      0.7965055218724449,
+      0.7009258593102812,
+      0.5605206522382088
+    ]
+  ],
+  "annsField": "vector",
+  "limit": 5,
+  "groupingField": "docId",
+  "outputFields": [
+    "docId"
+  ],
+  "groupSize": 2,
+  "strictGroupSize": true
+}' \
+  --output json
+```
+
+</TabItem>
 </Tabs>
 
 In the example above:
@@ -499,7 +559,7 @@ You can combine Grouping Search with `order_by_fields` to order groups by a scal
 
 The following example groups search results by `category`, returns up to three entities per group, and orders the returned groups by `price` from low to high.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -525,7 +585,31 @@ res = client.search(
 <TabItem value='java'>
 
 ```java
-// java
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.request.aggregation.AggDirection;
+import io.milvus.v2.service.vector.request.aggregation.OrderByField;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.List;
+
+// Prerequisite: client is connected to the project endpoint;
+// clusterId identifies the on-demand cluster containing product_catalog.
+var session = client.session(clusterId);
+FloatVec queryVector = new FloatVec(new float[]{0.14529211512077012f, 0.9147257273453546f, 0.7965055218724449f, 0.7009258593102812f, 0.5605206522382088f});
+SearchReq request = SearchReq.builder()
+    .collectionName("product_catalog")
+    .data(List.of(queryVector))
+    .annsField("embedding")
+    .topK(20)
+    .groupByFieldName("category")
+    .groupSize(3)
+    .strictGroupSize(true)
+    .outputFields(List.of("category", "price", "rating"))
+    .orderByFields(List.of(OrderByField.builder()
+        .fieldName("price").direction(AggDirection.ASC).build()))
+    .build();
+SearchResp response = session.search(request);
+System.out.println(response.getSearchResults());
 ```
 
 </TabItem>
@@ -533,7 +617,22 @@ res = client.search(
 <TabItem value='javascript'>
 
 ```javascript
-// nodejs
+// Prerequisite: client is connected to the project endpoint;
+// clusterId identifies the on-demand cluster containing product_catalog.
+const session = client.session(clusterId);
+const queryVector = [0.14529211512077012, 0.9147257273453546, 0.7965055218724449, 0.7009258593102812, 0.5605206522382088];
+const response = await session.search({
+  collection_name: "product_catalog",
+  data: [queryVector],
+  anns_field: "embedding",
+  limit: 20,
+  group_by_field: "category",
+  group_size: 3,
+  strict_group_size: true,
+  output_fields: ["category", "price", "rating"],
+  order_by_fields: [{ field: "price", order: "asc" }],
+});
+console.log(response.results);
 ```
 
 </TabItem>
@@ -541,7 +640,32 @@ res = client.search(
 <TabItem value='go'>
 
 ```go
-// go
+import (
+    "fmt"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+// Prerequisite: client is connected to the project endpoint;
+// clusterID identifies the on-demand cluster containing product_catalog.
+queryVector := []float32{0.14529211512077012, 0.9147257273453546, 0.7965055218724449, 0.7009258593102812, 0.5605206522382088}
+results, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "product_catalog", 20, []entity.Vector{entity.FloatVector(queryVector)},
+).
+    WithANNSField("embedding").
+    WithGroupByField("category").
+    WithGroupSize(3).
+    WithStrictGroupSize(true).
+    WithOutputFields("category", "price", "rating").
+    WithSearchParam("order_by_fields", "price:asc").
+    WithSearchParam("cluster_id", clusterID))
+if err != nil {
+    panic(err)
+}
+for _, result := range results {
+    fmt.Println(result.IDs, result.Scores)
+    fmt.Println(result.GetColumn("category"), result.GetColumn("price"), result.GetColumn("rating"))
+}
 ```
 
 </TabItem>
@@ -549,7 +673,22 @@ res = client.search(
 <TabItem value='bash'>
 
 ```bash
-# restful
+# Prerequisite: set PROJECT_ENDPOINT, TOKEN, and CLUSTER_ID for your on-demand cluster.
+curl --request POST \
+  --url "${PROJECT_ENDPOINT}/v2/vectordb/entities/search?cluster_id=${CLUSTER_ID}" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "collectionName": "product_catalog",
+    "data": [[0.14529211512077012, 0.9147257273453546, 0.7965055218724449, 0.7009258593102812, 0.5605206522382088]],
+    "annsField": "embedding",
+    "limit": 20,
+    "groupingField": "category",
+    "groupSize": 3,
+    "strictGroupSize": true,
+    "outputFields": ["category", "price", "rating"],
+    "orderByFields": ["price:asc"]
+  }'
 ```
 
 </TabItem>
@@ -557,7 +696,74 @@ res = client.search(
 <TabItem value='c++'>
 
 ```c++
-// cpp
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+#include <stdexcept>
+
+// Prerequisite: client is connected to the project endpoint;
+// cluster_id identifies the on-demand cluster containing product_catalog.
+milvus::MilvusClientV2SessionPtr session;
+auto status = client->Session(cluster_id, session);
+if (!status.IsOk()) { throw std::runtime_error(status.Message()); }
+std::vector<float> query_vector = {0.14529211512077012f, 0.9147257273453546f, 0.7965055218724449f, 0.7009258593102812f, 0.5605206522382088f};
+auto request = milvus::SearchRequest()
+    .WithCollectionName("product_catalog")
+    .AddFloatVector(query_vector)
+    .WithAnnsField("embedding")
+    .WithLimit(20)
+    .WithGroupByField("category")
+    .WithGroupSize(3)
+    .WithStrictGroupSize(true)
+    .AddOutputField("category")
+    .AddOutputField("price")
+    .AddOutputField("rating")
+    .AddOrderByField(milvus::OrderByField("price", milvus::AggregationDirection::ASC));
+milvus::SearchResponse response;
+status = session->Search(request, response);
+if (!status.IsOk()) { throw std::runtime_error(status.Message()); }
+for (const auto& result : response.Results().Results()) {
+    milvus::EntityRows rows;
+    status = result.OutputRows(rows);
+    if (!status.IsOk()) { throw std::runtime_error(status.Message()); }
+    std::cout << rows << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+# Select an on-demand cluster containing product_catalog.
+zilliz vector search \
+  --collection product_catalog \
+  --body '{
+  "data": [
+    [
+      0.14529211512077012,
+      0.9147257273453546,
+      0.7965055218724449,
+      0.7009258593102812,
+      0.5605206522382088
+    ]
+  ],
+  "annsField": "embedding",
+  "limit": 20,
+  "groupingField": "category",
+  "groupSize": 3,
+  "strictGroupSize": true,
+  "outputFields": [
+    "category",
+    "price",
+    "rating"
+  ],
+  "orderByFields": [
+    "price:asc"
+  ]
+}' \
+  --output json
 ```
 
 </TabItem>

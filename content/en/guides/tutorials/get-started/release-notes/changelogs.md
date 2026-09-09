@@ -250,6 +250,22 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
+        **April 27, 2026**
+
+    </div>
+
+    <div>
+
+        - **New Region**: 🇰🇷 Seoul, Korea (AWS)
+
+    </div>
+
+</Grid>
+
+<Grid columnSize="2" widthRatios="25,74">
+
+    <div>
+
         **[April](./release-notes-2604)[ 11, 2026](./release-notes-2604)**
 
     </div>

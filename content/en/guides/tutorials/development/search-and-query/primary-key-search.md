@@ -59,7 +59,7 @@ The primary keys are not used for filtering; they are used only for vector retri
 
 To conduct a basic primary-key search, simply replace the query vectors with primary keys.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -120,7 +120,23 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='javascript'>
 
 ```javascript
-// node.js
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({
+    address: "YOUR_CLUSTER_ENDPOINT",
+    token: "YOUR_CLUSTER_TOKEN",
+});
+
+const res = await client.search({
+    collection_name: "my_collection",
+    anns_field: "vector",
+    // highlight-start
+    ids: [551, 296, 43], // a list of primary keys
+    // highlight-end
+    limit: 3,
+});
+
+console.log(res.results);
 ```
 
 </TabItem>
@@ -128,7 +144,43 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='go'>
 
 ```go
-// go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/column"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
+
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
+
+// highlight-start
+ids := column.NewColumnInt64("id", []int64{551, 296, 43}) // a list of primary keys
+// highlight-end
+resultSets, err := client.Search(ctx, milvusclient.NewSearchByIDsOption(
+    "my_collection", // collectionName
+    3,             // limit
+    ids,
+).WithANNSField("vector"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+for _, resultSet := range resultSets {
+    fmt.Println("IDs: ", resultSet.IDs)
+    fmt.Println("Scores: ", resultSet.Scores)
+}
 ```
 
 </TabItem>
@@ -150,13 +202,32 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+zilliz vector search \
+  --collection my_collection \
+  --data "[]" \
+  --body '{
+    "annsField": "vector",
+    "ids": [551, 296, 43],
+    "limit": 3
+  }' \
+  --output json
+```
+
+</TabItem>
 </Tabs>
 
 ### Example 2: Filtered search using primary keys\{#example-2-filtered-search-using-primary-keys}
 
 The following example assumes that `color` and `likes` are two schema-defined fields in the target collection. 
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -198,7 +269,17 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='javascript'>
 
 ```javascript
-// node.js
+const res = await client.search({
+    collection_name: "my_collection",
+    // highlight-start
+    ids: [551, 296, 43],
+    filter: 'color like "red%" and likes > 50',
+    output_fields: ["id", "color", "likes"],
+    // highlight-end
+    limit: 3,
+});
+
+console.log(res.results);
 ```
 
 </TabItem>
@@ -206,7 +287,26 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='go'>
 
 ```go
-// go
+// highlight-start
+ids := column.NewColumnInt64("id", []int64{551, 296, 43})
+// highlight-end
+resultSets, err := client.Search(ctx, milvusclient.NewSearchByIDsOption(
+    "my_collection", // collectionName
+    3,               // limit
+    ids,
+).WithFilter(`color like "red%" and likes > 50`).
+    WithOutputFields("color", "likes"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+for _, resultSet := range resultSets {
+    fmt.Println("IDs: ", resultSet.IDs)
+    fmt.Println("Scores: ", resultSet.Scores)
+    fmt.Println("color: ", resultSet.GetColumn("color"))
+    fmt.Println("likes: ", resultSet.GetColumn("likes"))
+}
 ```
 
 </TabItem>
@@ -230,11 +330,32 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+zilliz vector search \
+  --collection my_collection \
+  --data "[]" \
+  --body '{
+    "annsField": "vector",
+    "ids": [551, 296, 43],
+    "filter": "color like \\"red%\\" and likes > 50",
+    "outputFields": ["color", "likes"],
+    "limit": 3
+  }' \
+  --output json
+```
+
+</TabItem>
 </Tabs>
 
 ### Example 3: Range search using primary keys\{#example-3-range-search-using-primary-keys}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -285,7 +406,21 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='javascript'>
 
 ```javascript
-// node.js
+const res = await client.search({
+    collection_name: "my_collection",
+    // highlight-start
+    ids: [551, 296, 43],
+    // highlight-end
+    limit: 3,
+    params: {
+        // highlight-start
+        radius: 0.4,
+        range_filter: 0.6,
+        // highlight-end
+    },
+});
+
+console.log(res.results);
 ```
 
 </TabItem>
@@ -293,7 +428,30 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='go'>
 
 ```go
-// go
+annParam := index.NewCustomAnnParam()
+// highlight-start
+annParam.WithRadius(0.4)
+annParam.WithRangeFilter(0.6)
+// highlight-end
+
+// highlight-start
+ids := column.NewColumnInt64("id", []int64{551, 296, 43})
+// highlight-end
+resultSets, err := client.Search(ctx, milvusclient.NewSearchByIDsOption(
+    "my_collection", // collectionName
+    3,               // limit
+    ids,
+).WithANNSField("vector").
+    WithAnnParam(annParam))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+for _, resultSet := range resultSets {
+    fmt.Println("IDs: ", resultSet.IDs)
+    fmt.Println("Scores: ", resultSet.Scores)
+}
 ```
 
 </TabItem>
@@ -321,13 +479,38 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+zilliz vector search \
+  --collection my_collection \
+  --data "[]" \
+  --body '{
+    "annsField": "vector",
+    "ids": [551, 296, 43],
+    "limit": 3,
+    "searchParams": {
+      "params": {
+        "radius": 0.4,
+        "range_filter": 0.6
+      }
+    }
+  }' \
+  --output json
+```
+
+</TabItem>
 </Tabs>
 
 ### Example 4: Grouping search using primary keys\{#example-4-grouping-search-using-primary-keys}
 
 The following example assumes `docId` is a schema-defined fields in the target collection.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -369,7 +552,17 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='javascript'>
 
 ```javascript
-// node.js
+const res = await client.search({
+    collection_name: "my_collection",
+    // highlight-start
+    ids: [551, 296, 43],
+    // highlight-end
+    limit: 3,
+    group_by_field: "docId",
+    output_fields: ["id", "docId"],
+});
+
+console.log(res.results);
 ```
 
 </TabItem>
@@ -377,7 +570,25 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='go'>
 
 ```go
-// go
+// highlight-start
+ids := column.NewColumnInt64("id", []int64{551, 296, 43})
+// highlight-end
+resultSets, err := client.Search(ctx, milvusclient.NewSearchByIDsOption(
+    "my_collection", // collectionName
+    3,               // limit
+    ids,
+).WithGroupByField("docId").
+    WithOutputFields("docId"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+for _, resultSet := range resultSets {
+    fmt.Println("IDs: ", resultSet.IDs)
+    fmt.Println("Scores: ", resultSet.Scores)
+    fmt.Println("docId: ", resultSet.GetColumn("docId"))
+}
 ```
 
 </TabItem>
@@ -398,6 +609,27 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
     "groupingField": "docId",
     "outputFields": ["docId"]
   }'
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+zilliz vector search \
+  --collection my_collection \
+  --data "[]" \
+  --body '{
+    "annsField": "vector",
+    "ids": [551, 296, 43],
+    "limit": 3,
+    "groupingField": "docId",
+    "outputFields": ["docId"]
+  }' \
+  --output json
 ```
 
 </TabItem>
