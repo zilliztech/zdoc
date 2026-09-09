@@ -124,9 +124,9 @@
 
 ### Phase 5:fastpath 与 selector 对齐
 
-1. 新增 evidenceGroups.ts 分组权威;fastpath spec(2026-09-03)按分组修订:ja Reference 放行前置条件 = Phase 3 完成;ja REST 走导出组校验;zh Guides 放行前置条件 = Phase 1 完成。
-2. test-matrix 为三组分别加专属条目(替代当前双语全量 build 的粗粒度 fallback)。
-3. fastpath 实现按修订后 spec 执行,状态码语义随分组权威更新。
+1. 新增 evidenceGroups.ts 分组权威;fastpath spec(2026-09-03)按分组修订:ja Reference 放行前置条件 = Phase 3 完成;ja REST 走导出组校验;zh Guides 放行前置条件 = Phase 1 完成。已落地:`packages/docs-tooling/src/publication/evidenceGroups.ts` 按 manual 注册表(sourceType:wiki/drive/onePager => fetch;rest => spec-derived + localizedRestTargets)与 translation targets 派生三组路径集合;退役治理 manifest 不属于任何组。fastpath spec 已修订为 Phase 2 版本(按分组判定范围,状态码 5 更名 UNSUPPORTED_EVIDENCE_PATH)。
+2. test-matrix 为三组分别加专属条目(替代当前双语全量 build 的粗粒度 fallback)。已落地 `evidence-fetch-publication`、`evidence-rest-derivation`、`evidence-translation-publication` 三条目;`scripts/docs-workflow/evidence-groups-contract.test.js` 强制矩阵模式与权威派生集合一致(在盘路径必须映射,矩阵模式不得越组)。注意:selector 为并集语义,粗粒度 `published-content-and-generated-state` 兜底条目保留为未分组 dev 状态的安全网,分组条目在其上叠加组专属 focused 校验(validate-revision-inventory --site zh-CN、test:rest-publication-contract、test:translation);validate-reference 依赖 dev 源快照,不能作为 master CI 门禁,由 fastpath 在 dev 基线候选上执行。
+3. fastpath 实现按修订后 spec 执行,状态码语义随分组权威更新。已落地 `scripts/translation/fastpath-precheck.js`(依赖注入、失败关闭):分组范围判定、selector 并集执行、zh reference-manifest --write、rest-derivation 导出组校验、inventory 预检恢复、dev 漂移检测、`tmp/translation-fastpath/<run>/` 报告;测试覆盖全部状态码与新放行路径。
 
 ### 顺序与依赖
 

@@ -293,6 +293,16 @@ node scripts/translation/migrate-ja-publication-manifest.js \
 
 A nonzero rejected count is a safe stop. Do not edit the generated Japanese manifest or substitute a newer source hash. Preserve the audit output, receipt checksum, exact `dev` SHA, and subsequent Japanese validation/build logs with the migration PR.
 
+### Precheck a translation diff with the fast-path validator
+
+Before opening a PR for hand-validated translated content on top of `dev`, run the local fail-closed precheck from an isolated worktree whose `HEAD` is based on the current `origin/dev`:
+
+```bash
+node scripts/translation/fastpath-precheck.js --locale <ja-JP|zh-CN> --path <repository-relative-path>...
+```
+
+The precheck derives its scope from the [evidence equivalence groups](.claude/specs/2026-09-04-publication-evidence-chains-unification-design.md): Japanese Guides and Japanese Reference diffs are validated against the Japanese translation manifest, Chinese non-REST Reference diffs regenerate `reference-translations.json` through `reference-manifest --write`, Chinese Guides diffs ride the fetch-group publication manifest, and Japanese REST output is checked against the per-locale `rest-derivation.json` fragment hashes. It then executes every selector command plus `validate-reference` for the affected sites, re-checks `origin/dev` for drift, and writes `report.json`/`report.md` under `tmp/translation-fastpath/<run>/`. Only `READY_FOR_PR` exits `0`; every other status is a safe stop, and the tool never commits, pushes, or acquires the production queue.
+
 ### Publish retained Japanese Guides offline
 
 Use [`publish-offline-translation.yml`](.github/workflows/publish-offline-translation.yml) only when authenticated Japanese Guides output already exists but cannot truthfully satisfy the schema-v2/v3 Translation batch-set contract. This path does not invoke Translation or review agents and does not synthesize `translation-guides-batch-set` evidence. It validates one exact candidate commit and promotes it through the normal publication coordinator.
