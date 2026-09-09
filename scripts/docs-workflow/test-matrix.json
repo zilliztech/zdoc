@@ -474,12 +474,14 @@
         "packages/docs-tooling/src/workflows/groups.ts",
         "packages/docs-tooling/src/workflows/run.test.ts",
         "packages/docs-tooling/src/workflows/groups.test.ts",
-        "generated/zh-CN/manifests/guides-source-publication.json"
+        "generated/zh-CN/manifests/guides-source-publication.json",
+        "packages/docs-tooling/src/publication/retiredManifests.ts",
+        "packages/docs-tooling/src/publication/retiredManifests.test.ts"
       ],
-      "focusedTests": ["pnpm vitest run packages/docs-tooling/src/workflows/run.test.ts packages/docs-tooling/src/workflows/groups.test.ts"],
+      "focusedTests": ["pnpm vitest run packages/docs-tooling/src/workflows/run.test.ts packages/docs-tooling/src/workflows/groups.test.ts packages/docs-tooling/src/publication/retiredManifests.test.ts"],
       "harnesses": [],
       "gates": ["pnpm test:workflow-matrix", "pnpm test:workflow-policy", "git diff --check"],
-      "reason": "Publication-group manifests bind per-file source hashes for the Chinese Guides source publication evidence chain; serialization and validation must stay fail-closed with the ownership contract."
+      "reason": "Publication-group manifests bind per-file source hashes for the Chinese Guides source publication evidence chain, and the retired-manifest governance registry keeps the deprecated import shell and the non-evidence Tools translation manifest out of publication and provenance inputs; serialization and validation must stay fail-closed with the ownership contract."
     }
   ]
 }

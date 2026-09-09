@@ -5,7 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
 import {createHash} from 'node:crypto';
-import {assertNoInputPathCollisions, writeBuildProvenance} from './write-provenance.mjs';
+import {assertNoInputPathCollisions, assertNoRetiredManifestInputs, writeBuildProvenance} from './write-provenance.mjs';
 
 function write(root, name, contents, mode) {
   const target = path.join(root, name);
@@ -493,6 +493,23 @@ test('localization inputs reject tracked case and Unicode normalization collisio
     () => assertNoInputPathCollisions(['i18n/ja-JP/Caf\u00e9.md', 'i18n/ja-JP/cafe\u0301.md']),
     /localization input.*collision|collision.*localization input/i,
   );
+});
+
+test('localization inputs reject retired governance manifests as provenance inputs', () => {
+  for (const retired of [
+    'generated/zh-CN/manifests/import.json',
+    'generated/zh-CN/manifests/tools-translations.json',
+  ]) {
+    assert.throws(
+      () => assertNoRetiredManifestInputs(['generated/zh-CN/manifests/reference-translations.json', retired]),
+      new RegExp(`Retired publication manifest must not become a provenance input: ${retired.replaceAll('/', '\\/')}`),
+    );
+  }
+  assert.doesNotThrow(() => assertNoRetiredManifestInputs([
+    'generated/zh-CN/manifests/reference-translations.json',
+    'generated/ja-JP/manifests/rest-derivation.json',
+    'i18n/ja-JP/docusaurus-plugin-content-docs/current/home.md',
+  ]));
 });
 
 test('changes the artifact hash when artifact bytes change and self-excludes provenance', () => {
