@@ -129,6 +129,14 @@
       "reason": "The shared writer runtime controls FIFO, cancellation, remote-state safety, and checkpoint publication for both pipelines."
     },
     {
+      "id": "restore-generated-state",
+      "paths": ["scripts/restore-generated-state.sh", "scripts/restore-generated-state.test.js"],
+      "focusedTests": ["node --test scripts/restore-generated-state.test.js"],
+      "harnesses": ["pnpm test:replay:all"],
+      "gates": ["pnpm test:workflow-policy", "pnpm test:workflow-matrix", "git diff --check"],
+      "reason": "The fixed restore path list defines which dev-published state re-enters Fetch/Translation/verification workspaces; it must cover every build-provenance input (including the per-locale REST derivation manifests) or restored workspaces fail closed at build time."
+    },
+    {
       "id": "fetch-publication-flow",
       "paths": [
         "scripts/docs-workflow/fetch-publication-selection*",
