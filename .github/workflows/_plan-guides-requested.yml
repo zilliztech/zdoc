@@ -52,8 +52,8 @@ jobs:
       - name: Validate requested plan inputs
         run: |
           set -euo pipefail
-          [[ "${{ inputs.execution_mode }}" == plan ]] || {
-            echo 'Only execution_mode=plan is supported in Phase 1; artifact reconstruction is not enabled yet.' >&2
+          [[ "${{ inputs.execution_mode }}" == plan || "${{ inputs.execution_mode }}" == artifact ]] || {
+            echo 'execution_mode must be plan or artifact.' >&2
             exit 2
           }
           [[ -n "${{ inputs.pages }}" ]] || { echo 'pages input must not be empty' >&2; exit 2; }

@@ -2,7 +2,7 @@
 
 ## 状态
 
-- 状态：Phase 1（plan-only）已实现：`fetch-guides-requested.yml` + `_plan-guides-requested.yml`、`guides-requested-selection.js`、`requestedGuidesFetchPlanner.js` 与 requested plan-only CLI 通道。Phase 2 工具核心已实现：`--requestedPlan` artifact 通道（plan 消费校验、重规划对照、closure 拉取）、完整快照 reducer 与 `guides-requested-state-merge.js` receipt 验证、`guides-requested-scope.js` table-derived checkpoint allowlist 校验，以及 tables/media-prefetch/cache-decision/assembly-identity 的 requested 集成；工作流侧 `execution_mode=artifact` 尚未开放（等待 reusable workflow 接线）。Phase 3（publish）、Phase 4（Translation handoff）尚未实现；`publish=true`、`run_translations=true` 在顶层工作流被拒绝。
+- 状态：Phase 1（plan-only）与 Phase 2（artifact-only）已实现：`fetch-guides-requested.yml` 顶层编排（`execution_mode=plan|artifact`，artifact 当前要求 `site=both` 以保证两个 site-qualified publication unit 都产生终态 evidence）、`_plan-guides-requested.yml`、`_fetch-guides-requested-sources.yml`（fail-closed，无 full bootstrap 回退）、`_assemble-guides.yml` requested 分支（validate-requested、checkpoint scope 校验、跳过 snapshot 提升与 v5 cache 保存）、publication coordinator artifact-only 终态 evidence，以及工具核心（`guides-requested-selection.js`、`requestedGuidesFetchPlanner.js`、`--requestedPlan` CLI 通道、`guides-requested-state-merge.js`、`guides-requested-scope.js`）。Phase 3（publish）与 Phase 4（Translation handoff）尚未实现；`publish=true`、`run_translations=true` 在顶层工作流被拒绝。Phase 3 开放前必须完成规格要求的真实 retained-artifact replay。
 - 目标分支：`master`，通过正常 master PR 和 master-to-dev tooling sync 进入生产。
 - 生产状态所有者：`dev`；本设计不允许在 master PR 中提交 Guides 发布状态。
 - 适用站点：`en`、`zh-CN`。

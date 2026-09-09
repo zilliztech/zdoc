@@ -260,6 +260,7 @@
         "scripts/validate-guides-source-contract*",
         ".github/workflows/_assemble-guides.yml",
         ".github/workflows/_fetch-guides-sources.yml",
+        ".github/workflows/_fetch-guides-requested-sources.yml",
         ".github/workflows/_plan-guides-requested.yml",
         ".github/workflows/_render-guides-table.yml",
         ".github/workflows/fetch-guides-requested.yml"
