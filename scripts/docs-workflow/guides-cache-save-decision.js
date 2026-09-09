@@ -65,9 +65,11 @@ function semanticGuidesSnapshotHash(snapshotPath) {
   return crypto.createHash('sha256').update(JSON.stringify(semanticGuidesSnapshotProjection(readJson(snapshotPath)))).digest('hex')
 }
 
-function cacheSaveRequired({ cacheVersion, prefetchMode, candidateSnapshotPath, baselineSnapshotPath }) {
+function cacheSaveRequired({ cacheVersion, prefetchMode, candidateSnapshotPath, baselineSnapshotPath, selectionMode = 'automatic' }) {
   if (!['v5', 'v4', 'v3', 'v2', 'v1', 'none'].includes(cacheVersion)) throw new Error('Invalid Guides cache version')
   if (!['incremental', 'recovery'].includes(prefetchMode)) throw new Error('Invalid Guides media prefetch mode')
+  if (!['automatic', 'requested'].includes(selectionMode)) throw new Error('Invalid Guides selection mode')
+  if (selectionMode === 'requested') return false
   const candidateHash = semanticGuidesSnapshotHash(candidateSnapshotPath)
   if (cacheVersion !== 'v5' || prefetchMode === 'recovery' || !fs.existsSync(baselineSnapshotPath)) return true
   try { return candidateHash !== semanticGuidesSnapshotHash(baselineSnapshotPath) } catch { return true }
@@ -75,14 +77,15 @@ function cacheSaveRequired({ cacheVersion, prefetchMode, candidateSnapshotPath, 
 
 function parseArgs(argv) {
   const [operation, ...values] = argv
-  if (operation !== 'decide') throw new Error('Usage: decide --cache-version <version> --prefetch-mode <mode> --candidate <file> --baseline <file>')
+  if (operation !== 'decide') throw new Error('Usage: decide --cache-version <version> --prefetch-mode <mode> --candidate <file> --baseline <file> [--selection-mode <automatic|requested>]')
   const required = new Set(['cache-version', 'prefetch-mode', 'candidate', 'baseline'])
+  const optional = new Set(['selection-mode'])
   const args = {}
   for (let index = 0; index < values.length; index += 2) {
     const flag = values[index], value = values[index + 1]
     if (!flag?.startsWith('--') || value === undefined) throw new Error('Missing or invalid argument')
     const key = flag.slice(2)
-    if (!required.has(key) || Object.hasOwn(args, key) || !value || /[\0\r\n]/.test(value)) throw new Error(`Invalid argument: ${flag}`)
+    if ((!required.has(key) && !optional.has(key)) || Object.hasOwn(args, key) || !value || /[\0\r\n]/.test(value)) throw new Error(`Invalid argument: ${flag}`)
     args[key] = value
   }
   for (const key of required) if (!Object.hasOwn(args, key)) throw new Error(`Missing required argument: --${key}`)
@@ -96,6 +99,7 @@ function main(argv = process.argv.slice(2)) {
     prefetchMode: args['prefetch-mode'],
     candidateSnapshotPath: args.candidate,
     baselineSnapshotPath: args.baseline,
+    selectionMode: args['selection-mode'] || 'automatic',
   })}\n`)
 }
 

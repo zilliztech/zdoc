@@ -39,9 +39,22 @@ function buildGuidesTableMatrix({ site, plan, snapshot, forceFull = false }) {
   if (!snapshot || snapshot.manual !== 'guides' || snapshot.schema_version !== 3 || !Array.isArray(snapshot.navigation_records)) throw new Error('Guides snapshot schema v3 navigation records are required')
   const current = currentOwnership(snapshot)
   if (typeof forceFull !== 'boolean') throw new Error('Guides table matrix forceFull must be boolean')
+  if (plan.selection_mode === 'requested') {
+    if (plan.schema_version !== 1) throw new Error('Requested Guides plans must use schema version 1')
+    if (plan.mode !== 'incremental') throw new Error('Requested Guides plans must stay incremental')
+    if (forceFull) throw new Error('Requested Guides plans must not expand into a full table matrix')
+    if (!Array.isArray(plan.table_rebuilds) || plan.table_rebuilds.length === 0) throw new Error('Requested Guides plans require table rebuild entries')
+  }
   const affected = new Set(plan.mode === 'full' || forceFull
     ? [...current.targets.keys(), ...Object.keys(plan.previous_table_targets || {})]
     : (plan.affected_tables || []))
+  if (plan.selection_mode === 'requested') {
+    const rebuildIds = [...new Set(plan.table_rebuilds.map(rebuild => rebuild.table_id))].sort()
+    const affectedIds = [...affected].sort()
+    if (JSON.stringify(rebuildIds) !== JSON.stringify(affectedIds)) {
+      throw new Error('Requested Guides table rebuild entries must match the affected table closure exactly')
+    }
+  }
   const entries = []
 
   for (const tableId of affected) {

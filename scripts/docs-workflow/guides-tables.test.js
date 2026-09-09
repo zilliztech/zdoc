@@ -217,3 +217,39 @@ test('matrix CLI rejects a missing or unsupported site with a clear contract err
     fs.rmSync(directory, { recursive: true, force: true })
   }
 })
+
+test('requested plans build the matrix from rebuild entries and reject full expansion', () => {
+  const requestedPlan = {
+    schema_version: 1,
+    manual: 'guides',
+    site: 'en',
+    mode: 'incremental',
+    selection_mode: 'requested',
+    affected_tables: ['deployment'],
+    table_rebuilds: [{
+      table_id: 'deployment',
+      scope: 'full-table',
+      reasons: ['requested document'],
+      current_targets: ['zilliz.paas'],
+      previous_targets: ['zilliz.paas'],
+      cleanup: false,
+    }],
+    previous_table_targets: { deployment: ['zilliz.paas'] },
+  }
+
+  const matrix = buildGuidesTableMatrix({ site: 'en', plan: requestedPlan, snapshot: snapshot() })
+  assert.deepEqual(matrix.map(entry => entry.table_id), ['deployment'])
+  assert.deepEqual(matrix.map(entry => entry.target), ['zilliz.paas'])
+  assert.equal(matrix[0].table_slug, 'deployment')
+  assert.equal(matrix[0].cleanup, false)
+
+  assert.throws(
+    () => buildGuidesTableMatrix({ site: 'en', plan: requestedPlan, snapshot: snapshot(), forceFull: true }),
+    /must not expand into a full table matrix/,
+  )
+  const mismatched = { ...requestedPlan, affected_tables: ['deployment', 'get-started'] }
+  assert.throws(
+    () => buildGuidesTableMatrix({ site: 'en', plan: mismatched, snapshot: snapshot() }),
+    /must match the affected table closure exactly/,
+  )
+})

@@ -2,7 +2,7 @@
 
 ## 状态
 
-- 状态：Phase 1（plan-only）已实现：`fetch-guides-requested.yml` + `_plan-guides-requested.yml`、`guides-requested-selection.js`、`requestedGuidesFetchPlanner.js` 与 requested plan-only CLI 通道。Phase 2（artifact-only）、Phase 3（publish）、Phase 4（Translation handoff）尚未实现；`execution_mode=artifact`、`publish=true`、`run_translations=true` 在顶层工作流被拒绝。
+- 状态：Phase 1（plan-only）已实现：`fetch-guides-requested.yml` + `_plan-guides-requested.yml`、`guides-requested-selection.js`、`requestedGuidesFetchPlanner.js` 与 requested plan-only CLI 通道。Phase 2 工具核心已实现：`--requestedPlan` artifact 通道（plan 消费校验、重规划对照、closure 拉取）、完整快照 reducer 与 `guides-requested-state-merge.js` receipt 验证、`guides-requested-scope.js` table-derived checkpoint allowlist 校验，以及 tables/media-prefetch/cache-decision/assembly-identity 的 requested 集成；工作流侧 `execution_mode=artifact` 尚未开放（等待 reusable workflow 接线）。Phase 3（publish）、Phase 4（Translation handoff）尚未实现；`publish=true`、`run_translations=true` 在顶层工作流被拒绝。
 - 目标分支：`master`，通过正常 master PR 和 master-to-dev tooling sync 进入生产。
 - 生产状态所有者：`dev`；本设计不允许在 master PR 中提交 Guides 发布状态。
 - 适用站点：`en`、`zh-CN`。

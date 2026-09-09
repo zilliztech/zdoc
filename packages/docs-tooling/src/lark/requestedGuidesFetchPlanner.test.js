@@ -9,12 +9,59 @@ const { canonicalRecordsFrom } = require('./canonicalLinkAuditor')
 const { createGuidesNavigationState, sourceFilesByToken } = require('./sourceSnapshot')
 const {
   RequestedFetchError,
+  compareRequestedPlans,
   deriveRequestedTableScope,
   detectRequestedScopeConflicts,
+  mergeRequestedSnapshot,
   planRequestedGuidesFetch,
+  requestedStateMergeReceiptHash,
   resolveRequestedSelectors,
   throwRequestedResolutionErrors,
+  validateRequestedPlanForArtifact,
+  verifyRequestedStateMergeReceipt,
 } = require('./requestedGuidesFetchPlanner')
+
+function writeRenderableSource(dir, token, { outgoingTokens = [], salt = '' } = {}) {
+  fs.writeFileSync(path.join(dir, `${token}.json`), JSON.stringify({
+    title: token,
+    slug: token,
+    node_token: token,
+    base_record_id: `rec-${token}`,
+    base_placement_type: 'canonical',
+    blocks: { items: [
+      { block_id: 'page', block_type: 1, text: { elements: [{ text_run: { content: `${token}${salt}` } }] } },
+      { block_id: 'body', block_type: 2, text: { elements: [{ text_run: { content: `${token} body${salt}` } }] } },
+      ...outgoingTokens.map((target, index) => ({
+        block_id: `ref${index}`,
+        block_type: 3,
+        text: { elements: [{ mention_doc: { title: target, url: `https://zilliverse.feishu.cn/wiki/${target}` } }] },
+      })),
+    ] },
+  }))
+}
+
+function writeRootSource(dir, childTokens = []) {
+  fs.writeFileSync(path.join(dir, 'root.json'), JSON.stringify({
+    title: 'root',
+    token: 'root',
+    type: 'folder',
+    children: childTokens.map(token => ({ node_token: token })),
+  }))
+}
+
+function renderableClosureFixture({ changeB = false, secondTable = false, linkAB = true } = {}) {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'requested-merge-'))
+  writeRenderableSource(dir, 'a', { outgoingTokens: linkAB ? ['b'] : [] })
+  writeRenderableSource(dir, 'b')
+  writeRootSource(dir, ['a', 'b'])
+  const baselineRecords = [record('a'), record('b', { table: secondTable ? 'tbl-2' : 'tbl-1' })]
+  const baseline = baselineSnapshot(baselineRecords, { sources: sourceFilesByToken(dir) })
+  const current = [
+    record('a', { title: 'New A' }),
+    record('b', { table: secondTable ? 'tbl-2' : 'tbl-1', title: changeB ? 'New B' : 'b' }),
+  ]
+  return { dir, baseline, current }
+}
 
 function writeSource(dir, token, outgoingTokens = []) {
   fs.writeFileSync(path.join(dir, `${token}.json`), JSON.stringify({
@@ -50,12 +97,24 @@ function baselineSnapshot(records, { outgoing = {}, sources = new Map() } = {}) 
     records: canonicalRecordsFrom(records, { guidesPublishableOnly: true }).map(entry => ({
       record_id: entry.record_id,
       table_id: entry.table_id,
+      placement_type: 'canonical',
       title: entry.title,
       slug: entry.slug,
       doc_token: entry.doc_token,
-      source_hash: sources.get(entry.doc_token) || null,
+      doc_link: entry.doc_link,
+      source_file: sources.get(entry.doc_token) ? `${entry.doc_token}.json` : null,
+      source_hash: sources.get(entry.doc_token)?.__source_hash || null,
+      publish_targets: [],
+      publish_status: 'Draft',
       outgoing_tokens: outgoing[entry.doc_token] || [],
+      output_paths: [],
       node_metadata: null,
+      node_token: entry.doc_token,
+      origin_node_token: null,
+      obj_token: null,
+      obj_type: null,
+      obj_edit_time: null,
+      revision_id: null,
     })),
     navigation_records: navigation.navigationRecords,
     table_digests: navigation.tableDigests,
@@ -365,4 +424,174 @@ test('deriveRequestedTableScope is exposed for focused scope assertions', () => 
   assert.deepEqual(scope.affectedTables, ['tbl-1'])
   assert.equal(scope.rebuilds.length, 1)
   assert.deepEqual(scope.removedTables, new Set())
+})
+
+test('validateRequestedPlanForArtifact accepts a clean plan and rejects tampering, conflicts, and baseline drift', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'requested-planner-'))
+  writeRenderableSource(dir, 'a')
+  writeRootSource(dir, ['a'])
+  const baseline = baselineSnapshot([record('a')], { sources: sourceFilesByToken(dir) })
+  const plan = planRequestedGuidesFetch(planOptions({
+    dir,
+    current: [record('a', { title: 'New A' })],
+    baseline,
+    requestedTokens: ['a'],
+  }))
+
+  const validated = validateRequestedPlanForArtifact(plan, { site: 'en', baselineSnapshot: baseline })
+  assert.deepEqual(validated.requestedTokens, ['a'])
+
+  assert.throws(
+    () => validateRequestedPlanForArtifact({ ...plan, site: 'zh-CN' }),
+    error => error instanceof RequestedFetchError && error.code === 'REQUESTED_STATE_MERGE_INVALID',
+  )
+  const tampered = { ...plan, automatic_changed_tokens: ['smuggled-token'] }
+  assert.throws(
+    () => validateRequestedPlanForArtifact(tampered),
+    error => error.code === 'REQUESTED_STATE_MERGE_INVALID' && /hash does not match/.test(error.message),
+  )
+  const conflicted = planRequestedGuidesFetch(planOptions({
+    dir,
+    current: [record('a', { title: 'New A' }), record('c', { table: 'tbl-9', title: 'New C' })],
+    baseline,
+    requestedTokens: ['a'],
+  }))
+  assert.equal(conflicted.scope_conflicts.length > 0, true)
+  assert.throws(
+    () => validateRequestedPlanForArtifact(conflicted),
+    error => error instanceof RequestedFetchError && error.code === 'REQUESTED_SCOPE_CONFLICT',
+  )
+  assert.throws(
+    () => validateRequestedPlanForArtifact(plan, { baselineSnapshot: { ...baseline, records: [...baseline.records, ...baseline.records.slice(0, 1).map(r => ({ ...r, record_id: 'rec-extra' }))] } }),
+    error => error.code === 'REQUESTED_BASELINE_UNTRUSTED',
+  )
+})
+
+test('compareRequestedPlans fails closed on new conflicts and table drift', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'requested-planner-'))
+  writeRenderableSource(dir, 'a')
+  writeRootSource(dir, ['a'])
+  const baseline = baselineSnapshot([record('a')], { sources: sourceFilesByToken(dir) })
+  const consumed = planRequestedGuidesFetch(planOptions({ dir, current: [record('a', { title: 'New A' })], baseline, requestedTokens: ['a'] }))
+
+  const drifted = planRequestedGuidesFetch(planOptions({
+    dir,
+    current: [record('a', { title: 'New A', table: 'tbl-2' })],
+    baseline,
+    requestedTokens: ['a'],
+  }))
+  assert.throws(
+    () => compareRequestedPlans({ consumed, fresh: drifted }),
+    error => error instanceof RequestedFetchError && error.code === 'REQUESTED_SCOPE_CONFLICT' && /table closure drifted/.test(error.message),
+  )
+
+  const outsideChange = planRequestedGuidesFetch(planOptions({
+    dir,
+    current: [record('a', { title: 'New A' }), record('z', { table: 'tbl-7' })],
+    baseline,
+    requestedTokens: ['a'],
+  }))
+  assert.throws(
+    () => compareRequestedPlans({ consumed, fresh: outsideChange }),
+    error => error.code === 'REQUESTED_SCOPE_CONFLICT' && /outside the requested closure/.test(error.message),
+  )
+
+  const { fresh } = compareRequestedPlans({ consumed, fresh: consumed })
+  assert.equal(fresh.plan_sha256, consumed.plan_sha256)
+})
+
+test('mergeRequestedSnapshot inherits closure-out records and replaces closure records', () => {
+  const { dir, baseline, current } = renderableClosureFixture()
+  const plan = planRequestedGuidesFetch(planOptions({ dir, current, baseline, requestedTokens: ['a'] }))
+  assert.deepEqual(plan.scope_conflicts, [])
+  writeRenderableSource(dir, 'a', { outgoingTokens: ['b'], salt: '-refreshed' })
+
+  const { candidate, receipt } = mergeRequestedSnapshot({
+    site: 'en',
+    buildEnv: 'uat',
+    docSourceDir: dir,
+    rootToken: 'root',
+    baseAppToken: 'app-token',
+    records: current,
+    previousSnapshot: baseline,
+    plan,
+    generatedAt: '2026-09-09T00:00:00.000Z',
+  })
+
+  assert.equal(candidate.schema_version, 3)
+  assert.equal(candidate.records.length, 2)
+  assert.deepEqual(receipt.merge, { inherited_records: 1, replaced_records: 1, added_records: 0, removed_records: 0 })
+  assert.equal(receipt.state_promotion, 'none')
+  assert.equal(receipt.source_completeness.complete, true)
+  assert.equal(receipt.receipt_sha256, requestedStateMergeReceiptHash(receipt))
+  assert.equal(verifyRequestedStateMergeReceipt({ receipt, plan, candidateSnapshot: candidate, baselineSnapshot: baseline }), true)
+})
+
+test('mergeRequestedSnapshot rejects replacement outside the declared closure', () => {
+  const { dir, baseline, current } = renderableClosureFixture({ secondTable: true, linkAB: false })
+  const plan = planRequestedGuidesFetch(planOptions({ dir, current, baseline, requestedTokens: ['a'] }))
+  assert.deepEqual(plan.scope_conflicts, [])
+  writeRenderableSource(dir, 'b', { salt: '-hijacked' })
+
+  assert.throws(
+    () => mergeRequestedSnapshot({
+      site: 'en',
+      buildEnv: 'uat',
+      docSourceDir: dir,
+      rootToken: 'root',
+      baseAppToken: 'app-token',
+      records: current,
+      previousSnapshot: baseline,
+      plan,
+    }),
+    error => error instanceof RequestedFetchError
+      && error.code === 'REQUESTED_STATE_MERGE_INVALID'
+      && error.details.violations.some(violation => violation.kind === 'record_replaced_outside_closure'),
+  )
+})
+
+test('mergeRequestedSnapshot fails closed on an incomplete affected-table source graph', () => {
+  const { dir, baseline, current } = renderableClosureFixture()
+  const plan = planRequestedGuidesFetch(planOptions({ dir, current, baseline, requestedTokens: ['a'] }))
+  writeRenderableSource(dir, 'a', { outgoingTokens: ['b'], salt: '-refreshed' })
+  fs.writeFileSync(path.join(dir, 'b.json'), JSON.stringify({
+    title: 'b', slug: 'b', node_token: 'b', base_record_id: 'rec-b', base_placement_type: 'canonical',
+    blocks: { items: [{ block_id: 'page', block_type: 1, text: { elements: [{ text_run: { content: 'b' } }] } }] },
+  }))
+
+  assert.throws(
+    () => mergeRequestedSnapshot({
+      site: 'en',
+      buildEnv: 'uat',
+      docSourceDir: dir,
+      rootToken: 'root',
+      baseAppToken: 'app-token',
+      records: current,
+      previousSnapshot: baseline,
+      plan,
+    }),
+    error => error instanceof RequestedFetchError && error.code === 'TABLE_SOURCE_INCOMPLETE',
+  )
+})
+
+test('verifyRequestedStateMergeReceipt rejects tampered receipts and mismatched candidates', () => {
+  const { dir, baseline, current } = renderableClosureFixture()
+  const plan = planRequestedGuidesFetch(planOptions({ dir, current, baseline, requestedTokens: ['a'] }))
+  writeRenderableSource(dir, 'a', { outgoingTokens: ['b'], salt: '-refreshed' })
+  const { candidate, receipt } = mergeRequestedSnapshot({
+    site: 'en', buildEnv: 'uat', docSourceDir: dir, rootToken: 'root', baseAppToken: 'app-token',
+    records: current, previousSnapshot: baseline, plan, generatedAt: '2026-09-09T00:00:00.000Z',
+  })
+
+  const tampered = { ...receipt, merge: { ...receipt.merge, replaced_records: 99 } }
+  assert.throws(
+    () => verifyRequestedStateMergeReceipt({ receipt: tampered, plan, candidateSnapshot: candidate, baselineSnapshot: baseline }),
+    error => error instanceof RequestedFetchError && error.code === 'REQUESTED_STATE_MERGE_INVALID',
+  )
+  const foreignCandidate = JSON.parse(JSON.stringify(candidate))
+  foreignCandidate.records[0].title = 'smuggled'
+  assert.throws(
+    () => verifyRequestedStateMergeReceipt({ receipt, plan, candidateSnapshot: foreignCandidate, baselineSnapshot: baseline }),
+    error => error.code === 'REQUESTED_STATE_MERGE_INVALID' && /candidate hash/.test(error.message),
+  )
 })

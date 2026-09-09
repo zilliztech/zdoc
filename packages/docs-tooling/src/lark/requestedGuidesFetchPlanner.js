@@ -10,8 +10,10 @@ const {
 } = require('./canonicalLinkAuditor')
 const {
   createGuidesNavigationState,
+  createSourceSnapshot,
+  validateCandidateSnapshot,
 } = require('./sourceSnapshot')
-const { hashSnapshot } = require('./sourceCompleteness')
+const { hashSnapshot, validateSourceCompleteness } = require('./sourceCompleteness')
 const { guidesCanonicalIsPublishable } = require('./guidesBaseRecordSemantics')
 const {
   addReason,
@@ -461,6 +463,280 @@ function requestedPlanIdentityHash(plan) {
   return crypto.createHash('sha256').update(JSON.stringify(stablePlanValue(projection))).digest('hex')
 }
 
+const REQUESTED_STATE_MERGE_SCHEMA_VERSION = 1
+
+function sortedUniqueStrings(value, label) {
+  if (!Array.isArray(value) || value.some(item => typeof item !== 'string' || !item) || new Set(value).size !== value.length) {
+    throw new RequestedFetchError('REQUESTED_STATE_MERGE_INVALID', `${label} must be a sorted unique string array.`)
+  }
+  const sorted = [...value].sort()
+  if (JSON.stringify(sorted) !== JSON.stringify(value)) {
+    throw new RequestedFetchError('REQUESTED_STATE_MERGE_INVALID', `${label} must be sorted lexicographically.`)
+  }
+  return sorted
+}
+
+function validateRequestedPlanForArtifact(plan, { site = null, baselineSnapshot = null, expectedBaselineSha = null } = {}) {
+  if (!plan || typeof plan !== 'object' || Array.isArray(plan)) {
+    throw new RequestedFetchError('REQUESTED_STATE_MERGE_INVALID', 'Requested artifact production requires a plan object.')
+  }
+  const problems = []
+  if (plan.schema_version !== REQUESTED_PLAN_SCHEMA_VERSION) problems.push(`schema_version must be ${REQUESTED_PLAN_SCHEMA_VERSION}`)
+  if (plan.manual !== 'guides') problems.push('manual must be guides')
+  if (site && plan.site !== site) problems.push(`site must be ${site}`)
+  if (plan.mode !== 'incremental') problems.push('mode must remain incremental for requested plans')
+  if (plan.selection_mode !== 'requested') problems.push('selection_mode must be requested')
+  if (problems.length > 0) {
+    throw new RequestedFetchError('REQUESTED_STATE_MERGE_INVALID', `Requested plan is not consumable: ${problems.join('; ')}.`, { problems })
+  }
+  sortedUniqueStrings(plan.requested_tokens || [], 'requested_tokens')
+  sortedUniqueStrings(plan.linked_tokens || [], 'linked_tokens')
+  sortedUniqueStrings(plan.table_refresh_tokens || [], 'table_refresh_tokens')
+  sortedUniqueStrings(plan.expanded_tokens || [], 'expanded_tokens')
+  const affectedTables = sortedUniqueStrings(plan.affected_tables || [], 'affected_tables')
+  if (!Array.isArray(plan.table_rebuilds) || plan.table_rebuilds.length === 0) {
+    throw new RequestedFetchError('REQUESTED_STATE_MERGE_INVALID', 'Requested plan must declare at least one table rebuild.')
+  }
+  const rebuildIds = plan.table_rebuilds.map(rebuild => rebuild.table_id)
+  if (JSON.stringify([...new Set(rebuildIds)].sort()) !== JSON.stringify(affectedTables)) {
+    throw new RequestedFetchError('REQUESTED_STATE_MERGE_INVALID', 'Requested table_rebuilds must cover exactly the affected_tables closure.')
+  }
+  for (const rebuild of plan.table_rebuilds) {
+    if (rebuild.scope !== 'full-table') throw new RequestedFetchError('REQUESTED_STATE_MERGE_INVALID', `Rebuild scope must be full-table: ${rebuild.table_id}`)
+    if (!Array.isArray(rebuild.reasons) || rebuild.reasons.length === 0) throw new RequestedFetchError('REQUESTED_STATE_MERGE_INVALID', `Rebuild requires reasons: ${rebuild.table_id}`)
+    for (const key of ['current_targets', 'previous_targets']) {
+      sortedUniqueStrings(rebuild[key] || [], `Rebuild ${rebuild.table_id} ${key}`)
+    }
+    if (typeof rebuild.cleanup !== 'boolean') throw new RequestedFetchError('REQUESTED_STATE_MERGE_INVALID', `Rebuild cleanup must be boolean: ${rebuild.table_id}`)
+  }
+  if (Array.isArray(plan.scope_conflicts) && plan.scope_conflicts.length > 0) {
+    throw new RequestedFetchError('REQUESTED_SCOPE_CONFLICT', 'Requested artifact production requires a conflict-free plan.', {
+      conflicts: plan.scope_conflicts,
+    })
+  }
+  if (requestedPlanIdentityHash(plan) !== plan.plan_sha256) {
+    throw new RequestedFetchError('REQUESTED_STATE_MERGE_INVALID', 'Requested plan hash does not match its contents; refusing to consume a mutated plan.')
+  }
+  if (baselineSnapshot) {
+    const baselineHash = hashSnapshot(baselineSnapshot)
+    if (plan.snapshot_basis?.snapshot_sha256 !== baselineHash) {
+      throw new RequestedFetchError('REQUESTED_BASELINE_UNTRUSTED', 'Requested plan was not bound to the restored baseline snapshot.', {
+        plan_snapshot_sha256: plan.snapshot_basis?.snapshot_sha256 || null,
+        restored_snapshot_sha256: baselineHash,
+      })
+    }
+  }
+  if (expectedBaselineSha && plan.snapshot_basis?.commit_sha !== expectedBaselineSha) {
+    throw new RequestedFetchError('REQUESTED_BASELINE_UNTRUSTED', 'Requested plan baseline commit does not match the resolved baseline SHA.', {
+      plan_commit_sha: plan.snapshot_basis?.commit_sha || null,
+      expected_commit_sha: expectedBaselineSha,
+    })
+  }
+  return {
+    requestedTokens: plan.requested_tokens,
+    affectedTables,
+    expandedTokens: plan.expanded_tokens,
+  }
+}
+
+function compareRequestedPlans({ consumed, fresh }) {
+  if (!Array.isArray(fresh.scope_conflicts) || fresh.scope_conflicts.length > 0) {
+    throw new RequestedFetchError('REQUESTED_SCOPE_CONFLICT', 'The current Base state changed outside the requested closure since planning.', {
+      conflicts: fresh.scope_conflicts,
+    })
+  }
+  if (JSON.stringify(fresh.requested_tokens) !== JSON.stringify(consumed.requested_tokens)) {
+    throw new RequestedFetchError('REQUESTED_STATE_MERGE_INVALID', 'Fresh planning produced different requested tokens; refusing to reinterpret selectors.')
+  }
+  if (JSON.stringify(fresh.affected_tables) !== JSON.stringify(consumed.affected_tables)) {
+    throw new RequestedFetchError('REQUESTED_SCOPE_CONFLICT', 'The requested table closure drifted since planning.', {
+      plan_affected_tables: consumed.affected_tables,
+      fresh_affected_tables: fresh.affected_tables,
+    })
+  }
+  if (fresh.snapshot_basis?.snapshot_sha256 !== consumed.snapshot_basis?.snapshot_sha256) {
+    throw new RequestedFetchError('REQUESTED_BASELINE_UNTRUSTED', 'The baseline snapshot changed between planning and artifact production.', {
+      plan_snapshot_sha256: consumed.snapshot_basis?.snapshot_sha256 || null,
+      fresh_snapshot_sha256: fresh.snapshot_basis?.snapshot_sha256 || null,
+    })
+  }
+  return { fresh }
+}
+
+function requestedRecordProjection(record) {
+  return {
+    record_id: record.record_id || null,
+    table_id: record.table_id || null,
+    placement_type: record.placement_type || null,
+    title: record.title || null,
+    slug: record.slug || null,
+    doc_token: record.doc_token || null,
+    source_file: record.source_file || null,
+    source_hash: record.source_hash || null,
+    publish_targets: [...(record.publish_targets || [])].sort(),
+    outgoing_tokens: [...(record.outgoing_tokens || [])].sort(),
+    node_token: record.node_token || null,
+    origin_node_token: record.origin_node_token || null,
+    obj_token: record.obj_token || null,
+    obj_type: record.obj_type || null,
+    obj_edit_time: record.obj_edit_time || null,
+    revision_id: record.revision_id || null,
+  }
+}
+
+function requestedStateMergeReceiptHash(receipt) {
+  const projection = { ...receipt }
+  delete projection.generated_at
+  delete projection.receipt_sha256
+  return crypto.createHash('sha256').update(JSON.stringify(stablePlanValue(projection))).digest('hex')
+}
+
+function mergeRequestedSnapshot({
+  site,
+  buildEnv,
+  docSourceDir,
+  rootToken,
+  baseAppToken = null,
+  records,
+  nodeMetadataByToken = new Map(),
+  previousSnapshot,
+  plan,
+  baselineCommitSha = null,
+  generatedAt = new Date().toISOString(),
+}) {
+  const allowedTokens = new Set(plan.expanded_tokens || [])
+  for (const record of canonicalRecordsFrom(records, { guidesPublishableOnly: true })) {
+    if ((plan.affected_tables || []).includes(record.table_id)) allowedTokens.add(record.doc_token)
+  }
+
+  const candidate = createSourceSnapshot({
+    manualName: 'guides',
+    targetsBuilt: [],
+    buildEnv,
+    sourceBranch: null,
+    publishUrl: null,
+    linkCheckRemote: 'https://docs.zilliz.com',
+    docSourceDir,
+    baseAppToken,
+    records,
+    nodeMetadataByToken,
+  })
+  validateCandidateSnapshot(candidate, { manual: 'guides', buildEnv, sourceDir: docSourceDir, baseAppToken })
+
+  const baselineById = new Map((previousSnapshot.records || []).map(record => [record.record_id, record]))
+  const candidateIds = new Set(candidate.records.map(record => record.record_id))
+  const inherited = []
+  const replaced = []
+  const added = []
+  const violations = []
+  for (const record of candidate.records) {
+    const previous = baselineById.get(record.record_id)
+    if (!previous) {
+      added.push(record.doc_token)
+      if (!allowedTokens.has(record.doc_token)) {
+        violations.push({ kind: 'record_added_outside_closure', token: record.doc_token, table_id: record.table_id })
+      }
+      continue
+    }
+    const currentProjection = requestedRecordProjection(record)
+    const previousProjection = requestedRecordProjection(previous)
+    if (JSON.stringify(currentProjection) === JSON.stringify(previousProjection)) {
+      inherited.push(record.doc_token)
+    } else {
+      replaced.push(record.doc_token)
+      if (!allowedTokens.has(record.doc_token)) {
+        violations.push({ kind: 'record_replaced_outside_closure', token: record.doc_token, table_id: record.table_id })
+      }
+    }
+  }
+  const removed = []
+  for (const previous of previousSnapshot.records || []) {
+    if (candidateIds.has(previous.record_id)) continue
+    removed.push(previous.doc_token || previous.record_id)
+    if (!(plan.affected_tables || []).includes(previous.table_id)) {
+      violations.push({ kind: 'record_removed_outside_closure', token: previous.doc_token || null, table_id: previous.table_id })
+    }
+  }
+  if (violations.length > 0) {
+    violations.sort((left, right) => left.kind.localeCompare(right.kind) || String(left.token).localeCompare(String(right.token)))
+    throw new RequestedFetchError('REQUESTED_STATE_MERGE_INVALID', 'Requested state merge produced changes outside the declared closure.', { violations })
+  }
+
+  const completeness = validateSourceCompleteness({
+    manual: 'guides',
+    buildEnv,
+    rootToken,
+    sourceDir: docSourceDir,
+    snapshot: candidate,
+  })
+  if (!completeness.complete) {
+    throw new RequestedFetchError('TABLE_SOURCE_INCOMPLETE', 'The merged table source graph is incomplete; refusing to assemble a partial table.', {
+      valid: completeness.validCanonicalSources,
+      expected: completeness.expectedCanonicalSources,
+      missing: completeness.missingFiles.slice(0, 10),
+      root_error: completeness.rootError,
+    })
+  }
+
+  const receipt = {
+    schema_version: REQUESTED_STATE_MERGE_SCHEMA_VERSION,
+    generated_at: generatedAt,
+    site,
+    manual: 'guides',
+    build_env: buildEnv,
+    plan_sha256: plan.plan_sha256,
+    baseline: {
+      commit_sha: baselineCommitSha || plan.snapshot_basis?.commit_sha || null,
+      snapshot_sha256: hashSnapshot(previousSnapshot),
+      records: (previousSnapshot.records || []).length,
+    },
+    candidate: {
+      snapshot_sha256: hashSnapshot(candidate),
+      records: candidate.records.length,
+    },
+    closure: {
+      requested_tokens: (plan.requested_tokens || []).length,
+      linked_tokens: (plan.linked_tokens || []).length,
+      expanded_tokens: (plan.expanded_tokens || []).length,
+      affected_tables: [...(plan.affected_tables || [])],
+    },
+    merge: {
+      inherited_records: inherited.sort().length,
+      replaced_records: replaced.sort().length,
+      added_records: added.sort().length,
+      removed_records: removed.sort().length,
+    },
+    source_completeness: {
+      complete: completeness.complete,
+      valid: completeness.validCanonicalSources,
+      expected: completeness.expectedCanonicalSources,
+    },
+    state_promotion: 'none',
+  }
+  receipt.receipt_sha256 = requestedStateMergeReceiptHash(receipt)
+  return { candidate, receipt }
+}
+
+function verifyRequestedStateMergeReceipt({ receipt, plan, candidateSnapshot, baselineSnapshot }) {
+  const problems = []
+  if (!receipt || receipt.schema_version !== REQUESTED_STATE_MERGE_SCHEMA_VERSION) problems.push('receipt schema version must be 1')
+  if (receipt?.manual !== 'guides') problems.push('receipt manual must be guides')
+  if (receipt?.plan_sha256 !== plan?.plan_sha256) problems.push('receipt plan hash does not match the plan')
+  if (receipt?.state_promotion !== 'none') problems.push('requested state promotion must stay none')
+  if (receipt && requestedStateMergeReceiptHash(receipt) !== receipt.receipt_sha256) problems.push('receipt hash does not match its contents')
+  if (receipt?.baseline?.snapshot_sha256 && baselineSnapshot && receipt.baseline.snapshot_sha256 !== hashSnapshot(baselineSnapshot)) {
+    problems.push('receipt baseline hash does not match the restored baseline')
+  }
+  if (receipt?.candidate?.snapshot_sha256 && candidateSnapshot && receipt.candidate.snapshot_sha256 !== hashSnapshot(candidateSnapshot)) {
+    problems.push('receipt candidate hash does not match the merged candidate snapshot')
+  }
+  if (receipt?.source_completeness?.complete !== true) problems.push('receipt must record a complete source graph')
+  if (problems.length > 0) {
+    throw new RequestedFetchError('REQUESTED_STATE_MERGE_INVALID', `Requested state-merge receipt failed verification: ${problems.join('; ')}.`, { problems })
+  }
+  return true
+}
+
 function planRequestedGuidesFetch({
   site,
   buildEnv,
@@ -591,6 +867,10 @@ function planRequestedGuidesFetch({
     expanded_tokens: [...expandedTokenSet].sort(),
     affected_tables: scope.affectedTables,
     table_rebuilds: scope.rebuilds,
+    current_table_targets: currentOwnership.targets,
+    current_table_names: currentOwnership.names,
+    previous_table_targets: previousOwnership.targets,
+    previous_table_names: previousOwnership.names,
     scope_conflicts: conflicts,
     snapshot_basis: {
       commit_sha: snapshotCommitSha || null,
@@ -730,6 +1010,7 @@ function writeRequestedFetchErrorReports({ error, outputPrefix, site, generatedA
 
 module.exports = {
   REQUESTED_PLAN_SCHEMA_VERSION,
+  REQUESTED_STATE_MERGE_SCHEMA_VERSION,
   REQUESTED_LIMITS,
   REQUESTED_ERROR_CODES,
   RequestedFetchError,
@@ -740,7 +1021,12 @@ module.exports = {
   deriveRequestedTableScope,
   detectRequestedScopeConflicts,
   planRequestedGuidesFetch,
+  validateRequestedPlanForArtifact,
+  compareRequestedPlans,
+  mergeRequestedSnapshot,
+  verifyRequestedStateMergeReceipt,
   requestedPlanIdentityHash,
+  requestedStateMergeReceiptHash,
   renderRequestedFetchPlanMarkdown,
   writeRequestedFetchPlanReports,
   writeRequestedFetchErrorReports,
