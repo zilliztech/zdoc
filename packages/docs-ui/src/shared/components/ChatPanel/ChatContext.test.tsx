@@ -152,7 +152,7 @@ describe('ChatProvider request debugging', () => {
       streaming_mode: 'token',
       site: 'docs.zilliz.com',
       agent_config: {agent_config_code: 'zilliz_docs_agent'},
-      page_context: {content: '# Test page'},
+      page_context: {url: 'http://localhost:3000/docs/home', content: '# Test page'},
     });
   });
 
