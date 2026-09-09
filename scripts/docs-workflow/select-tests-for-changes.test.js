@@ -104,6 +104,14 @@ test('workflow and replay infrastructure changes select structural and aggregate
   assert.equal(selected.commands.includes('node --test deploy/contracts/fetch-translation-workflow.test.mjs deploy/contracts/site-validation-workflow.test.mjs deploy/contracts/master-tooling-sync-workflow.test.mjs'), true)
 })
 
+test('selector maps publication workflow design specifications to replay infrastructure checks', () => {
+  const selected = selectTests(['.claude/specs/2026-09-07-guides-requested-fetch-workflow-design.md'])
+  assert.deepEqual(selected.areas.map(area => area.id), ['replay-infrastructure'])
+  assert.equal(selected.commands.includes('pnpm test:replay:contract'), true)
+  assert.equal(selected.commands.includes('pnpm test:replay:all'), true)
+  assert.equal(selected.commands.includes('pnpm test:workflow-policy'), true)
+})
+
 test('selector rejects unsafe or unmapped paths so matrix gaps cannot pass silently', () => {
   for (const value of ['/tmp/file', '../escape', 'scripts\\file.js']) assert.throws(() => normalizeRepositoryPath(value), /repository-relative|normalized/u)
   assert.throws(() => selectTests(['unmapped/new-pipeline.js']), /no entry/u)

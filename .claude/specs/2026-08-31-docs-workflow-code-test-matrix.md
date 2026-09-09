@@ -76,7 +76,7 @@ Do not infer ownership merely from the top-level directory: `content/**` is norm
 | Docusaurus config, build capability plugins, and site profiles (`apps/docs/**`, `packages/site-config/**`) | `pnpm vitest run apps/docs/src/config/createDocusaurusConfig.test.ts` and `pnpm test:profiles`; update both `en` and `zh-CN` plugin registration fixtures | — | — |
 | Broken-link and canonical-link report writers (`packages/docs-tooling/src/links/**`) | `pnpm vitest run packages/docs-tooling/src/links` | — | `pnpm test:workflow-policy` |
 | GitHub Actions workflow YAML | The closest workflow-specific test and deploy contract; add a negative structural assertion | The matching Fetch, recovery, or Translation harness when behavior changes | `pnpm test:workflow-policy` and scoped `actionlint` |
-| Replay scripts, test matrix, package entrypoints, replay CI, README, or AGENTS | Replay harness contract and matrix selector tests | `pnpm test:replay:all` | workflow policy |
+| Replay scripts, test matrix, package entrypoints, replay CI, publication-workflow design specifications, README, or AGENTS | Replay harness contract and matrix selector tests | `pnpm test:replay:all` | workflow policy |
 | Translation agent, chunking, review, or recovery-artifact runtime under `scripts/translation` | The closest Translation unit test plus `pnpm test:translation` | Add a publication replay only when artifact or workflow behavior changes | Change-proportional workflow gates |
 
 ## Coverage levels
