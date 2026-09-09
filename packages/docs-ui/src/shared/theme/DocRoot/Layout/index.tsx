@@ -49,6 +49,17 @@ function FloatingChatInput({
   const [query, setQuery] = useState('');
   const formRef = useRef<HTMLFormElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  // `navigator` is unavailable during server-side render, so the SSR hint must
+  // match the first client render exactly: start from the platform-neutral
+  // text and swap in the platform hint only after hydration. A server/client
+  // text mismatch here fails the whole root's hydration (React #425/#423) and
+  // forces a full client-side re-render that races the Inkeep search modal —
+  // the modal "closes" mid-interaction, the commit throws
+  // NotFoundError: removeChild, and the navbar is left dead until reload.
+  const [kbdHint, setKbdHint] = useState('Ctrl I');
+  useEffect(() => {
+    if (isMacPlatform()) setKbdHint('⌘I');
+  }, []);
   // Align the box with the actual doc content column (so it tracks the column at
   // every width — incl. when the content is centred on wide screens or on pages
   // with a different layout like Releases). CSS calc() can't follow that.
@@ -132,7 +143,7 @@ function FloatingChatInput({
           disabled={isStreaming}
         />
         <div className={styles.floatingFooter}>
-          <kbd className={styles.chatKbd}>{isMacPlatform() ? '⌘I' : 'Ctrl I'}</kbd>
+          <kbd className={styles.chatKbd}>{kbdHint}</kbd>
           <button type="submit" disabled={!query.trim() || isStreaming} aria-label={text.chat.sendQuestion}>
             <ArrowUp size={14} strokeWidth={2.4} />
           </button>
