@@ -847,11 +847,18 @@ describe('Chinese Guides source publication', () => {
     expect(readFileSync(path.join(root, 'content/zh-CN/guides/tutorials/a.md'), 'utf8')).toBe(liveBefore);
   });
 
-  it('rejects the retired Tools translation manifest outside source ownership', async () => {
+  it('rejects the retired Tools translation manifest as non-publication evidence', async () => {
     const root = temporaryRoot();
     expect(() => serializeSourcePublicationManifest([
       'generated/zh-CN/manifests/tools-translations.json',
-    ], {repositoryRoot: root})).toThrow(/outside Chinese Guides ownership/i);
+    ], {repositoryRoot: root})).toThrow(/retired manifest not-publication-evidence: generated\/zh-CN\/manifests\/tools-translations\.json/u);
+  });
+
+  it('rejects the deprecated import manifest outside source ownership', async () => {
+    const root = temporaryRoot();
+    expect(() => serializeSourcePublicationManifest([
+      'generated/zh-CN/manifests/import.json',
+    ], {repositoryRoot: root})).toThrow(/retired manifest deprecated: generated\/zh-CN\/manifests\/import\.json/u);
   });
 
   it('rejects manifest records that do not match files or hashes', () => {

@@ -13,6 +13,7 @@ import {publicationPreservedPaths, resolveManualPublication} from '../manuals/re
 import type {SiteId} from '../manuals/schema.ts';
 import {atomicReplace, ownedTreeCommit, type AtomicReplaceOptions} from '../publication/atomicReplace.ts';
 import {publicationOwnedTargets} from '../publication/diagnostics.ts';
+import {assertNotRetiredPublicationEvidence} from '../publication/retiredManifests.ts';
 import {
   captureSecureInventory,
   copySecureTree,
@@ -116,6 +117,7 @@ function frozenHookCopy<T>(value: T): T {
 
 function assertManifestFilePath(group: PublicationGroup, value: string): string {
   assertSafeRepositoryRelativePath(value, 'Source publication manifest file');
+  assertNotRetiredPublicationEvidence(value, 'Source publication manifest file');
   if (value === group.publicationManifest) throw new Error('Source publication manifest must not claim itself as a content file');
   const allowed = group.ownedPaths.some(ownedPath => (
     value === ownedPath || value.startsWith(`${ownedPath}/`)
