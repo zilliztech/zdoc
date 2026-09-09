@@ -28,6 +28,12 @@ const {SiteProfileSchema, resolveSiteProfile} = jiti(
 const {resolveTranslationTarget, translationTargets} = jiti(
   path.join(toolRepositoryRoot, 'packages/docs-tooling/src/translation/targets.ts'),
 );
+const {restDerivationManifestTargets} = jiti(
+  path.join(toolRepositoryRoot, 'packages/docs-tooling/src/publication/diagnostics.ts'),
+);
+const restDerivationValidator = createRequire(path.join(toolRepositoryRoot, 'packages/docs-tooling/package.json'))(
+  './src/reference/rest/restDerivationManifest.js',
+);
 const allowedEnvironmentFields = Object.freeze([
   'BUILD_ID',
   'BUILD_NUMBER',
@@ -388,6 +394,36 @@ function hashRequiredFile(repositoryRoot, relativePath, label) {
   return hashBytes(secureReadRegularFile(repositoryRoot, relativePath, label).bytes);
 }
 
+function hashRestDerivationEvidence(repositoryRoot, site) {
+  const publication = site === 'en'
+    ? {
+        contentRoot: 'content/en/reference',
+        outputDir: 'content/en/reference/api/restful/restful',
+        sidebarPath: 'generated/en/sidebars/restful.sidebar.js',
+      }
+    : {
+        contentRoot: 'content/zh-CN/reference',
+        outputDir: 'content/zh-CN/reference/api/restful/restful',
+        sidebarPath: 'generated/zh-CN/sidebars/restful.sidebar.js',
+      };
+  const targets = restDerivationManifestTargets(site, publication);
+  if (targets.length === 0) return undefined;
+  const fragmentRoot = path.join(repositoryRoot, 'packages/docs-tooling/src/reference/rest/meta/openapi');
+  const records = targets.map(target => {
+    const manifestBytes = secureReadRegularFile(repositoryRoot, target.manifestPath, 'REST derivation manifest').bytes;
+    let manifest;
+    try { manifest = JSON.parse(manifestBytes.toString('utf8')); } catch {
+      throw new Error(`REST derivation manifest is not valid JSON: ${target.manifestPath}`);
+    }
+    const validated = restDerivationValidator.validateRestDerivationManifest({fragmentRoot, manifestPath: path.join(repositoryRoot, target.manifestPath), locale: target.locale});
+    if (validated.toolingSha !== manifest.toolingSha) throw new Error(`REST derivation manifest tooling SHA mismatch: ${target.manifestPath}`);
+    return {locale: target.locale, manifestPath: target.manifestPath, sha256: hashBytes(manifestBytes), toolingSha: validated.toolingSha, fragmentCount: Object.keys(validated.fragmentHashes).length};
+  });
+  const toolingShas = new Set(records.map(record => record.toolingSha));
+  if (toolingShas.size !== 1) throw new Error('REST derivation manifests must use one tooling SHA');
+  return {records};
+}
+
 function assertExactKeys(value, expected, label) {
   if (!value || typeof value !== 'object' || Array.isArray(value)) {
     throw new Error(`${label} must be an object`);
@@ -718,6 +754,7 @@ export function writeBuildProvenance({
     } : {}),
   };
   const finalRouteInventories = routeInventories(site, routes, root);
+  const restDerivation = hashRestDerivationEvidence(root, site);
   const selectedEnvironment = Object.fromEntries(
     allowedEnvironmentFields
       .filter(name => environment[name] !== undefined)
@@ -740,6 +777,7 @@ export function writeBuildProvenance({
       records: contentManifestRecords,
     },
     localizationInputs,
+    ...(restDerivation ? {restDerivation} : {}),
     routeInventories: finalRouteInventories,
     componentHashes: {
       profile: hashCanonical(parsedProfile),
@@ -748,6 +786,7 @@ export function writeBuildProvenance({
       legacyFiles: hashRequiredFile(root, 'migration/legacy-files.json', 'legacy file ledger'),
       contentManifests: hashCanonical(contentManifestRecords),
       localizationInputs: hashCanonical(localizationInputs),
+      ...(restDerivation ? {restDerivation: hashCanonical(restDerivation)} : {}),
       routes: hashCanonical(routes),
       routeInventories: hashCanonical(finalRouteInventories),
       environment: hashCanonical(selectedEnvironment),
