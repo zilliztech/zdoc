@@ -82,6 +82,7 @@ Do not infer ownership merely from the top-level directory: `content/**` is norm
 | GitHub Actions workflow YAML | The closest workflow-specific test and deploy contract; add a negative structural assertion | The matching Fetch, recovery, or Translation harness when behavior changes | `pnpm test:workflow-policy` and scoped `actionlint` |
 | Replay scripts, test matrix, package entrypoints, replay CI, README, or AGENTS | Replay harness contract and matrix selector tests | `pnpm test:replay:all` | workflow policy |
 | Translation agent, chunking, review, or recovery-artifact runtime under `scripts/translation` | The closest Translation unit test plus `pnpm test:translation` | Add a publication replay only when artifact or workflow behavior changes | Change-proportional workflow gates |
+| Semantic seed reuse (`scripts/translation/semanticSeeds*`, `_translate-content-group.yml` opt-in step, `.claude/specs/2026-09-09-semantic-seed-incremental-translation.md`) | `node --test scripts/translation/semanticSeeds.test.js scripts/translation/loadSheddingWorkflow.test.js scripts/translation/reportSummary.test.js`; cover baseline pairing, every fallback reason, protected-content seed rejection, chunk-limit parity, and runner seed precedence | `pnpm test:replay:translation` | `pnpm test:translation` and `pnpm test:workflow-policy` |
 
 ## Coverage levels
 
