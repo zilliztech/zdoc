@@ -53,6 +53,7 @@
         "id": "docs-ui-layout",
       "paths": [
         "packages/docs-ui/src/en/theme/Navbar/Content/**",
+        "packages/docs-ui/src/en/inkeep.config.ts",
         "packages/docs-ui/src/en/theme/Navbar/MobileSidebar/**",
         "packages/docs-ui/src/shared/components/Supademo/**",
         "packages/docs-ui/src/shared/theme/DocRoot/Layout/**",
