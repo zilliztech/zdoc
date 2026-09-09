@@ -43,7 +43,7 @@
     "test:e2e": "playwright test --project=chromium",
     "test:translation": "node scripts/translation/sidebarKeys.test.js && node scripts/translation/manifest.test.js && node --test scripts/translation/failureClassification.test.js scripts/translation/protectedContent.test.js scripts/translation/localeContract.test.js scripts/translation/reviewEvidence.test.js scripts/translation/semanticUnits.test.js scripts/translation/recovery-artifact.test.js scripts/translation/recovery-preflight.test.js scripts/translation/chunkRecovery.test.js scripts/docs-workflow/translation-recovery-planner.test.js scripts/docs-workflow/translation-recovery-workflow.test.js && node scripts/translation/agentRunner.test.js && node scripts/translation/agentRunner-translate-unit.test.js && node --test scripts/translation/chunker.test.js scripts/translation/loadSheddingWorkflow.test.js scripts/translation/reportSummary.test.js scripts/translation/workflowReporting.test.js",
     "test:guides-coverage": "node --test scripts/validate-guides-coverage.test.js",
-    "test:workflow-policy": "node --test scripts/validate-workflow-policy.test.js",
+    "test:workflow-policy": "node --test scripts/validate-workflow-policy.test.js scripts/sdk-reference-workflow.test.js",
     "test:typescript-runtime-boundary": "node --test scripts/typescript-runtime-boundary.test.js",
     "test:external-link-watchdog": "node --test scripts/external-link-watchdog-workflow.test.js",
     "test:chat-agent-config": "node --test scripts/chat-agent-nginx.test.js",
