@@ -198,7 +198,7 @@ export function resolvePublicationGroupWorkflow(site: SiteId, groupName: string)
     sourceSnapshots,
     snapshotManual: sourceManuals.at(-1) ?? null,
     translate: site === 'en',
-    durableTranslationBatchSize: site === 'en' && groupName === 'guides' ? 30 : 0,
+    durableTranslationBatchSize: site === 'en' && groupName === 'guides' ? 15 : 0,
     checkpointPaths: distinct([
       ...group.ownedPaths,
       ...preservedPaths,
