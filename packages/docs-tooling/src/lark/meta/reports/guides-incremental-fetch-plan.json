@@ -1,17 +1,65 @@
 {
-  "generated_at": "2026-09-08T23:09:15.180Z",
+  "generated_at": "2026-09-09T02:44:34.127Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
-  "changed_records": [],
-  "changed_tokens": [],
-  "expanded_tokens": [],
+  "changed_records": [
+    {
+      "record_id": "recvlPp3B7L5Gj",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Filtered Search",
+      "labels": "Filtered Search",
+      "slug": "filtered-search",
+      "doc_token": "CpBbwcJ87irHp0k9oCSc2RNIn3d",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/CpBbwcJ87irHp0k9oCSc2RNIn3d",
+      "reasons": [
+        "wiki node revision changed"
+      ]
+    }
+  ],
+  "changed_tokens": [
+    "CpBbwcJ87irHp0k9oCSc2RNIn3d"
+  ],
+  "expanded_tokens": [
+    "AIb1wNAE3iiKVSk8MHAcVA4QnJb",
+    "BaGlwzDmyiyVvVk6NurcFclInCd",
+    "CpBbwcJ87irHp0k9oCSc2RNIn3d",
+    "OVxRwZWxNi4pYrkdKxCcOuY2nf1",
+    "U7OvwHP3AiUWlckzIEKclLQQnPr",
+    "WTsmwWdgOiKnwpkdZdScp093njh",
+    "Z9AMwNkVLiog0jkXxNscuMpJnjL"
+  ],
   "removed_records": [],
   "removed_tokens": [],
-  "reasons_by_token": {},
+  "reasons_by_token": {
+    "CpBbwcJ87irHp0k9oCSc2RNIn3d": [
+      "wiki node revision changed"
+    ],
+    "U7OvwHP3AiUWlckzIEKclLQQnPr": [
+      "outgoing reference from CpBbwcJ87irHp0k9oCSc2RNIn3d"
+    ],
+    "AIb1wNAE3iiKVSk8MHAcVA4QnJb": [
+      "outgoing reference from CpBbwcJ87irHp0k9oCSc2RNIn3d"
+    ],
+    "BaGlwzDmyiyVvVk6NurcFclInCd": [
+      "incoming reference to CpBbwcJ87irHp0k9oCSc2RNIn3d"
+    ],
+    "OVxRwZWxNi4pYrkdKxCcOuY2nf1": [
+      "incoming reference to CpBbwcJ87irHp0k9oCSc2RNIn3d"
+    ],
+    "WTsmwWdgOiKnwpkdZdScp093njh": [
+      "incoming reference to CpBbwcJ87irHp0k9oCSc2RNIn3d"
+    ],
+    "Z9AMwNkVLiog0jkXxNscuMpJnjL": [
+      "incoming reference to CpBbwcJ87irHp0k9oCSc2RNIn3d"
+    ]
+  },
   "warnings": [],
-  "affected_tables": [],
+  "affected_tables": [
+    "tblWv7PjNDsexddH"
+  ],
   "current_table_targets": {
     "tbl9BeCMjBmalJVb": [
       "zilliz.paas",
