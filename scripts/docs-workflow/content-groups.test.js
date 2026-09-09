@@ -104,7 +104,7 @@ test('derives preservation metadata without a legacy path map', () => {
 });
 
 test('configures durable translation batches for Guides only', () => {
-  assert.equal(getContentGroup('guides').durableTranslationBatchSize, 30);
+  assert.equal(getContentGroup('guides').durableTranslationBatchSize, 15);
   for (const group of ['python', 'java', 'node', 'go', 'cli', 'cpp', 'rest']) {
     assert.equal(getContentGroup(group).durableTranslationBatchSize, 0);
   }

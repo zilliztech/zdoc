@@ -20,8 +20,10 @@ test('Translation producers use workload-aware worker and chunk limits without o
   }
   assert.equal(
     agents.env.TRANSLATION_CONCURRENCY,
-    "${{ (inputs.recovery_run_id != '' || inputs.recovery_bundle_artifact_name != '') && (inputs.group == 'guides' && '2' || '6') || (inputs.group == 'guides' && '1' || inputs.target == 'zh-CN-reference' && '2' || '4') }}",
+    "${{ (inputs.recovery_run_id != '' || inputs.recovery_bundle_artifact_name != '') && (inputs.group == 'guides' && '2' || '6') || (inputs.group == 'guides' && '2' || inputs.target == 'zh-CN-reference' && '2' || '4') }}",
   )
+  assert.equal(agents.env.TRANSLATION_FILE_TIMEOUT_MS, "${{ inputs.group == 'guides' && '1800000' || '3600000' }}")
+  assert.equal(agents.env.TRANSLATION_SOFT_DEADLINE_MS, "${{ inputs.group == 'guides' && '5400000' || '18000000' }}")
   assert.equal(
     agents.env.TRANSLATION_CHUNK_TARGET_CHARS,
     "${{ inputs.group == 'guides' && '8000' || '16000' }}",
@@ -42,6 +44,7 @@ test('Translation producer matrices bound model parallelism and retain the singl
   const workflow = loadWorkflow('.github/workflows/translate-codex.yml')
 
   assert.equal(workflow.jobs.translate_guides_batches.strategy['max-parallel'], 1)
+  assert.equal(workflow.jobs.translate_guides_batches.strategy['fail-fast'], true)
   assert.equal(workflow.jobs.translate_sdk.strategy['max-parallel'], 3)
   assert.deepEqual(workflow.jobs.publish_ready.needs, ['prepare', 'translate_sdk', 'prepare_guides_publication_ready'])
   assert.equal(workflow.jobs.publish_ready.permissions.contents, 'write')
