@@ -16,6 +16,14 @@ import {
 
 export {assertNoInputPathCollisions};
 
+export function assertNoRetiredManifestInputs(relativePaths) {
+  for (const relativePath of relativePaths) {
+    if (RETIRED_MANIFEST_INPUTS.has(relativePath)) {
+      throw new Error(`Retired publication manifest must not become a provenance input: ${relativePath}`);
+    }
+  }
+}
+
 const provenanceFile = 'build-provenance.json';
 const externalSnapshotWorktree = 'external-snapshot';
 export const localizationInputInventoryFile = 'deploy/contracts/localization-inputs.inventory.json';
@@ -31,6 +39,10 @@ const {resolveTranslationTarget, translationTargets} = jiti(
 const {restDerivationManifestTargets} = jiti(
   path.join(toolRepositoryRoot, 'packages/docs-tooling/src/publication/diagnostics.ts'),
 );
+const {retiredPublicationManifestPaths} = jiti(
+  path.join(toolRepositoryRoot, 'packages/docs-tooling/src/publication/retiredManifests.ts'),
+);
+const RETIRED_MANIFEST_INPUTS = new Set(retiredPublicationManifestPaths());
 const restDerivationValidator = createRequire(path.join(toolRepositoryRoot, 'packages/docs-tooling/package.json'))(
   './src/reference/rest/restDerivationManifest.js',
 );
@@ -358,6 +370,7 @@ function hashLocalizationInputs(repositoryRoot, site, {trackedInputInventory, ca
     ...actual.filter(relativePath => allowedCandidates.has(relativePath)),
   ])].sort(compareBinary);
   assertNoInputPathCollisions(selected);
+  assertNoRetiredManifestInputs([...selected, ...candidateDirty, ...candidateDeleted]);
   const actualSet = new Set(actual);
   const untracked = actual.filter(relativePath => !tracked.has(relativePath) && !allowedCandidates.has(relativePath));
   if (untracked.length > 0) {
