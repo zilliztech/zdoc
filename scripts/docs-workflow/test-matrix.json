@@ -399,6 +399,7 @@
       "paths": [
         ".github/workflows/**",
         "deploy/contracts/fetch-translation-workflow.test.mjs",
+        "scripts/sdk-reference-workflow.test.js",
         "scripts/validate-workflow-policy.js",
         "scripts/validate-workflow-policy.test.js"
       ],

@@ -6,15 +6,17 @@ const workflow = loadTypeScript('../../packages/docs-tooling/src/manuals/derive/
 const {buildTranslationSelection} = require('../translation/selection')
 
 const mode = process.argv[2]
+const selectedSdkGroups = value => {
+  const selected = workflow.parseSelectedGroups(value || '')
+  const sdk = new Set(workflow.sdkGroupIds())
+  return selected.filter(group => sdk.has(group))
+}
 if (mode === '--sdk-groups') process.stdout.write(workflow.sdkGroupIds().join(' '))
 else if (mode === '--sdk-snapshot-groups') process.stdout.write(workflow.sdkSnapshotGroupIds().join(' '))
 else if (mode === '--groups-json') process.stdout.write(JSON.stringify(workflow.sourcePublicationGroups()))
 else if (mode === '--sdk-groups-json') process.stdout.write(JSON.stringify(workflow.sdkGroupIds()))
-else if (mode === '--selected-sdk-groups-json') {
-  const selected = workflow.parseSelectedGroups(process.argv[3] || '')
-  const sdk = new Set(workflow.sdkGroupIds())
-  process.stdout.write(JSON.stringify(selected.filter(group => sdk.has(group))))
-}
+else if (mode === '--selected-sdk-groups-json') process.stdout.write(JSON.stringify(selectedSdkGroups(process.argv[3])))
+else if (mode === '--selected-sdk-group-count') process.stdout.write(String(selectedSdkGroups(process.argv[3]).length))
 else if (mode === '--has-translation-units') {
   const groups = workflow.parseSelectedGroups(process.argv[3] || '')
   const hasTranslationUnits = groups.some(group => {
@@ -35,4 +37,4 @@ else if (mode === '--validate-groups') {
     process.exit(2)
   }
 }
-else throw new Error('Usage: print-workflow-groups.js --sdk-groups|--sdk-snapshot-groups|--groups-json|--sdk-groups-json|--selected-sdk-groups-json|--validate-groups|--has-translation-units <value>')
+else throw new Error('Usage: print-workflow-groups.js --sdk-groups|--sdk-snapshot-groups|--groups-json|--sdk-groups-json|--selected-sdk-groups-json|--selected-sdk-group-count|--validate-groups|--has-translation-units <value>')
