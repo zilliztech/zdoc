@@ -114,6 +114,8 @@
 
 ### Phase 4:导出组拉齐(REST 导出清单)
 
+迁移采用 producer-first 两步,避免在 `dev` 尚无清单时先启用 build consumer 导致所有构建失败。Phase 4A 先让 en REST lane 原子发布 en/ja-JP 清单、zh-CN REST lane 原子发布 zh-CN 清单,并在 Fetch validate/publish 边界逐文件复核 fragment hash。三份真实清单通过 master-to-dev sync 后的 REST publication 生成并进入 `dev`,不得在 master 手写。Phase 4B 再把已存在的清单接入 build provenance 强制消费,同时完成 import/tools 治理。
+
 1. refGen.js 输出 per-locale rest-derivation.json(fragment hashes + toolingSha);三个 locale 同 schema。en 的清单作为后续生成校验的锚。
 2. build/provenance 消费该清单:校验 fragment 集 hash 未被未声明地改动。
 3. ja REST 证据路径明确为 build:en 连带的导出校验,不新增翻译单元。

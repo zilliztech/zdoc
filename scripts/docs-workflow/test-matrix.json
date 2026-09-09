@@ -64,14 +64,18 @@
       "gates": ["pnpm test:workflow-matrix", "git diff --check"],
       "reason": "Shared docs navigation, mobile drawer, embedded demos, and document shell must preserve responsive controls, valid iframe markup, and a bounded content scroller."
       },
-      {
+    {
       "id": "rest-reference-fragments",
       "paths": [
         "packages/docs-tooling/src/reference/rest/meta/openapi/**",
-        "packages/docs-tooling/src/reference/rest/meta/fragment-migration.json"
+        "packages/docs-tooling/src/reference/rest/meta/fragment-migration.json",
+        "packages/docs-tooling/src/reference/rest/refGen.js",
+        "packages/docs-tooling/src/reference/rest/index.js",
+        "packages/docs-tooling/src/reference/rest/restDerivationManifest.js",
+        "packages/docs-tooling/src/reference/rest/restDerivationManifest.test.js"
       ],
       "focusedTests": [
-        "node --test packages/docs-tooling/src/reference/rest/integratedSpecBuilder.test.js packages/docs-tooling/src/reference/rest/integratedSpecArtifacts.test.js packages/docs-tooling/src/reference/rest/fragmentCollection.test.js packages/docs-tooling/src/reference/rest/index.integrated-spec.test.js packages/docs-tooling/src/reference/rest/restCompletenessReceipt.test.js"
+        "node --test packages/docs-tooling/src/reference/rest/integratedSpecBuilder.test.js packages/docs-tooling/src/reference/rest/integratedSpecArtifacts.test.js packages/docs-tooling/src/reference/rest/fragmentCollection.test.js packages/docs-tooling/src/reference/rest/index.integrated-spec.test.js packages/docs-tooling/src/reference/rest/restCompletenessReceipt.test.js packages/docs-tooling/src/reference/rest/restDerivationManifest.test.js"
       ],
       "harnesses": ["pnpm test:rest-publication-contract"],
       "gates": ["pnpm test:workflow-matrix", "git diff --check"],

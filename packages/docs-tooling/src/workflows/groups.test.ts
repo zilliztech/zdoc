@@ -79,6 +79,16 @@ describe('site-owned publication groups', () => {
     expect(() => resolvePublicationGroup('zh-CN', 'tools')).toThrow(/Agent-produced Chinese Tools/i);
   });
 
+  it('checkpoints REST derivation evidence with each producing lane', () => {
+    expect(resolvePublicationGroupWorkflow('en', 'rest').checkpointPaths).toEqual(expect.arrayContaining([
+      'generated/en/manifests/rest-derivation.json',
+      'generated/ja-JP/manifests/rest-derivation.json',
+    ]));
+    expect(resolvePublicationGroupWorkflow('zh-CN', 'rest').checkpointPaths).toContain(
+      'generated/zh-CN/manifests/rest-derivation.json',
+    );
+  });
+
   it('returns deeply immutable registry values', () => {
     const group = resolvePublicationGroup('zh-CN', 'guides');
     expect(Object.isFrozen(group)).toBe(true);
