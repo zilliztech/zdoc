@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
+import {createHash} from 'node:crypto';
 import {assertNoInputPathCollisions, writeBuildProvenance} from './write-provenance.mjs';
 
 function write(root, name, contents, mode) {
@@ -28,6 +29,12 @@ function fixture() {
   write(root, 'generated/en/sidebars/guides.sidebar.js', 'module.exports = []\n');
   write(root, 'generated/en/manifests/reference.json', '{"revision":"en-1"}\n');
   write(root, 'generated/zh-CN/manifests/reference-translations.json', '{"revision":"zh-1"}\n');
+  const fragment = '{}\n';
+  write(root, 'packages/docs-tooling/src/reference/rest/meta/openapi/spec.json', fragment);
+  const fragmentHash = createHash('sha256').update(fragment).digest('hex');
+  for (const locale of ['en', 'ja-JP', 'zh-CN']) {
+    write(root, `generated/${locale}/manifests/rest-derivation.json`, JSON.stringify({schemaVersion: 1, locale, fragmentHashes: {'spec.json': fragmentHash}, toolingSha: 'a'.repeat(40), generatedAt: '2026-09-09T00:00:00.000Z'}) + '\n');
+  }
   write(root, 'generated/zh-CN/sidebars/tools.sidebar.js', 'module.exports = []\n');
   write(root, 'tracked.txt', 'tracked\n');
   execFileSync('git', ['add', '.'], {cwd: root});
@@ -163,10 +170,12 @@ test('writes canonical byte-identical provenance with required components and no
   assert.equal(manifest.site, 'en');
   assert.equal(manifest.workingTree, 'clean');
   assert.deepEqual(Object.keys(manifest.componentHashes).sort(), [
-    'contentManifests', 'dependencies', 'environment', 'legacyFiles', 'localizationInputs', 'lockfile', 'profile', 'routeInventories', 'routes',
+    'contentManifests', 'dependencies', 'environment', 'legacyFiles', 'localizationInputs', 'lockfile', 'profile', 'restDerivation', 'routeInventories', 'routes',
   ]);
   assert.deepEqual(manifest.environmentFields, ['CI', 'NODE_ENV']);
   assert.equal(manifest.contentManifests.mode, 'explicit');
+  assert.deepEqual(manifest.restDerivation.records.map(record => record.locale), ['en', 'ja-JP']);
+  assert.ok(manifest.restDerivation.records.every(record => record.fragmentCount === 1 && /^[0-9a-f]{64}$/.test(record.sha256)));
   assert.deepEqual(manifest.contentManifests.records.map(record => record.path), [
     'content/en/guides/content-manifest.json',
   ]);
@@ -492,6 +501,27 @@ test('changes the artifact hash when artifact bytes change and self-excludes pro
   assert.equal(run(root).manifest.artifactHash, original);
   fs.appendFileSync(path.join(root, 'build/en/docs/index.html'), 'changed');
   assert.notEqual(run(root).manifest.artifactHash, original);
+});
+
+test('REST derivation provenance fails closed on missing, drifted, mismatched, and invalid locale manifests', () => {
+  const root = fixture();
+  fs.rmSync(path.join(root, 'generated/en/manifests/rest-derivation.json'));
+  assert.throws(() => run(root), /missing required REST derivation manifest/i);
+  const driftRoot = fixture();
+  fs.writeFileSync(path.join(driftRoot, 'packages/docs-tooling/src/reference/rest/meta/openapi/spec.json'), '{"drift":true}\n');
+  assert.throws(() => run(driftRoot), /FRAGMENT_DRIFT/i);
+  const shaRoot = fixture();
+  const manifestPath = path.join(shaRoot, 'generated/en/manifests/rest-derivation.json');
+  const value = JSON.parse(fs.readFileSync(manifestPath));
+  value.toolingSha = 'b'.repeat(40);
+  fs.writeFileSync(manifestPath, JSON.stringify(value) + '\n');
+  assert.throws(() => run(shaRoot), /must use one tooling SHA/i);
+  const localeRoot = fixture();
+  const jaPath = path.join(localeRoot, 'generated/ja-JP/manifests/rest-derivation.json');
+  const ja = JSON.parse(fs.readFileSync(jaPath));
+  ja.locale = 'en';
+  fs.writeFileSync(jaPath, JSON.stringify(ja) + '\n');
+  assert.throws(() => run(localeRoot), /REST_DERIVATION_LOCALE_MISMATCH|locale/i);
 });
 
 test('discovers only exact content-root manifests while explicit inputs override discovery', () => {
