@@ -13,6 +13,26 @@ test('GitHub Actions workflows satisfy documentation production safety policy', 
   assert.deepEqual(validateWorkflowPolicies(), [])
 })
 
+test('requested Guides fetch workflow stays a read-only queued plan dispatch', () => {
+  const requested = yaml.load(fs.readFileSync('.github/workflows/fetch-guides-requested.yml', 'utf8'))
+  assert.deepEqual(requested.concurrency, {group: 'docs-production-dev', queue: 'max'})
+  assert.deepEqual(requested.permissions, {contents: 'read', actions: 'read'})
+  assert.ok(requested.on.workflow_dispatch)
+  assert.equal(requested.on.schedule, undefined)
+  assert.equal(requested.on.workflow_dispatch.inputs.publish.default, false)
+  assert.equal(requested.on.workflow_dispatch.inputs.run_translations.default, false)
+  assert.equal(requested.on.workflow_dispatch.inputs.execution_mode.default, 'plan')
+  assert.equal(requested.on.workflow_dispatch.inputs.media_upload_mode.default, 'skip')
+  assert.equal(requested.on.workflow_dispatch.inputs.site.default, 'both')
+  for (const [jobName, job] of Object.entries(requested.jobs || {})) {
+    assert.equal(job.permissions?.contents, undefined, `${jobName} must not grant write permissions`)
+    if (job['runs-on']) assert.match(String(job['timeout-minutes']), /^\d+$/, `${jobName} must declare a timeout`)
+  }
+  const reusable = yaml.load(fs.readFileSync('.github/workflows/_plan-guides-requested.yml', 'utf8'))
+  assert.equal(reusable.concurrency, undefined)
+  assert.deepEqual(reusable.permissions, {actions: 'read', contents: 'read'})
+})
+
 test('workflow policy keeps spec-generated REST out of canonical Translation selection', () => {
   // Keep the copy under scripts/ so selection.js's relative require('../lib/load-typescript')
   // (it now derives GROUPS from the registry) still resolves to the real helper.

@@ -1,0 +1,178 @@
+name: fetch guides requested
+
+on:
+  workflow_dispatch:
+    inputs:
+      pages:
+        description: "Requested Guides page selectors: Lark wiki/docx URLs or canonical tokens, comma or newline separated (1-50 after deduplication)"
+        type: string
+        required: true
+      site:
+        description: "Site(s) to plan: both, en, or zh-CN"
+        type: choice
+        options: [both, en, zh-CN]
+        default: both
+      execution_mode:
+        description: "Plan-only computes the requested closure and conflict report; artifact reconstruction is not enabled yet"
+        type: choice
+        options: [plan, artifact]
+        default: plan
+      publish:
+        description: "Publish the requested reconstruction; publishing is not enabled yet"
+        type: boolean
+        default: false
+      run_translations:
+        description: "Hand off to Translation after publication; not enabled yet"
+        type: boolean
+        default: false
+      media_upload_mode:
+        description: "Object-storage behavior; requested planning never writes object storage"
+        type: choice
+        options: [write, skip]
+        default: skip
+      target_branch:
+        description: "Production state branch; requested runs only support dev"
+        type: string
+        default: dev
+      tooling_ref:
+        description: "Tooling ref override; exact SHA allowed"
+        type: string
+        default: master
+      source_ref:
+        description: "Source/baseline ref for requested planning"
+        type: string
+        default: dev
+      artifact_retention_days:
+        description: "Artifact retention in days"
+        type: number
+        default: 3
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: docs-production-dev
+  queue: max
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      tooling_sha: ${{ steps.refs.outputs.tooling_sha }}
+      dev_baseline_sha: ${{ steps.refs.outputs.dev_baseline_sha }}
+      initial_target_sha: ${{ steps.refs.outputs.initial_target_sha }}
+      target_branch: ${{ steps.refs.outputs.target_branch }}
+      retention_days: ${{ steps.refs.outputs.retention_days }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - id: refs
+        name: Resolve immutable refs and validate requested inputs
+        env:
+          PAGES: ${{ github.event.inputs.pages }}
+          SITE: ${{ github.event.inputs.site || 'both' }}
+          EXECUTION_MODE: ${{ github.event.inputs.execution_mode || 'plan' }}
+          PUBLISH: ${{ github.event.inputs.publish == 'true' }}
+          RUN_TRANSLATIONS: ${{ github.event.inputs.run_translations == 'true' }}
+          MEDIA_UPLOAD_MODE: ${{ github.event.inputs.media_upload_mode || 'skip' }}
+          TARGET_BRANCH: ${{ github.event.inputs.target_branch || 'dev' }}
+          TOOLING_REF: ${{ github.event.inputs.tooling_ref || 'master' }}
+          SOURCE_REF: ${{ github.event.inputs.source_ref || 'dev' }}
+          RETENTION_DAYS: ${{ github.event.inputs.artifact_retention_days || '3' }}
+        run: |
+          set -euo pipefail
+          [[ -n "$PAGES" ]] || { echo 'pages input is required' >&2; exit 2; }
+          case "$SITE" in both|en|zh-CN) ;; *) echo "unsupported site: $SITE" >&2; exit 2 ;; esac
+          case "$EXECUTION_MODE" in plan|artifact) ;; *) echo "unsupported execution_mode: $EXECUTION_MODE" >&2; exit 2 ;; esac
+          case "$MEDIA_UPLOAD_MODE" in write|skip) ;; *) echo "unsupported media_upload_mode: $MEDIA_UPLOAD_MODE" >&2; exit 2 ;; esac
+          if [[ "$PUBLISH" == true ]]; then
+            echo 'publish=true requires execution_mode=artifact and media_upload_mode=write, and publishing is not enabled in Phase 1' >&2
+            exit 2
+          fi
+          if [[ "$RUN_TRANSLATIONS" == true ]]; then
+            echo 'run_translations=true is not enabled before Phase 4' >&2
+            exit 2
+          fi
+          if [[ "$EXECUTION_MODE" != plan ]]; then
+            echo 'Only execution_mode=plan is supported in Phase 1; artifact reconstruction is not enabled yet' >&2
+            exit 2
+          fi
+          if [[ "$MEDIA_UPLOAD_MODE" != skip ]]; then
+            echo 'execution_mode=plan requires media_upload_mode=skip' >&2
+            exit 2
+          fi
+          if [[ "$TARGET_BRANCH" != dev ]]; then
+            echo 'requested runs only support target_branch=dev' >&2
+            exit 2
+          fi
+          [[ "$RETENTION_DAYS" =~ ^[1-9][0-9]*$ ]] || { echo 'artifact_retention_days must be a positive integer' >&2; exit 2; }
+          if [[ "$TARGET_BRANCH" == -* || "$TARGET_BRANCH" == *:* || "$TARGET_BRANCH" == *$'\n'* || "$TARGET_BRANCH" == *$'\r'* ]]; then
+            echo 'target_branch contains forbidden characters' >&2
+            exit 2
+          fi
+          git check-ref-format --branch "$TARGET_BRANCH"
+          tooling_ref="$TOOLING_REF"
+          if [[ "$tooling_ref" =~ ^[0-9a-f]{40}$ ]]; then
+            git fetch --no-tags origin "$tooling_ref"
+            tooling_sha=$(git rev-parse FETCH_HEAD)
+          else
+            if [[ "$tooling_ref" == -* || "$tooling_ref" == *:* || "$tooling_ref" == *$'\n'* || "$tooling_ref" == *$'\r'* ]]; then
+              echo 'tooling_ref contains forbidden characters' >&2
+              exit 2
+            fi
+            git check-ref-format --branch "$tooling_ref"
+            git fetch --no-tags origin "refs/heads/$tooling_ref:refs/remotes/origin/$tooling_ref"
+            tooling_sha=$(git rev-parse "refs/remotes/origin/$tooling_ref")
+          fi
+          git cat-file -e "$tooling_sha^{commit}"
+          node -e 'require("./scripts/docs-workflow/resolve-docs-refs").assertSafeGitRef(process.env.SOURCE_REF)'
+          git fetch --no-tags origin "$SOURCE_REF"
+          source_sha=$(git rev-parse FETCH_HEAD)
+          git fetch --no-tags origin "+refs/heads/$TARGET_BRANCH:refs/remotes/origin/$TARGET_BRANCH"
+          initial_target_sha=$(git rev-parse "refs/remotes/origin/$TARGET_BRANCH^{commit}")
+          [[ "$tooling_sha" =~ ^[0-9a-f]{40}$ && "$source_sha" =~ ^[0-9a-f]{40}$ && "$initial_target_sha" =~ ^[0-9a-f]{40}$ ]]
+          printf 'tooling_sha=%s\ndev_baseline_sha=%s\ninitial_target_sha=%s\ntarget_branch=%s\nretention_days=%s\n' \
+            "$tooling_sha" "$source_sha" "$initial_target_sha" "$TARGET_BRANCH" "$RETENTION_DAYS" >> "$GITHUB_OUTPUT"
+  plan_guides_en:
+    needs: prepare
+    if: ${{ needs.prepare.result == 'success' && github.event.inputs.site != 'zh-CN' }}
+    uses: ./.github/workflows/_plan-guides-requested.yml
+    with:
+      site: en
+      pages: ${{ github.event.inputs.pages }}
+      execution_mode: ${{ github.event.inputs.execution_mode || 'plan' }}
+      master_sha: ${{ needs.prepare.outputs.tooling_sha }}
+      dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
+      artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
+    secrets: inherit
+  plan_guides_zh:
+    needs: prepare
+    if: ${{ needs.prepare.result == 'success' && github.event.inputs.site != 'en' }}
+    uses: ./.github/workflows/_plan-guides-requested.yml
+    with:
+      site: zh-CN
+      pages: ${{ github.event.inputs.pages }}
+      execution_mode: ${{ github.event.inputs.execution_mode || 'plan' }}
+      master_sha: ${{ needs.prepare.outputs.tooling_sha }}
+      dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
+      artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
+    secrets: inherit
+  summarize:
+    needs: [prepare, plan_guides_en, plan_guides_zh]
+    if: ${{ !cancelled() && needs.prepare.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Report requested plan conclusions
+        run: |
+          {
+            echo '## Requested Guides fetch plan'
+            echo ''
+            echo "- en: ${{ needs.plan_guides_en.result == 'skipped' && 'skipped' || needs.plan_guides_en.outputs.conclusion }} (run: ${{ needs.plan_guides_en.outputs.status || 'n/a' }}, plan: ${{ needs.plan_guides_en.outputs.plan_sha256 || 'n/a' }})"
+            echo "- zh-CN: ${{ needs.plan_guides_zh.result == 'skipped' && 'skipped' || needs.plan_guides_zh.outputs.conclusion }} (run: ${{ needs.plan_guides_zh.outputs.status || 'n/a' }}, plan: ${{ needs.plan_guides_zh.outputs.plan_sha256 || 'n/a' }})"
+          } >> "$GITHUB_STEP_SUMMARY"
+          cat "$GITHUB_STEP_SUMMARY"

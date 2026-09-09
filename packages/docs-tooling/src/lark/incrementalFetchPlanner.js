@@ -434,7 +434,18 @@ function writeIncrementalFetchPlanReports(plan, outputPrefix) {
 }
 
 module.exports = {
+  GUIDES_TARGETS,
   planIncrementalFetch,
   writeIncrementalFetchPlanReports,
   renderIncrementalFetchPlanMarkdown,
+  normalizeGuidesTarget,
+  guidesTableOwnership,
+  addReason,
+  snapshotRecordsById,
+  snapshotRecordsByToken,
+  canonicalTokenSet,
+  sourcePrimaryToken,
+  buildReferenceGraphs,
+  compareRecord,
+  expandReferences,
 }

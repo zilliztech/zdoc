@@ -246,6 +246,8 @@
         "scripts/docs-workflow/guides-*",
         "packages/docs-tooling/src/lark/guidesBaseRecordSemantics.js",
         "packages/docs-tooling/src/lark/index.js",
+        "packages/docs-tooling/src/lark/incrementalFetchPlanner*",
+        "packages/docs-tooling/src/lark/requestedGuidesFetchPlanner*",
         "packages/docs-tooling/src/lark/larkDocScraper.js",
         "packages/docs-tooling/src/lark/larkDocScraper.test.js",
         "packages/docs-tooling/src/lark/larkDocWriter.js",
@@ -258,10 +260,13 @@
         "scripts/validate-guides-source-contract*",
         ".github/workflows/_assemble-guides.yml",
         ".github/workflows/_fetch-guides-sources.yml",
-        ".github/workflows/_render-guides-table.yml"
+        ".github/workflows/_plan-guides-requested.yml",
+        ".github/workflows/_render-guides-table.yml",
+        ".github/workflows/fetch-guides-requested.yml"
       ],
       "focusedTests": [
         "node packages/docs-tooling/src/lark/larkDocScraper.test.js",
+        "node --test packages/docs-tooling/src/lark/requestedGuidesFetchPlanner.test.js",
         "pnpm test:guides-workflow"
       ],
       "harnesses": ["pnpm test:replay:fetch"],

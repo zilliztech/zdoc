@@ -2,7 +2,7 @@
 
 ## 状态
 
-- 状态：设计完成，尚未实现。
+- 状态：Phase 1（plan-only）已实现：`fetch-guides-requested.yml` + `_plan-guides-requested.yml`、`guides-requested-selection.js`、`requestedGuidesFetchPlanner.js` 与 requested plan-only CLI 通道。Phase 2（artifact-only）、Phase 3（publish）、Phase 4（Translation handoff）尚未实现；`execution_mode=artifact`、`publish=true`、`run_translations=true` 在顶层工作流被拒绝。
 - 目标分支：`master`，通过正常 master PR 和 master-to-dev tooling sync 进入生产。
 - 生产状态所有者：`dev`；本设计不允许在 master PR 中提交 Guides 发布状态。
 - 适用站点：`en`、`zh-CN`。
