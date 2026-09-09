@@ -199,6 +199,7 @@ Use the stable package scripts so local development and CI exercise the same sui
 - `pnpm test:replay:fetch` covers Fetch FIFO publication, fault injection, final business evidence, and local-remote safety.
 - `pnpm test:replay:recovery` covers retained Translation selection/results/progress authentication, legacy REST exclusion, recovery-map construction, and non-mutating fault overlays.
 - `pnpm test:replay:translation` covers Translation FIFO publication and monitor artifact authentication; it is slower and runs on the scheduled replay workflow.
+- `pnpm test:replay:requested` covers the requested Guides fetch surfaces (planner closure, state-merge receipts, checkpoint scope) against a committed real-data slice extracted from retained production artifacts.
 - `pnpm test:replay` is the PR-level contract + Fetch + recovery gate.
 - `pnpm test:replay:all` runs every hermetic replay suite before a cross-pipeline merge.
 
@@ -217,6 +218,16 @@ node scripts/docs-workflow/replay-recovery-plan.js \
 ```
 
 The snapshot and output roots must be distinct absolute paths below the platform's system temporary directory (or the safe root explicitly set with `ZDOC_RECOVERY_REPLAY_SAFE_ROOT`), and the output root must be empty. The harness authenticates the original retained identity, never pushes Git state, never invokes paid Translation, and writes fault injection to a separate overlay. Use `--simulate-failure` only for synthetic regression scenarios, for example `translation/ja-JP/guides,translation/zh-CN-reference/python`. Preserve the generated `recovery-plan.json`, selection SHA, target baseline, recovery units, rejected units, retained-file count, and source-candidate count as merge evidence.
+
+### Replay the requested Guides workflow against real retained artifacts
+
+`pnpm test:replay:requested` runs hermetically against a committed real-data slice. Before enabling or changing `publish=true` behavior in `fetch-guides-requested.yml`, additionally replay the complete retained artifacts of a recent successful Fetch run:
+
+1. Pick a successful `fetch lark docs` run on `dev`, note its run ID, attempt, `masterSha`, and `devBaselineSha` from the checkpoint manifest.
+2. Download the retained `guides-sources-en-<run>` artifact, the `docs-checkpoint-guides-en-<run>` artifact, and the Guides table artifacts for the run's affected tables into an isolated evidence root (never the real `origin`), recording each artifact ID and `sha256` in a `manifest.txt` line format `<id> <name> <sha256>`.
+3. Extract `guides-source.tar` and the checkpoint/table archives below `artifacts/` in that root and write a `real-context.json` describing the run identity, the baseline snapshot path (from `git show <devBaselineSha>:packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json`), the candidate snapshot path, the source directory, the site root token, and the table artifact manifest directories.
+4. Run `REPLAY_REQUESTED_GUIDES_ROOT=<evidence-root> pnpm test:replay:requested`. The harness verifies every recorded digest, preflights the checkpoint archive, replays the stable-table, outline-change, cross-table-move, and closure-external-conflict scenarios, and proves the ordinary automatic planner still detects the external change after a blocked requested run.
+5. Preserve the generated `replay-report.json` (run identity, artifact digests, checkpoint file count, per-scenario plan/receipt hashes, isolation results) as the merge and rollout evidence.
 
 ### Start and monitor a publication
 

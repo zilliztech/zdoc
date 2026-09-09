@@ -25,9 +25,12 @@ test('requested Guides fetch workflow stays a read-only queued plan dispatch', (
   assert.equal(requested.on.workflow_dispatch.inputs.media_upload_mode.default, 'skip')
   assert.equal(requested.on.workflow_dispatch.inputs.site.default, 'both')
   for (const [jobName, job] of Object.entries(requested.jobs || {})) {
-    assert.notEqual(job.permissions?.contents, 'write', `${jobName} must not grant write permissions`)
+    if (jobName !== 'publish_ready') {
+      assert.notEqual(job.permissions?.contents, 'write', `${jobName} must not grant write permissions`)
+    }
     if (job['runs-on']) assert.match(String(job['timeout-minutes']), /^\d+$/, `${jobName} must declare a timeout`)
   }
+  assert.deepEqual(requested.jobs.publish_ready.permissions, {actions: 'read', contents: 'write'})
   const reusable = yaml.load(fs.readFileSync('.github/workflows/_plan-guides-requested.yml', 'utf8'))
   assert.equal(reusable.concurrency, undefined)
   assert.deepEqual(reusable.permissions, {actions: 'read', contents: 'read'})
@@ -36,8 +39,6 @@ test('requested Guides fetch workflow stays a read-only queued plan dispatch', (
   assert.deepEqual(requestedSources.permissions, {actions: 'read', contents: 'read'})
   assert.equal(JSON.stringify(requestedSources).includes('DOCS_TOOLING_FORCE_FULL_FETCH'), false)
   assert.equal(requestedSources['on'].workflow_call.inputs.media_upload_mode.default, 'skip')
-  const publishJob = requested.jobs.publish_ready
-  assert.deepEqual(publishJob.permissions, {actions: 'read', contents: 'read'})
 })
 
 test('workflow policy keeps spec-generated REST out of canonical Translation selection', () => {
@@ -64,7 +65,9 @@ test('publish-capable top-level workflows share the durable dev queue', () => {
   const recovery = yaml.load(fs.readFileSync('.github/workflows/recover-translation.yml', 'utf8'))
   const translation = yaml.load(fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8'))
   const tooling = yaml.load(fs.readFileSync('.github/workflows/sync-master-tooling-to-dev.yml', 'utf8'))
+  const requestedGuides = yaml.load(fs.readFileSync('.github/workflows/fetch-guides-requested.yml', 'utf8'))
   assert.deepEqual(fetch.concurrency, {group: 'docs-production-dev', queue: 'max'})
+  assert.deepEqual(requestedGuides.concurrency, {group: 'docs-production-dev', queue: 'max'})
   assert.deepEqual(tooling.concurrency, {group: 'docs-production-dev', queue: 'max'})
   assert.deepEqual(recovery.concurrency, {
     group: "${{ inputs.publish && 'docs-production-dev' || format('translation-recovery-readonly-{0}', github.run_id) }}",

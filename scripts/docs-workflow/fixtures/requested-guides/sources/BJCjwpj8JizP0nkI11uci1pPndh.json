@@ -1,0 +1,5586 @@
+{
+  "creator": "ou_e55a208a81fc721928685fc3df9cb678",
+  "has_child": false,
+  "node_create_time": "1764919521",
+  "node_creator": "ou_e55a208a81fc721928685fc3df9cb678",
+  "node_token": "BJCjwpj8JizP0nkI11uci1pPndh",
+  "node_type": "origin",
+  "obj_create_time": "1764919521",
+  "obj_edit_time": "1778683249",
+  "obj_token": "HAr1d9yVroaasfx3TElctcEHnUc",
+  "obj_type": "docx",
+  "origin_node_token": "BJCjwpj8JizP0nkI11uci1pPndh",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_e55a208a81fc721928685fc3df9cb678",
+  "parent_node_token": "base:tblWv7PjNDsexddH:recvlPnndXsUTo",
+  "space_id": "7167193056431783939",
+  "title": "Lexical Highlighter",
+  "slug": "text-highlighter",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "block_type": 1,
+        "children": [
+          "F8fEd7kMBo102VxIAfgcp4gTnLd",
+          "EBqPd2vuyoVH33xlyxqcebzvnSc",
+          "PMWPdpo3CoeDUlxOiZkcec7fnoc",
+          "LiVrdnH14ofb4nxCKOwce1TInkc",
+          "XSdIdgfy0oW78CxY7Dtc8iUcnlc",
+          "OyJZdgxvto841Mxl4aSc80W1nEg",
+          "IiDxd47okoPIeqxr0cAcckmsnfg",
+          "RgOTdvUySoN3OKxiqJOcH19Anpg",
+          "BNo1dzplQoa4vFxCGipccZdknjf",
+          "Xyb8dTrwbogeDmxLyInc8DjAnsd",
+          "HpJKdjyhiol1PfxPcQtcLOQ1n1g",
+          "N8dOd2eMhsIrCdbwRDucnWhKn7g",
+          "YKYedJ5T0o5CQPxddqoccXw0nxg",
+          "AGzFd6voloEICzxSCX9cf08Cnxc",
+          "ZtzndHE2JsEbbabWT7pcBmnunoe",
+          "QBUydZln5o5X2OxSLhIcr7ijnWh",
+          "Wc7mdHcKsoM6LBxaf6Pcoum0nTc",
+          "P0fYdB6iGoGcTjxgleCcyP9Dnrg",
+          "AuC8ddXJooaj6Fxu2GDct87bnih",
+          "PWL6dUVIIs4yNkblfgXchZIqnhf",
+          "SsrndclaZoKFPmxFFY2crd5Xnre",
+          "W3zydAkBUoO1HuxG1PDcLi6onxf",
+          "YtzOd8D30ovdu2xQp4OceqPunzb",
+          "VkqldVd2zsRYjtbH5IBcRNh8nAg",
+          "H9ZBdsOdJowZ9fxBgfzcobQdnyf",
+          "PbT1dUiUvoCodnxpTdzcFKjynCd",
+          "MCDIdC293ovJQlxYXOQcvKWxn2y",
+          "TPnbdbTb7oto86xyBWpc0DI4nvL",
+          "ZgSgdWh18oS9VHx7rNScEiGEnhh",
+          "Z3TUdHoXroF7KcxXvNrcEZKBnHg",
+          "GZiJda7iis1U18bn7iVc4uxgnGe",
+          "WcTRd5DAvo1v5sxbrXscYV0xnRd",
+          "CHnnd2GXro9qdyxeZR3cTqgfnEi",
+          "Wye6dTbS2sQKMnbyqLdcHB2Encf",
+          "TjHMdRCx7oHf7sxlCoWcO6VOnTg",
+          "WNHSdQHwdo4meqxBqG6cxYplnmh",
+          "R1LedFCBRonrUzxVzCtcXRFSn2g",
+          "Q1uSdf5lZoEEkXx7kQZcYEvFn2f",
+          "RhpqdgrMgsgQcSbiPEec71hAnif",
+          "HW5WdWm2Yoce9gxQTOGchIIKndg",
+          "NQLxdzRwjoDEElxn8iycD70OnQh",
+          "InKSd4PjSo3q3sxb2fRcXMf7n6c",
+          "LZyAdHZIysudeYbJPQqcz41QnRv",
+          "ERHQd7e6bolCGPxyL6Ocgzx6nic",
+          "YnzBd9Eb5oh8Orx4ys3cLHhvnQd",
+          "OQV3dxBXOoOWMzx8rcfcGrtdn7c",
+          "YPChdpOhEoGEiyxRhBScYoBCnih",
+          "LSwldhNAOsnTo3bXSItcHcq1n5O",
+          "Eit5dmo2fotpbixRPYOcOVaHnMb",
+          "WRvtdkGaOohDGZxMhbocgHp5nBc",
+          "T77ndXrJ4sH0xjbQZlGci4Ehn1d",
+          "Jiwndljddos2QSxh6SucvlUBnqF",
+          "DgA1dGSnboggjUxlE91cfzdNnld",
+          "GTsNdQkHaoZVv9xl7v2chRS7nbb",
+          "M3JSdYOkyoNsbxxkwsLcwafHnOc",
+          "MZ2bdFoIQoixhUx95CbcwIJmnKL",
+          "EEk1d15zTswXmgb17GlcmXUtnkh",
+          "IiZcdxM4yoUxSvxNRqrcr0jKnvh",
+          "N1xMdx2MKoHqYdxh6ZCcOuuQnSc",
+          "YLlSd3V1RsoEkhbyxzOcqLcWnMf",
+          "W6msdsNUgodTZVxR4Svc57GJn0g",
+          "CmTndKnMnohpTix5ghmc18F7nEb",
+          "KzyldMvHvoimJIxUIbNc00bBnrO",
+          "FKWVdnz2HowWvgxtGuGcccOXntd",
+          "DnBhdxImkoU58txqSG2ckz6Enjc",
+          "USh0dfk0CoqfFzx6nOqcBBu6nyh",
+          "S5gqd2G9goaXAHxBumfckHGLnpd",
+          "JkIIdm5NCo9W95xPBLkcxponnDg",
+          "LOnvd3EkhokJD2xfhZVceh8VnVe",
+          "Dzefd0lv1oxWt1xSxf6ceVlonBb",
+          "QZ1HdOEsUs3Ihub34JwczLkmnWg",
+          "Vm4rdttMToFQYpxMnHAcQYZonzb",
+          "RhRNdAzNEofMeexnyA6cPvzdnhd",
+          "GbHcd8U6eopYekxLfw5cQxLNnab",
+          "UO81d5KEloSYQ4xpY9lcUIRLnfd",
+          "DaULd6nN6oRma4xvtnVcxBgQnMf",
+          "FsH8dwsEFsbX4Fb6eKQchWShnyS",
+          "FQnBdqFiUoRfeVxzjL6c0j2Knk2",
+          "J7VydAJ4To1M97x3bunc8f8ZnIc",
+          "ERN6dgn3Lsf1pEbJTKBc0m0Gnpg",
+          "N4HTd7Cz2oRz6wx5Dtccz4FinFe",
+          "UZoXde7xjo5cwMxcpfsc1ISVnAg",
+          "LQQqdOra8oT753xvam3cE5bNnGc",
+          "Lqg0dw0Cro7cMLx0S6TcHnZXn2g",
+          "Dr0EdxSKiovVHVxYQo8c46yOnAg",
+          "JEfGdLCmJoIgNKxeylzc4449npg",
+          "TmXDdHmeEs3ibwbMU4zcsh8CnWe",
+          "Gka2dzl2bo9IINxFCQ1cktdunXd",
+          "Dd3Jdu3AGoZ0XVx3ofjcRUFqnRh",
+          "G9LQdJ8wXsBCLZbwwgWcYIE0nOb",
+          "NUpLdM4GhogkikxshcLcAf8enkg",
+          "GLJKd3CP3oJFeJxgLS0cBtM2nFd",
+          "YFWtdJgSgoaFd9x045ocReFfn0g",
+          "DJVydu2msoSfeZxsSygcugswnUd",
+          "TzhgdhaNSoxY7ox7YPfcXZ4NnBe",
+          "FrN0d2KGWoK7EtxXWvGcyT5Ingg",
+          "WTkUdYIGWsqiK0bgnIvcc5Omnef",
+          "LQOJdth5yoQlbsxCi9Xc826InVg",
+          "RruhdgcktomzpzxkKyFcsJalnHe",
+          "F42AdLmytsFpgQbjEmCcf0jSnxh",
+          "DB8pdGCbToCbMwxq24fchDC2nCe",
+          "FJILdwJdvo2WHTxJuQDcbmf0nBo",
+          "Ilzod28cQogLJyxVglCcFpcGn8c",
+          "Vu4ydan26oNETpxlOKdcZIX0n0l",
+          "QkSBddpbLoraeWxxL5EcNb4Vn4e",
+          "Dlm3dIqF2oKoZRxqOE0cvOupnRb",
+          "H3lydhCaws2z8Cboh7hcO7nqnee",
+          "QlL4d2mnGoBzC5xSNDscdA6An5g",
+          "La2MdgepFoC0sdx1FV4crC83nXb",
+          "En46d5DLMsne2Db0v4ccnm5xnNd",
+          "Qnjidi8eFohW9pxIig8cZ9UUnIh",
+          "BwHBdPcWRogcFDx5pfGc64lJnrN",
+          "ST4HdVN9doQ2UyxzLgccNF5Angg",
+          "TyvVd9BL2seepRbb1sdcmTmbnUf",
+          "SCCodS0U3owo0ExiEpFcutWonBb",
+          "ZJTNddiYroCghoxdg1Cc5mREnNh",
+          "G7EIdljNPs4wdpbSWYbcMsNPnAh",
+          "TS3Ndhc8foAwAUxzjzlc3xYGnkd",
+          "XCq9dcYrrokuClxGLuncBsZUnWb"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Lexical Highlighter",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "F8fEd7kMBo102VxIAfgcp4gTnLd",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The Highlighter in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">",
+                "text_element_style": {
+                  "background_color": 15,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Milvus",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include><include target=\"zilliz\">",
+                "text_element_style": {
+                  "background_color": 15,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Zilliz Cloud",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 15,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " annotates matched terms in text fields by wrapping them with customizable tags. Highlighting helps explain why a document matches, improves result readability, and supports rich rendering in search and RAG applications.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EBqPd2vuyoVH33xlyxqcebzvnSc",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Highlighting is executed as a post-processing step on the final search result set. It does not affect candidate retrieval, filtering logic, ranking, or scoring.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PMWPdpo3CoeDUlxOiZkcec7fnoc",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The Highlighter provides three independent dimensions of control:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LiVrdnH14ofb4nxCKOwce1TInkc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Which terms are highlighted",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "Ftw9deujqoh7j7xgjR7ci72Hn7e"
+        ],
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc"
+      },
+      {
+        "block_id": "Ftw9deujqoh7j7xgjR7ci72Hn7e",
+        "block_type": 2,
+        "parent_id": "LiVrdnH14ofb4nxCKOwce1TInkc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can choose where highlighted terms come from. For example, highlight search terms used in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "BM25 full text search",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", or query terms specified in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "text-based filtering expressions",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (such as ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "TEXT_MATCH",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " conditions).",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XSdIdgfy0oW78CxY7Dtc8iUcnlc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "How highlighted terms are rendered",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "HlrEdTDNJosFquxmvrycUk6ln2g"
+        ],
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc"
+      },
+      {
+        "block_id": "HlrEdTDNJosFquxmvrycUk6ln2g",
+        "block_type": 2,
+        "parent_id": "XSdIdgfy0oW78CxY7Dtc8iUcnlc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can control how matched terms appear in the highlighting output by configuring the tags inserted before and after each match. For example, use simple markers like ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "{}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or HTML tags such as ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<em></em>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " for rich rendering.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "OyJZdgxvto841Mxl4aSc80W1nEg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "How highlighted text is returned",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "PBEjdVeauoagwPxYiLBca3KAn8b"
+        ],
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc"
+      },
+      {
+        "block_id": "PBEjdVeauoagwPxYiLBca3KAn8b",
+        "block_type": 2,
+        "parent_id": "OyJZdgxvto841Mxl4aSc80W1nEg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can control how highlighted results are returned as fragments, including where fragments start, how long they are, and how many fragments are returned.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IiDxd47okoPIeqxr0cAcckmsnfg",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The following sections walk through these scenarios.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RgOTdvUySoN3OKxiqJOcH19Anpg",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Search term highlighting in BM25 full text search",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc"
+      },
+      {
+        "block_id": "BNo1dzplQoa4vFxCGipccZdknjf",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "When you perform a BM25 full text search, you can highlight the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "search terms",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in the returned result to help explain why a document matches the query. To learn more about BM25 full text search, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Full Text Search",
+                "token": "RQTRwhOVPiwnwokqr4scAtyfnBf",
+                "url": "https://zilliverse.feishu.cn/wiki/RQTRwhOVPiwnwokqr4scAtyfnBf"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Xyb8dTrwbogeDmxLyInc8DjAnsd",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In this scenario, highlighted terms come directly from the search terms used in BM25 full text search. The Highlighter uses these terms to annotate matched text in the final result.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HpJKdjyhiol1PfxPcQtcLOQ1n1g",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Assume the following content is stored in a text field:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "N8dOd2eMhsIrCdbwRDucnWhKn7g",
+        "block_type": 49,
+        "children": [
+          "JudgdDHY0oItzexmV3WcVLYhnag"
+        ],
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "source_synced": {
+          "align": 1
+        }
+      },
+      {
+        "block_id": "JudgdDHY0oItzexmV3WcVLYhnag",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Milvus supports full text search. Use BM25 for keyword relevance. Filters can narrow results.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 1,
+            "wrap": false
+          }
+        },
+        "parent_id": "N8dOd2eMhsIrCdbwRDucnWhKn7g"
+      },
+      {
+        "block_id": "YKYedJ5T0o5CQPxddqoccXw0nxg",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Highlighter configuration",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AGzFd6voloEICzxSCX9cf08Cnxc",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To highlight search terms in BM25 full text search, create a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "LexicalHighlighter",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and enable search term highlighting for BM25 full text search:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZtzndHE2JsEbbabWT7pcBmnunoe",
+        "block_type": 49,
+        "children": [
+          "WbB7dHFMpoAt5jxBSalcdQLInDh"
+        ],
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "source_synced": {
+          "align": 1
+        }
+      },
+      {
+        "block_id": "WbB7dHFMpoAt5jxBSalcdQLInDh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import LexicalHighlighter\n\nhighlighter = LexicalHighlighter(\n    pre_tags=[\"{\"],              # Tag inserted before each highlighted term\n    post_tags=[\"}\"],             # Tag inserted after each highlighted term\n    highlight_search_text=True   # Enable search term highlighting for BM25 full text search\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "ZtzndHE2JsEbbabWT7pcBmnunoe"
+      },
+      {
+        "block_id": "QBUydZln5o5X2OxSLhIcr7ijnWh",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In this example:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Wc7mdHcKsoM6LBxaf6Pcoum0nTc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "pre_tags",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "post_tags",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " control how highlighted text appears in the output. In this case, matched terms are wrapped by ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "{}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (for example, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "{term}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "). You can also provide multiple tags as a list (for example, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "[\"<b>\", \"<i>\"]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "). When multiple terms are highlighted, tags are applied in order and rotated by match sequence.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc"
+      },
+      {
+        "block_id": "P0fYdB6iGoGcTjxgleCcyP9Dnrg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "highlight_search_text=True",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " tells ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">",
+                "text_element_style": {
+                  "background_color": 15,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Milvus",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include><include target=\"zilliz\">",
+                "text_element_style": {
+                  "background_color": 15,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Zilliz Cloud",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 15,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to use the",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "search terms in BM25 full text search as the source of highlighted terms.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc"
+      },
+      {
+        "block_id": "AuC8ddXJooaj6Fxu2GDct87bnih",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Once the Highlighter object is created, apply its configuration to your BM25 full text search request:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PWL6dUVIIs4yNkblfgXchZIqnhf",
+        "block_type": 49,
+        "children": [
+          "OFTEdXFcYo9mZixy3KtcHlIDnvh"
+        ],
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "source_synced": {
+          "align": 1
+        }
+      },
+      {
+        "block_id": "OFTEdXFcYo9mZixy3KtcHlIDnvh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "results = client.search(\n    ...,\n    data=[\"BM25\"],      # Search term used in BM25 full text search\n    # highlight-next-line\n    highlighter=highlighter # Pass highlighter config here\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "PWL6dUVIIs4yNkblfgXchZIqnhf"
+      },
+      {
+        "block_id": "SsrndclaZoKFPmxFFY2crd5Xnre",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Highlighting output",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "W3zydAkBUoO1HuxG1PDcLi6onxf",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "When highlighting is enabled, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">",
+                "text_element_style": {
+                  "background_color": 15,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Milvus",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include><include target=\"zilliz\">",
+                "text_element_style": {
+                  "background_color": 15,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Zilliz Cloud",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 15,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " returns highlighted text in a dedicated ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "highlight",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " field. By default, highlighted output is returned as a fragment starting from the first matched term.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YtzOd8D30ovdu2xQp4OceqPunzb",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In this example, the search term is ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\"BM25\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", so it is highlighted in the returned result:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VkqldVd2zsRYjtbH5IBcRNh8nAg",
+        "block_type": 49,
+        "children": [
+          "B8AsdwLWGo9Mypx080KcF9benWe"
+        ],
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "source_synced": {
+          "align": 1
+        }
+      },
+      {
+        "block_id": "B8AsdwLWGo9Mypx080KcF9benWe",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "{\n    ...,\n    \"highlight\": {\n        \"text\": [\n            \"{BM25} for keyword relevance. Filters can narrow results.\"\n        ]\n    }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 28,
+            "wrap": false
+          }
+        },
+        "parent_id": "VkqldVd2zsRYjtbH5IBcRNh8nAg"
+      },
+      {
+        "block_id": "H9ZBdsOdJowZ9fxBgfzcobQdnyf",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To control the position, length, and number of returned fragments, see ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Return highlighted text as fragments",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FBJCjwpj8JizP0nkI11uci1pPndh%23YnzBd9Eb5oh8Orx4ys3cLHhvnQd"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PbT1dUiUvoCodnxpTdzcFKjynCd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Query term highlighting in filtering",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc"
+      },
+      {
+        "block_id": "MCDIdC293ovJQlxYXOQcvKWxn2y",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In addition to highlighting search terms, you can highlight terms used in text-based filtering expressions.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TPnbdbTb7oto86xyBWpc0DI4nvL",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "YCv7dwLoDo4RwZxPqSPcL1LTnOc",
+          "AxYTdpu1Ho6aLVxSowccXnDtnsg"
+        ],
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc"
+      },
+      {
+        "block_id": "YCv7dwLoDo4RwZxPqSPcL1LTnOc",
+        "block_type": 2,
+        "parent_id": "TPnbdbTb7oto86xyBWpc0DI4nvL",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AxYTdpu1Ho6aLVxSowccXnDtnsg",
+        "block_type": 2,
+        "parent_id": "TPnbdbTb7oto86xyBWpc0DI4nvL",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Currently, only the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "TEXT_MATCH",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " filtering condition is supported for query term highlighting. To learn more, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Text Match",
+                "token": "RQQKwqhZUiubFzkHo4WcR62Gnvh",
+                "url": "https://zilliverse.feishu.cn/wiki/RQQKwqhZUiubFzkHo4WcR62Gnvh"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZgSgdWh18oS9VHx7rNScEiGEnhh",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In this scenario, highlighted terms come from text-based filtering expressions. Filtering determines which documents match, while the Highlighter annotates the matched text spans.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Z3TUdHoXroF7KcxXvNrcEZKBnHg",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Assume the following content is stored in a text field:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GZiJda7iis1U18bn7iVc4uxgnGe",
+        "block_type": 49,
+        "children": [
+          "XBGIdK6NYoCmfIxdrVdcaJMVnMe"
+        ],
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "source_synced": {
+          "align": 1
+        }
+      },
+      {
+        "block_id": "XBGIdK6NYoCmfIxdrVdcaJMVnMe",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This document explains how text filtering works in Milvus.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "GZiJda7iis1U18bn7iVc4uxgnGe"
+      },
+      {
+        "block_id": "WcTRd5DAvo1v5sxbrXscYV0xnRd",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Highlighter configuration",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CHnnd2GXro9qdyxeZR3cTqgfnEi",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To highlight query terms used in filtering, create a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "LexicalHighlighter",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and define a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "highlight_query",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " that corresponds to the filtering condition:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Wye6dTbS2sQKMnbyqLdcHB2Encf",
+        "block_type": 49,
+        "children": [
+          "EDKjdu9puoHih2xF4DicflYJn5b"
+        ],
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "source_synced": {
+          "align": 1
+        }
+      },
+      {
+        "block_id": "EDKjdu9puoHih2xF4DicflYJn5b",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import LexicalHighlighter\n\nhighlighter = LexicalHighlighter(\n    pre_tags=[\"{\"],              # Tag inserted before each highlighted term\n    post_tags=[\"}\"],             # Tag inserted after each highlighted term\n    highlight_query=[{\n        \"type\": \"TextMatch\",     # Text filtering type\n        \"field\": \"text\",         # Target text field\n        \"text\": \"text filtering\" # Terms to highlight\n    }]\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "Wye6dTbS2sQKMnbyqLdcHB2Encf"
+      },
+      {
+        "block_id": "TjHMdRCx7oHf7sxlCoWcO6VOnTg",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In this configuration:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WNHSdQHwdo4meqxBqG6cxYplnmh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "pre_tags",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "post_tags",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " control how highlighted text appears in the output. In this case, matched terms are wrapped by ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "{}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " (for example, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "{term}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "). You can also provide multiple tags as a list (for example, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "[\"<b>\", \"<i>\"]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "). When multiple terms are highlighted, tags are applied in order and rotated by match sequence.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc"
+      },
+      {
+        "block_id": "R1LedFCBRonrUzxVzCtcXRFSn2g",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "highlight_query",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " defines which filtering terms should be highlighted.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc"
+      },
+      {
+        "block_id": "Q1uSdf5lZoEEkXx7kQZcYEvFn2f",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Once the Highlighter object is created, apply the same filtering expression and the highlighter configuration to your search request:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RhpqdgrMgsgQcSbiPEec71hAnif",
+        "block_type": 49,
+        "children": [
+          "HJsAdexclozVb6xmOKqcQT8Jnfb"
+        ],
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "source_synced": {
+          "align": 1
+        }
+      },
+      {
+        "block_id": "HJsAdexclozVb6xmOKqcQT8Jnfb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "results = client.search(\n    ...,\n    filter='TEXT_MATCH(text, \"text filtering\")',\n    # highlight-next-line\n    highlighter=highlighter # Pass highlighter config here\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "RhpqdgrMgsgQcSbiPEec71hAnif"
+      },
+      {
+        "block_id": "HW5WdWm2Yoce9gxQTOGchIIKndg",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Highlighting output",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NQLxdzRwjoDEElxn8iycD70OnQh",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "When query term highlighting is enabled for filtering, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">",
+                "text_element_style": {
+                  "background_color": 15,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Milvus",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include><include target=\"zilliz\">",
+                "text_element_style": {
+                  "background_color": 15,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Zilliz Cloud",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 15,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " returns highlighted text in a dedicated ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "highlight",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " field. By default, highlighted output is returned as a fragment starting from the first matched term.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "InKSd4PjSo3q3sxb2fRcXMf7n6c",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In this example, the first matched term is ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\"text\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", so the returned highlighted text starts from that position:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LZyAdHZIysudeYbJPQqcz41QnRv",
+        "block_type": 49,
+        "children": [
+          "KZpZd9Ch4o21uxxJdkjcrrFUnCg"
+        ],
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "source_synced": {
+          "align": 1
+        }
+      },
+      {
+        "block_id": "KZpZd9Ch4o21uxxJdkjcrrFUnCg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "{\n    ...,\n    \"highlight\": {\n        \"text\": [\n            \"{text} {filtering} works in Milvus.\"\n        ]\n    }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 28,
+            "wrap": false
+          }
+        },
+        "parent_id": "LZyAdHZIysudeYbJPQqcz41QnRv"
+      },
+      {
+        "block_id": "ERHQd7e6bolCGPxyL6Ocgzx6nic",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To control the position, length, and number of returned fragments, see ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Return highlighted text as fragments",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FBJCjwpj8JizP0nkI11uci1pPndh%23YnzBd9Eb5oh8Orx4ys3cLHhvnQd"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YnzBd9Eb5oh8Orx4ys3cLHhvnQd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Fragment-based highlighting output",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc"
+      },
+      {
+        "block_id": "OQV3dxBXOoOWMzx8rcfcGrtdn7c",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "By default, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">",
+                "text_element_style": {
+                  "background_color": 15,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Milvus",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include><include target=\"zilliz\">",
+                "text_element_style": {
+                  "background_color": 15,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Zilliz Cloud",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 15,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " returns highlighted text as fragments starting from the first matched term. Fragment-related settings allow you to further control how fragments are returned, without changing which terms are highlighted.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YPChdpOhEoGEiyxRhBScYoBCnih",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Assume the following content is stored in a text field:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LSwldhNAOsnTo3bXSItcHcq1n5O",
+        "block_type": 49,
+        "children": [
+          "B4mjdIT31oKTKexkrEYcldVSnjh"
+        ],
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "source_synced": {
+          "align": 1
+        }
+      },
+      {
+        "block_id": "B4mjdIT31oKTKexkrEYcldVSnjh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Milvus supports full text search. Use BM25 for keyword relevance. Filters can narrow results.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 1,
+            "wrap": false
+          }
+        },
+        "parent_id": "LSwldhNAOsnTo3bXSItcHcq1n5O"
+      },
+      {
+        "block_id": "Eit5dmo2fotpbixRPYOcOVaHnMb",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Highlighter configuration",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WRvtdkGaOohDGZxMhbocgHp5nBc",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To control the shape of highlighted fragments, configure fragment-related options in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "LexicalHighlighter",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ":",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "T77ndXrJ4sH0xjbQZlGci4Ehn1d",
+        "block_type": 49,
+        "children": [
+          "E4ALdZnBio9WYfxAliHcRs90ndM"
+        ],
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "source_synced": {
+          "align": 1
+        }
+      },
+      {
+        "block_id": "E4ALdZnBio9WYfxAliHcRs90ndM",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import LexicalHighlighter\n\nhighlighter = LexicalHighlighter(\n    pre_tags=[\"{\"],\n    post_tags=[\"}\"],\n    highlight_search_text=True,\n    fragment_offset=5,     # Number of characters to reserve before the first matched term\n    fragment_size=60,      # Max. length of each fragment to return\n    num_of_fragments=1     # Max. number of fragments to return\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "T77ndXrJ4sH0xjbQZlGci4Ehn1d"
+      },
+      {
+        "block_id": "Jiwndljddos2QSxh6SucvlUBnqF",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In this configuration:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DgA1dGSnboggjUxlE91cfzdNnld",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "fragment_offset",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " reserves leading context before the first highlighted term.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc"
+      },
+      {
+        "block_id": "GTsNdQkHaoZVv9xl7v2chRS7nbb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "fragment_size",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " limits how much text is included in each fragment.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc"
+      },
+      {
+        "block_id": "M3JSdYOkyoNsbxxkwsLcwafHnOc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "num_of_fragments",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " controls how many fragments are returned.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc"
+      },
+      {
+        "block_id": "MZ2bdFoIQoixhUx95CbcwIJmnKL",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Once the Highlighter object is created, apply the highlighter configuration to your search request:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EEk1d15zTswXmgb17GlcmXUtnkh",
+        "block_type": 49,
+        "children": [
+          "JQ5pdHbNaoMZRexx6YEcIEpBnzd"
+        ],
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "source_synced": {
+          "align": 1
+        }
+      },
+      {
+        "block_id": "JQ5pdHbNaoMZRexx6YEcIEpBnzd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "results = client.search(\n    ...,\n    data=[\"BM25\"],\n    # highlight-next-line\n    highlighter=highlighter # Pass highlighter config here\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "EEk1d15zTswXmgb17GlcmXUtnkh"
+      },
+      {
+        "block_id": "IiZcdxM4yoUxSvxNRqrcr0jKnvh",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Highlighting output",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "N1xMdx2MKoHqYdxh6ZCcOuuQnSc",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "With fragment-based highlighting enabled, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">",
+                "text_element_style": {
+                  "background_color": 15,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Milvus",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include><include target=\"zilliz\">",
+                "text_element_style": {
+                  "background_color": 15,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Zilliz Cloud",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "</include>",
+                "text_element_style": {
+                  "background_color": 15,
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " returns highlighted text as fragments in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "highlight",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " field:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YLlSd3V1RsoEkhbyxzOcqLcWnMf",
+        "block_type": 49,
+        "children": [
+          "ZZHMdTMcioSL9exTpE5cC8A3nSf"
+        ],
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "source_synced": {
+          "align": 1
+        }
+      },
+      {
+        "block_id": "ZZHMdTMcioSL9exTpE5cC8A3nSf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "{\n    ...,\n    \"highlight\": {\n        \"text\": [\n            \"Use {BM25} for keyword relevance. Filters can narrow results.\"\n        ]\n    }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 28,
+            "wrap": false
+          }
+        },
+        "parent_id": "YLlSd3V1RsoEkhbyxzOcqLcWnMf"
+      },
+      {
+        "block_id": "W6msdsNUgodTZVxR4Svc57GJn0g",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In this output:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "CmTndKnMnohpTix5ghmc18F7nEb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The fragment does not start exactly at ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "{BM25}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " because ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "fragment_offset",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is set.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc"
+      },
+      {
+        "block_id": "KzyldMvHvoimJIxUIbNc00bBnrO",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Only one fragment is returned because ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "num_of_fragments",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is 1.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc"
+      },
+      {
+        "block_id": "FKWVdnz2HowWvgxtGuGcccOXntd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The length of the fragment is capped by ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "fragment_size",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc"
+      },
+      {
+        "block_id": "DnBhdxImkoU58txqSG2ckz6Enjc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Examples",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc"
+      },
+      {
+        "block_id": "USh0dfk0CoqfFzx6nOqcBBu6nyh",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Preparation",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc"
+      },
+      {
+        "block_id": "S5gqd2G9goaXAHxBumfckHGLnpd",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Before using the highlighter, ensure your collection is properly configured.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "JkIIdm5NCo9W95xPBLkcxponnDg",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The example below creates a collection that supports BM25 full text search and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "TEXT_MATCH",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " queries, then inserts sample documents.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LOnvd3EkhokJD2xfhZVceh8VnVe",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<details>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Dzefd0lv1oxWt1xSxf6ceVlonBb",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<summary><strong>Prepare your collection</strong></summary>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QZ1HdOEsUs3Ihub34JwczLkmnWg",
+        "block_type": 49,
+        "children": [
+          "ZHkKd3zygok7OqxaHeHcPaXvnIh"
+        ],
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "source_synced": {
+          "align": 1
+        }
+      },
+      {
+        "block_id": "ZHkKd3zygok7OqxaHeHcPaXvnIh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import (\n    MilvusClient,\n    DataType,\n    Function,\n    FunctionType,\n    LexicalHighlighter,\n)\n\nclient = MilvusClient(uri=\"http://localhost:19530\")\nCOLLECTION_NAME = \"highlighter_demo\"\n\n# Clean up existing collection\nif client.has_collection(COLLECTION_NAME):\n    client.drop_collection(COLLECTION_NAME)\n\n# Define schema\nschema = client.create_schema(enable_dynamic_field=False)\nschema.add_field(field_name=\"id\", datatype=DataType.INT64, is_primary=True, auto_id=True)\nschema.add_field(\n    field_name=\"text\",\n    datatype=DataType.VARCHAR,\n    max_length=2000,\n    enable_analyzer=True,  # Required for BM25\n    enable_match=True,     # Required for TEXT_MATCH\n)\nschema.add_field(field_name=\"sparse_vector\", datatype=DataType.SPARSE_FLOAT_VECTOR)\n\n# Add BM25 function\nschema.add_function(Function(\n    name=\"text_bm25\",\n    function_type=FunctionType.BM25,\n    input_field_names=[\"text\"],\n    output_field_names=[\"sparse_vector\"],\n))\n\n# Create index\nindex_params = client.prepare_index_params()\nindex_params.add_index(\n    field_name=\"sparse_vector\",\n    index_type=\"SPARSE_INVERTED_INDEX\",\n    metric_type=\"BM25\",\n    params={\"inverted_index_algo\": \"DAAT_MAXSCORE\", \"bm25_k1\": 1.2, \"bm25_b\": 0.75},\n)\n\nclient.create_collection(collection_name=COLLECTION_NAME, schema=schema, index_params=index_params)\n\n# Insert sample documents\ndocs = [\n    \"my first test doc\",\n    \"my second test doc\",\n    \"my first test doc. Milvus is an open-source vector database built for GenAI applications.\",\n    \"my second test doc. Milvus is an open-source vector database that suits AI applications \"\n    \"of every size from running a demo chatbot to building web-scale search.\",\n]\nclient.insert(collection_name=COLLECTION_NAME, data=[{\"text\": t} for t in docs])\nprint(f\"✓ Collection created with {len(docs)} documents\\n\")\n\n# Helper for search params\nSEARCH_PARAMS = {\"params\": {\"drop_ratio_search\": 0.0}}\n\n# Expected output:\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# ✓ Collection created with 4 documents",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "QZ1HdOEsUs3Ihub34JwczLkmnWg"
+      },
+      {
+        "block_id": "Vm4rdttMToFQYpxMnHAcQYZonzb",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</details>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RhRNdAzNEofMeexnyA6cPvzdnhd",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Example 1: Highlight search terms in BM25 full text search",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc"
+      },
+      {
+        "block_id": "GbHcd8U6eopYekxLfw5cQxLNnab",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This example shows how to highlight search terms in BM25 full text search.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UO81d5KEloSYQ4xpY9lcUIRLnfd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "BM25 full text search uses ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\"test\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " as the search term",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc"
+      },
+      {
+        "block_id": "DaULd6nN6oRma4xvtnVcxBgQnMf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The highlighter wraps all occurrences of \"test\" with ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "{",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " tags",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc"
+      },
+      {
+        "block_id": "FsH8dwsEFsbX4Fb6eKQchWShnyS",
+        "block_type": 49,
+        "children": [
+          "IzMRdctxsoP3vsxKIbpcRUuin0f"
+        ],
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "source_synced": {
+          "align": 1
+        }
+      },
+      {
+        "block_id": "IzMRdctxsoP3vsxKIbpcRUuin0f",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# highlight-start\nhighlighter = LexicalHighlighter(\n    pre_tags=[\"{\"],\n    post_tags=[\"}\"],\n    highlight_search_text=True,  # Highlight BM25 query terms\n)\n# highlight-end\n\nresults = client.search(\n    collection_name=COLLECTION_NAME,\n    data=[\"test\"],\n    anns_field=\"sparse_vector\",\n    limit=10,\n    search_params=SEARCH_PARAMS,\n    output_fields=[\"text\"],\n    # highlight-next-line\n    highlighter=highlighter,\n)\n\nfor hit in results[0]:\n    print(f\"  {hit.get('highlight', {}).get('text', [])}\")\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "print()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "FsH8dwsEFsbX4Fb6eKQchWShnyS"
+      },
+      {
+        "block_id": "FQnBdqFiUoRfeVxzjL6c0j2Knk2",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<details>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "J7VydAJ4To1M97x3bunc8f8ZnIc",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<summary>Expected output</summary>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ERN6dgn3Lsf1pEbJTKBc0m0Gnpg",
+        "block_type": 49,
+        "children": [
+          "O2wMdA8BTopuomxiSiqcV1ornfb"
+        ],
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "source_synced": {
+          "align": 1
+        }
+      },
+      {
+        "block_id": "O2wMdA8BTopuomxiSiqcV1ornfb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "['{test} doc']\n['{test} doc']\n['{test} doc. Milvus is an open-source vector database built for GenAI applications.']\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "['{test} doc. Milvus is an open-source vector database that suits AI applications of every size from run']",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 1,
+            "wrap": false
+          }
+        },
+        "parent_id": "ERN6dgn3Lsf1pEbJTKBc0m0Gnpg"
+      },
+      {
+        "block_id": "N4HTd7Cz2oRz6wx5Dtccz4FinFe",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</details>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UZoXde7xjo5cwMxcpfsc1ISVnAg",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Example 2: Highlight query terms in filtering",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc"
+      },
+      {
+        "block_id": "LQQqdOra8oT753xvam3cE5bNnGc",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This example shows how to highlight terms matched by a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "TEXT_MATCH",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " filter.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Lqg0dw0Cro7cMLx0S6TcHnZXn2g",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "BM25 full text search uses ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\"test\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " as the query term",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc"
+      },
+      {
+        "block_id": "Dr0EdxSKiovVHVxYQo8c46yOnAg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "queries",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " parameter adds ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\"my doc\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to the highlight list",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc"
+      },
+      {
+        "block_id": "JEfGdLCmJoIgNKxeylzc4449npg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The highlighter wraps all matched terms (",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\"my\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\"test\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\"doc\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ") with ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "{",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc"
+      },
+      {
+        "block_id": "TmXDdHmeEs3ibwbMU4zcsh8CnWe",
+        "block_type": 49,
+        "children": [
+          "WVPjdXBpboluhsxBggpcfQgTn2b"
+        ],
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "source_synced": {
+          "align": 1
+        }
+      },
+      {
+        "block_id": "WVPjdXBpboluhsxBggpcfQgTn2b",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# highlight-start\nhighlighter = LexicalHighlighter(\n    pre_tags=[\"{\"],\n    post_tags=[\"}\"],\n    highlight_search_text=True,   # Also highlight BM25 term\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "highlight_query",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7584297732555230161"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "=[                     # Additional TEXT_MATCH terms to highlight\n        {\"type\": \"TextMatch\", \"field\": \"text\", \"text\": \"my doc\"},\n    ],\n)\n# highlight-end\n\nresults = client.search(\n    collection_name=COLLECTION_NAME,\n    data=[\"test\"],\n    anns_field=\"sparse_vector\",\n    limit=10,\n    search_params=SEARCH_PARAMS,\n    output_fields=[\"text\"],\n    # highlight-next-line\n    highlighter=highlighter,\n)\n\nfor hit in results[0]:\n    print(f\"  {hit.get('highlight', {}).get('text', [])}\")\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "print()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "comment_ids": [
+          "7584297732555230161"
+        ],
+        "parent_id": "TmXDdHmeEs3ibwbMU4zcsh8CnWe"
+      },
+      {
+        "block_id": "Gka2dzl2bo9IINxFCQ1cktdunXd",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<details>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Dd3Jdu3AGoZ0XVx3ofjcRUFqnRh",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<summary>Expected output</summary>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "G9LQdJ8wXsBCLZbwwgWcYIE0nOb",
+        "block_type": 49,
+        "children": [
+          "QxyCdmDEdoWj9CxUtiHcTJHKnTd"
+        ],
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "source_synced": {
+          "align": 1
+        }
+      },
+      {
+        "block_id": "QxyCdmDEdoWj9CxUtiHcTJHKnTd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "['{my} first {test} {doc}']\n['{my} second {test} {doc}']\n['{my} first {test} {doc}. Milvus is an open-source vector database built for GenAI applications.']\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "['{my} second {test} {doc}. Milvus is an open-source vector database that suits AI applications of every siz']",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 1,
+            "wrap": false
+          }
+        },
+        "parent_id": "G9LQdJ8wXsBCLZbwwgWcYIE0nOb"
+      },
+      {
+        "block_id": "NUpLdM4GhogkikxshcLcAf8enkg",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</details>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "GLJKd3CP3oJFeJxgLS0cBtM2nFd",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Example 3: Return highlights as fragments",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc"
+      },
+      {
+        "block_id": "YFWtdJgSgoaFd9x045ocReFfn0g",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In this example, the query searches for ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\"Milvus\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and returns highlight fragments in the following settings:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DJVydu2msoSfeZxsSygcugswnUd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "fragment_offset",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " keeps up to 20 characters before the first highlighted span as leading context (default is 0).",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc"
+      },
+      {
+        "block_id": "TzhgdhaNSoxY7ox7YPfcXZ4NnBe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "fragment_size",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " limits each fragment to approximately 60 characters (default is 100).",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc"
+      },
+      {
+        "block_id": "FrN0d2KGWoK7EtxXWvGcyT5Ingg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "num_of_fragments",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " limits the number of returned fragments per text value (default is 5).",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc"
+      },
+      {
+        "block_id": "WTkUdYIGWsqiK0bgnIvcc5Omnef",
+        "block_type": 49,
+        "children": [
+          "XWBjdopESozd1bxZ1lEcxvwPn3b"
+        ],
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "source_synced": {
+          "align": 1
+        }
+      },
+      {
+        "block_id": "XWBjdopESozd1bxZ1lEcxvwPn3b",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# highlight-start\nhighlighter = LexicalHighlighter(\n    pre_tags=[\"{\"],\n    post_tags=[\"}\"],\n    highlight_search_text=True,\n    fragment_offset=20,  # Keep 20 chars before match\n    fragment_size=60,    # Max ~60 chars per fragment\n)\n# highlight-end\n\nresults = client.search(\n    collection_name=COLLECTION_NAME,\n    data=[\"Milvus\"],\n    anns_field=\"sparse_vector\",\n    limit=10,\n    search_params=SEARCH_PARAMS,\n    output_fields=[\"text\"],\n    # highlight-next-line\n    highlighter=highlighter,\n)\n\nfor i, hit in enumerate(results[0]):\n    frags = hit.get('highlight', {}).get('text', [])\n    print(f\"  Doc {i+1}: {frags}\")\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "print()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "WTkUdYIGWsqiK0bgnIvcc5Omnef"
+      },
+      {
+        "block_id": "LQOJdth5yoQlbsxCi9Xc826InVg",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<details>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RruhdgcktomzpzxkKyFcsJalnHe",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<summary>Expected output</summary>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "F42AdLmytsFpgQbjEmCcf0jSnxh",
+        "block_type": 49,
+        "children": [
+          "F7v7dSawHo7qHyxmb9zcsKwkngb"
+        ],
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "source_synced": {
+          "align": 1
+        }
+      },
+      {
+        "block_id": "F7v7dSawHo7qHyxmb9zcsKwkngb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Doc 1: ['my first test doc. {Milvus} is an open-source vector database ']\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Doc 2: ['my second test doc. {Milvus} is an open-source vector database']",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 1,
+            "wrap": false
+          }
+        },
+        "parent_id": "F42AdLmytsFpgQbjEmCcf0jSnxh"
+      },
+      {
+        "block_id": "DB8pdGCbToCbMwxq24fchDC2nCe",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</details>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FJILdwJdvo2WHTxJuQDcbmf0nBo",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Example 4: Multi-query highlighting",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc"
+      },
+      {
+        "block_id": "Ilzod28cQogLJyxVglCcFpcGn8c",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "When searching with multiple queries in BM25 full text search, each query's results are highlighted independently. The first query's results contain highlights for its search term, and the second query's results contain highlights for its search term, and so on. Each query uses the same ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "highlighter",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " configuration but applies it independently.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Vu4ydan26oNETpxlOKdcZIX0n0l",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In the example below:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QkSBddpbLoraeWxxL5EcNb4Vn4e",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "First query highlights ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\"test\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in its result set",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc"
+      },
+      {
+        "block_id": "Dlm3dIqF2oKoZRxqOE0cvOupnRb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Second query highlights ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\"Milvus\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in its result set",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc"
+      },
+      {
+        "block_id": "H3lydhCaws2z8Cboh7hcO7nqnee",
+        "block_type": 49,
+        "children": [
+          "GwjLdy8usojKeExM94gcTw3Yngf"
+        ],
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "source_synced": {
+          "align": 1
+        }
+      },
+      {
+        "block_id": "GwjLdy8usojKeExM94gcTw3Yngf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# highlight-start\nhighlighter = LexicalHighlighter(\n    pre_tags=[\"{\"],\n    post_tags=[\"}\"],\n    highlight_search_text=True,\n)\n# highlight-end\n\nresults = client.search(\n    collection_name=COLLECTION_NAME,\n    data=[\"test\", \"Milvus\"],  # Two queries\n    anns_field=\"sparse_vector\",\n    limit=2,\n    search_params=SEARCH_PARAMS,\n    output_fields=[\"text\"],\n    # highlight-next-line\n    highlighter=highlighter,\n)\n\nfor nq_idx, hits in enumerate(results):\n    query_term = [\"test\", \"Milvus\"][nq_idx]\n    print(f\"  Query '{query_term}':\")\n    for hit in hits:\n        print(f\"    {hit.get('highlight', {}).get('text', [])}\")\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "print()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "H3lydhCaws2z8Cboh7hcO7nqnee"
+      },
+      {
+        "block_id": "QlL4d2mnGoBzC5xSNDscdA6An5g",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<details>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "La2MdgepFoC0sdx1FV4crC83nXb",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<summary>Expected output</summary>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "En46d5DLMsne2Db0v4ccnm5xnNd",
+        "block_type": 49,
+        "children": [
+          "WHuLdcY3Jon3PbxPjwscfm28nKg"
+        ],
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "source_synced": {
+          "align": 1
+        }
+      },
+      {
+        "block_id": "WHuLdcY3Jon3PbxPjwscfm28nKg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Query 'test':\n  ['{test} doc']\n  ['{test} doc']\nQuery 'Milvus':\n  ['{Milvus} is an open-source vector database built for GenAI applications.']\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "  ['{Milvus} is an open-source vector database that suits AI applications of every size from running a dem']",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 1,
+            "wrap": false
+          }
+        },
+        "parent_id": "En46d5DLMsne2Db0v4ccnm5xnNd"
+      },
+      {
+        "block_id": "Qnjidi8eFohW9pxIig8cZ9UUnIh",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</details>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BwHBdPcWRogcFDx5pfGc64lJnrN",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Example 5: Custom HTML tags",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc"
+      },
+      {
+        "block_id": "ST4HdVN9doQ2UyxzLgccNF5Angg",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can use any tags for highlighting, such as HTML-safe tags for web UIs. This is useful when rendering search results in a browser.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TyvVd9BL2seepRbb1sdcmTmbnUf",
+        "block_type": 49,
+        "children": [
+          "D8lCd1LxKowLiYxzh8hcrKubnGl"
+        ],
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "source_synced": {
+          "align": 1
+        }
+      },
+      {
+        "block_id": "D8lCd1LxKowLiYxzh8hcrKubnGl",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# highlight-start\nhighlighter = LexicalHighlighter(\n    pre_tags=[\"<mark>\"],\n    post_tags=[\"</mark>\"],\n    highlight_search_text=True,\n)\n# highlight-end\n\nresults = client.search(\n    collection_name=COLLECTION_NAME,\n    data=[\"test\"],\n    anns_field=\"sparse_vector\",\n    limit=2,\n    search_params=SEARCH_PARAMS,\n    output_fields=[\"text\"],\n    # highlight-next-line\n    highlighter=highlighter,\n)\n\nfor hit in results[0]:\n    print(f\"  {hit.get('highlight', {}).get('text', [])}\")\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "print()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "TyvVd9BL2seepRbb1sdcmTmbnUf"
+      },
+      {
+        "block_id": "SCCodS0U3owo0ExiEpFcutWonBb",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<details>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZJTNddiYroCghoxdg1Cc5mREnNh",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<summary>Expected output</summary>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "G7EIdljNPs4wdpbSWYbcMsNPnAh",
+        "block_type": 49,
+        "children": [
+          "JN0Sduv6KoWQLvxxd8IcRdFkntb"
+        ],
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "source_synced": {
+          "align": 1
+        }
+      },
+      {
+        "block_id": "JN0Sduv6KoWQLvxxd8IcRdFkntb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "['<mark>test</mark> doc']\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "['<mark>test</mark> doc']",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 1,
+            "wrap": false
+          }
+        },
+        "parent_id": "G7EIdljNPs4wdpbSWYbcMsNPnAh"
+      },
+      {
+        "block_id": "TS3Ndhc8foAwAUxzjzlc3xYGnkd",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</details>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XCq9dcYrrokuClxGLuncBsZUnWb",
+        "block_type": 2,
+        "parent_id": "HAr1d9yVroaasfx3TElctcEHnUc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 148
+  },
+  "name": "Lexical Highlighter",
+  "base_record_id": "recvlPqIyOuZZ4",
+  "base_table_id": "tblWv7PjNDsexddH",
+  "base_table_name": "Development",
+  "base_record_index": 25,
+  "base_placement_type": "canonical",
+  "base_targets": [
+    "Zilliz.SaaS",
+    "Zilliz.PaaS"
+  ],
+  "base_status": "Draft",
+  "base_labels": "Lexical Highlighter",
+  "base_beta": "FALSE",
+  "base_ref_target_doc": null
+}

@@ -2,7 +2,7 @@
 
 ## 状态
 
-- 状态：Phase 1（plan-only）与 Phase 2（artifact-only）已实现：`fetch-guides-requested.yml` 顶层编排（`execution_mode=plan|artifact`，artifact 当前要求 `site=both` 以保证两个 site-qualified publication unit 都产生终态 evidence）、`_plan-guides-requested.yml`、`_fetch-guides-requested-sources.yml`（fail-closed，无 full bootstrap 回退）、`_assemble-guides.yml` requested 分支（validate-requested、checkpoint scope 校验、跳过 snapshot 提升与 v5 cache 保存）、publication coordinator artifact-only 终态 evidence，以及工具核心（`guides-requested-selection.js`、`requestedGuidesFetchPlanner.js`、`--requestedPlan` CLI 通道、`guides-requested-state-merge.js`、`guides-requested-scope.js`）。Phase 3（publish）与 Phase 4（Translation handoff）尚未实现；`publish=true`、`run_translations=true` 在顶层工作流被拒绝。Phase 3 开放前必须完成规格要求的真实 retained-artifact replay。
+- 状态：Phase 1（plan-only）、Phase 2（artifact-only）与 Phase 3（publish）已实现。`publish=true` 要求 `execution_mode=artifact`、`media_upload_mode=write`、`site=both`，publication coordinator 以 FIFO 发布 en/zh-CN units 并由 `verify_publication` job 验证 results、final SHA ancestry 与仓库一致性。Phase 3 的前置真实 retained-artifact replay 已完成并固化为 `pnpm test:replay:requested`（fixture 模式进 PR/定时 CI；真实模式证据见 `.claude/replay/requested-guides-2026-09-09/replay-report.json`，基于 run 34303159304 的 6 个 retained artifacts 与 703 个 checkpoint 文件，覆盖稳定表、outline 变化、跨表移动、closure 外冲突四场景及 ordinary 增量可发现性隔离回归）。Phase 4（Translation handoff）尚未实现；`run_translations=true` 仍在顶层工作流被拒绝。
 - 目标分支：`master`，通过正常 master PR 和 master-to-dev tooling sync 进入生产。
 - 生产状态所有者：`dev`；本设计不允许在 master PR 中提交 Guides 发布状态。
 - 适用站点：`en`、`zh-CN`。

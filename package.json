@@ -28,7 +28,7 @@
     "test:architecture": "node --test scripts/migration/check-profile-env.test.mjs && node scripts/migration/check-profile-env.mjs",
     "test:retirement": "node --test scripts/architecture/verify-retired-layout.test.mjs && node scripts/architecture/verify-retired-layout.mjs",
     "test:rest-publication-contract": "node scripts/verify-rest-fragment-migration.mjs && node scripts/verify-rest-lifecycle-evidence.mjs && node scripts/verify-integrated-rest-publication.mjs",
-    "test:replay": "pnpm run test:replay:contract && pnpm run test:workflow-matrix && pnpm run test:replay:fetch && pnpm run test:replay:recovery",
+    "test:replay": "pnpm run test:replay:contract && pnpm run test:workflow-matrix && pnpm run test:replay:fetch && pnpm run test:replay:recovery && pnpm run test:replay:requested",
     "test:replay:contract": "node --test scripts/docs-workflow/replay-harness-contract.test.js",
     "test:replay:fetch": "node --test scripts/docs-workflow/replay-fetch-publication-fifo.test.js",
     "test:replay:recovery": "node --test scripts/docs-workflow/replay-recovery-plan.test.js",
@@ -49,7 +49,8 @@
     "test:chat-agent-config": "node --test scripts/chat-agent-nginx.test.js",
     "doc-publish-bot": "node scripts/doc-publish-bot/index.js",
     "test:doc-publish-bot": "node --test scripts/doc-publish-bot/*.test.js",
-    "test:all": "pnpm test:frontend"
+    "test:all": "pnpm test:frontend",
+    "test:replay:requested": "node --test scripts/docs-workflow/replay-requested-guides.test.js"
   },
   "dependencies": {
     "@actions/artifact": "6.2.1",

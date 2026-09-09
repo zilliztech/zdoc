@@ -78,6 +78,7 @@ Do not infer ownership merely from the top-level directory: `content/**` is norm
 | Broken-link and canonical-link report writers (`packages/docs-tooling/src/links/**`) | `pnpm vitest run packages/docs-tooling/src/links` | — | `pnpm test:workflow-policy` |
 | GitHub Actions workflow YAML | The closest workflow-specific test and deploy contract; add a negative structural assertion | The matching Fetch, recovery, or Translation harness when behavior changes | `pnpm test:workflow-policy` and scoped `actionlint` |
 | Replay scripts, test matrix, package entrypoints, replay CI, publication-workflow design specifications, README, or AGENTS | Replay harness contract and matrix selector tests | `pnpm test:replay:all` | workflow policy |
+| Requested Guides retained-artifact replay (`scripts/docs-workflow/replay-requested-guides*`, `scripts/docs-workflow/fixtures/requested-guides/**`) | `pnpm test:replay:requested`; before enabling requested publish, run the real retained-artifact replay documented in README and preserve `replay-report.json` | `pnpm test:replay:all` | workflow policy |
 | Translation agent, chunking, review, or recovery-artifact runtime under `scripts/translation` | The closest Translation unit test plus `pnpm test:translation` | Add a publication replay only when artifact or workflow behavior changes | Change-proportional workflow gates |
 
 ## Coverage levels

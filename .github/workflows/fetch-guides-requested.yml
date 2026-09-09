@@ -18,7 +18,7 @@ on:
         options: [plan, artifact]
         default: plan
       publish:
-        description: "Publish the requested reconstruction; publishing is not enabled yet"
+        description: "Publish the requested reconstruction to dev (requires execution_mode=artifact, media_upload_mode=write, site=both)"
         type: boolean
         default: false
       run_translations:
@@ -65,6 +65,7 @@ jobs:
       initial_target_sha: ${{ steps.refs.outputs.initial_target_sha }}
       target_branch: ${{ steps.refs.outputs.target_branch }}
       execution_mode: ${{ steps.refs.outputs.execution_mode }}
+      publish: ${{ steps.refs.outputs.publish }}
       retention_days: ${{ steps.refs.outputs.retention_days }}
       publication_selection_artifact_name: ${{ steps.publication_selection.outputs.artifact_name }}
       publication_selection_sha256: ${{ steps.publication_selection.outputs.selection_sha256 }}
@@ -93,8 +94,10 @@ jobs:
           case "$EXECUTION_MODE" in plan|artifact) ;; *) echo "unsupported execution_mode: $EXECUTION_MODE" >&2; exit 2 ;; esac
           case "$MEDIA_UPLOAD_MODE" in write|skip) ;; *) echo "unsupported media_upload_mode: $MEDIA_UPLOAD_MODE" >&2; exit 2 ;; esac
           if [[ "$PUBLISH" == true ]]; then
-            echo 'publish=true requires execution_mode=artifact and media_upload_mode=write, and publishing is not enabled in Phase 3 yet' >&2
-            exit 2
+            if [[ "$EXECUTION_MODE" != artifact || "$MEDIA_UPLOAD_MODE" != write || "$SITE" != both ]]; then
+              echo 'publish=true requires execution_mode=artifact, media_upload_mode=write, and site=both' >&2
+              exit 2
+            fi
           fi
           if [[ "$RUN_TRANSLATIONS" == true ]]; then
             echo 'run_translations=true is not enabled before Phase 4' >&2
@@ -138,8 +141,8 @@ jobs:
           git fetch --no-tags origin "+refs/heads/$TARGET_BRANCH:refs/remotes/origin/$TARGET_BRANCH"
           initial_target_sha=$(git rev-parse "refs/remotes/origin/$TARGET_BRANCH^{commit}")
           [[ "$tooling_sha" =~ ^[0-9a-f]{40}$ && "$source_sha" =~ ^[0-9a-f]{40}$ && "$initial_target_sha" =~ ^[0-9a-f]{40}$ ]]
-          printf 'tooling_sha=%s\ndev_baseline_sha=%s\ninitial_target_sha=%s\ntarget_branch=%s\nexecution_mode=%s\nretention_days=%s\n' \
-            "$tooling_sha" "$source_sha" "$initial_target_sha" "$TARGET_BRANCH" "$EXECUTION_MODE" "$RETENTION_DAYS" >> "$GITHUB_OUTPUT"
+          printf 'tooling_sha=%s\ndev_baseline_sha=%s\ninitial_target_sha=%s\ntarget_branch=%s\nexecution_mode=%s\npublish=%s\nretention_days=%s\n' \
+            "$tooling_sha" "$source_sha" "$initial_target_sha" "$TARGET_BRANCH" "$EXECUTION_MODE" "$PUBLISH" "$RETENTION_DAYS" >> "$GITHUB_OUTPUT"
       - id: publication_selection
         name: Create immutable Fetch publication selection
         if: ${{ steps.refs.outputs.execution_mode == 'artifact' }}
@@ -149,7 +152,7 @@ jobs:
           INITIAL_TARGET_SHA: ${{ steps.refs.outputs.initial_target_sha }}
           SOURCE_BASELINE_SHA: ${{ steps.refs.outputs.dev_baseline_sha }}
           SELECTED_GROUP: guides
-          PUBLISH: 'false'
+          PUBLISH: ${{ steps.refs.outputs.publish }}
           RUN_TRANSLATIONS: 'false'
         run: |
           set -euo pipefail
@@ -312,10 +315,10 @@ jobs:
     needs: [prepare, assemble_guides_en, assemble_guides_zh]
     if: ${{ always() && needs.prepare.outputs.execution_mode == 'artifact' && needs.assemble_guides_en.outputs.status == 'artifact_ready' && needs.assemble_guides_zh.outputs.status == 'artifact_ready' }}
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 360
     permissions:
       actions: read
-      contents: read
+      contents: write
     outputs:
       results_artifact_name: ${{ steps.publish.outputs.results_artifact_name }}
       overall_status: ${{ steps.publish.outputs.overall_status }}
@@ -343,22 +346,67 @@ jobs:
           actual=$(node -e 'const fs=require("node:fs");process.stdout.write(JSON.parse(fs.readFileSync(process.argv[1],"utf8")).selectionSha256)' "$selection")
           [[ "$actual" == "$EXPECTED_SELECTION_SHA256" ]]
       - id: publish
-        name: Record artifact-only terminal publication evidence
+        name: Publish or record terminal requested publication evidence
         uses: actions/github-script@v8
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          PUBLISH: ${{ needs.prepare.outputs.publish }}
         with:
           script: |
+            const mode = process.env.PUBLISH === 'true' ? 'publish' : 'artifact_only'
             await exec.exec('node', [
               'scripts/docs-workflow/publication-coordinator.js',
               '--selection', `${process.env.RUNNER_TEMP}/publication-selection/publication-selection.json`,
-              '--mode', 'artifact_only',
+              '--mode', mode,
               '--poll-milliseconds', '10000',
               '--candidate-polls', '6',
               '--max-publish-attempts', '10',
             ])
+  verify_publication:
+    needs: [prepare, publish_ready]
+    if: ${{ always() && needs.prepare.outputs.execution_mode == 'artifact' && needs.prepare.outputs.publish == 'true' && needs.publish_ready.outputs.results_artifact_name != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      actions: read
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.prepare.outputs.tooling_sha }}
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
+        with: { node-version: '22', cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - name: Download requested publication selection
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
+          path: ${{ runner.temp }}/publication-selection
+      - name: Download requested publication results
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ needs.publish_ready.outputs.results_artifact_name }}
+          path: ${{ runner.temp }}/publication-results
+      - name: Verify requested publication results and final ancestry
+        run: |
+          set -euo pipefail
+          selection="$RUNNER_TEMP/publication-selection/publication-selection.json"
+          results="$RUNNER_TEMP/publication-results/publication-results.json"
+          [[ -f "$results" ]] || { echo 'Publication results artifact is missing' >&2; exit 1; }
+          node scripts/docs-workflow/fetch-publication-results.js verify-documents --selection "$selection" --results "$results"
+          final_target_sha=$(node -e 'const fs=require("node:fs");process.stdout.write(JSON.parse(fs.readFileSync(process.argv[1],"utf8")).finalTargetSha)' "$results")
+          git fetch --no-tags origin "$final_target_sha"
+          git merge-base --is-ancestor "${{ needs.prepare.outputs.dev_baseline_sha }}" "$final_target_sha" || {
+            echo 'Published final target does not descend from the requested planning baseline' >&2
+            exit 1
+          }
+          git checkout --detach "$final_target_sha"
+          node scripts/docs-workflow/fetch-publication-results.js verify-repository             --selection "$selection" --results "$results"             --repository "$GITHUB_WORKSPACE"
+          echo "final_target_sha=$final_target_sha" >> "$GITHUB_OUTPUT"
   summarize:
-    needs: [prepare, plan_guides_en, plan_guides_zh, requested_artifact_gate, produce_guides_sources_en, produce_guides_sources_zh, assemble_guides_en, assemble_guides_zh, publish_ready]
+    needs: [prepare, plan_guides_en, plan_guides_zh, requested_artifact_gate, produce_guides_sources_en, produce_guides_sources_zh, assemble_guides_en, assemble_guides_zh, publish_ready, verify_publication]
     if: ${{ !cancelled() && needs.prepare.result == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -376,5 +424,6 @@ jobs:
             echo "- en checkpoint: ${{ needs.assemble_guides_en.outputs.status || 'skipped' }}"
             echo "- zh-CN checkpoint: ${{ needs.assemble_guides_zh.outputs.status || 'skipped' }}"
             echo "- publication evidence: ${{ needs.publish_ready.outputs.overall_status || 'skipped' }}"
+            echo "- publish verification: ${{ needs.verify_publication.result || 'skipped' }}"
           } >> "$GITHUB_STEP_SUMMARY"
           cat "$GITHUB_STEP_SUMMARY"

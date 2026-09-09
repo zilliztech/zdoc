@@ -1,0 +1,1187 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": false,
+  "node_create_time": "1781243072",
+  "node_creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "node_token": "BTrNwoEfYii1e9kf0BScWDpcnA2",
+  "node_type": "origin",
+  "obj_create_time": "1781243072",
+  "obj_edit_time": "1783301996",
+  "obj_token": "EZNKd6sP5oyCc8xOpmgcIy3Pnfd",
+  "obj_type": "docx",
+  "origin_node_token": "BTrNwoEfYii1e9kf0BScWDpcnA2",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "base:tblWv7PjNDsexddH",
+  "space_id": "7167193056431783939",
+  "title": "Connect for On-Demand Search",
+  "slug": "connect-for-on-demand-search",
+  "revision_id": "65",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "EZNKd6sP5oyCc8xOpmgcIy3Pnfd",
+        "block_type": 1,
+        "children": [
+          "doxcnDYljvu7W4vHFTNiBZsTBEl",
+          "doxcne9rgSJYgUXrIrEmgYN6FBf",
+          "doxcnyLSK25Tb8CjU10XaUky26g",
+          "doxcnjxFPnwcNkBiM5qmSAxKKGg",
+          "doxcn0kfLjntg5BfNF0ZTsQAUcf",
+          "doxcnk5f3Vu2qqDtgb9ctazGejh",
+          "doxcnHD3Q47wDVfCF4puqT49GZe",
+          "doxcntSb5dYhnkabuu0z0qVCGl5",
+          "KNI6ds5P5oLUwfx3lX1caXCTnLh",
+          "doxcn52Od3itAOCAZ8jQhufvZRe",
+          "doxcnTNlqrVvOQfzrZICfGXuFHb",
+          "doxcn4skwMJzEX2w9X1OCARBvid",
+          "doxcnGwuflwzvXITqkKBZ48JBwb",
+          "doxcnGQEy6X6ct6MxWQwOm0nbcg",
+          "doxcnsiutSUbGRum1R6FxYDNC5g",
+          "doxcnSfr6OD3ZSaflXrijDC83Ad",
+          "doxcnYUhZ9u6ui8AKIG8t9DqSoh",
+          "doxcnYlpD8YFIz3BZTld96ziy7g",
+          "doxcnZsAswGmuxqvXQFfzoHvwCg",
+          "doxcnNyq0w9crTSI58dehHF4Dkc",
+          "doxcndeVzEu4H4lS3aJhwHSETVh",
+          "doxcnclvu6nA9IXTDtOoQi0xOnf",
+          "doxcnKKjXELDnNuMmGq4EsROGup"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Connect for On-Demand Search",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "doxcnDYljvu7W4vHFTNiBZsTBEl",
+        "block_type": 2,
+        "parent_id": "EZNKd6sP5oyCc8xOpmgcIy3Pnfd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Use a project endpoint when you want to run on-demand search or query workloads with compute from an on-demand cluster.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcne9rgSJYgUXrIrEmgYN6FBf",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "doxcnKKZHO7TYqOXQWBnJjEGgkq"
+        ],
+        "parent_id": "EZNKd6sP5oyCc8xOpmgcIy3Pnfd"
+      },
+      {
+        "block_id": "doxcnKKZHO7TYqOXQWBnJjEGgkq",
+        "block_type": 2,
+        "parent_id": "doxcne9rgSJYgUXrIrEmgYN6FBf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Note\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "This page is for connecting to a project endpoint for on-demand search. If you want to connect to a Free, Serverless, or Dedicated serving cluster, see ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Connect to Serving Clusters",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https://zilliverse.feishu.cn/wiki/ZWwJwKjeDi7SJGkzUQ0c7XfBnqh"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnyLSK25Tb8CjU10XaUky26g",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Endpoint format",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EZNKd6sP5oyCc8xOpmgcIy3Pnfd"
+      },
+      {
+        "block_id": "doxcnjxFPnwcNkBiM5qmSAxKKGg",
+        "block_type": 31,
+        "children": [
+          "doxcnzMUdwb11IlmNkMJSxesEZn",
+          "doxcn042bJLwoBy3EWrWY6mmyMe",
+          "doxcn0sQEF0SYyVM6mv4KQ1ittf",
+          "doxcn3YsBAz73hKMaw1yZD0m7bh",
+          "doxcnY6dleJ7BOXJEnKKVywAM3f",
+          "doxcn4WNHMGxkACibYiH9g5T9Db"
+        ],
+        "parent_id": "EZNKd6sP5oyCc8xOpmgcIy3Pnfd",
+        "table": {
+          "cells": [
+            "doxcnzMUdwb11IlmNkMJSxesEZn",
+            "doxcn042bJLwoBy3EWrWY6mmyMe",
+            "doxcn0sQEF0SYyVM6mv4KQ1ittf",
+            "doxcn3YsBAz73hKMaw1yZD0m7bh",
+            "doxcnY6dleJ7BOXJEnKKVywAM3f",
+            "doxcn4WNHMGxkACibYiH9g5T9Db"
+          ],
+          "property": {
+            "column_size": 3,
+            "column_width": [
+              173,
+              327,
+              238
+            ],
+            "header_row": true,
+            "merge_info": [
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              }
+            ],
+            "row_size": 2
+          }
+        }
+      },
+      {
+        "block_id": "doxcnzMUdwb11IlmNkMJSxesEZn",
+        "block_type": 32,
+        "children": [
+          "doxcnjd3j8R4oKdWV1l7wcVWqCc"
+        ],
+        "parent_id": "doxcnjxFPnwcNkBiM5qmSAxKKGg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnjd3j8R4oKdWV1l7wcVWqCc",
+        "block_type": 2,
+        "parent_id": "doxcnzMUdwb11IlmNkMJSxesEZn",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Endpoint type",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn042bJLwoBy3EWrWY6mmyMe",
+        "block_type": 32,
+        "children": [
+          "doxcngNigas5m8SglUDznRM5fBc"
+        ],
+        "parent_id": "doxcnjxFPnwcNkBiM5qmSAxKKGg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcngNigas5m8SglUDznRM5fBc",
+        "block_type": 2,
+        "parent_id": "doxcn042bJLwoBy3EWrWY6mmyMe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Endpoint pattern",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn0sQEF0SYyVM6mv4KQ1ittf",
+        "block_type": 32,
+        "children": [
+          "doxcnOmX2Pty2MfUyeAQBNomN0g"
+        ],
+        "parent_id": "doxcnjxFPnwcNkBiM5qmSAxKKGg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnOmX2Pty2MfUyeAQBNomN0g",
+        "block_type": 2,
+        "parent_id": "doxcn0sQEF0SYyVM6mv4KQ1ittf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Use for",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn3YsBAz73hKMaw1yZD0m7bh",
+        "block_type": 32,
+        "children": [
+          "doxcnBCkz1kmrPWAUcZN8eg6rzh"
+        ],
+        "parent_id": "doxcnjxFPnwcNkBiM5qmSAxKKGg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnBCkz1kmrPWAUcZN8eg6rzh",
+        "block_type": 2,
+        "parent_id": "doxcn3YsBAz73hKMaw1yZD0m7bh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Project endpoint",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnY6dleJ7BOXJEnKKVywAM3f",
+        "block_type": 32,
+        "children": [
+          "doxcnKH5PC3BO41tp2yJkRsYcmh"
+        ],
+        "parent_id": "doxcnjxFPnwcNkBiM5qmSAxKKGg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnKH5PC3BO41tp2yJkRsYcmh",
+        "block_type": 2,
+        "parent_id": "doxcnY6dleJ7BOXJEnKKVywAM3f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "https://{project-id}.{region}.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "api.zillizcloud.com",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn4WNHMGxkACibYiH9g5T9Db",
+        "block_type": 32,
+        "children": [
+          "doxcnPSnp9jaobEzGmIbQJWDJEc"
+        ],
+        "parent_id": "doxcnjxFPnwcNkBiM5qmSAxKKGg",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnPSnp9jaobEzGmIbQJWDJEc",
+        "block_type": 2,
+        "parent_id": "doxcn4WNHMGxkACibYiH9g5T9Db",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Data import, batch search, query, get, search, and hybrid search through an on-demand cluster.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn0kfLjntg5BfNF0ZTsQAUcf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Before you begin",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EZNKd6sP5oyCc8xOpmgcIy3Pnfd"
+      },
+      {
+        "block_id": "doxcnk5f3Vu2qqDtgb9ctazGejh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Get the project endpoint from the Zilliz Cloud console.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EZNKd6sP5oyCc8xOpmgcIy3Pnfd"
+      },
+      {
+        "block_id": "doxcnHD3Q47wDVfCF4puqT49GZe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Get the on-demand cluster ID that should provide compute resources for the search workload.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EZNKd6sP5oyCc8xOpmgcIy3Pnfd"
+      },
+      {
+        "block_id": "doxcntSb5dYhnkabuu0z0qVCGl5",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Create an API key with sufficient permissions for the project and target data.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EZNKd6sP5oyCc8xOpmgcIy3Pnfd"
+      },
+      {
+        "block_id": "KNI6ds5P5oLUwfx3lX1caXCTnLh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Install a Milvus SDK for your use case. For details, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Install SDKs",
+                "token": "J274wT61xiEM4fkYeL8cMb4Pnbd",
+                "url": "https://zilliverse.feishu.cn/wiki/J274wT61xiEM4fkYeL8cMb4Pnbd"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EZNKd6sP5oyCc8xOpmgcIy3Pnfd"
+      },
+      {
+        "block_id": "doxcn52Od3itAOCAZ8jQhufvZRe",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Connect to a Project Endpoint",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EZNKd6sP5oyCc8xOpmgcIy3Pnfd"
+      },
+      {
+        "block_id": "doxcnTNlqrVvOQfzrZICfGXuFHb",
+        "block_type": 2,
+        "parent_id": "EZNKd6sP5oyCc8xOpmgcIy3Pnfd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Create a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "MilvusClient",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " with the project endpoint and specify the on-demand cluster that should serve the request.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn4skwMJzEX2w9X1OCARBvid",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import MilvusClient\n\nclient = MilvusClient(\n    uri=\"https://{project-id}.{region}.api.zillizcloud.com\",\n    cluster=\"inxx-xxxxxxxxxxxxxxx\",\n    token=\"YOUR_API_KEY\",\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "EZNKd6sP5oyCc8xOpmgcIy3Pnfd"
+      },
+      {
+        "block_id": "doxcnGwuflwzvXITqkKBZ48JBwb",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Create a Search Session",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EZNKd6sP5oyCc8xOpmgcIy3Pnfd"
+      },
+      {
+        "block_id": "doxcnGQEy6X6ct6MxWQwOm0nbcg",
+        "block_type": 2,
+        "parent_id": "EZNKd6sP5oyCc8xOpmgcIy3Pnfd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Use a session object to attach your operations to the on-demand cluster.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnsiutSUbGRum1R6FxYDNC5g",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "session = client.session(cluster_id=\"inxx-xxxxxxxxxxxxxxx\")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "EZNKd6sP5oyCc8xOpmgcIy3Pnfd"
+      },
+      {
+        "block_id": "doxcnSfr6OD3ZSaflXrijDC83Ad",
+        "block_type": 2,
+        "parent_id": "EZNKd6sP5oyCc8xOpmgcIy3Pnfd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Then use the session to run DQL operations such as ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "query",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "get",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "search",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "hybrid_search",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnYUhZ9u6ui8AKIG8t9DqSoh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "results = session.search(\n    collection_name=\"my_collection\",\n    data=[[0.1, 0.2, 0.3, 0.4]],\n    anns_field=\"vector\",\n    limit=10,\n)\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "print(results)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "EZNKd6sP5oyCc8xOpmgcIy3Pnfd"
+      },
+      {
+        "block_id": "doxcnYlpD8YFIz3BZTld96ziy7g",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Authentication",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EZNKd6sP5oyCc8xOpmgcIy3Pnfd"
+      },
+      {
+        "block_id": "doxcnZsAswGmuxqvXQFfzoHvwCg",
+        "block_type": 2,
+        "parent_id": "EZNKd6sP5oyCc8xOpmgcIy3Pnfd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "When connecting to a project endpoint, use a valid API key as the authentication token.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnNyq0w9crTSI58dehHF4Dkc",
+        "block_type": 2,
+        "parent_id": "EZNKd6sP5oyCc8xOpmgcIy3Pnfd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Cluster credentials in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "username:password",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " format are for serving cluster endpoints. For on-demand search through a project endpoint, use an API key with the required project permissions.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcndeVzEu4H4lS3aJhwHSETVh",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "When to Use This Connection",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "EZNKd6sP5oyCc8xOpmgcIy3Pnfd"
+      },
+      {
+        "block_id": "doxcnclvu6nA9IXTDtOoQi0xOnf",
+        "block_type": 2,
+        "parent_id": "EZNKd6sP5oyCc8xOpmgcIy3Pnfd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Use the project endpoint for batch processing, exploration, validation, experiments, and other workloads where on-demand compute is a better fit than always-on serving.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnKKjXELDnNuMmGq4EsROGup",
+        "block_type": 2,
+        "parent_id": "EZNKd6sP5oyCc8xOpmgcIy3Pnfd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For production applications that require the full Collection API and always-on low-latency serving, connect to a Free, Serverless, or Dedicated serving cluster instead. See ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Connect to Serving Clusters",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https://zilliverse.feishu.cn/wiki/ZWwJwKjeDi7SJGkzUQ0c7XfBnqh"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " for the serving cluster endpoint formats and connection examples.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 37
+  },
+  "name": "Connect for On-Demand Search",
+  "base_record_id": "recvlURuqRVAAw",
+  "base_table_id": "tblWv7PjNDsexddH",
+  "base_table_name": "Development",
+  "base_record_index": 1,
+  "base_placement_type": "canonical",
+  "base_targets": [
+    "Zilliz.SaaS",
+    "Zilliz.PaaS"
+  ],
+  "base_status": "Draft",
+  "base_labels": null,
+  "base_beta": "PUBLIC",
+  "base_ref_target_doc": null
+}

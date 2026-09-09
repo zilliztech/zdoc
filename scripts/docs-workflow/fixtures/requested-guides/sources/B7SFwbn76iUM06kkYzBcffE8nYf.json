@@ -1,0 +1,2193 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": false,
+  "node_create_time": "1777481795",
+  "node_creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "node_token": "B7SFwbn76iUM06kkYzBcffE8nYf",
+  "node_type": "origin",
+  "obj_create_time": "1777481795",
+  "obj_edit_time": "1781247988",
+  "obj_token": "RmODdyutSoYnaTxf9zucAsdjnAe",
+  "obj_type": "docx",
+  "origin_node_token": "B7SFwbn76iUM06kkYzBcffE8nYf",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "base:tblWv7PjNDsexddH:recvlPnpn6mhCU",
+  "space_id": "7167193056431783939",
+  "title": "Database Explained",
+  "slug": "database-concept",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "RmODdyutSoYnaTxf9zucAsdjnAe",
+        "block_type": 1,
+        "children": [
+          "doxcnY34Gw65b0HiqzTO1ayCUcc",
+          "doxcnusNFbVMbL6bq33c5dQAmdb",
+          "doxcnMInWUOoUVIi2HWxnUbMBNh",
+          "doxcnuj9dMbLtg7yxh8Oc8SqQAe",
+          "doxcn4V8cEFH2k1BuwIaIyTnLLg",
+          "doxcnMFRxMjtETwa8qaVeIlTv0b",
+          "doxcnAKUZz1gS2gUdz7MzF4wEtd",
+          "doxcnVRgirVmYJskuMSwzptr9te",
+          "doxcnzkqhCQ5s6RgN8rBbrXRAjf",
+          "doxcnAax1206pDPpFin9tb4GSKf",
+          "doxcnN4x5Kx40FpJTvEz2bIGx7g",
+          "doxcnagyakNhiQYVf5uAQaDpkyh",
+          "doxcnjYMxHC4dDzFFFPWFL4qdth",
+          "doxcn2OgIHonBQaJnn02HHRMdgc",
+          "doxcnrQrbwMGMOjQiBXGEwhF3JF",
+          "doxcnuAFUoGGk71L2ccbRLNgGUc",
+          "doxcnQJmGVRLfHmTFYCqGWHrF2c",
+          "doxcnScwYMq1OwYsGsOOzQdYR2h",
+          "doxcn1Rrctjtuv57fNkIAxrm7DJ",
+          "doxcnH8Irl7LT07ywfCd5HJYYlf",
+          "doxcnLyD81coHoqJFHbj86Bslgj",
+          "doxcnUVbAwjVvCjcc3NkHOZMhvU"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Database Explained",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "doxcnY34Gw65b0HiqzTO1ayCUcc",
+        "block_type": 2,
+        "parent_id": "RmODdyutSoYnaTxf9zucAsdjnAe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A database is a logical container for collections within a project. It helps you organize data for different applications, tenants, or environments while keeping collection names and operations scoped to the database you choose.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnusNFbVMbL6bq33c5dQAmdb",
+        "block_type": 2,
+        "parent_id": "RmODdyutSoYnaTxf9zucAsdjnAe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud uses two database models:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnMInWUOoUVIi2HWxnUbMBNh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Database in serving clusters",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": A database hosted by a Dedicated serving cluster. It supports schema management, data writes, deletes, search, query, and other collection operations through the serving cluster endpoint.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "RmODdyutSoYnaTxf9zucAsdjnAe"
+      },
+      {
+        "block_id": "doxcnuj9dMbLtg7yxh8Oc8SqQAe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Database for on-demand search",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": A project-level database managed by Zilliz Cloud. It is independent of serving clusters and is queried through a project endpoint with on-demand compute.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "RmODdyutSoYnaTxf9zucAsdjnAe"
+      },
+      {
+        "block_id": "doxcn4V8cEFH2k1BuwIaIyTnLLg",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "doxcnjwhA6bexMjB5PYLsboqwWh"
+        ],
+        "parent_id": "RmODdyutSoYnaTxf9zucAsdjnAe"
+      },
+      {
+        "block_id": "doxcnjwhA6bexMjB5PYLsboqwWh",
+        "block_type": 2,
+        "parent_id": "doxcn4V8cEFH2k1BuwIaIyTnLLg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This page explains the database models. To create and manage databases, see ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Database in Serving Clusters",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https://zilliverse.feishu.cn/wiki/DtLVw8EUyi6MqMkXh3Cc3rfZnic"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Database for On-Demand Search",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https://zilliverse.feishu.cn/wiki/KTWtw4V6SiTpDMkeGMQc8lChn8b"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnMFRxMjtETwa8qaVeIlTv0b",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Database in serving clusters",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "RmODdyutSoYnaTxf9zucAsdjnAe"
+      },
+      {
+        "block_id": "doxcnAKUZz1gS2gUdz7MzF4wEtd",
+        "block_type": 2,
+        "parent_id": "RmODdyutSoYnaTxf9zucAsdjnAe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A database in a serving cluster is created inside a specific Dedicated serving cluster. When a Dedicated cluster is created, a default database is created with it. You can create additional databases in the same serving cluster as needed.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnVRgirVmYJskuMSwzptr9te",
+        "block_type": 2,
+        "parent_id": "RmODdyutSoYnaTxf9zucAsdjnAe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Databases in serving clusters are tied to the lifecycle of the hosting cluster:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnzkqhCQ5s6RgN8rBbrXRAjf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If the serving cluster is suspended, its databases and collections become unavailable until the cluster is resumed.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "RmODdyutSoYnaTxf9zucAsdjnAe"
+      },
+      {
+        "block_id": "doxcnAax1206pDPpFin9tb4GSKf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If the serving cluster is dropped, its databases and collections are deleted as well.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "RmODdyutSoYnaTxf9zucAsdjnAe"
+      },
+      {
+        "block_id": "doxcnN4x5Kx40FpJTvEz2bIGx7g",
+        "block_type": 2,
+        "parent_id": "RmODdyutSoYnaTxf9zucAsdjnAe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Use this model for production workloads that need always-on, low-latency access to data.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnagyakNhiQYVf5uAQaDpkyh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Project\n└── Serving Cluster\n    ├── Database (default)\n    │   ├── Collection_01\n    │   └── Collection_02\n    └── Database\n        ├── Collection_03\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        └── Collection_04",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "wrap": false
+          }
+        },
+        "parent_id": "RmODdyutSoYnaTxf9zucAsdjnAe"
+      },
+      {
+        "block_id": "doxcnjYMxHC4dDzFFFPWFL4qdth",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Database for on-demand search",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "RmODdyutSoYnaTxf9zucAsdjnAe"
+      },
+      {
+        "block_id": "doxcn2OgIHonBQaJnn02HHRMdgc",
+        "block_type": 2,
+        "parent_id": "RmODdyutSoYnaTxf9zucAsdjnAe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A database for on-demand search is a project-level database managed by Zilliz Cloud. It is not tied to a serving cluster. You use a project endpoint and specify on-demand compute when you search or query data in this database.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnrQrbwMGMOjQiBXGEwhF3JF",
+        "block_type": 2,
+        "parent_id": "RmODdyutSoYnaTxf9zucAsdjnAe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This model supports database and collection management, import, search, and query. It does not support insert, upsert, or delete operations.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnuAFUoGGk71L2ccbRLNgGUc",
+        "block_type": 2,
+        "parent_id": "RmODdyutSoYnaTxf9zucAsdjnAe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Use this model for large-scale datasets that are queried less frequently or searched with bursty workloads.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnQJmGVRLfHmTFYCqGWHrF2c",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Project\n├── Serving Cluster\n│   └── Database (default)\n│       ├── Collection_01\n│       └── Collection_02\n└── Databases for on-demand search\n    ├── Database\n    │   └── External_Collection_01\n    └── Database\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        └── Managed_Collection_01",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "wrap": false
+          }
+        },
+        "parent_id": "RmODdyutSoYnaTxf9zucAsdjnAe"
+      },
+      {
+        "block_id": "doxcnScwYMq1OwYsGsOOzQdYR2h",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Comparison",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "RmODdyutSoYnaTxf9zucAsdjnAe"
+      },
+      {
+        "block_id": "doxcn1Rrctjtuv57fNkIAxrm7DJ",
+        "block_type": 31,
+        "children": [
+          "doxcnkcJQhlSuWQX0Y03pkU7sNh",
+          "doxcnWzia1UqDNUujZ2Mo7j1WFg",
+          "doxcnwJlT2QpLe22JBZZNGS8Yyd",
+          "doxcnMck9xmgeYrwjt9lssgJK0b",
+          "doxcnJ8SFow0p9rLSnI7lyo2MCb",
+          "doxcnUqxQakmZ56zpG2I7lgoSIf",
+          "doxcn2GUK3t1K4JcAR0OoAPftgf",
+          "doxcnoXYjbit2TV9pCWlbJ1jXdc",
+          "doxcnfCSKDQQnwjUv1sogrBkCxe",
+          "doxcnXuTTgHH5CUWwORmFYJqS7d",
+          "doxcncMNw3AFmO3dSB8b63rFwxz",
+          "doxcnFWDvPENWb54Z8eVfUY7BEf",
+          "doxcnrSPvVWccwiTxjmtRhbgPkd",
+          "doxcnnd5pNrcFsuj6lfFT6ranfg",
+          "doxcnCWdWYbgm6iKamzVa8N0AWg",
+          "doxcnWSNQrMDOrMcSgBuTFBQYKc",
+          "doxcnISkq8TznuP69c4o2oxdacb",
+          "doxcnE5DrmRNUBPuQtlh7zKvY6g",
+          "doxcnnLX4Y9HuK3Ctq7RgTnTAWg",
+          "doxcnzHPWZi5QWyv6oTX3TZeAEd",
+          "doxcnC2bF0FakWA9SvlXXuy5GOd",
+          "doxcnVBgEMBz5xkr57X8NEwdsRg",
+          "doxcnI9Nv8Uq1pWKqAcoLrCgOVh",
+          "doxcn9gliMwxgcI6yq8JoXMhzrc",
+          "doxcnHCHOJJKdhXvf7n0621PiLW",
+          "doxcnoP1tfQ5fHMNsbwZRJNyJMf",
+          "doxcnm44FlMsbENSdOSjTI4nHfg",
+          "doxcnemczX02O0UotWsmAYynOgf",
+          "doxcnkxNXivr65JHxAKSGeErHgc",
+          "doxcnD72boxDC9y6Oin9zxLLDyg",
+          "doxcnuyHbFaV6ay7tH2zxccbqMc",
+          "doxcnGspD3i2BmQw32gEmbAfB6d",
+          "doxcn5pz0boUAiRGVNpjPLCwbRh",
+          "doxcnJGrNU3LBaaWEHVnGXSbz8d",
+          "doxcnwM4vkXygWJ8nPePiOPBFRb",
+          "doxcnRtUbHgV8SqpRbYXr8ORTKe"
+        ],
+        "parent_id": "RmODdyutSoYnaTxf9zucAsdjnAe",
+        "table": {
+          "cells": [
+            "doxcnkcJQhlSuWQX0Y03pkU7sNh",
+            "doxcnWzia1UqDNUujZ2Mo7j1WFg",
+            "doxcnwJlT2QpLe22JBZZNGS8Yyd",
+            "doxcnMck9xmgeYrwjt9lssgJK0b",
+            "doxcnJ8SFow0p9rLSnI7lyo2MCb",
+            "doxcnUqxQakmZ56zpG2I7lgoSIf",
+            "doxcn2GUK3t1K4JcAR0OoAPftgf",
+            "doxcnoXYjbit2TV9pCWlbJ1jXdc",
+            "doxcnfCSKDQQnwjUv1sogrBkCxe",
+            "doxcnXuTTgHH5CUWwORmFYJqS7d",
+            "doxcncMNw3AFmO3dSB8b63rFwxz",
+            "doxcnFWDvPENWb54Z8eVfUY7BEf",
+            "doxcnrSPvVWccwiTxjmtRhbgPkd",
+            "doxcnnd5pNrcFsuj6lfFT6ranfg",
+            "doxcnCWdWYbgm6iKamzVa8N0AWg",
+            "doxcnWSNQrMDOrMcSgBuTFBQYKc",
+            "doxcnISkq8TznuP69c4o2oxdacb",
+            "doxcnE5DrmRNUBPuQtlh7zKvY6g",
+            "doxcnnLX4Y9HuK3Ctq7RgTnTAWg",
+            "doxcnzHPWZi5QWyv6oTX3TZeAEd",
+            "doxcnC2bF0FakWA9SvlXXuy5GOd",
+            "doxcnVBgEMBz5xkr57X8NEwdsRg",
+            "doxcnI9Nv8Uq1pWKqAcoLrCgOVh",
+            "doxcn9gliMwxgcI6yq8JoXMhzrc",
+            "doxcnHCHOJJKdhXvf7n0621PiLW",
+            "doxcnoP1tfQ5fHMNsbwZRJNyJMf",
+            "doxcnm44FlMsbENSdOSjTI4nHfg",
+            "doxcnemczX02O0UotWsmAYynOgf",
+            "doxcnkxNXivr65JHxAKSGeErHgc",
+            "doxcnD72boxDC9y6Oin9zxLLDyg",
+            "doxcnuyHbFaV6ay7tH2zxccbqMc",
+            "doxcnGspD3i2BmQw32gEmbAfB6d",
+            "doxcn5pz0boUAiRGVNpjPLCwbRh",
+            "doxcnJGrNU3LBaaWEHVnGXSbz8d",
+            "doxcnwM4vkXygWJ8nPePiOPBFRb",
+            "doxcnRtUbHgV8SqpRbYXr8ORTKe"
+          ],
+          "property": {
+            "column_size": 3,
+            "column_width": [
+              224,
+              237,
+              277
+            ],
+            "header_row": true,
+            "merge_info": [
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              }
+            ],
+            "row_size": 12
+          }
+        }
+      },
+      {
+        "block_id": "doxcnkcJQhlSuWQX0Y03pkU7sNh",
+        "block_type": 32,
+        "children": [
+          "doxcn6DfBcwgmxKdB073GDsyHib"
+        ],
+        "parent_id": "doxcn1Rrctjtuv57fNkIAxrm7DJ",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcn6DfBcwgmxKdB073GDsyHib",
+        "block_type": 2,
+        "parent_id": "doxcnkcJQhlSuWQX0Y03pkU7sNh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnWzia1UqDNUujZ2Mo7j1WFg",
+        "block_type": 32,
+        "children": [
+          "doxcn7vcYQS3KMFazSKVSD5HyfA"
+        ],
+        "parent_id": "doxcn1Rrctjtuv57fNkIAxrm7DJ",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcn7vcYQS3KMFazSKVSD5HyfA",
+        "block_type": 2,
+        "parent_id": "doxcnWzia1UqDNUujZ2Mo7j1WFg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Database in Serving Clusters",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnwJlT2QpLe22JBZZNGS8Yyd",
+        "block_type": 32,
+        "children": [
+          "doxcnJXUQsYJiEQSZE0YHykJXXP"
+        ],
+        "parent_id": "doxcn1Rrctjtuv57fNkIAxrm7DJ",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnJXUQsYJiEQSZE0YHykJXXP",
+        "block_type": 2,
+        "parent_id": "doxcnwJlT2QpLe22JBZZNGS8Yyd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Database for On-Demand Search",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnMck9xmgeYrwjt9lssgJK0b",
+        "block_type": 32,
+        "children": [
+          "doxcnB79MCTtKFIFZ3T8Jq39tKb"
+        ],
+        "parent_id": "doxcn1Rrctjtuv57fNkIAxrm7DJ",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnB79MCTtKFIFZ3T8Jq39tKb",
+        "block_type": 2,
+        "parent_id": "doxcnMck9xmgeYrwjt9lssgJK0b",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Best for",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnJ8SFow0p9rLSnI7lyo2MCb",
+        "block_type": 32,
+        "children": [
+          "doxcnj3HLLjL0arM9hGkrNxiVcd"
+        ],
+        "parent_id": "doxcn1Rrctjtuv57fNkIAxrm7DJ",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnj3HLLjL0arM9hGkrNxiVcd",
+        "block_type": 2,
+        "parent_id": "doxcnJ8SFow0p9rLSnI7lyo2MCb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Production workloads that require always-on, low-latency access to data.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnUqxQakmZ56zpG2I7lgoSIf",
+        "block_type": 32,
+        "children": [
+          "doxcnCCNtpVjwjLadqKtTryDrVb"
+        ],
+        "parent_id": "doxcn1Rrctjtuv57fNkIAxrm7DJ",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnCCNtpVjwjLadqKtTryDrVb",
+        "block_type": 2,
+        "parent_id": "doxcnUqxQakmZ56zpG2I7lgoSIf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Large-scale datasets with bursty searches and queries.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn2GUK3t1K4JcAR0OoAPftgf",
+        "block_type": 32,
+        "children": [
+          "doxcni9vh5dQXxSte7Of0niPnUE"
+        ],
+        "parent_id": "doxcn1Rrctjtuv57fNkIAxrm7DJ",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcni9vh5dQXxSte7Of0niPnUE",
+        "block_type": 2,
+        "parent_id": "doxcn2GUK3t1K4JcAR0OoAPftgf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Hosted on",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnoXYjbit2TV9pCWlbJ1jXdc",
+        "block_type": 32,
+        "children": [
+          "doxcnoj7Z23bY6aIHoA2RIAnpQd"
+        ],
+        "parent_id": "doxcn1Rrctjtuv57fNkIAxrm7DJ",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnoj7Z23bY6aIHoA2RIAnpQd",
+        "block_type": 2,
+        "parent_id": "doxcnoXYjbit2TV9pCWlbJ1jXdc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A serving cluster",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnfCSKDQQnwjUv1sogrBkCxe",
+        "block_type": 32,
+        "children": [
+          "doxcn1WaFyHjuznJAE1THHDp6yc"
+        ],
+        "parent_id": "doxcn1Rrctjtuv57fNkIAxrm7DJ",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcn1WaFyHjuznJAE1THHDp6yc",
+        "block_type": 2,
+        "parent_id": "doxcnfCSKDQQnwjUv1sogrBkCxe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Platform-managed project resources",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnXuTTgHH5CUWwORmFYJqS7d",
+        "block_type": 32,
+        "children": [
+          "doxcn4vFNohJAZJEvx2ocYuQ1Sh"
+        ],
+        "parent_id": "doxcn1Rrctjtuv57fNkIAxrm7DJ",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcn4vFNohJAZJEvx2ocYuQ1Sh",
+        "block_type": 2,
+        "parent_id": "doxcnXuTTgHH5CUWwORmFYJqS7d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Endpoint",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcncMNw3AFmO3dSB8b63rFwxz",
+        "block_type": 32,
+        "children": [
+          "doxcn9QVTTYvSTJMMe0TBEqF7Og"
+        ],
+        "parent_id": "doxcn1Rrctjtuv57fNkIAxrm7DJ",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcn9QVTTYvSTJMMe0TBEqF7Og",
+        "block_type": 2,
+        "parent_id": "doxcncMNw3AFmO3dSB8b63rFwxz",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Serving cluster endpoint",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnFWDvPENWb54Z8eVfUY7BEf",
+        "block_type": 32,
+        "children": [
+          "doxcnlo9xZx7RTQZiRmrjNGrlAf"
+        ],
+        "parent_id": "doxcn1Rrctjtuv57fNkIAxrm7DJ",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnlo9xZx7RTQZiRmrjNGrlAf",
+        "block_type": 2,
+        "parent_id": "doxcnFWDvPENWb54Z8eVfUY7BEf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Project endpoint",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnrSPvVWccwiTxjmtRhbgPkd",
+        "block_type": 32,
+        "children": [
+          "doxcnSMIOF0NOkFGeglB7ot3Gti"
+        ],
+        "parent_id": "doxcn1Rrctjtuv57fNkIAxrm7DJ",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnSMIOF0NOkFGeglB7ot3Gti",
+        "block_type": 2,
+        "parent_id": "doxcnrSPvVWccwiTxjmtRhbgPkd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Compute resource",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnnd5pNrcFsuj6lfFT6ranfg",
+        "block_type": 32,
+        "children": [
+          "doxcnDkrNVkuNWJk1YqZW4azU4c"
+        ],
+        "parent_id": "doxcn1Rrctjtuv57fNkIAxrm7DJ",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnDkrNVkuNWJk1YqZW4azU4c",
+        "block_type": 2,
+        "parent_id": "doxcnnd5pNrcFsuj6lfFT6ranfg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Hosting serving cluster",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnCWdWYbgm6iKamzVa8N0AWg",
+        "block_type": 32,
+        "children": [
+          "doxcnpvngRlKLUUPQFJvsj2nUFb"
+        ],
+        "parent_id": "doxcn1Rrctjtuv57fNkIAxrm7DJ",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnpvngRlKLUUPQFJvsj2nUFb",
+        "block_type": 2,
+        "parent_id": "doxcnCWdWYbgm6iKamzVa8N0AWg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Specified on-demand compute",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnWSNQrMDOrMcSgBuTFBQYKc",
+        "block_type": 32,
+        "children": [
+          "doxcnm1pYtdzimiXtukQpzy8uOb"
+        ],
+        "parent_id": "doxcn1Rrctjtuv57fNkIAxrm7DJ",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnm1pYtdzimiXtukQpzy8uOb",
+        "block_type": 2,
+        "parent_id": "doxcnWSNQrMDOrMcSgBuTFBQYKc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Create/drop database",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnISkq8TznuP69c4o2oxdacb",
+        "block_type": 32,
+        "children": [
+          "doxcnhgqjF4hmt2Tw8ZgaaDjPzd"
+        ],
+        "parent_id": "doxcn1Rrctjtuv57fNkIAxrm7DJ",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnhgqjF4hmt2Tw8ZgaaDjPzd",
+        "block_type": 2,
+        "parent_id": "doxcnISkq8TznuP69c4o2oxdacb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Yes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnE5DrmRNUBPuQtlh7zKvY6g",
+        "block_type": 32,
+        "children": [
+          "doxcnFZLK0pFQu26ndr2gEAjTEd"
+        ],
+        "parent_id": "doxcn1Rrctjtuv57fNkIAxrm7DJ",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnFZLK0pFQu26ndr2gEAjTEd",
+        "block_type": 2,
+        "parent_id": "doxcnE5DrmRNUBPuQtlh7zKvY6g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Yes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnnLX4Y9HuK3Ctq7RgTnTAWg",
+        "block_type": 32,
+        "children": [
+          "doxcnmTlyfp5xYx3MhwQcL7Zz7b"
+        ],
+        "parent_id": "doxcn1Rrctjtuv57fNkIAxrm7DJ",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnmTlyfp5xYx3MhwQcL7Zz7b",
+        "block_type": 2,
+        "parent_id": "doxcnnLX4Y9HuK3Ctq7RgTnTAWg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Create/drop collection",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnzHPWZi5QWyv6oTX3TZeAEd",
+        "block_type": 32,
+        "children": [
+          "doxcngGb3ffEkuZLrqZUgRFftWc"
+        ],
+        "parent_id": "doxcn1Rrctjtuv57fNkIAxrm7DJ",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcngGb3ffEkuZLrqZUgRFftWc",
+        "block_type": 2,
+        "parent_id": "doxcnzHPWZi5QWyv6oTX3TZeAEd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Yes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnC2bF0FakWA9SvlXXuy5GOd",
+        "block_type": 32,
+        "children": [
+          "doxcnlA5HHKbUG1avPaiklL4Ikc"
+        ],
+        "parent_id": "doxcn1Rrctjtuv57fNkIAxrm7DJ",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnlA5HHKbUG1avPaiklL4Ikc",
+        "block_type": 2,
+        "parent_id": "doxcnC2bF0FakWA9SvlXXuy5GOd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Yes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnVBgEMBz5xkr57X8NEwdsRg",
+        "block_type": 32,
+        "children": [
+          "doxcnOWYpFObjohEQn3bhPU1g4f"
+        ],
+        "parent_id": "doxcn1Rrctjtuv57fNkIAxrm7DJ",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnOWYpFObjohEQn3bhPU1g4f",
+        "block_type": 2,
+        "parent_id": "doxcnVBgEMBz5xkr57X8NEwdsRg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Load/release collection",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnI9Nv8Uq1pWKqAcoLrCgOVh",
+        "block_type": 32,
+        "children": [
+          "doxcnl6FL0miBj73no3wuGajSuh"
+        ],
+        "parent_id": "doxcn1Rrctjtuv57fNkIAxrm7DJ",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnl6FL0miBj73no3wuGajSuh",
+        "block_type": 2,
+        "parent_id": "doxcnI9Nv8Uq1pWKqAcoLrCgOVh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Yes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn9gliMwxgcI6yq8JoXMhzrc",
+        "block_type": 32,
+        "children": [
+          "doxcnPiBUdC9Hzunpldg2qXnkyh"
+        ],
+        "parent_id": "doxcn1Rrctjtuv57fNkIAxrm7DJ",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnPiBUdC9Hzunpldg2qXnkyh",
+        "block_type": 2,
+        "parent_id": "doxcn9gliMwxgcI6yq8JoXMhzrc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "No need",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnHCHOJJKdhXvf7n0621PiLW",
+        "block_type": 32,
+        "children": [
+          "doxcnEZDLX0oC1uCLdh5iKFu4ed"
+        ],
+        "parent_id": "doxcn1Rrctjtuv57fNkIAxrm7DJ",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnEZDLX0oC1uCLdh5iKFu4ed",
+        "block_type": 2,
+        "parent_id": "doxcnHCHOJJKdhXvf7n0621PiLW",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Insert/upsert/delete",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnoP1tfQ5fHMNsbwZRJNyJMf",
+        "block_type": 32,
+        "children": [
+          "doxcnq0gqZQLm3l6cPWMJ2EFV4g"
+        ],
+        "parent_id": "doxcn1Rrctjtuv57fNkIAxrm7DJ",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnq0gqZQLm3l6cPWMJ2EFV4g",
+        "block_type": 2,
+        "parent_id": "doxcnoP1tfQ5fHMNsbwZRJNyJMf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Yes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnm44FlMsbENSdOSjTI4nHfg",
+        "block_type": 32,
+        "children": [
+          "doxcnUdyND0jU3aazVh5JIfGBTb"
+        ],
+        "parent_id": "doxcn1Rrctjtuv57fNkIAxrm7DJ",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnUdyND0jU3aazVh5JIfGBTb",
+        "block_type": 2,
+        "parent_id": "doxcnm44FlMsbENSdOSjTI4nHfg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "No",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnemczX02O0UotWsmAYynOgf",
+        "block_type": 32,
+        "children": [
+          "doxcnWWO9VrFIztmB5e160I7vxC"
+        ],
+        "parent_id": "doxcn1Rrctjtuv57fNkIAxrm7DJ",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnWWO9VrFIztmB5e160I7vxC",
+        "block_type": 2,
+        "parent_id": "doxcnemczX02O0UotWsmAYynOgf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Import",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnkxNXivr65JHxAKSGeErHgc",
+        "block_type": 32,
+        "children": [
+          "doxcnaGQeq045UYtewM2IIQm3lg"
+        ],
+        "parent_id": "doxcn1Rrctjtuv57fNkIAxrm7DJ",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnaGQeq045UYtewM2IIQm3lg",
+        "block_type": 2,
+        "parent_id": "doxcnkxNXivr65JHxAKSGeErHgc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Yes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnD72boxDC9y6Oin9zxLLDyg",
+        "block_type": 32,
+        "children": [
+          "doxcnnyVpMg5fFOimQ5G59F6Xkp"
+        ],
+        "parent_id": "doxcn1Rrctjtuv57fNkIAxrm7DJ",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnnyVpMg5fFOimQ5G59F6Xkp",
+        "block_type": 2,
+        "parent_id": "doxcnD72boxDC9y6Oin9zxLLDyg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Yes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnuyHbFaV6ay7tH2zxccbqMc",
+        "block_type": 32,
+        "children": [
+          "doxcnJHjtDj53HNd6G8pcqThMke"
+        ],
+        "parent_id": "doxcn1Rrctjtuv57fNkIAxrm7DJ",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnJHjtDj53HNd6G8pcqThMke",
+        "block_type": 2,
+        "parent_id": "doxcnuyHbFaV6ay7tH2zxccbqMc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Search and query",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnGspD3i2BmQw32gEmbAfB6d",
+        "block_type": 32,
+        "children": [
+          "doxcnY0l3TBA7nEhBjqvnrLy7hf"
+        ],
+        "parent_id": "doxcn1Rrctjtuv57fNkIAxrm7DJ",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnY0l3TBA7nEhBjqvnrLy7hf",
+        "block_type": 2,
+        "parent_id": "doxcnGspD3i2BmQw32gEmbAfB6d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Yes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn5pz0boUAiRGVNpjPLCwbRh",
+        "block_type": 32,
+        "children": [
+          "doxcniK001i1QKA5qYcVpplNlpz"
+        ],
+        "parent_id": "doxcn1Rrctjtuv57fNkIAxrm7DJ",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcniK001i1QKA5qYcVpplNlpz",
+        "block_type": 2,
+        "parent_id": "doxcn5pz0boUAiRGVNpjPLCwbRh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Yes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnJGrNU3LBaaWEHVnGXSbz8d",
+        "block_type": 32,
+        "children": [
+          "doxcnvQYVn2AXSJCpP2T6ZfQM3d"
+        ],
+        "parent_id": "doxcn1Rrctjtuv57fNkIAxrm7DJ",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnvQYVn2AXSJCpP2T6ZfQM3d",
+        "block_type": 2,
+        "parent_id": "doxcnJGrNU3LBaaWEHVnGXSbz8d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Lifecycle",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnwM4vkXygWJ8nPePiOPBFRb",
+        "block_type": 32,
+        "children": [
+          "doxcnw8AYdPafTO0zyy8ccStKId"
+        ],
+        "parent_id": "doxcn1Rrctjtuv57fNkIAxrm7DJ",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnw8AYdPafTO0zyy8ccStKId",
+        "block_type": 2,
+        "parent_id": "doxcnwM4vkXygWJ8nPePiOPBFRb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Tied to the serving cluster",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnRtUbHgV8SqpRbYXr8ORTKe",
+        "block_type": 32,
+        "children": [
+          "doxcnBUIbWlaSRO6TvOjWzGZiYf"
+        ],
+        "parent_id": "doxcn1Rrctjtuv57fNkIAxrm7DJ",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnBUIbWlaSRO6TvOjWzGZiYf",
+        "block_type": 2,
+        "parent_id": "doxcnRtUbHgV8SqpRbYXr8ORTKe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Independent of serving clusters",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnH8Irl7LT07ywfCd5HJYYlf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Next steps",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "RmODdyutSoYnaTxf9zucAsdjnAe"
+      },
+      {
+        "block_id": "doxcnLyD81coHoqJFHbj86Bslgj",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Database in Serving Clusters",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https://zilliverse.feishu.cn/wiki/DtLVw8EUyi6MqMkXh3Cc3rfZnic"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "RmODdyutSoYnaTxf9zucAsdjnAe"
+      },
+      {
+        "block_id": "doxcnUVbAwjVvCjcc3NkHOZMhvU",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Database for On-Demand Search",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https://zilliverse.feishu.cn/wiki/KTWtw4V6SiTpDMkeGMQc8lChn8b"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "RmODdyutSoYnaTxf9zucAsdjnAe"
+      }
+    ],
+    "counts": 96
+  },
+  "name": "Database Explained",
+  "base_record_id": "recvlPpBubkdio",
+  "base_table_id": "tblWv7PjNDsexddH",
+  "base_table_name": "Development",
+  "base_record_index": 41,
+  "base_placement_type": "canonical",
+  "base_targets": [
+    "Zilliz.SaaS",
+    "Zilliz.PaaS"
+  ],
+  "base_status": "Draft",
+  "base_labels": null,
+  "base_beta": "FALSE",
+  "base_ref_target_doc": null
+}

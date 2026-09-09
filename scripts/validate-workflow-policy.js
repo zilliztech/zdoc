@@ -18,6 +18,7 @@ const PRODUCTION_QUEUE_OWNERS = Object.freeze(new Map([
 ]))
 const TOP_LEVEL_WRITER_INVENTORY = Object.freeze(new Map([
   ['fetch-docs.yml', ['prepare', 'publish_ready', 'reconcile_reference_state']],
+  ['fetch-guides-requested.yml', ['publish_ready']],
   ['translate-codex.yml', ['publish_ready']],
   ['publish-offline-translation.yml', ['publish_ready']],
   ['publish-offline-reference-python.yml', ['publish_ready']],
@@ -30,6 +31,7 @@ const TOP_LEVEL_DIRECT_PUSH_JOBS = Object.freeze(new Map([
 ]))
 const publishingWorkflows = new Set([
   'fetch-docs.yml',
+  'fetch-guides-requested.yml',
   'recover-translation.yml',
   'publish-offline-translation.yml',
   'publish-offline-reference-python.yml',
@@ -497,7 +499,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     }
 
     if (publishingWorkflows.has(file)) {
-      if (file === 'fetch-docs.yml' || file === 'translate-codex.yml' || file === 'publish-offline-translation.yml' || file === 'publish-offline-reference-python.yml') {
+      if (file === 'fetch-docs.yml' || file === 'fetch-guides-requested.yml' || file === 'translate-codex.yml' || file === 'publish-offline-translation.yml' || file === 'publish-offline-reference-python.yml') {
         const writableJobs = Object.entries(workflow.jobs || {}).filter(([, job]) => job?.permissions?.contents === 'write')
         const expected = TOP_LEVEL_WRITER_INVENTORY.get(file)
         const expectedTopLevelContents = file.startsWith('publish-offline-') ? 'write' : 'read'
