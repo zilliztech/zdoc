@@ -180,7 +180,8 @@
         ".github/workflows/publish-offline-reference-python.yml",
         ".github/workflows/translate-manual.yml",
         ".github/workflows/_translate-content-group.yml",
-        ".github/workflows/_prepare-translation-batches.yml"
+        ".github/workflows/_prepare-translation-batches.yml",
+        ".claude/specs/2026-09-09-online-translation-efficiency.md"
       ],
       "focusedTests": ["pnpm test:translation-workflow", "pnpm test:translation"],
       "harnesses": ["pnpm test:replay:translation"],

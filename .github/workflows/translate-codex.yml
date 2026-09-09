@@ -243,7 +243,10 @@ jobs:
     needs: [prepare, prepare_guides_batches]
     if: ${{ needs.prepare_guides_batches.outputs.batch_count != '0' }}
     strategy:
-      fail-fast: false
+      # Batches are serialized because each durable checkpoint is part of one
+      # canonical Guides set. Stop queued paid work when a batch cannot produce
+      # a valid checkpoint; its per-file recovery artifact remains resumable.
+      fail-fast: true
       max-parallel: 1
       matrix: ${{ fromJSON(needs.prepare_guides_batches.outputs.matrix) }}
     uses: ./.github/workflows/_translate-content-group.yml
