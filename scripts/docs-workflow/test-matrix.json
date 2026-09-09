@@ -11,11 +11,11 @@
     },
     {
       "id": "publication-diagnostics",
-      "paths": ["packages/docs-tooling/src/publication/diagnostics.ts", "packages/docs-tooling/src/publication/diagnostics.test.ts"],
-      "focusedTests": ["pnpm vitest run packages/docs-tooling/src/publication/diagnostics.test.ts"],
+      "paths": ["packages/docs-tooling/src/publication/diagnostics.ts", "packages/docs-tooling/src/publication/diagnostics.test.ts", "packages/docs-tooling/src/publication/evidenceGroups.ts", "packages/docs-tooling/src/publication/evidenceGroups.test.ts"],
+      "focusedTests": ["pnpm vitest run packages/docs-tooling/src/publication/diagnostics.test.ts packages/docs-tooling/src/publication/evidenceGroups.test.ts"],
       "harnesses": ["pnpm test:replay:fetch"],
       "gates": ["pnpm test:workflow-policy", "git diff --check"],
-      "reason": "Publication diagnostics bind the declared publication identity and exact owned targets used by atomic Fetch validation."
+      "reason": "Publication diagnostics bind the declared publication identity and exact owned targets used by atomic Fetch validation, and the evidenceGroups module is the single authority deriving the fetch, spec-derived, and translation equivalence groups from the manual and translation target registries."
     },
     {
       "id": "docs-ui-sidebar-category",
@@ -418,6 +418,91 @@
       "reason": "Branch ownership and tooling promotion changes can alter which master changes may enter dev and which runtime paths must be preserved."
     },
     {
+      "id": "evidence-fetch-publication",
+      "paths": [
+        "content/en/byoc/tutorials/**",
+        "content/en/guides/tutorials/**",
+        "content/en/reference/cli/cli/**",
+        "content/en/reference/api/cpp/cpp/**",
+        "content/en/reference/api/go/go/v2/**",
+        "content/en/reference/api/java/java/v2/**",
+        "content/en/reference/api/nodejs/nodejs/**",
+        "content/en/reference/api/python/python/**",
+        "content/zh-CN/byoc/tutorials/**",
+        "content/zh-CN/guides/tutorials/**",
+        "content/zh-CN/onpremise/**",
+        "generated/en/sidebars/cli.sidebar.js",
+        "generated/en/sidebars/go.sidebar.js",
+        "generated/en/sidebars/guides.sidebar.js",
+        "generated/en/sidebars/guides-byoc.sidebar.js",
+        "generated/en/sidebars/java.sidebar.js",
+        "generated/en/sidebars/node.sidebar.js",
+        "generated/en/sidebars/python.sidebar.js",
+        "generated/zh-CN/sidebars/guides.sidebar.js",
+        "generated/zh-CN/sidebars/guides-byoc.sidebar.js",
+        "generated/en/manifests/lark-revisions/cli.json",
+        "generated/en/manifests/lark-revisions/go.json",
+        "generated/en/manifests/lark-revisions/guides.json",
+        "generated/en/manifests/lark-revisions/java.json",
+        "generated/en/manifests/lark-revisions/node.json",
+        "generated/en/manifests/lark-revisions/python.json",
+        "generated/en/manifests/reference.json",
+        "generated/zh-CN/manifests/guides-source-publication.json"
+      ],
+      "focusedTests": [
+        "pnpm check:localization-input-inventory",
+        "pnpm docs-tooling validate-revision-inventory --site en",
+        "pnpm docs-tooling validate-revision-inventory --site zh-CN"
+      ],
+      "harnesses": [],
+      "gates": ["pnpm build:en", "pnpm build:zh-CN"],
+      "reason": "Fetch-group evidence (Lark-fetched English and Chinese Guides, English SDK Reference, Chinese on-premise) is validated through per-site revision inventories and the Chinese Guides source publication manifest; path set mirrors the evidenceGroups authority."
+    },
+    {
+      "id": "evidence-rest-derivation",
+      "paths": [
+        "content/en/reference/api/restful/restful/**",
+        "content/zh-CN/reference/api/restful/restful/**",
+        "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/**",
+        "generated/en/sidebars/restful.sidebar.js",
+        "generated/zh-CN/sidebars/restful.sidebar.js"
+      ],
+      "focusedTests": ["pnpm test:rest-publication-contract"],
+      "harnesses": [],
+      "gates": ["pnpm build:en", "pnpm build:zh-CN"],
+      "reason": "Spec-derived REST output for en, zh-CN, and the docusaurus-i18n ja-JP lane is anchored by per-locale derivation manifests validated through the REST publication contract and build provenance; path set mirrors the evidenceGroups authority."
+    },
+    {
+      "id": "evidence-translation-publication",
+      "paths": [
+        "content/zh-CN/guides/tutorials/**",
+        "content/zh-CN/reference/**",
+        "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/**",
+        "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/**",
+        "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/**",
+        "generated/zh-CN/manifests/reference-translations.json"
+      ],
+      "focusedTests": [
+        "pnpm check:localization-input-inventory",
+        "pnpm test:translation"
+      ],
+      "harnesses": [],
+      "gates": ["pnpm build:en", "pnpm build:zh-CN"],
+      "reason": "Translation-group state (Chinese Reference, Japanese Guides/SDK Reference, and their manifests) is exercised through the translation suite and localization input inventory; manifest provenance itself is validated on the dev translation baseline through the fastpath precheck because validate-reference requires the declared source snapshot; path set mirrors the evidenceGroups authority."
+    },
+    {
+      "id": "translation-fastpath-precheck",
+      "paths": [
+        "scripts/translation/fastpath-precheck.js",
+        "scripts/translation/fastpath-precheck.test.js",
+        ".claude/specs/2026-09-03-translation-fastpath-design.md"
+      ],
+      "focusedTests": ["node --test scripts/translation/fastpath-precheck.test.js"],
+      "harnesses": [],
+      "gates": ["pnpm test:workflow-matrix", "pnpm test:workflow-policy", "git diff --check"],
+      "reason": "The local fail-closed fast-path precheck validates dev-baselined content diffs against the evidenceGroups authority, regenerates the Chinese Reference manifest, enforces the export-group derivation check, and executes every selector command with stable status codes."
+    },
+    {
       "id": "published-content-and-generated-state",
       "paths": [
         ".translation-cache/**",
@@ -445,6 +530,7 @@
       "id": "replay-infrastructure",
       "paths": [
         "scripts/docs-workflow/replay-*",
+        "scripts/docs-workflow/evidence-groups-contract*",
         "scripts/docs-workflow/test-matrix*",
         "scripts/docs-workflow/select-tests-for-changes*",
         ".github/workflows/replay-tests.yml",
