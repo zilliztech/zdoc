@@ -370,10 +370,11 @@ jobs:
           TRANSLATION_POLISH: ${{ (inputs.recovery_run_id != '' || inputs.recovery_bundle_artifact_name != '') && 'false' || 'true' }}
           TRANSLATION_SKIP_BLIND_REVIEW: "true"
           TRANSLATION_ALLOW_PARTIAL: "true"
-          TRANSLATION_CONCURRENCY: ${{ (inputs.recovery_run_id != '' || inputs.recovery_bundle_artifact_name != '') && (inputs.group == 'guides' && '2' || '6') || (inputs.group == 'guides' && '1' || inputs.target == 'zh-CN-reference' && '2' || '4') }}
+          TRANSLATION_CONCURRENCY: ${{ (inputs.recovery_run_id != '' || inputs.recovery_bundle_artifact_name != '') && (inputs.group == 'guides' && '2' || '6') || (inputs.group == 'guides' && '2' || inputs.target == 'zh-CN-reference' && '2' || '4') }}
           TRANSLATION_CHUNK_TARGET_CHARS: ${{ inputs.group == 'guides' && '8000' || '16000' }}
           TRANSLATION_CHUNK_MAX_CHARS: ${{ inputs.group == 'guides' && '12000' || '24000' }}
-          TRANSLATION_FILE_TIMEOUT_MS: "3600000"
+          TRANSLATION_FILE_TIMEOUT_MS: ${{ inputs.group == 'guides' && '1800000' || '3600000' }}
+          TRANSLATION_SOFT_DEADLINE_MS: ${{ inputs.group == 'guides' && '5400000' || '18000000' }}
       - name: Create per-file recovery artifact
         if: ${{ always() && inputs.should_translate && steps.manifest.outputs.count != '0' }}
         run: |

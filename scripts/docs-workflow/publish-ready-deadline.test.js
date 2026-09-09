@@ -109,10 +109,10 @@ test('multi-batch producers: publish_ready stays gated until every serial Guides
   assert.equal(publishReady.if, expectedIf)
   assert.equal(publishReady['timeout-minutes'], 360)
 
-  // The Guides producer is a serial, non-fail-fast matrix: batches finish one
-  // at a time and the whole job is terminal only after the last leg.
+  // The Guides producer stays serial, but a failed batch cancels queued paid
+  // work and makes the matrix terminal for publication accounting.
   assert.equal(workflow.jobs.translate_guides_batches.strategy['max-parallel'], 1)
-  assert.equal(workflow.jobs.translate_guides_batches.strategy['fail-fast'], false)
+  assert.equal(workflow.jobs.translate_guides_batches.strategy['fail-fast'], true)
 
   // publish_ready does not list translate_guides_batches directly; the packager
   // gates on every leg, so the batches are covered transitively.
