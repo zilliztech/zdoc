@@ -119,7 +119,7 @@
 1. refGen.js 输出 per-locale rest-derivation.json(fragment hashes + toolingSha);三个 locale 同 schema。en 的清单作为后续生成校验的锚。
 2. build/provenance 消费该清单:校验 fragment 集 hash 未被未声明地改动。
 3. ja REST 证据路径明确为 build:en 连带的导出校验,不新增翻译单元。
-4. import.json 与 tools-translations.json 治理决策落地:import.json 定为废弃(或补真实 records,二选一在本 Phase PR 内定死);tools-translations.json 迁移到翻译组 schema(补 sourceCommit/status)或明确标注为非发布证据。
+4. import.json 与 tools-translations.json 治理决策落地:import.json 定为废弃(或补真实 records,二选一在本 Phase PR 内定死);tools-translations.json 迁移到翻译组 schema(补 sourceCommit/status)或明确标注为非发布证据。决策已定死:`generated/zh-CN/manifests/import.json` 定为 deprecated(空壳、无 producer/consumer,不得再填充或作为证据消费),`generated/zh-CN/manifests/tools-translations.json` 定为 not-publication-evidence(退役 zh-CN-tools 流程遗留,同名目标路径已由 zh Guides 飞书拉取 manifest 逐文件锚定)。两者登记于 `packages/docs-tooling/src/publication/retiredManifests.ts` 注册表;zh Guides 发布 manifest 写入与 build provenance 输入两侧均按注册表失败关闭。
 5. 测试:导出清单生成/校验用例、三 locale schema 一致性用例、import/tools 治理用例。矩阵同步。
 
 ### Phase 5:fastpath 与 selector 对齐
