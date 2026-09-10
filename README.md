@@ -192,6 +192,8 @@ Japanese localization provenance.
 
 The normal production entry point is [`fetch-docs.yml`](.github/workflows/fetch-docs.yml). It publishes the selected English source units to `dev`, performs final verification, and can dispatch one downstream Translation workflow. Fetch and publish-enabled Translation runs share the `docs-production-dev` concurrency group with `queue: max`; do not bypass that queue with a second manual writer.
 
+Incremental Translation reuses unchanged published semantic-unit translations only when it is explicitly enabled. Set the Actions repository variable `TRANSLATION_SEMANTIC_SEEDS=true` to turn it on for pipeline-triggered runs (or pass the `semantic_seeds` input on a manual dispatch); remove the variable to fall back to full per-file retranslation. Each run's translation report shows `Seeded files` and `Seeded units` so the reuse rate is observable.
+
 ### Before publishing
 
 1. Confirm that the intended tooling is already on `dev` through the PR-based [`sync-master-tooling-to-dev.yml`](.github/workflows/sync-master-tooling-to-dev.yml) workflow. The candidate must be an exact master commit and the resulting merge must be identifiable in the workflow and PR history.

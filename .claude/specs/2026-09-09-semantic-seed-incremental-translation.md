@@ -118,8 +118,15 @@ validates them with existing code paths.
 
 - `_translate-content-group.yml` optional input `semantic_seeds` (boolean, default `false`).
 - `translate-codex.yml` exposes the same opt-in input on both `workflow_dispatch`
-  and `workflow_call` and forwards it verbatim to every `_translate-content-group`
-  producer (Guides batches and the SDK producer matrix).
+  and `workflow_call`. Every `_translate-content-group` producer (Guides batches
+  and the SDK producer matrix) receives
+  `${{ inputs.semantic_seeds || vars.TRANSLATION_SEMANTIC_SEEDS == 'true' }}`.
+  The repo variable is the runtime switch for pipeline-triggered runs: the
+  production entry point (`fetch-docs.yml` `dispatch_translations`) dispatches
+  `translate-codex.yml` without the input, so without the variable the merged
+  feature stays off everywhere. Set `TRANSLATION_SEMANTIC_SEEDS=true` (Actions
+  variables) to enable, delete it or set it back to `false` to disable; manual
+  dispatches can still override per run via the input.
 - Step `Build semantic translation seeds` runs after `Build group translation
   manifest` when translating, in `incremental` mode, with candidates present, and
   the input enabled. It reads `$BASELINE_DIR` (published target baseline already
