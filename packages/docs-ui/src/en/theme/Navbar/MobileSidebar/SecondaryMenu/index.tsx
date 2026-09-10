@@ -92,7 +92,7 @@ function MobileActionLinks() {
         className="mobile-action-link mobile-action-link--primary"
         target="_blank"
         rel="noopener noreferrer">
-        Sign Up Free
+        {uiText.navbar.signUpFree}
       </a>
       <div className="mobile-language-links" aria-label="Language">
         <a href="/docs/home" className="mobile-action-link">English</a>
@@ -304,7 +304,7 @@ export default function NavbarMobileSidebarSecondaryMenu(): ReactNode {
   const {pathname} = useLocation();
   const {siteConfig, i18n} = useDocusaurusContext();
   const site = siteConfig.customFields?.site === 'zh-CN' ? 'zh-CN' : 'en';
-  const uiText = getDocsUiText(site);
+  const uiText = getDocsUiText(site, i18n.currentLocale);
   const locale = i18n.currentLocale === 'ja-JP' ? 'ja-JP' : site;
   const route = parseDocsRoute(pathname, locale);
   const referenceNavigation = getManualReferenceNavigation(site);
