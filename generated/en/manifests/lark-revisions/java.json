@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "group": "java",
   "complete": true,
-  "generatedAt": "2026-08-02T18:42:55.150Z",
-  "sourceRunId": "30761042703",
+  "generatedAt": "2026-09-10T03:53:36.414Z",
+  "sourceRunId": "34429445527",
   "records": [
     {
       "canonicalToken": "A6Vld2dJToRXs8xhq0wcGdiRnDc",
@@ -114,6 +114,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "Ay5BdddEboorRGxq3XacHXYHnwf",
+      "title": "session()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "B4CpdqvN7oZy3zxB9fscTAG8n7E",
       "title": "batchDescribeCollection()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-batchDescribeCollection.md",
@@ -168,9 +177,27 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "BqO8dsvRBoAZ5Mxgqhscqattnzh",
+      "title": "hybridSearchAsync()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "BujpdsEJnozVT4xY3NFczyfrnDe",
       "title": "createAlias()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-createAlias.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "BvuWd2mJUotj3kxXhbqczE9Zn3U",
+      "title": "getAsync()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -306,6 +333,15 @@
       "canonicalToken": "DMr4dKSItoNvtYx2XFscQA8RnWf",
       "title": "createUser()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-createUser.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "DONndM4QbouPN1xdGujcWedRnXb",
+      "title": "searchAsync()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1215,6 +1251,15 @@
       "canonicalToken": "PUOBd229uoQGUIxnHLWcMSidnQh",
       "title": "add()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-EmbeddingList-add.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "PWzJdbh5ZoT8K7xo1j4cbvNsnWe",
+      "title": "queryAsync()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
