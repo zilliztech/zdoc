@@ -408,6 +408,15 @@ function parseArgs(argv) {
 
 function resolvePrefetchScopes({ sourceDir, snapshotPath, planPath = null, docTokens = [], mode }) {
   if (!['incremental', 'recovery'].includes(mode)) throw new Error('Media prefetch scope mode must be incremental or recovery')
+  if (planPath) {
+    const plan = readJson(planPath)
+    if (plan.selection_mode === 'requested' && mode !== 'incremental') {
+      throw new Error('Requested plans must run incremental media prefetch over the closure; full recovery fallback is forbidden')
+    }
+    if (plan.selection_mode === 'requested' && plan.mode !== 'incremental') {
+      throw new Error('Requested plan media prefetch requires an incremental plan')
+    }
+  }
   const canonicalSourceFiles = sourceFilesForSnapshot(sourceDir, readJson(snapshotPath))
   if (mode === 'recovery') {
     return { sourceFiles: canonicalSourceFiles, requiredSourceFiles: canonicalSourceFiles, canonicalSourceFiles }

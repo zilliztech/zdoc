@@ -31,3 +31,5 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Run translation publication replay suites
         run: pnpm test:replay:translation
+      - name: Requested Guides retained-artifact replay
+        run: pnpm test:replay:requested

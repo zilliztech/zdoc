@@ -1,10 +1,23 @@
 const docScraper = require('./larkDocScraper.js')
 const docWriter = require('./larkDocWriter.js')
 const driveWriter = require('./larkDriveWriter.js')
-const { runCanonicalLinkAudit } = require('./canonicalLinkAuditor')
+const { runCanonicalLinkAudit, canonicalRecordsFrom } = require('./canonicalLinkAuditor')
 const { canonicalAuditRequestForPlan } = require('./incrementalCanonicalAudit')
-const { planIncrementalFetch, writeIncrementalFetchPlanReports } = require('./incrementalFetchPlanner')
-const { createSourceSnapshot, readSnapshot, validateCandidateSnapshot, writeSnapshot } = require('./sourceSnapshot')
+const { planIncrementalFetch, writeIncrementalFetchPlanReports, canonicalTokenSet } = require('./incrementalFetchPlanner')
+const {
+    RequestedFetchError,
+    assertTrustedRequestedBaseline,
+    compareRequestedPlans,
+    expandRequestedClosure,
+    mergeRequestedSnapshot,
+    planRequestedGuidesFetch,
+    resolveRequestedSelectors,
+    throwRequestedResolutionErrors,
+    validateRequestedPlanForArtifact,
+    writeRequestedFetchErrorReports,
+    writeRequestedFetchPlanReports,
+} = require('./requestedGuidesFetchPlanner')
+const { createSourceSnapshot, readSnapshot, validateCandidateSnapshot, writeSnapshot, sourceFilesByToken } = require('./sourceSnapshot')
 const { validateSourceCompleteness, assertSourceCompleteness } = require('./sourceCompleteness')
 const { cleanupRemovedIncrementalRecords } = require('./incrementalReconciliation')
 const { createOfflineMediaResolver } = require('./offlineMediaResolver')
@@ -13,6 +26,7 @@ const LarkSourceIndex = require('./larkSourceIndex')
 const Utils = require('./larkUtils.js')
 const fs = require('node:fs')
 const path = require('node:path')
+const crypto = require('node:crypto')
 const inquirer = require('inquirer')
 require('dotenv/config');
 
@@ -25,6 +39,34 @@ function validateOfflineOptions(opts) {
     if (!opts.offline) return
     if (!opts.skipSourceDown) throw new Error('--offline requires --skipSourceDown')
     if (!opts.mediaManifest) throw new Error('--offline requires --mediaManifest')
+}
+
+function validateRequestedPlanOptions(opts, { manualName, sourceType, base } = {}) {
+    if (!opts.requestedSelection && !opts.requestedPlan) return
+    if (manualName !== 'guides' || sourceType !== 'wiki' || !base || !base.endsWith(':*')) {
+        throw new Error('--requestedSelection/--requestedPlan require the Guides wiki Base manual')
+    }
+    if (!opts.incremental) throw new Error('requested planning requires --incremental')
+    if (opts.requestedSelection && opts.requestedPlan) {
+        throw new Error('--requestedSelection and --requestedPlan are mutually exclusive')
+    }
+    if (!opts.requestedPlanPrefix) throw new Error('requested fetch requires --requestedPlanPrefix')
+    if (opts.guidesBasePreflight) throw new Error('requested fetch cannot be combined with --guidesBasePreflight')
+    if (opts.sidebarTargets !== undefined) throw new Error('requested fetch cannot be combined with --sidebarTargets')
+    if (opts.incrementalPlanOnly) throw new Error('requested fetch cannot be combined with --incrementalPlanOnly')
+    if (opts.forceFullFetch) throw new Error('requested fetch cannot be combined with --forceFullFetch')
+    if (opts.docToken !== undefined || opts.docTitle !== undefined) throw new Error('requested fetch cannot be combined with --docToken or --docTitle')
+    if (opts.table) throw new Error('requested fetch cannot be combined with --table')
+    if (opts.pubTarget !== undefined) throw new Error('requested fetch cannot be combined with --pubTarget')
+    if (opts.offline || opts.skipSourceDown || opts.sidebarOnly) {
+        throw new Error('requested fetch performs its own closure source refresh and cannot be combined with --offline, --skipSourceDown, or --sidebarOnly')
+    }
+    if (opts.requestedPlan && !opts.snapshotCandidatePath) {
+        throw new Error('--requestedPlan requires --snapshotCandidatePath for the merged candidate snapshot')
+    }
+    if (opts.requestedSelection && opts.snapshotCandidatePath) {
+        throw new Error('--snapshotCandidatePath is only written for --requestedPlan artifact production')
+    }
 }
 
 function shouldReuseRecentIncrementalPlan({ skipSourceDown, incrementalRender, capability }) {
@@ -453,6 +495,11 @@ function larkDocsPlugin(context, options) {
                 .option('--incremental', 'Fetch only changed Base docs and cross-reference neighbors when a last-success snapshot exists')
                 .option('--incrementalRender', 'Reuse a recent incremental plan for a validated, seeded publication stage')
                 .option('--incrementalPlanOnly', 'Write the incremental fetch plan and exit without fetching')
+                .option('--requestedSelection <path>', 'Requested selection input JSON from guides-requested-selection.js; plan a requested Guides fetch and exit')
+                .option('--requestedPlan <path>', 'Immutable requested plan JSON; fetch its closure and produce the merged candidate snapshot and state-merge receipt')
+                .option('--requestedPlanPrefix <path>', 'Output prefix for requested fetch plan reports')
+                .option('--requestedBaselineSha <sha>', 'Immutable baseline commit SHA bound into the requested plan')
+                .option('--requestedSourceCacheIdentity <identity>', 'Validated source cache identity bound into the requested plan')
                 .option('--guidesBasePreflight', 'Validate Guides Base metadata before fetching document sources')
                 .option('--incrementalMaxReferenceDepth <n>', 'Reference expansion depth for --incremental', '1')
                 .option('--snapshotPath <path>', 'Override last-success snapshot path')
@@ -508,6 +555,8 @@ function larkDocsPlugin(context, options) {
                     }
 
                     const { root, base, sourceType, displayedSidebar, docSourceDir, fallbackSourceDir, targets, sidebarPath, overridePath, contentRoot } = manual
+
+                    validateRequestedPlanOptions(opts, { manualName, sourceType, base })
 
                     // Intialize scraper and writer
                     const scraper = new docScraper(root, base, sourceType, docSourceDir)
@@ -598,6 +647,272 @@ function larkDocsPlugin(context, options) {
                         const paths = writeIncrementalFetchPlanReports(plan, prefix)
                         console.log(`[incremental-fetch] Plan written to ${paths.markdownPath}`)
                         return plan
+                    }
+
+                    const requestedPlanOutputPrefix = () => opts.requestedPlanPrefix ||
+                        path.join('.', 'packages', 'docs-tooling', 'src', 'lark', 'meta', 'reports', `${manualName}-requested-fetch-plan`)
+
+                    const planFreshRequestedState = async ({ requestedTokens, fetchedTokens }) => {
+                        if (!scraper.records) {
+                            await scraper.__base({ progressLabel: '[requested-fetch] Base scan' })
+                        }
+                        const snapshotEnv = opts.buildEnv || 'local'
+                        if (currentNodeMetadataByToken.size === 0) {
+                            currentNodeMetadataByToken = await scraper.fetch_wiki_node_metadata(scraper.records, {
+                                progressLabel: '[requested-fetch] Wiki metadata',
+                            })
+                        }
+                        const previousSnapshot = readSnapshot(opts.snapshotPath ||
+                            path.join('.', 'packages', 'docs-tooling', 'src', 'lark', 'meta', 'snapshots', `${manualName}-${snapshotEnv}-last-success.json`))
+                        const baselineCompleteness = previousSnapshot
+                            ? validateSourceCompleteness({
+                                manual: manualName,
+                                buildEnv: snapshotEnv,
+                                rootToken: root,
+                                sourceDir: docSourceDir,
+                                snapshot: previousSnapshot,
+                            })
+                            : null
+                        if (!previousSnapshot) {
+                            throw new RequestedFetchError('REQUESTED_BASELINE_UNTRUSTED', 'Requested planning requires a trusted baseline snapshot; none was found.')
+                        }
+                        if (!baselineCompleteness.complete) {
+                            throw new RequestedFetchError(
+                                'REQUESTED_BASELINE_UNTRUSTED',
+                                `Baseline source cache is incomplete (${baselineCompleteness.validCanonicalSources}/${baselineCompleteness.expectedCanonicalSources} canonical sources valid); requested planning must not fall back to a full fetch.`,
+                                {
+                                    identity_errors: baselineCompleteness.identityErrors,
+                                    missing_files: baselineCompleteness.missingFiles.slice(0, 10),
+                                    hash_mismatches: baselineCompleteness.hashMismatches.slice(0, 10),
+                                },
+                            )
+                        }
+                        assertTrustedRequestedBaseline(previousSnapshot)
+                        const sourceByToken = sourceFilesByToken(docSourceDir)
+                        const canonicalRecords = canonicalRecordsFrom(scraper.records, { guidesPublishableOnly: true })
+                        const canonicalTokens = canonicalTokenSet(canonicalRecords, sourceByToken)
+                        const { linkedTokens } = expandRequestedClosure({
+                            requestedTokens,
+                            sourceByToken,
+                            previousSnapshot,
+                            canonicalTokens,
+                            refreshedTokens: new Set(fetchedTokens),
+                            maxReferenceDepth: Number(opts.incrementalMaxReferenceDepth || 1),
+                            reasonsByToken: {},
+                        })
+                        return planRequestedGuidesFetch({
+                            site: path.basename(docSourceDir) === 'guides-zh-CN' ? 'zh-CN' : 'en',
+                            buildEnv: snapshotEnv,
+                            docSourceDir,
+                            records: scraper.records,
+                            previousSnapshot,
+                            currentNodeMetadataByToken,
+                            requestedTokens,
+                            selectionEntries: [],
+                            selectionInputSha256: null,
+                            refreshedTokens: [...new Set([...requestedTokens, ...linkedTokens])],
+                            sourceByToken,
+                            maxReferenceDepth: Number(opts.incrementalMaxReferenceDepth || 1),
+                            snapshotCommitSha: opts.requestedBaselineSha || null,
+                            sourceCacheIdentity: opts.requestedSourceCacheIdentity || null,
+                        })
+                    }
+
+                    const produceRequestedArtifactFetch = async () => {
+                        const site = path.basename(docSourceDir) === 'guides-zh-CN' ? 'zh-CN' : 'en'
+                        const prefix = requestedPlanOutputPrefix()
+                        try {
+                            const consumedPlan = JSON.parse(fs.readFileSync(opts.requestedPlan, 'utf8'))
+                            const snapshotEnv = opts.buildEnv || 'local'
+                            const baselineSnapshot = readSnapshot(opts.snapshotPath ||
+                                path.join('.', 'packages', 'docs-tooling', 'src', 'lark', 'meta', 'snapshots', `${manualName}-${snapshotEnv}-last-success.json`))
+                            validateRequestedPlanForArtifact(consumedPlan, {
+                                site,
+                                baselineSnapshot,
+                                expectedBaselineSha: opts.requestedBaselineSha || null,
+                            })
+
+                            const fetchedTokens = new Set()
+                            await scraper.fetch_source_tokens(consumedPlan.requested_tokens)
+                            consumedPlan.requested_tokens.forEach(token => fetchedTokens.add(token))
+
+                            const freshPlan = await planFreshRequestedState({
+                                requestedTokens: consumedPlan.requested_tokens,
+                                fetchedTokens,
+                            })
+                            compareRequestedPlans({ consumed: consumedPlan, fresh: freshPlan })
+                            fs.writeFileSync(`${prefix}-revalidation.json`, `${JSON.stringify({
+                                schema_version: 1,
+                                generated_at: new Date().toISOString(),
+                                site,
+                                consumed_plan_sha256: consumedPlan.plan_sha256,
+                                fresh_plan_sha256: freshPlan.plan_sha256,
+                                affected_tables: freshPlan.affected_tables,
+                            }, null, 2)}\n`)
+
+                            const remaining = freshPlan.expanded_tokens.filter(token => !fetchedTokens.has(token))
+                            if (remaining.length > 0) {
+                                await scraper.fetch_source_tokens(remaining)
+                                remaining.forEach(token => fetchedTokens.add(token))
+                            }
+
+                            const { candidate, receipt } = mergeRequestedSnapshot({
+                                site,
+                                buildEnv: snapshotEnv,
+                                docSourceDir,
+                                rootToken: root,
+                                baseAppToken: scraper.base_app_token,
+                                records: scraper.records,
+                                nodeMetadataByToken: currentNodeMetadataByToken,
+                                previousSnapshot: baselineSnapshot,
+                                plan: consumedPlan,
+                                baselineCommitSha: opts.requestedBaselineSha || null,
+                            })
+                            writeSnapshot(opts.snapshotCandidatePath, candidate)
+                            fs.mkdirSync(path.dirname(`${prefix}-state-merge.json`), { recursive: true })
+                            fs.writeFileSync(`${prefix}-state-merge.json`, `${JSON.stringify(receipt, null, 2)}\n`)
+                            console.log(`[requested-fetch] Merged candidate written to ${opts.snapshotCandidatePath} (inherited ${receipt.merge.inherited_records}, replaced ${receipt.merge.replaced_records}, added ${receipt.merge.added_records}, removed ${receipt.merge.removed_records})`)
+                            console.log(`[requested-fetch] State-merge receipt written to ${prefix}-state-merge.json (${receipt.receipt_sha256})`)
+                            return { candidate, receipt }
+                        } catch (error) {
+                            if (error instanceof RequestedFetchError) {
+                                writeRequestedFetchErrorReports({ error, outputPrefix: prefix, site })
+                            }
+                            throw error
+                        }
+                    }
+
+                    const planRequestedSourceFetch = async () => {
+                        const site = path.basename(docSourceDir) === 'guides-zh-CN' ? 'zh-CN' : 'en'
+                        const prefix = requestedPlanOutputPrefix()
+                        try {
+                            const selectionInput = JSON.parse(fs.readFileSync(opts.requestedSelection, 'utf8'))
+                            const selectionInputSha256 = crypto.createHash('sha256').update(fs.readFileSync(opts.requestedSelection)).digest('hex')
+                            if (Number(selectionInput.schema_version || 0) !== 1 || !Array.isArray(selectionInput.selectors) || selectionInput.selectors.length === 0) {
+                                throw new RequestedFetchError('INVALID_REQUEST_SELECTOR', `Requested selection input must contain schema_version 1 and a non-empty selectors array: ${opts.requestedSelection}`)
+                            }
+                            if (selectionInput.site !== 'both' && selectionInput.site !== site) {
+                                throw new RequestedFetchError('REQUEST_SITE_MISMATCH', `Requested selection input targets site ${selectionInput.site} but this run resolves ${site}.`, { selection_site: selectionInput.site, site })
+                            }
+                            const observation = { scan_started_at: new Date().toISOString() }
+                            if (!scraper.records) {
+                                await scraper.__base({ progressLabel: '[requested-fetch] Base scan' })
+                            }
+                            const snapshotEnv = opts.buildEnv || 'local'
+                            const snapshotPath = opts.snapshotPath ||
+                                path.join('.', 'packages', 'docs-tooling', 'src', 'lark', 'meta', 'snapshots', `${manualName}-${snapshotEnv}-last-success.json`)
+                            currentNodeMetadataByToken = await scraper.fetch_wiki_node_metadata(scraper.records, {
+                                progressLabel: '[requested-fetch] Wiki metadata',
+                            })
+                            observation.scan_completed_at = new Date().toISOString()
+                            const previousSnapshot = readSnapshot(snapshotPath)
+                            const baselineCompleteness = previousSnapshot
+                                ? validateSourceCompleteness({
+                                    manual: manualName,
+                                    buildEnv: snapshotEnv,
+                                    rootToken: root,
+                                    sourceDir: docSourceDir,
+                                    snapshot: previousSnapshot,
+                                })
+                                : null
+                            if (!previousSnapshot) {
+                                throw new RequestedFetchError('REQUESTED_BASELINE_UNTRUSTED', `Requested planning requires a trusted baseline snapshot; none was found at ${snapshotPath}.`)
+                            }
+                            if (!baselineCompleteness.complete) {
+                                throw new RequestedFetchError(
+                                    'REQUESTED_BASELINE_UNTRUSTED',
+                                    `Baseline source cache is incomplete (${baselineCompleteness.validCanonicalSources}/${baselineCompleteness.expectedCanonicalSources} canonical sources valid); requested planning must not fall back to a full fetch.`,
+                                    {
+                                        identity_errors: baselineCompleteness.identityErrors,
+                                        missing_files: baselineCompleteness.missingFiles.slice(0, 10),
+                                        hash_mismatches: baselineCompleteness.hashMismatches.slice(0, 10),
+                                    },
+                                )
+                            }
+                            assertTrustedRequestedBaseline(previousSnapshot)
+
+                            const resolution = resolveRequestedSelectors({
+                                selectors: selectionInput.selectors,
+                                records: scraper.records,
+                                previousSnapshot,
+                                site,
+                            })
+                            throwRequestedResolutionErrors(resolution.errors)
+                            const requestedTokens = resolution.requestedTokens
+
+                            await scraper.fetch_source_tokens(requestedTokens)
+                            let sourceByToken = sourceFilesByToken(docSourceDir)
+                            const canonicalRecords = canonicalRecordsFrom(scraper.records, { guidesPublishableOnly: true })
+                            const canonicalTokens = canonicalTokenSet(canonicalRecords, sourceByToken)
+                            const { linkedTokens } = expandRequestedClosure({
+                                requestedTokens,
+                                sourceByToken,
+                                previousSnapshot,
+                                canonicalTokens,
+                                refreshedTokens: new Set(requestedTokens),
+                                maxReferenceDepth: Number(opts.incrementalMaxReferenceDepth || 1),
+                                reasonsByToken: {},
+                            })
+                            if (linkedTokens.length > 0) {
+                                await scraper.fetch_source_tokens(linkedTokens)
+                            }
+
+                            const refreshedTokens = [...new Set([...requestedTokens, ...linkedTokens])]
+                            sourceByToken = sourceFilesByToken(docSourceDir)
+                            const plan = planRequestedGuidesFetch({
+                                site,
+                                buildEnv: snapshotEnv,
+                                docSourceDir,
+                                records: scraper.records,
+                                previousSnapshot,
+                                currentNodeMetadataByToken,
+                                requestedTokens,
+                                selectionEntries: resolution.entries,
+                                selectionInputSha256,
+                                refreshedTokens,
+                                sourceByToken,
+                                maxReferenceDepth: Number(opts.incrementalMaxReferenceDepth || 1),
+                                snapshotCommitSha: opts.requestedBaselineSha || null,
+                                sourceCacheIdentity: opts.requestedSourceCacheIdentity || null,
+                                observation,
+                            })
+
+                            const closureTokens = new Set(refreshedTokens)
+                            const closureRecords = canonicalRecords
+                                .filter(record => closureTokens.has(record.doc_token))
+                                .map(record => ({ record_id: record.record_id, fields: { Docs: { link: record.doc_link }, Progress: 'published' } }))
+                            if (closureRecords.length > 0) {
+                                const revalidated = await scraper.fetch_wiki_node_metadata(closureRecords, {
+                                    progressLabel: '[requested-fetch] Closure revalidation',
+                                })
+                                for (const [token, metadata] of revalidated) {
+                                    const initial = currentNodeMetadataByToken.get(token)
+                                    if (!initial || initial.fetch_error || metadata.fetch_error) continue
+                                    if (initial.revision_id !== metadata.revision_id || initial.obj_edit_time !== metadata.obj_edit_time) {
+                                        currentNodeMetadataByToken.set(token, metadata)
+                                        plan.warnings.push(`Wiki identity for closure token ${token} changed during planning; the refreshed closure source is authoritative.`)
+                                    }
+                                }
+                                plan.warnings.sort()
+                            }
+
+                            const paths = writeRequestedFetchPlanReports({
+                                plan,
+                                selectionReceipt: {
+                                    selection_input_sha256: selectionInputSha256,
+                                    selectors: resolution.entries,
+                                    errors: [],
+                                },
+                                outputPrefix: prefix,
+                            })
+                            console.log(`[requested-fetch] Plan written to ${paths.markdownPath} (conclusion: ${plan.scope_conflicts.length > 0 ? 'blocked' : 'clean'})`)
+                            return { plan, paths }
+                        } catch (error) {
+                            if (error instanceof RequestedFetchError) {
+                                writeRequestedFetchErrorReports({ error, outputPrefix: prefix, site })
+                            }
+                            throw error
+                        }
                     }
 
                     const readRecentIncrementalPlanForSkippedSources = () => {
@@ -718,6 +1033,16 @@ function larkDocsPlugin(context, options) {
                             records: scraper.records,
                         })
                         console.log(`[guides-preflight] Validated ${result.tables} table(s) and ${result.records} navigation record(s).`)
+                        return
+                    }
+
+                    if (opts.requestedSelection) {
+                        await planRequestedSourceFetch()
+                        return
+                    }
+
+                    if (opts.requestedPlan) {
+                        await produceRequestedArtifactFetch()
                         return
                     }
 
