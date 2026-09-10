@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "The `NGRAM` index in Zilliz Cloud accelerates `LIKE` queries and eligible regex filters on `VARCHAR` fields or specific JSON paths within `JSON` fields. Before building the index, Zilliz Cloud splits text into short, overlapping substrings of a fixed length n, known as n-grams. For example, with n = 3, the word \"Zilliz Cloud\" is split into 3-grams \"Mil\", \"ilv\", \"lvu\", and \"vus\". These n-grams are then stored in an inverted index that maps each gram to the document IDs in which it appears. At query time, this index allows Zilliz Cloud to quickly narrow the search to a small set of candidates before verifying the original filter condition. | Cloud"
+description: "The `NGRAM` index in Zilliz Cloud accelerates `LIKE` queries and eligible regex filters on `VARCHAR` fields or specific JSON paths within `JSON` fields. Before building the index, Zilliz Cloud splits text into short, overlapping substrings of a fixed length n, known as n-grams. For example, with n = 3, the word \"Milvus\" is split into 3-grams \"Mil\", \"ilv\", \"lvu\", and \"vus\". These n-grams are then stored in an inverted index that maps each gram to the document IDs in which it appears. At query time, this index allows Zilliz Cloud to quickly narrow the search to a small set of candidates before verifying the original filter condition. | Cloud"
 type: origin
 token: Q0wpw4xZiimaUsk4GvScAg2un1d
 sidebar_position: 3
@@ -20,7 +20,7 @@ import Admonition from '@theme/Admonition';
 
 # NGRAM
 
-The `NGRAM` index in Zilliz Cloud accelerates `LIKE` queries and eligible regex filters on `VARCHAR` fields or specific JSON paths within `JSON` fields. Before building the index, Zilliz Cloud splits text into short, overlapping substrings of a fixed length *n*, known as *n-grams*. For example, with *n = 3*, the word *"Zilliz Cloud"* is split into 3-grams: *"Mil"*, *"ilv"*, *"lvu"*, and *"vus"*. These n-grams are then stored in an inverted index that maps each gram to the document IDs in which it appears. At query time, this index allows Zilliz Cloud to quickly narrow the search to a small set of candidates before verifying the original filter condition.
+The `NGRAM` index in Zilliz Cloud accelerates `LIKE` queries and eligible regex filters on `VARCHAR` fields or specific JSON paths within `JSON` fields. Before building the index, Zilliz Cloud splits text into short, overlapping substrings of a fixed length *n*, known as *n-grams*. For example, with *n = 3*, the word *"Milvus"* is split into 3-grams: *"Mil"*, *"ilv"*, *"lvu"*, and *"vus"*. These n-grams are then stored in an inverted index that maps each gram to the document IDs in which it appears. At query time, this index allows Zilliz Cloud to quickly narrow the search to a small set of candidates before verifying the original filter condition.
 
 Use it when you need fast prefix, suffix, infix, wildcard, or eligible regex filtering such as:
 
