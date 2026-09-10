@@ -13,6 +13,34 @@ test('GitHub Actions workflows satisfy documentation production safety policy', 
   assert.deepEqual(validateWorkflowPolicies(), [])
 })
 
+test('requested Guides fetch workflow stays a read-only queued plan dispatch', () => {
+  const requested = yaml.load(fs.readFileSync('.github/workflows/fetch-guides-requested.yml', 'utf8'))
+  assert.deepEqual(requested.concurrency, {group: 'docs-production-dev', queue: 'max'})
+  assert.deepEqual(requested.permissions, {contents: 'read', actions: 'read'})
+  assert.ok(requested.on.workflow_dispatch)
+  assert.equal(requested.on.schedule, undefined)
+  assert.equal(requested.on.workflow_dispatch.inputs.publish.default, false)
+  assert.equal(requested.on.workflow_dispatch.inputs.run_translations.default, false)
+  assert.equal(requested.on.workflow_dispatch.inputs.execution_mode.default, 'plan')
+  assert.equal(requested.on.workflow_dispatch.inputs.media_upload_mode.default, 'skip')
+  assert.equal(requested.on.workflow_dispatch.inputs.site.default, 'both')
+  for (const [jobName, job] of Object.entries(requested.jobs || {})) {
+    if (jobName !== 'publish_ready') {
+      assert.notEqual(job.permissions?.contents, 'write', `${jobName} must not grant write permissions`)
+    }
+    if (job['runs-on']) assert.match(String(job['timeout-minutes']), /^\d+$/, `${jobName} must declare a timeout`)
+  }
+  assert.deepEqual(requested.jobs.publish_ready.permissions, {actions: 'read', contents: 'write'})
+  const reusable = yaml.load(fs.readFileSync('.github/workflows/_plan-guides-requested.yml', 'utf8'))
+  assert.equal(reusable.concurrency, undefined)
+  assert.deepEqual(reusable.permissions, {actions: 'read', contents: 'read'})
+  const requestedSources = yaml.load(fs.readFileSync('.github/workflows/_fetch-guides-requested-sources.yml', 'utf8'))
+  assert.equal(requestedSources.concurrency, undefined)
+  assert.deepEqual(requestedSources.permissions, {actions: 'read', contents: 'read'})
+  assert.equal(JSON.stringify(requestedSources).includes('DOCS_TOOLING_FORCE_FULL_FETCH'), false)
+  assert.equal(requestedSources['on'].workflow_call.inputs.media_upload_mode.default, 'skip')
+})
+
 test('workflow policy keeps spec-generated REST out of canonical Translation selection', () => {
   // Keep the copy under scripts/ so selection.js's relative require('../lib/load-typescript')
   // (it now derives GROUPS from the registry) still resolves to the real helper.
@@ -37,7 +65,9 @@ test('publish-capable top-level workflows share the durable dev queue', () => {
   const recovery = yaml.load(fs.readFileSync('.github/workflows/recover-translation.yml', 'utf8'))
   const translation = yaml.load(fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8'))
   const tooling = yaml.load(fs.readFileSync('.github/workflows/sync-master-tooling-to-dev.yml', 'utf8'))
+  const requestedGuides = yaml.load(fs.readFileSync('.github/workflows/fetch-guides-requested.yml', 'utf8'))
   assert.deepEqual(fetch.concurrency, {group: 'docs-production-dev', queue: 'max'})
+  assert.deepEqual(requestedGuides.concurrency, {group: 'docs-production-dev', queue: 'max'})
   assert.deepEqual(tooling.concurrency, {group: 'docs-production-dev', queue: 'max'})
   assert.deepEqual(recovery.concurrency, {
     group: "${{ inputs.publish && 'docs-production-dev' || format('translation-recovery-readonly-{0}', github.run_id) }}",
@@ -1248,7 +1278,7 @@ test('workflow validator rejects unsafe Guides cache migration shapes', () => {
       expected: /preserve the baseline snapshot/,
     },
     {
-      mutate(source) { return source.replace('name: Record Guides cache generation persistence\n        if: ${{ always() }}', 'name: Record Guides cache generation persistence\n        if: ${{ success() }}') },
+      mutate(source) { return source.replace('name: Record Guides cache generation persistence\n        if: ${{ always() && inputs.requested_mode != true }}', 'name: Record Guides cache generation persistence\n        if: ${{ success() }}') },
       expected: /report must run after save/,
     },
     {
@@ -1780,7 +1810,7 @@ test('guides workflows bootstrap full sources and persist only verified caches',
   assert.match(assemble, /id: guides_v5_generation\n\s+name: Create Guides v5 generation payload\n\s+if: \$\{\{ inputs\.cache_save_required == 'true' \}\}[\s\S]*guides-source-cache-generation\.js keys[\s\S]*--snapshot "\$snapshot"[\s\S]*guides-source-cache-generation\.js create[\s\S]*guides-source-cache-generation\.js validate/)
   assert.match(assemble, /--media-manifest "\$media_manifest_path"/)
   assert.match(assemble, /id: save_guides_v5_generation\n\s+name: Save Guides v5 generation\n\s+if: \$\{\{ inputs\.cache_save_required == 'true' && steps\.guides_v5_generation\.outcome == 'success' \}\}\n\s+continue-on-error: true\n\s+uses: actions\/cache\/save@v5[\s\S]*path: tmp\/guides-source-cache-v5[\s\S]*key: \$\{\{ steps\.guides_v5_generation\.outputs\.key \}\}/)
-  assert.match(assemble, /name: Record Guides cache generation persistence\n\s+if: \$\{\{ always\(\) \}\}[\s\S]*guides-cache-generation-lifecycle\.js report[\s\S]*steps\.promoted_snapshot\.outcome[\s\S]*steps\.promoted_source_manifest\.outcome[\s\S]*guides-cache-generation\.json/)
+  assert.match(assemble, /name: Record Guides cache generation persistence\n\s+if: \$\{\{ always\(\)( && inputs\.requested_mode != true)? \}\}[\s\S]*guides-cache-generation-lifecycle\.js report[\s\S]*steps\.promoted_snapshot\.outcome[\s\S]*steps\.promoted_source_manifest\.outcome[\s\S]*guides-cache-generation\.json/)
   assert.match(assemble, /^  actions: write$/m)
   assert.ok(assemble.indexOf('Validate combined guides output') < assemble.indexOf('Select promoted Guides source snapshot'))
   assert.ok(assemble.indexOf('Select promoted Guides source snapshot') < assemble.indexOf('Create Guides v5 generation payload'))

@@ -1,0 +1,22 @@
+{
+  "repository": "zilliztech/zdoc",
+  "run_id": 34303159304,
+  "run_attempt": 1,
+  "head_sha": "064f5187bf31466bf4b3f1c2131337aab6ace1b3",
+  "dev_baseline_sha": "fbbcbdd17552fdeee3b5cf754e5d272217eaee8f",
+  "site": "en",
+  "root_token": "Tg6mwbRGDitPQ3kLUQzc44I7nth",
+  "changed_token": "CpBbwcJ87irHp0k9oCSc2RNIn3d",
+  "changed_table_id": "tblWv7PjNDsexddH",
+  "changed_table_name": "Development",
+  "stable_table_id": "tbl9BeCMjBmalJVb",
+  "stable_table_name": "Get Started",
+  "source_dir": "artifacts/src-en/guides-source/payload/packages/docs-tooling/src/lark/meta/sources/guides",
+  "candidate_snapshot": "artifacts/src-en/guides-source/payload/packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json",
+  "baseline_snapshot": "baseline-guides-en.json",
+  "table_artifacts_dir": "artifacts",
+  "table_artifact_directories": [
+    "artifacts/guides-table-en-saas-development/extracted/guides-table",
+    "artifacts/guides-table-en-byoc-development/extracted/guides-table"
+  ]
+}

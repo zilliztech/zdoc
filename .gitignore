@@ -68,3 +68,6 @@ dist/
 /data/
 .build-card-state.json
 .codegraph
+
+# Real-artifact replay evidence roots (reports are force-added separately)
+.claude/replay/

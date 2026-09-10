@@ -18,9 +18,10 @@ test('package scripts expose stable focused and aggregate replay harness entrypo
     'test:replay:fetch': 'node --test scripts/docs-workflow/replay-fetch-publication-fifo.test.js',
     'test:replay:recovery': 'node --test scripts/docs-workflow/replay-recovery-plan.test.js',
     'test:replay:translation': 'node --test scripts/docs-workflow/replay-translation-publication-fifo.test.js scripts/docs-workflow/replay-translation-monitor-artifacts.test.js',
+    'test:replay:requested': 'node --test scripts/docs-workflow/replay-requested-guides.test.js',
     'test:workflow-matrix': 'node --test scripts/docs-workflow/select-tests-for-changes.test.js',
     'test:for-change': 'node scripts/docs-workflow/select-tests-for-changes.js',
-    'test:replay': 'pnpm run test:replay:contract && pnpm run test:workflow-matrix && pnpm run test:replay:fetch && pnpm run test:replay:recovery',
+    'test:replay': 'pnpm run test:replay:contract && pnpm run test:workflow-matrix && pnpm run test:replay:fetch && pnpm run test:replay:recovery && pnpm run test:replay:requested',
     'test:replay:all': 'pnpm run test:replay && pnpm run test:replay:translation',
   }
   for (const [name, command] of Object.entries(expected)) assert.equal(scripts[name], command, name)

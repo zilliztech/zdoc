@@ -1,0 +1,220 @@
+name: plan requested guides fetch
+
+on:
+  workflow_call:
+    inputs:
+      site: { required: true, type: string }
+      pages: { required: true, type: string }
+      execution_mode: { required: true, type: string }
+      master_sha: { required: true, type: string }
+      dev_baseline_sha: { required: true, type: string }
+      artifact_retention_days: { required: false, type: number, default: 3 }
+    outputs:
+      status: { value: '${{ jobs.plan.outputs.status }}' }
+      conclusion: { value: '${{ jobs.plan.outputs.conclusion }}' }
+      plan_sha256: { value: '${{ jobs.plan.outputs.plan_sha256 }}' }
+      conflict_count: { value: '${{ jobs.plan.outputs.conflict_count }}' }
+      requested_tokens: { value: '${{ jobs.plan.outputs.requested_tokens }}' }
+      affected_tables: { value: '${{ jobs.plan.outputs.affected_tables }}' }
+      artifact_name: { value: '${{ jobs.plan.outputs.artifact_name }}' }
+    secrets:
+      APP_ID: { required: true }
+      APP_SECRET: { required: true }
+      SPACE_ID: { required: true }
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      ZDOC_SITE: ${{ inputs.site }}
+    outputs:
+      status: ${{ steps.result.outputs.status }}
+      conclusion: ${{ steps.plan_result.outputs.conclusion }}
+      plan_sha256: ${{ steps.plan_result.outputs.plan_sha256 }}
+      conflict_count: ${{ steps.plan_result.outputs.conflict_count }}
+      requested_tokens: ${{ steps.plan_result.outputs.requested_tokens }}
+      affected_tables: ${{ steps.plan_result.outputs.affected_tables }}
+      artifact_name: guides-requested-plan-${{ inputs.site }}-${{ github.run_id }}
+    steps:
+      - uses: actions/checkout@v5
+        with: { ref: '${{ inputs.master_sha }}', fetch-depth: 0 }
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
+        with: { node-version: '22', cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - name: Resolve site-owned Guides source
+        run: pnpm docs-tooling guides-source-config --site "${{ inputs.site }}" --github-output "$GITHUB_ENV"
+      - name: Validate requested plan inputs
+        run: |
+          set -euo pipefail
+          [[ "${{ inputs.execution_mode }}" == plan || "${{ inputs.execution_mode }}" == artifact ]] || {
+            echo 'execution_mode must be plan or artifact.' >&2
+            exit 2
+          }
+          [[ -n "${{ inputs.pages }}" ]] || { echo 'pages input must not be empty' >&2; exit 2; }
+      - name: Prepare immutable baseline
+        run: |
+          git fetch --no-tags origin "${{ inputs.dev_baseline_sha }}"
+          git worktree add --detach "$RUNNER_TEMP/baseline" "${{ inputs.dev_baseline_sha }}"
+          bash scripts/restore-generated-state.sh --exact --ref "${{ inputs.dev_baseline_sha }}"
+      - id: source_cache_keys
+        name: Compute Guides cache generation keys
+        run: |
+          snapshot="$snapshot_path"
+          if [[ -f "$snapshot" ]]; then
+            v4_restore_enabled=true
+            v4=$(node scripts/docs-workflow/guides-source-cache.js key --site "$ZDOC_SITE" --snapshot "$snapshot" --version 4)
+            v4_prefix="${v4}-"
+            v4_lookup="${v4_prefix}lookup-${{ github.run_id }}-${{ github.run_attempt }}"
+          else
+            v4_restore_enabled=false
+            v4_prefix=
+            v4_lookup="guides-source-${{ inputs.site }}-v4-no-snapshot-${{ github.run_id }}-${{ github.run_attempt }}"
+          fi
+          printf 'v4_restore_enabled=%s\nv4_lookup=%s\nv4_prefix=%s\n' \
+            "$v4_restore_enabled" "$v4_lookup" "$v4_prefix" >> "$GITHUB_OUTPUT"
+      - id: source_cache_v5
+        name: Restore Guides v5 cache candidate
+        uses: actions/cache/restore@v5
+        with:
+          path: tmp/guides-source-cache-v5
+          key: guides-source-${{ inputs.site }}-v5-lookup-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: guides-source-${{ inputs.site }}-v5-
+      - id: source_cache_v5_check
+        name: Validate and promote Guides v5 cache candidate
+        run: |
+          source_valid=false
+          cache_version=none
+          snapshot="$snapshot_path"
+          payload=tmp/guides-source-cache-v5
+          staged="$RUNNER_TEMP/guides-source-cache-v5"
+          rm -rf "$staged"
+          if [[ -d "$payload" && ! -L "$payload" ]]; then
+            cp -a "$payload" "$staged"
+            rm -rf "$payload"
+            if node scripts/docs-workflow/guides-source-cache-generation.js validate \
+              --site "$ZDOC_SITE" --payload "$staged" --snapshot "$snapshot" --root-token "$root_token"; then
+              node scripts/docs-workflow/guides-source-cache-generation.js promote \
+                --site "$ZDOC_SITE" --payload "$staged" --workspace "$GITHUB_WORKSPACE" \
+                --snapshot "$snapshot" --root-token "$root_token"
+              source_valid=true
+              cache_version=v5
+            fi
+          fi
+          rm -rf "$staged" "$payload"
+          printf 'source_valid=%s\ncache_version=%s\n' "$source_valid" "$cache_version" >> "$GITHUB_OUTPUT"
+      - id: source_cache_v4
+        name: Restore Guides v4 cache candidate
+        if: ${{ steps.source_cache_v5_check.outputs.source_valid != 'true' && steps.source_cache_keys.outputs.v4_restore_enabled == 'true' }}
+        uses: actions/cache/restore@v5
+        with:
+          path: tmp/guides-source-cache-v4
+          key: ${{ steps.source_cache_keys.outputs.v4_lookup }}
+          restore-keys: ${{ steps.source_cache_keys.outputs.v4_prefix }}
+      - id: source_cache_v4_check
+        name: Validate and promote Guides v4 cache candidate
+        if: ${{ steps.source_cache_v5_check.outputs.source_valid != 'true' }}
+        run: |
+          source_valid=false
+          cache_version=none
+          snapshot="$snapshot_path"
+          payload=tmp/guides-source-cache-v4
+          staged="$RUNNER_TEMP/guides-source-cache-v4"
+          rm -rf "$staged"
+          if [[ -d "$payload" && ! -L "$payload" && -f "$snapshot" ]]; then
+            cp -a "$payload" "$staged"
+            rm -rf tmp/guides-source-cache-v4
+            if node scripts/docs-workflow/guides-source-cache-source-promotion.js validate \
+              --site "$ZDOC_SITE" --payload "$staged" --snapshot "$snapshot" \
+              --root-token "$root_token"; then
+              node scripts/docs-workflow/guides-source-cache-source-promotion.js promote \
+                --site "$ZDOC_SITE" --payload "$staged" --workspace "$GITHUB_WORKSPACE" \
+                --snapshot "$snapshot" --root-token "$root_token"
+              source_valid=true
+              cache_version=v4
+            fi
+          fi
+          rm -rf "$staged" tmp/guides-source-cache-v4
+          printf 'source_valid=%s\ncache_version=%s\n' "$source_valid" "$cache_version" >> "$GITHUB_OUTPUT"
+      - name: Fail closed on untrusted requested baseline
+        if: ${{ steps.source_cache_v5_check.outputs.source_valid != 'true' && steps.source_cache_v4_check.outputs.source_valid != 'true' }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/guides-requested-plan"
+          node -e 'const fs=require("node:fs");const payload={code:"REQUESTED_BASELINE_UNTRUSTED",message:"No validated Guides source cache matched the immutable baseline snapshot; requested planning must not fall back to a full fetch.",site:process.env.ZDOC_SITE,generated_at:new Date().toISOString()};fs.writeFileSync(process.argv[1],JSON.stringify(payload,null,2)+"\n")' "$RUNNER_TEMP/guides-requested-plan/guides-requested-error.json"
+          echo 'Requested baseline is untrusted; refusing to plan.' >&2
+          exit 1
+      - name: Clean promoted requested cache residue
+        if: ${{ steps.source_cache_v5_check.outputs.source_valid != 'true' && steps.source_cache_v4_check.outputs.source_valid != 'true' }}
+        run: |
+          node scripts/docs-workflow/guides-source-cache-source-promotion.js cleanup \
+            --site "$ZDOC_SITE" --workspace "$GITHUB_WORKSPACE" --scope all
+      - name: Write requested selection input
+        run: |
+          mkdir -p "$RUNNER_TEMP/guides-requested-plan"
+          node scripts/docs-workflow/guides-requested-selection.js \
+            --pages "${{ inputs.pages }}" \
+            --site "${{ inputs.site }}" \
+            --output "$RUNNER_TEMP/guides-requested-plan/guides-requested-selection-input.json"
+      - name: Plan requested Guides fetch
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+          SPACE_ID: ${{ secrets.SPACE_ID }}
+        run: |
+          set -euo pipefail
+          cache_identity="${{ steps.source_cache_v5_check.outputs.cache_version }}"
+          [[ "$cache_identity" != none ]] || cache_identity="${{ steps.source_cache_v4_check.outputs.cache_version }}"
+          node packages/docs-tooling/src/lark/standalone-cli.js fetch-lark-docs \
+            --manual guides \
+            --incremental \
+            --buildEnv uat \
+            --requestedSelection "$RUNNER_TEMP/guides-requested-plan/guides-requested-selection-input.json" \
+            --requestedPlanPrefix packages/docs-tooling/src/lark/meta/reports/guides-requested-fetch-plan \
+            --requestedBaselineSha "${{ inputs.dev_baseline_sha }}" \
+            --requestedSourceCacheIdentity "$cache_identity"
+          cp packages/docs-tooling/src/lark/meta/reports/guides-requested-fetch-plan.json \
+            packages/docs-tooling/src/lark/meta/reports/guides-requested-fetch-plan.md \
+            packages/docs-tooling/src/lark/meta/reports/guides-requested-fetch-plan-selection.json \
+            "$RUNNER_TEMP/guides-requested-plan/"
+      - id: plan_result
+        name: Read requested plan conclusion
+        if: ${{ always() }}
+        run: |
+          set -euo pipefail
+          plan_file="$RUNNER_TEMP/guides-requested-plan/guides-requested-fetch-plan.json"
+          if [[ ! -f "$plan_file" ]]; then
+            printf 'conclusion=failed\nplan_sha256=\nconflict_count=0\nrequested_tokens=0\naffected_tables=0\n' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          node -e '
+            const fs = require("node:fs")
+            const plan = JSON.parse(fs.readFileSync(process.argv[1], "utf8"))
+            const conclusion = plan.scope_conflicts.length > 0 ? "blocked" : "clean"
+            const lines = [
+              "conclusion=" + conclusion,
+              "plan_sha256=" + plan.plan_sha256,
+              "conflict_count=" + plan.scope_conflicts.length,
+              "requested_tokens=" + plan.requested_tokens.length,
+              "affected_tables=" + plan.affected_tables.length,
+            ]
+            fs.appendFileSync(process.env.GITHUB_OUTPUT, lines.join("\n") + "\n")
+          ' "$plan_file"
+      - name: Upload requested plan evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v6
+        with:
+          name: guides-requested-plan-${{ inputs.site }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/guides-requested-plan/
+          retention-days: ${{ inputs.artifact_retention_days }}
+          if-no-files-found: warn
+      - id: result
+        if: ${{ always() }}
+        run: echo "status=${{ steps.plan_result.outputs.conclusion == 'clean' && 'plan_ready' || (steps.plan_result.outputs.conclusion == 'blocked' && 'blocked' || 'failed') }}" >> "$GITHUB_OUTPUT"
+      - if: ${{ always() }}
+        run: git worktree remove --force "$RUNNER_TEMP/baseline" || true

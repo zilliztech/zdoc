@@ -1,0 +1,429 @@
+name: fetch guides requested
+
+on:
+  workflow_dispatch:
+    inputs:
+      pages:
+        description: "Requested Guides page selectors: Lark wiki/docx URLs or canonical tokens, comma or newline separated (1-50 after deduplication)"
+        type: string
+        required: true
+      site:
+        description: "Site(s) to plan: both, en, or zh-CN (artifact reconstruction currently requires both)"
+        type: choice
+        options: [both, en, zh-CN]
+        default: both
+      execution_mode:
+        description: "Plan-only computes closure/conflicts; artifact additionally reconstructs tables, assembles, and produces artifact-only publication evidence without writing Git"
+        type: choice
+        options: [plan, artifact]
+        default: plan
+      publish:
+        description: "Publish the requested reconstruction to dev (requires execution_mode=artifact, media_upload_mode=write, site=both)"
+        type: boolean
+        default: false
+      run_translations:
+        description: "Hand off to Translation after publication; not enabled yet"
+        type: boolean
+        default: false
+      media_upload_mode:
+        description: "Object-storage behavior for artifact reconstruction; requested planning never writes object storage"
+        type: choice
+        options: [write, skip]
+        default: skip
+      target_branch:
+        description: "Production state branch; requested runs only support dev"
+        type: string
+        default: dev
+      tooling_ref:
+        description: "Tooling ref override; exact SHA allowed"
+        type: string
+        default: master
+      source_ref:
+        description: "Source/baseline ref for requested planning"
+        type: string
+        default: dev
+      artifact_retention_days:
+        description: "Artifact retention in days"
+        type: number
+        default: 3
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: docs-production-dev
+  queue: max
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      tooling_sha: ${{ steps.refs.outputs.tooling_sha }}
+      dev_baseline_sha: ${{ steps.refs.outputs.dev_baseline_sha }}
+      initial_target_sha: ${{ steps.refs.outputs.initial_target_sha }}
+      target_branch: ${{ steps.refs.outputs.target_branch }}
+      execution_mode: ${{ steps.refs.outputs.execution_mode }}
+      publish: ${{ steps.refs.outputs.publish }}
+      retention_days: ${{ steps.refs.outputs.retention_days }}
+      publication_selection_artifact_name: ${{ steps.publication_selection.outputs.artifact_name }}
+      publication_selection_sha256: ${{ steps.publication_selection.outputs.selection_sha256 }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - id: refs
+        name: Resolve immutable refs and validate requested inputs
+        env:
+          PAGES: ${{ github.event.inputs.pages }}
+          SITE: ${{ github.event.inputs.site || 'both' }}
+          EXECUTION_MODE: ${{ github.event.inputs.execution_mode || 'plan' }}
+          PUBLISH: ${{ github.event.inputs.publish == 'true' }}
+          RUN_TRANSLATIONS: ${{ github.event.inputs.run_translations == 'true' }}
+          MEDIA_UPLOAD_MODE: ${{ github.event.inputs.media_upload_mode || 'skip' }}
+          TARGET_BRANCH: ${{ github.event.inputs.target_branch || 'dev' }}
+          TOOLING_REF: ${{ github.event.inputs.tooling_ref || 'master' }}
+          SOURCE_REF: ${{ github.event.inputs.source_ref || 'dev' }}
+          RETENTION_DAYS: ${{ github.event.inputs.artifact_retention_days || '3' }}
+        run: |
+          set -euo pipefail
+          [[ -n "$PAGES" ]] || { echo 'pages input is required' >&2; exit 2; }
+          case "$SITE" in both|en|zh-CN) ;; *) echo "unsupported site: $SITE" >&2; exit 2 ;; esac
+          case "$EXECUTION_MODE" in plan|artifact) ;; *) echo "unsupported execution_mode: $EXECUTION_MODE" >&2; exit 2 ;; esac
+          case "$MEDIA_UPLOAD_MODE" in write|skip) ;; *) echo "unsupported media_upload_mode: $MEDIA_UPLOAD_MODE" >&2; exit 2 ;; esac
+          if [[ "$PUBLISH" == true ]]; then
+            if [[ "$EXECUTION_MODE" != artifact || "$MEDIA_UPLOAD_MODE" != write || "$SITE" != both ]]; then
+              echo 'publish=true requires execution_mode=artifact, media_upload_mode=write, and site=both' >&2
+              exit 2
+            fi
+          fi
+          if [[ "$RUN_TRANSLATIONS" == true ]]; then
+            echo 'run_translations=true is not enabled before Phase 4' >&2
+            exit 2
+          fi
+          if [[ "$EXECUTION_MODE" == plan && "$MEDIA_UPLOAD_MODE" != skip ]]; then
+            echo 'execution_mode=plan requires media_upload_mode=skip' >&2
+            exit 2
+          fi
+          if [[ "$EXECUTION_MODE" == artifact && "$SITE" != both ]]; then
+            echo 'artifact reconstruction currently requires site=both so both site-qualified publication units produce terminal evidence' >&2
+            exit 2
+          fi
+          if [[ "$TARGET_BRANCH" != dev ]]; then
+            echo 'requested runs only support target_branch=dev' >&2
+            exit 2
+          fi
+          [[ "$RETENTION_DAYS" =~ ^[1-9][0-9]*$ ]] || { echo 'artifact_retention_days must be a positive integer' >&2; exit 2; }
+          if [[ "$TARGET_BRANCH" == -* || "$TARGET_BRANCH" == *:* || "$TARGET_BRANCH" == *$'\n'* || "$TARGET_BRANCH" == *$'\r'* ]]; then
+            echo 'target_branch contains forbidden characters' >&2
+            exit 2
+          fi
+          git check-ref-format --branch "$TARGET_BRANCH"
+          tooling_ref="$TOOLING_REF"
+          if [[ "$tooling_ref" =~ ^[0-9a-f]{40}$ ]]; then
+            git fetch --no-tags origin "$tooling_ref"
+            tooling_sha=$(git rev-parse FETCH_HEAD)
+          else
+            if [[ "$tooling_ref" == -* || "$tooling_ref" == *:* || "$tooling_ref" == *$'\n'* || "$tooling_ref" == *$'\r'* ]]; then
+              echo 'tooling_ref contains forbidden characters' >&2
+              exit 2
+            fi
+            git check-ref-format --branch "$tooling_ref"
+            git fetch --no-tags origin "refs/heads/$tooling_ref:refs/remotes/origin/$tooling_ref"
+            tooling_sha=$(git rev-parse "refs/remotes/origin/$tooling_ref")
+          fi
+          git cat-file -e "$tooling_sha^{commit}"
+          node -e 'require("./scripts/docs-workflow/resolve-docs-refs").assertSafeGitRef(process.env.SOURCE_REF)'
+          git fetch --no-tags origin "$SOURCE_REF"
+          source_sha=$(git rev-parse FETCH_HEAD)
+          git fetch --no-tags origin "+refs/heads/$TARGET_BRANCH:refs/remotes/origin/$TARGET_BRANCH"
+          initial_target_sha=$(git rev-parse "refs/remotes/origin/$TARGET_BRANCH^{commit}")
+          [[ "$tooling_sha" =~ ^[0-9a-f]{40}$ && "$source_sha" =~ ^[0-9a-f]{40}$ && "$initial_target_sha" =~ ^[0-9a-f]{40}$ ]]
+          printf 'tooling_sha=%s\ndev_baseline_sha=%s\ninitial_target_sha=%s\ntarget_branch=%s\nexecution_mode=%s\npublish=%s\nretention_days=%s\n' \
+            "$tooling_sha" "$source_sha" "$initial_target_sha" "$TARGET_BRANCH" "$EXECUTION_MODE" "$PUBLISH" "$RETENTION_DAYS" >> "$GITHUB_OUTPUT"
+      - id: publication_selection
+        name: Create immutable Fetch publication selection
+        if: ${{ steps.refs.outputs.execution_mode == 'artifact' }}
+        env:
+          TOOLING_SHA: ${{ steps.refs.outputs.tooling_sha }}
+          TARGET_BRANCH: ${{ steps.refs.outputs.target_branch }}
+          INITIAL_TARGET_SHA: ${{ steps.refs.outputs.initial_target_sha }}
+          SOURCE_BASELINE_SHA: ${{ steps.refs.outputs.dev_baseline_sha }}
+          SELECTED_GROUP: guides
+          PUBLISH: ${{ steps.refs.outputs.publish }}
+          RUN_TRANSLATIONS: 'false'
+        run: |
+          set -euo pipefail
+          selection_dir="$RUNNER_TEMP/publication-selection"
+          selection_file="$selection_dir/publication-selection.json"
+          mkdir -p "$selection_dir"
+          node scripts/docs-workflow/fetch-publication-selection.js selection --output "$selection_file"
+          node scripts/docs-workflow/publication-contracts.js validate-selection "$selection_file"
+          selection_sha256=$(node -e 'const fs=require("node:fs");process.stdout.write(JSON.parse(fs.readFileSync(process.argv[1],"utf8")).selectionSha256)' "$selection_file")
+          printf 'artifact_name=%s\nselection_sha256=%s\n' "publication-selection-requested-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT" "$selection_sha256" >> "$GITHUB_OUTPUT"
+      - name: Upload immutable requested publication selection
+        if: ${{ steps.refs.outputs.execution_mode == 'artifact' }}
+        uses: actions/upload-artifact@v6
+        with:
+          name: publication-selection-requested-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/publication-selection/publication-selection.json
+          if-no-files-found: error
+          retention-days: ${{ fromJSON(steps.refs.outputs.retention_days) }}
+  plan_guides_en:
+    needs: prepare
+    if: ${{ needs.prepare.result == 'success' && github.event.inputs.site != 'zh-CN' }}
+    uses: ./.github/workflows/_plan-guides-requested.yml
+    with:
+      site: en
+      pages: ${{ github.event.inputs.pages }}
+      execution_mode: ${{ github.event.inputs.execution_mode || 'plan' }}
+      master_sha: ${{ needs.prepare.outputs.tooling_sha }}
+      dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
+      artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
+    secrets: inherit
+  plan_guides_zh:
+    needs: prepare
+    if: ${{ needs.prepare.result == 'success' && github.event.inputs.site != 'en' }}
+    uses: ./.github/workflows/_plan-guides-requested.yml
+    with:
+      site: zh-CN
+      pages: ${{ github.event.inputs.pages }}
+      execution_mode: ${{ github.event.inputs.execution_mode || 'plan' }}
+      master_sha: ${{ needs.prepare.outputs.tooling_sha }}
+      dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
+      artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
+    secrets: inherit
+  requested_artifact_gate:
+    needs: [prepare, plan_guides_en, plan_guides_zh]
+    if: ${{ !cancelled() && needs.prepare.outputs.execution_mode == 'artifact' && (needs.plan_guides_en.outputs.conclusion == 'blocked' || needs.plan_guides_zh.outputs.conclusion == 'blocked') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Fail the artifact run on requested scope conflicts
+        run: |
+          echo 'Requested artifact reconstruction is blocked by scope conflicts; inspect the uploaded requested plan evidence before widening selectors.' >&2
+          exit 1
+  produce_guides_sources_en:
+    needs: [prepare, plan_guides_en]
+    if: ${{ needs.prepare.result == 'success' && needs.prepare.outputs.execution_mode == 'artifact' && needs.plan_guides_en.outputs.conclusion == 'clean' }}
+    uses: ./.github/workflows/_fetch-guides-requested-sources.yml
+    with:
+      site: en
+      master_sha: ${{ needs.prepare.outputs.tooling_sha }}
+      dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
+      requested_plan_artifact: ${{ needs.plan_guides_en.outputs.artifact_name }}
+      media_upload_mode: ${{ github.event.inputs.media_upload_mode || 'skip' }}
+      artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
+    secrets: inherit
+  produce_guides_sources_zh:
+    needs: [prepare, plan_guides_zh]
+    if: ${{ needs.prepare.result == 'success' && needs.prepare.outputs.execution_mode == 'artifact' && needs.plan_guides_zh.outputs.conclusion == 'clean' }}
+    uses: ./.github/workflows/_fetch-guides-requested-sources.yml
+    with:
+      site: zh-CN
+      master_sha: ${{ needs.prepare.outputs.tooling_sha }}
+      dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
+      requested_plan_artifact: ${{ needs.plan_guides_zh.outputs.artifact_name }}
+      media_upload_mode: ${{ github.event.inputs.media_upload_mode || 'skip' }}
+      artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
+    secrets: inherit
+  render_guides_tables_en:
+    needs: [prepare, produce_guides_sources_en]
+    if: ${{ needs.produce_guides_sources_en.outputs.status == 'artifact_ready' && needs.produce_guides_sources_en.outputs.table_count != '0' }}
+    strategy:
+      matrix: ${{ fromJSON(needs.produce_guides_sources_en.outputs.table_matrix) }}
+      fail-fast: false
+    uses: ./.github/workflows/_render-guides-table.yml
+    with:
+      site: en
+      table_id: ${{ matrix.table_id }}
+      table_name: ${{ matrix.table_name }}
+      table_slug: ${{ matrix.table_slug }}
+      target: ${{ matrix.target }}
+      target_name: ${{ matrix.target_name }}
+      cleanup: ${{ matrix.cleanup }}
+      source_artifact_name: ${{ needs.produce_guides_sources_en.outputs.artifact_name }}
+      master_sha: ${{ needs.prepare.outputs.tooling_sha }}
+      dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
+      artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
+    secrets: inherit
+  render_guides_tables_zh:
+    needs: [prepare, produce_guides_sources_zh]
+    if: ${{ needs.produce_guides_sources_zh.outputs.status == 'artifact_ready' && needs.produce_guides_sources_zh.outputs.table_count != '0' }}
+    strategy:
+      matrix: ${{ fromJSON(needs.produce_guides_sources_zh.outputs.table_matrix) }}
+      fail-fast: false
+    uses: ./.github/workflows/_render-guides-table.yml
+    with:
+      site: zh-CN
+      table_id: ${{ matrix.table_id }}
+      table_name: ${{ matrix.table_name }}
+      table_slug: ${{ matrix.table_slug }}
+      target: ${{ matrix.target }}
+      target_name: ${{ matrix.target_name }}
+      cleanup: ${{ matrix.cleanup }}
+      source_artifact_name: ${{ needs.produce_guides_sources_zh.outputs.artifact_name }}
+      master_sha: ${{ needs.prepare.outputs.tooling_sha }}
+      dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
+      artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
+    secrets: inherit
+  assemble_guides_en:
+    needs: [prepare, produce_guides_sources_en, render_guides_tables_en]
+    if: ${{ needs.produce_guides_sources_en.outputs.status == 'artifact_ready' && needs.render_guides_tables_en.result == 'success' }}
+    uses: ./.github/workflows/_assemble-guides.yml
+    with:
+      site: en
+      source_artifact_name: ${{ needs.produce_guides_sources_en.outputs.artifact_name }}
+      table_matrix: ${{ needs.produce_guides_sources_en.outputs.table_matrix }}
+      table_count: ${{ needs.produce_guides_sources_en.outputs.table_count }}
+      master_sha: ${{ needs.prepare.outputs.tooling_sha }}
+      dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
+      publication_selection_artifact_name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
+      publication_selection_sha256: ${{ needs.prepare.outputs.publication_selection_sha256 }}
+      publication_unit_key: source/guides-en
+      target_branch: ${{ needs.prepare.outputs.target_branch }}
+      cache_version: ${{ needs.produce_guides_sources_en.outputs.cache_version }}
+      cache_save_required: ${{ needs.produce_guides_sources_en.outputs.cache_save_required }}
+      assembly_decision_sha256: ${{ needs.produce_guides_sources_en.outputs.assembly_decision_sha256 }}
+      requested_mode: true
+      artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
+    secrets: inherit
+  assemble_guides_zh:
+    needs: [prepare, produce_guides_sources_zh, render_guides_tables_zh]
+    if: ${{ needs.produce_guides_sources_zh.outputs.status == 'artifact_ready' && needs.render_guides_tables_zh.result == 'success' }}
+    uses: ./.github/workflows/_assemble-guides.yml
+    with:
+      site: zh-CN
+      source_artifact_name: ${{ needs.produce_guides_sources_zh.outputs.artifact_name }}
+      table_matrix: ${{ needs.produce_guides_sources_zh.outputs.table_matrix }}
+      table_count: ${{ needs.produce_guides_sources_zh.outputs.table_count }}
+      master_sha: ${{ needs.prepare.outputs.tooling_sha }}
+      dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
+      publication_selection_artifact_name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
+      publication_selection_sha256: ${{ needs.prepare.outputs.publication_selection_sha256 }}
+      publication_unit_key: source/guides-zh-CN
+      target_branch: ${{ needs.prepare.outputs.target_branch }}
+      cache_version: ${{ needs.produce_guides_sources_zh.outputs.cache_version }}
+      cache_save_required: ${{ needs.produce_guides_sources_zh.outputs.cache_save_required }}
+      assembly_decision_sha256: ${{ needs.produce_guides_sources_zh.outputs.assembly_decision_sha256 }}
+      requested_mode: true
+      artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
+    secrets: inherit
+  publish_ready:
+    needs: [prepare, assemble_guides_en, assemble_guides_zh]
+    if: ${{ always() && needs.prepare.outputs.execution_mode == 'artifact' && needs.assemble_guides_en.outputs.status == 'artifact_ready' && needs.assemble_guides_zh.outputs.status == 'artifact_ready' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    permissions:
+      actions: read
+      contents: write
+    outputs:
+      results_artifact_name: ${{ steps.publish.outputs.results_artifact_name }}
+      overall_status: ${{ steps.publish.outputs.overall_status }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.prepare.outputs.tooling_sha }}
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
+        with: { node-version: '22', cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - name: Download immutable requested publication selection
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
+          path: ${{ runner.temp }}/publication-selection
+      - name: Validate immutable requested publication selection
+        env:
+          EXPECTED_SELECTION_SHA256: ${{ needs.prepare.outputs.publication_selection_sha256 }}
+        run: |
+          set -euo pipefail
+          selection="$RUNNER_TEMP/publication-selection/publication-selection.json"
+          node scripts/docs-workflow/publication-contracts.js validate-selection "$selection"
+          actual=$(node -e 'const fs=require("node:fs");process.stdout.write(JSON.parse(fs.readFileSync(process.argv[1],"utf8")).selectionSha256)' "$selection")
+          [[ "$actual" == "$EXPECTED_SELECTION_SHA256" ]]
+      - id: publish
+        name: Publish or record terminal requested publication evidence
+        uses: actions/github-script@v8
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          PUBLISH: ${{ needs.prepare.outputs.publish }}
+        with:
+          script: |
+            const mode = process.env.PUBLISH === 'true' ? 'publish' : 'artifact_only'
+            await exec.exec('node', [
+              'scripts/docs-workflow/publication-coordinator.js',
+              '--selection', `${process.env.RUNNER_TEMP}/publication-selection/publication-selection.json`,
+              '--mode', mode,
+              '--poll-milliseconds', '10000',
+              '--candidate-polls', '6',
+              '--max-publish-attempts', '10',
+            ])
+  verify_publication:
+    needs: [prepare, publish_ready]
+    if: ${{ always() && needs.prepare.outputs.execution_mode == 'artifact' && needs.prepare.outputs.publish == 'true' && needs.publish_ready.outputs.results_artifact_name != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      actions: read
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.prepare.outputs.tooling_sha }}
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
+        with: { node-version: '22', cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - name: Download requested publication selection
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
+          path: ${{ runner.temp }}/publication-selection
+      - name: Download requested publication results
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ needs.publish_ready.outputs.results_artifact_name }}
+          path: ${{ runner.temp }}/publication-results
+      - name: Verify requested publication results and final ancestry
+        run: |
+          set -euo pipefail
+          selection="$RUNNER_TEMP/publication-selection/publication-selection.json"
+          results="$RUNNER_TEMP/publication-results/publication-results.json"
+          [[ -f "$results" ]] || { echo 'Publication results artifact is missing' >&2; exit 1; }
+          node scripts/docs-workflow/fetch-publication-results.js verify-documents --selection "$selection" --results "$results"
+          final_target_sha=$(node -e 'const fs=require("node:fs");process.stdout.write(JSON.parse(fs.readFileSync(process.argv[1],"utf8")).finalTargetSha)' "$results")
+          git fetch --no-tags origin "$final_target_sha"
+          git merge-base --is-ancestor "${{ needs.prepare.outputs.dev_baseline_sha }}" "$final_target_sha" || {
+            echo 'Published final target does not descend from the requested planning baseline' >&2
+            exit 1
+          }
+          git checkout --detach "$final_target_sha"
+          node scripts/docs-workflow/fetch-publication-results.js verify-repository             --selection "$selection" --results "$results"             --repository "$GITHUB_WORKSPACE"
+          echo "final_target_sha=$final_target_sha" >> "$GITHUB_OUTPUT"
+  summarize:
+    needs: [prepare, plan_guides_en, plan_guides_zh, requested_artifact_gate, produce_guides_sources_en, produce_guides_sources_zh, assemble_guides_en, assemble_guides_zh, publish_ready, verify_publication]
+    if: ${{ !cancelled() && needs.prepare.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Report requested run conclusions
+        run: |
+          {
+            echo '## Requested Guides fetch'
+            echo ''
+            echo "Mode: ${{ needs.prepare.outputs.execution_mode }}"
+            echo "- en plan: ${{ needs.plan_guides_en.result == 'skipped' && 'skipped' || needs.plan_guides_en.outputs.conclusion }} (plan: ${{ needs.plan_guides_en.outputs.plan_sha256 || 'n/a' }})"
+            echo "- zh-CN plan: ${{ needs.plan_guides_zh.result == 'skipped' && 'skipped' || needs.plan_guides_zh.outputs.conclusion }} (plan: ${{ needs.plan_guides_zh.outputs.plan_sha256 || 'n/a' }})"
+            echo "- en sources: ${{ needs.produce_guides_sources_en.outputs.status || 'skipped' }} (receipt: ${{ needs.produce_guides_sources_en.outputs.state_merge_receipt_sha256 || 'n/a' }})"
+            echo "- zh-CN sources: ${{ needs.produce_guides_sources_zh.outputs.status || 'skipped' }} (receipt: ${{ needs.produce_guides_sources_zh.outputs.state_merge_receipt_sha256 || 'n/a' }})"
+            echo "- en checkpoint: ${{ needs.assemble_guides_en.outputs.status || 'skipped' }}"
+            echo "- zh-CN checkpoint: ${{ needs.assemble_guides_zh.outputs.status || 'skipped' }}"
+            echo "- publication evidence: ${{ needs.publish_ready.outputs.overall_status || 'skipped' }}"
+            echo "- publish verification: ${{ needs.verify_publication.result || 'skipped' }}"
+          } >> "$GITHUB_STEP_SUMMARY"
+          cat "$GITHUB_STEP_SUMMARY"

@@ -587,3 +587,29 @@ test('recovery CLI writes empty canonical manifest and report with bounded count
   })
   assert.match(result.stdout, /\[guides-media-prefetch\] canonical=0 selected=0 manifest_reuse=0 docs_reconstruction=0 network_resolved=0 stale_dropped=0 final=0/)
 })
+
+test('requested plans must run incremental media prefetch with no full recovery fallback', () => {
+  const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-media-requested-'))
+  try {
+    const planPath = path.join(directory, 'requested-plan.json')
+    fs.writeFileSync(planPath, JSON.stringify({ schema_version: 1, manual: 'guides', mode: 'incremental', selection_mode: 'requested', expanded_tokens: ['a'] }))
+    fs.writeFileSync(path.join(directory, 'a.json'), JSON.stringify({ title: 'a', node_token: 'a' }))
+    fs.writeFileSync(path.join(directory, 'snapshot.json'), JSON.stringify({
+      records: [{ doc_token: 'a', node_token: 'a', source_file: 'a.json' }],
+    }))
+    const scopeArgs = { sourceDir: directory, snapshotPath: path.join(directory, 'snapshot.json'), planPath }
+    assert.throws(
+      () => resolvePrefetchScopes({ ...scopeArgs, mode: 'recovery' }),
+      /full recovery fallback is forbidden/,
+    )
+    const fullModePlan = JSON.parse(fs.readFileSync(planPath, 'utf8'))
+    fullModePlan.mode = 'full'
+    fs.writeFileSync(planPath, JSON.stringify(fullModePlan))
+    assert.throws(
+      () => resolvePrefetchScopes({ ...scopeArgs, mode: 'incremental' }),
+      /requires an incremental plan/,
+    )
+  } finally {
+    fs.rmSync(directory, { recursive: true, force: true })
+  }
+})
