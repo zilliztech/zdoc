@@ -1,65 +1,17 @@
 {
-  "generated_at": "2026-09-10T10:28:20.940Z",
+  "generated_at": "2026-09-10T18:30:14.389Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
-  "changed_records": [
-    {
-      "record_id": "recvlPuAMvtXHT",
-      "table_id": "tblWv7PjNDsexddH",
-      "table_name": "Development",
-      "title": "NGRAM",
-      "labels": "NGRAM",
-      "slug": "ngram-index-type",
-      "doc_token": "Q0wpw4xZiimaUsk4GvScAg2un1d",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/Q0wpw4xZiimaUsk4GvScAg2un1d",
-      "reasons": [
-        "wiki node revision changed"
-      ]
-    }
-  ],
-  "changed_tokens": [
-    "Q0wpw4xZiimaUsk4GvScAg2un1d"
-  ],
-  "expanded_tokens": [
-    "LBbUwOGcwi1UMak3eE2cM1gvnUe",
-    "MBVVww2Zii8k6Bk77GJcXbZJnpf",
-    "Neq4wR0EdiXokRkhXwbcMPfanCd",
-    "P3wrwSMNNihy8Vkf9p6cTsWYnTb",
-    "PFbNwB7Mli18n6k6VWScGcpWndc",
-    "Q0wpw4xZiimaUsk4GvScAg2un1d",
-    "QBXVwP7oiiuEovkprDnckJlEnoK"
-  ],
+  "changed_records": [],
+  "changed_tokens": [],
+  "expanded_tokens": [],
   "removed_records": [],
   "removed_tokens": [],
-  "reasons_by_token": {
-    "Q0wpw4xZiimaUsk4GvScAg2un1d": [
-      "wiki node revision changed"
-    ],
-    "PFbNwB7Mli18n6k6VWScGcpWndc": [
-      "outgoing reference from Q0wpw4xZiimaUsk4GvScAg2un1d"
-    ],
-    "P3wrwSMNNihy8Vkf9p6cTsWYnTb": [
-      "outgoing reference from Q0wpw4xZiimaUsk4GvScAg2un1d"
-    ],
-    "MBVVww2Zii8k6Bk77GJcXbZJnpf": [
-      "outgoing reference from Q0wpw4xZiimaUsk4GvScAg2un1d"
-    ],
-    "LBbUwOGcwi1UMak3eE2cM1gvnUe": [
-      "incoming reference to Q0wpw4xZiimaUsk4GvScAg2un1d"
-    ],
-    "Neq4wR0EdiXokRkhXwbcMPfanCd": [
-      "incoming reference to Q0wpw4xZiimaUsk4GvScAg2un1d"
-    ],
-    "QBXVwP7oiiuEovkprDnckJlEnoK": [
-      "incoming reference to Q0wpw4xZiimaUsk4GvScAg2un1d"
-    ]
-  },
+  "reasons_by_token": {},
   "warnings": [],
-  "affected_tables": [
-    "tblWv7PjNDsexddH"
-  ],
+  "affected_tables": [],
   "current_table_targets": {
     "tbl9BeCMjBmalJVb": [
       "zilliz.paas",
@@ -153,7 +105,7 @@
     "tblZMzoITXNsyKmQ": "Management"
   },
   "snapshot_basis": {
-    "generated_at": "2026-09-10T03:44:45.745Z",
+    "generated_at": "2026-09-10T10:28:50.189Z",
     "records": 394
   },
   "source_scope": "partial"
