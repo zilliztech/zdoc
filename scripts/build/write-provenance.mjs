@@ -16,6 +16,14 @@ import {
 
 export {assertNoInputPathCollisions};
 
+export function assertNoRetiredManifestInputs(relativePaths) {
+  for (const relativePath of relativePaths) {
+    if (RETIRED_MANIFEST_INPUTS.has(relativePath)) {
+      throw new Error(`Retired publication manifest must not become a provenance input: ${relativePath}`);
+    }
+  }
+}
+
 const provenanceFile = 'build-provenance.json';
 const externalSnapshotWorktree = 'external-snapshot';
 export const localizationInputInventoryFile = 'deploy/contracts/localization-inputs.inventory.json';
@@ -27,6 +35,16 @@ const {SiteProfileSchema, resolveSiteProfile} = jiti(
 );
 const {resolveTranslationTarget, translationTargets} = jiti(
   path.join(toolRepositoryRoot, 'packages/docs-tooling/src/translation/targets.ts'),
+);
+const {restDerivationManifestTargets} = jiti(
+  path.join(toolRepositoryRoot, 'packages/docs-tooling/src/publication/diagnostics.ts'),
+);
+const {retiredPublicationManifestPaths} = jiti(
+  path.join(toolRepositoryRoot, 'packages/docs-tooling/src/publication/retiredManifests.ts'),
+);
+const RETIRED_MANIFEST_INPUTS = new Set(retiredPublicationManifestPaths());
+const restDerivationValidator = createRequire(path.join(toolRepositoryRoot, 'packages/docs-tooling/package.json'))(
+  './src/reference/rest/restDerivationManifest.js',
 );
 const allowedEnvironmentFields = Object.freeze([
   'BUILD_ID',
@@ -223,7 +241,7 @@ function translationTargetInputDefinition(target) {
     return {
       site: target.sourceSite,
       roots: target.mappings.map(mapping => mapping.targetRoot),
-      required: [target.state.path],
+      required: [target.state.path, ...(target.candidateState ? [target.candidateState.path] : [])],
     };
   }
   return {
@@ -352,6 +370,7 @@ function hashLocalizationInputs(repositoryRoot, site, {trackedInputInventory, ca
     ...actual.filter(relativePath => allowedCandidates.has(relativePath)),
   ])].sort(compareBinary);
   assertNoInputPathCollisions(selected);
+  assertNoRetiredManifestInputs([...selected, ...candidateDirty, ...candidateDeleted]);
   const actualSet = new Set(actual);
   const untracked = actual.filter(relativePath => !tracked.has(relativePath) && !allowedCandidates.has(relativePath));
   if (untracked.length > 0) {
@@ -386,6 +405,36 @@ function hashLocalizationInputs(repositoryRoot, site, {trackedInputInventory, ca
 
 function hashRequiredFile(repositoryRoot, relativePath, label) {
   return hashBytes(secureReadRegularFile(repositoryRoot, relativePath, label).bytes);
+}
+
+function hashRestDerivationEvidence(repositoryRoot, site) {
+  const publication = site === 'en'
+    ? {
+        contentRoot: 'content/en/reference',
+        outputDir: 'content/en/reference/api/restful/restful',
+        sidebarPath: 'generated/en/sidebars/restful.sidebar.js',
+      }
+    : {
+        contentRoot: 'content/zh-CN/reference',
+        outputDir: 'content/zh-CN/reference/api/restful/restful',
+        sidebarPath: 'generated/zh-CN/sidebars/restful.sidebar.js',
+      };
+  const targets = restDerivationManifestTargets(site, publication);
+  if (targets.length === 0) return undefined;
+  const fragmentRoot = path.join(repositoryRoot, 'packages/docs-tooling/src/reference/rest/meta/openapi');
+  const records = targets.map(target => {
+    const manifestBytes = secureReadRegularFile(repositoryRoot, target.manifestPath, 'REST derivation manifest').bytes;
+    let manifest;
+    try { manifest = JSON.parse(manifestBytes.toString('utf8')); } catch {
+      throw new Error(`REST derivation manifest is not valid JSON: ${target.manifestPath}`);
+    }
+    const validated = restDerivationValidator.validateRestDerivationManifest({fragmentRoot, manifestPath: path.join(repositoryRoot, target.manifestPath), locale: target.locale});
+    if (validated.toolingSha !== manifest.toolingSha) throw new Error(`REST derivation manifest tooling SHA mismatch: ${target.manifestPath}`);
+    return {locale: target.locale, manifestPath: target.manifestPath, sha256: hashBytes(manifestBytes), toolingSha: validated.toolingSha, fragmentCount: Object.keys(validated.fragmentHashes).length};
+  });
+  const toolingShas = new Set(records.map(record => record.toolingSha));
+  if (toolingShas.size !== 1) throw new Error('REST derivation manifests must use one tooling SHA');
+  return {records};
 }
 
 function assertExactKeys(value, expected, label) {
@@ -718,6 +767,7 @@ export function writeBuildProvenance({
     } : {}),
   };
   const finalRouteInventories = routeInventories(site, routes, root);
+  const restDerivation = hashRestDerivationEvidence(root, site);
   const selectedEnvironment = Object.fromEntries(
     allowedEnvironmentFields
       .filter(name => environment[name] !== undefined)
@@ -740,6 +790,7 @@ export function writeBuildProvenance({
       records: contentManifestRecords,
     },
     localizationInputs,
+    ...(restDerivation ? {restDerivation} : {}),
     routeInventories: finalRouteInventories,
     componentHashes: {
       profile: hashCanonical(parsedProfile),
@@ -748,6 +799,7 @@ export function writeBuildProvenance({
       legacyFiles: hashRequiredFile(root, 'migration/legacy-files.json', 'legacy file ledger'),
       contentManifests: hashCanonical(contentManifestRecords),
       localizationInputs: hashCanonical(localizationInputs),
+      ...(restDerivation ? {restDerivation: hashCanonical(restDerivation)} : {}),
       routes: hashCanonical(routes),
       routeInventories: hashCanonical(finalRouteInventories),
       environment: hashCanonical(selectedEnvironment),

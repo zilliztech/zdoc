@@ -867,6 +867,7 @@ test('Fetch producers stay parallel while publication and derived-state writers 
   assert.equal(workflow.jobs.prepare.outputs.publication_selection_artifact_name, '${{ steps.publication_selection.outputs.artifact_name }}')
   assert.equal(workflow.jobs.prepare.outputs.publication_selection_sha256, '${{ steps.publication_selection.outputs.selection_sha256 }}')
   assert.equal(workflow.jobs.prepare.outputs.initial_target_sha, '${{ steps.refs.outputs.initial_target_sha }}')
+  assert.equal(workflow.jobs.prepare.outputs.selected_sdk_count, '${{ steps.sdk_groups.outputs.count }}')
   assert.match(source, /fetch-publication-selection\.js selection/)
   assert.match(source, /name: publication-selection-fetch-\$\{\{ github\.run_id \}\}-\$\{\{ github\.run_attempt \}\}/)
 
@@ -878,6 +879,7 @@ test('Fetch producers stay parallel while publication and derived-state writers 
   }
   const sdkMatrix = workflow.jobs.produce_sdk_reference
   assert.equal(sdkMatrix.name, 'produce_${{ matrix.group }}')
+  assert.match(sdkMatrix.if, /needs\.prepare\.outputs\.selected_sdk_count != '0'/)
   assert.equal(sdkMatrix.strategy.matrix.group, '${{ fromJSON(needs.prepare.outputs.selected_sdk_groups) }}')
   assert.equal(sdkMatrix.with.group, '${{ matrix.group }}')
   assert.equal(sdkMatrix.with.publication_unit_key, 'source/${{ matrix.group }}')

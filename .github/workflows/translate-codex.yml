@@ -9,6 +9,7 @@ on:
       publish: { description: Publish validated translations, required: false, type: boolean, default: false }
       recovery_run_ids_json: { description: Recovery run IDs by target/group, required: false, type: string, default: '{}' }
       request_id: { description: Parent workflow correlation ID, required: false, type: string, default: '' }
+      semantic_seeds: { description: Reuse unchanged published semantic units in incremental runs, required: false, type: boolean, default: false }
   workflow_call:
     inputs:
       handoff_json: { description: Complete schema-v3 translation handoff, required: true, type: string }
@@ -21,6 +22,7 @@ on:
       recovery_provenance_json: { required: false, type: string, default: '' }
       production_queue_owned: { required: false, type: boolean, default: false }
       allow_full_retranslate: { required: false, type: boolean, default: false }
+      semantic_seeds: { required: false, type: boolean, default: false }
     secrets:
       TRANSLATION_AGENT_API_KEY: { required: true }
       REVIEW_AGENT_API_KEY: { required: true }
@@ -243,7 +245,10 @@ jobs:
     needs: [prepare, prepare_guides_batches]
     if: ${{ needs.prepare_guides_batches.outputs.batch_count != '0' }}
     strategy:
-      fail-fast: false
+      # Batches are serialized because each durable checkpoint is part of one
+      # canonical Guides set. Stop queued paid work when a batch cannot produce
+      # a valid checkpoint; its per-file recovery artifact remains resumable.
+      fail-fast: true
       max-parallel: 1
       matrix: ${{ fromJSON(needs.prepare_guides_batches.outputs.matrix) }}
     uses: ./.github/workflows/_translate-content-group.yml
@@ -270,6 +275,7 @@ jobs:
       publication_selection_artifact_name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
       publication_selection_sha256: ${{ needs.prepare.outputs.publication_selection_sha256 }}
       publication_unit_key: translation/ja-JP/guides
+      semantic_seeds: ${{ inputs.semantic_seeds || vars.TRANSLATION_SEMANTIC_SEEDS == 'true' }}
     secrets:
       TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
       REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
@@ -301,6 +307,7 @@ jobs:
       publication_selection_artifact_name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
       publication_selection_sha256: ${{ needs.prepare.outputs.publication_selection_sha256 }}
       publication_unit_key: ${{ matrix.publicationUnitKey }}
+      semantic_seeds: ${{ inputs.semantic_seeds || vars.TRANSLATION_SEMANTIC_SEEDS == 'true' }}
     secrets:
       TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
       REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}

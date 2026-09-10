@@ -4,6 +4,7 @@ import {useLocation} from '@docusaurus/router';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import ICONS from '../navIcons';
 import {useDropdownClose} from '../useDropdownClose';
+import {localizeNavLabel, useDocsUiText} from '../../../shared/i18n/uiText';
 import styles from './styles.module.css';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -283,13 +284,14 @@ function CollapsedTopbar({items, activePrefixes}: {items: NavItem[]; activePrefi
   const [panelPosition, setPanelPosition] = useState<{top: number; left: number} | null>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const uiText = useDocsUiText();
   useDropdownClose(open, setOpen, wrapperRef);
 
   const activeItem = items.find(it =>
     (!!it.prefix && activePrefixes.has(it.prefix)) ||
     (it.items?.some(c => c.prefix && activePrefixes.has(c.prefix)) ?? false),
   );
-  const label = activeItem?.label ?? 'Menu';
+  const label = activeItem?.label ?? uiText.navbar.menu;
 
   const updatePos = useCallback(() => {
     const rect = buttonRef.current?.getBoundingClientRect();
@@ -360,10 +362,20 @@ function CollapsedTopbar({items, activePrefixes}: {items: NavItem[]; activePrefi
 export default function SecondaryNavbar({variant = 'bar'}: {variant?: 'bar' | 'topbar'}): React.ReactElement {
   const {pathname} = useLocation();
   const {siteConfig} = useDocusaurusContext();
+  const uiText = useDocsUiText();
   const navItems = (siteConfig.customFields?.secondaryNavbar ?? []) as NavItem[];
 
-  const visibleItems = navItems.filter(item => !item.hidden);
-  const activePrefixes = findActivePrefixes(navItems, pathname);
+  // Labels come from the site profile in English; map them through the UI text
+  // dictionary so the ja-JP locale renders localized tabs (identity for en/zh).
+  const localizeItem = (item: NavItem): NavItem => ({
+    ...item,
+    label: localizeNavLabel(item.label, uiText) ?? item.label,
+    items: item.items?.map(localizeItem),
+  });
+  const localizedItems = navItems.map(localizeItem);
+
+  const visibleItems = localizedItems.filter(item => !item.hidden);
+  const activePrefixes = findActivePrefixes(localizedItems, pathname);
   const topbarRef = useRef<HTMLDivElement>(null);
   const measureRef = useRef<HTMLDivElement>(null);
   const collapsed = useTopbarCollapsed(variant === 'topbar', topbarRef, measureRef);

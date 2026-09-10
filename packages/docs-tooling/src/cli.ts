@@ -1,8 +1,9 @@
 #!/usr/bin/env node
-import {spawnSync as nodeSpawnSync} from 'node:child_process';
+import {execFileSync, spawnSync as nodeSpawnSync} from 'node:child_process';
 import {createHash, randomUUID} from 'node:crypto';
 import {closeSync, constants, existsSync, fsyncSync, lstatSync, mkdirSync, openSync, readFileSync, realpathSync, renameSync, unlinkSync, writeFileSync} from 'node:fs';
 import path from 'node:path';
+import {createRequire} from 'node:module';
 
 import {
   createPublicationAdapterRegistry,
@@ -20,6 +21,7 @@ import {
   capturePublicationDiagnostics,
   localizedRestTargets,
   publicationOwnedTargets,
+  restDerivationManifestTargets,
   readAndValidatePublicationDiagnostics,
   writePublicationAnchor,
   writePublicationDiagnostics,
@@ -43,6 +45,7 @@ import {
   parseReferenceRetirementRegistry,
   parseReferenceSourceManifest,
   parseReferenceTranslationManifest,
+  readReferenceTree,
   serializeReferenceManifest,
   unseededReferencePreservedSourcePaths,
   type ReferenceRetirementRegistry,
@@ -69,6 +72,11 @@ import {
   resolveOwnedRepositoryPath,
 } from './validation/ownership.ts';
 import {canonicalPublicationGroupForManual} from './workflows/groups.ts';
+
+const requireFromCli = createRequire(import.meta.url);
+const {validateRestDerivationManifest} = requireFromCli('./reference/rest/restDerivationManifest.js') as {
+  validateRestDerivationManifest: (options: {fragmentRoot: string; manifestPath: string; locale: string}) => unknown;
+};
 
 export type DocsToolingCommand = 'fetch' | 'validate' | 'publish';
 
@@ -153,8 +161,21 @@ const REFERENCE_SOURCE_ROOT = 'content/en/reference';
 const REFERENCE_TARGET_ROOT = 'content/zh-CN/reference';
 const REFERENCE_SOURCE_MANIFEST = 'generated/en/manifests/reference.json';
 const REFERENCE_TRANSLATION_MANIFEST = 'generated/zh-CN/manifests/reference-translations.json';
+const JAPANESE_REFERENCE_TRANSLATION_MANIFEST = 'generated/ja-JP/manifests/reference-translations.json';
 const REFERENCE_RETIREMENT_REGISTRY = 'config/reference-retirements.json';
 const REFERENCE_RECONCILIATION_LEDGER = 'generated/zh-CN/manifests/reference-reconciliation-ledger.json';
+const REFERENCE_SUPPLEMENTAL_TRANSLATION_MAPPINGS = Object.freeze([
+  Object.freeze({
+    manual: 'guides',
+    sourcePath: 'content/en/guides/tutorials/home.md',
+    targetPath: 'content/zh-CN/guides/tutorials/home.md',
+  }),
+]);
+const JAPANESE_REFERENCE_TRANSLATION_MAPPINGS = Object.freeze([
+  Object.freeze({sourceRoot: 'content/en/guides/tutorials', targetRoot: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials'}),
+  Object.freeze({sourceRoot: 'content/en/byoc/tutorials', targetRoot: 'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials'}),
+  Object.freeze({sourceRoot: REFERENCE_SOURCE_ROOT, targetRoot: 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current'}),
+]);
 const EXTERNAL_SNAPSHOT_WORKTREE = 'external-snapshot';
 const EXTERNAL_SNAPSHOT_TRACKED_INPUTS = 'deploy/contracts/localization-inputs.inventory.json';
 const GIT_STDERR_LIMIT = 512;
@@ -325,8 +346,11 @@ export function createGitTranslationSourceProvenanceVerifier(
       recordsBySourceCommit.set(record.sourceCommit, records);
     }
     for (const [sourceCommit, records] of recordsBySourceCommit) {
+      const historicalRoots = [...new Set([sourceRoot, ...records
+        .map(record => record.sourcePathAtCommit)
+        .filter(sourcePath => !sourcePath.startsWith(`${sourceRoot}/`))])];
       const listing = runner(
-        ['ls-tree', '-r', '-t', '-z', '--full-tree', sourceCommit, '--', sourceRoot],
+        ['ls-tree', '-r', '-t', '-z', '--full-tree', sourceCommit, '--', ...historicalRoots],
         {encoding: 'buffer', maxBuffer: GIT_MAX_BUFFER},
       );
       if (listing.error || listing.signal || listing.status !== 0) {
@@ -335,13 +359,13 @@ export function createGitTranslationSourceProvenanceVerifier(
       const historicalEntries = parseHistoricalTree(Buffer.isBuffer(listing.stdout) ? listing.stdout : Buffer.from(listing.stdout), sourceCommit);
       const blobs = new Map<string, TranslationSourceProvenance[]>();
       for (const record of records) {
-        const entry = historicalEntries.get(record.sourcePath);
+        const entry = historicalEntries.get(record.sourcePathAtCommit);
         if (record.expectedHistoricalSource === 'missing') {
-          if (entry) throw new Error(`Historical retired source path must be missing at ${record.sourceCommit}: ${record.sourcePath}`);
+          if (entry) throw new Error(`Historical retired source path must be missing at ${record.sourceCommit}: ${record.sourcePathAtCommit}`);
           continue;
         }
         if (!entry || !['100644', '100755'].includes(entry.mode) || entry.type !== 'blob') {
-          throw new Error(`Historical source path is missing or is not a regular Git blob at ${record.sourceCommit}: ${record.sourcePath}`);
+          throw new Error(`Historical source path is missing or is not a regular Git blob at ${record.sourceCommit}: ${record.sourcePathAtCommit}`);
         }
         blobs.set(entry.objectId, [...(blobs.get(entry.objectId) ?? []), record]);
       }
@@ -363,7 +387,7 @@ export function createGitTranslationSourceProvenanceVerifier(
       for (const [objectId, blobRecords] of blobs) {
         for (const record of blobRecords) {
           if (hashes.get(objectId) !== record.sourceHash) {
-            throw new Error(`Historical source hash mismatch at ${record.sourceCommit}: ${record.sourcePath}`);
+            throw new Error(`Historical source hash mismatch at ${record.sourceCommit}: ${record.sourcePathAtCommit}`);
           }
         }
       }
@@ -434,6 +458,44 @@ export function defaultReferenceManualForPath(filePath: string): string {
   const selected = candidates[0];
   if (!selected) throw new Error(`Reference file is not owned by a registered manual: ${filePath}`);
   return selected.manual;
+}
+
+function compareReferenceRecords(
+  left: {manual?: string; sourcePath?: string; targetPath?: string},
+  right: {manual?: string; sourcePath?: string; targetPath?: string},
+): number {
+  return (left.manual ?? '').localeCompare(right.manual ?? '')
+    || (left.sourcePath ?? '').localeCompare(right.sourcePath ?? '')
+    || (left.targetPath ?? '').localeCompare(right.targetPath ?? '');
+}
+
+function japaneseReferenceManualForPath(filePath: string): string {
+  if (
+    filePath.startsWith('content/en/guides/tutorials/')
+    || filePath.startsWith('content/en/byoc/tutorials/')
+    || filePath.startsWith('i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/')
+    || filePath.startsWith('i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/')
+  ) {
+    return 'guides';
+  }
+  if (filePath.startsWith('content/en/reference/')) return defaultReferenceManualForPath(filePath);
+  if (filePath.startsWith('i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/')) {
+    return defaultReferenceManualForPath('content/en/reference/' + filePath.slice('i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/'.length));
+  }
+  throw new Error('Japanese Reference file is outside canonical publication mappings: ' + filePath);
+}
+
+function buildJapaneseReferenceSourceManifest(repositoryRoot: string, sourceCommit: string): ReferenceSourceManifest {
+  const records: ReferenceSourceManifest['records'] = [];
+  const seen = new Set<string>();
+  for (const mapping of JAPANESE_REFERENCE_TRANSLATION_MAPPINGS) {
+    for (const [sourcePath, sourceHash] of readReferenceTree(repositoryRoot, mapping.sourceRoot)) {
+      if (seen.has(sourcePath)) throw new Error('Duplicate Japanese source mapping: ' + sourcePath);
+      seen.add(sourcePath);
+      records.push({manual: japaneseReferenceManualForPath(sourcePath), sourcePath, sourceHash});
+    }
+  }
+  return parseReferenceSourceManifest({schemaVersion: 1, sourceCommit, records: records.sort(compareReferenceRecords)});
 }
 
 function readJson(repositoryRoot: string, relativePath: string): unknown {
@@ -522,6 +584,7 @@ function authenticateHistoricalReferenceManifestState(options: Readonly<{
     sourceManifest: options.state.sourceManifest,
     translationManifest: options.state.translationManifest,
     verifyFiles: false,
+    supplementalMappings: REFERENCE_SUPPLEMENTAL_TRANSLATION_MAPPINGS,
     manualForPath: options.manualForPath,
     verifySourceProvenance: options.verifyTranslationSourceProvenance
       ?? createGitTranslationSourceProvenanceVerifier(options.repositoryRoot, REFERENCE_SOURCE_ROOT),
@@ -677,6 +740,7 @@ export async function executeReferenceDocsToolingCommand(
         targetRoot: REFERENCE_TARGET_ROOT,
         sourceManifest: manifestState.sourceManifest,
         translationManifest: manifestState.translationManifest,
+        supplementalMappings: REFERENCE_SUPPLEMENTAL_TRANSLATION_MAPPINGS,
         manualForPath,
         verifySourceProvenance: dependencies.verifyTranslationSourceProvenance
           ?? (externalSnapshot
@@ -739,6 +803,7 @@ export async function executeReferenceDocsToolingCommand(
       previousTranslationManifest: previousManifestState?.translationManifest,
       sourceSnapshot,
       targetSnapshot,
+      supplementalMappings: REFERENCE_SUPPLEMENTAL_TRANSLATION_MAPPINGS,
     });
     validateReferenceSource({repositoryRoot, sourceRoot: REFERENCE_SOURCE_ROOT, sourceManifest: manifests.sourceManifest, manualForPath});
     validateReferenceTranslation({
@@ -747,6 +812,7 @@ export async function executeReferenceDocsToolingCommand(
       targetRoot: REFERENCE_TARGET_ROOT,
       sourceManifest: manifests.sourceManifest,
       translationManifest: manifests.translationManifest,
+      supplementalMappings: REFERENCE_SUPPLEMENTAL_TRANSLATION_MAPPINGS,
       manualForPath,
       verifySourceProvenance: dependencies.verifyTranslationSourceProvenance
         ?? createGitTranslationSourceProvenanceVerifier(repositoryRoot, REFERENCE_SOURCE_ROOT),
@@ -767,8 +833,8 @@ export async function executeReferenceDocsToolingCommand(
     return;
   }
   if (argv[0] === 'validate-reference') {
-    if (argv.length !== 3 || argv[1] !== '--site' || (argv[2] !== 'en' && argv[2] !== 'zh-CN')) {
-      throw new Error('Usage: docs-tooling validate-reference --site <en|zh-CN>');
+    if (argv.length !== 3 || argv[1] !== '--site' || (argv[2] !== 'en' && argv[2] !== 'zh-CN' && argv[2] !== 'ja-JP')) {
+      throw new Error('Usage: docs-tooling validate-reference --site <en|zh-CN|ja-JP>');
     }
     const sourceManifest = parseReferenceSourceManifest(readJson(repositoryRoot, REFERENCE_SOURCE_MANIFEST));
     const sourceSnapshot = captureReferenceTree(repositoryRoot, REFERENCE_SOURCE_ROOT);
@@ -786,6 +852,19 @@ export async function executeReferenceDocsToolingCommand(
     let unavailableNavigationIds: ReadonlySet<string> = new Set();
     if (argv[2] === 'en') {
       // Source ownership, revision, and hashes were validated above.
+    } else if (argv[2] === 'ja-JP') {
+      const japaneseSourceManifest = buildJapaneseReferenceSourceManifest(repositoryRoot, sourceManifest.sourceCommit);
+      validateReferenceTranslation({
+        repositoryRoot,
+        sourceRoot: REFERENCE_SOURCE_ROOT,
+        targetRoot: 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current',
+        rootMappings: JAPANESE_REFERENCE_TRANSLATION_MAPPINGS,
+        sourceManifest: japaneseSourceManifest,
+        translationManifest: parseReferenceTranslationManifest(readJson(repositoryRoot, JAPANESE_REFERENCE_TRANSLATION_MANIFEST)),
+        manualForPath: japaneseReferenceManualForPath,
+        verifySourceProvenance: dependencies.verifyTranslationSourceProvenance
+          ?? createGitTranslationSourceProvenanceVerifier(repositoryRoot, REFERENCE_SOURCE_ROOT),
+      });
     } else {
       if (existsSync(path.join(repositoryRoot, REFERENCE_RECONCILIATION_LEDGER))) {
         validateReferenceReconciliationLedger(parseReferenceReconciliationLedger(readJson(repositoryRoot, REFERENCE_RECONCILIATION_LEDGER)));
@@ -802,6 +881,7 @@ export async function executeReferenceDocsToolingCommand(
         targetRoot: REFERENCE_TARGET_ROOT,
         sourceManifest,
         translationManifest,
+        supplementalMappings: REFERENCE_SUPPLEMENTAL_TRANSLATION_MAPPINGS,
         manualForPath,
         verifySourceProvenance: dependencies.verifyTranslationSourceProvenance
           ?? (externalSnapshot
@@ -810,10 +890,12 @@ export async function executeReferenceDocsToolingCommand(
       });
       unavailableNavigationIds = unavailableReferenceTargetIds({sourceManifest, translationManifest});
     }
-    const validateNavigation = dependencies.validateReferenceNavigation ?? validateReferenceNavigation;
-    validateNavigation(unavailableNavigationIds.size > 0
-      ? {repositoryRoot, site: argv[2], excludedDocumentIds: unavailableNavigationIds}
-      : {repositoryRoot, site: argv[2]});
+    if (argv[2] !== 'ja-JP') {
+      const validateNavigation = dependencies.validateReferenceNavigation ?? validateReferenceNavigation;
+      validateNavigation(unavailableNavigationIds.size > 0
+        ? {repositoryRoot, site: argv[2], excludedDocumentIds: unavailableNavigationIds}
+        : {repositoryRoot, site: argv[2]});
+    }
     dependencies.write?.(`validated Reference provenance for ${argv[2]}`);
     return;
   }
@@ -976,7 +1058,7 @@ async function validatePublicationStage(context: CommandContext): Promise<Readon
   diagnostics: PublicationDiagnostics;
 }>> {
   const diagnostics = readAndValidatePublicationDiagnostics(context.repositoryRoot, context.stagePath, diagnosticsIdentity(context));
-  const inventory = await validatePublicationFilesystem(context.stagePath, context.publication as ManualPublication);
+  const inventory = await validatePublicationFilesystem(context, context.stagePath);
   return {inventory, diagnostics};
 }
 
@@ -1047,13 +1129,21 @@ async function validateSelectedPublicationAdapters(
   await selected.registry.validatePublication(selected.ids, publicationAdapterContext(context, publicationRoot));
 }
 
-async function validatePublicationFilesystem(root: string, publication: ManualPublication): Promise<StageInventory> {
+async function validatePublicationFilesystem(context: CommandContext, root: string): Promise<StageInventory> {
+  const publication = context.publication as ManualPublication;
   const outputPath = resolveSecureRepositoryPath(root, publication.outputDir, 'Publication content artifact', {allowMissing: true});
   const sidebarPath = resolveSecureRepositoryPath(root, publication.sidebarPath, 'Publication sidebar artifact', {allowMissing: true});
   if (!securePathExists(root, outputPath, 'Publication content artifact')) throw new Error(`Publication content artifact is missing: ${publication.outputDir}`);
   if (!securePathExists(root, sidebarPath, 'Publication sidebar artifact')) throw new Error(`Publication sidebar artifact is missing: ${publication.sidebarPath}`);
   resolveSecureRepositoryPath(root, outputPath, 'Publication content artifact', {finalKind: 'directory'});
   resolveSecureRepositoryPath(root, sidebarPath, 'Publication sidebar artifact', {finalKind: 'file'});
+  if (context.source.sourceType === 'rest') {
+    const fragmentRoot = assertExistingSource(context.repositoryRoot, context.source as ManualSource);
+    for (const target of restDerivationManifestTargets(context.request.site, publication)) {
+      const manifestPath = resolveSecureRepositoryPath(root, target.manifestPath, 'REST derivation manifest', {finalKind: 'file'});
+      validateRestDerivationManifest({fragmentRoot, manifestPath, locale: target.locale});
+    }
+  }
   const inventory = validateStageFilesystem(root);
   const integrity = await scanIntegrity(root, {
     repository: 'zdoc',
@@ -1079,7 +1169,7 @@ async function validatePublicationSnapshot(
     || expectedOwnedPaths.some((target, index) => snapshot.ownedPaths[index] !== target)) {
     throw new Error('Atomic publication snapshot owned paths do not match the validated publication contract');
   }
-  await validatePublicationFilesystem(snapshot.publicationRoot, context.publication as ManualPublication);
+  await validatePublicationFilesystem(context, snapshot.publicationRoot);
   await validateSelectedPublicationAdapters(context, selected, snapshot.publicationRoot);
 }
 
@@ -1213,6 +1303,18 @@ async function defaultFetch(context: CommandContext, runner: GeneratorRunner, en
   if (source.sourceType === 'rest') {
     const specifications = assertExistingSource(context.repositoryRoot, source);
     const staged = publicationStagePaths(context);
+    let toolingSha: string;
+    try {
+      toolingSha = execFileSync('git', ['rev-parse', 'HEAD'], {cwd: context.repositoryRoot, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore']}).trim();
+    } catch {
+      // Unit fixtures supply a repository-shaped directory without Git metadata;
+      // the executing checkout remains the authoritative generator identity.
+      toolingSha = execFileSync('git', ['rev-parse', 'HEAD'], {cwd: process.cwd(), encoding: 'utf8'}).trim();
+    }
+    const generatedAt = new Date().toISOString();
+    const derivationTargets = restDerivationManifestTargets(context.request.site, context.publication as ManualPublication);
+    const primaryDerivation = derivationTargets.find(target => target.locale === context.request.site);
+    if (!primaryDerivation) throw new Error(`REST derivation manifest target is missing for ${context.request.site}`);
     runGenerator(
       context,
       runner,
@@ -1222,6 +1324,9 @@ async function defaultFetch(context: CommandContext, runner: GeneratorRunner, en
         '--output_path', staged.outputPath,
         '--lang', context.request.site === 'en' ? 'en-US' : 'zh-CN',
         '--target', 'zilliz',
+        '--derivation-manifest', resolveSecureRepositoryPath(context.stagePath, primaryDerivation.manifestPath, 'Staged REST derivation manifest', {allowMissing: true}),
+        '--tooling-sha', toolingSha,
+        '--generated-at', generatedAt,
       ],
       environment,
       false,
@@ -1237,6 +1342,9 @@ async function defaultFetch(context: CommandContext, runner: GeneratorRunner, en
           '--output_path', localizedOutputPath,
           '--lang', localized.lang,
           '--target', 'zilliz',
+          '--derivation-manifest', resolveSecureRepositoryPath(context.stagePath, derivationTargets.find(target => target.locale === localized.lang)!.manifestPath, 'Staged localized REST derivation manifest', {allowMissing: true}),
+          '--tooling-sha', toolingSha,
+          '--generated-at', generatedAt,
         ],
         environment,
         false,
@@ -1257,12 +1365,14 @@ async function defaultPublish(
   const staged = publicationStagePaths(context);
   if (!context.publicationDiagnostics) throw new Error('Validated publication diagnostics are missing');
   const localizedTargets = localizedRestTargets(context.request.site, context.publication as ManualPublication);
+  const derivationTargets = restDerivationManifestTargets(context.request.site, context.publication as ManualPublication);
   const localizedOutputDirs = localizedTargets.map(target => target.outputDir);
   const preservedPaths = context.publication.preservedPaths ?? [];
   const ownedTargets = publicationOwnedTargets(context.request.site, context.publication as ManualPublication);
   const removalTargets = ownedTargets.filter(target => target !== context.publication.outputDir
     && target !== context.publication.sidebarPath
     && !localizedOutputDirs.includes(target)
+    && !derivationTargets.some(derivation => derivation.manifestPath === target)
     && !preservedPaths.includes(target));
   await replace({
     publicationRoot: context.repositoryRoot,
@@ -1277,6 +1387,10 @@ async function defaultPublish(
       ...localizedTargets.map(localized => ({
         source: resolveSecureRepositoryPath(context.stagePath, localized.outputDir, 'Staged localized REST outputDir'),
         target: localized.outputDir,
+      })),
+      ...derivationTargets.map(target => ({
+        source: resolveSecureRepositoryPath(context.stagePath, target.manifestPath, 'Staged REST derivation manifest', {finalKind: 'file'}),
+        target: target.manifestPath,
       })),
     ],
     removals: removalTargets,

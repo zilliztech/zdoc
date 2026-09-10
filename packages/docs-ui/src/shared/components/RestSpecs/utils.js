@@ -61,6 +61,10 @@ export const textFilter =  (text, targets) => {
     return sanitizeHtmlBlockParagraphs(text);
 }
 
+export const getLocalizedDescription = (value, lang) => {
+    return value?.["x-i18n"]?.[lang]?.description ?? value?.description ?? ''
+}
+
 export const sanitizeHtmlBlockParagraphs = (html = '') => {
     return String(html)
         .replace(/<p>([^<]*?)(\s*<(?:ul|ol|table|div|pre|blockquote)(?:\s|>))/gi, '<p>$1</p>$2')

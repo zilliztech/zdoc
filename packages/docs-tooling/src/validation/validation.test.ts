@@ -388,6 +388,9 @@ describe('docs-tooling CLI boundary', () => {
   it('applies REST replacements only to the REST manual and leaves English publication unchanged', async () => {
     const repositoryRoot = temporaryRoot();
     seedEnglishPythonLanding(repositoryRoot);
+    const fragmentRoot = path.join(repositoryRoot, 'packages/docs-tooling/src/reference/rest/meta/openapi');
+    mkdirSync(fragmentRoot, {recursive: true});
+    writeFileSync(path.join(fragmentRoot, 'spec.json'), '{}\n');
     mkdirSync(path.join(repositoryRoot, 'content/zh-CN/reference/api/restful/restful'), {recursive: true});
     writeFileSync(path.join(repositoryRoot, 'content/zh-CN/reference/api/restful/restful/restful.md'), '# REST API\n');
     const fetch = (context: Parameters<NonNullable<Parameters<typeof executeDocsToolingCommand>[1]>['fetch']>[0]) => {
@@ -396,6 +399,17 @@ describe('docs-tooling CLI boundary', () => {
       writeFileSync(path.join(paths.outputPath, 'page.md'), 'Sales: https://www.zilliz.com/contact-sales\nEndpoint: YOUR_CLUSTER_ENDPOINT\n');
       mkdirSync(path.dirname(paths.sidebarPath), {recursive: true});
       writeFileSync(paths.sidebarPath, 'module.exports = []\n');
+      if (context.request.manual === 'rest') {
+        const manifestPath = path.join(context.stagePath, 'generated/zh-CN/manifests/rest-derivation.json');
+        mkdirSync(path.dirname(manifestPath), {recursive: true});
+        writeFileSync(manifestPath, `${JSON.stringify({
+          schemaVersion: 1,
+          locale: 'zh-CN',
+          fragmentHashes: {'spec.json': createHash('sha256').update('{}\n').digest('hex')},
+          toolingSha: 'a'.repeat(40),
+          generatedAt: '2026-09-09T00:00:00.000Z',
+        })}\n`);
+      }
     };
 
     await executeDocsToolingCommand(
@@ -1005,13 +1019,28 @@ describe('docs-tooling CLI boundary', () => {
       const output = lang === 'en-US'
         ? path.join(repositoryRoot, 'tmp/docs-tooling/en/rest/content/en/reference/api/restful/restful')
         : path.join(repositoryRoot, 'tmp/docs-tooling/en/rest/i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful');
-      expect(args).toEqual([
+      expect(args.slice(0, 9)).toEqual([
         path.join(repositoryRoot, 'packages/docs-tooling/src/reference/rest/index.js'),
         '--specifications', path.join(repositoryRoot, 'packages/docs-tooling/src/reference/rest/meta/openapi'),
         '--output_path', output,
         '--lang', lang,
         '--target', 'zilliz',
       ]);
+      const locale = lang === 'en-US' ? 'en' : 'ja-JP';
+      const manifestPath = path.join(repositoryRoot, `tmp/docs-tooling/en/rest/generated/${locale}/manifests/rest-derivation.json`);
+      expect(args.slice(9, 11)).toEqual(['--derivation-manifest', manifestPath]);
+      expect(args[11]).toBe('--tooling-sha');
+      expect(args[12]).toMatch(/^[a-f0-9]{40}$/u);
+      expect(args[13]).toBe('--generated-at');
+      expect(new Date(args[14]).toISOString()).toBe(args[14]);
+      mkdirSync(path.dirname(manifestPath), {recursive: true});
+      writeFileSync(manifestPath, `${JSON.stringify({
+        schemaVersion: 1,
+        locale,
+        fragmentHashes: {'spec.json': createHash('sha256').update('{}\n').digest('hex')},
+        toolingSha: args[12],
+        generatedAt: args[14],
+      }, null, 2)}\n`);
       expect(args).not.toContain('--publication-policy');
       expect(args).not.toContain('--release-track');
       if (lang === 'en-US') {

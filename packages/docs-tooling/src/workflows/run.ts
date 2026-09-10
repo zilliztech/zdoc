@@ -13,6 +13,7 @@ import {publicationPreservedPaths, resolveManualPublication} from '../manuals/re
 import type {SiteId} from '../manuals/schema.ts';
 import {atomicReplace, ownedTreeCommit, type AtomicReplaceOptions} from '../publication/atomicReplace.ts';
 import {publicationOwnedTargets} from '../publication/diagnostics.ts';
+import {assertNotRetiredPublicationEvidence} from '../publication/retiredManifests.ts';
 import {
   captureSecureInventory,
   copySecureTree,
@@ -116,6 +117,7 @@ function frozenHookCopy<T>(value: T): T {
 
 function assertManifestFilePath(group: PublicationGroup, value: string): string {
   assertSafeRepositoryRelativePath(value, 'Source publication manifest file');
+  assertNotRetiredPublicationEvidence(value, 'Source publication manifest file');
   if (value === group.publicationManifest) throw new Error('Source publication manifest must not claim itself as a content file');
   const allowed = group.ownedPaths.some(ownedPath => (
     value === ownedPath || value.startsWith(`${ownedPath}/`)
@@ -488,6 +490,9 @@ function stagedManifestFiles(repositoryRoot: string, group: PublicationGroup): r
       'Staged publication manifest inventory',
     ).flatMap(entry => {
       const relative = entry.path.slice(`${stageRoot}/`.length);
+      const externallyOwnedPaths = (publication.externallyOwnedFiles ?? [])
+        .map(file => `${publication.outputDir}/${file}`);
+      if (externallyOwnedPaths.includes(relative)) return [];
       return [assertManifestFilePath(group, relative)];
     });
   });
@@ -819,7 +824,14 @@ async function publishManifestOwnedGroup(
     {source: resolveOwnedRepositoryPath(repositoryRoot, stagedRelativeManifest, 'Staged source publication manifest'), target: group.publicationManifest},
   ];
   const next = new Set(staged.files);
-  const removals = current.files.filter(file => !next.has(file));
+  const externallyOwnedPaths = new Set(group.manuals.flatMap(manual => {
+    const publication = resolveManualPublication(manual, group.site).publication;
+    return (publication.externallyOwnedFiles ?? [])
+      .map(file => `${publication.outputDir}/${file}`);
+  }));
+  const removals = current.files.filter(file => (
+    !next.has(file) && !externallyOwnedPaths.has(file)
+  ));
   const ownedTargets = [...new Set([...replacements.map(entry => entry.target), ...removals])]
     .sort((left, right) => left.localeCompare(right, 'en'));
   await replace({

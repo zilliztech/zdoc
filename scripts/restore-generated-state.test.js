@@ -33,6 +33,8 @@ const restorePaths = [
   'generated/en/sidebars/restful.sidebar.js',
   referenceSourceManifest,
   revisionInventoryRoot,
+  'generated/en/manifests/rest-derivation.json',
+  'generated/ja-JP/manifests/rest-derivation.json',
   'generated/zh-CN',
   'packages/docs-tooling/src/lark/meta/snapshots',
   'packages/docs-tooling/src/lark/meta/assembly',
@@ -119,6 +121,61 @@ test('source preserves the fixed restore path list exactly', () => {
   assert.ok(match)
   const actualPaths = [...match[1].matchAll(/^\s*"([^"]+)"\s*$/gm)].map((entry) => entry[1])
   assert.deepEqual(actualPaths, restorePaths)
+})
+
+test('restore list covers every REST derivation manifest consumed by build provenance', () => {
+  const {loadTypeScript} = require('./lib/load-typescript')
+  const {restDerivationManifestTargets} = loadTypeScript('../../packages/docs-tooling/src/publication/diagnostics.ts')
+  const publications = {
+    en: {
+      contentRoot: 'content/en/reference',
+      outputDir: 'content/en/reference/api/restful/restful',
+      sidebarPath: 'generated/en/sidebars/restful.sidebar.js',
+    },
+    'zh-CN': {
+      contentRoot: 'content/zh-CN/reference',
+      outputDir: 'content/zh-CN/reference/api/restful/restful',
+      sidebarPath: 'generated/zh-CN/sidebars/restful.sidebar.js',
+    },
+  }
+  const targets = [
+    ...restDerivationManifestTargets('en', publications.en),
+    ...restDerivationManifestTargets('zh-CN', publications['zh-CN']),
+  ]
+  assert.ok(targets.length >= 3, 'expected the en, ja-JP, and zh-CN derivation manifests')
+  for (const target of targets) {
+    const covered = restorePaths.some(
+      (restorePath) => restorePath === target.manifestPath || target.manifestPath.startsWith(`${restorePath}/`),
+    )
+    assert.ok(covered, `restore list must cover ${target.manifestPath}; otherwise restored workspaces fail build provenance`)
+  }
+})
+
+test('exact immutable ref restores the REST derivation manifests from the target commit', () => {
+  const fixture = createFixture()
+  try {
+    write(fixture.source, 'generated/en/manifests/rest-derivation.json', '{"locale":"en","source":"final-dev"}\n')
+    write(fixture.source, 'generated/ja-JP/manifests/rest-derivation.json', '{"locale":"ja-JP","source":"final-dev"}\n')
+    git(fixture.source, 'add', 'generated/en/manifests/rest-derivation.json', 'generated/ja-JP/manifests/rest-derivation.json')
+    git(fixture.source, 'commit', '-m', 'publish REST derivation manifests')
+    const sourceSha = git(fixture.source, 'rev-parse', 'HEAD')
+    git(fixture.source, 'push', 'origin', 'dev')
+
+    write(fixture.work, 'generated/en/manifests/rest-derivation.json', '{"locale":"en","source":"stale-tooling"}\n')
+    const result = run(fixture.work, ['--exact', '--ref', sourceSha])
+
+    assert.equal(result.status, 0, result.stderr)
+    assert.equal(
+      fs.readFileSync(path.join(fixture.work, 'generated/en/manifests/rest-derivation.json'), 'utf8'),
+      '{"locale":"en","source":"final-dev"}\n',
+    )
+    assert.equal(
+      fs.readFileSync(path.join(fixture.work, 'generated/ja-JP/manifests/rest-derivation.json'), 'utf8'),
+      '{"locale":"ja-JP","source":"final-dev"}\n',
+    )
+  } finally {
+    fs.rmSync(fixture.root, { recursive: true, force: true })
+  }
 })
 
 test('default branch mode restores generated state from dev and skips missing paths', () => {

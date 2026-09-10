@@ -80,6 +80,18 @@ function referenceRecord(options: Readonly<{
 }
 
 describe('translation candidates', () => {
+  it('keeps Guides home exclusive to the landing translation unit', () => {
+    const repositoryRoot = fixture();
+    const home = `${GUIDES_ROOT}/home.md`;
+    const guide = `${GUIDES_ROOT}/guide.md`;
+    write(repositoryRoot, home, '# Home\n');
+    write(repositoryRoot, guide, '# Guide\n');
+    const result = buildTranslationCandidates(options(repositoryRoot, {
+      mode: 'full',
+      excludedSourcePaths: [home],
+    }));
+    expect(result.candidates.map(candidate => candidate.sourcePath)).toEqual([guide]);
+  });
   it('uses the Japanese cache and preserves incremental candidate reason priority', () => {
     const repositoryRoot = fixture();
     const current = `${GUIDES_ROOT}/z-current.md`;

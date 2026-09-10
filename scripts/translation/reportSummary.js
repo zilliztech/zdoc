@@ -18,6 +18,8 @@ function buildSummary({ manifest, report }) {
   const failed = results.filter(item => item.status !== 'translated')
   const resumableFiles = failed.filter(item => item.chunkCheckpoints?.entries?.length > 0).length
   const checkpointedChunks = failed.reduce((total, item) => total + (item.chunkCheckpoints?.entries?.length || 0), 0)
+  const seededFiles = results.filter(item => item.status === 'translated' && Number.isFinite(item.semanticSeedUnits)).length
+  const seededUnits = results.reduce((total, item) => total + (item.status === 'translated' ? (item.semanticSeedUnits || 0) : 0), 0)
   const remaining = Number.isFinite(report?.checkpoint?.remaining)
     ? report.checkpoint.remaining
     : Math.max(0, pending - results.length)
@@ -30,6 +32,8 @@ function buildSummary({ manifest, report }) {
     `- Missing Japanese targets: ${candidateCounts.missing_target}`,
     `- Stale translations: ${candidateCounts.stale_source}`,
     `- Translated: ${translated}`,
+    `- Seeded files: ${seededFiles}`,
+    `- Seeded units: ${seededUnits}`,
     `- Failed: ${failed.length}`,
     `- Resumable files: ${resumableFiles}`,
     `- Checkpointed chunks: ${checkpointedChunks}`,

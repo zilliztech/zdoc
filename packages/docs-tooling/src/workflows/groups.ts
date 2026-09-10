@@ -150,6 +150,9 @@ function createGroup(site: SiteId, group: string): PublicationGroup {
     ownedPaths: Object.freeze([
       ...ownedPaths(site, manuals),
       ...(site === 'zh-CN' && group === 'guides' ? ['generated/zh-CN/sidebars/tools.sidebar.js'] : []),
+      ...(group === 'rest' ? (site === 'en'
+        ? ['generated/en/manifests/rest-derivation.json', 'generated/ja-JP/manifests/rest-derivation.json']
+        : ['generated/zh-CN/manifests/rest-derivation.json']) : []),
     ]),
     ...(site === 'zh-CN' && group === 'guides' ? {
       publicationManifest: ZH_CN_GUIDES_PUBLICATION_MANIFEST,
@@ -195,7 +198,7 @@ export function resolvePublicationGroupWorkflow(site: SiteId, groupName: string)
     sourceSnapshots,
     snapshotManual: sourceManuals.at(-1) ?? null,
     translate: site === 'en',
-    durableTranslationBatchSize: site === 'en' && groupName === 'guides' ? 30 : 0,
+    durableTranslationBatchSize: site === 'en' && groupName === 'guides' ? 15 : 0,
     checkpointPaths: distinct([
       ...group.ownedPaths,
       ...preservedPaths,

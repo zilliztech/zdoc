@@ -27,6 +27,7 @@ on:
       publication_selection_artifact_name: { required: false, type: string, default: '' }
       publication_selection_sha256: { required: false, type: string, default: '' }
       publication_unit_key: { required: false, type: string, default: '' }
+      semantic_seeds: { required: false, type: boolean, default: false }
     outputs:
       status: { value: '${{ jobs.translate.outputs.status }}' }
       artifact_name: { value: '${{ jobs.translate.outputs.artifact_name }}' }
@@ -250,6 +251,19 @@ jobs:
               "${plan_input_args[@]}" \
               --output tmp/translation-batch-input.json
           fi
+      - name: Build semantic translation seeds
+        if: ${{ inputs.should_translate && inputs.semantic_seeds && steps.mode.outputs.effective_mode == 'incremental' && steps.manifest.outputs.count != '0' }}
+        env:
+          TRANSLATION_CHUNK_TARGET_CHARS: ${{ inputs.group == 'guides' && '8000' || '16000' }}
+          TRANSLATION_CHUNK_MAX_CHARS: ${{ inputs.group == 'guides' && '12000' || '24000' }}
+        run: |
+          set -euo pipefail
+          node scripts/translation/semanticSeeds.js \
+            --manifest tmp/translation-manifest.json \
+            --repository "$GITHUB_WORKSPACE" \
+            --baseline "$BASELINE_DIR" \
+            --source-baseline-sha "$SOURCE_BASELINE_SHA" \
+            --output tmp/semantic-seeds
       - name: Upload translation retirement review
         if: ${{ always() && inputs.should_translate }}
         uses: actions/upload-artifact@v6
@@ -358,6 +372,9 @@ jobs:
           elif [[ -d "$RECOVERY_DOWNLOAD_DIR" ]]; then
             args+=(--recovery-dir "$RECOVERY_DOWNLOAD_DIR")
           fi
+          if [[ -d tmp/semantic-seeds ]]; then
+            args+=(--semantic-seeds tmp/semantic-seeds)
+          fi
           node scripts/translation/agentRunner.js "${args[@]}"
         env:
           TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
@@ -370,10 +387,11 @@ jobs:
           TRANSLATION_POLISH: ${{ (inputs.recovery_run_id != '' || inputs.recovery_bundle_artifact_name != '') && 'false' || 'true' }}
           TRANSLATION_SKIP_BLIND_REVIEW: "true"
           TRANSLATION_ALLOW_PARTIAL: "true"
-          TRANSLATION_CONCURRENCY: ${{ (inputs.recovery_run_id != '' || inputs.recovery_bundle_artifact_name != '') && (inputs.group == 'guides' && '2' || '6') || (inputs.group == 'guides' && '1' || inputs.target == 'zh-CN-reference' && '2' || '4') }}
+          TRANSLATION_CONCURRENCY: ${{ (inputs.recovery_run_id != '' || inputs.recovery_bundle_artifact_name != '') && (inputs.group == 'guides' && '2' || '6') || (inputs.group == 'guides' && '2' || inputs.target == 'zh-CN-reference' && '2' || '4') }}
           TRANSLATION_CHUNK_TARGET_CHARS: ${{ inputs.group == 'guides' && '8000' || '16000' }}
           TRANSLATION_CHUNK_MAX_CHARS: ${{ inputs.group == 'guides' && '12000' || '24000' }}
-          TRANSLATION_FILE_TIMEOUT_MS: "3600000"
+          TRANSLATION_FILE_TIMEOUT_MS: ${{ inputs.group == 'guides' && '1800000' || '3600000' }}
+          TRANSLATION_SOFT_DEADLINE_MS: ${{ inputs.group == 'guides' && '5400000' || '18000000' }}
       - name: Create per-file recovery artifact
         if: ${{ always() && inputs.should_translate && steps.manifest.outputs.count != '0' }}
         run: |

@@ -84,3 +84,17 @@ test('renders structured resumable file and checkpointed chunk counts', () => {
   assert.match(summary, /Resumable files: 1/)
   assert.match(summary, /Checkpointed chunks: 1/)
 })
+
+test('renders semantic seed reuse counts for translated results only', () => {
+  const summary = buildSummary({
+    manifest: {locale: 'ja-JP', items: [{reason: 'current_delta'}, {reason: 'current_delta'}]},
+    report: {results: [
+      {sourcePath: 'docs/a.md', status: 'translated', semanticSeedUnits: 12},
+      {sourcePath: 'docs/b.md', status: 'failed', error: 'timeout', semanticSeedUnits: 5},
+      {sourcePath: 'docs/c.md', status: 'translated'},
+    ]},
+  })
+
+  assert.match(summary, /Seeded files: 1/)
+  assert.match(summary, /Seeded units: 12/)
+})

@@ -1,7 +1,7 @@
 'use strict'
 
 const DEFAULT_TARGET_CHARS = 16000
-const DEFAULT_MAX_CHARS = 24000
+const DEFAULT_MAX_CHARS = 20000
 
 function splitLinesWithOffsets(source) {
   const lines = []

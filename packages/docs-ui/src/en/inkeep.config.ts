@@ -34,8 +34,6 @@ export const inkeepSettings ={
         const tabs = source.tabs || [];
 
         if (type === 'searchResultItem') {
-            console.log('source', source)
-            console.log('type', type)
             if (source.url.includes('/docs/byoc')) {
                 tabs.push('BYOC')
             } else if (source.url.includes('/docs')) {

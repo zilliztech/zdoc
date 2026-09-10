@@ -4,7 +4,8 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
-import {assertNoInputPathCollisions, writeBuildProvenance} from './write-provenance.mjs';
+import {createHash} from 'node:crypto';
+import {assertNoInputPathCollisions, assertNoRetiredManifestInputs, writeBuildProvenance} from './write-provenance.mjs';
 
 function write(root, name, contents, mode) {
   const target = path.join(root, name);
@@ -28,6 +29,12 @@ function fixture() {
   write(root, 'generated/en/sidebars/guides.sidebar.js', 'module.exports = []\n');
   write(root, 'generated/en/manifests/reference.json', '{"revision":"en-1"}\n');
   write(root, 'generated/zh-CN/manifests/reference-translations.json', '{"revision":"zh-1"}\n');
+  const fragment = '{}\n';
+  write(root, 'packages/docs-tooling/src/reference/rest/meta/openapi/spec.json', fragment);
+  const fragmentHash = createHash('sha256').update(fragment).digest('hex');
+  for (const locale of ['en', 'ja-JP', 'zh-CN']) {
+    write(root, `generated/${locale}/manifests/rest-derivation.json`, JSON.stringify({schemaVersion: 1, locale, fragmentHashes: {'spec.json': fragmentHash}, toolingSha: 'a'.repeat(40), generatedAt: '2026-09-09T00:00:00.000Z'}) + '\n');
+  }
   write(root, 'generated/zh-CN/sidebars/tools.sidebar.js', 'module.exports = []\n');
   write(root, 'tracked.txt', 'tracked\n');
   execFileSync('git', ['add', '.'], {cwd: root});
@@ -163,10 +170,12 @@ test('writes canonical byte-identical provenance with required components and no
   assert.equal(manifest.site, 'en');
   assert.equal(manifest.workingTree, 'clean');
   assert.deepEqual(Object.keys(manifest.componentHashes).sort(), [
-    'contentManifests', 'dependencies', 'environment', 'legacyFiles', 'localizationInputs', 'lockfile', 'profile', 'routeInventories', 'routes',
+    'contentManifests', 'dependencies', 'environment', 'legacyFiles', 'localizationInputs', 'lockfile', 'profile', 'restDerivation', 'routeInventories', 'routes',
   ]);
   assert.deepEqual(manifest.environmentFields, ['CI', 'NODE_ENV']);
   assert.equal(manifest.contentManifests.mode, 'explicit');
+  assert.deepEqual(manifest.restDerivation.records.map(record => record.locale), ['en', 'ja-JP']);
+  assert.ok(manifest.restDerivation.records.every(record => record.fragmentCount === 1 && /^[0-9a-f]{64}$/.test(record.sha256)));
   assert.deepEqual(manifest.contentManifests.records.map(record => record.path), [
     'content/en/guides/content-manifest.json',
   ]);
@@ -364,6 +373,18 @@ test('Japanese candidate workspace records staged BYOC target deletions', () => 
   assert.deepEqual(manifest.localizationInputs.candidateWorkspace.deleted, [deletedPath]);
 });
 
+test('Japanese candidate workspace owns its dirty candidate state cache', () => {
+  const root = fixture();
+  write(root, '.translation-cache/ja-JP.json', '{"files":{"candidate":{}}}\n');
+
+  const {manifest} = run(root, {environment: candidateEnvironment({
+    ZDOC_PROVENANCE_CANDIDATE_TARGET: 'ja-JP',
+  })});
+
+  assert.ok(manifest.localizationInputs.candidateWorkspace.records.some(record =>
+    record.path === '.translation-cache/ja-JP.json' && /^[0-9a-f]{64}$/u.test(record.sha256)));
+});
+
 test('Chinese candidate workspace ignores Japanese inputs owned by the other site', () => {
   const root = fixture();
   fs.appendFileSync(
@@ -474,12 +495,50 @@ test('localization inputs reject tracked case and Unicode normalization collisio
   );
 });
 
+test('localization inputs reject retired governance manifests as provenance inputs', () => {
+  for (const retired of [
+    'generated/zh-CN/manifests/import.json',
+    'generated/zh-CN/manifests/tools-translations.json',
+  ]) {
+    assert.throws(
+      () => assertNoRetiredManifestInputs(['generated/zh-CN/manifests/reference-translations.json', retired]),
+      new RegExp(`Retired publication manifest must not become a provenance input: ${retired.replaceAll('/', '\\/')}`),
+    );
+  }
+  assert.doesNotThrow(() => assertNoRetiredManifestInputs([
+    'generated/zh-CN/manifests/reference-translations.json',
+    'generated/ja-JP/manifests/rest-derivation.json',
+    'i18n/ja-JP/docusaurus-plugin-content-docs/current/home.md',
+  ]));
+});
+
 test('changes the artifact hash when artifact bytes change and self-excludes provenance', () => {
   const root = fixture();
   const original = run(root).manifest.artifactHash;
   assert.equal(run(root).manifest.artifactHash, original);
   fs.appendFileSync(path.join(root, 'build/en/docs/index.html'), 'changed');
   assert.notEqual(run(root).manifest.artifactHash, original);
+});
+
+test('REST derivation provenance fails closed on missing, drifted, mismatched, and invalid locale manifests', () => {
+  const root = fixture();
+  fs.rmSync(path.join(root, 'generated/en/manifests/rest-derivation.json'));
+  assert.throws(() => run(root), /missing required REST derivation manifest/i);
+  const driftRoot = fixture();
+  fs.writeFileSync(path.join(driftRoot, 'packages/docs-tooling/src/reference/rest/meta/openapi/spec.json'), '{"drift":true}\n');
+  assert.throws(() => run(driftRoot), /FRAGMENT_DRIFT/i);
+  const shaRoot = fixture();
+  const manifestPath = path.join(shaRoot, 'generated/en/manifests/rest-derivation.json');
+  const value = JSON.parse(fs.readFileSync(manifestPath));
+  value.toolingSha = 'b'.repeat(40);
+  fs.writeFileSync(manifestPath, JSON.stringify(value) + '\n');
+  assert.throws(() => run(shaRoot), /must use one tooling SHA/i);
+  const localeRoot = fixture();
+  const jaPath = path.join(localeRoot, 'generated/ja-JP/manifests/rest-derivation.json');
+  const ja = JSON.parse(fs.readFileSync(jaPath));
+  ja.locale = 'en';
+  fs.writeFileSync(jaPath, JSON.stringify(ja) + '\n');
+  assert.throws(() => run(localeRoot), /REST_DERIVATION_LOCALE_MISMATCH|locale/i);
 });
 
 test('discovers only exact content-root manifests while explicit inputs override discovery', () => {

@@ -666,6 +666,7 @@ describe('Chinese Guides source publication', () => {
   it('publishes manifest-owned Cloud, BYOC, and Tools without touching Chinese Reference', async () => {
     const root = temporaryRoot();
     const groupStage = 'tmp/docs-tooling/zh-CN/groups/guides';
+    write(root, 'content/zh-CN/guides/tutorials/home.md', 'translated home stays\n');
     write(root, 'content/zh-CN/guides/tutorials/old.md', 'old\n');
     write(root, 'content/zh-CN/guides/tutorials/tools/old.md', 'old tools\n');
     write(root, 'content/zh-CN/byoc/old.md', 'old\n');
@@ -674,6 +675,7 @@ describe('Chinese Guides source publication', () => {
     write(root, 'generated/zh-CN/sidebars/guides-byoc.sidebar.js', 'old byoc sidebar\n');
     write(root, 'generated/zh-CN/sidebars/tools.sidebar.js', 'old tools sidebar\n');
     write(root, 'generated/zh-CN/manifests/guides-source-publication.json', serializeSourcePublicationManifest([
+      'content/zh-CN/guides/tutorials/home.md',
       'content/zh-CN/guides/tutorials/old.md',
       'content/zh-CN/guides/tutorials/tools/old.md',
       'content/zh-CN/byoc/old.md',
@@ -717,10 +719,13 @@ describe('Chinese Guides source publication', () => {
     );
 
     expect(readFileSync(path.join(root, 'content/zh-CN/guides/tutorials/new.md'), 'utf8')).toBe('new\n');
+    expect(readFileSync(path.join(root, 'content/zh-CN/guides/tutorials/home.md'), 'utf8')).toBe('translated home stays\n');
     expect(readFileSync(path.join(root, 'content/zh-CN/byoc/tutorials/new.md'), 'utf8')).toBe('new\n');
     expect(readFileSync(path.join(root, 'content/zh-CN/guides/tutorials/tools/new.md'), 'utf8')).toBe('new tools\n');
     expect(readFileSync(path.join(root, 'generated/zh-CN/sidebars/tools.sidebar.js'), 'utf8')).toBe('new tools sidebar\n');
     expect(readFileSync(path.join(root, 'content/zh-CN/reference/api/python/keep.md'), 'utf8')).toBe('reference stays\n');
+    expect(JSON.parse(readFileSync(path.join(root, 'generated/zh-CN/manifests/guides-source-publication.json'), 'utf8')).files)
+      .toEqual([...nextFiles].sort((left, right) => left.localeCompare(right, 'en')));
     expect(() => readFileSync(path.join(root, 'content/zh-CN/guides/tutorials/old.md'), 'utf8')).toThrow();
     expect(ownedTreeCommit(root, nextFiles)).toMatch(/^sha256:/);
   });
@@ -842,11 +847,18 @@ describe('Chinese Guides source publication', () => {
     expect(readFileSync(path.join(root, 'content/zh-CN/guides/tutorials/a.md'), 'utf8')).toBe(liveBefore);
   });
 
-  it('rejects the retired Tools translation manifest outside source ownership', async () => {
+  it('rejects the retired Tools translation manifest as non-publication evidence', async () => {
     const root = temporaryRoot();
     expect(() => serializeSourcePublicationManifest([
       'generated/zh-CN/manifests/tools-translations.json',
-    ], {repositoryRoot: root})).toThrow(/outside Chinese Guides ownership/i);
+    ], {repositoryRoot: root})).toThrow(/retired manifest not-publication-evidence: generated\/zh-CN\/manifests\/tools-translations\.json/u);
+  });
+
+  it('rejects the deprecated import manifest outside source ownership', async () => {
+    const root = temporaryRoot();
+    expect(() => serializeSourcePublicationManifest([
+      'generated/zh-CN/manifests/import.json',
+    ], {repositoryRoot: root})).toThrow(/retired manifest deprecated: generated\/zh-CN\/manifests\/import\.json/u);
   });
 
   it('rejects manifest records that do not match files or hashes', () => {
@@ -977,6 +989,7 @@ describe('Chinese Guides source publication', () => {
     });
     expect(byPath.get(sidebar)).toEqual({path: sidebar, sha256: byPath.get(sidebar).sha256, docToken: null, revisionId: null});
     expect(byPath.get(byocSidebar)).toEqual({path: byocSidebar, sha256: byPath.get(byocSidebar).sha256, docToken: null, revisionId: null});
+    expect(byPath.has('content/zh-CN/guides/tutorials/home.md')).toBe(false);
   });
 
   it('rejects duplicate Feishu tokens in the Guides snapshot candidate', async () => {

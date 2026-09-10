@@ -58,11 +58,13 @@ function referenceFixture(overrides = {}) {
 }
 
 const REFERENCE_LANDING_SOURCES = [
+  'content/en/guides/tutorials/home.md',
   'content/en/reference/api/python/python/python.md',
   'content/en/reference/api/java/java/java.md',
   'content/en/reference/api/nodejs/nodejs/nodejs.md',
   'content/en/reference/api/go/go/go.md',
   'content/en/reference/cli/cli/Overview.md',
+  'content/en/reference/api/cpp/cpp/cpp.md',
 ];
 
 function referenceLandingsFixture({state = {}, targetFiles = true} = {}) {
@@ -72,10 +74,12 @@ function referenceLandingsFixture({state = {}, targetFiles = true} = {}) {
     schemaVersion: 1,
     sourceCommit,
     records: REFERENCE_LANDING_SOURCES.map(sourcePath => ({
-      manual: sourcePath.includes('/api/python/') ? 'python'
+      manual: sourcePath.includes('/guides/') ? 'guides'
+        : sourcePath.includes('/api/python/') ? 'python'
         : sourcePath.includes('/api/java/') ? 'java'
           : sourcePath.includes('/api/nodejs/') ? 'node'
-            : sourcePath.includes('/api/go/') ? 'go' : 'cli',
+            : sourcePath.includes('/api/go/') ? 'go'
+              : sourcePath.includes('/api/cpp/') ? 'cpp' : 'cli',
       sourcePath,
       sourceHash: sha256(`# ${sourcePath}\n`),
     })).sort((left, right) => left.manual.localeCompare(right.manual) || left.sourcePath.localeCompare(right.sourcePath)),

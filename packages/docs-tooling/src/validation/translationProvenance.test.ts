@@ -251,6 +251,40 @@ describe('Reference translation source checkpoint provenance', () => {
     ]));
   });
 
+  it('reads a renamed source from sourcePathAtCommit', () => {
+    const repositoryRoot = temporaryRepository('reference-translation-renamed-');
+    const historicalPath = 'docs/reference/api/python/page.md';
+    mkdirSync(path.join(repositoryRoot, path.dirname(historicalPath)), {recursive: true});
+    mkdirSync(path.join(repositoryRoot, path.dirname(targetPath)), {recursive: true});
+    writeFileSync(path.join(repositoryRoot, historicalPath), '# historical source\n');
+    writeFileSync(path.join(repositoryRoot, targetPath), targetContents);
+    initializeGitRepository(repositoryRoot);
+    git(repositoryRoot, ['add', '.']);
+    git(repositoryRoot, ['commit', '--quiet', '-m', 'Historical source path']);
+    const sourceCheckpoint = git(repositoryRoot, ['rev-parse', 'HEAD']);
+    rmSync(path.join(repositoryRoot, 'docs'), {recursive: true, force: true});
+    mkdirSync(path.join(repositoryRoot, path.dirname(sourcePath)), {recursive: true});
+    writeFileSync(path.join(repositoryRoot, sourcePath), sourceContents);
+    git(repositoryRoot, ['add', '-A']);
+    git(repositoryRoot, ['commit', '--quiet', '-m', 'Canonical source path']);
+    const sourceManifestCommit = git(repositoryRoot, ['rev-parse', 'HEAD']);
+    const verifier = createGitTranslationSourceProvenanceVerifier(repositoryRoot, sourceRoot);
+
+    expect(() => validateReferenceTranslation({
+      repositoryRoot,
+      sourceRoot,
+      targetRoot,
+      sourceManifest: {schemaVersion: 1, sourceCommit: sourceManifestCommit, records: [{manual: 'python', sourcePath, sourceHash: sha256(sourceContents)}]},
+      translationManifest: {schemaVersion: 1, records: [{
+        manual: 'python', sourcePath, sourcePathAtCommit: historicalPath, targetPath,
+        sourceCommit: sourceCheckpoint, sourceHash: sha256('# historical source\n'),
+        targetHash: sha256(targetContents), status: 'translated',
+      }]},
+      verifyFiles: false,
+      verifySourceProvenance: verifier,
+    })).not.toThrow();
+  });
+
   it('uses bounded Git batches for many records sharing one checkpoint', () => {
     const fixture = manyRecordFixture();
     const commands: readonly string[][] = [];

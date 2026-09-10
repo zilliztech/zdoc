@@ -51,15 +51,20 @@ function translationOwnedPaths(targetId, group) {
       if (mapping.sourceRoot.startsWith(`${owned}/`)) return [mapping.targetRoot];
       return [];
     }));
-    return [...new Set([...roots, target.state.path])];
+    return [...new Set([
+      ...roots,
+      target.state.path,
+      ...('candidateState' in target ? [target.candidateState.path] : []),
+    ])];
   }
   if (target.id === 'zh-CN-reference') {
-    const roots = group.ownedPaths.flatMap((owned) => {
-      if (owned === target.sourceRoot) return [target.targetRoot];
-      if (owned.startsWith(`${target.sourceRoot}/`)) return [`${target.targetRoot}/${owned.slice(target.sourceRoot.length + 1)}`];
-      if (target.sourceRoot.startsWith(`${owned}/`)) return [target.targetRoot];
+    const mappings = target.mappings || [{sourceRoot: target.sourceRoot, targetRoot: target.targetRoot}];
+    const roots = group.ownedPaths.flatMap((owned) => mappings.flatMap((mapping) => {
+      if (owned === mapping.sourceRoot) return [mapping.targetRoot];
+      if (owned.startsWith(`${mapping.sourceRoot}/`)) return [`${mapping.targetRoot}/${owned.slice(mapping.sourceRoot.length + 1)}`];
+      if (mapping.sourceRoot.startsWith(`${owned}/`)) return [mapping.targetRoot];
       return [];
-    });
+    }));
     if (roots.length === 0) throw new Error(`Translation target ${target.id} is not compatible with group ${group.snapshotManual}`);
     const sidebarNames = group.snapshotManual === 'reference-landings'
       ? referenceLandingSidebars()
@@ -205,11 +210,20 @@ async function validateCheckpointArtifact(artifactDir, expected = {}) {
     if (!Array.isArray(manifest.validation.commands) || !manifest.validation.commands.every((x) => typeof x === 'string') || manifest.validation.passed !== true) throw new Error('Invalid validation');
   }
   if (!Array.isArray(manifest.files) || !Array.isArray(manifest.deletions)) throw new Error('files and deletions must be arrays');
-  const statePath = translationArtifact ? resolveTranslationTarget(manifest.translationTarget).state.path : '.translation-cache/ja-JP.json';
-  const stateFileCount = manifest.files.filter((entry) => entry?.path === statePath).length;
-  const stateDeletionCount = manifest.deletions.filter((rel) => rel === statePath).length;
+  const translationTarget = translationArtifact ? resolveTranslationTarget(manifest.translationTarget) : null;
+  const statePaths = translationTarget
+    ? [translationTarget.state.path, ...('candidateState' in translationTarget ? [translationTarget.candidateState.path] : [])]
+    : ['.translation-cache/ja-JP.json'];
+  const preferredStatePath = translationTarget && 'candidateState' in translationTarget
+    ? translationTarget.candidateState.path
+    : translationTarget?.state.path ?? statePaths[0];
+  const stateFileCounts = statePaths.map(statePath => manifest.files.filter((entry) => entry?.path === statePath).length);
+  const stateFileCount = stateFileCounts.reduce((total, count) => total + count, 0);
+  const stateDeletionCount = manifest.deletions.filter((rel) => statePaths.includes(rel)).length;
   if (manifest.stage === 'translation' && stateDeletionCount) throw new Error('Translation stage must not list translation state deletion');
-  if (manifest.stage === 'translation' && stateFileCount !== 1) throw new Error('Translation stage must contain exactly one translation state payload file');
+  if (manifest.stage === 'translation' && (stateFileCount === 0 || stateFileCounts.some(count => count > 1))) {
+    throw new Error('Translation stage must contain exactly one copy of each available translation state payload file');
+  }
   if (manifest.stage === 'source' && (stateFileCount || stateDeletionCount)) throw new Error('Source stage must not contain translation state');
   for (const entry of manifest.files) {
     exactKeys(entry, FILE_KEYS, 'file');
@@ -268,7 +282,10 @@ async function validateCheckpointArtifact(artifactDir, expected = {}) {
     const bytes = await readRegularNoFollow(path.join(payloadRoot, ...entry.path.split('/')));
     if (bytes.length !== entry.size) throw new Error(`Payload size mismatch: ${entry.path}`);
     if (crypto.createHash('sha256').update(bytes).digest('hex') !== entry.sha256) throw new Error(`Payload checksum mismatch: ${entry.path}`);
-    if (entry.path === statePath) translationCacheBytes = Buffer.from(bytes);
+    if (
+      statePaths.includes(entry.path)
+      && (translationCacheBytes === null || entry.path === preferredStatePath)
+    ) translationCacheBytes = Buffer.from(bytes);
   }
   let parsedBatchInput = null;
   let batchInputBytes = null;

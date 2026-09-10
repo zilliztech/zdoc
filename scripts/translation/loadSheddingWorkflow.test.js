@@ -20,8 +20,10 @@ test('Translation producers use workload-aware worker and chunk limits without o
   }
   assert.equal(
     agents.env.TRANSLATION_CONCURRENCY,
-    "${{ (inputs.recovery_run_id != '' || inputs.recovery_bundle_artifact_name != '') && (inputs.group == 'guides' && '2' || '6') || (inputs.group == 'guides' && '1' || inputs.target == 'zh-CN-reference' && '2' || '4') }}",
+    "${{ (inputs.recovery_run_id != '' || inputs.recovery_bundle_artifact_name != '') && (inputs.group == 'guides' && '2' || '6') || (inputs.group == 'guides' && '2' || inputs.target == 'zh-CN-reference' && '2' || '4') }}",
   )
+  assert.equal(agents.env.TRANSLATION_FILE_TIMEOUT_MS, "${{ inputs.group == 'guides' && '1800000' || '3600000' }}")
+  assert.equal(agents.env.TRANSLATION_SOFT_DEADLINE_MS, "${{ inputs.group == 'guides' && '5400000' || '18000000' }}")
   assert.equal(
     agents.env.TRANSLATION_CHUNK_TARGET_CHARS,
     "${{ inputs.group == 'guides' && '8000' || '16000' }}",
@@ -38,10 +40,41 @@ test('Translation producers use workload-aware worker and chunk limits without o
   assert.match(result.run, /steps\.agents\.outcome .*== skipped/)
 })
 
+test('Semantic seed planning is opt-in, incremental-only, and shares runner chunk limits', () => {
+  const workflow = loadWorkflow('.github/workflows/_translate-content-group.yml')
+  const inputs = workflow.on.workflow_call.inputs
+  assert.equal(inputs.semantic_seeds.required, false)
+  assert.equal(inputs.semantic_seeds.type, 'boolean')
+  assert.equal(inputs.semantic_seeds.default, false)
+
+  const manifestStep = workflow.jobs.translate.steps.find(step => step.name === 'Build group translation manifest')
+  const seedsStep = workflow.jobs.translate.steps.find(step => step.name === 'Build semantic translation seeds')
+  const agents = workflow.jobs.translate.steps.find(step => step.name === 'Run translation agents')
+  assert.ok(seedsStep, 'semantic seed step must exist')
+  assert.ok(workflow.jobs.translate.steps.indexOf(seedsStep) > workflow.jobs.translate.steps.indexOf(manifestStep))
+  assert.ok(workflow.jobs.translate.steps.indexOf(seedsStep) < workflow.jobs.translate.steps.indexOf(agents))
+  assert.equal(
+    seedsStep.if,
+    "${{ inputs.should_translate && inputs.semantic_seeds && steps.mode.outputs.effective_mode == 'incremental' && steps.manifest.outputs.count != '0' }}",
+  )
+  assert.match(seedsStep.run, /scripts\/translation\/semanticSeeds\.js/)
+  assert.match(seedsStep.run, /--baseline "\$BASELINE_DIR"/)
+  assert.match(seedsStep.run, /--source-baseline-sha "\$SOURCE_BASELINE_SHA"/)
+  for (const name of ['TRANSLATION_CHUNK_TARGET_CHARS', 'TRANSLATION_CHUNK_MAX_CHARS']) {
+    assert.equal(seedsStep.env[name], agents.env[name], `semantic seed planning and Agent Runner must share ${name}`)
+  }
+
+  assert.match(agents.run, /if \[\[ -d tmp\/semantic-seeds \]\]/)
+  assert.match(agents.run, /--semantic-seeds tmp\/semantic-seeds/)
+  const recoveryPreflight = workflow.jobs.translate.steps.find(step => step.name === 'Resolve current recovery compatibility')
+  assert.doesNotMatch(recoveryPreflight.run, /semantic-seeds/)
+})
+
 test('Translation producer matrices bound model parallelism and retain the single Ready-FIFO writer', () => {
   const workflow = loadWorkflow('.github/workflows/translate-codex.yml')
 
   assert.equal(workflow.jobs.translate_guides_batches.strategy['max-parallel'], 1)
+  assert.equal(workflow.jobs.translate_guides_batches.strategy['fail-fast'], true)
   assert.equal(workflow.jobs.translate_sdk.strategy['max-parallel'], 3)
   assert.deepEqual(workflow.jobs.publish_ready.needs, ['prepare', 'translate_sdk', 'prepare_guides_publication_ready'])
   assert.equal(workflow.jobs.publish_ready.permissions.contents, 'write')
@@ -49,4 +82,24 @@ test('Translation producer matrices bound model parallelism and retain the singl
   for (const producer of ['translate_guides_batches', 'translate_sdk', 'prepare_guides_publication_ready']) {
     assert.doesNotMatch(JSON.stringify(workflow.jobs[producer]), /publication-coordinator\.js|git push/)
   }
+})
+
+test('Semantic seed reuse stays operator opt-in end to end', () => {
+  const workflow = loadWorkflow('.github/workflows/translate-codex.yml')
+  for (const trigger of ['workflow_dispatch', 'workflow_call']) {
+    const input = workflow.on[trigger].inputs.semantic_seeds
+    assert.equal(input.type, 'boolean', `${trigger} semantic_seeds must be a boolean input`)
+    assert.equal(input.default, false, `${trigger} semantic_seeds must default to off`)
+  }
+  // The production entry point (fetch-docs dispatch_translations) never sets the
+  // input, so the repo variable is the only runtime switch for pipeline runs.
+  for (const producer of ['translate_guides_batches', 'translate_sdk']) {
+    assert.equal(
+      workflow.jobs[producer].with.semantic_seeds,
+      '${{ inputs.semantic_seeds || vars.TRANSLATION_SEMANTIC_SEEDS == \'true\' }}',
+      `${producer} must forward the input or the TRANSLATION_SEMANTIC_SEEDS repo variable`,
+    )
+  }
+  const group = loadWorkflow('.github/workflows/_translate-content-group.yml')
+  assert.equal(group.on.workflow_call.inputs.semantic_seeds.default, false)
 })

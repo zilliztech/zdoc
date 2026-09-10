@@ -177,6 +177,26 @@ function scheduleSearch(root: ShadowRoot, input: HTMLInputElement, delay = SEARC
   pendingSearchTimers.set(input, timer);
 }
 
+// Inkeep renders the whole modal UI through React (portal into this shadow
+// root), so every `.ikp-ai-*` node is React-owned. Detaching or gutting those
+// nodes behind React's back makes its unmount commit throw
+// `removeChild ... not a child of this node` and wedge the search UI. Stale
+// rows are therefore only flagged (CSS hides them) and left for React to
+// remove itself once it re-renders with the reset query.
+function markStaleResults(root: ShadowRoot) {
+  root
+    .querySelectorAll<HTMLElement>('.ikp-ai-search-results__item, .ikp-ai-search-results__loading')
+    .forEach(item => {
+      item.dataset.zdocStale = 'true';
+    });
+}
+
+function clearStaleResults(root: ShadowRoot) {
+  root.querySelectorAll<HTMLElement>('[data-zdoc-stale]').forEach(item => {
+    delete item.dataset.zdocStale;
+  });
+}
+
 function resetSearchRoot(root: ShadowRoot) {
   const input = root.querySelector<HTMLInputElement>('.ikp-ai-search-input');
   if (!input) return;
@@ -185,7 +205,7 @@ function resetSearchRoot(root: ShadowRoot) {
   delete input.dataset.zdocImeComposing;
   delete input.dataset.zdocSearchAwaiting;
   if (input.value) setSearchInputValue(input, '', false);
-  root.querySelectorAll<HTMLElement>('.ikp-ai-search-results__item, .ikp-ai-search-results__loading').forEach(item => item.remove());
+  markStaleResults(root);
   syncEmptyState(root);
   syncLoadingState(root);
 }
@@ -217,10 +237,23 @@ function getResultBreadcrumbMeta(item: HTMLElement) {
   if (breadcrumbs) return breadcrumbs;
 
   const description = item.querySelector<HTMLElement>('.ikp-ai-search-results__item-description');
-  const rawDescription = description?.textContent?.replace(/\s+/g, ' ').trim() || '';
+  // Once the summary span is layered in, textContent no longer reflects
+  // Inkeep's raw description; keep the original around for re-parses.
+  const rawText = (description?.textContent || '').replace(/\s+/g, ' ').trim();
+  const rawDescription = description?.dataset.zdocRawText ?? rawText;
   const parts = rawDescription.split(/\s+\|\s+/).map(part => part.trim()).filter(Boolean);
   if (description && parts.length > 1) {
-    description.textContent = parts[0];
+    description.dataset.zdocRawText = rawDescription;
+    // Never rewrite the description's own children (React tracks them);
+    // hide the raw text with CSS and show our shortened span instead.
+    description.classList.add('zdoc-desc-shortened');
+    let summary = description.querySelector<HTMLElement>('.zdoc-desc-summary');
+    if (!summary) {
+      summary = description.ownerDocument.createElement('span');
+      summary.className = 'zdoc-desc-summary';
+      description.appendChild(summary);
+    }
+    summary.textContent = parts[0];
     return normalizeBreadcrumbMeta(parts.slice(1).join(' / '));
   }
 
@@ -486,6 +519,40 @@ function ensureStyles(root: ShadowRoot) {
       border-radius: 0;
       background: transparent;
     }
+    /* Rows flagged stale on modal reset: hidden via CSS, never detached —
+       React owns them and must remove them itself. */
+    .ikp-ai-search-root [data-zdoc-stale='true'] {
+      display: none !important;
+    }
+    /* Hide Inkeep's raw "Label (count)" tab text; our spans render instead. */
+    .ikp-ai-search-root [role='tab'].zdoc-search-tab {
+      font-size: 0 !important;
+    }
+    .ikp-ai-search-root [role='tab'].zdoc-search-tab .zdoc-search-tab-label,
+    .ikp-ai-search-root [role='tab'].zdoc-search-tab .zdoc-search-tab-count {
+      font-size: 13px !important;
+      line-height: 18px !important;
+    }
+    /* Hide Inkeep's own ask-AI label text while a query is active; our
+       prefix/query/suffix spans render instead. */
+    .ikp-ai-search-root:not(:has(.ikp-ai-search-input:placeholder-shown)) .ikp-ai-ask-ai-trigger__label.zdoc-ask-ai-label {
+      font-size: 0 !important;
+    }
+    .ikp-ai-search-root:not(:has(.ikp-ai-search-input:placeholder-shown)) .ikp-ai-ask-ai-trigger__label.zdoc-ask-ai-label .zdoc-ask-ai-prefix,
+    .ikp-ai-search-root:not(:has(.ikp-ai-search-input:placeholder-shown)) .ikp-ai-ask-ai-trigger__label.zdoc-ask-ai-label .zdoc-ask-ai-query,
+    .ikp-ai-search-root:not(:has(.ikp-ai-search-input:placeholder-shown)) .ikp-ai-ask-ai-trigger__label.zdoc-ask-ai-label .zdoc-ask-ai-suffix {
+      font-size: 14px !important;
+      line-height: 20px !important;
+    }
+    /* Hide the full "part | meta" description text; only the summary span
+       (first part) is shown. */
+    .ikp-ai-search-root .ikp-ai-search-results__item-description.zdoc-desc-shortened {
+      font-size: 0 !important;
+    }
+    .ikp-ai-search-root .ikp-ai-search-results__item-description.zdoc-desc-shortened .zdoc-desc-summary {
+      font-size: 13px !important;
+      line-height: 18px !important;
+    }
   `;
   root.appendChild(style);
 }
@@ -518,7 +585,7 @@ function syncEmptyState(root: ShadowRoot) {
     return;
   }
   if (existing) return;
-  if (!isTypingPending && list.querySelector('.ikp-ai-search-results__item')) return;
+  if (!isTypingPending && list.querySelector('.ikp-ai-search-results__item:not([data-zdoc-stale])')) return;
 
   list.appendChild(buildEmptyState(root));
 }
@@ -530,7 +597,7 @@ function syncLoadingState(root: ShadowRoot) {
   if (!input || !inputGroup) return;
 
   const loading = root.querySelector<HTMLElement>('.ikp-ai-search-results__loading');
-  const hasResults = root.querySelectorAll('.ikp-ai-search-results__item').length > 0;
+  const hasResults = root.querySelectorAll('.ikp-ai-search-results__item:not([data-zdoc-stale])').length > 0;
   const isLoading = Boolean(
     input.value.trim() &&
     input.dataset.zdocSearchPending !== 'true' &&
@@ -576,7 +643,7 @@ function getResultKind(item: HTMLElement): 'doc' | 'section' | 'blog' {
 }
 
 function syncResultKinds(root: ShadowRoot) {
-  root.querySelectorAll<HTMLElement>('.ikp-ai-search-results__item').forEach(item => {
+  root.querySelectorAll<HTMLElement>('.ikp-ai-search-results__item:not([data-zdoc-stale])').forEach(item => {
     item.dataset.zdocResultKind = getResultKind(item);
     getResultBreadcrumbMeta(item);
   });
@@ -587,7 +654,7 @@ function syncSearchLayoutState(root: ShadowRoot) {
   const searchRoot = root.querySelector<HTMLElement>('.ikp-ai-search-root');
   if (!input || !searchRoot) return;
   searchRoot.dataset.zdocSearchHasQuery = String(Boolean(input.value.trim()));
-  searchRoot.dataset.zdocSearchHasResults = String(root.querySelectorAll('.ikp-ai-search-results__item').length > 0);
+  searchRoot.dataset.zdocSearchHasResults = String(root.querySelectorAll('.ikp-ai-search-results__item:not([data-zdoc-stale])').length > 0);
 }
 
 function syncAskAiTrigger(root: ShadowRoot) {
@@ -601,18 +668,30 @@ function syncAskAiTrigger(root: ShadowRoot) {
   }
   root.querySelectorAll<HTMLElement>('.ikp-ai-ask-ai-trigger__label').forEach(label => {
     const query = input.value.trim();
-    if (!query) return;
-    label.textContent = '';
-    const prefix = root.ownerDocument.createElement('span');
-    prefix.className = 'zdoc-ask-ai-prefix';
-    prefix.textContent = 'Can you tell me about ';
-    const queryText = root.ownerDocument.createElement('span');
-    queryText.className = 'zdoc-ask-ai-query';
+    if (!query) {
+      // No query: fall back to Inkeep's own label text. Drop only the spans
+      // this enhancer created — never React-owned nodes.
+      label.classList.remove('zdoc-ask-ai-label');
+      label.querySelectorAll('.zdoc-ask-ai-prefix, .zdoc-ask-ai-query, .zdoc-ask-ai-suffix').forEach(node => node.remove());
+      return;
+    }
+    let queryText = label.querySelector<HTMLElement>('.zdoc-ask-ai-query');
+    if (!queryText) {
+      // Layer our spans over Inkeep's label text instead of replacing it:
+      // wiping the label's children detaches nodes React still tracks and
+      // crashes the modal's unmount commit with NotFoundError (removeChild).
+      label.classList.add('zdoc-ask-ai-label');
+      const prefix = root.ownerDocument.createElement('span');
+      prefix.className = 'zdoc-ask-ai-prefix';
+      prefix.textContent = 'Can you tell me about ';
+      queryText = root.ownerDocument.createElement('span');
+      queryText.className = 'zdoc-ask-ai-query';
+      const suffix = root.ownerDocument.createElement('span');
+      suffix.className = 'zdoc-ask-ai-suffix';
+      suffix.textContent = '?';
+      label.append(prefix, queryText, suffix);
+    }
     queryText.textContent = query;
-    const suffix = root.ownerDocument.createElement('span');
-    suffix.className = 'zdoc-ask-ai-suffix';
-    suffix.textContent = '?';
-    label.append(prefix, queryText, suffix);
   });
 }
 
@@ -678,7 +757,10 @@ function syncSearchTabs(root: ShadowRoot) {
     count.className = 'zdoc-search-tab-count';
     count.textContent = match[2];
 
-    tab.textContent = '';
+    // Append our spans and hide Inkeep's raw "Label (count)" text with CSS
+    // instead of wiping the tab's children — those belong to React, and
+    // detaching them breaks the modal's unmount commit.
+    tab.classList.add('zdoc-search-tab');
     tab.append(label, count);
   });
 }
@@ -702,6 +784,9 @@ function enhanceSearchRoots() {
         delete input.dataset.zdocSearchPending;
         delete input.dataset.zdocSearchAwaiting;
         if (!(event as InputEvent).isComposing) delete input.dataset.zdocImeComposing;
+        // Real typing means fresh results are coming: drop the stale flags so
+        // rows React reuses for them are visible again.
+        if (input.value.trim()) clearStaleResults(root);
         syncEmptyState(root);
         syncLoadingState(root);
         syncAskAiTrigger(root);

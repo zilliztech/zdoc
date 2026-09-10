@@ -55,10 +55,11 @@ test('reference groups map reference outputs into docs-reference i18n', () => {
   ]);
 });
 
-test('reference landing paths remain a bounded translation-only group', () => {
+test('landing paths remain a bounded translation-only group', () => {
   const paths = getGroupPaths('reference-landings');
 
   assert.deepEqual(paths.englishOutputs, [
+    'content/en/guides/tutorials/home.md',
     'content/en/reference/api/python/python/python.md',
     'content/en/reference/api/java/java/java.md',
     'content/en/reference/api/nodejs/nodejs/nodejs.md',
@@ -67,6 +68,7 @@ test('reference landing paths remain a bounded translation-only group', () => {
     'content/en/reference/api/cpp/cpp/cpp.md',
   ]);
   assert.deepEqual(paths.translationOutputs, [
+    'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/home.md',
     'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/python.md',
     'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/java.md',
     'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/nodejs.md',
@@ -84,11 +86,15 @@ test('SDK and CLI groups declare master-owned landing pages to preserve', () => 
   assert.deepEqual(getGroupPaths('python').preservedEnglish, [
     'content/en/reference/api/python/python/python.md',
   ]);
-  assert.deepEqual(getGroupPaths('java').preservedEnglish, []);
+  assert.deepEqual(getGroupPaths('java').preservedEnglish, [
+    'content/en/reference/api/java/java/java.md',
+  ]);
   assert.deepEqual(getGroupPaths('node').preservedEnglish, [
     'content/en/reference/api/nodejs/nodejs/nodejs.md',
   ]);
-  assert.deepEqual(getGroupPaths('go').preservedEnglish, []);
+  assert.deepEqual(getGroupPaths('go').preservedEnglish, [
+    'content/en/reference/api/go/go/go.md',
+  ]);
   assert.deepEqual(getGroupPaths('cli').preservedEnglish, [
     'content/en/reference/cli/cli/Overview.md',
   ]);
@@ -101,8 +107,9 @@ test('SDK and CLI groups declare master-owned landing pages to preserve', () => 
   ]);
 });
 
-test('reference translation mapping rejects non-reference paths', () => {
-  assert.equal(referenceTranslationPath('content/en/guides/tutorials'), null);
+test('landing translation mapping includes the exact Guides home only', () => {
+  assert.equal(referenceTranslationPath('content/en/guides/tutorials/home.md'), 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/home.md');
+  assert.equal(referenceTranslationPath('content/en/guides/tutorials/other.md'), null);
   assert.equal(referenceTranslationPath('generated/en/sidebars/python.sidebar.js'), null);
 });
 

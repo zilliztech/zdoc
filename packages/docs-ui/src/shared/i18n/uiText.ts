@@ -35,6 +35,11 @@ export interface DocsUiText {
     support: string;
     logIn: string;
     signUpFree: string;
+    menu: string;
+    /** Localized overrides for secondary navbar labels, keyed by the English
+     * source label from the site profile's navigation.secondaryItems. Unmapped
+     * labels render unchanged. */
+    secondaryLabels: Record<string, string>;
   };
   chat: {
     title: string;
@@ -42,6 +47,7 @@ export interface DocsUiText {
     close: string;
     thinking: string;
     searching: string;
+    readingPage: string;
     today: string;
     previousSevenDays: string;
     older: string;
@@ -162,6 +168,8 @@ const english: DocsUiText = {
     support: 'Support',
     logIn: 'Log In',
     signUpFree: 'Sign Up Free',
+    menu: 'Menu',
+    secondaryLabels: {},
   },
   chat: {
     title: 'Ask AI',
@@ -169,6 +177,7 @@ const english: DocsUiText = {
     close: 'Close chat',
     thinking: 'Thinking',
     searching: 'Searching',
+    readingPage: 'Reading page...',
     today: 'Today',
     previousSevenDays: 'Previous 7 days',
     older: 'Older',
@@ -327,6 +336,8 @@ const chinese: DocsUiText = {
     support: '支持',
     logIn: '登录',
     signUpFree: '免费注册',
+    menu: '菜单',
+    secondaryLabels: {},
   },
   chat: {
     title: '询问 AI',
@@ -334,6 +345,7 @@ const chinese: DocsUiText = {
     close: '关闭对话',
     thinking: '思考中',
     searching: '搜索中',
+    readingPage: '正在读取页面...',
     today: '今天',
     previousSevenDays: '过去 7 天',
     older: '更早',
@@ -459,32 +471,210 @@ const chinese: DocsUiText = {
   featureNote: {regionAvailability: '区域可用性', planAvailability: '套餐可用性'},
 };
 
+// Japanese is served by the English site's ja-JP locale (docusaurus-i18n), so it
+// is selected by locale, not by site profile.
+const japanese: DocsUiText = {
+  common: {
+    copy: 'コピー',
+    copied: 'コピーしました',
+    copyCode: 'コードをコピー',
+    copyCommand: 'コマンドをコピー',
+  },
+  breadcrumbs: {
+    ariaLabel: 'パンくずリスト',
+    docsHome: 'ドキュメントホーム',
+    releases: 'リリースノート',
+    byoc: 'BYOC',
+    apiAndSdk: 'API & SDK',
+    managedCloud: 'Zilliz マネージド Cloud',
+    contactSales: '営業に問い合わせ',
+  },
+  sidebar: {
+    label: 'サイドバー',
+    expand: 'サイドバーを展開',
+    section: 'セクション',
+    numberedSection: index => `セクション ${index}`,
+    documentationSections: 'ドキュメントセクション',
+    documentationPages: 'ドキュメントページ',
+    releaseNotes: 'リリースノート',
+    backTo: label => `${label} に戻る`,
+  },
+  navbar: {
+    docs: 'ドキュメント',
+    search: '検索',
+    moreActions: 'その他の操作',
+    support: 'サポート',
+    logIn: 'ログイン',
+    signUpFree: '無料で登録',
+    menu: 'メニュー',
+    secondaryLabels: {
+      'Zilliz-Managed Cloud': 'Zilliz マネージド Cloud',
+      'Bring Your Own Cloud': 'BYOC',
+      Releases: 'リリースノート',
+    },
+  },
+  chat: {
+    title: 'AI に質問',
+    clearConversation: '会話をクリア',
+    close: 'チャットを閉じる',
+    thinking: '考え中',
+    searching: '検索中',
+    readingPage: 'ページを読み込み中...',
+    today: '今日',
+    previousSevenDays: '過去 7 日間',
+    older: 'それ以前',
+    newChat: '新規チャット',
+    searchChats: 'チャットを検索...',
+    noHistory: 'チャット履歴はまだありません',
+    deleteChat: 'チャットを削除',
+    removeContext: 'コンテキストを削除',
+    placeholder: '質問を入力...',
+    messageLabel: 'チャットメッセージ',
+    send: '送信',
+    sendQuestion: '質問を送信',
+    sources: '参照ソース',
+    helpful: '役に立った',
+    notHelpful: '役に立たなかった',
+    bottom: 'ページ下部へ',
+    stop: '停止',
+    stopResponse: '生成を停止',
+    panelLabel: 'Zilliz Copilot',
+    askAi: 'AI に質問',
+    askAiAboutCode: 'このコードについて AI に質問',
+    codeSnippet: 'コードスニペット',
+    defaultHistoryTitle: '新規チャット',
+    requestFailed: status => `リクエストに失敗しました (${status})`,
+    unexpectedError: message => `エラーが発生しました: ${message}`,
+    confidence: {
+      high: '高信頼度 — 回答はドキュメントで直接裏付けられています',
+      medium: '中信頼度 — 回答はドキュメントで部分的に裏付けられています',
+      low: '低信頼度 — 参照できるドキュメントが限られています',
+    },
+    suggestions: {
+      default: [
+        'Zilliz Cloud の使い始め方を教えて',
+        'API のレート制限は？',
+        '統合例を見せて',
+        '認証はどう扱うの？',
+      ],
+      python: [
+        'PyMilvus の挿入例を見せて',
+        'フィルターを使った検索方法は？',
+        '動的スキーマでコレクションを作成するには？',
+        '利用できるインデックスタイプは？',
+      ],
+      reference: [
+        'この API のコード例を見せて',
+        '必須パラメータは？',
+        'エラー処理はどうするの？',
+        'このエンドポイントのレート制限は？',
+      ],
+      byoc: [
+        'AWS に BYOC をデプロイする方法は？',
+        'ネットワーク要件は？',
+        'プライベートエンドポイントの設定方法は？',
+        'BYOC と Serverless の比較',
+      ],
+      docs: [
+        'ユースケースに合うスキーマ設計を手伝って',
+        'どのサイズのクラスターが必要？',
+        'ベクトル検索の例を見せて',
+        '検索パフォーマンスを最適化するには？',
+      ],
+    },
+  },
+  search: {
+    placeholder: 'ドキュメントを検索...',
+    askAi: query => `AI に質問：「${query}」`,
+    searching: '検索中...',
+    noResults: query => `「${query}」に関する結果は見つかりませんでした`,
+    popularPages: '人気のページ',
+    recent: '最近の検索',
+    clearAll: 'すべて削除',
+    removeRecent: query => `${query} を削除`,
+    close: '検索を閉じる',
+    sections: {Docs: 'ドキュメント', Reference: 'リファレンス', Results: '検索結果'},
+    popular: [
+      {title: 'クラスターの作成', url: '/docs/create-cluster', section: 'Docs'},
+      {title: 'API リファレンス', url: '/reference/restful', section: 'Reference'},
+      {title: 'Python SDK', url: '/reference/python', section: 'Reference'},
+      {title: '検索ガイド', url: '/docs/single-vector-search', section: 'Docs'},
+    ],
+  },
+  notFound: {
+    pageTitle: 'ページが見つかりません',
+    heading: 'ページが見つかりませんでした',
+    assistantSubtitle: 'お探しの情報が見つからない場合はお手伝いします',
+    fallbackSubtitle: 'お探しのページは見つかりませんでした',
+    backToDocs: 'ドキュメントに戻る',
+    thinking: '考え中...',
+    suggestions: [
+      'Zilliz Cloud の使い始め方を教えて',
+      'ドキュメントを検索',
+      'API リファレンスを見る',
+    ],
+  },
+  copyPage: {
+    copyPage: 'ページをコピー',
+    copyPageAsMarkdown: 'LLM 向けに Markdown でコピー',
+    moreOptions: 'その他のコピー オプション',
+    options: 'ページコピーのオプション',
+    copying: 'コピー中…',
+    copied: 'コピーしました！',
+    failed: '失敗',
+    viewSource: 'ソースを表示',
+    viewSourceDescription: '元の Markdown を新しいタブで開く',
+    openInChatGPT: 'ChatGPT で開く',
+    openInClaude: 'Claude で開く',
+    askAboutPage: 'このページについて質問する',
+    connectCursor: 'Cursor に接続',
+    installCursorMcp: 'Cursor に MCP サーバーをインストール',
+    sourceNotFound: 'ソースが見つかりません',
+    copyFailed: 'コピーに失敗しました。もう一度お試しください。',
+    sourceUnavailable: 'このページではソース表示を利用できません。',
+  },
+  toc: {onThisPage: 'このページの内容'},
+  image: {preview: '画像プレビュー', closePreview: '画像プレビューを閉じる'},
+  docMeta: {versionInformation: 'バージョン情報', minimumSdkVersion: '最小 SDK バージョン'},
+  hero: {
+    forHumans: '人間向け',
+    forAgents: 'AI エージェント向け',
+    copyJson: 'JSON をコピー',
+    goTo: label => `${label} へ移動`,
+  },
+  featureNote: {regionAvailability: 'リージョンでの提供状況', planAvailability: 'プランでの提供状況'},
+};
+
 export function resolveDocsUiSite(site: unknown): DocsUiSite {
   return site === 'zh-CN' ? 'zh-CN' : 'en';
 }
 
-export function getDocsUiText(site: unknown): DocsUiText {
+export function getDocsUiText(site: unknown, locale?: unknown): DocsUiText {
+  // Only the English site serves the ja-JP locale, so Japanese is keyed on
+  // locale while Chinese stays keyed on the site profile.
+  if (locale === 'ja-JP') return japanese;
   return resolveDocsUiSite(site) === 'zh-CN' ? chinese : english;
 }
 
 export function useDocsUiText(): DocsUiText {
-  const {siteConfig} = useDocusaurusContext();
-  return getDocsUiText(siteConfig.customFields?.site);
+  const {siteConfig, i18n} = useDocusaurusContext();
+  return getDocsUiText(siteConfig.customFields?.site, i18n.currentLocale);
 }
 
 export function localizeChatStatus(status: string | undefined, text: DocsUiText): string | undefined {
-  if (!status || resolveDocsUiSiteFromText(text) === 'en') return status;
+  if (!status || text === english) return status;
   const normalized = status.trim().toLowerCase();
   if (/search|retriev|lookup|document/.test(normalized)) return text.chat.searching;
   if (/think|reason|analy|plan|process/.test(normalized)) return text.chat.thinking;
   return status;
 }
 
-function resolveDocsUiSiteFromText(text: DocsUiText): DocsUiSite {
-  return text === chinese ? 'zh-CN' : 'en';
-}
-
 export function localizeSearchSection(section: string | undefined, text: DocsUiText): string | undefined {
   if (!section) return undefined;
   return text.search.sections[section] ?? section;
+}
+
+export function localizeNavLabel(label: string | undefined, text: DocsUiText): string | undefined {
+  if (!label) return label;
+  return text.navbar.secondaryLabels[label] ?? label;
 }
