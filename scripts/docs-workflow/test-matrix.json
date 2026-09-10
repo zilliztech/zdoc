@@ -3,18 +3,39 @@
   "entries": [
     {
       "id": "build-provenance",
-      "paths": ["scripts/build/write-provenance.mjs", "scripts/build/write-provenance.test.mjs"],
-      "focusedTests": ["node --test scripts/build/write-provenance.test.mjs"],
+      "paths": [
+        "scripts/build/write-provenance.mjs",
+        "scripts/build/write-provenance.test.mjs"
+      ],
+      "focusedTests": [
+        "node --test scripts/build/write-provenance.test.mjs"
+      ],
       "harnesses": [],
-      "gates": ["pnpm test:workflow-policy", "pnpm test:workflow-matrix", "git diff --check"],
+      "gates": [
+        "pnpm test:workflow-policy",
+        "pnpm test:workflow-matrix",
+        "git diff --check"
+      ],
       "reason": "Build provenance preserves candidate ownership checks within each independently built site without coupling English and Chinese release inputs."
     },
     {
       "id": "publication-diagnostics",
-      "paths": ["packages/docs-tooling/src/publication/diagnostics.ts", "packages/docs-tooling/src/publication/diagnostics.test.ts", "packages/docs-tooling/src/publication/evidenceGroups.ts", "packages/docs-tooling/src/publication/evidenceGroups.test.ts"],
-      "focusedTests": ["pnpm vitest run packages/docs-tooling/src/publication/diagnostics.test.ts packages/docs-tooling/src/publication/evidenceGroups.test.ts"],
-      "harnesses": ["pnpm test:replay:fetch"],
-      "gates": ["pnpm test:workflow-policy", "git diff --check"],
+      "paths": [
+        "packages/docs-tooling/src/publication/diagnostics.ts",
+        "packages/docs-tooling/src/publication/diagnostics.test.ts",
+        "packages/docs-tooling/src/publication/evidenceGroups.ts",
+        "packages/docs-tooling/src/publication/evidenceGroups.test.ts"
+      ],
+      "focusedTests": [
+        "pnpm vitest run packages/docs-tooling/src/publication/diagnostics.test.ts packages/docs-tooling/src/publication/evidenceGroups.test.ts"
+      ],
+      "harnesses": [
+        "pnpm test:replay:fetch"
+      ],
+      "gates": [
+        "pnpm test:workflow-policy",
+        "git diff --check"
+      ],
       "reason": "Publication diagnostics bind the declared publication identity and exact owned targets used by atomic Fetch validation, and the evidenceGroups module is the single authority deriving the fetch, spec-derived, and translation equivalence groups from the manual and translation target registries."
     },
     {
@@ -24,7 +45,10 @@
       ],
       "focusedTests": [],
       "harnesses": [],
-      "gates": ["pnpm test:workflow-matrix", "git diff --check"],
+      "gates": [
+        "pnpm test:workflow-matrix",
+        "git diff --check"
+      ],
       "reason": "Sidebar category landing links must preserve navigation while keeping category expansion controls separate."
     },
     {
@@ -34,7 +58,10 @@
       ],
       "focusedTests": [],
       "harnesses": [],
-      "gates": ["pnpm test:workflow-matrix", "git diff --check"],
+      "gates": [
+        "pnpm test:workflow-matrix",
+        "git diff --check"
+      ],
       "reason": "Grid layout styles must preserve column geometry while allowing the first heading in each column to align without excess top spacing."
     },
     {
@@ -46,11 +73,14 @@
         "pnpm vitest run packages/docs-ui/src/shared/components/RestSpecs/utils.vitest.test.ts"
       ],
       "harnesses": [],
-      "gates": ["pnpm test:workflow-matrix", "git diff --check"],
+      "gates": [
+        "pnpm test:workflow-matrix",
+        "git diff --check"
+      ],
       "reason": "REST reference rendering must select localized operation and schema text while preserving source-language fallbacks."
     },
-      {
-        "id": "docs-ui-layout",
+    {
+      "id": "docs-ui-layout",
       "paths": [
         "packages/docs-ui/src/en/theme/Navbar/Content/**",
         "packages/docs-ui/src/en/inkeep.config.ts",
@@ -62,9 +92,12 @@
       ],
       "focusedTests": [],
       "harnesses": [],
-      "gates": ["pnpm test:workflow-matrix", "git diff --check"],
+      "gates": [
+        "pnpm test:workflow-matrix",
+        "git diff --check"
+      ],
       "reason": "Shared docs navigation, mobile drawer, embedded demos, and document shell must preserve responsive controls, valid iframe markup, and a bounded content scroller."
-      },
+    },
     {
       "id": "rest-reference-fragments",
       "paths": [
@@ -78,8 +111,13 @@
       "focusedTests": [
         "node --test packages/docs-tooling/src/reference/rest/integratedSpecBuilder.test.js packages/docs-tooling/src/reference/rest/integratedSpecArtifacts.test.js packages/docs-tooling/src/reference/rest/fragmentCollection.test.js packages/docs-tooling/src/reference/rest/index.integrated-spec.test.js packages/docs-tooling/src/reference/rest/restCompletenessReceipt.test.js packages/docs-tooling/src/reference/rest/restDerivationManifest.test.js"
       ],
-      "harnesses": ["pnpm test:rest-publication-contract"],
-      "gates": ["pnpm test:workflow-matrix", "git diff --check"],
+      "harnesses": [
+        "pnpm test:rest-publication-contract"
+      ],
+      "gates": [
+        "pnpm test:workflow-matrix",
+        "git diff --check"
+      ],
       "reason": "REST OpenAPI fragments feed fragment migration, lifecycle evidence, integrated specs, and publication artifacts."
     },
     {
@@ -92,7 +130,10 @@
         "pnpm vitest run packages/docs-tooling/src/validation/referenceNavigation.test.ts"
       ],
       "harnesses": [],
-      "gates": ["pnpm test:workflow-policy", "git diff --check"],
+      "gates": [
+        "pnpm test:workflow-policy",
+        "git diff --check"
+      ],
       "reason": "Reference navigation validation keeps ordinary locale structure aligned while allowing independently generated REST sites to publish their own document sets."
     },
     {
@@ -107,8 +148,12 @@
       "focusedTests": [
         "node --test scripts/docs-workflow/publication-contracts.test.js scripts/docs-workflow/publication-workflow-adapters.test.js scripts/docs-workflow/fetch-publication-adapter.test.js scripts/docs-workflow/translation-publication-adapter.test.js scripts/docs-workflow/tooling-publication-adapter.test.js"
       ],
-      "harnesses": ["pnpm test:replay:all"],
-      "gates": ["pnpm test:workflow-policy"],
+      "harnesses": [
+        "pnpm test:replay:all"
+      ],
+      "gates": [
+        "pnpm test:workflow-policy"
+      ],
       "reason": "Shared schemas and adapters affect Fetch, Translation, progress/results authentication, and recovery."
     },
     {
@@ -124,16 +169,31 @@
       "focusedTests": [
         "node --test scripts/docs-workflow/publication-scheduler.test.js scripts/docs-workflow/publication-coordinator.test.js scripts/docs-workflow/publication-transaction.test.js scripts/docs-workflow/publication-github-client.test.js scripts/docs-workflow/publication-strategy-registry.test.js scripts/docs-workflow/checkpoint-publication.test.js"
       ],
-      "harnesses": ["pnpm test:replay:all"],
-      "gates": ["pnpm test:workflow-policy"],
+      "harnesses": [
+        "pnpm test:replay:all"
+      ],
+      "gates": [
+        "pnpm test:workflow-policy"
+      ],
       "reason": "The shared writer runtime controls FIFO, cancellation, remote-state safety, and checkpoint publication for both pipelines."
     },
     {
       "id": "restore-generated-state",
-      "paths": ["scripts/restore-generated-state.sh", "scripts/restore-generated-state.test.js"],
-      "focusedTests": ["node --test scripts/restore-generated-state.test.js"],
-      "harnesses": ["pnpm test:replay:all"],
-      "gates": ["pnpm test:workflow-policy", "pnpm test:workflow-matrix", "git diff --check"],
+      "paths": [
+        "scripts/restore-generated-state.sh",
+        "scripts/restore-generated-state.test.js"
+      ],
+      "focusedTests": [
+        "node --test scripts/restore-generated-state.test.js"
+      ],
+      "harnesses": [
+        "pnpm test:replay:all"
+      ],
+      "gates": [
+        "pnpm test:workflow-policy",
+        "pnpm test:workflow-matrix",
+        "git diff --check"
+      ],
       "reason": "The fixed restore path list defines which dev-published state re-enters Fetch/Translation/verification workspaces; it must cover every build-provenance input (including the per-locale REST derivation manifests) or restored workspaces fail closed at build time."
     },
     {
@@ -155,7 +215,9 @@
       "focusedTests": [
         "node --test scripts/docs-workflow/fetch-publication-selection.test.js scripts/docs-workflow/fetch-publication-results.test.js scripts/docs-workflow/fetch-reconciliation-plans.test.js scripts/docs-workflow/fetch-reconciliation-preflight.test.js scripts/docs-workflow/fetch-reference-reconciliation.test.js scripts/docs-workflow/source-publication-barrier.test.js scripts/docs-workflow/repair-fetch-dev.test.js"
       ],
-      "harnesses": ["pnpm test:replay:fetch"],
+      "harnesses": [
+        "pnpm test:replay:fetch"
+      ],
       "gates": [
         "pnpm test:workflow-policy",
         "node --test deploy/contracts/fetch-translation-workflow.test.mjs"
@@ -185,20 +247,27 @@
         "scripts/docs-workflow/validate-unbatched-translation-outputs*",
         "scripts/docs-workflow/validate-guides-translation-staging*",
         ".github/workflows/translate-codex.yml",
+        ".github/workflows/publish-translation.yml",
         ".github/workflows/publish-offline-translation.yml",
         ".github/workflows/publish-offline-reference-python.yml",
         ".github/workflows/translate-manual.yml",
         ".github/workflows/_translate-content-group.yml",
         ".github/workflows/_prepare-translation-batches.yml",
-        ".claude/specs/2026-09-09-online-translation-efficiency.md"
+        ".claude/specs/2026-09-09-online-translation-efficiency.md",
+        ".claude/plans/2026-09-10-translation-short-production-lock.md"
       ],
-      "focusedTests": ["pnpm test:translation-workflow", "pnpm test:translation"],
-      "harnesses": ["pnpm test:replay:translation"],
+      "focusedTests": [
+        "pnpm test:translation-workflow",
+        "pnpm test:translation"
+      ],
+      "harnesses": [
+        "pnpm test:replay:translation"
+      ],
       "gates": [
         "pnpm test:workflow-policy",
         "node --test deploy/contracts/fetch-translation-workflow.test.mjs"
       ],
-      "reason": "Translation selection, reconciliation, reports, and checkpoint strategies feed the Translation FIFO writer and monitor."
+      "reason": "Translation selection, reconciliation, reports, checkpoint strategies, and the short-lock publisher feed the Translation FIFO writer and monitor."
     },
     {
       "id": "translation-recovery",
@@ -213,8 +282,13 @@
       "focusedTests": [
         "node --test scripts/docs-workflow/translation-recovery-planner.test.js scripts/docs-workflow/translation-recovery-workflow.test.js scripts/docs-workflow/translation-handoff.test.js scripts/docs-workflow/translation-artifact-pairs.test.js scripts/docs-workflow/translation-batch-set.test.js scripts/docs-workflow/recover-translation-batches.test.js"
       ],
-      "harnesses": ["pnpm test:replay:recovery"],
-      "gates": ["pnpm test:translation", "pnpm test:workflow-policy"],
+      "harnesses": [
+        "pnpm test:replay:recovery"
+      ],
+      "gates": [
+        "pnpm test:translation",
+        "pnpm test:workflow-policy"
+      ],
       "reason": "Recovery changes must preserve retained identity, skip evidence, paid-work boundaries, and the schema-v3 handoff."
     },
     {
@@ -234,8 +308,12 @@
       "focusedTests": [
         "node --test scripts/docs-workflow/monitor-docs-progress.test.js scripts/docs-workflow/monitor-translation-progress.test.js scripts/docs-workflow/docs-progress-state.test.js scripts/docs-workflow/translation-progress-state.test.js scripts/docs-workflow/docs-card-report.test.js scripts/docs-workflow/build-live-card-state.test.js scripts/docs-workflow/aggregate-results.test.js scripts/docs-workflow/build-aggregate-input.test.js"
       ],
-      "harnesses": ["pnpm test:replay:all"],
-      "gates": ["pnpm test:workflow-policy"],
+      "harnesses": [
+        "pnpm test:replay:all"
+      ],
+      "gates": [
+        "pnpm test:workflow-policy"
+      ],
       "reason": "Progress and card changes cross artifact collection, terminal results, and both parent/child workflow views."
     },
     {
@@ -255,7 +333,9 @@
         "pnpm vitest run packages/docs-tooling/src/reference/translationManifest.test.ts packages/docs-tooling/src/validation/translationProvenance.test.ts packages/docs-tooling/src/reference/translationManifest.integration.test.ts packages/docs-tooling/src/translation/candidates.test.ts packages/docs-tooling/src/translation/targets.test.ts && node --test scripts/translation/migrate-ja-publication-manifest.test.js"
       ],
       "harnesses": [],
-      "gates": ["pnpm test:rest-publication-contract"],
+      "gates": [
+        "pnpm test:rest-publication-contract"
+      ],
       "reason": "Reference manifest changes must preserve historical source-path provenance and retained-report receipts while keeping spec-generated REST ownership and language exclusions independent."
     },
     {
@@ -269,9 +349,15 @@
         "scripts/docs-workflow/ownership-gate*",
         "scripts/docs-workflow/preserved-files-gate*"
       ],
-      "focusedTests": ["pnpm test:checkpoint-workflow"],
-      "harnesses": ["pnpm test:replay:fetch"],
-      "gates": ["pnpm test:workflow-policy"],
+      "focusedTests": [
+        "pnpm test:checkpoint-workflow"
+      ],
+      "harnesses": [
+        "pnpm test:replay:fetch"
+      ],
+      "gates": [
+        "pnpm test:workflow-policy"
+      ],
       "reason": "Checkpoint archives and ownership gates define what publication replays may safely extract and apply."
     },
     {
@@ -298,8 +384,12 @@
         "node packages/docs-tooling/src/lark/larkDocScraper.test.js",
         "pnpm test:guides-workflow"
       ],
-      "harnesses": ["pnpm test:replay:fetch"],
-      "gates": ["pnpm test:workflow-policy"],
+      "harnesses": [
+        "pnpm test:replay:fetch"
+      ],
+      "gates": [
+        "pnpm test:workflow-policy"
+      ],
       "reason": "Guides cache, assembly, render, and table artifacts feed site-qualified Fetch units and final card evidence."
     },
     {
@@ -324,9 +414,16 @@
         "packages/docs-tooling/src/manuals/derive/reconciliationPolicy.ts",
         "config/translation/reconciliation-policy.json"
       ],
-      "focusedTests": ["pnpm test:reconciliation-workflow"],
-      "harnesses": ["pnpm test:replay:translation"],
-      "gates": ["pnpm test:workflow-policy", "pnpm check:reconciliation-policy"],
+      "focusedTests": [
+        "pnpm test:reconciliation-workflow"
+      ],
+      "harnesses": [
+        "pnpm test:replay:translation"
+      ],
+      "gates": [
+        "pnpm test:workflow-policy",
+        "pnpm check:reconciliation-policy"
+      ],
       "reason": "Reconciliation mutations, approval state, and policy exceptions must remain deterministic and review-bound."
     },
     {
@@ -337,8 +434,12 @@
         "scripts/docs-workflow/group-paths*",
         "scripts/docs-workflow/print-workflow-groups*"
       ],
-      "focusedTests": ["pnpm vitest run packages/docs-tooling/src/manuals"],
-      "harnesses": ["pnpm test:replay:all"],
+      "focusedTests": [
+        "pnpm vitest run packages/docs-tooling/src/manuals"
+      ],
+      "harnesses": [
+        "pnpm test:replay:all"
+      ],
       "gates": [
         "pnpm test:workflow-policy",
         "node --test deploy/contracts/fetch-translation-workflow.test.mjs"
@@ -347,15 +448,26 @@
     },
     {
       "id": "shared-mdx-normalization",
-      "paths": ["packages/docs-tooling/src/mdx/validate*"],
-      "focusedTests": ["node packages/docs-tooling/src/mdx/validate.test.cjs"],
-      "harnesses": ["pnpm test:replay:all"],
-      "gates": ["pnpm test:workflow-policy"],
+      "paths": [
+        "packages/docs-tooling/src/mdx/validate*"
+      ],
+      "focusedTests": [
+        "node packages/docs-tooling/src/mdx/validate.test.cjs"
+      ],
+      "harnesses": [
+        "pnpm test:replay:all"
+      ],
+      "gates": [
+        "pnpm test:workflow-policy"
+      ],
       "reason": "Shared MDX normalization feeds both Lark Fetch rendering and Translation repair, including math syntax consumed by the Docusaurus renderer."
     },
     {
       "id": "docs-site-build",
-      "paths": ["apps/docs/**", "packages/site-config/**"],
+      "paths": [
+        "apps/docs/**",
+        "packages/site-config/**"
+      ],
       "focusedTests": [
         "pnpm vitest run apps/docs/src/config/createDocusaurusConfig.test.ts",
         "pnpm test:profiles"
@@ -366,10 +478,16 @@
     },
     {
       "id": "links-reporting",
-      "paths": ["packages/docs-tooling/src/links/**"],
-      "focusedTests": ["pnpm vitest run packages/docs-tooling/src/links"],
+      "paths": [
+        "packages/docs-tooling/src/links/**"
+      ],
+      "focusedTests": [
+        "pnpm vitest run packages/docs-tooling/src/links"
+      ],
       "harnesses": [],
-      "gates": ["pnpm test:workflow-policy"],
+      "gates": [
+        "pnpm test:workflow-policy"
+      ],
       "reason": "Broken-link and canonical-link report writers build the Feishu table URLs and card notes published by the reporting workflows."
     },
     {
@@ -383,15 +501,25 @@
         "pnpm vitest run packages/docs-tooling/src/cli-main.integration.test.ts packages/docs-tooling/src/validation/validation.test.ts"
       ],
       "harnesses": [],
-      "gates": ["pnpm test:workflow-policy"],
+      "gates": [
+        "pnpm test:workflow-policy"
+      ],
       "reason": "The docs-tooling CLI composes dispatch, secure staging, validation, and atomic publication; its integration and validation suites must stay green for any boundary change."
     },
     {
       "id": "external-link-watchdog-tooling",
-      "paths": ["scripts/render-external-link-watchdog-note*", "scripts/external-link-watchdog-workflow.test.js"],
-      "focusedTests": ["pnpm test:external-link-watchdog", "node --test scripts/render-external-link-watchdog-note.test.js"],
+      "paths": [
+        "scripts/render-external-link-watchdog-note*",
+        "scripts/external-link-watchdog-workflow.test.js"
+      ],
+      "focusedTests": [
+        "pnpm test:external-link-watchdog",
+        "node --test scripts/render-external-link-watchdog-note.test.js"
+      ],
       "harnesses": [],
-      "gates": ["pnpm test:workflow-policy"],
+      "gates": [
+        "pnpm test:workflow-policy"
+      ],
       "reason": "The watchdog note renderer and its workflow contract test must stay compatible with the external-link-watchdog.yml step that invokes them."
     },
     {
@@ -407,7 +535,9 @@
         "node --test deploy/contracts/fetch-translation-workflow.test.mjs deploy/contracts/site-validation-workflow.test.mjs deploy/contracts/master-tooling-sync-workflow.test.mjs"
       ],
       "harnesses": [],
-      "gates": ["pnpm test:workflow-policy"],
+      "gates": [
+        "pnpm test:workflow-policy"
+      ],
       "reason": "Workflow changes require policy and structural contract checks; also run actionlint on each changed workflow."
     },
     {
@@ -423,8 +553,12 @@
       "focusedTests": [
         "node --test scripts/docs-workflow/master-tooling-sync.test.js deploy/contracts/master-tooling-sync-workflow.test.mjs"
       ],
-      "harnesses": ["pnpm test:replay:all"],
-      "gates": ["pnpm test:workflow-policy"],
+      "harnesses": [
+        "pnpm test:replay:all"
+      ],
+      "gates": [
+        "pnpm test:workflow-policy"
+      ],
       "reason": "Branch ownership and tooling promotion changes can alter which master changes may enter dev and which runtime paths must be preserved."
     },
     {
@@ -465,7 +599,10 @@
         "pnpm docs-tooling validate-revision-inventory --site zh-CN"
       ],
       "harnesses": [],
-      "gates": ["pnpm build:en", "pnpm build:zh-CN"],
+      "gates": [
+        "pnpm build:en",
+        "pnpm build:zh-CN"
+      ],
       "reason": "Fetch-group evidence (Lark-fetched English and Chinese Guides, English SDK Reference, Chinese on-premise) is validated through per-site revision inventories and the Chinese Guides source publication manifest; path set mirrors the evidenceGroups authority."
     },
     {
@@ -477,9 +614,14 @@
         "generated/en/sidebars/restful.sidebar.js",
         "generated/zh-CN/sidebars/restful.sidebar.js"
       ],
-      "focusedTests": ["pnpm test:rest-publication-contract"],
+      "focusedTests": [
+        "pnpm test:rest-publication-contract"
+      ],
       "harnesses": [],
-      "gates": ["pnpm build:en", "pnpm build:zh-CN"],
+      "gates": [
+        "pnpm build:en",
+        "pnpm build:zh-CN"
+      ],
       "reason": "Spec-derived REST output for en, zh-CN, and the docusaurus-i18n ja-JP lane is anchored by per-locale derivation manifests validated through the REST publication contract and build provenance; path set mirrors the evidenceGroups authority."
     },
     {
@@ -497,7 +639,10 @@
         "pnpm test:translation"
       ],
       "harnesses": [],
-      "gates": ["pnpm build:en", "pnpm build:zh-CN"],
+      "gates": [
+        "pnpm build:en",
+        "pnpm build:zh-CN"
+      ],
       "reason": "Translation-group state (Chinese Reference, Japanese Guides/SDK Reference, and their manifests) is exercised through the translation suite and localization input inventory; manifest provenance itself is validated on the dev translation baseline through the fastpath precheck because validate-reference requires the declared source snapshot; path set mirrors the evidenceGroups authority."
     },
     {
@@ -507,9 +652,15 @@
         "scripts/translation/fastpath-precheck.test.js",
         ".claude/specs/2026-09-03-translation-fastpath-design.md"
       ],
-      "focusedTests": ["node --test scripts/translation/fastpath-precheck.test.js"],
+      "focusedTests": [
+        "node --test scripts/translation/fastpath-precheck.test.js"
+      ],
       "harnesses": [],
-      "gates": ["pnpm test:workflow-matrix", "pnpm test:workflow-policy", "git diff --check"],
+      "gates": [
+        "pnpm test:workflow-matrix",
+        "pnpm test:workflow-policy",
+        "git diff --check"
+      ],
       "reason": "The local fail-closed fast-path precheck validates dev-baselined content diffs against the evidenceGroups authority, regenerates the Chinese Reference manifest, enforces the export-group derivation check, and executes every selector command with stable status codes."
     },
     {
@@ -533,7 +684,10 @@
         "pnpm docs-tooling validate-revision-inventory --site en"
       ],
       "harnesses": [],
-      "gates": ["pnpm build:en", "pnpm build:zh-CN"],
+      "gates": [
+        "pnpm build:en",
+        "pnpm build:zh-CN"
+      ],
       "reason": "Published content and generated state are normally dev-owned; exact preserved exceptions remain master-authoritative under the ownership contract."
     },
     {
@@ -550,15 +704,26 @@
         "AGENTS.md",
         "README.md"
       ],
-      "focusedTests": ["pnpm test:replay:contract", "pnpm test:workflow-matrix"],
-      "harnesses": ["pnpm test:replay:all"],
-      "gates": ["pnpm test:workflow-policy"],
+      "focusedTests": [
+        "pnpm test:replay:contract",
+        "pnpm test:workflow-matrix"
+      ],
+      "harnesses": [
+        "pnpm test:replay:all"
+      ],
+      "gates": [
+        "pnpm test:workflow-policy"
+      ],
       "reason": "Replay entrypoints, CI routing, prose, and matrix selection must evolve atomically."
     },
     {
       "id": "translation-agent-runtime",
-      "paths": ["scripts/translation/**"],
-      "focusedTests": ["pnpm test:translation"],
+      "paths": [
+        "scripts/translation/**"
+      ],
+      "focusedTests": [
+        "pnpm test:translation"
+      ],
       "harnesses": [],
       "gates": [],
       "reason": "Translation agent, chunking, review, and recovery-artifact logic are covered by the Translation unit/integration suite."
@@ -574,18 +739,36 @@
         "packages/docs-tooling/src/publication/retiredManifests.ts",
         "packages/docs-tooling/src/publication/retiredManifests.test.ts"
       ],
-      "focusedTests": ["pnpm vitest run packages/docs-tooling/src/workflows/run.test.ts packages/docs-tooling/src/workflows/groups.test.ts packages/docs-tooling/src/publication/retiredManifests.test.ts"],
+      "focusedTests": [
+        "pnpm vitest run packages/docs-tooling/src/workflows/run.test.ts packages/docs-tooling/src/workflows/groups.test.ts packages/docs-tooling/src/publication/retiredManifests.test.ts"
+      ],
       "harnesses": [],
-      "gates": ["pnpm test:workflow-matrix", "pnpm test:workflow-policy", "git diff --check"],
+      "gates": [
+        "pnpm test:workflow-matrix",
+        "pnpm test:workflow-policy",
+        "git diff --check"
+      ],
       "reason": "Publication-group manifests bind per-file source hashes for the Chinese Guides source publication evidence chain, and the retired-manifest governance registry keeps the deprecated import shell and the non-evidence Tools translation manifest out of publication and provenance inputs; serialization and validation must stay fail-closed with the ownership contract."
     },
     {
       "id": "semantic-seed-reuse",
-      "paths": ["scripts/translation/semanticSeeds*", ".github/workflows/_translate-content-group.yml", ".claude/specs/2026-09-09-semantic-seed-incremental-translation.md"],
-      "focusedTests": ["node --test scripts/translation/semanticSeeds.test.js scripts/translation/loadSheddingWorkflow.test.js scripts/translation/reportSummary.test.js"],
-      "harnesses": ["pnpm test:replay:translation"],
-      "gates": ["pnpm test:translation", "pnpm test:workflow-policy"],
-      "reason": "Cross-run semantic-unit reuse feeds published baseline translations into the existing checkpoint pipeline; planner pairing, fallback policy, workflow opt-in wiring, and runner integration must stay compatible with recovery and publication contracts."    },
+      "paths": [
+        "scripts/translation/semanticSeeds*",
+        ".github/workflows/_translate-content-group.yml",
+        ".claude/specs/2026-09-09-semantic-seed-incremental-translation.md"
+      ],
+      "focusedTests": [
+        "node --test scripts/translation/semanticSeeds.test.js scripts/translation/loadSheddingWorkflow.test.js scripts/translation/reportSummary.test.js"
+      ],
+      "harnesses": [
+        "pnpm test:replay:translation"
+      ],
+      "gates": [
+        "pnpm test:translation",
+        "pnpm test:workflow-policy"
+      ],
+      "reason": "Cross-run semantic-unit reuse feeds published baseline translations into the existing checkpoint pipeline; planner pairing, fallback policy, workflow opt-in wiring, and runner integration must stay compatible with recovery and publication contracts."
+    },
     {
       "id": "docs-ui-ui-text",
       "paths": [
@@ -598,7 +781,10 @@
         "pnpm vitest run packages/docs-ui/src/en/theme/DocSidebar/manualReferenceSidebar.test.ts"
       ],
       "harnesses": [],
-      "gates": ["pnpm test:workflow-matrix", "git diff --check"],
+      "gates": [
+        "pnpm test:workflow-matrix",
+        "git diff --check"
+      ],
       "reason": "Docs UI text dictionary drives navbar, sidebar, search, and chat copy per site and locale; keep locale selection, secondary navbar label mapping, and Japanese copy deterministic."
     }
   ]

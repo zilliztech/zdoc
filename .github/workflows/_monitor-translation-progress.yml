@@ -12,6 +12,7 @@ on:
       publication_run_attempt: { required: true, type: number }
       publication_selection_sha256: { required: false, type: string, default: '' }
       operator_recovery: { required: false, type: boolean, default: false }
+      split_publication: { required: false, type: boolean, default: false }
     secrets:
       APP_ID: { required: true }
       APP_SECRET: { required: true }
@@ -43,6 +44,7 @@ jobs:
           PUBLICATION_RUN_ATTEMPT: ${{ inputs.publication_run_attempt }}
           PUBLICATION_SELECTION_SHA256: ${{ inputs.publication_selection_sha256 }}
           OPERATOR_RECOVERY: ${{ inputs.operator_recovery }}
+          SPLIT_PUBLICATION: ${{ inputs.split_publication }}
           TRANSLATION_RESULTS_MAX_POLLS: ${{ vars.TRANSLATION_RESULTS_MAX_POLLS || '5' }}
           APP_ID: ${{ secrets.APP_ID }}
           APP_SECRET: ${{ secrets.APP_SECRET }}

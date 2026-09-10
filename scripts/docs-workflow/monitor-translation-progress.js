@@ -71,6 +71,7 @@ function validatePublicationIdentity(value, {
   expectedUnitKeys,
   publishEnabled,
   revision,
+  publisherRunId,
 }) {
   const validated = document === 'publication-progress'
     ? validatePublicationProgress(value, {artifactRevision: revision})
@@ -81,6 +82,11 @@ function validatePublicationIdentity(value, {
   if (validated.runAttempt !== runAttempt) throw new Error('Translation publication run attempt mismatch')
   if (validated.selectionSha256 !== selectionSha256) throw new Error('Translation publication selection checksum mismatch')
   if (validated.mode !== (publishEnabled ? 'publish' : 'artifact_only')) throw new Error('Translation publication mode mismatch')
+  if (publisherRunId === undefined) {
+    if (validated.publisherRunId !== undefined) throw new Error('Inline translation publication documents must not carry publisher identity')
+  } else {
+    if (validated.publisherRunId !== publisherRunId) throw new Error('Translation publication publisher run mismatch')
+  }
   const actual = validated.units.map(unit => unit.unitKey)
   if (actual.length !== expectedUnitKeys.length || actual.some((unitKey, index) => unitKey !== expectedUnitKeys[index])) {
     throw new Error('Translation publication units do not match the selected handoff')
@@ -96,9 +102,10 @@ function createTranslationPublicationArtifactReader({
   selectionSha256,
   selectedUnits,
   publishEnabled,
+  publisherRunId,
 }) {
   const expectedUnitKeys = expectedPublicationUnitKeys(selectedUnits)
-  const identity = {repository, runId, runAttempt, selectionSha256, expectedUnitKeys, publishEnabled}
+  const identity = {repository, runId, runAttempt, selectionSha256, expectedUnitKeys, publishEnabled, publisherRunId}
   const names = revision => artifactNames({
     workflow: 'translation', runId, runAttempt, unitKey: expectedUnitKeys[0], revision,
   })
@@ -207,6 +214,9 @@ function createTranslationProgressMonitor({
   publicationSelectionSha256,
   pollIntervalMs = 60_000,
   terminalResultsMaxPolls = 5,
+  splitPublication = false,
+  downloadPublicationHandoff = async () => null,
+  openPublisherScope = null,
   listJobs,
   downloadPublicationProgress = async () => ({snapshot: null, stale: false}),
   downloadPublicationResults = async () => null,
@@ -216,6 +226,7 @@ function createTranslationProgressMonitor({
   now = () => new Date(),
   log = message => process.stdout.write(`${message}\n`),
 }) {
+  if (splitPublication && typeof openPublisherScope !== 'function') throw new Error('openPublisherScope is required for split publication monitoring')
   let stopping = false
   let cancellationPatched = false
   let latestJobs = []
@@ -225,6 +236,7 @@ function createTranslationProgressMonitor({
   let publicationResults = null
   let reviewStates = []
   let terminalResultsMisses = 0
+  let publisherScope = null
 
   positiveInteger(terminalResultsMaxPolls, 'terminalResultsMaxPolls', MAX_TERMINAL_RESULTS_POLLS)
 
@@ -256,8 +268,9 @@ function createTranslationProgressMonitor({
   }
 
   async function loadPublicationArtifacts() {
+    const scope = publisherScope || {downloadPublicationProgress, downloadPublicationResults}
     try {
-      const candidate = await downloadPublicationProgress({minimumRevision: publicationProgress?.revision || 0})
+      const candidate = await scope.downloadPublicationProgress({minimumRevision: publicationProgress?.revision || 0})
       if (candidate?.snapshot && (!publicationProgress || candidate.snapshot.revision > publicationProgress.revision)) publicationProgress = candidate.snapshot
       publicationProgressStale = candidate?.stale === true
     } catch (_) {
@@ -265,7 +278,7 @@ function createTranslationProgressMonitor({
       boundedLog('translation publication progress unavailable; retaining the highest valid revision')
     }
     try {
-      publicationResults = await downloadPublicationResults() || publicationResults
+      publicationResults = await scope.downloadPublicationResults() || publicationResults
     } catch (_) {
       boundedLog('translation publication results unavailable; waiting for terminal reconciliation evidence')
     }
@@ -302,7 +315,6 @@ function createTranslationProgressMonitor({
       boundedLog('GitHub Jobs API polling failed after retries; retrying on the next translation heartbeat')
       return false
     }
-    latestJobs = jobs
     await loadReviewStates()
     const prepare = jobs.find(job => String(job?.name || '').split(' / ')[0] === 'prepare')
     if (prepare?.status === 'completed' && prepare.conclusion === 'success' && !publicationSelectionSha256) {
@@ -310,34 +322,72 @@ function createTranslationProgressMonitor({
       await bestEffortPatch(latestState)
       return true
     }
+    if (splitPublication && publisherScope === null) {
+      const dispatch = jobs.find(job => String(job?.name || '').split(' / ')[0] === 'dispatch_publication')
+      if (dispatch?.status === 'completed' && dispatch.conclusion !== 'success' && dispatch.conclusion !== 'skipped') {
+        latestJobs = jobs
+        latestState = derive(jobs, 'failure')
+        await bestEffortPatch(latestState)
+        return true
+      }
+      if (dispatch?.status === 'completed' && dispatch.conclusion === 'success') {
+        try {
+          const handoff = await downloadPublicationHandoff()
+          if (handoff) publisherScope = openPublisherScope(handoff)
+        } catch (_) {
+          boundedLog('translation publication handoff metadata unavailable; retrying on the next translation heartbeat')
+        }
+      }
+    }
+    // In split mode the producer run still lists its gated-off inline
+    // publish_ready/aggregate jobs as completed-with-skipped; the GitHub API
+    // marks skipped jobs completed, so they would be mistaken for terminal
+    // failures before (or instead of) the publisher run's real jobs. Drop the
+    // skipped inline ghosts whenever split publication is enabled.
+    const inlineGhost = job => {
+      const base = String(job?.name || '').split(' / ')[0]
+      return job?.status === 'completed' && job?.conclusion === 'skipped' && (base === 'publish_ready' || base === 'aggregate')
+    }
+    let deriveJobs = splitPublication ? jobs.filter(job => !inlineGhost(job)) : jobs
+    if (publisherScope) {
+      let publisherJobs
+      try {
+        publisherJobs = normalizeTranslationMonitorJobs(await withRetry(() => publisherScope.listJobs(), {sleep}))
+      } catch (_) {
+        boundedLog('publisher Jobs API polling failed after retries; retrying on the next translation heartbeat')
+        publisherJobs = []
+      }
+      deriveJobs = [...deriveJobs, ...publisherJobs]
+    }
+    latestJobs = deriveJobs
     if (publicationSelectionSha256) await loadPublicationArtifacts()
-    const aggregate = selectAggregateJob(jobs)
+    const aggregate = selectAggregateJob(deriveJobs)
     if (aggregate?.status === 'completed' && !publicationResults) {
       if (prepare?.status === 'completed' && prepare.conclusion !== 'success') {
-        latestState = derive(jobs, terminalStatus(aggregate))
+        latestState = derive(deriveJobs, terminalStatus(aggregate))
         await bestEffortPatch(latestState)
         return true
       }
       if (aggregate.conclusion !== 'success') {
-        latestState = derive(jobs, terminalStatus(aggregate))
+        latestState = derive(deriveJobs, terminalStatus(aggregate))
         await bestEffortPatch(latestState)
         return true
       }
       terminalResultsMisses += 1
       if (terminalResultsMisses >= terminalResultsMaxPolls) {
         boundedLog('translation publication results unavailable after terminal settle bound; failing closed')
-        latestState = derive(jobs, 'failure')
+        latestState = derive(deriveJobs, 'failure')
         await bestEffortPatch(latestState)
         return true
       }
-      latestState = derive(jobs, 'running')
+      latestState = derive(deriveJobs, 'running')
       await bestEffortPatch(latestState)
       return false
     }
     const resolvedTerminal = aggregate?.status === 'completed'
       ? publicationResults?.overallStatus === 'success' ? terminalStatus(aggregate) : 'failure'
       : null
-    latestState = derive(jobs, resolvedTerminal)
+    latestState = derive(deriveJobs, resolvedTerminal)
     await bestEffortPatch(latestState)
     return aggregate?.status === 'completed'
   }
@@ -360,6 +410,19 @@ function createTranslationProgressMonitor({
   }
 
   return {pollOnce, run, stop}
+}
+
+function validatePublicationHandoffMetadata(value, {runId, runAttempt}) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('Publication handoff metadata must be an object')
+  if (value.schemaVersion !== 1) throw new Error('Publication handoff metadata schema is invalid')
+  if (Number(value.producerRunId) !== runId) throw new Error('Publication handoff producer run mismatch')
+  if (Number(value.producerRunAttempt) !== runAttempt) throw new Error('Publication handoff producer run attempt mismatch')
+  const publisherRunId = Number(value.publisherRunId)
+  const publisherRunAttempt = Number(value.publisherRunAttempt)
+  if (!Number.isSafeInteger(publisherRunId) || publisherRunId <= 0) throw new Error('Publication handoff publisher run id is invalid')
+  if (!Number.isSafeInteger(publisherRunAttempt) || publisherRunAttempt <= 0) throw new Error('Publication handoff publisher run attempt is invalid')
+  if (typeof value.publisherRunUrl !== 'string' || !value.publisherRunUrl.startsWith(`https://github.com/`)) throw new Error('Publication handoff publisher run url is invalid')
+  return Object.freeze({publisherRunId, publisherRunAttempt, publisherRunUrl: value.publisherRunUrl})
 }
 
 function readConfiguration(env = process.env) {
@@ -385,6 +448,8 @@ function readConfiguration(env = process.env) {
   if (!requestId) throw new Error('request_id must be <parent_run_id>-<parent_run_attempt>')
   const publicationRunAttempt = positiveInteger(required(env, 'PUBLICATION_RUN_ATTEMPT'), 'PUBLICATION_RUN_ATTEMPT')
   if (publicationRunAttempt !== runAttempt) throw new Error('PUBLICATION_RUN_ATTEMPT must match GITHUB_RUN_ATTEMPT')
+  const splitPublicationText = typeof env.SPLIT_PUBLICATION === 'string' && env.SPLIT_PUBLICATION.trim() ? env.SPLIT_PUBLICATION.trim() : 'false'
+  if (!['true', 'false'].includes(splitPublicationText)) throw new Error('SPLIT_PUBLICATION must be true or false')
   const publicationSelectionText = typeof env.PUBLICATION_SELECTION_SHA256 === 'string' ? env.PUBLICATION_SELECTION_SHA256.trim() : ''
   const publicationSelectionSha256 = publicationSelectionText || null
   if (publicationSelectionSha256 !== null && !/^[0-9a-f]{64}$/u.test(publicationSelectionSha256)) {
@@ -404,6 +469,7 @@ function readConfiguration(env = process.env) {
       planStatus: reconciliationOperationCount === 0 ? 'authenticated_empty' : 'approved_operations',
     })),
     publishEnabled: publishText === 'true',
+    splitPublication: splitPublicationText === 'true',
     publicationRunAttempt,
     publicationSelectionSha256,
     terminalResultsMaxPolls: positiveInteger(env.TRANSLATION_RESULTS_MAX_POLLS || '5', 'TRANSLATION_RESULTS_MAX_POLLS', MAX_TERMINAL_RESULTS_POLLS),
@@ -442,11 +508,54 @@ async function main() {
     runId: config.runId,
     selectedUnits: config.selectedUnits,
   })
+  const downloadPublicationHandoff = async () => {
+    if (!config.splitPublication || !config.publicationSelectionSha256) return null
+    const name = `docs-translation-publication-handoff-${config.runId}`
+    if (!await github.findArtifact(name)) return null
+    const downloaded = await github.downloadArtifactFiles(name, ['publication-handoff.json'])
+    try {
+      return validatePublicationHandoffMetadata(
+        JSON.parse(fs.readFileSync(downloaded.files['publication-handoff.json'], 'utf8')),
+        {runId: config.runId, runAttempt: config.publicationRunAttempt},
+      )
+    } finally {
+      fs.rmSync(downloaded.directory, {recursive: true, force: true})
+    }
+  }
+  const openPublisherScope = handoff => {
+    const publisherClient = createPublicationGitHubClient({
+      token: config.token,
+      repository: config.repository,
+      runId: handoff.publisherRunId,
+      runAttempt: handoff.publisherRunAttempt,
+      runnerTemp: process.env.RUNNER_TEMP,
+      artifactTransport: 'rest',
+    })
+    const readers = createTranslationPublicationArtifactReader({
+      client: publisherClient,
+      repository: config.repository,
+      runId: config.runId,
+      runAttempt: config.publicationRunAttempt,
+      selectionSha256: config.publicationSelectionSha256,
+      selectedUnits: config.selectedUnits,
+      publishEnabled: config.publishEnabled,
+      publisherRunId: handoff.publisherRunId,
+    })
+    return {listJobs: publisherClient.listJobs, ...readers}
+  }
   const patchCard = createDocsToolingCardPatcher({
     messageId: config.cardId,
     environment: {...process.env, APP_ID: config.appId, APP_SECRET: config.appSecret, FEISHU_HOST: config.feishuHost},
   })
-  const monitor = createTranslationProgressMonitor({...config, ...artifacts, ...reviewStates, listJobs: github.listJobs, patchCard})
+  const monitor = createTranslationProgressMonitor({
+    ...config,
+    ...artifacts,
+    ...reviewStates,
+    listJobs: github.listJobs,
+    patchCard,
+    downloadPublicationHandoff,
+    openPublisherScope,
+  })
   const stop = () => monitor.stop().finally(() => { process.exitCode = 130 })
   process.once('SIGTERM', stop)
   process.once('SIGINT', stop)
@@ -468,4 +577,5 @@ module.exports = {
   normalizeTranslationMonitorJobs,
   parentWorkflowUrl,
   readConfiguration,
+  validatePublicationHandoffMetadata,
 }

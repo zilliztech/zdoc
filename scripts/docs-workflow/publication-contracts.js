@@ -39,6 +39,12 @@ const RESULTS_KEYS = [
   'mode', 'targetBranch', 'initialTargetSha', 'finalTargetSha', 'startedAt', 'completedAt',
   'overallStatus', 'units', 'orchestratorFailure',
 ]
+// A short-lock publisher run emits progress/results under the producer's
+// selection identity (runId/runAttempt stay bound to the producer run) while
+// the documents are uploaded from a different workflow run. The publisher
+// identity is an optional all-or-nothing key pair so legacy single-run
+// documents keep validating unchanged.
+const PUBLISHER_KEYS = ['publisherRunId', 'publisherRunAttempt']
 const RESULT_UNIT_KEYS = [
   'unitKey', 'producerJobId', 'producerCompletedAt', 'readyAt', 'sequence', 'publishStartedAt',
   'publishCompletedAt', 'baseSha', 'resultSha', 'commitShas', 'attempts', 'status', 'failure', 'reconciled',
@@ -267,10 +273,22 @@ function validateDocumentUnits(value, selection, document) {
   }
 }
 
+function validatePublisherIdentity(value, document) {
+  const present = PUBLISHER_KEYS.filter(key => Object.hasOwn(value, key))
+  if (!present.length) return false
+  if (present.length !== PUBLISHER_KEYS.length) invalid(document, 'publisher identity keys must appear together')
+  assertPositiveInteger(value.publisherRunId, 'publisherRunId', document)
+  assertPositiveInteger(value.publisherRunAttempt, 'publisherRunAttempt', document)
+  return true
+}
+
 function validatePublicationProgress(input, options = {}) {
   const value = clone(input)
   const document = DOCUMENTS.progress
-  exactKeys(value, PROGRESS_KEYS, 'root', document)
+  const progressKeys = validatePublisherIdentity(value, document)
+    ? [...PROGRESS_KEYS, ...PUBLISHER_KEYS]
+    : PROGRESS_KEYS
+  exactKeys(value, progressKeys, 'root', document)
   if (value.schemaVersion !== 1 || value.document !== document) invalid(document, 'header is invalid')
   workflowAdapter(value, document)
   if (typeof value.repository !== 'string' || !REPOSITORY.test(value.repository)) invalid(document, 'repository is invalid')
@@ -349,7 +367,10 @@ function validateResultUnit(unit, index, mode, overallStatus) {
 function validatePublicationResults(input, options = {}) {
   const value = clone(input)
   const document = DOCUMENTS.results
-  exactKeys(value, RESULTS_KEYS, 'root', document)
+  const resultsKeys = validatePublisherIdentity(value, document)
+    ? [...RESULTS_KEYS, ...PUBLISHER_KEYS]
+    : RESULTS_KEYS
+  exactKeys(value, resultsKeys, 'root', document)
   if (value.schemaVersion !== 1 || value.document !== document) invalid(document, 'header is invalid')
   workflowAdapter(value, document)
   if (typeof value.repository !== 'string' || !REPOSITORY.test(value.repository)) invalid(document, 'repository is invalid')

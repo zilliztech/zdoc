@@ -114,7 +114,16 @@ function validateTranslationSelection(value, helpers) {
     helpers.assertSha(recovery.executionToolingSha, 'recovery execution tooling SHA', document)
     helpers.assertChecksum(recovery.sourceSelectionSha256, 'recovery source selection checksum', document)
     const evidence = recovery.publicationEvidence
-    helpers.exactKeys(evidence, ['publisherJob', 'progress', 'results', 'resultsAbsenceReason'], 'recovery publication evidence', document)
+    // Split-publication recovery provenance additionally records the identity
+    // of the short-lock publisher workflow run that produced the evidence; the
+    // pair is optional and all-or-nothing so inline provenance stays unchanged.
+    const baseEvidenceKeys = ['publisherJob', 'progress', 'results', 'resultsAbsenceReason']
+    const hasPublisherRunKeys = Object.hasOwn(evidence, 'publisherRunId') || Object.hasOwn(evidence, 'publisherRunAttempt')
+    helpers.exactKeys(evidence, hasPublisherRunKeys ? [...baseEvidenceKeys, 'publisherRunId', 'publisherRunAttempt'] : baseEvidenceKeys, 'recovery publication evidence', document)
+    if (hasPublisherRunKeys) {
+      helpers.assertPositiveInteger(evidence.publisherRunId, 'recovery publisher run ID', document)
+      helpers.assertPositiveInteger(evidence.publisherRunAttempt, 'recovery publisher run attempt', document)
+    }
     if (evidence.publisherJob !== null) {
       helpers.exactKeys(evidence.publisherJob, ['jobId', 'status', 'conclusion', 'startedAt', 'completedAt'], 'recovery publisher job', document)
       helpers.assertPositiveInteger(evidence.publisherJob.jobId, 'recovery publisher job ID', document)

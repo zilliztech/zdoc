@@ -60,8 +60,10 @@ test('publish-capable top-level workflows share the durable dev queue', () => {
   assert.equal(translation.concurrency.queue, 'max')
   assert.equal(
     translation.concurrency.group,
-    "${{ inputs.publish && !(inputs.production_queue_owned || false) && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}",
+    "${{ format('translation-readonly-{0}', github.run_id) }}",
   )
+  const publisher = yaml.load(fs.readFileSync('.github/workflows/publish-translation.yml', 'utf8'))
+  assert.deepEqual(publisher.concurrency, {group: 'docs-production-dev', queue: 'max'})
 })
 
 test('workflow policy rejects offline staging lifecycle and exact sidebar allowlist regressions', () => {
@@ -118,7 +120,7 @@ test('Japanese publisher pending validation stays bound to publish-enabled Trans
 
   const workflow = yaml.load(fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8'))
   assert.deepEqual(workflow.concurrency, {
-    group: "${{ inputs.publish && !(inputs.production_queue_owned || false) && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}",
+    group: "${{ format('translation-readonly-{0}', github.run_id) }}",
     queue: 'max',
   })
   const selectionStep = workflow.jobs.prepare.steps.find(step => step.id === 'publication_selection')
@@ -293,10 +295,15 @@ test('workflow policy rejects durable production dev queue regressions', () => {
     {
       file: 'translate-codex.yml',
       mutate: source => source.replace(
-        "  group: ${{ inputs.publish && !(inputs.production_queue_owned || false) && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}",
+        "  group: ${{ format('translation-readonly-{0}', github.run_id) }}",
         '  group: docs-production-dev',
       ),
-      expected: 'translate-codex.yml: read-only Translation must use a unique concurrency group',
+      expected: 'translate-codex.yml: producer must always run in a unique translation-readonly concurrency group outside the production queue',
+    },
+    {
+      file: 'publish-translation.yml',
+      mutate: source => source.replace('  queue: max', '  cancel-in-progress: false'),
+      expected: 'publish-translation.yml: production dev queue owner must use group docs-production-dev with queue: max',
     },
     {
       file: '_queue-bypass.yaml',
@@ -503,7 +510,7 @@ test('translation workflows declare immutable target identity and exact target v
   for (const input of ['locale', 'group', 'tooling_sha', 'source_shas_json', 'target_branch']) assert.equal(compatibility.on.workflow_dispatch.inputs[input], undefined)
   assert.equal(compatibility.on.workflow_dispatch.inputs.publish.default, false)
   assert.deepEqual(compatibility.concurrency, {
-    group: "${{ inputs.publish && !(inputs.production_queue_owned || false) && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}",
+    group: "${{ format('translation-readonly-{0}', github.run_id) }}",
     queue: 'max',
   })
   const compatibilitySource = fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8')
@@ -2735,7 +2742,7 @@ test('workflow policy rejects Translation ready FIFO writer regressions', () => 
   const original = fs.readFileSync(path.join(sourceDirectory, 'translate-codex.yml'), 'utf8')
   const fixtures = [
     {
-      mutate: source => source.replace('    needs: [prepare, translate_sdk, prepare_guides_publication_ready]\n    if: ${{ always() && needs.prepare.result == \'success\' }}\n    runs-on: ubuntu-latest\n    timeout-minutes: 360\n    permissions:\n      actions: read\n      contents: write', '    needs: [prepare, translate_sdk]\n    if: ${{ always() && needs.prepare.result == \'success\' }}\n    runs-on: ubuntu-latest\n    timeout-minutes: 360\n    permissions:\n      actions: read\n      contents: write'),
+      mutate: source => source.replace('    needs: [prepare, translate_sdk, prepare_guides_publication_ready]\n    # Inline publication only serves artifact-only runs', '    needs: [prepare, translate_sdk]\n    # Inline publication only serves artifact-only runs'),
       expected: 'translate-codex.yml: publish_ready must be the single mode-aware Translation Git writer from prepare',
     },
     {
@@ -2751,7 +2758,7 @@ test('workflow policy rejects Translation ready FIFO writer regressions', () => 
       expected: 'translate-codex.yml: legacy Translation writer must be absent: publish_ja_python',
     },
     {
-      mutate: source => source.replace('  aggregate:\n    needs: [prepare, publish_ready]\n    if: ${{ always() && needs.prepare.result == \'success\' }}\n    runs-on: ubuntu-latest\n    timeout-minutes: 10\n    permissions:\n      actions: read\n      contents: read', '  aggregate:\n    needs: [prepare, publish_ready]\n    if: ${{ always() && needs.prepare.result == \'success\' }}\n    runs-on: ubuntu-latest\n    timeout-minutes: 10\n    permissions:\n      actions: read\n      contents: write'),
+      mutate: source => source.replace('  aggregate:\n    needs: [prepare, publish_ready]\n    if: ${{ always() && needs.prepare.result == \'success\' && (!inputs.publish || inputs.production_queue_owned || false) }}\n    runs-on: ubuntu-latest\n    timeout-minutes: 10\n    permissions:\n      actions: read\n      contents: read', '  aggregate:\n    needs: [prepare, publish_ready]\n    if: ${{ always() && needs.prepare.result == \'success\' && (!inputs.publish || inputs.production_queue_owned || false) }}\n    runs-on: ubuntu-latest\n    timeout-minutes: 10\n    permissions:\n      actions: read\n      contents: write'),
       expected: 'translate-codex.yml: Git writer inventory must be exactly publish_ready',
     },
     {
