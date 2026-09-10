@@ -275,7 +275,7 @@ jobs:
       publication_selection_artifact_name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
       publication_selection_sha256: ${{ needs.prepare.outputs.publication_selection_sha256 }}
       publication_unit_key: translation/ja-JP/guides
-      semantic_seeds: ${{ inputs.semantic_seeds || false }}
+      semantic_seeds: ${{ inputs.semantic_seeds || vars.TRANSLATION_SEMANTIC_SEEDS == 'true' }}
     secrets:
       TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
       REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
@@ -307,7 +307,7 @@ jobs:
       publication_selection_artifact_name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
       publication_selection_sha256: ${{ needs.prepare.outputs.publication_selection_sha256 }}
       publication_unit_key: ${{ matrix.publicationUnitKey }}
-      semantic_seeds: ${{ inputs.semantic_seeds || false }}
+      semantic_seeds: ${{ inputs.semantic_seeds || vars.TRANSLATION_SEMANTIC_SEEDS == 'true' }}
     secrets:
       TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
       REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
