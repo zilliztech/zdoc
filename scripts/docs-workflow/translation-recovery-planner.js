@@ -8,6 +8,7 @@ const os = require('node:os')
 const path = require('node:path')
 
 const {readPublicationDocument} = require('./publication-contracts')
+const {validatePublicationHandoffMetadata} = require('./monitor-translation-progress')
 const {validateTranslationRecoveryHandoff} = require('./translation-handoff')
 const {resolveAuthorityCheckpoint} = require('./translation-batch-set')
 
@@ -294,32 +295,55 @@ function jobNameForRun(run, name) {
   return workflowPath(run) === '.github/workflows/recover-translation.yml' ? `run_translation / ${name}` : name
 }
 
-async function authenticatePublicationEvidence({client, selectedAttempt, selection, jobs, run, runId, attemptNumber, root}) {
-  const publisherName = jobNameForRun(run, 'publish_ready')
-  const publisherMatches = jobs.filter(job => job?.name === publisherName && Number(job.run_attempt) === attemptNumber)
+async function resolvePublicationHandoff({client, selectedAttempt, selection, run, repository, runId, attemptNumber, root}) {
+  const handoffName = `docs-translation-publication-handoff-${runId}`
+  const artifact = exactArtifact(selectedAttempt.artifacts, handoffName, {required: false, label: 'Translation publication handoff metadata'})
+  if (!artifact) return null
+  const destination = path.join(root, 'downloads', 'publication-handoff')
+  await downloadArtifact(client, artifact, destination, run, runId)
+  const file = path.join(destination, 'publication-handoff.json')
+  if (!fs.existsSync(file)) throw new Error('Translation publication handoff metadata payload identity is invalid')
+  const handoff = validatePublicationHandoffMetadata(JSON.parse(fs.readFileSync(file, 'utf8')), {runId, runAttempt: attemptNumber})
+  const publisherRun = await client.getRun(handoff.publisherRunId)
+  if (!publisherRun) throw new Error('Split publication publisher run was not found')
+  if (publisherRun.repository?.full_name !== repository) throw new Error('Split publication publisher run repository mismatch')
+  const publisherJobs = await client.listJobs?.(handoff.publisherRunId, handoff.publisherRunAttempt)
+  if (!Array.isArray(publisherJobs)) throw new Error('Split publication publisher job inventory is invalid')
+  const publisherArtifacts = await client.listArtifacts(handoff.publisherRunId)
+  if (!Array.isArray(publisherArtifacts)) throw new Error('Split publication publisher artifact inventory is invalid')
+  return Object.freeze({handoff, run: publisherRun, jobs: publisherJobs, artifacts: publisherArtifacts})
+}
+
+async function authenticatePublicationEvidence({client, selectedAttempt, selection, jobs, run, runId, attemptNumber, root, publisherScope = null}) {
+  const evidenceRun = publisherScope ? publisherScope.run : run
+  const evidenceJobs = publisherScope ? publisherScope.jobs : jobs
+  const evidenceAttempt = publisherScope ? publisherScope.handoff.publisherRunAttempt : attemptNumber
+  const evidenceArtifacts = publisherScope ? publisherScope.artifacts : selectedAttempt.artifacts
+  const publisherName = jobNameForRun(evidenceRun, 'publish_ready')
+  const publisherMatches = evidenceJobs.filter(job => job?.name === publisherName && Number(job.run_attempt) === evidenceAttempt)
   if (publisherMatches.length > 1) throw new Error('publish_ready job identity must exist at most once')
   const publisher = publisherMatches[0] || null
   let publisherTimestamps = null
   if (publisher) {
-    exactJob(jobs, publisherName, attemptNumber, {label: 'publish_ready'})
+    exactJob(evidenceJobs, publisherName, evidenceAttempt, {label: 'publish_ready'})
     publisherTimestamps = canonicalJobTimestamps(publisher, 'publish_ready')
   }
   const progressPattern = new RegExp(`^publication-progress-translation-${runId}-${attemptNumber}-([1-9][0-9]*)$`, 'u')
-  const progressArtifacts = selectedAttempt.artifacts
+  const progressArtifacts = evidenceArtifacts
     .map(artifact => ({artifact, match: progressPattern.exec(artifact.name || '')}))
     .filter(value => value.match)
     .map(value => ({artifact: value.artifact, revision: Number(value.match[1])}))
     .sort((left, right) => left.revision - right.revision)
   if (new Set(progressArtifacts.map(value => value.revision)).size !== progressArtifacts.length) throw new Error('Publication progress artifact identity is ambiguous')
   const resultsName = `publication-results-translation-${runId}-${attemptNumber}`
-  const resultsArtifact = exactArtifact(selectedAttempt.artifacts, resultsName, {required: false, label: 'Publication results'})
+  const resultsArtifact = exactArtifact(evidenceArtifacts, resultsName, {required: false, label: 'Publication results'})
   if ((progressArtifacts.length || resultsArtifact) && !publisher) throw new Error('Publication progress or results identity has no publish_ready producer job')
   const progress = []
   for (const value of progressArtifacts) {
     const artifact = exactArtifact(selectedAttempt.artifacts, value.artifact.name, {label: 'Publication progress'})
     assertArtifactInJobWindow(artifact, publisher, 'Publication progress')
     const destination = path.join(root, 'downloads', 'publication', `progress-${value.revision}`)
-    await downloadArtifact(client, artifact, destination, run, runId)
+    await downloadArtifact(client, artifact, destination, evidenceRun, publisherScope ? publisherScope.handoff.publisherRunId : runId)
     const file = path.join(destination, `publication-progress-${value.revision}.json`)
     if (!fs.existsSync(file)) throw new Error('Publication progress artifact payload identity is invalid')
     const document = readPublicationDocument(file, 'publication-progress', {
@@ -329,13 +353,14 @@ async function authenticatePublicationEvidence({client, selectedAttempt, selecti
     })
     const expectedMode = selection.inputs.publish ? 'publish' : 'artifact_only'
     if (document.mode !== expectedMode) throw new Error('Publication progress mode identity mismatch')
+    if (publisherScope && document.publisherRunId !== publisherScope.handoff.publisherRunId) throw new Error('Publication progress publisher run identity mismatch')
     progress.push({artifactId: Number(artifact.id), artifactName: artifact.name, artifactDigest: artifact.digest, revision: value.revision})
   }
   let results = null
   if (resultsArtifact) {
     assertArtifactInJobWindow(resultsArtifact, publisher, 'Publication results')
     const destination = path.join(root, 'downloads', 'publication', 'results')
-    await downloadArtifact(client, resultsArtifact, destination, run, runId)
+    await downloadArtifact(client, resultsArtifact, destination, evidenceRun, publisherScope ? publisherScope.handoff.publisherRunId : runId)
     const file = path.join(destination, 'publication-results.json')
     if (!fs.existsSync(file)) throw new Error('Publication results artifact payload identity is invalid')
     const document = readPublicationDocument(file, 'publication-results', {
@@ -344,6 +369,7 @@ async function authenticatePublicationEvidence({client, selectedAttempt, selecti
     })
     const expectedMode = selection.inputs.publish ? 'publish' : 'artifact_only'
     if (document.mode !== expectedMode) throw new Error('Publication results mode identity mismatch')
+    if (publisherScope && document.publisherRunId !== publisherScope.handoff.publisherRunId) throw new Error('Publication results publisher run identity mismatch')
     results = {
       artifactId: Number(resultsArtifact.id),
       artifactName: resultsArtifact.name,
@@ -363,6 +389,10 @@ async function authenticatePublicationEvidence({client, selectedAttempt, selecti
   } : null
   return Object.freeze({
     publisherJob,
+    ...(publisherScope ? {
+      publisherRunId: publisherScope.handoff.publisherRunId,
+      publisherRunAttempt: publisherScope.handoff.publisherRunAttempt,
+    } : {}),
     progress,
     results,
     resultsAbsenceReason: results ? null : publisher ? `publish_ready-${publisher.conclusion || 'unknown'}` : 'publish_ready-absent',
@@ -459,7 +489,8 @@ async function planTranslationRecovery({repository, previousRunId, previousRunAt
     }
   }
 
-  const publicationEvidence = await authenticatePublicationEvidence({client, selectedAttempt, selection, jobs, run, runId, attemptNumber, root})
+  const publisherScope = await resolvePublicationHandoff({client, selectedAttempt, selection, run, repository, runId, attemptNumber, root})
+  const publicationEvidence = await authenticatePublicationEvidence({client, selectedAttempt, selection, jobs, run, runId, attemptNumber, root, publisherScope})
   if (publicationEvidence.results?.overallStatus === 'orchestrator_failed') {
     throw new Error('Translation recovery cannot run after an orchestrator failure or unknown remote state')
   }

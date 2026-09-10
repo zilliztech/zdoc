@@ -20,10 +20,22 @@
     },
     {
       "id": "publication-diagnostics",
-      "paths": ["packages/docs-tooling/src/publication/diagnostics.ts", "packages/docs-tooling/src/publication/diagnostics.test.ts", "packages/docs-tooling/src/publication/evidenceGroups.ts", "packages/docs-tooling/src/publication/evidenceGroups.test.ts"],
-      "focusedTests": ["pnpm vitest run packages/docs-tooling/src/publication/diagnostics.test.ts packages/docs-tooling/src/publication/evidenceGroups.test.ts"],
-      "harnesses": ["pnpm test:replay:fetch"],
-      "gates": ["pnpm test:workflow-policy", "git diff --check"],
+      "paths": [
+        "packages/docs-tooling/src/publication/diagnostics.ts",
+        "packages/docs-tooling/src/publication/diagnostics.test.ts",
+        "packages/docs-tooling/src/publication/evidenceGroups.ts",
+        "packages/docs-tooling/src/publication/evidenceGroups.test.ts"
+      ],
+      "focusedTests": [
+        "pnpm vitest run packages/docs-tooling/src/publication/diagnostics.test.ts packages/docs-tooling/src/publication/evidenceGroups.test.ts"
+      ],
+      "harnesses": [
+        "pnpm test:replay:fetch"
+      ],
+      "gates": [
+        "pnpm test:workflow-policy",
+        "git diff --check"
+      ],
       "reason": "Publication diagnostics bind the declared publication identity and exact owned targets used by atomic Fetch validation, and the evidenceGroups module is the single authority deriving the fetch, spec-derived, and translation equivalence groups from the manual and translation target registries."
     },
     {
@@ -61,11 +73,14 @@
         "pnpm vitest run packages/docs-ui/src/shared/components/RestSpecs/utils.vitest.test.ts"
       ],
       "harnesses": [],
-      "gates": ["pnpm test:workflow-matrix", "git diff --check"],
+      "gates": [
+        "pnpm test:workflow-matrix",
+        "git diff --check"
+      ],
       "reason": "REST reference rendering must select localized operation and schema text while preserving source-language fallbacks."
     },
-      {
-        "id": "docs-ui-layout",
+    {
+      "id": "docs-ui-layout",
       "paths": [
         "packages/docs-ui/src/en/theme/Navbar/Content/**",
         "packages/docs-ui/src/en/inkeep.config.ts",
@@ -82,7 +97,7 @@
         "git diff --check"
       ],
       "reason": "Shared docs navigation, mobile drawer, embedded demos, and document shell must preserve responsive controls, valid iframe markup, and a bounded content scroller."
-      },
+    },
     {
       "id": "rest-reference-fragments",
       "paths": [
@@ -164,10 +179,21 @@
     },
     {
       "id": "restore-generated-state",
-      "paths": ["scripts/restore-generated-state.sh", "scripts/restore-generated-state.test.js"],
-      "focusedTests": ["node --test scripts/restore-generated-state.test.js"],
-      "harnesses": ["pnpm test:replay:all"],
-      "gates": ["pnpm test:workflow-policy", "pnpm test:workflow-matrix", "git diff --check"],
+      "paths": [
+        "scripts/restore-generated-state.sh",
+        "scripts/restore-generated-state.test.js"
+      ],
+      "focusedTests": [
+        "node --test scripts/restore-generated-state.test.js"
+      ],
+      "harnesses": [
+        "pnpm test:replay:all"
+      ],
+      "gates": [
+        "pnpm test:workflow-policy",
+        "pnpm test:workflow-matrix",
+        "git diff --check"
+      ],
       "reason": "The fixed restore path list defines which dev-published state re-enters Fetch/Translation/verification workspaces; it must cover every build-provenance input (including the per-locale REST derivation manifests) or restored workspaces fail closed at build time."
     },
     {
@@ -221,12 +247,14 @@
         "scripts/docs-workflow/validate-unbatched-translation-outputs*",
         "scripts/docs-workflow/validate-guides-translation-staging*",
         ".github/workflows/translate-codex.yml",
+        ".github/workflows/publish-translation.yml",
         ".github/workflows/publish-offline-translation.yml",
         ".github/workflows/publish-offline-reference-python.yml",
         ".github/workflows/translate-manual.yml",
         ".github/workflows/_translate-content-group.yml",
         ".github/workflows/_prepare-translation-batches.yml",
-        ".claude/specs/2026-09-09-online-translation-efficiency.md"
+        ".claude/specs/2026-09-09-online-translation-efficiency.md",
+        ".claude/plans/2026-09-10-translation-short-production-lock.md"
       ],
       "focusedTests": [
         "pnpm test:translation-workflow",
@@ -239,7 +267,7 @@
         "pnpm test:workflow-policy",
         "node --test deploy/contracts/fetch-translation-workflow.test.mjs"
       ],
-      "reason": "Translation selection, reconciliation, reports, and checkpoint strategies feed the Translation FIFO writer and monitor."
+      "reason": "Translation selection, reconciliation, reports, checkpoint strategies, and the short-lock publisher feed the Translation FIFO writer and monitor."
     },
     {
       "id": "translation-recovery",
@@ -305,7 +333,9 @@
         "pnpm vitest run packages/docs-tooling/src/reference/translationManifest.test.ts packages/docs-tooling/src/validation/translationProvenance.test.ts packages/docs-tooling/src/reference/translationManifest.integration.test.ts packages/docs-tooling/src/translation/candidates.test.ts packages/docs-tooling/src/translation/targets.test.ts && node --test scripts/translation/migrate-ja-publication-manifest.test.js"
       ],
       "harnesses": [],
-      "gates": ["pnpm test:rest-publication-contract"],
+      "gates": [
+        "pnpm test:rest-publication-contract"
+      ],
       "reason": "Reference manifest changes must preserve historical source-path provenance and retained-report receipts while keeping spec-generated REST ownership and language exclusions independent."
     },
     {
@@ -575,7 +605,10 @@
         "pnpm docs-tooling validate-revision-inventory --site zh-CN"
       ],
       "harnesses": [],
-      "gates": ["pnpm build:en", "pnpm build:zh-CN"],
+      "gates": [
+        "pnpm build:en",
+        "pnpm build:zh-CN"
+      ],
       "reason": "Fetch-group evidence (Lark-fetched English and Chinese Guides, English SDK Reference, Chinese on-premise) is validated through per-site revision inventories and the Chinese Guides source publication manifest; path set mirrors the evidenceGroups authority."
     },
     {
@@ -587,9 +620,14 @@
         "generated/en/sidebars/restful.sidebar.js",
         "generated/zh-CN/sidebars/restful.sidebar.js"
       ],
-      "focusedTests": ["pnpm test:rest-publication-contract"],
+      "focusedTests": [
+        "pnpm test:rest-publication-contract"
+      ],
       "harnesses": [],
-      "gates": ["pnpm build:en", "pnpm build:zh-CN"],
+      "gates": [
+        "pnpm build:en",
+        "pnpm build:zh-CN"
+      ],
       "reason": "Spec-derived REST output for en, zh-CN, and the docusaurus-i18n ja-JP lane is anchored by per-locale derivation manifests validated through the REST publication contract and build provenance; path set mirrors the evidenceGroups authority."
     },
     {
@@ -607,7 +645,10 @@
         "pnpm test:translation"
       ],
       "harnesses": [],
-      "gates": ["pnpm build:en", "pnpm build:zh-CN"],
+      "gates": [
+        "pnpm build:en",
+        "pnpm build:zh-CN"
+      ],
       "reason": "Translation-group state (Chinese Reference, Japanese Guides/SDK Reference, and their manifests) is exercised through the translation suite and localization input inventory; manifest provenance itself is validated on the dev translation baseline through the fastpath precheck because validate-reference requires the declared source snapshot; path set mirrors the evidenceGroups authority."
     },
     {
@@ -617,9 +658,15 @@
         "scripts/translation/fastpath-precheck.test.js",
         ".claude/specs/2026-09-03-translation-fastpath-design.md"
       ],
-      "focusedTests": ["node --test scripts/translation/fastpath-precheck.test.js"],
+      "focusedTests": [
+        "node --test scripts/translation/fastpath-precheck.test.js"
+      ],
       "harnesses": [],
-      "gates": ["pnpm test:workflow-matrix", "pnpm test:workflow-policy", "git diff --check"],
+      "gates": [
+        "pnpm test:workflow-matrix",
+        "pnpm test:workflow-policy",
+        "git diff --check"
+      ],
       "reason": "The local fail-closed fast-path precheck validates dev-baselined content diffs against the evidenceGroups authority, regenerates the Chinese Reference manifest, enforces the export-group derivation check, and executes every selector command with stable status codes."
     },
     {
@@ -701,18 +748,36 @@
         "packages/docs-tooling/src/publication/retiredManifests.ts",
         "packages/docs-tooling/src/publication/retiredManifests.test.ts"
       ],
-      "focusedTests": ["pnpm vitest run packages/docs-tooling/src/workflows/run.test.ts packages/docs-tooling/src/workflows/groups.test.ts packages/docs-tooling/src/publication/retiredManifests.test.ts"],
+      "focusedTests": [
+        "pnpm vitest run packages/docs-tooling/src/workflows/run.test.ts packages/docs-tooling/src/workflows/groups.test.ts packages/docs-tooling/src/publication/retiredManifests.test.ts"
+      ],
       "harnesses": [],
-      "gates": ["pnpm test:workflow-matrix", "pnpm test:workflow-policy", "git diff --check"],
+      "gates": [
+        "pnpm test:workflow-matrix",
+        "pnpm test:workflow-policy",
+        "git diff --check"
+      ],
       "reason": "Publication-group manifests bind per-file source hashes for the Chinese Guides source publication evidence chain, and the retired-manifest governance registry keeps the deprecated import shell and the non-evidence Tools translation manifest out of publication and provenance inputs; serialization and validation must stay fail-closed with the ownership contract."
     },
     {
       "id": "semantic-seed-reuse",
-      "paths": ["scripts/translation/semanticSeeds*", ".github/workflows/_translate-content-group.yml", ".claude/specs/2026-09-09-semantic-seed-incremental-translation.md"],
-      "focusedTests": ["node --test scripts/translation/semanticSeeds.test.js scripts/translation/loadSheddingWorkflow.test.js scripts/translation/reportSummary.test.js"],
-      "harnesses": ["pnpm test:replay:translation"],
-      "gates": ["pnpm test:translation", "pnpm test:workflow-policy"],
-      "reason": "Cross-run semantic-unit reuse feeds published baseline translations into the existing checkpoint pipeline; planner pairing, fallback policy, workflow opt-in wiring, and runner integration must stay compatible with recovery and publication contracts."    },
+      "paths": [
+        "scripts/translation/semanticSeeds*",
+        ".github/workflows/_translate-content-group.yml",
+        ".claude/specs/2026-09-09-semantic-seed-incremental-translation.md"
+      ],
+      "focusedTests": [
+        "node --test scripts/translation/semanticSeeds.test.js scripts/translation/loadSheddingWorkflow.test.js scripts/translation/reportSummary.test.js"
+      ],
+      "harnesses": [
+        "pnpm test:replay:translation"
+      ],
+      "gates": [
+        "pnpm test:translation",
+        "pnpm test:workflow-policy"
+      ],
+      "reason": "Cross-run semantic-unit reuse feeds published baseline translations into the existing checkpoint pipeline; planner pairing, fallback policy, workflow opt-in wiring, and runner integration must stay compatible with recovery and publication contracts."
+    },
     {
       "id": "docs-ui-ui-text",
       "paths": [
@@ -725,7 +790,10 @@
         "pnpm vitest run packages/docs-ui/src/en/theme/DocSidebar/manualReferenceSidebar.test.ts"
       ],
       "harnesses": [],
-      "gates": ["pnpm test:workflow-matrix", "git diff --check"],
+      "gates": [
+        "pnpm test:workflow-matrix",
+        "git diff --check"
+      ],
       "reason": "Docs UI text dictionary drives navbar, sidebar, search, and chat copy per site and locale; keep locale selection, secondary navbar label mapping, and Japanese copy deterministic."
     }
   ]

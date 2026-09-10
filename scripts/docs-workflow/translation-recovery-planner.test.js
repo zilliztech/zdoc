@@ -958,3 +958,123 @@ test('forwardSourceAuthorityCheckpoints rejects a non-SHA resolved checkpoint', 
     forwardSourceAuthorityCheckpoints: async () => 'not-a-sha',
   }), /must be an exact commit SHA/)
 })
+
+test('authenticates split-publication evidence from the dispatched publisher run', async t => {
+  const PUBLISHER_RUN_ID = 555001
+  const base = fixture(t)
+  base.addArtifact(`docs-translation-publication-handoff-${RUN_ID}`, directory => writeJson(directory, 'publication-handoff.json', {
+    schemaVersion: 1,
+    producerRunId: RUN_ID,
+    producerRunAttempt: 2,
+    publisherRunId: PUBLISHER_RUN_ID,
+    publisherRunAttempt: 1,
+    publisherRunUrl: `https://github.com/zilliztech/zdoc/actions/runs/${PUBLISHER_RUN_ID}`,
+  }))
+  const statusByUnitKey = {}
+  for (const unit of base.selected.units) statusByUnitKey[unit.unitKey] = unit.unitKey === 'translation/ja-JP/python' || unit.unitKey === 'translation/zh-CN-reference/python' ? 'no_changes' : 'publish_failed'
+  const raw = JSON.parse(JSON.stringify(publicationResultsWithStatuses(base.selected, statusByUnitKey, 'failure')))
+  const publisherBound = validatePublicationResults({...raw, publisherRunId: PUBLISHER_RUN_ID, publisherRunAttempt: 1}, {selection: base.selected, allowLegacyChineseRest: true})
+  const publisherPayloadRoot = path.join(base.root, 'publisher-payloads')
+  writeJson(publisherPayloadRoot, 'publication-results.json', publisherBound)
+  const publisherArtifacts = [{
+    id: 9001,
+    name: `publication-results-translation-${RUN_ID}-2`,
+    expired: false,
+    digest: `sha256:${'2'.repeat(64)}`,
+    created_at: '2026-08-08T02:30:00.000Z',
+    workflow_run: {id: PUBLISHER_RUN_ID, repository_id: 7, head_repository_id: 7},
+  }]
+  const publisherRun = {
+    id: PUBLISHER_RUN_ID, status: 'completed', conclusion: 'failure', run_attempt: 1,
+    path: '.github/workflows/publish-translation.yml', repository: {id: 7, full_name: 'zilliztech/zdoc'}, head_sha: RETAINED_WORKFLOW_SHA,
+  }
+  const publisherJobs = [{
+    id: 7001, name: 'publish_ready', run_attempt: 1, status: 'completed', conclusion: 'success',
+    started_at: '2026-08-08T02:00:00.000Z', completed_at: '2026-08-08T02:40:00.000Z',
+  }]
+  const client = {
+    ...base.client,
+    async getRun(runId) { return Number(runId) === PUBLISHER_RUN_ID ? publisherRun : base.client.getRun(runId) },
+    async listArtifacts(runId) { return Number(runId) === PUBLISHER_RUN_ID ? publisherArtifacts : base.client.listArtifacts(runId) },
+    async listJobs(runId, attempt) { return Number(runId) === PUBLISHER_RUN_ID ? publisherJobs : base.client.listJobs(runId, attempt) },
+    async downloadArtifact(record, destination) {
+      if (record.id === 9001) {
+        fs.cpSync(publisherPayloadRoot, destination, {recursive: true})
+        return
+      }
+      return base.client.downloadArtifact(record, destination)
+    },
+  }
+
+  const planned = await planTranslationRecovery({
+    repository: 'zilliztech/zdoc',
+    previousRunId: RUN_ID,
+    outputRoot: path.join(base.root, 'split-plan'),
+    targetBaselineSha: SHA('9'),
+    client,
+  })
+
+  const provenance = planned.plan.provenance
+  assert.ok(provenance)
+  assert.equal(provenance.publicationEvidence.publisherRunId, PUBLISHER_RUN_ID)
+  assert.equal(provenance.publicationEvidence.publisherRunAttempt, 1)
+  assert.equal(provenance.publicationEvidence.results.overallStatus, 'failure')
+  assert.ok(!('ja-JP/python' in planned.plan.recoveryMap))
+  assert.ok(!('zh-CN-reference/python' in planned.plan.recoveryMap))
+  assert.ok('ja-JP/java' in planned.plan.recoveryMap)
+})
+
+test('rejects split-publication evidence whose results are not bound to the discovered publisher run', async t => {
+  const PUBLISHER_RUN_ID = 555002
+  const INTRUDER_RUN_ID = 555999
+  const base = fixture(t)
+  base.addArtifact(`docs-translation-publication-handoff-${RUN_ID}`, directory => writeJson(directory, 'publication-handoff.json', {
+    schemaVersion: 1,
+    producerRunId: RUN_ID,
+    producerRunAttempt: 2,
+    publisherRunId: PUBLISHER_RUN_ID,
+    publisherRunAttempt: 1,
+    publisherRunUrl: `https://github.com/zilliztech/zdoc/actions/runs/${PUBLISHER_RUN_ID}`,
+  }))
+  const raw = JSON.parse(JSON.stringify(successfulPublicationResults(base.selected)))
+  const intruderBound = validatePublicationResults({...raw, publisherRunId: INTRUDER_RUN_ID, publisherRunAttempt: 1}, {selection: base.selected, allowLegacyChineseRest: true})
+  const publisherPayloadRoot = path.join(base.root, 'publisher-payloads')
+  writeJson(publisherPayloadRoot, 'publication-results.json', intruderBound)
+  const publisherArtifacts = [{
+    id: 9002,
+    name: `publication-results-translation-${RUN_ID}-2`,
+    expired: false,
+    digest: `sha256:${'3'.repeat(64)}`,
+    created_at: '2026-08-08T02:30:00.000Z',
+    workflow_run: {id: PUBLISHER_RUN_ID, repository_id: 7, head_repository_id: 7},
+  }]
+  const publisherRun = {
+    id: PUBLISHER_RUN_ID, status: 'completed', conclusion: 'success', run_attempt: 1,
+    path: '.github/workflows/publish-translation.yml', repository: {id: 7, full_name: 'zilliztech/zdoc'}, head_sha: RETAINED_WORKFLOW_SHA,
+  }
+  const publisherJobs = [{
+    id: 7002, name: 'publish_ready', run_attempt: 1, status: 'completed', conclusion: 'success',
+    started_at: '2026-08-08T02:00:00.000Z', completed_at: '2026-08-08T02:40:00.000Z',
+  }]
+  const client = {
+    ...base.client,
+    async getRun(runId) { return Number(runId) === PUBLISHER_RUN_ID ? publisherRun : base.client.getRun(runId) },
+    async listArtifacts(runId) { return Number(runId) === PUBLISHER_RUN_ID ? publisherArtifacts : base.client.listArtifacts(runId) },
+    async listJobs(runId, attempt) { return Number(runId) === PUBLISHER_RUN_ID ? publisherJobs : base.client.listJobs(runId, attempt) },
+    async downloadArtifact(record, destination) {
+      if (record.id === 9002) {
+        fs.cpSync(publisherPayloadRoot, destination, {recursive: true})
+        return
+      }
+      return base.client.downloadArtifact(record, destination)
+    },
+  }
+
+  await assert.rejects(() => planTranslationRecovery({
+    repository: 'zilliztech/zdoc',
+    previousRunId: RUN_ID,
+    outputRoot: path.join(base.root, 'split-reject'),
+    targetBaselineSha: SHA('9'),
+    client,
+  }), /publisher run identity mismatch/i)
+})

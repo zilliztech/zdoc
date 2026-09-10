@@ -12,7 +12,7 @@ const PRODUCTION_QUEUE_OWNERS = Object.freeze(new Map([
   ['recover-translation.yml', {conditional: true, expectedGroup: "${{ inputs.publish && 'docs-production-dev' || format('translation-recovery-readonly-{0}', github.run_id) }}"}],
   ['publish-offline-translation.yml', {conditional: true, expectedGroup: "${{ inputs.publish && 'docs-production-dev' || format('offline-translation-readonly-{0}', github.run_id) }}"}],
   ['publish-offline-reference-python.yml', {conditional: true, expectedGroup: "${{ inputs.publish && 'docs-production-dev' || format('offline-reference-python-readonly-{0}', github.run_id) }}"}],
-  ['translate-codex.yml', {conditional: true, expectedGroup: "${{ inputs.publish && !(inputs.production_queue_owned || false) && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}"}],
+  ['publish-translation.yml', {conditional: false}],
   ['sync-master-tooling-to-dev.yml', {conditional: false}],
   ['repair-fetch-dev.yml', {conditional: false}],
 ]))
@@ -20,6 +20,7 @@ const TOP_LEVEL_WRITER_INVENTORY = Object.freeze(new Map([
   ['fetch-docs.yml', ['prepare', 'publish_ready', 'reconcile_reference_state']],
   ['fetch-guides-requested.yml', ['publish_ready']],
   ['translate-codex.yml', ['publish_ready']],
+  ['publish-translation.yml', ['publish_ready']],
   ['publish-offline-translation.yml', ['publish_ready']],
   ['publish-offline-reference-python.yml', ['publish_ready']],
   ['sync-master-tooling-to-dev.yml', ['sync']],
@@ -31,6 +32,7 @@ const TOP_LEVEL_DIRECT_PUSH_JOBS = Object.freeze(new Map([
 ]))
 const publishingWorkflows = new Set([
   'fetch-docs.yml',
+  'publish-translation.yml',
   'fetch-guides-requested.yml',
   'recover-translation.yml',
   'publish-offline-translation.yml',
@@ -499,7 +501,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     }
 
     if (publishingWorkflows.has(file)) {
-      if (file === 'fetch-docs.yml' || file === 'fetch-guides-requested.yml' || file === 'translate-codex.yml' || file === 'publish-offline-translation.yml' || file === 'publish-offline-reference-python.yml') {
+      if (file === 'fetch-docs.yml' || file === 'fetch-guides-requested.yml' || file === 'translate-codex.yml' || file === 'publish-translation.yml' || file === 'publish-offline-translation.yml' || file === 'publish-offline-reference-python.yml') {
         const writableJobs = Object.entries(workflow.jobs || {}).filter(([, job]) => job?.permissions?.contents === 'write')
         const expected = TOP_LEVEL_WRITER_INVENTORY.get(file)
         const expectedTopLevelContents = file.startsWith('publish-offline-') ? 'write' : 'read'
@@ -1177,6 +1179,9 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const monitor = workflow.jobs?.monitor_translation_progress
       const guidesProducer = workflow.jobs?.translate_guides_batches
       const sdkProducer = workflow.jobs?.translate_sdk
+      const publishReady = workflow.jobs?.publish_ready
+      const aggregate = workflow.jobs?.aggregate
+      const dispatchPublication = workflow.jobs?.dispatch_publication
       const stringDefault = input => `\${{ inputs.${input} || '' }}`
       const booleanDefault = input => `\${{ inputs.${input} || false }}`
       const internalDispatchDefaults = {
@@ -1208,7 +1213,10 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         },
         production_queue_owned: {
           type: 'boolean', default: false, bindings: [
-            [workflow.concurrency?.group, "${{ inputs.publish && !(inputs.production_queue_owned || false) && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}"],
+            [publishReady?.if, "${{ always() && needs.prepare.result == 'success' && (!inputs.publish || inputs.production_queue_owned || false) }}"],
+            [aggregate?.if, "${{ always() && needs.prepare.result == 'success' && (!inputs.publish || inputs.production_queue_owned || false) }}"],
+            [monitor?.with?.split_publication, "${{ inputs.publish && !(inputs.production_queue_owned || false) }}"],
+            [dispatchPublication?.if, "${{ always() && needs.prepare.result == 'success' && inputs.publish && !(inputs.production_queue_owned || false) }}"],
           ],
         },
         allow_full_retranslate: {
@@ -1238,6 +1246,24 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
             !bindingsAreExact || referenceCount !== expected.bindings.length) {
           errors.push(`${file}: workflow_call-only input ${input} must use its explicit direct-dispatch default`)
         }
+      }
+
+      if (workflow.concurrency?.group !== "${{ format('translation-readonly-{0}', github.run_id) }}" || workflow.concurrency?.queue !== 'max') {
+        errors.push(`${file}: producer must always run in a unique translation-readonly concurrency group outside the production queue`)
+      }
+      const dispatchSource = JSON.stringify(dispatchPublication || {})
+      const dispatchRun = String(dispatchPublication?.steps?.find(step => step?.id === 'dispatch')?.run || '')
+      if (JSON.stringify(dispatchPublication?.needs) !== JSON.stringify(['prepare', 'translate_sdk', 'prepare_guides_publication_ready']) ||
+          dispatchPublication?.permissions?.actions !== 'write' || dispatchPublication?.permissions?.contents !== 'read' ||
+          !/gh workflow run publish-translation\.yml/.test(dispatchSource) ||
+          !/-f producer_run_id="\$PRODUCER_RUN_ID"/.test(dispatchRun) ||
+          !/-f producer_run_attempt="\$PRODUCER_RUN_ATTEMPT"/.test(dispatchRun) ||
+          !/-f selection_sha256="\$SELECTION_SHA256"/.test(dispatchRun) ||
+          !/docs-translation-publication-handoff-\$\{\{ github\.run_id \}\}/.test(dispatchSource) ||
+          !/publisherRunUrl/.test(dispatchSource) ||
+          !/run_attempt/.test(dispatchSource) ||
+          /git push/.test(dispatchSource)) {
+        errors.push(`${file}: dispatch_publication must hand the immutable selection to publish-translation.yml without direct pushes`)
       }
 
       const requiredPatterns = [
@@ -1291,7 +1317,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         '])',
       ].join('\n')
       if (writer?.name !== 'publish_ready' || JSON.stringify(writer?.needs) !== JSON.stringify(['prepare', 'translate_sdk', 'prepare_guides_publication_ready']) ||
-          writer?.if !== "${{ always() && needs.prepare.result == 'success' }}" ||
+          writer?.if !== "${{ always() && needs.prepare.result == 'success' && (!inputs.publish || inputs.production_queue_owned || false) }}" ||
           writer?.permissions?.actions !== 'read' || writer?.permissions?.contents !== 'write' ||
           writer?.['continue-on-error'] !== undefined ||
           writerCheckout?.with?.ref !== '${{ needs.prepare.outputs.tooling_sha }}' ||
@@ -1364,7 +1390,6 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         errors.push(`${file}: Guides ready fan-in must bind run attempt, batch count, pending checksum, and recoverable manifests`)
       }
 
-      const aggregate = workflow.jobs?.aggregate
       const aggregateSource = JSON.stringify(aggregate || {})
       const aggregateSteps = aggregate?.steps || []
       const artifactNamesStep = aggregateSteps.find(step => step?.id === 'artifacts')
@@ -1373,7 +1398,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const documents = aggregateSteps.find(step => step?.id === 'documents')
       const verification = aggregateSteps.find(step => step?.name === 'Verify every successful publication result reaches the final target')
       if (JSON.stringify(aggregate?.needs) !== JSON.stringify(['prepare', 'publish_ready']) ||
-          aggregate?.if !== "${{ always() && needs.prepare.result == 'success' }}" ||
+          aggregate?.if !== "${{ always() && needs.prepare.result == 'success' && (!inputs.publish || inputs.production_queue_owned || false) }}" ||
           aggregate?.permissions?.actions !== 'read' || aggregate?.permissions?.contents !== 'read' ||
           !/artifactNames/.test(String(artifactNamesStep?.run || '')) ||
           selectionDownload?.with?.name !== '${{ steps.artifacts.outputs.selection }}' ||
@@ -1404,6 +1429,76 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       }
       if (!needsPrepare('prepare_guides_batches') || !needsPrepare('translate_sdk') || !needsPrepare('translate_guides_batches')) {
         errors.push(`${file}: translation matrices must wait for complete handoff repository validation`)
+      }
+    }
+    if (file === 'publish-translation.yml') {
+      const dispatchInputs = workflow.on?.workflow_dispatch?.inputs || {}
+      const publishJob = workflow.jobs?.publish_ready
+      const aggregateJob = workflow.jobs?.aggregate
+      const publishSteps = publishJob?.steps || []
+      const selectionDownload = publishSteps.find(step => step?.id === 'selection')
+      const authenticateStep = publishSteps.find(step => step?.name === 'Authenticate the producer publication selection')
+      const publishStep = publishSteps.find(step => step?.id === 'publish')
+      const publishCheckout = publishSteps.find(step => step?.uses === 'actions/checkout@v5')
+      const aggregateSteps = aggregateJob?.steps || []
+      const aggregateDownload = aggregateSteps.find(step => step?.id === 'selection')
+      const aggregateDocuments = aggregateSteps.find(step => step?.id === 'documents')
+      const aggregateVerify = aggregateSteps.find(step => step?.name === 'Verify every successful publication result reaches the final target')
+      const aggregateResultsDownload = aggregateSteps.find(step => step?.name === 'Download exact terminal Translation publication results')
+      const expectedPublishScript = [
+        "await exec.exec('node', [",
+        "  'scripts/docs-workflow/publication-coordinator.js',",
+        "  '--selection', `${process.env.RUNNER_TEMP}/publication-selection/publication-selection.json`,",
+        "  '--mode', 'publish',",
+        "  '--poll-milliseconds', '10000',",
+        "  '--candidate-polls', '6',",
+        "  '--max-publish-attempts', '10',",
+        "  '--deadline', String(Date.now() + 350 * 60 * 1000),",
+        "  '--publisher-run-id', process.env.GITHUB_RUN_ID,",
+        "  '--publisher-run-attempt', process.env.GITHUB_RUN_ATTEMPT,",
+        '])',
+      ].join('\n')
+      const publisherSource = JSON.stringify(workflow)
+      if (dispatchInputs.producer_run_id?.required !== true || dispatchInputs.producer_run_id?.type !== 'number' ||
+          dispatchInputs.producer_run_attempt?.required !== true || dispatchInputs.producer_run_attempt?.type !== 'number' ||
+          dispatchInputs.selection_sha256?.required !== true || dispatchInputs.selection_sha256?.type !== 'string' ||
+          ['handoff_json', 'publish', 'production_queue_owned'].some(input => dispatchInputs[input] !== undefined) ||
+          workflow.on?.workflow_call !== undefined) {
+        errors.push(`${file}: publisher must require exact producer identity inputs without re-declaring translation inputs`)
+      }
+      if (publishJob?.name !== 'publish_ready' || publishJob?.needs !== undefined || publishJob?.if !== undefined ||
+          publishJob?.permissions?.actions !== 'read' || publishJob?.permissions?.contents !== 'write' ||
+          publishCheckout?.with?.ref !== '${{ steps.selection.outputs.tooling_sha }}' ||
+          publishCheckout?.with?.['fetch-depth'] !== 0 || publishCheckout?.with?.['persist-credentials'] !== true ||
+          !/gh run download "\$PRODUCER_RUN_ID" --repo "\$GITHUB_REPOSITORY" --name "\$selection_artifact"/.test(String(selectionDownload?.run || '')) ||
+          !/publication-selection-translation-\$PRODUCER_RUN_ID-\$PRODUCER_RUN_ATTEMPT/.test(String(selectionDownload?.run || '')) ||
+          !/\.runId' "\$selection"\)" == "\$PRODUCER_RUN_ID"/.test(String(selectionDownload?.run || '')) ||
+          !/\.selectionSha256' "\$selection"\)" == "\$SELECTION_SHA256"/.test(String(selectionDownload?.run || '')) ||
+          !/publication selection producer run mismatch/.test(String(authenticateStep?.run || '')) ||
+          !/publication selection checksum mismatch/.test(String(authenticateStep?.run || '')) ||
+          !/publication selection must be a publish selection/.test(String(authenticateStep?.run || '')) ||
+          !/publication-contracts\.js validate-selection/.test(String(authenticateStep?.run || '')) ||
+          publishStep?.uses !== 'actions/github-script@v8' || publishStep?.run !== undefined ||
+          publishStep?.env?.GITHUB_TOKEN !== '${{ github.token }}' ||
+          String(publishStep?.with?.script || '').trim() !== expectedPublishScript) {
+        errors.push(`${file}: publish_ready must authenticate the producer selection and run the coordinator under publisher identity`)
+      }
+      if (JSON.stringify(aggregateJob?.needs) !== JSON.stringify(['publish_ready']) ||
+          aggregateJob?.permissions?.actions !== 'read' || aggregateJob?.permissions?.contents !== 'read' ||
+          !/gh run download "\$PRODUCER_RUN_ID"/.test(String(aggregateDownload?.run || '')) ||
+          aggregateResultsDownload?.uses !== 'actions/download-artifact@v7' ||
+          aggregateResultsDownload?.with?.name !== 'publication-results-translation-${{ inputs.producer_run_id }}-${{ inputs.producer_run_attempt }}' ||
+          !/publication results publisher run mismatch/.test(String(aggregateDocuments?.run || '')) ||
+          !/results\.overallStatus !== 'success'/.test(String(aggregateDocuments?.run || '')) ||
+          !/validateTranslationPublicationDocuments/.test(String(aggregateDocuments?.run || '')) ||
+          aggregateVerify?.env?.TARGET_BRANCH !== '${{ steps.selection.outputs.target_branch }}' ||
+          !/refs\/heads\/\$TARGET_BRANCH:refs\/remotes\/origin\/\$TARGET_BRANCH/.test(String(aggregateVerify?.run || '')) ||
+          !/target_sha.*FINAL_TARGET_SHA/.test(String(aggregateVerify?.run || '')) ||
+          !/verifyTranslationPublicationRepository\(\{selection, results, repository: process\.env\.GITHUB_WORKSPACE\}\)/.test(String(aggregateVerify?.run || ''))) {
+        errors.push(`${file}: aggregate must authenticate producer selection, publisher-bound results, and the final target`)
+      }
+      if (/TRANSLATION_AGENT_API_KEY|REVIEW_AGENT_API_KEY|APP_ID|APP_SECRET|FEISHU_HOST|handoff_json/.test(publisherSource)) {
+        errors.push(`${file}: publisher must not receive paid Translation credentials or handoff content`)
       }
     }
     if (file === 'translate-content.yml' && /^concurrency:/m.test(source)) {

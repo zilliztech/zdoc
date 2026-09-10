@@ -513,6 +513,24 @@ function removePrepared(prepared) {
   return Object.freeze(failures)
 }
 
+function normalizePublisherIdentity(identity, runId, runAttempt) {
+  if (identity !== null && identity !== undefined) {
+    if (typeof identity !== 'object' || Array.isArray(identity)) throw new Error('publisherIdentity must be an object when provided')
+    if (runId !== undefined || runAttempt !== undefined) throw new Error('publisherIdentity must not be combined with publisherRunId/publisherRunAttempt')
+    return identity
+  }
+  const hasRunId = runId !== undefined && runId !== null && runId !== ''
+  const hasRunAttempt = runAttempt !== undefined && runAttempt !== null && runAttempt !== ''
+  if (hasRunId !== hasRunAttempt) throw new Error('publisher-run-id and publisher-run-attempt must be provided together')
+  if (!hasRunId) return null
+  const parsedRunId = Number(runId)
+  const parsedRunAttempt = Number(runAttempt)
+  if (!Number.isSafeInteger(parsedRunId) || parsedRunId <= 0 || !Number.isSafeInteger(parsedRunAttempt) || parsedRunAttempt <= 0) {
+    throw new Error('publisher run identity must consist of positive integers')
+  }
+  return Object.freeze({runId: parsedRunId, runAttempt: parsedRunAttempt})
+}
+
 async function runPublicationCoordinator(options = {}) {
   const selection = validatePublicationSelection(options.selection)
   const adapter = options.adapter || publicationWorkflowAdapters.require(selection.workflow)
@@ -533,6 +551,10 @@ async function runPublicationCoordinator(options = {}) {
   const now = typeof options.now === 'function' ? options.now : () => new Date()
   const strategies = options.strategies || Object.freeze({})
   const transactionContext = options.transactionContext || Object.freeze({})
+  // Optional identity of the workflow run executing publication on behalf of
+  // the producer run named by the selection (short-lock publisher workflow).
+  // Null keeps progress/results documents in the legacy single-run shape.
+  const publisherIdentity = normalizePublisherIdentity(options.publisherIdentity, options.publisherRunId, options.publisherRunAttempt)
   const client = options.client
   if (!client || typeof client.listJobs !== 'function' || typeof client.uploadProgress !== 'function' || typeof client.uploadResults !== 'function') {
     throw new Error('client must provide listJobs, uploadProgress, and uploadResults')
@@ -549,7 +571,7 @@ async function runPublicationCoordinator(options = {}) {
     strategies,
     transactionContext,
   }))
-  const scheduler = createPublicationScheduler({selection, maxCandidatePolls: candidatePolls, now: () => now().getTime()})
+  const scheduler = createPublicationScheduler({selection, maxCandidatePolls: candidatePolls, now: () => now().getTime(), publisherIdentity})
   const candidates = new Map()
   const uploadedRevisions = new Set()
   const startedAt = now().toISOString()
@@ -792,7 +814,7 @@ function registerCancelSignalHandler(onRequest) {
 function parseArgs(argv) {
   if (argv.length === 1 && argv[0] === '--help') return {help: true}
   if (argv.includes('--help')) throw new Error('--help must be used alone')
-  const names = new Set(['selection', 'mode', 'poll-milliseconds', 'candidate-polls', 'max-publish-attempts', 'deadline'])
+  const names = new Set(['selection', 'mode', 'poll-milliseconds', 'candidate-polls', 'max-publish-attempts', 'deadline', 'publisher-run-id', 'publisher-run-attempt'])
   const values = {}
   for (let index = 0; index < argv.length; index += 2) {
     const flag = argv[index]
@@ -807,7 +829,7 @@ function parseArgs(argv) {
 }
 
 function usage() {
-  return 'Usage: node publication-coordinator.js --selection <publication-selection.json> --mode <artifact_only|publish> --poll-milliseconds 10000 --candidate-polls 6 --max-publish-attempts 10'
+  return 'Usage: node publication-coordinator.js --selection <publication-selection.json> --mode <artifact_only|publish> --poll-milliseconds 10000 --candidate-polls 6 --max-publish-attempts 10 [--publisher-run-id <id> --publisher-run-attempt <attempt>]'
 }
 
 function writeOutput(name, value) {
@@ -861,6 +883,7 @@ async function main(argv = process.argv.slice(2)) {
     candidatePolls: parsed.values['candidate-polls'] || 6,
     maxPublishAttempts: parsed.values['max-publish-attempts'] || 10,
     deadline: parsed.values['deadline'],
+    publisherIdentity: normalizePublisherIdentity(null, parsed.values['publisher-run-id'], parsed.values['publisher-run-attempt']),
   })
   const outputs = terminalOutputs({selection, results: outcome.results})
   if (outcome.resultsUpload.artifactName !== outputs.expectedName) throw new Error('Results artifact upload identity mismatch')

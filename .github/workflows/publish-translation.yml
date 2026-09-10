@@ -1,0 +1,209 @@
+name: publish translation
+run-name: ${{ inputs.request_id != '' && format('publish translation ({0})', inputs.request_id) || 'publish translation' }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      producer_run_id: { description: Producer translation run id, required: true, type: number }
+      producer_run_attempt: { description: Producer translation run attempt, required: true, type: number }
+      selection_sha256: { description: Immutable Translation publication selection checksum, required: true, type: string }
+      request_id: { description: Parent workflow correlation ID, required: false, type: string, default: '' }
+
+permissions:
+  actions: read
+  contents: read
+
+concurrency:
+  # The short production lock: only this publication transaction owns the
+  # production queue, while the paid translation producer runs outside it.
+  group: docs-production-dev
+  queue: max
+
+jobs:
+  publish_ready:
+    name: publish_ready
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    permissions:
+      actions: read
+      contents: write
+    outputs:
+      results_artifact_name: ${{ steps.publish.outputs.results_artifact_name }}
+      overall_status: ${{ steps.publish.outputs.overall_status }}
+      final_target_sha: ${{ steps.publish.outputs.final_target_sha }}
+    steps:
+      - id: selection
+        name: Download immutable Translation publication selection from the producer run
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PRODUCER_RUN_ID: ${{ inputs.producer_run_id }}
+          PRODUCER_RUN_ATTEMPT: ${{ inputs.producer_run_attempt }}
+          SELECTION_SHA256: ${{ inputs.selection_sha256 }}
+        run: |
+          set -euo pipefail
+          [[ "$PRODUCER_RUN_ID" =~ ^[1-9][0-9]*$ && "$PRODUCER_RUN_ATTEMPT" =~ ^[1-9][0-9]*$ ]]
+          [[ "$SELECTION_SHA256" =~ ^[0-9a-f]{64}$ ]]
+          mkdir -p "$RUNNER_TEMP/publication-selection"
+          selection_artifact="publication-selection-translation-$PRODUCER_RUN_ID-$PRODUCER_RUN_ATTEMPT"
+          gh run download "$PRODUCER_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$selection_artifact" --dir "$RUNNER_TEMP/publication-selection"
+          selection="$RUNNER_TEMP/publication-selection/publication-selection.json"
+          [[ -f "$selection" ]]
+          [[ "$(jq -r '.document' "$selection")" == 'publication-selection' ]]
+          [[ "$(jq -r '.workflow' "$selection")" == 'translation' ]]
+          [[ "$(jq -r '.repository' "$selection")" == "$GITHUB_REPOSITORY" ]]
+          [[ "$(jq -r '.runId' "$selection")" == "$PRODUCER_RUN_ID" ]]
+          [[ "$(jq -r '.runAttempt' "$selection")" == "$PRODUCER_RUN_ATTEMPT" ]]
+          [[ "$(jq -r '.selectionSha256' "$selection")" == "$SELECTION_SHA256" ]]
+          [[ "$(jq -r '.inputs.publish' "$selection")" == 'true' ]]
+          tooling_sha=$(jq -r '.toolingSha' "$selection")
+          target_branch=$(jq -r '.targetBranch' "$selection")
+          [[ "$tooling_sha" =~ ^[0-9a-f]{40}$ ]] || { echo 'selection toolingSha is invalid' >&2; exit 1; }
+          git check-ref-format --branch "$target_branch"
+          printf 'tooling_sha=%s\ntarget_branch=%s\n' "$tooling_sha" "$target_branch" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ steps.selection.outputs.tooling_sha }}
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
+        with: { node-version: '22.6', cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - name: Authenticate the producer publication selection
+        env:
+          EXPECTED_SELECTION_SHA256: ${{ inputs.selection_sha256 }}
+          EXPECTED_PRODUCER_RUN_ID: ${{ inputs.producer_run_id }}
+          EXPECTED_PRODUCER_RUN_ATTEMPT: ${{ inputs.producer_run_attempt }}
+        run: |
+          set -euo pipefail
+          selection="$RUNNER_TEMP/publication-selection/publication-selection.json"
+          node scripts/docs-workflow/publication-contracts.js validate-selection "$selection"
+          EXPECTED_SELECTION_SHA256="$EXPECTED_SELECTION_SHA256" EXPECTED_PRODUCER_RUN_ID="$EXPECTED_PRODUCER_RUN_ID" EXPECTED_PRODUCER_RUN_ATTEMPT="$EXPECTED_PRODUCER_RUN_ATTEMPT" node - <<'NODE'
+          const {readPublicationDocument} = require('./scripts/docs-workflow/publication-contracts')
+          const selection = readPublicationDocument(`${process.env.RUNNER_TEMP}/publication-selection/publication-selection.json`, 'publication-selection')
+          if (selection.workflow !== 'translation') throw new Error('Translation publication selection is required')
+          if (selection.repository !== process.env.GITHUB_REPOSITORY) throw new Error('publication selection repository mismatch')
+          if (selection.runId !== Number(process.env.EXPECTED_PRODUCER_RUN_ID)) throw new Error('publication selection producer run mismatch')
+          if (selection.runAttempt !== Number(process.env.EXPECTED_PRODUCER_RUN_ATTEMPT)) throw new Error('publication selection producer run attempt mismatch')
+          if (selection.selectionSha256 !== process.env.EXPECTED_SELECTION_SHA256) throw new Error('publication selection checksum mismatch')
+          if (selection.inputs.publish !== true) throw new Error('publication selection must be a publish selection')
+          NODE
+      - id: publish
+        name: Publish ready Translation units in producer completion FIFO order
+        uses: actions/github-script@v8
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          script: |
+            await exec.exec('node', [
+              'scripts/docs-workflow/publication-coordinator.js',
+              '--selection', `${process.env.RUNNER_TEMP}/publication-selection/publication-selection.json`,
+              '--mode', 'publish',
+              '--poll-milliseconds', '10000',
+              '--candidate-polls', '6',
+              '--max-publish-attempts', '10',
+              '--deadline', String(Date.now() + 350 * 60 * 1000),
+              '--publisher-run-id', process.env.GITHUB_RUN_ID,
+              '--publisher-run-attempt', process.env.GITHUB_RUN_ATTEMPT,
+            ])
+
+  aggregate:
+    needs: [publish_ready]
+    if: ${{ always() && needs.publish_ready.outputs.final_target_sha != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      actions: read
+      contents: read
+    outputs:
+      final_target_sha: ${{ steps.documents.outputs.final_target_sha }}
+    steps:
+      - id: selection
+        name: Download immutable Translation publication selection from the producer run
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PRODUCER_RUN_ID: ${{ inputs.producer_run_id }}
+          PRODUCER_RUN_ATTEMPT: ${{ inputs.producer_run_attempt }}
+          SELECTION_SHA256: ${{ inputs.selection_sha256 }}
+        run: |
+          set -euo pipefail
+          [[ "$PRODUCER_RUN_ID" =~ ^[1-9][0-9]*$ && "$PRODUCER_RUN_ATTEMPT" =~ ^[1-9][0-9]*$ ]]
+          [[ "$SELECTION_SHA256" =~ ^[0-9a-f]{64}$ ]]
+          mkdir -p "$RUNNER_TEMP/publication-selection"
+          selection_artifact="publication-selection-translation-$PRODUCER_RUN_ID-$PRODUCER_RUN_ATTEMPT"
+          gh run download "$PRODUCER_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$selection_artifact" --dir "$RUNNER_TEMP/publication-selection"
+          selection="$RUNNER_TEMP/publication-selection/publication-selection.json"
+          [[ "$(jq -r '.selectionSha256' "$selection")" == "$SELECTION_SHA256" ]]
+          [[ "$(jq -r '.runId' "$selection")" == "$PRODUCER_RUN_ID" ]]
+          [[ "$(jq -r '.runAttempt' "$selection")" == "$PRODUCER_RUN_ATTEMPT" ]]
+          tooling_sha=$(jq -r '.toolingSha' "$selection")
+          target_branch=$(jq -r '.targetBranch' "$selection")
+          [[ "$tooling_sha" =~ ^[0-9a-f]{40}$ ]]
+          git check-ref-format --branch "$target_branch"
+          printf 'tooling_sha=%s\ntarget_branch=%s\n' "$tooling_sha" "$target_branch" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ steps.selection.outputs.tooling_sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
+        with: { node-version: '22.6', cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - name: Download exact terminal Translation publication results
+        uses: actions/download-artifact@v7
+        with:
+          name: publication-results-translation-${{ inputs.producer_run_id }}-${{ inputs.producer_run_attempt }}
+          path: ${{ runner.temp }}/publication-results
+      - id: documents
+        name: Validate exact terminal Translation publication documents
+        env:
+          EXPECTED_SELECTION_SHA256: ${{ inputs.selection_sha256 }}
+          EXPECTED_PRODUCER_RUN_ID: ${{ inputs.producer_run_id }}
+          EXPECTED_PRODUCER_RUN_ATTEMPT: ${{ inputs.producer_run_attempt }}
+        run: |
+          set -euo pipefail
+          EXPECTED_SELECTION_SHA256="$EXPECTED_SELECTION_SHA256" EXPECTED_PRODUCER_RUN_ID="$EXPECTED_PRODUCER_RUN_ID" EXPECTED_PRODUCER_RUN_ATTEMPT="$EXPECTED_PRODUCER_RUN_ATTEMPT" node - <<'NODE'
+          const fs = require('node:fs')
+          const {readPublicationDocument} = require('./scripts/docs-workflow/publication-contracts')
+          const {summarizeTranslationPublication, validateTranslationPublicationDocuments} = require('./scripts/docs-workflow/translation-publication-results')
+          const selectionPath = `${process.env.RUNNER_TEMP}/publication-selection/publication-selection.json`
+          const resultsPath = `${process.env.RUNNER_TEMP}/publication-results/publication-results.json`
+          const selection = readPublicationDocument(selectionPath, 'publication-selection')
+          if (selection.workflow !== 'translation') throw new Error('Translation publication selection is required')
+          if (selection.repository !== process.env.GITHUB_REPOSITORY) throw new Error('publication selection repository mismatch')
+          if (selection.runId !== Number(process.env.EXPECTED_PRODUCER_RUN_ID)) throw new Error('publication selection producer run mismatch')
+          if (selection.runAttempt !== Number(process.env.EXPECTED_PRODUCER_RUN_ATTEMPT)) throw new Error('publication selection producer run attempt mismatch')
+          if (selection.selectionSha256 !== process.env.EXPECTED_SELECTION_SHA256) throw new Error('publication selection checksum mismatch')
+          const results = readPublicationDocument(resultsPath, 'publication-results', {selection})
+          validateTranslationPublicationDocuments({selection, results})
+          if (results.mode !== 'publish') throw new Error('publication results mode mismatch')
+          if (results.publisherRunId !== Number(process.env.GITHUB_RUN_ID)) throw new Error('publication results publisher run mismatch')
+          if (results.publisherRunAttempt !== Number(process.env.GITHUB_RUN_ATTEMPT)) throw new Error('publication results publisher run attempt mismatch')
+          if (results.overallStatus !== 'success') throw new Error(`Translation publication did not succeed: ${results.overallStatus}`)
+          const allowed = new Set(['published', 'no_changes'])
+          if (results.units.some(unit => !allowed.has(unit.status))) throw new Error('Translation publication results are not terminal successes')
+          const summary = summarizeTranslationPublication({selection, results})
+          const recoveryProvenance = selection.inputs.recoveryProvenance
+          const recoveryLine = recoveryProvenance ? `\n- Recovery source: ${recoveryProvenance.sourceRunId} attempt ${recoveryProvenance.sourceRunAttempt}` : ''
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, `## Translation publication\n\n${summary.units.map(unit => `- ${unit.unitKey}: ${unit.status}`).join('\n')}${recoveryLine}\n`)
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `final_target_sha=${results.finalTargetSha}\n`)
+          NODE
+      - name: Verify every successful publication result reaches the final target
+        env:
+          FINAL_TARGET_SHA: ${{ steps.documents.outputs.final_target_sha }}
+          TARGET_BRANCH: ${{ steps.selection.outputs.target_branch }}
+        run: |
+          set -euo pipefail
+          [[ "$FINAL_TARGET_SHA" =~ ^[0-9a-f]{40}$ ]]
+          git check-ref-format --branch "$TARGET_BRANCH"
+          git fetch --no-tags origin "+refs/heads/$TARGET_BRANCH:refs/remotes/origin/$TARGET_BRANCH"
+          target_sha=$(git rev-parse "refs/remotes/origin/$TARGET_BRANCH^{commit}")
+          [[ "$target_sha" == "$FINAL_TARGET_SHA" ]] || { echo "Translation target moved after publication: expected $FINAL_TARGET_SHA, got $target_sha" >&2; exit 1; }
+          node - <<'NODE'
+          const {readPublicationDocument} = require('./scripts/docs-workflow/publication-contracts')
+          const {verifyTranslationPublicationRepository} = require('./scripts/docs-workflow/translation-publication-results')
+          const selection = readPublicationDocument(`${process.env.RUNNER_TEMP}/publication-selection/publication-selection.json`, 'publication-selection')
+          const results = readPublicationDocument(`${process.env.RUNNER_TEMP}/publication-results/publication-results.json`, 'publication-results', {selection})
+          verifyTranslationPublicationRepository({selection, results, repository: process.env.GITHUB_WORKSPACE})
+          NODE
