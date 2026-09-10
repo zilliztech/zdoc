@@ -1,0 +1,203 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": true,
+  "node_create_time": "1776081034",
+  "node_creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "node_token": "Tg6mwbRGDitPQ3kLUQzc44I7nth",
+  "node_type": "origin",
+  "obj_create_time": "1776081034",
+  "obj_edit_time": "1780477757",
+  "obj_token": "TPcDdPfsto5pmEx7lw7coHRnnWc",
+  "obj_type": "docx",
+  "origin_node_token": "Tg6mwbRGDitPQ3kLUQzc44I7nth",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "LXB3w2emHikXwJkGIdXc6ZkKnDd",
+  "space_id": "7167193056431783939",
+  "title": "Lakebase Docs (Deprecated)",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "TPcDdPfsto5pmEx7lw7coHRnnWc",
+        "block_type": 1,
+        "children": [
+          "PpaRdLvzpoQHRzx1DzYcwRdInXg"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Lakebase Docs (Deprecated)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "PpaRdLvzpoQHRzx1DzYcwRdInXg",
+        "block_type": 2,
+        "parent_id": "TPcDdPfsto5pmEx7lw7coHRnnWc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 2
+  },
+  "children": [
+    {
+      "obj_type": "folder",
+      "node_type": "folder",
+      "type": "folder",
+      "title": "Deployment",
+      "name": "Deployment",
+      "slug": "deployment",
+      "node_token": "base:tblLMqwkNDtAEK5p",
+      "origin_node_token": "base:tblLMqwkNDtAEK5p",
+      "parent_node_token": "Tg6mwbRGDitPQ3kLUQzc44I7nth",
+      "base_nav_virtual": true,
+      "has_child": true,
+      "base_table_id": "tblLMqwkNDtAEK5p"
+    },
+    {
+      "obj_type": "folder",
+      "node_type": "folder",
+      "type": "folder",
+      "title": "Get Started",
+      "name": "Get Started",
+      "slug": "get-started",
+      "node_token": "base:tbl9BeCMjBmalJVb",
+      "origin_node_token": "base:tbl9BeCMjBmalJVb",
+      "parent_node_token": "Tg6mwbRGDitPQ3kLUQzc44I7nth",
+      "base_nav_virtual": true,
+      "has_child": true,
+      "base_table_id": "tbl9BeCMjBmalJVb"
+    },
+    {
+      "obj_type": "folder",
+      "node_type": "folder",
+      "type": "folder",
+      "title": "Development",
+      "name": "Development",
+      "slug": "development",
+      "node_token": "base:tblWv7PjNDsexddH",
+      "origin_node_token": "base:tblWv7PjNDsexddH",
+      "parent_node_token": "Tg6mwbRGDitPQ3kLUQzc44I7nth",
+      "base_nav_virtual": true,
+      "has_child": true,
+      "base_table_id": "tblWv7PjNDsexddH"
+    },
+    {
+      "obj_type": "folder",
+      "node_type": "folder",
+      "type": "folder",
+      "title": "Management",
+      "name": "Management",
+      "slug": "management",
+      "node_token": "base:tblZMzoITXNsyKmQ",
+      "origin_node_token": "base:tblZMzoITXNsyKmQ",
+      "parent_node_token": "Tg6mwbRGDitPQ3kLUQzc44I7nth",
+      "base_nav_virtual": true,
+      "has_child": true,
+      "base_table_id": "tblZMzoITXNsyKmQ"
+    },
+    {
+      "obj_type": "folder",
+      "node_type": "folder",
+      "type": "folder",
+      "title": "Client Libraries",
+      "name": "Client Libraries",
+      "slug": "client-libraries",
+      "node_token": "base:tblgHPdSvZP8gUz6",
+      "origin_node_token": "base:tblgHPdSvZP8gUz6",
+      "parent_node_token": "Tg6mwbRGDitPQ3kLUQzc44I7nth",
+      "base_nav_virtual": true,
+      "has_child": true,
+      "base_table_id": "tblgHPdSvZP8gUz6"
+    },
+    {
+      "obj_type": "folder",
+      "node_type": "folder",
+      "type": "folder",
+      "title": "Tools",
+      "name": "Tools",
+      "slug": "tools",
+      "node_token": "base:tblm1SbEPZaZrGZQ",
+      "origin_node_token": "base:tblm1SbEPZaZrGZQ",
+      "parent_node_token": "Tg6mwbRGDitPQ3kLUQzc44I7nth",
+      "base_nav_virtual": true,
+      "has_child": true,
+      "base_table_id": "tblm1SbEPZaZrGZQ"
+    },
+    {
+      "obj_type": "folder",
+      "node_type": "folder",
+      "type": "folder",
+      "title": "AI Models",
+      "name": "AI Models",
+      "slug": "ai-models",
+      "node_token": "base:tblb929onfgAPW90",
+      "origin_node_token": "base:tblb929onfgAPW90",
+      "parent_node_token": "Tg6mwbRGDitPQ3kLUQzc44I7nth",
+      "base_nav_virtual": true,
+      "has_child": true,
+      "base_table_id": "tblb929onfgAPW90"
+    },
+    {
+      "obj_type": "folder",
+      "node_type": "folder",
+      "type": "folder",
+      "title": "Architecture",
+      "name": "Architecture",
+      "slug": "architecture",
+      "node_token": "base:tblh7utKxg0dgdTo",
+      "origin_node_token": "base:tblh7utKxg0dgdTo",
+      "parent_node_token": "Tg6mwbRGDitPQ3kLUQzc44I7nth",
+      "base_nav_virtual": true,
+      "has_child": true,
+      "base_table_id": "tblh7utKxg0dgdTo"
+    },
+    {
+      "obj_type": "folder",
+      "node_type": "folder",
+      "type": "folder",
+      "title": "Solution",
+      "name": "Solution",
+      "slug": "solution",
+      "node_token": "base:tblbIuN0ns3QWcQR",
+      "origin_node_token": "base:tblbIuN0ns3QWcQR",
+      "parent_node_token": "Tg6mwbRGDitPQ3kLUQzc44I7nth",
+      "base_nav_virtual": true,
+      "has_child": true,
+      "base_table_id": "tblbIuN0ns3QWcQR"
+    }
+  ]
+}

@@ -1,0 +1,1760 @@
+{
+  "creator": "ou_e55a208a81fc721928685fc3df9cb678",
+  "has_child": false,
+  "node_create_time": "1730174507",
+  "node_creator": "ou_e55a208a81fc721928685fc3df9cb678",
+  "node_token": "BZkiw99tkiDkLXktLhqcJtjKnmb",
+  "node_type": "origin",
+  "obj_create_time": "1730174507",
+  "obj_edit_time": "1782953342",
+  "obj_token": "OpoPdcwfzo7aMTx1f07czQ0inDf",
+  "obj_type": "docx",
+  "origin_node_token": "BZkiw99tkiDkLXktLhqcJtjKnmb",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_e55a208a81fc721928685fc3df9cb678",
+  "parent_node_token": "base:tblWv7PjNDsexddH:recvlPv4fk6kId",
+  "space_id": "7167193056431783939",
+  "title": "Alphanumonly",
+  "slug": "alphanumonly-filter",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "OpoPdcwfzo7aMTx1f07czQ0inDf",
+        "block_type": 1,
+        "children": [
+          "FLBKdIYRcox1ZexpXmLcesGwnKe",
+          "FufbdvSzaoVboFxls7Ycqelyn2W",
+          "VbQvdalZiolDx7xo8Dbcz7u6n0d",
+          "Ca55d6kaksnlLrbAhPXcv7cTnve",
+          "OXWTdKJtYonXRoxTxGscwjEgn5f",
+          "L0ivd9ESko0HXHxOZAac75V9nff",
+          "AiGldKIUsouzxwxhylYcc9yWnag",
+          "PGgudO2HlodoR6xEf0fcscnandd",
+          "NeXCdI16VoxNBdxW4AFcL1mNnpe",
+          "I06ldbSNrowfLlxDc9ncphjInVc",
+          "Se2adFkaks7baebD0UwcUHjcn2d",
+          "CyGKdOCKroayX5xRpjgc77hGn0g",
+          "J3O3dqNyToxuvPxJCnuc07lJnce",
+          "OzGzdDD0isnB9Vbl128camYInHd",
+          "R9yLdLJruoh01OxEZtxcCPuLncv",
+          "AqfGdqQatol9uVxuJ0FcotzvnNg",
+          "QN3IdqutIsx53Qb31DnchodKnJh",
+          "Vsx4d9mR6ofBn3xmszUcM4yOnWh"
+        ],
+        "comment_ids": [
+          "7482989865932619795"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Alphanumonly",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7482989865932619795"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "FLBKdIYRcox1ZexpXmLcesGwnKe",
+        "block_type": 2,
+        "parent_id": "OpoPdcwfzo7aMTx1f07czQ0inDf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "alphanumonly",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " filter removes tokens that contain non-ASCII characters, keeping only alphanumeric terms. This filter is useful for processing text where only basic letters and numbers are relevant, excluding any special characters or symbols.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FufbdvSzaoVboFxls7Ycqelyn2W",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Configuration",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "OpoPdcwfzo7aMTx1f07czQ0inDf"
+      },
+      {
+        "block_id": "VbQvdalZiolDx7xo8Dbcz7u6n0d",
+        "block_type": 2,
+        "parent_id": "OpoPdcwfzo7aMTx1f07czQ0inDf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "alphanumonly",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " filter is built into ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">Milvus</include><include target=\"zilliz\">Zilliz Cloud</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". To use it, simply specify its name in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "filter",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " section within ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "analyzer_params",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ca55d6kaksnlLrbAhPXcv7cTnve",
+        "block_type": 49,
+        "children": [
+          "PmhmdgiLwo0uxoxaL6Ac9DN6nGf",
+          "IexjdtaUUoDLuMx8ab0ct7QonLf",
+          "PwT9diTgUoD3r3xCDkTc5gr0nRd",
+          "KzgFdmIbQo5DlnxpcJVcJq4WnUg",
+          "E8nYdS2x7ouvdYxupXwcRqjwnzc"
+        ],
+        "parent_id": "OpoPdcwfzo7aMTx1f07czQ0inDf",
+        "source_synced": {
+          "align": 1,
+          "elements": [
+            {
+              "text_run": {
+                "content": "同步块",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "block_id": "PmhmdgiLwo0uxoxaL6Ac9DN6nGf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "analyzer_params = {\n    \"tokenizer\": \"standard\",\n    \"filter\": [\"alphanumonly\"],\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "Ca55d6kaksnlLrbAhPXcv7cTnve"
+      },
+      {
+        "block_id": "IexjdtaUUoDLuMx8ab0ct7QonLf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Map<String, Object> analyzerParams = new HashMap<>();\nanalyzerParams.put(\"tokenizer\", \"standard\");\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "analyzerParams.put(\"filter\", Collections.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "singletonList",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(\"alphanumonly\"));",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "Ca55d6kaksnlLrbAhPXcv7cTnve"
+      },
+      {
+        "block_id": "PwT9diTgUoD3r3xCDkTc5gr0nRd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "const analyzer_params = {\n    \"tokenizer\": \"standard\",\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    \"filter\": [\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "alphanumonly",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\"],\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "};",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "parent_id": "Ca55d6kaksnlLrbAhPXcv7cTnve"
+      },
+      {
+        "block_id": "KzgFdmIbQo5DlnxpcJVcJq4WnUg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "analyzerParams = map[",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "string",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "]any{\"tokenizer\": \"standard\", \"filter\": []any{\"alphanumonly\"}}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 22,
+            "wrap": false
+          }
+        },
+        "parent_id": "Ca55d6kaksnlLrbAhPXcv7cTnve"
+      },
+      {
+        "block_id": "E8nYdS2x7ouvdYxupXwcRqjwnzc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# restful",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\nanalyzerParams='{\n  \"tokenizer\": \"standard\",\n  \"filter\": [\n    \"alphanumonly\"\n  ]\n}'\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 7,
+            "wrap": false
+          }
+        },
+        "parent_id": "Ca55d6kaksnlLrbAhPXcv7cTnve"
+      },
+      {
+        "block_id": "OXWTdKJtYonXRoxTxGscwjEgn5f",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "nlohmann::json analyzer_params = {\n    {\"tokenizer\", \"standard\"},\n    {\"filter\", {\"alphanumonly\"}}\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "};",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 9,
+            "wrap": false
+          }
+        },
+        "parent_id": "OpoPdcwfzo7aMTx1f07czQ0inDf"
+      },
+      {
+        "block_id": "L0ivd9ESko0HXHxOZAac75V9nff",
+        "block_type": 2,
+        "parent_id": "OpoPdcwfzo7aMTx1f07czQ0inDf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "alphanumonly",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " filter operates on the terms generated by the tokenizer, so it must be used in combination with a tokenizer. For a list of tokenizers available in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">Milvus</include><include target=\"zilliz\">Zilliz Cloud</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Standard Tokenizer",
+                "token": "GAX8wkC1QiTZhXkLBocc1GoTnke",
+                "url": "https://zilliverse.feishu.cn/wiki/GAX8wkC1QiTZhXkLBocc1GoTnke"
+              }
+            },
+            {
+              "text_run": {
+                "content": " and its sibling pages.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AiGldKIUsouzxwxhylYcc9yWnag",
+        "block_type": 2,
+        "parent_id": "OpoPdcwfzo7aMTx1f07czQ0inDf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "After defining ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "analyzer_params",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", you can apply them to a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "VARCHAR",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " field when defining a collection schema. This allows ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<include target=\"milvus\">Milvus</include><include target=\"zilliz\">Zilliz Cloud</include>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to process the text in that field using the specified analyzer for efficient tokenization and filtering. ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "For details, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Example use",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FH8MVwnjdgihp0hkRHHKcjBe9n5e%23F0sgd9ramomPhqx9GLmcfZQLnBh"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PGgudO2HlodoR6xEf0fcscnandd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Examples",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "OpoPdcwfzo7aMTx1f07czQ0inDf"
+      },
+      {
+        "block_id": "NeXCdI16VoxNBdxW4AFcL1mNnpe",
+        "block_type": 2,
+        "parent_id": "OpoPdcwfzo7aMTx1f07czQ0inDf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Before applying the analyzer configuration to your collection schema, verify its behavior using the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "run_analyzer",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " method.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "I06ldbSNrowfLlxDc9ncphjInVc",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Analyzer configuration",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "OpoPdcwfzo7aMTx1f07czQ0inDf"
+      },
+      {
+        "block_id": "Se2adFkaks7baebD0UwcUHjcn2d",
+        "block_type": 49,
+        "children": [
+          "RWfydgYrHonNZnxA9O3cuSWJnUg",
+          "ARRSdZaTaojJ7OxUFpWcWolwnAc",
+          "F1wRdKaxJoddl1xgQZKcjnPDnEd",
+          "HicSdINl1o8ddcxD94Yc1tyKn4r",
+          "N7YGdH5WmoRgtwxMpEfcfC8OnPO"
+        ],
+        "parent_id": "OpoPdcwfzo7aMTx1f07czQ0inDf",
+        "source_synced": {
+          "align": 1,
+          "elements": [
+            {
+              "text_run": {
+                "content": "同步块",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "block_id": "RWfydgYrHonNZnxA9O3cuSWJnUg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "analyzer_params = {\n    \"tokenizer\": \"standard\",\n    \"filter\": [\"alphanumonly\"],\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "Se2adFkaks7baebD0UwcUHjcn2d"
+      },
+      {
+        "block_id": "ARRSdZaTaojJ7OxUFpWcWolwnAc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Map<String, Object> analyzerParams = new HashMap<>();\nanalyzerParams.put(\"tokenizer\", \"standard\");\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "analyzerParams.put(\"filter\", Collections.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "singletonList",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(\"alphanumonly\"));",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "Se2adFkaks7baebD0UwcUHjcn2d"
+      },
+      {
+        "block_id": "F1wRdKaxJoddl1xgQZKcjnPDnEd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// javascript",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "parent_id": "Se2adFkaks7baebD0UwcUHjcn2d"
+      },
+      {
+        "block_id": "HicSdINl1o8ddcxD94Yc1tyKn4r",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "analyzerParams = map[",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "string",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "]any{\"tokenizer\": \"standard\", \"filter\": []any{\"alphanumonly\"}}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 22,
+            "wrap": false
+          }
+        },
+        "parent_id": "Se2adFkaks7baebD0UwcUHjcn2d"
+      },
+      {
+        "block_id": "N7YGdH5WmoRgtwxMpEfcfC8OnPO",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# restful",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 7,
+            "wrap": false
+          }
+        },
+        "parent_id": "Se2adFkaks7baebD0UwcUHjcn2d"
+      },
+      {
+        "block_id": "CyGKdOCKroayX5xRpjgc77hGn0g",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "nlohmann::json analyzer_params = {\n    {\"tokenizer\", \"standard\"},\n    {\"filter\", {\"alphanumonly\"}}\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "};",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 9,
+            "wrap": false
+          }
+        },
+        "parent_id": "OpoPdcwfzo7aMTx1f07czQ0inDf"
+      },
+      {
+        "block_id": "J3O3dqNyToxuvPxJCnuc07lJnce",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Verification using ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "run_analyzer",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "OpoPdcwfzo7aMTx1f07czQ0inDf"
+      },
+      {
+        "block_id": "OzGzdDD0isnB9Vbl128camYInHd",
+        "block_type": 49,
+        "children": [
+          "Km8ndIkiIoXQrBxjXbZcBUyUnUh",
+          "U1NudLDDLoQsYextBI1cjmhJnHg",
+          "MPSHdxSWwoT0JIxoRZFcLy7KnUh",
+          "G9k7dRQi6ocbTfxVvVAcAm4InUg",
+          "NhGudVQNUoe2qBxVwawcas18n2e"
+        ],
+        "parent_id": "OpoPdcwfzo7aMTx1f07czQ0inDf",
+        "source_synced": {
+          "align": 1,
+          "elements": [
+            {
+              "text_run": {
+                "content": "同步块",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "block_id": "Km8ndIkiIoXQrBxjXbZcBUyUnUh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import (\n    MilvusClient,\n)\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "client = MilvusClient(",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "uri=\"http://localhost:19530\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ",\n    token=\"root:Milvus\"\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")\n\n# Sample text to analyze\nsample_text = \"Milvus 2.0 @ Scale! #AI #Vector_Databasé\"\n\n# Run the standard analyzer with the defined configuration\nresult = client.run_analyzer(sample_text, analyzer_params)\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "print(\"Standard analyzer output:\", result)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "OzGzdDD0isnB9Vbl128camYInHd"
+      },
+      {
+        "block_id": "U1NudLDDLoQsYextBI1cjmhJnHg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import io.milvus.v2.client.ConnectConfig;\nimport io.milvus.v2.client.MilvusClientV2;\nimport io.milvus.v2.service.vector.request.RunAnalyzerReq;\nimport io.milvus.v2.service.vector.response.RunAnalyzerResp;\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ConnectConfig config = ConnectConfig.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "builder",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "()\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        .uri(\"http://localhost:19530\")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        .token(\"root:Milvus\")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n        .build();\nMilvusClientV2 client = new MilvusClientV2(config);\n\nList<String> texts = new ArrayList<>();\ntexts.add(\"Milvus 2.0 @ Scale! #AI #Vector_Databasé\");\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "RunAnalyzerResp resp = ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "client",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".runAnalyzer(RunAnalyzerReq.builder()\n        .texts(texts)\n        .analyzerParams(analyzerParams)\n        .build());\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "OzGzdDD0isnB9Vbl128camYInHd"
+      },
+      {
+        "block_id": "MPSHdxSWwoT0JIxoRZFcLy7KnUh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// javascript",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "parent_id": "OzGzdDD0isnB9Vbl128camYInHd"
+      },
+      {
+        "block_id": "G9k7dRQi6ocbTfxVvVAcAm4InUg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import (\n    \"context\"\n    \"encoding/json\"\n    \"fmt\"\n\n    \"github.com/milvus-io/milvus/client/v2/milvusclient\"\n)\n\nclient, err := milvusclient.New(ctx, &milvusclient.ClientConfig{\n    Address: \"localhost:19530\",\n    APIKey:  \"root:Milvus\",\n})\nif err != nil {\n    fmt.Println(err.Error())\n    // handle error\n}\n\nbs, _ := json.Marshal(analyzerParams)\ntexts := []string{\"Milvus 2.0 @ Scale! #AI #Vector_Databasé\"}\noption := milvusclient.NewRunAnalyzerOption(texts).\n    WithAnalyzerParams(string(bs))\n\nresult, err := client.RunAnalyzer(ctx, option)\nif err != nil {\n    fmt.Println(err.Error())\n    // handle error\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 22,
+            "wrap": false
+          }
+        },
+        "parent_id": "OzGzdDD0isnB9Vbl128camYInHd"
+      },
+      {
+        "block_id": "NhGudVQNUoe2qBxVwawcas18n2e",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# restful",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 7,
+            "wrap": false
+          }
+        },
+        "parent_id": "OzGzdDD0isnB9Vbl128camYInHd"
+      },
+      {
+        "block_id": "R9yLdLJruoh01OxEZtxcCPuLncv",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "#include \"milvus/MilvusClientV2.h\"\n\nauto client = milvus::MilvusClientV2::Create();\n\nmilvus::ConnectParam connect_param{\"http://localhost:19530\", \"root:Milvus\"};\nauto status = client->Connect(connect_param);\nif (!status.IsOk()) {\n    std::cout << status.Message() << std::endl;\n}\n\nstd::string text = \"Milvus 2.0 @ Scale! #AI #Vector_Databasé\";\nauto request = milvus::RunAnalyzerRequest()\n                       .AddText(text)\n                       .WithAnalyzerParams(analyzer_params);\n\nmilvus::RunAnalyzerResponse response;\nstatus = client->RunAnalyzer(request, response);\nif (!status.IsOk()) {\n    std::cout << status.Message() << std::endl;\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 9,
+            "wrap": false
+          }
+        },
+        "parent_id": "OpoPdcwfzo7aMTx1f07czQ0inDf"
+      },
+      {
+        "block_id": "AqfGdqQatol9uVxuJ0FcotzvnNg",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Expected output",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "OpoPdcwfzo7aMTx1f07czQ0inDf"
+      },
+      {
+        "block_id": "QN3IdqutIsx53Qb31DnchodKnJh",
+        "block_type": 49,
+        "children": [
+          "D6hqdmzHvoKpJ6xdpO2c2AKPnZg"
+        ],
+        "parent_id": "OpoPdcwfzo7aMTx1f07czQ0inDf",
+        "source_synced": {
+          "align": 1,
+          "elements": [
+            {
+              "text_run": {
+                "content": "同步块",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "block_id": "D6hqdmzHvoKpJ6xdpO2c2AKPnZg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "['Milvus', '2', '0', 'Scale', 'AI', 'Vector']",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "QN3IdqutIsx53Qb31DnchodKnJh"
+      },
+      {
+        "block_id": "Vsx4d9mR6ofBn3xmszUcM4yOnWh",
+        "block_type": 2,
+        "parent_id": "OpoPdcwfzo7aMTx1f07czQ0inDf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 35
+  },
+  "name": "Alphanumonly",
+  "base_record_id": "recvlPvxLc6exY",
+  "base_table_id": "tblWv7PjNDsexddH",
+  "base_table_name": "Development",
+  "base_record_index": 183,
+  "base_placement_type": "canonical",
+  "base_targets": [
+    "Zilliz.SaaS",
+    "Zilliz.PaaS"
+  ],
+  "base_status": "Draft",
+  "base_labels": "Alphanumonly",
+  "base_beta": "FALSE",
+  "base_ref_target_doc": null
+}

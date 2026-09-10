@@ -1,0 +1,3265 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": false,
+  "node_create_time": "1728630485",
+  "node_creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "node_token": "CpBbwcJ87irHp0k9oCSc2RNIn3d",
+  "node_type": "origin",
+  "obj_create_time": "1728630485",
+  "obj_edit_time": "1788919251",
+  "obj_token": "XHMed32msofjsHxd69NcpG8tnhe",
+  "obj_type": "docx",
+  "origin_node_token": "CpBbwcJ87irHp0k9oCSc2RNIn3d",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "base:tblWv7PjNDsexddH:recvlPnndXsUTo",
+  "space_id": "7167193056431783939",
+  "title": "Filtered Search",
+  "slug": "filtered-search",
+  "revision_id": "1835",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "XHMed32msofjsHxd69NcpG8tnhe",
+        "block_type": 1,
+        "children": [
+          "Q3s6dhbEkowWxBxlIXgcZmJ6nKh",
+          "ZQCddZBuIoCOSRxjH3DcJ1bVn8d",
+          "HBY5dAClJo6BDmxXapqcqaxdnZf",
+          "G5gNdBD3FoYc5rxF46KcM1ninJh",
+          "VPg4dTVBhovRQxxRZ4FcxuR2ntr",
+          "Lu0Ad8pjJo5cB2x5SbAcsyG9nke",
+          "GOfAdj2o9o1DKjxkvcecBQe7nYu",
+          "EvNyd7Q0go3u5JxUwbAcqrntntc",
+          "Sy3Bd6EPwokVuLxsu0YcSGF3n40",
+          "Aiusdi287oQZcSxrJOHclOQNnUf",
+          "AVWSdWZPDo8rlMx0g3QcDXPvnZc",
+          "J56edNfcBoQz1Kxi4HVc28oynpf",
+          "ZdYgdzMxwo44Gkx0PincdNDknWb",
+          "YdDudLDjNo8NQlxvDSScBP8Mn6c",
+          "A30jdtcfYoGGVixngYkcy6ytnyh",
+          "HJKcdHNVqoz18xx5zZOc7Culnce",
+          "BcH2db6sUoP77IxSje1ccbDBn7d",
+          "EQH1dGK3moLzmcxWu5VcOdAEngg",
+          "Tv3gdflrMsBaNEb40egcPCQUnoX",
+          "POPSdwznbsYQGHbkOOucpC5Rngh",
+          "S07VdqSqvoJJ5Vxooz4cQiainRW",
+          "BY9pd3BcZoBSsgxj86zcnVLynUd",
+          "WblMdLwBssA01QbzxdlcQzm1nGd",
+          "TXE9dAkkhoE2Vdx0d4KcD33TnCc",
+          "UHpadlGPTskAIcb1ieMcE8mGn1d",
+          "Z7pYdfvquoUlZ6xGj02ct5Nmnlg",
+          "ArZhdg2eJokpnNxE2IrcovYmnzd",
+          "KUU1dxNV0oMYJCxdaaLcDgWwnFe",
+          "VR0fdi7UisqkOcboMiIcFcGpnCn"
+        ],
+        "comment_ids": [
+          "7493815105402994707"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Filtered Search",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7493815105402994707"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "Q3s6dhbEkowWxBxlIXgcZmJ6nKh",
+        "block_type": 2,
+        "parent_id": "XHMed32msofjsHxd69NcpG8tnhe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "An ANN search finds vector embeddings most similar to specified vector embeddings. However, the search results may not always be correct. You can include filtering conditions in a search request so that <include target=\"milvus\">Milvus</include><include target=\"zilliz\">Zilliz Cloud</include> conducts metadata filtering before conducting ANN searches, reducing the search scope from the whole collection to only the entities matching the specified filtering conditions.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZQCddZBuIoCOSRxjH3DcJ1bVn8d",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Overview",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "XHMed32msofjsHxd69NcpG8tnhe"
+      },
+      {
+        "block_id": "HBY5dAClJo6BDmxXapqcqaxdnZf",
+        "block_type": 2,
+        "parent_id": "XHMed32msofjsHxd69NcpG8tnhe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In <include target=\"milvus\">Milvus</include><include target=\"zilliz\">Zilliz Cloud</include>, filtered searches are categorized into two types — ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "standard filtering",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "iterative filtering",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " — depending on the stage at which the filtering is applied.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "G5gNdBD3FoYc5rxF46KcM1ninJh",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Standard filtering",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "XHMed32msofjsHxd69NcpG8tnhe"
+      },
+      {
+        "block_id": "VPg4dTVBhovRQxxRZ4FcxuR2ntr",
+        "block_type": 2,
+        "parent_id": "XHMed32msofjsHxd69NcpG8tnhe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If a collection contains both vector embeddings and their metadata, you can filter metadata before ANN search to improve the relevancy of the search result. Once <include target=\"milvus\">Milvus</include><include target=\"zilliz\">Zilliz Cloud</include> receives a search request carrying a filtering condition, it restricts the search scope within the entities matching the specified filtering condition.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Lu0Ad8pjJo5cB2x5SbAcsyG9nke",
+        "block_type": 43,
+        "board": {
+          "token": "QIeKwvDN1h7lTnb9iJ7cPubknrb"
+        },
+        "parent_id": "XHMed32msofjsHxd69NcpG8tnhe"
+      },
+      {
+        "block_id": "GOfAdj2o9o1DKjxkvcecBQe7nYu",
+        "block_type": 2,
+        "parent_id": "XHMed32msofjsHxd69NcpG8tnhe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "As shown in the above diagram, the search request carries ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "chunk like \"%red%\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " as the filtering condition, indicating that <include target=\"milvus\">Milvus</include><include target=\"zilliz\">Zilliz Cloud</include> should conduct the ANN search within all the entities that have the word ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "red",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "chunk",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " field. Specifically, <include target=\"milvus\">Milvus</include><include target=\"zilliz\">Zilliz Cloud</include> does the following:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EvNyd7Q0go3u5JxUwbAcqrntntc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Filter entities that match the filtering conditions carried in the search request.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "XHMed32msofjsHxd69NcpG8tnhe"
+      },
+      {
+        "block_id": "Sy3Bd6EPwokVuLxsu0YcSGF3n40",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Conduct the ANN search within the filtered entities.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "XHMed32msofjsHxd69NcpG8tnhe"
+      },
+      {
+        "block_id": "Aiusdi287oQZcSxrJOHclOQNnUf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Returns top-K entities.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "XHMed32msofjsHxd69NcpG8tnhe"
+      },
+      {
+        "block_id": "AVWSdWZPDo8rlMx0g3QcDXPvnZc",
+        "block_type": 5,
+        "comment_ids": [
+          "7461955512280711172"
+        ],
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Iterative filtering",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7461955512280711172"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "XHMed32msofjsHxd69NcpG8tnhe"
+      },
+      {
+        "block_id": "J56edNfcBoQz1Kxi4HVc28oynpf",
+        "block_type": 2,
+        "comment_ids": [
+          "7462194982179946499"
+        ],
+        "parent_id": "XHMed32msofjsHxd69NcpG8tnhe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The standard filtering process effectively narrows the search scope to a small range. However, overly complex filtering expressions may result in ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "very high search latency",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7462194982179946499"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". In such cases, iterative filtering can serve as an alternative, helping to reduce the workload of scalar filtering.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ZdYgdzMxwo44Gkx0PincdNDknWb",
+        "block_type": 43,
+        "board": {
+          "token": "AOJ0wZxInhw0z8bZJtWcHMpfnCh"
+        },
+        "parent_id": "XHMed32msofjsHxd69NcpG8tnhe"
+      },
+      {
+        "block_id": "YdDudLDjNo8NQlxvDSScBP8Mn6c",
+        "block_type": 2,
+        "parent_id": "XHMed32msofjsHxd69NcpG8tnhe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "As illustrated in the diagram above, a search with iterative filtering performs the vector search in iterations. Each entity returned by the iterator undergoes scalar filtering, and this process continues until the specified topK results are achieved.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "A30jdtcfYoGGVixngYkcy6ytnyh",
+        "block_type": 2,
+        "parent_id": "XHMed32msofjsHxd69NcpG8tnhe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This method significantly reduces the number of entities subjected to scalar filtering, making it especially beneficial for handling highly complex filtering expressions.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "HJKcdHNVqoz18xx5zZOc7Culnce",
+        "block_type": 2,
+        "comment_ids": [
+          "7462195229585522692"
+        ],
+        "parent_id": "XHMed32msofjsHxd69NcpG8tnhe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "However",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7462195229585522692"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", it’s important to note that the iterator processes entities one at a time. This sequential approach can lead to longer processing times or potential performance issues, especially when a large number of entities are subjected to scalar filtering.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BcH2db6sUoP77IxSje1ccbDBn7d",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Examples",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "XHMed32msofjsHxd69NcpG8tnhe"
+      },
+      {
+        "block_id": "EQH1dGK3moLzmcxWu5VcOdAEngg",
+        "block_type": 2,
+        "parent_id": "XHMed32msofjsHxd69NcpG8tnhe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "This section demonstrates how to conduct a filtered search. Code snippets in this section assume  you already have the following entities in your collection. Each entity has four fields, namely ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "id",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "vector",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "color",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "likes",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Tv3gdflrMsBaNEb40egcPCQUnoX",
+        "block_type": 49,
+        "children": [
+          "FHCQdnUBJopCtjxe5qWc3rFfnqe"
+        ],
+        "parent_id": "XHMed32msofjsHxd69NcpG8tnhe",
+        "source_synced": {
+          "align": 1,
+          "elements": [
+            {
+              "text_run": {
+                "content": "同步块",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "block_id": "FHCQdnUBJopCtjxe5qWc3rFfnqe",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "[\n    {\"id\": 0, \"vector\": [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592], \"color\": \"pink_8682\", \"likes\": 165},\n    {\"id\": 1, \"vector\": [0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104], \"color\": \"red_7025\", \"likes\": 25},\n    {\"id\": 2, \"vector\": [0.43742130801983836, -0.5597502546264526, 0.6457887650909682, 0.7894058910881185, 0.20785793220625592], \"color\": \"orange_6781\", \"likes\": 764},\n    {\"id\": 3, \"vector\": [0.3172005263489739, 0.9719044792798428, -0.36981146090600725, -0.4860894583077995, 0.95791889146345], \"color\": \"pink_9298\", \"likes\": 234},\n    {\"id\": 4, \"vector\": [0.4452349528804562, -0.8757026943054742, 0.8220779437047674, 0.46406290649483184, 0.30337481143159106], \"color\": \"red_4794\", \"likes\": 122},\n    {\"id\": 5, \"vector\": [0.985825131989184, -0.8144651566660419, 0.6299267002202009, 0.1206906911183383, -0.1446277761879955], \"color\": \"yellow_4222\", \"likes\": 12},\n    {\"id\": 6, \"vector\": [0.8371977790571115, -0.015764369584852833, -0.31062937026679327, -0.562666951622192, -0.8984947637863987], \"color\": \"red_9392\", \"likes\": 58},\n    {\"id\": 7, \"vector\": [-0.33445148015177995, -0.2567135004164067, 0.8987539745369246, 0.9402995886420709, 0.5378064918413052], \"color\": \"grey_8510\", \"likes\": 775},\n    {\"id\": 8, \"vector\": [0.39524717779832685, 0.4000257286739164, -0.5890507376891594, -0.8650502298996872, -0.6140360785406336], \"color\": \"white_9381\", \"likes\": 876},\n    {\"id\": 9, \"vector\": [0.5718280481994695, 0.24070317428066512, -0.3737913482606834, -0.06726932177492717, -0.6980531615588608], \"color\": \"purple_4976\", \"likes\": 765}\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 28,
+            "wrap": false
+          }
+        },
+        "parent_id": "Tv3gdflrMsBaNEb40egcPCQUnoX"
+      },
+      {
+        "block_id": "POPSdwznbsYQGHbkOOucpC5Rngh",
+        "block_type": 49,
+        "children": [
+          "BnBcdzRjmo7iUFx9xpJcw1QznKg"
+        ],
+        "parent_id": "XHMed32msofjsHxd69NcpG8tnhe",
+        "source_synced": {
+          "align": 1,
+          "elements": [
+            {
+              "text_run": {
+                "content": "同步块",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "block_id": "BnBcdzRjmo7iUFx9xpJcw1QznKg",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "Kr7kdmZY2oC6cTxPBQIcFKf9nxd",
+          "UBg3dqA2xowJIcxQxDTcMJRznaf"
+        ],
+        "parent_id": "POPSdwznbsYQGHbkOOucpC5Rngh"
+      },
+      {
+        "block_id": "Kr7kdmZY2oC6cTxPBQIcFKf9nxd",
+        "block_type": 2,
+        "parent_id": "BnBcdzRjmo7iUFx9xpJcw1QznKg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UBg3dqA2xowJIcxQxDTcMJRznaf",
+        "block_type": 2,
+        "parent_id": "BnBcdzRjmo7iUFx9xpJcw1QznKg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If the query vectors already exist in the target collection, consider using ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "ids",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " instead of retrieving them before searches. For details, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Primary-Key Search",
+                "token": "U7OvwHP3AiUWlckzIEKclLQQnPr",
+                "url": "https://zilliverse.feishu.cn/wiki/U7OvwHP3AiUWlckzIEKclLQQnPr"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "S07VdqSqvoJJ5Vxooz4cQiainRW",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Search with standard filtering",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "XHMed32msofjsHxd69NcpG8tnhe"
+      },
+      {
+        "block_id": "BY9pd3BcZoBSsgxj86zcnVLynUd",
+        "block_type": 2,
+        "parent_id": "XHMed32msofjsHxd69NcpG8tnhe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The following code snippets demonstrate a search with standard filtering, and the request in the following code snippet carries a filtering condition and several output fields.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WblMdLwBssA01QbzxdlcQzm1nGd",
+        "block_type": 49,
+        "children": [
+          "U5aMdDVv3ow5jZxrEbdcLrzInUc",
+          "Z6g0dIIByoZg48xYYHdcPVc3njb",
+          "Q5xIdr2J9ohtGJxXUR0cWpGMnUe",
+          "GyIGdS7yrosf80xAKSIcd7EXnGd",
+          "O12gd7UaCoN3Xaxvk0LcpSaRnVe",
+          "Xxexd1KFFoBbApxh4MOcwCNrnWf",
+          "doxcnp97IuOsH28cYyBmJNHTbGg"
+        ],
+        "parent_id": "XHMed32msofjsHxd69NcpG8tnhe",
+        "source_synced": {
+          "align": 1,
+          "elements": [
+            {
+              "text_run": {
+                "content": "同步块",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "block_id": "U5aMdDVv3ow5jZxrEbdcLrzInUc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import MilvusClient\n\nclient = MilvusClient(\n    uri=\"http://localhost:19530\",\n    token=\"root:Milvus\"\n)\n\nquery_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]\n\nres = client.search(\n    collection_name=\"my_collection\",\n    data=[query_vector],\n    limit=5,\n    # highlight-start\n    filter='color like \"red%\" and likes > 50',\n    output_fields=[\"color\", \"likes\"]\n    # highlight-end\n)\n\nfor hits in res:\n    print(\"TopK results:\")\n    for hit in hits:\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        print(hit)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "WblMdLwBssA01QbzxdlcQzm1nGd"
+      },
+      {
+        "block_id": "Z6g0dIIByoZg48xYYHdcPVc3njb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import io.milvus.v2.client.ConnectConfig;\nimport io.milvus.v2.client.MilvusClientV2;\nimport io.milvus.v2.service.vector.request.SearchReq\nimport io.milvus.v2.service.vector.request.data.FloatVec;\nimport io.milvus.v2.service.vector.response.SearchResp\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "MilvusClientV2 client ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "= new MilvusClientV2(ConnectConfig.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "builder",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "()\n        .uri(\"http://localhost:19530\")\n        .token(\"root:Milvus\")\n        .build());\n\nFloatVec queryVector = new FloatVec(new float[]{0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f});\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SearchReq searchReq = SearchReq.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "builder",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "()\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        .collectionName(\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "my_collection",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\")\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        .data(Collections.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "singletonList",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(queryVector))\n        .topK(5)\n        .filter(\"color like \\\"red%\\\" and likes > 50\")\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        .outputFields(Arrays.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "asList",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(\"color\", \"likes\"))\n        .build();\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SearchResp searchResp = ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "client",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".search(searchReq);\n\nList<List<SearchResp.SearchResult>> searchResults = searchResp.getSearchResults();\nfor (List<SearchResp.SearchResult> results : searchResults) {\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    System.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "out",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".println(\"TopK results:\");\n    for (SearchResp.SearchResult result : results) {\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        System.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "out",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".println(result);\n    }\n}\n\n// Output\n// TopK results:\n// SearchResp.SearchResult(entity={color=red_4794, likes=122}, score=0.5975797, id=4)\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// SearchResp.SearchResult(entity={color=red_9392, likes=58}, score=-0.24996188, id=6)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "WblMdLwBssA01QbzxdlcQzm1nGd"
+      },
+      {
+        "block_id": "Q5xIdr2J9ohtGJxXUR0cWpGMnUe",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import (\n    \"context\"\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    \"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "fmt",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\"\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    \"github.com/milvus-io/milvus/client/v2/entity\"\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    \"github.com/milvus-io/milvus/client/v2/milvusclient\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n)\n\nctx, cancel := context.WithCancel(context.Background())\ndefer cancel()\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "milvusAddr := \"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "localhost",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ":19530\"\ntoken := \"root:Milvus\"\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "client",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", err := client.New(ctx, &client.ClientConfig{\n    Address: milvusAddr,\n    APIKey:  token,\n})\nif err != nil {\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "fmt.Println(err.Error())\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    // handle error",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n}\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "defer ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "client",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".Close(ctx)\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "queryVector := []",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "float32",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}\n\nresultSets, err := client.Search(ctx, milvusclient.NewSearchOption(\n    \"my_collection\", // collectionName\n    5,               // limit\n    []entity.Vector{entity.FloatVector(queryVector)},\n).WithConsistencyLevel(entity.ClStrong).\n    WithANNSField(\"vector\").\n    WithFilter(\"color like 'red%' and likes > 50\").\n    WithOutputFields(\"color\", \"likes\"))\nif err != nil {\n    fmt.Println(err.Error())\n    // handle error\n}\n\nfor _, resultSet := range resultSets {\n    fmt.Println(\"IDs: \", resultSet.IDs.FieldData().GetScalars())\n    fmt.Println(\"Scores: \", resultSet.Scores)\n    fmt.Println(\"color: \", resultSet.GetColumn(\"color\").FieldData().GetScalars())\n    fmt.Println(\"likes: \", resultSet.GetColumn(\"likes\").FieldData().GetScalars())\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 22,
+            "wrap": false
+          }
+        },
+        "parent_id": "WblMdLwBssA01QbzxdlcQzm1nGd"
+      },
+      {
+        "block_id": "GyIGdS7yrosf80xAKSIcd7EXnGd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import { MilvusClient, DataType } from \"@zilliz/milvus2-sdk-node\";\n\nconst address = \"http://localhost:19530\";\nconst token = \"root:Milvus\";\nconst client = new MilvusClient({address, token});\n\nconst query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]\n\nconst res = await client.search({\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    collection_name: \"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "my_collection",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\",\n    data: [query_vector],\n    limit: 5,\n    // highlight-start\n    filters: 'color like \"red%\" and likes > 50',\n    output_fields: [\"color\", \"likes\"]\n    // highlight-end\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "})",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "parent_id": "WblMdLwBssA01QbzxdlcQzm1nGd"
+      },
+      {
+        "block_id": "O12gd7UaCoN3Xaxvk0LcpSaRnVe",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "export CLUSTER_ENDPOINT=\"http://localhost:19530\"\nexport TOKEN=\"root:Milvus\"\n\ncurl --request POST \\\n--url \"${CLUSTER_ENDPOINT}/v2/vectordb/entities/search\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "--header \"Content-Type: application/json\" \\",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "--header \"Request-Timeout: 10\" \\",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n-d '{\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    \"collectionName\": \"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "my_collection",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\",\n    \"data\": [\n        [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]\n    ],\n    \"annsField\": \"vector\",\n    \"filter\": \"color like \\\"red%\\\" and likes > 50\",\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    \"limit\": ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "5",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ",\n    \"outputFields\": [\"color\", \"likes\"]\n}'\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# {\"code\":0,\"cost\":0,\"data\":[]}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 7,
+            "wrap": false
+          }
+        },
+        "parent_id": "WblMdLwBssA01QbzxdlcQzm1nGd"
+      },
+      {
+        "block_id": "Xxexd1KFFoBbApxh4MOcwCNrnWf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "#include \"milvus/MilvusClientV2.h\"\n\nauto client = milvus::MilvusClientV2::Create();\n\nmilvus::ConnectParam connect_param{\"http://localhost:19530\", \"root:Milvus\"};\nauto status = client->Connect(connect_param);\nif (!status.IsOk()) {\n    std::cout << status.Message() << std::endl;\n}\n\nstd::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};\nauto request = milvus::SearchRequest()\n                   .WithCollectionName(\"my_collection\")\n                   .AddFloatVector(query_vector)\n                   .WithLimit(5)\n                   .WithAnnsField(\"vector\")\n                   .WithFilter(R\"(\"color like \"red%\" and likes > 50\")\")\n                   .AddOutputField(\"color\")\n                   .AddOutputField(\"likes\");\n\nmilvus::SearchResponse response;\nstatus = client->Search(request, response);\nif (!status.IsOk()) {\n    std::cout << status.Message() << std::endl;\n}\n\nfor (auto& result : response.Results().Results()) {\n    std::cout << \"TopK results:\" << std::endl;\n    milvus::EntityRows output_rows;\n    status = result.OutputRows(output_rows);\n    for (const auto& row : output_rows) {\n        std::cout << \"\\t\" << row << std::endl;\n    }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 9,
+            "wrap": false
+          }
+        },
+        "parent_id": "WblMdLwBssA01QbzxdlcQzm1nGd"
+      },
+      {
+        "block_id": "doxcnp97IuOsH28cYyBmJNHTbGg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Zilliz CLI\n# Prerequisite: run zilliz login and select your cluster with zilliz context set.\nzilliz vector search \\\n  --collection my_collection \\\n  --body '{\n  \"data\": [\n    [\n      0.3580376395471989,\n      -0.6023495712049978,\n      0.18414012509913835,\n      -0.26286205330961354,\n      0.9029438446296592\n    ]\n  ],\n  \"annsField\": \"vector\",\n  \"filter\": \"color like \\\"red%\\\" and likes > 50\",\n  \"limit\": 5,\n  \"outputFields\": [\n    \"color\",\n    \"likes\"\n  ]\n}' \\\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "  --output json",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 60,
+            "wrap": false
+          }
+        },
+        "parent_id": "WblMdLwBssA01QbzxdlcQzm1nGd"
+      },
+      {
+        "block_id": "TXE9dAkkhoE2Vdx0d4KcD33TnCc",
+        "block_type": 2,
+        "parent_id": "XHMed32msofjsHxd69NcpG8tnhe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The filtering condition carried in the search request reads ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "color like \"red%\" and likes > 50",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". It uses the and operator to include two conditions: the first one asks for entities that have a value starting with ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "red",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "color",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " field, and the other asks for entities with a value greater than ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "50",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "likes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " field. There are only two entities meeting these requirements. With the top-K set to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "3",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", <include target=\"milvus\">Milvus</include><include target=\"zilliz\">Zilliz Cloud</include> will calculate the distance between these two entities to the query vector and return them as the search results.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "UHpadlGPTskAIcb1ieMcE8mGn1d",
+        "block_type": 49,
+        "children": [
+          "QeEHdjYFuoNxCoxWnxZcNkiAnbh"
+        ],
+        "parent_id": "XHMed32msofjsHxd69NcpG8tnhe",
+        "source_synced": {
+          "align": 1,
+          "elements": [
+            {
+              "text_run": {
+                "content": "同步块",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "block_id": "QeEHdjYFuoNxCoxWnxZcNkiAnbh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "[\n    {\n        \"id\": 4, \n        \"distance\": 0.3345786594834839,\n        \"entity\": {\n            \"vector\": [0.4452349528804562, -0.8757026943054742, 0.8220779437047674, 0.46406290649483184, 0.30337481143159106], \n            \"color\": \"red_4794\", \n            \"likes\": 122\n        }\n    },\n    {\n        \"id\": 6, \n        \"distance\": 0.6638239834383389，\n        \"entity\": {\n            \"vector\": [0.8371977790571115, -0.015764369584852833, -0.31062937026679327, -0.562666951622192, -0.8984947637863987], \n            \"color\": \"red_9392\", \n            \"likes\": 58\n        }\n    },\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "]",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 28,
+            "wrap": false
+          }
+        },
+        "parent_id": "UHpadlGPTskAIcb1ieMcE8mGn1d"
+      },
+      {
+        "block_id": "Z7pYdfvquoUlZ6xGj02ct5Nmnlg",
+        "block_type": 2,
+        "parent_id": "XHMed32msofjsHxd69NcpG8tnhe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For more information on the operators you can use in metadata filtering, refer to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 22,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Filtering Explained",
+                "token": "JyDedHtZSoO8okxbPQMciWQbnWe",
+                "url": "https://zilliverse.feishu.cn/wiki/AIb1wNAE3iiKVSk8MHAcVA4QnJb"
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "ArZhdg2eJokpnNxE2IrcovYmnzd",
+        "block_type": 5,
+        "comment_ids": [
+          "7461955615913459715"
+        ],
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Search with iterative filtering",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7461955615913459715"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "XHMed32msofjsHxd69NcpG8tnhe"
+      },
+      {
+        "block_id": "KUU1dxNV0oMYJCxdaaLcDgWwnFe",
+        "block_type": 2,
+        "parent_id": "XHMed32msofjsHxd69NcpG8tnhe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To conduct a filtered search with iterative filtering, you can do as follows:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VR0fdi7UisqkOcboMiIcFcGpnCn",
+        "block_type": 49,
+        "children": [
+          "GoQJdZazKo8kcxxpYk6cxTrxnth",
+          "ZbPVdOzvooUbxTximqmc2DgEn1c",
+          "LuAidZl81oHdI5xjuJjcciqintf",
+          "LUoEdNJiXoTMi6x5MzncEnTJnCc",
+          "FY7tdwyaZoAVy8xsg8scAM2WnLb",
+          "KuSAdAjTKoHrI9xk7LLcSSfknvd",
+          "doxcnLemeArl2b5leuvjE2nj9bh"
+        ],
+        "parent_id": "XHMed32msofjsHxd69NcpG8tnhe",
+        "source_synced": {
+          "align": 1,
+          "elements": [
+            {
+              "text_run": {
+                "content": "同步块",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "block_id": "GoQJdZazKo8kcxxpYk6cxTrxnth",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import MilvusClient\n\nclient = MilvusClient(\n    uri=\"http://localhost:19530\",\n    token=\"root:Milvus\"\n)\n\nquery_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]\n\nres = client.search(\n    collection_name=\"my_collection\",\n    data=[query_vector],\n    limit=5,\n    # highlight-start\n    filter='color like \"red%\" and likes > 50',\n    output_fields=[\"color\", \"likes\"],\n    search_params={\n        \"hints\": \"iterative_filter\"\n    }\n    # highlight-end\n)\n\nfor hits in res:\n    print(\"TopK results:\")\n    for hit in hits:\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        print(hit)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "VR0fdi7UisqkOcboMiIcFcGpnCn"
+      },
+      {
+        "block_id": "ZbPVdOzvooUbxTximqmc2DgEn1c",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import io.milvus.v2.client.ConnectConfig;\nimport io.milvus.v2.client.MilvusClientV2;\nimport io.milvus.v2.service.vector.request.SearchReq;\nimport io.milvus.v2.service.vector.request.data.FloatVec;\nimport io.milvus.v2.service.vector.response.SearchResp;\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "MilvusClientV2 client ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "= new MilvusClientV2(ConnectConfig.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "builder",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "()\n        .uri(\"http://localhost:19530\")\n        .token(\"root:Milvus\")\n        .build());\n\nFloatVec queryVector = new FloatVec(new float[]{0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f});\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SearchReq searchReq = SearchReq.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "builder",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "()\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        .collectionName(\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "my_collection",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\")\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        .data(Collections.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "singletonList",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(queryVector))\n        .topK(5)\n        .filter(\"color like \\\"red%\\\" and likes > 50\")\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        .outputFields(Arrays.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "asList",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(\"color\", \"likes\"))\n        .searchParams(new HashMap<>(\"hints\", \"iterative_filter\"))\n        .build();\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SearchResp searchResp = ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "client",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".search(searchReq);\n\nList<List<SearchResp.SearchResult>> searchResults = searchResp.getSearchResults();\nfor (List<SearchResp.SearchResult> results : searchResults) {\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    System.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "out",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".println(\"TopK results:\");\n    for (SearchResp.SearchResult result : results) {\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "        System.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "out",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".println(result);\n    }\n}\n\n// Output\n// TopK results:\n// SearchResp.SearchResult(entity={color=red_4794, likes=122}, score=0.5975797, id=4)\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "// SearchResp.SearchResult(entity={color=red_9392, likes=58}, score=-0.24996188, id=6)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 29,
+            "wrap": false
+          }
+        },
+        "parent_id": "VR0fdi7UisqkOcboMiIcFcGpnCn"
+      },
+      {
+        "block_id": "LuAidZl81oHdI5xjuJjcciqintf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import (\n    \"context\"\n    \"fmt\"\n\n    \"github.com/milvus-io/milvus/client/v2/entity\"\n    \"github.com/milvus-io/milvus/client/v2/milvusclient\"\n)\n\nctx, cancel := context.WithCancel(context.Background())\ndefer cancel()\n\nmilvusAddr := \"localhost:19530\"\ntoken := \"root:Milvus\"\n\nclient, err := client.New(ctx, &client.ClientConfig{\n    Address: milvusAddr,\n    APIKey:  token,\n})\nif err != nil {\n    fmt.Println(err.Error())\n    // handle error\n}\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "defer client.Close(ctx)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "queryVector := []",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "float32",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}\n\nresultSets, err := client.Search(ctx, milvusclient.NewSearchOption(\n    \"my_collection\", // collectionName\n    5,               // limit\n    []entity.Vector{entity.FloatVector(queryVector)},\n).WithConsistencyLevel(entity.ClStrong).\n    WithANNSField(\"vector\").\n    WithFilter(\"color like 'red%' and likes > 50\").\n    WithOutputFields(\"color\", \"likes\").\n    WithSearchParam(\"hints\", \"iterative_filter\"))\nif err != nil {\n    fmt.Println(err.Error())\n    // handle error\n}\n\nfor _, resultSet := range resultSets {\n    fmt.Println(\"IDs: \", resultSet.IDs.FieldData().GetScalars())\n    fmt.Println(\"Scores: \", resultSet.Scores)\n    fmt.Println(\"color: \", resultSet.GetColumn(\"color\").FieldData().GetScalars())\n    fmt.Println(\"likes: \", resultSet.GetColumn(\"likes\").FieldData().GetScalars())\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 22,
+            "wrap": false
+          }
+        },
+        "parent_id": "VR0fdi7UisqkOcboMiIcFcGpnCn"
+      },
+      {
+        "block_id": "LUoEdNJiXoTMi6x5MzncEnTJnCc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "import { MilvusClient, DataType } from \"@zilliz/milvus2-sdk-node\";\n\nconst address = \"http://localhost:19530\";\nconst token = \"root:Milvus\";\nconst client = new MilvusClient({address, token});\n\nconst query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]\n\nconst res = await client.search({\n    collection_name: \"filtered_search_collection\",\n    data: [query_vector],\n    limit: 5,\n    // highlight-start\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    filters: 'color like \"red%\" and likes > 50',",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    hints: \"iterative_filter\",",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n    output_fields: [\"color\", \"likes\"]\n    // highlight-end\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "})",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "parent_id": "VR0fdi7UisqkOcboMiIcFcGpnCn"
+      },
+      {
+        "block_id": "FY7tdwyaZoAVy8xsg8scAM2WnLb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "export CLUSTER_ENDPOINT=\"http://localhost:19530\"\nexport TOKEN=\"root:Milvus\"\n\ncurl --request POST \\\n--url \"${CLUSTER_ENDPOINT}/v2/vectordb/entities/search\" \\\n--header \"Authorization: Bearer ${TOKEN}\" \\\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "--header \"Content-Type: application/json\" \\",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "--header \"Request-Timeout: 10\" \\",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n-d '{\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    \"collectionName\": \"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "my_collection",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\",\n    \"data\": [\n        [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]\n    ],\n    \"annsField\": \"vector\",\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    \"filter\": \"color like \\\"red%\\\" and likes > 50\",",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    \"searchParams\": {\"hints\": \"iterative_filter\"},",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "    \"limit\": ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "5",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ",\n    \"outputFields\": [\"color\", \"likes\"]\n}'\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "# {\"code\":0,\"cost\":0,\"data\":[]}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 7,
+            "wrap": false
+          }
+        },
+        "parent_id": "VR0fdi7UisqkOcboMiIcFcGpnCn"
+      },
+      {
+        "block_id": "KuSAdAjTKoHrI9xk7LLcSSfknvd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "#include \"milvus/MilvusClientV2.h\"\n\nauto client = milvus::MilvusClientV2::Create();\n\nmilvus::ConnectParam connect_param{\"http://localhost:19530\", \"root:Milvus\"};\nauto status = client->Connect(connect_param);\nif (!status.IsOk()) {\n    std::cout << status.Message() << std::endl;\n}\n\nstd::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};\nauto request = milvus::SearchRequest()\n                   .WithCollectionName(\"my_collection\")\n                   .AddFloatVector(query_vector)\n                   .WithLimit(5)\n                   .WithAnnsField(\"vector\")\n                   .WithFilter(R\"(\"color like \"red%\" and likes > 50\")\")\n                   .AddExtraParam(\"hints\", \"iterative_filter\")\n                   .AddOutputField(\"color\")\n                   .AddOutputField(\"likes\");\n\nmilvus::SearchResponse response;\nstatus = client->Search(request, response);\nif (!status.IsOk()) {\n    std::cout << status.Message() << std::endl;\n}\n\nfor (auto& result : response.Results().Results()) {\n    std::cout << \"TopK results:\" << std::endl;\n    milvus::EntityRows output_rows;\n    status = result.OutputRows(output_rows);\n    for (const auto& row : output_rows) {\n        std::cout << \"\\t\" << row << std::endl;\n    }\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "}",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 9,
+            "wrap": false
+          }
+        },
+        "parent_id": "VR0fdi7UisqkOcboMiIcFcGpnCn"
+      },
+      {
+        "block_id": "doxcnLemeArl2b5leuvjE2nj9bh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Zilliz CLI\n# Prerequisite: run zilliz login and select your cluster with zilliz context set.\nzilliz vector search \\\n  --collection my_collection \\\n  --body '{\n  \"data\": [\n    [\n      0.3580376395471989,\n      -0.6023495712049978,\n      0.18414012509913835,\n      -0.26286205330961354,\n      0.9029438446296592\n    ]\n  ],\n  \"annsField\": \"vector\",\n  \"filter\": \"color like \\\"red%\\\" and likes > 50\",\n  \"limit\": 5,\n  \"outputFields\": [\n    \"color\",\n    \"likes\"\n  ],\n  \"searchParams\": {\n    \"hints\": \"iterative_filter\"\n  }\n}' \\\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "  --output json",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 60,
+            "wrap": false
+          }
+        },
+        "parent_id": "VR0fdi7UisqkOcboMiIcFcGpnCn"
+      }
+    ],
+    "counts": 49
+  },
+  "name": "Filtered Search",
+  "base_record_id": "recvlPp3B7L5Gj",
+  "base_table_id": "tblWv7PjNDsexddH",
+  "base_table_name": "Development",
+  "base_record_index": 6,
+  "base_placement_type": "canonical",
+  "base_targets": [
+    "Zilliz.SaaS",
+    "Zilliz.PaaS"
+  ],
+  "base_status": "Draft",
+  "base_labels": "Filtered Search",
+  "base_beta": "FALSE",
+  "base_ref_target_doc": null
+}

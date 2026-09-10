@@ -1,0 +1,2854 @@
+{
+  "creator": "ou_e55a208a81fc721928685fc3df9cb678",
+  "has_child": false,
+  "node_create_time": "1762919625",
+  "node_creator": "ou_e55a208a81fc721928685fc3df9cb678",
+  "node_token": "B1cSwfWcri4VJLkCR20cHIs6nCf",
+  "node_type": "origin",
+  "obj_create_time": "1762919625",
+  "obj_edit_time": "1784771132",
+  "obj_token": "YQgdd9MMDoY35Yx2wZ5chOAwn9g",
+  "obj_type": "docx",
+  "origin_node_token": "B1cSwfWcri4VJLkCR20cHIs6nCf",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_e55a208a81fc721928685fc3df9cb678",
+  "parent_node_token": "base:tblb929onfgAPW90",
+  "space_id": "7167193056431783939",
+  "title": "Integrate with Model Providers",
+  "slug": "integrate-with-model-providers",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g",
+        "block_type": 1,
+        "children": [
+          "doxcng8jbRHMty3brF0iA60IJWh",
+          "doxcn0jUQAX2E8bPD0Fbq2YfGMc",
+          "doxcnN2snHDT3YCXxUTVqveBm3f",
+          "doxcnnKzqAUiSlRRFKHj6I1OZKc",
+          "doxcn5C2VjXSF268vplYr9YsbUe",
+          "doxcnutHfPfQCBYzK4k1k7W2qqh",
+          "Z0PAduq1noKAE8xfoGoc0UqTnBI",
+          "UXLOdU4oDo4eq4xE7Z7cA4UqnIh",
+          "VSITdfwtooanwbxprwtcA91nnJc",
+          "doxcnsOcCkIpYwDiyuyJkSuCO0c",
+          "doxcn38ouYFXzREsOeP8s1AFhZd",
+          "XViWdTKb4ouwFJxEeepcSNQInLf",
+          "HR0ydCjbeoLQqoxcLEEcQu3dnHg",
+          "X4O9dWlMVoZXyrxdiFycqfc3nyf",
+          "WDdsdlKC3o9Ahpxyspuck6RFnqg",
+          "Sd6CdDR29oR3NLxNqIScQscKntf",
+          "V5Mbd8344oUFk4xS4P3ctmyWnWh",
+          "doxcnMXECwFEtxtpQB8wGfgxVrb",
+          "doxcn3UC0fzDd4DRZGlXm39afte",
+          "MXcMd4Rn1ocsqnxLhric6Mfon2g",
+          "Qfrud6flEoIqN7xLDLEcMUcUn5c",
+          "doxcndg7P2VRBcxDdtb97kNxA9f",
+          "O1JddscS8oRPA6xqRZvceSG5n1c",
+          "PBzodqdJMoo542xfMfyc8azSnyU",
+          "Qe3NdSbpooJGj4xHi9ncO6rjnAg",
+          "QkxLd8LeooN6QsxuHtpcuZJAnVd",
+          "Qn0odHbm9owkmDx8SSacagjsnth",
+          "AjZddqfVvoxepRxE9tPctDhHnFb",
+          "T2kFdMovXoTeptxdY7DcuDuGnag",
+          "RYSAdAA9XojPNBxd0fqcZt42nEg",
+          "GEmrdbwqho2rTsxKOiqc0S9xnCf",
+          "G9lfdVsFhoNYUix7QBnceiHpnVe",
+          "doxcnWXcg7C045qbm0EL5QTtZib",
+          "doxcnZ6en5iKvFn11ECpQcjZ6dc",
+          "M3Bod9i9yoVDvxxQuAqceVN7nsg",
+          "doxcntgR8eDYIripaF88nmbB2pw",
+          "doxcn3XlCmkIb2axvUwECNGz7Kh",
+          "doxcnqzesKbuOU2XMGIigAZwWJh",
+          "doxcnT1grXMCMAjL4S4InT7LsUf",
+          "doxcnCw84S9pffSXXvANeD12Lzf",
+          "doxcnwAsO6HQD5qeX3r6GU4pfhd",
+          "doxcnjPVRpCQKG6c9qt4HeSczj8",
+          "doxcnnFKyQ2Lh8Z0tcS8SPEO4fh"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Integrate with Model Providers",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "doxcng8jbRHMty3brF0iA60IJWh",
+        "block_type": 2,
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "A text embedding or reranking model hosted by an external provider cannot be called from Zilliz Cloud until the provider can authenticate requests from your project. A ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "model provider integration",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " stores the provider-issued credential at the project level and gives Zilliz Cloud an integration ID that text embedding and reranking features can reference. This avoids placing credentials in individual Function or Ranker configurations.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn0jUQAX2E8bPD0Fbq2YfGMc",
+        "block_type": 19,
+        "callout": {
+          "background_color": 5,
+          "border_color": 5,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "doxcnW5wD2vRMzy0SA0ycvMzuWb",
+          "doxcnlHbDsoUnOMAaLSEJiVMMQh"
+        ],
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g"
+      },
+      {
+        "block_id": "doxcnW5wD2vRMzy0SA0ycvMzuWb",
+        "block_type": 2,
+        "parent_id": "doxcn0jUQAX2E8bPD0Fbq2YfGMc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnlHbDsoUnOMAaLSEJiVMMQh",
+        "block_type": 2,
+        "parent_id": "doxcn0jUQAX2E8bPD0Fbq2YfGMc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Creating a model provider integration does not incur charges. The external provider may charge for model inference, and sending data to the provider may incur ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "data transfer costs",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https://zilliverse.feishu.cn/wiki/BClgwKlHaiushBkPPssclTkYnef"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnN2snHDT3YCXxUTVqveBm3f",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Supported model providers",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g"
+      },
+      {
+        "block_id": "doxcnnKzqAUiSlRRFKHj6I1OZKc",
+        "block_type": 2,
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The following model providers can be integrated with Zilliz Cloud:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn5C2VjXSF268vplYr9YsbUe",
+        "block_type": 31,
+        "children": [
+          "doxcnirZVG3O540S70YrwS4hMpg",
+          "doxcnPZGjkVvgDp1U7TbO7jzJW1",
+          "doxcnEeR76tgeY38Y0oopFrRMKV",
+          "doxcnPQcQ4TE66lbogrfqg2uwgd",
+          "doxcnwZgPgIgXbDztb7niKTCEpb",
+          "doxcnRw7m7313kLFC7mhcDjwHuc",
+          "doxcnJe2z5pGnxYQhTaVUEBFIrf",
+          "doxcndKP8XtGEcF6NY6bfHv3q7d",
+          "doxcneSSCKxFHl7VMjLin9EU2Ug",
+          "doxcnLFykzn3HUAON2Ksxipv0HX",
+          "doxcngBOMzbCx6MKsgO8doYTNEc",
+          "doxcnRRpqtdZKXgnCALaXi0lmje",
+          "doxcnU1klQ0UjroPRlh3mC7KzNd",
+          "doxcnwmdpf0LMLwe3PcFxo5f4ie",
+          "doxcnwrHu9CNr9viNY541sgx3j9"
+        ],
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g",
+        "table": {
+          "cells": [
+            "doxcnirZVG3O540S70YrwS4hMpg",
+            "doxcnPZGjkVvgDp1U7TbO7jzJW1",
+            "doxcnEeR76tgeY38Y0oopFrRMKV",
+            "doxcnPQcQ4TE66lbogrfqg2uwgd",
+            "doxcnwZgPgIgXbDztb7niKTCEpb",
+            "doxcnRw7m7313kLFC7mhcDjwHuc",
+            "doxcnJe2z5pGnxYQhTaVUEBFIrf",
+            "doxcndKP8XtGEcF6NY6bfHv3q7d",
+            "doxcneSSCKxFHl7VMjLin9EU2Ug",
+            "doxcnLFykzn3HUAON2Ksxipv0HX",
+            "doxcngBOMzbCx6MKsgO8doYTNEc",
+            "doxcnRRpqtdZKXgnCALaXi0lmje",
+            "doxcnU1klQ0UjroPRlh3mC7KzNd",
+            "doxcnwmdpf0LMLwe3PcFxo5f4ie",
+            "doxcnwrHu9CNr9viNY541sgx3j9"
+          ],
+          "property": {
+            "column_size": 3,
+            "column_width": [
+              118,
+              310,
+              310
+            ],
+            "header_row": true,
+            "merge_info": [
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              }
+            ],
+            "row_size": 5
+          }
+        }
+      },
+      {
+        "block_id": "doxcnirZVG3O540S70YrwS4hMpg",
+        "block_type": 32,
+        "children": [
+          "doxcnZ6Zpr83aOr7GSnUPlj2Rxd"
+        ],
+        "parent_id": "doxcn5C2VjXSF268vplYr9YsbUe",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnZ6Zpr83aOr7GSnUPlj2Rxd",
+        "block_type": 2,
+        "parent_id": "doxcnirZVG3O540S70YrwS4hMpg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Model provider",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnPZGjkVvgDp1U7TbO7jzJW1",
+        "block_type": 32,
+        "children": [
+          "doxcn2itOiiD0SjYVFiovVmmOjh"
+        ],
+        "parent_id": "doxcn5C2VjXSF268vplYr9YsbUe",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcn2itOiiD0SjYVFiovVmmOjh",
+        "block_type": 2,
+        "parent_id": "doxcnPZGjkVvgDp1U7TbO7jzJW1",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Supported Zilliz Cloud features",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnEeR76tgeY38Y0oopFrRMKV",
+        "block_type": 32,
+        "children": [
+          "doxcnNA8rV3mQf0go1KVqfK6jSf"
+        ],
+        "parent_id": "doxcn5C2VjXSF268vplYr9YsbUe",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnNA8rV3mQf0go1KVqfK6jSf",
+        "block_type": 2,
+        "parent_id": "doxcnEeR76tgeY38Y0oopFrRMKV",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Required credential",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnPQcQ4TE66lbogrfqg2uwgd",
+        "block_type": 32,
+        "children": [
+          "doxcnkon232cN2sUE6flp6EURoc"
+        ],
+        "parent_id": "doxcn5C2VjXSF268vplYr9YsbUe",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnkon232cN2sUE6flp6EURoc",
+        "block_type": 2,
+        "parent_id": "doxcnPQcQ4TE66lbogrfqg2uwgd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "OpenAI",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnwZgPgIgXbDztb7niKTCEpb",
+        "block_type": 32,
+        "children": [
+          "doxcnBz58cTYlOkZvnPlMlkBXBt"
+        ],
+        "parent_id": "doxcn5C2VjXSF268vplYr9YsbUe",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnBz58cTYlOkZvnPlMlkBXBt",
+        "block_type": 2,
+        "parent_id": "doxcnwZgPgIgXbDztb7niKTCEpb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Text Embedding Function",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnRw7m7313kLFC7mhcDjwHuc",
+        "block_type": 32,
+        "children": [
+          "doxcn82IXmKQM31hovfE6Y38Zmf"
+        ],
+        "parent_id": "doxcn5C2VjXSF268vplYr9YsbUe",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcn82IXmKQM31hovfE6Y38Zmf",
+        "block_type": 2,
+        "parent_id": "doxcnRw7m7313kLFC7mhcDjwHuc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "API key. To obtain one, see the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "OpenAI API quickstart",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https://developers.openai.com/api/docs/quickstart#create-and-export-an-api-key"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnJe2z5pGnxYQhTaVUEBFIrf",
+        "block_type": 32,
+        "children": [
+          "doxcnMMSfyupcn4ixTk2M6wY60f"
+        ],
+        "parent_id": "doxcn5C2VjXSF268vplYr9YsbUe",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnMMSfyupcn4ixTk2M6wY60f",
+        "block_type": 2,
+        "parent_id": "doxcnJe2z5pGnxYQhTaVUEBFIrf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Cohere",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcndKP8XtGEcF6NY6bfHv3q7d",
+        "block_type": 32,
+        "children": [
+          "doxcnTZl7uRq0XAluSGFhdGhZFf"
+        ],
+        "parent_id": "doxcn5C2VjXSF268vplYr9YsbUe",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnTZl7uRq0XAluSGFhdGhZFf",
+        "block_type": 2,
+        "parent_id": "doxcndKP8XtGEcF6NY6bfHv3q7d",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Text Embedding Function and model-based Ranker",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcneSSCKxFHl7VMjLin9EU2Ug",
+        "block_type": 32,
+        "children": [
+          "doxcnl7SsMOXaSJpvxaqCYyvRbf"
+        ],
+        "parent_id": "doxcn5C2VjXSF268vplYr9YsbUe",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnl7SsMOXaSJpvxaqCYyvRbf",
+        "block_type": 2,
+        "parent_id": "doxcneSSCKxFHl7VMjLin9EU2Ug",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "API key. To obtain one, see ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API Keys and Rate Limits",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https://docs.cohere.com/docs/rate-limits"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnLFykzn3HUAON2Ksxipv0HX",
+        "block_type": 32,
+        "children": [
+          "doxcnH5qc1dqWWl8DrvrH6yFzNe"
+        ],
+        "parent_id": "doxcn5C2VjXSF268vplYr9YsbUe",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnH5qc1dqWWl8DrvrH6yFzNe",
+        "block_type": 2,
+        "parent_id": "doxcnLFykzn3HUAON2Ksxipv0HX",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Voyage AI",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcngBOMzbCx6MKsgO8doYTNEc",
+        "block_type": 32,
+        "children": [
+          "doxcn9QokyF5tQFVglO2dBBrddb"
+        ],
+        "parent_id": "doxcn5C2VjXSF268vplYr9YsbUe",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcn9QokyF5tQFVglO2dBBrddb",
+        "block_type": 2,
+        "parent_id": "doxcngBOMzbCx6MKsgO8doYTNEc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Text Embedding Function and model-based Ranker",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnRRpqtdZKXgnCALaXi0lmje",
+        "block_type": 32,
+        "children": [
+          "doxcn8LfTdUMuxhysvRPqM5c8Ng"
+        ],
+        "parent_id": "doxcn5C2VjXSF268vplYr9YsbUe",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcn8LfTdUMuxhysvRPqM5c8Ng",
+        "block_type": 2,
+        "parent_id": "doxcnRRpqtdZKXgnCALaXi0lmje",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "API key. To obtain one, see ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "API Key and Python Client",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https://docs.voyageai.com/docs/api-key-and-installation"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnU1klQ0UjroPRlh3mC7KzNd",
+        "block_type": 32,
+        "children": [
+          "doxcne9KGpNd16WjJ2xmZnFmhbh"
+        ],
+        "parent_id": "doxcn5C2VjXSF268vplYr9YsbUe",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcne9KGpNd16WjJ2xmZnFmhbh",
+        "block_type": 2,
+        "parent_id": "doxcnU1klQ0UjroPRlh3mC7KzNd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Hugging Face",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnwmdpf0LMLwe3PcFxo5f4ie",
+        "block_type": 32,
+        "children": [
+          "doxcnt0oH6CGdiqHuac2aMx4XPd"
+        ],
+        "parent_id": "doxcn5C2VjXSF268vplYr9YsbUe",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnt0oH6CGdiqHuac2aMx4XPd",
+        "block_type": 2,
+        "parent_id": "doxcnwmdpf0LMLwe3PcFxo5f4ie",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Text Embedding Function",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FETsNwO7T0iR5GDkvuMxcJG7JnIb"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Hugging Face Ranker",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FP4UywHFH2iDFJWk2kwwcs22SnRc"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnwrHu9CNr9viNY541sgx3j9",
+        "block_type": 32,
+        "children": [
+          "doxcnnRE6d3qiLbm7rZossUxOBf"
+        ],
+        "parent_id": "doxcn5C2VjXSF268vplYr9YsbUe",
+        "table_cell": {}
+      },
+      {
+        "block_id": "doxcnnRE6d3qiLbm7rZossUxOBf",
+        "block_type": 2,
+        "parent_id": "doxcnwrHu9CNr9viNY541sgx3j9",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "User Access Token with ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Make calls to Inference Providers",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " permission. To obtain one, see ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "User Access Tokens",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https://huggingface.co/docs/hub/en/security-tokens"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnutHfPfQCBYzK4k1k7W2qqh",
+        "block_type": 19,
+        "callout": {
+          "background_color": 5,
+          "border_color": 5,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "doxcn1yv4w3vfidsXecfqYfPy1b",
+          "doxcnZA8bRBaV7Q2NylBv2T2iaf"
+        ],
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g"
+      },
+      {
+        "block_id": "doxcn1yv4w3vfidsXecfqYfPy1b",
+        "block_type": 2,
+        "parent_id": "doxcnutHfPfQCBYzK4k1k7W2qqh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnZA8bRBaV7Q2NylBv2T2iaf",
+        "block_type": 2,
+        "parent_id": "doxcnutHfPfQCBYzK4k1k7W2qqh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "When selecting a model from an external provider, verify that the provider currently serves the model for the required task. Model availability, task support, stability, latency, and output quality depend on the provider and selected model. Evaluate these properties for your workload before using the model in production.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Z0PAduq1noKAE8xfoGoc0UqTnBI",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Before you start",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g"
+      },
+      {
+        "block_id": "UXLOdU4oDo4eq4xE7Z7cA4UqnIh",
+        "block_type": 2,
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Before creating a model provider integration, make sure that:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VSITdfwtooanwbxprwtcA91nnJc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You have ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Organization Owner",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Project Admin",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " permissions for the target Zilliz Cloud project. If you do not have sufficient permissions, contact your Zilliz Cloud Organization Owner.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g"
+      },
+      {
+        "block_id": "doxcnsOcCkIpYwDiyuyJkSuCO0c",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You have the credential required by the selected model provider. See ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Supported model providers",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https://zilliverse.feishu.cn/wiki/B1cSwfWcri4VJLkCR20cHIs6nCf#supported-model-providers"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g"
+      },
+      {
+        "block_id": "doxcn38ouYFXzREsOeP8s1AFhZd",
+        "block_type": 4,
+        "comment_ids": [
+          "7662954359117892564"
+        ],
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Create an integration in the Zilliz Cloud console",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7662954359117892564"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g"
+      },
+      {
+        "add_ons": {
+          "component_id": "",
+          "component_type_id": "blk_682093ba9580c002363b9dc3",
+          "record": "{\"id\":\"cmj9f3j6u0johf6zpk5kdyx3u\",\"isShowcase\":false}"
+        },
+        "block_id": "XViWdTKb4ouwFJxEeepcSNQInLf",
+        "block_type": 40,
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g"
+      },
+      {
+        "block_id": "HR0ydCjbeoLQqoxcLEEcQu3dnHg",
+        "block_type": 2,
+        "comment_ids": [
+          "7662965410388397009"
+        ],
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "To create a model provider integration:",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7662965410388397009"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "X4O9dWlMVoZXyrxdiFycqfc3nyf",
+        "block_type": 2,
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<Procedures>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WDdsdlKC3o9Ahpxyspuck6RFnqg",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Log in to the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Zilliz Cloud console",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fcloud.zilliz.com%2Flogin"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false,
+            "sequence": "1"
+          }
+        },
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g"
+      },
+      {
+        "block_id": "Sd6CdDR29oR3NLxNqIScQscKntf",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "On your project page, navigate to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Integrations",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " from the left-side navigation pane.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false,
+            "sequence": "auto"
+          }
+        },
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g"
+      },
+      {
+        "block_id": "V5Mbd8344oUFk4xS4P3ctmyWnWh",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Under the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Model Providers",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " section, click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "+ Integration",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false,
+            "sequence": "auto"
+          }
+        },
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g"
+      },
+      {
+        "block_id": "doxcnMXECwFEtxtpQB8wGfgxVrb",
+        "block_type": 13,
+        "children": [
+          "doxcniqqnITxNXZyXXLDCKG83Nd",
+          "doxcn1WRN4JXQCyWHzXtySGfzxe",
+          "doxcnFG1kdAnUEBa3wQ4DcxkM7b",
+          "doxcnjXktjWvnvkocKJvb4q2EVb"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In the dialog box that appears, configure ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Basic Settings",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ":",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false,
+            "sequence": "auto"
+          }
+        },
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g"
+      },
+      {
+        "block_id": "doxcniqqnITxNXZyXXLDCKG83Nd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Model Provider",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Select the model provider to integrate with.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "doxcnMXECwFEtxtpQB8wGfgxVrb"
+      },
+      {
+        "block_id": "doxcn1WRN4JXQCyWHzXtySGfzxe",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Integration Name",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": A unique name for this integration (e.g., ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "test",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ").",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "doxcnMXECwFEtxtpQB8wGfgxVrb"
+      },
+      {
+        "block_id": "doxcnFG1kdAnUEBa3wQ4DcxkM7b",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Integration Description",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(optional)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": A description for this integration (e.g., ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "for model provider",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ").",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "doxcnMXECwFEtxtpQB8wGfgxVrb"
+      },
+      {
+        "block_id": "doxcnjXktjWvnvkocKJvb4q2EVb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Provider",
+                "text_element_style": {
+                  "bold": true,
+                  "comment_ids": [
+                    "7665186709486750695"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7665186709486750695"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "(Hugging Face only)",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": true,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ": Keep the default value, ",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7665186709486750695"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "hf-inference",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7665186709486750695"
+                  ],
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". Hugging Face Text Embedding and Hugging Face Ranker currently support only this Inference Provider.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7665186709486750695"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "comment_ids": [
+          "7665186709486750695"
+        ],
+        "parent_id": "doxcnMXECwFEtxtpQB8wGfgxVrb"
+      },
+      {
+        "block_id": "doxcn3UC0fzDd4DRZGlXm39afte",
+        "block_type": 13,
+        "children": [
+          "doxcndmYGT8IExx90IfZeVlVxdb",
+          "doxcn25R8kXhV8GBcfJfqwyA1Ch"
+        ],
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Next",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". You'll be redirected to the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Credential Information",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " step:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false,
+            "sequence": "auto"
+          }
+        },
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g"
+      },
+      {
+        "block_id": "doxcndmYGT8IExx90IfZeVlVxdb",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Enter the credential required by the selected model provider. For Hugging Face, enter your User Access Token in the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Hugging Face Access Token",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " field.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false,
+            "sequence": "1"
+          }
+        },
+        "parent_id": "doxcn3UC0fzDd4DRZGlXm39afte"
+      },
+      {
+        "block_id": "doxcn25R8kXhV8GBcfJfqwyA1Ch",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Validate Integration",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to check the connection. Once its status changes to Successful, proceed to the next step.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false,
+            "sequence": "auto"
+          }
+        },
+        "parent_id": "doxcn3UC0fzDd4DRZGlXm39afte"
+      },
+      {
+        "block_id": "MXcMd4Rn1ocsqnxLhric6Mfon2g",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Click ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Add",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false,
+            "sequence": "auto"
+          }
+        },
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g"
+      },
+      {
+        "block_id": "Qfrud6flEoIqN7xLDLEcMUcUn5c",
+        "block_type": 2,
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "</Procedures>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcndg7P2VRBcxDdtb97kNxA9f",
+        "block_type": 2,
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Once created, the integration becomes available for use by model-based functions and rankers.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "O1JddscS8oRPA6xqRZvceSG5n1c",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Manage integrations",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g"
+      },
+      {
+        "block_id": "PBzodqdJMoo542xfMfyc8azSnyU",
+        "block_type": 2,
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "After an integration is created, you can manage it from the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Integrations",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " page:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Qe3NdSbpooJGj4xHi9ncO6rjnAg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Obtain your integration ID",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "doxcnCaP72yxFDE0gW54J3M1QYN"
+        ],
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g"
+      },
+      {
+        "block_id": "doxcnCaP72yxFDE0gW54J3M1QYN",
+        "block_type": 2,
+        "parent_id": "Qe3NdSbpooJGj4xHi9ncO6rjnAg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The integration ID is required when a Text Embedding Function or model-based Ranker uses the integration.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QkxLd8LeooN6QsxuHtpcuZJAnVd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "View integration details",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g"
+      },
+      {
+        "block_id": "Qn0odHbm9owkmDx8SSacagjsnth",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Edit the integration name or description",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g"
+      },
+      {
+        "block_id": "AjZddqfVvoxepRxE9tPctDhHnFb",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Remove the integration when it is no longer needed",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g"
+      },
+      {
+        "block_id": "T2kFdMovXoTeptxdY7DcuDuGnag",
+        "block_type": 19,
+        "callout": {
+          "background_color": 2,
+          "border_color": 2,
+          "emoji_id": "blue_book"
+        },
+        "children": [
+          "Dqbhd9DGiowVFlxig0TcEsGEn5g",
+          "WkjOdO8ProPB9UxxreWc8tXZnle"
+        ],
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g"
+      },
+      {
+        "block_id": "Dqbhd9DGiowVFlxig0TcEsGEn5g",
+        "block_type": 2,
+        "parent_id": "T2kFdMovXoTeptxdY7DcuDuGnag",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WkjOdO8ProPB9UxxreWc8tXZnle",
+        "block_type": 2,
+        "parent_id": "T2kFdMovXoTeptxdY7DcuDuGnag",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If an integration is removed or becomes invalid, collections or rankers that reference it may fail during insert or search operations until the integration is updated or replaced.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "add_ons": {
+          "component_id": "",
+          "component_type_id": "blk_682093ba9580c002363b9dc3",
+          "record": "{\"id\":\"cmjcjqyk3017cw10i8dbm2ret\",\"isShowcase\":true}"
+        },
+        "block_id": "RYSAdAA9XojPNBxd0fqcZt42nEg",
+        "block_type": 40,
+        "comment_ids": [
+          "7662954685187296184"
+        ],
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g"
+      },
+      {
+        "block_id": "GEmrdbwqho2rTsxKOiqc0S9xnCf",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Next steps",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g"
+      },
+      {
+        "block_id": "G9lfdVsFhoNYUix7QBnceiHpnVe",
+        "block_type": 2,
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "After creating a model provider integration, you can:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnWXcg7C045qbm0EL5QTtZib",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Use it with a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Text Embedding Function",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to convert text into dense vectors.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g"
+      },
+      {
+        "block_id": "doxcnZ6en5iKvFn11ECpQcjZ6dc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Use a model-based Ranker to rerank search results.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g"
+      },
+      {
+        "block_id": "M3Bod9i9yoVDvxxQuAqceVN7nsg",
+        "block_type": 2,
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For detailed instructions, refer to:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcntgR8eDYIripaF88nmbB2pw",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Function Overview",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https://zilliverse.feishu.cn/wiki/V7xfwDariioU5GkcmfXctzSEnyc"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g"
+      },
+      {
+        "block_id": "doxcn3XlCmkIb2axvUwECNGz7Kh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "OpenAI",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https://zilliverse.feishu.cn/wiki/IrQ2wm2oaiAWl4kqQhkc303Rnlg"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g"
+      },
+      {
+        "block_id": "doxcnqzesKbuOU2XMGIigAZwWJh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Cohere",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https://zilliverse.feishu.cn/wiki/WVaVw8J7UiYZ52kaqVUcktqAnAf"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g"
+      },
+      {
+        "block_id": "doxcnT1grXMCMAjL4S4InT7LsUf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Voyage AI",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https://zilliverse.feishu.cn/wiki/P4KNwDdqaivEZFk7RpOcYeyhn2N"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g"
+      },
+      {
+        "block_id": "doxcnCw84S9pffSXXvANeD12Lzf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Hugging Face",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https://zilliverse.feishu.cn/wiki/ETsNwO7T0iR5GDkvuMxcJG7JnIb"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g"
+      },
+      {
+        "block_id": "doxcnwAsO6HQD5qeX3r6GU4pfhd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Hugging Face Ranker",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https://zilliverse.feishu.cn/docx/NTH2d1EppoTxxExRvEicVYCRnfb"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g"
+      },
+      {
+        "block_id": "doxcnjPVRpCQKG6c9qt4HeSczj8",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Cohere Ranker",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https://zilliverse.feishu.cn/wiki/Mtxfwvu2fiOLwXkcURCcJxDPnLd"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g"
+      },
+      {
+        "block_id": "doxcnnFKyQ2Lh8Z0tcS8SPEO4fh",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Voyage AI Ranker",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https://zilliverse.feishu.cn/wiki/PpGlwYU6PiSsfVkZ7doco50vnKg"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "YQgdd9MMDoY35Yx2wZ5chOAwn9g"
+      }
+    ],
+    "counts": 87
+  },
+  "name": "Integrate with Model Providers",
+  "base_record_id": "recvlW61fR9it6",
+  "base_table_id": "tblb929onfgAPW90",
+  "base_table_name": "AI Models",
+  "base_record_index": 0,
+  "base_placement_type": "canonical",
+  "base_targets": [
+    "Zilliz.SaaS"
+  ],
+  "base_status": "Draft",
+  "base_labels": "Model Providers",
+  "base_beta": "FALSE",
+  "base_ref_target_doc": null
+}

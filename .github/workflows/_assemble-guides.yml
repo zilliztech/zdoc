@@ -16,6 +16,7 @@ on:
       cache_version: { required: true, type: string }
       cache_save_required: { required: true, type: string }
       assembly_decision_sha256: { required: true, type: string }
+      requested_mode: { required: false, type: boolean, default: false }
       artifact_retention_days: { required: false, type: number, default: 3 }
     outputs:
       status: { value: '${{ jobs.assemble.outputs.status }}' }
@@ -121,6 +122,14 @@ jobs:
           node scripts/docs-workflow/restore-guides-table-artifacts.js --matrix-file "$RUNNER_TEMP/guides-table-matrix.json" --artifacts-root "$RUNNER_TEMP/table-artifacts" --target "$GITHUB_WORKSPACE" --source-artifact-sha256 "$source_sha"
         env:
           MATRIX_JSON: ${{ inputs.table_matrix }}
+      - name: Authenticate requested plan and state merge
+        if: ${{ inputs.requested_mode }}
+        run: |
+          node scripts/docs-workflow/guides-assembly-identity.js validate-requested \
+            --repository-root "$GITHUB_WORKSPACE" \
+            --requested-plan packages/docs-tooling/src/lark/meta/reports/guides-requested-fetch-plan.json \
+            --state-merge-receipt packages/docs-tooling/src/lark/meta/reports/guides-requested-fetch-plan-state-merge.json \
+            --candidate-snapshot packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json
       - id: assembly_decision
         name: Validate Guides assembly decision
         run: |
@@ -180,6 +189,20 @@ jobs:
           node scripts/validate-guides-coverage.js --site "$ZDOC_SITE"
           node scripts/validate-generated-sidebars.js --site "$ZDOC_SITE"
           node scripts/run-doc-build-stage.js --build "$ZDOC_BUILD_COMMAND" --skipLinkChecks --skipCardReporting
+      - name: Validate requested checkpoint scope
+        if: ${{ inputs.requested_mode }}
+        run: |
+          set -euo pipefail
+          table_artifacts=$(find "$RUNNER_TEMP/table-artifacts" -mindepth 1 -maxdepth 1 -type d -print0 | sort -z | paste -zd, -)
+          [[ -n "$table_artifacts" ]] || { echo 'Requested scope validation requires restored table artifacts' >&2; exit 1; }
+          node scripts/docs-workflow/guides-requested-scope.js check \
+            --site "${{ inputs.site }}" \
+            --baseline-root "$RUNNER_TEMP/baseline" \
+            --candidate-root "$GITHUB_WORKSPACE" \
+            --plan packages/docs-tooling/src/lark/meta/reports/guides-requested-fetch-plan.json \
+            --state-merge-receipt packages/docs-tooling/src/lark/meta/reports/guides-requested-fetch-plan-state-merge.json \
+            --table-artifacts "$table_artifacts" \
+            --output packages/docs-tooling/src/lark/meta/reports/guides-requested-scope.json
       - name: Finalize Guides assembly identity
         run: |
           decision=packages/docs-tooling/src/lark/meta/reports/guides-assembly-decision.json
@@ -216,6 +239,7 @@ jobs:
             --output packages/docs-tooling/src/lark/meta/reports/guides-assembly-result.json
       - id: promoted_snapshot
         name: Select promoted Guides source snapshot
+        if: ${{ inputs.requested_mode != true }}
         run: |
           candidate=packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json
           snapshot="$snapshot_path"
@@ -241,6 +265,7 @@ jobs:
           echo "selection=$selected" >> "$GITHUB_OUTPUT"
       - id: promoted_source_manifest
         name: Prepare promoted Guides source manifest
+        if: ${{ inputs.requested_mode != true }}
         run: |
           mkdir -p packages/docs-tooling/src/lark/meta/source-cache
           snapshot="$snapshot_path"
@@ -270,7 +295,7 @@ jobs:
           path: tmp/guides-source-cache-v5
           key: ${{ steps.guides_v5_generation.outputs.key }}
       - name: Record Guides cache generation persistence
-        if: ${{ always() }}
+        if: ${{ always() && inputs.requested_mode != true }}
         run: |
           node scripts/docs-workflow/guides-cache-generation-lifecycle.js report \
             --cache-version "${{ inputs.cache_version }}" \

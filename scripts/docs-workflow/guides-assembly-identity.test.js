@@ -805,3 +805,56 @@ test('CLI emits the canonical decision hash and writes a validated runtime resul
     assert.equal(JSON.parse(fs.readFileSync(path.join(f.root, 'outputs/result.json'), 'utf8')).mode, 'reuse_observed')
   } finally { cleanup(f) }
 })
+
+test('validateRequestedAssemblyInputs authenticates requested plans, receipts, and candidates', () => {
+  const {
+    requestedPlanIdentityHash,
+    requestedStateMergeReceiptHash,
+  } = require('../../packages/docs-tooling/src/lark/requestedGuidesFetchPlanner')
+  const { validateRequestedAssemblyInputs } = require('./guides-assembly-identity')
+
+  const plan = {
+    schema_version: 1,
+    manual: 'guides',
+    site: 'en',
+    mode: 'incremental',
+    selection_mode: 'requested',
+    requested_tokens: ['doc-a'],
+    linked_tokens: [],
+    table_refresh_tokens: [],
+    expanded_tokens: ['doc-a'],
+    affected_tables: ['tbl-1'],
+    table_rebuilds: [{
+      table_id: 'tbl-1',
+      scope: 'full-table',
+      reasons: ['requested document'],
+      current_targets: ['zilliz.paas', 'zilliz.saas'],
+      previous_targets: ['zilliz.paas', 'zilliz.saas'],
+      cleanup: false,
+    }],
+    scope_conflicts: [],
+  }
+  plan.plan_sha256 = requestedPlanIdentityHash(plan)
+  const receipt = {
+    schema_version: 1,
+    manual: 'guides',
+    plan_sha256: plan.plan_sha256,
+    state_promotion: 'none',
+    source_completeness: { complete: true },
+  }
+  receipt.receipt_sha256 = requestedStateMergeReceiptHash(receipt)
+  const candidate = { manual: 'guides', schema_version: 3, records: [] }
+
+  const result = validateRequestedAssemblyInputs({ plan, receipt, candidateSnapshot: candidate })
+  assert.equal(result.plan_sha256, plan.plan_sha256)
+  assert.equal(result.selection_mode, 'requested')
+
+  assert.throws(
+    () => validateRequestedAssemblyInputs({ plan: { ...plan, scope_conflicts: [{ kind: 'record_changed_outside_scope' }] }, receipt, candidateSnapshot: candidate }),
+    /conflict-free/,
+  )
+  assert.throws(
+    () => validateRequestedAssemblyInputs({ plan, receipt: { ...receipt, plan_sha256: 'x'.repeat(64) }, candidateSnapshot: candidate }),
+    /receipt plan hash does not match the plan/,
+  )
+})

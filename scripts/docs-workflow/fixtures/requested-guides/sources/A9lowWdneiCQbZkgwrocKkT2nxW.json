@@ -1,0 +1,1144 @@
+{
+  "creator": "ou_e55a208a81fc721928685fc3df9cb678",
+  "has_child": false,
+  "node_create_time": "1782116507",
+  "node_creator": "ou_e55a208a81fc721928685fc3df9cb678",
+  "node_token": "A9lowWdneiCQbZkgwrocKkT2nxW",
+  "node_type": "origin",
+  "obj_create_time": "1782116507",
+  "obj_edit_time": "1785997817",
+  "obj_token": "NGnLd0n7ToK4J9xwgCEcFdZQnWe",
+  "obj_type": "docx",
+  "origin_node_token": "A9lowWdneiCQbZkgwrocKkT2nxW",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_e55a208a81fc721928685fc3df9cb678",
+  "parent_node_token": "base:tblWv7PjNDsexddH:recvlPny7w8bvX",
+  "space_id": "7167193056431783939",
+  "title": "Alter External Collection Schema",
+  "slug": "alter-external-collection-schema",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "NGnLd0n7ToK4J9xwgCEcFdZQnWe",
+        "block_type": 1,
+        "children": [
+          "doxcn2TJz2PzsZeXh58VXertwue",
+          "doxcn8n1TMLnpSRjYWApMTZf1sg",
+          "doxcnza5SEH1b6tXBhsjJMIofqd",
+          "doxcn5uu5nF3M4A08ZAEuRrX45u",
+          "doxcn4Awor17sCULmreO8w1cGBc",
+          "doxcn4Pl76RdprijTWfbRcIVsvg",
+          "doxcn2S0faPO1563UEoLHLRNhsf",
+          "doxcnWX8LGg2HA5dVv4pNbzY03g",
+          "doxcn21DBp9SDhfMznjB3Cpib7g",
+          "doxcnatQKKFQ6BpEbILKHQuPu8g",
+          "doxcnEKuEZMpa0udTw9wjIkehJg",
+          "doxcnU1P92f8xQJHoFSIg1dNnMd",
+          "QP5fdmjths3juxbuubjcdsjAnsc",
+          "doxcn1LMebvtUzXzRoq8dsCw7Qe",
+          "doxcn5PsVCD1fqoPr61rEIEHkve",
+          "doxcn56SJB43y3NjVGKKFqSNT1d",
+          "doxcntSgiBbYMzoFzZstrgdCrZb",
+          "XmordnVwMs9SWzbFFkCc9f4Snrd",
+          "doxcnx8MAGyiWhRxGH7Wr8zmDwg",
+          "L88wdH4PDsL5subf0Vsc4oUQn6q",
+          "doxcnyJD5BuK8hOYzSVxdTOqpPj",
+          "doxcnCvCKXHeW1mqvnrPhkVWZUd",
+          "WZZNdbdlNssENsb8HqRcFiQKnfg"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Alter External Collection Schema",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "doxcn2TJz2PzsZeXh58VXertwue",
+        "block_type": 2,
+        "parent_id": "NGnLd0n7ToK4J9xwgCEcFdZQnWe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "External data sources often evolve after you create an external collection. For example, a lakehouse table that already stores embeddings might later include a new scalar field, such as a score, category, or timestamp, that you want to return in query results or use in filters.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn8n1TMLnpSRjYWApMTZf1sg",
+        "block_type": 2,
+        "parent_id": "NGnLd0n7ToK4J9xwgCEcFdZQnWe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Instead of recreating the external collection or copying the source data into <include target=\"milvus\">Milvus</include><include target=\"zilliz\">Zilliz Cloud</include>, add a <include target=\"milvus\">Milvus</include><include target=\"zilliz\">Zilliz Cloud</include> field that maps to the existing field in the external data source. After adding the field, refresh the external collection so the new field can be used in queries and searches.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnza5SEH1b6tXBhsjJMIofqd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Limits",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NGnLd0n7ToK4J9xwgCEcFdZQnWe"
+      },
+      {
+        "block_id": "doxcn5uu5nF3M4A08ZAEuRrX45u",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "External collections currently support adding fields after creation. Other schema changes, such as dropping fields, renaming fields, changing field data types, changing vector dimensions, or remapping ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "external_field",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", are not supported.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NGnLd0n7ToK4J9xwgCEcFdZQnWe"
+      },
+      {
+        "block_id": "doxcn4Awor17sCULmreO8w1cGBc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can only add a field that already exists in the external data source. This operation maps an existing external field to a <include target=\"milvus\">Milvus</include><include target=\"zilliz\">Zilliz Cloud</include> field. It does not create a new field in the external data source or backfill source data.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NGnLd0n7ToK4J9xwgCEcFdZQnWe"
+      },
+      {
+        "block_id": "doxcn4Pl76RdprijTWfbRcIVsvg",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Adding ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SPARSE_FLOAT_VECTOR",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " fields to an existing external collection is not supported.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NGnLd0n7ToK4J9xwgCEcFdZQnWe"
+      },
+      {
+        "block_id": "doxcn2S0faPO1563UEoLHLRNhsf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Adding StructArray fields to an existing external collection is not supported. If your external collection needs a StructArray field, define it in the collection schema when you create the collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "comment_ids": [
+                    "7654410804233505720"
+                  ],
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "comment_ids": [
+          "7654410804233505720"
+        ],
+        "parent_id": "NGnLd0n7ToK4J9xwgCEcFdZQnWe"
+      },
+      {
+        "block_id": "doxcnWX8LGg2HA5dVv4pNbzY03g",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Add a field",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NGnLd0n7ToK4J9xwgCEcFdZQnWe"
+      },
+      {
+        "block_id": "doxcn21DBp9SDhfMznjB3Cpib7g",
+        "block_type": 2,
+        "parent_id": "NGnLd0n7ToK4J9xwgCEcFdZQnWe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Before adding a field to an external collection, verify that the field already exists in the external data source. Then call ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "add_collection_field()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to expose that field in <include target=\"milvus\">Milvus</include><include target=\"zilliz\">Zilliz Cloud</include> by setting ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "external_field",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to the field name in the external data source. Set ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "data_type",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to the <include target=\"milvus\">Milvus</include><include target=\"zilliz\">Zilliz Cloud</include> data type that matches the field in the external data source. For example, if the mapped field stores double-precision values, use ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "DataType.DOUBLE",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnatQKKFQ6BpEbILKHQuPu8g",
+        "block_type": 2,
+        "parent_id": "NGnLd0n7ToK4J9xwgCEcFdZQnWe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Unlike managed collections, values for the added field are read from the external data source after you refresh the external collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcnEKuEZMpa0udTw9wjIkehJg",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Add a scalar field",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NGnLd0n7ToK4J9xwgCEcFdZQnWe"
+      },
+      {
+        "block_id": "doxcnU1P92f8xQJHoFSIg1dNnMd",
+        "block_type": 2,
+        "parent_id": "NGnLd0n7ToK4J9xwgCEcFdZQnWe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Use ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "add_collection_field()",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to add a scalar field when you want to return the field in query results or use it in filters. The following example adds a ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "score",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " field that maps to the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "score",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " field in the external data source.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "QP5fdmjths3juxbuubjcdsjAnsc",
+        "block_type": 49,
+        "children": [
+          "doxcntuK3ILYsnEAvZCcMRuVXHh"
+        ],
+        "parent_id": "NGnLd0n7ToK4J9xwgCEcFdZQnWe",
+        "source_synced": {
+          "align": 1
+        }
+      },
+      {
+        "block_id": "doxcntuK3ILYsnEAvZCcMRuVXHh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import DataType, MilvusClient\n\nclient = MilvusClient(\n    uri=\"http://localhost:19530\",\n    token=\"root:Milvus\",\n)\n\nclient.add_collection_field(\n    collection_name=\"product_embeddings\",\n    field_name=\"score\",\n    data_type=DataType.DOUBLE,\n    nullable=True,\n    # highlight-next-line\n    external_field=\"score\",\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "QP5fdmjths3juxbuubjcdsjAnsc"
+      },
+      {
+        "block_id": "doxcn1LMebvtUzXzRoq8dsCw7Qe",
+        "block_type": 2,
+        "parent_id": "NGnLd0n7ToK4J9xwgCEcFdZQnWe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "In this example, ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "score",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " is the <include target=\"milvus\">Milvus</include><include target=\"zilliz\">Zilliz Cloud</include> field name and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "external_field=\"score\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " maps it to the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "score",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " field in the external data source. Set ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "nullable=True",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " because the field is added after the collection has already been created.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcn5PsVCD1fqoPr61rEIEHkve",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Add a vector field",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NGnLd0n7ToK4J9xwgCEcFdZQnWe"
+      },
+      {
+        "block_id": "doxcn56SJB43y3NjVGKKFqSNT1d",
+        "block_type": 2,
+        "parent_id": "NGnLd0n7ToK4J9xwgCEcFdZQnWe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can also add a vector field if the external data source already contains the vector values. Set the vector ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "data_type",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " and ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "dim",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " to match the vector field in the external data source.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "doxcntSgiBbYMzoFzZstrgdCrZb",
+        "block_type": 2,
+        "parent_id": "NGnLd0n7ToK4J9xwgCEcFdZQnWe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The following example adds a dense vector field named ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "image_embedding_v2",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XmordnVwMs9SWzbFFkCc9f4Snrd",
+        "block_type": 49,
+        "children": [
+          "doxcn2dnu7vvjGgQASu1ZV8WMsb"
+        ],
+        "parent_id": "NGnLd0n7ToK4J9xwgCEcFdZQnWe",
+        "source_synced": {
+          "align": 1
+        }
+      },
+      {
+        "block_id": "doxcn2dnu7vvjGgQASu1ZV8WMsb",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "from pymilvus import DataType, MilvusClient\n\nclient = MilvusClient(\n    uri=\"http://localhost:19530\",\n    token=\"root:Milvus\",\n)\n\nclient.add_collection_field(\n    collection_name=\"product_embeddings\",\n    field_name=\"image_embedding_v2\",\n    data_type=DataType.FLOAT_VECTOR,\n    dim=768,\n    nullable=True,\n    # highlight-next-line\n    external_field=\"image_embedding_v2\",\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "XmordnVwMs9SWzbFFkCc9f4Snrd"
+      },
+      {
+        "block_id": "doxcnx8MAGyiWhRxGH7Wr8zmDwg",
+        "block_type": 2,
+        "parent_id": "NGnLd0n7ToK4J9xwgCEcFdZQnWe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If you plan to run vector search on the added vector field, create an index for the field before refreshing the external collection.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "L88wdH4PDsL5subf0Vsc4oUQn6q",
+        "block_type": 49,
+        "children": [
+          "doxcn7syDNEXrvcG6ANhAa3LsJf"
+        ],
+        "parent_id": "NGnLd0n7ToK4J9xwgCEcFdZQnWe",
+        "source_synced": {
+          "align": 1
+        }
+      },
+      {
+        "block_id": "doxcn7syDNEXrvcG6ANhAa3LsJf",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "index_params = client.prepare_index_params()\n\nindex_params.add_index(\n    field_name=\"image_embedding_v2\",\n    index_type=\"AUTOINDEX\",\n    metric_type=\"COSINE\",\n)\n\nclient.create_index(\n    collection_name=\"product_embeddings\",\n    index_params=index_params,\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "L88wdH4PDsL5subf0Vsc4oUQn6q"
+      },
+      {
+        "block_id": "doxcnyJD5BuK8hOYzSVxdTOqpPj",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Refresh the external collection",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "NGnLd0n7ToK4J9xwgCEcFdZQnWe"
+      },
+      {
+        "block_id": "doxcnCvCKXHeW1mqvnrPhkVWZUd",
+        "block_type": 2,
+        "parent_id": "NGnLd0n7ToK4J9xwgCEcFdZQnWe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "After altering an external collection schema, refresh the external collection so <include target=\"milvus\">Milvus</include><include target=\"zilliz\">Zilliz Cloud</include> updates the external collection metadata and makes the schema change effective in query, search, and filter results.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "WZZNdbdlNssENsb8HqRcFiQKnfg",
+        "block_type": 49,
+        "children": [
+          "doxcnYLFIaOTXP2fQVMXREDH5Te"
+        ],
+        "parent_id": "NGnLd0n7ToK4J9xwgCEcFdZQnWe",
+        "source_synced": {
+          "align": 1
+        }
+      },
+      {
+        "block_id": "doxcnYLFIaOTXP2fQVMXREDH5Te",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "client.refresh_external_collection(\n    collection_name=\"product_embeddings\"\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ")",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 49,
+            "wrap": false
+          }
+        },
+        "parent_id": "WZZNdbdlNssENsb8HqRcFiQKnfg"
+      }
+    ],
+    "counts": 28
+  },
+  "name": "Alter External Collection Schema",
+  "base_record_id": "recvob1UVb2vLT",
+  "base_table_id": "tblWv7PjNDsexddH",
+  "base_table_name": "Development",
+  "base_record_index": 99,
+  "base_placement_type": "canonical",
+  "base_targets": [
+    "Zilliz.SaaS",
+    "Zilliz.PaaS"
+  ],
+  "base_status": "Draft",
+  "base_labels": "Alter Schema (External Collection)",
+  "base_beta": "FALSE",
+  "base_ref_target_doc": null
+}

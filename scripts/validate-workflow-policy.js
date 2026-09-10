@@ -8,6 +8,7 @@ const workflowDirectory = path.join(process.cwd(), '.github', 'workflows')
 const PRODUCTION_DEV_QUEUE = 'docs-production-dev'
 const PRODUCTION_QUEUE_OWNERS = Object.freeze(new Map([
   ['fetch-docs.yml', {conditional: false}],
+  ['fetch-guides-requested.yml', {conditional: false}],
   ['recover-translation.yml', {conditional: true, expectedGroup: "${{ inputs.publish && 'docs-production-dev' || format('translation-recovery-readonly-{0}', github.run_id) }}"}],
   ['publish-offline-translation.yml', {conditional: true, expectedGroup: "${{ inputs.publish && 'docs-production-dev' || format('offline-translation-readonly-{0}', github.run_id) }}"}],
   ['publish-offline-reference-python.yml', {conditional: true, expectedGroup: "${{ inputs.publish && 'docs-production-dev' || format('offline-reference-python-readonly-{0}', github.run_id) }}"}],
@@ -17,6 +18,7 @@ const PRODUCTION_QUEUE_OWNERS = Object.freeze(new Map([
 ]))
 const TOP_LEVEL_WRITER_INVENTORY = Object.freeze(new Map([
   ['fetch-docs.yml', ['prepare', 'publish_ready', 'reconcile_reference_state']],
+  ['fetch-guides-requested.yml', ['publish_ready']],
   ['translate-codex.yml', ['publish_ready']],
   ['publish-translation.yml', ['publish_ready']],
   ['publish-offline-translation.yml', ['publish_ready']],
@@ -31,6 +33,7 @@ const TOP_LEVEL_DIRECT_PUSH_JOBS = Object.freeze(new Map([
 const publishingWorkflows = new Set([
   'fetch-docs.yml',
   'publish-translation.yml',
+  'fetch-guides-requested.yml',
   'recover-translation.yml',
   'publish-offline-translation.yml',
   'publish-offline-reference-python.yml',
@@ -498,7 +501,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     }
 
     if (publishingWorkflows.has(file)) {
-      if (file === 'fetch-docs.yml' || file === 'translate-codex.yml' || file === 'publish-translation.yml' || file === 'publish-offline-translation.yml' || file === 'publish-offline-reference-python.yml') {
+      if (file === 'fetch-docs.yml' || file === 'fetch-guides-requested.yml' || file === 'translate-codex.yml' || file === 'publish-translation.yml' || file === 'publish-offline-translation.yml' || file === 'publish-offline-reference-python.yml') {
         const writableJobs = Object.entries(workflow.jobs || {}).filter(([, job]) => job?.permissions?.contents === 'write')
         const expected = TOP_LEVEL_WRITER_INVENTORY.get(file)
         const expectedTopLevelContents = file.startsWith('publish-offline-') ? 'write' : 'read'
@@ -967,7 +970,8 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         errors.push(`${file}: Guides v5 cache save must be conditional, nonfatal, and use the promoted snapshot generation key`)
       }
       const report = steps.find(step => step.name === 'Record Guides cache generation persistence')
-      if (report?.if !== '${{ always() }}' || !/guides-cache-generation-lifecycle\.js report[\s\S]*steps\.promoted_snapshot\.outcome[\s\S]*steps\.promoted_source_manifest\.outcome[\s\S]*steps\.guides_v5_generation\.outcome[\s\S]*steps\.save_guides_v5_generation\.outcome[\s\S]*guides-cache-generation\.json/.test(report?.run || '')) {
+      const reportConditions = ['${{ always() }}', '${{ always() && inputs.requested_mode != true }}']
+      if (!reportConditions.includes(report?.if) || !/guides-cache-generation-lifecycle\.js report[\s\S]*steps\.promoted_snapshot\.outcome[\s\S]*steps\.promoted_source_manifest\.outcome[\s\S]*steps\.guides_v5_generation\.outcome[\s\S]*steps\.save_guides_v5_generation\.outcome[\s\S]*guides-cache-generation\.json/.test(report?.run || '')) {
         errors.push(`${file}: Guides cache generation report must run after save and record the actual preparation and save outcomes`)
       }
       if (/guides-source-cache\.js key[^\n]*--version 3/.test(source)) errors.push(`${file}: legacy v3 cache persistence is forbidden`)

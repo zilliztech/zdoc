@@ -4,6 +4,10 @@
 const crypto = require('node:crypto')
 const fs = require('node:fs')
 const path = require('node:path')
+const {
+  validateRequestedPlanForArtifact,
+  verifyRequestedStateMergeReceipt,
+} = require('../../packages/docs-tooling/src/lark/requestedGuidesFetchPlanner')
 
 const SHA40 = /^[0-9a-f]{40}$/
 const SHA256 = /^[0-9a-f]{64}$/
@@ -316,6 +320,22 @@ function descriptorFact(repositoryRoot, relativePath, fsImpl = fs, rootIdentity 
     return { ...fact, descriptor }
   } catch (_) {
     return { ...fact, valid: false, sha256: null, descriptor: null }
+  }
+}
+
+
+function validateRequestedAssemblyInputs({ plan, receipt, candidateSnapshot }) {
+  validateRequestedPlanForArtifact(plan)
+  verifyRequestedStateMergeReceipt({ receipt, plan, candidateSnapshot, baselineSnapshot: null })
+  if (!candidateSnapshot || candidateSnapshot.manual !== 'guides' || candidateSnapshot.schema_version !== 3) {
+    throw new Error('Requested assembly requires a Guides schema v3 candidate snapshot')
+  }
+  return {
+    plan_sha256: plan.plan_sha256,
+    receipt_sha256: receipt.receipt_sha256,
+    selection_mode: plan.selection_mode,
+    mode: plan.mode,
+    affected_tables: [...(plan.affected_tables || [])],
   }
 }
 
@@ -647,6 +667,16 @@ function main(argv = process.argv.slice(2)) {
     atomicWriteJson(args['repository-root'], args.output, decision)
     return decision
   }
+  if (operation === 'validate-requested') {
+    const args = parseFlags(values, ['repository-root', 'requested-plan', 'state-merge-receipt', 'candidate-snapshot'])
+    const result = validateRequestedAssemblyInputs({
+      plan: readJsonPath(args['repository-root'], args['requested-plan'], 'Requested plan'),
+      receipt: readJsonPath(args['repository-root'], args['state-merge-receipt'], 'Requested state-merge receipt'),
+      candidateSnapshot: readJsonPath(args['repository-root'], args['candidate-snapshot'], 'Merged candidate snapshot'),
+    })
+    process.stdout.write(`${JSON.stringify(result)}\n`)
+    return result
+  }
   if (operation === 'validate-decision') {
     const args = parseFlags(values, ['repository-root', 'input', 'expected-master-sha', 'expected-dev-baseline-sha'])
     return validateAssemblyDecision(readJsonPath(args['repository-root'], args.input, 'Guides assembly decision'), {
@@ -714,7 +744,7 @@ function main(argv = process.argv.slice(2)) {
       descriptorVerified: parseComparison(args['descriptor-verified'], '--descriptor-verified'),
     })
   }
-  throw new Error('Unknown operation; expected decide, validate-decision, decision-sha, write-descriptor, verify-descriptor, or write-result')
+  throw new Error('Unknown operation; expected decide, validate-requested, validate-decision, decision-sha, write-descriptor, verify-descriptor, or write-result')
 }
 
 if (require.main === module) {
@@ -723,6 +753,7 @@ if (require.main === module) {
 
 module.exports = {
   assemblyDecisionSha256,
+  validateRequestedAssemblyInputs,
   decideAssembly,
   generatorFingerprint,
   navigationOwnershipProjection,
