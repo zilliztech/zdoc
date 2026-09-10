@@ -91,11 +91,13 @@ test('Semantic seed reuse stays operator opt-in end to end', () => {
     assert.equal(input.type, 'boolean', `${trigger} semantic_seeds must be a boolean input`)
     assert.equal(input.default, false, `${trigger} semantic_seeds must default to off`)
   }
+  // The production entry point (fetch-docs dispatch_translations) never sets the
+  // input, so the repo variable is the only runtime switch for pipeline runs.
   for (const producer of ['translate_guides_batches', 'translate_sdk']) {
     assert.equal(
       workflow.jobs[producer].with.semantic_seeds,
-      '${{ inputs.semantic_seeds || false }}',
-      `${producer} must forward the semantic_seeds operator input verbatim`,
+      '${{ inputs.semantic_seeds || vars.TRANSLATION_SEMANTIC_SEEDS == \'true\' }}',
+      `${producer} must forward the input or the TRANSLATION_SEMANTIC_SEEDS repo variable`,
     )
   }
   const group = loadWorkflow('.github/workflows/_translate-content-group.yml')
