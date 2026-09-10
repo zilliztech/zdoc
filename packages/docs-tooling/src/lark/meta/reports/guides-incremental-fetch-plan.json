@@ -1,17 +1,145 @@
 {
-  "generated_at": "2026-09-10T00:48:30.297Z",
+  "generated_at": "2026-09-10T03:43:11.692Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
-  "changed_records": [],
-  "changed_tokens": [],
-  "expanded_tokens": [],
+  "changed_records": [
+    {
+      "record_id": "recvlPpckk8KSE",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Primary-Key Search",
+      "labels": "Primary-Key Search",
+      "slug": "primary-key-search",
+      "doc_token": "U7OvwHP3AiUWlckzIEKclLQQnPr",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/U7OvwHP3AiUWlckzIEKclLQQnPr",
+      "reasons": [
+        "wiki node revision changed"
+      ]
+    },
+    {
+      "record_id": "recvlPpfgtNVit",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Multi-Vector Hybrid Search",
+      "labels": "Hybrid Search",
+      "slug": "hybrid-search",
+      "doc_token": "WTsmwWdgOiKnwpkdZdScp093njh",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/WTsmwWdgOiKnwpkdZdScp093njh",
+      "reasons": [
+        "wiki node revision changed"
+      ]
+    }
+  ],
+  "changed_tokens": [
+    "U7OvwHP3AiUWlckzIEKclLQQnPr",
+    "WTsmwWdgOiKnwpkdZdScp093njh"
+  ],
+  "expanded_tokens": [
+    "AIb1wNAE3iiKVSk8MHAcVA4QnJb",
+    "ARalwpaVDiCwDZkoSHtcPNgXnRg",
+    "BaGlwzDmyiyVvVk6NurcFclInCd",
+    "CpBbwcJ87irHp0k9oCSc2RNIn3d",
+    "GanXwLnJkiymKVkNPhecdi9MnGf",
+    "GnvtwMeQWi8iRCk7dGccCBQZnOh",
+    "JWZGw89MBiUDBNkhtGfcyyUcnsd",
+    "JbPDwHqd0iZZSuk5tYicGqKbn9c",
+    "MUL3wkn7Yi3YoFkYk59csf8bnNc",
+    "Mtxfwvu2fiOLwXkcURCcJxDPnLd",
+    "Nqguwf6ikiKrHEkGKgAc8g7Lnnh",
+    "Oyy6w5DYJiVCMYkdduEc6eD9nZg",
+    "P4UywHFH2iDFJWk2kwwcs22SnRc",
+    "PV2bwNENViEjXWkOgzZcXoKHnce",
+    "PpGlwYU6PiSsfVkZ7doco50vnKg",
+    "PuxkwMWvbiHxvTkHsVkcMZP9n5f",
+    "RQTRwhOVPiwnwokqr4scAtyfnBf",
+    "RxUiwJ77WiFKZGkC8rEcLeopnTf",
+    "U7OvwHP3AiUWlckzIEKclLQQnPr",
+    "Uk0Nw1ZdbiOEBtkAOKacLTf8nGe",
+    "WTsmwWdgOiKnwpkdZdScp093njh",
+    "Z9AMwNkVLiog0jkXxNscuMpJnjL",
+    "ZBEiwpvlbijhYDkmnNScc7zyn5d"
+  ],
   "removed_records": [],
   "removed_tokens": [],
-  "reasons_by_token": {},
+  "reasons_by_token": {
+    "U7OvwHP3AiUWlckzIEKclLQQnPr": [
+      "wiki node revision changed"
+    ],
+    "WTsmwWdgOiKnwpkdZdScp093njh": [
+      "wiki node revision changed"
+    ],
+    "CpBbwcJ87irHp0k9oCSc2RNIn3d": [
+      "incoming reference to U7OvwHP3AiUWlckzIEKclLQQnPr"
+    ],
+    "GnvtwMeQWi8iRCk7dGccCBQZnOh": [
+      "incoming reference to U7OvwHP3AiUWlckzIEKclLQQnPr"
+    ],
+    "JWZGw89MBiUDBNkhtGfcyyUcnsd": [
+      "incoming reference to U7OvwHP3AiUWlckzIEKclLQQnPr"
+    ],
+    "MUL3wkn7Yi3YoFkYk59csf8bnNc": [
+      "incoming reference to U7OvwHP3AiUWlckzIEKclLQQnPr"
+    ],
+    "ZBEiwpvlbijhYDkmnNScc7zyn5d": [
+      "incoming reference to U7OvwHP3AiUWlckzIEKclLQQnPr"
+    ],
+    "ARalwpaVDiCwDZkoSHtcPNgXnRg": [
+      "outgoing reference from WTsmwWdgOiKnwpkdZdScp093njh"
+    ],
+    "JbPDwHqd0iZZSuk5tYicGqKbn9c": [
+      "outgoing reference from WTsmwWdgOiKnwpkdZdScp093njh"
+    ],
+    "PuxkwMWvbiHxvTkHsVkcMZP9n5f": [
+      "outgoing reference from WTsmwWdgOiKnwpkdZdScp093njh"
+    ],
+    "RQTRwhOVPiwnwokqr4scAtyfnBf": [
+      "outgoing reference from WTsmwWdgOiKnwpkdZdScp093njh"
+    ],
+    "AIb1wNAE3iiKVSk8MHAcVA4QnJb": [
+      "outgoing reference from WTsmwWdgOiKnwpkdZdScp093njh"
+    ],
+    "Oyy6w5DYJiVCMYkdduEc6eD9nZg": [
+      "outgoing reference from WTsmwWdgOiKnwpkdZdScp093njh"
+    ],
+    "Nqguwf6ikiKrHEkGKgAc8g7Lnnh": [
+      "outgoing reference from WTsmwWdgOiKnwpkdZdScp093njh"
+    ],
+    "RxUiwJ77WiFKZGkC8rEcLeopnTf": [
+      "outgoing reference from WTsmwWdgOiKnwpkdZdScp093njh"
+    ],
+    "BaGlwzDmyiyVvVk6NurcFclInCd": [
+      "incoming reference to WTsmwWdgOiKnwpkdZdScp093njh"
+    ],
+    "GanXwLnJkiymKVkNPhecdi9MnGf": [
+      "incoming reference to WTsmwWdgOiKnwpkdZdScp093njh"
+    ],
+    "Mtxfwvu2fiOLwXkcURCcJxDPnLd": [
+      "incoming reference to WTsmwWdgOiKnwpkdZdScp093njh"
+    ],
+    "P4UywHFH2iDFJWk2kwwcs22SnRc": [
+      "incoming reference to WTsmwWdgOiKnwpkdZdScp093njh"
+    ],
+    "PV2bwNENViEjXWkOgzZcXoKHnce": [
+      "incoming reference to WTsmwWdgOiKnwpkdZdScp093njh"
+    ],
+    "PpGlwYU6PiSsfVkZ7doco50vnKg": [
+      "incoming reference to WTsmwWdgOiKnwpkdZdScp093njh"
+    ],
+    "Uk0Nw1ZdbiOEBtkAOKacLTf8nGe": [
+      "incoming reference to WTsmwWdgOiKnwpkdZdScp093njh"
+    ],
+    "Z9AMwNkVLiog0jkXxNscuMpJnjL": [
+      "incoming reference to WTsmwWdgOiKnwpkdZdScp093njh"
+    ]
+  },
   "warnings": [],
-  "affected_tables": [],
+  "affected_tables": [
+    "tbl9BeCMjBmalJVb",
+    "tblWv7PjNDsexddH",
+    "tblZMzoITXNsyKmQ"
+  ],
   "current_table_targets": {
     "tbl9BeCMjBmalJVb": [
       "zilliz.paas",
