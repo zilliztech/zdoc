@@ -435,3 +435,32 @@ test('Translation unknown remote state stops all later publication decisions', (
   })
   assert.deepEqual(scheduler.nextDecision(), {type: 'complete', overallStatus: 'orchestrator_failed'})
 })
+
+test('publisher identity threads into progress snapshots and terminal results without changing legacy shape', () => {
+  const units = ['translation/ja-JP/python', 'translation/ja-JP/java', 'translation/ja-JP/node']
+  const withPublisher = createPublicationScheduler({
+    selection: translationSelection(),
+    publisherIdentity: {runId: 555001, runAttempt: 1},
+  })
+  withPublisher.observeJobs(units.map(unitKey => translationJob(unitKey, {completed_at: '2026-08-04T08:00:02.000Z'})))
+  const snapshot = withPublisher.snapshot()
+  assert.equal(snapshot.publisherRunId, 555001)
+  assert.equal(snapshot.publisherRunAttempt, 1)
+  assert.equal(snapshot.runId, translationSelection().runId)
+  for (const unitKey of units) ready(withPublisher, unitKey)
+  for (const unitKey of [...units].sort()) publish(withPublisher, unitKey)
+  const outcome = withPublisher.results({startedAt: '2026-08-04T08:00:00.000Z', completedAt: '2026-08-04T08:00:04.000Z'})
+  assert.equal(outcome.publisherRunId, 555001)
+  assert.equal(outcome.publisherRunAttempt, 1)
+  assert.equal(outcome.runId, translationSelection().runId)
+
+  const legacy = createPublicationScheduler({selection: translationSelection()})
+  legacy.observeJobs(units.map(unitKey => translationJob(unitKey, {completed_at: '2026-08-04T08:00:02.000Z'})))
+  assert.equal('publisherRunId' in legacy.snapshot(), false)
+  for (const unitKey of units) ready(legacy, unitKey)
+  for (const unitKey of [...units].sort()) publish(legacy, unitKey)
+  assert.equal('publisherRunId' in legacy.results(), false)
+
+  assert.throws(() => createPublicationScheduler({selection: translationSelection(), publisherIdentity: {runId: 0, runAttempt: 1}}), /positive integer/u)
+  assert.throws(() => createPublicationScheduler({selection: translationSelection(), publisherIdentity: {runId: 1}}), /runAttempt/u)
+})

@@ -9,6 +9,7 @@ const yaml = require('js-yaml')
 
 const {
   createTranslationProgressMonitor,
+  validatePublicationHandoffMetadata,
   createTranslationPublicationArtifactReader,
   createTranslationReviewStateReader,
   normalizeTranslationMonitorJobs,
@@ -639,4 +640,144 @@ test('binds the monitor to the publication run attempt and selection checksum', 
   const workflow = yaml.load(fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8'))
   assert.equal(workflow.jobs.monitor_translation_progress.with.publication_run_attempt, '${{ fromJSON(github.run_attempt) }}')
   assert.equal(workflow.jobs.monitor_translation_progress.with.publication_selection_sha256, '${{ needs.prepare.outputs.publication_selection_sha256 }}')
+})
+
+test('split publication monitoring follows the dispatched publisher run to terminal success', async () => {
+  const producerJobs = () => [
+    {id: 1, name: 'prepare', status: 'completed', conclusion: 'success'},
+    {id: 2, name: 'translate_sdk (ja-JP, python, python, abc, 1) / translate', status: 'completed', conclusion: 'success'},
+    {id: 3, name: 'translate_sdk (zh-CN-reference, python, python, abc, 2) / translate', status: 'completed', conclusion: 'success'},
+    {id: 4, name: 'dispatch_publication', status: 'completed', conclusion: 'success'},
+    {id: 5, name: 'publish_ready', status: 'completed', conclusion: 'skipped'},
+    {id: 6, name: 'aggregate', status: 'completed', conclusion: 'skipped'},
+  ]
+  const publisherStates = [
+    [{id: 11, name: 'publish_ready', status: 'in_progress', conclusion: null}],
+    [
+      {id: 11, name: 'publish_ready', status: 'completed', conclusion: 'success'},
+      {id: 12, name: 'aggregate', status: 'completed', conclusion: 'success'},
+    ],
+  ]
+  const patches = []
+  const opened = []
+  const monitor = createMonitor({
+    splitPublication: true,
+    listJobs: async () => producerJobs(),
+    downloadPublicationProgress: async () => ({snapshot: null, stale: false}),
+    downloadPublicationResults: async () => null,
+    downloadPublicationHandoff: async () => ({
+      publisherRunId: 555001,
+      publisherRunAttempt: 1,
+      publisherRunUrl: 'https://github.com/zilliztech/zdoc/actions/runs/555001',
+    }),
+    openPublisherScope: handoff => {
+      opened.push(handoff)
+      return {
+        listJobs: async () => publisherStates.shift(),
+        downloadPublicationProgress: async () => ({snapshot: null, stale: false}),
+        downloadPublicationResults: async () => ({
+          mode: 'publish',
+          overallStatus: 'success',
+          units: [
+            {unitKey: 'translation/ja-JP/python', status: 'published', resultSha: sha('e')},
+            {unitKey: 'translation/zh-CN-reference/python', status: 'no_changes', resultSha: sha('e')},
+          ],
+        }),
+      }
+    },
+    patchCard: async state => patches.push(state),
+  })
+
+  await monitor.run()
+
+  assert.deepEqual(opened, [{
+    publisherRunId: 555001,
+    publisherRunAttempt: 1,
+    publisherRunUrl: 'https://github.com/zilliztech/zdoc/actions/runs/555001',
+  }])
+  assert.equal(patches.length, 2)
+  assert.equal(patches[0].overallStatus, 'running')
+  assert.equal(patches.at(-1).overallStatus, 'success')
+  assert.ok(patches.at(-1).units.every(unit => unit.status === 'completed'))
+})
+
+test('split publication monitoring fails terminally when dispatch fails without opening a publisher scope', async () => {
+  const patches = []
+  let opened = false
+  const monitor = createMonitor({
+    splitPublication: true,
+    listJobs: async () => [
+      {id: 1, name: 'prepare', status: 'completed', conclusion: 'success'},
+      {id: 2, name: 'translate_sdk (ja-JP, python, python, abc, 1) / translate', status: 'completed', conclusion: 'success'},
+      {id: 3, name: 'translate_sdk (zh-CN-reference, python, python, abc, 2) / translate', status: 'completed', conclusion: 'success'},
+      {id: 4, name: 'dispatch_publication', status: 'completed', conclusion: 'failure'},
+      {id: 5, name: 'publish_ready', status: 'completed', conclusion: 'skipped'},
+      {id: 6, name: 'aggregate', status: 'completed', conclusion: 'skipped'},
+    ],
+    openPublisherScope: () => {
+      opened = true
+      throw new Error('publisher scope must not open after a failed dispatch')
+    },
+    patchCard: async state => patches.push(state),
+  })
+
+  await monitor.run()
+
+  assert.equal(opened, false)
+  assert.equal(patches.at(-1).overallStatus, 'failure')
+})
+
+test('split publication monitoring waits through skipped inline aggregates before the handoff is discovered', async () => {
+  const producerJobs = dispatchState => () => [
+    {id: 1, name: 'prepare', status: 'completed', conclusion: 'success'},
+    {id: 2, name: 'translate_sdk (ja-JP, python, python, abc, 1) / translate', status: 'completed', conclusion: 'success'},
+    {id: 3, name: 'translate_sdk (zh-CN-reference, python, python, abc, 2) / translate', status: 'completed', conclusion: 'success'},
+    {id: 4, name: 'dispatch_publication', status: 'completed', conclusion: dispatchState},
+    {id: 5, name: 'publish_ready', status: 'completed', conclusion: 'skipped'},
+    {id: 6, name: 'aggregate', status: 'completed', conclusion: 'skipped'},
+  ]
+  let handoffsAvailable = 0
+  const monitor = createMonitor({
+    splitPublication: true,
+    listJobs: producerJobs('success'),
+    downloadPublicationProgress: async () => ({snapshot: null, stale: false}),
+    downloadPublicationResults: async () => null,
+    downloadPublicationHandoff: async () => (handoffsAvailable > 0 ? {
+      publisherRunId: 555002,
+      publisherRunAttempt: 1,
+      publisherRunUrl: 'https://github.com/zilliztech/zdoc/actions/runs/555002',
+    } : null),
+    openPublisherScope: () => ({
+      listJobs: async () => [
+        {id: 21, name: 'publish_ready', status: 'in_progress', conclusion: null},
+      ],
+      downloadPublicationProgress: async () => ({snapshot: null, stale: false}),
+      downloadPublicationResults: async () => null,
+    }),
+    patchCard: async () => {},
+  })
+
+  const first = await monitor.pollOnce()
+  assert.equal(first, false)
+  handoffsAvailable = 1
+  const second = await monitor.pollOnce()
+
+  assert.equal(second, false)
+})
+
+test('validates publication handoff metadata against the producer run identity', () => {
+  const base = {
+    schemaVersion: 1,
+    producerRunId: 99,
+    producerRunAttempt: 1,
+    publisherRunId: 555001,
+    publisherRunAttempt: 1,
+    publisherRunUrl: 'https://github.com/zilliztech/zdoc/actions/runs/555001',
+  }
+  const valid = validatePublicationHandoffMetadata(base, {runId: 99, runAttempt: 1})
+  assert.equal(valid.publisherRunId, 555001)
+  assert.throws(() => validatePublicationHandoffMetadata({...base, producerRunId: 100}, {runId: 99, runAttempt: 1}), /producer run mismatch/i)
+  assert.throws(() => validatePublicationHandoffMetadata({...base, publisherRunId: 0}, {runId: 99, runAttempt: 1}), /publisher run id/i)
+  assert.throws(() => validatePublicationHandoffMetadata({...base, publisherRunUrl: 'https://example.com/run'}, {runId: 99, runAttempt: 1}), /url/i)
+  assert.throws(() => validatePublicationHandoffMetadata({...base, schemaVersion: 2}, {runId: 99, runAttempt: 1}), /schema/i)
 })

@@ -66,7 +66,7 @@ test('called Translation orchestration does not reacquire the queue and still re
   const source = fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8')
   assert.equal(workflow.on.workflow_call.inputs.production_queue_owned.default, false)
   assert.equal(workflow.concurrency.queue, 'max')
-  assert.equal(workflow.concurrency.group, "${{ inputs.publish && !(inputs.production_queue_owned || false) && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}")
+  assert.equal(workflow.concurrency.group, "${{ format('translation-readonly-{0}', github.run_id) }}")
   assert.match(source, /Target branch moved after handoff/)
   assert.match(source, /recoveryProvenance/)
   assert.match(source, /recovery_bundle_artifact_name/)

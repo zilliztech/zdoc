@@ -904,7 +904,15 @@ test('default replay publishes real retained Translation artifacts through the F
     bareRemote: value.bareRemote,
     evidenceRoot: value.evidenceRoot,
     mode: 'publish',
+    publisherIdentity: {runId: 555001, runAttempt: 1},
   })
+  // Split-publication identity: the publisher run is recorded on the terminal
+  // results while the selection/artifact identity stays bound to the producer.
+  assert.equal(result.status, 'complete')
+  const splitResults = JSON.parse(fs.readFileSync(path.join(value.evidenceRoot, 'replay-results.json'), 'utf8'))
+  assert.equal(splitResults.fifo.publisherRunId, 555001)
+  assert.equal(splitResults.fifo.publisherRunAttempt, 1)
+  assert.equal(splitResults.fifo.runId, value.selection.runId)
   assert.equal(result.status, 'complete')
   assert.match(result.finalTree, /^[0-9a-f]{40}$/)
   assert.equal(result.ancestryVerified, true)

@@ -59,6 +59,20 @@ function createPublicationScheduler(options) {
   if (!Number.isSafeInteger(maxCandidatePolls) || maxCandidatePolls < 1) throw new Error('maxCandidatePolls must be a positive integer')
   const now = typeof options?.now === 'function' ? options.now : Date.now
   const mode = selection.inputs.publish ? 'publish' : 'artifact_only'
+  // Optional identity of the workflow run that executes publication on behalf
+  // of the producer run named by the selection. Present only when publication
+  // runs in a separate short-lock publisher workflow run.
+  const publisherIdentity = options?.publisherIdentity ?? null
+  if (publisherIdentity !== null) {
+    if (!publisherIdentity || typeof publisherIdentity !== 'object' || Array.isArray(publisherIdentity)) throw new Error('publisherIdentity must be an object when provided')
+    for (const key of ['runId', 'runAttempt']) {
+      if (!Number.isSafeInteger(publisherIdentity[key]) || publisherIdentity[key] <= 0) throw new Error(`publisherIdentity ${key} must be a positive integer`)
+    }
+  }
+  const publisherKeys = publisherIdentity === null ? {} : {
+    publisherRunId: publisherIdentity.runId,
+    publisherRunAttempt: publisherIdentity.runAttempt,
+  }
   const units = new Map(selection.units.map(unit => [unit.unitKey, {
     unitKey: unit.unitKey,
     producerJob: unit.producerJob,
@@ -338,6 +352,7 @@ function createPublicationScheduler(options) {
       runId: selection.runId,
       runAttempt: selection.runAttempt,
       selectionSha256: selection.selectionSha256,
+      ...publisherKeys,
       mode,
       revision,
       generatedAt: timestamp(),
@@ -365,6 +380,7 @@ function createPublicationScheduler(options) {
       runId: selection.runId,
       runAttempt: selection.runAttempt,
       selectionSha256: selection.selectionSha256,
+      ...publisherKeys,
       mode,
       targetBranch: selection.targetBranch,
       initialTargetSha: selection.initialTargetSha,
