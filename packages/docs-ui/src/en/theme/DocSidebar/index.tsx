@@ -155,8 +155,8 @@ function CollapsedIconColumn({
   sidebar: Props['sidebar'];
 }): ReactNode {
   const history = useHistory();
-  const {siteConfig} = useDocusaurusContext();
-  const uiText = getDocsUiText(siteConfig.customFields?.site);
+  const {siteConfig, i18n} = useDocusaurusContext();
+  const uiText = getDocsUiText(siteConfig.customFields?.site, i18n.currentLocale);
   const [showToast, setShowToast] = useState(!hasEverExpanded);
 
   const handleExpand = () => {
@@ -333,7 +333,7 @@ function TwoLevelSidebar(props: Props): ReactNode {
   const history = useHistory();
   const {siteConfig, i18n} = useDocusaurusContext();
   const site = resolveDocsSite(siteConfig.customFields?.site);
-  const uiText = getDocsUiText(site);
+  const uiText = getDocsUiText(site, i18n.currentLocale);
   const locale = resolveDocsLocale(i18n.currentLocale, site);
   const route = parseDocsRoute(pathname, locale);
   const referenceNavigation = getManualReferenceNavigation(site);
