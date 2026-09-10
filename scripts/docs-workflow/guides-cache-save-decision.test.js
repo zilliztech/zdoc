@@ -109,3 +109,23 @@ test('legacy, recovery, and missing baseline always require a cache save', () =>
   assert.equal(result.status, 0, result.stderr)
   assert.equal(result.stdout.trim(), 'false')
 })
+
+test('requested selections never promote a partial cache', () => {
+  assert.equal(cacheSaveRequired({
+    cacheVersion: 'v5',
+    prefetchMode: 'incremental',
+    candidateSnapshotPath: '/nonexistent/candidate.json',
+    baselineSnapshotPath: '/nonexistent/baseline.json',
+    selectionMode: 'requested',
+  }), false)
+  assert.throws(
+    () => cacheSaveRequired({
+      cacheVersion: 'v5',
+      prefetchMode: 'incremental',
+      candidateSnapshotPath: '/nonexistent/candidate.json',
+      baselineSnapshotPath: '/nonexistent/baseline.json',
+      selectionMode: 'unexpected',
+    }),
+    /Invalid Guides selection mode/,
+  )
+})

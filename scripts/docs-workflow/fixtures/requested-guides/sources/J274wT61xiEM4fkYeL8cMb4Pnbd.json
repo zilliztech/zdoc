@@ -1,0 +1,3117 @@
+{
+  "creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "has_child": false,
+  "node_create_time": "1689046022",
+  "node_creator": "ou_8554528ee6e965bad56710acde1c7847",
+  "node_token": "J274wT61xiEM4fkYeL8cMb4Pnbd",
+  "node_type": "origin",
+  "obj_create_time": "1689046022",
+  "obj_edit_time": "1788421801",
+  "obj_token": "Rb8qdNKjCoVLpXxo7RCcr10kneT",
+  "obj_type": "docx",
+  "origin_node_token": "J274wT61xiEM4fkYeL8cMb4Pnbd",
+  "origin_space_id": "7167193056431783939",
+  "owner": "ou_8554528ee6e965bad56710acde1c7847",
+  "parent_node_token": "base:tblgHPdSvZP8gUz6",
+  "space_id": "7167193056431783939",
+  "title": "Install SDKs",
+  "slug": "install-sdks",
+  "blocks": {
+    "items": [
+      {
+        "block_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT",
+        "block_type": 1,
+        "children": [
+          "Fwckd56D1oAeK2xMiMzcPkcOnub",
+          "V7HgdI1C6oIljJxOzRpc30aQnef",
+          "L7uNdFLoGoGt7BxGpk0cKhQQnMg",
+          "P6Ngdrru2o9ZmzxWkLfclLFyn7c",
+          "D1RMd4uAXondS5xzFBncKjZrnVz",
+          "AwWXdmdF9ojN4Ixs1LIcNKQNnth",
+          "Ny7zd7aLZorTB2xvq7jckiwrn1k",
+          "JBAydos4kovBDix0jBsc16FBnne",
+          "EajidnuiJo9O9xxRdxqc2NsHnaf",
+          "XOSXdXXMwslJpabQU4OcgrROnZc",
+          "HifHdxdehoEyhDxZoe5c9EIon5g",
+          "WHSvd3Ha5o85uexeqTHcmlRGnIb",
+          "YzIid5Ep8oWI2hx9Hl1clsk1n4c",
+          "DM3MdfpGQsfEyTbIvbDcjo8Sngb",
+          "WDz6dyEeQoPepnx55CQcyEtcn8d",
+          "VfGodj1GdsLez6bNteScJUJRnSf",
+          "GdJJdupWJowjYyxe9yhcsHr8nmh",
+          "A71vd6ZHBoAXJdxjX4DcuLPjn5e",
+          "BQQidMT6YorfAsxUOpmcgYYynOx",
+          "JFsYdQcEko6Ib2xH4EtcXkw0nwf",
+          "StV3dptlGoL71PxBYIFcuALMn4c",
+          "KmwDd80ROo4SU2x7TxTcD7r9nTd",
+          "Q2gwdPF5yoNzFDxwvz6cSdGnnAf",
+          "TL1CdJVnlsDBVLbekkics1zfn6g",
+          "OL7id6OFgoDe9kxJ8yJcnpT8nOg",
+          "Cf1VdFMh7o62Vrx4JnHc4NdynSe",
+          "QvbVd9EYsoAl0hxJgFtcXrS3nig",
+          "AOmydejBioeyrWx5Mz9cj6BonTh",
+          "ZglMdIcFtoK4hVx6PYgchY8Gnvf"
+        ],
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Install SDKs",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1
+          }
+        },
+        "parent_id": ""
+      },
+      {
+        "block_id": "Fwckd56D1oAeK2xMiMzcPkcOnub",
+        "block_type": 2,
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud offers a managed Milvus vector database as a service. Four SDK options exist to facilitate cluster connections: ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Python",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FJ274wT61xiEM4fkYeL8cMb4Pnbd%23Ny7zd7aLZorTB2xvq7jckiwrn1k"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Java",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FJ274wT61xiEM4fkYeL8cMb4Pnbd%23GdJJdupWJowjYyxe9yhcsHr8nmh"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Go",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FJ274wT61xiEM4fkYeL8cMb4Pnbd%23KmwDd80ROo4SU2x7TxTcD7r9nTd"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ", or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Node.js",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fzilliverse.feishu.cn%2Fwiki%2FJ274wT61xiEM4fkYeL8cMb4Pnbd%23HifHdxdehoEyhDxZoe5c9EIon5g"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "V7HgdI1C6oIljJxOzRpc30aQnef",
+        "block_type": 34,
+        "children": [
+          "JyhPdc40VohWucxyZUBcuZs3nhe",
+          "MopcdJhwAoFFuJxNhw1c57SOnGd",
+          "GCrgd9lnEoxDv8xV1yScUT2lnie"
+        ],
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT",
+        "quote_container": {}
+      },
+      {
+        "block_id": "JyhPdc40VohWucxyZUBcuZs3nhe",
+        "block_type": 2,
+        "parent_id": "V7HgdI1C6oIljJxOzRpc30aQnef",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "MopcdJhwAoFFuJxNhw1c57SOnGd",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Zilliz Cloud consistently upgrades clusters to ensure version compatibility. For details, visit the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "mention_doc": {
+                "obj_type": 16,
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                },
+                "title": "Manage Organization Settings",
+                "token": "AAqUwQW3qia3akkjfDNc0kwanlh",
+                "url": "https://zilliverse.feishu.cn/wiki/AAqUwQW3qia3akkjfDNc0kwanlh"
+              }
+            },
+            {
+              "text_run": {
+                "content": " page. If connection issues arise due to SDK version discrepancies, heed the provided prompts to revert to a compatible SDK version. We'll notify you post-maintenance, post which you can upgrade your SDK without concerns.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "V7HgdI1C6oIljJxOzRpc30aQnef"
+      },
+      {
+        "block_id": "GCrgd9lnEoxDv8xV1yScUT2lnie",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "All SDKs below offer both a stable version and a beta version. The stable version is intended for common clusters, while the beta version corresponds to beta clusters. If you have upgraded your clusters to the beta version, ensure that you also upgraded your SDKs to the beta version.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "V7HgdI1C6oIljJxOzRpc30aQnef"
+      },
+      {
+        "block_id": "L7uNdFLoGoGt7BxGpk0cKhQQnMg",
+        "block_type": 2,
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "P6Ngdrru2o9ZmzxWkLfclLFyn7c",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "SDK Compatibility",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT"
+      },
+      {
+        "block_id": "D1RMd4uAXondS5xzFBncKjZrnVz",
+        "block_type": 2,
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The following table lists the compatible SDK versions of each Milvus version.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AwWXdmdF9ojN4Ixs1LIcNKQNnth",
+        "block_type": 31,
+        "children": [
+          "FvbXdYcxbostgcxnuM6c6IJ9nsc",
+          "T6sjd83xHocFyexOaCfcLtMTnge",
+          "LbUkd0TOAoktWJxO5RecqVmdnkg",
+          "IHe9dpa8boIHKtxuleYcsNZwnpf",
+          "IzbqdV02CoAWHQx3XH8c5923nyh",
+          "PxVjdJC7MoNSdtxvY31cTlwtnif",
+          "J9zxdicSbo2tV9xbjRkcTG14nAf",
+          "KHqado5NRoQI7kxadjec8gLGnDf",
+          "IBvwdq1ERoEKRFxYXMKcvDlwnnf",
+          "RfUSdkDZOo8mH1xjDrPcx1Qonnd",
+          "VEyudUXDJoXFKxxeHF6ckdg2nLG",
+          "D7oOdxicDobGgdx1gqRcqaYtnKg",
+          "YVWydTBDsoW7OBxW1MIcZB9znsf",
+          "PUKZd4XYlo8oFhxLOcUcC80lnCb",
+          "NTeodoojJoFZrFxDeMHcg1uvn6b",
+          "YnV6dD3eyoxyt2x1EKRcAvy4n5f",
+          "PYLyd0cm8oInagxRkRFcuX7pnTe",
+          "H7qOdYj05okLqoxdCt8ctFqgnqg",
+          "DK1PdYQfQouxfTxlAgtc0JhhnWD",
+          "XNq4duePNoKJ06x3WB6cfBzHnVg",
+          "Ku3qdri63oQ9cWxAFG8c3f55nJR",
+          "Oek0dxqqVov9dVxu4jDc2Goon3f",
+          "TdRRd1pb8o53fnxdy4Xc90CInce",
+          "FcYldKK0eo7CraxT9kJc5WxAnwe"
+        ],
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT",
+        "table": {
+          "cells": [
+            "FvbXdYcxbostgcxnuM6c6IJ9nsc",
+            "T6sjd83xHocFyexOaCfcLtMTnge",
+            "LbUkd0TOAoktWJxO5RecqVmdnkg",
+            "IHe9dpa8boIHKtxuleYcsNZwnpf",
+            "IzbqdV02CoAWHQx3XH8c5923nyh",
+            "PxVjdJC7MoNSdtxvY31cTlwtnif",
+            "J9zxdicSbo2tV9xbjRkcTG14nAf",
+            "KHqado5NRoQI7kxadjec8gLGnDf",
+            "IBvwdq1ERoEKRFxYXMKcvDlwnnf",
+            "RfUSdkDZOo8mH1xjDrPcx1Qonnd",
+            "VEyudUXDJoXFKxxeHF6ckdg2nLG",
+            "D7oOdxicDobGgdx1gqRcqaYtnKg",
+            "YVWydTBDsoW7OBxW1MIcZB9znsf",
+            "PUKZd4XYlo8oFhxLOcUcC80lnCb",
+            "NTeodoojJoFZrFxDeMHcg1uvn6b",
+            "YnV6dD3eyoxyt2x1EKRcAvy4n5f",
+            "PYLyd0cm8oInagxRkRFcuX7pnTe",
+            "H7qOdYj05okLqoxdCt8ctFqgnqg",
+            "DK1PdYQfQouxfTxlAgtc0JhhnWD",
+            "XNq4duePNoKJ06x3WB6cfBzHnVg",
+            "Ku3qdri63oQ9cWxAFG8c3f55nJR",
+            "Oek0dxqqVov9dVxu4jDc2Goon3f",
+            "TdRRd1pb8o53fnxdy4Xc90CInce",
+            "FcYldKK0eo7CraxT9kJc5WxAnwe"
+          ],
+          "property": {
+            "column_size": 6,
+            "column_width": [
+              100,
+              100,
+              100,
+              100,
+              123,
+              100
+            ],
+            "merge_info": [
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              },
+              {
+                "col_span": 1,
+                "row_span": 1
+              }
+            ],
+            "row_size": 4
+          }
+        }
+      },
+      {
+        "block_id": "FvbXdYcxbostgcxnuM6c6IJ9nsc",
+        "block_type": 32,
+        "children": [
+          "AFJvdwtf0o93vbxMSuWcpgIvnsf"
+        ],
+        "parent_id": "AwWXdmdF9ojN4Ixs1LIcNKQNnth",
+        "table_cell": {}
+      },
+      {
+        "block_id": "AFJvdwtf0o93vbxMSuWcpgIvnsf",
+        "block_type": 2,
+        "parent_id": "FvbXdYcxbostgcxnuM6c6IJ9nsc",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Milvus Version",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "T6sjd83xHocFyexOaCfcLtMTnge",
+        "block_type": 32,
+        "children": [
+          "N1FxdrJBKonCvOxaAfAcRu7rnZf"
+        ],
+        "parent_id": "AwWXdmdF9ojN4Ixs1LIcNKQNnth",
+        "table_cell": {}
+      },
+      {
+        "block_id": "N1FxdrJBKonCvOxaAfAcRu7rnZf",
+        "block_type": 2,
+        "parent_id": "T6sjd83xHocFyexOaCfcLtMTnge",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Python SDK",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "LbUkd0TOAoktWJxO5RecqVmdnkg",
+        "block_type": 32,
+        "children": [
+          "Cl11droaWo4LjSxhGJPcG6OHnFK"
+        ],
+        "parent_id": "AwWXdmdF9ojN4Ixs1LIcNKQNnth",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Cl11droaWo4LjSxhGJPcG6OHnFK",
+        "block_type": 2,
+        "parent_id": "LbUkd0TOAoktWJxO5RecqVmdnkg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Node.js SDK",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IHe9dpa8boIHKtxuleYcsNZwnpf",
+        "block_type": 32,
+        "children": [
+          "ZimDdNNc7oTRwux20MYcInRInC4"
+        ],
+        "parent_id": "AwWXdmdF9ojN4Ixs1LIcNKQNnth",
+        "table_cell": {}
+      },
+      {
+        "block_id": "ZimDdNNc7oTRwux20MYcInRInC4",
+        "block_type": 2,
+        "parent_id": "IHe9dpa8boIHKtxuleYcsNZwnpf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Java SDK",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IzbqdV02CoAWHQx3XH8c5923nyh",
+        "block_type": 32,
+        "children": [
+          "SGZ1ddwrooXQeKxlmBCcX2FwnQc"
+        ],
+        "parent_id": "AwWXdmdF9ojN4Ixs1LIcNKQNnth",
+        "table_cell": {}
+      },
+      {
+        "block_id": "SGZ1ddwrooXQeKxlmBCcX2FwnQc",
+        "block_type": 2,
+        "parent_id": "IzbqdV02CoAWHQx3XH8c5923nyh",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Go SDK",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PxVjdJC7MoNSdtxvY31cTlwtnif",
+        "block_type": 32,
+        "children": [
+          "BoW2dhxnKovERoxdiK4c1heynte"
+        ],
+        "parent_id": "AwWXdmdF9ojN4Ixs1LIcNKQNnth",
+        "table_cell": {}
+      },
+      {
+        "block_id": "BoW2dhxnKovERoxdiK4c1heynte",
+        "block_type": 2,
+        "parent_id": "PxVjdJC7MoNSdtxvY31cTlwtnif",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "C++",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "J9zxdicSbo2tV9xbjRkcTG14nAf",
+        "block_type": 32,
+        "children": [
+          "QfTEdKLDFoGhODxZgtYcHUTrnQB"
+        ],
+        "parent_id": "AwWXdmdF9ojN4Ixs1LIcNKQNnth",
+        "table_cell": {}
+      },
+      {
+        "block_id": "QfTEdKLDFoGhODxZgtYcHUTrnQB",
+        "block_type": 2,
+        "parent_id": "J9zxdicSbo2tV9xbjRkcTG14nAf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "3.0.x",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KHqado5NRoQI7kxadjec8gLGnDf",
+        "block_type": 32,
+        "children": [
+          "MWAidukxiotQk6xLlrkcKLw3n5c"
+        ],
+        "parent_id": "AwWXdmdF9ojN4Ixs1LIcNKQNnth",
+        "table_cell": {}
+      },
+      {
+        "block_id": "MWAidukxiotQk6xLlrkcKLw3n5c",
+        "block_type": 2,
+        "parent_id": "KHqado5NRoQI7kxadjec8gLGnDf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "3.0.1",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "IBvwdq1ERoEKRFxYXMKcvDlwnnf",
+        "block_type": 32,
+        "children": [
+          "Prdtdib9wodZZixjgvkcaChFnpe"
+        ],
+        "parent_id": "AwWXdmdF9ojN4Ixs1LIcNKQNnth",
+        "table_cell": {}
+      },
+      {
+        "block_id": "Prdtdib9wodZZixjgvkcaChFnpe",
+        "block_type": 2,
+        "parent_id": "IBvwdq1ERoEKRFxYXMKcvDlwnnf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "3.0.5",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "RfUSdkDZOo8mH1xjDrPcx1Qonnd",
+        "block_type": 32,
+        "children": [
+          "VuxvdpIBxo7JguxgXEZcLc7NnRb"
+        ],
+        "parent_id": "AwWXdmdF9ojN4Ixs1LIcNKQNnth",
+        "table_cell": {}
+      },
+      {
+        "block_id": "VuxvdpIBxo7JguxgXEZcLc7NnRb",
+        "block_type": 2,
+        "parent_id": "RfUSdkDZOo8mH1xjDrPcx1Qonnd",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "3.0.8",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VEyudUXDJoXFKxxeHF6ckdg2nLG",
+        "block_type": 32,
+        "children": [
+          "WkQhdxorXoDIP4x1qZncWdc1nuf"
+        ],
+        "parent_id": "AwWXdmdF9ojN4Ixs1LIcNKQNnth",
+        "table_cell": {}
+      },
+      {
+        "block_id": "WkQhdxorXoDIP4x1qZncWdc1nuf",
+        "block_type": 2,
+        "parent_id": "VEyudUXDJoXFKxxeHF6ckdg2nLG",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "3.0.0-beta",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "D7oOdxicDobGgdx1gqRcqaYtnKg",
+        "block_type": 32,
+        "children": [
+          "N927dG92EoYvPlxjsGlc981pnUr"
+        ],
+        "parent_id": "AwWXdmdF9ojN4Ixs1LIcNKQNnth",
+        "table_cell": {}
+      },
+      {
+        "block_id": "N927dG92EoYvPlxjsGlc981pnUr",
+        "block_type": 2,
+        "parent_id": "D7oOdxicDobGgdx1gqRcqaYtnKg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "3.0.2",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YVWydTBDsoW7OBxW1MIcZB9znsf",
+        "block_type": 32,
+        "children": [
+          "B6cidnchcooPTsx48E9cAMgXnzd"
+        ],
+        "parent_id": "AwWXdmdF9ojN4Ixs1LIcNKQNnth",
+        "table_cell": {}
+      },
+      {
+        "block_id": "B6cidnchcooPTsx48E9cAMgXnzd",
+        "block_type": 2,
+        "parent_id": "YVWydTBDsoW7OBxW1MIcZB9znsf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "2.6.x",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PUKZd4XYlo8oFhxLOcUcC80lnCb",
+        "block_type": 32,
+        "children": [
+          "UPwNd39wBoH8TzxuOxxcfNAqnKc"
+        ],
+        "parent_id": "AwWXdmdF9ojN4Ixs1LIcNKQNnth",
+        "table_cell": {}
+      },
+      {
+        "block_id": "UPwNd39wBoH8TzxuOxxcfNAqnKc",
+        "block_type": 2,
+        "parent_id": "PUKZd4XYlo8oFhxLOcUcC80lnCb",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "2.6.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "17",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "NTeodoojJoFZrFxDeMHcg1uvn6b",
+        "block_type": 32,
+        "children": [
+          "V6EAdi9BooXldax1qxccIEmqn9g"
+        ],
+        "parent_id": "AwWXdmdF9ojN4Ixs1LIcNKQNnth",
+        "table_cell": {}
+      },
+      {
+        "block_id": "V6EAdi9BooXldax1qxccIEmqn9g",
+        "block_type": 2,
+        "parent_id": "NTeodoojJoFZrFxDeMHcg1uvn6b",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "2.6.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "17",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YnV6dD3eyoxyt2x1EKRcAvy4n5f",
+        "block_type": 32,
+        "children": [
+          "SQXbdMAAmouvscx12a6c1i1GnBd"
+        ],
+        "parent_id": "AwWXdmdF9ojN4Ixs1LIcNKQNnth",
+        "table_cell": {}
+      },
+      {
+        "block_id": "SQXbdMAAmouvscx12a6c1i1GnBd",
+        "block_type": 2,
+        "parent_id": "YnV6dD3eyoxyt2x1EKRcAvy4n5f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "2.6.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "24",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "PYLyd0cm8oInagxRkRFcuX7pnTe",
+        "block_type": 32,
+        "children": [
+          "K2qldLm94o1WboxkpdYcXYBdnKb"
+        ],
+        "parent_id": "AwWXdmdF9ojN4Ixs1LIcNKQNnth",
+        "table_cell": {}
+      },
+      {
+        "block_id": "K2qldLm94o1WboxkpdYcXYBdnKb",
+        "block_type": 2,
+        "parent_id": "PYLyd0cm8oInagxRkRFcuX7pnTe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "2.6.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "5",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "H7qOdYj05okLqoxdCt8ctFqgnqg",
+        "block_type": 32,
+        "children": [
+          "IrOLdpqOoo3uYjxLdmzchbV8nld"
+        ],
+        "parent_id": "AwWXdmdF9ojN4Ixs1LIcNKQNnth",
+        "table_cell": {}
+      },
+      {
+        "block_id": "IrOLdpqOoo3uYjxLdmzchbV8nld",
+        "block_type": 2,
+        "parent_id": "H7qOdYj05okLqoxdCt8ctFqgnqg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "2.6.6",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DK1PdYQfQouxfTxlAgtc0JhhnWD",
+        "block_type": 32,
+        "children": [
+          "ZfKodPoMSo7gACxvqQ2cOeUQnth"
+        ],
+        "parent_id": "AwWXdmdF9ojN4Ixs1LIcNKQNnth",
+        "table_cell": {}
+      },
+      {
+        "block_id": "ZfKodPoMSo7gACxvqQ2cOeUQnth",
+        "block_type": 2,
+        "parent_id": "DK1PdYQfQouxfTxlAgtc0JhhnWD",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "2.5.x",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XNq4duePNoKJ06x3WB6cfBzHnVg",
+        "block_type": 32,
+        "children": [
+          "KvZcdnb2MoxMQFx9Idxc69qtnEg"
+        ],
+        "parent_id": "AwWXdmdF9ojN4Ixs1LIcNKQNnth",
+        "table_cell": {}
+      },
+      {
+        "block_id": "KvZcdnb2MoxMQFx9Idxc69qtnEg",
+        "block_type": 2,
+        "parent_id": "XNq4duePNoKJ06x3WB6cfBzHnVg",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "2.5.1",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "8",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ku3qdri63oQ9cWxAFG8c3f55nJR",
+        "block_type": 32,
+        "children": [
+          "H1LJd2HI7okY1nxw6zhcouj3nTc"
+        ],
+        "parent_id": "AwWXdmdF9ojN4Ixs1LIcNKQNnth",
+        "table_cell": {}
+      },
+      {
+        "block_id": "H1LJd2HI7okY1nxw6zhcouj3nTc",
+        "block_type": 2,
+        "parent_id": "Ku3qdri63oQ9cWxAFG8c3f55nJR",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "2.5.13",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Oek0dxqqVov9dVxu4jDc2Goon3f",
+        "block_type": 32,
+        "children": [
+          "RVtBdc42HoWjdzx0j5Qcx7btnig"
+        ],
+        "parent_id": "AwWXdmdF9ojN4Ixs1LIcNKQNnth",
+        "table_cell": {}
+      },
+      {
+        "block_id": "RVtBdc42HoWjdzx0j5Qcx7btnig",
+        "block_type": 2,
+        "parent_id": "Oek0dxqqVov9dVxu4jDc2Goon3f",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "2.5.1",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "5",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TdRRd1pb8o53fnxdy4Xc90CInce",
+        "block_type": 32,
+        "children": [
+          "NyCodovLhouCrLxWi4YcCzhVnib"
+        ],
+        "parent_id": "AwWXdmdF9ojN4Ixs1LIcNKQNnth",
+        "table_cell": {}
+      },
+      {
+        "block_id": "NyCodovLhouCrLxWi4YcCzhVnib",
+        "block_type": 2,
+        "parent_id": "TdRRd1pb8o53fnxdy4Xc90CInce",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "2.5.6",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "FcYldKK0eo7CraxT9kJc5WxAnwe",
+        "block_type": 32,
+        "children": [
+          "KIAndyzFxo2K3PxMdAncsMhVnxe"
+        ],
+        "parent_id": "AwWXdmdF9ojN4Ixs1LIcNKQNnth",
+        "table_cell": {}
+      },
+      {
+        "block_id": "KIAndyzFxo2K3PxMdAncsMhVnxe",
+        "block_type": 2,
+        "parent_id": "FcYldKK0eo7CraxT9kJc5WxAnwe",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "--",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Ny7zd7aLZorTB2xvq7jckiwrn1k",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Install PyMilvus: Python SDK",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT"
+      },
+      {
+        "block_id": "JBAydos4kovBDix0jBsc16FBnne",
+        "block_type": 2,
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "PyMilvus is Milvus's Python SDK. Access its ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "source code on GitHub",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fgithub.com%2Fmilvus-io%2Fpymilvus"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "EajidnuiJo9O9xxRdxqc2NsHnaf",
+        "block_type": 34,
+        "children": [
+          "WL26dOoKBot7JExdlo3cZVPBn2O",
+          "F0zsd0k7LoyMacxcLozc25iJnpl"
+        ],
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT",
+        "quote_container": {}
+      },
+      {
+        "block_id": "WL26dOoKBot7JExdlo3cZVPBn2O",
+        "block_type": 2,
+        "parent_id": "EajidnuiJo9O9xxRdxqc2NsHnaf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "F0zsd0k7LoyMacxcLozc25iJnpl",
+        "block_type": 2,
+        "parent_id": "EajidnuiJo9O9xxRdxqc2NsHnaf",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Ensure your ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Python",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " version exceeds ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "3.8",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " prior to installation.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XOSXdXXMwslJpabQU4OcgrROnZc",
+        "block_type": 49,
+        "children": [
+          "J5ROdckI8oWoUjx8D77c0t17nVc"
+        ],
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT",
+        "source_synced": {
+          "align": 1,
+          "elements": [
+            {
+              "text_run": {
+                "content": "同步块",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "block_id": "J5ROdckI8oWoUjx8D77c0t17nVc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Install pymilvus\npython -m pip install pymilvus\n\n# Update PyMilvus to the newest version\npython -m pip install --upgrade pymilvus\n\n# Verify installation success\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "python -m pip list | grep pymilvus",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 7,
+            "wrap": false
+          }
+        },
+        "parent_id": "XOSXdXXMwslJpabQU4OcgrROnZc"
+      },
+      {
+        "block_id": "HifHdxdehoEyhDxZoe5c9EIon5g",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Install Node.js ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SDK",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT"
+      },
+      {
+        "block_id": "WHSvd3Ha5o85uexeqTHcmlRGnIb",
+        "block_type": 2,
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For Milvus's Node.js SDK, employ ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "npm",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "yarn",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". Access its ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "source code on GitHub",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fgithub.com%2Fmilvus-io%2Fmilvus-sdk-node"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "YzIid5Ep8oWI2hx9Hl1clsk1n4c",
+        "block_type": 34,
+        "children": [
+          "EumKdisO2oUjp0xeg3uclzkHnOg",
+          "XG2ld9DeJoTZvtx7HVscI3Nvnrb"
+        ],
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT",
+        "quote_container": {}
+      },
+      {
+        "block_id": "EumKdisO2oUjp0xeg3uclzkHnOg",
+        "block_type": 2,
+        "parent_id": "YzIid5Ep8oWI2hx9Hl1clsk1n4c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "📘 Notes",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "XG2ld9DeJoTZvtx7HVscI3Nvnrb",
+        "block_type": 2,
+        "parent_id": "YzIid5Ep8oWI2hx9Hl1clsk1n4c",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Ensure your ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Node.js",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " version is ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "14",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " or above prior to installation.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "DM3MdfpGQsfEyTbIvbDcjo8Sngb",
+        "block_type": 49,
+        "children": [
+          "ED3adYkqNo9meqxpFt9cZ7R0ngd"
+        ],
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT",
+        "source_synced": {
+          "align": 1,
+          "elements": [
+            {
+              "text_run": {
+                "content": "同步块",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "block_id": "ED3adYkqNo9meqxpFt9cZ7R0ngd",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "npm install @zilliz/milvus2-sdk-node\n# Alternatively,\nyarn add @zilliz/milvus2-sdk-node\n\n# Upgrade to the latest version\nnpm update @zilliz/milvus2-sdk-node\n# Alternatively,\nyarn upgrade @zilliz/milvus2-sdk-node\n\n# Verify installation\nnpm list | grep @zilliz/milvus2-sdk-node\n# or\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "yarn list | grep @zilliz/milvus2-sdk-node",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 7,
+            "wrap": false
+          }
+        },
+        "parent_id": "DM3MdfpGQsfEyTbIvbDcjo8Sngb"
+      },
+      {
+        "block_id": "WDz6dyEeQoPepnx55CQcyEtcn8d",
+        "block_type": 2,
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "You can use this ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SDK",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " as either a CommonJS or an ES6 module. Typically, for ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "npm init",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " projects, use CommonJS. For ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "npm init es6",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " ones, ES6 is preferable.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "VfGodj1GdsLez6bNteScJUJRnSf",
+        "block_type": 49,
+        "children": [
+          "DUCBdPljfo1wxzxatQNcLa6wnlc"
+        ],
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT",
+        "source_synced": {
+          "align": 1,
+          "elements": [
+            {
+              "text_run": {
+                "content": "同步块",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "block_id": "DUCBdPljfo1wxzxatQNcLa6wnlc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "// Import the SDK as a CommonJS module\nconst { MilvusClient } = require(\"@zilliz/milvus2-sdk-node\")\n\n// Import the SDK as a ES6 module\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "import { MilvusClient } from \"@zilliz/milvus2-sdk-node\"",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 30,
+            "wrap": false
+          }
+        },
+        "parent_id": "VfGodj1GdsLez6bNteScJUJRnSf"
+      },
+      {
+        "block_id": "GdJJdupWJowjYyxe9yhcsHr8nmh",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Install Java ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SDK",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT"
+      },
+      {
+        "block_id": "A71vd6ZHBoAXJdxjX4DcuLPjn5e",
+        "block_type": 2,
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Use Apache Maven or Gradle/Grails to obtain the SDK. Access the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "source code on GitHub",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fgithub.com%2Fmilvus-io%2Fmilvus-sdk-java"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "BQQidMT6YorfAsxUOpmcgYYynOx",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For Apache Maven, append this to the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "pom.xml",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " dependencies:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "AcLMddQ8jsbEZVb6A0LctQpKnHc"
+        ],
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT"
+      },
+      {
+        "block_id": "AcLMddQ8jsbEZVb6A0LctQpKnHc",
+        "block_type": 49,
+        "children": [
+          "Z7AxdK9DtoPnw3xrWT2cMkBwnbc"
+        ],
+        "parent_id": "BQQidMT6YorfAsxUOpmcgYYynOx",
+        "source_synced": {
+          "align": 1,
+          "elements": [
+            {
+              "text_run": {
+                "content": "同步块",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "block_id": "Z7AxdK9DtoPnw3xrWT2cMkBwnbc",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "<!-- Install Java SDK compatible with Milvus v2.5.x -->\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "<dependenc",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "y>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "     <groupId>io.milvus</groupId>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "     <a",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "rtifactId>milvus-sdk-java</artifactId>\n     <version>2.6.24</version>\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " </dependency>",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 66,
+            "wrap": false
+          }
+        },
+        "parent_id": "AcLMddQ8jsbEZVb6A0LctQpKnHc"
+      },
+      {
+        "block_id": "JFsYdQcEko6Ib2xH4EtcXkw0nwf",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "For Gradle/Grails, execute:",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "children": [
+          "QMead0jBlsOyqEbdZn6cgKIMnKh"
+        ],
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT"
+      },
+      {
+        "block_id": "QMead0jBlsOyqEbdZn6cgKIMnKh",
+        "block_type": 49,
+        "children": [
+          "N865dfvc2opAtBxCt5ucP46HnPe"
+        ],
+        "parent_id": "JFsYdQcEko6Ib2xH4EtcXkw0nwf",
+        "source_synced": {
+          "align": 1,
+          "elements": [
+            {
+              "text_run": {
+                "content": "同步块",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "block_id": "N865dfvc2opAtBxCt5ucP46HnPe",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Install Java SDK compatible with Milvus v2.5.x\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "compile 'io.milvus:milvus-sdk-java:2.6.24'",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 7,
+            "wrap": false
+          }
+        },
+        "parent_id": "QMead0jBlsOyqEbdZn6cgKIMnKh"
+      },
+      {
+        "block_id": "StV3dptlGoL71PxBYIFcuALMn4c",
+        "block_type": 2,
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If your cluster is compatible with ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Milvus v3.0.x (Public Preview),",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " please change ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "2.6.24",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in the above commands to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "3.0.8",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "KmwDd80ROo4SU2x7TxTcD7r9nTd",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Install Go ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "SDK",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT"
+      },
+      {
+        "block_id": "Q2gwdPF5yoNzFDxwvz6cSdGnnAf",
+        "block_type": 2,
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The Go SDK is available via ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "go get",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ". Explore its ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "source code on GitHub",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fgithub.com%2Fmilvus-io%2Fmilvus-sdk-go"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "TL1CdJVnlsDBVLbekkics1zfn6g",
+        "block_type": 49,
+        "children": [
+          "Kkimd3MOvo4fi0xtKvJcwShqnvg"
+        ],
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT",
+        "source_synced": {
+          "align": 1,
+          "elements": [
+            {
+              "text_run": {
+                "content": "同步块",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "block_id": "Kkimd3MOvo4fi0xtKvJcwShqnvg",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "# Install Go SDK compatible with Milvus v2.5.x\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "go get -u github.com/milvus-io/milvus-sdk-go/v2@v2.6.5",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 7,
+            "wrap": false
+          }
+        },
+        "parent_id": "TL1CdJVnlsDBVLbekkics1zfn6g"
+      },
+      {
+        "block_id": "OL7id6OFgoDe9kxJ8yJcnpT8nOg",
+        "block_type": 2,
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If your cluster is compatible with ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Milvus v3.0.x (Public Preview),",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " please change ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "2.6.5",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " in the above commands to ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "3.0.0-beta",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "Cf1VdFMh7o62Vrx4JnHc4NdynSe",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Install C++ SDK",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        },
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT"
+      },
+      {
+        "block_id": "QvbVd9EYsoAl0hxJgFtcXrS3nig",
+        "block_type": 2,
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The C++ SDK is available as follows. Explore its ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "source code on GitHub",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "link": {
+                    "url": "https%3A%2F%2Fgithub.com%2Fmilvus-io%2Fmilvus-sdk-cpp"
+                  },
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": ".",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      },
+      {
+        "block_id": "AOmydejBioeyrWx5Mz9cj6BonTh",
+        "block_type": 14,
+        "code": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "git clone https://github.com/milvus-io/milvus-sdk-cpp.git\ncd milvus-sdk-cpp\nbash scripts/install_deps.sh\nmake\n\n# install the sdk\n",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "make install       # install to /usr/local",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "language": 60,
+            "wrap": false
+          }
+        },
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT"
+      },
+      {
+        "block_id": "ZglMdIcFtoK4hVx6PYgchY8Gnvf",
+        "block_type": 2,
+        "parent_id": "Rb8qdNKjCoVLpXxo7RCcr10kneT",
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "If your cluster is compatible with ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "Milvus v3.0.x (Public Preview),",
+                "text_element_style": {
+                  "bold": true,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " please use the ",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": "3.0.2",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            },
+            {
+              "text_run": {
+                "content": " release.",
+                "text_element_style": {
+                  "bold": false,
+                  "inline_code": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false
+                }
+              }
+            }
+          ],
+          "style": {
+            "align": 1,
+            "folded": false
+          }
+        }
+      }
+    ],
+    "counts": 93
+  },
+  "name": "Install SDKs",
+  "base_record_id": "recvm27Y8Z4pkq",
+  "base_table_id": "tblgHPdSvZP8gUz6",
+  "base_table_name": "Client Libraries",
+  "base_record_index": 0,
+  "base_placement_type": "canonical",
+  "base_targets": [
+    "Zilliz.SaaS",
+    "Zilliz.PaaS"
+  ],
+  "base_status": "Draft",
+  "base_labels": null,
+  "base_beta": "FALSE",
+  "base_ref_target_doc": null
+}
