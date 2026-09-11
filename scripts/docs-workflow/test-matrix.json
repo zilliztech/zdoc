@@ -795,6 +795,26 @@
         "git diff --check"
       ],
       "reason": "Docs UI text dictionary drives navbar, sidebar, search, and chat copy per site and locale; keep locale selection, secondary navbar label mapping, and Japanese copy deterministic."
+    },
+    {
+      "id": "translation-quality-assets",
+      "paths": [
+        "scripts/translation/tm-retrieve*",
+        "scripts/translation/prompts.js",
+        "config/translation/ja-JP.json",
+        ".github/prompts/codex-style-guide.ja-JP.md",
+        ".claude/specs/2026-09-11-translation-quality-assets-design.md"
+      ],
+      "focusedTests": [
+        "node --test scripts/translation/tm-retrieve.test.js"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm test:translation",
+        "pnpm test:workflow-matrix",
+        "pnpm test:workflow-policy"
+      ],
+      "reason": "Japanese style guide joins the prompt contract chain (promptContractSha256) and TM retrieval is a new offline asset; prompt-hash-sensitive recovery tests and translation suites must stay green while zh-CN-reference remains untouched."
     }
   ]
 }

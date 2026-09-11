@@ -1,17 +1,26 @@
 {
   "schemaVersion": 1,
-  "contractId": "ja-JP-2026-08-10-p0.4",
+  "contractId": "ja-JP-2026-09-11-p0.5",
   "target": "ja-JP",
   "locale": "ja-JP",
   "styleRules": [
     "Use natural, concise Japanese developer-documentation prose in consistent です・ます style.",
     "Do not translate English you as あなた unless the actor must be distinguished.",
     "Use modern katakana long-vowel spelling such as サーバー, クラスター, and ユーザー.",
-    "Treat fenced code comments as protected code bytes, not localizable prose."
+    "Treat fenced code comments as protected code bytes, not localizable prose.",
+    "Follow the authoritative Japanese style guide injected immediately after this contract; it governs scenario-level style (prerequisite lists, procedures, tables, notes, UI handling) wherever this contract does not already decide terminology."
   ],
   "mandatoryTerms": [
-    {"source": "collection", "target": "コレクション", "caseSensitive": false},
-    {"source": "cluster", "target": "クラスター", "caseSensitive": false},
+    {
+      "source": "collection",
+      "target": "コレクション",
+      "caseSensitive": false
+    },
+    {
+      "source": "cluster",
+      "target": "クラスター",
+      "caseSensitive": false
+    },
     {
       "source": "vector",
       "target": "ベクトル",
@@ -20,14 +29,39 @@
         "fields: **id**, **vector**, and **doctype**"
       ]
     },
-    {"source": "scalar", "target": "スカラー", "caseSensitive": false},
-    {"source": "index", "target": "インデックス", "caseSensitive": false},
-    {"source": "schema", "target": "スキーマ", "caseSensitive": false},
-    {"source": "database", "target": "データベース", "caseSensitive": false},
-    {"source": "Compaction", "target": "Compaction", "caseSensitive": true}
+    {
+      "source": "scalar",
+      "target": "スカラー",
+      "caseSensitive": false
+    },
+    {
+      "source": "index",
+      "target": "インデックス",
+      "caseSensitive": false
+    },
+    {
+      "source": "schema",
+      "target": "スキーマ",
+      "caseSensitive": false
+    },
+    {
+      "source": "database",
+      "target": "データベース",
+      "caseSensitive": false
+    },
+    {
+      "source": "Compaction",
+      "target": "Compaction",
+      "caseSensitive": true
+    }
   ],
   "forbiddenTranslations": [
-    {"source": "Compaction", "targets": ["圧縮"]}
+    {
+      "source": "Compaction",
+      "targets": [
+        "圧縮"
+      ]
+    }
   ],
   "doNotTranslate": [
     "Zilliz Cloud",
