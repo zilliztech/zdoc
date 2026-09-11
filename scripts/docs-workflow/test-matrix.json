@@ -835,6 +835,21 @@
         "pnpm test:replay:translation"
       ],
       "reason": "Whole-file agentic provider and its surgical incremental lane share the translation report/recovery contracts and branch the producer runner step behind the TRANSLATION_PROVIDER repo variable; report-envelope compatibility, lane classification, protected-token change coverage, bounded repair evidence, and workflow policy must stay green while the unit pipeline remains the default path."
+    },
+    {
+      "id": "translation-zh-style-guide",
+      "paths": [
+        ".github/prompts/codex-style-guide.zh-CN-reference.md",
+        "config/translation/zh-CN-reference.json"
+      ],
+      "focusedTests": [],
+      "harnesses": [],
+      "gates": [
+        "pnpm test:translation",
+        "pnpm test:workflow-matrix",
+        "pnpm test:workflow-policy"
+      ],
+      "reason": "The zh-CN-reference style guide joins the prompt contract chain (promptContractSha256); contract JSON schema and recovery prompt-hash tests must stay green. Mirror of the ja-JP quality-assets change for Phase C."
     }
   ]
 }

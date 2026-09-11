@@ -18,6 +18,7 @@ const PROMPTS_BY_TARGET = Object.freeze({
     review: 'codex-review-agent.zh-CN-reference.md',
     correction: 'codex-correction-agent.zh-CN-reference.md',
     polish: 'codex-polish-agent.zh-CN-reference.md',
+    style: 'codex-style-guide.zh-CN-reference.md',
   }),
 })
 

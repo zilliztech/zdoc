@@ -51,7 +51,7 @@ const JA_TRANSLATED_LINK = `---\ntitle: 制限\nslug: /limits\n---\n\n# 制限\n
 
 test('stylePromptPathFor resolves per target without hardcoding ja', () => {
   assert.equal(stylePromptPathFor('ja-JP'), 'codex-style-guide.ja-JP.md');
-  assert.equal(stylePromptPathFor('zh-CN-reference'), null);
+  assert.equal(stylePromptPathFor('zh-CN-reference'), 'codex-style-guide.zh-CN-reference.md');
 });
 
 test('task prompt is locale-agnostic and references the registered style guide only when present', () => {
@@ -60,10 +60,9 @@ test('task prompt is locale-agnostic and references the registered style guide o
   assert.match(withStyle, /codex-style-guide\.ja-JP\.md/);
   assert.match(withStyle, /<locale_contract>/);
   assert.match(withStyle, /node validate\.js/);
-  const withoutStyle = buildAgenticTaskPrompt({item, target: 'zh-CN-reference', siteDir: '/site', stylePromptPath: stylePromptPathFor('zh-CN-reference'), validatorCommand: 'node validate.js'});
-  assert.doesNotMatch(withoutStyle, /style guide is the authoritative/);
-  assert.match(withoutStyle, /No zh-CN-reference style guide is registered/);
-  assert.match(withoutStyle, /zh-CN/);
+  const zh = buildAgenticTaskPrompt({item, target: 'zh-CN-reference', siteDir: '/site', stylePromptPath: stylePromptPathFor('zh-CN-reference'), validatorCommand: 'node validate.js'});
+  assert.match(zh, /codex-style-guide\.zh-CN-reference\.md/);
+  assert.match(zh, /zh-CN/);
 });
 
 test('repair prompt bounds and quotes violations with the validator command', () => {

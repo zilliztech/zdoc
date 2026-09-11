@@ -74,7 +74,11 @@ follow-up contract bumps.
   is neither a terminology obligation nor a repair site). Remaining Phase B work: wiring the
   lane into the incremental manifest selection; consuming the retained ja-JP recovery backlog.
 - Phase C: zh-CN-reference follows the same route (zh style-guide distillation, contract
-  expansion, provider reuse — the provider must stay locale-agnostic).
+  expansion, provider reuse — the provider must stay locale-agnostic). Landed in this change:
+  the zh style guide (57 corpus-distilled rules plus 10 resolved editorial decisions,
+  validated against 12 published parallel reference pages) registers as the zh
+  `style` prompt and the contract advances to `zh-CN-reference-2026-09-11-p0.5`; remaining
+  Phase C work is zh terminology expansion, judge validation, and gray rollout.
 - Phase D: retire the unit translation path in a dedicated PR once both lanes are migrated,
   keeping the file-level manifest/report/recovery contracts.
 
