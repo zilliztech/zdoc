@@ -14,6 +14,7 @@
 // existing partial-success and recovery contracts.
 
 const fs = require('node:fs')
+const os = require('node:os')
 const path = require('node:path')
 const {loadLocaleContract, formatLocaleContract} = require('./localeContract')
 const {promptNamesFor} = require('./prompts')
@@ -148,6 +149,7 @@ async function runAgenticTranslation({siteDir, manifest, callCodex, validate, ma
 // surface above so tests inject a fake callCodex and never touch the network.
 async function createCodexCall({model, baseUrl, apiKey, workingDirectory, timeoutMs = 20 * 60 * 1000, codexHome}) {
   const {Codex} = await import('@openai/codex-sdk')
+  if (codexHome) fs.mkdirSync(path.resolve(codexHome), {recursive: true})
   const codex = new Codex({
     config: {
       model_provider: 'agenticgateway',
@@ -155,14 +157,14 @@ async function createCodexCall({model, baseUrl, apiKey, workingDirectory, timeou
         agenticgateway: {name: 'agentic gateway', base_url: baseUrl, env_key: 'AGENTIC_PROVIDER_KEY', wire_api: 'responses', query_params: {}},
       },
     },
-    env: {
-      PATH: process.env.PATH,
-      HOME: process.env.HOME,
+    env: Object.fromEntries(Object.entries({
+      PATH: process.env.PATH || '/usr/local/bin:/usr/bin:/bin',
+      HOME: process.env.HOME || path.join(os.tmpdir(), 'agentic-provider-home'),
       LANG: process.env.LANG || 'en_US.UTF-8',
-      TMPDIR: process.env.TMPDIR || '/tmp',
+      TMPDIR: process.env.TMPDIR || os.tmpdir(),
       ...(codexHome ? {CODEX_HOME: codexHome} : {}),
       AGENTIC_PROVIDER_KEY: apiKey,
-    },
+    }).filter(([, value]) => value !== undefined)),
   })
   return async ({prompt}) => {
     const thread = codex.startThread({model, sandboxMode: 'workspace-write', workingDirectory, approvalPolicy: 'never', skipGitRepoCheck: true})
@@ -212,7 +214,7 @@ async function main() {
   const options = parseCliArgs(process.argv.slice(2))
   const apiKey = process.env[options.apiKeyEnv]
   if (!apiKey) throw new Error(`environment ${options.apiKeyEnv} is required`)
-  const manifest = JSON.parse(fs.readFileSync(options.manifest, 'utf8'))
+  const manifest = JSON.parse(fs.readFileSync(options.manifestPath, 'utf8'))
   const callCodex = await createCodexCall({model: options.model, baseUrl: options.baseUrl, apiKey, workingDirectory: process.cwd()})
   const report = await runAgenticTranslation({
     siteDir: options.siteDir,
@@ -231,6 +233,7 @@ async function main() {
 module.exports = {
   DEFAULT_MAX_REPAIR_TURNS,
   buildAgenticTaskPrompt,
+  protectedBytesRules,
   buildRepairPrompt,
   createCodexCall,
   parseCliArgs,
@@ -244,6 +247,7 @@ module.exports = {
 if (require.main === module) {
   main().catch(error => {
     console.error(String(error?.message || error))
+    if (process.env.AGENTIC_DEBUG) console.error(error?.stack)
     process.exitCode = 1
   })
 }

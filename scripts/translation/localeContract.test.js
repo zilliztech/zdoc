@@ -96,6 +96,21 @@ test('formats approved Japanese terminology and preserves Compaction', () => {
   assert.match(formatted, /Compaction/)
 })
 
+test('ignores mandatory terms that only appear inside protected bytes', () => {
+  const contract = loadLocaleContract('ja-JP')
+  const source = '## Cluster-level isolation\\{#cluster-level-isolation}\n\nSee [clusters](./manage-cluster). Each cluster is isolated.\n'
+  const draft = '## クラスターレベルの分離\\{#cluster-level-isolation}\n\n複数の [クラスター](./manage-cluster) を参照してください。各クラスターは分離されています。\n'
+
+  assert.deepEqual(validateLocaleContractDraft(source, draft, contract), [])
+  assert.equal(applyDeterministicLocaleRepairs(source, draft, contract), draft)
+
+  const untranslatedProse = '## クラスターレベルの分離\\{#cluster-level-isolation}\n\n複数の [クラスター](./manage-cluster) を参照してください。Each cluster is isolated.\n'
+  assert.equal(
+    applyDeterministicLocaleRepairs(source, untranslatedProse, contract),
+    '## クラスターレベルの分離\\{#cluster-level-isolation}\n\n複数の [クラスター](./manage-cluster) を参照してください。Each クラスター is isolated.\n',
+  )
+})
+
 test('preserves vector only for the exact Boost Ranker field-identifier fixture', () => {
   const contract = loadLocaleContract('ja-JP')
   const identifierSource = 'The collection has the following fields: **id**, **vector**, and **doctype**.'
