@@ -41,15 +41,23 @@ Zilliz Cloud 中的插入更新操作可以在**覆盖**或**合并**模式下�
 
 ### 在合并模式下进行 Upsert\{#update-in-merge-mode}
 
-您还可以使用 `partial_update` 标志，使 `upsert` 请求以合并模式工作。这允许您仅在请求负载中包含需要更新的字段。
+使用合并模式可以更新已有 Entity 的指定字段，同时保留其他字段的值。
 
 ![HM2awm23ShMHaBb3p1HcMtZnnU4](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/HM2awm23ShMHaBb3p1HcMtZnnU4.png)
 
-若要执行合并操作，请在 `upsert` 中将 `partial_update` 设置为`True` 并在请求中指定主键和要更新的字段以及它们的值。
+设置 `partial_update=True`，并提供主键以及要更新的字段。
 
-收到此类请求后，Zilliz Cloud 会执行强一致性查询以检索 Entity，根据请求中的数据更新字段值，插入修改后的数据，然后删除请求中携带的具有原始主键的现有 Entity。
+Zilliz Cloud 会通过强一致性查询获取已有 Entity，将您提供的字段值与已有数据合并，插入合并后的 Entity，再删除旧 Entity。
 
-对于启用 `autoID` 的 Collection，合并模式会保留请求中提供的主键，而不是生成新的主键。这一点不同于覆盖模式，在覆盖模式下，Zilliz Cloud 会为被替换的 Entity 生成一个新的主键。合并模式请求中的主键必须能标识一个已有的 Entity；否则，Zilliz Cloud 会拒绝该请求，而不是插入新的 Entity。
+如果主键不存在，结果取决于是否启用了 `autoID`：
+
+- **未启用 `autoID`**：系统会尝试使用您提供的主键插入一个新的 Entity。如果请求满足普通插入的要求，插入会成功；如果缺少必填字段，请求会报缺少字段的错误。与普通插入一样，允许为空或配置了默认值的字段可以省略。
+
+- **已启用 `autoID`**：请求中的每个主键都必须已存在。只要有一个主键不存在，即使您提供了插入所需的全部字段，系统也会拒绝请求。更新已有 Entity 时，合并模式会保留原主键。
+
+如果部分更新报缺少字段的错误，请检查目标 Entity 是否存在。没有已有 Entity，系统就无法获取您在请求中省略的字段值。
+
+创建新 Entity 时，请使用 `insert` 或覆盖模式下的 `upsert`；之后需要更新个别字段时，再使用合并模式。
 
 对于 `ARRAY` 字段，合并模式还支持两个操作符：`ARRAY_APPEND` 和 `ARRAY_REMOVE`。它们允许您直接向现有 `ARRAY` 字段追加元素，或从现有 `ARRAY` 字段中移除匹配的元素，而无需先查询 Entity 来获取当前字段值。有关详细信息和代码示例，请参阅[使用部分更新操作符对 ARRAY 字段执行 Upsert](./upsert-entities#upsert-array-fields-with-partial-update-operators)。
 
@@ -497,9 +505,7 @@ curl --request POST \
 
 ## 在合并模式下 Upsert Entity\{#upsert-entities-in-merge-mode}
 
-以下代码示例展示了如何通过部分更新来 Upsert Entity。只需提供需要更新的字段及其新值，同时设置显式的部分更新标志。
-
-在以下示例中，`upsert` 请求中指定的 Entity 的 `issue` 字段将更新为请求中包含的值。
+以下示例仅更新 `my_collection` 中主键为 `1` 和 `2` 的 Entity 的 `issue` 字段。运行前，请确保这两个 Entity 已存在。它们的其他字段会保留原值。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>

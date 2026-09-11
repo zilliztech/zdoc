@@ -1028,9 +1028,9 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/insert-and-delete/upsert-entities.md",
-      "sha256": "8eec7b20313654fd7b480307006a1ec691dd76a91041d98f3afb8def00929779",
+      "sha256": "08a31ad78b7a2b2784410f3adfd42efe9c4944eabd808ed6d9dffab9ceb1f56c",
       "docToken": "PIvfwBrhRimh41kWjB1cFj21nqf",
-      "revisionId": "1233"
+      "revisionId": "1237"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/scalar-index/bitmap-index-type.md",
@@ -2570,9 +2570,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/insert-and-delete/upsert-entities.md",
-      "sha256": "40d3d14a94f1741108fffe6db71390bfce31df2cf1e727d9bf4e293c566f21f5",
+      "sha256": "b4cce81a100010e9e70844c831a009a309877e2a0ecda566ebf2df7a7bc3f10a",
       "docToken": "PIvfwBrhRimh41kWjB1cFj21nqf",
-      "revisionId": "1233"
+      "revisionId": "1237"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/scalar-index/bitmap-index-type.md",
