@@ -296,7 +296,7 @@ function testMessageBuildersSelectPromptsFromTarget() {
     locale: 'zh-CN',
   }
   assert.match(buildTranslationMessages(common)[0].content, /Chinese/i)
-  assert.match(buildTranslationMessages(common)[0].content, /zh-CN-reference-2026-08-04-p0/)
+  assert.match(buildTranslationMessages(common)[0].content, /zh-CN-reference-2026-09-11-p0.5/)
   assert.match(buildTranslationMessages(common)[0].content, /semantic_units/)
   assert.match(buildTranslationMessages(common)[0].content, /"translations"/)
   assert.match(buildTranslationMessages(common)[0].content, /document_context.*context only/is)
@@ -307,7 +307,7 @@ function testMessageBuildersSelectPromptsFromTarget() {
   assert.match(buildTranslationMessages(common)[0].content, /Reference landing-page contract.*Han characters.*2\.5.*do not expand headings/is)
   const reviewPrompt = buildReviewMessages({...common, translatedContent: '# 参考\n'})[0].content
   assert.match(reviewPrompt, /Simplified Chinese/i)
-  assert.match(reviewPrompt, /zh-CN-reference-2026-08-04-p0/)
+  assert.match(reviewPrompt, /zh-CN-reference-2026-09-11-p0.5/)
   assert.match(reviewPrompt, /exact semantic unit ID/i)
   assert.match(buildCorrectionMessages({
     ...common,

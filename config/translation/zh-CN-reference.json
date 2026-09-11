@@ -1,27 +1,74 @@
 {
   "schemaVersion": 1,
-  "contractId": "zh-CN-reference-2026-08-04-p0.4",
+  "contractId": "zh-CN-reference-2026-09-11-p0.5",
   "target": "zh-CN-reference",
   "locale": "zh-CN",
   "styleRules": [
     "Use natural, concise Simplified Chinese developer-documentation prose and address the reader as 您 when a reader pronoun is necessary.",
     "Preserve source meaning, conditions, product scope, and intensity without additions or omissions.",
     "Use Chinese punctuation in prose and retain readable spacing around English product terms and inline code.",
-    "Treat fenced code comments as protected code bytes, not localizable prose."
+    "Treat fenced code comments as protected code bytes, not localizable prose.",
+    "Follow the authoritative Chinese style guide injected immediately after this contract; it governs scenario-level style (persona, parameter blocks, enumerations, punctuation and spacing, link text) wherever this contract does not already decide terminology.",
+    "Use a half-width space between Chinese text and Latin words or digits."
   ],
   "mandatoryTerms": [
-    {"source": "Compaction", "target": "Compaction", "caseSensitive": true},
-    {"source": "collection", "target": "Collection", "caseSensitive": false, "excludedSourceContexts": ["garbage collection"]},
-    {"source": "entity", "target": "Entity", "caseSensitive": false},
-    {"source": "schema", "target": "Schema", "caseSensitive": false},
-    {"source": "database", "target": "Database", "caseSensitive": false},
-    {"source": "partition", "target": "Partition", "caseSensitive": false},
-    {"source": "segment", "target": "Segment", "caseSensitive": false},
-    {"source": "analyzer", "target": "Analyzer", "caseSensitive": false},
-    {"source": "endpoint", "target": "Endpoint", "caseSensitive": true}
+    {
+      "source": "Compaction",
+      "target": "Compaction",
+      "caseSensitive": true
+    },
+    {
+      "source": "collection",
+      "target": "Collection",
+      "caseSensitive": false,
+      "excludedSourceContexts": [
+        "garbage collection"
+      ]
+    },
+    {
+      "source": "entity",
+      "target": "Entity",
+      "caseSensitive": false
+    },
+    {
+      "source": "schema",
+      "target": "Schema",
+      "caseSensitive": false
+    },
+    {
+      "source": "database",
+      "target": "Database",
+      "caseSensitive": false
+    },
+    {
+      "source": "partition",
+      "target": "Partition",
+      "caseSensitive": false
+    },
+    {
+      "source": "segment",
+      "target": "Segment",
+      "caseSensitive": false
+    },
+    {
+      "source": "analyzer",
+      "target": "Analyzer",
+      "caseSensitive": false
+    },
+    {
+      "source": "endpoint",
+      "target": "Endpoint",
+      "caseSensitive": true
+    }
   ],
   "forbiddenTranslations": [
-    {"source": "Compaction", "targets": ["压缩", "压实"]}
+    {
+      "source": "Compaction",
+      "targets": [
+        "压缩",
+        "压实"
+      ]
+    }
   ],
   "doNotTranslate": [
     "Zilliz Cloud",
