@@ -498,5 +498,6 @@ module.exports = {
   protectTranslationInput,
   reprotectTranslationInput,
   restoreProtectedContent,
+  protectedSpans,
   validateProtectedContent,
 }

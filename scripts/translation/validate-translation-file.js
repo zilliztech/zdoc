@@ -8,13 +8,39 @@
 
 const fs = require('node:fs')
 const path = require('node:path')
-const {validateProtectedContent} = require('./protectedContent')
+const {protectedSpans, validateProtectedContent} = require('./protectedContent')
 const {loadLocaleContract, applyDeterministicLocaleRepairs} = require('./localeContract')
 const {stabilizeBareUrlFormatting, validateTranslatedContent} = require('./agentRunner')
 
 function headingCount(content) {
   const withoutFences = String(content).replace(/```[\s\S]*?```/g, '')
   return (withoutFences.match(/^ {0,3}#{1,6}[\t ]+\S/gm) || []).length
+}
+
+function overlapsProtectedSpan(protectedRanges, start, end) {
+  return protectedRanges.some(range => start < range.end && end > range.start)
+}
+
+// Protected bytes cannot be localized, so a mandatory term that only appears
+// inside them (e.g. a `{#cluster-level-isolation}` anchor or a
+// `./manage-cluster` link destination) is never a translation obligation.
+function countUnprotectedMatches(content, pattern, protectedRanges) {
+  let count = 0
+  for (const match of String(content).matchAll(pattern)) {
+    if (overlapsProtectedSpan(protectedRanges, match.index, match.index + match[0].length)) continue
+    count += 1
+  }
+  return count
+}
+
+function countUnprotectedLiteral(content, literal, protectedRanges) {
+  const text = String(content)
+  let count = 0
+  for (let index = text.indexOf(literal); index !== -1; index = text.indexOf(literal, index + literal.length)) {
+    if (overlapsProtectedSpan(protectedRanges, index, index + literal.length)) continue
+    count += 1
+  }
+  return count
 }
 
 function validateTranslationFile({sourceContent, draftContent, relPath, target}) {
@@ -30,11 +56,13 @@ function validateTranslationFile({sourceContent, draftContent, relPath, target})
     const inDraft = repaired.split(token).length - 1
     if (inDraft < inSource) errors.push(`do-not-translate token "${token}" appears ${inSource}x in source but ${inDraft}x in draft`)
   }
+  const sourceProtected = protectedSpans(sourceContent, {literalTokens: contract.doNotTranslate})
+  const draftProtected = protectedSpans(repaired, {literalTokens: contract.doNotTranslate})
   for (const term of contract.mandatoryTerms || []) {
     if (!/^[A-Za-z][A-Za-z0-9_]*$/.test(term.source)) continue
-    const inSource = (sourceContent.match(new RegExp(`(?<![A-Za-z0-9_])${term.source}(?![A-Za-z0-9_])`, 'gi')) || []).length
+    const inSource = countUnprotectedMatches(sourceContent, new RegExp(`(?<![A-Za-z0-9_])${term.source}(?![A-Za-z0-9_])`, 'gi'), sourceProtected)
     if (!inSource) continue
-    const inDraft = repaired.split(term.target).length - 1
+    const inDraft = countUnprotectedLiteral(repaired, term.target, draftProtected)
     if (inDraft < inSource) errors.push(`locale contract ${contract.contractId} requires ${term.source} to use ${term.target} (source ${inSource}x, draft ${inDraft}x)`)
   }
   if (headingCount(sourceContent) !== headingCount(repaired)) {
