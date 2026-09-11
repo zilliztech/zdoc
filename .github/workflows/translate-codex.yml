@@ -26,6 +26,7 @@ on:
     secrets:
       TRANSLATION_AGENT_API_KEY: { required: true }
       REVIEW_AGENT_API_KEY: { required: true }
+      DEEPSEEK_API_KEY: { required: false }
       APP_ID: { required: false }
       APP_SECRET: { required: false }
 
@@ -284,6 +285,7 @@ jobs:
     secrets:
       TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
       REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
+      DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
 
   translate_sdk:
     needs: prepare
@@ -316,6 +318,7 @@ jobs:
     secrets:
       TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
       REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
+      DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
 
   prepare_guides_publication_ready:
     needs: [prepare, prepare_guides_batches, translate_guides_batches]
