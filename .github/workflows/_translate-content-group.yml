@@ -40,6 +40,7 @@ on:
     secrets:
       TRANSLATION_AGENT_API_KEY: { required: true }
       REVIEW_AGENT_API_KEY: { required: true }
+      DEEPSEEK_API_KEY: { required: false }
 
 permissions:
   actions: read
@@ -366,17 +367,33 @@ jobs:
         if: ${{ inputs.should_translate && steps.manifest.outputs.count != '0' }}
         run: |
           set -euo pipefail
-          args=(--manifest tmp/translation-manifest.json --report tmp/translation-report.json)
-          if [[ -f "$RECOVERY_ANALYSIS" ]]; then
-            args+=(--recovery-analysis "$RECOVERY_ANALYSIS")
-          elif [[ -d "$RECOVERY_DOWNLOAD_DIR" ]]; then
-            args+=(--recovery-dir "$RECOVERY_DOWNLOAD_DIR")
+          if [[ "${TRANSLATION_PROVIDER:-unit-pipeline}" == "agentic" ]]; then
+            node scripts/translation/agenticProvider.js run \
+              --site-dir "$GITHUB_WORKSPACE" \
+              --manifest tmp/translation-manifest.json \
+              --report tmp/translation-report.json \
+              --model "$AGENTIC_TRANSLATION_MODEL" \
+              --base-url "$AGENTIC_BASE_URL" \
+              --api-key-env AGENTIC_PROVIDER_API_KEY \
+              --concurrency "$AGENTIC_CONCURRENCY"
+          else
+            args=(--manifest tmp/translation-manifest.json --report tmp/translation-report.json)
+            if [[ -f "$RECOVERY_ANALYSIS" ]]; then
+              args+=(--recovery-analysis "$RECOVERY_ANALYSIS")
+            elif [[ -d "$RECOVERY_DOWNLOAD_DIR" ]]; then
+              args+=(--recovery-dir "$RECOVERY_DOWNLOAD_DIR")
+            fi
+            if [[ -d tmp/semantic-seeds ]]; then
+              args+=(--semantic-seeds tmp/semantic-seeds)
+            fi
+            node scripts/translation/agentRunner.js "${args[@]}"
           fi
-          if [[ -d tmp/semantic-seeds ]]; then
-            args+=(--semantic-seeds tmp/semantic-seeds)
-          fi
-          node scripts/translation/agentRunner.js "${args[@]}"
         env:
+          TRANSLATION_PROVIDER: ${{ vars.TRANSLATION_PROVIDER }}
+          AGENTIC_PROVIDER_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          AGENTIC_BASE_URL: ${{ vars.DEEPSEEK_BASE_URL }}
+          AGENTIC_TRANSLATION_MODEL: ${{ vars.AGENTIC_TRANSLATION_MODEL || 'deepseek-flash' }}
+          AGENTIC_CONCURRENCY: ${{ inputs.group == 'guides' && '2' || '4' }}
           TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
           TRANSLATION_AGENT_BASE_URL: ${{ vars.TRANSLATION_AGENT_BASE_URL }}
           TRANSLATION_AGENT_MODEL: ${{ vars.TRANSLATION_AGENT_MODEL }}
