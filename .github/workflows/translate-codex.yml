@@ -34,7 +34,11 @@ permissions:
   contents: read
 
 concurrency:
-  group: ${{ inputs.publish && !(inputs.production_queue_owned || false) && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}
+  # The producer run never owns the production queue: standalone publish runs
+  # dispatch the short-lock publish-translation.yml workflow, and recovery runs
+  # hold docs-production-dev themselves while calling this workflow with
+  # production_queue_owned=true.
+  group: ${{ format('translation-readonly-{0}', github.run_id) }}
   queue: max
 
 jobs:
@@ -82,6 +86,7 @@ jobs:
       publication_run_attempt: ${{ fromJSON(github.run_attempt) }}
       publication_selection_sha256: ${{ needs.prepare.outputs.publication_selection_sha256 }}
       operator_recovery: ${{ (inputs.recovery_bundle_artifact_name || '') != '' }}
+      split_publication: ${{ inputs.publish && !(inputs.production_queue_owned || false) }}
     secrets:
       APP_ID: ${{ secrets.APP_ID }}
       APP_SECRET: ${{ secrets.APP_SECRET }}
@@ -450,7 +455,10 @@ jobs:
   publish_ready:
     name: publish_ready
     needs: [prepare, translate_sdk, prepare_guides_publication_ready]
-    if: ${{ always() && needs.prepare.result == 'success' }}
+    # Inline publication only serves artifact-only runs and recovery runs that
+    # already hold docs-production-dev via production_queue_owned=true.
+    # Standalone publish runs dispatch publish-translation.yml instead.
+    if: ${{ always() && needs.prepare.result == 'success' && (!inputs.publish || inputs.production_queue_owned || false) }}
     runs-on: ubuntu-latest
     timeout-minutes: 360
     permissions:
@@ -514,7 +522,7 @@ jobs:
 
   aggregate:
     needs: [prepare, publish_ready]
-    if: ${{ always() && needs.prepare.result == 'success' }}
+    if: ${{ always() && needs.prepare.result == 'success' && (!inputs.publish || inputs.production_queue_owned || false) }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -603,3 +611,82 @@ jobs:
           const results = readPublicationDocument(`${process.env.RUNNER_TEMP}/publication-results/publication-results.json`, 'publication-results', {selection})
           verifyTranslationPublicationRepository({selection, results, repository: process.env.GITHUB_WORKSPACE})
           NODE
+
+  dispatch_publication:
+    name: dispatch_publication
+    needs: [prepare, translate_sdk, prepare_guides_publication_ready]
+    # Standalone publish path: this producer run stays off docs-production-dev
+    # and hands the immutable selection to the short-lock publish-translation
+    # workflow, which authenticates the producer identity and publishes under
+    # the production queue.
+    if: ${{ always() && needs.prepare.result == 'success' && inputs.publish && !(inputs.production_queue_owned || false) }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      actions: write
+      contents: read
+    outputs:
+      publisher_run_url: ${{ steps.dispatch.outputs.publisher_run_url }}
+      publisher_run_id: ${{ steps.dispatch.outputs.publisher_run_id }}
+      publisher_run_attempt: ${{ steps.dispatch.outputs.publisher_run_attempt }}
+    steps:
+      - id: dispatch
+        name: Dispatch the short-lock Translation publication workflow
+        env:
+          GH_TOKEN: ${{ github.token }}
+          WORKFLOW_REF: ${{ github.ref_name }}
+          PRODUCER_RUN_ID: ${{ github.run_id }}
+          PRODUCER_RUN_ATTEMPT: ${{ github.run_attempt }}
+          SELECTION_SHA256: ${{ needs.prepare.outputs.publication_selection_sha256 }}
+          REQUEST_ID: ${{ inputs.request_id || format('{0}-{1}', github.run_id, github.run_attempt) }}
+        run: |
+          set -euo pipefail
+          [[ "$PRODUCER_RUN_ID" =~ ^[1-9][0-9]*$ && "$PRODUCER_RUN_ATTEMPT" =~ ^[1-9][0-9]*$ ]]
+          [[ "$SELECTION_SHA256" =~ ^[0-9a-f]{64}$ ]]
+          [[ -z "$REQUEST_ID" || "$REQUEST_ID" =~ ^[1-9][0-9]*-[1-9][0-9]*$ ]]
+          [[ "$WORKFLOW_REF" != -* && "$WORKFLOW_REF" != *:* && "$WORKFLOW_REF" != *$'\n'* && "$WORKFLOW_REF" != *$'\r'* ]]
+          gh workflow run publish-translation.yml --repo "$GITHUB_REPOSITORY" --ref "$WORKFLOW_REF" \
+            -f producer_run_id="$PRODUCER_RUN_ID" \
+            -f producer_run_attempt="$PRODUCER_RUN_ATTEMPT" \
+            -f selection_sha256="$SELECTION_SHA256" \
+            -f request_id="$REQUEST_ID"
+          expected_title="publish translation ($REQUEST_ID)"
+          publisher_run_url=
+          for _ in {1..12}; do
+            runs_json=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow publish-translation.yml --event workflow_dispatch --limit 50 --json displayTitle,url,headBranch)
+            run_matches=$(jq -r --arg title "$expected_title" --arg ref "$WORKFLOW_REF" '.[] | select(.displayTitle == $title and .headBranch == $ref) | .url' <<< "$runs_json")
+            run_urls=()
+            [[ -z "$run_matches" ]] || mapfile -t run_urls <<< "$run_matches"
+            if (( ${#run_urls[@]} > 1 )); then
+              echo "ambiguous publisher runs for $expected_title on $WORKFLOW_REF" >&2
+              exit 1
+            fi
+            if (( ${#run_urls[@]} == 1 )); then
+              publisher_run_url=${run_urls[0]}
+              break
+            fi
+            sleep 5
+          done
+          [[ "$publisher_run_url" =~ ^https://github\.com/$GITHUB_REPOSITORY/actions/runs/[1-9]*$ ]]
+          publisher_run_id=${publisher_run_url##*/}
+          publisher_run_attempt=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$publisher_run_id" --jq .run_attempt)
+          [[ "$publisher_run_attempt" =~ ^[1-9][0-9]*$ ]]
+          printf 'publisher_run_url=%s\npublisher_run_id=%s\npublisher_run_attempt=%s\n' "$publisher_run_url" "$publisher_run_id" "$publisher_run_attempt" >> "$GITHUB_OUTPUT"
+          printf 'Downstream publication run: %s\n' "$publisher_run_url" >> "$GITHUB_STEP_SUMMARY"
+      - name: Create translation publication handoff metadata
+        env:
+          PRODUCER_RUN_ID: ${{ github.run_id }}
+          PRODUCER_RUN_ATTEMPT: ${{ github.run_attempt }}
+          PUBLISHER_RUN_ID: ${{ steps.dispatch.outputs.publisher_run_id }}
+          PUBLISHER_RUN_ATTEMPT: ${{ steps.dispatch.outputs.publisher_run_attempt }}
+          PUBLISHER_RUN_URL: ${{ steps.dispatch.outputs.publisher_run_url }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/docs-translation-publication-handoff"
+          node -e 'const fs=require("node:fs");const value={schemaVersion:1,producerRunId:Number(process.env.PRODUCER_RUN_ID),producerRunAttempt:Number(process.env.PRODUCER_RUN_ATTEMPT),publisherRunId:Number(process.env.PUBLISHER_RUN_ID),publisherRunAttempt:Number(process.env.PUBLISHER_RUN_ATTEMPT),publisherRunUrl:process.env.PUBLISHER_RUN_URL};for(const key of ["producerRunId","producerRunAttempt","publisherRunId","publisherRunAttempt"]){if(!Number.isSafeInteger(value[key])||value[key]<=0)throw new Error("invalid publication handoff run id")}fs.writeFileSync(process.argv[1],JSON.stringify(value)+"\n")' "$RUNNER_TEMP/docs-translation-publication-handoff/publication-handoff.json"
+      - name: Upload translation publication handoff metadata
+        uses: actions/upload-artifact@v6
+        with:
+          name: docs-translation-publication-handoff-${{ github.run_id }}
+          path: ${{ runner.temp }}/docs-translation-publication-handoff/publication-handoff.json
+          if-no-files-found: error

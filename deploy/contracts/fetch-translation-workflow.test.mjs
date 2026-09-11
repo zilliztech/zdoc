@@ -112,3 +112,53 @@ test('Translation producer naming, checkpoint, and ready artifact names match th
   // waits for both producer families before starting its writer deadline.
   assert.deepEqual(translateWorkflow.jobs.publish_ready.needs, ['prepare', 'translate_sdk', 'prepare_guides_publication_ready']);
 });
+
+test('short production lock splits Translation publication into a dispatched publisher workflow', async () => {
+  const translateWorkflow = yaml.load(await workflowSource('translate-codex.yml'));
+  const publisherWorkflow = yaml.load(await workflowSource('publish-translation.yml'));
+
+  // The producer run never owns the production queue.
+  assert.deepEqual(translateWorkflow.concurrency, {group: "${{ format('translation-readonly-{0}', github.run_id) }}", queue: 'max'});
+  // Inline publication stays available for artifact-only and recovery runs only.
+  const inlineGate = "${{ always() && needs.prepare.result == 'success' && (!inputs.publish || inputs.production_queue_owned || false) }}";
+  assert.equal(translateWorkflow.jobs.publish_ready.if, inlineGate);
+  assert.equal(translateWorkflow.jobs.aggregate.if, inlineGate);
+  // Standalone publish dispatches the short-lock publisher with the immutable
+  // selection identity and uploads handoff metadata for the monitor.
+  const dispatch = translateWorkflow.jobs.dispatch_publication;
+  assert.ok(dispatch, 'dispatch_publication job must exist');
+  assert.deepEqual(dispatch.needs, ['prepare', 'translate_sdk', 'prepare_guides_publication_ready']);
+  assert.equal(dispatch.if, "${{ always() && needs.prepare.result == 'success' && inputs.publish && !(inputs.production_queue_owned || false) }}");
+  assert.equal(dispatch.permissions.actions, 'write');
+  assert.equal(dispatch.permissions.contents, 'read');
+  const dispatchRun = dispatch.steps.find(step => step.id === 'dispatch').run;
+  assert.match(dispatchRun, /gh workflow run publish-translation\.yml/);
+  assert.match(dispatchRun, /-f producer_run_id="\$PRODUCER_RUN_ID"/);
+  assert.match(dispatchRun, /-f selection_sha256="\$SELECTION_SHA256"/);
+  const metadataStep = dispatch.steps.find(step => step.name === 'Upload translation publication handoff metadata');
+  assert.equal(metadataStep.with.name, 'docs-translation-publication-handoff-${{ github.run_id }}');
+
+  // The publisher owns the production queue unconditionally and authenticates
+  // the producer identity before running the coordinator.
+  assert.deepEqual(publisherWorkflow.concurrency, {group: 'docs-production-dev', queue: 'max'});
+  assert.equal(publisherWorkflow.on.workflow_dispatch.inputs.producer_run_id.type, 'number');
+  assert.equal(publisherWorkflow.on.workflow_dispatch.inputs.producer_run_attempt.type, 'number');
+  assert.equal(publisherWorkflow.on.workflow_dispatch.inputs.selection_sha256.required, true);
+  assert.equal(publisherWorkflow.on.workflow_dispatch.inputs.publish, undefined);
+  const publishJob = publisherWorkflow.jobs.publish_ready;
+  assert.equal(publishJob.permissions.contents, 'write');
+  const publishScript = publishJob.steps.find(step => step.id === 'publish').with.script;
+  assert.match(publishScript, /'--publisher-run-id', process\.env\.GITHUB_RUN_ID/);
+  assert.match(publishScript, /'--publisher-run-attempt', process\.env\.GITHUB_RUN_ATTEMPT/);
+  const aggregateJob = publisherWorkflow.jobs.aggregate;
+  assert.deepEqual(aggregateJob.needs, ['publish_ready']);
+  assert.equal(aggregateJob.permissions.contents, 'read');
+  assert.match(
+    aggregateJob.steps.find(step => step.id === 'documents').run,
+    /results\.publisherRunId !== Number\(process\.env\.GITHUB_RUN_ID\)/,
+  );
+  assert.equal(
+    aggregateJob.steps.find(step => step.name === 'Download exact terminal Translation publication results').with.name,
+    'publication-results-translation-${{ inputs.producer_run_id }}-${{ inputs.producer_run_attempt }}',
+  );
+});

@@ -29,6 +29,8 @@ Expected outcome: common full Guides work has half the per-batch failure domain 
 
 ## Phase 2: short production lock
 
+> Status: implemented on `feat/translation-short-production-lock`. See `.claude/plans/2026-09-10-translation-short-production-lock.md` for the realized shape (producer `translate-codex.yml` in a unique readonly group dispatching `publish-translation.yml`, which owns `docs-production-dev` for the publication transaction).
+
 Do not combine this mechanically with Phase 1. Design and implement it as a separate publication-transaction change because workflow-run identity is part of the publication documents.
 
 Required contract before implementation:

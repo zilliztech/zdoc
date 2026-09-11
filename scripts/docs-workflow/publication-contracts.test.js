@@ -370,6 +370,35 @@ test('progress validates identity, revision, canonical units, active unit, and q
   assert.throws(() => validatePublicationProgress({...progress(), extra: true}, {selection: selected}), /keys/i)
 })
 
+test('publisher identity keys form an optional all-or-nothing pair on progress and results', () => {
+  const selected = finalizedSelection()
+  const progressWithPublisher = validatePublicationProgress(
+    {...progress(), publisherRunId: 555001, publisherRunAttempt: 1},
+    {selection: selected, artifactRevision: 1},
+  )
+  assert.equal(progressWithPublisher.publisherRunId, 555001)
+  assert.equal(progressWithPublisher.publisherRunAttempt, 1)
+  assert.equal(progressWithPublisher.runId, selected.runId)
+  assert.throws(() => validatePublicationProgress({...progress(), publisherRunId: 555001}, {selection: selected, artifactRevision: 1}), /together/i)
+  assert.throws(() => validatePublicationProgress({...progress(), publisherRunAttempt: 1}, {selection: selected, artifactRevision: 1}), /together/i)
+  assert.throws(() => validatePublicationProgress(
+    {...progress(), publisherRunId: 0, publisherRunAttempt: 1},
+    {selection: selected, artifactRevision: 1},
+  ), /publisherRunId/i)
+
+  const resultsWithPublisher = validatePublicationResults(
+    {...results(), publisherRunId: 555001, publisherRunAttempt: 1},
+    {selection: selected},
+  )
+  assert.equal(resultsWithPublisher.publisherRunId, 555001)
+  assert.equal(resultsWithPublisher.runId, selected.runId)
+  assert.throws(() => validatePublicationResults({...results(), publisherRunId: 555001}, {selection: selected}), /together/i)
+  assert.throws(() => validatePublicationResults(
+    {...results(), publisherRunId: 555001, publisherRunAttempt: '1'},
+    {selection: selected},
+  ), /publisherRunAttempt/i)
+})
+
 test('results enforce mode-dependent statuses, successful SHAs, and structured failures', () => {
   const selected = finalizedSelection()
   assert.doesNotThrow(() => validatePublicationResults(results(), {selection: selected}))

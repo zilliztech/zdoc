@@ -463,7 +463,7 @@ async function publishGuidesTransaction({selection, unit, prepared, repositoryRo
   return publishJapaneseGuidesTransaction({selection, unit, prepared, repositoryRoot, dependencyRoot, runnerTemp, maxPublishAttempts: 10})
 }
 
-async function defaultRunLane({lane, order, run, evidenceRoot, bareRemote}) {
+async function defaultRunLane({lane, order, run, evidenceRoot, bareRemote, publisherIdentity = null}) {
   const selection = laneSelection(run.selection, lane)
   const repositoryRoot = prepareLaneRepository({bareRemote, evidenceRoot, lane, selection})
   const runnerTemp = path.join(evidenceRoot, 'scratch', lane, 'runner-temp')
@@ -502,6 +502,7 @@ async function defaultRunLane({lane, order, run, evidenceRoot, bareRemote}) {
   const outcome = await runPublicationCoordinator({
     selection, mode: 'publish', client, repositoryRoot, dependencyRoot: process.cwd(), runnerTemp, outputDirectory,
     pollMilliseconds: 1, candidatePolls: 1, maxPublishAttempts: 10, sleep: async () => {}, now,
+    ...(publisherIdentity ? {publisherIdentity} : {}),
     transactionContext: {remote: 'origin', dependencyRoot: process.cwd()},
     publishUnit: context => context.unit.strategy === 'ja-guides'
       ? publishGuidesTransaction({...context, repositoryRoot, dependencyRoot: process.cwd(), runnerTemp})
@@ -530,8 +531,18 @@ function defaultVerifyLane({lane, laneResult}) {
   return {tree, ancestryVerified: true, reconciliationVerified: laneResult.publicationResults.overallStatus === 'success'}
 }
 
+function normalizePublisherIdentity(value) {
+  if (value === undefined || value === null) return null
+  if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('publisherIdentity must be an object when provided')
+  for (const key of ['runId', 'runAttempt']) {
+    if (!Number.isSafeInteger(value[key]) || value[key] <= 0) throw new Error(`publisherIdentity ${key} must be a positive integer`)
+  }
+  return Object.freeze({runId: value.runId, runAttempt: value.runAttempt})
+}
+
 async function replayRun(options = {}) {
   const run = loadRun(options.runRoot)
+  const publisherIdentity = normalizePublisherIdentity(options.publisherIdentity)
   const evidenceRoot = safeAbsolute(options.evidenceRoot, 'evidenceRoot')
   if (options.mode !== 'publish') throw new Error('replay mode must be publish')
   if (fs.existsSync(evidenceRoot) && fs.readdirSync(evidenceRoot).length) throw new Error('evidenceRoot must be empty')
@@ -563,7 +574,7 @@ async function replayRun(options = {}) {
   const verifyLane = dependencies.verifyLane || defaultVerifyLane
   const lane = 'fifo'
   const order = run.fifoUnitKeys
-  const result = await runLane({lane, order, run, evidenceRoot, bareRemote})
+  const result = await runLane({lane, order, run, evidenceRoot, bareRemote, ...(publisherIdentity ? {publisherIdentity} : {})})
   result.selection ||= laneSelection(run.selection, lane)
   const laneVerification = await verifyLane({lane, order, run, evidenceRoot, bareRemote, laneResult: result})
   if (!laneVerification?.ancestryVerified || !laneVerification?.reconciliationVerified) {
@@ -2033,7 +2044,9 @@ function parseArgs(argv) {
   const [commandName, ...flags] = argv
   const allowed = {
     'inspect-run': new Set(['run-id', 'output-root']),
-    replay: new Set(['run-root', 'bare-remote', 'evidence-root', 'mode']),
+    replay: new Set(['run-root', 'bare-remote', 'evidence-root', 'mode', 'publisher-run-id', 'publisher-run-attempt']),
+    // Optional replay flags per subcommand; required flags stay in `allowed`.
+    optional: {replay: new Set(['publisher-run-id', 'publisher-run-attempt'])},
     'fault-inject': new Set(['evidence-root', 'scenario']),
     'verify-evidence': new Set(['evidence-root']),
   }
@@ -2049,7 +2062,12 @@ function parseArgs(argv) {
     if (index + 1 >= flags.length) throw new Error(`Missing value for ${flag}`)
     values[key] = flags[index + 1]
   }
-  for (const key of allowed[commandName]) if (!values[key]) throw new Error(`Missing required argument: --${key}`)
+  const hasPublisherRunId = Boolean(values['publisher-run-id'])
+  const hasPublisherRunAttempt = Boolean(values['publisher-run-attempt'])
+  if (hasPublisherRunId !== hasPublisherRunAttempt) throw new Error('--publisher-run-id and --publisher-run-attempt must be provided together')
+  for (const key of ['publisher-run-id', 'publisher-run-attempt']) if (values[key] && !/^[1-9][0-9]*$/.test(values[key])) throw new Error(`${key} must be a positive integer`)
+  const required = [...allowed[commandName]].filter(key => !(allowed.optional?.[commandName] || new Set()).has(key))
+  for (const key of required) if (!values[key]) throw new Error(`Missing required argument: --${key}`)
   for (const key of ['output-root', 'run-root', 'bare-remote', 'evidence-root']) if (values[key]) safeAbsolute(values[key], key)
   if (values['bare-remote'] && !values['bare-remote'].endsWith('.git')) throw new Error('bare-remote must end in .git')
   if (commandName === 'replay' && values.mode !== 'publish') throw new Error('replay mode must be publish')
@@ -2076,6 +2094,9 @@ async function main(argv = process.argv.slice(2)) {
   let result
   if (parsed.command === 'inspect-run') result = inspectRun({runId: parsed.values['run-id'], outputRoot: parsed.values['output-root']})
   else if (parsed.command === 'replay') result = await replayRun({
+    ...(parsed.values['publisher-run-id'] && parsed.values['publisher-run-attempt'] ? {
+      publisherIdentity: {runId: Number(parsed.values['publisher-run-id']), runAttempt: Number(parsed.values['publisher-run-attempt'])},
+    } : {}),
     runRoot: parsed.values['run-root'], bareRemote: parsed.values['bare-remote'], evidenceRoot: parsed.values['evidence-root'], mode: parsed.values.mode,
   })
   else if (parsed.command === 'fault-inject') result = await faultInjectRun({evidenceRoot: parsed.values['evidence-root'], scenario: parsed.values.scenario})

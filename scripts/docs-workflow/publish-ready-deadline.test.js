@@ -103,7 +103,7 @@ function tempRoot(t) {
 test('multi-batch producers: publish_ready stays gated until every serial Guides batch is terminal', () => {
   const workflow = loadTranslationWorkflow()
   const publishReady = workflow.jobs.publish_ready
-  const expectedIf = '$' + '{{ always() && needs.prepare.result == ' + "'success'" + ' }}'
+  const expectedIf = '$' + '{{ always() && needs.prepare.result == ' + "'success'" + ' && (!inputs.publish || inputs.production_queue_owned || false) }}'
 
   assert.deepEqual(publishReady.needs, ['prepare', 'translate_sdk', 'prepare_guides_publication_ready'])
   assert.equal(publishReady.if, expectedIf)
