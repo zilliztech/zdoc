@@ -1,17 +1,71 @@
 {
-  "generated_at": "2026-09-11T02:36:51.561Z",
+  "generated_at": "2026-09-11T10:28:19.695Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
-  "changed_records": [],
-  "changed_tokens": [],
-  "expanded_tokens": [],
+  "changed_records": [
+    {
+      "record_id": "recvlPtRh7nvjU",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Upsert Entities",
+      "labels": "Upsert",
+      "slug": "upsert-entities",
+      "doc_token": "YtJPwEVETiTaPMkWSfAccjXTnge",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/YtJPwEVETiTaPMkWSfAccjXTnge",
+      "reasons": [
+        "wiki node revision changed"
+      ]
+    }
+  ],
+  "changed_tokens": [
+    "YtJPwEVETiTaPMkWSfAccjXTnge"
+  ],
+  "expanded_tokens": [
+    "JCMPwIyVciCT4Hk4O20c96MEnch",
+    "L5jawEj7FiBXWZkGhLgcQCWQnDd",
+    "MUL3wkn7Yi3YoFkYk59csf8bnNc",
+    "MocQwCCItiHYEbkkJtOcROPTnod",
+    "N0RmwUtmqinQvokWdYLc3yV5nJh",
+    "PmaowiSUaiTa8ckPMYJcqdRYnQg",
+    "Uk0Nw1ZdbiOEBtkAOKacLTf8nGe",
+    "YtJPwEVETiTaPMkWSfAccjXTnge"
+  ],
   "removed_records": [],
   "removed_tokens": [],
-  "reasons_by_token": {},
+  "reasons_by_token": {
+    "YtJPwEVETiTaPMkWSfAccjXTnge": [
+      "wiki node revision changed"
+    ],
+    "JCMPwIyVciCT4Hk4O20c96MEnch": [
+      "incoming reference to YtJPwEVETiTaPMkWSfAccjXTnge"
+    ],
+    "L5jawEj7FiBXWZkGhLgcQCWQnDd": [
+      "incoming reference to YtJPwEVETiTaPMkWSfAccjXTnge"
+    ],
+    "MUL3wkn7Yi3YoFkYk59csf8bnNc": [
+      "incoming reference to YtJPwEVETiTaPMkWSfAccjXTnge"
+    ],
+    "MocQwCCItiHYEbkkJtOcROPTnod": [
+      "incoming reference to YtJPwEVETiTaPMkWSfAccjXTnge"
+    ],
+    "N0RmwUtmqinQvokWdYLc3yV5nJh": [
+      "incoming reference to YtJPwEVETiTaPMkWSfAccjXTnge"
+    ],
+    "PmaowiSUaiTa8ckPMYJcqdRYnQg": [
+      "incoming reference to YtJPwEVETiTaPMkWSfAccjXTnge"
+    ],
+    "Uk0Nw1ZdbiOEBtkAOKacLTf8nGe": [
+      "incoming reference to YtJPwEVETiTaPMkWSfAccjXTnge"
+    ]
+  },
   "warnings": [],
-  "affected_tables": [],
+  "affected_tables": [
+    "tbl9BeCMjBmalJVb",
+    "tblWv7PjNDsexddH",
+    "tblZMzoITXNsyKmQ"
+  ],
   "current_table_targets": {
     "tbl9BeCMjBmalJVb": [
       "zilliz.paas",

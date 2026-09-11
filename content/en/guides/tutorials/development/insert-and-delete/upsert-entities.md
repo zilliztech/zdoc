@@ -37,15 +37,23 @@ For fields with `nullable` enabled, you can omit them in the `upsert` request if
 
 ### Upsert in merge mode\{#upsert-in-merge-mode}
 
-You can also use the `partial_update` flag to make an upsert request work in merge mode. This allows you to include only the fields that need updating in the request payload.
+Use merge mode to update specific fields of an existing entity while keeping the other fields unchanged.
 
 ![NZNKwxm9ahmi87b487TcuCrNn4c](https://zdoc-images.s3.us-west-2.amazonaws.com/NZNKwxm9ahmi87b487TcuCrNn4c.png)
 
-To perform a merge, set `partial_update` to `True` in the `upsert` request along with the primary key and the fields to update with their new values. 
+Set `partial_update=True` and provide the primary key and the fields you want to update.
 
-Upon receiving such a request, Zilliz Cloud performs a query with strong consistency to retrieve the entity, updates the field values based on the data in the request, inserts the modified data, and then deletes the existing entity with the original primary key carried in the request.
+Zilliz Cloud retrieves the existing entity with a strong-consistency query, merges your changes with the stored data, inserts the merged entity, and deletes the old entity.
 
-For a collection with `autoID` enabled, merge mode preserves the primary key provided in the request instead of generating a new one. This differs from override mode, in which Zilliz Cloud generates a new primary key for the replacement entity. The primary key in a merge-mode request must identify an existing entity; otherwise, Zilliz Cloud rejects the request instead of inserting a new entity.
+If the primary key does not exist, the result depends on whether `autoID` is enabled:
+
+- **With `autoID` disabled**, Zilliz Cloud attempts to insert a new entity with the primary key you supplied. The request succeeds if it meets the normal insertion requirements. If a required field is missing, the request fails with a missing-field error. Nullable fields and fields with default values can be omitted, just as in a normal insert.
+
+- **With `autoID` enabled**, every primary key in the request must already exist. Zilliz Cloud rejects the request if any primary key is missing, even if you provide all fields required for insertion. For existing entities, merge mode keeps the primary key unchanged.
+
+If a partial update fails with a missing-field error, check whether the target entity exists. Without an existing entity, Zilliz Cloud cannot retrieve the values of fields you omitted.
+
+For new entities, use `insert` or an upsert in override mode. Use merge mode for subsequent updates to individual fields.
 
 For `ARRAY` fields, merge mode supports two operators: `ARRAY_APPEND` and `ARRAY_REMOVE`. These operators let you append elements to or remove matching elements from an existing `ARRAY` field, without first querying the entity to retrieve its current value. For details, see [Upsert ARRAY fields with partial-update operators](./upsert-entities#upsert-array-fields-in-merge-mode).
 
@@ -544,9 +552,7 @@ if (!status.IsOk()) {
 
 ## Upsert entities in merge mode\{#upsert-entities-in-merge-mode}
 
-The following code example demonstrates how to upsert entities with partial updates. Provide only the fields needing updates and their new values, along with the explicit partial update flag.
-
-In the following example, the `issue` field of the entities specified in the upsert request will be updated to the values included in the request.
+The following example updates only the `issue` field of the entities with primary keys `1` and `2` in `my_collection`. Before running it, ensure that both entities already exist. Their other fields retain their current values.
 
 <Admonition type="info" icon="📘" title="Notes">
 
