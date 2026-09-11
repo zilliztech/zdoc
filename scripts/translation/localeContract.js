@@ -2,6 +2,7 @@
 
 const fs = require('node:fs')
 const path = require('node:path')
+const {protectedSpans} = require('./protectedContent')
 
 const ROOT_KEYS = ['schemaVersion', 'contractId', 'target', 'locale', 'styleRules', 'mandatoryTerms', 'forbiddenTranslations', 'doNotTranslate', 'contextualTerms', 'examples']
 const TERM_KEYS = ['source', 'target', 'caseSensitive']
@@ -185,10 +186,28 @@ function mandatoryTermOccurrences(content, value, caseSensitive) {
   return occurrences
 }
 
+function occurrenceInsideProtectedContent(occurrence, protectedRanges) {
+  const end = occurrence.index + occurrence.value.length
+  return protectedRanges.some(range => occurrence.index < range.end && end > range.start)
+}
+
+// Protected bytes (link destinations, heading anchors, code spans, fenced
+// blocks, frontmatter values, ...) cannot be localized, so they carry no
+// terminology obligation and must never be a deterministic repair site: a
+// term occurrence that only exists inside protected content is not a missing
+// translation of the term.
+function withoutProtectedOccurrences(content, value, caseSensitive, contract) {
+  const occurrences = mandatoryTermOccurrences(content, value, caseSensitive)
+  if (!occurrences.length) return occurrences
+  const protectedRanges = protectedSpans(String(content), {literalTokens: contract.doNotTranslate})
+  if (!protectedRanges.length) return occurrences
+  return occurrences.filter(occurrence => !occurrenceInsideProtectedContent(occurrence, protectedRanges))
+}
+
 function sourceTermOccurrences(content, term, contract) {
   const hasForbiddenTranslations = contract.forbiddenTranslations.some(item => item.source === term.source)
   const caseSensitive = term.caseSensitive && !hasForbiddenTranslations
-  const occurrences = mandatoryTermOccurrences(content, term.source, caseSensitive)
+  const occurrences = withoutProtectedOccurrences(content, term.source, caseSensitive, contract)
   if (!term.excludedSourceContexts?.length) return occurrences
   const source = String(content)
   const haystack = caseSensitive ? source : source.toLocaleLowerCase('en-US')
@@ -230,7 +249,7 @@ function contextualDraftSlotRanges(draft, context, source, caseSensitive) {
 }
 
 function mandatoryTargetOccurrences(source, draft, term, contract) {
-  const occurrences = mandatoryTermOccurrences(draft, term.target, term.caseSensitive)
+  const occurrences = withoutProtectedOccurrences(draft, term.target, term.caseSensitive, contract)
   const contextualOverrides = contract.contextualTerms.filter(contextual =>
     contextual.source === term.source &&
     contextual.caseSensitive === term.caseSensitive &&
