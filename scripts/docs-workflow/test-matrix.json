@@ -815,6 +815,25 @@
         "pnpm test:workflow-policy"
       ],
       "reason": "Japanese style guide joins the prompt contract chain (promptContractSha256) and TM retrieval is a new offline asset; prompt-hash-sensitive recovery tests and translation suites must stay green while zh-CN-reference remains untouched."
+    },
+    {
+      "id": "translation-agentic-provider",
+      "paths": [
+        "scripts/translation/agenticProvider*",
+        "scripts/translation/validate-translation-file*",
+        ".github/workflows/_translate-content-group.yml"
+      ],
+      "focusedTests": [
+        "node --test scripts/translation/agenticProvider.test.js"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm test:translation",
+        "pnpm test:workflow-matrix",
+        "pnpm test:workflow-policy",
+        "pnpm test:replay:translation"
+      ],
+      "reason": "Whole-file agentic provider shares the translation report/recovery contracts and branches the producer runner step behind the TRANSLATION_PROVIDER repo variable; report-envelope compatibility, bounded repair evidence, and workflow policy must stay green while the unit pipeline remains the default path."
     }
   ]
 }

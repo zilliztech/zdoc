@@ -54,9 +54,16 @@ follow-up contract bumps.
 
 ## Roadmap (unit pipeline retirement)
 
-- Phase A (this PR): assets + ja-JP wiring; unit pipeline and semantic seeds unchanged.
-- Phase B: agentic provider (`TRANSLATION_PROVIDER`) gray rollout via manual/recovery entries;
-  surgical-edit incremental lane; retained ja-JP recovery artifacts consumed.
+- Phase A (first commit): assets + ja-JP wiring; unit pipeline and semantic seeds unchanged.
+- Phase B (second commit, implemented): `scripts/translation/agenticProvider.js` — a
+  locale-agnostic whole-file provider over the Codex SDK with bounded repair rounds and the
+  shared deterministic validator (`scripts/translation/validate-translation-file.js`). It emits
+  the agentRunner-compatible report envelope with file-level results only (no unit
+  checkpoints) and ignores in-flight unit recovery inputs by design. The producer step in
+  `_translate-content-group.yml` branches on the `TRANSLATION_PROVIDER` repo variable
+  (default `unit-pipeline`; `agentic` uses `DEEPSEEK_API_KEY`/`DEEPSEEK_BASE_URL`/optional
+  `AGENTIC_TRANSLATION_MODEL`). Remaining Phase B work: surgical-edit incremental lane;
+  consuming the retained ja-JP recovery backlog.
 - Phase C: zh-CN-reference follows the same route (zh style-guide distillation, contract
   expansion, provider reuse — the provider must stay locale-agnostic).
 - Phase D: retire the unit translation path in a dedicated PR once both lanes are migrated,
