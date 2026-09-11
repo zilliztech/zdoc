@@ -62,8 +62,17 @@ follow-up contract bumps.
   checkpoints) and ignores in-flight unit recovery inputs by design. The producer step in
   `_translate-content-group.yml` branches on the `TRANSLATION_PROVIDER` repo variable
   (default `unit-pipeline`; `agentic` uses `DEEPSEEK_API_KEY`/`DEEPSEEK_BASE_URL`/optional
-  `AGENTIC_TRANSLATION_MODEL`). Remaining Phase B work: surgical-edit incremental lane;
-  consuming the retained ja-JP recovery backlog.
+  `AGENTIC_TRANSLATION_MODEL`). The surgical incremental lane lands as
+  `scripts/translation/surgicalUpdate.js`: a deterministic section-hash classifier routes
+  changed files between surgical in-place updates and full retranslation, and a
+  protected-token coverage guard verifies that link/anchor/code changes in the source are
+  reflected in the target without demanding arbitrary rewording (validated on a real
+  historical one-link change: the published target that already carried the new link passes
+  with zero edits, which requires the shared deterministic gates to ignore protected bytes —
+  a link destination or heading anchor such as `./manage-cluster` or
+  `{#cluster-level-isolation}` carries a locale-contract term but cannot be localized, so it
+  is neither a terminology obligation nor a repair site). Remaining Phase B work: wiring the
+  lane into the incremental manifest selection; consuming the retained ja-JP recovery backlog.
 - Phase C: zh-CN-reference follows the same route (zh style-guide distillation, contract
   expansion, provider reuse — the provider must stay locale-agnostic).
 - Phase D: retire the unit translation path in a dedicated PR once both lanes are migrated,
