@@ -40,6 +40,7 @@ on:
     secrets:
       TRANSLATION_AGENT_API_KEY: { required: true }
       REVIEW_AGENT_API_KEY: { required: true }
+      DEEPSEEK_API_KEY: { required: false }
 
 permissions:
   actions: read
