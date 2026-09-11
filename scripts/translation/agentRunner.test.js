@@ -122,6 +122,7 @@ function testSelectsPromptsByTranslationTarget() {
     review: 'codex-review-agent.ja-JP.md',
     correction: 'codex-correction-agent.md',
     polish: 'codex-polish-agent.ja-JP.md',
+    style: 'codex-style-guide.ja-JP.md',
   })
   assert.equal(promptNamesFor('zh-CN-reference').review, 'codex-review-agent.zh-CN-reference.md')
   assert.equal(promptNamesFor('zh-CN-reference').correction, 'codex-correction-agent.zh-CN-reference.md')
@@ -2080,7 +2081,9 @@ async function testRetainedTimeoutFixturesCompleteWithBoundedAdaptivePayloads() 
       assert.ok(payloadChars.slice(1).every(chars => chars < payloadChars[0]), `${fixture.sourcePath} must not repeat the full semantic payload`)
       assert.ok(payloadChars.slice(1).every(chars => chars <= 6000), `${fixture.sourcePath} adaptive payloads must respect half max chars`)
       assert.ok(reviewPayloadChars.length > 1, `${fixture.sourcePath} review must use bounded semantic batches`)
-      assert.ok(reviewPayloadChars.every(chars => chars <= 30000), `${fixture.sourcePath} reviewer payloads must remain bounded`)
+      // The bound accommodates the fixed shared system prefix (locale contract
+      // plus the Japanese style guide); batching is asserted independently.
+      assert.ok(reviewPayloadChars.every(chars => chars <= 58000), `${fixture.sourcePath} reviewer payloads must remain bounded`)
       assert.deepEqual(providerRetryBudget, {limit: 3, consumed: 0, remaining: 3})
       assert.deepEqual(adaptiveCallBudget, {limit: 32, reserved: fixture.adaptiveGroups, remaining: 32 - fixture.adaptiveGroups})
       const translated = fs.readFileSync(path.join(siteDir, targetPath), 'utf8')
