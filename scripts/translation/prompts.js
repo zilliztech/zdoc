@@ -11,6 +11,7 @@ const PROMPTS_BY_TARGET = Object.freeze({
     review: 'codex-review-agent.ja-JP.md',
     correction: 'codex-correction-agent.md',
     polish: 'codex-polish-agent.ja-JP.md',
+    style: 'codex-style-guide.ja-JP.md',
   }),
   'zh-CN-reference': Object.freeze({
     translation: 'codex-translation-agent.zh-CN-reference.md',

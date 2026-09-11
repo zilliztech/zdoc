@@ -677,7 +677,12 @@ function formatDocumentContext(chunkContext) {
 function loadSystemPrompt(target, promptName) {
   // Locale contract is placed first so translate/review/correction share an
   // identical stable prefix, maximizing the provider's prompt-cache hit rate.
-  return `${formatLocaleContract(loadLocaleContract(target))}\n\n${loadPrompt(promptName)}`
+  // The optional target style guide sits between the contract and the stage
+  // prompt: every stage shares the same contract+style prefix, and the guide's
+  // own bytes stay inside the stable prefix for cache purposes.
+  const styleGuideName = promptNamesFor(target).style
+  const styleGuide = styleGuideName ? `\n\n${loadPrompt(styleGuideName)}` : ''
+  return `${formatLocaleContract(loadLocaleContract(target))}${styleGuide}\n\n${loadPrompt(promptName)}`
 }
 
 function buildTranslationMessages({ target, sourcePath, sourceContent, sourceDocument, semanticUnits, locale, chunkContext, retryFeedback }) {
