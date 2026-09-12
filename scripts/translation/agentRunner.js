@@ -654,8 +654,13 @@ async function validateTranslatedContent(content) {
     }
   }
   try {
-    const { compile } = await import('@mdx-js/mdx')
-    await compile(content, { development: false })
+    const [{ compile }, remarkMath] = await Promise.all([
+      import('@mdx-js/mdx'),
+      import('remark-math'),
+    ])
+    // The site builds with remark-math; math-bearing pages (`$$` blocks with
+    // `{}` subscripts) are valid documents, not MDX expression errors.
+    await compile(content, { development: false, remarkPlugins: [remarkMath.default || remarkMath] })
   } catch (error) {
     errors.push(`MDX compile error: ${String(error.message || error).split('\n')[0]}`)
   }
