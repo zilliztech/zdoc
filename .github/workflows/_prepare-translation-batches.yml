@@ -9,12 +9,14 @@ on:
       source_baseline_sha: { required: true, type: string }
       source_checkpoint_sha: { required: true, type: string }
       target_baseline_sha: { required: false, type: string, default: '' }
+      mode: { required: false, type: string, default: auto }
     outputs:
       matrix: { value: '${{ jobs.prepare.outputs.matrix }}' }
       pending_count: { value: '${{ jobs.prepare.outputs.pending_count }}' }
       batch_count: { value: '${{ jobs.prepare.outputs.batch_count }}' }
       batch_size: { value: '${{ jobs.prepare.outputs.batch_size }}' }
       pending_set_sha256: { value: '${{ jobs.prepare.outputs.pending_set_sha256 }}' }
+      effective_mode: { value: '${{ jobs.prepare.outputs.effective_mode }}' }
       candidate_counts: { value: '${{ jobs.prepare.outputs.candidate_counts }}' }
 
 permissions:
@@ -30,9 +32,11 @@ jobs:
       batch_count: ${{ steps.summary.outputs.batch_count }}
       batch_size: ${{ steps.summary.outputs.batch_size }}
       pending_set_sha256: ${{ steps.summary.outputs.pending_set_sha256 }}
+      effective_mode: ${{ env.EFFECTIVE_TRANSLATION_MODE }}
       candidate_counts: ${{ steps.summary.outputs.candidate_counts }}
     env:
       GROUP: ${{ inputs.group }}
+      REQUESTED_TRANSLATION_MODE: ${{ inputs.mode }}
       TRANSLATION_TARGET: ${{ inputs.target }}
       SOURCE_BASELINE_SHA: ${{ inputs.source_baseline_sha }}
       SOURCE_CHECKPOINT_SHA: ${{ inputs.source_checkpoint_sha }}
@@ -71,7 +75,13 @@ jobs:
         name: Build deterministic batch matrix
         run: |
           set -euo pipefail
-          node scripts/translation/manifest.js --target "$TRANSLATION_TARGET" --output tmp/translation-manifest.json --group "$GROUP" --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" --source-changes tmp/source-changes.json --reconciliation-plan tmp/reconciliation-plan.json --reconciliation-plan-artifact "translation-reconciliation-plan-$TRANSLATION_TARGET-$GROUP-${{ github.run_id }}"
+          # Resolve the effective mode exactly like the producer does
+          # (_translate-content-group "Build group translation manifest") so the
+          # pending set hashed here matches the one the producer rebuilds; an
+          # explicit mode=full request must not hash an incremental manifest.
+          effective_mode=$(node scripts/translation/bootstrap-state.js resolve --target "$TRANSLATION_TARGET" --group "$GROUP" --mode "$REQUESTED_TRANSLATION_MODE" --summary-file tmp/bootstrap-decision.json)
+          echo "EFFECTIVE_TRANSLATION_MODE=$effective_mode" >> "$GITHUB_ENV"
+          node scripts/translation/manifest.js --target "$TRANSLATION_TARGET" --output tmp/translation-manifest.json --group "$GROUP" --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" --source-changes tmp/source-changes.json --mode "$effective_mode" --reconciliation-plan tmp/reconciliation-plan.json --reconciliation-plan-artifact "translation-reconciliation-plan-$TRANSLATION_TARGET-$GROUP-${{ github.run_id }}"
           node - <<'NODE'
           const fs = require('node:fs')
           const { getContentGroup } = require('./scripts/docs-workflow/content-groups')
