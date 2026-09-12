@@ -242,6 +242,7 @@ jobs:
     with:
       group: guides
       target: ja-JP
+      mode: ${{ inputs.mode }}
       tooling_sha: ${{ needs.prepare.outputs.tooling_sha }}
       source_baseline_sha: ${{ fromJSON(needs.prepare.outputs.guides_unit_json).sourceBaselineSha }}
       source_checkpoint_sha: ${{ fromJSON(needs.prepare.outputs.guides_unit_json).sourceCheckpointSha }}
