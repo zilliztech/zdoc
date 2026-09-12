@@ -4,7 +4,7 @@ const assert = require('node:assert/strict')
 const test = require('node:test')
 
 const {validateProtectedContent} = require('./protectedContent')
-const {validateTranslationFile} = require('./validate-translation-file')
+const {validateTranslationFile, validateWithRuntimeChecks} = require('./validate-translation-file')
 
 const SOURCE = [
   '---',
@@ -37,6 +37,13 @@ const FULLY_TRANSLATED = [
 function validate(draftContent) {
   return validateTranslationFile({sourceContent: SOURCE, draftContent, relPath: 'content/en/x.md', target: 'ja-JP'})
 }
+
+test('math-bearing pages with brace subscripts pass the MDX gate', async () => {
+  const source = '---\ntitle: T\n---\n\n# T\n\nBody.\n\n$$\nS(doc) = \\exp\\left( \\lambda \\cdot fieldvalue_{doc} - origin \\right)\n$$\n'
+  const draft = '---\ntitle: 制限\n---\n\n# T\n\n本文。\n\n$$\nS(doc) = \\exp\\left( \\lambda \\cdot fieldvalue_{doc} - origin \\right)\n$$\n'
+  const {errors} = await validateWithRuntimeChecks({sourceContent: source, draftContent: draft, relPath: 'content/en/x.md', target: 'ja-JP'})
+  assert.deepEqual(errors, [])
+})
 
 test('does not require a mandatory term that only appears inside protected bytes', () => {
   const {errors, repaired} = validate(FULLY_TRANSLATED)
