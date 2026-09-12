@@ -375,7 +375,8 @@ jobs:
               --model "$AGENTIC_TRANSLATION_MODEL" \
               --base-url "$AGENTIC_BASE_URL" \
               --api-key-env AGENTIC_PROVIDER_API_KEY \
-              --concurrency "$AGENTIC_CONCURRENCY"
+              --concurrency "$AGENTIC_CONCURRENCY" \
+              --codex-home "$RUNNER_TEMP/agentic-codex-home"
           else
             args=(--manifest tmp/translation-manifest.json --report tmp/translation-report.json)
             if [[ -f "$RECOVERY_ANALYSIS" ]]; then
