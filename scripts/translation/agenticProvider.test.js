@@ -73,6 +73,57 @@ test('repair prompt bounds and quotes violations with the validator command', ()
   assert.match(prompt, /node v\.js/);
 });
 
+test('runAgenticTranslation isolates a session that never wrote the draft', async () => {
+  await withSite(async siteDir => {
+    const items = [jaFixture(), {...jaFixture(), sourcePath: `${GE}/dev/second.md`, targetPath: `${GJ}/dev/second.md`}];
+    write(siteDir, items[0].sourcePath, EN_SOURCE);
+    write(siteDir, items[1].sourcePath, EN_SOURCE);
+    const report = await runAgenticTranslation({
+      siteDir,
+      manifest: {target: 'ja-JP', locale: 'ja-JP', group: 'guides', items},
+      callCodex: async ({item, phase}) => {
+        if (item.sourcePath.endsWith('limits.md')) {
+          // Simulate a session that completes without acting: no draft file.
+          return 'I could not complete the task because of a sandbox denial.';
+        }
+        write(siteDir, item.targetPath, JA_CLEAN);
+        return 'DONE';
+      },
+      concurrency: 2,
+    });
+    assert.equal(report.checkpoint.processed, 2);
+    assert.equal(report.checkpoint.translated, 1);
+    assert.equal(report.checkpoint.failed, 1);
+    const failed = report.results.find(result => result.status === 'failed');
+    assert.match(failed.error, /without writing/);
+    assert.match(failed.error, /sandbox denial/);
+    assert.equal(failed.failureCategory, 'unknown');
+    assert.deepEqual(failed.attempts, []);
+    const translated = report.results.find(result => result.status === 'translated');
+    assert.ok(translated);
+    assert.ok(isConsistentSuccessfulReview(translated.review));
+  });
+});
+
+test('runAgenticFile fails with the agent reply tail when the turn writes nothing', async () => {
+  await withSite(async siteDir => {
+    write(siteDir, jaFixture().sourcePath, EN_SOURCE);
+    const lines = [];
+    const result = await runAgenticFile({
+      item: jaFixture(), target: 'ja-JP', siteDir,
+      callCodex: async () => 'TURN REPLY TAIL FOR DIAGNOSIS',
+      log: {log: message => lines.push(message)},
+    }).catch(error => ({error: String(error.message)}));
+    assert.match(result.error, /without writing/);
+    assert.match(result.error, /TURN REPLY TAIL FOR DIAGNOSIS/);
+  });
+});
+
+test('parseCliArgs accepts --codex-home', () => {
+  const options = parseCliArgs(['run', '--site-dir', '/tmp/site', '--manifest', 'tmp/m.json', '--report', 'tmp/r.json', '--model', 'm', '--base-url', 'https://x/v1', '--api-key-env', 'KEY', '--codex-home', '/tmp/codex-home']);
+  assert.equal(options.codexHome, '/tmp/codex-home');
+});
+
 test('parseCliArgs validates the run subcommand and required absolute paths', () => {
   assert.throws(() => parseCliArgs(['translate', '--site-dir', '/x']), /Usage:/);
   assert.throws(() => parseCliArgs(['run', '--site-dir', 'relative', '--manifest', 'm.json', '--report', 'r.json', '--model', 'm', '--base-url', 'https://x/v1', '--api-key-env', 'KEY']), /absolute normalized/);
