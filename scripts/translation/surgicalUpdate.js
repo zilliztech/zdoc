@@ -154,10 +154,10 @@ Editing rules:
 - Match the surrounding document's style; new sentences follow the style guide.
 ${protectedBytesRules()}
 
-Verification loop (required):
-1. After editing ${oldTargetPath}, run: ${validatorCommand}
-2. If it prints VIOLATIONS, fix every listed violation and run it again.
-3. Repeat until it prints OK, then reply with exactly: DONE`
+Verification loop (best effort — the external validator gates this file either way):
+1. After editing ${oldTargetPath}, try to run: ${validatorCommand}
+2. If the command runs, fix every VIOLATIONS entry and repeat until it prints OK, then reply with exactly: DONE.
+3. If you cannot run commands in this environment, do NOT stop: applying your best surgical edit to ${oldTargetPath} is mandatory. Reply with exactly: DRAFT_COMPLETE. An external deterministic validator will check the file and send corrections back if needed. Never leave the file unedited, and never fabricate a validator result.`
 }
 
 function unifiedSourceDiffPreview(oldSource, newSource) {
@@ -230,7 +230,7 @@ async function runSurgicalUpdate({item, target, siteDir, oldSourceContent, oldTa
     if (!violations.length || attempts.length > maxRepairTurns) break
     await callCodex({
       phase: `surgical-repair${attempts.length}`,
-      prompt: `${buildSurgicalTaskPrompt({item, target, siteDir, oldSource: oldSourceContent, newSource: newSourceContent, oldTargetPath: item.targetPath, validatorCommand, stylePromptPath})}\n\nThe validator reported these violations after your last edit:\n${violations.slice(0, 20).map(violation => `- ${violation}`).join('\n')}`,
+      prompt: `${buildSurgicalTaskPrompt({item, target, siteDir, oldSource: oldSourceContent, newSource: newSourceContent, oldTargetPath: item.targetPath, validatorCommand, stylePromptPath})}\n\nThe validator reported these violations after your last edit:\n${violations.slice(0, 20).map(violation => `- ${violation}`).join('\n')}\n\nIf you cannot run commands in this environment, still apply your best fix and reply with exactly: DRAFT_COMPLETE — the external validator will re-check the file. Never fabricate a validator result.`,
       item,
     })
     attempts.push(`surgical-repair${attempts.length}`)
