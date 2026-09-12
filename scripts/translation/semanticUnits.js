@@ -183,7 +183,11 @@ async function mdxProcessor() {
 function mdxProcessorSync() {
   if (!synchronousMdxProcessor) {
     const {createProcessor} = require('@mdx-js/mdx')
-    synchronousMdxProcessor = createProcessor({format: 'mdx'})
+    const remarkMath = require('remark-math')
+    // The site builds with remark-math, so `$$` blocks (and `{}` inside them)
+    // are math, not MDX expressions. Without this, math-bearing pages fail
+    // acorn parsing ("Could not parse expression with acorn").
+    synchronousMdxProcessor = createProcessor({format: 'mdx', remarkPlugins: [remarkMath.default || remarkMath]})
   }
   return synchronousMdxProcessor
 }
