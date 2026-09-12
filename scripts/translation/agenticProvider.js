@@ -55,10 +55,10 @@ Rules:
 - Output the full document: same headings and heading levels, same list nesting, same tables, same MDX/JSX elements.
 ${protectedBytesRules()}
 
-Verification loop (required):
-1. After writing ${item.targetPath}, run: ${validatorCommand}
-2. If it prints VIOLATIONS, fix every listed violation in ${item.targetPath} and run it again.
-3. Repeat until it prints OK, then reply with exactly: DONE`
+Verification loop (best effort — the external validator gates this file either way):
+1. After writing ${item.targetPath}, try to run: ${validatorCommand}
+2. If the command runs, fix every VIOLATIONS entry and repeat until it prints OK, then reply with exactly: DONE.
+3. If you cannot run commands in this environment, do NOT stop: writing your best complete translation to ${item.targetPath} is mandatory. Reply with exactly: DRAFT_COMPLETE. An external deterministic validator will check the file and send corrections back if needed. Never leave the file unwritten, and never fabricate a validator result.`
 }
 
 function buildRepairPrompt({item, target, violations, validatorCommand}) {
@@ -74,7 +74,7 @@ ${bounded}
 
 ${protectedBytesRules()}
 
-Edit ${item.targetPath} until the validator prints OK, then reply with exactly: DONE`
+Edit ${item.targetPath} so the listed violations are gone. If you can run the validator, iterate until it prints OK and reply with exactly: DONE. If you cannot run commands, still apply your best fix to ${item.targetPath} and reply with exactly: DRAFT_COMPLETE — the external validator will re-check the file. Never fabricate a validator result.`
 }
 
 function validatorCommandFor(siteDir, target, item) {
@@ -93,7 +93,8 @@ async function runAgenticFile({item, target, siteDir, callCodex, validate, maxRe
   const runTurn = async (phase, prompt) => {
     const reply = await callCodex({phase, prompt, item})
     if (!fs.existsSync(draftPath)) {
-      throw new Error(`agentic ${phase} turn completed without writing ${item.targetPath}; agent reply tail: ${String(reply || '').slice(-400)}`)
+      log.log(`[agentic-provider] reply ${item.sourcePath} ${phase}: ${String(reply || '').slice(0, 2000)}`)
+      throw new Error(`agentic ${phase} turn completed without writing ${item.targetPath}; agent reply tail: ${String(reply || '').slice(-800)}`)
     }
     return reply
   }
