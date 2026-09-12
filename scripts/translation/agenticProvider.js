@@ -81,7 +81,7 @@ function validatorCommandFor(siteDir, target, item) {
   return `node ${path.join('scripts', 'translation', 'validate-translation-file.js')} --site-dir ${siteDir} --target ${target} --source ${item.sourcePath} --draft ${item.targetPath} --write-back false`
 }
 
-async function runAgenticFile({item, target, siteDir, callCodex, validate, maxRepairTurns = DEFAULT_MAX_REPAIR_TURNS, stylePromptPath = stylePromptPathFor(target), model = null}) {
+async function runAgenticFile({item, target, siteDir, callCodex, validate, maxRepairTurns = DEFAULT_MAX_REPAIR_TURNS, stylePromptPath = stylePromptPathFor(target), model = null, log = console}) {
   if (!item || typeof item.sourcePath !== 'string' || typeof item.targetPath !== 'string') {
     throw new Error('Agentic translation requires manifest item source and target paths')
   }
@@ -90,23 +90,34 @@ async function runAgenticFile({item, target, siteDir, callCodex, validate, maxRe
   fs.mkdirSync(path.dirname(draftPath), {recursive: true})
   const validatorCommand = validatorCommandFor(siteDir, target, item)
   const attempts = []
-  await callCodex({phase: 'translate', prompt: buildAgenticTaskPrompt({item, target, siteDir, stylePromptPath, validatorCommand}), item})
+  const runTurn = async (phase, prompt) => {
+    const reply = await callCodex({phase, prompt, item})
+    if (!fs.existsSync(draftPath)) {
+      throw new Error(`agentic ${phase} turn completed without writing ${item.targetPath}; agent reply tail: ${String(reply || '').slice(-400)}`)
+    }
+    return reply
+  }
+  await runTurn('translate', buildAgenticTaskPrompt({item, target, siteDir, stylePromptPath, validatorCommand}))
   attempts.push('translate')
+  log.log(`[agentic-provider] turn translate ${item.sourcePath}`)
   let outcome = await validateWithRuntimeChecks({sourceContent, draftContent: fs.readFileSync(draftPath, 'utf8'), relPath: item.sourcePath, target, validate})
   if (outcome.repaired !== fs.readFileSync(draftPath, 'utf8')) fs.writeFileSync(draftPath, outcome.repaired)
   let violations = outcome.errors
   while (violations.length && attempts.length <= maxRepairTurns) {
-    await callCodex({phase: `repair${attempts.length}`, prompt: buildRepairPrompt({item, target, violations, validatorCommand}), item})
+    await runTurn(`repair${attempts.length}`, buildRepairPrompt({item, target, violations, validatorCommand}))
     attempts.push(`repair${attempts.length}`)
+    log.log(`[agentic-provider] turn ${attempts.at(-1)} ${item.sourcePath}`)
     outcome = await validateWithRuntimeChecks({sourceContent, draftContent: fs.readFileSync(draftPath, 'utf8'), relPath: item.sourcePath, target, validate})
     if (outcome.repaired !== fs.readFileSync(draftPath, 'utf8')) fs.writeFileSync(draftPath, outcome.repaired)
     violations = outcome.errors
   }
   const base = {...item, target, attempts, ...(model ? {model} : {})}
   if (!violations.length) {
+    log.log(`[agentic-provider] translated ${item.sourcePath} attempts=${attempts.join(',')}`)
     return {...base, status: 'translated', review: successfulReview(), validationErrors: []}
   }
   const error = violations.join('; ').slice(0, MAX_FAILURE_ERROR_LENGTH)
+  log.log(`[agentic-provider] failed ${item.sourcePath} attempts=${attempts.join(',')}: ${error.slice(0, 200)}`)
   return {
     ...base,
     status: 'failed',
@@ -116,14 +127,33 @@ async function runAgenticFile({item, target, siteDir, callCodex, validate, maxRe
   }
 }
 
-async function runAgenticTranslation({siteDir, manifest, callCodex, validate, maxRepairTurns, model, concurrency = 2, now = () => Date.now(), onResult = null}) {
+async function runAgenticTranslation({siteDir, manifest, callCodex, validate, maxRepairTurns, model, concurrency = 2, now = () => Date.now(), onResult = null, log = console}) {
   if (!Array.isArray(manifest?.items)) throw new Error('Agentic translation requires a manifest with items')
   const results = new Array(manifest.items.length)
   let cursor = 0
   const worker = async () => {
     while (cursor < manifest.items.length) {
       const index = cursor++
-      results[index] = await runAgenticFile({item: manifest.items[index], target: manifest.target, siteDir, callCodex, validate, maxRepairTurns, model})
+      const item = manifest.items[index]
+      try {
+        results[index] = await runAgenticFile({item, target: manifest.target, siteDir, callCodex, validate, maxRepairTurns, model, log})
+      } catch (error) {
+        // One broken file (or one agent session that failed to act) must not
+        // abort the whole run: record it as a bounded failed result, exactly
+        // like the unit pipeline does, so TRANSLATION_ALLOW_PARTIAL can hold.
+        const message = String(error?.message || error).slice(0, MAX_FAILURE_ERROR_LENGTH)
+        log.log(`[agentic-provider] error ${item.sourcePath}: ${message.slice(0, 300)}`)
+        results[index] = {
+          ...item,
+          target: manifest.target,
+          attempts: [],
+          status: 'failed',
+          failureCategory: classifyFailure(error),
+          error: message,
+          validationErrors: [],
+          ...(model ? {model} : {}),
+        }
+      }
       if (onResult) await onResult(results[index], index)
     }
   }
@@ -180,7 +210,7 @@ async function createCodexCall({model, baseUrl, apiKey, workingDirectory, timeou
 }
 
 function usage() {
-  return 'Usage: node scripts/translation/agenticProvider.js run --site-dir <absolute-dir> --manifest <file> --report <file> --model <id> --base-url <url> --api-key-env <name> [--concurrency 2] [--max-repair-turns 4]'
+  return 'Usage: node scripts/translation/agenticProvider.js run --site-dir <absolute-dir> --manifest <file> --report <file> --model <id> --base-url <url> --api-key-env <name> [--concurrency 2] [--max-repair-turns 4] [--codex-home <dir>]'
 }
 
 function parseCliArgs(argv) {
@@ -207,6 +237,7 @@ function parseCliArgs(argv) {
     apiKeyEnv: args.get('api-key-env'),
     concurrency: Number.parseInt(args.get('concurrency') || '2', 10),
     maxRepairTurns: Number.parseInt(args.get('max-repair-turns') || String(DEFAULT_MAX_REPAIR_TURNS), 10),
+    codexHome: args.get('codex-home') || null,
   }
 }
 
@@ -215,7 +246,7 @@ async function main() {
   const apiKey = process.env[options.apiKeyEnv]
   if (!apiKey) throw new Error(`environment ${options.apiKeyEnv} is required`)
   const manifest = JSON.parse(fs.readFileSync(options.manifestPath, 'utf8'))
-  const callCodex = await createCodexCall({model: options.model, baseUrl: options.baseUrl, apiKey, workingDirectory: process.cwd()})
+  const callCodex = await createCodexCall({model: options.model, baseUrl: options.baseUrl, apiKey, workingDirectory: process.cwd(), codexHome: options.codexHome})
   const report = await runAgenticTranslation({
     siteDir: options.siteDir,
     manifest,
