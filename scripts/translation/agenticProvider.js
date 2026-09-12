@@ -178,7 +178,9 @@ async function runAgenticTranslation({siteDir, manifest, callCodex, validate, ma
 
 // Network adapter over the Codex SDK. Kept separate from the tested library
 // surface above so tests inject a fake callCodex and never touch the network.
-async function createCodexCall({model, baseUrl, apiKey, workingDirectory, timeoutMs = 20 * 60 * 1000, codexHome}) {
+async function createCodexCall({model, baseUrl, apiKey, workingDirectory, timeoutMs = 20 * 60 * 1000, codexHome, sandboxMode = 'workspace-write'}) {
+  if (!['read-only', 'workspace-write', 'danger-full-access'].includes(sandboxMode)) throw new Error('Unsupported agentic sandbox mode')
+
   const {Codex} = await import('@openai/codex-sdk')
   if (codexHome) fs.mkdirSync(path.resolve(codexHome), {recursive: true})
   const codex = new Codex({
@@ -198,7 +200,7 @@ async function createCodexCall({model, baseUrl, apiKey, workingDirectory, timeou
     }).filter(([, value]) => value !== undefined)),
   })
   return async ({prompt}) => {
-    const thread = codex.startThread({model, sandboxMode: 'workspace-write', workingDirectory, approvalPolicy: 'never', skipGitRepoCheck: true})
+    const thread = codex.startThread({model, sandboxMode, workingDirectory, approvalPolicy: 'never', skipGitRepoCheck: true})
     const controller = new AbortController()
     const timer = setTimeout(() => controller.abort(new Error('agentic turn timeout')), timeoutMs)
     try {
@@ -210,8 +212,58 @@ async function createCodexCall({model, baseUrl, apiKey, workingDirectory, timeou
   }
 }
 
+// Preflight: one minimal agent round-trip plus file write and validator run
+// on a throwaway file. Catches runner-level blockers (sandbox namespace
+// failures, missing binaries) before any paid translation turn is spent.
+async function preflightAgent({siteDir, callCodex, target, log = console}) {
+  const token = `agentic-preflight-${Date.now()}`
+  const sourcePath = path.join(siteDir, 'tmp', 'agentic-preflight', `${token}.md`)
+  const draftPath = path.join(siteDir, 'tmp', 'agentic-preflight', `${token}.out.md`)
+  fs.mkdirSync(path.dirname(sourcePath), {recursive: true})
+  // Deliberately term-free sample: the preflight proves write/execute/report
+  // mechanics, must not depend on any locale's terminology contract, and must
+  // pass the deterministic gates for every target.
+  fs.writeFileSync(sourcePath, `---\ntitle: Preflight\n---\n\n# Preflight\n\nThe sentinel word is zebra.\n`)
+  try {
+    const validatorCommand = `node ${path.join('scripts', 'translation', 'validate-translation-file.js')} --site-dir ${siteDir} --target ${target} --source tmp/agentic-preflight/${token}.md --draft tmp/agentic-preflight/${token}.out.md --write-back false`
+    const prompt = `Environment smoke test.
+1. Create the file ${path.relative(siteDir, draftPath)} with exactly this content:
+---
+title: Preflight output
+---
+
+# Preflight output
+
+The sentinel word is still zebra.
+2. Run: ${validatorCommand}
+3. Reply with exactly: OK if the validator printed OK, otherwise reply with the failure output.`
+    const reply = String(await callCodex({phase: 'preflight', prompt, item: {sourcePath: path.relative(siteDir, sourcePath), targetPath: path.relative(siteDir, draftPath)}}) || '')
+    if (!fs.existsSync(draftPath)) {
+      throw new Error(`preflight agent did not write the draft; reply: ${reply.slice(0, 600)}`)
+    }
+    const {errors} = await validateWithRuntimeChecks({
+      sourceContent: fs.readFileSync(sourcePath, 'utf8'),
+      draftContent: fs.readFileSync(draftPath, 'utf8'),
+      relPath: path.relative(siteDir, sourcePath),
+      target,
+    })
+    if (errors.length) throw new Error(`preflight draft failed validation: ${errors.join('; ').slice(0, 400)}`)
+    if (!/\bOK\b/.test(reply)) {
+      throw new Error(`preflight agent could not execute the validator command; reply: ${reply.slice(0, 600)}`)
+    }
+    log.log('[agentic-provider] preflight OK: file write, validator execution, and validator reporting all work')
+    return {ok: true}
+  } catch (error) {
+    const message = String(error?.message || error)
+    log.log(`[agentic-provider] preflight FAILED: ${message}`)
+    return {ok: false, error: message}
+  } finally {
+    fs.rmSync(path.dirname(sourcePath), {recursive: true, force: true})
+  }
+}
+
 function usage() {
-  return 'Usage: node scripts/translation/agenticProvider.js run --site-dir <absolute-dir> --manifest <file> --report <file> --model <id> --base-url <url> --api-key-env <name> [--concurrency 2] [--max-repair-turns 4] [--codex-home <dir>]'
+  return 'Usage: node scripts/translation/agenticProvider.js run --site-dir <absolute-dir> --manifest <file> --report <file> --model <id> --base-url <url> --api-key-env <name> [--concurrency 2] [--max-repair-turns 4] [--codex-home <dir>] [--sandbox-mode <workspace-write|danger-full-access>] [--skip-preflight true]'
 }
 
 function parseCliArgs(argv) {
@@ -239,6 +291,8 @@ function parseCliArgs(argv) {
     concurrency: Number.parseInt(args.get('concurrency') || '2', 10),
     maxRepairTurns: Number.parseInt(args.get('max-repair-turns') || String(DEFAULT_MAX_REPAIR_TURNS), 10),
     codexHome: args.get('codex-home') || null,
+    sandboxMode: args.get('sandbox-mode') || 'workspace-write',
+    skipPreflight: args.get('skip-preflight') === 'true',
   }
 }
 
@@ -247,7 +301,11 @@ async function main() {
   const apiKey = process.env[options.apiKeyEnv]
   if (!apiKey) throw new Error(`environment ${options.apiKeyEnv} is required`)
   const manifest = JSON.parse(fs.readFileSync(options.manifestPath, 'utf8'))
-  const callCodex = await createCodexCall({model: options.model, baseUrl: options.baseUrl, apiKey, workingDirectory: process.cwd(), codexHome: options.codexHome})
+  const callCodex = await createCodexCall({model: options.model, baseUrl: options.baseUrl, apiKey, workingDirectory: process.cwd(), codexHome: options.codexHome, sandboxMode: options.sandboxMode})
+  if (options.skipPreflight !== true) {
+    const preflight = await preflightAgent({siteDir: options.siteDir, callCodex, target: manifest.target})
+    if (!preflight.ok) throw new Error(`agentic preflight failed; refusing to spend translation turns. ${preflight.error}`)
+  }
   const report = await runAgenticTranslation({
     siteDir: options.siteDir,
     manifest,
@@ -258,12 +316,20 @@ async function main() {
   })
   fs.mkdirSync(path.dirname(path.resolve(options.reportPath)), {recursive: true})
   fs.writeFileSync(options.reportPath, `${JSON.stringify(report, null, 2)}\n`)
+  if (process.env.GITHUB_OUTPUT) {
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, [
+      `translated_count=${report.checkpoint.translated}`,
+      `failed_count=${report.checkpoint.failed}`,
+      `remaining_count=${report.checkpoint.remaining}`,
+    ].join('\n') + '\n')
+  }
   const failed = report.checkpoint.failed
   if (failed && !process.env.TRANSLATION_ALLOW_PARTIAL) process.exitCode = 1
 }
 
 module.exports = {
   DEFAULT_MAX_REPAIR_TURNS,
+  preflightAgent,
   buildAgenticTaskPrompt,
   protectedBytesRules,
   buildRepairPrompt,

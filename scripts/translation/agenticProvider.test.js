@@ -10,6 +10,7 @@ const {
   buildAgenticTaskPrompt,
   buildRepairPrompt,
   parseCliArgs,
+  preflightAgent,
   runAgenticFile,
   runAgenticTranslation,
   stylePromptPathFor,
@@ -122,6 +123,63 @@ test('runAgenticFile fails with the agent reply tail when the turn writes nothin
 test('parseCliArgs accepts --codex-home', () => {
   const options = parseCliArgs(['run', '--site-dir', '/tmp/site', '--manifest', 'tmp/m.json', '--report', 'tmp/r.json', '--model', 'm', '--base-url', 'https://x/v1', '--api-key-env', 'KEY', '--codex-home', '/tmp/codex-home']);
   assert.equal(options.codexHome, '/tmp/codex-home');
+});
+
+test('preflightAgent passes when the agent writes, the validator runs, and OK is reported', async () => {
+  await withSite(async siteDir => {
+    const calls = [];
+    const result = await preflightAgent({
+      siteDir, target: 'ja-JP',
+      callCodex: async ({phase, prompt}) => {
+        calls.push({phase, prompt});
+        const match = prompt.match(/Create the file (\S+) with exactly this content:/);
+        assert.ok(match, 'prompt must name the draft file');
+        write(siteDir, match[1], '---\ntitle: Preflight output\n---\n\n# Preflight output\n\nThe sentinel word is still zebra.\n');
+        return 'OK';
+      },
+      log: {log: () => {}},
+    });
+    assert.equal(result.ok, true);
+    assert.equal(calls.length, 1);
+    assert.equal(calls[0].phase, 'preflight');
+    assert.ok(fs.existsSync(path.join(siteDir, 'tmp', 'agentic-preflight')) === false, 'preflight files must be cleaned up');
+  });
+});
+
+test('preflightAgent refuses to pass when the agent cannot execute the validator', async () => {
+  await withSite(async siteDir => {
+    const result = await preflightAgent({
+      siteDir, target: 'ja-JP',
+      callCodex: async ({prompt}) => {
+        const match = prompt.match(/Create the file (\S+) with exactly this content:/);
+        write(siteDir, match[1], '---\ntitle: Preflight output\n---\n\n# Preflight output\n\nThe sentinel word is still zebra.\n');
+        return 'I could not run the validator command because bwrap could not set up its network namespace.';
+      },
+      log: {log: () => {}},
+    });
+    assert.equal(result.ok, false);
+    assert.match(result.error, /could not execute the validator command/);
+    assert.match(result.error, /bwrap/);
+  });
+});
+
+test('preflightAgent fails closed when the draft is never written', async () => {
+  await withSite(async siteDir => {
+    const result = await preflightAgent({
+      siteDir, target: 'ja-JP',
+      callCodex: async () => 'I declined to act.',
+      log: {log: () => {}},
+    });
+    assert.equal(result.ok, false);
+    assert.match(result.error, /did not write the draft/);
+    assert.match(result.error, /declined to act/);
+  });
+});
+
+test('parseCliArgs accepts --sandbox-mode and --skip-preflight', () => {
+  const options = parseCliArgs(['run', '--site-dir', '/tmp/site', '--manifest', 'tmp/m.json', '--report', 'tmp/r.json', '--model', 'm', '--base-url', 'https://x/v1', '--api-key-env', 'KEY', '--sandbox-mode', 'danger-full-access', '--skip-preflight', 'true']);
+  assert.equal(options.sandboxMode, 'danger-full-access');
+  assert.equal(options.skipPreflight, true);
 });
 
 test('parseCliArgs validates the run subcommand and required absolute paths', () => {
