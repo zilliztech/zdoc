@@ -12,7 +12,13 @@ const TRANSLATION_ROOTS = Object.freeze([
 const CACHE_PATH = '.translation-cache/ja-JP.json'
 const BOT_NAME = 'Zilliz Docs Translation Bot'
 const BOT_EMAIL = 'docs@zilliz.com'
+// Deterministic fallback so identical content always yields the identical
+// commit (and SHA) when no authenticated timestamp is available. Real
+// publications pass each batch checkpoint's authenticated createdAt as
+// commitDate, which is equally deterministic — it comes from the immutable
+// checkpoint artifacts — while rendering a meaningful time in the history.
 const BOT_DATE = '2000-01-01T00:00:00+0000'
+const ISO_UTC_DATE = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,3})?(Z|[+-]\d{2}:?\d{2})$/
 const MAX_DIAGNOSTIC = 240
 
 function exactKeys(value, keys, label) {
@@ -221,7 +227,12 @@ function nulPaths(bytes) { return bytes.toString('utf8').split('\0').filter(Bool
 function allowedMutation(relative) { return relative === CACHE_PATH || TRANSLATION_ROOTS.some(root => relative.startsWith(`${root}/`)) }
 
 function commitAppliedBatch(options) {
-  exactKeys(options, ['worktree', 'batchNumber', 'batchCount'], 'commit options')
+  if (!options || typeof options !== 'object' || Array.isArray(options)) throw new Error('commit options must be an object')
+  const {commitDate = BOT_DATE, ...required} = options
+  if (typeof commitDate !== 'string' || !ISO_UTC_DATE.test(commitDate)) {
+    throw new Error('commitDate must be an ISO-8601 UTC timestamp')
+  }
+  exactKeys(required, ['worktree', 'batchNumber', 'batchCount'], 'commit options')
   const worktree = validateWorktree(options.worktree)
   const number = batchNumber(options.batchNumber, 'batchNumber')
   const count = batchNumber(options.batchCount, 'batchCount')
@@ -252,8 +263,8 @@ function commitAppliedBatch(options) {
     GIT_AUTHOR_EMAIL: BOT_EMAIL,
     GIT_COMMITTER_NAME: BOT_NAME,
     GIT_COMMITTER_EMAIL: BOT_EMAIL,
-    GIT_AUTHOR_DATE: BOT_DATE,
-    GIT_COMMITTER_DATE: BOT_DATE,
+    GIT_AUTHOR_DATE: commitDate,
+    GIT_COMMITTER_DATE: commitDate,
     GIT_CONFIG_NOSYSTEM: '1',
     GIT_CONFIG_GLOBAL: '/dev/null',
   }
