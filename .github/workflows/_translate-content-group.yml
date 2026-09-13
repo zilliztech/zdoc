@@ -391,17 +391,11 @@ jobs:
         run: |
           set -euo pipefail
           if [[ "${TRANSLATION_PROVIDER:-unit-pipeline}" == "agentic" ]]; then
-            node scripts/translation/agenticProvider.js run \
-              --site-dir "$GITHUB_WORKSPACE" \
-              --manifest tmp/translation-manifest.json \
-              --report tmp/translation-report.json \
-              --model "$AGENTIC_TRANSLATION_MODEL" \
-              --base-url "$AGENTIC_BASE_URL" \
-              --api-key-env AGENTIC_PROVIDER_API_KEY \
-              --concurrency "$AGENTIC_CONCURRENCY" \
-              --codex-home "$RUNNER_TEMP/agentic-codex-home" \
-              --sandbox-mode danger-full-access \
-              --skip-preflight false
+            agentic_args=(--site-dir "$GITHUB_WORKSPACE" --manifest tmp/translation-manifest.json --report tmp/translation-report.json --model "$AGENTIC_TRANSLATION_MODEL" --base-url "$AGENTIC_BASE_URL" --api-key-env AGENTIC_PROVIDER_API_KEY --concurrency "$AGENTIC_CONCURRENCY" --codex-home "$RUNNER_TEMP/agentic-codex-home" --sandbox-mode danger-full-access --skip-preflight false)
+            if [[ -f "$RECOVERY_ANALYSIS" ]]; then
+              agentic_args+=(--recovery-analysis "$RECOVERY_ANALYSIS")
+            fi
+            node scripts/translation/agenticProvider.js run "${agentic_args[@]}"
           else
             args=(--manifest tmp/translation-manifest.json --report tmp/translation-report.json)
             if [[ -f "$RECOVERY_ANALYSIS" ]]; then

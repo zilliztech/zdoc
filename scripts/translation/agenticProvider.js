@@ -12,6 +12,12 @@
 // (target/locale/results/checkpoint) with file-level results only: no unit
 // checkpoints are produced, and failed items carry bounded evidence for the
 // existing partial-success and recovery contracts.
+//
+// Recovery consumption mirrors agentRunner: a preflight-produced recovery
+// analysis (recovery-preflight.js) restores already-paid translated files into
+// the working tree and authenticates their review receipts. For those files
+// this provider re-runs only the current deterministic gate and reuses the
+// bytes without a model call; everything else is translated fresh.
 
 const fs = require('node:fs')
 const os = require('node:os')
@@ -21,6 +27,7 @@ const {promptNamesFor} = require('./prompts')
 const {successfulReview} = require('./reviewEvidence')
 const {classifyFailure} = require('./failureClassification')
 const {validateWithRuntimeChecks} = require('./validate-translation-file')
+const {buildRecoveryIdentity, loadChunkLimits, loadRecoveryAnalysis} = require('./agentRunner')
 
 const DEFAULT_MAX_REPAIR_TURNS = 4
 const MAX_FAILURE_ERROR_LENGTH = 2000
@@ -128,8 +135,40 @@ async function runAgenticFile({item, target, siteDir, callCodex, validate, maxRe
   }
 }
 
-async function runAgenticTranslation({siteDir, manifest, callCodex, validate, maxRepairTurns, model, concurrency = 2, now = () => Date.now(), onResult = null, log = console}) {
+// Restored recovery files are already-paid work: preflight wrote their bytes
+// into the working tree and authenticated the review receipt. The provider
+// only re-runs the current deterministic gate (the same one a fresh
+// translation must pass) and, on success, emits the unit pipeline's restored
+// result shape. The bytes are never rewritten here: strict review receipts are
+// bound to the exact on-disk hash the recovery artifact recorded, so any
+// mutation would break downstream receipt chaining.
+async function reuseRestoredTranslation({item, restored, target, siteDir, validate}) {
+  const outcome = await validateWithRuntimeChecks({
+    sourceContent: fs.readFileSync(path.join(siteDir, item.sourcePath), 'utf8'),
+    draftContent: fs.readFileSync(path.join(siteDir, item.targetPath), 'utf8'),
+    relPath: item.sourcePath,
+    target,
+    validate,
+  })
+  if (outcome.errors.length) return null
+  return {
+    ...item,
+    target,
+    status: 'translated',
+    recovered: true,
+    ...(restored.recoveryCompatibility ? {recoveryCompatibility: restored.recoveryCompatibility} : {}),
+    ...(restored.recoveryReviewReceipt ? {recoveryReviewReceipt: restored.recoveryReviewReceipt} : {}),
+    review: restored.review,
+    validationErrors: restored.validationErrors || [],
+  }
+}
+
+async function runAgenticTranslation({siteDir, manifest, callCodex, validate, maxRepairTurns, model, concurrency = 2, now = () => Date.now(), onResult = null, log = console, recovery = null}) {
   if (!Array.isArray(manifest?.items)) throw new Error('Agentic translation requires a manifest with items')
+  const restoredByIdentity = new Map()
+  for (const restored of recovery?.restored || []) {
+    restoredByIdentity.set(`${restored.sourcePath}\0${restored.targetPath}`, restored)
+  }
   const results = new Array(manifest.items.length)
   let cursor = 0
   const worker = async () => {
@@ -137,7 +176,17 @@ async function runAgenticTranslation({siteDir, manifest, callCodex, validate, ma
       const index = cursor++
       const item = manifest.items[index]
       try {
-        results[index] = await runAgenticFile({item, target: manifest.target, siteDir, callCodex, validate, maxRepairTurns, model, log})
+        const restored = restoredByIdentity.get(`${item.sourcePath}\0${item.targetPath}`)
+        const reused = restored && restored.sourceHash === item.sourceHash
+          ? await reuseRestoredTranslation({item, restored, target: manifest.target, siteDir, validate})
+          : null
+        if (reused) {
+          log.log(`[agentic-provider] recovered ${item.sourcePath} without a model call`)
+          results[index] = reused
+        } else {
+          if (restored) log.log(`[agentic-provider] recovered draft for ${item.sourcePath} failed the current validation gate; retranslating`)
+          results[index] = await runAgenticFile({item, target: manifest.target, siteDir, callCodex, validate, maxRepairTurns, model, log})
+        }
       } catch (error) {
         // One broken file (or one agent session that failed to act) must not
         // abort the whole run: record it as a bounded failed result, exactly
@@ -263,7 +312,7 @@ The sentinel word is still zebra.
 }
 
 function usage() {
-  return 'Usage: node scripts/translation/agenticProvider.js run --site-dir <absolute-dir> --manifest <file> --report <file> --model <id> --base-url <url> --api-key-env <name> [--concurrency 2] [--max-repair-turns 4] [--codex-home <dir>] [--sandbox-mode <workspace-write|danger-full-access>] [--skip-preflight true]'
+  return 'Usage: node scripts/translation/agenticProvider.js run --site-dir <absolute-dir> --manifest <file> --report <file> --model <id> --base-url <url> --api-key-env <name> [--concurrency 2] [--max-repair-turns 4] [--codex-home <dir>] [--sandbox-mode <workspace-write|danger-full-access>] [--skip-preflight true] [--recovery-analysis <file>]'
 }
 
 function parseCliArgs(argv) {
@@ -293,6 +342,7 @@ function parseCliArgs(argv) {
     codexHome: args.get('codex-home') || null,
     sandboxMode: args.get('sandbox-mode') || 'workspace-write',
     skipPreflight: args.get('skip-preflight') === 'true',
+    recoveryAnalysis: args.get('recovery-analysis') || '',
   }
 }
 
@@ -301,8 +351,20 @@ async function main() {
   const apiKey = process.env[options.apiKeyEnv]
   if (!apiKey) throw new Error(`environment ${options.apiKeyEnv} is required`)
   const manifest = JSON.parse(fs.readFileSync(options.manifestPath, 'utf8'))
+  const recovery = options.recoveryAnalysis
+    ? loadRecoveryAnalysis({
+      file: path.resolve(options.recoveryAnalysis),
+      manifest,
+      siteDir: options.siteDir,
+      identity: buildRecoveryIdentity(manifest, options.siteDir),
+      chunkOptions: loadChunkLimits(),
+    })
+    : null
   const callCodex = await createCodexCall({model: options.model, baseUrl: options.baseUrl, apiKey, workingDirectory: process.cwd(), codexHome: options.codexHome, sandboxMode: options.sandboxMode})
-  if (options.skipPreflight !== true) {
+  // The preflight spends one paid agent turn; skip it when recovery already
+  // covers every manifest item and no model call remains.
+  const pendingWork = manifest.items.filter(item => !recovery?.restored?.some(restored => restored.sourcePath === item.sourcePath && restored.targetPath === item.targetPath && restored.sourceHash === item.sourceHash))
+  if (options.skipPreflight !== true && pendingWork.length > 0) {
     const preflight = await preflightAgent({siteDir: options.siteDir, callCodex, target: manifest.target})
     if (!preflight.ok) throw new Error(`agentic preflight failed; refusing to spend translation turns. ${preflight.error}`)
   }
@@ -313,6 +375,7 @@ async function main() {
     concurrency: options.concurrency,
     maxRepairTurns: options.maxRepairTurns,
     model: options.model,
+    recovery,
   })
   fs.mkdirSync(path.dirname(path.resolve(options.reportPath)), {recursive: true})
   fs.writeFileSync(options.reportPath, `${JSON.stringify(report, null, 2)}\n`)
@@ -335,6 +398,7 @@ module.exports = {
   buildRepairPrompt,
   createCodexCall,
   parseCliArgs,
+  reuseRestoredTranslation,
   runAgenticFile,
   runAgenticTranslation,
   stylePromptPathFor,
