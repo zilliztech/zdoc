@@ -119,5 +119,6 @@ jobs:
     secrets:
       TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
       REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
+      DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
       APP_ID: ${{ secrets.APP_ID }}
       APP_SECRET: ${{ secrets.APP_SECRET }}
