@@ -88,6 +88,14 @@ jobs:
           if (selection.selectionSha256 !== process.env.EXPECTED_SELECTION_SHA256) throw new Error('publication selection checksum mismatch')
           if (selection.inputs.publish !== true) throw new Error('publication selection must be a publish selection')
           NODE
+      - name: Verify the producer selection was not superseded by an operator recovery
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          node scripts/docs-workflow/translation-selection-currency.js \
+            --selection "$RUNNER_TEMP/publication-selection/publication-selection.json" \
+            --repository "$GITHUB_REPOSITORY"
       - id: publish
         name: Publish ready Translation units in producer completion FIFO order
         uses: actions/github-script@v8

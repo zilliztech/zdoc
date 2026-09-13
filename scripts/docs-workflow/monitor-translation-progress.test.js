@@ -290,6 +290,7 @@ test('child workflow owns a best-effort card monitor outside aggregate dependenc
   const initialize = workflow.jobs.initialize_translation_card
   const monitor = workflow.jobs.monitor_translation_progress
   assert.match(initialize.if, /inputs\.request_id != ''/)
+  assert.equal(monitor.with.split_publication, "${{ inputs.publish && !(inputs.production_queue_owned || false) }}")
   assert.equal(initialize.needs, undefined)
   assert.equal(initialize.outputs.card_id, '${{ steps.card.outputs.card_id }}')
   assert.equal(initialize.outputs.card_started_at, '${{ steps.card.outputs.card_started_at }}')
@@ -780,4 +781,68 @@ test('validates publication handoff metadata against the producer run identity',
   assert.throws(() => validatePublicationHandoffMetadata({...base, publisherRunId: 0}, {runId: 99, runAttempt: 1}), /publisher run id/i)
   assert.throws(() => validatePublicationHandoffMetadata({...base, publisherRunUrl: 'https://example.com/run'}, {runId: 99, runAttempt: 1}), /url/i)
   assert.throws(() => validatePublicationHandoffMetadata({...base, schemaVersion: 2}, {runId: 99, runAttempt: 1}), /schema/i)
+})
+
+test('configuration accepts operator recovery together with split publication', () => {
+  const env = {
+    GITHUB_RUN_ID: '99', GITHUB_RUN_ATTEMPT: '4', GITHUB_REPOSITORY: 'zilliztech/zdoc', GITHUB_TOKEN: 'token', CARD_ID: 'om_1',
+    CARD_STARTED_AT: '2026-08-03T02:46:00.000Z', HANDOFF_JSON: JSON.stringify(recoverySubsetHandoff()), REQUEST_ID: '42-3',
+    PUBLISH_ENABLED: 'true', PUBLICATION_RUN_ATTEMPT: '4', PUBLICATION_SELECTION_SHA256: 'f'.repeat(64),
+    OPERATOR_RECOVERY: 'true', SPLIT_PUBLICATION: 'true', APP_ID: 'app', APP_SECRET: 'secret', FEISHU_HOST: 'https://open.feishu.cn',
+  }
+  const config = readConfiguration(env)
+  assert.equal(config.splitPublication, true)
+  assert.equal(config.publishEnabled, true)
+  assert.deepEqual(config.selectedUnits.map(unit => `${unit.target}/${unit.group}`), ['ja-JP/python', 'ja-JP/java'])
+})
+
+test('split publication monitoring follows the dispatched publisher for an operator recovery producer', async () => {
+  const producerJobs = recoveryJobs([
+    {id: 1, name: 'prepare', status: 'completed', conclusion: 'success'},
+    {id: 2, name: 'translate_sdk (ja-JP, python, python, abc, 1) / translate', status: 'completed', conclusion: 'success'},
+    {id: 3, name: 'translate_sdk (ja-JP, java, java, abc, 2) / translate', status: 'completed', conclusion: 'success'},
+    {id: 4, name: 'dispatch_publication', status: 'completed', conclusion: 'success'},
+    {id: 5, name: 'publish_ready', status: 'completed', conclusion: 'skipped'},
+    {id: 6, name: 'aggregate', status: 'completed', conclusion: 'skipped'},
+  ])
+  const publisherStates = [
+    [{id: 11, name: 'publish_ready', status: 'in_progress', conclusion: null}],
+    [
+      {id: 11, name: 'publish_ready', status: 'completed', conclusion: 'success'},
+      {id: 12, name: 'aggregate', status: 'completed', conclusion: 'success'},
+    ],
+  ]
+  const patches = []
+  const monitor = createMonitor({
+    selectedUnits: recoverySubsetHandoff().units.map(({target, group}) => ({target, group})),
+    splitPublication: true,
+    listJobs: async () => producerJobs,
+    downloadPublicationProgress: async () => ({snapshot: null, stale: false}),
+    downloadPublicationResults: async () => null,
+    downloadPublicationHandoff: async () => ({
+      publisherRunId: 555003,
+      publisherRunAttempt: 1,
+      publisherRunUrl: 'https://github.com/zilliztech/zdoc/actions/runs/555003',
+    }),
+    openPublisherScope: () => ({
+      listJobs: async () => publisherStates.shift(),
+      downloadPublicationProgress: async () => ({snapshot: null, stale: false}),
+      downloadPublicationResults: async () => ({
+        mode: 'publish',
+        overallStatus: 'success',
+        units: [
+          {unitKey: 'translation/ja-JP/python', status: 'published', resultSha: sha('e')},
+          {unitKey: 'translation/ja-JP/java', status: 'no_changes', resultSha: sha('e')},
+        ],
+      }),
+    }),
+    patchCard: async state => patches.push(state),
+  })
+
+  await monitor.run()
+
+  assert.equal(patches.length, 2)
+  assert.equal(patches[0].overallStatus, 'running')
+  assert.equal(patches.at(-1).overallStatus, 'success')
+  assert.ok(patches.at(-1).units.every(unit => unit.status === 'completed'))
 })

@@ -254,7 +254,8 @@
         ".github/workflows/_translate-content-group.yml",
         ".github/workflows/_prepare-translation-batches.yml",
         ".claude/specs/2026-09-09-online-translation-efficiency.md",
-        ".claude/plans/2026-09-10-translation-short-production-lock.md"
+        ".claude/plans/2026-09-10-translation-short-production-lock.md",
+        "scripts/docs-workflow/translation-selection-currency*"
       ],
       "focusedTests": [
         "pnpm test:translation-workflow",

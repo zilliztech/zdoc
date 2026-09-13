@@ -29,7 +29,10 @@ permissions:
   contents: write
 
 concurrency:
-  group: ${{ inputs.publish && 'docs-production-dev' || format('translation-recovery-readonly-{0}', github.run_id) }}
+  # The recovery run never owns the production queue: its translation phase
+  # runs read-only beside other producers, and publication goes through the
+  # short-lock publish-translation.yml workflow (production_queue_owned=false).
+  group: ${{ format('translation-recovery-readonly-{0}', github.run_id) }}
   queue: max
 
 jobs:
@@ -114,7 +117,7 @@ jobs:
       recovery_bundle_artifact_name: ${{ needs.prepare_recovery.outputs.recovery_bundle_artifact_name }}
       recovery_plan_sha256: ${{ needs.prepare_recovery.outputs.recovery_plan_sha256 }}
       recovery_provenance_json: ${{ needs.prepare_recovery.outputs.recovery_provenance_json }}
-      production_queue_owned: true
+      production_queue_owned: false
       allow_full_retranslate: ${{ inputs.allow_full_retranslate }}
     secrets:
       TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
