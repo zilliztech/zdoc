@@ -36,7 +36,7 @@ prepare                                            initialize_translation_card
 **触发与串行约束**：
 - `fetch-docs.yml`：`workflow_dispatch`（`group`/`target_branch`/`publish`/`run_translations`/`tooling_ref`/`source_ref`/`media_upload_mode`/`artifact_retention_days`）+ `schedule`（cron `0 2,10,18 * * *`）。
 - `translate-codex.yml`：`workflow_dispatch`（必填 `handoff_json` schema-v3）+ `workflow_call`（`recover-translation.yml` 复用）。
-- 两者共享 `concurrency.group: docs-production-dev`、`queue: max`——**同一时刻只有一个写 dev 的 publish 在跑**；translation 在 `publish=false`（只读）时改用 `translation-readonly-{run_id}` 组，不占生产队列。
+- Fetch 整程持有 `concurrency.group: docs-production-dev`、`queue: max`；translation producer（含 `recover-translation.yml` 的 `workflow_call` 复用）永远挂只读组（`translation-readonly-{run_id}` / `translation-recovery-readonly-{run_id}`），发布经 `publish-translation.yml` 短锁串行——**同一时刻只有一个写 dev 的 publish 在跑**。
 - 顶层 `permissions: contents: read`；只有写 dev 的 job（`publish_ready`、`reconcile_reference_state`）单独提升到 `contents: write`。
 
 ## 2. Fetch 阶段链（fetch-docs.yml）

@@ -9,7 +9,9 @@ const PRODUCTION_DEV_QUEUE = 'docs-production-dev'
 const PRODUCTION_QUEUE_OWNERS = Object.freeze(new Map([
   ['fetch-docs.yml', {conditional: false}],
   ['fetch-guides-requested.yml', {conditional: false}],
-  ['recover-translation.yml', {conditional: true, expectedGroup: "${{ inputs.publish && 'docs-production-dev' || format('translation-recovery-readonly-{0}', github.run_id) }}"}],
+  // Recovery never owns the production queue: its whole run stays on a unique
+  // read-only group and publication is delegated to publish-translation.yml.
+  ['recover-translation.yml', {conditional: true, expectedGroup: "${{ format('translation-recovery-readonly-{0}', github.run_id) }}"}],
   ['publish-offline-translation.yml', {conditional: true, expectedGroup: "${{ inputs.publish && 'docs-production-dev' || format('offline-translation-readonly-{0}', github.run_id) }}"}],
   ['publish-offline-reference-python.yml', {conditional: true, expectedGroup: "${{ inputs.publish && 'docs-production-dev' || format('offline-reference-python-readonly-{0}', github.run_id) }}"}],
   ['publish-translation.yml', {conditional: false}],

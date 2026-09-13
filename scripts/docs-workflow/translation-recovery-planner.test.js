@@ -11,9 +11,20 @@ const {finalizePublicationSelection, validatePublicationResults} = require('./pu
 const {
   buildRecoveryHandoff,
   extractArtifactZip,
-  planTranslationRecovery,
+  planTranslationRecovery: planTranslationRecoveryWithRequiredAudit,
   validateDownloadedArtifactTree,
 } = require('./translation-recovery-planner')
+
+// The planner requires an explicit source generation audit; the shared
+// permissive stub reports nothing published, so every legacy fixture replays
+// with the pre-audit scoping. Generation exclusion tests inject strict audits.
+const permissiveSourceGenerationAudit = Object.freeze({
+  readPublishedRecords: async () => new Map(),
+  readSourceHash: async () => null,
+})
+function planTranslationRecovery(options) {
+  return planTranslationRecoveryWithRequiredAudit({sourceGenerationAudit: permissiveSourceGenerationAudit, ...options})
+}
 const {buildTranslationPublicationSelection} = require('./translation-publication-selection')
 const {buildSummary} = require('../translation/reportSummary')
 
@@ -1235,4 +1246,49 @@ test('rejects split-publication evidence whose results are not bound to the disc
     targetBaselineSha: SHA('9'),
     client,
   }), /publisher run identity mismatch/i)
+})
+
+test('rejects planning without an explicit source generation audit', async () => {
+  await assert.rejects(() => planTranslationRecoveryWithRequiredAudit({repository: 'zilliztech/zdoc', previousRunId: RUN_ID, outputRoot: '/tmp/unused', targetBaselineSha: SHA('9'), client: {}}), /source generation audit/i)
+})
+
+test('excludes a unit whose retained files are superseded by a newer published source generation', async t => {
+  const base = fixture(t)
+  const supersededTargetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/python/source.md'
+  const retainedSourceHash = 'f'.repeat(64)
+  const audit = {
+    readPublishedRecords: async target => target === 'ja-JP' ? new Map([[supersededTargetPath, 'a'.repeat(64)]]) : new Map(),
+    readSourceHash: async sourcePath => sourcePath === 'content/en/python/source.md' ? 'b'.repeat(64) : retainedSourceHash,
+  }
+  const planned = await planTranslationRecovery({
+    repository: 'zilliztech/zdoc', previousRunId: RUN_ID, outputRoot: path.join(base.root, 'superseded'),
+    targetBaselineSha: SHA('9'), client: base.client, sourceGenerationAudit: audit,
+  })
+  assert.equal(Object.hasOwn(planned.plan.recoveryMap, 'ja-JP/python'), false)
+  assert.equal(Object.hasOwn(planned.plan.recoveryMap, 'zh-CN-reference/python'), true)
+  assert.equal(Object.hasOwn(planned.plan.recoveryMap, 'ja-JP/guides'), true)
+  const rejection = planned.plan.rejected.find(item => item.unit === 'ja-JP/python')
+  assert.ok(rejection)
+  assert.equal(rejection.batchNumber, 0)
+  assert.match(rejection.reason, /^superseded source generation: /u)
+  assert.match(rejection.reason, new RegExp(supersededTargetPath.replaceAll('/', '\\/'), 'u'))
+  assert.equal(planned.plan.retainedFileCount, 11)
+  assert.equal(planned.plan.provenance.artifacts.filter(item => item.unit === 'ja-JP/python').length, 0)
+  assert.ok(planned.handoff.units.every(unit => unit.target !== 'ja-JP' || unit.group !== 'python'))
+})
+
+test('keeps a unit when the differing published basis is older than the recovered run and the source is unchanged', async t => {
+  const base = fixture(t)
+  const retainedSourceHash = 'f'.repeat(64)
+  const audit = {
+    readPublishedRecords: async () => new Map([['i18n/ja-JP/docusaurus-plugin-content-docs/current/python/source.md', 'a'.repeat(64)]]),
+    readSourceHash: async () => retainedSourceHash,
+  }
+  const planned = await planTranslationRecovery({
+    repository: 'zilliztech/zdoc', previousRunId: RUN_ID, outputRoot: path.join(base.root, 'older-basis'),
+    targetBaselineSha: SHA('9'), client: base.client, sourceGenerationAudit: audit,
+  })
+  assert.equal(Object.hasOwn(planned.plan.recoveryMap, 'ja-JP/python'), true)
+  assert.deepEqual(planned.plan.rejected, [])
+  assert.equal(planned.plan.retainedFileCount, 12)
 })

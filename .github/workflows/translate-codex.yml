@@ -35,10 +35,10 @@ permissions:
   contents: read
 
 concurrency:
-  # The producer run never owns the production queue: standalone publish runs
-  # dispatch the short-lock publish-translation.yml workflow, and recovery runs
-  # hold docs-production-dev themselves while calling this workflow with
-  # production_queue_owned=true.
+  # No producer run ever owns the production queue: standalone publish runs and
+  # operator recovery runs both dispatch the short-lock publish-translation.yml
+  # workflow (recovery passes production_queue_owned=false), so every producer
+  # translation phase stays on its own unique read-only group.
   group: ${{ format('translation-readonly-{0}', github.run_id) }}
   queue: max
 
@@ -459,9 +459,8 @@ jobs:
   publish_ready:
     name: publish_ready
     needs: [prepare, translate_sdk, prepare_guides_publication_ready]
-    # Inline publication only serves artifact-only runs and recovery runs that
-    # already hold docs-production-dev via production_queue_owned=true.
-    # Standalone publish runs dispatch publish-translation.yml instead.
+    # Inline publication only serves artifact-only runs; publish-enabled runs —
+    # standalone or operator recovery — dispatch publish-translation.yml instead.
     if: ${{ always() && needs.prepare.result == 'success' && (!inputs.publish || inputs.production_queue_owned || false) }}
     runs-on: ubuntu-latest
     timeout-minutes: 360
