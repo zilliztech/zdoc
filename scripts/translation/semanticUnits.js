@@ -176,7 +176,8 @@ function visit(node, callback) {
 }
 
 async function mdxProcessor() {
-  if (!mdxProcessorPromise) mdxProcessorPromise = import('@mdx-js/mdx').then(({createProcessor}) => createProcessor({format: 'mdx'}))
+  if (!mdxProcessorPromise) mdxProcessorPromise = Promise.all([import('@mdx-js/mdx'), import('remark-math')])
+    .then(([{createProcessor}, remarkMath]) => createProcessor({format: 'mdx', remarkPlugins: [remarkMath.default || remarkMath]}))
   return mdxProcessorPromise
 }
 
