@@ -564,7 +564,12 @@ async function composeTranslationBatchSetLatestTip(options, dependencies = {}) {
     if (!authenticated) throw new Error(`Authenticated artifact pair is missing for batch ${batch.batchNumber}`)
     const before = git(targetDir, ['rev-parse', 'HEAD']).trim()
     applyAuthenticatedBatch(targetDir, batch, authenticated)
-    const committed = commitBatch({worktree: targetDir, batchNumber: batch.batchNumber, batchCount: plan.batchCount})
+    // The batch checkpoint's authenticated createdAt pins each batch commit
+    // to the moment that batch was produced — immutable across publication
+    // retries because the checkpoint artifacts are — instead of the synthetic
+    // BOT_DATE fallback.
+    const createdAt = authenticated.result.createdAt
+    const committed = commitBatch({worktree: targetDir, batchNumber: batch.batchNumber, batchCount: plan.batchCount, ...(createdAt ? {commitDate: createdAt} : {})})
     if (committed.committed) {
       if (git(targetDir, ['rev-parse', `${committed.stagedSha}^`]).trim() !== before) throw new Error('Latest-tip batch commit did not preserve exact plan order')
       commitShas.push(committed.stagedSha)

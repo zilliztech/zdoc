@@ -567,3 +567,32 @@ test('deletes the exact staging ref after publication without changing the publi
   assert.equal(remoteSha(state.repository, stagingRef), null)
   assert.equal(remoteSha(state.repository, 'refs/heads/docs-dev'), stagedSha)
 })
+
+test('commitAppliedBatch pins the authenticated batch timestamp when provided', () => {
+  const state = setup()
+  const worktree = path.join(state.root, 'dated-staging')
+  prepareStagingWorktree({ repository: state.repository, expectedTargetSha: state.targetSha, worktree })
+  addTranslation(worktree, '# 翻訳\n')
+  const result = commitAppliedBatch({ worktree, batchNumber: 1, batchCount: 1, commitDate: '2026-09-13T14:02:26.368Z' })
+  assert.equal(result.committed, true)
+  assert.equal(git(worktree, 'log', '-1', '--format=%aI'), '2026-09-13T14:02:26Z')
+  assert.equal(git(worktree, 'log', '-1', '--format=%cI'), '2026-09-13T14:02:26Z')
+})
+
+test('commitAppliedBatch keeps the deterministic fallback date when no timestamp is provided', () => {
+  const state = setup()
+  const worktree = path.join(state.root, 'fallback-staging')
+  prepareStagingWorktree({ repository: state.repository, expectedTargetSha: state.targetSha, worktree })
+  addTranslation(worktree, '# 翻訳\n')
+  commitAppliedBatch({ worktree, batchNumber: 1, batchCount: 1 })
+  assert.equal(git(worktree, 'log', '-1', '--format=%aI'), '2000-01-01T00:00:00Z')
+})
+
+test('commitAppliedBatch rejects a malformed commit timestamp', () => {
+  const state = setup()
+  const worktree = path.join(state.root, 'invalid-staging')
+  prepareStagingWorktree({ repository: state.repository, expectedTargetSha: state.targetSha, worktree })
+  addTranslation(worktree, '# 翻訳\n')
+  assert.throws(() => commitAppliedBatch({ worktree, batchNumber: 1, batchCount: 1, commitDate: 'yesterday' }), /ISO-8601/);
+  assert.throws(() => commitAppliedBatch({ worktree, batchNumber: 1, batchCount: 1, commitDate: 1760000000 }), /ISO-8601/);
+})
