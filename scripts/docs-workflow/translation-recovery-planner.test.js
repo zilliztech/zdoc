@@ -470,7 +470,21 @@ test('accepts an authenticated fully-unprocessed batch from a failed producer an
   const batch3 = artifacts.find(artifact => artifact.batchNumber === 3)
   assert.equal(batch3.retainedFileCount, 0)
   assert.equal(batch3.sourceCandidateCount, 15)
-  assert.equal(batch3.evidenceKind, 'strict-markdown-unprocessed')
+  assert.equal(Object.hasOwn(batch3, 'evidenceKind'), false)
+
+  const recoveryPlanBytes = Buffer.from(`${JSON.stringify(planned.plan)}\n`)
+  const selection = buildTranslationPublicationSelection({
+    handoff: planned.handoff,
+    repository: 'zilliztech/zdoc',
+    runId: RUN_ID + 1,
+    runAttempt: 1,
+    publish: false,
+    runTranslations: true,
+    recoveryProvenance: planned.plan.provenance,
+    recoveryPlanBytes,
+    recoveryPlanSha256: HASH(recoveryPlanBytes),
+  })
+  assert.deepEqual(selection.inputs.recoveryProvenance, planned.plan.provenance)
 })
 
 test('rejects an unprocessed markdown-only batch whose recovery artifact is missing', async t => {
@@ -507,6 +521,20 @@ test('rejects an unprocessed markdown-only batch whose counters are inconsistent
   }), /unambiguous zero work or an authenticated fully-unprocessed batch/)
 })
 
+test('rejects a markdown-only unprocessed batch with duplicate or extra report fields', async t => {
+  for (const [label, mutate] of [
+    ['duplicate', markdown => markdown.replace('- Translated: 0\n', '- Translated: 0\n- Translated: 0\n')],
+    ['extra', markdown => markdown.replace('- Remaining: 15\n', '- Remaining: 15\n- Paid model calls: false\n')],
+  ]) {
+    const value = fixture(t)
+    addBatch3Evidence(value, {markdownMutate: mutate})
+    await assert.rejects(() => planTranslationRecovery({
+      repository: 'zilliztech/zdoc', previousRunId: RUN_ID, outputRoot: path.join(value.root, `noncanonical-${label}`),
+      targetBaselineSha: SHA('8'), executionToolingSha: EXECUTION_TOOLING_SHA, client: value.client,
+    }), /unambiguous zero work or an authenticated fully-unprocessed batch/)
+  }
+})
+
 test('rejects a markdown-only batch when its producer job succeeded', async t => {
   const value = fixture(t)
   addBatch3Evidence(value, {producerFailed: false})
@@ -520,7 +548,6 @@ test('rejects a markdown-only batch when its producer job succeeded', async t =>
 test('rejects an unprocessed batch recovery artifact outside its producer job window', async t => {
   const value = fixture(t)
   addBatch3Evidence(value, {recoveryInsideWindow: false})
-  console.error('[debug-names]', JSON.stringify(value.artifacts.map(a => a.name).filter(n => n.includes('-3'))))
 
   await assert.rejects(() => planTranslationRecovery({
     repository: 'zilliztech/zdoc', previousRunId: RUN_ID, outputRoot: path.join(value.root, 'outside-window'),
@@ -564,14 +591,18 @@ function unprocessedMarkdownOnly(root, candidateCount, target = 'ja-JP', markdow
   ].join('\n'))
 }
 
-function addBatch3Evidence(value, {recovery = true, reportInsideWindow = true, recoveryInsideWindow = true, producerFailed = true, markdownTranslated = 0} = {}) {
+function addBatch3Evidence(value, {recovery = true, reportInsideWindow = true, recoveryInsideWindow = true, producerFailed = true, markdownTranslated = 0, markdownMutate = value => value} = {}) {
   const job = {
     id: 900, name: 'translate_guides_batches (2, 3) / translate',
     run_attempt: 2, status: 'completed', conclusion: producerFailed ? 'failure' : 'success',
     started_at: '2026-08-08T02:00:00.000Z', completed_at: '2026-08-08T03:00:00.000Z',
   }
   value.jobs.push(job)
-  value.addArtifact(`translation-report-ja-JP-guides-${RUN_ID}-batch-3`, directory => unprocessedMarkdownOnly(directory, 15, 'ja-JP', markdownTranslated),
+  value.addArtifact(`translation-report-ja-JP-guides-${RUN_ID}-batch-3`, directory => {
+    unprocessedMarkdownOnly(directory, 15, 'ja-JP', markdownTranslated)
+    const report = path.join(directory, 'translation-report.md')
+    fs.writeFileSync(report, markdownMutate(fs.readFileSync(report, 'utf8')))
+  },
     {created_at: reportInsideWindow ? '2026-08-08T02:30:00.000Z' : '2026-08-08T00:30:00.000Z'})
   if (recovery) {
     value.addArtifact(`translation-recovery-ja-JP-guides-${RUN_ID}-3`, directory => recoveryArtifact(directory, {target: 'ja-JP', group: 'guides', translated: 0, toolingSha: RETAINED_TOOLING_SHA}),

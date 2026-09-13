@@ -223,23 +223,17 @@ function unprocessedMarkdownCandidateCount(markdown, expectedTarget) {
   // = Pending) and nothing was paid. The counters alone are not enough — the
   // caller must also authenticate an empty per-batch recovery artifact from
   // the same failed producer job window (see unprocessedEvidence below).
+  const match = /^### Translation report\n\n- Locale: `([^`\n]+)`\n- Pending: ([0-9]+)\n- Current English changes: ([0-9]+)\n- Missing Japanese targets: ([0-9]+)\n- Stale translations: ([0-9]+)\n- Translated: ([0-9]+)\n- Seeded files: ([0-9]+)\n- Seeded units: ([0-9]+)\n- Failed: ([0-9]+)\n- Resumable files: ([0-9]+)\n- Checkpointed chunks: ([0-9]+)\n- Remaining: ([0-9]+)\n\n([0-9]+) file\(s\) were deferred to the next incremental run after checkpointing completed work\.\n$/u.exec(markdown)
+  if (!match) return null
+  const [locale, ...rawCounters] = match.slice(1)
+  const counters = rawCounters.map(Number)
+  const [pending, currentDelta, missingTarget, staleSource, translated, seededFiles, seededUnits, failed, resumableFiles, checkpointedChunks, remaining, deferred] = counters
   const expectedLocale = expectedTarget === 'ja-JP' ? 'ja-JP' : 'zh-CN'
-  const field = name => {
-    const match = markdown.match(new RegExp(`^- ${name}: (.+)$`, 'mu'))
-    return match ? match[1] : null
-  }
-  if (field('Locale') !== `\`${expectedLocale}\``) return null
-  const counters = {}
-  for (const name of ['Pending', 'Translated', 'Failed', 'Remaining', 'Resumable files', 'Checkpointed chunks']) {
-    const value = field(name)
-    if (value === null || !/^[0-9]+$/.test(value)) return null
-    counters[name] = Number(value)
-  }
-  if (counters.Pending < 1) return null
-  if (counters.Translated !== 0 || counters.Failed !== 0) return null
-  if (counters['Resumable files'] !== 0 || counters['Checkpointed chunks'] !== 0) return null
-  if (counters.Remaining !== counters.Pending) return null
-  return counters.Pending
+  if (locale !== expectedLocale || !counters.every(Number.isSafeInteger)) return null
+  if (pending < 1 || currentDelta + missingTarget + staleSource !== pending) return null
+  if ([translated, seededFiles, seededUnits, failed, resumableFiles, checkpointedChunks].some(value => value !== 0)) return null
+  if (remaining !== pending || deferred !== pending) return null
+  return pending
 }
 
 function reportPending(directory, expectedTarget, {allowUnknownLocale = false, unprocessedProducerFailed = false} = {}) {
@@ -588,9 +582,12 @@ async function planTranslationRecovery({repository, previousRunId, previousRunAt
       const retained = recoveryParsed.files.length
       retainedFileCount += retained
       if (retained > candidateCount) rejected.push({unit: unitIdentity, batchNumber: batch.batchNumber, reason: 'recovery artifact translated count exceeds authenticated source candidate count'})
-      const identity = {artifactId: Number(recoveryArtifact.id), artifactName: recoveryArtifact.name, artifactDigest: recoveryArtifact.digest, batchNumber: batch.batchNumber, retainedFileCount: retained, sourceCandidateCount: candidateCount, ...(evidenceKind ? {evidenceKind} : {})}
+      const identity = {artifactId: Number(recoveryArtifact.id), artifactName: recoveryArtifact.name, artifactDigest: recoveryArtifact.digest, batchNumber: batch.batchNumber, retainedFileCount: retained, sourceCandidateCount: candidateCount}
       plannedArtifacts.push(identity)
       provenanceArtifacts.push({unit: unitIdentity, ...identity})
+      if (evidenceKind) {
+        console.log(`[recovery-planner] batch ${batch.batchNumber} of ${unitIdentity}: authenticated fully-unprocessed (evidenceKind=${evidenceKind}, candidates=${candidateCount})`)
+      }
     }
     if (plannedArtifacts.length > 0) {
       scopedUnits.push(selected)
