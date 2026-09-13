@@ -415,17 +415,20 @@ test('retained revalidation still rejects a real prose terminology violation', t
   }))
   assert.equal(analysis.recoveredCount, 0)
   assert.equal(analysis.rejectedCount, 1)
-  assert.match(analysis.rejected[0].reason, /locale:.*collection.*コレクション/i)
+  assert.match(analysis.rejected[0].reason, /publication:.*collection.*コレクション/i)
 })
 
-test('retained revalidation rejects mandatory-term borrowing across semantic units', t => {
+test('retained revalidation accepts mandatory-term borrowing across units to match the publication gate', t => {
+  // Whole-file revalidation is publication-gate-aligned: a translation whose
+  // global term counts satisfy the contract restores even when the target term
+  // lands in a different semantic unit. The publication gate accepts exactly
+  // this for fresh translations, so recovery must not be stricter.
   const analysis = analyzeRetainedLocale(retainedLocaleFixture(t, {
     source: '# Create resources\n\nCreate a collection.\n',
     target: '# コレクションの概要\n\nリソースを作成します。\n',
   }))
-  assert.equal(analysis.recoveredCount, 0)
-  assert.equal(analysis.rejectedCount, 1)
-  assert.match(analysis.rejected[0].reason, /locale:.*collection.*コレクション/i)
+  assert.equal(analysis.recoveredCount, 1, JSON.stringify(analysis.rejected))
+  assert.equal(analysis.rejectedCount, 0)
 })
 
 test('retained revalidation rejects a missing target semantic unit without locale terms', t => {
@@ -455,7 +458,7 @@ test('retained revalidation fails closed on a mandatory-term deficit after blank
   }))
   assert.equal(analysis.recoveredCount, 0)
   assert.equal(analysis.rejectedCount, 1)
-  assert.match(analysis.rejected[0].reason, /locale:.*collection.*コレクション/i)
+  assert.match(analysis.rejected[0].reason, /publication:.*collection.*コレクション/i)
 })
 
 test('retained revalidation allows an additional target do-not-translate product term', t => {
@@ -474,7 +477,7 @@ test('retained revalidation fails closed when a do-not-translate token is delete
   }))
   assert.equal(analysis.recoveredCount, 0)
   assert.equal(analysis.rejectedCount, 1)
-  assert.match(analysis.rejected[0].reason, /protected: Missing protected do_not_translate:.*Milvus/i)
+  assert.match(analysis.rejected[0].reason, /publication:.*Milvus/i)
 })
 
 test('rejects a cross-version payload that fails the current protected contract', t => {

@@ -11,7 +11,7 @@ const {
   restoreRecoveryFiles,
 } = require('./recovery-artifact')
 const {loadChunkLimits} = require('./chunkLimits')
-const {validateRecoveryCandidate} = require('./recoveryValidation')
+const {validateRecoveryCandidate, validateRecoveryFileCandidate} = require('./recoveryValidation')
 const {MAX_SEMANTIC_CHECKPOINT_AGGREGATE_BYTES, semanticCheckpointBytes} = require('./semanticRecovery')
 const {validateReconciliationPlan} = require('./reconciliation-plan')
 const {evaluateReconciliationRecovery} = require('./reconciliation-recovery')
@@ -62,6 +62,7 @@ function analyzeRecoveryCompatibility({siteDir, manifest, artifacts, promptContr
       toolingSha: executionToolingSha,
     },
     revalidate: input => validateRecoveryCandidate({...input, target: manifest.target, locale: manifest.locale}),
+    revalidateFile: input => validateRecoveryFileCandidate({...input, target: manifest.target, locale: manifest.locale}),
     chunkOptions,
   })
   const semanticRecoveryBytes = recovery.pending.reduce(

@@ -519,3 +519,75 @@ test('rejects unsafe recovery paths without writing outside the workspace', () =
   assert.equal(result.pending.length, 1);
   assert.equal(fs.existsSync(path.join(value.siteDir, '..', 'outside.md')), false);
 });
+
+test('whole-file revalidation routes through revalidateFile, keeping unit revalidation for chunk contexts', () => {
+  const value = fixture();
+  createRecoveryArtifact({
+    siteDir: value.siteDir,
+    outputDir: value.artifactDir,
+    results: [reviewedResult(value.candidate)],
+    identity: value.identity,
+  });
+  fs.rmSync(path.join(value.siteDir, value.targetPath));
+
+  const calls = {file: 0, unit: 0};
+  const restored = restoreRecoveryFiles({
+    siteDir: value.siteDir,
+    candidates: [value.candidate],
+    artifacts: [value.artifactDir],
+    identity: {...value.identity, sourceSha: 'd'.repeat(40), toolingSha: 'e'.repeat(40)},
+    revalidate: () => { calls.unit += 1; return []; },
+    revalidateFile: () => { calls.file += 1; return []; },
+  });
+
+  assert.equal(restored.restored.length, 1);
+  assert.equal(calls.file, 1);
+  assert.equal(calls.unit, 0);
+});
+
+test('preferRecoveryReason ranks a revalidation verdict above sibling-artifact missing-record noise', () => {
+  const {preferRecoveryReason} = require('./recovery-artifact');
+  assert.equal(
+    preferRecoveryReason(['missing recovery record for current candidate', 'revalidation failed: locale: document.table.0001: vector to use ベクトル']),
+    'revalidation failed: locale: document.table.0001: vector to use ベクトル',
+  );
+});
+
+test('a failed file-level revalidation surfaces as the rejection reason instead of missing-record noise', () => {
+  const value = fixture();
+  const siblingDir = fs.mkdtempSync(path.join(os.tmpdir(), 'zdoc-recovery-sibling-'));
+  try {
+    const siblingSource = 'content/en/reference/api/python/other.md';
+    const siblingTarget = 'content/zh-CN/reference/api/python/other.md';
+    write(value.siteDir, siblingSource, '# Other\n');
+    write(value.siteDir, siblingTarget, '# 其他\n');
+    createRecoveryArtifact({
+      siteDir: value.siteDir,
+      outputDir: siblingDir,
+      results: [reviewedResult({...value.candidate, sourcePath: siblingSource, targetPath: siblingTarget, sourceHash: HASH('# Other\n')})],
+      identity: value.identity,
+    });
+    createRecoveryArtifact({
+      siteDir: value.siteDir,
+      outputDir: value.artifactDir,
+      results: [reviewedResult(value.candidate)],
+      identity: value.identity,
+    });
+    fs.rmSync(path.join(value.siteDir, value.targetPath));
+
+    const restored = restoreRecoveryFiles({
+      siteDir: value.siteDir,
+      candidates: [value.candidate],
+      artifacts: [siblingDir, value.artifactDir],
+      identity: {...value.identity, sourceSha: 'd'.repeat(40), toolingSha: 'e'.repeat(40)},
+      revalidate: () => [],
+      revalidateFile: () => ['publication: locale contract requires vector to use ベクトル'],
+    });
+
+    assert.equal(restored.restored.length, 0);
+    assert.equal(restored.rejected.length, 1);
+    assert.match(restored.rejected[0].recoveryReason, /revalidation failed: publication: /);
+  } finally {
+    fs.rmSync(siblingDir, {recursive: true, force: true});
+  }
+});

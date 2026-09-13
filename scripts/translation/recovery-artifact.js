@@ -358,6 +358,10 @@ function metadataCompatibilityReason(metadata, identity) {
 
 function preferRecoveryReason(reasons) {
   const priorities = [
+    // A current-contract revalidation verdict is the most specific diagnosis
+    // and must not be masked by "missing recovery record" noise from sibling
+    // artifacts that simply do not contain the candidate.
+    /revalidation/i,
     /source hash/i,
     /prompt contract/i,
     /model/i,
@@ -373,12 +377,18 @@ function preferRecoveryReason(reasons) {
   return reasons[0] || 'missing recovery record';
 }
 
-function restoreCandidate({siteDir, candidate, artifacts, identity, revalidate, chunkOptions}) {
+// `revalidate` validates unit-level payloads (chunk prefixes and semantic
+// resume data); `revalidateFile` validates whole retained translations and
+// must match the publication gate (see recoveryValidation.js). The same
+// `revalidate` callback used to serve both contexts, which forced whole files
+// through unit-level per-unit terminology enforcement.
+function restoreCandidate({siteDir, candidate, artifacts, identity, revalidate, revalidateFile, chunkOptions}) {
   const sourcePath = safePath(siteDir, candidate.sourcePath, 'Recovery candidate source path');
   const sourceBytes = fs.readFileSync(sourcePath);
   const sourceContent = sourceBytes.toString('utf8');
   const currentSourceHash = sha256(sourceBytes);
   if (currentSourceHash !== candidate.sourceHash) return {reason: 'current source hash does not match recovery candidate'};
+  const fileRevalidate = revalidateFile || revalidate;
   const reasons = [];
   let bestChunkResume = null;
   let bestSemanticResume = null;
@@ -431,7 +441,7 @@ function restoreCandidate({siteDir, candidate, artifacts, identity, revalidate, 
           : 'revalidated'
         let currentContractValidated = false;
         if (compatibility === 'revalidated') {
-          if (typeof revalidate !== 'function') {
+          if (typeof fileRevalidate !== 'function') {
             reasons.push(record.promptContractSha256 !== identity.promptContractSha256
               ? 'recovery prompt contract mismatch'
               : record.model !== identity.model
@@ -439,7 +449,7 @@ function restoreCandidate({siteDir, candidate, artifacts, identity, revalidate, 
                 : 'recovery tooling validation identity mismatch');
             continue;
           }
-          const validationErrors = revalidate({
+          const validationErrors = fileRevalidate({
             candidate,
             sourceContent,
             targetContent: targetBytes.toString('utf8'),
@@ -481,9 +491,9 @@ function restoreCandidate({siteDir, candidate, artifacts, identity, revalidate, 
             targetSize: record.targetSize,
           };
         }
-        if (typeof revalidate !== 'function') continue;
+        if (typeof fileRevalidate !== 'function') continue;
         if (!currentContractValidated) {
-          const validationErrors = revalidate({candidate, sourceContent, targetContent: targetBytes.toString('utf8')});
+          const validationErrors = fileRevalidate({candidate, sourceContent, targetContent: targetBytes.toString('utf8')});
           if (!Array.isArray(validationErrors) || validationErrors.length) {
             reasons.push(`revalidation failed: ${(validationErrors || ['validator did not return an error list']).join('; ')}`);
             continue;
@@ -559,7 +569,7 @@ function restoreCandidate({siteDir, candidate, artifacts, identity, revalidate, 
   return {reason: preferRecoveryReason(reasons), rejectedChunks};
 }
 
-function restoreRecoveryFiles({siteDir, candidates, artifacts, identity, revalidate, chunkOptions}) {
+function restoreRecoveryFiles({siteDir, candidates, artifacts, identity, revalidate, revalidateFile, chunkOptions}) {
   assertIdentity(identity);
   const parsedArtifacts = artifacts.map(readArtifact);
   const restored = [];
@@ -569,7 +579,7 @@ function restoreRecoveryFiles({siteDir, candidates, artifacts, identity, revalid
   for (const candidate of candidates) {
     let outcome;
     try {
-      outcome = restoreCandidate({siteDir, candidate, artifacts: parsedArtifacts, identity, revalidate, chunkOptions});
+      outcome = restoreCandidate({siteDir, candidate, artifacts: parsedArtifacts, identity, revalidate, revalidateFile, chunkOptions});
     } catch (error) {
       outcome = {reason: String(error?.message || error)};
     }
@@ -659,6 +669,7 @@ module.exports = {
   createRecoveryArtifact,
   discoverRecoveryArtifacts,
   parseCliArgs,
+  preferRecoveryReason,
   promptContractSha256,
   readArtifact,
   restoreRecoveryFiles,
