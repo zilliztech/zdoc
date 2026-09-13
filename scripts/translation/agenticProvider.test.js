@@ -11,12 +11,13 @@ const {
   buildRepairPrompt,
   parseCliArgs,
   preflightAgent,
+  reuseRestoredTranslation,
   runAgenticFile,
   runAgenticTranslation,
   stylePromptPathFor,
   validatorCommandFor,
 } = require('./agenticProvider');
-const {isConsistentSuccessfulReview} = require('./reviewEvidence');
+const {isConsistentSuccessfulReview, successfulReview} = require('./reviewEvidence');
 
 const GE = 'content/en/guides';
 const GJ = 'i18n/ja-JP/docusaurus-plugin-content-docs/current';
@@ -188,6 +189,8 @@ test('parseCliArgs validates the run subcommand and required absolute paths', ()
   const options = parseCliArgs(['run', '--site-dir', '/tmp/site', '--manifest', 'tmp/m.json', '--report', 'tmp/r.json', '--model', 'm', '--base-url', 'https://x/v1', '--api-key-env', 'KEY']);
   assert.equal(options.siteDir, '/tmp/site');
   assert.equal(options.concurrency, 2);
+  assert.equal(options.recoveryAnalysis, '');
+  assert.equal(parseCliArgs(['run', '--site-dir', '/tmp/site', '--manifest', 'tmp/m.json', '--report', 'tmp/r.json', '--model', 'm', '--base-url', 'https://x/v1', '--api-key-env', 'KEY', '--recovery-analysis', 'tmp/recovery-analysis.json']).recoveryAnalysis, 'tmp/recovery-analysis.json');
 });
 
 test('runAgenticFile passes a clean draft through the report contract', async () => {
@@ -270,6 +273,89 @@ test('runAgenticTranslation emits the agentRunner-compatible report envelope', a
     });
     assert.ok(!('semanticCheckpoints' in report.results[0]));
     assert.ok(!('chunkCheckpoints' in report.results[0]));
+  });
+});
+
+test('runAgenticTranslation reuses restored recovery files without model calls', async () => {
+  await withSite(async siteDir => {
+    const items = [jaFixture(), {...jaFixture(), sourcePath: `${GE}/dev/second.md`, targetPath: `${GJ}/dev/second.md`}];
+    write(siteDir, items[0].sourcePath, EN_SOURCE);
+    write(siteDir, items[1].sourcePath, EN_SOURCE);
+    write(siteDir, items[0].targetPath, JA_CLEAN);
+    const modelCalls = [];
+    const report = await runAgenticTranslation({
+      siteDir,
+      manifest: {target: 'ja-JP', locale: 'ja-JP', group: 'guides', items},
+      callCodex: async ({item}) => {
+        modelCalls.push(item.sourcePath);
+        write(siteDir, item.targetPath, JA_CLEAN);
+        return 'DONE';
+      },
+      recovery: {
+        restored: [{
+          ...items[0],
+          status: 'translated',
+          recovered: true,
+          recoveryCompatibility: 'strict',
+          recoveryReviewReceipt: {schemaVersion: 1},
+          review: successfulReview(),
+          validationErrors: [],
+        }],
+        pending: [items[1]],
+      },
+      concurrency: 2,
+    });
+    assert.deepEqual(modelCalls, [items[1].sourcePath]);
+    assert.equal(report.results[0].status, 'translated');
+    assert.equal(report.results[0].recovered, true);
+    assert.equal(report.results[0].recoveryCompatibility, 'strict');
+    assert.deepEqual(report.results[0].validationErrors, []);
+    assert.ok(isConsistentSuccessfulReview(report.results[0].review));
+    assert.equal(report.results[0].recoveryReviewReceipt.schemaVersion, 1);
+    assert.equal(report.results[1].status, 'translated');
+    assert.ok(!('recovered' in report.results[1]));
+    assert.equal(report.checkpoint.translated, 2);
+    assert.equal(report.checkpoint.failed, 0);
+  });
+});
+
+test('runAgenticTranslation retranslates a restored file whose recovered draft fails the current gate', async () => {
+  await withSite(async siteDir => {
+    const items = [jaFixture()];
+    write(siteDir, items[0].sourcePath, EN_SOURCE);
+    write(siteDir, items[0].targetPath, JA_TRANSLATED_LINK);
+    const modelCalls = [];
+    const report = await runAgenticTranslation({
+      siteDir,
+      manifest: {target: 'ja-JP', locale: 'ja-JP', group: 'guides', items},
+      callCodex: async ({item}) => {
+        modelCalls.push(item.sourcePath);
+        write(siteDir, item.targetPath, JA_CLEAN);
+        return 'DONE';
+      },
+      recovery: {
+        restored: [{...items[0], status: 'translated', recovered: true, review: successfulReview(), validationErrors: []}],
+        pending: [],
+      },
+      concurrency: 1,
+    });
+    assert.deepEqual(modelCalls, [items[0].sourcePath]);
+    assert.equal(report.results[0].status, 'translated');
+    assert.ok(!('recovered' in report.results[0]));
+    assert.deepEqual(report.results[0].attempts, ['translate']);
+  });
+});
+
+test('reuse does not rewrite restored bytes that pass the current gate', async () => {
+  await withSite(async siteDir => {
+    const item = jaFixture();
+    write(siteDir, item.sourcePath, EN_SOURCE);
+    write(siteDir, item.targetPath, JA_CLEAN);
+    const before = fs.readFileSync(path.join(siteDir, item.targetPath), 'utf8');
+    const result = await reuseRestoredTranslation({item, restored: {review: successfulReview(), validationErrors: []}, target: 'ja-JP', siteDir});
+    assert.equal(result.status, 'translated');
+    assert.equal(result.recovered, true);
+    assert.equal(fs.readFileSync(path.join(siteDir, item.targetPath), 'utf8'), before);
   });
 });
 
