@@ -243,6 +243,29 @@ jobs:
             batch_args=(--batch-index "${{ inputs.batch_index }}" --batch-size "${{ inputs.batch_size }}" --expected-pending-set-sha256 "${{ inputs.pending_set_sha256 }}")
           fi
           node scripts/translation/manifest.js --target "$TRANSLATION_TARGET" --output tmp/translation-manifest.json --max-files "${{ inputs.max_files }}" --group "$GROUP" --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" --source-changes tmp/source-changes.json --mode "$EFFECTIVE_TRANSLATION_MODE" "${batch_args[@]}" "${reconciliation_args[@]}"
+          # Atomic initial report: if the producer crashes before the agents
+          # write any result, the always() archive still uploads a strict,
+          # machine-certifiable zero-progress JSON instead of a Markdown-only
+          # report that the recovery planner must reject as unprovable.
+          node - <<'INITIAL_REPORT'
+          const fs = require('node:fs')
+          const manifest = JSON.parse(fs.readFileSync('tmp/translation-manifest.json', 'utf8'))
+          const initialReport = {
+            target: manifest.target,
+            locale: manifest.locale,
+            results: [],
+            checkpoint: {
+              target: manifest.target,
+              processed: 0,
+              remaining: manifest.items.length,
+              translated: 0,
+              failed: 0,
+              generatedAt: new Date().toISOString(),
+            },
+          }
+          fs.writeFileSync('tmp/translation-report.json.tmp', JSON.stringify(initialReport, null, 2) + '\n')
+          fs.renameSync('tmp/translation-report.json.tmp', 'tmp/translation-report.json')
+          INITIAL_REPORT
           echo "count=$(node -p "require('./tmp/translation-manifest.json').items.length")" >> "$GITHUB_OUTPUT"
           if (( ${{ inputs.batch_number }} > 0 )) && [[ "$GROUP" == guides ]]; then
             plan_input_args=()

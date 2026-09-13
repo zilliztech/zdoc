@@ -96,7 +96,7 @@ function validateDownloadedArtifactTree(root) {
     }
   }
   if (metadata.translated !== manifest.files.length) throw new Error('Recovery translated count mismatch')
-  return Object.freeze({root: absolute, metadata, files: manifest.files})
+  return Object.freeze({root: absolute, metadata, files: manifest.files, failures: Array.isArray(manifest.failures) ? manifest.failures : []})
 }
 
 function workflowPath(run) {
@@ -216,7 +216,27 @@ function zeroWorkReportMarkdown(locale) {
   return `### Translation report\n\n- Locale: \`${locale}\`\n- Pending: 0\n- Current English changes: 0\n- Missing Japanese targets: 0\n- Stale translations: 0\n- Translated: 0\n- Seeded files: 0\n- Seeded units: 0\n- Failed: 0\n- Resumable files: 0\n- Checkpointed chunks: 0\n- Remaining: 0\n\nNo documents require translation or translation-state reconciliation.\n`
 }
 
-function reportPending(directory, expectedTarget, {allowUnknownLocale = false} = {}) {
+function unprocessedMarkdownCandidateCount(markdown, expectedTarget) {
+  // Accepts a pre-agent tooling crash's Markdown-only report: reportSummary
+  // wrote the canonical field set from the manifest before the provider ran,
+  // so every candidate is provably pending (Translated 0, Failed 0, Remaining
+  // = Pending) and nothing was paid. The counters alone are not enough — the
+  // caller must also authenticate an empty per-batch recovery artifact from
+  // the same failed producer job window (see unprocessedEvidence below).
+  const match = /^### Translation report\n\n- Locale: `([^`\n]+)`\n- Pending: ([0-9]+)\n- Current English changes: ([0-9]+)\n- Missing Japanese targets: ([0-9]+)\n- Stale translations: ([0-9]+)\n- Translated: ([0-9]+)\n- Seeded files: ([0-9]+)\n- Seeded units: ([0-9]+)\n- Failed: ([0-9]+)\n- Resumable files: ([0-9]+)\n- Checkpointed chunks: ([0-9]+)\n- Remaining: ([0-9]+)\n\n([0-9]+) file\(s\) were deferred to the next incremental run after checkpointing completed work\.\n$/u.exec(markdown)
+  if (!match) return null
+  const [locale, ...rawCounters] = match.slice(1)
+  const counters = rawCounters.map(Number)
+  const [pending, currentDelta, missingTarget, staleSource, translated, seededFiles, seededUnits, failed, resumableFiles, checkpointedChunks, remaining, deferred] = counters
+  const expectedLocale = expectedTarget === 'ja-JP' ? 'ja-JP' : 'zh-CN'
+  if (locale !== expectedLocale || !counters.every(Number.isSafeInteger)) return null
+  if (pending < 1 || currentDelta + missingTarget + staleSource !== pending) return null
+  if ([translated, seededFiles, seededUnits, failed, resumableFiles, checkpointedChunks].some(value => value !== 0)) return null
+  if (remaining !== pending || deferred !== pending) return null
+  return pending
+}
+
+function reportPending(directory, expectedTarget, {allowUnknownLocale = false, unprocessedProducerFailed = false} = {}) {
   validateRegularTree(directory)
   const markdownFile = path.join(directory, 'translation-report.md')
   if (!fs.existsSync(markdownFile)) throw new Error('Translation report Markdown is missing')
@@ -225,7 +245,13 @@ function reportPending(directory, expectedTarget, {allowUnknownLocale = false} =
   const jsonFile = path.join(directory, 'translation-report.json')
   if (!fs.existsSync(jsonFile)) {
     if (markdown !== zeroWorkReportMarkdown(expectedLocale) && !(allowUnknownLocale && markdown === zeroWorkReportMarkdown('unknown'))) {
-      throw new Error('Markdown-only Translation report must exactly prove unambiguous zero work')
+      const unprocessedCount = unprocessedProducerFailed === true
+        ? unprocessedMarkdownCandidateCount(markdown, expectedTarget)
+        : null
+      if (unprocessedCount === null) {
+        throw new Error('Markdown-only Translation report must exactly prove unambiguous zero work or an authenticated fully-unprocessed batch')
+      }
+      return Object.freeze({candidateCount: unprocessedCount, report: null, evidenceKind: 'strict-markdown-unprocessed'})
     }
     return Object.freeze({candidateCount: 0, report: null})
   }
@@ -531,25 +557,37 @@ async function planTranslationRecovery({repository, previousRunId, previousRunAt
       await downloadArtifact(client, batch.reportArtifact, reportDirectory, run, runId)
       const recoveryName = `translation-recovery-${selected.target}-${selected.group}-${runId}-${batch.batchNumber}`
       const recoveryArtifact = exactArtifact(selectedAttempt.artifacts, recoveryName, {required: false, label: `${unitIdentity} recovery artifact`})
-      const {candidateCount} = reportPending(reportDirectory, selected.target, {allowUnknownLocale: !recoveryArtifact})
+      let recoveryParsed = null
+      if (recoveryArtifact) {
+        assertArtifactInJobWindow(recoveryArtifact, producerJob, `${unitIdentity} recovery artifact`)
+        const downloadDirectory = path.join(root, 'downloads', unitToken, `recovery-${batch.batchNumber}`)
+        await downloadArtifact(client, recoveryArtifact, downloadDirectory, run, runId)
+        recoveryParsed = assertRecoveryIdentity(validateDownloadedArtifactTree(downloadDirectory), selected)
+        const bundleDirectory = path.join(artifactRoot, unitToken, `batch-${batch.batchNumber}`)
+        fs.mkdirSync(path.dirname(bundleDirectory), {recursive: true})
+        fs.cpSync(downloadDirectory, bundleDirectory, {recursive: true})
+      }
+      const producerFailed = producerJob.conclusion === 'failure'
+      const {candidateCount, evidenceKind} = reportPending(reportDirectory, selected.target, {allowUnknownLocale: !recoveryArtifact, unprocessedProducerFailed: producerFailed})
       sourceCandidateCount += candidateCount
       if (candidateCount > 0 && !recoveryArtifact) throw new Error(`Missing recovery artifact for ${unitIdentity}; stopping before model invocation`)
       if (!recoveryArtifact) {
         continue
       }
-      assertArtifactInJobWindow(recoveryArtifact, producerJob, `${unitIdentity} recovery artifact`)
-      const downloadDirectory = path.join(root, 'downloads', unitToken, `recovery-${batch.batchNumber}`)
-      await downloadArtifact(client, recoveryArtifact, downloadDirectory, run, runId)
-      const parsed = assertRecoveryIdentity(validateDownloadedArtifactTree(downloadDirectory), selected)
-      const bundleDirectory = path.join(artifactRoot, unitToken, `batch-${batch.batchNumber}`)
-      fs.mkdirSync(path.dirname(bundleDirectory), {recursive: true})
-      fs.cpSync(downloadDirectory, bundleDirectory, {recursive: true})
-      const retained = parsed.files.length
+      if (evidenceKind === 'strict-markdown-unprocessed' &&
+          (recoveryParsed.files.length > 0 || recoveryParsed.failures.length > 0 ||
+           recoveryParsed.metadata.translated !== 0 || recoveryParsed.metadata.failed !== 0)) {
+        throw new Error(`Authenticated recovery artifact contradicts the fully-unprocessed batch report for ${unitIdentity} batch ${batch.batchNumber}`)
+      }
+      const retained = recoveryParsed.files.length
       retainedFileCount += retained
       if (retained > candidateCount) rejected.push({unit: unitIdentity, batchNumber: batch.batchNumber, reason: 'recovery artifact translated count exceeds authenticated source candidate count'})
       const identity = {artifactId: Number(recoveryArtifact.id), artifactName: recoveryArtifact.name, artifactDigest: recoveryArtifact.digest, batchNumber: batch.batchNumber, retainedFileCount: retained, sourceCandidateCount: candidateCount}
       plannedArtifacts.push(identity)
       provenanceArtifacts.push({unit: unitIdentity, ...identity})
+      if (evidenceKind) {
+        console.log(`[recovery-planner] batch ${batch.batchNumber} of ${unitIdentity}: authenticated fully-unprocessed (evidenceKind=${evidenceKind}, candidates=${candidateCount})`)
+      }
     }
     if (plannedArtifacts.length > 0) {
       scopedUnits.push(selected)

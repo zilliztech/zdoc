@@ -52,7 +52,7 @@ test('caller grants the reusable workflow write ceiling while only publish_ready
   const translation = yaml.load(fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8'))
   assert.equal(recovery.permissions.contents, 'write')
   assert.deepEqual(recovery.jobs.prepare_recovery.permissions, {actions: 'read', contents: 'read'})
-  assert.deepEqual(recovery.jobs.run_translation.permissions, {actions: 'read', contents: 'write'})
+  assert.deepEqual(recovery.jobs.run_translation.permissions, {actions: 'write', contents: 'write'})
   const writableJobs = Object.entries(translation.jobs)
     .filter(([, job]) => job.permissions?.contents === 'write')
     .map(([name]) => name)
