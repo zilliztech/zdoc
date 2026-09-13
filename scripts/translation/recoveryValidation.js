@@ -66,4 +66,38 @@ function validateRecoveryCandidate({sourceContent, targetContent, sourcePath, ta
   ])
 }
 
-module.exports = {validateRecoveryCandidate}
+// Whole-file recovery revalidation, aligned with the publication gate
+// (validate-translation-file.js). A retained translation that passes today's
+// publication checks for a fresh translation must also be restorable: when
+// the two gates disagree, every recovery run retranslates pages that publish
+// fine and the disagreement never converges (observed with code-fenced schema
+// tables that keep locale-contract column names such as "vector" in English —
+// the file-level gate exempts protected spans from mandatory-term counting
+// while per-unit semantic enforcement does not). Protected content,
+// do-not-translate counts, mandatory terminology, and heading parity therefore
+// come from validateTranslationFile; the semantic-unit structure pairing,
+// frontmatter, and MDX structure checks stay because they detect
+// retained-payload corruption that per-file counting cannot see. Per-unit
+// locale enforcement remains in validateRecoveryCandidate for chunk and
+// semantic-resume contexts, where payloads are unit-level.
+function validateRecoveryFileCandidate({candidate, sourceContent, targetContent, sourcePath, targetPath, target}) {
+  // Required lazily: validate-translation-file requires agentRunner, which
+  // requires this module — a top-level require would create a load cycle.
+  const {validateTranslationFile} = require('./validate-translation-file')
+  const publication = validateTranslationFile({
+    sourceContent,
+    draftContent: targetContent,
+    relPath: sourcePath || candidate?.sourcePath || targetPath,
+    target,
+  })
+  const localeContract = loadLocaleContract(target)
+  const semanticValidation = validateRecoveryLocale(sourceContent, targetContent, localeContract, {literalTokens: localeContract.doNotTranslate})
+  return Object.freeze([
+    ...publication.errors.map(error => `publication: ${error}`),
+    ...semanticValidation.structureErrors.map(error => `semantic: ${error}`),
+    ...validateFrontmatter(targetContent),
+    ...validateMdxStructure(targetContent).map(error => `MDX structure: ${error}`),
+  ])
+}
+
+module.exports = {validateRecoveryCandidate, validateRecoveryFileCandidate}
