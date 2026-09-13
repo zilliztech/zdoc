@@ -11,6 +11,8 @@ const {readPublicationDocument} = require('./publication-contracts')
 const {validatePublicationHandoffMetadata} = require('./monitor-translation-progress')
 const {validateTranslationRecoveryHandoff} = require('./translation-handoff')
 const {resolveAuthorityCheckpoint} = require('./translation-batch-set')
+const {loadTypeScript} = require('../lib/load-typescript')
+const {resolveTranslationTarget} = loadTypeScript('../../packages/docs-tooling/src/translation/targets.ts')
 
 const SHA = /^[0-9a-f]{40}$/u
 const CHECKSUM = /^[0-9a-f]{64}$/u
@@ -25,6 +27,18 @@ const SUCCESSFUL_UNIT_STATUSES = new Set(['published', 'no_changes'])
 // historical document is authenticated in its exact original form, then both
 // retired REST units are excluded from every recovery scope.
 const RETIRED_TRANSLATION_REST_UNITS = new Set(['ja-JP/rest', 'zh-CN-reference/rest'])
+// A recovery must never roll a unit back to an older source generation. A
+// retained file is regressive when the target branch already publishes a
+// translation for its target path from a DIFFERENT source basis AND the source
+// content has changed since the recovered run — publishing the retained file
+// would then overwrite newer (or intermediate) published translations. When the
+// source content is unchanged, a differing published basis is older than the
+// recovered run, which is exactly the normal recovery case and stays in scope.
+function regressiveRetainedFile({file, publishedSourceHash, currentSourceHash}) {
+  if (publishedSourceHash === null || publishedSourceHash === undefined) return false
+  if (publishedSourceHash === file.sourceHash) return false
+  return currentSourceHash !== file.sourceHash
+}
 
 function sha256(bytes) {
   return crypto.createHash('sha256').update(bytes).digest('hex')
@@ -460,11 +474,14 @@ function canonicalPlan(value) {
   return `${JSON.stringify(value)}\n`
 }
 
-async function planTranslationRecovery({repository, previousRunId, previousRunAttempt = '', outputRoot, targetBaselineSha, targetResolver, executionToolingSha = '', publish = false, client, forwardSourceAuthorityCheckpoints}) {
+async function planTranslationRecovery({repository, previousRunId, previousRunAttempt = '', outputRoot, targetBaselineSha, targetResolver, executionToolingSha = '', publish = false, client, forwardSourceAuthorityCheckpoints, sourceGenerationAudit}) {
   if (typeof repository !== 'string' || !/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/u.test(repository)) throw new Error('repository is invalid')
   if (typeof publish !== 'boolean') throw new Error('publish must be a boolean')
   const runId = positiveInteger(previousRunId, 'previous_translation_run_id')
   if (!client || typeof client !== 'object') throw new Error('GitHub client is required')
+  if (!sourceGenerationAudit || typeof sourceGenerationAudit.readPublishedRecords !== 'function' || typeof sourceGenerationAudit.readSourceHash !== 'function') {
+    throw new Error('source generation audit with readPublishedRecords and readSourceHash is required')
+  }
   const run = await client.getRun(runId)
   if (!run) {
     const job = await client.getJob?.(runId)
@@ -495,6 +512,24 @@ async function planTranslationRecovery({repository, previousRunId, previousRunAt
   const jobs = await client.listJobs?.(runId, attemptNumber)
   if (!Array.isArray(jobs)) throw new Error('Previous Translation job inventory is invalid')
   const queueOwnedTargetBaselineSha = targetBaselineSha || await targetResolver?.(selection.targetBranch)
+  const publishedRecordsByTarget = new Map()
+  const currentSourceHashByPath = new Map()
+  async function publishedRecordsFor(target) {
+    if (!publishedRecordsByTarget.has(target)) {
+      const records = await sourceGenerationAudit.readPublishedRecords(target, queueOwnedTargetBaselineSha)
+      if (!records || typeof records.get !== 'function' || typeof records.has !== 'function') throw new Error('Source generation audit published records are invalid')
+      publishedRecordsByTarget.set(target, records)
+    }
+    return publishedRecordsByTarget.get(target)
+  }
+  async function currentSourceHashFor(sourcePath) {
+    if (!currentSourceHashByPath.has(sourcePath)) {
+      const hash = await sourceGenerationAudit.readSourceHash(sourcePath, queueOwnedTargetBaselineSha)
+      if (hash !== null && !CHECKSUM.test(hash)) throw new Error('Source generation audit source hash is invalid')
+      currentSourceHashByPath.set(sourcePath, hash)
+    }
+    return currentSourceHashByPath.get(sourcePath)
+  }
   const bundleRoot = path.join(root, 'recovery-bundle')
   const artifactRoot = path.join(bundleRoot, 'artifacts')
   fs.mkdirSync(artifactRoot, {recursive: true})
@@ -547,6 +582,9 @@ async function planTranslationRecovery({repository, previousRunId, previousRunAt
       batches.push({batchNumber: 0, reportArtifact: exactArtifact(selectedAttempt.artifacts, `translation-report-${selected.target}-${selected.group}-${runId}`, {label: `${unitIdentity} Translation report`})})
     }
     const plannedArtifacts = []
+    const unitProvenanceArtifacts = []
+    const unitRetainedFiles = []
+    let unitRetainedFileCount = 0
     for (const batch of batches) {
       const producerJobName = jobNameForRun(run, selected.strategy === 'ja-guides'
         ? `translate_guides_batches (${batch.batchNumber - 1}, ${batch.batchNumber}) / translate`
@@ -580,18 +618,41 @@ async function planTranslationRecovery({repository, previousRunId, previousRunAt
         throw new Error(`Authenticated recovery artifact contradicts the fully-unprocessed batch report for ${unitIdentity} batch ${batch.batchNumber}`)
       }
       const retained = recoveryParsed.files.length
-      retainedFileCount += retained
+      unitRetainedFileCount += retained
+      unitRetainedFiles.push(...recoveryParsed.files)
       if (retained > candidateCount) rejected.push({unit: unitIdentity, batchNumber: batch.batchNumber, reason: 'recovery artifact translated count exceeds authenticated source candidate count'})
       const identity = {artifactId: Number(recoveryArtifact.id), artifactName: recoveryArtifact.name, artifactDigest: recoveryArtifact.digest, batchNumber: batch.batchNumber, retainedFileCount: retained, sourceCandidateCount: candidateCount}
       plannedArtifacts.push(identity)
-      provenanceArtifacts.push({unit: unitIdentity, ...identity})
+      unitProvenanceArtifacts.push({unit: unitIdentity, ...identity})
       if (evidenceKind) {
         console.log(`[recovery-planner] batch ${batch.batchNumber} of ${unitIdentity}: authenticated fully-unprocessed (evidenceKind=${evidenceKind}, candidates=${candidateCount})`)
       }
     }
     if (plannedArtifacts.length > 0) {
-      scopedUnits.push(selected)
-      recoveryMap[unitIdentity] = {unitToken, artifacts: plannedArtifacts}
+      const publishedRecords = await publishedRecordsFor(selected.target)
+      let supersededFile = null
+      for (const file of unitRetainedFiles) {
+        if (regressiveRetainedFile({
+          file,
+          publishedSourceHash: publishedRecords.get(file.targetPath) ?? null,
+          currentSourceHash: await currentSourceHashFor(file.sourcePath),
+        })) {
+          supersededFile = file
+          break
+        }
+      }
+      if (supersededFile) {
+        rejected.push({
+          unit: unitIdentity,
+          batchNumber: 0,
+          reason: `superseded source generation: ${supersededFile.targetPath} is published from a different source basis and the source changed since the recovered run`,
+        })
+      } else {
+        scopedUnits.push(selected)
+        recoveryMap[unitIdentity] = {unitToken, artifacts: plannedArtifacts}
+        retainedFileCount += unitRetainedFileCount
+        provenanceArtifacts.push(...unitProvenanceArtifacts)
+      }
     }
   }
 
@@ -695,6 +756,49 @@ function createGitHubClient(repository) {
   }
 }
 
+function createGitSourceGenerationAudit(repositoryRoot) {
+  const statePathByTarget = new Map()
+  function statePathFor(target) {
+    if (!statePathByTarget.has(target)) statePathByTarget.set(target, resolveTranslationTarget(target).state.path)
+    return statePathByTarget.get(target)
+  }
+  function readBlobAt(sha, relativePath) {
+    const result = spawnSync('git', ['show', `${sha}:${relativePath}`], {cwd: repositoryRoot, encoding: 'buffer', maxBuffer: 64 * 1024 * 1024})
+    if (result.status === 0) return result.stdout
+    const stderr = String(result.stderr || result.stdout || '')
+    if (/did not match any file|does not exist in/iu.test(stderr)) return null
+    throw new Error(stderr.trim() || `Unable to read ${relativePath} at ${sha}`)
+  }
+  return {
+    readPublishedRecords(target, targetBaselineSha) {
+      const bytes = readBlobAt(targetBaselineSha, statePathFor(target))
+      if (bytes === null) return new Map()
+      let manifest
+      try { manifest = JSON.parse(bytes.toString('utf8')) } catch { throw new Error(`Published translation manifest for ${target} at the target baseline is not valid JSON`) }
+      if (!manifest || typeof manifest !== 'object' || Array.isArray(manifest) || manifest.schemaVersion !== 1 || !Array.isArray(manifest.records)) {
+        throw new Error(`Published translation manifest for ${target} at the target baseline is invalid`)
+      }
+      const records = new Map()
+      for (const record of manifest.records) {
+        if (!record || typeof record !== 'object' || Array.isArray(record)) throw new Error(`Published translation manifest record for ${target} is invalid`)
+        if (typeof record.targetPath !== 'string' || typeof record.sourceHash !== 'string' || !CHECKSUM.test(record.sourceHash)) {
+          throw new Error(`Published translation manifest record for ${target} is invalid`)
+        }
+        if (record.status === 'retired') continue
+        if (records.has(record.targetPath) && records.get(record.targetPath) !== record.sourceHash) {
+          throw new Error(`Published translation manifest for ${target} has ambiguous records for ${record.targetPath}`)
+        }
+        records.set(record.targetPath, record.sourceHash)
+      }
+      return records
+    },
+    readSourceHash(sourcePath, targetBaselineSha) {
+      const bytes = readBlobAt(targetBaselineSha, sourcePath)
+      return bytes === null ? null : sha256(bytes)
+    },
+  }
+}
+
 function resolveQueueOwnedTarget(repositoryRoot, targetBranch) {
   const check = spawnSync('git', ['check-ref-format', '--branch', targetBranch], {cwd: repositoryRoot, encoding: 'utf8'})
   if (check.status !== 0) throw new Error('Previous Translation target branch is invalid')
@@ -733,6 +837,7 @@ async function main(argv = process.argv.slice(2), env = process.env) {
     outputRoot: args['--output-root'],
     publish: args['--publish'] === 'true',
     client: createGitHubClient(args['--repository']),
+    sourceGenerationAudit: createGitSourceGenerationAudit(process.cwd()),
     forwardSourceAuthorityCheckpoints: (unit, targetBaselineSha) => resolveAuthorityCheckpoint({
       repository: process.cwd(),
       sourceCheckpointSha: unit.sourceCheckpointSha,
@@ -759,9 +864,11 @@ if (require.main === module) main().catch(error => { console.error(error.message
 
 module.exports = {
   buildRecoveryHandoff,
+  createGitSourceGenerationAudit,
   createGitHubClient,
   extractArtifactZip,
   planTranslationRecovery,
+  regressiveRetainedFile,
   resolveQueueOwnedTarget,
   validateDownloadedArtifactTree,
 }

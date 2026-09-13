@@ -234,6 +234,12 @@ async function replayRecoveryPlan({snapshotRoot, outputRoot, repository, executi
     executionToolingSha,
     publish,
     client,
+    // The replay harness drives the planner against a retained snapshot with a
+    // synthetic target baseline, so there is no live target-branch state to
+    // audit. Generation exclusion is exercised by the planner contract tests;
+    // here the audit reports nothing published and an unchanged source so the
+    // authenticated retained scope replays exactly as retained.
+    sourceGenerationAudit: {readPublishedRecords: async () => new Map(), readSourceHash: async () => null},
   })
   return Object.freeze({...planned, snapshotRoot: root, faultInjection})
 }
