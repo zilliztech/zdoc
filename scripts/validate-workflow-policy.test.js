@@ -182,7 +182,12 @@ test('operator recovery grants the reusable Translation writer permission ceilin
 test('operator recovery keeps preparation read-only while granting only the reusable call its writer ceiling', () => {
   const workflow = yaml.load(fs.readFileSync('.github/workflows/recover-translation.yml', 'utf8'))
   assert.deepEqual(workflow.jobs.prepare_recovery.permissions, {actions: 'read', contents: 'read'})
-  assert.deepEqual(workflow.jobs.run_translation.permissions, {actions: 'read', contents: 'write'})
+  // actions:write is required statically by the callee: translate-codex's
+  // dispatch_publication job declares it for the standalone short-lock
+  // publisher, and GitHub validates callee job permissions against the
+  // caller's grant before any `if:` is evaluated. The job still skips at
+  // runtime under production_queue_owned=true.
+  assert.deepEqual(workflow.jobs.run_translation.permissions, {actions: 'write', contents: 'write'})
 })
 
 test('reusable workflows never reacquire the production dev queue', () => {

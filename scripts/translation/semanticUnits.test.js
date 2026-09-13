@@ -16,6 +16,18 @@ const {
   restoreSemanticUnitResponse,
 } = require('./semanticUnits')
 
+test('math blocks pass through untranslated on both processor paths', async () => {
+  const source = '---\ntitle: Decay\n---\n\n# Decay\n\n$$\nS(doc) = \\exp\\left( \\lambda \\cdot fieldvalue_{doc} - origin \\right)\n$$\n\nPlain paragraph.\n';
+  const syncUnits = collectSemanticUnitsSync(source, {idPrefix: 'document'});
+  const asyncUnits = await collectSemanticUnits(source, {idPrefix: 'document'});
+  // The worker path (node without require(esm)) and the in-process path must
+  // agree, and LaTeX formulas must never become translation units: they pass
+  // through untouched instead of tripping acorn on `{fieldvalue_doc}` braces.
+  assert.deepEqual(asyncUnits.map(unit => unit.id), syncUnits.map(unit => unit.id));
+  assert.ok(!syncUnits.some(unit => unit.source.includes('f_{doc}')), 'math must not become a translation unit');
+  assert.ok(syncUnits.some(unit => unit.source.includes('Plain paragraph.')), 'prose after math must still be collected');
+});
+
 test('extracts stable semantic units with exact source offsets without serializing MDX', async () => {
   const source = [
     '---',
