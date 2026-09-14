@@ -83,6 +83,17 @@ function commitTouchesEnglishSource(repository, sha) {
 // content` is shared by the English and zh-CN Guides lanes, so the English lane
 // is disambiguated by requiring the commit to touch English source paths.
 function resolvePublishedSourceUnit(repository, group, branchTip) {
+  // Reference landings never have a fetch publication: they are
+  // master-authoritative files that reach the content branch through the
+  // master-to-dev sync. The branch tip itself is the English source
+  // checkpoint, and its parent serves as the baseline.
+  if (group === 'reference-landings') {
+    const parent = git(repository, ['rev-parse', `${branchTip}^`], {allowFailure: true});
+    if (parent.status !== 0 || !COMMIT_SHA.test(parent.stdout.trim())) {
+      throw new Error('Published source commit for group reference-landings has no parent to serve as baseline');
+    }
+    return {sourceCheckpointSha: branchTip, sourceBaselineSha: parent.stdout.trim()};
+  }
   const definition = fetchUnitDefinitions().find(unit => unit.translationSourceGroup === group);
   if (!definition) throw new Error(`No fetch unit definition found for source group ${group}`);
   const {commitMessage} = definition;
@@ -119,6 +130,11 @@ function parseArguments(argv) {
 
 function resolveGroupSelector(group) {
   if (group === 'all') return 'all';
+  // Reference landings are a translation-side group rather than a fetch source
+  // group, but the manual entry selects them explicitly so operators can
+  // refresh the landing pages after a master-authored landing change syncs to
+  // the content branch.
+  if (group === 'reference-landings') return 'reference-landings';
   if (typeof group !== 'string' || group === '' || group !== group.trim()) throw new Error('Selected translation group is empty');
   if (group.includes(',')) throw new Error('Select a single source group or all; comma subsets are not yet supported for manual translation');
   if (!TRANSLATABLE_SOURCE_GROUPS.includes(group)) throw new Error(`Unknown or non-translatable source group: ${group}`);
@@ -137,7 +153,7 @@ function buildManualTranslationHandoff({repository, sourceBranch, group = 'all',
   ensureCommit(repository, toolingSha, 'master tooling');
 
   // The canonical selection drives which source publications the handoff needs:
-  // zh-CN excludes Guides, and REST/reference-landings are never source groups.
+  // zh-CN excludes Guides, and REST is never a source group.
   const selection = buildTranslationSelection({locale, group: groupSelector});
   const requiredGroups = [...new Set(selection.map(unit => unit.sourceGroup))];
 
