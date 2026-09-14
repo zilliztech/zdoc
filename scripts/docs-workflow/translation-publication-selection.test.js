@@ -9,6 +9,7 @@ const test = require('node:test')
 
 const {
   TRANSLATION_UNIT_KEYS,
+  authenticateTranslationPublicationReady,
   buildTranslationPublicationReady,
   buildTranslationPublicationSelection,
 } = require('./translation-publication-selection')
@@ -430,5 +431,50 @@ test('builds a no-changes ready descriptor for an authenticated zero-batch Guide
     assert.throws(() => buildTranslationPublicationReady({selection, unitKey: 'translation/ja-JP/guides', checkpointArchive, checkpointManifest, baselineArchive, baselineManifest}), /batch-set manifest.*selected identity/i)
   } finally {
     fs.rmSync(root, {recursive: true, force: true})
+  }
+})
+
+test('authenticates per-unit ready descriptors and requires at least one ready unit', () => {
+  const pythonUnits = handoff().units.slice(1, 3).map((unit, publicationOrder) => ({...unit, publicationOrder}))
+  const selection = buildTranslationPublicationSelection(selectionInput({handoff: {...handoff(), group: 'python', units: pythonUnits}}))
+  const fixture = checkpointFixture()
+  try {
+    const ready = buildTranslationPublicationReady({
+      selection,
+      unitKey: 'translation/ja-JP/python',
+      checkpointArchive: fixture.checkpointArchive,
+      checkpointManifest: fixture.checkpointManifest,
+      baselineArchive: fixture.baselineArchive,
+      baselineManifest: fixture.baselineManifest,
+    })
+
+    // One ready unit and one missing unit: the ready unit dispatches publication,
+    // the missing unit stays behind for recovery.
+    const authenticated = authenticateTranslationPublicationReady({selection, readyDescriptors: {
+      'translation/ja-JP/python': ready,
+      'translation/zh-CN-reference/python': null,
+    }})
+    assert.deepEqual(authenticated.readyUnitKeys, ['translation/ja-JP/python'])
+    assert.deepEqual(authenticated.missingUnitKeys, ['translation/zh-CN-reference/python'])
+
+    // A descriptor from another selection identity must not authenticate.
+    assert.throws(() => authenticateTranslationPublicationReady({selection, readyDescriptors: {
+      'translation/ja-JP/python': {...ready, selectionSha256: '0'.repeat(64)},
+      'translation/zh-CN-reference/python': null,
+    }}), /checksum|mismatch|invalid/i)
+
+    // A descriptor bound to a different unit must not authenticate.
+    assert.throws(() => authenticateTranslationPublicationReady({selection, readyDescriptors: {
+      'translation/ja-JP/python': {...ready, unitKey: 'translation/zh-CN-reference/python'},
+      'translation/zh-CN-reference/python': null,
+    }}), /unit mismatch|invalid/i)
+
+    // No ready unit at all: fail closed instead of dispatching an empty publish.
+    assert.throws(() => authenticateTranslationPublicationReady({selection, readyDescriptors: {
+      'translation/ja-JP/python': null,
+      'translation/zh-CN-reference/python': null,
+    }}), /No authenticated publication-ready/i)
+  } finally {
+    fs.rmSync(fixture.root, {recursive: true, force: true})
   }
 })

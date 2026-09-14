@@ -914,3 +914,56 @@ test('mark fails closed on malicious temporary, final, and ancestor symlinks', (
     }
   }
 });
+
+test('a translated landing record lagging the current source stays incremental, not inconsistent', () => {
+  const fixture = referenceLandingsFixture();
+  try {
+    // The English CLI landing changed after the last Chinese translation run:
+    // the record keeps its historical source hash and source commit while the
+    // source manifest and the working tree carry the new bytes. This is the
+    // stale_source retranslation case from run 34876491840, not corruption.
+    const cliRecord = fixture.records.find(record => record.sourcePath === 'content/en/reference/cli/cli/Overview.md');
+    const cliSource = fixture.sourceManifest.records.find(record => record.sourcePath === cliRecord.sourcePath);
+    const newContents = '# Zilliz CLI (refreshed English landing)\n';
+    const newHash = sha256(newContents);
+    cliSource.sourceHash = newHash;
+    fs.writeFileSync(path.join(fixture.root, cliRecord.sourcePath), newContents);
+    // The lagging record stays anchored at the earlier checkpoint it was
+    // translated against; only its sourceCommit proves the lag is history
+    // rather than a record contradicting the checkpoint it claims.
+    cliRecord.sourceCommit = 'b'.repeat(40);
+
+    const decision = resolveBootstrapDecision({
+      target: 'zh-CN-reference', group: 'reference-landings',
+      state: fixture.state, sourceManifest: fixture.sourceManifest, repositoryRoot: fixture.root,
+    });
+    assert.equal(decision.status, 'safe_repair');
+    assert.equal(decision.mode, 'incremental');
+
+    // Pending bookkeeping stays checkpoint-bound: a lagging pending record is
+    // still rejected instead of being silently rescheduled.
+    const pendingState = {schemaVersion: 1, records: fixture.state.records.slice(1), pendingRecords: [{
+      manual: cliRecord.manual,
+      sourcePath: cliRecord.sourcePath,
+      targetPath: cliRecord.targetPath,
+      sourceCommit: 'd'.repeat(40),
+      sourceHash: 'e'.repeat(64),
+    }]};
+    // A translated record that claims the current sourceCommit but carries
+    // different bytes contradicts itself and stays fail-closed.
+    const contradictory = structuredClone(fixture.state);
+    const contradictoryRecord = contradictory.records.find(record => record.sourcePath === cliRecord.sourcePath);
+    contradictoryRecord.sourceHash = 'e'.repeat(64);
+    contradictoryRecord.sourceCommit = fixture.sourceManifest.sourceCommit;
+    assert.throws(() => resolveBootstrapDecision({
+      target: 'zh-CN-reference', group: 'reference-landings',
+      state: contradictory, sourceManifest: fixture.sourceManifest, repositoryRoot: fixture.root,
+    }), /source hash mismatch|inconsistent/i);
+    assert.throws(() => resolveBootstrapDecision({
+      target: 'zh-CN-reference', group: 'reference-landings',
+      state: pendingState, sourceManifest: fixture.sourceManifest, repositoryRoot: fixture.root,
+    }), /source hash mismatch|pending/i);
+  } finally {
+    fs.rmSync(fixture.root, {recursive: true, force: true});
+  }
+});

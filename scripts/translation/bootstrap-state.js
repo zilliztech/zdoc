@@ -219,7 +219,18 @@ function assessLegacyBootstrap({target, group, state, sourceManifest, repository
     if (!belongsToGroup || record.manual !== expectedManual || record.targetPath !== expectedTargetPath) {
       throw new Error(`Bootstrap state for ${group} is inconsistent: canonical ownership mismatch for ${source.sourcePath}`);
     }
-    if (record.sourceHash !== source.sourceHash || !SHA256.test(record.sourceHash)) {
+    if (!SHA256.test(record.sourceHash || '')) {
+      throw new Error(`Bootstrap state for ${group} is inconsistent: source hash mismatch for ${source.sourcePath}`);
+    }
+    if (record.sourceHash !== source.sourceHash && !(entry.kind === 'translated' && record.sourceCommit !== parsedSourceManifest.sourceCommit)) {
+      // Pending and language-excluded records are checkpoint-scoped bookkeeping
+      // and must be anchored to the current source manifest, and a record that
+      // claims the current sourceCommit must carry the current bytes. A
+      // translated record anchored at an earlier checkpoint may legitimately
+      // lag the current source (the English landing changed since the last
+      // translation run); its on-disk target hash is verified below to prove
+      // the record still describes real bytes, and the candidate stage
+      // schedules the stale_source retranslation.
       throw new Error(`Bootstrap state for ${group} is inconsistent: source hash mismatch for ${source.sourcePath}`);
     }
     const actualSourceHash = sha256File(repositoryRoot, source.sourcePath);
