@@ -621,8 +621,15 @@ jobs:
     # Standalone publish path: this producer run stays off docs-production-dev
     # and hands the immutable selection to the short-lock publish-translation
     # workflow, which authenticates the producer identity and publishes under
-    # the production queue.
-    if: ${{ always() && needs.prepare.result == 'success' && inputs.publish && !(inputs.production_queue_owned || false) }}
+    # the production queue. Publication is dispatched only when every selected
+    # producer lane succeeded (or was never selected): a failed SDK/CLI or
+    # Guides producer must not create a publish run that can only reject it.
+    if: ${{ always()
+      && inputs.publish
+      && !(inputs.production_queue_owned || false)
+      && needs.prepare.result == 'success'
+      && (needs.translate_sdk.result == 'success' || needs.translate_sdk.result == 'skipped')
+      && (needs.prepare_guides_publication_ready.result == 'success' || needs.prepare_guides_publication_ready.result == 'skipped') }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
