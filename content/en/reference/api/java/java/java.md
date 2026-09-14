@@ -72,7 +72,7 @@ try {
 
 ## Resources
 
-- [Java SDK v2 Reference](./java/v2-Client-ConnectConfig)
+- [Java SDK v2 Reference](./java/java/v2-Client-ConnectConfig)
 - [Java SDK source repository](https://github.com/milvus-io/milvus-sdk-java)
 - [Java SDK examples](https://github.com/milvus-io/milvus-sdk-java/tree/master/examples)
 
