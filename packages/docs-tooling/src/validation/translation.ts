@@ -38,6 +38,10 @@ export type ValidateReferenceTranslationOptions = Readonly<{
   manualForPath?: (repositoryRelativePath: string) => string;
   verifySourceProvenance?: TranslationSourceProvenanceVerifier;
   supplementalMappings?: readonly Readonly<{sourcePath: string; targetPath: string; manual: string}>[];
+  // Master-authoritative preserved files are pinned by the master-to-dev sync
+  // contract rather than by the declared fetch snapshot; file verification
+  // skips their working-tree source bytes.
+  excludedSourcePaths?: ReadonlySet<string>;
 }>;
 
 export type ValidateReferenceSourceOptions = Readonly<{
@@ -45,6 +49,9 @@ export type ValidateReferenceSourceOptions = Readonly<{
   sourceRoot: string;
   sourceManifest: ReferenceSourceManifest;
   manualForPath?: (repositoryRelativePath: string) => string;
+  // Master-authoritative preserved files are pinned by the master-to-dev sync
+  // contract rather than by the declared fetch snapshot; validation skips them.
+  excludedSourcePaths?: ReadonlySet<string>;
 }>;
 
 function assertBelowRoot(filePath: string, root: string, label: string): void {
@@ -221,6 +228,7 @@ export function validateReferenceTranslation(options: ValidateReferenceTranslati
   }
 
   if (options.verifyFiles === false) return;
+  const excludedSources = options.excludedSourcePaths ?? new Set<string>();
   const sourceFiles = readMappedTrees(options.repositoryRoot, mappings, 'source');
   const targetFiles = readMappedTrees(options.repositoryRoot, mappings, 'target');
   for (const record of translationManifest.pendingRecords ?? []) {
@@ -245,7 +253,7 @@ export function validateReferenceTranslation(options: ValidateReferenceTranslati
     } else if (sourceMissing || targetMissing) {
       throw new Error(`Active translation source and target must both exist: ${record.sourcePath}`);
     }
-    if (sourceHash && sourceHash !== record.sourceHash && record.sourceCommit === sourceManifest.sourceCommit) {
+    if (!excludedSources.has(record.sourcePath) && sourceHash && sourceHash !== record.sourceHash && record.sourceCommit === sourceManifest.sourceCommit) {
       throw new Error(`Source hash mismatch: ${record.sourcePath}`);
     }
     if (targetHash && targetHash !== record.targetHash) throw new Error(`Target hash mismatch: ${record.targetPath}`);
@@ -253,6 +261,7 @@ export function validateReferenceTranslation(options: ValidateReferenceTranslati
     if (targetMissing && record.targetHash !== EMPTY_FILE_SHA256) throw new Error(`Missing retired target must use the empty-file hash: ${record.targetPath}`);
   }
   for (const [filePath, hash] of sourceFiles) {
+    if (excludedSources.has(filePath)) continue;
     const source = sourceRecords.get(filePath);
     if (!source) throw new Error(`Active canonical source is absent from the source manifest: ${filePath}`);
     if (source.sourceHash !== hash) throw new Error(`Source hash mismatch: ${filePath}`);
@@ -270,6 +279,7 @@ export function validateReferenceTranslation(options: ValidateReferenceTranslati
 export function validateReferenceSource(options: ValidateReferenceSourceOptions): void {
   const sourceManifest = parseReferenceSourceManifest(options.sourceManifest);
   const files = readReferenceTree(options.repositoryRoot, options.sourceRoot);
+  const excluded = options.excludedSourcePaths ?? new Set<string>();
   const records = new Map(sourceManifest.records.map(record => [record.sourcePath, record]));
   if (records.size !== sourceManifest.records.length) throw new Error('Reference source manifest contains duplicate source paths');
   for (const record of sourceManifest.records) {
@@ -279,11 +289,13 @@ export function validateReferenceSource(options: ValidateReferenceSourceOptions)
     }
   }
   for (const [filePath, hash] of files) {
+    if (excluded.has(filePath)) continue;
     const record = records.get(filePath);
     if (!record) throw new Error(`Active canonical source is absent from the source manifest: ${filePath}`);
     if (record.sourceHash !== hash) throw new Error(`Source hash mismatch: ${filePath}`);
   }
   for (const record of sourceManifest.records) {
+    if (excluded.has(record.sourcePath)) continue;
     if (!files.has(record.sourcePath)) throw new Error(`Source manifest path is missing: ${record.sourcePath}`);
   }
 }

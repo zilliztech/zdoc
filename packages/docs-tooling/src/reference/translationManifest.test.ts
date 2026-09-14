@@ -8,6 +8,7 @@ import {describe, expect, it, vi} from 'vitest';
 import {
   buildReferenceManifests,
   EMPTY_FILE_SHA256,
+  masterAuthoritativeSourcePaths,
   parseReferenceSourceManifest,
   parseReferenceTranslationManifest,
   parseReferenceRetirementRegistry,
@@ -1142,6 +1143,97 @@ describe('Reference translation provenance', () => {
       ['validate-reference', '--site', 'zh-CN'],
       dependencies,
     )).rejects.toThrow(/source hash/i);
+  });
+
+  it('reads master-authoritative exclusions from the master tooling sync contract', () => {
+    const roots = fixture();
+    expect(masterAuthoritativeSourcePaths(roots.repositoryRoot)).toEqual(new Set());
+
+    mkdirSync(path.join(roots.repositoryRoot, 'deploy/contracts'), {recursive: true});
+    writeFileSync(
+      path.join(roots.repositoryRoot, 'deploy/contracts/master-tooling-sync.json'),
+      `${JSON.stringify({schemaVersion: 1, masterAuthoritativePaths: [
+        'content/en/guides/tutorials/home.md',
+        'content/en/reference/api/go/go/go.md',
+      ]}, null, 2)}\n`,
+    );
+    expect(masterAuthoritativeSourcePaths(roots.repositoryRoot)).toEqual(new Set([
+      'content/en/guides/tutorials/home.md',
+      'content/en/reference/api/go/go/go.md',
+    ]));
+
+    writeFileSync(
+      path.join(roots.repositoryRoot, 'deploy/contracts/master-tooling-sync.json'),
+      `${JSON.stringify({schemaVersion: 1, masterAuthoritativePaths: ['../escape.md']})}\n`,
+    );
+    expect(() => masterAuthoritativeSourcePaths(roots.repositoryRoot)).toThrow(/invalid/i);
+    writeFileSync(
+      path.join(roots.repositoryRoot, 'deploy/contracts/master-tooling-sync.json'),
+      `${JSON.stringify({schemaVersion: 1})}\n`,
+    );
+    expect(() => masterAuthoritativeSourcePaths(roots.repositoryRoot)).toThrow(/masterAuthoritativePaths/i);
+  });
+
+  it('validate-reference tolerates drift on contract-listed master-authoritative files only', async () => {
+    const roots = fixture();
+    const sourceCommit = 'a'.repeat(40);
+    const landingPath = 'content/en/reference/api/go/go/go.md';
+    writeFileSync(path.join(roots.repositoryRoot, 'content/en/reference/api/python/page.md'), '# source\n');
+    writeFileSync(path.join(roots.repositoryRoot, 'content/zh-CN/reference/api/python/page.md'), '# target\n');
+    mkdirSync(path.dirname(path.join(roots.repositoryRoot, landingPath)), {recursive: true});
+    writeFileSync(path.join(roots.repositoryRoot, landingPath), '# go landing\n');
+    writeMinimalReferenceSidebarTemplates(roots.repositoryRoot);
+    mkdirSync(path.join(roots.repositoryRoot, 'deploy/contracts'), {recursive: true});
+    writeFileSync(
+      path.join(roots.repositoryRoot, 'deploy/contracts/localization-inputs.inventory.json'),
+      '{\n  "schemaVersion": 1,\n  "paths": []\n}\n',
+    );
+
+    await executeReferenceDocsToolingCommand([
+      'reference-manifest', '--source', roots.sourceRoot, '--target', roots.targetRoot, '--source-commit', 'HEAD', '--write',
+    ], {
+      repositoryRoot: roots.repositoryRoot,
+      resolveSourceCommit: () => sourceCommit,
+      verifySourceRevision: () => undefined,
+      manualForPath: (filePath: string) => (filePath.includes('/reference/api/go/') ? 'go' : 'python'),
+      retirementRegistry: {schemaVersion: 2, retirements: []},
+    });
+
+    const dependencies = {
+      repositoryRoot: roots.repositoryRoot,
+      environment: {
+        ZDOC_PROVENANCE_COMMIT: sourceCommit,
+        ZDOC_PROVENANCE_WORKTREE: 'external-snapshot',
+        ZDOC_PROVENANCE_TRACKED_INPUTS: 'deploy/contracts/localization-inputs.inventory.json',
+      },
+      manualForPath: (filePath: string) => (filePath.includes('/reference/api/go/') ? 'go' : 'python'),
+      retirementRegistry: {schemaVersion: 2 as const, retirements: []},
+      validateReferenceNavigation: vi.fn(),
+    };
+
+    // Without the sync contract, drifted landing bytes still fail closed.
+    writeFileSync(path.join(roots.repositoryRoot, landingPath), '# go landing changed by master\n');
+    await expect(executeReferenceDocsToolingCommand(
+      ['validate-reference', '--site', 'en'],
+      dependencies,
+    )).rejects.toThrow(/source hash|declared snapshot/i);
+
+    // With the contract listing the landing as master-authoritative, the same
+    // drift is tolerated while ordinary fetch-owned files stay byte-pinned.
+    writeFileSync(
+      path.join(roots.repositoryRoot, 'deploy/contracts/master-tooling-sync.json'),
+      `${JSON.stringify({schemaVersion: 1, masterAuthoritativePaths: [landingPath]})}\n`,
+    );
+    await expect(executeReferenceDocsToolingCommand(
+      ['validate-reference', '--site', 'en'],
+      dependencies,
+    )).resolves.toBeUndefined();
+
+    writeFileSync(path.join(roots.repositoryRoot, 'content/en/reference/api/python/page.md'), '# drifted fetch file\n');
+    await expect(executeReferenceDocsToolingCommand(
+      ['validate-reference', '--site', 'en'],
+      dependencies,
+    )).rejects.toThrow(/source hash|declared snapshot/i);
   });
 
   it('does not require a retired record when an authenticated language exclusion covers the registry tuple', async () => {
