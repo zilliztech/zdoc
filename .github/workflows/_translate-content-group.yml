@@ -152,7 +152,10 @@ jobs:
           test -f "$state" || printf '%s\n' "$empty" > "$state"
           test -f "$BASELINE_DIR/$state" || cp "$state" "$BASELINE_DIR/$state"
       - name: Create SDK/CLI completeness receipt
-        if: ${{ inputs.should_translate && inputs.target == 'zh-CN-reference' }}
+        # reference-landings is not a fetch-published SDK/CLI manual; its source
+        # checkpoint is the content branch tip, so no generator completeness
+        # receipt exists for it (deletion candidates fall back to review_required).
+        if: ${{ inputs.should_translate && inputs.target == 'zh-CN-reference' && inputs.group != 'reference-landings' }}
         run: |
           node scripts/translation/create-sdk-cli-completeness-receipt.js \
             --repository "$GITHUB_WORKSPACE" \

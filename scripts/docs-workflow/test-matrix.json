@@ -324,6 +324,7 @@
         "packages/docs-tooling/src/translation/candidates*",
         "packages/docs-tooling/src/translation/schema.ts",
         "packages/docs-tooling/src/translation/targets*",
+        "packages/docs-tooling/src/translation/validate*",
         "packages/docs-tooling/src/validation/translation.ts",
         "packages/docs-tooling/src/validation/translationProvenance.test.ts",
         "scripts/translation/migrate-ja-publication-manifest*",

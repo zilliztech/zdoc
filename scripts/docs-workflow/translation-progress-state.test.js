@@ -33,12 +33,15 @@ test('parses bounded job names observed in child workflow runs', () => {
   assert.equal(parseGuidesBatchJob({name: 'translate_guides_batches (x, 1) / translate'}), null)
 })
 
-test('rejects unsupported full and truncated Japanese Reference landing jobs', () => {
+test('accepts full and truncated Japanese Reference landing jobs', () => {
   const names = [
     'translate_sdk (ja-JP, reference-landings, reference-landings, a9a7dc1a4e51a77fcfdc2e30a57198963ea003c1, 1) / translate',
     'translate_sdk (ja-JP, reference-landings, reference-landings, a9a7dc1a4e51a77fcfdc2e30a57198963ea... / translate',
   ]
-  assert.deepEqual(names.map(name => parseSdkTranslationJob({name})), [null, null])
+  assert.deepEqual(names.map(name => parseSdkTranslationJob({name})), [
+    {target: 'ja-JP', group: 'reference-landings'},
+    {target: 'ja-JP', group: 'reference-landings'},
+  ])
 })
 
 test('parses live truncated SDK matrix names and counts completed SDK translations', () => {

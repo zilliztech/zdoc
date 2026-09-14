@@ -35,4 +35,27 @@ describe('translation coverage validation', () => {
     expect(() => validateTranslationCoverage({repositoryRoot, targetId: 'ja-JP', group: 'go'}))
       .toThrow(/ja-JP\/go.*content\/en\/reference\/api\/go/u);
   });
+
+  it('covers the derived reference landing set including the Guides home', () => {
+    const repositoryRoot = mkdtempSync(path.join(tmpdir(), 'translation-coverage-'));
+    const homeSource = 'content/en/guides/tutorials/home.md';
+    const goSource = 'content/en/reference/api/go/go/go.md';
+
+    write(repositoryRoot, homeSource, '# Home\n');
+    write(repositoryRoot, goSource, '# Go\n');
+    write(repositoryRoot, 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/home.md', '# ホーム\n');
+    write(repositoryRoot, 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/go.md', '# Go 日本語\n');
+    write(repositoryRoot, '.translation-cache/ja-JP.json', `${JSON.stringify({files: {
+      [homeSource]: {sourceHash: createHash('sha256').update('# Home\n').digest('hex'), targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/home.md'},
+      [goSource]: {sourceHash: createHash('sha256').update('# Go\n').digest('hex'), targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/go.md'},
+    }})}\n`);
+
+    // Both targets exist and both cache records match, so the derived
+    // landing set (home + six SDK/CLI landings) validates cleanly.
+    expect(() => validateTranslationCoverage({repositoryRoot, targetId: 'ja-JP', group: 'reference-landings'})).not.toThrow();
+
+    write(repositoryRoot, goSource, '# Go changed\n');
+    expect(() => validateTranslationCoverage({repositoryRoot, targetId: 'ja-JP', group: 'reference-landings'}))
+      .toThrow(/ja-JP\/reference-landings.*content\/en\/reference\/api\/go\/go\/go\.md/u);
+  });
 });

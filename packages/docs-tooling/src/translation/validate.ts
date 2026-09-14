@@ -1,24 +1,26 @@
 import {resolvePublicationGroup, resolvePublicationGroupWorkflow} from '../workflows/groups.ts';
+import {referenceLandingsEn} from '../manuals/derive/workflowUnits.ts';
 import {buildTranslationCandidates} from './candidates.ts';
 import {resolveTranslationTarget} from './targets.ts';
 import type {TranslationTargetId} from './schema.ts';
 
-const REFERENCE_LANDING_SOURCE_PATHS = Object.freeze([
-  'content/en/reference/api/python/python/python.md',
-  'content/en/reference/api/java/java/java.md',
-  'content/en/reference/api/nodejs/nodejs/nodejs.md',
-  'content/en/reference/api/go/go/go.md',
-  'content/en/reference/cli/cli/Overview.md',
-]);
+// The canonical landing set includes the Guides home alongside the six
+// SDK/CLI landings; derive it so a registry change cannot silently shrink
+// coverage validation again.
+const REFERENCE_LANDING_SOURCE_PATHS = referenceLandingsEn();
 
 function ownedTranslationSourcePaths(targetId: TranslationTargetId, group: string): readonly string[] {
   if (group === 'reference-landings') return REFERENCE_LANDING_SOURCE_PATHS;
   return resolvePublicationGroup('en', group).ownedPaths.filter(candidate => candidate.startsWith('content/en/'));
 }
 
-function preservedTranslationSourcePaths(group: string): readonly string[] {
+function preservedTranslationSourcePaths(group: string, owned: readonly string[]): readonly string[] {
   if (group === 'reference-landings') return REFERENCE_LANDING_SOURCE_PATHS;
-  return resolvePublicationGroupWorkflow('en', group).preservedPaths.filter(candidate => candidate.startsWith('content/en/'));
+  // Preserved landing pages belong to the reference-landings group, not to the
+  // SDK/CLI groups whose fetch checkpoints exclude them; candidates require
+  // preserved paths to stay within group ownership, so filter to the owned set.
+  return resolvePublicationGroupWorkflow('en', group).preservedPaths
+    .filter(candidate => candidate.startsWith('content/en/') && owned.includes(candidate));
 }
 
 export function validateTranslationCoverage(options: Readonly<{
@@ -34,7 +36,7 @@ export function validateTranslationCoverage(options: Readonly<{
     targetId: options.targetId,
     group: options.group,
     ownedSourcePaths: ownership,
-    preservedSourcePaths: preservedTranslationSourcePaths(options.group),
+    preservedSourcePaths: preservedTranslationSourcePaths(options.group, ownership),
     changedSourcePaths: [],
     mode: 'incremental',
   });
