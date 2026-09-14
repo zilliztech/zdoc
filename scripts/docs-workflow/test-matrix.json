@@ -851,6 +851,23 @@
         "pnpm test:workflow-policy"
       ],
       "reason": "The zh-CN-reference style guide joins the prompt contract chain (promptContractSha256); contract JSON schema and recovery prompt-hash tests must stay green. Mirror of the ja-JP quality-assets change for Phase C."
+    },
+    {
+      "id": "manual-translation-entry",
+      "paths": [
+        "scripts/docs-workflow/build-manual-translation-handoff*"
+      ],
+      "focusedTests": [
+        "node --test scripts/docs-workflow/build-manual-translation-handoff.test.js"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm test:translation",
+        "pnpm test:workflow-policy",
+        "pnpm test:workflow-matrix",
+        "git diff --check"
+      ],
+      "reason": "The manual translation entry builds the schema-v3 handoff that dispatches the paid Codex translation producer; fetch-source groups anchor to their latest fetch publish commit while reference-landings anchors to the content branch tip."
     }
   ]
 }

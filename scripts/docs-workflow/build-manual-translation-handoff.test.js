@@ -164,3 +164,45 @@ test('rejects master as the source branch and non-translatable groups', t => {
     /Unknown or non-translatable source group: nope/,
   );
 });
+
+test('reference-landings anchors the English source to the content branch tip', t => {
+  const setup = fixture(t);
+  const devTipParent = git(setup.repository, 'rev-parse', `${setup.devTip}^`);
+
+  const resolved = resolvePublishedSourceUnit(setup.repository, 'reference-landings', setup.devTip);
+  assert.deepEqual(resolved, {sourceCheckpointSha: setup.devTip, sourceBaselineSha: devTipParent});
+
+  const handoff = buildManualTranslationHandoff({
+    repository: setup.repository, sourceBranch: 'dev', group: 'reference-landings', locale: 'all',
+  });
+  assert.equal(handoff.group, 'reference-landings');
+  assert.deepEqual(handoff.units.map(unit => `${unit.target}/${unit.group}`), [
+    'ja-JP/reference-landings', 'zh-CN-reference/reference-landings',
+  ]);
+  for (const unit of handoff.units) {
+    assert.equal(unit.sourceCheckpointSha, setup.devTip);
+    assert.equal(unit.sourceBaselineSha, devTipParent);
+    assert.equal(unit.targetBaselineSha, setup.devTip);
+  }
+});
+
+test('reference-landings respects the locale selector', t => {
+  const setup = fixture(t);
+  const ja = buildManualTranslationHandoff({
+    repository: setup.repository, sourceBranch: 'dev', group: 'reference-landings', locale: 'ja-JP',
+  });
+  assert.deepEqual(ja.units.map(unit => `${unit.target}/${unit.group}`), ['ja-JP/reference-landings']);
+
+  const zh = buildManualTranslationHandoff({
+    repository: setup.repository, sourceBranch: 'dev', group: 'reference-landings', locale: 'zh-CN',
+  });
+  assert.deepEqual(zh.units.map(unit => `${unit.target}/${unit.group}`), ['zh-CN-reference/reference-landings']);
+});
+
+test('all-group selection still excludes reference-landings', t => {
+  const setup = fixture(t);
+  const handoff = buildManualTranslationHandoff({
+    repository: setup.repository, sourceBranch: 'dev', group: 'all', locale: 'all',
+  });
+  assert.ok(handoff.units.every(unit => unit.group !== 'reference-landings'));
+});
