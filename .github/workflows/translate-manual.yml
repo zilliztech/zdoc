@@ -13,7 +13,7 @@ on:
         options: [all, ja-JP, zh-CN]
         default: all
       group:
-        description: Source group to translate (all, or a single group such as python or guides)
+        description: Source group to translate (all, a single group such as python or guides, or reference-landings)
         type: string
         default: all
       mode:
