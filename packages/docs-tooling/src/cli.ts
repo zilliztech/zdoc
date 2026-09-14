@@ -42,6 +42,7 @@ import {
   buildReferenceManifests,
   assertSafeRepositoryPathChain,
   captureReferenceTree,
+  masterAuthoritativeSourcePaths,
   parseReferenceRetirementRegistry,
   parseReferenceSourceManifest,
   parseReferenceTranslationManifest,
@@ -214,15 +215,33 @@ function gitCommitSnapshot(repositoryRoot: string, commit: string, sourceRoot: s
   return files;
 }
 
-function assertSnapshotsEqual(expected: ReferenceTreeSnapshot, actual: ReferenceTreeSnapshot, label: string): void {
-  if (expected.size !== actual.size) throw new Error(`${label} path set does not match the declared snapshot`);
+function assertSnapshotsEqual(
+  expected: ReferenceTreeSnapshot,
+  actual: ReferenceTreeSnapshot,
+  label: string,
+  excludedPaths?: ReadonlySet<string>,
+): void {
+  const excludedSize = (snapshot: ReferenceTreeSnapshot): number => {
+    if (!excludedPaths || excludedPaths.size === 0) return snapshot.size;
+    let count = 0;
+    for (const filePath of snapshot.keys()) if (!excludedPaths.has(filePath)) count += 1;
+    return count;
+  };
+  if (excludedSize(expected) !== excludedSize(actual)) throw new Error(`${label} path set does not match the declared snapshot`);
   for (const [filePath, hash] of expected) {
+    if (excludedPaths?.has(filePath)) continue;
     if (actual.get(filePath) !== hash) throw new Error(`${label} differs from the declared snapshot at ${filePath}`);
   }
 }
 
-function verifyGitSourceRevision(repositoryRoot: string, commit: string, sourceRoot: string, snapshot: ReferenceTreeSnapshot): void {
-  assertSnapshotsEqual(gitCommitSnapshot(repositoryRoot, commit, sourceRoot), snapshot, 'Reference source commit tree');
+function verifyGitSourceRevision(
+  repositoryRoot: string,
+  commit: string,
+  sourceRoot: string,
+  snapshot: ReferenceTreeSnapshot,
+  excludedPaths?: ReadonlySet<string>,
+): void {
+  assertSnapshotsEqual(gitCommitSnapshot(repositoryRoot, commit, sourceRoot), snapshot, 'Reference source commit tree', excludedPaths);
 }
 
 function verifyReferenceSourceRevision(
@@ -231,9 +250,10 @@ function verifyReferenceSourceRevision(
   sourceRoot: string,
   snapshot: ReferenceTreeSnapshot,
   externalSnapshot: ExternalSnapshotIdentity | undefined,
+  excludedPaths?: ReadonlySet<string>,
 ): void {
   if (externalSnapshot) return;
-  verifyGitSourceRevision(repositoryRoot, commit, sourceRoot, snapshot);
+  verifyGitSourceRevision(repositoryRoot, commit, sourceRoot, snapshot, excludedPaths);
 }
 
 type ExternalSnapshotIdentity = Readonly<{
@@ -716,6 +736,7 @@ export async function executeReferenceDocsToolingCommand(
     const manifestState = readReferenceManifestState(repositoryRoot);
     if (manifestState) {
       const externalSnapshot = resolveExternalSnapshotIdentity(repositoryRoot, environment);
+      const masterAuthoritative = masterAuthoritativeSourcePaths(repositoryRoot);
       if (dependencies.verifySourceRevision) {
         dependencies.verifySourceRevision(manifestState.sourceManifest.sourceCommit, REFERENCE_SOURCE_ROOT, sourceSnapshot);
       } else {
@@ -725,6 +746,7 @@ export async function executeReferenceDocsToolingCommand(
           REFERENCE_SOURCE_ROOT,
           sourceSnapshot,
           externalSnapshot,
+          masterAuthoritative,
         );
       }
       validateReferenceSource({
@@ -732,6 +754,7 @@ export async function executeReferenceDocsToolingCommand(
         sourceRoot: REFERENCE_SOURCE_ROOT,
         sourceManifest: manifestState.sourceManifest,
         manualForPath,
+        excludedSourcePaths: masterAuthoritative,
       });
       assertRetirementsMatchManifest(retirementRegistry, manifestState.translationManifest, sourceSnapshot, targetSnapshot);
       validateReferenceTranslation({
@@ -742,6 +765,7 @@ export async function executeReferenceDocsToolingCommand(
         translationManifest: manifestState.translationManifest,
         supplementalMappings: REFERENCE_SUPPLEMENTAL_TRANSLATION_MAPPINGS,
         manualForPath,
+        excludedSourcePaths: masterAuthoritative,
         verifySourceProvenance: dependencies.verifyTranslationSourceProvenance
           ?? (externalSnapshot
             ? createPrevalidatedExternalSnapshotProvenanceVerifier(externalSnapshot)
@@ -839,6 +863,7 @@ export async function executeReferenceDocsToolingCommand(
     const sourceManifest = parseReferenceSourceManifest(readJson(repositoryRoot, REFERENCE_SOURCE_MANIFEST));
     const sourceSnapshot = captureReferenceTree(repositoryRoot, REFERENCE_SOURCE_ROOT);
     const externalSnapshot = resolveExternalSnapshotIdentity(repositoryRoot, environment);
+    const masterAuthoritative = masterAuthoritativeSourcePaths(repositoryRoot);
     if (dependencies.verifySourceRevision) dependencies.verifySourceRevision(sourceManifest.sourceCommit, REFERENCE_SOURCE_ROOT);
     else verifyReferenceSourceRevision(
       repositoryRoot,
@@ -846,9 +871,10 @@ export async function executeReferenceDocsToolingCommand(
       REFERENCE_SOURCE_ROOT,
       sourceSnapshot,
       externalSnapshot,
+      masterAuthoritative,
     );
     const manualForPath = dependencies.manualForPath ?? defaultReferenceManualForPath;
-    validateReferenceSource({repositoryRoot, sourceRoot: REFERENCE_SOURCE_ROOT, sourceManifest, manualForPath});
+    validateReferenceSource({repositoryRoot, sourceRoot: REFERENCE_SOURCE_ROOT, sourceManifest, manualForPath, excludedSourcePaths: masterAuthoritative});
     let unavailableNavigationIds: ReadonlySet<string> = new Set();
     if (argv[2] === 'en') {
       // Source ownership, revision, and hashes were validated above.
@@ -862,6 +888,7 @@ export async function executeReferenceDocsToolingCommand(
         sourceManifest: japaneseSourceManifest,
         translationManifest: parseReferenceTranslationManifest(readJson(repositoryRoot, JAPANESE_REFERENCE_TRANSLATION_MANIFEST)),
         manualForPath: japaneseReferenceManualForPath,
+        excludedSourcePaths: masterAuthoritative,
         verifySourceProvenance: dependencies.verifyTranslationSourceProvenance
           ?? createGitTranslationSourceProvenanceVerifier(repositoryRoot, REFERENCE_SOURCE_ROOT),
       });
@@ -883,6 +910,7 @@ export async function executeReferenceDocsToolingCommand(
         translationManifest,
         supplementalMappings: REFERENCE_SUPPLEMENTAL_TRANSLATION_MAPPINGS,
         manualForPath,
+        excludedSourcePaths: masterAuthoritative,
         verifySourceProvenance: dependencies.verifyTranslationSourceProvenance
           ?? (externalSnapshot
             ? createPrevalidatedExternalSnapshotProvenanceVerifier(externalSnapshot)
