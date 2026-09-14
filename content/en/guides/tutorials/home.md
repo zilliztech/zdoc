@@ -800,11 +800,11 @@ Select a project [plan](./select-zilliz-cloud-service-plans) and create clusters
 
     Integrate an AWS S3 bucket, a Google Cloud Storage bucket, or a Microsoft Azure blob storage container with Zilliz Cloud.
 
-1. Create an [external volume](./external-volumes).
+1. Create an [external volume](./external-volume).
 
     Use a path or the entire external storage as an external volume, which is a read-only reference to a bucket or path in the integrated storage, allowing Zilliz Cloud to access your data in-place without copying or moving it. 
 
-1. [Create a database](./create-database#create-database-in-on-demand-compute-or-public).
+1. [Create a database](./on-demand-database#create-database).
 
     Create a database in on-demand compute. The database is a project-level resource shared by all on-demand clusters in the project. 
 
@@ -832,7 +832,7 @@ Select a project [plan](./select-zilliz-cloud-service-plans) and create clusters
 
 1. Import data.
 
-    [Import data](./data-import-export) from a local file or an object storage bucket.
+    [Import data](./import-data) from a local file or an object storage bucket.
 
 1. Conduct a vector similarity search.
 
