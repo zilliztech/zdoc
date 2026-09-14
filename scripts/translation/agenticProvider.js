@@ -28,9 +28,34 @@ const {successfulReview} = require('./reviewEvidence')
 const {classifyFailure} = require('./failureClassification')
 const {validateWithRuntimeChecks} = require('./validate-translation-file')
 const {buildRecoveryIdentity, loadChunkLimits, loadRecoveryAnalysis} = require('./agentRunner')
+const {readCache, writeCache} = require('./manifest')
+const {loadTypeScript} = require('../lib/load-typescript')
 
 const DEFAULT_MAX_REPAIR_TURNS = 4
 const MAX_FAILURE_ERROR_LENGTH = 2000
+
+// The unit pipeline records every successful translation into the target's
+// progress state through its coordinator; the agentic provider bypasses that
+// coordinator, so it merges its translated results itself. Without this the
+// post-translation coverage validation (validate-translation) treats freshly
+// translated files as stale because neither the published translation
+// manifest nor the candidate cache knows the new source hashes yet.
+function mergeTranslatedResultsIntoProgressCache(siteDir, manifest, report) {
+  const {resolveTranslationTarget} = loadTypeScript('../../packages/docs-tooling/src/translation/targets.ts')
+  const target = resolveTranslationTarget(manifest.target)
+  if (!target.candidateState || target.candidateState.kind !== 'cache') return
+  const translated = report.results.filter(result => result && result.status === 'translated')
+  if (translated.length === 0) return
+  const cache = readCache(siteDir, target.locale)
+  for (const result of translated) {
+    cache.files[result.sourcePath] = {
+      sourceHash: result.sourceHash,
+      targetPath: result.targetPath,
+      translatedAt: report.checkpoint?.generatedAt || new Date().toISOString(),
+    }
+  }
+  writeCache(siteDir, target.locale, cache)
+}
 
 function stylePromptPathFor(target) {
   return promptNamesFor(target).style || null
@@ -379,6 +404,7 @@ async function main() {
   })
   fs.mkdirSync(path.dirname(path.resolve(options.reportPath)), {recursive: true})
   fs.writeFileSync(options.reportPath, `${JSON.stringify(report, null, 2)}\n`)
+  mergeTranslatedResultsIntoProgressCache(options.siteDir, manifest, report)
   if (process.env.GITHUB_OUTPUT) {
     fs.appendFileSync(process.env.GITHUB_OUTPUT, [
       `translated_count=${report.checkpoint.translated}`,
@@ -392,6 +418,7 @@ async function main() {
 
 module.exports = {
   DEFAULT_MAX_REPAIR_TURNS,
+  mergeTranslatedResultsIntoProgressCache,
   preflightAgent,
   buildAgenticTaskPrompt,
   protectedBytesRules,

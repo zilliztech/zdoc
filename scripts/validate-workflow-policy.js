@@ -1218,7 +1218,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
             [publishReady?.if, "${{ always() && needs.prepare.result == 'success' && (!inputs.publish || inputs.production_queue_owned || false) }}"],
             [aggregate?.if, "${{ always() && needs.prepare.result == 'success' && (!inputs.publish || inputs.production_queue_owned || false) }}"],
             [monitor?.with?.split_publication, "${{ inputs.publish && !(inputs.production_queue_owned || false) }}"],
-            [dispatchPublication?.if, "${{ always() && needs.prepare.result == 'success' && inputs.publish && !(inputs.production_queue_owned || false) }}"],
+            [dispatchPublication?.if, "${{ always() && inputs.publish && !(inputs.production_queue_owned || false) && needs.prepare.result == 'success' && (needs.translate_sdk.result == 'success' || needs.translate_sdk.result == 'skipped') && (needs.prepare_guides_publication_ready.result == 'success' || needs.prepare_guides_publication_ready.result == 'skipped') }}"],
           ],
         },
         allow_full_retranslate: {
