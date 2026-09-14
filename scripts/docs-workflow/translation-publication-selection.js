@@ -215,10 +215,35 @@ function buildTranslationPublicationReady({selection, unitKey, checkpointArchive
   }, {selection})
 }
 
+function authenticateTranslationPublicationReady({selection, readyDescriptors}) {
+  if (!readyDescriptors || typeof readyDescriptors !== 'object' || Array.isArray(readyDescriptors)) {
+    throw new Error('Authenticated ready descriptors must be an object keyed by unit key')
+  }
+  const readyUnitKeys = []
+  const missingUnitKeys = []
+  for (const unit of selection.units) {
+    const descriptor = readyDescriptors[unit.unitKey]
+    if (descriptor === undefined || descriptor === null) {
+      missingUnitKeys.push(unit.unitKey)
+      continue
+    }
+    const validated = validatePublicationReady(descriptor, {selection})
+    if (validated.unitKey !== unit.unitKey) throw new Error(`Translation ready descriptor unit mismatch for ${unit.unitKey}`)
+    readyUnitKeys.push(unit.unitKey)
+  }
+  if (readyUnitKeys.length === 0) {
+    throw new Error(`No authenticated publication-ready Translation unit in this run; missing: ${missingUnitKeys.join(', ')}`)
+  }
+  return Object.freeze({
+    readyUnitKeys: Object.freeze(readyUnitKeys),
+    missingUnitKeys: Object.freeze(missingUnitKeys),
+  })
+}
+
 function parseArguments(argv) {
   const command = argv[0]
   if (command === '--help') return {command: 'help', values: {}}
-  if (!['selection', 'ready'].includes(command)) throw new Error('Usage: translation-publication-selection.js <selection|ready> [options]')
+  if (!['selection', 'ready', 'authenticate-ready'].includes(command)) throw new Error('Usage: translation-publication-selection.js <selection|ready|authenticate-ready> [options]')
   const values = {}
   for (let index = 1; index < argv.length; index += 2) {
     const flag = argv[index]
@@ -248,7 +273,7 @@ function boolean(value, label) {
 function main(argv = process.argv.slice(2), env = process.env) {
   const {command, values} = parseArguments(argv)
   if (command === 'help') {
-    process.stdout.write('Usage: translation-publication-selection.js <selection|ready> [options]\n')
+    process.stdout.write('Usage: translation-publication-selection.js <selection|ready|authenticate-ready> [options]\n')
     return null
   }
   if (command === 'selection') {
@@ -270,6 +295,7 @@ function main(argv = process.argv.slice(2), env = process.env) {
     writePublicationDocument(required(values.output, 'output'), selection)
     return selection
   }
+  if (command === 'authenticate-ready') return runAuthenticateReady(values, env)
   const selection = readPublicationDocument(required(values.selection, 'selection'), 'publication-selection')
   const ready = buildTranslationPublicationReady({
     selection,
@@ -283,12 +309,47 @@ function main(argv = process.argv.slice(2), env = process.env) {
   return ready
 }
 
+function runAuthenticateReady(values, env) {
+  const selection = readPublicationDocument(required(values.selection || env.SELECTION, 'selection'), 'publication-selection')
+  const readyDir = required(values['ready-dir'] || env.READY_DIR, 'ready-dir')
+  if (typeof readyDir !== 'string' || !readyDir || /[\0\r\n]/u.test(readyDir)) throw new Error('Ready descriptor directory is invalid')
+  const readyDescriptors = {}
+  for (const unit of selection.units) {
+    const unitToken = unit.unitKey.replace(/\//gu, '-')
+    const descriptorFile = `${readyDir.replace(/\/$/u, '')}/${unitToken}/publication-ready.json`
+    if (!fs.existsSync(descriptorFile)) {
+      readyDescriptors[unit.unitKey] = null
+      continue
+    }
+    readyDescriptors[unit.unitKey] = JSON.parse(readPinnedFile(descriptorFile, 'Translation ready descriptor'))
+  }
+  const authenticated = authenticateTranslationPublicationReady({selection, readyDescriptors})
+  const report = {schemaVersion: 1, document: 'translation-ready-authentication', runId: selection.runId, runAttempt: selection.runAttempt, selectionSha256: selection.selectionSha256, ...authenticated}
+  if (values.output) {
+    fs.mkdirSync(path.dirname(path.resolve(values.output)), {recursive: true})
+    fs.writeFileSync(values.output, `${JSON.stringify(report, null, 2)}\n`)
+  }
+  const githubOutput = values['github-output'] || env.GITHUB_OUTPUT
+  if (githubOutput) {
+    fs.appendFileSync(githubOutput, [
+      `ready_count=${authenticated.readyUnitKeys.length}`,
+      `ready_unit_keys=${JSON.stringify(authenticated.readyUnitKeys)}`,
+      `missing_unit_keys=${JSON.stringify(authenticated.missingUnitKeys)}`,
+      '',
+    ].join('\n'))
+  } else {
+    process.stdout.write(`${JSON.stringify(report)}\n`)
+  }
+  return report
+}
+
 if (require.main === module) {
   try { main() } catch (error) { console.error(error.message); process.exitCode = 1 }
 }
 
 module.exports = {
   TRANSLATION_UNIT_KEYS,
+  authenticateTranslationPublicationReady,
   buildTranslationPublicationReady,
   buildTranslationPublicationSelection,
   bindAuthenticatedRecoveryPlan,

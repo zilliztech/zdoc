@@ -127,11 +127,18 @@ test('short production lock splits Translation publication into a dispatched pub
   // selection identity and uploads handoff metadata for the monitor.
   const dispatch = translateWorkflow.jobs.dispatch_publication;
   assert.ok(dispatch, 'dispatch_publication job must exist');
-  assert.deepEqual(dispatch.needs, ['prepare', 'translate_sdk', 'prepare_guides_publication_ready']);
-  // Publication must only be dispatched when every selected producer lane
-  // succeeded or was never selected; a failed producer must not create a
-  // publish run that can only reject it.
-  assert.equal(dispatch.if, "${{ always() && inputs.publish && !(inputs.production_queue_owned || false) && needs.prepare.result == 'success' && (needs.translate_sdk.result == 'success' || needs.translate_sdk.result == 'skipped') && (needs.prepare_guides_publication_ready.result == 'success' || needs.prepare_guides_publication_ready.result == 'skipped') }}");
+  assert.deepEqual(dispatch.needs, ['prepare', 'translate_sdk', 'prepare_guides_publication_ready', 'authenticate_publication_ready']);
+  // Publication granularity is the authenticated unit: dispatch requires the
+  // ready-unit authentication job to have proven at least one publishable
+  // unit, so a partially failed producer still publishes its ready units and
+  // a fully failed producer dispatches nothing.
+  const authenticate = translateWorkflow.jobs.authenticate_publication_ready;
+  assert.ok(authenticate, 'authenticate_publication_ready job must exist');
+  assert.equal(authenticate.needs[0], 'prepare');
+  assert.match(authenticate.if, /always\(\) && inputs\.publish/);
+  const authenticateStep = authenticate.steps.find(step => step.id === 'authenticate');
+  assert.match(String(authenticateStep?.run || ''), /translation-publication-selection\.js authenticate-ready/);
+  assert.equal(dispatch.if, "${{ always() && inputs.publish && !(inputs.production_queue_owned || false) && needs.prepare.result == 'success' && needs.authenticate_publication_ready.result == 'success' && needs.authenticate_publication_ready.outputs.ready_count != '0' && needs.authenticate_publication_ready.outputs.ready_count != '' }}");
   assert.equal(dispatch.permissions.actions, 'write');
   assert.equal(dispatch.permissions.contents, 'read');
   const dispatchRun = dispatch.steps.find(step => step.id === 'dispatch').run;

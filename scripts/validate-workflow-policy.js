@@ -1183,6 +1183,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const sdkProducer = workflow.jobs?.translate_sdk
       const publishReady = workflow.jobs?.publish_ready
       const aggregate = workflow.jobs?.aggregate
+      const authenticatePublicationReady = workflow.jobs?.authenticate_publication_ready
       const dispatchPublication = workflow.jobs?.dispatch_publication
       const stringDefault = input => `\${{ inputs.${input} || '' }}`
       const booleanDefault = input => `\${{ inputs.${input} || false }}`
@@ -1218,7 +1219,8 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
             [publishReady?.if, "${{ always() && needs.prepare.result == 'success' && (!inputs.publish || inputs.production_queue_owned || false) }}"],
             [aggregate?.if, "${{ always() && needs.prepare.result == 'success' && (!inputs.publish || inputs.production_queue_owned || false) }}"],
             [monitor?.with?.split_publication, "${{ inputs.publish && !(inputs.production_queue_owned || false) }}"],
-            [dispatchPublication?.if, "${{ always() && inputs.publish && !(inputs.production_queue_owned || false) && needs.prepare.result == 'success' && (needs.translate_sdk.result == 'success' || needs.translate_sdk.result == 'skipped') && (needs.prepare_guides_publication_ready.result == 'success' || needs.prepare_guides_publication_ready.result == 'skipped') }}"],
+            [authenticatePublicationReady?.if, "${{ always() && inputs.publish && !(inputs.production_queue_owned || false) }}"],
+            [dispatchPublication?.if, "${{ always() && inputs.publish && !(inputs.production_queue_owned || false) && needs.prepare.result == 'success' && needs.authenticate_publication_ready.result == 'success' && needs.authenticate_publication_ready.outputs.ready_count != '0' && needs.authenticate_publication_ready.outputs.ready_count != '' }}"],
           ],
         },
         allow_full_retranslate: {
@@ -1255,7 +1257,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       }
       const dispatchSource = JSON.stringify(dispatchPublication || {})
       const dispatchRun = String(dispatchPublication?.steps?.find(step => step?.id === 'dispatch')?.run || '')
-      if (JSON.stringify(dispatchPublication?.needs) !== JSON.stringify(['prepare', 'translate_sdk', 'prepare_guides_publication_ready']) ||
+      if (JSON.stringify(dispatchPublication?.needs) !== JSON.stringify(['prepare', 'translate_sdk', 'prepare_guides_publication_ready', 'authenticate_publication_ready']) ||
           dispatchPublication?.permissions?.actions !== 'write' || dispatchPublication?.permissions?.contents !== 'read' ||
           !/gh workflow run publish-translation\.yml/.test(dispatchSource) ||
           !/-f producer_run_id="\$PRODUCER_RUN_ID"/.test(dispatchRun) ||
