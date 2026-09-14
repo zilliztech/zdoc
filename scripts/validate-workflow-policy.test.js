@@ -70,7 +70,7 @@ test('publish-capable top-level workflows share the durable dev queue', () => {
   assert.deepEqual(requestedGuides.concurrency, {group: 'docs-production-dev', queue: 'max'})
   assert.deepEqual(tooling.concurrency, {group: 'docs-production-dev', queue: 'max'})
   assert.deepEqual(recovery.concurrency, {
-    group: "${{ inputs.publish && 'docs-production-dev' || format('translation-recovery-readonly-{0}', github.run_id) }}",
+    group: "${{ format('translation-recovery-readonly-{0}', github.run_id) }}",
     queue: 'max',
   })
   assert.deepEqual(offline.concurrency, {

@@ -19,18 +19,24 @@ test('operator recovery exposes only run identity, optional exact attempt, publi
   for (const forbidden of ['handoff_json', 'mode', 'recovery_run_ids_json', 'request_id']) assert.equal(inputs[forbidden], undefined)
 })
 
-test('recovery owns the production queue once, plans before model work, and calls internal Translation orchestration', () => {
+test('recovery stays off the production queue, plans before model work, and delegates publication to the short lock', () => {
   const source = fs.readFileSync('.github/workflows/recover-translation.yml', 'utf8')
   const workflow = yaml.load(source)
   assert.deepEqual(workflow.concurrency, {
-    group: "${{ inputs.publish && 'docs-production-dev' || format('translation-recovery-readonly-{0}', github.run_id) }}",
+    group: "${{ format('translation-recovery-readonly-{0}', github.run_id) }}",
     queue: 'max',
   })
   assert.deepEqual(workflow.jobs.run_translation.needs, ['prepare_recovery'])
   assert.equal(workflow.jobs.run_translation.uses, './.github/workflows/translate-codex.yml')
   assert.equal(workflow.jobs.run_translation.with.publish, '${{ inputs.publish }}')
   assert.equal(workflow.jobs.run_translation.with.mode, 'auto')
-  assert.equal(workflow.jobs.run_translation.with.production_queue_owned, true)
+  assert.equal(workflow.jobs.run_translation.with.production_queue_owned, false)
+  // With publish=true and production_queue_owned=false, the reusable call must
+  // route through dispatch_publication and the split monitor wiring so recovery
+  // publishes under the publish-translation.yml short lock like any producer.
+  const translation = yaml.load(fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8'))
+  assert.match(translation.jobs.dispatch_publication.if, /inputs\.publish && !\(inputs\.production_queue_owned \|\| false\)/)
+  assert.equal(translation.jobs.monitor_translation_progress.with.split_publication, "${{ inputs.publish && !(inputs.production_queue_owned || false) }}")
   assert.equal(workflow.jobs.run_translation.with.allow_full_retranslate, '${{ inputs.allow_full_retranslate }}')
   assert.equal(workflow.jobs.run_translation.with.handoff_json, '${{ needs.prepare_recovery.outputs.handoff_json }}')
   assert.equal(workflow.jobs.run_translation.with.recovery_bundle_artifact_name, '${{ needs.prepare_recovery.outputs.recovery_bundle_artifact_name }}')
