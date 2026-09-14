@@ -366,3 +366,28 @@ test('validatorCommandFor renders the repository validator invocation', () => {
   assert.match(command, /--target ja-JP/);
   assert.match(command, /--write-back false/);
 });
+
+test('mergeTranslatedResultsIntoProgressCache writes translated results into the cache candidate state', async () => {
+  const {mergeTranslatedResultsIntoProgressCache} = require('./agenticProvider');
+  await withSite(siteDir => {
+    const sourcePath = `${GE}/tutorials/home.md`;
+    const targetPath = `${GJ}/tutorials/home.md`;
+    const manifest = {target: 'ja-JP', locale: 'ja-JP', items: [{sourcePath, targetPath, sourceHash: 'a'.repeat(64)}]};
+    const report = {target: 'ja-JP', results: [
+      {sourcePath, targetPath, sourceHash: 'b'.repeat(64), status: 'translated'},
+      {sourcePath: `${GE}/tutorials/failed.md`, targetPath: `${GJ}/tutorials/failed.md`, sourceHash: 'c'.repeat(64), status: 'failed'},
+    ], checkpoint: {generatedAt: '2026-09-14T12:46:16.000Z'}};
+    mergeTranslatedResultsIntoProgressCache(siteDir, manifest, report);
+    const cache = JSON.parse(fs.readFileSync(path.join(siteDir, '.translation-cache/ja-JP.json'), 'utf8'));
+    assert.deepEqual(cache.files[sourcePath], {
+      sourceHash: 'b'.repeat(64),
+      targetPath,
+      translatedAt: '2026-09-14T12:46:16.000Z',
+    });
+    assert.equal(cache.files[`${GE}/tutorials/failed.md`], undefined);
+
+    const zhManifest = {target: 'zh-CN-reference', items: []};
+    mergeTranslatedResultsIntoProgressCache(siteDir, zhManifest, report);
+    assert.deepEqual(Object.keys(cache.files), [sourcePath]);
+  });
+});

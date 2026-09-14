@@ -128,7 +128,10 @@ test('short production lock splits Translation publication into a dispatched pub
   const dispatch = translateWorkflow.jobs.dispatch_publication;
   assert.ok(dispatch, 'dispatch_publication job must exist');
   assert.deepEqual(dispatch.needs, ['prepare', 'translate_sdk', 'prepare_guides_publication_ready']);
-  assert.equal(dispatch.if, "${{ always() && needs.prepare.result == 'success' && inputs.publish && !(inputs.production_queue_owned || false) }}");
+  // Publication must only be dispatched when every selected producer lane
+  // succeeded or was never selected; a failed producer must not create a
+  // publish run that can only reject it.
+  assert.equal(dispatch.if, "${{ always() && inputs.publish && !(inputs.production_queue_owned || false) && needs.prepare.result == 'success' && (needs.translate_sdk.result == 'success' || needs.translate_sdk.result == 'skipped') && (needs.prepare_guides_publication_ready.result == 'success' || needs.prepare_guides_publication_ready.result == 'skipped') }}");
   assert.equal(dispatch.permissions.actions, 'write');
   assert.equal(dispatch.permissions.contents, 'read');
   const dispatchRun = dispatch.steps.find(step => step.id === 'dispatch').run;

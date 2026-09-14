@@ -13,6 +13,7 @@ const GROUP_LABELS = translationGroupLabels()
 const SUPPORTED_UNITS = new Set([
   'ja-JP/guides',
   ...sdkGroupIds().filter(group => group !== 'rest').flatMap(group => [`ja-JP/${group}`, `zh-CN-reference/${group}`]),
+  'ja-JP/reference-landings',
   'zh-CN-reference/reference-landings',
 ])
 
