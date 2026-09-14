@@ -297,6 +297,31 @@ export function unseededReferencePreservedSourcePaths(repositoryRoot: string): R
   return paths;
 }
 
+const MASTER_TOOLING_SYNC_CONTRACT = 'deploy/contracts/master-tooling-sync.json';
+
+// Master-authoritative files (preserved landing pages such as the SDK landings and the
+// Guides home) reach the content branch through the reviewed master-to-dev tooling sync,
+// not through a Feishu fetch publication. Their bytes are pinned by the sync contract
+// itself (the candidate checkouts the exact reviewed master version), so reference
+// validation must not require them to match the last declared fetch snapshot; the next
+// fetch publication re-anchors the manifest to whatever bytes are current by then.
+export function masterAuthoritativeSourcePaths(repositoryRoot: string): ReadonlySet<string> {
+  const contractPath = path.join(repositoryRoot, MASTER_TOOLING_SYNC_CONTRACT);
+  if (!existsSync(contractPath)) return new Set();
+  const contract: unknown = JSON.parse(readFileSync(contractPath, 'utf8'));
+  if (typeof contract !== 'object' || contract === null || !Array.isArray((contract as {masterAuthoritativePaths?: unknown}).masterAuthoritativePaths)) {
+    throw new Error('Master tooling sync contract is invalid: masterAuthoritativePaths must be an array');
+  }
+  const paths = new Set<string>();
+  for (const entry of (contract as {masterAuthoritativePaths: unknown[]}).masterAuthoritativePaths) {
+    if (typeof entry !== 'string' || entry === '' || entry.startsWith('/') || entry.split('/').some(segment => segment === '' || segment === '.' || segment === '..')) {
+      throw new Error(`Master tooling sync contract path is invalid: ${String(entry)}`);
+    }
+    paths.add(entry);
+  }
+  return paths;
+}
+
 function repositoryFiles(repositoryRoot: string, relativeRoot: string): Map<string, string> {
   assertSafeRepositoryRelativePath(relativeRoot, 'Reference root');
   const absoluteRoot = assertSafeRepositoryPathChain(repositoryRoot, relativeRoot, 'Reference root');
