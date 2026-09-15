@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 This page lists the IAM policies required during the deployment of Zilliz BYOC data plane on your VPC network.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Zilliz BYOC is currently available in **General Availability**. For access and implementation details, please contact [Zilliz Cloud sales](https://zilliz.com/contact-sales).
 

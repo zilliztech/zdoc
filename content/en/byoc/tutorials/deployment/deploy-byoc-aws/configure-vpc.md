@@ -26,7 +26,7 @@ The Zilliz Cloud Bring-Your-Own-Cloud (BYOC) solution enables you to set up a pr
 
 This page enumerates the minimum requirements for you to host a Zilliz Cloud BYOC project in a customer-managed VPC that meets these requirements. 
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Zilliz BYOC is currently available in **General Availability**. For access and implementation details, please contact [Zilliz Cloud sales](https://zilliz.com/contact-sales).
 
@@ -116,7 +116,7 @@ The following table lists the AWS cloud regions the Zilliz Cloud BYOC solution s
 
 Zilliz Cloud recommends using the **/16** netmask in IPv4 CIDR settings for the VPC, allowing a public subnet and three private subnets to be created from the CIDR block.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Zilliz Cloud currently supports only IPv4 CIDR blocks.
 
@@ -246,7 +246,7 @@ Security groups in a VPC protect your AWS resources by controlling inbound and o
 
 VPC endpoint ensures secure cluster connectivity relay and enables private calls to Zilliz Cloud REST APIs. For guidance on managing VPC endpoints with the AWS Management Console, see the [AWS article Create VPC endpoints](https://docs.aws.amazon.com/vpc/latest/privatelink/create-interface-endpoint.html) in the AWS Management Console, or use the following procedure:
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 The VPC endpoint created in this section is used to set up an AWS PrivateLink. Once the VPC endpoint is ready, you must create a hosted zone and add some DNS records.
 

@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 This page lists all IAM permissions that Zilliz Cloud requires to perform operations during the setup of the control plan on your behalf. 
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Zilliz BYOC is currently available in **General Availability**. For access and implementation details, please contact [Zilliz Cloud sales](https://zilliz.com/contact-sales).
 

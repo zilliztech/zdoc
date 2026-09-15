@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 This page describes the procedure for creating and configuring the root storage for a Bring-Your-Own-Cloud (BYOC) project with proper permissions.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Zilliz BYOC is currently available in **General Availability**. For access and implementation details, please contact [Zilliz Cloud sales](https://zilliz.com/contact-sales).
 

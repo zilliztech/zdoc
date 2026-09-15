@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 This page describes how to create and configure a cross-account service account for Zilliz Cloud to bootstrap your project data plane. This service account grants Zilliz Cloud the necessary permissions to manage VPC resources on your behalf.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Zilliz BYOC is currently available in **General Availability**. For access and implementation details, please contact [Zilliz Cloud sales](https://zilliz.com/contact-sales).
 
@@ -137,7 +137,7 @@ The steps for creating a service account are as follows:
     | Kubernetes Engine Admin | GCP-managed | N/A |
     | Storage Object Viewer | GCP-managed | `resource.name.startsWith("projects/_/buckets/YOUR_BUCKET_NAME")` |
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     You need to replace the three placeholders in the above expression with actual values:
     
@@ -183,7 +183,7 @@ Follow the steps below to grant the cross-account service account access to thes
     | --- | --- |
     | `PROJECT_NUMBER-compute@developer.gserviceaccount.com` | This service account is automatically created when you enable the Compute Engine API. |
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     A GCP project has a project ID and a project number: A project ID is a string you have entered when you create the project on the GCP console, while a project number is a string that GCP allocates to the project upon its creation.
     

@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 This page describes how to create and configure a service account for Zilliz Cloud to deploy a Google Kubernetes Engine (GKE) cluster for your Zilliz Cloud project.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Zilliz BYOC is currently available in **General Availability**. For access and implementation details, please contact [Zilliz Cloud sales](https://zilliz.com/contact-sales).
 
@@ -62,7 +62,7 @@ The steps for creating a service account are as follows:
     resource.name.startsWith("projects/PROJECT_ID/locations/REGION/clusters/CLUSTER_NAME")
     ```
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     You need to replace the three placeholders in the above expression with actual values:
     

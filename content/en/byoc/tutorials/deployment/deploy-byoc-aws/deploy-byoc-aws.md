@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 This page describes how to manually create a fully managed Bring-Your-Own-Cloud (BYOC) data plane in your AWS Virtual Private Cloud (VPC) using the Zilliz Cloud console and custom AWS configurations.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - Zilliz BYOC is currently available in **General Availability**. For access and implementation details, please contact [Zilliz Cloud sales](https://zilliz.com/contact-sales).
 
@@ -137,7 +137,7 @@ Set **Zilliz BYOC Project Name**, and click **Create and Next**.The project is c
 
         ![LWMFbm73GoM8mFxjajCcaGqPnMO](https://zdoc-images.s3.us-west-2.amazonaws.com/lwmfbm73gom8mfxjajccagqpnmo.png "LWMFbm73GoM8mFxjajCcaGqPnMO")
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" title="Notes">
 
         - Your choice in **Project Size** does not affect the settings in **Tiered Storage Node**.
         

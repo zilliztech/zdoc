@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 This page describes how to create and configure an IAM role for Zilliz Cloud to deploy an EKS cluster for your Zilliz Cloud project.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Zilliz BYOC is currently available in **General Availability**. For access and implementation details, please contact [Zilliz Cloud sales](https://zilliz.com/contact-sales).
 
@@ -156,7 +156,7 @@ After you choose **Attach policies**, in the **Other permissions policies** sect
 
 You will find that these policies are listed in the **Permissions** policies list.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Upon the creation of an EKS cluster, two [service-linked roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html#iam-term-service-linked-role) will also be automatically created along with the cluster, and they are [AmazonEKSServiceRolePolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSServiceRolePolicy.html) and [AWSServiceRoleForAmazonEKSNodegroup](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSServiceRoleForAmazonEKSNodegroup.html). These two roles are required for Amazon EKS to call other AWS services on your behalf.
 

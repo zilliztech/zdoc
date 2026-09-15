@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 Bring Your Own Cloud (BYOC) is a deployment option for organizations to host applications and data in their own cloud accounts instead of using Zilliz Cloud's infrastructure. This solution is ideal for organizations with specific security requirements or regulatory compliance needs that require maintaining full data control sovereignty.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Zilliz BYOC is currently available in **General Availability**. For access and implementation details, please contact [Zilliz Cloud support](https://zilliz.com/contact-sales).
 

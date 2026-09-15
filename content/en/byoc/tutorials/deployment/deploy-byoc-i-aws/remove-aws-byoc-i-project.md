@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 This guide explains how to delete an AWS BYOC-I data plane from Zilliz Cloud first, wait until it disappears from the console, and then use the standard Terraform CLI to remove the customer-cloud infrastructure.
 
-<Admonition type="warning" icon="🚧" title="Warning">
+<Admonition type="warning" title="Warning">
 
 Deleting the data plane and enabling S3 `force_destroy` permanently removes Milvus data. Complete and verify any required backup before starting this procedure.
 
@@ -71,7 +71,7 @@ Before you begin, ensure that:
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 **Do not continue while a cluster is present.** A running, suspended, or deleting cluster still counts as present. Wait until the cluster list is empty.
 
@@ -105,7 +105,7 @@ Before you begin, ensure that:
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 **Do not run Terraform before the data plane has disappeared from the Zilliz Cloud console.** A *Deleting*, *Undeployed*, or otherwise visible data plane has not passed this gate. If deletion fails or the card remains visible, stop and resolve the console-side deletion first.
 
@@ -142,7 +142,7 @@ terraform-zilliz-examples/
 | `examples/aws-project-byoc-I/variables.tf` | Already declares the required `project_id`, `dataplane_id`, and optional `env` inputs. No deletion-specific edit is required. |
 | `examples/aws-project-byoc-I/provider.tf` | The empty `provider "zillizcloud"` block reads `ZILLIZCLOUD_API_KEY` from the environment. Do not put the key in this file. |
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 **If your repository uses different paths:** Start from the root module that contains `resource "zillizcloud_byoc_i_project"`. Follow the `source` value of `module "s3"` to locate its wrapper module, then make the same three logical changes. Do not edit files belonging to another project or a shared deployed copy without reviewing its callers.
 
@@ -219,7 +219,7 @@ lifecycle {
 }
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 S3 `force_destroy = true` must be successfully applied and stored in Terraform state before the bucket is destroyed. Do not combine this state update with the destroy operation.
 
@@ -251,7 +251,7 @@ variable "env" {
 }
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 The Terraform input is named `dataplane_id`. The Zilliz Cloud provider resource uses the attribute name `data_plane_id`. The commands below use the Terraform input name: `-var="dataplane_id=..."`.
 
@@ -259,7 +259,7 @@ The Terraform input is named `dataplane_id`. The Zilliz Cloud provider resource 
 
 The Zilliz Cloud provider reads its API key from `ZILLIZCLOUD_API_KEY`. Supply the API key for each Terraform command and pass the two required IDs using `-var`. This makes the apply and destroy commands self-contained.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 The Terraform output in `main.tf` uses `${local.dataplane_id}` and `${local.project_id}` because Terraform replaces those expressions when it renders the output. In commands typed manually, replace `<dataplane_id>` and `<project_id>` with the recorded values.
 
@@ -272,7 +272,7 @@ export AWS_PROFILE="<aws-profile>"
 aws sts get-caller-identity
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Do not commit the Zilliz Cloud API key or AWS access keys to `provider.tf`, `terraform.tfvars`, shell scripts, or pull requests. Use short-lived environment credentials or the approved CI/role-based authentication mechanism.
 
@@ -294,7 +294,7 @@ If workspaces are used and the displayed value is not the recorded workspace:
 terraform workspace select <workspace>
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Confirm the AWS caller identity, Region, backend, workspace, and variable files. Do not continue if any value differs from the deletion record.
 
@@ -328,7 +328,7 @@ Preserve any other original variable-file arguments as well.
 
 Enter `yes` only after these checks pass.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - The apply completed successfully and the S3 bucket state now contains `force_destroy = true`. Editing the configuration without a successful apply does not satisfy this requirement.
 
@@ -340,7 +340,7 @@ Enter `yes` only after these checks pass.
 
 Use the same directory, backend, workspace, credentials, and variable files as the successful preparation apply.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 For this CLI workflow, keep `examples/aws-project-byoc-I/main.tf` and the referenced modules unchanged after the preparation apply. Terraform reads the existing configuration and state when running `terraform destroy`. Removing files first can make provider, variable, or dependency information unavailable.
 
@@ -360,7 +360,7 @@ Use exactly the same IDs and optional `env` or variable-file arguments as the su
 
 - The plan uses the same backend and workspace as the preparation apply.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - Do not enter `yes` until the displayed destroy plan has been reviewed and approved by the data owner and infrastructure owner. The S3 objects removed by this operation cannot be recovered.
 

@@ -122,7 +122,7 @@ Zilliz Cloud ensures secure connections:
 
 - Exclusively supports TLS 1.2 or higher.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Two-way TLS (mTLS) is currently not available. 
 

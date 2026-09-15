@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 A text embedding or reranking model hosted by an external provider cannot be called from Zilliz Cloud until the provider can authenticate requests from your project. A **model provider integration** stores the provider-issued credential at the project level and gives Zilliz Cloud an integration ID that text embedding and reranking features can reference. This avoids placing credentials in individual Function or Ranker configurations.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Creating a model provider integration does not incur charges. The external provider may charge for model inference, and sending data to the provider may incur [data transfer costs](./data-transfer-cost).
 
@@ -43,7 +43,7 @@ The following model providers can be integrated with Zilliz Cloud:
 | **Voyage AI** | Text Embedding Function and model-based Ranker | API key. To obtain one, see [API Key and Python Client](https://docs.voyageai.com/docs/api-key-and-installation). |
 | **Hugging Face** | [Text Embedding Function](./hugging-face) and [Hugging Face Ranker](./hugging-face-ranker) | User Access Token with **Make calls to Inference Providers** permission. To obtain one, see [User Access Tokens](https://huggingface.co/docs/hub/en/security-tokens). |
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 When selecting a model from an external provider, verify that the provider currently serves the model for the required task. Model availability, task support, stability, latency, and output quality depend on the provider and selected model. Evaluate these properties for your workload before using the model in production.
 
@@ -107,7 +107,7 @@ After an integration is created, you can manage it from the **Integrations** pag
 
 - Remove the integration when it is no longer needed
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 If an integration is removed or becomes invalid, collections or rankers that reference it may fail during insert or search operations until the integration is updated or replaced.
 

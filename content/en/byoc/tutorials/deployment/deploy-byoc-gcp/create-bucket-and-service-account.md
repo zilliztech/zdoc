@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 This page describes the procedure for creating and configuring the root storage for your Bring-Your-Own-Cloud (BYOC) project with proper permissions.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Zilliz BYOC is currently available in **General Availability**. For access and implementation details, please contact [Zilliz Cloud sales](https://zilliz.com/contact-sales).
 
@@ -110,7 +110,7 @@ The steps to create the storage service account are as follows:
         resource.name.startsWith("projects/_/buckets/YOUR_BUCKET_NAME")
         ```
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" title="Notes">
 
         You should replace `YOUR_BUCKET_NAME` with the name of the bucket created in the previous step.
 
@@ -128,7 +128,7 @@ The steps to create the storage service account are as follows:
         resource.name.startsWith("projects/_/buckets/YOUR_BUCKET_NAME")
         ```
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" title="Notes">
 
         **Condition builder** and **Condition editor** are equivalent ways to set conditions. In either case, you should replace `YOUR_BUCKET_NAME` with the name of the bucket created in the previous step.
 

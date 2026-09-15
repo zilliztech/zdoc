@@ -63,7 +63,7 @@ Zilliz Cloud, as a fully managed vector database service, delivers enterprise-gr
 | **Enterprise Multi-Replica** | Active-active multi-replica architecture within region; read/write separation with fast failover | 0 seconds | ≤10 seconds | Cross-AZ writes; inter-replica sync via WAL | AZ-level failure<br/>AZs: 3<br/>Regions: 1 | 99.99% | Medium–High |
 | **Cross-Region HA** | Multi-region/multi-cloud deployment with global load balancing | ≤10 seconds | Manual or auto failover:<br/>Auto: ≤3 minutes | Synchronous writes across AZs; asynchronous replication to other regions/clouds | Region-level failure<br/>AZs: ≥3<br/>Regions: ≥2 | 99.99% | High |
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Cross-region HA will be available in November 2025. 
 
@@ -203,7 +203,7 @@ Zilliz Cloud uses a compute-storage disaggregated architecture with three data t
 
 - In extreme failover scenarios, data loss < 10 seconds
 
-<Admonition type="info" icon="📘" title="Notes:">
+<Admonition type="info" title="Notes:">
 
 **The roadmap for 2026:** Achieve **RPO = 0** with cross-region Woodpecker
 

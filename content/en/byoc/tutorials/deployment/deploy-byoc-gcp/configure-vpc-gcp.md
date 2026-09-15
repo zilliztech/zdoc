@@ -28,7 +28,7 @@ The Zilliz Cloud Bring-Your-Own-Cloud (BYOC) solution enables you to set up a pr
 
 This page enumerates the minimum requirements for hosting a Zilliz Cloud BYOC project in a customer-managed VPC that meets these requirements. 
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Zilliz BYOC is currently available in **General Availability**. For access and implementation details, please contact [Zilliz Cloud sales](https://zilliz.com/contact-sales).
 
@@ -91,7 +91,7 @@ The following table lists the Google Cloud Platform (GCP) regions the Zilliz Clo
 
 Zilliz Cloud recommends using the **/18** netmask in IPv4 CIDR settings for the VPC, allowing a public subnet and three private subnets to be created from the CIDR block.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Zilliz Cloud currently supports only IPv4 CIDR blocks.
 

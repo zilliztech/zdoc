@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 This page describes how to create and configure a cross-account role for Zilliz Cloud to bootstrap your project data plane. This role gives Zilliz Cloud restricted permissions to manage VPC resources on your behalf.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Zilliz BYOC is currently available in **General Availability**. For access and implementation details, please contact [Zilliz Cloud sales](https://zilliz.com/contact-sales).
 

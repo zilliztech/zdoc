@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 This page explains how to deploy a Bring-Your-Own-Cloud (BYOC) data plane with a BYOC agent in your GCP Virtual Private Cloud (VPC).
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - Zilliz BYOC is currently available in **General Availability**. For access and implementation details, please contact [Zilliz Cloud support](https://zilliz.com/contact-sales).
 
@@ -182,7 +182,7 @@ The project is created at the end of this step, and you will be redirected to th
 
         ![ZOTXbgWJgoPQbox8PyYcdlwDnqe](https://zdoc-images.s3.us-west-2.amazonaws.com/zotxbgwjgopqbox8pyycdlwdnqe.png "ZOTXbgWJgoPQbox8PyYcdlwDnqe")
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" title="Notes">
 
         - Your choice in **Project Size** does not affect the settings in **Tiered Storage Node**.
         

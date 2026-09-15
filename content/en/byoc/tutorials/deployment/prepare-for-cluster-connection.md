@@ -97,7 +97,7 @@ The diagram above illustrates the traffic flow from your client application to B
 
 1. Copy the **Cluster Endpoint** — it is in the format `https://${cluster-id}-internal.${region}.byoc.vectordb.zillizcloud.com:19530`.
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     For those BYOC clusters deployed using Terraform, you can also retrieve their endpoints from the Terraform output.
 
@@ -121,7 +121,7 @@ As illustrated in the diagram above, traffic between the client application and 
 
 The cluster endpoint (`*.${region}.byoc.vectordb.zillizcloud.com`) resolves to a public address managed by Zilliz Cloud. Therefore, each client virtual network must override DNS resolution by adding a DNS record that points the wildcard domain to the virtual network's private IP addresses.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 If you deselect the private endpoint option during the data plane deployment and require private endpoint access, [contact us](https://support.zilliz.com/hc/en-us/requests/new) so that we can enable the gateway deployment in your data plane. 
 
