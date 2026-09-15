@@ -122,7 +122,7 @@ Zilliz Cloud 确保安全连接：
 
 - 仅支持 TLS 1.2 或更高版本。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 目前尚不支持双向TLS（mTLS）。
 

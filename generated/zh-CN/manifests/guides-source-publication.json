@@ -608,7 +608,7 @@
   "records": [
     {
       "path": "content/zh-CN/byoc/tutorials/client-libraries/install-sdks.md",
-      "sha256": "d7519fd294b599b517ea56befdad5182b79ee38ddd62d4bbe9746f0a4d10e427",
+      "sha256": "fded7b6eea7624d75509eb6654fb42048e2dc69d7ac1034c8b089f7e287b8da4",
       "docToken": "Jo4bwNi6zi4zlHkN2bWcewFYnDc",
       "revisionId": "722"
     },
@@ -1970,13 +1970,13 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/product-architecture/data-resilience.md",
-      "sha256": "27326d68f7f79daa66e072f2d921b52089a6238513833b562f2e12f11dedd580",
+      "sha256": "52215775e429dd1eab4fafbc9f2c0336bebac410feacb55716ef94bb2bd6415b",
       "docToken": "MJ6QwAPKRiHs6pkkNELc2WfinOs",
       "revisionId": "306"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/product-architecture/data-security.md",
-      "sha256": "dcd767e44720f7df248929303667ace928b9fcda38a846b9280c6e889ee90b4d",
+      "sha256": "ee566f5444285ac695dd0296d250879086e28db7d561130074a997b858e1e2cb",
       "docToken": "E7X4wc69bibTo4kFfNic5hBVnhb",
       "revisionId": "457"
     },
@@ -2090,19 +2090,19 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/tools/terraform-provider.md",
-      "sha256": "e22a603ce9f9bdd0b0f9d3f3c1427c3c65dbd0a52f6e63a2459456e4fa0e2f8b",
+      "sha256": "644f3d844e1a6ffb6354e953f7d06593bb8da3102794ae5a24f9ac01048c27b6",
       "docToken": "GMnbw5a3kigAudkf5TqcaBJFnkd",
       "revisionId": "22"
     },
     {
       "path": "content/zh-CN/guides/tutorials/ai-models/integrate-with-model-providers.md",
-      "sha256": "b4c8c60af41a90b5e3756617491121bb7bb5a9edeb08aaefc6efa1a2965b948c",
+      "sha256": "2478ce241d51a231e4437d2b72f8cd2e37b6e20de4b916920369757329848c6a",
       "docToken": "Psarw6886iSZAvkYGnnclLBgnVd",
       "revisionId": "287"
     },
     {
       "path": "content/zh-CN/guides/tutorials/client-libraries/install-sdks.md",
-      "sha256": "e9f52cfc665963a0e6e0edfc90a827e7ca3481ce1458b2f7e3f26e9fd33e671a",
+      "sha256": "23b48c7c01e6750f9f6187a9ac6dce15a009e4e51402005d3e1cfee20e7adac9",
       "docToken": "Jo4bwNi6zi4zlHkN2bWcewFYnDc",
       "revisionId": "722"
     },
@@ -4028,13 +4028,13 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/product-architecture/data-resilience.md",
-      "sha256": "5a9851f2fba78ddd7c84deb6574f673e9ccbf05f76f568ee8d232262d670c2ff",
+      "sha256": "7fa42199809e32551dacb74d179bceb3dffbac45709deef7992ff19ccb72a181",
       "docToken": "MJ6QwAPKRiHs6pkkNELc2WfinOs",
       "revisionId": "306"
     },
     {
       "path": "content/zh-CN/guides/tutorials/product-architecture/data-security.md",
-      "sha256": "eb943fc02ebe260fdfab7ae2579a4fd312a10a776d31f4552807b2b12872e4b2",
+      "sha256": "378a48330025e1a3991b9b793211c861d7564d8b19ca0a295cf0b1034a8ed41e",
       "docToken": "E7X4wc69bibTo4kFfNic5hBVnhb",
       "revisionId": "457"
     },
@@ -4190,7 +4190,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/tools/terraform-provider.md",
-      "sha256": "2e6b9c56380445f4c2e1604b0dbeefe18796c3999c77fafc4c6fad34b8327e8f",
+      "sha256": "8797c56d58bb117618e3f1569db30bf9c0d6dde325ccbf2c39aa4a2e14b177cc",
       "docToken": "GMnbw5a3kigAudkf5TqcaBJFnkd",
       "revisionId": "22"
     },

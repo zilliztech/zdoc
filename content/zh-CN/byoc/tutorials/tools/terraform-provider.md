@@ -52,7 +52,7 @@ Zilliz 提供全托管 Milvus 服务，在安全设计的基础上简化向量�
 
 你可以使用 Zilliz Cloud Terraform Provider 创建和管理任何特定产品形态的 clusters。详情请参阅以下教程：
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="注意">
 
 在 BYOC 中使用 Terraform Provider 时，仅支持 dedicated 和 BYOC cluster 类型。BYOC projects 中不支持创建 Free 和 Serverless clusters。
 

@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 在外部服务商托管的文本 Embedding 模型或重新排序模型，必须先让该服务商能够对来自你项目的请求进行身份验证，Zilliz Cloud 才能调用该模型。**模型服务集成**在项目级别存储服务商颁发的凭证，并为 Zilliz Cloud 提供一个可供文本 Embedding 和重新排序功能引用的集成 ID。这样便无需在各个 Function 或 Ranker 配置中分别填写凭证。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 创建模型服务集成不会产生费用。外部服务商可能会收取模型推理费用，向服务商发送数据也可能产生[数据传输费用](./data-transfer-cost)。
 
@@ -42,7 +42,7 @@ import Procedures from '@site/src/components/Procedures';
 | **Cohere** | Text Embedding Function 和基于模型的 Ranker | API 密钥。获取方法请参阅 [API 密钥和速率限制](https://docs.cohere.com/docs/rate-limits)。 |
 | **Voyage AI** | Text Embedding Function 和基于模型的 Ranker | API 密钥。获取方法请参阅 [API 密钥和 Python 客户端](https://docs.voyageai.com/docs/api-key-and-installation)。 |
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 从外部服务提供商选择模型时，请确认该服务商当前为所需任务提供此模型。模型可用性、任务支持情况、稳定性、延迟和输出质量取决于服务商及所选模型。在生产环境中使用模型之前，请针对你的工作负载评估这些属性。
 
@@ -102,7 +102,7 @@ import Procedures from '@site/src/components/Procedures';
 
 - 在不再需要时删除该集成
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 如果某个集成被移除或变为无效，引用该集成的 Collection 或 Ranker 在执行插入或搜索操作时可能会失败，直到该集成被更新或替换。
 
