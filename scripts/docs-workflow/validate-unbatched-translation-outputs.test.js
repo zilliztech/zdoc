@@ -529,3 +529,63 @@ test('reconcile-only Chinese Reference run accepts a workspace source commit mat
     fs.rmSync(root, {recursive: true, force: true})
   }
 })
+
+test('accepts the Guides home as a guides-type Chinese reference-landings candidate without manifest state', () => {
+  const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'unbatched-reference-home-')))
+  const baseline = path.join(root, 'baseline')
+  fs.mkdirSync(baseline)
+  const source = '# Home refreshed\n'
+  const target = '# 主页\n'
+  const home = {
+    ...item({sourcePath: 'content/en/guides/tutorials/home.md', targetPath: 'content/zh-CN/guides/tutorials/home.md', source}),
+    // The manifest source mappings assign the Guides-tree source the guides type.
+    type: 'guides',
+  }
+  write(root, home.sourcePath, source)
+  write(root, home.targetPath, target)
+  fs.mkdirSync(path.join(root, 'content/en/reference'), {recursive: true})
+  writeJson(root, 'generated/en/manifests/reference.json', {
+    schemaVersion: 1,
+    sourceCommit: SOURCE_COMMIT,
+    records: [],
+  })
+  writeJson(baseline, 'generated/zh-CN/manifests/reference-translations.json', {schemaVersion: 1, records: []})
+  // The home translation deliberately has no reference-manifest record.
+  writeJson(root, 'generated/zh-CN/manifests/reference-translations.json', {schemaVersion: 1, records: []})
+  writeJson(root, 'tmp/translation-manifest.json', manifest('zh-CN-reference', [home], 'reference-landings'))
+  writeJson(root, 'tmp/translation-report.json', report('zh-CN-reference', [translatedResult(home)]))
+
+  const outcome = validate(root, {translated: 1, failed: 0})
+  assert.equal(outcome.candidateCount, 1)
+  assert.equal(outcome.target, 'zh-CN-reference')
+
+  // Recording the home in the reference manifest is a state-ownership violation.
+  const state = JSON.parse(fs.readFileSync(path.join(root, 'generated/zh-CN/manifests/reference-translations.json'), 'utf8'))
+  state.records = [{
+    manual: 'guides', sourcePath: home.sourcePath, targetPath: home.targetPath,
+    sourceCommit: SOURCE_COMMIT, sourceHash: home.sourceHash, targetHash: sha256(target), status: 'translated',
+  }]
+  writeJson(root, 'generated/zh-CN/manifests/reference-translations.json', state)
+  assert.throws(() => validate(root, {translated: 1, failed: 0}), /must not be recorded in the Reference translation manifest/i)
+
+  // Any other Guides-tree candidate stays rejected: the exemption is the one
+  // declared landing seed, not a general guides hole.
+  delete state.records
+  writeJson(root, 'generated/zh-CN/manifests/reference-translations.json', {schemaVersion: 1, records: []})
+  const rogue = {
+    ...item({sourcePath: 'content/en/guides/tutorials/rogue.md', targetPath: 'content/zh-CN/guides/tutorials/rogue.md', source: '# Rogue\n'}),
+    type: 'guides',
+  }
+  write(root, rogue.sourcePath, '# Rogue\n')
+  write(root, rogue.targetPath, '# 流氓\n')
+  writeJson(root, 'tmp/translation-manifest.json', manifest('zh-CN-reference', [rogue], 'reference-landings'))
+  writeJson(root, 'tmp/translation-report.json', report('zh-CN-reference', [translatedResult(rogue)]))
+  assert.throws(() => validate(root, {translated: 1, failed: 0}), /candidate identity is invalid/i)
+
+  // A home candidate that claims the reference type is an identity mismatch.
+  const mistyped = {...home, type: 'reference'}
+  writeJson(root, 'tmp/translation-manifest.json', manifest('zh-CN-reference', [mistyped], 'reference-landings'))
+  writeJson(root, 'tmp/translation-report.json', report('zh-CN-reference', [translatedResult(mistyped)]))
+  assert.throws(() => validate(root, {translated: 1, failed: 0}), /type mismatch|candidate identity is invalid/i)
+  fs.rmSync(root, {recursive: true, force: true})
+})
