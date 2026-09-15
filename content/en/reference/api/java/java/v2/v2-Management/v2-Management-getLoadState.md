@@ -70,7 +70,7 @@ getLoadState(GetLoadStateReq.builder()
 
 A Boolean value that indicates the status of the specified collection or partition. 
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 A collection is in the loaded state if any or all of its partitions are loaded.
 

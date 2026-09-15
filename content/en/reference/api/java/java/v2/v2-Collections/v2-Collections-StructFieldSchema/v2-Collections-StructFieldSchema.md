@@ -37,7 +37,7 @@ A **StructFieldSchema** instance represents the schema of the Struct elements in
 io.milvus.v2.service.collection.request.CreateCollectionReq.StructFieldSchema
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This class cannot be explicitly instantiated. You need to describe a collection with an Array of Structs field to view its instances.
 

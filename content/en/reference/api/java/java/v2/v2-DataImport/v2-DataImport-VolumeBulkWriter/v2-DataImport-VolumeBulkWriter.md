@@ -37,7 +37,7 @@ Configures a VolumeBulkWriter, including its collection schema, output path, and
 public class VolumeBulkWriter
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 A **VolumeBulkWriter** object intends to rewrite your raw data to a Zilliz Cloud Volume in a format that Milvus understands.
 

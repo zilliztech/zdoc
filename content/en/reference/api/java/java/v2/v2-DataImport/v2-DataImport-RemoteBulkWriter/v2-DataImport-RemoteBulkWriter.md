@@ -41,7 +41,7 @@ io.milvus.bulkwriter.RemoteBulkWriter
 
 Constructs a **RemoteBulkWriter** instance with a set of parameters, such as **schema**, **remote_path**, **connect_param,** etc.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 A **RemoteBulkWriter** object intends to rewrite your raw data in a format that Milvus understands into an AWS-S3-compatible or a Microsoft Azure Blob Storage bucket.
 
@@ -92,7 +92,7 @@ RemoteBulkWriterParam.newBuilder()
 
     The value defaults to **536,870,912** in bytes, which is **512 MB**.
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     How does BulkWriter segment my data?
     

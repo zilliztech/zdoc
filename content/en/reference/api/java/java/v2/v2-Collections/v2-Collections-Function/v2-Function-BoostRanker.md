@@ -74,7 +74,7 @@ BoostRanker.builder()
 
     The filter expression that will be used to match entities among search result entities. It can be any valid basic filter expression mentioned in [Filtering Explained](https://milvus.io/docs/boolean.md).
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     Only use basic operators, such as `==`, `>`, or `<`. Using advanced operators, such as `text_match` or `phrase_match`, will degrade search performance.
 

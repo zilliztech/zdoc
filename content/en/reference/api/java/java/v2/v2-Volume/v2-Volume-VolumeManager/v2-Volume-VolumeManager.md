@@ -37,7 +37,7 @@ A `VolumeManager` instance maintains a connection to Zilliz Cloud's Volume servi
 io.milvus.bulkwriter.VolumeManager
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 A volume is an intermediate storage spot where you can hold your data for further processing, such as data merging, migration, or importing. For details, refer to  Managed Volumes and External Volumes.
 
