@@ -1465,7 +1465,16 @@ function compareCanonicalText(left, right) {
   return left < right ? -1 : left > right ? 1 : 0
 }
 
+// The Guides home is the single declared landing seed whose translation
+// state belongs to the Guides publication lane, not to the Chinese
+// reference-translations manifest: recording it there would assert reference
+// ownership over a Guides-tree file. Its results still flow through the
+// report, recovery artifacts, and output validation; only the manifest write
+// is skipped. Any other Guides-tree item reaching this path keeps failing.
+const REFERENCE_LANDING_GUIDES_HOME = 'content/en/guides/tutorials/home.md'
+
 function updateReferenceProgressState(siteDir, progressState, result) {
+  if (result.sourcePath === REFERENCE_LANDING_GUIDES_HOME) return
   const sourceManifest = parseReferenceSourceManifest(readJsonIfPresent(
     siteDir,
     'generated/en/manifests/reference.json',
@@ -1506,6 +1515,7 @@ function updateReferenceProgressState(siteDir, progressState, result) {
 }
 
 function updateFailedReferenceProgressState(siteDir, progressState, result) {
+  if (result.sourcePath === REFERENCE_LANDING_GUIDES_HOME) return
   if (fs.existsSync(path.join(siteDir, result.targetPath))) return
   const sourceManifest = parseReferenceSourceManifest(readJsonIfPresent(
     siteDir,
