@@ -498,3 +498,36 @@ test('uploads keep using the same-run actions client under the REST download tra
   assert.equal(calls.length, 1)
   fs.rmSync(root, {recursive: true, force: true})
 })
+
+test('uploads await the lazily loaded default actions client under the REST download transport', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'publication-rest-upload-default-'))
+  const selected = selection()
+  const scheduler = createPublicationScheduler({selection: selected})
+  scheduler.observeJobs([{id: 1, name: 'produce_java / produce', run_attempt: 2, status: 'completed', conclusion: 'success', completed_at: '2026-08-04T08:00:00.000Z'}])
+  scheduler.observeCandidate('source/java', {status: 'rejected', failure: {code: 'CANDIDATE_REJECTED', phase: 'candidate', message: 'rejected', retryable: false}})
+  scheduler.nextDecision()
+  const results = scheduler.results({startedAt: '2026-08-04T08:00:00.000Z', completedAt: '2026-08-04T08:00:02.000Z'})
+  const file = path.join(root, 'publication-results.json')
+  writePublicationDocument(file, results, {selection: selected})
+  const calls = []
+  const uploadClient = {async uploadArtifact(...args) { calls.push(args); return {id: 23} }, async downloadArtifact() { throw new Error('not used') }}
+  // The split publisher runs the REST transport without an injected client,
+  // so uploads resolve the same-run actions client through the lazy loader,
+  // which yields a Promise exactly like the dynamic ESM import in production.
+  const github = createPublicationGitHubClient({
+    token: 'token',
+    repository: 'zilliztech/zdoc',
+    runId: 123,
+    runAttempt: 2,
+    fetchImpl: fakeFetch([response({jobs: []})]),
+    artifactTransport: 'rest',
+    loadDefaultArtifactClient: () => Promise.resolve(uploadClient),
+    runnerTemp: root,
+    sleep: async () => {},
+  })
+  const result = await github.uploadResults({selection: selected, results, file})
+  assert.equal(result.artifactId, 23)
+  assert.equal(result.artifactName, 'publication-results-fetch-123-2')
+  assert.equal(calls.length, 1)
+  fs.rmSync(root, {recursive: true, force: true})
+})
