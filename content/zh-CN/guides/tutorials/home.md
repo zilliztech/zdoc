@@ -1,24 +1,24 @@
 ---
 title: "首页 | Cloud"
 slug: /home
+displayed_sidebar: default
+sidebar_key: home
 sidebar_label: "首页"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "此页为 Zilliz Cloud 开发者中心的首页。 | Cloud"
 type: origin
-token: KXgEwDH8yifWxukkXXFctMdLnpg
+token: I5PAwH8MFi67Myky6EYcAxuVnNe
 sidebar_position: 1
-displayed_sidebar: default
 keywords: 
-  - Zilliz
-  - 向量 Database
-  - 快速开始
-  - 开发者中心
+  - 向量数据库
+  - zilliz
+  - milvus
+  - 大模型向量数据库
   - 首页
-  - 主页
 
 hide_title: true
 hide_table_of_contents: true
@@ -49,13 +49,13 @@ import Banner from '@site/src/components/Banner';
 
 <Hero>
 
-# 从容构建，为您的 AI 应用注入强劲动力\{#build-with-confidence-and-supercharge-your-ai-applications}
+# 从容构建、为您的 AI 应用注入强劲动力\{#ai}
 
-Zilliz Cloud 提供完全托管的 Milvus 服务，简化向量搜索应用的部署与扩缩容，并兼顾安全性。
+Zilliz Cloud 提供完全托管的 Milvus 服务，简化您的向量检索应用的部署和扩缩容流程，并提供相应的安全保障，将您从复杂运维流程中解放出来。
 
-## 基础向量搜索\{#basic-vector-search}
+## Basic Vector Search\{#basic-vector-search}
 
-执行近似最近邻（ANN）搜索，找出与您的查询向量最相似的向量。[了解更多](./single-vector-search)。
+执行相似最近邻（ANN）搜索，找出与您提供的查询微量最接近的候选向量。[了解更多](./single-vector-search)。
 
 ```json
 // Dataset: 3 items with vectors and color metadata
@@ -182,9 +182,9 @@ curl --request POST \
 }'
 ```
 
-## 过滤搜索\{#filtered-search}
+## Filtered Search\{#filtered-search}
 
-在向量搜索之前应用元数据过滤条件来缩小搜索范围，以提升结果的相关性。[了解更多](./filtered-search)。
+在向量搜索前使用元数据过滤缩小搜索范围，从而提升搜索结果的相关性。[了解更多](./filtered-search)。
 
 ```json
 // Dataset: 3 items with vectors and color metadata
@@ -272,9 +272,9 @@ curl --request POST \
 }'
 ```
 
-## 分组搜索\{#grouping-search}
+## Grouping Search\{#grouping-search}
 
-按某个字段对搜索结果进行分组，以便在更高层面聚合数据，并提升结果的多样性。[了解更多](./grouping-search)。
+按指定字段为搜索结果分组，从而在更高维度上整合搜索结果，提升搜索结果的多样性。[了解更多](./grouping-search)。
 
 ```json
 // Dataset: 3 items from different documents (docId)
@@ -360,9 +360,9 @@ curl --request POST \
 }'
 ```
 
-## 多向量混合搜索\{#hybrid-search}
+## Hybrid Search\{#hybrid-search}
 
-组合多个向量字段，对文本、图像等进行多模态搜索。[了解更多](./hybrid-search)。
+结合多向量列，实现跨文本、图像及更多非结构化数据的相似性搜索。[了解更多](./hybrid-search)。
 
 ```json
 // Dataset: 3 items with text and image embeddings
@@ -492,9 +492,9 @@ curl --request POST \
 }'
 ```
 
-## 全文搜索\{#full-text-search}
+## Full Text Search\{#full-text-search}
 
-使用关键字匹配和 BM25 相关性评分搜索文本，实现精确的词项检索。[了解更多](./full-text-search)。
+通过 BM25 相似性得分实现搜索关键词的精确匹配。[了解更多](./full-text-search)。
 
 ```json
 // Dataset: 3 text documents with BM25 sparse embeddings
@@ -585,9 +585,9 @@ curl --request POST \
 }'
 ```
 
-## 搜索迭代器\{#search-iterator}
+## Search Iterator\{#search-iterator}
 
-通过分页迭代检索超过 16,384 条上限的大规模搜索结果。[了解更多](./with-iterators)。
+突破 16,384 的召回上限，实现大规模搜索结果的分页迭代。[了解更多](./with-iterators)。
 
 ```json
 // Dataset: First 3 items with vectors
@@ -696,9 +696,9 @@ curl --request POST \
 }'
 ```
 
-## 查询\{#query}
+## Query\{#query}
 
-在不进行向量搜索的情况下，通过标量字段或主键过滤来检索 Entity。[了解更多](./get-and-scalar-query)。
+通过元数据或主键过滤来获取相关 Entity。[了解更多](./get-and-scalar-query)。
 
 ```json
 // Dataset: 3 items with vectors and color metadata
@@ -778,149 +778,123 @@ curl --request POST \
 
 <Bars>
 
-选择项目[版本](./select-zilliz-cloud-service-plans)，并在该项目中创建不同部署方式的集群。
+Zilliz Cloud 提供如下集群部署方式：
 
-- [Free](./create-cluster#create-a-free-cluster)
+- [Free](./create-cluster-on-demand#set-up-a-free-cluster)
 
-- [Serverless](./create-cluster#create-a-serverless-cluster)
+- [Serverless](./create-cluster-on-demand#create-a-serverless-cluster)
 
-- [Dedicated](./create-cluster#create-a-dedicated-cluster)
+- [Dedicated](./create-cluster-on-demand#create-a-dedicated-cluster)
 
- [不确定该选择哪种部署方式？](https://zilliz.com/pricing)
+[不清楚如何选择合适的部署方式？](https://zilliz.com.cn/pricing)
 
 </Bars>
 
 <Stories>
 
-# 在 Zilliz Cloud 中使用您的数据\{#work-with-your-data-in-zilliz-cloud}
+# 在 Zilliz Cloud 上使用您的数据\{#zilliz-cloud}
 
-## 让计算资源靠近您的数据\{#bring-compute-resources-to-your-data}
+## 使用自带向量数据\{#}
 
-1. 设置存储集成。
+1. 创建并连接您的 Zilliz Cloud 集群。
 
-    将 AWS S3 存储桶、Google Cloud Storage 存储桶或 Microsoft Azure Blob 存储容器与 Zilliz Cloud 集成。
-
-1. 创建 [External Volume](./external-volume)。
-
-    将集成存储中的某个路径或整个外部存储用作 External Volume。External Volume 是对集成存储中某个存储桶或路径的只读引用，可让 Zilliz Cloud 在不复制或移动数据的情况下就地访问您的数据。
-
-1. [创建 Database](./on-demand-database#create-database)。
-
-    在按需计算中创建 Database。Database 是项目级资源，由项目内的所有按需集群共享。
-
-1. 在该 Database 中创建外部 Collection。
-
-    将 Collection 的列映射到您的 Parquet 文件、Lance 表、Iceberg 表，或 0.56.0 起的 Vortex 文件。
-
-1. 创建索引并刷新 Collection。
-
-    为所有向量字段和可选的标量字段建立索引，然后刷新 Collection，以便 Zilliz Cloud 为该 Collection 创建元数据和索引文件。刷新通常可在亚秒级完成。
-
-1. 开始在您的数据中探索。
-
-    之后，您就可以使用按需计算资源，对存储在外部存储中的数据执行向量搜索和标量过滤。
-
-## 使用您自己的向量\{#bring-your-own-vectors}
-
-1. 创建并连接您的集群。
-
-    根据您所需的计算和存储资源[创建集群](./create-cluster)，然后[连接](./connect-to-clusters)该集群。
+    您需要[创建一个集群](./create-cluster)，并为您分配合适的计算和存储资源，然后[连接这个集群](./connect-to-cluster)。
 
 1. 创建 Collection。
 
-    Collection 是列固定、行可变的二维数据表。您可以创建外部 Collection 将计算带到数据所在之处，也可以创建托管 Collection 以获得高性能的向量搜索服务。
+    Collection 是一个二维数据表，拥有固定的列数和可变行数。您需要在集群中[创建一个 Collection](./manage-collections-sdks) 来存放您的数据。
 
 1. 导入数据。
 
-    从本地文件或对象存储桶中[导入数据](./import-data)。
+    您可以选择从本地文件或您的对象存储桶中[导入数据](./import-data)。
 
 1. 执行向量相似性搜索。
 
-    [基础向量相似性搜索](./single-vector-search)可帮助您找到最相似的结果。
+    [向量相似性搜索](./single-vector-search)可以帮助您发现与您的查询向量最相似的搜索结果。
 
-## 集成 Embedding\{#integrated-embedding}
+## 集成 Embedding 模型\{#embedding}
 
-1. 创建并连接您的集群。
+1. 创建并连接您的 Zilliz Cloud 集群。
 
-    根据您所需的计算和存储资源[创建集群](./create-cluster)，然后[连接](./connect-to-clusters)该集群。
+    您需要[创建一个集群](./create-cluster)，并为您分配合适的计算和存储资源，然后[连接这个集群](./connect-to-cluster)。
 
-1. 设置模型供应商集成。
+1. 设置模型供应商集成或部署托管模型。
 
-    创建 AWS、GCP 或 Azure 存储集成，用于存储第三方模型供应商的凭据。
+    [添加集成](./integrate-with-model-providers)，存储访问模型供应商所需的认证信息。或[部署](./hosted-models)托管模型。
 
-1. 创建 Collection 并配置 Embedding Function。
+1. 创建 Collection 并设置 Embedding Function。
 
-    创建包含至少一个向量字段和一个 VARCHAR 字段的托管 Collection，并定义文本 Embedding Function。
+    [创建一个 Collection](./manage-collections-sdks) 来存放您的数据。您的 Collection 中至少需要包含 1 个向量字段和 1 个 VARCHAR 字段。您还需要再创建时定义 Embedding Function。
 
 1. 插入原始文本数据。
 
-    [插入](./insert-entities)原始数据。Zilliz Cloud 会在数据写入期间自动生成向量 Embedding。
+    [插入](./insert-entities)原始数据。Zilliz Cloud 会在数据 Ingest 过程中自动生成向量。
 
 1. 使用原始文本进行搜索。
 
-    提供原始查询文本。Zilliz Cloud 会对查询进行 Embedding，将其与已存储的向量进行比较，并[返回](./single-vector-search)最相关的结果。
+    提供原始查询文本。Zilliz Cloud 会将其转化为向量，与已存储的向量进行相似度比对，并[返回](./single-vector-search)最相关的结果。
 
-## 从其他数据基础设施迁移\{#migrate-from-other-data-infra}
+## 从其它数据源迁移数据\{#}
 
-1. 连接到您的数据源。
+1. 连接到您的数据源
 
-    Zilliz Cloud 支持多种数据源，包括 Pinecone、MongoDB、Qdrant、PostgreSQL 等。请参见[迁移指南](./migrate-from-pinecone)。
+    Zilliz Cloud 支持为数众多的数据源。您可以选择从 Pinecone, Qdrant, Elasticsearch, PostgreSQL 等数据源[迁移您的数据到 Zilliz Cloud](./migrations)。
 
-1. 配置迁移的源和目标。
+1. 配置数据源及目标集群。
 
-    检查数据源信息，并配置迁移目标。
+    检查您的数据源信息，并指定迁移的目标集群。
 
-1. 检查映射关系。
+1. 检查字段映射关系。
 
-    设置并检查源数据与目标数据 Schema 之间的映射关系。
+    设置并检查数据源表字段和目标 Collection 字段间的映射关系。
 
-## 备份与恢复\{#backup-and-restore}
+## 备份与恢复\{#}
 
 1. 为您的集群或 Collection 创建备份。
 
-    备份是集群或 Collection 在某个时间点的副本。您可以[手动](./create-backup)创建备份，也可以[设置备份策略](./schedule-automatic-backups)进行定时备份。您还可以[将备份复制到其他区域](/docs/backup-to-other-regions)，以提升容灾能力。
+    备份为目标集群或 Collection 在某个时点的数据拷贝。您可以[手动创建备份](./create-snapshot)，也可以[设置定时自动备份](./schedule-automatic-backups)。此外，您还可以进行[跨地域备份](./backup-to-other-regions)以提升容灾能力。
 
-1. （可选）将备份导出到对象存储服务。
+1. （可选）导出备份到您的对象存储。
 
-    您可以将已创建的备份文件[导出](./export-backup-files)到 AWS S3 或 Azure Blob Storage。
+    您可以将您备份好的数据导入到阿里云对象存储。
 
 1. 恢复数据。
 
-    在系统发生意外故障或数据丢失时[恢复您的数据](./restore-from-backup-files)。
+    您可以在系统错误或数据丢失时选择相应的备份[恢复您的数据](./restore-from-snapshot)。
 
 </Stories>
 
 <Cards>
 
-# 进一步探索 Zilliz Cloud\{#go-further-with-zilliz-cloud}
+# 深入了解 Zilliz Cloud\{#zilliz-cloud}
 
-- [监控与告警](./metrics-and-alerts)
+- [监控与告警 (Monitoring & Alerts)](./metrics-and-alerts)
 
-    监控您的集群并及时收到告警。
+    监控您的集群并及时获得相关告警。
 
-- 访问控制
+- [访问控制 (Access Control)](./access-control)
 
-    通过细粒度的访问控制保护您的数据安全。
+    细粒度的访问控制，保护您的数据安全。
 
-- [私网连接](./setup-a-private-link)
+- [私网连接 (Private Networking)](./setup-a-private-link)
 
-    将您的集群连接到私网。
+    使用私网连接连接您的集群，提升数据安全。
 
 - break
 
-- [账单](./payment-billing)
+- [支付与账单 (Billing)](./payment-billing)
 
-    按实际用量付费，无需预付费用。
+    提供多样的计费模式：按量付费或包年包月。
 
-- 集成
+- [第三方集成 (Integrations)](https://zilliz.com/learn/milvus-notebooks)
 
-    与您现有的工具和工作流集成。
+    在您现有的技术栈和工作流中集成 Zilliz Cloud。
 
 </Cards>
 
 <Blocks>
 
-# 使用您偏好的语言开始构建\{#start-building-with-your-preferred-language}
+# 使用您熟悉的编程语言\{#}
 
 - [Python](/reference/python)
 
@@ -934,4 +908,8 @@ curl --request POST \
 
 </Blocks>
 
-<Banner bannerText="Can't find what you're looking for?" bannerLinkText="Try Ask AI" />
+<Banner bannerText="仍旧无法找到您需要的信息？" bannerLinkText="试试 Ask AI" />
+
+import DocCardList from '@theme/DocCardList';
+
+<DocCardList />
