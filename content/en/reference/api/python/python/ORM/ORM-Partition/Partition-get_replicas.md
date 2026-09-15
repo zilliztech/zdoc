@@ -81,7 +81,7 @@ A **Replica** object that contains the following fields:
 
         - **shard_nodes** (*set*)
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 What is a replica?
 

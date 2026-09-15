@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation scans the data files in the schema-defined external storage and generates metadata files that record their mapping relationship to those data files.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This requires a MilvusClient set up using the project endpoint as follows:
 

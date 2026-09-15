@@ -39,7 +39,7 @@ This operation creates a collection schema.
 MilvusClient.create_schema(**kwargs) -> CollectionSchema
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This is a class method. You should call this method like this: `MilvusClient.create_schema()`.
 
@@ -61,7 +61,7 @@ This is a class method. You should call this method like this: `MilvusClient.cre
 
         When you set this to **True**,  Zilliz Cloud will create a field called **&#36;meta** to store any undefined fields and their values from the data that is inserted.
 
-        <Admonition type="info" icon="📘" title="Note">
+        <Admonition type="info" title="Note">
 
         What is a dynamic field?
         
@@ -79,7 +79,7 @@ This is a class method. You should call this method like this: `MilvusClient.cre
 
         Setting this makes Zilliz Cloud manage all partitions in the current collection.
 
-        <Admonition type="info" icon="📘" title="Note">
+        <Admonition type="info" title="Note">
 
         What is a partition key?
         

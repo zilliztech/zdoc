@@ -33,13 +33,13 @@ import Admonition from '@theme/Admonition';
 
 This operation switches the client to use a different database. Future operations will use the specified database. The method validates that the database exists before switching.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This is an alias method for [`using_database()`](./Database-using_database).
 
 </Admonition>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This method applies only to dedicated serving clusters and on-demand compute. 
 

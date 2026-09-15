@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation releases the partitions in a specified collection from memory.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This only applies to managed collections.
 
@@ -77,7 +77,7 @@ release_partitions(
 
 None
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 A collection is in the loaded state only if any or all of its partitions are loaded.
 

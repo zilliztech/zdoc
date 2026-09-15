@@ -70,7 +70,7 @@ alter_collection_field(
 
     Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 You must alter field settings before loading the collection. Altering a field on a loaded collection returns an error. To change settings on a loaded collection, release the collection first, alter the field, then reload.
 

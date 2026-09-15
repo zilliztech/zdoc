@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation conducts a vector similarity search with an optional scalar filtering expression in an iterative manner.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 External collections do not support this operation.
 

@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation creates a database.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This method applies only to dedicated serving clusters and on-demand compute. 
 
@@ -74,7 +74,7 @@ create_database(
 
 - **properties** (*dict* | *None*) -
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     This does not apply to databases for on-demand compute.
 

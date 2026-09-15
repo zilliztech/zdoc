@@ -41,7 +41,7 @@ class pymilvus.RemoteBulkWriter.S3ConnectParam
 
 Constructs an **S3ConnectParam** object by a set of parameters, such as **bucket_name**, **access_key**, **secret_key**, etc.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 An **S3ConnectParam** object defines the parameters necessary for Zilliz Cloud to connect to an AWS-S3-compatible bucket.
 

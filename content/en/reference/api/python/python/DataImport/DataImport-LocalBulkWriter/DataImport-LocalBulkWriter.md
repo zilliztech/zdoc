@@ -41,7 +41,7 @@ class pymilvus.LocalBulkWriter
 
 Constructs a LocalBulkWriter object by schema, output path, segment size, and file type.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 A **LocalBulkWriter** object intends to rewrite your raw data locally in a format that Zilliz Cloud understands.
 
@@ -81,7 +81,7 @@ writer = LocalBulkWriter(
 
     The value defaults to **536,870,912** in bytes, which is **512** MB.
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     How does BulkWriter segment my data?
     

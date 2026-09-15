@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation creates a lightweight DQL session bound to a specific on-demand cluster. All operations performed through the session automatically include the target `cluster_id`, ensuring requests are routed to the correct cluster in a multi-cluster deployment.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This method applies only to on-demand compute. Create `MilvusClient` with the project endpoint, for example `https://{project-id}.{region}.api.zillizcloud.com`, and pass the target on-demand cluster ID to `session()`.
 

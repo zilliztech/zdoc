@@ -70,7 +70,7 @@ revoke(
 
     For details, refer to Users & Roles.
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     - To grant all privileges to a kind of object, like **[Collection](./ORM-Collection)**, **Global**, **User**, use `*` for privilege name.
     

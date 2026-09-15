@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation renames an existing collection.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This method applies to dedicated serving clusters and on-demand compute. 
 

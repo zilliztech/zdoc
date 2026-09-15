@@ -144,7 +144,7 @@ A **SearchResult** object that contains a list of **Hits** objects.
 
 - Response structure
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     A **SearchResult** object contains a list of **Hits** objects, each corresponding to a query vector in the search request. 
     

@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation reassigns the alias of one collection to another.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This method applies to dedicated serving clusters and on-demand compute. 
 
@@ -77,7 +77,7 @@ alter_alias(
 
     The alias of the collection. Note that the alias should exist beforehand.
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     What is a collection alias?
     

@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation adds a new function to the collection. Functions allow you to define custom processing logic such as BM25 scoring or embedding generation.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This does not apply to external collections.
 

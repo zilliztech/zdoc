@@ -52,7 +52,7 @@ drop_alias(
 
     The alias to drop.
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     When dropping an alias, you do not need to provide the collection name because one alias can only be assigned to exactly one collection. Therefore, the server knows which collection the specified alias belongs to.
 

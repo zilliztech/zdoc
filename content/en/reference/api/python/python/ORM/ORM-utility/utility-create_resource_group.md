@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation creates a new resource group. 
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 What is a resource group?
 

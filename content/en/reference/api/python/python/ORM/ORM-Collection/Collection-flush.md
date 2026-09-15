@@ -41,7 +41,7 @@ flush(
 )   
 ```
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 Can I call flush() after every data insertion?
 

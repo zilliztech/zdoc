@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation alters an existing function in the collection by replacing it with a new function schema.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This does not apply to external collections.
 

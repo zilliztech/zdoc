@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation loads the data of the current partition into memory.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Using the **partition_names** parameter in the **load()** method of a **[Collection](./ORM-Collection)** object is equivalent to using the **load()** method of corresponding **[Partition](./ORM-Partition)** objects.
 

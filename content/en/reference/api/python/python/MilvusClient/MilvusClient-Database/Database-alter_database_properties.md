@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation modifies the properties of the specified database.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This method applies only to dedicated clusters.
 

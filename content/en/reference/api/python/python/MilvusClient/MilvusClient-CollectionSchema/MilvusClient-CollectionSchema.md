@@ -56,7 +56,7 @@ CollectionSchema(
 
     A list of **[FieldSchema](./MilvusClient-FieldSchema)** objects that define the fields in the collection schema.
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     What is a field schema?
     
@@ -106,7 +106,7 @@ CollectionSchema(
 
         This parameter does not apply to external collections.
 
-        <Admonition type="info" icon="📘" title="Note">
+        <Admonition type="info" title="Note">
 
         What is a dynamic field?
         
@@ -136,7 +136,7 @@ CollectionSchema(
 
         This parameter does not apply to external collections.
 
-        <Admonition type="info" icon="📘" title="Note">
+        <Admonition type="info" title="Note">
 
         What is a partition key?
         

@@ -37,7 +37,7 @@ A `VolumeFileManager` instance maintains a connection to a specific Zilliz Cloud
 class pymilvus.bulk_writer.volume_file_manager import VolumeFileManager
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This method uploads files to managed volumes on Zilliz Cloud. It does not upload files to external volumes, which are read-only references to data in external object storage. For details, refer to  Managed Volumes and External Volumes.
 

@@ -55,7 +55,7 @@ has_connection(alias: str)
 
 A Boolean value indicating whether the connection exists.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 An existing connection alias does not necessarily indicates that the corresponding connection has been established.
 

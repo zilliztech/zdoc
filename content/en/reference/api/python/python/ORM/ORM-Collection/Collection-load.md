@@ -43,7 +43,7 @@ load(
 )
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This operation is non-blocking. You can call `utility.wait_for_loading_complete()` to block the current process.
 
@@ -73,7 +73,7 @@ This operation is non-blocking. You can call `utility.wait_for_loading_complete(
 
     This exception is to be raised when any error occurs during this operation.
 
-<Admonition type="warning" icon="🚧" title="Warning">
+<Admonition type="warning" title="Warning">
 
 If you try to load a collection that is not indexed, you will receive a **MilvusException**.
 

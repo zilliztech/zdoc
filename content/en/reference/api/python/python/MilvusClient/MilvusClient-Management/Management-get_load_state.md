@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation displays whether a specified collection or partition is loaded or not.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This only applies to managed collections.
 
@@ -73,7 +73,7 @@ get_load_state(
 
 A dictionary that contains the status of the specified collection or partition. 
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 A collection is in the loaded state if any or all of its partitions are loaded.
 

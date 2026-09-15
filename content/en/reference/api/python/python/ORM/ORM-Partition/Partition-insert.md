@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation inserts data into the current partition.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Using the **partition_name** parameter in the **insert()** method of a **[Collection](./ORM-Collection)** object is equivalent to using the **insert()** method of a **[Partition](./ORM-Partition)** object.
 

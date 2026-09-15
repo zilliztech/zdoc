@@ -54,7 +54,7 @@ connect(
 
     A connection alias.
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     - If the specified connection alias does not exist, a new one will be added, and the parameters specified below are added as the parameters of the connection alias.
     

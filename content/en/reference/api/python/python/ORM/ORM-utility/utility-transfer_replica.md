@@ -70,7 +70,7 @@ transfer_replica(
 
     The number of replicas to move between the source and target resource groups.
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     What is a replica?
     

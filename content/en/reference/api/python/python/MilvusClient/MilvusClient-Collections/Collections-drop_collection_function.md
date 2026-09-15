@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation drops an existing function from the collection.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This does not apply to external collections.
 

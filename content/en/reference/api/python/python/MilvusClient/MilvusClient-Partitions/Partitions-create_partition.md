@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation creates a partition in the target collection.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This only applies to managed collections.
 

@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation deletes entities by their IDs or with a boolean expression.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 External collections do not support this operation.
 
@@ -82,7 +82,7 @@ delete(
 
     You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md). 
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     When using filter expressions to delete entities, ensure the collection has been loaded. Otherwise, Zilliz Cloud will return an error.
 

@@ -33,13 +33,13 @@ import Admonition from '@theme/Admonition';
 
 This operation returns the current state of a compaction job. Use this after calling `compact()` to verify that compaction has completed.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This method was previously named `get_compact_state()`. The behavior is identical.
 
 </Admonition>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This only applies to managed collections.
 

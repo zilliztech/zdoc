@@ -63,7 +63,7 @@ Collection(
 
     The default value is **None**, indicating that a default schema is used.
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     What is a schema?
     
@@ -83,7 +83,7 @@ Collection(
 
     The value defaults to **1**, indicating that one shard is to be created along with this collection.
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     What is sharding?
     
@@ -99,7 +99,7 @@ Collection(
 
     The value defaults to **Bounded** (**1**) with options of **Strong** (**0**), **Bounded** (**1**), **Session** (**2**), and **Eventually** (**3**).
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     What is the consistency level?
     

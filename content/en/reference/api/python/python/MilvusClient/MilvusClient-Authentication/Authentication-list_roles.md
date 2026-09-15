@@ -84,7 +84,7 @@ client.list_roles()
 # ['db_admin', 'db_ro', 'db_rw']
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Each Zilliz Cloud cluster has three built-in roles, namely, **db\_ro**, **db\_rw**, and **db\_admin**. For details, refer to [Cluster Built-in Roles](/docs/cluster-roles#built-in-cluster-roles).
 

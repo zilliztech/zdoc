@@ -45,13 +45,13 @@ import Admonition from '@theme/Admonition';
 
 This operation compacts small segments in a collection and returns a compaction job ID that you can poll for progress.
 
-<Admonition type="warning" icon="🚧" title="Warning">
+<Admonition type="warning" title="Warning">
 
 This is a Preview version feature for non-production use only (Benchmark, POC).
 
 </Admonition>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This method applies only to dedicated serving clusters and on-demand compute. 
 

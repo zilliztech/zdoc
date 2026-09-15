@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This creates a named index for a target field, which can either be a vector field or a scalar field.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This operation is non-blocking. You can call `utility.wait_for_index_building_complete()` to block the current process.
 

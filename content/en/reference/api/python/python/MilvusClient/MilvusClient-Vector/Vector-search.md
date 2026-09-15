@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation conducts a vector similarity search with an optional scalar filtering expression.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This method applies only to dedicated serving clusters and on-demand compute. 
 
@@ -128,7 +128,7 @@ search(
 
     In a grouping search, however, `limit` specifies the maximum number of groups to return, rather than individual entities. Each group is formed based on the specified `group_by_field`.
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     When `search_aggregation` is specified, do not explicitly set `limit`. Use the root `SearchAggregation.size` value to control the number of top-level buckets to return.
 
@@ -168,7 +168,7 @@ search(
 
         Additional parameters.
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" title="Notes">
 
         All additional parameters are moved to the upper `search_params`, and the `params` argument will be deprecated soon.
 

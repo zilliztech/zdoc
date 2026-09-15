@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation returns the status of the specified compaction job.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This method is deprecated. For the latest equivalent, refer to [get_compaction_state()](./Management-get_compaction_state).
 

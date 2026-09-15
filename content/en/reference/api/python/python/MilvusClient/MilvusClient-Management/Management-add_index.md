@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation adds index parameters for a specific field in a collection.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This method applies only to dedicated serving clusters and on-demand compute. 
 

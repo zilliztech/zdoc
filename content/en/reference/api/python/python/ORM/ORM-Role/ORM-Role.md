@@ -48,7 +48,7 @@ Role(
 )
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Calling the constructor alone does not create the role. You have to explicitly call the `create()` method of the role object to create the role.
 

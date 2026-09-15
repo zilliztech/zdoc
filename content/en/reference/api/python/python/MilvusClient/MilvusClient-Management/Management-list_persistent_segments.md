@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation lists all persistent (flushed) segments for a collection, including information about row count, sort status, and storage level.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This only applies to managed collections.
 

@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation alters the specified collection properties.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This does not apply to external collections.
 

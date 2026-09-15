@@ -41,7 +41,7 @@ class pymilvus.Partition
 
 Constructs a partition in a collection by name, description, and other parameters. 
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 When using partitions, ensure that **enable_partition_key** is not set to **True** in the collection schema. Otherwise, an error will occur.
 
@@ -65,7 +65,7 @@ Partition(
 
     You can either reference a **[Collection](./ORM-Collection)** object or its name.
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     What is a collection?
     

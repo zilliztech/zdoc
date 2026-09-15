@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation flushes all collections in the current database. This ensures all inserted data is written to persistent storage.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This only applies to managed collections.
 

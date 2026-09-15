@@ -41,7 +41,7 @@ class pymilvus.RemoteBulkWriter
 
 Constructs a **RemoteBulkWriter** object with a set of parameters, such as **schema**, **remote_path**, **connect_param** etc.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 A **RemoteBulkWriter** object intends to rewrite your raw data in a format that Zilliz Cloud understands into an AWS-S3-compatible bucket.
 
@@ -86,7 +86,7 @@ writer = RemoteBulkWriter(
 
     The value defaults to 536,870,912 in bytes, which is 512 MB.
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     How does BulkWriter segment my data?
     

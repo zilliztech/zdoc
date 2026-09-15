@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation returns the progress of a specified external collection refresh job.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This requires a MilvusClient set up using the project endpoint as follows:
 

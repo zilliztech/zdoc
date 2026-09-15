@@ -60,7 +60,7 @@ do_bulk_insert(
 
     A list of paths to the files that contain the source data. 
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     How can I prepare the source data files?
     

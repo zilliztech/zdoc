@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation returns the compaction plans for a specific compaction job, including the merge plans showing which segments will be combined.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This only applies to managed collections.
 

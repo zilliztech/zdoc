@@ -41,7 +41,7 @@ class pymilvus.RemoteBulkWriter.AzureConnectParam
 
 Constructs an **AzureConnectParam** object by a set of parameters, such as **container_name**, **account_url**, **credential**, etc.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 An **AzureConnectParam** object defines the parameters necessary for Zilliz Cloud to connect to an Azure blob storage bucket.
 

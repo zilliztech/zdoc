@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation supports creating a collection in two distinct ways: quick setup or custom setup.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This method applies to dedicated serving clusters and on-demand compute. 
 
@@ -161,7 +161,7 @@ create_collection(
 
         The value defaults to **1**, indicating that one shard is to be created along with this collection.
 
-        <Admonition type="info" icon="📘" title="Note">
+        <Admonition type="info" title="Note">
 
         What is sharding?
         
@@ -177,7 +177,7 @@ create_collection(
 
         This parameter is ignored if **schema** is not **None** and a field in the schema has its **is_parition_key** set to **True**.
 
-        <Admonition type="info" icon="📘" title="Note">
+        <Admonition type="info" title="Note">
 
         What is the partition key?
         
@@ -205,7 +205,7 @@ create_collection(
 
         The value defaults to **Bounded** (**2**) with options of **Strong** (**0**), **Session** (**1**), **Bounded** (**2**), and **Eventually** (**3**).
 
-        <Admonition type="info" icon="📘" title="Note">
+        <Admonition type="info" title="Note">
 
         What is the consistency level?
         

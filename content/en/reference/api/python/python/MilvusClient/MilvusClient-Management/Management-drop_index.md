@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation drops an index from a specific collection.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Collections for on-demand compute do not support this operation.
 

@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation checks whether the specified partition exists in the specified collection.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This only applies to managed collections.
 

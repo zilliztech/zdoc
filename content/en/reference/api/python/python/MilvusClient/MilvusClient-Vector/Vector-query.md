@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation conducts a scalar filtering with a specified boolean expression.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This method applies only to dedicated serving clusters and on-demand compute. 
 
@@ -88,7 +88,7 @@ query(
 
     The value defaults to **None**.
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     - Setting this as `output_fields=["\*"]` outputs all fields.
     
@@ -116,7 +116,7 @@ query(
 
         The value defaults to the one specified when you create the current collection, with options of **Strong** (**0**), **Bounded** (**1**), **Session** (**2**), and **Eventually** (**3**).
 
-        <Admonition type="info" icon="📘" title="Note">
+        <Admonition type="info" title="Note">
 
         What is the consistency level?
         
@@ -134,7 +134,7 @@ query(
 
         If this parameter is set,  executes the query only if all entities inserted before this timestamp are visible to query nodes. 
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" title="Notes">
 
         This parameter is valid when the default consistency level applies.
 
@@ -146,7 +146,7 @@ query(
 
         The value defaults to **5**. If this parameter is set,  calculates the guarantee timestamp by subtracting this from the current timestamp.
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" title="Notes">
 
         This parameter is valid when a consistency level other than the default one applies.
 
@@ -210,7 +210,7 @@ query(
 
 A list of dictionaries with each dictionary representing a queried entity.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 If the number of returned entities is less than expected, duplicate entities may exist in your collection.
 

@@ -95,7 +95,7 @@ add_field(
 
     This does not apply to external collections.
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     - Each collection has only one primary field.
     
@@ -133,7 +133,7 @@ add_field(
 
     This does not apply to external collections.
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     What is the partition key?
     

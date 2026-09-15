@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation returns whether a flush-all operation has completed. Use this after calling `flush_all()` to check the flush status.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This only applies to managed collections.
 

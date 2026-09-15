@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation inserts data into a specific collection.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 External collections do not support this operation.
 

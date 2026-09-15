@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation deletes entities from a partition with a boolean expression.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Using the **partition_name** parameter in the **delete()** method of a **[Collection](./ORM-Collection)** object is equivalent to using the **delete()** method of a **[Partition](./ORM-Partition)** object.
 

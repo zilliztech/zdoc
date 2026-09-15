@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation loads the unloaded data of a loaded collection into memory.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This only applies to managed collections.
 

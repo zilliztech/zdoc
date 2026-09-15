@@ -41,7 +41,7 @@ class pymilvus.Connections
 
 Constructs a singleton instance to manage all connections. 
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Instead of creating a new instance of this class on your own, import the existing singleton instance as shown in the following example.
 
@@ -62,7 +62,7 @@ connections.connect(
 ) 
 ```
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 How can I get the cluster endpoint and token?
 

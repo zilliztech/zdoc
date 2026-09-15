@@ -56,7 +56,7 @@ CollectionSchema(
 
     A list of **FieldSchema** objects that define the fields in the collection schema.
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     What is a field schema?
     
@@ -84,7 +84,7 @@ CollectionSchema(
 
         When you set this to **True**,  and Zilliz Cloud will create a field called **&#36;meta** to store any undefined fields and their values from the data that is inserted.
 
-        <Admonition type="info" icon="📘" title="Note">
+        <Admonition type="info" title="Note">
 
         What is a dynamic field?
         
@@ -110,7 +110,7 @@ CollectionSchema(
 
         As an alternative, you can set **is_partition_key** when creating a **FieldSchema** object.
 
-        <Admonition type="info" icon="📘" title="Note">
+        <Admonition type="info" title="Note">
 
         What is a partition key?
         

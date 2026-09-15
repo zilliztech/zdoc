@@ -41,7 +41,7 @@ pymilvus.MilvusClient
 
 Constructs a client for common use cases.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This client serves as an easy-to-use alternative for the current set of APIs that handles Create, Read, Update, and Delete (CRUD) operations on Zilliz Cloud.
 
@@ -128,7 +128,7 @@ client = MilvusClient(
 )
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Set **uri** to your cluster endpoint. The **token** parameter can be a Zilliz Cloud API key with sufficient permissions or the credentials of a cluster user in the format of `username:p@ssw0rd`.
 

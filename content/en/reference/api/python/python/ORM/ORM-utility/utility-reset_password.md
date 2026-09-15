@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation resets the password for a specific user. 
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This operation differs from <strong>update_password()</strong> in that this operation also resets the current connection using the newly set credentials.
 

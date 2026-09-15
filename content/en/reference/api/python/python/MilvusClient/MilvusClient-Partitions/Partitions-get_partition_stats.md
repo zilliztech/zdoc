@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation displays the statistics collected on a specific partition.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This only applies to managed collections.
 
@@ -83,7 +83,7 @@ A dictionary that contains the row count in the specified partition.
 }
 ```
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 Why doesn't the row count match the number of entities inserted?
 

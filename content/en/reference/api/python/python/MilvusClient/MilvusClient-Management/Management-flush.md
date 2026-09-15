@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation flushes the streaming data and seals segments. It is not advised to call this operation after all the data has been inserted into a collection to avoid small segments, which may degrade search performance.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This only applies to managed collections.
 

@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation lists the statistics collected on a specific collection.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This method applies to dedicated serving clusters and on-demand compute. 
 
@@ -93,7 +93,7 @@ A dictionary containing collected statistics on the specified collection.
 }
 ```
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 Why doesn't the row count match the number of entities inserted?
 

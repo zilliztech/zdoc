@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation uploads the local file at the specified source path to the target file path within the specified managed volume.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This applies only to managed volumes. External volumes are read-only.
 

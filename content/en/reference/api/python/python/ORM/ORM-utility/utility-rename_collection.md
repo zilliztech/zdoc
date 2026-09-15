@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation renames an existing collection and optionally moves the collection to a new database.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Aliases created for the target collection remain intact after this operation.
 

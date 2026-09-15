@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation inserts new records into the database or updates existing ones.  
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 An upsert is a data-level operation that will overwrite an existing entity if a specified field already exists in a collection, and insert a new entity if the specified value doesn’t already exist.
 

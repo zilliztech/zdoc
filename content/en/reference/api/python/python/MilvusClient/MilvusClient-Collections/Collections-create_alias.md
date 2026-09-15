@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation creates an alias for an existing collection.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This method applies to dedicated serving clusters and on-demand compute. 
 
@@ -77,7 +77,7 @@ create_alias(
 
     The alias of the collection. Before this operation, ensure that the alias does not already exist. If it does, exceptions will occur.
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     What is a collection alias?
     

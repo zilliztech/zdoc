@@ -91,7 +91,7 @@ add_connection(
 
         - A pair of username and password used to access the target cluster, joined by a colon (:). For example, you can set this to `username:p@ssw0rd`.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 How can I get the cluster endpoint and token?
 
