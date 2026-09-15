@@ -25,7 +25,7 @@ The `upsert` operation provides a convenient way to insert or update entities in
 
 ## Overview\{#overview}
 
-You can use `upsert` to either insert a new entity or update an existing one, depending on whether the primary key provided in the upsert request exists in the collection. If the primary key is not found, an insert operation occurs. Otherwise, an update operation will be performed.  Partial updates on `autoID` collections are an exception: they update existing entities only, as described below.
+You can use `upsert` to either insert a new entity or update an existing one, depending on whether the primary key provided in the upsert request exists in the collection. If the primary key is not found, an insert operation occurs. Otherwise, an update operation will be performed.
 
 An upsert request  combines an insert and a delete. When an `upsert` request for an existing entity is received, Zilliz Cloud inserts the data carried in the request payload and deletes the existing entity with the original primary key specified in the data at the same time. 
 
@@ -45,11 +45,7 @@ Set `partial_update=True` and provide the primary key and the fields you want to
 
 Zilliz Cloud retrieves the existing entity with a strong-consistency query, merges your changes with the stored data, inserts the merged entity, and deletes the old entity.
 
-If the primary key does not exist, the result depends on whether `autoID` is enabled:
-
-- **With `autoID` disabled**, Zilliz Cloud attempts to insert a new entity with the primary key you supplied. The request succeeds if it meets the normal insertion requirements. If a required field is missing, the request fails with a missing-field error. Nullable fields and fields with default values can be omitted, just as in a normal insert.
-
-- **With `autoID` enabled**, every primary key in the request must already exist. Zilliz Cloud rejects the request if any primary key is missing, even if you provide all fields required for insertion. For existing entities, merge mode keeps the primary key unchanged.
+Updating an existing entity in merge mode preserves its primary key, even when `autoID` is enabled. If the primary key does not exist, Zilliz Cloud attempts to insert a new entity. You must provide all fields to insert the new entity; otherwise, the request fails with a missing-field error.
 
 If a partial update fails with a missing-field error, check whether the target entity exists. Without an existing entity, Zilliz Cloud cannot retrieve the values of fields you omitted.
 
@@ -117,7 +113,7 @@ Based on the above content, there are several limits and restrictions to follow:
 
     - In override mode, the primary key identifies the existing entity to replace, and Milvus generates a new primary key for the replacement entity.
 
-    - In merge mode, the primary key identifies the existing entity to update and remains unchanged. If the primary key does not exist, the request fails instead of inserting a new entity.
+    - In merge mode, updating an existing entity preserves its primary key. If the primary key does not exist, Zilliz Cloud attempts to insert a new entity. You must provide all fields to insert the new entity; otherwise, the request fails with a missing-field error.
 
 - The target collection must be loaded and available for queries.
 
