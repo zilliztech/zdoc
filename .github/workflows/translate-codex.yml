@@ -751,10 +751,28 @@ jobs:
             fi
             sleep 5
           done
-          [[ "$publisher_run_url" =~ ^https://github\.com/$GITHUB_REPOSITORY/actions/runs/[1-9]*$ ]]
+          if [[ ! "$publisher_run_url" =~ ^https://github\.com/$GITHUB_REPOSITORY/actions/runs/[1-9][0-9]*$ ]]; then
+            echo "publisher run for '$expected_title' on '$WORKFLOW_REF' did not appear in the run list before the retry bound" >&2
+            exit 1
+          fi
           publisher_run_id=${publisher_run_url##*/}
-          publisher_run_attempt=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$publisher_run_id" --jq .run_attempt)
-          [[ "$publisher_run_attempt" =~ ^[1-9][0-9]*$ ]]
+          publisher_run_attempt=
+          for _ in {1..4}; do
+            if publisher_run_attempt=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$publisher_run_id" --jq .run_attempt); then
+              if [[ "$publisher_run_attempt" =~ ^[1-9][0-9]*$ ]]; then
+                break
+              fi
+              echo "publisher run attempt response was not a positive integer: '$publisher_run_attempt'" >&2
+              publisher_run_attempt=
+            else
+              echo "publisher run attempt lookup failed for run $publisher_run_id" >&2
+            fi
+            sleep 5
+          done
+          if [[ ! "$publisher_run_attempt" =~ ^[1-9][0-9]*$ ]]; then
+            echo "could not resolve publisher run attempt for $publisher_run_url after 4 attempts" >&2
+            exit 1
+          fi
           printf 'publisher_run_url=%s\npublisher_run_id=%s\npublisher_run_attempt=%s\n' "$publisher_run_url" "$publisher_run_id" "$publisher_run_attempt" >> "$GITHUB_OUTPUT"
           printf 'Downstream publication run: %s\n' "$publisher_run_url" >> "$GITHUB_STEP_SUMMARY"
       - name: Create translation publication handoff metadata
