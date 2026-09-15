@@ -56,7 +56,7 @@ await milvusClient.createAlias({
 
     The alias of the collection. Before this operation, ensure that the alias does not already exist. If it does, exceptions will occur.
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     What is a collection alias?
     

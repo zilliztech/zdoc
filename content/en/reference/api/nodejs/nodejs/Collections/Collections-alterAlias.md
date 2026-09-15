@@ -56,7 +56,7 @@ await milvusClient.alterAlias({
 
     The alias of the collection. Note that the alias should exist beforehand.
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     What is a collection alias?
     

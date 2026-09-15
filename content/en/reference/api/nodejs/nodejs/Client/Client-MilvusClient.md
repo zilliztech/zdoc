@@ -227,7 +227,7 @@ This method returns a Milvus Client instance that extends GRPC Client and handle
 new MilvusClient(config: ClientConfig)
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - Set **configOrAddress** to your cluster endpoint. You can find the relevant information in Cluster details on the Zilliz Cloud console.
 

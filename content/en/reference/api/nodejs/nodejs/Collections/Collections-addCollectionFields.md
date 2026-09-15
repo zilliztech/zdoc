@@ -37,7 +37,7 @@ This operation adds a list of new scalar fields to an existing collection withou
 await milvusClient.addCollectionFields(data: AddCollectionFieldReq)
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 If the collection has the dynamic field enabled and you add a static field with the same name as an existing dynamic field key, the static field will mask the dynamic field key. The original dynamic values remain accessible via the `$meta['field_name']` syntax.
 

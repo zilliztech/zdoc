@@ -37,7 +37,7 @@ This operation removes all data from a collection but retains the collection sch
 await milvusClient.truncateCollection(data: TruncateCollectionRequest)
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - **Irreversible operation**
 

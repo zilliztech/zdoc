@@ -37,7 +37,7 @@ This operation drops a database.
 await milvusClient.dropDatabase(data?)
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This method applies only to dedicated clusters.
 

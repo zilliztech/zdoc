@@ -37,7 +37,7 @@ This operation returns the flush status of a specific segment.
 await milvusClient.getFlushState(data)
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Milvus automatically flushes data into persistent storage at intervals. You are advised to rely on this automatic data persistence mechnism.
 

@@ -97,7 +97,7 @@ await milvusClient.createCollection({
 
     The value defaults to **Bounded** with options of **Strong**, **Bounded**, **Session**,  **Eventually**, and **Customized**.
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     What is the consistency level?
     
@@ -234,7 +234,7 @@ await milvusClient.createCollection({
 
     The value defaults to **Bounded** with options of **Strong**, **Bounded**, **Session**,  **Eventually**, and **Customized**.
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     What is the consistency level?
     
@@ -422,7 +422,7 @@ await milvusClient.createCollection({
 
     The number of partitions to create in the collection.
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     What is partitioning?
     
@@ -434,7 +434,7 @@ await milvusClient.createCollection({
 
     The name of the field that serves as the partition key.
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     What is a partition key?
     
@@ -448,7 +448,7 @@ await milvusClient.createCollection({
 
     The value defaults to **1**, indicating that one shard is to be created along with this collection.
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     What is sharding?
     
@@ -581,7 +581,7 @@ await milvusClient.createCollection({
 
     The value defaults to **Bounded** with options of **Strong**, **Bounded**, **Session**,  **Eventually**, and **Customized**.
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     What is the consistency level?
     
@@ -767,7 +767,7 @@ await milvusClient.createCollection({
 
     The number of partitions to create in the collection.
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     What is partitioning?
     
@@ -779,7 +779,7 @@ await milvusClient.createCollection({
 
     A boolean value indicating whether to enable partition key.
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     What is a partition key?
     
@@ -793,7 +793,7 @@ await milvusClient.createCollection({
 
     The value defaults to **1**, indicating that one shard is to be created along with this collection.
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     What is sharding?
     

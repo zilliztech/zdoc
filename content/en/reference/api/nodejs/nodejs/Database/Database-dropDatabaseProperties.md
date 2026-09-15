@@ -37,7 +37,7 @@ This operation drops the setting of the specified properties.
 await milvusClient.dropDatabaseProperties(data)
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This method applies only to dedicated clusters.
 

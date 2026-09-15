@@ -37,7 +37,7 @@ This operation manually seals a segment and persists the data on disk. It is rec
 await milvusClient.flushSync(data)
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Milvus automatically flushes data into persistent storage at intervals. You are advised to rely on this automatic data persistence mechnism.
 
