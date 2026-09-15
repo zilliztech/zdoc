@@ -63,5 +63,5 @@ zilliz cluster create --name my-cluster --type serverless
 ## はじめに
 
 - [Authenticate](./Auth-login)
-- [Create a クラスター](./Cluster-create)
-- [Create a コレクション](./Collection-create)
+- [クラスターを作成する](./Cluster-create)
+- [コレクションを作成する](./Collection-create)

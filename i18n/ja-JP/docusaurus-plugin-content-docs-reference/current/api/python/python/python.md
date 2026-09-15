@@ -19,7 +19,7 @@ import Admonition from '@theme/Admonition';
 - **ORM API** — 従来のオブジェクトリレーショナルマッピング形式 API
 - **Bulk import** — 大規模なデータ取り込み向けのローカルおよびリモートの bulk writer
 - **Embedding models** — `pymilvus[model]` によるテキストおよび画像埋め込みの統合サポート
-- **Rerankers** — ハイブリッド検索向けの組み込み reranking 関数
+- **Rerankers** — ハイブリッド検索向けの組み込みリランキング関数
 
 ## インストールと更新
 
@@ -61,4 +61,4 @@ import DocCardList from '@theme/DocCardList';
 
 ## 例
 
-ドキュメントに加えて、[example sets](https://github.com/milvus-io/pymilvus/tree/master/examples) や当社の [GitHub repository](https://github.com/milvus-io/pymilvus) も参照できます。
+ドキュメントに加えて、当社の [GitHub リポジトリ](https://github.com/milvus-io/pymilvus) にある [サンプルセット](https://github.com/milvus-io/pymilvus/tree/master/examples) も参照できます。

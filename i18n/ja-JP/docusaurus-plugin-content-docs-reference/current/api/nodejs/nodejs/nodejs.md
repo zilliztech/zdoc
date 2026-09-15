@@ -12,7 +12,7 @@ import Admonition from '@theme/Admonition';
 
 # Node.js SDK リファレンス
 
-[@zilliz/milvus2-sdk-node](https://github.com/milvus-io/milvus-sdk-node) は、Milvus および Zilliz Cloud の公式 Node.js SDK です。ベクトル類似度検索、メタデータフィルタリング、およびコレクション、インデックス、ユーザー管理の全体に対して、gRPC と HTTP の両方のクライアントを提供します。
+[@zilliz/milvus2-sdk-node](https://github.com/milvus-io/milvus-sdk-node) は、Milvus および Zilliz Cloud の公式 Node.js SDK です。ベクトル類似度検索、メタデータフィルタリング、およびコレクション、インデックス、ユーザー管理全般にわたる gRPC と HTTP の両方のクライアントを提供します。
 
 ## 機能
 

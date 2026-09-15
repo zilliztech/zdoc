@@ -12,20 +12,20 @@ import Admonition from '@theme/Admonition';
 
 # C++ SDK リファレンス
 
-[Milvus C++ SDK](https://github.com/milvus-io/milvus-sdk-cpp) は、Milvus および Zilliz Cloud 向けの公式 C++ クライアントです。コレクション、ベクトル、インデックス、データベース操作を管理するネイティブ C++ API を提供し、流暢なリクエストビルダースタイルを採用しています。
+[Milvus C++ SDK](https://github.com/milvus-io/milvus-sdk-cpp) は、Milvus および Zilliz Cloud の公式 C++ クライアントです。コレクション、ベクトル、インデックス、データベース操作を管理するためのネイティブ C++ API を提供し、流れるようなリクエストビルダースタイルを採用しています。
 
 ## 機能
 
-- **ネイティブ C++ API** — `Status` の戻り値を持つ流暢なリクエストビルダーパターン
+- **ネイティブ C++ API** — `Status` の戻り値を伴う流れるようなリクエストビルダーパターン
 - **コレクションとベクトルの管理** — コレクションの作成、詳細情報の取得、ロード、削除、およびスキーマとインデックスの管理
-- **データ操作** — 挿入、アップサート、削除、クエリ、検索（ハイブリッド検索やスパースベクトル検索を含む）
-- **データベースとユーザー管理** — RBAC、リソースグループ、エイリアス、データベース管理
+- **データ操作** — 挿入、アップサート、削除、クエリ、検索（ハイブリッド検索とスパースベクトル検索を含む）
+- **データベースとユーザーの管理** — RBAC、リソースグループ、エイリアス、およびデータベース管理
 - **最新のフィールドタイプ** — Array、JSON、スパース、バイナリ、float16/bfloat16, int8、struct フィールド
-- **Milvus と Zilliz Cloud** — URI 経由でセルフホスト型の Milvus と Zilliz Cloud の両方のインスタンスに接続可能
+- **Milvus と Zilliz Cloud** — URI 経由で、セルフホスト型 Milvus と Zilliz Cloud の両方のインスタンスに接続
 
 ## 互換性
 
-次の表は、各 Milvus バージョンに対して推奨される milvus-sdk-cpp のバージョンを示しています。
+次の表は、Milvus の各バージョンに対応する推奨の milvus-sdk-cpp バージョンを示しています。
 
 | Milvus バージョン | 推奨 SDK バージョン |
 |:-----:|:-----:|
@@ -37,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 ## インストール
 
-ソースから SDK をコンパイルおよびインストールする手順の詳細については、[開発ガイド](https://github.com/milvus-io/milvus-sdk-cpp/blob/master/DEVELOPMENT.md) を参照してください。
+ソースから SDK をコンパイルしてインストールする方法の詳細については、[開発ガイド](https://github.com/milvus-io/milvus-sdk-cpp/blob/master/DEVELOPMENT.md) を参照してください。
 
 ## クイックスタート
 
@@ -73,4 +73,4 @@ import DocCardList from '@theme/DocCardList';
 
 ## 例
 
-ドキュメントに加え、[GitHub リポジトリ](https://github.com/milvus-io/milvus-sdk-cpp) にある [サンプルセット](https://github.com/milvus-io/milvus-sdk-cpp/tree/master/examples/src) も参照できます。
+ドキュメントに加えて、当社の [GitHub リポジトリ](https://github.com/milvus-io/milvus-sdk-cpp) にある [サンプルセット](https://github.com/milvus-io/milvus-sdk-cpp/tree/master/examples/src) も参照できます。
