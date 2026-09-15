@@ -435,19 +435,14 @@ test('mergeTranslatedResultsIntoProgressState updates the Chinese Reference mani
     const {parseReferenceTranslationManifest} = require('../lib/load-typescript').loadTypeScript('../../packages/docs-tooling/src/reference/translationManifest.ts');
     const state = parseReferenceTranslationManifest(JSON.parse(fs.readFileSync(path.join(siteDir, 'generated/zh-CN/manifests/reference-translations.json'), 'utf8')));
     const bySource = new Map(state.records.map(record => [record.sourcePath, record]));
-    assert.equal(bySource.size, 2);
+    // The reference-tree landing refreshes its record; the Guides home keeps
+    // Guides state ownership and is deliberately absent from the manifest.
+    assert.equal(bySource.size, 1);
     const cliRecord = bySource.get(cliSource);
     assert.equal(cliRecord.sourceHash, sha256(cliEnglish));
     assert.equal(cliRecord.targetHash, sha256(cliChinese));
     assert.equal(cliRecord.sourceCommit, sourceCommit);
     assert.equal(cliRecord.status, 'translated');
-    const homeRecord = bySource.get(homeSource);
-    assert.equal(homeRecord.manual, 'guides');
-    assert.equal(homeRecord.sourceHash, sha256(homeEnglish));
-    assert.equal(homeRecord.targetHash, sha256(homeChinese));
-    assert.equal(homeRecord.status, 'translated');
-
-    const {validateTranslationCoverage} = require('../lib/load-typescript').loadTypeScript('../../packages/docs-tooling/src/translation/validate.ts');
-    assert.doesNotThrow(() => validateTranslationCoverage({repositoryRoot: siteDir, targetId: 'zh-CN-reference', group: 'reference-landings'}));
+    assert.equal(bySource.has(homeSource), false);
   });
 });
