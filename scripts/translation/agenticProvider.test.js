@@ -367,8 +367,8 @@ test('validatorCommandFor renders the repository validator invocation', () => {
   assert.match(command, /--write-back false/);
 });
 
-test('mergeTranslatedResultsIntoProgressCache writes translated results into the cache candidate state', async () => {
-  const {mergeTranslatedResultsIntoProgressCache} = require('./agenticProvider');
+test('mergeTranslatedResultsIntoProgressState writes translated results into the cache candidate state', async () => {
+  const {mergeTranslatedResultsIntoProgressState} = require('./agenticProvider');
   await withSite(siteDir => {
     const sourcePath = `${GE}/tutorials/home.md`;
     const targetPath = `${GJ}/tutorials/home.md`;
@@ -377,7 +377,7 @@ test('mergeTranslatedResultsIntoProgressCache writes translated results into the
       {sourcePath, targetPath, sourceHash: 'b'.repeat(64), status: 'translated'},
       {sourcePath: `${GE}/tutorials/failed.md`, targetPath: `${GJ}/tutorials/failed.md`, sourceHash: 'c'.repeat(64), status: 'failed'},
     ], checkpoint: {generatedAt: '2026-09-14T12:46:16.000Z'}};
-    mergeTranslatedResultsIntoProgressCache(siteDir, manifest, report);
+    mergeTranslatedResultsIntoProgressState(siteDir, manifest, report);
     const cache = JSON.parse(fs.readFileSync(path.join(siteDir, '.translation-cache/ja-JP.json'), 'utf8'));
     assert.deepEqual(cache.files[sourcePath], {
       sourceHash: 'b'.repeat(64),
@@ -385,9 +385,69 @@ test('mergeTranslatedResultsIntoProgressCache writes translated results into the
       translatedAt: '2026-09-14T12:46:16.000Z',
     });
     assert.equal(cache.files[`${GE}/tutorials/failed.md`], undefined);
+  });
+});
 
-    const zhManifest = {target: 'zh-CN-reference', items: []};
-    mergeTranslatedResultsIntoProgressCache(siteDir, zhManifest, report);
-    assert.deepEqual(Object.keys(cache.files), [sourcePath]);
+test('mergeTranslatedResultsIntoProgressState updates the Chinese Reference manifest for landing translations', async () => {
+  const crypto = require('node:crypto');
+  const sha256 = value => crypto.createHash('sha256').update(value).digest('hex');
+  const {mergeTranslatedResultsIntoProgressState} = require('./agenticProvider');
+  await withSite(siteDir => {
+    const sourceCommit = 'a'.repeat(40);
+    const homeSource = 'content/en/guides/tutorials/home.md';
+    const homeTarget = 'content/zh-CN/guides/tutorials/home.md';
+    const cliSource = 'content/en/reference/cli/cli/Overview.md';
+    const cliTarget = 'content/zh-CN/reference/cli/cli/Overview.md';
+    const homeEnglish = '# Home (refreshed)\n';
+    const cliEnglish = '# Zilliz CLI (refreshed)\n';
+    const homeChinese = '# \u4e3b\u9875\n';
+    const cliChinese = '# Zilliz CLI \u4e2d\u6587\n';
+
+    write(siteDir, homeSource, homeEnglish);
+    write(siteDir, cliSource, cliEnglish);
+    write(siteDir, homeTarget, homeChinese);
+    write(siteDir, cliTarget, cliChinese);
+    write(siteDir, 'generated/en/manifests/reference.json', `${JSON.stringify({
+      schemaVersion: 1,
+      sourceCommit,
+      records: [
+        {manual: 'cli', sourcePath: cliSource, sourceHash: sha256(cliEnglish)},
+      ],
+    })}\n`);
+    write(siteDir, 'generated/zh-CN/manifests/reference-translations.json', `${JSON.stringify({
+      schemaVersion: 1,
+      records: [
+        {manual: 'cli', sourcePath: cliSource, targetPath: cliTarget, sourceCommit: 'b'.repeat(40), sourceHash: sha256('# old CLI\n'), targetHash: sha256('# 9a65a7 CLI\n'), status: 'translated'},
+      ],
+    })}\n`);
+
+    const manifest = {target: 'zh-CN-reference', locale: 'zh-CN-reference', group: 'reference-landings', sourceCheckpointSha: sourceCommit, items: [
+      {sourcePath: cliSource, targetPath: cliTarget, sourceHash: sha256(cliEnglish)},
+      {sourcePath: homeSource, targetPath: homeTarget, sourceHash: sha256(homeEnglish)},
+    ]};
+    const report = {target: 'zh-CN-reference', results: [
+      {sourcePath: cliSource, targetPath: cliTarget, sourceHash: sha256(cliEnglish), status: 'translated'},
+      {sourcePath: homeSource, targetPath: homeTarget, sourceHash: sha256(homeEnglish), status: 'translated'},
+    ], checkpoint: {generatedAt: '2026-09-15T01:02:03.000Z'}};
+
+    mergeTranslatedResultsIntoProgressState(siteDir, manifest, report);
+
+    const {parseReferenceTranslationManifest} = require('../lib/load-typescript').loadTypeScript('../../packages/docs-tooling/src/reference/translationManifest.ts');
+    const state = parseReferenceTranslationManifest(JSON.parse(fs.readFileSync(path.join(siteDir, 'generated/zh-CN/manifests/reference-translations.json'), 'utf8')));
+    const bySource = new Map(state.records.map(record => [record.sourcePath, record]));
+    assert.equal(bySource.size, 2);
+    const cliRecord = bySource.get(cliSource);
+    assert.equal(cliRecord.sourceHash, sha256(cliEnglish));
+    assert.equal(cliRecord.targetHash, sha256(cliChinese));
+    assert.equal(cliRecord.sourceCommit, sourceCommit);
+    assert.equal(cliRecord.status, 'translated');
+    const homeRecord = bySource.get(homeSource);
+    assert.equal(homeRecord.manual, 'guides');
+    assert.equal(homeRecord.sourceHash, sha256(homeEnglish));
+    assert.equal(homeRecord.targetHash, sha256(homeChinese));
+    assert.equal(homeRecord.status, 'translated');
+
+    const {validateTranslationCoverage} = require('../lib/load-typescript').loadTypeScript('../../packages/docs-tooling/src/translation/validate.ts');
+    assert.doesNotThrow(() => validateTranslationCoverage({repositoryRoot: siteDir, targetId: 'zh-CN-reference', group: 'reference-landings'}));
   });
 });
