@@ -179,9 +179,30 @@ function validateReferenceState({workspace, baseline, manifest, resultBySource})
   const expected = JSON.parse(JSON.stringify(baselineState))
 
   for (const item of manifest.items) {
-    if (item.type !== 'reference' || item.locale !== 'zh-CN') fail(`Reference candidate identity is invalid for ${item.sourcePath}`)
-    const sourceRecord = sourceByPath.get(item.sourcePath)
+    // The Guides home is the single declared landing seed that joins the zh
+    // reference-landings group as a guides-type candidate: exact source and
+    // target paths, authenticated against the workspace source bytes (the
+    // same anchor bootstrap uses), and its translation state deliberately
+    // stays out of the reference-translations manifest below.
+    const isGuidesHome = item.sourcePath === 'content/en/guides/tutorials/home.md'
+    if (item.locale !== 'zh-CN' || (isGuidesHome ? item.type !== 'guides' || item.targetPath !== 'content/zh-CN/guides/tutorials/home.md' : item.type !== 'reference')) {
+      fail(`Reference candidate identity is invalid for ${item.sourcePath}`)
+    }
+    let sourceRecord = sourceByPath.get(item.sourcePath)
+    if (!sourceRecord && isGuidesHome) {
+      const homeSource = readOptionalPinnedBytes(workspace, item.sourcePath, 'Guides home source')
+      if (homeSource === null) fail(`Guides home source is missing: ${item.sourcePath}`)
+      sourceRecord = {manual: 'guides', sourcePath: item.sourcePath, sourceHash: sha256(homeSource)}
+    }
     if (!sourceRecord || sourceRecord.sourceHash !== item.sourceHash) fail(`Reference source manifest does not authenticate ${item.sourcePath}`)
+    if (isGuidesHome) {
+      // The home candidate still passes through the generic translation
+      // result, target, and report checks in validateTerminalResultSet; only
+      // its reference-manifest state bookkeeping is skipped.
+      const homeTarget = readOptionalPinnedBytes(workspace, item.targetPath, 'candidate output')
+      if (homeTarget === null) fail(`candidate output ${item.targetPath} is missing`)
+      continue
+    }
     const result = resultBySource.get(item.sourcePath)
     const baselineTarget = readOptionalPinnedBytes(baseline, item.targetPath, 'failed candidate baseline target')
     if (result.status === 'failed') {
@@ -236,6 +257,9 @@ function validateReferenceState({workspace, baseline, manifest, resultBySource})
     }
   }
 
+  if (currentState.records.some(record => record.sourcePath === 'content/en/guides/tutorials/home.md')) {
+    fail('Guides home translation state must not be recorded in the Reference translation manifest')
+  }
   try {
     assert.deepEqual(currentState, parseReferenceTranslationManifest(expected))
   } catch (error) {
