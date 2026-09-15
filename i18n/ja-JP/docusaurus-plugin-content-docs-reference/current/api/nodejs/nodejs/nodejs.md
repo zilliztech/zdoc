@@ -12,24 +12,24 @@ import Admonition from '@theme/Admonition';
 
 # Node.js SDK リファレンス
 
-[@zilliz/milvus2-sdk-node](https://github.com/milvus-io/milvus-sdk-node) は、Milvus および Zilliz Cloud の公式 Node.js SDK です。vector 類似度検索、メタデータフィルタリング、ならびに collection、index、ユーザー管理全般のための gRPC および HTTP クライアントを提供します。
+[@zilliz/milvus2-sdk-node](https://github.com/milvus-io/milvus-sdk-node) は、Milvus および Zilliz Cloud の公式 Node.js SDK です。ベクトル類似度検索、メタデータフィルタリング、およびコレクション、インデックス、ユーザー管理の全体に対して、gRPC と HTTP の両方のクライアントを提供します。
 
 ## 機能
 
-- **デュアルプロトコル対応** — gRPC と、gRPC をサポートしない環境（例: Cloudflare Workers、Vercel Edge）向けの HTTP クライアントに対応
-- **vector 操作** — 類似度検索、再ランキング付きハイブリッド検索、sparse vector/BM25 検索
+- **デュアルプロトコル対応** — gRPC をサポートしていない環境（Cloudflare Workers、Vercel Edge など）向けの gRPC および HTTP クライアント
+- **ベクトル操作** — 類似度検索、再ランキング付きハイブリッド検索、スパースベクトル/BM25 検索
 - **データ管理** — 挿入、upsert、削除、およびスカラーフィルターを使用したクエリ
-- **柔軟なスキーマ** — マルチテナンシー向けの動的フィールドおよび partition key
-- **一括操作** — 大規模インポート向けの `BulkWriter` とサーバーサイド一括インポート
-- **エンタープライズ機能** — RBAC、resource group、データベース管理
-- **可観測性** — OpenTelemetry トレーシング対応
+- **スキーマの柔軟性** — マルチテナンシー向けの動的フィールドおよびパーティションキー
+- **一括操作** — 大規模インポートおよびサーバーサイド一括インポート向けの `BulkWriter`
+- **エンタープライズ機能** — RBAC、リソースグループ、データベース管理
+- **可観測性** — OpenTelemetry トレーシングのサポート
 
 ## インストール
 
 ```bash
-npm install @zilliz/milvus2-sdk-node
+npm install @zilliz/milvus2-sdk-node@3.0.5
 # or
-yarn add @zilliz/milvus2-sdk-node
+yarn add @zilliz/milvus2-sdk-node@3.0.5
 ```
 
 **要件:** Node.js v18+

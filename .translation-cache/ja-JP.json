@@ -1535,6 +1535,11 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/select-zilliz-cloud-service-plans.md",
       "translatedAt": "2026-08-04T05:07:30.302Z"
     },
+    "content/en/guides/tutorials/home.md": {
+      "sourceHash": "07f4aaec526bfd71e60e70f945f014396c491aa00c9a06a973a03058ba1f1744",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/home.md",
+      "translatedAt": "2026-09-15T09:12:56.587Z"
+    },
     "content/en/guides/tutorials/management/access-control/access-control-overview.md": {
       "sourceHash": "0bfdc5697df51ce951ae994cb5b09825fc6053d2e299c685ea6c5f1c3a554a31",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/access-control/access-control-overview.md",
@@ -2683,7 +2688,12 @@
     "content/en/reference/api/cpp/cpp/cpp.md": {
       "sourceHash": "3017484804e0da7bbbcd54d2aadf57336daa28c6be777cd709775a463a7435a5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/cpp.md",
-      "translatedAt": "2026-08-24T07:18:09.056Z"
+      "translatedAt": "2026-09-15T09:12:56.587Z"
+    },
+    "content/en/reference/api/go/go/go.md": {
+      "sourceHash": "218599e17d7de91e389aeeb273df8b77460e10dc8c268b05010e9e52480962ee",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/go.md",
+      "translatedAt": "2026-09-15T09:12:56.587Z"
     },
     "content/en/reference/api/go/go/v2/v2-Client/v2-Client-ClientConfig.md": {
       "sourceHash": "11d0dc2d9de2422b3cc6211db507c2c6f1a5a2717a4d4cf5033bbb9798d474c2",
@@ -2899,6 +2909,11 @@
       "sourceHash": "a141ebedea8299314772435b5a76dddcc4277f0ee03d48d74d6295ece14315e7",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Vector/v2-Vector.md",
       "translatedAt": "2026-08-04T05:52:56.363Z"
+    },
+    "content/en/reference/api/java/java/java.md": {
+      "sourceHash": "57f22b795322cc84479eff60e622ba7f128048d5a3b012578bdd1fbf9250de5b",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/java.md",
+      "translatedAt": "2026-09-15T09:12:56.587Z"
     },
     "content/en/reference/api/java/java/v2/v2-Client/v2-Client-ConnectConfig.md": {
       "sourceHash": "098664ad42e01d65c90a1f47009f56a5d1fb345f0356a87e4ed52ddba1fc686f",
@@ -3380,6 +3395,11 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Vector/Vector-upsert.md",
       "translatedAt": "2026-08-04T05:52:46.937Z"
     },
+    "content/en/reference/api/nodejs/nodejs/nodejs.md": {
+      "sourceHash": "72150bfd7c065115625b70f3efac11a4e9493198b5cedd66cc5307983dd901ec",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/nodejs.md",
+      "translatedAt": "2026-09-15T09:12:56.587Z"
+    },
     "content/en/reference/api/python/python/DataImport/DataImport-BulkImport/BulkImport-bulk_import.md": {
       "sourceHash": "0da0daa5bcd430dfda17095f143e65b3d18c159d3d1ab4466cb3dd78e7cb8bc9",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/DataImport/DataImport-BulkImport/BulkImport-bulk_import.md",
@@ -3644,6 +3664,11 @@
       "sourceHash": "bdc4240da79a218a28f9e4dcdb36e1022def4462f885fd00cadf84ebf010acb7",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/Volume/Volume-VolumeManager/VolumeManager-list_volumes.md",
       "translatedAt": "2026-08-18T00:02:03.146Z"
+    },
+    "content/en/reference/api/python/python/python.md": {
+      "sourceHash": "8fa2562adfe48a79d7a386258f21a2bfa35d24a6b55e82b6c45e20a5c72942c1",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/python.md",
+      "translatedAt": "2026-09-15T09:12:56.587Z"
     },
     "content/en/reference/api/restful/restful/restful.md": {
       "sourceHash": "56b7ca9fcdd13bf807b254e99a4b298b0b400e882662fb1fc5404db52711012c",
@@ -4614,6 +4639,11 @@
       "sourceHash": "0ea1034da18f1404711e4aecf6ccfc3c272432254d833f368ba29dd5953292c8",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v2/v2.mdx",
       "translatedAt": "2026-08-04T05:52:47.126Z"
+    },
+    "content/en/reference/cli/cli/Overview.md": {
+      "sourceHash": "a180c5ee20fb863ca6647094f68f5afe52a5f5186e68f3d57304bd2e5c873d3d",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/Overview.md",
+      "translatedAt": "2026-09-15T09:12:56.587Z"
     },
     "docs-byoc/tutorials/architecture/best-practices/environment-isolation.md": {
       "sourceHash": "2af23c87d9a811d1f7ea55d03d35f26dc5f1feebc14963672338c1b86e065beb",

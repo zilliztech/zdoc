@@ -49,13 +49,13 @@ import Banner from '@site/src/components/Banner';
 
 <Hero>
 
-# 自信を持って構築し、AI アプリケーションを加速\{#build-with-confidence-and-supercharge-your-ai-applications}
+# 自信を持って構築し、AI アプリケーションを飛躍的に強化する\{#build-with-confidence-and-supercharge-your-ai-applications}
 
-Zilliz Cloud は完全マネージドの Milvus サービスを提供し、セキュリティを重視しながら vector search アプリケーションのデプロイとスケーリングを簡素化します。
+Zilliz Cloud は完全マネージドの Milvus サービスを提供し、セキュリティを考慮しながらベクトル検索アプリケーションのデプロイとスケーリングを簡素化します。
 
-## 基本的な Vector Search\{#basic-vector-search}
+## 基本的なベクトル検索\{#basic-vector-search}
 
-近似最近傍（ANN）検索を実行して、クエリ vector に最も類似した vector を見つけます。[詳細はこちら](./single-vector-search)。
+クエリベクトルに最も類似したベクトルを見つけるために、近似最近傍（ANN）検索を実行します。[詳細はこちら](./single-vector-search)。
 
 ```json
 // Dataset: 3 items with vectors and color metadata
@@ -184,7 +184,7 @@ curl --request POST \
 
 ## フィルタ付き検索\{#filtered-search}
 
-vector search の前にメタデータフィルタを適用して検索範囲を絞り、結果の関連性を向上させます。[詳細はこちら](./filtered-search)。
+結果の関連性を高めるために、ベクトル検索の前にメタデータフィルタを適用して検索を絞り込みます。[詳細はこちら](./filtered-search)。
 
 ```json
 // Dataset: 3 items with vectors and color metadata
@@ -274,7 +274,7 @@ curl --request POST \
 
 ## グルーピング検索\{#grouping-search}
 
-検索結果をフィールドごとにグループ化して、より高いレベルでデータを集約し、結果の多様性を向上させます。[詳細はこちら](./grouping-search)。
+検索結果をフィールドでグループ化して、より高いレベルでデータを集約し、結果の多様性を高めます。[詳細はこちら](./grouping-search)。
 
 ```json
 // Dataset: 3 items from different documents (docId)
@@ -362,7 +362,7 @@ curl --request POST \
 
 ## ハイブリッド検索\{#hybrid-search}
 
-複数の vector field を組み合わせて、テキスト、画像などをまたぐマルチモーダル検索を実現します。[詳細はこちら](./hybrid-search)。
+複数のベクトルフィールドを組み合わせて、テキスト、画像などを横断するマルチモーダル検索を実現します。[詳細はこちら](./hybrid-search)。
 
 ```json
 // Dataset: 3 items with text and image embeddings
@@ -494,7 +494,7 @@ curl --request POST \
 
 ## 全文検索\{#full-text-search}
 
-BM25 の関連度スコアリングによるキーワードマッチングを使用してテキストを検索し、正確な用語検索を実現します。[詳細はこちら](./full-text-search)。
+BM25 の関連度スコアリングによるキーワードマッチングでテキストを検索し、用語を正確に取得します。[詳細はこちら](./full-text-search)。
 
 ```json
 // Dataset: 3 text documents with BM25 sparse embeddings
@@ -585,9 +585,9 @@ curl --request POST \
 }'
 ```
 
-## Search Iterator\{#search-iterator}
+## 検索イテレーター\{#search-iterator}
 
-ページネーションによる反復取得を使用して、16,384 件の制限を超える大規模な検索結果を取得します。[詳細はこちら](./with-iterators)。
+ページネーションによる反復を使用して、16,384 件の制限を超える大規模な検索結果を取得します。[詳細はこちら](./with-iterators)。
 
 ```json
 // Dataset: First 3 items with vectors
@@ -696,9 +696,9 @@ curl --request POST \
 }'
 ```
 
-## Query\{#query}
+## クエリ\{#query}
 
-vector search を行わずに、scalar field または主キーでフィルタして entity を取得します。[詳細はこちら](./get-and-scalar-query)。
+ベクトル検索を行わずに、スカラーフィールドまたは主キーでフィルタしてエンティティを取得します。[詳細はこちら](./get-and-scalar-query)。
 
 ```json
 // Dataset: 3 items with vectors and color metadata
@@ -778,7 +778,7 @@ curl --request POST \
 
 <Bars>
 
-プロジェクトで[プラン](./select-zilliz-cloud-service-plans)を選択し、異なるデプロイオプションの cluster を作成します。
+プロジェクトの[プラン](./select-zilliz-cloud-service-plans)を選択し、そのプロジェクトでさまざまなデプロイオプションのクラスターを作成します。
 
 - [Free](./create-cluster#create-a-free-cluster)
 
@@ -786,7 +786,7 @@ curl --request POST \
 
 - [Dedicated](./create-cluster#create-a-dedicated-cluster)
 
- [どのデプロイオプションを選べばよいかわかりませんか？](https://zilliz.com/pricing)
+ [どのデプロイオプションを選択すべきかわからない場合は？](https://zilliz.com/pricing)
 
 </Bars>
 
@@ -794,95 +794,95 @@ curl --request POST \
 
 # Zilliz Cloud でデータを活用する\{#work-with-your-data-in-zilliz-cloud}
 
-## コンピュートリソースをデータに持ち込む\{#bring-compute-resources-to-your-data}
+## コンピュートリソースをデータの場所に持ち込む\{#bring-compute-resources-to-your-data}
 
 1. ストレージ統合を設定します。
 
-    AWS S3 バケット、Google Cloud Storage バケット、または Microsoft Azure blob storage コンテナを Zilliz Cloud と統合します。
+    AWS S3 バケット、Google Cloud Storage バケット、または Microsoft Azure Blob Storage コンテナを Zilliz Cloud と統合します。
 
-1. [external volume](./external-volumes) を作成します。
+1. [外部ボリューム](./external-volume)を作成します。
 
-    パスまたは外部ストレージ全体を external volume として使用します。これは統合されたストレージ内のバケットまたはパスへの読み取り専用参照であり、Zilliz Cloud がデータをコピーまたは移動することなくその場でアクセスできるようにします。 
+    パスまたは外部ストレージ全体を外部ボリュームとして使用します。これは統合されたストレージ内のバケットまたはパスへの読み取り専用の参照であり、Zilliz Cloud がデータをコピーまたは移動することなくその場でアクセスできるようにします。
 
-1. [データベースを作成](./create-database#create-database-in-on-demand-compute-or-public)します。
+1. [データベースを作成](./on-demand-database#create-database)します。
 
-    オンデマンドコンピュートにデータベースを作成します。データベースはプロジェクトレベルのリソースであり、プロジェクト内のすべてのオンデマンド cluster で共有されます。 
+    オンデマンドコンピュートでデータベースを作成します。データベースはプロジェクトレベルのリソースであり、プロジェクト内のすべてのオンデマンドクラスターで共有されます。
 
-1. データベース内に external collection を作成します。
+1. データベースに外部コレクションを作成します。
 
-    0.56.0 時点で、collection の列を Parquet ファイル、Lance テーブル、Iceberg テーブル、または Vortex ファイルにマッピングします。
+    コレクションのカラムを、Parquet ファイル、Lance テーブル、Iceberg テーブル、または 0.56.0 以降の Vortex ファイルにマッピングします。
 
-1. index を作成し、collection を更新します。
+1. インデックスを作成し、コレクションを更新します。
 
-    すべての vector field と必要に応じて scalar field に index を作成し、その後 collection を更新して、Zilliz Cloud が collection 用のメタデータと index ファイルを作成できるようにします。更新は通常、1 秒未満で完了します。
+    すべてのベクトルフィールドとオプションのスカラーフィールドにインデックスを作成し、コレクションを更新してから、Zilliz Cloud がコレクションのメタデータファイルとインデックスファイルを作成するようにします。更新は通常 1 秒未満で完了します。
 
 1. データの探索を開始します。
 
-    その後、外部ストレージに保存されたデータに対して、オンデマンドコンピュートリソースを使った vector search と scalar フィルタリングを開始できます。
+    その後、外部ストレージに保存されているデータに対して、オンデマンドコンピュートリソースを使用したベクトル検索とスカラーフィルタリングを開始できます。
 
-## 自分の Vector を持ち込む\{#bring-your-own-vectors}
+## 独自のベクトルを持ち込む\{#bring-your-own-vectors}
 
-1. cluster を作成して接続します。
+1. クラスターを作成して接続します。
 
-    必要なコンピュートおよびストレージリソースで[cluster を作成](./create-cluster)し、その後[接続](./how-to-connect)します。
+    希望するコンピュートとストレージのリソースを使用して[クラスターを作成](./create-cluster)し、そのクラスターに[接続](./connect-to-clusters)します。
 
-1. collection を作成します。
+1. コレクションを作成します。
 
-    collection は固定された列と可変の行を持つ二次元テーブルです。external collection を作成してデータに計算を持ち込むことも、managed collection を作成して高性能な vector search サービスを利用することもできます。
+    コレクションは、固定されたカラムと可変の行を持つ 2 次元テーブルです。外部コレクションを作成してデータの場所に計算処理を持ち込むことも、マネージドコレクションを作成して高性能なベクトル検索サービスを利用することもできます。
 
 1. データをインポートします。
 
-    ローカルファイルまたはオブジェクトストレージバケットから[データをインポート](./data-import-export)します。
+    ローカルファイルまたはオブジェクトストレージバケットから[データをインポート](./import-data)します。
 
-1. vector 類似度検索を実行します。
+1. ベクトル類似検索を実行します。
 
-    [基本的な vector 類似度検索](./single-vector-search)は、最も類似した結果を見つけるのに役立ちます。
+    [基本的なベクトル類似検索](./single-vector-search)は、最も類似した結果を見つけるのに役立ちます。
 
-## 統合 Embedding\{#integrated-embedding}
+## 統合埋め込み\{#integrated-embedding}
 
-1. cluster を作成して接続します。
+1. クラスターを作成して接続します。
 
-    必要なコンピュートおよびストレージリソースで[cluster を作成](./create-cluster)し、その後[接続](./how-to-connect)します。
+    希望するコンピュートとストレージのリソースを使用して[クラスターを作成](./create-cluster)し、そのクラスターに[接続](./connect-to-clusters)します。
 
-1. モデルプロバイダー統合を設定するか、hosted model をデプロイします。
+1. モデルプロバイダー統合を設定します。
 
-    サードパーティのモデルプロバイダー用認証情報を保存するために、AWS、GCP、または Azure のストレージ統合を作成します。あるいは、hosted model を[デプロイ](./hosted-models)することもできます。
+    サードパーティのモデルプロバイダーの認証情報を保存するために、AWS、GCP、または Azure のストレージ統合を作成します。
 
-1. collection を作成し、embedding function を構成します。
+1. コレクションを作成し、埋め込み関数を構成します。
 
-    少なくとも 1 つの vector field と 1 つの VARCHAR field を持つ managed collection を作成し、テキスト embedding function を定義します。
+    少なくとも 1 つのベクトルフィールドと 1 つの VARCHAR フィールドを持つマネージドコレクションを作成し、テキスト埋め込み関数を定義します。
 
 1. 生のテキストデータを挿入します。
 
-    生データを[挿入](./insert-entities)します。Zilliz Cloud は取り込み時に自動的に vector embedding を生成します。
+    生データを[挿入](./insert-entities)します。Zilliz Cloud は取り込み時にベクトル埋め込みを自動的に生成します。
 
-1. 生のテキストを使って検索を行います。
+1. 生のテキストを使用して検索を実行します。
 
-    生のクエリテキストを指定します。Zilliz Cloud はクエリを embedding し、保存された vector と比較して、最も関連性の高い結果を[返します](./single-vector-search)。
+    生のクエリテキストを指定します。Zilliz Cloud はクエリを埋め込み、保存されているベクトルと比較して、最も関連性の高い結果を[返します](./single-vector-search)。
 
-## 他のデータインフラから移行する\{#migrate-from-other-data-infra}
+## 他のデータ基盤からの移行\{#migrate-from-other-data-infra}
 
 1. データソースに接続します。
 
-    Zilliz Cloud は、Pinecone、MongoDB、Qdrant、PostgreSQL など、さまざまなデータソースをサポートしています。[Migration ](./migrations)[g](./migrations)[uides](./migrations)を参照してください。
+    Zilliz Cloud は、Pinecone、MongoDB、Qdrant、PostgreSQL など、さまざまなデータソースをサポートしています。[移行ガイド](./migrate-from-pinecone)を参照してください。
 
-1. 移行元と移行先を設定します。
+1. 移行元と移行先を構成します。
 
-    データソース情報を確認し、移行先を設定します。
+    データソースの情報を確認し、移行先を構成します。
 
 1. マッピングを確認します。
 
-    ソースデータとターゲットデータのスキーマ間のマッピングを設定して確認します。
+    移行元データと移行先データのスキーマ間のマッピングを設定して確認します。
 
 ## バックアップと復元\{#backup-and-restore}
 
-1. cluster または collection のバックアップを作成します。
+1. クラスターまたはコレクションのバックアップを作成します。
 
-    バックアップは cluster または collection の特定時点のコピーです。バックアップは[手動で](./create-backup)作成することも、スケジュールバックアップ用に[バックアップポリシーを設定](./schedule-automatic-backups)することもできます。また、災害復旧機能を強化するために[バックアップを他のリージョンにコピー](/docs/backup-to-other-regions)することもできます。
+    バックアップは、クラスターまたはコレクションのある時点のコピーです。[手動](./create-backup)でバックアップを作成することも、[バックアップポリシーを設定](./schedule-automatic-backups)してスケジュールバックアップを実行することもできます。また、ディザスタリカバリ機能を強化するために、[バックアップを他のリージョンにコピー](/docs/backup-to-other-regions)することもできます。
 
-1. （任意）バックアップをオブジェクトストレージサービスにエクスポートします。
+1. （オプション）バックアップをオブジェクトストレージサービスにエクスポートします。
 
-    作成した[バックアップファイルをエクスポート](./export-backup-files)して、AWS S3 または Azure Blob Storage に保存できます。
+    作成したバックアップファイルを AWS S3 または Azure Blob Storage に[エクスポート](./export-backup-files)できます。
 
 1. データを復元します。
 
@@ -894,25 +894,25 @@ curl --request POST \
 
 # Zilliz Cloud をさらに活用する\{#go-further-with-zilliz-cloud}
 
-- [Monitoring & Alerts](./metrics-and-alerts)
+- [モニタリングとアラート](./metrics-and-alerts)
 
-    cluster を監視し、適切なタイミングでアラートを受け取ります。
+    クラスターを監視し、適切なタイミングでアラートを受け取ります。
 
-- Access Control
+- アクセス制御
 
     きめ細かなアクセス制御でデータを保護します。
 
-- [Private Networking](./setup-a-private-link)
+- [プライベートネットワーキング](./setup-a-private-link)
 
-    cluster をプライベートネットワークに接続します。
+    クラスターをプライベートネットワークに接続します。
 
 - break
 
-- [Billing](./payment-billing)
+- [請求](./payment-billing)
 
-    初期費用なしで、使用した分だけ支払います。
+    使用した分だけを支払い、初期費用はかかりません。
 
-- Integrations
+- 統合
 
     既存のツールやワークフローと統合します。
 
@@ -920,7 +920,7 @@ curl --request POST \
 
 <Blocks>
 
-# お好みの言語で構築を始める\{#start-building-with-your-preferred-language}
+# お好みの言語で構築を開始する\{#start-building-with-your-preferred-language}
 
 - [Python](/reference/python)
 
@@ -934,4 +934,4 @@ curl --request POST \
 
 </Blocks>
 
-<Banner bannerText="お探しのものが見つかりませんか？" bannerLinkText="Ask AI を試す" />
+<Banner bannerText="Can't find what you're looking for?" bannerLinkText="Try Ask AI" />

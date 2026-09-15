@@ -29,7 +29,7 @@ pip install zilliz-cli
 zilliz login
 ```
 
-### クラスターを作成
+### クラスターを作成する
 
 ```bash
 zilliz cluster create --name my-cluster --type serverless
@@ -37,31 +37,31 @@ zilliz cluster create --name my-cluster --type serverless
 
 ## コマンドカテゴリ
 
-### [Cloud Management](./CloudManagement/CloudManagement-Cluster/Cluster-create)
+### [Cloud Management](./Cluster-create)
 
-- [Backup](./CloudManagement/CloudManagement-Backup/Backup-create) - バックアップの作成、復元、管理を行います
-- [Billing](./CloudManagement/CloudManagement-Billing/Billing-bindcard) - 請求書と使用量を表示します
-- [Cluster](./CloudManagement/CloudManagement-Cluster/Cluster-create) - クラスターの作成、一時停止、再開、削除を行います
-- [Project](./CloudManagement/CloudManagement-Project/Project-create) - プロジェクトを管理します
-- [Volume](./CloudManagement/CloudManagement-Volume/Volume-create) - ストレージボリュームを管理します
+- [Backup](./Backup-create) - バックアップの作成、復元、管理を行います
+- [Billing](./Billing-bindcard) - 請求書と使用量を表示します
+- [クラスター](./Cluster-create) - クラスターの作成、一時停止、再開、削除を行います
+- [Project](./Project-create) - プロジェクトを管理します
+- [Volume](./Volume-create) - ストレージボリュームを管理します
 
-### [Configuration](./Configuration/Configuration-Auth/Auth-login)
+### [Configuration](./Auth-login)
 
-- [Auth](./Configuration/Configuration-Auth/Auth-login) - ログイン、ログアウト、アカウント切り替えを行います
-- [Configure](./Configuration/Configuration-Configure/Configure-clear) - 設定値を設定および取得します
-- [Context](./Configuration/Configuration-Context/Context-current) - CLI コンテキストを管理します
-- [Alert](./Configuration/Configuration-Alert/Alert-create) - アラートを作成および管理します
+- [Auth](./Auth-login) - ログイン、ログアウト、アカウント切り替えを行います
+- [Configure](./Configure-clear) - 設定値の設定および取得を行います
+- [Context](./Context-current) - CLI コンテキストを管理します
+- [Alert](./Alert-create) - アラートの作成および管理を行います
 
-### [Data Operations](./DataOperations/DataOperations-Collection/Collection-create)
+### [Data Operations](./Collection-create)
 
-- [Collection](./DataOperations/DataOperations-Collection/Collection-create) - コレクションの作成、詳細表示、管理を行います
-- [Database](./DataOperations/DataOperations-Database/Database-create) - データベースを管理します
-- [Index](./DataOperations/DataOperations-Index/Index-create) - インデックスの作成と管理を行います
-- [Vector](./DataOperations/DataOperations-Vector/Vector-delete) - ベクトルの挿入、検索、クエリを行います
-- [User/Role](./DataOperations/DataOperations-Role/Role-create) - ユーザーとロールを管理します
+- [コレクション](./Collection-create) - コレクションの作成、詳細表示、管理を行います
+- [データベース](./Database-create) - データベースを管理します
+- [インデックス](./Index-create) - インデックスの作成および管理を行います
+- [ベクトル](./Vector-delete) - ベクトルの挿入、検索、クエリを実行します
+- [User/Role](./Role-create) - ユーザーとロールを管理します
 
 ## はじめに
 
-- [認証](./Configuration/Configuration-Auth/Auth-login)
-- [クラスターを作成](./CloudManagement/CloudManagement-Cluster/Cluster-create)
-- [コレクションを作成](./DataOperations/DataOperations-Collection/Collection-create)
+- [Authenticate](./Auth-login)
+- [Create a クラスター](./Cluster-create)
+- [Create a コレクション](./Collection-create)

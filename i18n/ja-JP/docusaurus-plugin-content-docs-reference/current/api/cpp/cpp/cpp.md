@@ -17,7 +17,7 @@ import Admonition from '@theme/Admonition';
 ## 機能
 
 - **ネイティブ C++ API** — `Status` の戻り値を持つ流暢なリクエストビルダーパターン
-- **コレクションとベクトルの管理** — コレクションの作成、詳細取得、ロード、削除、およびスキーマとインデックスの管理
+- **コレクションとベクトルの管理** — コレクションの作成、詳細情報の取得、ロード、削除、およびスキーマとインデックスの管理
 - **データ操作** — 挿入、アップサート、削除、クエリ、検索（ハイブリッド検索やスパースベクトル検索を含む）
 - **データベースとユーザー管理** — RBAC、リソースグループ、エイリアス、データベース管理
 - **最新のフィールドタイプ** — Array、JSON、スパース、バイナリ、float16/bfloat16, int8、struct フィールド
@@ -71,6 +71,6 @@ import DocCardList from '@theme/DocCardList';
 
 <DocCardList />
 
-## サンプル
+## 例
 
-ドキュメントに加え、[GitHub リポジトリ](https://github.com/milvus-io/milvus-sdk-cpp) にある [サンプルセット](https://github.com/milvus-io/milvus-sdk-cpp/tree/master/examples/src) もご参照ください。
+ドキュメントに加え、[GitHub リポジトリ](https://github.com/milvus-io/milvus-sdk-cpp) にある [サンプルセット](https://github.com/milvus-io/milvus-sdk-cpp/tree/master/examples/src) も参照できます。
