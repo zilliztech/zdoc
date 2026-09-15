@@ -664,7 +664,11 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p "$RUNNER_TEMP/publication-ready"
-          existing=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/attempts/$GITHUB_RUN_ATTEMPT/artifacts?per_page=100" --jq '.artifacts[].name')
+          # Artifacts are enumerated at run level (GitHub has no attempt-level
+          # artifacts endpoint); every ready-descriptor artifact name carries
+          # the run id and attempt suffix, so exact-name matching below pins
+          # the descriptors to this attempt.
+          existing=$(gh api --paginate "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/artifacts?per_page=100" --jq '.artifacts[].name')
           unit_keys=$(node -p 'JSON.parse(require("node:fs").readFileSync(process.env.RUNNER_TEMP + "/publication-selection/publication-selection.json", "utf8")).units.map(unit => unit.unitKey).join("\n")')
           while IFS= read -r unit_key; do
             token=${unit_key//\//-}
