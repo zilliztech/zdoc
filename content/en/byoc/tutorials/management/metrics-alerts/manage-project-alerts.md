@@ -171,7 +171,7 @@ Modify, organize, and maintain your existing alerts to keep monitoring relevant 
 
 <Supademo id="cmb5ywkim01nozo0iqfsmhy3q" title="Manage Project Alerts" isShowcase="true" />
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 You can also manage project alerts via RESTful APIs. For details, refer to [Update Alert Rule](/reference/restful/update-alert-rule-v2) and [Delete Alert Rule](/reference/restful/delete-alert-rule-v2).
 
@@ -213,7 +213,7 @@ Create similar alerts with minimal setup effort. Cloning copies all existing set
 
 Remove obsolete or redundant monitoring rules.
 
-<Admonition type="danger" icon="🚧" title="Danger">
+<Admonition type="danger" title="Danger">
 
 Alert deletion is permanent and cannot be undone. Ensure you no longer need the alert before proceeding.
 

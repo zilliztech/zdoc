@@ -49,7 +49,7 @@ In a primary key search, you do not need to provide any query vectors. Instead, 
 
 The following examples assume that all provided Int64 IDs are available in the target collection.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 The primary keys are not used for filtering; they are used only for vector retrieval.
 

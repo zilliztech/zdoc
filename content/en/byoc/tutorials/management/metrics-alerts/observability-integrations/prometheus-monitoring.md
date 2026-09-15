@@ -57,7 +57,7 @@ To monitor Zilliz Cloud clusters with Prometheus, follow these steps:
             - targets: ["YOUR-PROMETHEUS-TARGET"]
     ```
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     The cluster must contain no more than 10,000 collections. Clusters exceeding this limit may experience incomplete or degraded metrics export.
 

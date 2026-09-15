@@ -102,7 +102,7 @@ import Grid from '@site/src/components/Grid';
 
         Alongside the launch of Vector Lakebase, Zilliz is also releasing the public preview of Milvus 3.0. In this version, Milvus extends its vector database capabilities into the AI data infrastructure stack through open data formats and broader integration with existing data lakes and large-scale data processing engines.
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" title="Notes">
 
         In this release, Milvus 3.0 capabilities are supported on On-demand Clusters only. Serving Clusters are not yet supported.
 

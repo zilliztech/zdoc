@@ -72,7 +72,7 @@ The following demo shows how to edit the preferred maintenance window.
 
 <Supademo id="cmn4bhv4l0ps5z3qmdcrmuij7" title=""  />
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 If maintenance runs past your preferred window, it will continue until completion.
 
@@ -118,7 +118,7 @@ To delete an organization:
 
 </Procedures>
 
-<Admonition type="danger" icon="🚧" title="🚧 Warning">
+<Admonition type="danger" title="Danger">
 
 The action of deleting an organization cannot be undone. Please take extra caution with this action.
 

@@ -154,7 +154,7 @@ voyage_ranker = Function(
 )
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 The number of strings in `queries` must match the number of queries issued in the search request.
 

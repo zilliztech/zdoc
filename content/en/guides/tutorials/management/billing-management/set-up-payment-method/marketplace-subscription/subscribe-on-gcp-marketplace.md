@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 This guide provides a step-by-step walkthrough of the subscription process and outlines the pricing terms of Zilliz Cloud on GCP Marketplace.
 
-<Admonition type="info" icon="📘" title="📘 Note">
+<Admonition type="info" title="Note">
 
 Once subscribed, you can pay for the usage of Google Cloud clusters via Google Cloud Marketplace. If you have clusters deployed on other cloud providers, you can also use Google Cloud Marketplace to pay.
 
@@ -68,7 +68,7 @@ Visit [GCP](https://console.cloud.google.com/marketplace)[ Marketplace](https://
 
 1. In the pop-up window, click **SIGN UP WITH ZILLIZ**.
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     If you are unable to complete the signup process, you can retry by navigating to **[Your Orders](https://console.cloud.google.com/marketplace/orders)** page in the GCP Marketplace.
 
@@ -106,7 +106,7 @@ For details, see [Update Payment Method](./update-payment-method).
 
 ## Cancel GCP Marketplace subscription\{#cancel-gcp-marketplace-subscription}
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 After you cancel the subscription, your organization loses access to advanced Zilliz Cloud features. If your organization has no remaining credits, or if all credits have expired, it is frozen immediately.
 

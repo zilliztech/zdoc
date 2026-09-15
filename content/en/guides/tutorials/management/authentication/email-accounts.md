@@ -46,7 +46,7 @@ Once you have [registered an account](./register-with-zilliz-cloud) with Zilliz 
 
 ![update_email_address](https://zdoc-images.s3.us-west-2.amazonaws.com/updateemailaddress.png "update_email_address")
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 Updating the email address will not affect the receiver of billing invoices and alerts. Please update these information manually if necessary.
 
@@ -74,7 +74,7 @@ Refer to [MFA](./multi-factor-auth) for more information.
 
 Maintaining a consistent login method with your initial registration is required, but Zilliz Cloud offers flexibility if you need to switch your login method.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 For organization users, you can set up Single Sign-on (SSO) with the identity provider (IdP) Okta. This allows your organization users to authenticate with Okta and then seamlessly access Zilliz Cloud using their business email rather than creating a separate Zilliz Cloud account. For details, refer to [Single Sign-on with Okta](./single-sign-on-with-okta).
 
@@ -140,7 +140,7 @@ If you have already linked your Zilliz Cloud account with a third-party account 
 
 ## Close your account\{#close-your-account}
 
-<Admonition type="info" icon="📘" title="🚧 Warning">
+<Admonition type="warning" title="Warning">
 
 Once the account is closed, you cannot use it to log into Zilliz Cloud. If you change your mind and need to reopen the account, please create a support ticket at the [Zilliz Cloud Support Portal](https://support.zilliz.com/hc/en-us). After 30 days, all data in this account will be cleaned.
 

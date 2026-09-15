@@ -26,7 +26,7 @@ Credits can be used to cover Zilliz Cloud usage charges. You may receive credits
 
 Credits help you try Zilliz Cloud or run evaluation workloads before setting up a long-term payment method.
 
-<Admonition type="info" icon="📘" title="📘 Note">
+<Admonition type="info" title="Note">
 
 To manage credits and payment method, you must be an **Organization Owner** or **Organization Billing Admin**.
 

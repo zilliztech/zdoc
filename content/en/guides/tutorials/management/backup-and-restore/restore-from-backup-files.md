@@ -26,7 +26,7 @@ The restore feature in Zilliz Cloud lets you recover data from backup files in c
 
 This guide walks you through how to restore a full or partial cluster from backup files.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This feature is available only to **Dedicated** clusters.
 
@@ -184,7 +184,7 @@ The following is an example output. A restore job is generated and you can check
 
 When you restore an encrypted backup to a new cluster, Zilliz Cloud will use the KMS key associated with the backup file to decrypt the data before restoration. Therefore, you can restore the backup to a new cluster with or without encryption. 
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This feature is available only to **Dedicated** clusters in a **Business Critical** project.
 

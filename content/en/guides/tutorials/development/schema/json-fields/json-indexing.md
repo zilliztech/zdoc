@@ -345,7 +345,7 @@ If conversion fails for a row (e.g., a non-numeric string like `"invalid"`), tha
 
 ### Example 6: Index entire JSON objects\{#example-6-index-entire-json-objects}
 
-<Admonition type="warning" icon="🚧" title="Warning">
+<Admonition type="warning" title="Warning">
 
 Starting in Milvus 3.0.0, whole-object JSON indexing (`json_cast_type="JSON"`), also known as JSON flat indexing, is deprecated. Existing indexes and new index-creation requests remain supported for compatibility, but this mode is no longer recommended for new workloads. Create JSON path indexes for known query paths. For complex or evolving JSON documents with broad query patterns, consider [JSON Shredding](./json-shredding). JSON shredding does not accelerate values inside arrays; use JSON path indexes with array cast types for those queries.
 

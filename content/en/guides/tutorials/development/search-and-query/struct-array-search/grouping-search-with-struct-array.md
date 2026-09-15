@@ -32,7 +32,7 @@ This page uses the `tech_articles` collection from [Create a StructArray Field](
 | Element-level search | Supported by grouping on the primary key. | Returns at most one result per parent entity. Element-level metadata is preserved, so the selected element index or offset can be returned when exposed by the API or SDK. |
 | Hybrid search | Supported only when all sub-searches target element-level vector fields under the same StructArray field. | Element-level sub-searches are grouped by primary key before final result handling. |
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Use grouping when ungrouped element-level search returns too many duplicate parent entities. If you want every matching Struct element as an individual hit, use [Basic Vector Search with StructArray](./search-with-struct-array) without `group_by_field`.
 

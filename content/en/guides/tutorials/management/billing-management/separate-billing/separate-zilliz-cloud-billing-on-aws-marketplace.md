@@ -69,7 +69,7 @@ AWS Organizations management account / consolidated bill
                 +-- Cluster(s)
 ```
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 If you only need internal usage separation, a simpler alternative is to use one organization with multiple projects. In that model, Azure Marketplace charges remain combined under one subscription, and the usage split is visible only through Zilliz Cloud usage analysis.
 
@@ -138,7 +138,7 @@ For each business unit:
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 - Each Marketplace subscription can be linked to only one Zilliz Cloud organization.
 
@@ -180,7 +180,7 @@ Inside each Zilliz Cloud organization, use Zilliz Cloud [usage](./analyze-cost) 
 
 This provides the detailed usage view that AWS billing does not show.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 - Use AWS Billing and Cost Management for billed Marketplace charges and invoices.
 

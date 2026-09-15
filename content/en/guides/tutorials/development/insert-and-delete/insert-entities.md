@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 Entities in a collection are data records that share the same set of fields. Field values in every data record form an entity. This page introduces how to insert entities into a collection.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - **Fields added after collection creation**: If you add new fields to a collection after creation and do not specify values during insertion, MilvusZilliz Cloud automatically populates them with defined default values or `NULL` if no defaults are set. For details, refer to [Alter Collection Schema](./add-fields-to-an-existing-collection).
 

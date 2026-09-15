@@ -632,7 +632,7 @@ Currently, you can only upload your data file or folder into a managed volume vi
 
 Deleting data from a managed volume may take several minutes, depending on the size of the file or folder.
 
-<Admonition type="info" icon="📘" title="⚠️ Warning">
+<Admonition type="warning" title="Warning">
 
 Deleted files and folders **cannot be recovered**. Proceed with caution.
 
@@ -658,7 +658,7 @@ You can delete a managed volume at any time if it is no longer needed. Note that
 
 Deleting a managed volume removes **all its files and folders** as well.
 
-<Admonition type="info" icon="📘" title="⚠️ Warning">
+<Admonition type="warning" title="Warning">
 
 Deleted volumes **cannot be recovered**. Proceed with caution.
 

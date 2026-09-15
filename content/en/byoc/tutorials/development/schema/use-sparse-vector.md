@@ -39,7 +39,7 @@ Sparse vectors and the original text can be stored in Zilliz Cloud for efficient
 
 ![A7FvwnB5bhpBlKbgrzYcQijbnxg](https://zdoc-images.s3.us-west-2.amazonaws.com/A7FvwnB5bhpBlKbgrzYcQijbnxg.png)
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 In addition to sparse vectors, Zilliz Cloud also supports dense vectors and binary vectors. Dense vectors are ideal for capturing deep semantic relationships, while binary vectors excel in scenarios like quick similarity comparisons and content deduplication. For more information, refer to [Dense Vector](./use-dense-vector) and [Binary Vector](./use-binary-vector).
 
@@ -294,7 +294,7 @@ In this example, three fields are added:
 
 - `text`: This field stores text strings using the `VARCHAR` data type, with a maximum length of 65535 bytes.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 To enable  or Zilliz Cloud to generate sparse vector embeddings from a specified text field during data insertion, an additional step involving a function must be taken. For more information, please refer to  [Full Text Search](./full-text-search).
 

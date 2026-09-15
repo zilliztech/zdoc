@@ -83,7 +83,7 @@ Custom roles provide the flexibility to grant tailored privileges at the cluster
 
 For collection-level access control, it is recommended to create custom roles.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This feature is exclusively available to Dedicated clusters.
 
@@ -111,7 +111,7 @@ Currently, Zilliz Cloud only supports creating custom roles with built-in privil
 
     - Cluster Privilege Group: Admin (`Cluster_Admin`), Read-Write (`Cluster_RW`), Read-Only (`Cluster_RO`)
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     The three levels of built-in privilege groups do not have a cascading relationship. Setting a built-in privilege group at the instance level does not automatically set permissions for all databases and collections under that instance. Privileges at the database and collection levels need to be set manually.
 

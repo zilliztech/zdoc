@@ -30,7 +30,7 @@ Manual scaling is useful for planned changes, such as production launches, load 
 
 Note that manual scaling applies to serving clusters only. On-demand clusters scale automatically when requests arrive and scale back to zero when idle.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 Scaling Query CU manually is supported on all plans.
 
@@ -62,7 +62,7 @@ Before you start, read [Plan Cluster Scaling](./plan-cluster-scaling) to underst
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 When clicking **Save** in the **Scale Query Node CU** dialog box, you will be prompted to check the resource quota for your project. If the resources are sufficient, the dialog box will disappear after the check is complete, otherwise, you can 
 
@@ -90,7 +90,7 @@ During the process, some additional resources will be required for rolling; thes
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 When clicking **Save** in the **Scale Cluster Replicas** dialog box, you will be prompted to check the resource quota for your project. If the resources are sufficient, the dialog box will disappear after the check is complete, otherwise, you can 
 

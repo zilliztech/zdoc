@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 The `.npy` format is [NumPy's standard binary format](https://numpy.org/devdocs/reference/generated/numpy.lib.format.html) for saving a single array, including its shape and dtype information, ensuring it can be correctly reconstructed on different machines.  You are advised to use [the BulkWriter tool](./use-bulkwriter) to prepare your raw data into Parquet files. The following figure demonstrates how your raw data can be mapped into a set of `.npy` file.
 
-<Admonition type="warning" icon="🚧" title="Caution">
+<Admonition type="warning" title="Caution">
 
 This feature has been deprecated. You are not recommended to use it in production.
 
@@ -30,7 +30,7 @@ This feature has been deprecated. You are not recommended to use it in productio
 
 ![numpy_file_structure](https://zdoc-images.s3.us-west-2.amazonaws.com/numpyfilestructure.png "numpy_file_structure")
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - **Whether to enable AutoID**
 
@@ -74,7 +74,7 @@ Once your data is ready, you can use either of the following methods to import t
 
 - [Import files from a NumPy file folder](./data-import-numpy#import-files-from-a-numpy-file-folder)
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 If your files are relatively small, it is recommended to use the folder or multiple-path method to import them all at once. This approach allows for internal optimizations during the import process, which helps reduce resource consumption later.
 
@@ -128,7 +128,7 @@ curl --request POST \
     }'
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 If the folder contains multiple formats of files, the request will fail.
 
@@ -148,7 +148,7 @@ Zilliz Cloud supports data import from your cloud storage. The table below lists
 
 There are some limits you need to observe when you import data in NumPy files from your cloud storage. 
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 A valid set of NumPy files should be named after the fields in the schema of the target collection, and the data in them should match the corresponding field definitions.
 

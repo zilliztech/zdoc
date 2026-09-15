@@ -86,7 +86,7 @@ Once you set up a connection to the project endpoint, create a session to attach
 
 The following example assumes that you have already created an on-demand cluster, whose ID is `inxx-xxxxxxxxxxxxxxxxx`.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 For RESTful requests, instead of creating a session, you should pass the cluster ID as a query parameter to DQL calls.
 
@@ -196,7 +196,7 @@ curl --request POST \
 
 Once your on-demand computing tasks are complete, you can close the session. A closed session cannot be used for further DQL operations.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 RESTful calls do not need this.
 

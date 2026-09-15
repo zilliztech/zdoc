@@ -63,7 +63,7 @@ Typical scenarios:
 
 - **Business-time expiration.** An entity represents a record that is only valid until some absolute moment (a campaign ending, a session expiring).
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Expired entities will not appear in any search or query results. However, they may stay in the storage until the subsequent data compaction, which should be carried out within the next 24 hours.
 

@@ -36,7 +36,7 @@ The following diagram shows how an anomaly detection job uses Isolation Forest t
 
 ![AmEAw0tXEheK1tbrSsIcbTGwndf](https://zdoc-images.s3.us-west-2.amazonaws.com/AmEAw0tXEheK1tbrSsIcbTGwndf.png)
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Isolation Forest requires a minimum of 368 records in the inspected dataset.
 

@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 A partition is a subset of a collection. Each partition shares the same data structure with its parent collection but contains only a subset of the data in the collection. This page helps you understand how to manage partitions.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This feature applies only to managed collections.
 
@@ -37,7 +37,7 @@ You can add more partitions and insert entities into them based on certain crite
 
 A collection can have a maximum of 1,024 partitions.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 The **Partition Key** feature is a search optimization based on partitions and allows Zilliz Cloud to distribute entities into different partitions based on the values in a specific scalar field. This feature helps implement partition-oriented multi-tenancy and improves search performance.
 

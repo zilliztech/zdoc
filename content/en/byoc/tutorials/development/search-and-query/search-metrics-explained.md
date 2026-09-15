@@ -35,7 +35,7 @@ The table below summarizes the mapping between different field types and their c
 | `SPARSE\_FLOAT\_VECTOR` | No need to specify the dimension. | `IP`, `BM25` (used only for full text search) | `IP` |
 | `BINARY_VECTOR` | 8-32,768&ast;8 | `HAMMING`, `JACCARD`, `MHJACCARD` | `HAMMING` |
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - For vector fields of the `SPARSE\_FLOAT\_VECTOR` type, use the `BM25` metric type only when performing full text search. For more information, refer to [Full Text Search](./full-text-search).
 
@@ -67,7 +67,7 @@ where **a = (a<sub>0</sub>, a<sub>1</sub>,..., a<sub>n-1</sub>)** and **b = (b<s
 
 It's the most commonly used distance metric and is very useful when the data are continuous.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Zilliz Cloud only calculates the value before applying the square root when Euclidean distance is chosen as the distance metric.
 
@@ -81,7 +81,7 @@ The IP distance between two embeddings is defined as follows:
 
 IP is more useful if you need to compare non-normalized data or when you care about magnitude and angle.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 If you use IP to calculate similarities between embeddings, you must normalize your embeddings. After normalization, the inner product equals cosine similarity.
 

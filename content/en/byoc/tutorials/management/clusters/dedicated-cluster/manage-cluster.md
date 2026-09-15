@@ -125,7 +125,7 @@ Navigate to the **Cluster Details** page of your target cluster and then follow 
 
 <Supademo id="cm9tr2hze0t1j11m7ijth1pr5" title=""  />
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 When clicking **Resume** in the **Resume Cluster** dialog box, you will be prompted to check the resource quota for your project. If the resources are sufficient, the dialog box will disappear after the check is complete, otherwise, you can 
 
@@ -179,7 +179,7 @@ Once the resume operation is successful, a job record will be generated. You can
 
 If you need to convert an existing cluster to a [global cluster](./global-cluster-explained), follow the steps below.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 Global clusters are compatible only with Milvus 2.6.x. You cannot convert a regular cluster that is compatible with Milvus 3.0.x to a global cluster.
 

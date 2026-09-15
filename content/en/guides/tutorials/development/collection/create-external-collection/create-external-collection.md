@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 An external collection is a type of data collection in Zilliz Cloud that accesses data from external storage systems or database tables such as AWS S3 and Iceberg without copying it into Zilliz Cloud. It acts as a query layer over data lakes while maintaining compatibility with Zilliz Cloud query interfaces.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 You can create an external collection only in an on-demand compute database. Support for creating external collections in serving Dedicated clusters is coming soon.
 
@@ -100,7 +100,7 @@ Zilliz Cloud supports the following data sources, and you should provide the cor
 
 Once you have an external volume containing the target data files, create the schema to map collection columns to Parquet files (`parquet`), a lance table (`lance-table`), an Iceberg table (`iceberg-table`), or Vortex files of the 0.56.0 format (`vortex`).
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 The external source should end with a forward slash (/) to indicate this is a folder.
 
@@ -306,7 +306,7 @@ export schema="{
 
 After adding all the fields to the schema, you can create the external collection.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 You can create external collections in a database at the project level, which is usually associated with an on-demand cluster.
 
@@ -651,7 +651,7 @@ curl --request POST \
 
 The refresh operation is asynchronous, so you need to set up an iteration to monitor its progress.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - The refresh operation scans the metadata of the data files and generates the manifest files accordingly. It usually takes 150-250 ms.
 

@@ -43,7 +43,7 @@ To improve the diversity of search results, you can add the `group_by_field` par
 
 - Return the top results for each group, as defined by the `limit` parameter, with the most similar entity from each group.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 By default, Grouping Search returns only one entity per group. If you want to increase the number of results to return per group, you can control this with the `group_size` and `strict_group_size` parameters.
 

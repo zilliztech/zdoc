@@ -55,7 +55,7 @@ Understanding how Qdrant data types map to Zilliz Cloud is crucial for planning 
 
 ## Payload field conversion\{#payload-field-conversion}
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Zilliz Cloud samples 100 rows to detect payload schema. You can manually add additional fields if needed.
 

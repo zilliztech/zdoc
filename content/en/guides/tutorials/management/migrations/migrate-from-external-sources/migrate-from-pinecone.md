@@ -57,7 +57,7 @@ Understanding how Pinecone data types map to Zilliz Cloud is crucial for plannin
 
 ## Metadata field conversion\{#metadata-field-conversion}
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Zilliz Cloud samples 100 rows to detect metadata schema. You can manually add additional fields if needed.
 
@@ -97,7 +97,7 @@ Pinecone namespaces can be migrated using two strategies:
 | **Namespace as Partition Key** *(Recommended)* | Namespaces become values in a partition key field | Automatic optimization for search performance | Most scenarios with multiple namespaces |
 | **Namespace as Partition** | Each namespace becomes a separate partition | Manual partition management required | Simple scenarios with few, stable namespaces |
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Pinecone's `default` namespace handling:
 

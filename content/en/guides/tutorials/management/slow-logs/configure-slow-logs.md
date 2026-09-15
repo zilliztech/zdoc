@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 This guide covers the full lifecycle of slow logs on Zilliz Cloud: enabling, adjusting settings, and disabling.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - This release logs slow Search, HybridSearch, and Query requests.
 

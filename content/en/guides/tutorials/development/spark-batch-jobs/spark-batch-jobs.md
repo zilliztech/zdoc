@@ -305,7 +305,7 @@ The `input` and `output` parameters in the above table share a similar structure
    </tr>
 </table>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 For `input`, `format` determines which Spark data source reader is used. If you omit this parameter, the job uses the Parquet reader by default and processes only the Parquet files under the specified path. Files in other formats, such as JSON or CSV, are ignored.
 

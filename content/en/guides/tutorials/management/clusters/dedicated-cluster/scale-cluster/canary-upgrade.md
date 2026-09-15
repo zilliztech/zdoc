@@ -99,7 +99,7 @@ During a canary upgrade-based scaling operation:
 
 - During a scaling job, Zilliz Cloud continues to bill the cluster based on the previous configuration. The new Query CU or replica configuration is used for billing only after the scaling job completes successfully.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 Canary upgrade reduces service impact during scaling, but it does not mean every operation is guaranteed to be completely jitter-free. For latency-sensitive production workloads, perform major scaling changes during lower-traffic windows when possible.
 

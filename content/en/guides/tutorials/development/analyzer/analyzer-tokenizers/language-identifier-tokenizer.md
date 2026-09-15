@@ -76,7 +76,7 @@ Below is a recommended mapping of languages to suitable Zilliz Cloud analyzers. 
 | `Japanese` | `tokenizer: icu` | A robust tokenizer for complex scripts, including Japanese. |
 | `French` | `type: standard`, `filter: ["lowercase", "asciifolding"]` | A custom configuration that handles French accents and characters. |
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - **Matching is Key:** The name of your analyzer **must exactly match** the language output of the detection engine. For instance, if you're using `whatlang`, the key for Chinese text must be `Mandarin`.
 

@@ -1012,7 +1012,7 @@ During insertion, Zilliz Cloud:
 
 1. Stores both the original text and the generated sparse vector
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 You don't need to provide the sparse vector directly; the BM25 function generates it automatically based on your text and the specified analyzer.
 

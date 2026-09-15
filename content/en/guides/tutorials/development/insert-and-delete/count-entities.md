@@ -49,7 +49,7 @@ Zilliz Cloud provides two ways for you to count entities in a collection.
 
     For your information, all data manipulation operations are asynchronous, which is why the internal tracker cannot reflect the entity count in real time. For details, see [Use get_collection_stats()](./count-entities#use-getcollectionstats).
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Both methods mentioned above count entities with the same primary key as separate entities. 
 

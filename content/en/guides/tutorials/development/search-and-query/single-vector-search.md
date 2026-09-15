@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 Based on an index file recording the sorted order of vector embeddings, the Approximate Nearest Neighbor (ANN) search locates a subset of vector embeddings based on the query vector carried in a received search request, compares the query vector with those in the subgroup, and returns the most similar results. With ANN search, Zilliz Cloud provides an efficient search experience. This page helps you to learn how to conduct basic ANN searches.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 If you add new fields after the collection has been created, searches that include these fields return the defined default values or `NULL` for entities that have not explicitly set values. For details, refer to [Alter Collection Schema](./add-fields-to-an-existing-collection).
 
@@ -1849,7 +1849,7 @@ To optimize ANN searches, Zilliz Cloud provides a parameter named `level` to con
 
 This parameter ranges from `1` to `10` and defaults to `1`. Increasing the value improves search recall rate with a degradation in search performance. In common cases, the default value yields a maximum of 90% recall rate. You can increase the value as required.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 The `level`  parameter is still in **Public Preview**. If you cannot set it to a value greater than `5`, your cluster may not fully support this feature. As a workaround, you can set it to a value within the range from `1` to `5` instead, or contact [Zilliz Cloud support](https://zilliz.com/contact-sales).
 
@@ -2048,7 +2048,7 @@ zilliz vector search \
 
 You can set `enable_recall_calculation` to `true`when you tweek the `level` parameter so that you can evaluate the precisions of your search with different `level` values.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 The `enable_recall_calculation`  parameter is still in **Public Preview**, and you might not be able to use it due to compatibility issues. For any assistance, please contact us at [Zilliz Cloud support](https://zilliz.com/contact-sales).
 

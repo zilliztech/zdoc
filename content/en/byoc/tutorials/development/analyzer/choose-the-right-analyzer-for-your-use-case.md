@@ -181,7 +181,7 @@ schema.add_field(
 )
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 For detailed usage, refer to [Full Text Search](./full-text-search), [Text Match](./text-match), or [Phrase Match](./phrase-match).
 
@@ -337,7 +337,7 @@ These filters are essential for most space-separated language configurations (En
    </tr>
 </table>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 For East Asian languages (Chinese, Japanese, Korean, etc.), focus on [language-specific filters](./choose-the-right-analyzer-for-your-use-case#language-specific-filters) instead. These languages typically use different approaches for text processing and may not benefit significantly from stemming.
 
@@ -485,7 +485,7 @@ For detailed usage, refer to [run_analyzer](https://milvus.io/api-reference/pymi
 
 This section provides recommended tokenizer and filter configurations for common use cases when working with analyzers in Zilliz Cloud. Choose the combination that best matches your content type and search requirements.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Before applying an analyzer to your collection, we recommend you use [`run_analyzer`](https://milvus.io/api-reference/pymilvus/v2.6.x/MilvusClient/CollectionSchema/run_analyzer.md) to test and validate text analysis performance.
 

@@ -38,7 +38,7 @@ There are two ways to analyze costs on Zilliz Cloud.
 
 On the **Billing** page, switch to the **Usage** tab. You can monitor the usage and cost trends across various dimensions.
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 Usage data is updated on an hourly basis.
 
@@ -72,7 +72,7 @@ You can combine multiple filters based on your analysis needs to view visualized
 
 ### Via RESTful API\{#via-restful-api}
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 The Query Daily Usage RESTful API is currently in public preview. To use this API, please [contact us](http://support.zilliz.com).
 

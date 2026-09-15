@@ -25,7 +25,7 @@ Full text search is a feature that retrieves documents containing specific terms
 
 Using the BM25 algorithm for relevance scoring, this feature is particularly valuable in retrieval-augmented generation (RAG) scenarios, where it prioritizes documents that closely match specific search terms.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 By integrating full text search with semantic-based dense vector search, you can enhance the accuracy and relevance of search results. For more information, refer to [Hybrid Search](./hybrid-search).
 
@@ -393,7 +393,7 @@ schema->AddFunction(function);
 | `output_field_names` | The name of the field where the internally generated sparse vectors will be stored. For `FunctionType.BM25`, this parameter accepts only one field name. |
 | `function_type` | The type of the function to use. Must be `FunctionType.BM25`. |
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 If multiple `VARCHAR` fields require BM25 processing, define **one BM25 function per field**, each with a unique name and output field.
 

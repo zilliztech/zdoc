@@ -61,7 +61,7 @@ Once data is vectorized, it can be stored in Zilliz Cloud clusters for managemen
 
 ![No8KwR6wPhTIP6bKEqGcbBDWngc](https://zdoc-images.s3.us-west-2.amazonaws.com/No8KwR6wPhTIP6bKEqGcbBDWngc.png)
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Besides dense vectors, Zilliz Cloud also supports sparse vectors and binary vectors. Sparse vectors are suitable for precise matches based on specific terms, such as keyword search and term matching, while binary vectors are commonly used for efficiently handling binarized data, such as image pattern matching and certain hashing applications. For more information, refer to [Binary Vector](./use-binary-vector) and [Sparse Vector](./use-sparse-vector).
 

@@ -64,7 +64,7 @@ You can follow the detailed step-by-step guide below to subscribe to a Private O
 
     ![Oawqwr3rDheYWibpPwQclqh0n3d](https://zdoc-images.s3.us-west-2.amazonaws.com/Oawqwr3rDheYWibpPwQclqh0n3d.png)
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     You must accept the offer before its expiration date. If the offer has expired, contact your account executive.
 
@@ -80,7 +80,7 @@ You can follow the detailed step-by-step guide below to subscribe to a Private O
 
     Click **Sign up**. You will be redirected to Zilliz Cloud.
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     You must complete this step. Otherwise, your private offer subscription is not linked to any Zilliz Cloud organization.
 
@@ -114,7 +114,7 @@ You can follow the detailed step-by-step guide below to subscribe to a Private O
 
 When your private offer is close to expiration, Zilliz will send you a new private offer link for renewal. If you have questions about the renewal process, contact your account executive.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 For Google Cloud Marketplace, renewal is handled on the existing private offer order. After the renewal takes effect, it continues from the current private offer subscription, so you do not need to link the subscription to your Zilliz Cloud organization again.
 
@@ -164,7 +164,7 @@ Similar to [private offer renewal](./subscribe-on-gcp-marketplace-private-offer#
 
 You can cancel your private offer subscription from Google Cloud Marketplace. 
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 After you cancel the subscription, your organization loses access to advanced Zilliz Cloud features. If your organization has no remaining credits, or if all credits have expired, it is frozen immediately.
 

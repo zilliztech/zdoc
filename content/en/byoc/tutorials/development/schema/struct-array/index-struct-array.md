@@ -36,7 +36,7 @@ Make sure the collection schema already contains the `chunks` StructArray field 
 | `chunks[quality_score]` | `FLOAT` | Numeric filtering and range-style predicates. |
 | `chunks[has_code]` | `BOOL` | Boolean filtering. |
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 A vector field or vector subfield accepts only one index. If you need both EmbeddingList search and element-level search, create two separate vector subfields and index them separately. In this page, `chunks[emb_list_vector]` is indexed for EmbeddingList search, and `chunks[emb]` is indexed for element-level search.
 
@@ -85,7 +85,7 @@ client.create_index(
 )
 ```
 
-<Admonition type="warning" icon="🚧" title="Warning">
+<Admonition type="warning" title="Warning">
 
 Do not create a `MAX_SIM*` index and a regular vector-metric index on the same vector subfield. If both search modes are required, write vectors to two separate vector subfields and create one index on each subfield.
 

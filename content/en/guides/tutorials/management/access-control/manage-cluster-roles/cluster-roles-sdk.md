@@ -25,7 +25,7 @@ A cluster role defines the privileges that a user has within the cluster. More s
 
 This guide walks you through how to create a role, grant built-in privilege groups to a role, revoke privilege groups from a role, and finally drop a role. For details about built-in privilege groups, refer to [Privileges](./cluster-privileges#built-in-privilege-groups).
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This feature is exclusively available to Dedicated clusters.
 
@@ -152,7 +152,7 @@ In Zilliz Cloud, you can grant the followings to a role:
 
 - **Custom privilege groups:** If the built-in privileges do not meet your needs, you can combine different privileges to create your own custom privilege groups. For details, refer to [Custom privilege groups](./cluster-privileges#custom-privilege-groups).
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - If you need to grant custom privilege groups to a role, please [create a support ticket](http://support.zilliz.com) so that we can enable this feature for you.
 
@@ -542,7 +542,7 @@ curl --request POST \
 
 The following example demonstrates how to drop the role `role_a`.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 The built-in role `admin` cannot be dropped.
 

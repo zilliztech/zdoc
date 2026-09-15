@@ -62,7 +62,7 @@ Before finalizing the results, Milvus processes these candidates with the Boost 
 
 1. Applies the weight specified in the Boost Ranker to boost the scores of the identified entities.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Boost Ranker cannot be used in multi-vector hybrid search.
 
@@ -123,7 +123,7 @@ The following example illustrates the use of a Boost Ranker in a single-vector s
     | 48 | body | 0.265 | 0.265 | 4 | 0002 |
     | **276** | **abstract** | **0.845** | **0.423** | **5** | **0002** |
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     The weight must be a floating-point number that you choose. In cases like the above example, where a smaller score indicates greater relevance, use a weight less than **1**. Otherwise, use a weight greater than **1**.
 

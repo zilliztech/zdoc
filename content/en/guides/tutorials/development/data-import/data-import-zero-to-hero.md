@@ -29,7 +29,7 @@ This is a fast-track course to help you quickly start importing data on Zilliz C
 
 - How to import data by calling bulk-import APIs
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Zilliz Cloud now allows you to import data from any object storage service to any Zilliz Cloud cluster, regardless of the cloud provider hosting the clusters. For instance, you can import data from an AWS S3 bucket to a Zilliz Cloud cluster deployed on GCP.
 
@@ -552,7 +552,7 @@ StorageConnectParam storageConnectParam = AzureConnectParam.newBuilder()
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 The **endpoint** parameter refers to the storage service URI of your cloud provider. 
 
@@ -942,7 +942,7 @@ System.out.println(batchFiles);
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 **BulkWriter** generates a UUID, creates a sub-folder using the UUID in the provided output directory, and places all generated files in the sub-folder.
 
@@ -1015,7 +1015,7 @@ System.out.println(jobId);
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 The **object_url** should be a valid URL to a file or folder in the remote bucket. In the code provided, the **format()** method is used to combine the bucket name and the data path returned by the writer to create a valid object URL.
 
@@ -1103,7 +1103,7 @@ while (true) {
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Replace **url** in the **get_import_progress()** with the one corresponding to the cloud region of the target collection.
 

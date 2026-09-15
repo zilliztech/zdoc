@@ -119,7 +119,7 @@ For detailed information about JSON field indexing, including supported paths, d
 
 Use the `drop_index()` method to remove an existing index from a collection.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 In your cluster compatible with **Milvus v2.6.x**, you can drop a scalar index directly once it’s no longer needed—no need to release the collection first.
 

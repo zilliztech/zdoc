@@ -195,7 +195,7 @@ Region support can vary by workload type, deployment option, and feature. Use th
    </tr>
 </table>
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 [Contact us](http://zilliz.com/contact-sales) if you need on-demand compute in a region that is not listed.
 
@@ -230,7 +230,7 @@ Region support can vary by workload type, deployment option, and feature. Use th
    </tr>
 </table>
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 [Contact us](http://zilliz.com/contact-sales) if you need BYOC deployment.
 
@@ -260,7 +260,7 @@ Region support can vary by workload type, deployment option, and feature. Use th
    <tr>
      <td><p><a href="./global-cluster-explained">Global cluster</a></p></td>
      <td><p>✅ All regions</p></td>
-     <td><p>ℹ️   Part of the regions:</p><ul><li><p>gcp-us-central1</p></li><li><p>gcp-us-east4</p></li></ul><Admonition type="info" icon="📘" title="Note"> [Contact us](http://support.zilliz.com) if you need to use this feature in Google Cloud regions. </Admonition></td>
+     <td><p>ℹ️   Part of the regions:</p><ul><li><p>gcp-us-central1</p></li><li><p>gcp-us-east4</p></li></ul><Admonition type="info" title="Note"> [Contact us](http://support.zilliz.com) if you need to use this feature in Google Cloud regions. </Admonition></td>
      <td><p>❌</p></td>
    </tr>
    <tr>
@@ -283,7 +283,7 @@ Region support can vary by workload type, deployment option, and feature. Use th
    </tr>
 </table>
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 Some features depend on additional configuration, project plan, or deployment mode. For details, see [Deployment and Plan Comparison](./select-zilliz-cloud-service-plans).
 

@@ -27,7 +27,7 @@ In text processing, an **analyzer** is a crucial component that converts raw tex
 
 In Zilliz Cloud, analyzers are configured during collection creation when you add `VARCHAR` fields to the collection schema. Tokens produced by an analyzer can be used to build an index for keyword matching or converted into sparse embeddings for full text search. For more information, refer to  [Full Text Search](./full-text-search) or [Text Match](./text-match).
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 The use of analyzers may impact performance:
 
@@ -45,7 +45,7 @@ An analyzer in Zilliz Cloud consists of exactly one **tokenizer** and **zero or 
 
 - **Filters**: Filters can be applied to tokens to further refine them, for example, by making them lowercase or removing common words.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Tokenizers support only UTF-8 format. Support for other formats will be added in future releases.
 
@@ -63,7 +63,7 @@ Zilliz Cloud provides two types of analyzers to meet different text processing n
 
 - **Custom analyzer**: For more advanced requirements, custom analyzers allow you to define your own configuration by specifying both the tokenizer and zero or more filters. This level of customization is especially useful for specialized use cases where precise control over text processing is needed.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - If you omit analyzer configurations during collection creation, Zilliz Cloud uses the `standard` analyzer for all text processing by default. For details, refer to [Standard](./standard-analyzer).
 
@@ -1393,7 +1393,7 @@ You can also use the Zilliz Cloud console to perform the above operations. For d
 
 <Supademo id="cmfxfue5c41ld10k86la66x1v" title=""  />
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 Analyzer configurations are immutable after collection creation. To change the analyzer configuration, create a new collection with the desired settings and [migrate](./migrate-between-clusters) your data.
 

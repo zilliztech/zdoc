@@ -26,7 +26,7 @@ This guide demonstrates the procedure for setting up a private link from a Zilli
 
 A private link is set up at the project level and is effective for all **Dedicated** serving clusters and **on-demand** clusters deployed within the same cloud provider and region under this project.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 You can create up to 10 private endpoints per project.
 
@@ -68,7 +68,7 @@ You need to complete this step on your cloud provider console using either the U
 
     1. Navigate to the AWS console and select the region where your service runs in the upper-right corner. Then, click **Endpoints** in the left navigation. Click **Create Endpoint**.
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" title="Notes">
 
         You should always use the region where your service that needs access to your Zilliz Cloud cluster is located.
         
@@ -88,7 +88,7 @@ You need to complete this step on your cloud provider console using either the U
 
         ![enter_service_name_gcp](https://zdoc-images.s3.us-west-2.amazonaws.com/enterservicenamegcp.png "enter_service_name_gcp")
 
-        <Admonition type="info" icon="📘" title="📘 Notes">
+        <Admonition type="info" title="Notes">
 
         If your service operates in a different region than where your Zilliz Cloud cluster is hosted, ensure you select **Enable Cross Region endpoint** and choose the region where your Zilliz Cloud cluster runs. Then click **Verify service**. 
         
@@ -250,7 +250,7 @@ To disable public endpoints:
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 - Private endpoints only impact [data plane](/reference/restful/data-plane-v2) access. [Control plane](/reference/restful/control-plane-v2) can still be accessed over the public internet.
 
@@ -272,7 +272,7 @@ A timeout usually occurs for the following reasons:
 
     ![QOanbDGrYovMXHxczXmcCbUcnsc](https://zdoc-images.s3.us-west-2.amazonaws.com/qoanbdgryovmxhxczxmccbucnsc.png "QOanbDGrYovMXHxczXmcCbUcnsc")
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     If the IP address of the VPC endpoint has been resolved correctly in the output of the ping request, the DNS record works. 
 
@@ -294,7 +294,7 @@ A timeout usually occurs for the following reasons:
 
     ![KHj0bEy7ZojM6axnR0ocg1LPnue](https://zdoc-images.s3.us-west-2.amazonaws.com/khj0bey7zojm6axnr0ocg1lpnue.png "KHj0bEy7ZojM6axnR0ocg1LPnue")
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     Two security groups must be configured: one for the EC2 instance, which must allow traffic on the port associated with your private link, and another for the VPC endpoint, which must permit traffic from the IP address of the EC2 instance and target the specified port number.
 

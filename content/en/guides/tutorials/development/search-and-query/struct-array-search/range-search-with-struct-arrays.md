@@ -32,7 +32,7 @@ This page uses the `tech_articles` collection from [Create a StructArray Field](
 | Element-level search | Use a regular vector query with `radius` and, optionally, `range_filter`. | Struct element level. |
 | Hybrid search | Supported when the StructArray request targets an element-level vector field. EmbeddingList-level requests do not support range search. | Element-level sub-search, then hybrid reranking. |
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 If you only need the nearest Struct elements, start with [Basic Vector Search with StructArray](./search-with-struct-array). Use range search when the result must satisfy a score or distance boundary instead of only a top-K ranking.
 

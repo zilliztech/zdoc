@@ -48,7 +48,7 @@ Each object in `chunks` must follow the Struct schema.
 | `emb_list_vector` | `FLOAT_VECTOR` | Vector written for EmbeddingList search. |
 | `emb` | `FLOAT_VECTOR` | Vector written for element-level search. |
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 In an insert payload, `chunks` is a regular field whose value is an array of Struct objects. Inside each object, use subfield names such as `text` and `emb`. Use path syntax, such as `chunks[text]` or `chunks[emb]`, only after insertion when you create indexes, run searches, build filters, or specify output fields.
 
@@ -202,7 +202,7 @@ client.insert(
 
 When a nullable StructArray field contains a valid StructArray value, all subfields in that value should either be null or have valid values. Inserting an entity with some subfields set to null and others set to valid values results in an error.
 
-<Admonition type="warning" icon="🚧" title="Warning">
+<Admonition type="warning" title="Warning">
 
 Nullable StructArray fields are available only in clusters compatible with Milvus v3.0.x. If you dynamically add a StructArray field to an existing collection, the added field must be nullable, and existing entities return `null` for the new field across all its subfields.
 

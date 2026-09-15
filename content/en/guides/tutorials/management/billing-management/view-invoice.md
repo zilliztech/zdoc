@@ -24,7 +24,7 @@ Zilliz Cloud charges at the organization level.
 
 To access invoices, you must have either **Organization Owner** or **Organization Billing Admin** permissions.
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 If you subscribe on Marketplace, you will receive invoices for your Zilliz Cloud usage through the Marketplace. 
 

@@ -30,7 +30,7 @@ In high-volume workloads, understanding which data is accessed most frequently i
 
 Access Logs give you that visibility. When enabled on a Zilliz Cloud cluster, the access log pipeline captures query activities and delivers it as structured log files to your own object storage. You can then load these logs into a data warehouse and aggregate by entity ID to identify hot data, slow queries, and usage trends.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - This release logs search- or query-class actions only: Search, HybridSearch, and Query. Support for the full action list is planned for a future release.
 

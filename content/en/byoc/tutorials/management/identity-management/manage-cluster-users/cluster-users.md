@@ -40,7 +40,7 @@ When creating a cluster user, you need to:
 
 ![X8A2bdNuTopfLWxt53Ich1FHntf](https://zdoc-images.s3.us-west-2.amazonaws.com/x8a2bdnutopflwxt53ich1fhntf.png "X8A2bdNuTopfLWxt53Ich1FHntf")
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Each cluster can have up to 500 cluster users.
 
@@ -52,7 +52,7 @@ Each cluster can have up to 500 cluster users.
 
 ## Drop a cluster user\{#drop-a-cluster-user}
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 The default user **db_admin** cannot be dropped.
 

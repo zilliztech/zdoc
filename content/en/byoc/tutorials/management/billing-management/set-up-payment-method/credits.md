@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 Credits can be used to cover Zilliz Cloud usage charges. You may receive credits when you register for Zilliz Cloud with a work email, participate in eligible Zilliz Cloud programs or events, or receive credits from Zilliz for a proof of concept (PoC).
 
-<Admonition type="info" icon="📘" title="📘 Note">
+<Admonition type="info" title="Note">
 
 To manage credits and payment method, you must be an **Organization Owner** or **Organization Billing Admin**.
 

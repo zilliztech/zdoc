@@ -28,7 +28,7 @@ Zilliz Cloud uses two database models:
 
 - **Database for on-demand search**: A project-level database managed by Zilliz Cloud. It is independent of serving clusters and is queried through a project endpoint with on-demand compute.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 This page explains the database models. To create and manage databases, see [Database in Serving Clusters](./database) and [Database for On-Demand Search](./on-demand-database).
 

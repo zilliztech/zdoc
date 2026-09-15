@@ -53,7 +53,7 @@ To use the Partition Key, you need to
 
 To designate a scalar field as the Partition Key, you need to set its `is_partition_key` attribute to `true` when you add the scalar field.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 When you set a scalar field as the Partition Key, the field values cannot be empty or null.
 
@@ -448,7 +448,7 @@ const auto filter = R"(partition_key in ['x', 'y', 'z'] && <other conditions>)";
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 You have to replace `partition_key` with the name of the field that is designated as the partition key.
 

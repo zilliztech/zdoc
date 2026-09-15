@@ -98,7 +98,7 @@ In this step, you configure Microsoft Entra (the IdP) with the SP details obtain
 
 1. Once that's done, go back to the **Single sign-on** panel of the created application and copy the **App Federation Metadata Url**. It will be required in Zilliz Cloud console in [Step 3](./single-sign-on-with-microsoft-entra#step-3-configure-idp-settings-in-zilliz-cloud-console).
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     Alternatively, get the following details:
     
@@ -122,7 +122,7 @@ In this step, you provide Microsoft Entra’s IdP details back to Zilliz Cloud t
 
 1. In the **Identity Provider Details** card of the **Configure Single Sign-On (SSO)** dialog box, paste the **App Federation Metadata URL** you copied from Microsoft Entra admin center in [Step 2](./single-sign-on-with-microsoft-entra#step-2-set-up-an-application-in-microsoft-entra-admin-center).
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     Alternatively, if you select the **Manual** mode for IdP detail configuration, configure:
     
@@ -170,7 +170,7 @@ If you encounter any issues during the setup or testing process, contact [Zilliz
 
 After your SSO connection is fully configured and tested, you can optionally enable **SSO enforcement** to require all organization members to log in exclusively through SSO. When enabled, members can no longer sign in using email/password or third-party accounts (Google, GitHub).
 
-<Admonition type="warning" icon="🚧" title="Warning">
+<Admonition type="warning" title="Warning">
 
 Enabling this feature will immediately log out all members who are currently signed in with a password and block non-SSO login methods.
 

@@ -31,7 +31,7 @@ You can add more partitions and insert entities into them based on certain crite
 
 A collection can have a maximum of 1,024 partitions.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 The **Partition Key** feature is a search optimization based on partitions and allows Zilliz Cloud to distribute entities into different partitions based on the values in a specific scalar field. This feature helps implement partition-oriented multi-tenancy and improves search performance.
 

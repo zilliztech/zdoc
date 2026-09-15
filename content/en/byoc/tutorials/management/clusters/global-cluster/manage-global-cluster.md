@@ -48,7 +48,7 @@ This page explains how to add and delete secondary clusters, convert a global cl
 
 To improve regional coverage, you can add additional secondary clusters in different regions to an existing global cluster.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 A global cluster can only have up to 5 secondary clusters.
 

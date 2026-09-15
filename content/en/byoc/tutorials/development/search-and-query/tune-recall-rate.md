@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud introduces a search parameter `level` to allow users to balance search recall and performance. It also provides another search parameter, `enable_recall_calculation`, to give users the estimated recall rate of the current search. You can combine these two parameters to tune the recall rate of vector searches.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This applies to all searches, including basic vector searches, filtered searches, range searches, grouping searches, hybrid searches, and search iterators.
 
@@ -62,7 +62,7 @@ The `level` parameter ranges from `1` to `10` and defaults to `1`. The default v
 
 For scenarios that require a high recall rate (**99%** or above), try setting the `level` parameter to an integer between `6` and `10`. If search efficiency is not a concern, you can set this parameter to `10` to get the most precise results.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 If the top-most level settings still do not suffice, contact [Zilliz Cloud support](https://zilliz.com/contact-sales).
 
@@ -105,7 +105,7 @@ During the estimation process, Zilliz Cloud:
 
 While setting `enable_recall_calculation` to `True`, you can adjust the value of the `level` parameter to obtain multiple recall rates. By considering these estimated figures and the duration of each search, you can roughly estimate the appropriate level setting.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Enabling `enable_recall_calculation` may impact search performance and is not recommended in production.
 

@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 You can create a collection by defining its schema, index parameters, metric type, and whether to load it upon creation. This page introduces how to create a collection from scratch.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 If you need strong data isolation and manage only a small number of tenants, you can create a separate collection for each tenant.
 
@@ -51,7 +51,7 @@ A schema defines the data structure of a collection. When creating a collection,
 
 The following code snippets create a schema with the enabled dynamic field and three mandatory fields named `my_id`, `my_vector`, and `my_varchar`.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 You can set default values for any scalar field and make it nullable. For details, refer to  [Nullable & Default](./nullable-fields).
 
@@ -251,7 +251,7 @@ schema->AddField(milvus::FieldSchema("my_varchar", milvus::DataType::VARCHAR).Wi
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Use a colon-separated username and password of the target cluster, like `username:password`, as the authentication token when calling data-plane RESTful API endpoints.
 

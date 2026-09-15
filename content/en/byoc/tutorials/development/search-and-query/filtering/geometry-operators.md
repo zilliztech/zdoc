@@ -48,7 +48,7 @@ To learn more about `GEOMETRY` fields in Zilliz Cloud, refer to [Geometry Field]
 
 The following table lists the geometry operators available in Zilliz Cloud.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Operator names must be **all uppercase** or **all lowercase**. Do not mix cases within the same operator name.
 

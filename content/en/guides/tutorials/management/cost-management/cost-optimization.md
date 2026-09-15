@@ -133,7 +133,7 @@ The [`build_level`](./tune-index-build-level)[ parameter ](./tune-index-build-le
 
 **Case Study:** A 16 CU capacity-optimized cluster holds 80M vectors by default. Switching to `Capacity-first` increases this to 112M, or allows the same 80M vectors to fit in 12 CUs—**saving 25% in CU costs**.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 The `build_level` parameter cannot be modified once set. Changing it requires dropping and recreating the index. We recommend evaluating your requirements before creating a collection. This parameter only supports floating-point vector types (FLOAT_VECTOR, FLOAT16_VECTOR, and BFLOAT16_VECTOR).
 
@@ -167,7 +167,7 @@ The [`level`](./tune-recall-rate)[ parameter](./tune-recall-rate) (1–10) contr
 
 - For capacity-optimized clusters, the default policy is already storage-first; no additional tuning is generally needed.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 The Collection must be released before modifying mmap settings, then reloaded afterward. Misconfiguration may cause performance degradation or OOM errors — validate in a test environment first.
 

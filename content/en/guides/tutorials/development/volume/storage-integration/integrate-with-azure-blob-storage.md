@@ -198,7 +198,7 @@ Based on the **Bucket Permission** selected in [Step 1](./integrate-with-azure-b
 
 1. In the [Zilliz Cloud console](https://cloud.zilliz.com/login), click **Validate Integration** to verify that the container and role assignment settings are valid. 
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     Validation can take up to approximately 10 minutes to complete because Azure role assignments will take time to propagate.
 

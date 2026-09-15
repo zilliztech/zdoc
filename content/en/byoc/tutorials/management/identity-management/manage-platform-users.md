@@ -28,7 +28,7 @@ This guide introduces the two types of platform users in Zilliz Cloud: organizat
 
 Organization members are users who belong to a Zilliz Cloud organization. They can sign in to the console and may be assigned organization roles, project access, or other permissions based on their responsibilities. 
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 To manage organization members, you must have an organization role that includes member and role management permissions, such as Organization Owner or an equivalent custom organization role.
 
@@ -36,7 +36,7 @@ To manage organization members, you must have an organization role that includes
 
 ### Invite organization members\{#invite-organization-members}
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 Each organization can have up to 100 members.
 
@@ -128,7 +128,7 @@ This is useful when checking why a member can access a project or why they canno
 
 Remove a member when they should no longer belong to the organization. Removing an organization member removes organization membership and direct role assignments in the organization.
 
-<Admonition type="danger" icon="🚧" title="Notes">
+<Admonition type="danger" title="Notes">
 
 Upon removing a member, the corresponding personal API key will be immediately revoked and access will be denied. To prevent service disruption, please ensure that any personal keys utilized in your environments are replaced prior to removal. This action cannot be undone.
 
@@ -156,7 +156,7 @@ The following image demonstrates how to remove an organization user.
 
 A member can leave an organization when they no longer need access. Each organization must keep at least one Organization Owner. If you are the only Organization Owner, assign another Organization Owner before leaving.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 After you leave an organization, you can no longer access that organization and its resources unless another administrator invites you again.
 
@@ -200,7 +200,7 @@ You can leave an organization in either of the following ways:
 
 Project users, also called project members, are users or groups that have access to a specific project. Use project users to grant access to project resources without granting broad organization-level permissions.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 Project access is explicit. A project role assignment must target a specific project. Zilliz Cloud does not support a cross-project wildcard assignment for all current and future projects.
 
@@ -250,7 +250,7 @@ The following image demonstrates how to invite a project user.
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 If you invite a user to a project and the user is not already an organization member, the user becomes a member of the organization after accepting the invitation.
 
@@ -304,7 +304,7 @@ The following image demonstrates how to remove a project user.
 
 A user can leave a project when they no longer need access. Each project must keep at least one Project Admin. If you are the only Project Admin, assign another Project Admin before leaving.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 After you leave a project, you can no longer access that project and its resources unless another administrator invites you again.
 

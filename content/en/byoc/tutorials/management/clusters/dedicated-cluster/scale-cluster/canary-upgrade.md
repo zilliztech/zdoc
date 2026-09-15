@@ -97,7 +97,7 @@ During a canary upgrade-based scaling operation:
 
 - If the canary or later rollout stage cannot be completed successfully, the cluster continues using the previous available configuration.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 Canary upgrade reduces service impact during scaling, but it does not mean every operation is guaranteed to be completely jitter-free. For latency-sensitive production workloads, perform major scaling changes during lower-traffic windows when possible.
 

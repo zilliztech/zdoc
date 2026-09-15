@@ -75,7 +75,7 @@ Zilliz Cloud allows you to integrate with Amazon Simple Storage Service (Amazon 
 
 1. In the upper-right corner of the [Amazon S3 console](https://console.aws.amazon.com/s3/), choose the AWS region that matches the region of your Zilliz Cloud cluster or external volume.
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     - The AWS region to create a bucket should be consistent with the region where your Zilliz Cloud cluster or external volume resides. For Zilliz Cloud-supported regions, refer to [Cloud Providers & Regions](./cloud-providers-and-regions).
     
@@ -183,7 +183,7 @@ For simplicity, create a policy using the JSON editor.
     }
     ```
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     - `<bucket>` should be replaced with the actual name of your S3 bucket.
     
@@ -245,7 +245,7 @@ Once that's done, do the following to create an IAM role:
     }
     ```
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     `965570967084` and `my-external-id` should be replaced with the actual AWS account ID and external ID shown in the **Create IAM Role** step on the Zilliz Cloud console.
 
@@ -271,7 +271,7 @@ Once that's done, do the following to create an IAM role:
 
 1. Once the status changes to **Successful**, the integration works. Then, click **Add**.
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     IAM changes can take some time to propagate; if validation fails immediately after configuration, wait and retry.
 

@@ -55,7 +55,7 @@ The following table compares the two connection endpoints.
 | **Private Link** | Not supported (requires public internet) | Supported. |
 | **Best for** | Production applications that need automatic failover and latency-based routing | Direct access to a specific cluster (e.g., environment replication, testing, debugging) |
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 It is recommended to use the global endpoint for production workloads. It eliminates the need to handle endpoint changes in your application code during switchover or failover.
 
@@ -237,7 +237,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 When using public endpoints, only the primary cluster's public endpoint accepts write operations. Writing to a secondary cluster's public endpoint will fail.
 

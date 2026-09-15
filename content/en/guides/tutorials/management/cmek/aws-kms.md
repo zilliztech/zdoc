@@ -88,7 +88,7 @@ If the drop-down list in **Select AWS IAM Role** on the **Existing IAM Role** ta
 
         This step is optional. If you already have a KMS key created with the specified IAM role, you can skip this step and proceed to the next. This is useful for adding multi-region replica keys.
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" title="Notes">
 
         After you back up an encrypted Zilliz Cloud cluster from one cloud region to another, you must use the same key that encrypted the original cluster to decrypt the backup in the target region. 
         
@@ -200,7 +200,7 @@ If the drop-down list in **Select AWS IAM Role** on the **Existing IAM Role** ta
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 When you use a KMS key to encrypt a Zilliz Cloud cluster, the cluster checks the key's availability every 10 minutes. It becomes available only after it detects that the key is available.
 

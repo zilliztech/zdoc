@@ -24,7 +24,7 @@ import Supademo from '@site/src/components/Supademo';
 
 Offline Migration transfers all existing data from a source Zilliz Cloud cluster to a target Zilliz Cloud cluster. This method supports migrations both within the same organization and across different organizations. It is ideal for scenarios where temporary write interruptions are acceptable, such as during planned maintenance or smaller-scale database transitions.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 If your application keeps writing to the source cluster during cutover, the target cluster might miss new entities, especially entities inserted after the migration job completes. To keep the target data complete, schedule a cutover window, pause writes to the source cluster, wait for the migration job to complete, validate the target cluster, and then resume writes on the target cluster only.
 
@@ -126,7 +126,7 @@ The following demo walks you through the complete offline migration process:
 
 <Supademo id="cmb91ow5v0me4sn1rzlbzqi8x" title=""  />
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 The migrated collections are not immediately available for search or query operations. You must manually load the collections in Zilliz Cloud to enable search and query functionalities. For details, refer to [Load & Release](./load-release-collections).
 

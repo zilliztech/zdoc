@@ -58,7 +58,7 @@ If you insert precomputed vectors, also store the original candidate text in a `
 
 Before using Hugging Face Ranker:
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Zilliz Cloud connects to Hugging Face through [`hf-inference`](https://huggingface.co/docs/inference-providers/providers/hf-inference) and uses the [`sentence-similarity`](https://huggingface.co/tasks/sentence-similarity) task for Hugging Face Ranker. Zilliz Cloud does not control whether a specific model is currently served by `hf-inference`, remains available, or meets your stability, latency, and output-quality requirements. Verify the selected model on Hugging Face and evaluate it for your workload before using it in production.
 

@@ -132,7 +132,7 @@ If you choose BYOC, you do not need to further choose the plan. The feature supp
      <td><p>Cross-region backup</p></td>
      <td><p>❌</p></td>
      <td><p>❌</p></td>
-     <td><p>✅</p><Admonition type="info" icon="📘" title="Note"> Cross-region backup is currently not supported in BYOC. </Admonition></td>
+     <td><p>✅</p><Admonition type="info" title="Note"> Cross-region backup is currently not supported in BYOC. </Admonition></td>
    </tr>
    <tr>
      <td><p>Storage integrations (AWS S3, Google Cloud Storage, Azure Blob Storage)</p></td>
@@ -162,7 +162,7 @@ If you choose BYOC, you do not need to further choose the plan. The feature supp
      <td><p>Cluster IP allowlist</p></td>
      <td><p>✅</p></td>
      <td><p>✅</p></td>
-     <td><p>✅</p><Admonition type="info" icon="📘" title="Note"> Cluster IP allowlist is currently not supported in BYOC. </Admonition></td>
+     <td><p>✅</p><Admonition type="info" title="Note"> Cluster IP allowlist is currently not supported in BYOC. </Admonition></td>
    </tr>
    <tr>
      <td><p>Private endpoints</p></td>

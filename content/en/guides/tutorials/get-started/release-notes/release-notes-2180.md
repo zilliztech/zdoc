@@ -36,7 +36,7 @@ To address this challenge, Zilliz introduces a new **batch ETL capability** for 
 
 Under the hood, the Merge Data API orchestrates a distributed batch processing engine along with Stage, Backup, Join, and Import into a single operation. Users no longer need to coordinate each step manually. The entire process, from data validation to import, is handled automatically. This dramatically reduces operational burden and allows schema updates to complete in **hours instead of days**.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 During the merge process, writes to the base Collection must be suspended to ensure data consistency.
 
@@ -114,7 +114,7 @@ For details, refer to [Deploy BYOC on AWS](/docs/byoc/deploy-byoc-aws), [Deploy 
 
     ![KNJ8bzQaroYqzWxsgUhcjduAn7c](https://zdoc-images.s3.us-west-2.amazonaws.com/knj8bzqaroyqzwxsguhcjduan7c.png "KNJ8bzQaroYqzWxsgUhcjduAn7c")
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     This setting only applies to newly created backups.
 

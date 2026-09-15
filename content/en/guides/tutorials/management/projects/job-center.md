@@ -114,7 +114,7 @@ Currently, you can only cancel the following types of jobs that  are in the stat
 
 - Export backup file jobs
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 To cancel a job, you must be an **Organization Owner** or a **Project Admin**.
 
@@ -124,7 +124,7 @@ To cancel a job, you must be an **Organization Owner** or a **Project Admin**.
 
 ## Retry failed job\{#retry-failed-job}
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 Currently, you can only retry failed import jobs.
 

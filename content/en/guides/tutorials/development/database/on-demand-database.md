@@ -30,7 +30,7 @@ This feature is available only with the Enterprise plan or higher.
 
 A database for on-demand search is a project-level database managed by Zilliz Cloud. It is not tied to a serving cluster. Use this page to create, view, and drop databases through a project endpoint.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This page is for project-level databases used by on-demand search. For databases hosted by serving clusters, see [Database in Serving Clusters](./database). For a comparison of database models, see [Database Explained](./database-concept).
 
@@ -107,7 +107,7 @@ To view databases in the Zilliz Cloud console, navigate to your project, click *
 
 ## Drop database\{#drop-database}
 
-<Admonition type="danger" icon="🚧" title="Danger">
+<Admonition type="danger" title="Danger">
 
 Once you drop a database, it is removed immediately and cannot be recovered. This action cannot be undone.
 

@@ -107,7 +107,7 @@ Vector Database Cost (Read) = vCU Unit Price x Read vCU Usage
 
     - The size of the data returned in each search or query: The more data returned, the higher the vCU usage. For example, returning all fields including the vector field in a search will consume much more vCUs than a search that only returns the ID field.
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     Each read operation will cost a minimum of 6 vCUs.
 

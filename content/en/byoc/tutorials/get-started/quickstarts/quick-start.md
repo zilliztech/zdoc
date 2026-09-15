@@ -39,7 +39,7 @@ Before going through this quick start, ensure that:
 
 - You have contacted Zilliz Cloud sales and provided your account to us.
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     Zilliz BYOC is currently available in **General Availability**. For access and implementation details, please contact [Zilliz Cloud sales](https://zilliz.com/contact-sales).
 

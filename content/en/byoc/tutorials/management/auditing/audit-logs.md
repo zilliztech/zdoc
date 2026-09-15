@@ -28,7 +28,7 @@ This feature is available only with the Enterprise plan or higher, and BYOC depl
 
 Audit logging allows administrators to track and monitor user-driven operations and API calls on Zilliz Cloud clusters. This feature provides a detailed record of vector db activities, including vector searches, query execution, index management, and other data operations.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - Audit logging is supported only for Zilliz Cloud clusters running Milvus 2.5.x or later.
 
@@ -46,7 +46,7 @@ Audit logging tracks a wide range of operations on the data plane, including:
 
 - **System Events**: User access attempts, authorization checks, and other predefined actions.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Cluster-level data jobs such as migration, backup, and restore do not generate audit logs. To view these activity records, refer to [View Activities](./view-activities).
 
@@ -123,7 +123,7 @@ Below are examples of audit log entries forwarded to a bucket:
 
 Refer to the [Audit Log Reference](./audit-logs-ref) for a detailed list of supported actions and corresponding log fields.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Audit logging will be directly forwarded to the object storage bucket configured during the data plane deployment.
 

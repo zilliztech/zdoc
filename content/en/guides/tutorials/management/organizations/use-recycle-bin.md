@@ -50,7 +50,7 @@ To restore a cluster in the recycle bin, you need to [add a payment method](/doc
 
     1. Depending on how the deleted cluster was retained, the restore page may allow you to choose a different target Milvus version. If the version selector is available, select the Milvus version for the restored cluster. If the version selector is not available, the restored cluster uses the original cluster version and the target version cannot be changed.
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     The load status of the collections in the cluster will be retained.
 

@@ -55,7 +55,7 @@ If a field is not defined as nullable (the default behavior), every entity must 
 
 The nullable attribute is supported for both **scalar and vector fields** in a collection schema. On supported On-Demand Clusters, it is also supported on the parent StructArray field. Do not configure Struct sub-fields as nullable independently; define nullability on the StructArray parent and the setting is propagated to its sub-fields internally.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Nullability determines whether a field value may be missing; it does not define what value is used when a field is missing.
 

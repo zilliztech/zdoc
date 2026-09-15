@@ -29,7 +29,7 @@ There are two TTL modes:
 
 - **Entity-level TTL** — each entity carries its own absolute expiration time in a dedicated `TIMESTAMPTZ` field, marked as the TTL field through the `ttl_field` property.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This feature applies only to managed collections.
 
@@ -71,7 +71,7 @@ Typical scenarios:
 
 - **Business-time expiration.** An entity represents a record that is only valid until some absolute moment (a campaign ending, a session expiring).
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Expired entities will not appear in any search or query results. However, they may stay in the storage until the subsequent data compaction, which should be carried out within the next 24 hours.
 

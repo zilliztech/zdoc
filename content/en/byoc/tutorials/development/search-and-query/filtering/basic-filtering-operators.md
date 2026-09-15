@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud provides a rich set of basic operators to help you filter and query data efficiently. These operators allow you to refine your search conditions based on scalar fields, numeric calculations, logical conditions, and more. Understanding how to use these operators is crucial for building precise queries and maximizing the efficiency of your searches.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 The literal on the left-hand side of a filtering expression can either be a collection field name, such as `status`, `color`, etc., used in examples below, or the name of a StructArray subfield at a specific element index, as in `filter = 'struct[0][subfield] > 10'`. 
 
@@ -263,7 +263,7 @@ The `IS NULL` and `IS NOT NULL` operators are used to filter fields based on whe
 
 - `IS NOT NULL`: Identifies entities where a specific field contains any value other than null, meaning the field has a valid, defined value.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 The operators are case-insensitive, so you can use `IS NULL` or `is null`, and `IS NOT NULL` or `is not null`.
 
@@ -273,7 +273,7 @@ The operators are case-insensitive, so you can use `IS NULL` or `is null`, and `
 
 Zilliz Cloud allows filtering on regular scalar fields, such as strings or numbers, with null values.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 An empty string `""` is not treated as a null value for a `VARCHAR` field.
 
@@ -305,7 +305,7 @@ Zilliz Cloud allows filtering on JSON fields that contain null values. A JSON fi
 
 - The JSON field itself is completely missing from the entity.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 If some elements within a JSON object are null (e.g. individual keys), the field is still considered non-null. For example, `\{"metadata": \{"category": None, "price": 99.99}}` is not treated as null, even though the `category` key is null.
 
@@ -373,7 +373,7 @@ Zilliz Cloud allows filtering on ARRAY fields that contain null values. An ARRAY
 
 - The ARRAY field is completely missing from the entity.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 An ARRAY field cannot contain partial null values as all elements in an ARRAY field must have the same data type. For details, refer to [Array Field](./use-array-fields).
 

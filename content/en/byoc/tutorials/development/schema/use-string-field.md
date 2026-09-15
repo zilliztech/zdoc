@@ -31,7 +31,7 @@ When you define a `VARCHAR` field, two parameters are mandatory:
 
 - Specify the `max_length`, which defines the maximum number of bytes the `VARCHAR` field can store. The valid range for `max_length` is from 1 to 65,535.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Zilliz Cloud supports null values and default values for `VARCHAR` fields. To enable these features, set `nullable` to `True` and `default_value` to a string value. For details, refer to [Nullable & Default](./nullable-fields).
 
@@ -45,7 +45,7 @@ To store short, bounded string metadata in Zilliz Cloud clusters, define a `VARC
 
 - `varchar_field2`: stores up to 200 bytes, allows null values, but does not have a default value.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 If you set `enable_dynamic_fields=True` when defining the schema, Zilliz Cloud allows you to insert scalar fields that were not defined in advance. However, this may increase the complexity of queries and management, potentially impacting performance. For more information, refer to [Dynamic Field](./enable-dynamic-field).
 

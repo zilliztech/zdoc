@@ -26,7 +26,7 @@ Zilliz to Zilliz migration allows you to transfer data between Zilliz Cloud clus
 
 - Reorganizing infrastructure for performance optimization.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 You can migrate between clusters deployed within the same Kubernetes cluster or within the same cloud region.
 

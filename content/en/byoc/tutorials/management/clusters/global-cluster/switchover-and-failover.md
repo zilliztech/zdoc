@@ -225,7 +225,7 @@ Failover is an emergency operation. Unlike a switchover, it does not wait for fu
 
     </Procedures>
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     If the failover fails, the cluster remains in ABNORMAL status. You can retry the failover operation or [create a support ticket](http://support.zilliz.com).
 

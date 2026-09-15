@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 Use a project endpoint when you want to run on-demand search or query workloads with compute from an on-demand cluster.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 This page is for connecting to a project endpoint for on-demand search. If you want to connect to a Free, Serverless, or Dedicated serving cluster, see [Connect to Serving Clusters](./connect-to-clusters).
 

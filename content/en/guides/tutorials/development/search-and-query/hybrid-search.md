@@ -844,7 +844,7 @@ Hybrid Search is implemented by creating multiple `AnnSearchRequest` in the `hyb
 
 In addition, by configuring the `expr` parameter in an `AnnSearchRequest`, you can set the filtering conditions for your hybrid search. Please refer to [Filtered Search](./filtered-search) and [Filtering Explained](./filtering-overview).
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 In Hybrid Search, each `AnnSearchRequest` supports only one query data.
 

@@ -26,7 +26,7 @@ A collection is a two-dimensional table used to store vector embeddings and meta
 
 This guide walks you through the collection creation and management operations on the web console. It is intended for users who prefer a visual interface. If you are familiar with SDKs, you can also create and manage collections through them. For details, see [Create Collection](./manage-collections-sdks).
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 If you need strong data isolation and manage only a small number of tenants, you can create a separate collection for each tenant.
 
@@ -76,7 +76,7 @@ A schema defines the data structure of your collection and must include:
 
 <Supademo id="cmaqefyds2e7aho3rna9w8trp" title="Zilliz Cloud - Create Collection Schema" />
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Most of the schema configurations cannot be modified once the collection is created. Design your schema carefully to ensure it meets current and future business needs. For best practices, see [Schema Explained](./schema-explained).
 
@@ -124,7 +124,7 @@ Functions fall into two main categories based on when they are applied:
 
 **Partition key:** A partition key is a search optimization solution based on partitions. When you specify a non-primary key `INT64` or `VARCHAR` field as the partition key, 16 partitions will be automatically created by Zilliz Cloud and all inserted entities will fall into these 16 auto-generated partitions based on their partition key values. Once partition key is enabled for a collection, you will not be able to manually create partitions in this collection. For details, see [Use Partition Key](./use-partition-key).
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 To decide whether you need to create partitions or use partition key, you can consider the following factors:
 
@@ -148,7 +148,7 @@ During collection creation, you can optionally configure mmap settings at the **
 
 - **Field-level mmap:** Enable mmap for raw data and scalar indexes of selected fields via custom settings. Generally, it is recommended to enable mmap for fields whose data size is large and are not frequently filtered or queried. The setting applies only to the selected fields and can later be modified. To modify field-level mmap settings, you need to release the collection first.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Please be cautious with mmap settings. Changing the default mmap settings may cause performance degradation or load failures due to out-of-memory (OOM) issues. For best practices, see [Use mmap](./use-mmap#collection-specific-mmap-settings).
 

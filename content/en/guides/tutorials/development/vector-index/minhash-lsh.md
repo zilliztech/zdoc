@@ -70,7 +70,7 @@ You can see the entire process illustrated below:
 
 ![CCzEwT7uchMqI6bsxRJcK1qenEh](https://zdoc-images.s3.us-west-2.amazonaws.com/CCzEwT7uchMqI6bsxRJcK1qenEh.png)
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 The number of hash functions used determines the dimensionality of the MinHash signature. Higher dimensions provide better approximation accuracy, at the cost of increased storage and computation.
 
@@ -98,7 +98,7 @@ The process involves:
 
     Pairs that collide in at least one band are selected as similarity candidates.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Why it works?
 
@@ -126,7 +126,7 @@ Then, each band is hashed into different buckets using a hash function. Document
 
 ![RfmMwNkIvhlUFSb11alcP8fqnmf](https://zdoc-images.s3.us-west-2.amazonaws.com/RfmMwNkIvhlUFSb11alcP8fqnmf.png)
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 The number of bands is controlled by the `mh_lsh_band` parameter. For more information, refer to [Index building params](./minhash-lsh#index-building-params).
 
@@ -174,7 +174,7 @@ The deduplication process powered by MinHash LSH allows Zilliz Cloud to efficien
 
 Before using MinHash LSH in Zilliz Cloud, you must first generate **MinHash signatures**. These compact binary signatures approximate Jaccard similarity between sets and are required for `MHJACCARD`-based search in Zilliz Cloud.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 You can prepare MinHash signatures for the `MINHASH_LSH` index in two ways:
 

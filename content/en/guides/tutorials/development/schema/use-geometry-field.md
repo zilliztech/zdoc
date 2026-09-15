@@ -31,7 +31,7 @@ Use a GEOMETRY field when you need to combine vector similarity with spatial con
 
 - Maps & logistics: "assets **inside** a region" or "routes **intersecting** a path"
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 To use the GEOMETRY field, upgrade your SDK to the latest version.
 
@@ -250,7 +250,7 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 In this example, the `GEOMETRY` field defined in the collection schema allows null values with `nullable=True`. For details, refer to [Nullable & Default](./nullable-fields).
 

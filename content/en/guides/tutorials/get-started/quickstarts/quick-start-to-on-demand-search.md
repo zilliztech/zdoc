@@ -29,7 +29,7 @@ Zilliz Cloud provides on-demand compute resources, allowing you to run similarit
 
 Before working on a database, connect to the project endpoint. You can obtain the project endpoint on the quickstart page after enabling on-demand compute on the Zilliz Cloud console.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - Managed collection operations require an **API key** for authentication. This flow does not support `username:password` authentication.
 

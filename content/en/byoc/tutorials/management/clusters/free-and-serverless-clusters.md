@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 Free and Serverless clusters are serving clusters. Use this page for the basic lifecycle: create, connect, and manage.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 For Dedicated clusters, see [Dedicated Cluster](./manage-cluster). For on-demand search through a project endpoint, see [Connect for On-Demand Search](./connect-for-on-demand-search).
 
@@ -33,7 +33,7 @@ For Dedicated clusters, see [Dedicated Cluster](./manage-cluster). For on-demand
 
 Before creating a Free or Serverless cluster, make sure you have registered with Zilliz Cloud and have ownership of the organization or project where the cluster will be created.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 Each organization can have only one Free cluster. For additional serving clusters, use Serverless or Dedicated.
 

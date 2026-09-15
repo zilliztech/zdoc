@@ -40,7 +40,7 @@ For scalar fields, **AUTOINDEX** provides an efficient mapping between field typ
 | `GEOMETRY` | **RTREE** | Geometric data that stores spatial information. For details, refer to [Geometry Field](./use-geometry-field). |
 | `TIMESTAMPTZ` | **STL_SORT** | time zone-aware ISO 8601 inputs, stored as UTC for consistent filtering and ordering across time zones. For details, refer to [TIMESTAMPTZ Field](./use-timestamptz-field). |
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 Cardinality (C in the above table) shows the number of unique values in a field across a whole collection. For example, the cardinality of a float field is the number of distinct float values in that field.
 
@@ -74,7 +74,7 @@ Approximate nearest neighbor (ANN) algorithms require a trade-off between recall
 
 Choosing query parameters requires a lot of domain-specific knowledge, which greatly increases the learning curve for users. To address this issue, **AUTOINDEX** has developed an intelligent algorithm that facilitates the selection of query parameters. By analyzing the distribution of users' datasets during index building, **AUTOINDEX** achieves a trade-off between recall and performance, powered by a machine learning model for query parameter recommendation. This way, users no longer need to manually set query parameters.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 When migrating your Milvus codebase to Zilliz Cloud, you do not need to change the index type used manually. Zilliz Cloud automatically applies AUTOINDEX when creating indexes.
 
@@ -142,12 +142,6 @@ Zilliz Cloud uses a unified parameter `level` to simplify search parameter tunin
 Increasing the `level` parameter will result in a higher recall rate, but may also lead to degraded search performance. The value defaults to `1` and ranges from `1` to `10`. The default value results in a recall rate of 90%, which is typically sufficient for most use cases. However, if you require a higher recall rate, increase this value.
 
 You can also set `enable_recall_calculation` to `true`when you tweek the `level` parameter so that you can evaluate the precisions of your search with different `level` values.
-
-<Admonition type="info" icon="📘" title="Notes">
-
-The `level` and `enable_recall_calculation` parameters are still in **Public Preview**, and you might not be able to fully use them due to compatibility issues. For any assistance, please contact us at support@zilliz.com.
-
-</Admonition>
 
 ## Conclusion\{#conclusion}
 

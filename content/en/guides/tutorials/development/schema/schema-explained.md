@@ -202,7 +202,7 @@ When adding a field, you can explicitly clarify the field as the primary field b
 
 You can also set the `autoId` properties to `True` to make Zilliz Cloud automatically allocate primary field values upon data insertions.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 You are advised to rely on `autoId` in all cases unless manually setting primary keys is beneficial.
 

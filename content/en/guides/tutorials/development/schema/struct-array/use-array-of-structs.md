@@ -59,7 +59,7 @@ For example, a collection can store one article as an entity and store its chunk
 }
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 The two vector subfields in this example represent the same chunk from two search perspectives. `chunks[emb_list_vector]` is intended for EmbeddingList search with `MAX_SIM*` metrics, while `chunks[emb]` is intended for element-level search with regular vector metrics such as `COSINE`, `IP`, or `L2`.
 
@@ -131,7 +131,7 @@ Use the following matrix to choose the right StructArray path.
 
 </Grid>
 
-<Admonition type="warning" icon="🚧" title="Warning">
+<Admonition type="warning" title="Warning">
 
 If your collection needs both EmbeddingList search and element-level search, use two separate vector subfields. A vector field or vector subfield accepts only one index, and the two search modes require different metric families.
 

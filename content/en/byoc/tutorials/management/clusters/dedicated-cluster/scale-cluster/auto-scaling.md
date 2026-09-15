@@ -30,7 +30,7 @@ Auto-scaling is most useful for workloads with unpredictable traffic, such as AI
 
 To keep serving utilization within a healthy range, Zilliz Cloud uses target tracking instead of reacting to every raw metric spike. The system evaluates smoothed monitoring signals and applies safety checks before creating a scaling job.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 Scaling Query CU manually is supported on all plans.
 
@@ -49,7 +49,7 @@ Zilliz Cloud does not trigger auto-scaling from a single instantaneous metric sp
 | Query CU | Query CU Capacity, with CU Computation checked during scale-in | Query CU Capacity: 70% | Greater than 80% for 10 minutes, or reaches 100% immediately | Less than 60% for 30 minutes, and the target Query CU can safely handle current CU Computation |
 | Replica | Query CU Computation | CU Computation: 50% | Greater than 60% for 2 minutes | Less than 40% for 10 minutes |
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 The values in this table are the default auto-scaling settings and may be adjusted by Zilliz Cloud as needed. If you have questions, [contact us](http://support.zilliz.com).
 
@@ -112,7 +112,7 @@ Auto-scaling requires minimum and maximum ranges for Query CU or Replica. These 
 | Minimum Replica | Defines the baseline query-serving redundancy and throughput during low-traffic periods. | Use a value that preserves the minimum availability and QPS required by your application.<br/>For production workloads, avoid setting this lower than the minimum replica count required for your availability target. |
 | Maximum Replica | Defines the cost and throughput ceiling for automatic replica scale-out. | Use a value that can absorb expected traffic peaks while preventing uncontrolled cost growth from unexpected query spikes. |
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 Do not set the maximum value higher than your operational or budget limit. Auto-scaling can scale up to the configured maximum when sustained workload pressure requires it.
 
@@ -201,7 +201,7 @@ Once a scaling event is triggered, Zilliz Cloud generates a job record. You can 
 
 When the scaling job is in progress, the cluster status is `Modifying`. When the job succeeds, the cluster status changes back to `Running`.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 During a scaling job, Zilliz Cloud continues to bill the cluster based on the previous configuration. The new Query CU or replica configuration is used for billing only after the scaling job completes successfully. This applies to both scale-up and scale-down operations.
 

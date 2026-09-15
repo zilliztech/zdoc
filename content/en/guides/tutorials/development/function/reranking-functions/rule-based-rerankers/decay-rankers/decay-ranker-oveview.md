@@ -99,7 +99,7 @@ For example, if a research paper scores 0.82 from vector similarity and 0.91 fro
 
 Let's see decay ranking in a practical scenario—searching for **"AI research papers"** with time-based decay:
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 In this example, decay scores reflect how relevance diminishes with time—newer papers receive scores closer to 1.0, older papers receive lower scores. These values are calculated using a specific decay ranker. For details, refer to [Choose the right decay ranker](./decay-ranker-oveview#choose-the-right-decay-ranker).
 
@@ -163,7 +163,7 @@ For detailed information about how each decay ranker calculates scores and speci
 
 Decay rankers can be applied to both standard vector search and hybrid search operations in Zilliz Cloud. Below are the key code snippets for implementing this feature.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Before using decay functions, you must first create a collection with appropriate numeric fields (like timestamps, distances, etc.) that will be used for decay calculations. For complete working examples including collection setup, schema definition, and data insertion, refer to [Tutorial: Implement Time-based Ranking in Milvus](./tutorial-implement-time-based-ranking).
 

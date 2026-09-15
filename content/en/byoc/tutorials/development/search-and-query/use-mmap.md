@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 Memory mapping (Mmap) enables direct memory access to large files on disk, allowing Zilliz Cloud to store indexes and data in both memory and hard drives. This approach helps optimize data placement policy based on access frequency, expanding storage capacity for collections without impacting search performance. This page helps you understand how Zilliz Cloud uses mmap to enable fast and efficient data storage and retrieval.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 When migrating or restoring data between source and target clusters that have different plans, the mmap settings of the source collection will not be migrated to the target cluster. Please manually reconfigure the mmap settings on the target cluster.
 
@@ -64,7 +64,7 @@ In clusters and the dedicated clusters using **Extended-capacity CUs**, Zilliz C
 
 You need to release a collection to make changes to the mmap settings and load it again to make the changes to the mmap settings take effect. You can configure mmap for a specific field, a field index, or a collection.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Exercise with caution when changing mmap settings. Improper mmap settings may cause the following issues:
 

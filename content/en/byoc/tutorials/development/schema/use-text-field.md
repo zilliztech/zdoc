@@ -36,7 +36,7 @@ schema.add_field(
 
 After the field is defined, each entity can include a string value in that field. You insert the value like other scalar fields and return it from query or search results by listing the field in `output_fields`.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 TEXT fields support null values. To enable this feature, set nullable to True. For details, refer to [Nullable Fields](./nullable-fields).
 

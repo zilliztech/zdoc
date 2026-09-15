@@ -25,7 +25,7 @@ You can alter the properties of a collection field to change column constraints 
 
 This page covers field property changes, not schema-shape changes such as adding or dropping fields. To add scalar fields or drop fields from an existing collection, refer to [Alter Collection Schema](./add-fields-to-an-existing-collection).
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - Each collection consists of only one primary field. Once set during collection creation, you cannot change the primary field or alter its properties.
 

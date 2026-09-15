@@ -226,7 +226,7 @@ Create a vector similarity deduplication job by specifying the input and output 
        </tr>
     </table>
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     `similarityThreshold` and `targetDedupRate` are mutually exclusive. Specifying both or leaving both unspecified results in an error.
 

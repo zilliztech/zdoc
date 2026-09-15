@@ -28,7 +28,7 @@ This guide introduces the two types of platform roles in Zilliz Cloud: organizat
 
 Organization roles control organization-level access. Use organization roles to manage permissions for members, groups, organization settings, billing and subscriptions, security settings, organization alerts, platform audit log visibility, API keys, project management, and recycle bin operations.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 Organization roles are for organization-level resources only. They do not define cluster, database, or collection permissions.
 
@@ -48,7 +48,7 @@ The following table explains the 3 predefined organization roles.
 
 Project roles control access within a specific project. Use project roles to manage project members, cluster lifecycle operations, on-demand compute access, integrations, backups, migrations, alerts, volumes, and project-scoped data access.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 A project role belongs to a specific project. When you assign a project role, the assignment applies only to the selected project.
 
@@ -121,7 +121,7 @@ Edit a custom project role when the permission set needs to change. Changes appl
 
 #### Delete a custom project role\{#delete-a-custom-project-role}
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 You cannot delete a project role that is still assigned to users, groups, or service principals. Remove existing assignments before deleting the role.
 

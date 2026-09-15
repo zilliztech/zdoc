@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 You can export backup files to object storage using the Zilliz Cloud console.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This feature is in **Private Preview** for **Dedicated** clusters in **Enterprise** projects. To enable this feature or learn about the associated costs, contact [Zilliz Cloud support](https://support.zilliz.com/hc/en-us).
 
@@ -46,7 +46,7 @@ You can export backup files from Zilliz Cloud either via the Zilliz Cloud consol
 
 1. On the page that appears, find the target backup file, click **...** in the **Actions** column, and then select **Export**.
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     Only backup files in the **Available** status can be exported.
 
@@ -117,7 +117,7 @@ Once you click **Export**, an export job is generated automatically:
 
 If your job remains in the **IN PROGRESS** status and you decide not to proceed, you can cancel the job by clicking **Cancel** in the **Actions** column.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Canceling midway will not remove data already uploaded to your bucket.
 

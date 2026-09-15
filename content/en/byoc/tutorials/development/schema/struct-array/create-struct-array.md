@@ -48,7 +48,7 @@ The `chunks` StructArray field contains the following subfields.
 | `emb_list_vector` | `FLOAT_VECTOR` | Vector subfield for EmbeddingList search with `MAX_SIM*` metrics. |
 | `emb` | `FLOAT_VECTOR` | Vector subfield for element-level search with regular vector metrics. |
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 A vector field or vector subfield accepts only one index. If you need both EmbeddingList search and element-level search, define two separate vector subfields. In this example, `chunks[emb_list_vector]` is for EmbeddingList search, and `chunks[emb]` is for element-level search.
 
@@ -213,7 +213,7 @@ schema.add_field(
 )
 ```
 
-<Admonition type="warning" icon="🚧" title="Warning">
+<Admonition type="warning" title="Warning">
 
 Nullable StructArray fields are available only in clusters compatible with Milvus v3.0.x. For a nullable StructArray field, an entity can provide a valid StructArray value or set the whole field to `null`. When inserting a valid StructArray value, all subfields should either be null or have valid values. Inserting an entity with some subfields set to null and others set to valid values results in an error. For details, see [StructArray Limits](./struct-array-limits).
 

@@ -33,7 +33,7 @@ The `chinese` analyzer consists of:
 
 The functionality of the `chinese` analyzer is equivalent to the following custom analyzer configuration:
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 The built-in `chinese` analyzer does not emit Pinyin tokens. To match Chinese text with Pinyin query terms, use a custom analyzer with the `jieba` tokenizer and the [Pinyin filter](./pinyin-filter).
 
@@ -170,7 +170,7 @@ nlohmann::json analyzer_params = {
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 The `chinese` analyzer does not accept any optional parameters.
 

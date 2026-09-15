@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 [Datadog](https://www.datadoghq.com/) is a cloud monitoring and analytics platform that provides real-time insights into application performance, infrastructure, and log management. By integrating Zilliz Cloud with Datadog, you can send metric data about your Zilliz Cloud clusters to your Datadog dashboards.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This feature is available only to **Dedicated** clusters in an **Enterprise** project.
 
@@ -72,7 +72,7 @@ This feature is available only to **Dedicated** clusters in an **Enterprise** pr
 
     1. In the **Assign Configuration to Zilliz Cloud Cluster(s)** step, select one or more clusters from which metric data will be pushed to Datadog.
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" title="Notes">
 
         Only clusters of the **Dedicated-Enterprise** plan tier can be selected.
 

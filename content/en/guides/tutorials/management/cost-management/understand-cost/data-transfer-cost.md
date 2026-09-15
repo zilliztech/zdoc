@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 Data transfer can be traffic coming into Zilliz Cloud, leaving Zilliz Cloud out into the internet, or in between two resources within Zilliz Cloud. Data transfer costs in Zilliz Cloud are billed based on the amount of data transferred. 
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Each organization receives a &#36;10 monthly data transfer discount, covering the first 100 GB.
 
@@ -67,7 +67,7 @@ You will be billed for data transfer in the following scenarios:
 
 - Use third-party model providers, such as [OpenAI](./openai), [Voyage AI](./voyage-ai), and [Cohere](./cohere), for data ingestion, search, query, and reranking.
 
-<Admonition type="info" icon="📘" title="📘 Note">
+<Admonition type="info" title="Note">
 
 If the data transfer occurs within the same cloud region, the cost may be &#36;0.
 

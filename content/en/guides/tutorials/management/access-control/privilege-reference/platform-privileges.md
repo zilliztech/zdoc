@@ -82,7 +82,7 @@ IAM resources control identities, credentials, and roles used by the Zilliz Clou
 | `project_role` | Role | view, grant | No | `*` across all projects | `-` | `-` | `*` in the assigned project | `view` in the assigned project | `view` in the assigned project | `view` in the assigned project |
 | `project_custom_role` | Role | view, create, modify, delete, grant | No | `*` | `-` | `-` | `*` | `-` | `-` | `-` |
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - Personal API keys are owned by individual users. Each user can reset their own personal API key. Personal API key permissions are not independently managed through the resource-privilege model.
 

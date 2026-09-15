@@ -95,7 +95,7 @@ For BYOC on-demand usage, the invoice period and payment schedule may vary depen
 
 For details about managing your invoices, see [Manage Invoices](./manage-invoice).
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 If an invoice becomes overdue, operations that increase resource usage may be blocked, including creating clusters, increasing query CUs or replicas, and enabling or using autoscaling.
 

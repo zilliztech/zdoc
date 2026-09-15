@@ -57,7 +57,7 @@ Ensure the following prerequisites are met before proceeding:
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 - Without any entries in the allowlist, Zilliz Cloud allows access from any IP address.
 

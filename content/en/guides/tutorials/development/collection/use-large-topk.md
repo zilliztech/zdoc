@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 A Zilliz Cloud collection allows you to retrieve up to 16,384 entities in a search or query result. To retrieve more entities beyond the topK limit, you can set the query mode to allow Zilliz Cloud to include millions of entities in a single search or query result, instead of using complex and time-consuming iterators.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This feature is available for Zilliz Cloud clusters that are compatible with Milvus v2.6.x. If you would like to try this feature, please [get in touch with us](https://support.zilliz.com/hc/en-us).
 

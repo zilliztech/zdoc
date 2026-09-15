@@ -32,7 +32,7 @@ This feature is available only with the Enterprise plan or higher, and BYOC depl
 
 This guide covers the full lifecycle of access logs on Zilliz Cloud: enabling, adjusting settings, and disabling.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - This release logs search- or query-class actions only: Search, HybridSearch, and Query. Support for the full action list is planned for a future release.
 

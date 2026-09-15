@@ -32,7 +32,7 @@ If you prefer to upgrade your clusters to BETA, **Milvus 2.4.x** features are av
 
 Milvus 2.4 offers many efficient capabilities for RAG and multimodal data search. If you want to try these new features, you can update your cluster to BETA. 
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Milvus 2.4 has not reached a stable version. Be cautious when you adopt Milvus 2.4 features in your production environment.
 

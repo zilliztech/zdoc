@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 This page explains how to authorize a Zilliz Cloud GCP BYOC or BYOC-I data plane to access an external Google Cloud Storage bucket. You create a bucket-scoped custom IAM role and grant it directly to the data plane's storage Google service account (GSA).
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 The Zilliz Cloud integration wizard displays the exact Google Cloud Service Account email to authorize. This is the storage GSA for the selected data plane. Grant that displayed principal bucket-level access; do not create, download, or upload a long-lived service account key.
 
@@ -48,7 +48,7 @@ Ensure that:
 
 - The bucket uses a single Region that matches the selected BYOC data plane Region.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 A bucket integration is Region-specific. Multi-region and dual-region buckets do not match a single BYOC data plane Region. Use a regional bucket in the data plane's Region.
 
@@ -141,7 +141,7 @@ A bucket integration is Region-specific. Multi-region and dual-region buckets do
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Do not derive the email from a naming convention or substitute the GKE node service account, management service account, booter service account, or a Kubernetes service account. Copy the value displayed for the current integration.
 

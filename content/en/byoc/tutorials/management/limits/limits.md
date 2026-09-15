@@ -77,7 +77,7 @@ To add replicas, the cluster must have **at least 8 CUs**. The following limit a
 | Replica | 100 | You can create a maximum of 100 replicas. |
 | Query CU x Replica Count | 204,800 | The cluster replica x query CU should not exceed 204,800. |
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 For certain clusters compatible with earlier Milvus releases, you may need at least 12 CUs to add replicas. 
 
@@ -189,7 +189,7 @@ Index types vary with field types. The following table lists the indexable field
 
 The rate limit for flush requests is 0.1 requests per second, imposed at the collection level for specific cluster types. This rate limit applies to clusters compatible with Milvus v2.4.x or later.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 You are not advised to perform flush operations manually. Zilliz Cloud clusters handle it gracefully for you.
 
@@ -199,7 +199,7 @@ You are not advised to perform flush operations manually. Zilliz Cloud clusters 
 
 The rate limit for load requests is **20** req/s per cluster.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 You do not need to perform the load collection for collections that are already loaded, even if new data is coming into these collections.
 

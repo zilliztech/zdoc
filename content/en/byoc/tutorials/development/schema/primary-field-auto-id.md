@@ -55,7 +55,7 @@ Zilliz Cloud supports two modes for assigning primary key values.
 | AutoID | Zilliz Cloud automatically generates unique identifiers for inserted or imported entities. | Most scenarios where you don’t need to manage IDs manually. |
 | Manual ID | You provide unique IDs yourself when inserting or importing data. | When IDs must align with external systems or pre-existing datasets. |
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - If you are unsure which mode to choose, [start with AutoID](./primary-field-auto-id#quickstart-use-autoid) for simpler ingestion and guaranteed uniqueness.
 
@@ -396,7 +396,7 @@ auto ids = response.Results().IdArray().IntIDArray();
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Use `upsert()` instead of `insert()` when working with existing entities to avoid duplicate ID errors.
 

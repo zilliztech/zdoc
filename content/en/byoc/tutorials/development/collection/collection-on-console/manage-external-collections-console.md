@@ -30,7 +30,7 @@ Before you start, ensure you have created an [external volume](./external-volume
 
 <Supademo id="cmokttyiy05dxpimdm3d8vnxv" title=""  />
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - External collections created in an on-demand compute database do not support dropping indexes.
 

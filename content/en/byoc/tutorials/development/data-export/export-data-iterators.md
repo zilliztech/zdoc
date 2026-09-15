@@ -37,7 +37,7 @@ Using iterators offers the following benefits:
 
 You can make use of these APIs to export certain or all of the entities from a Zilliz Cloud collection.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This feature is available for the Zilliz Cloud clusters that are compatible with Milvus 2.3.x and above.
 

@@ -106,7 +106,7 @@ To control the position, length, and number of returned fragments, see [Return h
 
 In addition to highlighting search terms, you can highlight terms used in text-based filtering expressions.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Currently, only the `TEXT_MATCH` filtering condition is supported for query term highlighting. To learn more, refer to [Text Match](./text-match).
 

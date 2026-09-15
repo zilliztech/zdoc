@@ -76,7 +76,7 @@ The availability phase of each feature is indicated in the Zilliz Cloud document
 
 - Hosted models
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 Contact [Zilliz Support](http://support.zilliz.com) to request access to these features. 
 
@@ -86,7 +86,7 @@ Contact [Zilliz Support](http://support.zilliz.com) to request access to these f
 
 - Embedding ([OpenAI](./openai), [Voyage AI](./voyage-ai), and [Cohere](./cohere)) and Rerank Functions ([Cohere reranker](./cohere-model-ranker) and [Voyage AI reranker](./voyage-ai-model-ranker))
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 Upgrade your cluster Milvus version to access these features.
 
@@ -98,7 +98,7 @@ Upgrade your cluster Milvus version to access these features.
 
 - [Spark Batch Jobs](./spark-batch-jobs)
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 If your region does support this feature, [contact us](http://support.zilliz.com) to request more regions
 

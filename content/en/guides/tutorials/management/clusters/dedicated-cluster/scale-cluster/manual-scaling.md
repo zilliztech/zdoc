@@ -30,7 +30,7 @@ Manual scaling is useful for planned changes, such as production launches, load 
 
 Note that manual scaling applies to serving clusters only. On-demand clusters scale automatically when requests arrive and scale back to zero when idle.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 Scaling Query CU manually is supported on all plans.
 

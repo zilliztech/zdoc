@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 This guide explains the payment methods available for Zilliz Cloud, how payment priority works, and what to consider when managing invoices and subscriptions.
 
-<Admonition type="info" icon="📘" title="📘 Note">
+<Admonition type="info" title="Note">
 
 To manage payment and billing settings, you must be an **Organization Owner** or **Organization Billing Admin**.
 

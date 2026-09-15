@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 The `standard` analyzer is the default analyzer in Zilliz Cloud, which is automatically applied to text fields if no analyzer is specified. It uses grammar-based tokenization, making it effective for most languages.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 The `standard` analyzer is suitable for languages that rely on separators (such as spaces, punctuation) for word boundaries. However, languages like Chinese, Japanese, and Korean require dictionary-based tokenizations. In such cases, using a language-specific analyzer like [`chinese`](./chinese-analyzer) or custom analyzers with specialized tokenizers (such as [`lindera`](./lindera-tokenizer), [`icu`](./icu-tokenizer)) and filters is highly recommended to ensure accurate tokenization and better search results.
 

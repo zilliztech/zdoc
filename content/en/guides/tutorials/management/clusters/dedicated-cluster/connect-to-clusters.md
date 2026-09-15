@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 Use a Dedicated cluster endpoint when your application needs the full Collection API, including schema management, insert, upsert, delete, search, query, and hybrid search.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 This page demonstrates how to connect to a Dedicated serving cluster. To connect to a Free or Serverless cluster, see [Free & Serverless Clusters](./free-and-serverless-clusters). For on-demand compute over a project endpoint, see [Connect for On-Demand Search](./connect-for-on-demand-search).
 
@@ -51,7 +51,7 @@ Before connecting to a Dedicated cluster, ensure that:
 
 You can obtain the cluster public endpoint from the Zilliz Cloud console. Navigate to the **Cluster Details** page of the target cluster. On the **Connect** card, copy the cluster public endpoint.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 If you use RESTful APIs instead of SDKs, a continuous connection is not established because HTTP follows a request-response communication model.
 

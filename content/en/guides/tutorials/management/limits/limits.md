@@ -117,7 +117,7 @@ The following table lists the limits on the capacity of each type of cluster pla
 | Serverless | Serverless clusters in Zilliz Cloud have no capacity limits. |
 | Dedicated (per CU) | Dedicated clusters in Zilliz Cloud have no capacity limits. |
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 The upper limits for dedicated cluster capacity depend on the CU type and size used. If your cluster's capacity is not enough, consider adjusting the CU type and size. For details, see [Plan Cluster Scaling](./plan-cluster-scaling).
 
@@ -132,7 +132,7 @@ To add replicas, the cluster must have **at least 8 CUs**. The following limit a
 | Replica | 100 | You can create a maximum of 100 replicas. |
 | Query CU x Replica Count | 204,800 | The cluster replica x query CU should not exceed 204,800. |
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 For certain clusters compatible with earlier Milvus releases, you may need at least 12 CUs to add replicas. 
 
@@ -162,7 +162,7 @@ You can create a maximum of **1,024** collections or **4,096** partitions per CU
 
 - Both conditions must be met.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 For **Free** and **Serverless** clusters, the following limits apply instead:
 
@@ -297,7 +297,7 @@ The rate limit for flush requests is 0.1 requests per second, imposed at the col
 
 - Dedicated clusters upgraded to the beta version, compatible with Milvus v2.4.x or later.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 You are not advised to perform flush operations manually. Zilliz Cloud clusters handle it gracefully for you.
 
@@ -307,7 +307,7 @@ You are not advised to perform flush operations manually. Zilliz Cloud clusters 
 
 The rate limit for load requests is **20** req/s per cluster.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 You do not need to perform the load collection for collections that are already loaded, even if new data is coming into these collections.
 

@@ -51,7 +51,7 @@ A `TIMESTAMPTZ` field is a schema-defined data type (`DataType.TIMESTAMPTZ`) in 
 
 - **Comparison and filtering**: All comparison, filtering, and ordering operations on TIMESTAMPTZ fields are performed on the UTC-normalized value, ensuring consistent behavior across different time zones.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - You can set `nullable=True` for `TIMESTAMPTZ` fields to allow missing values.
 
@@ -568,7 +568,7 @@ if (!status.IsOk()) {
 
 Use arithmetic operators like `==`, `!=`, `<`, `>`, `<=`, `>=`. For a full list of arithmetic operators available in Zilliz Cloud, refer to [Arithmetic Operators](./basic-filtering-operators#arithmetic-operators).
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Chained range expressions (for example, `lower_bound < tsz < upper_bound`) are not supported.
 
@@ -811,7 +811,7 @@ for (const auto& row : output_rows) {
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 `INTERVAL` values follow the [ISO 8601 duration syntax](https://www.w3.org/TR/xmlschema-2/#duration). For example:
 
@@ -951,7 +951,7 @@ for (auto& result : search_results.Results()) {
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 If your collection has two or more vector fields, you can perform hybrid search operations with timestamp filtering. For details, refer to [Multi-Vector Hybrid Search](./hybrid-search).
 

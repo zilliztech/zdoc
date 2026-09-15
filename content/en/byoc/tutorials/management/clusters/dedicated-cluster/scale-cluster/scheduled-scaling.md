@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 Scheduled scaling lets you resize a Dedicated serving cluster at predefined times. Use it when your workload has recurring patterns, such as weekday business-hour traffic, weekend low-traffic periods, or predictable batch/query windows.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 Scaling Query CU manually is supported on all plans.
 
@@ -156,7 +156,7 @@ Once a scaling event is triggered, Zilliz Cloud generates a job record. You can 
 
 When the scaling job is in progress, the cluster status is `Modifying`. When the job succeeds, the cluster status changes back to `Running`.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 During a scaling job, Zilliz Cloud continues to bill the cluster based on the previous configuration. The new Query CU or replica configuration is used for billing only after the scaling job completes successfully. This applies to both scale-up and scale-down operations.
 

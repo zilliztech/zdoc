@@ -30,7 +30,7 @@ For Dedicated serving clusters, you can scale Query CUs or replicas manually, or
 
 On-demand clusters scale automatically and do not require manual scaling.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 Scaling Query CU manually is supported on all plans.
 
@@ -54,7 +54,7 @@ In most cases:
 
 - Replicas address throughput and availability pressure.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 For small clusters with limited Query CUs, increasing **Query CU** can also improve QPS. However, in most cases, scale **replicas** to improve search throughput and availability.
 

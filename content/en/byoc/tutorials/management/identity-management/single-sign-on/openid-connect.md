@@ -160,7 +160,7 @@ When users log in to Zilliz Cloud via SSO for the first time, they are registere
 
 After being invited to a project, the **Organization** **Owner** can share the Zilliz Cloud login URL with enterprise users so they can sign in through SSO.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 If SSO enforcement is enabled for the organization, direct member invitation at the organization level is disabled. You should provision users through your IdP instead. When inviting members at the project level, only existing organization members can be invited.
 
@@ -172,7 +172,7 @@ If you encounter any issues during the setup or testing process, contact [Zilliz
 
 After your SSO connection is fully configured and tested, you can optionally enable **SSO enforcement** to require all organization members to log in exclusively through SSO. When enabled, members can no longer sign in using email/password or third-party accounts (Google, GitHub).
 
-<Admonition type="warning" icon="🚧" title="Warning">
+<Admonition type="warning" title="Warning">
 
 Enabling this feature will immediately log out all members who are currently signed in with a password and block non-SSO login methods.
 

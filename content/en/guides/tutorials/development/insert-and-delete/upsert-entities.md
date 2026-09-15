@@ -554,7 +554,7 @@ if (!status.IsOk()) {
 
 The following example updates only the `issue` field of the entities with primary keys `1` and `2` in `my_collection`. Before running it, ensure that both entities already exist. Their other fields retain their current values.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 When performing an upsert in merge mode, ensure that the entities involved in the request have the same set of fields. Suppose there are two or more entities to be upserted, as shown in the following code snippet, it is important that they include identical fields to prevent errors and maintain data integrity.
 
@@ -855,7 +855,7 @@ client.upsert(UpsertReq.builder()
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Attaching either operator to a field via `field_ops` implicitly enables partial-update semantics.  Therefore, you do **not** need to pass `partial_update=True` alongside `field_ops`.
 

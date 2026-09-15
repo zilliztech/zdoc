@@ -72,7 +72,7 @@ To view your credit balance:
 
 ## Monitor credit alerts\{#monitor-credit-alerts}
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 To avoid unintentional usage of your credits, you are recommended to manually suspend clusters that are not in use.
 

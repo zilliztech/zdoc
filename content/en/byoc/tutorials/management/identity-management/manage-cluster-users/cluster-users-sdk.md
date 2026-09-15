@@ -373,7 +373,7 @@ curl --request POST \
 
 The following example demonstrates how to drop the user `user_1`. 
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 The `root` user cannot be dropped.
 

@@ -58,7 +58,7 @@ Once vectorization is complete, the query embedding list is compared with each d
 
 As shown in the diagram above, the query contains two tokens, namely `machine` and `learning`, and the document in the window has four tokens: `neural`, `network`, `python`, and `tutorial`. Once these tokens are vectorized, the vector embeddings of each query token are compared with those in the document to get a list of similarity scores. Then the highest scores from each score list are summed to produce the final score. The process for determining a document's final score is known as maximum similarity (**MAX_SIM**). For details on maximum similarity, refer to [Maximum similarity](./search-metrics-explained#maximum-similarity).
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 When implementing a ColBERT-like text retrieval system in Milvus, you are not limited to splitting documents into tokens. 
 
@@ -361,7 +361,7 @@ for _, row in df.iterrows():
     })
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This step is relatively time-consuming due to the large amount of data that needs to be embedded.
 
@@ -440,7 +440,7 @@ client.insert(
 )
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Inserting the financial reports can take a long time. Each page can contain more than one thousand patch vectors, and each vector is stored inside the `patches` StructArray field. For larger datasets, split `data` into smaller batches and insert one batch at a time.
 

@@ -36,7 +36,7 @@ To enhance your control and ease in navigating through the platform audit logs, 
 
     Choose a start and end date to display logs occurring within a specific time frame. After setting your desired time range, click **Apply** to view all logs within this period.
 
-    <Admonition type="info" icon="📘" title="📘 Notes">
+    <Admonition type="info" title="Notes">
 
     Ensure that the time span between your chosen start date and end date does not exceed 30 days.
 

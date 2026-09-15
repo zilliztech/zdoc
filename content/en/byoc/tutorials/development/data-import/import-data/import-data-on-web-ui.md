@@ -28,7 +28,7 @@ This page introduces how to import the prepared data on the Zilliz Cloud console
 
 Once data files are ready, you can upload them to an object storage bucket for data imports.
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 - You can have up to 10,000 running or pending import jobs in a collection.
 
@@ -54,7 +54,7 @@ For more information about obtaining credentials, refer to:
 
 For more information about using short-term tokens, refer to [this FAQ](/docs/faq-data-import#can-i-use-short-term-credentials-when-importing-data-from-an-object-storage-service).
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Zilliz Cloud now allows you to import data from any object storage service to any Zilliz Cloud cluster, regardless of the cloud provider hosting the clusters. For instance, you can import data from an AWS S3 bucket to a Zilliz Cloud cluster deployed on GCP.
 

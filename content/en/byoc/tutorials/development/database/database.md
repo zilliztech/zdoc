@@ -29,7 +29,7 @@ This feature is available only with the Enterprise plan or higher.
 
 A database in a serving cluster is a logical container for collections hosted by a Dedicated serving cluster. Use this page to create, view, configure, use, and drop databases through a serving cluster endpoint.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 This page is for databases in serving clusters. For project-level databases queried with on-demand compute, see [Database for On-Demand Search](./on-demand-database). For a comparison of database models, see [Database Explained](./database-concept).
 
@@ -481,7 +481,7 @@ curl --request POST \
 
 You can switch from one database to another without reconnecting when using an SDK.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 RESTful API does not support switching databases on a persistent connection. For RESTful API requests, specify the target database in each request body when the operation supports dbName.
 

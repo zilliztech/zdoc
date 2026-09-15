@@ -24,7 +24,7 @@ import Supademo from '@site/src/components/Supademo';
 
 Zilliz Cloud introduces a parameter called `build_level`, which allows users to balance storage capacity and search recall rate for the target collection. For collections that are infrequently used or need more storage space, you can sacrifice a small recall rate degradation in exchange for a huge increase in storage capacity, and vice versa. This guide explains the available options and how to use them to build indexes for collections. 
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This feature is currently in **PUBLIC REVIEW** and applies to dedicated clusters only if:
 

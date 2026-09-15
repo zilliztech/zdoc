@@ -24,7 +24,7 @@ Monitor billing alerts to track recent usage, credit status, payment method vali
 
 This guide explains billing-related alerts. To learn how to configure billing alerts, see [Manage Organization Alerts](./manage-organization-alerts).
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 To view or manage billing alerts, you must be an **Organization Owner** or **Organization Billing Admin**.
 

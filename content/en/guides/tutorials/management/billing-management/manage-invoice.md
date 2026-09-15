@@ -27,7 +27,7 @@ This guide provides instructions on how to view, download, and track invoices fo
 
 Depending on your payment method, invoices may be issued by Zilliz Cloud or by the cloud marketplace where you subscribed.
 
-<Admonition type="info" icon="📘" title="📘 Note">
+<Admonition type="info" title="Note">
 
 To manage invoices, you must be an **Organization Owner** or **Organization Billing Admin**.
 
@@ -91,7 +91,7 @@ curl --request GET \
 # }
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 In the results returned by the API, all amounts are in cents.
 
@@ -160,7 +160,7 @@ In the command above,
 
 - `{INVOICE_ID}`: The ID of the invoice to describe.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 In the results returned by the API, all amounts are in cents.
 

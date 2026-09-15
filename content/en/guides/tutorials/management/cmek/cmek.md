@@ -70,7 +70,7 @@ All data-related files stored in the following locations are encrypted:
 
 - To enable CMEK on existing clusters compatible with Milvus v2.5.x, back up the data and restore it to a new cluster compatible with Milvus v2.6.x.  Upgrading clusters does not encrypt data prior to the upgrade.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Currently, CMEK is available only in AWS regions. For other regions, please [contact us](https://support.zilliz.com/hc/en-us).
 

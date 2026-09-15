@@ -102,7 +102,7 @@ In this procedure, you will use Milvus Backup to prepare the backup files, uploa
           ...
         ```
 
-    <Admonition type="info" icon="📘" title="📘 Notes">
+    <Admonition type="info" title="Notes">
 
     - For a Milvus instance installed using Docker Compose, `minio.bucketName` defaults to `a-bucket` and `rootPath` defaults to `files`.
     
@@ -134,7 +134,7 @@ In this procedure, you will use Milvus Backup to prepare the backup files, uploa
 
     Upon executing this command, Milvus Backup uploads the prepared backup files to the Zilliz Cloud platform, creates a migration job, and returns the job ID as the command output.
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     The backup files uploaded to the Zilliz Cloud platform will be retained for **3** days after the upload and will then be deleted.
 
@@ -146,7 +146,7 @@ In this procedure, you will use Milvus Backup to prepare the backup files, uploa
 
 Once you click **Migrate**, a migration job will be generated. You can check the migration progress on the [Jobs](./job-center) page. When the job status switches from **In Progress** to **Successful**, the migration is complete.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 After migration, verify that the number of collections and entities in the target cluster matches the data source. If discrepancies are found, delete the collections with missing entities and re-migrate them.
 

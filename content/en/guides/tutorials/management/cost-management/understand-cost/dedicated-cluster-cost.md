@@ -60,7 +60,7 @@ Vector Database Cost = Query CU Unit Price x Total Number of Query CU x Cluster 
 
     - Non-billable statuses: Creating, Suspending, Resuming, Suspended, etc. During non-billable statuses, CU charges stop but storage charges still apply.
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     During a [scaling](./auto-scaling) job, Zilliz Cloud continues to bill the cluster based on its previous configuration. The new configuration is used for billing only after the scaling job is completed successfully. This applies to both scale-up and scale-down operations. While the job is still in progress, the cluster continues to serve with the previous available configuration.
 

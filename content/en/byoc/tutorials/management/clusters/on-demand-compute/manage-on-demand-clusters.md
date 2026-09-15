@@ -299,7 +299,7 @@ A keep-warm schedule keeps an on-demand cluster running during recurring weekly 
 
 Keep-warm schedule does not turn off `Auto Suspend` permanently and does not actively suspend an on-demand cluster when a keep-warm window ends.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 To suspend an on-demand cluster during a keep-warm window, disable or delete the keep-warm schedule first.
 
@@ -347,7 +347,7 @@ If no schedule is configured, the request succeeds and returns `configured` as `
 
 To enable or disable a keep-warm schedule, send a PUT request with the full rule set and the desired `enabled` value.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 Disabling a schedule keeps all configured rules. If the on-demand cluster is in a keep-warm window, Zilliz Cloud exits keep-warm mode immediately. The schedule does not suspend the on-demand cluster.
 
@@ -417,7 +417,7 @@ Deleting a schedule permanently removes all rules. To delete a keep-warm schedul
 
 ## Drop an on-demand cluster\{#drop-an-on-demand-cluster}
 
-<Admonition type="danger" icon="🚧" title="Danger">
+<Admonition type="danger" title="Danger">
 
 Once you drop an on-demand cluster, it is removed immediately and cannot be recovered. This action cannot be undone.
 

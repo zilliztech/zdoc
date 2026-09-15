@@ -28,7 +28,7 @@ By integrating Zilliz Cloud with Prometheus, you can collect and monitor metrics
 
 Prometheus integration exports Serving Cluster metrics only. It does not export On-Demand Compute database metrics.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This feature is available only to **Dedicated** clusters in an **Enterprise** project.
 
@@ -63,7 +63,7 @@ To monitor Zilliz Cloud clusters with Prometheus, follow these steps:
             - targets: ["api.cloud.zilliz.com"]
     ```
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     The cluster must contain no more than 10,000 collections. Clusters exceeding this limit may experience incomplete or degraded metrics export.
 

@@ -24,7 +24,7 @@ import Supademo from '@site/src/components/Supademo';
 
 This guide walks you through how to view, rename, and delete existing backup files.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This feature is available only to **Dedicated** clusters.
 

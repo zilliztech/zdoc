@@ -62,7 +62,7 @@ You can follow the detailed step-by-step guide below to subscribe to a Private O
 
         ![AAEEwdD8zhamcKbFjB8cr1j7nFc](https://zdoc-images.s3.us-west-2.amazonaws.com/AAEEwdD8zhamcKbFjB8cr1j7nFc.png)
 
-        <Admonition type="info" icon="📘" title="Note">
+        <Admonition type="info" title="Note">
 
         You must accept the offer before its expiration date. If the offer has expired, contact your account executive.
 
@@ -88,7 +88,7 @@ You can follow the detailed step-by-step guide below to subscribe to a Private O
 
     Click **Set up your account**. You will be redirected to Zilliz Cloud.
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     You must complete this step. Otherwise, your private offer subscription is not linked to any Zilliz Cloud organization.
 
@@ -122,7 +122,7 @@ You can follow the detailed step-by-step guide below to subscribe to a Private O
 
 When your private offer is close to expiration, Zilliz will send you a new private offer link for renewal. If you have questions about the renewal process, contact your account executive.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 For AWS Marketplace, renewal works as accepting a new private offer. After you accept it, the new offer automatically replaces the previous one. You still need to link the new offer to your Zilliz Cloud organization again.
 
@@ -162,7 +162,7 @@ You can follow the detailed step-by-step guide below to subscribe to a Private O
 
     AWS Marketplace displays a message "*Your request is in progress, this will take a few minutes. Don't refresh or close this page. Meanwhile, you can set up your account on the vendor's website.*"
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     Do **not** click "Set up your account" at this point. Please wait until the request is complete.
     
@@ -176,7 +176,7 @@ You can follow the detailed step-by-step guide below to subscribe to a Private O
 
     Click **Set up your account**. You will be redirected to Zilliz Cloud.
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     You must complete this step. Otherwise, your private offer subscription is not linked to any Zilliz Cloud organization.
 
@@ -214,7 +214,7 @@ Similar to [private offer renewal](./subscribe-on-aws-marketplace-private-offer#
 
 You can cancel your private offer subscription from AWS Marketplace. 
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 After you cancel the subscription, your organization loses access to advanced Zilliz Cloud features. If your organization has no remaining credits, or if all credits have expired, it is frozen immediately.
 

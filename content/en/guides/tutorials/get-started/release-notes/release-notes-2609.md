@@ -48,7 +48,7 @@ import Grid from '@site/src/components/Grid';
 
         - **Redesigned Access Control pages:** Members, Groups, and Project Roles tabs, plus an Invite Member flow that sets the organization role and optional project access in one step. For details, refer to [Manage Platform Users](./manage-platform-users).
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" title="Notes">
 
         - **Organization Owners no longer inherit project access.** Organization roles now cover organization settings, members, billing, and authentication only. An Organization Owner needs a project role to manage or access a project's resources. An Organization Owner who creates a project receives the Project Admin role on it automatically.
         

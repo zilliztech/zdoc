@@ -156,7 +156,7 @@ nlohmann::json analyzer_params = {
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 For simpler setup, you may choose to use the [`standard`](./standard-analyzer) [analyzer](./standard-analyzer), which combines the `standard` tokenizer with the [`lowercase`](./lowercase-filter)[ filter](./lowercase-filter).
 

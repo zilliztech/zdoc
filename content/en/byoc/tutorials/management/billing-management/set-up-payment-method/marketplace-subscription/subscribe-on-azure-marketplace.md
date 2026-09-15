@@ -244,7 +244,7 @@ Visit [Azure Marketplace](https://azuremarketplace.microsoft.com/en-us) and star
 
         1. Configure **Auto-renew** settings.
 
-            <Admonition type="info" icon="📘" title="📘 Note">
+            <Admonition type="info" title="Note">
 
             When auto-renew is on, you will be automatically subscribed to Zilliz Cloud on Azure at the end of the contract duration. When auto-renew is off, your subscription will end at the end of the contract duration and your Zilliz Cloud organization and account will be automatically unlinked from this Azure Marketplace subscription.
 

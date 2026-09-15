@@ -156,7 +156,7 @@ Once you grant access to the bucket, go back to the Zilliz Cloud console and do 
 
 1. Click **Validate Integration** to verify that the container and role assignment settings are valid.
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     Validation typically takes about 2 minutes, but can take 7 minutes or longer in some cases.
 

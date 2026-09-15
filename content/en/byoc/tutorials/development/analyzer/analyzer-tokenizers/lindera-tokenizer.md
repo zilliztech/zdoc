@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 The `lindera` tokenizer performs dictionary-based morphological analysis. It is designed for Japanese and Korean—languages where words are not separated by spaces and grammatical markers (particles) attach directly to words.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 **For Chinese text**: While `lindera` supports Chinese via the `cc-cedict` dictionary, we recommend using the [`jieba`](./jieba-tokenizer) tokenizer instead. Jieba is specifically designed for Chinese word segmentation and provides better results.
 

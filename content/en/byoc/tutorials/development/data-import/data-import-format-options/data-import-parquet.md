@@ -26,7 +26,7 @@ You are advised to use [the BulkWriter tool](./use-bulkwriter) to prepare your r
 
 ![parquet_file_structure_en](https://zdoc-images.s3.us-west-2.amazonaws.com/parquet_file_structure_en.png "parquet_file_structure_en")
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - **Whether to enable AutoID**
 
@@ -62,7 +62,7 @@ Once your data is ready, you can use either of the following methods to import t
 
 - [Import a single file](./data-import-parquet#import-a-single-file)
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 If your files are relatively small, it is recommended to use the folder or multiple-path method to import them all at once. This approach allows for internal optimizations during the import process, which helps reduce resource consumption later.
 
@@ -116,7 +116,7 @@ curl --request POST \
     }'
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 If the folder contains multiple formats of files, the request will fail.
 

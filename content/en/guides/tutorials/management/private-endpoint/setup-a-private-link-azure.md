@@ -26,7 +26,7 @@ This guide demonstrates the procedure for setting up a private link from a Zilli
 
 A private link is set up at the project level and is effective for all **Dedicated** serving clusters and **on-demand** clusters deployed within the same cloud provider and region under this project.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 You can create up to 10 private endpoints per project.
 
@@ -202,7 +202,7 @@ To disable public endpoints:
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 - Private endpoints only impact [data plane](/reference/restful/data-plane-v2) access. [Control plane](/reference/restful/control-plane-v2) can still be accessed over the public internet.
 

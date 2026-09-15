@@ -54,7 +54,7 @@ Understanding how Tencent Cloud VectorDB data types map to Zilliz Cloud is cruci
 
 ## JSON field conversion\{#json-field-conversion}
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Zilliz Cloud samples 100 rows to detect JSON schema. You can manually add additional fields if needed.
 

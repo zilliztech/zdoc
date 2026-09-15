@@ -111,7 +111,7 @@ This release logs search- or query-class actions only:
 | HybridSearch | Multi-vector search with reranking |
 | Query | Scalar filtering query |
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Support for additional actions is planned for a future release.
 
