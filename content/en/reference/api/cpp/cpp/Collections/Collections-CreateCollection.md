@@ -62,7 +62,7 @@ auto request = CreateCollectionRequest()
 
     Sets the name of the collection.
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     Historically, **[CollectionSchema](./Collections-CollectionSchema)** also contains a collection name. **WithCollectionName()** will override the collection name specified in **[CollectionSchema](./Collections-CollectionSchema)**.
 
@@ -72,7 +72,7 @@ auto request = CreateCollectionRequest()
 
     Sets the name of the collection. 
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     Historically, **[CollectionSchema](./Collections-CollectionSchema)** also contains a description. **WithDescription()** will override the collection description specified in **[CollectionSchema](./Collections-CollectionSchema)**.
 
@@ -90,7 +90,7 @@ auto request = CreateCollectionRequest()
 
     Sets the number of shards of the collection. 
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     Historically, **[CollectionSchema](./Collections-CollectionSchema)** also contains the number of shards. **WithNumShards()** will override the number of shards specified in **[CollectionSchema](./Collections-CollectionSchema)**.
 

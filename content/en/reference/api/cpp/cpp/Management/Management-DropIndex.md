@@ -65,7 +65,7 @@ auto request = DropIndexRequest()
 
     Sets the name of the index.
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     If both the field name and the index name are specified, the index name will be used; otherwise, it falls back to the field name.
 

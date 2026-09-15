@@ -37,7 +37,7 @@ Creates an iterator that returns vector-search results in batches. Keep MilvusCl
 Status SearchIterator(SearchIteratorRequest& request, SearchIteratorPtr& response)
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Do not disconnect the MilvusClientV2 when the iterator is in use. The order of the returned entities cannot be guaranteed. Read [this document](https://milvus.io/docs/with-iterators.md) for more.
 

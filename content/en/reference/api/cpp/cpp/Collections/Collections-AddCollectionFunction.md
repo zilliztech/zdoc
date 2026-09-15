@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 Add a function to an existing collection.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 Deprecated in v3.0.x. Use AddFunctionField() to add the function together with a new output field and bound index.
 

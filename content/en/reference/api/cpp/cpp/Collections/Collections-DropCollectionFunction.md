@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 Drop a function of an existing collection.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 Deprecated in v3.0.x. Use DropFunctionField() to drop the function together with its output field and bound index.
 
