@@ -26,8 +26,6 @@ Zilliz Cloud 的跨区域备份通过将备份复制到多个云地域来增强�
 
 本指南将带您了解如何在 Zilliz Cloud 上将备份复制到其他区域。
 
-跨地域备份功能暂不适用于腾讯云。
-
 <Admonition type="info" title="说明">
 
 请[提交工单](http://support.zilliz.com.cn)开通此功能。
@@ -49,6 +47,16 @@ Zilliz Cloud 的跨区域备份通过将备份复制到多个云地域来增强�
 - **集群 Shard 设置**：集群的 Shard 信息会被备份，但如果在恢复集群过程中，您选择了减少集群 CU 规格，Shard 数量可能会根据 CU 规格有所调整，详见[使用限制](./limits#shards)。
 
 - **备份任务限制**：系统将先执行在原地域的创建备份的任务。任务完成后，将继续开始执行跨地域备份任务。
+
+- **适用情况**：
+
+    - 该功能暂不适用于腾讯云。
+
+<Admonition type="info" title="说明">
+
+Zilliz Cloud 目前也支持跨云备份。如果您需要的云服务提供商不受支持，可以[联系我们](https://support.zilliz.com.cn/hc/zh-cn)。
+
+</Admonition>
 
 ## 操作步骤\{#procedure}
 

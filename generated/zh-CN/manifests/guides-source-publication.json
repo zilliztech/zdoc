@@ -1028,9 +1028,9 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/insert-and-delete/upsert-entities.md",
-      "sha256": "427edde3e776457ca0656f6526fbd02b5cd3b3c1f17bd2dd0e978340069bde19",
+      "sha256": "9ac3a1d5c9da1686143537c174632e97a8323aa7c91eb5bf0772794327df4f28",
       "docToken": "PIvfwBrhRimh41kWjB1cFj21nqf",
-      "revisionId": "1237"
+      "revisionId": "1242"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/scalar-index/bitmap-index-type.md",
@@ -2570,9 +2570,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/insert-and-delete/upsert-entities.md",
-      "sha256": "045b5c2348919ecdb78f2eefe798a6e746b7bb3cc5a2946383357add4172a424",
+      "sha256": "284f9785fb99a44e53ef252bc30760f7a035ba1d12b72c2004f0c5a73335600a",
       "docToken": "PIvfwBrhRimh41kWjB1cFj21nqf",
-      "revisionId": "1237"
+      "revisionId": "1242"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/scalar-index/bitmap-index-type.md",
@@ -3500,9 +3500,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/backup-and-restore/backup-to-other-regions.md",
-      "sha256": "e2f53cdab44305eef0beb8b5be2a3307f4fc1d9714f995aaa2741e778f71d1de",
+      "sha256": "cf296b1181609c62a6dd6e6aa4d3657ffe31e031e79314a9524610eb7ded07fa",
       "docToken": "DwklwhvhBi1xiQkdaxVcbIK0ned",
-      "revisionId": "445"
+      "revisionId": "497"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/backup-and-restore/create-backup.md",
