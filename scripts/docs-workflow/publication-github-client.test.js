@@ -457,3 +457,44 @@ test('artifact names reject unregistered workflows while preserving safe unit no
     workflow: 'unknown', runId: 123, runAttempt: 2, unitKey: 'translation/ja-JP/python', revision: 3,
   }), /Unsupported publication workflow: unknown/)
 })
+
+test('REST artifact download accepts a live-shaped artifact without a transport digest', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'publication-rest-live-download-'))
+  const {artifact, bytes} = artifactEnvelope()
+  // Live REST artifact listings carry no sha256 digest; integrity is covered
+  // by the callers' descriptor digests (ready descriptor archive/manifest
+  // checksums and publication-document identity).
+  const live = {...artifact, digest: undefined}
+  const fetchImpl = async url => url.includes('/actions/runs/123/artifacts?')
+    ? response({artifacts: [live]})
+    : binaryResponse(bytes)
+  const downloaded = await client({
+    fetchImpl,
+    runnerTemp: root,
+    artifactTransport: 'rest',
+    inspectArchive: async () => [{path: 'publication-ready.json', type: 'file'}],
+    unzip: async (_archive, destination) => {
+      fs.writeFileSync(path.join(destination, 'publication-ready.json'), '{}\n')
+    },
+  }).downloadArtifactFiles('wanted', ['publication-ready.json'])
+  assert.equal(Object.keys(downloaded.files).length, 1)
+  fs.rmSync(root, {recursive: true, force: true})
+})
+
+test('uploads keep using the same-run actions client under the REST download transport', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'publication-rest-upload-'))
+  const selected = selection()
+  const scheduler = createPublicationScheduler({selection: selected})
+  scheduler.observeJobs([{id: 1, name: 'produce_java / produce', run_attempt: 2, status: 'completed', conclusion: 'success', completed_at: '2026-08-04T08:00:00.000Z'}])
+  scheduler.observeCandidate('source/java', {status: 'rejected', failure: {code: 'CANDIDATE_REJECTED', phase: 'candidate', message: 'rejected', retryable: false}})
+  scheduler.nextDecision()
+  const results = scheduler.results({startedAt: '2026-08-04T08:00:00.000Z', completedAt: '2026-08-04T08:00:02.000Z'})
+  const file = path.join(root, 'publication-results.json')
+  writePublicationDocument(file, results, {selection: selected})
+  const calls = []
+  const uploadClient = {async uploadArtifact(...args) { calls.push(args); return {id: 9} }, async downloadArtifact() { throw new Error('not used') }}
+  const result = await client({artifactTransport: 'rest', artifactClient: uploadClient, runnerTemp: root}).uploadResults({selection: selected, results, file})
+  assert.equal(result.artifactId, 9)
+  assert.equal(calls.length, 1)
+  fs.rmSync(root, {recursive: true, force: true})
+})
