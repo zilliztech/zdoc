@@ -67,10 +67,10 @@ function createPublicationGitHubClient(options) {
   if (!['actions', 'rest'].includes(artifactTransport)) throw new Error('artifactTransport must be actions or rest')
   const artifactClient = options.artifactClient || null
   if (artifactTransport === 'actions' && artifactClient && (typeof artifactClient.uploadArtifact !== 'function' || typeof artifactClient.downloadArtifact !== 'function')) throw new Error('artifact client is invalid')
+  const loadDefaultArtifactClient = typeof options.loadDefaultArtifactClient === 'function' ? options.loadDefaultArtifactClient : getDefaultArtifactClient
   const getArtifactClient = () => {
     if (artifactClient) return artifactClient
-    if (artifactTransport !== 'actions') return null
-    return getDefaultArtifactClient()
+    return loadDefaultArtifactClient()
   }
   const inspectArchive = options.inspectArchive || inspectZipArchive
   const unzip = options.unzip || unzipArchive
@@ -287,8 +287,9 @@ function createPublicationGitHubClient(options) {
 
   async function upload(file, name) {
     // Uploads always target this workflow run, so the same-run actions
-    // client remains valid regardless of the download transport.
-    const client = artifactClient || (artifactTransport === 'actions' ? await getArtifactClient() : getDefaultArtifactClient())
+    // client stays valid under the REST download transport as well; the
+    // lazy loader resolves to a Promise and must be awaited before use.
+    const client = await getArtifactClient()
     const result = await client.uploadArtifact(name, [file], path.dirname(file), {retentionDays: 7})
     if (result?.id !== undefined) positiveInteger(result.id, 'uploaded artifact id')
     return Object.freeze({artifactName: name, artifactId: result?.id ?? null})
