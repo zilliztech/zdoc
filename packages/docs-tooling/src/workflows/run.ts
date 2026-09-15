@@ -409,9 +409,23 @@ function inventoryFiles(repositoryRoot: string, relativePath: string, group: Pub
     .flatMap(entry => inventoryFiles(repositoryRoot, `${relativePath}/${entry.name}`, group));
 }
 
+function externallyOwnedGroupPaths(group: PublicationGroup): ReadonlySet<string> {
+  return new Set(group.manuals.flatMap(manual => {
+    const publication = resolveManualPublication(manual, group.site).publication;
+    return (publication.externallyOwnedFiles ?? []).map(file => `${publication.outputDir}/${file}`);
+  }));
+}
+
 function captureGroupInventory(repositoryRoot: string, group: PublicationGroup): readonly InventoryEntry[] {
   const roots = [...group.ownedPaths, ...(group.publicationManifest ? [group.publicationManifest] : [])];
-  const entries = roots.flatMap(root => inventoryFiles(repositoryRoot, root, group));
+  // Externally owned files live inside the owned trees but are written by
+  // other lanes: the Chinese Guides home is translated by the
+  // reference-landings lane while the fetch never produces it (its bytes
+  // legitimately differ between the live workspace and the dev-derived
+  // baseline), so they stay out of every inventory comparison.
+  const externallyOwned = externallyOwnedGroupPaths(group);
+  const entries = roots.flatMap(root => inventoryFiles(repositoryRoot, root, group))
+    .filter(entry => !externallyOwned.has(entry.path));
   return Object.freeze(entries.sort((left, right) => left.path.localeCompare(right.path, 'en')));
 }
 
@@ -824,13 +838,8 @@ async function publishManifestOwnedGroup(
     {source: resolveOwnedRepositoryPath(repositoryRoot, stagedRelativeManifest, 'Staged source publication manifest'), target: group.publicationManifest},
   ];
   const next = new Set(staged.files);
-  const externallyOwnedPaths = new Set(group.manuals.flatMap(manual => {
-    const publication = resolveManualPublication(manual, group.site).publication;
-    return (publication.externallyOwnedFiles ?? [])
-      .map(file => `${publication.outputDir}/${file}`);
-  }));
   const removals = current.files.filter(file => (
-    !next.has(file) && !externallyOwnedPaths.has(file)
+    !next.has(file) && !externallyOwnedGroupPaths(group).has(file)
   ));
   const ownedTargets = [...new Set([...replacements.map(entry => entry.target), ...removals])]
     .sort((left, right) => left.localeCompare(right, 'en'));
