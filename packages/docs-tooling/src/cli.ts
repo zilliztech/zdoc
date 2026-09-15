@@ -463,6 +463,10 @@ function createPrevalidatedExternalSnapshotProvenanceVerifier(
 }
 
 export function defaultReferenceManualForPath(filePath: string): string {
+  // The Guides home participates in reference publication as a supplemental
+  // landing mapping and as the reference-landings translation group, but it
+  // lives in the Guides tree outside every reference manual's output prefix.
+  if (filePath === 'content/en/guides/tutorials/home.md') return 'guides';
   const candidates = publicationEntries(manualRegistry)
     .filter(entry => entry.manual.kind === 'reference')
     .flatMap(entry => {

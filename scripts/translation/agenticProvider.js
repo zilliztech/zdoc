@@ -27,34 +27,34 @@ const {promptNamesFor} = require('./prompts')
 const {successfulReview} = require('./reviewEvidence')
 const {classifyFailure} = require('./failureClassification')
 const {validateWithRuntimeChecks} = require('./validate-translation-file')
-const {buildRecoveryIdentity, loadChunkLimits, loadRecoveryAnalysis} = require('./agentRunner')
-const {readCache, writeCache} = require('./manifest')
-const {loadTypeScript} = require('../lib/load-typescript')
+const {buildRecoveryIdentity, loadChunkLimits, loadRecoveryAnalysis, loadProgressState, updateProgressState, updateFailedReferenceProgressState, writeProgressState} = require('./agentRunner')
 
 const DEFAULT_MAX_REPAIR_TURNS = 4
 const MAX_FAILURE_ERROR_LENGTH = 2000
 
 // The unit pipeline records every successful translation into the target's
 // progress state through its coordinator; the agentic provider bypasses that
-// coordinator, so it merges its translated results itself. Without this the
-// post-translation coverage validation (validate-translation) treats freshly
-// translated files as stale because neither the published translation
-// manifest nor the candidate cache knows the new source hashes yet.
-function mergeTranslatedResultsIntoProgressCache(siteDir, manifest, report) {
-  const {resolveTranslationTarget} = loadTypeScript('../../packages/docs-tooling/src/translation/targets.ts')
-  const target = resolveTranslationTarget(manifest.target)
-  if (!target.candidateState || target.candidateState.kind !== 'cache') return
-  const translated = report.results.filter(result => result && result.status === 'translated')
-  if (translated.length === 0) return
-  const cache = readCache(siteDir, target.locale)
-  for (const result of translated) {
-    cache.files[result.sourcePath] = {
-      sourceHash: result.sourceHash,
-      targetPath: result.targetPath,
-      translatedAt: report.checkpoint?.generatedAt || new Date().toISOString(),
+// coordinator, so it applies the same progress updates itself. Cache-type
+// candidates (ja-JP) merge into .translation-cache/<locale>.json, and
+// reference-manifest state (zh-CN) is updated record by record exactly like
+// updateReferenceProgressState does for the unit pipeline — without this the
+// post-translation coverage validation treats freshly translated files as
+// stale because the published translation manifest never learns the new
+// source hashes.
+function mergeTranslatedResultsIntoProgressState(siteDir, manifest, report) {
+  const translatedAt = report.checkpoint?.generatedAt || new Date().toISOString()
+  const results = (report.results || []).filter(Boolean)
+  if (results.length === 0) return
+  const progressState = loadProgressState(siteDir, manifest, null)
+  for (const result of results) {
+    const enriched = {...result, target: manifest.target}
+    if (result.status === 'translated') {
+      updateProgressState(siteDir, progressState, enriched, translatedAt)
+    } else if (progressState.kind === 'reference-manifest') {
+      updateFailedReferenceProgressState(siteDir, progressState, enriched)
     }
   }
-  writeCache(siteDir, target.locale, cache)
+  writeProgressState(siteDir, progressState)
 }
 
 function stylePromptPathFor(target) {
@@ -404,7 +404,7 @@ async function main() {
   })
   fs.mkdirSync(path.dirname(path.resolve(options.reportPath)), {recursive: true})
   fs.writeFileSync(options.reportPath, `${JSON.stringify(report, null, 2)}\n`)
-  mergeTranslatedResultsIntoProgressCache(options.siteDir, manifest, report)
+  mergeTranslatedResultsIntoProgressState(options.siteDir, manifest, report)
   if (process.env.GITHUB_OUTPUT) {
     fs.appendFileSync(process.env.GITHUB_OUTPUT, [
       `translated_count=${report.checkpoint.translated}`,
@@ -418,7 +418,7 @@ async function main() {
 
 module.exports = {
   DEFAULT_MAX_REPAIR_TURNS,
-  mergeTranslatedResultsIntoProgressCache,
+  mergeTranslatedResultsIntoProgressState,
   preflightAgent,
   buildAgenticTaskPrompt,
   protectedBytesRules,

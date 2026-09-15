@@ -2093,6 +2093,10 @@ if (require.main === module) {
 }
 
 module.exports = {
+  loadProgressState,
+  updateProgressState,
+  updateFailedReferenceProgressState,
+  writeProgressState,
   buildCorrectionMessages,
   buildPolishMessages,
   buildRecoveryIdentity,

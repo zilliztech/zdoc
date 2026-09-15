@@ -984,6 +984,25 @@ test('a missing Guides home record is an untranslated slot, not missing coverage
     assert.equal(decision.status, 'safe_repair');
     assert.equal(decision.mode, 'incremental');
 
+    // Downstream, the candidate stage must schedule the home translation:
+    // no prior record exists, so home becomes a candidate instead of being
+    // swallowed by the bootstrap exemption.
+    const {buildTranslationCandidates} = require('../lib/load-typescript').loadTypeScript('../../packages/docs-tooling/src/translation/candidates.ts');
+    const homeSource = 'content/en/guides/tutorials/home.md';
+    const candidates = buildTranslationCandidates({
+      repositoryRoot: fixture.root,
+      targetId: 'zh-CN-reference',
+      group: 'reference-landings',
+      ownedSourcePaths: REFERENCE_LANDING_SOURCES,
+      preservedSourcePaths: [],
+      changedSourcePaths: [],
+      mode: 'incremental',
+    });
+    const homeCandidate = candidates.candidates.find(candidate => candidate.sourcePath === homeSource);
+    assert.ok(homeCandidate, 'home must be scheduled as a translation candidate');
+    assert.equal(homeCandidate.reason, 'stale_source');
+    assert.equal(homeCandidate.targetPath, 'content/zh-CN/guides/tutorials/home.md');
+
     // Any other uncovered landing source is still missing coverage.
     const cliRecord = fixture.records.find(record => record.sourcePath === 'content/en/reference/cli/cli/Overview.md');
     fixture.state.records = fixture.state.records.filter(record => record.sourcePath !== cliRecord.sourcePath);

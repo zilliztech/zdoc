@@ -138,6 +138,10 @@ test('short production lock splits Translation publication into a dispatched pub
   assert.match(authenticate.if, /always\(\) && inputs\.publish/);
   const authenticateStep = authenticate.steps.find(step => step.id === 'authenticate');
   assert.match(String(authenticateStep?.run || ''), /translation-publication-selection\.js authenticate-ready/);
+  // The descriptor enumeration must hit the real per-attempt artifacts API path.
+  const enumerateStep = authenticate.steps.find(step => step.name === 'Download every existing publication-ready descriptor');
+  assert.match(String(enumerateStep?.run || ''), /actions\/runs\/\$GITHUB_RUN_ID\/attempts\/\$GITHUB_RUN_ATTEMPT\/artifacts/);
+  assert.doesNotMatch(String(enumerateStep?.run || ''), /arttempts/);
   assert.equal(dispatch.if, "${{ always() && inputs.publish && !(inputs.production_queue_owned || false) && needs.prepare.result == 'success' && needs.authenticate_publication_ready.result == 'success' && needs.authenticate_publication_ready.outputs.ready_count != '0' && needs.authenticate_publication_ready.outputs.ready_count != '' }}");
   assert.equal(dispatch.permissions.actions, 'write');
   assert.equal(dispatch.permissions.contents, 'read');
