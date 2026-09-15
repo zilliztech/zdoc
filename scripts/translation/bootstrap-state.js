@@ -19,6 +19,13 @@ const SHA256 = /^[a-f0-9]{64}$/;
 const COMMIT_SHA = /^[a-f0-9]{40}$/;
 const REFERENCE_LANDING_SOURCES = referenceLandingsEn();
 const REFERENCE_LANDING_TARGETS = Object.freeze(REFERENCE_LANDING_SOURCES.map(sourcePath => sourcePath.replace('content/en/', 'content/zh-CN/')));
+// The Guides home is owned by the Chinese Guides publication lane: its
+// translation state never lives in generated/zh-CN reference-translations.json
+// (the manifest generator only ever carries a home record forward, and no
+// historical publication ever wrote one), so a missing home record is an
+// untranslated slot, not missing coverage.
+const GUIDES_HOME_SOURCE = 'content/en/guides/tutorials/home.md';
+
 
 function canonicalGroups(groups) {
   return [...new Set(groups || [])].sort((left, right) => left.localeCompare(right));
@@ -114,7 +121,7 @@ function assessLegacyBootstrap({target, group, state, sourceManifest, repository
   const landingSources = new Set(REFERENCE_LANDING_SOURCES);
   const sourceRecordsWithLanding = [...parsedSourceManifest.records];
   if (group === 'reference-landings') {
-    const guidesHome = 'content/en/guides/tutorials/home.md';
+    const guidesHome = GUIDES_HOME_SOURCE;
     if (!sourceRecordsWithLanding.some(record => record.sourcePath === guidesHome)) {
       const sourceHash = sha256File(repositoryRoot, guidesHome);
       if (sourceHash) sourceRecordsWithLanding.push({manual: 'guides', sourcePath: guidesHome, sourceHash});
@@ -211,6 +218,7 @@ function assessLegacyBootstrap({target, group, state, sourceManifest, repository
   }
   for (const source of sourceRecords) {
     const entry = coverage.get(source.sourcePath);
+    if (!entry && group === 'reference-landings' && source.sourcePath === GUIDES_HOME_SOURCE) continue;
     if (!entry) throw new Error(`Bootstrap state for ${group} is inconsistent: uncovered current source ${source.sourcePath}`);
     const record = entry.record;
     const expectedTargetPath = expectedLandingTarget(source.sourcePath);

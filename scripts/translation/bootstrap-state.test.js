@@ -967,3 +967,50 @@ test('a translated landing record lagging the current source stays incremental, 
     fs.rmSync(fixture.root, {recursive: true, force: true});
   }
 });
+
+test('a missing Guides home record is an untranslated slot, not missing coverage', () => {
+  const fixture = referenceLandingsFixture();
+  try {
+    // The Chinese reference-translations manifest has never carried a home
+    // record: drop it from the state entirely (no translated, pending, or
+    // excluded record) while its target file keeps existing on disk.
+    const homeRecord = fixture.records.find(record => record.sourcePath === 'content/en/guides/tutorials/home.md');
+    fixture.state.records = fixture.state.records.filter(record => record.sourcePath !== homeRecord.sourcePath);
+
+    const decision = resolveBootstrapDecision({
+      target: 'zh-CN-reference', group: 'reference-landings',
+      state: fixture.state, sourceManifest: fixture.sourceManifest, repositoryRoot: fixture.root,
+    });
+    assert.equal(decision.status, 'safe_repair');
+    assert.equal(decision.mode, 'incremental');
+
+    // Downstream, the candidate stage must schedule the home translation:
+    // no prior record exists, so home becomes a candidate instead of being
+    // swallowed by the bootstrap exemption.
+    const {buildTranslationCandidates} = require('../lib/load-typescript').loadTypeScript('../../packages/docs-tooling/src/translation/candidates.ts');
+    const homeSource = 'content/en/guides/tutorials/home.md';
+    const candidates = buildTranslationCandidates({
+      repositoryRoot: fixture.root,
+      targetId: 'zh-CN-reference',
+      group: 'reference-landings',
+      ownedSourcePaths: REFERENCE_LANDING_SOURCES,
+      preservedSourcePaths: [],
+      changedSourcePaths: [],
+      mode: 'incremental',
+    });
+    const homeCandidate = candidates.candidates.find(candidate => candidate.sourcePath === homeSource);
+    assert.ok(homeCandidate, 'home must be scheduled as a translation candidate');
+    assert.equal(homeCandidate.reason, 'stale_source');
+    assert.equal(homeCandidate.targetPath, 'content/zh-CN/guides/tutorials/home.md');
+
+    // Any other uncovered landing source is still missing coverage.
+    const cliRecord = fixture.records.find(record => record.sourcePath === 'content/en/reference/cli/cli/Overview.md');
+    fixture.state.records = fixture.state.records.filter(record => record.sourcePath !== cliRecord.sourcePath);
+    assert.throws(() => resolveBootstrapDecision({
+      target: 'zh-CN-reference', group: 'reference-landings',
+      state: fixture.state, sourceManifest: fixture.sourceManifest, repositoryRoot: fixture.root,
+    }), /uncovered current source/i);
+  } finally {
+    fs.rmSync(fixture.root, {recursive: true, force: true});
+  }
+});
