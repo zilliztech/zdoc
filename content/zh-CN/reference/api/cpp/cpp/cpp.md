@@ -16,11 +16,11 @@ import Admonition from '@theme/Admonition';
 
 ## 功能特性
 
-- **原生 C++ API** — 采用流畅的请求构建器模式，返回 `Status` 值
+- **原生 C++ API** — 流畅的请求构建器模式，返回 `Status` 值
 - **Collection 和向量管理** — 创建、描述、加载和删除 Collection；管理 Schema 和索引
-- **数据操作** — 支持插入、upsert、删除、查询和搜索，包括混合搜索和稀疏向量搜索
-- **Database 和用户管理** — 支持 RBAC、资源组、别名和 Database 管理
-- **现代字段类型** — 支持 Array、JSON、稀疏、二进制、float16/bfloat16, int8 和 struct 字段
+- **数据操作** — 插入、upsert、删除、查询和搜索，包括混合搜索和稀疏向量搜索
+- **Database 和用户管理** — RBAC、资源组、别名和 Database 管理
+- **现代字段类型** — Array、JSON、稀疏、二进制、float16/bfloat16, int8 和 struct 字段
 - **Milvus 和 Zilliz Cloud** — 通过 URI 连接自托管的 Milvus 和 Zilliz Cloud 实例
 
 ## 兼容性

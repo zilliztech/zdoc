@@ -14,7 +14,7 @@ import Admonition from '@theme/Admonition';
 
 [@zilliz/milvus2-sdk-node](https://github.com/milvus-io/milvus-sdk-node) 是适用于 Milvus 和 Zilliz Cloud 的官方 Node.js SDK。它同时提供 gRPC 和 HTTP 客户端，用于向量相似性搜索、元数据过滤，以及完整的 Collection、索引和用户管理。
 
-## 功能
+## 功能特性
 
 - **双协议支持** — 为不支持 gRPC 的环境提供 gRPC 和 HTTP 客户端（例如 Cloudflare Workers、Vercel Edge）
 - **向量操作** — 相似性搜索、结合重排的混合搜索、稀疏向量/BM25 搜索
