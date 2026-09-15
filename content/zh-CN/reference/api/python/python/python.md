@@ -26,17 +26,17 @@ import Admonition from '@theme/Admonition';
 您可以在终端中运行以下命令，以安装最新版本的 PyMilvus，或将您的 PyMilvus 更新到此版本。
 
 ```shell
-pip install --upgrade pymilvus==v2.3.7
+pip install --upgrade pymilvus==3.0.1
 ```
 
-安装完成后，您可以运行以下命令检查 pymilvus 版本。
+安装完成后，您可以运行以下命令检查 pymilvus 的版本。
 
 ```python
 from pymilvus import __version__
 
 print(__version__)
 
-# v2.3.7
+# 3.0.1
 ```
 
 ## 连接到集群
@@ -61,4 +61,4 @@ import DocCardList from '@theme/DocCardList';
 
 ## 示例
 
-除文档外，您还可以参阅我们 [GitHub repository](https://github.com/milvus-io/pymilvus) 中的[示例集](https://github.com/milvus-io/pymilvus/tree/master/examples)。
+除文档外，您还可以参阅我们 [GitHub 仓库](https://github.com/milvus-io/pymilvus) 中的 [示例集](https://github.com/milvus-io/pymilvus/tree/master/examples)。

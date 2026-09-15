@@ -17,8 +17,8 @@ import Admonition from '@theme/Admonition';
 ## 功能
 
 - **双协议支持** — 为不支持 gRPC 的环境提供 gRPC 和 HTTP 客户端（例如 Cloudflare Workers、Vercel Edge）
-- **向量操作** — 相似性搜索、结合重排的混合搜索、稀疏向量/BM25搜索
-- **数据管理** — 插入、upsert、删除，以及结合标量过滤器的查询
+- **向量操作** — 相似性搜索、结合重排的混合搜索、稀疏向量/BM25 搜索
+- **数据管理** — 插入、upsert、删除，以及使用标量过滤器进行查询
 - **Schema 灵活性** — 用于多租户的动态字段和 Partition 键
 - **批量操作** — `BulkWriter`，用于大规模导入和服务器端批量导入
 - **企业功能** — RBAC、资源组和 Database 管理
@@ -27,12 +27,12 @@ import Admonition from '@theme/Admonition';
 ## 安装
 
 ```bash
-npm install @zilliz/milvus2-sdk-node
+npm install @zilliz/milvus2-sdk-node@3.0.5
 # or
-yarn add @zilliz/milvus2-sdk-node
+yarn add @zilliz/milvus2-sdk-node@3.0.5
 ```
 
-**要求：**Node.js v18+
+**要求：** Node.js v18+
 
 ## 快速开始
 

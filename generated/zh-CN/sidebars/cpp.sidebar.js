@@ -2,7 +2,7 @@ module.exports = [
   {
     "type": "doc",
     "id": "api/cpp/cpp/cpp",
-    "label": "Overview"
+    "label": "概览"
   },
   {
     "type": "category",

@@ -12,70 +12,69 @@ import Admonition from '@theme/Admonition';
 
 # Java SDK 参考
 
-[Milvus Java SDK](https://github.com/milvus-io/milvus-sdk-java) 是 Milvus 和 Zilliz Cloud 的官方 Java 客户端。它为 Java 开发者提供同步与异步两类 API，可用于管理集合、向量、索引以及各类数据库操作。借助该 SDK，你可以在应用程序中完成常见的数据访问与管理任务，并以符合 Java 开发习惯的方式与 Milvus 或 Zilliz Cloud 服务进行交互。
+[Milvus Java SDK](https://github.com/milvus-io/milvus-sdk-java) 是 Zilliz Cloud 的 Java SDK。其 v2 客户端 `MilvusClientV2` 通过类型化的请求构建器和响应对象来处理 Collection 管理、数据操作、向量搜索和集群管理。
 
 ## 功能特性
 
-- **兼容 Java 8+**
-- **支持 Maven 和 Gradle**
-- **提供同步与异步 API**
-- **支持集合与向量管理**
-- **支持索引创建与管理**
-- **支持 RBAC 和用户管理**
-- 通过可选的 `milvus-sdk-java-bulkwriter` 包**支持批量导入**
-
-这些能力覆盖了使用向量数据库时常见的开发场景，既适合快速接入，也适合在需要更完整管理能力的项目中使用。
+- **类型化 v2 API** — 使用 Java 构建器构建请求，并消费特定于操作的响应类型。
+- **Collection 与索引管理** — 定义 Schema、创建 Collection 和索引，并控制 Collection 加载。
+- **数据与向量操作** — 在 Java 应用程序中执行插入、upsert、删除、查询、搜索和混合搜索。
+- **云管理** — 管理您的集群可用的 Database、Partition、用户、角色和资源组。
+- **客户端连接池** — 当应用程序需要管理多个客户端连接时，可使用 SDK 的连接池类。
+- **可选的 BulkWriter 构件** — 在为批量导入准备文件时，单独添加 `milvus-sdk-java-bulkwriter`。
 
 ## 安装
 
-你可以使用 **Apache Maven** 或 **Gradle** 下载并集成该 SDK。根据你的项目构建工具，选择下面对应的依赖配置即可。
-
-### Apache Maven
+该 SDK 需要 Java 8 或更高版本。使用 Maven 添加核心构件：
 
 ```xml
 <dependency>
     <groupId>io.milvus</groupId>
     <artifactId>milvus-sdk-java</artifactId>
-    <version>2.6.18</version>
+    <version>3.0.8</version>
 </dependency>
 ```
 
-### Gradle/Groovy
+或使用 Gradle：
 
-```plaintext
-implementation 'io.milvus:milvus-sdk-java:2.6.18'
+```groovy
+implementation 'io.milvus:milvus-sdk-java:3.0.8'
 ```
 
-### Gradle/Kotlin
+当您的应用程序需要使用 BulkWriter 时，请为 `io.milvus:milvus-sdk-java-bulkwriter` 使用相同的版本号。在生产环境中固定版本之前，请检查 Maven Central 或 SDK 仓库。
 
-```sql
-implementation("io.milvus:milvus-sdk-java:2.6.18")
-```
+## 连接到 Zilliz Cloud
 
-如需使用 BulkWriter，请使用相同版本的 `milvus-sdk-java-bulkwriter`。这样可以在批量数据写入或导入场景中配合主 SDK 一起使用，并保持版本一致。
-
-## 快速开始
-
-下面的示例展示了如何创建一个 `MilvusClientV2` 客户端实例。你需要将 `uri` 替换为你的集群访问地址，并将 `token` 替换为实际的认证信息，以便应用程序能够连接到对应的服务端点。
+从集群的 **Connect** 卡片中复制公共 Endpoint，并使用 API key 或集群凭据作为 token。
 
 ```java
-import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.collection.response.ListCollectionsResp;
 
-MilvusClientV2 client = new MilvusClientV2(
-    ConnectConfig.builder()
-        .uri("https://your-cluster-endpoint")
-        .token("user:password")
-        .build()
-);
+String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
+String CLUSTER_TOKEN = "YOUR_CLUSTER_TOKEN";
+
+ConnectConfig config = ConnectConfig.builder()
+    .uri(CLUSTER_ENDPOINT)
+    .token(CLUSTER_TOKEN)
+    .build();
+
+MilvusClientV2 client = new MilvusClientV2(config);
+
+try {
+    ListCollectionsResp response = client.listCollections();
+    System.out.println(response.getCollectionNames());
+} finally {
+    client.close();
+}
 ```
 
-## 版本
+## 相关资源
 
-- [Java SDK v1 参考](./v1-About)
-- [Java SDK v2 参考](./v2)
-
-你可以根据所使用的 SDK 主版本进入相应参考文档，查看可用 API、参数说明以及示例用法。
+- [Java SDK v2 参考](./java/java/v2-Client-ConnectConfig)
+- [Java SDK 源代码仓库](https://github.com/milvus-io/milvus-sdk-java)
+- [Java SDK 示例](https://github.com/milvus-io/milvus-sdk-java/tree/master/examples)
 
 import DocCardList from '@theme/DocCardList';
 
