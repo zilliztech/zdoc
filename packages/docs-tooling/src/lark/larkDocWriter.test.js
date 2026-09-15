@@ -419,7 +419,7 @@ async function testCalloutPreservesMarkdownBody() {
 
   const markdown = await createWriter(blocks).__callout(callout, 0);
 
-  assert.match(markdown, /<Admonition type="info" icon="📘" title="Notes">/);
+  assert.match(markdown, /<Admonition type="info" title="Notes">/);
   assert.match(markdown, /- For a managed collection in serving clusters, please create \*\*MilvusClient\*\* with the cluster endpoint\./);
   assert.match(markdown, /    - \*\*Free & Serverless\*\*/);
   assert.match(markdown, /        `https:\/\/\{cluster-id\}\.serverless\.\{region\}\.vectordb\.zillizcloud\.com`/);
@@ -446,7 +446,7 @@ async function testCalloutStripsStyledTitleMarkers() {
 
   const markdown = await createWriter(blocks).__callout(callout, 0);
 
-  assert.match(markdown, /<Admonition type="info" icon="📘" title="说明">/);
+  assert.match(markdown, /<Admonition type="info" title="说明">/);
   assert.doesNotMatch(markdown, /title="\*\*/);
 
   const warning = {
@@ -463,7 +463,7 @@ async function testCalloutStripsStyledTitleMarkers() {
   ];
 
   const warningMarkdown = await createWriter(warningBlocks).__callout(warning, 0);
-  assert.match(warningMarkdown, /<Admonition type="warning" icon="🚧" title="警告">/);
+  assert.match(warningMarkdown, /<Admonition type="warning" title="警告">/);
 
   await assertMdxCompiles(markdown);
 }
@@ -486,7 +486,7 @@ async function testQuotePreservesMarkdownBody() {
 
   const markdown = await createWriter(blocks).__quote(quote, 0);
 
-  assert.match(markdown, /<Admonition type="info" icon="📘" title="Notes">/);
+  assert.match(markdown, /<Admonition type="info" title="Notes">/);
   assert.match(markdown, /- Serving clusters/);
   assert.match(markdown, /    - \*\*Free & Serverless\*\*/);
   assert.match(markdown, /        `https:\/\/\{cluster-id\}\.serverless\.\{region\}\.vectordb\.zillizcloud\.com`/);
@@ -510,7 +510,7 @@ async function testCalloutWarningUsesWarningType() {
 
   const markdown = await createWriter(blocks).__callout(callout, 0);
 
-  assert.match(markdown, /<Admonition type="warning" icon="🚧" title="Warning">/);
+  assert.match(markdown, /<Admonition type="warning" title="Warning">/);
   assert.match(markdown, /Nullable StructArray fields are available only/);
   await assertMdxCompiles(markdown);
 }
@@ -529,7 +529,7 @@ async function testCalloutDestructiveSentenceKeepsDangerAndMovesTitleToBody() {
 
   const markdown = await createWriter(blocks).__callout(callout, 0);
 
-  assert.match(markdown, /<Admonition type="danger" icon="🚧" title="Danger">/);
+  assert.match(markdown, /<Admonition type="danger" title="Danger">/);
   assert.match(markdown, /Once you drop a database, it is removed immediately and cannot be recovered/);
   assert.doesNotMatch(markdown, /title="Once you drop a database/);
   await assertMdxCompiles(markdown);
@@ -549,8 +549,80 @@ async function testQuoteWarningUsesWarningType() {
 
   const markdown = await createWriter(blocks).__quote(quote, 0);
 
-  assert.match(markdown, /<Admonition type="warning" icon="🚧" title="Warning">/);
+  assert.match(markdown, /<Admonition type="warning" title="Warning">/);
   assert.match(markdown, /Deleted files and folders cannot be recovered/);
+  await assertMdxCompiles(markdown);
+}
+
+async function testQuoteStripsLeadingEmojiFromTitle() {
+  const quote = {
+    block_id: 'quote-emoji-title',
+    block_type: 34,
+    children: ['title', 'body'],
+  };
+  const blocks = [
+    quote,
+    textBlock('title', 'quote-emoji-title', [textRun('📘 Notes')]),
+    textBlock('body', 'quote-emoji-title', [textRun('Cardinality shows the number of unique values in a field.')]),
+  ];
+
+  const markdown = await createWriter(blocks).__quote(quote, 0);
+
+  assert.match(markdown, /<Admonition type="info" title="Notes">/);
+  assert.doesNotMatch(markdown, /📘/);
+  await assertMdxCompiles(markdown);
+}
+
+async function testQuoteWarningEmojiTitleUsesWarningType() {
+  const constructionQuote = {
+    block_id: 'quote-construction-title',
+    block_type: 34,
+    children: ['title', 'body'],
+  };
+  const constructionBlocks = [
+    constructionQuote,
+    textBlock('title', 'quote-construction-title', [textRun('🚧 Warning')]),
+    textBlock('body', 'quote-construction-title', [textRun('Deleted volumes cannot be recovered.')]),
+  ];
+
+  const constructionMarkdown = await createWriter(constructionBlocks).__quote(constructionQuote, 0);
+  assert.match(constructionMarkdown, /<Admonition type="warning" title="Warning">/);
+  assert.doesNotMatch(constructionMarkdown, /🚧/);
+
+  const variantQuote = {
+    block_id: 'quote-variant-title',
+    block_type: 34,
+    children: ['title', 'body'],
+  };
+  const variantBlocks = [
+    variantQuote,
+    textBlock('title', 'quote-variant-title', [textRun('⚠️ Warning')]),
+    textBlock('body', 'quote-variant-title', [textRun('Deleted files cannot be recovered.')]),
+  ];
+
+  const variantMarkdown = await createWriter(variantBlocks).__quote(variantQuote, 0);
+  assert.match(variantMarkdown, /<Admonition type="warning" title="Warning">/);
+  assert.doesNotMatch(variantMarkdown, /⚠️/);
+  await assertMdxCompiles(variantMarkdown);
+}
+
+async function testCalloutStripsEmojiDuplicatedInTitleText() {
+  const callout = {
+    block_id: 'callout-emoji-title',
+    block_type: 19,
+    callout: { emoji_id: 'blue_book' },
+    children: ['title', 'body'],
+  };
+  const blocks = [
+    callout,
+    textBlock('title', 'callout-emoji-title', [textRun('📘 Notes')]),
+    textBlock('body', 'callout-emoji-title', [textRun('Zilliz Cloud automatically applies AUTOINDEX when creating indexes.')]),
+  ];
+
+  const markdown = await createWriter(blocks).__callout(callout, 0);
+
+  assert.match(markdown, /<Admonition type="info" title="Notes">/);
+  assert.doesNotMatch(markdown, /📘/);
   await assertMdxCompiles(markdown);
 }
 
@@ -1092,6 +1164,9 @@ async function run() {
   await testCalloutWarningUsesWarningType();
   await testCalloutDestructiveSentenceKeepsDangerAndMovesTitleToBody();
   await testQuoteWarningUsesWarningType();
+  await testQuoteStripsLeadingEmojiFromTitle();
+  await testQuoteWarningEmojiTitleUsesWarningType();
+  await testCalloutStripsEmojiDuplicatedInTitleText();
   await testGridWithHeadingColumnsRendersFeatureCards();
   await testGridWithoutHeadingColumnKeepsGenericGrid();
   await testMarkedGridWithoutHeadingFallsBackAndSuppressesMarker();

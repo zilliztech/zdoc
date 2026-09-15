@@ -26,6 +26,11 @@ const {
 } = require('./guidesBaseRecordSemantics')
 const { guidesTableSlug } = require('./guidesTableSlugs')
 
+// Leading emoji cluster (pictographic plus skin tones, VS16, and ZWJ joins) that
+// authors type into admonition titles like "📘 Notes". The theme renders its own
+// heading icon, so a title-embedded emoji would show up next to it.
+const LEADING_EMOJI_CLUSTER = /^[\p{Extended_Pictographic}\p{Emoji_Modifier}\u200D\uFE0F]+\s*/u
+
 class larkDocWriter {
     constructor(
         root_token,
@@ -1843,15 +1848,14 @@ class larkDocWriter {
         return bodyLines.join('\n')
     }
 
-    __admonitionMarkdown({ type, icon, title, bodyLines, indent }) {
+    __admonitionMarkdown({ type, title, bodyLines, indent }) {
         const pad = ' '.repeat(indent)
         const body = this.__normalizeAdmonitionBody(bodyLines)
         const bodyWithIndent = body ? body.split('\n').map(line => pad + line).join('\n') : ''
-        const iconAttr = this.__escapeJsxAttribute(icon)
         const titleAttr = this.__escapeJsxAttribute(title || 'Notes')
 
         return [
-            `${pad}<Admonition type="${type}" icon="${iconAttr}" title="${titleAttr}">`,
+            `${pad}<Admonition type="${type}" title="${titleAttr}">`,
             '',
             bodyWithIndent,
             '',
@@ -1859,8 +1863,12 @@ class larkDocWriter {
         ].join('\n').replace(/(\s*\n){3,}/g, `\n${pad}\n`)
     }
 
+    __stripLeadingEmoji(text) {
+        return String(text ?? '').replace(LEADING_EMOJI_CLUSTER, '')
+    }
+
     __normalize_admonition_title(rawTitle, bodyLines) {
-        const title = this.__stripMarkdownStyles(rawTitle);
+        const title = this.__stripLeadingEmoji(this.__stripMarkdownStyles(rawTitle));
         const body = Array.isArray(bodyLines) ? [...bodyLines] : [];
         const titleLooksLikeSentence = title.length > 72 || /[.!?]$/.test(title) || /\[[^\]]+\]\([^)]+\)/.test(title) || /`/.test(title);
 
@@ -1887,7 +1895,6 @@ class larkDocWriter {
         if (this.__is_destructive_admonition(combinedText)) {
             return {
                 type: 'danger',
-                icon: '🚧',
                 title: titleText && !['warning', 'warn', 'caution'].includes(lowerTitle) ? titleText : 'Danger',
                 body: normalized.body,
             };
@@ -1896,7 +1903,6 @@ class larkDocWriter {
         if (emoji === 'construction' || ['warning', 'warn', 'caution', '警告'].includes(lowerTitle)) {
             return {
                 type: 'warning',
-                icon: '🚧',
                 title: titleText && !['warn'].includes(lowerTitle) ? titleText : 'Warning',
                 body: normalized.body,
             };
@@ -1904,7 +1910,6 @@ class larkDocWriter {
 
         return {
             type: 'info',
-            icon: '📘',
             title: titleText || 'Note',
             body: normalized.body,
         };
@@ -1933,7 +1938,6 @@ class larkDocWriter {
         return this.__admonitionMarkdown({
             indent,
             type: meta.type,
-            icon: meta.icon,
             title: meta.title,
             bodyLines: meta.body,
         })
@@ -2151,7 +2155,6 @@ class larkDocWriter {
         return this.__admonitionMarkdown({
             indent,
             type: meta.type,
-            icon: meta.icon,
             title: meta.title,
             bodyLines: meta.body,
         })
