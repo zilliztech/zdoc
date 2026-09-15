@@ -66,7 +66,7 @@ import Procedures from '@site/src/components/Procedures';
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 在使用邮箱和密码首次登录后，请您完成问卷调查。我们希望了解您的数据规模及用例，从而更有效地为您提供服务。
 

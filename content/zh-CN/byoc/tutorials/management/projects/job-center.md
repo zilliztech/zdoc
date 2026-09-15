@@ -114,7 +114,7 @@ Zilliz Cloud 提供了一个直观的任务中心页面，将同一项目下的�
 
 - 导出备份文件任务
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 如需取消任务，您需要具备**组织管理员**或**项目管理员**权限。
 
@@ -124,7 +124,7 @@ Zilliz Cloud 提供了一个直观的任务中心页面，将同一项目下的�
 
 ## 重试失败任务\{#retry-failed-job}
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 目前仅支持重试失败的导入任务。
 

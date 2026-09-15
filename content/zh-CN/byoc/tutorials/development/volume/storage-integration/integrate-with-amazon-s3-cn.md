@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 本文介绍如何授权 Zilliz Cloud 亚马逊云科技（中国）BYOC 或 BYOC-I 项目访问外部 Amazon S3 Bucket。您需要在 Bucket 所属的中国区账号中创建客户管理的 IAM 权限策略和角色，再将角色注册到 Zilliz Cloud。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 本文示例包含占位符。实际配置时，请复制 Zilliz Cloud 控制台生成的 JSON，其中包含正确的 Bucket 名称、`aws-cn` 分区可信主体和当前集成唯一的 External ID。
 
@@ -48,7 +48,7 @@ import Procedures from '@site/src/components/Procedures';
 
 - Bucket、客户 IAM 角色和 Zilliz Cloud 提供的可信主体都属于 `aws-cn` 分区。中国区账号与 AWS 全球区域账号相互独立，不能跨分区建立 IAM 信任。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 Bucket Integration 具有 Region 属性。中国（北京）Region ID 为 `cn-north-1`，中国（宁夏）Region ID 为 `cn-northwest-1`。如果项目在多个 Region 部署数据面，请分别创建 Bucket 和集成。
 
@@ -157,7 +157,7 @@ Bucket Integration 具有 Region 属性。中国（北京）Region ID 为 `cn-no
 }
 ```
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 如果 Bucket 使用客户管理的 AWS KMS 密钥进行服务端加密，还需向角色授予必要的 KMS 权限，并在 KMS Key Policy 中允许该角色。写入场景通常还需要对目标密钥授予 `kms:GenerateDataKey`。
 
@@ -201,7 +201,7 @@ Bucket Integration 具有 Region 属性。中国（北京）Region ID 为 `cn-no
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 **不要修改或复用 External ID**
 

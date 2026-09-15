@@ -36,7 +36,7 @@ Zilliz Cloud 支持与 Amazon Simple Storage Service（[Amazon S3](https://docs.
 
 - [转发访问日志](./access-log-overview)
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 此功能仅限**企业版**项目使用。
 
@@ -93,7 +93,7 @@ Zilliz Cloud 支持与 Amazon Simple Storage Service（[Amazon S3](https://docs.
 
 1. 在页面顶部选择与你的 Zilliz Cloud 集群所在区域一致的 Amazon 云地域。
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" title="说明">
 
     - 创建存储桶的云地域必须与 Zilliz Cloud 集群所在地域一致。Zilliz Cloud 支持的区域可参考[云服务提供商和地域](https://docs.zilliz.com.cn/docs/cloud-providers-and-regions)。
     
@@ -197,7 +197,7 @@ Zilliz Cloud 支持与 Amazon Simple Storage Service（[Amazon S3](https://docs.
     }
     ```
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" title="说明">
 
     - `<bucket>` 需要替换为你的存储桶实际名称。
     
@@ -259,7 +259,7 @@ Zilliz Cloud 支持与 Amazon Simple Storage Service（[Amazon S3](https://docs.
     }
     ```
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" title="说明">
 
     `306787409409` 和 `my-external-id` 需要替换为控制台实际显示的亚马逊云科技账号 ID 和 External ID。
 

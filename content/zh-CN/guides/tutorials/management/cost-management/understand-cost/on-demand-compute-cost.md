@@ -74,7 +74,7 @@ Indexing CU 费用 = Indexing CU 单价 × Indexing CU 数量 x 时长
 
 - **时长**: 完成索引构建任务所需的时间。仅任务实际执行时间计费；排队等待时间和失败任务均不计费。最小计费单位为 1 分钟。不足 1 分钟按 1 分钟计费。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 在[用量](./analyze-cost)和[账单](./view-invoice)页面中，Indexing CU cost 按 Database 汇总显示，而不是按单个任务显示。
 

@@ -40,7 +40,7 @@ import Procedures from '@site/src/components/Procedures';
 
 1. 请前往您的账号邮箱接收验证码，在“账号验证”弹窗的输入框中输入验证码并点击**确认**。
 
-    <Admonition type="info" icon="📘" title="📘 说明">
+    <Admonition type="info" title="说明">
 
     如未收到验证码或验证码过期，请点击重新发送验证码。
 
@@ -74,7 +74,7 @@ import Procedures from '@site/src/components/Procedures';
 
 1. 请前往您的账号邮箱接收验证码，在“关闭 MFA”弹窗的输入框中输入验证码并点击**关闭**。
 
-    <Admonition type="info" icon="📘" title="📘 说明">
+    <Admonition type="info" title="说明">
 
     如未收到验证码或验证码过期，请点击重新发送验证码。
 

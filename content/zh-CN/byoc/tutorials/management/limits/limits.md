@@ -81,7 +81,7 @@ import Admonition from '@theme/Admonition';
 | Replica 数量 | 100 | 每个集群最多可添加 100 个 Replica。 |
 | Query CU x Replica 数量 | 204,800 | 每个集群的 Query CU x Replica 数量不得超过 204,800 |
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 对于创建较早、兼容 Milvus 版本较低的部分集群，可能需要规格在 12 CU 或以上才可以添加 Replica。
 
@@ -203,7 +203,7 @@ Shard 的数量上限取决于 CU 规格。
 
 - 升级到 Beta 版本的 Dedicated 集群，该集群类型兼容 Milvus 2.4.x 或更高版本。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 不建议您手动执行 Flush 操作。Zilliz Cloud 会自动优雅地处理数据 Flush 操作。
 
@@ -213,7 +213,7 @@ Shard 的数量上限取决于 CU 规格。
 
 每个集群的加载请求速率限制为每秒 **20** 个请求。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 对于已加载的 Collection，即使有新数据插入，您无需重复执行加载操作。
 

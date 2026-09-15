@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud 的 Collection 在一次搜索或查询结果中最多可返回 16,384 个实体。若需要突破该 topK 上限，您可以设置查询模式，让 Zilliz Cloud 在单次搜索或查询中返回数百万实体，而无需使用复杂且耗时的迭代器方案。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 该功能适用于与 Milvus v2.6.x 兼容的 Zilliz Cloud 集群。如需体验此功能，请[联系我们](https://support.zilliz.com.cn/hc/zh-cn)。
 

@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 `lindera` 分词器执行基于词典的形态素分析，专为日语和韩语设计——这两种语言的词汇之间没有空格分隔，且语法标记（助词）直接附着在词汇上。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 **中文用户**：虽然 `lindera` 通过 `cc-cedict` 词典支持中文，但我们推荐使用 `[jieba](jieba-tokenizer.md)` 分词器。[Jieba](./jieba-tokenizer) 专为中文分词设计，能提供更好的效果。
 

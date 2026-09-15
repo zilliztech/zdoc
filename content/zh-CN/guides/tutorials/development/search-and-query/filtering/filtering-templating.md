@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 在 Zilliz Cloud 中，具有众多元素的复杂过滤表达式，特别是那些涉及非ASCII字符（如CJK字符）的表达式，会显着影响查询性能。为了解决这个问题，Zilliz Cloud 引入了一种过滤表达式模板机制，旨在通过减少解析复杂表达式所花费的时间来提高效率。本页解释了在搜索、查询和删除操作中使用过滤表达式模板。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 过滤表达式左侧的字面量可以是 Collection Field 名称，例如以下示例中使用的 `age`、`city` 等；也可以是特定元素索引处的 StructArray 子字段名称，例如 `filter = 'struct[0][subfield] > {var}'`。
 

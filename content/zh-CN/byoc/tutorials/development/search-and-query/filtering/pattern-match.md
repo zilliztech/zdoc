@@ -25,7 +25,7 @@ import TabItem from '@theme/TabItem';
 
 在 Zilliz Cloud 中，可以在标量过滤表达式中使用 `LIKE` 进行简单通配符匹配，使用 `=~` 或 `!~` 进行 [RE2](https://github.com/google/re2/wiki/syntax) 正则表达式匹配。您可以将这些过滤表达式与 `query`、`search` 或混合搜索结合使用。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 本页介绍 query、search 和混合搜索所用标量过滤表达式中的模式匹配。这些表达式用于计算字段值，不会改变分析器生成的 token。若要在文本分析期间过滤 token，请参阅[正则表达式分析器过滤器](./regex-filter)。
 
@@ -152,7 +152,7 @@ curl --request POST \
 
 本页示例重点介绍赋给 `filter` 的表达式。在 Zilliz Cloud 中，凡是接受标量过滤表达式的操作（例如 `query`、`search` 和混合搜索），都可以使用相同的过滤表达式语法。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 过滤表达式左侧的字面量既可以是 Collection Field 名称（如后文示例中的 `message`、`email` 等），也可以是特定元素索引处的 StructArray 子字段名称，例如 `filter = 'struct[0][subfield] =~ "E[0-9]{4}"'`。
 

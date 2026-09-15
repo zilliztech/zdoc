@@ -34,7 +34,7 @@ import Admonition from '@theme/Admonition';
 
 - **自定义密钥**：由**组织管理员**和**项目管理员**手动创建，供应用程序或没有注册 Zilliz Cloud 账号的外部用户使用。自定义密钥适用于需要长期访问 Zilliz Cloud 资源的场景，确保即使 API 密钥的创建人离开组织，应用和外部用户也可以不间断地访问 Zilliz Cloud 资源。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 请避免将个人 API 密钥用于生产环境。生产环境中推荐使用自定义密钥。个人 API 密钥将随着用户账号删除同步失效。
 
@@ -251,7 +251,7 @@ import Admonition from '@theme/Admonition';
 
     - **API 密钥权限**：您可以通过指定用户角色或特定项目，来定义自定义 API 密钥的访问范围。为实现更精细化的访问控制，您还可以通过**将访问权限限制到指定集群和 Volume** 来限制密钥可访问的集群和 Volume 范围。
 
-        <Admonition type="info" icon="📘" title="📘 说明">
+        <Admonition type="info" title="说明">
 
         [项目管理员](./manage-platform-roles)授予自定义 API 密钥的权限受到其自身权限范围的限制。
 
@@ -289,7 +289,7 @@ import Admonition from '@theme/Admonition';
 
     - **API 密钥权限**：您可以通过指定用户角色或特定项目，来定义自定义 API 密钥的访问范围。为实现更精细化的访问控制，您还可以通过将访问权限限制到指定集群和 Volume 来限制密钥可访问的集群和 Volume 范围。
 
-        <Admonition type="info" icon="📘" title="📘 说明">
+        <Admonition type="info" title="说明">
 
         [项目管理员](./manage-platform-roles)授予自定义 API 密钥的权限受到其自身权限范围的限制。
 
@@ -299,7 +299,7 @@ import Admonition from '@theme/Admonition';
 
 如果您的个人 API 密钥或自定义 API 密钥不慎被泄露，请立即重置密钥。
 
-<Admonition type="info" icon="📘" title="🚧 警告">
+<Admonition type="warning" title="警告">
 
 重置后，当前的 API 密钥将会失效。任何使用当前密钥的应用程序代码将停止运行，请务必及时更新代码中的 API 密钥信息。
 
@@ -323,7 +323,7 @@ import Admonition from '@theme/Admonition';
 
 下图展示了如何删除自定义 API 密钥。
 
-<Admonition type="info" icon="📘" title="🚧 警告">
+<Admonition type="warning" title="警告">
 
 该操作不可撤销。删除后， 任何使用该 API 密钥的应用将无法再访问 Zilliz Cloud 资源。
 

@@ -32,7 +32,7 @@ import Admonition from '@theme/Admonition';
 | 将 Element-level Vector Search 限制到满足标量条件的 Struct 元素。 | `element_filter`。 | 只搜索匹配的 Struct 元素，并可返回匹配元素的 offset。 |
 | 根据是否有任意、全部或指定数量的 Struct 元素满足谓词来选择 Entity。 | `MATCH_ANY`、`MATCH_ALL`、`MATCH_LEAST`、`MATCH_MOST` 或 `MATCH_EXACT`。 | Row-level 过滤。这些操作符本身不返回 offset。 |
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 本页说明如何在搜索流程中使用 StructArray 过滤器。如需完整语法规则、支持的谓词类型和不支持的谓词矩阵，请参见 [StructArray 操作符](./struct-array-filtering)。
 
@@ -125,7 +125,7 @@ for hits in results:
 
 在此示例中，顶层谓词 `category == "search"` 选择候选 Entity，`element_filter` 则将 Element-level Vector Search 限制到同一个 Struct 元素内同时满足 `section`、`quality_score` 和 `has_code` 条件的 chunk。
 
-<Admonition type="warning" icon="🚧" title="Warning">
+<Admonition type="warning" title="Warning">
 
 将顶层谓词与 `element_filter` 组合使用时，请把 `element_filter` 放在表达式末尾。一个过滤表达式只能包含一个 `element_filter`，且不能在另一个 StructArray 操作符内部嵌套 `element_filter` 或 `MATCH_*`。
 

@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud 支持用于查询和过滤 JSON 字段的高级操作符，使其成为管理复杂结构化数据的完美工具。这些操作符可实现对 JSON 文档的高效查询，允许您根据 JSON 字段中的特定元素、值或条件检索实体。本节将指导您在 Zilliz Cloud 中使用特定于 JSON 的操作符，并提供实际示例来说明其功能。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 JSON 字段无法处理复杂的嵌套结构，而是将所有嵌套结构视为纯字符串。因此，在使用 JSON 字段时，建议避免过深的嵌套，并确保数据结构尽可能扁平，以获得最佳性能。
 

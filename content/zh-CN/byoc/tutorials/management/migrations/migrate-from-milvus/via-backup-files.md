@@ -34,7 +34,7 @@ Zilliz Cloud 提供基于 Milvus 的完全托管的向量数据库解决方案�
 
     - **从对象存储**：Milvus 对象存储的公共 URL 和访问凭据。您可以选择长期或临时凭据。您可以查看[常见问题](./via-backup-files#faq)，了解对象存储公共 URL 的格式示例。
 
-        <Admonition type="info" icon="📘" title="说明">
+        <Admonition type="info" title="说明">
 
         建议您将备份文件放置在与目标集群同云服务商同地域的对象存储桶中，以便获得低时延、高稳定的迁移体验。
 
@@ -90,7 +90,7 @@ Zilliz Cloud 支持从 Milvus 2.x 和更高版本迁移数据。要从 Milvus 2.
       ...
     ```
 
-    <Admonition type="info" icon="📘" title="📘 说明">
+    <Admonition type="info" title="说明">
 
     如果 Milvus 实例是通过 Docker Compose 安装，`minio.bucketName` 默认为 `a-bucket`， `rootPath` 默认为 `files`。
     
@@ -144,7 +144,7 @@ Zilliz Cloud 支持从 Milvus 2.x 和更高版本迁移数据。要从 Milvus 2.
 
 <Supademo id="cme9nfjc94bofh3py7kldqzx9" title="Zilliz Cloud - 通过备份文件从 Milvus 迁移" />
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 如果源 Collection 已启用 Full Text Search 功能，Zilliz Cloud 会在迁移后保留目标 Collection 的 Function 设置。这些继承的设置无法修改。
 
@@ -154,7 +154,7 @@ Zilliz Cloud 支持从 Milvus 2.x 和更高版本迁移数据。要从 Milvus 2.
 
 生成迁移任务后，您可前往[任务中心](https://docs.zilliz.com.cn/docs/job-center)查看任务状态和进度。如果迁移任务的状态从**进行中**变更为**成功**，则代表迁移成功。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 迁移完成后，请验证目标集群中的 collection 和 entity 数量是否与数据源一致。如果发现不一致，请删除缺失 entity 的 collection 并重新进行迁移。
 

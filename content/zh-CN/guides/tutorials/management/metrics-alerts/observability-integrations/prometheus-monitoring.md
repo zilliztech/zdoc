@@ -28,7 +28,7 @@ import Procedures from '@site/src/components/Procedures';
 
 Prometheus 集成仅导出 Serving 集群指标，不导出按需计算 Database 指标。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 此功能仅限**企业版**项目使用。
 
@@ -76,7 +76,7 @@ Prometheus 集成仅导出 Serving 集群指标，不导出按需计算 Database
           - targets: ["YOUR_PROMETHEUS_TARGET"]
     ```
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" title="说明">
 
     集群中的 Collection 数量不得超过 10,000 个。超过此限制的集群可能出现指标导出不完整或性能下降的情况。
 

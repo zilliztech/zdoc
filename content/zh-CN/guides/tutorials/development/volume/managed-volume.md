@@ -628,7 +628,7 @@ export TOKEN="YOUR_API_KEY"
 
 从 Managed Volume 删除数据可能需要几分钟，具体取决于文件或文件夹大小。
 
-<Admonition type="info" icon="📘" title="⚠️  警告">
+<Admonition type="warning" title="警告">
 
 已删除的文件和文件夹无法恢复，请谨慎操作。
 
@@ -654,7 +654,7 @@ export TOKEN="YOUR_API_KEY"
 
 删除 Managed Volume 时，其中的所有文件和文件夹也会一并删除。
 
-<Admonition type="info" icon="📘" title="⚠️  警告">
+<Admonition type="warning" title="警告">
 
 已删除的 Volume 无法恢复，请谨慎操作。      
 

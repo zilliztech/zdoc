@@ -28,7 +28,7 @@ import Procedures from '@site/src/components/Procedures';
 
 组织用户是 Zilliz Cloud 组织的成员。他们可以登录控制台，并可根据其职责被分配组织角色、项目访问权限或其他权限。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 要管理组织用户，您必须拥有包含成员和角色管理权限的组织角色，例如 Organization Owner 或等效的自定义组织角色。
 
@@ -36,7 +36,7 @@ import Procedures from '@site/src/components/Procedures';
 
 ### 邀请组织用户\{#invite-organization-users}
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 每个组织最多可拥有 100 个用户。
 
@@ -128,7 +128,7 @@ import Procedures from '@site/src/components/Procedures';
 
 当用户不应再属于组织时，将其移除。移除组织用户会移除组织成员身份以及该组织中的直接角色分配。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 移除成员后，对应的个人 API Key 将立即被撤销，访问将被拒绝。为避免服务中断，请确保在移除之前替换环境中使用的任何个人 Key。此操作无法撤销。
 
@@ -156,7 +156,7 @@ import Procedures from '@site/src/components/Procedures';
 
 当用户不再需要访问权限时，可以离开组织。每个组织必须至少保留一名 Organization Owner。如果您是唯一的 Organization Owner，请在离开前分配另一名 Organization Owner。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 离开组织后，除非另一位管理员再次邀请您，否则您无法再访问该组织及其资源。
 
@@ -200,7 +200,7 @@ import Procedures from '@site/src/components/Procedures';
 
 项目用户也称为项目协作者，是有权访问特定项目的用户或组。使用项目用户授予项目资源访问权限，而无需授予广泛的组织级权限。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 项目访问权限是显式的。项目角色分配必须指向特定项目。Zilliz Cloud 不支持为所有当前和未来项目设置跨项目通配符分配。
 
@@ -250,7 +250,7 @@ import Procedures from '@site/src/components/Procedures';
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 如果您邀请用户加入项目，而该用户还不是组织成员，则该用户在接受邀请后会成为组织成员。
 
@@ -304,7 +304,7 @@ import Procedures from '@site/src/components/Procedures';
 
 当用户不再需要访问权限时，可以离开项目。每个项目必须至少保留一名 Project Admin。如果您是唯一的 Project Admin，请在离开前分配另一名 Project Admin。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 离开项目后，除非另一位管理员再次邀请您，否则您无法再访问该项目及其资源。
 

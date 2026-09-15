@@ -36,7 +36,7 @@ Zilliz Cloud **平台审计日志**页面记录了组织中的所有事件，包
 
     如需查看特定时间段内的平台审计日志，请点击时间组件，选择起始日期和终止日期，点击**确认**。 
 
-    <Admonition type="info" icon="📘" title="📘 说明">
+    <Admonition type="info" title="说明">
 
     起始日期和终止日期之间应小于 30 天。
 

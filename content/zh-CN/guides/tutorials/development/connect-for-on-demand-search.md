@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 如果要通过按需集群提供的计算资源运行按需搜索或查询工作负载，请使用项目 endpoint。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="注意">
 
 本文介绍如何连接用于按需搜索的项目 endpoint。如果要连接 Free、Serverless 或 Dedicated Serving 集群，请参见 [连接到 Serving 集群](./connect-to-serving-cluster)。
 

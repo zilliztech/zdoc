@@ -65,7 +65,7 @@ import Admonition from '@theme/Admonition';
 
 ![pay-annual-subscription-order-cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/pay-annual-subscription-order-cn.png "pay-annual-subscription-order-cn")
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 您可以通过现金余额或者云市场订阅支付包年包月集群订单。但**仅支持单一支付方式**。
 

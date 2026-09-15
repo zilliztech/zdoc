@@ -39,7 +39,7 @@ Zilliz Cloud 提供 Bring-Your-Own-Cloud（BYOC）解决方案，使组织能够
 
 - 您已经联系了 Zilliz Cloud 技术支持并向我们提供您的账号信息。
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" title="说明">
 
     Zilliz BYOC 部署方案目前处于**正式可用**阶段。如需了解详情或试用，请联系 [Zilliz Cloud 技术支持](https://zilliz.com.cn/contact-sales)。
 

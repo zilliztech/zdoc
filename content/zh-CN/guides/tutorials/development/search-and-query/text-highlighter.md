@@ -106,7 +106,7 @@ results = client.search(
 
 除了高亮搜索词之外，你还可以对**基于文本的过滤表达式**中使用的查询词进行高亮显示。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 - 当前仅支持对 TEXT_MATCH 过滤条件中的查询词进行高亮。更多信息请参阅 [Text Match](./text-match)。
 

@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 Jieba 分词器通过将中文文本拆分为其组成的单词来处理文本。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 `jieba` 分词器在输出的分词结果中会将标点符号作为独立的词元予以保留。例如：`"你好！世界。"` 的分词结果为 `["你好", "！", "世界", "。"]`。如果需要在分词结果中去除标点符号词元，需要使用 `removepunct` 过滤器。
 

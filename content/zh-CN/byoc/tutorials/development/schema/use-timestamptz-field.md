@@ -51,7 +51,7 @@ import TabItem from '@theme/TabItem';
 
 - **比较与过滤**：所有针对 TIMESTAMPTZ 字段的比较、过滤和排序操作，均基于标准化后的 UTC 值执行，从而确保在不同时区下具有一致且可预测的行为。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 - 你可以为 `TIMESTAMPTZ` 字段设置 `nullable=True` 以允许缺失值。
 
@@ -483,7 +483,7 @@ curl --request POST \
 
 有关 Zilliz Cloud 中可用的完整算术运算符列表，请参考 [基本操作符](./basic-filtering-operators)。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 不支持链式范围表达式（例如 `lower_bound < tsz < upper_bound`）。
 
@@ -674,7 +674,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 INTERVAL 值遵循 [ISO 8601 的持续时间](https://www.w3.org/TR/xmlschema-2/#duration)语法。例如：
 
@@ -783,7 +783,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 如果你的 Collection 包含两个或以上的向量字段，你可以在执行混合搜索时结合时间戳过滤。详情请参考[多向量混合搜索](./hybrid-search)。
 

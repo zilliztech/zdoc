@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 下表总结了  中可用的几何运算符。在**示例**列中，`geo_field` 表示 `GEOMETRY` 字段的名称，该字段在您的集合模式中定义。
 
-<Admonition type="info" icon="📘" title="注释">
+<Admonition type="info" title="注释">
 
 操作符名称必须**全部大写**或**全部小写**。不要在同一个操作符名称中混用大小写。
 

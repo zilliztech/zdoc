@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 定时扩缩容允许您在预定义时间调整 Dedicated Serving 集群的规格。当工作负载具有周期性模式时，可以使用定时扩缩容，例如工作日办公时间流量、周末低流量时段，或可预测的批量/查询窗口。
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 所有版本都支持手动扩缩容 Query CU。
 
@@ -156,7 +156,7 @@ curl --request POST \
 
 当扩缩容任务正在进行时，集群状态为`修改中`。任务成功后，集群状态会变回`运行中`。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 扩缩容任务期间，Zilliz Cloud 会继续按之前的配置对集群计费。只有扩缩容任务成功完成后，新的 Query CU 或 Replica 配置才会用于计费。该规则适用于扩容和缩容操作。
 

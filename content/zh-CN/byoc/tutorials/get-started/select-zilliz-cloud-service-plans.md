@@ -60,8 +60,8 @@ Zilliz Cloud 提供多样的项目版本类型以满足不同的用户需求。�
      <td><p>云服务提供商和地域</p></td>
      <td><p>阿里云</p></td>
      <td><p>阿里云</p></td>
-     <td><p>阿里云、腾讯云、亚马逊云科技</p><Admonition type="info" icon="📘" title="Note"> 详情请参考[云服务提供商和地域](https://docs.zilliz.com.cn/docs/cloud-providers-and-regions)。 </Admonition></td>
-     <td><p>阿里云、腾讯云、亚马逊云科技</p><Admonition type="info" icon="📘" title="Note"> 详情请参考[云服务提供商和地域](https://docs.zilliz.com.cn/docs/cloud-providers-and-regions)或[联系我们](http://zilliz.com.cn/contact-sales)。 </Admonition></td>
+     <td><p>阿里云、腾讯云、亚马逊云科技</p><Admonition type="info" title="Note"> 详情请参考[云服务提供商和地域](https://docs.zilliz.com.cn/docs/cloud-providers-and-regions)。 </Admonition></td>
+     <td><p>阿里云、腾讯云、亚马逊云科技</p><Admonition type="info" title="Note"> 详情请参考[云服务提供商和地域](https://docs.zilliz.com.cn/docs/cloud-providers-and-regions)或[联系我们](http://zilliz.com.cn/contact-sales)。 </Admonition></td>
    </tr>
    <tr>
      <td><p>Query CU 数量</p></td>

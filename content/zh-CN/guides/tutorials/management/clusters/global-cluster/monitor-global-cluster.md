@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 本文介绍如何监控全球集群的状态、数据同步状态和性能。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 如需使用该功能请[提交工单](http://support.zilliz.com.cn)。
 

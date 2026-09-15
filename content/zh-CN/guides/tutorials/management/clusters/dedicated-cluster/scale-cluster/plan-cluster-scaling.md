@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 On-demand 集群会自动扩缩容，不需要手动扩缩容。
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 所有版本都支持手动扩缩容 Query CU。
 
@@ -54,7 +54,7 @@ On-demand 集群会自动扩缩容，不需要手动扩缩容。
 
 - Replica 用于解决吞吐和可用性压力。
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 对于 Query CU 较少的小规格集群，增加 **Query CU** 也可能提升 QPS。不过在大多数情况下，应通过扩缩容 **Replica** 来提升搜索吞吐和可用性。
 

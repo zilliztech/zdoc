@@ -26,7 +26,7 @@ import Admonition from '@theme/Admonition';
 
 ![parquet_file_structure_zh](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/parquetfilestructurezh.png "parquet_file_structure_zh")
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 - **是否启用 AutoID**
 
@@ -62,7 +62,7 @@ import Admonition from '@theme/Admonition';
 
 - [从单个文件导入](./data-import-parquet#import-a-single-file)
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 如果您的文件体积较小，建议您使用多路径或源文件夹的方式将所有文件一次性导入。Zilliz Cloud 针对这两种方式做了内部优化，可以降低后续资源消耗。
 
@@ -116,7 +116,7 @@ curl --request POST \
     }'
 ```
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 如果文件夹路径下包含多种格式文件，请求会失败。
 

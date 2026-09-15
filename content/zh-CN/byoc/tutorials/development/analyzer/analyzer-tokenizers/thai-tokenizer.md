@@ -24,7 +24,7 @@ import Admonition from '@theme/Admonition';
 
 ## 配置\{#configuration}
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 对于泰语文本，大多数情况下应使用内置的 `thai` Analyzer。内置 Analyzer 将此分词器与小写转换、十进制数字规范化和泰语停用词移除功能组合使用。只有在需要构建自定义 Analyzer 管道时，才应直接使用 `thai` 分词器。有关详细信息，请参阅[泰语 Analyzer](./thai-analyzer)。
 

@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 本小节主要介绍如何在您的亚马逊云科技 VPC 终端节点和您托管在亚马逊云科技云上的 Zilliz Cloud 集群之间建立私网连接（PrivateLink）。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 此功能仅限 **Dedicated** 集群使用。
 
@@ -32,7 +32,7 @@ import Procedures from '@site/src/components/Procedures';
 
 您需要在 Zilliz Cloud 项目中创建 Private Endpoint。创建完成后，Private Endpoint 将适用于项目下所有与 Private Endpoint 云服务提供商和地域相同的集群。
 
-<Admonition type="info" icon="📘" title="提示">
+<Admonition type="info" title="提示">
 
 Zilliz Cloud 不会针对私网连接收费，但您的云服务提供商可能会[收取一定费用](https://www.amazonaws.cn/privatelink/pricing/)。
 
@@ -110,7 +110,7 @@ Zilliz Cloud 不会针对私网连接收费，但您的云服务提供商可能�
 
 在您创建 Zilliz Cloud VPC 终端节点后，Zilliz Cloud 会进行验证。验证通过后，Zilliz Cloud 会为该终端节点分配一个私网连接。您可以前往**集群详情**页查看该私网连接。
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 该 Private Endpoint 适用于该项目下所有部署于该云服务和地域的 Dedicated 集群。如果在创建 Private Endpoint 时，该项目下部分 Dedicated 集群正处于维护中或扩缩容过程中，在维护和扩缩容完成后，该 Private Endpoint 会自动适用于这些 Dedicated 集群。
 
@@ -186,7 +186,7 @@ Zilliz Cloud 不会针对私网连接收费，但您的云服务提供商可能�
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 - 私网连接仅影响数据面（Data Plane）的操作。控制面（Control Plane）的操作仍然可以通过公网进行。
 

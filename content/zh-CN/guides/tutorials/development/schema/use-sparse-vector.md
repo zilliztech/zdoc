@@ -39,7 +39,7 @@ import TabItem from '@theme/TabItem';
 
 ![AAIowWHINh4lYhbAmPlcJ5yQnUn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/AAIowWHINh4lYhbAmPlcJ5yQnUn.png)
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 除了稀疏向量，Zilliz Cloud 还支持稠密向量和 Binary 向量。稠密向量适用于捕捉深层次的语义关联，而 Binary 向量则在快速相似性比较和内容去重等场景中表现出色。有关更多信息，请参考[稠密向量](./use-dense-vector)和 [Binary 向量](./use-binary-vector)。
 
@@ -271,7 +271,7 @@ export schema="{
 
 - `text`: 该字段用于存放 VARCHAR 类型的文本字符串，最大长度为 1000 字节。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 如果希望  or Zilliz Cloud 在插入数据时将指定的文本转换成稀疏向量。您还需要创建 Function。关于 Function 的更多内容，可以参考 [Full Text Search](./full-text-search)。
 

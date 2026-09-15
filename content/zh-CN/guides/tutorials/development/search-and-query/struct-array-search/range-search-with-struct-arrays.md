@@ -32,7 +32,7 @@ import Admonition from '@theme/Admonition';
 | Element-level Search | 使用常规 Vector 查询，并设置 `radius`，也可按需设置 `range_filter`。 | Struct 元素级。 |
 | Hybrid Search | 当 StructArray 请求的目标是 Element-level Vector Field 时支持。EmbeddingList-level 请求不支持 Range Search。 | Element-level 子搜索，然后进行 Hybrid 重新排序。 |
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 如果只需要最近的 Struct 元素，请先阅读[使用 StructArray 进行基础向量搜索](./search-with-struct-array)。当结果必须满足评分或距离边界，而不只是 Top-K 排名时，再使用 Range Search。
 

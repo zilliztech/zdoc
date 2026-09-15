@@ -135,7 +135,7 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 更简单的设置，可以直接使用 [Standard Analyzer](./standard-analyzer)。该 Analayzer 使用了 Standard 分词器和 [Lowercase 过滤器](./lowercase-filter)。
 

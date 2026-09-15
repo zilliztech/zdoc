@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 Truncate Collection 会移除 Collection 中的所有 Entity，同时保留 Collection 的 Schema、约束和 Index。相比删除 Entity，Truncate Collection 更高效，因为它会从 Search 和 Query 中隐藏当前时间戳之前已 flush 的所有 Entity，并在后台删除这些 Entity。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 此功能仅适用于 Managed Collection。
 

@@ -38,7 +38,7 @@ Zilliz Cloud 提供两种用量分析的方式：
 
 在**账单**页面的**用量**板块，您可以查看多类维度下的 Zilliz Cloud 服务用量和成本变化趋势。
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 用量数据每小时更新。
 
@@ -62,7 +62,7 @@ Zilliz Cloud 提供两种用量分析的方式：
 
 ### 通过 RESTful API\{#via-restful-api}
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 查询日用量的 RESTful API 目前还处于公测阶段，如需使用请[联系我们](http://support.zilliz.com.cn)。
 

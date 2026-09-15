@@ -61,7 +61,7 @@ import TabItem from '@theme/TabItem';
 
 ![VVYrwUkGxhvwyAbhaiLcT8q4nze](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/VVYrwUkGxhvwyAbhaiLcT8q4nze.png)
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 除了稠密向量，Zilliz Cloud 还支持稀疏向量和 Binary 向量。稀疏向量适用于基于特定词语的精准匹配，如关键词检索、术语匹配等；而 Binary 向量则常用于高效处理二值化数据，如图像模式匹配和某些哈希编码的应用场合。有关更多信息，请参考 [Binary 向量](./use-binary-vector) 和 [稀疏向量](./use-sparse-vector)。
 

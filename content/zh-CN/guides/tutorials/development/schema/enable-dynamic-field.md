@@ -434,7 +434,7 @@ curl --request POST \
 
 Zilliz Cloud 允许您使用 **JSON 路径索引**为 dynamic field 内的特定键创建索引。这些可以是标量值或 JSON 对象中的嵌套值。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 为 dynamic field 键建立索引是**可选操作**。您仍然可以在没有索引的情况下按 dynamic field 键查询或过滤，但由于需要进行暴力搜索，性能可能会较慢。
 
@@ -796,7 +796,7 @@ export stringPriceIndex='{
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 - 如果类型转换失败（例如值 `"not_a_number"` 无法转换为数字），该值将被跳过且不会被索引。
 
@@ -1100,7 +1100,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 dynamic field 中的键默认不会包含在返回结果中，必须显式指定后才会返回。
 

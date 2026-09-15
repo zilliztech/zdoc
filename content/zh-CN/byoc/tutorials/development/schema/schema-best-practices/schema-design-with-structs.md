@@ -291,7 +291,7 @@ CoVLA 数据集是一个大规模、多模态的驾驶数据集，包含 10000 �
 
 - 初始化 front_cars Struct Schema
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" title="说明">
 
     虽然 front_car 对象并不包含向量，但是因为数据体积超过 JSON 字段的上限，你仍然需要将其作为 Struct Array 引入。
 

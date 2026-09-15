@@ -49,7 +49,7 @@ Zilliz Cloud 为您提供了两种统计集合中 Entity 数量的方法。
 
     需要说明的是，所有数据操作都是异步的，这就是内部跟踪器无法实时反映 Entity 数量的原因。详情请参阅[使用 get_collection_stats()](./count-entities#use-get_collection_stats)。
 
-<Admonition type="info" icon="📘" title="注释">
+<Admonition type="info" title="注释">
 
 上述两种方法均将具有相同主键的 Entity 视为独立 Entity。
 

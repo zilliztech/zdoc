@@ -54,7 +54,7 @@ JSON 字段是 Zilliz Cloud 中一种通过模式定义的数据类型（`DataTy
 
 在该示例中，`metadata` 是一个单独的 JSON 字段，其中包含扁平值（如 `category`、`in_stock`）、数组（`tags`）以及嵌套对象（`supplier`）的混合结构。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 **命名规范**：JSON 键只能使用字母、数字和下划线。避免使用特殊字符、空格或点号，否则可能导致查询解析错误。
 
@@ -150,7 +150,7 @@ client.create_collection(
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 在此示例中，集合模式中定义的 JSON 字段通过设置 `nullable=True` 允许空值。详情请参见 [Nullable 和默认值](./nullable-fields)。
 
@@ -543,7 +543,7 @@ print(res)
 
  为了加速 JSON 查询，Zilliz Cloud 提供了高级的索引和存储优化功能。
 
-<Admonition type="warning" icon="🚧" title="警告">
+<Admonition type="warning" title="警告">
 
 从 Milvus 3.0.0 开始，整对象 JSON 索引（`json_cast_type="JSON"`），也称为 JSON 平铺索引，已弃用。为保持兼容性，现有索引和新建索引请求仍受支持，但不再建议在新工作负载中使用此模式。对于已知的查询路径，请使用 JSON 路径索引；若要对复杂或不断演化的文档进行广泛查询加速，请考虑使用 [JSON Shredding](./json-shredding)。
 

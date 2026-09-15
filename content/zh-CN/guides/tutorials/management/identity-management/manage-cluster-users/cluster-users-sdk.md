@@ -371,7 +371,7 @@ curl --request POST \
 
 以下示例展示如何删除用户 `user_1`。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 `root` 用户无法删除。
 

@@ -36,7 +36,7 @@ import Admonition from '@theme/Admonition';
 | `chunks[quality_score]` | `FLOAT` | 数值过滤和范围类 predicate。 |
 | `chunks[has_code]` | `BOOL` | 布尔值过滤。 |
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 一个 Vector Field 或 Vector subfield 只能接受一个 Index。如果同时需要 EmbeddingList Search 和 Element-level Search，请创建两个独立的 Vector subfield 并分别创建 Index。在本文中，`chunks[emb_list_vector]` 为 EmbeddingList Search 创建 Index，`chunks[emb]` 为 Element-level Search 创建 Index。
 
@@ -125,7 +125,7 @@ client.create_index(
 )
 ```
 
-<Admonition type="warning" icon="🚧" title="警告">
+<Admonition type="warning" title="警告">
 
 不要在同一个 Vector subfield 上同时创建 `MAX_SIM*` Index 和常规 Vector-metric Index。如果同时需要两种搜索模式，请将 Vector 写入两个独立的 Vector subfield，并在每个 subfield 上分别创建一个 Index。
 

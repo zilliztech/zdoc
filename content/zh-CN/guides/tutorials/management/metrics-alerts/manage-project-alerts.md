@@ -25,7 +25,7 @@ import Supademo from '@site/src/components/Supademo';
 
 项目告警功能通过对集群指标（如 CU、Query QPS）进行主动监控，在满足指定条件时发送通知，帮助您主动监控 Zilliz Cloud 集群的状态。配置项目告警后，您能在潜在问题出现时立即收到通知，确保及时处理。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 此功能仅限 **Dedicated** 集群使用。
 
@@ -177,7 +177,7 @@ curl --request POST \
 
 <Supademo id="cmbk9kxck018zxu0jw4ljw3jx" title="管理项目告警" isShowcase="true" />
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 您可以通过 RESTful API 管理告警。有关具体信息，请参考  [Update Alert Rule](https://docs.zilliz.com.cn/reference/restful/update-alert-rule-v2) 和 [Delete Alert Rule](https://docs.zilliz.com.cn/reference/restful/delete-alert-rule-v2)。
 
@@ -219,7 +219,7 @@ curl --request POST \
 
 您可以删除不需要的项目告警。
 
-<Admonition type="info" icon="📘" title="🚧 警告">
+<Admonition type="warning" title="警告">
 
 告警删除是永久性的且无法撤销。请确保不再需要该告警后再进行操作。
 

@@ -100,7 +100,7 @@ import Grid from '@site/src/components/Grid';
 
         随着 Vector Lakebase 发布，Zilliz 同步推出 Milvus 3.0 公测预览。该版本中，Milvus 通过开放数据格式及与现有数据湖和大规模数据处理引擎的更广泛集成，将向量数据库能力扩展到 AI 数据基础设施栈。
 
-        <Admonition type="info" icon="📘" title="说明">
+        <Admonition type="info" title="说明">
 
         本次发布中，Milvus 3.0 能力仅支持 On-demand Clusters，尚不支持 Serving Clusters。
 

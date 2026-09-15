@@ -26,7 +26,7 @@ Zilliz Cloud 跨集群迁移允许您在集群之间传输数据，无论它们�
 
 - 重新组织基础设施以优化性能。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 您可以在同一个 Kubernetes 集群或同云地域内进行集群迁移。
 

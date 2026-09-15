@@ -66,7 +66,7 @@ client.create_index(
 
 创建 Bitmap 索引后，您可以在搜索查询中使用 `filter` 参数来基于索引字段执行标量过滤。这样可以利用 Bitmap 索引高效地缩小搜索结果范围。关于更多详细信息，请参考[过滤表达式概览](./filtering-overview)。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 在标量过滤中，Bitmap 索引可能无法加速某些二元算术运算，如 `A % 10 == 1` 或 `A - 100 > 10`。此类条件表达式需要逐行扫描数据，因此在这种情况下，Bitmap 索引的性能可能不会优于未索引字段的查询。
 
@@ -76,7 +76,7 @@ client.create_index(
 
 您也可以使用 `drop_index()` 从 Collection 中删除指定字段上的索引。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 如果您的集群与 Milvus v2.6.x 兼容，您可以删除标量字段上的索引，无须对 Collection 执行 Release 操作。
 

@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 `regex` 过滤器是一种正则表达式过滤器：只有匹配你提供的表达式的 token 才会被保留，其余的都会被丢弃。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 本页面介绍分析器流水线中的 regex 过滤器。该过滤器会处理分词器生成的 token，并影响文本分析期间生成的词项。如果要使用 field =~ "pattern" 或 field !~ "pattern" 等标量表达式，在 query、search 或混合搜索中筛选实体，请参阅[模式匹配](./pattern-match)。
 

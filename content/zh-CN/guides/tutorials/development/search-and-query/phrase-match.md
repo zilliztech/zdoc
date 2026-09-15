@@ -670,7 +670,7 @@ if (!status.IsOk()) {
 
 在 Collection Schema 中为 `VARCHAR` 字段启用匹配后，您可以使用 `PHRASE_MATCH` 表达式执行短语匹配。
 
-<Admonition type="info" icon="📘" title="注释">
+<Admonition type="info" title="注释">
 
 `PHRASE_MATCH` 表达式不区分大小写。您可以使用 `PHRASE_MATCH` 或 `phrase_match`。
 

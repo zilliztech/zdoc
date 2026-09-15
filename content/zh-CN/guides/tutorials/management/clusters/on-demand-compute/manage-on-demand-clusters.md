@@ -170,7 +170,7 @@ import Procedures from '@site/src/components/Procedures';
 
 ## 删除 On-demand 集群\{#drop-an-on-demand-cluster}
 
-<Admonition type="warning" icon="🚧" title="警告">
+<Admonition type="warning" title="警告">
 
 删除集群后，系统会立即将其移除，且无法恢复。此操作不可撤销。
 

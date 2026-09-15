@@ -62,7 +62,7 @@ Boost Ranker 不单纯依赖基于向量距离计算的语义相似度，而是�
 
 1. 应用 Boost Ranker 中指定的权重来提升已识别 Entity 的得分。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 暂时不支持将 Boost Ranker 用于多向量混合搜索（Hybrid Search）中多路结果的重排。
 
@@ -123,7 +123,7 @@ Boost Ranker 不单纯依赖基于向量距离计算的语义相似度，而是�
     | 48 | Body | 0.265 | 0.265 | 4 | 0002 |
     | **276** | **Abstract** | **0.845** | **0.423** | **5** | **0002** |
 
-    <Admonition type="info" icon="📘" title="注释">
+    <Admonition type="info" title="注释">
 
     权重必须是你选择的一个浮点数。在像上述示例这样的情况下，分数越小表示相关性越高，使用小于**1**的权重。否则，使用大于**1**的权重。
 

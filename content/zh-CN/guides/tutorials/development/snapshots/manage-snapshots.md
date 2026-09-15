@@ -43,7 +43,7 @@ import TabItem from '@theme/TabItem';
 
 创建 Snapshot 前，建议停止向目标 Collection 写入数据，并调用 `flush()`，以避免潜在的数据丢失。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 调用 `flush()` 不是强制要求，但强烈建议执行，以避免数据丢失。如果跳过该操作，Snapshot 只会包含已经 flush 的数据。
 

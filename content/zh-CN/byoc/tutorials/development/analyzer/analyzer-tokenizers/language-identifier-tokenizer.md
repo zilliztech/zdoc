@@ -76,7 +76,7 @@ Zilliz Cloud 提供两种语言检测引擎可选：
 | `Japanese` | `tokenizer: icu` | 强大的分词器，适用于复杂文字体系，包括日语 |
 | `French` | `type: standard`, `filter: ["lowercase", "asciifolding"]` | 自定义配置，用于处理法语重音符与特殊字符 |
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 - **匹配是关键**：分析器名称必须与检测引擎返回的语言名完全一致。例如，若使用 whatlang，则中文文本的 key 必须是 **Mandarin**。
 

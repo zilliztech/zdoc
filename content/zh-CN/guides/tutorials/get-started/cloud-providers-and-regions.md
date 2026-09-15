@@ -131,7 +131,7 @@ Zilliz Cloud 支持在亚马逊云科技以下地域部署集群。
    </tr>
 </table>
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 如果您选择的地域未支持按需计算，请[联系我们](http://zilliz.com.cn/contact-sales)。
 
@@ -166,7 +166,7 @@ Zilliz Cloud 支持在亚马逊云科技以下地域部署集群。
    </tr>
 </table>
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 如需 BYOC 部署，请[联系我们](http://zilliz.com.cn/contact-sales)。
 

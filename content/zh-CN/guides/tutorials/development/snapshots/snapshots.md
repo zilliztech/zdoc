@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 Snapshot 是 Milvus Collection 在某一时间点的镜像，适用于快速回滚、版本管理和测试。它会捕获 Collection 在指定时间戳的状态，并且只保存 metadata 和 manifest 文件，例如 Schema、Index 以及向量数据文件（binlogs），从而提升存储和恢复效率。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 Snapshots 是快速生成的数据时间点镜像，适用于快速回滚或测试（**数天到数周**）。相比之下，Backup 是独立、完整、单独存储的数据副本，适用于长期灾难恢复（**数周到数年**），也能更好地防范对象存储整体故障。
 

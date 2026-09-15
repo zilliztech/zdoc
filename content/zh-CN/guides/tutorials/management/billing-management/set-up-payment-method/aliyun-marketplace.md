@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 Zilliz Cloud 现已登录阿里云云市场。本章主要介绍如何在阿里云云市场上订阅 Zilliz Cloud。
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 订阅后，您可以通过阿里云云市场支付阿里云集群的用量。如果您在Zilliz Cloud 使用了多云实例，也可通过阿里云市场统一支付。
 
@@ -68,7 +68,7 @@ Zilliz Cloud 现已登录阿里云云市场。本章主要介绍如何在阿里�
 
     ![S31ZbM588oZmGWxlPo0cWgQ6nWf](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/s31zbm588ozmgwxlpo0cwgq6nwf.png "S31ZbM588oZmGWxlPo0cWgQ6nWf")
 
-    <Admonition type="info" icon="📘" title="📘 说明">
+    <Admonition type="info" title="说明">
 
     如果您已经上述“免登”链接为某个 Zilliz Cloud 组织绑定了支付方式，再次单击该“免登”链接可直接进入 Zilliz Cloud，无须再次登录。
 
@@ -120,7 +120,7 @@ Zilliz Cloud 现已登录阿里云云市场。本章主要介绍如何在阿里�
 
 订阅成功后，您可以前往 Zilliz Cloud 的账单页面，查看付款方式。点击阿里云云市场右侧的 ID 后可查看用于订阅的阿里云账号 ID，确认切换订阅账号是否成功。
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 我们建议您在一小时内容完成上述订阅账号切换操作，以免影响您服务。如遇到任何问题，请[提交工单](https://support.zilliz.com.cn/hc/zh-cn)。
 

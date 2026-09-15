@@ -44,7 +44,7 @@ import Grid from '@site/src/components/Grid';
 
         - **访问控制页面改版**：原成员页面改版为访问控制页面，新增项目角色，组织角色页签；邀请成员时可一步设置组织角色及可选的项目访问权限。更多内容，可以查看[管理平台用户](./manage-platform-users)。
 
-        <Admonition type="info" icon="📘" title="说明">
+        <Admonition type="info" title="说明">
 
         - **Organization Owner 不再自动继承项目访问权限。** 组织角色现仅涵盖组织设置、成员、账单与认证；Organization Owner 需要持有项目角色，才能管理或访问项目内的资源。Organization Owner 自行创建项目时，会自动获得该项目的 Project Admin 角色。
         

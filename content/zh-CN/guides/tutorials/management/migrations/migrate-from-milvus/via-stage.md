@@ -100,7 +100,7 @@ Zilliz Cloud 提供了一个备份工具，可用于从 Milvus 迁移数据至 Z
           ...
         ```
 
-    <Admonition type="info" icon="📘" title="📘 说明">
+    <Admonition type="info" title="说明">
 
     如果 Milvus 实例是通过 Docker Compose 安装，`minio.bucketName` 默认为 `a-bucket`， `rootPath` 默认为 `files`。
     
@@ -131,7 +131,7 @@ Zilliz Cloud 提供了一个备份工具，可用于从 Milvus 迁移数据至 Z
 
     在执行上述命令时，Milvus Backup 会将上一步准备好的备份文件上传到 Zilliz Cloud、创建迁移任务、然后返回迁移任务的 ID。
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" title="说明">
 
     上传到 Zilliz Cloud 的备份文件在上传完成后会默认保存 3 天，然后删除。
 
@@ -143,7 +143,7 @@ Zilliz Cloud 提供了一个备份工具，可用于从 Milvus 迁移数据至 Z
 
 生成迁移任务后，您可前往[任务中心](https://docs.zilliz.com.cn/docs/job-center)查看任务状态和进度。如果迁移任务的状态从**进行中**变更为**成功**，则代表迁移成功。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 迁移完成后，请验证目标集群中的 collection 和 entity 数量是否与数据源一致。如果发现不一致，请删除缺失 entity 的 collection 并重新进行迁移。
 

@@ -28,7 +28,7 @@ import Admonition from '@theme/Admonition';
 
 - **Collection 级别指标**：集群指标在 Collection 维度的细分，帮助您定位单个 Collection 的性能问题并进行容量规划。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 大多数的指标支持设置告警。当某个指标达到指定条件（如时间窗口或阈值）时，会触发告警。关于如何配置告警，可以参考[管理组织告警](./manage-organization-alerts)和[管理项目告警](./manage-project-alerts)
 
@@ -60,7 +60,7 @@ import Admonition from '@theme/Admonition';
 
 以下指标用于描述单个集群中的资源使用情况、性能表现和数据状态。带有 ✦ 标记的指标同样支持在 Collection 级别查看。你可以在控制台的 Collection 详情页、通过 [Prometheus 监控](./prometheus-monitoring)，或通过 RESTful API 获取 Collection 级别指标。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 在按需计算 Database 中，当前仅支持部分 Collection 级别监控指标。支持的指标包括：**读请求 QPS**、**每秒 Search NQ**、**读请求延时**、**读请求失败率**、**Entity 数量**。这些指标可在控制台中查看。本版本暂不支持通过 Prometheus 导出按需计算 Database 指标。
 

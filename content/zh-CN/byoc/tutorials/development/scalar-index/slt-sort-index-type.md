@@ -95,7 +95,7 @@ client.create_index(
 
 您也可以使用 `drop_index()` 从 Collection 中删除指定字段上的索引。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 如果您的集群与 Milvus v2.6.x 兼容，您可以删除标量字段上的索引，无须对 Collection 执行 Release 操作。
 

@@ -70,7 +70,7 @@ MinHash 的处理流程包括：
 
 ![NIwvw8f1lhhclGb5FAOc0wnPnpb](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/NIwvw8f1lhhclGb5FAOc0wnPnpb.png)
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 所使用的哈希函数数量决定了 MinHash 签名的维度。维度越高，近似精度越好，但相应的存储和计算成本也会增加。
 
@@ -98,7 +98,7 @@ MinHash 的处理流程包括：
 
     在至少一个 band 上发生碰撞的签名对会被选为相似性候选。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 它为什么有效？
 
@@ -170,7 +170,7 @@ MinHash 签名通过固定长度的二进制向量来近似集合间的 Jaccard 
 
 在 Zilliz Cloud 中使用 MinHash LSH 之前，您必须先生成 **MinHash 签名**。这些紧凑的二进制签名用于近似集合间的 Jaccard 相似度，是在 Zilliz Cloud 中执行基于 `MHJACCARD` 的搜索所必需的输入。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 为 `MINHASH_LSH` 索引准备 MinHash 签名有两种方式：
 

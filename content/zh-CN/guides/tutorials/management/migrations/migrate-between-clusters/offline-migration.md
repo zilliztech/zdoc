@@ -24,7 +24,7 @@ import Supademo from '@site/src/components/Supademo';
 
 **离线迁移**允许您在计划的停机时间内，将现有集群数据从源集群迁移到目标集群。此方法支持在同一组织内或不同组织之间进行迁移，适用于可以接受短暂停机的场景，例如计划维护或小规模数据库迁移。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 如果应用程序在切换期间继续向源集群写入数据，目标集群可能会缺少新写入的 Entity，尤其是迁移任务完成后写入的 Entity。为确保目标集群中的数据完整，请规划一个切换窗口，在此期间暂停向源集群写入，等待迁移任务完成，验证目标集群中的数据，然后只在目标集群上恢复写入。
 
@@ -126,7 +126,7 @@ import Supademo from '@site/src/components/Supademo';
 
 <Supademo id="cmsyc9uzm0ml7qmlarl3wv66c" title=""  />
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 迁移后的 Collection 无法立即执行 Search/Query，您必须在 Zilliz Cloud 中手动 Load Collection 以启用相关功能。操作详情见 [Load 和 Release](./load-release-collections)。
 

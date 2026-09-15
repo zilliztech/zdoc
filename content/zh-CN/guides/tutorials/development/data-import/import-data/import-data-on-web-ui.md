@@ -38,7 +38,7 @@ import Supademo from '@site/src/components/Supademo';
 
 数据文件准备好后，您可以直接从本地导入，也可以先将文件上传到对象存储桶（如阿里云 OSS），然后进行远程导入。
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 - 在同一个 Collection 下，导入任务队列中最多可以同时包含 10 条运行中或等待中的任务。
 
@@ -72,7 +72,7 @@ Zilliz Cloud 支持上传本地 JSON 或 Parquet 文件。如果您的数据格�
 
 根据您的数据安全需求，您也可以使用 [临时 Token](https://docs.zilliz.com.cn/docs/faq-data-import#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service)。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 Zilliz Cloud 允许您将数据从任意对象存储导入到任意 Zilliz Cloud 集群，不用考虑托管集群的云服务商。例如，您可以将存储在阿里云上的数据导入到部署在腾讯云上的集群。
 

@@ -36,7 +36,7 @@ import Procedures from '@site/src/components/Procedures';
 
 ![LJDVw3PkTh30CZb1kHncscNVnGb](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/LJDVw3PkTh30CZb1kHncscNVnGb.png)
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 孤立森林算法要求待检测数据集至少包含 368 条数据。
 

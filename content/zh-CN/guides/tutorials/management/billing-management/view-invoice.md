@@ -31,7 +31,7 @@ Zilliz Cloud 按月度出账单，您可以根据账单数据与 Zilliz Cloud �
 
 本指南将解释如何查看、支付和下载账单，以及如何解读您的账单内容。更多订单相关说明，请参考[管理订单](./manage-orders)。
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 如需管理账单，您的角色需要为**组织管理员**或**项目管理员**。
 
@@ -96,7 +96,7 @@ Zilliz Cloud 按月度出账单，您可以根据账单数据与 Zilliz Cloud �
 
 - **未支付金额**：未支付金额 = 应付总金额 - 现金余额扣款。当账单状态为**已支付**时，未支付金额等于零。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 通过界面账单详情页和账单 API 接口[查看发票列表](https://docs.zilliz.com.cn/reference/restful/list-invoices-v2)和[查看发票详情](https://docs.zilliz.com.cn/reference/restful/describe-invoice-v2)获取的账单金额精度均为 2 位小数。
 
@@ -124,7 +124,7 @@ Zilliz Cloud 按月度出账单，您可以根据账单数据与 Zilliz Cloud �
 
 - **CU 费用**：按量计费。计算公式为 `CU 费用 = 集群当前 CU 规格 x 集群运行小时数 x CU 价格`。因为Dedicated 集群享受专属的机器资源，所以即使无查询、读写操作，Dedicated 集群正常运行也会收取 CU 费用。
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" title="说明">
 
     Dedicated 集群费用中，运行时长特指集群处于“**运行中**”、“**修改中**”、“**已冻结**”等一系列状态下持续的时长。集群处于“**创建中**”、“**挂起中**”、“**恢复运行中**”、“**已挂起**”的状态时不收取 CU 费用。
 
@@ -132,7 +132,7 @@ Zilliz Cloud 按月度出账单，您可以根据账单数据与 Zilliz Cloud �
 
 - **存储费用**：计算公式为`存储费用 = 存储文件大小 x 集群运行时长 x 存储单价`。其单位为“GB-Hour”，特指存储 1 GB 数据并保留 1 个小时的用量。**集群存储按小时计费。若存储不满 1 小时，仍按 1 小时收费**。
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" title="说明">
 
     存储费用中，运行时长特指集群处于“**运行中**”、“**修改中**”、“**已冻结**”等一系列状态下持续的时长。集群处于“**创建中**”的状态时不收取存储费用。
 
@@ -172,7 +172,7 @@ Zilliz Cloud 按月度出账单，您可以根据账单数据与 Zilliz Cloud �
 
 <TabItem value="bash">
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 查看发票列表的 RESTful API 目前还处于公测阶段，如需使用请[联系我们](http://support.zilliz.com.cn)。
 
@@ -218,7 +218,7 @@ curl --request GET \
 # }
 ```
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 API 返回的结果中，所有金额单位为分。
 
@@ -246,7 +246,7 @@ API 返回的结果中，所有金额单位为分。
 
 <TabItem value="bash">
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 查看发票详情的 RESTful API 目前还处于公测阶段，如需使用请[联系我们](http://support.zilliz.com.cn)。
 
@@ -291,7 +291,7 @@ curl --request GET \
 
 - `{INVOICE_ID}`: 需要查看的目标账单的 ID。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 API 返回的结果中，所有金额单位为分。
 

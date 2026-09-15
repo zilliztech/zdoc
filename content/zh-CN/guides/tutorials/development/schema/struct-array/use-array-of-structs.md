@@ -59,7 +59,7 @@ import Grid from '@site/src/components/Grid';
 }
 ```
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 此示例中的两个 Vector subfield 代表同一个片段的两种搜索视角。`chunks[emb_list_vector]` 用于基于 `MAX_SIM*` metric 的 EmbeddingList Search，而 `chunks[emb]` 用于基于常规 Vector metric（如 `COSINE`、`IP` 或 `L2`）的 Element-level Search。
 
@@ -131,7 +131,7 @@ import Grid from '@site/src/components/Grid';
 
 </Grid>
 
-<Admonition type="warning" icon="🚧" title="警告">
+<Admonition type="warning" title="警告">
 
 如果 Collection 同时需要 EmbeddingList Search 和 Element-level Search，请使用两个独立的 Vector subfield。一个 Vector Field 或 Vector subfield 只能接受一个 Index，而两种搜索模式需要不同的 metric 类型族。
 

@@ -225,7 +225,7 @@ import Procedures from '@site/src/components/Procedures';
        </tr>
     </table>
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" title="说明">
 
     `similarityThreshold` 和 `targetDedupRate` 两个参数互斥。两个均设置或均未设置，任务均会报错。
 

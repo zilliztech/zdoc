@@ -24,7 +24,7 @@ Zilliz Cloud 全球集群允许您在同一云服务商上跨多个地域部署*
 
 该功能专为全球分布式的关键业务应用设计，帮助您实现区域级故障容灾，并为全球用户提供低延迟的本地读取能力。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 如需使用该功能请[提交工单](http://support.zilliz.com.cn)。
 
@@ -90,7 +90,7 @@ Zilliz Cloud 全球集群支持优雅切换（switchover）和强切（failover�
 
 如需详细价目表，请参见 [Zilliz Cloud 列表价](https://zilliz.com.cn/pricing/pricing-guide?provider=ali&region=ali-cn-hangzhou)。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 [强切](./switchover-and-failover)后后进入回收站的废弃集群仅按存储计费。
 

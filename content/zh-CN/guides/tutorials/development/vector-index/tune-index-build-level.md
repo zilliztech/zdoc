@@ -24,7 +24,7 @@ import Supademo from '@site/src/components/Supademo';
 
 Zilliz Cloud 引入了一个名为 `build_level` 的参数，该参数允许用户为目标 Collection 平衡存储容量和搜索召回率。对于不常使用或需要更多存储空间的 Collection，您可以牺牲 <strong>2%</strong> 的召回率，以换取 <strong>30%</strong> 至 <strong>40%</strong> 的存储容量增加，反之亦然。本指南介绍了可用选项以及如何使用它们为 Collection 构建索引。
 
-<Admonition type="info" icon="📘" title="注释">
+<Admonition type="info" title="注释">
 
 此功能为**公测版**特性，仅在满足以下情况下适用于 Dedicated 集群：
 

@@ -86,7 +86,7 @@ curl --request POST \
 
 以下示例假设你已经创建了一个按需 cluster，其 ID 为 `inxx-xxxxxxxxxxxxxxxxx`。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 对于 RESTful 请求，无需创建 session。你应将 cluster ID 作为 query parameter 传给 DQL 调用。
 
@@ -196,7 +196,7 @@ curl --request POST \
 
 按需计算任务完成后，可以关闭 session。已关闭的 session 不能继续用于 DQL 操作。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 RESTful 调用不需要执行此步骤。
 

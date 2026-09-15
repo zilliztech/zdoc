@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 您可以通过 Zilliz Cloud 控制台将备份文件导出至对象存储。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 此功能目前仅对 **Dedicated** 集群提供**内测**（Private Preview）。如需启用此功能或了解相关费用，请联系 [Zilliz Cloud 支持团队](http://support.zilliz.com.cn)。
 
@@ -50,7 +50,7 @@ import Procedures from '@site/src/components/Procedures';
 
 1. 在**备份**页面，找到目标备份文件，然后从**操作**列中选择**导出备份文件**。
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" title="说明">
 
     只有处于**创建完成**状态的备份文件可以被导出。
 
@@ -125,7 +125,7 @@ curl --request POST \
 
 如果任务持续显示为**进行中**状态，但您决定终止操作，可以点击**操作**列中的**取消**按钮取消任务。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 取消任务不会移除已上传至存储空间的数据。
 

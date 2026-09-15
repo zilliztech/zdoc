@@ -240,7 +240,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 如果查询向量已经在目标 Collection 中存在，可以考虑使用 `ids` 参数，从而让 Milvus 在搜索前从 Collection 中自动获取查询向量。更多内容，可以阅读 [Primary Key Search](./primary-key-search)。
 

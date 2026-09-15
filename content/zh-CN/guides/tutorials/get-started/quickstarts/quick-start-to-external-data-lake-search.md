@@ -39,7 +39,7 @@ import TabItem from '@theme/TabItem';
 
 在操作 Database 之前，请先连接到项目 Endpoint。启用 Zilliz Cloud Console 中的按需计算后，您可以在**快速开始**页面获取项目 Endpoint。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 External Collection 操作需要使用 **API 密钥**进行身份验证。此流程不支持 `username:password` 身份验证。
 

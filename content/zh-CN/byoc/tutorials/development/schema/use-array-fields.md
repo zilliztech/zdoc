@@ -52,7 +52,7 @@ Array 类型的字段用于存放相同数据类型的一组元素。如下示�
 
 以下是如何定义包含 Array 字段的 Collection Schema：
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 如果您在定义 Schema 时将 `enabled_dynamic_fields` 设置为 `True`，您还可以在该 Collection 中插入 Schema 中未定义的字段。此操作可能会增加查询和管理的复杂性，并影响查询性能。更多详情，请参考 [Dynamic Field](./enable-dynamic-field)。
 
@@ -532,7 +532,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 除了插入或替换完整数组之外，`ARRAY` 字段还支持在 Upsert 请求中使用 `ARRAY_APPEND` 和 `ARRAY_REMOVE` 部分更新操作符。这些操作符允许您向现有数组追加元素，或从现有数组中移除匹配的元素，而无需先获取当前数组值，从而避免客户端读取-修改-写入流程。有关详细信息，请参阅[使用部分更新操作符对 ARRAY 字段执行 Upsert](./upsert-entities#upsert-array-fields-with-partial-update-operators)。
 

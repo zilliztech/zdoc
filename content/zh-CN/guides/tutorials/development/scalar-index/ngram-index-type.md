@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 - `path LIKE "%json"`
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 有关更多 LIKE 关键字或过滤表达式的信息，请参考 [模式匹配](./pattern-match)。
 
@@ -65,7 +65,7 @@ Zilliz Cloud 以两阶段流程实现 NGRAM 索引：
 
     - **3-gram**：`AI_`, `I_d`, `_da`, `dat`, `ata`, …
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" title="说明">
 
     - 在 `[min_gram, max_gram]` 范围内，Zilliz Cloud 会生成所有长度的 n-gram。例如 `[2,4]` + `"text"` →
     
@@ -212,7 +212,7 @@ NGRAM 索引会被应用于：
 
 您也可以使用 `drop_index()` 从 Collection 中删除指定字段上的索引。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 如果您的集群与 Milvus v2.6.x 兼容，您可以删除标量字段上的索引，无须对 Collection 执行 Release 操作。
 

@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 本指南涵盖 Zilliz Cloud 集群上访问日志的完整生命周期：启用、调整设置和停用。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 - 本版本仅支持搜索和查询类操作的日志记录：Search、HybridSearch 和 Query。完整操作列表的支持将在后续版本中提供。
 

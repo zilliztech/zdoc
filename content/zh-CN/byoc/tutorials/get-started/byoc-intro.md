@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 BYOC 部署方案可以帮助有需要的组织在自己的云账户下托管应用和数据，而无须使用 Zilliz Cloud 提供的基础设施。该方案适合因特定安全合规要求而需要拥有完整数据主权的组织使用。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 Zilliz BYOC 部署方案目前处于**正式可用**阶段。如需了解详情或试用，请联系 [Zilliz Cloud 技术支持](https://zilliz.com.cn/contact-sales)。
 

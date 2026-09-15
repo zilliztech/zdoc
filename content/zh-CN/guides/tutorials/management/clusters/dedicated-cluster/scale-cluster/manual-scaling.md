@@ -30,7 +30,7 @@ import Procedures from '@site/src/components/Procedures';
 
 请注意，手动扩缩容仅适用于服务集群。On-demand 集群会在请求到达时自动扩缩容，并在空闲时缩容到零。
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 所有版本都支持手动扩缩容 Query CU。
 

@@ -123,7 +123,7 @@ curl --request POST \
 
 <Supademo id="cm9urqadl02ifwbbijvvktj23" title=""  />
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 在单击**恢复运行**后，您将看到自动弹出的**检查项目资源配额**窗口。如果当前项目的资源充足，该窗口在检查完成后会自动消失。如果资源不足，您可以：
 

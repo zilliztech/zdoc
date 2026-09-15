@@ -55,7 +55,7 @@ Zilliz Cloud 支持 `nullable` 属性。启用 `nullable` 属性后，字段值�
 
 Collection Schema 中的 **标量字段和向量字段** 都支持 `nullable` 属性。不过，Array of Structs 字段不支持 `nullable` 属性。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 `nullable` 属性决定字段值是否可以缺失；它不定义字段缺失时使用什么值。
 

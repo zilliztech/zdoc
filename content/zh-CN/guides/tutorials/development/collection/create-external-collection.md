@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 External Collection 是 Zilliz Cloud 中的一种数据 Collection 类型，可直接访问存储在外部存储系统或数据库表（例如 AWS S3 和 Iceberg）中的数据，而无需将数据复制到 Zilliz Cloud 中。它充当数据湖之上的查询层，同时保持与 Zilliz Cloud 查询接口的兼容性。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 仅支持在按需计算场景下的 Database 中创建 External Collection。即将支持在 Serving Dedicated 集群中创建 External Collection。
 
@@ -98,7 +98,7 @@ Zilliz Cloud 支持以下数据源，您需要根据所选格式提供对应的 
 
   （`vortex`）。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 external source 应以斜杠（/）结尾，以表明这是一个文件夹。
 
@@ -304,7 +304,7 @@ export schema="{
 
 将所有字段添加到 Schema 后，您就可以创建 External Collection。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 您可以在项目层级的 Database 中创建 External Collection。这类 Database 通常需要关联到某个 On-demand 集群。
 
@@ -649,7 +649,7 @@ curl --request POST \
 
 Refresh 操作是异步操作，因此您需要通过轮询来监控其进度。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 - Refresh 操作会扫描数据文件的元数据，并据此生成 manifest 文件，通常耗时 150-250 毫秒。
 

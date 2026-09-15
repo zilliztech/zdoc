@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 您需要在 Zilliz Cloud 项目中创建 Private Endpoint。创建完成后，Private Endpoint 将适用于项目下所有与 Private Endpoint 云服务提供商和地域相同的**Dedicated** **Serving** **集群**或 **On-demand 集群**。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 每个项目最多可创建 10 个 Private Endpoint。
 
@@ -74,7 +74,7 @@ Zilliz Cloud 不会针对私网连接收费，但您的云服务提供商可能�
 
 ![MKLlbEdCroYr8ixaijxcxXmTnFf](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/mkllbedcroyr8ixaijxcxxmtnff.png "MKLlbEdCroYr8ixaijxcxXmTnFf")
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 在截图中，界面右上角显示了当前登录帐号的帐号邮箱（`john.doe@zilliz.com`）和帐号类型（`主帐号`）。此时，您可以复制或记录**基本信息**中的**帐号 ID** 右侧显示的字符串。
 
@@ -140,7 +140,7 @@ Zilliz Cloud 不会针对私网连接收费，但您的云服务提供商可能�
 
 Private Endpoint 创建完成后，您可以前往**集群详情**页查看该私网连接。此时，切换至腾讯云控制台。可以观察到终端节点的**连接状态**变为**已连接**。
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 该 Private Endpoint 适用于该项目下所有部署于该云服务和地域的 Dedicated 集群。如果在创建 Private Endpoint 时，该项目下部分 Dedicated 集群正处于维护中或扩缩容过程中，在维护和扩缩容完成后，该 Private Endpoint 会自动适用于这些 Dedicated 集群。
 
@@ -234,7 +234,7 @@ Private Endpoint 创建完成后，您可以前往**集群详情**页查看该�
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 - 私网连接仅影响数据面（Data Plane）的操作。控制面（Control Plane）的操作仍然可以通过公网进行。
 

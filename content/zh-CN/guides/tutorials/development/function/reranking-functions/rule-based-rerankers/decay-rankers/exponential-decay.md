@@ -54,7 +54,7 @@ import TabItem from '@theme/TabItem';
 
 指数衰减形成的曲线起初下降迅速，随后逐渐趋于平缓，形成一条趋近但永远不会达到零的长尾。这种数学模式在自然现象中频繁出现，如放射性衰变、人口减少以及信息相关性随时间的变化。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 所有时间参数（`origin`、`offset`、`scale`）必须使用与 Collection 中数据相同的单位。如果您的 Collection 以不同的单位（毫秒、微秒）存储时间戳，请相应地调整所有参数。
 
@@ -106,7 +106,7 @@ $$
 
 指数衰减可应用于 Zilliz Cloud 中的标准向量搜索和混合搜索操作。以下是实现此功能的关键代码片段。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 在使用 Decay Ranker 之前，你必须首先创建一个包含适当数字类型字段（如时间戳、距离等）的集合，这些字段将用于衰减计算。有关包括 Collection 设置、 Schema 定义和数据插入的完整工作示例，请参考[教程：实现基于时间的搜索结果重排](./tutorial-implement-time-based-ranking)。
 
@@ -116,7 +116,7 @@ $$
 
 在您的 Collection 中设置了一个数字字段（在本示例中为`publish_time`）之后，创建一个指数衰减 Decay Ranker：
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 **时间单位一致性**：使用基于时间的衰减时，确保 `origin`、`scale` 和 `offset` 参数使用与您的 Collection 中的数据使用相同的时间单位。如果您的 Collection 中的数据以秒为单位存储时间戳，则所有参数都使用秒。如果使用毫秒，则所有参数都使用毫秒。
 

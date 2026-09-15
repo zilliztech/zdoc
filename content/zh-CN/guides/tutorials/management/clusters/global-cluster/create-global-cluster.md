@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 如需为已有的普通集群开启全球集群功能，请参考[管理集群](./manage-cluster#convert-to-a-global-cluster)。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 如需使用该功能请[提交工单](http://support.zilliz.com.cn)。
 

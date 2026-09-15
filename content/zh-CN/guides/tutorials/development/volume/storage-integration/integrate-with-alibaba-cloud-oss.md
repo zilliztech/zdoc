@@ -34,7 +34,7 @@ Zilliz Cloud 支持与阿里云对象存储 OSS 集成。
 
 - [转发访问日志](./access-log-overview)
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 此功能仅限**企业版**项目使用。
 
@@ -142,7 +142,7 @@ Zilliz Cloud 支持与阿里云对象存储 OSS 集成。
     }
     ```
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" title="说明">
 
     `$bucket` 应替换为您实际的 OSS 存储空间名称。
 

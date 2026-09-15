@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 您需要在 Zilliz Cloud 项目中创建 Private Endpoint。创建完成后，Private Endpoint 将适用于项目下所有与 Private Endpoint 云服务提供商和地域相同的**Dedicated** **Serving** **集群**或 **On-demand 集群**。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 每个项目最多可创建 10 个 Private Endpoint。
 
@@ -115,7 +115,7 @@ Zilliz Cloud 不会针对私网连接收费，但您的云服务提供商可能�
        </tr>
     </table>
 
-    <Admonition type="info" icon="📘" title="提示">
+    <Admonition type="info" title="提示">
 
     为了可用性，我们建议选 2 个以上<strong>可用区与交换机。</strong>但注意，阿里云会针对每个可用区额外收费，因此您需要考虑成本。
 
@@ -137,7 +137,7 @@ Zilliz Cloud 不会针对私网连接收费，但您的云服务提供商可能�
 
 1. 等待终端节点**状态**变为**可用**。
 
-    <Admonition type="info" icon="📘" title="提示">
+    <Admonition type="info" title="提示">
 
     终端节点**连接状态**此时是**已断开**。需要等待下一步连接。
 
@@ -163,7 +163,7 @@ Zilliz Cloud 不会针对私网连接收费，但您的云服务提供商可能�
 
 Private Endpoint 创建完成后，您可以前往**集群详情**页查看该私网连接。此时，切换至阿里云控制台。可以观察到终端节点的**连接状态**变为**已连接**。
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 该 Private Endpoint 适用于该项目下所有部署于该云服务和地域的 Dedicated 集群。如果在创建 Private Endpoint 时，该项目下部分 Dedicated 集群正处于维护中或扩缩容过程中，在维护和扩缩容完成后，该 Private Endpoint 会自动适用于这些 Dedicated 集群。
 
@@ -287,7 +287,7 @@ Private Endpoint 创建完成后，您可以前往**集群详情**页查看该�
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 - 私网连接仅影响数据面（Data Plane）的操作。控制面（Control Plane）的操作仍然可以通过公网进行。
 

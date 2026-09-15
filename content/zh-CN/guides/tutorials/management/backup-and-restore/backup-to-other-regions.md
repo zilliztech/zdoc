@@ -28,7 +28,7 @@ Zilliz Cloud 的跨区域备份通过将备份复制到多个云地域来增强�
 
 跨地域备份功能暂不适用于腾讯云。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 请[提交工单](http://support.zilliz.com.cn)开通此功能。
 
@@ -58,7 +58,7 @@ Zilliz Cloud 的跨区域备份通过将备份复制到多个云地域来增强�
 
 - **设置定时自动备份：** 如果在设置定时自动备份时选择开启跨地域备份，您必须为每个地域的备份文件设置保留时长。
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 您只能选择与集群云地域相同云服务商下的其他区域。
 

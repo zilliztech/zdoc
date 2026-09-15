@@ -58,7 +58,7 @@ Pinecone 是一款支持相似搜索的向量数据库。将数据从 Pinecone �
 
 1. 在**连接数据源**步骤中，输入访问目标 Pinecone 项目的 API 密钥，然后点击**下一步**。
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" title="说明">
 
     阅读 [Authentication](https://docs.pinecone.io/reference/api/authentication) 文档将帮助您获取所需的连接信息。
 
@@ -66,7 +66,7 @@ Pinecone 是一款支持相似搜索的向量数据库。将数据从 Pinecone �
 
 1. 在**选择迁移来源和目标步骤**中，配置源 Pinecone Index 和 Zilliz Cloud 集群设置，点击**下一步**。
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" title="说明">
 
     每个从 Pinecone 迁移的源 Index 必须包含一个向量字段。
 
@@ -76,7 +76,7 @@ Pinecone 是一款支持相似搜索的向量数据库。将数据从 Pinecone �
 
     1. 在 **Schema 预览**中，确认 Pinecone Index 与 Zilliz Cloud Collection 之间的字段映射。
 
-        <Admonition type="info" icon="📘" title="说明">
+        <Admonition type="info" title="说明">
 
         - Auto ID 禁用且无法修改。
         
@@ -102,7 +102,7 @@ Pinecone 是一款支持相似搜索的向量数据库。将数据从 Pinecone �
 
 生成迁移任务后，您可前往[任务中心](https://docs.zilliz.com.cn/docs/job-center)查看任务状态和进度。如果迁移任务的状态从**进行中**变更为**成功**，则代表迁移成功。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 迁移完成后，请验证目标集群中的 collection 和 entity 数量是否与数据源一致。如果发现不一致，请删除缺失 entity 的 collection 并重新进行迁移。
 

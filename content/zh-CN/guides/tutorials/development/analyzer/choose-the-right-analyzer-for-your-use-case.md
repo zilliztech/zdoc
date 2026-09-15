@@ -22,7 +22,7 @@ import Supademo from '@site/src/components/Supademo';
 
 # 最佳实践：如何选择合适的 Analyzer
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 本指南侧重于 Analyzer 选择的实际决策方法。关于 Analyzer 组件的技术细节以及如何添加 Analyzer 参数，请参考 [Analyzer 概述](./analyzer-overview)。
 
@@ -326,7 +326,7 @@ schema.add_field(
    </tr>
 </table>
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 对于东亚语言（中文、日语、韩语等），请重点使用语言特定的过滤器。这些语言的文本处理方式不同，通常不需要或无法从词干提取中获益。
 
@@ -467,7 +467,7 @@ print("Analyzer output:", result)
 
 本节为在 Zilliz Cloud 中使用 Analyzer 时的常见场景，提供推荐的 tokenizer 与 filter 组合。请选择最适合你内容类型和搜索需求的配置。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 在将 Analyzer 应用到 Collection 前，建议先使用 **run_analyzer** 来测试和验证文本分析效果。
 

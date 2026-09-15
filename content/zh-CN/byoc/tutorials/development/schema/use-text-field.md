@@ -36,7 +36,7 @@ schema.add_field(
 
 定义字段后，每个 Entity 都可以在该字段中包含字符串值。您可以像插入其他标量字段一样插入该值，并通过在 `output_fields` 中列出该字段，从 Query 或 Search 结果中返回它。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 TEXT 字段支持空值。要启用此功能，请将 nullable 设置为 True。详情请参阅[Nullable 属性](./nullable-fields)。
 

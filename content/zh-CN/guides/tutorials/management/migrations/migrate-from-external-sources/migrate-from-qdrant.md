@@ -55,7 +55,7 @@ import Admonition from '@theme/Admonition';
 
 ## Payload 字段转换规则\{#payload-field-conversion}
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 Zilliz Cloud 采样 100 行数据检测 Payload 数据结构，必要时可手动添加字段。
 

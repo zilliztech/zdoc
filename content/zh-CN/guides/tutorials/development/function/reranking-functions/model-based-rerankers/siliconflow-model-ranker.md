@@ -157,7 +157,7 @@ siliconflow_ranker = Function(
 )
 ```
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 `queries` 中字符串的数量必须与搜索请求中发起的查询数量一致。
 

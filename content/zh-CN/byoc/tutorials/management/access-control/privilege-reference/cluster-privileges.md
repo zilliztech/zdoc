@@ -37,7 +37,7 @@ import TabItem from '@theme/TabItem';
 
 您可以在[创建角色](./cluster-roles)时选择为角色分配内置权限组。Zilliz Cloud 在集群、Database、Collection 层级共提供 9 个不同的内置权限组。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 上述三个层级的内置权限组之间没有级联关系。设置实例层级的权限组并不会自动设置该实例下所有 Database 和 Collection 的权限，Database 和 Collection 层级的权限需要单独手动设置。
 
@@ -143,7 +143,7 @@ import TabItem from '@theme/TabItem';
 
 如果内置权限组无法满足您的需求，您可以使用 SDK 创建自定义权限组，并将所需权限添加到这些权限组中。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 该特性为**内测版**特性。如需创建和管理自定义权限组，请[提交工单](http://support.zilliz.com.cn)，我们将为您启用此功能。
 

@@ -48,7 +48,7 @@ import Admonition from '@theme/Admonition';
 | `emb_list_vector` | `FLOAT_VECTOR` | 为 EmbeddingList Search 写入的 Vector。 |
 | `emb` | `FLOAT_VECTOR` | 为 Element-level Search 写入的 Vector。 |
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 在 insert payload 中，`chunks` 是一个常规 Field，其值是 Struct 对象数组。每个对象内部使用 `text` 和 `emb` 等 subfield 名称。只有在插入之后，当你创建 Index、运行 Search、构建 Filter 或指定 Output Field 时，才使用 `chunks[text]` 或 `chunks[emb]` 这样的路径语法。
 
@@ -202,7 +202,7 @@ client.insert(
 
 当 Nullable StructArray Field 包含有效的 StructArray value 时，该 value 中的所有 subfield 应同时为 null 或同时具有有效值。如果部分 subfield 为 null 而其他 subfield 为有效值，会导致错误。
 
-<Admonition type="warning" icon="🚧" title="警告">
+<Admonition type="warning" title="警告">
 
 Nullable StructArray Field 仅在 clusters compatible with Milvus v3.0.x 中可用。如果你动态向现有 Collection 添加 StructArray Field，则新增 Field 必须是 Nullable，已有 Entity 会在新 Field 的所有 subfield 上返回 `null`。
 

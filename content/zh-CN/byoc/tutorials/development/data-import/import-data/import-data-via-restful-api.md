@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 - 已创建 Collection，且该 Collection 的 Schema 与示例数据集相匹配。详情请参见[创建 Collection](./manage-collections-sdks)。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 Zilliz Cloud 允许您将数据从任意对象存储导入到任意 Zilliz Cloud 集群，不用考虑托管集群的云服务商。例如，您可以将存储在阿里云上的数据导入到部署在腾讯云上的集群。
 
@@ -52,7 +52,7 @@ Zilliz Cloud 允许您将数据从任意对象存储导入到任意 Zilliz Cloud
 
 根据您的数据安全需求，您也可以使用 [Session Token](https://docs.zilliz.com.cn/docs/faq-data-import#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service)。
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 为了成功导入数据，请确保目标 Collection 中的正在运行或待运行的导入任务不超过 10 个。
 

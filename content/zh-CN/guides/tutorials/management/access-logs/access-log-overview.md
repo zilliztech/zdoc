@@ -24,7 +24,7 @@ import Admonition from '@theme/Admonition';
 
 访问日志为您提供这种可见性。在 Zilliz Cloud 集群上启用后，访问日志会捕获查询活动，并将结构化日志文件传输到您自己的对象存储中。您可以将这些日志加载到数据仓库中，按 Entity ID 聚合，从而识别热点数据和使用趋势。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 - 本版本仅支持搜索和查询类操作的日志记录：Search、HybridSearch 和 Query。完整操作列表的支持将在后续版本中提供。
 

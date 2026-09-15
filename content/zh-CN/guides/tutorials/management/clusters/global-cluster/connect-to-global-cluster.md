@@ -25,7 +25,7 @@ import Procedures from '@site/src/components/Procedures';
 
 全球集群开始运行后，您可以使用 Endpoint 和身份验证 Token 连接集群。本文介绍两种 Endpoint 类型、各自的适用场景，以及在优雅切换和强切期间的路由行为。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 如需使用该功能请[提交工单](http://support.zilliz.com.cn)。
 
@@ -49,7 +49,7 @@ import Procedures from '@site/src/components/Procedures';
 | Private Link | 不支持（需要公网访问） | 支持 |
 | 最佳适用场景 | 需要自动故障切换和基于延迟路由的生产应用 | 直接访问特定集群（例如环境复制、测试、调试） |
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 建议在生产环境中使用全球 Endpoint。它无需在优雅切换或强切期间在应用代码中处理 Endpoint 变更。
 
@@ -231,7 +231,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 使用公共 Endpoint 时，仅主集群的公共 Endpoint 接受写入操作。向从集群的公共 Endpoint 写入将会失败。
 

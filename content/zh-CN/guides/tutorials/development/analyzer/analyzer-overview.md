@@ -27,7 +27,7 @@ import Supademo from '@site/src/components/Supademo';
 
 在 Zilliz Cloud 中，创建 Collection 并向 Collection Schema 添加 `VARCHAR` 字段时，可以配置 Analyzer。Analyzer 生成的 token 可用于构建关键词匹配索引，也可以转换为稀疏 Embedding 以支持 Full text search。有关详细信息，请参阅 [Full Text Search](./full-text-search) 或 [Text Match](./text-match)。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 使用 Analyzer 可能会影响性能：
 
@@ -45,7 +45,7 @@ Zilliz Cloud 中的 Analyzer 由且仅由**一个分词器**和**零个或多个
 
 - **过滤器**：过滤器可用于进一步处理 token，例如将其转换为小写或移除常见词。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 分词器仅支持 UTF-8 格式。未来版本将支持其他格式。
 
@@ -63,7 +63,7 @@ Zilliz Cloud 提供两类 Analyzer，以满足不同的文本处理需求：
 
 - **自定义 Analyzer**：对于更高级的需求，您可以通过指定分词器以及零个或多个过滤器来定义自己的配置。这种自定义方式特别适合需要精确控制文本处理流程的场景。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 - 如果创建 Collection 时省略 Analyzer 配置，Zilliz Cloud 默认使用 `standard` Analyzer 处理所有文本。有关详细信息，请参阅 [Standard](./standard-analyzer)。
 
@@ -1393,7 +1393,7 @@ if (!status.IsOk()) {
 
 <Supademo id="cmfxiu7c342st10k8ql0xi1av" title=""  />
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 创建 Collection 后，Analyzer 配置不可更改。要更改 Analyzer 配置，请使用所需设置创建新的 Collection，然后[迁移](./migrate-between-clusters)数据。
 

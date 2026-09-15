@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud 提供了丰富的基本操作符，可帮助您高效过滤和查询数据。您可以使用这些操作符，根据标量字段、数值计算、逻辑条件等细化搜索条件。掌握这些操作符的用法，是构建精确查询并提升搜索效率的关键。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 过滤表达式左侧的值既可以是 Collection 字段名称（例如下文示例中的 `status`、`color` 等），也可以是指定元素索引处的 StructArray 子字段名称，例如 `filter = 'struct[0][subfield] > 10'`。
 
@@ -263,7 +263,7 @@ filter = 'NOT color == "green"'
 
 - `IS NOT NULL`：查找指定字段包含 null 以外的任意值（即字段具有有效定义值）的实体。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 这些操作符不区分大小写，因此可以使用 `IS NULL` 或 `is null`，也可以使用 `IS NOT NULL` 或 `is not null`。
 
@@ -273,7 +273,7 @@ filter = 'NOT color == "green"'
 
 Zilliz Cloud 支持对包含 null 值的常规标量字段（例如字符串或数值字段）进行过滤。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 空字符串 `""` 不会被视为 `VARCHAR` 字段的 null 值。
 
@@ -305,7 +305,7 @@ Zilliz Cloud 支持对包含 null 值的 JSON 字段进行过滤。在以下情�
 
 - Entity 中完全缺少该 JSON 字段。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 如果 JSON 对象中的部分元素（例如单个键）为 null，该字段仍会被视为非 null。例如，`\{"metadata": \{"category": None, "price": 99.99}}` 不会被视为 null，即使其中的 `category` 键为 null。
 
@@ -373,7 +373,7 @@ Zilliz Cloud 支持对包含 null 值的 ARRAY 字段进行过滤。在以下情
 
 - Entity 中完全缺少该 ARRAY 字段。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 ARRAY 字段不能包含部分 null 值，因为 ARRAY 字段中的所有元素必须具有相同的数据类型。有关详细信息，请参阅 [Array 类型](./use-array-fields)。
 

@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 Collection 中的 Entity 是指共享相同字段集的数据记录。存储在每个字段中的一条数据组成一个 Entity。本节介绍如何向 Collection 中插入一条数据以及在插入 Entity 时的相关注意事项。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 - **Collection 创建完成后添加的字段**：如果您在 Collection 创建完成后向其添加字段，但在插入数据时并未指定该字段的取值，Milvus 会自动使用该字段的默认值（如有）或 NULL（如开启）填充。更多内容，可以参阅[向 Collection 添加字段](./add-fields-to-an-existing-collection)。
 

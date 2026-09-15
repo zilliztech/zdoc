@@ -29,7 +29,7 @@ import TabItem from '@theme/TabItem';
 
 - 如果调用批量导入 API 将准备好的源数据导入目标 Collection
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 Zilliz Cloud 允许您将数据从任意对象存储导入到任意 Zilliz Cloud 集群，不用考虑托管集群的云服务商。例如，您可以将存储在阿里云上的数据导入到部署在腾讯云上的集群。
 
@@ -489,7 +489,7 @@ StorageConnectParam storageConnectParam = S3ConnectParam.newBuilder()
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 参数 **endpoint** 决定了生成文件的输出路径。请务必确保您的目标 Collection 所在地域与您的远程对象存储桶所在地域一致。
 
@@ -871,7 +871,7 @@ System.out.println(batchFiles);
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 **BulkWriter** 生成一个 UUID，并使用该 UUID 在指定的输入路径下创建一个子路径，然后将生成的文件放在创建的子路径下。
 
@@ -944,7 +944,7 @@ System.out.println(jobId);
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 参数 **object_url** 需为远程对象存储桶中一个合法的文件或目录。在上述代码中，我们使用了 **format()** 方法将桶名称和 Writer 返回的路径拼接成一个合法的目录路径。
 
@@ -1032,7 +1032,7 @@ while (true) {
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 上述代码中，参数 **url** 为 Zilliz Cloud RESTful API 的服务器路径，其取值须与目标 Collection 所在云地域保持一致。
 

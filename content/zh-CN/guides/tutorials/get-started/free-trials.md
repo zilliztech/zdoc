@@ -60,7 +60,7 @@ Zilliz Cloud 提供 Serverless 和按量计费的 Dedicated 集群的免费试�
 
 ![view-credit-balance-cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/view-credit-balance-cn.png "view-credit-balance-cn")
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 为节省优惠券，我们建议您手动挂起未使用的集群。
 

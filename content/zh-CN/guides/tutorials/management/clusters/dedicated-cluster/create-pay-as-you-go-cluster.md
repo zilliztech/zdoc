@@ -47,7 +47,7 @@ Zilliz Cloud 提供多种集群部署方式以满足不同的业务需求。
 
 ## 创建 Free 集群\{#set-up-a-free-cluster}
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 每个组织中仅支持创建 1 个 Free 集群。如需更多集群，请选择创建 Serverless 或 Dedicated 集群。
 

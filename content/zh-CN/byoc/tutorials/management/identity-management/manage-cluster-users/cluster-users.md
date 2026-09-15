@@ -40,7 +40,7 @@ import Admonition from '@theme/Admonition';
 
 ![VpSHbBL9qoIU2txgK5QckGcfnqb](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/vpshbbl9qoiu2txgk5qckgcfnqb.png "VpSHbBL9qoIU2txgK5QckGcfnqb")
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 每个集群中最多可创建 500 名集群用户。
 
@@ -52,7 +52,7 @@ import Admonition from '@theme/Admonition';
 
 ## 删除集群用户\{#drop-a-cluster-user}
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 集群默认用户 **db_admin** 不支持删除。
 

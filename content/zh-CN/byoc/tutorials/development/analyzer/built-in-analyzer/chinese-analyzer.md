@@ -33,7 +33,7 @@ import TabItem from '@theme/TabItem';
 
 中文 Analyzer 的功能等同于以下自定义分析器配置：
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 内置的中文 Analyzer 不会输出拼音形式的分词。若需要用拼音查询词匹配中文文本，请创建自定义 Analyzer，并在其中同时使用 `jieba` 分词器和 `pinyin` 过滤器。
 
@@ -149,7 +149,7 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 中文 Analyzer 不接受任何可选参数。
 

@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 随着 Collection 从开发阶段进入生产阶段，其 Schema 往往也会发生变化。您可能需要添加 `source_uri` 或 `review_status` 等标量字段，以用于过滤和应用逻辑；添加新的向量字段，以存储应用生成的 Embedding；添加 BM25 Function 及其生成的稀疏向量字段，以便对现有文本执行词法搜索；或者删除不再使用的字段和 Function。修改 Collection Schema 功能允许您就地完成受支持的字段和 Function 变更，无需重新创建 Collection。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 - 本指南介绍托管 Collection 中用户自定义字段，以及 Function 及其生成的向量字段的 Schema 变更。对于字段属性变更，例如修改 `max_length`（针对 `VARCHAR` 字段）或 `max_capacity`（针对 `ARRAY` 字段），请参阅[修改字段设置](./alter-collection-field)。对于动态字段行为，请参阅[动态字段](./enable-dynamic-field)和[修改 Collection](./modify-collections)。
 
@@ -66,7 +66,7 @@ import Admonition from '@theme/Admonition';
 
 - 如果删除 Function 生成的向量字段会导致 Collection 中不再包含任何向量字段，则删除操作会被拒绝。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 对于受支持的添加和删除操作之外的 Schema 变更，请重新创建或迁移 Collection。
 

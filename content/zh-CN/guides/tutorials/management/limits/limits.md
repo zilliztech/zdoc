@@ -110,7 +110,7 @@ vCU 是用于衡量读取（如 search、query）和写入操作（如 insert、
 | Serverless | Zilliz Cloud Serverless 集群无硬性容量限制。 |
 | Dedicated | Zilliz Cloud Dedicated 集群无硬性容量限制。 |
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 Dedicated 集群的容量上限会根据您选择的 CU 类型与 CU 大小的不同而发生变化。如果容量不足，可以尝试调整 CU 类型和大小。具体操作步骤，可以参考[全球集群扩缩容](./scale-global-cluster)。
 
@@ -133,7 +133,7 @@ Dedicated 集群的容量上限会根据您选择的 CU 类型与 CU 大小的�
 | Replica 数量 | 100 | 每个集群最多可添加 100 个 Replica。 |
 | Query CU x Replica 数量 | 204,800 | 每个集群的 Query CU x Replica 数量不得超过 204,800 |
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 对于创建较早、兼容 Milvus 版本较低的部分集群，可能需要规格在 12 CU 或以上才可以添加 Replica。
 
@@ -153,7 +153,7 @@ Dedicated 集群的容量上限会根据您选择的 CU 类型与 CU 大小的�
 
 - 上述条件需同时满足。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 对于 **Free** 和 **Serverless** 集群，执行如下限制：
 
@@ -288,7 +288,7 @@ Shard 的数量上限取决于集群部署方式和 CU 规格。
 
 - 升级到 Beta 版本的 Dedicated 集群，该集群类型兼容 Milvus 2.4.x 或更高版本。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 不建议您手动执行 Flush 操作。Zilliz Cloud 会自动优雅地处理数据 Flush 操作。
 
@@ -298,7 +298,7 @@ Shard 的数量上限取决于集群部署方式和 CU 规格。
 
 每个集群的加载请求速率限制为每秒 **20** 个请求。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 对于已加载的 Collection，即使有新数据插入，您无需重复执行加载操作。
 

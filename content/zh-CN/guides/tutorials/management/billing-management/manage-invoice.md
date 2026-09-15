@@ -28,7 +28,7 @@ import Procedures from '@site/src/components/Procedures';
 
 - 如果您开通了阿里云云市场扣费渠道，请通过阿里云云市场申请开票。
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 预充值不可申请开票。《中华人民共和国发票管理办法》、《中华人民共和国发票管理办法实施细则》规定了只能针对消费者已消费过的订单开具发票。预充值和预付款并未纳入商品消费记录，不具备开具发票的条件。因此，Zilliz Cloud 只能针对您已消费过的订单开具发票。您充值的预付款余额没有消费，也没有对应的 Zilliz Cloud 的产品/服务，因此无法申请开具发票。
 
@@ -102,7 +102,7 @@ Zilliz Cloud 支持按账单和按订单开具发票。
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 已开票的账单和订单不支持重复开票。如有疑问请通过 finance@zilliz.com 联系我们。
 

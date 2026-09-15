@@ -28,7 +28,7 @@ import Procedures from '@site/src/components/Procedures';
 
 组织角色控制组织级访问权限。使用组织角色管理成员、组、组织设置、账单和订阅、安全设置、组织告警、平台审计日志可见性、API 密钥、项目管理以及回收站操作的权限。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 组织角色仅适用于组织级资源。它们不定义集群、数据库或 Collection 权限。
 
@@ -48,7 +48,7 @@ import Procedures from '@site/src/components/Procedures';
 
 项目角色控制特定项目内的访问权限。使用项目角色管理项目成员、集群生命周期操作、按需计算访问、集成、备份、迁移、告警、Volume 以及项目作用域的数据访问。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 项目角色属于特定项目。分配项目角色时，该分配仅适用于所选项目。
 
@@ -121,7 +121,7 @@ import Procedures from '@site/src/components/Procedures';
 
 #### 删除自定义项目角色\{#delete-a-custom-project-role}
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 您不能删除仍分配给用户或 API 密钥的项目角色。请先移除现有分配，再删除角色。
 

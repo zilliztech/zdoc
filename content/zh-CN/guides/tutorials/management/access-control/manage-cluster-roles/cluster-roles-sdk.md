@@ -25,7 +25,7 @@ import TabItem from '@theme/TabItem';
 
 本文将介绍如何创建角色、将内置权限组授予角色、撤销授予角色的权限组，以及删除角色。有关内置权限组的详细信息，请参考[权限](./cluster-privileges)。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 此功能仅限 Dedicated 集群使用。
 
@@ -152,7 +152,7 @@ curl --request POST \
 
 - 自定义权限组：如果内置权限组不能满足您的需要，您也可以通过将多个权限组合的方式创建自定义权限组。更多详情，可参考[自定义权限组](./cluster-privileges#custom-privilege-group)。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 - 如需为角色分配自定义权限组，请[联系我们](http://support.zilliz.com)开通功能。
 
@@ -542,7 +542,7 @@ curl --request POST \
 
 以下示例展示了如何删除角色 `role_a`。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 内置的 `admin` 角色无法删除。
 

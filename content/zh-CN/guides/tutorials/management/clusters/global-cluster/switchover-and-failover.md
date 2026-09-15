@@ -32,7 +32,7 @@ Zilliz Cloud 全球集群支持两种操作来更改主集群所在的区域：
 
 本文介绍各操作的适用场景、执行方式，以及操作期间和操作完成后的预期行为。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 如需使用该功能请[提交工单](http://support.zilliz.com.cn)。
 
@@ -185,7 +185,7 @@ Zilliz Cloud 全球集群支持两种操作来更改主集群所在的区域：
 
     </Procedures>
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" title="说明">
 
     如果强切失败，集群将保持异常（ABNORMAL）状态。您可以重试强切操作或[提交工单](http://support.zilliz.com.cn)。
 

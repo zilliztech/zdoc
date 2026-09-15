@@ -50,7 +50,7 @@ Zilliz Cloud 提供两种续订方式，您可以根据自己的需求选择合�
 
 - [自动续订](./renew-annual-subscription)：开启自动续订后，集群会在每次到期前自动进行续订，避免您因忘记手动续订而导致集群被自动删除。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 系统将按照集群原有配置（包年时长、Query CU、Replica 数量）进行续订。
 
@@ -84,7 +84,7 @@ Zilliz Cloud 提供两种续订方式，您可以根据自己的需求选择合�
 
 1. 开启后，当前组织的所有现有和未来包年订单都将在即将到期前自动续订。
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" title="说明">
 
     开启自动续订后，系统不会立即创建订单或扣款，您仍可随时按需进行手动续订。
 

@@ -30,7 +30,7 @@ import Supademo from '@site/src/components/Supademo';
 
 <Supademo id="cmpdu0ib10p9uqm8qfrtzqu8i" title=""  />
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 - 在按需计算 Database 中创建的 External Collection 不支持删除索引。
 

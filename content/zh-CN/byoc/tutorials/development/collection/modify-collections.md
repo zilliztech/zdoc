@@ -717,7 +717,7 @@ if (!status.IsOk()) {
 
 您可以使用 `timezone` 属性为 Collection 设置默认时区。该属性决定了在 Collection 内进行所有操作（包括数据插入、查询和结果展示）时，时间相关数据的解释和显示方式。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 `timezone` 的值必须是有效的 [IANA 时区标识符](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)，例如 **Asia/Shanghai**、**America/Chicago** 或 **UTC**。如果使用了无效或非标准的时区值，在修改 Collection 属性时会报错。
 

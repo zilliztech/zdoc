@@ -59,7 +59,7 @@ Zilliz Cloud 支持两种主键分配方式：
 | AutoID（默认） | 系统在插入或导入数据时自动生成唯一标识符。 | 适用于不需要手动管理 ID 的大多数场景。 |
 | 手动 ID | 用户在插入或导入数据时自行提供唯一 ID。 | 适用于 ID 需要与外部系统或已有数据集保持一致的场景。 |
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 如果不确定选择哪种模式，建议使用 AutoID，它能简化数据写入流程并自动确保全局唯一性。
 
@@ -346,7 +346,7 @@ curl -X POST 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/insert' \
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 当需要更新已存在的 Entity 时，建议使用 `upsert()` 替代 `insert()`，以避免主键重复错误。
 

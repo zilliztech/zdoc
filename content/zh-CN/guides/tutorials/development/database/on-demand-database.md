@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 本指南说明如何管理按需计算中的数据库。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 此功能仅适用于**企业版**项目。
 
@@ -106,7 +106,7 @@ import Procedures from '@site/src/components/Procedures';
 
 ## 删除 Database\{#drop-database}
 
-<Admonition type="warning" icon="🚧" title="警告">
+<Admonition type="warning" title="警告">
 
 Database 会被立刻删除且无法恢复。该操作不可撤销。
 

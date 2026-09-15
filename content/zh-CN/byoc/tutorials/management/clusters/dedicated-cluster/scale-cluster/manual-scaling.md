@@ -30,7 +30,7 @@ import Procedures from '@site/src/components/Procedures';
 
 请注意，手动扩缩容仅适用于服务集群。On-demand 集群会在请求到达时自动扩缩容，并在空闲时缩容到零。
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 所有版本都支持手动扩缩容 Query CU。
 
@@ -62,7 +62,7 @@ import Procedures from '@site/src/components/Procedures';
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 在 **Scale Query Node CU** 对话框中点击 **Save** 时，系统会提示您检查项目资源配额。如果资源充足，检查完成后对话框会关闭；否则，您可以：
 
@@ -90,7 +90,7 @@ import Procedures from '@site/src/components/Procedures';
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="📘 注意">
+<Admonition type="info" title="注意">
 
 在 **Scale Cluster Replicas** 对话框中点击 **Save** 时，系统会提示您检查项目资源配额。如果资源充足，检查完成后对话框会关闭；否则，您可以：
 

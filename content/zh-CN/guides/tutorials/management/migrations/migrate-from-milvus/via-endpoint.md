@@ -52,7 +52,7 @@ Zilliz Cloud 提供基于 Milvus 的完全托管的向量数据库解决方案�
 
 <Supademo id="cmbohkjeya419sn1ritu7745e" title="Zilliz Cloud - Migrate from Milvus via Endpoint" />
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 - 如果源 Collection 已启用 Full Text Search 功能，Zilliz Cloud 会在迁移后保留目标 Collection 的 Function 设置。这些继承的设置无法修改。
 
@@ -74,7 +74,7 @@ Zilliz Cloud 提供基于 Milvus 的完全托管的向量数据库解决方案�
 
 - **手动 Load Collection**：虽然索引已自动创建，但迁移后的 Collection 并不会立即支持搜索或查询操作。您必须手动 Load Collection，才能启用搜索和查询功能。详细信息请参阅 [Load 和 Release](./load-release-collections)。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 完成 Load 后，请检查目标集群中的 Collection 数量及 Entity 数是否与数据源保持一致。如果发现不符，请删除 Collection 并重新进行迁移任务。
 

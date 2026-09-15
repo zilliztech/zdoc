@@ -785,7 +785,7 @@ client.upsert(UpsertReq.builder()
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 通过 `field_ops` 为字段指定任一操作符时，会隐式启用部分更新语义。您无需同时传入 `partial_update=True`。
 

@@ -30,7 +30,7 @@ Zilliz Cloud 支持为集群**设置定时自动备份**，帮助您在发生异
 
 本文将介绍如何在 Zilliz Cloud 中设置定时自动备份。如需按需手动创建备份，请参见[创建备份](./create-backup)。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 此功能仅限 **Dedicated** 集群使用。
 

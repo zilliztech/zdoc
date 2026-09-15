@@ -54,7 +54,7 @@ import Admonition from '@theme/Admonition';
 
 ## JSON 字段转换说明\{#json}
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 Zilliz Cloud 采样 100 行数据检测 JSON 数据结构，必要时可手动添加字段。
 

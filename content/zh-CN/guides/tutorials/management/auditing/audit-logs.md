@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 审计日志允许管理员跟踪和监控 Zilliz Cloud 集群上的用户驱动的操作和 API 调用。此功能提供了数据平面活动的详细记录，包括向量搜索、查询执行、索引管理和其他数据操作。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 - 审计日志功能仅对 **Dedicated** 集群可见。如有需求，请考虑[升级集群](./manage-cluster)。
 
@@ -44,7 +44,7 @@ import Procedures from '@site/src/components/Procedures';
 
 - **系统事件**：用户访问尝试、授权检查和其他预定义操作。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 迁移、备份等数据任务和恢复等集群操作不会产生集群审计日志。您可前往组织事件页面查看相关操作记录。具体可参考[查看事件](./view-activities)。
 
@@ -153,7 +153,7 @@ import Procedures from '@site/src/components/Procedures';
 
     - **转发路径**：选择用于存储审计日志的存储桶。
 
-        <Admonition type="info" icon="📘" title="说明">
+        <Admonition type="info" title="说明">
 
         只有与集群处于同一区域的存储桶才会显示在下拉列表中。
 

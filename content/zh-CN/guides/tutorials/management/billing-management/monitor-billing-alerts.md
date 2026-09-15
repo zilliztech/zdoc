@@ -24,7 +24,7 @@ import Admonition from '@theme/Admonition';
 
 本指南介绍账单相关告警。如需了解如何配置账单告警，请参见[管理组织告警](./manage-organization-alerts)。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 如需查看或管理账单告警，您必须是组织管理员或组织账单管理员。
 

@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 您可以根据业务开发需要，确定 Collection Schema、索引参数、相似度类型、是否自动加载等设置。本节将介绍创建 Collection 的具体步骤及相关注意事项。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 如果您管理的租户数量较少且希望能够对各租户间的数据进行物理隔离，可以考虑为每个租户创建一个 Collection。
 
@@ -51,7 +51,7 @@ Schema 定义了 Collection 的数据结构。在创建 Collection 时，您需�
 
 如下示例创建了一个 Schema。在该 Schema 中启用了 Dynamic Field 并添加了名为 `my_id`、`my_vector` 以及 `my_varchar` 的三个字段。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 Zilliz Cloud 支持为标量字段设置 nullable 属性和默认值。有关更多信息，请参考 [Nullable 和默认值](./nullable-fields)。
 

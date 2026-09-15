@@ -49,7 +49,7 @@ Binary 向量可以通过多种方法生成。在文本处理中，可以使用�
 
 ![Nt3TwvLqUhfiCjbZQ4WczNPqngf](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/Nt3TwvLqUhfiCjbZQ4WczNPqngf.png)
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 尽管 Binary 向量在某些场景下表现出色，但它也存在表达能力有限的局限性，难以捕捉复杂的语义关系。因此，在实际应用中，Binary 向量常与其他向量类型结合使用，以平衡效率和表达能力。有关更多信息，请参考 [稠密向量](./use-dense-vector) 和 [稀疏向量](./use-sparse-vector)。
 

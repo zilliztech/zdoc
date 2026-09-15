@@ -723,7 +723,7 @@ curl --request POST \
 
 此外，通过在 `AnnSearchRequest` 中配置 `expr` 参数，您可以为混合搜索设置过滤条件。请参考 [Filtered Search](./filtered-search) 和 [过滤表达式概览](./filtering-overview)。
 
-<Admonition type="info" icon="📘" title="注释">
+<Admonition type="info" title="注释">
 
 在混合搜索中，每个 `AnnSearchRequest` 仅支持一个查询数据。
 

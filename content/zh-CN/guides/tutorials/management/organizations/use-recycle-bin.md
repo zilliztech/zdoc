@@ -50,7 +50,7 @@ import Procedures from '@site/src/components/Procedures';
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 集群恢复过程中，其状态将从**创建中**变为**恢复中**，最后变为**运行中**。集群状态变为**运行中**即代表所有被删除的数据已恢复。
 

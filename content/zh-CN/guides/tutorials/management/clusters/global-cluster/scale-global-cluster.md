@@ -24,7 +24,7 @@ import Admonition from '@theme/Admonition';
 
 本文介绍全球集群的扩缩容行为以及各资源类型的扩缩容方式。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 如需使用该功能请[提交工单](http://support.zilliz.com.cn)。
 

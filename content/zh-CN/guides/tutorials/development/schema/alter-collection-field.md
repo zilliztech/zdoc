@@ -25,7 +25,7 @@ import TabItem from '@theme/TabItem';
 
 本页仅涵盖字段属性的修改，不涉及添加或删除字段等 Schema 结构变更。如需在已有 Collection 中添加标量字段或删除字段，请参阅[修改 Collection Schema](./add-fields-to-an-existing-collection)。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 - 每个 Collection 仅包含一个主键。一旦在 Collection 创建期间完成设置，您就无法更换主键或更改其属性。
 

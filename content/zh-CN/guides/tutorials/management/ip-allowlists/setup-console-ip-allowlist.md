@@ -26,7 +26,7 @@ import Supademo from '@site/src/components/Supademo';
 
 控制台 IP 白名单仅针对组织 Web 控制台生效，不影响对项目集群的访问。若需限制对集群的访问，请参阅[设置集群 IP 白名单](./setup-whitelist)。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 此功能仅限**企业版**项目使用。
 
@@ -48,7 +48,7 @@ import Supademo from '@site/src/components/Supademo';
 
 建议将当前 IP 地址与常用 IP 地址加入白名单中，以免被锁定。
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 在白名单中添加 `0.0.0.0/0` 等同于未设置白名单。
 

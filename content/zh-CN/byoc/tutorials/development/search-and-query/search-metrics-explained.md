@@ -34,7 +34,7 @@ import Admonition from '@theme/Admonition';
 | `SPARSE\_FLOAT\_VECTOR` | 无需指定维度 | `IP`, `BM25`（仅用于全文搜索） | `IP` |
 | `BINARY_VECTOR` | 8-32,768&ast;8 | `HAMMING`, `JACCARD` | `HAMMING` |
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 - 对于 `SPARSE\_FLOAT\_VECTOR`，只有使用全文搜索功能时才能将相似度类型设置为 `BM25`。有关全文搜索功能的具体信息，请参考[全文搜索](./full-text-search)。
 
@@ -63,7 +63,7 @@ import Admonition from '@theme/Admonition';
 
 其中，**a = (a<sub>0</sub>, a<sub>1</sub>,..., a<sub>n-1</sub>)** 和 **b = (b<sub>0</sub>, b<sub>1</sub>,..., b<sub>n-1</sub>)** 表示 *n* 维欧氏空间中的两个点。
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 在选择 L2 作为度量标准时，Zilliz Cloud 仅计算开方之前的数值。
 
@@ -77,7 +77,7 @@ import Admonition from '@theme/Admonition';
 
 当处理未归一化的数据或关注数据的大小和方向时，内积尤为重要。
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 使用 IP 计算 Embedding 向量间的相似度时，须先对 Embedding 向量进行归一化。之后，内积即可等同于余弦相似度。
 
@@ -103,7 +103,7 @@ import Admonition from '@theme/Admonition';
 
 通过 **1** 减去两向量间的余弦相似度，可以得到它们之间的余弦距离。
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 该相似度类型目前还在测试阶段。升级您的集群至 Beta 版即可体验 COSINE 相似度类型。
 

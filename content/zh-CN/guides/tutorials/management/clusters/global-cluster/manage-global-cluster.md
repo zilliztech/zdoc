@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 本文介绍如何添加和删除从集群、将全球集群转换为普通集群，以及完全删除全球集群。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 如需使用该功能请[提交工单](http://support.zilliz.com.cn)。
 
@@ -42,7 +42,7 @@ import Procedures from '@site/src/components/Procedures';
 
 为提升地域覆盖能力，您可以为现有全球集群在不同区域添加更多从集群。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 1 个全球集群最多只能包含 **5 个从集群**。
 

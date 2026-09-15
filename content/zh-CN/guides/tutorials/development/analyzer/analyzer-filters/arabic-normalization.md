@@ -24,7 +24,7 @@ import Admonition from '@theme/Admonition';
 
 ## 配置\{#configuration}
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 对于阿拉伯语文本，大多数情况下请使用内置的 [阿拉伯语 Analyzer](./arabic-analyzer)。该内置 Analyzer 将此过滤器与标准分词、小写转换、十进制数字规范化、阿拉伯语词干提取及阿拉伯语停用词移除结合使用。仅当您需要构建自定义 Analyzer 流水线时，才直接使用 `arabic_normalization`。
 

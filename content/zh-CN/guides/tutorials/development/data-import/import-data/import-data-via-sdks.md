@@ -25,7 +25,7 @@ import TabItem from '@theme/TabItem';
 
 另外，您还可以参考我们的[数据导入指南](./data-import-zero-to-hero)。其中包含了数据准备和数据导入两个部分的内容。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 Zilliz Cloud 允许您将数据从任意对象存储导入到任意 Zilliz Cloud 集群，不用考虑托管集群的云服务商。例如，您可以将存储在阿里云上的数据导入到部署在腾讯云上的集群。
 
@@ -324,7 +324,7 @@ public static void main(String[] args) throws Exception {
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 为了保证数据导入成功，请确认当前 Collection 下正在运行或待运行的任务数量不大于 10,000 条。
 

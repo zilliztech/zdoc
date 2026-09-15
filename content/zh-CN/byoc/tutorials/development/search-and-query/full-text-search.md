@@ -25,7 +25,7 @@ import TabItem from '@theme/TabItem';
 
 该功能适用于需要精准术语匹配的相关性搜索场景，如电商中检索产品序列号、客户支持中的工单跟踪，以及法律或医学数据库中的特定术语查找。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 将 Full Text Search 与基于语义的稠密向量搜索结合使用，可以提升搜索结果的准确性和相关性。更多信息请参考 [Hybrid Search](./hybrid-search)。
 
@@ -538,7 +538,7 @@ schema->AddFunction(function);
 | `output_field_names` | 用于存储 Milvus 内部自动生成的稀疏向量的字段名称。 |
 | `function_type` | 使用的 Function 类型。设置为 `FunctionType.BM25`。 |
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 对于包含多个需要进行文本到稀疏向量转换的 `VARCHAR` 字段的 Collection，请为 Schema 添加单独的 Function，并确保每个 Function 具有唯一的名称和 `output_field_names` 值。
 

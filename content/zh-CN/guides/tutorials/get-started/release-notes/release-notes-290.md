@@ -32,7 +32,7 @@ import Admonition from '@theme/Admonition';
 
 Milvus 2.4 为 RAG 应用和多模型检索场景提供了众多新功能。如果你需要试用这些功能，可以将您的集群升级到 BETA。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 Milvus 2.4 稳定版尚未发布。请谨慎在生产环境中使用 Milvus 2.4 版本的新功能。
 

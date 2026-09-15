@@ -99,7 +99,7 @@ Zilliz Cloud 会监控金丝雀的就绪状态、服务健康状态和转换行�
 
 - 扩缩容任务期间，Zilliz Cloud 会继续按之前的配置对集群计费。只有扩缩容任务成功完成后，新的 Query CU 或 Replica 配置才会用于计费。
 
-<Admonition type="info" icon="📘" title="📘 注意">
+<Admonition type="info" title="注意">
 
 金丝雀升级可以降低扩缩容期间的服务影响，但并不意味着每个操作都一定完全没有抖动。对于延迟敏感的生产工作负载，尽可能在低流量窗口执行重大扩缩容变更。
 

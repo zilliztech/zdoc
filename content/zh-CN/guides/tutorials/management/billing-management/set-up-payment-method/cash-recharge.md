@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 专属账号是指 Zilliz Cloud 为每个组织分配的专属汇款账号，在 Zilliz Cloud [发票](./manage-invoice)信息显示的银行账号基础上增加了 9 位专属识别数字。当您使用专属账号进行汇款时，系统会通过 9 位专属识别数字实时将款项汇入 Zilliz Cloud 银行账户中，5-10 分钟后系统自动将汇款金额充值到对应的 Zilliz Cloud 组织现金余额中。
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 如需进行现金充值，您需要先通过[企业认证](./enterprise-verification)。
 
@@ -46,7 +46,7 @@ import Procedures from '@site/src/components/Procedures';
 
     1. 检查界面右上角的组织是否为需要进行充值的组织。
 
-        <Admonition type="info" icon="📘" title="📘 说明">
+        <Admonition type="info" title="说明">
 
         每个 Zilliz Cloud 组织都对应一个专属汇款账号，不可用于其他 Zilliz Cloud 组织。请务必检查组织信息，确保获取对应的专属汇款账号。
 
@@ -64,7 +64,7 @@ import Procedures from '@site/src/components/Procedures';
 
     准备好您的付款银行账号、Zilliz Cloud 专属汇款账号后，前往您付款银行账号对应的网银、手机银行客户端、银行 ATM 机或银行柜台等，将款项转账到 Zilliz Cloud 收款账号中。
 
-    <Admonition type="info" icon="📘" title="📘 说明">
+    <Admonition type="info" title="说明">
 
     请务必在汇款前核对账号信息，以免发生错误。
 

@@ -38,7 +38,7 @@ import Admonition from '@theme/Admonition';
 
 ![update_email_address_cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/updateemailaddresscn.png "update_email_address_cn")
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 修改账号邮箱地址不会影响账单信息和告警接收人。如有需要请自行进行手动更新。
 
@@ -48,7 +48,7 @@ import Admonition from '@theme/Admonition';
 
 ![update_mobile_phone_number_cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/updatemobilephonenumbercn.png "update_mobile_phone_number_cn")
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 修改完成后，旧手机号可用于注册新账号。
 
@@ -72,7 +72,7 @@ import Admonition from '@theme/Admonition';
 
 ## 关闭账号\{#delete-your-account}
 
-<Admonition type="info" icon="📘" title="🚧 警告">
+<Admonition type="warning" title="警告">
 
 账号关闭后 30 天内，您将无法登录或注册 Zilliz Cloud。如需重开账号，请[提交工单](https://support.zilliz.com.cn/hc/zh-cn/signin)。账号关闭账号 30 天后，所有账号数据将被清空。
 
@@ -96,7 +96,7 @@ import Admonition from '@theme/Admonition';
 
 1. 账号成功删除后，您将收到邮件提醒。
 
-<Admonition type="info" icon="📘" title="🚧 警告">
+<Admonition type="warning" title="警告">
 
 删除账号的操作不可逆，请谨慎操作！
 

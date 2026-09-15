@@ -296,7 +296,7 @@ Spark 批量任务从 External Volume 中读取输入数据，并向目标 Exter
    </tr>
 </table>
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 对于 `input` 参数，`format` 决定使用哪种 Spark 数据源阅读器。如果您未指定该参数，任务默认使用 Parquet 阅读器，并仅处理指定路径下的 Parquet 文件。此时，其它格式的文件，如 JSON 或 CSV，会被忽略。
 

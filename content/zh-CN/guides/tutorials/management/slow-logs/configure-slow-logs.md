@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 本指南介绍 Zilliz Cloud 上慢日志的完整生命周期管理，包括启用、调整设置和禁用。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 - 当前版本会记录执行较慢的 Search、Hybrid Search 和 Query 请求。
 

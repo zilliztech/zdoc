@@ -49,7 +49,7 @@ import TabItem from '@theme/TabItem';
 
 如果示例假设目标 Collection 的主键为 Int64 格式。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 在主键查询中，主键仅用来获取对应 Entity 指定字段上的向量，不会基于主键进行过滤。
 

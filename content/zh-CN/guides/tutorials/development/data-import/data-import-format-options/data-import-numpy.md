@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 作为 [Numpy 标准二进制文件格式](https://numpy.org/devdocs/reference/generated/numpy.lib.format.html)，`.npy` 格式用于存放单个数组及其形状和数据类型信息，以便在不同机器上正确重构。
 
-<Admonition type="warning" icon="🚧" title="警告">
+<Admonition type="warning" title="警告">
 
 此特性已经废弃，请勿用于生产目的。
 
@@ -32,7 +32,7 @@ import Admonition from '@theme/Admonition';
 
 ![numpy_file_structure_zh](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/numpyfilestructurezh.png "numpy_file_structure_zh")
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 - **是否启用 AutoID**
 
@@ -76,7 +76,7 @@ import Admonition from '@theme/Admonition';
 
 - [从源文件夹导入](./data-import-numpy#import-files-from-a-numpy-file-folder)
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 如果您的文件体积较小，建议您使用多路径或源文件夹的方式将所有文件一次性导入。Zilliz Cloud 针对这两种方式做了内部优化，可以降低后续资源消耗。
 
@@ -130,7 +130,7 @@ curl --request POST \
     }'
 ```
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 如果文件夹路径下包含多种格式文件，请求会失败。
 
@@ -150,7 +150,7 @@ Zilliz Cloud 支持从您的云存储中导入数据。下表罗列了 Zilliz Cl
 
 当您从对象存储桶中的 NumPy 文件导入数据时，需要遵守以下限制：
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 一个合法的 NumPy 文件夹集合中的每个文件的文件名应该与目标 Collection 的 Schema 中定义的字段名称相同，其中的数据格式应该符合各字段的定义。
 

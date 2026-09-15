@@ -171,7 +171,7 @@ curl --request POST \
 
 <Supademo id="cmbk9kxck018zxu0jw4ljw3jx" title="管理项目告警" isShowcase="true" />
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 您可以通过 RESTful API 管理告警。有关具体信息，请参考  [Update Alert Rule](https://docs.zilliz.com.cn/reference/restful/update-alert-rule-v2) 和 [Delete Alert Rule](https://docs.zilliz.com.cn/reference/restful/delete-alert-rule-v2)。
 
@@ -213,7 +213,7 @@ curl --request POST \
 
 您可以删除不需要的项目告警。
 
-<Admonition type="info" icon="📘" title="🚧 警告">
+<Admonition type="warning" title="警告">
 
 告警删除是永久性的且无法撤销。请确保不再需要该告警后再进行操作。
 

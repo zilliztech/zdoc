@@ -36,7 +36,7 @@ import Admonition from '@theme/Admonition';
 
 在底层，Merge Data API 将分布式批处理引擎与 Stage（暂存）、快照备份以及导入流程整合到一个原子操作中，用户无需再手动协调各个步骤。从数据校验到最终导入，整个流程全部自动化完成。这极大地降低了运维负担，并使得 Schema 更新可以**在数小时内完成**，而非以往的数天。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 为了保证合并前后的数据一致性，在合并过程中需要暂停向源 Collection 写入数据。
 
@@ -104,7 +104,7 @@ Zilliz Cloud 现在支持通过 Web 控制台直接创建 JSON Path 索引 ，�
 
     ![SonlbgANBoxxDjxtf39cmCK3nzc](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/sonlbganboxxdjxtf39cmck3nzc.png "SonlbgANBoxxDjxtf39cmCK3nzc")
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" title="说明">
 
     该设置仅对本次发布后创建的集群有效。
 

@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 本文介绍如何使用 Okta 启用 SSO。
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 目前，SSO 功能处于公测阶段，仅对白名单用户开放。如需体验 SSO 功能，请[提交工单](https://support.zilliz.com.cn/hc/zh-cn)。
 
@@ -112,7 +112,7 @@ import Procedures from '@site/src/components/Procedures';
 
 1. 在弹出的对话框中获取 SSO 登录 URL。
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" title="说明">
 
     配置完成后，您也可以在**系统设置**页面中的 **Single Sign-On (SSO)** 区域查看 SSO 状态和登录 URL。
 

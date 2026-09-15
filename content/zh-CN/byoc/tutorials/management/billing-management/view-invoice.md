@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 Zilliz Cloud 按月度出账单，您可以根据账单数据与 Zilliz Cloud 进行实际结算。
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 如需管理账单，您的角色需要为**组织管理员**或**项目管理员**。
 
@@ -74,7 +74,7 @@ Zilliz Cloud 按月度出账单，您可以根据账单数据与 Zilliz Cloud �
 
 - **未支付金额**：未支付金额 = 应付总金额 - 现金余额扣款。当账单状态为**已支付**时，未支付金额等于零。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 通过界面账单详情页和账单 API 接口[查看发票列表](https://docs.zilliz.com.cn/reference/restful/list-invoices-v2)和[查看发票详情](https://docs.zilliz.com.cn/reference/restful/describe-invoice-v2)获取的账单金额精度均为 2 位小数。
 
@@ -108,7 +108,7 @@ Zilliz Cloud 按月度出账单，您可以根据账单数据与 Zilliz Cloud �
 
 <TabItem value="bash">
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 查看发票列表的 RESTful API 目前还处于公测阶段，如需使用请[联系我们](http://support.zilliz.com.cn)。
 
@@ -154,7 +154,7 @@ curl --request GET \
 # }
 ```
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 API 返回的结果中，所有金额单位为分。
 
@@ -182,7 +182,7 @@ API 返回的结果中，所有金额单位为分。
 
 <TabItem value="bash">
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 查看发票详情的 RESTful API 目前还处于公测阶段，如需使用请[联系我们](http://support.zilliz.com.cn)。
 
@@ -227,7 +227,7 @@ curl --request GET \
 
 - `{INVOICE_ID}`: 需要查看的目标账单的 ID。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 API 返回的结果中，所有金额单位为分。
 

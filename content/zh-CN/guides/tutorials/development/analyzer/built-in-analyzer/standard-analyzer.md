@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 Standard Analyzer 是 Zilliz Cloud 中的默认 Analyzer ，如果未指定 Analyzer ，它将自动应用于文本字段。它使用基于语法的分词，因此对大多数语言都有效。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 为了更好地提升查询和搜索性能，根据您的文本语言选择一个合适的 Analyzer 是十分必要的。虽然 `standard` Analyzer 适用于大多数西方语言，但对于中文、日语和韩语这样有着特殊语法结构的语言来说却不是最佳选择。在这种情况下，建议您选择使用 [`chinese`](./chinese-analyzer) 或自定义使用指定分词器（如 lindera 或 icu）和过滤器的 Analyzer ，准确分词可以极大保障搜索结果的可靠性。  
 

@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 Zilliz Cloud 除了支持 ANN Search 外，还提供基于标量的过滤查询功能。本节将介绍如何使用 Query、Get 和 QueryIterator 进行标量查询以及进行标量查询时的注意事项。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 如果在 Collection 创建后动态添加新字段，包含这些字段的搜索将为未显式设置值的 Entity 返回定义的默认值或 NULL。有关详细信息，请参阅[向 Collection 添加字段](./add-fields-to-an-existing-collection)。
 
@@ -1362,7 +1362,7 @@ curl --request POST \
 
 若要从数据集中提取具有代表性的数据子集用于数据探索或开发测试，请使用  `RANDOM_SAMPLE(sampling_factor)`  表达式，其中 `sampling_factor` 是一个介于 `0` 和 `1` 之间的浮点数，表示要采样的数据百分比。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 关于随机采样的详细使用方法、高级示例和最佳实践，可参考[随机采样](./ramdom-sampling)。
 

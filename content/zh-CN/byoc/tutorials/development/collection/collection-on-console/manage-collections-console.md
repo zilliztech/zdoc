@@ -26,7 +26,7 @@ Collection 是一张二维表格，用于存储 Embedding向量和元数据。�
 
 本指南将带您了解如何在 Web 控制台上创建和管理 Collection，适用于希望使用可视化界面的用户。如果您熟悉 SDK，也可以通过 SDK 创建和管理 Collection。详情请见 [创建 Collection](./manage-collections-sdks)。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 如需租户间数据物理隔离，且租户数量较少，可以为每个租户创建一个独立的 Collection。
 但是，根据您的集群版本，您最多可创建 16,384 个 Collection。因此，对于大规模多租户场景，建议根据具体情况，采用基于 Partition 或 Partition key 的多租户策略。
@@ -75,7 +75,7 @@ Schema 定义了 Collection 的数据结构，必须包含以下字段：
 
 <Supademo id="cmauvtthp4p17ho3rl1q9rlpg" title="Zilliz Cloud - 创建 Collection Schema" />
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 Collection 创建后，大多数 Schema 配置将无法修改。请在创建前仔细设计 Schema，确保其能够满足当前及未来的业务需求。最佳实践参考，请参见[了解 Schema](./schema-explained)。
 
@@ -131,7 +131,7 @@ Index 是一种用于加速搜索与查询的数据结构。Zilliz Cloud 支持�
 
 **Partition key:** Partition Key 是一种基于 Partition 的查询优化机制。当你将一个非 Primary Key 的 INT64 或 VARCHAR 字段指定为 Partition Key 时，Zilliz Cloud 会自动创建 16 个 Partition，并根据该字段的值将插入的 Entity 分布到这 16 个 Partition 中。一旦为 Collection 启用了 Partition Key，就无法再手动创建 Partition。详情请见[使用 Partition Key](./use-partition-key)。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 在决定使用 Partition 还是 Partition Key 时，你可以根据以下因素进行权衡：
 
@@ -153,7 +153,7 @@ Index 是一种用于加速搜索与查询的数据结构。Zilliz Cloud 支持�
 
 - **字段级别 mmap**：通过自定义设置针对选定字段的原始数据和 Index 开启 mmap。一般建议对数据量大、且不频繁用于查询或过滤的字段开启 mmap。该设置仅影响所选字段，可后续修改。若需修改字段级别的 mmap 设置，需先释放 Collection。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 请谨慎调整 mmap 设置。修改默认配置可能导致性能下降，或因内存不足（OOM）而导致加载失败。最佳实践请见[使用 mmap](./use-mmap)。
 

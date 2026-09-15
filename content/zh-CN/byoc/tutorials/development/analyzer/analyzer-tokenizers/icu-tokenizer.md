@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 ICU 分词器基于 [Unicode 国际化组件（ICU）](http://site.icu-project.org/)开源项目构建，该项目为软件国际化提供了关键工具。通过使用 ICU 的断词算法，分词器能够在世界上大多数语言中准确地将文本拆分为单词。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 ICU 分词器会在输出中将标点符号和空格保留为单独的 token。例如：
 `"Привет! Как дела?"` 会被分割为 `["Привет", "!", " ", "Как", " ", "дела", "?"]`。

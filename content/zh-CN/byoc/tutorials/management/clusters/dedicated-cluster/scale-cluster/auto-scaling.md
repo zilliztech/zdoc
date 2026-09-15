@@ -30,7 +30,7 @@ import Procedures from '@site/src/components/Procedures';
 
 为了让服务资源利用率保持在健康范围内，Zilliz Cloud 使用目标跟踪，而不是对每一次原始指标峰值做出反应。系统会评估平滑后的监控信号，并在创建扩缩容任务前执行安全检查。
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 所有版本都支持手动扩缩容 Query CU。
 
@@ -49,7 +49,7 @@ Zilliz Cloud 不会因为单次瞬时指标峰值就触发自动扩缩容。系�
 | Query CU | Query CU 加载容量，缩容时同时检查 Query CU 计算资源 | Query CU 加载容量：70% | 持续 10 分钟大于 80%，或立即达到 100% | 持续 30 分钟小于 60%，且目标 Query CU 可以安全承载当前 Query CU 计算资源 |
 | Replica | Query CU 计算资源 | Query CU 计算资源：50% | 持续 2 分钟大于 60% | 持续 10 分钟小于 40% |
 
-<Admonition type="info" icon="📘" title="📘 注意">
+<Admonition type="info" title="注意">
 
 此表中的数值是默认自动扩缩容设置，Zilliz Cloud 可能会按需调整。如果您有疑问，请[联系我们](http://support.zilliz.com)。
 
@@ -112,7 +112,7 @@ Zilliz Cloud 不会在同一次扩缩容操作中同时修改 Query CU 和 Repli
 | 最小 Replica | 定义低流量期间查询服务的基线冗余和吞吐。 | 使用能够保持应用最低可用性和 QPS 要求的值。<br/>对于生产工作负载，避免将其设置得低于可用性目标所需的最小 Replica 数量。 |
 | 最大 Replica | 定义自动 Replica 横向扩展的成本和吞吐上限。 | 使用能够吸收预期流量峰值的值，同时防止意外查询峰值导致成本失控。 |
 
-<Admonition type="info" icon="📘" title="📘 注意">
+<Admonition type="info" title="注意">
 
 不要将最大值设置得高于您的运维或预算上限。当持续工作负载压力需要时，自动扩缩容可以扩容到配置的最大值。
 
@@ -201,7 +201,7 @@ curl --request POST \
 
 当扩缩容任务正在进行时，集群状态为`修改中`。任务成功后，集群状态会变回`运行中`。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 扩缩容任务期间，Zilliz Cloud 会继续按之前的配置对集群计费。只有扩缩容任务成功完成后，新的 Query CU 或 Replica 配置才会用于计费。该规则适用于扩容和缩容操作。
 

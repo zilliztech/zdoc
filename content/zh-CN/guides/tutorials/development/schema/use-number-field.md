@@ -37,7 +37,7 @@ import TabItem from '@theme/TabItem';
 
 如需定义一个布尔类型的字段，需要将 `datatype` 设置成 `BOOL`。如需定义一个数值类型的字段，则可以将 `datatype` 设置成上述支持的数值类型。例如，`DataType.INT64` 表示一个整数类型的字段，而 `DataType.FLOAT` 则表示一个小数类型的字段。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 Zilliz Cloud 允许布尔类型或数值类型的字段为空。您也可以为它们设置默认值。简单来说，您可以将字段的 `nullable` 设置为 `True` 来允许字段为空，并通过 `default_value` 为字段设置默认值，具体可以参考 [Nullable 和默认值](./nullable-fields)。
 
@@ -53,7 +53,7 @@ Zilliz Cloud 允许布尔类型或数值类型的字段为空。您也可以为�
 
 - `height`：用于存放小数类型的数据，允许为空，无默认值。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 如果您在定义 Schema 时将 `enabled_dynamic_fields` 设置为 `True`，您还可以在该 Collection 中插入 Schema 中未定义的字段。此操作可能会增加查询和管理的复杂性，并影响查询性能。更多详情，请参考 [Dynamic Field](./enable-dynamic-field)。
 

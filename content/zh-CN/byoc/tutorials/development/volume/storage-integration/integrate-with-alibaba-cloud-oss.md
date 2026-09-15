@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 本文介绍如何授权阿里云 BYOC 项目访问外部 OSS Bucket。您需要在 Bucket 所属阿里云账号中创建 RAM 权限策略和 RAM 角色，并使用 Zilliz Cloud 生成的可信主体与 External ID 配置信任策略。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 Zilliz Cloud 通过 STS 扮演您创建的 RAM 角色，并使用短期凭证访问指定 Bucket。请勿向 Zilliz Cloud 提供阿里云账号或 RAM 用户的 AccessKey。
 
@@ -46,7 +46,7 @@ Zilliz Cloud 通过 STS 扮演您创建的 RAM 角色，并使用短期凭证访
 
 - 目标 OSS Bucket 已创建，并与将访问它的 BYOC 数据面位于同一地域。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 创建集成时选择的 Zilliz Cloud 地域必须与 OSS Bucket 地域一致。请使用 OSS Region ID，例如 `cn-hangzhou`，不要填写 Endpoint 或可用区。
 
@@ -130,7 +130,7 @@ Zilliz Cloud 通过 STS 扮演您创建的 RAM 角色，并使用短期凭证访
     | `oss:GetBucketLocation` | 校验 Bucket 所在地域。 | 需要 | 需要 |
     | `oss:HeadBucket` | 检查 Bucket 是否存在且可访问。 | 需要 | 需要 |
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" title="说明">
 
     如果步骤 1 选择了**只读**，请使用 Zilliz Cloud 控制台生成的策略；该策略不包含 `oss:PutObject`。不要在控制台生成的策略之外扩大资源或操作范围。
 
@@ -190,7 +190,7 @@ Zilliz Cloud 通过 STS 扮演您创建的 RAM 角色，并使用短期凭证访
     }
     ```
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" title="说明">
 
     不要复用其他项目、地域或 Bucket Integration 的角色 ARN 或 External ID。External ID 用于防止跨账号角色扮演中的 confused deputy 风险。
 

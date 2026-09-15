@@ -253,7 +253,7 @@ PyMilvus 中有两种 BulkWriter。在本小节中，我们将了解如何创建
 
     关于参数设置，可以参考 SDK Reference 中关于 **LocalBulkWriter** 的介绍。
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" title="说明">
 
     使用 LocalBulkWriter 生成的 JSON 文件和 Parquet 文件可以直接在 Zilliz Cloud 控制台上导入。
     
@@ -290,7 +290,7 @@ PyMilvus 中有两种 BulkWriter。在本小节中，我们将了解如何创建
 
     - 如果原始数据中包含大量的数据记录，可以考虑在 **withChunkSize()** 中设置原始数据分段大小。
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" title="说明">
 
     Milvus Java SDK 的 BulkWriter 使用 Apache Parquet 作为唯一支持的数据输出格式。
 
@@ -632,7 +632,7 @@ private static List<Long> genIntArray(int length) {
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 在上述代码中 `vector` 和 `scalar_1` 字段的值由两个名为 `generateFloatVectors()` 和 `generateString()` 的私有方法生成。具体请参考**随机数据生成器**页签。
 

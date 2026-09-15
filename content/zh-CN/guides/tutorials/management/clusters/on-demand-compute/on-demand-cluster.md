@@ -28,7 +28,7 @@ import Procedures from '@site/src/components/Procedures';
 
 本主题说明如何创建 On-demand 集群。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 此功能仅适用于**企业版**项目。
 

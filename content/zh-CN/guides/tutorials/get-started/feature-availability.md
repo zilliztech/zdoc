@@ -76,7 +76,7 @@ Zilliz Cloud 文档中，每个功能会以标签形式标注其当前支持阶�
 
 - 托管模型
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 如需使用上述功能，请[提交工单](http://support.zilliz.com.cn)申请开通功能。
 
@@ -86,7 +86,7 @@ Zilliz Cloud 文档中，每个功能会以标签形式标注其当前支持阶�
 
 - Text Embedding 和 Rerank Function
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 如需使用上述功能，请升级集群的 Milvus 版本。
 
@@ -98,7 +98,7 @@ Zilliz Cloud 文档中，每个功能会以标签形式标注其当前支持阶�
 
 - [Spark 批量任务](./spark-batch-jobs)
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 如果您项目所在的云地域不支持此功能，请[联系我们](http://zilliz.com.cn/contact-sales)。
 

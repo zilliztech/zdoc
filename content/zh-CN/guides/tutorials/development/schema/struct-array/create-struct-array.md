@@ -48,7 +48,7 @@ import Admonition from '@theme/Admonition';
 | `emb_list_vector` | `FLOAT_VECTOR` | 用于基于 `MAX_SIM*` metric 的 EmbeddingList Search 的 Vector subfield。 |
 | `emb` | `FLOAT_VECTOR` | 用于 Element-level Search 的 Vector subfield。 |
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 一个 Vector Field 或 Vector subfield 只能接受一个 Index。如果同时需要 EmbeddingList Search 和 Element-level Search，请定义两个独立的 Vector subfield。在此示例中，`chunks[emb_list_vector]` 用于 EmbeddingList Search，`chunks[emb]` 用于 Element-level Search。
 
@@ -213,7 +213,7 @@ schema.add_field(
 )
 ```
 
-<Admonition type="warning" icon="🚧" title="警告">
+<Admonition type="warning" title="警告">
 
 Nullable StructArray Field 仅在 clusters compatible with Milvus v3.0.x 中可用。对于 Nullable StructArray Field，Entity 可以提供有效的 StructArray value，也可以将整个 Field 设为 `null`。插入有效的 StructArray value 时，所有 subfield 应同时为 null 或同时具有有效值。如果某些 subfield 为 null 而其他 subfield 为有效值，会导致错误。详情请参阅 [StructArray 限制](./struct-array-limits)。
 

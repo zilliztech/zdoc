@@ -59,7 +59,7 @@ import Procedures from '@site/src/components/Procedures';
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 如果未设置集群 IP 白名单，Zilliz Cloud 将允许所有 IP 地址访问项目集群。一旦添加了 CIDR ，仅CIDR 中的 IP 地址可以访问该集群。添加 0.0.0.0/0 的效果等同于未设置白名单。
 

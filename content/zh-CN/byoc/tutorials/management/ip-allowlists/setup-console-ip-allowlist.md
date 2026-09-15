@@ -38,7 +38,7 @@ import Supademo from '@site/src/components/Supademo';
 
 建议将当前 IP 地址与常用 IP 地址加入白名单中，以免被锁定。
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 在白名单中添加 `0.0.0.0/0` 等同于未设置白名单。
 

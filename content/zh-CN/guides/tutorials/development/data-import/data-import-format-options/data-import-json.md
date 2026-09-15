@@ -45,7 +45,7 @@ JSON Lines 是一种文本格式，每一行都是一个完整且合法的 JSON 
 
 ![json_data_structure](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/jsondatastructure.png "json_data_structure")
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 - **是否启用 AutoID**
 
@@ -81,7 +81,7 @@ JSON Lines 是一种文本格式，每一行都是一个完整且合法的 JSON 
 
 - [从单个文件导入](./data-import-json#import-a-single-file)
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 如果您的文件体积较小，建议您使用多路径或源文件夹的方式将所有文件一次性导入。Zilliz Cloud 针对这两种方式做了内部优化，可以降低后续资源消耗。
 
@@ -135,7 +135,7 @@ curl --request POST \
     }'
 ```
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 如果文件夹路径下包含多种格式文件，请求会失败。
 
@@ -177,7 +177,7 @@ Zilliz Cloud 支持从您的云存储中导入数据。下表罗列了 Zilliz Cl
 
 当您从本地 JSON 文件或对象存储桶中的 JSON 文件导入数据时，需要遵守以下限制：
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 需要注意的是，一个合法的 JSON 文件中有一个名为 **rows** 的根键，其值为一个字典列表，每个字典列表代表一个需要插入的 Entity 对象。
 

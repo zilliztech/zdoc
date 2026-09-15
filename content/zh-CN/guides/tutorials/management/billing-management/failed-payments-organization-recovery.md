@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 本指南介绍支付失败的常见原因、无法完成支付时的影响，以及如何恢复组织。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 如需管理支付和账单设置，您必须是组织管理员或组织账单管理员。
 

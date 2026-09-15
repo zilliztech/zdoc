@@ -31,7 +31,7 @@ import TabItem from '@theme/TabItem';
 
 - 设置 `max_length`，用于指定当前 `VARCHAR` 字段可容纳的最大字节数。该参数的取值范围为 1 到 65,535。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 Zilliz Cloud 支持为 `VARCHAR` 字段设置 Null 值和默认值。如需开启这些设置，需要在创建字段时，将 `nullable` 设置为 `True` 以及将 `default_value` 设置为一个字符串。关于 Null 值和默认值的详细情况，可以参考 [Nullable 和默认值](./nullable-fields)。
 
@@ -45,7 +45,7 @@ Zilliz Cloud 支持为 `VARCHAR` 字段设置 Null 值和默认值。如需开�
 
 - `varchar_field2` 用于存放最多 200 字节的字符串，允许为 Null，没有默认值。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 如果在创建 Schema 时设置了 `enable_dynamic_fields=True`，Zilliz Cloud 允许您插入的数据中包含 Schema 中未定义的字段。但是这可能会使查询复杂度和管理难度增加，进而影响查询性能。关于动态字段的相关内容，可以参考[Dynamic Field](./enable-dynamic-field)。
 

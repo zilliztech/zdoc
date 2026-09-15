@@ -56,7 +56,7 @@ import TabItem from '@theme/TabItem';
 
 线性衰减会产生一条直线下降的趋势，以恒定速率递减，直至精确归零。这种模式出现在许多日常场景中，如倒计时器、库存耗尽和截止日期临近等，在这些场景中，相关性有明确的截止点。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 所有时间参数（`origin`、`offset`、`scale`）必须使用与 Collection 数据相同的单位。如果您的集合以不同的单位（毫秒、微秒）存储时间戳，请相应地调整所有参数。
 
@@ -110,7 +110,7 @@ $$
 
 线性衰减可应用于 Zilliz Cloud 中的标准向量搜索和混合搜索操作。以下是实现此功能的关键代码片段。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 在使用 Decay Ranker 之前，你必须首先创建一个包含适当数字类型字段（如时间戳、距离等）的集合，这些字段将用于衰减计算。有关包括 Collection 设置、 Schema 定义和数据插入的完整工作示例，请参考[教程：实现基于时间的搜索结果重排](./tutorial-implement-time-based-ranking)。
 
@@ -120,7 +120,7 @@ $$
 
 在您的集合设置了一个数字字段（在本示例中，`event_date` 表示从现在起的秒数）之后，创建一个线性衰减排序器：
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 **时间单位一致性**：使用基于时间的衰减时，确保 `origin`、`scale` 和 `offset` 参数使用与您的 Collection 中的数据使用相同的时间单位。如果您的 Collection 中的数据以秒为单位存储时间戳，则所有参数都使用秒。如果使用毫秒，则所有参数都使用毫秒。
 

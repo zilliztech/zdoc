@@ -914,7 +914,7 @@ curl --request POST \
 
 1. 存储原始文本和生成的稀疏向量
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 你无需直接提供稀疏向量；BM25 函数会基于你的文本和指定的 Analyzer 自动生成。
 

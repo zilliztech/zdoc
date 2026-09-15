@@ -63,7 +63,7 @@ import Procedures from '@site/src/components/Procedures';
 
 对于运行中的 Dedicated 集群，系统会根据其 CU 和存储用量计费。为了节省成本，您可以选择挂起集群。集群挂起后，仅收取存储费用。
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 包年包月的 Dedicated 集群不支持挂起。
 
@@ -127,7 +127,7 @@ Serverless 集群不支持挂起和恢复运行的操作。
 
 Dedicated 集群在手动挂起后也按需手动恢复运行。
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 包年包月的 Dedicated 集群不支持挂起或恢复运行。
 
@@ -207,7 +207,7 @@ curl --request POST \
 
 如果您需要将现有的 Dedicated 集群转换为[全球集群](./global-cluster-explained)，请参考以下 Demo。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 全球集群当前仅兼容 Milvus 2.6.x 版本。因此您无法将兼容 Milvus 3.0.x 版本的 Dedicated 集群转换为全球集群。
 

@@ -56,7 +56,7 @@ ColBERT（arXiv: [2004.12832](https://arxiv.org/abs/2004.12832)）是一个文�
 
 在一个简化示例中，查询包含两个 token，即 `machine` 和 `learning`；窗口中的文档包含四个 token：`neural`、`network`、`python` 和 `tutorial`。这些 token 被向量化后，每个查询 token 的 Vector Embedding 会与文档中的 Vector Embedding 比较，得到一组相似度评分。随后，对每组评分取最高值并求和，得到最终评分。确定文档最终评分的过程称为 maximum similarity（**MAX_SIM**）。关于 maximum similarity 的详细信息，请参见[相似度类型](./search-metrics-explained)。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 在 Milvus 中实现类似 ColBERT 的文本检索系统时，并不局限于按 token 切分文档。
 你可以按任意合适的粒度将文档切分为片段，为每个片段生成 EmbeddingList，并将文档及其已 Embedding 的片段一起存储为一条 Entity。
@@ -358,7 +358,7 @@ for _, row in df.iterrows():
     })
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 由于需要为大量数据生成 Embedding，此步骤比较耗时。
 
@@ -437,7 +437,7 @@ client.insert(
 )
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 插入金融报告可能需要较长时间。每一页都可能包含一千多个 patch Vector，并且每个 Vector 都存储在 `patches` StructArray Field 中。对于更大的数据集，请将 `data` 切分为较小的 batch，并逐批插入。
 

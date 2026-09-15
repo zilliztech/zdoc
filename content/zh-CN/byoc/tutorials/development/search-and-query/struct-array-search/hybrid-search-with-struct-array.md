@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 | 同一 StructArray Field 下的多个 Element-level 子字段 | Element 级 | 最终候选以主键加 Struct 元素 offset 为 key。 | 不要使用。 |
 | 不同 StructArray Field 下的 Element-level 子字段 | Entity 级 | Element offset 不共享身份，因此每个 StructArray Element-level `AnnSearchRequest` 都会在重新排序前折叠。 | 可在每个 StructArray Element-level `AnnSearchRequest` 上设置折叠配置。 |
 
-<Admonition type="warning" icon="🚧" title="Warning">
+<Admonition type="warning" title="Warning">
 
 `element_scope` 只用于为非同一 Struct 的 Element-level Hybrid Search 中的 StructArray Element-level `AnnSearchRequest` 配置折叠。不要将它用于 EmbeddingList 请求、Collection-level Vector 请求或同一 StructArray 下的 Element-level Hybrid Search。
 

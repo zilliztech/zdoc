@@ -70,7 +70,7 @@ import Supademo from '@site/src/components/Supademo';
 
 <Supademo id="cmn5e3ep53bovz3qmb2i4x0cb" title=""  />
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 如果维护超出偏好运维窗口，系统将继续执行直至完成。
 
@@ -110,7 +110,7 @@ import Supademo from '@site/src/components/Supademo';
 
 1. 根据弹出的对话框完成相应操作，确认删除组织。
 
-<Admonition type="info" icon="📘" title="🚧 警告">
+<Admonition type="warning" title="警告">
 
 删除组织的操作不可逆，请谨慎操作！
 

@@ -105,7 +105,7 @@ import Admonition from '@theme/Admonition';
 | HybridSearch | 多向量搜索并重排序 |
 | Query | 标量过滤查询 |
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 更多操作的支持计划在后续版本中发布。
 

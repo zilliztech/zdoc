@@ -29,7 +29,7 @@ Zilliz Cloud 提供用于监控集群和 Collection 双层指标的可视化看�
 要查看集群范围的指标，请在 [Zilliz Cloud 控制台](https://cloud.zilliz.com.cn/login)中进入目标集群，然后切换到**指标**标签页。
 Zilliz Cloud 的指标图表会展示在指定时间范围内的资源使用情况、每秒查询数（QPS）、请求结果以及数据操作等性能数据，帮助您进行细粒度分析。
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 对于免费集群，只支持查看 Read vCUs 和 Write vCUs。如需解锁更多指标，可以考虑[升级集群版本](./manage-cluster#upgrade-deployment-option)。
 

@@ -103,7 +103,7 @@ Import 和 bulk insert 操作**不产生**写入费用。
 
     - 单次搜索或查询请求中返回的数据量：返回的数据量越大，消耗的 vCU 用量越高。例如，返回所有字段（包括向量字段）的搜索请求消耗的 vCU 用量将大于仅返回 ID 字段的搜索请求。
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" title="说明">
 
     每次读取操作最低会消耗 6 vCU。
 

@@ -33,7 +33,7 @@ Milvus 中的 `GEOMETRY` 数据类型为此提供了解决方案，使您能够�
 
 - **地图与物流**：查找区域内的资产或路径相交的路线
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 要使用 GEOMETRY 类型，请将您的 SDK 升级至最新版本。
 
@@ -224,7 +224,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 在此示例中，Collection 的 Schema 中定义的 GEOMETRY 字段允许空值（`nullable=True`）。有关详细信息，请参考 [Nullable 和默认值](./nullable-fields)。
 
@@ -528,7 +528,7 @@ sleep 3
 
 - `{wkt}`：表示用于过滤的几何对象的 WKT 字符串。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 某些运算符（如 `ST_DWITHIN`）可能需要额外的参数。有关各运算符的详细说明和使用示例，请参阅 [Geometry 操作符](./geometry-operators)。
 

@@ -35,7 +35,7 @@ import Admonition from '@theme/Admonition';
 | 在 `chunks[emb_list_vector]` 上创建用于 EmbeddingList Search 的 `MAX_SIM*` Index。 | [为 StructArray Field 创建 Index](./index-struct-array) |
 | 在 `chunks[emb]` 上创建用于 Element-level Search 的常规 Vector metric Index。 | [为 StructArray Field 创建 Index](./index-struct-array) |
 
-<Admonition type="warning" icon="🚧" title="Warning">
+<Admonition type="warning" title="Warning">
 
 一个 Vector Field 或 Vector 子字段只能接受一个 Index。如果同时需要 EmbeddingList Search 和 Element-level Search，请创建两个独立的 Vector 子字段。在本页中，`chunks[emb_list_vector]` 用于 EmbeddingList Search，`chunks[emb]` 用于 Element-level Search。
 
@@ -95,7 +95,7 @@ for hits in results:
 
 在这种搜索模式下，`limit` 控制每个查询返回多少个 Entity。输出可以包含 StructArray 子字段，但命中本身表示匹配的父 Entity，而不是某一个具体的 Struct 元素。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 如需完整的 ColBERT 或 ColPali 风格演示，请参见[使用 EmbeddingList 搜索：ColBERT 和 ColPali](./tutorial-colbert-colpali)。本页只介绍 StructArray 搜索的基础行为。
 

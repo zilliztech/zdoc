@@ -82,7 +82,7 @@ IAM 资源控制 Zilliz Cloud 平台使用的身份、凭证和角色。
 | `project_role` | Role | view, grant | No | `*` across all projects | `-` | `-` | `*` in the assigned project | `view` in the assigned project | `view` in the assigned project | `view` in the assigned project |
 | `project_custom_role` | Role | view, create, modify, delete, grant | No | `*` | `-` | `-` | `*` | `-` | `-` | `-` |
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 - Personal API key 由个人用户拥有。每个用户都可以重置自己的 personal API key。Personal API key 权限不会通过资源权限模型独立管理。
 

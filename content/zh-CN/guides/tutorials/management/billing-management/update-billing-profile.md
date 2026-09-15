@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 账单接收信息包含用于接收账单和发票的联系人信息和地址。请及时更新账单接收信息。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 如需管理账单资料，您必须是组织管理员或组织账单管理员。
 

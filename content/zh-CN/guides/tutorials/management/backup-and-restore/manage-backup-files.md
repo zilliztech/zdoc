@@ -24,7 +24,7 @@ import Supademo from '@site/src/components/Supademo';
 
 本文将介绍如何查看、重命名和删除已有的备份文件。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 此功能仅限 **Dedicated** 集群使用。
 

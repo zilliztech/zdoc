@@ -117,7 +117,7 @@ import Admonition from '@theme/Admonition';
 
 **实际案例：** 假设您有一个 16 CU 的容量型集群，默认平衡型模式可存储 8000 万向量。切换到容量优先后可存储 1.12 亿向量——同样的数据量只需要 12 CU 就够了，**节省 25% 的 CU 成本**。如果您的场景对 recall 要求在 90% 以上就可以接受（大多数推荐、日志分析场景），这就是白送的优化。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 Build level 设置后不可修改，需要 drop 并重建索引。建议在创建集合前做好评估。仅支持浮点向量类型 (FLOAT_VECTOR, FLOAT16_VECTOR, BFLOAT16_VECTOR)。
 
@@ -151,7 +151,7 @@ Build level 设置后不可修改，需要 drop 并重建索引。建议在创�
 
 - 对于容量型集群，默认策略已经是存储优先，一般不需要额外调整。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 修改 mmap 设置前需要释放 Collection，修改后再重新加载 Collection。**配置不当可能导致性能下降甚至 OOM**，建议在测试环境验证。
 

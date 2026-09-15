@@ -32,7 +32,7 @@ import Admonition from '@theme/Admonition';
 | Element-level Search | 支持按主键分组。 | 每个父 Entity 最多返回一个结果。Element-level 元数据会被保留，因此当 API 或 SDK 暴露时，可返回被选中元素的 index 或 offset。 |
 | Hybrid Search | 仅当所有子搜索都指向同一 StructArray Field 下的 Element-level Vector Field 时支持。 | Element-level 子搜索先按主键分组，再进行最终结果处理。 |
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 当未分组的 Element-level Search 返回过多重复父 Entity 时，请使用 Grouping。如果希望每个匹配的 Struct 元素都作为单独命中返回，请使用不带 `group_by_field` 的[使用 StructArray 进行基础向量搜索](./search-with-struct-array)。
 

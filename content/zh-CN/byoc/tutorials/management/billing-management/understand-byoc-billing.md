@@ -93,7 +93,7 @@ $900 / (365 × 24 × 60) ≈ $0.0017 / vCPU / 分钟
 
 有关管理账单的详细信息，请参阅[了解账单](./view-invoice)。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="注意">
 
 如果账单逾期，增加资源用量的操作可能会被阻止，包括创建集群、增加 Query CU 或副本数，以及启用或使用自动扩缩容。
 

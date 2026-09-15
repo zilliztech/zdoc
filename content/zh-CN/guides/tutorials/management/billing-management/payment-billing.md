@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 本指南介绍 Zilliz Cloud 支持的支付方式、支付优先级，以及管理发票和订阅时需要注意的事项。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 如需管理支付和账单设置，您必须是组织管理员或组织账单管理员。
 

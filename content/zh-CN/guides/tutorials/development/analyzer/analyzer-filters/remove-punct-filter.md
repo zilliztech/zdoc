@@ -24,7 +24,7 @@ import TabItem from '@theme/TabItem';
 `removepunct` 过滤器会从 token 流中移除单独存在的标点符号。
  当你希望进行更干净的文本处理、专注于有意义的内容词而非标点时，可以使用该过滤器。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 - 该过滤器在 `jieba`、`lindera` 和 `icu` tokenizer 中最有效，因为这些 tokenizer 会将标点保留为独立的 token（例如 `"Hello!"` → `["Hello", "!"]`）。
 

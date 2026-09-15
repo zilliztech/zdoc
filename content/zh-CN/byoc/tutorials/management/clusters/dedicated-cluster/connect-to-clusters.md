@@ -33,7 +33,7 @@ import TabItem from '@theme/TabItem';
 
 - 已安装合适版本的 Milvus SDK。详情请参见[安装 SDK](./install-sdks)。
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 如果您更倾向于使用 RESTful API 而不是 SDK，需注意由于 HTTP 协议的单向通信模式，无法建立持续的连接。
 

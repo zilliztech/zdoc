@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 Mmap 允许在不将磁盘上的文件加载到内存的情况下通过内存访问这些文件。通过配置 mmap，Zilliz Cloud 可以根据访问频次的不同将索引和数据分别存放到内存或磁盘上，不仅优化了数据加载行为，扩大了 Collection 的容量，也不会给搜索性能带来负面影响。本文将帮助您理解 Zilliz Cloud 如何利用 mmap 实现快速高效的数据存储和检索能力及使用该能力需要注意的相关事项。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 在不同订阅计划的源集群和目标集群之间迁移或还原数据时，源 Collection 的 mmap 设置不会迁移到目标集群。请手动重新配置目标集群上的 mmap 设置。
 
@@ -94,7 +94,7 @@ Zilliz Cloud 是一款内存密集型的数据库系统。可用内存的大小�
 
 在修改 mmap 设置前，需要释放 Collection。修改完成后，需要再次加载 Collection。您可以为某个字段、某个字段的索引或某个 Collection 分别设置 mmap 策略
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 请谨慎修改 mmap 设置。不恰当的 mmap 策略可能会导致如下问题： 
 

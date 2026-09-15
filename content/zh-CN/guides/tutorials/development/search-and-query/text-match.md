@@ -25,7 +25,7 @@ Milvus 中的 Text Match 功能能够基于特定术语实现精确的文档检�
 
 无论是构建检索增强生成（RAG）系统，还是优化文本搜索性能，Text Match 都能提升信息检索的准确性和速度。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 Text Match 关注的是查询词的精确匹配，而不对匹配文档的相关性进行评分。如果希望基于查询词的语义和重要性来检索最相关的文档，建议使用 [全文搜索](./full-text-search)。
 

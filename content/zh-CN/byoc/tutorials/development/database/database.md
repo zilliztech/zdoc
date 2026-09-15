@@ -465,7 +465,7 @@ curl --request POST \
 
 您可以使用该操作在不断开连接的情况下切换当前使用的 Database。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 RESTful API 不支持该操作。
 

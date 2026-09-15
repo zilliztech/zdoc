@@ -37,7 +37,7 @@ Milvus 的 Python 和 Java SDK 提供了一组 Iterator API，可按需迭代指
 
 您可使用 Iterator 接口全量或部分导出指定 Collection 中的数据。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 此功能支持与 Milvus v2.3.x 及之后版本兼容的 Zilliz Cloud 集群。
 

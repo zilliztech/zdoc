@@ -54,7 +54,7 @@ import Admonition from '@theme/Admonition';
 
 ### 冷存储访问\{#cold-data-access}
 
-<Admonition type="info" icon="📘" title="📘 说明">
+<Admonition type="info" title="说明">
 
 该计费项仅适用于升级至 Milvus 2.6.x 版本的分层存储型集群。
 

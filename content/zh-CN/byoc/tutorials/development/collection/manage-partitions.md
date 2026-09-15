@@ -31,7 +31,7 @@ Partition 是 Collection 的子集。每个 Partition 都与其所在的 Collect
 
 在 Zilliz Cloud 中，一个 Collection 最多可以分成 1,024 个 Partition。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" title="说明">
 
 在 Zilliz Cloud 中，Partition Key 是一种基于 Partition 的搜索优化方案，用来根据用户指定的标量字段的取值自动将 Entity 存放到不同的 Partition 中。该功能通常用来实现基于 Partition 的多租户能力，提升搜索性能。如果您想要了解 Partition Key 的详细信息，可以参考[使用 Partition Key](./use-partition-key)。
 
