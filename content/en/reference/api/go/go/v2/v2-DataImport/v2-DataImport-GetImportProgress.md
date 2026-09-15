@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This function retrieves detailed progress for a single bulk import job via the RESTful API. Use it to poll a job submitted by `BulkImport()` until its `State` reaches `Completed` or `Failed`. The response includes overall progress, total imported/expected rows, file size, and per-file progress details.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 `GetImportProgress()` is a package-level function in `github.com/milvus-io/milvus/client/v2/bulkwriter`. It calls the REST `/v2/vectordb/jobs/import/describe` endpoint and works with both Milvus open-source clusters (use `NewGetImportProgressOption`) and Zilliz Cloud (use `NewCloudGetImportProgressOption`).
 
