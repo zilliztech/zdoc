@@ -651,13 +651,12 @@ jobs:
           mkdir -p "$RUNNER_TEMP/publication-selection"
           gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$SELECTION_ARTIFACT" --dir "$RUNNER_TEMP/publication-selection"
           node - <<'NODE'
-          const crypto = require('node:crypto')
-          const fs = require('node:fs')
           const {readPublicationDocument} = require('./scripts/docs-workflow/publication-contracts')
+          // readPublicationDocument revalidates the document, including that
+          // selectionSha256 matches the canonical checksum of the selection
+          // body (the digest is a document identity, not a file-byte hash).
           const selection = readPublicationDocument(`${process.env.RUNNER_TEMP}/publication-selection/publication-selection.json`, 'publication-selection')
-          const digest = crypto.createHash('sha256').update(fs.readFileSync(`${process.env.RUNNER_TEMP}/publication-selection/publication-selection.json`)).digest('hex')
           if (selection.selectionSha256 !== process.env.SELECTION_SHA256) throw new Error('publication selection checksum input mismatch')
-          if (digest !== selection.selectionSha256) throw new Error('publication selection bytes do not match the declared checksum')
           NODE
       - name: Download every existing publication-ready descriptor
         env:
