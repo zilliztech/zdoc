@@ -170,6 +170,56 @@ function sidebarModuleContents(sidebarItems) {
     return `module.exports = ${JSON.stringify(sidebarItems, null, 2)}\n`
 }
 
+const REFERENCE_NAVIGATION_CONFIG = 'config/reference-navigation.json'
+
+// `reference-manifest --write` (the Reference reconciliation) prepends each
+// sidebar's configured landing entry to the English template every time it
+// regenerates Reference sidebars. The Lark fetch writer must emit the same
+// entry when it first writes the sidebar — otherwise every SDK publication
+// strips it and only the run-end reconciliation restores it, so any fetch
+// that dies before that reconciliation (run 34957278349) leaves dev stripped
+// and fails every downstream navigation validation. Label precedence mirrors
+// readMetadata in src/reference/sidebarDerivation.ts: sidebar_label, then
+// title, then the first H1.
+function referenceLandingLabel(source) {
+    const match = /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/u.exec(source)
+    const frontmatter = match ? match[1] : ''
+    const body = match ? source.slice(match[0].length) : source
+    for (const field of ['sidebar_label', 'title']) {
+        const fieldMatch = new RegExp(`^${field}:[ \\t]*(.*)$`, 'm').exec(frontmatter)
+        const value = fieldMatch ? fieldMatch[1].trim().replace(/^["']|["']$/gu, '') : ''
+        if (value) return value
+    }
+    const heading = /^#\s+(.+?)\s*$/mu.exec(body)
+    return heading ? heading[1].trim() : null
+}
+
+function withReferenceLandingEntry(sidebarPath, sidebarItems) {
+    if (typeof sidebarPath !== 'string' || !Array.isArray(sidebarItems)) return sidebarItems
+    const name = sidebarPath.split('/').pop().replace(/\.sidebar\.js$/u, '')
+    if (!name) return sidebarItems
+    let landingPage = null
+    try {
+        const config = JSON.parse(fs.readFileSync(REFERENCE_NAVIGATION_CONFIG, 'utf8'))
+        const target = Array.isArray(config?.targets)
+            ? config.targets.find(entry => entry && entry.sidebar === name)
+            : null
+        landingPage = typeof target?.landingPage === 'string' ? target.landingPage : null
+    } catch (error) {
+        if (error?.code === 'ENOENT') return sidebarItems
+        throw error
+    }
+    if (!landingPage) return sidebarItems
+    const landingId = landingPage.replace(/\.mdx?$/u, '')
+    const alreadyListed = sidebarItems.some(item => item && typeof item === 'object' && !Array.isArray(item) &&
+        (item.type === 'doc' || item.type === 'ref') && item.id === landingId)
+    if (alreadyListed) return sidebarItems
+    const landing = fs.readFileSync(path.join('content/en/reference', landingPage), 'utf8')
+    const label = referenceLandingLabel(landing)
+    if (!label) throw new Error(`Reference landing page has no sidebar_label, title, or first H1: ${landingPage}`)
+    return [{type: 'doc', id: landingId, label}, ...sidebarItems]
+}
+
 function safeWorkspacePath(workspace, relativePath, fsImpl) {
     if (!relativePath || path.isAbsolute(relativePath) || relativePath.includes('\\')) {
         throw new Error(`Unsafe sidebar path: ${relativePath}`)
@@ -1130,8 +1180,8 @@ function larkDocsPlugin(context, options) {
                         console.log('Generating sidebar from existing sources...')
                         const sidebarItems = await writer.generate_sidebar(outputDir, contentRoot || outputDir.split('/')[0])
                         const sidebarDir = require('node:path').dirname(effectiveSidebarPath)
-                        if (!fs.existsSync(sidebarDir)) fs.mkdirSync(sidebarDir, { recursive: true })
-                        fs.writeFileSync(effectiveSidebarPath, `module.exports = ${JSON.stringify(sidebarItems, null, 2)}\n`)
+                        if (!fs.existsSync(sidebarDir)) fs.mkdirSync(sidebarDir, {recursive: true})
+                        fs.writeFileSync(effectiveSidebarPath, sidebarModuleContents(withReferenceLandingEntry(effectiveSidebarPath, sidebarItems)))
                         console.log(`Sidebar written to ${effectiveSidebarPath}`)
                         return
                     }
@@ -1292,8 +1342,8 @@ function larkDocsPlugin(context, options) {
                                     console.log('Generating sidebar...')
                                     const sidebarItems = await writer.generate_sidebar(outputDir, contentRoot || outputDir.split('/')[0])
                                     const sidebarDir = require('node:path').dirname(effectiveSidebarPath)
-                                    if (!fs.existsSync(sidebarDir)) fs.mkdirSync(sidebarDir, { recursive: true })
-                                    fs.writeFileSync(effectiveSidebarPath, `module.exports = ${JSON.stringify(sidebarItems, null, 2)}\n`)
+                                    if (!fs.existsSync(sidebarDir)) fs.mkdirSync(sidebarDir, {recursive: true})
+                                    fs.writeFileSync(effectiveSidebarPath, sidebarModuleContents(withReferenceLandingEntry(effectiveSidebarPath, sidebarItems)))
                                     console.log(`Sidebar written to ${effectiveSidebarPath}`)
                                 }
 
@@ -1484,6 +1534,8 @@ module.exports.validateOfflineOptions = validateOfflineOptions
 module.exports.generateSidebarTargets = generateSidebarTargets
 module.exports.writeSidebarPairTransactional = writeSidebarPairTransactional
 module.exports.sidebarModuleContents = sidebarModuleContents
+module.exports.withReferenceLandingEntry = withReferenceLandingEntry
+module.exports.referenceLandingLabel = referenceLandingLabel
 module.exports.parseSidebarTargets = parseSidebarTargets
 module.exports.validateSidebarTargetRequest = validateSidebarTargetRequest
 module.exports.shouldReuseRecentIncrementalPlan = shouldReuseRecentIncrementalPlan
