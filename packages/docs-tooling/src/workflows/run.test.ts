@@ -355,6 +355,25 @@ describe('typed publication group execution', () => {
 });
 
 describe('Chinese Guides source publication', () => {
+  it('keeps the externally owned translated Guides home out of the group inventory', () => {
+    const root = temporaryRoot();
+    write(root, 'content/zh-CN/guides/tutorials/a.md', 'live a\n');
+    write(root, 'content/zh-CN/guides/tutorials/home.md', 'translated home\n');
+    write(root, 'generated/zh-CN/sidebars/guides.sidebar.js', 'module.exports = []\n');
+    writePublicationGroupDiagnostics(root, 'zh-CN', 'guides');
+    const diagnostics = JSON.parse(readFileSync(
+      path.join(root, 'tmp/docs-tooling/zh-CN/groups/guides/.docs-tooling-publication-group.json'),
+      'utf8',
+    ));
+    const paths = diagnostics.inventory.map((entry: {path: string}) => entry.path);
+    expect(paths).toContain('content/zh-CN/guides/tutorials/a.md');
+    // The home is the reference-landings translation slot (externally owned):
+    // its bytes legitimately differ between the live tree and the dev-derived
+    // baseline, so every inventory comparison must skip it.
+    expect(paths).not.toContain('content/zh-CN/guides/tutorials/home.md');
+    rmSync(root, {recursive: true, force: true});
+  });
+
   it('rejects an ordinary staged file changed after validate before atomic replacement', async () => {
     const root = temporaryRoot();
     const {stagedFile} = preparedGuidesStage(root);
