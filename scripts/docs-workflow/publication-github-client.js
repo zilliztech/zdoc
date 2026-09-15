@@ -141,7 +141,11 @@ function createPublicationGitHubClient(options) {
     const artifactId = positiveInteger(artifact?.id, 'artifact id')
     if (artifact.name !== name) throw new Error('Artifact name identity mismatch')
     if (artifact.expired === true) throw new Error(`Artifact is expired: ${name}`)
-    if (typeof artifact.digest !== 'string' || !/^sha256:[0-9a-f]{64}$/u.test(artifact.digest)) throw new Error('Artifact digest identity is invalid')
+    // Replay envelopes carry a sha256 digest; live REST artifact listings do
+    // not. Downloads verify the digest when present — the callers' own
+    // descriptor digests (ready descriptor archive/manifest checksums and
+    // publication-document identity) cover integrity either way.
+    const digest = typeof artifact.digest === 'string' && /^sha256:[0-9a-f]{64}$/u.test(artifact.digest) ? artifact.digest.slice('sha256:'.length) : null
     const envelope = artifact.workflow_run
     if (!envelope || Number(envelope.id) !== runId || !Number.isSafeInteger(Number(envelope.repository_id)) || Number(envelope.repository_id) <= 0 ||
       Number(envelope.head_repository_id) !== Number(envelope.repository_id)) {
@@ -157,7 +161,7 @@ function createPublicationGitHubClient(options) {
     if (archiveUrl.protocol !== 'https:' || archiveUrl.host !== 'api.github.com' || archiveUrl.pathname !== expectedPath || archiveUrl.search || archiveUrl.hash) {
       throw new Error('Artifact archive URL identity is invalid')
     }
-    return {artifactId, archiveUrl: archiveUrl.href, digest: artifact.digest.slice('sha256:'.length)}
+    return {artifactId, archiveUrl: archiveUrl.href, digest}
   }
 
   async function downloadRestArtifactFiles(name, expectedFiles) {
@@ -180,7 +184,7 @@ function createPublicationGitHubClient(options) {
       })
       if (!response?.ok) throw new Error(`GitHub artifact archive request failed (${response?.status || 'unknown'})`)
       const bytes = Buffer.from(await response.arrayBuffer())
-      if (crypto.createHash('sha256').update(bytes).digest('hex') !== envelope.digest) throw new Error('Downloaded artifact digest mismatch')
+      if (envelope.digest !== null && crypto.createHash('sha256').update(bytes).digest('hex') !== envelope.digest) throw new Error('Downloaded artifact digest mismatch')
       fs.writeFileSync(archive, bytes, {mode: 0o600})
       validateArchiveEntries(await inspectArchive(archive), expectedFiles)
       await unzip(archive, directory)
@@ -214,7 +218,7 @@ function createPublicationGitHubClient(options) {
       })
       if (!response?.ok) throw new Error(`GitHub artifact archive request failed (${response?.status || 'unknown'})`)
       const bytes = Buffer.from(await response.arrayBuffer())
-      if (crypto.createHash('sha256').update(bytes).digest('hex') !== envelope.digest) throw new Error('Downloaded artifact digest mismatch')
+      if (envelope.digest !== null && crypto.createHash('sha256').update(bytes).digest('hex') !== envelope.digest) throw new Error('Downloaded artifact digest mismatch')
       fs.writeFileSync(archive, bytes, {mode: 0o600})
       validateArchiveEntries(await inspectArchive(archive))
       await unzip(archive, directory)
@@ -282,7 +286,9 @@ function createPublicationGitHubClient(options) {
   }
 
   async function upload(file, name) {
-    const client = await getArtifactClient()
+    // Uploads always target this workflow run, so the same-run actions
+    // client remains valid regardless of the download transport.
+    const client = artifactClient || (artifactTransport === 'actions' ? await getArtifactClient() : getDefaultArtifactClient())
     const result = await client.uploadArtifact(name, [file], path.dirname(file), {retentionDays: 7})
     if (result?.id !== undefined) positiveInteger(result.id, 'uploaded artifact id')
     return Object.freeze({artifactName: name, artifactId: result?.id ?? null})

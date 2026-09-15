@@ -871,6 +871,11 @@ async function main(argv = process.argv.slice(2)) {
     runId: selection.runId,
     runAttempt: selection.runAttempt,
     runnerTemp,
+    // The publisher is a separate run from the producer: artifact downloads
+    // must cross the run boundary, which the in-run actions transport
+    // rejects; the REST transport fetches the producer run's artifacts by
+    // their immutable ids while uploads stay on this run's actions client.
+    artifactTransport: 'rest',
   })
   const outcome = await runPublicationCoordinator({
     selection,
