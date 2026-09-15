@@ -39,7 +39,7 @@ In Zilliz Cloud, a backup is a copy of your data that enables you to restore the
 
 Restoring a cluster creates a new cluster and copies all backed-up collections to it. Running this command without options will trigger a set of interactive prompts.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This feature is available only to **Dedicated** clusters.
 

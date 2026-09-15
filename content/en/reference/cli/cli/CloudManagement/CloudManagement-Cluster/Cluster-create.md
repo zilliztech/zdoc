@@ -57,7 +57,7 @@ Regarding dedicated clusters, Zilliz Cloud offers the following cluster types: *
 
 Running this command without any options triggers a set of interactive prompts.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Tiered-storage clusters are unavailable in BYOC projects.
 
@@ -149,7 +149,7 @@ zilliz cluster create
 
     - `az-centralindia`
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     For available regions in your BYOC project, consult with your organization owner.
 

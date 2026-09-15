@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation sets a configuration value.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 You can also run `zilliz configure` instead, and follow the interactive guidance. Setting `api_key` can be used as an alternative to `zilliz login`.
 

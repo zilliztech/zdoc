@@ -37,7 +37,7 @@ This operation creates a new role.
 
 Zilliz Cloud offers cluster roles for you to implement access control at the cluster level. For details, read [Access Control Explained](/docs/access-control-overview).
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This command is available for Dedicated clusters only. You can run `zilliz context set` to switch among clusters.
 

@@ -39,7 +39,7 @@ In Zilliz Cloud, a backup is a copy of your data that enables you to restore the
 
 When you run this command without any options, you will be asked whether to set additional options. The prompt defaults to yes and will guide you through option settings. If you enter N for the prompt, the command retrieves all backups.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This feature is available only to **Dedicated** clusters.
 

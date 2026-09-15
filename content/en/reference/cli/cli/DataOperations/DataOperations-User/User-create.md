@@ -41,7 +41,7 @@ Upon creating a cluster, a default user named `db_admin` is automatically create
 
 To manage cluster users, you must be an **Organization Owner** or a **Project Admin** or have a role with **Cluster_Admin** privileges.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This command is available for Dedicated clusters only. You can run `zilliz context set` to switch among clusters.
 

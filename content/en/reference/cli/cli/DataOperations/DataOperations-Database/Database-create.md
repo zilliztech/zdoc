@@ -37,7 +37,7 @@ This operation creates a new database. (Dedicated only)
 
 In Zilliz Cloud, a database serves as a logical unit for organizing and managing data. To enhance data security and support multi-tenancy, you can create multiple databases to isolate data for different applications or tenants logically. For example, you create a database to store user A's data and another database for user B.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This command applies to Dedicated clusters.
 

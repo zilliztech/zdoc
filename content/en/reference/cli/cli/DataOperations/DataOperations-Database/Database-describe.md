@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation gets details of a database. (Dedicated only)
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This command applies to Dedicated clusters.
 

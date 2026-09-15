@@ -39,7 +39,7 @@ Zilliz Cloud charges at the organization level. To access invoices, you must hav
 
 Running this command without any options triggers a set of interactive prompts.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Taxes on the invoices are calculated based on the billing address you provide. For companies that require an entry of VAT or GST ID, please [contact us](http://support.zilliz.com).
 

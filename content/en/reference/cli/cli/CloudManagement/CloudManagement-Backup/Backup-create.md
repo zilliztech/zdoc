@@ -41,7 +41,7 @@ Running this command without any options guides you through a set of interactive
 
 Backup creation incurs additional charges, with pricing based on the cloud region where the backup is stored. All backup files are stored in the same cloud region as the source cluster. For example, a cluster in `AWS us-west-2` will have its backups stored in `AWS us-west-2`.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This feature is available only to **Dedicated** clusters.
 

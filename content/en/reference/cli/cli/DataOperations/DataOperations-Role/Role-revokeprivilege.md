@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation revokes a privilege from a role.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This command is available for Dedicated clusters only.
 

@@ -41,7 +41,7 @@ A **privilege group** is a combination of individual privileges. You can create 
 
 Possible privileges are listed on [Privileges and Privilege Groups](/docs/cluster-privileges).
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This command is available for Dedicated clusters only. You can run `zilliz context set` to switch among clusters.
 

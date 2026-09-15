@@ -39,7 +39,7 @@ Zilliz Cloud allows you to enable **automatic backups** for your clusters, helpi
 
 You can run this command to learn about the settings of the current automatic backup policies that apply to the specified cluster.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This feature is available only to **Dedicated** clusters.
 

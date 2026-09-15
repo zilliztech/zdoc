@@ -39,7 +39,7 @@ In Zilliz Cloud, a backup is a copy of your data that enables you to restore the
 
 You can run this command to get the details of a backup.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This feature is available only to **Dedicated** clusters.
 

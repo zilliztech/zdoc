@@ -39,7 +39,7 @@ In Zilliz Cloud, a backup is a copy of your data that enables you to restore the
 
 You can delete a backup if it is no longer needed. The deleted backup will immediately become unavailable. Please exercise with caution.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This feature is available only to **Dedicated** clusters.
 

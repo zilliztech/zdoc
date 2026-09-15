@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation gets details of a user.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This command is available for Dedicated clusters only. You can run `zilliz context set` to switch among clusters.
 

@@ -39,7 +39,7 @@ In Zilliz Cloud, a backup is a copy of your data that enables you to restore the
 
 You can export backup files to an integrated storage service identified by its integration ID. This operation is asynchronous and will create a job. You can run [`zilliz job describe`](./Job-describe) to obtain the progress of the job.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 This feature is available only to **Dedicated** clusters.
 
