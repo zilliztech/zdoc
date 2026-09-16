@@ -604,14 +604,18 @@ function translatedTargetMismatches(root) {
   const manifest = JSON.parse(fs.readFileSync(path.join(root, 'generated/zh-CN/manifests/reference-translations.json'), 'utf8'))
   return manifest.records
     .filter(record => record.status === 'translated' || record.status === 'unchanged')
-    .filter(record => sha256(fs.readFileSync(path.join(root, record.targetPath))) !== record.targetHash)
+    .filter(record => {
+      const target = path.join(root, record.targetPath)
+      return !fs.existsSync(target) || sha256(fs.readFileSync(target)) !== record.targetHash
+    })
     .map(record => record.targetPath)
 }
 
-// Reproduces the production shape of the 2026-09-16 zh python run: a python
-// source checkpoint, then another group's translation published on dev before
-// the run's target baseline. The go translation record advances with the
-// published bytes, exactly like the real manifest.
+// Reproduces the production shape of the 2026-09-16 zh python incidents. The
+// producer workspace is a tooling checkout whose target tree predates both the
+// python source checkpoint and the go translation published between the
+// checkpoint and the target baseline, so the fixture's base commit models the
+// tooling tree (no go target, no Chinese manifest) and dev advances past it.
 function createInterleavedPublicationFixture() {
   const fixture = createFixture()
   const englishGuide = 'content/en/reference/api/go/guide.md'
@@ -643,44 +647,79 @@ function createInterleavedPublicationFixture() {
     const baselineSha = git(fixture.source, 'rev-parse', 'HEAD')
     git(fixture.source, 'push', 'origin', 'dev')
 
-    git(fixture.work, 'fetch', 'origin', 'dev')
-    git(fixture.work, 'checkout', '--detach', baselineSha)
-    return {...fixture, checkpointSha, baselineSha, targetGuide, manifestPath}
+    const baselineDir = path.join(fixture.root, 'baseline-checkout')
+    git(fixture.root, 'clone', '--branch', 'dev', fixture.origin, baselineDir)
+    git(baselineDir, 'config', 'user.name', 'Test User')
+    git(baselineDir, 'config', 'user.email', 'test@example.com')
+    git(baselineDir, 'config', 'gc.auto', '0')
+    // fixture.work stays on the tooling-era tree (the base commit).
+    return {...fixture, checkpointSha, baselineSha, baselineDir, targetGuide, manifestPath}
   } catch (error) {
     fs.rmSync(fixture.root, {recursive: true, force: true})
     throw error
   }
 }
 
-test('translation assembly without --except mixes checkpoint targets with baseline manifest records', () => {
+function groupScopedManifestOverlay(fixture) {
+  // What the pre-parity-roots materialize did for target state: copy only the
+  // group-owned manifest from the baseline, leaving every other target path on
+  // whatever the workspace already held.
+  const destination = path.join(fixture.work, fixture.manifestPath)
+  fs.mkdirSync(path.dirname(destination), {recursive: true})
+  fs.copyFileSync(path.join(fixture.baselineDir, fixture.manifestPath), destination)
+}
+
+test('checkpoint restore without --except mixes checkpoint targets with baseline manifest records', () => {
   const fixture = createInterleavedPublicationFixture()
   try {
     const restored = run(fixture.work, ['--exact', '--ref', fixture.checkpointSha])
     assert.equal(restored.status, 0, restored.stderr)
-    // materialize-translation-baseline copies the baseline manifest verbatim;
-    // the go target bytes stay rewound to the checkpoint, so the pairing the
-    // global Reference manifest rebuild validates no longer matches.
-    fs.copyFileSync(path.join(fixture.source, fixture.manifestPath), path.join(fixture.work, fixture.manifestPath))
+    groupScopedManifestOverlay(fixture)
     assert.deepEqual(translatedTargetMismatches(fixture.work), [fixture.targetGuide])
   } finally {
     fs.rmSync(fixture.root, {recursive: true, force: true})
   }
 })
 
-test('translation assembly with --except keeps every translated record on the target baseline', () => {
+test('tooling checkout with --except but a group-scoped manifest overlay still mismatches', () => {
+  // PR #651's gap: the workspace checkout is the tooling SHA, not the target
+  // baseline, so excepted roots keep tooling-era bytes (the published go
+  // translation is absent) while the baseline manifest record expects it.
   const fixture = createInterleavedPublicationFixture()
   try {
     const restored = run(fixture.work, ['--exact', '--ref', fixture.checkpointSha, '--except', 'content/zh-CN,generated/zh-CN'])
     assert.equal(restored.status, 0, restored.stderr)
+    assert.equal(fs.existsSync(path.join(fixture.work, fixture.targetGuide)), false)
+    groupScopedManifestOverlay(fixture)
+    assert.deepEqual(translatedTargetMismatches(fixture.work), [fixture.targetGuide])
+  } finally {
+    fs.rmSync(fixture.root, {recursive: true, force: true})
+  }
+})
+
+test('tooling checkout with --except and full-root materialize keeps the target side on the baseline', () => {
+  const fixture = createInterleavedPublicationFixture()
+  try {
+    const restored = run(fixture.work, ['--exact', '--ref', fixture.checkpointSha, '--except', 'content/zh-CN,generated/zh-CN'])
+    assert.equal(restored.status, 0, restored.stderr)
+    const materialized = spawnSync(process.execPath, [
+      path.resolve('scripts/translation/materialize-translation-baseline.js'),
+      '--repository', fixture.work,
+      '--baseline', fixture.baselineDir,
+      '--target', 'zh-CN-reference',
+      '--group', 'python',
+    ], {encoding: 'utf8'})
+    assert.equal(materialized.status, 0, materialized.stderr)
     assert.equal(
       fs.readFileSync(path.join(fixture.work, fixture.targetGuide), 'utf8'),
       'published go translation\n',
-      'excepted target-side roots must stay on the checked-out baseline bytes',
+      'the full target-side root must come from the baseline',
     )
-    // The baseline manifest copy is byte-identical now, so the manifest rebuild
-    // guard that failed the production run finds no divergent record.
-    fs.copyFileSync(path.join(fixture.source, fixture.manifestPath), path.join(fixture.work, fixture.manifestPath))
     assert.deepEqual(translatedTargetMismatches(fixture.work), [])
+    for (const parityRoot of ['content/zh-CN', 'generated/zh-CN']) {
+      const parity = spawnSync('diff', ['-r', path.join(fixture.work, parityRoot), path.join(fixture.baselineDir, parityRoot)])
+      assert.equal(parity.status, 0, `${parityRoot} must be byte-identical to the target baseline`)
+    }
   } finally {
     fs.rmSync(fixture.root, {recursive: true, force: true})
   }
