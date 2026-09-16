@@ -7,6 +7,18 @@ const path = require('node:path')
 const {getContentGroup} = require('../docs-workflow/content-groups')
 const {translationOwnedPaths} = require('../docs-workflow/validate-checkpoint-artifact')
 
+// The workspace checkout is the tooling SHA (a master commit), not the target
+// baseline, and restore-generated-state leaves these roots untouched for the
+// translation lanes. Materializing the full target-side roots — not just the
+// group-owned subset — is what makes the workspace's target side byte-identical
+// to the target baseline: out-of-group published translations exist on dev but
+// not on master, so any narrower scope rewinds or loses them and the parity
+// check (and the global Reference manifest rebuild) rejects the combination.
+const TARGET_BASELINE_PARITY_ROOTS = Object.freeze({
+  'zh-CN-reference': Object.freeze(['content/zh-CN', 'generated/zh-CN']),
+  'ja-JP': Object.freeze(['i18n', '.translation-cache']),
+})
+
 function safeRoot(value, label) {
   if (typeof value !== 'string' || !path.isAbsolute(value)) throw new Error(`${label} must be an absolute path`)
   const resolved = fs.realpathSync(value)
@@ -83,7 +95,11 @@ function materializeTranslationBaseline({repositoryRoot, baselineRoot, target, g
   }
   const copyTree = dependencies.copyTree || ((source, destination, options) => fs.cpSync(source, destination, options))
   const rename = dependencies.rename || ((source, destination) => fs.renameSync(source, destination))
-  const ownedPaths = canonicalizeOwnedPaths(translationOwnedPaths(target, getContentGroup(group)))
+  const parityRoots = TARGET_BASELINE_PARITY_ROOTS[target]
+  if (!parityRoots) throw new Error(`Unknown translation target: ${target}`)
+  // Preserve the group/target compatibility contract of the owned-path mapping.
+  translationOwnedPaths(target, getContentGroup(group))
+  const ownedPaths = canonicalizeOwnedPaths([...parityRoots])
   const operations = ownedPaths.map((relative, index) => {
     const source = safeRelative(baseline, relative, 'Translation baseline path')
     const destination = safeRelative(repository, relative, 'Translation destination path')
@@ -171,4 +187,4 @@ if (require.main === module) {
   catch (error) { console.error(error.message); process.exitCode = 1 }
 }
 
-module.exports = {materializeTranslationBaseline, parseArgs}
+module.exports = {materializeTranslationBaseline, parseArgs, TARGET_BASELINE_PARITY_ROOTS}
