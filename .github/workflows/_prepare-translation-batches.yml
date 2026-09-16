@@ -57,12 +57,32 @@ jobs:
           git merge-base --is-ancestor "$SOURCE_BASELINE_SHA" "$SOURCE_CHECKPOINT_SHA"
           target_baseline_dir="$RUNNER_TEMP/translation-target-baseline"
           git worktree add --detach "$target_baseline_dir" "$TARGET_BASELINE_SHA"
-          bash scripts/restore-generated-state.sh --exact --ref "$SOURCE_CHECKPOINT_SHA"
+          # Target-side translation state stays on the target baseline; only the
+          # English source and English-derived state rewind to the source
+          # checkpoint (see _translate-content-group.yml for the full rationale).
+          case "$TRANSLATION_TARGET" in
+            zh-CN-reference) restore_except="content/zh-CN,generated/zh-CN" ;;
+            ja-JP) restore_except="i18n,.translation-cache" ;;
+            *) echo "Unsupported translation target: $TRANSLATION_TARGET" >&2; exit 2 ;;
+          esac
+          bash scripts/restore-generated-state.sh --exact --ref "$SOURCE_CHECKPOINT_SHA" --except "$restore_except"
           node scripts/translation/materialize-translation-baseline.js \
             --repository "$GITHUB_WORKSPACE" \
             --baseline "$target_baseline_dir" \
             --target "$TRANSLATION_TARGET" \
             --group "$GROUP"
+          # The batch summary must hash the same pending set the producer
+          # rebuilds, so target-side baseline parity is asserted here too.
+          case "$TRANSLATION_TARGET" in
+            zh-CN-reference) parity_roots="content/zh-CN generated/zh-CN" ;;
+            ja-JP) parity_roots="i18n" ;;
+          esac
+          for parity_root in $parity_roots; do
+            if [ -d "$GITHUB_WORKSPACE/$parity_root" ] || [ -d "$target_baseline_dir/$parity_root" ]; then
+              echo "Verifying target baseline parity: $parity_root"
+              diff -r "$GITHUB_WORKSPACE/$parity_root" "$target_baseline_dir/$parity_root" > /dev/null
+            fi
+          done
           mkdir -p .translation-cache tmp
           test -f .translation-cache/ja-JP.json || printf '{"files":{}}\n' > .translation-cache/ja-JP.json
           node scripts/translation/sourceChanges.js --repository "$GITHUB_WORKSPACE" --source-baseline-sha "$SOURCE_BASELINE_SHA" --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" --target "$TRANSLATION_TARGET" --group "$GROUP" --output tmp/source-changes.json

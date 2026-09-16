@@ -2,11 +2,12 @@
 set -euo pipefail
 
 usage() {
-  echo "Usage: $0 [--exact] [branch] | [--exact] --ref <git-ref-or-sha>" >&2
+  echo "Usage: $0 [--exact] [branch] | [--exact] --ref <git-ref-or-sha> [--except <managed-path[,managed-path...]>]" >&2
 }
 
 target_branch="dev"
 target_ref=""
+except_list=""
 exact=false
 
 positional=()
@@ -20,6 +21,11 @@ while (( "$#" )); do
     --ref)
       if [ -n "$target_ref" ] || (( "$#" < 2 )) || [ -z "$2" ]; then usage; exit 2; fi
       target_ref="$2"
+      shift 2
+      ;;
+    --except)
+      if [ -n "$except_list" ] || (( "$#" < 2 )) || [ -z "$2" ]; then usage; exit 2; fi
+      except_list="$2"
       shift 2
       ;;
     --*)
@@ -109,6 +115,46 @@ paths=(
   "packages/docs-tooling/src/lark/meta/assembly"
   "packages/docs-tooling/src/lark/meta/reports"
 )
+
+# --except removes entries from the managed list: the paths are neither
+# removed nor restored, so the workspace keeps whatever the checkout already
+# holds. Translation lanes use this to keep target-side state (already
+# published translations of other groups) on the target baseline instead of
+# rewinding it to the source checkpoint; the fixed list above stays shared
+# with the Fetch/verification lanes that restore it wholesale.
+if [ -n "$except_list" ]; then
+  if ! [[ "$except_list" =~ ^[^,]+(,[^,]+)*$ ]]; then
+    echo "[restore-generated-state] --except must be non-empty comma-separated managed paths" >&2
+    usage
+    exit 2
+  fi
+  IFS=',' read -r -a excepted_paths <<< "$except_list"
+  for excepted_path in "${excepted_paths[@]}"; do
+    known=false
+    for managed_path in "${paths[@]}"; do
+      if [ "$managed_path" = "$excepted_path" ]; then known=true; fi
+    done
+    if [ "$known" = false ]; then
+      echo "[restore-generated-state] --except path is not managed: ${excepted_path}" >&2
+      usage
+      exit 2
+    fi
+  done
+  restored_paths=()
+  for managed_path in "${paths[@]}"; do
+    excepted=false
+    for excepted_path in "${excepted_paths[@]}"; do
+      if [ "$managed_path" = "$excepted_path" ]; then excepted=true; fi
+    done
+    if [ "$excepted" = false ]; then restored_paths+=("$managed_path"); fi
+  done
+  if [ "${#restored_paths[@]}" -eq 0 ]; then
+    echo "[restore-generated-state] --except must not cover every managed path" >&2
+    usage
+    exit 2
+  fi
+  paths=("${restored_paths[@]}")
+fi
 
 for restore_path in "${paths[@]}"; do
   source_has_path=false
