@@ -57,9 +57,10 @@ jobs:
           git merge-base --is-ancestor "$SOURCE_BASELINE_SHA" "$SOURCE_CHECKPOINT_SHA"
           target_baseline_dir="$RUNNER_TEMP/translation-target-baseline"
           git worktree add --detach "$target_baseline_dir" "$TARGET_BASELINE_SHA"
-          # Target-side translation state stays on the target baseline; only the
-          # English source and English-derived state rewind to the source
-          # checkpoint (see _translate-content-group.yml for the full rationale).
+          # The workspace checkout is the tooling SHA; restore skips the
+          # target-side roots and materialize-translation-baseline replaces them
+          # wholesale with the target baseline (see _translate-content-group.yml
+          # for the full rationale).
           case "$TRANSLATION_TARGET" in
             zh-CN-reference) restore_except="content/zh-CN,generated/zh-CN" ;;
             ja-JP) restore_except="i18n,.translation-cache" ;;

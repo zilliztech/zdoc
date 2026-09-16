@@ -133,12 +133,13 @@ jobs:
           for sha in "$SOURCE_BASELINE_SHA" "$SOURCE_CHECKPOINT_SHA" "$TARGET_BASELINE_SHA"; do git fetch --no-tags origin "$sha"; done
           git merge-base --is-ancestor "$SOURCE_BASELINE_SHA" "$SOURCE_CHECKPOINT_SHA"
           git worktree add --detach "$BASELINE_DIR" "$TARGET_BASELINE_SHA"
-          # Target-side translation state (including other groups' published
-          # translations) stays on the target baseline; only the English source
-          # and English-derived state rewind to the source checkpoint. Restoring
-          # the target side to the checkpoint would rewind published
-          # translations that the baseline manifest records, and the global
-          # Reference manifest rebuild rejects that combination.
+          # The workspace checkout is the tooling SHA, so target-side state is
+          # neither master's nor the checkpoint's: restore skips these roots and
+          # materialize-translation-baseline replaces them wholesale with the
+          # target baseline below. Restoring the target side to the checkpoint
+          # would rewind published translations that the baseline manifest
+          # records, and the global Reference manifest rebuild rejects that
+          # combination.
           case "$TRANSLATION_TARGET" in
             zh-CN-reference) restore_except="content/zh-CN,generated/zh-CN" ;;
             ja-JP) restore_except="i18n,.translation-cache" ;;
