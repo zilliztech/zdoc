@@ -33,7 +33,7 @@ This page describes pattern matching in scalar filter expressions used by query,
 
 Pattern matching expressions are written in the `filter` parameter. For example, the following query matches log messages that contain an error code such as `E1001`:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -148,6 +148,22 @@ curl --request POST \
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+zilliz vector query --collection log_events --filter 'message =~ "E[0-9]{4}"' --output-fields 'message,severity'
+```
+
+</TabItem>
 </Tabs>
 
 The examples on this page focus on the expression assigned to `filter`. You can use the same filter expression syntax in Zilliz Cloud operations that accept a scalar filter, such as `query`, `search`, and hybrid search.
@@ -244,7 +260,7 @@ Raw string literals are recommended for regex patterns that contain backslashes.
 
 For example:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -284,6 +300,22 @@ filter='filename =~ r"\.json$"'
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+zilliz vector query --collection my_collection --filter 'filename =~ r"\.json$"' --output-fields 'filename'
+```
+
+</TabItem>
 </Tabs>
 
 This matches strings that contain a date-like value such as `2026-07-01`.
@@ -307,7 +339,7 @@ The following examples use common RE2 syntax in Zilliz Cloud filter expressions.
 
 To match one of several words, use alternation with `|`:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -347,11 +379,27 @@ filter='message =~ "error|failed|timeout"'
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+zilliz vector query --collection my_collection --filter 'message =~ "error|failed|timeout"' --output-fields 'message'
+```
+
+</TabItem>
 </Tabs>
 
 When matching regex metacharacters literally, escape them in the regex pattern. For example, to match a literal dot (`\.` in regex), write `\\.` in a Python filter string:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -391,6 +439,22 @@ filter='email =~ "@gmail\\.com$"'
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+zilliz vector query --collection my_collection --filter 'email =~ "@gmail\\.com$"' --output-fields 'email'
+```
+
+</TabItem>
 </Tabs>
 
 Note: Zilliz Cloud regex filters follow RE2 syntax. If a regex pattern uses syntax that RE2 does not support or is otherwise invalid, Zilliz Cloud rejects the filter expression. For details about regex metacharacters, flags, and matching behavior, refer to the [RE2 syntax](https://github.com/google/re2/wiki/syntax) reference.
@@ -401,7 +465,7 @@ Note: Zilliz Cloud regex filters follow RE2 syntax. If a regex pattern uses synt
 
 Zilliz Cloud regex matching uses substring semantics. The pattern does not need to match the entire field value. For example, the following filter matches both `E1001` and `failed with E1001 after retry`:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -441,11 +505,27 @@ filter='message =~ "E[0-9]{4}"'
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+zilliz vector query --collection log_events --filter 'message =~ "E[0-9]{4}"' --output-fields 'message,severity'
+```
+
+</TabItem>
 </Tabs>
 
 To match the entire field value, use the `^` and `$` anchors:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -489,13 +569,29 @@ filter='code =~ "^E[0-9]{4}$"'
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+zilliz vector query --collection my_collection --filter 'code =~ "^E[0-9]{4}$"' --output-fields 'code'
+```
+
+</TabItem>
 </Tabs>
 
 **Nullable VARCHAR fields**
 
 Regex filters do not match null values. This applies to both `=~` and `!~`. If you want to exclude a regex pattern but keep null values, explicitly add `OR field IS NULL`:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -532,6 +628,22 @@ const filter = 'message !~ "^DEBUG" OR message IS NULL';
 
 ```bash
 filter='message !~ "^DEBUG" OR message IS NULL'
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+zilliz vector query --collection log_events --filter 'message !~ "^DEBUG" OR message IS NULL' --output-fields 'message,severity'
 ```
 
 </TabItem>

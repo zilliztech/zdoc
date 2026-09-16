@@ -845,7 +845,7 @@ You can conduct searches and queries within specific partitions. For details, re
 
 - [Conduct ANN Searches within Partitions](./single-vector-search#ann-search-in-partition)
 
-- [Conduct Metadata Filtering within Partitions](./get-and-scalar-query#queries-in-partitions)
+- [Conduct Metadata Filtering within Partitions](./get-and-scalar-query)
 
 ## Drop Partition\{#drop-partition}
 

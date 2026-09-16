@@ -136,7 +136,7 @@ import Grid from '@site/src/components/Grid';
 
         - **Query / Search Order By** — Multi-field ordering for search and query results, with per-field ASC / DESC, pushed down into the kernel. No more over-fetching and client-side re-sorting for composite ranking.
 
-            For details, refer to [Basic Vector Search](./single-vector-search#sort-search-results-by-scalar-fields), [Grouping Search](./grouping-search#order-groups-by-a-scalar-field), and [Query](./get-and-scalar-query#sort-query-results).
+            For details, refer to [Basic Vector Search](./single-vector-search#sort-search-results-by-scalar-fields), [Grouping Search](./grouping-search#order-groups-by-a-scalar-field), and [Query](./get-and-scalar-query).
 
         **Data lifecycle and operations**
 
