@@ -43,7 +43,7 @@ load(
 )
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 此操作为非阻塞操作。您可以调用 `utility.wait_for_loading_complete()` 来阻塞当前进程。
 
@@ -53,7 +53,7 @@ load(
 
 - **partition_names** (*list(str)* | *None*) - 
 
-    要加载的当前 Collection 的 Partition。若未指定，则会加载所有 Partition。
+    要加载的当前 Collection 的 Partition。如果未指定，则会加载所有 Partition。
 
 - **timeout** (*float* | *None*)  -
 
@@ -71,11 +71,11 @@ load(
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    当此操作过程中发生任何错误时，将引发此异常。
 
-<Admonition type="warning" icon="🚧" title="Warning">
+<Admonition type="warning" title="Warning">
 
-如果您尝试加载未建立索引的 Collection，您将收到 **MilvusException**。
+如果您尝试加载未建立索引的 Collection，将会收到 **MilvusException**。
 
 </Admonition>
 
@@ -139,4 +139,3 @@ collection.load(
 - [loading_progress()](./utility-loading_progress)
 
 - [wait_for_loading_complete()](./utility-wait_for_loading_complete)
-

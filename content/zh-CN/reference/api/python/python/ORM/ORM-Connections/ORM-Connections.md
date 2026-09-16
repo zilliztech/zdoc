@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "Connections 实例表示您的 Zilliz Cloud 集群的连接池。| Python | ORM"
+description: "Connections 实例表示您的 Zilliz Cloud 集群的连接池。 | Python | ORM"
 type: docx
 token: A96udk9seoF5x5xywQZcLasanIe
 sidebar_position: 3
@@ -41,9 +41,9 @@ class pymilvus.Connections
 
 构造一个用于管理所有连接的单例实例。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-您无需自行创建此类的新实例，而应按如下示例导入现有的单例实例。
+请勿自行创建此类的新实例，而应按下面的示例导入现有的单例实例。
 
 </Admonition>
 
@@ -62,28 +62,28 @@ connections.connect(
 ) 
 ```
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 如何获取集群 Endpoint 和令牌？
 
 - **集群 Endpoint**
 
-    您可以登录 [Zilliz Cloud](https://cloud.zilliz.com) 控制台，然后在左侧导航栏中单击 **Clusters**。在集群列表中，单击目标集群的名称，并在 **Connect** 区域复制其 Endpoint。
+    您可以登录 [Zilliz Cloud](https://cloud.zilliz.com) 控制台，在左侧导航栏中单击 **Clusters**。在集群列表中，单击目标集群的名称，然后在 **Connect** 区域复制其 Endpoint。
 
 - **访问令牌**
 
     要连接到 Zilliz Cloud 集群，您可以使用以下任一方式
 
-    - API 密钥
+    - API key
 
-        您可以登录 [Zilliz Cloud](https://cloud.zilliz.com) 控制台，然后在左侧导航栏中单击 **API Keys**。
+        您可以登录 [Zilliz Cloud](https://cloud.zilliz.com) 控制台，在左侧导航栏中单击 **API Keys**。
 
-    - 一组用于访问集群的用户名和密码，并使用冒号（**:**）连接。
+    - 一对用于访问集群的用户名和密码，二者以冒号（**:**）连接。
 
-        您可以使用在 Zilliz Cloud 控制台创建集群时指定的集群凭据，或任意现有集群用户的凭据。
+        您可以使用在 Zilliz Cloud 控制台创建集群时指定的集群凭据，也可以使用任意现有集群用户的凭据。
 
 </Admonition>
 
 ## 方法\{#methods}
 
-以下是`connections`单例实例的方法：
+以下是 `connections` 单例实例的方法：

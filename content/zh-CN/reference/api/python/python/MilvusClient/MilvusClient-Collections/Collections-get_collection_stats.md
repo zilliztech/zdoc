@@ -33,11 +33,11 @@ import Admonition from '@theme/Admonition';
 
 此操作列出特定 Collection 上收集的统计信息。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-此方法适用于 Dedicated 服务集群和按需计算。
+此方法适用于 Dedicated serving 集群和按需计算。
 
-- 对于服务集群中的 Collection，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于 serving 集群中的 Collection，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -93,7 +93,7 @@ get_collection_stats(
 }
 ```
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 为什么行数与插入的 Entity 数量不一致？
 

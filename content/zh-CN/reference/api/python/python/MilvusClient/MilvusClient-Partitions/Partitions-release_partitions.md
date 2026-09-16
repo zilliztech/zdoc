@@ -17,7 +17,7 @@ keywords:
   - 什么是向量 Database
   - vectordb
   - zilliz
-  - Zilliz Cloud
+  - zilliz cloud
   - 云
   - release_partitions()
   - pymilvus30
@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作会将指定 Collection 中的 Partition 从内存中释放。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 这仅适用于托管 Collection。
 
@@ -53,13 +53,13 @@ release_partitions(
 
 - **collection_name** (*str*) -
 
-    **[必填]**
+    **[必需]**
 
     现有 Collection 的名称。
 
 - **partition_names** (*str | list[str]*) -
 
-    **[必填]**
+    **[必需]**
 
     要释放的 Partition 名称列表。
 
@@ -77,9 +77,9 @@ release_partitions(
 
 None
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-仅当其任意一个或全部 Partition 已加载时，Collection 才处于已加载状态。
+仅当 Collection 的任意一个或全部 Partition 已加载时，该 Collection 才处于已加载状态。
 
 </Admonition>
 

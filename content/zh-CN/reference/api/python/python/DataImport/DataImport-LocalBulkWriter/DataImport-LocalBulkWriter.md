@@ -41,9 +41,9 @@ class pymilvus.LocalBulkWriter
 
 根据 Schema、输出路径、Segment 大小和文件类型构造 LocalBulkWriter 对象。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-**LocalBulkWriter** 对象旨在于本地将您的原始数据重写为 Zilliz Cloud 可识别的格式。
+**LocalBulkWriter** 对象旨在将您的原始数据在本地重写为 Zilliz Cloud 可识别的格式。
 
 </Admonition>
 
@@ -81,7 +81,7 @@ writer = LocalBulkWriter(
 
     该值默认为 **536,870,912** 字节，即 **512** MB。
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     BulkWriter 如何将我的数据划分为 Segment？
     
@@ -149,4 +149,3 @@ writer = LocalBulkWriter(
 ## 方法\{#methods}
 
 以下是 **LocalBulkWriter** 类的方法：
-

@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会将新记录插入 Database，或更新已有记录。 | Python | ORM"
+description: "此操作会将新记录插入 Database，或更新现有记录。 | Python | ORM"
 type: docx
 token: MQMzddDnao5Zz0xmSRncZM2nn5b
 sidebar_position: 11
@@ -32,9 +32,9 @@ import TabItem from '@theme/TabItem';
 
 # upsert()
 
-此操作会将新记录插入 Database，或更新已有记录。 
+此操作会将新记录插入 Database，或更新现有记录。 
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 upsert 是一种数据级操作：如果指定字段在 Collection 中已存在，则会覆盖现有 Entity；如果指定值尚不存在，则会插入新的 Entity。
 
@@ -97,7 +97,7 @@ partition.upsert(
 
     - **pandas.DataFrame**
 
-        您可以用任意方式构建数据框，如[此页面](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html)中的 **示例** 部分所示。
+        您可以用任意方式构造数据框，如[本页](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html)中的 **示例** 部分所示。
 
         ```python
         data = pd.DataFrame({

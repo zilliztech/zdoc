@@ -7,15 +7,15 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作用于创建 Collection Schema。 | Python | MilvusClient"
+description: "此操作创建 Collection Schema。 | Python | MilvusClient"
 type: docx
 token: Er8vdVepxoqhPFxVyZUcxSHMnqe
 sidebar_position: 6
 keywords: 
   - 向量 Database 示例
   - RAG 向量 Database
-  - 什么是向量数据库
-  - 向量 Database 是什么
+  - 什么是向量 db
+  - 什么是向量 Database
   - zilliz
   - zilliz cloud
   - 云
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # create_schema()
 
-此操作用于创建 Collection Schema。
+此操作创建 Collection Schema。
 
 ## 请求语法\{#request-syntax}
 
@@ -39,7 +39,7 @@ import Admonition from '@theme/Admonition';
 MilvusClient.create_schema(**kwargs) -> CollectionSchema
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 这是一个类方法。您应按如下方式调用此方法：`MilvusClient.create_schema()`。
 
@@ -59,9 +59,9 @@ MilvusClient.create_schema(**kwargs) -> CollectionSchema
 
         是否允许 Zilliz Cloud 在插入到目标 Collection 的数据包含 Collection Schema 中未定义的字段时，将这些未定义字段的值保存到动态字段中。
 
-        当您将此项设置为 **True** 时，Zilliz Cloud 会创建一个名为 **&#36;meta** 的字段，用于存储插入数据中所有未定义的字段及其值。
+        当您将此项设置为 **True** 时，  Zilliz Cloud 会创建一个名为 **&#36;meta** 的字段，用于存储插入的数据中所有未定义的字段及其值。
 
-        <Admonition type="info" icon="📘" title="Note">
+        <Admonition type="info" title="Note">
 
         什么是动态字段？
         
@@ -79,13 +79,13 @@ MilvusClient.create_schema(**kwargs) -> CollectionSchema
 
         设置此项后，Zilliz Cloud 会管理当前 Collection 中的所有 Partition。
 
-        <Admonition type="info" icon="📘" title="Note">
+        <Admonition type="info" title="Note">
 
         什么是 Partition 键？
         
                 当某个字段被指定为 Partition 键后，Zilliz Cloud 会根据每个插入 Entity 的 Partition 键值计算哈希，并据此将 Entity 保存到目标 Collection 的相应 Partition 中。
         
-                这在基于特定键实现数据隔离时尤其有用，例如面向 Partition 的多租户场景。
+                这在基于特定键实现数据隔离时尤其有用，例如面向 Partition 的多租户。
 
         </Admonition>
 
@@ -119,7 +119,7 @@ MilvusClient.create_schema(**kwargs) -> CollectionSchema
 
 - **MilvusException**
 
-    当此操作过程中发生任何错误时，将引发此异常。
+    在此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#examples}
 

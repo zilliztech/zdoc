@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作会从指定的 Collection 中删除一个索引。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 按需计算的 Collection 不支持此操作。
 
@@ -54,25 +54,25 @@ drop_index(
 
 - **collection_name** (*str*) -
 
-    **[必填]**
+    **[必需]**
 
     现有 Collection 的名称。
 
 - **index_name** (str) -
 
-    **[必填]**
+    **[必需]**
 
-    要删除的索引名称。
+    要删除的索引的名称。
 
 - **timeout** (*float* | *None*) -
 
-    此操作的超时时长。将此参数设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    此操作的超时时间。将其设置为 **None** 表示当收到任意响应或发生错误时，此操作即超时。
 
 **返回类型：**
 
 *NoneType*
 
-**返回值：**
+**返回：**
 
 None
 
@@ -80,7 +80,7 @@ None
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    如果此操作期间发生任何错误，将引发此异常。
 
 ## 示例\{#examples}
 

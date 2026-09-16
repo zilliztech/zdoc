@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作根据 UNIX 纪元时间戳转换生成混合时间戳。 | Python | ORM"
+description: "此操作会将 UNIX 纪元时间戳转换为混合时间戳。 | Python | ORM"
 type: docx
 token: ZdKEd2ua6o9AHHxKq25ctNSdncb
 sidebar_position: 36
 keywords: 
-  - vectordb
+  - 向量 Database
   - 多模态向量 Database 检索
   - 检索增强生成
   - 大语言模型
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - mkts_from_unixtime()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -32,7 +32,7 @@ import TabItem from '@theme/TabItem';
 
 # mkts_from_unixtime()
 
-此操作根据 UNIX 纪元时间戳转换生成混合时间戳。
+此操作会将 UNIX 纪元时间戳转换为混合时间戳。
 
 ## 请求语法\{#request-syntax}
 
@@ -56,29 +56,29 @@ utility.mkts_from_unixtime(
 
 **参数：**
 
-- **epoch** (*float*) -
+- **epoch** （*float*） -
 
-    **【必填】**
+    **[必需]**
 
-    UNIX 纪元时间戳。
+    一个 UNIX 纪元时间戳。
 
     UNIX 纪元时间戳是一个整数，表示自 1970 年 1 月 1 日（UTC 午夜/GMT)起经过的时间，以秒为单位。
 
-- **milliseconds** (*float*) -<br/>
+- **milliseconds** （*float*） -<br/>
   以毫秒为单位的增量时间间隔。
 
-- **delta** (*Optional[timedelta]*) -
+- **delta** （*Optional[timedelta]*） -
 
-    表示时间长度的 **datetime.timedelta** 对象，用于以微秒精度表示两个 [`date`](https://docs.python.org/3/library/datetime.html#datetime.date)、[`time`](https://docs.python.org/3/library/datetime.html#datetime.time) 或 [`datetime`](https://docs.python.org/3/library/datetime.html#datetime.datetime) 实例之间的差值。
+    一个 **datetime.timedelta** 对象，表示两个 [`date`](https://docs.python.org/3/library/datetime.html#datetime.date)、[`time`](https://docs.python.org/3/library/datetime.html#datetime.time) 或 [`datetime`](https://docs.python.org/3/library/datetime.html#datetime.datetime) 实例之间差异的持续时间，精确到微秒。
 
 **返回类型：**
 
 *int*
 
-**返回值：**
-混合时间戳，为一个非负整数，范围从 **0** 到 **18446744073709551615**。
+**返回：**
+混合时间戳，是一个非负整数，取值范围为 **0** 到 **18446744073709551615**。
 
-## **示例**\{#examples}
+## 示例\{#examples}
 
 ```python
 import time
@@ -118,4 +118,3 @@ mkts_from_unixtime(
 - [hybridts_to_unixtime()](./utility-hybridts_to_unixtime)
 
 - [mkts_from_hybridts()](./utility-mkts_from_hybridts)
-

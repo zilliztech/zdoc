@@ -33,11 +33,11 @@ import Admonition from '@theme/Admonition';
 
 此操作用于准备索引参数，以便为特定 Collection 构建索引。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-此方法仅适用于 Dedicated 服务集群和按需计算。
+此方法仅适用于 Dedicated serving 集群和按需计算。
 
-- 如果要在服务集群的 Collection 中执行此操作，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
+- 要在 serving 集群的 Collection 中执行此操作，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- 如果要在按需计算的 Collection 中执行此操作，请使用项目 Endpoints 创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个会话，将其附加到按需集群以执行搜索。
+- 要在按需计算的 Collection 中执行此操作，请使用项目 Endpoints 创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个会话并将其附加到按需集群以执行搜索。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -103,4 +103,3 @@ index_params = MilvusClient.prepare_index_params()
 - [drop_index()](./Management-drop_index)
 
 - [list_indexes()](./Management-list_indexes)
-

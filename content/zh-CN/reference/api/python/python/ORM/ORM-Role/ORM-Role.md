@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "Role 实例表示一个具有特定访问权限的角色。 | Python | ORM"
+description: "Role 实例表示一个具有访问您的 . 的特定权限的角色。 | Python | ORM"
 type: docx
 token: LZL1d0kckouPXNxJLCmcwbCTnkG
 sidebar_position: 11
 keywords: 
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - Pinecone 与 Milvus 对比
+  - Chroma 与 Milvus 对比
+  - Annoy 向量搜索
   - milvus
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - Role
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # Role
 
-**Role** 实例表示一个具有特定访问权限的角色。
+**Role** 实例表示一个具有访问您的 . 的特定权限的角色。
 
 ```python
 class pymilvus.Role
@@ -48,7 +48,7 @@ Role(
 )
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 仅调用构造函数不会创建该角色。您必须显式调用角色对象的 `create()` 方法来创建该角色。
 
@@ -56,13 +56,13 @@ Role(
 
 **参数：**
 
-- **name** (*string*) - 
+- **name** (*string*) -
 
     **[必需]**
 
     要创建的角色名称。
 
-- **using** (*string*) - 
+- **using** (*string*) -
 
     所使用连接的别名。
 

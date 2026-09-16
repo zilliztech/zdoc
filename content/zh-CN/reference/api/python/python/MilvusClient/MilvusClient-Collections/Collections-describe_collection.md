@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作会列出特定 Collection 的详细信息。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 此方法适用于 Dedicated 服务集群和按需计算。
 
@@ -308,4 +308,3 @@ client.describe_collection(collection_name="test_collection")
 #      'updated_timestamp': 461643298319106049
 # }
 ```
-

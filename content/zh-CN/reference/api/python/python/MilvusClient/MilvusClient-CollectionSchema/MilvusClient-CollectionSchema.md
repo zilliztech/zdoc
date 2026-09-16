@@ -50,13 +50,13 @@ CollectionSchema(
 
 **参数：**
 
-- **fields**（*list*）-
+- **fields** （*list*） -
 
     **[必需]**
 
-    由 **[FieldSchema](./ORM-FieldSchema)** 对象组成的列表，用于定义 Collection Schema 中的字段。
+    由 **[FieldSchema](./MilvusClient-FieldSchema)** 对象组成的列表，用于定义 Collection Schema 中的字段。
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     什么是字段 Schema？
     
@@ -64,33 +64,33 @@ CollectionSchema(
 
     </Admonition>
 
-- **description**（*string*）-
+- **description** （*string*） -
 
     Schema 的描述。
 
     如果未提供描述，则将其设为空字符串。
 
-- **external_source**（*str*）-
+- **external_source** （*str*） -
 
     外部源 URI，应为指向可访问外部卷的 `volume://` URI。例如：`volume://<volume-name>/path/to/folder/`..
 
-- **external_spec**（*str*）-
+- **external_spec** （*str*） -
 
     外部源规格，它是一组二级参数：
 
-    - **format**（*str*）- 
+    - **format** （*str*） - 
 
         目标源数据文件的格式。
 
         可能的值为 `parquet`、`vortex`、`lance-table` 和 `iceberg-table`。
 
-    - **snapshot_id**（*str*）-
+    - **snapshot_id** （*str*） -
 
         Iceberg 表的 ID。仅当 `format` 为 `iceberg-table` 时适用。
 
 - **kwargs** -
 
-    - **auto_id**（*bool*）-
+    - **auto_id** （*bool*） -
 
         是否允许主字段自动递增。
 
@@ -98,7 +98,7 @@ CollectionSchema(
 
         此参数不适用于外部 Collection。
 
-    - **enable_dynamic_field**（*bool*）-
+    - **enable_dynamic_field** （*bool*） -
 
         如果插入到目标 Collection 的数据中包含 Collection Schema 中未定义的字段，是否允许 Zilliz Cloud 将这些未定义字段的值保存到动态字段中。
 
@@ -106,7 +106,7 @@ CollectionSchema(
 
         此参数不适用于外部 Collection。
 
-        <Admonition type="info" icon="📘" title="Note">
+        <Admonition type="info" title="Note">
 
         什么是动态字段？
         
@@ -114,17 +114,17 @@ CollectionSchema(
 
         </Admonition>
 
-    - **primary_field**（*str*）-
+    - **primary_field** （*str*） -
 
         主字段的名称。
 
         该值应为 **fields** 中列出的某个字段名称。
 
-        或者，您也可以在创建 **[FieldSchema](./ORM-FieldSchema)** 对象时设置 **is_primary**。
+        或者，您也可以在创建 **[FieldSchema](./MilvusClient-FieldSchema)** 对象时设置 **is_primary**。
 
         此参数不适用于外部 Collection。
 
-    - **partition_key_field**（*str*）-
+    - **partition_key_field** （*str*） -
 
         用作 Partition 键的字段名称。
 
@@ -132,11 +132,11 @@ CollectionSchema(
 
         设置此项后，Zilliz Cloud 将管理当前 Collection 中的所有 Partition。
 
-        或者，您也可以在创建 **[FieldSchema](./ORM-FieldSchema)** 对象时设置 **is_partition_key**。
+        或者，您也可以在创建 **[FieldSchema](./MilvusClient-FieldSchema)** 对象时设置 **is_partition_key**。
 
         此参数不适用于外部 Collection。
 
-        <Admonition type="info" icon="📘" title="Note">
+        <Admonition type="info" title="Note">
 
         什么是 Partition 键？
         
@@ -148,7 +148,7 @@ CollectionSchema(
 
         </Admonition>
 
-    - **partition_key_isolation**（*bool*）-
+    - **partition_key_isolation** （*bool*） -
 
         是否启用 Partition 键隔离，以进一步提升基于 Partition 键进行标量过滤时的搜索性能。详情请参见 [使用 Partition 键隔离](/docs/use-partition-key#use-partition-key-isolation)。
 
@@ -170,7 +170,7 @@ CollectionSchema(
 
 - **FieldTypeException**：
 
-    当 **fields** 列表中的某个字段不是 **[FieldSchema](./ORM-FieldSchema)** 对象时，将引发此异常。
+    当 **fields** 列表中的某个字段不是 **[FieldSchema](./MilvusClient-FieldSchema)** 对象时，将引发此异常。
 
 - **PrimaryKeyException：**
 
@@ -220,4 +220,3 @@ schema = CollectionSchema(
 ## 方法\{#methods}
 
 以下是 `CollectionSchema` 类的方法：
-

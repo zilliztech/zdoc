@@ -33,13 +33,13 @@ import Admonition from '@theme/Admonition';
 
 此操作会向现有 Collection 添加一个新的标量字段，而无需重新创建该 Collection。由于内部 Schema 同步，字段几乎会立即可用，延迟极低。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 如果该 Collection 启用了动态字段，并且您添加的静态字段与现有动态字段键同名，则静态字段将遮蔽该动态字段键。原始动态值仍可通过 `$meta['field_name']` 语法访问。
 
 </Admonition>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 这不适用于外部 Collection。
 
@@ -130,7 +130,7 @@ client.add_collection_field(
 )
 ```
 
-**示例 2：** 添加一个带默认值的字段
+<strong>示例 2：</strong> 添加一个带默认值的字段
 
 ```python
 client.add_collection_field(

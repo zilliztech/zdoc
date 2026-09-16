@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作用于修改指定 Collection 的属性。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 这不适用于外部 Collection。
 
@@ -67,7 +67,7 @@ alter_collection_properties(
 
     - **ttl_field** (*str*)
 
-        用作 Entity 级 TTL 过期逻辑时间戳的`TIMESTAMPTZ`字段名称。
+        用作 Entity 级 TTL 过期逻辑时间戳的 `TIMESTAMPTZ` 字段名称。
 
     - **mmap.enabled** (*bool*) -
 
@@ -120,4 +120,3 @@ client.alter_collection_properties(
     properties = properties
 )
 ```
-

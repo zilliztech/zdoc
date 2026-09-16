@@ -33,9 +33,9 @@ import Admonition from '@theme/Admonition';
 
 此操作会扫描 Schema 定义的外部存储中的数据文件，并生成元数据文件，用于记录其与这些数据文件之间的映射关系。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-这要求您使用项目 Endpoint 按如下方式设置 MilvusClient：
+这需要使用项目 Endpoint 按如下方式设置一个 MilvusClient：
 
 `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -83,13 +83,13 @@ refresh_external_collection(
 
     此操作的超时时长。 
 
-    将此项设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
+    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
 *int*
 
-**返回值：**
+**返回：**
 
 一个整数，表示已创建的异步作业。
 
@@ -122,4 +122,3 @@ while True:
 
     time.sleep(2)
 ```
-

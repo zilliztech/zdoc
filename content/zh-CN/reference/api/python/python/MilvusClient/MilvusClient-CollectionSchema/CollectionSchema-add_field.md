@@ -95,7 +95,7 @@ add_field(
 
     这不适用于外部 Collection。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     - 每个 Collection 只有一个主字段。
     
@@ -133,7 +133,7 @@ add_field(
 
     这不适用于外部 Collection。
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     什么是 Partition 键？
     

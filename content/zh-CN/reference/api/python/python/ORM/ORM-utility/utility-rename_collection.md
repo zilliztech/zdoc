@@ -12,7 +12,7 @@ type: docx
 token: M0qRdF1cLokrxvxyrXScJ64FnEe
 sidebar_position: 37
 keywords: 
-  - 幻觉 llm
+  - 幻觉 LLM
   - 多模态搜索
   - 向量搜索算法
   - 问答系统
@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作会重命名现有 Collection，并可选择将该 Collection 移动到新的 Database。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 为目标 Collection 创建的别名在此操作后将保持不变。
 
@@ -84,13 +84,13 @@ rename_collection(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示在收到任何响应或发生任何错误时，此操作才会超时。
+    此操作的超时时长。将其设置为 **None** 表示，当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
 *NoneType*
 
-**返回值：**
+**返回：**
 
 None
 
@@ -98,7 +98,7 @@ None
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常，尤其是在指定别名不存在时。
+    当此操作期间发生任何错误时，将引发此异常，尤其是在指定的别名不存在时。
 
 ## 示例\{#examples}
 
@@ -135,4 +135,3 @@ utility.rename_collection(
 - [has_partition()](./utility-has_partition)
 
 - [list_collections()](./utility-list_collections)
-

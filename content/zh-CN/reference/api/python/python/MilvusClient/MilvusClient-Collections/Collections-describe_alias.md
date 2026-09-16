@@ -33,11 +33,11 @@ import Admonition from '@theme/Admonition';
 
 此操作显示别名的详细信息。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-此方法适用于 Dedicated 服务集群和按需计算。
+此方法适用于 Dedicated serving 集群和按需计算。 
 
-- 对于服务集群中的 Collection，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于 serving 集群中的 Collection，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -68,15 +68,15 @@ describe_alias(
 
     **[必需]**
 
-    Collection 的别名。
+    Collection 的别名。 
 
     执行此操作前，请确保该别名已存在。否则将引发异常。
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。
+    此操作的超时时长。 
 
-    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    将其设置为 **None** 表示当收到任意响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
@@ -98,15 +98,15 @@ describe_alias(
 
 - **alias** (*str*) -
 
-    指定的别名。
+    指定的别名。 
 
 - **collection_name** (*str*) -
 
-    绑定的 Collection 名称。
+    绑定的 Collection 名称。 
 
 - **db_name** (*str*) -
 
-    绑定的 Collection 所属的 Database。
+    绑定的 Collection 所属的 Database。 
 
 **异常：**
 
@@ -154,4 +154,3 @@ client.describe_alias(alias="test")
 - [drop_alias()](./Collections-drop_alias)
 
 - [list_aliases()](./Collections-list_aliases)
-

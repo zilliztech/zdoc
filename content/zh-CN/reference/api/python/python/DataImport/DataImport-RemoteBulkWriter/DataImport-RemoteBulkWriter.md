@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v2.5.x
 deprecate_since: false
 notebook: false
-description: "RemoteBulkWriter 实例会将您的原始数据写入 AWS S3 兼容存储桶中，并转换为 Zilliz Cloud 可识别的格式。 | Python"
+description: "RemoteBulkWriter 实例会以 Zilliz Cloud 可识别的格式将您的原始数据写入 AWS S3 兼容的存储桶。 | Python"
 type: docx
 token: BDP4dew9to9tQoxNEMPcBR5xnZb
 sidebar_position: 4
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # RemoteBulkWriter
 
-**RemoteBulkWriter** 实例会将您的原始数据写入 AWS S3 兼容存储桶中，并转换为 Zilliz Cloud 可识别的格式。
+**RemoteBulkWriter** 实例会以 Zilliz Cloud 可识别的格式将您的原始数据写入 AWS S3 兼容的存储桶。
 
 ```python
 class pymilvus.RemoteBulkWriter
@@ -41,9 +41,9 @@ class pymilvus.RemoteBulkWriter
 
 使用一组参数（如 **schema**、**remote_path**、**connect_param** 等）构造 **RemoteBulkWriter** 对象。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-**RemoteBulkWriter** 对象旨在将您的原始数据重写为 Zilliz Cloud 可识别的格式，并写入 AWS S3 兼容存储桶中。
+**RemoteBulkWriter** 对象用于将您的原始数据以 Zilliz Cloud 可识别的格式重写至 AWS S3 兼容的存储桶中。
 
 </Admonition>
 
@@ -66,7 +66,7 @@ writer = RemoteBulkWriter(
 
     **[必需]**
 
-    要导入重写后数据的目标 Collection 的 Schema。
+    重写后的数据要导入到的目标 Collection 的 Schema。
 
 - **remote_path** (*str*) -
 
@@ -84,13 +84,13 @@ writer = RemoteBulkWriter(
 
     在重写您的原始数据时，Zilliz Cloud 会将原始数据拆分为多个 Segment。
 
-    默认值为 536,870,912 字节，即 512 MB。
+    该值默认为 536,870,912 字节，即 512 MB。
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
-    BulkWriter 如何将我的数据拆分为 Segment？
+    BulkWriter 如何划分我的数据？
     
-        **BulkWriter** 将数据拆分为 Segment 的方式会因目标文件类型而异。
+        **BulkWriter** 划分您数据的方式会因目标文件类型而异。
     
         如果生成的文件超过指定的 Segment 大小，**BulkWriter** 会创建多个文件，并按顺序编号命名，每个文件都不会大于该 Segment 大小。
 
@@ -100,13 +100,13 @@ writer = RemoteBulkWriter(
 
     输出文件的类型。
 
-    默认值为 **BulkFileType.PARQUET**。 
+    该值默认为 **BulkFileType.PARQUET**。 
 
     可选值包括 **BulkFileType.JSON**、**BulkFileType.PARQUET**、**BulkFileType.CSV**。
 
 - **config** (*dict*)
 
-    用于指定处理 CSV 文件时可选配置的字典。仅当 **file_type** 设置为 **BulkFileType.CSV** 时，此参数才可用。配置示例：
+    用于指定处理 CSV 文件时可选配置的字典。仅当 **file_type** 设置为 **BulkFileType.CSV** 时，此参数才可用。示例配置如下：
 
     ```python
     config={
@@ -117,17 +117,17 @@ writer = RemoteBulkWriter(
 
     - **sep** (*string*)
 
-        CSV 文件的分隔符。该值必须是长度为 1 的字符串，默认值为 `","`。不允许使用以下字符串：`"\0"`、`"\n"`、`"\r"`、`"""`。
+        CSV 文件的分隔符。该值必须是长度为 1 的字符串，默认为 `","`。不允许使用以下字符串：`"\0"`、`"\n"`、`"\r"`、`"""`。
 
     - **nullkey** (*string*)
 
-        表示空值的特殊字符串。默认值为空字符串：`""`。
+        表示空值的特殊字符串。该值默认为空字符串：`""`。
 
 **返回类型：**
 
 *RemoteBulkWriter*
 
-**返回值：**
+**返回：**
 
 一个 **RemoteBulkWriter** 对象。
 

@@ -33,11 +33,11 @@ import Admonition from '@theme/Admonition';
 
 此操作会将一个 Collection 的别名重新分配给另一个 Collection。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-此方法适用于 dedicated serving cluster 和按需计算。
+此方法适用于专用 serving 集群和按需计算。 
 
-- 对于 serving cluster 中的 Collection，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于 serving 集群中的 Collection，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- 对于按需计算中的 Collection，请使用项目 Endpoints 创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于按需计算中的 Collection，请使用项目 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -69,25 +69,25 @@ alter_alias(
 
     **[必需]**
 
-    要重新分配别名的目标 Collection 名称。
+    要重新分配别名的目标 Collection 的名称。
 
 - **alias** (*str*) -
 
     **[必需]**
 
-    Collection 的别名。请注意，该别名必须预先存在。
+    Collection 的别名。请注意，该别名应事先存在。
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     什么是 Collection 别名？
     
-        Collection 别名是 Collection 的附加名称。当您希望在不修改代码的情况下将应用切换到新的 Collection 时，Collection 别名会非常有用。
+        Collection 别名是 Collection 的附加名称。当您希望在不更改代码的情况下将应用程序切换到新的 Collection 时，Collection 别名会很有用。 
     
-        在 Zilliz Cloud 中，Collection 别名是全局唯一标识符。一个别名只能分配给且仅能分配给一个 Collection。反过来，一个 Collection 可以有多个别名。
+        在 Zilliz Cloud 中，Collection 别名是全局唯一标识符。一个别名只能且仅能分配给一个 Collection。反之，一个 Collection 可以有多个别名。
     
-        下面是一个将某个 Collection 的别名重新分配给另一个 Collection 的示例：
+        以下是将一个 Collection 的别名重新分配给另一个 Collection 的示例：
     
-        假设有两个 Collection：`collection_1` 和 `collection_2`。还有一个名为 `bob` 的 Collection 别名，原本分配给 `collection_1`：
+        假设有两个 Collection：`collection_1` 和 `collection_2`。此外，还有一个名为 `bob` 的 Collection 别名，它原本分配给 `collection_1`：
     
         - `collection_1` 的别名 = ["bob"]
     
@@ -103,9 +103,9 @@ alter_alias(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。
+    此操作的超时时长。 
 
-    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    将其设置为 **None** 表示当收到任意响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
@@ -119,7 +119,7 @@ None
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常，尤其是在指定别名不存在时。
+    当此操作期间发生任何错误时，将引发此异常，尤其是在指定的别名不存在时。
 
 ## 示例\{#example}
 

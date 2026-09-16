@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作用于描述特定索引。 | Python | MilvusClient"
+description: "此操作描述特定索引。 | Python | MilvusClient"
 type: docx
 token: WhsHdyIgyoFlsQxNJt9cFCTxnDe
 sidebar_position: 4
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # describe_index()
 
-此操作用于描述特定索引。
+此操作描述特定索引。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-此方法仅适用于 Dedicated 服务集群和按需计算。
+此方法仅适用于 Dedicated serving 集群和按需计算。
 
-- 要在服务集群的 Collection 中执行此操作，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
+- 要在 serving 集群的 Collection 中执行此操作，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -67,7 +67,7 @@ describe_index(
 
 - **collection_name** (*str*) -
 
-    **[必填]**
+    **[必需]**
 
     现有 Collection 的名称。
 
@@ -75,7 +75,7 @@ describe_index(
 
 - **index_name** (*str*) -
 
-    **[必填]**
+    **[必需]**
 
     要描述的索引名称。
 
@@ -83,7 +83,7 @@ describe_index(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
@@ -120,7 +120,7 @@ describe_index(
 
     用于衡量向量之间相似度的算法。可能的值包括 **IP**、**L2** 和 **COSINE**。
 
-    仅当指定字段为向量字段时可用。
+    仅当指定的字段为向量字段时，此参数可用。
 
 - **total_rows** (*int*) -
 
@@ -243,4 +243,3 @@ client.describe_index(
 - [list_indexes()](./Management-list_indexes)
 
 - [prepare_index_params()](./Management-prepare_index_params)
-

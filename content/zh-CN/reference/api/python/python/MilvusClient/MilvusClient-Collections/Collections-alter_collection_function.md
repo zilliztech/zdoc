@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作通过使用新的函数 Schema 替换现有函数，来修改 Collection 中的现有函数。 | Python | MilvusClient"
+description: "此操作通过将 Collection 中的现有函数替换为新的函数 Schema 来更改该函数。 | Python | MilvusClient"
 type: docx
 token: N9d9df9IIojLZDxft1HcU0mkn0b
 sidebar_position: 22
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # alter_collection_function()
 
-此操作通过使用新的函数 Schema 替换现有函数，来修改 Collection 中的现有函数。
+此操作通过将 Collection 中的现有函数替换为新的函数 Schema 来更改该函数。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 这不适用于外部 Collection。
 

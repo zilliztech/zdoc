@@ -134,7 +134,7 @@ hybrid_search(
 
 - 响应结构
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     **SearchResult** 对象包含一个 **Hits** 对象列表，其中每个对象对应搜索请求中的一个查询向量。 
     

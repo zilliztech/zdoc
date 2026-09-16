@@ -41,7 +41,7 @@ class pymilvus.Partition
 
 通过名称、描述和其他参数在 Collection 中构造一个 Partition。 
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 使用 Partition 时，请确保 Collection Schema 中的 **enable_partition_key** 未设置为 **True**。否则会报错。
 
@@ -57,15 +57,15 @@ Partition(
 
 **参数：**
 
-- **[collection](./ORM-Collection)** (*[Collection](./ORM-Collection)* | *str*) - 
+- **[Collection](./ORM-Collection)** (*[Collection](./ORM-Collection)* | *str*) - 
 
-    **[必填]**
+    **[必需]**
 
     要在其中创建 Partition 的 Collection。 
 
     您可以引用一个 **[Collection](./ORM-Collection)** 对象或其名称。
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     什么是 Collection？
     
@@ -77,7 +77,7 @@ Partition(
 
 - **name** (*string*) - 
 
-    **[必填]**
+    **[必需]**
 
     要创建的 Partition 的名称。
 
@@ -89,7 +89,7 @@ Partition(
 
 *Partition*
 
-**返回值：**
+**返回：**
 
 一个 **Partition** 对象。
 

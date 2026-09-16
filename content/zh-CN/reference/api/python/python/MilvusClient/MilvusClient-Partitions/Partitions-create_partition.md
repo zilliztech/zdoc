@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作会在目标 Collection 中创建一个 Partition。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 这仅适用于托管 Collection。
 
@@ -67,7 +67,7 @@ create_partition(
 
     此操作的超时时长。
 
-    将其设置为 **None** 表示，当收到任何响应或发生任何错误时，此操作才会超时。
+    将其设置为 **None** 表示当收到任意响应或发生错误时，此操作即超时。
 
 **返回类型：**
 

@@ -70,7 +70,7 @@ transfer_replica(
 
     在源资源组和目标资源组之间移动的副本数量。
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     什么是副本？
     

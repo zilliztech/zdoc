@@ -41,9 +41,9 @@ pymilvus.MilvusClient
 
 为常见用例构造一个客户端。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-该客户端可作为当前 API 集的易用替代方案，用于处理 Zilliz Cloud 上的创建、读取、更新和删除（CRUD）操作。
+该客户端可作为当前这组 API 的易用替代方案，用于处理 Zilliz Cloud 上的创建、读取、更新和删除（CRUD）操作。
 
 </Admonition>
 
@@ -99,7 +99,7 @@ MilvusClient(
 
     用于访问指定 Zilliz Cloud 集群的有效访问令牌。
 
-    这可以作为分别设置 **user** 和 **password** 的推荐替代方式。
+    可作为分别设置 **user** 和 **password** 的推荐替代方式。
 
     设置此字段时，请注意：
 
@@ -113,7 +113,7 @@ MilvusClient(
 
     此操作的超时时长。
 
-    将其设置为 **None** 表示，当收到任何响应或发生任何错误时，此操作才会超时。
+    将其设置为 **None** 表示当收到任意响应或发生错误时，此操作即超时。
 
 ## 示例\{#examples}
 
@@ -128,9 +128,8 @@ client = MilvusClient(
 )
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 将 **uri** 设置为您的集群 Endpoint。**token** 参数可以是具有足够权限的 Zilliz Cloud API key，也可以是格式为 `username:p@ssw0rd` 的集群用户凭据。
 
 </Admonition>
-

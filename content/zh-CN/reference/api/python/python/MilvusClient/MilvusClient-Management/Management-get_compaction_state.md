@@ -33,13 +33,13 @@ import Admonition from '@theme/Admonition';
 
 此操作返回 Compaction 作业的当前状态。调用 `compact()` 后，可使用此操作验证 Compaction 是否已完成。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 此方法先前名为 `get_compact_state()`。其行为完全相同。
 
 </Admonition>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 这仅适用于托管 Collection。
 

@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作修改指定 Database 的属性。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 此方法仅适用于 Dedicated 集群。
 
@@ -62,27 +62,27 @@ alter_database_properties(
 
     要修改的属性及修改后的值。可用的 Database 属性如下：
 
-    - **database.replica.number** (*int*) -
+    - **Database.replica.number** (*int*) -
 
         Database 的副本数。
 
-    - **database.resource_groups** (*[]str*) -
+    - **Database.resource_groups** (*[]str*) -
 
         专用于该 Database 的资源组。
 
-    - **database.diskQuota.mb** (*int*) -
+    - **Database.diskQuota.mb** (*int*) -
 
         分配给该 Database 的磁盘配额，单位为兆字节（**MB**）。
 
-    - **database.max.collections** (*int*) -
+    - **Database.max.collections** (*int*) -
 
         该 Database 中允许的最大 Collection 数量。
 
-    - **database.force.deny.writing** (*bool*) -
+    - **Database.force.deny.writing** (*bool*) -
 
         是否拒绝该 Database 中的所有写入操作。
 
-    - **database.force.deny.reading** (*bool*) -
+    - **Database.force.deny.reading** (*bool*) -
 
         是否拒绝该 Database 中的所有读取操作。
 
@@ -94,7 +94,7 @@ alter_database_properties(
 
 *NoneType*
 
-**返回值：**
+**返回：**
 
 *None*
 

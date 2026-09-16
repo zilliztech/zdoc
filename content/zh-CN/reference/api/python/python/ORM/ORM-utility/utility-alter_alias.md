@@ -58,29 +58,29 @@ alter_alias(
 
 **参数：**
 
-- **collection_name** (*str*) -
+- **collection_name** （*str*） -
 
     **[必需]**
 
-    要重新分配别名的目标 Collection 名称。
+    要重新分配别名的目标 Collection 的名称。
 
-- **alias** (*str*) -
+- **alias** （*str*） -
 
     **[必需]**
 
-    Collection 的别名。请注意，该别名必须预先存在。
+    Collection 的别名。请注意，该别名应事先存在。
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     什么是[ Collection](./ORM-Collection) 别名？
     
-        [ Collection](./ORM-Collection) 别名是 Collection 的附加名称。当您希望将应用程序切换到新的 Collection 而无需修改代码时，Collection 别名会非常有用。 
+        [ Collection](./ORM-Collection) 别名是 Collection 的附加名称。当您希望在不更改代码的情况下将应用程序切换到新的 Collection 时，Collection 别名会很有用。 
     
-        在 中，[ Collection](./ORM-Collection) 别名是全局唯一标识符。一个别名只能分配给一个 Collection。反之，一个 Collection 可以拥有多个别名。
+        在 中，[ Collection](./ORM-Collection) 别名是全局唯一标识符。一个别名只能且仅能分配给一个 Collection。反之，一个 Collection 可以有多个别名。
     
-        下面是一个将一个 Collection 的别名重新分配给另一个 Collection 的示例：
+        以下是将一个 Collection 的别名重新分配给另一个 Collection 的示例：
     
-        假设有两个 Collection：`collection_1` 和 `collection_2`。还有一个名为 `bob` 的 Collection 别名，它最初分配给了 `collection_1`：
+        假设有两个 Collection：`collection_1` 和 `collection_2`。此外，还有一个名为 `bob` 的 Collection 别名，它原本分配给 `collection_1`：
     
         - `collection_1` 的别名 = ["bob"]
     
@@ -94,13 +94,13 @@ alter_alias(
 
     </Admonition>
 
-- **using** (*str*) - 
+- **using** （*str*） - 
 
     所使用连接的别名。
 
     默认值为 **default**，表示此操作使用默认连接。
 
-- **timeout** (*float* | *None*)  
+- **timeout** （*float* | *None*）  
 
     此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
@@ -116,7 +116,7 @@ None
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常，尤其是在指定别名不存在时。
+    当此操作期间发生任何错误时，将引发此异常，尤其是在指定的别名不存在时。
 
 ## 示例\{#examples}
 

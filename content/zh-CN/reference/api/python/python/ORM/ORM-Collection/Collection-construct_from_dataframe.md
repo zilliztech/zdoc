@@ -160,5 +160,4 @@ collection, results = Collection.construct_from_dataframe(
 
 - [CollectionSchema](./ORM-CollectionSchema)
 
-- [FieldSchema](./ORM-FieldSchema)
-
+- [FieldSchema](./MilvusClient-FieldSchema)

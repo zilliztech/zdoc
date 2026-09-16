@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作将创建一个新的资源组。 | Python | ORM"
+description: "此操作会创建一个新的资源组。 | Python | ORM"
 type: docx
 token: X5qsdhFQ5oOhkcxOprzcOZq4nMc
 sidebar_position: 4
@@ -31,17 +31,17 @@ import Admonition from '@theme/Admonition';
 
 # create_resource_group()
 
-此操作将创建一个新的资源组。 
+此操作会创建一个新的资源组。 
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 什么是资源组？
 
-资源组可以容纳 Zilliz Cloud 集群中的部分或全部查询节点。当您通过调用 load() 加载一个 Collection 时，Zilliz Cloud 会将该 Collection 的数据加载到某些查询节点中。
+资源组可以容纳 Zilliz Cloud 集群中的部分或全部查询节点。当您通过调用 load() 加载 Collection 时，Zilliz Cloud 会将该 Collection 的数据加载到特定的查询节点中。
 
-每个 Zilliz Cloud 集群中都有一个名为 **__default_resource_group** 的默认资源组，它包含该集群的所有查询节点。 
+每个 Zilliz Cloud 集群中都有一个名为 **__default_resource_group** 的默认资源组，该资源组持有该集群的所有查询节点。 
 
-使用 **describe_resource_group()** 检查实际数量。如果有多个可用的查询节点，请考虑创建资源组并在它们之间分配查询节点。
+使用 **describe_resource_group()** 检查实际数量。如果可用查询节点有多个，请考虑创建资源组并在这些资源组之间分配查询节点。
 
 </Admonition>
 
@@ -60,11 +60,11 @@ create_resource_group(
 
 - **name** (*str*) -
 
-    **【必填】**
+    **[必需]**
 
     要创建的资源组名称。
 
-    如果将其设置为现有资源组的名称，则会导致 **MilvusException**。
+    将其设置为现有资源组的名称会导致 **MilvusException**。
 
 - **using** (*str*) - 
 
@@ -78,7 +78,7 @@ create_resource_group(
 
 - **kwargs**
 
-    可选参数。当前，您可以设置 **config** 来指定资源组的配置。
+    可选参数。目前，您可以设置 **config** 来指定资源组的配置。
 
     - **config** (*ResourceGroupConfig*) -
 
@@ -94,15 +94,15 @@ create_resource_group(
 
         - **requests** (*dict*) -
 
-            用于指定资源组应持有的查询节点数量的字典。此键应包含：
+            用于指定该资源组应持有的查询节点数量的字典。此键应包含：
 
-            - **node_num** (*int*) - 资源组请求的查询节点数量。
+            - **node_num** (*int*) - 为资源组请求的查询节点数量。
 
         - **limits** (*dict*) -
 
-            用于指定资源组可持有的最大查询节点数量的字典。此键应包含：
+            用于指定该资源组可持有的最大查询节点数量的字典。此键应包含：
 
-            - **node_num** (*int*) - 资源组允许持有的最大查询节点数量。
+            - **node_num** (*int*) - 资源组允许的最大查询节点数量。
 
 **返回类型：**
 
@@ -116,7 +116,7 @@ None
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    当此操作过程中发生任何错误时，将引发此异常。
 
 ## 示例\{#examples}
 

@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作从指定文件中批量插入数据。 | Python | ORM"
+description: "此操作会从指定的文件中批量插入数据。 | Python | ORM"
 type: docx
 token: BpqpdBWdyoxbmzx0GGCcQxksnBc
 sidebar_position: 8
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # do_bulk_insert()
 
-此操作从指定文件中批量插入数据。
+此操作会从指定的文件中批量插入数据。
 
 ## 请求语法\{#request-syntax}
 
@@ -50,23 +50,23 @@ do_bulk_insert(
 
 - **collection_name** (*str*) -
 
-    **[必填]**
+    **[必需]**
 
-    此操作目标 Collection 的名称。
+    此操作的目标 Collection 的名称。
 
 - **files** (*list[str]*) -
 
-    **[必填]**
+    **[必需]**
 
     包含源数据的文件路径列表。 
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     如何准备源数据文件？
     
         - 您可以使用一个 JSON 文件 (*.json*) 或一组 NumPy 文件 (*.npy*) 作为源数据文件。
     
-            - 有效的 JSON 文件包含一个名为 **rows** 的根键，其值为字典列表，其中每个字典表示一个与目标 Collection 的 Schema 匹配的 Entity。
+            - 有效的 JSON 文件包含一个名为 **rows** 的根键，该键是一个字典列表，其中每个字典表示一个与目标 Collection 的 Schema 匹配的 Entity。
     
                 如果目标 Collection 允许动态字段，请在每个 Entity 字典中包含动态字段及其值。
     
@@ -104,7 +104,7 @@ do_bulk_insert(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作才会超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生错误时，此操作即超时。
 
 **返回类型：**
 
@@ -153,4 +153,3 @@ utility.do_bulk_insert(
 - [get_bulk_insert_state()](./utility-get_bulk_insert_state)
 
 - [list_bulk_insert_tasks()](./utility-list_bulk_insert_tasks)
-

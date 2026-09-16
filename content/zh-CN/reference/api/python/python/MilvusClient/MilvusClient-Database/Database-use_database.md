@@ -33,13 +33,13 @@ import Admonition from '@theme/Admonition';
 
 此操作会将客户端切换为使用其他 Database。后续操作将使用指定的 Database。该方法会在切换前验证 Database 是否存在。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 这是 [`using_database()`](./Database-using_database) 的别名方法。
 
 </Admonition>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 此方法仅适用于专用服务集群和按需计算。
 

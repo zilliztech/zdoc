@@ -70,7 +70,7 @@ alter_collection_field(
 
     将其设置为 None 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 您必须在加载 Collection 之前更改字段设置。对已加载的 Collection 更改字段会返回错误。若要更改已加载 Collection 的设置，请先释放该 Collection，再更改字段，然后重新加载。
 
@@ -110,4 +110,3 @@ client.alter_collection_field(
     field_params=field_params
 )
 ```
-

@@ -33,11 +33,11 @@ import Admonition from '@theme/Admonition';
 
 此操作会为 Collection 中的特定字段添加索引参数。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-此方法仅适用于 Dedicated 服务集群和按需计算。
+此方法仅适用于 Dedicated serving 集群和按需计算。
 
-- 如果要在服务集群的 Collection 中执行此操作，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
+- 要在 serving 集群的 Collection 中执行此操作，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- 如果要在按需计算的 Collection 中执行此操作，请使用项目 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个会话并将其附加到按需集群以执行搜索。
+- 要在按需计算的 Collection 中执行此操作，请使用项目 Endpoints 创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个会话以附加到按需集群进行搜索。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -69,7 +69,7 @@ IndexParams.add_index(
 
 - **field_name** (*str*) -
 
-    要应用此对象的目标字段名称。
+    要应用此对象的目标字段的名称。
 
 - **index_name** (*str*) -
 
@@ -81,9 +81,9 @@ IndexParams.add_index(
 
 - **metric_type** (*str*) -
 
-    用于衡量向量之间相似度的算法。可能的值包括：`IP`、`L2`、`COSINE`、`HAMMING`、`JACCARD`、`BM25`（仅用于全文搜索）。更多信息请参见 [Metric Types](https://milvus.io/docs/metric.md)。
+    用于衡量向量之间相似度的算法。可选值为 `IP`、`L2`、`COSINE`、`HAMMING`、`JACCARD` 和 `BM25`（仅用于全文搜索）。更多信息请参见 [Metric Types](https://milvus.io/docs/metric.md)。
 
-    仅当指定字段为向量字段时，此参数可用。
+    仅当指定的字段为向量字段时，此参数可用。
 
 - **params** (*dict*) -
 
@@ -93,7 +93,7 @@ IndexParams.add_index(
 
 *NoneType*
 
-**返回值：**
+**返回：**
 
 None
 
@@ -185,4 +185,3 @@ index_params.add_index(
 - [list_indexes()](./Management-list_indexes)
 
 - [prepare_index_params()](./Management-prepare_index_params)
-

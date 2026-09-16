@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作会将指定 Collection 的数据加载到内存中。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 这仅适用于托管 Collection。
 
@@ -64,7 +64,7 @@ load_collection(
 
     此操作的超时时长。 
 
-    将其设置为 **None** 表示当返回任何响应或发生错误时，此操作才会超时。
+    将其设置为 **None** 表示当收到任意响应或发生错误时，此操作即超时。
 
 **返回类型：**
 
@@ -178,4 +178,3 @@ client.load_collection(
 - [refresh_load()](./Management-refresh_load)
 
 - [release_collection()](./Management-release_collection)
-

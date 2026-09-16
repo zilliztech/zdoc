@@ -58,11 +58,11 @@ search(
 
     向量嵌入列表。
 
-    Zilliz Cloud 会搜索与指定向量嵌入最相似的结果。
+    Zilliz Cloud 会搜索与指定向量嵌入最相似的向量嵌入。
 
 - **anns_field** (str) -
 
-    当前搜索的目标向量字段名称。
+    当前搜索的目标向量字段的名称。
 
     此参数默认为空字符串。如果未指定此参数，则使用默认值，表示将 Collection 中唯一的向量字段用作搜索目标。
 
@@ -70,13 +70,13 @@ search(
 
     **[必需]**
 
-    此操作的专用参数设置。
+    此操作专用的参数设置。
 
     - **metric_type** (*str*) -
 
-        应用于此操作的度量类型。该值应与您为上述指定向量字段创建索引时使用的度量类型相同。
+        应用于此操作的度量类型。该值应与您为上述向量字段创建索引时使用的度量类型相同。
 
-        可选值包括 **L2**、**IP** 和 **COSINE**。
+        可选值为 **L2**、**IP** 和 **COSINE**。
 
     - **params** (dict) -
 
@@ -92,13 +92,13 @@ search(
 
         - **radius** (float) -
 
-            确定最低相似度阈值。当将 `metric_type` 设置为 `L2` 时，请确保该值大于 **range_filter** 的值。否则，该值应小于 **range_filter** 的值。
+            确定最低相似度阈值。将 `metric_type` 设置为 `L2` 时，请确保此值大于 **range_filter** 的值。否则，此值应小于 **range_filter** 的值。
 
         - **range_filter**  (float) -  
 
-            将搜索范围细化为位于特定相似度区间内的向量。当将 `metric_type` 设置为 `IP` 或 `COSINE` 时，请确保该值大于 **radius** 的值。否则，该值应小于 **radius** 的值。
+            将搜索范围缩小到特定相似度区间内的向量。将 `metric_type` 设置为 `IP` 或 `COSINE` 时，请确保此值大于 **radius** 的值。否则，此值应小于 **radius** 的值。
 
-    有关其他适用搜索参数的详细信息，请参阅 [AUTOINDEX Explained](/docs/autoindex-explained)。
+    有关其他适用搜索参数的详细信息，请阅读 [AUTOINDEX Explained](/docs/autoindex-explained) 以了解更多。
 
 - **limit** (*int*) -
 
@@ -112,7 +112,7 @@ search(
 
     用于筛选匹配 Entity 的标量过滤条件。
 
-    该值默认为 **None**，表示忽略标量过滤。要构建标量过滤条件，请参阅 [Boolean Expression Rules](https://milvus.io/docs/boolean.md)。
+    该值默认为 **None**，表示忽略标量过滤。要构建标量过滤条件，请参见 [Boolean Expression Rules](https://milvus.io/docs/boolean.md)。
 
 - **output_fields** (*list*) -
 
@@ -126,29 +126,29 @@ search(
 
 - **round_decimal** (int) -
 
-    Zilliz Cloud 对计算出的距离进行四舍五入时保留的小数位数。
+    Zilliz Cloud 对计算所得距离进行四舍五入时保留的小数位数。
 
-    该值默认为 **-1**，表示 Zilliz Cloud 不对计算出的距离进行四舍五入，而是返回原始值。
+    该值默认为 **-1**，表示 Zilliz Cloud 跳过对计算所得距离的四舍五入，并返回原始值。
 
 - **search_aggregation** (*Optional[SearchAggregation]*) -
 
-    分层桶聚合规范。与 **group_by_field** 互斥。设置后，将忽略 **limit**，并由根级 *SearchAggregation.size* 控制顶层桶数量。
+    分层桶聚合规范。此参数与 **group_by_field** 互斥。设置此参数后，将忽略 **limit**，顶层桶数量由根 *SearchAggregation.size* 控制。
 
 **返回类型：**
 
 *SearchResult*
 
-**返回值：**
+**返回：**
 
-包含 **Hits** 对象列表的 **SearchResult** 对象。
+一个 **SearchResult** 对象，其中包含 **Hits** 对象列表。
 
 - 响应结构
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     **SearchResult** 对象包含一个 **Hits** 对象列表，其中每个 **Hits** 对象对应搜索请求中的一个查询向量。
     
-    **Hits** 对象包含一个 **Hit** 对象列表，其中每个 **Hit** 对象对应一个被搜索命中的 Entity。
+    **Hits** 对象包含一个 **Hit** 对象列表，其中每个 **Hit** 对象对应搜索命中的一个 Entity。
 
     </Admonition>
 
@@ -171,11 +171,11 @@ search(
 
         - **ids** (*list[int]* | *list[str]*)
 
-            包含命中 Entity ID 的列表。
+            包含命中 Entity 的 ID 的列表。
 
         - **distances** (list[float]) 
 
-            命中 Entity 的向量字段与查询向量之间距离的列表。
+            命中 Entity 的向量字段与查询向量之间的距离列表。
 
     - **Hit** 对象包含以下字段：
 
@@ -197,7 +197,7 @@ search(
 
         - **get(*field_name: str*)**
 
-            用于获取命中 Entity 中指定字段值的函数。
+            用于获取命中 Entity 中指定字段的值的函数。
 
 **异常：**
 
@@ -274,4 +274,3 @@ for hits in res:
 - [query()](./Partition-query)
 
 - [upsert()](./Partition-upsert)
-

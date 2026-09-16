@@ -41,9 +41,9 @@ class pymilvus.RemoteBulkWriter.S3ConnectParam
 
 通过一组参数（如 **bucket_name**、**access_key**、**secret_key** 等）构造 **S3ConnectParam** 对象。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-**S3ConnectParam** 对象定义了 Zilliz Cloud 连接到兼容 AWS S3 的 bucket 所需的参数。
+**S3ConnectParam** 对象定义了 Zilliz Cloud 连接到兼容 AWS S3 的存储桶所需的参数。
 
 在初始化 **[RemoteBulkWriter](./DataImport-RemoteBulkWriter)** 对象之前，您需要先创建此对象。
 
@@ -71,7 +71,7 @@ connect_param = RemoteBulkWriter.S3ConnectParam(
 
 - **bucket_name** (*str*)
 
-    要连接的远程 bucket 的名称。
+    要连接的远程存储桶的名称。
 
 - **Endpoint** (*str*)
 
@@ -86,11 +86,11 @@ connect_param = RemoteBulkWriter.S3ConnectParam(
 
 - **access_key** (*str*)
 
-    用于验证对指定 bucket 访问权限的 access key（用户 ID）。
+    用于验证对指定存储桶访问权限的 access key（用户 ID）。
 
 - **secret_key** (*str*)
 
-    用于验证对指定 bucket 访问权限的 secret_key（密码）。
+    用于验证对指定存储桶访问权限的 secret_key（密码）。
 
 - **secure** (*bool*)
 
@@ -102,7 +102,7 @@ connect_param = RemoteBulkWriter.S3ConnectParam(
 
 - **region** (*str*)
 
-    bucket 所在区域的名称或 ID。
+    存储桶所在区域的名称或 ID。
 
 - **http_client** (*urllib3.poolmanager.PoolManager*)
 
@@ -118,11 +118,10 @@ connect_param = RemoteBulkWriter.S3ConnectParam(
 
 **返回值：**
 
-**[RemoteBulkWriter](./DataImport-RemoteBulkWriter)** 对象。
+一个 **[RemoteBulkWriter](./DataImport-RemoteBulkWriter)** 对象。
 
 **异常：**
 
 - **Exception**
 
     如果连接失败，将引发此异常。
-

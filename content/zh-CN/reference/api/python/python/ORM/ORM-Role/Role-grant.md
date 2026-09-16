@@ -18,7 +18,7 @@ keywords:
   - 大语言模型
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - grant()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -58,7 +58,7 @@ grant(
 
     **[必需]**
 
-    在 **object** 中指定类型的目标对象名称。
+    由 **object** 指定类型的目标对象名称。
 
     它可以是 Collection 名称、用户名或通配符（*）。
 
@@ -70,11 +70,11 @@ grant(
 
     详情请参见 Users & Roles。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
-    - 要向某一类对象授予所有权限，例如 **[Collection](./ORM-Collection)**、**Global**、**User**，请使用 `*` 作为权限名称。
+    - 要向某一类对象授予所有权限，例如 **[Collection](./ORM-Collection)**、**Global** 和 **User**，请使用 `*` 作为权限名称。
     
-    - 当 `object` 设置为 `Global` 时，将 `privilege` 设置为 `\*` 并不等同于将其设置为 `All`。`All` 权限包含所有权限，包括任何 Collection 和 user 对象。
+    - 当 `object` 设置为 `Global` 时，将 `privilege` 设置为 `\*` 并不等同于将其设置为 `All`。`All` 权限包含所有权限，包括任何 Collection 和用户对象。
 
     </Admonition>
 

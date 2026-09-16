@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会向 Collection 添加一个新函数。函数支持您定义自定义处理逻辑，例如 BM25 评分或嵌入生成。 | Python | MilvusClient"
+description: "此操作会向 Collection 添加一个新函数。函数允许您定义自定义处理逻辑，例如 BM25 评分或嵌入生成。 | Python | MilvusClient"
 type: docx
 token: Qe3GdWZa9oAxjrx85tkct8ManRe
 sidebar_position: 21
@@ -17,7 +17,7 @@ keywords:
   - 向量 Database 如何工作
   - 向量数据库对比
   - zilliz
-  - zilliz cloud
+  - Zilliz Cloud
   - 云
   - add_collection_function()
   - pymilvus30
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # add_collection_function()
 
-此操作会向 Collection 添加一个新函数。函数支持您定义自定义处理逻辑，例如 BM25 评分或嵌入生成。
+此操作会向 Collection 添加一个新函数。函数允许您定义自定义处理逻辑，例如 BM25 评分或嵌入生成。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-此操作不适用于外部 Collection。
+这不适用于外部 Collection。
 
 </Admonition>
 

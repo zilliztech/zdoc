@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作显示在特定 Partition 上收集的统计信息。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 这仅适用于托管 Collection。
 
@@ -83,9 +83,11 @@ get_partition_stats(
 }
 ```
 
-<Admonition type="info" icon="📘" title="**Why doesn't the row count match the number of entities inserted?**">
+<Admonition type="info" title="Note">
 
-您插入的数据在最终保存之前会经历一个过程。最初，它会以数据流的形式进入。随后，它会作为 Entity 存储在 Segment 中。Milvus 会选择一个合适的增长中 Segment 来存储流式数据，直到该 Segment 达到上限并变为 sealed。
+为什么行数与插入的 Entity 数量不一致？
+
+您插入的数据在最终保存之前会经历一个过程。起初，它会以数据流的形式进入。随后，它会作为 Entity 存储在 Segment 中。Milvus 会选择一个合适的增长中 Segment 来存储流式数据，直到该 Segment 达到上限并变为 sealed。
 
 不过，需要注意的是，显示的行数可能与插入的记录数不一致，因为数据流中的数据不会被计入。
 

@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出指定 Collection 中的 Partition。 | Python | MilvusClient"
+description: "此操作会列出指定 Collection 中的 Partition。 | Python | MilvusClient"
 type: docx
 token: Dxgqdvlk5o2VScxqmL1ctc1Inqb
 sidebar_position: 5
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # list_partitions()
 
-此操作列出指定 Collection 中的 Partition。
+此操作会列出指定 Collection 中的 Partition。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 这仅适用于托管 Collection。
 
@@ -58,7 +58,7 @@ list_partitions(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
@@ -115,4 +115,3 @@ client.list_partitions(
 - [load_partitions()](./Partitions-load_partitions)
 
 - [release_partitions()](./Partitions-release_partitions)
-

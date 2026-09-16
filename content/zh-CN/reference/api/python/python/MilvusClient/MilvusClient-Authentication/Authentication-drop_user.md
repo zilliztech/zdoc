@@ -52,7 +52,7 @@ drop_user(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。
+    此操作的超时时长。 
 
     将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
@@ -60,7 +60,7 @@ drop_user(
 
 *NoneType*
 
-**返回值：**
+**返回：**
 
 None
 
@@ -94,7 +94,7 @@ client.drop_user(user_name="user_1")
 
 ## 相关方法\{#related-methods}
 
-- [create_user()](./utility-create_user)
+- [create_user()](./Authentication-create_user)
 
 - [describe_user()](./Authentication-describe_user)
 

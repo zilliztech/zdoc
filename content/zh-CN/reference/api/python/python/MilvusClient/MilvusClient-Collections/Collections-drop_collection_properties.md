@@ -16,7 +16,7 @@ keywords:
   - 检索增强生成
   - 大语言模型
   - 向量化
-  - zilliz
+  - Zilliz
   - Zilliz Cloud
   - 云
   - drop_collection_properties()
@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作会删除指定的 Collection 属性。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 这不适用于外部 Collection。
 
@@ -73,7 +73,7 @@ drop_collection_properties(
 
     此操作的超时时长。
 
-    将此参数设置为 None 表示，当收到任意响应或发生任意错误时，此操作即超时结束。
+    将其设置为 None 表示当收到任意响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 

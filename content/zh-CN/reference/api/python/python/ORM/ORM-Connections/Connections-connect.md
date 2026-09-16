@@ -50,15 +50,15 @@ connect(
 
 - **alias** (*string*) -
 
-    **[必填]**
+    **[必需]**
 
     连接别名。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
-    - 如果指定的连接别名不存在，将添加一个新的别名，并将下方指定的参数添加为该连接别名的参数。
+    - 如果指定的连接别名不存在，将添加一个新的连接别名，并将下方指定的参数作为该连接别名的参数一并添加。
     
-    - 如果指定的连接别名已通过 **add_connection()** 添加，则下方指定的参数会覆盖该连接别名原有的参数。
+    - 如果指定的连接别名已通过调用 **add_connection()** 添加，则下方指定的参数将覆盖该连接别名的参数。
 
     </Admonition>
 
@@ -66,13 +66,13 @@ connect(
 
     用于连接指定 Zilliz Cloud 集群的有效用户名。
 
-    应与 **password** 一起使用。
+    此参数应与 **password** 一起使用。
 
 - **password** (*string*) -
 
     用于连接指定 Zilliz Cloud 集群的有效密码。
 
-    应与 **user** 一起使用。
+    此参数应与 **user** 一起使用。
 
 - **db_name** (*string*) -
 
@@ -80,13 +80,13 @@ connect(
 
 - **token** (*string*) -
 
-    用于访问指定 Zilliz Cloud 集群的有效访问令牌。可作为分别设置 **user** 和 **password** 的替代方式。
+    用于访问指定 Zilliz Cloud 集群的有效访问令牌。此参数可作为分别设置 **user** 和 **password** 的替代方式。
 
     设置此字段时，请注意：
 
     有效的令牌应满足以下任一条件：
 
-    - 具有足够权限的 API 密钥，或
+    - 具有足够权限的 API key，或
 
     - 用于访问目标集群的一组用户名和密码，并使用冒号（:）连接。例如，您可以将其设置为 `username:p@ssw0rd`。
 
@@ -96,7 +96,7 @@ connect(
 
     - **address** (*string*) -
 
-        实际连接地址。示例地址：**YOUR_CLUSTER_ENDPOINT**。
+        要连接的实际地址。示例地址：**YOUR_CLUSTER_ENDPOINT**。
 
     - **uri** (*string*) -
 
@@ -104,7 +104,7 @@ connect(
 
     - **host** (*string*) -
 
-        Zilliz Cloud 集群的主机名。该值默认为 **localhost**；如果仅提供 **port**，PyMilvus 将填充默认主机名。
+        Zilliz Cloud 集群的主机。该值默认为 **localhost**；如果仅提供 **port**，PyMilvus 将填充默认主机。
 
     - **port** (*string | int*) -
 
@@ -112,7 +112,7 @@ connect(
 
     - **secure** (*bool*) -
 
-        布尔值，用于指示连接中是否使用 TLS。
+        一个布尔值，用于指示连接中是否使用 TLS。
 
     - **client_key_path** (*string*) -
 
@@ -148,7 +148,7 @@ connect(
 
     - **server_name** (*string*) -
 
-        服务器侧 TLS 证书验证所需的有效服务器名称路径。
+        服务器侧 TLS 证书验证所需的有效服务器名称。
 
         当使用自签名 TLS 证书或由未知颁发机构签名的证书时，此参数是必需的。
 
@@ -158,7 +158,7 @@ connect(
 
 None
 
-**返回值：**
+**返回：**
 
 None
 
@@ -174,7 +174,7 @@ None
 
 - **Exception**：
 
-    当连接参数中指定的服务器不可达/ready且客户端无法连接到该服务器时，将引发此异常。
+    当连接参数中指定的服务器不可达/ready，且客户端无法连接到该服务器时，将引发此异常。
 
 ## 示例\{#examples}
 
@@ -222,4 +222,3 @@ connections.connect(db_name="books")
 - [list_connections()](./Connections-list_connections)
 
 - [remove_connection()](./Connections-remove_connection)
-

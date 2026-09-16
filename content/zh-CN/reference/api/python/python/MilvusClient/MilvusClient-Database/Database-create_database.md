@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作创建一个 Database。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 此方法仅适用于 dedicated serving 集群和按需计算。
 
@@ -74,7 +74,7 @@ create_database(
 
 - **properties** (*dict* | *None*) -
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     这不适用于按需计算的 Database。
 
@@ -82,27 +82,27 @@ create_database(
 
     要创建的 Database 的属性。可用的 Database 属性如下：
 
-    - **database.replica.number** (*int*) -
+    - **Database.replica.number** (*int*) -
 
         Database 的副本数。
 
-    - **database.resource_groups** (*[]str*) -
+    - **Database.resource_groups** (*[]str*) -
 
         专用于该 Database 的资源组。
 
-    - **database.diskQuota.mb** (*int*) -
+    - **Database.diskQuota.mb** (*int*) -
 
         分配给该 Database 的磁盘配额，以兆字节（**MB**）为单位。
 
-    - **database.max.collections** (*int*) -
+    - **Database.max.collections** (*int*) -
 
         该 Database 中允许的最大 Collection 数量。
 
-    - **database.force.deny.writing** (*bool*) -
+    - **Database.force.deny.writing** (*bool*) -
 
         是否拒绝该 Database 中的所有写入操作。
 
-    - **database.force.deny.reading** (*bool*) -
+    - **Database.force.deny.reading** (*bool*) -
 
         是否拒绝该 Database 中的所有读取操作。
 
@@ -133,4 +133,3 @@ client.create_database(
     db_name="my_db"
 )
 ```
-

@@ -17,7 +17,7 @@ keywords:
   - 混合搜索
   - 词法搜索
   - zilliz
-  - Zilliz Cloud
+  - zilliz cloud
   - 云
   - search()
   - pymilvus30
@@ -33,9 +33,9 @@ import Admonition from '@theme/Admonition';
 
 此操作执行向量相似性搜索，并可选择使用标量过滤表达式。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-此方法仅适用于 dedicated serving 集群和按需计算。
+此方法仅适用于 Dedicated serving 集群和按需计算。
 
 - 如果要在 serving 集群的 Collection 中执行此操作，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- 如果要在按需计算的 Collection 中执行此操作，请使用项目 Endpoints 创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个会话以附加到按需集群进行搜索。
+- 如果要在按需计算的 Collection 中执行此操作，请使用项目 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个会话以连接到按需集群进行搜索。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -70,7 +70,6 @@ search(
     anns_field: Optional[str] = None,
     ranker: Optional[Union[Function, FunctionScore]] = None,
     highlighter: Optional[Highlighter] = None,
-    group_by: Optional[GroupBy] = None,
     order_by_fields: Optional[List[dict]] = None,
     search_aggregation: Optional[SearchAggregation] = None,
     **kwargs,
@@ -105,19 +104,19 @@ search(
 
 - **anns_field** (*str*) -
 
-    当前搜索的目标向量字段名称。
+    当前搜索的目标向量字段的名称。
 
 - **filter** (*str*) -
 
     用于过滤匹配 Entity 的标量过滤条件。
 
-    默认值为空字符串，表示不应用任何条件。
+    该值默认为空字符串，表示不应用任何条件。
 
     您可以将此参数设置为空字符串以跳过标量过滤。要构建标量过滤条件，请参见 [Filtering Overview](/docs/filtering-overview)。
 
 - **filter_params** (*dict*) -
 
-    如果您选择按照 [Filtering Templating](/docs/filtering-templating) 中所述在 `filter` 中使用占位符，则可以将这些占位符的实际值以键值对形式指定为此参数的值。
+    如果您选择按照 [Filtering Templating](/docs/filtering-templating) 中所述在 `filter` 中使用占位符，则可以将这些占位符的实际值以键值对的形式指定为此参数的值。
 
 - **limit** (*int*) -
 
@@ -127,19 +126,19 @@ search(
 
     此值与 **param** 中 **offset** 的总和应小于 16,384。
 
-    不过，在分组搜索中，`limit` 指定的是要返回的最大组数，而不是单个 Entity 数。每个组都基于指定的 `group_by_field` 形成。
+    不过，在分组搜索中，`limit` 指定的是要返回的最大组数，而不是单个 Entity 的数量。每个组都基于指定的 `group_by_field` 形成。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
-    当为搜索聚合指定 `group_by` 时，请不要显式设置 `limit`。请使用根 `GroupBy.size` 值来控制要返回的顶层桶数量。
+    指定 `search_aggregation` 时，请不要显式设置 `limit`。请使用根 `SearchAggregation.size` 值来控制要返回的顶层桶数量。
 
     </Admonition>
 
 - **output_fields** (l*ist[str]*) -
 
-    返回结果中每个 Entity 要包含的字段名列表。
+    返回的每个 Entity 中要包含的字段名列表。
 
-    默认值为 **None**。如果未指定，则仅包含主字段。
+    该值默认为 **None**。如果未指定，则仅包含主字段。
 
 - **search_params** (*dict*) -
 
@@ -155,13 +154,13 @@ search(
 
     - **level** (*int*)
 
-        Zilliz Cloud 使用统一参数来简化搜索参数调优，而不是让您处理针对各种索引算法的大量特定搜索参数。
+        Zilliz Cloud 使用统一参数来简化搜索参数调优，而不是让您处理各种索引算法特有的大量搜索参数。
 
-        默认值为 **1**，范围为 **1** 到 **5**。增大该值会提高召回率，但会降低搜索性能。
+        该值默认为 **1**，范围为 **1** 到 **5**。增大该值会提高召回率，但会降低搜索性能。
 
     - **page_retain_order** (*bool*) -
 
-        指定 `offset` 时，是否保留搜索结果的顺序。
+        当提供 `offset` 时，是否保留搜索结果的顺序。
 
         此参数仅在您同时设置 `radius` 时适用。
 
@@ -169,7 +168,7 @@ search(
 
         附加参数。
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" title="Notes">
 
         所有附加参数都已移至上层 `search_params`，并且 `params` 参数即将废弃。
 
@@ -185,13 +184,13 @@ search(
 
         - **level** (*int*)
 
-            Zilliz Cloud 使用统一参数来简化搜索参数调优，而不是让您处理针对各种索引算法的大量特定搜索参数。
+            Zilliz Cloud 使用统一参数来简化搜索参数调优，而不是让您处理各种索引算法特有的大量搜索参数。
 
-            默认值为 **1**，范围为 **1** 到 **5**。增大该值会提高召回率，但会降低搜索性能。
+            该值默认为 **1**，范围为 **1** 到 **5**。增大该值会提高召回率，但会降低搜索性能。
 
         - **page_retain_order** (*bool*) -
 
-            指定 `offset` 时，是否保留搜索结果的顺序。
+            当提供 `offset` 时，是否保留搜索结果的顺序。
 
             此参数仅在您同时设置 `radius` 时适用。
 
@@ -201,31 +200,21 @@ search(
 
     有关其他适用搜索参数的详细信息，请参见 [In-memory Index](https://milvus.io/docs/index.md) 和 [On-disk Index](https://milvus.io/docs/disk_index.md)。
 
-    有关其他适用搜索参数的详细信息，请阅读 [AUTOINDEX Explained](/docs/autoindex-explained)。
+    有关其他适用搜索参数的详细信息，请阅读 [AUTOINDEX Explained](/docs/autoindex-explained) 以了解更多。
 
 - **group_by_field** (*str*)
 
     按指定字段对搜索结果进行分组，以确保结果多样性并避免返回同一组中的多个结果。
 
-    此参数由 Grouping Search 使用。它与 `group_by` 互斥。
+    此参数由 Grouping Search 使用。在 PyMilvus 3.0.1 或更高版本中，请勿将此参数与 `search_aggregation` 一起使用。
 
 - **group_size** (*int*)
 
-    在分组搜索中，每组要返回的目标 Entity 数。例如，设置 `group_size=2` 将指示系统在每组内最多返回 2 个最相似的 Entity（例如文档段落或向量表示）。如果未设置 `group_size`，系统默认每组仅返回 1 个 Entity。
+    在分组搜索中，每组要返回的目标 Entity 数。例如，设置 `group_size=2` 会指示系统在每组内最多返回 2 个最相似的 Entity（例如文档段落或向量表示）。如果未设置 `group_size`，系统默认每组仅返回 1 个 Entity。
 
 - **strict_group_size** (*bool*)
 
-    此布尔参数用于指定是否应严格执行 `group_size`。当 `strict_group_size=True` 时，只要每组中存在足够数据，系统就会尝试用恰好 `group_size` 个结果填满每个组。如果某个组中的 Entity 数量不足，则仅返回可用的 Entity，同时确保数据充足的组满足指定的 `group_size`。
-
-- **group_by** (*GroupBy | None*) -
-
-    定义搜索聚合的 `GroupBy` 对象。指定此参数后，Zilliz Cloud 会根据根 `GroupBy` 对象中的字段，将 ANN 搜索结果分组到各个桶中。每个桶可包含桶级指标、代表性命中结果以及嵌套子组。`group_by` 与 `group_by_field` 互斥。对于现有的单字段 Grouping Search 工作流，请使用 `group_by_field`。当您需要桶级指标、多字段分组、桶排序、命中结果排序或嵌套分组时，请使用 `group_by`。
-
-    <Admonition type="info" icon="📘" title="Notes">
-
-    搜索聚合指标是基于 ANN 检索到的 Entity 计算的，而不是基于整个 Collection。桶计数、指标以及基于指标的排序都是近似值。
-
-    </Admonition>
+    此布尔参数用于指定是否应严格执行 `group_size`。当 `strict_group_size=True` 时，只要每组中存在足够的数据，系统就会尝试用恰好 `group_size` 个结果填满每个组。如果某个组中的 Entity 数量不足，则仅返回可用的 Entity，从而确保数据充足的组满足指定的 `group_size`。
 
 - **order_by_fields** (*list[dict] | None*) -
 
@@ -235,7 +224,7 @@ search(
 
     - **field** (*str*) -
 
-        要排序的标量字段名称。
+        要排序的标量字段的名称。
 
     - **order** (*str*) -
 
@@ -243,17 +232,17 @@ search(
 
     Zilliz Cloud 会按照您指定的顺序应用多个 order-by 字段。对于在所有指定 order-by 字段上取值相同的 Entity，Zilliz Cloud 会保留原始的相似度分数顺序。
 
-    在分组搜索中，Zilliz Cloud 会根据每组顶部 Entity 的指定标量字段值对组进行排序。`limit` 参数仍控制组数，而 `group_size` 控制每组中的 Entity 数。
+    在分组搜索中，Zilliz Cloud 会根据每组顶部 Entity 的指定标量字段值对组进行排序。`limit` 参数仍控制组数，而 `group_size` 控制每组中的 Entity 数量。
 
 - **timeout** (*float* | *None*) -
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生错误时，此操作即超时。
 
 - **partition_names** (*list*) -
 
     Partition 名称列表。
 
-    默认值为 **None**。如果指定，则仅指定的 Partition 会参与查询。
+    该值默认为 **None**。如果指定，则仅指定的 Partition 会参与查询。
 
 - **ranker** (*[Function](./MilvusClient-Function)* | *[FunctionScore](./MilvusClient-FunctionScore)*) -
 
@@ -263,11 +252,9 @@ search(
 
 - **highlighter** (*Highlighter*) -
 
-    用于在搜索操作中高亮匹配术语的高亮器。有关详细信息，请参见 [Lexical Highlighter](/docs/text-highlighter) 和 [Semantic Highlighter](/docs/semantic-highlighter)。
+    用于在搜索操作中高亮匹配词项的高亮器。有关详细信息，请参见 [Lexical Highlighter](/docs/text-highlighter)。
 
-- **search_aggregation** (*Optional[SearchAggregation]*) -
-
-    分层桶聚合规范。与 **group_by_field** 互斥。设置后，将忽略 **limit**，并由根 `SearchAggregation.size` 控制顶层桶数量。
+- **search_aggregation** (*Optional[SearchAggregation]*) - 自 PyMilvus 3.0.1 起可用。定义分层桶聚合。请勿将此参数与 `group_by_field` 一起使用。设置后，`limit` 会被忽略，并由根 `SearchAggregation.size` 控制顶层桶的数量。
 
 - **kwargs** -
 
@@ -281,21 +268,21 @@ search(
 
     - **round_decimal** (int) -
 
-        Zilliz Cloud 对计算出的距离进行四舍五入时保留的小数位数。
+        Zilliz Cloud 对计算出的距离进行舍入时保留的小数位数。
 
-        默认值为 **-1**，表示 Zilliz Cloud 跳过对计算距离的四舍五入，并返回原始值。
+        该值默认为 **-1**，表示 Zilliz Cloud 跳过对计算距离的舍入，并返回原始值。
 
     - **timezone** (*str*)
 
-        通过设置 [IANA identifier](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)（例如 **Asia/Shanghai**, **America/Chicago**, 或 **UTC**），可为单次查询临时覆盖 Collection 或 Database 的默认时区。这仅控制 `TIMESTAMPTZ` 值在该操作期间如何被解释、显示和比较；不会修改存储的数据或 Collection 设置。
+        通过设置 [IANA identifier](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)（例如 **Asia/Shanghai**, **America/Chicago**, 或 **UTC**），可为单次查询临时覆盖 Collection 或 Database 的默认时区。这仅控制 `TIMESTAMPTZ` 值在该操作期间如何被解释、显示和比较；它不会修改存储的数据或 Collection 设置。
 
-        更多信息，请参见 [TIMESTAMPZ Field](/docs/use-timestamptz-field)。
+        有关更多信息，请参见 [TIMESTAMPZ Field](/docs/use-timestamptz-field)。
 
     - **time_fields** (*str*)
 
-        在查询或搜索操作期间，从 `TIMESTAMPTZ` 字段中提取特定时间组成部分。使用逗号分隔的列表指定要提取的元素。支持的元素包括：`year`、`month`、`day`、`hour`、`minute`、`second` 和 `microsecond`。
+        在查询或搜索操作期间，从 `TIMESTAMPTZ` 字段中提取特定的时间组成部分。使用逗号分隔的列表指定要提取哪些元素。支持的元素包括：`year`、`month`、`day`、`hour`、`minute`、`second` 和 `microsecond`。
 
-        更多信息，请参见 TIMESTAMPZ Field。
+        有关更多信息，请参见 TIMESTAMPZ Field。
 
 **返回类型：**
 
@@ -311,6 +298,22 @@ search(
     当此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#examples}
+
+**Grouping Search**
+
+以下聚焦示例省略了客户端设置、Collection 创建和数据插入。它假设 `product_catalog` 具有一个 5 维向量字段和一个名为 `brand` 的标量字段。
+
+```python
+res = client.search(
+    collection_name="product_catalog",
+    data=[[0.05, 0.23, 0.07, 0.45, 0.13]],
+    limit=10,
+    group_by_field="brand",
+    group_size=2,
+    strict_group_size=True,
+    output_fields=["brand"],
+)
+```
 
 ```python
 from pymilvus import MilvusClient

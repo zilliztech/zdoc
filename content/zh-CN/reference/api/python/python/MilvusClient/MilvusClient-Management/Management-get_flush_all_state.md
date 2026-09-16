@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作返回 flush-all 操作是否已完成。调用 `flush_all()` 后，可使用此操作检查 flush 状态。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 这仅适用于托管 Collection。
 
@@ -57,7 +57,7 @@ client.get_flush_all_state(
 
 *bool*
 
-**返回值：**
+**返回：**
 
 如果 flush-all 操作已完成，则为 **True**；否则为 **False**。
 

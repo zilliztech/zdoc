@@ -81,7 +81,7 @@ get_replicas(
 
         - **shard_nodes** (*set*)
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 什么是副本？
 

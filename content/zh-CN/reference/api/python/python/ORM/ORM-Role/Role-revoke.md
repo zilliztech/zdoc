@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会撤销授予当前角色的权限。 | Python | ORM"
+description: "此操作会撤销已授予当前角色的权限。 | Python | ORM"
 type: docx
 token: UUJWdoEnjoXx69xahsScdMVSnzf
 sidebar_position: 10
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # revoke()
 
-此操作会撤销授予当前角色的权限。
+此操作会撤销已授予当前角色的权限。
 
 ## 请求语法\{#request-syntax}
 
@@ -58,9 +58,9 @@ revoke(
 
     **[必需]**
 
-    由 **object** 指定类型的目标对象名称。
+    在 **object** 中指定类型的目标对象名称。
 
-    它可以是 Collection 名称、用户名或通配符（*）。
+    它可以是 Collection 名称、用户名或通配符（&ast;）。
 
 - **privilege** (*string*)
 
@@ -70,11 +70,11 @@ revoke(
 
     详情请参见 Users & Roles。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
-    - 要向某类对象授予所有权限，例如 **[Collection](./ORM-Collection)**、**Global**、**User**，请使用 `*` 作为权限名称。
+    - 要向某一类对象授予所有权限，例如 **[Collection](./ORM-Collection)**、**Global**、**User**，请使用 `*` 作为权限名称。
     
-    - 当 `object` 设置为 `Global` 时，将 `privilege` 设置为 `\*` 并不等同于将其设置为 `All`。`All` 权限包含所有许可，包括任何 Collection 和用户对象。
+    - 当 `object` 设置为 `Global` 时，将 `privilege` 设置为 `\*` 并不等同于将其设置为 `All`。`All` 权限包含所有权限，包括任何 Collection 和用户对象。
 
     </Admonition>
 

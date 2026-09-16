@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会将混合时间戳转换为 UNIX 纪元时间戳 | Python | ORM"
+description: "此操作将混合时间戳转换为 UNIX 纪元时间戳。 | Python | ORM"
 type: docx
 token: HbMMdqtQGoQqwixsyrjcTTh0nu5
 sidebar_position: 20
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # hybridts_to_unixtime()
 
-此操作会将混合时间戳转换为 UNIX 纪元时间戳
+此操作将混合时间戳转换为 UNIX 纪元时间戳。
 
 ## 请求语法\{#request-syntax}
 
@@ -43,13 +43,13 @@ hybridts_to_unixtime(
 
 **参数：**
 
-- **hybridts** (*int*) -
+- **hybridts** （*int*） -
 
     **[必需]**
 
     一个混合时间戳。
 
-    混合时间戳是一个非负整数，取值范围为 **0** 到 **18446744073709551615**。
+    混合时间戳是一个非负整数，范围为 **0** 到 **18446744073709551615**。
 
 **返回类型：**
 
@@ -58,7 +58,7 @@ hybridts_to_unixtime(
 **返回：**
 UNIX 纪元时间，它是一个整数，表示自 1970 年 1 月 1 日（UTC 午夜/GMT)起经过的时间，以秒为单位。
 
-## **示例**\{#examples}
+## 示例\{#examples}
 
 ```python
 import time

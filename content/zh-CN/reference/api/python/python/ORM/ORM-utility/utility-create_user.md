@@ -1,10 +1,10 @@
 ---
 title: "create_user() | Python | ORM"
-slug: /python/python/ORM-utility/utility-create_user
+slug: /python/python/utility-create_user
 sidebar_label: "create_user()"
 beta: NEAR DEPRECATE
 added_since: Inherit
-last_modified: v3.0.x
+last_modified: false
 deprecate_since: false
 notebook: false
 description: "此操作会创建一个新用户及其对应的密码。 | Python | ORM"
@@ -12,7 +12,7 @@ type: docx
 token: N44ndTSrgoEBx7xCID5cXRS7n1c
 sidebar_position: 5
 keywords: 
-  - llm 幻觉
+  - LLM 幻觉
   - 混合搜索
   - 词法搜索
   - 最近邻搜索
@@ -80,13 +80,13 @@ utility.create_user(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示，当收到任何响应或发生任何错误时，此操作才会超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生错误时，此操作即超时。
 
 **返回类型：**
 
 *NoneType*
 
-**返回值：**
+**返回：**
 
 None
 

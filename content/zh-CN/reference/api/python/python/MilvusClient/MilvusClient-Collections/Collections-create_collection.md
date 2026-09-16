@@ -33,11 +33,11 @@ import Admonition from '@theme/Admonition';
 
 此操作支持通过两种不同方式创建 Collection：快速设置或自定义设置。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-此方法适用于专用服务集群和按需计算。
+此方法适用于 Dedicated serving 集群和按需计算。
 
-- 对于服务集群中的 Collection，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于 serving 集群中的 Collection，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -85,7 +85,7 @@ create_collection(
 
     该值通常由您用于生成向量嵌入的模型决定，并且应为大于 1 的整数。
 
-    此参数用于 Collection 的快速设置；如果 **schema** 不为 **None**，且 Schema 中某个字段的 **dim** 已设置为正整数，则会忽略此参数。
+    此参数用于 Collection 的快速设置；如果 **Schema** 不为 **None**，且 Schema 中某个字段的 **dim** 已设置为正整数，则会忽略此参数。
 
 - **primary_field_name** (*str*) -
 
@@ -93,7 +93,7 @@ create_collection(
 
     该值默认为 **id**。您也可以根据需要使用其他名称。如果您需要使用自定义 Schema 设置 Collection，请跳过此参数。
 
-    此参数用于 Collection 的快速设置；如果 **schema** 不为 **None**，且 Schema 中某个字段的 **is_primary** 设置为 **True**，则会忽略此参数。
+    此参数用于 Collection 的快速设置；如果 **Schema** 不为 **None**，且 Schema 中某个字段的 **is_primary** 设置为 **True**，则会忽略此参数。
 
 - **id_type** (*[DataType](./Collections-DataType)*) -
 
@@ -101,7 +101,7 @@ create_collection(
 
     该值默认为 **DataType.INT64**。可选值为 **DataType.INT64** 和 **DataType.VARCHAR**。
 
-    此参数用于 Collection 的快速设置；如果 **schema** 不为 **None**，则会忽略此参数。
+    此参数用于 Collection 的快速设置；如果 **Schema** 不为 **None**，则会忽略此参数。
 
 - **vector_field_name** (*str*) -
 
@@ -109,7 +109,7 @@ create_collection(
 
     该值默认为 **vector**。您也可以根据需要使用其他名称。
 
-    此参数用于 Collection 的快速设置；如果 **schema** 不为 **None**，则会忽略此参数。
+    此参数用于 Collection 的快速设置；如果 **Schema** 不为 **None**，则会忽略此参数。
 
 - **metric_type** (*str*) -
 
@@ -117,7 +117,7 @@ create_collection(
 
     该值默认为 **COSINE**。可选值为 **L2**、**IP** 和 **COSINE**。有关这些度量类型的详细信息，请参见 [相似度度量说明](/docs/search-metrics-explained)。
 
-    此参数用于 Collection 的快速设置；如果 **schema** 不为 **None**，则会忽略此参数。
+    此参数用于 Collection 的快速设置；如果 **Schema** 不为 **None**，则会忽略此参数。
 
 - **auto_id** (*bool*) -
 
@@ -125,7 +125,7 @@ create_collection(
 
     该值默认为 **False**。将其设置为 **True** 会使主字段自动递增。在这种情况下，为避免出错，待插入的数据中不应包含主字段。自动生成的 ID 具有固定长度，且不可更改。
 
-    此参数用于 Collection 的快速设置；如果 **schema** 不为 **None**，则会忽略此参数。
+    此参数用于 Collection 的快速设置；如果 **Schema** 不为 **None**，则会忽略此参数。
 
 - **timeout** (*float* | *None*) -
 
@@ -153,7 +153,7 @@ create_collection(
 
         该值默认为 **True**，表示使用 **&#36;meta** 字段。
 
-        如果 **schema** 不为 **None**，则会忽略此参数。
+        如果 **Schema** 不为 **None**，则会忽略此参数。
 
     - **num_shards** (*int*) -
 
@@ -161,7 +161,7 @@ create_collection(
 
         该值默认为 **1**，表示在创建此 Collection 时将一并创建一个分片。
 
-        <Admonition type="info" icon="📘" title="Note">
+        <Admonition type="info" title="Note">
 
         什么是分片？
         
@@ -175,9 +175,9 @@ create_collection(
 
         用作 Partition 键的字段名称。每个 Collection 只能有一个 Partition 键。
 
-        如果 **schema** 不为 **None**，且 Schema 中某个字段的 **is_parition_key** 设置为 **True**，则会忽略此参数。
+        如果 **Schema** 不为 **None**，且 Schema 中某个字段的 **is_parition_key** 设置为 **True**，则会忽略此参数。
 
-        <Admonition type="info" icon="📘" title="Note">
+        <Admonition type="info" title="Note">
 
         什么是 Partition 键？
         
@@ -205,7 +205,7 @@ create_collection(
 
         该值默认为 **Bounded**（**2**），可选值包括 **Strong**（**0**）、**Session**（**1**）、**Bounded**（**2**）和 **Eventually**（**3**）。
 
-        <Admonition type="info" icon="📘" title="Note">
+        <Admonition type="info" title="Note">
 
         什么是一致性级别？
         
@@ -227,7 +227,7 @@ create_collection(
 
         - **ttl_field** (*str*)
 
-            用作 Entity 级 TTL 过期逻辑时间戳的`TIMESTAMPTZ`字段名称。
+            用作 Entity 级 TTL 过期逻辑时间戳的 `TIMESTAMPTZ` 字段名称。
 
         - **mmap.enabled** (*bool*) -
 

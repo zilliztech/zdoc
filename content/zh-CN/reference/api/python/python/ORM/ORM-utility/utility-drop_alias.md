@@ -52,7 +52,7 @@ drop_alias(
 
     要删除的别名。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     删除别名时，您无需提供 Collection 名称，因为一个别名只能分配给一个 Collection。因此，服务器知道指定别名属于哪个 Collection。
 

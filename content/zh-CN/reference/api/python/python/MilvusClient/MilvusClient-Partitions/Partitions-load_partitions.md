@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作会将指定 Collection 中的一组特定 Partition 加载到内存中。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 这仅适用于托管 Collection。
 
@@ -79,7 +79,7 @@ load_partitions(
 
 None
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 仅当其任意一个或全部 Partition 已加载时，Collection 才处于已加载状态。
 

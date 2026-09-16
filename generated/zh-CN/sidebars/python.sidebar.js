@@ -823,7 +823,7 @@ module.exports = [
       },
       {
         "type": "category",
-        "label": "函数",
+        "label": "Function",
         "key": "category:api/python/python/MilvusClient/milvusclient-function",
         "items": [
           {
@@ -841,7 +841,7 @@ module.exports = [
           {
             "type": "doc",
             "id": "api/python/python/MilvusClient/MilvusClient-Function/MilvusClient-Function",
-            "label": "函数",
+            "label": "Function",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Function/milvusclient-function"
           },
           {
@@ -898,6 +898,19 @@ module.exports = [
             "id": "api/python/python/MilvusClient/MilvusClient-EmbeddingList/EmbeddingList-to_numpy",
             "label": "to_numpy()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-EmbeddingList/embeddinglist-tonumpy"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "FieldSchema",
+        "key": "category:api/python/python/MilvusClient/milvusclient-fieldschema",
+        "items": [
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-FieldSchema/MilvusClient-FieldSchema",
+            "label": "FieldSchema",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-FieldSchema/milvusclient-fieldschema"
           }
         ]
       },

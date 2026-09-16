@@ -12,7 +12,7 @@ type: docx
 token: F1mJdDLyzoMTrxxarPMcqPkqnqg
 sidebar_position: 24
 keywords: 
-  - RAG LLM 架构
+  - RAG 大语言模型架构
   - 私有 LLM
   - 近邻搜索
   - LLM 评估
@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作会从 Collection 中删除现有函数。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 这不适用于外部 Collection。
 
@@ -80,7 +80,7 @@ client.drop_collection_function(
 
 - **MilvusException**
 
-    此操作期间发生任何错误时，将引发此异常。
+    当此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

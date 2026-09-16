@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作列出所有或指定 Collection 的外部 Collection 刷新作业。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 这需要使用项目 Endpoint 按如下方式设置 MilvusClient：
 
@@ -59,15 +59,15 @@ def list_refresh_external_collection_jobs(
 
 - **timeout** (*float*) - 
 
-    此操作的超时时长。
+    此操作的超时时长。 
 
-    将此参数设置为 **None** 表示当收到任何响应或发生任何错误时，此操作超时。
+    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
 *List*
 
-**返回值：**
+**返回：**
 
 由 **RefreshExternalCollectionJobInfo** 对象组成的列表，每个对象记录一个外部 Collection 刷新作业的详细信息。
 
@@ -95,7 +95,7 @@ def list_refresh_external_collection_jobs(
 
 - **progress** (*int*) -
 
-    指定作业的当前进度。该值为 0 到 100 的整数。
+    指定作业的当前进度。该值是一个范围为 0 到 100 的整数。
 
 - **external_source** (*str*) -
 
@@ -103,7 +103,7 @@ def list_refresh_external_collection_jobs(
 
 - **external_specs** (*str*) -
 
-    在 `refresh_external_collection()` 中指定的外部 specs。
+    在 `refresh_external_collection()` 中指定的外部规格。
 
 - **reason** (*str*) -
 

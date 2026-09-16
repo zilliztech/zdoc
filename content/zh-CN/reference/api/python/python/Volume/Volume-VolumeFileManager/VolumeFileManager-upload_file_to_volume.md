@@ -12,13 +12,13 @@ type: docx
 token: SAR6dnlmmohi30x0x2KcioyXnib
 sidebar_position: 1
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - 图像相似度搜索
+  - 上下文窗口
+  - 自然语言搜索
+  - 相似度搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - upload_file_to_volume()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作将指定源路径下的本地文件上传至指定托管卷内的目标文件路径。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 此功能仅适用于托管卷。外部卷为只读。
 
@@ -56,49 +56,49 @@ upload_file_to_volume(
 **参数：**
 
 - **source_file_path** (*str*) -<br/>
-  **[必填]**<br/>
+  **[必需]**<br/>
   待上传的本地文件或目录路径。
 
 - **target_volume_path** (*str*) -<br/>
-  **[必填]**<br/>
+  **[必需]**<br/>
   Zilliz Cloud 卷中的目标路径。
 
 - **upload_concurrency** (*int*) -<br/>
-  默认值：`5`<br/>
-  允许并发上传的最大文件数。
+  该值默认为 `5`。<br/>
+  可并发上传的最大文件数。
 
 - **max_retries** (*int*) -<br/>
-  默认值：`5`<br/>
-  每个文件的最大上传重试次数。
+  该值默认为 `5`。<br/>
+  每个文件的最大上传尝试次数。
 
 - **retry_interval** (*float*) -<br/>
-  默认值：`5.0`<br/>
+  该值默认为 `5.0`。<br/>
   两次上传尝试之间的间隔时间（秒）。
 
 - **progress_callback** (*Callable[[UploadProgress], None] | None*) -<br/>
-  默认值：`None`<br/>
+  该值默认为 `None`。<br/>
   用于接收上传进度快照的回调函数。
 
 - **part_size** (*int*) -<br/>
-  默认值：`0`<br/>
+  该值默认为 `0`。<br/>
   分片上传的分片大小（字节）。使用 `0` 可自动选择合适的大小。
 
 **返回类型：**
 
 *dict*
 
-**返回值：**
+**返回：**
 
-包含 volumeName、volume_name 及上传目标路径的字典。
+包含 volumeName、volume_name 和上传目标路径的字典。
 
 **异常：**
 
 - **MilvusException**<br/>
-  当服务器拒绝请求或 RPC 失败时抛出。请查看服务器错误消息以了解具体的失败原因。
+  当服务器拒绝请求或 RPC 失败时抛出。请查看服务器错误消息以了解确切的失败详情。
 
 ## 示例\{#examples}
 
-以下示例演示了如何将文件上传至卷。
+以下示例演示了 upload_file_to_volume 的用法。
 
 ```python
 from pymilvus.bulk_writer import VolumeFileManager, VolumeManager

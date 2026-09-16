@@ -73,7 +73,7 @@ query(
 
     此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
-- **kwargs**：
+- **kwargs**: 
 
     - **consistency_level** (*str* | *int*) -
 
@@ -81,7 +81,7 @@ query(
 
         默认值为您创建当前 Collection 时指定的值，可选项包括 **Strong**（**0**）、**Bounded**（**1**）、**Session**（**2**）和 **Eventually**（**3**）。
 
-        <Admonition type="info" icon="📘" title="Note">
+        <Admonition type="info" title="Note">
 
         什么是一致性级别？
         
@@ -99,7 +99,7 @@ query(
 
         如果设置了此参数，则仅当此时间戳之前插入的所有 Entity 对查询节点可见时，才会执行查询。
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" title="Notes">
 
         当使用默认一致性级别时，此参数有效。
 
@@ -111,7 +111,7 @@ query(
 
         默认值为 **5**。如果设置了此参数，则会通过从当前时间戳中减去该值来计算保证时间戳。
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" title="Notes">
 
         当使用非默认一致性级别时，此参数有效。
 

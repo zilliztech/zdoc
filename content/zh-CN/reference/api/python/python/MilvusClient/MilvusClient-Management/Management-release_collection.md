@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作会从内存中释放指定 Collection 的数据。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 这仅适用于托管 Collection。
 
@@ -66,7 +66,7 @@ release_collection(
 
 *NoneType*
 
-**返回值：**
+**返回：**
 
 None
 
@@ -193,4 +193,3 @@ client.get_load_state(
 - [load_collection()](./Management-load_collection)
 
 - [refresh_load()](./Management-refresh_load)
-

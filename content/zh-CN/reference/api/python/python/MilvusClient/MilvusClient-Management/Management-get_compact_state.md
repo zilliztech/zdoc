@@ -33,9 +33,9 @@ import Admonition from '@theme/Admonition';
 
 此操作返回指定 Compaction 作业的状态。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-此方法已弃用。有关最新的等效方法，请参阅 [get_compaction_state()](./Management-get_compaction_state)。
+此方法已弃用。如需了解最新的等效方法，请参阅 [get_compaction_state()](./Management-get_compaction_state)。
 
 </Admonition>
 
@@ -60,13 +60,13 @@ get_compaction_state(
 
     此操作的超时时长。
 
-    将其设置为 None 表示，当收到任何响应或发生任何错误时，此操作即超时。
+    将其设置为 None 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
 *str*
 
-**返回值：**
+**返回：**
 
 指定 Compaction 作业的状态。可能的值包括
 
@@ -80,7 +80,7 @@ get_compaction_state(
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常，尤其是在指定别名不存在时。
+    当此操作期间发生任何错误时，将引发此异常，尤其是在指定的别名不存在时。
 
 ## 示例\{#example}
 
@@ -99,4 +99,3 @@ client.get_compact_state(
 
 # Completed
 ```
-

@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作使用布尔表达式从 Partition 中删除 Entity。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 在 **[Collection](./ORM-Collection)** 对象的 **delete()** 方法中使用 **partition_name** 参数，等同于使用 **[Partition](./ORM-Partition)** 对象的 **delete()** 方法。
 
@@ -162,4 +162,3 @@ res = partition.delete("id in [ 0, 1 ]")
 - [search()](./Partition-search)
 
 - [upsert()](./Partition-upsert)
-

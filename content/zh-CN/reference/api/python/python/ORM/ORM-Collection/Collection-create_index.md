@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 这会为目标字段创建一个命名索引，该字段可以是向量字段，也可以是标量字段。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 此操作为非阻塞操作。您可以调用 `utility.wait_for_index_building_complete()` 以阻塞当前进程。
 
@@ -151,4 +151,3 @@ collection.has_index() # True
 - [wait_for_index_building_complete()](./utility-wait_for_index_building_complete)
 
 - [list_indexes()](./utility-list_indexes)
-

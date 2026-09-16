@@ -47,7 +47,7 @@ list_users(
 
     此操作的超时时长。 
 
-    将此参数设置为 **None** 表示，当收到任何响应或发生任何错误时，此操作才会超时。
+    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
@@ -89,11 +89,10 @@ client.list_users()
 
 ## 相关方法\{#related-methods}
 
-- [create_user()](./utility-create_user)
+- [create_user()](./Authentication-create_user)
 
 - [describe_user()](./Authentication-describe_user)
 
 - [drop_user()](./Authentication-drop_user)
 
 - [update_password()](./Authentication-update_password)
-

@@ -33,11 +33,11 @@ import Admonition from '@theme/Admonition';
 
 此操作会删除指定的 Database。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-此方法仅适用于 dedicated serving cluster 和按需计算。 
+此方法仅适用于 dedicated serving 集群和按需计算。 
 
-- 对于 dedicated serving cluster 中的 Database，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于 dedicated serving 集群中的 Database，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 

@@ -7,15 +7,15 @@ added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会列出指定 Database 的详细信息。 | Python | MilvusClient"
+description: "此操作列出指定 Database 的详细信息。 | Python | MilvusClient"
 type: docx
 token: LEaYdk179oZn0vxqa0lcn4mnnrg
 sidebar_position: 3
 keywords: 
   - 什么是语义搜索
-  - Embedding model
+  - Embedding 模型
   - 图像相似性搜索
-  - Context Window
+  - 上下文窗口
   - zilliz
   - zilliz cloud
   - 云
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # describe_database()
 
-此操作会列出指定 Database 的详细信息。
+此操作列出指定 Database 的详细信息。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-此方法仅适用于专用服务集群和按需计算。 
+此方法仅适用于 dedicated serving 集群和按需计算。
 
-- 对于专用服务集群中的 Database，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于 dedicated serving 集群中的 Database，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- 对于按需计算中的 Database，请使用项目 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于按需计算的 Database，请使用项目 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -67,13 +67,13 @@ describe_database(
 
 - **db_name** (*string*) -
 
-    **[必填]**
+    **[必需]**
 
     要描述的 Database 名称。
 
 - **timeout** (*float* | *None*) -
 
-    此操作的超时时长。将其设置为 *None* 表示在收到响应或发生错误时才超时。
+    此操作的超时时长。将其设置为 *None* 表示当收到响应或发生错误时即超时。
 
 **返回类型：**
 

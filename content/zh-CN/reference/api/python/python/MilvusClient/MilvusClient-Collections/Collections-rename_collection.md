@@ -33,11 +33,11 @@ import Admonition from '@theme/Admonition';
 
 此操作会重命名现有 Collection。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-此方法适用于专用服务集群和按需计算。
+此方法适用于 Dedicated serving 集群和按需计算。
 
-- 对于服务集群中的 Collection，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于 serving 集群中的 Collection，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -85,11 +85,11 @@ rename_collection(
 
 - **target_db** (*Optional[str]*) -
 
-    要将 Collection 移动到的目标 Database 名称。默认为空字符串，这意味着 Collection 保持在当前 Database 中。
+    要将 Collection 移动到的目标 Database 名称。该值默认为空字符串，这意味着 Collection 保持在当前 Database 中。
 
 - **timeout** (*float* | *None*) -
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
@@ -103,7 +103,7 @@ None
 
 - **MilvusException**
 
-    此操作期间发生任何错误时，都会引发此异常。
+    当此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#examples}
 

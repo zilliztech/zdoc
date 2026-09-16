@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作可批量为多个 Zilliz Cloud 集群添加连接，以用于不同目的。 | Python | ORM"
+description: "此操作可批量为多个 Zilliz Cloud 集群添加用于不同目的的连接。 | Python | ORM"
 type: docx
 token: C37ldNLbFog6ThxA23ScMldnnmb
 sidebar_position: 1
@@ -61,11 +61,11 @@ add_connection(
 
     - **host** (*string*) -
 
-        Zilliz Cloud 集群的主机。该值默认为 **localhost**；如果仅提供了 **port**，PyMilvus 将填充默认主机。
+        Zilliz Cloud 集群的主机。该值默认为 **localhost**；如果仅提供 **port**，PyMilvus 将填充默认主机。
 
     - **port** (*string | int*) -
 
-        Zilliz Cloud 集群监听的端口。该值默认为 **19530**；如果仅提供了 **host**，PyMilvus 将填充默认端口。
+        Zilliz Cloud 集群监听的端口。该值默认为 **19530**；如果仅提供 **host**，PyMilvus 将填充默认端口。
 
     - **user** (*string*) -
 
@@ -85,15 +85,15 @@ add_connection(
 
         设置此字段时，请注意：
 
-        有效的 token 应为以下任一项
+        有效的令牌应为以下任一项
 
         - 具有足够权限的 API key，或
 
-        - 用于访问目标集群的一组用户名和密码，并以冒号 (:) 连接。例如，您可以将其设置为 `username:p@ssw0rd`。
+        - 用于访问目标集群的一组用户名和密码，并以冒号（:）连接。例如，您可以将其设置为 `username:p@ssw0rd`。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
-如何获取集群 Endpoint 和 token？
+如何获取集群 Endpoint 和令牌？
 
 - **集群 Endpoint**
 

@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作会刷新当前 Database 中的所有 Collection。这可确保所有已插入的数据都写入持久化存储。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 这仅适用于托管 Collection。
 

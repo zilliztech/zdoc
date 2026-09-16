@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作会检查指定 Collection 中是否存在指定的 Partition。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 这仅适用于托管 Collection。
 
@@ -125,4 +125,3 @@ client.has_partition(
 - [load_partitions()](./Partitions-load_partitions)
 
 - [release_partitions()](./Partitions-release_partitions)
-

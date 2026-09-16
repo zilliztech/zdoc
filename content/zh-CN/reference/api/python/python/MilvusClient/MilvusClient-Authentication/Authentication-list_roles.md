@@ -84,9 +84,8 @@ client.list_roles()
 # ['db_admin', 'db_ro', 'db_rw']
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 每个 Zilliz Cloud 集群都有三个内置角色，即 **db\_ro**、**db\_rw** 和 **db\_admin**。有关详细信息，请参阅 [集群内置角色](/docs/cluster-roles#built-in-cluster-roles)。
 
 </Admonition>
-

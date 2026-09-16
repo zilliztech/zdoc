@@ -18,7 +18,7 @@ keywords:
   - ANN 搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - CollectionSchema
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -50,21 +50,21 @@ CollectionSchema(
 
 **参数：**
 
-- **fields** (*list*) -
+- **fields** （*list*） -
 
-    **[必填]**
+    **[必需]**
 
-    由 **FieldSchema** 对象组成的列表，用于定义 Collection Schema 中的字段。
+    用于定义 Collection Schema 中字段的 **FieldSchema** 对象列表。
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     什么是字段 Schema？
-    
-        字段 Schema 表示单个字段并包含其元数据，而 **CollectionSchema** 会将一组 FieldSchema 对象组织在一起，以定义完整的 Schema。
+
+        字段 Schema 表示并包含单个字段的元数据，而 **CollectionSchema** 会将一组 FieldSchema 对象组合在一起，以定义完整的 Schema。
 
     </Admonition>
 
-- **description** (*string*) -
+- **description** （*string*） -
 
     Schema 的描述。
 
@@ -72,52 +72,52 @@ CollectionSchema(
 
 - **kwargs** -
 
-    - **auto_id** (*bool*)
+    - **auto_id** （*bool*）
 
         是否允许主字段自动递增。
 
         将其设置为 **True** 会使主字段自动递增。在这种情况下，为避免出错，插入的数据中不应包含主字段。
 
-    - **enable_dynamic_field** (*bool*)
+    - **enable_dynamic_field** （*bool*）
 
-        如果插入到目标 Collection 的数据包含 Collection Schema 中未定义的字段，是否允许 Zilliz Cloud 将这些未定义字段的值保存到动态字段中。
+        如果插入到目标 Collection 的数据包含 Collection Schema 中未定义的字段，是否允许 Zilliz Cloud 将这些未定义字段的值保存在动态字段中。
 
-        当您将其设置为 **True** 时，Zilliz Cloud 会创建一个名为 **&#36;meta** 的字段，用于存储插入数据中所有未定义字段及其值。
+        当您将其设置为 **True** 时，Zilliz Cloud 会创建一个名为 **&#36;meta** 的字段，用于存储插入数据中任何未定义的字段及其值。
 
-        <Admonition type="info" icon="📘" title="Note">
+        <Admonition type="info" title="Note">
 
         什么是动态字段？
-        
+
                 如果插入到目标 Collection 的数据包含 Collection Schema 中未定义的字段，这些字段将作为键值对保存在动态字段中。
 
         </Admonition>
 
-    - **primary_field** (*str*)
+    - **primary_field** （*str*）
 
         主字段的名称。
 
-        该值应为 **fields** 中列出的某个字段名称。
+        该值应为 **fields** 中列出的字段名称。
 
         或者，您也可以在创建 **FieldSchema** 对象时设置 **is_primary**。
 
-    - **partition_key_field** (*str*)
+    - **partition_key_field** （*str*）
 
-        作为 Partition 键的字段名称。
+        用作 Partition 键的字段名称。
 
-        该值应为 **fields** 中列出的某个字段名称。
+        该值应为 **fields** 中列出的字段名称。
 
         设置此项后，Zilliz Cloud 将管理当前 Collection 中的所有 Partition。
 
         或者，您也可以在创建 **FieldSchema** 对象时设置 **is_partition_key**。
 
-        <Admonition type="info" icon="📘" title="Note">
+        <Admonition type="info" title="Note">
 
         什么是 Partition 键？
-        
-                一旦某个字段被指定为 Partition 键，Zilliz Cloud 就会根据该字段中的每个唯一值自动创建一个 Partition，并将 Entity 相应地保存到这些 Partition 中。
-        
-                这在基于特定键实现数据隔离时特别有用，例如面向 Partition 的多租户。
-        
+
+                一旦某个字段被指定为 Partition 键，Zilliz Cloud 就会自动为该字段中的每个唯一值创建一个 Partition，并相应地将 Entity 保存到这些 Partition 中。
+
+                这在基于特定键实现数据分离时特别有用，例如面向 Partition 的多租户。
+
                 或者，您也可以在创建 **CollectionSchema** 对象时设置 **partition_key_field**。
 
         </Admonition>
@@ -126,7 +126,7 @@ CollectionSchema(
 
 *CollectionSchema*
 
-**返回值：**
+**返回：**
 
 一个 **CollectionSchema** 对象。
 

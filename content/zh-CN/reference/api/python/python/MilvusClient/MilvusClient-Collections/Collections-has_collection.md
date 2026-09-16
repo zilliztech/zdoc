@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作用于检查特定 Collection 是否存在。| Python | MilvusClient"
+description: "此操作用于检查特定 Collection 是否存在。 | Python | MilvusClient"
 type: docx
 token: SSQ6dFGdxouy7hxRwCOcatnEn0e
 sidebar_position: 14
@@ -33,11 +33,11 @@ import Admonition from '@theme/Admonition';
 
 此操作用于检查特定 Collection 是否存在。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-此方法适用于 Dedicated 服务集群和按需计算。
+此方法适用于 Dedicated serving 集群和按需计算。
 
-- 对于服务集群中的 Collection，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于 serving 集群中的 Collection，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 

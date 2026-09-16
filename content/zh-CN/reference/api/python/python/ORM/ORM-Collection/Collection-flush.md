@@ -14,7 +14,7 @@ sidebar_position: 11
 keywords: 
   - 向量索引
   - 开源向量 Database
-  - 开源向量数据库 db
+  - 开源向量数据库
   - 向量 Database 示例
   - zilliz
   - zilliz cloud
@@ -41,9 +41,9 @@ flush(
 )   
 ```
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
-我可以在每次插入数据后都调用 `flush()` 吗？
+我可以在每次插入数据后都调用 flush() 吗？
 
 插入新数据时，数据会被写入一个增长中的 Segment。一旦增长中的 Segment 达到其大小上限，Zilliz Cloud 就会自动封存该 Segment。 
 
@@ -59,7 +59,7 @@ flush(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
 **返回类型：**
 
@@ -123,4 +123,3 @@ collection.num_entities # 5
 - [get_replicas()](./Collection-get_replicas)
 
 - [set_properties()](./Collection-set_properties)
-

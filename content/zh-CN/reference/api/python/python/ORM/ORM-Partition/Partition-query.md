@@ -12,7 +12,7 @@ type: docx
 token: N97pdfkjlo9j61xrtL2cbB79nKe
 sidebar_position: 8
 keywords: 
-  - rag 向量 Database
+  - RAG 向量 Database
   - 什么是向量数据库
   - 什么是向量 Database
   - 向量 Database 对比
@@ -46,17 +46,17 @@ query(
 
 **参数：**
 
-- **expr** (*string*) -
+- **expr** （*string*） -
 
-    **[必填]** 
+    **[必需]** 
 
     用于筛选 Entity 标量字段的布尔表达式。
 
-- **output_fields** (List[str] | *None*) -
+- **output_fields** （List[str] | *None*） -
 
-    输出中必须包含的字段名称列表。将其设置为 **None** 表示此操作仅输出主键字段。
+    必须包含在输出中的字段名称列表。将其设置为 **None** 表示此操作仅输出主键字段。
 
-- **timeout** (*float* | *None*)  
+- **timeout** （*float* | *None*）  
 
     此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
@@ -64,13 +64,13 @@ query(
 
     附加关键字参数。
 
-    - **consistency_level** (*str* | *int*) -
+    - **consistency_level** （*str* | *int*） -
 
         目标 Collection 的一致性级别。
 
         该值默认为您创建当前 Collection 时指定的值，可选项包括 **Strong**（**0**）、**Bounded**（**1**）、**Session**（**2**）和 **Eventually**（**3**）。
 
-        <Admonition type="info" icon="📘" title="Note">
+        <Admonition type="info" title="Note">
 
         什么是一致性级别？
         
@@ -82,31 +82,31 @@ query(
 
         </Admonition>
 
-    - **guarantee_timestamp** (*int*) -
+    - **guarantee_timestamp** （*int*） -
 
         一个有效的时间戳。 
 
         如果设置了此参数，Zilliz Cloud 仅会在此时间戳之前插入的所有 Entity 对查询节点可见时执行查询。 
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" title="Notes">
 
         此参数在使用默认一致性级别时有效。
 
         </Admonition>
 
-    - **graceful_time** (*int*) -
+    - **graceful_time** （*int*） -
 
         一段以秒为单位的时间。
 
         该值默认为 **5**。如果设置了此参数，Zilliz Cloud 会通过从当前时间戳中减去该值来计算保证时间戳。
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" title="Notes">
 
         此参数在使用非默认一致性级别时有效。
 
         </Admonition>
 
-    - **offset** (*int*) -
+    - **offset** （*int*） -
 
         查询结果中要跳过的记录数。 
 
@@ -114,7 +114,7 @@ query(
 
         该值与 `limit` 的总和应小于 16,384。 
 
-    - **limit** (*int*) -
+    - **limit** （*int*） -
 
         查询结果中要返回的记录数。
 
@@ -126,7 +126,7 @@ query(
 
 *List*
 
-**返回值：**
+**返回：**
 
 查询结果列表。
 
@@ -134,7 +134,7 @@ query(
 
 - **MilvusException**
 
-    此异常会在此操作期间发生任何错误时出现。
+    此操作期间发生任何错误时会引发此异常。
 
 ## 示例\{#examples}
 
@@ -221,4 +221,3 @@ res = partition.query(
 - [search()](./Partition-search)
 
 - [upsert()](./Partition-upsert)
-

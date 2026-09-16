@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作会创建一个绑定到特定按需集群的轻量级 DQL 会话。通过该会话执行的所有操作都会自动包含目标 `cluster_id`，从而确保在多集群部署中将请求路由到正确的集群。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 此方法仅适用于按需计算。使用项目 Endpoint 创建 `MilvusClient`，例如 `https://{project-id}.{region}.api.zillizcloud.com`，然后将目标按需集群 ID 传递给 `session()`。
 

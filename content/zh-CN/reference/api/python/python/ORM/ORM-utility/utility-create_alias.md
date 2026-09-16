@@ -58,7 +58,7 @@ create_alias(
 
     Collection 的别名。在执行此操作之前，请确保该别名尚不存在。如果已存在，则会发生异常。
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     什么是 Collection 别名？
     

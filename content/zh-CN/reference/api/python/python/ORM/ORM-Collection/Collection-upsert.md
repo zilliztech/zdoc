@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # upsert()
 
-此操作会将新记录插入 Database，或更新现有记录。  
+此操作会将新记录插入 Database，或更新现有记录。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 upsert 是一种数据级操作：如果指定字段在 Collection 中已存在，则会覆盖现有 Entity；如果指定值尚不存在，则会插入新的 Entity。
 
@@ -76,7 +76,7 @@ upsert(
         ]
         ```
 
-    - **pandas.DataFrame**
+    - A **pandas.DataFrame**
 
         您可以用任意方式构造数据框，如[本页](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html)的 **示例** 部分所示。
 
@@ -113,13 +113,13 @@ upsert(
 
 - **partition_name** (*string* | *None*) -
 
-    当前 Collection 中某个 Partition 的名称。 
+    当前 Collection 中某个 Partition 的名称。
 
     如果指定，数据将插入到指定的 Partition 中。
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作才会超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
 **返回类型：**
 

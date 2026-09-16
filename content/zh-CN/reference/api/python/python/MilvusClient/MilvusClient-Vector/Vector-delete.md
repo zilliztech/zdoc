@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作通过 Entity ID 或布尔表达式删除 Entity。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 外部 Collection 不支持此操作。
 
@@ -56,13 +56,13 @@ delete(
 
 - **collection_name** (*str*) -
 
-    **[必填]**
+    **[必需]**
 
     现有 Collection 的名称。
 
 - **ids** (*list* | *str* | *int*) -
 
-    **[必填]**
+    **[必需]**
 
     指定的 Entity ID 或 Entity ID 列表。
 
@@ -82,7 +82,7 @@ delete(
 
     您可以将此参数设置为空字符串以跳过标量过滤。要构建标量过滤条件，请参见 [布尔表达式规则](https://milvus.io/docs/boolean.md)。 
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     使用过滤表达式删除 Entity 时，请确保该 Collection 已加载。否则，Zilliz Cloud 将返回错误。
 
@@ -98,7 +98,7 @@ delete(
 
 *dict*
 
-**返回值：**
+**返回：**
 
 一个包含已删除 Entity 数量的字典。
 
@@ -173,4 +173,3 @@ client.delete(
 
 # {'delete_count': 2}
 ```
-

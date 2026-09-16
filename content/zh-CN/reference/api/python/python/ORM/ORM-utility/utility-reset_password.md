@@ -33,9 +33,9 @@ import Admonition from '@theme/Admonition';
 
 此操作会重置特定用户的密码。 
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-此操作与 **update_password()** 的不同之处在于，它还会使用新设置的凭据重置当前连接。
+此操作与 <strong>update_password()</strong> 的不同之处在于，此操作还会使用新设置的凭据重置当前连接。
 
 </Admonition>
 

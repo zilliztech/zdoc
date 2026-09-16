@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作为指定的 Collection 创建索引。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 此方法仅适用于 Dedicated serving 集群和按需计算。
 
@@ -173,4 +173,3 @@ client.list_indexes(collection_name="customized_setup")
 - [list_indexes()](./Management-list_indexes)
 
 - [prepare_index_params()](./Management-prepare_index_params)
-

@@ -33,13 +33,12 @@ import Admonition from '@theme/Admonition';
 
 此操作会更改当前正在使用的 Database。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-此方法仅适用于 dedicated serving clusters 和按需计算。 
+此方法仅适用于 dedicated serving 集群和按需计算。
+- 对于 dedicated serving 集群中的 Database，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
-- 对于 dedicated serving clusters 中的 Database，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
-
-    - **免费版和 Serverless**
+    - **Free & Serverless**
 
         `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
 
@@ -47,7 +46,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- 对于按需计算的 Database，请使用项目 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于按需计算的 Database，请使用项目 Endpoints 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -74,7 +73,7 @@ using_database(
 
 *NoneType*
 
-**返回值：**
+**返回：**
 
 *None*
 

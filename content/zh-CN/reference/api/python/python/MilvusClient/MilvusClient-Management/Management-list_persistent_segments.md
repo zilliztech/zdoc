@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作会列出某个 Collection 的所有持久化（已刷盘）Segment，包括行数、排序状态和存储级别等信息。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 这仅适用于托管 Collection。
 

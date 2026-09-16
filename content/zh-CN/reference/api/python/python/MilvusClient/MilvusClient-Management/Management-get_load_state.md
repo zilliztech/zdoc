@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作会显示指定 Collection 或 Partition 是否已加载。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 这仅适用于托管 Collection。
 
@@ -69,11 +69,11 @@ get_load_state(
 
 *dict*
 
-**返回值：**
+**返回：**
 
 一个包含指定 Collection 或 Partition 状态的字典。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 如果其任意一个或全部 Partition 已加载，则该 Collection 处于已加载状态。
 

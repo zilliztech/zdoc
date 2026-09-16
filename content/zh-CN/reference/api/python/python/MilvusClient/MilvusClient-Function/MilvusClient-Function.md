@@ -1,7 +1,7 @@
 ---
-title: "函数 | Python | MilvusClient"
+title: "Function | Python | MilvusClient"
 slug: /python/python/MilvusClient-Function
-sidebar_label: "函数"
+sidebar_label: "Function"
 beta: false
 added_since: v2.5.x
 last_modified: v3.0.x
@@ -19,7 +19,7 @@ keywords:
   - zilliz
   - zilliz cloud
   - cloud
-  - 函数
+  - Function
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: pythonSidebar
 import Admonition from '@theme/Admonition';
 
 
-# 函数
+# Function
 
 用于根据用户提供的原始数据生成向量嵌入，或对 Milvus 中的搜索结果应用重排序策略的 `Function` 实例。
 
@@ -55,13 +55,13 @@ Function(
 
 - `name` (*str*) -
 
-    **[必填]**
+    **[必需]**
 
     函数名称。此标识符用于在查询和 Collection 中引用该函数。
 
 - `function_type` (*[FunctionType](./Collections-FunctionType)*) -
 
-    **[必填]**
+    **[必需]**
 
     要使用的嵌入函数类型。可能的值包括：
 
@@ -75,7 +75,7 @@ Function(
 
 - `input_field_names` (*Union[str, List[str]]*) -
 
-    **[必填]**
+    **[必需]**
 
     包含需要转换为向量表示的原始数据的 VARCHAR 或 TEXT 字段名称。对于 FunctionType.BM25 和 FunctionType.TEXTEMBEDDING，此参数仅接受一个字段名。
 
@@ -83,7 +83,7 @@ Function(
 
     用于存储生成嵌入的字段名称。该字段应对应于 Collection Schema 中定义的向量字段。此参数仅接受一个字段名。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     仅当您将 `function_type` 设置为 `FunctionType.BM25` 和 `FunctionType.TEXTEMBEDDING` 时适用。
 
@@ -91,7 +91,7 @@ Function(
 
 - `params` (*dict*) -
 
-    嵌入/ranking函数的配置字典。支持的键因 `function_type` 而异：
+    嵌入/ranking 函数的配置字典。支持的键因 `function_type` 而异：
 
     - `FunctionType.BM25`：无需参数。传入空字典或完全省略即可。
 
@@ -137,7 +137,7 @@ Function(
 
             输出嵌入的维度数。对于 OpenAI 第三代模型，您可以缩短完整向量，以在不显著损失语义信息的情况下减少成本和延迟。更多信息请参阅 [OpenAI announcement blog post](https://openai.com/blog/new-embedding-models-and-api-updates)。
 
-            <Admonition type="info" icon="📘" title="Notes">
+            <Admonition type="info" title="Notes">
 
             如果您缩短了向量维度，请确保 Schema 的 `add_field` 方法中为该向量字段指定的 `dim` 值，与您的嵌入函数最终输出维度一致。
 
@@ -145,7 +145,7 @@ Function(
 
     - `FunctionType.RERANK`：根据重排序器类型配置 `params`：
 
-        - **加权排序器**
+        - **Weighted Ranker**
 
             ```python
             params = {
@@ -161,7 +161,7 @@ Function(
 
             - `norm_score` (*boolean*)：是否在加权前对原始分数进行归一化（使用 arctan）。详情请参阅 [Mechanism of Weighted Ranker](https://milvus.io/docs/weighted-ranker.md#Mechanism-of-Weighted-Ranker)。
 
-        - **RRF 排序器**
+        - **RRF Ranker**
 
             ```python
             params = {
@@ -174,7 +174,7 @@ Function(
 
             - `k` (*int*)：控制文档排名影响的平滑参数；较高的 `k` 会降低对靠前排名的敏感度。取值范围：(0, 16384)；默认值：`60`。详情请参阅 [Mechanism of RRF Ranker](https://milvus.io/docs/rrf-ranker.md#Mechanism-of-RRF-Ranker)。
 
-        - **Decay 排序器**
+        - **Decay Ranker**
 
             ```python
             params={
@@ -201,7 +201,7 @@ Function(
 
             有关衰减排序的详细信息，请参阅 [Decay Ranker Overview](https://milvus.io/docs/decay-ranker-overview.md)。
 
-        - **模型排序器**
+        - **Model Ranker**
 
             **TEI 提供方**：
 
@@ -293,7 +293,7 @@ Function(
 
             - `truncation` *(bool)*：**[仅限 Voyage AI]** 是否截断输入，以满足查询和文档的“上下文长度限制”。详情请参阅 [Voyage AI Ranker](https://milvus.io/docs/voyage-ai-ranker.md)。
 
-            - `max_chunks_per_doc` *(int)*：**[仅限 SiliconFlow]** 在单个文档内生成的最大分块数。详情请参阅 [SiliconFLow Ranker](https://milvus.io/docs/siliconflow-ranker.md)。
+            - `max_chunks_per_doc` *(int)*：<strong>[仅限 SiliconFlow]</strong> 在单个文档内生成的最大分块数。详情请参阅 [SiliconFLow Ranker](https://milvus.io/docs/siliconflow-ranker.md)。
 
             - `overlap_tokens`  *(int)*：**[仅限 SiliconFlow]** 文档分块时，相邻分块之间重叠的 token 数。详情请参阅 [SiliconFLow Ranker](https://milvus.io/docs/siliconflow-ranker.md)。
 

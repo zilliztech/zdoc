@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作以迭代方式使用指定的布尔表达式执行标量过滤。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 外部 Collection 不支持此操作。
 
@@ -58,7 +58,7 @@ query_iterator(
 
 - **collection_name** (*str*) -
 
-    **[必填]**
+    **[必需]**
 
     现有 Collection 的名称。
 
@@ -72,7 +72,7 @@ query_iterator(
 
 - **filter** (*str*) -
 
-    **[必填]**
+    **[必需]**
 
     用于筛选匹配 Entity 的标量过滤条件。
 
@@ -84,7 +84,7 @@ query_iterator(
 
     该值默认为 **None**。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     - 将其设置为 `output_fields=["\*"]` 时，会输出所有字段。
     
@@ -108,9 +108,9 @@ query_iterator(
 
         目标 Collection 的一致性级别。
 
-        该值默认为您创建当前 Collection 时指定的值，可选项为 **Strong** (**0**)、**Bounded** (**1**)、**Session** (**2**) 和 **Eventually** (**3**)。
+        该值默认为您创建当前 Collection 时指定的值，可选值为 **Strong** (**0**)、**Bounded** (**1**)、**Session** (**2**) 和 **Eventually** (**3**)。
 
-        <Admonition type="info" icon="📘" title="Note">
+        <Admonition type="info" title="Note">
 
         什么是一致性级别？
         
@@ -128,7 +128,7 @@ query_iterator(
 
         如果设置了此参数，只有在该时间戳之前插入的所有 Entity 对查询节点可见时，才会执行查询。
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" title="Notes">
 
         当使用默认一致性级别时，此参数有效。
 
@@ -140,7 +140,7 @@ query_iterator(
 
         该值默认为 **5**。如果设置了此参数，则通过从当前时间戳中减去该值来计算保证时间戳。
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" title="Notes">
 
         当使用非默认一致性级别时，此参数有效。
 
@@ -178,7 +178,7 @@ query_iterator(
 
     此方法会关闭当前 **QueryIterator** 实例。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 如果返回的 Entity 数量少于预期，您的 Collection 中可能存在重复的 Entity。
 

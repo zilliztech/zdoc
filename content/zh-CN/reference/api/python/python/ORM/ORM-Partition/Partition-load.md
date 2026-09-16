@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作会将当前 Partition 的数据加载到内存中。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 在 **[Collection](./ORM-Collection)** 对象的 **load()** 方法中使用 **partition_names** 参数，等同于对相应的 **[Partition](./ORM-Partition)** 对象使用 **load()** 方法。
 
@@ -52,7 +52,7 @@ load(
 
 - **replica_number** (*int*)
 
-    要在当前 Partition 中加载的副本数。默认值为 **1**，表示加载当前 Partition 中的一个副本。
+    要在当前 Partition 中加载的副本数。该值默认为 **1**，表示加载当前 Partition 中的一个副本。
 
 - **timeout** (*float* | *None*)  
 
@@ -112,4 +112,3 @@ partition.load(
 - [get_replicas()](./Partition-get_replicas)
 
 - [release()](./Partition-release)
-

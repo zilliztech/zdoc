@@ -55,7 +55,7 @@ has_connection(alias: str)
 
 一个 Boolean 值，指示该连接是否存在。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 已存在的连接别名并不一定表示相应的连接已经建立。
 
@@ -95,4 +95,3 @@ connections.has_connection(alias="default")
 - [list_connections()](./Connections-list_connections)
 
 - [remove_connection()](./Connections-remove_connection)
-

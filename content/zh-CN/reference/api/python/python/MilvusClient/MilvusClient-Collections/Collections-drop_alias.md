@@ -33,11 +33,11 @@ import Admonition from '@theme/Admonition';
 
 此操作会删除指定的 Collection 别名。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-此方法适用于 Dedicated 服务集群和按需计算。
+此方法适用于 Dedicated serving 集群和按需计算。
 
-- 对于服务集群中的 Collection，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于 serving 集群中的 Collection，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -66,7 +66,7 @@ drop_alias(
 
 - **alias** (*str*) -
 
-    **[必填]**
+    **[必需]**
 
     Collection 的别名。
 
@@ -76,13 +76,13 @@ drop_alias(
 
     此操作的超时时长。
 
-    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作超时。
+    将其设置为 **None** 表示当收到任意响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
 *NoneType*
 
-**返回值：**
+**返回：**
 
 None
 
@@ -126,4 +126,3 @@ client.drop_alias(alias="test")
 - [describe_alias()](./Collections-describe_alias)
 
 - [list_aliases()](./Collections-list_aliases)
-

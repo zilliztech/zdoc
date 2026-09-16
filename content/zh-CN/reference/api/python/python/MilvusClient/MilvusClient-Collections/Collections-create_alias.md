@@ -13,7 +13,7 @@ token: Kqlodu0AWoefKvxczcxc1c36nlf
 sidebar_position: 4
 keywords: 
   - 开源向量 Database
-  - 开源向量数据库 db
+  - 开源向量数据库
   - 向量 Database 示例
   - rag 向量 Database
   - zilliz
@@ -33,11 +33,11 @@ import Admonition from '@theme/Admonition';
 
 此操作为现有 Collection 创建别名。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-此方法适用于专用服务集群和按需计算。
+此方法适用于 Dedicated serving 集群和按需计算。 
 
-- 对于服务集群中的 Collection，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于 serving 集群中的 Collection，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -65,51 +65,51 @@ create_alias(
 
 **参数：**
 
-- **collection_name** (*str*) -
+- **collection_name** （*str*） -
 
     **[必需]**
 
     要为其创建别名的 Collection 名称。
 
-- **alias** (*str*) -
+- **alias** （*str*） -
 
     **[必需]**
 
-    Collection 的别名。在执行此操作前，请确保该别名尚不存在。如果已存在，则会发生异常。
+    Collection 的别名。在执行此操作之前，请确保该别名尚不存在。如果已存在，则会发生异常。
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     什么是 Collection 别名？
     
-        Collection 别名是 Collection 的附加名称。当您希望将应用程序切换到新的 Collection，而无需对代码进行任何更改时，Collection 别名会很有用。
+        Collection 别名是 Collection 的附加名称。当您希望在不修改代码的情况下将应用程序切换到新的 Collection 时，Collection 别名非常有用。 
     
-        在 Zilliz Cloud 上，Collection 别名是全局唯一标识符。一个别名只能分配给一个 Collection。反之，一个 Collection 可以有多个别名。
+        在 Zilliz Cloud 中，Collection 别名是全局唯一标识符。一个别名只能分配给且仅能分配给一个 Collection。反过来，一个 Collection 可以有多个别名。
     
         以下是将一个 Collection 的别名重新分配给另一个 Collection 的示例：
     
-        假设有两个 Collection：`collection_1` 和 `collection_2`。还有一个名为 `bob` 的 Collection 别名，它最初分配给 `collection_1`：
+        假设有两个 Collection：`collection_1` 和 `collection_2`。此外还有一个名为 `bob` 的 Collection 别名，它最初分配给了 `collection_1`：
     
-        - `collection_1` 的 alias = ["bob"]
+        - `collection_1` 的别名 = ["bob"]
     
-        - `collection_2` 的 alias = []
+        - `collection_2` 的别名 = []
     
         调用 `alter_alias("collection_2", "bob")` 后：
     
-        - `collection_1` 的 alias = []
+        - `collection_1` 的别名 = []
     
-        - `collection_2` 的 alias = ["bob"]
+        - `collection_2` 的别名 = ["bob"]
 
     </Admonition>
 
-- **timeout** (*float* | *None*)  
+- **timeout** （*float* | *None*）  
 
-    此操作的超时时长。将其设置为 **None** 表示此操作会在收到任何响应或发生任何错误时超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生错误时，此操作即超时。
 
 **返回类型：**
 
 *NoneType*
 
-**返回值：**
+**返回：**
 
 None
 
@@ -150,4 +150,3 @@ client.create_alias(collection_name="test_collection", alias="test")
 - [drop_alias()](./Collections-drop_alias)
 
 - [list_aliases()](./Collections-list_aliases)
-

@@ -37,9 +37,9 @@ import Admonition from '@theme/Admonition';
 class pymilvus.bulk_writer.volume_file_manager import VolumeFileManager
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-此方法将文件上传到 Zilliz Cloud 上的托管卷。它不会将文件上传到外部卷，后者是对外部对象存储中数据的只读引用。有关详细信息，请参阅 [Volume](/docs/volume)。
+此方法会将文件上传到 Zilliz Cloud 上的托管卷。它不会将文件上传到外部卷，后者是对外部对象存储中数据的只读引用。有关详细信息，请参阅托管卷和外部卷。
 
 </Admonition>
 
@@ -67,13 +67,13 @@ VolumeFileManager(
 
     **[必需]**
 
-    您的 Zilliz Cloud API 密钥必须具有足够的权限来管理 Zilliz Cloud Volume 服务上的卷。要获取 Zilliz Cloud API 密钥，请按照 [API Keys](/docs/manage-api-keys) 中的步骤操作。
+    您在 Zilliz Cloud 的 Volume 服务上管理卷所需的、具有足够权限的 Zilliz Cloud API 密钥。要获取 Zilliz Cloud API 密钥，请按照 [API Keys](/docs/manage-api-keys) 中的步骤操作。
 
 - **volume_name** (*str*) -
 
     **[必需]**
 
-    此次操作的目标卷名称。
+    此次操作的目标卷的名称。
 
 **返回类型：**
 

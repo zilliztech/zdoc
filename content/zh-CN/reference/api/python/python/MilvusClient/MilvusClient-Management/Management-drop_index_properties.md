@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作会删除指定的索引属性。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 此方法仅适用于 dedicated serving 集群和按需计算。
 

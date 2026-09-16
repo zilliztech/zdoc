@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作返回特定 Compaction 作业的 Compaction 计划，包括显示哪些 Segment 将被合并的合并计划。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 这仅适用于托管 Collection。
 

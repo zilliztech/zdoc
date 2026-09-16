@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作返回指定外部 Collection 刷新作业的进度。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 这需要使用项目 Endpoint 按如下方式设置一个 MilvusClient：
 

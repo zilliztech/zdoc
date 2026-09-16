@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作会列出某个 Collection 当前已加载的所有 Segment，包括行数、排序状态、存储级别和内存大小等信息。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 这仅适用于托管 Collection。
 

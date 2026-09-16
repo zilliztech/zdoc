@@ -33,11 +33,11 @@ import Admonition from '@theme/Admonition';
 
 此操作使用指定的布尔表达式执行标量过滤。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-此方法仅适用于 Dedicated 服务集群和按需计算。
+此方法仅适用于 dedicated serving 集群和按需计算。
 
-- 如果要在服务集群的 Collection 中执行此操作，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
+- 如果要在 serving 集群的 Collection 中执行此操作，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- 如果要在按需计算的 Collection 中执行此操作，请使用项目 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个会话以附加到按需集群进行搜索。
+- 如果要在按需计算的 Collection 中执行此操作，请使用项目 Endpoints 创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个会话以附加到按需集群进行搜索。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -80,15 +80,15 @@ query(
 
     用于过滤匹配 Entity 的标量过滤条件。
 
-    您可以将此参数设置为空字符串以跳过标量过滤。要构建标量过滤条件，请参阅 [Filtering Overview](/docs/filtering-overview)。
+    您可以将此参数设置为空字符串以跳过标量过滤。要构建标量过滤条件，请参见 [过滤表达式概览](/docs/filtering-overview)。
 
 - **output_fields** (*list[str]* | *None*) -
 
-    返回时要包含在每个 Entity 中的字段名称列表。
+    要在返回的每个 Entity 中包含的字段名称列表。
 
-    默认值为 **None**。
+    该值默认为 **None**。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     - 将其设置为 `output_fields=["\*"]` 时，会输出所有字段。
     
@@ -106,7 +106,7 @@ query(
 
     Partition 名称列表。
 
-    默认值为 **None**。如果指定，则仅在指定的 Partition 中执行查询。
+    该值默认为 **None**。如果指定，则仅在指定的 Partition 中执行查询。
 
 - **kwargs** -
 
@@ -114,9 +114,9 @@ query(
 
         目标 Collection 的一致性级别。
 
-        默认值为您创建当前 Collection 时指定的值，可选项包括 **Strong** (**0**)、**Bounded** (**1**)、**Session** (**2**) 和 **Eventually** (**3**)。
+        该值默认为您创建当前 Collection 时指定的值，可选项包括 **Strong** (**0**)、**Bounded** (**1**)、**Session** (**2**) 和 **Eventually** (**3**)。
 
-        <Admonition type="info" icon="📘" title="Note">
+        <Admonition type="info" title="Note">
 
         什么是一致性级别？
         
@@ -130,11 +130,11 @@ query(
 
     - **guarantee_timestamp** (*int*) -
 
-        一个有效的时间戳。
+        有效的时间戳。
 
-        如果设置了此参数，则  仅在此时间戳之前插入的所有 Entity 对查询节点可见时才会执行查询。
+        如果设置了此参数，则仅当此时间戳之前插入的所有 Entity 对查询节点可见时，才会执行查询。
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" title="Notes">
 
         此参数在使用默认一致性级别时有效。
 
@@ -142,11 +142,11 @@ query(
 
     - **graceful_time** (*int*) -
 
-        以秒为单位的一段时间。
+        以秒为单位的时间段。
 
-        默认值为 **5**。如果设置了此参数，则  会通过从当前时间戳中减去该值来计算 guarantee timestamp。
+        该值默认为 **5**。如果设置了此参数，则会通过从当前时间戳中减去该值来计算 guarantee timestamp。
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" title="Notes">
 
         此参数在使用非默认一致性级别时有效。
 
@@ -170,19 +170,19 @@ query(
 
     - **timezone** (*str*)
 
-        通过设置一个 [IANA identifier](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)（例如 **Asia/Shanghai**, **America/Chicago**, 或 **UTC**），可在单次查询中临时覆盖 Collection 或 Database 的默认时区。这仅控制该操作期间如何解释、显示和比较 `TIMESTAMPTZ` 值；不会修改存储的数据或 Collection 设置。
+        通过设置 [IANA 时区标识符](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)（例如 **Asia/Shanghai**, **America/Chicago**, 或 **UTC**），可在单次查询中临时覆盖 Collection 或 Database 的默认时区。此设置仅在操作期间控制如何解释、显示和比较 `TIMESTAMPTZ` 值；不会修改存储的数据或 Collection 设置。
 
-        更多信息，请参阅 [TIMESTAMPZ Field](/docs/use-timestamptz-field)。
+        更多信息，请参见 [TIMESTAMPTZ 类型](/docs/use-timestamptz-field)。
 
     - **time_fields** (*str*)
 
         在查询或搜索操作期间，从 `TIMESTAMPTZ` 字段中提取特定时间组成部分。请使用逗号分隔的列表指定要提取的元素。支持的元素包括：`year`、`month`、`day`、`hour`、`minute`、`second` 和 `microsecond`。
 
-        更多信息，请参阅 TIMESTAMPZ Field。
+        更多信息，请参见 TIMESTAMPTZ 类型。
 
     - **order_by** (*list[str]*)
 
-        按查询结果排序的字段列表。每个元素都遵循格式 `"field_name:direction"`，其中 direction 可以是 `asc`（升序）或 `desc`（降序）。请注意，`asc` 和 `desc` 区分大小写。
+        用于对查询结果排序的字段列表。每个元素遵循 `"field_name:direction"` 格式，其中 direction 为 `asc`（升序）或 `desc`（降序）。请注意，`asc` 和 `desc` 区分大小写。
 
         支持的字段类型：INT8、INT16、INT32、INT64、FLOAT、DOUBLE 和 VARCHAR。不支持按向量、JSON 或 ARRAY 字段排序。
 
@@ -190,17 +190,17 @@ query(
 
     - **group_by_fields** (*list[str]*) -
 
-        按查询结果分组的标量字段列表。设置后，`query()` 会针对指定字段值的每个唯一组合返回一行，并按组计算 `output_fields` 中的任意聚合表达式（`count(*)`、`count(<f>)`、`min(<f>)`、`max(<f>)`、`sum(<f>)`、`avg(<f>)`）。
+        用于对查询结果分组的标量字段列表。设置后，`query()` 会为指定字段值的每个唯一组合返回一行，并针对每组计算 `output_fields` 中的任意聚合表达式（`count(*)`、`count(<f>)`、`min(<f>)`、`max(<f>)`、`sum(<f>)`、`avg(<f>)`）。
 
-        支持的字段类型：INT8、INT16、INT32、INT64、FLOAT、DOUBLE、VARCHAR 和 TIMESTAMPTZ。按向量、JSON 或 Array 字段分组会返回错误。
-
-        聚合类型规则：
-
-        - `sum` 和 `avg` 仅适用于数值类型。将它们应用于 `VarChar` 字段会返回错误。
-
-        - `sum(int*)` 返回 `INT64`；`sum(float|double)` 返回 `DOUBLE`；`avg(...)` 始终返回 `DOUBLE`；`count(...)` 返回 `INT64`；`min`/`max` 保留列类型。
+        支持的分组键字段类型：`INT8`、`INT16`、`INT32`、`INT64`、`VARCHAR` 和 `TIMESTAMPTZ`。按 `FLOAT`、`DOUBLE`、向量、`JSON` 或 `ARRAY` 字段分组会返回错误。
 
         您可以将 `group_by_fields` 与 `limit` 结合使用，以限制返回的组数。
+
+        聚合输入类型规则：
+
+        - `sum` 和 `avg` 仅接受数值字段，包括 `FLOAT` 和 `DOUBLE`。将任一函数应用于 `VARCHAR` 字段会返回错误。
+
+        - `sum` 对整数输入返回 `INT64`，对 `FLOAT` 或 `DOUBLE` 输入则返回 `DOUBLE`。`avg` 始终返回 `DOUBLE`；`count` 返回 `INT64`；`min` 和 `max` 保留字段类型。
 
 **返回类型：**
 
@@ -210,7 +210,7 @@ query(
 
 字典列表，其中每个字典表示一个查询到的 Entity。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 如果返回的 Entity 数量少于预期，则您的 Collection 中可能存在重复 Entity。
 
@@ -424,4 +424,3 @@ res = client.query(
 
 # [{'count(*)': 3}]
 ```
-

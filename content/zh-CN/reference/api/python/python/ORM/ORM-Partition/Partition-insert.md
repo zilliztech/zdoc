@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作会将数据插入当前 Partition。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 在 **[Collection](./ORM-Collection)** 对象的 **insert()** 方法中使用 **partition_name** 参数，等同于使用 **[Partition](./ORM-Partition)** 对象的 **insert()** 方法。
 
@@ -214,4 +214,3 @@ res.insert_count
 - [search()](./Partition-search)
 
 - [upsert()](./Partition-upsert)
-

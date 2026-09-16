@@ -17,7 +17,7 @@ keywords:
   - DiskANN
   - 稀疏向量
   - zilliz
-  - Zilliz Cloud
+  - zilliz cloud
   - 云
   - list_aliases()
   - pymilvus30
@@ -33,11 +33,11 @@ import Admonition from '@theme/Admonition';
 
 此操作列出特定 Collection 的所有现有别名。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-此方法适用于 dedicated serving cluster 和按需计算。
+此方法适用于 Dedicated serving 集群和按需计算。
 
-- 对于 serving cluster 中的 Collection，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于 serving 集群中的 Collection，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -150,4 +150,3 @@ client.list_aliases(collection_name="test_collection")
 - [describe_alias()](./Collections-describe_alias)
 
 - [drop_alias()](./Collections-drop_alias)
-
