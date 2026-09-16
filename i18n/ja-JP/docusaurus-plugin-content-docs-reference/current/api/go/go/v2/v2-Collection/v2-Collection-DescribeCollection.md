@@ -15,7 +15,7 @@ keywords:
   - ベクトル類似検索
   - 近似最近傍探索
   - DiskANN
-  - Sparse vector
+  - スパースベクトル
   - zilliz
   - zilliz cloud
   - cloud
@@ -49,15 +49,15 @@ result, err := client.DescribeCollection(ctx, option)
 
 - **name** (*string*)
 
-    対象コレクションの名前。
+    対象コレクションの名前です。
 
 **戻り値の型:**
 
-*[collection* ](./v2-Collection)entity.Collection, err error*
+*[コレクション* ](./v2-Collection)entity.コレクション, err error&ast;
 
 **戻り値:**
 
-スキーマ、フィールド、プロパティを含むコレクションの説明。操作が失敗した場合はエラーを返します。
+スキーマ、フィールド、プロパティを含むコレクションの説明です。操作が失敗した場合はエラーを返します。
 
 **例外:**
 

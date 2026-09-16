@@ -1,7 +1,7 @@
 ---
-title: "Collection | Go | v2"
+title: "コレクション | Go | v2"
 slug: /go/go/v2-Collection
-sidebar_label: "Collection"
+sidebar_label: "コレクション"
 beta: false
 added_since: v2.6.x
 last_modified: false
@@ -19,7 +19,7 @@ keywords:
   - zilliz
   - zilliz cloud
   - cloud
-  - Collection
+  - コレクション
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# Collection
+# コレクション
 
 DescribeCollection によって返されるコレクションの説明を表し、スキーマ、シャード、およびプロパティを含みます。
 
@@ -58,7 +58,7 @@ type Collection struct {
 
     コレクション名
 
-- **[Schema](./v2-Collection-Schema)** (**[Schema](./v2-Collection-Schema)*)
+- **[スキーマ](./v2-Collection-Schema)** (&ast;*[スキーマ](./v2-Collection-Schema)*)
 
     フィールドスキーマと主キー定義を含むコレクションスキーマ
 

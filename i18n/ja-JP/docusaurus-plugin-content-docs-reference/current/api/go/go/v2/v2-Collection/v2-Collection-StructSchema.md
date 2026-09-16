@@ -41,7 +41,7 @@ type StructSchema struct {
 
 ## リクエスト構文\{#request-syntax}
 
-空の struct schema を作成します。
+空の struct スキーマ を作成します。
 
 ```go
 entity.NewStructSchema()
@@ -63,9 +63,9 @@ entity.NewStructSchema()
 
 **戻り値:**
 
-ネストされたフィールド定義を含む、struct フィールドの schema を表します。
+ネストされたフィールド定義を含む、struct フィールドの スキーマ を表します。
 
-- **Fields** (*[]*Field*) -
+- **Fields** (<em>[]</em>Field&ast;) -
 
     struct-array のサブフィールド定義が含まれます。
 

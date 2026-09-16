@@ -1,25 +1,25 @@
 ---
-title: "Schema | Go | v2"
+title: "スキーマ | Go | v2"
 slug: /go/go/v2-Collection-Schema
-sidebar_label: "Schema"
+sidebar_label: "スキーマ"
 beta: false
 added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "Milvus v3 collection schema を定義し、struct-array フィールドを検証し、外部 collection ソース設定をサポートします。 | Go | v2"
+description: "Milvus v3 のコレクションスキーマを定義し、struct-array フィールドを検証し、外部コレクションソース設定をサポートします。 | Go | v2"
 type: docx
 token: Du2ZdjCWIorDg4xdwercNnYgnJb
 sidebar_position: 23
 keywords: 
   - 高密度埋め込み
-  - Faiss ベクターデータベース
-  - Chroma ベクターデータベース
+  - Faiss ベクトルデータベース
+  - Chroma ベクトルデータベース
   - nlp 検索
   - zilliz
   - zilliz cloud
   - cloud
-  - Schema
+  - スキーマ
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,9 +29,9 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# Schema
+# スキーマ
 
-Milvus v3 collection schema を定義し、struct-array フィールドを検証し、外部 collection ソース設定をサポートします。
+Milvus v3 のコレクションスキーマを定義し、struct-array フィールドを検証し、外部コレクションソース設定をサポートします。
 
 ```go
 type Schema struct {
@@ -46,23 +46,23 @@ type Schema struct {
 }
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
-空の collection schema を作成します。
+空のコレクションスキーマを作成します。
 
 ```go
 entity.NewSchema()
 ```
 
-**METHODS:**
+**メソッド:**
 
 - `WithName(name string) *Schema`
 
-    collection 名を設定します。
+    コレクション名を設定します。
 
 - `WithDescription(desc string) *Schema`
 
-    collection の説明を設定します。
+    コレクションの説明を設定します。
 
 - `WithAutoID(autoID bool) *Schema`
 
@@ -70,7 +70,7 @@ entity.NewSchema()
 
 - `WithDynamicFieldEnabled(dynamicEnabled bool) *Schema`
 
-    dynamic field を有効または無効にします。
+    動的フィールドを有効または無効にします。
 
 - `WithExternalSource(externalSource string) *Schema`
 
@@ -78,19 +78,19 @@ entity.NewSchema()
 
 - `WithExternalSpec(externalSpec string) *Schema`
 
-    外部ソース設定を JSON として設定します。
+    外部ソース構成を JSON として設定します。
 
 - `WithField(field *Field) *Schema`
 
-    schema に field 定義を追加します。
+    スキーマにフィールド定義を追加します。
 
 - `WithFunction(function *Function) *Schema`
 
-    schema に組み込み関数の定義を追加します。
+    スキーマに組み込み関数定義を追加します。
 
 - `Validate() error`
 
-    struct-array のサブフィールドを検証し、サポートされていないネストや最上位レベル専用フラグに対してエラーを返します。
+    struct-array のサブフィールドを検証し、サポートされていないネストまたはトップレベル専用フラグに対してエラーを返します。
 
 - `PKFieldName() string`
 
@@ -112,51 +112,51 @@ entity.NewSchema()
 
         対象ソースデータファイルの形式です。
 
-        使用可能な値は `parquet`, `vortex`, `lance-table`, `iceberg-table` です。
+        使用可能な値は `parquet`、`vortex`、`lance-table`、`iceberg-table` です。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
-*Schema*
+*スキーマ*
 
-**RETURNS:**
+**戻り値:**
 
-field 定義、関数、および dynamic field 設定を含む、collection の schema を表します。
+フィールド定義、関数、動的フィールド設定を含む、コレクションのスキーマを表します。
 
 - **CollectionName** (*string*) -
 
-    collection 名を格納します。
+    コレクション名を格納します。
 
 - **Description** (*string*) -
 
-    collection の説明を格納します。
+    コレクションの説明を格納します。
 
 - **AutoID** (*bool*) -
 
     Milvus が主キーを自動生成するかどうかを示します。
 
-- **Fields** (*[]*Field*) -
+- **Fields** (<em>[]</em>Field&ast;) -
 
-    collection の field 定義を含みます。
+    コレクションのフィールド定義を含みます。
 
 - **EnableDynamicField** (*bool*) -
 
-    dynamic field が有効かどうかを示します。
+    動的フィールドが有効かどうかを示します。
 
-- **Functions** (*[]*Function*) -
+- **Functions** (<em>[]</em>Function&ast;) -
 
-    組み込み関数の定義を含みます。
+    組み込み関数定義を含みます。
 
 - **ExternalSource** (*string*) -
 
-    外部データソース（例: `"s3://bucket/path"`）。
+    外部データソース（例: "s3://bucket/path"）。
 
 - **ExternalSpec** (*string*) -
 
-    外部ソース設定（JSON）。
+    外部ソース構成（JSON）。
 
-## Example\{#example}
+## 例\{#example}
 
-Schema の使用方法を示します。
+スキーマの使用方法を示します。
 
 ```go
 import (
@@ -175,9 +175,9 @@ err := schema.Validate()
 fmt.Println(err)
 ```
 
-## Notes\{#notes}
+## 備考\{#notes}
 
-- Struct-array のデコードでは nullable 状態が保持され、親がそれを持たない場合はサブフィールドから `max_capacity` が復元されます。
+- struct-array のデコードでは nullable 状態が保持され、親がそれを持たない場合はサブフィールドから `max_capacity` が復元されます。
 
-- `ExternalSource` と `ExternalSpec` は、外部 collection ストレージとその設定を記述します。
+- `ExternalSource` と `ExternalSpec` は、外部コレクションストレージとその構成を説明します。
 

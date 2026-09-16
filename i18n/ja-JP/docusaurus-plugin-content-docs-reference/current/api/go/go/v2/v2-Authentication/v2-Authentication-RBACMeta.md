@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "ユーザー、ロール、権限付与、権限グループを含む RBAC メタデータの完全なスナップショットです。BackupRBAC/RestoreRBAC とともに使用されます。 | Go | v2"
+description: "ユーザー、ロール、権限付与、権限グループを含む RBAC メタデータの完全なスナップショットです。BackupRBAC/RestoreRBAC. とともに使用されます。 | Go | v2"
 type: docx
 token: GyCrdXyvzobrrAxzFRbcRTlSnUb
 sidebar_position: 18
@@ -15,7 +15,7 @@ keywords:
   - ベクトルデータベースとは
   - ベクトルデータベースの比較
   - Faiss
-  - Video search
+  - 動画検索
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # RBACMeta
 
-ユーザー、ロール、権限付与、権限グループを含む RBAC メタデータの完全なスナップショットです。BackupRBAC/RestoreRBAC とともに使用されます。
+ユーザー、ロール、権限付与、権限グループを含む RBAC メタデータの完全なスナップショットです。BackupRBAC/RestoreRBAC. とともに使用されます。
 
 ```go
 type RBACMeta struct {
@@ -44,18 +44,18 @@ type RBACMeta struct {
 
 **FIELDS:**
 
-- **Users** (*[]*UserInfo*)
+- **Users** (<em>[]</em>UserInfo&ast;)
 
     ユーザーです。
 
-- **Roles** (*[]*Role*)
+- **Roles** (<em>[]</em>Role&ast;)
 
     割り当てられたロールのリストです。
 
-- **RoleGrants** (*[]*RoleGrants*)
+- **RoleGrants** (<em>[]</em>RoleGrants&ast;)
 
     ロールの権限付与です。
 
-- **PrivilegeGroups** (*[]*PrivilegeGroup*)
+- **PrivilegeGroups** (<em>[]</em>PrivilegeGroup&ast;)
 
     権限グループです。

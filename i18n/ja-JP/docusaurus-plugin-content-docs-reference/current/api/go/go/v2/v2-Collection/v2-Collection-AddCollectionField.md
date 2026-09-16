@@ -7,13 +7,13 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "クライアント側でフィールドオプションを検証した後、既存の collection に nullable フィールドを追加します。 | Go | v2"
+description: "クライアント側でフィールドオプションを検証した後、既存のコレクションに nullable フィールドを追加します。 | Go | v2"
 type: docx
 token: NmAwdxspJop8U0xi2DPcNYpmnBe
 sidebar_position: 1
 keywords: 
   - AI チャットボット
-  - cosine distance
+  - コサイン距離
   - ベクトルデータベースとは
   - vectordb
   - zilliz
@@ -31,41 +31,41 @@ import Admonition from '@theme/Admonition';
 
 # AddCollectionField()
 
-クライアント側でフィールドオプションを検証した後、既存の collection に nullable フィールドを追加します。
+クライアント側でフィールドオプションを検証した後、既存のコレクションに nullable フィールドを追加します。
 
 ```go
 func (c *Client) AddCollectionField(ctx context.Context, opt AddCollectionFieldOption, callOpts ...grpc.CallOption) error
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
 - **collectionName** (*string*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    フィールドを追加する collection の名前。
+    フィールドを追加するコレクションの名前です。
 
-- **field** (**entity.Field*) -
+- **field** (&ast;*entity.Field*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    追加するフィールド定義。vector フィールドは nullable である必要があります。
+    追加するフィールド定義です。ベクトルフィールドは nullable である必要があります。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *error*
 
-**RETURNS:**
+**戻り値:**
 
 フィールドの追加後に nil を返します。クライアント側の検証または RPC が失敗した場合はエラーを返します。
 
-**ERROR HANDLING:**
+**エラーハンドリング:**
 
 - **error**
 
-    検証、リクエストの構築、または RPC が失敗します。失敗の詳細は返された error を確認してください。
+    検証、リクエストの構築、または RPC が失敗します。失敗の詳細は、返された error を確認してください。
 
-## Example\{#example}
+## 例\{#example}
 
 AddCollectionField() の使用方法を示します。
 

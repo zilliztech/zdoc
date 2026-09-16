@@ -12,9 +12,9 @@ type: docx
 token: ZasGdw9Szo9TQbxzHlYcLh1Rnyf
 sidebar_position: 6
 keywords: 
-  - 安価な vector database
-  - マネージド vector database
-  - Pinecone vector database
+  - 安価なベクトルデータベース
+  - マネージドベクトルデータベース
+  - Pinecone ベクトルデータベース
   - 音声検索
   - zilliz
   - zilliz cloud
@@ -69,18 +69,18 @@ type ImportProgressDetail struct {
   `ResponseBase` から継承されます。値が `0` の場合は成功を示します。
 
 - **Message** (*string*) -<br/>
-  `ResponseBase` から継承されます。`Status` がゼロ以外の場合のエラー説明です。
+  `ResponseBase` から継承されます。`Status` が 0 以外の場合のエラー説明です。
 
-- **Data** (*\*ImportProgressData*) -<br/>
+- **Data** (&lt;em>\</em>ImportProgressData&ast;) -<br/>
   要求されたジョブの進行状況ペイロードです。
 
 **ImportProgressData のフィールド:**
 
 - **CollectionName** (*string*) -<br/>
-  ジョブの対象となる collection です。
+  ジョブが対象とするコレクションです。
 
 - **JobID** (*string*) -<br/>
-  import ジョブの一意識別子です。
+  インポートジョブの一意の識別子です。
 
 - **State** (*string*) -<br/>
   現在のジョブ状態です。一般的な値には `Pending`、`Importing`、`Completed`、`Failed` があります。
@@ -89,20 +89,19 @@ type ImportProgressDetail struct {
   `[0, 100]` の範囲で表される全体の完了率です。
 
 - **ImportedRows** (*int64*) -<br/>
-  collection にすでに import された行数です。
+  コレクションにすでにインポートされた行数です。
 
 - **TotalRows** (*int64*) -<br/>
-  すべてのソースファイルから想定される総行数です。
+  すべてのソースファイルから想定される合計行数です。
 
 - **FileSize** (*int64*) -<br/>
   すべてのソースファイルの合計サイズ（バイト単位）です。
 
 - **CompleteTime** (*string*) -<br/>
-  ジョブの完了タイムスタンプです。ジョブが終端状態に到達するまでは空です。
+  ジョブの完了タイムスタンプです。ジョブが終端状態に達するまでは空です。
 
 - **Reason** (*string*) -<br/>
   `State == "Failed"` の場合の失敗理由です。それ以外の場合は空です。
 
 - **Details** (*[]\ImportProgressDetail*) -<br/>
-  ファイルごとの進行状況エントリです。親フィールドと同じ構造を持ち、それぞれ1つのソースファイルに対応します。
-
+  ファイルごとの進行状況エントリです。親フィールドと同じ構造を持ち、それぞれ1つのソースファイルを対象とします。

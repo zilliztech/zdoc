@@ -12,10 +12,10 @@ type: docx
 token: CnuHdninQoBoJXxWe2pczq7snGd
 sidebar_position: 16
 keywords: 
-  - milvus vector db
+  - milvus ベクトル db
   - Zilliz Cloud
   - what is milvus
-  - milvus database
+  - milvus データベース
   - zilliz
   - zilliz cloud
   - cloud
@@ -37,7 +37,7 @@ import Admonition from '@theme/Admonition';
 func (c *Client) RunAnalyzer(ctx context.Context, option RunAnalyzerOption, callOptions ...grpc.CallOption) ([]*entity.AnalyzerResult, error)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```go
 option := milvusclient.NewRunAnalyzerOption(text).
@@ -51,53 +51,53 @@ option := milvusclient.NewRunAnalyzerOption(text).
 result, err := client.RunAnalyzer(ctx, option)
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
 - **text** (*...string*)
 
     テキストです。
 
-**OPTION METHODS:**
+**オプションメソッド:**
 
 - `WithAnalyzerParamsStr(params string)`
 
-    この操作の analyzer params 文字列を設定します。
+    この操作のアナライザーパラメータ文字列を設定します。
 
 - `WithAnalyzerParams(params map[string]any)`
 
-    この操作の analyzer params を設定します。
+    この操作のアナライザーパラメータを設定します。
 
 - `WithDetail()`
 
-    この操作の detail を設定します。
+    この操作の詳細を設定します。
 
 - `WithHash()`
 
-    この操作の hash を設定します。
+    この操作のハッシュを設定します。
 
 - `WithField(collectionName, fieldName string)`
 
-    この操作の field を設定します。
+    この操作のフィールドを設定します。
 
 - `WithAnalyzerName(names ...string)`
 
-    この操作の analyzer name を設定します。
+    この操作のアナライザー名を設定します。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
-*[]*entity.AnalyzerResult, error*
+<em>[]</em>entity.AnalyzerResult, error&ast;
 
-**RETURNS:**
+**戻り値:**
 
-入力テキストがどのようにトークン化されるかを示す analyzer 出力です。操作が失敗した場合はエラーを返します。
+入力テキストがどのようにトークン化されるかを示すアナライザーの出力です。操作が失敗した場合はエラーを返します。
 
-**EXCEPTIONS:**
+**例外:**
 
 - **error**
 
     失敗の詳細は `err != nil` を確認してください。
 
-## Example\{#example}
+## 例\{#example}
 
 ```go
 import (

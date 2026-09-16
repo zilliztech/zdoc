@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この関数は、RESTful API を介して単一の bulk import ジョブの詳細な進行状況を取得します。`BulkImport()` によって送信されたジョブを、その `State` が `Completed` または `Failed` に達するまでポーリングするために使用します。レスポンスには、全体の進行状況、インポート済み/想定行数の合計、ファイルサイズ、およびファイルごとの進行状況の詳細が含まれます。 | Go | v2"
+description: "この関数は、RESTful API を介して単一の bulk import ジョブの詳細な進行状況を取得します。`BulkImport()` によって送信されたジョブを、その `State` が `Completed` または `Failed` に達するまでポーリングするために使用します。レスポンスには、全体の進行状況、インポート済み行数と想定行数の合計（imported/expected）、ファイルサイズ、およびファイルごとの進行状況の詳細が含まれます。 | Go | v2"
 type: docx
 token: V05sd0bGjo33Cux0j9DcrNKTndh
 sidebar_position: 4
@@ -18,7 +18,7 @@ keywords:
   - RAG
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - GetImportProgress()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # GetImportProgress()
 
-この関数は、RESTful API を介して単一の bulk import ジョブの詳細な進行状況を取得します。`BulkImport()` によって送信されたジョブを、その `State` が `Completed` または `Failed` に達するまでポーリングするために使用します。レスポンスには、全体の進行状況、インポート済み/想定行数の合計、ファイルサイズ、およびファイルごとの進行状況の詳細が含まれます。
+この関数は、RESTful API を介して単一の bulk import ジョブの詳細な進行状況を取得します。`BulkImport()` によって送信されたジョブを、その `State` が `Completed` または `Failed` に達するまでポーリングするために使用します。レスポンスには、全体の進行状況、インポート済み行数と想定行数の合計（imported/expected）、ファイルサイズ、およびファイルごとの進行状況の詳細が含まれます。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-`GetImportProgress()` は `github.com/milvus-io/milvus/client/v2/bulkwriter` 内のパッケージレベル関数です。REST `/v2/vectordb/jobs/import/describe` エンドポイントを呼び出し、Milvus オープンソース cluster（`NewGetImportProgressOption` を使用）と Zilliz Cloud（`NewCloudGetImportProgressOption` を使用）の両方で動作します。
+`GetImportProgress()` は、`github.com/milvus-io/milvus/client/v2/bulkwriter` のパッケージレベル関数です。REST `/v2/vectordb/jobs/import/describe` エンドポイントを呼び出し、Milvus オープンソースのクラスター（`NewGetImportProgressOption` を使用）と Zilliz Cloud（`NewCloudGetImportProgressOption` を使用）の両方で動作します。
 
 </Admonition>
 
@@ -55,14 +55,14 @@ resp, err := bulkwriter.GetImportProgress(ctx, option)
 **パラメーター:**
 
 - **ctx** (*context.Context*) -<br/>
-  キャンセルおよびデッドラインのためのコンテキストです。HTTP リクエストはこのコンテキストを継承するため、これをキャンセルすると進行中の呼び出しは中断されます。
+  キャンセルおよびデッドラインのためのコンテキストです。HTTP リクエストはこのコンテキストを継承するため、これをキャンセルすると進行中の呼び出しが中断されます。
 
 - **option** (*GetImportProgressOption*) -<br/>
-  self-hosted Milvus には `NewGetImportProgressOption()`、Zilliz Cloud には `NewCloudGetImportProgressOption()` で作成された progress オプションです。`BulkImport()` が返すジョブ ID が必要です。必須です。
+  セルフホスト型 Milvus では `NewGetImportProgressOption()`、Zilliz Cloud では `NewCloudGetImportProgressOption()` で作成された進行状況オプションです。`BulkImport()` が返すジョブ ID が必要です。必須です。
 
 **戻り値の型:**
 
-*\*GetImportProgressResponse, error*
+&lt;em>\</em>GetImportProgressResponse, error&ast;
 
 **戻り値:**
 

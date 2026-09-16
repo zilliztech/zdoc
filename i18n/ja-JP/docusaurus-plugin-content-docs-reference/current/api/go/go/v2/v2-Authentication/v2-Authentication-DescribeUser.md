@@ -53,7 +53,7 @@ result, err := client.DescribeUser(ctx, option)
 
 **戻り値の型:**
 
-**[entity.User](./v2-Authentication-User), error*
+&ast;*[entity.User](./v2-Authentication-User), error*
 
 **戻り値:**
 

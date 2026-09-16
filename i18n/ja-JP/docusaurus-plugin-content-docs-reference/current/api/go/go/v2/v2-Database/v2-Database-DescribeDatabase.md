@@ -45,21 +45,21 @@ option := milvusclient.NewDescribeDatabaseOption(dbName)
 result, err := client.DescribeDatabase(ctx, option)
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
 - **dbName** (*string*)
 
     データベースの名前。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
-**entity.Database, error*
+&ast;*entity.データベース, error*
 
-**RETURNS:**
+**戻り値:**
 
-プロパティを含むデータベースの説明を返します。操作が失敗した場合は error を返します。
+プロパティを含むデータベースの説明を返します。操作に失敗した場合は error を返します。
 
-**EXCEPTIONS:**
+**例外:**
 
 - **error**
 

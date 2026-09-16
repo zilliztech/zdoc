@@ -60,7 +60,7 @@ result, err := client.DescribeRole(ctx, option)
 
 **戻り値の型:**
 
-**[entity.Role](./v2-Authentication-Role), error*
+&ast;*[entity.Role](./v2-Authentication-Role), error*
 
 **戻り値:**
 
