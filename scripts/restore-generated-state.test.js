@@ -2,6 +2,7 @@
 
 const assert = require('node:assert/strict')
 const { execFileSync, spawnSync } = require('node:child_process')
+const crypto = require('node:crypto')
 const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
@@ -592,5 +593,148 @@ test('refspec-like positional branches are rejected before fetch can create a lo
     assert.equal(injectedRef.status, 1, 'fetch must not create refs/heads/injected')
   } finally {
     fs.rmSync(fixture.root, { recursive: true, force: true })
+  }
+})
+
+function sha256(contents) {
+  return crypto.createHash('sha256').update(contents).digest('hex')
+}
+
+function translatedTargetMismatches(root) {
+  const manifest = JSON.parse(fs.readFileSync(path.join(root, 'generated/zh-CN/manifests/reference-translations.json'), 'utf8'))
+  return manifest.records
+    .filter(record => record.status === 'translated' || record.status === 'unchanged')
+    .filter(record => sha256(fs.readFileSync(path.join(root, record.targetPath))) !== record.targetHash)
+    .map(record => record.targetPath)
+}
+
+// Reproduces the production shape of the 2026-09-16 zh python run: a python
+// source checkpoint, then another group's translation published on dev before
+// the run's target baseline. The go translation record advances with the
+// published bytes, exactly like the real manifest.
+function createInterleavedPublicationFixture() {
+  const fixture = createFixture()
+  const englishGuide = 'content/en/reference/api/go/guide.md'
+  const targetGuide = 'content/zh-CN/reference/api/go/guide.md'
+  const manifestPath = 'generated/zh-CN/manifests/reference-translations.json'
+  try {
+    write(fixture.source, englishGuide, 'english source\n')
+    const publishGo = (translation) => {
+      write(fixture.source, targetGuide, `${translation}\n`)
+      write(fixture.source, manifestPath, `${JSON.stringify({
+        schemaVersion: 1,
+        records: [{
+          manual: 'go',
+          sourceCommit: git(fixture.source, 'rev-parse', 'HEAD'),
+          sourceHash: sha256(Buffer.from('english source\n')),
+          sourcePath: englishGuide,
+          status: 'translated',
+          targetHash: sha256(Buffer.from(`${translation}\n`)),
+          targetPath: targetGuide,
+        }],
+      }, null, 2)}\n`)
+      git(fixture.source, 'add', '-A')
+    }
+    publishGo('checkpoint go translation')
+    git(fixture.source, 'commit', '-m', 'docs(python): publish SDK reference')
+    const checkpointSha = git(fixture.source, 'rev-parse', 'HEAD')
+    publishGo('published go translation')
+    git(fixture.source, 'commit', '-m', 'i18n(zh-CN-reference): publish go translations')
+    const baselineSha = git(fixture.source, 'rev-parse', 'HEAD')
+    git(fixture.source, 'push', 'origin', 'dev')
+
+    git(fixture.work, 'fetch', 'origin', 'dev')
+    git(fixture.work, 'checkout', '--detach', baselineSha)
+    return {...fixture, checkpointSha, baselineSha, targetGuide, manifestPath}
+  } catch (error) {
+    fs.rmSync(fixture.root, {recursive: true, force: true})
+    throw error
+  }
+}
+
+test('translation assembly without --except mixes checkpoint targets with baseline manifest records', () => {
+  const fixture = createInterleavedPublicationFixture()
+  try {
+    const restored = run(fixture.work, ['--exact', '--ref', fixture.checkpointSha])
+    assert.equal(restored.status, 0, restored.stderr)
+    // materialize-translation-baseline copies the baseline manifest verbatim;
+    // the go target bytes stay rewound to the checkpoint, so the pairing the
+    // global Reference manifest rebuild validates no longer matches.
+    fs.copyFileSync(path.join(fixture.source, fixture.manifestPath), path.join(fixture.work, fixture.manifestPath))
+    assert.deepEqual(translatedTargetMismatches(fixture.work), [fixture.targetGuide])
+  } finally {
+    fs.rmSync(fixture.root, {recursive: true, force: true})
+  }
+})
+
+test('translation assembly with --except keeps every translated record on the target baseline', () => {
+  const fixture = createInterleavedPublicationFixture()
+  try {
+    const restored = run(fixture.work, ['--exact', '--ref', fixture.checkpointSha, '--except', 'content/zh-CN,generated/zh-CN'])
+    assert.equal(restored.status, 0, restored.stderr)
+    assert.equal(
+      fs.readFileSync(path.join(fixture.work, fixture.targetGuide), 'utf8'),
+      'published go translation\n',
+      'excepted target-side roots must stay on the checked-out baseline bytes',
+    )
+    // The baseline manifest copy is byte-identical now, so the manifest rebuild
+    // guard that failed the production run finds no divergent record.
+    fs.copyFileSync(path.join(fixture.source, fixture.manifestPath), path.join(fixture.work, fixture.manifestPath))
+    assert.deepEqual(translatedTargetMismatches(fixture.work), [])
+  } finally {
+    fs.rmSync(fixture.root, {recursive: true, force: true})
+  }
+})
+
+test('--except keeps managed roots untouched while the remaining list still restores', () => {
+  const fixture = createFixture()
+  const targetGuide = 'content/zh-CN/reference/api/python/guide.md'
+  try {
+    write(fixture.source, 'docs/state.txt', 'checkpoint docs\n')
+    write(fixture.source, targetGuide, 'checkpoint translation\n')
+    fs.rmSync(path.join(fixture.source, 'config/generated'), {recursive: true})
+    git(fixture.source, 'add', '-A')
+    git(fixture.source, 'commit', '-m', 'advance checkpoint state')
+    const checkpointSha = git(fixture.source, 'rev-parse', 'HEAD')
+
+    write(fixture.source, 'docs/state.txt', 'baseline docs\n')
+    write(fixture.source, targetGuide, 'baseline translation\n')
+    write(fixture.source, 'config/generated/state.txt', 'baseline config\n')
+    git(fixture.source, 'add', '-A')
+    git(fixture.source, 'commit', '-m', 'advance baseline state')
+    const baselineSha = git(fixture.source, 'rev-parse', 'HEAD')
+    git(fixture.source, 'push', 'origin', 'dev')
+
+    git(fixture.work, 'fetch', 'origin', 'dev')
+    git(fixture.work, 'checkout', '--detach', baselineSha)
+    const result = run(fixture.work, ['--exact', '--ref', checkpointSha, '--except', 'content/zh-CN,config/generated'])
+
+    assert.equal(result.status, 0, result.stderr)
+    assert.equal(fs.readFileSync(path.join(fixture.work, targetGuide), 'utf8'), 'baseline translation\n')
+    assert.equal(fs.readFileSync(path.join(fixture.work, 'config/generated/state.txt'), 'utf8'), 'baseline config\n')
+    assert.equal(fs.readFileSync(path.join(fixture.work, 'docs/state.txt'), 'utf8'), 'checkpoint docs\n')
+  } finally {
+    fs.rmSync(fixture.root, {recursive: true, force: true})
+  }
+})
+
+test('--except must name managed paths and cannot cover the whole list', () => {
+  const fixture = createFixture()
+  try {
+    for (const args of [
+      ['--exact', '--ref', fixture.oldSha, '--except'],
+      ['--exact', '--ref', fixture.oldSha, '--except', ''],
+      ['--exact', '--ref', fixture.oldSha, '--except', 'docs', '--except', 'docs'],
+      ['--exact', '--ref', fixture.oldSha, '--except', 'docs,'],
+    ]) {
+      const result = run(fixture.work, args)
+      assert.notEqual(result.status, 0, `expected failure for ${JSON.stringify(args)}`)
+      assert.match(result.stderr, /Usage:/)
+    }
+    const unmanaged = run(fixture.work, ['--exact', '--ref', fixture.oldSha, '--except', 'content/zh-CN/reference/api'])
+    assert.notEqual(unmanaged.status, 0)
+    assert.match(unmanaged.stderr, /--except path is not managed: content\/zh-CN\/reference\/api/)
+  } finally {
+    fs.rmSync(fixture.root, {recursive: true, force: true})
   }
 })

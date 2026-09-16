@@ -133,7 +133,18 @@ jobs:
           for sha in "$SOURCE_BASELINE_SHA" "$SOURCE_CHECKPOINT_SHA" "$TARGET_BASELINE_SHA"; do git fetch --no-tags origin "$sha"; done
           git merge-base --is-ancestor "$SOURCE_BASELINE_SHA" "$SOURCE_CHECKPOINT_SHA"
           git worktree add --detach "$BASELINE_DIR" "$TARGET_BASELINE_SHA"
-          bash scripts/restore-generated-state.sh --exact --ref "$SOURCE_CHECKPOINT_SHA"
+          # Target-side translation state (including other groups' published
+          # translations) stays on the target baseline; only the English source
+          # and English-derived state rewind to the source checkpoint. Restoring
+          # the target side to the checkpoint would rewind published
+          # translations that the baseline manifest records, and the global
+          # Reference manifest rebuild rejects that combination.
+          case "$TRANSLATION_TARGET" in
+            zh-CN-reference) restore_except="content/zh-CN,generated/zh-CN" ;;
+            ja-JP) restore_except="i18n,.translation-cache" ;;
+            *) echo "Unsupported translation target: $TRANSLATION_TARGET" >&2; exit 2 ;;
+          esac
+          bash scripts/restore-generated-state.sh --exact --ref "$SOURCE_CHECKPOINT_SHA" --except "$restore_except"
 
       - name: Materialize target baseline translation state
         if: ${{ inputs.should_translate }}
@@ -151,6 +162,19 @@ jobs:
           mkdir -p "$(dirname "$state")" "$BASELINE_DIR/$(dirname "$state")"
           test -f "$state" || printf '%s\n' "$empty" > "$state"
           test -f "$BASELINE_DIR/$state" || cp "$state" "$BASELINE_DIR/$state"
+          # Before any reconciliation mutation, the whole target side must be
+          # byte-identical to the target baseline so the run can never rewind
+          # or republish another group's published translations.
+          case "$TRANSLATION_TARGET" in
+            zh-CN-reference) parity_roots="content/zh-CN generated/zh-CN" ;;
+            ja-JP) parity_roots="i18n .translation-cache" ;;
+          esac
+          for parity_root in $parity_roots; do
+            if [ -d "$GITHUB_WORKSPACE/$parity_root" ] || [ -d "$BASELINE_DIR/$parity_root" ]; then
+              echo "Verifying target baseline parity: $parity_root"
+              diff -r "$GITHUB_WORKSPACE/$parity_root" "$BASELINE_DIR/$parity_root" > /dev/null
+            fi
+          done
       - name: Create SDK/CLI completeness receipt
         # reference-landings is not a fetch-published SDK/CLI manual; its source
         # checkpoint is the content branch tip, so no generator completeness
