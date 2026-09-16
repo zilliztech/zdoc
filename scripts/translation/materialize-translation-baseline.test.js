@@ -15,7 +15,7 @@ function write(root, relative, contents) {
   fs.writeFileSync(target, contents)
 }
 
-test('materializes only the selected target baseline translation state before bootstrap resolution', t => {
+test('materializes the full target-side baseline state before bootstrap resolution', t => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-target-baseline-'))
   const workspace = path.join(root, 'workspace')
   const baseline = path.join(root, 'baseline')
@@ -45,9 +45,32 @@ test('materializes only the selected target baseline translation state before bo
   assert.equal(result.status, 0, result.stderr)
   assert.equal(fs.readFileSync(path.join(workspace, 'content/en/reference/api/python/python/page.md'), 'utf8'), '# current English source\n')
   assert.equal(fs.readFileSync(path.join(workspace, 'content/zh-CN/reference/api/python/python/page.md'), 'utf8'), '# target-baseline translation\n')
-  assert.equal(fs.readFileSync(path.join(workspace, 'content/zh-CN/reference/api/java/page.md'), 'utf8'), '# unrelated current Java\n')
+  // The workspace checkout is the tooling SHA, whose target tree can be older
+  // than the baseline's, so the whole root — including out-of-group state —
+  // must come from the baseline for the parity check to hold.
+  assert.equal(fs.readFileSync(path.join(workspace, 'content/zh-CN/reference/api/java/page.md'), 'utf8'), '# unrelated baseline Java\n')
   assert.match(fs.readFileSync(path.join(workspace, 'generated/zh-CN/manifests/reference-translations.json'), 'utf8'), /bootstrapCompletedGroups/)
   assert.equal(fs.readFileSync(path.join(workspace, 'generated/zh-CN/sidebars/python.sidebar.js'), 'utf8'), 'module.exports = ["baseline"]\n')
+})
+
+test('removes workspace target-side files that the baseline does not publish', t => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-target-baseline-diverged-'))
+  const workspace = path.join(root, 'workspace')
+  const baseline = path.join(root, 'baseline')
+  fs.mkdirSync(workspace)
+  fs.mkdirSync(baseline)
+  t.after(() => fs.rmSync(root, {recursive: true, force: true}))
+
+  // Tooling-era workspace bytes for a target the baseline no longer carries.
+  write(workspace, 'content/zh-CN/reference/api/go/retired.md', '# tooling-era go translation\n')
+  write(baseline, 'content/zh-CN/reference/api/go/current.md', '# published go translation\n')
+
+  const result = materializeTranslationBaseline({repositoryRoot: workspace, baselineRoot: baseline, target: 'zh-CN-reference', group: 'python'})
+
+  assert.equal(fs.existsSync(path.join(workspace, 'content/zh-CN/reference/api/go/retired.md')), false)
+  assert.equal(fs.readFileSync(path.join(workspace, 'content/zh-CN/reference/api/go/current.md'), 'utf8'), '# published go translation\n')
+  assert.deepEqual(result.materialized, ['content/zh-CN'])
+  assert.deepEqual(result.removed, ['generated/zh-CN'])
 })
 
 function guidesFixture(t) {
@@ -87,14 +110,23 @@ function snapshot(setup) {
   }
 }
 
-test('removes a selected path only after every baseline source validates and stages', t => {
+test('drops target files the baseline no longer carries inside a swapped root', t => {
   const setup = guidesFixture(t)
   fs.rmSync(path.join(setup.baseline, setup.paths.manifest))
   const result = materializeTranslationBaseline({repositoryRoot: setup.workspace, baselineRoot: setup.baseline, target: 'ja-JP', group: 'guides'})
   assert.equal(fs.existsSync(path.join(setup.workspace, setup.paths.manifest)), false)
-  assert.ok(result.removed.includes(setup.paths.manifest))
+  assert.deepEqual(result.removed, [])
   assert.equal(fs.readFileSync(path.join(setup.workspace, `${setup.paths.content}/new.md`), 'utf8'), '# new content\n')
   assert.equal(fs.readFileSync(path.join(setup.workspace, setup.paths.nestedHome), 'utf8'), '# new home\n')
+})
+
+test('removes a whole target-side root that the baseline does not carry', t => {
+  const setup = guidesFixture(t)
+  fs.rmSync(path.join(setup.baseline, '.translation-cache'), {recursive: true})
+  const result = materializeTranslationBaseline({repositoryRoot: setup.workspace, baselineRoot: setup.baseline, target: 'ja-JP', group: 'guides'})
+  assert.equal(fs.existsSync(path.join(setup.workspace, setup.paths.state)), false)
+  assert.deepEqual(result.removed, ['.translation-cache'])
+  assert.equal(fs.readFileSync(path.join(setup.workspace, `${setup.paths.content}/new.md`), 'utf8'), '# new content\n')
 })
 
 test('leaves every destination unchanged when a later baseline source is a symlink', t => {
