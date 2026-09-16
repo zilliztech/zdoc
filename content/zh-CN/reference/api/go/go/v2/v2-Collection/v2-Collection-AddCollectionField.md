@@ -43,9 +43,9 @@ func (c *Client) AddCollectionField(ctx context.Context, opt AddCollectionFieldO
 
     **[必需]**
 
-    要添加字段的 Collection 名称。
+    该字段要添加到的 Collection 的名称。
 
-- **field** (**entity.Field*) -
+- **field** (&ast;*Entity.Field*) -
 
     **[必需]**
 
@@ -57,13 +57,13 @@ func (c *Client) AddCollectionField(ctx context.Context, opt AddCollectionFieldO
 
 **返回值：**
 
-字段添加完成后返回 nil。当客户端验证失败或 RPC 失败时，返回错误。
+字段添加完成后返回 nil。当客户端验证或 RPC 失败时，返回错误。
 
 **错误处理：**
 
 - **error**
 
-    验证、请求构造或 RPC 失败。请检查返回的错误以获取失败详情。
+    验证、请求构造或 RPC 失败。请检查返回的错误以了解失败详情。
 
 ## 示例\{#example}
 

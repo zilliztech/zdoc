@@ -60,7 +60,7 @@ type ImportJobRecord struct {
 - **Message** (*string*) -<br/>
   继承自 `ResponseBase`。当 `Status` 非零时的错误描述。
 
-- **Data.Records** (*[]\*ImportJobRecord*) -<br/>
+- **Data.Records** (&lt;em>[]\</em>ImportJobRecord&ast;) -<br/>
   为当前页面返回的作业记录切片。当没有作业匹配筛选条件时，可能为空。
 
 **ImportJobRecord 字段：**

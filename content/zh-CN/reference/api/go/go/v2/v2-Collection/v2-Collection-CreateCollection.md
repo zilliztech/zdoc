@@ -45,7 +45,7 @@ func (c *Client) CreateCollection(ctx context.Context, option CreateCollectionOp
 
     要创建的 Collection 的名称。
 
-- **collectionSchema** (**entity.Schema*) -
+- **collectionSchema** (**Entity.Schema*) -
 
     **[必需]**
 

@@ -71,7 +71,7 @@ type ImportProgressDetail struct {
 - **Message** (*string*) -<br/>
   继承自 `ResponseBase`。当 `Status` 非零时的错误描述。
 
-- **Data** (*\*ImportProgressData*) -<br/>
+- **Data** (&lt;em>\</em>ImportProgressData&ast;) -<br/>
   所请求作业的进度负载。
 
 **ImportProgressData 字段：**

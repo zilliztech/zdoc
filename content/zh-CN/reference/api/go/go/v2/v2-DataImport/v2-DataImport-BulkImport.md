@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此函数通过 RESTful 导入 API 向 Milvus 或 Zilliz Cloud 集群提交批量导入作业。当您需要加载已暂存到对象存储中的大型数据集，或可通过文件路径列表访问的大型数据集时，请使用此函数。该调用会立即返回一个作业 ID；您可以使用 `GetImportProgress()` 跟踪作业进度，并使用 `ListImportJobs()` 列出尚未完成的作业。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 `BulkImport()` 是 `github.com/milvus-io/milvus/client/v2/bulkwriter` 中的包级函数，而不是 `*milvusclient.Client` 上的方法。它直接调用 REST `/v2/vectordb/jobs/import/create` Endpoint，因此既适用于 Milvus 开源集群（使用 `NewBulkImportOption`），也适用于 Zilliz Cloud（使用 `NewCloudBulkImportOption`）。
 
@@ -63,7 +63,7 @@ resp, err := bulkwriter.BulkImport(ctx, option)
 
 **返回类型：**
 
-*\*BulkImportResponse, error*
+&lt;em>\</em>BulkImportResponse, error&ast;
 
 **返回值：**
 

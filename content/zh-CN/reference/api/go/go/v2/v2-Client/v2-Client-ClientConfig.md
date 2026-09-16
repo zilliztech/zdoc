@@ -57,7 +57,7 @@ type ClientConfig struct {
 
 - `WithGrpcAuthority(authority string) *ClientConfig`
 
-    此方法设置用于基于代理路由的 gRPC `:authority` 标头；默认拨号选项由客户端单独应用。
+    此方法为基于代理的路由设置 gRPC `:authority` 标头；默认拨号选项由客户端单独应用。
 
 **返回类型：**
 
@@ -139,4 +139,3 @@ defer cli.Close(ctx)
 ## 说明\{#notes}
 
 - `TelemetryConfig` 用于控制 v3 客户端中的客户端遥测行为。
-

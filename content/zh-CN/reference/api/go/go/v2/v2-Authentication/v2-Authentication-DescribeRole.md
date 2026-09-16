@@ -50,7 +50,7 @@ result, err := client.DescribeRole(ctx, option)
 
 - **roleName** (*string*)
 
-    角色名称。
+    角色的名称。
 
 **可选方法：**
 
@@ -60,7 +60,7 @@ result, err := client.DescribeRole(ctx, option)
 
 **返回类型：**
 
-**[entity.Role](./v2-Authentication-Role), error*
+**[Entity.Role](./v2-Authentication-Role), error*
 
 **返回值：**
 

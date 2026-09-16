@@ -53,17 +53,17 @@ result, err := client.DescribeUser(ctx, option)
 
 **返回类型：**
 
-**[entity.User](./v2-Authentication-User), error*
+**[Entity.User](./v2-Authentication-User), error*
 
-**返回内容：**
+**返回：**
 
-返回包含已分配角色的用户描述。如果操作失败，则返回错误。
+返回用户的描述信息，包括已分配的角色。如果操作失败，则返回错误。
 
 **异常：**
 
 - **error**
 
-    请查看 `err != nil` 了解失败详情。
+    查看 `err != nil` 了解失败详情。
 
 ## 示例\{#example}
 

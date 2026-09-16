@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作对输入文本运行文本 Analyzer，并返回分词后的输出。 | Go | v2"
+description: "此操作会对输入文本运行文本 Analyzer，并返回分词后的输出。 | Go | v2"
 type: docx
 token: CnuHdninQoBoJXxWe2pczq7snGd
 sidebar_position: 16
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # RunAnalyzer()
 
-此操作对输入文本运行文本 Analyzer，并返回分词后的输出。
+此操作会对输入文本运行文本 Analyzer，并返回分词后的输出。
 
 ```go
 func (c *Client) RunAnalyzer(ctx context.Context, option RunAnalyzerOption, callOptions ...grpc.CallOption) ([]*entity.AnalyzerResult, error)
@@ -61,7 +61,7 @@ result, err := client.RunAnalyzer(ctx, option)
 
 - `WithAnalyzerParamsStr(params string)`
 
-    为此操作设置 Analyzer params str。
+    为此操作设置 Analyzer 参数的字符串形式。
 
 - `WithAnalyzerParams(params map[string]any)`
 
@@ -69,15 +69,15 @@ result, err := client.RunAnalyzer(ctx, option)
 
 - `WithDetail()`
 
-    为此操作设置 detail。
+    为此操作设置详细信息。
 
 - `WithHash()`
 
-    为此操作设置 hash。
+    为此操作设置哈希值。
 
 - `WithField(collectionName, fieldName string)`
 
-    为此操作设置 field。
+    为此操作设置字段。
 
 - `WithAnalyzerName(names ...string)`
 
@@ -85,11 +85,11 @@ result, err := client.RunAnalyzer(ctx, option)
 
 **返回类型：**
 
-*[]*entity.AnalyzerResult, error*
+<em>[]</em>Entity.AnalyzerResult, error&ast;
 
 **返回值：**
 
-Analyzer 输出展示了输入文本如何被分词。如果操作失败，则返回错误。
+返回 Analyzer 输出，展示输入文本的分词方式。如果操作失败，则返回错误。
 
 **异常：**
 

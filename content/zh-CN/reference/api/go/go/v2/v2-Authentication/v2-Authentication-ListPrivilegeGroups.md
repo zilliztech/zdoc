@@ -39,7 +39,7 @@ func (c *Client) ListPrivilegeGroups(ctx context.Context, option ListPrivilegeGr
 
 **返回类型：**
 
-*[]*entity.PrivilegeGroup, error*
+<em>[]</em>Entity.PrivilegeGroup, error&ast;
 
 **返回值：**
 

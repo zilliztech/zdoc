@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此函数通过 RESTful API 检索单个批量导入任务的详细进度。您可以使用它轮询由 `BulkImport()` 提交的任务，直到其 `State` 达到 `Completed` 或 `Failed`。响应包含总体进度、已导入的总/expected行数、文件大小以及每个文件的进度详情。 | Go | v2"
+description: "此函数通过 RESTful API 检索单个批量导入作业的详细进度。使用它轮询由 `BulkImport()` 提交的作业，直到其 `State` 达到 `Completed` 或 `Failed`。响应包含总体进度、已导入/expected 总行数、文件大小以及每个文件的进度详情。 | Go | v2"
 type: docx
 token: V05sd0bGjo33Cux0j9DcrNKTndh
 sidebar_position: 4
@@ -16,8 +16,8 @@ keywords:
   - LLMs
   - 机器学习
   - RAG
-  - Zilliz
-  - Zilliz Cloud
+  - zilliz
+  - zilliz cloud
   - 云
   - GetImportProgress()
   - gov230
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # GetImportProgress()
 
-此函数通过 RESTful API 检索单个批量导入任务的详细进度。您可以使用它轮询由 `BulkImport()` 提交的任务，直到其 `State` 达到 `Completed` 或 `Failed`。响应包含总体进度、已导入的总/expected行数、文件大小以及每个文件的进度详情。
+此函数通过 RESTful API 检索单个批量导入作业的详细进度。使用它轮询由 `BulkImport()` 提交的作业，直到其 `State` 达到 `Completed` 或 `Failed`。响应包含总体进度、已导入/expected 总行数、文件大小以及每个文件的进度详情。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-`GetImportProgress()` 是 `github.com/milvus-io/milvus/client/v2/bulkwriter` 中的一个包级函数。它调用 REST `/v2/vectordb/jobs/import/describe` Endpoint，并同时适用于 Milvus 开源集群（使用 `NewGetImportProgressOption`）和 Zilliz Cloud（使用 `NewCloudGetImportProgressOption`）。
+`GetImportProgress()` 是 `github.com/milvus-io/milvus/client/v2/bulkwriter` 中的一个包级函数。它调用 REST `/v2/vectordb/jobs/import/describe` Endpoint，并且同时适用于 Milvus 开源集群（使用 `NewGetImportProgressOption`）和 Zilliz Cloud（使用 `NewCloudGetImportProgressOption`）。
 
 </Admonition>
 
@@ -58,15 +58,15 @@ resp, err := bulkwriter.GetImportProgress(ctx, option)
   用于取消和截止时间的上下文。HTTP 请求会继承此上下文，因此取消它会中止正在进行的调用。
 
 - **option** (*GetImportProgressOption*) -<br/>
-  对于自托管 Milvus，使用 `NewGetImportProgressOption()` 创建进度选项；对于 Zilliz Cloud，使用 `NewCloudGetImportProgressOption()` 创建。必须提供由 `BulkImport()` 返回的作业 ID。必填。
+  对于自托管 Milvus，使用 `NewGetImportProgressOption()` 创建的进度选项；对于 Zilliz Cloud，使用 `NewCloudGetImportProgressOption()` 创建的进度选项。必须提供由 `BulkImport()` 返回的作业 ID。必填。
 
 **返回类型：**
 
-*\*GetImportProgressResponse, error*
+&lt;em>\</em>GetImportProgressResponse, error&ast;
 
 **返回值：**
 
-返回一个 `GetImportProgressResponse`，其 `Data` 字段包含一个 `ImportProgressData`，其中包括总体进度、行数统计、完成时间以及每个文件的 `Details`。如果请求无法编组、HTTP 调用失败，或者服务器返回非零状态，则返回错误。
+返回一个 `GetImportProgressResponse`，其 `Data` 字段包含一个 `ImportProgressData`，其中带有总体进度、行数统计、完成时间以及每个文件的 `Details`。如果请求无法编组、HTTP 调用失败，或者服务器返回非零状态，则返回错误。
 
 **异常：**
 

@@ -65,7 +65,7 @@ entity.NewStructSchema()
 
 表示 struct 字段的 Schema，包括嵌套字段定义。
 
-- **字段** (*[]*Field*) -
+- **Fields** (<em>[]</em>Field&ast;) -
 
     包含 struct-array 的子字段定义。
 

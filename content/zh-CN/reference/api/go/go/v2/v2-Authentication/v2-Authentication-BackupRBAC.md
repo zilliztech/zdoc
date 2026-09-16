@@ -18,7 +18,7 @@ keywords:
   - vectordb
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - BackupRBAC()
   - gov230
 displayed_sidebar: goSidebar
@@ -39,7 +39,7 @@ func (c *Client) BackupRBAC(ctx context.Context, option BackupRBACOption, callOp
 
 **返回类型：**
 
-**[entity.RBACMeta](./v2-Authentication-RBACMeta), error*
+**[Entity.RBACMeta](./v2-Authentication-RBACMeta), error*
 
 **返回：**
 

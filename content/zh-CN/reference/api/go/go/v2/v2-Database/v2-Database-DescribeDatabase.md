@@ -53,7 +53,7 @@ result, err := client.DescribeDatabase(ctx, option)
 
 **返回类型：**
 
-**Entity.Database, error*
+&ast;*Entity.Database, error*
 
 **返回值：**
 

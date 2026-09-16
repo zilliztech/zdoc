@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作使用指定配置创建与指定 Zilliz Cloud 集群的连接。 | Go | v2"
+description: "此操作使用指定的配置创建与指定 Zilliz Cloud 集群的连接。 | Go | v2"
 type: docx
 token: NvlZd3VOpoMrsoxmavQckdAOnQg
 sidebar_position: 4
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # New()
 
-此操作使用指定配置创建与指定 Zilliz Cloud 集群的连接。
+此操作使用指定的配置创建与指定 Zilliz Cloud 集群的连接。
 
 ```go
 func New(ctx context.Context, config *ClientConfig) (*Client, error)
@@ -39,7 +39,7 @@ func New(ctx context.Context, config *ClientConfig) (*Client, error)
 
 **返回类型：**
 
-**Client, error*
+&ast;*Client, error*
 
 **返回：**
 
@@ -49,7 +49,7 @@ func New(ctx context.Context, config *ClientConfig) (*Client, error)
 
 - **error**
 
-    请查看 `err != nil` 了解失败详情。
+    查看 `err != nil` 了解失败详情。
 
 ## 示例\{#example}
 

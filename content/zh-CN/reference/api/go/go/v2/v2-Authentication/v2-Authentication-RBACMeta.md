@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "RBAC 元数据的完整快照，包括用户、角色、授权和权限组。与 BackupRBAC 配合使用/RestoreRBAC. | Go | v2"
+description: "RBAC 元数据的完整快照，包括用户、角色、授权和权限组。与 BackupRBAC/RestoreRBAC. 配合使用。 | Go | v2"
 type: docx
 token: GyCrdXyvzobrrAxzFRbcRTlSnUb
 sidebar_position: 18
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # RBACMeta
 
-RBAC 元数据的完整快照，包括用户、角色、授权和权限组。与 BackupRBAC/RestoreRBAC. 配合使用
+RBAC 元数据的完整快照，包括用户、角色、授权和权限组。与 BackupRBAC/RestoreRBAC. 配合使用。
 
 ```go
 type RBACMeta struct {
@@ -44,18 +44,18 @@ type RBACMeta struct {
 
 **字段：**
 
-- **Users** (*[]*UserInfo*)
+- **Users** (<em>[]</em>UserInfo&ast;)
 
     用户。
 
-- **Roles** (*[]*Role*)
+- **Roles** (<em>[]</em>Role&ast;)
 
     已分配角色的列表。
 
-- **RoleGrants** (*[]*RoleGrants*)
+- **RoleGrants** (<em>[]</em>RoleGrants&ast;)
 
     角色授权。
 
-- **PrivilegeGroups** (*[]*PrivilegeGroup*)
+- **PrivilegeGroups** (<em>[]</em>PrivilegeGroup&ast;)
 
     权限组。

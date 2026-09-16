@@ -53,9 +53,9 @@ result, err := client.DescribeCollection(ctx, option)
 
 **返回类型：**
 
-*[collection* ](./v2-Collection)entity.Collection, err error*
+*[collection* ](./v2-Collection)Entity.Collection, err error&ast;
 
-**返回值：**
+**返回：**
 
 Collection 的描述，包括 Schema、字段和属性。如果操作失败，则返回错误。
 
@@ -63,7 +63,7 @@ Collection 的描述，包括 Schema、字段和属性。如果操作失败，�
 
 - **error**
 
-    请检查 `err != nil` 以了解失败详情。
+    查看 `err != nil` 了解失败详情。
 
 ## 示例\{#example}
 

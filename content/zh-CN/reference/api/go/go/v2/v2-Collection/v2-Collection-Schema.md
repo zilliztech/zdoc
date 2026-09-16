@@ -134,7 +134,7 @@ entity.NewSchema()
 
     指示是否由 Milvus 自动生成主键。
 
-- **Fields** (*[]*Field*) -
+- **Fields** (<em>[]</em>Field&ast;) -
 
     包含 Collection 字段定义。
 
@@ -142,7 +142,7 @@ entity.NewSchema()
 
     指示是否启用动态字段。
 
-- **Functions** (*[]*Function*) -
+- **Functions** (<em>[]</em>Function&ast;) -
 
     包含内置函数定义。
 
@@ -177,7 +177,6 @@ fmt.Println(err)
 
 ## 说明\{#notes}
 
-- 结构体数组解码会保留 nullable 状态，并在父级未携带该状态时，从子字段恢复 `max_capacity`。
+- 结构体数组解码会保留 nullable 状态，并在父级未携带该值时从子字段恢复 `max_capacity`。
 
 - `ExternalSource` 和 `ExternalSpec` 用于描述外部 Collection 存储和配置。
-

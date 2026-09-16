@@ -58,7 +58,7 @@ type Collection struct {
 
     Collection 名称
 
-- **[Schema](./v2-Collection-Schema)** (**[Schema](./v2-Collection-Schema)*)
+- **[Schema](./v2-Collection-Schema)** (&ast;*[Schema](./v2-Collection-Schema)*)
 
     Collection 的 Schema，包含字段 Schema 和主键定义
 
