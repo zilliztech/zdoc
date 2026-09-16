@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "Milvus cluster 用に設定されたオブジェクトストアにすでにアップロードされているファイルを、名前付きファイルリソースとして登録します。登録後、このリソースは外部辞書を受け付ける analyzer パラメータ — たとえば `jieba` tokenizer の `extradictfile`、`stop` filter の `stopwordsfile`、`decompounder` filter の `wordlistfile`、`synonym` filter の `synonymsfile` — から、`{\"type\" \"remote\", \"resourcename\": \"\", \"filename\": \"\"}` を使用して参照できます。対象ファイルはこの呼び出し時点でオブジェクトストアに存在している必要があります。サーバーは `path` を同期的に検証し、解決できない場合はリクエストを失敗させます。 | Python"
+description: "Milvus クラスター用に構成されたオブジェクトストアにすでにアップロードされているファイルを、名前付きファイルリソースとして登録します。登録後、このリソースは、外部辞書を受け付けるアナライザーパラメーター（`jieba` トークナイザーの `extradictfile`、`stop` フィルターの `stopwordsfile`、`decompounder` フィルターの `wordlistfile`、`synonym` フィルターの `synonymsfile` など）から、`{\"type\" \"remote\", \"resourcename\": \"\", \"filename\": \"\"}` を使用して参照できます。対象のファイルは、この呼び出しの時点でオブジェクトストアに存在している必要があります。サーバーは `path` を同期的に検証し、解決できない場合はリクエストを失敗させます。 | Python"
 type: docx
 token: F9CHd2o4po3VC2xX3zHczWVan2c
 sidebar_position: 1
 keywords: 
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - LLM 評価
+  - スパースと高密度
+  - 高密度ベクトル
   - Hierarchical Navigable Small Worlds
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - add_file_resource()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # add_file_resource()
 
-Milvus cluster 用に設定されたオブジェクトストアにすでにアップロードされているファイルを、名前付きファイルリソースとして登録します。登録後、このリソースは外部辞書を受け付ける analyzer パラメータ — たとえば `jieba` tokenizer の `extra_dict_file`、`stop` filter の `stop_words_file`、`decompounder` filter の `word_list_file`、`synonym` filter の `synonyms_file` — から、`{"type": "remote", "resource_name": "<name>", "file_name": "<file_name>"}` を使用して参照できます。対象ファイルはこの呼び出し時点でオブジェクトストアに存在している必要があります。サーバーは `path` を同期的に検証し、解決できない場合はリクエストを失敗させます。
+Milvus クラスター用に構成されたオブジェクトストアにすでにアップロードされているファイルを、名前付きファイルリソースとして登録します。登録後、このリソースは、外部辞書を受け付けるアナライザーのパラメーター（`jieba` トークナイザーの `extra_dict_file`、`stop` フィルターの `stop_words_file`、`decompounder` フィルターの `word_list_file`、`synonym` フィルターの `synonyms_file` など）から、`{"type": "remote", "resource_name": "<name>", "file_name": "<file_name>"}` を使用して参照できます。対象のファイルは、この呼び出しの時点でオブジェクトストアに存在している必要があります。サーバーは `path` を同期的に検証し、解決できない場合はリクエストを失敗させます。
 
-## Request syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 add_file_resource(
@@ -44,22 +44,22 @@ add_file_resource(
 )
 ```
 
-**PARAMETERS**:
+**パラメーター**:
 
 - **name** (*str*) -<br/>
-   リソースを登録する際の一意な名前です。この値は、後でこのリソースを参照する analyzer 設定で `resource_name` として渡します。
+   リソースを登録する際の一意な名前です。この値は、後でこのリソースを参照するアナライザー設定において `resource_name` として渡すものです。
 
 - **path** (*str*) -<br/>
-   Milvus cluster 用に設定されたオブジェクトストア内のファイルのオブジェクトキーで、**rootPath プレフィックスを含みます**。たとえば、cluster の `rootPath` が `file` で、ファイルを `s3://<bucket>/file/dict.txt` にアップロードした場合、`path` を `"file/dict.txt"` に設定します。既存のオブジェクトに解決されないパスを指定すると、呼び出しは `MilvusException`（`code=65535`, `message="file resource path not exist"`）で失敗します。
+   Milvus クラスター用に構成されたオブジェクトストア内のファイルのオブジェクトキーです。**`rootPath` プレフィックスを含みます**。たとえば、クラスターの `rootPath` が `file` で、ファイルを `s3://<bucket>/file/dict.txt` にアップロードした場合は、`path` に `"file/dict.txt"` を設定します。既存のオブジェクトに解決されないパスを指定した場合、呼び出しは `MilvusException`（`code=65535`、`message="file resource path not exist"`）で失敗します。
 
 - **timeout** (*float* | *None*) -<br/>
-   この操作のタイムアウト時間（秒単位）です。`None` を指定すると、タイムアウトは適用されません。
+   この操作のタイムアウト時間（秒単位）です。値が `None` の場合、タイムアウトは適用されません。
 
-**RETURNS**:
+**戻り値**:
 
 *None*
 
-## Examples\{#examples}
+## 例\{#examples}
 
 ```python
 from pymilvus import MilvusClient
@@ -69,14 +69,14 @@ client = MilvusClient(
     token="YOUR_CLUSTER_TOKEN",
 )
 
-# まずファイルを cluster のオブジェクトストアに帯域外でアップロードし、
-# （例: mc、boto3、または AWS CLI を使用）、その後ここで登録します。
+# Upload the file to the cluster's object store out-of-band first
+# (e.g., via mc, boto3, or the AWS CLI), then register it here.
 client.add_file_resource(
     name="zh_terms",
     path="file/zh_terms.txt",
 )
 
-# 登録したリソースは analyzer 設定から参照できるようになります。
+# The registered resource can now be referenced from analyzer configs.
 analyzer_params = {
     "tokenizer": {
         "type": "jieba",

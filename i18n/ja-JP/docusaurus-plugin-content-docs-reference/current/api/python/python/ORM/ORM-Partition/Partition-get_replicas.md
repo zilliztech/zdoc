@@ -45,7 +45,7 @@ get_replicas(
 
 - **timeout** (*float* | *None*)  
 
-    この操作のタイムアウト時間です。これを **None** に設定すると、何らかの応答が到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間です。これを **None** に設定すると、何らかの応答が到着した時点、または何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
 **RETURN TYPE:**
 
@@ -53,27 +53,27 @@ get_replicas(
 
 **RETURNS:**
 
-以下のフィールドを含む **Replica** オブジェクト:
+以下のフィールドを含む **Replica** オブジェクトです。
 
 - **groups** (*list*)
 
-    replica group のリスト。各 **Group** オブジェクトには以下のフィールドが含まれます:
+    replica group のリストです。各 **Group** オブジェクトには以下のフィールドが含まれます。
 
     - **id** (*int*)
 
-        group ID。
+        group ID です。
 
     - **group_nodes** (*tuple*)
 
-        関与する query node の ID を含むタプル。
+        関与する query node の ID を含むタプルです。
 
     - **resource_group** (*str*)
 
-        上記の query node が属する resource group の名前。
+        上記の query node が属する resource group の名前です。
 
     - **shards** (*list*)  
 
-        以下のフィールドを含む **Shard** オブジェクトのリスト:
+        以下のフィールドを含む **Shard** オブジェクトのリストです。
 
         - **channel_name** (*str*)
 
@@ -81,15 +81,15 @@ get_replicas(
 
         - **shard_nodes** (*set*)
 
-<Admonition type="info" icon="📘" title="注記">
+<Admonition type="info" title="Note">
 
 replica とは何ですか？
 
-replica を使用すると、Zilliz Cloud は同じ segment を複数の query node にロードできます。ある query node が故障している場合や、別の検索リクエストが到着した際に現在の検索リクエストでビジー状態の場合、システムは同じ segment の複製を持つアイドル状態の query node に新しいリクエストを送信できます。 
+replica を使用すると、Zilliz Cloud は同じ segment を複数の query node にロードできます。ある query node が障害を起こした場合、または別の検索リクエストが到着したときに現在の検索リクエストでビジー状態である場合、システムは同じ segment のレプリカを持つアイドル状態の query node に新しいリクエストを送信できます。 
 
 replica は replica group として編成されます。各 replica group には [shard](https://milvus.io/docs/v2.1.x/glossary.md#Sharding) replica が含まれます。各 shard replica には、shard 内の growing および sealed [segments](https://milvus.io/docs/v2.1.x/glossary.md#Segment) に対応する streaming replica と historical replica があります。
 
-shard は、複数ノード間で分散データ書き込み操作を行うための DML channel と見なすことができ、Zilliz Cloud cluster の並列計算能力を最大限に活用できます。
+Shard は、Zilliz Cloud クラスターの並列計算能力を最大限に活用するために、複数のノード間で分散データ書き込み操作を行うための DML channel と見なすことができます。
 
 </Admonition>
 
@@ -113,7 +113,7 @@ partition.get_replicas()
 
 ## Related operations\{#related-operations}
 
-以下の操作は `get_replicas()` に関連しています:
+以下の操作は `get_replicas()` に関連しています。
 
 - [drop()](./Partition-drop)
 

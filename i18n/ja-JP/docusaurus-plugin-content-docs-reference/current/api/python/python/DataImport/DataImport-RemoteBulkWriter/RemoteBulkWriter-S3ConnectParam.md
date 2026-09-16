@@ -41,7 +41,7 @@ class pymilvus.RemoteBulkWriter.S3ConnectParam
 
 **bucket_name**、**access_key**、**secret_key** などの一連のパラメータを使用して **S3ConnectParam** オブジェクトを構築します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 **S3ConnectParam** オブジェクトは、Zilliz Cloud が AWS-S3-compatible bucket に接続するために必要なパラメータを定義します。
 

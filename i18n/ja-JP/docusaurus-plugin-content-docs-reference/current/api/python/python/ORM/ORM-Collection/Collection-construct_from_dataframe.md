@@ -63,7 +63,7 @@ construct_from_dataframe(
 
     コレクションに挿入するデータを含むデータフレームです。
 
-    [このページ](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html)の **Example** セクションで示されているように、データフレームは任意の方法で作成できます。
+    [このページ](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html) の **Example** セクションで示されているように、データフレームは任意の方法で作成できます。
 
     ```python
     dataframe = pd.DataFrame({
@@ -80,7 +80,7 @@ construct_from_dataframe(
 
 **RETURN TYPE:**
 
-*tuple (Collection, MutationResults)*
+*tuple (コレクション, MutationResults)*
 
 **RETURNS:**
 
@@ -156,9 +156,9 @@ collection, results = Collection.construct_from_dataframe(
 
 次の操作は `construct_from_dataframe()` に関連しています。
 
-- [Collection](./ORM-Collection)
+- [コレクション](./ORM-Collection)
 
 - [CollectionSchema](./ORM-CollectionSchema)
 
-- [FieldSchema](./ORM-FieldSchema)
+- [FieldSchema](./MilvusClient-FieldSchema)
 

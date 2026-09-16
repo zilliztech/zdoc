@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 この操作は、コレクションから既存の関数を削除します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 これは外部コレクションには適用されません。
 

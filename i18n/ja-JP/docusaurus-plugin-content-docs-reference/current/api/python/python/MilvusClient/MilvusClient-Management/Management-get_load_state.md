@@ -7,13 +7,13 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、指定された collection または partition がロードされているかどうかを表示します。 | Python | MilvusClient"
+description: "この操作は、指定されたコレクションまたはパーティションがロードされているかどうかを表示します。 | Python | MilvusClient"
 type: docx
 token: KEPYdKup1o3nHdxKbjvcQUzwnnd
 sidebar_position: 8
 keywords: 
   - 音声類似検索
-  - Elastic vector database
+  - Elastic ベクトル データベース
   - Pinecone と Milvus の比較
   - Chroma と Milvus の比較
   - zilliz
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # get_load_state()
 
-この操作は、指定された collection または partition がロードされているかどうかを表示します。
+この操作は、指定されたコレクションまたはパーティションがロードされているかどうかを表示します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-これは managed collection にのみ適用されます。
+これはマネージドコレクションにのみ適用されます。
 
 </Admonition>
 
@@ -53,17 +53,17 @@ get_load_state(
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    collection の名前。
+    コレクションの名前。
 
 - **partition_name** (*str*) -
 
-    partition の名前。
+    パーティションの名前。
 
 - **timeout** (*float* | *None*) -
 
-    この操作のタイムアウト時間。これを **None** に設定すると、いずれかのレスポンスが返されるかエラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間。これを **None** に設定すると、いずれかのレスポンスが返されるかエラーが発生した時点で、この操作はタイムアウトします。
 
 **戻り値の型:**
 
@@ -71,11 +71,11 @@ get_load_state(
 
 **戻り値:**
 
-指定された collection または partition の状態を含む辞書。 
+指定されたコレクションまたはパーティションの状態を含む辞書。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-collection は、その partition のいずれかまたはすべてがロードされている場合、loaded 状態になります。
+コレクションは、そのパーティションのいずれかまたはすべてがロードされている場合、loaded 状態になります。
 
 </Admonition>
 

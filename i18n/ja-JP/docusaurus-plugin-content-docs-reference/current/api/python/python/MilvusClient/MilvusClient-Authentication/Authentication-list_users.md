@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、既存のすべてのユーザー名を一覧表示します。 | Python | MilvusClient"
+description: "この操作は、既存のすべてのユーザーの名前を一覧表示します。 | Python | MilvusClient"
 type: docx
 token: EZ2YdBHoDoRTlxx91tscffm1nSb
 sidebar_position: 15
 keywords: 
-  - milvus vector db
+  - Milvus ベクトルデータベース
   - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - Milvus とは
+  - Milvus データベース
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - list_users()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # list_users()
 
-この操作は、既存のすべてのユーザー名を一覧表示します。
+この操作は、既存のすべてのユーザーの名前を一覧表示します。
 
 ## リクエスト構文\{#request-syntax}
 
@@ -41,23 +41,23 @@ list_users(
 ) -> List
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **timeout** (*float* | *None*)  
 
-    この操作のタイムアウト期間です。 
+    この操作のタイムアウト時間。 
 
-    これを **None** に設定すると、何らかのレスポンスが返されるか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *list*
 
-**RETURNS:**
+**戻り値:**
 
 ユーザー名のリスト。
 
-**EXCEPTIONS:**
+**例外:**
 
 - **MilvusException**
 
@@ -89,11 +89,10 @@ client.list_users()
 
 ## 関連メソッド\{#related-methods}
 
-- [create_user()](./utility-create_user)
+- [create_user()](./Authentication-create_user)
 
 - [describe_user()](./Authentication-describe_user)
 
 - [drop_user()](./Authentication-drop_user)
 
 - [update_password()](./Authentication-update_password)
-

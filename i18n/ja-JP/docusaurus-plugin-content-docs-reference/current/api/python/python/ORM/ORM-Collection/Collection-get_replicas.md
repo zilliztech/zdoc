@@ -81,15 +81,15 @@ get_replicas(
 
         - **shard_nodes** (*set*)
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 replica とは何ですか？
 
-replica を使用すると、Zilliz Cloud は同じ segment を複数の query node にロードできます。ある query node が障害を起こした場合、または別の検索リクエストが到着したときに現在の検索リクエストでビジー状態である場合、システムは同じ segment のレプリケーションを持つアイドル状態の query node に新しいリクエストを送信できます。 
+replica を使用すると、Zilliz Cloud は同じ segment を複数の query node にロードできます。ある query node が障害を起こした場合、または別の検索リクエストが到着したときに現在の検索リクエストでビジー状態である場合、システムは同じ segment のレプリカを持つアイドル状態の query node に新しいリクエストを送信できます。 
 
 replica は replica group として編成されます。各 replica group には [shard](https://milvus.io/docs/v2.1.x/glossary.md#Sharding) replica が含まれます。各 shard replica には、shard 内の growing および sealed [segments](https://milvus.io/docs/v2.1.x/glossary.md#Segment) に対応する streaming replica と historical replica があります。
 
-Shard は、Zilliz Cloud cluster の並列計算能力を最大限に活用するために、複数の node 間で分散データ書き込み操作を行うための DML channel と見なすことができます。
+Shard は、Zilliz Cloud クラスターの並列計算能力を最大限に活用するために、複数のノード間で分散データ書き込み操作を行うための DML channel と見なすことができます。
 
 </Admonition>
 
@@ -97,7 +97,7 @@ Shard は、Zilliz Cloud cluster の並列計算能力を最大限に活用す�
 
 - **MilvusException**
 
-    この操作中に何らかのエラーが発生した場合、この例外が発生します。
+    この操作中に何らかのエラーが発生した場合、この例外が送出されます。
 
 ## Examples\{#examples}
 
@@ -130,4 +130,3 @@ collection.get_replicas()
 - [flush()](./Collection-flush)
 
 - [set_properties()](./Collection-set_properties)
-

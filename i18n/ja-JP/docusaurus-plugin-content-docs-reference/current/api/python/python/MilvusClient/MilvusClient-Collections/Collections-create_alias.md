@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、既存の collection に対するエイリアスを作成します。 | Python | MilvusClient"
+description: "この操作は、既存のコレクションのエイリアスを作成します。 | Python | MilvusClient"
 type: docx
 token: Kqlodu0AWoefKvxczcxc1c36nlf
 sidebar_position: 4
 keywords: 
   - オープンソースのベクトルデータベース
-  - オープンソース vector db
+  - オープンソースのベクトル DB
   - ベクトルデータベースの例
-  - rag vector database
+  - RAG 用ベクトルデータベース
   - zilliz
   - zilliz cloud
-  - クラウド
+  - cloud
   - create_alias()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # create_alias()
 
-この操作は、既存の collection に対するエイリアスを作成します。
+この操作は、既存のコレクションのエイリアスを作成します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-このメソッドは、Dedicated serving cluster と on-demand compute に適用されます。 
+このメソッドは、Dedicated serving クラスターとオンデマンドコンピュートに適用されます。 
 
-- serving cluster 内の collection の場合は、cluster endpoint を使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
+- serving クラスター内のコレクションの場合は、クラスターエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- on-demand compute 内の collection の場合は、project endpoints を使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
+- オンデマンドコンピュート内のコレクションの場合は、プロジェクトエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -63,47 +63,47 @@ create_alias(
 ) -> None
 ```
 
-**パラメータ:**
+**パラメーター:**
 
 - **collection_name** (*str*) -
 
-    **[必須]**
+    **[REQUIRED]**
 
-    エイリアスを作成する対象の collection の名前。
+    エイリアスを作成する対象のコレクションの名前。
 
 - **alias** (*str*) -
 
-    **[必須]**
+    **[REQUIRED]**
 
-    collection のエイリアス。この操作を行う前に、エイリアスがまだ存在していないことを確認してください。すでに存在する場合、例外が発生します。
+    コレクションのエイリアス。この操作を行う前に、エイリアスがまだ存在していないことを確認してください。すでに存在する場合、例外が発生します。
 
-    <Admonition type="info" icon="📘" title="注">
+    <Admonition type="info" title="Note">
 
-    collection エイリアスとは何ですか？
+    コレクションエイリアスとは何ですか？
     
-        collection エイリアスは、collection の追加名です。collection エイリアスは、コードを一切変更せずにアプリケーションを新しい collection に切り替えたい場合に便利です。 
+        コレクションエイリアスは、コレクションの追加の名前です。コレクションエイリアスは、コードを一切変更せずにアプリケーションを新しいコレクションに切り替えたい場合に便利です。 
     
-        Zilliz Cloud では、collection エイリアスはグローバルに一意な識別子です。1 つのエイリアスは、厳密に 1 つの collection にしか割り当てられません。逆に、1 つの collection は複数のエイリアスを持つことができます。
+        Zilliz Cloud では、コレクションエイリアスはグローバルに一意な識別子です。1 つのエイリアスは、厳密に 1 つのコレクションにのみ割り当てることができます。逆に、1 つのコレクションは複数のエイリアスを持つことができます。
     
-        以下は、ある collection のエイリアスを別の collection に再割り当てする例です。
+        以下は、あるコレクションのエイリアスを別のコレクションに再割り当てする例です。
     
-        `collection_1` と `collection_2` の 2 つの collection があるとします。また、`bob` という名前の collection エイリアスがあり、これはもともと `collection_1` に割り当てられていました。
+        `collection_1` と `collection_2` の 2 つのコレクションがあるとします。また、`bob` という名前のコレクションエイリアスがあり、これはもともと `collection_1` に割り当てられていました。
     
-        - `collection_1`'s alias = ["bob"]
+        - `collection_1` のエイリアス = ["bob"]
     
-        - `collection_2`'s alias = []
+        - `collection_2` のエイリアス = []
     
         `alter_alias("collection_2", "bob")` を呼び出した後:
     
-        - `collection_1`'s alias = []
+        - `collection_1` のエイリアス = []
     
-        - `collection_2`'s alias = ["bob"]
+        - `collection_2` のエイリアス = ["bob"]
 
     </Admonition>
 
 - **timeout** (*float* | *None*)  
 
-    この操作のタイムアウト時間です。これを **None** に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間です。これを **None** に設定すると、何らかの応答が到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
 **戻り値の型:**
 
@@ -117,11 +117,11 @@ None
 
 - **MilvusException**
 
-    この操作中に何らかのエラーが発生した場合にこの例外が発生します。特に、`alias` を既存のエイリアスに設定した場合に発生します。
+    この例外は、この操作中に何らかのエラーが発生した場合に発生します。特に、`alias` を既存のエイリアスに設定した場合に発生します。
 
 - **BaseException**
 
-    この操作が失敗した場合にこの例外が発生します。
+    この例外は、この操作が失敗した場合に発生します。
 
 ## 例\{#example}
 

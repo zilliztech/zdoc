@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "この操作は、特定のコレクション内の新しいデータを挿入するか、既存のデータを更新します。配列フィールドの部分更新もオプションでサポートしています。 | Python | MilvusClient"
+description: "この操作は、特定のコレクションに新しいデータを挿入するか、既存のデータを更新します。配列フィールドの部分更新もオプションでサポートしています。 | Python | MilvusClient"
 type: docx
 token: UjjpdBwaooRDdlxFHScc6dKwnTg
 sidebar_position: 8
@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 この操作は、特定のコレクションに新しいデータを挿入するか、既存のデータを更新します。配列フィールドの部分更新もオプションでサポートしています。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 外部コレクションではこの操作をサポートしていません。
 

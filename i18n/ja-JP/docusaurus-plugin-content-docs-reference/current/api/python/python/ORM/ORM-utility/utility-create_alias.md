@@ -7,12 +7,12 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、既存の collection のエイリアスを作成します。 | Python | ORM"
+description: "この操作は、既存のコレクションのエイリアスを作成します。 | Python | ORM"
 type: docx
 token: DthMdlg8Lozw89xNz4TcBv1LnOe
 sidebar_position: 3
 keywords: 
-  - Deep Learning
+  - ディープラーニング
   - ナレッジベース
   - 自然言語処理
   - AI チャットボット
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # create_alias()
 
-この操作は、既存の collection のエイリアスを作成します。
+この操作は、既存のコレクションのエイリアスを作成します。
 
 ## リクエスト構文\{#request-syntax}
 
@@ -50,23 +50,23 @@ create_alias(
 
     **[必須]**
 
-    エイリアスを作成する対象の collection の名前。
+    エイリアスを作成する対象のコレクションの名前。
 
 - **alias** (*str*) -
 
     **[必須]**
 
-    collection のエイリアス。この操作の前に、そのエイリアスがまだ存在しないことを確認してください。すでに存在する場合は、例外が発生します。
+    コレクションのエイリアス。この操作の前に、そのエイリアスがまだ存在していないことを確認してください。すでに存在する場合は、例外が発生します。
 
-    <Admonition type="info" icon="📘" title="注意">
+    <Admonition type="info" title="Note">
 
-    collection エイリアスとは？
+    コレクションエイリアスとは？
     
-        collection エイリアスは、collection に付けられる追加の名前です。collection エイリアスは、コードを変更することなくアプリケーションを新しい collection に切り替えたい場合に便利です。 
+        コレクションエイリアスは、コレクションに付ける追加の名前です。コレクションエイリアスは、コードを変更せずにアプリケーションを新しいコレクションに切り替えたい場合に便利です。 
     
-        collection エイリアスはグローバルに一意な識別子です。1 つのエイリアスは、必ず 1 つの collection にのみ割り当てることができます。逆に、1 つの collection には複数のエイリアスを持たせることができます。
+        コレクションエイリアスは、グローバルに一意な識別子です。1 つのエイリアスは厳密に 1 つのコレクションにのみ割り当てることができます。逆に、1 つのコレクションには複数のエイリアスを持たせることができます。
     
-        たとえば、`collection_1` という 1 つの collection があるとします。`create_alias("collection_1", "bob")` と `create_alias("collection_1", "tom")` を呼び出すことで、この collection に 2 つの異なるエイリアス（`bob` と `tom`）を割り当てることができます。
+        1 つのコレクション `collection_1` があるとします。`create_alias("collection_1", "bob")` と `create_alias("collection_1", "tom")` を呼び出すことで、このコレクションに 2 つの異なるエイリアス（`bob` と `tom`）を割り当てることができます。
 
     </Admonition>
 
@@ -78,7 +78,7 @@ create_alias(
 
 - **timeout** (*float* | *None*)  
 
-    この操作のタイムアウト時間。これを **None** に設定すると、何らかのレスポンスが返るか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間。これを **None** に設定すると、何らかの応答が到着するか、何らかのエラーが発生した時点でこの操作がタイムアウトすることを示します。
 
 **戻り値の型:**
 
@@ -86,7 +86,7 @@ create_alias(
 
 **戻り値:**
 
-なし
+None
 
 **例外:**
 

@@ -13,9 +13,9 @@ token: LEaYdk179oZn0vxqa0lcn4mnnrg
 sidebar_position: 3
 keywords: 
   - セマンティック検索とは
-  - Embedding model
+  - 埋め込みモデル
   - 画像類似検索
-  - Context Window
+  - コンテキストウィンドウ
   - zilliz
   - zilliz cloud
   - cloud
@@ -33,11 +33,11 @@ import Admonition from '@theme/Admonition';
 
 この操作は、指定したデータベースの詳細情報を一覧表示します。
 
-<Admonition type="info" icon="📘" title="注記">
+<Admonition type="info" title="Notes">
 
-このメソッドは、Dedicated serving cluster とオンデマンドコンピュートにのみ適用されます。 
+このメソッドは、Dedicated サービングクラスターおよびオンデマンドコンピュートにのみ適用されます。
 
-- Dedicated serving cluster 内のデータベースについては、クラスターエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成します。
+- Dedicated サービングクラスター内のデータベースの場合は、クラスターエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成します。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- オンデマンドコンピュート用のデータベースについては、プロジェクトエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成します。
+- オンデマンドコンピュート用のデータベースの場合は、プロジェクトエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成します。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -85,7 +85,7 @@ describe_database(
 
 **例外:**
 
-- `MilvusException` - この操作中に何らかのエラーが発生した場合に送出されます。
+- `MilvusException` - この操作中に何らかのエラーが発生した場合にスローされます。
 
 ## 例\{#examples}
 

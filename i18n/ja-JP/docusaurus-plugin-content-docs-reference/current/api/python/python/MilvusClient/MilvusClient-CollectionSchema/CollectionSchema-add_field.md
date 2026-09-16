@@ -7,13 +7,13 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、collection のスキーマにフィールドを追加します。 | Python | MilvusClient"
+description: "この操作は、コレクションのスキーマにフィールドを追加します。 | Python | MilvusClient"
 type: docx
 token: N3Fbd0ZZVoFo8DxJ9r8cNgcCnOd
 sidebar_position: 1
 keywords: 
   - 音声類似検索
-  - Elastic vector database
+  - Elastic ベクトルデータベース
   - Pinecone vs Milvus
   - Chroma vs Milvus
   - zilliz
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # add_field()
 
-この操作は、collection のスキーマにフィールドを追加します。
+この操作は、コレクションのスキーマにフィールドを追加します。
 
 ## Request Syntax\{#request-syntax}
 
@@ -49,19 +49,19 @@ add_field(
 
     **[REQUIRED]**
 
-    フィールドの名前。
+    フィールドの名前です。
 
 - **[datatype](./Collections-DataType)** (*[DataType](./Collections-DataType)*) - 
 
     **[REQUIRED]**
 
-    フィールドのデータ型。
+    フィールドのデータ型です。
 
-    さまざまなフィールドのデータ型を選択する際には、次のオプションから選択できます。
+    異なるフィールドのデータ型を選択する際には、次のオプションから選択できます。
 
-    - Primary key フィールド: **DataType.INT64** または **DataType.VARCHAR** を使用します。
+    - プライマリキーフィールド: **DataType.INT64** または **DataType.VARCHAR** を使用します。
 
-    - Scalar フィールド: 次のようなさまざまなオプションから選択します。 
+    - スカラーフィールド: 次のようなさまざまなオプションから選択します。 
 
         - **DataType.BOOL**,
 
@@ -81,65 +81,65 @@ add_field(
 
         - **DataType.TEXT**
 
-    - Composite フィールド: 次のようなさまざまなオプションから選択します。 
+    - 複合フィールド: 次のようなさまざまなオプションから選択します。 
 
         - **DataType.JSON**
 
         - **DataType.ARRAY**
 
-    - Vector フィールド: **DataType.BINARY_VECTOR**、**DataType.FLOAT_VECTOR**、**DataType.FLOAT16_VECTOR**、**DataType.BFLOAT16_VECTOR**、**DataType.SPARSE_FLOAT_VECTOR**、または **DataType.INT8_VECTOR** を選択します。
+    - ベクトルフィールド: **DataType.BINARY_VECTOR**、**DataType.FLOAT_VECTOR**、**DataType.FLOAT16_VECTOR**、**DataType.BFLOAT16_VECTOR**、**DataType.SPARSE_FLOAT_VECTOR**、または **DataType.INT8_VECTOR** を選択します。
 
 - **is_primary** (*bool*) -
 
-    現在のフィールドが collection 内の primary フィールドであるかどうか。
+    現在のフィールドがコレクション内のプライマリフィールドであるかどうかです。
 
-    これは外部 collection には適用されません。
+    これは外部コレクションには適用されません。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
-    - 各 collection には primary フィールドが 1 つだけあります。
+    - 各コレクションにはプライマリフィールドが 1つだけあります。
     
-    - primary フィールドは、**DataType.INT64** 型または **DataType.VARCHAR** 型のいずれかである必要があります。
+    - プライマリフィールドは、**DataType.INT64** 型または **DataType.VARCHAR** 型のいずれかである必要があります。
 
     </Admonition>
 
 - **max_length** (*int*) -
 
-    挿入できる文字列の最大バイト長。マルチバイト文字（例: Unicode 文字）は 1 文字あたり 1 バイトを超える場合があるため、挿入する文字列のバイト長が指定された制限を超えないようにしてください。値の範囲: [1, 65,535]。
+    挿入できる文字列の最大バイト長です。マルチバイト文字（例: Unicode 文字）は 1 文字あたり 1 バイトを超える場合があるため、挿入する文字列のバイト長が指定された制限を超えないようにしてください。値の範囲: [1, 65,535]。
 
     これは DataType.VARCHAR フィールドでは必須です。DataType.TEXT フィールドではこのパラメータを省略してください。
 
 - **element_type** (*str*) -
 
-    フィールド値内の要素のデータ型。
+    フィールド値内の要素のデータ型です。
 
     これは **DataType.ARRAY** フィールドでは必須です。
 
 - **max_capacity** (*int*) -
 
-    Array フィールド値内の要素数。
+    配列フィールド値内の要素数です。
 
     これは **DataType.ARRAY** フィールドでは必須です。
 
 - **dim** (*int*) -
 
-    vector embedding の次元数。値は 1 より大きい整数である必要があります。
+    ベクトル埋め込みの次元数です。値は 1 より大きい整数である必要があります。
 
     これは **DataType.FLOAT_VECTOR**、**DataType.BINARY_VECTOR**、**DataType.FLOAT16_VECTOR**、または **DataType.BFLOAT16_VECTOR** 型のフィールドでは必須です。**DataType.SPARSE_FLOAT_VECTOR** を使用する場合は、このパラメータを省略してください。
 
 - **is_partition_key** (*bool*) -
 
-    現在のフィールドが partition key として機能するかどうか。各 collection には 1 つの partition key を設定できます。
+    現在のフィールドがパーティションキーとして機能するかどうかです。各コレクションにはパーティションキーを 1つ設定できます。
 
-    これは外部 collection には適用されません。
+    これは外部コレクションには適用されません。
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
-    partition key とは何ですか?
+    パーティションキーとは何ですか？
     
-        partition 指向のマルチテナンシーを容易にするために、フィールドを partition key フィールドとして設定できます。これにより、Zilliz Cloud はフィールド値をハッシュ化し、指定された数の partition に応じてエンティティを分散します。
+        パーティション指向のマルチテナンシーを容易にするために、フィールドをパーティションキーフィールドとして設定できます。これにより、Zilliz Cloud はフィールド値をハッシュ化し、指定された数のパーティションにエンティティを分散します。
     
-        エンティティを取得する際には、特定のフィールド値のエンティティを絞り込むために、partition key フィールドが boolean 式で使用されていることを確認してください。
+        エンティティを取得する際は、特定のフィールド値のエンティティを絞り込むために、boolean 式でパーティションキーフィールドが使用されていることを確認してください。
     
         詳細については、[Use Partition Key](/docs/use-partition-key) および [Multi-tenancy](https://milvus.io/docs/multi_tenancy.md) を参照してください。
 
@@ -151,13 +151,13 @@ add_field(
 
 **RETURNS:**
 
-スキーマに追加されたフィールドを含む **[CollectionSchema](./MilvusClient-CollectionSchema)** オブジェクト。
+**[CollectionSchema](./MilvusClient-CollectionSchema)** オブジェクトには、スキーマに追加されたフィールドが含まれます。
 
 **EXCEPTIONS:**
 
 - **MilvusException**
 
-    この操作中にエラーが発生した場合、この例外が発生します。
+    この操作中にエラーが発生すると、この例外がスローされます。
 
 ## Examples\{#examples}
 

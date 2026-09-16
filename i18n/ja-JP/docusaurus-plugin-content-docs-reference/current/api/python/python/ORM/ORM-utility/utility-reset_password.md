@@ -33,13 +33,13 @@ import Admonition from '@theme/Admonition';
 
 この操作は、特定のユーザーのパスワードをリセットします。 
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-この操作は **update_password()** と異なり、新しく設定された認証情報を使用して現在の接続もリセットします。
+この操作は <strong>update_password()</strong> と異なり、新しく設定された認証情報を使用して現在の接続もリセットします。
 
 </Admonition>
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 reset_password(
@@ -51,17 +51,17 @@ reset_password(
 )
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **user** (*str*) - 
 
-    **[REQUIRED]**
+    **[必須]**
 
     パスワードをリセットする対象の特定のユーザーです。
 
 - **old_password** (*str*) - 
 
-    **[REQUIRED]**
+    **[必須]**
 
     指定されたユーザーの元のパスワードです。
 
@@ -69,7 +69,7 @@ reset_password(
 
 - **new_password** (*str*) - 
 
-    **[REQUIRED]**
+    **[必須]**
 
     指定されたユーザーの新しいパスワードです。 
 
@@ -85,21 +85,21 @@ reset_password(
 
     この操作のタイムアウト時間です。これを **None** に設定すると、何らかのレスポンスが返るか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *NoneType*
 
-**RETURNS:**
+**戻り値:**
 
 None
 
-**EXCEPTIONS:**
+**例外:**
 
 - **MilvusException**
 
     この操作中に何らかのエラーが発生した場合、この例外が発生します。
 
-## Examples\{#examples}
+## 例\{#examples}
 
 ```python
 from pymilvus import connections, utility
@@ -119,7 +119,7 @@ reset_password(
 )
 ```
 
-## Related operations\{#related-operations}
+## 関連する操作\{#related-operations}
 
 以下の操作は `reset_password()` に関連しています
 
@@ -138,4 +138,3 @@ reset_password(
 - [list_usernames()](./utility-list_usernames)
 
 - [update_password()](./utility-update_password)
-

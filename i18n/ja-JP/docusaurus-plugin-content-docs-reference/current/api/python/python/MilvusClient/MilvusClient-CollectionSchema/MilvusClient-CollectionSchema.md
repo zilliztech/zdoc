@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "CollectionSchema インスタンスは、collection のスキーマを表します。スキーマは collection の構造を概説します。 | Python | MilvusClient"
+description: "CollectionSchema インスタンスは、コレクションのスキーマを表します。スキーマはコレクションの構造の概略を示します。 | Python | MilvusClient"
 type: docx
 token: SSiodq10FoH26hx2HlccfcAgnje
 sidebar_position: 2
 keywords: 
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - Chroma ベクトルデータベース
+  - NLP 検索
+  - LLM のハルシネーション
   - マルチモーダル検索
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - CollectionSchema
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # CollectionSchema
 
-**CollectionSchema** インスタンスは、collection のスキーマを表します。スキーマは collection の構造を概説します。
+**CollectionSchema** インスタンスは、コレクションのスキーマを表します。スキーマはコレクションの構造の概略を示します。
 
 ```python
 class pymilvus.CollectionSchema
 ```
 
-## Constructor\{#constructor}
+## コンストラクター\{#constructor}
 
-フィールド、データ型、およびその他のパラメータを定義して、collection のスキーマを構築します。
+フィールド、データ型、その他のパラメーターを定義することで、コレクションのスキーマを構築します。
 
 ```python
 CollectionSchema(
@@ -48,19 +48,19 @@ CollectionSchema(
 )
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **fields** (*list*) -
 
     **[REQUIRED]**
 
-    collection スキーマ内のフィールドを定義する **[FieldSchema](./ORM-FieldSchema)** オブジェクトのリストです。
+    コレクションスキーマのフィールドを定義する **[FieldSchema](./MilvusClient-FieldSchema)** オブジェクトのリストです。
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     フィールドスキーマとは何ですか？
     
-        フィールドスキーマは単一のフィールドのメタデータを表現および保持する一方、**CollectionSchema** は FieldSchema オブジェクトのリストをまとめて完全なスキーマを定義します。
+        フィールドスキーマは 1 つのフィールドのメタデータを表し、保持します。一方、**CollectionSchema** は FieldSchema オブジェクトのリストをまとめて、スキーマ全体を定義します。
 
     </Admonition>
 
@@ -68,131 +68,131 @@ CollectionSchema(
 
     スキーマの説明です。
 
-    説明が指定されていない場合は、空文字列に設定されます。
+    説明を指定しない場合は、空の文字列に設定されます。
 
 - **external_source** (*str*) -
 
-    外部ソース URI です。アクセス可能な外部 volume を指す `volume://` URI である必要があります。たとえば、`volume://<volume-name>/path/to/folder/` です。.
+    外部ソース URI です。アクセス可能な外部ボリュームを指す `volume://` URI を指定します。たとえば、`volume://<volume-name>/path/to/folder/` です。
 
 - **external_spec** (*str*) -
 
-    外部ソースの仕様であり、以下のセカンダリパラメータのセットです。
+    外部ソースの仕様です。これは一連の補助的なパラメーターです。
 
     - **format** (*str*) - 
 
-        対象ソースデータファイルの形式です。
+        ターゲットのソースデータファイルの形式です。
 
-        指定可能な値は `parquet`、`vortex`、`lance-table`、`iceberg-table` です。
+        指定できる値は `parquet`、`vortex`、`lance-table`、`iceberg-table` です。
 
     - **snapshot_id** (*str*) -
 
-        Iceberg table の ID です。これは `format` が `iceberg-table` の場合にのみ適用されます。
+        Iceberg テーブルの ID です。これは `format` が `iceberg-table` の場合にのみ適用されます。
 
 - **kwargs** -
 
     - **auto_id** (*bool*) -
 
-        primary field の自動インクリメントを許可するかどうかです。
+        プライマリーフィールドを自動的にインクリメントすることを許可するかどうかを指定します。
 
-        これを **True** に設定すると、primary field は自動的にインクリメントされます。この場合、エラーを避けるため、挿入するデータに primary field を含めないでください。
+        これを **True** に設定すると、プライマリーフィールドが自動的にインクリメントされます。この場合、エラーを避けるために、挿入するデータにプライマリーフィールドを含めないでください。
 
-        このパラメータは外部 collection には適用されません。
+        このパラメーターは外部コレクションには適用されません。
 
     - **enable_dynamic_field** (*bool*) -
 
-        ターゲット collection に挿入されるデータに collection のスキーマで定義されていないフィールドが含まれている場合に、未定義フィールドの値を Zilliz Cloud が dynamic field に保存することを許可するかどうかです。
+        ターゲットコレクションに挿入するデータに、コレクションのスキーマで定義されていないフィールドが含まれている場合に、Zilliz Cloud が未定義フィールドの値を動的フィールドに保存することを許可するかどうかを指定します。
 
-        これを **True** に設定すると、Zilliz Cloud は **&#36;meta** というフィールドを作成し、挿入されるデータ内の未定義フィールドとその値を保存します。
+        これを **True** に設定すると、Zilliz Cloud は、挿入されるデータに含まれる未定義のフィールドとその値を保存するための **&#36;meta** というフィールドを作成します。
 
-        このパラメータは外部 collection には適用されません。
+        このパラメーターは外部コレクションには適用されません。
 
-        <Admonition type="info" icon="📘" title="Note">
+        <Admonition type="info" title="Note">
 
-        dynamic field とは何ですか？
+        動的フィールドとは何ですか？
         
-                ターゲット collection に挿入されるデータに collection のスキーマで定義されていないフィールドが含まれている場合、それらのフィールドはキーと値のペアとして dynamic field に保存されます。
+                ターゲットコレクションに挿入するデータに、コレクションのスキーマで定義されていないフィールドが含まれている場合、それらのフィールドはキーと値のペアとして動的フィールドに保存されます。
 
         </Admonition>
 
     - **primary_field** (*str*) -
 
-        primary field の名前です。
+        プライマリーフィールドの名前です。
 
-        値は **fields** に列挙されたフィールドのいずれかの名前である必要があります。
+        値には、**fields** にリストされているフィールドの名前を指定します。
 
-        別の方法として、**[FieldSchema](./ORM-FieldSchema)** オブジェクトの作成時に **is_primary** を設定できます。
+        別の方法として、**[FieldSchema](./MilvusClient-FieldSchema)** オブジェクトを作成するときに **is_primary** を設定することもできます。
 
-        このパラメータは外部 collection には適用されません。
+        このパラメーターは外部コレクションには適用されません。
 
     - **partition_key_field** (*str*) -
 
-        partition key として機能するフィールドの名前です。
+        パーティションキーとして機能するフィールドの名前です。
 
-        値は **fields** に列挙されたフィールドのいずれかの名前である必要があります。
+        値には、**fields** にリストされているフィールドの名前を指定します。
 
-        これを設定すると、Zilliz Cloud は現在の collection 内のすべての partition を管理します。
+        これを設定すると、Zilliz Cloud が現在のコレクション内のすべてのパーティションを管理します。
 
-        別の方法として、**[FieldSchema](./ORM-FieldSchema)** オブジェクトの作成時に **is_partition_key** を設定できます。
+        別の方法として、**[FieldSchema](./MilvusClient-FieldSchema)** オブジェクトを作成するときに **is_partition_key** を設定することもできます。
 
-        このパラメータは外部 collection には適用されません。
+        このパラメーターは外部コレクションには適用されません。
 
-        <Admonition type="info" icon="📘" title="Note">
+        <Admonition type="info" title="Note">
 
-        partition key とは何ですか？
+        パーティションキーとは何ですか？
         
-                フィールドが partition key として指定されると、そのフィールド内の一意の値ごとに Zilliz Cloud が自動的に partition を作成し、それに応じて entity をこれらの partition に保存します。
+                フィールドがパーティションキーとして指定されると、Zilliz Cloud はこのフィールド内の一意の値ごとにパーティションを自動的に作成し、それに応じてこれらのパーティションにエンティティを保存します。
         
-                これは、partition 指向のマルチテナンシーなど、特定のキーに基づくデータ分離を実装する場合に特に有用です。
+                これは、パーティション指向のマルチテナンシーなど、特定のキーに基づいてデータを分離する場合に特に役立ちます。
         
-                別の方法として、**CollectionSchema** オブジェクトの作成時に **partition_key_field** を設定できます。
+                別の方法として、**CollectionSchema** オブジェクトを作成するときに **partition_key_field** を設定することもできます。
 
         </Admonition>
 
     - **partition_key_isolation** (*bool*) -
 
-        partition key に対する scalar filtering における検索パフォーマンスをさらに向上させるために、partition key isolation を有効にするかどうかです。詳細については、[Use Partition Key Isolation](/docs/use-partition-key#use-partition-key-isolation) を参照してください。
+        パーティションキーに対するスカラーフィルタリングの検索パフォーマンスをさらに向上させるために、パーティションキー分離を有効にするかどうかを指定します。詳細については、[Use Partition Key Isolation](/docs/use-partition-key#use-partition-key-isolation) を参照してください。
 
-        このパラメータは外部 collection には適用されません。
+        このパラメーターは外部コレクションには適用されません。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *CollectionSchema*
 
-**RETURNS:**
+**戻り値:**
 
-**CollectionSchema** オブジェクト。
+**CollectionSchema** オブジェクトです。
 
-**EXCEPTIONS:**
+**例外:**
 
 - **FieldsTypeException**: 
 
-    **fields** パラメータがリストでない場合に、この例外が発生します。
+    この例外は、**fields** パラメーターがリストでない場合に発生します。
 
 - **FieldTypeException**: 
 
-    **fields** リスト内のフィールドが **[FieldSchema](./ORM-FieldSchema)** オブジェクトでない場合に、この例外が発生します。
+    この例外は、**fields** リスト内のフィールドが **[FieldSchema](./MilvusClient-FieldSchema)** オブジェクトでない場合に発生します。
 
 - **PrimaryKeyException:**
 
-    この例外は、以下の場合に発生します。
+    この例外は、次の場合に発生します。
 
-    - **primary_field** パラメータが設定されているが、その値が文字列ではない場合。
+    - **primary_field** パラメーターが設定されているものの、その値が文字列でない場合。
 
-    - **primary_field** パラメータが設定されているが、その値が列挙されたフィールドのいずれの名前でもない場合。
+    - **primary_field** パラメーターが設定されているものの、その値がリストされているどのフィールドの名前でもない場合。
 
 - **PartitionKeyException:**
 
-    この例外は、以下の場合に発生します。 
+    この例外は、次の場合に発生します。 
 
-    - **partition_key_field** パラメータが設定されているが、その値が文字列ではない場合。
+    - **partition_key_field** パラメーターが設定されているものの、その値が文字列でない場合。
 
-    - **partition_key_field** パラメータが設定されているが、その値が列挙されたフィールドのいずれの名前でもない場合。
+    - **partition_key_field** パラメーターが設定されているものの、その値がリストされているどのフィールドの名前でもない場合。
 
 - **AutoIDException:**
 
-    - **auto_id** パラメータが設定されているが、その値がブール値ではない場合に、この例外が発生します。
+    - **auto_id** パラメーターが設定されているものの、その値がブール値でない場合、この例外が発生します。
 
-## Examples\{#examples}
+## 例\{#examples}
 
 ```python
 from pymilvus import CollectionSchema, FieldSchema, DataType
@@ -217,7 +217,7 @@ schema = CollectionSchema(
 )
 ```
 
-## Methods\{#methods}
+## メソッド\{#methods}
 
 以下は `CollectionSchema` クラスのメソッドです。
 

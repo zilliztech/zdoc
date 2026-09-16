@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の collection に対して index を作成します。 | Python | MilvusClient"
+description: "この操作は、特定のコレクションのインデックスを作成します。 | Python | MilvusClient"
 type: docx
 token: B3n3db0idoia02xXxJfcONK8nRh
 sidebar_position: 3
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # create_index()
 
-この操作は、特定の collection に対して index を作成します。
+この操作は、特定のコレクションのインデックスを作成します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-このメソッドは、専用の serving cluster と on-demand compute にのみ適用されます。 
+このメソッドは、専用の serving クラスターと on-demand compute にのみ適用されます。
 
-- serving cluster の collection でこの操作を行うには、cluster endpoint を使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
+- serving クラスターのコレクションでこの操作を行うには、クラスターエンドポイントを指定して **[MilvusClient](./Client-MilvusClient)** を作成してください。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- on-demand compute 用の collection でこの操作を行うには、project endpoints を使用して **[MilvusClient](./Client-MilvusClient)** を作成し、その後、検索のために on-demand cluster に接続する session を作成してください。
+- on-demand compute のコレクションでこの操作を行うには、プロジェクトエンドポイントを指定して **[MilvusClient](./Client-MilvusClient)** を作成し、その後、検索のために on-demand クラスターにアタッチするセッションを作成してください。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -68,29 +68,29 @@ create_index(
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    既存の collection の名前。
+    既存のコレクションの名前です。
 
 - **index_params** (*IndexParams*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    **IndexParam** オブジェクトのリストを含む **IndexParams** オブジェクト。
+    **IndexParam** オブジェクトのリストを含む **IndexParams** オブジェクトです。
 
 - **timeout** (*float* | *None*) -
 
-    この操作のタイムアウト時間です。これを **None** に設定すると、レスポンスが到着するかエラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間です。これを **None** に設定すると、何らかのレスポンスが到着するかエラーが発生した時点でこの操作がタイムアウトすることを示します。
 
 - **kwargs** -
 
     - **sync** (*bool*)
 
-        クライアントのリクエストに対して、index をどのように構築するかを制御します。有効な値:
+        クライアントのリクエストに対してインデックスをどのように構築するかを制御します。有効な値は次のとおりです。
 
-        - `True` (デフォルト): index が完全に構築されるまでクライアントは待機してから戻ります。つまり、プロセスが完了するまでレスポンスは返されません。
+        - `True` (デフォルト): インデックスが完全に構築されるまでクライアントは待機してから戻ります。つまり、プロセスが完了するまでレスポンスは返されません。
 
-        - `False`: リクエストが受理され、index がバックグラウンドで構築され始めた直後にクライアントはすぐに戻ります。index の作成が完了したかどうかを確認するには、[`describe_index()`](./Management-describe_index) メソッドを使用してください。
+        - `False`: リクエストが受信され、インデックスがバックグラウンドで構築され始めると、クライアントはすぐに戻ります。インデックスの作成が完了したかどうかを確認するには、[`describe_index()`](./Management-describe_index) メソッドを使用してください。
 
 **戻り値の型:**
 
@@ -104,7 +104,7 @@ create_index(
 
 - **MilvusException**
 
-    この操作の実行中に何らかのエラーが発生した場合、この例外が発生します。
+    この操作中に何らかのエラーが発生すると、この例外が発生します。
 
 ## 例\{#examples}
 
@@ -173,4 +173,3 @@ client.list_indexes(collection_name="customized_setup")
 - [list_indexes()](./Management-list_indexes)
 
 - [prepare_index_params()](./Management-prepare_index_params)
-

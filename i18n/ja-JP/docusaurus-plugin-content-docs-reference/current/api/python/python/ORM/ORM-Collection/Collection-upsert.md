@@ -12,10 +12,10 @@ type: docx
 token: AQ1ydMXbOog5VJxITgUc4GFvnVe
 sidebar_position: 28
 keywords: 
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - vector embeddings とは
+  - スパースベクトル
+  - ベクトル次元
+  - ANN 検索
+  - ベクトル埋め込みとは
   - zilliz
   - zilliz cloud
   - cloud
@@ -33,9 +33,9 @@ import Admonition from '@theme/Admonition';
 
 この操作は、新しいレコードをデータベースに挿入するか、既存のレコードを更新します。  
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-upsert はデータレベルの操作であり、指定したフィールドが collection 内にすでに存在する場合は既存のエンティティを上書きし、指定した値がまだ存在しない場合は新しいエンティティを挿入します。
+upsert はデータレベルの操作で、指定したフィールドがコレクション内にすでに存在する場合は既存のエンティティを上書きし、指定した値がまだ存在しない場合は新しいエンティティを挿入します。
 
 </Admonition>
 
@@ -55,13 +55,13 @@ upsert(
 
     **[REQUIRED]**
 
-    現在の collection に挿入するデータです。
+    現在のコレクションに挿入するデータです。
 
-    挿入するデータは、現在の collection の schema に一致している必要があります。データは次のいずれかの形式に整理できます。
+    挿入するデータは、現在のコレクションのスキーマと一致している必要があります。データは次のように整理できます。
 
     - 列のリスト
 
-        各列は、その列に含まれるすべてのエンティティの値のリストです。
+        各列は、その列内のすべてのエンティティの値のリストです。
 
         ```python
         data = [
@@ -113,9 +113,9 @@ upsert(
 
 - **partition_name** (*string* | *None*) -
 
-    現在の collection 内の partition 名です。 
+    現在のコレクション内のパーティションの名前です。 
 
-    指定した場合、データは指定された partition に挿入されます。
+    指定した場合、データは指定されたパーティションに挿入されます。
 
 - **timeout** (*float* | *None*)  
 
@@ -131,19 +131,19 @@ upsert(
 
 - **insert_count** (*int*)
 
-    挿入されたエンティティ数。
+    挿入されたエンティティの数です。
 
 - **delete_count** (*int*)
 
-    削除されたエンティティ数。
+    削除されたエンティティの数です。
 
 - **upsert_count** (*int*)
 
-    upsert されたエンティティ数。
+    upsert されたエンティティの数です。
 
 - **succ_count** (*int*)
 
-    この操作中に正常に実行された回数。
+    この操作中に正常に実行された回数です。
 
 - **succ_index** (*list*)
 
@@ -151,7 +151,7 @@ upsert(
 
 - **err_count** (*int*)
 
-    この操作中に失敗した実行回数。
+    この操作中に失敗した実行回数です。
 
 - **err_index** (*list*)
 
@@ -159,11 +159,11 @@ upsert(
 
 - **primary_keys** (*list*)
 
-    挿入されたエンティティの主キーのリスト。
+    挿入されたエンティティの主キーのリストです。
 
 - **timestamp** (*int*)
 
-    この操作が完了した時点のタイムスタンプ。
+    この操作が完了した時点のタイムスタンプです。
 
 **EXCEPTIONS:**
 

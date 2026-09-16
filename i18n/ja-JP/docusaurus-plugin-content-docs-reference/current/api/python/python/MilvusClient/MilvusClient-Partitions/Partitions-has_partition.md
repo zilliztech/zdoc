@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、指定された collection に指定された partition が存在するかどうかを確認します。 | Python | MilvusClient"
+description: "この操作は、指定されたコレクションに指定されたパーティションが存在するかどうかを確認します。 | Python | MilvusClient"
 type: docx
 token: MxTAd0haboKnRrxQvoOckGghn1T
 sidebar_position: 4
 keywords: 
-  - vector databases comparison
+  - ベクトルデータベースの比較
   - Faiss
-  - Video search
-  - AI Hallucination
+  - 動画検索
+  - AI ハルシネーション
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - has_partition()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # has_partition()
 
-この操作は、指定された collection に指定された partition が存在するかどうかを確認します。
+この操作は、指定されたコレクションに指定されたパーティションが存在するかどうかを確認します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-これは managed collection にのみ適用されます。
+これはマネージドコレクションにのみ適用されます。
 
 </Admonition>
 
@@ -55,13 +55,13 @@ has_partition(
 
     **[必須]**
 
-    既存の collection の名前。
+    既存のコレクションの名前。
 
 - **partition_name** (*string*)
 
     **[必須]**
 
-    確認する partition の名前。
+    確認するパーティションの名前。
 
 - **timeout** (*float* | *None*)  
 
@@ -75,13 +75,13 @@ has_partition(
 
 **戻り値:**
 
-指定された partition が存在するかどうかを示すブール値。
+指定されたパーティションが存在するかどうかを示すブール値。
 
 **例外:**
 
 - **MilvusException**
 
-    この操作の実行中に何らかのエラーが発生した場合に、この例外が発生します。
+    この操作中に何らかのエラーが発生すると、この例外が発生します。
 
 ## 例\{#example}
 
@@ -125,4 +125,3 @@ client.has_partition(
 - [load_partitions()](./Partitions-load_partitions)
 
 - [release_partitions()](./Partitions-release_partitions)
-

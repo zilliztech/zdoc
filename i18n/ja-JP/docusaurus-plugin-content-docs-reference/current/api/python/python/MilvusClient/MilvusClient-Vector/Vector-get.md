@@ -12,10 +12,10 @@ type: docx
 token: TEUDde2xbo0JT7xtVvtcF53Nnub
 sidebar_position: 2
 keywords: 
-  - vector databases comparison
+  - ベクトルデータベース比較
   - Faiss
-  - Video search
-  - AI Hallucination
+  - 動画検索
+  - AI ハルシネーション
   - zilliz
   - zilliz cloud
   - cloud
@@ -33,11 +33,11 @@ import Admonition from '@theme/Admonition';
 
 この操作は、ID によって特定のエンティティを取得します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-このメソッドは dedicated serving cluster と on-demand compute にのみ適用されます。 
+このメソッドは、Dedicated serving クラスターとオンデマンドコンピュートにのみ適用されます。
 
-- serving cluster の collection でこの操作を行うには、cluster endpoint を使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
+- serving クラスター内のコレクションでこの操作を行う場合は、クラスターエンドポイントを指定して **[MilvusClient](./Client-MilvusClient)** を作成してください。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- on-demand compute 用の collection でこの操作を行うには、project endpoints を使用して **[MilvusClient](./Client-MilvusClient)** を作成し、その後、検索のために on-demand cluster にアタッチする session を作成してください。
+- オンデマンドコンピュート用のコレクションでこの操作を行う場合は、プロジェクトエンドポイントを指定して **[MilvusClient](./Client-MilvusClient)** を作成し、その後、検索のためにオンデマンドクラスターにアタッチするセッションを作成してください。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -72,31 +72,31 @@ get(
 
     **[REQUIRED]**
 
-    既存の collection の名前。
+    既存のコレクションの名前です。
 
 - **ids** (*list* | *str* | *int*) -
 
     **[REQUIRED]**
 
-    特定のエンティティ ID、またはエンティティ ID のリスト。
+    特定のエンティティ ID、またはエンティティ ID のリストです。
 
 - **output_fields** (*list[str]* | *None*) -
 
-    戻り値の各エンティティに含めるフィールド名のリスト。
+    戻り値の各エンティティに含めるフィールド名のリストです。
 
     デフォルト値は **None** です。未指定の場合、すべてのフィールドが出力フィールドとして選択されます。
 
 - **timeout** (*float* | *None*) -
 
-    この操作のタイムアウト時間。 
+    この操作のタイムアウト時間です。
 
-    これを **None** に設定すると、レスポンスが到着した時点、またはエラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
 - **partition_names** (*list[str]* | *None*) -
 
-    partition 名のリスト。
+    パーティション名のリストです。
 
-    デフォルト値は **None** です。指定した場合、指定された partition のみがクエリに含まれます。
+    デフォルト値は **None** です。指定した場合、指定されたパーティションのみがクエリの対象となります。
 
 **戻り値の型:**
 
@@ -104,7 +104,7 @@ get(
 
 **戻り値:**
 
-各辞書がクエリされたエンティティを表す辞書のリスト。
+各辞書がクエリされたエンティティを表す辞書のリストです。
 
 **例外:**
 

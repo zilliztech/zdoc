@@ -13,9 +13,9 @@ token: FZuddXocNopEufxRFGdcbvkRnnb
 sidebar_position: 6
 keywords: 
   - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - スパースベクトル
+  - ベクトル次元
+  - ANN 検索
   - zilliz
   - zilliz cloud
   - cloud
@@ -33,11 +33,11 @@ import Admonition from '@theme/Admonition';
 
 この操作は、既存のすべてのデータベースを一覧表示します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-このメソッドは、専用の serving cluster と on-demand compute にのみ適用されます。 
+このメソッドは、Dedicated サービングクラスターおよびオンデマンドコンピュートにのみ適用されます。
 
-- 専用の serving cluster 内のデータベースの場合は、cluster endpoint を使用して **[MilvusClient](./Client-MilvusClient)** を作成します。
+- Dedicated サービングクラスター内のデータベースの場合は、クラスターエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成します。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- on-demand compute 用のデータベースの場合は、project endpoints を使用して **[MilvusClient](./Client-MilvusClient)** を作成します。
+- オンデマンドコンピュート用のデータベースの場合は、プロジェクトエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成します。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -72,7 +72,7 @@ list_databases(
 
 - **timeout** (*float* | *None*) -
 
-    この操作のタイムアウト時間です。*None* に設定すると、レスポンスが返されるかエラーが発生した時点でタイムアウトします。
+    この操作のタイムアウト時間です。これを *None* に設定すると、レスポンスが返されるかエラーが発生した時点でタイムアウトします。
 
 **戻り値の型:**
 

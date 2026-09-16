@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 この操作は、別のハイブリッドタイムスタンプからハイブリッドタイムスタンプを作成します。
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 mkts_from_hybridts(
@@ -43,11 +43,11 @@ mkts_from_hybridts(
 )
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **hybridts** (*float*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
     ハイブリッドタイムスタンプ。
 
@@ -58,16 +58,16 @@ mkts_from_hybridts(
 
 - **delta** (*Optional[timedelta]*) -
 
-    2 つの [`date`](https://docs.python.org/3/library/datetime.html#datetime.date)、[`time`](https://docs.python.org/3/library/datetime.html#datetime.time)、または [`datetime`](https://docs.python.org/3/library/datetime.html#datetime.datetime) インスタンス間の差をマイクロ秒精度で表す継続時間を示す **datetime.timedelta** オブジェクト。
+    2 つの [`date`](https://docs.python.org/3/library/datetime.html#datetime.date)、[`time`](https://docs.python.org/3/library/datetime.html#datetime.time)、または [`datetime`](https://docs.python.org/3/library/datetime.html#datetime.datetime) インスタンス間の差をマイクロ秒精度で表す期間を示す **datetime.timedelta** オブジェクトです。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *int*
 
-**RETURNS:**
+**戻り値:**
 ハイブリッドタイムスタンプ。これは **0** から **18446744073709551615** までの非負整数です。
 
-## **Examples**\{#examples}
+## 例\{#examples}
 
 ```python
 import time
@@ -99,7 +99,7 @@ mkts_from_hybridts(
 )
 ```
 
-## Related operations\{#related-operations}
+## 関連操作\{#related-operations}
 
 以下の操作は `mkts_from_hybridts()` に関連しています。
 

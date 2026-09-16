@@ -94,11 +94,10 @@ client.drop_user(user_name="user_1")
 
 ## 関連メソッド\{#related-methods}
 
-- [create_user()](./utility-create_user)
+- [create_user()](./Authentication-create_user)
 
 - [describe_user()](./Authentication-describe_user)
 
 - [list_users()](./Authentication-list_users)
 
 - [update_password()](./Authentication-update_password)
-

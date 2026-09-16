@@ -7,15 +7,15 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "この操作は、指定された collection 内の特定の partition セットをメモリにロードします。 | Python | MilvusClient"
+description: "この操作は、指定されたコレクション内の特定のパーティションセットをメモリにロードします。 | Python | MilvusClient"
 type: docx
 token: TMq5d6wFmoT8u3xwuruc8k6wnTg
 sidebar_position: 6
 keywords: 
   - 最近傍探索
   - Agentic RAG
-  - rag llm アーキテクチャ
-  - プライベート llms
+  - RAG LLM アーキテクチャ
+  - プライベート LLM
   - zilliz
   - zilliz cloud
   - クラウド
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # load_partitions()
 
-この操作は、指定された collection 内の特定の partition セットをメモリにロードします。
+この操作は、指定されたコレクション内の特定のパーティションセットをメモリにロードします。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-これは管理対象の collection にのみ適用されます。
+これはマネージドコレクションにのみ適用されます。
 
 </Admonition>
 
@@ -53,23 +53,23 @@ load_partitions(
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    既存の collection の名前。
+    既存のコレクションの名前。
 
 - **partition_names** (*str | list[str]*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    ロードする partition の名前のリスト。
+    ロードするパーティションの名前のリスト。
 
 - **priority** (*string*) -
 
-    現在の collection のロード優先度。この値は、ロード処理中の CPU 使用率に影響する場合があります。指定可能な値は `low` と `high` です。
+    現在のコレクションのロード優先度。この値は、ロード処理中の CPU 使用率に影響する可能性があります。指定可能な値は `low` と `high` です。
 
 - **timeout** (*float* | *None*)  
 
-    この操作のタイムアウト時間。これを **None** に設定すると、何らかのレスポンスが到着するかエラーが発生した時点で、この操作はタイムアウトします。
+    この操作のタイムアウト時間。これを **None** に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
 **戻り値の型:**
 
@@ -79,9 +79,9 @@ load_partitions(
 
 None
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-collection は、その partition の一部またはすべてがロードされている場合にのみ loaded 状態になります。
+コレクションは、そのパーティションの一部またはすべてがロードされている場合にのみ loaded 状態になります。
 
 </Admonition>
 
@@ -89,7 +89,7 @@ collection は、その partition の一部またはすべてがロードされ�
 
 - **MilvusException**
 
-    この操作中に何らかのエラーが発生した場合、この例外が発生します。
+    この操作中に何らかのエラーが発生すると、この例外が発生します。
 
 ## 例\{#example}
 

@@ -7,7 +7,7 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、指定されたソースパスにあるローカルファイルを、指定されたマネージドボリューム内のターゲットファイルパスにアップロードします。| Python"
+description: "この操作は、指定されたソースパスにあるローカルファイルを、指定されたマネージドボリューム内のターゲットファイルパスにアップロードします。 | Python"
 type: docx
 token: SAR6dnlmmohi30x0x2KcioyXnib
 sidebar_position: 1
@@ -33,9 +33,9 @@ import Admonition from '@theme/Admonition';
 
 この操作は、指定されたソースパスにあるローカルファイルを、指定されたマネージドボリューム内のターゲットファイルパスにアップロードします。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-この操作はマネージドボリュームにのみ適用されます。外部ボリュームは読み取り専用です。
+これはマネージドボリュームにのみ適用されます。外部ボリュームは読み取り専用です。
 
 </Admonition>
 
@@ -57,31 +57,31 @@ upload_file_to_volume(
 
 - **source_file_path** (*str*) -<br/>
   **[必須]**<br/>
-  アップロードするローカルファイルまたはディレクトリのパス。
+  アップロードするローカルファイルまたはディレクトリのパスです。
 
 - **target_volume_path** (*str*) -<br/>
   **[必須]**<br/>
-  Zilliz Cloudボリューム内の宛先パス。
+  Zilliz Cloud ボリューム内の宛先パスです。
 
 - **upload_concurrency** (*int*) -<br/>
   デフォルト: `5`<br/>
-  同時にアップロードするファイルの最大数。
+  同時にアップロードするファイルの最大数です。
 
 - **max_retries** (*int*) -<br/>
   デフォルト: `5`<br/>
-  各ファイルのアップロード試行の最大回数。
+  各ファイルのアップロード試行の最大回数です。
 
 - **retry_interval** (*float*) -<br/>
   デフォルト: `5.0`<br/>
-  アップロード試行間の遅延（秒単位）。
+  アップロード試行間の遅延（秒単位）です。
 
 - **progress_callback** (*Callable[[UploadProgress], None] | None*) -<br/>
   デフォルト: `None`<br/>
-  アップロードの進捗スナップショットとともに呼び出されるコールバック。
+  アップロードの進捗スナップショットとともに呼び出されるコールバックです。
 
 - **part_size** (*int*) -<br/>
   デフォルト: `0`<br/>
-  マルチパートアップロードのパートサイズ（バイト単位）。`0` を使用すると、サイズが自動的に選択されます。
+  マルチパートアップロードのパートサイズ（バイト単位）です。`0` を使用すると、サイズが自動的に選択されます。
 
 **戻り値の型:**
 
@@ -89,7 +89,7 @@ upload_file_to_volume(
 
 **戻り値:**
 
-volumeName、volume_name、およびアップロードされたターゲットパスを含む辞書。
+volumeName、volume_name、およびアップロードされたターゲットパスを含む辞書です。
 
 **例外:**
 
@@ -98,7 +98,7 @@ volumeName、volume_name、およびアップロードされたターゲット�
 
 ## 例\{#examples}
 
-この例では、ファイルをボリュームにアップロードする方法を示しています。
+この例では、ボリュームにファイルをアップロードする方法を示します。
 
 ```python
 from pymilvus.bulk_writer import VolumeFileManager, VolumeManager

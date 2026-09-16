@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、クイックセットアップまたはカスタムセットアップという2つの異なる方法で collection を作成することをサポートします。 | Python | MilvusClient"
+description: "この操作は、クイックセットアップまたはカスタムセットアップという 2 つの異なる方法でコレクションを作成することをサポートします。 | Python | MilvusClient"
 type: docx
 token: NbYidGUPcokra9xJ6IAcUNLEn9f
 sidebar_position: 5
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # create_collection()
 
-この操作は、クイックセットアップまたはカスタムセットアップという2つの異なる方法で collection を作成することをサポートします。
+この操作は、クイックセットアップまたはカスタムセットアップという 2 つの異なる方法でコレクションを作成することをサポートします。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-このメソッドは、専用の serving cluster とオンデマンドコンピュートに適用されます。 
+このメソッドは、Dedicated serving クラスターとオンデマンドコンピュートに適用されます。
 
-- serving cluster 内の collection の場合は、cluster endpoint を使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
+- serving クラスター内のコレクションの場合は、クラスターエンドポイントを指定して **[MilvusClient](./Client-MilvusClient)** を作成してください。
 
     - **Free & Serverless**
 
@@ -47,13 +47,13 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- オンデマンドコンピュート内の collection の場合は、project endpoint を使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
+- オンデマンドコンピュート内のコレクションの場合は、プロジェクトエンドポイントを指定して **[MilvusClient](./Client-MilvusClient)** を作成してください。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
 </Admonition>
 
-## Request syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 create_collection(
@@ -71,119 +71,119 @@ create_collection(
 ) -> None
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **collection_name** (*str*) -
 
     **[REQUIRED]**
 
-    作成する collection の名前です。
+    作成するコレクションの名前です。
 
 - **dimension** (*int*) -
 
-    vector embedding を格納する collection field の次元数です。
+    ベクトル埋め込みを保持するコレクションフィールドの次元数です。
 
-    この値は通常、vector embedding の生成に使用するモデルによって決まり、1 より大きい整数である必要があります。
+    この値は通常、ベクトル埋め込みの生成に使用するモデルによって決まり、1 より大きい整数である必要があります。
 
-    このパラメータは collection のクイックセットアップ用に設計されており、**schema** が **None** ではなく、schema 内の field の **dim** が正の整数に設定されている場合は無視されます。
+    このパラメーターはコレクションのクイックセットアップ用に設計されており、**スキーマ**が **None** ではなく、スキーマ内のフィールドの **dim** が正の整数に設定されている場合は無視されます。
 
 - **primary_field_name** (*str*) -
 
-    この collection の primary field の名前です。
+    このコレクションのプライマリフィールドの名前です。
 
-    デフォルト値は **id** です。適切と思われる別の名前を使用できます。カスタマイズされた schema で collection をセットアップする必要がある場合は、このパラメータを省略してください。
+    デフォルト値は **id** です。適切と思われる別の名前を使用できます。カスタマイズしたスキーマでコレクションをセットアップする必要がある場合は、このパラメーターを省略してください。
 
-    このパラメータは collection のクイックセットアップ用に設計されており、**schema** が **None** ではなく、schema 内の field の **is_primary** が **True** に設定されている場合は無視されます。
+    このパラメーターはコレクションのクイックセットアップ用に設計されており、**スキーマ**が **None** ではなく、スキーマ内のフィールドの **is_primary** が **True** に設定されている場合は無視されます。
 
 - **id_type** (*[DataType](./Collections-DataType)*) -
 
-    この collection の primary field のデータ型です。
+    このコレクションのプライマリフィールドのデータ型です。
 
     デフォルト値は **DataType.INT64** です。指定可能な値は **DataType.INT64** と **DataType.VARCHAR** です。 
 
-    このパラメータは collection のクイックセットアップ用に設計されており、**schema** が **None** ではない場合は無視されます。
+    このパラメーターはコレクションのクイックセットアップ用に設計されており、**スキーマ**が **None** ではない場合は無視されます。
 
 - **vector_field_name** (*str*) -
 
-    vector embedding を格納する collection field の名前です。
+    ベクトル埋め込みを保持するコレクションフィールドの名前です。
 
-    デフォルト値は **vector** です。適切と思われる別の名前を使用できます。 
+    デフォルト値は **ベクトル** です。適切と思われる別の名前を使用できます。
 
-    このパラメータは collection のクイックセットアップ用に設計されており、**schema** が **None** ではない場合は無視されます。
+    このパラメーターはコレクションのクイックセットアップ用に設計されており、**スキーマ**が **None** ではない場合は無視されます。
 
 - **metric_type** (*str*) -
 
-    この collection が vector embedding 間の類似度を測定するために使用するアルゴリズムです。
+    このコレクションがベクトル埋め込み間の類似度を測定するために使用するアルゴリズムです。
 
-    デフォルト値は **COSINE** です。指定可能な値は **L2**、**IP**、**COSINE** です。これらの metric type の詳細については、[Similarity Metrics Explained](/docs/search-metrics-explained) を参照してください。
+    デフォルト値は **COSINE** です。指定可能な値は **L2**、**IP**、**COSINE** です。これらのメトリックタイプの詳細については、[Similarity Metrics Explained](/docs/search-metrics-explained) を参照してください。
 
-    このパラメータは collection のクイックセットアップ用に設計されており、**schema** が **None** ではない場合は無視されます。
+    このパラメーターはコレクションのクイックセットアップ用に設計されており、**スキーマ**が **None** ではない場合は無視されます。
 
 - **auto_id** (*bool*) -
 
-    この collection へのデータ挿入時に primary field を自動増分するかどうかを指定します。
+    このコレクションにデータを挿入したときにプライマリフィールドが自動的に増分されるかどうかを指定します。
 
-    デフォルト値は **False** です。これを **True** に設定すると、primary field は自動的に増分されます。この場合、エラーを避けるために、挿入するデータに primary field を含めるべきではありません。自動生成される ID は固定長であり、変更できません。
+    デフォルト値は **False** です。これを **True** に設定すると、プライマリフィールドが自動的に増分されます。この場合、エラーを避けるために、挿入するデータにプライマリフィールドを含めないようにしてください。自動生成される ID は固定長であり、変更できません。
 
-    このパラメータは collection のクイックセットアップ用に設計されており、**schema** が **None** ではない場合は無視されます。
+    このパラメーターはコレクションのクイックセットアップ用に設計されており、**スキーマ**が **None** ではない場合は無視されます。
 
 - **timeout** (*float* | *None*) -
 
-    この操作のタイムアウト時間です。これを **None** に設定すると、いずれかの応答が返るかエラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間です。これを **None** に設定すると、いずれかの応答が返るかエラーが発生した時点で、この操作はタイムアウトします。
 
-- **schema** (*[CollectionSchema](./MilvusClient-CollectionSchema)* | *None*)
+- **スキーマ** (*[CollectionSchema](./MilvusClient-CollectionSchema)* | *None*)
 
-    この collection の schema です。
+    このコレクションのスキーマです。
 
-    これを **None** に設定すると、この collection はクイックセットアップ方式で作成されます。 
+    これを **None** に設定すると、このコレクションはクイックセットアップ方式で作成されます。
 
-    カスタマイズされた schema で collection をセットアップするには、**[CollectionSchema](./MilvusClient-CollectionSchema)** オブジェクトを作成し、ここで参照する必要があります。この場合、Zilliz Cloud はリクエスト内の他のすべての schema 関連設定を無視します。
+    カスタマイズしたスキーマでコレクションをセットアップするには、**[CollectionSchema](./MilvusClient-CollectionSchema)** オブジェクトを作成し、ここで参照する必要があります。この場合、Zilliz Cloud はリクエストに含まれる他のすべてのスキーマ関連設定を無視します。
 
 - **index_params** (*IndexParams* | *None*)
 
-    この collection の vector field 上に index を構築するためのパラメータです。カスタマイズされた schema で collection をセットアップし、collection を自動的にメモリにロードするには、**IndexParams** オブジェクトを作成し、ここで参照する必要があります。 
+    このコレクションのベクトルフィールドにインデックスを構築するためのパラメーターです。カスタマイズしたスキーマでコレクションをセットアップし、そのコレクションを自動的にメモリにロードするには、**IndexParams** オブジェクトを作成し、ここで参照する必要があります。
 
-    少なくとも、この collection の vector field に対する index を追加する必要があります。後で index パラメータを設定したい場合は、このパラメータを省略することもできます。
+    少なくとも、このコレクションのベクトルフィールドに対するインデックスを追加する必要があります。後でインデックスパラメーターを設定する場合は、このパラメーターを省略することもできます。
 
 - **kwargs** -
 
     - **enable_dynamic_field** (*bool*) -
 
-        **&#36;meta** という予約済み JSON field を使用して、未定義の field とその値をキーと値のペアとして保存するかどうかを指定します。
+        **&#36;meta** という名前の予約済み JSON フィールドを使用して、未定義のフィールドとその値をキーと値のペアとして保存するかどうかを指定します。
 
-        デフォルト値は **True** で、**&#36;meta** field が使用されることを示します。
+        デフォルト値は **True** で、**&#36;meta** フィールドが使用されることを示します。
 
-        **schema** が **None** ではない場合、このパラメータは無視されます。
+        **スキーマ**が **None** ではない場合、このパラメーターは無視されます。
 
     - **num_shards** (*int*) -
 
-        この collection の作成時に同時に作成する shard の数です。 
+        このコレクションの作成と同時に作成するシャードの数です。
 
-        デフォルト値は **1** で、この collection とともに 1 つの shard が作成されることを示します。
+        デフォルト値は **1** で、このコレクションとともに 1 つのシャードが作成されることを示します。
 
-        <Admonition type="info" icon="📘" title="Note">
+        <Admonition type="info" title="Note">
 
         シャーディングとは何ですか？
         
-                シャーディングとは、書き込み操作を異なるノードに分散し、データ書き込みにおける Milvus cluster の並列計算能力を最大限に活用することを指します。
+                シャーディングとは、書き込み操作を異なるノードに分散させ、データの書き込みにおいて Milvus クラスターの並列コンピューティング能力を最大限に活用することを指します。
         
-                デフォルトでは、collection には 1 つの shard が含まれます。
+                デフォルトでは、1 つのコレクションに 1 つのシャードが含まれます。
 
         </Admonition>
 
     - **partition_key_field** (*str*) -
 
-        partition key として機能する field の名前です。各 collection には 1 つの partition key を設定できます。
+        パーティションキーとして機能するフィールドの名前です。各コレクションに設定できるパーティションキーは 1 つだけです。
 
-        **schema** が **None** ではなく、schema 内の field の **is_parition_key** が **True** に設定されている場合、このパラメータは無視されます。
+        **スキーマ**が **None** ではなく、スキーマ内のフィールドの **is_parition_key** が **True** に設定されている場合、このパラメーターは無視されます。
 
-        <Admonition type="info" icon="📘" title="Note">
+        <Admonition type="info" title="Note">
 
-        partition key とは何ですか？
+        パーティションキーとは何ですか？
         
-                partition 指向のマルチテナンシーを容易にするために、field を partition key field として設定すると、Zilliz Cloud はその field の値をハッシュ化し、指定された数の partition に応じて entity を分散します。
+                パーティション指向のマルチテナンシーを容易にするために、フィールドをパーティションキーフィールドとして設定すると、Zilliz Cloud はそのフィールドの値をハッシュ化し、指定された数のパーティションに応じてエンティティを分散します。
         
-                entity を取得する際は、特定の field 値の entity をフィルタリングするために、boolean expression で partition key field を使用してください。
+                エンティティを取得する際は、特定のフィールド値のエンティティを絞り込むために、ブール式でパーティションキーフィールドを使用するようにしてください。
         
                 詳細については、[Use Partition Key](/docs/use-partition-key) と [Multi-tenancy](https://milvus.io/docs/multi_tenancy.md) を参照してください。
 
@@ -191,21 +191,21 @@ create_collection(
 
     - **partition_key_isolation** (*bool*) -
 
-        partition key に対する scalar filtering において、検索パフォーマンスをさらに向上させるために partition key isolation を有効にするかどうかを指定します。詳細については、[Use Partition Key Isolation](/docs/use-partition-key#use-partition-key-isolation) を参照してください。
+        パーティションキーに対するスカラーフィルタリングにおける検索パフォーマンスをさらに向上させるために、パーティションキー分離を有効にするかどうかを指定します。詳細については、[Use Partition Key Isolation](/docs/use-partition-key#use-partition-key-isolation) を参照してください。
 
     - **num_partitions** (*int*) -
 
-        partition key 機能用に作成する partition の数です。
+        パーティションキー機能用に作成するパーティションの数です。
 
-        デフォルト値は **64** で、この collection とともに 64 個の partition が作成されることを示します。このパラメータは、**partition_key_field** が field 名に設定されている場合に適用されます。
+        デフォルト値は **64** で、このコレクションとともに 64 個のパーティションが作成されることを示します。このパラメーターは、**partition_key_field** にフィールド名を設定した場合に適用されます。
 
     - **consistency_level** (*int* | *str*)
 
-        対象 collection の整合性レベルです。
+        対象のコレクションの整合性レベルです。
 
-        デフォルト値は **Bounded** (**2**) で、**Strong** (**0**)、**Session** (**1**)、**Bounded** (**2**)、**Eventually** (**3**) から選択できます。
+        デフォルト値は **Bounded**（**2**）で、**Strong**（**0**）、**Session**（**1**）、**Bounded**（**2**）、**Eventually**（**3**）から選択できます。
 
-        <Admonition type="info" icon="📘" title="Note">
+        <Admonition type="info" title="Note">
 
         整合性レベルとは何ですか？
         
@@ -213,7 +213,7 @@ create_collection(
         
                 Zilliz Cloud は、**Strong**、**Bounded Staleness**、**Eventually** の 3 つの整合性レベルを提供しており、デフォルトは **Bounded Staleness** です。
         
-                vector 類似検索やクエリを実行する際に、アプリケーションに最適になるよう整合性レベルを簡単に調整できます。
+                ベクトル類似検索やクエリを実行する際に、アプリケーションに最適になるように整合性レベルを簡単に調整できます。
 
         </Admonition>
 
@@ -221,43 +221,43 @@ create_collection(
 
         キーと値のペアによる追加プロパティです。
 
-        - **collection.ttl.seconds** (*int*)
+        - **コレクション.ttl.seconds** (*int*)
 
-            collection レベルの time-to-live (TTL) を秒単位で指定します。
+            コレクションレベルの time-to-live（TTL）を秒単位で指定します。
 
         - **ttl_field** (*str*)
 
-            entity レベルの TTL 期限切れにおける論理タイムスタンプとして使用する `TIMESTAMPTZ` field の名前です。
+            エンティティレベルの TTL 期限切れの論理タイムスタンプとして使用する `TIMESTAMPTZ` フィールドの名前です。
 
         - **mmap.enabled** (*bool*) -
 
-            collection 内のすべての field の生データと index に対して mmap を有効にするかどうかを指定します。
+            コレクション内のすべてのフィールドの生データとインデックスに対して mmap を有効にするかどうかを指定します。
 
         - **partitionkey.isolation** (bool) -
 
-            partition key isolation を有効にするかどうかを指定します。詳細については、[Use Partition Key](/docs/use-partition-key) を参照してください。
+            パーティションキー分離を有効にするかどうかを指定します。詳細については、[Use Partition Key](/docs/use-partition-key) を参照してください。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *NoneType*
 
-**RETURNS:**
+**戻り値:**
 
 None
 
-**EXCEPTIONS:**
+**例外:**
 
 - **PrimaryKeyException**
 
-    primary field のデータ型が整数または文字列でない場合に、この例外が発生します。
+    プライマリフィールドのデータ型が整数または文字列でない場合に、この例外が発生します。
 
 - **MilvusException**
 
     この操作中に何らかのエラーが発生した場合に、この例外が発生します。
 
-## Examples\{#examples}
+## 例\{#examples}
 
-### Milvus client をセットアップする\{#set-up-a-milvus-client}
+### Milvus クライアントをセットアップする\{#set-up-a-milvus-client}
 
 ```python
 from pymilvus import MilvusClient
@@ -268,13 +268,13 @@ client = MilvusClient(
 )
 ```
 
-### collection を作成する\{#create-a-collection}
+### コレクションを作成する\{#create-a-collection}
 
-以下のように、クイックセットアップまたはカスタマイズされたセットアップを選択できます。
+以下のように、クイックセットアップまたはカスタマイズしたセットアップを選択できます。
 
-- **Quick setup**
+- **クイックセットアップ**
 
-    クイックセットアップの collection には、primary field と vector field という 2 つの必須 field があります。また、dynamic field に、未定義の field とその値をキーと値のペアとして挿入することもできます。
+    クイックセットアップのコレクションには、プライマリフィールドとベクトルフィールドという 2 つの必須フィールドがあります。また、動的フィールドに、未定義のフィールドとその値をキーと値のペアとして挿入することもできます。
 
     ```python
     client.create_collection(
@@ -285,15 +285,15 @@ client = MilvusClient(
 
     上記のセットアップでは、 
 
-    - primary field と vector field はデフォルト名（**id** と **vector**）を使用します。
+    - プライマリフィールドとベクトルフィールドは、デフォルト名（**id** と **ベクトル**）を使用します。
 
-    - metric type もデフォルト値（**COSINE**）に設定されます。
+    - メトリックタイプもデフォルト値（**COSINE**）に設定されます。
 
-    - primary field は整数を受け入れ、自動増分しません。
+    - プライマリフィールドは整数を受け入れ、自動増分されません。
 
-    - **&#36;meta** という予約済み JSON field が、schema で定義されていない field とその値を保存するために使用されます。
+    - **&#36;meta** という予約済み JSON フィールドは、スキーマで定義されていないフィールドとその値を保存するために使用されます。
 
-    primary field と vector field の名前を変更したり、metric type を変更したりできます。さらに、primary field を自動増分に設定することもできます。
+    プライマリフィールドとベクトルフィールドの名前を変更したり、メトリックタイプを変更したりできます。さらに、プライマリフィールドを自動増分に設定することもできます。
 
     ```python
     client.create_collection(
@@ -308,11 +308,11 @@ client = MilvusClient(
     )
     ```
 
-    上記のコードでは、collection が作成され、index が作成され、メモリにロードされます。
+    上記のコードでは、コレクションが作成され、インデックスが作成され、メモリにロードされます。
 
-- **Customized setup with index parameters**
+- **インデックスパラメーターを使用したカスタマイズセットアップ**
 
-    カスタマイズされたセットアップでは、事前に schema と index パラメータを作成します。 
+    カスタマイズしたセットアップでは、事前にスキーマとインデックスパラメーターを作成します。
 
     ```python
     from pymilvus import MilvusClient, DataType
@@ -351,9 +351,9 @@ client = MilvusClient(
     )
     ```
 
-    上記のコードでは、collection が作成され、index が作成され、メモリにロードされます。
+    上記のコードでは、コレクションが作成され、インデックスが作成され、メモリにロードされます。
 
-- **Customized setup without index parameters**
+- **インデックスパラメーターを使用しないカスタマイズセットアップ**
 
     ```python
     from pymilvus import MilvusClient, DataType
@@ -375,9 +375,9 @@ client = MilvusClient(
     )
     ```
 
-    上記のコードでも collection は作成されます。ただし、`index_param` がないため、collection 内のデータには index が作成されず、メモリにもロードされません。
+    上記のコードでもコレクションは作成されます。ただし、`index_param` がないため、コレクション内のデータにはインデックスが作成されず、メモリにもロードされません。
 
-- **外部 collection を作成する**
+- **外部コレクションを作成する**
 
     ```python
     from pymilvus import MilvusClient, DataType

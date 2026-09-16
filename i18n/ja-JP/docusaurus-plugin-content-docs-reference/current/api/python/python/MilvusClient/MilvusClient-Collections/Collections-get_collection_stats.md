@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の collection で収集された統計情報を一覧表示します。 | Python | MilvusClient"
+description: "この操作は、特定のコレクションで収集された統計情報を一覧表示します。 | Python | MilvusClient"
 type: docx
 token: VfaldXzLUocBrJxffw6cJHPinlh
 sidebar_position: 13
@@ -15,7 +15,7 @@ keywords:
   - ベクトルデータベース比較
   - Faiss
   - 動画検索
-  - AI Hallucination
+  - AIハルシネーション
   - zilliz
   - zilliz cloud
   - クラウド
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # get_collection_stats()
 
-この操作は、特定の collection で収集された統計情報を一覧表示します。
+この操作は、特定のコレクションで収集された統計情報を一覧表示します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-このメソッドは、Dedicated serving cluster および on-demand compute に適用されます。 
+このメソッドは、専用のサービングクラスターとオンデマンドコンピュートに適用されます。 
 
-- serving cluster 内の collection の場合は、cluster endpoint を使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
+- サービングクラスター内のコレクションの場合は、クラスターエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
 
     - **Free & Serverless**
 
@@ -47,13 +47,13 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- on-demand compute 内の collection の場合は、project endpoints を使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
+- オンデマンドコンピュート内のコレクションの場合は、プロジェクトエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
 </Admonition>
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 get_collection_stats(
@@ -63,29 +63,29 @@ get_collection_stats(
 ) -> Dict
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **collection_name** (*str*) -
 
     **[REQUIRED]**
 
-    collection の名前。
+    コレクションの名前です。
 
 - **timeout** (*Optional[float]*) -
 
-    この操作のタイムアウト時間です。これを **None** に設定すると、いずれかのレスポンスが返されるかエラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間です。これを **None** に設定すると、いずれかのレスポンスが返されるかエラーが発生した時点で、この操作はタイムアウトします。
 
 - **\&ast;\&ast;kwargs** -
 
     将来の拡張性のための追加のキーワード引数です。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *dict*
 
-**RETURNS:**
+**戻り値:**
 
-指定された collection で収集された統計情報を含む辞書。
+指定されたコレクションで収集された統計情報を含む辞書です。
 
 ```python
 {
@@ -93,17 +93,17 @@ get_collection_stats(
 }
 ```
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Note">
 
-なぜ row count が挿入したエンティティ数と一致しないのですか？
+行数が挿入されたエンティティ数と一致しないのはなぜですか？
 
-挿入したデータは、最終的に保存される前に処理されます。最初はデータストリームとして到着します。その後、エンティティとして segments に保存されます。Milvus は、上限に達して sealed になるまで、ストリーム内のデータを保存するための適切な growing segment を選択します。
+挿入したデータは、最終的に保存される前に処理を経ます。最初に、データはデータストリームとして到着します。次に、エンティティとしてセグメントに保存されます。Milvus は、セグメントが上限に達して sealed になるまで、ストリーム内のデータを保存するために適切な growing セグメントを選択します。
 
-ただし、ストリームデータは含まれないため、表示される row count は挿入されたレコード数と一致しない場合があることに注意してください。
+ただし、ストリームデータが含まれないため、表示される行数は挿入されたレコード数と一致しない場合があることに注意してください。
 
 </Admonition>
 
-## Examples\{#examples}
+## 例\{#examples}
 
 ```python
 from pymilvus import MilvusClient

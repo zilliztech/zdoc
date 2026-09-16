@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の collection に関する詳細情報を一覧表示します。 | Python | MilvusClient"
+description: "この操作は、特定のコレクションに関する詳細情報を一覧表示します。 | Python | MilvusClient"
 type: docx
 token: LXASdPs6KoRfCJx11A1cl2Ssngg
 sidebar_position: 9
 keywords: 
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - ニューラルネットワーク
+  - ディープラーニング
+  - ナレッジベース
+  - 自然言語処理
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - describe_collection()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # describe_collection()
 
-この操作は、特定の collection に関する詳細情報を一覧表示します。
+この操作は、特定のコレクションに関する詳細情報を一覧表示します。
 
-<Admonition type="info" icon="📘" title="注記">
+<Admonition type="info" title="Notes">
 
-このメソッドは、Dedicated serving cluster と on-demand compute に適用されます。 
+このメソッドは、専用のサービングクラスターとオンデマンドコンピュートに適用されます。 
 
-- serving cluster 内の collection の場合は、cluster endpoint を使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
+- サービングクラスター内のコレクションの場合は、クラスターエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
 
     - **Free & Serverless**
 
@@ -47,13 +47,13 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- on-demand compute 内の collection の場合は、project endpoints を使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
+- オンデマンドコンピュート内のコレクションの場合は、プロジェクトエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
 </Admonition>
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 describe_collection(
@@ -62,31 +62,31 @@ describe_collection(
 ) -> Name
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **collection_name** (*str*) -
 
     **[REQUIRED]**
 
-    既存の collection の名前。
+    既存のコレクションの名前です。
 
-    存在しない collection にこれを設定すると、**MilvusException** が発生します。
+    これを存在しないコレクションに設定すると、**MilvusException** が発生します。
 
 - **kwargs** -
 
     - **timeout** (*float* | *None*)  
 
-        この操作のタイムアウト時間。 
+        この操作のタイムアウト時間です。 
 
-        これを **None** に設定すると、レスポンスが返されるか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+        これを **None** に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *dict*
 
-**RETURNS:**
+**戻り値:**
 
-指定した collection に関する詳細情報を含む辞書。
+指定したコレクションに関する詳細情報を含む辞書です。
 
 ```python
 {
@@ -129,131 +129,131 @@ describe_collection(
 }
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **collection_name** (*str*) -
 
-    現在の collection の名前。
+    現在のコレクションの名前です。
 
 - **auto_id** (*bool*) -
 
-    Zilliz Cloud がその collection の主キーを自動生成するかどうか。
+    Zilliz Cloud がそのコレクションの主キーを自動生成するかどうか。
 
 - **num_shards** (*int*) -
 
-    現在の collection が持つ shard の数。
+    現在のコレクションが持つシャード数です。
 
 - **description** (*str*) -
 
-    現在の collection の説明。
+    現在のコレクションの説明です。
 
 - **external_source** (*str*) -
 
-    collection の外部ソース。これは external collection にのみ適用されます。 
+    コレクションの外部ソースです。これは外部コレクションにのみ適用されます。 
 
 - **external_specs** (*str*) -
 
-    collection の外部仕様。これは external collection にのみ適用されます。
+    コレクションの外部仕様です。これは外部コレクションにのみ適用されます。
 
 - **fields** (*list*) -
 
-    現在の collection 内の field のリスト。
+    現在のコレクション内のフィールドのリストです。
 
     - **field_id** (*int*) -
 
-        現在の field の ID。
+        現在のフィールドの ID です。
 
     - **name** (*str*) -
 
-        現在の field の名前。
+        現在のフィールドの名前です。
 
     - **description** (*str*) -
 
-        現在の field の説明。
+        現在のフィールドの説明です。
 
     - **type** (*int*) -
 
-        現在の field の型。詳細は [DataType](./Collections-DataType) を参照してください。
+        現在のフィールドの型です。詳細は [DataType](./Collections-DataType) を参照してください。
 
     - **params** (*dict*) -
 
-        現在の field の追加属性。
+        現在のフィールドの追加属性です。
 
-        - **VARCHAR** field の場合、**max_length** (*int*) が指定可能な属性であり、現在の field の値に含まれる文字数を決定します。
+        - **VARCHAR** フィールドの場合、**max_length** (*int*) が指定可能な属性であり、現在のフィールドの値に含まれる文字数を決定します。
 
-        - vector field の場合、**dim** (*int*) が指定可能な属性であり、現在の field の値に含まれる vector embedding の数を決定します。
+        - ベクトルフィールドの場合、**dim** (*int*) が指定可能な属性であり、現在のフィールドの値に含まれるベクトル埋め込みの数を決定します。
 
-        - **ARRAY** field の場合、**max_capacity** (*int*) が指定可能な属性であり、entity の field に含まれる要素の最大数を決定します。
+        - **ARRAY** フィールドの場合、**max_capacity** (*int*) が指定可能な属性であり、エンティティのフィールドに含まれる要素の最大数を決定します。
 
-        - mmap が設定されている field の場合、**mmap_enabled** (*bool*) が指定可能な属性であり、現在の field に対して mmap が有効か無効かを指定します。
+        - mmap が設定されているフィールドの場合、**mmap_enabled** (*bool*) が指定可能な属性であり、現在のフィールドに対して mmap を有効にするか無効にするかを指定します。
 
     - **element_type** (*int*) -
 
-        field 値内の要素のデータ型。これは現在の field が ARRAY field の場合に表示されます。
+        フィールド値内の要素のデータ型です。これは現在のフィールドが ARRAY フィールドの場合に表示されます。
 
     - **struct_fields** (*List[Field]*) -
 
-        array of structs field 内の struct 要素に追加された field のリスト。指定可能な field 型の詳細については、[Array of Structs](/docs/use-array-of-structs) を参照してください。
+        array of structs フィールド内の struct 要素に追加されたフィールドのリストです。指定可能なフィールド型の詳細については、[Array of Structs](/docs/use-array-of-structs) を参照してください。
 
     - **is_primary** (*bool*) -
 
-        現在の field が collection の主キーとして機能するかどうか。
+        現在のフィールドがコレクションの主キーとして機能するかどうか。
 
 - **functions** (*list[[Function](./MilvusClient-Function)]*) -
 
-    schema 内で定義された function。
+    スキーマ内で定義された関数です。
 
 - **aliases** (*list[str]*) -      
 
-    collection alias のリスト。リスト内の任意の alias を使用して現在の collection を利用できます。  
+    コレクションエイリアスのリストです。リスト内の任意のエイリアスを使用して現在のコレクションを利用できます。  
 
 - **collection_id** (*int*) -
 
-    現在の collection の ID。Zilliz Cloud は collection の作成時に各 collection に ID を割り当てます。
+    現在のコレクションの ID です。Zilliz Cloud はコレクションの作成時に各コレクションに ID を割り当てます。
 
 - **consistency_level** (*int*) -
 
-    現在の collection の整合性レベル。詳細は ConsistencyLevel を参照してください。
+    現在のコレクションの整合性レベルです。詳細は ConsistencyLevel を参照してください。
 
 - **properties** (*dict*) -
 
-    現在の collection の追加プロパティ。辞書に含まれ得るキーは次のとおりです。
+    現在のコレクションの追加プロパティです。辞書に含めることが可能なキーは次のとおりです。
 
-    - **collection.ttl.seconds** (*int*) -
+    - **コレクション.ttl.seconds** (*int*) -
 
-        collection の存続時間 (TTL) を秒単位で示したもの。
+        そのコレクションの存続時間（TTL）を秒単位で示します。
 
     - **collection.timezone** (*str*) -
 
-        collection に設定されたタイムゾーン。デフォルト値は UTC です。
+        そのコレクションに設定されたタイムゾーンです。デフォルト値は UTC です。
 
 - **num_partitions** (*int*) -
 
-    現在の collection 内の partition の数。 
+    現在のコレクション内のパーティション数です。 
 
-    - 現在の collection で partition key が有効な場合、Zilliz Cloud はその collection 用に作成されたすべての partition を管理します。管理される partition の数は、collection 作成時に指定した数と一致している必要があります。
+    - 現在のコレクションでパーティションキーが有効になっている場合、Zilliz Cloud はそのコレクション用に作成されたすべてのパーティションを管理します。管理されるパーティション数は、そのコレクションの作成時に指定した数と一致している必要があります。
 
-    - 現在の collection で partition key が有効でない場合、その数はこの collection にすでに作成されている partition の数と一致している必要があります。
+    - 現在のコレクションでパーティションキーが有効になっていない場合、その数はこのコレクションにすでに作成されているパーティションの数と一致している必要があります。
 
 - **enable_dynamic_field** (*bool*) -
 
-    schema で定義されていない field とその値をキーと値のペアとして保存するために、予約済み JSON field **&#36;meta** を使用するかどうか。
+    スキーマで定義されていないフィールドとその値をキーと値のペアとして保存するために、予約済みの JSON フィールド **&#36;meta** を使用するかどうか。
 
 - **created_timestamp** (*int*) -
 
-    collection が作成された時点の timestamp。この timestamp は、Milvus の timestamp oracle service (TSO) によって生成されます。
+    コレクションが作成された時点のタイムスタンプです。このタイムスタンプは、Milvus の timestamp oracle service（TSO）によって生成されます。
 
 - **updated_timestamp** (*int*) -
 
-    collection が更新された時点の timestamp。この timestamp は、Milvus の timestamp oracle service (TSO) によって生成されます。
+    コレクションが更新された時点のタイムスタンプです。このタイムスタンプは、Milvus の timestamp oracle service（TSO）によって生成されます。
 
-**EXCEPTIONS:**
+**例外:**
 
 - **DescribeCollectionException**
 
-    この操作中に何らかのエラーが発生した場合に起こります。
+    この操作中に何らかのエラーが発生した場合に発生します。
 
-## Examples\{#examples}
+## 例\{#examples}
 
 ```python
 from pymilvus import MilvusClient

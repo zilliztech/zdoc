@@ -41,11 +41,11 @@ pymilvus.AsyncMilvusClient
 
 一般的なユースケース向けのクライアントを構築します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - このインターフェースはまだ初期段階にあり、今後のリリースで大きく変更される可能性があります。本番環境では使用しないことを推奨します。
 
-- **AsyncMilvusClient** を呼び出すには、リクエスト処理を管理するために asyncio からイベントループを取得する必要があります。詳細は、[Tutorial: Use AsyncMilvusClient with asyncio](https://milvus.io/docs/use-async-milvus-client-with-asyncio.md#Tutorial-Use-AsyncMilvusClient-with-asyncio) を参照してください。
+- **AsyncMilvusClient** を呼び出すには、リクエスト処理を管理するために asyncio からイベントループを取得する必要があります。詳細については、[Tutorial: Use AsyncMilvusClient with asyncio](https://milvus.io/docs/use-async-milvus-client-with-asyncio.md#Tutorial-Use-AsyncMilvusClient-with-asyncio) を参照してください。
 
 </Admonition>
 
@@ -85,13 +85,13 @@ AsyncMilvusClient(
 
     指定した Zilliz Cloud クラスターへの接続に使用する有効なユーザー名。
 
-    これは **password** と一緒に使用する必要があります。
+    これは **password** と併せて使用する必要があります。
 
 - **password** (*string*) -
 
     指定した Zilliz Cloud クラスターへの接続に使用する有効なパスワード。
 
-    これは **user** と一緒に使用する必要があります。
+    これは **user** と併せて使用する必要があります。
 
 - **db_name** (*string*) -
 
@@ -99,23 +99,23 @@ AsyncMilvusClient(
 
 - **token** (*string*) -
 
-    指定した Zilliz Cloud クラスターにアクセスするための有効なアクセストークン。 
+    指定した Zilliz Cloud クラスターにアクセスするための有効なアクセストークン。
 
-    これは、**user** と **password** を個別に設定する代わりとなる推奨方法として使用できます。
+    これは、**user** と **password** を個別に設定する代わりに推奨される方法として使用できます。
 
-    このフィールドを設定する際は、以下に注意してください:
+    このフィールドを設定する際は、次の点に注意してください。
 
-    有効なトークンは次のいずれかである必要があります
+    有効なトークンは、次のいずれかである必要があります。
 
     - 十分な権限を持つ [API キー](/docs/manage-api-keys)、または
 
-    - 対象クラスターへのアクセスに使用する [ユーザー名とパスワード ](/docs/cluster-credentials) をコロン (:) で連結したもの。たとえば、`username:p@ssw0rd` に設定できます。これはクラスターエンドポイントを使用する場合にのみ適用されます。
+    - 対象クラスターへのアクセスに使用する[ユーザー名とパスワード](/docs/cluster-credentials)をコロン（:）で連結したもの。たとえば、これを `username:p@ssw0rd` に設定できます。これはクラスターエンドポイントを使用する場合にのみ適用されます。
 
 - **timeout** (*float* | *None*)  
 
-    この操作のタイムアウト時間。 
+    この操作のタイムアウト時間。
 
-    これを **None** に設定すると、何らかの応答が返るかエラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、何らかのレスポンスが到着したとき、または何らかのエラーが発生したときにこの操作がタイムアウトすることを示します。
 
 ## Examples\{#examples}
 
@@ -134,9 +134,9 @@ client = AsyncMilvusClient(
 )
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-**uri** をクラスターエンドポイントに設定します。**token** パラメータには、十分な権限を持つ Zilliz Cloud API キー、または `username:p@ssw0rd` 形式のクラスター ユーザー資格情報を指定できます。
+**uri** には、使用するクラスターエンドポイントを設定します。**token** パラメーターには、十分な権限を持つ Zilliz Cloud API キー、または `username:p@ssw0rd` 形式のクラスターユーザーの認証情報を指定できます。
 
 </Admonition>
 

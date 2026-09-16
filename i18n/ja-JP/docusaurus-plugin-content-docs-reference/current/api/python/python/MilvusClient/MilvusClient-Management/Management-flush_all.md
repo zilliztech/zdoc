@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、現在のデータベース内のすべての collection をフラッシュします。これにより、挿入されたすべてのデータが永続ストレージに書き込まれることが保証されます。 | Python | MilvusClient"
+description: "この操作は、現在のデータベース内のすべてのコレクションをフラッシュします。これにより、挿入されたすべてのデータが永続ストレージに書き込まれることが保証されます。 | Python | MilvusClient"
 type: docx
 token: QejKdv2qKo97mQxEV0CcaSM5nLh
 sidebar_position: 17
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # flush_all()
 
-この操作は、現在のデータベース内のすべての collection をフラッシュします。これにより、挿入されたすべてのデータが永続ストレージに書き込まれることが保証されます。
+この操作は、現在のデータベース内のすべてのコレクションをフラッシュします。これにより、挿入されたすべてのデータが永続ストレージに書き込まれることが保証されます。
 
-<Admonition type="info" icon="📘" title="注記">
+<Admonition type="info" title="Notes">
 
-これは管理対象の collection にのみ適用されます。
+これはマネージドコレクションにのみ適用されます。
 
 </Admonition>
 
@@ -47,11 +47,11 @@ client.flush_all(
 )
 ```
 
-**パラメータ:**
+**パラメーター:**
 
 - **timeout** (*float* | *None*) -
 
-    この操作のタイムアウト時間です。これを **None** に設定すると、何らかのレスポンスが返されるか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間です。これを **None** に設定すると、何らかのレスポンスが到着したとき、または何らかのエラーが発生したときに、この操作はタイムアウトします。
 
 **戻り値の型:**
 

@@ -13,9 +13,9 @@ token: JXNXdQuwhoYmZQxSohNcdxtwnzh
 sidebar_position: 7
 keywords: 
   - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - ハイブリッドベクトル検索
+  - 動画の重複排除
+  - 動画類似検索
   - zilliz
   - zilliz cloud
   - cloud
@@ -59,11 +59,11 @@ list_grant(
 
     **object** で指定されたタイプの対象オブジェクトの名前です。
 
-    collection 名、ユーザー名、またはワイルドカード (*) を指定できます。
+    コレクション名、ユーザー名、またはワイルドカード（&ast;）を指定できます。
 
 - **db_name** (*str*)
 
-    オブジェクトが属するデータベースの名前です。指定しない場合は、デフォルトデータベースが適用されます。
+    オブジェクトが属するデータベースの名前です。指定しない場合は、デフォルトのデータベースが適用されます。
 
 **戻り値の型:**
 
@@ -93,7 +93,7 @@ list_grant(
 
 - **object_name** (*str*)
 
-    ロールに指定された権限が付与されているオブジェクトの名前です。
+    指定された権限がロールに付与されるオブジェクトの名前です。
 
 - **role_name** (*str*)
 
@@ -105,7 +105,7 @@ list_grant(
 
 - **privilege** (*str*)
 
-    ロールに付与されている権限です。
+    ロールに付与される権限です。
 
 - **db_name** (str)
 

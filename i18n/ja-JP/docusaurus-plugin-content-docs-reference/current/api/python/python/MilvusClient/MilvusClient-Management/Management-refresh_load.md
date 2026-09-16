@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、ロード済み collection の未ロードデータをメモリにロードします。 | Python | MilvusClient"
+description: "この操作は、ロード済みコレクションの未ロードデータをメモリにロードします。 | Python | MilvusClient"
 type: docx
 token: X3NXdtC2koiAxyxhcUBcv38Wnsh
 sidebar_position: 12
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # refresh_load()
 
-この操作は、ロード済み collection の未ロードデータをメモリにロードします。
+この操作は、ロード済みコレクションの未ロードデータをメモリにロードします。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-これは managed collection にのみ適用されます。
+これはマネージドコレクションにのみ適用されます。
 
 </Admonition>
 
@@ -54,13 +54,13 @@ refresh_load(
 
     **[必須]**
 
-    この操作の対象 collection の名前。
+    この操作の対象コレクションの名前。
 
 - **timeout** (*float* | *None*)  
 
     この操作のタイムアウト時間。 
 
-    これを **None** に設定すると、レスポンスが返されるか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、いずれかのレスポンスが返されるかエラーが発生した時点で、この操作はタイムアウトします。
 
 **戻り値の型:**
 
@@ -74,7 +74,7 @@ refresh_load(
 
 - **MilvusException**
 
-    この操作の実行中に何らかのエラーが発生した場合、この例外が発生します。
+    この操作中に何らかのエラーが発生した場合に、この例外が発生します。
 
 ## 例\{#example}
 

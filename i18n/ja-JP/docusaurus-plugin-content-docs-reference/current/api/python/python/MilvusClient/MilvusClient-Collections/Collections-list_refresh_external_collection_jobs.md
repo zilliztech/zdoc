@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、すべてまたは指定された collection の external collection refresh job を一覧表示します。 | Python | MilvusClient"
+description: "この操作は、すべての、または指定されたコレクションの外部コレクション更新ジョブを一覧表示します。 | Python | MilvusClient"
 type: docx
 token: VkBFdLHwao9hVMxzRurcBYIynFh
 sidebar_position: 28
@@ -18,7 +18,7 @@ keywords:
   - ANNS
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - list_refresh_external_collection_jobs()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,17 +31,17 @@ import Admonition from '@theme/Admonition';
 
 # list_refresh_external_collection_jobs()
 
-この操作は、すべてまたは指定された collection の external collection refresh job を一覧表示します。
+この操作は、すべての、または指定されたコレクションの外部コレクション更新ジョブを一覧表示します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-これには、次のように project endpoint を使用してセットアップされた MilvusClient が必要です。
+これには、以下のように project endpoint を使用して設定された MilvusClient が必要です。
 
 `https://{project-id}.{region}.api.zillizcloud.com`
 
 </Admonition>
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 def list_refresh_external_collection_jobs(
@@ -51,11 +51,11 @@ def list_refresh_external_collection_jobs(
 ) -> List:
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **collection_name** (*string*) -
 
-    対象 collection の名前です。このパラメータを指定しない場合、すべての external collection の refresh job が返されます。
+    対象コレクションの名前です。このパラメータを指定しない場合は、すべての外部コレクションの更新ジョブが返されます。
 
 - **timeout** (*float*) - 
 
@@ -63,27 +63,27 @@ def list_refresh_external_collection_jobs(
 
     これを **None** に設定すると、何らかの応答が到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *List*
 
-**RETURNS:**
+**戻り値:**
 
-**RefreshExternalCollectionJobInfo** オブジェクトのリスト。各オブジェクトには、external collection refresh job の詳細が記録されます。
+**RefreshExternalCollectionJobInfo** オブジェクトのリストです。各オブジェクトには、外部コレクション更新ジョブの詳細が記録されます。
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **job_id** (*int*) -
 
-    現在のリクエストで指定された job ID です。
+    現在のリクエストで指定されたジョブ ID です。
 
 - **collection_name** (*string*) -
 
-    `refresh_external_collection()` で指定された external collection の名前です。
+    `refresh_external_collection()` で指定された外部コレクションの名前です。
 
 - **state** (*string*) -
 
-    指定された job の現在の状態です。指定可能な値は次のとおりです。
+    指定されたジョブの現在の状態です。指定可能な値は次のとおりです。
 
     - RefreshPending
 
@@ -95,29 +95,29 @@ def list_refresh_external_collection_jobs(
 
 - **progress** (*int*) -
 
-    指定された job の現在の進行状況です。値は 0 から 100 までの整数です。
+    指定されたジョブの現在の進行状況です。値は 0 から 100 までの整数です。
 
 - **external_source** (*str*) -
 
-    `refresh_external_collection()` で指定された external source URI です。
+    `refresh_external_collection()` で指定された外部ソース URI です。
 
 - **external_specs** (*str*) -
 
-    `refresh_external_collection()` で指定された external specs です。
+    `refresh_external_collection()` で指定された外部仕様です。
 
 - **reason** (*str*) -
 
-    refresh 操作が失敗した場合のエラーメッセージです。通常時は空文字列です。
+    更新操作が失敗した場合のエラーメッセージです。通常時は空文字列です。
 
 - **start_time** (*int*) -
 
-    指定された job が開始した時刻のミリ秒タイムスタンプです。
+    指定されたジョブが開始する時点のミリ秒単位のタイムスタンプです。
 
 - **end_time** (*int*) -  
 
-    指定された job が終了した時刻のミリ秒タイムスタンプです。
+    指定されたジョブが終了する時点のミリ秒単位のタイムスタンプです。
 
-## Example\{#example}
+## 例\{#example}
 
 ```python
 from pymilvus import MilvusClient
@@ -146,4 +146,3 @@ while True:
 
     time.sleep(2)
 ```
-

@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は新しい resource group を作成します。 | Python | ORM"
+description: "この操作は、新しいリソースグループを作成します。 | Python | ORM"
 type: docx
 token: X5qsdhFQ5oOhkcxOprzcOZq4nMc
 sidebar_position: 4
 keywords: 
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - 密埋め込み
+  - Faiss ベクトルデータベース
+  - Chroma ベクトルデータベース
+  - NLP 検索
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - create_resource_group()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,21 +31,21 @@ import Admonition from '@theme/Admonition';
 
 # create_resource_group()
 
-この操作は新しい resource group を作成します。 
+この操作は、新しいリソースグループを作成します。
 
-<Admonition type="info" icon="📘" title="注">
+<Admonition type="info" title="Note">
 
-resource group とは何ですか？
+リソースグループとは何ですか？
 
-resource group には、Zilliz Cloud cluster 内の複数またはすべての query node を保持できます。`load()` を呼び出して collection をロードすると、Zilliz Cloud はその collection のデータを特定の query node にロードします。
+リソースグループは、Zilliz Cloud クラスター内の複数またはすべてのクエリノードを保持できます。load() を呼び出してコレクションをロードすると、Zilliz Cloud はそのコレクションのデータを特定のクエリノードにロードします。
 
-すべての Zilliz Cloud cluster には、すべての query node を保持する **__default_resource_group** という名前のデフォルトの resource group が用意されています。 
+すべての Zilliz Cloud クラスターには、すべてのクエリノードを保持する **__default_resource_group** という名前のデフォルトのリソースグループが用意されています。
 
-実際の数を確認するには **describe_resource_group()** を使用します。利用可能な query node が複数ある場合は、resource group を作成し、その間で query node を分散することを検討してください。
+実際の数を確認するには、**describe_resource_group()** を使用します。利用可能なクエリノードが複数ある場合は、リソースグループを作成し、それらの間でクエリノードを分散することを検討してください。
 
 </Admonition>
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 create_resource_group(
@@ -56,15 +56,15 @@ create_resource_group(
 )
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **name** (*str*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    作成する resource group の名前です。
+    作成するリソースグループの名前です。
 
-    これを既存の resource group の名前に設定すると、**MilvusException** が発生します。
+    これを既存のリソースグループの名前に設定すると、**MilvusException** が発生します。
 
 - **using** (*str*) - 
 
@@ -74,15 +74,15 @@ create_resource_group(
 
 - **timeout** (*float* | *None*)  
 
-    この操作のタイムアウト時間です。これを **None** に設定すると、レスポンスが返されるかエラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間です。これを **None** に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
 - **kwargs**
 
-    オプションのパラメータです。現在は、resource group の設定を指定するために **config** を設定できます。
+    オプションのパラメーターです。現在は、リソースグループの設定を指定するために **config** を設定できます。
 
     - **config** (*ResourceGroupConfig*) -
 
-        resource group の設定を表す ResourceGroupConfig オブジェクトです。
+        リソースグループの設定を表す ResourceGroupConfig オブジェクトです。
 
         ```python
         ├── ResourceGroupConfig
@@ -94,31 +94,31 @@ create_resource_group(
 
         - **requests** (*dict*) -
 
-            resource group が保持すべき query node の数を指定する辞書です。このキーには以下を含める必要があります。
+            リソースグループが保持すべきクエリノードの数を指定する辞書です。このキーには以下を含める必要があります。
 
-            - **node_num** (*int*) - resource group に対して要求する query node の数。
+            - **node_num** (*int*) - リソースグループに対して要求されるクエリノードの数。
 
         - **limits** (*dict*) -
 
-            resource group が保持できる query node の最大数を指定する辞書です。このキーには以下を含める必要があります。
+            リソースグループが保持できるクエリノードの最大数を指定する辞書です。このキーには以下を含める必要があります。
 
-            - **node_num** (*int*) - resource group に許可される query node の最大数。
+            - **node_num** (*int*) - リソースグループに許可されるクエリノードの最大数。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *NoneType*
 
-**RETURNS:**
+**戻り値:**
 
 None
 
-**EXCEPTIONS:**
+**例外:**
 
 - **MilvusException**
 
     この操作中に何らかのエラーが発生した場合に、この例外が発生します。
 
-## Examples\{#examples}
+## 例\{#examples}
 
 ```python
 from pymilvus import connections, utility
@@ -147,7 +147,7 @@ except Exception:
     print(f'Failed to create resource group {name}.')
 ```
 
-## Related operations\{#related-operations}
+## 関連操作\{#related-operations}
 
 以下の操作は `create_resource_group()` に関連しています。
 
@@ -160,4 +160,3 @@ except Exception:
 - [transfer_node()](./utility-transfer_node)
 
 - [transfer_replica()](./utility-transfer_replica)
-

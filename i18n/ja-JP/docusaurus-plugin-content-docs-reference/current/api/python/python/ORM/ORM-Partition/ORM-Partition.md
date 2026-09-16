@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "Partition インスタンスは、collection 内の partition を表します。 | Python | ORM"
+description: "Partition インスタンスは、コレクション内のパーティションを表します。 | Python | ORM"
 type: docx
 token: X9scdVMmxoBTuUxlKhecJXEunHd
 sidebar_position: 7
@@ -15,7 +15,7 @@ keywords:
   - 動画類似検索
   - ベクトル検索
   - 音声類似検索
-  - Elastic vector database
+  - Elastic ベクトルデータベース
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,19 +31,19 @@ import Admonition from '@theme/Admonition';
 
 # Partition
 
-**Partition** インスタンスは、collection 内の partition を表します。
+**Partition** インスタンスは、コレクション内のパーティションを表します。
 
 ```python
 class pymilvus.Partition
 ```
 
-## Constructor\{#constructor}
+## コンストラクター\{#constructor}
 
-名前、説明、その他のパラメータを指定して、collection 内に partition を構築します。 
+名前、説明、およびその他のパラメータを指定して、コレクション内にパーティションを作成します。 
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-partitions を使用する場合は、collection schema で **enable_partition_key** が **True** に設定されていないことを確認してください。そうでない場合、エラーが発生します。
+パーティションを使用する場合は、コレクションのスキーマで **enable_partition_key** が **True** に設定されていないことを確認してください。そうでない場合、エラーが発生します。
 
 </Admonition>
 
@@ -57,21 +57,21 @@ Partition(
 
 **PARAMETERS:**
 
-- **[collection](./ORM-Collection)** (*[Collection](./ORM-Collection)* | *str*) - 
+- **[コレクション](./ORM-Collection)** (*[コレクション](./ORM-Collection)* | *str*) - 
 
     **[REQUIRED]**
 
-    partition を作成する collection。 
+    パーティションを作成するコレクションです。 
 
-    **[Collection](./ORM-Collection)** オブジェクト、またはその名前のいずれかを参照できます。
+    **[コレクション](./ORM-Collection)** オブジェクト、またはその名前のいずれかを参照できます。
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
-    collection とは何ですか？
+    コレクションとは何ですか？
     
-        collection は、固定数の列と可変数の行を持つ二次元テーブルにデータを格納します。テーブル内では、各列が field に対応し、各行が entity を表します。
+        コレクションは、固定数の列と可変数の行を持つ二次元テーブルにデータを収集します。テーブルでは、各列がフィールドに対応し、各行がエンティティを表します。
     
-        1 つの collection は最大 64 個の partitions をサポートできます。
+        1 つのコレクションは、最大 64 個のパーティションをサポートできます。
 
     </Admonition>
 
@@ -79,11 +79,11 @@ Partition(
 
     **[REQUIRED]**
 
-    作成する partition の名前。
+    作成するパーティションの名前です。
 
 - **description** (*string*) - 
 
-    作成する partition の説明。
+    作成するパーティションの説明です。
 
 **RETURN TYPE:**
 
@@ -91,15 +91,15 @@ Partition(
 
 **RETURNS:**
 
-**Partition** オブジェクト。
+**Partition** オブジェクトです。
 
 **EXCEPTIONS:**
 
 - **MilvusException**
 
-    この操作中に何らかのエラーが発生した場合、この例外が発生します。
+    この操作中に何らかのエラーが発生した場合に、この例外が発生します。
 
-## Examples\{#examples}
+## 例\{#examples}
 
 ```python
 from pymilvus import Collection, Partition
@@ -111,7 +111,7 @@ collection = Collection("book")
 partition = Partition(collection, "novel", "")
 ```
 
-## Members\{#members}
+## メンバー\{#members}
 
 以下は `Partition` クラスのメンバーです:
 

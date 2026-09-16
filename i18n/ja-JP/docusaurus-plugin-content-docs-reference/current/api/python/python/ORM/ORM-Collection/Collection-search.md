@@ -7,14 +7,14 @@ added_since: Inherit
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、オプションのスカラー絞り込み式を使用して vector 類似検索を実行します。 | Python | ORM"
+description: "この操作は、オプションのスカラー絞り込み式を使用してベクトル類似検索を実行します。 | Python | ORM"
 type: docx
 token: OaM5dkbPjohKhNxHvKNcfnYMnVb
 sidebar_position: 25
 keywords: 
-  - Vector 取得
-  - Audio 類似検索
-  - Elastic vector database
+  - ベクトル検索
+  - 音声類似検索
+  - Elastic ベクトルデータベース
   - Pinecone vs Milvus
   - zilliz
   - zilliz cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # search()
 
-この操作は、オプションのスカラー絞り込み式を使用して vector 類似検索を実行します。
+この操作は、オプションのスカラー絞り込み式を使用してベクトル類似検索を実行します。
 
 ## Request Syntax\{#request-syntax}
 
@@ -56,15 +56,15 @@ search(
 
     **[REQUIRED]**
 
-    vector 埋め込みのリスト。
+    ベクトル埋め込みのリストです。
 
-    Zilliz Cloud は、指定された vector 埋め込みに最も類似する vector 埋め込みを検索します。
+    Zilliz Cloud は、指定されたベクトル埋め込みに最も類似するベクトル埋め込みを検索します。
 
 - **anns_field** (str) -
 
     **[REQUIRED]**
 
-    現在の collection 内の vector フィールド名
+    現在のコレクション内のベクトルフィールドの名前です。
 
 - **param** (dict) -
 
@@ -74,95 +74,95 @@ search(
 
     - **metric_type** (*str*) -
 
-        この操作に適用される metric type です。これは、上記で指定した vector フィールドを index 化するときに使用したものと同じである必要があります。 
+        この操作に適用されるメトリックタイプです。これは、上記で指定したベクトルフィールドにインデックスを作成するときに使用したものと同じである必要があります。 
 
-        指定可能な値は **L2**、**IP**、および **COSINE** です。
+        指定可能な値は **L2**、**IP**、**COSINE** です。
 
     - **params** (dict) -
 
-        追加パラメータ
+        追加のパラメータ
 
         - **offset** (int) -
 
-            検索結果内でスキップするレコード数。 
+            検索結果内でスキップするレコード数です。 
 
-            このパラメータは `limit` と組み合わせて使用することで、ページネーションを有効にできます。
+            このパラメータを `limit` と組み合わせて使用すると、ページネーションを有効にできます。
 
             この値と `limit` の合計は 16,384 未満である必要があります。 
 
         - **radius** (float) -
 
-            類似度の下限しきい値を決定します。`metric_type` を `L2` に設定する場合、この値は **range_filter** の値より大きくする必要があります。それ以外の場合、この値は **range_filter** の値より小さくする必要があります。 
+            類似度が最小となるしきい値を決定します。`metric_type` を `L2` に設定する場合は、この値が **range_filter** の値より大きくなるようにしてください。それ以外の場合は、この値が **range_filter** の値より小さくなるようにしてください。 
 
         - **range_filter**  (float) -  
 
-            特定の類似度範囲内の vector に検索を絞り込みます。`metric_type` を `IP` または `COSINE` に設定する場合、この値は **radius** の値より大きくする必要があります。それ以外の場合、この値は **radius** の値より小さくする必要があります。
+            検索を特定の類似度範囲内のベクトルに絞り込みます。`metric_type` を `IP` または `COSINE` に設定する場合は、この値が **radius** の値より大きくなるようにしてください。それ以外の場合は、この値が **radius** の値より小さくなるようにしてください。
 
     他の適用可能な検索パラメータの詳細については、[AUTOINDEX Explained](/docs/autoindex-explained) を参照してください。
 
 - **limit** (*int*) -
 
-    返される entity の総数。
+    返すエンティティの総数です。
 
-    このパラメータは **param** 内の `offset` と組み合わせて使用することで、ページネーションを有効にできます。
+    このパラメータを **param** 内の `offset` と組み合わせて使用すると、ページネーションを有効にできます。
 
     この値と **param** 内の `offset` の合計は 16,384 未満である必要があります。 
 
 - **expr** (*str*) -
 
-    一致する entity を絞り込むためのスカラー絞り込み条件。
+    一致するエンティティを絞り込むためのスカラー絞り込み条件です。
 
-    デフォルト値は **None** で、スカラー絞り込みが無視されることを示します。スカラー絞り込み条件の作成方法については、[Boolean Expression Rules](https://milvus.io/docs/boolean.md) を参照してください。
+    デフォルト値は **None** で、スカラー絞り込みが無視されることを示します。スカラー絞り込み条件を構築するには、[Boolean Expression Rules](https://milvus.io/docs/boolean.md) を参照してください。
 
 - **output_fields** (*list*) -
 
-    返される各 entity に含めるフィールド名のリスト。
+    返される各エンティティに含めるフィールド名のリストです。
 
-    デフォルト値は **None** です。指定しない場合、主キーのフィールドのみが含まれます。
+    デフォルト値は **None** です。指定しない場合は、プライマリフィールドのみが含まれます。
 
 - **partition_names** (*list*) -
 
-    partition 名のリスト。
+    パーティション名のリストです。
 
-    デフォルト値は **None** です。指定した場合、指定された partition のみがクエリ対象になります。
+    デフォルト値は **None** です。指定した場合は、指定したパーティションのみがクエリの対象になります。
 
 - **timeout** (*float*)  -
 
-    この操作のタイムアウト時間。これを **None** に設定すると、任意のレスポンスが到着するか、何らかのエラーが発生した時点でこの操作がタイムアウトすることを示します。
+    この操作のタイムアウト時間です。これを **None** に設定すると、いずれかのレスポンスが到着したとき、または何らかのエラーが発生したときにこの操作がタイムアウトすることを示します。
 
 - **round_decimal** (*int*) -
 
-    Zilliz Cloud が計算された距離を丸める小数点以下の桁数。
+    Zilliz Cloud が計算された距離を丸める際の小数点以下の桁数です。
 
-    デフォルト値は **-1** で、Zilliz Cloud は計算された距離の丸めをスキップし、生の値を返すことを示します。
+    デフォルト値は **-1** で、Zilliz Cloud が計算された距離の丸めをスキップし、生の値を返すことを示します。
 
 - **search_aggregation** (*Optional[SearchAggregation]*) -
 
-    階層的なバケット集計仕様です。**group_by_field** とは同時に使用できません。設定すると **limit** は無視され、ルートの `SearchAggregation.size` がトップレベルのバケット数を制御します。
+    階層的なバケット集約の仕様です。**group_by_field** とは相互に排他的です。設定すると **limit** は無視され、ルートの `SearchAggregation.size` が最上位のバケット数を制御します。
 
 - **consistency_level** (*str*) -
 
-    Milvus が指定された collection 内を検索する際に使用する一貫性レベル。
+    指定したコレクション内を Milvus が検索するときに使用される整合性レベルです。
 
-    このパラメータを指定しない場合、collection 作成時に指定した一貫性レベルが使用されます。このパラメータを指定すると、collection 作成時に指定したものが上書きされます。
+    このパラメータを指定しない場合は、コレクション作成時に指定した整合性レベルが使用されます。このパラメータを指定すると、コレクション作成時に指定した整合性レベルが上書きされます。
 
-    指定可能な値は **Strong**、**Bounded**、**Eventually**、**Session**、および **Customized** です。
+    指定可能な値は **Strong**、**Bounded**、**Eventually**、**Session**、**Customized** です。
 
 - **page_retain_order** (*bool*) -
 
-    `offset` が指定されたときに検索結果の順序を保持するかどうか。
+    `offset` を指定したときに検索結果の順序を保持するかどうかです。
 
 - **guarantee_timestamp** (*int*) -
 
-    検索時に Milvus が参照として使用するタイムスタンプ。
+    Milvus が検索時に参照として使用するタイムスタンプです。
 
-    このパラメータを指定しない場合、Milvus は flush 済みのすべての entity を検索します。この値を設定すると、Milvus は指定されたタイムスタンプ以前に flush された entity のみを検索します。
+    このパラメータを指定しない場合、Milvus はフラッシュ済みのすべてのエンティティ内を検索します。この値を設定すると、Milvus は指定したタイムスタンプより前にフラッシュされたエンティティ内を検索します。
 
 - **graceful_time** (*int*) -
 
-    検索における猶予期間（秒）。
+    検索の猶予期間（秒）です。
 
-    この値を設定すると、Milvus は指定された秒数前までに flush された entity のみを検索します。
+    この値を設定すると、Milvus は指定した秒数前にフラッシュされたエンティティ内を検索します。
 
 **RETURN TYPE:**
 
@@ -170,15 +170,15 @@ search(
 
 **RETURNS:**
 
-**SearchResult** オブジェクトを返します。このオブジェクトには **Hits** オブジェクトのリストが含まれます。 
+**Hits** オブジェクトのリストを含む **SearchResult** オブジェクトです。 
 
 - レスポンス構造
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
-    **SearchResult** オブジェクトには **Hits** オブジェクトのリストが含まれており、それぞれが検索リクエスト内のクエリ vector に対応します。 
+    **SearchResult** オブジェクトには **Hits** オブジェクトのリストが含まれ、各 **Hits** オブジェクトは検索リクエスト内のクエリベクトルに対応します。 
     
-    **Hits** オブジェクトには **Hit** オブジェクトのリストが含まれており、それぞれが検索でヒットした entity に対応します。
+    **Hits** オブジェクトには **Hit** オブジェクトのリストが含まれ、各 **Hit** オブジェクトは検索でヒットしたエンティティに対応します。
 
     </Admonition>
 
@@ -197,43 +197,43 @@ search(
 
 - プロパティとメソッド
 
-    - **Hits** オブジェクトには以下のフィールドがあります。
+    - **Hits** オブジェクトには次のフィールドがあります。
 
         - **ids** (*list[int]* | *list[str]*)
 
-            ヒットした entity の ID を含むリスト。
+            ヒットしたエンティティの ID を含むリストです。
 
         - **distances** (list[float]) 
 
-            ヒットした entity の vector フィールドからクエリ vector までの距離のリスト。
+            ヒットしたエンティティのベクトルフィールドからクエリベクトルまでの距離のリストです。
 
-    - **Hit** オブジェクトには以下のフィールドがあります。
+    - **Hit** オブジェクトには次のフィールドがあります。
 
         - **id** (*int* | *str*)
 
-            ヒットした entity の ID。
+            ヒットしたエンティティの ID です。
 
         - **distance** (*float*)
 
-            ヒットした entity の vector フィールドからクエリ vector までの距離。
+            ヒットしたエンティティのベクトルフィールドからクエリベクトルまでの距離です。
 
         - **score** (*float*)
 
-            **distance** の別名。
+            **distance** のエイリアスです。
 
-        - **vector** (*list[float]*)   
+        - **ベクトル** (*list[float]*)   
 
-            ヒットした entity の vector フィールド。
+            ヒットしたエンティティのベクトルフィールドです。
 
         - **get(*field_name: str*)**
 
-            ヒットした entity 内の指定されたフィールドの値を取得する関数。 
+            ヒットしたエンティティ内の指定したフィールドの値を取得する関数です。 
 
 **EXCEPTIONS:**
 
 - **MilvusException**
 
-    この操作中に何らかのエラーが発生すると、この例外が送出されます。
+    この例外は、この操作中に何らかのエラーが発生した場合に送出されます。
 
 ## Examples\{#examples}
 

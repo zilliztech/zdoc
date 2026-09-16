@@ -14,8 +14,8 @@ sidebar_position: 4
 keywords: 
   - 近似最近傍探索
   - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - Sparse ベクトル
+  - ベクトル Dimension
   - zilliz
   - zilliz cloud
   - cloud
@@ -39,9 +39,9 @@ class pymilvus.RemoteBulkWriter
 
 ## Constructor\{#constructor}
 
-**schema**、**remote_path**、**connect_param** などのパラメータセットを使用して **RemoteBulkWriter** オブジェクトを構築します。
+**スキーマ**、**remote_path**、**connect_param** などの一連のパラメータを使用して **RemoteBulkWriter** オブジェクトを構築します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 **RemoteBulkWriter** オブジェクトは、生データを Zilliz Cloud が理解できる形式に書き換えて AWS-S3 互換バケットに格納することを目的としています。
 
@@ -62,11 +62,11 @@ writer = RemoteBulkWriter(
 
 **PARAMETERS:**
 
-- **schema** (*CollectionSchema*) -
+- **スキーマ** (*CollectionSchema*) -
 
     **[REQUIRED]**
 
-    書き換えられたデータのインポート先となる対象 collection のスキーマです。
+    書き換えられたデータのインポート先となる対象コレクションのスキーマです。
 
 - **remote_path** (*str*) -
 
@@ -86,7 +86,7 @@ writer = RemoteBulkWriter(
 
     デフォルト値は 536,870,912 バイトで、512 MB です。
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     BulkWriter はどのようにデータをセグメント化しますか？
     

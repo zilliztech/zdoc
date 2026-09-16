@@ -7,13 +7,13 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は既存のすべての collection を一覧表示します。 | Python | MilvusClient"
+description: "この操作は、既存のすべてのコレクションを一覧表示します。 | Python | MilvusClient"
 type: docx
 token: BHyidrVcyoPwxexHLrnceOSAnRe
 sidebar_position: 17
 keywords: 
   - AI チャットボット
-  - cosine distance
+  - コサイン距離
   - ベクトルデータベースとは
   - vectordb
   - zilliz
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # list_collections()
 
-この操作は既存のすべての collection を一覧表示します。
+この操作は、既存のすべてのコレクションを一覧表示します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-このメソッドは、Dedicated serving cluster と on-demand compute に適用されます。 
+このメソッドは、Dedicated serving クラスターとオンデマンドコンピュートに適用されます。 
 
-- serving cluster 内の collection に対しては、cluster endpoint を使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
+- serving クラスター内のコレクションの場合は、クラスターエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- on-demand compute 内の collection に対しては、project endpoints を使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
+- オンデマンドコンピュート内のコレクションの場合は、プロジェクトエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -75,7 +75,7 @@ list_collections(**kwargs) -> Name
 
 **戻り値:**
 
-collection 名のリストです。
+コレクション名のリストです。
 
 **例外:**
 

@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、指定されたブール式による scalar フィルタリングを実行します。 | Python | MilvusClient"
+description: "この操作は、指定されたブール式によるスカラーフィルタリングを実行します。 | Python | MilvusClient"
 type: docx
 token: ShzCdNgEGozKi3xa3lUcHpxQnaf
 sidebar_position: 4
 keywords: 
   - 質問応答システム
   - llm-as-a-judge
-  - ハイブリッド vector 検索
+  - ハイブリッドベクトル検索
   - 動画重複排除
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - query()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # query()
 
-この操作は、指定されたブール式による scalar フィルタリングを実行します。
+この操作は、指定されたブール式によるスカラーフィルタリングを実行します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-このメソッドは dedicated serving cluster と on-demand compute にのみ適用されます。 
+このメソッドは、dedicated serving クラスターおよび on-demand compute にのみ適用されます。
 
-- serving cluster の collection でこの操作を行うには、cluster endpoint を使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
+- serving クラスターのコレクションでこの操作を実行するには、クラスターエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- on-demand compute 用の collection でこの操作を行うには、project endpoints を使用して **[MilvusClient](./Client-MilvusClient)** を作成し、その後、検索のために on-demand cluster にアタッチする session を作成してください。
+- on-demand compute 用のコレクションでこの操作を実行するには、project エンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成し、その後、検索用に on-demand クラスターへアタッチするセッションを作成してください。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -72,27 +72,27 @@ query(
 
     **[REQUIRED]**
 
-    既存の collection の名前。
+    既存のコレクションの名前。
 
 - **filter** (*str*) -
 
     **[REQUIRED]**
 
-    一致する entity をフィルタリングするための scalar フィルタリング条件。 
+    一致するエンティティをフィルタリングするためのスカラーフィルタリング条件。
 
-    scalar フィルタリングをスキップするには、このパラメータを空文字列に設定できます。scalar フィルタリング条件の作成方法については、[Filtering Overview](/docs/filtering-overview) を参照してください。 
+    スカラーフィルタリングをスキップするには、このパラメータを空文字列に設定できます。スカラーフィルタリング条件の作成方法については、[Filtering Overview](/docs/filtering-overview) を参照してください。
 
 - **output_fields** (*list[str]* | *None*) -
 
-    戻り値の各 entity に含めるフィールド名のリスト。
+    返される各エンティティに含めるフィールド名のリスト。
 
     デフォルト値は **None** です。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     - これを `output_fields=["\*"]` に設定すると、すべてのフィールドが出力されます。
     
-    - これを `output_fields=["count(\*)"]` に設定すると、**filter** 引数で指定された条件に一致するロード済み entity が出力されます。
+    - これを `output_fields=["count(\*)"]` に設定すると、**filter** 引数で指定された条件に一致するロード済みのエンティティが出力されます。
     
     - `group_by_fields` と併用する場合、このリストでは集計式 `count(*)`, `count(<field>)`, `min(<field>)`, `max(<field>)`, `sum(<field>)`, `avg(<field>)` も受け付けます。集計値はグループごとに計算され、グループキーとともに返されます。
 
@@ -100,23 +100,23 @@ query(
 
 - **timeout** (*float* | *None*) -
 
-    この操作のタイムアウト時間。これを **None** に設定すると、何らかの応答が到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間です。これを **None** に設定すると、何らかの応答が到着するか、何らかのエラーが発生した時点でこの操作がタイムアウトすることを示します。
 
 - **partition_names** (*list[str]* | *None*) -
 
-    partition 名のリスト。
+    パーティション名のリスト。
 
-    デフォルト値は **None** です。指定した場合、クエリには指定された partition のみが使用されます。
+    デフォルト値は **None** です。指定した場合、指定したパーティションのみがクエリの対象になります。
 
 - **kwargs** -
 
     - **consistency_level** (*str* | *int*) -
 
-        対象 collection の整合性レベル。
+        対象コレクションの整合性レベル。
 
-        デフォルト値は現在の collection 作成時に指定したもので、**Strong** (**0**)、**Bounded** (**1**)、**Session** (**2**)、**Eventually** (**3**) から選択できます。
+        デフォルト値は、現在のコレクションを作成するときに指定した値です。オプションは **Strong** (**0**)、**Bounded** (**1**)、**Session** (**2**)、**Eventually** (**3**) です。
 
-        <Admonition type="info" icon="📘" title="Note">
+        <Admonition type="info" title="Note">
 
         整合性レベルとは何ですか？
         
@@ -124,17 +124,17 @@ query(
         
                 Zilliz Cloud は **Strong**、**Bounded Staleness**、**Eventually** の 3 つの整合性レベルを提供しており、デフォルトは **Bounded Staleness** に設定されています。
         
-                vector 類似検索または query を実行する際に整合性レベルを簡単に調整して、アプリケーションに最適な設定にできます。
+                ベクトル類似検索またはクエリを実行する際に整合性レベルを簡単に調整し、アプリケーションに最適な設定にできます。
 
         </Admonition>
 
     - **guarantee_timestamp** (*int*) -
 
-        有効なタイムスタンプ。 
+        A valid timestamp.
 
-        このパラメータが設定されている場合、`query()` はこのタイムスタンプより前に挿入されたすべての entity が query node に可視である場合にのみ query を実行します。 
+        このパラメータを設定した場合、このタイムスタンプより前に挿入されたすべてのエンティティがクエリノードから可視である場合にのみ、クエリが実行されます。
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" title="Notes">
 
         このパラメータは、デフォルトの整合性レベルが適用される場合に有効です。
 
@@ -144,9 +144,9 @@ query(
 
         秒単位の期間。
 
-        デフォルト値は **5** です。このパラメータが設定されている場合、`query()` は現在のタイムスタンプからこの値を差し引いて guarantee timestamp を計算します。
+        デフォルト値は **5** です。このパラメータを設定した場合、現在のタイムスタンプからこの値を差し引いて guarantee timestamp を計算します。
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" title="Notes">
 
         このパラメータは、デフォルト以外の整合性レベルが適用される場合に有効です。
 
@@ -154,53 +154,53 @@ query(
 
     - **offset** (*int*) -
 
-        query 結果でスキップするレコード数。 
+        クエリ結果でスキップするレコード数。
 
-        このパラメータを `limit` と組み合わせて使用することで、ページネーションを有効にできます。
+        このパラメータを `limit` と組み合わせて使用すると、ページネーションを有効にできます。
 
         この値と `limit` の合計は 16,384 未満である必要があります。 
 
     - **limit** (*int*) -
 
-        query 結果で返すレコード数。
+        クエリ結果で返すレコード数。
 
-        このパラメータを `offset` と組み合わせて使用することで、ページネーションを有効にできます。
+        このパラメータを `offset` と組み合わせて使用すると、ページネーションを有効にできます。
 
         この値と `offset` の合計は 16,384 未満である必要があります。
 
     - **timezone** (*str*)
 
-        [IANA identifier](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)（たとえば **Asia/Shanghai**、**America/Chicago**、**UTC**）を設定することで、単一の query に対して collection または database のデフォルトタイムゾーンを一時的に上書きします。これにより、その操作中にのみ `TIMESTAMPTZ` 値の解釈、表示、比較方法が制御されます。保存済みデータや collection 設定は変更されません。
+        [IANA identifier](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)（たとえば **Asia/Shanghai**, **America/Chicago**, **UTC**）を設定することで、単一のクエリに対してコレクションまたはデータベースのデフォルトタイムゾーンを一時的に上書きします。これは、その操作中にのみ `TIMESTAMPTZ` 値がどのように解釈、表示、比較されるかを制御するものであり、保存済みデータやコレクション設定は変更しません。
 
         詳細については、[TIMESTAMPZ Field](/docs/use-timestamptz-field) を参照してください。
 
     - **time_fields** (*str*)
 
-        query または search 操作中に `TIMESTAMPTZ` フィールドから特定の時間要素を抽出します。抽出する要素はカンマ区切りのリストで指定します。サポートされる要素は `year`、`month`、`day`、`hour`、`minute`、`second`、`microsecond` です。
+        query または search 操作の実行中に、`TIMESTAMPTZ` フィールドから特定の時間コンポーネントを抽出します。抽出する要素はカンマ区切りのリストで指定します。サポートされる要素は `year`、`month`、`day`、`hour`、`minute`、`second`、`microsecond` です。
 
         詳細については、TIMESTAMPZ Field を参照してください。
 
     - **order_by** (*list[str]*)
 
-        query 結果をソートするフィールドのリスト。各要素は `"field_name:direction"` の形式に従い、direction は `asc`（昇順）または `desc`（降順）のいずれかです。`asc` と `desc` は大文字小文字を区別することに注意してください。
+        クエリ結果を並べ替える対象のフィールドのリスト。各要素は `"field_name:direction"` の形式に従い、direction は `asc`（昇順）または `desc`（降順）のいずれかです。`asc` と `desc` は大文字小文字を区別することに注意してください。
 
-        サポートされるフィールド型: INT8、INT16、INT32、INT64、FLOAT、DOUBLE、VARCHAR。vector、JSON、または ARRAY フィールドによるソートはサポートされていません。
+        サポートされるフィールド型: INT8、INT16、INT32、INT64、FLOAT、DOUBLE、VARCHAR。ベクトル、JSON、ARRAY の各フィールドによる並べ替えはサポートされていません。
 
-        このパラメータは `limit` と一緒に使用する必要があります。nullable フィールドをソートする場合、昇順ソートでは NULL 値は末尾に配置され（NULLS LAST）、降順ソートでは先頭に配置されます（NULLS FIRST）。
+        このパラメータは `limit` と併用する必要があります。null 許容フィールドを並べ替える場合、昇順ソートでは NULL 値が末尾に配置され（NULLS LAST）、降順ソートでは先頭に配置されます（NULLS FIRST）。
 
     - **group_by_fields** (*list[str]*) -
 
-        query 結果をグループ化する scalar フィールドのリスト。設定すると、`query()` は指定したフィールド値の一意な組み合わせごとに 1 行を返し、`output_fields` 内の集計式（`count(*)`, `count(<f>)`, `min(<f>)`, `max(<f>)`, `sum(<f>)`, `avg(<f>)`）はグループごとに計算されます。
+        クエリ結果をグループ化するスカラーフィールドのリスト。設定すると、`query()` は指定したフィールド値の一意な組み合わせごとに 1 行を返し、`output_fields` 内の集計式（`count(*)`, `count(<f>)`, `min(<f>)`, `max(<f>)`, `sum(<f>)`, `avg(<f>)`）はグループごとに計算されます。
 
-        サポートされるフィールド型: INT8、INT16、INT32、INT64、FLOAT、DOUBLE、VARCHAR、TIMESTAMPTZ。vector、JSON、または Array フィールドでグループ化するとエラーになります。
+        サポートされるグループ化キーのフィールド型: `INT8`、`INT16`、`INT32`、`INT64`、`VARCHAR`、`TIMESTAMPTZ`。`FLOAT`、`DOUBLE`、ベクトル、`JSON`、`ARRAY` の各フィールドでグループ化するとエラーが返されます。
 
-        集計タイプのルール:
+        `group_by_fields` を `limit` と組み合わせて、返されるグループ数の上限を設定できます。
 
-        - `sum` と `avg` は数値型のみに対応します。`VarChar` フィールドに適用するとエラーになります。
+        集計の入力型のルール:
 
-        - `sum(int*)` は `INT64` を返します。`sum(float|double)` は `DOUBLE` を返します。`avg(...)` は常に `DOUBLE` を返します。`count(...)` は `INT64` を返します。`min`/`max` はカラム型を保持します。
+        - `sum` と `avg` は、`FLOAT` および `DOUBLE` を含む数値フィールドのみを受け付けます。いずれかの関数を `VARCHAR` フィールドに適用するとエラーが返されます。
 
-        `group_by_fields` は `limit` と組み合わせて使用し、返されるグループ数に上限を設けることができます。
+        - `sum` は整数入力に対して `INT64` を返し、`FLOAT` または `DOUBLE` 入力に対して `DOUBLE` を返します。`avg` は常に `DOUBLE` を返し、`count` は `INT64` を返し、`min` と `max` はフィールド型を保持します。
 
 **RETURN TYPE:**
 
@@ -208,11 +208,11 @@ query(
 
 **RETURNS:**
 
-各辞書が query された entity を表す辞書のリスト。
+クエリされたエンティティをそれぞれ表す辞書のリスト。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-返された entity の数が想定より少ない場合、collection 内に重複した entity が存在する可能性があります。
+返されるエンティティの数が想定より少ない場合、コレクション内に重複したエンティティが存在する可能性があります。
 
 </Admonition>
 
@@ -424,4 +424,3 @@ res = client.query(
 
 # [{'count(*)': 3}]
 ```
-

@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、現在の partition のデータをメモリにロードします。 | Python | ORM"
+description: "この操作は、現在のパーティションのデータをメモリにロードします。 | Python | ORM"
 type: docx
 token: TWxddf6iboyM15xK4Kzc8ASknRb
 sidebar_position: 6
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # load()
 
-この操作は、現在の partition のデータをメモリにロードします。
+この操作は、現在のパーティションのデータをメモリにロードします。
 
-<Admonition type="info" icon="📘" title="注記">
+<Admonition type="info" title="Notes">
 
-**[Collection](./ORM-Collection)** オブジェクトの **load()** メソッドで **partition_names** パラメータを使用することは、対応する **[Partition](./ORM-Partition)** オブジェクトの **load()** メソッドを使用することと同等です。
+**[コレクション](./ORM-Collection)** オブジェクトの **load()** メソッドで **partition_names** パラメータを使用することは、対応する **[Partition](./ORM-Partition)** オブジェクトの **load()** メソッドを使用することと同等です。
 
 </Admonition>
 
@@ -52,11 +52,11 @@ load(
 
 - **replica_number** (*int*)
 
-    現在の partition にロードするレプリカ数。デフォルト値は **1** で、現在の partition に 1 つのレプリカがロードされることを示します。
+    現在のパーティションにロードするレプリカ数。デフォルト値は **1** で、現在のパーティションに 1 つのレプリカがロードされることを示します。
 
 - **timeout** (*float* | *None*)  
 
-    この操作のタイムアウト時間。これを **None** に設定すると、何らかの応答が到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間です。これを **None** に設定すると、何らかの応答が到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
 **戻り値の型:**
 

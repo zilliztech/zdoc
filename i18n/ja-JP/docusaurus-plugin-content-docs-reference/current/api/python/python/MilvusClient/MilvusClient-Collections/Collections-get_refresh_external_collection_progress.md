@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、指定された external collection の更新ジョブの進行状況を返します。 | Python | MilvusClient"
+description: "この操作は、指定された外部コレクションの更新ジョブの進行状況を返します。 | Python | MilvusClient"
 type: docx
 token: HITBdKb0HotcK0xCKsycEeuqnXe
 sidebar_position: 27
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # get_refresh_external_collection_progress()
 
-この操作は、指定された external collection の更新ジョブの進行状況を返します。
+この操作は、指定された外部コレクションの更新ジョブの進行状況を返します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-これには、以下のように project endpoint を使用して設定された MilvusClient が必要です。
+これには、次のように project endpoint を使用して設定された MilvusClient が必要です。
 
 `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -63,7 +63,7 @@ def get_refresh_external_collection_progress(
 
     この操作のタイムアウト時間。 
 
-    これを **None** に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、何らかのレスポンスが到着した時点、または何らかのエラーが発生した時点で、この操作はタイムアウトします。
 
 **戻り値の型:**
 
@@ -71,7 +71,7 @@ def get_refresh_external_collection_progress(
 
 **戻り値:**
 
-指定された external collection の更新ジョブの詳細を記録する **RefreshExternalCollectionJobInfo** オブジェクト。
+指定された外部コレクションの更新ジョブの詳細を記録する **RefreshExternalCollectionJobInfo** オブジェクト。
 
 **パラメーター:**
 
@@ -81,7 +81,7 @@ def get_refresh_external_collection_progress(
 
 - **collection_name** (*string*) -
 
-    `refresh_external_collection()` で指定された external collection の名前。
+    `refresh_external_collection()` で指定された外部コレクションの名前。
 
 - **state** (*string*) -
 
@@ -97,19 +97,19 @@ def get_refresh_external_collection_progress(
 
 - **progress** (*int*) -
 
-    指定されたジョブの現在の進捗。値は 0 から 100 までの整数です。
+    指定されたジョブの現在の進行状況。値は 0 から 100 までの整数です。
 
 - **external_source** (*str*) -
 
-    `refresh_external_collection()` で指定された external source URI。
+    `refresh_external_collection()` で指定された外部ソース URI。
 
 - **external_specs** (*str*) -
 
-    `refresh_external_collection()` で指定された external specs。
+    `refresh_external_collection()` で指定された外部仕様。
 
 - **reason** (*str*) -
 
-    更新操作が失敗した場合のエラープロンプト。通常時は空文字列です。
+    更新操作が失敗した場合のエラーメッセージ。通常は空の文字列です。
 
 - **start_time** (*int*) -
 

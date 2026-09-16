@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、collection のすべての永続的な（flush 済みの）segment を、行数、ソート状態、ストレージレベルの情報を含めて一覧表示します。 | Python | MilvusClient"
+description: "この操作は、コレクションのすべての永続的な（フラッシュ済みの）セグメントを、行数、ソート状態、ストレージレベルの情報を含めて一覧表示します。 | Python | MilvusClient"
 type: docx
 token: QsGNdp1t3oHaunxgIZGc3PdSnof
 sidebar_position: 25
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # list_persistent_segments()
 
-この操作は、collection のすべての永続的な（flush 済みの）segment を、行数、ソート状態、ストレージレベルの情報を含めて一覧表示します。
+この操作は、コレクションのすべての永続的な（フラッシュ済みの）セグメントを、行数、ソート状態、ストレージレベルの情報を含めて一覧表示します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-これは managed collection にのみ適用されます。
+これは管理対象のコレクションにのみ適用されます。
 
 </Admonition>
 
-## Request syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 client.list_persistent_segments(
@@ -48,33 +48,33 @@ client.list_persistent_segments(
 ) -> List[SegmentInfo]
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    collection の名前。
+    コレクションの名前。
 
 - **timeout** (*float* | *None*) -
 
     この操作のタイムアウト時間です。これを **None** に設定すると、レスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *List[SegmentInfo]*
 
-**RETURNS:**
+**戻り値:**
 
-segment_id、collection_id、collection_name、num_rows、is_sorted、state、level、storage_version を含む、永続的な segment 情報オブジェクトのリスト。
+segment_id、collection_id、collection_name、num_rows、is_sorted、state、level、storage_version を含む、永続的なセグメント情報オブジェクトのリスト。
 
-**EXCEPTIONS:**
+**例外:**
 
 - **MilvusException**
 
     この操作中に何らかのエラーが発生すると、この例外が発生します。
 
-## Example\{#example}
+## 例\{#example}
 
 ```python
 from pymilvus import MilvusClient

@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の collection に存在するすべての alias を一覧表示します。 | Python | MilvusClient"
+description: "この操作は、特定のコレクションに存在するすべてのエイリアスを一覧表示します。 | Python | MilvusClient"
 type: docx
 token: Cpynd2OFJoIXhLx3dQNct7Wgn6f
 sidebar_position: 16
@@ -15,7 +15,7 @@ keywords:
   - ベクトル類似検索
   - 近似最近傍探索
   - DiskANN
-  - Sparse vector
+  - Sparse ベクトル
   - zilliz
   - zilliz cloud
   - クラウド
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # list_aliases()
 
-この操作は、特定の collection に存在するすべての alias を一覧表示します。
+この操作は、特定のコレクションに存在するすべてのエイリアスを一覧表示します。
 
-<Admonition type="info" icon="📘" title="注記">
+<Admonition type="info" title="Notes">
 
-このメソッドは、Dedicated serving cluster と on-demand compute に適用されます。 
+このメソッドは、Dedicated serving クラスターとオンデマンドコンピュートに適用されます。 
 
-- serving cluster 内の collection の場合は、cluster endpoint を使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
+- serving クラスター内のコレクションの場合は、クラスターエンドポイントを指定して **[MilvusClient](./Client-MilvusClient)** を作成してください。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- on-demand compute 内の collection の場合は、project endpoints を使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
+- オンデマンドコンピュート内のコレクションの場合は、プロジェクトエンドポイントを指定して **[MilvusClient](./Client-MilvusClient)** を作成してください。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -62,19 +62,19 @@ list_aliases(
 )
 ```
 
-**パラメーター:**
+**パラメータ:**
 
 - **collection_name** (*str*) -
 
     **[REQUIRED]**
 
-    alias を一覧表示する対象の collection 名。
+    エイリアスを一覧表示する対象のコレクションの名前。
 
 - **timeout** (*float* | *None*)  
 
     この操作のタイムアウト時間。 
 
-    これを **None** に設定すると、何らかの応答が返るか、何らかのエラーが発生した時点で、この操作はタイムアウトします。
+    これを **None** に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点で、この操作はタイムアウトします。
 
 **戻り値の型:**
 
@@ -82,7 +82,7 @@ list_aliases(
 
 **戻り値:**
 
-指定された collection に割り当てられた alias の一覧を含む辞書。
+指定されたコレクションに割り当てられたエイリアスの一覧を含む辞書。
 
 ```python
 {
@@ -94,29 +94,29 @@ list_aliases(
 }
 ```
 
-**パラメーター:**
+**パラメータ:**
 
 - **aliases** (*list*) -
 
-    指定された collection に割り当てられた alias の一覧。
+    指定されたコレクションに割り当てられたエイリアスの一覧。
 
 - **collection_name** (*str*) -
 
-    指定された collection 名。
+    指定されたコレクション名。
 
 - **db_name** (*str*) -
 
-    指定された collection が属するデータベース名。
+    指定されたコレクションが属するデータベースの名前。
 
 **例外:**
 
 - **MilvusException**
 
-    この操作中に何らかのエラーが発生した場合に、この例外が発生します。
+    この例外は、この操作中に何らかのエラーが発生した場合に発生します。
 
 - **BaseException**
 
-    この操作が失敗した場合に、この例外が発生します。
+    この例外は、この操作が失敗した場合に発生します。
 
 ## 例\{#example}
 

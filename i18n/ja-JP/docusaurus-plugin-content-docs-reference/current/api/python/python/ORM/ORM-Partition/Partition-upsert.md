@@ -34,9 +34,9 @@ import TabItem from '@theme/TabItem';
 
 この操作は、新しいレコードをデータベースに挿入するか、既存のレコードを更新します。 
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-upsert はデータレベルの操作であり、指定されたフィールドが collection にすでに存在する場合は既存の entity を上書きし、指定された値がまだ存在しない場合は新しい entity を挿入します。
+upsert はデータレベルの操作であり、指定されたフィールドがコレクションにすでに存在する場合は既存のエンティティを上書きし、指定された値がまだ存在しない場合は新しいエンティティを挿入します。
 
 </Admonition>
 
@@ -74,13 +74,13 @@ partition.upsert(
 
     **[REQUIRED]**
 
-    現在の collection に挿入するデータです。
+    現在のコレクションに挿入するデータです。
 
-    挿入するデータは、現在の collection のスキーマと一致している必要があります。データは次のいずれかの形式で構成できます。
+    挿入するデータは、現在のコレクションのスキーマと一致している必要があります。データは次のいずれかの形式で構成できます。
 
     - カラムのリスト
 
-        各カラムは、そのカラム内のすべての entity の値を含むリストです。
+        各カラムは、そのカラム内のすべてのエンティティの値を含むリストです。
 
         ```python
         data = [
@@ -114,7 +114,7 @@ partition.upsert(
 
     - 行のリスト、または単一の行
 
-        各行は、1 つの entity を表す辞書です。
+        各行は、1 つのエンティティを表す辞書です。
 
         ```python
         data = [
@@ -144,19 +144,19 @@ partition.upsert(
 
 - **insert_count** (*int*)
 
-    挿入された entity の数。
+    挿入されたエンティティの数。
 
 - **delete_count** (*int*)
 
-    削除された entity の数。
+    削除されたエンティティの数。
 
 - **upsert_count** (*int*)
 
-    upsert された entity の数。
+    upsert されたエンティティの数。
 
 - **succ_count** (*int*)
 
-    この操作中に正常に実行された回数。
+    この操作中に成功した実行の数。
 
 - **succ_index** (*list*)
 
@@ -164,7 +164,7 @@ partition.upsert(
 
 - **err_count** (*int*)
 
-    この操作中に失敗した実行回数。
+    この操作中に失敗した実行の数。
 
 - **err_index** (*list*)
 
@@ -172,7 +172,7 @@ partition.upsert(
 
 - **primary_keys** (*list*)
 
-    挿入された entity の主キーのリスト。
+    挿入されたエンティティの主キーのリスト。
 
 - **timestamp** (*int*)
 
@@ -217,7 +217,7 @@ res.upsert_count
 
 ## Related operations\{#related-operations}
 
-以下の操作は `upsert()` に関連しています。
+次の操作は `upsert()` に関連しています。
 
 - [delete()](./Partition-delete)
 

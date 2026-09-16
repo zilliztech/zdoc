@@ -33,9 +33,9 @@ import Admonition from '@theme/Admonition';
 
 この操作は、指定されたデータベースのプロパティを変更します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-このメソッドは Dedicated cluster にのみ適用されます。
+このメソッドは Dedicated クラスターにのみ適用されます。
 
 </Admonition>
 
@@ -60,35 +60,35 @@ alter_database_properties(
 
 - **properties** (*dict* | *None*) -
 
-    変更するプロパティと、変更後のそれらの値。指定可能なデータベースプロパティは次のとおりです。
+    変更するプロパティと、変更後のそれぞれの値。指定可能なデータベースプロパティは以下の通りです。
 
-    - **database.replica.number** (*int*) -
+    - **データベース.replica.number** (*int*) -
 
         データベースのレプリカ数。
 
-    - **database.resource_groups** (*[]str*) -
+    - **データベース.resource_groups** (*[]str*) -
 
-        データベース専用の resource group。
+        データベース専用のリソースグループ。
 
-    - **database.diskQuota.mb** (*int*) -
+    - **データベース.diskQuota.mb** (*int*) -
 
         データベースに割り当てられるディスククォータ（メガバイト単位、**MB**）。
 
-    - **database.max.collections** (*int*) -
+    - **データベース.max.コレクション** (*int*) -
 
-        データベースで許可される collection の最大数。
+        データベース内で許可されるコレクションの最大数。
 
-    - **database.force.deny.writing** (*bool*) -
+    - **データベース.force.deny.writing** (*bool*) -
 
         データベース内のすべての書き込み操作を拒否するかどうか。
 
-    - **database.force.deny.reading** (*bool*) -
+    - **データベース.force.deny.reading** (*bool*) -
 
         データベース内のすべての読み取り操作を拒否するかどうか。
 
 - **timeout** (*float* | *None*) -
 
-    この操作のタイムアウト時間。これを *None* に設定すると、レスポンスまたはエラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間です。これを *None* に設定すると、レスポンスまたはエラーが発生した時点でこの操作がタイムアウトすることを示します。
 
 **戻り値の型:**
 

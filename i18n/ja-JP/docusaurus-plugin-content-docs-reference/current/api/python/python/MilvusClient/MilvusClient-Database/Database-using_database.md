@@ -13,9 +13,9 @@ token: OCfid8DdPo1ga1x24JZcV92xnwd
 sidebar_position: 7
 keywords: 
   - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - 自然言語処理
+  - ニューラルネットワーク
+  - ディープラーニング
   - zilliz
   - zilliz cloud
   - cloud
@@ -33,11 +33,11 @@ import Admonition from '@theme/Admonition';
 
 この操作は現在使用中のデータベースを変更します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-このメソッドは dedicated serving cluster と on-demand compute にのみ適用されます。 
+このメソッドは Dedicated サービングクラスターとオンデマンドコンピュートにのみ適用されます。 
 
-- dedicated serving cluster 内のデータベースについては、クラスターエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成します。
+- Dedicated サービングクラスター内のデータベースの場合は、クラスターエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成します。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- on-demand compute 用のデータベースについては、プロジェクトエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成します。
+- オンデマンドコンピュート用のデータベースの場合は、プロジェクトエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成します。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -80,7 +80,7 @@ using_database(
 
 **例外:**
 
-- `MilvusException` - この操作中にエラーが発生した場合にスローされます。
+- `MilvusException` - この操作中に何らかのエラーが発生した場合にスローされます。
 
 ## 例\{#examples}
 

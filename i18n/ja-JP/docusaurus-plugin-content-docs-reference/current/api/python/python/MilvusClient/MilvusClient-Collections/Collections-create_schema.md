@@ -7,15 +7,15 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は collection schema を作成します。 | Python | MilvusClient"
+description: "この操作は、コレクションスキーマを作成します。 | Python | MilvusClient"
 type: docx
 token: Er8vdVepxoqhPFxVyZUcxSHMnqe
 sidebar_position: 6
 keywords: 
-  - vector database の例
-  - rag vector database
-  - vector db とは
-  - vector databases とは
+  - ベクトルデータベースの例
+  - RAG ベクトルデータベース
+  - ベクトルデータベースとは
+  - ベクトルデータベースとは何か
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # create_schema()
 
-この操作は collection schema を作成します。
+この操作は、コレクションスキーマを作成します。
 
 ## リクエスト構文\{#request-syntax}
 
@@ -39,73 +39,73 @@ import Admonition from '@theme/Admonition';
 MilvusClient.create_schema(**kwargs) -> CollectionSchema
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-これはクラスメソッドです。このメソッドは次のように呼び出す必要があります: `MilvusClient.create_schema()`。
+これはクラスメソッドです。このメソッドは、`MilvusClient.create_schema()` のように呼び出す必要があります。
 
 </Admonition>
 
-**パラメータ:**
+**パラメーター:**
 
 - **kwargs** -
 
     - **auto_id** (*bool*)
 
-        primary field の自動インクリメントを許可するかどうか。
+        プライマリフィールドの自動インクリメントを許可するかどうか。
 
-        これを **True** に設定すると、primary field は自動的にインクリメントされます。この場合、エラーを避けるため、挿入するデータに primary field を含めないでください。
+        これを **True** に設定すると、プライマリフィールドは自動的にインクリメントされます。この場合、エラーを避けるため、挿入するデータにプライマリフィールドを含めないでください。
 
     - **enable_dynamic_field** (*bool*)
 
-        ターゲット collection に挿入されるデータに collection の schema で定義されていないフィールドが含まれている場合に、Zilliz Cloud がそれらの未定義フィールドの値を dynamic field に保存することを許可するかどうか。
+        対象のコレクションに挿入されるデータに、コレクションのスキーマで定義されていないフィールドが含まれている場合に、Zilliz Cloud がそれらの未定義フィールドの値を動的フィールドに保存することを許可するかどうか。
 
-        これを **True** に設定すると、Zilliz Cloud は挿入されたデータ内の未定義フィールドとその値を保存するために **&#36;meta** というフィールドを作成します。
+        これを **True** に設定すると、Zilliz Cloud は、挿入されるデータに含まれる未定義のフィールドとその値を保存するために **&#36;meta** というフィールドを作成します。
 
-        <Admonition type="info" icon="📘" title="Note">
+        <Admonition type="info" title="Note">
 
-        dynamic field とは何ですか？
+        動的フィールドとは何ですか？
         
-                ターゲット collection に挿入されるデータに collection の schema で定義されていないフィールドが含まれている場合、それらのフィールドは予約済みの dynamic field **&#36;meta** にキーと値のペアとして保存されます。
+                対象のコレクションに挿入されるデータに、コレクションのスキーマで定義されていないフィールドが含まれている場合、それらのフィールドは **&#36;meta** という名前の予約済みの動的フィールドにキーと値のペアとして保存されます。
 
         </Admonition>
 
     - **primary_field** (*str*)
 
-        primary field の名前。
+        プライマリフィールドの名前。
 
     - **partition_key_field** (*str*)
 
-        partition key として機能するフィールドの名前。
+        パーティションキーとして機能するフィールドの名前。
 
-        これを設定すると、Zilliz Cloud は現在の collection 内のすべての partition を管理します。
+        これを設定すると、Zilliz Cloud は現在のコレクション内のすべてのパーティションを管理します。
 
-        <Admonition type="info" icon="📘" title="Note">
+        <Admonition type="info" title="Note">
 
-        partition key とは何ですか？
+        パーティションキーとは何ですか？
         
-                フィールドが partition key として指定されると、Zilliz Cloud は挿入された各 entity の partition key 値に基づいてハッシュを計算し、それに応じてターゲット collection の partition に entity を保存します。
+                フィールドがパーティションキーとして指定されると、Zilliz Cloud は挿入された各エンティティのパーティションキー値に基づいてハッシュを計算し、それに応じて対象のコレクションのパーティションにエンティティを保存します。
         
-                これは、partition 指向のマルチテナンシーのように、特定のキーに基づくデータ分離を実装する場合に特に有用です。
+                これは、パーティション指向のマルチテナンシーのように、特定のキーに基づくデータ分離を実装する場合に特に有用です。
 
         </Admonition>
 
 - **external_source** (*str*) -
 
-    外部ソース URI。アクセス可能な外部 volume を指す `volume://` URI である必要があります。たとえば、`volume://<volume-name>/path/to/folder/` です。
+    外部ソース URI。アクセス可能な外部ボリュームを指す `volume://` URI である必要があります。たとえば、`volume://<volume-name>/path/to/folder/` です。
 
 - **external_spec** (*str*) -
 
-    外部ソース仕様。これは一連の副次パラメータです。
+    外部ソースの仕様。これは一連の副次パラメーターです。
 
     - **format** (*str*) - 
 
-        ターゲットソースデータファイルの形式。
+        対象のソースデータファイルの形式。
 
-        使用可能な値は `parquet`、`vortex`、`lance-table`、`iceberg-table` です。
+        使用可能な値は、`parquet`、`vortex`、`lance-table`、`iceberg-table` です。
 
     - **snapshot_id** (*str*) -
 
-        Iceberg table の ID。これは `format` が `iceberg-table` の場合にのみ適用されます。
+        Iceberg テーブルの ID。これは `format` が `iceberg-table` の場合にのみ適用されます。
 
 **戻り値の型:**
 
@@ -119,11 +119,11 @@ MilvusClient.create_schema(**kwargs) -> CollectionSchema
 
 - **MilvusException**
 
-    この操作中にエラーが発生した場合、この例外が発生します。
+    この操作中に何らかのエラーが発生した場合、この例外が発生します。
 
 ## 例\{#examples}
 
-- 管理対象 collection 用の schema
+- 管理対象コレクションのスキーマ
 
     ```python
     from pymilvus import MilvusClient, DataType
@@ -176,7 +176,7 @@ MilvusClient.create_schema(**kwargs) -> CollectionSchema
     # }
     ```
 
-- 外部 collection 用の schema
+- 外部コレクションのスキーマ
 
     ```python
     schema = MilvusClient.create_schema(

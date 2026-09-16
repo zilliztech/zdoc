@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は指定された collection の alias を削除します。 | Python | ORM"
+description: "この操作は、指定されたコレクションのエイリアスを削除します。 | Python | ORM"
 type: docx
 token: V7BWdrC39oPAauxoWBzcaldwnVc
 sidebar_position: 9
 keywords: 
   - llm-as-a-judge
-  - hybrid vector search
-  - 動画重複排除
-  - 動画類似検索
+  - ハイブリッドベクトル検索
+  - 動画の重複排除
+  - 動画の類似検索
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - drop_alias()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # drop_alias()
 
-この操作は、指定された[collection ](./ORM-Collection)alias を削除します。 
+この操作は、指定された[コレクション](./ORM-Collection)のエイリアスを削除します。
 
 ## リクエスト構文\{#request-syntax}
 
@@ -44,29 +44,29 @@ drop_alias(
 )
 ```
 
-**パラメータ:**
+**パラメーター:**
 
 - **alias** (*str*) -
 
     **[必須]**
 
-    削除する alias。
+    削除するエイリアス。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
-    alias を削除する際、1 つの alias は厳密に 1 つの collection にしか割り当てられないため、collection 名を指定する必要はありません。したがって、サーバーは指定された alias がどの collection に属しているかを認識しています。
+    エイリアスを削除する際は、1 つのエイリアスは厳密に 1 つのコレクションにしか割り当てられないため、コレクション名を指定する必要はありません。したがって、サーバーは指定されたエイリアスがどのコレクションに属しているかを把握しています。
 
     </Admonition>
 
 - **using** (*str*) - 
 
-    使用する接続の alias。
+    使用する接続のエイリアス。
 
     デフォルト値は **default** で、この操作がデフォルト接続を使用することを示します。
 
 - **timeout** (*float* | *None*)  
 
-    この操作のタイムアウト時間。これを **None** に設定すると、何らかのレスポンスが返るか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間。これを **None** に設定すると、何らかの応答が到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトすることを示します。
 
 **戻り値の型:**
 
@@ -74,17 +74,17 @@ drop_alias(
 
 **戻り値:**
 
-なし
+None
 
 **例外:**
 
 - **MilvusException**
 
-    この操作中に何らかのエラーが発生した場合にこの例外が発生します。
+    この操作中に何らかのエラーが発生した場合に、この例外が発生します。
 
 - **BaseException**
 
-    この操作が失敗した場合にこの例外が発生します。
+    この操作が失敗した場合に、この例外が発生します。
 
 ## 例\{#examples}
 
@@ -125,4 +125,3 @@ utility.list_aliases(collection_name="collection_1") # ['tom']
 - [create_alias()](./utility-create_alias)
 
 - [list_aliases()](./utility-list_aliases)
-

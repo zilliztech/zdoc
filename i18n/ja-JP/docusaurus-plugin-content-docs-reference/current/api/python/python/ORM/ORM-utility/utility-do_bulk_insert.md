@@ -14,7 +14,7 @@ sidebar_position: 8
 keywords: 
   - ベクトルインデックス
   - オープンソースのベクトルデータベース
-  - オープンソース vector db
+  - オープンソースのベクトル DB
   - ベクトルデータベースの例
   - zilliz
   - zilliz cloud
@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 この操作は、指定されたファイルからデータを一括挿入します。
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 do_bulk_insert(
@@ -46,55 +46,55 @@ do_bulk_insert(
 )
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    この操作の対象 collection の名前です。
+    この操作の対象コレクションの名前です。
 
 - **files** (*list[str]*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
     ソースデータを含むファイルへのパスのリストです。 
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
-    ソースデータファイルはどのように準備できますか？
+    ソースデータファイルはどのように準備すればよいですか？
     
-        - ソースデータファイルとして、JSON ファイル（*.json*）または NumPy ファイル一式（*.npy*）を使用できます。
+        - ソースデータファイルとして、JSON ファイル（*.json*）または NumPy ファイル一式（*.npy*）を含めることができます。
     
-            - 有効な JSON ファイルには、ルートキーとして **rows** があり、これは対象 collection のスキーマに一致する各エンティティを表す辞書のリストです。
+            - 有効な JSON ファイルには、**rows** という名前のルートキーがあり、このキーは、対象コレクションのスキーマに一致する各エンティティを表す辞書のリストです。
     
-                対象 collection が dynamic field を許可している場合は、各エンティティ辞書に dynamic field とその値を含めてください。
+                対象コレクションで dynamic field が許可されている場合は、各エンティティの辞書に dynamic field とその値を含めてください。
     
-            - 有効な NumPy ファイル一式は、対象 collection のスキーマ内の field 名にちなんで命名されている必要があり、その中のデータは対応する field 定義に一致している必要があります。 
+            - 有効な NumPy ファイル一式は、対象コレクションのスキーマ内のフィールドにちなんで命名する必要があり、それらのデータは対応するフィールド定義に一致している必要があります。 
     
-                対象 collection が dynamic field を許可している場合は、dynamic field とその値を含めるために **&#36;meta.npy** という追加ファイルを作成してください。
+                対象コレクションで dynamic field が許可されている場合は、dynamic field とその値を含めるために **&#36;meta.npy** という名前の追加ファイルを作成してください。
     
             ソースデータファイルの準備の詳細については、[ファイルからエンティティを挿入する](https://milvus.io/docs/bulk_insert.md) を参照してください。
     
-        - この操作を実行する前に、ソースデータファイルを Milvus 設定の `minio.bucketname` で定義された bucket にアップロードする必要があります。 
+        - この操作を実行する前に、ソースデータファイルを、`minio.bucketname` で定義されたバケット（Milvus 設定）にアップロードする必要があります。 
     
-            例として、Docker Compose を使用してセットアップされた Milvus インスタンスを取り上げ、bucket 名が `a-bucket` であるとします。
+            例として、Docker Compose を使用してセットアップされた Milvus インスタンスを取り上げます。この場合、バケット名は `a-bucket` です。
     
-            - ソースデータファイルをこの bucket にアップロードした場合、**files** リストには拡張子付きのファイル名のみを含める必要があります。たとえば、`files=["id.npy", "vector.npy"]` または `files=["data.json"]` です。
+            - ソースデータファイルをこのバケットにアップロードする場合は、**files** リストに拡張子付きのファイル名のみを含める必要があります。たとえば、`files=["id.npy", "vector.npy"]` または `files=["data.json"]` です。
     
-            - ソースデータファイルをこの bucket のサブディレクトリにアップロードした場合、bucket からの相対ファイルパスを含める必要があります。たとえば、サブディレクトリが `data` の場合、パラメータ設定は `files=["data/id.npy", "data/vector.py"]` または `files=["data.json"]` である必要があります。
+            - ソースデータファイルをこのバケット内のサブディレクトリにアップロードする場合は、バケットからの相対ファイルパスを含める必要があります。たとえば、サブディレクトリが `data` の場合、パラメーター設定は `files=["data/id.npy", "data/vector.py"]` または `files=["data.json"]` とする必要があります。
     
-        - Milvus インスタンスが使用している MinIO bucket の名前を確認するには、MinIO サーバーにログインして確認してください。 
+        - Milvus インスタンスが使用している MinIO バケットの名前を確認するには、MinIO サーバーにログインして確認するだけです。 
 
     </Admonition>
 
 - **partition_name** (*str*) -
 
-    指定された collection 内の partition の名前です。
+    指定されたコレクション内のパーティションの名前です。
 
-    これを設定すると、Milvus は指定された partition にデータを一括挿入します。
+    これを設定すると、Milvus は指定されたパーティションにデータを一括挿入します。
 
-    存在しない partition の名前をこれに設定すると、**MilvusException** が発生します。
+    存在しないパーティションの名前をこれに設定すると、**MilvusException** が発生します。
 
 - **using** (*str*) - 
 
@@ -104,22 +104,22 @@ do_bulk_insert(
 
 - **timeout** (*float* | *None*)  
 
-    この操作のタイムアウト時間です。これを **None** に設定すると、何らかの応答が到着した時点または何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間です。これを **None** に設定すると、何らかのレスポンスが到着したとき、または何らかのエラーが発生したときに、この操作がタイムアウトすることを示します。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *int*
 
-**RETURNS:**
+**戻り値:**
 bulk-insert タスク ID。
 
-**EXCEPTIONS:**
+**例外:**
 
 - **MilvusException**
 
     この操作中に何らかのエラーが発生した場合、この例外が発生します。
 
-## Examples\{#examples}
+## 例\{#examples}
 
 ```python
 from pymilvus import connections, utility
@@ -144,13 +144,12 @@ utility.do_bulk_insert(
 # 446781855410077319
 ```
 
-## Related operations\{#related-operations}
+## 関連する操作\{#related-operations}
 
-次の操作は `do_bulk_insert()` に関連しています。
+以下の操作は `do_bulk_insert()` に関連しています。
 
 - [BulkInsertState](./utility-BulkInsertState)
 
 - [get_bulk_insert_state()](./utility-get_bulk_insert_state)
 
 - [list_bulk_insert_tasks()](./utility-list_bulk_insert_tasks)
-

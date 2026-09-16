@@ -7,15 +7,15 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、指定された collection フィールドのパラメータを変更します。 | Python | MilvusClient"
+description: "この操作は、指定されたコレクションのフィールドパラメータを変更します。 | Python | MilvusClient"
 type: docx
 token: JdR3dVpCaoq6s2xSFmsc0e13nnh
 sidebar_position: 2
 keywords: 
   - ベクトル埋め込みとは
-  - ベクトルデータベースチュートリアル
-  - ベクトルデータベースはどのように動作するか
-  - ベクトル db 比較
+  - ベクトルデータベースのチュートリアル
+  - ベクトルデータベースの仕組み
+  - ベクトル db の比較
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # alter_collection_field()
 
-この操作は、指定された collection フィールドのパラメータを変更します。
+この操作は、指定されたコレクションのフィールドパラメータを変更します。
 
 ## リクエスト構文\{#request-syntax}
 
@@ -50,29 +50,29 @@ alter_collection_field(
 
 - **collection_name** (*str*) -
 
-    対象 collection の名前。
+    対象のコレクションの名前です。
 
 - **field_name** (*str*) -
 
-    対象フィールドの名前。
+    対象のフィールドの名前です。
 
 - **field_params** (*dict*) -
 
-    変更するフィールドパラメータです。記載されていないプロパティは変更されません。指定可能なパラメータはフィールドタイプによって異なります。
+    変更するフィールドパラメータです。記載されていないプロパティは変更されません。指定できるパラメータはフィールドタイプによって異なります。
 
     - **mmap_enabled** (*bool*) -
 
-        Milvus がフィールドデータを完全にロードする代わりにメモリにマップするかどうか。詳細については、MMap-enabled Data Storage を参照してください。
+        Milvus がフィールドデータを完全にロードする代わりにメモリにマップするかどうかです。詳細については、MMap-enabled Data Storage を参照してください。
 
-- **timeout** (*Optional[float]*) - 
+- **timeout** (*Optional[float]*) -
 
-    この操作のタイムアウト時間。
+    この操作のタイムアウト時間です。
 
     これを None に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-collection をロードする前に、フィールド設定を変更する必要があります。ロード済みの collection 上でフィールドを変更するとエラーが返されます。ロード済み collection の設定を変更するには、まず collection を release し、その後フィールドを変更してから再度ロードしてください。
+コレクションをロードする前に、フィールドの設定を変更する必要があります。ロード済みのコレクションでフィールドを変更するとエラーが返されます。ロード済みのコレクションの設定を変更するには、まずコレクションを release してからフィールドを変更し、再度ロードしてください。
 
 </Admonition>
 
@@ -88,7 +88,7 @@ collection をロードする前に、フィールド設定を変更する必要
 
 - **MilvusException**
 
-    この例外は、この操作中に何らかのエラーが発生した場合、特に指定された alias が存在しない場合に発生します。
+    この例外は、この操作中に何らかのエラーが発生した場合、特に指定されたエイリアスが存在しない場合に発生します。
 
 ## 例\{#example}
 

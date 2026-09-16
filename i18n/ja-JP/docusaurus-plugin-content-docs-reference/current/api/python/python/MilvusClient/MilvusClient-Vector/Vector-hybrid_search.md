@@ -33,11 +33,11 @@ import Admonition from '@theme/Admonition';
 
 この操作は、コレクションに対してマルチベクトル検索を実行し、再ランキング後に検索結果を返します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 このメソッドは、Dedicated サービングクラスターとオンデマンドコンピュートにのみ適用されます。 
 
-- サービングクラスターのコレクションでこの操作を実行するには、クラスターエンドポイントを指定して **[MilvusClient](./Client-MilvusClient)** を作成してください。
+- サービングクラスターのコレクションでこの操作を実行するには、クラスターエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- オンデマンドコンピュートのコレクションでこの操作を実行するには、プロジェクトエンドポイントを指定して **[MilvusClient](./Client-MilvusClient)** を作成し、その後、検索のためオンデマンドクラスターに接続するセッションを作成してください。
+- オンデマンドコンピュートのコレクションでこの操作を実行するには、プロジェクトエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成し、その後、検索用にオンデマンドクラスターへアタッチするセッションを作成してください。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 

@@ -37,15 +37,15 @@ import Admonition from '@theme/Admonition';
 class pymilvus.bulk_writer.volume_file_manager import VolumeFileManager
 ```
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-このメソッドは、Zilliz Cloud 上のマネージドボリュームにファイルをアップロードします。外部ボリュームにはファイルをアップロードしません。外部ボリュームは、外部オブジェクトストレージ内のデータへの読み取り専用参照です。詳細については、[Volume](/docs/volume) を参照してください。
+このメソッドは、Zilliz Cloud 上のマネージドボリュームにファイルをアップロードします。外部オブジェクトストレージ内のデータへの読み取り専用参照である外部ボリュームには、ファイルをアップロードしません。詳細については、Managed Volumes と External Volumes を参照してください。
 
 </Admonition>
 
-## コンストラクタ\{#constructor}
+## コンストラクター\{#constructor}
 
-このコンストラクタは、特定の Zilliz Cloud ボリュームへの接続を維持するための新しい `VolumeFileManager` インスタンスを初期化します。
+このコンストラクターは、特定の Zilliz Cloud ボリュームへの接続を維持するために設計された新しい `VolumeFileManager` インスタンスを初期化します。
 
 ```python
 VolumeFileManager(
@@ -55,25 +55,25 @@ VolumeFileManager(
 )
 ```
 
-**パラメータ:**
+**パラメーター:**
 
 - **cloud_endpoint** (*str*) -
 
     **[必須]**
 
-    Zilliz Cloud エンドポイントです。`https://api.cloud.zilliz.com` です。
+    Zilliz Cloud エンドポイント（`https://api.cloud.zilliz.com`）です。
 
 - **api_key** (*str*) -
 
     **[必須]**
 
-    Zilliz Cloud の Volume サービスでボリュームを管理するための十分な権限を持つ、Zilliz Cloud API キーです。Zilliz Cloud API キーを取得するには、[API Keys](/docs/manage-api-keys) の手順に従ってください。
+    Zilliz Cloud の Volume サービスでボリュームを管理するための十分な権限を持つ Zilliz Cloud API キーです。Zilliz Cloud API キーを取得するには、[API Keys](/docs/manage-api-keys) の手順に従ってください。
 
 - **volume_name** (*str*) -
 
     **[必須]**
 
-    この操作の対象ボリュームの名前です。
+    この操作の対象となるボリュームの名前です。
 
 **戻り値の型:**
 

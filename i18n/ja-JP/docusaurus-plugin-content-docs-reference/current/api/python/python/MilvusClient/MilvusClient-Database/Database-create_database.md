@@ -18,7 +18,7 @@ keywords:
   - 自然言語処理
   - zilliz
   - zilliz cloud
-  - クラウド
+  - cloud
   - create_database()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -33,11 +33,11 @@ import Admonition from '@theme/Admonition';
 
 この操作はデータベースを作成します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-このメソッドは dedicated serving clusters と on-demand compute にのみ適用されます。 
+このメソッドは Dedicated serving クラスターとオンデマンドコンピュートにのみ適用されます。 
 
-- dedicated serving clusters 内のデータベースの場合は、cluster endpoint を使用して **[MilvusClient](./Client-MilvusClient)** を作成します。
+- Dedicated serving クラスター内のデータベースの場合は、クラスターエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成します。
 
     - **Free & Serverless**
 
@@ -47,13 +47,13 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- on-demand compute 用のデータベースの場合は、project endpoints を使用して **[MilvusClient](./Client-MilvusClient)** を作成します。
+- オンデマンドコンピュート用のデータベースの場合は、プロジェクトエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成します。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
 </Admonition>
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 create_database(
@@ -64,65 +64,65 @@ create_database(
 )
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **db_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
     作成するデータベースの名前。
 
 - **properties** (*dict* | *None*) -
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
-    これは on-demand compute 用のデータベースには適用されません。
+    これはオンデマンドコンピュート用のデータベースには適用されません。
 
     </Admonition>
 
     作成するデータベースのプロパティ。指定可能なデータベースプロパティは次のとおりです。
 
-    - **database.replica.number** (*int*) -
+    - **データベース.replica.number** (*int*) -
 
         データベースのレプリカ数。
 
-    - **database.resource_groups** (*[]str*) -
+    - **データベース.resource_groups** (*[]str*) -
 
-        データベース専用の resource groups。
+        データベース専用のリソースグループ。
 
-    - **database.diskQuota.mb** (*int*) -
+    - **データベース.diskQuota.mb** (*int*) -
 
-        データベースに割り当てられるディスククォータ（メガバイト（**MB**）単位）。
+        データベースに割り当てられるディスククォータ（メガバイト単位、**MB**）。
 
-    - **database.max.collections** (*int*) -
+    - **データベース.max.コレクション** (*int*) -
 
-        データベースで許可される collection の最大数。
+        データベース内で許可されるコレクションの最大数。
 
-    - **database.force.deny.writing** (*bool*) -
+    - **データベース.force.deny.writing** (*bool*) -
 
         データベース内のすべての書き込み操作を拒否するかどうか。
 
-    - **database.force.deny.reading** (*bool*) -
+    - **データベース.force.deny.reading** (*bool*) -
 
         データベース内のすべての読み取り操作を拒否するかどうか。
 
 - **timeout** (*float* | *None*) -
 
-    この操作のタイムアウト時間です。これを *None* に設定すると、レスポンスが到着するかエラーが発生した時点でタイムアウトします。
+    この操作のタイムアウト時間です。これを *None* に設定すると、レスポンスが返されるかエラーが発生した時点でタイムアウトします。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *NoneType*
 
-**RETURNS:**
+**戻り値:**
 
 *None*
 
-**EXCEPTIONS:**
+**例外:**
 
-- `MilvusException` - この操作中にエラーが発生した場合に発生します。
+- `MilvusException` - この操作中に何らかのエラーが発生した場合にスローされます。
 
-## Examples\{#examples}
+## 例\{#examples}
 
 ```python
 from pymilvus import MilvusClient

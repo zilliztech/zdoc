@@ -7,17 +7,17 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の collection のデータをメモリにロードします。 | Python | MilvusClient"
+description: "この操作は、特定のコレクションのデータをメモリにロードします。 | Python | MilvusClient"
 type: docx
 token: YtiQdxTYzoCaYDxEMZcc8TEenQb
 sidebar_position: 10
 keywords: 
   - Zilliz Cloud
   - Milvus とは
-  - Milvus database
-  - Milvus lite
+  - Milvus データベース
+  - milvus lite
   - zilliz
-  - Zilliz Cloud
+  - zilliz cloud
   - cloud
   - load_collection()
   - pymilvus30
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # load_collection()
 
-この操作は、特定の collection のデータをメモリにロードします。
+この操作は、特定のコレクションのデータをメモリにロードします。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-これは managed collection にのみ適用されます。
+これは管理対象のコレクションにのみ適用されます。
 
 </Admonition>
 
@@ -54,15 +54,15 @@ load_collection(
 
     **[必須]**
 
-    collection の名前。
+    コレクションの名前。
 
 - **priority** (*string*) -
 
-    現在の collection のロード優先度です。この値は、ロード処理中の CPU 使用率に影響を与える可能性があります。指定可能な値は `low` および `high` です。
+    現在のコレクションのロード優先度です。この値は、ロード処理中の CPU 使用率に影響を与える可能性があります。指定可能な値は `low` および `high` です。
 
 - **timeout** (*float* | *None*) -
 
-    この操作のタイムアウト時間。 
+    この操作のタイムアウト時間。
 
     これを **None** に設定すると、いずれかのレスポンスが返るかエラーが発生した時点で、この操作はタイムアウトします。
 
@@ -72,7 +72,7 @@ load_collection(
 
 **戻り値:**
 
-None
+なし
 
 **例外:**
 
@@ -178,4 +178,3 @@ client.load_collection(
 - [refresh_load()](./Management-refresh_load)
 
 - [release_collection()](./Management-release_collection)
-

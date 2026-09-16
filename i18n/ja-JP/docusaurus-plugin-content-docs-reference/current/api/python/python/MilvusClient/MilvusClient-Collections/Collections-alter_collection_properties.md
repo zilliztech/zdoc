@@ -7,14 +7,14 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、指定された collection のプロパティを変更します。 | Python | MilvusClient"
+description: "この操作は、指定されたコレクションのプロパティを変更します。 | Python | MilvusClient"
 type: docx
 token: SJ1FdUQQnohtObxhNgpcHalMnUc
 sidebar_position: 3
 keywords: 
-  - vector db とは
-  - vector databases とは
-  - vector databases comparison
+  - ベクトルデータベースとは
+  - ベクトルデータベースとは何か
+  - ベクトルデータベースの比較
   - Faiss
   - zilliz
   - zilliz cloud
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # alter_collection_properties()
 
-この操作は、指定された collection のプロパティを変更します。
+この操作は、指定されたコレクションのプロパティを変更します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-これは external collection には適用されません。
+これは外部コレクションには適用されません。
 
 </Admonition>
 
@@ -55,37 +55,37 @@ alter_collection_properties(
 
 - **collection_name** (*str*) -
 
-    対象 collection の名前です。
+    対象コレクションの名前です。
 
 - **properties** (*dict*) -
 
     プロパティとその新しい値を辞書で指定します。使用可能な辞書キーは次のとおりです。
 
-    - **collection.ttl.seconds** (*int*) -
+    - **コレクション.ttl.seconds** (*int*) -
 
-        collection の有効期間（TTL）を秒単位で指定します。
+        コレクションの有効期間（TTL）を秒単位で指定します。
 
     - **ttl_field** (*str*)
 
-        エンティティレベルの TTL 期限切れに対する論理タイムスタンプとして使用する `TIMESTAMPTZ` フィールドの名前です。
+        エンティティレベルの TTL 有効期限の論理タイムスタンプとして使用する `TIMESTAMPTZ` フィールドの名前です。
 
     - **mmap.enabled** (*bool*) -
 
-        collection 内のすべてのフィールドの生データおよび index に対して mmap を有効にするかどうかを指定します。詳細は、[mmap を使用する](/docs/use-mmap) を参照してください。
+        コレクション内のすべてのフィールドの生データとインデックスに対して mmap を有効にするかどうかを指定します。詳細は、[mmap を使用する](/docs/use-mmap) を参照してください。
 
     - **partitionkey.isolation** (bool) -
 
-        partition key isolation を有効にするかどうかを指定します。詳細は、[Partition Key を使用する](/docs/use-partition-key) を参照してください。
+        パーティションキー分離を有効にするかどうかを指定します。詳細は、[Partition Key を使用する](/docs/use-partition-key) を参照してください。
 
     - **dynamicfield.enabled** (bool) -
 
-        dynamic field を有効にするかどうかを指定します。詳細は、[Dynamic Field](/docs/enable-dynamic-field) を参照してください。
+        動的フィールドを有効にするかどうかを指定します。詳細は、[Dynamic Field](/docs/enable-dynamic-field) を参照してください。
 
 - **timeout** (*Optional[float]*) - 
 
     この操作のタイムアウト時間です。
 
-    これを None に設定すると、任意のレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    これを None に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトすることを示します。
 
 **戻り値の型:**
 
@@ -99,7 +99,7 @@ alter_collection_properties(
 
 - **MilvusException**
 
-    この操作中に何らかのエラーが発生した場合に、この例外が発生します。特に、指定された alias が存在しない場合に発生します。
+    この例外は、この操作中に何らかのエラーが発生した場合、特に指定された alias が存在しない場合に発生します。
 
 ## 例\{#example}
 

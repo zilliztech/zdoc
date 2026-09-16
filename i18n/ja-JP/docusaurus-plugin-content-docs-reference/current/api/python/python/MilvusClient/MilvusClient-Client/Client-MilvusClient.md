@@ -15,7 +15,7 @@ keywords:
   - 字句検索
   - 最近傍探索
   - Agentic RAG
-  - rag llm architecture
+  - RAG LLM アーキテクチャ
   - zilliz
   - zilliz cloud
   - クラウド
@@ -41,9 +41,9 @@ pymilvus.MilvusClient
 
 一般的なユースケース向けのクライアントを構築します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-このクライアントは、Zilliz Cloud 上で Create、Read、Update、Delete（CRUD）操作を処理する現在の API セットに対する、使いやすい代替手段として機能します。
+このクライアントは、Zilliz Cloud 上の Create、Read、Update、Delete（CRUD）操作を処理する現在の API セットに対する、使いやすい代替手段として機能します。
 
 </Admonition>
 
@@ -63,7 +63,7 @@ MilvusClient(
 
 - **uri** (*string*) -
 
-    Zilliz Cloud クラスターの URI。例:
+    Zilliz Cloud クラスターの URI。例：
 
     - **クラスターエンドポイント**
 
@@ -75,7 +75,7 @@ MilvusClient(
 
             `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-    - **プロジェクトエンドポイント (On-demand)**
+    - **プロジェクトエンドポイント（On-demand）**
 
         `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -83,13 +83,13 @@ MilvusClient(
 
     指定された Zilliz Cloud クラスターへの接続に使用する有効なユーザー名。
 
-    これは **password** と一緒に使用する必要があります。
+    これは **password** と併せて使用する必要があります。
 
 - **password** (*string*) -
 
     指定された Zilliz Cloud クラスターへの接続に使用する有効なパスワード。
 
-    これは **user** と一緒に使用する必要があります。
+    これは **user** と併せて使用する必要があります。
 
 - **db_name** (*string*) -
 
@@ -97,23 +97,23 @@ MilvusClient(
 
 - **token** (*string*) -
 
-    指定された Zilliz Cloud クラスターにアクセスするための有効なアクセストークン。 
+    指定された Zilliz Cloud クラスターにアクセスするための有効なアクセストークン。
 
-    これは、**user** と **password** を別々に設定する代わりの推奨される方法として使用できます。
+    これは、**user** と **password** を個別に設定する代わりに推奨される方法として使用できます。
 
     このフィールドを設定する際は、次の点に注意してください。
 
     有効なトークンは、次のいずれかである必要があります。
 
-    - 十分な権限を持つ [API キー](/docs/manage-api-keys)、または
+    - 十分な権限を持つ [API](/docs/manage-api-keys)[ キー](/docs/manage-api-keys)、または
 
-    - 対象クラスターへのアクセスに使用する [ユーザー名とパスワード](/docs/cluster-credentials)をコロン（:）で連結したもの。たとえば、これを `username:p@ssw0rd` に設定できます。これはクラスターエンドポイントを使用する場合にのみ適用されます。
+    - 対象のクラスターにアクセスするために使用する [ユーザー名とパスワード ](/docs/cluster-credentials)をコロン（:）で連結したもの。たとえば、これを `username:p@ssw0rd` に設定できます。これはクラスターエンドポイントを使用する場合にのみ適用されます。
 
-- **timeout** (*float* | *None*)  
+- **timeout** (*float* | *None*)
 
-    この操作のタイムアウト時間。 
+    この操作のタイムアウト時間。
 
-    これを **None** に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点で、この操作はタイムアウトします。
 
 ## Examples\{#examples}
 
@@ -128,9 +128,9 @@ client = MilvusClient(
 )
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-**uri** をクラスターエンドポイントに設定してください。**token** パラメータには、十分な権限を持つ Zilliz Cloud API キー、または `username:p@ssw0rd` 形式のクラスター ユーザー認証情報を指定できます。
+**uri** をクラスターエンドポイントに設定してください。**token** パラメーターには、十分な権限を持つ Zilliz Cloud API キー、または `username:p@ssw0rd` 形式のクラスターユーザーの認証情報を指定できます。
 
 </Admonition>
 

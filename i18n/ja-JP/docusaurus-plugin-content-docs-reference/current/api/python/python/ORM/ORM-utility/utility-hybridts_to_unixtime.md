@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は hybrid timestamp を UNIX epoch timestamp に変換します | Python | ORM"
+description: "この操作は、hybrid timestamp を UNIX epoch タイムスタンプに変換します。 | Python | ORM"
 type: docx
 token: HbMMdqtQGoQqwixsyrjcTTh0nu5
 sidebar_position: 20
 keywords: 
   - Chroma vs Milvus
-  - Annoy vector search
+  - Annoy ベクトル検索
   - milvus
   - Zilliz
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - hybridts_to_unixtime()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # hybridts_to_unixtime()
 
-この操作は hybrid timestamp を UNIX epoch timestamp に変換します
+この操作は、hybrid timestamp を UNIX epoch タイムスタンプに変換します。
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 hybridts_to_unixtime(
@@ -41,24 +41,24 @@ hybridts_to_unixtime(
 )
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
 - **hybridts** (*int*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
     hybrid timestamp。
 
     hybrid timestamp は、**0** から **18446744073709551615** までの非負整数です。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *float*
 
-**RETURNS:**
-UNIX epoch time。これは、1970年1月1日（UTC/GMT の午前0時）から経過した時間を秒単位で表す整数です。
+**戻り値:**
+UNIX epoch タイムスタンプ。これは、1970年1月1日の午前0時 (UTC/GMT) からの経過時間を秒単位で表す整数です。
 
-## **Examples**\{#examples}
+## 例\{#examples}
 
 ```python
 import time
@@ -77,9 +77,9 @@ epoch2 = utility.hybridts_to_unixtime(ts)
 assert epoch1 == epoch2
 ```
 
-## Related operations\{#related-operations}
+## 関連操作\{#related-operations}
 
-次の操作は `hybridts_to_unixtime()` に関連しています。
+以下の操作は `hybridts_to_unixtime()` に関連しています。
 
 - [mkts_from_datetime()](./utility-mkts_from_datetime)
 
@@ -88,4 +88,3 @@ assert epoch1 == epoch2
 - [mkts_from_hybridts()](./utility-mkts_from_hybridts)
 
 - [mkts_from_unixtime()](./utility-mkts_from_unixtime)
-

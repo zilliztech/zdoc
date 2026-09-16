@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作はストリーミングデータを flush してセグメントを seal します。小さなセグメントが生成されて検索パフォーマンスが低下する可能性があるため、collection へのすべてのデータ挿入後にこの操作を呼び出すことは推奨されません。 | Python | MilvusClient"
+description: "この操作は、ストリーミングデータをフラッシュし、セグメントをシールします。小さなセグメントが生成されて検索パフォーマンスが低下する可能性があるため、すべてのデータをコレクションに挿入した後にこの操作を呼び出すことは推奨されません。 | Python | MilvusClient"
 type: docx
 token: JnPrdOiPyo2e5gxzzFycbnvwnSd
 sidebar_position: 6
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # flush()
 
-この操作はストリーミングデータを flush してセグメントを seal します。小さなセグメントが生成されて検索パフォーマンスが低下する可能性があるため、collection へのすべてのデータ挿入後にこの操作を呼び出すことは推奨されません。
+この操作は、ストリーミングデータをフラッシュし、セグメントをシールします。小さなセグメントが生成されて検索パフォーマンスが低下する可能性があるため、すべてのデータをコレクションに挿入した後にこの操作を呼び出すことは推奨されません。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-これは managed collection にのみ適用されます。
+これは管理対象のコレクションにのみ適用されます。
 
 </Admonition>
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 flush(
@@ -50,33 +50,33 @@ flush(
 )
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **collection_name** (*str*) -
 
-    対象の collection の名前。
+    対象のコレクションの名前。
 
-- **timeout** (*Optional[float]*) - 
+- **timeout** (*Optional[float]*) -
 
     この操作のタイムアウト時間。
 
     これを None に設定すると、何らかのレスポンスが到着するかエラーが発生した時点で、この操作はタイムアウトします。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *NoneType*
 
-**RETURNS:**
+**戻り値:**
 
 *None*
 
-**EXCEPTIONS:**
+**例外:**
 
 - **MilvusException**
 
-    この例外は、この操作中に何らかのエラーが発生した場合、特に指定された alias が存在しない場合に発生します。
+    この例外は、この操作中に何らかのエラーが発生した場合、特に指定されたエイリアスが存在しない場合に発生します。
 
-## Example\{#example}
+## 例\{#example}
 
 ```python
 from pymilvus import MilvusClient

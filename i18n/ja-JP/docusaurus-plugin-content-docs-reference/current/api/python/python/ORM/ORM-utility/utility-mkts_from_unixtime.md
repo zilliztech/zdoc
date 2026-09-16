@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、UNIX epoch タイムスタンプから hybrid timestamp を変換します。 | Python | ORM"
+description: "この操作は、UNIX epoch タイムスタンプからハイブリッドタイムスタンプを変換します。 | Python | ORM"
 type: docx
 token: ZdKEd2ua6o9AHHxKq25ctNSdncb
 sidebar_position: 36
 keywords: 
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - ベクトルデータベース
+  - マルチモーダルベクトルデータベース検索
+  - 検索拡張生成
+  - 大規模言語モデル
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - mkts_from_unixtime()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -32,9 +32,9 @@ import TabItem from '@theme/TabItem';
 
 # mkts_from_unixtime()
 
-この操作は、UNIX epoch タイムスタンプから hybrid timestamp を変換します。
+この操作は、UNIX epoch タイムスタンプからハイブリッドタイムスタンプを変換します。
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 mkts_from_unixtime(
@@ -54,15 +54,15 @@ utility.mkts_from_unixtime(
 )
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
 - **epoch** (*float*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
     UNIX epoch タイムスタンプ。
 
-    UNIX epoch タイムスタンプは、1970年1月1日（UTC/GMT の午前0時）からの経過時間を秒単位で表す整数です。
+    UNIX epoch タイムスタンプは、1970年1月1日の午前0時 (UTC/GMT) からの経過時間を秒単位で表す整数です。
 
 - **milliseconds** (*float*) -<br/>
   ミリ秒単位の増分時間間隔です。
@@ -71,14 +71,14 @@ utility.mkts_from_unixtime(
 
     2 つの [`date`](https://docs.python.org/3/library/datetime.html#datetime.date)、[`time`](https://docs.python.org/3/library/datetime.html#datetime.time)、または [`datetime`](https://docs.python.org/3/library/datetime.html#datetime.datetime) インスタンス間の差をマイクロ秒精度で表す期間を示す **datetime.timedelta** オブジェクトです。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *int*
 
-**RETURNS:**
-hybrid timestamp。**0** から **18446744073709551615** の範囲の非負整数です。
+**戻り値:**
+ハイブリッドタイムスタンプ。これは **0** から **18446744073709551615** までの非負整数です。
 
-## **Examples**\{#examples}
+## 例\{#examples}
 
 ```python
 import time
@@ -118,4 +118,3 @@ mkts_from_unixtime(
 - [hybridts_to_unixtime()](./utility-hybridts_to_unixtime)
 
 - [mkts_from_hybridts()](./utility-mkts_from_hybridts)
-

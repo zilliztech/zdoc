@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の partition で収集された統計情報を表示します。 | Python | MilvusClient"
+description: "この操作は、特定のパーティションで収集された統計情報を表示します。 | Python | MilvusClient"
 type: docx
 token: Jjbsd2I8doQ9pBxBp57ckRdZnZd
 sidebar_position: 3
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # get_partition_stats()
 
-この操作は、特定の partition で収集された統計情報を表示します。
+この操作は、特定のパーティションで収集された統計情報を表示します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-これは managed collection にのみ適用されます。
+これはマネージドコレクションにのみ適用されます。
 
 </Admonition>
 
@@ -49,19 +49,19 @@ get_partition_stats(
 )
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    既存の collection の名前。
+    既存のコレクションの名前。
 
 - **partition_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    既存の partition の名前。
+    既存のパーティションの名前。
 
 - **timeout** (*float* | *None*)  
 
@@ -69,13 +69,13 @@ get_partition_stats(
 
     これを **None** に設定すると、レスポンスが返されるか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *dict*
 
-**RETURNS:**
+**戻り値:**
 
-指定された partition の行数を含む辞書。
+指定されたパーティションの行数を含む辞書です。
 
 ```python
 {
@@ -83,19 +83,21 @@ get_partition_stats(
 }
 ```
 
-<Admonition type="info" icon="📘" title="**行数が挿入されたエンティティ数と一致しないのはなぜですか？**">
+<Admonition type="info" title="Note">
 
-挿入したデータは、最終的に保存される前に処理を経ます。最初に、データはデータストリームとして流入します。次に、エンティティとして segments に保存されます。Milvus は、segment が上限に達して sealed になるまで、ストリーム内のデータを保存するために適切な growing segment を選択します。
+行数が挿入されたエンティティ数と一致しないのはなぜですか？
 
-ただし、表示される行数は挿入されたレコード数と一致しない場合があることに注意してください。これは、ストリーム内のデータが考慮されないためです。
+挿入したデータは、最終的に保存される前に処理を経ます。最初に、データはデータストリームとして流入します。次に、エンティティとしてセグメントに保存されます。Milvus は、セグメントが上限に達して sealed になるまで、ストリーム内のデータを保存するために適切な growing セグメントを選択します。
+
+ただし、ストリーム内のデータが考慮されないため、表示される行数は挿入されたレコード数と一致しない場合があることに注意してください。
 
 </Admonition>
 
-**EXCEPTIONS:**
+**例外:**
 
 - **MilvusException**
 
-    この操作中に何らかのエラーが発生した場合、この例外が発生します。
+    この操作中に何らかのエラーが発生した場合に、この例外が発生します。
 
 ## 例\{#example}
 
@@ -158,4 +160,3 @@ client.get_partition_stats(
 - [load_partitions()](./Partitions-load_partitions)
 
 - [release_partitions()](./Partitions-release_partitions)
-

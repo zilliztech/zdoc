@@ -1,24 +1,24 @@
 ---
 title: "create_user() | Python | MilvusClient"
-slug: /python/python/utility-create_user
+slug: /python/python/Authentication-create_user
 sidebar_label: "create_user()"
-beta: NEAR DEPRECATE
-added_since: Inherit
+beta: false
+added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、パスワード付きのユーザーを作成します。 | Python | MilvusClient"
+description: "この操作は、パスワードを使用してユーザーを作成します。 | Python | MilvusClient"
 type: docx
 token: EglSdm1jkozDSlxq6SEc4CRonVe
 sidebar_position: 4
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - sentence transformers
+  - レコメンダーシステム
+  - 情報検索
+  - 次元削減
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - create_user()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # create_user()
 
-この操作は、パスワード付きのユーザーを作成します。
+この操作は、パスワードを使用してユーザーを作成します。
 
 ## リクエスト構文\{#request-syntax}
 
@@ -43,7 +43,7 @@ create_user(
 ) -> None
 ```
 
-**パラメータ:**
+**PARAMETERS:**
 
 - **user_name** (*str*) -
 
@@ -61,21 +61,21 @@ create_user(
 
     この操作のタイムアウト時間。
 
-**戻り値の型:**
+**RETURN TYPE:**
 
 *None*
 
 この操作は値を返しません。
 
-**例外:**
+**EXCEPTIONS:**
 
 - **MilvusException**
 
-    この操作中に何らかのエラーが発生した場合に、この例外が発生します。
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
 
 - **ParamError**
 
-    パラメータ値が無効な場合に、この例外が発生します。
+    この例外は、パラメーター値が無効な場合にスローされます。
 
 ## 例\{#examples}
 

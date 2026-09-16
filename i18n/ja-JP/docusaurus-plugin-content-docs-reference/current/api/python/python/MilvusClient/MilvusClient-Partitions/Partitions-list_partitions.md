@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、指定された collection 内の partitions を一覧表示します。 | Python | MilvusClient"
+description: "この操作は、指定されたコレクション内のパーティションを一覧表示します。 | Python | MilvusClient"
 type: docx
 token: Dxgqdvlk5o2VScxqmL1ctc1Inqb
 sidebar_position: 5
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # list_partitions()
 
-この操作は、指定された collection 内の partitions を一覧表示します。
+この操作は、指定されたコレクション内のパーティションを一覧表示します。
 
-<Admonition type="info" icon="📘" title="注記">
+<Admonition type="info" title="Notes">
 
-これは managed collection にのみ適用されます。
+これはマネージドコレクションにのみ適用されます。
 
 </Admonition>
 
@@ -54,7 +54,7 @@ list_partitions(
 
     **[必須]**
 
-    既存の collection の名前。
+    既存のコレクションの名前。
 
 - **timeout** (*float* | *None*)  
 
@@ -66,7 +66,7 @@ list_partitions(
 
 **戻り値:**
 
-partition 名のリスト。
+パーティション名のリスト。
 
 **例外:**
 

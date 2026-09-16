@@ -15,7 +15,7 @@ keywords:
   - 動画類似検索
   - ベクトル検索
   - 音声類似検索
-  - Elastic vector database
+  - Elastic ベクトル データベース
   - zilliz
   - zilliz cloud
   - cloud
@@ -55,7 +55,7 @@ has_connection(alias: str)
 
 接続が存在するかどうかを示す Boolean 値。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 既存の接続エイリアスがあることは、対応する接続が確立されていることを必ずしも意味しません。
 

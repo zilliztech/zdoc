@@ -7,18 +7,18 @@ added_since: v2.5.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "ユーザーが提供した生データからベクトル埋め込みを生成したり、Milvus の検索結果に再ランキング戦略を適用したりするための `Function` インスタンス。 | Python | MilvusClient"
+description: "ユーザーが提供する生データからベクトル埋め込みを生成したり、Milvus の検索結果に再ランキング戦略を適用したりするための `Function` インスタンス。 | Python | MilvusClient"
 type: docx
 token: GaCYdVohYoHFhrx897zcmcNfn6e
 sidebar_position: 3
 keywords: 
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - vector embeddings とは
+  - スパースベクトル
+  - ベクトル次元
+  - ANN 検索
+  - ベクトル埋め込みとは
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - Function
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # Function
 
-`Function` インスタンスは、ユーザーが提供した生データからベクトル埋め込みを生成したり、Milvus の検索結果に再ランキング戦略を適用したりするためのものです。
+`Function` インスタンスは、ユーザーが提供する生データからベクトル埋め込みを生成したり、Milvus の検索結果に再ランキング戦略を適用したりするためのものです。
 
 ```python
 class pymilvus.Function
 ```
 
-## Constructor\{#constructor}
+## コンストラクター\{#constructor}
 
-このコンストラクタは、ユーザーの生データをベクトル埋め込みに変換したり、検索結果に再ランキング戦略を適用したりするための新しい `Function` インスタンスを初期化します。これは、類似検索操作を簡素化する自動化プロセスによって実現されます。
+このコンストラクターは、ユーザーの生データをベクトル埋め込みに変換したり、検索結果に再ランキング戦略を適用したりするために設計された新しい `Function` インスタンスを初期化します。これは、類似検索操作を簡素化する自動化されたプロセスによって実現されます。
 
 ```python
 Function(
@@ -51,55 +51,55 @@ Function(
 )
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - `name` (*str*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    関数の名前です。この識別子は、クエリおよび collection 内で関数を参照するために使用されます。
+    関数の名前です。この識別子は、クエリおよびコレクション内で関数を参照するために使用します。
 
 - `function_type` (*[FunctionType](./Collections-FunctionType)*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
     使用する埋め込み関数のタイプです。指定可能な値は次のとおりです。
 
-    - FunctionType.BM25: VARCHAR または TEXT フィールドから、BM25 ランキングアルゴリズムに基づいて sparse vector を生成します。
+    - FunctionType.BM25: VARCHAR または TEXT フィールドから、BM25 ランキングアルゴリズムに基づいてスパースベクトルを生成します。
 
-    - FunctionType.TEXTEMBEDDING: VARCHAR または TEXT フィールドから、意味情報を捉える dense vector を生成します。
+    - FunctionType.TEXTEMBEDDING: VARCHAR または TEXT フィールドから、意味的な内容を捉える高密度ベクトルを生成します。
 
-    - `FunctionType.MINHASH`: ドキュメント間の [Jaccard similarity](https://en.wikipedia.org/wiki/Jaccard_index) を近似する binary vector を生成します。
+    - `FunctionType.MINHASH`: ドキュメント間の [Jaccard similarity](https://en.wikipedia.org/wiki/Jaccard_index) を近似するバイナリベクトルを生成します。
 
 - `FunctionType.RERANK`: 検索結果に再ランキング戦略を適用します。
 
 - `input_field_names` (*Union[str, List[str]]*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    ベクトル表現への変換が必要な生データを含む VARCHAR または TEXT フィールドの名前です。FunctionType.BM25 または FunctionType.TEXTEMBEDDING では、このパラメータは 1 つのフィールド名のみ受け付けます。
+    ベクトル表現への変換が必要な生データを含む VARCHAR または TEXT フィールドの名前です。FunctionType.BM25 および FunctionType.TEXTEMBEDDING では、このパラメーターは 1 つのフィールド名のみを受け付けます。
 
 - `output_field_names` (*Union[str, List[str]]*) -
 
-    生成された埋め込みが格納されるフィールドの名前です。これは collection schema で定義された vector フィールドに対応している必要があります。このパラメータは 1 つのフィールド名のみ受け付けます。
+    生成された埋め込みを格納するフィールドの名前です。これは、コレクションスキーマで定義されたベクトルフィールドに対応している必要があります。このパラメーターは 1 つのフィールド名のみを受け付けます。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
-    これは、`function_type` を `FunctionType.BM25` または `FunctionType.TEXTEMBEDDING` に設定した場合にのみ適用されます。
+    これは、`function_type` を `FunctionType.BM25` および `FunctionType.TEXTEMBEDDING` に設定した場合にのみ適用されます。
 
     </Admonition>
 
 - `params` (*dict*) -
 
-    埋め込み / ランキング関数の設定辞書です。サポートされるキーは `function_type` によって異なります。
+    embedding/ranking 関数の設定用ディクショナリです。サポートされるキーは `function_type` によって異なります。
 
-    - `FunctionType.BM25`: パラメータは不要です。空の辞書を渡すか、完全に省略してください。
+    - `FunctionType.BM25`: パラメーターは不要です。空のディクショナリを渡すか、完全に省略してください。
 
     - `FunctionType.TEXTEMBEDDING`:
 
         - `provider` (*str*) -
 
-            埋め込みモデルの provider です。指定可能な値は次のとおりです。
+            埋め込みモデルのプロバイダーです。指定可能な値は次のとおりです。
 
             - `openai` ([OpenAI](https://milvus.io/docs/openai.md))
 
@@ -121,25 +121,25 @@ Function(
 
         - `model_name` (*str*) -
 
-            使用する埋め込みモデルの名前です。値は provider によって異なります。詳細については、それぞれのドキュメントページを参照してください。
+            使用する埋め込みモデルの名前です。値はプロバイダーによって異なります。詳細については、それぞれ該当するドキュメントページを参照してください。
 
         - `credential` (*str*) -
 
-            `milvus.yaml` のトップレベル `credential:` セクションで定義された credential のラベルです。 
+            `milvus.yaml` のトップレベルにある `credential:` セクションで定義された認証情報のラベルです。
 
-            - 指定された場合、Milvus は対応する key pair または API token を取得し、サーバー側でリクエストに署名します。
+            - 指定した場合、Milvus は一致するキーペアまたは API トークンを取得し、サーバー側でリクエストに署名します。
 
-            - 省略した場合（`None`）、Milvus は `milvus.yaml` で対象モデル provider に対して明示的に設定された credential を使用します。
+            - 省略した場合（`None`）、Milvus は `milvus.yaml` で対象のモデルプロバイダーに対して明示的に設定された認証情報にフォールバックします。
 
-            - ラベルが不明であるか、参照先のキーが存在しない場合、呼び出しは失敗します。
+            - ラベルが不明である場合、または参照先のキーが存在しない場合、呼び出しは失敗します。
 
         - `dim` (*str*) -
 
-            出力埋め込みの次元数です。OpenAI の第 3 世代モデルでは、意味情報を大きく損なうことなく、完全な vector を短縮してコストとレイテンシーを削減できます。詳細については、[OpenAI announcement blog post](https://openai.com/blog/new-embedding-models-and-api-updates) を参照してください。
+            出力埋め込みの次元数です。OpenAI の第 3 世代モデルでは、完全なベクトルを短縮して、意味情報を大きく損なうことなくコストとレイテンシーを削減できます。詳細については、[OpenAI announcement blog post](https://openai.com/blog/new-embedding-models-and-api-updates) を参照してください。
 
-            <Admonition type="info" icon="📘" title="Notes">
+            <Admonition type="info" title="Notes">
 
-            vector 次元を短縮する場合は、vector フィールドに対する schema の `add_field` メソッドで指定した `dim` の値が、埋め込み関数の最終出力次元と一致していることを確認してください。
+            ベクトルの次元を短縮する場合は、ベクトルフィールドに対してスキーマの `add_field` メソッドで指定した `dim` の値が、埋め込み関数の最終出力次元と一致していることを確認してください。
 
             </Admonition>
 
@@ -159,7 +159,7 @@ Function(
 
             - `weights` (*List[float]*): 各検索パスに対応する重みの配列です。値 ∈ [0,1]。詳細については、[Mechanism of Weighted Ranker](https://milvus.io/docs/weighted-ranker.md#Mechanism-of-Weighted-Ranker) を参照してください。
 
-            - `norm_score` (*boolean*): 重み付けの前に生スコアを正規化するかどうか（arctan を使用）。詳細については、[Mechanism of Weighted Ranker](https://milvus.io/docs/weighted-ranker.md#Mechanism-of-Weighted-Ranker) を参照してください。
+            - `norm_score` (*boolean*): 重み付けの前に生のスコアを正規化するかどうか（arctan を使用）。詳細については、[Mechanism of Weighted Ranker](https://milvus.io/docs/weighted-ranker.md#Mechanism-of-Weighted-Ranker) を参照してください。
 
         - **RRF Ranker**
 
@@ -172,7 +172,7 @@ Function(
 
             - `reranker` (*str*): 使用する再ランキング方式を指定します。RRF Ranker を使用するには `"rrf"` に設定する必要があります。
 
-            - `k` (*int*): ドキュメント順位の影響を制御する平滑化パラメータです。`k` が大きいほど上位順位への感度が低下します。値の範囲: (0, 16384)、デフォルト: `60`。詳細については、[Mechanism of RRF Ranker](https://milvus.io/docs/rrf-ranker.md#Mechanism-of-RRF-Ranker) を参照してください。
+            - `k` (*int*): ドキュメントの順位が与える影響を制御する平滑化パラメーターです。`k` が大きいほど上位の順位への感度が低くなります。値の範囲: (0, 16384)、デフォルト: `60`。詳細については、[Mechanism of RRF Ranker](https://milvus.io/docs/rrf-ranker.md#Mechanism-of-RRF-Ranker) を参照してください。
 
         - **Decay Ranker**
 
@@ -187,19 +187,19 @@ Function(
             }
             ```
 
-            - `reranker` (*str*): 使用する再ランキング方式を指定します。decay ranking 機能を有効にするには `"decay"` に設定する必要があります。
+            - `reranker` (*str*): 使用する再ランキング方式を指定します。decay ランキング機能を有効にするには `"decay"` に設定する必要があります。
 
-            - `function` (*str*): 適用する数学的 decay ranker を指定します。指定可能な値: `"gauss"`、`"expr"`、`"linear"`。詳細については、[Choose the right decay ranker](https://milvus.io/docs/decay-ranker-overview.md#Choose-the-right-decay-ranker) を参照してください。
+            - `function` (*str*): 適用する数学的な decay ranker を指定します。指定可能な値: `"gauss"`、`"expr"`、`"linear"`。詳細については、[Choose the right decay ranker](https://milvus.io/docs/decay-ranker-overview.md#Choose-the-right-decay-ranker) を参照してください。
 
             - `origin` (*int*): decay スコアを計算する基準点です。
 
-            - `scale`  (*int*): 関連性が `decay` 値まで低下する距離または時間です。
+            - `scale`  (*int*): 関連性が `decay` の値まで低下する距離または時間です。
 
-            - `offset` (*int*): `origin` 周辺に「減衰なしゾーン」を作成し、その範囲内ではアイテムが完全なスコア（decay score = 1.0）を維持します。
+            - `offset` (*int*): `origin` の周囲に、アイテムが完全なスコア（decay score = 1.0）を維持する「減衰なしゾーン」を作成します。
 
-            - `decay` (*float*): `scale` 距離におけるスコア値で、カーブの急峻さを制御します。
+            - `decay` (*float*): `scale` の距離におけるスコア値で、曲線の急峻さを制御します。
 
-            decay ranking の詳細については、[Decay Ranker Overview](https://milvus.io/docs/decay-ranker-overview.md) を参照してください。
+            decay ランキングの詳細については、[Decay Ranker Overview](https://milvus.io/docs/decay-ranker-overview.md) を参照してください。
 
         - **Model Ranker**
 
@@ -273,67 +273,67 @@ Function(
             }
             ```
 
-            - `reranker` (*str*): model reranking を有効にするには `"model"` に設定する必要があります。
+            - `reranker` (*str*): モデルベースの再ランキングを有効にするには `"model"` に設定する必要があります。
 
-            - `provider` (*str*): reranking に使用するモデルサービス provider です。指定可能な値: `"tei"` または `"vllm"`。詳細については、[Choose a model provider for your needs](https://milvus.io/docs/model-ranker-overview.md#Choose-a-model-provider-for-your-needs) を参照してください。
+            - `provider` (*str*): 再ランキングに使用するモデルサービスのプロバイダーです。指定可能な値: `"tei"` または `"vllm"`。詳細については、[Choose a model provider for your needs](https://milvus.io/docs/model-ranker-overview.md#Choose-a-model-provider-for-your-needs) を参照してください。
 
-            - `queries` (*List[str]*): 関連性スコアを計算するために reranking モデルが使用するクエリ文字列のリストです。
+            - `queries` (*List[str]*): 関連性スコアを計算するために再ランキングモデルが使用するクエリ文字列のリストです。
 
             - `endpoint` (*str*): モデルサービスの URL です。
 
-            - `max_client_batch_size` *(int)*: 1 回のバッチで処理するドキュメントの最大数です。デフォルト: 32。
+            - `max_client_batch_size` *(int)*: 1 つのバッチで処理するドキュメントの最大数です。デフォルト: 32。
 
-            - `truncate` *(bool)*: **[TEI only]** 最大サポートサイズを超える入力を切り詰めるかどうか。詳細については、[TEI Ranker](https://milvus.io/docs/tei-ranker.md) を参照してください。
+            - `truncate` *(bool)*: **[TEI only]** サポートされる最大サイズを超える入力を切り詰めるかどうか。詳細については、[TEI Ranker](https://milvus.io/docs/tei-ranker.md) を参照してください。
 
-            - `truncation_direction` (*str*): **[TEI only]** 切り詰め方向（`"Left"` または `"Right"`）。詳細については、[TEI Ranker](https://milvus.io/docs/tei-ranker.md) を参照してください。
+            - `truncation_direction` (*str*): **[TEI only]** 切り詰めの方向（`"Left"` または `"Right"`）。詳細については、[TEI Ranker](https://milvus.io/docs/tei-ranker.md) を参照してください。
 
-            - `truncate_prompt_tokens` *(int)*: **[vLLM only]** 切り詰め時にプロンプト末尾から保持するトークン数です。詳細については、[vLLM Ranker](https://milvus.io/docs/vllm-ranker.md) を参照してください。
+            - `truncate_prompt_tokens` *(int)*: **[vLLM only]** 切り詰める際にプロンプトの末尾から保持するトークン数です。詳細については、[vLLM Ranker](https://milvus.io/docs/vllm-ranker.md) を参照してください。
 
-            - `max_tokens_per_doc` *(int)*: **[Cohere only]** ドキュメントごとの最大トークン数です。長いドキュメントは指定されたトークン数に自動的に切り詰められます。詳細については、[Cohere Ranker](https://milvus.io/docs/cohere-ranker.md) を参照してください。
+            - `max_tokens_per_doc` *(int)*: **[Cohere only]** ドキュメントごとの最大トークン数です。長いドキュメントは、指定されたトークン数に自動的に切り詰められます。詳細については、[Cohere Ranker](https://milvus.io/docs/cohere-ranker.md) を参照してください。
 
-            - `truncation` *(bool)*: **[Voyage AI only]** クエリおよびドキュメントの「context length limit」を満たすために入力を切り詰めるかどうか。詳細については、[Voyage AI Ranker](https://milvus.io/docs/voyage-ai-ranker.md) を参照してください。
+            - `truncation` *(bool)*: **[Voyage AI only]** クエリとドキュメントの「コンテキスト長の制限」を満たすために入力を切り詰めるかどうか。詳細については、[Voyage AI Ranker](https://milvus.io/docs/voyage-ai-ranker.md) を参照してください。
 
-            - `max_chunks_per_doc` *(int)*: **[SiliconFlow only]** ドキュメント内から生成される chunk の最大数です。詳細については、[SiliconFLow Ranker](https://milvus.io/docs/siliconflow-ranker.md) を参照してください。
+            - `max_chunks_per_doc` *(int)*: <strong>[SiliconFlow only]</strong> 1 つのドキュメント内から生成されるチャンクの最大数です。詳細については、[SiliconFLow Ranker](https://milvus.io/docs/siliconflow-ranker.md) を参照してください。
 
-            - `overlap_tokens`  *(int)*: **[SiliconFlow only]** ドキュメントが chunk 化される際の、隣接 chunk 間のトークン重複数です。詳細については、[SiliconFLow Ranker](https://milvus.io/docs/siliconflow-ranker.md) を参照してください。
+            - `overlap_tokens`  *(int)*: **[SiliconFlow only]** ドキュメントをチャンクに分割する際の、隣接するチャンク間で重複するトークン数です。詳細については、[SiliconFLow Ranker](https://milvus.io/docs/siliconflow-ranker.md) を参照してください。
 
 - `description` (*str*) -
 
-    **[OPTIONAL]**
+    **[オプション]**
 
-    関数の目的に関する簡単な説明です。これは、大規模なプロジェクトでのドキュメント化や明確化に役立ち、デフォルトは空文字列です。
+    関数の目的に関する簡単な説明です。これは、ドキュメント化や大規模なプロジェクトでの明確化に役立ち、デフォルトは空の文字列です。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
-生データを vector embeddings に変換するための特定の処理動作をカプセル化した `Function` のインスタンス。
+生データをベクトル埋め込みに変換するための特定の処理動作をカプセル化した `Function` のインスタンスです。
 
-**RETURNS:**
+**戻り値:**
 
-Milvus collection に登録できる `Function` オブジェクト。データ挿入時の自動埋め込み生成を容易にします。
+Milvus のコレクションに登録できる `Function` オブジェクトです。データ挿入時の埋め込みの自動生成を容易にします。
 
-**EXCEPTIONS:**
+**例外:**
 
 - `UnknownFunctionType`
 
-    サポートされていない、または認識されない関数タイプが指定された場合に発生する例外です。
+    サポートされていない、または認識されない関数タイプが指定された場合に、この例外が発生します。
 
 - `FunctionIncorrectInputOutputType`
 
-    `input_field_names` または `output_field_names` 内の 1 つ以上のフィールド名が文字列でない場合に発生する例外です。
+    `input_field_names` または `output_field_names` 内の 1 つ以上のフィールド名が文字列でない場合に、この例外が発生します。
 
 - `FunctionDuplicateInputs`
 
-    `input_field_names` に重複するフィールド名がある場合に発生する例外です。
+    `input_field_names` に重複するフィールド名が存在する場合に、この例外が発生します。
 
 - `FunctionDuplicateOutputs`
 
-    `output_field_names` に重複するフィールド名がある場合に発生する例外です。
+    `output_field_names` に重複するフィールド名が存在する場合に、この例外が発生します。
 
 - `FunctionCommonInputOutput`
 
-    `input_field_names` と `output_field_names` の間に重複がある場合、つまり同じフィールド名が両方に存在する場合に発生する例外です。
+    `input_field_names` と `output_field_names` が重複している場合、つまり同じフィールド名が両方に存在する場合に、この例外が発生します。
 
-## Examples\{#examples}
+## 例\{#examples}
 
 - `BM25` を使用する
 

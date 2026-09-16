@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の collection から index を削除します。 | Python | MilvusClient"
+description: "この操作は、特定のコレクションからインデックスを削除します。 | Python | MilvusClient"
 type: docx
 token: NPnQdZCJ7oF002xTntecdI2ini8
 sidebar_position: 5
@@ -18,7 +18,7 @@ keywords:
   - Zilliz ベクトルデータベース
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - drop_index()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # drop_index()
 
-この操作は、特定の collection から index を削除します。
+この操作は、特定のコレクションからインデックスを削除します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-オンデマンドコンピュートの collection では、この操作はサポートされていません。
+オンデマンドコンピュートのコレクションでは、この操作はサポートされていません。
 
 </Admonition>
 
@@ -50,23 +50,23 @@ drop_index(
 )
 ```
 
-**パラメータ:**
+**パラメーター:**
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    既存の collection の名前。
+    既存のコレクションの名前です。
 
 - **index_name** (str) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    削除する index の名前。
+    削除するインデックスの名前です。
 
 - **timeout** (*float* | *None*) -
 
-    この操作のタイムアウト時間。これを **None** に設定すると、レスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間です。これを **None** に設定すると、何らかのレスポンスが到着するか、エラーが発生した時点でこの操作がタイムアウトすることを示します。
 
 **戻り値の型:**
 
@@ -74,7 +74,7 @@ drop_index(
 
 **戻り値:**
 
-None
+なし
 
 **例外:**
 

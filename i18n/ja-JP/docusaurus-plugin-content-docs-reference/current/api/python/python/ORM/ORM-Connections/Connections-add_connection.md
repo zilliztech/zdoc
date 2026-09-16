@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、異なる目的のために複数の Zilliz Cloud クラスターへの接続を一括で追加します。 | Python | ORM"
+description: "この操作は、異なる目的で複数の Zilliz Cloud クラスターへの接続を一括で追加します。 | Python | ORM"
 type: docx
 token: C37ldNLbFog6ThxA23ScMldnnmb
 sidebar_position: 1
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # add_connection()
 
-この操作は、異なる目的のために複数の Zilliz Cloud クラスターに対する [connections](./ORM-Connections) を一括で追加します。 
+この操作は、異なる目的で複数の Zilliz Cloud クラスターへの [connections](./ORM-Connections) を一括で追加します。
 
 ## Request Syntax\{#request-syntax}
 
@@ -57,7 +57,7 @@ add_connection(
 
     - **uri** (*string*) -
 
-        Zilliz Cloud クラスターの URI です。例: **`https://in01-&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540`**。
+        Zilliz Cloud クラスターの URI です。例: **https://in01-&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540**.
 
     - **host** (*string*) -
 
@@ -91,13 +91,13 @@ add_connection(
 
         - ターゲットクラスターにアクセスするためのユーザー名とパスワードをコロン (:) で連結したもの。たとえば、これを `username:p@ssw0rd` に設定できます。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 クラスターエンドポイントとトークンはどのように取得できますか？
 
-- **Cluster endpoint**
+- **クラスター endpoint**
 
-    [Zilliz Cloud](https://cloud.zilliz.com) コンソールにログインし、左側のナビゲーションペインで **Clusters** をクリックします。クラスターの一覧で対象のクラスター名をクリックし、**Connect** 領域にあるエンドポイントをコピーして、上記の URI として使用できます。
+    [Zilliz Cloud](https://cloud.zilliz.com) コンソールにログインし、左側のナビゲーションペインで **クラスター** をクリックします。クラスターの一覧で対象のクラスター名をクリックし、**Connect** 領域にあるエンドポイントをコピーして、上記の URI として使用できます。
 
 - **Access token**
 
@@ -109,7 +109,7 @@ add_connection(
 
     - クラスターにアクセスするためのユーザー名とパスワードをコロン (**:**) で連結したもの。
 
-        Zilliz Cloud コンソールでクラスター作成時に指定したクラスター認証情報、または既存の任意のクラスター ユーザーの認証情報を使用できます。
+        Zilliz Cloud コンソールでクラスター作成時に指定したクラスター認証情報、または既存の任意のクラスターユーザーの認証情報を使用できます。
 
 </Admonition>
 
@@ -159,4 +159,3 @@ connections.add_connection(
 - [list_connections()](./Connections-list_connections)
 
 - [remove_connection()](./Connections-remove_connection)
-

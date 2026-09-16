@@ -7,15 +7,15 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、クライアントが別の database を使用するように切り替えます。以降の操作では指定した database が使用されます。このメソッドは切り替える前に database が存在することを検証します。 | Python | MilvusClient"
+description: "この操作は、クライアントが使用するデータベースを別のデータベースに切り替えます。以降の操作では指定したデータベースが使用されます。このメソッドは、切り替える前にデータベースが存在することを検証します。 | Python | MilvusClient"
 type: docx
 token: AglQd68yqoEn8Ixkn9ociyqKnMx
 sidebar_position: 8
 keywords: 
-  - Faiss ベクターデータベース
-  - Chroma ベクターデータベース
+  - Faiss ベクトルデータベース
+  - Chroma ベクトルデータベース
   - nlp 検索
-  - hallucinations llm
+  - llm ハルシネーション
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,19 +31,19 @@ import Admonition from '@theme/Admonition';
 
 # use_database()
 
-この操作は、クライアントが別の database を使用するように切り替えます。以降の操作では指定した database が使用されます。このメソッドは切り替える前に database が存在することを検証します。
+この操作は、クライアントが使用するデータベースを別のデータベースに切り替えます。以降の操作では指定したデータベースが使用されます。このメソッドは、切り替える前にデータベースが存在することを検証します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 これは [`using_database()`](./Database-using_database) のエイリアスメソッドです。
 
 </Admonition>
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-このメソッドは dedicated serving cluster と on-demand compute にのみ適用されます。 
+このメソッドは、Dedicated serving クラスターとオンデマンドコンピュートにのみ適用されます。
 
-- dedicated serving cluster 内の database の場合、クラスターエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成します。
+- Dedicated serving クラスター内のデータベースの場合は、クラスターエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成します。
 
     - **Free & Serverless**
 
@@ -53,13 +53,13 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- on-demand compute 用の database の場合、プロジェクトエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成します。
+- オンデマンドコンピュート用のデータベースの場合は、プロジェクトエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成します。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
 </Admonition>
 
-## Request syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 client.use_database(
@@ -67,25 +67,25 @@ client.use_database(
 )
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
 - **db_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    切り替え先の database 名。
+    切り替え先のデータベースの名前。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *NoneType*
 
-**EXCEPTIONS:**
+**例外:**
 
 - **MilvusException**
 
-    database が存在しない場合、この例外が発生します（エラーコード 800）。
+    データベースが存在しない場合（エラーコード 800）に、この例外が発生します。
 
-## Example\{#example}
+## 例\{#example}
 
 ```python
 from pymilvus import MilvusClient

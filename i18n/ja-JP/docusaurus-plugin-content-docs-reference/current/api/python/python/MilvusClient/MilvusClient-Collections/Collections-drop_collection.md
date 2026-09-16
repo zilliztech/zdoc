@@ -7,14 +7,14 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "この操作は collection を削除します。 | Python | MilvusClient"
+description: "この操作は、コレクションを削除します。 | Python | MilvusClient"
 type: docx
 token: HZByd7LqQoiorTxCgyrcu3VUnof
 sidebar_position: 11
 keywords: 
   - Pinecone vs Milvus
   - Chroma vs Milvus
-  - Annoy vector search
+  - Annoy ベクトル検索
   - milvus
   - zilliz
   - zilliz cloud
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # drop_collection()
 
-この操作は collection を削除します。
+この操作は、コレクションを削除します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-このメソッドは dedicated serving cluster と on-demand compute に適用されます。 
+このメソッドは、Dedicated serving クラスターとオンデマンドコンピュートに適用されます。 
 
-- serving cluster 内の collection に対しては、cluster endpoint を使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
+- serving クラスター内のコレクションの場合は、クラスターエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- on-demand compute 内の collection に対しては、project endpoint を使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
+- オンデマンドコンピュート内のコレクションの場合は、プロジェクトエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -67,13 +67,13 @@ drop_collection(
 
 - **collection_name** (*str*) -
 
-    **[必須]**
+    **[REQUIRED]**
 
-    既存の collection の名前。
+    既存のコレクションの名前。
 
 - **timeout** (*Optional[float]*) -
 
-    この操作のタイムアウト時間です。これを **None** に設定すると、何らかのレスポンスが到着するかエラーが発生した時点で、この操作はタイムアウトします。
+    この操作のタイムアウト時間です。これを **None** に設定すると、何らかの応答が到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
 **戻り値の型:**
 
@@ -87,7 +87,7 @@ None
 
 - **MilvusException**
 
-    この操作中に何らかのエラーが発生した場合、この例外が送出されます。
+    この例外は、この操作中に何らかのエラーが発生した場合に発生します。
 
 ## 例\{#examples}
 

@@ -14,7 +14,7 @@ sidebar_position: 15
 keywords: 
   - milvus benchmark
   - managed milvus
-  - Serverless vector database
+  - Serverless ベクトル データベース
   - milvus open source
   - zilliz
   - zilliz cloud
@@ -33,11 +33,11 @@ import Admonition from '@theme/Admonition';
 
 この操作は、指定されたインデックスプロパティを削除します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-このメソッドは、Dedicated serving cluster および on-demand compute にのみ適用されます。 
+このメソッドは、Dedicated の serving クラスターおよび on-demand compute にのみ適用されます。
 
-- serving cluster の collection でこの操作を行うには、cluster endpoint を使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
+- serving クラスターのコレクションでこの操作を行うには、クラスターエンドポイントを指定して **[MilvusClient](./Client-MilvusClient)** を作成してください。
 
     - **Free & Serverless**
 
@@ -47,13 +47,13 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- on-demand compute の collection でこの操作を行うには、project endpoints を使用して **[MilvusClient](./Client-MilvusClient)** を作成し、その後、検索のために on-demand cluster にアタッチする session を作成してください。
+- on-demand compute のコレクションでこの操作を行うには、プロジェクトエンドポイントを指定して **[MilvusClient](./Client-MilvusClient)** を作成し、その後、検索のために on-demand クラスターにアタッチするセッションを作成してください。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
 </Admonition>
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 drop_index_properties(
@@ -66,43 +66,43 @@ drop_index_properties(
 )
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **collection_name** (*str*) -
 
-    対象 collection の名前。
+    対象コレクションの名前です。
 
 - **index_name** (*str*) -
 
-    削除する index file の名前。
+    削除するインデックスファイルの名前です。
 
 - **property_keys** (*List[str]*) -
 
-    リスト内で削除するプロパティの名前。使用可能なプロパティは次のとおりです。
+    削除するプロパティの名前をリストとして指定します。指定できるプロパティは次のとおりです。
 
     - `mmap.enabled`
 
-- **timeout** (*Optional[float]*) - 
+- **timeout** (*Optional[float]*) -
 
-    この操作のタイムアウト時間。
+    この操作のタイムアウト時間です。
 
-    これを None に設定すると、レスポンスが返されるか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    これを None に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作がタイムアウトすることを示します。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *NoneType*
 
-**RETURNS:**
+**戻り値:**
 
-None
+なし
 
-**EXCEPTIONS:**
+**例外:**
 
 - **MilvusException**
 
-    この操作中に何らかのエラーが発生すると、この例外が送出されます。
+    この操作中に何らかのエラーが発生すると、この例外が発生します。
 
-## Examples\{#examples}
+## 例\{#examples}
 
 ```python
 from pymilvus import MilvusClient
@@ -119,4 +119,3 @@ client.drop_index_properties(
     property_keys = ["mmap.enabled"]
 )
 ```
-

@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、resource group 間で指定された数の replica を移動します。 | Python | ORM"
+description: "この操作は、指定された数のレプリカをリソースグループ間で移動します。 | Python | ORM"
 type: docx
 token: SuePdciB0o4du5xtpIhcMVyYnPb
 sidebar_position: 40
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # transfer_replica()
 
-この操作は、resource group 間で指定された数の replica を移動します。
+この操作は、リソースグループ間で指定された数のレプリカを移動します。
 
 ## リクエスト構文\{#request-syntax}
 
@@ -46,39 +46,39 @@ transfer_replica(
 )
 ```
 
-**パラメータ:**
+**パラメーター:**
 
 - **source_group** (*str*) -
 
     **[必須]**
 
-    query node の移動元となる source resource group の名前です。
+    クエリノードの移動元となるソースリソースグループの名前です。
 
-    これを存在しない resource group に設定すると、**MilvusException** が発生します。
+    存在しないリソースグループをこれに設定すると、**MilvusException** が発生します。
 
 - **target_group** (*str*) -
 
     **[必須]**
 
-    query node の移動先となる source resource group の名前です。
+    クエリノードの移動先となるソースリソースグループの名前です。
 
-    これを存在しない resource group に設定すると、**MilvusException** が発生します。
+    存在しないリソースグループをこれに設定すると、**MilvusException** が発生します。
 
 - **num_replicas** (*int*) -
 
     **[必須]**
 
-    source および target resource group 間で移動する replica の数です。
+    ソースリソースグループとターゲットリソースグループ間で移動するレプリカの数です。
 
-    <Admonition type="info" icon="📘" title="注">
+    <Admonition type="info" title="Note">
 
-    replica とは何ですか？
+    レプリカとは何ですか？
     
-        replica を使用すると、Zilliz Cloud は同じ segment を複数の query node にロードできます。ある query node が障害を起こした場合、または別の検索リクエストが到着したときに現在の検索リクエストでビジー状態の場合、システムは同じ segment のレプリケーションを持つアイドル状態の query node に新しいリクエストを送信できます。 
+        レプリカを使用すると、Zilliz Cloud は同じセグメントを複数のクエリノードにロードできます。あるクエリノードが障害を起こした場合、または別の検索リクエストが到着したときに現在の検索リクエストでビジー状態である場合、システムは同じセグメントのレプリカを持つアイドル状態のクエリノードに新しいリクエストを送信できます。 
     
-        replica は replica group として編成されます。各 replica group には [shard](https://milvus.io/docs/v2.1.x/glossary.md#Sharding) replica が含まれます。各 shard replica には、shard 内の増加中およびシール済みの [segments](https://milvus.io/docs/v2.1.x/glossary.md#Segment) に対応する streaming replica と historical replica があります。
+        レプリカはレプリカグループとして編成されます。各レプリカグループには [shard](https://milvus.io/docs/v2.1.x/glossary.md#Sharding) レプリカが含まれます。各シャードレプリカには、シャード内の成長中およびシール済みの [segments](https://milvus.io/docs/v2.1.x/glossary.md#Segment) に対応するストリーミングレプリカとヒストリカルレプリカがあります。
     
-        shard は、複数ノード間で分散データ書き込み操作を行い、Zilliz Cloud cluster の並列計算能力を最大限に活用するための DML channel と見なすことができます。
+        シャードは、複数のノード間で分散データ書き込み操作を行うための DML チャネルと見なすことができ、Zilliz Cloud クラスターの並列計算能力を最大限に活用できます。
 
     </Admonition>
 
@@ -147,7 +147,7 @@ utility.transfer_node(
 )
 ```
 
-## 関連する操作\{#related-operations}
+## 関連操作\{#related-operations}
 
 次の操作は `transfer_replica()` に関連しています。
 
@@ -160,4 +160,3 @@ utility.transfer_node(
 - [list_resource_groups()](./utility-list_resource_groups)
 
 - [transfer_node()](./utility-transfer_node)
-

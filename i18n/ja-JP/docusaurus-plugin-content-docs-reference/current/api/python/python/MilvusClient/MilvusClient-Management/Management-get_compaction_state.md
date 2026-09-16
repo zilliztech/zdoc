@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "この操作は compaction ジョブの現在の状態を返します。`compact()` を呼び出した後に、compaction が完了したことを確認するために使用します。 | Python | MilvusClient"
+description: "この操作は Compaction ジョブの現在の状態を返します。`compact()` を呼び出した後に、Compaction が完了したことを確認するために使用します。 | Python | MilvusClient"
 type: docx
 token: MSDVdu103obklexX8GvcW5cWnCf
 sidebar_position: 19
@@ -31,17 +31,17 @@ import Admonition from '@theme/Admonition';
 
 # get_compaction_state()
 
-この操作は compaction ジョブの現在の状態を返します。`compact()` を呼び出した後に、compaction が完了したことを確認するために使用します。
+この操作は Compaction ジョブの現在の状態を返します。`compact()` を呼び出した後に、Compaction が完了したことを確認するために使用します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 このメソッドは以前は `get_compact_state()` という名前でした。動作は同じです。
 
 </Admonition>
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-これは managed collection にのみ適用されます。
+これは managed コレクションにのみ適用されます。
 
 </Admonition>
 
@@ -60,7 +60,7 @@ client.get_compaction_state(
 
     **[必須]**
 
-    `compact()` によって返される compaction ジョブの ID。
+    `compact()` によって返される Compaction ジョブの ID。
 
 - **timeout** (*float* | *None*) -
 
@@ -72,7 +72,7 @@ client.get_compaction_state(
 
 **戻り値:**
 
-compaction ジョブの状態名。指定可能な値は `"UndefiedState"`、`"Executing"`、`"Completed"` です。
+Compaction ジョブの状態名。指定可能な値は `"UndefiedState"`、`"Executing"`、`"Completed"` です。
 
 **例外:**
 
@@ -87,9 +87,8 @@ from pymilvus import MilvusClient
 
 client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
 
-# compaction を開始し、その状態を確認する
+# Start compaction and check its state
 job_id = client.compact(collection_name="my_collection")
 state = client.get_compaction_state(job_id=job_id)
 print(state)  # "Executing" or "Completed"
 ```
-

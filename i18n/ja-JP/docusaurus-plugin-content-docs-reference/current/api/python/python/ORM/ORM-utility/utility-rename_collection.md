@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は既存の collection の名前を変更し、必要に応じて collection を新しいデータベースに移動します。 | Python | ORM"
+description: "この操作は、既存のコレクションの名前を変更し、必要に応じてそのコレクションを新しいデータベースに移動します。 | Python | ORM"
 type: docx
 token: M0qRdF1cLokrxvxyrXScJ64FnEe
 sidebar_position: 37
 keywords: 
-  - 幻覚 llm
+  - ハルシネーション llm
   - マルチモーダル検索
   - ベクトル検索アルゴリズム
   - 質問応答システム
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - rename_collection()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # rename_collection()
 
-この操作は既存の collection の名前を変更し、必要に応じて collection を新しいデータベースに移動します。
+この操作は、既存のコレクションの名前を変更し、必要に応じてそのコレクションを新しいデータベースに移動します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-対象の collection に対して作成されたエイリアスは、この操作の後もそのまま維持されます。
+対象のコレクションに対して作成されたエイリアスは、この操作の後もそのまま維持されます。
 
 </Admonition>
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 rename_collection(
@@ -51,28 +51,28 @@ rename_collection(
 )
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **old_collection_name** (*str*) -
 
     **[REQUIRED]**
-    対象 collection の元の名前です。
+    対象のコレクションの元の名前です。
 
-    存在しない collection を指定すると、**MilvusException** が発生します。
+    存在しないコレクションを指定すると、**MilvusException** が発生します。
 
 - **new_collection_name** (*str*) -
 
     **[REQUIRED]**
 
-    この操作後の対象 collection の名前です。
+    この操作後の対象のコレクションの名前です。
 
     これを **old_collection_name** と同じ値に設定すると、**MilvusException** が発生します。
 
 - **new_db_name** (*str*) -
 
-    この操作後に collection が属するデータベースの名前です。
+    この操作後にコレクションが属するデータベースの名前です。
 
-    デフォルト値は **default** です。これを、この操作前に collection が属しているデータベースとは異なるデータベースに設定すると、この collection は指定したデータベースに移動されます。
+    デフォルト値は **default** です。この操作の前にコレクションが属していたデータベースとは異なるデータベースにこれを設定すると、そのコレクションは指定したデータベースに移動されます。
 
     存在しないデータベースを指定すると、**MilvusException** が発生します。
 
@@ -84,23 +84,23 @@ rename_collection(
 
 - **timeout** (*float* | *None*)  
 
-    この操作のタイムアウト時間です。これを **None** に設定すると、レスポンスが返るか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間です。これを **None** に設定すると、いずれかの応答が到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *NoneType*
 
-**RETURNS:**
+**戻り値:**
 
 None
 
-**EXCEPTIONS:**
+**例外:**
 
 - **MilvusException**
 
     この例外は、この操作中に何らかのエラーが発生した場合、特に指定されたエイリアスが存在しない場合に発生します。
 
-## Examples\{#examples}
+## 例\{#examples}
 
 ```python
 from pymilvus import connections, utility
@@ -122,7 +122,7 @@ utility.rename_collection(
 )
 ```
 
-## Related operations\{#related-operations}
+## 関連する操作\{#related-operations}
 
 以下の操作は `rename_collection()` に関連しています。
 
@@ -135,4 +135,3 @@ utility.rename_collection(
 - [has_partition()](./utility-has_partition)
 
 - [list_collections()](./utility-list_collections)
-

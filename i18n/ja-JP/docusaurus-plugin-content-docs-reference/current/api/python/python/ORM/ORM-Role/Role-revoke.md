@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 この操作は、現在のロールに付与されている権限を取り消します。
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 revoke(
@@ -60,7 +60,7 @@ revoke(
 
     **object** で指定されたタイプの対象オブジェクトの名前です。
 
-    collection 名、ユーザー名、またはワイルドカード (*) を指定できます。
+    コレクション名、ユーザー名、またはワイルドカード (&ast;) を指定できます。
 
 - **privilege** (*string*)
 
@@ -70,11 +70,11 @@ revoke(
 
     詳細については、Users & Roles を参照してください。
 
-    <Admonition type="info" icon="📘" title="注意">
+    <Admonition type="info" title="Notes">
 
-    - **[Collection](./ORM-Collection)**、**Global**、**User** のような種類のオブジェクトにすべての権限を付与するには、権限名に `*` を使用します。
+    - **[コレクション](./ORM-Collection)**、**Global**、**User** のような種類のオブジェクトにすべての権限を付与するには、権限名に `*` を使用します。
     
-    - `object` が `Global` に設定されている場合、`privilege` を `\*` に設定しても `All` に設定した場合と同等ではありません。`All` 権限には、あらゆる collection と user object を含むすべての権限が含まれます。
+    - `object` が `Global` に設定されている場合、`privilege` を `\*` に設定することは、`All` に設定することと同等ではありません。`All` 権限には、あらゆるコレクションとユーザーオブジェクトを含むすべての権限が含まれます。
 
     </Admonition>
 
@@ -96,7 +96,7 @@ revoke(
 
     この操作中に何らかのエラーが発生した場合、この例外が発生します。
 
-## Examples\{#examples}
+## 例\{#examples}
 
 ```python
 from pymilvus import Role
@@ -108,7 +108,7 @@ role = Role(role_name)
 role.revoke("Collection", collection_name, "Insert")
 ```
 
-## Related operations\{#related-operations}
+## 関連する操作\{#related-operations}
 
 以下の操作は `revoke()` に関連しています。
 
@@ -129,4 +129,3 @@ role.revoke("Collection", collection_name, "Insert")
 - [list_grants()](./Role-list_grants)
 
 - [remove_user()](./Role-remove_user)
-

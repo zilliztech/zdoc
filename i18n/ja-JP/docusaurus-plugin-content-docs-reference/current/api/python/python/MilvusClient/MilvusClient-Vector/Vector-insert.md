@@ -7,13 +7,13 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の collection にデータを挿入します。 | Python | MilvusClient"
+description: "この操作は、特定のコレクションにデータを挿入します。 | Python | MilvusClient"
 type: docx
 token: QI87dhVnioL9JLxnNKxcM8jWnkh
 sidebar_position: 3
 keywords: 
   - 音声類似検索
-  - Elastic vector database
+  - Elastic ベクトルデータベース
   - Pinecone vs Milvus
   - Chroma vs Milvus
   - zilliz
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # insert()
 
-この操作は、特定の collection にデータを挿入します。
+この操作は、特定のコレクションにデータを挿入します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 外部コレクションはこの操作をサポートしていません。
 
 </Admonition>
 
-## Request syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 insert(
@@ -50,23 +50,23 @@ insert(
 ) -> List[Union[str, int]]
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **collection_name** (*str*) -
 
     **[REQUIRED]**
 
-    既存の collection の名前です。
+    既存のコレクションの名前です。
 
 - **data** (*dict* | *list[dict]*) -
 
     **[REQUIRED]**
 
-    現在の collection に挿入するデータです。
+    現在のコレクションに挿入するデータです。
 
-    挿入するデータは、現在の collection のスキーマに一致する辞書、またはそのような辞書のリストである必要があります。 
+    挿入するデータは、現在のコレクションのスキーマに一致する辞書、またはそのような辞書のリストである必要があります。 
 
-    次のコードは、現在の collection のスキーマに **id** と **vector** という名前の 2 つのフィールドがあることを前提としています。前者はプライマリフィールドで、後者は 5 次元の vector 埋め込みを保持するフィールドです。
+    次のコードは、現在のコレクションのスキーマに **id** と **ベクトル** という名前の 2 つのフィールドがあることを前提としています。前者はプライマリフィールドで、後者は 5 次元のベクトル埋め込みを保持するフィールドです。
 
     ```python
     # A dictionary, or
@@ -114,29 +114,29 @@ insert(
 
 - **partition_name** (*string* | *None*) -
 
-    現在の collection 内の partition の名前です。 
+    現在のコレクション内のパーティションの名前です。 
 
-    指定した場合、データは指定された partition に挿入されます。
+    指定した場合、データは指定されたパーティションに挿入されます。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *dict*
 
-**RETURNS:**
+**戻り値:**
 
-挿入されたエンティティ数に関する情報を含む辞書です。
+挿入されたエンティティの数に関する情報を含む辞書です。
 
 ```python
 {'insert_count': 0}
 ```
 
-**EXCEPTIONS:**
+**例外:**
 
 - **MilvusException**
 
-    この操作中に何らかのエラーが発生すると、この例外が発生します。
+    この操作中に何らかのエラーが発生した場合に、この例外が発生します。
 
-## Examples\{#examples}
+## 例\{#examples}
 
 ```python
 from pymilvus import MilvusClient

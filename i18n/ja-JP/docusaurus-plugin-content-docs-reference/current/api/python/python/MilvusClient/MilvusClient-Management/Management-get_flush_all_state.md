@@ -7,13 +7,13 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "`flush-all` 操作が完了したかどうかを返します。`flushall()` の呼び出し後に、flush の状態を確認するために使用します。 | Python | MilvusClient"
+description: "flush-all 操作が完了したかどうかを返します。`flushall()` を呼び出した後に、flush のステータスを確認するために使用します。 | Python | MilvusClient"
 type: docx
 token: G31wdmzVFo687JxZTAGctQlKnir
 sidebar_position: 20
 keywords: 
   - AI チャットボット
-  - cosine distance
+  - コサイン距離
   - ベクトルデータベースとは
   - vectordb
   - zilliz
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # get_flush_all_state()
 
-この操作は、`flush-all` 操作が完了したかどうかを返します。`flush_all()` を呼び出した後に、flush の状態を確認するために使用します。
+この操作は、flush-all 操作が完了したかどうかを返します。`flush_all()` を呼び出した後に、flush のステータスを確認するために使用します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-これは管理対象の collection にのみ適用されます。
+これはマネージドコレクションにのみ適用されます。
 
 </Admonition>
 
@@ -51,7 +51,7 @@ client.get_flush_all_state(
 
 - **timeout** (*float* | *None*) -
 
-    この操作のタイムアウト時間です。これを **None** に設定すると、何らかのレスポンスが返るか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間です。これを **None** に設定すると、何らかのレスポンスが到着するとき、または何らかのエラーが発生したときに、この操作はタイムアウトします。
 
 **戻り値の型:**
 
@@ -59,13 +59,13 @@ client.get_flush_all_state(
 
 **戻り値:**
 
-`flush-all` 操作が完了している場合は **True**、そうでない場合は **False**。
+flush-all 操作が完了している場合は **True**、それ以外の場合は **False** です。
 
 **例外:**
 
 - **MilvusException**
 
-    この操作中に何らかのエラーが発生した場合に、この例外が発生します。
+    この例外は、この操作中に何らかのエラーが発生した場合に送出されます。
 
 ## 例\{#example}
 

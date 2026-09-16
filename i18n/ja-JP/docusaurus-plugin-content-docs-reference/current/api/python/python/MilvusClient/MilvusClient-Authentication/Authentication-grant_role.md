@@ -12,10 +12,10 @@ type: docx
 token: DsnpdZuDGo77TYxFuYvcDpOgnIf
 sidebar_position: 12
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - ベクトル db comparison
+  - openai ベクトル db
+  - natural language processing データベース
+  - cheap ベクトル データベース
   - zilliz
   - zilliz cloud
   - cloud
@@ -96,9 +96,9 @@ client = MilvusClient(
 client.grant_role(user_name="user_1", role_name="db_ro")
 ```
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-各 Zilliz Cloud クラスターには、**db\_ro**、**db\_rw**、**db\_admin** という 3 つの組み込みロールがあります。詳細については、[Cluster Built-in Roles](/docs/cluster-roles#built-in-cluster-roles) を参照してください。
+各 Zilliz Cloud クラスターには、**db\_ro**、**db\_rw**、**db\_admin** という 3 つの組み込みロールがあります。詳細については、[クラスター Built-in Roles](/docs/cluster-roles#built-in-cluster-roles) を参照してください。
 
 </Admonition>
 

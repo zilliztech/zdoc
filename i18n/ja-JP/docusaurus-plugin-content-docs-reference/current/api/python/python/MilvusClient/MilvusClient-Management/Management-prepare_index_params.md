@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の collection のインデックスを構築するためのインデックスパラメータを準備します。 | Python | MilvusClient"
+description: "この操作は、特定のコレクションのインデックスを構築するためのインデックスパラメーターを準備します。 | Python | MilvusClient"
 type: docx
 token: CAzpdAw3wo4ZqrxhjTLcEGBBn1S
 sidebar_position: 11
 keywords: 
-  - milvus database
+  - milvus データベース
   - milvus lite
-  - milvus benchmark
+  - milvus ベンチマーク
   - managed milvus
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - prepare_index_params()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # prepare_index_params()
 
-この操作は、特定の collection のインデックスを構築するためのインデックスパラメータを準備します。
+この操作は、特定のコレクションのインデックスを構築するためのインデックスパラメーターを準備します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-このメソッドは、Dedicated serving cluster と on-demand compute にのみ適用されます。 
+このメソッドは、Dedicated serving クラスターと on-demand compute にのみ適用されます。 
 
-- serving cluster の collection でこの操作を行うには、cluster endpoint を使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
+- serving クラスターのコレクションでこの操作を行うには、クラスターエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- on-demand compute 用の collection でこの操作を行うには、project endpoints を使用して **[MilvusClient](./Client-MilvusClient)** を作成し、その後、検索のために on-demand cluster にアタッチするセッションを作成してください。
+- on-demand compute のコレクションでこの操作を行うには、project エンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成し、その後、検索のために on-demand クラスターにアタッチするセッションを作成してください。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -59,9 +59,9 @@ import Admonition from '@theme/Admonition';
 pymilvus.MilvusClient.prepare_index_params() -> IndexParams
 ```
 
-**パラメータ:**
+**パラメーター:**
 
-なし
+N/A
 
 **戻り値の型:**
 

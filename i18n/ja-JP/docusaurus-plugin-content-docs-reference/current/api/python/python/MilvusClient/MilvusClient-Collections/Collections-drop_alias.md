@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、指定された collection alias を削除します。 | Python | MilvusClient"
+description: "この操作は、指定されたコレクションのエイリアスを削除します。 | Python | MilvusClient"
 type: docx
 token: FpWXdmIuforYz9xUCsqclyCXnLe
 sidebar_position: 10
@@ -15,7 +15,7 @@ keywords:
   - 自然言語検索
   - 類似検索
   - マルチモーダル RAG
-  - llm hallucinations
+  - LLM のハルシネーション
   - zilliz
   - zilliz cloud
   - クラウド
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # drop_alias()
 
-この操作は、指定された collection alias を削除します。
+この操作は、指定されたコレクションのエイリアスを削除します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-このメソッドは、Dedicated serving cluster と on-demand compute に適用されます。 
+このメソッドは、専用の serving クラスターとオンデマンドコンピュートに適用されます。 
 
-- serving cluster 内の collection の場合は、cluster endpoint を使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
+- serving クラスター内のコレクションの場合は、クラスターエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- on-demand compute 内の collection の場合は、project endpoints を使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
+- オンデマンドコンピュート内のコレクションの場合は、プロジェクトエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -68,15 +68,15 @@ drop_alias(
 
     **[REQUIRED]**
 
-    collection の alias。 
+    コレクションのエイリアス。 
 
-    この操作の前に、その alias が存在することを確認してください。存在しない場合は例外が発生します。
+    この操作の前に、エイリアスが存在することを確認してください。存在しない場合は例外が発生します。
 
 - **timeout** (*float* | *None*)  
 
-    この操作のタイムアウト時間。 
+    この操作のタイムアウト時間です。 
 
-    これを **None** に設定すると、レスポンスが返されるか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、何らかの応答が到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
 **戻り値の型:**
 
@@ -84,17 +84,17 @@ drop_alias(
 
 **戻り値:**
 
-なし
+None
 
 **例外:**
 
 - **MilvusException**
 
-    この操作中に何らかのエラーが発生した場合に送出される例外です。特に、`alias` に存在しない alias を設定した場合に発生します。
+    この例外は、この操作中に何らかのエラーが発生した場合に発生します。特に、`alias` を存在しないエイリアスに設定した場合に発生します。
 
 - **BaseException**
 
-    この操作が失敗した場合に送出される例外です。
+    この例外は、この操作が失敗した場合に発生します。
 
 ## 例\{#example}
 

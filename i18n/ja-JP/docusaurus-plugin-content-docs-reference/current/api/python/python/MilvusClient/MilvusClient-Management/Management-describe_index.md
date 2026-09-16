@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は特定のインデックスの詳細を取得します。 | Python | MilvusClient"
+description: "この操作は、特定のインデックスの詳細を取得します。 | Python | MilvusClient"
 type: docx
 token: WhsHdyIgyoFlsQxNJt9cFCTxnDe
 sidebar_position: 4
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # describe_index()
 
-この操作は特定のインデックスの詳細を取得します。
+この操作は、特定のインデックスの詳細を取得します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-このメソッドは dedicated serving cluster と on-demand compute にのみ適用されます。 
+このメソッドは、Dedicated serving クラスターとオンデマンドコンピュートにのみ適用されます。 
 
-- serving cluster の collection でこの操作を行うには、cluster endpoint を使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
+- serving クラスターのコレクションでこの操作を行うには、クラスターエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- on-demand compute 用の collection でこの操作を行うには、project endpoint を使用して **[MilvusClient](./Client-MilvusClient)** を作成し、その後、検索のために on-demand cluster にアタッチするセッションを作成してください。
+- オンデマンドコンピュート用のコレクションでこの操作を行うには、プロジェクトエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成し、その後、検索のためにオンデマンドクラスターにアタッチするセッションを作成してください。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -67,23 +67,23 @@ describe_index(
 
 - **collection_name** (*str*) -
 
-    **[必須]**
+    **[REQUIRED]**
 
-    既存の collection の名前。
+    既存のコレクションの名前です。
 
-    これを存在しない collection に設定すると、**MilvusException** が発生します。
+    これを存在しないコレクションに設定すると、**MilvusException** が発生します。
 
 - **index_name** (*str*) -
 
-    **[必須]**
+    **[REQUIRED]**
 
-    詳細を取得するインデックスの名前。
+    詳細を取得するインデックスの名前です。
 
-    これを存在しない collection に設定すると、**MilvusException** が発生します。
+    これを存在しないコレクションに設定すると、**MilvusException** が発生します。
 
 - **timeout** (*float* | *None*)  
 
-    この操作のタイムアウト時間。これを **None** に設定すると、何らかのレスポンスが到着するかエラーが発生した時点でこの操作がタイムアウトすることを示します。
+    この操作のタイムアウト時間です。これを **None** に設定すると、何らかのレスポンスが到着するかエラーが発生した時点でこの操作がタイムアウトすることを示します。
 
 **戻り値の型:** 
 
@@ -91,7 +91,7 @@ describe_index(
 
 **戻り値:**
 
-指定したインデックスの詳細を含む辞書。
+指定したインデックスの詳細を含む辞書です。
 
 ```python
 {
@@ -112,39 +112,39 @@ describe_index(
 
 - **index_type** (*str*) -
 
-    インデックスの構築に使用されるアルゴリズム。 
+    インデックスの構築に使用されるアルゴリズムです。 
 
     Zilliz Cloud では、この値は常に **AUTOINDEX** です。詳細については、[AUTOINDEX Explained](/docs/autoindex-explained) を参照してください。
 
 - **metric_type** (*str*) -
 
-    vector 間の類似度を測定するために使用されるアルゴリズム。指定可能な値は **IP**、**L2**、**COSINE** です。
+    ベクトル間の類似度を測定するために使用されるアルゴリズムです。指定可能な値は **IP**、**L2**、**COSINE** です。
 
-    これは、指定された field が vector field である場合にのみ利用できます。 
+    これは、指定されたフィールドがベクトルフィールドである場合にのみ使用できます。 
 
 - **total_rows** (*int*) -
 
-    このインデックスの対象 field に含まれる行数。
+    このインデックスの対象フィールドの行数です。
 
 - **indexed_rows** (*int*) -
 
-    このインデックスの対象 field でインデックス化済みの行数。
+    このインデックスの対象フィールドでインデックス化された行数です。
 
 - **pending_index_rows** (*int*) -
 
-    指定された field でインデックス化される予定の行数。
+    指定されたフィールドでインデックス化される予定の行数です。
 
 - **state** (*str*) -
 
-    インデックス構築プロセスの状態。
+    インデックス構築プロセスの状態です。
 
 - **field_name** (*str*) -
 
-    インデックスが作成された field の名前。
+    インデックスが作成されたフィールドの名前です。
 
 - **index_name** (*str*) -
 
-    作成されたインデックスの名前。
+    作成されたインデックスの名前です。
 
 **例外:**
 
@@ -243,4 +243,3 @@ client.describe_index(
 - [list_indexes()](./Management-list_indexes)
 
 - [prepare_index_params()](./Management-prepare_index_params)
-

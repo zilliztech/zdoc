@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、特定のオンデマンドクラスターにバインドされた軽量な DQL セッションを作成します。セッションを通じて実行されるすべての操作には、対象の `clusterid` が自動的に含まれ、マルチクラスター デプロイメントでリクエストが正しいクラスターにルーティングされることを保証します。 | Python | MilvusClient"
+description: "この操作は、特定のオンデマンドクラスターにバインドされた軽量な DQL セッションを作成します。セッションを通じて実行されるすべての操作には、対象の `clusterid` が自動的に含まれ、マルチクラスターデプロイメントでリクエストが正しいクラスターにルーティングされることが保証されます。 | Python | MilvusClient"
 type: docx
 token: UASmdlcqvojCe4xNY94cz9Wznyh
 sidebar_position: 4
@@ -15,7 +15,7 @@ keywords:
   - 動画類似検索
   - ベクトル検索
   - 音声類似検索
-  - Elastic vector database
+  - Elastic ベクトル データベース
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # session()
 
-この操作は、特定のオンデマンドクラスターにバインドされた軽量な DQL セッションを作成します。セッションを通じて実行されるすべての操作には、対象の `cluster_id` が自動的に含まれ、マルチクラスター デプロイメントでリクエストが正しいクラスターにルーティングされることを保証します。
+この操作は、特定のオンデマンドクラスターにバインドされた軽量な DQL セッションを作成します。セッションを通じて実行されるすべての操作には、対象の `cluster_id` が自動的に含まれ、マルチクラスターデプロイメントでリクエストが正しいクラスターにルーティングされることが保証されます。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 このメソッドはオンデマンドコンピュートにのみ適用されます。たとえば `https://{project-id}.{region}.api.zillizcloud.com` のようなプロジェクトエンドポイントで `MilvusClient` を作成し、対象のオンデマンドクラスター ID を `session()` に渡してください。
 
@@ -47,7 +47,7 @@ MilvusClient.session(
 ) -> MilvusClientSession
 ```
 
-**パラメータ:**
+**パラメーター:**
 
 - **cluster_id** (*str*) -
 
@@ -59,7 +59,7 @@ MilvusClient.session(
 
 *MilvusClientSession*
 
-指定されたオンデマンドクラスターに search、query、および get 操作をプロキシするセッションオブジェクトです。
+指定されたオンデマンドクラスターに対して search、query、get 操作をプロキシするセッションオブジェクトです。
 
 **例外:**
 

@@ -12,13 +12,13 @@ type: docx
 token: ZVs4dDpvmoXI0OxOnKhc9numnJd
 sidebar_position: 29
 keywords: 
-  - Sparse vs Dense
-  - Dense vector
+  - スパースと密
+  - 密ベクトル
   - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - 密埋め込み
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - refresh_external_collection()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -33,15 +33,15 @@ import Admonition from '@theme/Admonition';
 
 この操作は、スキーマで定義された外部ストレージ内のデータファイルをスキャンし、それらのデータファイルとのマッピング関係を記録するメタデータファイルを生成します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-これには、以下のように project endpoint を使用して設定された MilvusClient が必要です。
+これには、次のようにプロジェクトエンドポイントを使用して設定された MilvusClient が必要です。
 
 `https://{project-id}.{region}.api.zillizcloud.com`
 
 </Admonition>
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 refresh_external_collection(
@@ -53,47 +53,47 @@ refresh_external_collection(
 ) -> int
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    既存の external collection の名前。
+    既存の外部コレクションの名前です。
 
 - **external_source** (*str*) -
 
-    外部ソース URI。アクセス可能な外部 volume を指す `volume://` URI である必要があります。たとえば、`volume://<volume-name>/path/to/folder/` です。
+    外部ソースの URI です。アクセス可能な外部ボリュームを指す `volume://` URI を指定する必要があります。たとえば、`volume://<volume-name>/path/to/folder/` です。
 
 - **external_spec** (*str*) -
 
-    外部ソースの仕様で、一連の副次的なパラメータです。
+    外部ソースの仕様です。一連の副次的なパラメーターです。
 
     - **format** (*str*) - 
 
-        対象ソースデータファイルの形式。
+        対象のソースデータファイルの形式です。
 
         指定可能な値は `parquet`、`vortex`、`lance-table`、`iceberg-table` です。
 
     - **snapshot_id** (*str*) -
 
-        Iceberg table の ID。これは `format` が `iceberg-table` の場合にのみ適用されます。
+        Iceberg テーブルの ID です。これは `format` が `iceberg-table` の場合にのみ適用されます。
 
 - **timeout** (*float*) -
 
-    この操作のタイムアウト時間。 
+    この操作のタイムアウト時間です。 
 
-    これを **None** に設定すると、レスポンスが到着した時点またはエラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、何らかのレスポンスが到着した時点、または何らかのエラーが発生した時点で、この操作はタイムアウトします。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *int*
 
-**RETURNS:**
+**戻り値:**
 
-作成された非同期ジョブを示す整数。
+作成された非同期ジョブを示す整数です。
 
-## Examples\{#examples}
+## 例\{#examples}
 
 ```python
 from pymilvus import MilvusClient

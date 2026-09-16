@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の collection が存在するかどうかを確認します。 | Python | MilvusClient"
+description: "この操作は、特定のコレクションが存在するかどうかを確認します。 | Python | MilvusClient"
 type: docx
 token: SSQ6dFGdxouy7hxRwCOcatnEn0e
 sidebar_position: 14
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # has_collection()
 
-この操作は、特定の collection が存在するかどうかを確認します。
+この操作は、特定のコレクションが存在するかどうかを確認します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-このメソッドは、Dedicated serving cluster と on-demand compute に適用されます。 
+このメソッドは、Dedicated serving クラスターと on-demand compute に適用されます。
 
-- serving cluster 内の collection については、cluster endpoint を使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
+- serving クラスター内のコレクションについては、クラスターエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- on-demand compute 内の collection については、project endpoints を使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
+- on-demand compute 内のコレクションについては、プロジェクトエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -62,19 +62,19 @@ has_collection(
 ) -> Bool
 ```
 
-**パラメータ:**
+**パラメーター:**
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    collection の名前。
+    コレクションの名前です。
 
 - **timeout** (*float* | *None*) -
 
-    この操作のタイムアウト時間。 
+    この操作のタイムアウト時間です。
 
-    これを **None** に設定すると、レスポンスが返るかエラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、何らかの応答が返されたかエラーが発生した時点で、この操作がタイムアウトすることを示します。
 
 **戻り値の型:**
 
@@ -82,13 +82,13 @@ has_collection(
 
 **戻り値:**
 
-指定された collection が存在するかどうかを示すブール値。
+指定されたコレクションが存在するかどうかを示すブール値です。
 
 **例外:**
 
 - **MilvusException**
 
-    この操作中に何らかのエラーが発生した場合に、この例外が発生します。
+    この操作中に何らかのエラーが発生した場合に、この例外がスローされます。
 
 ## 例\{#examples}
 
@@ -114,4 +114,3 @@ client.has_collection(collection_name="test_collection_2")
 
 # False
 ```
-

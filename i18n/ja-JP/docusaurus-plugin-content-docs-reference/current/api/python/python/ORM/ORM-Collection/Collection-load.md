@@ -7,14 +7,14 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、現在の collection のデータをメモリに読み込みます。 | Python | ORM"
+description: "この操作は、現在のコレクションのデータをメモリに読み込みます。 | Python | ORM"
 type: docx
 token: HQDndiGwloWKIexgPCUcEZGenOh
 sidebar_position: 20
 keywords: 
   - NLP
-  - Neural Network
-  - Deep Learning
+  - ニューラルネットワーク
+  - 深層学習
   - ナレッジベース
   - zilliz
   - zilliz cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # load()
 
-この操作は、現在の collection のデータをメモリに読み込みます。 
+この操作は、現在のコレクションのデータをメモリに読み込みます。
 
 ## リクエスト構文\{#request-syntax}
 
@@ -43,17 +43,17 @@ load(
 )
 ```
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-この操作はノンブロッキングです。現在のプロセスをブロックするには、`utility.wait_for_loading_complete()` を呼び出します。
+この操作はノンブロッキングです。現在のプロセスをブロックするには、`utility.wait_for_loading_complete()` を呼び出すことができます。
 
 </Admonition>
 
-**パラメータ:**
+**パラメーター:**
 
 - **partition_names** (*list(str)* | *None*) - 
 
-    読み込む現在の collection の partition です。指定しない場合は、すべての partition が読み込まれます。
+    読み込む現在のコレクションの partition です。指定しない場合は、すべての partition が読み込まれます。
 
 - **timeout** (*float* | *None*)  -
 
@@ -73,9 +73,9 @@ load(
 
     この操作中に何らかのエラーが発生した場合に送出される例外です。
 
-<Admonition type="warning" icon="🚧" title="警告">
+<Admonition type="warning" title="Warning">
 
-index が作成されていない collection を読み込もうとすると、**MilvusException** が返されます。
+インデックスが作成されていないコレクションを読み込もうとすると、**MilvusException** を受け取ります。
 
 </Admonition>
 
@@ -139,4 +139,3 @@ collection.load(
 - [loading_progress()](./utility-loading_progress)
 
 - [wait_for_loading_complete()](./utility-wait_for_loading_complete)
-

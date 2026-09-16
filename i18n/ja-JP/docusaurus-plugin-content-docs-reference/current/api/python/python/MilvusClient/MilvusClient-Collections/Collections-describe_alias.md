@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作はエイリアスの詳細を表示します。 | Python | MilvusClient"
+description: "この操作は、エイリアスの詳細を表示します。 | Python | MilvusClient"
 type: docx
 token: HN7nddgueo3scIxmPXAcpjkFnDf
 sidebar_position: 8
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # describe_alias()
 
-この操作はエイリアスの詳細を表示します。
+この操作は、エイリアスの詳細を表示します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-このメソッドは、Dedicated serving cluster と on-demand compute に適用されます。 
+このメソッドは、専用の serving クラスターとオンデマンドコンピュートに適用されます。 
 
-- serving cluster 内の collection に対しては、クラスターエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
+- serving クラスター内のコレクションの場合は、クラスターエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- on-demand compute 内の collection に対しては、プロジェクトエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
+- オンデマンドコンピュート内のコレクションの場合は、プロジェクトエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -68,13 +68,13 @@ describe_alias(
 
     **[REQUIRED]**
 
-    collection のエイリアス。 
+    コレクションのエイリアス。 
 
     この操作の前に、エイリアスが存在することを確認してください。存在しない場合は、例外が発生します。
 
 - **timeout** (*float* | *None*)  
 
-    この操作のタイムアウト時間。 
+    この操作のタイムアウト時間です。 
 
     これを **None** に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
@@ -84,7 +84,7 @@ describe_alias(
 
 **戻り値:**
 
-エイリアスの詳細を含む辞書。
+エイリアスの詳細を含む辞書です。
 
 ```python
 {
@@ -102,21 +102,21 @@ describe_alias(
 
 - **collection_name** (*str*) -
 
-    バインドされている collection の名前。 
+    バインドされているコレクションの名前。 
 
 - **db_name** (*str*) -
 
-    バインドされている collection が属するデータベース。 
+    バインドされているコレクションが属するデータベース。 
 
 **例外:**
 
 - **MilvusException**
 
-    この操作中に何らかのエラーが発生した場合に、この例外が発生します。特に、`alias` を存在しないエイリアスに設定した場合に発生します。
+    この例外は、この操作中に何らかのエラーが発生した場合に発生します。特に、`alias` を存在しないエイリアスに設定した場合に発生します。
 
 - **BaseException**
 
-    この操作が失敗した場合に、この例外が発生します。
+    この例外は、この操作が失敗した場合に発生します。
 
 ## 例\{#example}
 

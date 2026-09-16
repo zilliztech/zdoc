@@ -7,13 +7,13 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は現在の role に権限を付与します。 | Python | ORM"
+description: "この操作は、現在のロールに権限を付与します。 | Python | ORM"
 type: docx
 token: BapSdVXjQoQXnbxnRYScCagAn1f
 sidebar_position: 5
 keywords: 
   - vectordb
-  - マルチモーダル vector database retrieval
+  - マルチモーダルベクトルデータベース検索
   - Retrieval Augmented Generation
   - Large language model
   - zilliz
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # grant()
 
-この操作は現在の role に権限を付与します。
+この操作は、現在のロールに権限を付与します。
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 grant(
@@ -50,17 +50,17 @@ grant(
 
     **[REQUIRED]**
 
-    権限を付与する対象 object のタイプです。
+    権限を付与する対象オブジェクトのタイプです。
 
-    この値は大文字と小文字を区別します。詳細は Users & Roles を参照してください。
+    値では大文字と小文字が区別されます。詳細については、Users & Roles を参照してください。
 
 - **object_name** (*string*)
 
     **[REQUIRED]**
 
-    **object** で指定したタイプの対象 object の名前です。
+    **object** で指定されたタイプの対象オブジェクトの名前です。
 
-    collection 名、ユーザー名、またはワイルドカード (*) を指定できます。
+    コレクション名、ユーザー名、またはワイルドカード (&ast;) を指定できます。
 
 - **privilege** (*string*)
 
@@ -68,19 +68,19 @@ grant(
 
     付与する権限の名前です。
 
-    詳細は Users & Roles を参照してください。
+    詳細については、Users & Roles を参照してください。
 
-    <Admonition type="info" icon="📘" title="注意">
+    <Admonition type="info" title="Notes">
 
-    - **[Collection](./ORM-Collection)**、**Global**、**User** のような種類の object にすべての権限を付与するには、権限名に `*` を使用します。
+    - **[コレクション](./ORM-Collection)**、**Global**、**User** のような種類のオブジェクトにすべての権限を付与するには、権限名に `*` を使用します。
     
-    - `object` を `Global` に設定した場合、`privilege` を `\*` に設定しても `All` に設定することと同じではありません。`All` 権限には、collection および user object を含むすべての権限が含まれます。
+    - `object` が `Global` に設定されている場合、`privilege` を `\*` に設定することは、`All` に設定することと同等ではありません。`All` 権限には、あらゆるコレクションとユーザーオブジェクトを含むすべての権限が含まれます。
 
     </Admonition>
 
 - **db_name** (*string*)
 
-    object が属するデータベースの名前です。指定しない場合は、デフォルトのデータベースが適用されます。
+    オブジェクトが属するデータベースの名前です。指定しない場合は、デフォルトのデータベースが適用されます。
 
 **RETURN TYPE:**
 
@@ -96,7 +96,7 @@ grant(
 
     この操作中に何らかのエラーが発生した場合、この例外が発生します。
 
-## Examples\{#examples}
+## 例\{#examples}
 
 ```python
 from pymilvus import Role
@@ -108,7 +108,7 @@ role = Role(role_name)
 role.grant("Collection", collection_name, "Insert")
 ```
 
-## Related operations\{#related-operations}
+## 関連する操作\{#related-operations}
 
 以下の操作は `grant()` に関連しています。
 

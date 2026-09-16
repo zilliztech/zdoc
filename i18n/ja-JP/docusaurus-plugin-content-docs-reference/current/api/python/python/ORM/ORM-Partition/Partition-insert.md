@@ -7,14 +7,14 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は現在の partition にデータを挿入します。 | Python | ORM"
+description: "この操作は、現在のパーティションにデータを挿入します。 | Python | ORM"
 type: docx
 token: QXDxdv36FoVgjcxDV1gcDwWXnsd
 sidebar_position: 5
 keywords: 
   - llm eval
   - Sparse vs Dense
-  - Dense vector
+  - 密ベクトル
   - Hierarchical Navigable Small Worlds
   - zilliz
   - zilliz cloud
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # insert()
 
-この操作は現在の partition にデータを挿入します。
+この操作は、現在のパーティションにデータを挿入します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-**[Collection](./ORM-Collection)** オブジェクトの **insert()** メソッドで **partition_name** パラメータを使用することは、**[Partition](./ORM-Partition)** オブジェクトの **insert()** メソッドを使用することと同等です。
+**[コレクション](./ORM-Collection)** オブジェクトの **insert()** メソッドで **partition_name** パラメータを使用することは、**[Partition](./ORM-Partition)** オブジェクトの **insert()** メソッドを使用することと同等です。
 
 </Admonition>
 
@@ -54,13 +54,13 @@ insert(
 
     **[REQUIRED]**
 
-    現在の collection に挿入するデータです。
+    現在のコレクションに挿入するデータです。
 
-    挿入するデータは、現在の collection のスキーマに一致している必要があります。データは次のいずれかの形式で構成できます。
+    挿入するデータは、現在のコレクションのスキーマと一致している必要があります。データは次のいずれかの形式で構成できます。
 
-    - 列のリスト
+    - カラムのリスト
 
-        各列は、その列における各 entity の値のリストです。
+        各カラムは、そのカラム内の各エンティティの値のリストです。
 
         ```python
         data = [
@@ -77,7 +77,7 @@ insert(
 
     - **pandas.DataFrame**
 
-        [このページ](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html) の **Example** セクションに示されているように、任意の方法でデータフレームを作成できます。
+        [このページ](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html) の **Example** セクションで示されているように、任意の方法でデータフレームを作成できます。
 
         ```python
         data = pd.DataFrame({
@@ -94,7 +94,7 @@ insert(
 
     - 行のリスト、または単一の行
 
-        各行は、1 つの entity を表す辞書です。
+        各行は、1 つのエンティティを表す辞書です。
 
         ```python
         data = [
@@ -112,7 +112,7 @@ insert(
 
 - **timeout** (*float* | *None*)  
 
-    この操作のタイムアウト時間です。これを **None** に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間です。これを **None** に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作がタイムアウトすることを示します。
 
 **RETURN TYPE:**
 
@@ -120,35 +120,35 @@ insert(
 
 **RETURNS:**
 
-以下のフィールドを含む **MutationResult** オブジェクトです。
+以下のフィールドを含む **MutationResult** オブジェクト:
 
 - **insert_count** (*int*)
 
-    挿入された entity の数です。
+    挿入されたエンティティの数。
 
 - **primary_keys** (*list*)
 
-    挿入された entity の主キーのリストです。
+    挿入されたエンティティの主キーのリスト。
 
 **EXCEPTIONS:**
 
-- 以下のフィールドを含む **MutationResult** オブジェクトです。
+- 以下のフィールドを含む **MutationResult** オブジェクト:
 
     - **insert_count** (*int*)
 
-        挿入された entity の数です。
+        挿入されたエンティティの数。
 
     - **delete_count** (*int*)
 
-        削除された entity の数です。
+        削除されたエンティティの数。
 
     - **upsert_count** (*int*)
 
-        upsert された entity の数です。
+        upsert されたエンティティの数。
 
     - **succ_count** (*int*)
 
-        この操作中に正常に実行された回数です。
+        この操作中に成功した実行の数。
 
     - **succ_index** (*list*)
 
@@ -156,7 +156,7 @@ insert(
 
     - **err_count** (*int*)
 
-        この操作中に失敗した実行回数です。
+        この操作中に失敗した実行の数。
 
     - **err_index** (*list*)
 
@@ -164,11 +164,11 @@ insert(
 
     - **primary_keys** (*list*)
 
-        挿入された entity の主キーのリストです。
+        挿入されたエンティティの主キーのリスト。
 
     - **timestamp** (*int*)
 
-        この操作が完了した時点のタイムスタンプです。
+        この操作が完了した時点のタイムスタンプ。
 
 ## Examples\{#examples}
 
@@ -203,7 +203,7 @@ res.insert_count
 
 ## Related operations\{#related-operations}
 
-以下の操作は `insert()` に関連しています。
+次の操作は `insert()` に関連しています。
 
 - [delete()](./Partition-delete)
 

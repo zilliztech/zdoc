@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 この操作は、特定のコレクションのデータをメモリから解放します。
 
-<Admonition type="info" icon="📘" title="注記">
+<Admonition type="info" title="Notes">
 
 これは管理対象のコレクションにのみ適用されます。
 
@@ -193,4 +193,3 @@ client.get_load_state(
 - [load_collection()](./Management-load_collection)
 
 - [refresh_load()](./Management-refresh_load)
-

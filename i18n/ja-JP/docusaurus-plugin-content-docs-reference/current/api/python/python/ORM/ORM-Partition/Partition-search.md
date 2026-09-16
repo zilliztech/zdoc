@@ -7,15 +7,15 @@ added_since: Inherit
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、オプションのスカラー フィルタリング式を使用してベクトル類似度検索を実行します。 | Python | ORM"
+description: "この操作は、オプションのスカラーフィルタリング式を使用してベクトル類似度検索を実行します。 | Python | ORM"
 type: docx
 token: XW72dhBuNoqNWhxUQLtcfa6Fnwd
 sidebar_position: 10
 keywords: 
   - ANN 検索
   - ベクトル埋め込みとは
-  - ベクトルデータベース チュートリアル
-  - ベクトルデータベースはどのように動作するか
+  - ベクトルデータベースのチュートリアル
+  - ベクトルデータベースの仕組み
   - zilliz
   - zilliz cloud
   - クラウド
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # search()
 
-この操作は、オプションのスカラー フィルタリング式を使用してベクトル類似度検索を実行します。
+この操作は、オプションのスカラーフィルタリング式を使用してベクトル類似度検索を実行します。
 
 ## Request Syntax\{#request-syntax}
 
@@ -52,87 +52,87 @@ search(
 
 **PARAMETERS:**
 
-- **data** (*list[list[float]]*) - 
+- **data** (*list[list[float]]*) -
 
     **[REQUIRED]**
 
-    vector embeddings のリスト。
+    ベクトル埋め込みのリストです。
 
-    Zilliz Cloud は、指定されたものに最も類似する vector embeddings を検索します。
+    Zilliz Cloud は、指定されたベクトル埋め込みに最も類似するベクトル埋め込みを検索します。
 
 - **anns_field** (str) -
 
-    現在の検索対象となる vector field の名前。
+    現在の検索における対象のベクトルフィールドの名前です。
 
-    このパラメータのデフォルトは空文字列です。このパラメータを指定しない場合、デフォルト値が適用され、collection 内で唯一の vector field が検索対象として使用されます。
+    このパラメータのデフォルトは空の文字列です。このパラメータを指定しない場合はデフォルト値が適用され、コレクション内の唯一のベクトルフィールドが検索対象として使用されることを示します。
 
 - **param** (dict) -
 
     **[REQUIRED]**
 
-    この操作固有のパラメータ設定。
+    この操作に固有のパラメータ設定です。
 
     - **metric_type** (*str*) -
 
-        この操作に適用される metric type。これは、上で指定した vector field の index 作成時に使用したものと同じである必要があります。 
+        この操作に適用されるメトリックタイプです。これは、上で指定したベクトルフィールドのインデックスを作成したときに使用したものと同じである必要があります。
 
-        使用可能な値は **L2**、**IP**、**COSINE** です。
+        指定可能な値は **L2**、**IP**、**COSINE** です。
 
     - **params** (dict) -
 
-        追加パラメータ。
+        追加のパラメータです。
 
         - **offset** (int) -
 
-            検索結果内でスキップするレコード数。 
+            検索結果でスキップするレコード数です。
 
-            このパラメータを `limit` と組み合わせることで、ページネーションを有効にできます。
+            このパラメータを `limit` と組み合わせて使用すると、ページネーションを有効にできます。
 
-            この値と `limit` の合計は 16,384 未満である必要があります。 
+            この値と `limit` の合計は 16,384 未満にする必要があります。
 
         - **radius** (float) -
 
-            類似度の下限しきい値を決定します。`metric_type` を `L2` に設定する場合、この値は **range_filter** の値より大きくする必要があります。それ以外の場合、この値は **range_filter** の値より小さくする必要があります。 
+            最小類似度のしきい値を決定します。`metric_type` を `L2` に設定する場合は、この値が **range_filter** の値より大きくなるようにしてください。それ以外の場合は、この値は **range_filter** の値より小さくする必要があります。
 
-        - **range_filter**  (float) -  
+        - **range_filter**  (float) -
 
-            特定の類似度範囲内のベクトルに検索を絞り込みます。`metric_type` を `IP` または `COSINE` に設定する場合、この値は **radius** の値より大きくする必要があります。それ以外の場合、この値は **radius** の値より小さくする必要があります。
+            特定の類似度範囲内のベクトルに検索を絞り込みます。`metric_type` を `IP` または `COSINE` に設定する場合は、この値が **radius** の値より大きくなるようにしてください。それ以外の場合は、この値は **radius** の値より小さくする必要があります。
 
     その他の適用可能な検索パラメータの詳細については、[AUTOINDEX Explained](/docs/autoindex-explained) を参照してください。
 
 - **limit** (*int*) -
 
-    返される entity の総数。
+    返されるエンティティの総数です。
 
-    このパラメータを **param** 内の `offset` と組み合わせることで、ページネーションを有効にできます。
+    このパラメータを **param** 内の `offset` と組み合わせて使用すると、ページネーションを有効にできます。
 
-    この値と **param** 内の `offset` の合計は 16,384 未満である必要があります。 
+    この値と **param** 内の `offset` の合計は 16,384 未満にする必要があります。
 
 - **expr** (*str*) -
 
-    一致する entity をフィルタリングするための scalar filtering 条件。
+    一致するエンティティをフィルタリングするためのスカラーフィルタリング条件です。
 
-    デフォルト値は **None** で、scalar filtering を無視することを示します。scalar filtering 条件の構築方法については、[Boolean Expression Rules](https://milvus.io/docs/boolean.md) を参照してください。
+    値のデフォルトは **None** で、スカラーフィルタリングが無視されることを示します。スカラーフィルタリング条件を作成する方法については、[Boolean Expression Rules](https://milvus.io/docs/boolean.md) を参照してください。
 
 - **output_fields** (*list*) -
 
-    返される各 entity に含める field 名のリスト。
+    返される各エンティティに含めるフィールド名のリストです。
 
-    デフォルト値は **None** です。指定しない場合、primary field のみが含まれます。
+    値のデフォルトは **None** です。指定しない場合は、主フィールドのみが含まれます。
 
 - **timeout** (*float*)  -
 
-    この操作のタイムアウト時間。これを **None** に設定すると、いずれかの応答が到着した時点、または何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間です。これを **None** に設定すると、何らかの応答が到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
 - **round_decimal** (int) -
 
-    Zilliz Cloud が計算された距離を丸める小数点以下の桁数。
+    Zilliz Cloud が計算された距離を丸める際の小数点以下の桁数です。
 
-    デフォルト値は **-1** で、Zilliz Cloud は計算された距離を丸めず、生の値を返すことを示します。
+    値のデフォルトは **-1** で、Zilliz Cloud が計算された距離の丸めをスキップし、生の値を返すことを示します。
 
 - **search_aggregation** (*Optional[SearchAggregation]*) -
 
-    階層バケット集約仕様。**group_by_field** とは相互排他です。設定した場合、**limit** は無視され、ルートの *SearchAggregation.size* がトップレベルのバケット数を制御します。
+    階層バケット集計の仕様です。**group_by_field** とは相互に排他的です。設定した場合、**limit** は無視され、最上位のバケット数はルートの *SearchAggregation.size* によって制御されます。
 
 **RETURN TYPE:**
 
@@ -140,15 +140,15 @@ search(
 
 **RETURNS:**
 
-**SearchResult** オブジェクトを返します。これには **Hits** オブジェクトのリストが含まれます。 
+**SearchResult** オブジェクトを返します。これには **Hits** オブジェクトのリストが含まれます。
 
-- レスポンス構造
+- レスポンスの構造
 
-    <Admonition type="info" icon="📘" title="注意">
+    <Admonition type="info" title="Notes">
 
-    **SearchResult** オブジェクトには **Hits** オブジェクトのリストが含まれており、それぞれが検索リクエスト内のクエリベクトルに対応します。 
+    **SearchResult** オブジェクトには **Hits** オブジェクトのリストが含まれており、それぞれが検索リクエスト内の 1 つのクエリベクトルに対応します。
     
-    **Hits** オブジェクトには **Hit** オブジェクトのリストが含まれており、それぞれが検索でヒットした entity に対応します。
+    **Hits** オブジェクトには **Hit** オブジェクトのリストが含まれており、それぞれが検索でヒットした 1 つのエンティティに対応します。
 
     </Admonition>
 
@@ -171,33 +171,33 @@ search(
 
         - **ids** (*list[int]* | *list[str]*)
 
-            ヒットした entity の ID を含むリスト。
+            ヒットしたエンティティの ID を含むリストです。
 
-        - **distances** (list[float]) 
+        - **distances** (list[float])
 
-            ヒットした entity の vector field からクエリベクトルまでの距離のリスト。
+            ヒットしたエンティティのベクトルフィールドからクエリベクトルまでの距離のリストです。
 
     - **Hit** オブジェクトには次のフィールドがあります。
 
         - **id** (*int* | *str*)
 
-            ヒットした entity の ID。
+            ヒットしたエンティティの ID です。
 
         - **distance** (*float*)
 
-            ヒットした entity の vector field からクエリベクトルまでの距離。
+            ヒットしたエンティティのベクトルフィールドからクエリベクトルまでの距離です。
 
         - **score** (*float*)
 
-            **distance** のエイリアス。
+            **distance** のエイリアスです。
 
-        - **vector** (*list[float]*)   
+        - **vector** (*list[float]*)
 
-            ヒットした entity の vector field。
+            ヒットしたエンティティのベクトルフィールドです。
 
         - **get(*field_name: str*)**
 
-            ヒットした entity 内の指定した field の値を取得する関数。 
+            ヒットしたエンティティ内の指定したフィールドの値を取得する関数です。
 
 **EXCEPTIONS:**
 
@@ -274,4 +274,3 @@ for hits in res:
 - [query()](./Partition-query)
 
 - [upsert()](./Partition-upsert)
-

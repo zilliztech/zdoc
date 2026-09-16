@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、ある collection の alias を別の collection に再割り当てします。 | Python | MilvusClient"
+description: "この操作は、あるコレクションのエイリアスを別のコレクションに再割り当てします。 | Python | MilvusClient"
 type: docx
 token: CBc3d1mrdoYqmDxe4Kcc9zxAnzh
 sidebar_position: 1
@@ -18,7 +18,7 @@ keywords:
   - ベクトル検索
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - alter_alias()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # alter_alias()
 
-この操作は、ある collection の alias を別の collection に再割り当てします。
+この操作は、あるコレクションのエイリアスを別のコレクションに再割り当てします。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-このメソッドは、Dedicated serving cluster と on-demand compute に適用されます。 
+このメソッドは、専用の serving クラスターとオンデマンドコンピュートに適用されます。 
 
-- serving cluster 内の collection については、cluster endpoint を使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
+- serving クラスター内のコレクションに対しては、クラスターエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- on-demand compute 内の collection については、project endpoints を使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
+- オンデマンドコンピュート内のコレクションに対しては、プロジェクトエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -63,63 +63,63 @@ alter_alias(
 ) -> None
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **collection_name** (*str*) -
 
     **[REQUIRED]**
 
-    alias を再割り当てする対象 collection の名前。
+    エイリアスを再割り当てする対象のコレクションの名前。
 
 - **alias** (*str*) -
 
     **[REQUIRED]**
 
-    collection の alias。なお、この alias は事前に存在している必要があります。
+    コレクションのエイリアス。なお、このエイリアスは事前に存在している必要があります。
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
-    collection alias とは何ですか？
+    コレクションエイリアスとは何ですか？
     
-        collection alias は、collection に対する追加の名前です。collection alias は、コードを変更することなくアプリケーションを新しい collection に切り替えたい場合に便利です。 
+        コレクションエイリアスは、コレクションに対する追加の名前です。コレクションエイリアスは、コードを一切変更せずにアプリケーションを新しいコレクションに切り替えたい場合に便利です。 
     
-        Zilliz Cloud では、collection alias はグローバルに一意な識別子です。1 つの alias は、ちょうど 1 つの collection にのみ割り当てることができます。逆に、1 つの collection は複数の alias を持つことができます。
+        Zilliz Cloud では、コレクションエイリアスはグローバルに一意な識別子です。1 つのエイリアスは、厳密に 1 つのコレクションにのみ割り当てることができます。逆に、1 つのコレクションは複数のエイリアスを持つことができます。
     
-        以下は、ある collection の alias を別の collection に再割り当てする例です。
+        以下は、あるコレクションのエイリアスを別のコレクションに再割り当てする例です。
     
-        `collection_1` と `collection_2` の 2 つの collection があるとします。また、もともと `collection_1` に割り当てられていた `bob` という名前の collection alias もあるとします。
+        `collection_1` と `collection_2` の 2 つのコレクションがあるとします。また、`bob` という名前のコレクションエイリアスがあり、これはもともと `collection_1` に割り当てられていました。
     
-        - `collection_1` の alias = ["bob"]
+        - `collection_1` のエイリアス = ["bob"]
     
-        - `collection_2` の alias = []
+        - `collection_2` のエイリアス = []
     
         `alter_alias("collection_2", "bob")` を呼び出した後:
     
-        - `collection_1` の alias = []
+        - `collection_1` のエイリアス = []
     
-        - `collection_2` の alias = ["bob"]
+        - `collection_2` のエイリアス = ["bob"]
 
     </Admonition>
 
 - **timeout** (*float* | *None*)  
 
-    この操作のタイムアウト時間。 
+    この操作のタイムアウト時間です。 
 
-    これを **None** に設定すると、応答が返されるか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、何らかの応答が到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *NoneType*
 
-**RETURNS:**
+**戻り値:**
 
 None
 
-**EXCEPTIONS:**
+**例外:**
 
 - **MilvusException**
 
-    この例外は、この操作中に何らかのエラーが発生した場合、特に指定された alias が存在しない場合に発生します。
+    この例外は、この操作中に何らかのエラーが発生した場合、特に指定されたエイリアスが存在しない場合に発生します。
 
 ## 例\{#example}
 
@@ -152,4 +152,3 @@ client.alter_alias(collection_name="test_collection_2", alias="test")
 - [drop_alias()](./Collections-drop_alias)
 
 - [list_aliases()](./Collections-list_aliases)
-

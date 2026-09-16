@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作はすべてのカスタムロールを一覧表示します。 | Python | MilvusClient"
+description: "この操作は、すべてのカスタムロールを一覧表示します。 | Python | MilvusClient"
 type: docx
 token: MApVdDl17oU8OixzbMPcgceKnOh
 sidebar_position: 14
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # list_roles()
 
-この操作はすべてのカスタムロールを一覧表示します。
+この操作は、すべてのカスタムロールを一覧表示します。
 
 ## リクエスト構文\{#request-syntax}
 
@@ -45,9 +45,9 @@ list_roles(
 
 - **timeout** (*float* | *None*)  
 
-    この操作のタイムアウト時間です。 
+    この操作のタイムアウト期間です。 
 
-    これを **None** に設定すると、何らかのレスポンスが到着するか、エラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
 **戻り値の型:**
 
@@ -61,11 +61,11 @@ list_roles(
 
 - **MilvusException**
 
-    この操作中に何らかのエラーが発生した場合、この例外が発生します。
+    この操作中に何らかのエラーが発生した場合に、この例外が発生します。
 
 - **BaseException**
 
-    この操作が失敗した場合、この例外が発生します。
+    この操作が失敗した場合に、この例外が発生します。
 
 ## 例\{#example}
 
@@ -84,9 +84,9 @@ client.list_roles()
 # ['db_admin', 'db_ro', 'db_rw']
 ```
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-各 Zilliz Cloud クラスターには、**db\_ro**、**db\_rw**、**db\_admin** の 3 つの組み込みロールがあります。詳細は、[Cluster Built-in Roles](/docs/cluster-roles#built-in-cluster-roles) を参照してください。
+各 Zilliz Cloud クラスターには、**db\_ro**、**db\_rw**、**db\_admin** という 3 つの組み込みロールがあります。詳細は、[クラスター Built-in Roles](/docs/cluster-roles#built-in-cluster-roles) を参照してください。
 
 </Admonition>
 

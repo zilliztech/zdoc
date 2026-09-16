@@ -12,10 +12,10 @@ type: docx
 token: MfTsdrbGcoO9JqxjgPtcMZTvncc
 sidebar_position: 1
 keywords: 
-  - rag ベクターデータベース
-  - ベクターデータベースとは
-  - ベクターデータベースとは何か
-  - ベクターデータベース比較
+  - rag ベクトルデータベース
+  - ベクトルデータベースとは
+  - ベクトルデータベースとは何か
+  - ベクトルデータベースの比較
   - zilliz
   - zilliz cloud
   - クラウド
@@ -48,7 +48,7 @@ alter_alias(
 ```python
 from pymilvus import utility
 
-# collection alias を変更
+# Alter collection alias
 alter_alias(
     collection_name="string",
     alias="string",
@@ -62,7 +62,7 @@ alter_alias(
 
     **[必須]**
 
-    エイリアスを再割り当てする対象コレクションの名前。
+    エイリアスの再割り当て先となる対象コレクションの名前。
 
 - **alias** (*str*) -
 
@@ -70,13 +70,13 @@ alter_alias(
 
     コレクションのエイリアス。なお、このエイリアスは事前に存在している必要があります。
 
-    <Admonition type="info" icon="📘" title="注">
+    <Admonition type="info" title="Note">
 
     [コレクション](./ORM-Collection)エイリアスとは何ですか？
     
-        [コレクション](./ORM-Collection)エイリアスは、コレクションの追加名です。コレクションエイリアスは、コードを変更することなくアプリケーションを新しいコレクションに切り替えたい場合に便利です。 
+        [コレクション](./ORM-Collection)エイリアスは、コレクションに付けられる追加の名前です。コレクションエイリアスは、コードを変更することなくアプリケーションを新しいコレクションに切り替えたい場合に便利です。 
     
-        [コレクション](./ORM-Collection)エイリアスは、グローバルに一意な識別子です。1 つのエイリアスは、1 つのコレクションにのみ割り当てることができます。逆に、1 つのコレクションは複数のエイリアスを持つことができます。
+        [コレクション](./ORM-Collection)エイリアスは、グローバルに一意な識別子です。1 つのエイリアスは、厳密に 1 つのコレクションにのみ割り当てることができます。逆に、1 つのコレクションには複数のエイリアスを持たせることができます。
     
         以下は、あるコレクションのエイリアスを別のコレクションに再割り当てする例です。
     
@@ -102,7 +102,7 @@ alter_alias(
 
 - **timeout** (*float* | *None*)  
 
-    この操作のタイムアウト時間。これを **None** に設定すると、何らかの応答が到着するか、何らかのエラーが発生した時点でこの操作がタイムアウトすることを示します。
+    この操作のタイムアウト時間。これを **None** に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作がタイムアウトすることを示します。
 
 **戻り値の型:**
 
@@ -123,24 +123,24 @@ None
 ```python
 from pymilvus import connections, Collection, utility
 
-# YOUR_CLUSTER_ENDPOINT への接続
+# Connection to YOUR_CLUSTER_ENDPOINT
 connections.connect()
 
-# 既存の 2 つの collections を取得
+# Get two existing collections
 collection_1 = Collection("collection_1")
 collection_2 = Collection("collection_2")
 
-# collection_1 の alias を作成
+# Create an alias for collection_1
 utility.create_alias(collection_name="collection_1", alias="bob")
 
-# 両方の collections の aliases を一覧表示
+# List aliases for both collections
 utility.list_aliases(collection_name="collection_1") # ['bob']
 utility.list_aliases(collection_name="collection_2") # []
         
-# alias を collection_2 に再割り当て
+# Reassigns the alias to collection_2
 utility.alter_alias(collection_name="test_collection_2", alias="bob")
 
-# 両方の collections の aliases を一覧表示
+# List aliases for both collections
 utility.list_aliases(collection_name="collection_1") # []
 utility.list_aliases(collection_name="collection_2") # ['bob']
 ```

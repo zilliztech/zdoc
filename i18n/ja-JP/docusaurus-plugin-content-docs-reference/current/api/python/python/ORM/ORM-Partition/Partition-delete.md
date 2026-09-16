@@ -33,9 +33,9 @@ import Admonition from '@theme/Admonition';
 
 この操作は、ブール式を使用してパーティションからエンティティを削除します。
 
-<Admonition type="info" icon="📘" title="注記">
+<Admonition type="info" title="Notes">
 
-**[Collection](./ORM-Collection)** オブジェクトの **delete()** メソッドで **partition_name** パラメータを使用することは、**[Partition](./ORM-Partition)** オブジェクトの **delete()** メソッドを使用することと同等です。
+**[コレクション](./ORM-Collection)** オブジェクトの **delete()** メソッドで **partition_name** パラメータを使用することは、**[Partition](./ORM-Partition)** オブジェクトの **delete()** メソッドを使用することと同等です。
 
 </Admonition>
 

@@ -41,7 +41,7 @@ class pymilvus.RemoteBulkWriter.AzureConnectParam
 
 **container_name**、**account_url**、**credential** などの一連のパラメータを使用して **AzureConnectParam** オブジェクトを構築します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 **AzureConnectParam** オブジェクトは、Zilliz Cloud が Azure blob storage bucket に接続するために必要なパラメータを定義します。
 
@@ -105,4 +105,3 @@ connect_param = RemoteBulkWriter.AzureConnectParam(
 - **Exception**
 
     接続に失敗した場合、この例外が発生します。
-

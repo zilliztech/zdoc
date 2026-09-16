@@ -33,13 +33,13 @@ import Admonition from '@theme/Admonition';
 
 この操作は、ID またはブール式を使用してエンティティを削除します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-外部 collection はこの操作をサポートしていません。
+外部コレクションはこの操作をサポートしていません。
 
 </Admonition>
 
-## Request syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 delete(
@@ -52,55 +52,55 @@ delete(
 ) -> dict
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    既存の collection の名前。
+    既存のコレクションの名前。
 
 - **ids** (*list* | *str* | *int*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
     特定のエンティティ ID、またはエンティティ ID のリスト。
 
-    デフォルト値は **None** で、scalar フィルタリング条件が適用されることを示します。**ids** と **filter** の両方を設定すると、**ParamError** 例外が発生します。
+    デフォルト値は **None** で、スカラーフィルタリング条件が適用されることを示します。**ids** と **filter** の両方を設定すると、**ParamError** 例外が発生します。
 
 - **timeout** (*float* | *None*) -
 
-    この操作のタイムアウト時間。 
+    この操作のタイムアウト時間。
 
-    これを **None** に設定すると、レスポンスが返されるか、または何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、何らかの応答が返されるか、何らかのエラーが発生した時点でこの操作がタイムアウトすることを示します。
 
 - **filter** (*str*) -
 
-    一致するエンティティを絞り込むための scalar フィルタリング条件。 
+    一致するエンティティを絞り込むためのスカラーフィルタリング条件。
 
     デフォルト値は空文字列で、条件が適用されないことを示します。**ids** と **filter** の両方を設定すると、**ParamError** 例外が発生します。
 
-    scalar フィルタリングをスキップするには、このパラメータを空文字列に設定できます。scalar フィルタリング条件の構築方法については、[Boolean Expression Rules](https://milvus.io/docs/boolean.md) を参照してください。 
+    スカラーフィルタリングをスキップするには、このパラメーターを空文字列に設定できます。スカラーフィルタリング条件を構築するには、[Boolean Expression Rules](https://milvus.io/docs/boolean.md) を参照してください。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
-    filter 式を使用してエンティティを削除する場合は、collection がロードされていることを確認してください。そうでない場合、Zilliz Cloud はエラーを返します。
+    filter 式を使用してエンティティを削除する場合は、コレクションがロードされていることを確認してください。そうでない場合、Zilliz Cloud はエラーを返します。
 
     </Admonition>
 
 - **partition_name** (*str* | *""*) -
 
-    エンティティを削除する partition の名前。
+    エンティティを削除するパーティションの名前。
 
-    デフォルト値は空文字列です。指定した場合、エンティティは指定された partition から削除されます。
+    デフォルト値は空文字列です。指定した場合、エンティティは指定されたパーティションから削除されます。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *dict*
 
-**RETURNS:**
+**戻り値:**
 
-削除されたエンティティ数を含む辞書。
+削除されたエンティティの数を含む辞書です。
 
 ```python
 {
@@ -108,7 +108,7 @@ delete(
 }
 ```
 
-**EXCEPTIONS:**
+**例外:**
 
 - **MilvusException**
 
@@ -120,9 +120,9 @@ delete(
 
 - **DataTypeNotMatchException**
 
-    パラメータ値が必要なデータ型と一致しない場合に、この例外が発生します。
+    パラメーターの値が要求されたデータ型と一致しない場合に、この例外が発生します。
 
-## Examples\{#examples}
+## 例\{#examples}
 
 ```python
 from pymilvus import MilvusClient
@@ -173,4 +173,3 @@ client.delete(
 
 # {'delete_count': 2}
 ```
-

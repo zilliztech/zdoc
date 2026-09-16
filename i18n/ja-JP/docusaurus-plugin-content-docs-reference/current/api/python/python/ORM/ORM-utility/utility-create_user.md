@@ -1,10 +1,10 @@
 ---
 title: "create_user() | Python | ORM"
-slug: /python/python/ORM-utility/utility-create_user
+slug: /python/python/utility-create_user
 sidebar_label: "create_user()"
 beta: NEAR DEPRECATE
 added_since: Inherit
-last_modified: v3.0.x
+last_modified: false
 deprecate_since: false
 notebook: false
 description: "この操作は、対応するパスワードを持つ新しいユーザーを作成します。 | Python | ORM"
@@ -34,7 +34,7 @@ import TabItem from '@theme/TabItem';
 
 この操作は、対応するパスワードを持つ新しいユーザーを作成します。
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 create_user(
@@ -48,7 +48,7 @@ create_user(
 ```python
 from pymilvus import utility
 
-# 新しいユーザーを作成
+# Create a new user
 utility.create_user(
     user="string",
     password="string",
@@ -56,7 +56,7 @@ utility.create_user(
 )
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **user** (*string*) - 
 
@@ -70,7 +70,7 @@ utility.create_user(
 
     作成する新しいユーザーに対応するパスワード。 
 
-    パスワードは8～64文字の文字列である必要があり、次の文字種のうち少なくとも3種類を含める必要があります: 大文字、小文字、数字、特殊文字。
+    パスワードは 8 ～ 64 文字の文字列である必要があり、次の文字種のうち少なくとも 3 種類を含める必要があります: 大文字、小文字、数字、特殊文字。
 
 - **using** (*string*) - 
 
@@ -80,35 +80,35 @@ utility.create_user(
 
 - **timeout** (*float* | *None*)  
 
-    この操作のタイムアウト時間。これを **None** に設定すると、何らかの応答が到着するか、何らかのエラーが発生した時点でこの操作がタイムアウトすることを示します。
+    この操作のタイムアウト時間。これを **None** に設定すると、何らかの応答が到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *NoneType*
 
-**RETURNS:**
+**戻り値:**
 
 None
 
-**EXCEPTIONS:**
+**例外:**
 
 - **MilvusException**
 
-    この操作中に何らかのエラーが発生した場合、この例外が発生します。
+    この操作の実行中に何らかのエラーが発生した場合、この例外が発生します。
 
-## Examples\{#examples}
+## 例\{#examples}
 
 ```python
 from pymilvus import connections, utility
 
-# YOUR_CLUSTER_ENDPOINT に接続
+# Connection to YOUR_CLUSTER_ENDPOINT
 connections.connect()
 
-# ユーザーを作成
+# Create a user
 user = utility.create_user(user="admin", password="123456")
 ```
 
-## Related operations\{#related-operations}
+## 関連する操作\{#related-operations}
 
 以下の操作は `create_user()` に関連しています
 
@@ -127,4 +127,3 @@ user = utility.create_user(user="admin", password="123456")
 - [reset_password()](./utility-reset_password)
 
 - [update_password()](./utility-update_password)
-

@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "この操作は、現在の collection から指定された partition を削除します。 | Python | MilvusClient"
+description: "この操作は、現在のコレクションから指定されたパーティションを削除します。 | Python | MilvusClient"
 type: docx
 token: HkOFdhgbOoz1wlxJIgWcU7EonWc
 sidebar_position: 2
 keywords: 
   - マルチモーダルベクトルデータベース検索
-  - Retrieval Augmented Generation
+  - 検索拡張生成
   - 大規模言語モデル
   - ベクトル化
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - drop_partition()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,17 +31,17 @@ import Admonition from '@theme/Admonition';
 
 # drop_partition()
 
-この操作は、現在の collection から指定された partition を削除します。
+この操作は、現在のコレクションから指定されたパーティションを削除します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-partition を削除する前に、まずそれを release する必要があります。
+パーティションを削除する前に、まずそのパーティションを解放する必要があります。
 
 </Admonition>
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-これは managed collection にのみ適用されます。
+これはマネージドコレクションにのみ適用されます。
 
 </Admonition>
 
@@ -60,15 +60,15 @@ drop_partition(
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    既存の collection の名前。
+    既存のコレクションの名前。
 
 - **partition_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    削除する partition の名前。
+    削除するパーティションの名前。
 
 - **timeout** (*float* | *None*) -
 
@@ -86,7 +86,7 @@ None
 
 - **MilvusException**
 
-    この操作中に何らかのエラーが発生すると、この例外が発生します。
+    この操作中に何らかのエラーが発生した場合、この例外が発生します。
 
 ## 例\{#example}
 

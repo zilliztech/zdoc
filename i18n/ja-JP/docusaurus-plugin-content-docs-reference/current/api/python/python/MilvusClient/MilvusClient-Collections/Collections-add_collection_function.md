@@ -7,15 +7,15 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は collection に新しい function を追加します。Function を使用すると、BM25 スコアリングや埋め込み生成などのカスタム処理ロジックを定義できます。 | Python | MilvusClient"
+description: "この操作は、コレクションに新しい関数を追加します。関数を使用すると、BM25 スコアリングや埋め込み生成などのカスタム処理ロジックを定義できます。 | Python | MilvusClient"
 type: docx
 token: Qe3GdWZa9oAxjrx85tkct8ManRe
 sidebar_position: 21
 keywords: 
-  - vector 埋め込みとは
-  - vector database チュートリアル
-  - vector database はどのように動作するか
-  - vector db 比較
+  - ベクトル埋め込みとは
+  - ベクトルデータベースのチュートリアル
+  - ベクトルデータベースはどのように動作するか
+  - ベクトル DB の比較
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # add_collection_function()
 
-この操作は collection に新しい function を追加します。Function を使用すると、BM25 スコアリングや埋め込み生成などのカスタム処理ロジックを定義できます。
+この操作は、コレクションに新しい関数を追加します。関数を使用すると、BM25 スコアリングや埋め込み生成などのカスタム処理ロジックを定義できます。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-これは external collection には適用されません。
+これは外部コレクションには適用されません。
 
 </Admonition>
 
@@ -56,13 +56,13 @@ client.add_collection_function(
 
     **[REQUIRED]**
 
-    collection の名前。
+    コレクションの名前。
 
 - **[function](./MilvusClient-Function)** (*[Function](./MilvusClient-Function)*) -
 
     **[REQUIRED]**
 
-    追加する function スキーマ。これは、function 名、型、入力フィールド、出力フィールド、およびパラメータを定義する `Function` オブジェクトです。
+    追加する関数スキーマ。これは、関数名、型、入力フィールド、出力フィールド、およびパラメータを定義する `Function` オブジェクトです。
 
 - **timeout** (*float* | *None*) -
 
@@ -80,7 +80,7 @@ client.add_collection_function(
 
 - **MilvusException**
 
-    この操作中に何らかのエラーが発生した場合、この例外が発生します。
+    この操作中に何らかのエラーが発生した場合、この例外が送出されます。
 
 ## 例\{#example}
 

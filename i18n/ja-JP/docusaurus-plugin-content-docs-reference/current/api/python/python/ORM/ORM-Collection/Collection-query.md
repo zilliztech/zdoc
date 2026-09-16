@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、指定されたブール式を使用して scalar フィルタリングを実行します。 | Python | ORM"
+description: "この操作は、指定されたブール式を使用してスカラーフィルタリングを実行します。 | Python | ORM"
 type: docx
 token: JzcYdBQ5zoU4KpxPqUHcPLQonKd
 sidebar_position: 22
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # query()
 
-この操作は、指定されたブール式を使用して scalar フィルタリングを実行します。
+この操作は、指定されたブール式を使用してスカラーフィルタリングを実行します。
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 query(
@@ -45,61 +45,61 @@ query(
 )
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
 - **expr** (*str*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    一致するエンティティをフィルタリングするための scalar フィルタリング条件です。 
+    一致するエンティティをフィルタリングするためのスカラーフィルタリング条件です。
 
-    scalar フィルタリングをスキップするには、このパラメータを空文字列に設定できます。この場合、返されるエンティティ数を制限するために `limit` も設定する必要があります。
+    このパラメータを空文字列に設定すると、スカラーフィルタリングをスキップできます。この場合、返されるエンティティ数を制限するために `limit` も設定する必要があります。
 
-    scalar フィルタリング条件の構築方法については、[Boolean Expression Rules](https://milvus.io/docs/boolean.md) を参照してください。 
+    スカラーフィルタリング条件を構築するには、[Boolean Expression Rules](https://milvus.io/docs/boolean.md) を参照してください。
 
 - **output_fields** (*list*) -
 
     返される各エンティティに含めるフィールド名のリストです。
 
-    デフォルト値は **None** です。指定しない場合、primary field のみが含まれます。
+    デフォルト値は **None** です。指定しない場合、プライマリフィールドのみが含まれます。
 
 - **partition_names** (*list*)
 
-    partition 名のリストです。
+    パーティション名のリストです。
 
-    デフォルト値は **None** です。指定した場合、指定された partition のみがクエリに使用されます。
+    デフォルト値は **None** です。指定した場合、指定したパーティションのみがクエリの対象になります。
 
 - **timeout** (*float*)  
 
-    この操作のタイムアウト時間です。これを **None** に設定すると、応答が返るかエラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間です。これを **None** に設定すると、いずれかの応答が到着した時点、または何らかのエラーが発生した時点でこの操作がタイムアウトすることを示します。
 
 - **kwargs**: 
 
     - **consistency_level** (*str* | *int*) -
 
-        対象 collection の整合性レベルです。
+        対象コレクションの整合性レベルです。
 
-        デフォルト値は現在の collection 作成時に指定した値で、**Strong** (**0**)、**Bounded** (**1**)、**Session** (**2**)、**Eventually** (**3**) から選択できます。
+        デフォルト値は現在のコレクションの作成時に指定した値で、**Strong**（**0**）、**Bounded**（**1**）、**Session**（**2**）、**Eventually**（**3**）のいずれかです。
 
-        <Admonition type="info" icon="📘" title="Note">
+        <Admonition type="info" title="Note">
 
         整合性レベルとは何ですか？
-        
-                分散データベースにおける整合性とは、特定の時点でデータの書き込みまたは読み取りを行う際に、すべてのノードまたはレプリカが同じデータビューを持つことを保証する性質を指します。
-        
-                Zilliz Cloud は 3 つの整合性レベル、**Strong**、**Bounded Staleness**、**Eventually** を提供しており、デフォルトは **Bounded Staleness** です。
-        
-                vector 類似度検索や query を実行する際に、アプリケーションに最適になるよう整合性レベルを簡単に調整できます。
+
+                分散データベースにおける整合性とは、特定の時点でデータの書き込みまたは読み取りを行う際に、すべてのノードまたはレプリカが同じデータビューを持つことを保証する特性を指します。
+
+                Zilliz Cloud は **Strong**、**Bounded Staleness**、**Eventually** の 3 つの整合性レベルを提供しており、デフォルトでは **Bounded Staleness** が設定されています。
+
+                ベクトル類似検索やクエリを実行するときに整合性レベルを簡単に調整して、アプリケーションに最適な状態にできます。
 
         </Admonition>
 
     - **guarantee_timestamp** (*int*) -
 
-        有効なタイムスタンプです。 
+        有効なタイムスタンプです。
 
-        このパラメータが設定されている場合、この timestamp より前に挿入されたすべてのエンティティが query ノードから見える場合にのみ query を実行します。 
+        このパラメータを設定した場合、このタイムスタンプより前に挿入されたすべてのエンティティがクエリノードから参照できるときにのみクエリを実行します。
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" title="Notes">
 
         このパラメータは、デフォルトの整合性レベルが適用される場合に有効です。
 
@@ -109,9 +109,9 @@ query(
 
         秒単位の期間です。
 
-        デフォルト値は **5** です。このパラメータが設定されている場合、現在の timestamp からこの値を差し引いて guarantee timestamp を計算します。
+        デフォルト値は **5** です。このパラメータを設定した場合、現在のタイムスタンプからこの値を減算して保証タイムスタンプを計算します。
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" title="Notes">
 
         このパラメータは、デフォルト以外の整合性レベルが適用される場合に有効です。
 
@@ -119,29 +119,29 @@ query(
 
     - **offset** (*int*) -
 
-        query 結果内でスキップするレコード数です。 
+        クエリ結果内でスキップするレコード数です。
 
         このパラメータを `limit` と組み合わせて使用することで、ページネーションを有効にできます。
 
-        この値と `limit` の合計は 16,384 未満である必要があります。 
+        この値と `limit` の合計は 16,384 未満である必要があります。
 
     - **limit** (*int*) -
 
-        query 結果で返すレコード数です。
+        クエリ結果で返すレコード数です。
 
         このパラメータを `offset` と組み合わせて使用することで、ページネーションを有効にできます。
 
-        この値と `offset` の合計は 16,384 未満である必要があります。 
+        この値と `offset` の合計は 16,384 未満である必要があります。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *list[dict]*
 
-**RETURNS:**
+**戻り値:**
 
-各辞書が query されたエンティティを表す辞書のリストです。
+クエリされた各エンティティを表す辞書のリストです。
 
-**EXCEPTIONS:**
+**例外:**
 
 - **MilvusException**
 
@@ -151,7 +151,7 @@ query(
 
     パラメータ値が必要なデータ型に一致しない場合に、この例外が発生します。
 
-## Examples\{#examples}
+## 例\{#examples}
 
 ```python
 from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
@@ -226,7 +226,7 @@ res = collection.query(
 )
 ```
 
-## Related operations\{#related-operations}
+## 関連する操作\{#related-operations}
 
 以下の操作は `query()` に関連しています。
 
@@ -241,4 +241,3 @@ res = collection.query(
 - [query_iterator()](./Collection-query_iterator)
 
 - [upsert()](./Collection-upsert)
-

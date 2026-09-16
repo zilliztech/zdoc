@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、どのセグメントが結合されるかを示すマージプランを含め、特定の compaction ジョブの compaction プランを返します。 | Python | MilvusClient"
+description: "この操作は、どのセグメントが結合されるかを示すマージプランを含め、特定の Compaction ジョブの Compaction プランを返します。 | Python | MilvusClient"
 type: docx
 token: Qa8ZdRkOKocH60xujcLcOxuBnkh
 sidebar_position: 18
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # get_compaction_plans()
 
-この操作は、どのセグメントが結合されるかを示すマージプランを含め、特定の compaction ジョブの compaction プランを返します。
+この操作は、どのセグメントが結合されるかを示すマージプランを含め、特定の Compaction ジョブの Compaction プランを返します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-これは managed collection にのみ適用されます。
+これは managed コレクション にのみ適用されます。
 
 </Admonition>
 
@@ -54,7 +54,7 @@ client.get_compaction_plans(
 
     **[必須]**
 
-    `compact()` によって返される compaction ジョブの ID。
+    `compact()` によって返される Compaction ジョブの ID。
 
 - **timeout** (*float* | *None*) -
 

@@ -7,14 +7,14 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の collection のすべての index を一覧表示します。 | Python | MilvusClient"
+description: "この操作は、特定のコレクションのすべてのインデックスを一覧表示します。 | Python | MilvusClient"
 type: docx
 token: ZqmudJWyFonUKGxAxXncYrLZn2e
 sidebar_position: 9
 keywords: 
-  - vector databases comparison
+  - ベクトルデータベースの比較
   - Faiss
-  - Video search
+  - 動画検索
   - AI Hallucination
   - zilliz
   - zilliz cloud
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # list_indexes()
 
-この操作は、特定の collection のすべての index を一覧表示します。
+この操作は、特定のコレクションのすべてのインデックスを一覧表示します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-このメソッドは、専用の serving cluster と on-demand compute にのみ適用されます。 
+このメソッドは、Dedicated serving クラスターとオンデマンドコンピュートにのみ適用されます。 
 
-- serving cluster の collection でこの操作を行うには、cluster endpoint を使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
+- serving クラスターのコレクションでこの操作を行うには、クラスターエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- on-demand compute の collection でこの操作を行うには、project endpoints を使用して **[MilvusClient](./Client-MilvusClient)** を作成し、その後、検索のために on-demand cluster に接続する session を作成してください。
+- オンデマンドコンピュート用のコレクションでこの操作を行うには、プロジェクトエンドポイントを使用して **[MilvusClient](./Client-MilvusClient)** を作成し、その後、検索のためにオンデマンドクラスターに接続するセッションを作成してください。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -69,11 +69,11 @@ list_indexes(
 
     **[必須]**
 
-    既存の collection の名前。
+    既存のコレクションの名前です。
 
 - **field_name** (*str*) -
 
-    フィールドの名前。これを指定しない場合、この操作はすべての index を一覧表示します。
+    フィールドの名前です。これを指定しない場合、この操作はすべてのインデックスを一覧表示します。
 
 **戻り値の型:**
 
@@ -81,7 +81,7 @@ list_indexes(
 
 **戻り値:**
 
-index 名のリスト。
+インデックス名のリストです。
 
 **例外:**
 
@@ -193,4 +193,3 @@ client.list_indexes(collection_name="customized_setup")
 - [drop_index()](./Management-drop_index)
 
 - [prepare_index_params()](./Management-prepare_index_params)
-

@@ -7,15 +7,15 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は collection に対してマルチベクトル検索を実行し、再ランキング後の検索結果を返します。 | Python | ORM"
+description: "この操作は、コレクションに対してマルチベクトル検索を実行し、再ランキング後の検索結果を返します。 | Python | ORM"
 type: docx
 token: QqOSdTDaLoOKGRxiKEtcuuiAnrf
 sidebar_position: 17
 keywords: 
-  - milvus vector db
+  - Milvus ベクトルデータベース
   - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - Milvus とは
+  - Milvus データベース
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # hybrid_search()
 
-この操作は collection に対してマルチベクトル検索を実行し、再ランキング後の検索結果を返します。
+この操作は、コレクションに対してマルチベクトル検索を実行し、再ランキング後の検索結果を返します。
 
 ## Request Syntax\{#request-syntax}
 
@@ -51,7 +51,7 @@ hybrid_search(
 
 - **reqs** (*List[AnnSearchRequest]*) -
 
-    検索リクエストのリストです。各リクエストは **ANNSearchRequest** オブジェクトであり、それぞれ異なるベクトルフィールドと異なる検索パラメータのセットに対応します。
+    検索リクエストのリストです。各リクエストは **ANNSearchRequest** オブジェクトで、それぞれ異なるベクトルフィールドと異なる検索パラメータのセットに対応します。
 
     - **ANNSearchRequest**: ANN 検索リクエストを表すクラスです。
 
@@ -64,15 +64,15 @@ hybrid_search(
         │   └── expr
         ```
 
-        - **data** (*List*): リクエスト内で検索するクエリベクトルです。このパラメータは 1 つの要素を含むリストを受け入れます。
+        - **data** (*List*): リクエスト内で検索するクエリベクトルです。このパラメータは、1 つの要素を含むリストを受け付けます。
 
         - **anns_field** (*str*): リクエストで使用するベクトルフィールドです。
 
         - **param** (*dict*): リクエストの検索パラメータを含む辞書です。詳細は、[Search parameters](https://milvus.io/docs/single-vector-search#search-parameters) を参照してください。
 
-        - **limit** (*int*): リクエストで返す結果の最大数です。複数の ANN 検索リクエストでハイブリッド検索を実行する場合、各リクエストで **limit** によって定義された上位結果が結合され、再ランキングされた後、最終的な検索結果として返されます。
+        - **limit** (*int*): リクエストで返す結果の最大数です。複数の ANN 検索リクエストでハイブリッド検索を実行する場合、各リクエストで **limit** によって定義された上位の結果が結合され、再ランキングされたうえで、最終的な検索結果として返されます。
 
-        - **expr** (*str*): （オプション）結果をフィルタリングするための式です。
+        - **expr** (*str*): （オプション）結果を絞り込むための式です。
 
 - **rerank** (*BaseRanker*) -
 
@@ -80,11 +80,11 @@ hybrid_search(
 
     - `WeightedRanker`: Average Weighted Scoring の再ランキング戦略で、関連性に基づいてベクトルを優先し、その重要度を平均化します。
 
-    - `RRFRanker`: RRF の再ランキング戦略で、複数の検索結果を統合し、一貫して出現する項目を優先します。
+    - `RRFRanker`: RRF の再ランキング戦略で、複数の検索の結果を統合し、一貫して出現する項目を優先します。
 
 - **limit** (*int*) -
 
-    返す entity の総数です。
+    返すエンティティの総数です。
 
     このパラメータを **param** 内の `offset` と組み合わせて使用することで、ページネーションを有効にできます。
 
@@ -92,33 +92,33 @@ hybrid_search(
 
 - **partition_names** (*List[str]*) -
 
-    partition 名のリストです。
+    パーティション名のリストです。
 
-    デフォルト値は **None** です。指定した場合、指定された partition のみがクエリに含まれます。
+    デフォルト値は **None** です。指定した場合、指定したパーティションのみがクエリの対象になります。
 
 - **output_fields** (*List[str]*) -
 
-    返される各 entity に含めるフィールド名のリストです。
+    返される各エンティティに含めるフィールド名のリストです。
 
-    デフォルト値は **None** です。指定しない場合、primary field のみが含まれます。
+    デフォルト値は **None** です。指定しない場合、プライマリフィールドのみが含まれます。
 
 - **timeout** (*float*) -
 
-    この操作のタイムアウト時間です。これを **None** に設定すると、いずれかの応答が到着した時点、または何らかのエラーが発生した時点でこの操作はタイムアウトすることを示します。
+    この操作のタイムアウト時間です。これを **None** に設定すると、いずれかのレスポンスが到着した時点、または何らかのエラーが発生した時点でこの操作がタイムアウトすることを示します。
 
 - **round_decimal** (int) -
 
-    Milvus が計算された distance を丸める小数点以下の桁数です。
+    Milvus が計算された距離を丸める際の小数点以下の桁数です。
 
-    デフォルト値は **-1** で、Milvus は計算された distance の丸めをスキップし、生の値を返します。
+    デフォルト値は **-1** で、Milvus が計算された距離の丸めをスキップし、生の値を返すことを示します。
 
 - **group_by_field** (*str*)
 
-    検索結果を指定したフィールドでグループ化し、多様性を確保して同じグループから複数の結果が返されるのを避けます。詳細は、[Grouping Search](https://milvus.io/docs/grouping-search.md#Grouping-Search) を参照してください。
+    検索結果を指定したフィールドでグループ化し、多様性を確保するとともに、同じグループから複数の結果が返されることを回避します。詳細は、[Grouping Search](https://milvus.io/docs/grouping-search.md#Grouping-Search) を参照してください。
 
 - **group_size** (*int*)
 
-    grouping search において各グループ内で返す entity の目標数です。詳細は、[Grouping Search](https://milvus.io/docs/grouping-search.md#Grouping-Search) を参照してください。
+    グルーピング検索において、各グループ内で返すエンティティの目標数です。詳細は、[Grouping Search](https://milvus.io/docs/grouping-search.md#Grouping-Search) を参照してください。
 
 - **strict_group_size** (*bool*)
 
@@ -130,15 +130,15 @@ hybrid_search(
 
 **RETURNS:**
 
-**SearchResult** オブジェクト。**Hits** オブジェクトのリストを含みます。 
+**Hits** オブジェクトのリストを含む **SearchResult** オブジェクトです。
 
 - レスポンス構造
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
-    **SearchResult** オブジェクトには **Hits** オブジェクトのリストが含まれ、各 **Hits** は検索リクエスト内のクエリベクトルに対応します。 
+    **SearchResult** オブジェクトには **Hits** オブジェクトのリストが含まれ、各 **Hits** オブジェクトは検索リクエスト内のクエリベクトルに対応します。
     
-    **Hits** オブジェクトには **Hit** オブジェクトのリストが含まれ、各 **Hit** は検索によってヒットした entity に対応します。
+    **Hits** オブジェクトには **Hit** オブジェクトのリストが含まれ、各 **Hit** オブジェクトは検索によってヒットしたエンティティに対応します。
 
     </Admonition>
 
@@ -161,39 +161,39 @@ hybrid_search(
 
         - **ids** (*list[int]* | *list[str]*)
 
-            ヒットした entity の ID を含むリストです。
+            ヒットしたエンティティの ID を含むリストです。
 
         - **distances** (list[float]) 
 
-            ヒットした entity の vector field からクエリベクトルまでの distance のリストです。
+            ヒットしたエンティティのベクトルフィールドからクエリベクトルまでの距離のリストです。
 
     - **Hit** オブジェクトには次のフィールドがあります。
 
         - **id** (*int* | *str*)
 
-            ヒットした entity の ID です。
+            ヒットしたエンティティの ID です。
 
         - **distance** (*float*)
 
-            ヒットした entity の vector field からクエリベクトルまでの distance です。
+            ヒットしたエンティティのベクトルフィールドからクエリベクトルまでの距離です。
 
         - **score** (*float*)
 
             **distance** のエイリアスです。
 
-        - **vector** (*list[float]*)   
+        - **ベクトル** (*list[float]*)
 
-            ヒットした entity の vector field です。
+            ヒットしたエンティティのベクトルフィールドです。
 
         - **get(*field_name: str*)**
 
-            ヒットした entity 内の指定フィールドの値を取得する関数です。 
+            ヒットしたエンティティ内の指定したフィールドの値を取得する関数です。
 
 **EXCEPTIONS:**
 
 - **MilvusException**
 
-    この操作中に何らかのエラーが発生した場合に、この例外が発生します。
+    この操作中に何らかのエラーが発生した場合に発生する例外です。
 
 ## Examples\{#examples}
 
