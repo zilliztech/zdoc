@@ -557,6 +557,14 @@ test('translation workflows declare immutable target identity and exact target v
   assert.match(source, /validate-group\.js --target "\$TRANSLATION_TARGET" --group "\$GROUP"/)
   assert.doesNotMatch(source, /validate-reference --site zh-CN|pnpm run build:(?:en|zh-CN)/)
   assert.match(source, /prepare-reconciliation-plan\.js[\s\S]*--target "\$TRANSLATION_TARGET"[\s\S]*apply-reconciliation-plan\.js/)
+  // Target-side translation state must stay on the target baseline: restoring
+  // it to the source checkpoint rewinds other groups' published translations
+  // that the baseline manifest records, and the Reference rebuild rejects it.
+  assert.match(source, /restore-generated-state\.sh --exact --ref "\$SOURCE_CHECKPOINT_SHA" --except "\$restore_except"/)
+  assert.match(source, /diff -r "\$GITHUB_WORKSPACE\/\$parity_root" "\$BASELINE_DIR\/\$parity_root"/)
+  const batches = fs.readFileSync('.github/workflows/_prepare-translation-batches.yml', 'utf8')
+  assert.match(batches, /restore-generated-state\.sh --exact --ref "\$SOURCE_CHECKPOINT_SHA" --except "\$restore_except"/)
+  assert.match(batches, /diff -r "\$GITHUB_WORKSPACE\/\$parity_root" "\$target_baseline_dir\/\$parity_root"/)
   for (const name of [
     'ZDOC_PROVENANCE_CANDIDATE_TARGET',
     'ZDOC_PROVENANCE_CANDIDATE_TOOLING_SHA',
