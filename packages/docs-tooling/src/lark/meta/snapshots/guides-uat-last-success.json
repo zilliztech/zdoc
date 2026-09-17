@@ -9,7 +9,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-09-17T10:46:10.220Z",
+  "generated_at": "2026-09-17T18:39:02.461Z",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
   "base_app_token": "Ac7xbs2k1ad7bjsCXr0ccHe9nMh",
   "records": [
@@ -13536,7 +13536,7 @@
       "doc_token": "SXBNw91txiJhL6kq2ARcvYbRntg",
       "doc_link": "https://zilliverse.feishu.cn/wiki/SXBNw91txiJhL6kq2ARcvYbRntg",
       "source_file": "SXBNw91txiJhL6kq2ARcvYbRntg.json",
-      "source_hash": "79ce88d75aa1d1fee369f9de819a2fcb9abf4b4bda1f761427c69818bbe79f14",
+      "source_hash": "5ec5abf3191234629b1fd06cc077e4926ebb3a895374f4c6c4c462fa7eca7d4a",
       "node_metadata": {
         "requested_token": "SXBNw91txiJhL6kq2ARcvYbRntg",
         "requested_node_token": "SXBNw91txiJhL6kq2ARcvYbRntg",
@@ -13743,51 +13743,6 @@
       "outgoing_tokens": [
         "MvE5wUlFli3gJOk0MkeclZCqnib",
         "Qkm3wPF9Titu1MkQ0fgcENs4nZc",
-        "XvTLwH1TEiEHdJksnyIcMCixnic"
-      ],
-      "output_paths": []
-    },
-    {
-      "record_id": "recvvrT0u0GSJy",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "placement_type": "canonical",
-      "title": "PingOne (SAML 2.0)",
-      "slug": "single-sign-on-with-ping-one",
-      "doc_token": "KIPiw0RqSieKkjkACwGcvgfLnSe",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/KIPiw0RqSieKkjkACwGcvgfLnSe",
-      "source_file": "KIPiw0RqSieKkjkACwGcvgfLnSe.json",
-      "source_hash": "1ca1b6732c24b848d8d9013483e54a8cec9d82fa44bd5031c0c9dd7a75d9ad29",
-      "node_metadata": {
-        "requested_token": "KIPiw0RqSieKkjkACwGcvgfLnSe",
-        "requested_node_token": "KIPiw0RqSieKkjkACwGcvgfLnSe",
-        "node_token": "KIPiw0RqSieKkjkACwGcvgfLnSe",
-        "origin_node_token": "KIPiw0RqSieKkjkACwGcvgfLnSe",
-        "obj_token": "IyUXdyePSoJ4spxaiLDcT7t9nue",
-        "obj_type": "docx",
-        "node_type": "origin",
-        "title": "PingOne (SAML 2.0)",
-        "space_id": "7167193056431783939",
-        "parent_node_token": "SXBNw91txiJhL6kq2ARcvYbRntg",
-        "node_create_time": "1789004405",
-        "obj_create_time": "1789004405",
-        "obj_edit_time": "1789627162",
-        "revision_id": "142"
-      },
-      "node_token": "KIPiw0RqSieKkjkACwGcvgfLnSe",
-      "origin_node_token": "KIPiw0RqSieKkjkACwGcvgfLnSe",
-      "obj_token": "IyUXdyePSoJ4spxaiLDcT7t9nue",
-      "obj_type": "docx",
-      "obj_edit_time": "1789627162",
-      "revision_id": "142",
-      "publish_targets": [
-        "Zilliz.PaaS",
-        "Zilliz.SaaS"
-      ],
-      "publish_status": "Draft",
-      "outgoing_tokens": [
-        "KIPiw0RqSieKkjkACwGcvgfLnSe",
-        "MvE5wUlFli3gJOk0MkeclZCqnib",
         "XvTLwH1TEiEHdJksnyIcMCixnic"
       ],
       "output_paths": []
@@ -27017,7 +26972,7 @@
         "zilliz.paas",
         "zilliz.saas"
       ],
-      "progress": "Draft",
+      "progress": "WIP",
       "doc_token": "KIPiw0RqSieKkjkACwGcvgfLnSe",
       "doc_link": "https://zilliverse.feishu.cn/wiki/KIPiw0RqSieKkjkACwGcvgfLnSe",
       "ref_target": null,
@@ -28720,6 +28675,6 @@
     "tblLMqwkNDtAEK5p": "fb380db4131135ed0e0d92b6f425457c7c420d3988851ba221ca5dad18c14768",
     "tblm1SbEPZaZrGZQ": "15955e2d7f7198a7a821c4da5c93237adad1d5b0adc4a7f875ef128e5df9f3e2",
     "tblWv7PjNDsexddH": "474569cc57409d7372db0c460ce12e81d54ca69e64359d4653eed04f2fe73936",
-    "tblZMzoITXNsyKmQ": "df56861120227d7b33c66c41a2fef7db739dc2321e6dd139cb0322b561b88340"
+    "tblZMzoITXNsyKmQ": "f17d9b0dab4e0ee947ee3f625fa9c99deaa7ddd347a52c727687950b6f83eb22"
   }
 }
