@@ -107,8 +107,21 @@ function getSlugFromMarkdown(filePath) {
     }
   } catch (e) {
     // Ignore errors reading frontmatter
+  }  return null;
+}
+
+// Raw markdown of NEXT-channel pages must not ship as .md build output: it
+// would bypass the runtime release-channel gate entirely.
+function isNextChannelMarkdown(filePath) {
+  try {
+    const content = fs.readFileSync(filePath, 'utf-8');
+    const frontmatterMatch = content.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+    if (!frontmatterMatch) return false;
+    const channelMatch = frontmatterMatch[1].match(/^channel:\s*(\S+)\s*$/m);
+    return channelMatch ? channelMatch[1].trim().toLowerCase() === 'next' : false;
+  } catch {
+    return false;
   }
-  return null;
 }
 
 module.exports = function (context, options) {
@@ -149,6 +162,7 @@ module.exports = function (context, options) {
               for (const source of sources) {
                 const { route } = source;
                 for (const {filePath, relativePath} of sourceFileEntries(source, context)) {
+                  if (isNextChannelMarkdown(filePath)) continue;
                   const slug = getSlugFromMarkdown(filePath);
                   let fullUrlPath;
 
@@ -204,6 +218,7 @@ module.exports = function (context, options) {
       for (const source of sources) {
         const {route} = source;
         for (const {filePath, relativePath} of sourceFileEntries(source, lifecycle)) {
+          if (isNextChannelMarkdown(filePath)) continue;
           const slug = getSlugFromMarkdown(filePath);
 
           if (slug) {

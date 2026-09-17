@@ -366,7 +366,7 @@
       "id": "guides-source-render-and-cache",
       "paths": [
         "scripts/docs-workflow/guides-*",
-        "packages/docs-tooling/src/lark/guidesBaseRecordSemantics.js",
+        "packages/docs-tooling/src/lark/guidesBaseRecordSemantics*",
         "packages/docs-tooling/src/lark/index.js",
         "packages/docs-tooling/src/lark/incrementalFetchPlanner*",
         "packages/docs-tooling/src/lark/requestedGuidesFetchPlanner*",
@@ -385,12 +385,17 @@
         ".github/workflows/_fetch-guides-requested-sources.yml",
         ".github/workflows/_plan-guides-requested.yml",
         ".github/workflows/_render-guides-table.yml",
-        ".github/workflows/fetch-guides-requested.yml"
+        ".github/workflows/fetch-guides-requested.yml",
+        "packages/docs-tooling/src/lark/guidesBasePreflight*",
+        "packages/docs-tooling/src/lark/sourceSnapshot*",
+        "packages/docs-tooling/src/lark/canonicalLinkAuditor*"
       ],
       "focusedTests": [
         "node packages/docs-tooling/src/lark/larkDocScraper.test.js",
         "node --test packages/docs-tooling/src/lark/requestedGuidesFetchPlanner.test.js",
-        "pnpm test:guides-workflow"
+        "pnpm test:guides-workflow",
+        "node --test packages/docs-tooling/src/lark/guidesBaseRecordSemantics.test.js packages/docs-tooling/src/lark/guidesBasePreflight.test.js packages/docs-tooling/src/lark/sourceSnapshot.test.js packages/docs-tooling/src/lark/incrementalFetchPlanner.test.js packages/docs-tooling/src/lark/canonicalLinkAuditor.test.js",
+        "node packages/docs-tooling/src/lark/larkDocWriter.beta.test.js"
       ],
       "harnesses": [
         "pnpm test:replay:fetch"
@@ -398,7 +403,7 @@
       "gates": [
         "pnpm test:workflow-policy"
       ],
-      "reason": "Guides cache, assembly, render, and table artifacts feed site-qualified Fetch units and final card evidence."
+      "reason": "Guides cache, assembly, render, and table artifacts feed site-qualified Fetch units and final card evidence. Release-channel state rides the same record projection, snapshot, and incremental planner."
     },
     {
       "id": "ja-sidebar-label-dictionary",
@@ -916,6 +921,28 @@
         "git diff --check"
       ],
       "reason": "The staged REST sidebar derivation keeps the English and Chinese generated inventories aligned except for operations deliberately excluded from Chinese through x-include-langs; the focused test pins that exception list."
+    },
+    {
+      "id": "release-channel-gating",
+      "paths": [
+        "packages/docs-ui/src/shared/utils/releaseChannel*",
+        "packages/docs-ui/src/shared/theme/DocCardList/**",
+        "deploy/runtime/40-zdoc-env.sh",
+        "apps/docs/plugins/release-channel-routes*"
+      ],
+      "focusedTests": [
+        "pnpm vitest run packages/docs-ui/src/shared/utils/releaseChannel.test.ts",
+        "pnpm vitest run packages/docs-ui/src/shared/i18n/uiText.test.ts",
+        "pnpm vitest run apps/docs/src/config/createDocusaurusConfig.test.ts",
+        "node --test apps/docs/plugins/release-channel-routes/index.test.js"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm test:workflow-matrix",
+        "pnpm typecheck",
+        "git diff --check"
+      ],
+      "reason": "Release Channel (CURRENT/NEXT) front matter and sidebar customProps gate NEXT docs per deployment: runtime env.js injection, client gating/banner, server-side route blocking, and build capability exclusions must stay aligned."
     }
   ]
 }

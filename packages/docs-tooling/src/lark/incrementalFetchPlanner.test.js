@@ -149,6 +149,65 @@ test('planIncrementalFetch detects wiki node revision changes', () => {
   assert.match(plan.reasons_by_token.a.join(' '), /wiki node revision changed/)
 })
 
+test('planIncrementalFetch re-renders docs whose Release Channel flipped without content changes', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'planner-'))
+  writeSource(dir, 'a')
+  const sources = sourceFilesByToken(dir)
+  const nodeMetadata = new Map([['a', { revision_id: 'rev-1', obj_edit_time: '100' }]])
+
+  const flippedRecord = {
+    ...record('a'),
+    fields: {...record('a').fields, 'Release Channel': 'NEXT'},
+  }
+  const unchangedPlan = planIncrementalFetch({
+    manualName: 'guides',
+    docSourceDir: dir,
+    records: [record('a')],
+    previousSnapshot: guidesV3({
+      manual: 'guides',
+      records: [
+        { record_id: 'rec-a', doc_token: 'a', title: 'a', slug: 'a', source_hash: sources.get('a').__source_hash,
+          node_metadata: { revision_id: 'rev-1', obj_edit_time: '100' }, release_channel: 'current' },
+      ],
+    }),
+    currentNodeMetadataByToken: nodeMetadata,
+  })
+  assert.deepEqual(unchangedPlan.changed_tokens, [])
+
+  const flippedPlan = planIncrementalFetch({
+    manualName: 'guides',
+    docSourceDir: dir,
+    records: [flippedRecord],
+    previousSnapshot: guidesV3({
+      manual: 'guides',
+      records: [
+        { record_id: 'rec-a', doc_token: 'a', title: 'a', slug: 'a', source_hash: sources.get('a').__source_hash,
+          node_metadata: { revision_id: 'rev-1', obj_edit_time: '100' }, release_channel: 'current' },
+      ],
+    }),
+    currentNodeMetadataByToken: nodeMetadata,
+  })
+  assert.equal(flippedPlan.mode, 'incremental')
+  assert.deepEqual(flippedPlan.changed_tokens, ['a'])
+  assert.match(flippedPlan.reasons_by_token.a.join(' '), /release channel changed/)
+
+  // Snapshots written before release_channel existed default to CURRENT.
+  const legacyPlan = planIncrementalFetch({
+    manualName: 'guides',
+    docSourceDir: dir,
+    records: [record('a')],
+    previousSnapshot: guidesV3({
+      manual: 'guides',
+      records: [
+        { record_id: 'rec-a', doc_token: 'a', title: 'a', slug: 'a', source_hash: sources.get('a').__source_hash,
+          node_metadata: { revision_id: 'rev-1', obj_edit_time: '100' } },
+      ],
+    }),
+    currentNodeMetadataByToken: nodeMetadata,
+  })
+  assert.deepEqual(legacyPlan.changed_tokens, [])
+})
+
 test('planIncrementalFetch falls back to full when previous snapshot lacks node metadata', () => {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'planner-'))
   writeSource(dir, 'a')

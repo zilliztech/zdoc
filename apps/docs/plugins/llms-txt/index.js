@@ -365,6 +365,8 @@ function buildSectionSummary(source, lifecycle, route, siteUrl, baseUrl) {
     const fm = parseFrontmatterFromContent(raw);
     const title = fm.sidebar_label || fm.title;
     if (!title) continue;
+    // Unreleased (NEXT-channel) pages must not be advertised to AI agents.
+    if (String(fm.channel ?? '').trim().toLowerCase() === 'next') continue;
 
     const cleanedTitle = cleanText(String(title));
     // Build .md URL directly from route + slug

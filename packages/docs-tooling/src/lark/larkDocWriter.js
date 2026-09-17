@@ -22,6 +22,7 @@ const IMAGE_BED_URL = process.env.IMAGE_BED_URL || 'https://zdoc-images.s3.us-we
 const {
     guidesPlacementType,
     guidesRecordPublishTargets,
+    guidesRecordChannel,
     guidesCanonicalIsPublishable,
 } = require('./guidesBaseRecordSemantics')
 const { guidesTableSlug } = require('./guidesTableSlugs')
@@ -142,6 +143,7 @@ class larkDocWriter {
                         id,
                         label: frontmatter.sidebar_label || frontmatter.title || slug,
                         key: this.__sidebar_key('doc', currentPath, contentRoot, slug, frontmatter.sidebar_label || frontmatter.title || slug),
+                        ...(frontmatter.channel === 'next' ? { customProps: { channel: 'next' } } : {}),
                     },
                 }
             })
@@ -285,6 +287,7 @@ class larkDocWriter {
                     href,
                     label: meta.labels || child.title,
                     key: this.__sidebar_key('ref', currentPath, contentRoot, child.slug, child.title),
+                    ...(targetMeta.channel === 'next' ? { customProps: { channel: 'next' } } : {}),
                 })
                 continue
             }
@@ -309,6 +312,7 @@ class larkDocWriter {
                         key: this.__sidebar_key('category', currentPath, contentRoot, slug, label),
                         link: { type: 'doc', id: docId },
                         items: childItems,
+                        ...(meta.channel === 'next' ? { customProps: { channel: 'next' } } : {}),
                     })
                 } else if (childItems.length > 0) {
                     items.push({
@@ -332,6 +336,7 @@ class larkDocWriter {
                     id: docId,
                     label,
                     key: this.__sidebar_key('doc', currentPath, contentRoot, slug, label),
+                    ...(meta.channel === 'next' ? { customProps: { channel: 'next' } } : {}),
                 })
             }
         }
@@ -645,6 +650,7 @@ class larkDocWriter {
                                 page_title: child.title,
                                 page_slug: slug,
                                 page_beta: beta,
+                                page_channel: meta['channel'],
                                 notebook: notebook,
                                 addedSince: addedSince,
                                 lastModified: lastModified,
@@ -695,6 +701,7 @@ class larkDocWriter {
                                     page_title: child.title,
                                     page_slug: child.slug,
                                     page_beta: beta,
+                                    page_channel: meta['channel'],
                                     notebook: notebook,
                                     addedSince: addedSince,
                                     lastModified: lastModified,
@@ -757,6 +764,7 @@ class larkDocWriter {
                 page_title: node.title,
                 page_slug: node.slug,
                 page_beta: meta.beta,
+                page_channel: meta.channel,
                 notebook: meta.notebook,
                 addedSince: meta.addSince,
                 lastModified: meta.lastModified,
@@ -818,10 +826,11 @@ class larkDocWriter {
     }
 
     async write_doc ({
-        path,  
-        page_title, 
+        path,
+        page_title,
         page_slug,
         page_beta,
+        page_channel,
         notebook,
         addedSince,
         lastModified,
@@ -867,6 +876,7 @@ class larkDocWriter {
                 suffix: this.__title_suffix(path),
                 slug: page_slug,
                 beta: page_beta,
+                channel: page_channel,
                 notebook: notebook,
                 addedSince: addedSince,
                 lastModified: lastModified,
@@ -970,7 +980,7 @@ class larkDocWriter {
                 let title = sub_page[0].indexOf('{/') > 0 ? sub_page[0].split('{/')[0].split('## ')[1] : sub_page[0].replace(/^## /g, '').replace(/{#[\w-]+}/g, '').trim()
                 let short_description = sub_page.filter(line => line.length > 0)[1]
                 let slug = sub_page[0].indexOf('{/') > 0 ? /{\/([\w-]+)}/.exec(sub_page[0])[1] : slugify(title, {lower: true, strict: true})
-                let front_matter = this.__front_matters(title, suffix, slug, null, null, source.node_type, source.node_token, index+1, "", "", this.displayedSidebar, short_description)
+                let front_matter = this.__front_matters(title, suffix, slug, null, null, source.node_type, source.node_token, index+1, "", "", this.displayedSidebar, short_description, guidesRecordChannel(source))
                 let links = []
 
                 sub_page = sub_page.map(line => {
@@ -1130,6 +1140,7 @@ class larkDocWriter {
                         title: baseSource.title || title,
                         slug,
                         beta: this.__plain_value(baseSource.base_beta) || null,
+                        channel: guidesRecordChannel(baseSource),
                         labels: this.__plain_value(baseSource.base_labels) || baseSource.title || title,
                     }
                 }
@@ -1139,6 +1150,7 @@ class larkDocWriter {
                         title: baseSource.title || title,
                         slug,
                         beta: this.__plain_value(baseSource.base_beta) || null,
+                        channel: guidesRecordChannel(baseSource),
                         labels: this.__plain_value(baseSource.base_labels) || baseSource.title || title,
                     }
                 }
@@ -1150,6 +1162,7 @@ class larkDocWriter {
                         title: baseSource.title || title,
                         slug,
                         beta: this.__plain_value(baseSource.base_beta) || null,
+                        channel: guidesRecordChannel(baseSource),
                         labels: this.__plain_value(baseSource.base_labels) || baseSource.title || title,
                     }
                 }
@@ -1159,6 +1172,7 @@ class larkDocWriter {
                         title: baseSource.title || title,
                         slug,
                         beta: this.__plain_value(baseSource.base_beta) || null,
+                        channel: guidesRecordChannel(baseSource),
                         labels: this.__plain_value(baseSource.base_labels) || baseSource.title || title,
                     }
                 }
@@ -1204,6 +1218,7 @@ class larkDocWriter {
                 title: this.__doc_title(docField),
                 slug: fields.Slug,
                 beta: fields.Beta || null,
+                channel: guidesRecordChannel({ fields }),
                 notebook: fields.Notebook || null,
                 labels: fields.Labels || null,
                 keywords: fields.Keywords || null,
@@ -1322,7 +1337,7 @@ class larkDocWriter {
         return "(placeholder)"
     }
 
-    async __write_page({title, suffix, slug, beta, notebook, addedSince, lastModified, deprecateSince, path, type, token, sidebar_position, sidebar_label, keywords, doc_card_list}) {
+    async __write_page({title, suffix, slug, beta, channel, notebook, addedSince, lastModified, deprecateSince, path, type, token, sidebar_position, sidebar_label, keywords, doc_card_list}) {
         let markdown = await this.__markdown()
         markdown = this.__filter_content(markdown, this.targets)
         markdown = markdown.replace(/(\s*\n){3,}/g, '\n\n').replace(/(<br\/>){2,}/, "<br/>").replace(/<br>/g, '<br/>');
@@ -1337,7 +1352,7 @@ class larkDocWriter {
         const isReleaseNote = String(path || '').includes('release-notes') || String(slug || '').includes('release-notes')
         const displayedSidebar = isReleaseNote ? 'releasesSidebar' : this.displayedSidebar
 
-        let front_matter = this.__front_matters(title, suffix, slug, beta, notebook, type, token, sidebar_position, sidebar_label, keywords, displayedSidebar, description)
+        let front_matter = this.__front_matters(title, suffix, slug, beta, notebook, type, token, sidebar_position, sidebar_label, keywords, displayedSidebar, description, channel)
 
         let tabs = markdown.split('\n').filter(line => {
             return line.trim().startsWith("<Tab")
@@ -1417,7 +1432,7 @@ class larkDocWriter {
         }
     }
 
-    __front_matters (title, suffix, slug, beta, notebook, type, token, sidebar_position=undefined, sidebar_label="", keywords="", displayed_sidebar=this.displayedSidebar, description="") {
+    __front_matters (title, suffix, slug, beta, notebook, type, token, sidebar_position=undefined, sidebar_label="", keywords="", displayed_sidebar=this.displayedSidebar, description="", channel=null) {
         let hide_title = '';
         let hide_toc = '';
 
@@ -1451,12 +1466,13 @@ class larkDocWriter {
             hide_toc = "hide_table_of_contents: true";
         }
 
-        let front_matter = '---\n' + 
+        let front_matter = '---\n' +
         `title: ${this.__yaml_string(`${title} | ${suffix}`)}` + '\n' +
         `slug: /${slug}` + '\n' +
         `sidebar_label: ${this.__yaml_string(sidebar_label ? sidebar_label : title)}` + '\n' +
         `beta: ${beta ? beta : 'FALSE'}` + '\n' +
         `notebook: ${notebook ? notebook : 'FALSE'}` + '\n' +
+        `${channel === 'next' ? 'channel: next\n' : ''}` +
         `description: ${this.__yaml_string(`${description} | ${suffix}`)}` + '\n' +
         `type: ${type}` + '\n' +
         `token: ${token}` + '\n' +

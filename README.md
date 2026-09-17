@@ -408,6 +408,19 @@ The English image includes Japanese content. The two commands are independent; i
 
 The site-owned Nginx configurations are `deploy/en/nginx.conf` and `deploy/zh-CN/nginx.conf`. Runtime environment rendering is owned by `deploy/runtime/40-zdoc-env.sh`.
 
+### Release Channel gating (CURRENT / NEXT)
+
+Guides records carry a `Release Channel` field in the Feishu Base. `CURRENT` is the default and the fallback for records without the field; `NEXT` marks documentation for a feature that has not shipped yet.
+
+- Fetch renders `channel: next` into the page front matter and `customProps: {channel: 'next'}` onto the sidebar entry, and persists `release_channel` in the source snapshot so a channel flip re-renders the page even when the document itself is unchanged.
+- Both environments deploy the same image. The deployment's channel is injected at container start: `deploy/runtime/40-zdoc-env.sh` writes `ZDOC_RELEASE_CHANNEL` (default `current`, fail closed) into `window.__ZDOC_ENV__.RELEASE_CHANNEL` via `/env.js`.
+- On a `next` deployment, NEXT pages render normally with an unreleased-feature banner in the site's locale. On a `current` deployment, NEXT pages render a "not available yet" panel, disappear from sidebars and DocCard lists, carry `noindex`, are excluded from the sitemap, `llms.txt`, structured data, and `.md` build copies, and the routes listed in `release-channel-routes.txt` are additionally blocked with Nginx 404s.
+- To promote a page, flip `Release Channel` from `NEXT` to `CURRENT` in the Base; the next Fetch re-renders the page and every environment picks it up on its next deployment. The new-record default of `NEXT` means every newly created record must be promoted explicitly before it reaches production.
+
+Deployment overlays own the runtime value: set `ZDOC_RELEASE_CHANNEL: next` on the UAT overlays (`vdc-deploy` → `zdocs/overlays/uat3`, `zdocs-cn/overlays/ali-vdc-uat`) and `ZDOC_RELEASE_CHANNEL: current` on the production overlays (`vdc-deploy-prod` → `zdocs/overlays/vdc-global`, `zdocs-cn/vdc-ali-global`). An overlay without the variable behaves as `current`.
+
+Known limitation: the Chinese site's client-side search index is built from source folders and still lists NEXT titles; results resolve to the gated page. Server-side Nginx blocking and the client gate remain in force. Likewise, existing Japanese translations only gain the `channel` front matter the next time Translation regenerates them; until then their pages rely on the token-based Nginx blocking (route listings propagate the channel through the shared Feishu `token`) and show no unreleased-feature banner on NEXT deployments.
+
 ## Verification
 
 Run proportional checks while developing. Before a repository-wide retirement or release change, run:
