@@ -1,5 +1,6 @@
 import {manualRegistry, publicationPreservedPaths, resolveManualPublication} from '../manuals/registry.ts';
 import type {ManualDefinition, SiteId} from '../manuals/schema.ts';
+import {localizedRestTargets} from '../publication/diagnostics.ts';
 
 export type PublicationGroupStage = 'fetch' | 'validate' | 'publish';
 
@@ -139,6 +140,11 @@ function ownedPaths(site: SiteId, manuals: readonly string[]): readonly string[]
     ...resolved.map(entry => entry.manual.kind === 'guides' ? entry.publication.contentRoot : entry.publication.outputDir),
     ...resolved.map(entry => entry.publication.sidebarPath),
     ...resolved.flatMap(entry => (entry.publication.retiredPaths ?? []).map(retired => `content/${site}/${retired}`)),
+    // The English REST manual also stages its docusaurus-i18n (ja-JP) output;
+    // without the localized outputDir in the group's ownership the checkpoint
+    // artifact and publish pathspec never carry it, so the localized pages are
+    // generated but silently dropped from every publication commit.
+    ...resolved.flatMap(entry => localizedRestTargets(site, entry.publication).map(target => target.outputDir)),
   ]);
 }
 
