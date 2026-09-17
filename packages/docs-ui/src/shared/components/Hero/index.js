@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Copy } from 'lucide-react';
 import Prism from 'prismjs';
 import 'prismjs/components/prism-python.min.js';
 import 'prismjs/components/prism-java.min.js';
@@ -191,6 +190,21 @@ function parseCtasFromChildren(children) {
 
 const SLIDE_DURATION = 5000;
 
+// The same icon pair the docs' code blocks use (CodeBlock/Layout), so a copy
+// button on the home page is the same control as a copy button in an article.
+const CopyIcon = () => (
+  <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+    <rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" strokeWidth="1.3" />
+    <path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2H3.5A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+  </svg>
+);
+
+const CheckIcon = () => (
+  <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+    <path d="M3 8.5L6.5 12L13 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
 export default function Hero({ children }) {
   const text = useDocsUiText();
   // Separate title/subtitle from slide content
@@ -216,8 +230,6 @@ export default function Hero({ children }) {
   const [copiedJson, setCopiedJson] = useState(false);
   const [copiedCode, setCopiedCode] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [topPanel, setTopPanel] = useState('right'); // 'left' or 'right'
   const [highlightedJson, setHighlightedJson] = useState('');
   const [highlightedCode, setHighlightedCode] = useState('');
   const [copiedInstall, setCopiedInstall] = useState(false);
@@ -235,20 +247,17 @@ export default function Hero({ children }) {
     setHighlightedCode(highlight(slide.snippets[activeTab], activeTab));
   }, [activeSlide, activeTab, activeSlides]);
 
+  // Auto-advance stays; only its readout changed. It used to tick every 50ms to
+  // drive a progress bar — with plain tabs there is nothing to fill, so this is
+  // one timeout per slide instead of 100 re-renders.
   useEffect(() => {
-    setProgress(0);
-    if (isPaused) return;
-    const start = Date.now();
-    const id = setInterval(() => {
-      const pct = Math.min(((Date.now() - start) / SLIDE_DURATION) * 100, 100);
-      setProgress(pct);
-      if (pct >= 100) {
-        setActiveSlide((prev) => (prev + 1) % activeSlides.length);
-        setCopiedJson(false);
-        setCopiedCode(false);
-      }
-    }, 50);
-    return () => clearInterval(id);
+    if (isPaused) return undefined;
+    const id = setTimeout(() => {
+      setActiveSlide((prev) => (prev + 1) % activeSlides.length);
+      setCopiedJson(false);
+      setCopiedCode(false);
+    }, SLIDE_DURATION);
+    return () => clearTimeout(id);
   }, [isPaused, activeSlide, activeSlides.length]);
 
   // If the active tab isn't available in the new slide, reset to first available
@@ -265,8 +274,10 @@ export default function Hero({ children }) {
       <div className={styles.heroWrapper}>
         <div className={styles.hero}>
           <div className={styles.textArea}>
-            {title}
-            {subtitle}
+            <div className={styles.introCopy}>
+              {title}
+              {subtitle}
+            </div>
           </div>
         </div>
       </div>
@@ -305,8 +316,10 @@ export default function Hero({ children }) {
     <div className={styles.heroWrapper}>
       <div className={styles.hero}>
         <div className={styles.textArea}>
-          {title}
-          {subtitle}
+          <div className={styles.introCopy}>
+            {title}
+            {subtitle}
+          </div>
           <div className={styles.installWidget}>
             <div className={styles.installWidgetItem}>
               <div className={styles.installWidgetLabel}>{text.hero.forHumans}</div>
@@ -314,7 +327,7 @@ export default function Hero({ children }) {
                 <span className={styles.installPrompt}>$</span>
                 <span className={styles.installText}>{INSTALL_COMMANDS.humans}</span>
                 <button
-                  className={styles.installCopy}
+                  className={`${styles.installCopy} ${copiedInstall ? styles.copyBtnCopied : ''}`}
                   onClick={() => {
                     navigator.clipboard.writeText(INSTALL_COMMANDS.humans).then(() => {
                       setCopiedInstall(true);
@@ -324,7 +337,7 @@ export default function Hero({ children }) {
                   title={text.common.copyCommand}
                   aria-label={text.common.copyCommand}
                 >
-                  {copiedInstall ? '✓' : <Copy size={14} />}
+                  {copiedInstall ? <CheckIcon /> : <CopyIcon />}
                 </button>
               </div>
             </div>
@@ -334,7 +347,7 @@ export default function Hero({ children }) {
                 <span className={styles.installPrompt}>$</span>
                 <span className={styles.installText}>{INSTALL_COMMANDS.agents}</span>
                 <button
-                  className={styles.installCopy}
+                  className={`${styles.installCopy} ${copiedInstall ? styles.copyBtnCopied : ''}`}
                   onClick={() => {
                     navigator.clipboard.writeText(INSTALL_COMMANDS.agents).then(() => {
                       setCopiedInstall(true);
@@ -344,14 +357,19 @@ export default function Hero({ children }) {
                   title={text.common.copyCommand}
                   aria-label={text.common.copyCommand}
                 >
-                  {copiedInstall ? '✓' : <Copy size={14} />}
+                  {copiedInstall ? <CheckIcon /> : <CopyIcon />}
                 </button>
               </div>
             </div>
           </div>
         </div>
 
+        {/* Every block below the page title carries its own h2, the way
+            Vercel's docs index pages are structured. */}
+        <h2 className={styles.sectionTitle}>{text.hero.examplesTitle}</h2>
+
         <div
+          className={styles.slidePane}
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
@@ -361,75 +379,87 @@ export default function Hero({ children }) {
               Right panel → top: 100px (= 300/3)
               Slide title → top: 0, right: 0, width: 56% (above right panel)
           */}
-          <div className={styles.codePanels}>
-            {/* Title + description — top-right corner above right panel */}
-            <div className={styles.slideTitle}>
-              {slide.label}
-            </div>
-            <div className={styles.slideDesc}>
-              {slide.description}
-            </div>
-
-            {/* Left: JSON document panel */}
+          {/* Slide heading sits ABOVE the panels now — it used to be absolutely
+              positioned into the gap left by the overlapping layout. */}
+          {/* The slide picker IS the heading now: the chip that is on says which
+              slide you are looking at, so the separate title line is gone. */}
+          <div className={styles.slideHead}>
+            {/* SLIDE_DURATION drives both the timer and the sweep, so the bar
+                cannot drift out of step with the actual advance. */}
             <div
-              className={styles.jsonPanel}
-              style={{ zIndex: topPanel === 'left' ? 2 : 1 }}
-              onClick={() => setTopPanel('left')}
+              className={styles.slideTabs}
+              style={{ '--zd-slide-duration': `${SLIDE_DURATION}ms` }}
             >
-              <div className={styles.panelHeader}>
-                <div className={styles.dots}>
-                  <span className={`${styles.dot} ${styles.dotRed}`} />
-                  <span className={`${styles.dot} ${styles.dotYellow}`} />
-                  <span className={`${styles.dot} ${styles.dotGreen}`} />
-                </div>
-                <span className={styles.panelLabel} />
+              {activeSlides.map((s, i) => (
                 <button
-                  className={styles.copyBtn}
+                  key={s.id}
+                  type="button"
+                  className={`${styles.slideTab} ${i === activeSlide ? styles.slideTabActive : ''}`}
+                  onClick={() => handleSlideChange(i)}
+                >
+                  <span className={styles.slideTabLabel}>{s.label}</span>
+                </button>
+              ))}
+            </div>
+            <div className={styles.slideDesc}>{slide.description}</div>
+          </div>
+
+          <div className={styles.codePanels}>
+            {/* LEFT — the data. Deliberately NOT a code block: it is the state of
+                the world, not something you copy and run. No white code card, no
+                syntax colour, no language label — that chrome is what made a JSON
+                array next to a search call read as the call's response. */}
+            <div className={styles.jsonPanel}>
+              <div className={styles.panelHeader}>
+                <span className={styles.panelCaption}>{text.hero.dataCaption}</span>
+                <span className={styles.panelLabel}>json</span>
+                <button
+                  className={`${styles.copyBtn} ${copiedJson ? styles.copyBtnCopied : ''}`}
                   onClick={handleCopyJson}
                   title={text.hero.copyJson}
                   aria-label={text.hero.copyJson}
                 >
-                  {copiedJson ? '✓' : <Copy size={16} />}
+                  {copiedJson ? <CheckIcon /> : <CopyIcon />}
                 </button>
               </div>
               <pre
-                className={`${styles.code} language-json`}
+                className={`${styles.code} ${styles.dataCode} language-json`}
                 dangerouslySetInnerHTML={{ __html: highlightedJson }}
               />
             </div>
 
-            {/* Right: Search code panel */}
-            <div
-              className={styles.searchOuter}
-              style={{ zIndex: topPanel === 'right' ? 2 : 1 }}
-              onClick={() => setTopPanel('right')}
-            >
-              <div className={styles.tabs}>
-                {slideLanguages.map((lang) => (
-                  <button
-                    key={lang}
-                    className={`${styles.tab} ${activeTab === lang ? styles.tabActive : ''}`}
-                    onClick={() => setActiveTab(lang)}
-                  >
-                    {lang}
-                  </button>
-                ))}
-              </div>
+            {/* The arrow rides the divider: it, not the two labels, is what says
+                these are one example read left to right. */}
+            <div className={styles.flowArrow} aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
+                <path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
+
+            {/* RIGHT — the query. Full code chrome, because this IS the thing you
+                copy and run. */}
+            <div className={styles.searchOuter}>
               <div className={styles.searchPanel}>
                 <div className={styles.panelHeader}>
-                  <div className={styles.dots}>
-                    <span className={`${styles.dot} ${styles.dotRed}`} />
-                    <span className={`${styles.dot} ${styles.dotYellow}`} />
-                    <span className={`${styles.dot} ${styles.dotGreen}`} />
+                  <span className={styles.panelCaption}>{text.hero.codeCaption}</span>
+                  <div className={styles.tabs}>
+                    {slideLanguages.map((lang) => (
+                      <button
+                        key={lang}
+                        className={`${styles.tab} ${activeTab === lang ? styles.tabActive : ''}`}
+                        onClick={(e) => { e.stopPropagation(); setActiveTab(lang); }}
+                      >
+                        {lang}
+                      </button>
+                    ))}
                   </div>
-                  <span className={styles.panelLabel}>{activeTab}</span>
                   <button
-                    className={styles.copyBtn}
+                    className={`${styles.copyBtn} ${copiedCode ? styles.copyBtnCopied : ''}`}
                     onClick={handleCopyCode}
                     title={text.common.copyCode}
                     aria-label={text.common.copyCode}
                   >
-                    {copiedCode ? '✓' : <Copy size={16} />}
+                    {copiedCode ? <CheckIcon /> : <CopyIcon />}
                   </button>
                 </div>
                 <pre
@@ -440,28 +470,6 @@ export default function Hero({ children }) {
             </div>
           </div>
 
-          {/* Progress bars — clickable to jump to slide */}
-          <div className={styles.progressBars}>
-            {activeSlides.map((s, i) => (
-              <button
-                key={s.id}
-                className={styles.progressTrack}
-                onClick={() => handleSlideChange(i)}
-                aria-label={text.hero.goTo(s.label)}
-              >
-                <div
-                  className={styles.progressFill}
-                  style={{
-                    width:
-                      i < activeSlide ? '100%' :
-                      i === activeSlide ? `${progress}%` :
-                      '0%',
-                  }}
-                />
-                <span className={styles.progressLabel}>{s.label}</span>
-              </button>
-            ))}
-          </div>
         </div>
       </div>
     </div>

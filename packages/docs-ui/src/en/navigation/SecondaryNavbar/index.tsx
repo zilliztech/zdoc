@@ -6,6 +6,7 @@ import ICONS from '../navIcons';
 import {useDropdownClose} from '../useDropdownClose';
 import {localizeNavLabel, useDocsUiText} from '../../../shared/i18n/uiText';
 import styles from './styles.module.css';
+import {isNavMerged} from '../../../shared/navigation/breakpoints';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -221,11 +222,11 @@ function useTopbarCollapsed(
           setCollapsed(false);
           return;
         }
-        // Collapse the topbar tabs at the SAME breakpoint as the right-hand
-        // navbar (docs-nav-compact). Previously a separate "tabs don't fit"
-        // measurement folded the left side earlier than the right — so keep a
-        // single breakpoint and let both sides collapse together.
-        setCollapsed(document.body.classList.contains('docs-nav-compact'));
+        // Fold on the SAME condition as the left sidebar's merged mode. Keying
+        // this off `docs-nav-compact` alone let the tabs stay expanded through
+        // the whole 768–1511 band, where they no longer fit beside the search
+        // box and slid underneath it.
+        setCollapsed(isNavMerged());
       });
     };
 

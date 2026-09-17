@@ -1,6 +1,36 @@
 import React from 'react';
 import styles from './styles.module.css';
 import { extractEyebrow } from '@site/src/components/utils/eyebrow';
+import { PythonIcon, JavaIcon, NodejsIcon, GoIcon, CppIcon, RestIcon } from '../../icons/brands.tsx';
+
+/* The same monochrome brand glyphs the navbar's API & SDK dropdown uses — one
+   mark per language across the site, instead of a second set of full-colour
+   vendor logos here. Keyed by the same `icon${keyword}` name the class map used. */
+/* Each mark fills its own 24-unit box differently — Python edge to edge, Go a
+   short wide wordmark, the REST layers a heavy 2px stroke — so one size made
+   them look like five different sizes. These are optical, measured off the
+   rendered glyphs, not nominal. */
+const BRAND_ICONS = {
+    iconPython: [PythonIcon, 28],
+    iconJava: [JavaIcon, 30],
+    iconNodejs: [NodejsIcon, 30],
+    iconGo: [GoIcon, 36],
+    iconCpp: [CppIcon, 30],
+    iconC: [CppIcon, 30],
+    iconRESTful: [RestIcon, 26],
+    iconREST: [RestIcon, 26],
+};
+
+function BrandMark({ name }) {
+    const entry = BRAND_ICONS[name];
+    if (!entry) return <span className={styles.iconWrap}><i className={styles[name]} /></span>;
+    const [Icon, size] = entry;
+    return (
+        <span className={styles.iconWrap}>
+            <Icon size={size} />
+        </span>
+    );
+}
 
 export default function Block({ children, eyebrow: eyebrowProp }) {
     if (!Array.isArray(children) || children.length === 0) {
@@ -55,14 +85,14 @@ export default function Block({ children, eyebrow: eyebrowProp }) {
                         if (item.href) {
                             return (
                                 <a key={index} className={styles.item} href={item.href}>
-                                    <i className={styles[item.className]} />
+                                    <BrandMark name={item.className} />
                                     <h3>{item.name}</h3>
                                 </a>
                             )
                         }
                         return (
                             <div key={index} className={styles.item}>
-                                <i className={styles[item.className]} />
+                                <BrandMark name={item.className} />
                                 <h3>{item.name}</h3>
                             </div>
                         )

@@ -115,6 +115,15 @@
   color: var(--zd-gray-500);
 }
 
+/* Rows on the active path (the current page plus every category containing it)
+   pull their caret up to the row's own ink, so the whole trail brightens
+   together instead of leaving a muted chevron behind. Every other row keeps the
+   receded gray-400 caret. Placed after the hover rules so an active row keeps
+   its caret colour on hover too. */
+:global(.menu__link--active) .childCaret {
+  color: currentColor;
+}
+
 .collapseCaretButton {
   display: inline-flex;
   align-items: center;

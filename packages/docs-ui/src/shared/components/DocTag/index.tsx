@@ -12,7 +12,7 @@ const TAG_REGISTRY: Record<string, TagDef> = {
   PRIVATE:          { caption: 'Private Preview',  color: '#d0714d' },
   'NEAR DEPRECATE': { caption: 'Near Deprecation', color: '#FF9500' },
   'CONTACT SALES':  { caption: 'Contact Sales',    color: '#9C27B0' },
-  PUBLIC:           { caption: 'Public Preview',   color: '#6066fd' },
+  PUBLIC:           { caption: 'Public Preview',   color: 'var(--zd-accent-bright)' },
   BYOC:             { caption: 'BYOC',             color: '#00897B' },
   DEPRECATED:       { caption: 'Deprecated',       color: '#9E9E9E' },
 };

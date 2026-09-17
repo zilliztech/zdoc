@@ -4,7 +4,7 @@
   flex: 1;
   min-height: 0;
   position: relative;
-  background: #ffffff;
+  background: var(--zd-chat-panel-bg);
 }
 
 .chatHeader {
@@ -232,6 +232,9 @@
 /* Pill-shaped row containing the text input + round send button */
 /* Bordered cream composer — chips + text on top, ⌘I + send pinned bottom-right */
 .inputBox {
+  /* The gap shows whatever the box sits on, and inside the panel that is the
+     panel's own tint rather than the page's white. */
+  --zd-chat-focus-ring-gap-color: var(--zd-chat-panel-bg);
   position: relative;
   display: flex;
   flex-direction: column;
@@ -246,19 +249,23 @@
     box-shadow var(--zd-hover-duration) var(--zd-hover-ease);
 }
 
+/* Focus ring: 2px of page ground outside the 1px stroke, then a 4px grey band. */
 .inputBox:focus-within {
   border-color: transparent;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.02);
+  box-shadow:
+    0 0 0 var(--zd-chat-focus-ring-gap) var(--zd-chat-focus-ring-gap-color),
+    0 0 0 calc(var(--zd-chat-focus-ring-gap) + var(--zd-chat-focus-ring-width))
+      var(--zd-chat-focus-ring-color);
 }
 
 .inputBox::before {
   content: "";
   position: absolute;
-  inset: -1px;
+  inset: calc(-1 * var(--zd-chat-stroke-width));
   z-index: 0;
-  padding: 1px;
+  padding: var(--zd-chat-stroke-width);
   border-radius: inherit;
-  background: linear-gradient(196.6deg, #3FA5A3 0%, #5B77DA 100%);
+  background: var(--zd-chat-stroke);
   opacity: 0;
   pointer-events: none;
   transition: opacity var(--zd-hover-duration) var(--zd-hover-ease);
