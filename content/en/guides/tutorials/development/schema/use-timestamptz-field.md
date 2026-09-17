@@ -974,7 +974,7 @@ For step-by-step instructions and code samples, refer to the dedicated pages:
 
 - [Modify Collection](./modify-collections#example-7-set-collection-time-zone)
 
-- [Query](./get-and-scalar-query)
+- [Query](./get-and-scalar-query#temporarily-set-a-timezone-for-a-query)
 
 - [Basic Vector Search](./single-vector-search#temporarily-set-a-timezone-for-a-search)
 

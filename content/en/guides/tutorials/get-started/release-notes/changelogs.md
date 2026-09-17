@@ -224,7 +224,7 @@ import Grid from '@site/src/components/Grid';
 
             - [MinHash function](./minhash-function)
 
-            - Order by for [searches](./single-vector-search#sort-search-results-by-scalar-fields) and [queries](./get-and-scalar-query)
+            - Order by for [searches](./single-vector-search#sort-search-results-by-scalar-fields) and [queries](./get-and-scalar-query#sort-query-results)
 
             - [Snapshots](./snapshots)
 
