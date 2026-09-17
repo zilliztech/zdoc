@@ -1472,75 +1472,75 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/faqs/faq-authentication.md",
-      "sha256": "d0af2a16c69a761ba428fb3774b4010d98b8e65244bf4710013d0d75e946b461",
+      "sha256": "e08e6fb6fcb4963c69ccaadd4ebb07b281a0b28dafef22f7120a0ea1baa1605a",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4737"
+      "revisionId": "4779"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/faqs/faq-backup-and-restore.md",
       "sha256": "323e080e55577ab235000d1ca942cecdbb20c08067b65e1ffe5bb4801044a5f4",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4737"
+      "revisionId": "4779"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/faqs/faq-cluster.md",
       "sha256": "517e9248abaeed8fdad791694b4012a39e2515c7f121bd52409cf5af1e5cb56b",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4737"
+      "revisionId": "4779"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/faqs/faq-collection.md",
       "sha256": "d87e870795855b8db60c241ccc12fc84abccb110570505843d0304500af93829",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4737"
+      "revisionId": "4779"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/faqs/faq-data-import.md",
       "sha256": "bcde22be77398c1dafa0e1147fa09f1e89b18104109f4171c3707e8d93cfd8d7",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4737"
+      "revisionId": "4779"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/faqs/faq-get-started.md",
       "sha256": "69c6b717f8c550088cb33b00009fcfd33789e934778911f6a3334cdb597efe15",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4737"
+      "revisionId": "4779"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/faqs/faq-integrations.md",
       "sha256": "b2f89ba0abd2e2ec7dd7fe11dbd46e2a052bd2d412d743686930cb8808a07842",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4737"
+      "revisionId": "4779"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/faqs/faq-migration.md",
       "sha256": "4f96b17efd421b821166715f193af42718ce2d5f97a6827f17c4f3f916a3231e",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4737"
+      "revisionId": "4779"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/faqs/faq-monitors-and-metrics.md",
       "sha256": "3e44cfcb5f6d7e0675643fa810ab524162d60c5f58f7945400724145e2a2143a",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4737"
+      "revisionId": "4779"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/faqs/faq-resource-planning.md",
       "sha256": "3d3ebf5195a6d56d181c62ee72d3d6ab095b5e19a6a1c298453ca994c37f7ec6",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4737"
+      "revisionId": "4779"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/faqs/faq-security.md",
       "sha256": "903023d43ea601ca1aeb668c20cf20dda0e40a3b31b9c62564f10a5e59fa982d",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4737"
+      "revisionId": "4779"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/faqs/faq-users-and-roles.md",
       "sha256": "04482e3675ab4f3cb56392aebfe8c55076db8881e7a7df86c352d99086964461",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4737"
+      "revisionId": "4779"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/quickstarts/cli-and-agent-integration-guide.md",
@@ -1556,9 +1556,9 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/register-with-zilliz-cloud.md",
-      "sha256": "2ab9d9a87997a06eaf1fd957c14f974b0d24985f122cfc8183bd98a732e5f602",
+      "sha256": "68d5da09939d28707de18404f2898e7213af486afeba468f1b3272ebc14dc583",
       "docToken": "CCVpw6BVti8P8LkfcdJcdRH1nHg",
-      "revisionId": "390"
+      "revisionId": "418"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/select-zilliz-cloud-service-plans.md",
@@ -1652,9 +1652,9 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/authentication/email-accounts.md",
-      "sha256": "549d58aa94ab3f5772fe774c540d959e4d401c41a22aa4afbf05d5981817cc37",
+      "sha256": "2f44c4c9deda5c77ab4bfd4ba3ea9515c7f07d22f4c1fa7b56ebda92b032b6c4",
       "docToken": "SVnkw5IkNiOfALkijr1cw91vn3L",
-      "revisionId": "504"
+      "revisionId": "526"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/authentication/manage-api-keys.md",
@@ -3088,85 +3088,85 @@
       "path": "content/zh-CN/guides/tutorials/get-started/faqs/faq-account.md",
       "sha256": "bbedd38ddef39d579c27eb5cddb5d9bb4d4ce12b20528a04e0cf1a06dcaa6ab7",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4737"
+      "revisionId": "4779"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/faqs/faq-authentication.md",
-      "sha256": "88b44f6b03eab5df9adaf83932f1e3eb30fbf574c43aaa3bb238584b76cd1968",
+      "sha256": "ade9f7ac6d22743a49be934ab98a61cb644e2322d7abb8e162e289ad05511db1",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4737"
+      "revisionId": "4779"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/faqs/faq-backup-and-restore.md",
       "sha256": "d65779b517c21a17323620e10f1d7c409570d131fbea2dfccff2947b0195c147",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4737"
+      "revisionId": "4779"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/faqs/faq-cluster.md",
       "sha256": "6d506e1096a46280bff4ba8fa8f839f9ae7f7d9d7b9514eac82b3d2a74677a18",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4737"
+      "revisionId": "4779"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/faqs/faq-collection.md",
       "sha256": "308a4923c1d78c58aad45b391e03a7a39feddbb69e009017c486cdfebc8a62fe",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4737"
+      "revisionId": "4779"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/faqs/faq-data-import.md",
       "sha256": "e4d23993f4e5547b7f708ad784c3647cb8852baa72d723454799796a97fa7ad9",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4737"
+      "revisionId": "4779"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/faqs/faq-get-started.md",
       "sha256": "264221cdfefd9bf74c7ec1372d924590f54e1c4d372fd8ee8df86f251759439a",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4737"
+      "revisionId": "4779"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/faqs/faq-integrations.md",
       "sha256": "d94a63c39d60fdee60593461c8a87e94a73501ac403e27f5ebcbff39b23a2051",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4737"
+      "revisionId": "4779"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/faqs/faq-migration.md",
       "sha256": "f3f6f7991aef99273dadeb0b26b7ba4240cba35622cdf3789a9d995b9273f16c",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4737"
+      "revisionId": "4779"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/faqs/faq-monitors-and-metrics.md",
       "sha256": "3b1990d608c63f6aab4400adac3a1ec2708346ec8853cb7fbbdcc17fa6758b7b",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4737"
+      "revisionId": "4779"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/faqs/faq-payment-and-billing.md",
       "sha256": "8e9e9d2682d7f8cfd74fe29b82f3af9d9cfa183e42c6ec00cf9f9b715f7e4b6e",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4737"
+      "revisionId": "4779"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/faqs/faq-resource-planning.md",
       "sha256": "6df12f822a99ff204c78541034b8a6601302cf6a6d1b9a6ef63fe9fc44644ae5",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4737"
+      "revisionId": "4779"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/faqs/faq-security.md",
       "sha256": "f8b8c071bd8ebd299f1e86d8699747cefea85d244ebc7408be547f9be28ff1ce",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4737"
+      "revisionId": "4779"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/faqs/faq-users-and-roles.md",
       "sha256": "8319a4e1f4a6df79c93fb86b3aa9874d793d306f7349eb9956d7143f11381ef7",
       "docToken": "YVAzwqHdti7uHSkZL6icsY7hnpe",
-      "revisionId": "4737"
+      "revisionId": "4779"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/feature-availability.md",
@@ -3206,9 +3206,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/register-with-zilliz-cloud.md",
-      "sha256": "c01aca2279de3e9d412d29f70cf0992503aac6ba114c588d992f111bc4139f19",
+      "sha256": "b5d8fb2062ea368713c7804347286c52d799ca686a514a938faf11c741980126",
       "docToken": "CCVpw6BVti8P8LkfcdJcdRH1nHg",
-      "revisionId": "390"
+      "revisionId": "418"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/release-notes/changelogs.md",
@@ -3482,9 +3482,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/authentication/email-accounts.md",
-      "sha256": "aa4030dd77d932fc47fdd6ca9e44ffa42e5bbc11d0aa6839a03441d6a9f8dea4",
+      "sha256": "bc713d0d0e1d453c7ab32ea5ae8c7ae52276b279363417c9858298faf7fd61bf",
       "docToken": "SVnkw5IkNiOfALkijr1cw91vn3L",
-      "revisionId": "504"
+      "revisionId": "526"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/authentication/manage-api-keys.md",

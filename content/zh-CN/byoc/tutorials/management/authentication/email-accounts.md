@@ -22,6 +22,12 @@ import Admonition from '@theme/Admonition';
 
 在 Zilliz Cloud 注册账户后，您可对账户信息进行管理。您可以编辑账号设置以及删除账号。
 
+## 控制台会话\{#console-session}
+
+登录 Zilliz Cloud 控制台后，只要您继续在控制台上进行操作，登录会话将保持活跃状态。如果 6 小时内无任何操作，会话将过期，您必须重新登录。
+
+此闲置超时规则仅适用于您的 Zilliz Cloud 控制台会话。它不会影响 API 密钥、集群凭据或与您的 Zilliz Cloud 集群之间的现有连接。
+
 ## 编辑账号个人信息\{#modify-your-account-information}
 
 1. 点击界面右上角人像图标，并选择**账号设置**。

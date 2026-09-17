@@ -68,7 +68,9 @@ import Procedures from '@site/src/components/Procedures';
 
 <Admonition type="info" title="说明">
 
-在使用邮箱和密码首次登录后，请您完成问卷调查。我们希望了解您的数据规模及用例，从而更有效地为您提供服务。
+- 在使用邮箱和密码首次登录后，请您完成问卷调查。我们希望了解您的数据规模及用例，从而更有效地为您提供服务。
+
+- 出于安全考虑，您的 Zilliz Cloud 控制台会话将在闲置 6 小时后过期。如果会话过期，请重新登录以继续使用控制台。更多详情，可参考[控制台会话](./email-accounts#console-session)。
 
 </Admonition>
 

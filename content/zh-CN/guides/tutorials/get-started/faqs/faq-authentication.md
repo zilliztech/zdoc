@@ -19,6 +19,7 @@ displayed_sidebar: default
 ## Contents
 
 - [如何解决连接时身份验证失败？](#what-can-i-do-if-i-forget-the-password-used-to-connect-to-my-zilliz-cloud-cluster)
+- [为何我被自动登出了？](#why-was-i-signed-out-of-the-zilliz-cloud-console)
 
 ## FAQs
 
@@ -34,3 +35,7 @@ displayed_sidebar: default
 1. 如忘记密码，请点击想要连接的集群并切换至 **Users** 选项卡。点击 **+ User** 以创建新用户和密码。
 
     ![add-cluster-user-cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/add-cluster-user-cn.png "add-cluster-user-cn")
+
+### 为何我被自动登出了？\{#why-was-i-signed-out-of-the-zilliz-cloud-console}
+
+出于安全考虑，您的 Zilliz Cloud 控制台会话将在闲置 6 小时后过期。如果会话过期，请重新登录以继续使用控制台。更多详情，可参考[控制台会话](./email-accounts#console-session)。
