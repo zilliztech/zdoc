@@ -9,7 +9,7 @@ vi.mock('@docusaurus/router', () => ({
 }));
 
 vi.mock('@docusaurus/useDocusaurusContext', () => ({
-  default: () => ({siteConfig: {customFields: {site: siteState.current}}}),
+  default: () => ({siteConfig: {customFields: {site: siteState.current}}, i18n: {currentLocale: 'en'}}),
 }));
 
 import {ChatProvider, useChatContext} from './ChatContext';
