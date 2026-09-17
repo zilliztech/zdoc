@@ -58,7 +58,7 @@
   font-weight: 450 !important;
   font-variation-settings: 'wght' 450 !important;
   line-height: 32px;
-  color: #505050;
+  color: var(--zd-nav-ink-strong);
   border-radius: 0;
   background: transparent;
   text-decoration: none !important;
@@ -91,15 +91,15 @@
 }
 
 .topbarNav .item {
-  font-size: 14px;
+  font-size: var(--zd-sidebar-nav-size);
   font-weight: 400 !important;
   font-variation-settings: 'wght' 400 !important;
 }
 
 .topbarNav .itemActive {
-  font-size: 13.7px;
-  font-weight: 500 !important;
-  font-variation-settings: 'wght' 500 !important;
+  font-size: var(--zd-sidebar-selected-size);
+  font-weight: var(--zd-sidebar-active-weight) !important;
+  font-variation-settings: 'wght' var(--zd-sidebar-active-weight) !important;
 }
 
 .stableLabel {
@@ -137,22 +137,25 @@
   opacity: 1;
 }
 
+/* The hidden sizer reserves at the UNSELECTED size and the heavier weight, so
+   the grid cell is wider than either state and never resizes. Sizing it at the
+   selected size instead makes the cell track whichever state is wider. */
 .topbarNav .stableLabelSizer {
-  font-size: 14px;
-  font-weight: 500 !important;
-  font-variation-settings: 'wght' 500 !important;
+  font-size: var(--zd-sidebar-nav-size);
+  font-weight: var(--zd-sidebar-active-weight) !important;
+  font-variation-settings: 'wght' var(--zd-sidebar-active-weight) !important;
 }
 
 .topbarNav .stableLabelText {
-  font-size: 14px;
+  font-size: var(--zd-sidebar-nav-size);
   font-weight: 400 !important;
   font-variation-settings: 'wght' 400 !important;
 }
 
 .topbarNav .itemActive .stableLabelText {
-  font-size: 13.7px;
-  font-weight: 500 !important;
-  font-variation-settings: 'wght' 500 !important;
+  font-size: var(--zd-sidebar-selected-size);
+  font-weight: var(--zd-sidebar-active-weight) !important;
+  font-variation-settings: 'wght' var(--zd-sidebar-active-weight) !important;
   animation: topbarActiveLabelBlurIn 320ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -259,8 +262,14 @@
   position: fixed;
   background: var(--zd-page-bg);
   border: 1px solid var(--ifm-toc-border-color);
-  border-radius: 0.5rem;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  /* Panel chrome matched to clickhouse.com/docs: a 16px corner and a low, wide,
+     very light double shadow (Tailwind's shadow-xl at 5%) instead of one tight
+     8% blur. Only the panel changed — it still opens on hover, and the items
+     keep their own radius and hover. 16 outer − 6 padding = the items' 10. */
+  border-radius: 16px;
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.05),
+    0 8px 10px -6px rgba(0, 0, 0, 0.05);
   padding: 0.375rem;
   min-width: 160px;
   z-index: 200;

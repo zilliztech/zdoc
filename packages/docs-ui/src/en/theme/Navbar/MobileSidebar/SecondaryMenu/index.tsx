@@ -25,6 +25,50 @@ function IconBolt() {
   );
 }
 
+function IconGlobe() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="10" />
+      <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+    </svg>
+  );
+}
+
+function IconChevronDown() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="m6 9 6 6 6-6" />
+    </svg>
+  );
+}
+
+/* Reads as one more row in this list, but the picker itself is the platform's:
+   a transparent <select> laid over the row, so iOS opens its own wheel. A custom
+   dropdown would have to be positioned inside a scrolling panel, which is the
+   part that goes wrong on a phone. */
+function MobileLanguageRow() {
+  const {i18n} = useDocusaurusContext();
+  const isJapanese = i18n.currentLocale === 'ja-JP';
+  return (
+    <div className="mobile-action-link mobile-language-row">
+      <IconGlobe />
+      <span>{isJapanese ? '日本語' : 'English'}</span>
+      <span className="mobile-language-caret" aria-hidden="true"><IconChevronDown /></span>
+      <select
+        className="mobile-language-select"
+        aria-label="Language"
+        value={isJapanese ? 'ja-JP' : 'en'}
+        onChange={event => {
+          const next = event.target.value === 'ja-JP' ? '/ja-JP/docs/home' : '/docs/home';
+          window.location.href = next;
+        }}>
+        <option value="en">English</option>
+        <option value="ja-JP">日本語</option>
+      </select>
+    </div>
+  );
+}
+
 function IconSearch() {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -85,19 +129,11 @@ function MobileActionToolbar() {
 function MobileActionLinks() {
   const mobileSidebar = useNavbarMobileSidebar();
   const uiText = useDocsUiText();
+  // Sign Up Free is deliberately NOT repeated here — on mobile it stays in the
+  // bar itself, so listing it again would give the same action two places.
   return (
     <div className="mobile-action-links">
-      <a
-        href="https://cloud.zilliz.com/signup"
-        className="mobile-action-link mobile-action-link--primary"
-        target="_blank"
-        rel="noopener noreferrer">
-        {uiText.navbar.signUpFree}
-      </a>
-      <div className="mobile-language-links" aria-label="Language">
-        <a href="/docs/home" className="mobile-action-link">English</a>
-        <a href="/ja-JP/docs/home" className="mobile-action-link">Japanese</a>
-      </div>
+      <MobileLanguageRow />
       <button
         type="button"
         className="mobile-action-link"

@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './styles.module.css';
+import { useDocsUiText } from '../../i18n/uiText.ts';
 import { extractEyebrow } from '@site/src/components/utils/eyebrow';
 
 const PLAN_DESCRIPTIONS = {
@@ -10,6 +11,7 @@ const PLAN_DESCRIPTIONS = {
 };
 
 export default function Bars({ children, eyebrow: eyebrowProp }) {
+    const text = useDocsUiText();
     if (!Array.isArray(children) || children.length === 0) {
         return null;
     }
@@ -53,8 +55,18 @@ export default function Bars({ children, eyebrow: eyebrowProp }) {
         })
         .filter(Boolean);
 
+    // The trailing paragraph is a single link ("Not sure which deployment option
+    // to choose?"). It renders as a button below the cards, not as a stray line
+    // of body copy.
+    const helpLink = React.Children.toArray(rest[2]?.props?.children ?? [])
+        .find(c => React.isValidElement(c) && c.props?.href !== undefined);
+    const help = helpLink
+        ? { href: helpLink.props.href, label: helpLink.props.children }
+        : null;
+
     return (
         <div className={styles.container}>
+            <h2 className={styles.sectionTitle}>{text.hero.plansTitle}</h2>
             {eyebrow && <p className={styles.eyebrow}>{eyebrow}</p>}
             <p className={styles.lead}>{ rest[0]?.props?.children || rest[0] }</p>
             <ul className={styles.list}>
@@ -88,7 +100,18 @@ export default function Bars({ children, eyebrow: eyebrowProp }) {
                     );
                 })}
             </ul>
-            <p className={styles.trail}>{ rest[2]?.props?.children || rest[2] }</p>
+            {help && (
+                <a className={styles.helpBtn} href={help.href}>
+                    {/* Question mark in a circle — the row is an offer of help,
+                        so it carries the mark for one. */}
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                        <circle cx="8" cy="8" r="6.1" stroke="currentColor" strokeWidth="1.25" />
+                        <path d="M6.3 6.25a1.75 1.75 0 1 1 1.75 1.9v1" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" />
+                        <circle cx="8.05" cy="11.15" r="0.7" fill="currentColor" />
+                    </svg>
+                    <span>{help.label}</span>
+                </a>
+            )}
         </div>
     );
 }

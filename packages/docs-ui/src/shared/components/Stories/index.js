@@ -5,11 +5,14 @@ import { extractEyebrow } from '@site/src/components/utils/eyebrow';
 
 export default function Stories({ children, eyebrow: eyebrowProp }) {
     const { eyebrow, rest } = extractEyebrow(children, eyebrowProp);
-    // rest[0] = section h1, rest[1..] = h2 tabs + ol procedures
+    // rest[0] = the section heading, rest[1..] = the tab headings + ol procedures.
+    // The section heading is an h2 now (the page keeps a single h1), so the tab
+    // scan has to start AFTER it — otherwise the section title collects itself as
+    // the first tab.
     const tabs = []
     const procedures = []
 
-    rest.forEach((child) => {
+    rest.slice(1).forEach((child) => {
         if (!React.isValidElement(child)) return;
         // MDX v3 wraps headings in MDXHeading components; detect via mdxTag
         const isH2 = child.type === 'h2' || child.type?.mdxTag === 'h2';

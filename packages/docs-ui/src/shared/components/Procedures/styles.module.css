@@ -17,8 +17,11 @@
     content: '';
     position: absolute;
     left: 14px;
-    top: 36px;
-    bottom: 6px;
+    /* Flush with the circle above and running all the way to the next one — it
+       used to start 8px below and stop 6px short, so the line read as a dashed
+       series of stubs rather than one thread through the steps. */
+    top: 28px;
+    bottom: 0;
     width: 0.5px;
     background: var(--procedure-line-color);
     transform: translateX(-50%);

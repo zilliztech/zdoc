@@ -488,7 +488,9 @@
     display: none !important;
   }
 
-  .docsLink,
+  /* .docsLink stays: "Docs" is half the brand lockup, and hiding it left the
+     bar reading just "zilliz" — the wrong product. Only the divider and the
+     language picker go (the picker moves into the hamburger). */
   .brandDivider,
   .languageDropdown {
     /* The base dropdown declaration appears later in this module. */
@@ -603,6 +605,17 @@
   background: var(--zd-nav-hover-bg);
 }
 
+/* The selected locale is marked the way the secondary navbar's API & SDK panel
+   marks its selected item — a surface, not a heavier weight. Every item in that
+   panel sits at 500, so bolding this one made the language menu read heavier
+   than every other dropdown on the page. */
 .languageItemActive {
-  font-weight: 600;
+  font-weight: 500;
+  background: var(--zd-nav-active-bg);
+}
+
+/* Keeps its active surface on hover (same rule as .dropdownPanelItemActive:hover);
+   placed after .languageItem:hover so it wins the equal-specificity tie. */
+.languageItemActive:hover {
+  background: var(--zd-nav-active-bg);
 }

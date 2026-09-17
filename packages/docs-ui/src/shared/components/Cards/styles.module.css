@@ -1,9 +1,12 @@
+/* Home sections sit flush in the doc's own content box, exactly like body text
+   on any other page — the breadcrumb above them marks that same left edge. The
+   old 996px auto-centred container indented every section ~65px from it, so the
+   home page read as offset against the rest of the docs. */
 .container {
     display: block;
     width: 100%;
-    max-width: 996px;
-    margin: 80px auto 0;
-    padding: 0 20px;
+    margin: var(--zd-home-section-gap) 0 0;
+    padding: 0;
 }
 
 .eyebrow {
@@ -20,25 +23,34 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
-    align-items: flex-start;
+    /* Stretch, not flex-start: otherwise a card whose description wraps to two
+       lines is taller than its neighbours and the row stops being a row. */
+    align-items: stretch;
     gap: 10px 20px;
-    margin-top: 40px;
+    /* The h2's own margin carries the heading gap (--zd-home-title-gap); a
+       second 40px here made these two sections sit lower than the rest. */
+    margin-top: 0;
 }
 
 .item {
-    flex: 1;
+    /* Equal thirds rather than flex:1 — otherwise the two cards on a 3+2 last
+       row stretch to half the width each and the grid stops looking like a grid.
+       40px = the two 20px column gaps. */
+    flex: 0 1 calc((100% - 40px) / 3);
+    min-width: 0;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
     gap: 12px;
     padding: 32px;
-    box-shadow: 0px 2px 4px 0px rgba(29, 41, 57, 0.1);
     border-radius: 14px;
-    border: 1px solid var(--zd-card-stroke);
-    background-color: #ffffff;
+    /* Same card as everywhere else in the docs: a background-coloured surface,
+       no stroke and no shadow; hover is one step darker. */
+    border: 0;
+    background-color: var(--zd-card-bg);
     cursor: pointer;
-    transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+    transition: background-color 0.2s ease;
 }
 
 .item:link,
@@ -51,15 +63,9 @@
 }
 
 .item:hover {
-    border-color: var(--zd-linear-signup-ink);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
-    transform: translateY(-2px);
+    background-color: var(--zd-card-bg-hover);
 }
 
-.item:hover .iconContainer {
-    background-color: var(--zd-surface-2);
-    border-color: var(--zd-surface-border-strong);
-}
 
 .iconContainer {
     display: flex;
@@ -67,53 +73,58 @@
     justify-content: center;
     width: 64px;
     height: 64px;
-    border-radius: 10px;
-    background-color: var(--zd-surface-1);
-    border: 1px solid var(--zd-surface-border);
-    transition: background-color 0.2s ease, border-color 0.2s ease;
+    /* No tile: the icon sits straight on the card, the way Vercel's docs index
+       cards do. A rounded plate around a line icon is a second surface that
+       carries no information. */
+    background-color: transparent;
+    border: 0;
+    border-radius: 0;
+    width: auto;
+    height: 20px;
+    justify-content: flex-start;
 }
 
 .iconMonitoring {
     display: inline-block;
-    background-image: url('/icons/feature-monitor.svg');
-    width: 32px;
-    height: 32px;
+    background-image: url('/icons/feature-monitor-line.svg');
+    width: 20px;
+    height: 20px;
     background-size: contain;
     background-repeat: no-repeat;
 }
 
 .iconAccess {
     display: inline-block;
-    background-image: url('/icons/feature-access.svg');
-    width: 32px;
-    height: 32px;
+    background-image: url('/icons/feature-access-line.svg');
+    width: 20px;
+    height: 20px;
     background-size: contain;
     background-repeat: no-repeat;
 }
 
 .iconPrivate {
     display: inline-block;
-    background-image: url('/icons/feature-private.svg');
-    width: 32px;
-    height: 32px;
+    background-image: url('/icons/feature-private-line.svg');
+    width: 20px;
+    height: 20px;
     background-size: contain;
     background-repeat: no-repeat;
 }
 
 .iconBilling {
     display: inline-block;
-    background-image: url('/icons/feature-billing.svg');
-    width: 32px;
-    height: 32px;
+    background-image: url('/icons/feature-billing-line.svg');
+    width: 20px;
+    height: 20px;
     background-size: contain;
     background-repeat: no-repeat;
 }
 
 .iconIntegrations {
     display: inline-block;
-    background-image: url('/icons/feature-integrations.svg');
-    width: 32px;
-    height: 32px;
+    background-image: url('/icons/feature-integrations-line.svg');
+    width: 20px;
+    height: 20px;
     background-size: contain;
     background-repeat: no-repeat;
 }
@@ -156,10 +167,14 @@
 
 .iconRESTful {
     display: inline-block;
-    background-image: url('/icons/lang-restful.svg');
+    /* The others are real brand logos; "RESTful API" had no brand mark, only a
+       raster clipart that broke the icon language. Drawn on the same 16-unit
+       grid as the feature marks. */
+    background-image: url('/icons/lang-restful-line.svg');
     width: 32px;
     height: 32px;
-    background-size: contain;
+    background-size: 24px 24px;
+    background-position: center;
     background-repeat: no-repeat;
 }
 
@@ -168,18 +183,24 @@
     height: 0;
 }
 
+/* Card typography follows vercel.com/docs: title 16/24 semibold in full ink,
+   description 13/20 regular in muted grey. The description is supporting text,
+   not body copy — at 15px in page ink it competed with the title. */
 .item h3 {
     font-size: 16px !important;
-    line-height: 22px;
+    /* !important because .markdown h3 sets 28px and would otherwise win — which
+       left these titles at a different rhythm from the language cards' 16/24. */
+    line-height: 24px !important;
     font-weight: 600 !important;
     margin: 0 !important;
     color: var(--zd-linear-signup-ink) !important;
 }
 
 .item p {
-    font-size: 16px !important;
-    line-height: 22px;
-    color: var(--zd-muted-text);
+    font-size: 13px !important;
+    line-height: 20px !important;
+    font-weight: 400 !important;
+    color: var(--zd-muted-text) !important;
     margin: 0 !important;
 }
 

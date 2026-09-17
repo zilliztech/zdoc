@@ -13,7 +13,7 @@
   width: 100%;
   height: 100%;
   min-height: 0;
-  background: #ffffff;
+  background: var(--zd-sidebar-bg);
 }
 
 /* The primary rail + secondary panel row (sits below the reference header bar) */
@@ -36,10 +36,29 @@
   width: fit-content;
   max-width: 10rem;
   flex-shrink: 0;
-  padding: var(--doc-section-padding);
-  background: #ffffff;
-  border-right: 1px solid var(--zd-surface-border-subtle);
+  /* No right padding: the selected tile has to reach the panel edge to merge
+     with it. Unselected items keep their own 0.75rem inset.
+     The top inset gives back half of the rail rows' extra height, so the rail's
+     first LABEL still lands on the same line as the doc tree's first label
+     (the boxes differ in height; the text is what has to line up). */
+  padding:
+    calc(
+      var(--doc-section-padding)
+      - (var(--zd-rail-item-height, 32px) - var(--zd-tree-item-height, 32px)) / 2
+    )
+    0
+    var(--doc-section-padding)
+    var(--doc-section-padding);
+  background: var(--zd-rail-surface);
   overflow-y: auto;
+}
+
+/* No secondary panel (a flat leaf like "Overview"): there is nothing to merge
+   into, so the rail drops the tint and goes back to being a plain column. */
+.primaryRail[data-solo] {
+  padding-right: var(--doc-section-padding);
+  background: var(--zd-sidebar-bg);
+  border-right: 1px solid var(--zd-surface-border-subtle);
 }
 
 /* When there's no secondary panel (one-level entries like "Overview"), the rail
@@ -56,12 +75,20 @@
   align-items: center;
   width: 100%;
   min-height: 32px;
-  margin: 0 0 var(--zd-nav-gap);
+  /* The rail runs looser than the doc tree — see --zd-rail-gap. */
+  margin: 0 0 var(--zd-rail-gap);
   box-sizing: border-box;
   padding: 0.375rem 0.75rem;
-  color: var(--zd-linear-signup-ink);
+  /* Near-black, the section-heading tone — the rail is the top level and
+     reads as the darkest column; the selected entry separates by colour alone. */
+  color: var(--zd-rail-ink);
   background: transparent;
-  border: 0;
+  /* Width 0, but the colour is already the stroke's. A global rule puts
+     border-color in this element's 0.36s transition, so leaving the colour at
+     the default currentColor made the selected tile's border animate up from
+     near-black — a dark frame flashing on every click. With the colour pinned
+     here there is nothing left to interpolate. */
+  border: 0 solid var(--zd-rail-stroke);
   border-radius: 10px;
   font-family: var(--ifm-font-family-base);
   font-size: var(--zd-sidebar-size);
@@ -80,6 +107,8 @@
 }
 
 .primaryRailLabel {
+  /* Positioned so it paints above the hover pill's absolutely-positioned box. */
+  position: relative;
   flex: 1;
   min-width: 0;
   display: grid;
@@ -112,7 +141,26 @@
 
 .primaryRailItem:hover {
   color: var(--zd-linear-signup-ink);
+}
+
+/* See custom.css for the hover pill itself — it is drawn as a ::before so it can
+   stop short of the panel edge. */
+.primaryRailItem:not(.primaryRailItemActive):hover::before {
+  content: '';
+  position: absolute;
+  inset:
+    calc((var(--zd-rail-item-height) - var(--zd-tree-item-height)) / 2)
+    var(--zd-rail-hover-inset-x)
+    calc((var(--zd-rail-item-height) - var(--zd-tree-item-height)) / 2)
+    0;
+  border-radius: var(--zd-rail-tab-radius);
+  background: var(--zd-rail-surface-hover);
+  pointer-events: none;
+}
+
+.primaryRail[data-solo] .primaryRailItem:hover {
   background: var(--zd-nav-hover-bg);
+  border-radius: 10px;
 }
 
 /* Active uses the pre-rendered 500 layer instead of animating one text node's weight. */
@@ -129,18 +177,64 @@
   outline-offset: -2px;
 }
 
-.primaryRailItemActive {
+/* The selected tile IS the secondary panel's leading edge: page-coloured, square
+   on the right, flush against the panel. Nothing separates them, so the rail
+   entry visibly owns the list beside it. */
+.primaryRailItemActive,
+.primaryRailItemActive:hover {
   width: 100%;
   margin-right: 0;
-  color: var(--zd-sidebar-active-ink);
-  background: var(--zd-nav-hover-bg);
+  color: var(--zd-sidebar-active-accent);
+  background: var(--zd-sidebar-bg);
+  border-radius: var(--zd-rail-tab-radius) 0 0 var(--zd-rail-tab-radius);
+}
+
+/* Where the tile meets the panel the corner has to curve the OTHER way — away
+   from the tile — so the two surfaces read as one continuous shape, the way a
+   browser tab joins its strip. A normal border-radius curves inward and would
+   pinch the tile off instead. Each fillet is a square whose inner quarter disc
+   is cut out, with the 1px arc picking up where the straight edge ends. */
+.primaryRailItemActive::before,
+.primaryRailItemActive::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  width: var(--zd-rail-tab-radius);
+  height: var(--zd-rail-tab-radius);
+  pointer-events: none;
+}
+
+.primaryRailItemActive::before {
+  top: calc(-1 * var(--zd-rail-tab-radius));
+  background: radial-gradient(
+    circle var(--zd-rail-tab-radius) at left top,
+    #0000 0 var(--zd-rail-tab-radius),
+    var(--zd-rail-stroke) var(--zd-rail-tab-radius)
+      calc(var(--zd-rail-tab-radius) + 1px),
+    var(--zd-sidebar-bg) calc(var(--zd-rail-tab-radius) + 1px)
+  );
+}
+
+.primaryRailItemActive::after {
+  bottom: calc(-1 * var(--zd-rail-tab-radius));
+  background: radial-gradient(
+    circle var(--zd-rail-tab-radius) at left bottom,
+    #0000 0 var(--zd-rail-tab-radius),
+    var(--zd-rail-stroke) var(--zd-rail-tab-radius)
+      calc(var(--zd-rail-tab-radius) + 1px),
+    var(--zd-sidebar-bg) calc(var(--zd-rail-tab-radius) + 1px)
+  );
+}
+
+/* Solo rail: no panel to merge with, so the selection stays a pill. */
+.primaryRail[data-solo] .primaryRailItemActive,
+.primaryRail[data-solo] .primaryRailItemActive:hover {
+  background: var(--zd-accent-surface);
   border-radius: 10px;
 }
 
-/* selected first-level item has no hover effect */
-.primaryRailItemActive:hover {
-  color: var(--zd-sidebar-active-ink);
-  background: var(--zd-nav-hover-bg);
+.primaryRail[data-solo] .primaryRailItemActive::before {
+  content: none;
 }
 
 .secondaryPane {
@@ -152,6 +246,7 @@
   min-height: 0;
   background: var(--zd-sidebar-bg);
 }
+
 
 .mergedCaret {
   display: inline-flex;
@@ -300,7 +395,7 @@
   height: 100%;
   min-height: 0;
   padding: 0.75rem 0.75rem 0;
-  background: #ffffff;
+  background: var(--zd-sidebar-bg);
 }
 
 /* Reference header on top of the primary rail: back link + language title + divider.
@@ -492,7 +587,7 @@
      +sibling margin below. */
   min-height: 32px;
   padding: 0.375rem 0.75rem;
-  color: var(--zd-linear-signup-ink);
+  color: var(--zd-sidebar-ink);
   font-family: var(--ifm-font-family-base);
   font-size: var(--zd-sidebar-size);
   font-weight: var(--zd-nav-weight);
@@ -537,6 +632,71 @@
   font-weight: var(--zd-nav-hover-weight) !important;
   font-variation-settings: 'wght' var(--zd-nav-hover-weight) !important;
 }
+
+/* ── Depth ink ramp + active-path emphasis ──────────────────────────────
+   Indentation alone carried the hierarchy here (12px per level, the narrowest
+   in the docs sites we measured), so an expanded category ran into the next
+   top-level entry with no visible seam. Colour carries it instead — it costs
+   no horizontal space, which matters in a pane already narrowed by the 122px
+   primary rail.
+
+     top-level row     --zd-page-ink        #1D2939   14.5:1
+     nested row        --zd-sidebar-doc-ink-nested  #5b6472   6.0:1
+     ancestor on path  --zd-page-ink                  back to full ink
+     current page      --zd-sidebar-active-accent  (= --zd-accent-bright)
+
+   Two ink steps only: a third (--zd-gray-500, 4.8:1) sits on the WCAG AA floor
+   and this tree goes four levels deep.
+
+   Docusaurus already marks every category CONTAINING the active page with
+   .menu__link--active (isActiveSidebarItem is a containment test for a
+   category), so the ancestor chain needs no :has(). aria-current="page" is
+   what separates the current page itself from its ancestors.
+
+   Each rule ships two selectors: the short one (0,3,0) covers top-level rows;
+   the long one (0,5,0) has to outrank the nested-dimming rule (0,4,0) below,
+   or a nested ancestor / current page would be dimmed along with its siblings.
+
+   Weight is deliberately not set here. The label is a two-layer sizer/text
+   pair (see Category/styles.module.css) whose visible span sets its own
+   font-weight, so font-weight on .menu__link is a silent no-op — the 500 comes
+   from the opacity swap those rules already do for .menu__link--active. */
+
+/* Nothing in the pane is emphasised by default — not even a group. Bold + full
+   ink is reserved for the active path (the rules below), so weight now answers
+   "is the page I'm on inside this?" rather than "is this a folder?". Everything
+   else, group or page, any depth, sits at --zd-nav-muted-ink from the base rule
+   above. */
+.secondarySidebarContent :global(.menu__link--active:not([aria-current='page'])),
+.secondarySidebarContent :global(.theme-doc-sidebar-item-category .menu__list .menu__link--active:not([aria-current='page'])) {
+  color: var(--zd-page-ink);
+}
+
+/* !important is required, not stylistic: custom.css forces
+   `.theme-doc-sidebar-container .menu__link--active { color: ... !important }`
+   to keep the primary rail's selected item on the page ink, and the current
+   page carries .menu__link--active too. Same reason the ancestor rule above
+   works without it — that important rule already resolves ancestors to the page
+   ink; the rule is kept explicit so the behaviour survives if it ever changes. */
+.secondarySidebarContent :global(.menu__link[aria-current='page']),
+.secondarySidebarContent :global(.theme-doc-sidebar-item-category .menu__list .menu__link[aria-current='page']) {
+  color: var(--zd-sidebar-active-accent) !important;
+}
+
+/* The visible label is not the <a>'s own text node but one of two stacked spans
+   (sizer / text) that swap opacity to change weight, and custom.css pins their
+   colour on any active row:
+     .theme-doc-sidebar-container .menu__link--active [class*='categoryLinkLabel…']
+       { color: var(--zd-sidebar-active-ink) !important }
+   which is (0,3,0)-important and applies to the SPAN, so colouring the <a>
+   alone leaves the rendered text unchanged. Re-state the current-page colour on
+   the spans at (0,4,0) to land it. Ancestors need no equivalent: that same rule
+   already resolves them to the page ink, which is what the path wants. */
+.secondarySidebarContent :global(.menu__link[aria-current='page'] [class*='categoryLinkLabelSizer']),
+.secondarySidebarContent :global(.menu__link[aria-current='page'] [class*='categoryLinkLabelText']) {
+  color: var(--zd-sidebar-active-accent) !important;
+}
+
 
 .secondarySidebarContent :global(.menu__link--active[data-sidebar-fit='connect-global-cluster'] [class*='categoryLinkLabel']),
 .secondarySidebarContent :global(.menu__link--active[data-sidebar-fit='connect-global-cluster'] [class*='categoryLinkLabelSizer']),

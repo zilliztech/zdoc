@@ -1,265 +1,262 @@
-/* ── Page wrapper: hero gradient, vertically centered ── */
+/* 404 page: a ghosted 404 and the page's own message on the left, the Ask AI
+   card on the right, and no chrome at all — the topbar and footer are dropped so
+   nothing competes with the two columns. */
+
+/* Topbar removal. Layout renders the navbar above this component, so NotFound's
+   wrapper tags the body and this hides it; the class comes off on unmount. */
+:global(body.zd-notfound-page .navbar) {
+  display: none;
+}
+
 .pageWrapper {
-  min-height: calc(100vh - 56px);
-  background: linear-gradient(160deg, #b8d0ff 0%, #d0e0ff 25%, #e4edff 50%, #f2f6ff 75%, #ffffff 100%);
   display: flex;
-  align-items: center;
   justify-content: center;
-  padding: 2rem 1rem;
-  position: relative;
-  overflow: hidden;
+  align-items: center;
+  min-height: 100vh;
+  /* No navbar to clear any more — this is the page's own breathing room. */
+  padding: 64px 40px;
+  /* A step off white, so the white Ask AI card reads as a surface laid on the
+     page rather than a bordered hole cut out of it. */
+  background: var(--zd-surface-1);
 }
 
-/* ── Decorative SVG background ── */
-.bgDecor {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
-@keyframes gentleDrift {
-  0%, 100% { transform: translate(0, 0); }
-  33% { transform: translate(12px, -8px); }
-  66% { transform: translate(-8px, 6px); }
-}
-
-@keyframes gentleDrift2 {
-  0%, 100% { transform: translate(0, 0); }
-  33% { transform: translate(-10px, 10px); }
-  66% { transform: translate(8px, -6px); }
-}
-
-.driftGroup1 {
-  animation: gentleDrift 18s ease-in-out infinite;
-}
-
-.driftGroup2 {
-  animation: gentleDrift2 22s ease-in-out infinite;
-}
-
-/* ── Centered white card ── */
+/* Two columns: the message column takes the slack, the assistant column is
+   fixed, the way a panel would be. */
 .card {
-  position: relative;
-  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 400px;
+  gap: 64px;
+  align-items: center;
   width: 100%;
-  max-width: 640px;
-  background: #ffffff;
-  border-radius: 1rem;
-  box-shadow: 0 8px 40px rgba(23, 95, 255, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
-  padding: 2.5rem;
+  max-width: 1040px;
+}
+
+.pageColumn {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  transition: max-height 0.3s ease;
+  align-items: flex-start;
 }
 
-/* ── Empty state ── */
-.avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: var(--zd-gradient-avatar);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1.25rem;
-}
+/* The left column, measured at 1440: 192/500/192 with -0.02em on the numeral,
+   36/450/40 with -0.01em on the title, 16/400/28 on the line under it, and
+   8 / 16 / 32px of air between the four. This is display type, so it takes its
+   own tracking rather than the site's letter-spacing:0 doc rule. */
 
-.avatar img {
-  width: 24px;
-  height: 24px;
+/* The status code as texture: it says what happened before a word is read, and
+   never competes with the heading — no fade, no pattern, one flat tint.
+
+   Mixed from the surface scale, NOT from the page ink. The ink is a blue-grey
+   navy (#1d2939) and the ground is a warm neutral (#f7f7f5, blue two levels
+   below red); thinning the navy down landed on rgb(230,231,230), which is
+   neutral-to-cool against a warm ground and read as dirty grey. This mix stays
+   in that warm family and sits 40% further from the ground than the first pass:
+   the gap was rgb(17,17,20), it is now rgb(24,24,28) — ~rgb(223,223,217).
+   The 73% is the one dial: raise it to deepen, lower it to fade back. */
+.code {
+  margin: 0;
+  font-family: var(--ifm-heading-font-family);
+  font-size: 192px;
+  font-weight: 500;
+  line-height: 192px;
+  letter-spacing: -0.02em;
+  /* Lighter: at 192px this is a watermark behind the message, not a second
+     headline competing with "Page not found". */
+  color: color-mix(in srgb, var(--zd-surface-border-strong) 42%, var(--zd-surface-1));
+  user-select: none;
 }
 
 .heading {
+  margin: 8px 0 0;
   font-family: var(--ifm-heading-font-family);
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: var(--zd-linear-signup-ink);
-  margin: 0 0 0.375rem;
-  text-align: center;
+  font-size: 36px;
+  /* The reference sets 450 on a variable face; Geist here ships discrete weights,
+     where 450 snaps back up to 500 and nothing changes — 400 is the step that
+     actually renders the lighter title their 450 produces. */
+  font-weight: 400;
+  line-height: 40px;
+  letter-spacing: -0.01em;
+  color: var(--zd-page-ink);
 }
 
 .subtitle {
-  font-size: 0.9375rem;
-  color: var(--zd-gray-500);
-  margin: 0 0 1.5rem;
-  text-align: center;
+  margin: 16px 0 0;
+  /* Two comfortable lines at this size. */
+  max-width: 46ch;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 28px;
+  color: var(--zd-muted-text);
 }
 
-/* ── Shared input row (pill shape) ── */
-.inputRow {
-  display: flex;
-  align-items: center;
-  gap: 0.375rem;
-  border: 1px solid var(--zd-gray-200);
-  border-radius: 9999px;
-  padding: 0.375rem 0.375rem 0.375rem 1rem;
-  background: #ffffff;
-  width: 100%;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+/* Only one of the two subtitle lines is ever shown — see the note in Content. */
+.subtitleStacked {
+  display: none;
 }
 
-.inputRow:focus-within {
-  border-color: var(--ifm-color-primary);
-  box-shadow: 0 0 0 3px var(--zd-primary-alpha-8);
+.subtitle {
+  margin: 16px 0 0;
+  /* Two comfortable lines at this size. */
+  max-width: 46ch;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 28px;
+  color: var(--zd-muted-text);
 }
 
-.input {
-  flex: 1;
-  font-size: 0.9375rem;
-  border: none;
-  outline: none;
-  background: transparent;
-  color: var(--zd-linear-signup-ink);
-  line-height: 1.5;
-  padding: 0.25rem 0;
-  min-width: 0;
-}
-
-.input::placeholder {
-  color: var(--zd-gray-400);
-}
-
-.sendRound {
-  flex-shrink: 0;
-  width: 34px;
-  height: 34px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--ifm-color-primary);
-  color: #ffffff;
-  border: none;
-  border-radius: 9999px;
-  cursor: pointer;
-  transition: background-color 0.15s ease, opacity 0.15s ease;
-}
-
-.sendRound:hover {
-  background: var(--ifm-color-primary-dark);
-}
-
-.sendRound:disabled {
-  opacity: 0.35;
-  cursor: default;
-}
-
-/* ── Suggestion buttons ── */
-.suggestions {
-  display: flex;
-  flex-direction: column;
-  gap: 0.375rem;
-  width: 100%;
-  margin-top: 1.25rem;
-}
-
-.suggestionBtn {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  padding: 0.625rem 0.75rem;
-  font-size: 0.875rem;
-  text-align: left;
-  color: var(--zd-gray-700);
-  background: var(--zd-gray-50);
-  border: 1px solid var(--zd-gray-200);
-  border-radius: 0.5rem;
-  cursor: pointer;
-  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
-  line-height: 1.4;
-}
-
-.suggestionBtn span {
-  flex: 1;
-  min-width: 0;
-}
-
-.suggestionBtn svg {
-  flex-shrink: 0;
-  color: var(--zd-gray-400);
-}
-
-.suggestionBtn:hover {
-  background: var(--zd-gray-100);
-  border-color: var(--zd-gray-300);
-  color: var(--zd-linear-signup-ink);
-}
-
-.suggestionBtn:hover svg {
-  color: var(--zd-gray-500);
-}
-
-/* ── Back link ── */
+/* A button, not a text link — 40px tall, 10/18 padding, fully rounded, 14px/500,
+   in the site's own black pill: page ink, and the navbar Sign Up button's exact
+   hover so every pill behaves alike. */
 .backLink {
   display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
-  margin-top: 1.5rem;
-  font-size: 0.8125rem;
+  gap: 6px;
+  margin-top: 32px;
+  padding: 10px 18px;
+  font-size: 14px;
   font-weight: 500;
-  color: var(--ifm-color-primary);
-  text-decoration: none;
-  transition: opacity 0.15s ease;
+  color: #ffffff;
+  background: var(--zd-page-ink);
+  border-radius: 999px;
+  text-decoration: none !important;
+  transition: background-color var(--zd-hover-duration) var(--zd-hover-ease);
 }
 
 .backLink:hover {
-  opacity: 0.8;
-  text-decoration: none;
+  color: #ffffff;
+  background: #4a5a76;
 }
 
-/* ── Conversation state ── */
-.cardConversation {
-  max-height: calc(100vh - 160px);
+/* ── Ask AI card ─────────────────────────────────────────────────────────
+   Deliberately plain: a white face and one hairline stroke, no colour ring.
+   The composer inside carries the only colour on this side of the page. */
+.aiCard {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  /* Taller than its content needs: the card should read as a panel standing
+     beside the message, not as a box shrink-wrapped around three links. Sized to
+     clear the full-height watermark (184) plus header, greeting, links and box. */
+  min-height: 540px;
+  padding: 16px;
+  background: #ffffff;
+  border: 1px solid var(--zd-surface-border);
+  border-radius: 20px;
 }
 
-.messages {
-  flex: 1;
-  overflow-y: auto;
+/* The Ask AI panel's header, same mark and same 14px/500 title at the panel's
+   0.5rem gap — so the card announces itself the way the panel does. */
+.aiCardHeader {
   display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
-  padding-right: 0.25rem;
-}
-
-/* Message bubble — shared base */
-.messageBubble {
-  max-width: 88%;
-  border-radius: 0.625rem;
-  padding: 0.625rem 0.875rem;
-  display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 0.5rem;
+  margin-bottom: 14px;
 }
 
-.messageBubble p {
-  font-size: 0.9375rem;
-  line-height: 1.55;
-  margin: 0;
+.aiCardTitle {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--zd-linear-signup-ink);
 }
 
-.assistantAvatar {
-  flex-shrink: 0;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: var(--zd-gradient-avatar);
+/* The panel's watermark bolt, back in the card's empty middle. It takes the
+   card's spare height (flex: 1) so the composer and links stay at the foot, and
+   keeps the panel's own fade — the stroke thins towards the tail instead of
+   stopping dead. Empty state only: once there is a conversation the messages
+   take that space, exactly as in the panel. */
+.bolt {
+  flex: 1;
+  /* The glyph's own height, so growing is all it ever does — it never squashes. */
+  min-height: 156px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 1px;
 }
 
+/* The panel's .emptyBolt box (106 x 184) taken down a notch, ratio kept — this
+   card is narrower than the panel, so the glyph sits a little smaller in it. The
+   fade sits on the glyph rather than on the flexing wrapper: put it on the
+   wrapper and the fade's midpoint would slide around with the spare height. */
+.bolt svg {
+  width: 90px;
+  height: 156px;
+  display: block;
+  -webkit-mask-image: linear-gradient(to bottom, #000 34%, rgba(0, 0, 0, 0.45) 68%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 34%, rgba(0, 0, 0, 0.45) 68%, transparent 100%);
+}
+
+.askBox {
+  width: 100%;
+}
+
+/* Quick links, above the box and styled exactly as the Ask AI panel styles its
+   own: plain muted text rows, no frame, darkening on hover. They are the same
+   affordance, so they should not look like two different controls. */
+.suggestions {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0 2px 12px;
+}
+
+.suggestionBtn {
+  display: block;
+  width: 100%;
+  padding: 0.2rem 0;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: left;
+  color: var(--zd-muted-text);
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.suggestionBtn:hover {
+  color: var(--zd-page-ink);
+}
+
+/* ── Conversation ───────────────────────────────────────────────────────── */
+
+.messages {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: min(46vh, 400px);
+  overflow-y: auto;
+  margin-bottom: 14px;
+  /* Room for the focus ring of anything inside, and for the scrollbar. */
+  padding: 2px 4px 2px 2px;
+}
+
+/* In conversation the transcript, not the watermark, takes the card's slack. */
+.messagesFilled {
+  flex: 1;
+}
+
+.messageBubble {
+  display: flex;
+  gap: 8px;
+  font-size: 15px;
+  line-height: 25px;
+  color: var(--zd-page-ink);
+}
+
+.messageBubble p {
+  margin: 0;
+}
+
+/* The question — the Ask AI panel's own bubble, down to the squared bottom-right
+   corner: black fill, white text. One bubble shape across the site. */
 .userMessage {
   align-self: flex-end;
-  background: var(--ifm-color-primary);
+  max-width: 85%;
+  padding: 7px 11px;
+  background: var(--zd-linear-signup-ink);
   color: #ffffff;
+  border-radius: 12px 12px 3px 12px;
 }
 
 .userMessage p {
@@ -267,22 +264,34 @@
 }
 
 .assistantMessage {
-  align-self: flex-start;
-  background: var(--zd-gray-100);
-  color: var(--zd-linear-signup-ink);
-  max-width: 92%;
+  align-items: flex-start;
 }
 
-/* ── Markdown content ── */
+/* The opening question — the user bubble's mirror image: light fill instead of
+   black, and the squared corner on the bottom LEFT, since it comes from the
+   other side. Only this canned line is bubbled; real answers stay frameless
+   like the panel's, which is what long markdown needs. */
+.assistantGreeting {
+  align-self: flex-start;
+  max-width: 85%;
+  padding: 7px 11px;
+  background: var(--zd-surface-1);
+  color: var(--zd-page-ink);
+  border-radius: 12px 12px 12px 3px;
+}
+
+.thinkingText {
+  color: var(--zd-muted-text);
+}
+
 .markdownContent {
-  flex: 1;
   min-width: 0;
-  font-size: 0.9375rem;
-  line-height: 1.55;
+  font-size: 15px;
+  line-height: 25px;
 }
 
 .markdownContent p {
-  margin: 0 0 0.5em 0;
+  margin: 0 0 12px;
 }
 
 .markdownContent p:last-child {
@@ -290,110 +299,107 @@
 }
 
 .markdownContent code {
-  font-size: 0.8125rem;
-  background: rgba(0, 0, 0, 0.06);
-  padding: 0.125em 0.3em;
-  border-radius: 3px;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 13px;
+  padding: 0.1em 0.35em;
+  background: var(--zd-card-bg);
+  border-radius: 6px;
 }
 
 .markdownContent pre {
-  margin: 0.5em 0;
-  padding: 0.5rem 0.625rem;
-  background: var(--zd-linear-signup-ink);
-  color: var(--zd-surface-border);
-  border-radius: 6px;
+  margin: 0 0 12px;
+  padding: 12px 14px;
   overflow-x: auto;
-  font-size: 0.8125rem;
-  line-height: 1.5;
+  background: var(--zd-card-bg);
+  border: 1px solid var(--zd-code-stroke, var(--zd-surface-border));
+  border-radius: 12px;
 }
 
 .markdownContent pre code {
-  background: transparent;
   padding: 0;
-  color: inherit;
+  background: transparent;
+  font-size: 13px;
+  line-height: 20px;
 }
 
 .markdownContent ul,
 .markdownContent ol {
-  margin: 0.375em 0;
-  padding-left: 1.25em;
+  margin: 0 0 12px;
+  padding-left: 24px;
 }
 
-.markdownContent li {
-  margin: 0.125em 0;
+.markdownContent li::marker {
+  color: var(--zd-list-marker);
 }
 
 .markdownContent h1,
 .markdownContent h2,
 .markdownContent h3,
 .markdownContent h4 {
-  margin: 0.75em 0 0.375em 0;
-  font-size: 1rem;
-  font-weight: 600;
+  margin: 16px 0 8px;
+  font-family: var(--ifm-heading-font-family);
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 24px;
+  color: var(--zd-page-ink);
 }
 
 .markdownContent a {
-  color: var(--ifm-color-primary);
-  text-decoration-line: underline;
-  text-decoration-thickness: 1px;
-  text-decoration-color: transparent;
-  text-underline-offset: 4px;
-  transition:
-    color var(--zd-hover-duration, 0.36s) var(--zd-hover-ease, cubic-bezier(0.16, 1, 0.3, 1)),
-    text-decoration-color var(--zd-hover-duration, 0.36s) var(--zd-hover-ease, cubic-bezier(0.16, 1, 0.3, 1)),
-    text-decoration-thickness var(--zd-hover-duration, 0.36s) var(--zd-hover-ease, cubic-bezier(0.16, 1, 0.3, 1)),
-    text-underline-offset var(--zd-hover-duration, 0.36s) var(--zd-hover-ease, cubic-bezier(0.16, 1, 0.3, 1));
+  color: var(--zd-breadcrumb-link);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .markdownContent a:hover {
-  text-decoration-color: currentColor;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 5px;
+  color: var(--zd-breadcrumb-link-hover);
 }
 
 .markdownContent table {
+  display: block;
   width: 100%;
+  overflow-x: auto;
+  margin: 0 0 12px;
   border-collapse: collapse;
-  margin: 0.5em 0;
-  font-size: 0.8125rem;
+  font-size: 14px;
 }
 
 .markdownContent th,
 .markdownContent td {
-  border: 1px solid var(--zd-gray-200);
-  padding: 0.375rem 0.5rem;
+  padding: 6px 10px;
+  border: 1px solid var(--zd-surface-border);
   text-align: left;
 }
 
 .markdownContent th {
-  background: var(--zd-gray-50);
-  font-weight: 600;
+  font-weight: 500;
+  background: var(--zd-card-bg);
 }
 
-/* ── Source chips ── */
+/* Sources — a small bordered chip with a grey label, like the chat panel's. */
 .sourcesRow {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.375rem;
-  margin-top: 0.5rem;
-  padding-top: 0.5rem;
-  border-top: 1px solid var(--zd-gray-200);
+  gap: 6px;
+  margin-top: 12px;
 }
 
 .sourceChip {
   display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
-  padding: 0.25rem 0.5rem;
-  font-size: 0.75rem;
-  line-height: 1.4;
-  color: var(--zd-gray-600);
-  background: var(--zd-gray-50);
-  border: 1px solid var(--zd-gray-200);
-  border-radius: 9999px;
-  text-decoration: none;
-  max-width: 100%;
-  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  gap: 5px;
+  max-width: 220px;
+  height: 26px;
+  padding: 0 10px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--zd-muted-text);
+  background: #ffffff;
+  border: 1px solid var(--zd-surface-border);
+  border-radius: 8px;
+  text-decoration: none !important;
+  transition:
+    color var(--zd-hover-duration) var(--zd-hover-ease),
+    background-color var(--zd-hover-duration) var(--zd-hover-ease);
 }
 
 .sourceChip span {
@@ -404,22 +410,18 @@
 
 .sourceChip svg {
   flex-shrink: 0;
-  opacity: 0.6;
+  color: var(--zd-gray-400);
 }
 
 .sourceChip:hover {
-  background: var(--zd-gray-100);
-  border-color: var(--zd-gray-300);
-  color: var(--ifm-color-primary);
-  text-decoration: none;
+  color: var(--zd-page-ink);
+  background: var(--zd-nav-hover-bg);
 }
 
-/* ── Feedback buttons ── */
 .feedbackRow {
   display: flex;
-  align-items: center;
-  gap: 0.125rem;
-  margin-top: 0.375rem;
+  gap: 2px;
+  margin-top: 10px;
 }
 
 .feedbackBtn {
@@ -428,57 +430,61 @@
   justify-content: center;
   width: 26px;
   height: 26px;
-  padding: 0;
-  border: none;
-  border-radius: 4px;
-  background: transparent;
   color: var(--zd-gray-400);
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
   cursor: pointer;
-  transition: color 0.15s ease, background-color 0.15s ease;
+  transition:
+    color var(--zd-hover-duration) var(--zd-hover-ease),
+    background-color var(--zd-hover-duration) var(--zd-hover-ease);
 }
 
 .feedbackBtn:hover {
-  color: var(--zd-gray-600);
-  background: rgba(0, 0, 0, 0.04);
+  color: var(--zd-page-ink);
+  background: var(--zd-nav-hover-bg);
 }
 
 .feedbackBtnActive {
-  color: var(--ifm-color-primary);
+  color: var(--zd-page-ink);
 }
 
-.feedbackBtnActive:hover {
-  color: var(--ifm-color-primary-dark);
-  background: rgba(23, 95, 255, 0.06);
-}
+/* One column below the two-column layout's comfortable width: the assistant
+   card drops under the message rather than squeezing beside it. */
+@media (max-width: 996px) {
+  .pageWrapper {
+    align-items: flex-start;
+    padding: 56px 24px 48px;
+  }
 
-/* Breathing thinking text */
-.thinkingText {
-  font-size: 0.9375rem;
-  color: var(--zd-gray-400);
-  font-style: italic;
-  animation: thinkingBreathe 2s ease-in-out infinite;
-}
-
-@keyframes thinkingBreathe {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 1; }
-}
-
-/* ── Responsive ── */
-@media (max-width: 768px) {
   .card {
-    padding: 1.5rem;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+    max-width: 520px;
+  }
+
+  /* Columns have stacked: the card is below the message now, not beside it. */
+  .subtitle {
+    display: none;
+  }
+
+  .subtitleStacked {
+    display: block;
+  }
+}
+
+@media (max-width: 767px) {
+  .pageWrapper {
+    padding: 40px 16px 40px;
+  }
+
+  .code {
+    font-size: 116px;
+    line-height: 116px;
   }
 
   .heading {
-    font-size: 1.5rem;
-  }
-
-  .input {
-    font-size: 0.875rem;
-  }
-
-  .suggestionBtn {
-    font-size: 0.8125rem;
+    font-size: 30px;
+    line-height: 34px;
   }
 }

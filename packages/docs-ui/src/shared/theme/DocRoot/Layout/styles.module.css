@@ -29,7 +29,7 @@
   flex-direction: column;
   min-height: 0;
   overflow: hidden;
-  background: #ffffff;
+  background: var(--zd-chat-panel-bg);
   border-left: 1px solid var(--zd-surface-border-subtle);
   border-radius: 0;
   z-index: 1000;
@@ -144,89 +144,22 @@
   bottom: 0;
   top: var(--ifm-navbar-height);
   z-index: 1001;
-  background: #ffffff;
+  background: var(--zd-chat-panel-bg);
   display: flex;
   flex-direction: column;
 }
 
-/* Docked near the bottom of the content column — a solid 2-row composer:
-   text on top, ⌘I + send pinned bottom-right. */
+/* Docked near the bottom of the content column. Only the POSITIONING lives here
+   — the composer's own look (2 rows, gradient stroke, focus ring, send button)
+   is AskAiComposer's, so the 404 page and this dock cannot drift apart.
+   NOTE: custom.css hides the dock during search via [class*='floatingChatInput'],
+   so this class name has to stay on the element. */
 .floatingChatInput {
   position: fixed;
   left: 0;
   right: 0;
   bottom: 30px;
   z-index: 400;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 0.25rem;
-  min-height: 89px;
-  padding: 0.875rem 0.75rem 0.625rem 1rem;
-  color: var(--zd-gray-600);
-  background: #ffffff;
-  border: 1px solid var(--zd-surface-border);
-  border-radius: 24px;
-  transition: border-color var(--zd-hover-duration) var(--zd-hover-ease);
-  /* Whole box is a click-to-type hot zone, so the text caret over the entire
-     area (the send button overrides with pointer). */
-  cursor: text;
-}
-
-.floatingChatInput::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  padding: 8px;
-  border-radius: inherit;
-  background: linear-gradient(169deg, #DFE3FF 0%, #EBFFFB 59.8732%, #FFEAD0 100%);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-          mask-composite: exclude;
-  opacity: 0;
-  pointer-events: none;
-  transition:
-    opacity 0.24s ease,
-    inset 0s linear 0.24s,
-    border-radius 0s linear 0.24s;
-}
-
-.floatingChatInput:hover::before {
-  inset: -8px;
-  border-radius: 32px;
-  opacity: 1;
-  /* soften the outer edge so the colored ring fades out to white */
-  filter: blur(3.5px);
-  transition:
-    inset 0.36s cubic-bezier(0.22, 1, 0.36, 1),
-    border-radius 0.36s cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 0.24s ease;
-}
-
-/* 1px inner stroke: default gray border; hover/focus gets the green/blue gradient. */
-.floatingChatInput::after {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  padding: 1px;
-  border-radius: inherit;
-  background: linear-gradient(to bottom right, #15A692 0%, #556CCA 100%);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-          mask-composite: exclude;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity var(--zd-hover-duration) var(--zd-hover-ease);
-}
-
-.floatingChatInput:hover::after,
-.floatingChatInput:focus-within::after {
-  opacity: 1;
-}
-
-.floatingChatInput:hover,
-.floatingChatInput:focus-within {
-  border-color: transparent;
 }
 
 /* White backdrop BEHIND the input (lower z-index than the form) — covers
@@ -241,87 +174,87 @@
   z-index: 399;
   /* Soft white fade over just the top ~16px (short gradient), then solid white —
      more opaque white, a shorter transparent-fade zone. */
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0, #ffffff 16px);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0, var(--zd-app-bg) 16px);
   pointer-events: none;
+  transition:
+    height 0.18s var(--zd-hover-ease, cubic-bezier(0.16, 1, 0.3, 1)),
+    left 0.18s var(--zd-hover-ease, cubic-bezier(0.16, 1, 0.3, 1)),
+    width 0.18s var(--zd-hover-ease, cubic-bezier(0.16, 1, 0.3, 1));
 }
 
-/* (hover ring removed) */
-
-.floatingChatInput input {
-  flex: 0 0 auto;
-  width: 100%;
-  min-width: 0;
-  border: 0;
-  outline: 0;
-  padding: 0;
-  background: transparent;
-  color: var(--zd-linear-signup-ink);
-  font-size: 14px !important;
-  line-height: 1.4;
+/* Home page only: a plate wrapped around the docked composer, carrying the
+   question the old "Can't find what you're looking for?" banner used to ask.
+   Big card holding a small card, the same shape the code blocks use — and its
+   fill is the composer's own hover halo, so the plate reads as that glow made
+   solid. Geometry comes from index.tsx (it tracks the content column). */
+.dockPlate {
+  position: fixed;
+  bottom: 27px; /* 30px dock offset - DOCK_PLATE_PAD */
+  z-index: 399;
+  border-radius: 28px;
+  /* The composer's own focus stroke, filled in: --zd-chat-stroke is the 1px
+     teal→indigo gradient that lights up around the box, so the plate is that
+     stroke made solid. One definition, so they cannot drift. */
+  background: var(--zd-chat-stroke);
+  /* The plate's height is animated (index.tsx collapses it to the composer's
+     own height when hidden), so the strip appears to grow upward from behind
+     the box — and the question is clipped until there is room for it. */
+  overflow: hidden;
+  /* Hidden at rest; pointer-events go with the opacity so an invisible plate
+     never swallows a hover on the content behind it. */
+  opacity: 0;
+  pointer-events: none;
+  cursor: text;
+  transition:
+    height 0.26s var(--zd-hover-ease, cubic-bezier(0.16, 1, 0.3, 1)),
+    opacity 0.18s var(--zd-hover-ease, cubic-bezier(0.16, 1, 0.3, 1));
 }
 
-.floatingChatInput input::placeholder {
-  font-size: 14px !important;
-  color: #a4a4a4;
+.dockPlateVisible {
+  opacity: 1;
+  /* Hoverable itself, so moving the pointer from the composer up onto the
+     question does not close the plate. */
+  pointer-events: auto;
 }
 
-/* Footer pinned to the bottom-right: ⌘I hint + send button */
-.floatingFooter {
-  margin-top: auto;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 8px;
+/* 40px = DOCK_PLATE_PAD * 2 + DOCK_PLATE_HEADING in index.tsx. The white fade
+   grows and shrinks with the plate rather than jumping. */
+.floatingChatBackdropPlated {
+  height: calc(89px + 30px + 24px + 40px);
 }
 
-/* Shortcut hint — plain text (override Infima's <kbd> border/bg/shadow),
-   hidden once the input is focused */
-.chatKbd {
-  flex-shrink: 0;
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--zd-gray-400);
-  line-height: 1;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  box-shadow: none;
-}
-
-.floatingChatInput:focus-within .chatKbd {
-  display: none;
-}
-
-.floatingChatInput button {
-  width: 1.75rem;
-  height: 1.75rem;
-  flex-shrink: 0;
+/* Pinned a fixed distance above the composer's top edge rather than to the
+   plate's own top, so the growing plate sweeps past it and reveals it.
+   37px = DOCK_PLATE_PAD + DOCK_PLATE_HEADING; 19px = pad + the composer's 1rem
+   inner padding, which puts the question on the placeholder's column. */
+.dockPlateHeading {
+  position: absolute;
+  left: 19px;
+  bottom: calc(var(--dock-form-h, 89px) + var(--dock-plate-pad, 3px));
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  color: #ffffff;
-  background: #b6b6b6;
-  border: 0;
-  border-radius: 12px;
-  cursor: pointer;
-  transition:
-    background var(--zd-hover-duration) var(--zd-hover-ease),
-    color var(--zd-hover-duration) var(--zd-hover-ease);
-}
-
-/* Once there is text to send, the box darkens; arrow stays white */
-.floatingChatInput button:not(:disabled) {
-  background: var(--zd-page-ink);
+  gap: 7px;
+  height: 37px;
+  font-family: var(--ifm-font-family-base);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1;
+  /* White on the teal→indigo plate; the question mark uses currentColor, so it
+     follows. */
   color: #ffffff;
 }
 
-.floatingChatInput button:disabled {
-  cursor: default;
+.dockPlateHeading svg {
+  flex-shrink: 0;
 }
 
-.floatingChatInput input:disabled {
-  opacity: 0.5;
+
+@media (max-width: 996px) {
+  /* The dock is column-aligned only on desktop; index.tsx stops rendering the
+     plate below 768px, and this keeps it out of the way if that ever changes. */
+  .dockPlate {
+    display: none;
+  }
 }
 
 /* Floating "Ask AI" button shown above a text selection in the doc */
@@ -369,16 +302,17 @@
 @media (min-width: 768px) {
   .floatingChatInput,
   .floatingChatBackdrop {
-    left: calc(var(--doc-sidebar-width) + 2rem);
+    /* ±1px of overhang, matching DOCK_OVERHANG in index.tsx — see the note there. */
+    left: calc(var(--doc-sidebar-width) + 2rem - 1px);
     right: auto;
     /* -6rem (not 4): 2rem TOC-side gap + the docMainContainer's 2rem padding-right,
        so the box right edge lines up with the content text column at every width. */
-    width: min(56rem, calc(100vw - var(--doc-sidebar-width) - 14rem - 6rem));
+    width: calc(min(56rem, calc(100vw - var(--doc-sidebar-width) - 14rem - 6rem)) + 2px);
   }
 
   .floatingChatInputSidebarCollapsed {
-    left: calc(var(--doc-sidebar-hidden-width) + 2rem);
-    width: min(56rem, calc(100vw - var(--doc-sidebar-hidden-width) - 14rem - 6rem));
+    left: calc(var(--doc-sidebar-hidden-width) + 2rem - 1px);
+    width: calc(min(56rem, calc(100vw - var(--doc-sidebar-hidden-width) - 14rem - 6rem)) + 2px);
   }
 }
 
@@ -392,8 +326,8 @@
   .floatingChatInput,
   .floatingChatBackdrop,
   .floatingChatInputSidebarCollapsed {
-    left: calc(13.5rem + 10px + 2rem);
-    width: min(56rem, calc(100vw - 13.5rem - 10px - 14rem - 6rem));
+    left: calc(13.5rem + 10px + 2rem - 1px);
+    width: calc(min(56rem, calc(100vw - 13.5rem - 10px - 14rem - 6rem)) + 2px);
   }
 }
 
