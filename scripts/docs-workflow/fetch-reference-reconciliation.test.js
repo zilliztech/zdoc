@@ -17,6 +17,7 @@ const MANIFEST_PATHS = [
   'generated/en/manifests/reference.json',
   'generated/zh-CN/manifests/reference-translations.json',
 ]
+const LOCALIZATION_INPUT_INVENTORY_PATH = 'deploy/contracts/localization-inputs.inventory.json'
 
 function sidebarPaths(group) {
   const file = group === 'rest' ? 'restful' : group
@@ -41,6 +42,7 @@ function transactionFixture(t) {
   git(repository, ['config', 'user.email', 'fetch-reconciliation@example.com'])
   git(repository, ['config', 'user.name', 'Fetch Reconciliation Test'])
   for (const relative of [
+    LOCALIZATION_INPUT_INVENTORY_PATH,
     ...MANIFEST_PATHS,
     ...sidebarPaths('python'),
     ...sidebarPaths('java'),
@@ -138,9 +140,12 @@ function deterministicTransactionCommands(calls, options = {}) {
     calls.push({cwd, executable, args: [...args]})
     if (executable === 'bash' && args[0].endsWith('restore-generated-state.sh')) {
       const ref = args[args.indexOf('--ref') + 1]
-      for (const relative of [...MANIFEST_PATHS, ...sidebarPaths('python'), ...sidebarPaths('java')]) {
+      for (const relative of [LOCALIZATION_INPUT_INVENTORY_PATH, ...MANIFEST_PATHS, ...sidebarPaths('python'), ...sidebarPaths('java')]) {
         const shown = git(cwd, ['show', `${ref}:${relative}`], {result: true, allowFailure: true})
-        if (shown.status === 0) fs.writeFileSync(path.join(cwd, relative), shown.stdout)
+        if (shown.status === 0) {
+          fs.mkdirSync(path.join(cwd, path.dirname(relative)), {recursive: true})
+          fs.writeFileSync(path.join(cwd, relative), shown.stdout)
+        }
       }
     }
     if (executable === 'pnpm' && args[1] === 'reference-manifest') {
@@ -152,6 +157,17 @@ function deterministicTransactionCommands(calls, options = {}) {
       if (options.writeFailedGroup) {
         for (const relative of sidebarPaths('java')) fs.writeFileSync(path.join(cwd, relative), 'unauthorized failed group\n')
       }
+    }
+    if (executable === 'pnpm' && args[0] === 'generate:localization-input-inventory') {
+      if (options.noGenerationChanges) return {status: 0, stdout: '', stderr: ''}
+      fs.mkdirSync(path.join(cwd, path.dirname(LOCALIZATION_INPUT_INVENTORY_PATH)), {recursive: true})
+      fs.writeFileSync(path.join(cwd, LOCALIZATION_INPUT_INVENTORY_PATH), `${LOCALIZATION_INPUT_INVENTORY_PATH} regenerated\n`)
+    }
+    if (executable === 'pnpm' && args[0] === 'check:localization-input-inventory') {
+      assert.ok(
+        fs.existsSync(path.join(cwd, LOCALIZATION_INPUT_INVENTORY_PATH)),
+        'validated candidate must carry the regenerated localization input inventory',
+      )
     }
     if (executable === 'pnpm' && args[1] === 'validate-reference') {
       const candidateRestore = [...calls].reverse().find(call => call.executable === 'bash' && call.args.includes('--exact'))
@@ -214,6 +230,7 @@ test('run 31587351048 reconciles five published Reference units plus REST no_cha
       'source/java', 'source/node', 'source/go', 'source/cli', 'source/rest', 'source/python',
     ],
     publicationPaths: [
+      LOCALIZATION_INPUT_INVENTORY_PATH,
       ...MANIFEST_PATHS,
       ...sidebarPaths('java'),
       ...sidebarPaths('node'),
@@ -251,7 +268,7 @@ test('mixed Fetch outcomes publish manifests and only successful Reference group
     sourceCommitSha: 'd'.repeat(40),
     targetBranch: 'dev',
     changedUnitKeys: ['source/python'],
-    publicationPaths: [...MANIFEST_PATHS, ...sidebarPaths('python')],
+    publicationPaths: [LOCALIZATION_INPUT_INVENTORY_PATH, ...MANIFEST_PATHS, ...sidebarPaths('python')],
   })
   assert.doesNotMatch(JSON.stringify(plan.publicationPaths), /java\.sidebar/)
 })
@@ -283,7 +300,7 @@ test('run 30996821699 Node artifact requires Reference reconciliation when trans
     sourceCommitSha: fixture.selection.finalTargetSha,
     targetBranch: 'dev',
     changedUnitKeys: ['source/node'],
-    publicationPaths: [...MANIFEST_PATHS, ...sidebarPaths('node')],
+    publicationPaths: [LOCALIZATION_INPUT_INVENTORY_PATH, ...MANIFEST_PATHS, ...sidebarPaths('node')],
   })
 })
 
@@ -359,7 +376,7 @@ test('successful selected Reference no_changes still requires reconciliation', (
     sourceCommitSha: 'b'.repeat(40),
     targetBranch: 'dev',
     changedUnitKeys: ['source/rest'],
-    publicationPaths: [...MANIFEST_PATHS, ...sidebarPaths('rest')],
+    publicationPaths: [LOCALIZATION_INPUT_INVENTORY_PATH, ...MANIFEST_PATHS, ...sidebarPaths('rest')],
   })
 })
 
@@ -429,6 +446,7 @@ test('publishes one exactly validated Fetch Reference reconciliation candidate t
   assert.equal(outcome.status, 'published')
   assert.equal(git(setup.repository, ['ls-remote', '--heads', 'origin', 'dev']).split(/\s+/)[0], outcome.resultSha)
   assert.deepEqual(git(setup.repository, ['diff-tree', '--no-commit-id', '--name-only', '-r', outcome.resultSha]).split('\n').sort(), [
+    LOCALIZATION_INPUT_INVENTORY_PATH,
     ...MANIFEST_PATHS,
     ...sidebarPaths('python'),
   ].sort())
@@ -599,7 +617,7 @@ test('publishes only successful group paths when generation also touches a faile
 
   assert.equal(outcome.status, 'published')
   const changed = git(setup.repository, ['diff-tree', '--no-commit-id', '--name-only', '-r', outcome.resultSha]).split('\n')
-  assert.deepEqual(changed.sort(), [...MANIFEST_PATHS, ...sidebarPaths('python')].sort())
+  assert.deepEqual(changed.sort(), [LOCALIZATION_INPUT_INVENTORY_PATH, ...MANIFEST_PATHS, ...sidebarPaths('python')].sort())
   assert.doesNotMatch(changed.join('\n'), /java\.sidebar/)
 })
 
