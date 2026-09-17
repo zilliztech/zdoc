@@ -53,8 +53,8 @@ if [ "$release_channel" != "next" ] && [ -n "$(collect_release_channel_routes)" 
       case "$route" in
         *[!A-Za-z0-9._/~%-]*) continue ;;
       esac
-      printf 'location = %s { return 404; }\n' "$route"
-      printf 'location = %s/ { return 404; }\n' "$route"
+      printf 'location = %s { error_page 404 /404.html; return 404; }\n' "$route"
+      printf 'location = %s/ { error_page 404 /404.html; return 404; }\n' "$route"
     done
   } > "$gate_conf"
   echo "Release channel '$release_channel': blocked NEXT routes in $gate_conf"

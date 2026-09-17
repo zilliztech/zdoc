@@ -10,6 +10,7 @@ import DocItemFooter from '@theme/DocItem/Footer';
 import DocItemPaginator from '@theme/DocItem/Paginator';
 import DocItemContent from '@theme/DocItem/Content';
 import DocItemTOCDesktop from '@theme/DocItem/TOC/Desktop';
+import NotFoundContent from '@theme/NotFound/Content';
 import CopyPageButton from '../../Heading/CopyPageButton';
 import DocMetaTags, {hasDocMetaTags} from '../../Heading/DocMetaTags';
 import {useDocsUiText, type DocsUiText} from '../../../i18n/uiText';
@@ -175,19 +176,6 @@ function NextChannelBanner({text}: {text: DocsUiText}): ReactNode {
   );
 }
 
-function BlockedNextChannelPage({text}: {text: DocsUiText}): ReactNode {
-  return (
-    <div className={`admonition admonition-note ${styles.nextChannelBlocked}`}>
-      <div className="admonition-heading">
-        <h5>{text.releaseChannel.blockedTitle}</h5>
-      </div>
-      <div className="admonition-content">
-        <p>{text.releaseChannel.blockedBody}</p>
-      </div>
-    </div>
-  );
-}
-
 export default function DocItemLayout({children}: Props): ReactNode {
   const text = useDocsUiText();
   const {frontMatter, metadata, toc} = useDoc();
@@ -207,8 +195,9 @@ export default function DocItemLayout({children}: Props): ReactNode {
   const showVersionInfo = isReference && hasDocMetaTags(frontMatter);
 
   if (blockedByChannel) {
-    // Prerender and CURRENT deployments render the blocked state directly in
-    // the HTML; a NEXT deployment reopens the real content after hydration.
+    // Prerender and CURRENT deployments render the shared 404 page content
+    // directly (the same component the docs plugin mounts for misses under
+    // /docs); a NEXT deployment reopens the real content after hydration.
     return (
       <div className={styles.docItemContainer}>
         <ContentVisibility metadata={metadata} />
@@ -217,9 +206,7 @@ export default function DocItemLayout({children}: Props): ReactNode {
         </Head>
         <div className={styles.docItemRow}>
           <div className={`${styles.docItemCol} ${styles.docItemColCentered}`}>
-            <article>
-              <BlockedNextChannelPage text={text} />
-            </article>
+            <NotFoundContent />
           </div>
         </div>
       </div>

@@ -942,7 +942,7 @@
         "pnpm typecheck",
         "git diff --check"
       ],
-      "reason": "Release Channel (CURRENT/NEXT) front matter and sidebar customProps gate NEXT docs per deployment: runtime env.js injection, client gating/banner, server-side route blocking, and build capability exclusions must stay aligned."
+      "reason": "Release Channel (CURRENT/NEXT) front matter and sidebar customProps gate NEXT docs per deployment: runtime env.js injection, client gating with the shared 404 page and banner, server-side route blocking, and build capability exclusions must stay aligned."
     }
   ]
 }

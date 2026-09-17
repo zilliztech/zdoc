@@ -133,9 +133,6 @@ export interface DocsUiText {
   releaseChannel: {
     /** Admonition shown on NEXT-channel pages while the next deployment is open. */
     banner: string;
-    /** Announced on NEXT-channel pages blocked by a CURRENT deployment. */
-    blockedTitle: string;
-    blockedBody: string;
   };
   hero: {
     forHumans: string;
@@ -316,9 +313,6 @@ const english: DocsUiText = {
   releaseChannel: {
     banner:
       'The feature documented on this page has not been released yet. Content may change before general availability.',
-    blockedTitle: 'This page is not available yet',
-    blockedBody:
-      'The feature documented on this page has not been released. This page will become available once the feature ships.',
   },
   hero: {
     forHumans: 'For humans',
@@ -496,8 +490,6 @@ const chinese: DocsUiText = {
   docMeta: {versionInformation: '版本信息', minimumSdkVersion: '最低 SDK 版本'},
   releaseChannel: {
     banner: '本页文档对应的功能尚未正式上线，正式发布前内容可能调整。',
-    blockedTitle: '此页面暂不可用',
-    blockedBody: '本页文档对应的功能尚未正式上线，功能上线后此页面将自动开放。',
   },
   hero: {
     forHumans: '开发者使用',
@@ -681,8 +673,6 @@ const japanese: DocsUiText = {
   docMeta: {versionInformation: 'バージョン情報', minimumSdkVersion: '最小 SDK バージョン'},
   releaseChannel: {
     banner: 'このページが説明する機能はまだ正式にリリースされていません。正式提供までに内容が変わる可能性があります。',
-    blockedTitle: 'このページはまだ利用できません',
-    blockedBody: 'このページが説明する機能はまだ正式にリリースされていません。機能の提供開始後に公開されます。',
   },
   hero: {
     forHumans: '人間向け',
