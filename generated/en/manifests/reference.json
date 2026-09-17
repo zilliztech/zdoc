@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "dd426a8ffd07d7682ab9b355a26f7313dd100737",
+  "sourceCommit": "3af8f4a7910468118387dd1d4e58d845112374d7",
   "records": [
     {
       "manual": "cli",
@@ -5605,7 +5605,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/grant-role-to-group-v2.mdx",
-      "sourceHash": "dac596bef73838024f547ed9a274e7461f33f4448370fe95ac5db0936e758a36"
+      "sourceHash": "4fdf5c324a9ea32b9c50db3efb1124af887038ea87db8675bad6a36051a50989"
     },
     {
       "manual": "rest",
@@ -5625,17 +5625,17 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-group-members-v2.mdx",
-      "sourceHash": "9a1625d84d53fbae771c19bee1681a1368bfcadb15644988f3393c61b3ec267d"
+      "sourceHash": "7ef723418d9cbf61918ed14abacf0590bbd4b187badb71035f5292dd0ca329c5"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-group-roles-v2.mdx",
-      "sourceHash": "a9d1d3dd5186e2f06419fe25e39c87cf0d50eba6b92de7aad6922ed3313b9c0e"
+      "sourceHash": "e3e45064ddb92028c940c66d03fba3df9503b33281cecf4ceeeb376831c18a1c"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-groups-v2.mdx",
-      "sourceHash": "6273ea918e2f56da15008fe86c53d3d69e55b87750fc641409f842edf61d93d3"
+      "sourceHash": "d74319d79214023924a4b6dfba423daa8d62da4511740ef58e46da434d121ec2"
     },
     {
       "manual": "rest",
@@ -5650,7 +5650,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/revoke-role-from-group-v2.mdx",
-      "sourceHash": "29bcbdd26f39a6f77c23b2917360026cb2a12598722b6e67242855c64c2c5185"
+      "sourceHash": "5eebe3cd36dd9924cfd2991956589b36cdbcaa1ae0c03321f0aa86645b791dae"
     },
     {
       "manual": "rest",
