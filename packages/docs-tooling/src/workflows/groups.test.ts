@@ -89,6 +89,15 @@ describe('site-owned publication groups', () => {
     );
   });
 
+  it('owns the localized ja-JP REST output with the English REST group', () => {
+    const localizedOutputDir = 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful';
+    expect(resolvePublicationGroup('en', 'rest').ownedPaths).toContain(localizedOutputDir);
+    expect(resolvePublicationGroupWorkflow('en', 'rest').checkpointPaths).toContain(localizedOutputDir);
+    // The Chinese REST lane generates into its own site tree; it must not gain
+    // docusaurus-i18n ownership.
+    expect(resolvePublicationGroup('zh-CN', 'rest').ownedPaths).not.toContain(localizedOutputDir);
+  });
+
   it('returns deeply immutable registry values', () => {
     const group = resolvePublicationGroup('zh-CN', 'guides');
     expect(Object.isFrozen(group)).toBe(true);
