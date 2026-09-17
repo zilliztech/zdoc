@@ -65,6 +65,7 @@ import {
   type ManualReferenceNavigation,
 } from '../../../shared/navigation/manualReferenceNavigation';
 import {getDocsUiText} from '../../../shared/i18n/uiText';
+import {isNavMerged} from '../../../shared/navigation/breakpoints';
 
 import styles from './styles.module.css';
 
@@ -294,23 +295,13 @@ function itemContainsPath(item: PropSidebarItem, pathname: string): boolean {
   return false;
 }
 
-/** Upper bound of the merged (one-column) nav band. 1511 keeps every 13" MacBook
- *  on one column — 13.3" Air/Pro default to 1440pt, 13.6" M2/M3 Air to 1470pt, so
- *  1440 would miss the 13.6" — and hands the two-column rail to 14" MBP (1512pt)
- *  and wider. Must stay in sync with the media queries in
- *  apps/docs/src/css/custom.css and
- *  packages/docs-ui/src/shared/theme/DocRoot/Layout/styles.module.css. */
-const SIDEBAR_MERGE_MAX = 1511;
-
-/** Collapsed/merged state: narrow viewport breakpoint (≤1511px), or the same
- *  effective-width compact state used by the topbar while the AI panel is open. */
+/** Collapsed/merged state — see isNavMerged(); the topbar tabs fold on the very
+ *  same condition, so the two halves of the nav never disagree. */
 function useMergedMode(): boolean {
   const [merged, setMerged] = useState(false);
   useEffect(() => {
     const compute = () => {
-      const narrow =
-        window.innerWidth <= SIDEBAR_MERGE_MAX || document.body.classList.contains('docs-nav-compact');
-      setMerged(narrow);
+      setMerged(isNavMerged());
     };
     compute();
     window.addEventListener('resize', compute);
@@ -843,6 +834,7 @@ function TwoLevelSidebar(props: Props): ReactNode {
       <div className={styles.twoLevelBody}>
         <nav
           className={styles.primaryRail}
+          data-solo={selectedHasChildren ? undefined : 'true'}
           aria-label={uiText.sidebar.documentationSections}>
           {props.sidebar.map((item, index) => {
             const label = 'label' in item ? item.label : uiText.sidebar.numberedSection(index + 1);

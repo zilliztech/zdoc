@@ -43,7 +43,6 @@ import Cards from '@site/src/components/Cards';
 import Stories from '@site/src/components/Stories';
 
 
-import Banner from '@site/src/components/Banner';
 
 
 
@@ -792,7 +791,7 @@ Select a project [plan](./select-zilliz-cloud-service-plans) and create clusters
 
 <Stories>
 
-# Work with Your Data in Zilliz Cloud\{#work-with-your-data-in-zilliz-cloud}
+## Work with Your Data in Zilliz Cloud\{#work-with-your-data-in-zilliz-cloud}
 
 ## Bring Compute Resources to Your Data\{#bring-compute-resources-to-your-data}
 
@@ -892,7 +891,7 @@ Select a project [plan](./select-zilliz-cloud-service-plans) and create clusters
 
 <Cards>
 
-# Go Further with Zilliz Cloud\{#go-further-with-zilliz-cloud}
+## Go Further with Zilliz Cloud\{#go-further-with-zilliz-cloud}
 
 - [Monitoring & Alerts](./metrics-and-alerts)
 
@@ -920,7 +919,7 @@ Select a project [plan](./select-zilliz-cloud-service-plans) and create clusters
 
 <Blocks>
 
-# Start Building with Your Preferred Language\{#start-building-with-your-preferred-language}
+## Start Building with Your Preferred Language\{#start-building-with-your-preferred-language}
 
 - [Python](/reference/python)
 
@@ -934,4 +933,3 @@ Select a project [plan](./select-zilliz-cloud-service-plans) and create clusters
 
 </Blocks>
 
-<Banner bannerText="Can't find what you're looking for?" bannerLinkText="Try Ask AI" />

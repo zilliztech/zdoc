@@ -4,56 +4,105 @@
   position: relative;
   background: var(--ifm-background-color);
   overflow: hidden;
-  padding-bottom: 40px;
+  /* No trailing pad: the section gap below is --zd-home-section-gap, the same
+     80px that separates every other pair of sections. The extra 40px here made
+     this one gap 120 and the page's rhythm uneven. */
+  padding-bottom: 0;
 }
 
-/* ── Inner max-width container — matches the 996px column used by the
-   sections below so the content left edge stays consistent down the page. ── */
+/* ── The page intro is NOT in a card ──
+   The H1 + description + install commands are the page's own opening; the panel
+   below them is a separate thing (an examples explorer). Wrapping both in one
+   card said they were one block, which they are not. */
 .hero {
   max-width: 100%;
   margin: 0;
   padding: 0;
 }
 
-/* ── Text area ── */
+/* ── Section heading — one h1 for the page, an h2 on every block below it ── */
+.sectionTitle {
+  /* The docs' own h2 — only the spacing is set here. */
+  margin: 0 0 24px !important;
+}
+
+/* ── The examples explorer ──
+   No card around it: the two code panels are already framed surfaces, so an
+   outer cream box just stacked a second frame around frames. */
+.slidePane {
+  padding: 0;
+  background: transparent;
+}
+
+/* ── Text area ──
+   One card, split left/right: the page's own title and
+   description on the left, the two ways to start on the right. They belong
+   together — "here is what this is" and "here is how you begin" — and stacked
+   full-width the commands read as a stray third paragraph. */
 .textArea {
-  max-width: 900px;
-  margin: 0 0 56px;
+  max-width: none;
+  margin: 0 0 var(--zd-home-section-gap);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 40px;
+  padding: 40px;
+  border-radius: 16px;
+  background: var(--zd-card-bg);
   text-align: left;
 }
 
+.introCopy {
+  min-width: 0;
+  /* The title's own measure. The h1 line that must still fit is "and
+     supercharge your" (479px at 48/500/-0.01em) and the one that must not is
+     "and supercharge your AI" (535px), so the cap sits between them — without
+     it the column tracks the content width and the break moves with the
+     window. The description shares the measure so the block reads as one. */
+  max-width: 500px;
+}
+
+/* Overview hero: 48/52.8, weight 450, -0.01em tracking.
+   The page title is the largest thing on the page and is set lighter, not
+   heavier — at 34/600 it read as a section heading rather than a page opening.
+   NOTE: font-size and line-height are NOT set here — `.docs-doc-id-tutorials/home
+   .markdown h1` in custom.css outranks this rule and owns them. */
 .textArea h1 {
   font-family: var(--ifm-heading-font-family) !important;
-  font-size: 34px !important;
-  font-weight: 600 !important;
+  font-weight: 500 !important;
   color: var(--zd-linear-signup-ink) !important;
-  line-height: 38px !important;
-  letter-spacing: 0;
-  margin: 0 0 16px !important;
+  letter-spacing: -0.01em;
+  margin: 0 0 20px !important;
   display: block !important;
   text-align: left !important;
 }
 
-/* ── Install command widget ── */
+/* ── Install command widget ──
+   The card's right column: the two commands stack, so each gets the full column
+   width instead of two half-width boxes that truncated their own text. */
 .installWidget {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  align-items: flex-start;
-  margin-top: 20px;
+  gap: 16px;
+  align-items: stretch;
+  min-width: 0;
+  margin-top: 0;
 }
 
 .installWidgetItem {
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  min-width: 0;
 }
 
 .installWidgetLabel {
   font-family: var(--ifm-font-family-base);
-  font-size: 13px;
+  /* A caption over the command, not a heading beside it: smaller and grey, so
+     the command is what the eye lands on. */
+  font-size: 12px;
   font-weight: 500;
-  color: var(--zd-page-ink);
+  color: var(--zd-gray-500);
   text-transform: none;
   letter-spacing: 0;
   line-height: 20px;
@@ -64,18 +113,17 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  /* White on the cream card — at --zd-card-bg it was the same tone as the card
+     it sits on and the box disappeared. */
   background: #ffffff;
-  border: 1px solid var(--zd-gray-200);
+  border: 1px solid var(--zd-code-stroke);
   border-radius: 10px;
   padding: 12px 16px;
-  min-width: 280px;
-  transition: background 0.2s ease, box-shadow 0.2s ease;
+  min-width: 0;
 }
 
-.installCmd:hover {
-  background: var(--zd-gray-50);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-}
+/* No hover on the box: the box is not the control — the copy button is, and it
+   has its own hover. A whole row lighting up implied the row was clickable. */
 
 .installPrompt {
   font-family: var(--ifm-font-family-monospace, 'SFMono-Regular', Consolas, monospace);
@@ -96,31 +144,38 @@
   font-weight: 500;
 }
 
+/* Same control again — 28/6/#3f4350, not a second, smaller copy button. */
 .installCopy {
-  display: flex;
+  position: relative;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 26px;
-  height: 26px;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  color: #3f4350;
   background: none;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
-  color: var(--zd-gray-400);
-  transition: background 0.15s, color 0.15s;
   flex-shrink: 0;
+  transition:
+    background-color 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    color 0.25s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .installCopy:hover {
-  background: var(--zd-gray-100);
-  color: var(--zd-linear-signup-ink);
+  background: #e7ecf8;
+  color: #3f4350;
 }
 
+/* 18/29 in a muted grey. The description supports the
+   title, so it steps down in colour rather than only in size. */
 .textArea p {
   font-family: var(--ifm-font-family-base);
   font-size: 15px !important;
-  line-height: 24px !important;
-  color: var(--zd-page-ink) !important;
+  line-height: 25px !important;
+  color: var(--zd-home-desc-ink) !important;
   letter-spacing: 0;
   margin: 0 !important;
   text-align: left !important;
@@ -133,86 +188,150 @@
                       = 100 + (tabs ~40px + card ~260px) ≈ 400px
    We set 420px for breathing room.
 */
+/* The caption leads the code block's title bar and says what the block is; the
+   language label + copy action sit together on the right. Sentence case — it is a
+   label in a chrome bar, not a section eyebrow. */
+.panelCaption {
+  flex-shrink: 0;
+  margin-right: auto;
+  font-family: var(--ifm-font-family-base);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--zd-linear-signup-ink);
+  white-space: nowrap;
+}
+
+/* Two separate cards with a narrow gap. The arrow in the gap is what links
+   them; a shared frame made the two halves read as one surface, which is the
+   opposite of the point — they are different kinds of thing. */
 .codePanels {
   position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  align-items: stretch;
   max-width: 100%;
-  height: 456px;        /* 420px + 36px for bottom title */
   margin: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  overflow: visible;
 }
 
 /* ── Left: JSON panel ── */
 .jsonPanel {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 50%;
-  height: 300px;   /* JSON_H — right panel offset = 300/3 = 100px */
-  background: rgba(255, 255, 255, 0.96);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--zd-gray-300);
-  border-radius: 12px;
-  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.18), 0 2px 4px rgba(0,0,0,0.08);
-  overflow: hidden;
+  height: 320px;
+  min-width: 0;
   display: flex;
   flex-direction: column;
+  /* ONE flat tone for the whole card — header and body alike — on the same
+     surface the Go Further cards use, so the read-only half reads as a panel
+     rather than as a second code block. The edge is only just darker than the
+     fill: enough to close the shape, not enough to draw a frame. */
+  background: var(--zd-card-bg);
+  border: 1px solid var(--zd-rail-stroke);
+  border-radius: 11px;
+  box-shadow: none;
+  overflow: hidden;
 }
 
 /* ── Right: Search outer (tabs above + card below) ── */
 .searchOuter {
-  position: absolute;
-  right: 0;
-  top: 100px;   /* = JSON_H / 3 = 300 / 3 */
-  width: 56%;
-  z-index: 1;
+  min-width: 0;
 }
 
-/* ── Language tab strip ── */
+/* ── Language tab strip — the docs' own in-code underline tabs (see .tabs__item
+   in apps/docs/src/css/custom.css). Chips are for picking a section; inside a
+   code block's chrome the underline form is what the docs use. ── */
 .tabs {
   display: flex;
-  gap: 6px;
-  margin-bottom: 8px;
-  padding: 0 2px;
-  justify-content: flex-end;
+  align-items: stretch;
+  align-self: stretch;
+  margin-left: auto;
+  gap: 2px;
+  padding: 0;
+  background: transparent;
 }
 
 .tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
   font-family: var(--ifm-font-family-base);
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--zd-gray-500);
-  background: rgba(255, 255, 255, 0.88);
-  border: 1px solid var(--zd-gray-300);
-  border-radius: 20px;
-  padding: 4px 12px;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1;
+  color: #3f4350;
+  white-space: nowrap;
   cursor: pointer;
-  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+  transition: color 0.12s ease;
 }
 
-.tab:hover {
-  background: #ffffff;
+.tab::after {
+  content: '';
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 0;
+  height: 2px;
+  border-radius: 1px;
+  background: transparent;
+}
+
+.tab:hover:not(.tabActive) {
   color: var(--zd-linear-signup-ink);
 }
 
-.tabActive {
-  background: var(--zd-linear-signup-ink);
-  color: #ffffff;
-  border-color: var(--zd-linear-signup-ink);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.28);
+.tab:hover:not(.tabActive)::after {
+  height: 3px;
+  background: #d6cba6;
 }
 
-/* ── Search panel card ── */
+.tabActive,
+.tabActive:hover {
+  color: #7a6528;
+  font-weight: 500;
+}
+
+.tabActive::after {
+  background: #7a6528;
+}
+
+/* ── Right card: the runnable half keeps full code chrome ── */
 .searchPanel {
-  background: rgba(255, 255, 255, 0.96);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--zd-gray-300);
-  border-radius: 12px;
-  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.18), 0 2px 4px rgba(0,0,0,0.08);
+  background: var(--zd-card-bg);
+  border: 1px solid var(--zd-code-stroke);
+  border-radius: 11px;
+  box-shadow: none;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  height: 272px;
+  height: 320px;
+}
+
+/* Sits in the gap between the two cards, on the page ground, with its own light
+   stroke so it reads as a connector rather than a sticker on either card. */
+.flowArrow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1px solid var(--zd-code-stroke);
+  color: var(--zd-muted-text);
+  pointer-events: none;
 }
 
 /* ── Shared panel header ── */
@@ -220,16 +339,23 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 14px;
-  background: var(--zd-gray-100);
-  border-bottom: 1px solid var(--zd-gray-200);
+  height: 40px;
+  padding: 0 0.5rem 0 0.875rem;
+  background: var(--zd-card-bg);
+  border-bottom: none;
   flex-shrink: 0;
 }
 
+/* The data card is one flat tone, so its header does not get one of its own. */
+.jsonPanel .panelHeader {
+  background: transparent;
+}
+
+
+
+/* The docs' code blocks label the language instead of drawing window buttons. */
 .dots {
-  display: flex;
-  gap: 5px;
-  align-items: center;
+  display: none;
 }
 
 .dot {
@@ -244,43 +370,55 @@
 .dotGreen  { background: var(--zd-gray-200); }
 
 .panelLabel {
-  flex: 1;
+  flex-shrink: 0;
+  /* right side now — the caption owns the left */
+  margin-right: 4px;
   font-family: var(--ifm-font-family-monospace, monospace);
-  font-size: 11.5px;
-  font-weight: 500;
-  color: var(--zd-gray-500);
-  text-align: center;
+  font-size: 13px;
+  font-weight: 400;
+  color: #5b6188;
+  white-space: nowrap;
 }
 
-/* ── Copy button ── */
+/* ── Copy button — same control as CodeBlock/Layout's .copyBtn ── */
 .copyBtn {
-  width: 28px;
-  height: 28px;
-  display: flex;
+  position: relative;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  color: #3f4350;
   background: transparent;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  color: var(--zd-gray-400);
-  font-size: 12px;
-  transition: background 0.15s, color 0.15s;
   flex-shrink: 0;
+  transition:
+    background-color 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    color 0.25s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .copyBtn:hover {
-  background: var(--zd-gray-200);
-  color: var(--zd-linear-signup-ink);
+  background: #e7ecf8;
+  color: #3f4350;
 }
 
-/* ── Code body ── */
+/* Copied → same warm olive as in an article's code block. */
+.copyBtnCopied,
+.copyBtnCopied:hover {
+  color: var(--zd-code-copied-ink);
+  background: var(--zd-code-copied-bg);
+}
+
+/* ── Code body — the RIGHT half: a white card inside the frame, syntax coloured,
+   i.e. the docs' normal code surface. ── */
 .code {
   font-family: var(--ifm-font-family-monospace, 'SFMono-Regular', Consolas, monospace) !important;
   font-size: 12.5px !important;
   line-height: 1.75 !important;
   color: var(--zd-linear-signup-ink) !important;
-  background: transparent !important;
   margin: 0 !important;
   padding: 16px 20px !important;
   overflow: auto;
@@ -288,38 +426,121 @@
   white-space: pre;
   border: none !important;
   box-shadow: none !important;
+  background: #ffffff !important;
+  border-radius: 9px;
+  margin: 1px 2px 2px !important;
 }
 
-/* ── Slide title + description — top-right corner, above right panel ──
-   Available space: from right edge of JSON panel (50%) to container right,
-   height = searchOuter top offset (100px). */
-.slideTitle {
-  position: absolute;
-  left: 52%;
-  right: 0;
-  top: 8px;
-  z-index: 2;
-  font-family: var(--ifm-heading-font-family);
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--zd-linear-signup-ink);
+/* ── The LEFT half: same content, different KIND. It stays on the frame's own
+   surface with no card, and its syntax colour is stripped to one muted ink —
+   data you read, not code you run. The colours are killed by overriding the
+   Prism tokens below rather than by re-highlighting. ── */
+.dataCode {
+  /* Transparent: the card behind it already IS the surface. */
+  background: transparent !important;
+  border-radius: 0;
+  margin: 0 !important;
+  padding: 14px 20px 16px !important;
+  color: var(--zd-muted-text) !important;
+}
+
+
+/* ── Slide heading — the picker itself ──
+   Chip tabs, the docs' non-code tab form (see .tabs__item in
+   apps/docs/src/css/custom.css). They replace both the old slide title and the
+   progress rail that used to sit under the panels: the rail was a row of 2px
+   hairlines whose labels only showed on hover, which is not a form the docs use
+   anywhere. Auto-advance still runs — the lit chip just moves. */
+.slideHead {
+  /* 24px under the description, matching the gap the
+     Plans lead leaves above its cards. */
+  margin: 0 0 24px;
+}
+
+.slideTabs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.slideTab {
+  position: relative;
+  overflow: hidden;
+  padding: 5px 14px;
+  border: none;
+  border-radius: 999px;
+  background: var(--zd-tab-chip-bg);
+  font-family: var(--ifm-font-family-base);
+  font-size: 14px;
+  font-weight: var(--zd-tab-chip-weight);
+  line-height: 1.5;
+  color: var(--zd-tab-chip-ink);
   white-space: nowrap;
-  transition: opacity 0.15s ease;
-  pointer-events: none;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.slideTab:hover {
+  background: var(--zd-tab-chip-bg-hover);
+}
+
+.slideTabActive,
+.slideTabActive:hover {
+  background: var(--zd-tab-chip-bg-active);
+  color: var(--zd-tab-chip-ink-active);
+  font-weight: var(--zd-tab-chip-weight);
+  cursor: default;
+}
+
+/* Auto-advance readout: a translucent band sweeping the full height of the lit
+   chip, left to right, over exactly one slide's duration. scaleX rather than
+   width so it animates on the compositor. */
+.slideTabActive::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.18);
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation: slideSweep var(--zd-slide-duration, 5000ms) linear forwards;
+}
+
+/* Hovering the block pauses the timer (isPaused) — hold the sweep with it. */
+.slidePane:hover .slideTabActive::before {
+  animation-play-state: paused;
+}
+
+@keyframes slideSweep {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slideTabActive::before {
+    animation: none;
+  }
+}
+
+/* Above the sweep. */
+.slideTabLabel {
+  position: relative;
 }
 
 .slideDesc {
-  position: absolute;
-  left: 52%;
-  right: 0;
-  top: 40px;            /* below title with more gap */
-  z-index: 2;
+  /* Fills the panel — a ch cap wrapped it a third of the way across. */
+  max-width: none;
+  /* 12px under the tab strip, as under a section heading. */
+  margin-top: 12px;
+  /* Matches the hero's own intro paragraph (.textArea p), which is sized off
+     the subtle body style: 14 / relaxed leading / #7D8187. Every description
+     on the page
+     reads the same. */
   font-family: var(--ifm-font-family-base);
-  font-size: 13.5px;
+  font-size: 15px;
   font-weight: 400;
-  line-height: 1.5;
-  color: var(--zd-gray-500);
-  pointer-events: auto;
+  line-height: 25px;
+  color: var(--zd-home-desc-ink);
   transition: opacity 0.15s ease;
 }
 
@@ -327,7 +548,7 @@
   color: var(--zd-linear-signup-ink);
   text-decoration-line: underline;
   text-decoration-thickness: 1px;
-  text-decoration-color: var(--zd-linear-signup-ink);
+  text-decoration-color: color-mix(in srgb, var(--zd-linear-signup-ink) 45%, transparent);
   text-underline-offset: 4px;
   transition:
     color var(--zd-hover-duration, 0.36s) var(--zd-hover-ease, cubic-bezier(0.16, 1, 0.3, 1)),
@@ -337,69 +558,10 @@
 }
 
 .slideDesc a:hover {
-  color: var(--zd-gray-500);
-  text-decoration-color: var(--zd-gray-500);
+  color: var(--zd-muted-text);
+  text-decoration-color: currentColor;
   text-decoration-thickness: 2px;
   text-underline-offset: 5px;
-}
-
-/* ── Progress bars ── */
-.progressBars {
-  display: flex;
-  gap: 6px;
-  max-width: 100%;
-  margin: 20px 0 0;
-}
-
-.progressTrack {
-  flex: 1;
-  height: 2px;
-  background: var(--zd-gray-200);
-  border-radius: 2px;
-  padding: 0;
-  border: none;
-  cursor: pointer;
-  position: relative;
-  transition: height 0.2s ease, background 0.2s ease;
-}
-
-.progressTrack::before {
-  content: '';
-  position: absolute;
-  inset: -8px 0;
-}
-
-.progressTrack:hover {
-  height: 4px;
-  background: var(--zd-gray-300);
-}
-
-.progressLabel {
-  position: absolute;
-  top: calc(100% + 8px);
-  left: 50%;
-  transform: translateX(-50%);
-  font-family: var(--ifm-font-family-base);
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--zd-gray-500);
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.15s ease;
-}
-
-.progressTrack:hover .progressLabel {
-  opacity: 1;
-}
-
-.progressFill {
-  height: 100%;
-  max-width: 100%;
-  background: var(--zd-linear-signup-ink);
-  border-radius: 2px;
-  transition: width 0.05s linear;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.18);
 }
 
 /* ── Prism syntax highlighting tokens ── */
@@ -456,24 +618,25 @@
   }
 
   .textArea {
+    /* One column below 996px: two half-width columns left the headline wrapping
+       every three words. */
+    grid-template-columns: minmax(0, 1fr);
+    align-items: stretch;
+    gap: 24px;
+    padding: 24px;
     margin-bottom: 36px;
   }
 
+  /* Size lives in custom.css's .docs-doc-id-tutorials/home rule (it outranks
+     this one); only the family is set here. */
   .textArea h1 {
-    font-size: 30px !important;
-    line-height: 36px !important;
     font-family: var(--ifm-heading-font-family) !important;
-  }
-
-  .textArea p {
-    font-size: 15px !important;
-    line-height: 24px !important;
   }
 
   .installWidget {
     gap: 12px;
     max-width: 100%;
-    margin-top: 20px;
+    margin-top: 0;
     align-items: stretch;
   }
 
@@ -503,14 +666,9 @@
     gap: 16px;
   }
 
-  .slideTitle {
-    position: static;
-    width: 100%;
-    margin: 0 0 -12px;   /* pull description closer via negative bottom margin */
-  }
-
+  /* .slideTitle is gone — the lit chip is the title now. These two used to be
+     absolutely positioned into the overlap gap and had to be reset here. */
   .slideDesc {
-    position: static;
     width: 100%;
     height: auto;
     padding: 0;
@@ -528,4 +686,20 @@
     width: 100%;
     top: auto;
   }
+}
+
+/* ── The data half is NOT syntax coloured ──
+   Must come after the per-token rules above: those are (0,3,0) too, so a tie is
+   settled by source order. One muted ink for the whole listing is the point —
+   colour is what makes the left half look like code you would run. */
+.dataCode.code :global([class*='token']) {
+  color: var(--zd-muted-text) !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+}
+
+/* The two comment lines ARE this half's explanation — readable, one step quieter. */
+.dataCode.code :global(.token.comment) {
+  color: var(--zd-gray-400) !important;
+  font-style: normal !important;
 }

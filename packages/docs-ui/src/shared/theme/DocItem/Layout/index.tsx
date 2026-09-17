@@ -102,7 +102,12 @@ function findBreadcrumbTrail(
     if (item.type === 'link') {
       if (normalizePath(item.href) === norm && label) return [{label, href: item.href}];
     } else if (item.type === 'category') {
-      if (href && normalizePath(href) === norm && label) return [{label, href}];
+      // Match on the category's OWN href, not getItemHref's fallback. That
+      // fallback resolves a link-less category to its first child, so a page
+      // that happens to be first in its group (Dedicated Cluster > Create
+      // Cluster) matched the category itself, the recursion stopped there, and
+      // the group came back as the trail's last entry instead of an ancestor.
+      if (item.href && normalizePath(item.href) === norm && label) return [{label, href}];
       const found = findBreadcrumbTrail(item.items, pathname);
       if (found && label) return [{label, href}, ...found];
     }
@@ -113,17 +118,28 @@ function findBreadcrumbTrail(
 function PageBreadcrumbs({text}: {text: DocsUiText}): ReactNode {
   const sidebar = useDocsSidebar();
   const {pathname} = useLocation();
+  // The home page is the root of the trail, so its only crumb would be a link
+  // back to itself.
+  const isHomePage = pathname.replace(/\/$/, '').endsWith('/docs/home');
   const trail = sidebar ? findBreadcrumbTrail(sidebar.items, pathname) ?? [] : [];
   const section = getSectionBreadcrumb(pathname, text);
   const topNavSection = getTopNavBreadcrumb(pathname, text);
-  const items = [section, topNavSection, trail[0]]
+  // findBreadcrumbTrail returns the whole chain, ending with the current page.
+  // Only trail[0] used to be rendered, so everything the secondary sidebar adds
+  // between the rail section and the page — Clusters, Dedicated Cluster, … — was
+  // dropped, and a page four levels deep looked like it sat directly under
+  // Management. Take the ancestors instead: the page itself stays out (the H1
+  // right below already says it), so append `...trail` rather than
+  // `...ancestors` if the current page should appear as a final crumb.
+  const ancestors = trail.length > 1 ? trail.slice(0, -1) : trail;
+  const items = [section, topNavSection, ...ancestors]
     .filter((item): item is BreadcrumbItem => Boolean(item))
     .filter((item, index, all) => {
       const prev = all[index - 1];
       return !prev || prev.label !== item.label;
     });
 
-  if (items.length === 0) return null;
+  if (isHomePage || items.length === 0) return null;
 
   return (
     <nav className={styles.pageBreadcrumbs} aria-label={text.breadcrumbs.ariaLabel}>

@@ -1,9 +1,12 @@
+/* Home sections sit flush in the doc's own content box, exactly like body text
+   on any other page — the breadcrumb above them marks that same left edge. The
+   old 996px auto-centred container indented every section ~65px from it, so the
+   home page read as offset against the rest of the docs. */
 .container {
     display: block;
     width: 100%;
-    max-width: 996px;
-    margin: 80px auto 0 auto;
-    padding: 0 20px;
+    margin: var(--zd-home-section-gap) 0 0;
+    padding: 0;
 }
 
 .eyebrow {
@@ -20,9 +23,13 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
-    align-items: flex-start;
+    /* Stretch, not flex-start: at narrow widths "RESTful API" wraps to two lines
+       and that card was taller than the other four. */
+    align-items: stretch;
     gap: 10px 20px;
-    margin-top: 40px;
+    /* The h2's own margin carries the heading gap (--zd-home-title-gap); a
+       second 40px here made these two sections sit lower than the rest. */
+    margin-top: 0;
 }
 
 .item {
@@ -31,13 +38,16 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 14px;
     padding: 24px;
-    box-shadow: 0px 2px 4px 0px rgba(29, 41, 57, 0.1);
-    border-radius: 12px;
-    border: 1px solid var(--zd-surface-border);
+    /* Same surface as the plan cards in Choose how to deploy — white with a
+       hairline, 14px radius. These are the same kind of thing (pick one and go),
+       so they should not read as a different class of card. */
+    border-radius: 14px;
+    border: 1px solid var(--zd-code-stroke);
     background-color: #ffffff;
     cursor: pointer;
-    transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .item:link,
@@ -47,61 +57,36 @@
 }
 
 .item:hover {
-    border-color: var(--zd-linear-signup-ink);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    transform: translateY(-2px);
+    background-color: var(--zd-card-bg);
+    border-color: var(--zd-surface-border);
 }
 
+/* Matches the feature cards' title (Cards/.item h3): one heading size for one
+   kind of card. */
 .item h3 {
-    font-size: 20px !important;
-    line-height: 26px;
+    font-size: 16px !important;
+    line-height: 24px !important;
     font-weight: 600 !important;
     margin: 0 !important;
 }
 
-.iconPython {
-    display: inline-block;
-    background-image: url('/icons/lang-python.svg');
-    width: 80px;
-    height: 80px;
-    background-size: contain;
-    background-repeat: no-repeat;
+/* The brand glyphs are inline SVGs (see BRAND_ICONS in index.js) — the same
+   marks the navbar's API & SDK dropdown uses. The wrap keeps the 52px footprint
+   the full-colour logos had so the row's rhythm is unchanged. */
+.iconWrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    /* Full ink, matching the navbar's API & SDK dropdown, which draws the same
+       glyphs black. (These were grey so the mark would not outweigh its own
+       label, but that left the two places showing one icon set in two colours.) */
+    color: var(--zd-page-ink);
 }
 
-.iconJava {
-    display: inline-block;
-    background-image: url('/icons/lang-java.svg');
-    width: 80px;
-    height: 80px;
-    background-size: contain;
-    background-repeat: no-repeat;
-}
-
-.iconGo {
-    display: inline-block;
-    background-image: url('/icons/lang-go.svg');
-    width: 80px;
-    height: 80px;
-    background-size: contain;
-    background-repeat: no-repeat;
-}
-
-.iconNodejs {
-    display: inline-block;
-    background-image: url('/icons/lang-node.js.svg');
-    width: 80px;
-    height: 80px;
-    background-size: contain;
-    background-repeat: no-repeat;
-}
-
-.iconRESTful {
-    display: inline-block;
-    background-image: url('/icons/lang-restful.svg');
-    width: 80px;
-    height: 80px;
-    background-size: contain;
-    background-repeat: no-repeat;
+.iconWrap svg {
+    display: block;
 }
 
 @media (max-width: 996px) {

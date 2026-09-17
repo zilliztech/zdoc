@@ -201,7 +201,7 @@
 
 .responseStatus:hover {
     border-color: var(--zd-surface-border-strong);
-    background: #f0e8d3;
+    background: var(--zd-tab-chip-bg-hover);
 }
 
 .responseStatusActive {
@@ -257,11 +257,13 @@
     justify-content: center;
     padding: 5px 14px;
     cursor: pointer;
-    color: var(--zd-page-ink);
-    /* warm cream (not neutral gray) so the pill sits with the cream code blocks */
-    background-color: #f0e8d3;
-    font-size: 13px;
-    font-weight: 400;
+    /* The shared chip tab — see --zd-tab-chip-* in apps/docs/src/css/custom.css.
+       This used to be its own beige pill with its own size and its own weight
+       change, i.e. a fourth copy of a control the product already had. */
+    color: var(--zd-tab-chip-ink);
+    background-color: var(--zd-tab-chip-bg);
+    font-size: 14px;
+    font-weight: var(--zd-tab-chip-weight);
     border-radius: 999px;
     line-height: 1.5;
     transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
@@ -278,12 +280,14 @@
     overflow: hidden;
     visibility: hidden;
     pointer-events: none;
-    font-weight: 500;
+    /* Selection no longer changes the weight, so the reserved width is simply the
+       real width. Kept so the sizer can never disagree with the label. */
+    font-weight: var(--zd-tab-chip-weight);
 }
 
 .tabLabel:hover {
-    background-color: #e9dfc4;
-    color: var(--zd-page-ink);
+    background-color: var(--zd-tab-chip-bg-hover);
+    color: var(--zd-tab-chip-ink);
 }
 
 .tabPanel {
@@ -314,15 +318,15 @@
 }
 
 .tabs input[type=radio]:checked + .tabLabel {
-    color: #ffffff;
-    background-color: var(--zd-page-ink);
-    font-weight: 500;
+    color: var(--zd-tab-chip-ink-active);
+    background-color: var(--zd-tab-chip-bg-active);
+    font-weight: var(--zd-tab-chip-weight);
     box-shadow: none;
 }
 
 .tabs input[type=radio]:checked + .tabLabel:hover {
-    background-color: var(--zd-page-ink);
-    color: #ffffff;
+    background-color: var(--zd-tab-chip-bg-active);
+    color: var(--zd-tab-chip-ink-active);
 }
 
 .tabs input[type=radio]:focus-visible + .tabLabel {

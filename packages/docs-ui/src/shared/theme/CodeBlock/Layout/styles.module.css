@@ -4,8 +4,8 @@
    code card inset by ~2px so the cream reads as a thin frame around it. */
   border-radius: 11px !important;
   overflow: hidden !important;
-  background: #fbf9f2 !important;
-  border: 1px solid #e8e1d0 !important;
+  background: var(--zd-card-bg) !important;
+  border: 1px solid var(--zd-code-stroke) !important;
   box-shadow: none !important;
   margin-top: 1.25rem !important;
   margin-bottom: 1.25rem !important;
@@ -21,7 +21,7 @@
   padding: 0 0.5rem 0 0.875rem;
   /* header shares the cream frame tone; no bottom stroke — the white code card
      below provides its own separation. */
-  background: #fbf9f2;
+  background: var(--zd-card-bg);
   border-bottom: none;
   gap: 0.75rem;
   flex-shrink: 0;
@@ -204,11 +204,11 @@
   transform: translateX(-50%) translateY(0);
 }
 
-/* Copied → page selection blue (icon only, faint blue wash) */
+/* Copied → the code chrome's own warm olive, not a blue from elsewhere. */
 .copyBtnCopied,
 .copyBtnCopied:hover {
-  color: #6066fd;
-  background: rgba(96, 102, 253, 0.10);
+  color: var(--zd-code-copied-ink);
+  background: var(--zd-code-copied-bg);
 }
 
 /* ── Code content area — no panel background (sits on the page) ── */

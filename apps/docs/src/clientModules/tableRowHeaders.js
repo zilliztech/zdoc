@@ -53,8 +53,14 @@ function buildFaqAccordions() {
   const heads = document.querySelectorAll('.markdown h2');
   heads.forEach((h2) => {
     if (h2.getAttribute('data-zd-faq')) return;
-    const label = h2.textContent.replace(/[^A-Za-z]/g, '').toUpperCase();
-    if (label !== 'FAQ' && label !== 'FAQS') return;
+    // Accept the headings authors actually write, not just the two canonical
+    // ones: "FAQ", "FAQs", "Frequently Asked Questions (FAQ)", "Troubleshooting /
+    // FAQ". Matching on the WORD (not a substring) keeps unrelated sections out.
+    const label = h2.textContent.replace(/[^A-Za-z]+/g, ' ').trim().toUpperCase();
+    const isFaq =
+      /(^| )FAQS?( |$)/.test(label) ||
+      label.includes('FREQUENTLY ASKED QUESTIONS');
+    if (!isFaq) return;
 
     const els = [];
     let n = h2.nextElementSibling;

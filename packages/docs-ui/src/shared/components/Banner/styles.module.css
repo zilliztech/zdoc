@@ -1,55 +1,114 @@
+/* Home sections sit flush in the doc's own content box, exactly like body text
+   on any other page — the breadcrumb above them marks that same left edge. The
+   old 996px auto-centred container indented every section ~65px from it, so the
+   home page read as offset against the rest of the docs. */
 .container {
   display: block;
   width: 100%;
-  max-width: 996px;
-  margin: 80px auto 40px;
-  padding: 0 1.25rem;
+  margin: var(--zd-home-section-gap) 0 40px;
+  padding: 0;
 }
 
+/* A dark slab closing the page, with the navbar's own Ask AI pill on it: the
+   pastel gradient belongs to the button, and spreading it across a full-width
+   panel left the button with nothing to contrast against. */
 .banner {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 1.25rem;
   background: var(--zd-linear-signup-ink);
-  border-radius: 0.75rem;
-  padding: 1.5rem 2rem;
+  border-radius: 20px;
+  padding: 2rem;
   color: #ffffff;
   margin-bottom: 2rem;
 }
 
 .bannerText {
-  font-size: 1.25rem;
+  font-size: 1.0625rem;
   line-height: 1.5;
-  font-weight: 600;
+  font-weight: 500;
   margin: 0;
 }
 
+/* Identical to .navbar-ask-ai-btn in apps/docs/src/css/custom.css — same
+   surface, stroke, radius, ink and sheen sweep. One button for one action. */
 .bannerLink {
-  display: flex;
+  position: relative;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
-  gap: 0.625rem;
-  background: transparent;
-  color: inherit;
-  border: 1px solid rgba(255, 255, 255, 0.64);
-  border-radius: 0.5rem;
-  padding: 0.75rem 2.5rem;
-  font-size: 0.9375rem;
-  font-weight: 600;
+  gap: 6px;
+  height: 32px;
+  padding: 0 15px;
+  border: 1px solid var(--zd-surface-border-subtle);
+  border-radius: 10px;
+  overflow: hidden;
+  /* The navbar's stops, pre-composited over its white base so nothing in the
+     button carries alpha — on the dark banner a translucent stop would pick up
+     the slab behind it. Same rendered colour as .navbar-ask-ai-btn. */
+  background: linear-gradient(234deg, #E5E7FF 0%, #FFFFFF 36.5%, #E4FFFF 100%);
+  background-clip: padding-box;
+  color: var(--zd-page-ink);
+  font-family: inherit;
+  font-size: var(--zd-nav-size);
+  /* .navbar-ask-ai-btn declares 400 but renders at 500; matching the rendered
+     weight is what makes the two buttons read as one control. */
+  font-weight: 500;
+  line-height: 1;
   cursor: pointer;
   white-space: nowrap;
-  transition: background-color 0.15s ease, border-color 0.15s ease;
+  /* No underline in any state — it is a button now, but the global link styles
+     still reach buttons inside .markdown. */
+  text-decoration: none !important;
+  transition:
+    background-color var(--zd-hover-duration, 0.36s) var(--zd-hover-ease, cubic-bezier(0.16, 1, 0.3, 1)),
+    border-color var(--zd-hover-duration, 0.36s) var(--zd-hover-ease, cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+.bannerLink::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(
+    234deg,
+    transparent 24%,
+    rgba(150, 240, 240, 0.13) 46%,
+    rgba(255, 255, 255, 0.92) 57%,
+    transparent 82%
+  );
+  transform: translateX(-105%);
+  transition: none;
+  pointer-events: none;
+}
+
+.bannerLink:hover::before {
+  transform: translateX(105%);
+  transition: transform 0.5s cubic-bezier(0.2, 0.85, 0.3, 1);
+}
+
+.bannerLink svg,
+.bannerLink span {
+  position: relative;
+  z-index: 1;
+}
+
+.bannerLink svg {
+  display: block;
+  color: var(--zd-page-ink);
+  flex-shrink: 0;
 }
 
 .bannerLink:focus-visible {
-  outline: 2px solid rgba(255, 255, 255, 0.8);
+  outline: 2px solid var(--ifm-color-primary);
   outline-offset: 2px;
 }
 
 .bannerLink:hover {
-  background-color: rgba(255, 255, 255, 0.14);
-  border-color: rgba(255, 255, 255, 0.9);
+  background: linear-gradient(234deg, #E0E2FF 0%, #FDFDFF 36.5%, #DFFCFC 100%);
+  border-color: #e6e7ff;
+  text-decoration: none !important;
 }
 
 .zillizStar {
@@ -70,6 +129,5 @@
 
   .bannerLink {
     width: 100%;
-    padding: 0.75rem 1.5rem;
   }
 }

@@ -4,72 +4,72 @@ import ErrorBoundary from '@docusaurus/ErrorBoundary';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import {Send, ChevronRight, ThumbsUp, ThumbsDown, FileText, ArrowLeft} from 'lucide-react';
+import {ThumbsUp, ThumbsDown, FileText, ArrowLeft} from 'lucide-react';
+import AskAiComposer from '../../../components/AskAiComposer';
 import {ChatProvider, useChatContext} from '../../../components/ChatPanel/ChatContext';
 import {DEFAULT_CHAT_ENDPOINT} from '../../../components/ChatPanel/endpoints';
 import {useDocsUiText} from '../../../i18n/uiText';
 import styles from '../styles.module.css';
 
-function BgDecor() {
+/* The panel's watermark bolt, for the card's empty middle — same path and
+   hairline stroke, faded out towards the tail by the mask in .bolt. */
+function BoltIcon() {
   return (
-    <svg
-      className={styles.bgDecor}
-      viewBox="0 0 1400 800"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      preserveAspectRatio="xMidYMid slice"
-    >
-      <defs>
-        <radialGradient id="nf-splash1" cx="0.15" cy="0.2" r="0.4">
-          <stop offset="0%" stopColor="#6366f1" stopOpacity="0.18" />
-          <stop offset="100%" stopColor="#6366f1" stopOpacity="0" />
-        </radialGradient>
-        <radialGradient id="nf-splash2" cx="0.85" cy="0.75" r="0.35">
-          <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.15" />
-          <stop offset="100%" stopColor="#3b82f6" stopOpacity="0" />
-        </radialGradient>
-        <radialGradient id="nf-splashWarm" cx="0.9" cy="0.1" r="0.2">
-          <stop offset="0%" stopColor="#f97316" stopOpacity="0.1" />
-          <stop offset="100%" stopColor="#f97316" stopOpacity="0" />
-        </radialGradient>
-      </defs>
-
-      {/* Ambient gradient splashes */}
-      <circle cx="200" cy="120" r="320" fill="url(#nf-splash1)" />
-      <circle cx="1200" cy="600" r="280" fill="url(#nf-splash2)" />
-      <circle cx="1300" cy="80" r="160" fill="url(#nf-splashWarm)" />
-
-      {/* Flowing curves — group 1 */}
-      <g className={styles.driftGroup1}>
-        <path d="M-20 240 C160 100, 360 200, 500 120 S720 40, 880 160" stroke="#818cf8" strokeWidth="1.8" strokeOpacity="0.25" fill="none" />
-        <path d="M-40 440 C100 300, 300 460, 480 340 S680 220, 840 380" stroke="#60a5fa" strokeWidth="1.5" strokeOpacity="0.2" fill="none" />
-        <path d="M-10 620 C160 500, 320 600, 460 500 S640 400, 780 520" stroke="#a78bfa" strokeWidth="1.5" strokeOpacity="0.15" fill="none" />
-      </g>
-
-      {/* Flowing curves — group 2 */}
-      <g className={styles.driftGroup2}>
-        <path d="M700 60 C860 180, 1000 40, 1160 140 S1320 240, 1440 80" stroke="#818cf8" strokeWidth="1.8" strokeOpacity="0.3" fill="none" />
-        <path d="M660 280 C820 160, 1000 320, 1160 220 S1320 120, 1440 280" stroke="#93c5fd" strokeWidth="1.5" strokeOpacity="0.2" fill="none" />
-        <path d="M720 500 C880 380, 1040 520, 1200 420 S1360 320, 1440 480" stroke="#60a5fa" strokeWidth="1.5" strokeOpacity="0.2" fill="none" />
-        <path d="M780 680 C920 580, 1080 700, 1240 600 S1380 500, 1440 640" stroke="#a78bfa" strokeWidth="1.5" strokeOpacity="0.15" fill="none" />
-      </g>
-
-      {/* Accent dots */}
-      <circle cx="640" cy="360" r="4" fill="#818cf8" fillOpacity="0.5" />
-      <circle cx="1000" cy="460" r="3.5" fill="#60a5fa" fillOpacity="0.45" />
-      <circle cx="380" cy="220" r="3" fill="#a78bfa" fillOpacity="0.4" />
-      <circle cx="1160" cy="160" r="2.5" fill="#f97316" fillOpacity="0.35" />
+    <svg width="44" height="76" viewBox="0 0 44 76" fill="none" aria-hidden="true">
+      <path
+        d="M0.942375 43.7014L30.3424 0.280334L26.1424 30.5435H42.9424L9.34237 75.2803L17.7424 43.7014H0.942375Z"
+        stroke="#E1DFD9"
+        strokeWidth="0.8"
+        strokeLinejoin="miter"
+        strokeLinecap="butt"
+        vectorEffect="non-scaling-stroke"
+      />
     </svg>
   );
 }
 
-function ZillizStarIcon({size = 24}: {size?: number}) {
-  return <img src="/icons/zilliz-star.svg" width={size} height={size} aria-hidden="true" />;
+/* The Ask AI panel's header mark, verbatim: the rounded navy tile with the white
+   bolt — the panel identifies itself in its header, so this card does the same. */
+function AskAiAvatarIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <rect width="24" height="24" rx="10" fill="#252F58" />
+      <path
+        d="M7 14L14 3L13 10.2632H17L9 21L11 14H7Z"
+        fill="#ffffff"
+        transform="translate(12 12) scale(0.9) translate(-12 -12)"
+      />
+    </svg>
+  );
+}
+
+/* The same box as the dock at the foot of every doc page — same skin, same
+   click-to-type, same send button. Only the ⌘I hint is dropped: that shortcut
+   opens the doc-page chat pane, which does not exist here. */
+function Composer() {
+  const text = useDocsUiText();
+  const {input, setInput, isStreaming, send} = useChatContext();
+
+  return (
+    <AskAiComposer
+      inFlow
+      /* The box is the point of this page, so it opens already focused —
+         that is also what puts it in its selected (gradient stroke + ring) state. */
+      autoFocus
+      className={styles.askBox}
+      value={input}
+      onChange={setInput}
+      onSubmit={() => send(input)}
+      placeholder={text.chat.placeholder}
+      sendLabel={text.chat.send}
+      disabled={isStreaming}
+    />
+  );
 }
 
 function NotFoundChat() {
   const text = useDocsUiText();
-  const {messages, input, setInput, isStreaming, send, rateFeedback} = useChatContext();
+  const {messages, send, isStreaming, rateFeedback} = useChatContext();
   const messagesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -79,155 +79,170 @@ function NotFoundChat() {
 
   const hasMessages = messages.length > 0;
 
-  return (
-    <div className={styles.card}>
-      {!hasMessages ? (
-        <>
-          <div className={styles.avatar}>
-            <ZillizStarIcon />
-          </div>
-          <h1 className={styles.heading}>{text.notFound.heading}</h1>
-          <p className={styles.subtitle}>{text.notFound.assistantSubtitle}</p>
+  /* The panel's own header, minus its close button — there is no panel to close
+     here, the card IS the page. */
+  const askAiHeader = (
+    <div className={styles.aiCardHeader}>
+      <AskAiAvatarIcon />
+      <span className={styles.aiCardTitle}>{text.chat.title}</span>
+    </div>
+  );
 
-          <div className={styles.inputRow}>
-            <input
-              type="text"
-              value={input}
-              onChange={e => setInput(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && send(input)}
-              placeholder={text.chat.placeholder}
-              className={styles.input}
-              aria-label={text.chat.messageLabel}
-            />
-            <button
-              type="button"
-              className={styles.sendRound}
-              onClick={() => send(input)}
-              disabled={!input.trim()}
-              aria-label={text.chat.send}
-            >
-              <Send size={15} strokeWidth={2.5} />
-            </button>
-          </div>
+  const backLink = (
+    <a href="/" className={styles.backLink}>
+      <ArrowLeft size={14} />
+      {text.notFound.backToHome}
+    </a>
+  );
 
+  /* The page's own voice: what happened, and the way out. The assistant's
+     opening line is NOT here — it belongs to the card, as its first message. */
+  const pageColumn = (
+    <div className={styles.pageColumn}>
+      <div className={styles.code} aria-hidden="true">404</div>
+      <h1 className={styles.heading}>{text.notFound.heading}</h1>
+      {/* The sentence names where the card is, and the card moves: beside the
+          message on wide screens, under it once the columns stack. Two whole
+          strings rather than a spliced-in direction word, so each locale can
+          put it wherever its grammar wants. CSS picks one. */}
+      <p className={styles.subtitle}>{text.notFound.fallbackSubtitle}</p>
+      <p className={`${styles.subtitle} ${styles.subtitleStacked}`}>
+        {text.notFound.fallbackSubtitleStacked}
+      </p>
+      {backLink}
+    </div>
+  );
+
+  /* The assistant opens the conversation instead of the page introducing it, and
+     it opens with a QUESTION — a line that invites an answer rather than one
+     that just announces a capability. Bubbled, mirroring the user's own. */
+  const greeting = (
+    <div className={`${styles.messageBubble} ${styles.assistantGreeting}`}>
+      {text.notFound.assistantGreeting}
+    </div>
+  );
+
+  if (!hasMessages) {
+    return (
+      <div className={styles.card}>
+        {pageColumn}
+
+        <div className={styles.aiCard}>
+          {askAiHeader}
+
+          <div className={styles.messages}>{greeting}</div>
+
+          {/* The card stands taller than its content needs, and the watermark
+              bolt fills the gap that leaves — it takes the slack, so the box
+              and the links stay pinned to the bottom. */}
+          <div className={styles.bolt}><BoltIcon /></div>
+
+          {/* Above the box, not below it: the quick links are what you read
+              before deciding to type, exactly as in the Ask AI panel. */}
           <div className={styles.suggestions}>
             {text.notFound.suggestions.map(q => (
               <button type="button" key={q} className={styles.suggestionBtn} onClick={() => send(q)}>
-                <span>{q}</span>
-                <ChevronRight size={14} strokeWidth={2.5} />
+                {q}
               </button>
             ))}
           </div>
 
-          <a href="/" className={styles.backLink}>
-            <ArrowLeft size={14} />
-            {text.notFound.backToDocs}
-          </a>
-        </>
-      ) : (
-        <div className={styles.cardConversation}>
-          <div className={styles.messages} ref={messagesRef}>
-            {messages.map((msg, i) => (
-              <div key={i} className={`${styles.messageBubble} ${msg.role === 'user' ? styles.userMessage : styles.assistantMessage}`}>
-                {msg.role === 'assistant' && (
-                  <div className={styles.assistantAvatar}><ZillizStarIcon size={14} /></div>
-                )}
-                <div className={msg.role === 'assistant' ? styles.markdownContent : undefined}>
-                  {msg.role === 'assistant' ? (
-                    isStreaming && i === messages.length - 1 && !msg.text ? (
-                      <span className={styles.thinkingText}>{text.notFound.thinking}</span>
-                    ) : (
-                      <Markdown remarkPlugins={[remarkGfm]}>{msg.text}</Markdown>
-                    )
-                  ) : (
-                    <p>{msg.text}</p>
-                  )}
-                  {msg.sources && msg.sources.length > 0 && (
-                    <div className={styles.sourcesRow}>
-                      {msg.sources.map((src, j) => (
-                        <a
-                          key={j}
-                          href={src.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={styles.sourceChip}
-                          title={src.title}
-                        >
-                          <FileText size={12} />
-                          <span>{src.title}</span>
-                        </a>
-                      ))}
-                    </div>
-                  )}
-                  {msg.role === 'assistant' && msg.text && !isStreaming && (
-                    <div className={styles.feedbackRow}>
-                      <button
-                        type="button"
-                        className={`${styles.feedbackBtn} ${msg.feedback === 'up' ? styles.feedbackBtnActive : ''}`}
-                        onClick={() => rateFeedback(i, 'up')}
-                        aria-label={text.chat.helpful}
-                        title={text.chat.helpful}
-                      >
-                        <ThumbsUp size={13} />
-                      </button>
-                      <button
-                        type="button"
-                        className={`${styles.feedbackBtn} ${msg.feedback === 'down' ? styles.feedbackBtnActive : ''}`}
-                        onClick={() => rateFeedback(i, 'down')}
-                        aria-label={text.chat.notHelpful}
-                        title={text.chat.notHelpful}
-                      >
-                        <ThumbsDown size={13} />
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className={styles.inputRow}>
-            <input
-              type="text"
-              value={input}
-              onChange={e => setInput(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && send(input)}
-              placeholder={text.chat.placeholder}
-              className={styles.input}
-              aria-label={text.chat.messageLabel}
-              disabled={isStreaming}
-            />
-            <button
-              type="button"
-              className={styles.sendRound}
-              onClick={() => send(input)}
-              disabled={!input.trim() || isStreaming}
-              aria-label={text.chat.send}
-            >
-              <Send size={15} strokeWidth={2.5} />
-            </button>
-          </div>
-
-          <a href="/" className={styles.backLink}>
-            <ArrowLeft size={14} />
-            {text.notFound.backToDocs}
-          </a>
+          <Composer />
         </div>
-      )}
+      </div>
+    );
+  }
+
+  return (
+    <div className={styles.card}>
+      {pageColumn}
+
+      <div className={styles.aiCard}>
+        {askAiHeader}
+
+        <div className={`${styles.messages} ${styles.messagesFilled}`} ref={messagesRef}>
+          {greeting}
+          {messages.map((msg, i) => (
+            <div
+              key={i}
+              className={`${styles.messageBubble} ${msg.role === 'user' ? styles.userMessage : styles.assistantMessage}`}>
+              <div className={msg.role === 'assistant' ? styles.markdownContent : undefined}>
+                {msg.role === 'assistant' ? (
+                  isStreaming && i === messages.length - 1 && !msg.text ? (
+                    <span className={styles.thinkingText}>{text.notFound.thinking}</span>
+                  ) : (
+                    <Markdown remarkPlugins={[remarkGfm]}>{msg.text}</Markdown>
+                  )
+                ) : (
+                  <p>{msg.text}</p>
+                )}
+                {msg.sources && msg.sources.length > 0 && (
+                  <div className={styles.sourcesRow}>
+                    {msg.sources.map((src, j) => (
+                      <a
+                        key={j}
+                        href={src.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={styles.sourceChip}
+                        title={src.title}
+                      >
+                        <FileText size={12} />
+                        <span>{src.title}</span>
+                      </a>
+                    ))}
+                  </div>
+                )}
+                {msg.role === 'assistant' && msg.text && !isStreaming && (
+                  <div className={styles.feedbackRow}>
+                    <button
+                      type="button"
+                      className={`${styles.feedbackBtn} ${msg.feedback === 'up' ? styles.feedbackBtnActive : ''}`}
+                      onClick={() => rateFeedback(i, 'up')}
+                      aria-label={text.chat.helpful}
+                      title={text.chat.helpful}
+                    >
+                      <ThumbsUp size={13} />
+                    </button>
+                    <button
+                      type="button"
+                      className={`${styles.feedbackBtn} ${msg.feedback === 'down' ? styles.feedbackBtnActive : ''}`}
+                      onClick={() => rateFeedback(i, 'down')}
+                      aria-label={text.chat.notHelpful}
+                      title={text.chat.notHelpful}
+                    >
+                      <ThumbsDown size={13} />
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <Composer />
+      </div>
     </div>
   );
 }
 
+/* Server render and the error path: the page column alone, no assistant. */
 function FallbackCard() {
   const text = useDocsUiText();
   return (
     <div className={styles.card}>
-      <h1 className={styles.heading}>{text.notFound.heading}</h1>
-      <p className={styles.subtitle}>{text.notFound.fallbackSubtitle}</p>
-      <a href="/" className={styles.backLink}>
-        <ArrowLeft size={14} />
-        {text.notFound.backToDocs}
-      </a>
+      <div className={styles.pageColumn}>
+        <div className={styles.code} aria-hidden="true">404</div>
+        <h1 className={styles.heading}>{text.notFound.heading}</h1>
+        <p className={styles.subtitle}>{text.notFound.fallbackSubtitle}</p>
+        <p className={`${styles.subtitle} ${styles.subtitleStacked}`}>
+          {text.notFound.fallbackSubtitleStacked}
+        </p>
+        <a href="/" className={styles.backLink}>
+          <ArrowLeft size={14} />
+          {text.notFound.backToHome}
+        </a>
+      </div>
     </div>
   );
 }
@@ -237,9 +252,20 @@ export default function NotFoundContent(): React.ReactElement {
   const chatEndpoint = (siteConfig.customFields?.chatEndpoint as string) || DEFAULT_CHAT_ENDPOINT;
   const chatDebug = Boolean(siteConfig.customFields?.chatDebug);
 
+  // The 404 runs chrome-less: the topbar is hidden through this body class (see
+  // :global(body.zd-notfound-page) in ../styles.module.css), removed again on
+  // unmount so navigating away restores it.
+  // It lives HERE and not in the NotFound wrapper because a miss under /docs is
+  // rendered by the docs plugin's own route — the html still carries
+  // `docs-wrapper plugin-docs` — which mounts this Content directly and never
+  // renders @theme/NotFound at all.
+  useEffect(() => {
+    document.body.classList.add('zd-notfound-page');
+    return () => document.body.classList.remove('zd-notfound-page');
+  }, []);
+
   return (
     <div className={styles.pageWrapper}>
-      <BgDecor />
       <BrowserOnly fallback={<FallbackCard />}>
         {() => (
           <ErrorBoundary fallback={() => <FallbackCard />}>
