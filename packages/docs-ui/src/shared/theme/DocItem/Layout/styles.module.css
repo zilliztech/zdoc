@@ -14,18 +14,17 @@
   flex: 1;
   min-width: 0;
   max-width: 60rem;
-  padding: 32px 32px 5rem;
+  padding: var(--zd-doc-col-pad-top) 32px 5rem;
   background: var(--zd-doc-panel-bg);
 }
 
-/* Docs Home: content fills the page, centred, with a wider symmetric gutter
-   (~2× the normal 32px left gap). */
+/* Docs Home: content fills the page (no TOC column to leave room for), but the
+   gutter is the SAME 32px every other page uses — a wider one made the home read
+   as indented against the rest of the docs, and against its own breadcrumb. */
 :global(.docs-home) .docItemCol {
   max-width: none;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 64px !important;
-  padding-right: 64px !important;
 }
 
 /* No TOC: keep content left-aligned and filling the column (consistent left
@@ -150,7 +149,9 @@
 
 .pageBreadcrumbLink {
   color: var(--zd-nav-muted);
-  text-decoration: none !important;
+  /* Not !important: the shorthand resets text-decoration-line, so an important
+     one here silently swallowed the hover underline set in custom.css. */
+  text-decoration: none;
   flex: 0 0 auto;
   transition: color 0.15s ease;
 }
@@ -197,16 +198,23 @@
     max-width: 68rem;
   }
 
-  /* Center the reading column in the space left of the TOC (the flexible space
-     splits evenly on both sides of the content), while the TOC stays at the row's
-     right edge. Content stays capped for readability. */
+  /* Cap and centre the content + TOC PAIR, not the content on its own.
+     Auto margins on .docItemCol centred the reading column inside the row, so
+     every pixel past the cap was split into TWO holes — one between the sidebar
+     and the text, another between the text and the TOC, the latter growing to
+     ~420px by 2560px wide and leaving the middle of the page visibly hollow.
+     Capping the row instead keeps the TOC tucked against the text and moves the
+     surplus outside the pair, where it reads as a page margin.
+     84rem = 68rem content + 16rem TOC — the pair at its own natural cap, so
+     below ~1700px the max-width does not bind and narrower screens are
+     untouched. */
+  /* The pair's cap and centring live in custom.css, next to the
+     `max-width: 100% !important` on .docItemRow that would otherwise beat it. */
   .docItemRow:not(:has(.docItemColCentered)) .docItemCol {
     /* flex: 1 1 0, not 0 1 auto: an auto flex-basis shrink-wraps the column
        to its widest unbreakable child (a wide table, code block, or long method
        signature), so pages in the same section rendered at different widths. A
        zero basis fills the available space first, then max-width caps it. */
     flex: 1 1 0;
-    margin-left: auto;
-    margin-right: auto;
   }
 }

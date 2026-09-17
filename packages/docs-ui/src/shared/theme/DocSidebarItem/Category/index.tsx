@@ -332,6 +332,19 @@ function DocSidebarItemCategoryCollapsible({
     if (collapsible && !href) {
       e.preventDefault();
       updateCollapsed();
+      return;
+    }
+    // A category that owns a landing page (CMEK, Backup, …) drives BOTH states
+    // from one click: navigate, and open/close. Not a blind toggle — arriving
+    // from elsewhere on an already-open group would collapse it and hide the
+    // children you were heading for. So: toggle only when you are already on
+    // this page, otherwise just make sure it is open.
+    if (collapsible && href) {
+      if (isCurrentPage) {
+        updateCollapsed();
+      } else if (collapsed) {
+        updateCollapsed(false);
+      }
     }
   };
   const handleCategoryButtonClick: ComponentProps<'button'>['onClick'] = () => {

@@ -225,6 +225,15 @@ export function createDocusaurusConfig(
       },
     ]],
     stylesheets: [...markdownPolicy.stylesheets],
+    /* Post-mount DOM enhancements: FAQ accordions, grouped-table row headers,
+       scrollable-table edges. The file survived the monorepo move but its
+       registration did not, so every "## FAQ" section had silently gone back to
+       rendering as plain paragraphs. */
+    clientModules: [
+      repositoryPath('apps/docs/src/clientModules/tableRowHeaders.js'),
+      /* Heading anchor icons copy their own link and flash a check. */
+      repositoryPath('apps/docs/src/clientModules/hashLinkCopy.js'),
+    ],
     headTags: profile.id === 'en' &&
       profile.integrations.searchProvider === 'inkeep' &&
       profile.integrations.chatProvider === 'inkeep'

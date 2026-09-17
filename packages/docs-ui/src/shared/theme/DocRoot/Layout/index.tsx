@@ -7,9 +7,9 @@ import DocRootLayoutSidebar from './Sidebar';
 import DocRootLayoutMain from '@theme/DocRoot/Layout/Main';
 import type {Props} from '@theme/DocRoot/Layout';
 import ChatPanel, {ChatProvider} from '../../../components/ChatPanel';
+import AskAiComposer from '../../../components/AskAiComposer';
 import {useChatContext} from '../../../components/ChatPanel/ChatContext';
 import {DEFAULT_CHAT_ENDPOINT} from '../../../components/ChatPanel/endpoints';
-import {ArrowUp} from 'lucide-react';
 import {useDocsUiText} from '../../../i18n/uiText';
 
 import styles from './styles.module.css';
@@ -64,6 +64,13 @@ function FloatingChatInput({
   // every width — incl. when the content is centred on wide screens or on pages
   // with a different layout like Releases). CSS calc() can't follow that.
   const [box, setBox] = useState<{left: number; width: number} | null>(null);
+  // The home page replaces its old "Can't find…" banner with a plate wrapped
+  // around this composer, so the dock has to know it is on the home page.
+  const isHome = /\/docs\/home\/?$/.test(pathname);
+  const [formHeight, setFormHeight] = useState(0);
+  // The plate belongs to the foot of the page, not to hover: hovering the
+  // composer anywhere still just lights its own gradient ring.
+  const [atBottom, setAtBottom] = useState(false);
   useEffect(() => {
     const measure = () => {
       if (typeof window === 'undefined' || window.innerWidth < 768) {
@@ -80,6 +87,7 @@ function FloatingChatInput({
       const r = target.getBoundingClientRect();
       if (r.width === 0) return; // not laid out yet — keep the last good value
       setBox({left: Math.round(r.left), width: Math.round(r.width)});
+      if (formRef.current) setFormHeight(Math.round(formRef.current.getBoundingClientRect().height));
     };
     measure();
     const raf = requestAnimationFrame(() => requestAnimationFrame(measure));
@@ -87,14 +95,87 @@ function FloatingChatInput({
     const main = document.querySelector('[class*="docMainContainer"]');
     const ro = new ResizeObserver(measure);
     if (main) ro.observe(main);
+    if (formRef.current) ro.observe(formRef.current);
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener('resize', measure);
       ro.disconnect();
     };
   }, [pathname, sidebarCollapsed]);
+  // The dock floats over scrolling content. Sized to exactly the content column,
+  // a card or table border sits on the very same pixel column as the box's own
+  // edge and flickers through as it scrolls past. One pixel of overhang per side
+  // puts the white face — and the backdrop behind it — over that column.
+  // Reaching the foot of the home page is the moment the old banner used to
+  // ask its question, so the composer takes focus there instead. It re-arms
+  // only after scrolling away, and never steals focus from another control.
+  // NOTE: the document itself does not scroll — `main.docMainContainer` is the
+  // scroller, so a window scroll listener never fires here.
+  useEffect(() => {
+    if (!isHome || typeof window === 'undefined') return;
+    let armed = true;
+    let scroller: HTMLElement | null = null;
+    const onScroll = () => {
+      if (!scroller) return;
+      // Guard against first paint, before the article has been laid out.
+      if (scroller.scrollHeight <= scroller.clientHeight + 200) return;
+      const bottomed = scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight - 8;
+      setAtBottom(bottomed);
+      if (!bottomed) {
+        armed = true;
+        return;
+      }
+      if (!armed) return;
+      armed = false;
+      const active = document.activeElement;
+      if (active && active !== document.body && active !== document.documentElement) return;
+      inputRef.current?.focus({preventScroll: true});
+    };
+    // The scroller is mounted by the time this runs on a client navigation, but
+    // not always on a cold load, so poll a few frames for it.
+    let tries = 0;
+    let raf = 0;
+    const attach = () => {
+      scroller = document.querySelector<HTMLElement>('[class*="docMainContainer"]');
+      if (scroller) {
+        scroller.addEventListener('scroll', onScroll, {passive: true});
+        return;
+      }
+      if (tries++ < 60) raf = requestAnimationFrame(attach);
+    };
+    attach();
+    return () => {
+      cancelAnimationFrame(raf);
+      scroller?.removeEventListener('scroll', onScroll);
+    };
+  }, [isHome]);
+
+  const DOCK_OVERHANG = 1;
+  // Gap between the plate's edge and the composer inside it.
+  // Sides and bottom hug the composer; the top strip is deeper because it
+  // carries the question.
+  const DOCK_PLATE_PAD = 3;
+  const DOCK_PLATE_HEADING = 34;
+  // Exposed to CSS so the backdrop can grow by exactly the plate's extra height.
+  const plateExtra = DOCK_PLATE_PAD * 2 + DOCK_PLATE_HEADING;
   const boxStyle: React.CSSProperties | undefined = box
-    ? {left: box.left, width: box.width, right: 'auto'}
+    ? {left: box.left - DOCK_OVERHANG, width: box.width + DOCK_OVERHANG * 2, right: 'auto'}
+    : undefined;
+  // Rendered as soon as it can be measured, then faded in — mounting it on
+  // hover made it pop in with no transition to animate.
+  const plateReady = isHome && !!box && formHeight > 0;
+  const showPlate = plateReady && atBottom;
+  const plateStyle: React.CSSProperties | undefined = box
+    ? {
+        left: box.left - DOCK_OVERHANG - DOCK_PLATE_PAD,
+        width: box.width + DOCK_OVERHANG * 2 + DOCK_PLATE_PAD * 2,
+        right: 'auto',
+        // Collapsed to exactly the composer's height when hidden: the plate
+        // then grows upward from behind it instead of appearing all at once.
+        height: showPlate ? formHeight + plateExtra : formHeight,
+        ['--dock-form-h' as string]: `${formHeight}px`,
+        ['--dock-plate-pad' as string]: `${DOCK_PLATE_PAD}px`,
+      }
     : undefined;
 
   const submit = () => {
@@ -113,42 +194,52 @@ function FloatingChatInput({
           document content disappears from just above the box down to the floor,
           without ever covering the input's own border. */}
       <div
-        className={[styles.floatingChatBackdrop, collapsedClass].filter(Boolean).join(' ')}
-        style={boxStyle}
+        className={[
+          styles.floatingChatBackdrop,
+          showPlate ? styles.floatingChatBackdropPlated : '',
+          collapsedClass,
+        ]
+          .filter(Boolean)
+          .join(' ')}
+        /* With a plate the white fade has to clear the plate's own top edge and
+           side overhang, or document content shows through right against it. */
+        style={showPlate ? {left: plateStyle!.left, width: plateStyle!.width, right: 'auto'} : boxStyle}
         aria-hidden="true"
       />
-      <form
-        ref={formRef}
+      {plateReady && (
+        <div
+          className={[styles.dockPlate, showPlate ? styles.dockPlateVisible : '', collapsedClass]
+            .filter(Boolean)
+            .join(' ')}
+          aria-hidden={!showPlate}
+          style={plateStyle}>
+          <span className={styles.dockPlateHeading}>
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <circle cx="8" cy="8" r="6.1" stroke="currentColor" strokeWidth="1.5" />
+              <path d="M6.3 6.25a1.75 1.75 0 1 1 1.75 1.9v1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+              <circle cx="8.05" cy="11.15" r="0.7" fill="currentColor" />
+            </svg>
+            {text.chat.dockPrompt}
+          </span>
+        </div>
+      )}
+      {/* Skin, click-to-type and send button come from the shared composer; this
+          file keeps only what makes THIS instance a dock — the fixed position
+          and the measured content-column alignment. */}
+      <AskAiComposer
+        formRef={formRef}
+        inputRef={inputRef}
+        value={query}
+        onChange={setQuery}
+        onSubmit={submit}
+        placeholder={text.chat.placeholder}
+        sendLabel={text.chat.sendQuestion}
+        disabled={isStreaming}
+        flat={showPlate}
+        hint={kbdHint}
         className={[styles.floatingChatInput, collapsedClass].filter(Boolean).join(' ')}
         style={boxStyle}
-        onMouseDown={event => {
-          // Whole box is the hot zone — clicking any empty area focuses the input
-          // (but let the input and the send button handle their own clicks).
-          const t = event.target as HTMLElement;
-          if (t.closest('button') || t.tagName === 'INPUT') return;
-          event.preventDefault();
-          inputRef.current?.focus();
-        }}
-        onSubmit={event => {
-          event.preventDefault();
-          submit();
-        }}>
-        <input
-          ref={inputRef}
-          type="text"
-          value={query}
-          onChange={event => setQuery(event.target.value)}
-          placeholder={text.chat.placeholder}
-          aria-label={text.chat.placeholder}
-          disabled={isStreaming}
-        />
-        <div className={styles.floatingFooter}>
-          <kbd className={styles.chatKbd}>{kbdHint}</kbd>
-          <button type="submit" disabled={!query.trim() || isStreaming} aria-label={text.chat.sendQuestion}>
-            <ArrowUp size={14} strokeWidth={2.4} />
-          </button>
-        </div>
-      </form>
+      />
     </>
   );
 }

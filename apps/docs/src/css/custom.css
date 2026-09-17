@@ -31,10 +31,74 @@ body.zdoc-docs-page {
   --ifm-color-primary-lighter: #417cff;
   --ifm-color-primary-lightest: #6a99ff;
 
-  --zd-page-bg: #fdfdfd;
+  /* App ground. One value behind the navbar, both sidebar columns and the
+     article panel — the whole chrome reads as a single sheet. The Ask AI panel
+     (and its mobile overlay) deliberately stays #ffffff so it lifts off this. */
+  --zd-app-bg: #FFFFFF;
+  /* Swapped: the app ground is white and the Ask AI panel carries the tint, so
+     the panel reads as a surface laid ON the page rather than cut out of it. */
+  /* Fully neutral, not 50%-neutral: the red cast was a single 8-bit level
+     (254/253/253), so halving it rounds straight back to the same colour. Going
+     to a flat grey is the only step the quantisation allows, and 253 keeps it
+     two levels off the white page instead of one. */
+  --zd-chat-panel-bg: #FDFDFD;
+  /* Card surface: a white page with warm
+     light-grey cards and NO stroke — the fill alone separates them. Used by code
+     blocks and the pager cards. */
+  --zd-card-bg: #F9F8F6;
+  /* Home page rhythm — one value per kind of gap, so every section on
+     /docs/home breathes the same. --gap is section to section, --title-gap is
+     an h2 to whatever it introduces. */
+  --zd-home-section-gap: 80px;
+  --zd-home-title-gap: 24px;
+  /* Section descriptions on the home page: 14px / relaxed leading, in the
+     page's own ink. */
+  --zd-home-desc-ink: var(--zd-page-ink);
+  --zd-card-bg-hover: #F3F2EF;
+  /* Stroke for the code frame: the card fill taken ~25 levels down so the block
+     reads as an object on the white page rather than a wash. Deliberately NOT
+     named --zd-card-stroke — that token already exists further down this same
+     :root and, being later, would silently win. */
+  --zd-code-stroke: #E9E7E2;
+  /* Primary rail keeps ONE size in every state (deliberate: the rail reads as a
+     flat list, so only weight and ink move). The selected weight is shared with
+     the secondary nav's selected weight so every level of nav bolds identically.
+     The hidden primaryRailLabelSizer reserves the heavier width, so the rail's
+     fit-content box does not resize when selection moves. */
+  /* The rail runs the SAME metrics as the secondary nav — aliased rather than
+     copied so the two can never drift apart. Weight is already shared via
+     --zd-rail-weight-active -> --zd-sidebar-emphasis-weight. */
+  --zd-rail-size: var(--zd-sidebar-nav-size);
+  --zd-rail-size-active: var(--zd-sidebar-selected-size);
+  --zd-rail-weight: 400;
+  --zd-rail-weight-active: var(--zd-sidebar-emphasis-weight);
+  --zd-page-bg: var(--zd-app-bg);
   --zd-surface-0: #fcfcfb;
   --zd-surface-1: #f7f7f5;
   --zd-surface-2: #f1f1ee;
+  /* ── Chip tabs ──────────────────────────────────────────────────────────
+     One set of values for every chip tab in the product: the docs' own
+     .tabs__item (below), the home's section tabs (Stories) and the home hero's
+     slide tabs. They used to be three near-copies that drifted.
+     The fill is one step darker than --zd-card-bg, in the same warm family: the
+     chips sit on cream cards on the home page, so a cool grey read as foreign,
+     and the old #f0e8d3 read as yellow next to the near-black selected chip. */
+  /* "Copied" feedback on a code block's copy button. Stays in the code chrome's
+     own warm family (the title bar, its hover wash and the active language tab
+     are all this olive) rather than jumping to a blue that belongs to nothing
+     else in the block. */
+  --zd-code-copied-ink: #7a6528;
+  --zd-code-copied-bg: rgba(150, 120, 40, 0.18);
+  /* The hero's data card: one flat tone, a step LIGHTER than --zd-card-bg (the
+     query card's title bar) so the read-only half sits back. */
+  --zd-tab-chip-bg: #F3F2EF;
+  --zd-tab-chip-bg-hover: #EBE9E4;
+  --zd-tab-chip-ink: var(--zd-page-ink);
+  --zd-tab-chip-bg-active: var(--zd-page-ink);
+  --zd-tab-chip-ink-active: #ffffff;
+  /* SAME weight in every state. A heavier selected chip re-measures its own
+     label, so the whole strip shifts as you move between tabs. */
+  --zd-tab-chip-weight: 400;
   --zd-surface-3: #e9e9e4;
   --zd-surface-border-subtle: #eeeeea;
   --zd-surface-border: #e3e3dd;
@@ -47,10 +111,39 @@ body.zdoc-docs-page {
   --ifm-navbar-background-color: var(--zd-sidebar-bg);
   --ifm-navbar-height: 68px;
   --ifm-navbar-shadow: none;
-  /* App canvas stays white; the left docs nav has a separate subtle panel tint. */
-  --zd-app-bg: #ffffff;
-  --zd-sidebar-bg: #ffffff;
-  --zd-doc-panel-bg: #ffffff;
+  /* --zd-app-bg is defined once, above. A second definition lived here and,
+     being later in the same :root, silently won and kept everything white. */
+  --zd-sidebar-bg: var(--zd-app-bg);
+  /* The primary rail sits on its own tinted surface so the SELECTED tile can be
+     the page colour and run straight into the secondary panel — the two columns
+     then read as parent/child rather than as two parallel lists. */
+  /* The rail's rows are taller than the doc tree's: fewer, heavier targets read
+     as the top level. Changing this also shifts the rail's header offset — see
+     .primaryRail[data-hdr] in DocSidebar/styles.module.css. */
+  --zd-rail-item-height: 40px;
+  /* Full-strength accent, same value as the selected label — a solid edge, not a
+     washed-out tint of one. Tracks the accent token so the two never drift. */
+  /* Lighter than --zd-surface-border-subtle: the rail's tint already carries most
+     of the separation, so this only has to hint at the edge. Drives the rail's
+     seam, the selected tile's outline, and the fillet arcs — change it here. */
+  --zd-rail-stroke: #F2F1ED;
+  /* One radius drives the selected tile's left corners, the hover tile, AND the
+     outward fillets that join the tile to the panel (see .primaryRailItemActive
+     ::before/::after in DocSidebar/styles.module.css). Change it here only. */
+  --zd-rail-tab-radius: 9px;
+  /* Space between rows. The doc tree keeps its own tighter --zd-nav-gap. */
+  --zd-rail-gap: 3px;
+  /* A doc-tree row. The rail's hover pill is centred on this height, so hovering
+     a rail entry and hovering a page entry produce the same size shape. */
+  --zd-tree-item-height: 32px;
+  /* How far the hover pill stops short of the panel edge. Invariant: this must
+     stay >= --zd-rail-tab-radius. The selected tile's fillets reach into the
+     neighbouring rows' rightmost `radius` px, and this inset is what keeps the
+     hover pill clear of them. */
+  --zd-rail-hover-inset-x: 9px;
+  --zd-rail-surface: #FAFAFA;
+  --zd-rail-surface-hover: #F1F1F1;
+  --zd-doc-panel-bg: var(--zd-app-bg);
 
   --ifm-font-family-base: 'Geist', system-ui, -apple-system, sans-serif;
   --ifm-heading-font-family: 'Geist', system-ui, -apple-system, sans-serif;
@@ -105,6 +198,9 @@ body.zdoc-docs-page {
   /* One muted-gray text token (Vercel/Geist neutral gray) shared by the secondary
      navbar tabs, the page breadcrumb crumbs, and the right-hand TOC links. */
   --zd-muted-text: #626262;
+  /* Bullet discs. Much lighter than --zd-muted-text on purpose: this is
+     decoration, not text. */
+  --zd-list-marker: #d4d4d4;
   --zd-selection-bg: #6066FD;
   --zd-selection-fg: #ffffff;
   --zd-breadcrumb-link: #333AA1;
@@ -117,17 +213,133 @@ body.zdoc-docs-page {
   --zd-nav-hover-bg: var(--zd-surface-2);
   /* selected navigation surface */
   --zd-nav-active-bg: var(--zd-sidebar-active-bg);
-  --zd-sidebar-active-bg: #f6f4fc;
-  --zd-sidebar-active-bg-sub: var(--zd-note-bg);
-  --zd-sidebar-hover-bg: #f6f4fc;
-  --zd-sidebar-hover-bg-sub: #f6f4fc;
+  --zd-sidebar-active-bg: var(--zd-accent-surface-strong);
+  --zd-sidebar-active-bg-sub: var(--zd-accent-surface-strong);
+  /* One blue-violet, three stops. The base is sampled off the logo gradient
+     (#desktop-logo) ~60% of the way from its violet stop (#9D41FF) toward the
+     blue one (#2858FF) and pulled toward --zd-page-ink so it holds on tinted
+     surfaces. The two derived stops move in LIGHTNESS ONLY — same hue (242deg),
+     so nav, tags and Note text can never drift apart again.
+       --zd-accent-bright  nav selection + doc tags   4.6:1 on the selected pill
+       --zd-accent-deep    Note / banner body text    darker, for running text */
+  --zd-accent: #4B47D7;
+  --zd-accent-bright: #6656E2;
+  --zd-accent-deep: #4443BF;
+  --zd-sidebar-active-accent: var(--zd-accent-bright);
+  /* Emphasis weight. Applied to the active path only (the selected page, the
+     groups containing it, the selected rail entry and topbar tab) — a group is
+     no longer bold just for being a group. */
+  /* 550 needs its own compensation: it runs 3.8% wider than 400 (500 runs only
+     2.6%), so the selected size has to come down 14 / 1.038 = 13.49, not the
+     13.7 that pairs with 500. Change one and the other must follow. */
+  --zd-sidebar-emphasis-weight: 550;
+  /* Weight and size move together. A 550 label runs 3.8% wider than a 400 one
+     (measured across real sidebar labels), so the selected size is set to cancel
+     exactly that: 13.5 / 14 = 0.964. A row therefore occupies the same width
+     selected or not, and switching states cannot nudge the layout. The old
+     13.7px was the same trick tuned for weight 500 (2.5% wider). */
+  --zd-sidebar-nav-size: 14px;
+  --zd-sidebar-selected-size: 13.6px;
+  /* Unselected nav ink, one small step greyer than the ramp stops it sits
+     between (#374151 -> #4b5563 -> #6b7280), so a row recedes further without
+     dropping a whole notch. 8.6:1 and 6.0:1 on white. Categories keep the full
+     page ink — they are the structure, not the contents. */
+  /* THE muted ink. Every unselected label in every navigation surface reads at
+     this one value — topbar tabs, the primary rail, every row of the doc tree
+     (groups included), the breadcrumb, the right-hand TOC — so none of them can
+     drift apart again. 5.6:1 on white. Emphasis is never carried by these; it
+     belongs to the active path alone. */
+  /* Two inks, split by surface rather than by state. Near-black is the
+     section-heading tone and carries the things you navigate WITH — the primary
+     rail, the topbar tabs, every row of the doc tree. The muted grey is left for
+     the things that only tell you where you are: breadcrumb and the right-hand
+     TOC. Selection is colour, never ink weight, on all of them. */
+  --zd-nav-ink-strong: #414346;
+  /* The rail keeps the darker end of the pair — it is the top level, so it may
+     sit a shade heavier than the tree and the topbar beside it. */
+  --zd-rail-ink: #2A2B2D;
+  --zd-nav-muted-ink: #7D8187;
+  /* The doc tree (both columns) reads at full page ink — only the topbar,
+     breadcrumb and right-hand TOC stay muted. Selection there is colour-only,
+     so nothing else about a row changes. */
+  --zd-sidebar-ink: var(--zd-nav-ink-strong);
+  --zd-breadcrumb-ink: var(--zd-nav-muted-ink);
+  --zd-sidebar-doc-ink: var(--zd-nav-muted-ink);
+  --zd-sidebar-doc-ink-nested: var(--zd-nav-muted-ink);
+  /* The breadcrumb is the first thing in the content column and should sit on
+     the same optical line as the first sidebar row. Both columns start at the
+     same y: the sidebar adds 12px pane padding and centres text in a 32px row,
+     putting its baseline block 12 + 16 = 28px down. The breadcrumb's line box is
+     font-size x 1.4, so at 13px it is 18.2px and its top has to be
+     28 - 9.1 = 18.9px. Re-derive this whenever the breadcrumb's size or
+     line-height moves, or the two columns drift apart again. */
+  --zd-doc-col-pad-top: 18.9px;
+  --zd-sidebar-hover-bg: var(--zd-accent-surface);
+  --zd-sidebar-hover-bg-sub: var(--zd-accent-surface);
   --zd-sidebar-active-ink: var(--zd-page-ink);
-  --zd-sidebar-active-weight: 500;
-  --zd-banner-nav-bg: #f0eff8;
-  --zd-banner-nav-ink: #474375;
-  --zd-banner-nav-line: #ddd9ef;
-  --zd-banner-nav-line-strong: #d2cde8;
-  --zd-banner-nav-nested-bg: #ebe9f5;
+  /* Selected state uses the SAME weight as a category row, so a collapsible
+     never changes weight when you navigate into it — that swap was the visible
+     jitter. Nothing on selection changes size either (the old 13.7px active
+     override is gone); only colour moves. */
+  --zd-sidebar-active-weight: var(--zd-sidebar-emphasis-weight);
+  /* One tinted surface behind every "accent-adjacent" block — nav hover rows,
+     Note/Info callouts, banner nav, details. Sampled as ~4.5% of
+     --zd-sidebar-active-accent over white, so it is a wash of the same blue the
+     selected label uses, rather than the older independent violet (#f0eff8 /
+     #f6f4fc): brighter, and its blue channel now leads instead of red. */
+  /* Ask AI input stroke — one definition for both places the box appears (docked
+     under the article, and inside the right chat panel), so they cannot drift.
+     The gradient is the panel's; the docked box used a different teal/indigo
+     pair. Focus thickens the same stroke rather than swapping in another ring.
+     Both stops now come from the brand, not from the old teal/indigo pair. The
+     100% end — which at 196.6deg lands bottom-LEFT on the box — is the selection
+     violet (#6066FD) a touch brighter. The 0% end is the logo's blue stop
+     (#2858FF) lifted toward white and leaned a third of the way to the logo's
+     sky-blue stop (#29B8FF): r92 g155 b255.
+
+     Note if this comes up again: taking it further toward cyan means dropping
+     RED, not raising green. The logo's cyan stops are red-starved (#29B8FF is
+     r41, #00F0FF is r0); with red held around 90 the stop reads as a paler blue
+     no matter how high green goes. */
+  --zd-chat-stroke: linear-gradient(196.6deg, #5C9BFF 0%, #6167F5 100%);
+  --zd-chat-stroke-width: 1px;
+  /* Focus no longer thickens the stroke — it stays 1px in every state. Instead
+     the box gets an outer ring: a 1px breathing gap in the page ground, then a
+     2px grey band. Drawn with two box-shadow spreads (the gap ring paints
+     the ground over the band's inner 2px), so it costs no layout and can
+     transition. */
+  --zd-chat-focus-ring-gap: 1px;
+  --zd-chat-focus-ring-width: 2px;
+  /* The gap shows whatever the box is sitting on; the docked input sits on the
+     app ground, and the panel input overrides this back to white. */
+  --zd-chat-focus-ring-gap-color: var(--zd-app-bg);
+  /* Off the neutral border ramp on purpose: a grey-green, lighter than
+     --zd-surface-border, so the focus ring picks up the green in the box's own
+     hover gradient instead of reading as a plain grey slab. */
+  --zd-chat-focus-ring-color: #F0F3EE;
+  /* Quicker than --zd-hover-duration (0.36s), which is tuned for the big hover
+     glow — the focus ring appearing over that long feels sluggish. */
+  --zd-chat-stroke-duration: 0.22s;
+  --zd-chat-stroke-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Right-hand TOC: its own pair, because its active item is the one that moves
+     while you scroll — every section boundary swaps which entry is heavy. */
+  --zd-toc-size: 13px;
+  /* 13 / 1.026 = 12.67: the TOC's active weight is 500, which runs 2.6% wider
+     than 400, and this cancels it. Measured neutral point across real TOC
+     labels is 12.64-12.73. Re-derive if either the size or the weight moves. */
+  --zd-toc-size-active: 12.8px;
+  --zd-accent-surface: #f4f5fd;
+  /* One notch deeper, for the surface that marks the current page. Kept distinct
+     from the hover wash so hovering a row never looks like selecting it. */
+  --zd-accent-surface-strong: #eceefb;
+  --zd-banner-nav-bg: var(--zd-accent-surface);
+  /* Note/banner body text: the same blue as the accent, lightened ~5% toward
+     white so it reads as running text rather than a link. hsl(231 66% 55%),
+     5.5:1 on --zd-accent-surface. */
+  --zd-banner-nav-ink: var(--zd-accent-deep);
+  --zd-banner-nav-line: #dcdcf3;
+  --zd-banner-nav-line-strong: #cfd0ee;
+  --zd-banner-nav-nested-bg: #ebedf9;
   --zd-note-bg: var(--zd-banner-nav-bg);
   --zd-note-bg-hover: var(--zd-banner-nav-nested-bg);
   --zd-note-ink: var(--zd-banner-nav-ink);
@@ -566,8 +778,24 @@ body {
 /* Left nav sits directly on the canvas — transparent, no card, no dividers. */
 [class*='sidebarViewport'],
 [class*='twoLevelSidebar'],
-[class*='twoLevelSidebar'] [class*='primaryRail'],
 [class*='twoLevelSidebar'] [class*='secondaryPane'] {
+  background: transparent !important;
+}
+
+/* The rail is the only tinted column: the SELECTED tile is then page-coloured
+   and runs straight into the secondary panel, so the two columns read as
+   parent/child instead of as two parallel lists. Solo rails (a flat leaf like
+   "Overview", no panel) have nothing to merge into and stay on the canvas. */
+[class*='twoLevelSidebar'] nav[class*='primaryRail'] {
+  /* The seam is a 1px background stripe on the rail's right edge, not a border:
+     the selected tile reaches that same edge and is opaque, so it paints OVER
+     the stripe — the line runs the full height and simply breaks where the tile
+     merges into the panel, the way a tab notches its strip. */
+  background:
+    linear-gradient(to left, var(--zd-rail-stroke) 0 1px, transparent 1px) no-repeat,
+    var(--zd-rail-surface) !important;
+}
+[class*='twoLevelSidebar'] nav[class*='primaryRail'][data-solo] {
   background: transparent !important;
 }
 
@@ -579,6 +807,9 @@ body {
    rail <nav> only (NOT the nested primaryRail* spans/buttons, which a bare
    [class*='primaryRail'] also matched, drawing stray border lines). Weaker color. */
 [class*='twoLevelSidebar'] nav[class*='primaryRail'] {
+  border-right: 0 !important;
+}
+[class*='twoLevelSidebar'] nav[class*='primaryRail'][data-solo] {
   border-right: 1px solid rgba(238, 238, 234, 0.55) !important;
 }
 
@@ -589,6 +820,10 @@ body {
 [class*='twoLevelSidebar'] [class*='sidebarScroll'] {
   padding-left: 10px !important;
   padding-right: 10px !important;
+}
+
+[class*='twoLevelSidebar'] nav[class*='primaryRail']:not([data-solo]) {
+  padding-right: 0 !important;
 }
 
 /* The whole right block (doc content + right TOC) floats as one white rounded
@@ -611,9 +846,51 @@ body {
   min-width: 0 !important;
 }
 
+/* Wide screens: cap and centre the content + TOC PAIR. Every pixel past the
+   content column's own 68rem cap used to be split into two holes — one between
+   the sidebar and the text, another between the text and the TOC (~420px by
+   2560px wide) — because the auto margins sat on the column, not the row.
+   Capping the row keeps the TOC tucked against the text and moves the surplus
+   outside the pair, where it reads as a page margin.
+   84rem = 68rem content + 16rem TOC, so below ~1700px this does not bind and
+   narrower screens are untouched. !important because the blanket
+   `max-width: 100% !important` above would otherwise win.
+
+   TOC-less pages (the RESTful reference, mostly) get the same cap on purpose,
+   even though nothing fills the right 16rem: their column is capped at 68rem
+   too, so sharing the row keeps the text's left edge in exactly the same place
+   whether or not a page has a TOC — the reading column no longer jumps
+   sideways as you move between them, and the leftover is the empty TOC slot
+   rather than 1092px of nothing at 2560px wide. */
+@media (min-width: 1440px) {
+  [class*='docItemContainer'] [class*='docItemRow'] {
+    max-width: 84rem !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+/* Every home section heading gets the same gap to its content. The components
+   each set their own (.sectionTitle 24px, .items margin-top 40px) and all of
+   them lost to `.markdown h2`'s own 12px !important, so the page ran at 12px in
+   three sections and 52px in two. One rule, one value. */
+.docs-home .markdown h2 {
+  margin-bottom: var(--zd-home-title-gap) !important;
+}
+
+  /* Docs Home opts out: it is a full-bleed landing layout (max-width: none,
+     64px gutters) and the cap shrank it from 2180px to 1344px at 2560px wide.
+     .docs-home sits on the DocRoot wrapper, so this just outranks the rule
+     above rather than trying to express "not the home page" inside it. */
+  .docs-home [class*='docItemContainer'] [class*='docItemRow'] {
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
 [class*='docItemContainer'] [class*='docItemCol'] {
   min-width: 0 !important;
-  padding: 32px 32px 5rem !important;
+  padding: var(--zd-doc-col-pad-top) 32px 5rem !important;
 }
 
 /* Keep the right TOC as content, not as a separated rail. */
@@ -669,18 +946,61 @@ body {
   font-weight: var(--zd-nav-hover-weight) !important;
 }
 
-.theme-doc-sidebar-container [class*='primaryRailItemActive'] {
-  background: var(--zd-nav-active-bg) !important;
+.theme-doc-sidebar-container nav[class*='primaryRail']:not([data-solo]) [class*='primaryRailItemActive'],
+.theme-doc-sidebar-container nav[class*='primaryRail']:not([data-solo]) [class*='primaryRailItemActive']:hover {
+  background: var(--zd-sidebar-bg) !important;
+  /* Rounded on the left, square on the right: the right edge stays flush with
+     the panel so the tile keeps flowing into it. The corners where the two meet
+     curve OUTWARD — see the ::before/::after fillets. */
+  border-radius: var(--zd-rail-tab-radius) 0 0 var(--zd-rail-tab-radius) !important;
+  border-top: 1px solid var(--zd-rail-stroke) !important;
+  border-bottom: 1px solid var(--zd-rail-stroke) !important;
+  border-left: 1px solid var(--zd-rail-stroke) !important;
+  border-right: 0 !important;
+  /* border-box eats 1px off the content edge — give it back so the label does
+     not shift by a pixel when the selection lands on it. */
+  padding-left: calc(0.75rem - 1px) !important;
 }
 
-.theme-doc-sidebar-container [class*='primaryRailItem']:not([class*='primaryRailItemActive']):hover {
+.theme-doc-sidebar-container nav[class*='primaryRail'][data-solo] [class*='primaryRailItemActive'],
+.theme-doc-sidebar-container nav[class*='primaryRail'][data-solo] [class*='primaryRailItemActive']:hover {
+  background: var(--zd-accent-surface) !important;
+}
+
+.theme-doc-sidebar-container nav[class*='primaryRail']:not([data-solo]) [class*='primaryRailItem']:not([class*='primaryRailItemActive']):hover {
+  background: transparent !important;
+  border-radius: 0 !important;
+}
+
+/* Hover is a free-floating pill: rounded on all four corners and held clear of
+   the panel edge, so it never reads as a half-merged tab. It is a pseudo-element
+   rather than the item's own background because the rail has no right padding —
+   the gap has to come from the fill, not from the box. */
+.theme-doc-sidebar-container nav[class*='primaryRail']:not([data-solo])
+  [class*='primaryRailItem']:not([class*='primaryRailItemActive']):hover::before {
+  content: '';
+  position: absolute;
+  inset:
+    calc((var(--zd-rail-item-height) - var(--zd-tree-item-height)) / 2)
+    var(--zd-rail-hover-inset-x)
+    calc((var(--zd-rail-item-height) - var(--zd-tree-item-height)) / 2)
+    0;
+  border-radius: var(--zd-rail-tab-radius);
+  background: var(--zd-rail-surface-hover);
+  pointer-events: none;
+}
+
+.theme-doc-sidebar-container nav[class*='primaryRail'][data-solo] [class*='primaryRailItem']:not([class*='primaryRailItemActive']):hover {
   background: var(--zd-sidebar-hover-bg) !important;
 }
 
-.theme-doc-sidebar-container [class*='primaryRailItem'],
 .theme-doc-sidebar-container [class*='secondarySidebarContent'] .menu__link,
 .theme-doc-sidebar-container [class*='secondarySidebarContent'] .menu__list-item-collapsible {
-  min-height: 32px !important;
+  min-height: var(--zd-tree-item-height) !important;
+}
+
+.theme-doc-sidebar-container [class*='primaryRailItem'] {
+  min-height: var(--zd-rail-item-height) !important;
 }
 
 .theme-doc-sidebar-container .theme-doc-sidebar-item-link-level-2 .menu__link--active,
@@ -695,7 +1015,6 @@ body {
 .theme-doc-sidebar-container [class*='primaryRailItemActive'],
 .theme-doc-sidebar-container .menu__list-item-collapsible > .menu__link--active {
   color: var(--zd-sidebar-active-ink) !important;
-  font-size: 13.7px !important;
   font-weight: var(--zd-sidebar-active-weight) !important;
   font-variation-settings: 'wght' var(--zd-sidebar-active-weight) !important;
 }
@@ -839,17 +1158,15 @@ body {
   font-weight: var(--zd-nav-hover-weight) !important;
 }
 
-.theme-doc-sidebar-container [class*='categoryLinkLabelSizer'],
-.theme-doc-sidebar-container [class*='primaryRailLabelSizer'] {
-  font-size: 14px !important;
-  font-weight: 500 !important;
-  font-variation-settings: 'wght' 500 !important;
+.theme-doc-sidebar-container [class*='categoryLinkLabelSizer'] {
+  font-size: var(--zd-sidebar-selected-size) !important;
+  font-weight: var(--zd-sidebar-active-weight) !important;
+  font-variation-settings: 'wght' var(--zd-sidebar-active-weight) !important;
   opacity: 0 !important;
 }
 
-.theme-doc-sidebar-container [class*='categoryLinkLabelText'],
-.theme-doc-sidebar-container [class*='primaryRailLabelText'] {
-  font-size: 14px !important;
+.theme-doc-sidebar-container [class*='categoryLinkLabelText'] {
+  font-size: var(--zd-sidebar-nav-size) !important;
   font-weight: 400 !important;
   font-variation-settings: 'wght' 400 !important;
   opacity: 1 !important;
@@ -862,19 +1179,54 @@ body {
   opacity: 0 !important;
 }
 
-.theme-doc-sidebar-container .menu__link--active [class*='categoryLinkLabelText'],
+.theme-doc-sidebar-container .menu__link--active [class*='categoryLinkLabelText'] {
+  font-size: var(--zd-sidebar-selected-size) !important;
+  font-weight: var(--zd-sidebar-active-weight) !important;
+  font-variation-settings: 'wght' var(--zd-sidebar-active-weight) !important;
+  opacity: 1 !important;
+}
+
+/* Primary rail unselected. */
+.theme-doc-sidebar-container [class*='primaryRailLabelText'] {
+  font-size: var(--zd-rail-size) !important;
+  font-weight: var(--zd-rail-weight) !important;
+  font-variation-settings: 'wght' var(--zd-rail-weight) !important;
+}
+
+/* The hidden sizer reserves at the SELECTED metrics — the larger size and the
+   heavier weight — so the rail's fit-content width is the same whichever entry
+   is selected. It has to track --zd-rail-size-active, not --zd-rail-size, or the
+   rail narrows and the labels reflow the moment selection grows. */
+.theme-doc-sidebar-container [class*='primaryRailLabelSizer'] {
+  font-size: var(--zd-rail-size-active) !important;
+  font-weight: var(--zd-rail-weight-active) !important;
+  font-variation-settings: 'wght' var(--zd-rail-weight-active) !important;
+}
+
 .theme-doc-sidebar-container [class*='primaryRailItemActive'] [class*='primaryRailLabelText'] {
-  font-size: 13.7px !important;
-  font-weight: 500 !important;
-  font-variation-settings: 'wght' 500 !important;
+  font-size: var(--zd-rail-size-active) !important;
+  font-weight: var(--zd-rail-weight-active) !important;
+  font-variation-settings: 'wght' var(--zd-rail-weight-active) !important;
+}
+
+.theme-doc-sidebar-container [class*='primaryRailLabelSizer'] {
+  opacity: 0 !important;
+}
+
+.theme-doc-sidebar-container [class*='primaryRailLabelText'] {
   opacity: 1 !important;
 }
 
 .theme-doc-sidebar-container .menu__link--active [class*='categoryLinkLabelSizer'],
-.theme-doc-sidebar-container [class*='primaryRailItemActive'] [class*='primaryRailLabelSizer'],
-.theme-doc-sidebar-container .menu__link--active [class*='categoryLinkLabelText'],
-.theme-doc-sidebar-container [class*='primaryRailItemActive'] [class*='primaryRailLabelText'] {
+.theme-doc-sidebar-container .menu__link--active [class*='categoryLinkLabelText'] {
   color: var(--zd-sidebar-active-ink) !important;
+}
+
+/* The selected first-level entry is marked by colour alone now — no surface
+   behind it, matching the selected doc below it. */
+.theme-doc-sidebar-container [class*='primaryRailItemActive'] [class*='primaryRailLabelSizer'],
+.theme-doc-sidebar-container [class*='primaryRailItemActive'] [class*='primaryRailLabelText'] {
+  color: var(--zd-sidebar-active-accent) !important;
 }
 
 .theme-doc-sidebar-container a.menu__link--active {
@@ -892,8 +1244,23 @@ body {
   background: transparent !important;
 }
 
-.theme-doc-sidebar-container [class*='secondarySidebarContent'] .theme-doc-sidebar-item-category > .menu__list-item-collapsible:not(:has(> .menu__link--active)):hover {
+/* Every collapsible row gets the same hover surface. The :not(:has(> .menu__link
+   --active)) guard that used to be here excluded exactly the rows on the active
+   path, so a group went dead on hover the moment you navigated into it while its
+   siblings still lit up. */
+.theme-doc-sidebar-container [class*='secondarySidebarContent'] .theme-doc-sidebar-item-category > .menu__list-item-collapsible:hover {
   background: var(--zd-sidebar-hover-bg-sub) !important;
+}
+
+/* The wrapper owns the row surface, so the link inside must stay transparent —
+   otherwise the label area paints the active tint over the wrapper's hover tint
+   and the row reads as two different colours split at the caret. */
+.theme-doc-sidebar-container [class*='secondarySidebarContent'] .theme-doc-sidebar-item-category > .menu__list-item-collapsible > .menu__link--active {
+  background: transparent !important;
+}
+
+.theme-doc-sidebar-container [class*='secondarySidebarContent'] .theme-doc-sidebar-item-category > .menu__list-item-collapsible--active:has(> .menu__link--active) {
+  background: var(--zd-sidebar-active-bg-sub) !important;
 }
 
 .menu__list-item-collapsible:has(> .menu__link--active) .menu__caret::before {
@@ -933,7 +1300,7 @@ body {
 .theme-doc-sidebar-item-link-level-1 > .menu__link {
   font-size: var(--zd-sidebar-size);
   font-weight: var(--zd-nav-weight);
-  color: var(--zd-linear-signup-ink);
+  color: var(--zd-sidebar-ink);
   letter-spacing: 0;
   text-transform: capitalize;
 }
@@ -954,7 +1321,7 @@ body {
   min-height: 32px;
   padding: 0.375rem 0.625rem;
   font-weight: var(--zd-nav-weight);
-  color: var(--zd-linear-signup-ink);
+  color: var(--zd-sidebar-ink);
 }
 
 /* Level-3 items — deeper indent */
@@ -963,7 +1330,7 @@ body {
   min-height: 32px;
   padding: 0.375rem 0.625rem;
   font-weight: var(--zd-nav-weight);
-  color: var(--zd-linear-signup-ink);
+  color: var(--zd-sidebar-ink);
 }
 
 /* Level-3 items — zero out margin */
@@ -983,14 +1350,14 @@ body {
   min-height: 32px;
   padding: 0.375rem 0.625rem;
   font-weight: var(--zd-nav-weight);
-  color: var(--zd-linear-signup-ink);
+  color: var(--zd-sidebar-ink);
 }
 
 /* Content */
 .markdown {
-  font-size: 16px;
-  /* 16/26 (ratio ≈1.625) — comfortable leading without the tightest 24/1.5. */
-  line-height: 26px;
+  font-size: 15px;
+  /* 15/25 (ratio ≈1.667) — comfortable leading without the tightest 1.5. */
+  line-height: 25px;
   letter-spacing: 0;
   /* near-black body text — matches Vercel's ≈var(--zd-page-ink) (was the grayer var(--zd-page-ink)). */
   color: var(--zd-page-ink);
@@ -1001,12 +1368,17 @@ body {
   text-align: left;
 }
 
-/* Heading ladder — doc title (H1) = 40; in-content section headings start at H2 = 24
-   and step down with visible gaps; the deepest level stays clearly above body 16. */
+/* Heading ladder — doc title (H1) = 42/46.2, a 1.1 leading ratio. Below 996px we
+   drop to 36/39.6. Weight 500: the reference is 450 on a variable face and Geist's
+   nearest step is 500.
+   In-content section headings start at H2 = 30/500/37.5 and step down with visible gaps.
+   Every level below H2 carries weight 500 too: H2 is the lightest of the old 600s,
+   so leaving H3-H6 at 600 would make sub-headings look BOLDER than the section they
+   sit under. The deepest level stays clearly above the 15px body. */
 .markdown h1 {
-  font-size: 34px !important;
-  font-weight: 650 !important;
-  line-height: 42px !important;
+  font-size: 42px !important;
+  font-weight: 500 !important;
+  line-height: 46.2px !important;
   margin-top: 0 !important;
   margin-bottom: 14px !important;
   color: var(--zd-linear-signup-ink);
@@ -1014,19 +1386,19 @@ body {
 }
 
 .markdown h2 {
-  font-size: 24px !important;
-  font-weight: 600 !important;
-  line-height: 32px !important;
+  font-size: 30px !important;
+  font-weight: 500 !important;
+  line-height: 37.5px !important;
   margin-top: 56px !important;
-  margin-bottom: 12px !important;
+  margin-bottom: 16px !important;
   color: var(--zd-linear-signup-ink);
   letter-spacing: 0;
 }
 
 .markdown h3 {
-  font-size: 20px !important;
-  font-weight: 600 !important;
-  line-height: 28px !important;
+  font-size: 24px !important;
+  font-weight: 500 !important;
+  line-height: 32px !important;
   margin-top: 56px !important;
   margin-bottom: 10px !important;
   color: var(--zd-linear-signup-ink);
@@ -1035,7 +1407,7 @@ body {
 
 .markdown h4 {
   font-size: 18px !important;
-  font-weight: 600 !important;
+  font-weight: 500 !important;
   line-height: 26px !important;
   margin-top: 36px !important;
   margin-bottom: 8px !important;
@@ -1046,7 +1418,7 @@ body {
 /* H5 / H6 — rarely used; floor of the ladder, still above the 16px body. */
 .markdown h5 {
   font-size: 17px !important;
-  font-weight: 600 !important;
+  font-weight: 500 !important;
   line-height: 25px !important;
   margin-top: 22px !important;
   margin-bottom: 6px !important;
@@ -1056,7 +1428,7 @@ body {
 
 .markdown h6 {
   font-size: 16px !important;
-  font-weight: 600 !important;
+  font-weight: 500 !important;
   line-height: 24px !important;
   margin-top: 20px !important;
   margin-bottom: 6px !important;
@@ -1067,7 +1439,7 @@ body {
 .markdown p {
   margin-top: 0;
   margin-bottom: 20px;
-  line-height: 26px;
+  line-height: 25px;
 }
 
 .markdown p:has(+ ul),
@@ -1100,11 +1472,12 @@ body {
   line-height: 24px;
 }
 
-/* Bullet disc: black, sized to exactly match Linear's disc. Linear renders the
-   native disc at a 15px marker font; the UA disc is browser-drawn (font-agnostic),
-   so 15px here is pixel-identical to Linear's bullet. */
+/* Bullet disc: grey, not the page ink — the dot marks the item, the words carry
+   it. Sized to exactly match Linear's disc: Linear renders the native
+   disc at a 15px marker font, and the UA disc is browser-drawn (font-agnostic), so
+   15px here is pixel-identical to Linear's bullet. */
 .markdown ul li::marker {
-  color: var(--zd-page-ink);
+  color: var(--zd-list-marker);
   font-size: 15px;
 }
 
@@ -1218,9 +1591,15 @@ body {
 .markdown [class*='step_']:not(:last-child)::after {
   content: '';
   position: absolute;
-  left: 15px;
-  top: 36px;
-  bottom: 6px;
+  /* 14px = the 28px circle's centre. 15 put the rule half a pixel off-axis. */
+  left: 14px;
+  /* Flush with the circle above (28px tall, flush to the step's top) and running
+     to the step's bottom edge, which IS the next circle's top — steps are
+     adjacent, no margin between them. It used to start 8px low and stop 6px
+     short, so the thread read as a row of disconnected stubs.
+     NOTE: this duplicates Procedures/styles.module.css and outranks it. */
+  top: 28px;
+  bottom: 0;
   width: 0.5px;
   background: var(--procedure-line-color);
   transform: translateX(-50%);
@@ -1243,18 +1622,18 @@ body {
 
 @media (max-width: 996px) {
   .markdown h1 {
-    font-size: 30px !important;
-    line-height: 38px !important;
+    font-size: 36px !important;
+    line-height: 39.6px !important;
   }
 
   .markdown h2 {
-    font-size: 22px !important;
-    line-height: 30px !important;
+    font-size: 26px !important;
+    line-height: 34px !important;
   }
 
   .markdown h3 {
-    font-size: 19px !important;
-    line-height: 27px !important;
+    font-size: 22px !important;
+    line-height: 30px !important;
   }
 
   .markdown h4 {
@@ -1263,10 +1642,21 @@ body {
   }
 }
 
-/* Home page — smaller h1 (it's a landing overview, not a deep-dive doc) */
+/* Home page h1 — 48/52.8. This selector
+   outranks Hero/styles.module.css's own .textArea h1, so the size lives here;
+   the module keeps weight, tracking and margin. */
 .docs-doc-id-tutorials\/home .markdown h1 {
-  font-size: 36px !important;
-  line-height: 44px !important;
+  font-size: 48px !important;
+  line-height: 52.8px !important;
+}
+
+/* The phone override has to live on this selector too — Hero's own media query
+   is less specific and 48px would otherwise carry down to 430px. */
+@media (max-width: 996px) {
+  .docs-doc-id-tutorials\/home .markdown h1 {
+    font-size: 32px !important;
+    line-height: 38px !important;
+  }
 }
 
 /* Docs typography should use normal tracking, matching Claude docs rather than tight Vercel-style titles. */
@@ -1481,9 +1871,9 @@ pre {
   border: none !important;
   border-radius: 999px !important;
   font-size: 14px !important;
-  font-weight: 400 !important;
-  background: var(--zd-surface-1) !important;
-  color: var(--zd-linear-signup-ink) !important;
+  font-weight: var(--zd-tab-chip-weight) !important;
+  background: var(--zd-tab-chip-bg) !important;
+  color: var(--zd-tab-chip-ink) !important;
   line-height: 1.5;
   transition: background 0.15s ease, color 0.15s ease;
 }
@@ -1493,20 +1883,20 @@ pre {
   display: none !important;
 }
 .tabs-container:is(:not(:has([role="tabpanel"] > [class*="windowFrame"]:first-child)), :has(.tabs-container)) > .tabs > .tabs__item:hover:not(.tabs__item--active) {
-  background: var(--zd-surface-2) !important;
-  color: var(--zd-linear-signup-ink) !important;
+  background: var(--zd-tab-chip-bg-hover) !important;
+  color: var(--zd-tab-chip-ink) !important;
 }
 /* the active chip is not interactive — keep its fill on hover, default cursor */
 .tabs-container:is(:not(:has([role="tabpanel"] > [class*="windowFrame"]:first-child)), :has(.tabs-container)) > .tabs > .tabs__item--active:hover {
-  background: var(--zd-page-ink) !important;
+  background: var(--zd-tab-chip-bg-active) !important;
   cursor: default;
 }
 
 /* active chip → dark gray-coffee fill, white text */
 .tabs-container:is(:not(:has([role="tabpanel"] > [class*="windowFrame"]:first-child)), :has(.tabs-container)) > .tabs > .tabs__item--active {
-  background: var(--zd-page-ink) !important;
-  color: #ffffff !important;
-  font-weight: 500 !important;
+  background: var(--zd-tab-chip-bg-active) !important;
+  color: var(--zd-tab-chip-ink-active) !important;
+  font-weight: var(--zd-tab-chip-weight) !important;
   border: none !important;
   box-shadow: none !important;
 }
@@ -1909,9 +2299,9 @@ body.zd-search-open [class*='floatingChatBackdrop'] {
 }
 
 .table-of-contents__link {
-  color: var(--zd-muted-text);
-  font-size: 13px;
-  font-weight: 500;
+  color: var(--zd-nav-muted-ink);
+  font-size: var(--zd-toc-size);
+  font-weight: 400;
   /* tight line spacing WITHIN a wrapped item; the vertical padding below opens a
      clearly larger gap BETWEEN items so each entry reads as a distinct block */
   line-height: 1.25;
@@ -1932,6 +2322,7 @@ body.zd-search-open [class*='floatingChatBackdrop'] {
 .table-of-contents__link--active,
 .table-of-contents__link--active:hover {
   color: var(--zd-gray-900) !important;
+  font-size: var(--zd-toc-size-active);
   font-weight: 500;
 }
 
@@ -1992,46 +2383,42 @@ body.zd-search-open [class*='floatingChatBackdrop'] {
    the last crumb (current page) is black and has no click/hover interaction. */
 nav[aria-label="Breadcrumb"] a,
 nav[aria-label="Breadcrumb"] span {
-  font-size: 14px;
-  font-weight: 450 !important;
-  color: var(--zd-muted-text);
+  font-size: 13px;
+  font-weight: 400 !important;
+  color: var(--zd-breadcrumb-ink);
 }
 
 nav[aria-label="Breadcrumb"] a {
-  color: var(--zd-breadcrumb-link) !important;
-  text-decoration-line: underline;
-  text-decoration-thickness: 1px;
-  text-decoration-color: transparent;
-  text-underline-offset: 4px;
+  color: var(--zd-breadcrumb-ink) !important;
+  text-decoration-line: none;
 }
 
 nav[aria-label="Breadcrumb"] a:hover {
-  color: var(--zd-breadcrumb-link-hover) !important;
-  text-decoration-color: currentColor;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 5px;
+  color: var(--zd-nav-ink-strong) !important;
+  text-decoration-line: none;
 }
 
-nav[aria-label="Breadcrumb"] a:nth-of-type(1) {
-  color: var(--zd-muted-text) !important;
+/* Every crumb but the current one is muted. Was two nth-of-type rules, which
+   silently stopped covering the trail once a page sat more than three levels
+   deep; :not(:last-child) is depth-independent. */
+nav[aria-label="Breadcrumb"] a:not(:last-child) {
+  color: var(--zd-breadcrumb-ink) !important;
 }
 
-nav[aria-label="Breadcrumb"] a:nth-of-type(1):hover {
-  color: var(--zd-page-ink) !important;
+/* Hover darkens to the nav's near-black — colour only, no underline. The accent
+   is reserved for "you are here"; a crumb is somewhere you can go, not where
+   you are. */
+nav[aria-label="Breadcrumb"] a:not(:last-child):hover {
+  color: var(--zd-nav-ink-strong) !important;
+  text-decoration-line: none;
 }
 
-nav[aria-label="Breadcrumb"] a:nth-of-type(2) {
-  color: var(--zd-muted-text) !important;
-}
-
-nav[aria-label="Breadcrumb"] a:nth-of-type(2):hover {
-  color: var(--zd-page-ink) !important;
-}
-
+/* The deepest crumb is an ancestor group, not the current page (the page is the
+   H1 below), so it gets no extra weight or ink — the whole trail reads as one
+   muted line. It stays clickable; killing pointer-events would leave a real
+   destination looking dead. */
 nav[aria-label="Breadcrumb"] > :last-child {
-  color: var(--zd-breadcrumb-current) !important;
-  pointer-events: none;
-  cursor: default;
+  color: var(--zd-breadcrumb-ink) !important;
 }
 
 nav[aria-label="Breadcrumb"] span[class*='pageBreadcrumbSeparator'] {
@@ -2189,6 +2576,21 @@ nav[aria-label="Breadcrumb"] span[class*='pageBreadcrumbSeparator'] {
   background-color: currentColor;
   -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 17H7A5 5 0 0 1 7 7h2'/%3E%3Cpath d='M15 7h2a5 5 0 1 1 0 10h-2'/%3E%3Cline x1='8' x2='16' y1='12' y2='12'/%3E%3C/svg%3E") center / contain no-repeat;
   mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 17H7A5 5 0 0 1 7 7h2'/%3E%3Cpath d='M15 7h2a5 5 0 1 1 0 10h-2'/%3E%3Cline x1='8' x2='16' y1='12' y2='12'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* Clicking the anchor also copies its link (clientModules/hashLinkCopy.js) — the
+   chain swaps to a check for ~1.6s to acknowledge the copy. Opacity is forced on
+   because the pointer usually leaves the heading right after the click, which
+   would otherwise fade the confirmation out before it is read. */
+.hash-link.zd-hash-copied {
+  opacity: 1;
+  color: var(--zd-page-ink);
+}
+/* Only the mask IMAGE is swapped — position/size/repeat still come from the
+   shorthand on .hash-link::before. */
+.hash-link.zd-hash-copied::before {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
 }
 
 /* Mobile secondary menu — flex column so toolbar pins to bottom */
@@ -2687,7 +3089,9 @@ nav[aria-label="Breadcrumb"] span[class*='pageBreadcrumbSeparator'] {
   transition:
     background-color var(--zd-hover-duration) var(--zd-hover-ease),
     color var(--zd-hover-duration) var(--zd-hover-ease);
-  border-radius: 10px;
+  /* Square: these rows run the full width of the panel, so a rounded highlight
+     floats inside a band it is supposed to fill. */
+  border-radius: 0;
 }
 
 .mobile-action-link:hover {
@@ -2711,29 +3115,48 @@ nav[aria-label="Breadcrumb"] span[class*='pageBreadcrumbSeparator'] {
   color: #175fff !important;
 }
 
-.mobile-language-links {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  border-top: 1px solid var(--zd-surface-border);
+/* Language row: looks like every other row, but a transparent native <select>
+   covers it so the tap opens the OS picker. */
+.mobile-language-row {
+  position: relative;
 }
 
-.mobile-language-links .mobile-action-link {
-  justify-content: center;
+.mobile-language-caret {
+  display: inline-flex;
+  margin-left: auto;
+  opacity: 0.5;
 }
 
-.mobile-language-links .mobile-action-link + .mobile-action-link {
-  border-left: 1px solid var(--zd-surface-border);
+.mobile-language-select {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  border: 0;
+  background: transparent;
+  appearance: none;
+  -webkit-appearance: none;
+  /* < 16px makes iOS zoom the page when the control takes focus. */
+  font-size: 16px;
+  cursor: pointer;
 }
 
 @media (max-width: 767px) {
-  /* Mobile actions live in the full-width hamburger panel. */
+  /* Mobile actions live in the full-width hamburger panel — except Sign Up Free,
+     which stays in the bar as the one visible call to action. The language
+     switcher is the opposite: it is the widest of these and was landing on top
+     of the wordmark, so it lives in the panel only (hidden by the Navbar module
+     at this same breakpoint). */
   .navbar-support-link,
   .navbar-askai-wrap,
   .navbar-login-link,
   .navbar-search-wrap,
   .navbar-medium-actions,
   .navbar-action-divider,
-  .navbar-signup-btn {
+  .navbar-language-dropdown {
     display: none !important;
   }
 
@@ -2924,8 +3347,8 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
 .alert--info {
   /* colors sampled from the reference note image */
   --ifm-alert-background-color: var(--zd-note-bg);
-  --ifm-alert-foreground-color: #494592;
-  --ifm-alert-border-color: #dcd7f4;
+  --ifm-alert-foreground-color: var(--zd-note-ink);
+  --ifm-alert-border-color: var(--zd-note-line);
   --zd-alert-code-bg: var(--zd-note-nested-bg);
   --zd-alert-code-border: var(--zd-note-line-strong);
   --zd-banner-code-bg: var(--zd-alert-code-bg);

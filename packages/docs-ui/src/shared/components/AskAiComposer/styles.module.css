@@ -1,0 +1,189 @@
+/* The Ask AI composer's skin, shared by every place that offers the box. Moved
+   here from DocRoot/Layout/styles.module.css, which now keeps only the docked
+   instance's POSITIONING (fixed, content-column alignment, breakpoints) on its
+   own .floatingChatInput class — the two classes sit on the same <form>.
+
+   No `position` below on purpose: the caller establishes the containing block
+   that the two pseudo-element rings need (the dock is position:fixed and gives
+   them one). An in-flow caller passes `inFlow` for .composerFlow instead —
+   keeping both classes in THIS file makes the cascade order deterministic,
+   which a `position` declared in the caller's own module would not be. */
+.composer {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.25rem;
+  min-height: 89px;
+  padding: 0.875rem 0.75rem 0.625rem 1rem;
+  color: var(--zd-gray-600);
+  background: #ffffff;
+  border: 1px solid var(--zd-surface-border);
+  border-radius: 24px;
+  transition:
+    border-color var(--zd-hover-duration) var(--zd-hover-ease),
+    box-shadow var(--zd-chat-stroke-duration) var(--zd-chat-stroke-ease);
+  /* Whole box is a click-to-type hot zone, so the text caret over the entire
+     area (the send button overrides with pointer). */
+  cursor: text;
+}
+
+.composerFlow {
+  position: relative;
+}
+
+.composer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 8px;
+  border-radius: inherit;
+  background: linear-gradient(169deg, #DFE3FF 0%, #EBFFFB 59.8732%, #FFEAD0 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.24s ease,
+    inset 0s linear 0.24s,
+    border-radius 0s linear 0.24s;
+}
+
+.composer:hover::before {
+  inset: -8px;
+  border-radius: 32px;
+  opacity: 1;
+  /* soften the outer edge so the colored ring fades out to white */
+  filter: blur(3.5px);
+  transition:
+    inset 0.36s cubic-bezier(0.22, 1, 0.36, 1),
+    border-radius 0.36s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.24s ease;
+}
+
+/* 1px inner stroke: default gray border; hover/focus gets the green/blue gradient. */
+.composer::after {
+  content: '';
+  position: absolute;
+  inset: calc(-1 * var(--zd-chat-stroke-width));
+  padding: var(--zd-chat-stroke-width);
+  border-radius: inherit;
+  background: var(--zd-chat-stroke);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--zd-hover-duration) var(--zd-hover-ease);
+}
+
+.composer:hover::after,
+.composer:focus-within::after {
+  opacity: 1;
+}
+
+/* `flat`: the 1px gradient stroke (::after) stays — that is the coloured stroke.
+   The blurred halo (::before) does not. The docked composer turns this on when
+   it sits on its home-page plate, where the halo spreads 8px into the 3px gap
+   around the box and washes the plate's indigo out to pastel. */
+.composerFlat:hover::before,
+.composerFlat:focus-within::before {
+  opacity: 0;
+}
+
+.composer:hover,
+.composer:focus-within {
+  border-color: transparent;
+}
+
+/* Focus ring: 2px of page ground outside the 1px stroke, then a 4px grey band. */
+.composer:focus-within {
+  box-shadow:
+    0 0 0 var(--zd-chat-focus-ring-gap) var(--zd-chat-focus-ring-gap-color),
+    0 0 0 calc(var(--zd-chat-focus-ring-gap) + var(--zd-chat-focus-ring-width))
+      var(--zd-chat-focus-ring-color);
+}
+
+/* `flat` also drops the grey focus ring: on the plate it is a second frame
+   drawn just outside the first. Doubled class so it wins on specificity rather
+   than on source order. Everywhere else the ring is untouched. */
+.composer.composerFlat:focus-within {
+  box-shadow: none;
+}
+
+.composer input {
+  flex: 0 0 auto;
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--zd-linear-signup-ink);
+  font-size: 14px !important;
+  line-height: 1.4;
+}
+
+.composer input::placeholder {
+  font-size: 14px !important;
+  color: #a4a4a4;
+}
+
+.composer input:disabled {
+  opacity: 0.5;
+}
+
+/* Footer pinned to the bottom-right: hint + send button */
+.footer {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* Shortcut hint — plain text (override Infima's <kbd> border/bg/shadow),
+   hidden once the input is focused */
+.kbd {
+  flex-shrink: 0;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--zd-gray-400);
+  line-height: 1;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.composer:focus-within .kbd {
+  display: none;
+}
+
+.composer button {
+  width: 1.75rem;
+  height: 1.75rem;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  background: #b6b6b6;
+  border: 0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition:
+    background var(--zd-hover-duration) var(--zd-hover-ease),
+    color var(--zd-hover-duration) var(--zd-hover-ease);
+}
+
+/* Once there is text to send, the box darkens; arrow stays white */
+.composer button:not(:disabled) {
+  background: var(--zd-page-ink);
+  color: #ffffff;
+}
+
+.composer button:disabled {
+  cursor: default;
+}

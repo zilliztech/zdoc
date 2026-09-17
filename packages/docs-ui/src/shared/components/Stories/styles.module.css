@@ -1,9 +1,12 @@
+/* Home sections sit flush in the doc's own content box, exactly like body text
+   on any other page — the breadcrumb above them marks that same left edge. The
+   old 996px auto-centred container indented every section ~65px from it, so the
+   home page read as offset against the rest of the docs. */
 .stories {
     display: block;
     width: 100%;
-    max-width: 996px;
-    margin: 80px auto 0;
-    padding: 0 20px;
+    margin: var(--zd-home-section-gap) 0 0;
+    padding: 0;
 }
 
 .eyebrow {
@@ -16,61 +19,70 @@
     line-height: 1 !important;
 }
 
-.stories h1 {
-    font-size: 32px !important;
-    line-height: 40px !important;
-    font-weight: 700 !important;
-    margin-bottom: 40px;
+.stories h2 {
+    /* No size of its own: a section heading here is the same h2 the rest of the
+       docs render, so the home page's sections match an article's sections. */
+    margin-bottom: 24px;
 }
 
+/* The docs have exactly two tab forms: underline tabs inside a code block, and
+   chip tabs everywhere else (see .tabs__item in apps/docs/src/css/custom.css).
+   These sit above a step list, not a code block, so they take the chip form
+   rather than inventing a third underline style. */
 .storiesList {
     display: flex;
+    flex-wrap: wrap;
     justify-content: flex-start;
     align-items: center;
-    gap: 28px;
-    flex-wrap: nowrap;
-    border-bottom: 1px solid var(--zd-surface-border);
+    gap: 8px;
+    border-bottom: none;
     overflow: visible;
     padding: 0 !important;
-    padding-left: 0 !important;
-    margin: 0 !important;
+    margin: 0 0 8px !important;
     list-style: none;
 }
 
 .storiesList li {
-    margin-top: 0 !important;
+    margin: 0 !important;
     display: flex;
     align-items: center;
     cursor: pointer;
-    font-size: 15px !important;
-    line-height: 22px !important;
-    font-weight: 600 !important;
-    color: var(--zd-muted-text);
-    padding-bottom: 12px;
-    margin-bottom: -1px;
+    padding: 5px 14px;
+    border: none;
+    border-radius: 999px;
+    background: var(--zd-tab-chip-bg);
+    font-family: var(--ifm-font-family-base);
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+    font-weight: var(--zd-tab-chip-weight) !important;
+    color: var(--zd-tab-chip-ink);
     position: relative;
     white-space: nowrap;
-    transition: color 0.2s ease;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+/* Docusaurus spaces stacked list items (`.markdown li + li { margin-top }`), which
+   here pushed every chip except the first down by 8px — with align-items:center the
+   first one then sat 4px proud of the row. */
+ul.storiesList li + li {
+    margin-top: 0 !important;
 }
 
 .storiesList li:hover {
-    color: var(--zd-linear-signup-ink);
+    background: var(--zd-tab-chip-bg-hover);
+    color: var(--zd-tab-chip-ink);
 }
 
-.active {
-    color: var(--zd-linear-signup-ink) !important;
+.active,
+.active:hover {
+    background: var(--zd-tab-chip-bg-active) !important;
+    color: var(--zd-tab-chip-ink-active) !important;
+    font-weight: var(--zd-tab-chip-weight) !important;
+    cursor: default;
 }
 
 .active::after {
-    content: '';
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: var(--zd-linear-signup-ink);
-    border-radius: 1px;
-    animation: activeUnderline 0.25s ease-out;
+    display: none;
 }
 
 .dropdownWrapper {

@@ -12,6 +12,7 @@ vi.mock('@docusaurus/useDocusaurusContext', () => ({
         site: siteState.current,
       },
     },
+    i18n: {currentLocale: 'en'},
   }),
 }));
 

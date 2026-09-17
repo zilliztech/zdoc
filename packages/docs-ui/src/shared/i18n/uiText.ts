@@ -67,6 +67,8 @@ export interface DocsUiText {
     stop: string;
     stopResponse: string;
     panelLabel: string;
+    /** Sits above the docked composer on the home page. */
+    dockPrompt: string;
     askAi: string;
     askAiAboutCode: string;
     codeSnippet: string;
@@ -98,9 +100,11 @@ export interface DocsUiText {
   notFound: {
     pageTitle: string;
     heading: string;
-    assistantSubtitle: string;
+    assistantGreeting: string;
     fallbackSubtitle: string;
-    backToDocs: string;
+    /** Same line for the stacked layout, where the card is below, not beside. */
+    fallbackSubtitleStacked: string;
+    backToHome: string;
     thinking: string;
     suggestions: readonly string[];
   };
@@ -131,6 +135,10 @@ export interface DocsUiText {
     forAgents: string;
     copyJson: string;
     goTo: (label: string) => string;
+    dataCaption: string;
+    codeCaption: string;
+    examplesTitle: string;
+    plansTitle: string;
   };
   featureNote: {regionAvailability: string; planAvailability: string};
 }
@@ -197,6 +205,7 @@ const english: DocsUiText = {
     stop: 'Stop',
     stopResponse: 'Stop response',
     panelLabel: 'Zilliz Copilot',
+    dockPrompt: "Can't find what you're looking for? Ask AI now",
     askAi: 'Ask AI',
     askAiAboutCode: 'Ask AI about this code',
     codeSnippet: 'Code snippet',
@@ -262,9 +271,12 @@ const english: DocsUiText = {
   notFound: {
     pageTitle: 'Page Not Found',
     heading: 'Page not found',
-    assistantSubtitle: "I can help you find what you're looking for",
-    fallbackSubtitle: "We couldn't find what you were looking for",
-    backToDocs: 'Back to documentation',
+    assistantGreeting: 'What can I help you find?',
+    fallbackSubtitle:
+      "This page doesn't exist or has been moved. Ask AI on the right can help you find what you're after, or head back home.",
+    fallbackSubtitleStacked:
+      "This page doesn't exist or has been moved. Ask AI below can help you find what you're after, or head back home.",
+    backToHome: 'Back to home',
     thinking: 'thinking...',
     suggestions: [
       'How do I get started with Zilliz Cloud?',
@@ -299,6 +311,10 @@ const english: DocsUiText = {
     forAgents: 'For agents',
     copyJson: 'Copy JSON',
     goTo: label => `Go to ${label}`,
+    dataCaption: 'Data',
+    codeCaption: 'Query',
+    examplesTitle: 'See it in code',
+    plansTitle: 'Choose how to deploy',
   },
   featureNote: {regionAvailability: 'Region availability', planAvailability: 'Plan availability'},
 };
@@ -365,6 +381,7 @@ const chinese: DocsUiText = {
     stop: '停止',
     stopResponse: '停止生成',
     panelLabel: 'Zilliz AI 助手',
+    dockPrompt: '没有找到你要的内容？立即 Ask AI',
     askAi: '询问 AI',
     askAiAboutCode: '向 AI 询问这段代码',
     codeSnippet: '代码片段',
@@ -430,9 +447,10 @@ const chinese: DocsUiText = {
   notFound: {
     pageTitle: '找不到页面',
     heading: '找不到页面',
-    assistantSubtitle: '我可以帮你查找需要的文档',
-    fallbackSubtitle: '没有找到你要访问的页面',
-    backToDocs: '返回文档首页',
+    assistantGreeting: '需要我帮你找什么？',
+    fallbackSubtitle: '该页面不存在或已被移动。可以让右侧的 Ask AI 帮你找到需要的内容，或返回首页。',
+    fallbackSubtitleStacked: '该页面不存在或已被移动。可以让下方的 Ask AI 帮你找到需要的内容，或返回首页。',
+    backToHome: '返回首页',
     thinking: '思考中...',
     suggestions: [
       '如何开始使用 Zilliz Cloud？',
@@ -467,6 +485,10 @@ const chinese: DocsUiText = {
     forAgents: 'AI Agent 使用',
     copyJson: '复制 JSON',
     goTo: label => `前往${label}`,
+    dataCaption: '数据',
+    codeCaption: '查询',
+    examplesTitle: '看看代码怎么写',
+    plansTitle: '选择部署方式',
   },
   featureNote: {regionAvailability: '区域可用性', planAvailability: '套餐可用性'},
 };
@@ -539,6 +561,7 @@ const japanese: DocsUiText = {
     stop: '停止',
     stopResponse: '生成を停止',
     panelLabel: 'Zilliz Copilot',
+    dockPrompt: 'お探しの情報が見つかりませんか？今すぐ AI に質問',
     askAi: 'AI に質問',
     askAiAboutCode: 'このコードについて AI に質問',
     codeSnippet: 'コードスニペット',
@@ -604,9 +627,10 @@ const japanese: DocsUiText = {
   notFound: {
     pageTitle: 'ページが見つかりません',
     heading: 'ページが見つかりませんでした',
-    assistantSubtitle: 'お探しの情報が見つからない場合はお手伝いします',
-    fallbackSubtitle: 'お探しのページは見つかりませんでした',
-    backToDocs: 'ドキュメントに戻る',
+    assistantGreeting: '何をお探しですか？',
+    fallbackSubtitle: 'このページは存在しないか、移動されました。右側の Ask AI に聞くか、ホームに戻ってください。',
+    fallbackSubtitleStacked: 'このページは存在しないか、移動されました。下の Ask AI に聞くか、ホームに戻ってください。',
+    backToHome: 'ホームに戻る',
     thinking: '考え中...',
     suggestions: [
       'Zilliz Cloud の使い始め方を教えて',
@@ -641,6 +665,10 @@ const japanese: DocsUiText = {
     forAgents: 'AI エージェント向け',
     copyJson: 'JSON をコピー',
     goTo: label => `${label} へ移動`,
+    dataCaption: 'データ',
+    codeCaption: 'クエリ',
+    examplesTitle: 'コードで見る',
+    plansTitle: 'デプロイ方法を選ぶ',
   },
   featureNote: {regionAvailability: 'リージョンでの提供状況', planAvailability: 'プランでの提供状況'},
 };
