@@ -33,14 +33,14 @@
     "31-storage-integration-v2.json": "6fee998964b6df4617db8d9fa6d0887ab007b4c24d6647aed040093cb8b3f4a0",
     "32-spark-job-v2.json": "fd4cf8ae10c924fbf233539ba1834afc7cd84742f8b59264cb57dfb92f985c72",
     "33-on-demand-cluster-operations-v2.json": "f70a2f9473dcd15c2a52e4626f8ceafb8f489641ff7705c362cea1640fb0a06d",
-    "34-cloud-access-control-operations-v2.json": "636ca397799796e3b38842437784e0fd04561322d5ababb88a42ce0ed71f7660",
+    "34-cloud-access-control-operations-v2.json": "bb13285235f07c97fdf84c29d7c757f31322a1ca7c5dbb5ae28b4ae6beefcfb9",
     "35-cloud-api-key-operations-v2.json": "f900ad3aa066c341734186b60280a96f5eef8c44390388fa6480049a80ab3cf8",
     "36-private-endpoint-operations-v2.json": "142740e95ce9ee40712741f696baee42e59d436a7fca9f44c8640189dde2b614",
     "37-file-resource-operations-v2.json": "d755fd130770975abf11d5999eb6795811265d33a04665f0889ec276408e9a3e",
     "38-snapshot-operations-v2.json": "dd6bb190299dffe91f7ccd922e7c0cc5e8d7f9b2da7bd1ed43757f4dd3990921"
   },
-  "generatedAt": "2026-09-16T18:23:35.175Z",
+  "generatedAt": "2026-09-17T01:47:23.518Z",
   "locale": "ja-JP",
   "schemaVersion": 1,
-  "toolingSha": "9382912f228ed9f34faec97484b8c487a6556c38"
+  "toolingSha": "e381ef89eaba5d7f128b52580352195c54aa06a5"
 }
