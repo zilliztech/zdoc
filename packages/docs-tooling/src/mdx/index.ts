@@ -17,7 +17,6 @@ export const {
   convertHtmlCommentsToMdx,
   findUnnormalizedCodeTags,
   findMalformedProceduresBlocks,
-  escapeMathBraces,
   escapeHtmlElementBraces,
   escapePlainTextBraces,
   escapeNonHtmlTags,

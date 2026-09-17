@@ -87,6 +87,24 @@ test('selector maps shared MDX normalization to its regression and aggregate rep
   assert.equal(selected.commands.includes('pnpm test:workflow-policy'), true)
 })
 
+test('selector maps the MDX adapter surface to its export-contract test', () => {
+  const selected = selectTests([
+    'packages/docs-tooling/src/mdx/index.ts',
+    'packages/docs-tooling/src/mdx/cli.test.ts',
+  ])
+  assert.deepEqual(selected.areas.map(area => area.id), ['mdx-validator-adapter'])
+  assert.equal(selected.commands.includes('pnpm vitest run packages/docs-tooling/src/mdx/cli.test.ts'), true)
+  assert.equal(selected.commands.includes('pnpm test:workflow-policy'), true)
+  assert.equal(selected.commands.includes('pnpm test:replay:all'), false)
+})
+
+test('selector maps staged REST sidebar derivation to its inventory test', () => {
+  const selected = selectTests(['packages/docs-tooling/src/reference/restSidebarDerivation.ts'])
+  assert.deepEqual(selected.areas.map(area => area.id), ['rest-sidebar-language-inventory'])
+  assert.equal(selected.commands.includes('pnpm vitest run packages/docs-tooling/src/reference/restSidebarDerivation.test.ts'), true)
+  assert.equal(selected.commands.includes('pnpm test:rest-publication-contract'), true)
+})
+
 test('selector maps REST OpenAPI fragments to publication and integrated-spec checks', () => {
   const selected = selectTests([
     'packages/docs-tooling/src/reference/rest/meta/openapi/32-spark-job-v2.json',
