@@ -1472,7 +1472,7 @@ class larkDocWriter {
         `sidebar_label: ${this.__yaml_string(sidebar_label ? sidebar_label : title)}` + '\n' +
         `beta: ${beta ? beta : 'FALSE'}` + '\n' +
         `notebook: ${notebook ? notebook : 'FALSE'}` + '\n' +
-        `${channel === 'next' ? 'channel: next\n' : ''}` +
+        `${channel === 'next' ? 'channel: next\nsidebar_custom_props:\n  channel: next\n' : ''}` +
         `description: ${this.__yaml_string(`${description} | ${suffix}`)}` + '\n' +
         `type: ${type}` + '\n' +
         `token: ${token}` + '\n' +

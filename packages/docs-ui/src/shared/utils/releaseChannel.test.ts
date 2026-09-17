@@ -1,7 +1,5 @@
-import {describe, expect, it, vi} from 'vitest';
+import {describe, expect, it} from 'vitest';
 import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
-
-vi.mock('@docusaurus/useIsBrowser', () => ({default: () => true}));
 
 import {
   filterNextChannelSidebarItems,
@@ -9,6 +7,7 @@ import {
   isNextChannelSidebarItem,
   normalizeReleaseChannel,
   runtimeReleaseChannel,
+  sidebarPathIsNextChannel,
 } from './releaseChannel';
 
 describe('normalizeReleaseChannel', () => {
@@ -97,5 +96,39 @@ describe('filterNextChannelSidebarItems', () => {
         items: [docItem('mixed/stable')],
       },
     ]);
+  });
+});
+
+describe('sidebarPathIsNextChannel', () => {
+  const items: PropSidebarItem[] = [
+    {type: 'doc', id: 'stable', label: 'Stable', href: '/docs/stable'} as unknown as PropSidebarItem,
+    {
+      type: 'doc',
+      id: 'preview',
+      label: 'Preview',
+      href: '/docs/preview',
+      customProps: {channel: 'next'},
+    } as unknown as PropSidebarItem,
+    {
+      type: 'category',
+      label: 'Unreleased',
+      href: '/docs/unreleased',
+      customProps: {channel: 'next'},
+      items: [
+        {type: 'doc', id: 'unreleased/landing', label: 'Landing', href: '/docs/unreleased'} as unknown as PropSidebarItem,
+        {type: 'doc', id: 'unreleased/stable-child', label: 'Child', href: '/docs/unreleased/child'} as unknown as PropSidebarItem,
+      ],
+    } as unknown as PropSidebarItem,
+  ];
+
+  it('matches NEXT doc and NEXT category-landing paths for the docs shell gate', () => {
+    expect(sidebarPathIsNextChannel(items, '/docs/preview')).toBe(true);
+    expect(sidebarPathIsNextChannel(items, '/docs/preview/')).toBe(true);
+    expect(sidebarPathIsNextChannel(items, '/docs/unreleased')).toBe(true);
+    expect(sidebarPathIsNextChannel(items, '/docs/stable')).toBe(false);
+  });
+
+  it('stays page-exact: a CURRENT child of a NEXT category renders normally', () => {
+    expect(sidebarPathIsNextChannel(items, '/docs/unreleased/child')).toBe(false);
   });
 });

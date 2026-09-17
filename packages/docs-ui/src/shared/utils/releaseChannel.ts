@@ -1,5 +1,5 @@
+import {useEffect, useState} from 'react';
 import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
-import useIsBrowser from '@docusaurus/useIsBrowser';
 
 export type ReleaseChannel = 'current' | 'next';
 
@@ -34,11 +34,15 @@ export function runtimeReleaseChannel(): ReleaseChannel {
 }
 
 /** Hydration-safe channel: returns CURRENT during SSR/prerender and during
- * React hydration, then switches to the injected runtime channel on the
- * client (env.js is a blocking head script, so it is set before mount). */
+ * React hydration (matching the prerendered HTML exactly), then switches to
+ * the injected runtime channel after mount. env.js is a blocking head script,
+ * so the runtime value is already present when the switch happens. */
 export function useRuntimeReleaseChannel(): ReleaseChannel {
-  const isBrowser = useIsBrowser();
-  return isBrowser ? runtimeReleaseChannel() : 'current';
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  return mounted ? runtimeReleaseChannel() : 'current';
 }
 
 function sidebarItemChannel(item: PropSidebarItem): ReleaseChannel {
@@ -67,4 +71,35 @@ export function filterNextChannelSidebarItems(items: readonly PropSidebarItem[])
     filtered.push(item);
   }
   return filtered;
+}
+
+function normalizeSidebarPath(path: string): string {
+  return path.replace(/\/+$/, '');
+}
+
+function sidebarItemHref(item: PropSidebarItem): string | undefined {
+  if (item.type === 'link') return item.href;
+  // Runtime doc/ref items carry their resolved href even though the public
+  // type does not declare it; categories expose their landing link the same way.
+  return (item as {href?: string}).href;
+}
+
+/** Whether the sidebar entry resolving to `pathname` is NEXT-channel — used by
+ * the docs shell to swap in the shared 404 page before any doc chrome mounts.
+ * Page-exact by design: a CURRENT page below a NEXT category still renders. */
+export function sidebarPathIsNextChannel(
+  items: readonly PropSidebarItem[],
+  pathname: string,
+): boolean {
+  const target = normalizeSidebarPath(pathname);
+  for (const item of items) {
+    if (isNextChannelSidebarItem(item)) {
+      const href = sidebarItemHref(item);
+      if (href && normalizeSidebarPath(href) === target) return true;
+    }
+    if (item.type === 'category' && sidebarPathIsNextChannel(item.items, pathname)) {
+      return true;
+    }
+  }
+  return false;
 }

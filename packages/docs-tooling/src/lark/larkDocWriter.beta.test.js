@@ -1004,6 +1004,10 @@ async function testBaseSourceMetaNormalizesReleaseChannelIntoFrontMatter() {
                 meta.channel,
             )
             assert.match(nextFrontMatter, /^channel: next$/m)
+            // sidebar_custom_props is the official bridge that carries the
+            // channel onto the runtime sidebar link item (the generated
+            // sidebar file's customProps is a fallback for link/ref entries).
+            assert.match(nextFrontMatter, /^sidebar_custom_props:\n  channel: next$/m)
 
             const currentFrontMatter = writer.__front_matters(
                 meta.title,
@@ -1015,6 +1019,7 @@ async function testBaseSourceMetaNormalizesReleaseChannelIntoFrontMatter() {
                 'pingone-token',
             )
             assert.doesNotMatch(currentFrontMatter, /^channel:/m)
+            assert.doesNotMatch(currentFrontMatter, /^sidebar_custom_props:/m)
         } finally {
             writer.destroy()
         }

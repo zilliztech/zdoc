@@ -195,9 +195,10 @@ export default function DocItemLayout({children}: Props): ReactNode {
   const showVersionInfo = isReference && hasDocMetaTags(frontMatter);
 
   if (blockedByChannel) {
-    // Prerender and CURRENT deployments render the shared 404 page content
-    // directly (the same component the docs plugin mounts for misses under
-    // /docs); a NEXT deployment reopens the real content after hydration.
+    // Defense in depth: the docs shell (DocRoot/Layout) already swaps the
+    // whole page for the shared 404 content via the sidebar customProps, but a
+    // NEXT page missing from the active sidebar would still land here, so the
+    // front-matter gate renders the same 404 content within the shell.
     return (
       <div className={styles.docItemContainer}>
         <ContentVisibility metadata={metadata} />
