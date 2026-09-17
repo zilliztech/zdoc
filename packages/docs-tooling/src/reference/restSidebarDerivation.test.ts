@@ -101,11 +101,16 @@ describe('REST staged sidebar derivation', () => {
       const chineseOnly = [...chinese].filter(id => !english.has(id)).sort();
 
       expect(englishOnly).toEqual([
+        `${ID_PREFIX}/v2/control-plane/cloud-access-control-operations-v2/grant-role-to-group-v2`,
+        `${ID_PREFIX}/v2/control-plane/cloud-access-control-operations-v2/list-group-members-v2`,
+        `${ID_PREFIX}/v2/control-plane/cloud-access-control-operations-v2/list-group-roles-v2`,
+        `${ID_PREFIX}/v2/control-plane/cloud-access-control-operations-v2/list-groups-v2`,
+        `${ID_PREFIX}/v2/control-plane/cloud-access-control-operations-v2/revoke-role-from-group-v2`,
         `${ID_PREFIX}/v2/control-plane/project-operations-v2/upgrade-project-v2`,
       ]);
       expect(chineseOnly).toEqual([]);
-      expect(english.size).toBe(chinese.size + 1);
-      expect(SPECIFICATIONS.paths['/v2/projects/{projectId}/plan'].patch['x-include-langs']).toEqual(['en-US']);
+      expect(english.size).toBe(chinese.size + 6);
+      expect(SPECIFICATIONS.paths['/v2/projects/{projectId}/plan'].patch['x-include-langs']).toEqual(['en-US', 'ja-JP']);
 
       for (const id of [
         `${ID_PREFIX}/v2/control-plane/on-demand-cluster-operations-v2/create-on-demand-cluster-v2`,
