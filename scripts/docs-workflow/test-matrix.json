@@ -869,6 +869,21 @@
         "git diff --check"
       ],
       "reason": "The manual translation entry builds the schema-v3 handoff that dispatches the paid Codex translation producer; fetch-source groups anchor to their latest fetch publish commit while reference-landings anchors to the content branch tip."
+    },
+    {
+      "id": "site-validation-watchdog",
+      "paths": [
+        "scripts/docs-workflow/site-validation-watchdog.js",
+        "scripts/docs-workflow/site-validation-watchdog.test.js"
+      ],
+      "focusedTests": [
+        "node --test scripts/docs-workflow/site-validation-watchdog.test.js"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm test:workflow-policy"
+      ],
+      "reason": "The watchdog re-runs site validation runs that failed at startup with zero jobs (transient Actions scheduling faults); real validation failures always carry jobs and stay untouched."
     }
   ]
 }

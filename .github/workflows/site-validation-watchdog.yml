@@ -1,0 +1,39 @@
+name: site validation watchdog
+
+on:
+  schedule:
+    - cron: "15 * * * *"
+  workflow_dispatch:
+
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  watchdog:
+    name: Retry startup-failed site validation runs
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Retry zero-job site validation failures
+        id: watchdog
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          node scripts/docs-workflow/site-validation-watchdog.js \
+            --repository "$GITHUB_REPOSITORY" \
+            --output tmp/site-validation-watchdog.json
+          cat tmp/site-validation-watchdog.json
+
+      - name: Upload watchdog result
+        if: ${{ always() && !cancelled() }}
+        uses: actions/upload-artifact@v6
+        with:
+          name: site-validation-watchdog-${{ github.run_id }}
+          path: tmp/site-validation-watchdog.json
+          if-no-files-found: error
+          retention-days: 14
