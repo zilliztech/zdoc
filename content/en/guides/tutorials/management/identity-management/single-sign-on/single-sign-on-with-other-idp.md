@@ -10,7 +10,7 @@ notebook: FALSE
 description: "This topic describes how to configure single sign-on (SSO) in Zilliz Cloud with any identity provider (IdP) that supports the SAML 2.0 protocol. | Cloud"
 type: origin
 token: WDOJwtKkAijW4gkUpQhcAL0Rn1d
-sidebar_position: 5
+sidebar_position: 6
 displayed_sidebar: default
 
 ---

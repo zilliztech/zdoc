@@ -2158,6 +2158,12 @@ module.exports = [
               },
               {
                 "type": "doc",
+                "id": "tutorials/management/identity-management/single-sign-on/single-sign-on-with-ping-one",
+                "label": "PingOne (SAML 2.0)",
+                "key": "doc:tutorials/management/identity-management/single-sign-on/single-sign-on-with-ping-one"
+              },
+              {
+                "type": "doc",
                 "id": "tutorials/management/identity-management/single-sign-on/single-sign-on-with-other-idp",
                 "label": "Other IdP (SAML 2.0)",
                 "key": "doc:tutorials/management/identity-management/single-sign-on/single-sign-on-with-other-idp"

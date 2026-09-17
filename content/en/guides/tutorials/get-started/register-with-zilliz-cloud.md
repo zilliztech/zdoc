@@ -146,6 +146,14 @@ To link your GitHub account with us, follow the steps below.
 
 Always use the same method you chose for registration when logging in to your Zilliz Cloud account.
 
+<Admonition type="info" title="Notes">
+
+For security, your Zilliz Cloud console session expires after 6 hours of inactivity. If your session expires, sign in again to continue using the console. 
+
+For details, refer to [Console sessions](./email-accounts#console-session).
+
+</Admonition>
+
 ## FAQ\{#faq}
 
 **Why did my registration fail?**

@@ -10,7 +10,7 @@ notebook: FALSE
 description: "By default, after Single Sign-on (SSO) is configured for an organization, members can still choose to log in with email/password or third-party accounts (Google, GitHub). SSO enforcement removes this flexibility by mandating that all members use SSO as the only login method. | BYOC"
 type: origin
 token: MvE5wUlFli3gJOk0MkeclZCqnib
-sidebar_position: 6
+sidebar_position: 7
 displayed_sidebar: default
 
 ---

@@ -24,6 +24,12 @@ import Procedures from '@site/src/components/Procedures';
 
 Once you have [registered an account](./register-with-zilliz-cloud) with Zilliz Cloud, you can manage your account information, switch your login method, and unlink from your Google or GitHub account.
 
+## Console session\{#console-session}
+
+After you sign in to the Zilliz Cloud console, your login session remains active as long as you continue using the console. If there is no activity for 6 hours, the session expires, and you must sign in again.
+
+The inactivity timeout applies to your Zilliz Cloud console session. It does not affect API keys, cluster credentials, or existing connections to your Zilliz Cloud clusters.
+
 ## Modify your profile information\{#modify-your-profile-information}
 
 ![modify_account_info](https://zdoc-images.s3.us-west-2.amazonaws.com/modifyaccountinfo.png "modify_account_info")
