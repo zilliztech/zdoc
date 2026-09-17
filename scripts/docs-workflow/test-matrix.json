@@ -884,6 +884,38 @@
         "pnpm test:workflow-policy"
       ],
       "reason": "The watchdog re-runs site validation runs that failed at startup with zero jobs (transient Actions scheduling faults); real validation failures always carry jobs and stay untouched."
+    },
+    {
+      "id": "mdx-validator-adapter",
+      "paths": [
+        "packages/docs-tooling/src/mdx/index.ts",
+        "packages/docs-tooling/src/mdx/cli.test.ts"
+      ],
+      "focusedTests": [
+        "pnpm vitest run packages/docs-tooling/src/mdx/cli.test.ts"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm test:workflow-policy",
+        "git diff --check"
+      ],
+      "reason": "The TypeScript adapter must re-export exactly the CJS validator surface; a drifted name resolves to undefined at runtime and the adapter test fails on the key mismatch."
+    },
+    {
+      "id": "rest-sidebar-language-inventory",
+      "paths": [
+        "packages/docs-tooling/src/reference/restSidebarDerivation.ts",
+        "packages/docs-tooling/src/reference/restSidebarDerivation.test.ts"
+      ],
+      "focusedTests": [
+        "pnpm vitest run packages/docs-tooling/src/reference/restSidebarDerivation.test.ts"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm test:rest-publication-contract",
+        "git diff --check"
+      ],
+      "reason": "The staged REST sidebar derivation keeps the English and Chinese generated inventories aligned except for operations deliberately excluded from Chinese through x-include-langs; the focused test pins that exception list."
     }
   ]
 }
