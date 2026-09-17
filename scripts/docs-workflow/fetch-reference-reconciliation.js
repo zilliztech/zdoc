@@ -24,6 +24,11 @@ const MANIFEST_PATHS = Object.freeze([
   'generated/en/manifests/reference.json',
   'generated/zh-CN/manifests/reference-translations.json',
 ])
+// The English REST lane publishes docusaurus-i18n (ja-JP) pages inside the
+// fetch, so a fetch publication can change the localization input path set.
+// Regenerate the inventory with the same reconcile commit instead of leaving
+// it stale for the verify stage (and for the manual repair workflow).
+const LOCALIZATION_INPUT_INVENTORY_PATH = 'deploy/contracts/localization-inputs.inventory.json'
 
 function sidebarPublicationPaths(group) {
   const file = group === 'rest' ? 'restful' : group
@@ -56,7 +61,7 @@ function planFetchReferenceReconciliation({selection, results}) {
     .filter(unit => SUCCESSFUL_TERMINAL_STATUSES.has(resultsByUnit.get(unit.unitKey)?.status))
     .map(unit => unit.unitKey)
   const publicationPaths = changedUnitKeys.length
-    ? [...MANIFEST_PATHS, ...changedUnitKeys.flatMap(unitKey => {
+    ? [LOCALIZATION_INPUT_INVENTORY_PATH, ...MANIFEST_PATHS, ...changedUnitKeys.flatMap(unitKey => {
         const group = selection.units.find(unit => unit.unitKey === unitKey).translationSourceGroup
         return sidebarPublicationPaths(group)
       })]
@@ -190,6 +195,7 @@ async function reconcileFetchReferencePublication(input = {}) {
           'docs-tooling', 'reference-manifest', '--source', 'content/en/reference', '--target', 'content/zh-CN/reference',
           '--source-commit', plan.sourceCommitSha, '--write',
         ], environment)
+        await command(runCommand, generationWorktree, 'pnpm', ['generate:localization-input-inventory'], environment)
 
         publicationWorktree = createWorktree(repositoryRoot, runnerTemp, 'fetch-reference-publication.', latestDevSha)
         for (const relative of plan.publicationPaths) copyRegularFile(generationWorktree, publicationWorktree, relative)
@@ -231,6 +237,7 @@ async function reconcileFetchReferencePublication(input = {}) {
           path.join(validationWorktree, 'scripts/restore-generated-state.sh'), '--exact', '--ref', candidate.candidateSha,
         ], environment)
         await command(runCommand, validationWorktree, 'pnpm', ['docs-tooling', 'validate-reference', '--site', 'zh-CN'], environment)
+        await command(runCommand, validationWorktree, 'pnpm', ['check:localization-input-inventory'], environment)
         cleanupDebt.push(...cleanupWorktree(validationWorktree))
         validationWorktree = null
         return Object.freeze({
