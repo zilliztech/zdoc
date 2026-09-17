@@ -18,16 +18,28 @@
 // the working tree and authenticates their review receipts. For those files
 // this provider re-runs only the current deterministic gate and reuses the
 // bytes without a model call; everything else is translated fresh.
+//
+// Semantic seeds mirror agentRunner's --semantic-seeds path: a seed report
+// carries per-unit translations of the previously published target whose
+// English units are byte-identical to the current source. The provider
+// materializes them into a pre-seeded draft before the agent session — a file
+// whose every unit is seeded skips the model entirely (the deterministic gate
+// still runs), and a partially seeded file is handed to the agent with
+// instructions to translate only the units that are still English.
 
 const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
+const {chunkDocument} = require('./chunker')
 const {loadLocaleContract, formatLocaleContract} = require('./localeContract')
 const {promptNamesFor} = require('./prompts')
 const {successfulReview} = require('./reviewEvidence')
 const {classifyFailure} = require('./failureClassification')
+const {collectCurrentUnits} = require('./semanticSeeds')
+const {filterUsableSemanticCheckpoints, loadSemanticCheckpoints} = require('./semanticRecovery')
+const {patchSemanticUnits, protectSemanticUnits} = require('./semanticUnits')
 const {validateWithRuntimeChecks} = require('./validate-translation-file')
-const {buildRecoveryIdentity, loadChunkLimits, loadRecoveryAnalysis, loadProgressState, updateProgressState, updateFailedReferenceProgressState, writeProgressState} = require('./agentRunner')
+const {buildRecoveryIdentity, loadChunkLimits, loadRecoveryAnalysis, loadProgressState, loadSemanticSeedIndex, updateProgressState, updateFailedReferenceProgressState, writeProgressState} = require('./agentRunner')
 
 const DEFAULT_MAX_REPAIR_TURNS = 4
 const MAX_FAILURE_ERROR_LENGTH = 2000
@@ -59,6 +71,34 @@ function mergeTranslatedResultsIntoProgressState(siteDir, manifest, report) {
 
 function stylePromptPathFor(target) {
   return promptNamesFor(target).style || null
+}
+
+// Accumulates per-turn token usage reported by the Codex SDK (Turn.usage).
+// Counts are additive snapshots for cost estimation only; a missing or null
+// usage payload records nothing and never fails a translation turn.
+function createUsageTracker({log = console} = {}) {
+  const totals = {
+    turns: 0,
+    inputTokens: 0,
+    cachedInputTokens: 0,
+    cacheWriteInputTokens: 0,
+    outputTokens: 0,
+    reasoningOutputTokens: 0,
+  }
+  return {
+    record({phase, sourcePath, usage}) {
+      if (!usage || typeof usage !== 'object') return
+      const count = value => Number(value) || 0
+      totals.turns += 1
+      totals.inputTokens += count(usage.input_tokens)
+      totals.cachedInputTokens += count(usage.cached_input_tokens)
+      totals.cacheWriteInputTokens += count(usage.cache_write_input_tokens)
+      totals.outputTokens += count(usage.output_tokens)
+      totals.reasoningOutputTokens += count(usage.reasoning_output_tokens)
+      log.log(`[agentic-provider] usage phase=${phase || 'unknown'} file=${sourcePath || '-'} input=${count(usage.input_tokens)} cached=${count(usage.cached_input_tokens)} cache-write=${count(usage.cache_write_input_tokens)} output=${count(usage.output_tokens)} reasoning=${count(usage.reasoning_output_tokens)}`)
+    },
+    snapshot: () => ({...totals}),
+  }
 }
 
 function protectedBytesRules() {
@@ -93,6 +133,81 @@ Verification loop (best effort — the external validator gates this file either
 3. If you cannot run commands in this environment, do NOT stop: writing your best complete translation to ${item.targetPath} is mandatory. Reply with exactly: DRAFT_COMPLETE. An external deterministic validator will check the file and send corrections back if needed. Never leave the file unwritten, and never fabricate a validator result.`
 }
 
+function buildSeededTaskPrompt({item, target, siteDir, stylePromptPath, validatorCommand, pendingUnits, seededUnits}) {
+  const contract = formatLocaleContract(loadLocaleContract(target))
+  const styleLine = stylePromptPath
+    ? `The workspace file ${path.join(siteDir, '.github', 'prompts', stylePromptPath)} is the authoritative ${target} house style guide. Read it before translating and follow it.`
+    : `No ${target} style guide is registered; follow the locale contract and natural ${target} developer-documentation style.`
+  const boundedUnits = pendingUnits.slice(0, 60).map(unit => `- [${unit.id}] (${unit.kind}) ${String(unit.source).slice(0, 120).replaceAll('\n', ' ')}`).join('\n')
+  const overflow = pendingUnits.length > 60 ? `\n(… ${pendingUnits.length - 60} more; every part of the draft that is still English must be translated.)` : ''
+  return `${contract}
+
+${styleLine}
+
+Finish translating one ${target} documentation page from a pre-seeded draft.
+
+- Source file (read-only, never modify): ${item.sourcePath}
+- Draft file to finish: ${item.targetPath}
+- ${seededUnits} semantic unit(s) in the draft are reused published translations. Keep them byte-identical — do not edit, reformat, or re-translate them, even for style consistency.
+- The remaining units are still English. Translate only those, in place, keeping the document structure: same headings and heading levels, same list nesting, same tables, same MDX/JSX elements.
+
+Units still to translate (id, kind, opening excerpt):
+${boundedUnits}${overflow}
+
+Rules:
+${protectedBytesRules()}
+
+Verification loop (best effort — the external validator gates this file either way):
+1. After editing ${item.targetPath}, try to run: ${validatorCommand}
+2. If the command runs, fix every VIOLATIONS entry and repeat until it prints OK, then reply with exactly: DONE.
+3. If you cannot run commands in this environment, do NOT stop: writing your best complete translation to ${item.targetPath} is mandatory. Reply with exactly: DRAFT_COMPLETE. An external deterministic validator will check the file and send corrections back if needed. Never leave the file unwritten, and never fabricate a validator result.`
+}
+
+// Assemble a draft from the current source by splicing seeded translations into
+// their unit ranges; units without a seed keep their English bytes. Unit ids
+// and chunk tiling follow collectCurrentUnits so the ids match the seed report
+// exactly.
+function assembleSeededDraft({sourceContent, chunkOptions, units, usable}) {
+  const chunks = chunkOptions ? chunkDocument(sourceContent, chunkOptions) : []
+  if (chunks.length > 1) {
+    const parts = []
+    for (const chunk of chunks) {
+      const prefix = `chunk.${String(chunk.index + 1).padStart(4, '0')}`
+      const chunkUnits = units.filter(unit => unit.id.startsWith(`${prefix}.`))
+      const patches = chunkUnits
+        .filter(unit => usable.has(unit.id))
+        .map(unit => ({id: unit.id, translation: usable.get(unit.id).translation}))
+      parts.push(patches.length ? patchSemanticUnits(chunk.source, chunkUnits, patches) : chunk.source)
+    }
+    return parts.join('')
+  }
+  const patches = units
+    .filter(unit => usable.has(unit.id))
+    .map(unit => ({id: unit.id, translation: usable.get(unit.id).translation}))
+  return patches.length ? patchSemanticUnits(sourceContent, units, patches) : sourceContent
+}
+
+// Resolve the seeded draft for one manifest item, or null when no seed entry
+// survives validation. Throws on malformed seed reports so callers can degrade
+// that single file to a fresh full translation.
+function resolveSeededDraft({item, target, siteDir, chunkOptions, seedReport}) {
+  if (!seedReport) return null
+  const localeContract = loadLocaleContract(target)
+  const sourceContent = fs.readFileSync(path.join(siteDir, item.sourcePath), 'utf8')
+  const checkpoints = loadSemanticCheckpoints(seedReport, {...item, target})
+  const units = collectCurrentUnits(sourceContent, chunkOptions)
+  if (!units.length) return null
+  const protectedUnits = protectSemanticUnits(units, unit => unit.source, {literalTokens: localeContract.doNotTranslate})
+  const usable = filterUsableSemanticCheckpoints(checkpoints, protectedUnits, localeContract)
+  if (!usable.size) return null
+  return {
+    usableCount: usable.size,
+    totalUnits: units.length,
+    pendingUnits: units.filter(unit => !usable.has(unit.id)),
+    draft: assembleSeededDraft({sourceContent, chunkOptions, units, usable}),
+  }
+}
+
 function buildRepairPrompt({item, target, violations, validatorCommand}) {
   const bounded = violations.slice(0, 30).map(violation => `- ${violation}`).join('\n')
   return `A ${target} translation draft failed deterministic validation. Fix it.
@@ -113,7 +228,7 @@ function validatorCommandFor(siteDir, target, item) {
   return `node ${path.join('scripts', 'translation', 'validate-translation-file.js')} --site-dir ${siteDir} --target ${target} --source ${item.sourcePath} --draft ${item.targetPath} --write-back false`
 }
 
-async function runAgenticFile({item, target, siteDir, callCodex, validate, maxRepairTurns = DEFAULT_MAX_REPAIR_TURNS, stylePromptPath = stylePromptPathFor(target), model = null, log = console}) {
+async function runAgenticFile({item, target, siteDir, callCodex, validate, maxRepairTurns = DEFAULT_MAX_REPAIR_TURNS, stylePromptPath = stylePromptPathFor(target), model = null, log = console, seedReport = null, chunkOptions = null}) {
   if (!item || typeof item.sourcePath !== 'string' || typeof item.targetPath !== 'string') {
     throw new Error('Agentic translation requires manifest item source and target paths')
   }
@@ -122,6 +237,30 @@ async function runAgenticFile({item, target, siteDir, callCodex, validate, maxRe
   fs.mkdirSync(path.dirname(draftPath), {recursive: true})
   const validatorCommand = validatorCommandFor(siteDir, target, item)
   const attempts = []
+  let seeded = null
+  if (seedReport) {
+    try {
+      seeded = resolveSeededDraft({item, target, siteDir, chunkOptions, seedReport})
+    } catch (error) {
+      // A malformed or stale seed report must never fail the file: fall back
+      // to a fresh full translation and leave a trail in the log.
+      log.log(`[agentic-provider] seeds unusable for ${item.sourcePath}: ${String(error?.message || error).slice(0, 300)}`)
+    }
+  }
+  const writeDraft = content => fs.writeFileSync(draftPath, content.endsWith('\n') ? content : `${content}\n`)
+  if (seeded && seeded.pendingUnits.length === 0) {
+    writeDraft(seeded.draft)
+    let outcome = await validateWithRuntimeChecks({sourceContent, draftContent: fs.readFileSync(draftPath, 'utf8'), relPath: item.sourcePath, target, validate})
+    if (outcome.repaired !== fs.readFileSync(draftPath, 'utf8')) fs.writeFileSync(draftPath, outcome.repaired)
+    if (!outcome.errors.length) {
+      log.log(`[agentic-provider] seeded ${item.sourcePath} without a model call (${seeded.usableCount}/${seeded.totalUnits} units reused)`)
+      return {...item, target, attempts, status: 'translated', review: successfulReview(), validationErrors: [], semanticSeedUnits: seeded.usableCount}
+    }
+    log.log(`[agentic-provider] fully seeded draft failed the current gate; retranslating ${item.sourcePath}`)
+    seeded = null
+  } else if (seeded) {
+    writeDraft(seeded.draft)
+  }
   const runTurn = async (phase, prompt) => {
     const reply = await callCodex({phase, prompt, item})
     if (!fs.existsSync(draftPath)) {
@@ -130,9 +269,16 @@ async function runAgenticFile({item, target, siteDir, callCodex, validate, maxRe
     }
     return reply
   }
-  await runTurn('translate', buildAgenticTaskPrompt({item, target, siteDir, stylePromptPath, validatorCommand}))
+  const seededDraftBytes = seeded ? fs.readFileSync(draftPath, 'utf8') : null
+  const taskPrompt = seeded
+    ? buildSeededTaskPrompt({item, target, siteDir, stylePromptPath, validatorCommand, pendingUnits: seeded.pendingUnits, seededUnits: seeded.usableCount})
+    : buildAgenticTaskPrompt({item, target, siteDir, stylePromptPath, validatorCommand})
+  await runTurn('translate', taskPrompt)
   attempts.push('translate')
-  log.log(`[agentic-provider] turn translate ${item.sourcePath}`)
+  log.log(`[agentic-provider] turn translate ${item.sourcePath}${seeded ? ` seeded=${seeded.usableCount}/${seeded.totalUnits}` : ''}`)
+  if (seededDraftBytes !== null && fs.readFileSync(draftPath, 'utf8') === seededDraftBytes) {
+    throw new Error(`agentic translate turn left the seeded draft of ${item.targetPath} unchanged; ${seeded.pendingUnits.length} unit(s) remain untranslated`)
+  }
   let outcome = await validateWithRuntimeChecks({sourceContent, draftContent: fs.readFileSync(draftPath, 'utf8'), relPath: item.sourcePath, target, validate})
   if (outcome.repaired !== fs.readFileSync(draftPath, 'utf8')) fs.writeFileSync(draftPath, outcome.repaired)
   let violations = outcome.errors
@@ -144,7 +290,7 @@ async function runAgenticFile({item, target, siteDir, callCodex, validate, maxRe
     if (outcome.repaired !== fs.readFileSync(draftPath, 'utf8')) fs.writeFileSync(draftPath, outcome.repaired)
     violations = outcome.errors
   }
-  const base = {...item, target, attempts, ...(model ? {model} : {})}
+  const base = {...item, target, attempts, ...(model ? {model} : {}), ...(seeded ? {semanticSeedUnits: seeded.usableCount} : {})}
   if (!violations.length) {
     log.log(`[agentic-provider] translated ${item.sourcePath} attempts=${attempts.join(',')}`)
     return {...base, status: 'translated', review: successfulReview(), validationErrors: []}
@@ -188,12 +334,24 @@ async function reuseRestoredTranslation({item, restored, target, siteDir, valida
   }
 }
 
-async function runAgenticTranslation({siteDir, manifest, callCodex, validate, maxRepairTurns, model, concurrency = 2, now = () => Date.now(), onResult = null, log = console, recovery = null}) {
+async function runAgenticTranslation({siteDir, manifest, callCodex, validate, maxRepairTurns, model, concurrency = 2, now = () => Date.now(), onResult = null, log = console, recovery = null, semanticSeedsDir = null, chunkOptions = null, usageTracker = null}) {
   if (!Array.isArray(manifest?.items)) throw new Error('Agentic translation requires a manifest with items')
+  const seedIndex = semanticSeedsDir ? loadSemanticSeedIndex(semanticSeedsDir, manifest) : null
   const restoredByIdentity = new Map()
   for (const restored of recovery?.restored || []) {
     restoredByIdentity.set(`${restored.sourcePath}\0${restored.targetPath}`, restored)
   }
+  // Workload overview for cost estimation: how many files this batch carries,
+  // how many skip the model through recovery reuse, and the English source
+  // volume the remaining files represent.
+  const modelEligible = manifest.items.filter(item => {
+    const restored = restoredByIdentity.get(`${item.sourcePath}\0${item.targetPath}`)
+    return !(restored && restored.sourceHash === item.sourceHash)
+  })
+  const englishBytes = modelEligible.reduce((total, item) => {
+    try { return total + fs.statSync(path.join(siteDir, item.sourcePath)).size } catch { return total }
+  }, 0)
+  log.log(`[agentic-provider] batch target=${manifest.target} locale=${manifest.locale} files=${manifest.items.length} restored=${manifest.items.length - modelEligible.length} model-files=${modelEligible.length} english=${Math.round(englishBytes / 1024)}KB`)
   const results = new Array(manifest.items.length)
   let cursor = 0
   const worker = async () => {
@@ -210,7 +368,11 @@ async function runAgenticTranslation({siteDir, manifest, callCodex, validate, ma
           results[index] = reused
         } else {
           if (restored) log.log(`[agentic-provider] recovered draft for ${item.sourcePath} failed the current validation gate; retranslating`)
-          results[index] = await runAgenticFile({item, target: manifest.target, siteDir, callCodex, validate, maxRepairTurns, model, log})
+          const seedReportFile = seedIndex?.reportsBySourcePath.get(item.sourcePath)
+          const seedReport = seedReportFile
+            ? JSON.parse(fs.readFileSync(path.join(semanticSeedsDir, seedReportFile), 'utf8'))
+            : null
+          results[index] = await runAgenticFile({item, target: manifest.target, siteDir, callCodex, validate, maxRepairTurns, model, log, seedReport, chunkOptions})
         }
       } catch (error) {
         // One broken file (or one agent session that failed to act) must not
@@ -235,6 +397,14 @@ async function runAgenticTranslation({siteDir, manifest, callCodex, validate, ma
   await Promise.all(Array.from({length: Math.max(1, Math.min(concurrency, manifest.items.length))}, worker))
   const translated = results.filter(result => result?.status === 'translated').length
   const failed = results.filter(result => result && result.status !== 'translated').length
+  const seededFull = results.filter(result => result?.status === 'translated' && result.semanticSeedUnits && Array.isArray(result.attempts) && result.attempts.length === 0).length
+  const agentFiles = results.filter(result => Array.isArray(result?.attempts) && result.attempts.length > 0).length
+  const repairTurns = results.reduce((total, result) => total + (Array.isArray(result?.attempts) ? result.attempts.filter(attempt => String(attempt).startsWith('repair')).length : 0), 0)
+  log.log(`[agentic-provider] summary translated=${translated} failed=${failed} seeded-full=${seededFull} agent-files=${agentFiles} repair-turns=${repairTurns}`)
+  if (usageTracker) {
+    const usage = usageTracker.snapshot()
+    log.log(`[agentic-provider] tokens turns=${usage.turns} input=${usage.inputTokens} cached=${usage.cachedInputTokens} cache-write=${usage.cacheWriteInputTokens} output=${usage.outputTokens} reasoning=${usage.reasoningOutputTokens}`)
+  }
   return {
     target: manifest.target,
     locale: manifest.locale,
@@ -252,7 +422,7 @@ async function runAgenticTranslation({siteDir, manifest, callCodex, validate, ma
 
 // Network adapter over the Codex SDK. Kept separate from the tested library
 // surface above so tests inject a fake callCodex and never touch the network.
-async function createCodexCall({model, baseUrl, apiKey, workingDirectory, timeoutMs = 20 * 60 * 1000, codexHome, sandboxMode = 'workspace-write'}) {
+async function createCodexCall({model, baseUrl, apiKey, workingDirectory, timeoutMs = 20 * 60 * 1000, codexHome, sandboxMode = 'workspace-write', usageTracker = null}) {
   if (!['read-only', 'workspace-write', 'danger-full-access'].includes(sandboxMode)) throw new Error('Unsupported agentic sandbox mode')
 
   const {Codex} = await import('@openai/codex-sdk')
@@ -273,12 +443,13 @@ async function createCodexCall({model, baseUrl, apiKey, workingDirectory, timeou
       AGENTIC_PROVIDER_KEY: apiKey,
     }).filter(([, value]) => value !== undefined)),
   })
-  return async ({prompt}) => {
+  return async ({phase, prompt, item}) => {
     const thread = codex.startThread({model, sandboxMode, workingDirectory, approvalPolicy: 'never', skipGitRepoCheck: true})
     const controller = new AbortController()
     const timer = setTimeout(() => controller.abort(new Error('agentic turn timeout')), timeoutMs)
     try {
       const turn = await thread.run(prompt, {signal: controller.signal})
+      usageTracker?.record({phase, sourcePath: item?.sourcePath, usage: turn.usage})
       return String(turn.finalResponse || '')
     } finally {
       clearTimeout(timer)
@@ -337,7 +508,7 @@ The sentinel word is still zebra.
 }
 
 function usage() {
-  return 'Usage: node scripts/translation/agenticProvider.js run --site-dir <absolute-dir> --manifest <file> --report <file> --model <id> --base-url <url> --api-key-env <name> [--concurrency 2] [--max-repair-turns 4] [--codex-home <dir>] [--sandbox-mode <workspace-write|danger-full-access>] [--skip-preflight true] [--recovery-analysis <file>]'
+  return 'Usage: node scripts/translation/agenticProvider.js run --site-dir <absolute-dir> --manifest <file> --report <file> --model <id> --base-url <url> --api-key-env <name> [--concurrency 2] [--max-repair-turns 4] [--codex-home <dir>] [--sandbox-mode <workspace-write|danger-full-access>] [--skip-preflight true] [--recovery-analysis <file>] [--semantic-seeds <dir>]'
 }
 
 function parseCliArgs(argv) {
@@ -368,6 +539,7 @@ function parseCliArgs(argv) {
     sandboxMode: args.get('sandbox-mode') || 'workspace-write',
     skipPreflight: args.get('skip-preflight') === 'true',
     recoveryAnalysis: args.get('recovery-analysis') || '',
+    semanticSeeds: args.get('semantic-seeds') || '',
   }
 }
 
@@ -385,9 +557,12 @@ async function main() {
       chunkOptions: loadChunkLimits(),
     })
     : null
-  const callCodex = await createCodexCall({model: options.model, baseUrl: options.baseUrl, apiKey, workingDirectory: process.cwd(), codexHome: options.codexHome, sandboxMode: options.sandboxMode})
+  const usageTracker = createUsageTracker()
+  const callCodex = await createCodexCall({model: options.model, baseUrl: options.baseUrl, apiKey, workingDirectory: process.cwd(), codexHome: options.codexHome, sandboxMode: options.sandboxMode, usageTracker})
   // The preflight spends one paid agent turn; skip it when recovery already
-  // covers every manifest item and no model call remains.
+  // covers every manifest item and no model call remains. Semantic seeds can
+  // also eliminate every model call, but that is only knowable after per-file
+  // unit collection, so a fully seeded run still pays this one bounded turn.
   const pendingWork = manifest.items.filter(item => !recovery?.restored?.some(restored => restored.sourcePath === item.sourcePath && restored.targetPath === item.targetPath && restored.sourceHash === item.sourceHash))
   if (options.skipPreflight !== true && pendingWork.length > 0) {
     const preflight = await preflightAgent({siteDir: options.siteDir, callCodex, target: manifest.target})
@@ -401,16 +576,34 @@ async function main() {
     maxRepairTurns: options.maxRepairTurns,
     model: options.model,
     recovery,
+    usageTracker,
+    ...(options.semanticSeeds ? {semanticSeedsDir: path.resolve(options.siteDir, options.semanticSeeds), chunkOptions: loadChunkLimits()} : {}),
   })
   fs.mkdirSync(path.dirname(path.resolve(options.reportPath)), {recursive: true})
   fs.writeFileSync(options.reportPath, `${JSON.stringify(report, null, 2)}\n`)
   mergeTranslatedResultsIntoProgressState(options.siteDir, manifest, report)
+  const usage = usageTracker.snapshot()
+  const seededFull = report.results.filter(result => result?.status === 'translated' && result.semanticSeedUnits && Array.isArray(result.attempts) && result.attempts.length === 0).length
   if (process.env.GITHUB_OUTPUT) {
     fs.appendFileSync(process.env.GITHUB_OUTPUT, [
       `translated_count=${report.checkpoint.translated}`,
       `failed_count=${report.checkpoint.failed}`,
       `remaining_count=${report.checkpoint.remaining}`,
+      `token_turns=${usage.turns}`,
+      `token_input=${usage.inputTokens}`,
+      `token_cached_input=${usage.cachedInputTokens}`,
+      `token_output=${usage.outputTokens}`,
     ].join('\n') + '\n')
+  }
+  if (process.env.GITHUB_STEP_SUMMARY) {
+    fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, [
+      '### Agentic translation cost', '',
+      `- Files: ${report.checkpoint.processed} (fully seeded without a model call: ${seededFull})`,
+      `- Agent turns: ${usage.turns} (cached input: ${Math.round(usage.cachedInputTokens / 1000)}K tokens)`,
+      `- Input tokens: **${usage.inputTokens.toLocaleString('en-US')}**`,
+      `- Output tokens: **${usage.outputTokens.toLocaleString('en-US')}** (reasoning: ${usage.reasoningOutputTokens.toLocaleString('en-US')})`,
+      '',
+    ].join('\n'))
   }
   const failed = report.checkpoint.failed
   if (failed && !process.env.TRANSLATION_ALLOW_PARTIAL) process.exitCode = 1
@@ -418,18 +611,21 @@ async function main() {
 
 module.exports = {
   DEFAULT_MAX_REPAIR_TURNS,
+  createUsageTracker,
   mergeTranslatedResultsIntoProgressState,
   preflightAgent,
+  assembleSeededDraft,
   buildAgenticTaskPrompt,
+  buildSeededTaskPrompt,
   protectedBytesRules,
   buildRepairPrompt,
   createCodexCall,
   parseCliArgs,
+  resolveSeededDraft,
   reuseRestoredTranslation,
   runAgenticFile,
   runAgenticTranslation,
   stylePromptPathFor,
-  usage,
   validatorCommandFor,
 }
 

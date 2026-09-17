@@ -24,6 +24,12 @@ test('Translation producers use workload-aware worker and chunk limits without o
   )
   assert.equal(agents.env.TRANSLATION_FILE_TIMEOUT_MS, "${{ inputs.group == 'guides' && '1800000' || '3600000' }}")
   assert.equal(agents.env.TRANSLATION_SOFT_DEADLINE_MS, "${{ inputs.group == 'guides' && '5400000' || '18000000' }}")
+  // The agents step must log the workload it is about to spend money on
+  // (file count, English volume, batch identity) before either provider runs.
+  assert.match(agents.run, /\[translation-agents\] start/)
+  assert.match(agents.run, /Files to translate/)
+  assert.equal(agents.env.TRANSLATION_BATCH_NUMBER, "${{ inputs.batch_number }}")
+  assert.equal(agents.env.TRANSLATION_BATCH_COUNT, "${{ inputs.batch_count || 0 }}")
   assert.equal(
     agents.env.TRANSLATION_CHUNK_TARGET_CHARS,
     "${{ inputs.group == 'guides' && '8000' || '16000' }}",
@@ -66,6 +72,10 @@ test('Semantic seed planning is opt-in, incremental-only, and shares runner chun
 
   assert.match(agents.run, /if \[\[ -d tmp\/semantic-seeds \]\]/)
   assert.match(agents.run, /--semantic-seeds tmp\/semantic-seeds/)
+  // Both provider branches forward the seeds: the agentic provider consumes
+  // them to pre-seed drafts and skip unchanged semantic units.
+  assert.match(agents.run, /agentic_args\+=\(--semantic-seeds tmp\/semantic-seeds\)/)
+  assert.match(agents.run, /args\+=\(--semantic-seeds tmp\/semantic-seeds\)/)
   const recoveryPreflight = workflow.jobs.translate.steps.find(step => step.name === 'Resolve current recovery compatibility')
   assert.doesNotMatch(recoveryPreflight.run, /semantic-seeds/)
 })

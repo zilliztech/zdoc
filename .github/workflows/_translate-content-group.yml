@@ -418,10 +418,38 @@ jobs:
         if: ${{ inputs.should_translate && steps.manifest.outputs.count != '0' }}
         run: |
           set -euo pipefail
+          node - <<'NODE'
+            const fs = require("node:fs");
+            const manifest = JSON.parse(fs.readFileSync("tmp/translation-manifest.json", "utf8"));
+            const bytes = manifest.items.reduce((total, item) => {
+              try { return total + fs.statSync(item.sourcePath).size } catch { return total }
+            }, 0);
+            const reasons = {};
+            for (const item of manifest.items) reasons[item.reason] = (reasons[item.reason] || 0) + 1;
+            const reasonText = Object.entries(reasons).map(([reason, count]) => `${reason}=${count}`).join(", ") || "none";
+            const batchNumber = Number(process.env.TRANSLATION_BATCH_NUMBER) || 0;
+            const batchCount = Number(process.env.TRANSLATION_BATCH_COUNT) || 0;
+            const batchText = batchNumber > 0 ? ` batch=${batchNumber}/${batchCount}` : "";
+            const provider = process.env.TRANSLATION_PROVIDER || "unit-pipeline";
+            console.log(`[translation-agents] start provider=${provider} target=${manifest.target} group=${manifest.group}${batchText} files=${manifest.items.length} english=${Math.round(bytes / 1024)}KB reasons=${reasonText}`);
+            if (process.env.GITHUB_STEP_SUMMARY) {
+              fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, [
+                `### Translation workload: ${manifest.target}/${manifest.group}`, "",
+                `- Files to translate: **${manifest.items.length}**${batchNumber > 0 ? ` (batch ${batchNumber} of ${batchCount})` : ""}`,
+                `- English source volume: ~${Math.round(bytes / 1024)} KB`,
+                `- Reasons: ${reasonText}`,
+                `- Provider: \`${provider}\``,
+                "",
+              ].join("\n"));
+            }
+          NODE
           if [[ "${TRANSLATION_PROVIDER:-unit-pipeline}" == "agentic" ]]; then
             agentic_args=(--site-dir "$GITHUB_WORKSPACE" --manifest tmp/translation-manifest.json --report tmp/translation-report.json --model "$AGENTIC_TRANSLATION_MODEL" --base-url "$AGENTIC_BASE_URL" --api-key-env AGENTIC_PROVIDER_API_KEY --concurrency "$AGENTIC_CONCURRENCY" --codex-home "$RUNNER_TEMP/agentic-codex-home" --sandbox-mode danger-full-access --skip-preflight false)
             if [[ -f "$RECOVERY_ANALYSIS" ]]; then
               agentic_args+=(--recovery-analysis "$RECOVERY_ANALYSIS")
+            fi
+            if [[ -d tmp/semantic-seeds ]]; then
+              agentic_args+=(--semantic-seeds tmp/semantic-seeds)
             fi
             node scripts/translation/agenticProvider.js run "${agentic_args[@]}"
           else
@@ -438,6 +466,8 @@ jobs:
           fi
         env:
           TRANSLATION_PROVIDER: ${{ vars.TRANSLATION_PROVIDER }}
+          TRANSLATION_BATCH_NUMBER: ${{ inputs.batch_number }}
+          TRANSLATION_BATCH_COUNT: ${{ inputs.batch_count || 0 }}
           AGENTIC_PROVIDER_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
           AGENTIC_BASE_URL: ${{ vars.DEEPSEEK_BASE_URL }}
           AGENTIC_TRANSLATION_MODEL: ${{ vars.AGENTIC_TRANSLATION_MODEL || 'deepseek-flash' }}
