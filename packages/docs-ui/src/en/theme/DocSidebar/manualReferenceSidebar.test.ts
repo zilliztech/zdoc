@@ -44,7 +44,12 @@ describe('manual reference sidebar helpers', () => {
   });
 
   it('ignores unsupported reference paths without a sidebar', () => {
-    expect(getManualReferenceTarget(parseDocsRoute('/reference/cpp', 'en'), 'en')).toBeUndefined();
+    // C++ is now a generated reference target (referenceTargets.generated.ts),
+    // so /reference/cpp resolves; only genuinely unknown paths stay undefined.
+    expect(getManualReferenceTarget(parseDocsRoute('/reference/cpp', 'en'), 'en')).toMatchObject({
+      kind: 'cpp',
+      landingHref: '/reference/cpp',
+    });
     expect(getManualReferenceTarget(parseDocsRoute('/reference', 'en'), 'en')).toBeUndefined();
     expect(getManualReferenceTarget(parseDocsRoute('/docs/tutorials/client-libraries/install-sdks', 'en'), 'en')).toBeUndefined();
   });
