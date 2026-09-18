@@ -794,6 +794,17 @@ describe('createDocusaurusConfig', () => {
     expect(createDocusaurusConfig(profile()).themes ?? []).toEqual([]);
   });
 
+  it('injects the legacy Google Tag Manager scripts only when the profile declares a container', () => {
+    const withGtm = createDocusaurusConfig(profile({
+      integrations: {searchProvider: 'search-one', gtmContainerId: 'GTM-TEST123'},
+    }));
+
+    expect(withGtm.plugins).toContainEqual(['docusaurus-gtm-plugin', {id: 'GTM-TEST123'}]);
+    expect((createDocusaurusConfig(profile()).plugins ?? []).filter(
+      plugin => Array.isArray(plugin) && plugin[0] === 'docusaurus-gtm-plugin',
+    )).toEqual([]);
+  });
+
   it('maps site-owned exclusions and current-version route paths into docs plugin options', () => {
     const chinese = profile({
       id: 'zh-CN',
