@@ -8,7 +8,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-09-18T02:46:54.526Z",
+  "generated_at": "2026-09-18T10:41:15.074Z",
   "source_dir": "./packages/docs-tooling/src/lark/meta/sources/node/v3.0.x",
   "base_app_token": "LlrPbysPZau2dGsSVuicHmvCn0e",
   "records": [
@@ -34,6 +34,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -60,6 +61,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-addUserToRole.md"
@@ -87,6 +89,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -112,6 +115,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -138,6 +142,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-createRole.md"
@@ -166,6 +171,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-createUser.md"
@@ -194,6 +200,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-deleteUser.md"
@@ -222,6 +229,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-describeRole.md"
@@ -250,6 +258,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-describeUser.md"
@@ -278,6 +287,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-dropAllRoles.md"
@@ -306,6 +316,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-dropPrivilegeGroup.md"
@@ -334,6 +345,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-dropRole.md"
@@ -361,6 +373,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -387,6 +400,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-grantPrivilegeV2.md"
@@ -415,6 +429,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-grantRole.md"
@@ -443,6 +458,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-listGrant.md"
@@ -471,6 +487,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-listGrants.md"
@@ -499,6 +516,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-listPrivilegeGroups.md"
@@ -527,6 +545,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-listRoles.md"
@@ -555,6 +574,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-listUsers.md"
@@ -583,6 +603,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-removePrivilegesFromGroup.md"
@@ -611,6 +632,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-removeUserFromRole.md"
@@ -638,6 +660,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -663,6 +686,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -689,6 +713,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-revokePrivilegeV2.md"
@@ -717,6 +742,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-revokeRole.md"
@@ -745,6 +771,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-updateUser.md"
@@ -773,6 +800,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-hasRole.md"
@@ -801,6 +829,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Client/Client-connect.md"
@@ -829,6 +858,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Client/Client-MilvusClient.md"
@@ -857,6 +887,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Client/Client-checkHealth.md"
@@ -885,6 +916,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Client/Client-checkCompatibility.md"
@@ -913,6 +945,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Client/Client-closeConnection.md"
@@ -941,6 +974,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Client/Client-use.md"
@@ -969,6 +1003,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Client/Client-getVersion.md"
@@ -997,6 +1032,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Client/Client-session.md"
@@ -1025,6 +1061,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Client/Client-close.md"
@@ -1053,6 +1090,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Collections/Collections-alterAlias.md"
@@ -1081,6 +1119,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Collections/Collections-alterCollectionFieldProperties.md"
@@ -1109,6 +1148,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Collections/Collections-alterCollectionProperties.md"
@@ -1137,6 +1177,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Collections/Collections-createAlias.md"
@@ -1165,6 +1206,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "AtLEdt0ZWoUbHoxkfvHcq1ZunUg",
         "Vq2VdsWJaoufsGx5stJcTuyPnDb"
@@ -1196,6 +1238,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Collections/Collections-DataType.md"
@@ -1224,6 +1267,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Collections/Collections-describeAlias.md"
@@ -1252,6 +1296,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Collections/Collections-describeCollection.md"
@@ -1280,6 +1325,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Collections/Collections-dropAlias.md"
@@ -1308,6 +1354,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Collections/Collections-dropCollection.md"
@@ -1336,6 +1383,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Collections/Collections-dropCollectionProperties.md"
@@ -1364,6 +1412,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Collections/Collections-getCollectionStatistics.md"
@@ -1392,6 +1441,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Collections/Collections-hasCollection.md"
@@ -1420,6 +1470,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Collections/Collections-listAliases.md"
@@ -1448,6 +1499,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Collections/Collections-listCollections.md"
@@ -1476,6 +1528,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Collections/Collections-renameCollection.md"
@@ -1504,6 +1557,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Collections/Collections-FunctionType.md"
@@ -1532,6 +1586,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Collections/Collections-runAnalyzer.md"
@@ -1560,6 +1615,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "AtLEdt0ZWoUbHoxkfvHcq1ZunUg"
       ],
@@ -1590,6 +1646,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "AtLEdt0ZWoUbHoxkfvHcq1ZunUg"
       ],
@@ -1620,6 +1677,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Collections/Collections-getPkFieldName.md"
@@ -1648,6 +1706,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Collections/Collections-getPkFieldType.md"
@@ -1676,6 +1735,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Collections/Collections-getPkField.md"
@@ -1704,6 +1764,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Collections/Collections-addCollectionFunction.md"
@@ -1732,6 +1793,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Collections/Collections-alterCollectionFunction.md"
@@ -1760,6 +1822,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Collections/Collections-dropCollectionFunction.md"
@@ -1788,6 +1851,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Collections/Collections-truncateCollection.md"
@@ -1816,6 +1880,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Collections/Collections-refreshExternalCollection.md"
@@ -1844,6 +1909,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Collections/Collections-getRefreshExternalCollectionProgress.md"
@@ -1872,6 +1938,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Collections/Collections-listRefreshExternalCollectionJobs.md"
@@ -1900,6 +1967,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Collections/Collections-batchDescribeCollections.md"
@@ -1928,6 +1996,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Management/Management-alterIndexProperties.md"
@@ -1956,6 +2025,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Management/Management-createIndex.md"
@@ -1984,6 +2054,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Management/Management-compact.md"
@@ -2012,6 +2083,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Management/Management-describeIndex.md"
@@ -2040,6 +2112,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Management/Management-dropIndex.md"
@@ -2068,6 +2141,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Management/Management-dropIndexProperties.md"
@@ -2096,6 +2170,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Management/Management-flush.md"
@@ -2124,6 +2199,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Management/Management-flushSync.md"
@@ -2152,6 +2228,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "DCK5d56UZop0kGxpQu8cLqlvndg"
       ],
@@ -2182,6 +2259,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Management/Management-getFlushState.md"
@@ -2210,6 +2288,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Management/Management-getIndexBuildProgress.md"
@@ -2238,6 +2317,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Management/Management-getIndexState.md"
@@ -2266,6 +2346,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Management/Management-getLoadingProgress.md"
@@ -2294,6 +2375,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Management/Management-getLoadState.md"
@@ -2322,6 +2404,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Management/Management-listIndexes.md"
@@ -2350,6 +2433,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Management/Management-loadCollection.md"
@@ -2378,6 +2462,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Management/Management-loadCollectionSync.md"
@@ -2406,6 +2491,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Management/Management-refreshLoad.md"
@@ -2434,6 +2520,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Management/Management-releaseCollection.md"
@@ -2462,6 +2549,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Management/Management-IndexType.md"
@@ -2490,6 +2578,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Management/Management-MetricType.md"
@@ -2517,6 +2606,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -2542,6 +2632,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -2567,6 +2658,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -2593,6 +2685,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Management/Management-loadCollectionAsync.md"
@@ -2620,6 +2713,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -2646,6 +2740,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Management/Management-getReplicas.md"
@@ -2674,6 +2769,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Management/Management-flushAll.md"
@@ -2702,6 +2798,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Management/Management-flushAllSync.md"
@@ -2730,6 +2827,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Management/Management-getFlushAllState.md"
@@ -2758,6 +2856,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Partitions/Partitions-createPartition.md"
@@ -2786,6 +2885,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Partitions/Partitions-dropPartition.md"
@@ -2814,6 +2914,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Partitions/Partitions-getPartitionStatistics.md"
@@ -2842,6 +2943,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Partitions/Partitions-hasPartition.md"
@@ -2870,6 +2972,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Partitions/Partitions-listPartitions.md"
@@ -2898,6 +3001,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Partitions/Partitions-loadPartitions.md"
@@ -2926,6 +3030,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Partitions/Partitions-loadPartitionsSync.md"
@@ -2954,6 +3059,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Partitions/Partitions-releasePartitions.md"
@@ -2982,6 +3088,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Vector/Vector-count.md"
@@ -3010,6 +3117,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Vector/Vector-delete.md"
@@ -3038,6 +3146,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Vector/Vector-get.md"
@@ -3066,6 +3175,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Vector/Vector-insert.md"
@@ -3094,6 +3204,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Vector/Vector-query.md"
@@ -3122,6 +3233,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "Vq2VdsWJaoufsGx5stJcTuyPnDb"
       ],
@@ -3152,6 +3264,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Vector/Vector-upsert.md"
@@ -3180,6 +3293,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Vector/Vector-hybridSearch.md"
@@ -3208,6 +3322,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Vector/Vector-queryIterator.md"
@@ -3236,6 +3351,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Vector/Vector-searchIterator.md"
@@ -3263,6 +3379,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3288,6 +3405,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "Q0aNdOtyYoQHFhxCdEacj2kdnah"
       ],
@@ -3315,6 +3433,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3340,6 +3459,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "JsQqdoEUNoWFCCxAMcUc0mtjncf"
       ],
@@ -3367,6 +3487,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3392,6 +3513,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3417,6 +3539,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3442,6 +3565,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "Q0aNdOtyYoQHFhxCdEacj2kdnah"
       ],
@@ -3469,6 +3593,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3494,6 +3619,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3519,6 +3645,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3544,6 +3671,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3570,6 +3698,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Database/Database-alterDatabaseProperties.md"
@@ -3598,6 +3727,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Database/Database-createDatabase.md"
@@ -3626,6 +3756,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Database/Database-dropDatabase.md"
@@ -3654,6 +3785,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Database/Database-dropDatabaseProperties.md"
@@ -3682,6 +3814,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Database/Database-listDatabases.md"
@@ -3710,6 +3843,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Database/Database-useDatabase.md"
@@ -3738,6 +3872,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Database/Database-describeDatabase.md"
@@ -3766,6 +3901,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Database/Database-alterDatabase.md"
@@ -3794,6 +3930,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-createSnapshot.md"
@@ -3822,6 +3959,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-dropSnapshot.md"
@@ -3850,6 +3988,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-listSnapshots.md"
@@ -3878,6 +4017,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-describeSnapshot.md"
@@ -3906,6 +4046,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-restoreSnapshot.md"
@@ -3934,6 +4075,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-getRestoreSnapshotState.md"
@@ -3962,6 +4104,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-listRestoreSnapshotJobs.md"
@@ -3990,6 +4133,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-pinSnapshotData.md"
@@ -4018,6 +4162,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-unpinSnapshotData.md"
@@ -4046,6 +4191,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-bulkInsert.md"
@@ -4074,6 +4220,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-listImportTasks.md"
@@ -4102,6 +4249,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-getImportState.md"
@@ -4130,6 +4278,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "DsLHde5AWomjFhxD3K7c4Yklnlh",
         "U7w6d4gUioGzw2xmYqvcFz1Jnub"
@@ -4161,6 +4310,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "DsLHde5AWomjFhxD3K7c4Yklnlh",
         "U7w6d4gUioGzw2xmYqvcFz1Jnub"
@@ -4192,6 +4342,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-BulkWriterSchema.md"
@@ -4220,6 +4371,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-Formatter.md"
@@ -4248,6 +4400,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-Storage.md"
@@ -4276,6 +4429,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-FlushEvent.md"
@@ -4304,6 +4458,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-listImportJobs.md"
@@ -4332,6 +4487,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-createImportJobs.md"
@@ -4360,6 +4516,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-createImportJobs.md"
@@ -4388,6 +4545,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-HttpImportCreateReq.md"
@@ -4416,6 +4574,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-HttpImportCreateResponse.md"
@@ -4444,6 +4603,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-HttpImportListResponse.md"
@@ -4472,6 +4632,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-HttpImportProgressReq.md"
@@ -4500,6 +4661,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-HttpImportProgressResponse.md"
