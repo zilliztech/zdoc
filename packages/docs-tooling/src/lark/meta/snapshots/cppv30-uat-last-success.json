@@ -8,7 +8,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-09-18T02:45:01.667Z",
+  "generated_at": "2026-09-18T10:43:30.383Z",
   "source_dir": "./packages/docs-tooling/src/lark/meta/sources/cpp/v3.0.x",
   "base_app_token": "QdLkbfmnFatl4TsThKDc5Dobn5g",
   "records": [
@@ -35,6 +35,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Authentication/Authentication-CreateUser.md"
@@ -63,6 +64,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Authentication/Authentication-UpdatePassword.md"
@@ -91,6 +93,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Authentication/Authentication-DropUser.md"
@@ -119,6 +122,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Authentication/Authentication-DescribeUser.md"
@@ -147,6 +151,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Authentication/Authentication-ListUsers.md"
@@ -174,6 +179,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -200,6 +206,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Authentication/Authentication-DropRole.md"
@@ -228,6 +235,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Authentication/Authentication-DescribeRole.md"
@@ -256,6 +264,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Authentication/Authentication-ListRoles.md"
@@ -284,6 +293,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Authentication/Authentication-GrantRole.md"
@@ -312,6 +322,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Authentication/Authentication-RevokeRole.md"
@@ -340,6 +351,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Authentication/Authentication-GrantPrivilegeV2.md"
@@ -368,6 +380,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Authentication/Authentication-RevokePrivilegeV2.md"
@@ -395,6 +408,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -420,6 +434,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -446,6 +461,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Authentication/Authentication-ListPrivilegeGroups.md"
@@ -473,6 +489,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -499,6 +516,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Authentication/Authentication-RemovePrivilegesFromGroup.md"
@@ -527,6 +545,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Authentication/Authentication-UserDesc.md"
@@ -555,6 +574,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Authentication/Authentication-RoleDesc.md"
@@ -583,6 +603,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Authentication/Authentication-PrivilegeGroupInfo.md"
@@ -611,6 +632,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Authentication/Authentication-UpdateUser.md"
@@ -639,6 +661,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Authentication/Authentication-AlterRole.md"
@@ -667,6 +690,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Client/Client-Create.md"
@@ -695,6 +719,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "VMgPdyPGuor1t7xlZGWcWV1tnhh"
       ],
@@ -725,6 +750,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Client/Client-Disconnect.md"
@@ -753,6 +779,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Client/Client-SetRpcDeadlineMs.md"
@@ -781,6 +808,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "OxCLdTg9RoIzS0xwicjc8yJXnzc"
       ],
@@ -811,6 +839,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Client/Client-GetServerVersion.md"
@@ -839,6 +868,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Client/Client-GetSDKVersion.md"
@@ -867,6 +897,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Client/Client-CheckHealth.md"
@@ -895,6 +926,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Client/Client-UseDatabase.md"
@@ -923,6 +955,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Client/Client-CurrentUsedDatabase.md"
@@ -951,6 +984,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Client/Client-ConnectParam.md"
@@ -979,6 +1013,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Client/Client-RetryParam.md"
@@ -1006,6 +1041,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Client/Client-Session.md"
@@ -1034,6 +1070,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "AKq1dk2CLofyBXxCjAIcYdDNnae",
         "C4kSd9x2GobYZGxDTkacZsX2nlc",
@@ -1066,6 +1103,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "Fh1mdjyzRo7LanxIvHqcF9ihnLb",
         "PSxodxjuFo7SZFxP9qZc09ELn5c"
@@ -1097,6 +1135,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Collections/Collections-HasCollection.md"
@@ -1125,6 +1164,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Collections/Collections-DropCollection.md"
@@ -1153,6 +1193,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Collections/Collections-DescribeCollection.md"
@@ -1181,6 +1222,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Collections/Collections-RenameCollection.md"
@@ -1209,6 +1251,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Collections/Collections-GetCollectionStats.md"
@@ -1237,6 +1280,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Collections/Collections-ListCollections.md"
@@ -1265,6 +1309,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Collections/Collections-AlterCollectionProperties.md"
@@ -1293,6 +1338,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Collections/Collections-DropCollectionProperties.md"
@@ -1321,6 +1367,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Collections/Collections-AlterCollectionFieldProperties.md"
@@ -1349,6 +1396,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Collections/Collections-DropCollectionFieldProperties.md"
@@ -1377,6 +1425,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Collections/Collections-AddCollectionField.md"
@@ -1405,6 +1454,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Collections/Collections-CreateAlias.md"
@@ -1433,6 +1483,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Collections/Collections-DropAlias.md"
@@ -1461,6 +1512,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Collections/Collections-AlterAlias.md"
@@ -1489,6 +1541,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Collections/Collections-DescribeAlias.md"
@@ -1517,6 +1570,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Collections/Collections-ListAliases.md"
@@ -1545,6 +1599,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Collections/Collections-DataType.md"
@@ -1573,6 +1628,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Collections/Collections-LoadState.md"
@@ -1601,6 +1657,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Collections/Collections-CollectionSchema.md"
@@ -1629,6 +1686,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Collections/Collections-ConsistencyLevel.md"
@@ -1657,6 +1715,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "SGYTdh0fJo6O1uxW3yjcET9Nnpf"
       ],
@@ -1687,6 +1746,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Collections/Collections-CollectionDesc.md"
@@ -1715,6 +1775,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Collections/Collections-CollectionInfo.md"
@@ -1743,6 +1804,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Collections/Collections-AliasDesc.md"
@@ -1771,6 +1833,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Collections/Collections-StructFieldSchema.md"
@@ -1799,6 +1862,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Collections/Collections-Function.md"
@@ -1827,6 +1891,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Collections/Collections-BatchDescribeCollections.md"
@@ -1855,6 +1920,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Collections/Collections-AddCollectionFunction.md"
@@ -1883,6 +1949,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Collections/Collections-AlterCollectionFunction.md"
@@ -1911,6 +1978,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Collections/Collections-DropCollectionFunction.md"
@@ -1939,6 +2007,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Collections/Collections-DropCollectionField.md"
@@ -1967,6 +2036,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Collections/Collections-AddCollectionStructField.md"
@@ -1995,6 +2065,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Collections/Collections-AddFunctionField.md"
@@ -2023,6 +2094,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Collections/Collections-DropFunctionField.md"
@@ -2051,6 +2123,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Collections/Collections-FunctionType.md"
@@ -2079,6 +2152,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Database/Database-CreateDatabase.md"
@@ -2107,6 +2181,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Database/Database-DropDatabase.md"
@@ -2135,6 +2210,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Database/Database-ListDatabases.md"
@@ -2163,6 +2239,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Database/Database-AlterDatabaseProperties.md"
@@ -2191,6 +2268,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Database/Database-DropDatabaseProperties.md"
@@ -2219,6 +2297,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Database/Database-DescribeDatabase.md"
@@ -2247,6 +2326,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Management/Management-LoadCollection.md"
@@ -2275,6 +2355,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Management/Management-ReleaseCollection.md"
@@ -2303,6 +2384,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Management/Management-GetLoadState.md"
@@ -2331,6 +2413,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Management/Management-CreateIndex.md"
@@ -2359,6 +2442,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Management/Management-DescribeIndex.md"
@@ -2387,6 +2471,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Management/Management-ListIndexes.md"
@@ -2415,6 +2500,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Management/Management-DropIndex.md"
@@ -2443,6 +2529,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Management/Management-AlterIndexProperties.md"
@@ -2471,6 +2558,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Management/Management-DropIndexProperties.md"
@@ -2499,6 +2587,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Management/Management-Flush.md"
@@ -2527,6 +2616,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Management/Management-ListPersistentSegments.md"
@@ -2555,6 +2645,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Management/Management-ListQuerySegments.md"
@@ -2583,6 +2674,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Management/Management-Compact.md"
@@ -2611,6 +2703,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Management/Management-GetCompactionState.md"
@@ -2639,6 +2732,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Management/Management-GetCompactionPlans.md"
@@ -2667,6 +2761,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Management/Management-IndexType.md"
@@ -2695,6 +2790,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Management/Management-MetricType.md"
@@ -2723,6 +2819,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Management/Management-IndexDesc.md"
@@ -2751,6 +2848,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Management/Management-RefreshLoad.md"
@@ -2779,6 +2877,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Management/Management-Optimize.md"
@@ -2807,6 +2906,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/FileResources/Management-GetRefreshExternalCollectionProgress.md"
@@ -2835,6 +2935,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/FileResources/Management-ListRefreshExternalCollectionJobs.md"
@@ -2863,6 +2964,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/FileResources/Management-RefreshExternalCollection.md"
@@ -2891,6 +2993,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Management/Management-FlushAll.md"
@@ -2919,6 +3022,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Management/Management-GetFlushAllState.md"
@@ -2947,6 +3051,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Partitions/Partitions-CreatePartition.md"
@@ -2975,6 +3080,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Partitions/Partitions-DropPartition.md"
@@ -3003,6 +3109,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Partitions/Partitions-HasPartition.md"
@@ -3031,6 +3138,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Partitions/Partitions-LoadPartitions.md"
@@ -3059,6 +3167,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Partitions/Partitions-ReleasePartitions.md"
@@ -3087,6 +3196,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Partitions/Partitions-GetPartitionStatistics.md"
@@ -3115,6 +3225,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Partitions/Partitions-ListPartitions.md"
@@ -3143,6 +3254,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "SGYTdh0fJo6O1uxW3yjcET9Nnpf"
       ],
@@ -3173,6 +3285,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "SGYTdh0fJo6O1uxW3yjcET9Nnpf"
       ],
@@ -3203,6 +3316,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Vector/Vector-Delete.md"
@@ -3231,6 +3345,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "SGYTdh0fJo6O1uxW3yjcET9Nnpf"
       ],
@@ -3261,6 +3376,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "SGYTdh0fJo6O1uxW3yjcET9Nnpf"
       ],
@@ -3291,6 +3407,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "SGYTdh0fJo6O1uxW3yjcET9Nnpf"
       ],
@@ -3321,6 +3438,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "SGYTdh0fJo6O1uxW3yjcET9Nnpf"
       ],
@@ -3351,6 +3469,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Vector/Vector-Get.md"
@@ -3379,6 +3498,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "SGYTdh0fJo6O1uxW3yjcET9Nnpf"
       ],
@@ -3409,6 +3529,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Vector/Vector-RunAnalyzer.md"
@@ -3436,6 +3557,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3461,6 +3583,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3486,6 +3609,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3511,6 +3635,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3536,6 +3661,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3561,6 +3687,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3586,6 +3713,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3611,6 +3739,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3636,6 +3765,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3661,6 +3791,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3687,6 +3818,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/DataImport/DataImport-CreateImportJobs.md"
@@ -3715,6 +3847,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/DataImport/DataImport-ListImportJobs.md"
@@ -3743,6 +3876,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/DataImport/DataImport-GetImportJobProgress.md"
@@ -3771,6 +3905,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/DataImport/DataImport-CommitImport.md"
@@ -3799,6 +3934,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/DataImport/DataImport-AbortImport.md"
@@ -3827,6 +3963,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/FileResources/FileResources-AddFileResource.md"
@@ -3855,6 +3992,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/FileResources/FileResources-ListFileResources.md"
@@ -3883,6 +4021,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/FileResources/FileResources-RemoveFileResource.md"
@@ -3911,6 +4050,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-CreateSnapshot.md"
@@ -3939,6 +4079,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-DescribeSnapshot.md"
@@ -3967,6 +4108,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-DropSnapshot.md"
@@ -3995,6 +4137,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-GetRestoreSnapshotState.md"
@@ -4023,6 +4166,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-ListRestoreSnapshotJobs.md"
@@ -4051,6 +4195,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-ListSnapshots.md"
@@ -4079,6 +4224,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-PinSnapshotData.md"
@@ -4107,6 +4253,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-RestoreSnapshot.md"
@@ -4135,6 +4282,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-UnpinSnapshotData.md"
@@ -4162,6 +4310,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -4187,6 +4336,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -4212,6 +4362,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -4237,6 +4388,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     }
