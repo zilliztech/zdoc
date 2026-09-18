@@ -955,7 +955,7 @@ describe('createDocusaurusConfig', () => {
     ]);
   });
 
-  it('keeps Inkeep English-only and emits a credential-free config that can degrade safely', () => {
+  it('keeps Inkeep English-only and loads the runtime env script on both sites', () => {
     const integrations = {searchProvider: 'inkeep', chatProvider: 'inkeep'};
     const english = createDocusaurusConfig(profile({integrations}), {});
     const inkeep = (english.plugins ?? []).find(
@@ -965,6 +965,11 @@ describe('createDocusaurusConfig', () => {
       apiKey: undefined, integrationId: undefined, organizationId: undefined,
     });
 
+    // env.js is rewritten by the container entrypoint with the deployment's
+    // release channel (plus Inkeep credentials on the English site), so both
+    // site profiles load it — never only the Inkeep-integrated one.
+    expect(english.headTags ?? []).toContainEqual({tagName: 'script', attributes: {src: '/env.js'}});
+
     const chinese = createDocusaurusConfig(profile({
       id: 'zh-CN', language: 'zh-Hans', outputDir: 'build/zh-CN', integrations,
     }), {
@@ -972,7 +977,7 @@ describe('createDocusaurusConfig', () => {
       INKEEP_INTEGRATION_ID: 'must-not-leak',
       INKEEP_ORGANIZATION_ID: 'must-not-leak',
     });
-    expect(chinese.headTags ?? []).not.toContainEqual({tagName: 'script', attributes: {src: '/env.js'}});
+    expect(chinese.headTags ?? []).toContainEqual({tagName: 'script', attributes: {src: '/env.js'}});
     expect((chinese.plugins ?? []).some(
       plugin => Array.isArray(plugin) && plugin[0] === '@inkeep/cxkit-docusaurus',
     )).toBe(false);

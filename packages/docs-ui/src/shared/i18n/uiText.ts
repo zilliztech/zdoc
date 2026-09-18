@@ -130,6 +130,10 @@ export interface DocsUiText {
   toc: {onThisPage: string};
   image: {preview: string; closePreview: string};
   docMeta: {versionInformation: string; minimumSdkVersion: string};
+  releaseChannel: {
+    /** Admonition shown on NEXT-channel pages while the next deployment is open. */
+    banner: string;
+  };
   hero: {
     forHumans: string;
     forAgents: string;
@@ -306,6 +310,10 @@ const english: DocsUiText = {
   toc: {onThisPage: 'On this page'},
   image: {preview: 'Image preview', closePreview: 'Close image preview'},
   docMeta: {versionInformation: 'Version information', minimumSdkVersion: 'Minimum SDK version'},
+  releaseChannel: {
+    banner:
+      'The feature documented on this page has not been released yet. Content may change before general availability.',
+  },
   hero: {
     forHumans: 'For humans',
     forAgents: 'For agents',
@@ -480,6 +488,9 @@ const chinese: DocsUiText = {
   toc: {onThisPage: '本页内容'},
   image: {preview: '图片预览', closePreview: '关闭图片预览'},
   docMeta: {versionInformation: '版本信息', minimumSdkVersion: '最低 SDK 版本'},
+  releaseChannel: {
+    banner: '本页文档对应的功能尚未正式上线，正式发布前内容可能调整。',
+  },
   hero: {
     forHumans: '开发者使用',
     forAgents: 'AI Agent 使用',
@@ -660,6 +671,9 @@ const japanese: DocsUiText = {
   toc: {onThisPage: 'このページの内容'},
   image: {preview: '画像プレビュー', closePreview: '画像プレビューを閉じる'},
   docMeta: {versionInformation: 'バージョン情報', minimumSdkVersion: '最小 SDK バージョン'},
+  releaseChannel: {
+    banner: 'このページが説明する機能はまだ正式にリリースされていません。正式提供までに内容が変わる可能性があります。',
+  },
   hero: {
     forHumans: '人間向け',
     forAgents: 'AI エージェント向け',

@@ -8,6 +8,7 @@ const {
   guidesRecordCreatesPage,
   guidesCanonicalIsPublishable,
   guidesRecordPublishTargets,
+  guidesRecordChannel,
   guidesRecordRefTarget,
 } = require('./guidesBaseRecordSemantics')
 
@@ -52,4 +53,15 @@ test('normalizes publish targets and ref targets without using Progress', () => 
   assert.equal(guidesRecordCreatesPage(canonical), true)
   assert.equal(guidesRecordRefTarget({ base_placement_type: 'ref', base_ref_target_doc: 'wiki-token' }), 'wiki-token')
   assert.equal(guidesRecordRefTarget({ fields: {'Ref Target Doc': {text: 'Canonical page', link: 'https://zilliverse.feishu.cn/wiki/wiki-token'}} }), 'https://zilliverse.feishu.cn/wiki/wiki-token')
+})
+
+test('normalizes Release Channel with CURRENT default for legacy records', () => {
+  assert.equal(guidesRecordChannel({ fields: { 'Release Channel': 'NEXT' } }), 'next')
+  assert.equal(guidesRecordChannel({ fields: { 'Release Channel': { text: 'Current' } } }), 'current')
+  assert.equal(guidesRecordChannel({ base_channel: 'next' }), 'next')
+  assert.equal(guidesRecordChannel({ fields: {} }), 'current')
+  assert.equal(guidesRecordChannel({}), 'current')
+  assert.equal(guidesRecordChannel(null), 'current')
+  // Unrecognized values fall back to CURRENT instead of publishing early.
+  assert.equal(guidesRecordChannel({ fields: { 'Release Channel': 'beta' } }), 'current')
 })

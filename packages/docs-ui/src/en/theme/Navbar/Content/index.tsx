@@ -29,6 +29,7 @@ declare global {
       INKEEP_API_KEY?: string;
       INKEEP_INTEGRATION_ID?: string;
       INKEEP_ORGANIZATION_ID?: string;
+      RELEASE_CHANNEL?: string;
     };
   }
 }

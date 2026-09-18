@@ -2,6 +2,7 @@ import React, {type ReactNode} from 'react';
 import {findFirstSidebarItemLink, useDoc, useDocsSidebar} from '@docusaurus/plugin-content-docs/client';
 import {useLocation} from '@docusaurus/router';
 import {useWindowSize} from '@docusaurus/theme-common';
+import Head from '@docusaurus/Head';
 import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
 import DocVersionBanner from '@theme/DocVersionBanner';
 import DocVersionBadge from '@theme/DocVersionBadge';
@@ -9,9 +10,11 @@ import DocItemFooter from '@theme/DocItem/Footer';
 import DocItemPaginator from '@theme/DocItem/Paginator';
 import DocItemContent from '@theme/DocItem/Content';
 import DocItemTOCDesktop from '@theme/DocItem/TOC/Desktop';
+import NotFoundContent from '@theme/NotFound/Content';
 import CopyPageButton from '../../Heading/CopyPageButton';
 import DocMetaTags, {hasDocMetaTags} from '../../Heading/DocMetaTags';
 import {useDocsUiText, type DocsUiText} from '../../../i18n/uiText';
+import {frontMatterReleaseChannel, useRuntimeReleaseChannel} from '../../../utils/releaseChannel';
 import ContentVisibility from '@theme/ContentVisibility';
 import type {Props} from '@theme/DocItem/Layout';
 import styles from './styles.module.css';
@@ -163,11 +166,24 @@ function PageBreadcrumbs({text}: {text: DocsUiText}): ReactNode {
   );
 }
 
+function NextChannelBanner({text}: {text: DocsUiText}): ReactNode {
+  return (
+    <div className={`admonition admonition-caution ${styles.nextChannelBanner}`}>
+      <div className="admonition-heading">
+        <h5>{text.releaseChannel.banner}</h5>
+      </div>
+    </div>
+  );
+}
+
 export default function DocItemLayout({children}: Props): ReactNode {
   const text = useDocsUiText();
   const {frontMatter, metadata, toc} = useDoc();
   const {pathname} = useLocation();
   const windowSize = useWindowSize();
+  const runtimeChannel = useRuntimeReleaseChannel();
+  const isNextChannelPage = frontMatterReleaseChannel(frontMatter) === 'next';
+  const blockedByChannel = isNextChannelPage && runtimeChannel !== 'next';
   const hasTOC = toc.length > 0 && frontMatter.hide_table_of_contents !== true;
   // Desktop only: the TOC is always expanded; on mobile it disappears entirely.
   const showDesktopTOC = hasTOC && windowSize !== 'mobile';
@@ -178,14 +194,40 @@ export default function DocItemLayout({children}: Props): ReactNode {
   const isReference = pathname.startsWith('/reference');
   const showVersionInfo = isReference && hasDocMetaTags(frontMatter);
 
+  if (blockedByChannel) {
+    // Defense in depth: the docs shell (DocRoot/Layout) already swaps the
+    // whole page for the shared 404 content via the sidebar customProps, but a
+    // NEXT page missing from the active sidebar would still land here, so the
+    // front-matter gate renders the same 404 content within the shell.
+    return (
+      <div className={styles.docItemContainer}>
+        <ContentVisibility metadata={metadata} />
+        <Head>
+          <meta name="robots" content="noindex, nofollow" />
+        </Head>
+        <div className={styles.docItemRow}>
+          <div className={`${styles.docItemCol} ${styles.docItemColCentered}`}>
+            <NotFoundContent />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.docItemContainer}>
       <ContentVisibility metadata={metadata} />
+      {isNextChannelPage && (
+        <Head>
+          <meta name="robots" content="noindex, nofollow" />
+        </Head>
+      )}
       <DocVersionBanner />
       <div className={styles.docItemRow}>
         <div className={`${styles.docItemCol} ${!showDesktopTOC ? styles.docItemColCentered : ''}`}>
           <article>
             <DocVersionBadge />
+            {isNextChannelPage && <NextChannelBanner text={text} />}
             <PageBreadcrumbs text={text} />
             <DocItemContent>{children}</DocItemContent>
             <DocItemFooter />

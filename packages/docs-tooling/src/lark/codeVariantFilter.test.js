@@ -185,3 +185,14 @@ test('preserves mixed inline legacy fragments on retained code lines', () => {
     'token=TOKEN  # API key or username:password'
   )
 })
+
+test('rejects reserved release-channel targets on product directives', () => {
+  assert.throws(
+    () => filterCodeVariants('# include-start next\nstaged()\n# include-end', 'zilliz.saas'),
+    /target "next" is reserved for the release channel.*\(next\|current\)-channel-/,
+  )
+  assert.throws(
+    () => filterCodeVariants('# exclude-next-line CURRENT\nold()', 'zilliz.saas'),
+    /target "current" is reserved for the release channel/,
+  )
+})

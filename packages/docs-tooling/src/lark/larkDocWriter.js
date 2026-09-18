@@ -22,6 +22,7 @@ const IMAGE_BED_URL = process.env.IMAGE_BED_URL || 'https://zdoc-images.s3.us-we
 const {
     guidesPlacementType,
     guidesRecordPublishTargets,
+    guidesRecordChannel,
     guidesCanonicalIsPublishable,
 } = require('./guidesBaseRecordSemantics')
 const { guidesTableSlug } = require('./guidesTableSlugs')
@@ -142,6 +143,7 @@ class larkDocWriter {
                         id,
                         label: frontmatter.sidebar_label || frontmatter.title || slug,
                         key: this.__sidebar_key('doc', currentPath, contentRoot, slug, frontmatter.sidebar_label || frontmatter.title || slug),
+                        ...(frontmatter.channel === 'next' ? { customProps: { channel: 'next' } } : {}),
                     },
                 }
             })
@@ -285,6 +287,7 @@ class larkDocWriter {
                     href,
                     label: meta.labels || child.title,
                     key: this.__sidebar_key('ref', currentPath, contentRoot, child.slug, child.title),
+                    ...(targetMeta.channel === 'next' ? { customProps: { channel: 'next' } } : {}),
                 })
                 continue
             }
@@ -309,6 +312,7 @@ class larkDocWriter {
                         key: this.__sidebar_key('category', currentPath, contentRoot, slug, label),
                         link: { type: 'doc', id: docId },
                         items: childItems,
+                        ...(meta.channel === 'next' ? { customProps: { channel: 'next' } } : {}),
                     })
                 } else if (childItems.length > 0) {
                     items.push({
@@ -332,6 +336,7 @@ class larkDocWriter {
                     id: docId,
                     label,
                     key: this.__sidebar_key('doc', currentPath, contentRoot, slug, label),
+                    ...(meta.channel === 'next' ? { customProps: { channel: 'next' } } : {}),
                 })
             }
         }
@@ -645,6 +650,7 @@ class larkDocWriter {
                                 page_title: child.title,
                                 page_slug: slug,
                                 page_beta: beta,
+                                page_channel: meta['channel'],
                                 notebook: notebook,
                                 addedSince: addedSince,
                                 lastModified: lastModified,
@@ -695,6 +701,7 @@ class larkDocWriter {
                                     page_title: child.title,
                                     page_slug: child.slug,
                                     page_beta: beta,
+                                    page_channel: meta['channel'],
                                     notebook: notebook,
                                     addedSince: addedSince,
                                     lastModified: lastModified,
@@ -757,6 +764,7 @@ class larkDocWriter {
                 page_title: node.title,
                 page_slug: node.slug,
                 page_beta: meta.beta,
+                page_channel: meta.channel,
                 notebook: meta.notebook,
                 addedSince: meta.addSince,
                 lastModified: meta.lastModified,
@@ -818,10 +826,11 @@ class larkDocWriter {
     }
 
     async write_doc ({
-        path,  
-        page_title, 
+        path,
+        page_title,
         page_slug,
         page_beta,
+        page_channel,
         notebook,
         addedSince,
         lastModified,
@@ -867,6 +876,7 @@ class larkDocWriter {
                 suffix: this.__title_suffix(path),
                 slug: page_slug,
                 beta: page_beta,
+                channel: page_channel,
                 notebook: notebook,
                 addedSince: addedSince,
                 lastModified: lastModified,
@@ -970,7 +980,7 @@ class larkDocWriter {
                 let title = sub_page[0].indexOf('{/') > 0 ? sub_page[0].split('{/')[0].split('## ')[1] : sub_page[0].replace(/^## /g, '').replace(/{#[\w-]+}/g, '').trim()
                 let short_description = sub_page.filter(line => line.length > 0)[1]
                 let slug = sub_page[0].indexOf('{/') > 0 ? /{\/([\w-]+)}/.exec(sub_page[0])[1] : slugify(title, {lower: true, strict: true})
-                let front_matter = this.__front_matters(title, suffix, slug, null, null, source.node_type, source.node_token, index+1, "", "", this.displayedSidebar, short_description)
+                let front_matter = this.__front_matters(title, suffix, slug, null, null, source.node_type, source.node_token, index+1, "", "", this.displayedSidebar, short_description, guidesRecordChannel(source))
                 let links = []
 
                 sub_page = sub_page.map(line => {
@@ -1130,6 +1140,7 @@ class larkDocWriter {
                         title: baseSource.title || title,
                         slug,
                         beta: this.__plain_value(baseSource.base_beta) || null,
+                        channel: guidesRecordChannel(baseSource),
                         labels: this.__plain_value(baseSource.base_labels) || baseSource.title || title,
                     }
                 }
@@ -1139,6 +1150,7 @@ class larkDocWriter {
                         title: baseSource.title || title,
                         slug,
                         beta: this.__plain_value(baseSource.base_beta) || null,
+                        channel: guidesRecordChannel(baseSource),
                         labels: this.__plain_value(baseSource.base_labels) || baseSource.title || title,
                     }
                 }
@@ -1150,6 +1162,7 @@ class larkDocWriter {
                         title: baseSource.title || title,
                         slug,
                         beta: this.__plain_value(baseSource.base_beta) || null,
+                        channel: guidesRecordChannel(baseSource),
                         labels: this.__plain_value(baseSource.base_labels) || baseSource.title || title,
                     }
                 }
@@ -1159,6 +1172,7 @@ class larkDocWriter {
                         title: baseSource.title || title,
                         slug,
                         beta: this.__plain_value(baseSource.base_beta) || null,
+                        channel: guidesRecordChannel(baseSource),
                         labels: this.__plain_value(baseSource.base_labels) || baseSource.title || title,
                     }
                 }
@@ -1204,6 +1218,7 @@ class larkDocWriter {
                 title: this.__doc_title(docField),
                 slug: fields.Slug,
                 beta: fields.Beta || null,
+                channel: guidesRecordChannel({ fields }),
                 notebook: fields.Notebook || null,
                 labels: fields.Labels || null,
                 keywords: fields.Keywords || null,
@@ -1223,6 +1238,7 @@ class larkDocWriter {
 
     __filter_content (markdown, targets) {
         const matches = this.__match_filter_tags(markdown)
+        this.__reject_reserved_channel_targets(matches)
 
         if (matches.length > 0) {
             var preText = markdown.slice(0, matches[0].startIndex)
@@ -1248,6 +1264,96 @@ class larkDocWriter {
             .replace(/(<br\/>){2,}/, "<br/>")
             .replace("<br\/></p>", "</p>")
             .replace(/\n\s*<tr>\n(\s*<td.*><p><\/p><\/td>\n)*\s*<\/tr>/g, '');
+    }
+
+    // The include/exclude tags filter on the product/edition axis only. A
+    // release-channel value there would silently vanish from every tree
+    // (no product target is ever "current"/"next"); channel-gated blocks use
+    // the dedicated <NextChannel action="include|exclude"> authoring tag,
+    // which must survive scraping untouched for the runtime gate.
+    __reject_reserved_channel_targets (matches) {
+        for (const match of matches) {
+            const target = match.target.trim().toLowerCase()
+            if (target === 'next' || target === 'current') {
+                throw new Error(`Reserved release-channel target "${match.target}" on <${match.tag}>: gate channel content with <NextChannel action="include|exclude"> instead`)
+            }
+        }
+    }
+
+    // Block-level channel tags pass through scraping as JSX and resolve to the
+    // globally registered NextChannel component at MDX compile time. Structural
+    // author errors must fail the fetch here rather than the site build, and
+    // the tags are meaningless on a page whose front matter is already NEXT.
+    __validate_next_channel_tags (markdown, channel) {
+        const openMatches = [...markdown.matchAll(/<NextChannel\b([^>]*)>/g)]
+        const closeMatches = [...markdown.matchAll(/<\/NextChannel>/g)]
+        if (openMatches.length === 0 && closeMatches.length === 0) return
+
+        if (channel === 'next') {
+            throw new Error('Block-level <NextChannel> tags on a NEXT-channel page never render: gate the whole record via the Base Release Channel field, or set the record to CURRENT and tag only the staged blocks')
+        }
+        if (openMatches.length !== closeMatches.length) {
+            throw new Error(`Unbalanced <NextChannel> tags: ${openMatches.length} opening vs ${closeMatches.length} closing`)
+        }
+        for (const match of openMatches) {
+            if (!/^\s+action="(include|exclude)"\s*$/.test(match[1])) {
+                throw new Error(`Invalid ${match[0]}: the action attribute must be exactly "include" or "exclude"`)
+            }
+        }
+        let depth = 0
+        for (const event of markdown.matchAll(/<NextChannel\b[^>]*>|<\/NextChannel>/g)) {
+            depth += event[0].startsWith('</') ? -1 : 1
+            if (depth > 1) throw new Error('Nested <NextChannel> tags are not supported')
+        }
+    }
+
+    __parse_channel_code_directive (line) {
+        const body = '(next|current)-channel-(next-line|start|end)'
+        const sources = [
+            `^(\\s*)#\\s*${body}\\s*$`,
+            `^(\\s*)//\\s*${body}\\s*$`,
+            `^(\\s*)/\\*\\s*${body}\\s*\\*/\\s*$`,
+            `^(\\s*)<!--\\s*${body}\\s*-->\\s*$`,
+            `^(\\s*)\\{/\\*\\s*${body}\\s*\\*/\\}\\s*$`,
+        ]
+        for (const source of sources) {
+            const match = line.match(new RegExp(source))
+            if (match) return { channel: match[2], operation: match[3] }
+        }
+        return null
+    }
+
+    // Channel code directives ride the generated fences to the runtime
+    // renderer and the static AI surfaces; structural author errors must fail
+    // the Fetch here instead of silently hiding or revealing the wrong lines.
+    __validate_channel_code_directives (markdown) {
+        const fences = markdown.match(/```[\s\S]*?```|~~~[\s\S]*?~~~/g) || []
+        for (const fence of fences) {
+            if (!/(next|current)-channel-(next-line|start|end)/.test(fence)) continue
+            let active = null
+            let pending = null
+            for (const line of fence.split('\n')) {
+                const directive = this.__parse_channel_code_directive(line)
+                if (!directive) {
+                    pending = null
+                    continue
+                }
+                if (pending) throw new Error('A channel code next-line directive must be followed by a code line')
+                if (directive.operation === 'next-line') {
+                    pending = directive.channel
+                    continue
+                }
+                if (directive.operation === 'start') {
+                    if (active) throw new Error('Nested channel code regions are not supported')
+                    active = directive.channel
+                    continue
+                }
+                if (!active) throw new Error('Channel code end directive without a matching start')
+                if (active !== directive.channel) throw new Error(`Channel code end directive mismatched: region "${active}" closed by "${directive.channel}"`)
+                active = null
+            }
+            if (active) throw new Error(`Unclosed channel code region "${active}" at the end of a code block`)
+        }
     }
 
     __match_filter_tags(markdown) {
@@ -1316,15 +1422,25 @@ class larkDocWriter {
             if (/^<\/?[A-Z][A-Za-z0-9]*\b/.test(line)) continue
             if (/^#+\s/.test(line)) break
 
-            return line
+            // Description front matter feeds SEO, llms.txt, and structured
+            // data — all static CURRENT-view surfaces — so inline channel
+            // gates resolve here: staged spans drop, replaced wording unwraps.
+            const description = line
+                .replace(/<NextChannel action="include">[\s\S]*?<\/NextChannel>/g, '')
+                .replace(/<NextChannel action="exclude">([\s\S]*?)<\/NextChannel>/g, '$1')
+                .replace(/\s{2,}/g, ' ')
+                .trim()
+            if (description) return description
         }
 
         return "(placeholder)"
     }
 
-    async __write_page({title, suffix, slug, beta, notebook, addedSince, lastModified, deprecateSince, path, type, token, sidebar_position, sidebar_label, keywords, doc_card_list}) {
+    async __write_page({title, suffix, slug, beta, channel, notebook, addedSince, lastModified, deprecateSince, path, type, token, sidebar_position, sidebar_label, keywords, doc_card_list}) {
         let markdown = await this.__markdown()
         markdown = this.__filter_content(markdown, this.targets)
+        this.__validate_next_channel_tags(markdown, channel)
+        this.__validate_channel_code_directives(markdown)
         markdown = markdown.replace(/(\s*\n){3,}/g, '\n\n').replace(/(<br\/>){2,}/, "<br/>").replace(/<br>/g, '<br/>');
         markdown = markdown.replace(/^[\||\s][\s|\||<br\/>]*\|\n/gm, '')
         markdown = markdown.replace(/\s*<tr>\n(\s*<td>(<br\/>)*<\/td>\n)*\s*<\/tr>/g, '')
@@ -1337,7 +1453,7 @@ class larkDocWriter {
         const isReleaseNote = String(path || '').includes('release-notes') || String(slug || '').includes('release-notes')
         const displayedSidebar = isReleaseNote ? 'releasesSidebar' : this.displayedSidebar
 
-        let front_matter = this.__front_matters(title, suffix, slug, beta, notebook, type, token, sidebar_position, sidebar_label, keywords, displayedSidebar, description)
+        let front_matter = this.__front_matters(title, suffix, slug, beta, notebook, type, token, sidebar_position, sidebar_label, keywords, displayedSidebar, description, channel)
 
         let tabs = markdown.split('\n').filter(line => {
             return line.trim().startsWith("<Tab")
@@ -1417,7 +1533,7 @@ class larkDocWriter {
         }
     }
 
-    __front_matters (title, suffix, slug, beta, notebook, type, token, sidebar_position=undefined, sidebar_label="", keywords="", displayed_sidebar=this.displayedSidebar, description="") {
+    __front_matters (title, suffix, slug, beta, notebook, type, token, sidebar_position=undefined, sidebar_label="", keywords="", displayed_sidebar=this.displayedSidebar, description="", channel=null) {
         let hide_title = '';
         let hide_toc = '';
 
@@ -1451,12 +1567,13 @@ class larkDocWriter {
             hide_toc = "hide_table_of_contents: true";
         }
 
-        let front_matter = '---\n' + 
+        let front_matter = '---\n' +
         `title: ${this.__yaml_string(`${title} | ${suffix}`)}` + '\n' +
         `slug: /${slug}` + '\n' +
         `sidebar_label: ${this.__yaml_string(sidebar_label ? sidebar_label : title)}` + '\n' +
         `beta: ${beta ? beta : 'FALSE'}` + '\n' +
         `notebook: ${notebook ? notebook : 'FALSE'}` + '\n' +
+        `${channel === 'next' ? 'channel: next\nsidebar_custom_props:\n  channel: next\n' : ''}` +
         `description: ${this.__yaml_string(`${description} | ${suffix}`)}` + '\n' +
         `type: ${type}` + '\n' +
         `token: ${token}` + '\n' +

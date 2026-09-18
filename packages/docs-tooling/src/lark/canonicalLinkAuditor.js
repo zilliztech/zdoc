@@ -1,6 +1,6 @@
 const fs = require('node:fs')
 const path = require('node:path')
-const { guidesCanonicalIsPublishable } = require('./guidesBaseRecordSemantics')
+const { guidesCanonicalIsPublishable, guidesRecordChannel } = require('./guidesBaseRecordSemantics')
 const slugify = require('slugify')
 const { parseFeishuDocumentLink, safeDecodeUrl } = require('./feishuDocumentLink')
 
@@ -254,6 +254,7 @@ function canonicalRecordsFrom(records, { guidesPublishableOnly = false } = {}) {
         title: docTitle(doc),
         labels: plainValue(record.fields?.Labels) || '',
         slug: plainValue(record.fields?.Slug) || '',
+        release_channel: guidesRecordChannel(record),
         doc_token,
         doc_link: docLink(doc) || '',
       }
