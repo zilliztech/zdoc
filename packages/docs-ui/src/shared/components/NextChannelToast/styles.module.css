@@ -1,20 +1,22 @@
-/* Top-center under the navbar, the only fixed-layer-free spot: the viewport's
- * bottom strip belongs to the floating Ask-AI dock (DocRoot/Layout,
- * z-index 400, full-width backdrop ~143px tall) and the desktop right column
- * to the sticky TOC (z-index 410), which both covered a bottom-right toast.
- * z-index 450 sits above the dock and TOC but below the opened chat pane
- * (z-index 1000). --toast-slide-x lets the mobile full-width variant drop the
- * horizontal centering translate used by the keyframes. */
+/* Floating directly above the Ask-AI dock, the notice's natural spot: the
+ * dock (DocRoot/Layout) is fixed with bottom 30px and a min-height 89px
+ * composer, its white backdrop rising 89 + 30 + 24 = 143px from the viewport
+ * floor — so the toast's bottom edge clears it with a 16px gap. Centered on
+ * the viewport, it also stays clear of the sidebar (left) and the sticky
+ * desktop TOC (right column, z-index 410). z-index 450 sits above the dock
+ * (400) and TOC (410) but below the opened chat pane (z-index 1000).
+ * --toast-slide-x lets the mobile full-width variant drop the horizontal
+ * centering translate used by the keyframes. */
 .toast {
   --toast-slide-x: -50%;
   position: fixed;
-  top: calc(var(--ifm-navbar-height, 68px) + 12px);
+  bottom: calc(89px + 30px + 24px + 16px);
   left: 50%;
   z-index: 450;
   display: flex;
   align-items: flex-start;
   gap: 0.625rem;
-  max-width: 26rem;
+  max-width: min(40rem, calc(100vw - 30rem));
   width: max-content;
   padding: 0.875rem 1rem;
   border: 1px solid var(--ifm-color-warning-dark, #b45309);
@@ -64,7 +66,7 @@
 @keyframes nextChannelToastIn {
   from {
     opacity: 0;
-    transform: translate(var(--toast-slide-x), -0.75rem);
+    transform: translate(var(--toast-slide-x), 0.75rem);
   }
 
   to {
@@ -76,9 +78,9 @@
 @media (max-width: 996px) {
   .toast {
     --toast-slide-x: 0px;
-    top: calc(var(--ifm-navbar-height, 68px) + 8px);
     right: 1rem;
     left: 1rem;
+    bottom: calc(89px + 30px + 24px + 8px);
     width: auto;
     max-width: none;
   }
