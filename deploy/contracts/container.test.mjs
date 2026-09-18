@@ -336,6 +336,28 @@ test('both site-owned images route chat directly to the private agent runtime', 
   }
 });
 
+test('release-channel route gate is generated into server context, never into http-level conf.d', () => {
+  // conf.d/*.conf is included at http level by the base image's nginx.conf,
+  // where a bare `location` directive is a configuration error that aborts
+  // startup. The gate must be written to its own directory that the site
+  // nginx.conf files include inside their server block.
+  const entrypoint = read('deploy/runtime/40-zdoc-env.sh');
+  assert.match(entrypoint, /gate_dir="\/etc\/nginx\/release-channel-gate"/);
+  assert.match(entrypoint, /gate_conf="\$gate_dir\/blocked-routes\.conf"/);
+  assert.match(entrypoint, /mkdir -p "\$gate_dir"/);
+  assert.doesNotMatch(entrypoint, /gate_conf="\/etc\/nginx\/conf\.d\//);
+
+  for (const site of ['en', 'zh-CN']) {
+    const nginx = read(`deploy/${site}/nginx.conf`);
+    const serverStart = nginx.indexOf('server {');
+    const includeAt = nginx.indexOf('include /etc/nginx/release-channel-gate/*.conf;');
+    assert.ok(serverStart >= 0, `${site}: server block not found`);
+    assert.ok(includeAt > serverStart, `${site}: release-channel-gate include missing or outside the server block`);
+    const between = nginx.slice(serverStart + 'server {'.length, includeAt);
+    assert.ok(!/[{}]/.test(between), `${site}: release-channel-gate include must sit directly inside the server block, not in a nested block`);
+  }
+});
+
 test('browser chat assets keep UI and SSE ownership in docs-ui without server-only configuration', () => {
   const chatRoot = path.join(repositoryRoot, 'packages/docs-ui/src/shared/components/ChatPanel');
   const sources = fs.readdirSync(chatRoot)
