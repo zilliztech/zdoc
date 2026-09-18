@@ -70,3 +70,51 @@ test('keeps protected anchors and destinations out of the deterministic repair s
   assert.match(repaired, /\\\{#cluster-level-isolation\}/)
   assert.match(repaired, /\]\(\.\/manage-cluster\)/)
 })
+
+const CHANNEL_SOURCE = [
+  '---',
+  'title: "Staged Feature"',
+  '---',
+  '',
+  '## Staged Feature',
+  '',
+  'Always visible.',
+  '',
+  '<NextChannel action="exclude">old pricing</NextChannel><NextChannel action="include">new pricing</NextChannel>',
+  '',
+].join('\n')
+
+function validateChannelDraft(draftContent) {
+  return validateTranslationFile({sourceContent: CHANNEL_SOURCE, draftContent, relPath: 'content/en/staged.md', target: 'ja-JP'})
+}
+
+test('accepts a draft that keeps <NextChannel> tags with translated inner text', () => {
+  const draft = CHANNEL_SOURCE
+    .replace('Always visible.', '常に表示されます。')
+    .replace('>old pricing<', '>旧料金<')
+    .replace('>new pricing<', '>新料金<')
+
+  const {errors} = validateChannelDraft(draft)
+
+  assert.deepEqual(errors.filter(error => /NextChannel/.test(error)), [])
+})
+
+test('flags a draft that dropped a <NextChannel> gate', () => {
+  const draft = CHANNEL_SOURCE
+    .replace('Always visible.', '常に表示されます。')
+    .replace('<NextChannel action="include">new pricing</NextChannel>', '新料金')
+
+  const {errors} = validateChannelDraft(draft)
+
+  assert.ok(errors.some(error => /<NextChannel> parity mismatch: source include=1 exclude=1 close=2, draft include=0/.test(error)))
+})
+
+test('flags a draft that flipped a <NextChannel> action polarity', () => {
+  const draft = CHANNEL_SOURCE
+    .replace('Always visible.', '常に表示されます。')
+    .replace('action="include"', 'action="exclude"')
+
+  const {errors} = validateChannelDraft(draft)
+
+  assert.ok(errors.some(error => /<NextChannel> parity mismatch: source include=1/.test(error)))
+})

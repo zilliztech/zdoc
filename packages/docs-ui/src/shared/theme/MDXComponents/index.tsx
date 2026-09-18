@@ -12,6 +12,7 @@ import Admonition from '@theme/Admonition';
 import Mermaid from '@theme/Mermaid';
 import FeatureCardGrid, {FeatureCard} from '../../components/FeatureCardGrid';
 import FeatureNote from '../../components/FeatureNote';
+import NextChannel from '../../components/NextChannel';
 
 import type {MDXComponentsObject} from '@theme/MDXComponents';
 
@@ -71,6 +72,8 @@ const MDXComponents = {
   FeatureCardGrid,
   FeatureCard,
   FeatureNote,
+  // Release Channel block gate used by generated guides markdown
+  NextChannel,
   // Custom icons used in docs
   LniInfo,
 };

@@ -17,6 +17,20 @@ function headingCount(content) {
   return (withoutFences.match(/^ {0,3}#{1,6}[\t ]+\S/gm) || []).length
 }
 
+// Block-level channel gates are JSX spans (protected content), but their
+// presence and action polarity are release-channel invariants: a dropped or
+// flipped <NextChannel> tag would downgrade staged prose to CURRENT and leak
+// it to production, so parity is asserted independently of span protection.
+function nextChannelTagCounts(content) {
+  const withoutFences = String(content).replace(/```[\s\S]*?```/g, '')
+  const counts = {include: 0, exclude: 0, close: 0}
+  for (const match of withoutFences.matchAll(/<NextChannel\s+action="(include|exclude)">/g)) {
+    counts[match[1]] += 1
+  }
+  counts.close = (withoutFences.match(/<\/NextChannel>/g) || []).length
+  return counts
+}
+
 function overlapsProtectedSpan(protectedRanges, start, end) {
   return protectedRanges.some(range => start < range.end && end > range.start)
 }
@@ -67,6 +81,18 @@ function validateTranslationFile({sourceContent, draftContent, relPath, target})
   }
   if (headingCount(sourceContent) !== headingCount(repaired)) {
     errors.push(`heading count mismatch: source ${headingCount(sourceContent)}, draft ${headingCount(repaired)}`)
+  }
+  const sourceNextChannel = nextChannelTagCounts(sourceContent)
+  const draftNextChannel = nextChannelTagCounts(repaired)
+  if (
+    sourceNextChannel.include !== draftNextChannel.include ||
+    sourceNextChannel.exclude !== draftNextChannel.exclude ||
+    sourceNextChannel.close !== draftNextChannel.close
+  ) {
+    errors.push(
+      `<NextChannel> parity mismatch: source include=${sourceNextChannel.include} exclude=${sourceNextChannel.exclude} close=${sourceNextChannel.close}` +
+        `, draft include=${draftNextChannel.include} exclude=${draftNextChannel.exclude} close=${draftNextChannel.close}`,
+    )
   }
   return {repaired, errors}
 }
@@ -126,7 +152,7 @@ async function main() {
   console.log('OK')
 }
 
-module.exports = {headingCount, parseCliArgs, usage, validateTranslationFile, validateWithRuntimeChecks}
+module.exports = {headingCount, nextChannelTagCounts, parseCliArgs, usage, validateTranslationFile, validateWithRuntimeChecks}
 
 if (require.main === module) {
   main().catch(error => {

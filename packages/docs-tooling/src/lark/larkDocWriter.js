@@ -1238,6 +1238,7 @@ class larkDocWriter {
 
     __filter_content (markdown, targets) {
         const matches = this.__match_filter_tags(markdown)
+        this.__reject_reserved_channel_targets(matches)
 
         if (matches.length > 0) {
             var preText = markdown.slice(0, matches[0].startIndex)
@@ -1263,6 +1264,47 @@ class larkDocWriter {
             .replace(/(<br\/>){2,}/, "<br/>")
             .replace("<br\/></p>", "</p>")
             .replace(/\n\s*<tr>\n(\s*<td.*><p><\/p><\/td>\n)*\s*<\/tr>/g, '');
+    }
+
+    // The include/exclude tags filter on the product/edition axis only. A
+    // release-channel value there would silently vanish from every tree
+    // (no product target is ever "current"/"next"); channel-gated blocks use
+    // the dedicated <NextChannel action="include|exclude"> authoring tag,
+    // which must survive scraping untouched for the runtime gate.
+    __reject_reserved_channel_targets (matches) {
+        for (const match of matches) {
+            const target = match.target.trim().toLowerCase()
+            if (target === 'next' || target === 'current') {
+                throw new Error(`Reserved release-channel target "${match.target}" on <${match.tag}>: gate channel content with <NextChannel action="include|exclude"> instead`)
+            }
+        }
+    }
+
+    // Block-level channel tags pass through scraping as JSX and resolve to the
+    // globally registered NextChannel component at MDX compile time. Structural
+    // author errors must fail the fetch here rather than the site build, and
+    // the tags are meaningless on a page whose front matter is already NEXT.
+    __validate_next_channel_tags (markdown, channel) {
+        const openMatches = [...markdown.matchAll(/<NextChannel\b([^>]*)>/g)]
+        const closeMatches = [...markdown.matchAll(/<\/NextChannel>/g)]
+        if (openMatches.length === 0 && closeMatches.length === 0) return
+
+        if (channel === 'next') {
+            throw new Error('Block-level <NextChannel> tags on a NEXT-channel page never render: gate the whole record via the Base Release Channel field, or set the record to CURRENT and tag only the staged blocks')
+        }
+        if (openMatches.length !== closeMatches.length) {
+            throw new Error(`Unbalanced <NextChannel> tags: ${openMatches.length} opening vs ${closeMatches.length} closing`)
+        }
+        for (const match of openMatches) {
+            if (!/^\s+action="(include|exclude)"\s*$/.test(match[1])) {
+                throw new Error(`Invalid ${match[0]}: the action attribute must be exactly "include" or "exclude"`)
+            }
+        }
+        let depth = 0
+        for (const event of markdown.matchAll(/<NextChannel\b[^>]*>|<\/NextChannel>/g)) {
+            depth += event[0].startsWith('</') ? -1 : 1
+            if (depth > 1) throw new Error('Nested <NextChannel> tags are not supported')
+        }
     }
 
     __match_filter_tags(markdown) {
@@ -1340,6 +1382,7 @@ class larkDocWriter {
     async __write_page({title, suffix, slug, beta, channel, notebook, addedSince, lastModified, deprecateSince, path, type, token, sidebar_position, sidebar_label, keywords, doc_card_list}) {
         let markdown = await this.__markdown()
         markdown = this.__filter_content(markdown, this.targets)
+        this.__validate_next_channel_tags(markdown, channel)
         markdown = markdown.replace(/(\s*\n){3,}/g, '\n\n').replace(/(<br\/>){2,}/, "<br/>").replace(/<br>/g, '<br/>');
         markdown = markdown.replace(/^[\||\s][\s|\||<br\/>]*\|\n/gm, '')
         markdown = markdown.replace(/\s*<tr>\n(\s*<td>(<br\/>)*<\/td>\n)*\s*<\/tr>/g, '')

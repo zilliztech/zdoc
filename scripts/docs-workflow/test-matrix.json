@@ -928,13 +928,19 @@
         "packages/docs-ui/src/shared/utils/releaseChannel*",
         "packages/docs-ui/src/shared/theme/DocCardList/**",
         "deploy/runtime/40-zdoc-env.sh",
-        "apps/docs/plugins/release-channel-routes*"
+        "apps/docs/plugins/release-channel-routes*",
+        "packages/docs-ui/src/shared/components/NextChannel/**",
+        "packages/docs-ui/src/shared/theme/MDXComponents/**",
+        "packages/docs-tooling/src/lark/larkDocWriter.next-channel.test.js"
       ],
       "focusedTests": [
         "pnpm vitest run packages/docs-ui/src/shared/utils/releaseChannel.test.ts",
         "pnpm vitest run packages/docs-ui/src/shared/i18n/uiText.test.ts",
         "pnpm vitest run apps/docs/src/config/createDocusaurusConfig.test.ts",
-        "node --test apps/docs/plugins/release-channel-routes/index.test.js"
+        "node --test apps/docs/plugins/release-channel-routes/index.test.js",
+        "pnpm vitest run packages/docs-ui/src/shared/components/NextChannel/index.test.tsx",
+        "node packages/docs-tooling/src/lark/larkDocWriter.next-channel.test.js",
+        "node --test scripts/translation/validate-translation-file.test.js"
       ],
       "harnesses": [],
       "gates": [
@@ -942,7 +948,7 @@
         "pnpm typecheck",
         "git diff --check"
       ],
-      "reason": "Release Channel (CURRENT/NEXT) front matter and sidebar customProps gate NEXT docs per deployment: runtime env.js injection, client gating with the shared 404 page and banner, server-side route blocking, and build capability exclusions must stay aligned."
+      "reason": "Release Channel (CURRENT/NEXT) front matter and sidebar customProps gate NEXT docs per deployment: runtime env.js injection, client gating with the shared 404 page and banner, server-side route blocking, and build capability exclusions must stay aligned. Block-level gating adds the globally registered NextChannel MDX component (CURRENT-fail-closed runtime gate), writer pass-through plus structural lint, and translation output parity for the channel tags."
     }
   ]
 }
