@@ -72,6 +72,9 @@ export const enProfile = deepFreeze(SiteProfileSchema.parse({
   integrations: {
     searchProvider: 'inkeep',
     chatProvider: 'inkeep',
+    // Legacy zdoc container (v3.0.0 docusaurus.config.js); the registration
+    // was lost in the monorepo move, not the container itself.
+    gtmContainerId: 'GTM-MBBF2KR',
     restApi: {
       planeConfig: {
         dataPlaneKeywords: {
