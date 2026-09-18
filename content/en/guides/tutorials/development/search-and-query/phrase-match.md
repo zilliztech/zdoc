@@ -275,6 +275,36 @@ schema->AddField(milvus::FieldSchema("dense_vector", milvus::DataType::FLOAT_VEC
 
 ```shell
 # Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+# Create a collection with a VARCHAR field configured for phrase matching
+zilliz collection create --collection-name tech_articles --schema '{
+  "autoId": true,
+  "enabledDynamicField": false,
+  "fields": [
+    {
+      "fieldName": "id",
+      "dataType": "Int64",
+      "isPrimary": true
+    },
+    {
+      "fieldName": "text",
+      "dataType": "VarChar",
+      "elementTypeParams": {
+        "max_length": 1000,
+        "enable_analyzer": true,
+        "enable_match": true
+      }
+    },
+    {
+      "fieldName": "embeddings",
+      "dataType": "FloatVector",
+      "elementTypeParams": {
+        "dim": 5
+      }
+    }
+  ]
+}' 
 ```
 
 </TabItem>
@@ -420,6 +450,39 @@ if (!status.IsOk()) {
 
 ```shell
 # Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+# Create a collection with English analyzer for phrase matching
+zilliz collection create --collection-name tech_articles --schema '{
+  "autoId": true,
+  "enabledDynamicField": false,
+  "fields": [
+    {
+      "fieldName": "id",
+      "dataType": "Int64",
+      "isPrimary": true
+    },
+    {
+      "fieldName": "text",
+      "dataType": "VarChar",
+      "elementTypeParams": {
+        "max_length": 1000,
+        "enable_analyzer": true,
+        "enable_match": true,
+        "analyzer_params": {
+          "type": "english"
+        }
+      }
+    },
+    {
+      "fieldName": "embeddings",
+      "dataType": "FloatVector",
+      "elementTypeParams": {
+        "dim": 5
+      }
+    }
+  ]
+}' 
 ```
 
 </TabItem>
@@ -683,6 +746,10 @@ if (!status.IsOk()) {
 
 ```shell
 # Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+# Use PHRASE_MATCH in a query to filter documents
+zilliz collection query --collection-name tech_articles --filter "PHRASE_MATCH(text, 'machine learning')" --output-fields "id,text"
 ```
 
 </TabItem>
@@ -758,6 +825,10 @@ const auto filter = R"(PHRASE_MATCH(text, 'machine learning'))";
 
 ```shell
 # Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+# Query documents containing exactly "machine learning"
+zilliz collection query --collection-name tech_articles --filter "PHRASE_MATCH(text, 'machine learning')" --output-fields "id,text" 
 ```
 
 </TabItem>
@@ -886,6 +957,10 @@ if (!status.IsOk()) {
 
 ```shell
 # Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+# Search documents containing "learning machine" with slop=1
+zilliz collection search --collection-name tech_articles --vector-field embeddings --vectors '[[0.1,0.2,0.3,0.4,0.5]]' --filter "PHRASE_MATCH(text, 'learning machine', 1)" --limit 10 --output-fields "id,text" 
 ```
 
 </TabItem>
@@ -1029,6 +1104,10 @@ if (!status.IsOk()) {
 
 ```shell
 # Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+# Search documents containing "machine learning" with slop=2
+zilliz collection search --collection-name tech_articles --vector-field embeddings --vectors '[[0.1,0.2,0.3,0.4,0.5]]' --filter "PHRASE_MATCH(text, 'machine learning', 2)" --limit 10 --output-fields "id,text" 
 ```
 
 </TabItem>
@@ -1162,6 +1241,10 @@ if (!status.IsOk()) {
 
 ```shell
 # Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+# Search documents containing "machine learning" with slop=3
+zilliz collection search --collection-name tech_articles --vector-field embeddings --vectors '[[0.1,0.2,0.3,0.4,0.5]]' --filter "PHRASE_MATCH(text, 'machine learning', 3)" --limit 10 --output-fields "id,text" 
 ```
 
 </TabItem>
@@ -1294,6 +1377,10 @@ if (!status.IsOk()) {
 
 ```shell
 # Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+# Search documents containing "machine learning" with slop=3
+zilliz collection search --collection-name tech_articles --vector-field embeddings --vectors '[[0.1,0.2,0.3,0.4,0.5]]' --filter "PHRASE_MATCH(text, 'machine learning', 3)" --limit 10 --output-fields "id,text"
 ```
 
 </TabItem>

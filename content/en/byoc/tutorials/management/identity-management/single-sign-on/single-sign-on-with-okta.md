@@ -78,11 +78,11 @@ In this step, you configure Okta (the IdP) with the SP details obtained from Zil
 
 1. Log in to the [Okta Admin console](https://login.okta.com/).
 
-1. In the left-side navigation pane, choose **Applications** > **Applications**.
+1. In the left-side navigation pane, click **Applications and Resources**.
 
 1. Click **Create App Integration**.
 
-1. In the **Create a new app integration** dialog box, select **SAML 2.0** and click **Next**.
+1. In the dialog box that appears, select **SAML 2.0** and click **Next**.
 
 1. For simplicity, set **App name** to **zilliz**, then click **Next**.
 
@@ -98,7 +98,7 @@ In this step, you configure Okta (the IdP) with the SP details obtained from Zil
 
 1. Click **Next**, then click **Finish**. You will be redirected to the app page.
 
-1. On the **Sign On** tab of the app page, 
+1. Back to the **Sign On** tab of the app page, 
 
     1. Navigate to the **Attribute statements** area, expand the **Show legacy configuration**, click **Edit** next to **Profile attribute statements**, then add an attribute statement with the following settings:
 
@@ -108,7 +108,7 @@ In this step, you configure Okta (the IdP) with the SP details obtained from Zil
 
         - **Value**: Select **user.email** from the drop-down list.
 
-    1. After, navigate to the **SAML 2.0** card, get **Metadata URL**, then click **Copy**. It will be required in Zilliz Cloud console in [Step 3](./single-sign-on-with-okta#step-3-configure-idp-settings-in-zilliz-cloud-console).
+    1. After, navigate to the **SAML 2.0** card, get **Metadata URL**, then click **Copy**. This will be required in Zilliz Cloud console in [Step 3](./single-sign-on-with-okta#step-3-configure-idp-settings-in-zilliz-cloud-console).
 
     <Admonition type="info" title="Notes">
 

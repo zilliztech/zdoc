@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "The Zilliz Cloud Platform Audit Logs feature provides a comprehensive view of logs associated with a specific Zilliz Cloud organization, encompassing billing and  access logs. | Cloud"
+description: "The Zilliz Cloud Platform Audit Logs feature provides a comprehensive view of logs associated with a specific Zilliz Cloud organization, encompassing billing and access logs. | Cloud"
 type: origin
 token: NeUWwqRl2iwn4HkZg3ocjLjmnth
 sidebar_position: 3
