@@ -70,6 +70,15 @@ function validateGuidesBasePreflight({site, tables, records}) {
         fix: 'Set Placement Type to exactly canonical, section, ref, or link.',
       })
     }
+    const rawChannel = plain(record?.fields?.['Release Channel'])
+    if (rawChannel && !['CURRENT', 'NEXT'].includes(rawChannel.toUpperCase())) {
+      preflightError(site, record, {
+        problem: 'Release Channel is not a supported option',
+        field: 'Release Channel',
+        value: rawChannel,
+        fix: 'Set Release Channel to exactly CURRENT or NEXT, or clear the field to fall back to CURRENT.',
+      })
+    }
   }
 
   const navigation = createGuidesNavigationState(records).navigationRecords

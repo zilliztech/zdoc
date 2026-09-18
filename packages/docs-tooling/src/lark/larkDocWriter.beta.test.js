@@ -940,6 +940,152 @@ async function testRemoveStaleTokenFilesKeepsCurrentDestination() {
     })
 }
 
+function testScraperCopiesReleaseChannelToBaseSourceMeta() {
+    const scraper = new LarkDocScraper('root', 'base:*', 'wiki', 'unused')
+    const source = scraper.__source_base_meta({}, {
+        record_id: 'recPingOne',
+        base_table_id: 'tblSecurity',
+        base_table_name: 'Security',
+        base_record_index: 1,
+        fields: {
+            Docs: '[PingOne SSO](https://zilliverse.feishu.cn/wiki/pingone-token)',
+            Slug: 'pingone-sso',
+            Targets: ['Zilliz.SaaS'],
+            Progress: 'Draft',
+            'Release Channel': 'NEXT',
+        },
+    })
+
+    assert.deepEqual(source.base_channel, 'NEXT')
+}
+
+async function testBaseSourceMetaNormalizesReleaseChannelIntoFrontMatter() {
+    await withTempDir(async dir => {
+        fs.writeFileSync(path.join(dir, 'source.json'), JSON.stringify({
+            title: 'PingOne SSO',
+            name: 'PingOne SSO',
+            slug: 'pingone-sso',
+            base_record_id: 'recPingOne',
+            base_placement_type: 'canonical',
+            base_targets: ['Zilliz.SaaS'],
+            base_status: 'Draft',
+            base_channel: 'NEXT',
+        }, null, 2))
+
+        const writer = new LarkDocWriter(
+            'root',
+            'base:*',
+            'default',
+            dir,
+            path.join(dir, 'images'),
+            'zilliz.saas',
+            true,
+            false,
+        )
+
+        try {
+            const meta = await writer.__is_to_publish('PingOne SSO', 'pingone-sso')
+            assert.equal(meta.publish, true)
+            assert.equal(meta.channel, 'next')
+
+            const nextFrontMatter = writer.__front_matters(
+                meta.title,
+                'Cloud',
+                meta.slug,
+                meta.beta,
+                null,
+                'origin',
+                'pingone-token',
+                undefined,
+                '',
+                '',
+                'default',
+                '',
+                meta.channel,
+            )
+            assert.match(nextFrontMatter, /^channel: next$/m)
+            // sidebar_custom_props is the official bridge that carries the
+            // channel onto the runtime sidebar link item (the generated
+            // sidebar file's customProps is a fallback for link/ref entries).
+            assert.match(nextFrontMatter, /^sidebar_custom_props:\n  channel: next$/m)
+
+            const currentFrontMatter = writer.__front_matters(
+                meta.title,
+                'Cloud',
+                meta.slug,
+                meta.beta,
+                null,
+                'origin',
+                'pingone-token',
+            )
+            assert.doesNotMatch(currentFrontMatter, /^channel:/m)
+            assert.doesNotMatch(currentFrontMatter, /^sidebar_custom_props:/m)
+        } finally {
+            writer.destroy()
+        }
+    })
+}
+
+async function testSidebarMarksNextChannelDocsViaCustomProps() {
+    await withTempDir(async dir => {
+        fs.writeFileSync(path.join(dir, 'root.json'), JSON.stringify({
+            title: 'Root',
+            slug: 'root',
+            node_token: 'root',
+            has_child: true,
+            children: [
+                { title: 'PingOne SSO', slug: 'pingone-sso', node_token: 'pingone-token', has_child: false },
+                { title: 'Stable Page', slug: 'stable-page', node_token: 'stable-token', has_child: false },
+            ],
+        }, null, 2))
+        for (const [name, channel] of [['pingone', 'NEXT'], ['stable', null]]) {
+            fs.writeFileSync(path.join(dir, `${name}.json`), JSON.stringify({
+                title: name === 'pingone' ? 'PingOne SSO' : 'Stable Page',
+                name: name === 'pingone' ? 'PingOne SSO' : 'Stable Page',
+                slug: name === 'pingone' ? 'pingone-sso' : 'stable-page',
+                node_token: name === 'pingone' ? 'pingone-token' : 'stable-token',
+                parent_node_token: 'root',
+                base_record_id: `rec-${name}`,
+                base_placement_type: 'canonical',
+                base_targets: ['Zilliz.SaaS'],
+                base_status: 'Draft',
+                base_channel: channel,
+                blocks: {
+                    items: [
+                        { block_type: 1, page: {}, children: ['text-block'] },
+                        { block_id: 'text-block', block_type: 2, text: { elements: [{ text_run: { content: 'body' } }] } },
+                    ],
+                },
+            }, null, 2))
+        }
+
+        const writer = new LarkDocWriter(
+            'root', 'base:*', 'default', dir, path.join(dir, 'images'),
+            'zilliz.saas', true, false,
+        )
+
+        try {
+            assert.deepEqual(await writer.generate_sidebar('docs/tutorials', 'docs'), [
+                {
+                    type: 'doc',
+                    id: 'tutorials/pingone-sso',
+                    label: 'PingOne SSO',
+                    key: 'doc:tutorials/pingone-sso',
+                    customProps: { channel: 'next' },
+                },
+                {
+                    type: 'doc',
+                    id: 'tutorials/stable-page',
+                    label: 'Stable Page',
+                    key: 'doc:tutorials/stable-page',
+                },
+            ])
+        } finally {
+            writer.destroy()
+        }
+    })
+}
+
 async function run() {
     testScraperCopiesBetaToBaseSourceMeta()
     testScraperKeepsPublishMetaForSections()
@@ -960,6 +1106,9 @@ async function run() {
     await testBaseSourceMetaPreservesBeta()
     await testGuidesCanonicalDoesNotPublishWithoutProgress()
     await testSdkSourceKeepsLegacyProgressFiltering()
+    testScraperCopiesReleaseChannelToBaseSourceMeta()
+    await testBaseSourceMetaNormalizesReleaseChannelIntoFrontMatter()
+    await testSidebarMarksNextChannelDocsViaCustomProps()
     console.log('larkDocWriter beta tests passed')
 }
 

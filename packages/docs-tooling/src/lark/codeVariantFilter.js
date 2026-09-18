@@ -42,6 +42,14 @@ function parseCommentDirective(line, lineNumber) {
     if (operation === 'end' && target) {
       throw new Error(`Code variant ${kind}-end must not specify a target at line ${lineNumber}`)
     }
+    if (target === 'next' || target === 'current') {
+      // A channel value here never matches a product target, so include
+      // regions would silently vanish from every rendered tree. Channel
+      // gating of code lines has its own directive namespace.
+      throw new Error(
+        `Code variant ${kind}-${operation} target "${target}" is reserved for the release channel (line ${lineNumber}): gate code lines with (next|current)-channel-(next-line|start|end) directives instead`,
+      )
+    }
 
     return { indent, kind, operation, target, lineNumber }
   }

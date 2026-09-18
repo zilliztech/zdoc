@@ -2,6 +2,7 @@
 
 const PLACEMENTS = new Set(['canonical', 'section', 'link', 'ref'])
 const PUBLISHABLE_PROGRESS = new Set(['draft', 'reviewed', 'published', 'approved', 'publish'])
+const RELEASE_CHANNELS = new Set(['current', 'next'])
 
 function plain(value) {
   if (value == null) return null
@@ -66,6 +67,18 @@ function guidesCanonicalIsPublishable(record) {
   return PUBLISHABLE_PROGRESS.has(progress || '')
 }
 
+function guidesRecordChannel(record) {
+  const value = plain(
+    record?.base_channel
+      ?? fields(record)['Release Channel']
+      ?? fields(record)['release channel'],
+  )?.trim().toLowerCase()
+  // The Base field is a single-select with CURRENT/NEXT options, so a missing
+  // or unrecognized value means a pre-backfill or legacy record: treat it as
+  // CURRENT so promotion to NEXT stays an explicit editorial act.
+  return RELEASE_CHANNELS.has(value) ? value : 'current'
+}
+
 function guidesRecordRefTarget(record) {
   const value = record?.base_ref_target_doc ?? fields(record)['Ref Target Doc']
   if (Array.isArray(value)) return guidesRecordRefTarget({base_ref_target_doc: value[0]})
@@ -81,6 +94,7 @@ module.exports = {
   guidesRecordCreatesPage,
   guidesCanonicalIsPublishable,
   guidesRecordPublishTargets,
+  guidesRecordChannel,
   guidesRecordRefTarget,
   isFeishuDocumentLink,
 }

@@ -97,9 +97,59 @@ test('createSourceSnapshot records hashes and outgoing tokens', () => {
     'docs/tutorials/source.md',
   ])
   assert.match(snapshot.records[0].source_hash, /^[a-f0-9]{64}$/)
+  assert.equal(snapshot.records[0].release_channel, 'current')
   assert.equal(snapshot.navigation_records.length, 1)
   assert.equal(snapshot.navigation_records[0].placement_type, 'canonical')
   assert.match(snapshot.table_digests.tbl, /^[a-f0-9]{64}$/)
+})
+
+test('createSourceSnapshot persists Release Channel and candidate validation rejects unknown channels', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'snapshot-'))
+  try {
+    fs.writeFileSync(path.join(dir, 'source-token.json'), JSON.stringify({
+      title: 'Source',
+      slug: 'source',
+      node_token: 'source-token',
+      base_record_id: 'rec-source',
+      base_placement_type: 'canonical',
+      blocks: { items: [] },
+    }))
+
+    const input = {
+      manualName: 'guides',
+      buildEnv: 'uat',
+      sourceBranch: 'dev',
+      docSourceDir: dir,
+      baseAppToken: 'base-token',
+      records: [{
+        record_id: 'rec-source',
+        base_table_id: 'tbl',
+        base_table_name: 'Development',
+        fields: {
+          Docs: { text: 'Source', link: 'https://zilliverse.feishu.cn/wiki/source-token' },
+          Slug: 'source',
+          Progress: 'Draft',
+          'Placement Type': 'canonical',
+          'Release Channel': 'NEXT',
+        },
+      }],
+    }
+
+    const snapshot = createSourceSnapshot(input)
+    assert.equal(snapshot.records[0].release_channel, 'next')
+
+    assert.throws(() => validateCandidateSnapshot({
+      ...snapshot,
+      records: [{...snapshot.records[0], release_channel: 'beta'}],
+    }), /release channel is invalid/)
+
+    // Legacy snapshots written before the field existed stay valid.
+    const legacy = JSON.parse(JSON.stringify(snapshot))
+    for (const record of legacy.records) delete record.release_channel
+    assert.doesNotThrow(() => validateCandidateSnapshot(legacy))
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true })
+  }
 })
 
 test('createSourceSnapshot records Base publication eligibility for canonical SDK sources', () => {

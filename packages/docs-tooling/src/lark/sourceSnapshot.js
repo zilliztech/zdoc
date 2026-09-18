@@ -15,6 +15,7 @@ const {
 const {
   guidesPlacementType,
   guidesRecordPublishTargets,
+  guidesRecordChannel,
   guidesRecordRefTarget,
 } = require('./guidesBaseRecordSemantics')
 
@@ -76,6 +77,9 @@ function validateCandidateSnapshot(candidate, expected = {}) {
     }
     if (record.publish_status !== undefined && record.publish_status !== null && typeof record.publish_status !== 'string') {
       throw new Error(`Candidate snapshot publish status is invalid for ${record.doc_token}`)
+    }
+    if (record.release_channel !== undefined && !['current', 'next'].includes(record.release_channel)) {
+      throw new Error(`Candidate snapshot release channel is invalid for ${record.doc_token}: ${record.release_channel}`)
     }
   }
   if (candidate.manual === 'guides') {
@@ -308,6 +312,7 @@ function createSourceSnapshot({
         revision_id: nodeMetadata?.revision_id || source?.revision_id || null,
         publish_targets: [...new Set(publishTargets)].sort(),
         publish_status: plainValue(baseRecord?.fields?.Status ?? baseRecord?.fields?.Progress) || null,
+        release_channel: guidesRecordChannel(baseRecord),
         outgoing_tokens: [...new Set(outgoingTokens)].sort(),
         output_paths: [...new Set(outputPathsByToken.get(record.doc_token) || [])].sort(),
       }

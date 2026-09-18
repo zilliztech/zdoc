@@ -1,5 +1,6 @@
 const fs = require('node:fs');
 const path = require('node:path');
+const {resolveNextChannelCurrentView} = require('../next-channel-view');
 
 function pluginTranslationDirectoryName(id) {
   return id === 'default'
@@ -107,8 +108,21 @@ function getSlugFromMarkdown(filePath) {
     }
   } catch (e) {
     // Ignore errors reading frontmatter
+  }  return null;
+}
+
+// Raw markdown of NEXT-channel pages must not ship as .md build output: it
+// would bypass the runtime release-channel gate entirely.
+function isNextChannelMarkdown(filePath) {
+  try {
+    const content = fs.readFileSync(filePath, 'utf-8');
+    const frontmatterMatch = content.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+    if (!frontmatterMatch) return false;
+    const channelMatch = frontmatterMatch[1].match(/^channel:\s*(\S+)\s*$/m);
+    return channelMatch ? channelMatch[1].trim().toLowerCase() === 'next' : false;
+  } catch {
+    return false;
   }
-  return null;
 }
 
 module.exports = function (context, options) {
@@ -149,6 +163,7 @@ module.exports = function (context, options) {
               for (const source of sources) {
                 const { route } = source;
                 for (const {filePath, relativePath} of sourceFileEntries(source, context)) {
+                  if (isNextChannelMarkdown(filePath)) continue;
                   const slug = getSlugFromMarkdown(filePath);
                   let fullUrlPath;
 
@@ -174,7 +189,7 @@ module.exports = function (context, options) {
                 const fsPath = pathMap[req.path];
 
                 if (fsPath && fs.existsSync(fsPath)) {
-                  const content = fs.readFileSync(fsPath, 'utf-8');
+                  const content = resolveNextChannelCurrentView(fs.readFileSync(fsPath, 'utf-8'));
                   res.set('Content-Type', 'text/markdown; charset=utf-8');
                   res.setHeader('Content-Disposition', 'inline');
                   res.send(content);
@@ -204,6 +219,7 @@ module.exports = function (context, options) {
       for (const source of sources) {
         const {route} = source;
         for (const {filePath, relativePath} of sourceFileEntries(source, lifecycle)) {
+          if (isNextChannelMarkdown(filePath)) continue;
           const slug = getSlugFromMarkdown(filePath);
 
           if (slug) {
@@ -249,7 +265,12 @@ module.exports = function (context, options) {
           fs.mkdirSync(destDir, { recursive: true });
         }
 
-        fs.copyFileSync(sourcePath, fullDestPath);
+        // The .md copy is a static artifact with no runtime channel signal:
+        // ship the CURRENT view (include blocks dropped, exclude unwrapped)
+        // instead of the raw source with staged prose readable on production.
+        const content = fs.readFileSync(sourcePath, 'utf-8');
+        const resolved = resolveNextChannelCurrentView(content);
+        fs.writeFileSync(fullDestPath, resolved, 'utf-8');
         totalCopied++;
       }
 
