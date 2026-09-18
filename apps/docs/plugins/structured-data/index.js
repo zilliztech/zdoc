@@ -190,6 +190,8 @@ module.exports = function pluginStructuredData(context, options) {
           const fm = parseFrontmatter(mdPath);
           const title = fm.sidebar_label || fm.title;
           if (!title) continue;
+          // NEXT-channel pages are gated at runtime; skip their structured data.
+          if (String(fm.channel ?? '').trim().toLowerCase() === 'next') continue;
 
           const rel = relativePath
             .replace(/\.mdx?$/, '')

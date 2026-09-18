@@ -53,6 +53,7 @@ import {
 } from 'lucide-react';
 import IconButton from '../../../shared/components/IconButton';
 import SidebarIconVisibilityContext from '../../../shared/theme/DocSidebarItem/iconVisibility';
+import {filterNextChannelSidebarItems, useRuntimeReleaseChannel} from '../../../shared/utils/releaseChannel';
 import {
   parseDocsRoute,
   withLocalePrefix,
@@ -943,6 +944,15 @@ export default function DocSidebarWrapper(props: Props): ReactNode {
   const [isMobile, setIsMobile] = useState(() =>
     typeof window !== 'undefined' ? window.innerWidth <= 767 : false,
   );
+  // NEXT-channel entries stay in the navigation only on NEXT deployments; the
+  // prerendered CURRENT build (and any deployment without an injected channel)
+  // filters them out of every sidebar mode below.
+  const runtimeChannel = useRuntimeReleaseChannel();
+  const sidebar = useMemo(
+    () => (runtimeChannel === 'next' ? props.sidebar : filterNextChannelSidebarItems(props.sidebar)),
+    [props.sidebar, runtimeChannel],
+  );
+  const sidebarProps = {...props, sidebar};
 
   useEffect(() => {
     const update = () => setIsMobile(window.innerWidth <= 767);
@@ -954,12 +964,12 @@ export default function DocSidebarWrapper(props: Props): ReactNode {
   // On mobile the sidebar renders inside the hamburger menu —
   // always show the full sidebar items, never the collapsed icon column.
   if (!isMobile && props.isHidden) {
-    return <CollapsedIconColumn onExpand={props.onCollapse!} sidebar={props.sidebar} />;
+    return <CollapsedIconColumn onExpand={props.onCollapse!} sidebar={sidebar} />;
   }
 
   if (!isMobile) {
-    return <TwoLevelSidebar {...props} />;
+    return <TwoLevelSidebar {...sidebarProps} />;
   }
 
-  return <MobileDocSidebar {...props} />;
+  return <MobileDocSidebar {...sidebarProps} />;
 }

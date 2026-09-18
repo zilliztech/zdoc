@@ -93,6 +93,7 @@ function buildCapabilityPlugins(profile: DeepReadonly<SiteProfile>): PluginConfi
     [repositoryPath('apps/docs/plugins/embed-markdown'), {sources}],
     [repositoryPath('apps/docs/plugins/llms-txt'), {sources}],
     [repositoryPath('apps/docs/plugins/structured-data'), {sources}],
+    [repositoryPath('apps/docs/plugins/release-channel-routes'), {sources}],
   ];
 }
 
@@ -234,11 +235,10 @@ export function createDocusaurusConfig(
       /* Heading anchor icons copy their own link and flash a check. */
       repositoryPath('apps/docs/src/clientModules/hashLinkCopy.js'),
     ],
-    headTags: profile.id === 'en' &&
-      profile.integrations.searchProvider === 'inkeep' &&
-      profile.integrations.chatProvider === 'inkeep'
-      ? [{tagName: 'script', attributes: {src: '/env.js'}}]
-      : [],
+    // /env.js is rewritten by the container entrypoint (deploy/runtime/40-zdoc-env.sh)
+    // with runtime-only values. Both sites need it: it carries the deployment's
+    // release channel in addition to the English site's Inkeep credentials.
+    headTags: [{tagName: 'script', attributes: {src: '/env.js'}}],
     themeConfig: {
       navbar: {
         title: '',

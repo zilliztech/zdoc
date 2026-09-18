@@ -408,6 +408,36 @@ The English image includes Japanese content. The two commands are independent; i
 
 The site-owned Nginx configurations are `deploy/en/nginx.conf` and `deploy/zh-CN/nginx.conf`. Runtime environment rendering is owned by `deploy/runtime/40-zdoc-env.sh`.
 
+### Release Channel gating (CURRENT / NEXT)
+
+Guides records carry a `Release Channel` field in the Feishu Base. `CURRENT` is the default and the fallback for records without the field; `NEXT` marks documentation for a feature that has not shipped yet.
+
+- Fetch renders `channel: next` plus `sidebar_custom_props: {channel: next}` into the page front matter (the latter is Docusaurus's official bridge onto runtime sidebar link items) and `customProps: {channel: 'next'}` onto generated sidebar entries, and persists `release_channel` in the source snapshot so a channel flip re-renders the page even when the document itself is unchanged.
+- Both environments deploy the same image. The deployment's channel is injected at container start: `deploy/runtime/40-zdoc-env.sh` writes `ZDOC_RELEASE_CHANNEL` (default `current`, fail closed) into `window.__ZDOC_ENV__.RELEASE_CHANNEL` via `/env.js`.
+- On a `next` deployment, NEXT pages render normally with an unreleased-feature banner in the site's locale. On a `current` deployment, the docs shell swaps the entire page for the shared 404 page (no sidebar, chrome-less — the exact presentation of a native miss under `/docs`, resolved through the sidebar entry's runtime channel); NEXT entries also disappear from sidebars and DocCard lists, the pages carry `noindex` (which also excludes the routes from the sitemap), they are skipped in `llms.txt`, structured data, and `.md` build copies, and the routes listed in `release-channel-routes.txt` are additionally blocked with Nginx 404s that serve the styled 404 page.
+- To promote a page, flip `Release Channel` from `NEXT` to `CURRENT` in the Base; the next Fetch re-renders the page and every environment picks it up on its next deployment. The new-record default of `NEXT` means every newly created record must be promoted explicitly before it reaches production.
+
+#### Block-level channel gating (`<NextChannel>`)
+
+Untagged content is `CURRENT` by convention; only staged blocks inside an otherwise-current page are tagged in the Feishu document:
+
+```text
+<NextChannel action="include">Ships with the next release: visible on next deployments only.</NextChannel>
+
+<NextChannel action="exclude">Current wording, removed once next ships.</NextChannel><NextChannel action="include">Its replacement.</NextChannel>
+```
+
+- The tags pass through Fetch untouched and compile to the globally registered `NextChannel` MDX component (`packages/docs-ui/src/shared/components/NextChannel`), which resolves the deployment channel from the same `window.__ZDOC_ENV__.RELEASE_CHANNEL` signal as page-level gating. `action="include"` blocks render only on `next` deployments; `action="exclude"` blocks only on `current`.
+- Prerendering and hydration resolve to `current` (fail closed), so `include` blocks are absent from the static HTML and appear after mount on `next`. The product/edition `include`/`exclude` tags are unaffected: they keep their scrape-time filtering, and channel values on that axis (`target="next"`/`target="current"`) are rejected at Fetch with repair guidance, as are malformed, nested, or NEXT-page-redundant `<NextChannel>` usage.
+- Translation treats the tags as protected JSX spans and the output validator asserts tag/action parity against the source, so a dropped or flipped gate fails the Translation check instead of leaking staged prose to production.
+- Static build capabilities cannot evaluate the runtime channel and therefore render the CURRENT view, matching the prerendered page: the `.md` copies and llms.txt summaries resolve include blocks away and unwrap exclude blocks (`apps/docs/plugins/next-channel-view.js`), and the Fetch description front matter (consumed by structured data and llms.txt) applies the same resolution to inline gates.
+- Inside code blocks, use the comment directives `# next-channel-start/next-line` and `# current-channel-start/next-line` (same five comment styles as the product variants, see `packages/docs-tooling/src/lark/CODE_VARIANTS.md`). Both variants ship in the shared build; the code renderer filters them per deployment channel before client-side highlighting, so directive lines never render or copy and next-only lines are absent from the prerendered HTML. Whole examples can instead be wrapped in `<NextChannel action="include">` around the fenced block.
+- Promotion is tag removal: unwrap `action="include"` blocks (keep the inner text), delete `action="exclude"` blocks, and let the next Fetch re-render; existing translations seed-match the unchanged prose.
+
+Deployment overlays own the runtime value: set `ZDOC_RELEASE_CHANNEL: next` on the UAT overlays (`vdc-deploy` → `zdocs/overlays/uat3`, `zdocs-cn/overlays/ali-vdc-uat`) and `ZDOC_RELEASE_CHANNEL: current` on the production overlays (`vdc-deploy-prod` → `zdocs/overlays/vdc-global`, `zdocs-cn/vdc-ali-global`). An overlay without the variable behaves as `current`.
+
+Known limitation: the Chinese site's client-side search index is built from source folders and still lists NEXT titles; results resolve to the gated page. Server-side Nginx blocking and the client gate remain in force. Likewise, existing Japanese translations only gain the `channel` front matter the next time Translation regenerates them; until then their pages rely on the token-based Nginx blocking (route listings propagate the channel through the shared Feishu `token`) and show no unreleased-feature banner on NEXT deployments. Block-level gating inherits the soft-hiding posture of page-level gating: `include` block text still ships inside the production **browser JS chunks** (it is absent from the static HTML, the `.md` copies, and llms.txt, which all render the CURRENT view) because the shared build needs it to reveal the blocks on `next` deployments; the page TOC — built from the prerendered heading tree — does not list NEXT-only sections until promotion. The same secrets-driven dual-build fallback applies if content must not ship at all.
+
 ## Verification
 
 Run proportional checks while developing. Before a repository-wide retirement or release change, run:

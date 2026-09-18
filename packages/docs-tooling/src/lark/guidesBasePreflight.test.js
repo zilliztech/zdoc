@@ -135,3 +135,21 @@ test('Guides Base preflight treats non-Feishu section Docs as empty', () => {
     }],
   }))
 })
+
+test('Guides Base preflight accepts CURRENT and NEXT release channels', () => {
+  for (const releaseChannel of ['CURRENT', 'NEXT', 'current', 'next', '']) {
+    assert.doesNotThrow(() => validateGuidesBasePreflight({
+      site: 'en', tables: [{table_id: 'table-1', name: 'Get Started'}], records: [
+        canonical({fields: {...canonical().fields, 'Release Channel': releaseChannel}}),
+      ],
+    }), `Release Channel ${releaseChannel || '(empty)'} should be accepted`)
+  }
+})
+
+test('Guides Base preflight rejects unsupported release channel values with repair guidance', () => {
+  assert.throws(() => validateGuidesBasePreflight({
+    site: 'en', tables: [{table_id: 'table-1', name: 'Get Started'}], records: [
+      canonical({fields: {...canonical().fields, 'Release Channel': 'beta'}}),
+    ],
+  }), /Release Channel[\s\S]*Current value: beta[\s\S]*How to fix:/)
+})

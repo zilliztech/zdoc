@@ -5,12 +5,15 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import BackToTopButton from '@theme/BackToTopButton';
 import DocRootLayoutSidebar from './Sidebar';
 import DocRootLayoutMain from '@theme/DocRoot/Layout/Main';
+import NotFoundContent from '@theme/NotFound/Content';
+import Head from '@docusaurus/Head';
 import type {Props} from '@theme/DocRoot/Layout';
 import ChatPanel, {ChatProvider} from '../../../components/ChatPanel';
 import AskAiComposer from '../../../components/AskAiComposer';
 import {useChatContext} from '../../../components/ChatPanel/ChatContext';
 import {DEFAULT_CHAT_ENDPOINT} from '../../../components/ChatPanel/endpoints';
 import {useDocsUiText} from '../../../i18n/uiText';
+import {sidebarPathIsNextChannel, useRuntimeReleaseChannel} from '../../../utils/releaseChannel';
 
 import styles from './styles.module.css';
 
@@ -617,6 +620,24 @@ export default function DocRootLayout(props: Props): ReactNode {
   const {siteConfig} = useDocusaurusContext();
   const chatEndpoint = (siteConfig.customFields?.chatEndpoint as string) || DEFAULT_CHAT_ENDPOINT;
   const chatDebug = Boolean(siteConfig.customFields?.chatDebug);
+  // A NEXT-channel page on a CURRENT deployment renders the shared 404 page in
+  // place of the whole docs shell — the exact presentation of a native miss
+  // under /docs (no sidebar, chrome-less), not an in-page variant of it. The
+  // sidebar entry's customProps carry the channel here because the doc front
+  // matter is only available below this layout.
+  const runtimeChannel = useRuntimeReleaseChannel();
+  const sidebar = useDocsSidebar();
+  const {pathname} = useLocation();
+  if (runtimeChannel !== 'next' && sidebar && sidebarPathIsNextChannel(sidebar.items, pathname)) {
+    return (
+      <>
+        <Head>
+          <meta name="robots" content="noindex, nofollow" />
+        </Head>
+        <NotFoundContent />
+      </>
+    );
+  }
 
   return (
     <ChatProvider chatEndpoint={chatEndpoint} debugDefault={chatDebug}>

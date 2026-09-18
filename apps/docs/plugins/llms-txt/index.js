@@ -3,6 +3,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const yaml = require('js-yaml');
+const {resolveNextChannelCurrentView} = require('../next-channel-view');
 
 function pluginTranslationDirectoryName(id) {
   return id === 'default'
@@ -362,9 +363,15 @@ function buildSectionSummary(source, lifecycle, route, siteUrl, baseUrl) {
       continue;
     }
 
+    // Summaries feed AI agents from a static file with no runtime channel
+    // signal: describe the CURRENT view (matches the prerendered page).
+    raw = resolveNextChannelCurrentView(raw);
+
     const fm = parseFrontmatterFromContent(raw);
     const title = fm.sidebar_label || fm.title;
     if (!title) continue;
+    // Unreleased (NEXT-channel) pages must not be advertised to AI agents.
+    if (String(fm.channel ?? '').trim().toLowerCase() === 'next') continue;
 
     const cleanedTitle = cleanText(String(title));
     // Build .md URL directly from route + slug

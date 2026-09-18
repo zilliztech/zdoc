@@ -132,6 +132,11 @@ function compareRecord(record, previous, sourceByToken, currentNodeMetadataByTok
   if (record.doc_token !== previous.doc_token) reasons.push('doc token changed')
   if (record.title !== previous.title) reasons.push('title changed')
   if (record.slug !== previous.slug) reasons.push('slug changed')
+  // A Release Channel flip does not change the Feishu document revision, so it
+  // must be compared explicitly to re-render the affected front matter.
+  if ((record.release_channel ?? 'current') !== (previous.release_channel ?? 'current')) {
+    reasons.push('release channel changed')
+  }
   if (currentNode?.fetch_error) {
     reasons.push('wiki node metadata fetch failed')
   }
