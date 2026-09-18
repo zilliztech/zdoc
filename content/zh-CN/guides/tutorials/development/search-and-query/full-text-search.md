@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "在  Zilliz Cloud 中，Full Text Search 是对基于稠密向量](./use-dense-vector)的语义搜索的补充。它能够在大规模文本集合中查找包含特定术语或短语的文本，弥补语义搜索的遗漏，从而提升整体搜索效果。它支持直接插入和使用原始文本数据进行相似性搜索，Milvus 会自动将文本转换为[稀疏向量](./use-sparse-vector)表示。Full Text Search 使用 [BM25 算法进行相关性评分，根据查询文本返回最相关的文档，从而提高文本搜索的整体精度。 | Cloud"
+description: "在 Zilliz Cloud 中，Full Text Search 是对基于稠密向量](./use-dense-vector)的语义搜索的补充。它能够在大规模文本集合中查找包含特定术语或短语的文本，弥补语义搜索的遗漏，从而提升整体搜索效果。它支持直接插入和使用原始文本数据进行相似性搜索，Milvus 会自动将文本转换为[稀疏向量](./use-sparse-vector)表示。Full Text Search 使用 [BM25 算法进行相关性评分，根据查询文本返回最相关的文档，从而提高文本搜索的整体精度。 | Cloud"
 type: origin
 token: TO6fwkZ2jiT6FSkkgbCcyHTvn0d
 sidebar_position: 12

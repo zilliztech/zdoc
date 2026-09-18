@@ -1298,7 +1298,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/search-and-query/full-text-search.md",
-      "sha256": "8dca508dc19d5b99d33afad6be934cc15ba044e1725a490c81304510b45418ec",
+      "sha256": "bae56fdaf2165c3c0e330959c4ce028296e610f6620e173452cf20ac6b38c4d4",
       "docToken": "TO6fwkZ2jiT6FSkkgbCcyHTvn0d",
       "revisionId": "1130"
     },
@@ -2846,7 +2846,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/search-and-query/full-text-search.md",
-      "sha256": "b941696410853c1cffcd04eeb238b47f9d9d4165b827010dd33f45d7d4af5a5c",
+      "sha256": "f36846b2f1699ed37afc845b48512e17dee7d2ea27cd85bfa49719cb332ff18b",
       "docToken": "TO6fwkZ2jiT6FSkkgbCcyHTvn0d",
       "revisionId": "1130"
     },
