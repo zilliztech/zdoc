@@ -35,7 +35,13 @@ EOF
 # their own listing (for example the English image's ja-JP pass), so both files
 # are merged. NEXT deployments serve these routes (the client adds an
 # unreleased-feature banner); a missing routes file gates nothing.
-gate_conf="/etc/nginx/conf.d/00-release-channel-gate.conf"
+# The generated locations must land in server context: conf.d/*.conf is
+# included at http level by the base image, where `location` is invalid. The
+# site nginx.conf files include this directory inside their server block; an
+# empty directory matches nothing and nginx starts unchanged.
+gate_dir="/etc/nginx/release-channel-gate"
+gate_conf="$gate_dir/blocked-routes.conf"
+mkdir -p "$gate_dir"
 install_path="${INSTALL_PATH:-/usr/share/nginx/html}"
 collect_release_channel_routes() {
   cat "$install_path/release-channel-routes.txt" "$install_path"/*/release-channel-routes.txt 2>/dev/null || true
