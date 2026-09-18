@@ -8,7 +8,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-09-18T02:56:26.275Z",
+  "generated_at": "2026-09-18T10:54:14.941Z",
   "source_dir": "./packages/docs-tooling/src/lark/meta/sources/python/v3.0.x",
   "base_app_token": "Hk05b5eI6aXXSSsd6j9cqwwMn5a",
   "records": [
@@ -35,6 +35,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/DataImport/DataImport-BulkFileType.md"
@@ -63,6 +64,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "NV3Ud1M9iojhaSxZY4ec8RjgnlP",
         "WToudUwm4oVXeKxLg3jcj3IAnjh"
@@ -94,6 +96,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "EtBDdoGaFo3bOExKxCHcKgpenib",
         "RcvXdmCVBog9M8xNyUFcwefnneh"
@@ -125,6 +128,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "WCxIdVwCpoIaMUxbabWcSRCkn2g"
       ],
@@ -155,6 +159,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "CSpOd0XgWoVAhzx5xbVcpCVfnPg",
         "NV3Ud1M9iojhaSxZY4ec8RjgnlP",
@@ -187,6 +192,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "C2YSddNqZoDNmNxWqqEcuzhKn4f",
         "CSpOd0XgWoVAhzx5xbVcpCVfnPg",
@@ -220,6 +226,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "C2YSddNqZoDNmNxWqqEcuzhKn4f",
         "CSpOd0XgWoVAhzx5xbVcpCVfnPg",
@@ -252,6 +259,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "BDP4dew9to9tQoxNEMPcBR5xnZb"
       ],
@@ -282,6 +290,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "BDP4dew9to9tQoxNEMPcBR5xnZb"
       ],
@@ -312,6 +321,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/DataImport/DataImport-BulkImport/BulkImport-bulk_import.md"
@@ -340,6 +350,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/DataImport/DataImport-BulkImport/BulkImport-get_import_progress.md"
@@ -368,6 +379,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/DataImport/DataImport-BulkImport/BulkImport-list_import_jobs.md"
@@ -395,6 +407,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "NV3Ud1M9iojhaSxZY4ec8RjgnlP"
       ],
@@ -424,6 +437,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/DataImport/DataImport-VolumeBulkWriter/VolumeBulkWriter-commit.md"
@@ -451,6 +465,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/DataImport/DataImport-VolumeBulkWriter/VolumeBulkWriter-append_row.md"
@@ -479,6 +494,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "MKrAdumLvohQfDxgpMwcEB8dnqb"
       ],
@@ -509,6 +525,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "EVKhdy0vwoSLSux2RW2c660unjh"
       ],
@@ -537,6 +554,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -563,6 +581,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-create_role.md"
@@ -591,6 +610,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-create_user.md"
@@ -619,6 +639,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -645,6 +666,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -671,6 +693,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-drop_role.md"
@@ -699,6 +722,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "EZ2YdBHoDoRTlxx91tscffm1nSb",
         "EglSdm1jkozDSlxq6SEc4CRonVe",
@@ -731,6 +755,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "OSehdj15Ao3AUvxOIJucXzU8nWW"
       ],
@@ -759,6 +784,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-grant_role.md"
@@ -787,6 +813,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-list_roles.md"
@@ -815,6 +842,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "EglSdm1jkozDSlxq6SEc4CRonVe",
         "Q8QIdA1DioRRL9xUtlgcCPLHnPc",
@@ -847,6 +875,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "LB90d4VGZogYIZxwCgpcSkgKnng",
         "OSehdj15Ao3AUvxOIJucXzU8nWW"
@@ -876,6 +905,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-revoke_role.md"
@@ -904,6 +934,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -929,6 +960,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -954,6 +986,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -979,6 +1012,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -1005,6 +1039,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-grant_privilege_v2.md"
@@ -1033,6 +1068,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-list_privilege_groups.md"
@@ -1060,6 +1096,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -1086,6 +1123,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-revoke_privilege_v2.md"
@@ -1113,6 +1151,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -1139,6 +1178,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Client/Client-close.md"
@@ -1167,6 +1207,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Client/Client-MilvusClient.md"
@@ -1195,6 +1236,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "SojTdgw1joOuA8xMzb5cMUFYnce"
       ],
@@ -1224,6 +1266,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Client/Client-session.md"
@@ -1252,6 +1295,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-DataType.md"
@@ -1280,6 +1324,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-IndexType.md"
@@ -1308,6 +1353,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-FunctionType.md"
@@ -1336,6 +1382,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "MKrAdumLvohQfDxgpMwcEB8dnqb",
         "SSiodq10FoH26hx2HlccfcAgnje",
@@ -1368,6 +1415,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "SSiodq10FoH26hx2HlccfcAgnje"
       ],
@@ -1398,6 +1446,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "GaCYdVohYoHFhrx897zcmcNfn6e",
         "MKrAdumLvohQfDxgpMwcEB8dnqb",
@@ -1430,6 +1479,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "SojTdgw1joOuA8xMzb5cMUFYnce"
       ],
@@ -1460,6 +1510,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "SojTdgw1joOuA8xMzb5cMUFYnce"
       ],
@@ -1490,6 +1541,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "SojTdgw1joOuA8xMzb5cMUFYnce"
       ],
@@ -1520,6 +1572,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "SojTdgw1joOuA8xMzb5cMUFYnce"
       ],
@@ -1550,6 +1603,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "SojTdgw1joOuA8xMzb5cMUFYnce"
       ],
@@ -1580,6 +1634,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "Cpynd2OFJoIXhLx3dQNct7Wgn6f",
         "FpWXdmIuforYz9xUCsqclyCXnLe",
@@ -1614,6 +1669,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "CBc3d1mrdoYqmDxe4Kcc9zxAnzh",
         "Cpynd2OFJoIXhLx3dQNct7Wgn6f",
@@ -1648,6 +1704,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "CBc3d1mrdoYqmDxe4Kcc9zxAnzh",
         "Cpynd2OFJoIXhLx3dQNct7Wgn6f",
@@ -1682,6 +1739,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "CBc3d1mrdoYqmDxe4Kcc9zxAnzh",
         "Cpynd2OFJoIXhLx3dQNct7Wgn6f",
@@ -1716,6 +1774,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "CBc3d1mrdoYqmDxe4Kcc9zxAnzh",
         "FpWXdmIuforYz9xUCsqclyCXnLe",
@@ -1750,6 +1809,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-alter_collection_properties.md"
@@ -1778,6 +1838,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -1804,6 +1865,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-drop_collection_properties.md"
@@ -1832,6 +1894,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-add_collection_field.md"
@@ -1859,6 +1922,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -1885,6 +1949,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-drop_collection_function.md"
@@ -1913,6 +1978,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "GaCYdVohYoHFhrx897zcmcNfn6e"
       ],
@@ -1943,6 +2009,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "GaCYdVohYoHFhrx897zcmcNfn6e"
       ],
@@ -1973,6 +2040,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-refresh_external_collection.md"
@@ -2001,6 +2069,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-get_refresh_external_collection_progress.md"
@@ -2029,6 +2098,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-list_refresh_external_collection_jobs.md"
@@ -2057,6 +2127,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-drop_collection_field.md"
@@ -2085,6 +2156,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "OD8mdC5aXo0XHbxSthRczioXnaf"
       ],
@@ -2115,6 +2187,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "MKrAdumLvohQfDxgpMwcEB8dnqb",
         "SSiodq10FoH26hx2HlccfcAgnje"
@@ -2146,6 +2219,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "SSiodq10FoH26hx2HlccfcAgnje"
       ],
@@ -2176,6 +2250,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-to_dict.md"
@@ -2204,6 +2279,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-verify.md"
@@ -2232,6 +2308,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-run_analyzer.md"
@@ -2260,6 +2337,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Database/Database-alter_database_properties.md"
@@ -2288,6 +2366,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "SojTdgw1joOuA8xMzb5cMUFYnce"
       ],
@@ -2318,6 +2397,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "SojTdgw1joOuA8xMzb5cMUFYnce"
       ],
@@ -2348,6 +2428,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Database/Database-drop_database_properties.md"
@@ -2376,6 +2457,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "SojTdgw1joOuA8xMzb5cMUFYnce"
       ],
@@ -2406,6 +2488,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "SojTdgw1joOuA8xMzb5cMUFYnce"
       ],
@@ -2436,6 +2519,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "SojTdgw1joOuA8xMzb5cMUFYnce"
       ],
@@ -2466,6 +2550,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "OCfid8DdPo1ga1x24JZcV92xnwd",
         "SojTdgw1joOuA8xMzb5cMUFYnce"
@@ -2497,6 +2582,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "MKrAdumLvohQfDxgpMwcEB8dnqb"
       ],
@@ -2527,6 +2613,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "Ve2WdUAfwoz456xwBIJcGvltn6b"
       ],
@@ -2557,6 +2644,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "Ve2WdUAfwoz456xwBIJcGvltn6b"
       ],
@@ -2587,6 +2675,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "Ve2WdUAfwoz456xwBIJcGvltn6b"
       ],
@@ -2617,6 +2706,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "Ve2WdUAfwoz456xwBIJcGvltn6b"
       ],
@@ -2647,6 +2737,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "Ve2WdUAfwoz456xwBIJcGvltn6b"
       ],
@@ -2677,6 +2768,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "IU0idURLBoJNlZxgkiUcQaOYnIf"
       ],
@@ -2707,6 +2799,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "GaCYdVohYoHFhrx897zcmcNfn6e",
         "SSiodq10FoH26hx2HlccfcAgnje"
@@ -2738,6 +2831,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "GaCYdVohYoHFhrx897zcmcNfn6e"
       ],
@@ -2768,6 +2862,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Function/Function-to_dict.md"
@@ -2796,6 +2891,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Function/Function-verify.md"
@@ -2824,6 +2920,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "GaCYdVohYoHFhrx897zcmcNfn6e"
       ],
@@ -2854,6 +2951,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "KEPYdKup1o3nHdxKbjvcQUzwnnd",
         "PRR7dRfi8o1s61xFRovccAdRnHe",
@@ -2886,6 +2984,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "KEPYdKup1o3nHdxKbjvcQUzwnnd",
         "X3NXdtC2koiAxyxhcUBcv38Wnsh",
@@ -2918,6 +3017,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "B3n3db0idoia02xXxJfcONK8nRh",
         "CAzpdAw3wo4ZqrxhjTLcEGBBn1S",
@@ -2953,6 +3053,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "CAzpdAw3wo4ZqrxhjTLcEGBBn1S",
         "NPnQdZCJ7oF002xTntecdI2ini8",
@@ -2988,6 +3089,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "B3n3db0idoia02xXxJfcONK8nRh",
         "CAzpdAw3wo4ZqrxhjTLcEGBBn1S",
@@ -3023,6 +3125,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "B3n3db0idoia02xXxJfcONK8nRh",
         "CAzpdAw3wo4ZqrxhjTLcEGBBn1S",
@@ -3057,6 +3160,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "PRR7dRfi8o1s61xFRovccAdRnHe",
         "X3NXdtC2koiAxyxhcUBcv38Wnsh",
@@ -3089,6 +3193,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "B3n3db0idoia02xXxJfcONK8nRh",
         "CAzpdAw3wo4ZqrxhjTLcEGBBn1S",
@@ -3124,6 +3229,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "B3n3db0idoia02xXxJfcONK8nRh",
         "NPnQdZCJ7oF002xTntecdI2ini8",
@@ -3159,6 +3265,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "KEPYdKup1o3nHdxKbjvcQUzwnnd",
         "PRR7dRfi8o1s61xFRovccAdRnHe",
@@ -3191,6 +3298,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-flush.md"
@@ -3219,6 +3327,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3245,6 +3354,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "MSDVdu103obklexX8GvcW5cWnCf"
       ],
@@ -3275,6 +3385,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3301,6 +3412,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "SojTdgw1joOuA8xMzb5cMUFYnce"
       ],
@@ -3331,6 +3443,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-get_compaction_state.md"
@@ -3358,6 +3471,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3384,6 +3498,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-flush_all.md"
@@ -3412,6 +3527,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-get_flush_all_state.md"
@@ -3440,6 +3556,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-list_loaded_segments.md"
@@ -3468,6 +3585,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-list_persistent_segments.md"
@@ -3496,6 +3614,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-get_compaction_plans.md"
@@ -3524,6 +3643,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "SojTdgw1joOuA8xMzb5cMUFYnce"
       ],
@@ -3554,6 +3674,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "Dxgqdvlk5o2VScxqmL1ctc1Inqb",
         "HkOFdhgbOoz1wlxJIgWcU7EonWc",
@@ -3590,6 +3711,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Partitions/Partitions-drop_partition.md"
@@ -3618,6 +3740,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "Dxgqdvlk5o2VScxqmL1ctc1Inqb",
         "HkOFdhgbOoz1wlxJIgWcU7EonWc",
@@ -3653,6 +3776,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "Dxgqdvlk5o2VScxqmL1ctc1Inqb",
         "HkOFdhgbOoz1wlxJIgWcU7EonWc",
@@ -3688,6 +3812,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "HkOFdhgbOoz1wlxJIgWcU7EonWc",
         "I6hvdlYUuoUaw3xWqSnce4Fin9g",
@@ -3723,6 +3848,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "Dxgqdvlk5o2VScxqmL1ctc1Inqb",
         "HkOFdhgbOoz1wlxJIgWcU7EonWc",
@@ -3758,6 +3884,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "Dxgqdvlk5o2VScxqmL1ctc1Inqb",
         "HkOFdhgbOoz1wlxJIgWcU7EonWc",
@@ -3792,6 +3919,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "LrfjdgJXkoe90gxNR1YcrsJMnYg"
       ],
@@ -3819,6 +3947,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "LrfjdgJXkoe90gxNR1YcrsJMnYg"
       ],
@@ -3846,6 +3975,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "TJmCdUvGRoOLFAx55qVcqbWGnRs"
       ],
@@ -3873,6 +4003,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3898,6 +4029,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3923,6 +4055,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3948,6 +4081,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "LrfjdgJXkoe90gxNR1YcrsJMnYg"
       ],
@@ -3975,6 +4109,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -4000,6 +4135,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -4025,6 +4161,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -4051,6 +4188,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-StructFieldSchema/MilvusClient-StructFieldSchema.md"
@@ -4079,6 +4217,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "MKrAdumLvohQfDxgpMwcEB8dnqb",
         "ZnKKd2PsyoRc1MxtC1BcJQjgnBh"
@@ -4110,6 +4249,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "ZnKKd2PsyoRc1MxtC1BcJQjgnBh"
       ],
@@ -4140,6 +4280,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "ZnKKd2PsyoRc1MxtC1BcJQjgnBh"
       ],
@@ -4170,6 +4311,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-delete.md"
@@ -4198,6 +4340,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "SojTdgw1joOuA8xMzb5cMUFYnce"
       ],
@@ -4228,6 +4371,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-insert.md"
@@ -4256,6 +4400,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-upsert.md"
@@ -4284,6 +4429,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "SojTdgw1joOuA8xMzb5cMUFYnce"
       ],
@@ -4314,6 +4460,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "SojTdgw1joOuA8xMzb5cMUFYnce"
       ],
@@ -4344,6 +4491,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-query_iterator.md"
@@ -4372,6 +4520,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "GaCYdVohYoHFhrx897zcmcNfn6e",
         "PfJNdkuMDoCqqcxm6S2cDD6TnFh",
@@ -4404,6 +4553,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-TopHits.md"
@@ -4432,6 +4582,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-search_iterator.md"
@@ -4457,6 +4608,7 @@
       "revision_id": "2",
       "publish_targets": [],
       "publish_status": "WIP",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -4480,6 +4632,7 @@
       "revision_id": "2",
       "publish_targets": [],
       "publish_status": "WIP",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -4503,6 +4656,7 @@
       "revision_id": "2",
       "publish_targets": [],
       "publish_status": "WIP",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -4526,6 +4680,7 @@
       "revision_id": "2",
       "publish_targets": [],
       "publish_status": "WIP",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -4549,6 +4704,7 @@
       "revision_id": "2",
       "publish_targets": [],
       "publish_status": "WIP",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -4575,6 +4731,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-SearchAggregation.md"
@@ -4603,6 +4760,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-AggregationBucket.md"
@@ -4631,6 +4789,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-AggregationHit.md"
@@ -4659,6 +4818,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Highlighter/Highlighter-LexicalHighlighter.md"
@@ -4686,6 +4846,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Highlighter/Highlighter-SemanticHighlighter.md"
@@ -4714,6 +4875,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Highlighter/Highlighter-with_query.md"
@@ -4742,6 +4904,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-create_snapshot.md"
@@ -4770,6 +4933,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-drop_snapshot.md"
@@ -4798,6 +4962,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-list_snapshots.md"
@@ -4826,6 +4991,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-describe_snapshot.md"
@@ -4854,6 +5020,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-restore_snapshot.md"
@@ -4882,6 +5049,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-get_restore_snapshot_state.md"
@@ -4910,6 +5078,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-list_restore_snapshot_jobs.md"
@@ -4938,6 +5107,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-pin_snapshot_data.md"
@@ -4966,6 +5136,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-unpin_snapshot_data.md"
@@ -4994,6 +5165,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/FileResource/FileResource-add_file_resource.md"
@@ -5022,6 +5194,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/FileResource/FileResource-list_file_resources.md"
@@ -5050,6 +5223,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/FileResource/FileResource-remove_file_resource.md"
@@ -5078,6 +5252,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "CmFKd9eG2oE6xmx9dIGcVPycnth"
       ],
@@ -5108,6 +5283,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "AXcMd0xiOovIX6xR4ZrcKA15nwh",
         "D6Q7dq4USotLS3xxMP0cFiGLnsf",
@@ -5140,6 +5316,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "CmFKd9eG2oE6xmx9dIGcVPycnth",
         "OD8mdC5aXo0XHbxSthRczioXnaf",
@@ -5172,6 +5349,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "AtkDdtMAWodFzExARxnco5xLnsg",
         "MfR8dw5TioPvw3xvrstcgYixnUb",
@@ -5207,6 +5385,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "Aym2dpBuIo81mExCqyLcSWhunBe",
         "OSehdj15Ao3AUvxOIJucXzU8nWW",
@@ -5241,6 +5420,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "AQ1ydMXbOog5VJxITgUc4GFvnVe",
         "CbCodEGY9o6pKuxowNdctUppn7d",
@@ -5276,6 +5456,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "BQKPdDd5xo8OPgxoXorcMxk0nVb",
         "ECmAdaYKboPTNlxqkLxcUEZ4nrh",
@@ -5309,6 +5490,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "J76vdPHNgoyp2wxAiTcceIVJnOe",
         "MfR8dw5TioPvw3xvrstcgYixnUb",
@@ -5344,6 +5526,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "OSehdj15Ao3AUvxOIJucXzU8nWW",
         "QsOsda2lRoJP32xNSLWcbgMOnKI",
@@ -5378,6 +5561,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "BQKPdDd5xo8OPgxoXorcMxk0nVb",
         "ECmAdaYKboPTNlxqkLxcUEZ4nrh",
@@ -5411,6 +5595,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "BQKPdDd5xo8OPgxoXorcMxk0nVb",
         "ECmAdaYKboPTNlxqkLxcUEZ4nrh",
@@ -5444,6 +5629,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "AXcMd0xiOovIX6xR4ZrcKA15nwh",
         "BHx6dnSmPoaqHAxKCvncbuk9nWb",
@@ -5476,6 +5662,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "BHx6dnSmPoaqHAxKCvncbuk9nWb",
         "D6Q7dq4USotLS3xxMP0cFiGLnsf",
@@ -5508,6 +5695,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "ECmAdaYKboPTNlxqkLxcUEZ4nrh",
         "EZwsd887JojFjLxbMByckhW0nxg",
@@ -5541,6 +5729,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "AtkDdtMAWodFzExARxnco5xLnsg",
         "J76vdPHNgoyp2wxAiTcceIVJnOe",
@@ -5576,6 +5765,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "Aym2dpBuIo81mExCqyLcSWhunBe",
         "OSehdj15Ao3AUvxOIJucXzU8nWW",
@@ -5610,6 +5800,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "AtkDdtMAWodFzExARxnco5xLnsg",
         "J76vdPHNgoyp2wxAiTcceIVJnOe",
@@ -5645,6 +5836,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "AQ1ydMXbOog5VJxITgUc4GFvnVe",
         "HrnndnWtKoPuenxvsXBchF1wnnh",
@@ -5680,6 +5872,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "BJysdlj1MoksHZxNRxicHn9fnSh",
         "CBwkdDs7MoKkVKx0kJgcPUNxn6s",
@@ -5714,6 +5907,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "Aym2dpBuIo81mExCqyLcSWhunBe",
         "OSehdj15Ao3AUvxOIJucXzU8nWW",
@@ -5748,6 +5942,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "AQ1ydMXbOog5VJxITgUc4GFvnVe",
         "CbCodEGY9o6pKuxowNdctUppn7d",
@@ -5783,6 +5978,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "AQ1ydMXbOog5VJxITgUc4GFvnVe",
         "CbCodEGY9o6pKuxowNdctUppn7d",
@@ -5818,6 +6014,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "BJysdlj1MoksHZxNRxicHn9fnSh",
         "HQDndiGwloWKIexgPCUcEZGenOh",
@@ -5852,6 +6049,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "AQ1ydMXbOog5VJxITgUc4GFvnVe",
         "CbCodEGY9o6pKuxowNdctUppn7d",
@@ -5887,6 +6085,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "AQ1ydMXbOog5VJxITgUc4GFvnVe",
         "CbCodEGY9o6pKuxowNdctUppn7d",
@@ -5922,6 +6121,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "BQKPdDd5xo8OPgxoXorcMxk0nVb",
         "EZwsd887JojFjLxbMByckhW0nxg",
@@ -5955,6 +6155,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "CbCodEGY9o6pKuxowNdctUppn7d",
         "HrnndnWtKoPuenxvsXBchF1wnnh",
@@ -5990,6 +6191,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "AXcMd0xiOovIX6xR4ZrcKA15nwh",
         "BHx6dnSmPoaqHAxKCvncbuk9nWb",
@@ -6022,6 +6224,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -6048,6 +6251,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -6074,6 +6278,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -6100,6 +6305,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "SSiodq10FoH26hx2HlccfcAgnje"
       ],
@@ -6130,6 +6336,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-to_dict_1.md"
@@ -6158,6 +6365,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-verify_1.md"
@@ -6186,6 +6394,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/ORM/ORM-Connections/ORM-Connections.md"
@@ -6214,6 +6423,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "A96udk9seoF5x5xywQZcLasanIe",
         "DyPldeRNXo4nMqxQeE0cMnd2nEf",
@@ -6250,6 +6460,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "C37ldNLbFog6ThxA23ScMldnnmb",
         "DyPldeRNXo4nMqxQeE0cMnd2nEf",
@@ -6285,6 +6496,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "C37ldNLbFog6ThxA23ScMldnnmb",
         "DyPldeRNXo4nMqxQeE0cMnd2nEf",
@@ -6320,6 +6532,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "C37ldNLbFog6ThxA23ScMldnnmb",
         "DyPldeRNXo4nMqxQeE0cMnd2nEf",
@@ -6355,6 +6568,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "C37ldNLbFog6ThxA23ScMldnnmb",
         "DyPldeRNXo4nMqxQeE0cMnd2nEf",
@@ -6390,6 +6604,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "C37ldNLbFog6ThxA23ScMldnnmb",
         "H2zBdRHVtovNQGxvb0xcwpSKnBd",
@@ -6425,6 +6640,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "C37ldNLbFog6ThxA23ScMldnnmb",
         "DyPldeRNXo4nMqxQeE0cMnd2nEf",
@@ -6460,6 +6676,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "GXXTd7JIgoUKhzxiI6ncWtwjnVc",
         "PV1PdliWZooAB8xAE5scZO2Nn6K",
@@ -6492,6 +6709,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "G4Ftde3kxoHAJbxVNXncI7mpngb",
         "GXXTd7JIgoUKhzxiI6ncWtwjnVc",
@@ -6524,6 +6742,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "G4Ftde3kxoHAJbxVNXncI7mpngb",
         "GXXTd7JIgoUKhzxiI6ncWtwjnVc",
@@ -6556,6 +6775,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "G4Ftde3kxoHAJbxVNXncI7mpngb",
         "PV1PdliWZooAB8xAE5scZO2Nn6K",
@@ -6588,6 +6808,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "OSehdj15Ao3AUvxOIJucXzU8nWW"
       ],
@@ -6618,6 +6839,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "MQMzddDnao5Zz0xmSRncZM2nn5b",
         "N97pdfkjlo9j61xrtL2cbB79nKe",
@@ -6654,6 +6876,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "TWxddf6iboyM15xK4Kzc8ASknRb",
         "X9scdVMmxoBTuUxlKhecJXEunHd",
@@ -6687,6 +6910,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "MQMzddDnao5Zz0xmSRncZM2nn5b",
         "N97pdfkjlo9j61xrtL2cbB79nKe",
@@ -6721,6 +6945,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "D3sndK8DgoqDkUxaNGcctwcSnuE",
         "TWxddf6iboyM15xK4Kzc8ASknRb",
@@ -6753,6 +6978,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "MQMzddDnao5Zz0xmSRncZM2nn5b",
         "N97pdfkjlo9j61xrtL2cbB79nKe",
@@ -6789,6 +7015,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "D3sndK8DgoqDkUxaNGcctwcSnuE",
         "OSehdj15Ao3AUvxOIJucXzU8nWW",
@@ -6823,6 +7050,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "MQMzddDnao5Zz0xmSRncZM2nn5b",
         "QXDxdv36FoVgjcxDV1gcDwWXnsd",
@@ -6857,6 +7085,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "D3sndK8DgoqDkUxaNGcctwcSnuE",
         "TWxddf6iboyM15xK4Kzc8ASknRb",
@@ -6889,6 +7118,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "MQMzddDnao5Zz0xmSRncZM2nn5b",
         "N97pdfkjlo9j61xrtL2cbB79nKe",
@@ -6923,6 +7153,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "N97pdfkjlo9j61xrtL2cbB79nKe",
         "QXDxdv36FoVgjcxDV1gcDwWXnsd",
@@ -6957,6 +7188,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/ORM/ORM-Role/ORM-Role.md"
@@ -6985,6 +7217,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "BapSdVXjQoQXnbxnRYScCagAn1f",
         "CCOhd671iog6rRxu8aOcaPncnLK",
@@ -7023,6 +7256,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "BapSdVXjQoQXnbxnRYScCagAn1f",
         "CCOhd671iog6rRxu8aOcaPncnLK",
@@ -7061,6 +7295,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "BapSdVXjQoQXnbxnRYScCagAn1f",
         "CCOhd671iog6rRxu8aOcaPncnLK",
@@ -7099,6 +7334,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "BapSdVXjQoQXnbxnRYScCagAn1f",
         "F8WOdIoz4okn5OxMEymcXNuRnkb",
@@ -7137,6 +7373,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "CCOhd671iog6rRxu8aOcaPncnLK",
         "F8WOdIoz4okn5OxMEymcXNuRnkb",
@@ -7176,6 +7413,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "BapSdVXjQoQXnbxnRYScCagAn1f",
         "CCOhd671iog6rRxu8aOcaPncnLK",
@@ -7214,6 +7452,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "BapSdVXjQoQXnbxnRYScCagAn1f",
         "CCOhd671iog6rRxu8aOcaPncnLK",
@@ -7253,6 +7492,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "BapSdVXjQoQXnbxnRYScCagAn1f",
         "CCOhd671iog6rRxu8aOcaPncnLK",
@@ -7291,6 +7531,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "BapSdVXjQoQXnbxnRYScCagAn1f",
         "CCOhd671iog6rRxu8aOcaPncnLK",
@@ -7329,6 +7570,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "BapSdVXjQoQXnbxnRYScCagAn1f",
         "CCOhd671iog6rRxu8aOcaPncnLK",
@@ -7368,6 +7610,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "DthMdlg8Lozw89xNz4TcBv1LnOe",
         "OSehdj15Ao3AUvxOIJucXzU8nWW",
@@ -7401,6 +7644,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "MfTsdrbGcoO9JqxjgPtcMZTvncc",
         "V7BWdrC39oPAauxoWBzcaldwnVc",
@@ -7433,6 +7677,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "EofGdftYjoQ9E6x8mxLcpbG1nhc",
         "FXTZd5FgNo9ta0xvjaIclEM1nPf",
@@ -7467,6 +7712,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -7493,6 +7739,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "ClLXdDs64oixJBxlIrCcEB2dngb",
         "JeG6d5Sg2oPmXPxEhnyciq4snNd",
@@ -7530,6 +7777,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "EofGdftYjoQ9E6x8mxLcpbG1nhc",
         "FXTZd5FgNo9ta0xvjaIclEM1nPf",
@@ -7564,6 +7812,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "Arn1dIKgwoISFoxT7xVc3UrBnAf",
         "T1CGdXeVkoG2yAxkualc1jVonRb",
@@ -7596,6 +7845,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "DthMdlg8Lozw89xNz4TcBv1LnOe",
         "MfTsdrbGcoO9JqxjgPtcMZTvncc",
@@ -7629,6 +7879,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "CB9edh2ySoJyWhxBoLcchPj9nxg",
         "KsmadNcXRoElO2xJi5HcJO57nwb",
@@ -7664,6 +7915,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "FXTZd5FgNo9ta0xvjaIclEM1nPf",
         "HScCdxLNJotPCcxb4AZcxsNJn9c",
@@ -7698,6 +7950,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "CB9edh2ySoJyWhxBoLcchPj9nxg",
         "FHcYdN4apoI5TIx0LxScISvtn0f",
@@ -7733,6 +7986,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "Arn1dIKgwoISFoxT7xVc3UrBnAf",
         "BpqpdBWdyoxbmzx0GGCcQxksnBc",
@@ -7767,6 +8021,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "FHcYdN4apoI5TIx0LxScISvtn0f",
         "KsmadNcXRoElO2xJi5HcJO57nwb",
@@ -7802,6 +8057,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "PoPkdkzSnofUihxzKLqcw7hYnrf"
       ],
@@ -7832,6 +8088,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "UOIddRBUXotHvyx4Yyocer0mnId"
       ],
@@ -7862,6 +8119,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "CB9edh2ySoJyWhxBoLcchPj9nxg",
         "FHcYdN4apoI5TIx0LxScISvtn0f",
@@ -7897,6 +8155,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "CB9edh2ySoJyWhxBoLcchPj9nxg",
         "FHcYdN4apoI5TIx0LxScISvtn0f",
@@ -7932,6 +8191,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "GRarduHPSoFY3Yx9EWRcdcTfn1g",
         "HbMMdqtQGoQqwixsyrjcTTh0nu5",
@@ -7965,6 +8225,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "EBAFdcmoKoNJISxM8i1cqXzRn9H",
         "GRarduHPSoFY3Yx9EWRcdcTfn1g",
@@ -7998,6 +8259,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "AtkDdtMAWodFzExARxnco5xLnsg",
         "J76vdPHNgoyp2wxAiTcceIVJnOe",
@@ -8033,6 +8295,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "DthMdlg8Lozw89xNz4TcBv1LnOe",
         "MfTsdrbGcoO9JqxjgPtcMZTvncc",
@@ -8065,6 +8328,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "Arn1dIKgwoISFoxT7xVc3UrBnAf",
         "BpqpdBWdyoxbmzx0GGCcQxksnBc",
@@ -8099,6 +8363,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "CB9edh2ySoJyWhxBoLcchPj9nxg",
         "FHcYdN4apoI5TIx0LxScISvtn0f",
@@ -8134,6 +8399,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "AtkDdtMAWodFzExARxnco5xLnsg",
         "J76vdPHNgoyp2wxAiTcceIVJnOe",
@@ -8169,6 +8435,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "EofGdftYjoQ9E6x8mxLcpbG1nhc",
         "HScCdxLNJotPCcxb4AZcxsNJn9c",
@@ -8203,6 +8470,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "E7zOdU2JpoqaU5xNYXvcAjgPnNh",
         "JeG6d5Sg2oPmXPxEhnyciq4snNd",
@@ -8240,6 +8508,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "ClLXdDs64oixJBxlIrCcEB2dngb",
         "E7zOdU2JpoqaU5xNYXvcAjgPnNh",
@@ -8277,6 +8546,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "ClLXdDs64oixJBxlIrCcEB2dngb",
         "E7zOdU2JpoqaU5xNYXvcAjgPnNh",
@@ -8314,6 +8584,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "ClLXdDs64oixJBxlIrCcEB2dngb",
         "E7zOdU2JpoqaU5xNYXvcAjgPnNh",
@@ -8351,6 +8622,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/ORM/ORM-utility/utility-load_balance.md"
@@ -8379,6 +8651,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "CBwkdDs7MoKkVKx0kJgcPUNxn6s",
         "HQDndiGwloWKIexgPCUcEZGenOh",
@@ -8413,6 +8686,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "BJysdlj1MoksHZxNRxicHn9fnSh",
         "CBwkdDs7MoKkVKx0kJgcPUNxn6s",
@@ -8447,6 +8721,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "EBAFdcmoKoNJISxM8i1cqXzRn9H",
         "GRarduHPSoFY3Yx9EWRcdcTfn1g",
@@ -8480,6 +8755,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "EBAFdcmoKoNJISxM8i1cqXzRn9H",
         "HbMMdqtQGoQqwixsyrjcTTh0nu5",
@@ -8513,6 +8789,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "EBAFdcmoKoNJISxM8i1cqXzRn9H",
         "GRarduHPSoFY3Yx9EWRcdcTfn1g",
@@ -8546,6 +8823,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "CB9edh2ySoJyWhxBoLcchPj9nxg",
         "FHcYdN4apoI5TIx0LxScISvtn0f",
@@ -8581,6 +8859,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "ClLXdDs64oixJBxlIrCcEB2dngb",
         "E7zOdU2JpoqaU5xNYXvcAjgPnNh",
@@ -8618,6 +8897,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "EofGdftYjoQ9E6x8mxLcpbG1nhc",
         "FXTZd5FgNo9ta0xvjaIclEM1nPf",
@@ -8652,6 +8932,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "EofGdftYjoQ9E6x8mxLcpbG1nhc",
         "FXTZd5FgNo9ta0xvjaIclEM1nPf",
@@ -8686,6 +8967,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "ClLXdDs64oixJBxlIrCcEB2dngb",
         "E7zOdU2JpoqaU5xNYXvcAjgPnNh",
@@ -8723,6 +9005,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "AtkDdtMAWodFzExARxnco5xLnsg",
         "J76vdPHNgoyp2wxAiTcceIVJnOe",
@@ -8758,6 +9041,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/ORM/ORM-utility/utility-BulkInsertState.md"
@@ -8786,6 +9070,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "BJysdlj1MoksHZxNRxicHn9fnSh",
         "CBwkdDs7MoKkVKx0kJgcPUNxn6s",
@@ -8820,6 +9105,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/Rerankers/Rerankers-BGERerankFunction/Rerankers-BGERerankFunction.md"
@@ -8848,6 +9134,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "GxAZd9O9gozzhExhMHWcMnXPngh"
       ],
@@ -8878,6 +9165,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/Rerankers/Rerankers-CohereRerankFunction/Rerankers-CohereRerankFunction.md"
@@ -8906,6 +9194,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "GAWOdft83oZPvHxtxzZcjrQunGg"
       ],
@@ -8936,6 +9225,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/Rerankers/Rerankers-CrossEncoderRerankFunction/Rerankers-CrossEncoderRerankFunction.md"
@@ -8964,6 +9254,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "HVGNdMYOvojQoXxvDmEcnHYanMh"
       ],
@@ -8994,6 +9285,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/Rerankers/Rerankers-VoyageRerankFunction/Rerankers-VoyageRerankFunction.md"
@@ -9022,6 +9314,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "Smobd2lIho2yQPxtRhLcLcKznCf"
       ],
@@ -9052,6 +9345,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/Rerankers/Rerankers-JinaRerankFunction/Rerankers-JinaRerankFunction.md"
@@ -9080,6 +9374,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "E3opdXwZCoY8igxMjQ1cwsTbnzh"
       ],
@@ -9109,6 +9404,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "A33MwQX84iXyQNkzopece3oenye",
         "JaLdw76LPiX003kLpKHcA0n8n2d"
@@ -9139,6 +9435,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/Volume/Volume-VolumeManager/VolumeManager-create_volume.md"
@@ -9166,6 +9463,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/Volume/Volume-VolumeManager/VolumeManager-delete_volume.md"
@@ -9193,6 +9491,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/Volume/Volume-VolumeManager/VolumeManager-list_volumes.md"
@@ -9220,6 +9519,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/Volume/Volume-VolumeManager/VolumeManager-describe_volume.md"
@@ -9247,6 +9547,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "A33MwQX84iXyQNkzopece3oenye",
         "JaLdw76LPiX003kLpKHcA0n8n2d"
@@ -9277,6 +9578,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -9303,6 +9605,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-SpladeEmbeddingFunction/EmbeddingModels-SpladeEmbeddingFunction.md"
@@ -9331,6 +9634,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-SpladeEmbeddingFunction/SpladeEmbeddingFunction-encode_documents.md"
@@ -9359,6 +9663,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-SpladeEmbeddingFunction/SpladeEmbeddingFunction-encode_queries.md"
@@ -9387,6 +9692,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "PwL1dndmVoxP98xp0pXcOci4nSe",
         "S9zPdiLkpokjfkxfZ68cWIFynnd",
@@ -9419,6 +9725,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-VoyageEmbeddingFunction/EmbeddingModels-VoyageEmbeddingFunction.md"
@@ -9447,6 +9754,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-VoyageEmbeddingFunction/VoyageEmbeddingFunction-encode_documents.md"
@@ -9475,6 +9783,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-VoyageEmbeddingFunction/VoyageEmbeddingFunction-encode_queries.md"
@@ -9503,6 +9812,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "CHnGdE7XlosONPxsVDDc6Fv5n8c",
         "HEyLd2lxzo3bl4xqVBOco8vWn1c",
@@ -9535,6 +9845,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-BGEM3EmbeddingFunction/EmbeddingModels-BGEM3EmbeddingFunction.md"
@@ -9563,6 +9874,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "XYSVdCqCDoJ9Y5xqKEAceYkpnnh"
       ],
@@ -9593,6 +9905,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "XYSVdCqCDoJ9Y5xqKEAceYkpnnh"
       ],
@@ -9623,6 +9936,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "Q0rYdTPkEoRZgUx99LCcfMDUnvh",
         "UehMdosTGoZVzaxdTcUcpy1ynef",
@@ -9655,6 +9969,7 @@
         "Zilliz"
       ],
       "publish_status": "Deprecated",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -9681,6 +9996,7 @@
         "Zilliz"
       ],
       "publish_status": "Deprecated",
+      "release_channel": "current",
       "outgoing_tokens": [
         "SOSedRXpcoGr0sx8RF1caGdjnyb"
       ],
@@ -9709,6 +10025,7 @@
         "Zilliz"
       ],
       "publish_status": "Deprecated",
+      "release_channel": "current",
       "outgoing_tokens": [
         "SOSedRXpcoGr0sx8RF1caGdjnyb"
       ],
@@ -9737,6 +10054,7 @@
         "Zilliz"
       ],
       "publish_status": "Deprecated",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -9763,6 +10081,7 @@
         "Zilliz"
       ],
       "publish_status": "Deprecated",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -9789,6 +10108,7 @@
         "Zilliz"
       ],
       "publish_status": "Deprecated",
+      "release_channel": "current",
       "outgoing_tokens": [
         "SOSedRXpcoGr0sx8RF1caGdjnyb"
       ],
@@ -9817,6 +10137,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-OpenAIEmbeddingFunction/EmbeddingModels-OpenAIEmbeddingFunction.md"
@@ -9845,6 +10166,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-OpenAIEmbeddingFunction/OpenAIEmbeddingFunction-encode_documents.md"
@@ -9873,6 +10195,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-OpenAIEmbeddingFunction/OpenAIEmbeddingFunction-encode_queries.md"
@@ -9901,6 +10224,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "QPcodlsnAoSMvIxEFmlcMNPbntd",
         "Sf9UdzL3rolQNAxDm8Ecga3snhg",
@@ -9933,6 +10257,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-SentenceTransformerEmbeddingFunction/EmbeddingModels-SentenceTransformerEmbeddingFunction.md"
@@ -9961,6 +10286,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-SentenceTransformerEmbeddingFunction/SentenceTransformerEmbeddingFunction-encode_documents.md"
@@ -9989,6 +10315,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-SentenceTransformerEmbeddingFunction/SentenceTransformerEmbeddingFunction-encode_queries.md"
@@ -10017,6 +10344,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "JOFedA4h8otTjHxsYQ7cnjsunHd"
       ],
@@ -10047,6 +10375,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-CohereEmbeddingFunction/EmbeddingModels-CohereEmbeddingFunction.md"
@@ -10075,6 +10404,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-CohereEmbeddingFunction/CohereEmbeddingFunction-encode_documents.md"
@@ -10103,6 +10433,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-CohereEmbeddingFunction/CohereEmbeddingFunction-encode_queries.md"
@@ -10131,6 +10462,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "BqtYdPHHPoNhyKxhSnEcVOKenFb",
         "FIyedc51So0onWxtPAjcHFkmnHe",
@@ -10163,6 +10495,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-JinaEmbeddingFunction/EmbeddingModels-JinaEmbeddingFunction.md"
@@ -10191,6 +10524,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-JinaEmbeddingFunction/JinaEmbeddingFunction-encode_documents.md"
@@ -10219,6 +10553,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-JinaEmbeddingFunction/JinaEmbeddingFunction-encode_queries.md"
@@ -10247,6 +10582,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "FgbjdQHBEoITxgxk7NMc1NzpnAc",
         "U7NJd5eKAo0c1TxYZndcgPj2nlc",
@@ -10279,6 +10615,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-MGTEEmbeddingFunction/EmbeddingModels-MGTEEmbeddingFunction.md"
@@ -10307,6 +10644,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-MGTEEmbeddingFunction/MGTEEmbeddingFunction-encode_documents.md"
@@ -10335,6 +10673,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-MGTEEmbeddingFunction/MGTEEmbeddingFunction-encode_queries.md"
@@ -10363,6 +10702,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "GyrmdRjGZoOFKdxsYyCcvNG7npg",
         "HEWIdid9BoFMyNxN8Bbc0P3nn6g",
@@ -10395,6 +10735,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-MistralAIEmbeddingFunction/EmbeddingModels-MistralAIEmbeddingFunction.md"
@@ -10423,6 +10764,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-MistralAIEmbeddingFunction/MistralAIEmbeddingFunction-encode_documents.md"
@@ -10451,6 +10793,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-MistralAIEmbeddingFunction/MistralAIEmbeddingFunction-encode_queries.md"
@@ -10479,6 +10822,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "CvxodXz8OoWXrlxD7OVcqqJLn8e",
         "SeFLdfKVjoGX8Xx11e3cmkY4n7g",
@@ -10511,6 +10855,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-NomicEmbeddingFunction/EmbeddingModels-NomicEmbeddingFunction.md"
@@ -10539,6 +10884,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-NomicEmbeddingFunction/NomicEmbeddingFunction-encode_documents.md"
@@ -10567,6 +10913,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-NomicEmbeddingFunction/NomicEmbeddingFunction-encode_queries.md"
@@ -10595,6 +10942,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "H8ncdzr6roh9G6xQm8BcJFamnhf",
         "KBujdxXhko2zJjx4hFmcsHGhn4g",
@@ -10627,6 +10975,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-OnnxEmbeddingFunction/EmbeddingModels-OnnxEmbeddingFunction.md"
@@ -10655,6 +11004,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-OnnxEmbeddingFunction/OnnxEmbeddingFunction-encode_documents.md"
@@ -10683,6 +11033,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-OnnxEmbeddingFunction/OnnxEmbeddingFunction-encode_queries.md"
@@ -10711,6 +11062,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "MVLRdU9nPonUeExs7ogctwZ1n4c",
         "XfxvdiIdOokuN1xiVBWct34Wnre",
@@ -10743,6 +11095,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-InstructorEmbeddingFunction/EmbeddingModels-InstructorEmbeddingFunction.md"
@@ -10771,6 +11124,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "LrvhdFR5Vo1ZnExohgicdi58njc",
         "Mp7CdNfJnoBF2DxscRNc6RO0n7d",
@@ -10803,6 +11157,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-InstructorEmbeddingFunction/InstructorEmbeddingFunction-encode_documents.md"
@@ -10831,6 +11186,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-InstructorEmbeddingFunction/InstructorEmbeddingFunction-encode_queries.md"
@@ -10859,6 +11215,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "WiT4dJ1SJod0fdx4z23cwFbAn7c"
       ],
@@ -10889,6 +11246,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "DhZRdYbfMoYIBtxrudGcwWjrngd",
         "Px9Ydg6KSoNFV2xBumpcGBNqn8d",
@@ -10922,6 +11280,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-GeminiEmbeddingFunction/GeminiEmbeddingFunction-encode_documents.md"
@@ -10950,6 +11309,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-GeminiEmbeddingFunction/GeminiEmbeddingFunction-encode_queries.md"
@@ -10978,6 +11338,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-Model2VecEmbeddingFunction/EmbeddingModels-Model2VecEmbeddingFunction.md"
@@ -11006,6 +11367,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "Px9Ydg6KSoNFV2xBumpcGBNqn8d",
         "WJY1dMUO5owB1gxkOlLcaB2Rn7g",
@@ -11038,6 +11400,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-Model2VecEmbeddingFunction/Model2VecEmbeddingFunction-encode_documents.md"
@@ -11066,6 +11429,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-Model2VecEmbeddingFunction/Model2VecEmbeddingFunction-encode_queries.md"
