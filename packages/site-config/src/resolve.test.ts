@@ -143,6 +143,11 @@ describe('site profile resolution', () => {
     ]);
   });
 
+  it('keeps the legacy Google Tag Manager container id per site', () => {
+    expect(enProfile.integrations.gtmContainerId).toBe('GTM-MBBF2KR');
+    expect(zhCNProfile.integrations.gtmContainerId).toBe('GTM-MBBL6Z9Q');
+  });
+
   it('returns the same deeply frozen profile object', () => {
     const profile = resolveSiteProfile('en');
     expect(resolveSiteProfile('en')).toBe(profile);

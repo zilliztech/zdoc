@@ -255,6 +255,7 @@ export const IntegrationProfileSchema = z.object({
   feedbackProvider: z.string().min(1).optional(),
   storageAdapter: z.string().min(1).optional(),
   restApi: RestApiIntegrationSchema.optional(),
+  gtmContainerId: z.string().regex(/^GTM-[A-Z0-9]+$/, 'GTM container id must look like GTM-XXXXXXX').optional(),
 }).strict();
 
 export const RedirectRuleSchema = z.object({
