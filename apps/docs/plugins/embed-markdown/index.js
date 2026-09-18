@@ -1,5 +1,6 @@
 const fs = require('node:fs');
 const path = require('node:path');
+const {resolveNextChannelCurrentView} = require('../next-channel-view');
 
 function pluginTranslationDirectoryName(id) {
   return id === 'default'
@@ -188,7 +189,7 @@ module.exports = function (context, options) {
                 const fsPath = pathMap[req.path];
 
                 if (fsPath && fs.existsSync(fsPath)) {
-                  const content = fs.readFileSync(fsPath, 'utf-8');
+                  const content = resolveNextChannelCurrentView(fs.readFileSync(fsPath, 'utf-8'));
                   res.set('Content-Type', 'text/markdown; charset=utf-8');
                   res.setHeader('Content-Disposition', 'inline');
                   res.send(content);
@@ -264,7 +265,12 @@ module.exports = function (context, options) {
           fs.mkdirSync(destDir, { recursive: true });
         }
 
-        fs.copyFileSync(sourcePath, fullDestPath);
+        // The .md copy is a static artifact with no runtime channel signal:
+        // ship the CURRENT view (include blocks dropped, exclude unwrapped)
+        // instead of the raw source with staged prose readable on production.
+        const content = fs.readFileSync(sourcePath, 'utf-8');
+        const resolved = resolveNextChannelCurrentView(content);
+        fs.writeFileSync(fullDestPath, resolved, 'utf-8');
         totalCopied++;
       }
 

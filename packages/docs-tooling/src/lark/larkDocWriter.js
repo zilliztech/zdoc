@@ -1373,7 +1373,15 @@ class larkDocWriter {
             if (/^<\/?[A-Z][A-Za-z0-9]*\b/.test(line)) continue
             if (/^#+\s/.test(line)) break
 
-            return line
+            // Description front matter feeds SEO, llms.txt, and structured
+            // data — all static CURRENT-view surfaces — so inline channel
+            // gates resolve here: staged spans drop, replaced wording unwraps.
+            const description = line
+                .replace(/<NextChannel action="include">[\s\S]*?<\/NextChannel>/g, '')
+                .replace(/<NextChannel action="exclude">([\s\S]*?)<\/NextChannel>/g, '$1')
+                .replace(/\s{2,}/g, ' ')
+                .trim()
+            if (description) return description
         }
 
         return "(placeholder)"

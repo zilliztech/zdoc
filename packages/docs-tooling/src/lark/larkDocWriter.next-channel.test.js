@@ -122,12 +122,42 @@ async function testValidateNextChannelTagsRejectsNextChannelPages() {
     })
 }
 
+async function testExtractDescriptionResolvesCurrentView() {
+    await withWriter(async writer => {
+        const inline = [
+            '# Title',
+            '',
+            'Use clusters <NextChannel action="include">with serverless</NextChannel> to scale.',
+        ].join('\n')
+        assert.equal(writer.__extract_description(inline), 'Use clusters to scale.')
+
+        const replaced = [
+            '# Title',
+            '',
+            'Pricing is <NextChannel action="exclude">old</NextChannel><NextChannel action="include">new</NextChannel>.',
+        ].join('\n')
+        assert.equal(writer.__extract_description(replaced), 'Pricing is old.')
+
+        // A paragraph that is entirely staged has no CURRENT-view description;
+        // extraction falls through to the next paragraph.
+        const stagedOnly = [
+            '# Title',
+            '',
+            '<NextChannel action="include">staged only</NextChannel>',
+            '',
+            'Next paragraph.',
+        ].join('\n')
+        assert.equal(writer.__extract_description(stagedOnly), 'Next paragraph.')
+    })
+}
+
 async function run() {
     await testFilterContentPassesNextChannelTagsThrough()
     await testFilterContentRejectsReservedChannelTargets()
     await testValidateNextChannelTagsAcceptsWellFormedTags()
     await testValidateNextChannelTagsRejectsStructuralErrors()
     await testValidateNextChannelTagsRejectsNextChannelPages()
+    await testExtractDescriptionResolvesCurrentView()
     console.log('larkDocWriter next-channel tests passed')
 }
 
