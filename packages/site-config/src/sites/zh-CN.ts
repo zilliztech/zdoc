@@ -52,6 +52,8 @@ export const zhCNProfile = deepFreeze(SiteProfileSchema.parse({
   integrations: {
     searchProvider: 'local',
     chatProvider: 'inkeep',
+    // Legacy zdoc_cn container (cn v3.0.0 docusaurus.config.js).
+    gtmContainerId: 'GTM-MBBL6Z9Q',
     restApi: {
       planeConfig: {
         dataPlaneKeywords: {

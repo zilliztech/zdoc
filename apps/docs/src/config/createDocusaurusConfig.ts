@@ -159,6 +159,12 @@ function localSearchTheme(profile: DeepReadonly<SiteProfile>): PluginConfig[] {
   ]];
 }
 
+function gtmPlugin(profile: DeepReadonly<SiteProfile>): PluginConfig[] {
+  const containerId = profile.integrations.gtmContainerId;
+  if (!containerId) return [];
+  return [['docusaurus-gtm-plugin', {id: containerId}]];
+}
+
 export function createDocusaurusConfig(
   profile: DeepReadonly<SiteProfile>,
   environment: BuildEnvironment = process.env,
@@ -213,6 +219,7 @@ export function createDocusaurusConfig(
       ...buildCapabilityPlugins(profile),
       ...redirectPlugin(profile),
       ...inkeepPlugin(profile, environment),
+      ...gtmPlugin(profile),
     ],
     themes: localSearchTheme(profile),
     presets: [[
