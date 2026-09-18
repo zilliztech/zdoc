@@ -928,6 +928,9 @@
         "packages/docs-ui/src/shared/utils/releaseChannel*",
         "packages/docs-ui/src/shared/theme/DocCardList/**",
         "deploy/runtime/40-zdoc-env.sh",
+        "deploy/en/nginx.conf",
+        "deploy/zh-CN/nginx.conf",
+        "deploy/contracts/container.test.mjs",
         "apps/docs/plugins/release-channel-routes*",
         "packages/docs-ui/src/shared/components/NextChannel/**",
         "packages/docs-ui/src/shared/components/NextChannelToast/**",
@@ -953,6 +956,7 @@
         "node --test apps/docs/plugins/next-channel-view.test.js",
         "pnpm vitest run packages/docs-ui/src/shared/utils/channelCode.test.ts packages/docs-ui/src/shared/components/ChannelCode/index.test.tsx",
         "node --test packages/docs-tooling/src/lark/codeVariantFilter.test.js",
+        "pnpm test:containers",
         "pnpm vitest run packages/docs-ui/src/shared/components/NextChannelToast/index.test.tsx"
       ],
       "harnesses": [],
