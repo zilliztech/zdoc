@@ -1,71 +1,82 @@
 {
-  "generated_at": "2026-09-17T18:38:55.960Z",
+  "generated_at": "2026-09-18T02:37:50.710Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
-  "changed_records": [],
-  "changed_tokens": [],
-  "expanded_tokens": [],
-  "removed_records": [
+  "changed_records": [
     {
-      "record_id": "recvvrT0u0GSJy",
+      "record_id": "recvlVZCHye36S",
       "table_id": "tblZMzoITXNsyKmQ",
       "table_name": "Management",
-      "placement_type": "canonical",
-      "title": "PingOne (SAML 2.0)",
-      "slug": "single-sign-on-with-ping-one",
-      "doc_token": "KIPiw0RqSieKkjkACwGcvgfLnSe",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/KIPiw0RqSieKkjkACwGcvgfLnSe",
-      "source_file": "KIPiw0RqSieKkjkACwGcvgfLnSe.json",
-      "source_hash": "1ca1b6732c24b848d8d9013483e54a8cec9d82fa44bd5031c0c9dd7a75d9ad29",
-      "node_metadata": {
-        "requested_token": "KIPiw0RqSieKkjkACwGcvgfLnSe",
-        "requested_node_token": "KIPiw0RqSieKkjkACwGcvgfLnSe",
-        "node_token": "KIPiw0RqSieKkjkACwGcvgfLnSe",
-        "origin_node_token": "KIPiw0RqSieKkjkACwGcvgfLnSe",
-        "obj_token": "IyUXdyePSoJ4spxaiLDcT7t9nue",
-        "obj_type": "docx",
-        "node_type": "origin",
-        "title": "PingOne (SAML 2.0)",
-        "space_id": "7167193056431783939",
-        "parent_node_token": "SXBNw91txiJhL6kq2ARcvYbRntg",
-        "node_create_time": "1789004405",
-        "obj_create_time": "1789004405",
-        "obj_edit_time": "1789627162",
-        "revision_id": "142"
-      },
-      "node_token": "KIPiw0RqSieKkjkACwGcvgfLnSe",
-      "origin_node_token": "KIPiw0RqSieKkjkACwGcvgfLnSe",
-      "obj_token": "IyUXdyePSoJ4spxaiLDcT7t9nue",
-      "obj_type": "docx",
-      "obj_edit_time": "1789627162",
-      "revision_id": "142",
-      "publish_targets": [
-        "Zilliz.PaaS",
-        "Zilliz.SaaS"
-      ],
-      "publish_status": "Draft",
-      "outgoing_tokens": [
-        "KIPiw0RqSieKkjkACwGcvgfLnSe",
-        "MvE5wUlFli3gJOk0MkeclZCqnib",
-        "XvTLwH1TEiEHdJksnyIcMCixnic"
-      ],
-      "output_paths": []
+      "title": "Okta (SAML 2.0)",
+      "labels": "Okta (SAML 2.0)",
+      "slug": "single-sign-on-with-okta",
+      "doc_token": "QUC4wfVYTi73ctkMzEec17oVnjh",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/QUC4wfVYTi73ctkMzEec17oVnjh",
+      "reasons": [
+        "wiki node revision changed"
+      ]
+    },
+    {
+      "record_id": "recvs44ibqtfTw",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "title": "Configure SCIM Provisioning with Okta",
+      "labels": "Configure SCIM Provisioning with Okta",
+      "slug": "configure-scim-provisioning-with-okta",
+      "doc_token": "DBrAwCfu3ids0Okxhlbcz12KnPc",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/DBrAwCfu3ids0Okxhlbcz12KnPc",
+      "reasons": [
+        "wiki node revision changed"
+      ]
     }
   ],
-  "removed_tokens": [
-    "KIPiw0RqSieKkjkACwGcvgfLnSe"
+  "changed_tokens": [
+    "DBrAwCfu3ids0Okxhlbcz12KnPc",
+    "QUC4wfVYTi73ctkMzEec17oVnjh"
   ],
+  "expanded_tokens": [
+    "DBrAwCfu3ids0Okxhlbcz12KnPc",
+    "GMdhwQQCRi2QaLkimNOcc3qNnbh",
+    "KhJhw2lOBirGhekK8jbcZkb2nVg",
+    "MvE5wUlFli3gJOk0MkeclZCqnib",
+    "O1kHwD3jsioeD1km983cCRx7ndh",
+    "QUC4wfVYTi73ctkMzEec17oVnjh",
+    "WDOJwtKkAijW4gkUpQhcAL0Rn1d",
+    "XvTLwH1TEiEHdJksnyIcMCixnic"
+  ],
+  "removed_records": [],
+  "removed_tokens": [],
   "reasons_by_token": {
-    "KIPiw0RqSieKkjkACwGcvgfLnSe": [
-      "record removed"
+    "QUC4wfVYTi73ctkMzEec17oVnjh": [
+      "wiki node revision changed"
+    ],
+    "DBrAwCfu3ids0Okxhlbcz12KnPc": [
+      "wiki node revision changed"
+    ],
+    "KhJhw2lOBirGhekK8jbcZkb2nVg": [
+      "outgoing reference from DBrAwCfu3ids0Okxhlbcz12KnPc"
+    ],
+    "O1kHwD3jsioeD1km983cCRx7ndh": [
+      "incoming reference to DBrAwCfu3ids0Okxhlbcz12KnPc"
+    ],
+    "XvTLwH1TEiEHdJksnyIcMCixnic": [
+      "outgoing reference from QUC4wfVYTi73ctkMzEec17oVnjh"
+    ],
+    "MvE5wUlFli3gJOk0MkeclZCqnib": [
+      "outgoing reference from QUC4wfVYTi73ctkMzEec17oVnjh"
+    ],
+    "GMdhwQQCRi2QaLkimNOcc3qNnbh": [
+      "incoming reference to QUC4wfVYTi73ctkMzEec17oVnjh"
+    ],
+    "WDOJwtKkAijW4gkUpQhcAL0Rn1d": [
+      "incoming reference to QUC4wfVYTi73ctkMzEec17oVnjh"
     ]
   },
-  "warnings": [
-    "Record removed since last snapshot: PingOne (SAML 2.0)"
-  ],
+  "warnings": [],
   "affected_tables": [
+    "tbl9BeCMjBmalJVb",
     "tblZMzoITXNsyKmQ"
   ],
   "current_table_targets": {
@@ -161,8 +172,8 @@
     "tblZMzoITXNsyKmQ": "Management"
   },
   "snapshot_basis": {
-    "generated_at": "2026-09-17T10:46:10.220Z",
-    "records": 395
+    "generated_at": "2026-09-17T18:39:02.461Z",
+    "records": 394
   },
   "source_scope": "partial"
 }

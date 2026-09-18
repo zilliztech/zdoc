@@ -72,7 +72,7 @@ As the SP, Zilliz Cloud provides the **Audience URL (SP Entity ID)** and **Singl
 
 In this step, you configure Okta (the IdP) with the SP details obtained from Zilliz Cloud.
 
-<Supademo id="cmdh3bndv2ym06n9n9gx8epyd" title="Step 1: Create SAML App in Okta Admin Console" />
+<Supademo id="cmu6born30iqzqmctmmy8ynp6" title=""  />
 
 <Procedures>
 
@@ -96,15 +96,19 @@ In this step, you configure Okta (the IdP) with the SP details obtained from Zil
 
     - **Audience URI (SP Entity ID)**: Paste the **Audience URL (SP Entity ID)** you copied from Zilliz Cloud console in [Step 1](./single-sign-on-with-okta#step-1-access-sp-details-in-zilliz-cloud-console) here.
 
-1. In the **Attribute Statements (optional)** area, specify:
-
-    - **Name**: Set the value to **email**.
-
-    - **Value**: Select **user.email** from the drop-down list.
-
 1. Click **Next**, then click **Finish**. You will be redirected to the app page.
 
-1. On the **Sign On** tab of the app page, get **Metadata URL** and click **Copy**. It will be required in Zilliz Cloud console in [Step 3](./single-sign-on-with-okta#step-3-configure-idp-settings-in-zilliz-cloud-console).
+1. On the **Sign On** tab of the app page, 
+
+    1. Navigate to the **Attribute statements** area, expand the **Show legacy configuration**, click **Edit** next to **Profile attribute statements**, then add an attribute statement with the following settings:
+
+        - **Name**: Set the value to **email**.
+
+        - **Name format**: Keep the default value **Unspecified**.
+
+        - **Value**: Select **user.email** from the drop-down list.
+
+    1. After, navigate to the **SAML 2.0** card, get **Metadata URL**, then click **Copy**. It will be required in Zilliz Cloud console in [Step 3](./single-sign-on-with-okta#step-3-configure-idp-settings-in-zilliz-cloud-console).
 
     <Admonition type="info" title="Notes">
 
