@@ -8,7 +8,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-09-17T18:39:57.879Z",
+  "generated_at": "2026-09-18T10:44:14.307Z",
   "source_dir": "./packages/docs-tooling/src/lark/meta/sources/go/v3.0.x",
   "base_app_token": "KQT5bV62QaioKisKZT0crwZDnke",
   "records": [
@@ -35,6 +35,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Client/v2-Client-GetServerVersion.md"
@@ -63,6 +64,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Client/v2-Client-New.md"
@@ -91,6 +93,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Client/v2-Client-Close.md"
@@ -119,6 +122,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Client/v2-Client-ClientConfig.md"
@@ -147,6 +151,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Client/v2-Client-GetTelemetry.md"
@@ -175,6 +180,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "CBg7dbZZ7oxxvJx1eV4cJXWGnbe",
         "Du2ZdjCWIorDg4xdwercNnYgnJb"
@@ -206,6 +212,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-CreateCollection.md"
@@ -234,6 +241,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "GwIxdz90jojeBNx965VcTJHnnFd"
       ],
@@ -264,6 +272,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "GwIxdz90jojeBNx965VcTJHnnFd"
       ],
@@ -294,6 +303,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "GwIxdz90jojeBNx965VcTJHnnFd"
       ],
@@ -324,6 +334,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "GwIxdz90jojeBNx965VcTJHnnFd"
       ],
@@ -354,6 +365,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-ListAliases.md"
@@ -382,6 +394,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-ListCollections.md"
@@ -410,6 +423,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "PNwFdxMMdo6rtIxERDHcVFgdnxc"
       ],
@@ -440,6 +454,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-HasCollection.md"
@@ -468,6 +483,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-DropCollection.md"
@@ -496,6 +512,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RenameCollection.md"
@@ -524,6 +541,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "PNwFdxMMdo6rtIxERDHcVFgdnxc"
       ],
@@ -554,6 +572,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "PNwFdxMMdo6rtIxERDHcVFgdnxc"
       ],
@@ -584,6 +603,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-AlterCollectionFieldProperty.md"
@@ -612,6 +632,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-GetCollectionStats.md"
@@ -640,6 +661,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-AddCollectionField.md"
@@ -668,6 +690,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-TruncateCollection.md"
@@ -696,6 +719,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollection.md"
@@ -724,6 +748,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-GetRefreshExternalCollectionProgress.md"
@@ -752,6 +777,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-ListRefreshExternalCollectionJobs.md"
@@ -780,6 +806,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-Schema.md"
@@ -808,6 +835,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "Xq9Ydn3OJoYrHmxMVOLcMn9onHc"
       ],
@@ -838,6 +866,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-FieldType.md"
@@ -866,6 +895,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-Alias.md"
@@ -894,6 +924,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-Function.md"
@@ -922,6 +953,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-ConsistencyLevel.md"
@@ -950,6 +982,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "Or8Gd2JEIo1swQxD3QTccFoBn9b"
       ],
@@ -980,6 +1013,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollectionState.md"
@@ -1008,6 +1042,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-StructSchema.md"
@@ -1036,6 +1071,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Database/v2-Database.md"
@@ -1064,6 +1100,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Database/v2-Database-UseDatabase.md"
@@ -1092,6 +1129,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Database/v2-Database-ListDatabase.md"
@@ -1120,6 +1158,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Database/v2-Database-CreateDatabase.md"
@@ -1148,6 +1187,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Database/v2-Database-DropDatabase.md"
@@ -1176,6 +1216,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Database/v2-Database-DescribeDatabase.md"
@@ -1204,6 +1245,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Database/v2-Database-AlterDatabaseProperties.md"
@@ -1232,6 +1274,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Database/v2-Database-DropDatabaseProperties.md"
@@ -1259,6 +1302,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "QWRidEpUAo3sk3xh1shchxbunWg"
       ],
@@ -1287,6 +1331,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Y0IAdifhVoYQVAxiZEdcjIS0nog"
@@ -1318,6 +1363,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Management/v2-Management-ListIndexes.md"
@@ -1346,6 +1392,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "Wyvhd3725onAmAxegk1caOHonQg"
       ],
@@ -1376,6 +1423,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Management/v2-Management-DropIndex.md"
@@ -1404,6 +1452,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Management/v2-Management-AlterIndexProperties.md"
@@ -1432,6 +1481,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Management/v2-Management-DropIndexProperties.md"
@@ -1460,6 +1510,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "U9w7dQeEBom2UBxJZM1cJAIYniL"
       ],
@@ -1490,6 +1541,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "U9w7dQeEBom2UBxJZM1cJAIYniL"
       ],
@@ -1520,6 +1572,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "XWSAdFkdDoaDPnxOtkEcuFETngL"
       ],
@@ -1550,6 +1603,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Management/v2-Management-ReleaseCollection.md"
@@ -1578,6 +1632,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Management/v2-Management-ReleasePartitions.md"
@@ -1606,6 +1661,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Management/v2-Management-RefreshLoad.md"
@@ -1634,6 +1690,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "BPXDdgDPzoaDTixPJLncvFZ0nig"
       ],
@@ -1664,6 +1721,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Compact.md"
@@ -1692,6 +1750,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Management/v2-Management-GetCompactionState.md"
@@ -1720,6 +1779,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Management/v2-Management-IndexDescription.md"
@@ -1748,6 +1808,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Management/v2-Management-CreateIndexTask.md"
@@ -1776,6 +1837,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Management/v2-Management-LoadTask.md"
@@ -1804,6 +1866,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Management/v2-Management-FlushTask.md"
@@ -1832,6 +1895,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Management/v2-Management-LoadState.md"
@@ -1860,6 +1924,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Management/v2-Management-CompactionState.md"
@@ -1887,6 +1952,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -1913,6 +1979,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Management-Index.md"
@@ -1941,6 +2008,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
@@ -1972,6 +2040,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
@@ -2002,6 +2071,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
@@ -2030,6 +2100,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
@@ -2058,6 +2129,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
@@ -2086,6 +2158,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
@@ -2114,6 +2187,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
@@ -2142,6 +2216,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
@@ -2170,6 +2245,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
@@ -2198,6 +2274,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e"
       ],
@@ -2225,6 +2302,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
@@ -2253,6 +2331,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
@@ -2281,6 +2360,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
@@ -2309,6 +2389,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
@@ -2337,6 +2418,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
@@ -2365,6 +2447,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "GppedViHro8TJMxQCZ3cJRKRnHg"
@@ -2393,6 +2476,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
@@ -2422,6 +2506,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e"
       ],
@@ -2452,6 +2537,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e"
       ],
@@ -2482,6 +2568,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e"
       ],
@@ -2512,6 +2599,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e"
       ],
@@ -2542,6 +2630,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e"
       ],
@@ -2571,6 +2660,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
@@ -2599,6 +2689,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
@@ -2627,6 +2718,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
@@ -2656,6 +2748,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Management/v2-Management-IndexType.md"
@@ -2684,6 +2777,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Management/v2-Management-MetricType.md"
@@ -2712,6 +2806,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-CreatePartition.md"
@@ -2740,6 +2835,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-DropPartition.md"
@@ -2768,6 +2864,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-HasPartition.md"
@@ -2796,6 +2893,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-ListPartitions.md"
@@ -2824,6 +2922,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-GetPartitionStats.md"
@@ -2852,6 +2951,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "CBg7dbZZ7oxxvJx1eV4cJXWGnbe",
         "CE0odAFVdoh2ehxNFRecD8WEn3f",
@@ -2885,6 +2985,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-QueryIterator.md"
@@ -2913,6 +3014,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Search.md"
@@ -2941,6 +3043,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "CBg7dbZZ7oxxvJx1eV4cJXWGnbe",
         "CCWrdPlSao0pOTx9oIgcA64Nnjd"
@@ -2972,6 +3075,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "CBg7dbZZ7oxxvJx1eV4cJXWGnbe",
         "CCWrdPlSao0pOTx9oIgcA64Nnjd"
@@ -3003,6 +3107,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-HybridSearch.md"
@@ -3031,6 +3136,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-RunAnalyzer.md"
@@ -3059,6 +3165,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Insert.md"
@@ -3087,6 +3194,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "Gh4ydrMIBopZekxncUFcrJctnBl"
       ],
@@ -3117,6 +3225,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Upsert.md"
@@ -3145,6 +3254,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ResultSet.md"
@@ -3173,6 +3283,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-InsertResult.md"
@@ -3201,6 +3312,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-DeleteResult.md"
@@ -3229,6 +3341,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-UpsertResult.md"
@@ -3257,6 +3370,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-AnnParam/v2-Vector-AnnParam.md"
@@ -3284,6 +3398,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "XV3adWSVho0zgfx6CZDc30GAnMc"
       ],
@@ -3312,6 +3427,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "XV3adWSVho0zgfx6CZDc30GAnMc"
       ],
@@ -3341,6 +3457,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "XV3adWSVho0zgfx6CZDc30GAnMc"
       ],
@@ -3368,6 +3485,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "XV3adWSVho0zgfx6CZDc30GAnMc"
       ],
@@ -3395,6 +3513,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "XV3adWSVho0zgfx6CZDc30GAnMc"
       ],
@@ -3422,6 +3541,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "XV3adWSVho0zgfx6CZDc30GAnMc"
       ],
@@ -3449,6 +3569,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "XV3adWSVho0zgfx6CZDc30GAnMc"
       ],
@@ -3476,6 +3597,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "XV3adWSVho0zgfx6CZDc30GAnMc"
       ],
@@ -3503,6 +3625,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "XV3adWSVho0zgfx6CZDc30GAnMc"
       ],
@@ -3531,6 +3654,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnFloatVectorArray.md"
@@ -3559,6 +3683,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnFloat16VectorArray.md"
@@ -3587,6 +3712,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnBFloat16VectorArray.md"
@@ -3615,6 +3741,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnBinaryVectorArray.md"
@@ -3643,6 +3770,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnInt8VectorArray.md"
@@ -3671,6 +3799,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "GyCrdXyvzobrrAxzFRbcRTlSnUb"
       ],
@@ -3701,6 +3830,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RestoreRBAC.md"
@@ -3729,6 +3859,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-ListUsers.md"
@@ -3757,6 +3888,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "FCnndgcaworiHGxozvocjrZonIj"
       ],
@@ -3787,6 +3919,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-CreateUser.md"
@@ -3815,6 +3948,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-UpdatePassword.md"
@@ -3843,6 +3977,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DropUser.md"
@@ -3871,6 +4006,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-ListRoles.md"
@@ -3899,6 +4035,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-CreateRole.md"
@@ -3927,6 +4064,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-GrantRole.md"
@@ -3955,6 +4093,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RevokeRole.md"
@@ -3983,6 +4122,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DropRole.md"
@@ -4011,6 +4151,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "MUdZdTFeDoEtcwxBCOycaHyanr7"
       ],
@@ -4040,6 +4181,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -4065,6 +4207,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -4090,6 +4233,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -4115,6 +4259,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -4141,6 +4286,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-ListPrivilegeGroups.md"
@@ -4168,6 +4314,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -4193,6 +4340,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -4219,6 +4367,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-GrantPrivilegeV2.md"
@@ -4247,6 +4396,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RevokePrivilegeV2.md"
@@ -4275,6 +4425,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-User.md"
@@ -4303,6 +4454,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-Role.md"
@@ -4331,6 +4483,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RBACMeta.md"
@@ -4359,6 +4512,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-PrivilegeGroup.md"
@@ -4386,6 +4540,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "IM6xdWbdLo7l9dxR40kcfjfSnVb"
       ],
@@ -4413,6 +4568,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -4438,6 +4594,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -4463,6 +4620,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -4488,6 +4646,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -4513,6 +4672,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [
         "IM6xdWbdLo7l9dxR40kcfjfSnVb"
       ],
@@ -4540,6 +4700,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -4565,6 +4726,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -4590,6 +4752,7 @@
         "Milvus"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -4616,6 +4779,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-CreateSnapshot.md"
@@ -4644,6 +4808,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-DropSnapshot.md"
@@ -4672,6 +4837,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-ListSnapshots.md"
@@ -4700,6 +4866,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-DescribeSnapshot.md"
@@ -4728,6 +4895,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-RestoreSnapshot.md"
@@ -4756,6 +4924,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-GetRestoreSnapshotState.md"
@@ -4784,6 +4953,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-ListRestoreSnapshotJobs.md"
@@ -4812,6 +4982,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-PinSnapshotData.md"
@@ -4840,6 +5011,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-UnpinSnapshotData.md"
@@ -4868,6 +5040,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-BulkImport.md"
@@ -4896,6 +5069,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-ListImportJobs.md"
@@ -4924,6 +5098,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-GetImportProgress.md"
@@ -4952,6 +5127,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-BulkImportResponse.md"
@@ -4980,6 +5156,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-ListImportJobsResponse.md"
@@ -5008,6 +5185,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-GetImportProgressResponse.md"
@@ -5036,6 +5214,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-BulkImportOption.md"
@@ -5064,6 +5243,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-ListImportJobsOption.md"
@@ -5092,6 +5272,7 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
+      "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-GetImportProgressOption.md"
