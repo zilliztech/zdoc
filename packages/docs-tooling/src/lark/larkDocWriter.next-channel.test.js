@@ -151,6 +151,63 @@ async function testExtractDescriptionResolvesCurrentView() {
     })
 }
 
+async function testValidateChannelCodeDirectivesAcceptsWellFormedFences() {
+    await withWriter(async writer => {
+        const valid = [
+            '# Title',
+            '',
+            '```python',
+            'client.setup()',
+            '# current-channel-start',
+            'client.legacy()',
+            '# current-channel-end',
+            '# next-channel-start',
+            'client.serverless()',
+            '# next-channel-end',
+            '# next-channel-next-line',
+            'client.flush()',
+            '```',
+            '',
+            '```js',
+            '// current-channel-next-line',
+            'legacyCall()',
+            '/* next-channel-start */',
+            'modernCall()',
+            '/* next-channel-end */',
+            '```',
+        ].join('\n')
+
+        writer.__validate_channel_code_directives(valid)
+        writer.__validate_channel_code_directives('# Untagged\n\n```python\nplain()\n```')
+    })
+}
+
+async function testValidateChannelCodeDirectivesRejectsStructuralErrors() {
+    await withWriter(async writer => {
+        const fence = body => ['# Title', '', '```python', ...body, '```'].join('\n')
+        assert.throws(
+            () => writer.__validate_channel_code_directives(fence(['# next-channel-start', 'a()', '# next-channel-start', 'b()', '# next-channel-end'])),
+            /Nested channel code regions are not supported/,
+        )
+        assert.throws(
+            () => writer.__validate_channel_code_directives(fence(['# next-channel-end'])),
+            /Channel code end directive without a matching start/,
+        )
+        assert.throws(
+            () => writer.__validate_channel_code_directives(fence(['# next-channel-start', 'a()', '# current-channel-end'])),
+            /Channel code end directive mismatched: region "next" closed by "current"/,
+        )
+        assert.throws(
+            () => writer.__validate_channel_code_directives(fence(['# next-channel-start', 'a()'])),
+            /Unclosed channel code region "next"/,
+        )
+        assert.throws(
+            () => writer.__validate_channel_code_directives(fence(['# next-channel-next-line', '# current-channel-start'])),
+            /next-line directive must be followed by a code line/,
+        )
+    })
+}
+
 async function run() {
     await testFilterContentPassesNextChannelTagsThrough()
     await testFilterContentRejectsReservedChannelTargets()
@@ -158,6 +215,8 @@ async function run() {
     await testValidateNextChannelTagsRejectsStructuralErrors()
     await testValidateNextChannelTagsRejectsNextChannelPages()
     await testExtractDescriptionResolvesCurrentView()
+    await testValidateChannelCodeDirectivesAcceptsWellFormedFences()
+    await testValidateChannelCodeDirectivesRejectsStructuralErrors()
     console.log('larkDocWriter next-channel tests passed')
 }
 

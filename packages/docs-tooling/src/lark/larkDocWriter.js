@@ -1307,6 +1307,55 @@ class larkDocWriter {
         }
     }
 
+    __parse_channel_code_directive (line) {
+        const body = '(next|current)-channel-(next-line|start|end)'
+        const sources = [
+            `^(\\s*)#\\s*${body}\\s*$`,
+            `^(\\s*)//\\s*${body}\\s*$`,
+            `^(\\s*)/\\*\\s*${body}\\s*\\*/\\s*$`,
+            `^(\\s*)<!--\\s*${body}\\s*-->\\s*$`,
+            `^(\\s*)\\{/\\*\\s*${body}\\s*\\*/\\}\\s*$`,
+        ]
+        for (const source of sources) {
+            const match = line.match(new RegExp(source))
+            if (match) return { channel: match[2], operation: match[3] }
+        }
+        return null
+    }
+
+    // Channel code directives ride the generated fences to the runtime
+    // renderer and the static AI surfaces; structural author errors must fail
+    // the Fetch here instead of silently hiding or revealing the wrong lines.
+    __validate_channel_code_directives (markdown) {
+        const fences = markdown.match(/```[\s\S]*?```|~~~[\s\S]*?~~~/g) || []
+        for (const fence of fences) {
+            if (!/(next|current)-channel-(next-line|start|end)/.test(fence)) continue
+            let active = null
+            let pending = null
+            for (const line of fence.split('\n')) {
+                const directive = this.__parse_channel_code_directive(line)
+                if (!directive) {
+                    pending = null
+                    continue
+                }
+                if (pending) throw new Error('A channel code next-line directive must be followed by a code line')
+                if (directive.operation === 'next-line') {
+                    pending = directive.channel
+                    continue
+                }
+                if (directive.operation === 'start') {
+                    if (active) throw new Error('Nested channel code regions are not supported')
+                    active = directive.channel
+                    continue
+                }
+                if (!active) throw new Error('Channel code end directive without a matching start')
+                if (active !== directive.channel) throw new Error(`Channel code end directive mismatched: region "${active}" closed by "${directive.channel}"`)
+                active = null
+            }
+            if (active) throw new Error(`Unclosed channel code region "${active}" at the end of a code block`)
+        }
+    }
+
     __match_filter_tags(markdown) {
         const startTagRegex = /<(include|exclude) target="(.+?)"/gmi
         const endTagRegex = /<\/(include|exclude)>/gmi
@@ -1391,6 +1440,7 @@ class larkDocWriter {
         let markdown = await this.__markdown()
         markdown = this.__filter_content(markdown, this.targets)
         this.__validate_next_channel_tags(markdown, channel)
+        this.__validate_channel_code_directives(markdown)
         markdown = markdown.replace(/(\s*\n){3,}/g, '\n\n').replace(/(<br\/>){2,}/, "<br/>").replace(/<br>/g, '<br/>');
         markdown = markdown.replace(/^[\||\s][\s|\||<br\/>]*\|\n/gm, '')
         markdown = markdown.replace(/\s*<tr>\n(\s*<td>(<br\/>)*<\/td>\n)*\s*<\/tr>/g, '')

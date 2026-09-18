@@ -71,3 +71,52 @@ test('resolves inline include spans inside a prose paragraph', () => {
   assert.equal(resolved.replace(/\s{2,}/g, ' ').trim(), 'Use clusters to scale.');
   assert.ok(!resolved.includes('serverless'));
 });
+
+test('resolves channel code directives inside fenced blocks to the current view', () => {
+  const content = [
+    'Intro.',
+    '',
+    '```python',
+    'client.setup()',
+    '# current-channel-start',
+    'client.legacy()',
+    '# current-channel-end',
+    '# next-channel-start',
+    'client.serverless()',
+    '# next-channel-end',
+    '# next-channel-next-line',
+    'client.flush()',
+    '```',
+    '',
+    'Outro.',
+  ].join('\n');
+
+  const resolved = resolveNextChannelCurrentView(content);
+
+  const expected = [
+    'Intro.',
+    '',
+    '```python',
+    'client.setup()',
+    'client.legacy()',
+    '```',
+    '',
+    'Outro.',
+  ].join('\n');
+  assert.equal(resolved, expected);
+});
+
+test('keeps directive-free fences byte-identical while resolving prose around them', () => {
+  const content = [
+    '<NextChannel action="include">staged prose</NextChannel>',
+    '',
+    '```python',
+    '# not a channel directive',
+    'plain()',
+    '```',
+  ].join('\n');
+
+  const resolved = resolveNextChannelCurrentView(content);
+
+  assert.equal(resolved, ['', '', '```python', '# not a channel directive', 'plain()', '```'].join('\n'));
+});

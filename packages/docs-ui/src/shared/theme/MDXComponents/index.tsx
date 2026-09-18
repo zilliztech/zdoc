@@ -1,6 +1,7 @@
 import React, {type ComponentProps, type SVGProps} from 'react';
 import Head from '@docusaurus/Head';
 import MDXCode from '@theme/MDXComponents/Code';
+import ChannelCode from '../../components/ChannelCode';
 import MDXA from '@theme/MDXComponents/A';
 import MDXPre from '@theme/MDXComponents/Pre';
 import MDXDetails from '@theme/MDXComponents/Details';
@@ -55,7 +56,9 @@ const MDXComponents = {
   table: MDXTable,
   details: MDXDetails,
   Details: MDXDetails,
-  code: MDXCode,
+  code: Object.assign((props: {children?: React.ReactNode}) => (
+    <ChannelCode inner={MDXCode} {...props} />
+  )),
   a: MDXA,
   pre: Object.assign(MDXPre, {mdxTag: 'pre'}),
   ul: MDXUl,
