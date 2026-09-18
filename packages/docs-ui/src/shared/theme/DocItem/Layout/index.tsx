@@ -13,6 +13,7 @@ import DocItemTOCDesktop from '@theme/DocItem/TOC/Desktop';
 import NotFoundContent from '@theme/NotFound/Content';
 import CopyPageButton from '../../Heading/CopyPageButton';
 import DocMetaTags, {hasDocMetaTags} from '../../Heading/DocMetaTags';
+import NextChannelToast from '../../../components/NextChannelToast';
 import {useDocsUiText, type DocsUiText} from '../../../i18n/uiText';
 import {frontMatterReleaseChannel, useRuntimeReleaseChannel} from '../../../utils/releaseChannel';
 import ContentVisibility from '@theme/ContentVisibility';
@@ -166,16 +167,6 @@ function PageBreadcrumbs({text}: {text: DocsUiText}): ReactNode {
   );
 }
 
-function NextChannelBanner({text}: {text: DocsUiText}): ReactNode {
-  return (
-    <div className={`admonition admonition-caution ${styles.nextChannelBanner}`}>
-      <div className="admonition-heading">
-        <h5>{text.releaseChannel.banner}</h5>
-      </div>
-    </div>
-  );
-}
-
 export default function DocItemLayout({children}: Props): ReactNode {
   const text = useDocsUiText();
   const {frontMatter, metadata, toc} = useDoc();
@@ -227,7 +218,12 @@ export default function DocItemLayout({children}: Props): ReactNode {
         <div className={`${styles.docItemCol} ${!showDesktopTOC ? styles.docItemColCentered : ''}`}>
           <article>
             <DocVersionBadge />
-            {isNextChannelPage && <NextChannelBanner text={text} />}
+            {isNextChannelPage && (
+              <NextChannelToast
+                message={text.releaseChannel.banner}
+                dismissLabel={text.releaseChannel.dismiss}
+              />
+            )}
             <PageBreadcrumbs text={text} />
             <DocItemContent>{children}</DocItemContent>
             <DocItemFooter />

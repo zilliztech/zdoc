@@ -131,8 +131,10 @@ export interface DocsUiText {
   image: {preview: string; closePreview: string};
   docMeta: {versionInformation: string; minimumSdkVersion: string};
   releaseChannel: {
-    /** Admonition shown on NEXT-channel pages while the next deployment is open. */
+    /** Floating notice shown on NEXT-channel pages while the next deployment is open. */
     banner: string;
+    /** Accessible label for the floating notice's close button. */
+    dismiss: string;
   };
   hero: {
     forHumans: string;
@@ -313,6 +315,7 @@ const english: DocsUiText = {
   releaseChannel: {
     banner:
       'The feature documented on this page has not been released yet. Content may change before general availability.',
+    dismiss: 'Dismiss the unreleased-feature notice',
   },
   hero: {
     forHumans: 'For humans',
@@ -490,6 +493,7 @@ const chinese: DocsUiText = {
   docMeta: {versionInformation: '版本信息', minimumSdkVersion: '最低 SDK 版本'},
   releaseChannel: {
     banner: '本页文档对应的功能尚未正式上线，正式发布前内容可能调整。',
+    dismiss: '关闭未上线功能提示',
   },
   hero: {
     forHumans: '开发者使用',
@@ -673,6 +677,7 @@ const japanese: DocsUiText = {
   docMeta: {versionInformation: 'バージョン情報', minimumSdkVersion: '最小 SDK バージョン'},
   releaseChannel: {
     banner: 'このページが説明する機能はまだ正式にリリースされていません。正式提供までに内容が変わる可能性があります。',
+    dismiss: '未リリース機能の通知を閉じる',
   },
   hero: {
     forHumans: '人間向け',

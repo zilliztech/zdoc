@@ -933,6 +933,8 @@
         "deploy/contracts/container.test.mjs",
         "apps/docs/plugins/release-channel-routes*",
         "packages/docs-ui/src/shared/components/NextChannel/**",
+        "packages/docs-ui/src/shared/components/NextChannelToast/**",
+        "packages/docs-ui/src/shared/i18n/uiText*",
         "packages/docs-ui/src/shared/theme/MDXComponents/**",
         "packages/docs-tooling/src/lark/larkDocWriter.next-channel.test.js",
         "apps/docs/plugins/next-channel-view*",
@@ -954,7 +956,8 @@
         "node --test apps/docs/plugins/next-channel-view.test.js",
         "pnpm vitest run packages/docs-ui/src/shared/utils/channelCode.test.ts packages/docs-ui/src/shared/components/ChannelCode/index.test.tsx",
         "node --test packages/docs-tooling/src/lark/codeVariantFilter.test.js",
-        "pnpm test:containers"
+        "pnpm test:containers",
+        "pnpm vitest run packages/docs-ui/src/shared/components/NextChannelToast/index.test.tsx"
       ],
       "harnesses": [],
       "gates": [
