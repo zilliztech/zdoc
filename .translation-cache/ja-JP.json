@@ -3026,9 +3026,9 @@
       "translatedAt": "2026-08-04T05:11:14.615Z"
     },
     "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-gemini-extension.md": {
-      "sourceHash": "0c846eaa91c7791db505b06d213b1eb4ea9eddd1a02f21ed3e09fdf3f4089405",
+      "sourceHash": "5b25e77a2d2befb04a2e0831b35fac1bfcdab8b415ea1ffd2b07d665e58afa8d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/tools/agents-and-prompts/zilliz-gemini-extension.md",
-      "translatedAt": "2026-08-04T05:12:28.293Z"
+      "translatedAt": "2026-09-19T14:26:50.702Z"
     },
     "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-plugin/zilliz-plugin-capabilities.md": {
       "sourceHash": "79b7242584b84efd4ee335dfb7c08cb0cd071b8effc4cdef6d032aeab58ee69e",
@@ -3046,14 +3046,19 @@
       "translatedAt": "2026-08-04T05:12:39.739Z"
     },
     "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-plugin/zilliz-plugin.md": {
-      "sourceHash": "6dfc51d1275b94be57c0a0c6853c62978f364ba1015c0d0427908f51673973a8",
+      "sourceHash": "1ccb57f4d1b70050badac94a4d691474af448aab98dad790a26e6514e41b7be1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/tools/agents-and-prompts/zilliz-plugin/zilliz-plugin.md",
-      "translatedAt": "2026-08-04T05:12:06.123Z"
+      "translatedAt": "2026-09-19T14:26:50.702Z"
     },
     "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-skill.md": {
       "sourceHash": "f830efc6a08b1755697a7fdfb082134b30ab0239d937d5294da4bcc2c0e898ca",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/tools/agents-and-prompts/zilliz-skill.md",
       "translatedAt": "2026-08-04T05:12:18.789Z"
+    },
+    "content/en/guides/tutorials/tools/terraform-provider.md": {
+      "sourceHash": "f5bb3af136217676e93922af74cc573d7a1c7a0873d47e8d138b198f82ea6b58",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/tools/terraform-provider.md",
+      "translatedAt": "2026-09-19T14:26:50.702Z"
     },
     "content/en/reference/api/cpp/cpp/Authentication/Authentication-AlterRole.md": {
       "sourceHash": "344fff03a5d510ed2c5f489d34ab25e1265a5500e5b5bd7021eed66960a6fdca",

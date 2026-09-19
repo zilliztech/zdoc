@@ -48,13 +48,13 @@ API キーの管理に関する詳細は、[API Keys](/docs/byoc/manage-api-keys
 
 現在、このプロバイダーを使用して以下の種類のリソースを管理できます。
 
-### Clusters\{#clusters}
+### クラスター\{#clusters}
 
 [Zilliz Cloud クラスター](/docs/manage-cluster) は、Zilliz Cloud 上で稼働する Milvus インスタンスです。Zilliz Cloud では、クラスターを **Free**、**Serverless**、**Dedicated (Standard)**、**Dedicated (Enterprise)**、**Bring Your Own Cloud (BYOC)** などのさまざまな提供形態に分類しています。これらの提供形態の詳細については、[Detailed Plan Comparison](/docs/select-zilliz-cloud-service-plans) を参照してください。
 
 Zilliz Cloud Terraform Provider を使用して、特定の提供形態のクラスターを作成および管理できます。詳細については、以下のチュートリアルを参照してください。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Terraform Provider を BYOC で使用する場合、サポートされるのは Dedicated と BYOC のクラスタータイプのみです。BYOC プロジェクトでは Free および Serverless クラスターの作成はできません。
 
@@ -70,25 +70,25 @@ Terraform Provider を BYOC で使用する場合、サポートされるのは 
 
 - [既存のクラスターを Terraform 管理にインポートする](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/guides/import-cluster)
 
-### Database\{#database}
+### データベース\{#database}
 
 Zilliz Cloud では、[データベース](/docs/database) はデータを整理および管理するための論理単位として機能します。これは専用クラスターでのみ使用できます。クラスターの作成時に、デフォルトのデータベースが作成されます。Zilliz Cloud Terraform Provider を使用してデータベースを管理する方法の詳細については、以下のリソースおよびデータソースを参照してください。
 
-- [Database (Resource)](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/resources/database)
+- [データベース (Resource)](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/resources/database)
 
-- [Databases (Data Source)](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/data-sources/databases)
+- [データベース (Data Source)](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/data-sources/databases)
 
-### Collection & Aliases\{#collection-and-aliases}
+### コレクション & Aliases\{#collection-and-aliases}
 
 [コレクション](/docs/manage-collections) は、固定された列と可変の行を持つ二次元テーブルです。各列はフィールドを表し、各行はエンティティを表します。Zilliz Cloud Terraform Provider を使用してコレクションを管理する方法の詳細については、以下のリソースおよびデータソースを参照してください。
 
 - [Aliases (Resource)](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/resources/alias)
 
-- [Collection (Resource)](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/resources/collection)
+- [コレクション (Resource)](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/resources/collection)
 
 - [Aliases (Data Source)](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/data-sources/aliases)
 
-- [Collections (Data Source)](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/data-sources/collections)
+- [コレクション (Data Source)](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/data-sources/collections)
 
 ### Partition\{#partition}
 
@@ -98,13 +98,13 @@ Zilliz Cloud では、[データベース](/docs/database) はデータを整理
 
 - [Partitions (Data Source)](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/data-sources/partitions)
 
-### Index\{#index}
+### インデックス\{#index}
 
 Zilliz Cloud は、効率的な類似性検索を実現するために [AUTOINDEX](/docs/autoindex-explained) を採用しています。また、ベクトル埋め込み間の距離を測定するために、**Cosine Similarity**（COSINE）、**Euclidean Distance**（L2）、**Inner Product**（IP）、**JACCARD**、**HAMMING** といった [メトリックタイプ](/docs/search-metrics-explained) も提供しています。AUTOINDEX はスカラーフィールドにも適用され、メタデータフィルタリングを高速化します。Zilliz Cloud Terraform Provider を使用してインデックスを管理する方法の詳細については、以下のリソースおよびデータソースを参照してください。
 
-- [Index (Resource)](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/resources/index)
+- [インデックス (Resource)](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/resources/index)
 
-- [Indexes (Data Source)](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/data-sources/indexes)
+- [インデックス (Data Source)](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/data-sources/indexes)
 
 ### Users & Roles\{#users-and-roles}
 

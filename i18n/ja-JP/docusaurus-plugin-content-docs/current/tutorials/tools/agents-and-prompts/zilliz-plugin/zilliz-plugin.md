@@ -24,7 +24,7 @@ Claude Code 向け Zilliz Cloud プラグインは、Zilliz Cloud の操作を I
 
 ## Zilliz Plugin とは？\{#what-is-the-zilliz-plugin}
 
-自然言語機能で Zilliz CLI をラップする Claude Code プラグインで、会話形式のコマンドを通じて Zilliz Cloud リソースを管理できます。
+自然言語機能で Zilliz CLI をラップする Claude Code プラグインであり、会話形式のコマンドを通じて Zilliz Cloud リソースを管理できます。
 
 ## 主な機能\{#key-features}
 
@@ -40,7 +40,7 @@ Claude Code 向け Zilliz Cloud プラグインは、Zilliz Cloud の操作を I
 
 - **データベース**: データベースの作成、一覧表示、詳細表示、削除
 
-- **Users & Roles**: RBAC セットアップ、権限管理
+- **Users & Roles**: RBAC のセットアップ、権限管理
 
 - **Backups**: 作成、復元、エクスポート、ポリシー管理
 
@@ -68,15 +68,15 @@ You: "Search for similar items in my product collection with filter age > 20"
 Plugin: Executes vector search with filters
 ```
 
-## 前提条件\{#prerequisites}
+## 事前準備\{#prerequisites}
 
-- Python 3.10 以降
+- Python 3.10 以降であること。
 
-- Zilliz Cloud アカウント
+- Zilliz Cloud アカウントを保有していること。
 
-- Claude Code IDE
+- Claude Code IDE があること。
 
-## クイック例\{#quick-example}
+## 簡単な例\{#quick-example}
 
 インストール後、クイックスタートを実行します。
 
@@ -84,7 +84,7 @@ Plugin: Executes vector search with filters
 /zilliz:quickstart
 ```
 
-これにより、次の手順を案内します。
+以下の手順を案内します。
 
 1. CLI のインストール
 
