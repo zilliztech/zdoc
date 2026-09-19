@@ -230,6 +230,13 @@ test('planSemanticSeeds drops seeds that break protected content', () => {
     assert.equal(plan.summary.counts.seededFiles, 1)
     const ids = plan.reports[0].report.entries.map(entry => entry.id)
     assert.ok(!ids.includes('document.paragraph.0001'))
+    // The dropped unit had a published pairing (filtered); the revised second
+    // paragraph has no old pairing (new) — consumers use this to decide the
+    // verified-current fast path.
+    assert.deepEqual(plan.summary.files[item.sourcePath].pending, {
+      filtered: ['document.paragraph.0001'],
+      new: ['document.paragraph.0002'],
+    })
   })
 })
 
@@ -314,6 +321,38 @@ test('mergeSeedAndRecoveryReports prefers recovery entries per unit id', () => {
   assert.equal(merged.entries.length, 2)
   assert.equal(merged.entries.find(entry => entry.id === 'document.paragraph.0001').translation, 'recovery')
   assert.equal(merged.entries.find(entry => entry.id === 'document.paragraph.0002').translation, 'seed-only')
+})
+
+test('loadSemanticSeedIndex fails closed on malformed pending classification', () => {
+  withTempDir(dir => {
+    const manifest = manifestFor([])
+    const seedDir = path.join(dir, 'seeds')
+    fs.mkdirSync(seedDir, {recursive: true})
+    const writeSummary = files => fs.writeFileSync(path.join(seedDir, 'summary.json'), JSON.stringify({
+      schemaVersion: 1, kind: 'semantic-translation-seeds', target: 'ja-JP', locale: 'ja-JP',
+      group: 'guides', sourceCheckpointSha: manifest.sourceCheckpointSha, counts: {}, files,
+    }))
+    const valid = {filtered: ['document.paragraph.0001'], new: ['document.paragraph.0002']}
+    writeSummary({'content/en/guides/t.md': {reportFile: 'reports/000001.json', pending: valid}})
+    const index = loadSemanticSeedIndex(seedDir, manifest)
+    assert.deepEqual([...index.pendingBySourcePath.get('content/en/guides/t.md').filtered], ['document.paragraph.0001'])
+    assert.deepEqual([...index.pendingBySourcePath.get('content/en/guides/t.md').fresh], ['document.paragraph.0002'])
+
+    const malformed = [
+      {reportFile: 'reports/000001.json', pending: null},
+      {reportFile: 'reports/000001.json', pending: 'filtered-only'},
+      {reportFile: 'reports/000001.json', pending: ['filtered']},
+      {reportFile: 'reports/000001.json', pending: {filtered: 'document.paragraph.0001', new: []}},
+      {reportFile: 'reports/000001.json', pending: {filtered: []}},
+      {reportFile: 'reports/000001.json', pending: {filtered: [], new: [], extra: []}},
+      {reportFile: 'reports/000001.json', pending: {filtered: [42], new: []}},
+      {reportFile: 'reports/000001.json', pending: {filtered: ['document.paragraph.0001'], new: ['document.paragraph.0001']}},
+    ]
+    for (const files of malformed) {
+      writeSummary({'content/en/guides/t.md': files})
+      assert.throws(() => loadSemanticSeedIndex(seedDir, manifest), /pending classification/)
+    }
+  })
 })
 
 test('loadSemanticSeedIndex validates summary identity against the manifest', () => {

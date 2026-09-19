@@ -1727,14 +1727,35 @@ function loadSemanticSeedIndex(seedDir, manifest) {
     if (summary[key] !== manifest[key]) throw new Error(`Semantic seed summary ${key} does not match the current manifest`)
   }
   const reportsBySourcePath = new Map()
+  const pendingBySourcePath = new Map()
   for (const [sourcePath, record] of Object.entries(summary.files || {})) {
     if (typeof record?.reportFile !== 'string' || !record.reportFile) continue
     if (!/^[0-9a-z][\w./-]*\.json$/i.test(record.reportFile) || record.reportFile.includes('..')) {
       throw new Error(`Semantic seed report file is unsafe: ${record.reportFile}`)
     }
     reportsBySourcePath.set(sourcePath, record.reportFile)
+    if (record.pending !== undefined) {
+      // Fail closed on malformed classification: the summary is planner-owned,
+      // and silently coercing a broken shape to empty sets would misroute
+      // files (a discarded filtered list sends seeded-but-filtered drafts to
+      // the agent; a discarded new list would let a future consumer of the
+      // fresh set fast-path untranslated English).
+      const pending = record.pending
+      if (pending === null || typeof pending !== 'object' || Array.isArray(pending) ||
+          JSON.stringify(Object.keys(pending).sort()) !== JSON.stringify(['filtered', 'new'].sort()) ||
+          !Array.isArray(pending.filtered) || !Array.isArray(pending.new) ||
+          !pending.filtered.every(id => typeof id === 'string' && id !== '') ||
+          !pending.new.every(id => typeof id === 'string' && id !== '')) {
+        throw new Error(`Semantic seed pending classification is invalid for ${sourcePath}`)
+      }
+      const filtered = new Set(pending.filtered)
+      for (const id of pending.new) {
+        if (filtered.has(id)) throw new Error(`Semantic seed pending classification is inconsistent for ${sourcePath}: ${id} is both filtered and new`)
+      }
+      pendingBySourcePath.set(sourcePath, {filtered, fresh: new Set(pending.new)})
+    }
   }
-  return {summary, reportsBySourcePath}
+  return {summary, reportsBySourcePath, pendingBySourcePath}
 }
 
 function mergeSeedAndRecoveryReports(seedReport, recoveryReport) {
