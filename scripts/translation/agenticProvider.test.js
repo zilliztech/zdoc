@@ -668,7 +668,7 @@ test('runAgenticTranslation logs a batch overview and a cost summary with token 
     assert.match(batchLine, /english=\d+KB/);
     assert.ok(lines.findIndex(line => line.includes('[agentic-provider] batch ')) < lines.findIndex(line => line.includes('turn translate')));
     const summaryLine = lines.find(line => line.includes('[agentic-provider] summary '));
-    assert.match(summaryLine, /translated=2 failed=0 seeded-full=0 agent-files=2 repair-turns=0/);
+    assert.match(summaryLine, /translated=2 failed=0 seeded-full=0 verified-current=0 agent-files=2 repair-turns=0/);
     const tokenLine = lines.find(line => line.includes('[agentic-provider] tokens '));
     assert.match(tokenLine, /turns=2 input=9000 cached=1000 cache-write=0 output=800 reasoning=0/);
   });
@@ -712,9 +712,141 @@ test('runAgenticTranslation counts fully seeded files and recovery reuse in the 
     assert.equal(report.checkpoint.translated, 2);
     assert.equal(report.checkpoint.failed, 0);
     const summaryLine = lines.find(line => line.includes('[agentic-provider] summary '));
-    assert.match(summaryLine, /translated=2 failed=0 seeded-full=1 agent-files=0 repair-turns=0/);
+    assert.match(summaryLine, /translated=2 failed=0 seeded-full=1 verified-current=0 agent-files=0 repair-turns=0/);
     const batchLine = lines.find(line => line.includes('[agentic-provider] batch '));
     assert.match(batchLine, /restored=1 /);
     assert.match(batchLine, /model-files=1 /);
+  });
+});
+
+// Fenced-plaintext-table fixture mirroring the real spark-batch-jobs pages:
+// the ```plaintext pseudo-table is protected content for the whole-file
+// validator (its `vector` column name may stay English), while the stricter
+// per-unit seed gate rejects that cell because the ja-JP locale contract
+// mandates vector -> ベクトル. The two gates disagree exactly there.
+const FENCED_EN = `---
+title: Primary key deduplication
+---
+
+# Primary key deduplication
+
+The job identifies duplicates by comparing the chosen scalar field values.
+
+\`\`\`plaintext
+| primary key | vector       |
+|-------------|--------------|
+| doc-1       | [0.12, 0.35] |
+\`\`\`
+
+Records sharing the same field value are placed into one duplicate group.
+`;
+const FENCED_JA = `---
+title: 主キーの重複排除
+---
+
+# 主キーの重複排除
+
+ジョブは、選択されたスカラーフィールドの値を比較して重複を識別します。
+
+\`\`\`plaintext
+| primary key | vector       |
+|-------------|--------------|
+| doc-1       | [0.12, 0.35] |
+\`\`\`
+
+同じフィールド値を持つレコードは、同一の重複グループに配置されます。
+`;
+
+// Build a seed plan for the fenced fixture the way the real planner does:
+// pair the published translation with the source, keep every unit the per-unit
+// gate accepts, and classify the rest as filtered/new.
+function fencedSeedPlan() {
+  const {pairOldSourceWithTarget: pair, collectCurrentUnits: collect} = require('./semanticSeeds');
+  const {filterUsableSemanticCheckpoints} = require('./semanticRecovery');
+  const {protectSemanticUnits} = require('./semanticUnits');
+  const contract = loadLocaleContract('ja-JP');
+  const translationsByHash = pair(FENCED_EN, FENCED_JA);
+  assert.ok(translationsByHash, 'fenced fixture must align');
+  const units = collect(FENCED_EN, null);
+  const digest = text => createHash('sha256').update(text).digest('hex');
+  const protectedUnits = protectSemanticUnits(units, unit => unit.source, {literalTokens: contract.doNotTranslate});
+  const candidates = new Map();
+  for (const unit of units) {
+    const translation = translationsByHash.get(digest(unit.source));
+    if (translation !== undefined) candidates.set(unit.id, {id: unit.id, sourceHash: digest(unit.source), translation});
+  }
+  const usable = filterUsableSemanticCheckpoints(candidates, protectedUnits, contract);
+  const filtered = [...candidates.keys()].filter(id => !usable.has(id));
+  const fresh = units.filter(unit => !candidates.has(unit.id)).map(unit => unit.id);
+  assert.ok(filtered.length === 1, 'exactly the vector cell must be filtered');
+  const entries = [...usable.values()].sort((left, right) => left.id.localeCompare(right.id));
+  return {
+    units,
+    filtered,
+    fresh,
+    entries,
+    report: {
+      schemaVersion: 1,
+      sourcePath: 'x/y.md',
+      targetPath: 'x/ja.md',
+      sourceHash: 'a'.repeat(64),
+      target: 'ja-JP',
+      locale: 'ja-JP',
+      contractId: contract.contractId,
+      entries,
+    },
+  };
+}
+
+test('runAgenticFile returns verified-current without a model call when every pending unit is filtered but the draft passes the gate', async () => {
+  await withSite(async siteDir => {
+    const item = {...jaFixture(), sourcePath: 'x/y.md', targetPath: 'x/ja.md'};
+    write(siteDir, item.sourcePath, FENCED_EN);
+    const plan = fencedSeedPlan();
+    const lines = [];
+    const result = await runAgenticFile({
+      item, target: 'ja-JP', siteDir,
+      callCodex: async () => { throw new Error('model must not be called when the draft passes the gate') },
+      log: {log: message => lines.push(message)},
+      seedReport: {...plan.report, sourcePath: item.sourcePath, targetPath: item.targetPath, sourceHash: item.sourceHash},
+      pendingInfo: {filtered: new Set(plan.filtered), fresh: new Set(plan.fresh)},
+    });
+    assert.equal(result.status, 'translated');
+    assert.deepEqual(result.attempts, ['verified-current']);
+    assert.equal(result.semanticSeedUnits, plan.entries.length);
+    assert.ok(isConsistentSuccessfulReview(result.review));
+    const draft = fs.readFileSync(path.join(siteDir, item.targetPath), 'utf8');
+    assert.match(draft, /主キーの重複排除/);
+    // The fenced-table column name keeps its protected English bytes.
+    assert.match(draft, /\| primary key \| vector/);
+    assert.ok(lines.some(line => /verified-current .* without a model call/.test(line)));
+  });
+});
+
+test('runAgenticFile hands a draft with new pending units to the agent even when the gate would pass', async () => {
+  await withSite(async siteDir => {
+    const item = {...jaFixture(), sourcePath: 'x/y.md', targetPath: 'x/ja.md'};
+    write(siteDir, item.sourcePath, FENCED_EN);
+    const plan = fencedSeedPlan();
+    const calls = [];
+    const result = await runAgenticFile({
+      item, target: 'ja-JP', siteDir,
+      callCodex: async ({prompt}) => {
+        calls.push(prompt);
+        // The agent resolves the pending unit: write the translation with the
+        // pending unit rendered in Japanese (a wording variation, so the
+        // bytes differ from the seeded draft and the no-op guard passes).
+        write(siteDir, item.targetPath, FENCED_JA.replace('同一の重複グループに配置されます。', '同一の重複グループにまとめられます。'));
+        return 'DONE';
+      },
+      seedReport: {...plan.report, sourcePath: item.sourcePath, targetPath: item.targetPath, sourceHash: item.sourceHash},
+      // Classification claims the pending unit is new English: only the agent
+      // may resolve it, whatever the deterministic gate says about the draft.
+      pendingInfo: {filtered: new Set(), fresh: new Set(plan.filtered)},
+    });
+    assert.equal(result.status, 'translated');
+    assert.deepEqual(result.attempts, ['translate']);
+    assert.equal(calls.length, 1);
+    assert.match(calls[0], /pre-seeded draft/);
   });
 });
