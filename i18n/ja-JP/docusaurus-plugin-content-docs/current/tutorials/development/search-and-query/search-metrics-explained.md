@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 類似度メトリクスは、ベクトル間の類似性を測定するために使用されます。適切な距離メトリクスを選択すると、分類とクラスタリングのパフォーマンスを大幅に向上させることができます。
 
-現在、Zilliz Cloud は次の種類の類似度メトリクスをサポートしています：ユークリッド距離（`L2`）、Inner Product（`IP`）、Cosine Similarity（`COSINE`）、`JACCARD`、`HAMMING`、および `BM25`（スパースベクトルに対する全文検索用に特別に設計されています）。
+現在、Zilliz Cloud は次の種類の類似度メトリクスをサポートしています：ユークリッド距離（`L2`）、内積（`IP`）、コサイン類似度（`COSINE`）、`JACCARD`、`HAMMING`、および `BM25`（スパースベクトルに対する全文検索用に特別に設計されています）。
 
 以下の表は、さまざまなフィールドタイプと、それに対応するメトリクスタイプのマッピングをまとめたものです。
 
@@ -35,7 +35,7 @@ import Admonition from '@theme/Admonition';
 | `SPARSE\_FLOAT\_VECTOR` | 次元を指定する必要はありません。 | `IP`, `BM25`（全文検索でのみ使用） | `IP` |
 | `BINARY_VECTOR` | 8-32,768&ast;8 | `HAMMING`, `JACCARD`, `MHJACCARD` | `HAMMING` |
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - `SPARSE\_FLOAT\_VECTOR` 型のベクトルフィールドでは、全文検索を実行する場合にのみ `BM25` メトリクスタイプを使用してください。詳細については、[Full Text Search](./full-text-search) を参照してください。
 
@@ -67,7 +67,7 @@ import Admonition from '@theme/Admonition';
 
 これは最も一般的に使用される距離メトリクスであり、データが連続値である場合に非常に有用です。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Zilliz Cloud は、距離メトリクスとしてユークリッド距離を選択した場合、平方根を適用する前の値のみを計算します。
 
@@ -81,7 +81,7 @@ Zilliz Cloud は、距離メトリクスとしてユークリッド距離を選�
 
 正規化されていないデータを比較する必要がある場合や、大きさと角度の両方を重視する場合には、IP のほうが有用です。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 埋め込み間の類似度を計算するために IP を使用する場合は、埋め込みを正規化する必要があります。正規化後、内積はコサイン類似度と等しくなります。
 

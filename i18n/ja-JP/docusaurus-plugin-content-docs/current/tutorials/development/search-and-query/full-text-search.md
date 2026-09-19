@@ -25,13 +25,13 @@ import TabItem from '@theme/TabItem';
 
 関連性スコアリングに BM25 アルゴリズムを使用するこの機能は、retrieval-augmented generation（RAG）のシナリオで特に有用であり、特定の検索語句に密接に一致するドキュメントを優先します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 フルテキスト検索をセマンティックベースの密ベクトル検索と統合することで、検索結果の精度と関連性を高めることができます。詳細については、[ハイブリッド検索](./hybrid-search) を参照してください。
 
 </Admonition>
 
-Zilliz Cloud は、フルテキスト検索をプログラムから、または Web コンソール経由で有効にすることをサポートしています。このページでは、フルテキスト検索をプログラムから有効にする方法について説明します。Web コンソールでの操作の詳細については、[コレクション の管理（Console）](./manage-collections-console#full-text-search) を参照してください。
+Zilliz Cloud は、フルテキスト検索をプログラムから、または Web コンソール経由で有効にすることをサポートしています。このページでは、フルテキスト検索をプログラムから有効にする方法について説明します。Web コンソールでの操作の詳細については、[コレクションの管理（コンソール）](./manage-collections-console#full-text-search) を参照してください。
 
 ## BM25 実装\{#bm25-implementation}
 
@@ -69,11 +69,11 @@ BM25 を利用したフルテキスト検索を有効にするには、必要な
 
 - **プライマリフィールド**: コレクション内の各エンティティを一意に識別します。
 
-- **文字列フィールド** (`VARCHAR` または `TEXT`): 生のテキストドキュメントを格納します。Zilliz Cloud が BM25 関連性ランキングのためにテキストを処理できるよう、`enable_analyzer=True` を設定する必要があります。デフォルトでは、Zilliz Cloud はテキスト解析に [`standard`](./standard-analyzer)[ analyzer](./standard-analyzer) を使用します。別の analyzer を設定するには、[Analyzer Overview](./analyzer-overview) を参照してください。このページの例では `VARCHAR` を使用しています。長いテキストの場合は、入力フィールドを `TEXT` として定義し、`max_length` を省略できます。完全な例については、[Text フィールド](./use-text-field) を参照してください。
+- **文字列フィールド** (`VARCHAR` または `TEXT`): 生のテキストドキュメントを格納します。Zilliz Cloud が BM25 関連性ランキングのためにテキストを処理できるよう、`enable_analyzer=True` を設定する必要があります。デフォルトでは、Zilliz Cloud はテキスト解析に [`standard`](./standard-analyzer)[ analyzer](./standard-analyzer) を使用します。別の analyzer を設定するには、[Analyzer の概要](./analyzer-overview) を参照してください。このページの例では `VARCHAR` を使用しています。長いテキストの場合は、入力フィールドを `TEXT` として定義し、`max_length` を省略できます。完全な例については、[Text フィールド](./use-text-field) を参照してください。
 
 - **スパースベクトルフィールド** (`SPARSE_FLOAT_VECTOR`): BM25 関数によって自動的に生成されるスパース埋め込みを格納します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -199,7 +199,7 @@ const schema = [
   },
 ];
 
-console.log(res.results)
+console.log(schema);
 ```
 
 </TabItem>
@@ -233,10 +233,9 @@ export schema='{
 ```
 
 </TabItem>
+</Tabs>
 
-<TabItem value='c++'>
-
-```c++
+```plaintext
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
@@ -253,16 +252,17 @@ schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR).WithMaxL
 schema->AddField(milvus::FieldSchema("sparse", milvus::DataType::SPARSE_FLOAT_VECTOR));
 ```
 
-</TabItem>
-</Tabs>
+```shell
+# Zilliz CLI
+```
 
-前述の設定では、次のとおりです。
+前述の設定は以下のとおりです。
 
 - `id`: 主キーとして機能し、`auto_id=True` によって自動生成されます。
 
-- `text`: フルテキスト検索操作で使用する生のテキストデータを格納します。データ型は `VARCHAR` である必要があります。`VARCHAR` は Zilliz Cloud でテキストを格納するための文字列データ型です。
+- `text`: フルテキスト検索操作用の生のテキストデータを格納します。データ型は `VARCHAR` である必要があります。`VARCHAR` は Zilliz Cloud でテキストを格納するための文字列データ型です。
 
-- `sparse`: フルテキスト検索操作のために内部的に生成されたスパース埋め込みを格納するために予約されたベクトルフィールドです。データ型は `SPARSE_FLOAT_VECTOR` である必要があります。
+- `sparse`: フルテキスト検索操作用に内部的に生成されたスパース埋め込みを格納するために予約されたベクトルフィールドです。データ型は `SPARSE_FLOAT_VECTOR` である必要があります。
 
 ### BM25 関数を定義する\{#define-the-bm25-function}
 
@@ -270,7 +270,7 @@ BM25 関数は、トークン化されたテキストを BM25 スコアリング
 
 関数を定義し、スキーマに追加します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -330,7 +330,7 @@ const functions = [
       output_field_names: ['sparse'],
       params: {},
     },
-]；
+];
 ```
 
 </TabItem>
@@ -384,6 +384,14 @@ schema->AddFunction(function);
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+```
+
+</TabItem>
 </Tabs>
 
 | パラメーター | 説明 |
@@ -393,7 +401,7 @@ schema->AddFunction(function);
 | `output_field_names` | 内部的に生成されたスパースベクトルを格納するフィールドの名前です。`FunctionType.BM25` の場合、このパラメーターは 1 つのフィールド名のみを受け付けます。 |
 | `function_type` | 使用する関数のタイプです。`FunctionType.BM25` を指定する必要があります。 |
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 複数の `VARCHAR` フィールドで BM25 処理が必要な場合は、**フィールドごとに 1 つの BM25 関数**を定義し、それぞれに一意の名前と出力フィールドを設定してください。
 
@@ -403,7 +411,7 @@ schema->AddFunction(function);
 
 必要なフィールドと組み込み関数を含むスキーマを定義したら、コレクションのインデックスを設定します。このプロセスを簡素化するには、`index_type` として `AUTOINDEX` を使用します。これは、データの構造に基づいて最適なインデックスタイプを Zilliz Cloud が選択して構成できるようにするオプションです。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -488,18 +496,18 @@ export indexParams='[
 ```
 
 </TabItem>
+</Tabs>
 
-<TabItem value='c++'>
-
-```c++
-auto index_params = milvus::IndexDesc("sparse", "", milvus::IndxType::SPARSE_INVERTED_INDEX, milvus::MetricType::BM25);
+```plaintext
+auto index_params = milvus::IndexDesc("sparse", "", milvus::IndexType::SPARSE_INVERTED_INDEX, milvus::MetricType::BM25);
 index_params.AddExtraParam("inverted_index_algo", "DAAT_MAXSCORE");
 index_params.AddExtraParam("bm25_k1", "1.2");
 index_params.AddExtraParam("bm25_b", "0.75");
 ```
 
-</TabItem>
-</Tabs>
+```shell
+# Zilliz CLI
+```
 
 <table>
    <tr>
@@ -540,7 +548,7 @@ index_params.AddExtraParam("bm25_b", "0.75");
 
 次に、定義したスキーマとインデックスパラメーターを使用してコレクションを作成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -585,12 +593,12 @@ if err != nil {
 <TabItem value='javascript'>
 
 ```javascript
-await client.create_collection(
-    collection_name: 'my_collection', 
-    schema: schema, 
+await client.create_collection({
+    collection_name: 'my_collection',
+    schema: schema,
     index_params: index_params,
     functions: functions
-);
+});
 ```
 
 </TabItem>
@@ -614,27 +622,27 @@ curl --request POST \
 ```
 
 </TabItem>
+</Tabs>
 
-<TabItem value='c++'>
-
-```c++
+```plaintext
 auto status = client->CreateCollection(milvus::CreateCollectionRequest()
                                     .WithCollectionName("my_collection")
-                                    .WithCollectionSchema(schema))
-                                    .AddIndex(std::move(index_params));
+                                    .WithCollectionSchema(schema)
+                                    .AddIndex(std::move(index_params)));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 ```
 
-</TabItem>
-</Tabs>
+```shell
+# Zilliz CLI
+```
 
 ## テキストデータを挿入する\{#insert-text-data}
 
 コレクションとインデックスを設定したら、テキストデータを挿入する準備が整います。このプロセスでは、生のテキストを指定するだけで済みます。先ほど定義した組み込み関数が、各テキストエントリに対応するスパースベクトルを自動的に生成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -673,7 +681,17 @@ client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
-// go
+_, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("my_collection").
+    WithVarcharColumn("text", []string{
+        "information retrieval is a field of study.",
+        "information retrieval focuses on finding relevant information in large datasets.",
+        "data mining and information retrieval overlap in research.",
+    }),
+)
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -682,12 +700,13 @@ client.insert(InsertReq.builder()
 
 ```javascript
 await client.insert({
-collection_name: 'my_collection', 
-data: [
-    {'text': 'information retrieval is a field of study.'},
-    {'text': 'information retrieval focuses on finding relevant information in large datasets.'},
-    {'text': 'data mining and information retrieval overlap in research.'},
-]);
+    collection_name: 'my_collection',
+    data: [
+        {'text': 'information retrieval is a field of study.'},
+        {'text': 'information retrieval focuses on finding relevant information in large datasets.'},
+        {'text': 'data mining and information retrieval overlap in research.'},
+    ],
+});
 ```
 
 </TabItem>
@@ -732,13 +751,21 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+```
+
+</TabItem>
 </Tabs>
 
 ## フルテキスト検索を実行する\{#perform-full-text-search}
 
 コレクションにデータを挿入したら、生のテキストクエリを使用してフルテキスト検索を実行できます。Zilliz Cloud はクエリを自動的にスパースベクトルに変換し、BM25 アルゴリズムを使用して一致した検索結果をランク付けしてから、上位 topK（`limit`）件の結果を返します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -812,14 +839,13 @@ for _, resultSet := range resultSets {
 <TabItem value='javascript'>
 
 ```javascript
-await client.search(
-    collection_name: 'my_collection', 
+await client.search({
+    collection_name: 'my_collection',
     data: ['whats the focus of information retrieval?'],
     anns_field: 'sparse',
     output_fields: ['text'],
     limit: 3,
-    params: {'level': 10},
-)
+});
 ```
 
 </TabItem>
@@ -868,6 +894,14 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+```
+
+</TabItem>
 </Tabs>
 
 | パラメーター | 説明 |
@@ -876,14 +910,14 @@ if (!status.IsOk()) {
 | `params.level` | 簡素化された検索最適化によって検索精度を制御します。詳細については、[再現率の調整](./tune-recall-rate) を参照してください。 |
 | `data` | 自然言語による生のクエリテキストです。Zilliz Cloud は BM25 関数を使用してテキストクエリを自動的にスパースベクトルに変換します。事前に計算されたベクトルは指定しないでください。 |
 | `anns_field` | 内部的に生成されたスパースベクトルを含むフィールドの名前です。 |
-| `output_fields` | 検索結果で返すフィールド名のリストです。BM25 で生成された埋め込みを含む **スパースベクトルフィールドを除く**すべてのフィールドをサポートします。一般的な出力フィールドには、主キーフィールド（例: `id`）や元のテキストフィールド（例: `text`）があります。詳細については、[FAQ](./full-text-search#can-i-output-or-access-the-sparse-vectors-generated-by-the-bm25-function-in-full-text-search) を参照してください。 |
+| `output_fields` | 検索結果で返すフィールド名のリストです。BM25 で生成された埋め込みを含む **スパースベクトルフィールドを除く** すべてのフィールドをサポートします。一般的な出力フィールドには、主キーフィールド（例: `id`）や元のテキストフィールド（例: `text`）があります。詳細については、[FAQ](./full-text-search#can-i-output-or-access-the-sparse-vectors-generated-by-the-bm25-function-in-full-text-search) を参照してください。 |
 | `limit` | 返す上位一致の最大数です。 |
 
 ## FAQ\{#faq}
 
 ### フルテキスト検索で BM25 関数が生成したスパースベクトルを出力またはアクセスできますか？\{#can-i-output-or-access-the-sparse-vectors-generated-by-the-bm25-function-in-full-text-search}
 
-いいえ、BM25 関数によって生成されたスパースベクトルは、フルテキスト検索では直接アクセスしたり出力したりすることはできません。詳細は次のとおりです。
+いいえ、BM25 関数によって生成されたスパースベクトルは、フルテキスト検索で直接アクセスしたり出力したりすることはできません。詳細は次のとおりです。
 
 - BM25 関数は、ランキングと取得のために内部的にスパースベクトルを生成します
 
@@ -893,37 +927,126 @@ if (!status.IsOk()) {
 
 例:
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 # ❌ This throws an error - you cannot output the sparse field
 client.search(
-    collection_name='my_collection', 
+    collection_name='my_collection',
     data=['query text'],
     anns_field='sparse',
     # highlight-next-line
-    output_fields=['text', 'sparse']  # 'sparse' causes an error
+    output_fields=['text', 'sparse'],  # 'sparse' causes an error
     limit=3,
     search_params=search_params
 )
 
 # ✅ This works - output text fields only
 client.search(
-    collection_name='my_collection', 
+    collection_name='my_collection',
     data=['query text'],
     anns_field='sparse',
     # highlight-next-line
-    output_fields=['text']
+    output_fields=['text'],
     limit=3,
     search_params=search_params
 )
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// Searching with the sparse field in outputFields throws an error.
+// Only output the original text and metadata fields.
+SearchResp searchResp = client.search(SearchReq.builder()
+        .collectionName("my_collection")
+        .data(Collections.singletonList(new EmbeddedText("query text")))
+        .annsField("sparse")
+        .topK(3)
+        .outputFields(Collections.singletonList("text"))
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// Searching with the sparse field in output_fields throws an error.
+// Only output the original text and metadata fields.
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "my_collection",
+    3,
+    []entity.Vector{entity.Text("query text")},
+).WithConsistencyLevel(entity.ClStrong).
+    WithANNSField("sparse").
+    WithAnnParam(index.NewCustomAnnParam()).
+    WithOutputFields("text"))
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// Searching with the sparse field in output_fields throws an error.
+// Only output the original text and metadata fields.
+await client.search({
+    collection_name: 'my_collection',
+    data: ['query text'],
+    anns_field: 'sparse',
+    output_fields: ['text'],
+    limit: 3,
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+--data-raw '{
+    "collectionName": "my_collection",
+    "data": ["query text"],
+    "annsField": "sparse",
+    "limit": 3,
+    "outputFields": ["text"]
+}'
+```
+
+</TabItem>
+</Tabs>
+
+```plaintext
+// Searching with the sparse field in output_fields throws an error.
+// Only output the original text and metadata fields.
+milvus::SearchRequest request = milvus::SearchRequest()
+    .WithCollectionName("my_collection")
+    .AddEmbeddedText("query text")
+    .WithLimit(3)
+    .WithAnnsField("sparse")
+    .AddOutputField("text");
+```
+
+```shell
+# Zilliz CLI
+```
+
 ### アクセスできないのに、なぜスパースベクトルフィールドを定義する必要があるのですか？\{#why-do-i-need-to-define-a-sparse-vector-field-if-i-cant-access-it}
 
-スパースベクトルフィールドは、ユーザーが直接操作しないデータベースインデックスと同様に、内部的な検索インデックスとして機能します。
+スパースベクトルフィールドは、ユーザーが直接操作しないデータベースのインデックスと同様に、内部的な検索インデックスとして機能します。
 
 **設計の根拠**:
 
-- 関心の分離: テキスト（input/output), Milvus がベクトル（内部処理）を扱います
+- 関心の分離: テキスト (input/output), Milvus がベクトル（内部処理）を扱います
 
 - パフォーマンス: 事前に計算されたスパースベクトルにより、クエリ時の高速な BM25 ランキングが可能になります
 

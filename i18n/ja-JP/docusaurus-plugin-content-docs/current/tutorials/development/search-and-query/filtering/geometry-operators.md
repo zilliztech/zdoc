@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud は、幾何データの管理と分析に不可欠な `GEOMETRY` フィールドに対する空間フィルタリング用の演算子セットをサポートしています。これらの演算子により、オブジェクト間の幾何学的関係に基づいてエンティティを取得できます。
 
-すべての geometry 演算子は、2 つの幾何引数を取って動作します。1 つは collection スキーマで定義された `GEOMETRY` フィールドの名前、もう 1 つは [Well-Known Text](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry)（WKT）形式で表現された対象の geometry オブジェクトです。
+すべての geometry 演算子は、コレクションスキーマで定義された `GEOMETRY` フィールドの名前と、[Well-Known Text](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry)（WKT）形式で表される対象の geometry オブジェクトという 2 つの幾何学引数を受け取って動作します。
 
 ## Use syntax\{#use-syntax}
 
@@ -48,7 +48,7 @@ Zilliz Cloud の `GEOMETRY` フィールドの詳細については、[Geometry 
 
 次の表は、Zilliz Cloud で利用可能な geometry 演算子を示しています。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 演算子名は **すべて大文字** または **すべて小文字** である必要があります。同じ演算子名の中で大文字と小文字を混在させないでください。
 
@@ -84,7 +84,7 @@ filter = "ST_EQUALS(geo_field, 'POINT(10 20)')"
 
 **Example**
 
-都市区画の collection があり、特定の区画の境界内にあるレストランのような特定の関心地点を見つけたいとします。
+都市の地区のコレクションがあり、特定の地区の境界内に収まるレストランなどの特定の関心地点を見つけたいとします。
 
 ```python
 # The filter expression to find geometries completely within a specific polygon.
@@ -110,7 +110,7 @@ filter = "ST_CROSSES(geo_field, 'LINESTRING(5 0, 5 10)')"
 
 **Example**
 
-道路の collection があり、新たに提案された道路を表す特定の line string と交差または接触するすべての道路を見つけたい場合は、`ST_INTERSECTS` を使用できます。
+道路のコレクションがあり、提案された新しい道路を表す特定の line string を横切る、または接するすべての道路を見つけたい場合は、`ST_INTERSECTS` を使用できます。
 
 ```python
 # The filter expression to find geometries that intersect with a specific line string.
@@ -164,7 +164,7 @@ filter = "ST_WITHIN(geo_field, 'POLYGON((110 38, 115 38, 115 42, 110 42, 110 38)
 
 **Example**
 
-店舗位置の collection があり、特定の顧客の位置から 5,000 メートル以内にあるすべての店舗を見つけたいとします。
+店舗の所在地のコレクションがあり、特定の顧客の所在地から 5,000 メートル以内にあるすべての店舗を見つけたいとします。
 
 ```python
 # Find all stores within 5000 meters of the point (120 30)

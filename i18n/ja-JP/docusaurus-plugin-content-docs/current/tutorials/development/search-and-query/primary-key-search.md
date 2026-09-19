@@ -49,7 +49,7 @@ e コマースプラットフォームでは、ユーザーがキーワードを
 
 以下の例では、指定したすべての Int64 ID が対象のコレクション内に存在することを前提としています。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 主キーはフィルタリングには使用されません。ベクトルの取得にのみ使用されます。
 

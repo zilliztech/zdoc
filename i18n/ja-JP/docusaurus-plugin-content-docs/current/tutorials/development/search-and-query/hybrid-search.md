@@ -358,6 +358,29 @@ schema->AddField(milvus::FieldSchema("image_dense", milvus::DataType::FLOAT_VECT
 
 ```shell
 # Zilliz CLI
+# Prerequisite: run `zilliz login` and select your cluster with `zilliz context set`.
+# Save the schema to a file and use it in the next step:
+cat > schema.json << 'EOF'
+{
+  "autoId": false,
+  "functions": [
+    {
+      "name": "text_bm25_emb",
+      "type": "BM25",
+      "inputFieldNames": ["text"],
+      "outputFieldNames": ["text_sparse"],
+      "params": {}
+    }
+  ],
+  "fields": [
+    {"fieldName": "id", "dataType": "Int64", "isPrimary": true},
+    {"fieldName": "text", "dataType": "VarChar", "elementTypeParams": {"max_length": 1000, "enable_analyzer": true}},
+    {"fieldName": "text_dense", "dataType": "FloatVector", "elementTypeParams": {"dim": "768"}},
+    {"fieldName": "text_sparse", "dataType": "SparseFloatVector"},
+    {"fieldName": "image_dense", "dataType": "FloatVector", "elementTypeParams": {"dim": "512"}}
+  ]
+}
+EOF
 ```
 
 </TabItem>
@@ -529,6 +552,13 @@ std::vector<milvus::IndexDesc> indexes = {
 
 ```shell
 # Zilliz CLI
+cat > indexes.json << 'EOF'
+[
+  {"fieldName": "text_dense", "indexName": "text_dense_index", "indexType": "AUTOINDEX", "metricType": "IP"},
+  {"fieldName": "text_sparse", "indexName": "text_sparse_index", "indexType": "SPARSE_INVERTED_INDEX", "metricType": "BM25", "params": {"inverted_index_algo": "DAAT_MAXSCORE"}},
+  {"fieldName": "image_dense", "indexName": "image_dense_index", "indexType": "AUTOINDEX", "metricType": "IP"}
+]
+EOF
 ```
 
 </TabItem>
@@ -628,6 +658,31 @@ if (!status.IsOk()) {
 
 ```shell
 # Zilliz CLI
+cat > collection.json << 'EOF'
+{
+  "collectionName": "my_collection",
+  "schema": {
+    "autoId": false,
+    "functions": [
+      {"name": "text_bm25_emb", "type": "BM25", "inputFieldNames": ["text"], "outputFieldNames": ["text_sparse"], "params": {}}
+    ],
+    "fields": [
+      {"fieldName": "id", "dataType": "Int64", "isPrimary": true},
+      {"fieldName": "text", "dataType": "VarChar", "elementTypeParams": {"max_length": 1000, "enable_analyzer": true}},
+      {"fieldName": "text_dense", "dataType": "FloatVector", "elementTypeParams": {"dim": "768"}},
+      {"fieldName": "text_sparse", "dataType": "SparseFloatVector"},
+      {"fieldName": "image_dense", "dataType": "FloatVector", "elementTypeParams": {"dim": "512"}}
+    ]
+  },
+  "indexParams": [
+    {"fieldName": "text_dense", "indexName": "text_dense_index", "indexType": "AUTOINDEX", "metricType": "IP"},
+    {"fieldName": "text_sparse", "indexName": "text_sparse_index", "indexType": "SPARSE_INVERTED_INDEX", "metricType": "BM25", "params": {"inverted_index_algo": "DAAT_MAXSCORE"}},
+    {"fieldName": "image_dense", "indexName": "image_dense_index", "indexType": "AUTOINDEX", "metricType": "IP"}
+  ]
+}
+EOF
+
+zilliz collection create --body file://collection.json
 ```
 
 </TabItem>
@@ -831,6 +886,7 @@ if (!status.IsOk()) {
 
 ```shell
 # Zilliz CLI
+zilliz vector insert --collection my_collection --body file://insert.json
 ```
 
 </TabItem>
@@ -844,7 +900,7 @@ if (!status.IsOk()) {
 
 さらに、`AnnSearchRequest` で `expr` パラメータを設定することで、ハイブリッド検索のフィルタリング条件を指定できます。詳細については、[Filtered Search](./filtered-search) および [Filtering Explained](./filtering-overview) を参照してください。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 ハイブリッド検索では、各 `AnnSearchRequest` は 1 つのクエリデータのみをサポートします。
 
@@ -1035,6 +1091,14 @@ auto sub_req3 = milvus::SubSearchRequest()
 
 ```shell
 # Zilliz CLI
+# Each sub-request is a JSON object in the --search array. Save it to a file:
+cat > search_requests.json << 'EOF'
+[
+  {"data": [[0.3580376395471989, -0.6023495712049978, 0.18414012509913835]], "annsField": "text_dense", "params": {"nprobe": 10}, "limit": 2},
+  {"data": ["white headphones, quiet and comfortable"], "annsField": "text_sparse", "limit": 2},
+  {"data": [[0.015829865178701663, 0.5264158340734488]], "annsField": "image_dense", "params": {"nprobe": 10}, "limit": 2}
+]
+EOF
 ```
 
 </TabItem>
@@ -1147,6 +1211,9 @@ auto ranker = std::make_shared<milvus::RRFRerank>(100);
 
 ```shell
 # Zilliz CLI
+cat > rerank.json << 'EOF'
+{"strategy": "rrf", "params": {"k": 100}}
+EOF
 ```
 
 </TabItem>
@@ -1291,6 +1358,7 @@ for (auto& result : response.Results().Results()) {
 
 ```shell
 # Zilliz CLI
+zilliz vector hybrid-search --collection my_collection --body file://hybrid.json
 ```
 
 </TabItem>
@@ -1303,4 +1371,3 @@ for (auto& result : response.Results().Results()) {
 ```
 
 ハイブリッド検索で `limit=2` パラメータを指定すると、Zilliz Cloud は 3 回の検索で得られた 6 件の結果を再ランキングします。最終的に、最も類似度の高い上位 2 件の結果のみが返されます。
-

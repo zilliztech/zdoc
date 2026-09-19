@@ -43,7 +43,7 @@ Grouping Search を使用すると、Zilliz Cloud は検索結果を指定され
 
 - `limit` パラメーターで定義された各グループの上位結果を、各グループで最も類似したエンティティとともに返します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 デフォルトでは、Grouping Search は各グループにつき 1 つのエンティティのみを返します。グループごとに返す結果の数を増やしたい場合は、`group_size` と `strict_group_size` パラメーターで制御できます。
 
@@ -545,7 +545,7 @@ zilliz vector search \
 </TabItem>
 </Tabs>
 
-上記の例では:
+上記の例では：
 
 - `group_size`: グループごとに返すエンティティ数を指定します。たとえば、`group_size=2` に設定すると、各グループ（または各 `docId`）は理想的には最も類似した 2 つの段落（または **chunks**）を返す必要があります。`group_size` が設定されていない場合、システムはデフォルトでグループごとに 1 件の結果を返します。
 
