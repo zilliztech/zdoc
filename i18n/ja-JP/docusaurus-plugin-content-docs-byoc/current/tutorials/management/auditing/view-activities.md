@@ -36,7 +36,7 @@ Zilliz Cloud の **Platform Audit Logs** 機能は、アクセスログを含む
 
     開始日と終了日を選択して、特定の期間内に発生したログを表示します。希望する時間範囲を設定したら、**Apply** をクリックして、この期間内のすべてのログを表示します。
 
-    <Admonition type="info" icon="📘" title="📘 Notes">
+    <Admonition type="info" title="Notes">
 
     選択した開始日と終了日の間の期間が 30 日を超えないようにしてください。
 
@@ -50,8 +50,8 @@ Zilliz Cloud の **Platform Audit Logs** 機能は、アクセスログを含む
 
     | **Activity Type** | **Description** |
     | --- | --- |
-    | Info | クラスター、アクセス、または請求に関する一般的な情報。<br/>例: Cluster inxx-xxxxxxxxxxxxxxx was created. |
-    | Warning | 注意が必要なリソース状態に関する更新。<br/>例: "Cluster inxx-xxxxxxxxxxxxxxx was deleted." |
+    | Info | クラスター、アクセス、または請求に関する一般的な情報。<br/>例: クラスター inxx-xxxxxxxxxxxxxxx was created. |
+    | Warning | 注意が必要なリソース状態に関する更新。<br/>例: "クラスター inxx-xxxxxxxxxxxxxxx was deleted." |
     | Error | 直ちに注意または対応が必要な、支払い失敗やその他のシステム障害に関する通知。<br/>例: "The payment for the invoice invo-xxxxxxxxxxxxxxxxxxxxxxxx has failed." |
 
     ![filter-by-activity-type](https://zdoc-images.s3.us-west-2.amazonaws.com/filter-by-activity-type.png "filter-by-activity-type")
@@ -59,4 +59,3 @@ Zilliz Cloud の **Platform Audit Logs** 機能は、アクセスログを含む
 - **監査ログでフィルタリング**
 
     ![filter-by-activity](https://zdoc-images.s3.us-west-2.amazonaws.com/filter-by-activity.png "filter-by-activity")
-

@@ -21,9 +21,9 @@ import TabItem from '@theme/TabItem';
 
 # フレーズ一致
 
-フレーズ一致を使用すると、クエリ語を完全なフレーズとして含むドキュメントを検索できます。デフォルトでは、単語は同じ順序で、互いに隣接して出現する必要があります。たとえば、**"robotics machine learning"** というクエリは、*"…typical robotics machine learning models…"* のようなテキストに一致します。これは、**"robotics"**、**"machine"**、**"learning"** という単語が、間に他の単語を挟まずに連続して出現しているためです。
+フレーズ一致を使用すると、クエリ語を完全なフレーズとして含むドキュメントを検索できます。デフォルトでは、単語は同じ順序で、互いに隣接して出現する必要があります。たとえば、**"robotics machine learning"** というクエリは、*"…typical **robotics** **machine** **learning** models…"* のようなテキストに一致します。これは、**"robotics"**、**"machine"**、**"learning"** という単語が、間に他の単語を挟まずに連続して出現しているためです。
 
-ただし、実際のシナリオでは、厳密なフレーズ一致は硬直的すぎることがあります。たとえば、*"…machine learning models widely adopted in robotics…"* のようなテキストにも一致させたい場合があります。この場合、同じキーワードは存在しますが、隣接しておらず、元の順序でもありません。これに対応するため、フレーズ一致は `slop` パラメーターをサポートしており、柔軟性を導入できます。`slop` の値は、フレーズ内の語の間で許可される位置のずれの数を定義します。たとえば、`slop` が 1 の場合、**"machine learning"** というクエリは *"...machine deep learning..."* のようなテキストにも一致できます。これは、元の語の間に 1 語（**"deep"**）が入っているためです。
+ただし、実際のシナリオでは、厳密なフレーズ一致は硬直的すぎることがあります。たとえば、*"…**machine learning** models widely adopted in **robotics**…"* のようなテキストにも一致させたい場合があります。この場合、同じキーワードは存在しますが、隣接しておらず、元の順序でもありません。これに対応するため、フレーズ一致は `slop` パラメーターをサポートしており、柔軟性を導入できます。`slop` の値は、フレーズ内の語の間で許可される位置のずれの数を定義します。たとえば、`slop` が 1 の場合、**"machine learning"** というクエリは *"...**machine** deep **learning**..."* のようなテキストにも一致できます。これは、元の語の間に 1 語（**"deep"**）が入っているためです。
 
 ## 概要\{#overview}
 
@@ -57,7 +57,7 @@ import TabItem from '@theme/TabItem';
 
 特定の `VARCHAR` フィールドでフレーズ一致を有効にするには、フィールドスキーマを定義する際に `enable_analyzer` と `enable_match` の両方を `True` に設定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -270,6 +270,44 @@ schema->AddField(milvus::FieldSchema("dense_vector", milvus::DataType::FLOAT_VEC
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+# Create a collection with a VARCHAR field configured for phrase matching
+zilliz collection create --collection-name tech_articles --schema '{
+  "autoId": true,
+  "enabledDynamicField": false,
+  "fields": [
+    {
+      "fieldName": "id",
+      "dataType": "Int64",
+      "isPrimary": true
+    },
+    {
+      "fieldName": "text",
+      "dataType": "VarChar",
+      "elementTypeParams": {
+        "max_length": 1000,
+        "enable_analyzer": true,
+        "enable_match": true
+      }
+    },
+    {
+      "fieldName": "embeddings",
+      "dataType": "FloatVector",
+      "elementTypeParams": {
+        "dim": 5
+      }
+    }
+  ]
+}' 
+```
+
+</TabItem>
 </Tabs>
 
 デフォルトでは、Zilliz Cloud は [standard](./standard-analyzer) [analyzer](./standard-analyzer) を使用します。これは、空白や句読点でテキストをトークン化し、テキストを小文字に変換します。
@@ -282,7 +320,7 @@ schema->AddField(milvus::FieldSchema("dense_vector", milvus::DataType::FLOAT_VEC
 
 必要なフィールドを定義したら、次のコードを使用してコレクションを作成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -407,6 +445,47 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+# Create a collection with English analyzer for phrase matching
+zilliz collection create --collection-name tech_articles --schema '{
+  "autoId": true,
+  "enabledDynamicField": false,
+  "fields": [
+    {
+      "fieldName": "id",
+      "dataType": "Int64",
+      "isPrimary": true
+    },
+    {
+      "fieldName": "text",
+      "dataType": "VarChar",
+      "elementTypeParams": {
+        "max_length": 1000,
+        "enable_analyzer": true,
+        "enable_match": true,
+        "analyzer_params": {
+          "type": "english"
+        }
+      }
+    },
+    {
+      "fieldName": "embeddings",
+      "dataType": "FloatVector",
+      "elementTypeParams": {
+        "dim": 5
+      }
+    }
+  ]
+}' 
+```
+
+</TabItem>
 </Tabs>
 
 コレクションを作成した後、[フレーズ一致を使用する](./phrase-match#use-phrase-match) 前に、以下の必要な手順が実行されていることを確認してください。
@@ -421,7 +500,7 @@ if (!status.IsOk()) {
 
 <summary>コード例を表示</summary>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -662,6 +741,18 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+# Use PHRASE_MATCH in a query to filter documents
+zilliz collection query --collection-name tech_articles --filter "PHRASE_MATCH(text, 'machine learning')" --output-fields "id,text"
+```
+
+</TabItem>
 </Tabs>
 
 </details>
@@ -670,7 +761,7 @@ if (!status.IsOk()) {
 
 コレクションスキーマで `VARCHAR` フィールドに対してマッチを有効にすると、`PHRASE_MATCH` 式を使用してフレーズ一致を実行できます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 `PHRASE_MATCH` 式は大文字と小文字を区別しません。`PHRASE_MATCH` と `phrase_match` のどちらも使用できます。
 
@@ -680,7 +771,7 @@ if (!status.IsOk()) {
 
 `PHRASE_MATCH` 式を使用して、検索時のフィールド、フレーズ、および任意の柔軟性（`slop`）を指定します。構文は次のとおりです。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -729,6 +820,18 @@ const auto filter = R"(PHRASE_MATCH(text, 'machine learning'))";
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+# Query documents containing exactly "machine learning"
+zilliz collection query --collection-name tech_articles --filter "PHRASE_MATCH(text, 'machine learning')" --output-fields "id,text" 
+```
+
+</TabItem>
 </Tabs>
 
 - `field_name`**:** フレーズ一致を実行する `VARCHAR` フィールドの名前。
@@ -751,7 +854,7 @@ const auto filter = R"(PHRASE_MATCH(text, 'machine learning'))";
 
 この例では、間に余分なトークンを含まない完全なフレーズ **"machine learning"** を含むドキュメントを返します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -849,6 +952,18 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+# Search documents containing "learning machine" with slop=1
+zilliz collection search --collection-name tech_articles --vector-field embeddings --vectors '[[0.1,0.2,0.3,0.4,0.5]]' --filter "PHRASE_MATCH(text, 'learning machine', 1)" --limit 10 --output-fields "id,text" 
+```
+
+</TabItem>
 </Tabs>
 
 ### フレーズ一致で検索する\{#search-with-phrase-match}
@@ -859,7 +974,7 @@ if (!status.IsOk()) {
 
 ここでは、slop を 1 に設定しています。フィルターは、わずかな柔軟性を持ってフレーズ **"learning machine"** を含むドキュメントに適用されます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -984,13 +1099,25 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+# Search documents containing "machine learning" with slop=2
+zilliz collection search --collection-name tech_articles --vector-field embeddings --vectors '[[0.1,0.2,0.3,0.4,0.5]]' --filter "PHRASE_MATCH(text, 'machine learning', 2)" --limit 10 --output-fields "id,text" 
+```
+
+</TabItem>
 </Tabs>
 
 #### 例: slop = 2\{#example-slop-2}
 
 この例では slop を 2 に設定しており、**"machine"** と **"learning"** の間に最大2つの追加トークン（または語順の逆転）が許可されることを意味します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1109,13 +1236,25 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+# Search documents containing "machine learning" with slop=3
+zilliz collection search --collection-name tech_articles --vector-field embeddings --vectors '[[0.1,0.2,0.3,0.4,0.5]]' --filter "PHRASE_MATCH(text, 'machine learning', 3)" --limit 10 --output-fields "id,text" 
+```
+
+</TabItem>
 </Tabs>
 
 #### 例: slop = 3\{#example-slop-3}
 
 この例では、slop を 3 に設定することでさらに高い柔軟性を提供します。フィルターは、単語間に最大3つのトークン位置を許可して **"machine learning"** を検索します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1230,6 +1369,18 @@ auto status = client->Search(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+# Search documents containing "machine learning" with slop=3
+zilliz collection search --collection-name tech_articles --vector-field embeddings --vectors '[[0.1,0.2,0.3,0.4,0.5]]' --filter "PHRASE_MATCH(text, 'machine learning', 3)" --limit 10 --output-fields "id,text"
 ```
 
 </TabItem>

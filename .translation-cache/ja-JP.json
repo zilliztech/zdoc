@@ -5,6 +5,31 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/architecture/best-practices/environment-isolation.md",
       "translatedAt": "2026-08-25T16:02:32.157Z"
     },
+    "content/en/byoc/tutorials/architecture/best-practices/multi-tenancy.md": {
+      "sourceHash": "89bc96f0ad0dab1cc3fffbce48afb81a6f7d132b8baaec050c99a7f38f411c3a",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/architecture/best-practices/multi-tenancy.md",
+      "translatedAt": "2026-09-19T13:43:11.314Z"
+    },
+    "content/en/byoc/tutorials/architecture/best-practices/perf-benchmark-vectordb.md": {
+      "sourceHash": "3d17c63fb08d5d4f46e44bb592de5748345eed05c132d9f3651c74a0cbe5707c",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/architecture/best-practices/perf-benchmark-vectordb.md",
+      "translatedAt": "2026-09-19T13:43:11.314Z"
+    },
+    "content/en/byoc/tutorials/architecture/data-resilience.md": {
+      "sourceHash": "a33f6ad0160ccdf7fc886c18d57d88556a1c81acf8d0b913471fa9f50f1ab443",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/architecture/data-resilience.md",
+      "translatedAt": "2026-09-19T13:43:11.314Z"
+    },
+    "content/en/byoc/tutorials/architecture/data-security.md": {
+      "sourceHash": "7100bc4c23126dbcdd842feed16cd4697d9c09dcae2928125abcf5d4cb6f6edf",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/architecture/data-security.md",
+      "translatedAt": "2026-09-19T13:43:11.314Z"
+    },
+    "content/en/byoc/tutorials/client-libraries/install-sdks.md": {
+      "sourceHash": "1a4faf3af763aecf75cbf232a188fa96fdf66bd9868686dc8d9b06e065586ad4",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/client-libraries/install-sdks.md",
+      "translatedAt": "2026-09-19T13:43:11.314Z"
+    },
     "content/en/byoc/tutorials/deployment/deploy-byoc-aws/deploy-byoc-aws.md": {
       "sourceHash": "51f9f9ed9e85a164aa9e4eb3b2c8a6f5b2574228c59382b2b67425c44868addb",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/deploy-byoc-aws/deploy-byoc-aws.md",
@@ -189,6 +214,11 @@
       "sourceHash": "8788283afcfe3cf3d72414c7d53249f8223e7f8ae7564e292f4da950d9ccff2f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/data-import/data-import-format-options/data-import-json.md",
       "translatedAt": "2026-08-25T06:04:22.863Z"
+    },
+    "content/en/byoc/tutorials/development/data-import/data-import-format-options/data-import-numpy.md": {
+      "sourceHash": "7b08b9dc5490d06b6099203a0e12ca16528fd04f789617d67c890a42a38f5024",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/data-import/data-import-format-options/data-import-numpy.md",
+      "translatedAt": "2026-09-19T13:43:11.314Z"
     },
     "content/en/byoc/tutorials/development/data-import/import-data/import-data.md": {
       "sourceHash": "33e9babafad491f63b4ecd530714bbb5870ac1223753274cc703a205f5d32acd",
@@ -411,9 +441,9 @@
       "translatedAt": "2026-08-04T05:07:54.029Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/phrase-match.md": {
-      "sourceHash": "5f6ff60e25b6219e60c7cd5f2931eadf67c42a6ea9ddcd1210fb0ff69a1dab81",
+      "sourceHash": "a919212740d28a425e458a44fe1a4eee850445908fe9ab0f517fb82d35437412",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/phrase-match.md",
-      "translatedAt": "2026-08-04T05:12:50.937Z"
+      "translatedAt": "2026-09-19T13:43:11.314Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/primary-key-search.md": {
       "sourceHash": "321a76f90b73cc456f792c576c5471473accbf7471ca56a54b2ee6ae00e52226",
@@ -554,6 +584,11 @@
       "sourceHash": "0fd0630f3255c312cb6ccc0de362c6f8ee0a7f3d56b428394a5c815bae08f5a2",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/access-control/manage-platform-roles.md",
       "translatedAt": "2026-08-25T04:40:43.257Z"
+    },
+    "content/en/byoc/tutorials/management/auditing/view-activities.md": {
+      "sourceHash": "d14d0ab84059ff09a9980f04d99607fade473481d81f620917d4cdd328a32e1a",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/auditing/view-activities.md",
+      "translatedAt": "2026-09-19T13:43:11.314Z"
     },
     "content/en/byoc/tutorials/management/authentication/email-accounts.md": {
       "sourceHash": "059a2918e5384378a14cb052103986d40736e177187a9dddf028a1dbe72cb05f",
@@ -751,14 +786,19 @@
       "translatedAt": "2026-08-25T17:01:54.749Z"
     },
     "content/en/byoc/tutorials/management/identity-management/single-sign-on/single-sign-on-with-okta.md": {
-      "sourceHash": "bd6e071365d4932dce20522a4ff8aee7a0189c2a7c07e4c0cf70df6462d83cb1",
+      "sourceHash": "63c878a4e85198c5e5c28c85509e64fddcac128ab6d785a756a29fd0ac93bd97",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/identity-management/single-sign-on/single-sign-on-with-okta.md",
-      "translatedAt": "2026-08-25T17:03:42.414Z"
+      "translatedAt": "2026-09-19T13:43:11.314Z"
     },
     "content/en/byoc/tutorials/management/identity-management/single-sign-on/single-sign-on-with-other-idp.md": {
       "sourceHash": "e42541466e13aa2f7ac468a5b0ddb8bdbb31c2d3609e3ba99c171768c5e39b9c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/identity-management/single-sign-on/single-sign-on-with-other-idp.md",
       "translatedAt": "2026-08-25T17:05:16.045Z"
+    },
+    "content/en/byoc/tutorials/management/identity-management/single-sign-on/single-sign-on-with-ping-one.md": {
+      "sourceHash": "acde87ee22f34d472db34aea9f274b8b5e66f89dbcee1f1cb4193661b5333c8d",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/identity-management/single-sign-on/single-sign-on-with-ping-one.md",
+      "translatedAt": "2026-09-19T13:43:11.314Z"
     },
     "content/en/byoc/tutorials/management/identity-management/single-sign-on/single-sign-on.md": {
       "sourceHash": "ac6a693c2de0f9cd0468fd229941e89dc64e2c56f26eabbd99cd150526c4115b",
@@ -989,6 +1029,11 @@
       "sourceHash": "d733a1a6d5dbcfbffd2002dd31ef03bfdb463321d86385b0ab38ffe6669cfcc7",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-import/data-import-format-options/data-import-json.md",
       "translatedAt": "2026-08-25T07:46:26.111Z"
+    },
+    "content/en/guides/tutorials/development/data-import/data-import-format-options/data-import-numpy.md": {
+      "sourceHash": "762b9e74cef53ba25a12792670f8654b80fb743ac8f25c691c9a45007b989828",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-import/data-import-format-options/data-import-numpy.md",
+      "translatedAt": "2026-09-19T13:43:11.314Z"
     },
     "content/en/guides/tutorials/development/data-import/import-data/import-data.md": {
       "sourceHash": "9933a105105b091b87086357445a9082b3cf10b9276821113828b31caf6ca70c",
@@ -1236,9 +1281,9 @@
       "translatedAt": "2026-08-04T05:30:37.601Z"
     },
     "content/en/guides/tutorials/development/search-and-query/phrase-match.md": {
-      "sourceHash": "9e7a071b4ab9ca17beb7bbab3bd8f821d54010dae6797cf7fffcbf58e842d567",
+      "sourceHash": "b8382af40128d7d01adfc3da1880f6eb25be61c54c10bfdda62626111132d48a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/phrase-match.md",
-      "translatedAt": "2026-08-04T05:31:38.330Z"
+      "translatedAt": "2026-09-19T13:43:11.314Z"
     },
     "content/en/guides/tutorials/development/search-and-query/primary-key-search.md": {
       "sourceHash": "af23396a95b3c7b84bbedd33ea60f0fa84fcd7ecff677117c497eb6efb7e567b",
@@ -1555,6 +1600,11 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/access-control/manage-platform-roles.md",
       "translatedAt": "2026-08-25T05:18:32.251Z"
     },
+    "content/en/guides/tutorials/management/auditing/view-activities.md": {
+      "sourceHash": "b0b78a518b07405f3548512097dc587092e3989cc2ef133d004b42bb838b153b",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/auditing/view-activities.md",
+      "translatedAt": "2026-09-19T13:43:11.314Z"
+    },
     "content/en/guides/tutorials/management/authentication/email-accounts.md": {
       "sourceHash": "63c2d8f90192cff17c58682611a725e20dcb46998dd681ce239e7f1f4adad589",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/authentication/email-accounts.md",
@@ -1786,14 +1836,19 @@
       "translatedAt": "2026-08-25T18:27:30.037Z"
     },
     "content/en/guides/tutorials/management/identity-management/single-sign-on/single-sign-on-with-okta.md": {
-      "sourceHash": "7a47b70b3edf45d02dc56edb7db471c048b24bddd077523c410a57a173799582",
+      "sourceHash": "db84b54fb338a68bfb7e24ff632d2503731987561582c78b7abd0bafe1791027",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/single-sign-on/single-sign-on-with-okta.md",
-      "translatedAt": "2026-08-25T18:29:03.274Z"
+      "translatedAt": "2026-09-19T13:43:11.314Z"
     },
     "content/en/guides/tutorials/management/identity-management/single-sign-on/single-sign-on-with-other-idp.md": {
       "sourceHash": "10ab5f82c6b2a7c551e3ec2c8f195e8205aef839a0d47256314c94b4b01f296b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/single-sign-on/single-sign-on-with-other-idp.md",
       "translatedAt": "2026-08-25T18:30:32.661Z"
+    },
+    "content/en/guides/tutorials/management/identity-management/single-sign-on/single-sign-on-with-ping-one.md": {
+      "sourceHash": "f8db871dca8a79244cc2ccff2048b326137e0a034837f32a10be34bb822f7891",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/single-sign-on/single-sign-on-with-ping-one.md",
+      "translatedAt": "2026-09-19T13:43:11.314Z"
     },
     "content/en/guides/tutorials/management/identity-management/single-sign-on/single-sign-on.md": {
       "sourceHash": "84818a67dbc4f26172ad7d2f529792471d465c9ee67cb5023364c7036b185c73",

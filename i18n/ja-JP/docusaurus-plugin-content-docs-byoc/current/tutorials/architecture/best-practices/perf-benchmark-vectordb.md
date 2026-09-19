@@ -38,7 +38,7 @@ VectorDBBench は直感的なビジュアルインターフェースを提供し
 
 | **Metric** | **Description** | **Test Scenario** |
 | --- | --- | --- |
-| Max_load_count | ベクトルデータベースの容量。VectorDBBench は、データベースが失敗するか、挿入リクエストを 10 回を超えて拒否するまでベクトルデータの挿入を継続し、挿入されたエンティティの最大数を記録します。<br/>Max_load_count の値が高いほど、ベクトルデータベースのパフォーマンスが優れていることを示します。 | Insertion |
+| Max_load_count | ベクトルデータベースの容量です。VectorDBBench は、データベースが失敗するか、挿入リクエストの拒否が 10 回を超えるまで、ベクトルデータベースにベクトルデータを挿入し続け、挿入されたエンティティの最大数を記録します。<br/>Max_load_count の値が高いほど、ベクトルデータベースのパフォーマンスが優れていることを示します。 | Insertion |
 | QPS | ベクトルデータベースが 1 秒あたりに処理できる同時クエリ数の能力。VectorDBBench は top-100 検索を複数回実行し、最も高い QPS 値を最終結果として採用します。<br/>QPS の値が高いほど、ベクトルデータベースのパフォーマンスが優れていることを示します。 | Search & filtered search |
 | Recall | 検索結果を ground truth と比較して検索精度を測定する指標です。<br/>Recall の値が高いほど、ベクトルデータベースのパフォーマンスが優れていることを示します。 | Search & filtered search |
 | Load_duration | Zilliz Cloud がエンティティの挿入とインデックスの構築プロセスを完了するまでにかかる時間です。<br/>Load_duration の値が低いほど、ベクトルデータベースのパフォーマンスが優れていることを示します。 | Search & filtered search |
@@ -123,7 +123,7 @@ Web ページを一番下までスクロールし、**Run Your Test >** をク�
 
 必要に応じて、左側のナビゲーションペインで **DB Filter** と **Case Filter** を設定し、事前定義済みのベクトルデータベースおよびケースのベンチマーク結果を比較できます。
 
-<Admonition type="info" icon="📘" title="📘 注">
+<Admonition type="info" title="Notes">
 
 データベースは [database_name]-[db_label] の形式で命名されています。 
 

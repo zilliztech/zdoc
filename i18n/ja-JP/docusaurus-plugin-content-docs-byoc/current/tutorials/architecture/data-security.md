@@ -40,7 +40,7 @@ Zilliz Cloud は、お客様のクラスターに対して堅牢な分離と保�
 
 - **複数のデータレジデンシーオプション**: ご希望のクラウドプロバイダーとリージョンでクラスターを作成できます。
 
-- **専用名前空間:** 各専用クラスターは、調整されたネットワークポリシーを備えた分離名前空間内で動作します。
+- **Dedicated 名前空間:** 各専用クラスターは、調整されたネットワークポリシーを備えた分離名前空間内で動作します。
 
 - **分離されたストレージ:** データは専用のオブジェクトストレージバケットに個別に保存されます。
 
@@ -56,7 +56,7 @@ Zilliz Cloud は、安全なユーザー認証のために OAuth0 を利用し�
 
 - API キーとクラスター認証情報を通じてクラスターへのアクセスを提供します。
 
-詳細については、[Single Sign-on (SSO)](./single-sign-on)、[MFA](./multi-factor-auth)、および [Cluster Credentials](./cluster-credentials) を参照してください。
+詳細については、[シングルサインオン（SSO）](./single-sign-on)、[MFA](./multi-factor-auth)、および [クラスター Credentials](./cluster-credentials) を参照してください。
 
 ## アクセス制御\{#access-control}
 
@@ -122,7 +122,7 @@ Zilliz Cloud は安全な接続を確保します。
 
 - TLS 1.2 以上のみをサポートします。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 双方向 TLS（mTLS）は現在利用できません。 
 

@@ -61,9 +61,9 @@ Zilliz Cloud は、フルマネージドのベクトルデータベースサー�
 | **Standard** | マルチレプリカ機構を備えた単一リージョン・単一 AZ デプロイメント | 0 秒 | ≤1 分 | 単一 AZ 内で書き込み、WAL は Quorum によりレプリケート | ノードレベルの障害<br/>AZs: 1<br/>Regions: 1 | SLA 保証なし | 低 |
 | **Enterprise** | 3 つの AZ にまたがる単一リージョンデプロイメントと自動フェイルオーバー | 0 秒 | ≤1 分 | クロス AZ で書き込み、WAL は Quorum によりレプリケート | AZ レベルの障害<br/>AZs: 3<br/>Regions: 1 | 99.95% | 中 |
 | **Enterprise Multi-Replica** | リージョン内のアクティブ-アクティブ型マルチレプリカアーキテクチャ。read/write 分離と高速フェイルオーバー | 0 秒 | ≤10 秒 | クロス AZ で書き込み、レプリカ間の同期は WAL 経由 | AZ レベルの障害<br/>AZs: 3<br/>Regions: 1 | 99.99% | 中～高 |
-| **Cross-Region HA** | グローバルロードバランシングを備えた multi-region/multi-cloud デプロイメント | ≤10 秒 | 手動または自動フェイルオーバー：<br/>自動：≤3 分 | AZ 間の同期書き込み、他の regions/clouds への非同期レプリケーション | リージョンレベルの障害<br/>AZs: ≥3<br/>Regions: ≥2 | 99.99% | 高 |
+| **Cross-Region HA** | グローバルロードバランシングを備えた multi-region/multi-cloud デプロイメント | ≤10 秒 | 手動または自動フェイルオーバー：<br/>自動：≤3 分 | AZ 間の同期書き込み、他の regions/clouds への非同期レプリケーション | リージョンレベルの障害<br/>AZs: ≥3<br/>Regions: ≥2 | 99.99% | 高い |
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Cross-region HA は 2025 年 11 月に利用可能になる予定です。 
 
@@ -124,10 +124,10 @@ Cross-region HA は 2025 年 11 月に利用可能になる予定です。
 
 | ビジネス影響 | データ価値 | コンプライアンス要件 | 推奨ソリューション | コストレベル |
 | --- | --- | --- | --- | --- |
-| 極めて高い | 極めて高い | 厳格 | Cross-region HA + Full DR | 高 |
+| 極めて高い | 極めて高い | 厳格 | Cross-region HA + Full DR | 高い |
 | 高い | 高い | 中程度 | Enterprise Multi-Replica + Cross-region Backup | 中～高 |
-| 中程度 | 中程度 | 基本 | Enterprise + Local Backup | 中 |
-| 低い | 低い | なし | Standard + Basic Backup | 低 |
+| 中 | 中 | 基本 | Enterprise + Local Backup | 中 |
+| 低 | 低 | なし | Standard + Basic Backup | 低 |
 
 ## よくある質問（FAQ）\{#frequently-asked-questions-faq}
 
@@ -203,7 +203,7 @@ Zilliz Cloud は、3 種類のデータを扱うコンピューティングと�
 
 - 極端なフェイルオーバーシナリオでは、データ損失は 10 秒未満
 
-<Admonition type="info" icon="📘" title="Notes:">
+<Admonition type="info" title="Notes:">
 
 **2026 年のロードマップ：** クロスリージョン Woodpecker により **RPO = 0** を実現
 
@@ -224,3 +224,4 @@ Zilliz Cloud は、3 種類のデータを扱うコンピューティングと�
 | **Multi-Primary** *(2026 年提供予定)* | 両方のリージョンが書き込みを受け付けますが、ユーザーはデータ競合を回避する必要があります。 | セルベースまたはシャーディングされたデプロイメント |
 
 最新の機能アップデートまたは技術サポートについては、[Zilliz Cloud サポート](https://support.zilliz.com/hc/en-us) にお問い合わせください。
+

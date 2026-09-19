@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`.npy` 形式は、単一の配列を保存するための NumPy の標準バイナリ形式](https//numpy.org/devdocs/reference/generated/numpy.lib.format.html) であり、その shape と dtype 情報を含むため、異なるマシン上でも正しく再構築できます。  生データを Parquet ファイルに準備するには、[BulkWriter ツールの使用を推奨します。以下の図は、生データを一連の `.npy` ファイルにどのようにマッピングできるかを示しています。 | Cloud"
+description: "`.npy` 形式は、単一の配列を保存するための NumPy の標準バイナリ形式](https//numpy.org/devdocs/reference/generated/numpy.lib.format.html) であり、その shape と dtype 情報を含むため、異なるマシン上でも正しく再構築できます。生データを Parquet ファイルに準備するには、[BulkWriter ツールを使用することを推奨します。以下の図は、生データを一連の `.npy` ファイルにどのようにマッピングできるかを示しています。 | Cloud"
 type: origin
 token: FOwZwuxaWiuthnkZdedcGbJOnZf
 sidebar_position: 3
@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 `.npy` 形式は、単一の配列を保存するための [NumPy の標準バイナリ形式](https://numpy.org/devdocs/reference/generated/numpy.lib.format.html) であり、その shape と dtype 情報を含むため、異なるマシン上でも正しく再構築できます。  生データを Parquet ファイルに準備するには、[BulkWriter ツール](./use-bulkwriter) の使用を推奨します。以下の図は、生データを一連の `.npy` ファイルにどのようにマッピングできるかを示しています。
 
-<Admonition type="warning" icon="🚧" title="Caution">
+<Admonition type="warning" title="Caution">
 
 この機能は非推奨になりました。本番環境での使用は推奨されません。
 
@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 ![numpy_file_structure](https://zdoc-images.s3.us-west-2.amazonaws.com/numpyfilestructure.png "numpy_file_structure")
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - **AutoID を有効にするかどうか**
 
@@ -74,7 +74,7 @@ import Admonition from '@theme/Admonition';
 
 - [NumPy ファイルフォルダーからファイルをインポート](./data-import-numpy#import-files-from-a-numpy-file-folder)
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 ファイルが比較的小さい場合は、フォルダーまたは複数パスの方法を使用して一度にすべてインポートすることを推奨します。この方法では、インポート処理中に内部最適化が可能になり、後続のリソース消費を抑えるのに役立ちます。
 
@@ -128,7 +128,7 @@ curl --request POST \
     }'
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 フォルダーに複数形式のファイルが含まれている場合、リクエストは失敗します。
 
@@ -148,7 +148,7 @@ Zilliz Cloud は、お使いのクラウドストレージからのデータイ�
 
 クラウドストレージから NumPy ファイルでデータをインポートする際には、守る必要がある制限がいくつかあります。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 有効な NumPy ファイルのセットは、対象コレクションのスキーマ内のフィールドにちなんで命名する必要があり、それらのデータは対応するフィールド定義と一致している必要があります。
 
