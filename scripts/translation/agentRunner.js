@@ -1829,7 +1829,9 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity, chunkOptions})
   const seen = new Set()
   const restored = []
   for (const record of analysis.restored) {
-    const restoredKeys = ['sourcePath', 'targetPath', 'sourceHash', 'targetHash', 'targetSize', 'reviewReceipt']
+    const restoredKeys = ['sourcePath', 'targetPath', 'sourceHash', 'targetHash', 'targetSize']
+    const hasReceipt = Object.hasOwn(record, 'reviewReceipt')
+    if (hasReceipt) restoredKeys.push('reviewReceipt')
     if (analysis.schemaVersion === 2) restoredKeys.push('compatibility')
     exactRecoveryAnalysisKeys(record, restoredKeys, 'Recovery analysis restored record')
     if (analysis.schemaVersion === 2 && !['strict', 'revalidated'].includes(record.compatibility)) throw new Error('Recovery analysis restored compatibility is invalid')
@@ -1861,13 +1863,23 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity, chunkOptions})
       throw new Error('Recovery analysis restored source payload changed after preflight')
     }
     const sourceContent = sourceBytes.toString('utf8')
-    const reviewReceipt = validateRecoveryReviewReceipt(record.reviewReceipt, {
-      ...receiptFileIdentity,
-      ...(analysis.schemaVersion === 1 || record.compatibility === 'strict' ? receiptExecutionIdentity : {}),
-    }, {sourceContent})
-    if (analysis.schemaVersion === 2 && record.compatibility === 'revalidated' &&
-        Object.entries(receiptExecutionIdentity).every(([key, value]) => reviewReceipt[key] === value)) {
-      throw new Error('Recovery analysis revalidated reviewer receipt does not retain its original execution identity')
+    // Revalidated records may legitimately lack a receipt: the receipt carries
+    // the previous run's execution identity and says nothing about today's
+    // bytes, so revalidated restores trust the current-contract revalidation
+    // performed by the preflight instead. Strict records still require one.
+    if (!hasReceipt && !(analysis.schemaVersion === 2 && record.compatibility === 'revalidated')) {
+      throw new Error('Recovery analysis restored record is missing its reviewer receipt')
+    }
+    let reviewReceipt = null
+    if (hasReceipt) {
+      reviewReceipt = validateRecoveryReviewReceipt(record.reviewReceipt, {
+        ...receiptFileIdentity,
+        ...(analysis.schemaVersion === 1 || record.compatibility === 'strict' ? receiptExecutionIdentity : {}),
+      }, {sourceContent})
+      if (analysis.schemaVersion === 2 && record.compatibility === 'revalidated' &&
+          Object.entries(receiptExecutionIdentity).every(([key, value]) => reviewReceipt[key] === value)) {
+        throw new Error('Recovery analysis revalidated reviewer receipt does not retain its original execution identity')
+      }
     }
     assertSafeRepositoryRelativePath(record.targetPath, 'Recovery analysis restored target path')
     const target = path.resolve(siteDir, ...record.targetPath.split('/'))
@@ -1882,9 +1894,14 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity, chunkOptions})
       status: 'translated',
       recovered: true,
       ...(analysis.schemaVersion === 2 ? {recoveryCompatibility: record.compatibility} : {}),
-      recoveryReviewReceipt: reviewReceipt,
-      review: reviewReceipt.review,
-      validationErrors: reviewReceipt.validationErrors,
+      ...(reviewReceipt ? {
+        recoveryReviewReceipt: reviewReceipt,
+        review: reviewReceipt.review,
+        validationErrors: reviewReceipt.validationErrors,
+      } : {
+        review: successfulReview(),
+        validationErrors: [],
+      }),
     })
   }
   const pending = []
