@@ -1785,6 +1785,7 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity, chunkOptions})
   const semanticRecoveryKeys = ['semanticResumableFileCount', 'recoveredSemanticUnitCount']
   const hasSemanticRecovery = semanticRecoveryKeys.some(key => Object.hasOwn(analysis, key))
   if (hasSemanticRecovery) rootKeys.push(...semanticRecoveryKeys)
+  if (Object.hasOwn(analysis, 'uncoveredCandidateCount')) rootKeys.push('uncoveredCandidateCount')
   if (Object.hasOwn(analysis, 'reconciliation')) rootKeys.push('reconciliation')
   exactRecoveryAnalysisKeys(analysis, rootKeys, 'Recovery analysis')
   if (![1, 2].includes(analysis.schemaVersion) || analysis.kind !== 'translation-recovery-analysis') throw new Error('Recovery analysis header is invalid')
@@ -1815,6 +1816,10 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity, chunkOptions})
     for (const key of semanticRecoveryKeys) {
       if (!Number.isSafeInteger(analysis[key]) || analysis[key] < 0) throw new Error(`Recovery analysis ${key} is invalid`)
     }
+  }
+  if (Object.hasOwn(analysis, 'uncoveredCandidateCount') &&
+      (!Number.isSafeInteger(analysis.uncoveredCandidateCount) || analysis.uncoveredCandidateCount < 0)) {
+    throw new Error('Recovery analysis uncoveredCandidateCount is invalid')
   }
   if (analysis.candidateCount !== manifest.items.length || analysis.recoveredCount + analysis.pendingCount !== analysis.candidateCount) {
     throw new Error('Recovery analysis candidate partition does not match the current manifest')
@@ -1893,6 +1898,7 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity, chunkOptions})
     const pendingKeys = ['sourcePath', 'targetPath', 'sourceHash']
     if (Object.hasOwn(record, 'chunkResume')) pendingKeys.push('chunkResume')
     if (Object.hasOwn(record, 'semanticResume')) pendingKeys.push('semanticResume')
+    if (Object.hasOwn(record, 'recoveryCovered')) pendingKeys.push('recoveryCovered')
     exactRecoveryAnalysisKeys(record, pendingKeys, 'Recovery analysis pending record')
     const key = recoveryEntryIdentity(record)
     const candidate = manifestByIdentity.get(key)
@@ -1981,7 +1987,8 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity, chunkOptions})
     throw new Error('Recovery analysis resumable semantic counts do not match pending records')
   }
   const expectedFullRetranslation = manifest.items.length > 0 && analysis.recoveredCount === 0 && analysis.pendingCount === manifest.items.length &&
-    resumableFileCount === 0 && semanticResumableFileCount === 0
+    resumableFileCount === 0 && semanticResumableFileCount === 0 &&
+    analysis.pending.every(record => record.recoveryCovered !== false)
   if (analysis.fullRetranslation !== expectedFullRetranslation) throw new Error('Recovery analysis full-retranslation state is invalid')
   return {restored, pending, rejected: analysis.rejected, rejectedChunks: analysis.rejectedChunks || []}
 }

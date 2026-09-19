@@ -501,6 +501,33 @@ test('rejects a cross-version payload that fails the current protected contract'
   assert.match(analysis.rejected[0].reason, /revalidation.*protected/i)
 })
 
+test('candidates the previous run never covered do not force the full-retranslation gate', t => {
+  const value = fixture(t)
+  write(value.artifactDir, `translated-files/${value.items[0].targetPath}`, '# `Source 1`\n')
+  const artifactManifestPath = path.join(value.artifactDir, 'manifest.json')
+  const artifactManifest = JSON.parse(fs.readFileSync(artifactManifestPath, 'utf8'))
+  const invalidBytes = fs.readFileSync(path.join(value.artifactDir, 'translated-files', value.items[0].targetPath))
+  artifactManifest.files[0].targetHash = HASH(invalidBytes)
+  artifactManifest.files[0].targetSize = invalidBytes.length
+  write(value.artifactDir, 'manifest.json', `${JSON.stringify(artifactManifest)}\n`)
+  // items[1] has no record of any kind in the retained artifact: a batch the
+  // previous failed run never reached. Retranslating it is planned work.
+  const analysis = analyzeRecoveryCompatibility({
+    siteDir: value.siteDir,
+    manifest: {target: 'zh-CN-reference', locale: 'zh-CN', group: 'python', sourceCheckpointSha: 'a'.repeat(40), items: value.items},
+    artifacts: [value.artifactDir], promptContractSha256: 'e'.repeat(64),
+    model: value.identity.model, executionToolingSha: 'd'.repeat(40), allowFullRetranslate: false,
+  })
+  assert.equal(analysis.fullRetranslation, false)
+  assert.equal(analysis.uncoveredCandidateCount, 1)
+  assert.equal(analysis.recoveredCount, 0)
+  assert.equal(analysis.pendingCount, 2)
+  const covered = analysis.pending.find(record => record.sourcePath === value.items[0].sourcePath)
+  const uncovered = analysis.pending.find(record => record.sourcePath === value.items[1].sourcePath)
+  assert.equal(covered.recoveryCovered, true)
+  assert.equal(uncovered.recoveryCovered, false)
+})
+
 test('fails closed before providers when compatibility would become full retranslation unless explicitly authorized', t => {
   const value = fixture(t)
   write(value.artifactDir, `translated-files/${value.items[0].targetPath}`, '# `Source 1`\n')
@@ -509,6 +536,15 @@ test('fails closed before providers when compatibility would become full retrans
   const invalidBytes = fs.readFileSync(path.join(value.artifactDir, 'translated-files', value.items[0].targetPath))
   artifactManifest.files[0].targetHash = HASH(invalidBytes)
   artifactManifest.files[0].targetSize = invalidBytes.length
+  // Both candidates must be covered by the previous run for the
+  // full-retranslation gate to apply: the second one through a failure record.
+  artifactManifest.failures.push({
+    sourcePath: value.items[1].sourcePath,
+    targetPath: value.items[1].targetPath,
+    sourceHash: value.items[1].sourceHash,
+    failureCategory: 'unknown',
+    error: 'translation attempt failed',
+  })
   write(value.artifactDir, 'manifest.json', `${JSON.stringify(artifactManifest)}\n`)
   const input = {
     siteDir: value.siteDir,
