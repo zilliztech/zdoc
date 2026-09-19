@@ -1,13 +1,13 @@
 ---
-title: "Binary Vector | BYOC"
+title: "バイナリベクトル | BYOC"
 slug: /use-binary-vector
-sidebar_label: "Binary Vector"
+sidebar_label: "バイナリベクトル"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "バイナリベクトルは、従来の高次元浮動小数点ベクトルを、0 と 1 のみを含むバイナリベクトルに変換した特殊なデータ表現形式です。この変換により、ベクトルのサイズが圧縮されるだけでなく、意味情報を保持しながらストレージおよび計算コストも削減できます。重要度の低い特徴に対して精度が必須でない場合、バイナリベクトルは元の浮動小数点ベクトルの完全性と有用性の大部分を効果的に維持できます。 | BYOC"
+description: "バイナリベクトルは、従来の高次元浮動小数点ベクトルを、0 と 1 のみを含むバイナリベクトルに変換する特殊なデータ表現形式です。この変換は、ベクトルのサイズを圧縮するだけでなく、意味情報を保持しながらストレージと計算コストも削減します。重要度の低い特徴に高い精度が不要な場合、バイナリベクトルは元の浮動小数点ベクトルの完全性と有用性の大部分を効果的に維持できます。 | BYOC"
 type: origin
 token: NTwawtvYdiXTkukbss7ccw2RnXc
 sidebar_position: 4
@@ -19,51 +19,51 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Binary Vector
+# バイナリベクトル
 
-バイナリベクトルは、従来の高次元浮動小数点ベクトルを、0 と 1 のみを含むバイナリベクトルに変換した特殊なデータ表現形式です。この変換により、ベクトルのサイズが圧縮されるだけでなく、意味情報を保持しながらストレージおよび計算コストも削減できます。重要度の低い特徴に対して精度が必須でない場合、バイナリベクトルは元の浮動小数点ベクトルの完全性と有用性の大部分を効果的に維持できます。
+バイナリベクトルは、従来の高次元浮動小数点ベクトルを、0 と 1 のみを含むバイナリベクトルに変換する特殊なデータ表現形式です。この変換は、ベクトルのサイズを圧縮するだけでなく、意味情報を保持しながらストレージと計算コストも削減します。重要度の低い特徴に高い精度が不要な場合、バイナリベクトルは元の浮動小数点ベクトルの完全性と有用性の大部分を効果的に維持できます。
 
-バイナリベクトルには幅広い用途があり、特に計算効率とストレージ最適化が重要な場面で役立ちます。検索エンジンやレコメンデーションシステムのような大規模 AI システムでは、大量のデータをリアルタイムで処理することが重要です。ベクトルのサイズを削減することで、バイナリベクトルは精度を大きく損なうことなく、レイテンシと計算コストの低減に役立ちます。さらに、バイナリベクトルは、モバイルデバイスや組み込みシステムのような、メモリや処理能力が限られたリソース制約環境でも有用です。バイナリベクトルを使用することで、このような制約のある環境でも高いパフォーマンスを維持しながら複雑な AI 機能を実装できます。
+バイナリベクトルは幅広い用途があり、特に計算効率とストレージ最適化が重要となる場面で役立ちます。検索エンジンやレコメンデーションシステムといった大規模な AI システムでは、膨大なデータをリアルタイムで処理することが鍵となります。ベクトルのサイズを削減することで、バイナリベクトルは精度を大きく犠牲にすることなく、レイテンシと計算コストの低減に役立ちます。さらに、バイナリベクトルは、モバイルデバイスや組み込みシステムのようにメモリや処理能力が限られたリソース制約の厳しい環境でも有用です。バイナリベクトルを利用することで、こうした制約のある環境でも高いパフォーマンスを維持しながら複雑な AI 機能を実装できます。
 
-## Overview\{#overview}
+## 概要\{#overview}
 
 バイナリベクトルは、複雑なオブジェクト（画像、テキスト、音声など）を固定長のバイナリ値にエンコードする方法です。Zilliz Cloud クラスターでは、バイナリベクトルは通常、ビット配列またはバイト配列として表現されます。たとえば、8 次元のバイナリベクトルは `[1, 0, 1, 1, 0, 0, 1, 0]` のように表現できます。
 
-以下の図は、バイナリベクトルがテキストコンテンツ内のキーワードの存在をどのように表現するかを示しています。この例では、10 次元のバイナリベクトルを使用して 2 つの異なるテキスト（**Text 1** と **Text 2**）を表現しており、各次元は語彙内の単語に対応しています。1 はその単語がテキスト内に存在することを示し、0 は存在しないことを示します。
+以下の図は、バイナリベクトルがテキストコンテンツ内のキーワードの有無をどのように表現するかを示しています。この例では、10 次元のバイナリベクトルを使用して 2 つの異なるテキスト（**Text 1** と **Text 2**）を表現しており、各次元は語彙内の単語に対応しています。1 はその単語がテキスト内に存在することを示し、0 は存在しないことを示します。
 
 ![TuIGwtyEkh9g04bvo0icsWdynBd](https://zdoc-images.s3.us-west-2.amazonaws.com/TuIGwtyEkh9g04bvo0icsWdynBd.png)
 
-バイナリベクトルには、次の特徴があります。
+バイナリベクトルには、以下の特徴があります。
 
-- **効率的な保存:** 各次元に必要な保存領域はわずか 1 ビットであり、保存容量を大幅に削減できます。
+- **効率的なストレージ:** 各次元に必要なストレージはわずか 1 ビットで、ストレージ容量を大幅に削減できます。
 
-- **高速な計算:** ベクトル間の類似度は、XOR のようなビット単位演算を用いてすばやく計算できます。
+- **高速な計算:** ベクトル間の類似度は、XOR のようなビット演算を使用してすばやく計算できます。
 
-- **固定長:** ベクトルの長さは元のテキスト長に関係なく一定であるため、index 作成や検索が容易になります。
+- **固定長:** ベクトルの長さは元のテキストの長さに関係なく一定であるため、インデックス作成や検索が容易になります。
 
 - **シンプルで直感的:** キーワードの存在を直接反映するため、特定の専門的な検索タスクに適しています。
 
-バイナリベクトルは、さまざまな方法で生成できます。テキスト処理では、事前定義された語彙を使用し、単語の存在に応じて対応するビットを設定できます。画像処理では、知覚ハッシュアルゴリズム（[pHash](https://en.wikipedia.org/wiki/Perceptual_hashing) など）を使って画像のバイナリ特徴を生成できます。機械学習アプリケーションでは、モデルの出力を二値化してバイナリベクトル表現を取得できます。
+バイナリベクトルは、さまざまな方法で生成できます。テキスト処理では、事前定義された語彙を使用し、単語の有無に応じて対応するビットを設定できます。画像処理では、知覚ハッシュアルゴリズム（[pHash](https://en.wikipedia.org/wiki/Perceptual_hashing) など）によって画像のバイナリ特徴を生成できます。機械学習アプリケーションでは、モデルの出力を二値化してバイナリベクトル表現を取得できます。
 
-バイナリベクトル化の後、データは管理およびベクトル検索のために Zilliz Cloud クラスターへ保存できます。以下の図は、その基本的なプロセスを示しています。
+バイナリベクトル化後、データは管理とベクトル検索のために Zilliz Cloud クラスターに保存できます。以下の図は、基本的なプロセスを示しています。
 
 ![TF1uw4AQVhFdmBbrhyVcJO6WnXe](https://zdoc-images.s3.us-west-2.amazonaws.com/TF1uw4AQVhFdmBbrhyVcJO6WnXe.png)
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-バイナリベクトルは特定のシナリオで優れていますが、表現能力には制限があり、複雑な意味関係を捉えるのは困難です。そのため、実際のシナリオでは、効率性と表現力のバランスを取るために、バイナリベクトルは他のベクトル型と併用されることがよくあります。詳細については、[Dense Vector](./use-dense-vector) および [Sparse Vector](./use-sparse-vector) を参照してください。
+バイナリベクトルは特定のシナリオでは優れていますが、表現能力に制限があるため、複雑な意味関係を捉えることは困難です。そのため、実際のシナリオでは、効率性と表現力のバランスを取るために、バイナリベクトルが他のベクトル型と併用されることがよくあります。詳細については、[密ベクトル](./use-dense-vector) および [スパースベクトル](./use-sparse-vector) を参照してください。
 
 </Admonition>
 
-## Use binary vectors\{#use-binary-vectors}
+## バイナリベクトルを使用する\{#use-binary-vectors}
 
-### Add vector field\{#add-vector-field}
+### ベクトルフィールドの追加\{#add-vector-field}
 
-Zilliz Cloud クラスターでバイナリベクトルを使用するには、まず collection の作成時に、バイナリベクトルを保存するためのベクトルフィールドを定義します。このプロセスには次が含まれます。
+Zilliz Cloud クラスターでバイナリベクトルを使用するには、まずコレクションの作成時に、バイナリベクトルを保存するためのベクトルフィールドを定義します。このプロセスには、以下が含まれます。
 
-1. `datatype` を、サポートされているバイナリベクトルデータ型 `BINARY_VECTOR` に設定します。
+1. `datatype` を、サポートされているバイナリベクトルデータ型である `BINARY_VECTOR` に設定します。
 
-1. `dim` パラメータを使用してベクトルの次元数を指定します。バイナリベクトルは挿入時にバイト配列へ変換する必要があるため、`dim` は 8 の倍数でなければならない点に注意してください。8 個の boolean 値（0 または 1）ごとに 1 バイトへパックされます。たとえば、`dim=128` の場合、挿入には 16 バイトの配列が必要です。
+1. `dim` パラメーターを使用してベクトルの次元数を指定します。バイナリベクトルは挿入時にバイト配列に変換する必要があるため、`dim` は 8 の倍数でなければならない点に注意してください。8 個の boolean 値（0 または 1）が 1 バイトにパックされます。たとえば、`dim=128` の場合、挿入には 16 バイトの配列が必要です。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -227,11 +227,11 @@ schema->AddField(milvus::FieldSchema("binary_vector", milvus::DataType::BINARY_V
 </TabItem>
 </Tabs>
 
-この例では、バイナリベクトルを保存するために `binary_vector` という名前のベクトルフィールドを追加しています。このフィールドのデータ型は `BINARY_VECTOR` で、次元数は 128 です。
+この例では、バイナリベクトルを保存するための `binary_vector` という名前のベクトルフィールドを追加しています。このフィールドのデータ型は `BINARY_VECTOR` で、次元数は 128 です。
 
-### Set index params for vector field\{#set-index-params-for-vector-field}
+### ベクトルフィールドのインデックスパラメーターを設定する\{#set-index-params-for-vector-field}
 
-検索を高速化するには、バイナリベクトルフィールドに対して index を作成する必要があります。index 作成により、大規模なベクトルデータの検索効率を大幅に向上させることができます。
+検索を高速化するには、バイナリベクトルフィールドにインデックスを作成する必要があります。インデックス作成により、大規模なベクトルデータの検索効率を大幅に向上させることができます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -317,13 +317,13 @@ std::vector<milvus::IndexDesc> indexes = {
 </TabItem>
 </Tabs>
 
-上記の例では、`binary_vector` フィールドに対して `binary_vector_index` という名前の index を作成し、`AUTOINDEX` index タイプを使用しています。`metric_type` は `HAMMING` に設定されており、類似度測定に Hamming 距離を使用することを示しています。
+上記の例では、`binary_vector` フィールドに対して `binary_vector_index` という名前のインデックスを、`AUTOINDEX` インデックスタイプを使用して作成しています。`metric_type` は `HAMMING` に設定されており、類似度の測定にハミング距離が使用されることを示しています。
 
-さらに、Zilliz Cloud はバイナリベクトル向けの他の類似度メトリックもサポートしています。詳細については、[Metric Types](./search-metrics-explained) を参照してください。
+さらに、Zilliz Cloud はバイナリベクトルに対して他の類似度メトリクスもサポートしています。詳細については、[Metric Types](./search-metrics-explained) を参照してください。
 
-### Create collection\{#create-collection}
+### コレクションの作成\{#create-collection}
 
-バイナリベクトルと index の設定が完了したら、バイナリベクトルを含む collection を作成します。以下の例では、`create_collection` メソッドを使用して `my_collection` という名前の collection を作成します。
+バイナリベクトルとインデックスの設定が完了したら、バイナリベクトルを含むコレクションを作成します。以下の例では、`create_collection` メソッドを使用して `my_collection` という名前のコレクションを作成します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -413,11 +413,11 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-### Insert data\{#insert-data}
+### データの挿入\{#insert-data}
 
-collection を作成した後、`insert` メソッドを使用してバイナリベクトルを含むデータを追加します。バイナリベクトルはバイト配列の形式で指定する必要があり、各バイトは 8 個の boolean 値を表す点に注意してください。
+コレクションを作成した後、`insert` メソッドを使用して、バイナリベクトルを含むデータを追加します。バイナリベクトルはバイト配列の形式で指定する必要があり、各バイトは 8 個の boolean 値を表す点に注意してください。
 
-たとえば、128 次元のバイナリベクトルには 16 バイトの配列が必要です（128 ビット ÷ 8 ビット/バイト = 16 バイト）。以下はデータ挿入のコード例です。
+たとえば、128 次元のバイナリベクトルには 16 バイトの配列が必要です（128 ビット ÷ 8 ビット/byte = 16 バイト）。以下は、データを挿入するためのコード例です。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -579,11 +579,11 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-### 類似性検索を実行する\{#perform-similarity-search}
+### 類似検索の実行\{#perform-similarity-search}
 
-類似性検索は Zilliz Cloud cluster の中核機能の 1 つであり、vector 間の距離に基づいて、クエリ vector に最も類似したデータをすばやく見つけることができます。binary vector を使用して類似性検索を実行するには、クエリ vector と検索パラメータを準備してから、`search` メソッドを呼び出します。
+類似検索は Zilliz Cloud クラスターの中核機能の 1 つであり、ベクトル間の距離に基づいて、クエリベクトルに最も類似したデータをすばやく見つけることができます。バイナリベクトルを使用して類似検索を実行するには、クエリベクトルと検索パラメーターを準備し、`search` メソッドを呼び出します。
 
-検索操作中も、binary vector は byte array の形式で指定する必要があります。クエリ vector の次元数が `dim` の定義時に指定した次元と一致していること、および 8 個ごとの boolean 値が 1 byte に変換されていることを確認してください。
+検索操作時にも、バイナリベクトルはバイト配列の形式で指定する必要があります。クエリベクトルの次元数が、`dim` の定義時に指定した次元数と一致していること、および 8 個の boolean 値ごとに 1 バイトに変換されていることを確認してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -743,5 +743,4 @@ for (auto& result : search_results.Results()) {
 </TabItem>
 </Tabs>
 
-類似性検索パラメータの詳細については、[基本的な ANN 検索](./single-vector-search) を参照してください。
-
+類似検索パラメーターの詳細については、[基本的な ANN 検索](./single-vector-search) を参照してください。

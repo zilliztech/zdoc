@@ -127,7 +127,7 @@ schema.add_field(
 
 ```java
 import io.milvus.v2.common.DataType;
-import io.milvus.v2.service.collection.request.AddFieldReq;
+import io.milvus.v2.service.collection.request.AddFieldReq; 
 
 schema.addField(AddFieldReq.builder()
         .fieldName("my_id")
@@ -202,7 +202,7 @@ schema->AddField(milvus::FieldSchema("my_id", milvus::DataType::INT64, "", true,
 
 また、`autoId` プロパティを `True` に設定することで、データ挿入時に Zilliz Cloud がプライマリフィールドの値を自動的に割り当てるようにすることもできます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 手動でプライマリキーを設定することに明確なメリットがある場合を除き、基本的には `autoId` を利用することを推奨します。
 

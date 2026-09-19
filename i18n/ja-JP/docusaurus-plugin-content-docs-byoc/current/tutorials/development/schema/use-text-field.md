@@ -1,7 +1,7 @@
 ---
-title: "Text Field | BYOC"
+title: "Text フィールド | BYOC"
 slug: /use-text-field
-sidebar_label: "Text Field"
+sidebar_label: "Text フィールド"
 beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
@@ -18,7 +18,7 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
-# Text Field
+# Text フィールド
 
 AI 検索アプリケーションでは、ベクトル検索によって意味的に類似したエンティティを見つけられますが、多くの場合、各検索結果に対応する元のソーステキストも必要になります。LLM やエージェントはそのテキストをコンテキストとして活用し、内容の読み取り、引用、要約、あるいはプロンプトへの組み込みを行うことができます。
 
@@ -36,7 +36,7 @@ schema.add_field(
 
 フィールド定義後、各エンティティはそのフィールドに文字列値を含めることができます。他のスカラーフィールドと同様に値を挿入でき、`output_fields` にフィールド名を指定することで、クエリや検索結果から値を取得できます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 TEXT フィールドは null 値をサポートしています。この機能を有効にするには、nullable を True に設定してください。詳細については、[Nullable Fields](./nullable-fields) を参照してください。
 

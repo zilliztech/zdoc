@@ -36,7 +36,7 @@ import Admonition from '@theme/Admonition';
 | `chunks[quality_score]` | `FLOAT` | 数値フィルタリングおよび範囲スタイルの述語。 |
 | `chunks[has_code]` | `BOOL` | ブールフィルタリング。 |
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 ベクトルフィールドまたはベクトルサブフィールドは、1 つのインデックスしか受け付けません。EmbeddingList 検索と要素レベル検索の両方が必要な場合は、2 つの別々のベクトルサブフィールドを作成し、それぞれに個別にインデックスを作成してください。このページでは、`chunks[emb_list_vector]` は EmbeddingList 検索用にインデックス化され、`chunks[emb]` は要素レベル検索用にインデックス化されています。
 
@@ -51,7 +51,7 @@ import Admonition from '@theme/Admonition';
 | EmbeddingList 検索 | `chunks[emb_list_vector]` | `MAX_SIM*` メトリクスファミリー。 |
 | 要素レベルのベクトル検索 | `chunks[emb]` | `COSINE`、`IP`、`L2` などの通常のベクトルメトリクスファミリー。 |
 | 文字列またはカテゴリでフィルタ | `chunks[section]` | 対象でサポートされているスカラーインデックス。 |
-| 数値範囲でフィルタ | `chunks[quality_score]`, `chunks[page]` | 対象でサポートされているスカラーインデックス。 |
+| 数値範囲でフィルタ | `chunks[quality_score]`、`chunks[page]` | 対象でサポートされているスカラーインデックス。 |
 | ブール値でフィルタ | `chunks[has_code]` | 対象でサポートされているスカラーインデックス。 |
 
 EmbeddingList 検索では、StructArray のベクトルサブフィールド内のベクトルを embedding list として扱い、エンティティレベルの結果を返します。要素レベル検索では、各 Struct 要素を独立して検索し、一致した要素のオフセットを返すことができます。
@@ -85,7 +85,7 @@ client.create_index(
 )
 ```
 
-<Admonition type="warning" icon="🚧" title="Warning">
+<Admonition type="warning" title="Warning">
 
 同じベクトルサブフィールドに `MAX_SIM*` インデックスと通常のベクトルメトリクスのインデックスを作成しないでください。両方の検索モードが必要な場合は、2 つの別々のベクトルサブフィールドにベクトルを書き込み、各サブフィールドに 1 つずつインデックスを作成してください。
 
@@ -150,7 +150,7 @@ $$
 Distance({q}, {v})=\Sigma_{i=1}^{n}(Max_{j=1}^{m}Distance(q_i,v_j))
 $$
 
-上記の式では、$q$ は $n$ 個の要素からなる embedding list を指し、$v$ は $m$ 個の要素を含む StrctArray サブフィールドを指します。
+上記の式では、$q$ は $n$ 個の要素からなる embedding list を指し、$v$ は $m$ 個の要素を含む StructArray サブフィールドを指します。
 
 ## インデックスとメトリクスの互換性\{#index-metric-compatibility}
 
@@ -160,16 +160,16 @@ StructArray のベクトルサブフィールドには `AUTOINDEX` を使用し�
 
 | 検索モード | ベクトルサブフィールドのデータ型 | インデックスタイプ | メトリクスタイプ |
 | --- | --- | --- | --- |
-| EmbeddingList 検索 | `FLOAT_VECTOR`, `FLOAT16_VECTOR`, `BFLOAT16_VECTOR`, `INT8_VECTOR` | `AUTOINDEX` | `MAX_SIM`, `MAX_SIM_COSINE`, `MAX_SIM_IP`, `MAX_SIM_L2` |
-| EmbeddingList 検索 | `BINARY_VECTOR` | `AUTOINDEX` | `MAX_SIM_HAMMING`, `MAX_SIM_JACCARD` |
-| 要素レベル検索 | `FLOAT_VECTOR`, `FLOAT16_VECTOR`, `BFLOAT16_VECTOR`, `INT8_VECTOR` | `AUTOINDEX` | `L2`, `IP`, `COSINE` |
-| 要素レベル検索 | `BINARY_VECTOR` | `AUTOINDEX` | `HAMMING`, `JACCARD` |
+| EmbeddingList 検索 | `FLOAT_VECTOR`、`FLOAT16_VECTOR`、`BFLOAT16_VECTOR`、`INT8_VECTOR` | `AUTOINDEX` | `MAX_SIM`、`MAX_SIM_COSINE`、`MAX_SIM_IP`、`MAX_SIM_L2` |
+| EmbeddingList 検索 | `BINARY_VECTOR` | `AUTOINDEX` | `MAX_SIM_HAMMING`、`MAX_SIM_JACCARD` |
+| 要素レベル検索 | `FLOAT_VECTOR`、`FLOAT16_VECTOR`、`BFLOAT16_VECTOR`、`INT8_VECTOR` | `AUTOINDEX` | `L2`、`IP`、`COSINE` |
+| 要素レベル検索 | `BINARY_VECTOR` | `AUTOINDEX` | `HAMMING`、`JACCARD` |
 
 バージョン固有のサポートやその他の制限については、[StructArray の制限](./struct-array-limits) を参照してください。
 
 ## インデックスの確認\{#verify-indexes}
 
-インデックスを作成した後、コレクションを describe するかインデックスを一覧表示して、想定したサブフィールドパスがインデックス化されていることを確認してください。
+インデックスを作成した後は、コレクションを describe するか、インデックスを一覧表示して、想定したサブフィールドパスがインデックス化されていることを確認してください。
 
 ```python
 indexes = client.list_indexes(
@@ -194,12 +194,12 @@ print(index)
 
 | ルール | 説明 |
 | --- | --- |
-| サブフィールドインデックスにはパス構文を使用する。 | `emb` や `chunks.emb` ではなく、`chunks[emb]` にインデックスを作成します。 |
-| 1 つのベクトルサブフィールドは 1 つのインデックスを受け付ける。 | 異なるメトリクスファミリーが必要な場合は、別々のベクトルサブフィールドを使用します。 |
-| EmbeddingList 検索には `MAX_SIM*` メトリクスを使用する。 | EmbeddingList クエリデータには、`MAX_SIM*` メトリクスで構築されたインデックスが必要です。 |
-| 要素レベル検索には通常のベクトルメトリクスを使用する。 | 要素レベル検索では通常のベクトルクエリデータと、`COSINE`、`IP`、`L2` などのメトリクスを使用します。 |
-| フィルタに出現するスカラーサブフィールドをインデックス化する。 | 対象でサポートされているスカラーインデックスタイプを使用します。 |
-| ベクトルフィールドの制限を考慮する。 | ベクトルフィールドとベクトルサブフィールドの合計数には制限があります。多数のベクトルサブフィールドを追加する前に、StructArray の制限を確認してください。 |
+| サブフィールドのインデックスにはパス構文を使用します。 | `emb` や `chunks.emb` ではなく、`chunks[emb]` にインデックスを作成します。 |
+| 1 つのベクトルサブフィールドが受け付けるインデックスは 1 つです。 | 異なるメトリクスファミリーが必要な場合は、別々のベクトルサブフィールドを使用してください。 |
+| EmbeddingList 検索には `MAX_SIM*` メトリクスを使用します。 | EmbeddingList クエリデータには、`MAX_SIM*` メトリクスで構築されたインデックスが必要です。 |
+| 要素レベル検索には通常のベクトルメトリクスを使用します。 | 要素レベル検索では、通常のベクトルクエリデータと `COSINE`、`IP`、`L2` などのメトリクスを使用します。 |
+| フィルタに出現するスカラーサブフィールドにインデックスを作成します。 | 対象でサポートされているスカラーインデックスタイプを使用します。 |
+| ベクトルフィールドの制限に注意してください。 | ベクトルフィールドとベクトルサブフィールドの合計数には制限があります。多数のベクトルサブフィールドを追加する前に、StructArray の制限を確認してください。 |
 
 ## よくある間違い\{#common-mistakes}
 
@@ -211,7 +211,7 @@ print(index)
 
 - 1 つのベクトルサブフィールドを `MAX_SIM*` と通常のベクトルメトリクスの両方に再利用する。
 
-- 多用される StructArray フィルタのスカラーインデックスを忘れる。
+- 頻繁に使用される StructArray フィルタのスカラーインデックスを作成し忘れる。
 
 - Struct スキーマに存在しない StructArray サブフィールドにインデックスを作成する。
 

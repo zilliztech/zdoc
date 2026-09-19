@@ -25,7 +25,7 @@ import TabItem from '@theme/TabItem';
 
 ## 概要\{#overview}
 
-スパースベクトルは特殊な高次元ベクトルであり、ほとんどの要素がゼロで、非ゼロ値を持つ次元はごくわずかです。以下の図に示すように、密ベクトルは通常、各位置に値を持つ連続配列として表されます（例: `[0.3, 0.8, 0.2, 0.3, 0.1]`）。一方、スパースベクトルは非ゼロ要素とその次元インデックスのみを格納し、しばしば `{ index: value}` のようなキーと値のペアで表現されます（例: `[{2: 0.2}, ..., {9997: 0.5}, {9999: 0.7}]`）。 
+スパースベクトルは特殊な高次元ベクトルであり、ほとんどの要素がゼロで、非ゼロ値を持つ次元はごくわずかです。以下の図に示すように、密ベクトルは通常、各位置に値を持つ連続配列として表されます（例: `[0.3, 0.8, 0.2, 0.3, 0.1]`）。一方、スパースベクトルは非ゼロ要素とその次元インデックスのみを格納し、しばしば `{ index: value}` のようなキーと値のペアで表現されます（例: `[{2: 0.2}, ..., {9997: 0.5}, {9999: 0.7}]`）。
 
 ![VPhswBhHmhJrh3byaVnc3onYnPc](https://zdoc-images.s3.us-west-2.amazonaws.com/VPhswBhHmhJrh3byaVnc3onYnPc.png)
 
@@ -39,9 +39,9 @@ import TabItem from '@theme/TabItem';
 
 ![A7FvwnB5bhpBlKbgrzYcQijbnxg](https://zdoc-images.s3.us-west-2.amazonaws.com/A7FvwnB5bhpBlKbgrzYcQijbnxg.png)
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-スパースベクトルに加えて、Zilliz Cloud は密ベクトルとバイナリベクトルもサポートしています。密ベクトルは深い意味的関係を捉えるのに最適であり、バイナリベクトルは高速な類似性比較やコンテンツ重複排除のようなシナリオで優れています。詳細は [Dense Vector](./use-dense-vector) および [Binary Vector](./use-binary-vector) を参照してください。
+スパースベクトルに加えて、Zilliz Cloud は密ベクトルとバイナリベクトルもサポートしています。密ベクトルは深い意味的関係を捉えるのに最適であり、バイナリベクトルは高速な類似性比較やコンテンツ重複排除のようなシナリオで優れています。詳細は [密ベクトル](./use-dense-vector) および [バイナリベクトル](./use-binary-vector) を参照してください。
 
 </Admonition>
 
@@ -294,15 +294,15 @@ schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR).WithMaxL
 
 - `text`: このフィールドは、`VARCHAR` データ型を使用してテキスト文字列を保存し、最大長は 65535 バイトです。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-指定したテキストフィールドからデータ挿入時にスパースベクトル埋め込みを生成できるようにするには、関数を使用する追加の手順が必要です。詳細は [Full Text Search](./full-text-search) を参照してください。
+指定したテキストフィールドからデータ挿入時に Zilliz Cloud がスパースベクトル埋め込みを生成できるようにするには、関数を使用する追加の手順が必要です。詳細は [Full Text Search](./full-text-search) を参照してください。
 
 </Admonition>
 
 ## インデックスパラメーターの設定\{#set-index-parameters}
 
-スパースベクトルのインデックスを作成するプロセスは [密ベクトル](./use-dense-vector) の場合と似ていますが、指定するインデックスタイプ（`index_type`）、距離メトリック（`metric_type`）、およびインデックスパラメーター（`params`）に違いがあります。
+スパースベクトルのインデックスを作成するプロセスは [密ベクトル](./use-dense-vector) の場合と似ていますが、指定するインデックスタイプ（`index_type`）、距離メトリクス（`metric_type`）、およびインデックスパラメーター（`params`）に違いがあります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -382,9 +382,9 @@ milvus::IndexDesc sparse_index("sparse_vector", "sparse_auto_index", milvus::Ind
 </TabItem>
 </Tabs>
 
-この例では、`SPARSE_INVERTED_INDEX` インデックスタイプと `IP` メトリックを使用しています。詳細は以下のリソースを参照してください。
+この例では、`SPARSE_INVERTED_INDEX` インデックスタイプと `IP` メトリクスを使用しています。詳細は以下のリソースを参照してください。
 
-- [Metric Types](./search-metrics-explained): さまざまなフィールドタイプでサポートされるメトリックタイプ
+- [メトリクスタイプ](./search-metrics-explained): さまざまなフィールドタイプでサポートされるメトリクスタイプ
 
 - [Full Text Search](./full-text-search): 全文検索の詳細なチュートリアル
 
@@ -480,7 +480,7 @@ if (!status.IsOk()) {
 
 ## データの挿入\{#insert-data}
 
-auto-generated されるフィールド（`auto_id` が有効な主キーなど）を除き、collection 作成時に定義したすべてのフィールドに対してデータを指定する必要があります。組み込みの BM25 関数を使用してスパースベクトルを自動生成する場合は、データ挿入時にスパースベクトルフィールドも省略する必要があります。
+auto-generated されるフィールド（`auto_id` が有効な主キーなど）を除き、コレクション作成時に定義したすべてのフィールドに対してデータを指定する必要があります。組み込みの BM25 関数を使用してスパースベクトルを自動生成する場合は、データ挿入時にスパースベクトルフィールドも省略する必要があります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -650,7 +650,7 @@ if (!status.IsOk()) {
 
 ## 類似検索の実行\{#perform-similarity-search}
 
-スパースベクトルを使用して類似検索を実行するには、クエリデータと検索パラメータの両方を準備します。 
+スパースベクトルを使用して類似検索を実行するには、クエリデータと検索パラメーターの両方を準備します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -883,5 +883,4 @@ for (auto& result : search_results.Results()) {
 </TabItem>
 </Tabs>
 
-類似検索パラメータの詳細については、[基本的なベクトル検索](./single-vector-search) を参照してください。
-
+類似検索パラメーターの詳細については、[基本的なベクトル検索](./single-vector-search) を参照してください。

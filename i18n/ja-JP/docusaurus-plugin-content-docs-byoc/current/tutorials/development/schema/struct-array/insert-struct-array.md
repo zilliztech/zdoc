@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "各エンティティに順序付きの構造化要素リストが含まれる場合に、StructArray フィールドにデータを挿入します。挿入ペイロードでは、StructArray フィールドはオブジェクトの配列として表現されます。各オブジェクトは 1 つの Struct 要素を表し、collection スキーマで定義された Struct サブフィールド名を使用します。 | BYOC"
+description: "各エンティティが順序付けられた構造化要素のリストを含む場合は、StructArray フィールドにデータを挿入します。挿入ペイロードでは、StructArray フィールドはオブジェクトの配列として表現されます。各オブジェクトは 1 つの Struct 要素を表し、コレクションスキーマで定義された Struct サブフィールド名を使用します。 | BYOC"
 type: origin
 token: WTPbww9GkifmAvkuRWLcVd4jnnh
 sidebar_position: 3
@@ -20,37 +20,37 @@ import Admonition from '@theme/Admonition';
 
 # StructArray フィールドにデータを挿入する
 
-各エンティティに順序付きの構造化要素リストが含まれる場合に、StructArray フィールドにデータを挿入します。挿入ペイロードでは、StructArray フィールドはオブジェクトの配列として表現されます。各オブジェクトは 1 つの Struct 要素を表し、collection スキーマで定義された Struct サブフィールド名を使用します。
+各エンティティが順序付けられた構造化要素のリストを含む場合は、StructArray フィールドにデータを挿入します。挿入ペイロードでは、StructArray フィールドはオブジェクトの配列として表現されます。各オブジェクトは 1 つの Struct 要素を表し、コレクションスキーマで定義された Struct サブフィールド名を使用します。
 
-このページでは、[Create a StructArray Field](./create-struct-array) の `tech_articles` collection を使用します。各エンティティは技術記事であり、`chunks` フィールドには記事のチャンクが Struct 要素として格納されます。
+このページでは、[StructArray フィールドを作成する](./create-struct-array) の `tech_articles` コレクションを使用します。各エンティティは技術記事であり、`chunks` フィールドには記事のチャンクが Struct 要素として格納されます。
 
-## 始める前に\{#before-you-begin}
+## 事前準備\{#before-you-begin}
 
-collection スキーマにすでに `chunks` StructArray フィールドが含まれていることを確認してください。
+コレクションスキーマにすでに `chunks` StructArray フィールドが含まれていることを確認してください。
 
-| Field | Type | Insert value |
+| フィールド | 型 | 挿入する値 |
 | --- | --- | --- |
 | `doc_id` | `INT64` | 記事 ID。 |
-| `title` | `VARCHAR` | 記事タイトル。 |
-| `category` | `VARCHAR` | 記事カテゴリ。 |
+| `title` | `VARCHAR` | 記事のタイトル。 |
+| `category` | `VARCHAR` | 記事のカテゴリ。 |
 | `title_vector` | `FLOAT_VECTOR` | 記事レベルの embedding。 |
 | `chunks` | `ARRAY<STRUCT>` | チャンクオブジェクトのリスト。 |
 
 `chunks` 内の各オブジェクトは Struct スキーマに従う必要があります。
 
-| Subfield | Type | Insert value |
+| サブフィールド | 型 | 挿入する値 |
 | --- | --- | --- |
 | `text` | `VARCHAR` | チャンクのテキスト。 |
 | `section` | `VARCHAR` | `index`、`search`、`filter` などのセクション名。 |
 | `page` | `INT64` | ページ番号または論理的な位置。 |
 | `quality_score` | `FLOAT` | チャンクレベルのスコア。 |
-| `has_code` | `BOOL` | そのチャンクにコードが含まれているかどうか。 |
-| `emb_list_vector` | `FLOAT_VECTOR` | EmbeddingList 検索用に書き込まれる vector。 |
-| `emb` | `FLOAT_VECTOR` | 要素レベル検索用に書き込まれる vector。 |
+| `has_code` | `BOOL` | チャンクにコードが含まれているかどうか。 |
+| `emb_list_vector` | `FLOAT_VECTOR` | EmbeddingList 検索用に書き込まれるベクトル。 |
+| `emb` | `FLOAT_VECTOR` | 要素レベル検索用に書き込まれるベクトル。 |
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-挿入ペイロードでは、`chunks` は通常のフィールドであり、その値は Struct オブジェクトの配列です。各オブジェクト内では、`text` や `emb` などのサブフィールド名を使用します。`chunks[text]` や `chunks[emb]` のようなパス構文を使用するのは、挿入後に index を作成するとき、検索を実行するとき、filter を構築するとき、または出力フィールドを指定するときだけです。
+挿入ペイロードでは、`chunks` は通常のフィールドであり、その値は Struct オブジェクトの配列です。各オブジェクトの内部では、`text` や `emb` などのサブフィールド名を使用します。`chunks[text]` や `chunks[emb]` などのパス構文を使用するのは、挿入後にインデックスを作成するとき、検索を実行するとき、フィルタを構築するとき、または出力フィールドを指定するときだけです。
 
 </Admonition>
 
@@ -87,11 +87,11 @@ collection スキーマにすでに `chunks` StructArray フィールドが含�
 }
 ```
 
-`emb_list_vector` と `emb` は、異なる検索モードをサポートするため、別々の vector サブフィールドになっています。EmbeddingList 検索では、StructArray フィールド内のすべての vector を 1 つの embedding list として扱い、`MAX_SIM*` メトリクスを用いてエンティティレベルの結果を返します。要素レベル検索では、各 Struct 要素を独立して検索し、一致した要素の offset を返すことができます。この例では簡潔にするために、両方のフィールドに同じ vector 値を格納しています。本番アプリケーションでは、両方の検索モードが同じチャンク embedding を使用する場合は同じ embedding を両方のサブフィールドに格納でき、2 つの検索モードで異なる表現を使用する場合は異なる embedding を格納できます。
+`emb_list_vector` と `emb` は、異なる検索モードをサポートしているため、別々のベクトルサブフィールドです。EmbeddingList 検索では、StructArray フィールド内のすべてのベクトルを 1 つの embedding list として扱い、`MAX_SIM*` メトリクスを使用してエンティティレベルの結果を返します。要素レベル検索では、各 Struct 要素を個別に検索し、一致した要素のオフセットを返すことができます。この例では、簡潔にするために両方のフィールドに同じベクトル値を格納しています。本番アプリケーションでは、2 つの検索モードが同じチャンクの embedding を使用する場合は両方のサブフィールドに同じ embedding を格納でき、2 つの検索モードが異なる表現を使用する場合は異なる embedding を格納できます。
 
 ## 行を挿入する\{#insert-rows}
 
-StructArray 値を含む行を挿入するには `client.insert()` を使用します。
+StructArray 値を含む行を挿入するには、`client.insert()` を使用します。
 
 ```python
 from pymilvus import MilvusClient
@@ -200,17 +200,17 @@ client.insert(
 )
 ```
 
-nullable な StructArray フィールドに有効な StructArray 値が含まれる場合、その値内のすべてのサブフィールドは null であるか、有効な値を持つ必要があります。一部のサブフィールドを null にし、他のサブフィールドを有効な値に設定したエンティティを挿入するとエラーになります。
+nullable な StructArray フィールドに有効な StructArray 値が含まれる場合、その値内のすべてのサブフィールドは null であるか、有効な値を持つ必要があります。一部のサブフィールドを null に設定し、他のサブフィールドを有効な値に設定したエンティティを挿入すると、エラーになります。
 
-<Admonition type="warning" icon="🚧" title="警告">
+<Admonition type="warning" title="Warning">
 
-nullable な StructArray フィールドは、Milvus v3.0.x と互換性のある cluster でのみ利用できます。既存の collection に StructArray フィールドを動的に追加する場合、追加するフィールドは nullable である必要があり、既存のエンティティではその新しいフィールドのすべてのサブフィールドに対して `null` が返されます。
+nullable な StructArray フィールドは、Milvus v3.0.x と互換性のあるクラスターでのみ使用できます。既存のコレクションに StructArray フィールドを動的に追加する場合、追加するフィールドは nullable である必要があり、既存のエンティティは、新しいフィールドのすべてのサブフィールドに対して `null` を返します。
 
 </Admonition>
 
 ## 挿入したデータを検証する\{#validate-inserted-data}
 
-collection を query して、StructArray フィールドまたは選択したサブフィールドを返すことができます。
+コレクションをクエリして、StructArray フィールドまたは選択したサブフィールドを返すことができます。
 
 ```python
 rows = client.query(
@@ -229,41 +229,41 @@ for row in rows:
     print(row)
 ```
 
-`chunks[text]` のような StructArray フィールドパスは、query、search、filter、または index 作成時にのみ使用してください。挿入ペイロードでは、引き続き `chunks` の下にネストしたオブジェクトを使用する必要があります。
+`chunks[text]` などの StructArray フィールドパスを使用するのは、クエリ、検索、フィルタ、またはインデックスを作成するときだけです。挿入ペイロードでは、引き続き `chunks` の下にネストされたオブジェクトを使用する必要があります。
 
 ## 挿入ルール\{#insert-rules}
 
-| Rule | Explanation |
+| ルール | 説明 |
 | --- | --- |
-| StructArray フィールドにはオブジェクトの配列を使用する。 | `chunks` の値はリストであり、リスト内の各項目が Struct 要素です。 |
-| 各 Struct 要素内ではサブフィールド名を使用する。 | `chunks` 内には `{"chunks[text]": "..."}` ではなく `{"text": "...", "emb": [...]}` を挿入します。 |
-| Struct スキーマに一致させる。 | 各 Struct 要素は、Struct スキーマで定義されたサブフィールドを使用する必要があります。 |
-| vector 次元を一致させる。 | vector 値は、それぞれの vector サブフィールドに設定された `dim` と一致する必要があります。 |
-| `max_capacity` を守る。 | 1 つのエンティティ内の Struct 要素数は、StructArray フィールドの `max_capacity` を超えてはなりません。 |
-| 別々の検索モードには別々の vector サブフィールドを使用する。 | EmbeddingList 検索と要素レベル検索の両方が必要な場合は、両方の vector サブフィールドに vector 値を書き込みます。 |
-| `null` はフィールドが nullable の場合にのみ使用する。 | non-nullable な StructArray フィールドには、有効な StructArray 値が必要です。 |
+| StructArray フィールドにはオブジェクトの配列を使用します。 | `chunks` の値はリストであり、リスト内の各項目は Struct 要素です。 |
+| 各 Struct 要素の内部ではサブフィールド名を使用します。 | `chunks` の内部には `{"chunks[text]": "..."}` ではなく `{"text": "...", "emb": [...]}` を挿入します。 |
+| Struct スキーマに一致させます。 | 各 Struct 要素は、Struct スキーマで定義されたサブフィールドを使用する必要があります。 |
+| ベクトル次元を一致させます。 | ベクトル値は、それぞれのベクトルサブフィールドに設定された `dim` と一致する必要があります。 |
+| `max_capacity` を守ります。 | 1 つのエンティティ内の Struct 要素数は、StructArray フィールドの `max_capacity` を超えてはなりません。 |
+| 検索モードごとに別々のベクトルサブフィールドを使用します。 | EmbeddingList 検索と要素レベル検索の両方が必要な場合は、両方のベクトルサブフィールドにベクトル値を書き込みます。 |
+| `null` はフィールドが nullable の場合にのみ使用します。 | non-nullable な StructArray フィールドには、有効な StructArray 値が必要です。 |
 
 ## よくある間違い\{#common-mistakes}
 
-- 挿入ペイロードで `chunks[text]` のようなフィールドパスを使用する。
+- 挿入ペイロードで `chunks[text]` などのフィールドパスを使用する。
 
-- Struct 要素から必須サブフィールドを省略する。
+- Struct 要素から必須のサブフィールドを省略する。
 
-- 次元が誤った vector を挿入する。
+- 次元が誤ったベクトルを挿入する。
 
 - `max_capacity` が許可する数を超える Struct 要素を挿入する。
 
-- 同じ StructArray 値内で、他のサブフィールドが有効なのに 1 つのサブフィールドだけを `null` に設定する。
+- 同じ StructArray 値内の他のサブフィールドが有効であるのに、1 つのサブフィールドだけを `null` に設定する。
 
-- `emb_list_vector` にしか vector を書き込まず、その後 `chunks[emb]` に対して要素レベル検索を実行しようとする。
+- `emb_list_vector` にのみベクトルを書き込み、その後 `chunks[emb]` に対して要素レベル検索を実行しようとする。
 
-- `emb` にしか vector を書き込まず、その後 `chunks[emb_list_vector]` に対して EmbeddingList 検索を実行しようとする。
+- `emb` にのみベクトルを書き込み、その後 `chunks[emb_list_vector]` に対して EmbeddingList 検索を実行しようとする。
 
 ## 次のステップ\{#next-steps}
 
-1. `chunks[emb_list_vector]`、`chunks[emb]`、および scalar サブフィールドの index を作成するには、[Index StructArray Fields](./index-struct-array) を参照してください。
+1. `chunks[emb_list_vector]`、`chunks[emb]`、およびスカラーサブフィールドのインデックスを作成するには、[StructArray フィールドのインデックス作成](./index-struct-array) を参照してください。
 
-1. StructArray vector サブフィールドを検索するには、[Basic Vector Search with StructArray](./search-with-struct-array) を参照してください。
+1. StructArray のベクトルサブフィールドを検索するには、[StructArray を使った基本的なベクトル検索](./search-with-struct-array) を参照してください。
 
-1. nullable の動作とバージョン固有の制限事項を確認するには、[StructArray Limits](./struct-array-limits) を参照してください。
+1. nullable の動作とバージョン固有の制限を確認するには、[StructArray の制限](./struct-array-limits) を参照してください。
 

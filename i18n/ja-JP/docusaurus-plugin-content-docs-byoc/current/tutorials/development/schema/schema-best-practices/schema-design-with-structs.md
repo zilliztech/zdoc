@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "現代の AI アプリケーション、特に Internet of Things (IoT) や自動運転では、通常、豊富で構造化されたイベントを扱います。たとえば、タイムスタンプと vector embedding を持つセンサー読み取り、エラーコードと音声スニペットを持つ診断ログ、位置情報、速度、シーンコンテキストを持つ走行区間などです。これらには、データベースがネストされたデータの取り込みと検索をネイティブにサポートすることが求められます。 | BYOC"
+description: "現代の AI アプリケーション、特にモノのインターネット（IoT）や自動運転では、通常、タイムスタンプとベクトル埋め込みを伴うセンサー読み取り、エラーコードと音声スニペットを含む診断ログ、位置・速度・シーンコンテキストを含む走行セグメントなど、リッチで構造化されたイベントを対象に推論を行います。これらには、ネストされたデータの取り込みと検索をデータベースがネイティブにサポートすることが求められます。 | BYOC"
 type: origin
 token: VOkIwd5adiziGQkoDO1cRoRFnre
 sidebar_position: 2
@@ -20,23 +20,23 @@ import Admonition from '@theme/Admonition';
 
 # Array of Structs を用いたデータモデル設計
 
-現代の AI アプリケーション、特に Internet of Things (IoT) や自動運転では、通常、豊富で構造化されたイベントを扱います。たとえば、タイムスタンプと vector embedding を持つセンサー読み取り、エラーコードと音声スニペットを持つ診断ログ、位置情報、速度、シーンコンテキストを持つ走行区間などです。これらには、データベースがネストされたデータの取り込みと検索をネイティブにサポートすることが求められます。 
+現代の AI アプリケーション、特にモノのインターネット（IoT）や自動運転では、通常、タイムスタンプとベクトル埋め込みを伴うセンサー読み取り、エラーコードと音声スニペットを含む診断ログ、位置・速度・シーンコンテキストを含む走行セグメントなど、リッチで構造化されたイベントを対象に推論を行います。これらには、ネストされたデータの取り込みと検索をデータベースがネイティブにサポートすることが求められます。 
 
-Zilliz Cloud では、ユーザーに原子的な構造イベントをフラットなデータモデルへ変換させる代わりに、Array of Structs を導入しています。これにより、配列内の各 Struct が scalar と vector を保持でき、意味的整合性を維持できます。
+ユーザーに原子的な構造イベントをフラットなデータモデルへ変換させる代わりに、Zilliz Cloud は Array of Structs を導入します。Array of Structs では、配列内の各 Struct がスカラーとベクトルを保持できるため、セマンティックな整合性が維持されます。
 
 ## なぜ Array of Structs なのか\{#why-array-of-structs}
 
 自動運転からマルチモーダル検索まで、現代の AI アプリケーションはますますネストされた異種データに依存するようになっています。従来のフラットなデータモデルでは、"**1 つのドキュメントに多数のアノテーション付きチャンクがある**" や "**1 つの走行シーンに複数の観測された操作がある**" といった複雑な関係を表現するのが困難です。ここで Zilliz Cloud の Array of Structs データ型が力を発揮します。
 
-Array of Structs を使うと、構造化された要素の順序付き集合を保存できます。各 Struct は、それぞれ独自の scalar フィールドと vector embedding の組み合わせを含みます。これにより、次のような用途に最適です。
+Array of Structs を使用すると、構造化された要素の順序付きセットを格納できます。各 Struct は、スカラーフィールドとベクトル埋め込みを独自に組み合わせて保持します。このため、次のような用途に最適です。
 
 - **階層データ**: 多数の子レコードを持つ親エンティティ。たとえば、多数のテキストチャンクを持つ書籍や、多数のアノテーション付きフレームを持つ動画など。
 
-- **マルチモーダル embedding**: 各 Struct は、メタデータとともに、テキスト embedding と画像 embedding など複数の vector を保持できます。
+- **マルチモーダル埋め込み**: 各 Struct は、テキスト埋め込みと画像埋め込みなど、複数のベクトルをメタデータとともに保持できます。
 
 - **時系列または逐次データ**: Array フィールド内の Struct は、時系列データやステップごとのイベントを自然に表現します。
 
-JSON blob を保存したり、データを複数の collection に分割したりする従来の回避策とは異なり、Array of Structs は Zilliz Cloud 内でネイティブなスキーマ強制、vector index、効率的な保存を提供します。
+JSON blob を格納したりデータを複数のコレクションに分割したりする従来の回避策とは異なり、Array of Structs は Zilliz Cloud 内でネイティブなスキーマ適用、ベクトルインデックス作成、効率的なストレージを提供します。
 
 ## スキーマ設計ガイドライン\{#schema-design-guidelines}
 
@@ -44,7 +44,7 @@ JSON blob を保存したり、データを複数の collection に分割した�
 
 ### Struct スキーマを定義する\{#define-the-struct-schema}
 
-collection に Array フィールドを追加する前に、内部の Struct スキーマを定義します。struct 内の各フィールドには、scalar（**VARCHAR**、**INT**、**BOOLEAN** など）または vector（**FLOAT_VECTOR**）の明示的な型指定が必要です。
+コレクションに Array フィールドを追加する前に、内部の Struct スキーマを定義します。Struct 内の各フィールドには、スカラー（**VARCHAR**、**INT**、**BOOLEAN** など）またはベクトル（**FLOAT_VECTOR**）として明示的に型を指定する必要があります。
 
 Struct スキーマは、検索や表示に使用するフィールドのみを含めるようにし、できるだけ簡潔に保つことを推奨します。使用しないメタデータで肥大化させないでください。
 
@@ -54,9 +54,9 @@ Struct スキーマは、検索や表示に使用するフィールドのみを�
 
 値を過剰に高く設定するとメモリを浪費します。また、Array フィールド内の Struct の最大数を決定するには、いくつか計算を行う必要があります。
 
-### Struct 内の vector フィールドに index を作成する\{#index-vector-fields-in-structs}
+### Struct 内のベクトルフィールドにインデックスを作成する\{#index-vector-fields-in-structs}
 
-index 作成は vector フィールドに対して必須です。これには、collection 内の vector フィールドと Struct 内に定義された vector フィールドの両方が含まれます。Struct 内の vector フィールドについては、index type として `AUTOINDEX` を使用し、metric type として `MAX_SIM` シリーズを使用する必要があります。
+ベクトルフィールドには、コレクション内のベクトルフィールドと Struct 内で定義されたベクトルフィールドの両方を含め、インデックス作成が必須です。Struct 内のベクトルフィールドには、インデックスタイプとして `AUTOINDEX` を、メトリクスタイプとして `MAX_SIM` シリーズを使用してください。
 
 適用可能な制限の詳細については、[制限事項](./use-array-of-structs) を参照してください。
 
@@ -72,7 +72,7 @@ index 作成は vector フィールドに対して必須です。これには、
 
 この階層的でマルチモーダルな性質により、これは Array of Structs 機能の理想的な適用先となります。CoVLA データセットの詳細については、[CoVLA Dataset Website](https://turingmotors.github.io/covla-ad/) を参照してください。
 
-### ステップ 1: データセットを collection スキーマにマッピングする\{#step-1-map-the-dataset-into-a-collection-schema}
+### ステップ 1: データセットをコレクションスキーマにマッピングする\{#step-1-map-the-dataset-into-a-collection-schema}
 
 CoVLA データセットは、大規模なマルチモーダル運転データセットであり、10,000 本の動画クリップ、合計 80 時間を超える映像で構成されています。20Hz のレートでフレームをサンプリングし、各フレームに対して詳細な自然言語キャプションと車両状態および検出オブジェクトの座標情報をアノテーションしています。
 
@@ -122,9 +122,9 @@ CoVLA データセットは、大規模なマルチモーダル運転データ�
 
 CoVLA データセットの構造は非常に階層的であり、収集されたデータが複数の `.jsonl` ファイルに分割され、`.mp4` 形式の動画クリップとともに管理されていることがわかります。
 
-Zilliz Cloud では、collection スキーマ内にネスト構造を作成するために JSON フィールドまたは Array-of-Structs フィールドのいずれかを使用できます。ネスト形式の一部として vector embedding を含む場合は、Array-of-Structs フィールドのみがサポートされます。ただし、Array 内の Struct 自体にはさらにネストした構造を含めることはできません。CoVLA データセットを重要な関係性を保ったまま保存するには、不要な階層を取り除き、Zilliz Cloud の collection スキーマに適合するようデータをフラット化する必要があります。
+Zilliz Cloud では、JSON フィールドまたは Array-of-Structs フィールドのいずれかを使用して、コレクションスキーマ内にネストされた構造を作成できます。ベクトル埋め込みがネスト形式の一部である場合、サポートされるのは Array-of-Structs フィールドのみです。ただし、Array 内の Struct 自体がさらにネストされた構造を含むことはできません。CoVLA データセットを格納しつつ重要な関係を保持するには、不要な階層を削除し、Zilliz Cloud のコレクションスキーマに適合するようにデータをフラット化する必要があります。
 
-以下の図は、このデータセットを後続のスキーマで示す schema を使ってどのようにモデリングできるかを示しています。
+以下の図は、以下に示すスキーマを使用して、このデータセットをどのようにモデル化できるかを示しています。
 
 ![PATjwyoKzhPELnb14kBcnAEAnGv](https://zdoc-images.s3.us-west-2.amazonaws.com/PATjwyoKzhPELnb14kBcnAEAnGv.png)
 
@@ -138,11 +138,11 @@ Zilliz Cloud では、collection スキーマ内にネスト構造を作成す�
 
     - `frame_id` は、現在の動画内の特定のフレームを識別します。
 
-    - `plain_caption` は、天候、道路状況などの周辺環境を含まない現在のフレームの説明であり、`plain_cap_vector` はその対応する vector embedding です。
+    - `plain_caption` は、天候や路面状況など、周囲の環境を含まない現在のフレームの説明であり、`plain_cap_vector` はそれに対応するベクトル埋め込みです。
 
-    - `rich_caption` は、周辺環境を含む現在のフレームの説明であり、`rich_cap_vector` はその対応する vector embedding です。
+    - `rich_caption` は、周囲の環境を含む現在のフレームの説明であり、`rich_cap_vector` はそれに対応するベクトル埋め込みです。
 
-    - `risk` は、現在のフレームで自車が直面しているリスクの説明であり、`risk_vector` はその対応する vector embedding です。
+    - `risk` は、現在のフレームで自車が直面するリスクの説明であり、`risk_vector` はそれに対応するベクトル埋め込みです。
 
     - その他のすべてのフレーム属性。たとえば `road`、`weather`、`is_tunnel`、`has_pedestrain` など。
 
@@ -152,7 +152,7 @@ Zilliz Cloud では、collection スキーマ内にネスト構造を作成す�
 
 ### ステップ 2: スキーマを初期化する\{#step-2-initialize-the-schemas}
 
-まず、caption Struct、front_cars Struct、および collection のスキーマを初期化する必要があります。
+まず、caption Struct、front_cars Struct、およびコレクションのスキーマを初期化する必要があります。
 
 - Caption Struct のスキーマを初期化します。
 
@@ -293,9 +293,9 @@ Zilliz Cloud では、collection スキーマ内にネスト構造を作成す�
 
 - Front Car Struct のスキーマを初期化します
 
-    <Admonition type="info" icon="📘" title="注意">
+    <Admonition type="info" title="Notes">
 
-    front car には vector embedding は含まれませんが、データサイズが JSON フィールドの最大値を超えるため、やはり array of Struct として含める必要があります。
+    先行車にベクトル埋め込みは含まれませんが、データサイズが JSON フィールドの上限を超えるため、Struct の配列として含める必要があります。
 
     </Admonition>
 
@@ -345,7 +345,7 @@ Zilliz Cloud では、collection スキーマ内にネスト構造を作成す�
     )
     ```
 
-- collection のスキーマを初期化します
+- コレクションのスキーマを初期化します
 
     ```python
     schema = client.create_schema()
@@ -391,9 +391,9 @@ Zilliz Cloud では、collection スキーマ内にネスト構造を作成す�
     )
     ```
 
-### ステップ 3: index パラメータを設定する\{#step-3-set-index-parameters}
+### ステップ 3: インデックスパラメーターを設定する\{#step-3-set-index-parameters}
 
-すべての vector フィールドには index を作成する必要があります。要素 Struct 内の vector フィールドに index を作成するには、index type として `AUTOINDEX` を使用し、embedding リスト間の類似度を測定するために `MAX_SIM` シリーズの metric type を使用する必要があります。
+すべてのベクトルフィールドにインデックスを作成する必要があります。要素 Struct 内のベクトルフィールドにインデックスを作成するには、インデックスタイプとして `AUTOINDEX` を、埋め込みリスト間の類似度を測定するメトリクスタイプとして `MAX_SIM` シリーズを使用する必要があります。
 
 ```python
 index_params = client.prepare_index_params()
@@ -425,9 +425,9 @@ index_params.add_index(
 
 JSON フィールド内のフィルタリングを高速化するために、JSON shredding を有効にすることを推奨します。
 
-### ステップ 4: collection を作成する\{#step-4-create-a-collection}
+### ステップ 4: コレクションを作成する\{#step-4-create-a-collection}
 
-スキーマと index の準備ができたら、次のように対象の collection を作成できます。
+スキーマとインデックスの準備ができたら、次のようにしてターゲットコレクションを作成できます。
 
 ```python
 client.create_collection(

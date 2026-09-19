@@ -37,7 +37,7 @@ import TabItem from '@theme/TabItem';
 
 ブール値フィールドを宣言するには、`datatype` を `BOOL` に設定するだけです。数値フィールドを宣言するには、これを利用可能な数値データ型のいずれかに設定するだけです。たとえば、整数フィールドには `DataType.INT64`、浮動小数点フィールドには `DataType.FLOAT` を使用します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 Zilliz Cloud は、ブール値フィールドおよび数値フィールドの null 値とデフォルト値をサポートしています。これらの機能を有効にするには、`nullable` を `True` に設定し、`default_value` を数値に設定します。詳細については、[Nullable & Default](./nullable-fields) を参照してください。
 
@@ -45,7 +45,7 @@ Zilliz Cloud は、ブール値フィールドおよび数値フィールドの 
 
 ## ブール値および数値フィールドの追加\{#add-boolean-and-number-fields}
 
-ブール値または数値データを保存するには、collection schema に対応する型のフィールドを定義します。以下は、2 つの number field を持つ collection schema の例です。
+ブール値または数値データを格納するには、コレクションスキーマで対応する型のフィールドを定義します。以下は、2つの数値フィールドを持つコレクションスキーマの例です。
 
 - `age`: 整数データを格納し、null 値を許可し、デフォルト値は `18` です。
 
@@ -53,9 +53,9 @@ Zilliz Cloud は、ブール値フィールドおよび数値フィールドの 
 
 - `price`: 浮動小数点データを格納し、null 値を許可しますが、デフォルト値はありません。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-schema の定義時に `enable_dynamic_fields=True` を設定すると、Zilliz Cloud は事前に定義されていない scalar field の挿入を許可します。ただし、これによりクエリや管理の複雑さが増し、パフォーマンスに影響する可能性があります。詳細については、[Dynamic Field](./enable-dynamic-field) を参照してください。
+スキーマを定義する際に `enable_dynamic_fields=True` を設定すると、Zilliz Cloud では事前に定義していないスカラーフィールドを挿入できます。ただし、これによりクエリと管理の複雑さが増し、パフォーマンスに影響を与える可能性があります。詳細については、[Dynamic Field](./enable-dynamic-field) を参照してください。
 
 </Admonition>
 
@@ -297,9 +297,9 @@ schema->AddField(milvus::FieldSchema("broken", milvus::DataType::BOOL).WithNulla
 
 ## インデックスパラメータの設定\{#set-index-params}
 
-インデックス作成は検索およびクエリのパフォーマンス向上に役立ちます。Zilliz Cloud cluster では、vector field に対するインデックス作成は必須ですが、scalar field に対しては任意です。
+インデックスを作成すると、検索およびクエリのパフォーマンスが向上します。Zilliz Cloud クラスターでは、ベクトルフィールドのインデックス作成は必須ですが、スカラーフィールドでは任意です。
 
-以下の例では、vector field `embedding` と scalar field `age` の両方に `AUTOINDEX` インデックスタイプを使用してインデックスを作成します。このタイプでは、Milvus がデータ型に基づいて最適なインデックスを自動的に選択します。詳細は、[AUTOINDEX Explained](./autoindex-explained) を参照してください。
+次の例では、ベクトルフィールド `embedding` とスカラーフィールド `age` に、どちらも `AUTOINDEX` インデックスタイプを使用してインデックスを作成します。このタイプでは、Milvus がデータ型に基づいて最適なインデックスを自動的に選択します。詳細については、[AUTOINDEX Explained](./autoindex-explained) を参照してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -409,9 +409,9 @@ std::vector<milvus::IndexDesc> indexes = {
 </TabItem>
 </Tabs>
 
-## collection の作成\{#create-collection}
+## コレクションの作成\{#create-collection}
 
-schema とインデックスを定義したら、number field を含む collection を作成します。
+スキーマとインデックスを定義したら、数値フィールドを含むコレクションを作成します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -500,7 +500,7 @@ if (!status.IsOk()) {
 
 ## データの挿入\{#insert-data}
 
-collection を作成した後、schema に一致する entity を挿入します。
+コレクションを作成したら、スキーマに一致するエンティティを挿入します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -1031,7 +1031,7 @@ if (!status.IsOk()) {
 
 ## フィルター式を使ったベクトル検索\{#vector-search-with-filter-expressions}
 
-基本的な number field フィルタリングに加えて、vector 類似度検索と number field フィルターを組み合わせることもできます。たとえば、次のコードは vector search に number field フィルターを追加する方法を示しています。
+基本的な数値フィールドのフィルタリングに加えて、ベクトル類似検索と数値フィールドのフィルターを組み合わせることができます。たとえば、次のコードは、ベクトル検索に数値フィールドのフィルターを追加する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>

@@ -144,7 +144,7 @@ StructArray のスカラーフィルタリングは、`element_filter` や `MATC
 
 - JSON パス構文、JSON 関数、配列コンテナ関数、テキスト一致関数、Geometry / GIS 関数、および Timestamptz 式は、StructArray の要素レベル述語ではサポートされません。
 
-- 裸の boolean 式ではなく、`$[has_code] == true` のような明示的な boolean 比較を優先してください。
+- 単独の boolean 式ではなく、`$[has_code] == true` のような明示的な boolean 比較を優先してください。
 
 ## 関連ページ\{#related-pages}
 
