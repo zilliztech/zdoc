@@ -54,7 +54,7 @@ Zilliz Cloud クラスターで ARRAY フィールドを使用するには、コ
 
 以下は、ARRAY フィールドを含むコレクションスキーマを定義する方法です。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 スキーマを定義するときに `enable_dynamic_fields=True` を設定すると、Zilliz Cloud では、事前に定義されていないスカラーフィールドを挿入できます。ただし、これによりクエリと管理の複雑さが増し、パフォーマンスに影響する可能性があります。詳細は、[Dynamic Field](./enable-dynamic-field) を参照してください。
 
@@ -670,7 +670,7 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 配列全体を挿入するだけでなく、`ARRAY` フィールドは `upsert` API 上で `ARRAY_APPEND` および `ARRAY_REMOVE` の部分更新演算子もサポートしています。これらを使用すると、既存の配列の現在の値を取得することなく、要素の追加や一致する要素の削除ができるため、クライアント側の read-modify-write パターンを回避できます。詳細は、[マージモードでの Array フィールドの Upsert](./upsert-entities#upsert-array-fields-in-merge-mode) を参照してください。
 

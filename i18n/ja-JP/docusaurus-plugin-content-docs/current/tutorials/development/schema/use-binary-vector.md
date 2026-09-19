@@ -49,9 +49,9 @@ import TabItem from '@theme/TabItem';
 
 ![TF1uw4AQVhFdmBbrhyVcJO6WnXe](https://zdoc-images.s3.us-west-2.amazonaws.com/TF1uw4AQVhFdmBbrhyVcJO6WnXe.png)
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-バイナリベクトルは特定のシナリオでは優れていますが、表現能力に限界があり、複雑な意味関係を捉えるのは困難です。そのため、実際のシナリオでは、効率性と表現力のバランスを取るために、バイナリベクトルは他のベクトルタイプと組み合わせて使用されることがよくあります。詳細は [Dense Vector](./use-dense-vector) および [Sparse Vector](./use-sparse-vector) を参照してください。
+バイナリベクトルは特定のシナリオでは優れていますが、表現能力に限界があり、複雑な意味関係を捉えるのは困難です。そのため、実際のシナリオでは、効率性と表現力のバランスを取るために、バイナリベクトルは他のベクトルタイプと組み合わせて使用されることがよくあります。詳細は [Dense ベクトル](./use-dense-vector) および [Sparse Vector](./use-sparse-vector) を参照してください。
 
 </Admonition>
 
@@ -417,7 +417,7 @@ if (!status.IsOk()) {
 
 コレクションを作成した後、`insert` メソッドを使用してバイナリベクトルを含むデータを追加します。バイナリベクトルはバイト配列の形式で提供する必要があり、各バイトは 8 個の boolean 値を表す点に注意してください。
 
-たとえば、128 次元のバイナリベクトルには 16 バイトの配列が必要です（128 ビット ÷ 8 ビット/バイト = 16 バイト）。以下はデータを挿入するコード例です。
+たとえば、128 次元のバイナリベクトルには 16 バイトの配列が必要です（128 ビット ÷ 8 ビット/byte = 16 バイト）。以下はデータを挿入するコード例です。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -744,4 +744,3 @@ for (auto& result : search_results.Results()) {
 </Tabs>
 
 類似度検索パラメータの詳細については、[基本的な ANN 検索](./single-vector-search) を参照してください。
-

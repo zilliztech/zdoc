@@ -36,7 +36,7 @@ schema.add_field(
 
 フィールド定義後、各エンティティはそのフィールドに文字列値を含めることができます。他のスカラーフィールドと同様に値を挿入でき、`output_fields` にフィールド名を指定することで、クエリや検索結果から値を取得できます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 TEXT フィールドは null 値をサポートしています。この機能を有効にするには、nullable を True に設定してください。詳細については、[Nullable Fields](./nullable-fields) を参照してください。
 

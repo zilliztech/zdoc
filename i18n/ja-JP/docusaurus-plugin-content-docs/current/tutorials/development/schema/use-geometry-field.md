@@ -1,7 +1,7 @@
 ---
-title: "Geometry Field | Cloud"
+title: "ジオメトリフィールド | Cloud"
 slug: /use-geometry-field
-sidebar_label: "Geometry"
+sidebar_label: "ジオメトリ"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -19,19 +19,19 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Geometry Field
+# ジオメトリフィールド
 
 Geographic Information Systems (GIS)、マッピングツール、位置情報ベースのサービスのようなアプリケーションを構築する際には、幾何データを保存してクエリする必要がよくあります。Milvus の `GEOMETRY` データ型は、柔軟な幾何データを保存およびクエリするネイティブな方法を提供することで、この課題を解決します。
 
 たとえば、ベクトルの類似性と空間制約を組み合わせる必要がある場合は、GEOMETRY フィールドを使用します。
 
-- 位置情報ベースサービス (LBS): 「この街区**内で**類似した POI を見つける」
+- 位置情報ベースサービス（LBS）: 「この街区**内で**類似した POI を見つける」
 
 - マルチモーダル検索: 「この地点から**1km 以内で**類似した写真を取得する」
 
 - 地図と物流: 「ある領域**内の**資産」や「経路と**交差する**ルート」
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 GEOMETRY フィールドを使用するには、SDK を最新バージョンにアップグレードしてください。
 
@@ -39,7 +39,7 @@ GEOMETRY フィールドを使用するには、SDK を最新バージョンに�
 
 ## GEOMETRY フィールドとは何ですか？\{#what-is-a-geometry-field}
 
-GEOMETRY フィールドは、幾何データを格納する Zilliz Cloud のスキーマ定義済みデータ型 (`DataType.GEOMETRY`) です。geometry フィールドを扱う際は、データの挿入とクエリの両方で使用される、人が読みやすい表現形式である [Well-Known Text (WKT)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) 形式でデータを操作します。内部的には、Zilliz Cloud が WKT を [Well-Known Binary (WKB)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry#Well-known_binary) に変換して効率的に保存・処理しますが、WKB を直接扱う必要はありません。
+GEOMETRY フィールドは、幾何データを格納する Zilliz Cloud のスキーマ定義済みデータ型（`DataType.GEOMETRY`）です。ジオメトリフィールドを扱う際は、データの挿入とクエリの両方で使用される、人が読みやすい表現形式である [Well-Known Text (WKT)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) 形式でデータを操作します。内部的には、Zilliz Cloud が WKT を [Well-Known Binary (WKB)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry#Well-known_binary) に変換して効率的に保存・処理しますが、WKB を直接扱う必要はありません。
 
 `GEOMETRY` データ型は、以下の幾何オブジェクトをサポートします。
 
@@ -250,7 +250,7 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 この例では、コレクションスキーマで定義された `GEOMETRY` フィールドは `nullable=True` によって null 値を許可します。詳細については、[Nullable & Default](./nullable-fields) を参照してください。
 
@@ -258,7 +258,7 @@ if (!status.IsOk()) {
 
 ### ステップ 2: データを挿入する\{#step-2-insert-data}
 
-[WKT](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) 形式の幾何データを含むエンティティを挿入します。以下は複数の geo point を使った例です。
+[WKT](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) 形式の幾何データを含むエンティティを挿入します。以下は複数の地理的なポイントを使った例です。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -447,13 +447,13 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-### ステップ3: フィルタリング操作\{#step-3-filtering-operations}
+### ステップ 3: フィルタリング操作\{#step-3-filtering-operations}
 
 `GEOMETRY` フィールドに対してフィルタリング操作を実行する前に、以下を確認してください。
 
-- 各 vector フィールドに対して index を作成していること。
+- 各ベクトルフィールドにインデックスを作成していること。
 
-- collection がメモリにロードされていること。
+- コレクションがメモリにロードされていること。
 
 <details>
 
@@ -584,11 +584,11 @@ if (!status.IsOk()) {
 
 </details>
 
-これらの要件を満たしたら、専用の geometry 演算子を含む式を使用して、幾何学的な値に基づいて collection をフィルタリングできます。
+これらの要件を満たしたら、専用のジオメトリ演算子を含む式を使用して、幾何学的な値に基づいてコレクションをフィルタリングできます。
 
 #### フィルタ式を定義する\{#define-filter-expressions}
 
-`GEOMETRY` フィールドをフィルタリングするには、式の中で geometry 演算子を使用します。
+`GEOMETRY` フィールドをフィルタリングするには、式の中でジオメトリ演算子を使用します。
 
 - 一般: `{operator}(geo_field, '{wkt}')`
 
@@ -596,17 +596,17 @@ if (!status.IsOk()) {
 
 各項目の意味は次のとおりです。
 
-- `operator` はサポートされている geometry 演算子のいずれかです（例: `ST_CONTAINS`, `ST_INTERSECTS`）。演算子名はすべて大文字またはすべて小文字である必要があります。サポートされている演算子の一覧については、[サポートされている geometry 演算子](./geometry-operators)を参照してください。
+- `operator` はサポートされているジオメトリ演算子のいずれかです（例: `ST_CONTAINS`, `ST_INTERSECTS`）。演算子名はすべて大文字またはすべて小文字である必要があります。サポートされている演算子の一覧については、[サポートされているジオメトリ演算子](./geometry-operators)を参照してください。
 
 - `geo_field` は `GEOMETRY` フィールドの名前です。
 
-- `'{wkt}'` は、クエリ対象の geometry の WKT 表現です。
+- `'{wkt}'` は、クエリ対象のジオメトリの WKT 表現です。
 
 - `distance` は `ST_DWITHIN` 専用のしきい値です。
 
-以下の例は、フィルタ式でさまざまな geometry 専用演算子を使用する方法を示しています。
+以下の例は、フィルタ式でさまざまなジオメトリ専用演算子を使用する方法を示しています。
 
-#### 例1: 長方形の領域内にあるエンティティを見つける\{#example-1-find-entities-within-a-rectangular-area}
+#### 例 1: 長方形の領域内にあるエンティティを見つける\{#example-1-find-entities-within-a-rectangular-area}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -741,7 +741,7 @@ for (const auto& row : output_rows) {
 </TabItem>
 </Tabs>
 
-#### 例2: 中心点から1km以内にあるエンティティを見つける\{#example-2-find-entities-within-1km-of-a-central-point}
+#### 例 2: 中心点から 1km 以内にあるエンティティを見つける\{#example-2-find-entities-within-1km-of-a-central-point}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -864,7 +864,7 @@ for (const auto& row : output_rows) {
 </TabItem>
 </Tabs>
 
-#### 例3: vector 類似度と空間フィルタを組み合わせる\{#example-3-combine-vector-similarity-with-a-spatial-filter}
+#### 例 3: ベクトル類似度と空間フィルタを組み合わせる\{#example-3-combine-vector-similarity-with-a-spatial-filter}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>

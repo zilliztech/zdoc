@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "search、query、get、hybrid search など、オンデマンドコンピューティング向けの collections での DQL 操作では、オンデマンド cluster からのコンピュートリソースのアタッチが必要です。Zilliz Cloud では、オンデマンドのコンピュート要件を満たすためにセッションを作成できます。 | Cloud"
+description: "オンデマンドコンピューティング向けのコレクションでの DQL 操作（search、query、get、ハイブリッド検索など）では、オンデマンドクラスターのコンピュートリソースをアタッチする必要があります。Zilliz Cloud では、セッションを作成してオンデマンドコンピューティングのニーズを満たすことができます。 | Cloud"
 type: origin
 token: BcjLwmXTni1fiMkkyx9ct5iWngc
 sidebar_position: 2
@@ -21,15 +21,15 @@ import TabItem from '@theme/TabItem';
 
 # オンデマンド DQL 操作
 
-search、query、get、hybrid search など、オンデマンドコンピューティング向けの collections での DQL 操作では、オンデマンド cluster からのコンピュートリソースのアタッチが必要です。Zilliz Cloud では、オンデマンドのコンピュート要件を満たすためにセッションを作成できます。
+オンデマンドコンピューティング向けのコレクションでの DQL 操作（search、query、get、ハイブリッド検索など）では、オンデマンドクラスターのコンピュートリソースをアタッチする必要があります。Zilliz Cloud では、セッションを作成してオンデマンドコンピューティングのニーズを満たすことができます。
 
-この記事では、project endpoint を使用してデータベース内に collection を作成済みであることを前提としています。詳細については、[外部 collection を作成する](./create-external-collection) を参照してください。
+この記事では、プロジェクトエンドポイントを使用してデータベースにコレクションを作成済みであることを前提としています。詳細については、[外部コレクションの作成](./create-external-collection) を参照してください。
 
 ## project endpoint に接続する\{#connect-to-a-project-endpoint}
 
-project endpoint は、オンデマンドのコンピュートリソースへのアクセスを提供するように設計されています。これを使用して、オンデマンド cluster とデータベースを管理し、collections に保存されているデータを操作できます。
+プロジェクトエンドポイントは、オンデマンドコンピュートリソースへのアクセスを提供するために設計されています。これを使用して、オンデマンドクラスターとデータベースを管理できるほか、コレクションに格納されたデータを操作できます。
 
-以下のコード例では、デフォルトデータベースに `my_collection` という名前の外部 collection が存在することを前提としています。また、接続を確立するには、十分な権限を持つ有効な API key を常に使用する必要があります。
+以下のコード例では、デフォルトのデータベースに `my_collection` という名前の外部コレクションがあることを前提としています。また、接続を設定する際には、十分な権限を持つ有効な API キーを常に使用してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -82,13 +82,13 @@ curl --request POST \
 
 ## セッションを作成する\{#create-a-session}
 
-project endpoint への接続を設定したら、指定したオンデマンド cluster からコンピュートリソースをアタッチするためのセッションを作成します。
+プロジェクトエンドポイントへの接続を設定したら、指定したオンデマンドクラスターのコンピュートリソースをアタッチするためのセッションを作成します。
 
-以下の例では、ID が `inxx-xxxxxxxxxxxxxxxxx` のオンデマンド cluster をすでに作成済みであることを前提としています。
+以下の例では、ID が `inxx-xxxxxxxxxxxxxxxxx` のオンデマンドクラスターをすでに作成済みであることを前提としています。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-RESTful リクエストでは、セッションを作成する代わりに、DQL 呼び出しに cluster ID をクエリパラメータとして渡す必要があります。
+RESTful リクエストの場合、セッションを作成する代わりに、クラスター ID をクエリパラメーターとして DQL 呼び出しに渡してください。
 
 </Admonition>
 
@@ -122,7 +122,7 @@ export CLUSTER_ID="inxx-xxxxxxxxxxxxxxxxx"
 
 ## DQL 操作を実行する\{#conduct-dql-operations}
 
-セッションの準備ができたら、search を実行できます。以下の例では、基本的な vector search を例として使用しています。これは query、get、hybrid search にも当てはまります。
+セッションの準備ができたら、検索を実行できます。以下の例では、基本的なベクトル検索を例として使用しています。これは、query、get、およびハイブリッド検索にも適用されます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -196,7 +196,7 @@ curl --request POST \
 
 オンデマンドコンピューティングのタスクが完了したら、セッションを閉じることができます。閉じられたセッションは、その後の DQL 操作には使用できません。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 RESTful 呼び出しでは、これは不要です。
 

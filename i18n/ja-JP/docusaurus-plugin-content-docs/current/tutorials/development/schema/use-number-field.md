@@ -37,7 +37,7 @@ import TabItem from '@theme/TabItem';
 
 ブール値フィールドを宣言するには、`datatype` を `BOOL` に設定するだけです。数値フィールドを宣言するには、利用可能な数値データ型のいずれかに設定するだけです。たとえば、整数フィールドには `DataType.INT64`、浮動小数点フィールドには `DataType.FLOAT` を使用します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Zilliz Cloud は、ブール値フィールドおよび数値フィールドの null 値とデフォルト値をサポートしています。これらの機能を有効にするには、`nullable` を `True` に、`default_value` を数値に設定します。詳細については、[Nullable & Default](./nullable-fields) を参照してください。
 
@@ -53,7 +53,7 @@ Zilliz Cloud は、ブール値フィールドおよび数値フィールドの 
 
 - `price`: 浮動小数点データを保存し、null 値を許可しますが、デフォルト値はありません。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 スキーマを定義する際に `enable_dynamic_fields=True` を設定すると、Zilliz Cloud では事前定義されていないスカラーフィールドを挿入できます。ただし、これによりクエリや管理の複雑さが増し、パフォーマンスに影響する可能性があります。詳細については、[Dynamic Field](./enable-dynamic-field) を参照してください。
 

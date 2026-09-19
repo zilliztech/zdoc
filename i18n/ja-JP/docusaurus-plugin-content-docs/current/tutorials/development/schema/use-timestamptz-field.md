@@ -41,17 +41,17 @@ eコマースシステム、コラボレーションツール、分散ログの�
 
     - 入力にタイムゾーンオフセット（たとえば **+08:00** または **Z**）が含まれている場合、それは絶対的な時点として扱われます。
 
-    - 入力にタイムゾーンオフセットが含まれていない場合、それはコレクションに設定されたタイムゾーンを使って解釈されます。たとえば、コレクションのタイムゾーンが **Asia/Shanghai** の場合:
+    - 入力にタイムゾーンオフセットが含まれていない場合、それはコレクションに設定されたタイムゾーンを使って解釈されます。たとえば、コレクションのタイムゾーンが **Asia/Shanghai**: の場合、次のように解釈されます。
 
         - `"2024-12-31 22:00:00"` は **2024-12-31T22:00:00+08:00** として解釈されます
 
         - `"2024-12-31T22:00:00"` は **2024-12-31T22:00:00Z** として解釈され、これは **2025-01-01T06:00:00+08:00** に対応します
 
-- **内部保存**: すべての `TIMESTAMPTZ` 値は正規化され、[協定世界時](https://en.wikipedia.org/wiki/Coordinated_Universal_Time) (UTC) で保存されます。
+- **内部保存**: すべての `TIMESTAMPTZ` 値は正規化され、[協定世界時](https://en.wikipedia.org/wiki/Coordinated_Universal_Time)（UTC）で保存されます。
 
 - **比較とフィルタリング**: TIMESTAMPTZ フィールドに対するすべての比較、フィルタリング、順序付け操作は UTC に正規化された値に対して実行されるため、異なるタイムゾーン間でも一貫した動作が保証されます。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 - `TIMESTAMPTZ` フィールドでは、欠損値を許可するために `nullable=True` を設定できます。
 
@@ -63,7 +63,7 @@ eコマースシステム、コラボレーションツール、分散ログの�
 
 ## 基本操作\{#basic-operations}
 
-`TIMESTAMPTZ` フィールドを使用する基本的なワークフローは、Zilliz Cloud の他のスカラーフィールドと同様です: フィールドを定義 → データを挿入 → クエリ/フィルタ。
+`TIMESTAMPTZ` フィールドを使用する基本的なワークフローは、Zilliz Cloud の他のスカラーフィールドと同様です: フィールドを定義 → データを挿入 → query/filter.
 
 ### ステップ 1: TIMESTAMPTZ フィールドを定義する\{#step-1-define-a-timestamptz-field}
 
@@ -264,7 +264,7 @@ if (!status.IsOk()) {
 
 - 一意の ID
 
-- タイムゾーンを認識するタイムスタンプ（Shanghai 時間）
+- タイムゾーンを認識するタイムスタンプ（上海時間）
 
 - 単純な 4 次元ベクトル
 
@@ -446,7 +446,7 @@ if (!status.IsOk()) {
 
 ### ステップ 3: フィルタリング操作\{#step-3-filtering-operations}
 
-`TIMESTAMPTZ` は、スカラー比較、interval 演算、および時間コンポーネントの抽出をサポートします。
+`TIMESTAMPTZ` は、スカラー比較、INTERVAL 演算、および時間コンポーネントの抽出をサポートします。
 
 `TIMESTAMPTZ` フィールドでフィルタリング操作を実行する前に、以下を確認してください。
 
@@ -566,9 +566,9 @@ if (!status.IsOk()) {
 
 #### タイムスタンプフィルタリングによるクエリ\{#query-with-timestamp-filtering}
 
-`==`、`!=`、`<`、`>`、`<=`、`>=` などの算術演算子を使用します。Zilliz Cloud で利用可能な算術演算子の完全な一覧については、[Arithmetic Operators](./basic-filtering-operators#arithmetic-operators) を参照してください。
+`==`、`!=`、`<`、`>`、`<=`、`>=` などの算術演算子を使用します。Zilliz Cloud で利用可能な算術演算子の完全な一覧については、[算術演算子](./basic-filtering-operators#arithmetic-operators) を参照してください。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 連鎖した範囲式（たとえば `lower_bound < tsz < upper_bound`）はサポートされていません。
 
@@ -702,7 +702,7 @@ for (const auto& row : output_rows) {
 
 #### INTERVAL 演算\{#interval-operations}
 
-[ISO 8601 duration format](https://en.wikipedia.org/wiki/ISO_8601#Durations) の **INTERVAL** 値を使用して、`TIMESTAMPTZ` フィールドに対して算術演算を実行できます。これにより、データをフィルタリングする際に、タイムスタンプへ日、時間、分などの期間を加算または減算できます。
+[ISO 8601 の期間形式](https://en.wikipedia.org/wiki/ISO_8601#Durations) の **INTERVAL** 値を使用して、`TIMESTAMPTZ` フィールドに対して算術演算を実行できます。これにより、データをフィルタリングする際に、タイムスタンプへ日、時間、分などの期間を加算または減算できます。
 
 たとえば、次のクエリでは、タイムスタンプ (`tsz`) に 0 日を加算した結果が **2025-01-03T00:00:00+08:00** と **等しくない** エンティティをフィルタリングします。
 
@@ -811,9 +811,9 @@ for (const auto& row : output_rows) {
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-`INTERVAL` 値は [ISO 8601 duration syntax](https://www.w3.org/TR/xmlschema-2/#duration) に従います。例:
+`INTERVAL` 値は [ISO 8601 の期間構文](https://www.w3.org/TR/xmlschema-2/#duration) に従います。例:
 
 - `P1D` → 1 日
 
@@ -951,9 +951,9 @@ for (auto& result : search_results.Results()) {
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-コレクションに 2 つ以上のベクトルフィールドがある場合、タイムスタンプフィルタリングを使ったハイブリッド検索を実行できます。詳細は [Multi-Vector Hybrid Search](./hybrid-search) を参照してください。
+コレクションに 2 つ以上のベクトルフィールドがある場合、タイムスタンプフィルタリングを使ったハイブリッド検索を実行できます。詳細は [マルチベクトルハイブリッド検索](./hybrid-search) を参照してください。
 
 </Admonition>
 
@@ -963,22 +963,22 @@ for (auto& result : search_results.Results()) {
 
 ### 異なるレベルでタイムゾーンを管理する\{#manage-time-zones-at-different-levels}
 
-`TIMESTAMPTZ` フィールドのタイムゾーンは、**コレクション** レベルまたは **クエリ/検索** レベルで制御できます。
+`TIMESTAMPTZ` フィールドのタイムゾーンは、**コレクション** レベルまたは **クエリ/search** レベルで制御できます。
 
-| Level | Parameter | Scope | Priority |
+| レベル | パラメータ | スコープ | 優先度 |
 | --- | --- | --- | --- |
-| Collection | `timezone` | そのコレクションに対してデータベースのデフォルトタイムゾーン設定を上書き | Medium |
-| Query/search/hybrid search | `timezone` | 特定の 1 回の操作に対する一時的な上書き | Highest |
+| コレクション | `timezone` | そのコレクションに対してデータベースのデフォルトタイムゾーン設定を上書きします | 中 |
+| クエリ/search/hybrid 検索 | `timezone` | 特定の 1 回の操作に対する一時的な上書き | 最高 |
 
 手順ごとの説明とコードサンプルについては、以下の専用ページを参照してください。
 
-- [Modify Collection](./modify-collections#example-7-set-collection-time-zone)
+- [コレクションの変更](./modify-collections#example-7-set-collection-time-zone)
 
-- [Query](./get-and-scalar-query#temporarily-set-a-timezone-for-a-query)
+- [クエリ](./get-and-scalar-query#temporarily-set-a-timezone-for-a-query)
 
-- [Basic Vector Search](./single-vector-search#temporarily-set-a-timezone-for-a-search)
+- [基本的なベクトル検索](./single-vector-search#temporarily-set-a-timezone-for-a-search)
 
-- [Multi-Vector Hybrid Search](./hybrid-search)
+- [マルチベクトルハイブリッド検索](./hybrid-search)
 
 ### クエリを高速化する\{#accelerate-queries}
 
