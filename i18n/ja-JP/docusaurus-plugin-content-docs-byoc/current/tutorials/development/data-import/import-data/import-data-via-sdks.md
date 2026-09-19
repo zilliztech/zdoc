@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このガイドでは、bulk-writer および bulk-import API を使用して、SDK で collection にデータをインポートする方法を学べます。 | BYOC"
+description: "このガイドでは、当社の SDK を使用して、bulk-writer および bulk-import API でコレクションにデータをインポートする方法を説明します。 | BYOC"
 type: origin
 token: MvgAwL4HIiuRRJkH0FwcJhxSnld
 sidebar_position: 3
@@ -21,15 +21,15 @@ import TabItem from '@theme/TabItem';
 
 # データのインポート（SDK）
 
-このガイドでは、bulk-writer および bulk-import API を使用して、SDK で collection にデータをインポートする方法を学べます。
+このガイドでは、当社の SDK を使用して、bulk-writer および bulk-import API でコレクションにデータをインポートする方法を説明します。
 
-また、データ準備と Zilliz Cloud collection へのデータインポートの両方を扱う[高速スタートのエンドツーエンドコース](./data-import-zero-to-hero)も参照できます。
+また、データの準備と Zilliz Cloud コレクションへのデータインポートの両方を扱う[エンドツーエンドの速習コース](./data-import-zero-to-hero)も参照してください。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-Zilliz Cloud では現在、クラスターをホストしているクラウドプロバイダーに関係なく、任意のオブジェクトストレージサービスから任意の Zilliz Cloud cluster にデータをインポートできます。たとえば、AWS S3 バケットから GCP 上にデプロイされた Zilliz Cloud cluster にデータをインポートできます。
+Zilliz Cloud では、任意のオブジェクトストレージサービスから任意の Zilliz Cloud クラスターにデータをインポートできるようになりました。クラスターをホストするクラウドプロバイダーは問いません。たとえば、AWS S3 バケットから GCP にデプロイされた Zilliz Cloud クラスターにデータをインポートできます。
 
-低レイテンシで安定した体験を確保するため、ターゲット cluster と同じプロバイダーかつ同じリージョンのバケットまたは blob container を使用することをお勧めします。
+低レイテンシーで安定した環境を実現するため、対象クラスターと同じプロバイダー、同じリージョンのバケットまたは BLOB コンテナーを使用することをお勧めします。
 
 </Admonition>
 
@@ -65,7 +65,7 @@ python3 -m pip install --upgrade pymilvus minio
 </dependency>
 ```
 
-- Gradle/Grails の場合は、次を実行します
+- Gradle/Grails, の場合は、以下を実行します。
 
 ```shell
 compile 'io.milvus:milvus-sdk-java:2.4.8'
@@ -78,7 +78,7 @@ compile 'io.minio:minio:8.5.9'
 
 ## 準備済みデータの確認\{#check-prepared-data}
 
-[BulkWriter ツール](./use-bulkwriter)を使用してデータを準備し、準備済みファイルのパスを取得したら、それらを Zilliz Cloud collection にインポートする準備が整います。準備ができているかを確認するには、次のようにします。
+[BulkWriter ツール](./use-bulkwriter)を使用してデータを準備し、準備したファイルのパスを取得したら、Zilliz Cloud コレクションにインポートする準備が整います。ファイルが準備できているかどうかを確認するには、次のようにします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -161,7 +161,7 @@ while (results.hasNext()) {
 
 ## データのインポート\{#import-data}
 
-データと collection の準備ができたら、オブジェクトストレージバケットやブロックストレージの blob container などの外部ストレージを介して、特定の collection にデータをインポートできます。
+データとコレクションの準備ができたら、オブジェクトストレージバケットやブロックストレージの BLOB コンテナーなどの外部ストレージを介して、特定のコレクションにデータをインポートできます。
 
 ### データのインポート\{#import-data}
 
@@ -246,9 +246,9 @@ public static void main(String[] args) throws Exception {
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-データのインポートを正常に行うために、ターゲット collection の実行中または保留中のインポートジョブ数が 10,000 未満であることを確認してください。
+データのインポートを成功させるには、対象コレクションで実行中または保留中のインポートジョブが 10,000 件未満であることを確認してください。
 
 </Admonition>
 
@@ -372,4 +372,3 @@ public static void main(String[] args) throws Exception {
 - [RESTful API を使用したデータのインポート](./import-data-via-restful-api)
 
 - [ゼロからヒーローまでのデータインポート](./data-import-zero-to-hero) 
-

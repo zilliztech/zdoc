@@ -29,7 +29,7 @@ import TabItem from '@theme/TabItem';
 
 - bulk-import API を呼び出してデータをインポートする方法
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Zilliz Cloud では現在、クラスターをホストしているクラウドプロバイダーに関係なく、任意のオブジェクトストレージサービスから任意の Zilliz Cloud クラスターにデータをインポートできます。たとえば、AWS S3 バケットから GCP 上にデプロイされた Zilliz Cloud クラスターにデータをインポートできます。
 
@@ -552,7 +552,7 @@ StorageConnectParam storageConnectParam = AzureConnectParam.newBuilder()
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 **endpoint** パラメーターは、クラウドプロバイダーのストレージサービス URI を指します。
 
@@ -942,7 +942,7 @@ System.out.println(batchFiles);
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 **BulkWriter** は UUID を生成し、指定された出力ディレクトリにその UUID を使用したサブフォルダを作成して、生成されたすべてのファイルをそのサブフォルダに配置します。
 
@@ -1015,7 +1015,7 @@ System.out.println(jobId);
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 **object_url** は、リモートバケット内のファイルまたはフォルダへの有効な URL である必要があります。提供されているコードでは、**format()** メソッドを使用してバケット名と writer が返したデータパスを組み合わせて、有効な object URL を作成しています。
 
@@ -1103,7 +1103,7 @@ while (true) {
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 **get_import_progress()** の **url** を、対象コレクションのクラウドリージョンに対応するものに置き換えてください。
 

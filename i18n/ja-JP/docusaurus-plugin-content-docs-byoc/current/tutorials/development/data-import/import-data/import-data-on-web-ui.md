@@ -28,7 +28,7 @@ import Supademo from '@site/src/components/Supademo';
 
 データファイルの準備ができたら、データインポート用にオブジェクトストレージバケットへアップロードできます。
 
-<Admonition type="info" icon="📘" title="📘 注意">
+<Admonition type="info" title="Notes">
 
 - 1 つのコレクションでは、実行中または保留中のインポートジョブを最大 10,000 件まで保持できます。
 
@@ -54,7 +54,7 @@ import Supademo from '@site/src/components/Supademo';
 
 短期トークンの使用方法の詳細については、[この FAQ](/docs/faq-data-import#can-i-use-short-term-credentials-when-importing-data-from-an-object-storage-service) を参照してください。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 Zilliz Cloud では現在、クラスターをホストしているクラウドプロバイダーに関係なく、任意のオブジェクトストレージサービスから任意の Zilliz Cloud クラスターにデータをインポートできます。たとえば、AWS S3 バケットから GCP 上にデプロイされた Zilliz Cloud クラスターへデータをインポートできます。
 

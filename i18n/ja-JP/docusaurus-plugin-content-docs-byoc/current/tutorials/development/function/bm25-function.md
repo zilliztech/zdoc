@@ -1,13 +1,13 @@
 ---
-title: "BM25 Function | BYOC"
+title: "BM25 関数 | BYOC"
 slug: /bm25-function
-sidebar_label: "BM25 Function"
+sidebar_label: "BM25 関数"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "BM25 function は、生テキストを sparse vector に変換し、語彙的関連性に基づいてドキュメントをスコアリングすることで、フルテキスト検索を可能にします。用語ベースのマッチングと頻度を考慮した重み付けを適用し、クエリ語に近く一致するテキストドキュメントの効率的な検索をサポートします。 | BYOC"
+description: "BM25 関数は、生テキストをスパースベクトルに変換し、語彙的関連性に基づいてドキュメントをスコアリングすることで、フルテキスト検索を可能にします。用語ベースのマッチングと頻度を考慮した重み付けを適用し、クエリ語に近く一致するテキストドキュメントを効率的に取得できるようサポートします。 | BYOC"
 type: origin
 token: YbChwcPMBim5ryk1EQocEbDenDd
 sidebar_position: 2
@@ -21,29 +21,29 @@ import TabItem from '@theme/TabItem';
 
 import Supademo from '@site/src/components/Supademo';
 
-# BM25 Function
+# BM25 関数
 
-**BM25 function** は、生テキストを **sparse vector** に変換し、語彙的関連性に基づいてドキュメントをスコアリングすることで、[フルテキスト検索](./full-text-search)を可能にします。用語ベースのマッチングと頻度を考慮した重み付けを適用し、クエリ語に近く一致するテキストドキュメントの効率的な検索をサポートします。
+**BM25 関数**は、生テキストを**スパースベクトル**に変換し、語彙的関連性に基づいてドキュメントをスコアリングすることで、[フルテキスト検索](./full-text-search)を可能にします。用語ベースのマッチングと頻度を考慮した重み付けを適用し、クエリ語に近く一致するテキストドキュメントを効率的に取得できるようサポートします。
 
-ローカルなテキスト function として、BM25 function は Zilliz Cloud 内で実行され、モデル推論や外部連携を必要としません。これにより、テキストベースの検索シナリオに対して、決定論的で透明性のある検索メカニズムを提供します。
+ローカルなテキスト関数として、BM25 関数は Zilliz Cloud 内で実行され、モデル推論や外部連携を必要としません。テキストベースの検索シナリオに対して、決定論的で透明性の高い検索メカニズムを提供します。
 
 ## BM25 の仕組み\{#how-bm25-works}
 
-[BM25](https://en.wikipedia.org/wiki/Okapi_BM25) アルゴリズムは、フルテキスト検索で広く使用されている用語ベースの関連性スコアリングアルゴリズムです。Zilliz Cloud では、BM25 はテキストを用語重み表現に変換し、分散 sparse index を使用して上位 *K* 件のドキュメントを取得する sparse retrieval パイプラインとして実装されています。
+[BM25](https://en.wikipedia.org/wiki/Okapi_BM25) アルゴリズムは、フルテキスト検索で広く使用されている用語ベースの関連性スコアリングアルゴリズムです。Zilliz Cloud では、BM25 はテキストを用語重み表現に変換し、分散スパースインデックスを使用して上位 *K* 件のドキュメントを取得するスパース検索パイプラインとして実装されています。
 
-全体のワークフローは、**ドキュメント取り込み** と **クエリテキスト処理** という 2 つの対称的なパスで構成されており、どちらも同じテキスト解析ロジックを共有します。
+全体のワークフローは、**ドキュメントの取り込み**と**クエリテキストの処理**という 2 つの対称的なパスで構成されており、どちらも同じテキスト分析ロジックを共有します。
 
-### ドキュメント取り込み: テキストから sparse 表現へ\{#document-ingestion-from-text-to-sparse-representation}
+### ドキュメントの取り込み: テキストからスパース表現へ\{#document-ingestion-from-text-to-sparse-representation}
 
-ドキュメントが挿入されると、その生テキストはまず **[analyzer](./analyzer-overview)** によって処理され、個々の用語へとトークン化されます。
+ドキュメントが挿入されると、その生テキストはまず**[アナライザー](./analyzer-overview)**によって処理され、テキストが個々の用語にトークン化されます。
 
-たとえば、次のドキュメント:
+たとえば、次のドキュメントは:
 
 ```plaintext
 "We are loving Milvus!"
 ```
 
-は、次の用語に解析されます:
+次の用語に解析できます:
 
 ```plaintext
 ["we", "love", "milvus"]
@@ -59,33 +59,33 @@ import Supademo from '@site/src/components/Supademo';
 }
 ```
 
-同時に、Zilliz Cloud は次のような corpus レベルの統計も更新します:
+同時に、Zilliz Cloud は次のようなコーパスレベルの統計を更新します:
 
 - 各用語の document frequency（DF）
 
 - 平均ドキュメント長
 
-- 各用語をそれを含むドキュメントにマッピングする posting list
+- 各用語を、その用語を含むドキュメントにマッピングする posting list
 
-ドキュメントの TF 表現は **sparse embeddings** に挿入され、用語の posting はスケーラブルな検索のためにノード間で分割されます。
+ドキュメントの TF 表現は**スパース埋め込み**に挿入され、用語のポスティングはスケーラブルな検索のためにノード間に分割されます。
 
-### クエリテキスト処理: IDF 重み付けを適用\{#query-text-process-apply-idf-weighting}
+### クエリテキストの処理: IDF 重み付けを適用する\{#query-text-process-apply-idf-weighting}
 
-テキストベースのクエリが発行されると、[ドキュメント取り込み](./bm25-function#document-ingestion-from-text-to-sparse-representation)時に使用された**同じ analyzer**で処理され、用語分割の一貫性が確保されます。
+テキストベースのクエリが発行されると、[ドキュメントの取り込み](./bm25-function#document-ingestion-from-text-to-sparse-representation)時に使用された**同じアナライザー**によって処理され、用語分割の一貫性が確保されます。
 
-たとえば、次のクエリ:
+たとえば、次のクエリは:
 
 ```plaintext
 "who loves Milvus?"
 ```
 
-は、次のように解析されます:
+次のように解析できます:
 
 ```plaintext
 ["who", "love", "milvus"]
 ```
 
-各クエリ用語について、Zilliz Cloud は corpus 統計からその [inverse document frequency](https://en.wikipedia.org/wiki/Tf%E2%80%93idf)（IDF）を参照します。IDF は、その用語がデータセット全体でどれだけ情報量を持つかを反映します。出現頻度の低い用語ほど高い重みが与えられ、一般的な用語ほど低い重みが与えられます。
+各クエリ用語について、Zilliz Cloud はコーパス統計からその[逆文書頻度](https://en.wikipedia.org/wiki/Tf%E2%80%93idf)（IDF）を参照します。IDF は、ある用語がデータセット全体でどれだけ情報量が多いかを反映します。出現頻度の低い用語には高い重みが与えられ、一般的な用語には低い重みが与えられます。
 
 概念的には、これにより次のような IDF 重み付きクエリ用語のセットが生成されます:
 
@@ -97,13 +97,13 @@ import Supademo from '@site/src/components/Supademo';
 }
 ```
 
-### BM25 スコアリングと top K 検索\{#bm25-scoring-and-top-k-retrieval}
+### BM25 スコアリングと上位 K 件の取得\{#bm25-scoring-and-top-k-retrieval}
 
-BM25 は、一致したクエリ用語に基づいて関連性スコアを計算することでドキュメントをランキングします。スコアリングは **用語レベル** で実行され、その後 **ドキュメントレベル** で集計されます。
+BM25 は、一致したクエリ用語に基づいて関連性スコアを計算することで、ドキュメントをランク付けします。スコアリングは**用語レベル**で実行され、**ドキュメントレベル**で集計されます。
 
 **用語レベルのスコアリング**
 
-ドキュメント内に出現する各クエリ用語について、BM25 は次の用語レベルスコアを計算します:
+ドキュメント内に出現する各クエリ用語について、BM25 は用語レベルのスコアを計算します:
 
 ```plaintext
 term_score =
@@ -114,60 +114,60 @@ term_score =
 
 ここで:
 
-- **IDF(term)** は、その用語が collection 内でどれだけ希少かを表します
+- **IDF(term)** は、その用語がコレクション内でどれだけ希少であるかを反映します
 
-- **TF_boost(…, k1)** は用語頻度に応じて増加しますが、頻度が大きくなるにつれて飽和します
+- **TF_boost(…, k1)** は、用語頻度が高くなるほど増加しますが、頻度が増えるにつれて飽和します
 
-- **length_normalization(…, b)** はドキュメント長に基づいてスコアを調整します
+- **length_normalization(…, b)** は、ドキュメント長に基づいてスコアを調整します
 
-**ドキュメントレベルのスコアリングと Top-K 検索**
+**ドキュメントレベルのスコアリングと Top-K 取得**
 
-最終的なドキュメントスコアは、一致したすべてのクエリ用語に対する用語レベルスコアの合計です:
+最終的なドキュメントスコアは、一致したすべてのクエリ用語に対する用語レベルのスコアの合計です:
 
 ```plaintext
 document_score =
   sum of term_score over all matched query terms
 ```
 
-ドキュメントは最終スコアでランキングされ、スコアの高い上位 K 件のドキュメントが返されます。
+ドキュメントは最終スコアによってランク付けされ、スコアが最も高い上位 K 件のドキュメントが返されます。
 
-## 開始前に\{#before-you-start}
+## 事前準備\{#before-you-start}
 
-BM25 function を使用する前に、語彙ベースのフルテキスト検索をサポートできるよう collection schema を計画してください:
+BM25 関数を使用する前に、語彙ベースのフルテキスト検索をサポートできるようにコレクションスキーマを計画してください:
 
 - **生コンテンツ用のテキストフィールド**
 
-    collection には、生テキストを保存するための `VARCHAR` フィールドを含める必要があります。このフィールドは、フルテキスト検索のために処理されるテキストのソースです。
+    コレクションには、生テキストを格納するための `VARCHAR` フィールドを含める必要があります。このフィールドは、フルテキスト検索のために処理されるテキストのソースです。
 
-- **テキストフィールド用の analyzer**
+- **テキストフィールド用のアナライザー**
 
-    テキストフィールドでは analyzer を有効化する必要があります。analyzer は、BM25 function によって語彙的関連性が計算される前に、テキストをどのようにトークン化し正規化するかを定義します。
+    テキストフィールドではアナライザーを有効にする必要があります。アナライザーは、BM25 関数によって語彙的関連性が計算される前に、テキストがどのようにトークン化され、正規化されるかを定義します。
 
-    デフォルトでは、Zilliz Cloud は空白と句読点に基づいてテキストをトークン化する組み込み analyzer を提供します。アプリケーションでカスタムのトークン化または正規化動作が必要な場合は、カスタム analyzer を定義できます。詳細は [Choose the Right Analyzer for Your Use Case](./choose-the-right-analyzer-for-your-use-case) を参照してください。
+    デフォルトでは、Zilliz Cloud は空白と句読点に基づいてテキストをトークン化する組み込みアナライザーを提供します。アプリケーションでカスタムのトークン化や正規化の動作が必要な場合は、カスタムアナライザーを定義できます。詳細については、[ユースケースに適したアナライザーの選択](./choose-the-right-analyzer-for-your-use-case)を参照してください。
 
-- **BM25 出力用の sparse vector**
+- **BM25 出力用のスパースベクトル**
 
-    collection には、BM25 function によって生成される sparse 表現を保存するための `SPARSE_FLOAT_VECTOR` フィールドを含める必要があります。このフィールドは、フルテキスト検索時の index 作成と検索に使用されます。
+    コレクションには、BM25 関数によって生成されるスパース表現を格納するための `SPARSE_FLOAT_VECTOR` フィールドを含める必要があります。このフィールドは、フルテキスト検索時のインデックス作成と検索に使用されます。
 
-これらの schema レベルの考慮事項を整理したら、collection を作成して BM25 function を使用してください。
+これらのスキーマレベルの検討事項を整理したら、コレクションを作成して BM25 関数を使用する手順に進みます。
 
-## ステップ 1: BM25 function を持つ collection を作成する\{#step-1-create-a-collection-with-a-bm25-function}
+## ステップ 1: BM25 関数を持つコレクションを作成する\{#step-1-create-a-collection-with-a-bm25-function}
 
-BM25 function を使用するには、collection 作成時にそれを定義する必要があります。この function は collection schema の一部となり、データの挿入時および検索時に自動的に適用されます。
+BM25 関数を使用するには、コレクションの作成時にその関数を定義する必要があります。この関数はコレクションスキーマの一部となり、データの挿入時と検索時に自動的に適用されます。
 
 ### SDK を使用する場合\{#via-sdk}
 
-#### schema フィールドを定義する\{#define-schema-fields}
+#### スキーマフィールドを定義する\{#define-schema-fields}
 
-collection schema には、少なくとも次の 3 つの必須フィールドを含める必要があります:
+コレクションスキーマには、少なくとも次の 3 つの必須フィールドを含める必要があります:
 
-- **Primary field**: collection 内の各 entity を一意に識別します。
+- **プライマリフィールド**: コレクション内の各エンティティを一意に識別します。
 
-- **Text field** (`VARCHAR`): 生テキストドキュメントを保存します。Zilliz Cloud が BM25 関連性ランキングのためにテキストを処理できるよう、`enable_analyzer=True` を設定する必要があります。デフォルトでは、Zilliz Cloud はテキスト解析に [`standard`](./standard-analyzer)[ analyzer](./standard-analyzer) を使用します。別の analyzer を設定する場合は、[Analyzer Overview](./analyzer-overview) を参照してください。
+- **テキストフィールド**（`VARCHAR`）: 生のテキストドキュメントを格納します。Zilliz Cloud が BM25 関連性ランキングのためにテキストを処理できるよう、`enable_analyzer=True` を設定する必要があります。デフォルトでは、Zilliz Cloud はテキスト分析に [`standard`](./standard-analyzer)[ アナライザー](./standard-analyzer)を使用します。別のアナライザーを構成する場合は、[アナライザーの概要](./analyzer-overview)を参照してください。
 
-- **Sparse vector field** (`SPARSE_FLOAT_VECTOR`): BM25 function によって自動生成される sparse embeddings を保存します。
+- **スパースベクトルフィールド**（`SPARSE_FLOAT_VECTOR`）: BM25 関数によって自動生成されるスパース埋め込みを格納します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -293,7 +293,7 @@ const schema = [
   },
 ];
 
-console.log(res.results)
+console.log(schema);
 ```
 
 </TabItem>
@@ -327,10 +327,9 @@ export schema='{
 ```
 
 </TabItem>
+</Tabs>
 
-<TabItem value='c++'>
-
-```c++
+```plaintext
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
@@ -347,16 +346,17 @@ schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR).WithMaxL
 schema->AddField(milvus::FieldSchema("sparse", milvus::DataType::SPARSE_FLOAT_VECTOR));
 ```
 
-</TabItem>
-</Tabs>
+```shell
+# Zilliz CLI
+```
 
-#### BM25 function を定義する\{#define-the-bm25-function}
+#### BM25 関数を定義する\{#define-the-bm25-function}
 
-BM25 function は、トークン化されたテキストを BM25 スコアリングをサポートする sparse vector に変換します。
+BM25 関数は、トークン化されたテキストを、BM25 スコアリングをサポートするスパースベクトルに変換します。
 
-function を定義し、schema に追加します:
+関数を定義し、スキーマに追加します:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -416,7 +416,7 @@ const functions = [
       output_field_names: ['sparse'],
       params: {},
     },
-]；
+];
 ```
 
 </TabItem>
@@ -470,13 +470,21 @@ schema->AddFunction(function);
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+```
+
+</TabItem>
 </Tabs>
 
-#### index を構成する\{#configure-the-index}
+#### インデックスを構成する\{#configure-the-index}
 
-必要なフィールドと組み込み function を含む schema を定義したら、collection の index を設定します。このプロセスを簡単にするため、`index_type` として `AUTOINDEX` を使用してください。これは、データ構造に基づいて Zilliz Cloud が最適な index type を選択し、設定できるオプションです。
+必要なフィールドと組み込み関数を含むスキーマを定義したら、コレクションのインデックスを設定します。このプロセスを簡素化するには、`index_type` に `AUTOINDEX` を使用します。このオプションを使用すると、Zilliz Cloud がデータの構造に基づいて最適なインデックスタイプを選択して構成できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -561,24 +569,24 @@ export indexParams='[
 ```
 
 </TabItem>
+</Tabs>
 
-<TabItem value='c++'>
-
-```c++
-auto index_params = milvus::IndexDesc("sparse", "", milvus::IndxType::SPARSE_INVERTED_INDEX, milvus::MetricType::BM25);
+```plaintext
+auto index_params = milvus::IndexDesc("sparse", "", milvus::IndexType::SPARSE_INVERTED_INDEX, milvus::MetricType::BM25);
 index_params.AddExtraParam("inverted_index_algo", "DAAT_MAXSCORE");
 index_params.AddExtraParam("bm25_k1", "1.2");
 index_params.AddExtraParam("bm25_b", "0.75");
 ```
 
-</TabItem>
-</Tabs>
+```shell
+# Zilliz CLI
+```
 
-#### collection を作成する\{#create-the-collection}
+#### コレクションを作成する\{#create-the-collection}
 
-次に、定義した schema と index パラメータを使用して collection を作成します。
+定義したスキーマとインデックスパラメーターを使用して、コレクションを作成します:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -623,12 +631,12 @@ if err != nil {
 <TabItem value='javascript'>
 
 ```javascript
-await client.create_collection(
-    collection_name: 'my_collection', 
-    schema: schema, 
+await client.create_collection({
+    collection_name: 'my_collection',
+    schema: schema,
     index_params: index_params,
     functions: functions
-);
+});
 ```
 
 </TabItem>
@@ -652,35 +660,35 @@ curl --request POST \
 ```
 
 </TabItem>
+</Tabs>
 
-<TabItem value='c++'>
-
-```c++
+```plaintext
 auto status = client->CreateCollection(milvus::CreateCollectionRequest()
                                     .WithCollectionName("my_collection")
-                                    .WithCollectionSchema(schema))
-                                    .AddIndex(std::move(index_params));
+                                    .WithCollectionSchema(schema)
+                                    .AddIndex(std::move(index_params)));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 ```
 
-</TabItem>
-</Tabs>
+```shell
+# Zilliz CLI
+```
 
 ### Web コンソールを使用する場合\{#via-web-console}
 
-または、[Zilliz Cloud console](https://cloud.zilliz.com/login) で BM25 function を使用して collection を作成することもできます。
+あるいは、[Zilliz Cloud コンソール](https://cloud.zilliz.com/login)で BM25 関数を持つコレクションを作成することもできます。
 
 <Supademo id="cmjl3i2jg4mkb3zz206xgz4tr" title=""  />
 
-BM25 function を持つ collection を作成したら、テキストを挿入し、テキストクエリに基づく lexical search を実行できます。
+BM25 関数を持つコレクションを作成したら、テキストを挿入し、テキストクエリに基づく語彙検索を実行できます。
 
-## ステップ 2: collection にテキストデータを挿入する\{#step-2-insert-text-data-into-the-collection}
+## ステップ 2: コレクションにテキストデータを挿入する\{#step-2-insert-text-data-into-the-collection}
 
-collection と index のセットアップが完了したら、テキストデータを挿入する準備が整います。このプロセスでは、生のテキストのみを提供すれば十分です。先ほど定義した BM25 function が、各テキストエントリに対して sparse vector を自動的に生成します。
+コレクションとインデックスを設定したら、テキストデータを挿入する準備が整いました。このプロセスでは、生のテキストを指定するだけで済みます。先ほど定義した BM25 関数が、各テキストエントリのスパースベクトルを自動的に生成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -719,7 +727,17 @@ client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
-// go
+_, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("my_collection").
+    WithVarcharColumn("text", []string{
+        "information retrieval is a field of study.",
+        "information retrieval focuses on finding relevant information in large datasets.",
+        "data mining and information retrieval overlap in research.",
+    }),
+)
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -728,12 +746,13 @@ client.insert(InsertReq.builder()
 
 ```javascript
 await client.insert({
-collection_name: 'my_collection', 
-data: [
-    {'text': 'information retrieval is a field of study.'},
-    {'text': 'information retrieval focuses on finding relevant information in large datasets.'},
-    {'text': 'data mining and information retrieval overlap in research.'},
-]);
+    collection_name: 'my_collection',
+    data: [
+        {'text': 'information retrieval is a field of study.'},
+        {'text': 'information retrieval focuses on finding relevant information in large datasets.'},
+        {'text': 'data mining and information retrieval overlap in research.'},
+    ],
+});
 ```
 
 </TabItem>
@@ -778,13 +797,21 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+```
+
+</TabItem>
 </Tabs>
 
 ## ステップ 3: テキストクエリで検索する\{#step-3-search-with-text-query}
 
-collection にデータを挿入したら、生のテキストクエリを使用して全文検索を実行できます。Zilliz Cloud はクエリを自動的に sparse vector に変換し、BM25 アルゴリズムを使用して一致した検索結果をランク付けしたうえで、上位 topK（`limit`）件の結果を返します。
+コレクションにデータを挿入したら、生のテキストクエリを使用してフルテキスト検索を実行できます。Zilliz Cloud はクエリを自動的にスパースベクトルに変換し、BM25 アルゴリズムを使用して一致した検索結果をランク付けしたうえで、上位 K 件（`limit`）の結果を返します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -858,14 +885,13 @@ for _, resultSet := range resultSets {
 <TabItem value='javascript'>
 
 ```javascript
-await client.search(
-    collection_name: 'my_collection', 
+await client.search({
+    collection_name: 'my_collection',
     data: ['whats the focus of information retrieval?'],
     anns_field: 'sparse',
     output_fields: ['text'],
     limit: 3,
-    params: {'level': 10},
-)
+});
 ```
 
 </TabItem>
@@ -911,6 +937,14 @@ auto status = client->Search(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
 ```
 
 </TabItem>

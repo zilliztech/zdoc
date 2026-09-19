@@ -96,7 +96,7 @@ $\sigma^2$ の計算により、scale と decay パラメータが Gaussian 分�
 
 Gaussian decay は、Zilliz Cloud の標準ベクトル検索とハイブリッド検索の両方の操作に適用できます。以下に、この機能を実装するための主要なコードスニペットを示します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 decay 関数を使用する前に、まず decay 計算に使用する適切な数値フィールド（timestamp や distance など）を持つコレクションを作成する必要があります。コレクションのセットアップ、スキーマ定義、データ挿入を含む完全な動作例については、[チュートリアル: Milvus で時間ベースのランキングを実装する](./tutorial-implement-time-based-ranking) を参照してください。
 

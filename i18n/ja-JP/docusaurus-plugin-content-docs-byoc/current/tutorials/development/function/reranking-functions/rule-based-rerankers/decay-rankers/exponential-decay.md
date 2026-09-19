@@ -54,7 +54,7 @@ import TabItem from '@theme/TabItem';
 
 指数減衰は、最初に急速に下がり、その後徐々に平坦になってゼロには到達しない長いテールへと近づく曲線を作ります。この数学的パターンは、放射性崩壊、人口減少、時間経過に伴う情報の関連性など、自然現象の中によく見られます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 すべての時間パラメータ（`origin`、`offset`、`scale`）は、コレクションデータと同じ単位を使用する必要があります。コレクションが異なる単位（ミリ秒、マイクロ秒）でタイムスタンプを保存している場合は、すべてのパラメータをそれに合わせて調整してください。
 
@@ -106,7 +106,7 @@ $\lambda$ の計算は、scale と decay パラメータを指数関数のレー
 
 指数減衰は、Zilliz Cloud における標準のベクトル検索とハイブリッド検索の両方に適用できます。以下は、この機能を実装するための主要なコードスニペットです。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 減衰関数を使用する前に、まず減衰計算に使用する適切な数値フィールド（タイムスタンプ、距離など）を持つコレクションを作成する必要があります。コレクションのセットアップ、スキーマ定義、データ挿入を含む完全な動作例については、[Decay Ranker Tutorial](./tutorial-implement-time-based-ranking) を参照してください。
 
@@ -116,7 +116,7 @@ $\lambda$ の計算は、scale と decay パラメータを指数関数のレー
 
 コレクションが数値フィールド（この例では `publish_time`）でセットアップされたら、指数減衰 ranker を作成します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 **時間単位の一貫性**：時間ベースの減衰を使用する場合、`origin`、`scale`、`offset` の各パラメータがコレクションデータと同じ時間単位を使用していることを確認してください。コレクションがタイムスタンプを秒で保存している場合は、すべてのパラメータにも秒を使用してください。ミリ秒を使用している場合は、すべてのパラメータにもミリ秒を使用してください。
 

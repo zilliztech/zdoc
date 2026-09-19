@@ -34,9 +34,9 @@ import Admonition from '@theme/Admonition';
 
 - サンプルデータセットに一致するスキーマでコレクションを作成していること。
 
-     コレクションの作成の詳細については、[Manage Collections (Console)](./manage-collections-console) を参照してください。
+     コレクションの作成の詳細については、[Manage コレクション (Console)](./manage-collections-console) を参照してください。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Zilliz Cloud では現在、クラスターをホストしているクラウドプロバイダーに関係なく、任意のオブジェクトストレージサービスから任意の Zilliz Cloud クラスターにデータをインポートできます。たとえば、AWS S3 バケットから GCP 上にデプロイされた Zilliz Cloud クラスターにデータをインポートできます。
 
@@ -60,7 +60,7 @@ Zilliz Cloud では現在、クラスターをホストしているクラウド�
 
 セッショントークンの使用の詳細については、[この FAQ](/docs/faq-data-import#can-i-use-short-term-credentials-when-importing-data-from-an-object-storage-service) を参照してください。
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 データのインポートを正常に行うため、対象のコレクションにおける実行中または保留中のインポートジョブ数が 10,000 未満であることを確認してください。
 

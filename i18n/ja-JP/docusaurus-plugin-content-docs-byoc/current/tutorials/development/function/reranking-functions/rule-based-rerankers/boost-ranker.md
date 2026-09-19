@@ -62,7 +62,7 @@ import TabItem from '@theme/TabItem';
 
 1. Boost Ranker で指定された重みを適用し、特定されたエンティティのスコアを調整します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Boost Ranker はマルチベクトルハイブリッド検索では使用できません。
 
@@ -123,7 +123,7 @@ Boost Ranker はマルチベクトルハイブリッド検索では使用でき�
     | 48 | body | 0.265 | 0.265 | 4 | 0002 |
     | **276** | **abstract** | **0.845** | **0.423** | **5** | **0002** |
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     重みには任意の浮動小数点数を指定します。上記の例のようにスコアが小さいほど関連性が高い場合は **1** 未満の値を使用し、それ以外の場合は **1** より大きい値を使用します。
 
@@ -160,7 +160,7 @@ rerank = Function(
     params={
         "reranker": "boost",
         "filter": "doctype == 'abstract'",
-        "random_score": {
+        "random_score": { 
             "seed": 126,
             "field": "id"
         },
@@ -292,7 +292,7 @@ rerank->SetRandomScoreSeed(126);
 
 ### 単一の Boost Ranker を使った検索\{#search-with-a-single-boost-ranker}
 
-Boost Ranker 関数の準備ができたら、検索リクエストで参照できます。以下の例では、**id**、**vector**、**doctype** の各フィールドを持つコレクションが作成済みであることを前提としています。
+Boost Ranker 関数の準備ができたら、検索リクエストで参照できます。以下の例では、**id**、**ベクトル**、**doctype** の各フィールドを持つコレクションが作成済みであることを前提としています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -334,7 +334,7 @@ MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .token("YOUR_CLUSTER_TOKEN")
         .build());
-
+        
 SearchResp searchReq = client.search(SearchReq.builder()
         .collectionName("my_collection")
         .data(Collections.singletonList(new FloatVec(new float[]{-0.619954f, 0.447943f, -0.174938f, -0.424803f, -0.864845f})))
@@ -466,7 +466,7 @@ random_weight_ranker = Function(
 # Create a Function Score
 ranker = FunctionScore(
     functions=[
-        fix_weight_ranker,
+        fix_weight_ranker, 
         random_weight_ranker
     ],
     params={
@@ -500,7 +500,7 @@ CreateCollectionReq.Function fixWeightRanker = CreateCollectionReq.Function.buil
                  .param("reranker", "boost")
                  .param("weight", "0.8")
                  .build();
-
+                 
 CreateCollectionReq.Function randomWeightRanker = CreateCollectionReq.Function.builder()
                  .functionType(FunctionType.RERANK)
                  .name("boost")
@@ -511,7 +511,7 @@ CreateCollectionReq.Function randomWeightRanker = CreateCollectionReq.Function.b
 
 Map<String, String> params = new HashMap<>();
 params.put("boost_mode","Multiply");
-params.put("function_mode","Sum");
+params.put("function_mode","Sum");     
 FunctionScore ranker = FunctionScore.builder()
                  .addFunction(fixWeightRanker)
                  .addFunction(randomWeightRanker)
@@ -657,3 +657,4 @@ if (!status.IsOk()) {
      <td><p><code>&quot;Sum&quot;</code></p></td>
    </tr>
 </table>
+

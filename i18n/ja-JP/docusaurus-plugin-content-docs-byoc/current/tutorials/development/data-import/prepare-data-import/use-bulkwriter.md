@@ -253,7 +253,7 @@ private static byte[] genBinaryVector() {
 
     パラメータ設定の詳細については、SDK リファレンスの **LocalBulkWriter** を参照してください。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     **LocalBulkWriter** を使用して生成した JSON ファイルと Parquet ファイルは、Zilliz Cloud コンソールで Zilliz Cloud に直接インポートできます。
     
@@ -290,7 +290,7 @@ private static byte[] genBinaryVector() {
 
     - データセットに大量のレコードが含まれる場合は、**withChunkSize()** に適切な値を設定してデータを分割することを推奨します。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     Java SDK の BulkWriter は現在、有効な出力ファイル形式として Apache Parquet のみを使用します。
 
@@ -693,7 +693,7 @@ private static List<Long> genIntArray(int length) {
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 上記のコードブロックでは、`vector` フィールドと `scalar_1` フィールドの値は、それぞれ `generateFloatVectors()` と `generateString()` という 2 つのプライベート関数によって生成されます。詳細については、**Random data generator** タブのコードを参照してください。
 

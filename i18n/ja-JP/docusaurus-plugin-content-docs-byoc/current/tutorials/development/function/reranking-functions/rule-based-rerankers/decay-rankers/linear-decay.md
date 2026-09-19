@@ -56,7 +56,7 @@ Linear decay が特に効果的なのは次のような場合です。
 
 Linear decay は、一定の割合で低下し、最終的に正確にゼロに到達する直線的な下降を作り出します。このパターンは、カウントダウンタイマー、在庫の減少、締め切りの接近など、関連性に明確な有効期限がある多くの日常的なシナリオに見られます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 すべての時間パラメータ（`origin`、`offset`、`scale`）は、コレクションデータと同じ単位を使用する必要があります。コレクションが異なる単位（ミリ秒、マイクロ秒）でタイムスタンプを保存している場合は、すべてのパラメータをそれに応じて調整してください。
 
@@ -110,7 +110,7 @@ $s$ の計算では、scale と decay のパラメータを、スコアがゼロ
 
 Linear decay は、Zilliz Cloud における標準的なベクトル検索とハイブリッド検索の両方の操作に適用できます。以下は、この機能を実装するための主要なコードスニペットです。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 decay 関数を使用する前に、まず decay 計算に使用される適切な数値フィールド（タイムスタンプ、距離など）を持つコレクションを作成する必要があります。コレクションのセットアップ、スキーマ定義、データ挿入を含む完全な動作例については、[Decay Ranker チュートリアル](./tutorial-implement-time-based-ranking) を参照してください。
 
@@ -120,7 +120,7 @@ decay 関数を使用する前に、まず decay 計算に使用される適切�
 
 数値フィールド（この例では、現在からの秒数としての `event_date`）を使ってコレクションをセットアップした後、Linear decay ranker を作成します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 **時間単位の一貫性**：時間ベースの decay を使用する場合、`origin`、`scale`、`offset` の各パラメータがコレクションデータと同じ時間単位を使用していることを確認してください。コレクションがタイムスタンプを秒で保存している場合は、すべてのパラメータに秒を使用してください。ミリ秒を使用している場合は、すべてのパラメータにミリ秒を使用してください。
 

@@ -25,15 +25,15 @@ import TabItem from '@theme/TabItem';
 
 次のような日常的なシナリオを考えてみましょう。
 
-- ニュース検索で、昨日の記事が3年前の類似記事よりも上位に表示されるべき場合
+- 昨日の記事が3 年前の類似記事よりも上位に表示されるべきニュース検索
 
-- レストラン検索で、車で30分かかる店舗よりも徒歩5分の店舗を優先したい場合
+- 5 分の距離にある店舗を、車で 30 分かかる店舗よりも優先するレストラン検索
 
-- EC サイトで、検索クエリとの類似度がやや低くてもトレンド商品を上位に表示したい場合
+- 検索クエリとの類似度がやや低くても、トレンド商品を上位に表示する EC サイト
 
 これらのシナリオには共通のニーズがあります。それは、ベクトル類似度と時間、距離、人気度などの数値要素とのバランスを取ることです。
 
-Zilliz Cloud の Decay Ranker は、数値フィールドの値に基づいて検索ランキングを調整することで、このニーズに対応します。ベクトル類似度とデータの「新しさ」や「近さ」といった数値特性のバランスを取り、より直感的で文脈に即した検索体験を実現します。
+Zilliz Cloud の Decay Ranker は、数値フィールドの値に基づいて検索ランキングを調整することで、このニーズに対応します。ベクトル類似度と、データの「新しさ」「近さ」、その他の数値特性とのバランスを取れるようにし、より直感的で文脈に即した検索体験を実現します。
 
 ## 使用上の注意\{#usage-notes}
 
@@ -55,11 +55,11 @@ Zilliz Cloud の Decay Ranker は、数値フィールドの値に基づいて�
 
 Decay Ranking は、時間や地理的距離などの数値要素をランキング処理に組み込むことで、従来のベクトル検索を強化します。一連の処理は以下の段階で構成されます。
 
-### ステージ1: 正規化類似度スコアの計算\{#stage-1-calculate-normalized-similarity-scores}
+### ステージ 1: 正規化類似度スコアの計算\{#stage-1-calculate-normalized-similarity-scores}
 
 まず、Zilliz Cloud がベクトル類似度スコアを計算・正規化し、一貫した比較を行えるようにします。
 
-- **L2** および **JACCARD** 距離メトリック（値が小さいほど類似度が高い）の場合: 
+- **L2** および **JACCARD** 距離メトリック（値が小さいほど類似度が高い）の場合:
 
     ```plaintext
     normalized_score = 1.0 - (2 × arctan(score))/π
@@ -69,7 +69,7 @@ Decay Ranking は、時間や地理的距離などの数値要素をランキン
 
 - **IP**、**COSINE**、**BM25** メトリック（スコアが大きいほど一致度が高い）の場合: スコアは正規化せずにそのまま使用されます。
 
-### ステージ2: Decay スコアの計算\{#stage-2-calculate-decay-scores}
+### ステージ 2: Decay スコアの計算\{#stage-2-calculate-decay-scores}
 
 次に、Zilliz Cloud が選択された Decay Ranker を用いて、数値フィールドの値（タイムスタンプや距離など）に基づき Decay スコアを計算します。
 
@@ -79,7 +79,7 @@ Decay Ranking は、時間や地理的距離などの数値要素をランキン
 
 具体的な計算式は Decay Ranker の種類によって異なります。Decay スコアの計算方法の詳細については、[Gaussian Decay](./gaussian-decay#formula)、[Exponential Decay](./exponential-decay#formula)、[Linear Decay](./linear-decay#formula) の専用ページを参照してください。
 
-### ステージ3: 最終スコアの算出\{#stage-3-compute-final-scores}
+### ステージ 3: 最終スコアの算出\{#stage-3-compute-final-scores}
 
 最後に、Zilliz Cloud が正規化された類似度スコアと Decay スコアを組み合わせて、最終的なランキングスコアを算出します。
 
@@ -99,7 +99,7 @@ final_score = max([normalized_score₁, normalized_score₂, ..., normalized_sco
 
 時間ベースの Decay を使用して **「AI research papers」** を検索する実践的なシナリオで、Decay Ranking の効果を見てみましょう。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 この例では、Decay スコアが時間の経過に伴う関連性の低下を反映しています。新しい論文は1.0に近いスコアを得られ、古い論文は低いスコアになります。これらの値は特定の Decay Ranker によって計算されます。詳細については、[適切な Decay Ranker の選択](./decay-ranker-oveview#choose-the-right-decay-ranker) を参照してください。
 
@@ -107,10 +107,10 @@ final_score = max([normalized_score₁, normalized_score₂, ..., normalized_sco
 
 | 論文 | ベクトル類似度 | 正規化類似度スコア | 公開日 | Decay スコア | 最終スコア | 最終順位 |
 | --- | --- | --- | --- | --- | --- | --- |
-| 論文 A | 高 | 0.85 (`COSINE`) | 2週間前 | 0.80 | 0.68 | #2 |
-| 論文 B | 非常に高 | 0.92 (`COSINE`) | 6か月前 | 0.45 | 0.41 | #3 |
-| 論文 C | 中 | 0.75 (`COSINE`) | 1日前 | 0.98 | 0.74 | #1 |
-| 論文 D | 中〜高 | 0.76 (`COSINE`) | 3週間前 | 0.70 | 0.53 | #4 |
+| 論文 A | 高 | 0.85 (`COSINE`) | 2 週間前 | 0.80 | 0.68 | #2 |
+| 論文 B | 非常に高 | 0.92 (`COSINE`) | 6 か月前 | 0.45 | 0.41 | #3 |
+| 論文 C | 中 | 0.75 (`COSINE`) | 1 日前 | 0.98 | 0.74 | #1 |
+| 論文 D | 中〜高 | 0.76 (`COSINE`) | 3 週間前 | 0.70 | 0.53 | #4 |
 
 Decay Reranking を適用しない場合、論文 B が純粋なベクトル類似度（0.92）に基づいて最上位にランクされます。しかし、Decay Reranking を適用すると以下のようになります。
 
@@ -141,13 +141,13 @@ Zilliz Cloud は、それぞれ特定のユースケース向けに設計され�
      <td><p>Exponential (<code>exp</code>)</p></td>
      <td><p>初期は急激に減少するが、ロングテールを維持</p></td>
      <td><ul><li><p>最新性が重要なニュースフィード</p></li><li><p>新鮮なコンテンツを優先すべきソーシャルメディア</p></li><li><p>近接性を強く重視しつつ、例外的に遠くのアイテムも表示したい場合</p></li></ul></td>
-     <td><p>ニュースアプリで、昨日の記事は1週間前のコンテンツよりはるかに上位になるが、関連性の高い古い記事も引き続き表示される</p></td>
+     <td><p>ニュースアプリで、昨日の記事は1 週間前のコンテンツよりはるかに上位になるが、関連性の高い古い記事も引き続き表示される</p></td>
    </tr>
    <tr>
      <td><p>Linear (<code>linear</code>)</p></td>
      <td><p>明確なカットオフを持つ、一定で予測可能な減衰</p></td>
      <td><ul><li><p>自然な境界線を持つアプリケーション</p></li><li><p>距離制限のあるサービス</p></li><li><p>有効期限や明確なしきい値があるコンテンツ</p></li></ul></td>
-     <td><p>イベント検索で、2週間先を超えるイベントは一切表示されない</p></td>
+     <td><p>イベント検索で、2 週間先を超えるイベントは一切表示されない</p></td>
    </tr>
 </table>
 
@@ -163,9 +163,9 @@ Zilliz Cloud は、それぞれ特定のユースケース向けに設計され�
 
 Decay ranker は、Zilliz Cloud における標準ベクトル検索とハイブリッド検索の両方に適用できます。以下に、この機能を実装するための主要なコードスニペットを示します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-decay 関数を使用する前に、まず decay 計算に用いる適切な数値フィールド（タイムスタンプや距離など）を持つコレクションを作成する必要があります。コレクションのセットアップ、スキーマ定義、データ挿入を含む完全な動作例については、[Tutorial: Implement Time-based Ranking in Milvus](./tutorial-implement-time-based-ranking) を参照してください。
+decay 関数を使用する前に、まず decay 計算に用いる適切な数値フィールド（タイムスタンプや距離など）を持つコレクションを作成する必要があります。コレクションのセットアップ、スキーマ定義、データ挿入を含む完全な動作例については、[チュートリアル: Milvus で時間ベースのランキングを実装する](./tutorial-implement-time-based-ranking) を参照してください。
 
 </Admonition>
 
@@ -321,13 +321,13 @@ rerank->SetDecay(0.5);
      <td><p><code>params.scale</code></p></td>
      <td><p>はい</p></td>
      <td><p>関連性が <code>decay</code> 値まで低下する距離または時間を指定します。これにより、関連性の低下速度を制御できます。</p><p>時間ベースの decay では、時間の単位がコレクションのデータと一致している必要があります。</p><p>値を大きくすると関連性の低下が緩やかになり、小さくすると急激に低下します。</p></td>
-     <td><ul><li><p>時間の場合：秒単位の期間（例：7日間の場合は <code>7 &ast; 24 &ast; 60 &ast; 60</code>）</p></li><li><p>距離の場合：メートル単位（例：5km の場合は <code>5000</code>）</p></li></ul></td>
+     <td><ul><li><p>時間の場合：秒単位の期間（例：7 日間の場合は <code>7 &ast; 24 &ast; 60 &ast; 60</code>）</p></li><li><p>距離の場合：メートル単位（例：5km の場合は <code>5000</code>）</p></li></ul></td>
    </tr>
    <tr>
      <td><p><code>params.offset</code></p></td>
      <td><p>いいえ</p></td>
      <td><p><code>origin</code> の周囲に「非減衰ゾーン」を設け、その範囲内のアイテムはフルスコア（decay スコア = 1.0）を維持します。</p><p>時間ベースの decay では、時間の単位がコレクションのデータと一致している必要があります。</p><p><code>origin</code> からこの範囲内にあるアイテムは、最大の関連性を維持します。</p></td>
-     <td><ul><li><p>時間の場合：秒単位の期間（例：1日の場合は <code>24 &ast; 60 &ast; 60</code>）</p></li><li><p>距離の場合：メートル単位（例：500m の場合は <code>500</code>）</p></li></ul></td>
+     <td><ul><li><p>時間の場合：秒単位の期間（例：1 日の場合は <code>24 &ast; 60 &ast; 60</code>）</p></li><li><p>距離の場合：メートル単位（例：500m の場合は <code>500</code>）</p></li></ul></td>
    </tr>
    <tr>
      <td><p><code>params.decay</code></p></td>
