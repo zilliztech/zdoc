@@ -1,5 +1,5 @@
 ---
-title: "Collection TTL の設定 | Cloud"
+title: "コレクション TTL の設定 | Cloud"
 slug: /set-collection-ttl
 sidebar_label: "TTL"
 beta: FALSE
@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud は、Time-to-Live（TTL）ポリシーを通じてエンティティを自動的に期限切れにできます。期限切れになったエンティティはクエリと検索の結果に即座に表示されなくなり、次回のコンパクションサイクル（通常 24 時間以内）でストレージから物理的に削除されます。 | Cloud"
+description: "Zilliz Cloud は、Time-to-Live（TTL）ポリシーを通じてエンティティを自動的に期限切れにできます。期限切れになったエンティティはクエリと検索の結果に即座に表示されなくなり、次回の Compaction サイクル（通常 24 時間以内）でストレージから物理的に削除されます。 | Cloud"
 type: origin
 token: GthGwnrpEiGpClkV5JXcgWUgn8c
 sidebar_position: 6
@@ -19,17 +19,17 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Collection TTL の設定
+# コレクション TTL の設定
 
-Zilliz Cloud は、**Time-to-Live（TTL）** ポリシーを通じてエンティティを自動的に期限切れにできます。期限切れになったエンティティはクエリと検索の結果に即座に表示されなくなり、次回のコンパクションサイクル（通常 24 時間以内）でストレージから物理的に削除されます。
+Zilliz Cloud は、**Time-to-Live（TTL）** ポリシーを通じてエンティティを自動的に期限切れにできます。期限切れになったエンティティはクエリと検索の結果に即座に表示されなくなり、次回の Compaction サイクル（通常 24 時間以内）でストレージから物理的に削除されます。
 
 TTL には 2 つのモードがあります。
 
-- **Collection-level TTL** — すべてのエンティティで共有される 1 つの保持期間で、`collection.ttl.seconds` プロパティを通じて設定します。
+- **コレクションレベル TTL** — すべてのエンティティで共有される 1 つの保持期間で、`collection.ttl.seconds` プロパティを通じて設定します。
 
 - **Entity-level TTL** — 各エンティティが専用の `TIMESTAMPTZ` フィールドに独自の絶対有効期限時刻を持ち、そのフィールドは `ttl_field` プロパティを通じて TTL フィールドとしてマークされます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 この機能はマネージドコレクションにのみ適用されます。
 
@@ -39,7 +39,7 @@ TTL には 2 つのモードがあります。
 
 - 2 つの TTL モードは相互に排他的です。コレクションで `collection.ttl.seconds` と `ttl_field` の両方を同時に設定することはできません。切り替えるには、[2 つのモード間で移行する](./set-collection-ttl#migrate-between-the-two-modes)を参照してください。
 
-- Collection-level TTL は、コレクション全体に 1 つの期間を適用します。単一の行に異なる有効期間が必要な場合は、entity-level TTL を使用してください。
+- コレクションレベル TTL は、コレクション全体に 1 つの期間を適用します。単一の行に異なる有効期間が必要な場合は、Entity-level TTL を使用してください。
 
 - Entity-level TTL のフィールドは `TIMESTAMPTZ` である必要があります。他の型は拒否されます。
 
@@ -71,9 +71,9 @@ TTL は、保持が**ポリシー**である場合に適したツールです。
 
 - **ビジネス時間による期限切れ。** エンティティが、ある絶対的な時点（キャンペーン終了、セッション期限切れ）までのみ有効なレコードを表します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-期限切れのエンティティは、検索またはクエリの結果に一切表示されません。ただし、それらは後続のデータコンパクションまでストレージに残る場合があり、これは次の 24 時間以内に実行されるはずです。
+期限切れのエンティティは、検索またはクエリの結果に一切表示されません。ただし、それらは後続のデータ Compaction が実行されるまではストレージに残る場合があり、これは次の 24 時間以内に実行される必要があります。
 
 </Admonition>
 
@@ -81,7 +81,7 @@ TTL は、保持が**ポリシー**である場合に適したツールです。
 
 2 つのモードは、異なる保持に関する問いに答えます。
 
-- **Collection-level TTL** は、すべてのエンティティに単一の保持期間を適用します。各エンティティは `insert_ts + ttl_seconds` で期限切れになります。
+- **コレクションレベル TTL** は、すべてのエンティティに単一の保持期間を適用します。各エンティティは `insert_ts + ttl_seconds` で期限切れになります。
 
 - **Entity-level TTL** では、すべてのエンティティが `TIMESTAMPTZ` フィールドに独自の絶対有効期限時刻を保存できます。そのフィールドの `NULL` は、エンティティが期限切れにならないことを意味します。
 
@@ -91,9 +91,9 @@ TTL は、保持が**ポリシー**である場合に適したツールです。
 
 | **状況が次の場合…** | **使用するもの** |
 | --- | --- |
-| コレクション内のすべてのエンティティが同じ保持期間に従う必要がある | Collection-level TTL |
-| 保持が「挿入の瞬間から N 秒保持する」である | Collection-level TTL |
-| 同じコレクション内の異なるエンティティに異なる有効期間が必要である（テナントごと、hot/cold、ドキュメントごと） | Entity-level TTL |
+| コレクション内のすべてのエンティティが同じ保持期間に従う必要がある | コレクションレベル TTL |
+| 保持が「挿入の瞬間から N 秒保持する」である | コレクションレベル TTL |
+| 同じコレクション内の異なるエンティティに異なる有効期間が必要である（テナントごと、hot/cold, ドキュメントごと） | Entity-level TTL |
 | 保持が絶対的な実時刻（例: 2027-01-01T00:00:00Z）である | Entity-level TTL |
 | 保持が挿入タイムスタンプではなく、ビジネスタイムスタンプによって決まる | Entity-level TTL |
 | 挿入後にエンティティの有効期間を更新または延長したい | Entity-level TTL |
@@ -101,9 +101,9 @@ TTL は、保持が**ポリシー**である場合に適したツールです。
 
 </details>
 
-## Collection-level TTL を設定する\{#set-collection-level-ttl}
+## コレクションレベル TTL を設定する\{#set-collection-level-ttl}
 
-コレクション内のすべてのエンティティが同じ保持期間に従う必要がある場合は、collection-level TTL を使用します。
+コレクション内のすべてのエンティティが同じ保持期間に従う必要がある場合は、コレクションレベル TTL を使用します。
 
 ### 新しいコレクションで有効にする\{#enable-on-a-new-collection}
 
@@ -502,9 +502,9 @@ if (!status.IsOk()) {
 
 Entity-level TTL では、各エンティティが独自の絶対有効期限時刻を持つことができます。この時刻は、スキーマで宣言する専用の `TIMESTAMPTZ` カラムに保存され、そのカラムを `ttl_field` コレクションプロパティを通じて TTL フィールドとしてマークします。
 
-### 新しい collection で有効化する\{#enable-on-a-new-collection}
+### 新しいコレクションで有効にする\{#enable-on-a-new-collection}
 
-作成時に entity レベル TTL を有効化するには、同じ `create_collection` 呼び出しで 2 つの追加が必要です。schema 内の `TIMESTAMPTZ` field と、その field を指す `ttl_field` property です。
+作成時に Entity-level TTL を有効にするには、同じ `create_collection` 呼び出しで 2 つの追加が必要です。スキーマ内の `TIMESTAMPTZ` フィールドと、そのフィールドを指す `ttl_field` プロパティです。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -631,7 +631,7 @@ await client.createCollection({
 </TabItem>
 </Tabs>
 
-collection が存在するようになったら、[ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) timestamp 文字列を持つ entity を挿入します。
+コレクションが存在するようになったら、[ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) 形式のタイムスタンプ文字列でエンティティを挿入します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -773,7 +773,7 @@ await client.insert({
 </TabItem>
 </Tabs>
 
-すべての query と vector search で、サーバーは TTL filter を自動的に挿入します。自分で記述する必要はなく、期限切れの entity が結果に表示されることはありません。
+すべてのクエリとベクトル検索で、サーバーが TTL フィルターを自動的に挿入します。自分で記述する必要はなく、期限切れのエンティティが結果に表示されることもありません。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -882,7 +882,7 @@ console.log(results.data);
 
 同じ自動 filter は `client.search()` にも適用されます。
 
-compaction によって物理的に削除される前に entity の有効期間を延長するには、より後の有効期限 timestamp（または `None`）で upsert し、その entity を query 可能な集合に戻します。
+Compaction によって物理的に削除される前にエンティティの有効期間を延長するには、より後の有効期限タイムスタンプ（または `None`）で upsert し、そのエンティティをクエリ可能な集合に戻します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -989,9 +989,9 @@ await client.upsert({
 </TabItem>
 </Tabs>
 
-### 既存の collection で有効化する\{#enable-on-an-existing-collection}
+### 既存のコレクションで有効にする\{#enable-on-an-existing-collection}
 
-collection がすでに存在し、`collection.ttl.seconds` が設定されていない場合は、`add_collection_field` で `TIMESTAMPTZ` column を追加し、`alter_collection_properties` でそれを TTL field としてマークします。必要に応じて、過去の row を upsert して有効期限 timestamp をバックフィルできます。バックフィルしない row は `NULL` のままで、期限切れになりません。
+コレクションがすでに存在し、`collection.ttl.seconds` が設定されていない場合は、`add_collection_field` で `TIMESTAMPTZ` カラムを追加し、`alter_collection_properties` でそれを TTL フィールドとしてマークします。必要に応じて、過去の行を upsert して有効期限タイムスタンプをバックフィルできます。バックフィルしない行は `NULL` のままで、期限切れになりません。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -1150,7 +1150,7 @@ await client.upsert({
 
 ### TTL 設定を削除する\{#drop-the-ttl-setting}
 
-entity ごとの有効期限を停止するには、`property_keys` に `ttl_field` を指定して `drop_collection_properties` を呼び出します。`TIMESTAMPTZ` column 自体は schema 上に残るため、通常の field として引き続き query できます。
+エンティティごとの有効期限を停止するには、`property_keys` に `ttl_field` を指定して `drop_collection_properties` を呼び出します。`TIMESTAMPTZ` カラム自体はスキーマ上に残るため、通常のフィールドとして引き続きクエリできます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -1241,9 +1241,9 @@ await client.dropCollectionProperties({
 
 2 つの TTL モードは相互に排他的であるため、切り替えは複数ステップの操作になります。
 
-### collection レベル TTL から entity レベル TTL に切り替える\{#switch-from-collection-level-to-entity-level-ttl}
+### コレクションレベル TTL から Entity-level TTL に切り替える\{#switch-from-collection-level-to-entity-level-ttl}
 
-collection が `collection.ttl.seconds` で作成されており、entity ごとの有効期限に切り替えたい場合は、次の 4 つの手順に従います。ステップ 1 を省略すると、ステップ 3 は `collection TTL is already set, cannot be set ttl field` で失敗します。
+コレクションが `collection.ttl.seconds` で作成されており、エンティティごとの有効期限に切り替えたい場合は、次の 4 つの手順に従います。ステップ 1 を省略すると、ステップ 3 は `collection TTL is already set, cannot be set ttl field` で失敗します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -1391,7 +1391,7 @@ client.upsert(UpsertReq.builder()
 
 `expire_at` をバックフィルしない過去の entity では、その column は `NULL` になり、期限切れにならないことを意味します。有限の有効期間を持つべき row のみをバックフィルしてください。
 
-### entity レベル TTL から collection レベル TTL に切り替える\{#switch-from-entity-level-to-collection-level-ttl}
+### Entity-level TTL からコレクションレベル TTL に切り替える\{#switch-from-entity-level-to-collection-level-ttl}
 
 反対方向に移行するには、`ttl_field` を削除し、`collection.ttl.seconds` を設定します。
 
@@ -1493,11 +1493,11 @@ client.alterCollectionProperties(AlterCollectionPropertiesReq.builder()
 
 ### 期限切れのデータはいつ物理的に削除されますか？\{#when-will-the-expired-data-be-physically-deleted}
 
-データが期限切れになると、どの search results にも含まれなくなります。ただし、物理的に削除されるのは、cluster の compaction ポリシーに従って、その後のシステム compaction が実行された後です。
+データが期限切れになると、どの検索結果にも含まれなくなります。ただし、物理的に削除されるのは、その後のシステム Compaction が実行された後であり、これはクラスターの Compaction ポリシーに従います。
 
 期限切れ後すぐにデータを削除する必要がある場合は、[お問い合わせください](https://support.zilliz.com/hc/en-us/requests/new)。
 
 ### CU 容量はいつ減少しますか？\{#when-will-the-cu-capacity-decrease}
 
-cluster の CU 容量は、メモリ使用量とストレージ使用量のうち高い方です。ストレージ使用量が該当する場合、期限切れデータが物理的に削除された後、Zilliz Cloud console で CU 容量の減少を確認できます。
+クラスターの CU 容量は、メモリ使用量とストレージ使用量のうち高い方です。ストレージ使用量が該当する場合、期限切れデータが物理的に削除された後、Zilliz Cloud コンソールで CU 容量の減少を確認できます。
 

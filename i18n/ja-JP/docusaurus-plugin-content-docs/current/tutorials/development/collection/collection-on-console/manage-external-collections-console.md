@@ -26,15 +26,15 @@ import Supademo from '@site/src/components/Supademo';
 
 ## 外部コレクションの作成\{#create-an-external-collection}
 
-事前に、[外部ボリューム](./external-volume)を作成済みであることを確認してください。
+事前に、[外部ボリューム](./external-volume) を作成済みであることを確認してください。
 
 <Supademo id="cmokttyiy05dxpimdm3d8vnxv" title=""  />
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - オンデマンドコンピュートデータベースで作成した外部コレクションでは、インデックスの削除はサポートされていません。
 
-- 外部コレクションはオンデマンドコンピュートデータベースでのみ作成できます。サービングDedicatedクラスターでの外部コレクション作成サポートは近日公開予定です。
+- 外部コレクションはオンデマンドコンピュートデータベースでのみ作成できます。サービング Dedicated クラスターでの外部コレクションの作成は、近日中にサポートされる予定です。
 
 </Admonition>
 
@@ -50,7 +50,7 @@ import Supademo from '@site/src/components/Supademo';
 
 ## 外部コレクションの削除\{#drop-an-external-collection}
 
-外部コレクションを削除しても、Zilliz Cloud 上のスキーマ、マニフェスト、インデックスのみが削除されます。データ自体はオブジェクトストレージにそのまま保持されます。
+外部コレクションを削除すると、Zilliz Cloud 上のスキーマ、マニフェスト、およびインデックスのみが削除されます。データはオブジェクトストレージにそのまま保持されます。
 
 <Supademo id="cmokvd5hr06grpimd8ugly112" title=""  />
 

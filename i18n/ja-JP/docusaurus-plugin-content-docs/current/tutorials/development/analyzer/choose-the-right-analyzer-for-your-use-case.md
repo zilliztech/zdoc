@@ -181,7 +181,7 @@ schema.add_field(
 )
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 詳細な使用方法については、[全文検索](./full-text-search)、[テキストマッチ](./text-match)、または [フレーズ一致](./phrase-match) を参照してください。
 
@@ -337,7 +337,7 @@ schema.add_field(
    </tr>
 </table>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 東アジア言語（中国語、日本語、韓国語など）では、代わりに [言語固有の filter](./choose-the-right-analyzer-for-your-use-case#language-specific-filters) に重点を置いてください。これらの言語は通常、テキスト処理に異なるアプローチを使用するため、stemming の恩恵をあまり受けられない可能性があります。
 
@@ -485,7 +485,7 @@ print("Analyzer output:", result)
 
 このセクションでは、Zilliz Cloud で analyzer を使用する際の一般的なユースケース向けに、推奨される tokenizer と filter の構成を提供します。コンテンツの種類と検索要件に最も適した組み合わせを選択してください。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 コレクションに analyzer を適用する前に、[`run_analyzer`](https://milvus.io/api-reference/pymilvus/v2.6.x/MilvusClient/CollectionSchema/run_analyzer.md) を使用してテキスト解析のパフォーマンスをテストおよび検証することをお勧めします。
 

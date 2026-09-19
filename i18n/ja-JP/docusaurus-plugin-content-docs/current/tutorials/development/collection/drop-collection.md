@@ -23,9 +23,9 @@ import TabItem from '@theme/TabItem';
 
 不要になったコレクションは削除できます。
 
-<Admonition type="info" icon="📘" title="注記">
+<Admonition type="info" title="Notes">
 
-コレクションとデータの両方を削除する managed collection の削除とは異なり、external collection の削除ではコレクションのみが削除され、データはそのまま保持されます。
+マネージドコレクションの削除ではコレクションとデータの両方が削除されるのに対し、外部コレクションの削除ではコレクションのみが削除され、データはそのまま保持されます。
 
 </Admonition>
 

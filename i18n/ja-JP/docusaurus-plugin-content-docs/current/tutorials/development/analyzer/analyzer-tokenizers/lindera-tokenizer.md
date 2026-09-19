@@ -23,9 +23,9 @@ import TabItem from '@theme/TabItem';
 
 `lindera` トークナイザーは、辞書ベースの形態素解析を実行します。単語がスペースで区切られず、文法標識（助詞）が単語に直接付着する日本語や韓国語向けに設計されています。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-**中国語テキストの場合**: `lindera` は `cc-cedict` 辞書を通じて中国語をサポートしますが、代わりに [`jieba`](./jieba-tokenizer) トークナイザーの使用を推奨します。Jieba は中国語の単語分割に特化して設計されており、より高精度な結果を得られます。
+**中国語テキストの場合**: `lindera` は `cc-cedict` 辞書を通じて中国語をサポートしますが、代わりに [`jieba`](./jieba-tokenizer) トークナイザーの使用を推奨します。Jieba は中国語の単語分割に特化して設計されており、より良い結果が得られます。
 
 </Admonition>
 
@@ -59,11 +59,11 @@ import TabItem from '@theme/TabItem';
 
 `lindera` トークナイザーは以下の処理を行います。
 
-1. **テキストを**個々の形態素（単語や助詞）に**分割します**
+1. テキストを個々の形態素（単語や助詞）に**分割します**
 
-1. **各トークンに**辞書に基づく品詞（POS）情報を**付与します**
+1. 辞書の品詞（POS）情報に基づいて各トークンに**タグを付与します**
 
-1. **フィルターを適用し**、不要なトークン（助詞や句読点など）を**除去します**
+1. 不要なトークン（助詞や句読点など）を除去する**フィルターを適用します**
 
 この「分割→POS ベースのフィルタリング」という 2 段階の処理により、検索対象としてインデックスに登録するトークンを精密に制御できます。
 
@@ -175,7 +175,7 @@ const analyzer_params = {
    </tr>
    <tr>
      <td><p><code>dict_kind</code></p></td>
-     <td><p>語彙の定義に使用する辞書です。指定可能な値は次のとおりです。</p><ul><li><p><code>ko-dic</code>: 韓国語 - 韓国語形態素辞書 (<a href="https://bitbucket.org/eunjeon/mecab-ko-dic">MeCab Ko-dic</a>)</p></li><li><p><code>ipadic</code>: 日本語 - 標準形態素辞書 (<a href="https://taku910.github.io/mecab/">MeCab IPADIC</a>)</p></li></ul></td>
+     <td><p>語彙の定義に使用する辞書です。指定可能な値は次のとおりです。</p><ul><li><p><code>ko-dic</code>: 韓国語 - 韓国語形態素辞書（<a href="https://bitbucket.org/eunjeon/mecab-ko-dic">MeCab Ko-dic</a>）</p></li><li><p><code>ipadic</code>: 日本語 - 標準形態素辞書（<a href="https://taku910.github.io/mecab/">MeCab IPADIC</a>）</p></li></ul></td>
    </tr>
    <tr>
      <td><p><code>filter</code></p></td>

@@ -25,17 +25,17 @@ import TabItem from '@theme/TabItem';
 
 ### 定義\{#definition}
 
-`chinese` analyzer は以下で構成されています。
+`chinese` analyzer は次のコンポーネントで構成されています。
 
-- **Tokenizer**: `jieba` tokenizer を使用して、語彙と文脈に基づいて中国語テキストを token に分割します。詳細については、[Jieba](./jieba-tokenizer) を参照してください。
+- **Tokenizer**: `jieba` tokenizer を使用して、語彙と文脈に基づいて中国語テキストをトークンに分割します。詳細については、[Jieba](./jieba-tokenizer) を参照してください。
 
-- **Filter**: `cnalphanumonly` filter を使用して、中国語以外の文字を含む token を削除します。詳細については、[Cnalphanumonly](./cnalphanumonly-filter) を参照してください。
+- **Filter**: `cnalphanumonly` filter を使用して、中国語以外の文字を含むトークンを削除します。詳細については、[Cnalphanumonly](./cnalphanumonly-filter) を参照してください。
 
-`chinese` analyzer の機能は、次の custom analyzer 設定と同等です。
+`chinese` analyzer の機能は、次のカスタム analyzer 設定と同等です。
 
-<Admonition type="info" icon="📘" title="注記">
+<Admonition type="info" title="Notes">
 
-組み込みの `chinese` analyzer は Pinyin token を出力しません。中国語テキストを Pinyin クエリ用語と一致させるには、`jieba` tokenizer と [Pinyin filter](./pinyin-filter) を使用した custom analyzer を使用してください。
+組み込みの `chinese` analyzer は Pinyin トークンを出力しません。中国語テキストを Pinyin クエリ用語と一致させるには、`jieba` tokenizer と [Pinyin filter](./pinyin-filter) を使用したカスタム analyzer を使用してください。
 
 </Admonition>
 
@@ -170,17 +170,17 @@ nlohmann::json analyzer_params = {
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="注記">
+<Admonition type="info" title="Notes">
 
-`chinese` analyzer はオプションのパラメータを受け付けません。
+`chinese` analyzer はオプションのパラメーターを受け付けません。
 
 </Admonition>
 
 ## 例\{#examples}
 
-analyzer 設定を collection schema に適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+analyzer 設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
-### analyzer 設定\{#analyzer-configuration}
+### Analyzer 設定\{#analyzer-configuration}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -392,4 +392,3 @@ if (!status.IsOk()) {
 ```python
 Chinese analyzer output: ['Milvus', '是', '一个', '高性', '性能', '高性能', '可', '扩展', '的', '向量', '数据', '据库', '数据库']
 ```
-

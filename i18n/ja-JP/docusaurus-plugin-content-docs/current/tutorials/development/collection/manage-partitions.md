@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "partition は collection のサブセットです。各 partition は親 collection と同じデータ構造を共有しますが、collection 内のデータの一部のみを含みます。このページでは、partition の管理方法について説明します。 | Cloud"
+description: "パーティションはコレクションのサブセットです。各パーティションは親コレクションと同じデータ構造を共有しますが、コレクション内のデータの一部のみを含みます。このページでは、パーティションの管理方法について説明します。 | Cloud"
 type: origin
 token: JCMPwIyVciCT4Hk4O20c96MEnch
 sidebar_position: 9
@@ -21,25 +21,25 @@ import TabItem from '@theme/TabItem';
 
 # Partitions の管理
 
-partition は collection のサブセットです。各 partition は親 collection と同じデータ構造を共有しますが、collection 内のデータの一部のみを含みます。このページでは、partition の管理方法について説明します。
+パーティションはコレクションのサブセットです。各パーティションは親コレクションと同じデータ構造を共有しますが、コレクション内のデータの一部のみを含みます。このページでは、パーティションの管理方法について説明します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-この機能は managed collections にのみ適用されます。
+この機能はマネージドコレクションにのみ適用されます。
 
 </Admonition>
 
 ## 概要\{#overview}
 
-collection を作成すると、Zilliz Cloud はその collection 内に **_default** という名前の partition も作成します。他の partition を追加しない場合、collection に挿入されたすべてのエンティティは default partition に入り、すべての検索とクエリも default partition 内で実行されます。
+コレクションを作成すると、Zilliz Cloud はそのコレクション内に **_default** という名前のパーティションも作成します。他のパーティションを追加しない場合、コレクションに挿入されたすべてのエンティティはデフォルトパーティションに入り、すべての検索とクエリもデフォルトパーティション内で実行されます。
 
 さらに partition を追加し、特定の条件に基づいてエンティティをそれらに挿入できます。その後、検索とクエリを特定の partition 内に制限することで、検索パフォーマンスを向上させることができます。
 
-1 つの collection には最大 1,024 個の partition を作成できます。
+1 つのコレクションには最大 1,024 個のパーティションを作成できます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-**Partition Key** 機能は partition に基づく検索最適化であり、特定の scalar field の値に基づいて Zilliz Cloud がエンティティを異なる partition に分散できるようにします。この機能は、partition 指向のマルチテナンシーを実装し、検索パフォーマンスを向上させるのに役立ちます。
+**Partition Key** 機能はパーティションに基づく検索最適化であり、特定のスカラーフィールドの値に基づいて Zilliz Cloud がエンティティを異なるパーティションに分散できるようにします。この機能は、パーティション指向のマルチテナンシーを実装し、検索パフォーマンスを向上させるのに役立ちます。
 
 この機能については、このページでは説明しません。詳細については、[Partition Key を使用する](./use-partition-key)を参照してください。
 
@@ -47,7 +47,7 @@ collection を作成すると、Zilliz Cloud はその collection 内に **_defa
 
 ## Partitions の一覧表示\{#list-partitions}
 
-collection を作成すると、Zilliz Cloud はその collection 内に **_default** という名前の partition も作成します。collection 内の partition は次のように一覧表示できます。
+コレクションを作成すると、Zilliz Cloud はそのコレクション内に **_default** という名前のパーティションも作成します。コレクション内のパーティションは次のように一覧表示できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -217,7 +217,7 @@ for (auto& info : response.PartitionInfos()) {
 
 ## Partition の作成\{#create-partition}
 
-collection にさらに partition を追加し、特定の条件に基づいてこれらの partition にエンティティを挿入できます。
+コレクションにさらにパーティションを追加し、特定の条件に基づいてこれらのパーティションにエンティティを挿入できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -384,7 +384,7 @@ for (auto& info : response.PartitionInfos()) {
 
 ## 特定の Partition の確認\{#check-for-a-specific-partition}
 
-次のコードスニペットは、特定の collection に partition が存在するかどうかを確認する方法を示しています。
+次のコードスニペットは、特定のコレクションにパーティションが存在するかどうかを確認する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -502,7 +502,7 @@ std::cout << response.Has() << std::endl;
 
 ### Partitions の読み込み\{#load-partitions}
 
-collection 内の特定の partition を個別に読み込むことができます。collection 内に読み込まれていない partition がある場合、collection の読み込み状態は unloaded のままになる点に注意してください。
+コレクション内の特定のパーティションを個別に読み込むことができます。コレクション内に読み込まれていないパーティションがある場合、コレクションの読み込み状態は未ロードのままになる点に注意してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>

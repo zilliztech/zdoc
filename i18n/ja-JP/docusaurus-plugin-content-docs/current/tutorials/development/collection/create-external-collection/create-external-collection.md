@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 外部コレクションは、Zilliz Cloud におけるデータコレクションの一種であり、AWS S3 や Iceberg などの外部ストレージシステムやデータベーステーブルのデータを、Zilliz Cloud にコピーすることなく参照できます。データレイクに対するクエリレイヤーとして機能し、Zilliz Cloud のクエリインターフェイスとの互換性を維持します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 外部コレクションを作成できるのは、オンデマンドコンピューティング用データベースに限られます。サービング Dedicated クラスターでの外部コレクション作成サポートは、近日公開予定です。
 
@@ -100,7 +100,7 @@ Zilliz Cloud は以下のデータソースに対応しています。選択し�
 
 対象データファイルを含む外部ボリュームを用意したら、コレクションのカラムを Parquet ファイル（`parquet`）、Lance テーブル（`lance-table`）、Iceberg テーブル（`iceberg-table`）、または 0.56.0 形式の Vortex ファイル（`vortex`）にマッピングするためのスキーマを作成します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 外部ソースの末尾には、フォルダーであることを示すスラッシュ (/) を付ける必要があります。
 
@@ -306,7 +306,7 @@ export schema="{
 
 スキーマにすべてのフィールドを追加したら、外部コレクションを作成できます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 外部コレクションは、通常オンデマンドクラスターに関連付けられているプロジェクトレベルのデータベースに作成できます。
 
@@ -651,7 +651,7 @@ curl --request POST \
 
 リフレッシュ操作は非同期で実行されるため、進行状況を監視する反復処理を設定する必要があります。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - リフレッシュ操作ではデータファイルのメタデータをスキャンし、それに基づいてマニフェストファイルを生成します。通常、150〜250 ms かかります。
 
@@ -669,7 +669,7 @@ curl --request POST \
 
 外部コレクションをリフレッシュすると、オンデマンドコンピューティング用のデータベース内のコレクションは、検索とクエリのためにオンデマンドクラスターにアタッチする必要がある点を除き、任意のマネージドコレクションと同様に、外部コレクションで類似検索とクエリを実行できます。詳細については、[オンデマンドクラスターの作成](./on-demand-cluster)とその関連ページを参照してください。
 
-search、query、get、ハイブリッド検索などの DQL 操作を実行する前に、オンデマンドクラスターのコンピューティングリソースをアタッチするためのセッションを作成する必要があります。詳細については、[オンデマンド DQL 操作](./dql-sessions-external-collection)を参照してください。
+search、query、get、hybrid search などの DQL 操作を実行する前に、オンデマンドクラスターのコンピューティングリソースをアタッチするためのセッションを作成する必要があります。詳細については、[オンデマンド DQL 操作](./dql-sessions-external-collection)を参照してください。
 
 
 

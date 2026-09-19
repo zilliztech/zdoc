@@ -173,7 +173,7 @@ if (!status.IsOk()) {
 
 コレクションの作成後でも、コレクションレベルのプロパティを変更できます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 このセクションに記載されているプロパティは、すべてマネージドコレクションにのみ適用されます。
 
@@ -188,15 +188,15 @@ if (!status.IsOk()) {
    </tr>
    <tr>
      <td><p><code>collection.ttl.seconds</code></p></td>
-     <td><p>コレクションのデータを一定期間後に削除する必要がある場合は、Time-To-Live (TTL) を秒単位で設定することを検討してください。TTL が期限切れになると、Zilliz Cloud はコレクションからすべてのエンティティを削除します。</p><p>削除は非同期で行われるため、削除が完了する前でも検索やクエリを実行できます。</p><p>詳細については、<a href="./set-collection-ttl#set-collection-level-ttl">コレクションレベルの TTL の設定</a> を参照してください。</p></td>
+     <td><p>コレクションのデータを一定期間後に削除する必要がある場合は、Time-To-Live（TTL）を秒単位で設定することを検討してください。TTL が期限切れになると、Zilliz Cloud はコレクションからすべてのエンティティを削除します。</p><p>削除は非同期で行われるため、削除が完了する前でも検索やクエリを実行できます。</p><p>詳細については、<a href="./set-collection-ttl#set-collection-level-ttl">コレクションレベルの TTL の設定</a> を参照してください。</p></td>
    </tr>
    <tr>
      <td><p><code>ttl_field</code></p></td>
-     <td><p>各エンティティの絶対有効期限タイムスタンプを格納する <code>TIMESTAMPTZ</code> フィールドの名前です (<strong>エンティティレベルの TTL</strong>)。各エンティティは、実時間がこのフィールドに格納された値に達した時点で正確に期限切れとなります。フィールド内の <code>NULL</code> は、エンティティが期限切れにならないことを意味します。<code>collection.ttl.seconds</code> とは相互排他的です。</p><p>詳細については、<a href="./set-collection-ttl#set-entity-level-ttl">エンティティレベルの TTL の設定</a> を参照してください。</p></td>
+     <td><p>各エンティティの絶対有効期限タイムスタンプを格納する <code>TIMESTAMPTZ</code> フィールドの名前です（<strong>エンティティレベルの TTL</strong>）。各エンティティは、実時間がこのフィールドに格納された値に達した時点で正確に期限切れとなります。フィールド内の <code>NULL</code> は、エンティティが期限切れにならないことを意味します。<code>collection.ttl.seconds</code> とは相互排他的です。</p><p>詳細については、<a href="./set-collection-ttl#set-entity-level-ttl">エンティティレベルの TTL の設定</a> を参照してください。</p></td>
    </tr>
    <tr>
      <td><p><code>mmap.enabled</code></p></td>
-     <td><p>メモリマッピング (Mmap) を使用すると、ディスク上の大きなファイルへ直接メモリアクセスできるため、Zilliz Cloud はインデックスとデータをメモリとハードドライブの両方に格納できます。これにより、アクセス頻度に基づいたデータ配置の最適化が可能になり、検索パフォーマンスを維持したままコレクションのストレージ容量を拡張できます。</p><p>Zilliz Cloud は、クラスターに対して <a href="./use-mmap#global-mmap-strategy">グローバル mmap 設定</a> を実装しています。特定のフィールドまたはそのインデックスに対して設定を変更することも可能です。</p><p>詳細については、<a href="./use-mmap">mmap の使用</a> を参照してください。</p></td>
+     <td><p>メモリマッピング（Mmap）を使用すると、ディスク上の大きなファイルへ直接メモリアクセスできるため、Zilliz Cloud はインデックスとデータをメモリとハードドライブの両方に格納できます。このアプローチは、アクセス頻度に基づいてデータ配置ポリシーを最適化するのに役立ち、検索パフォーマンスに影響を与えずにコレクションのストレージ容量を拡張できます。</p><p>Zilliz Cloud は、クラスターに対して <a href="./use-mmap#global-mmap-strategy">グローバル mmap 設定</a> を実装しています。特定のフィールドまたはそのインデックスに対して設定を変更することも可能です。</p><p>詳細については、<a href="./use-mmap">mmap の使用</a> を参照してください。</p></td>
    </tr>
    <tr>
      <td><p><code>partitionkey.isolation</code></p></td>
@@ -212,7 +212,7 @@ if (!status.IsOk()) {
    </tr>
    <tr>
      <td><p><code>timezone</code></p></td>
-     <td><p>時間に関連する操作、特に <code>TIMESTAMPTZ</code> フィールドを扱う際の、このコレクションのデフォルトタイムゾーンを指定します。タイムスタンプは内部的に UTC で格納され、Milvus はこの設定に従って表示および比較用の値を変換します。この設定がある場合、コレクションのタイムゾーンはデータベースのデフォルトタイムゾーンよりも優先されます。また、クエリのタイムゾーンパラメータで一時的に両方を上書きすることも可能です。値には、有効な <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones">IANA タイムゾーン識別子</a> (例: <strong>Asia/Shanghai</strong>、<strong>America/Chicago</strong>、<strong>UTC</strong>) を指定する必要があります。<code>TIMESTAMPTZ</code> フィールドの使用方法の詳細については、<a href="./use-timestamptz-field">TIMESTAMPTZ フィールド</a> を参照してください。</p></td>
+     <td><p>時間に関連する操作、特に <code>TIMESTAMPTZ</code> フィールドを扱う際の、このコレクションのデフォルトタイムゾーンを指定します。タイムスタンプは内部的に UTC で格納され、Milvus はこの設定に従って表示および比較用の値を変換します。この設定がある場合、コレクションのタイムゾーンはデータベースのデフォルトタイムゾーンよりも優先されます。また、クエリのタイムゾーンパラメータで一時的に両方を上書きすることも可能です。値には、有効な <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones">IANA タイムゾーン識別子</a>（例: <strong>Asia/Shanghai</strong>、<strong>America/Chicago</strong>、<strong>UTC</strong>）を指定する必要があります。<code>TIMESTAMPTZ</code> フィールドの使用方法の詳細については、<a href="./use-timestamptz-field">TIMESTAMPTZ フィールド</a> を参照してください。</p></td>
    </tr>
 </table>
 
@@ -314,7 +314,7 @@ if (!status.IsOk()) {
 
 次のコードスニペットでは、既存の `TIMESTAMPTZ` フィールド（`expire_at`）をエンティティレベルの TTL フィールドとして指定します。コレクションには同名の `TIMESTAMPTZ` フィールドがすでに存在している必要があり、`collection.ttl.seconds` は設定されていない必要があります。これら 2 つの TTL モードは相互に排他です。
 
-エンティティレベルの TTL の一連のワークフロー（スキーマ設定、挿入、クエリ、更新、削除）については、「[エンティティレベルの TTL を設定する](./modify-collections#example-2-set-entity-level-ttl)」を参照してください。
+エンティティレベルの TTL の一連のワークフロー（スキーマ設定、挿入、クエリ、更新、削除）については、[エンティティレベルの TTL を設定する](./modify-collections#example-2-set-entity-level-ttl) を参照してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -634,7 +634,7 @@ if (!status.IsOk()) {
 
 ### 例 6: allow_insert_auto_id を有効にする\{#example-6-enable-allowinsertautoid}
 
-`allow_insert_auto_id` プロパティを有効にすると、AutoID が有効なコレクションに対して、insert、upsert、バルクインポート時にユーザー指定の主キー値を受け入れられます。**"true"** に設定した場合、Zilliz Cloud はユーザー指定の主キー値が存在すればそれを使用し、存在しない場合は自動生成します。デフォルトは **"false"** です。
+`allow_insert_auto_id` プロパティを使用すると、AutoID が有効なコレクションで、挿入、アップサート、およびバルクインポート時にユーザー指定の主キー値を受け入れられるようになります。**"true"** に設定した場合、Zilliz Cloud はユーザー指定の主キー値が存在すればそれを使用し、存在しない場合は自動生成します。デフォルトは **"false"** です。
 
 次の例は、`allow_insert_auto_id` を有効にする方法を示しています。
 
@@ -727,7 +727,7 @@ if (!status.IsOk()) {
 
 `timezone` の値には、`Asia/Shanghai`、`America/Chicago`、`UTC` などの有効な [IANA タイムゾーン識別子](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) を指定する必要があります。無効または非標準の値を指定すると、コレクションプロパティの変更時にエラーが発生します。
 
-次の例は、コレクションのタイムゾーンを **Asia/Shanghai**: に設定する方法を示しています。
+次の例では、コレクションのタイムゾーンを **Asia/Shanghai**: に設定する方法を示します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
