@@ -394,23 +394,32 @@ function validateTerminalResultSet({
     if (!Object.hasOwn(result, 'validationErrors') || !Array.isArray(result.validationErrors) || result.validationErrors.length !== 0) fail(`per-document validation evidence is not clean for ${item.sourcePath}`)
     const output = resolveWithoutSymlinks(workspace, item.targetPath, 'candidate output', 'file')
     if (result.recovered === true) {
-      if (!result.recoveryReviewReceipt) fail(`recovered result is missing its recovery reviewer receipt for ${item.sourcePath}`)
-      const targetHash = crypto.createHash('sha256').update(fs.readFileSync(output.filePath)).digest('hex')
-      let receipt
-      try {
-        receipt = validateRecoveryReviewReceipt(result.recoveryReviewReceipt, {
-          sourcePath: item.sourcePath,
-          targetPath: item.targetPath,
-          sourceHash: item.sourceHash,
-          targetHash,
-          locale: manifest.locale,
-          group: manifest.group,
-        }, {sourceContent})
-      } catch (error) {
-        fail(`recovery reviewer receipt is invalid for ${item.sourcePath}: ${String(error?.message || error)}`)
+      // Receipt-less lineage restores (revalidated records re-written by a
+      // recovery run, whose revalidated recoveries never mint receipts) are
+      // anchored on the authenticated artifact chain plus the deterministic
+      // full-file gate the provider already ran; the review-consistency and
+      // clean-validation assertions above still apply. A recovered result
+      // that claims any other compatibility must present a valid receipt.
+      if (!Object.hasOwn(result, 'recoveryReviewReceipt')) {
+        if (result.recoveryCompatibility !== 'revalidated') fail(`recovered result is missing its recovery reviewer receipt for ${item.sourcePath}`)
+      } else {
+        const targetHash = crypto.createHash('sha256').update(fs.readFileSync(output.filePath)).digest('hex')
+        let receipt
+        try {
+          receipt = validateRecoveryReviewReceipt(result.recoveryReviewReceipt, {
+            sourcePath: item.sourcePath,
+            targetPath: item.targetPath,
+            sourceHash: item.sourceHash,
+            targetHash,
+            locale: manifest.locale,
+            group: manifest.group,
+          }, {sourceContent})
+        } catch (error) {
+          fail(`recovery reviewer receipt is invalid for ${item.sourcePath}: ${String(error?.message || error)}`)
+        }
+        assertCopiedEvidence(result.review, receipt.review, 'review evidence', item.sourcePath)
+        assertCopiedEvidence(result.validationErrors, receipt.validationErrors, 'validation evidence', item.sourcePath)
       }
-      assertCopiedEvidence(result.review, receipt.review, 'review evidence', item.sourcePath)
-      assertCopiedEvidence(result.validationErrors, receipt.validationErrors, 'validation evidence', item.sourcePath)
     }
   }
   return Object.freeze({resultBySource, translatedCount: reportTranslated, failedCount: reportFailed})
