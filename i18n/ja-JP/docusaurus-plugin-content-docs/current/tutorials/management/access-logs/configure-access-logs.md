@@ -32,7 +32,7 @@ import Procedures from '@site/src/components/Procedures';
 
 このガイドでは、Zilliz Cloud における Access Logs のライフサイクル全体、すなわち有効化、設定の調整、無効化について説明します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 - このリリースでは、検索またはクエリ系のアクションのみがログに記録されます: Search、HybridSearch、Query。すべてのアクション一覧のサポートは、今後のリリースで予定されています。
 
@@ -44,7 +44,7 @@ import Procedures from '@site/src/components/Procedures';
 
 - 対象のクラスターと同じリージョンに設定されたオブジェクトストレージ統合（AWS S3、Google Cloud Storage、または Azure Blob Storage）。セットアップ手順については、[AWS S3 と統合する](./integrate-with-aws-s3)、[Google Cloud Storage と統合する](./integrate-with-gcp)、または [Azure Blob Storage と統合する](./integrate-with-azure-blob-storage) を参照してください。
 
-- プロジェクトに対する **Organization Owner**、**Project Admin**、または **Cluster Admin** 権限。必要な権限がない場合は、Zilliz Cloud 管理者に連絡してください。
+- **Organization Owner**, **Project Admin**, or **クラスター Admin** permissions for the project. If you do not have the required permissions, contact your Zilliz Cloud administrator.
 
 ## Access Logs を有効化する\{#enable-access-logs}
 

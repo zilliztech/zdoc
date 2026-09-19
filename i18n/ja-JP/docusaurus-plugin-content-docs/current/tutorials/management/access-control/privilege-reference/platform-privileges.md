@@ -82,7 +82,7 @@ IAM リソースは、Zilliz Cloud プラットフォームで使用される ID
 | `project_role` | Role | view、grant | いいえ | `*`（すべてのプロジェクト） | `-` | `-` | `*`（割り当てられたプロジェクト） | `view`（割り当てられたプロジェクト） | `view`（割り当てられたプロジェクト） | `view`（割り当てられたプロジェクト） |
 | `project_custom_role` | Role | view、create、modify、delete、grant | いいえ | `*` | `-` | `-` | `*` | `-` | `-` | `-` |
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - 個人用 API キーは個々のユーザーが所有します。各ユーザーは自身の個人用 API キーをリセットできます。個人用 API キーの権限は、リソース権限モデルを通じて個別に管理されません。
 

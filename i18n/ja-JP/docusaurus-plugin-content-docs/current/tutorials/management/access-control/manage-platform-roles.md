@@ -28,7 +28,7 @@ import Procedures from '@site/src/components/Procedures';
 
 組織ロールは、組織レベルのアクセスを制御します。組織ロールを使用すると、メンバー、グループ、組織設定、請求とサブスクリプション、セキュリティ設定、組織アラート、プラットフォーム監査ログの表示、API キー、プロジェクト管理、ごみ箱操作の権限を管理できます。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 組織ロールの対象は組織レベルのリソースのみです。クラスター、データベース、コレクションの権限は定義しません。
 
@@ -48,7 +48,7 @@ import Procedures from '@site/src/components/Procedures';
 
 プロジェクトロールは、特定のプロジェクト内のアクセスを制御します。プロジェクトロールを使用すると、プロジェクトメンバー、クラスターのライフサイクル操作、オンデマンドコンピュートへのアクセス、インテグレーション、バックアップ、移行、アラート、ボリューム、プロジェクトスコープのデータアクセスを管理できます。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 プロジェクトロールは特定のプロジェクトに属します。プロジェクトロールを割り当てると、その割り当ては選択したプロジェクトにのみ適用されます。
 
@@ -121,7 +121,7 @@ import Procedures from '@site/src/components/Procedures';
 
 #### カスタムプロジェクトロールの削除\{#delete-a-custom-project-role}
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 ユーザー、グループ、またはサービスプリンシパルに割り当てられているプロジェクトロールは削除できません。ロールを削除する前に、既存の割り当てを解除してください。
 

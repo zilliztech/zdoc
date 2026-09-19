@@ -218,3 +218,4 @@ Zilliz Cloud では、監査ログの構文は以下の通りです。
 | `action` | 説明 |
 | --- | --- |
 | Authorize | 認可に失敗した場合にのみ記録され、`status` は `Refused` として記録されます。 |
+

@@ -32,7 +32,7 @@ import Procedures from '@site/src/components/Procedures';
 
 監査ログを使用すると、管理者は Zilliz Cloud クラスター上のユーザー主導の操作や API 呼び出しを追跡および監視できます。この機能は、ベクトル DB アクティビティの詳細な記録を提供し、ベクトル検索、クエリ実行、インデックス管理、その他のデータ操作を含みます。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 - 監査ログは、Milvus 2.5.x 以降を実行している Zilliz Cloud クラスターでのみサポートされます。
 
@@ -52,7 +52,7 @@ import Procedures from '@site/src/components/Procedures';
 
 - **システムイベント**: ユーザーアクセス試行、認可チェック、その他の定義済みアクション。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 migration、backup、restore などのクラスター レベルのデータジョブでは監査ログは生成されません。これらのアクティビティ記録を表示するには、[View Activities](./view-activities) を参照してください。
 
@@ -66,7 +66,7 @@ migration、backup、restore などのクラスター レベルのデータジ�
 
 以下は、バケットに転送される監査ログエントリの例です。
 
-- **Create Collection**
+- **Create コレクション**
 
     ```json
     {
@@ -87,7 +87,7 @@ migration、backup、restore などのクラスター レベルのデータジ�
     }
     ```
 
-- **Create Index**
+- **Create インデックス**
 
     ```json
     {
@@ -107,7 +107,7 @@ migration、backup、restore などのクラスター レベルのデータジ�
     }
     ```
 
-- **Drop Index**
+- **Drop インデックス**
 
     ```json
     {
@@ -149,7 +149,7 @@ Zilliz Cloud の監査ログ機能は、監査ログをストレージバケッ�
 
 1. [Zilliz Cloud console](https://cloud.zilliz.com/login) にログインします。
 
-1. 左側のナビゲーションペインで **Clusters** を選択します。
+1. In the left-side navigation pane, choose **クラスター**.
 
 1. 対象クラスターの詳細ページに移動し、**Logs** タブを選択します。クラスターが **CREATING**、**DELETING**、または **DELETED** ステータスの場合、このタブは使用できません。
 
@@ -159,7 +159,7 @@ Zilliz Cloud の監査ログ機能は、監査ログをストレージバケッ�
 
     - **Storage Integration**: 監査ログの保存先となるバケットを選択します。
 
-        <Admonition type="info" icon="📘" title="注意">
+        <Admonition type="info" title="Notes">
 
         クラスターと同じリージョン内のバケットのみがドロップダウンリストに表示されます。
 

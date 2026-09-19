@@ -30,7 +30,7 @@ MFA を有効にすると、ログイン時に次の 2 つの要素を提示す�
 
 - 認証アプリ（例: Google Authenticator、Microsoft Authenticator など）からの TOTP（time-based one-time password）
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 Zilliz Cloud は、アカウントセキュリティを強化するために MFA をアップグレードしました。**2025 年 11 月 25 日**より、メールベースの MFA は廃止されます。以前メールベースの MFA を使用していたユーザーは、TOTP 認証アプリに切り替える必要があります。
 
@@ -54,7 +54,7 @@ Zilliz Cloud は、アカウントセキュリティを強化するために MFA
 
 ## Disable MFA\{#disable-mfa}
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 組織で [MFA の強制](./multi-factor-auth#enforce-mfa-for-all-organization-users) が有効になっている場合、自分のアカウントの MFA を無効にすることはできません。
 
@@ -66,7 +66,7 @@ Zilliz Cloud は、アカウントセキュリティを強化するために MFA
 
 ## Enforce MFA for all organization users\{#enforce-mfa-for-all-organization-users}
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 この機能にアクセスするには、Organization Owner である必要があります。
 
@@ -88,7 +88,7 @@ Zilliz Cloud は、アカウントセキュリティを強化するために MFA
 
 ## Disable MFA enforcement for organization\{#disable-mfa-enforcement-for-organization}
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 この機能にアクセスするには、Organization Owner である必要があります。
 

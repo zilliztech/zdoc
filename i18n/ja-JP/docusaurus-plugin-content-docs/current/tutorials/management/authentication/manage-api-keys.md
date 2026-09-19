@@ -36,7 +36,7 @@ Zilliz Cloud では、多様なユーザー要件に対応するために 2 種�
 
 - **Customized API keys**: Zilliz Cloud アカウントを持たないアプリケーションまたは外部ユーザー向けに、**Organization Owners** と **Project Admins** が手動で作成する key です。これらの key は長期的なアクセス要件に最適で、API key の最初の作成者が organization を離れた場合でもサービス継続性を確保できます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 本番環境では、代わりに customized key を使用してください。Personal API key はユーザーアカウントとともに削除されます。
 
@@ -253,7 +253,7 @@ Zilliz Cloud が各 organization ユーザーに対して自動生成する pers
 
     - **API Key Access**: 適切な organization ロールおよび project ロールを割り当てて、現在の customized API key のアクセス範囲を定義します。よりきめ細かなアクセス制御のために、**Restrict Access to Specific クラスター and Volumes** をチェックして、この key がアクセスできる クラスター と volume を制限できます。
 
-        <Admonition type="info" icon="📘" title="📘 Notes">
+        <Admonition type="info" title="Notes">
 
         [Project Admins](./manage-platform-roles#predefined-project-roles) の場合、このユーザーが API key に付与できる権限は、そのユーザー自身の権限範囲に制限されます。 
 
@@ -295,7 +295,7 @@ organization の **API Keys** ページに移動します。表示内容は、�
 
     - **API Key Access**:  適切な organization ロールおよび project ロールを割り当てて、現在の customized API key のアクセス範囲を定義します。よりきめ細かなアクセス制御のために、**Restrict Access to Specific クラスター and Volumes** をチェックして、この key がアクセスできる クラスター と volume を制限できます。
 
-        <Admonition type="info" icon="📘" title="📘 Notes">
+        <Admonition type="info" title="Notes">
 
         [Project Admins](./manage-platform-roles#predefined-project-roles) の場合、このユーザーが API key に付与できる権限は、そのユーザー自身の権限範囲に制限されます。 
 
@@ -307,7 +307,7 @@ organization の **API Keys** ページに移動します。表示内容は、�
 
 personal API key または customized API key が漏洩した可能性がある場合は、直ちにリセットする必要があります。 
 
-<Admonition type="info" icon="📘" title="🚧 Warning">
+<Admonition type="warning" title="Warning">
 
 この操作により、現在の API key はリセットされて無効になります。この key を使用しているアプリケーションコードは、新しい key の値で関連コードを更新するまで動作しなくなります。
 
@@ -331,7 +331,7 @@ personal key は手動で削除できません。ただし、対応するユー�
 
 以下のスクリーンショットは、customized API key を削除する方法を示しています。
 
-<Admonition type="info" icon="📘" title="🚧 Warning">
+<Admonition type="warning" title="Warning">
 
 API key を削除すると、その key を使用しているすべてのサービスの Zilliz Cloud リソースへのアクセスは不可逆的に終了します。
 

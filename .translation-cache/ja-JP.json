@@ -2381,9 +2381,9 @@
       "translatedAt": "2026-09-19T14:17:06.722Z"
     },
     "content/en/guides/tutorials/get-started/select-zilliz-cloud-service-plans.md": {
-      "sourceHash": "f0507b90123def7af834fc3fc4ee6c5bb03123042134682079d9ab5aed621dad",
+      "sourceHash": "56a46000fe1c5b1c29da0a5acc76442f5ddfafc986a69c3abef743b886af6859",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/select-zilliz-cloud-service-plans.md",
-      "translatedAt": "2026-08-04T05:07:30.302Z"
+      "translatedAt": "2026-09-19T14:18:28.626Z"
     },
     "content/en/guides/tutorials/home.md": {
       "sourceHash": "07f4aaec526bfd71e60e70f945f014396c491aa00c9a06a973a03058ba1f1744",
@@ -2391,19 +2391,59 @@
       "translatedAt": "2026-09-15T13:53:02.040Z"
     },
     "content/en/guides/tutorials/management/access-control/access-control-overview.md": {
-      "sourceHash": "0bfdc5697df51ce951ae994cb5b09825fc6053d2e299c685ea6c5f1c3a554a31",
+      "sourceHash": "9245be250e59438509ba25c545ec1d1f0d7c14969c166bcaef5a98e66de090d6",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/access-control/access-control-overview.md",
-      "translatedAt": "2026-08-25T08:39:40.147Z"
+      "translatedAt": "2026-09-19T14:18:28.626Z"
     },
     "content/en/guides/tutorials/management/access-control/manage-cluster-roles/cluster-roles-sdk.md": {
-      "sourceHash": "2a89a788d187935709f5ae12980874358cf53e5aacfa25956d3a090ee46cb26a",
+      "sourceHash": "caf9843fb1c6bb5f0a2d0f02d28819f9a374b037717f500e8fd54c73a448d098",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/access-control/manage-cluster-roles/cluster-roles-sdk.md",
-      "translatedAt": "2026-08-25T05:14:55.944Z"
+      "translatedAt": "2026-09-19T14:18:28.626Z"
+    },
+    "content/en/guides/tutorials/management/access-control/manage-cluster-roles/cluster-roles.md": {
+      "sourceHash": "51898fd5af62aae5e6bbf4104547527bf2f3b489605ed8534814aa03ae523073",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/access-control/manage-cluster-roles/cluster-roles.md",
+      "translatedAt": "2026-09-19T14:18:28.626Z"
     },
     "content/en/guides/tutorials/management/access-control/manage-platform-roles.md": {
-      "sourceHash": "65e6d42f4346f93c4792d9a7a672f951672a79d6d070b9ebe129bd9aa9e2fb0e",
+      "sourceHash": "c084cf6d7d91ac2a863505e9f15be09cb15ec076a565b515b56e73c1cbb2a73a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/access-control/manage-platform-roles.md",
-      "translatedAt": "2026-08-25T05:18:32.251Z"
+      "translatedAt": "2026-09-19T14:18:28.626Z"
+    },
+    "content/en/guides/tutorials/management/access-control/privilege-reference/cluster-privileges.md": {
+      "sourceHash": "537084f367e2f8802278b73e88fb3d78ac44aa38eb341850f26dabfbe0462a3d",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/access-control/privilege-reference/cluster-privileges.md",
+      "translatedAt": "2026-09-19T14:18:28.626Z"
+    },
+    "content/en/guides/tutorials/management/access-control/privilege-reference/platform-privileges.md": {
+      "sourceHash": "faf6108a7b7b2743c94bccbe048e589cba498aa21c1e547dd74778b3b7dbb33a",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/access-control/privilege-reference/platform-privileges.md",
+      "translatedAt": "2026-09-19T14:18:28.626Z"
+    },
+    "content/en/guides/tutorials/management/access-logs/access-log-overview.md": {
+      "sourceHash": "3f0974d699a1b60624131e236de7971e598ea8de8908ab2d53e671a18c31df26",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/access-logs/access-log-overview.md",
+      "translatedAt": "2026-09-19T14:18:28.626Z"
+    },
+    "content/en/guides/tutorials/management/access-logs/access-log-reference.md": {
+      "sourceHash": "cd218f688726ac65207b157a2b95a022c500dd8e33128b91e3aeb5bf30901af4",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/access-logs/access-log-reference.md",
+      "translatedAt": "2026-09-19T14:18:28.626Z"
+    },
+    "content/en/guides/tutorials/management/access-logs/configure-access-logs.md": {
+      "sourceHash": "d61abf6dbec07482e8ab322dadd028a69b9ce8365b3ac8c9243dadaade055e1d",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/access-logs/configure-access-logs.md",
+      "translatedAt": "2026-09-19T14:18:28.626Z"
+    },
+    "content/en/guides/tutorials/management/auditing/audit-logs-ref.md": {
+      "sourceHash": "c16ac69ee9e6b458ed04f2ae76c6892e6d7dd1bc9dd5b8a91b88584b0d3ce3d3",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/auditing/audit-logs-ref.md",
+      "translatedAt": "2026-09-19T14:18:28.626Z"
+    },
+    "content/en/guides/tutorials/management/auditing/audit-logs.md": {
+      "sourceHash": "45c2b7e98526d83889118d0a601927d3dd52d92fb882000a037c45aa4a1e6722",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/auditing/audit-logs.md",
+      "translatedAt": "2026-09-19T14:18:28.626Z"
     },
     "content/en/guides/tutorials/management/auditing/view-activities.md": {
       "sourceHash": "b0b78a518b07405f3548512097dc587092e3989cc2ef133d004b42bb838b153b",
@@ -2411,9 +2451,19 @@
       "translatedAt": "2026-09-19T13:43:11.314Z"
     },
     "content/en/guides/tutorials/management/authentication/email-accounts.md": {
-      "sourceHash": "63c2d8f90192cff17c58682611a725e20dcb46998dd681ce239e7f1f4adad589",
+      "sourceHash": "9d52dc0c246e79a6f73127671c78b9313d3ac93c880480fd03621f600fe5b05c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/authentication/email-accounts.md",
-      "translatedAt": "2026-08-25T08:43:04.453Z"
+      "translatedAt": "2026-09-19T14:18:28.626Z"
+    },
+    "content/en/guides/tutorials/management/authentication/manage-api-keys.md": {
+      "sourceHash": "23bf42c58aef723ec43dee8e5cacb72c866e86af7f367c67e4f848dd6a328407",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/authentication/manage-api-keys.md",
+      "translatedAt": "2026-09-19T14:18:28.626Z"
+    },
+    "content/en/guides/tutorials/management/authentication/multi-factor-auth.md": {
+      "sourceHash": "dd5048851c6c2b4241a8c8df0d73a80f1d89d43f35c3b506c2e755c25e1bbb85",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/authentication/multi-factor-auth.md",
+      "translatedAt": "2026-09-19T14:18:28.626Z"
     },
     "content/en/guides/tutorials/management/backup-and-restore/backup-to-other-regions.md": {
       "sourceHash": "c8c64437eb1c218f51a3322730a7f2637b5c8c7587620d92df2e8eacc11aeee9",

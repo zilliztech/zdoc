@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "高ボリュームのワークロードでは、どのデータに最も頻繁にアクセスされているかを把握することが、index のチューニングや partition 戦略などの最適化判断において重要です。クエリパターンの可視性がなければ、これらの判断は推測に頼ることになります。 | Cloud"
+description: "In high-volume workloads, understanding which data is accessed most frequently is critical for optimization decisions such as インデックス tuning or partition strategy. Without visibility into query patterns, these decisions rely on guesswork. | Cloud"
 type: origin
 token: PIfLwbrMmiOZKAkqtpScjnhinXf
 sidebar_position: 1
@@ -26,11 +26,11 @@ import Admonition from '@theme/Admonition';
 
 </FeatureNote>
 
-高ボリュームのワークロードでは、どのデータに最も頻繁にアクセスされているかを把握することが、index のチューニングや partition 戦略などの最適化判断において重要です。クエリパターンの可視性がなければ、これらの判断は推測に頼ることになります。
+In high-volume workloads, understanding which data is accessed most frequently is critical for optimization decisions such as インデックス tuning or partition strategy. Without visibility into query patterns, these decisions rely on guesswork.
 
-Access Logs は、その可視性を提供します。Zilliz Cloud cluster で有効にすると、access log パイプラインがクエリ活動を収集し、構造化されたログファイルとしてお客様自身のオブジェクトストレージに配信します。その後、これらのログをデータウェアハウスに読み込み、entity ID ごとに集計することで、ホットデータ、低速なクエリ、利用傾向を特定できます。
+Access Logs give you that visibility. When enabled on a Zilliz Cloud クラスター, the access log pipeline captures query activities and delivers it as structured log files to your own object storage. You can then load these logs into a data warehouse and aggregate by entity ID to identify hot data, slow queries, and usage trends.
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 - このリリースでは、search または query クラスのアクションのみが記録されます: Search、HybridSearch、Query。完全なアクション一覧のサポートは、今後のリリースで予定されています。
 
@@ -40,13 +40,13 @@ Access Logs は、その可視性を提供します。Zilliz Cloud cluster で�
 
 ## パイプラインの仕組み\{#how-the-pipeline-works}
 
-access log パイプラインには 2 つのフェーズがあります。Zilliz Cloud 側での収集と、お客様側での分析です。
+The access log pipeline has two phases: コレクション on the Zilliz Cloud side and analysis on yours.
 
 ![TWlbbeheTo3aOnxE5t5cEYgcnbb](https://zdoc-images.s3.us-west-2.amazonaws.com/twlbbeheto3aonxe5t5ceygcnbb.png "TWlbbeheTo3aOnxE5t5cEYgcnbb")
 
 ### Zilliz Cloud によるログの収集と配信\{#zilliz-cloud-collects-and-delivers-logs}
 
-cluster で Access Logs を有効にすると、Zilliz Cloud は proxy レイヤーでクエリ活動の取得を開始します。cluster レベルで次の 2 つの設定を構成します。
+When you enable Access Logs on a クラスター, Zilliz Cloud begins capturing query activities at the proxy layer. You configure two settings at the クラスター level:
 
 - **Sample rate**: どの割合のリクエストを記録するかを制御します。値の範囲は 0 から 100 で、ランダムにサンプリングされて access log に書き込まれるリクエストの割合を表します。たとえば、sample rate を 1 に設定すると、約 1% のリクエストで access log エントリが生成されます。高ボリュームのワークロードでは、sample rate を低くすることで、アクセスパターンの分析に十分なデータを維持しつつ、ログ保存コストを削減できます。
 
@@ -86,7 +86,7 @@ access log パイプラインは、1 つの中核原則に基づいて設計さ�
 
 ### 非ブロッキング保証\{#non-blocking-guarantee}
 
-access log の収集によって、ユーザーリクエストが遅延したりブロックされたりすることはありません。システムがクエリの完了とログエントリの書き込みのどちらを優先するか選ばなければならない場合、常にクエリが優先されます。
+Access log コレクション never delays or blocks user requests. If the system must choose between completing a query and writing a log entry, the query always wins.
 
 ### グレースフルデグラデーション\{#graceful-degradation}
 

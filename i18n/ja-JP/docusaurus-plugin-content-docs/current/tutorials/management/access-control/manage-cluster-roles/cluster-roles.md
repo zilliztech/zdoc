@@ -83,7 +83,7 @@ Zilliz Cloud は、ベクトルデータベースシステムで一般的に必�
 
 コレクションレベルのアクセス制御を行う場合は、カスタムロールを作成することをお勧めします。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 この機能は Dedicated クラスターでのみ利用できます。
 
@@ -111,7 +111,7 @@ Zilliz Cloud は、ベクトルデータベースシステムで一般的に必�
 
     - クラスター権限グループ: Admin (`Cluster_Admin`)、Read-Write (`Cluster_RW`)、Read-Only (`Cluster_RO`)
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     これら 3 つのレベルの組み込み権限グループの間にはカスケード関係はありません。インスタンスレベルで組み込み権限グループを設定しても、そのインスタンス配下のすべてのデータベースやコレクションに対する権限が自動的に設定されるわけではありません。データベースレベルおよびコレクションレベルの権限は手動で設定する必要があります。
 
@@ -150,3 +150,4 @@ Zilliz Cloud は、ベクトルデータベースシステムで一般的に必�
 ユーザーに付与済みのロールは削除できません。まず対象のロールが付与されているユーザーを確認し、それらのユーザーに別のロールを割り当ててください。
 
 ![delete-クラスター-role](https://zdoc-images.s3.us-west-2.amazonaws.com/delete-cluster-role.png "delete-クラスター-role")
+

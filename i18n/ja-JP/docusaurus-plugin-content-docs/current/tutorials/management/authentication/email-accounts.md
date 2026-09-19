@@ -24,6 +24,12 @@ import Procedures from '@site/src/components/Procedures';
 
 Zilliz Cloud で[アカウントを登録](./register-with-zilliz-cloud)すると、アカウント情報の管理、ログイン方法の切り替え、Google または GitHub アカウントとの連携解除ができます。
 
+## コンソールセッション\{#console-session}
+
+Zilliz Cloud コンソールにサインインすると、コンソールを使い続けている限り、ログインセッションは有効なまま維持されます。6 時間操作がない場合、セッションは期限切れとなり、再度サインインする必要があります。
+
+この非アクティブタイムアウトは、Zilliz Cloud コンソールのセッションに適用されます。API キー、クラスターの認証情報、既存の Zilliz Cloud クラスターへの接続には影響しません。
+
 ## プロフィール情報を変更する\{#modify-your-profile-information}
 
 ![modify_account_info](https://zdoc-images.s3.us-west-2.amazonaws.com/modifyaccountinfo.png "modify_account_info")
@@ -46,7 +52,7 @@ Zilliz Cloud で[アカウントを登録](./register-with-zilliz-cloud)する�
 
 ![update_email_address](https://zdoc-images.s3.us-west-2.amazonaws.com/updateemailaddress.png "update_email_address")
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 メールアドレスを更新しても、請求書やアラートの受信者には影響しません。必要に応じて、これらの情報を手動で更新してください。
 
@@ -72,11 +78,11 @@ Zilliz Cloud で[アカウントを登録](./register-with-zilliz-cloud)する�
 
 ## ログイン方法を切り替える\{#switch-login-method}
 
-初回登録時と同じログイン方法を維持する必要がありますが、Zilliz Cloud では必要に応じてログイン方法を切り替える柔軟性が提供されています。
+初回登録時と同じログイン方法を維持する必要がありますが、ログイン方法を切り替える必要がある場合、Zilliz Cloud は柔軟性を提供します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-組織ユーザーの場合は、ID プロバイダー（IdP）の Okta を使用してシングルサインオン（SSO）を設定できます。これにより、組織のユーザーは Okta で認証した後、別途 Zilliz Cloud アカウントを作成することなく、業務用メールアドレスを使用してシームレスに Zilliz Cloud にアクセスできます。詳細については、[Okta を使用したシングルサインオン](./single-sign-on-with-okta) を参照してください。
+組織のユーザーの場合は、ID プロバイダー（IdP）の Okta を使用してシングルサインオン（SSO）を設定できます。これにより、組織のユーザーは Okta で認証した後、別途 Zilliz Cloud アカウントを作成することなく、業務用メールアドレスを使用してシームレスに Zilliz Cloud にアクセスできます。詳細については、[Okta を使用したシングルサインオン](./single-sign-on-with-okta) を参照してください。
 
 </Admonition>
 
@@ -86,7 +92,7 @@ Zilliz Cloud で[アカウントを登録](./register-with-zilliz-cloud)する�
 
 ### サードパーティログインからパスワードログインに切り替える\{#switch-from-third-party-login-to-password-login}
 
-Zilliz Cloud アカウントをサードパーティアカウントに連携した後、メールアドレスとパスワードを使ったログインに戻すには、[Zilliz Cloud アカウントとサードパーティサービスとの連携を解除](./email-accounts#unlink-from-third-party-authentication)するだけです。
+Zilliz Cloud アカウントをサードパーティアカウントに連携した後、メールアドレスとパスワードを使用したログインに戻すには、[Zilliz Cloud アカウントとサードパーティサービスとの連携を解除](./email-accounts#unlink-from-third-party-authentication)するだけです。
 
 ### サードパーティログイン間で切り替える\{#switch-between-third-party-logins}
 
@@ -96,7 +102,7 @@ Zilliz Cloud アカウントをサードパーティアカウントに連携し�
 
 1. [現在のサードパーティアカウントとの連携を解除](./email-accounts#unlink-from-third-party-authentication)します。
 
-1. [Zilliz Cloud アカウントを新しく使用したいサードパーティアカウントに連携](./register-with-zilliz-cloud)します。
+1. [Zilliz Cloud アカウントを新しく連携したいサードパーティアカウントに連携](./register-with-zilliz-cloud)します。
 
 </Procedures>
 
@@ -140,7 +146,7 @@ Zilliz Cloud アカウントをサードパーティアカウントに連携し�
 
 ## アカウントを閉鎖する\{#close-your-account}
 
-<Admonition type="info" icon="📘" title="🚧 Warning">
+<Admonition type="warning" title="Warning">
 
 アカウントを閉鎖すると、そのアカウントを使用して Zilliz Cloud にログインできなくなります。気が変わってアカウントを再開する必要がある場合は、[Zilliz Cloud サポートポータル](https://support.zilliz.com/hc/en-us) からサポートチケットを作成してください。30 日後、このアカウント内のすべてのデータは削除されます。
 
@@ -150,7 +156,7 @@ Zilliz Cloud アカウントをサードパーティアカウントに連携し�
 
 続行する前に、以下の条件を満たしていることを確認してください。
 
-- クラスターがあるプロジェクトの唯一のプロジェクト管理者である場合は、[プロジェクトのクラスターを削除](./manage-cluster)してください。
+- クラスターがあるプロジェクトで唯一のプロジェクト管理者である場合は、[プロジェクトのクラスターを削除](./manage-cluster)してください。
 
 - 唯一の組織オーナーである場合は、組織を削除してください。
 
