@@ -1,13 +1,13 @@
 ---
-title: "Global Cluster の説明 | Cloud"
+title: "グローバルクラスターの説明 | Cloud"
 slug: /global-cluster-explained
-sidebar_label: "Global Cluster の説明"
+sidebar_label: "グローバルクラスターの説明"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud global cluster では、同一クラウドプロバイダー上の複数リージョンに、primary cluster と複数の読み取り専用 secondary cluster をデプロイできます。 | Cloud"
+description: "Zilliz Cloud のグローバルクラスターを使用すると、同じクラウドプロバイダー上の複数のリージョンに、プライマリクラスターと複数の読み取り専用セカンダリクラスターをデプロイできます。 | Cloud"
 type: origin
 token: AICcwQ55yiNqEPkjdV6cb2i8nqe
 sidebar_position: 1
@@ -18,69 +18,69 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
-# Global Cluster の説明
+# グローバルクラスターの説明
 
 <FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
 
-この機能は、Business Critical (SaaS) および BYOC デプロイメントでのみ利用できます。
+この機能は、Business Critical（SaaS）および BYOC デプロイメントでのみ利用できます。
 
 </FeatureNote>
 
 <FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
 
-この機能は、すべての AWS リージョンと、以下の Google Cloud リージョンで利用できます: gcp-us-central1 および gcp-us-east4。Microsoft Azure では利用できません。
+この機能は、すべての AWS リージョンと、次の Google Cloud リージョンで利用できます：gcp-us-central1 および gcp-us-east4。Microsoft Azure では利用できません。
 
 </FeatureNote>
 
-Zilliz Cloud **global cluster** では、同一クラウドプロバイダー上の複数リージョンに、primary cluster と複数の読み取り専用 secondary cluster をデプロイできます。 
+Zilliz Cloud の **グローバルクラスター** を使用すると、同じクラウドプロバイダー上の複数のリージョンに、プライマリクラスターと複数の読み取り専用セカンダリクラスターをデプロイできます。
 
-この機能は、グローバルに分散されたミッションクリティカルなアプリケーション向けに設計されており、リージョン障害に対する耐障害性と、世界中のユーザーに対する低レイテンシのローカル読み取りを実現するのに役立ちます。
+この機能は、グローバルに分散したミッションクリティカルなアプリケーション向けに設計されており、リージョン障害に対するレジリエンスと、世界中のユーザー向けの低レイテンシなローカル読み取りを実現するのに役立ちます。
 
-## Overview\{#overview}
+## 概要\{#overview}
 
-Zilliz Cloud **global cluster** は、1 つの **primary cluster** と、同一クラウドプロバイダー上の異なるリージョンにデプロイされた、最大 **5 つの読み取り専用** **secondary clusters** で構成されます。
+Zilliz Cloud の **グローバルクラスター** は、同じクラウドプロバイダー上の異なるリージョンにデプロイされた、1 つの **プライマリクラスター** と最大 **5つの読み取り専用** **セカンダリクラスター** で構成されます。
 
-- Primary cluster: システムの信頼できる中核です。すべての書き込み操作を処理します。また、読み取りリクエストを処理する能力は、すべての secondary cluster と同じです。
+- プライマリクラスター: システムの信頼できる中核です。すべての書き込み操作を処理します。また、読み取りリクエストを処理する能力は、すべてのセカンダリクラスターと同じです。
 
-- Secondary clusters: 地理的に分散されたフォロワーです。2 つの重要な目的を果たします。1 つは災害復旧のためのスタンバイとして機能すること、もう 1 つはそのリージョンのユーザーに対してローカルの読み取り専用トラフィックを提供することです。
+- セカンダリクラスター: 地理的に分散したフォロワーです。これらは 2つの重要な役割を果たします。災害復旧のためのスタンバイとして機能することと、そのリージョンのユーザーにローカルの読み取り専用トラフィックを提供することです。
 
-すべての書き込みは primary cluster に送られます。その後、Zilliz Cloud は primary cluster からすべての secondary cluster へデータ変更を自動的にレプリケートします。 
+すべての書き込みはプライマリクラスターに送られます。その後、Zilliz Cloud はプライマリクラスターからすべてのセカンダリクラスターへデータ変更を自動的にレプリケートします。
 
-次の図は、Zilliz Cloud における global cluster の動作を示しています。
+次の図は、Zilliz Cloud におけるグローバルクラスターの動作を示しています。
 
 ![UZjtwUeaxh2lDsb9eeOclNZ6nae](https://zdoc-images.s3.us-west-2.amazonaws.com/UZjtwUeaxh2lDsb9eeOclNZ6nae.png)
 
 このマルチリージョン構成には、次の利点があります。
 
-- **リージョン障害に対する耐障害性**: primary cluster に障害が発生したり停止した場合、secondary cluster を primary cluster に昇格できます。
+- **リージョン障害に対するレジリエンス**: プライマリクラスターに障害が発生したり停止したりした場合は、セカンダリクラスターをプライマリクラスターに昇格できます。
 
-- **低レイテンシの読み取り**: データの完全なコピーが複数の地理的拠点に存在するため、アプリケーションは最も近いリージョンから読み取ることでレイテンシを最小化できます。
+- **低レイテンシな読み取り**: データの完全なコピーが複数の地理的ロケーションに存在するため、アプリケーションは最も近いリージョンから読み取ることでレイテンシを最小限に抑えられます。
 
-## Typical use cases\{#typical-use-cases}
+## 代表的なユースケース\{#typical-use-cases}
 
-global cluster 機能には、2 つの代表的なユースケースがあります。
+グローバルクラスター機能には、代表的なユースケースが 2つあります。
 
-- **災害復旧と高可用性:** フェイルオーバーのために複数リージョンに cluster をデプロイします。この場合は、**global** **endpoint**（変更されない単一の統一 URL）を通じて接続します。Zilliz Cloud は、書き込みリクエストを自動的に primary cluster にルーティングし、読み取りリクエストをレイテンシに基づいて最も近い secondary にルーティングします。スイッチオーバーまたはフェイルオーバー中も、endpoint は自動的に再ルーティングされるため、コード変更は不要です。
+- **災害復旧と高可用性:** フェイルオーバーのために複数のリージョンにクラスターをデプロイします。この場合は、**グローバル** **エンドポイント**（変更されることのない、単一の統合 URL）経由で接続します。Zilliz Cloud は、書き込みリクエストをプライマリクラスターに自動的にルーティングし、読み取りリクエストをレイテンシに基づいて最も近いセカンダリクラスターにルーティングします。スイッチオーバーまたはフェイルオーバー中は、エンドポイントが自動的に再ルーティングされるため、コードの変更は不要です。
 
-- **環境間のデータレプリケーション:** 複数の cluster（たとえば、本番環境とテスト環境）を同一または異なるリージョンで実行し、それらの間でデータをレプリケートします。この場合は、各 cluster の **public** **endpoint** を使用して各 cluster に直接接続します。
+- **環境間のデータレプリケーション:** 複数のクラスター（たとえば、本番環境とテスト環境）を同じリージョンまたは異なるリージョンで実行し、クラスター間でデータをレプリケートします。この場合は、各クラスターの **パブリック** **エンドポイント** を使用して、各クラスターに直接接続します。
 
-詳細については、[Connect to Global Cluster](./connect-to-global-cluster) を参照してください。
+詳細については、[グローバルクラスターへの接続](./connect-to-global-cluster) を参照してください。
 
-## Switchover and failover\{#switchover-and-failover}
+## スイッチオーバーとフェイルオーバー\{#switchover-and-failover}
 
-Zilliz Cloud global clusters は switchover と failover をサポートしています。どちらの操作でも、どのリージョンが primary cluster をホストするかが変更され、global endpoint は自動的に再ルーティングされます。
+Zilliz Cloud のグローバルクラスターは、スイッチオーバーとフェイルオーバーをサポートしています。どちらの操作でも、どのリージョンがプライマリクラスターをホストするかが変更され、グローバルエンドポイントは自動的に再ルーティングされます。
 
-詳細については、[Switchover and Failover](./switchover-and-failover) を参照してください。
+詳細については、[スイッチオーバーとフェイルオーバー](./switchover-and-failover) を参照してください。
 
-## Billing\{#billing}
+## 課金\{#billing}
 
-global cluster では、primary cluster と secondary cluster の両方について、コンピュートとストレージの使用量に対して通常の Zilliz Cloud の [Dedicated clusters](./dedicated-cluster-cost) として課金され、さらに cluster 間のデータレプリケーションに対して追加の [data transfer](./data-transfer-cost) 料金が発生します。 
+グローバルクラスターでは、プライマリクラスターとセカンダリクラスターの両方が、コンピュートとストレージの使用量に対して通常の Zilliz Cloud の [Dedicated クラスター](./dedicated-cluster-cost) として課金され、さらにクラスター間のデータレプリケーションに対して追加の [データ転送](./data-transfer-cost) 料金が発生します。
 
-global cluster の構成が次のとおりであるとします。
+グローバルクラスターの構成が次のとおりであるとします。
 
-- Region A にある primary cluster cluster_01
+- Region A にあるプライマリクラスター cluster_01
 
-- 2 つの secondary clusters:
+- 2つのセカンダリクラスター:
 
     - Region B にある cluster_02
 
@@ -88,57 +88,56 @@ global cluster の構成が次のとおりであるとします。
 
 次の合計額が課金されます。
 
-- cluster_01、cluster_02、cluster_03 の **Vector database（コンピュート）コスト**
+- cluster_01、cluster_02、cluster_03 の **ベクトルデータベース（コンピュート）コスト**
 
 - `cluster_01`、`cluster_02`、`cluster_03` の **ストレージコスト**。
 
-- `cluster_01` から `cluster_02` および `cluster_03` への **Data transfer コスト**
+- `cluster_01` から `cluster_02` および `cluster_03` への **データ転送コスト**
 
 詳細な定価については、[Zilliz Cloud List Price](https://zilliz.com/pricing/pricing-guide) を参照してください。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-[failover](./switchover-and-failover#perform-a-failover) 後にごみ箱内へ破棄された cluster については、**ストレージ** のみが課金されます。
+[failover](./switchover-and-failover#perform-a-failover) 後にごみ箱に移動された破棄済みのクラスターは、**ストレージ** のみが課金されます。
 
 </Admonition>
 
-## Considerations\{#considerations}
+## 注意事項\{#considerations}
 
-- **Project プランの利用可否**: global cluster 機能を利用するには、Business Critical プランのマルチリージョナル project が必要です。さらに、Global Cluster 内の secondary cluster リージョンは、[project](./manage-projects) でサポートされているリージョンに制限されます。
+- **プロジェクトプランの利用可否**: グローバルクラスター機能を利用するには、Business Critical プランのマルチリージョンプロジェクトが必要です。さらに、グローバルクラスター内のセカンダリクラスターのリージョンは、[プロジェクト](./manage-projects) でサポートされているリージョンに限定されます。
 
-- **Access Control**: global cluster を設定するには Project Admin である必要があります
+- **アクセス制御**: グローバルクラスターを構成するには、Project Admin である必要があります。
 
-- **Cluster configuration**:
+- **クラスター構成**:
 
-    - 追加できる secondary cluster は最大 5 つまでです。
+    - 追加できるセカンダリクラスターは最大 5つです。
 
-    - Secondary cluster は、primary と同じクラウドプロバイダーおよび cluster タイプを使用する必要があります。
+    - セカンダリクラスターは、プライマリと同じクラウドプロバイダーおよびクラスタータイプを使用する必要があります。
 
-    - Query CU 数は primary によって制御され、secondary は自動的にそれに従います。
+    - Query CU 数はプライマリによって制御され、セカンダリは自動的に追従します。
 
-    - Replica 数は cluster ごとに個別に制御されます。Dynamic Scaling と Schedule Scaling も cluster ごとに独立しています。
+    - Replica 数はクラスターごとに個別に制御されます。Dynamic Scaling と Schedule Scaling もクラスターごとに独立しています。
 
-- **Cluster operations:**
+- **クラスター操作:**
 
-    すべての cluster 操作が primary cluster と secondary cluster の両方で利用できるわけではありません。次の表は、それぞれでサポートされている内容をまとめたものです。
+    すべてのクラスター操作がプライマリクラスターとセカンダリクラスターの両方で利用できるわけではありません。次の表は、それぞれでサポートされている内容をまとめたものです。
 
-    | **Operation** | **Primary** | **Secondary** | **Notes** |
+    | **操作** | **プライマリ** | **セカンダリ** | **備考** |
     | --- | --- | --- | --- |
-    | Read (search, query) | Yes | Yes | -- |
-    | Write (insert, upsert, delete) | Yes | No | 書き込み操作を受け付けるのは primary cluster のみです。secondary cluster への書き込みは失敗します。 |
-    | Query CU scaling | Yes | No | Query CU の変更は primary に適用され、secondary は自動的にそれに従います。 |
-    | Replica scaling | Yes | Yes | 各 cluster は自身の replica 数を制御します。Dynamic scaling と schedule scaling の設定も独立しています。 |
-    | Import | No | No | 近日サポート予定です。 |
-    | Migration | Yes | No | Migration は primary cluster でのみサポートされています。primary cluster に移行されたすべてのデータは secondary cluster にレプリケートされます。 |
-    | Backup | Yes | No | backup を作成できるのは primary cluster のみです。<br/>自動 backup ポリシーも primary でのみ実行されます。 |
-    | Restore | No | No | 近日サポート予定です。 |
-    | Suspend / Resume | No | No | すべての primary cluster と secondary cluster は suspend できません。 |
-    | Switchover | Yes | — | primary cluster と secondary cluster のすべてが RUNNING の場合にのみトリガーできます。 |
-    | Failover | Yes | — | いつでもトリガーできます。これは高リスクの緊急操作です。 |
+    | 読み取り（search、query） | はい | はい | -- |
+    | 書き込み（insert、upsert、delete） | はい | いいえ | 書き込み操作を受け付けるのはプライマリクラスターのみです。セカンダリクラスターへの書き込みは失敗します。 |
+    | Query CU のスケーリング | はい | いいえ | Query CU の変更はプライマリに適用され、セカンダリは自動的に追従します。 |
+    | Replica のスケーリング | はい | はい | 各クラスターは独自の Replica 数を制御します。Dynamic Scaling と Schedule Scaling の構成もそれぞれ独立しています。 |
+    | インポート | いいえ | いいえ | 近日中にサポート予定です。 |
+    | マイグレーション | はい | いいえ | マイグレーションはプライマリクラスターでのみサポートされています。プライマリクラスターにマイグレーションされたすべてのデータは、セカンダリクラスターにレプリケートされます。 |
+    | バックアップ | はい | いいえ | バックアップを作成できるのはプライマリクラスターのみです。<br/>自動バックアップポリシーもプライマリでのみ実行されます。 |
+    | 復元 | いいえ | いいえ | 近日中にサポート予定です。 |
+    | 一時停止 / 再開 | いいえ | いいえ | すべてのプライマリクラスターおよびセカンダリクラスターは一時停止できません。 |
+    | スイッチオーバー | はい | — | プライマリクラスターとセカンダリクラスターのすべてが RUNNING である場合にのみ実行できます。 |
+    | フェイルオーバー | はい | — | いつでも実行できます。これは高リスクの緊急操作です。 |
 
-- **Unsupported features**
+- **未サポート機能**
 
-    - private global endpoint の設定はサポートされていません。global endpoint にはパブリックインターネットアクセスが必要です。
+    - プライベートグローバルエンドポイントの設定はサポートされていません。グローバルエンドポイントにはパブリックインターネットへのアクセスが必要です。
 
-    - global cluster では、カスタマー管理暗号化キー（[CMEK](./cmek)）はサポートされていません。cluster で CMEK が有効になっている場合、その cluster を global cluster に変換することはできません。
-
+    - グローバルクラスターでは、カスタマー管理暗号化キー（[CMEK](./cmek)）はサポートされていません。クラスターで CMEK が有効になっている場合は、そのクラスターをグローバルクラスターに変換することはできません。

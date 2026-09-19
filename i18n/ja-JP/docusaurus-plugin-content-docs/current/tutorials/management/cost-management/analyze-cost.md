@@ -24,7 +24,7 @@ Zilliz Cloud の **Usage** ページでは、可視化されたコスト分析�
 
 マーケットプレイス経由でサブスクライブしていて、マーケットプレイスアカウントごとに請求を分けたい場合は、[AWS Marketplace で Zilliz Cloud の請求を分離する](./separate-zilliz-cloud-billing-on-aws-marketplace) および関連ページを参照してください。
 
-## 前提条件\{#prerequisites}
+## 事前準備\{#prerequisites}
 
 Zilliz Cloud の Usage ページからコストにアクセスして分析するには、**Organization Owner** または **Billing Admin** 権限が必要です。
 
@@ -40,7 +40,7 @@ Zilliz Cloud でコストを分析する方法は 2 つあります。
 
 **Billing** ページで、**Usage** タブに切り替えます。さまざまな観点で使用状況とコストの傾向を監視できます。
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 Usage データは 1 時間ごとに更新されます。
 
@@ -58,7 +58,7 @@ Usage データは 1 時間ごとに更新されます。
 
 - **クラスター別**
 
-    ビジネスに応じて複数の異なるクラスターを作成している場合、クラスターに応じて特定のクラスターの使用状況とコストをフィルタして表示できます。 
+    ビジネスに応じて複数の異なるクラスターを作成している場合、クラスターごとに特定のクラスターの使用状況とコストをフィルタして表示できます。 
 
     たとえば、ユーザー情報用と注文情報用にそれぞれ 2 つの異なるクラスターを作成している場合、注文情報を保存しているクラスターの使用状況とコストを確認したいときは、フィルタで対応するクラスターを選択できます。
 
@@ -88,7 +88,7 @@ Usage データは 1 時間ごとに更新されます。
 
 ### RESTful API 経由\{#via-restful-api}
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 現在、Query Daily Usage RESTful API はパブリックプレビュー中です。この API を使用するには、[お問い合わせください](http://support.zilliz.com)。
 
@@ -124,4 +124,3 @@ Zilliz Cloud は **小数点以下 10 桁** の精度で料金を計算してお
 - **RESTful API**: すべての数値（例: Unit Price、Usage、Usage Amount）は常にちょうど小数点以下 10 桁で返されます。値の小数部が 10 桁未満の場合、不足分は末尾に 0 が補われて 10 桁になります。RESTful API の使用方法の詳細については、[Query Daily Usage](/reference/restful/query-daily-usage-v2) を参照してください。
 
 - **Web Console UI**: 表示される金額は API の値と一致していますが、可読性のために末尾の 0 は省略されます。たとえば、`0.1234000000` は UI では `0.1234` と表示されます。
-

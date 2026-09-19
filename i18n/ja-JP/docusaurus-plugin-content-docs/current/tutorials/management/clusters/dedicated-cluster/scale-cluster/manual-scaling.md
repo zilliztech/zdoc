@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "手動スケーリングでは、必要なターゲットリソース構成が分かっている場合に Dedicated serving cluster のサイズを変更できます。Query CU を増減して cluster capacity を調整したり、replica を増減して query throughput と可用性を調整したりできます。 | Cloud"
+description: "Manual scaling lets you resize a Dedicated serving クラスター when you know the target resource configuration you need. You can increase or decrease Query CU to adjust クラスター capacity, or increase or decrease replicas to adjust query throughput and availability. | Cloud"
 type: origin
 token: ByBTwOfgIie7e2k090Mc1EPknSf
 sidebar_position: 2
@@ -24,13 +24,13 @@ import Procedures from '@site/src/components/Procedures';
 
 # 手動スケーリング
 
-手動スケーリングでは、必要なターゲットリソース構成が分かっている場合に Dedicated serving cluster のサイズを変更できます。Query CU を増減して cluster capacity を調整したり、replica を増減して query throughput と可用性を調整したりできます。
+Manual scaling lets you resize a Dedicated serving クラスター when you know the target resource configuration you need. You can increase or decrease Query CU to adjust クラスター capacity, or increase or decrease replicas to adjust query throughput and availability.
 
 手動スケーリングは、本番リリース、負荷テスト、移行期間、予測可能なトラフィック増加、またはトラフィック減少後の一時的なコスト最適化など、計画的な変更に役立ちます。
 
-手動スケーリングは serving cluster にのみ適用される点に注意してください。On-demand cluster はリクエストの到着時に自動的にスケールし、アイドル時にはゼロまでスケールダウンします。
+Note that manual scaling applies to serving クラスター only. On-demand クラスター scale automatically when requests arrive and scale back to zero when idle.
 
-<Admonition type="info" icon="📘" title="注">
+<Admonition type="info" title="Note">
 
 Query CU の手動スケーリングはすべてのプランでサポートされています。
 
@@ -42,7 +42,7 @@ replica の手動スケーリングは Enterprise プラン以上でサポート
 
 ## 開始前に\{#before-you-start}
 
-開始する前に、[Plan Cluster Scaling](./plan-cluster-scaling) を読んで、主要なスケーリングの概念を理解し、ワークロードに適したスケーリング方法を選択してください。
+Before you start, read [Plan クラスター Scaling](./plan-cluster-scaling) to understand the key scaling concepts and choose the right scaling approach for your workload.
 
 ## Web コンソールでの手動スケーリング\{#manual-scaling-via-web-console}
 
@@ -52,7 +52,7 @@ replica の手動スケーリングは Enterprise プラン以上でサポート
 
 <Procedures>
 
-1. **Cluster Details** ページに移動します。
+1. Navigate to the **クラスター Details** page.
 
 1. **Query** **CU Settings** カードの **Scale** をクリックします。
 
@@ -68,7 +68,7 @@ replica の手動スケーリングは Enterprise プラン以上でサポート
 
 <Procedures>
 
-1. **Cluster Details** ページに移動します。
+1. Navigate to the **クラスター Details** page.
 
 1. **Replica Settings** カードの **Scale** をクリックします。
 
@@ -80,7 +80,7 @@ replica の手動スケーリングは Enterprise プラン以上でサポート
 
 ## RESTful API による手動スケーリング\{#manual-scaling-via-restful-api}
 
-RESTful API を使用すると、1 回の [Modify Cluster](/reference/restful/modify-cluster-v2) リクエストで Query CU と replica を手動でスケーリングできます。
+With the RESTful API, you can manually scale Query CU and replica in a single [Modify クラスター](/reference/restful/modify-cluster-v2) request.
 
 ```bash
 export TOKEN="YOUR_API_KEY"
@@ -107,13 +107,13 @@ curl --request POST \
 
 1. **Jobs** に移動します。
 
-1. 対象 cluster のスケーリング job を見つけます。
+1. Find the scaling job for the target クラスター.
 
 1. job のステータスを確認します。
 
 </Procedures>
 
-スケーリング job の進行中は、cluster のステータスは `Modifying` になります。job が成功すると、cluster のステータスは再び `Running` に戻ります。
+When the scaling job is in progress, the クラスター status is `Modifying`. When the job succeeds, the クラスター status changes back to `Running`.
 
 ## FAQ\{#faq}
 
@@ -123,7 +123,7 @@ curl --request POST \
 
 **スケールダウンが許可されない場合はどうなりますか？**
 
-現在のデータ量、collection 数、または partition 数をターゲットの Query CU サイズでサポートできない場合、スケールダウンリクエストは失敗することがあります。この場合は、現在のサイズを維持するか、より大きいターゲット構成を選択してください。
+A scale-down request may fail if the target Query CU size cannot support the current data volume, コレクション count, or partition count. In this case, keep the current size or choose a larger target configuration.
 
 **手動スケーリング、スケジュールスケーリング、動的スケーリングのどれを使うべきですか？**
 

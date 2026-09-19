@@ -2616,9 +2616,34 @@
       "translatedAt": "2026-09-19T14:20:52.976Z"
     },
     "content/en/guides/tutorials/management/clusters/dedicated-cluster/scale-cluster/cron-expression.md": {
-      "sourceHash": "fe02983f6d6fc839079ab6633325da0656bfb17f51fc326bedf0e1f59650328a",
+      "sourceHash": "86363e5a6eb3e391e0992733a067f4aa5b4a8e0ce3bd4c8a1aba432e92b0f576",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/dedicated-cluster/scale-cluster/cron-expression.md",
-      "translatedAt": "2026-08-25T05:24:22.603Z"
+      "translatedAt": "2026-09-19T14:22:01.285Z"
+    },
+    "content/en/guides/tutorials/management/clusters/dedicated-cluster/scale-cluster/manual-scaling.md": {
+      "sourceHash": "294e6a25a8d0e46b216640a534a8d9f7c4c23bf8caadb6eec9141e22b26619e9",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/dedicated-cluster/scale-cluster/manual-scaling.md",
+      "translatedAt": "2026-09-19T14:22:01.285Z"
+    },
+    "content/en/guides/tutorials/management/clusters/dedicated-cluster/scale-cluster/plan-cluster-scaling.md": {
+      "sourceHash": "c1eafde1e1cdd72d889e66a25a536df6786121c350a977658583e7b642b3c829",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/dedicated-cluster/scale-cluster/plan-cluster-scaling.md",
+      "translatedAt": "2026-09-19T14:22:01.285Z"
+    },
+    "content/en/guides/tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling.md": {
+      "sourceHash": "6215316c08541f6821287c208bd717a36882d887caf545f8af1531eafc806479",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling.md",
+      "translatedAt": "2026-09-19T14:22:01.285Z"
+    },
+    "content/en/guides/tutorials/management/clusters/free-and-serverless-clusters.md": {
+      "sourceHash": "ab13496a3603d8b495476caf1a64107055660955d2f47d669fe298f3b9cbb940",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/free-and-serverless-clusters.md",
+      "translatedAt": "2026-09-19T14:22:01.285Z"
+    },
+    "content/en/guides/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md": {
+      "sourceHash": "9e6892cb82b58be9f0e3b3504df532d78e77e41198ae50b7c71887f5227d7a9c",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md",
+      "translatedAt": "2026-09-19T14:22:01.285Z"
     },
     "content/en/guides/tutorials/management/clusters/global-cluster/create-global-cluster.md": {
       "sourceHash": "ca4f0cf9f4f4098e886746c49ea7e955a208466ac52678e78d3b397e58541b0a",
@@ -2626,44 +2651,54 @@
       "translatedAt": "2026-08-25T09:00:57.089Z"
     },
     "content/en/guides/tutorials/management/clusters/global-cluster/global-cluster-explained.md": {
-      "sourceHash": "8defd2eee260584116613be8fcc1f9ffea4e87e9543357c1e229fa370877d980",
+      "sourceHash": "969200dc710bfe7564ba680059bbfc81aa1c9c0d79d42fad1a8a2c0c3b19bb43",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/global-cluster/global-cluster-explained.md",
-      "translatedAt": "2026-08-04T05:13:29.163Z"
+      "translatedAt": "2026-09-19T14:22:01.285Z"
     },
     "content/en/guides/tutorials/management/clusters/global-cluster/manage-global-cluster.md": {
-      "sourceHash": "25662e43c6c11e4344c623d5c3f06ae2f8a33b94c36842972389a49b1beae433",
+      "sourceHash": "f20b5f4bbf72e98ba8bbe132ef58225c470c66916bdf7c33d0aa528d6a456161",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/global-cluster/manage-global-cluster.md",
-      "translatedAt": "2026-08-04T05:14:11.784Z"
+      "translatedAt": "2026-09-19T14:22:01.285Z"
+    },
+    "content/en/guides/tutorials/management/clusters/global-cluster/switchover-and-failover.md": {
+      "sourceHash": "28c89e97cb8131e4b264700d63060a93e503de7fcbd2b3377a6e7d7eeb9f2215",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/global-cluster/switchover-and-failover.md",
+      "translatedAt": "2026-09-19T14:22:01.285Z"
     },
     "content/en/guides/tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters.md": {
-      "sourceHash": "b56fef0d65b35969ab228daff606ea881c0d8ba6ae19f4b40b3c9d14477dd2e1",
+      "sourceHash": "0e014792143d3993aff547b5dee7277cb3e36450db9990935cbd6dde8375027a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters.md",
-      "translatedAt": "2026-08-04T05:20:44.345Z"
+      "translatedAt": "2026-09-19T14:22:01.285Z"
     },
     "content/en/guides/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md": {
       "sourceHash": "879e3b79563d1c8aa82f8d1a729189fcf07d9fbae83d4d7b51fffc53c7691515",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md",
       "translatedAt": "2026-08-25T18:21:07.555Z"
     },
+    "content/en/guides/tutorials/management/cmek/aws-kms.md": {
+      "sourceHash": "61d2e031c1037d225e0f26ee3090f49cf17a8ca1bcf77933892e97727339a9c5",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cmek/aws-kms.md",
+      "translatedAt": "2026-09-19T14:22:01.285Z"
+    },
     "content/en/guides/tutorials/management/cmek/cmek.md": {
-      "sourceHash": "1378fc0bc8f407ddfe31dd0426e6a7625fb243e9594168536a6663ec26386c90",
+      "sourceHash": "f69eba143e42c4ad45f83a943e0531b769c6aa9a62fde4bfe40df089fe88805f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cmek/cmek.md",
-      "translatedAt": "2026-08-25T09:03:18.158Z"
+      "translatedAt": "2026-09-19T14:22:01.285Z"
     },
     "content/en/guides/tutorials/management/cost-management/analyze-cost.md": {
-      "sourceHash": "66b4ccec764622d268e3e72fe97f37b7279381b227cb7e0b584790a8ba5418b6",
+      "sourceHash": "0141bf9ba2090ff8dbcf2b6a66210ef02ef69c0c572349d3a6179bb38157866e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cost-management/analyze-cost.md",
-      "translatedAt": "2026-08-04T05:15:18.060Z"
+      "translatedAt": "2026-09-19T14:22:01.285Z"
     },
     "content/en/guides/tutorials/management/cost-management/cost-optimization.md": {
-      "sourceHash": "e276021a001ddd80c600fb3dd08bb1322fc725a4595a5d9704e334c0d43d4923",
+      "sourceHash": "7b80c8cf21696b4b3626ab89a680f0e3d4622cf0e6b355deb1b5addfaef81fc5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cost-management/cost-optimization.md",
-      "translatedAt": "2026-08-04T05:17:33.047Z"
+      "translatedAt": "2026-09-19T14:22:01.285Z"
     },
     "content/en/guides/tutorials/management/cost-management/understand-cost/data-transfer-cost.md": {
-      "sourceHash": "008c75efcfc47ec3d92da68aed7adf6f2712da6c596adf76001cb74e6cd96b6f",
+      "sourceHash": "30f26524e99ee48815d5043c870e2e9c79261f25656bf0a1af68f48d2c6e65e7",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cost-management/understand-cost/data-transfer-cost.md",
-      "translatedAt": "2026-08-04T05:16:59.112Z"
+      "translatedAt": "2026-09-19T14:22:01.285Z"
     },
     "content/en/guides/tutorials/management/cost-management/understand-cost/dedicated-cluster-cost.md": {
       "sourceHash": "07160e95c43f773dd130bd4d3544d29fd5762d48d5768da8beb6fe0776a9d59f",

@@ -139,7 +139,7 @@ Zilliz Cloud のグローバルクラスターは、どのリージョンがプ�
 
     <Procedures>
 
-    1. **Global Cluster** ページに移動します。
+    1. Navigate to the **Global クラスター** page.
 
     1. **Switchover or Failover** をクリックします。
 
@@ -155,7 +155,7 @@ Zilliz Cloud のグローバルクラスターは、どのリージョンがプ�
 
 - **RESTful API から**
 
-    次の例は、クラスター `in01-secondary` が新しいプライマリクラスターになるようにスイッチオーバーを実行します。API の詳細については、[Switchover Global Cluster](/reference/restful/switchover-global-cluster-v2) を参照してください。
+    The following example performs a switchover so that the クラスター `in01-secondary` becomes the new primary クラスター. For details about the API, see [Switchover Global クラスター](/reference/restful/switchover-global-cluster-v2).
 
     ```bash
     curl --request POST \
@@ -213,7 +213,7 @@ Zilliz Cloud のグローバルクラスターは、どのリージョンがプ�
 
     <Procedures>
 
-    1. **Global Cluster** ページに移動します。
+    1. Navigate to the **Global クラスター** page.
 
     1. **Switchover or Failover** をクリックします。
 
@@ -225,7 +225,7 @@ Zilliz Cloud のグローバルクラスターは、どのリージョンがプ�
 
     </Procedures>
 
-    <Admonition type="info" icon="📘" title="注意">
+    <Admonition type="info" title="Notes">
 
     フェイルオーバーが失敗した場合、クラスターは ABNORMAL ステータスのままになります。フェイルオーバー操作を再試行するか、[サポートチケットを作成](http://support.zilliz.com)してください。
 
@@ -233,7 +233,7 @@ Zilliz Cloud のグローバルクラスターは、どのリージョンがプ�
 
 - **RESTful API から** 
 
-    次の例は、クラスター `in01-secondary` が強制的にプライマリに昇格されるようにフェイルオーバーを実行します。API の詳細については、[Failover Global Cluster](/reference/restful/failover-global-cluster-v2) を参照してください。
+    The following example performs a failover so that the クラスター `in01-secondary` was promoted to the primary by force. For details about the API , see [Failover Global クラスター](/reference/restful/failover-global-cluster-v2).
 
     ```bash
     curl --request POST \
@@ -264,7 +264,7 @@ Zilliz Cloud のグローバルクラスターは、どのリージョンがプ�
 
 - 元のプライマリは破棄され、ごみ箱に移動されます。**Global Topology** ビューには表示されなくなります。
 
-- 完全なグローバルトポロジーを復元するために、新しいセカンダリクラスターが自動的に作成されます。新しいセカンダリのプロビジョニング中は、グローバルトポロジーからは見えません。代わりに、グローバルクラスターのページに次のバナーが表示されます: *"A new secondary cluster will be created and become available shortly."*
+- A new secondary クラスター is automatically created to restore the full global topology. While the new secondary is being provisioned, it is invisible from the global topology. Instead, a banner appears on the global クラスター page: *"A new secondary クラスター will be created and become available shortly."*
 
 - 残りのセカンダリクラスターも再構築のために CREATING ステータスに遷移し、再構築完了後に RUNNING になります。
 

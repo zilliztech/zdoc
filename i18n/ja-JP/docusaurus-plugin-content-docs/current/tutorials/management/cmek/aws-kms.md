@@ -88,7 +88,7 @@ AWS Key Management Service (KMS) は、データの暗号化と署名に使用�
 
         このステップはオプションです。指定した IAM ロールですでに作成済みの KMS キーがある場合は、このステップをスキップして次に進むことができます。これはマルチリージョンレプリカキーを追加する場合に便利です。
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" title="Notes">
 
         暗号化された Zilliz Cloud クラスターをあるクラウドリージョンから別のクラウドリージョンにバックアップした後、対象リージョンでバックアップを復号するには、元のクラスターの暗号化に使用したものと同じキーを使用する必要があります。 
         
@@ -200,7 +200,7 @@ AWS Key Management Service (KMS) は、データの暗号化と署名に使用�
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 KMS キーを使用して Zilliz Cloud クラスターを暗号化すると、クラスターは 10 分ごとにそのキーの可用性を確認します。キーが利用可能であることを検出した後にのみ、利用可能な状態になります。
 
@@ -236,7 +236,7 @@ KMS キーを追加したら、以下のように暗号化されたクラスタ�
 
 1. **Encryption at Rest with CMEK** を有効にし、既存の KMS キーを選択します。作成するクラスターと同じリージョンの KMS キーのみ選択できます。
 
-1. 概要を確認し、**Create Cluster** をクリックします。
+1. Review the summary, then click **Create Cluster**.
 
     ![Iy8JbR19eoBQ4YxV1PjcLfUinl7](https://zdoc-images.s3.us-west-2.amazonaws.com/iy8jbr19eobq4yxv1pjclfuinl7.png "Iy8JbR19eoBQ4YxV1PjcLfUinl7")
 

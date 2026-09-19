@@ -1,13 +1,13 @@
 ---
-title: "Global Cluster への接続 | Cloud"
+title: "Connect to Global クラスター | Cloud"
 slug: /connect-to-global-cluster
-sidebar_label: "Global Cluster への接続"
+sidebar_label: "Connect to Global クラスター"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "global cluster の実行後、endpoint と認証トークンを使用して接続します。このページでは、2 種類の endpoint、各 endpoint を使用するタイミング、および switchover と failover 中のルーティング動作について説明します。 | Cloud"
+description: "After your global クラスター is running, connect to it using an endpoint and an authentication token. This page covers the two endpoint types, when to use each, and how routing behaves during switchover and failover. | Cloud"
 type: origin
 token: DknbwaLS3iAAiUk9ifPc1Vmvnze
 sidebar_position: 3
@@ -21,7 +21,7 @@ import TabItem from '@theme/TabItem';
 
 import Procedures from '@site/src/components/Procedures';
 
-# Global Cluster への接続
+# Connect to Global クラスター
 
 <FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
 
@@ -35,27 +35,27 @@ import Procedures from '@site/src/components/Procedures';
 
 </FeatureNote>
 
-global cluster の実行後、endpoint と認証トークンを使用して接続します。このページでは、2 種類の endpoint、各 endpoint を使用するタイミング、および switchover と failover 中のルーティング動作について説明します。
+After your global クラスター is running, connect to it using an endpoint and an authentication token. This page covers the two endpoint types, when to use each, and how routing behaves during switchover and failover.
 
 ## endpoint タイプを選択する\{#choose-an-endpoint-type}
 
-global cluster では、次の 2 つの方法で接続できます。
+A global クラスター provides two ways to connect:
 
 - **global endpoint** 経由
 
-- global cluster 内の primary cluster または secondary cluster の **public endpoint** または **private endpoint** 経由
+- Via the **public or private endpoints** of the primary or secondary クラスター in a global クラスター
 
 次の表は、2 つの接続 endpoint を比較したものです。
 
-|  | **Global endpoint** | **primary cluster または secondary cluster の endpoint** |
+|  | **Global endpoint** | **The endpoint of a primary or secondary クラスター** |
 | --- | --- | --- |
-| **書き込みルーティング** | 自動的に primary cluster にルーティングされます | 書き込みを受け付けるのは primary の public endpoint のみです |
-| **読み取りルーティング** | primary cluster にルーティングされます<br/>（レイテンシーに基づいて最も近くで利用可能な cluster にインテリジェントにルーティングする機能は近日サポート予定です。） | 読み取りは、接続先の特定の cluster に送られます |
-| **Switchover / Failover** | 自動的に再ルーティングされるため、コード変更は不要です | 新しい primary を指すように接続先を更新する必要があります |
-| **Private Link** | サポートされていません（public internet が必要です） | サポートされています。 |
-| **最適な用途** | 自動 failover とレイテンシーベースのルーティングを必要とする本番アプリケーション | 特定の cluster への直接アクセス（例：環境レプリケーション、テスト、デバッグ） |
+| **Write routing** | Automatically routed to the primary クラスター | Only the primary's public endpoint accepts writes |
+| **Read routing** | Routed to the primary クラスター<br/>(Intelligent routing to the nearest available クラスター based on latency will be supported soon.) | Reads go to the specific クラスター you connect to |
+| **Switchover / Failover** | Re-routes automatically — no code changes | You must update your connection to point to the new primary |
+| **Private Link** | Not supported (requires public internet) | Supported. |
+| **Best for** | Production applications that need automatic failover and latency-based routing | Direct access to a specific クラスター (e.g., environment replication, testing, debugging) |
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 本番ワークロードには global endpoint の使用を推奨します。これにより、switchover や failover の際に、アプリケーションコードで endpoint の変更を処理する必要がなくなります。
 
@@ -65,25 +65,25 @@ global cluster では、次の 2 つの方法で接続できます。
 
 <Procedures>
 
-1. global cluster または対象 cluster に移動します。
+1. Navigate to your global クラスター or target クラスター:
 
-    - **global endpoint** の場合：**Global** **Cluster** ページに移動します。
+    - For the **global** **endpoint**: Go to the **Global** **クラスター** page.
 
-    - **public endpoint** の場合：対象の primary cluster または secondary cluster の **Cluster** **Details** ページに移動します。
+    - For a **public** **endpoint**: Go to the **クラスター** **Details** page of the specific primary or secondary クラスター.
 
 1. Connect カードで、**Global Endpoint** または **Public Endpoint** をコピーします。
 
     ![OPCTbMaYIoUXHKxDf0ycdMNBnze](https://zdoc-images.s3.us-west-2.amazonaws.com/opctbmayiouxhkxdf0ycdmnbnze.png "OPCTbMaYIoUXHKxDf0ycdMNBnze")
 
-1. 認証トークンを準備します。これは [API key](./manage-api-keys) または [cluster credential](./cluster-credentials)（`username:password`）のいずれかです。
+1. Prepare your authentication token. This can be either an [API key](./manage-api-keys) or a [クラスター credential](./cluster-credentials) (`username:password`).
 
 </Procedures>
 
 ## global endpoint を使用して接続する\{#connect-using-the-global-endpoint}
 
-global endpoint は、global cluster 内の現在の primary cluster に常にリクエストをルーティングする単一の URL です。 
+The global endpoint is a single URL that always routes requests to the current primary クラスター in the global クラスター. 
 
-switchover または failover が発生すると、Zilliz Cloud は global endpoint を自動的に更新し、新しい primary cluster を指すようにします。これにより、cluster URI を手動で変更しなくても、アプリケーションは同じ endpoint を使い続けることができます。
+If a switchover or failover occurs, Zilliz Cloud automatically updates the global endpoint to point to the new primary クラスター. This lets your application continue using the same endpoint without manually changing the クラスター URI.
 
 Zilliz Cloud は、SDK と RESTful API の両方を通じた global endpoint への接続をサポートしています。本番アプリケーションでは、SDK クライアントの使用を推奨します。
 
@@ -91,18 +91,18 @@ Zilliz Cloud は、SDK と RESTful API の両方を通じた global endpoint へ
 
 <summary>RESTful API 接続よりも SDK 接続が推奨されるのはなぜですか？</summary>
 
-SDK クライアントは、endpoint リスト、primary および secondary のロール、cluster の正常性を含む global cluster トポロジーを取得できます。この情報により、primary cluster が変更された場合に SDK クライアントはより速く対応できます。将来的には、SDK クライアントは読み取り/書き込み分離もサポートする予定であり、書き込みリクエストは primary cluster にルーティングされ、対象となる読み取りリクエストは global cluster トポロジーに基づいてルーティングされます。
+SDK clients can retrieve the global クラスター topology, including the endpoint list, primary and secondary roles, and クラスター health. With this information, SDK clients can react faster when the primary クラスター changes. SDK clients will also support read/write splitting in the future, where write requests are routed to the primary クラスター and eligible read requests are routed based on the global クラスター topology.
 
-一方、RESTful API 接続は global cluster トポロジー情報を保持しません。そのため、switchover または failover 後に新しい primary cluster へ切り替わるまでに、RESTful API 接続の方が時間がかかる場合があります。同じ理由により、RESTful API 接続では読み取り/書き込み分離をサポートできません。
+However, RESTful API connections do not maintain global クラスター topology information. As a result, RESTful API connections may take longer to switch to the new primary クラスター after a switchover or failover. For the same reason, RESTful API connections cannot support read/write splitting.
 
 次の表は、SDK 接続と RESTful API 接続を比較したものです。
 
 | **Dimension** | **SDK connection** | **RESTful API connection** |
 | --- | --- | --- |
-| 最適な用途 | ロール変更時の高速な復旧と、将来の読み取り/書き込み分離を必要とする本番アプリケーション。 | 軽量なスクリプト、シンプルな REST 統合、一度限りの管理操作。 |
-| トポロジー認識 | endpoint リスト、primary および secondary のロール、cluster の正常性を含む global cluster トポロジーを取得します。 | global cluster トポロジー情報を保持しません。 |
-| Primary 変更への対応 | switchover または failover 後に primary cluster が変わった場合、通常は数秒以内により速く対応できます。 | クライアントがトポロジー情報を保持しないため、新しい primary への切り替えに通常は数分かかることがあります。 |
-| 読み取り/書き込み分離 | ✅ 近日サポート予定です。 | ❌ サポートされていません |
+| 最適な用途 | Production applications that need faster recovery during role changes and future read/write splitting. | 軽量なスクリプト、シンプルな REST 統合、一度限りの管理操作。 |
+| トポロジー認識 | Retrieves global クラスター topology, including the endpoint list, primary and secondary roles, and クラスター health. | Does not maintain global クラスター topology information. |
+| Primary 変更への対応 | Can react faster, usually within seconds, when the primary クラスター changes after a switchover or failover. | クライアントがトポロジー情報を保持しないため、新しい primary への切り替えに通常は数分かかることがあります。 |
+| Read/write splitting | ✅ 近日サポート予定です。 | ❌ サポートされていません |
 
 </details>
 
@@ -163,7 +163,7 @@ curl --request POST \
 
 ## public endpoint を使用して接続する\{#connect-using-a-public-endpoint}
 
-global cluster 内の各 cluster には、それぞれ独自の public endpoint があります。特定の cluster を直接指定する必要がある場合にこれを使用します。
+Each クラスター in the global クラスター has its own public endpoint. Use this when you need to target a specific クラスター directly.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -237,9 +237,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-public endpoint を使用する場合、書き込み操作を受け付けるのは primary cluster の public endpoint のみです。secondary cluster の public endpoint への書き込みは失敗します。
+When using public endpoints, only the primary クラスター's public endpoint accepts write operations. Writing to a secondary クラスター's public endpoint will fail.
 
 </Admonition>
 
@@ -249,8 +249,8 @@ public endpoint を使用する場合、書き込み操作を受け付けるの�
 
 | **Request type** | **Global endpoint** | **Public endpoint** |
 | --- | --- | --- |
-| 書き込み（insert、upsert、delete） | primary cluster にルーティングされます | primary cluster の endpoint でのみ受け付けられます |
-| 読み取り（search、query） | primary cluster にルーティングされます<br/>（レイテンシーに基づいて最も近くで利用可能な cluster にインテリジェントにルーティングする機能は近日サポート予定です。） | 接続先の特定の cluster によって処理されます |
+| 書き込み（insert、upsert、delete） | Routed to the primary クラスター | Only accepted on the primary クラスター's endpoint |
+| 読み取り（search、query） | Routed to the primary クラスター<br/>(Intelligent routing to the nearest available クラスター based on latency will be supported soon.) | Served by the specific クラスター you connect to |
 
 ### switchover / failover 中および完了後\{#during-and-after-switchover-failover}
 

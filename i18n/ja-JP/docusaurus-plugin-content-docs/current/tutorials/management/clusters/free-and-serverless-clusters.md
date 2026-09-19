@@ -23,9 +23,9 @@ import TabItem from '@theme/TabItem';
 
 Free および Serverless クラスターは serving クラスターです。作成、接続、管理という基本的なライフサイクルについては、このページを参照してください。
 
-<Admonition type="info" icon="📘" title="注">
+<Admonition type="info" title="Note">
 
-Dedicated クラスターについては、[Dedicated Cluster](./manage-cluster) を参照してください。プロジェクトエンドポイントを介したオンデマンド検索については、[Connect for On-Demand Search](./connect-for-on-demand-search) を参照してください。
+For Dedicated クラスター, see [Dedicated クラスター](./manage-cluster). For on-demand search through a project endpoint, see [Connect for On-Demand Search](./connect-for-on-demand-search).
 
 </Admonition>
 
@@ -33,7 +33,7 @@ Dedicated クラスターについては、[Dedicated Cluster](./manage-cluster)
 
 Free または Serverless クラスターを作成する前に、Zilliz Cloud に登録済みであり、クラスターを作成する organization または project の所有権を持っていることを確認してください。
 
-<Admonition type="info" icon="📘" title="注">
+<Admonition type="info" title="Note">
 
 各 organization では、作成できる Free クラスターは 1 つのみです。追加の serving クラスターが必要な場合は、Serverless または Dedicated を使用してください。
 
@@ -165,7 +165,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-接続を確認するには、collections の一覧表示のような軽量な操作を実行します。
+To verify the connection, run a lightweight operation such as listing コレクション.
 
 ```python
 collections = client.list_collections()
@@ -176,7 +176,7 @@ print(collections)
 
 Free および Serverless クラスターは、クラスター詳細ページから管理できます。
 
-| Operation | Free cluster | Serverless cluster |
+| Operation | Free クラスター | Serverless クラスター |
 | --- | --- | --- |
 | Rename | サポートされています。 | サポートされています。 |
 | Resume | Free クラスターは、7 日間連続で非アクティブな場合に自動的に一時停止され、いつでも再開できます。 | Serverless クラスターは一時停止および再開操作をサポートしていません。 |
@@ -187,7 +187,7 @@ Free および Serverless クラスターは、クラスター詳細ページか
 
 ## Drop\{#drop}
 
-プログラムでクラスターを削除するには、クラスター ID を指定して drop cluster API を呼び出します。
+To drop a クラスター programmatically, call the drop クラスター API with the クラスター ID.
 
 ```bash
 curl --request POST \
