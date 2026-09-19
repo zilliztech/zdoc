@@ -766,19 +766,29 @@
       "translatedAt": "2026-09-19T13:54:29.135Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/use-partition-key.md": {
-      "sourceHash": "6e51fd5ce2b420f87db10b470ef8ce26586cc96e4a3ad5e8f8ea7847dbd76020",
+      "sourceHash": "39941225f7fb3ff262c74ee15f1d259b6146ad42ecc71f2ee04c2645ef854aba",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/use-partition-key.md",
-      "translatedAt": "2026-08-04T05:13:17.312Z"
+      "translatedAt": "2026-09-19T13:55:44.409Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/with-iterators.md": {
-      "sourceHash": "51d9cd6af57a2a6e33b353b6021922a4de1d060f6e854b51074817f3d8405d68",
+      "sourceHash": "6d945837363c544e278bb44307982fe21d93f28767f657ffddbd36eb0c3372fe",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/with-iterators.md",
-      "translatedAt": "2026-08-04T05:12:47.661Z"
+      "translatedAt": "2026-09-19T13:55:44.409Z"
+    },
+    "content/en/byoc/tutorials/development/vector-index/autoindex-explained.md": {
+      "sourceHash": "92d3026bef814f06ae24cf761507c1e864843be7320e9790eb4880640d01616f",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/vector-index/autoindex-explained.md",
+      "translatedAt": "2026-09-19T13:55:44.409Z"
+    },
+    "content/en/byoc/tutorials/development/vector-index/minhash-lsh.md": {
+      "sourceHash": "29175b33210e2d1cfddf62ace80fd90b3be5c68c0448053a022667414c0b824b",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/vector-index/minhash-lsh.md",
+      "translatedAt": "2026-09-19T13:55:44.409Z"
     },
     "content/en/byoc/tutorials/development/vector-index/tune-index-build-level.md": {
-      "sourceHash": "f148cfcf97bd47c58406e0b34c577659f07ca4ed3e2f530153e9166bd4e73210",
+      "sourceHash": "5b7727aadfef78daa494a4dedb624521ce78b5c3aa5eefdfced4dc57de2b52dd",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/vector-index/tune-index-build-level.md",
-      "translatedAt": "2026-08-04T05:13:40.703Z"
+      "translatedAt": "2026-09-19T13:55:44.409Z"
     },
     "content/en/byoc/tutorials/development/volume/external-volume.md": {
       "sourceHash": "5cfa20b0ed821269a773a028ecaffa62cf2f2ec4a438ff3f6ebbb2a149922976",
@@ -786,9 +796,24 @@
       "translatedAt": "2026-08-04T05:10:51.056Z"
     },
     "content/en/byoc/tutorials/development/volume/storage-integration/integrate-with-aws-s3.md": {
-      "sourceHash": "44682b5f97c07f6bcd6837f15e3132cb339dfaa541590beb202d8caf6c5627f9",
+      "sourceHash": "fc2422de6000092eb9716ad054fd9341510a0ad9710056583977660613508cb9",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/volume/storage-integration/integrate-with-aws-s3.md",
-      "translatedAt": "2026-08-04T05:07:48.251Z"
+      "translatedAt": "2026-09-19T13:55:44.409Z"
+    },
+    "content/en/byoc/tutorials/development/volume/storage-integration/integrate-with-azure-blob-storage.md": {
+      "sourceHash": "e973b39c979477a11f41a83edc6e54b3873e99d417e89d327720c0016615f274",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/volume/storage-integration/integrate-with-azure-blob-storage.md",
+      "translatedAt": "2026-09-19T13:55:44.409Z"
+    },
+    "content/en/byoc/tutorials/development/volume/storage-integration/integrate-with-gcp.md": {
+      "sourceHash": "a0419cf63eafbc0a2d81a547c7e595aa1a97503efeab6f651148f6ed65996369",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/volume/storage-integration/integrate-with-gcp.md",
+      "translatedAt": "2026-09-19T13:55:44.409Z"
+    },
+    "content/en/byoc/tutorials/get-started/faqs/faq-authentication.md": {
+      "sourceHash": "b619cce3579dfe3a3694d199e71a100a06021c6235b4184f65614520c114f180",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/get-started/faqs/faq-authentication.md",
+      "translatedAt": "2026-09-19T13:55:44.409Z"
     },
     "content/en/byoc/tutorials/get-started/faqs/faq-cluster.md": {
       "sourceHash": "d772e4bc91213d0d40a60c4a7cd13a835967c6400af795acfb3818a2569e7cdb",
@@ -800,25 +825,40 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/get-started/faqs/faq-collection.md",
       "translatedAt": "2026-08-04T05:14:04.526Z"
     },
+    "content/en/byoc/tutorials/get-started/faqs/faq-data-import.md": {
+      "sourceHash": "9b35950d4e6f4208db19e63856a2f9cc040d16915bba50d25734ac295b074461",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/get-started/faqs/faq-data-import.md",
+      "translatedAt": "2026-09-19T13:55:44.409Z"
+    },
     "content/en/byoc/tutorials/get-started/faqs/faq-users-and-roles.md": {
       "sourceHash": "dc18ba74027b42490d5a6e813b8e8d40baf6e4b311f2d17e5a3765a875081d2f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/get-started/faqs/faq-users-and-roles.md",
       "translatedAt": "2026-08-25T16:35:00.173Z"
     },
+    "content/en/byoc/tutorials/get-started/quickstarts/cli-and-agent-integration-guide.md": {
+      "sourceHash": "3b7ef182612d2b6a5ecddb41e4f7f504adfe3ae9a0041413bb4bcf55c2fed212",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/get-started/quickstarts/cli-and-agent-integration-guide.md",
+      "translatedAt": "2026-09-19T13:55:44.409Z"
+    },
     "content/en/byoc/tutorials/get-started/quickstarts/quick-start-to-external-data-lake-search.md": {
-      "sourceHash": "9bbbbdd128bb240c8062cb4aa632fc44ab334592d97f9edf95c2fb9c5e3b54d7",
+      "sourceHash": "e41e9827fda63444edd5d4f19fe1f3dc0fe39243795375a5523b4b05092adb53",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/get-started/quickstarts/quick-start-to-external-data-lake-search.md",
-      "translatedAt": "2026-08-25T04:34:18.651Z"
+      "translatedAt": "2026-09-19T13:55:44.409Z"
     },
     "content/en/byoc/tutorials/get-started/quickstarts/quick-start-to-on-demand-search.md": {
-      "sourceHash": "a7d53c9d29969ed859c13bfd28233848fe02be1d3d07cedf5ffe0c951942b6ec",
+      "sourceHash": "2ef4e48f063f410d3da37ce68aaaa14da7823a82164c7bb89b6720d2ef06899f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/get-started/quickstarts/quick-start-to-on-demand-search.md",
-      "translatedAt": "2026-08-25T04:35:08.682Z"
+      "translatedAt": "2026-09-19T13:55:44.409Z"
+    },
+    "content/en/byoc/tutorials/get-started/quickstarts/quick-start.md": {
+      "sourceHash": "94b54949add6b9c4a102f7c5dd16b86ec877fb5cd46bb23317bb18fcde794c00",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/get-started/quickstarts/quick-start.md",
+      "translatedAt": "2026-09-19T13:55:44.409Z"
     },
     "content/en/byoc/tutorials/get-started/register-with-zilliz-cloud.md": {
-      "sourceHash": "b09eb2cf3af25c90dfa3b47a9eee28d5cc01e820be497fc239df96b63d7d17e5",
+      "sourceHash": "b2d03e29de725b8bfb40ed7b8b389bbe37014dbf1c7b39faf649d3592f790bc1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/get-started/register-with-zilliz-cloud.md",
-      "translatedAt": "2026-08-25T06:40:00.997Z"
+      "translatedAt": "2026-09-19T13:55:44.409Z"
     },
     "content/en/byoc/tutorials/management/access-control/access-control-overview.md": {
       "sourceHash": "25654ced5c32a6570c9c6863063bcd827c191bd2144c70ec803d18dd32fc5643",

@@ -244,3 +244,4 @@ Claude Code Plugin、Zilliz Skill、および Zilliz CLI は、同じ主要な�
     zilliz role grant-privilege --role analytics_readonly --object-type Collection --object-name analytics --privilege Search
     zilliz role grant-privilege --role analytics_readonly --object-type Collection --object-name analytics --privilege Query
     ```
+

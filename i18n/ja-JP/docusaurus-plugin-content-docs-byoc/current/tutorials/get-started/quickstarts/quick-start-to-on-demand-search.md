@@ -29,7 +29,7 @@ Zilliz Cloud はオンデマンドのコンピューティングリソースを�
 
 データベースを操作する前に、プロジェクトエンドポイントに接続します。プロジェクトエンドポイントは、Zilliz Cloud コンソールでオンデマンドコンピューティングを有効にした後、クイックスタートページから取得できます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - マネージドコレクションの操作には、認証に **API key** が必要です。このフローでは `username:password` 認証はサポートされていません。
 
@@ -123,7 +123,7 @@ auto status = client->Connect(connect_param);
 
 ## ステップ 2: （任意）データベースを作成する\{#step-2-optional-create-a-database}
 
-Zilliz Cloud にはデフォルトのデータベースが用意されています。デフォルトのデータベースを使用する場合は、このステップをスキップしてください。以下のように新しいデータベースを作成することもできます。
+Zilliz Cloud にはデフォルトのデータベースが用意されています。デフォルトのデータベースを使用する場合は、このステップをスキップしてください。以下のようにデータベースを作成することもできます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -673,7 +673,7 @@ auto status = client->CreateIndex(request);
 
 すべての準備が整ったら、処理済みデータをインポートできます。以下の例では、処理済みデータが外部ストレージバケットに保存されていることを前提としています。
 
-バケットやストレージ連携におけるデータ形式については、[Format Options](./data-import-format-options) を参照してください。
+バケットやストレージ連携におけるデータ形式については、[フォーマットオプション](./data-import-format-options) を参照してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
@@ -1079,4 +1079,3 @@ zilliz vector search \
 </Tabs>
 
 データを探索して最も価値のあるサブセットを見つけたら、サービングクラスターに接続してデータをインポートし、本番環境で利用できるようになります。
-

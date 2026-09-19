@@ -1,13 +1,13 @@
 ---
-title: "Serving Cluster クイックスタート | BYOC"
+title: "サービングクラスターのクイックスタート | BYOC"
 slug: /quick-start
-sidebar_label: "Serving Cluster クイックスタート"
+sidebar_label: "サービングクラスターのクイックスタート"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "serving cluster は、リアルタイム本番運用向けにコンピュートとストレージの両方を組み合わせた自己完結型サーバーです。Extract-Transform-Load (ETL) パイプラインを通じてデータをクリーンアップした後、それを serving cluster にインポートすることで、大幅なパフォーマンス向上を実現できます。 | BYOC"
+description: "サービングクラスターは、リアルタイムの本番サービングのためにコンピュートとストレージの両方を組み合わせた自己完結型サーバーです。Extract-Transform-Load（ETL）パイプラインでデータをクリーンアップした後、そのデータをサービングクラスターにインポートすることで、大幅なパフォーマンス向上を実現できます。 | BYOC"
 type: origin
 token: B1XTwQgNRizAMTkZQvrclGSonyc
 sidebar_position: 2
@@ -19,9 +19,9 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Serving Cluster クイックスタート
+# サービングクラスターのクイックスタート
 
-serving cluster は、リアルタイム本番運用向けにコンピュートとストレージの両方を組み合わせた自己完結型サーバーです。Extract-Transform-Load (ETL) パイプラインを通じてデータをクリーンアップした後、それを serving cluster にインポートすることで、大幅なパフォーマンス向上を実現できます。
+サービングクラスターは、リアルタイムの本番サービングのためにコンピュートとストレージの両方を組み合わせた自己完結型サーバーです。Extract-Transform-Load（ETL）パイプラインでデータをクリーンアップした後、そのデータをサービングクラスターにインポートすることで、大幅なパフォーマンス向上を実現できます。
 
 ## 開始前に\{#before-you-start}
 
@@ -39,7 +39,7 @@ Zilliz Cloud は Bring-Your-Own-Cloud (BYOC) ソリューションを提供し�
 
 - Zilliz Cloud の営業に連絡し、アカウント情報を提供済みであること。
 
-    <Admonition type="info" icon="📘" title="注記">
+    <Admonition type="info" title="Notes">
 
     Zilliz BYOC は現在 **General Availability** として提供されています。アクセス方法および実装の詳細については、[Zilliz Cloud sales](https://zilliz.com/contact-sales) までお問い合わせください。
 
@@ -59,13 +59,13 @@ Zilliz Cloud は Bring-Your-Own-Cloud (BYOC) ソリューションを提供し�
 
     お使いのクラウドプロバイダーが上記にない場合は、[Zilliz Cloud support](https://zilliz.com/contact-sales) までお問い合わせください。
 
-- BYOC cluster への接続方法を決定済みであること。詳細については、[Prepare for Cluster Connection](./prepare-for-cluster-connection) を参照してください。
+- BYOC クラスターへの接続方法が決まっていること。詳細については、[クラスター接続の準備](./prepare-for-cluster-connection) を参照してください。
 
-以下の手順では、すでに serving cluster を作成し、その endpoint とアクセス認証情報を取得済みであることを前提としています。
+以下の手順は、サービングクラスターを作成済みで、そのエンドポイントとアクセス認証情報を取得済みであることを前提としています。
 
 ## ステップ 1: 接続を設定する\{#step-1-set-up-connection}
 
-cluster の認証情報を取得したら、それを使用して cluster に接続できます。
+クラスターの認証情報を取得したら、それを使用してクラスターに接続できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -153,9 +153,9 @@ export TOKEN="YOUR_ZILLIZ_API_KEY"
 </TabItem>
 </Tabs>
 
-## ステップ 2: （任意）database を作成する。\{#step-2-optional-create-a-database}
+## ステップ 2: （任意）データベースを作成する\{#step-2-optional-create-a-database}
 
-serving cluster にはデフォルトの database が付属しています。それを使用する場合は、このステップをスキップしてください。次のように database を作成することもできます。
+サービングクラスターにはデフォルトのデータベースが付属しています。デフォルトのデータベースを使用する場合は、このステップをスキップしてください。以下のようにデータベースを作成することもできます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -223,11 +223,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ステップ 3: collection を作成する。\{#step-3-create-a-collection}
+## ステップ 3: コレクションを作成する\{#step-3-create-a-collection}
 
-database の準備ができたら、その中に managed collection を作成できます。collection の列を外部データファイルにマッピングする external collection とは異なり、managed collection では大幅なパフォーマンス向上のためにデータをインポートする必要があります。 
+データベースの準備ができたら、その中にマネージドコレクションを作成できます。コレクションのカラムを外部データファイルにマッピングする外部コレクションとは異なり、マネージドコレクションではデータをインポートすることで大幅なパフォーマンス向上を実現できます。
 
-次の例は、collection schema を設定して collection を作成する方法を示しています。
+次の例では、コレクションスキーマの設定とコレクションの作成方法を示します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -344,7 +344,7 @@ export schema='{
 </TabItem>
 </Tabs>
 
-その後、上記の schema を使用して collection を作成できます。デフォルトの database を使用する場合は、`db_name` パラメーターを安全に省略できます。
+その後、上記のスキーマを使用してコレクションを作成できます。デフォルトのデータベースを使用する場合は、`db_name` パラメーターを省略しても問題ありません。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -421,9 +421,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ステップ 4: index を作成する。\{#step-4-create-indexes}
+## ステップ 4: インデックスを作成する\{#step-4-create-indexes}
 
-すべての vector field に対して index を作成し、必要に応じて選択した scalar field に対しても index を作成する必要があります。
+すべてのベクトルフィールドにインデックスを作成する必要があります。また、任意で選択したスカラーフィールドにもインデックスを作成できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -539,9 +539,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ステップ 5: collection をロードする。\{#step-5-load-the-collection}
+## ステップ 5: コレクションをロードする\{#step-5-load-the-collection}
 
-index の準備ができたら、collection をメモリにロードします。
+インデックスの準備ができたら、コレクションをメモリにロードします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>

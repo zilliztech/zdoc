@@ -30,7 +30,7 @@ Zilliz Cloud では、異なる構成で稼働するクラスターが提供さ�
 
 スカラーフィールドに対して、**AUTOINDEX** はフィールドタイプと最適なスカラーインデックスタイプの間に効率的なマッピングを提供します。
 
-| Field Type | AUTOINDEX Resolves to | Description |
+| フィールドタイプ | AUTOINDEX が適用するインデックス | 説明 |
 | --- | --- | --- |
 | `VARCHAR` | **BITMAP** (C&ast; < 100) / **INVERTED** ( C ≥ 100) | 文字列データ型。詳細は [String Field](./use-string-field) を参照してください。 |
 | `INT8`, `INT16`, `INT32`, `INT64` | **BITMAP** (C < 100) / **STL_SORT** (C ≥ 100) | 整数。詳細は [Boolean & Number](./use-number-field) を参照してください。 |
@@ -40,7 +40,7 @@ Zilliz Cloud では、異なる構成で稼働するクラスターが提供さ�
 | `GEOMETRY` | **RTREE** | 空間情報を格納する幾何データ。詳細は [Geometry Field](./use-geometry-field) を参照してください。 |
 | `TIMESTAMPTZ` | **STL_SORT** | タイムゾーンを認識する ISO 8601 入力で、タイムゾーンをまたいでも一貫したフィルタリングと順序付けを行うために UTC として保存されます。詳細は [TIMESTAMPTZ Field](./use-timestamptz-field) を参照してください。 |
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 Cardinality（上の表の C）は、コレクション全体におけるあるフィールドの一意な値の数を示します。たとえば、float フィールドの cardinality は、そのフィールド内に存在する異なる float 値の数です。
 
@@ -52,7 +52,7 @@ array フィールドの場合、cardinality はそのセグメント内のす�
 [1, 4, 5]
 ```
 
-異なる要素値は `{1, 2, 3, 4, 5}` です → cardinality = **5**。すべての配列の全要素をフラット化してから一意な値を数えます。異なる配列の数でも、配列の長さでもありません。
+異なる要素値は `{1, 2, 3, 4, 5}` です → cardinality = **5**。すべての配列からすべての要素をフラット化してから一意な値を数えます。異なる配列の数や配列の長さを数えるものではありません。
 
 </Admonition>
 
@@ -70,11 +70,11 @@ array フィールドの場合、cardinality はそのセグメント内のす�
 
 ### 自律的なチューニング\{#autonomous-tuning}
 
-Approximate nearest neighbor（ANN）アルゴリズムでは、recall とパフォーマンスのトレードオフが必要です。クエリパラメータは結果に大きく影響します。クエリパラメータのサイズが小さすぎると、recall は極端に低くなり、ビジネス要件を満たせない可能性があります。逆に、クエリパラメータのサイズが大きすぎると、パフォーマンスが著しく低下します。
+近似最近傍（ANN）アルゴリズムでは、recall とパフォーマンスのトレードオフが必要です。クエリパラメータは結果に大きく影響します。クエリパラメータのサイズが小さすぎると、recall は極端に低くなり、ビジネス要件を満たせない可能性があります。逆に、クエリパラメータのサイズが大きすぎると、パフォーマンスが著しく低下します。
 
 クエリパラメータを選択するには多くのドメイン固有知識が必要であり、ユーザーにとって学習コストが大きくなります。この問題に対処するために、**AUTOINDEX** はクエリパラメータの選択を支援するインテリジェントなアルゴリズムを開発しました。インデックス構築時にユーザーのデータセット分布を分析することで、**AUTOINDEX** はクエリパラメータ推奨のための機械学習モデルを活用し、recall とパフォーマンスのトレードオフを実現します。これにより、ユーザーはクエリパラメータを手動で設定する必要がなくなります。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Milvus のコードベースを Zilliz Cloud に移行する際、使用するインデックスタイプを手動で変更する必要はありません。Zilliz Cloud はインデックス作成時に自動的に AUTOINDEX を適用します。
 
@@ -142,12 +142,6 @@ Zilliz Cloud では、上記のような複雑なパラメータ群を扱う代�
 `level` パラメータを大きくすると、recall 率は高くなりますが、検索パフォーマンスが低下する可能性もあります。この値のデフォルトは `1` で、範囲は `1` から `10` です。デフォルト値では recall 率が 90% となり、通常はほとんどのユースケースで十分です。ただし、より高い recall 率が必要な場合は、この値を大きくしてください。
 
 `level` パラメータを調整するときに `enable_recall_calculation` を `true` に設定することもできます。これにより、異なる `level` 値での検索精度を評価できます。
-
-<Admonition type="info" icon="📘" title="Notes">
-
-`level` および `enable_recall_calculation` パラメータはまだ **Public Preview** 段階であり、互換性の問題により十分に利用できない場合があります。サポートが必要な場合は、support@zilliz.com までお問い合わせください。
-
-</Admonition>
 
 ## まとめ\{#conclusion}
 

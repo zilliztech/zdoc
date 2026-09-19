@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このページでは、Zilliz Cloud の AWS BYOC または BYOC-I プロジェクトに、外部の Amazon S3 バケットへのアクセスを承認する方法について説明します。バケットを所有する AWS アカウントでカスタマー管理の IAM ポリシーとロールを作成し、そのロールを Zilliz Cloud に登録します。 | BYOC"
+description: "このページでは、Zilliz Cloud の AWS BYOC または BYOC-I プロジェクトに対して、外部の Amazon S3 バケットへのアクセスを承認する方法を説明します。バケットを所有する AWS アカウントでカスタマー管理の IAM ポリシーとロールを作成し、そのロールを Zilliz Cloud に登録します。 | BYOC"
 type: origin
 token: FuX7w7cfZisGBmk8chnco3msnud
 sidebar_position: 4
@@ -22,11 +22,11 @@ import Procedures from '@site/src/components/Procedures';
 
 # Amazon S3 との連携
 
-このページでは、Zilliz Cloud の AWS BYOC または BYOC-I プロジェクトが外部の Amazon S3 バケットにアクセスするための承認方法について説明します。バケットを所有する AWS アカウントでカスタマー管理の IAM ポリシーとロールを作成し、そのロールを Zilliz Cloud に登録します。
+このページでは、Zilliz Cloud の AWS BYOC または BYOC-I プロジェクトに対して、外部の Amazon S3 バケットへのアクセスを承認する方法を説明します。バケットを所有する AWS アカウントでカスタマー管理の IAM ポリシーとロールを作成し、そのロールを Zilliz Cloud に登録します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-このページのポリシーと信頼ポリシーの例にはプレースホルダーが含まれています。AWS で構成するときは、Zilliz Cloud コンソールで生成された JSON をコピーしてください。この JSON には、正しいバケット名、信頼された AWS プリンシパル、および BYOC プロジェクト固有の外部 ID が含まれています。
+このページのポリシーと信頼ポリシーの例にはプレースホルダーが含まれています。AWS を構成するときは、Zilliz Cloud コンソールで生成された JSON をコピーしてください。この JSON には、BYOC プロジェクトの正しいバケット名、信頼された AWS プリンシパル、および一意の外部 ID が含まれています。
 
 </Admonition>
 
@@ -48,7 +48,7 @@ import Procedures from '@site/src/components/Procedures';
 
 - S3 バケットが、連携を使用する BYOC データプレーンと同じ AWS リージョンにあること。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 バケット連携はリージョン単位です。プロジェクトのデータプレーンが複数のリージョンにある場合は、リージョンごとに個別のバケットと連携を作成してください。
 
@@ -62,7 +62,7 @@ import Procedures from '@site/src/components/Procedures';
 
 1. BYOC プロジェクトを開き、左側のナビゲーションで **Integrations** を選択します。
 
-1. **Amazon S3** セクションで **+ Integration** をクリックします。
+1. **Amazon S3** の下で **+ Integration** をクリックします。
 
 1. 一意の **Integration Name** を入力し、必要に応じて **Integration Description** も入力します。
 
@@ -71,7 +71,7 @@ import Procedures from '@site/src/components/Procedures';
     | バケット権限 | 用途 | 付与されるアクセス権 |
     | --- | --- | --- |
     | **Read only** | 外部ボリュームと外部コレクション | `s3:GetObject`、`s3:ListBucket`、および `s3:GetBucketLocation` |
-    | **Read write** | バックアップのエクスポート、監査ログの転送、アクセスログの転送 | 読み取り専用のアクションに加えて `s3:PutObject` |
+    | **Read write** | バックアップのエクスポート、監査ログの転送、およびアクセスログの転送 | 読み取り専用のアクションに加えて `s3:PutObject` |
 
 </Procedures>
 
@@ -83,7 +83,7 @@ import Procedures from '@site/src/components/Procedures';
 
 1. [Amazon S3 コンソール](https://s3.console.aws.amazon.com/s3/home) で、外部バケットが同じリージョンにあることを確認します。
 
-1. **Bucket Name** には、バケット名のみを入力します。`s3://`、オブジェクトプレフィックス、末尾のスラッシュは含めないでください。
+1. **Bucket Name** には、バケット名のみを入力します。`s3://`、オブジェクトプレフィックス、または末尾のスラッシュを含めないでください。
 
 1. **Next** をクリックします。Zilliz Cloud がバケットスコープの IAM ポリシーを生成します。
 
@@ -99,13 +99,13 @@ import Procedures from '@site/src/components/Procedures';
 
 1. **Create policy** をクリックし、**JSON** エディターを選択して、生成されたポリシーを貼り付けます。
 
-1. **Next** をクリックし、`ZillizBucketIntegration-my-bucket` のような識別しやすい名前をポリシーに付けて作成します。
+1. **Next** をクリックし、`ZillizBucketIntegration-my-bucket` など判別しやすい名前をポリシーに付けて作成します。
 
 </Procedures>
 
-以下の例は、権限レベルごとに生成されるポリシーを示しています。
+次の例は、各権限レベルで生成されるポリシーを示しています。
 
-### 読み書きポリシー\{#read-write-policy}
+### 読み取り・書き込みポリシー\{#read-write-policy}
 
 ```plaintext
 {
@@ -152,9 +152,9 @@ import Procedures from '@site/src/components/Procedures';
 }
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-バケットでカスタマー管理の AWS KMS キーによるサーバー側の暗号化を使用している場合は、ロールに必要な KMS 権限も付与し、KMS キーポリシーでそのロールを許可してください。書き込みワークフローでは、現在のコンソールで生成されるポリシーに、そのキーに対する `kms:GenerateDataKey` 権限を追加する必要がある場合があります。
+バケットでカスタマー管理の AWS KMS キーによるサーバー側暗号化を使用している場合は、そのロールに必要な KMS 権限も付与し、KMS キーポリシーでそのロールを許可してください。書き込みワークフローの場合、現在のコンソールで生成されるポリシーには、そのキーに対する `kms:GenerateDataKey` 権限を追加する必要がある可能性があります。
 
 </Admonition>
 
@@ -168,7 +168,7 @@ import Procedures from '@site/src/components/Procedures';
 
 1. バケット所有者の AWS アカウントで [IAM > Roles](https://us-east-1.console.aws.amazon.com/iam/home#/roles) を開き、**Create role** をクリックします。
 
-1. **Custom trust policy** を選択し、生成された JSON を貼り付けて、**Next** をクリックします。
+1. **Custom trust policy** を選択し、生成された JSON を貼り付けて **Next** をクリックします。
 
 1. ステップ 3 で作成した権限ポリシーをアタッチします。
 
@@ -196,23 +196,23 @@ import Procedures from '@site/src/components/Procedures';
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-外部 ID は、ロールをこの連携にバインドし、クロスアカウントの信頼関係を保護します。プリンシパルと外部 ID の両方を、Zilliz Cloud に表示されるとおりに正確にコピーしてください。
+外部 ID はロールをこの連携にバインドし、クロスアカウントの信頼関係を保護します。プリンシパルと外部 ID の両方を、Zilliz Cloud に表示されているとおりに正確にコピーしてください。
 
 </Admonition>
 
 ## ステップ 5: BYOC ストレージロールにカスタマーロールの引き受けを許可する\{#step-5-allow-the-byoc-storage-role-to-assume-the-customer-role}
 
-カスタマーロールの信頼ポリシーは、承認の一方の側にすぎません。選択したデータプレーンのストレージロールにも、新しいカスタマーロールに対する `sts:AssumeRole` を許可する ID ベースのポリシーが必要です。
+カスタマーロールの信頼ポリシーは、認可の一方の側にすぎません。選択したデータプレーンのストレージロールにも、新しいカスタマーロールに対する `sts:AssumeRole` を許可する ID ベースのポリシーが必要です。
 
-ロール名は通常 `-storage-role` で終わります。Zilliz Cloud で正確なロール ARN を確認してください。
+ロール名は通常 `-storage-role` で終わります。正確なロール ARN は Zilliz Cloud で確認します。
 
 <Procedures>
 
 1. プロジェクトを開き、左側のナビゲーションで **Data Planes** をクリックします。
 
-1. バケット連携を使用するデータプレーンをクリックして、**View Data Plane Details** を開きます。
+1. バケット連携を使用するデータプレーンをクリックして **View Data Plane Details** を開きます。
 
     ![外部バケットを使用するデータプレーンを開きます。](https://zdoc-images.s3.us-west-2.amazonaws.com/open-the-data-plane-that-will-use-the-external-bucket.png "外部バケットを使用するデータプレーンを開きます。")
 
@@ -226,7 +226,7 @@ import Procedures from '@site/src/components/Procedures';
 
 1. そのストレージロールにアタッチされているカスタマー管理の権限ポリシーを作成または更新します。
 
-1. `Resource` に、ステップ 4 で作成した正確なロール ARN を設定します。`*` は使用しないでください。
+1. `Resource` には、ステップ 4 で作成した正確なロール ARN を設定します。`*` は使用しないでください。
 
     ```json
     {
@@ -242,7 +242,7 @@ import Procedures from '@site/src/components/Procedures';
     }
     ```
 
-    <Admonition type="info" icon="📘" title="Both policies are required">
+    <Admonition type="info" title="Both policies are required">
 
     ストレージロールの権限ポリシーで呼び出しを許可し、カスタマーロールの信頼ポリシーで、正しい外部 ID を持つ呼び出し元を信頼する必要があります。どちらか一方が欠けていると、ロールの引き受けが失敗します。
 
@@ -254,7 +254,7 @@ import Procedures from '@site/src/components/Procedures';
 
 <Procedures>
 
-1. AWS のロール詳細ページで、ロール ARN をコピーします。形式は次のとおりです：`arn:aws:iam::<BUCKET_ACCOUNT_ID>:role/<ROLE_NAME>`。
+1. AWS のロール詳細ページで、ロール ARN をコピーします。形式は次のとおりです: `arn:aws:iam::<BUCKET_ACCOUNT_ID>:role/<ROLE_NAME>`。
 
 1. Zilliz Cloud に戻り、ARN を **Role ARN** に貼り付けます。
 
@@ -272,11 +272,11 @@ import Procedures from '@site/src/components/Procedures';
 
 - ポリシーのスコープを正確なバケットに限定し、ワークフローでオブジェクトを書き込む必要がない限り **Read only** を選択します。
 
-- S3 Block Public Access を有効にしておきます。バケット連携にバケットへのパブリックアクセスは必要ありません。
+- S3 Block Public Access を有効にしたままにします。バケット連携にバケットへのパブリックアクセスは必要ありません。
 
-- Zilliz Cloud に長期間有効な AWS アクセスキーを追加しないでください。アクセスは、一時的な STS 認証情報を使用してカスタマーロールを引き受けることで取得します。
+- Zilliz Cloud に長期間有効な AWS アクセスキーを追加しないでください。アクセスは、一時的な STS 認証情報を使用してカスタマーロールを引き受けることによって取得します。
 
-- 組織レベルのサービスコントロールポリシー、アクセス許可の境界、S3 バケットポリシー、または KMS キーポリシーが適用される場合は、このロールに付与されたアクションが拒否されないことを確認します。
+- 組織レベルのサービスコントロールポリシー、アクセス許可の境界、S3 バケットポリシー、または KMS キーポリシーが適用される場合は、このロールに付与されたアクションが拒否されないことを確認してください。
 
 ## トラブルシューティング\{#troubleshooting}
 
@@ -284,5 +284,5 @@ import Procedures from '@site/src/components/Procedures';
 | --- | --- | --- |
 | `bucket region not match` | バケットと選択した BYOC データプレーンが異なるリージョンにあります。 | 一致するリージョンを選択するか、データプレーンのリージョンにあるバケットを使用してください。 |
 | `NoSuchBucket` | バケット名が正しくないか、バケットが存在しません。 | `s3://` やパスを含めず、正確なバケット名のみを入力してください。 |
-| `GetBucketLocation` に対する `AccessDenied` | IAM 権限ポリシーが存在しない、アタッチされていない、または別の AWS ポリシーによってブロックされています。 | ロールがバケットに対して `s3:GetBucketLocation` を持っていることを確認し、アクセス許可の境界、バケットポリシー、サービスコントロールポリシーを確認してください。 |
+| `GetBucketLocation` に対する `AccessDenied` | IAM 権限ポリシーが存在しない、アタッチされていない、または別の AWS ポリシーによってブロックされています。 | ロールがバケットに対して `s3:GetBucketLocation` を持っていることを確認し、アクセス許可の境界、バケットポリシー、およびサービスコントロールポリシーを確認してください。 |
 | ロールの引き受けに失敗しました | ストレージロールに `sts:AssumeRole` がないか、ロール ARN、信頼されたプリンシパル、または外部 ID が一致していません。 | 両方の側を確認してください。ストレージロールの ID ポリシーがカスタマーロール ARN を許可し、カスタマーロールの信頼ポリシーに生成されたプリンシパルと外部 ID が含まれている必要があります。 |

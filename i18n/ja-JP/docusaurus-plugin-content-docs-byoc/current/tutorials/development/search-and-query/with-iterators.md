@@ -39,7 +39,7 @@ Search リクエストは検索結果を返しますが、SearchIterator はイ�
 
 次のコードスニペットは、SearchIterator を作成する方法を示しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -203,6 +203,14 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+```
+
+</TabItem>
 </Tabs>
 
 上記の例では、検索ごとに返すエンティティ数 (**batch_size**/**batchSize**) を 50、返すエンティティの総数 (**topK**) を 20,000 に設定しています。
@@ -211,7 +219,7 @@ if (!status.IsOk()) {
 
 SearchIterator の準備ができたら、その next() メソッドを呼び出して、ページネーションされた形で検索結果を取得できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -307,6 +315,14 @@ while (true) {
         std::cout << row.dump() << std::endl;
     }
 }
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
 ```
 
 </TabItem>

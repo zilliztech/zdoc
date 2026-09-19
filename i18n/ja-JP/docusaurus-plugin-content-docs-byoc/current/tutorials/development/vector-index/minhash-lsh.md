@@ -70,7 +70,7 @@ MinHash の処理は次のとおりです。
 
 ![CCzEwT7uchMqI6bsxRJcK1qenEh](https://zdoc-images.s3.us-west-2.amazonaws.com/CCzEwT7uchMqI6bsxRJcK1qenEh.png)
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 使用するハッシュ関数の数によって、MinHash シグネチャの次元数が決まります。次元数が大きいほど近似精度は向上しますが、その分ストレージと計算コストが増加します。
 
@@ -98,7 +98,7 @@ MinHash シグネチャは、ドキュメント間で厳密な Jaccard 類似度
 
     少なくとも 1 つのバンドで衝突したペアが、類似候補として選択されます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 なぜ機能するのか？
 
@@ -126,7 +126,7 @@ MinHash シグネチャは、ドキュメント間で厳密な Jaccard 類似度
 
 ![RfmMwNkIvhlUFSb11alcP8fqnmf](https://zdoc-images.s3.us-west-2.amazonaws.com/RfmMwNkIvhlUFSb11alcP8fqnmf.png)
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 バンドの数は `mh_lsh_band` パラメータで制御します。詳細については、[インデックス構築パラメータ](./minhash-lsh#index-building-params) を参照してください。
 
@@ -174,7 +174,7 @@ MinHash LSH を活用した重複排除プロセスにより、Zilliz Cloud は�
 
 Zilliz Cloud で MinHash LSH を使用する前に、まず **MinHash シグネチャ** を生成する必要があります。これらのコンパクトなバイナリシグネチャは集合間の Jaccard 類似度を近似するもので、Zilliz Cloud で `MHJACCARD` ベースの検索を行うために必要です。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 `MINHASH_LSH` インデックス用の MinHash シグネチャは、次の 2 つの方法で準備できます。
 

@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 このページでは、Zilliz Cloud の GCP BYOC または BYOC-I データプレーンが外部の Google Cloud Storage バケットにアクセスできるように認可する方法について説明します。バケットスコープのカスタム IAM ロールを作成し、それをデータプレーンのストレージ Google サービスアカウント（GSA）に直接付与します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Zilliz Cloud の統合ウィザードには、認可する Google Cloud サービスアカウントのメールアドレスが正確に表示されます。これが、選択したデータプレーンのストレージ GSA です。表示されたプリンシパルにバケットレベルのアクセス権を付与してください。有効期間の長いサービスアカウントキーを作成、ダウンロード、またはアップロードしないでください。
 
@@ -48,7 +48,7 @@ Zilliz Cloud の統合ウィザードには、認可する Google Cloud サー�
 
 - バケットが、選択した BYOC データプレーンのリージョンと一致する単一のリージョンを使用していること。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 バケット統合はリージョン固有です。マルチリージョンバケットとデュアルリージョンバケットは、単一の BYOC データプレーンのリージョンと一致しません。データプレーンのリージョン内のリージョナルバケットを使用してください。
 
@@ -141,7 +141,7 @@ Zilliz Cloud の統合ウィザードには、認可する Google Cloud サー�
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 メールアドレスを命名規則から推測したり、GKE ノードサービスアカウント、管理サービスアカウント、ブーターサービスアカウント、または Kubernetes サービスアカウントで代用したりしないでください。現在の統合に表示されている値をコピーしてください。
 

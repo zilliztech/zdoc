@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 このページでは、Zilliz Cloud の Azure BYOC-I プロジェクトに外部 Azure Blob Storage コンテナへのアクセスを承認する方法について説明します。Microsoft Entra アプリケーションを登録し、BYOC-I AKS ワークロードとのフェデレーション信頼を確立して、対象コンテナへのデータアクセス権をアプリケーションに付与します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 この統合では、AKS OIDC のフェデレーション資格情報を使用します。Zilliz Cloud が生成した発行者 URL、Kubernetes 名前空間、サービスアカウント名をコピーしてください。クライアントシークレットは作成も入力もしないでください。
 
@@ -48,7 +48,7 @@ import Procedures from '@site/src/components/Procedures';
 
 - ストレージアカウントが、この統合を使用する BYOC-I データプレーンと同じ Azure リージョンにあること。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 ストレージ統合はリージョン固有です。プロジェクトに複数のリージョンのデータプレーンがある場合は、リージョンごとに個別のストレージアカウントまたはコンテナ統合を構成してください。
 
@@ -123,7 +123,7 @@ import Procedures from '@site/src/components/Procedures';
 
 1. フェデレーション資格情報の名前を入力し、**Add** をクリックします。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     発行者 URL、名前空間、サービスアカウント名、テナント ID、クライアント ID、または audience が異なると、Microsoft Entra はワークロードトークンを交換できません。
 
@@ -163,7 +163,7 @@ import Procedures from '@site/src/components/Procedures';
 
 1. ステータスが **Successful** に変わったら、**Add** をクリックします。Azure Blob Storage 統合が、同じ Zilliz Cloud プロジェクトおよびリージョンのサポート対象ワークフローで使用できるようになります。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     ワークロード ID と書き込みアクセスを検証するため、検証では `.zilliz-verify-access` という名前のゼロバイトのオブジェクトを対象コンテナにアップロードします。
 
