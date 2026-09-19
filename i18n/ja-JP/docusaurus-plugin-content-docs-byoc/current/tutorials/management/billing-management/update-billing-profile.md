@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "請求プロファイルには、請求、請求書、税務記録に使用される組織情報および連絡先情報が含まれます。請求書が正しい会社名、住所、連絡先の詳細で発行されるよう、請求プロファイルを常に最新の状態に保ってください。 | BYOC"
+description: "請求プロファイルには、請求、請求書、税務記録に使用される組織情報および連絡先情報が含まれます。請求書が正しい会社名、住所、連絡先情報で発行されるよう、請求プロファイルを最新の状態に保ってください。 | BYOC"
 type: origin
 token: M6PLwhVqAipx7wkQNFscmuNPnWc
 sidebar_position: 5
@@ -22,9 +22,9 @@ import Procedures from '@site/src/components/Procedures';
 
 # 請求プロファイルを更新
 
-請求プロファイルには、請求、請求書、税務記録に使用される組織情報および連絡先情報が含まれます。請求書が正しい会社名、住所、連絡先の詳細で発行されるよう、請求プロファイルを常に最新の状態に保ってください。 
+請求プロファイルには、請求、請求書、税務記録に使用される組織情報および連絡先情報が含まれます。請求書が正しい会社名、住所、連絡先情報で発行されるよう、請求プロファイルを最新の状態に保ってください。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 請求プロファイルを管理するには、**Organization Owner** または **Organization Billing Admin** である必要があります。
 
@@ -38,7 +38,7 @@ import Procedures from '@site/src/components/Procedures';
 
 1. Zilliz Cloud コンソールで、**Billing** に移動します。
 
-1. **Billing Profile** セクションの **Edit** をクリックします。
+1. **Billing Profile** セクションで **Edit** をクリックします。
 
 1. 必要な請求情報を更新します。**Confirm** をクリックします。
 

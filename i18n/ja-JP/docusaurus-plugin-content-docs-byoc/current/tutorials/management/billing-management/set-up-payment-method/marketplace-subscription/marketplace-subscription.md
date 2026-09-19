@@ -1,13 +1,13 @@
 ---
-title: "Marketplace Subscription | BYOC"
+title: "マーケットプレイスサブスクリプション | BYOC"
 slug: /marketplace-subscription
-sidebar_label: "Marketplace Subscription"
+sidebar_label: "マーケットプレイスサブスクリプション"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "対応するクラウドマーケットプレイスから Zilliz Cloud にサブスクライブし、既存のクラウド請求アカウントで Zilliz Cloud の料金を支払えます。 | BYOC"
+description: "対応するクラウドマーケットプレイスを通じて Zilliz Cloud をサブスクライブすると、Zilliz Cloud の料金は既存のクラウド請求アカウントを通じて請求されます。 | BYOC"
 type: origin
 token: OFjswbvuoit64pk5eGqc9Yx3nGg
 sidebar_position: 4
@@ -18,17 +18,17 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
-# Marketplace Subscription
+# マーケットプレイスサブスクリプション
 
-対応するクラウドマーケットプレイスから Zilliz Cloud にサブスクライブし、既存のクラウド請求アカウントで Zilliz Cloud の料金を支払えます。
+対応するクラウドマーケットプレイスを通じて Zilliz Cloud をサブスクライブすると、Zilliz Cloud の料金は既存のクラウド請求アカウントを通じて請求されます。
 
-<Admonition type="info" icon="📘" title="📘 Note">
+<Admonition type="info" title="Note">
 
-支払い方法とサブスクリプションを管理するには、**Organization Owner** または **Organization Billing Admin** の権限が必要です。
+支払い方法とサブスクリプションを管理するには、**Organization Owner** または **Organization Billing Admin** である必要があります。
 
 </Admonition>
 
-Zilliz Cloud は、以下のマーケットプレイスでのサブスクリプションに対応しています。
+Zilliz Cloud は、以下のマーケットプレイスを通じたサブスクリプションに対応しています。
 
 - AWS Marketplace
 
@@ -38,30 +38,30 @@ Zilliz Cloud は、以下のマーケットプレイスでのサブスクリプ�
 
 ## サブスクリプションオプション\{#subscription-options}
 
-各マーケットプレイスでは、複数のサブスクリプションオプションが提供される場合があります。
+マーケットプレイスごとに、複数のサブスクリプションオプションをサポートしている場合があります。
 
 - Marketplace パブリックオファー
 
 - Marketplace プライベートオファー
 
-次の表に、各サブスクリプションオプションの比較を示します。
+次の表では、各サブスクリプションオプションを比較します。
 
-| **サブスクリプションオプション** | **説明** | **推奨用途** | **契約条件** | **利用可否** |
+| **サブスクリプションオプション** | **説明** | **最適な用途** | **商用条件** | **利用可否** |
 | --- | --- | --- | --- | --- |
-| Marketplace パブリックオファー | クラウドマーケットプレイスに掲載されている標準の Zilliz Cloud リスティングです。 | 標準価格・標準条件でのセルフサービスサブスクリプション。 | マーケットプレイスのリスティングページに記載された公開価格、契約条件、請求ルールが適用されます。 | **AWS、Google Cloud、Mircosoft** Marketplace 経由の Zilliz Cloud **SaaS** デプロイメントのみ対象。 |
-| Marketplace プライベートオファー | Zilliz がお客様の組織向けに作成するカスタムオファーです。 | エンタープライズ調達、割引、コミット済み支出、個別条件、または BYOC の購入。 | 交渉済みの価格、カスタム契約期間、支払いスケジュールなどの契約条件を含められます。 | **AWS、Google Cloud、Mircosoft** Marketplace 経由の Zilliz Cloud **SaaS** および **BYOC** デプロイメントの両方で利用可能。 |
+| Marketplace Public Offer | クラウドマーケットプレイスで利用できる標準の Zilliz Cloud リスティングです。 | 標準的な価格と条件によるセルフサービスサブスクリプション。 | マーケットプレイスのリスティングページに記載されている公開価格、契約条件、請求ルールが適用されます。 | **AWS、Google Cloud、Mircosoft** Marketplace を通じた Zilliz Cloud **SaaS** デプロイメントでのみ利用できます。 |
+| Marketplace Private Offer | Zilliz がお客様の組織向けに作成するカスタムオファーです。 | エンタープライズ調達、割引、コミット済み支出、カスタム条件、または BYOC の購入。 | 交渉済みの価格、カスタム契約期間、支払いスケジュール、その他の商用条件を含めることができます。 | **AWS、Google Cloud、Mircosoft** Marketplace を通じた Zilliz Cloud **SaaS** および **BYOC** デプロイメントの両方で利用できます。 |
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
-AWS Marketplace 無料トライアルは AWS Marketplace から開始・管理されます。トライアル後にアップグレードすると、その後の料金も AWS Marketplace を通じて請求されます。このオプションは、AWS Marketplace で調達と請求を一括管理したいチームに適しています。
+AWS Marketplace Free Trial は AWS Marketplace を通じて開始および管理されます。トライアル後にアップグレードした場合、以降の料金は AWS Marketplace を通じて請求されます。このオプションは、AWS Marketplace での調達と請求を希望するチームに適しています。
 
-Zilliz Cloud 無料トライアルは Zilliz Cloud コンソールから直接開始し、Zilliz Cloud 内で管理されます。トライアル終了後は、支払い方法として[クレジットカード](./subscribe-by-adding-credit-card)、[マーケットプレイスサブスクリプション](./marketplace-subscription)、または[前払い](./advance-pay)を追加できます。このオプションは、外部の請求設定を行う前に Zilliz Cloud を直接試したいユーザーに適しています。
+Zilliz Cloud Free Trial は Zilliz Cloud コンソールから直接開始され、Zilliz Cloud 内で管理されます。トライアル終了後は、支払い方法として[クレジットカード](./subscribe-by-adding-credit-card)、[マーケットプレイスサブスクリプション](./marketplace-subscription)、または[前払い](./advance-pay)を追加できます。このオプションは、外部の請求を設定する前に Zilliz Cloud を直接試したいユーザーに適しています。
 
 </Admonition>
 
 ## 考慮事項\{#considerations}
 
-Marketplace サブスクリプションはあくまで支払い方法であり、プロジェクト、クラスター、関連リソースを作成するクラウドプロバイダーを規定するものではありません。たとえば、AWS Marketplace でサブスクライブした後でも、選択したクラウドプロバイダーとリージョンがサポートされていれば、AWS、Google Cloud、Azure のいずれにも Zilliz Cloud のプロジェクトやクラスターを作成できます。
+マーケットプレイスサブスクリプションはあくまで支払い方法であり、プロジェクト、クラスター、および関連リソースを作成するクラウドプロバイダーを決定するものではありません。たとえば、AWS Marketplace を通じてサブスクライブした後でも、選択したクラウドプロバイダーとリージョンがサポートされていれば、AWS、Google Cloud、Azure のいずれかで Zilliz Cloud のプロジェクトとクラスターを引き続き作成できます。
 
 import DocCardList from '@theme/DocCardList';
 

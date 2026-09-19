@@ -951,64 +951,79 @@
       "translatedAt": "2026-09-19T13:57:10.436Z"
     },
     "content/en/byoc/tutorials/management/billing-management/payment-billing.md": {
-      "sourceHash": "82f97d9e021db176ce7219574f84a0a961e27dd5e1a198eef5570fc41ead2ba0",
+      "sourceHash": "c5ac0e8f6433ea861619f80e89ff68c351bc21aa827169473b04f175be2ebe3e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/payment-billing.md",
-      "translatedAt": "2026-08-25T16:43:17.654Z"
+      "translatedAt": "2026-09-19T13:58:15.656Z"
+    },
+    "content/en/byoc/tutorials/management/billing-management/set-up-payment-method/advance-pay.md": {
+      "sourceHash": "0891caf268d559882e16ce8f1c58729dab774121af159422c93b1bad94266e4d",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/set-up-payment-method/advance-pay.md",
+      "translatedAt": "2026-09-19T13:58:15.656Z"
+    },
+    "content/en/byoc/tutorials/management/billing-management/set-up-payment-method/credits.md": {
+      "sourceHash": "ade6aa72bfcdee5a18d607d3098a72d23b757aaf3b6bc49bafb70afd04c23c3e",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/set-up-payment-method/credits.md",
+      "translatedAt": "2026-09-19T13:58:15.656Z"
     },
     "content/en/byoc/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/marketplace-subscription.md": {
-      "sourceHash": "1949458d0ed6a517cec825172c06bca978092c35322b490043ee9aba79d2385a",
+      "sourceHash": "84f72124d6d1661c21ea6c10ab0dc20536d95681f60d031a2fa1ea0531429e3e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/marketplace-subscription.md",
-      "translatedAt": "2026-08-25T06:52:32.183Z"
+      "translatedAt": "2026-09-19T13:58:15.656Z"
     },
     "content/en/byoc/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace-private-offer.md": {
-      "sourceHash": "a304abfc747520226f8e27b853f514b46b201452d039c781fe7046946b7f9747",
+      "sourceHash": "8645bc9b875718ae0d78338266e28e83db454855f26168ecb4e9c9c09fca22d3",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace-private-offer.md",
-      "translatedAt": "2026-08-25T16:45:44.376Z"
+      "translatedAt": "2026-09-19T13:58:15.656Z"
     },
     "content/en/byoc/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace.md": {
-      "sourceHash": "5a54ad8b335bccef7aab0aad7495bcfdac1cde13bc8bc715396493eb0c6bf332",
+      "sourceHash": "c76389646793a936b2b977a84fb84e649f5409788b0fcf7365c970d1f7bcc03e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace.md",
-      "translatedAt": "2026-08-25T16:46:55.861Z"
+      "translatedAt": "2026-09-19T13:58:15.656Z"
     },
     "content/en/byoc/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-azure-marketplace.md": {
-      "sourceHash": "e793d9a1955021bb82497ef3091bdca3fb187a0e774cec40fd36dbddda1532a1",
+      "sourceHash": "652dc9fd43e8346c4e0924917b4aad843498ee920d292bd8d0b0875c7247b200",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-azure-marketplace.md",
-      "translatedAt": "2026-08-25T16:49:15.883Z"
+      "translatedAt": "2026-09-19T13:58:15.656Z"
     },
     "content/en/byoc/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace-private-offer.md": {
-      "sourceHash": "4f52342e84b3aac19a61552e5bd20ca3cce9921eb2c536fea21f6ab83501cca6",
+      "sourceHash": "20b8b78c84dde7a0c79114a25cb2464b7de355055e81d50d6810df077d93fe07",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace-private-offer.md",
-      "translatedAt": "2026-08-25T16:51:28.288Z"
+      "translatedAt": "2026-09-19T13:58:15.656Z"
     },
     "content/en/byoc/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace.md": {
-      "sourceHash": "f9b58454a76f38cd892749babb349a00f891508cc451c301182df2d5fcadc5a6",
+      "sourceHash": "a7ad8ebc7fda9f7691f0091c47b62b90780744d2205ec67ea303253dfc0df4c1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace.md",
-      "translatedAt": "2026-08-25T16:52:42.945Z"
+      "translatedAt": "2026-09-19T13:58:15.656Z"
     },
     "content/en/byoc/tutorials/management/billing-management/set-up-payment-method/subscribe-by-adding-credit-card.md": {
-      "sourceHash": "51a6ff28665a4f30b3f5e032ad7f5d74e133c748e1834e5fbbff83462bd42f36",
+      "sourceHash": "4ec3cccddc4fe7b5b5e23043737dc23f6709af4d04126b9481792e19f57fa9fe",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/set-up-payment-method/subscribe-by-adding-credit-card.md",
-      "translatedAt": "2026-08-04T05:16:47.070Z"
+      "translatedAt": "2026-09-19T13:58:15.656Z"
     },
     "content/en/byoc/tutorials/management/billing-management/understand-byoc-billing.md": {
-      "sourceHash": "af1c4593cdb1782bc584b58d4e193fc95a5a950cbf24e93b96fca5c44e5b7291",
+      "sourceHash": "37d12893ecbbf375764e1704501e5578bcb2e06c54ac00925bf0a03cb2b63769",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/understand-byoc-billing.md",
-      "translatedAt": "2026-08-04T05:18:22.239Z"
+      "translatedAt": "2026-09-19T13:58:15.656Z"
     },
     "content/en/byoc/tutorials/management/billing-management/update-billing-profile.md": {
-      "sourceHash": "122b607392d64633af4bb562236dc3ebaf2133039604e3e31592d441f3d5f2e3",
+      "sourceHash": "c57e6f3fe34b2bea231b1cdefa0d69e26d18a75f00105801645150f52b024f30",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/update-billing-profile.md",
-      "translatedAt": "2026-08-04T05:17:28.541Z"
+      "translatedAt": "2026-09-19T13:58:15.656Z"
+    },
+    "content/en/byoc/tutorials/management/billing-management/update-payment-method.md": {
+      "sourceHash": "15173510e0abea2e56563fcfff5bb3520928d7626046eb9b677af0e26fdf9fdc",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/update-payment-method.md",
+      "translatedAt": "2026-09-19T13:58:15.656Z"
     },
     "content/en/byoc/tutorials/management/billing-management/view-invoice.md": {
-      "sourceHash": "f1b1985ae4b96c3ab3e751795c2be5cbcd34b3e6ef2fc270dd46db48c481c47c",
+      "sourceHash": "d2da810d4ca4c264912c18908356cdbef157ea89b21961f40af40cb1e4c1229e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/view-invoice.md",
-      "translatedAt": "2026-08-25T16:54:08.342Z"
+      "translatedAt": "2026-09-19T13:58:15.656Z"
     },
     "content/en/byoc/tutorials/management/clusters/dedicated-cluster/connect-to-clusters.md": {
-      "sourceHash": "2c206c7ff5c53acc8631dd2506a26cbbf75f6e24201f4825d6bf6b3f0bac2da6",
+      "sourceHash": "5ef7c02b546e1818bb7175c350f39a53b7339402980e902bc238f24bc4722388",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/dedicated-cluster/connect-to-clusters.md",
-      "translatedAt": "2026-08-04T05:18:24.167Z"
+      "translatedAt": "2026-09-19T13:58:15.656Z"
     },
     "content/en/byoc/tutorials/management/clusters/dedicated-cluster/create-cluster.md": {
       "sourceHash": "427f4046ec1458ff63b8d6bb18e85a3d5cad0c247e57bea3a46f32a16503853a",

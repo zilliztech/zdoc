@@ -244,7 +244,7 @@ Azure Marketplace でサブスクライブするには、[Azure Marketplace](htt
 
         1. **Auto-renew** を設定します。
 
-            <Admonition type="info" icon="📘" title="📘 Note">
+            <Admonition type="info" title="Note">
 
             自動更新がオンの場合、契約期間の終了時に Azure 上の Zilliz Cloud へのサブスクリプションが自動的に更新されます。オフの場合、契約期間の終了とともにサブスクリプションが終了し、Zilliz Cloud の組織とアカウントがこの Azure Marketplace サブスクリプションから自動的にリンク解除されます。
 

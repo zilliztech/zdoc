@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "AWS Marketplace のプライベートオファーは、Zilliz がお客様の組織向けに作成するカスタム購入オプションです。AWS Marketplace の商品ページに記載された標準の価格と条件が適用されるパブリックオファーとは異なり、プライベートオファーでは交渉済みの価格、カスタム契約条件、特定の契約期間、指定した支払いスケジュールなどを設定できます。 | BYOC"
+description: "AWS Marketplace のプライベートオファーは、Zilliz がお客様の組織向けに作成するカスタム購入オプションです。AWS Marketplace の商品ページに記載された標準の価格と条件が適用されるパブリックオファーとは異なり、プライベートオファーでは交渉済みの価格、カスタム契約条件、特定の契約期間、指定した支払いスケジュールを設定できます。 | BYOC"
 type: origin
 token: QGVxwmnGTidbjtk1LcYcEfqbnOe
 sidebar_position: 3
@@ -22,7 +22,7 @@ import Procedures from '@site/src/components/Procedures';
 
 # AWS Marketplace でプライベートオファーをサブスクライブする
 
-AWS Marketplace のプライベートオファーは、Zilliz がお客様の組織向けに作成するカスタム購入オプションです。AWS Marketplace の商品ページに記載された標準の価格と条件が適用されるパブリックオファーとは異なり、プライベートオファーでは交渉済みの価格、カスタム契約条件、特定の契約期間、指定した支払いスケジュールなどを設定できます。
+AWS Marketplace のプライベートオファーは、Zilliz がお客様の組織向けに作成するカスタム購入オプションです。AWS Marketplace の商品ページに記載された標準の価格と条件が適用されるパブリックオファーとは異なり、プライベートオファーでは交渉済みの価格、カスタム契約条件、特定の契約期間、指定した支払いスケジュールを設定できます。
 
 割引価格、コミットメント支出、エンタープライズ向けの調達条件、特定の AWS アカウントに紐づく契約など、組織としてカスタムの取引条件が必要な場合はプライベートオファーをご利用ください。プライベートオファーは、Zilliz がオファーに含めた AWS アカウント ID にのみ表示されます。
 
@@ -62,7 +62,7 @@ AWS Marketplace でプライベートオファーをサブスクライブする�
 
         ![AAEEwdD8zhamcKbFjB8cr1j7nFc](https://zdoc-images.s3.us-west-2.amazonaws.com/AAEEwdD8zhamcKbFjB8cr1j7nFc.png)
 
-        <Admonition type="info" icon="📘" title="Note">
+        <Admonition type="info" title="Note">
 
         オファーは有効期限内に承諾する必要があります。有効期限が切れている場合は、アカウントエグゼクティブにお問い合わせください。
 
@@ -88,7 +88,7 @@ AWS Marketplace でプライベートオファーをサブスクライブする�
 
     **Set up your account** をクリックします。Zilliz Cloud にリダイレクトされます。
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     この手順は必須です。完了しない場合、プライベートオファーのサブスクリプションが Zilliz Cloud 組織にリンクされません。
 
@@ -122,7 +122,7 @@ AWS Marketplace でプライベートオファーをサブスクライブする�
 
 プライベートオファーの有効期限が近づくと、Zilliz から更新用の新しいプライベートオファーへのリンクが送信されます。更新手続きについてご質問がある場合は、アカウントエグゼクティブにお問い合わせください。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 AWS Marketplace における更新は、新しいプライベートオファーを承諾する形で行われます。承諾すると、新しいオファーが既存のオファーを自動的に置き換えます。なお、新しいオファーについても、再度 Zilliz Cloud 組織にリンクする必要があります。
 
@@ -132,7 +132,7 @@ AWS Marketplace における更新は、新しいプライベートオファー�
 
 ![GKcDwCIv4hVc12bEFPvcXshQniR](https://zdoc-images.s3.us-west-2.amazonaws.com/GKcDwCIv4hVc12bEFPvcXshQniR.png)
 
-AWS Marketplace でプライベートオファーを更新するには、以下の詳細な手順に従ってください。
+AWS Marketplace でプライベートオファーをサブスクライブするには、以下の詳細な手順に従ってください。
 
 <Procedures>
 
@@ -162,7 +162,7 @@ AWS Marketplace でプライベートオファーを更新するには、以下�
 
     AWS Marketplace に「*Your request is in progress, this will take a few minutes. Don't refresh or close this page. Meanwhile, you can set up your account on the vendor's website.*」というメッセージが表示されます。
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     この時点では「Set up your account」をクリック**しないでください**。リクエストが完了するまでお待ちください。
 
@@ -176,7 +176,7 @@ AWS Marketplace でプライベートオファーを更新するには、以下�
 
     **Set up your account** をクリックします。Zilliz Cloud にリダイレクトされます。
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     この手順は必須です。完了しない場合、プライベートオファーのサブスクリプションが Zilliz Cloud 組織にリンクされません。
 
@@ -214,7 +214,7 @@ AWS Marketplace でプライベートオファーを更新するには、以下�
 
 プライベートオファーのサブスクリプションは、AWS Marketplace からキャンセルできます。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 サブスクリプションをキャンセルすると、組織は高度な Zilliz Cloud 機能へのアクセス権を失います。組織に残りのクレジットがない場合、またはすべてのクレジットの有効期限が切れている場合は、組織が直ちに凍結されます。
 
@@ -274,6 +274,6 @@ AWS Marketplace でプライベートオファーを更新するには、以下�
 
     この場合は、以下の操作を行えます。
 
-    - [新しい組織を作成](./organization-settings#create-an-organization)する。
+    - [新しい組織を作成](./organization-settings#create-an-organization)します。
 
-    - 他のユーザーに依頼して、それぞれの組織に自分を[招待](./manage-platform-users#invite-organization-members)してもらい、Organization Owner ロールを付与してもらう。
+    - 他のユーザーに依頼して、それぞれの組織に自分を[招待](./manage-platform-users#invite-organization-members)してもらい、Organization Owner ロールを付与してもらいます。

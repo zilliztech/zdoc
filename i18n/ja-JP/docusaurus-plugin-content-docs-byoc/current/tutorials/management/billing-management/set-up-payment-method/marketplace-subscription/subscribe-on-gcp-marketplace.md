@@ -24,9 +24,9 @@ import Procedures from '@site/src/components/Procedures';
 
 このガイドでは、サブスクリプションの手順を順を追って説明し、GCP Marketplace における Zilliz Cloud の価格条件について概説します。
 
-<Admonition type="info" icon="📘" title="📘 Note">
+<Admonition type="info" title="Note">
 
-サブスクライブ後は、Google Cloud Marketplace を通じて Google Cloud クラスターの利用料金を支払えます。他のクラウドプロバイダーにデプロイされたクラスターについても、同様に Google Cloud Marketplace で支払いが可能です。
+サブスクライブ後は、Google Cloud Marketplace 経由で Google Cloud クラスターの利用料金を支払えます。他のクラウドプロバイダーにクラスターをデプロイしている場合も、Google Cloud Marketplace で支払いを行えます。
 
 </Admonition>
 
@@ -38,9 +38,9 @@ import Procedures from '@site/src/components/Procedures';
 
 - GCP Marketplace アカウントが組織に属している場合は、請求管理者から購入の承認を得ていること。
 
-## GCP Marketplace でのサブスクリプション\{#subscribe-on-gcp-marketplace}
+## GCP Marketplace でサブスクライブする\{#subscribe-on-gcp-marketplace}
 
-[GCP](https://console.cloud.google.com/marketplace)[ Marketplace](https://console.cloud.google.com/marketplace) にアクセスし、以下の手順で Zilliz Cloud をサブスクライブします。
+[GCP](https://console.cloud.google.com/marketplace)[ Marketplace](https://console.cloud.google.com/marketplace) にアクセスし、以下の手順で Zilliz Cloud のサブスクリプションを開始します。
 
 <Procedures>
 
@@ -68,9 +68,9 @@ import Procedures from '@site/src/components/Procedures';
 
 1. ポップアップウィンドウで **SIGN UP WITH ZILLIZ** をクリックします。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
-    サインアップを完了できない場合は、GCP Marketplace の **[Your Orders](https://console.cloud.google.com/marketplace/orders)** ページから再試行できます。
+    サインアップを完了できない場合は、GCP Marketplace の **[Your Orders](https://console.cloud.google.com/marketplace/orders)** ページに移動して再試行できます。
 
     </Admonition>
 
@@ -78,9 +78,9 @@ import Procedures from '@site/src/components/Procedures';
 
 1. 新しいタブで、以下の手順に従ってサブスクリプションを完了してください。
 
-    1. すでに Zilliz Cloud アカウントをお持ちの場合は、そのままログインしてください。お持ちでない場合は、[サインアップ方法](./register-with-zilliz-cloud) を選択し、手順に従ってください。
+    1. すでに Zilliz Cloud アカウントをお持ちの場合は、そのままログインしてください。お持ちでない場合は、[サインアップ オプション](./register-with-zilliz-cloud) を選択し、手順に従ってください。
 
-    1. 既存の Zilliz Cloud 組織にサブスクリプションをリンクします。
+    1. サブスクリプションを既存の Zilliz Cloud 組織にリンクします。
 
     1. 認可を完了します。
 
@@ -92,9 +92,9 @@ import Procedures from '@site/src/components/Procedures';
 
 </Procedures>
 
-## サブスクリプションまたは支払い方法の変更\{#update-subscription-or-payment-method}
+## サブスクリプションまたは支払い方法の更新\{#update-subscription-or-payment-method}
 
-Marketplace でのサブスクリプションに成功した後は、必要に応じていつでもサブスクリプションを更新できます。
+Marketplace からサブスクリプションに成功した後は、必要に応じていつでもサブスクリプションを更新できます。
 
 具体的には、以下のいずれかを実行できます。
 
@@ -106,9 +106,9 @@ Marketplace でのサブスクリプションに成功した後は、必要に�
 
 ## GCP Marketplace サブスクリプションのキャンセル\{#cancel-gcp-marketplace-subscription}
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
-サブスクリプションをキャンセルすると、組織は Zilliz Cloud の高度な機能を利用できなくなります。クレジット残高がない場合、またはすべてのクレジットの有効期限が切れている場合は、組織が直ちに凍結されます。
+サブスクリプションをキャンセルすると、組織は Zilliz Cloud の高度な機能にアクセスできなくなります。組織に残りのクレジットがない場合、またはすべてのクレジットの有効期限が切れている場合は、直ちに凍結されます。
 
 </Admonition>
 
@@ -116,7 +116,7 @@ Marketplace でのサブスクリプションに成功した後は、必要に�
 
 1. [Google Cloud Orders](https://console.cloud.google.com/marketplace/orders) ページに移動します。
 
-1. キャンセル対象のプランが含まれるプロダクトを選択します。
+1. キャンセルするプランを含むプロダクトを選択します。
 
 1. **Actions available to manage your orders** をクリックします。
 
@@ -130,7 +130,7 @@ Marketplace でのサブスクリプションに成功した後は、必要に�
 
 **Marketplace サブスクリプションを Zilliz Cloud にリンクする際に、利用可能な組織がない場合はどうすればよいですか？**
 
-理由はいくつか考えられます。
+いくつかの理由が考えられます。
 
 - **権限不足**
 
@@ -138,7 +138,7 @@ Marketplace でのサブスクリプションに成功した後は、必要に�
 
     ![insufficient-permission-subscription](https://zdoc-images.s3.us-west-2.amazonaws.com/insufficient-permission-subscription.png "insufficient-permission-subscription")
 
-    組織を Marketplace サブスクリプションにリンクするには、**Organization Owner** または **Organization Billing Admin** である必要があります。ただし、Organization Member のみの場合は必要な権限がありません。組織のオーナーにお問い合わせください。
+    組織を Marketplace サブスクリプションにリンクするには、**Organization Owner** または **Organization Billing Admin** である必要があります。ただし、Organization Member のみの場合は必要な権限がありません。組織のオーナーに問い合わせてください。
 
 - **すべての組織がすでに Marketplace サブスクリプションに正常にリンクされている**
 
@@ -154,7 +154,7 @@ Marketplace でのサブスクリプションに成功した後は、必要に�
 
 - **リストに組織がない**
 
-    - アカウントが閉鎖された場合や、すべての組織から退出した場合に発生します。画面は以下のようになります。
+    - アカウントが閉鎖された場合や、すべての組織から退出した場合に発生します。UI は以下のようになります。
 
     ![no-organization-during-subcription](https://zdoc-images.s3.us-west-2.amazonaws.com/no-organization-during-subcription.png "no-organization-during-subcription")
 
@@ -162,4 +162,4 @@ Marketplace でのサブスクリプションに成功した後は、必要に�
 
     - [新しい組織を作成](./organization-settings#create-an-organization) する。
 
-    - 他のユーザーに依頼して、そのユーザーの組織へ[招待](./manage-platform-users#invite-organization-members) してもらい、Organization Owner ロールを付与してもらう。
+    - 他のユーザーに依頼し、そのユーザーの組織へ[招待](./manage-platform-users#invite-organization-members)してもらい、Organization Owner ロールを付与してもらう。

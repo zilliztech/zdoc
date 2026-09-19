@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このガイドでは、サブスクリプションの手順を順を追って説明し、AWS Marketplace における Zilliz Cloud の価格条件について解説します。 | BYOC"
+description: "このガイドでは、サブスクリプションの手続きを順を追って説明し、AWS Marketplace における Zilliz Cloud の価格条件について概説します。 | BYOC"
 type: origin
 token: LDlOweEzmiLkdQkvPFec5lrcnbf
 sidebar_position: 2
@@ -24,33 +24,33 @@ import Procedures from '@site/src/components/Procedures';
 
 # AWS Marketplace でパブリックオファーをサブスクライブする
 
-このガイドでは、サブスクリプションの手順を順を追って説明し、AWS Marketplace における Zilliz Cloud の価格条件について解説します。
+このガイドでは、サブスクリプションの手続きを順を追って説明し、AWS Marketplace における Zilliz Cloud の価格条件について概説します。
 
-<Admonition type="info" icon="📘" title="📘 Note">
+<Admonition type="info" title="Note">
 
-サブスクライブ後は、AWS クラスターの利用料金を AWS Marketplace 経由で支払えます。他のクラウドプロバイダーにデプロイされたクラスターがある場合も、AWS Marketplace を使って支払いが可能です。
+サブスクライブすると、AWS クラスターの利用料金を AWS Marketplace 経由で支払えるようになります。他のクラウドプロバイダーにクラスターをデプロイしている場合も、AWS Marketplace を使って支払いを行うことができます。
 
 </Admonition>
 
 ## 事前準備\{#before-you-start}
 
-- AWS Marketplace のアカウントを用意してください。
+- AWS Marketplace のアカウントを持っていること。
 
-- AWS Buyer ID のデフォルトの支払い方法を Invoicing Plan に設定してください。[デフォルトの支払い方法を変更する方法](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/manage-payment-method.html) を参照してください。
+- AWS Buyer ID のデフォルトの支払い方法を Invoicing Plan に設定すること。詳細については、[デフォルトの支払い方法を変更する方法](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/manage-payment-method.html) を参照してください。
 
-- AWS アカウントが組織に属している場合は、請求管理者から購入の承認を得ている必要があります。
+- AWS アカウントが組織に属している場合は、請求管理者から購入の承認を得ていること。
 
 ## パブリックオファーをサブスクライブする\{#subscribe-to-a-public-offer}
 
-[AWS Marketplace](https://aws.amazon.com/marketplace) にアクセスし、以下の手順で Zilliz Cloud をサブスクライブします。
+[AWS Marketplace](https://aws.amazon.com/marketplace) にアクセスし、以下の手順で Zilliz Cloud のサブスクライブを開始します。
 
 <Supademo id="cm9hwfyvq1zgoljv5tu13vdk6" title=""  />
 
 <Procedures>
 
-1. 検索ボックスに **Zilliz Cloud** と入力して検索し、**Milvus ベクトルデータベース、Zilliz Cloud (Pay-as-you-go)** をクリックします。
+1. 検索ボックスで **Zilliz Cloud** を検索し、**Milvus ベクトルデータベース、Zilliz Cloud (Pay-as-you-go)** をクリックします。
 
-    または、[このページ](https://aws.amazon.com/marketplace/pp/prodview-iqbidum7feuio?trk=8d276e92-b310-40ce-908f-23a198ca7ffc&sc_channel=el&source=zilliz) から直接アクセスすることもできます。
+    または、[このページ](https://aws.amazon.com/marketplace/pp/prodview-iqbidum7feuio?trk=8d276e92-b310-40ce-908f-23a198ca7ffc&sc_channel=el&source=zilliz) に直接アクセスすることもできます。
 
     ![UNGcb105Oo319KxghYwciqeCntf](https://zdoc-images.s3.us-west-2.amazonaws.com/ungcb105oo319kxghywciqecntf.png "UNGcb105Oo319KxghYwciqeCntf")
 
@@ -66,13 +66,13 @@ import Procedures from '@site/src/components/Procedures';
 
     ![set-up-account](https://zdoc-images.s3.us-west-2.amazonaws.com/set-up-account.png "set-up-account")
 
-1.  新しく開いたタブで、以下の手順に従ってサブスクリプションを完了させます。
+1.  新しいタブで、以下の手順に従ってサブスクリプションを完了します。
 
-    1. すでに Zilliz Cloud アカウントをお持ちの場合は、そのままログインしてください。お持ちでない場合は、[サインアップオプション](./register-with-zilliz-cloud) を選択して手続きを進めます。AWS の ID を Zilliz Cloud アカウントにリンクするため、URL に含まれるすべてのクエリ文字列が保持されるようにしてください。
+    1. すでに Zilliz Cloud アカウントをお持ちの場合は、そのままログインします。お持ちでない場合は、[サインアップオプション](./register-with-zilliz-cloud) を選択して手続きを進めます。AWS の ID を Zilliz Cloud アカウントにリンクするため、URL 内のすべてのクエリ文字列が保持されるようにしてください。
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" title="Notes">
 
-        AWS Marketplace は URL のクエリ文字列を使用して、ID 情報を Zilliz Cloud に渡します。サインアップに失敗するとこれらのクエリ文字列が失われ、その結果 Zilliz Cloud が AWS の ID を登録済みアカウントに関連付けられない場合があります。このような場合は、AWS Marketplace に戻り、再度 <b>Set up your account</b> をクリックしてください。
+        AWS Marketplace は URL 内のクエリ文字列を使用して、お客様の ID 情報を Zilliz Cloud に渡します。サインアップに失敗すると、これらのクエリ文字列が失われる可能性があります。その結果、Zilliz Cloud が AWS の ID を登録済みのアカウントに関連付けられない場合があります。このような場合は、AWS Marketplace に戻り、再度 <b>Set up your account</b> をクリックしてください。
 
         </Admonition>
 
@@ -88,17 +88,17 @@ import Procedures from '@site/src/components/Procedures';
 
 </Procedures>
 
-## サブスクリプションまたは支払い方法の更新\{#update-subscription-or-payment-method}
+## サブスクリプションまたは支払い方法を更新する\{#update-subscription-or-payment-method}
 
-Marketplace でのサブスクライブ完了後、必要に応じていつでもサブスクリプションを更新できます。
+Marketplace でのサブスクライブが完了した後は、必要に応じていつでもサブスクリプションを更新できます。
 
-具体的には、以下の操作が可能です。
+具体的には、以下のいずれかの操作を行えます。
 
 - サブスクリプションに使用する Marketplace アカウントを別のアカウントに変更する。
 
 - 支払い方法を Marketplace サブスクリプションからクレジットカードに切り替える。
 
-詳細については、[支払い方法の更新](./update-payment-method) を参照してください。
+詳細については、[支払い方法を更新する](./update-payment-method) を参照してください。
 
 ## プライベートオファーへの切り替え\{#switch-to-a-private-offer}
 
@@ -106,9 +106,9 @@ Marketplace でのサブスクライブ完了後、必要に応じていつで�
 
 ## パブリックオファーのサブスクリプションをキャンセルする\{#cancel-public-offer-subscription}
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
-サブスクリプションをキャンセルすると、組織は Zilliz Cloud の高度な機能を利用できなくなります。組織に残りのクレジットがない場合、またはすべてのクレジットが期限切れの場合、組織は直ちに凍結されます。
+サブスクリプションをキャンセルすると、組織は Zilliz Cloud の高度な機能にアクセスできなくなります。組織に残りのクレジットがない場合、またはすべてのクレジットが期限切れになっている場合は、組織は直ちに凍結されます。
 
 </Admonition>
 
@@ -120,9 +120,9 @@ Marketplace でのサブスクライブ完了後、必要に応じていつで�
 
 1. 対象の Zilliz Cloud サブスクリプションを見つけ、契約 ID をクリックします。
 
-1. **Agreement** セクションで **Actions** リストを開き、**Cancel subscription** を選択します。
+1. **Agreement** で **Actions** リストを開き、**Cancel subscription** を選択します。
 
-1. **Cancel subscription** ダイアログボックスに **confirm** と入力し、**Yes, cancel subscription** を選択します。
+1. **Cancel subscription** ダイアログボックスで **confirm** と入力し、**Yes, cancel subscription** を選択します。
 
 </Procedures>
 
@@ -130,7 +130,7 @@ Marketplace でのサブスクライブ完了後、必要に応じていつで�
 
 ## トラブルシューティング\{#troubleshooting}
 
-**Marketplace サブスクリプションを Zilliz Cloud にリンクする際に、利用可能な組織が表示されない場合はどうすればよいですか？**
+**Marketplace サブスクリプションを Zilliz Cloud にリンクする際に、利用可能な組織がない場合はどうすればよいですか？**
 
 いくつかの原因が考えられます。
 
@@ -140,28 +140,28 @@ Marketplace でのサブスクライブ完了後、必要に応じていつで�
 
     ![insufficient-permission-subscription](https://zdoc-images.s3.us-west-2.amazonaws.com/insufficient-permission-subscription.png "insufficient-permission-subscription")
 
-    組織を Marketplace サブスクリプションにリンクするには、**Organization Owner** または **Organization Billing Admin** である必要があります。Organization Member のみである場合は必要な権限がないため、組織オーナーにお問い合わせください。
+    組織を Marketplace サブスクリプションにリンクするには、**Organization Owner** または **Organization Billing Admin** である必要があります。ただし、Organization Member のみの場合は必要な権限がありません。組織のオーナーにお問い合わせください。
 
-- **すべての組織がすでに Marketplace サブスクリプションにリンクされている**
+- **すべての組織がすでに Marketplace サブスクリプションに正常にリンクされている**
 
     所有するすべての組織がすでに Marketplace サブスクリプションにリンクされている場合に発生します。利用できない組織の横に **「Marketplace Linked」** タグが表示されます。
 
     ![marketplace-already-linked-subscription](https://zdoc-images.s3.us-west-2.amazonaws.com/marketplace-already-linked-subscription.png "marketplace-already-linked-subscription")
 
-    この場合は、以下のように対応してください。
+    この場合は、以下の対応を行ってください。
 
-    - 既存の Marketplace サブスクリプションを更新したい場合は、まず組織の現在のサブスクリプションのリンクを解除してから、新しいサブスクリプションを設定してください。
+    - 既存の Marketplace サブスクリプションを更新する必要がある場合は、まず組織の現在のサブスクリプションのリンクを解除してから、新しいサブスクリプションを設定してください。
 
-    - 異なる Marketplace サブスクリプション用に複数の組織が必要な場合は、[組織を作成](./organization-settings#create-an-organization) できます。
+    - 異なる Marketplace サブスクリプション用に複数の組織が必要な場合は、[組織を作成する](./organization-settings#create-an-organization) ことができます。
 
-- **リストに組織が表示されない**
+- **リストに組織がない**
 
-    - アカウントが閉鎖された場合や、すべての組織から脱退した場合に発生します。UI は以下のようになります。
+    - アカウントが閉鎖されている場合や、すべての組織から脱退している場合に発生します。UI は以下のようになります。
 
     ![no-organization-during-subcription](https://zdoc-images.s3.us-west-2.amazonaws.com/no-organization-during-subcription.png "no-organization-during-subcription")
 
-    この場合は、以下のいずれかの操作を行ってください。
+    この場合は、以下のいずれかの操作を行えます。
 
-    - [新しい組織を作成](./organization-settings#create-an-organization) する。
+    - [新しい組織を作成](./organization-settings#create-an-organization)します。
 
-    - 他のユーザーに依頼して、そのユーザーの組織へ[招待](./manage-platform-users#invite-organization-members) してもらい、Organization Owner ロールを付与してもらう。
+    - 他のユーザーに依頼して、そのユーザーの組織へ[招待](./manage-platform-users#invite-organization-members)してもらい、Organization Owner ロールを付与してもらいます。

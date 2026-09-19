@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "アプリケーションで、スキーマ管理、insert、upsert、delete、search、query、hybrid search を含む完全な Collection API が必要な場合は、Dedicated クラスターエンドポイントを使用します。 | BYOC"
+description: "アプリケーションで、スキーマ管理、insert、upsert、delete、search、query、hybrid search を含む完全なコレクション API が必要な場合は、Dedicated クラスターエンドポイントを使用します。 | BYOC"
 type: origin
 token: ZWwJwKjeDi7SJGkzUQ0c7XfBnqh
 sidebar_position: 2
@@ -21,11 +21,11 @@ import TabItem from '@theme/TabItem';
 
 # クラスターへの接続
 
-アプリケーションで、スキーマ管理、insert、upsert、delete、search、query、hybrid search を含む完全な Collection API が必要な場合は、Dedicated クラスターエンドポイントを使用します。
+アプリケーションで、スキーマ管理、insert、upsert、delete、search、query、hybrid search を含む完全なコレクション API が必要な場合は、Dedicated クラスターエンドポイントを使用します。
 
-<Admonition type="info" icon="📘" title="注記">
+<Admonition type="info" title="Note">
 
-このページでは、Dedicated サービングクラスターへの接続方法を示します。Free または Serverless クラスターに接続するには、[Free & Serverless クラスター](./free-and-serverless-clusters) を参照してください。プロジェクトエンドポイントを介したオンデマンド計算については、[オンデマンド検索への接続](./connect-for-on-demand-search) を参照してください。
+このページでは、Dedicated サービングクラスターへの接続方法を説明します。Free または Serverless クラスターに接続する場合は、[Free & Serverless クラスター](./free-and-serverless-clusters) を参照してください。プロジェクトエンドポイントでのオンデマンドコンピューティングについては、[オンデマンド検索への接続](./connect-for-on-demand-search) を参照してください。
 
 </Admonition>
 
@@ -33,19 +33,19 @@ import TabItem from '@theme/TabItem';
 
 | クラスタータイプ | エンドポイントパターン | 注記 |
 | --- | --- | --- |
-| Dedicated | `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530` | Dedicated クラスターは、ポート `19530` を使用するリアルタイムサービングエンドポイントを使用します。 |
+| Dedicated | `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530` | Dedicated クラスターは、ポート `19530` のリアルタイムサービングエンドポイントを使用します。 |
 
-## 始める前に\{#before-you-begin}
+## 事前準備\{#before-you-begin}
 
-Dedicated クラスターに接続する前に、以下を確認してください。
+Dedicated クラスターに接続する前に、次の条件を満たしていることを確認してください。
 
 - BYOC プロジェクトをデプロイ済みであること。詳細については、以下を参照してください。 
 
-    - [AWS に BYOC をデプロイする](./deploy-byoc-aws)
+    - [AWS に BYOC をデプロイ](./deploy-byoc-aws)
 
     - [AWS に BYOC-I をデプロイする](./deploy-byoc-i-aws)
 
-    - [GCP に BYOC をデプロイする](./deploy-byoc-gcp)
+    - [GCP に BYOC をデプロイ](./deploy-byoc-gcp)
 
     - [Microsoft Azure に BYOC-I をデプロイする](./deploy-byoc-i-azure)
 
@@ -53,23 +53,23 @@ Dedicated クラスターに接続する前に、以下を確認してくださ�
 
 - クラスターを作成済みであること。
 
-- ユースケースに対応する Milvus SDK をインストール済みであること。詳細については、[SDK のインストール](./install-sdks) を参照してください。
+- ユースケースに応じた Milvus SDK をインストール済みであること。詳細については、[SDK のインストール](./install-sdks) を参照してください。
 
 - クラスターのパブリックエンドポイントを取得していること。
 
 - 認証トークンを取得していること。これは、対象クラスターにアクセスできる API キー、または `username:password` 形式のクラスター認証情報のいずれかです。
 
-クラスターのパブリックエンドポイントは Zilliz Cloud コンソールから取得できます。対象クラスターの **Cluster Details** ページに移動します。**Connect** カードで、クラスターのパブリックエンドポイントをコピーしてください。
+クラスターのパブリックエンドポイントは Zilliz Cloud コンソールで確認できます。対象クラスターの **クラスター Details** ページに移動します。**Connect** カードで、クラスターのパブリックエンドポイントをコピーします。
 
-<Admonition type="info" icon="📘" title="注記">
+<Admonition type="info" title="Note">
 
-SDK の代わりに RESTful API を使用する場合、HTTP はリクエスト/レスポンスの通信モデルに従うため、継続的な接続は確立されません。
+SDK ではなく RESTful API を使用する場合、HTTP はリクエスト・レスポンスの通信モデルに従うため、継続的な接続は確立されません。
 
 </Admonition>
 
 ## SDK のインストール\{#install-sdks}
 
-アプリケーション言語向けの SDK をインストールします。
+アプリケーションの言語に対応する SDK をインストールします。
 
 ```bash
 pip install pymilvus
@@ -79,7 +79,7 @@ Java、Node.js、Go のプロジェクトでは、以下の例を使用する前
 
 ## Dedicated クラスターへの接続\{#connect-to-a-dedicated-cluster}
 
-SDK 間でクラスターエンドポイントとトークンを一貫して使用してください。`YOUR_CLUSTER_ENDPOINT` はクラスターの **Connect** カードからコピーしたパブリックエンドポイント、`YOUR_CLUSTER_TOKEN` は対象クラスターにアクセスできる API キー、または `username:password` 形式のクラスター認証情報です。
+SDK 間でクラスターエンドポイントとトークンを一貫して使用します。`YOUR_CLUSTER_ENDPOINT` はクラスターの **Connect** カードからコピーしたパブリックエンドポイント、`YOUR_CLUSTER_TOKEN` は対象クラスターにアクセスできる API キー、または `username:password` 形式のクラスター認証情報です。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -167,6 +167,6 @@ print(collections)
 
 ## 次のステップ\{#next-steps}
 
-接続後は、同じクライアントインスタンスを使用してコレクションを作成し、データをロードし、Dedicated クラスターに対してリアルタイムの search または query 操作を実行します。
+接続後は、同じクライアントインスタンスを使用して、Dedicated クラスターに対してコレクションの作成、データのロード、リアルタイムの search または query 操作を実行します。
 
-Free または Serverless サービングクラスターについては、[Free & Serverless クラスター](./free-and-serverless-clusters) を参照してください。プロジェクトエンドポイントを介したオンデマンド計算については、[オンデマンド検索への接続](./connect-for-on-demand-search) を参照してください。
+Free または Serverless のサービングクラスターについては、[Free & Serverless クラスター](./free-and-serverless-clusters) を参照してください。プロジェクトエンドポイントでのオンデマンドコンピューティングについては、[オンデマンド検索への接続](./connect-for-on-demand-search) を参照してください。

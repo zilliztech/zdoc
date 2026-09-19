@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 クレジットは、Zilliz Cloud の利用料金の支払いに充当できます。仕事用のメールアドレスで Zilliz Cloud に登録した場合、対象となる Zilliz Cloud のプログラムやイベントに参加した場合、または概念実証（PoC）のために Zilliz からクレジットを受け取った場合に、クレジットが付与されることがあります。
 
-<Admonition type="info" icon="📘" title="📘 Note">
+<Admonition type="info" title="Note">
 
 クレジットと支払い方法を管理するには、**Organization Owner** または **Organization Billing Admin** であることが必要です。
 
@@ -104,3 +104,4 @@ Zilliz Cloud には、クレジットと支払いの健全性を監視するの�
 | --- | --- | --- |
 | Credit Validity (days) | 無料クレジットの有効期限が切れるまでの日数。 | 対象となるクレジットを期限切れ前に使用するか、PoC を完全に完了するためにクレジットの有効期限を延長する必要がある場合は [Zilliz sales](http://zilliz.com/contact-sales) にお問い合わせください。 |
 | Remaining Credits (&#36;) | 残りのクレジット残高。 | クレジットを使い切る前に、別の支払い方法を追加または設定してください。PoC 用のクレジットを追加する場合は [Zilliz sales](http://zilliz.com/contact-sales) にお問い合わせいただけます。 |
+
