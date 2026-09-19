@@ -179,7 +179,7 @@ curl --request POST \
 
 既存のクラスターを [グローバルクラスター](./global-cluster-explained) に変換する必要がある場合は、以下の手順に従ってください。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 グローバルクラスターは Milvus 2.6.x とのみ互換性があります。Milvus 3.0.x と互換性のある通常のクラスターをグローバルクラスターに変換することはできません。
 

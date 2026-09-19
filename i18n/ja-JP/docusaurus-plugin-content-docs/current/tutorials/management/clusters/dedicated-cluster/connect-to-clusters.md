@@ -1,13 +1,13 @@
 ---
-title: "Cluster への接続 | Cloud"
+title: "クラスターへの接続 | Cloud"
 slug: /connect-to-clusters
-sidebar_label: "Cluster への接続"
+sidebar_label: "クラスターへの接続"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "アプリケーションでスキーマ管理、insert、upsert、delete、search、query、hybrid search を含む完全な Collection API が必要な場合は、Dedicated cluster endpoint を使用します。 | Cloud"
+description: "アプリケーションでスキーマ管理、insert、upsert、delete、search、query、hybrid search を含む完全なコレクション API が必要な場合は、Dedicated クラスターのエンドポイントを使用します。 | Cloud"
 type: origin
 token: ZWwJwKjeDi7SJGkzUQ0c7XfBnqh
 sidebar_position: 2
@@ -19,47 +19,47 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Cluster への接続
+# クラスターへの接続
 
-アプリケーションでスキーマ管理、insert、upsert、delete、search、query、hybrid search を含む完全な Collection API が必要な場合は、Dedicated cluster endpoint を使用します。
+アプリケーションでスキーマ管理、insert、upsert、delete、search、query、hybrid search を含む完全なコレクション API が必要な場合は、Dedicated クラスターのエンドポイントを使用します。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
-このページでは、Dedicated serving cluster への接続方法を示します。Free または Serverless cluster に接続するには、[Free & Serverless Clusters](./free-and-serverless-clusters) を参照してください。project endpoint を介したオンデマンド compute については、[Connect for On-Demand Search](./connect-for-on-demand-search) を参照してください。
+このページでは、Dedicated serving クラスターへの接続方法を説明します。Free または Serverless クラスターに接続するには、[Free & Serverless クラスター](./free-and-serverless-clusters) を参照してください。プロジェクトエンドポイントを介したオンデマンドコンピュートについては、[オンデマンド検索のための接続](./connect-for-on-demand-search) を参照してください。
 
 </Admonition>
 
-## Endpoint 形式\{#endpoint-formats}
+## エンドポイント形式\{#endpoint-formats}
 
-| Cluster type | Endpoint pattern | Notes |
+| クラスタータイプ | エンドポイントのパターン | 備考 |
 | --- | --- | --- |
-| Dedicated | `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530` | Dedicated cluster は、ポート `19530` を使用するリアルタイム serving endpoint を使用します。 |
+| Dedicated | `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530` | Dedicated クラスターは、ポート `19530` のリアルタイム serving エンドポイントを使用します。 |
 
-## 始める前に\{#before-you-begin}
+## 事前準備\{#before-you-begin}
 
-Dedicated cluster に接続する前に、以下を確認してください。
+Dedicated クラスターに接続する前に、以下を確認してください。
 
-- Zilliz Cloud にアカウント登録していること。詳細は、[Register with Zilliz Cloud](./register-with-zilliz-cloud) を参照してください。
+- Zilliz Cloud にアカウントを登録していること。詳細については、[Zilliz Cloud への登録](./register-with-zilliz-cloud) を参照してください。
 
-- Dedicated cluster を作成していること。
+- Dedicated クラスターを作成していること。
 
-- ユースケースに対応する Milvus SDK をインストールしていること。詳細は、[Install SDKs](./install-sdks) を参照してください。
+- ユースケースに合った Milvus SDK をインストールしていること。詳細については、[SDK のインストール](./install-sdks) を参照してください。
 
-- cluster の public endpoint を取得していること。
+- クラスターのパブリックエンドポイントを取得していること。
 
-- 認証 token を取得していること。これは、対象 cluster へアクセスできる API key、または `username:password` 形式の cluster credential を使用できます。
+- 認証トークンを取得していること。これは、対象クラスターへのアクセス権を持つ API キー、または `username:password` 形式のクラスター認証情報です。
 
-cluster の public endpoint は Zilliz Cloud コンソールから取得できます。対象 cluster の **Cluster Details** ページに移動し、**Connect** カードで cluster の public endpoint をコピーします。
+クラスターのパブリックエンドポイントは、Zilliz Cloud コンソールから取得できます。対象クラスターの **クラスター Details** ページに移動します。**Connect** カードで、クラスターのパブリックエンドポイントをコピーします。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
-SDK ではなく RESTful API を使用する場合、HTTP はリクエスト・レスポンス通信モデルに従うため、継続的な接続は確立されません。
+SDK ではなく RESTful API を使用する場合、HTTP はリクエスト・レスポンス型の通信モデルに従うため、継続的な接続は確立されません。
 
 </Admonition>
 
 ## SDK のインストール\{#install-sdks}
 
-アプリケーション言語向けの SDK をインストールします。
+アプリケーションで使用する言語の SDK をインストールします。
 
 ```bash
 pip install pymilvus
@@ -67,9 +67,9 @@ pip install pymilvus
 
 Java、Node.js、Go のプロジェクトでは、以下の例を使用する前に、対応する Milvus SDK をプロジェクトにインストールしてください。
 
-## Dedicated cluster への接続\{#connect-to-a-dedicated-cluster}
+## Dedicated クラスターへの接続\{#connect-to-a-dedicated-cluster}
 
-cluster endpoint と token は、各 SDK で一貫して使用してください。`YOUR_CLUSTER_ENDPOINT` は cluster の **Connect** カードからコピーした public endpoint、`YOUR_CLUSTER_TOKEN` は対象 cluster へアクセスできる API key、または `username:password` 形式の cluster credential です。
+クラスターのエンドポイントとトークンは、すべての SDK で一貫して使用します。`YOUR_CLUSTER_ENDPOINT` は、クラスターの **Connect** カードからコピーしたパブリックエンドポイントです。`YOUR_CLUSTER_TOKEN` は、対象クラスターへのアクセス権を持つ API キー、または `username:password` 形式のクラスター認証情報です。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -148,7 +148,7 @@ curl --request POST \
 
 ## 接続の確認\{#verify-the-connection}
 
-SDK で接続した後、collection の一覧取得などの軽量な操作を実行します。
+SDK で接続した後、コレクションの一覧表示などの軽量な操作を実行します。
 
 ```python
 collections = client.list_collections()
@@ -157,6 +157,6 @@ print(collections)
 
 ## 次のステップ\{#next-steps}
 
-接続後は、同じ client インスタンスを使用して collection を作成し、データをロードし、Dedicated cluster に対してリアルタイムの search または query 操作を実行できます。
+接続後は、同じクライアントインスタンスを使用して、コレクションの作成、データのロード、Dedicated クラスターに対するリアルタイムの search または query 操作を実行します。
 
-Free または Serverless serving cluster については、[Free & Serverless Clusters](./free-and-serverless-clusters) を参照してください。project endpoint を介したオンデマンド compute については、[Connect for On-Demand Search](./connect-for-on-demand-search) を参照してください。
+Free または Serverless の serving クラスターについては、[Free & Serverless クラスター](./free-and-serverless-clusters) を参照してください。プロジェクトエンドポイントを介したオンデマンドコンピュートについては、[オンデマンド検索のための接続](./connect-for-on-demand-search) を参照してください。

@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 このガイドでは、登録手順を順を追って説明し、GCP Marketplace における Zilliz Cloud の料金条件について概説します。
 
-<Admonition type="info" icon="📘" title="📘 Note">
+<Admonition type="info" title="Note">
 
 登録後は、Google Cloud Marketplace を通じて Google Cloud クラスターの利用料金を支払えます。他のクラウドプロバイダーにデプロイされたクラスターがある場合も、Google Cloud Marketplace を使って支払いが可能です。
 
@@ -68,7 +68,7 @@ import Procedures from '@site/src/components/Procedures';
 
 1. ポップアップウィンドウで **SIGN UP WITH ZILLIZ** をクリックします。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     登録手続きを完了できない場合は、GCP Marketplace の **[Your Orders](https://console.cloud.google.com/marketplace/orders)** ページから再試行できます。
 
@@ -106,7 +106,7 @@ Marketplace からの登録完了後、必要に応じていつでもサブス�
 
 ## GCP Marketplace サブスクリプションのキャンセル\{#cancel-gcp-marketplace-subscription}
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 サブスクリプションをキャンセルすると、組織は Zilliz Cloud の高度な機能を利用できなくなります。組織に残りのクレジットがない場合、またはすべてのクレジットの有効期限が切れている場合は、組織が直ちに凍結されます。
 

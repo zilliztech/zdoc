@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Google Cloud Marketplace のプライベートオファーは、Zilliz がお客様の組織向けに作成するカスタム購入オプションです。Google Cloud Marketplace の製品ページに記載された標準価格・条件が適用されるパブリックオファーとは異なり、プライベートオファーでは交渉済みの価格、カスタム契約条件、特定の契約期間、指定した支払いスケジュールなどを設定できます。 | Cloud"
+description: "Google Cloud Marketplace のプライベートオファーは、Zilliz がお客様の組織向けに作成するカスタム購入オプションです。Google Cloud Marketplace の製品ページに記載された標準価格・条件が適用されるパブリックオファーとは異なり、プライベートオファーでは交渉済みの価格、カスタム契約条件、特定の契約期間、指定した支払いスケジュールを含めることができます。 | Cloud"
 type: origin
 token: Fd8EwsD0JiIt98kmps4c5wGlnrh
 sidebar_position: 5
@@ -22,7 +22,7 @@ import Procedures from '@site/src/components/Procedures';
 
 # Google Cloud Marketplace でプライベートオファーに登録する
 
-Google Cloud Marketplace のプライベートオファーは、Zilliz がお客様の組織向けに作成するカスタム購入オプションです。Google Cloud Marketplace の製品ページに記載された標準価格・条件が適用されるパブリックオファーとは異なり、プライベートオファーでは交渉済みの価格、カスタム契約条件、特定の契約期間、指定した支払いスケジュールなどを設定できます。
+Google Cloud Marketplace のプライベートオファーは、Zilliz がお客様の組織向けに作成するカスタム購入オプションです。Google Cloud Marketplace の製品ページに記載された標準価格・条件が適用されるパブリックオファーとは異なり、プライベートオファーでは交渉済みの価格、カスタム契約条件、特定の契約期間、指定した支払いスケジュールを含めることができます。
 
 Zilliz Cloud のプライベートオファーをご希望の場合は、[Zilliz のアカウントエグゼクティブにお問い合わせください](https://zilliz.com/contact-sales)。その際、オファーを受け取るための Google Cloud 請求先アカウント ID とメールアドレス、想定される契約期間、利用要件、および組織で必要な調達・請求関連の要件をお伝えください。
 
@@ -64,7 +64,7 @@ Zilliz Cloud のプライベートオファーをご希望の場合は、[Zilliz
 
     ![Oawqwr3rDheYWibpPwQclqh0n3d](https://zdoc-images.s3.us-west-2.amazonaws.com/Oawqwr3rDheYWibpPwQclqh0n3d.png)
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     オファーは有効期限内に承諾する必要があります。有効期限が切れている場合は、アカウントエグゼクティブにお問い合わせください。
 
@@ -80,7 +80,7 @@ Zilliz Cloud のプライベートオファーをご希望の場合は、[Zilliz
 
     **Sign up** をクリックすると、Zilliz Cloud にリダイレクトされます。
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     この手順は必須です。完了しないと、プライベートオファーのサブスクリプションが Zilliz Cloud 組織にリンクされません。
 
@@ -114,7 +114,7 @@ Zilliz Cloud のプライベートオファーをご希望の場合は、[Zilliz
 
 プライベートオファーの有効期限が近づくと、Zilliz から更新用の新しいプライベートオファーリンクが送信されます。更新手続きについてご不明な点がある場合は、アカウントエグゼクティブにお問い合わせください。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 Google Cloud Marketplace では、更新は既存のプライベートオファー注文に対して行われます。更新が有効になると現在のプライベートオファーサブスクリプションから継続されるため、サブスクリプションを Zilliz Cloud 組織に再度リンクする必要はありません。
 
@@ -124,7 +124,7 @@ Google Cloud Marketplace では、更新は既存のプライベートオファ�
 
 ![CbdUwGifPh2rvFbk0F4c1OVFnxh](https://zdoc-images.s3.us-west-2.amazonaws.com/CbdUwGifPh2rvFbk0F4c1OVFnxh.png)
 
-以下の詳細な手順に従って、Google Cloud Marketplace でプライベートオファーを更新してください。
+以下の詳細な手順に従って、Google Cloud Marketplace でプライベートオファーに登録してください。
 
 <Procedures>
 
@@ -164,7 +164,7 @@ Google Cloud Marketplace では、更新は既存のプライベートオファ�
 
 プライベートオファーのサブスクリプションは、Google Cloud Marketplace からキャンセルできます。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 サブスクリプションをキャンセルすると、組織は高度な Zilliz Cloud 機能にアクセスできなくなります。組織に残りのクレジットがない場合、またはすべてのクレジットが期限切れの場合、組織は直ちに凍結されます。
 
@@ -228,9 +228,9 @@ Google Cloud Marketplace では、更新は既存のプライベートオファ�
 
     組織を Marketplace サブスクリプションにリンクするには、**Organization Owner** または **Organization Billing Admin** である必要があります。Organization Member のみの場合は必要な権限がないため、組織のオーナーに連絡して対応を依頼してください。
 
-- **すべての組織がすでに Marketplace サブスクリプションにリンクされている**
+- **すべての組織がすでに Marketplace サブスクリプションに正常にリンクされている**
 
-    すべての組織がすでに Marketplace サブスクリプションにリンクされている場合に発生します。利用できない組織の横に **"Marketplace Linked"** タグが表示されます。
+    すべての組織がすでに Marketplace サブスクリプションに正常にリンクされている場合に発生します。利用できない組織の横に **"Marketplace Linked"** タグが表示されます。
 
     ![marketplace-already-linked-subscription](https://zdoc-images.s3.us-west-2.amazonaws.com/marketplace-already-linked-subscription.png "marketplace-already-linked-subscription")
 

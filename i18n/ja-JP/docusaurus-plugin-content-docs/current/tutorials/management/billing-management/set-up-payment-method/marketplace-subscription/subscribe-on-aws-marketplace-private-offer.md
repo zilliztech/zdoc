@@ -62,7 +62,7 @@ AWS Marketplace でプライベートオファーに登録するには、以下�
 
         ![AAEEwdD8zhamcKbFjB8cr1j7nFc](https://zdoc-images.s3.us-west-2.amazonaws.com/AAEEwdD8zhamcKbFjB8cr1j7nFc.png)
 
-        <Admonition type="info" icon="📘" title="Note">
+        <Admonition type="info" title="Note">
 
         オファーは有効期限までに承諾する必要があります。有効期限が切れている場合は、アカウントエグゼクティブにお問い合わせください。
 
@@ -88,7 +88,7 @@ AWS Marketplace でプライベートオファーに登録するには、以下�
 
     **Set up your account** をクリックします。Zilliz Cloud にリダイレクトされます。
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     この手順は必須です。完了しないと、プライベートオファーのサブスクリプションが Zilliz Cloud 組織にリンクされません。
 
@@ -122,7 +122,7 @@ AWS Marketplace でプライベートオファーに登録するには、以下�
 
 プライベートオファーの有効期限が近づくと、Zilliz から更新用の新しいプライベートオファーリンクが送信されます。更新プロセスについてご不明な点がある場合は、アカウントエグゼクティブにお問い合わせください。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 AWS Marketplace では、更新は新しいプライベートオファーを承諾することで行います。承諾すると、新しいオファーが自動的に以前のオファーを置き換えます。なお、新しいオファーを Zilliz Cloud 組織に再度リンクする必要があります。
 
@@ -162,7 +162,7 @@ AWS Marketplace でプライベートオファーを更新するには、以下�
 
     AWS Marketplace に「*Your request is in progress, this will take a few minutes. Don't refresh or close this page. Meanwhile, you can set up your account on the vendor's website.*」というメッセージが表示されます。
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     この時点では「Set up your account」をクリック**しないでください**。リクエストが完了するまでお待ちください。
     
@@ -176,7 +176,7 @@ AWS Marketplace でプライベートオファーを更新するには、以下�
 
     **Set up your account** をクリックします。Zilliz Cloud にリダイレクトされます。
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     この手順は必須です。完了しないと、プライベートオファーのサブスクリプションが Zilliz Cloud 組織にリンクされません。
 
@@ -214,7 +214,7 @@ AWS Marketplace でプライベートオファーを更新するには、以下�
 
 プライベートオファーのサブスクリプションは、AWS Marketplace からキャンセルできます。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 サブスクリプションをキャンセルすると、組織は高度な Zilliz Cloud 機能へのアクセスを失います。組織に残りのクレジットがない場合、またはすべてのクレジットが期限切れの場合、組織は直ちに凍結されます。
 
@@ -277,4 +277,3 @@ AWS Marketplace でプライベートオファーを更新するには、以下�
     - [新しい組織を作成](./organization-settings#create-an-organization)する。
 
     - 他のユーザーに、自身の組織への[招待](./manage-platform-users#invite-organization-members)と Organization Owner ロールの付与を依頼する。
-

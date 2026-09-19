@@ -68,7 +68,7 @@ import Procedures from '@site/src/components/Procedures';
 
     1. すでに Zilliz Cloud アカウントをお持ちの場合はログインしてください。お持ちでない場合は、[サインアップオプション](./register-with-zilliz-cloud) を選択して手続きを進めます。AWS の ID 情報を Zilliz Cloud アカウントに紐付けるため、URL に含まれるすべてのクエリ文字列が保持されていることを確認してください。
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" title="Notes">
 
         AWS Marketplace は、URL のクエリ文字列を使用して ID 情報を Zilliz Cloud に渡します。サインアップに失敗すると、これらのクエリ文字列が失われる可能性があります。その結果、Zilliz Cloud が AWS の ID 情報を当社に登録されているアカウントに関連付けられない場合があります。その場合は、AWS Marketplace に戻り、<b>Set up your account</b> を再度クリックしてください。
 
@@ -118,7 +118,7 @@ AWS Marketplace で Zilliz Cloud の無料トライアルを開始すると、�
 
 ## 無料トライアルサブスクリプションのキャンセル\{#cancel-free-trial-subscription}
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 サブスクリプションをキャンセルすると、組織は Zilliz Cloud の高度な機能にアクセスできなくなります。残りのクレジットがない場合や、すべてのクレジットの有効期限が切れている場合は、組織が即座に凍結されます。
 
@@ -185,3 +185,4 @@ AWS Marketplace で Zilliz Cloud の無料トライアルを開始すると、�
     - [新しい組織を作成](./organization-settings#create-an-organization)します。
 
     - 他のユーザーに依頼して、そのユーザーの組織に[招待](./manage-platform-users#invite-organization-members)してもらい、Organization Owner ロールを付与してもらいます。
+

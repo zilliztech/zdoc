@@ -2541,64 +2541,79 @@
       "translatedAt": "2026-09-19T14:19:41.492Z"
     },
     "content/en/guides/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace-free-trial.md": {
-      "sourceHash": "2b6320233bcea9b6cf66c1e32475da33abac706020b568b1c23c23db1cbdfe5d",
+      "sourceHash": "c6363a4e1c23b8de95c176c07dd0fa9915e160e421f501c3fe2b388399fb9279",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace-free-trial.md",
-      "translatedAt": "2026-08-25T18:04:32.880Z"
+      "translatedAt": "2026-09-19T14:20:52.976Z"
     },
     "content/en/guides/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace-private-offer.md": {
-      "sourceHash": "c3693202c4aecb77190c5f8022ea10a599d0c8cfef67dacebfb22a57614a25c4",
+      "sourceHash": "70b595b9b7460f4f45d31336686f21bcfae600fc62da0d9da94e563786d4d5cf",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace-private-offer.md",
-      "translatedAt": "2026-08-25T18:06:47.422Z"
+      "translatedAt": "2026-09-19T14:20:52.976Z"
     },
     "content/en/guides/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace.md": {
-      "sourceHash": "7bfcca0de6477df724bc8a4491ed222ac9372a341d28b79e5228aba503796d91",
+      "sourceHash": "31d26cdd18a1f3c2de46142d15ca46f227d032ed7e3b92b049e4a0f95bf29125",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace.md",
-      "translatedAt": "2026-08-25T18:07:57.002Z"
+      "translatedAt": "2026-09-19T14:20:52.976Z"
     },
     "content/en/guides/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-azure-marketplace.md": {
-      "sourceHash": "6e9097c6a8b38a1949b57d28fde9c21cb36388200f8f12dfbdf7de2f7a424ff8",
+      "sourceHash": "bb77494624187c32ccb52a65e6016c22fd63212620dda346780804aa87abce67",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-azure-marketplace.md",
-      "translatedAt": "2026-08-25T18:10:11.729Z"
+      "translatedAt": "2026-09-19T14:20:52.976Z"
     },
     "content/en/guides/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace-private-offer.md": {
-      "sourceHash": "2891380f7eaba549ac8f2842f8abc1b7059959b8e49417f64cb601a702701f9a",
+      "sourceHash": "2e216ec8ac136a606cc6ec5d8a5369915419a49174bcb02a1da0702c3fe1bdc4",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace-private-offer.md",
-      "translatedAt": "2026-08-25T18:12:23.626Z"
+      "translatedAt": "2026-09-19T14:20:52.976Z"
     },
     "content/en/guides/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace.md": {
-      "sourceHash": "9647b35d9c1237ae75e0ea71855ca1a4c031a57c5c68ecf00b958909394a0861",
+      "sourceHash": "b68c7b58923a7bee18b6e460a9acb3787e31ac54f7dd72c8374604b6f03a4ac3",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace.md",
-      "translatedAt": "2026-08-25T18:13:30.946Z"
+      "translatedAt": "2026-09-19T14:20:52.976Z"
     },
     "content/en/guides/tutorials/management/billing-management/set-up-payment-method/subscribe-by-adding-credit-card.md": {
-      "sourceHash": "7658e82411e844bc9c3e61293c3c8db064a0f03078efbd7452c2dda89c2e2b58",
+      "sourceHash": "371e94f85d527a56a6970501059d643ebc9a4060524a589510983d0d75073299",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/set-up-payment-method/subscribe-by-adding-credit-card.md",
-      "translatedAt": "2026-08-04T05:11:47.030Z"
+      "translatedAt": "2026-09-19T14:20:52.976Z"
     },
     "content/en/guides/tutorials/management/billing-management/update-billing-profile.md": {
-      "sourceHash": "f93c37a052919b0d0aa6f77921c6f364ef1f6c2b583e11f7df2f96cb70edb5da",
+      "sourceHash": "949dac3b6623d4b9062b20e2659e59666a8c092111196ffaf28441572c712fc3",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/update-billing-profile.md",
-      "translatedAt": "2026-08-04T05:11:51.295Z"
+      "translatedAt": "2026-09-19T14:20:52.976Z"
+    },
+    "content/en/guides/tutorials/management/billing-management/update-payment-method.md": {
+      "sourceHash": "334223364dce8c76759b9bdc485b69a422f285af8274290555bb950a1e8142f4",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/update-payment-method.md",
+      "translatedAt": "2026-09-19T14:20:52.976Z"
+    },
+    "content/en/guides/tutorials/management/billing-management/view-invoice.md": {
+      "sourceHash": "1a8f307159ef0f2d26a47185a269571f37afa4f3f494eddd291bae0b9e10997a",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/view-invoice.md",
+      "translatedAt": "2026-09-19T14:20:52.976Z"
     },
     "content/en/guides/tutorials/management/clusters/dedicated-cluster/connect-to-clusters.md": {
-      "sourceHash": "e7209b51b8165357e74bc2adbcf881fd782be8ee0191c957d1ca526a2ea022b7",
+      "sourceHash": "5bf1b5b1e8b3a32071b013424689612d53236bcdf4558dabff2a6d22ce77e12c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/dedicated-cluster/connect-to-clusters.md",
-      "translatedAt": "2026-08-04T05:12:19.178Z"
+      "translatedAt": "2026-09-19T14:20:52.976Z"
     },
     "content/en/guides/tutorials/management/clusters/dedicated-cluster/create-cluster.md": {
-      "sourceHash": "4349d40429918ef1f6e0e76399b66d36b3b5ab1715c6db27709f6903ce044601",
+      "sourceHash": "e2079378fc038cc299a979a628b67bb0f580ff9ce0c26c79b3dffc472aafaf7e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/dedicated-cluster/create-cluster.md",
-      "translatedAt": "2026-08-04T05:12:43.662Z"
+      "translatedAt": "2026-09-19T14:20:52.976Z"
+    },
+    "content/en/guides/tutorials/management/clusters/dedicated-cluster/manage-cluster.md": {
+      "sourceHash": "a41719601f6d314c2aa6bab5b76691709951132426a194e175c39db5251b478f",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/dedicated-cluster/manage-cluster.md",
+      "translatedAt": "2026-09-19T14:20:52.976Z"
     },
     "content/en/guides/tutorials/management/clusters/dedicated-cluster/scale-cluster/auto-scaling.md": {
-      "sourceHash": "1ea217b6cdc3abe0016b21b1a5dbfd03735f98b1b415788931ec5161f550b15f",
+      "sourceHash": "f5cba8fb6a662e1c7c76f80f55301ab9016bcbdbb6b37abef4e41b2b3610f688",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/dedicated-cluster/scale-cluster/auto-scaling.md",
-      "translatedAt": "2026-08-04T05:13:42.493Z"
+      "translatedAt": "2026-09-19T14:20:52.976Z"
     },
     "content/en/guides/tutorials/management/clusters/dedicated-cluster/scale-cluster/canary-upgrade.md": {
-      "sourceHash": "03b36c512cbc5843b1c5892fe077940d2658ef8f195a9d19ab9ff1de9ba2d0e9",
+      "sourceHash": "7222ef3c778662286ed69b65d7df4c06eac68567e6abbee1e640e73bc5686a6f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/dedicated-cluster/scale-cluster/canary-upgrade.md",
-      "translatedAt": "2026-08-25T08:59:58.125Z"
+      "translatedAt": "2026-09-19T14:20:52.976Z"
     },
     "content/en/guides/tutorials/management/clusters/dedicated-cluster/scale-cluster/cron-expression.md": {
       "sourceHash": "fe02983f6d6fc839079ab6633325da0656bfb17f51fc326bedf0e1f59650328a",

@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 このガイドでは、Zilliz Cloud で組織に支払い用クレジットカードを追加する方法について包括的に説明します。
 
-<Admonition type="info" icon="📘" title="📘 Note">
+<Admonition type="info" title="Note">
 
 - **課税:** 請求書上の税金は、提供された請求先住所に基づいて計算されます。VAT または GST ID の入力が必要な企業は、[お問い合わせください](http://support.zilliz.com)。
 
@@ -114,7 +114,7 @@ import Procedures from '@site/src/components/Procedures';
 
 サブスクリプションが正常に完了すると、既存のクレジットカード情報は自動的に置き換えられます。更新内容は、**Billing Overview** ページの **Payment Method** セクションで確認できます。
 
-<Admonition type="info" icon="📘" title="📘 Note">
+<Admonition type="info" title="Note">
 
 変更が Billing Overview に反映されるまで、数分かかる場合があります。
 

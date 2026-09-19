@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 組織で期限切れのカードを差し替える必要がある場合、請求をクラウドマーケットプレイスに移行する場合、マーケットプレイスアカウント間を切り替える場合、またはマーケットプレイス請求からクレジットカード請求に戻す場合に、支払い方法を更新できます。
 
-<Admonition type="info" icon="📘" title="📘 Note">
+<Admonition type="info" title="Note">
 
 支払い方法を管理するには、**Organization Owner** または **Organization Billing Admin** である必要があります。
 
@@ -99,7 +99,7 @@ Zilliz Cloud は、次の支払い方法の変更をサポートしています�
 
 次の例では、請求に使用する AWS Marketplace アカウントを変更する方法を示します。同じプロセスは Google Cloud Marketplace と Microsoft Marketplace にも適用されます。
 
-<Admonition type="info" icon="📘" title="📘 Note">
+<Admonition type="info" title="Note">
 
 サービス中断を避けるため、1 時間以内に操作を完了することをお勧めします。
 
@@ -111,7 +111,7 @@ Zilliz Cloud は、次の支払い方法の変更をサポートしています�
 
 1. Zilliz Cloud のサブスクリプションをキャンセルします。詳細については、[Cancel your product subscription](https://docs.aws.amazon.com/marketplace/latest/buyerguide/cancel-subscription.html#cancel-saas-subscription) を参照してください。
 
-    <Admonition type="info" icon="📘" title="📘 Note">
+    <Admonition type="info" title="Note">
 
     サブスクリプションをキャンセルしても、Zilliz Cloud のデータは削除されませんのでご安心ください。
 
@@ -125,7 +125,7 @@ Zilliz Cloud は、次の支払い方法の変更をサポートしています�
 
 1. [Subscribe on AWS Marketplace](./subscribe-on-aws-marketplace#subscribe-to-a-public-offer) セクションの手順に従い、新しいアカウントで Zilliz Cloud のサブスクリプションを完了します。
 
-    <Admonition type="info" icon="📘" title="📘 Note">
+    <Admonition type="info" title="Note">
 
     AWS Marketplace サブスクリプションを更新する場合は、新しいサブスクリプションを Zilliz Cloud 組織にリンクするために **Set up your account** ボタンをクリックする必要があります。
 

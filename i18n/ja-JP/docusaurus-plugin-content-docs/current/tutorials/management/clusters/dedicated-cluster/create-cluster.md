@@ -27,7 +27,7 @@ import Procedures from '@site/src/components/Procedures';
 
 Dedicated クラスターは、一貫性があり予測可能なパフォーマンスを必要とする本番ワークロード向けに、分離された予約済み環境を提供します。このオプションは、持続的な高スループットとレイテンシーに敏感なアプリケーションに最適です。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 このトピックでは、Dedicated クラスターの作成方法について説明します。Free または Serverless クラスターを作成するには、[Free & Serverless クラスター](./free-and-serverless-clusters) を参照してください。
 
@@ -39,7 +39,7 @@ Dedicated クラスターは、一貫性があり予測可能なパフォーマ�
 
 - Zilliz Cloud への登録が完了していること。詳細は、[Zilliz Cloud への登録](./register-with-zilliz-cloud) を参照してください。
 
-- クラスターを作成する organization または project の所有権を持っていること。ロールと権限の詳細については、[Access Control Explained](./access-control-overview) を参照してください。
+- クラスターを作成する organization または project の所有権を持っていること。ロールと権限の詳細については、[アクセス制御の概要](./access-control-overview) を参照してください。
 
 ## Dedicated クラスターを作成する\{#create-a-dedicated-cluster}
 
@@ -62,15 +62,15 @@ Dedicated クラスターでは、次の情報を設定する必要がありま�
 | **Backup Policy (optional)** | 作成するクラスターの自動バックアップポリシーを決定します。バックアップポリシーの詳細については、[自動バックアップのスケジュール設定](./schedule-automatic-backups) を参照してください。 |
 | **Replica** | クラスターのレプリカ数です。 |
 
-クラスターの作成中は、一度しか表示されないクラスターの認証情報（ユーザー名とパスワード）を保存する必要があります。
+クラスターの作成中は、一度だけ表示されるクラスターの認証情報（ユーザーとパスワード）を保存する必要があります。
 
-クラスターのステータスが "Running" になると、クラスターの作成は成功です。その後、クラスターの endpoint と token をコピーし、それらを使用してクラスターに[接続](./connect-to-clusters)できます。
+クラスターのステータスが「Running」になると、クラスターは正常に作成されています。その後、クラスターのエンドポイントとトークンをコピーし、それらを使用してクラスターに[接続](./connect-to-clusters)できます。
 
 </TabItem>
 
 <TabItem value="Bash">
 
-リクエストは次の例のようになります。ここで `{API_KEY}` は認証に使用する API key です。詳細は、[Create Dedicated クラスター](/reference/restful/create-dedicated-cluster-v2) を参照してください。
+リクエストは次の例のようになります。ここで `{API_KEY}` は認証に使用する API キーです。詳細は、[Create Dedicated クラスター](/reference/restful/create-dedicated-cluster-v2) を参照してください。
 
 ```bash
 curl --request POST \
@@ -98,7 +98,7 @@ curl --request POST \
 
 - `projectId`: クラスターを作成する project の ID です。project ID を一覧表示するには、[List Projects](/reference/restful/list-projects-v2) 操作を呼び出します。
 
-- `regionId`: クラスターを作成する cloud region の ID です。利用可能な cloud region ID を取得するには、[List Cloud Regions](/reference/restful/list-cloud-regions-v2) 操作を呼び出します。
+- `regionId`: クラスターを作成するクラウドリージョンの ID です。利用可能なクラウドリージョンの ID を取得するには、[List Cloud Regions](/reference/restful/list-cloud-regions-v2) 操作を呼び出します。
 
 - `cuType`: クラスターのタイプです。有効な値は、Performance-optimized、Capacity-optimized、Tiered-storage です。
 
@@ -128,7 +128,7 @@ curl --request POST \
 
 <FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
 
-この機能は、Business Critical (SaaS) および BYOC デプロイメントでのみ利用できます。
+この機能は、Business Critical（SaaS）および BYOC デプロイメントでのみ利用できます。
 
 </FeatureNote>
 
@@ -138,11 +138,11 @@ curl --request POST \
 
 </FeatureNote>
 
-暗号化されたクラスターを作成するには、少なくとも 1 つの customer-managed encryption key (CMEK) を Zilliz Cloud に追加する必要があります。詳細は、[Customer-managed Keys for Data Encryption](./cmek) を参照してください。
+暗号化されたクラスターを作成するには、少なくとも 1 つの customer-managed encryption key（CMEK）を Zilliz Cloud に追加する必要があります。詳細は、[Customer-managed Keys for Data Encryption](./cmek) を参照してください。
 
 ![RGUrbElsSoc61JxikfWcoTCrnHe](https://zdoc-images.s3.us-west-2.amazonaws.com/rgurbelssoc61jxikfwcotcrnhe.png "RGUrbElsSoc61JxikfWcoTCrnHe")
 
-KMS key を追加したら、次のようにして暗号化されたクラスターを作成できます。
+KMS キーを追加すると、次のように暗号化されたクラスターを作成できます。
 
 <Procedures>
 
@@ -150,7 +150,7 @@ KMS key を追加したら、次のようにして暗号化されたクラスタ
 
 1. クラスターのクラウドプロバイダーとリージョンを選択します。
 
-1. **Encryption at Rest with CMEK** を有効にして、既存の KMS key を選択します。作成するクラスターと同じリージョンにある KMS key のみを選択できます。
+1. **Encryption at Rest with CMEK** を有効にして、既存の KMS キーを選択します。作成するクラスターと同じリージョンにある KMS キーのみを選択できます。
 
 1. 概要を確認してから、**Create クラスター** をクリックします。
 
@@ -164,4 +164,4 @@ KMS key を追加したら、次のようにして暗号化されたクラスタ
 
 **クラスターの作成時に Milvus のバージョンを指定できますか？**
 
-いいえ。Zilliz Cloud は、サポート対象の最新の Milvus バージョンでクラスターを自動的にプロビジョニングし、マネージドローリングアップグレードを通じて常に最新の状態に保ちます。特定のバージョンが必要な場合は、[サポートに連絡](https://support.zilliz.com/hc/en-us/requests/new) してユースケースを説明してください。
+いいえ。Zilliz Cloud は、サポート対象の最新の Milvus バージョンでクラスターを自動的にプロビジョニングし、マネージドローリングアップグレードを通じて常に最新の状態に保ちます。特定のバージョンが必要な場合は、[サポートにお問い合わせ](https://support.zilliz.com/hc/en-us/requests/new)のうえ、ユースケースを説明してください。

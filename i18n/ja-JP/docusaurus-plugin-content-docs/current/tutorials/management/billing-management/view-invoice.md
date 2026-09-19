@@ -24,7 +24,7 @@ Zilliz Cloud は組織レベルで課金されます。
 
 請求書にアクセスするには、**Organization Owner** または **Organization Billing Admin** 権限が必要です。
 
-<Admonition type="info" icon="📘" title="📘 注意">
+<Admonition type="info" title="Notes">
 
 Marketplace で契約している場合、Zilliz Cloud の利用料金に対する請求書は Marketplace を通じて送付されます。 
 
