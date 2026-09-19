@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud のアラート通知により、クラスター内で発生するイベントを把握できます。デフォルトでは、通知は指定されたユーザーのメールアドレスに送信されますが、webhook を使用してカスタム通知チャネルを設定し、より連携されたイベント駆動型の通知を行うことも可能です。このガイドでは、アラート通知チャネルの設定手順について説明します。 | Cloud"
+description: "Zilliz Cloud のアラート通知により、クラスター内で発生するイベントを常に把握できます。デフォルトでは、これらの通知は指定されたユーザーのメールアドレスに送信されます。ただし、webhook を使用してカスタム通知チャネルを設定すると、より統合されたイベント駆動型の通知を実現できます。このガイドでは、アラート通知チャネルを設定する手順について説明します。 | Cloud"
 type: origin
 token: ARpTwYXlIi7ZLtkEHx5ciUK6nuc
 sidebar_position: 5
@@ -22,11 +22,11 @@ import Procedures from '@site/src/components/Procedures';
 
 # 通知チャネルの管理
 
-Zilliz Cloud のアラート通知により、クラスター内で発生するイベントを把握できます。デフォルトでは、通知は指定されたユーザーのメールアドレスに送信されますが、webhook を使用してカスタム通知チャネルを設定し、より連携されたイベント駆動型の通知を行うことも可能です。このガイドでは、アラート通知チャネルの設定手順について説明します。
+Zilliz Cloud のアラート通知により、クラスター内で発生するイベントを常に把握できます。デフォルトでは、これらの通知は指定されたユーザーのメールアドレスに送信されます。ただし、webhook を使用してカスタム通知チャネルを設定すると、より統合されたイベント駆動型の通知を実現できます。このガイドでは、アラート通知チャネルを設定する手順について説明します。
 
 ## 事前準備\{#before-you-start}
 
-通知チャネルを管理するには、[organization owner](./manage-platform-roles#predefined-organization-roles) または [project admin](./manage-platform-roles#predefined-project-roles) の権限が必要です。
+通知チャネルを管理するには、[organization owner](./manage-platform-roles#predefined-organization-roles) または [project admin](./manage-platform-roles#predefined-project-roles) の権限を持っていることを確認してください。
 
 ## 通知チャネルの設定\{#set-up-notification-channels}
 
@@ -42,17 +42,17 @@ Zilliz Cloud のアラート通知により、クラスター内で発生する�
 
 1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/signup) で、組織またはプロジェクトのアラートページにある **Alert Settings** タブに移動します。
 
-1. 既存のアラートを変更するには、対象のアラートターゲットの横にある **Actions** 列から **Edit** を選択します。新規アラートを作成する場合は、右上の **+ Alert** をクリックします。
+1. 既存のアラートを変更するには、対象のアラートターゲットの横にある **Actions** 列で **Edit** を選択します。新規アラートを作成するには、右上の **+ Alert** をクリックします。
 
-    <Admonition type="info" icon="📘" title="📘 Notes">
+    <Admonition type="info" title="Notes">
 
-    組織アラートでは既存のアラートターゲットのみ編集可能で、新規作成はサポートされていません。詳細については、[組織アラートの管理](./manage-organization-alerts) を参照してください。
+    組織アラートでは、既存のアラートターゲットのみを編集できます。新規のアラートターゲットは作成できません。詳細については、[組織アラートの管理](./manage-organization-alerts) を参照してください。
 
     </Admonition>
 
-1. ダイアログボックスの **Send to** フィールドで、アラート通知を受信するユーザーロールまたは個別のユーザーのメールアドレスを選択します。
+1. ダイアログボックスの **Send to** フィールドで、アラート通知を受信するユーザーロールまたは個々のユーザーのメールアドレスを選択します。
 
-1. **Alert Resolution Notification** および **Enable Alert** で、アラートの解決時または発報時に実行するアクションを設定します。
+1. **Alert Resolution Notification** および **Enable Alert** で、アラートの解決時または発報時に実行する適切なアクションを設定します。
 
 </Procedures>
 
@@ -72,11 +72,11 @@ PagerDuty サービスと連携する手順は以下のとおりです。
 
     1. 組織またはプロジェクトのアラートページにある **Alert Settings** タブに移動します。
 
-    1. 既存のアラートを変更するには、対象のアラートターゲットの横にある **Actions** 列から **Edit** を選択します。新規アラートを作成する場合は、右上の **+ Alert** をクリックします。
+    1. 既存のアラートを変更するには、対象のアラートターゲットの横にある **Actions** 列で **Edit** を選択します。新規アラートを作成するには、右上の **+ Alert** をクリックします。
 
-        <Admonition type="info" icon="📘" title="📘 Notes">
+        <Admonition type="info" title="Notes">
 
-        組織アラートでは既存のアラートターゲットのみ編集可能で、新規作成はサポートされていません。詳細については、[組織アラートの管理](./manage-organization-alerts) を参照してください。
+        組織アラートでは、既存のアラートターゲットのみを編集できます。新規のアラートターゲットは作成できません。詳細については、[組織アラートの管理](./manage-organization-alerts) を参照してください。
 
         </Admonition>
 
@@ -84,7 +84,7 @@ PagerDuty サービスと連携する手順は以下のとおりです。
 
     1. 取得した PagerDuty インテグレーションキーを入力し、PagerDuty アカウントをホストしているサービスリージョンを選択します。PagerDuty のサービスリージョンの詳細については、[Service Regions](https://support.pagerduty.com/docs/service-regions) を参照してください。
 
-    1. **Alert Resolution Notification** および **Enable Alert** で、アラートの解決時または発報時に実行するアクションを設定します。
+    1. **Alert Resolution Notification** および **Enable Alert** で、アラートの解決時または発報時に実行する適切なアクションを設定します。
 
 </Procedures>
 
@@ -102,11 +102,11 @@ Slack 連携を設定する手順は以下のとおりです。
 
     1. 組織またはプロジェクトのアラートページにある **Alert Settings** タブに移動します。
 
-    1. 既存のアラートを変更するには、対象のアラートターゲットの横にある **Actions** 列から **Edit** を選択します。新規アラートを作成する場合は、右上の **+ Alert** をクリックします。
+    1. 既存のアラートを変更するには、対象のアラートターゲットの横にある **Actions** 列で **Edit** を選択します。新規アラートを作成するには、右上の **+ Alert** をクリックします。
 
-        <Admonition type="info" icon="📘" title="📘 Notes">
+        <Admonition type="info" title="Notes">
 
-        組織アラートでは既存のアラートターゲットのみ編集可能で、新規作成はサポートされていません。詳細については、[組織アラートの管理](./manage-organization-alerts) を参照してください。
+        組織アラートでは、既存のアラートターゲットのみを編集できます。新規のアラートターゲットは作成できません。詳細については、[組織アラートの管理](./manage-organization-alerts) を参照してください。
 
         </Admonition>
 
@@ -114,7 +114,7 @@ Slack 連携を設定する手順は以下のとおりです。
 
     1. 取得した webhook URL を入力します。
 
-    1. **Alert Resolution Notification** および **Enable Alert** で、アラートの解決時または発報時に実行するアクションを設定します。
+    1. **Alert Resolution Notification** および **Enable Alert** で、アラートの解決時または発報時に実行する適切なアクションを設定します。
 
 </Procedures>
 
@@ -128,21 +128,21 @@ Opsgenie 連携を設定する手順は以下のとおりです。
 
     1. **Settings** > **Integrations** の順に選択して Opsgenie の Integrations ページに移動し、**Add integration** をクリックします。
 
-    1. **API** を検索して選択し、この API インテグレーションの名前を入力して **Continue** をクリックします。
+    1. **API** を検索して選択します。この API インテグレーションの名前を入力し、**Continue** をクリックします。
 
     1. API 設定ページで **Edit** をクリックします。デフォルトではすべての権限が選択されるため、**Allow Read Access**、**Allow Create and Update Access**、**Allow Configuration Access** が選択されていることを確認してください。
 
-    1. 生成された API キーをコピーして **Save** をクリックします。**Incoming Rules** を確認し、**Turn on integration** をクリックして API の設定を完了します。
+    1. 生成された API キーをコピーし、**Save** をクリックします。**Incoming Rules** を確認し、**Turn on integration** をクリックして API の設定を完了します。
 
 1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/signup) で Opsgenie 通知チャネルを設定します。
 
     1. 組織またはプロジェクトのアラートページにある **Alert Settings** タブに移動します。
 
-    1. 既存のアラートを変更するには、対象のアラートターゲットの横にある **Actions** 列から **Edit** を選択します。新規アラートを作成する場合は、右上の **+ Alert** をクリックします。
+    1. 既存のアラートを変更するには、対象のアラートターゲットの横にある **Actions** 列で **Edit** を選択します。新規アラートを作成するには、右上の **+ Alert** をクリックします。
 
-        <Admonition type="info" icon="📘" title="📘 Notes">
+        <Admonition type="info" title="Notes">
 
-        組織アラートでは既存のアラートターゲットのみ編集可能で、新規作成はサポートされていません。詳細については、[組織アラートの管理](./manage-organization-alerts) を参照してください。
+        組織アラートでは、既存のアラートターゲットのみを編集できます。新規のアラートターゲットは作成できません。詳細については、[組織アラートの管理](./manage-organization-alerts) を参照してください。
 
         </Admonition>
 
@@ -150,7 +150,7 @@ Opsgenie 連携を設定する手順は以下のとおりです。
 
     1. Opsgenie で取得した API キーを入力します。
 
-    1. **Alert Resolution Notification** および **Enable Alert** で、アラートの解決時または発報時に実行するアクションを設定します。
+    1. **Alert Resolution Notification** および **Enable Alert** で、アラートの解決時または発報時に実行する適切なアクションを設定します。
 
 </Procedures>
 
@@ -160,17 +160,17 @@ Lark 連携を設定する手順は以下のとおりです。
 
 <Procedures>
 
-1. 対象の Lark グループにカスタムボットを招待し、そのボットに対応する webhook URL を取得します。詳細な手順については、[Custom bot usage guide](https://open.larksuite.com/document/client-docs/bot-v3/add-custom-bot) を参照してください。
+1. 対象の Lark グループでカスタムボットをグループに招待してから、そのボットに対応する webhook URL を取得します。詳細な手順については、[Custom bot usage guide](https://open.larksuite.com/document/client-docs/bot-v3/add-custom-bot) を参照してください。
 
 1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/signup) で Lark 通知チャネルを設定します。
 
     1. 組織またはプロジェクトのアラートページにある **Alert Settings** タブに移動します。
 
-    1. 既存のアラートを変更するには、対象のアラートターゲットの横にある **Actions** 列から **Edit** を選択します。新規アラートを作成する場合は、右上の **+ Alert** をクリックします。
+    1. 既存のアラートを変更するには、対象のアラートターゲットの横にある **Actions** 列で **Edit** を選択します。新規アラートを作成するには、右上の **+ Alert** をクリックします。
 
-        <Admonition type="info" icon="📘" title="📘 Notes">
+        <Admonition type="info" title="Notes">
 
-        組織アラートでは既存のアラートターゲットのみ編集可能で、新規作成はサポートされていません。詳細については、[組織アラートの管理](./manage-organization-alerts) を参照してください。
+        組織アラートでは、既存のアラートターゲットのみを編集できます。新規のアラートターゲットは作成できません。詳細については、[組織アラートの管理](./manage-organization-alerts) を参照してください。
 
         </Admonition>
 
@@ -178,7 +178,7 @@ Lark 連携を設定する手順は以下のとおりです。
 
     1. 取得した webhook URL を入力します。
 
-    1. **Alert Resolution Notification** および **Enable Alert** で、アラートの解決時または発報時に実行するアクションを設定します。
+    1. **Alert Resolution Notification** および **Enable Alert** で、アラートの解決時または発報時に実行する適切なアクションを設定します。
 
 </Procedures>
 
@@ -194,11 +194,11 @@ Zilliz Cloud が提供する **Webhook** オプションを使用すると、カ
 
     1. 組織またはプロジェクトのアラートページにある **Alert Settings** タブに移動します。
 
-    1. 既存のアラートを変更するには、対象のアラートターゲットの横にある **Actions** 列から **Edit** を選択します。新規アラートを作成する場合は、右上の **+ Alert** をクリックします。
+    1. 既存のアラートを変更するには、対象のアラートターゲットの横にある **Actions** 列で **Edit** を選択します。新規アラートを作成するには、右上の **+ Alert** をクリックします。
 
-        <Admonition type="info" icon="📘" title="📘 Notes">
+        <Admonition type="info" title="Notes">
 
-        組織アラートでは既存のアラートターゲットのみ編集可能で、新規作成はサポートされていません。詳細については、[組織アラートの管理](./manage-organization-alerts) を参照してください。
+        組織アラートでは、既存のアラートターゲットのみを編集できます。新規のアラートターゲットは作成できません。詳細については、[組織アラートの管理](./manage-organization-alerts) を参照してください。
 
         </Admonition>
 
@@ -206,11 +206,11 @@ Zilliz Cloud が提供する **Webhook** オプションを使用すると、カ
 
     1. サービスの webhook URL を入力します。
 
-    1. **Alert Resolution Notification** および **Enable Alert** で、アラートの解決時または発報時に実行するアクションを設定します。
+    1. **Alert Resolution Notification** および **Enable Alert** で、アラートの解決時または発報時に実行する適切なアクションを設定します。
 
 </Procedures>
 
-Webhook 通知の例は以下のとおりです。
+webhook 通知の例は以下のとおりです。
 
 ```json
 {
@@ -228,25 +228,25 @@ WeCom のアラート通知を設定するには、以下の手順に従いま�
 
 <Procedures>
 
-1. WeCom グループでグループボットを作成します。詳しい手順については、[Group bot creation](https://open.work.weixin.qq.com/help2/pc/14931?person_id=1&searchData=#%E4%BA%8C%E3%80%81%E7%BE%A4%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%B7%BB%E5%8A%A0%E5%85%A5%E5%8F%A3) を参照してください。
+1. WeCom グループでグループボットを作成します。詳細な手順については、[Group bot creation](https://open.work.weixin.qq.com/help2/pc/14931?person_id=1&searchData=#%E4%BA%8C%E3%80%81%E7%BE%A4%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%B7%BB%E5%8A%A0%E5%85%A5%E5%8F%A3) を参照してください。
 
-    <Admonition type="info" icon="📘" title="📘 Notes">
+    <Admonition type="info" title="Notes">
 
-    WeCom の設定によっては、一部のグループでグループボットを追加できない場合があります。
+    WeCom の設定により、一部のグループではグループボットを追加できない場合があります。
 
     </Admonition>
 
-1. 作成したボットの情報を確認し、該当するボットの webhook URL を取得します。詳しい手順については、[Obtain the group bot's webhook address](https://open.work.weixin.qq.com/help2/pc/14931?person_id=1&searchData=#%E4%BA%94%E3%80%81%E7%BE%A4%E6%9C%BA%E5%99%A8%E4%BA%BAWebhook%E5%9C%B0%E5%9D%80) を参照してください。
+1. 作成したボットの情報を確認し、対応するボットの webhook URL を取得します。詳細な手順については、[Obtain the group bot's webhook address](https://open.work.weixin.qq.com/help2/pc/14931?person_id=1&searchData=#%E4%BA%94%E3%80%81%E7%BE%A4%E6%9C%BA%E5%99%A8%E4%BA%BAWebhook%E5%9C%B0%E5%9D%80) を参照してください。
 
 1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/signup) にログインし、WeCom アラートチャネルを設定します。
 
     1. 組織またはプロジェクトのアラートページにある **Alert Settings** タブに移動します。
 
-    1. 既存のアラートを変更するには、対象のアラートターゲットの横にある **Actions** 列から **Edit** を選択します。新規アラートを作成する場合は、右上の **+ Alert** をクリックします。
+    1. 既存のアラートを変更するには、対象のアラートターゲットの横にある **Actions** 列で **Edit** を選択します。新規アラートを作成するには、右上の **+ Alert** をクリックします。
 
-        <Admonition type="info" icon="📘" title="📘 Notes">
+        <Admonition type="info" title="Notes">
 
-        組織アラートでは既存のアラートターゲットのみ編集可能で、新規作成はサポートされていません。詳細については、[組織アラートの管理](./manage-organization-alerts) を参照してください。
+        組織アラートでは、既存のアラートターゲットのみを編集できます。新規のアラートターゲットは作成できません。詳細については、[組織アラートの管理](./manage-organization-alerts) を参照してください。
 
         </Admonition>
 
@@ -254,7 +254,7 @@ WeCom のアラート通知を設定するには、以下の手順に従いま�
 
     1. 取得した webhook URL を入力します。
 
-    1. **Alert Resolution Notification** および **Enable Alert** で、アラートの解決時または発報時に実行するアクションを設定します。
+    1. **Alert Resolution Notification** および **Enable Alert** で、アラートの解決時または発報時に実行する適切なアクションを設定します。
 
 </Procedures>
 
@@ -264,29 +264,29 @@ DingTalk のアラート通知を設定するには、以下の手順に従い�
 
 <Procedures>
 
-1. DingTalk グループでカスタムボットを作成します。詳しい手順については、[Custom bot integration](https://open.dingtalk.com/document/robots/custom-robot-access) を参照してください。
+1. DingTalk グループでカスタムボットを作成します。詳細な手順については、[Custom bot integration](https://open.dingtalk.com/document/robots/custom-robot-access) を参照してください。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
-    カスタムボットの設定時に、**Security Setting** で **Custom Keywords** を指定します。
-    
+    カスタムボットを設定する際は、**Security Setting** で **Custom Keywords** を指定します。
+
     - **Test**: 接続テスト用のアラート通知を受信します。
-    
-    - **Alert**: 実際のイベントに関するアラート通知を受信します。
+
+    - **Alert**: 実際のイベントのアラート通知を受信します。
 
     </Admonition>
 
-1. 作成したボットの情報を確認し、該当するボットの webhook URL を取得します。詳しい手順については、[Obtain custom bot's webhook address](https://open.dingtalk.com/document/orgapp/obtain-the-webhook-address-of-a-custom-robot) を参照してください。
+1. 作成したボットの情報を確認し、対応するボットの webhook URL を取得します。詳細な手順については、[Obtain custom bot's webhook address](https://open.dingtalk.com/document/orgapp/obtain-the-webhook-address-of-a-custom-robot) を参照してください。
 
 1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/signup) にログインし、DingTalk アラートチャネルを設定します。
 
     1. 組織またはプロジェクトのアラートページにある **Alert Settings** タブに移動します。
 
-    1. 既存のアラートを変更するには、対象のアラートターゲットの横にある **Actions** 列から **Edit** を選択します。新規アラートを作成する場合は、右上の **+ Alert** をクリックします。
+    1. 既存のアラートを変更するには、対象のアラートターゲットの横にある **Actions** 列で **Edit** を選択します。新規アラートを作成するには、右上の **+ Alert** をクリックします。
 
-        <Admonition type="info" icon="📘" title="📘 Notes">
+        <Admonition type="info" title="Notes">
 
-        組織アラートでは既存のアラートターゲットのみ編集可能で、新規作成はサポートされていません。詳細については、[組織アラートの管理](./manage-organization-alerts) を参照してください。
+        組織アラートでは、既存のアラートターゲットのみを編集できます。新規のアラートターゲットは作成できません。詳細については、[組織アラートの管理](./manage-organization-alerts) を参照してください。
 
         </Admonition>
 
@@ -294,13 +294,13 @@ DingTalk のアラート通知を設定するには、以下の手順に従い�
 
     1. 取得した webhook URL を入力します。
 
-    1. **Alert Resolution Notification** および **Enable Alert** で、アラートの解決時または発報時に実行するアクションを設定します。
+    1. **Alert Resolution Notification** および **Enable Alert** で、アラートの解決時または発報時に実行する適切なアクションを設定します。
 
 </Procedures>
 
 ## 接続テスト\{#test-connectivity}
 
-通知チャネルの設定後、Send Test Message アイコンをクリックして設定が正しいことを確認します。
+通知チャネルを設定したら、Send Test Message アイコンをクリックして、正しく構成されていることを確認します。
 
 ![test-connectivity](https://zdoc-images.s3.us-west-2.amazonaws.com/test-connectivity.png "test-connectivity")
 

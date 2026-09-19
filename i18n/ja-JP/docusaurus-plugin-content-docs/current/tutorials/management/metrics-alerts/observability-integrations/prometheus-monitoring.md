@@ -26,9 +26,9 @@ import Procedures from '@site/src/components/Procedures';
 
 Zilliz Cloud を Prometheus と統合することで、Zilliz Cloud デプロイメントに関連するメトリクスを収集および監視できます。
 
-Prometheus 統合では、Serving Cluster メトリクスのみがエクスポートされます。On-Demand Compute データベースのメトリクスはエクスポートされません。
+Prometheus 統合では、Serving クラスター メトリクスのみがエクスポートされます。On-Demand Compute データベースのメトリクスはエクスポートされません。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 この機能は、**Enterprise** プロジェクト内の **Dedicated** クラスターでのみ利用できます。
 
@@ -63,7 +63,7 @@ Prometheus で Zilliz Cloud クラスターを監視するには、次の手順�
             - targets: ["api.cloud.zilliz.com"]
     ```
 
-    <Admonition type="info" icon="📘" title="注意">
+    <Admonition type="info" title="Notes">
 
     クラスターに含まれるコレクションは 10,000 個以下である必要があります。この上限を超えるクラスターでは、メトリクスのエクスポートが不完全になったり、品質が低下したりする可能性があります。
 

@@ -2775,15 +2775,20 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/single-sign-on/single-sign-on-with-google-workspace.md",
       "translatedAt": "2026-09-19T14:23:03.631Z"
     },
+    "content/en/guides/tutorials/management/identity-management/single-sign-on/single-sign-on-with-microsoft-entra.md": {
+      "sourceHash": "7dc3a41c698f3d7033721eeee3396b4043486e7ebd55fdd68ed7013517a35906",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/single-sign-on/single-sign-on-with-microsoft-entra.md",
+      "translatedAt": "2026-09-19T14:24:19.670Z"
+    },
     "content/en/guides/tutorials/management/identity-management/single-sign-on/single-sign-on-with-okta.md": {
       "sourceHash": "db84b54fb338a68bfb7e24ff632d2503731987561582c78b7abd0bafe1791027",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/single-sign-on/single-sign-on-with-okta.md",
       "translatedAt": "2026-09-19T13:43:11.314Z"
     },
     "content/en/guides/tutorials/management/identity-management/single-sign-on/single-sign-on-with-other-idp.md": {
-      "sourceHash": "10ab5f82c6b2a7c551e3ec2c8f195e8205aef839a0d47256314c94b4b01f296b",
+      "sourceHash": "10d624a5018f8916233270762189577e2e62bd087566a009d71b5012af720116",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/single-sign-on/single-sign-on-with-other-idp.md",
-      "translatedAt": "2026-08-25T18:30:32.661Z"
+      "translatedAt": "2026-09-19T14:24:19.670Z"
     },
     "content/en/guides/tutorials/management/identity-management/single-sign-on/single-sign-on-with-ping-one.md": {
       "sourceHash": "f8db871dca8a79244cc2ccff2048b326137e0a034837f32a10be34bb822f7891",
@@ -2791,24 +2796,29 @@
       "translatedAt": "2026-09-19T13:43:11.314Z"
     },
     "content/en/guides/tutorials/management/identity-management/single-sign-on/single-sign-on.md": {
-      "sourceHash": "84818a67dbc4f26172ad7d2f529792471d465c9ee67cb5023364c7036b185c73",
+      "sourceHash": "ec4d361a3970cea6c420a79354f0b1d1e997b98ffb619a20cf2efa3793a40b0c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/single-sign-on/single-sign-on.md",
-      "translatedAt": "2026-08-25T05:45:24.533Z"
+      "translatedAt": "2026-09-19T14:24:19.670Z"
+    },
+    "content/en/guides/tutorials/management/ip-allowlists/setup-console-ip-allowlist.md": {
+      "sourceHash": "e4cb143c74e234f41cc021ba1556f9f8958c03de7c16c29c7840078f8d521537",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/ip-allowlists/setup-console-ip-allowlist.md",
+      "translatedAt": "2026-09-19T14:24:19.670Z"
     },
     "content/en/guides/tutorials/management/ip-allowlists/setup-whitelist.md": {
-      "sourceHash": "5a2dc61cfc38b25776fdf684da72cd6eeede98b54f737d9c17c9d394f3f6a065",
+      "sourceHash": "e8daf088c6a9acb9b30e135d3ef19a164394ac583687538120f1f87d7ba38cd1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/ip-allowlists/setup-whitelist.md",
-      "translatedAt": "2026-08-25T18:31:10.634Z"
+      "translatedAt": "2026-09-19T14:24:19.670Z"
     },
     "content/en/guides/tutorials/management/limits/limits.md": {
-      "sourceHash": "fa5e1960a09fc39892c97df8e84ab2e0ed3a9bd590a735e3cd71c5333bbc5680",
+      "sourceHash": "62b3d97ad729be80e4b1e5908bdec591cad33317637acce8f1a52578154387bf",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/limits/limits.md",
-      "translatedAt": "2026-08-04T05:08:16.757Z"
+      "translatedAt": "2026-09-19T14:24:19.670Z"
     },
     "content/en/guides/tutorials/management/metrics-alerts/manage-notification-channels.md": {
-      "sourceHash": "37551dbb2386f51ca9de8ea6749e73b62ab19f60693a53e34ba7d2909026ec01",
+      "sourceHash": "0cc80544a2d098f4dc56c46d61fe6ea5ba275f272965b7c4b60dd47bcbfad7c9",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/metrics-alerts/manage-notification-channels.md",
-      "translatedAt": "2026-08-25T18:37:57.967Z"
+      "translatedAt": "2026-09-19T14:24:19.670Z"
     },
     "content/en/guides/tutorials/management/metrics-alerts/manage-organization-alerts.md": {
       "sourceHash": "beda7ac200946a9aa13d1a468b41bddf5af80505635c4b96cb12d57f54454599",
@@ -2816,34 +2826,39 @@
       "translatedAt": "2026-08-25T09:14:02.453Z"
     },
     "content/en/guides/tutorials/management/metrics-alerts/manage-project-alerts.md": {
-      "sourceHash": "e52fa9fcd3491f5ce6e30cdd92a7113f09250c3365bae8be5440983074a77518",
+      "sourceHash": "dbab5195c9c98bbec2027717a8f0bf71a452488762b327851067eae4e9502440",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/metrics-alerts/manage-project-alerts.md",
-      "translatedAt": "2026-08-25T09:16:13.045Z"
+      "translatedAt": "2026-09-19T14:24:19.670Z"
     },
     "content/en/guides/tutorials/management/metrics-alerts/metrics-alerts-reference.md": {
-      "sourceHash": "421b88460c9bc036e0afa1b78d63d9f857973ed8c5879a31abdec240a0436088",
+      "sourceHash": "bc8fcf3432af176aa1b35b4e29f483ba9e5266df96d5a914e0c805b91783841e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/metrics-alerts/metrics-alerts-reference.md",
-      "translatedAt": "2026-08-04T05:08:48.049Z"
+      "translatedAt": "2026-09-19T14:24:19.670Z"
     },
     "content/en/guides/tutorials/management/metrics-alerts/observability-integrations/integrate-with-datadog.md": {
-      "sourceHash": "01f28e1e5b90fcecbc126af7da66dbc2415d5039b5b6546d70a3285575d74b72",
+      "sourceHash": "ad5f0d5c118aea2e638fe9e583c93786f36cefdbb98c60eb8aa2d5093ce4ede2",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/metrics-alerts/observability-integrations/integrate-with-datadog.md",
-      "translatedAt": "2026-08-04T05:07:33.764Z"
+      "translatedAt": "2026-09-19T14:24:19.670Z"
     },
     "content/en/guides/tutorials/management/metrics-alerts/observability-integrations/prometheus-monitoring.md": {
-      "sourceHash": "58609f98d7c0987a6c32bcc63addcf8bcabb08098591708aa0b10a9f5259f0d8",
+      "sourceHash": "1512b0160d8439a77da505fbcbb5a206872b472c0662569c15f3335fac313991",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/metrics-alerts/observability-integrations/prometheus-monitoring.md",
-      "translatedAt": "2026-08-04T05:08:05.920Z"
+      "translatedAt": "2026-09-19T14:24:19.670Z"
     },
     "content/en/guides/tutorials/management/metrics-alerts/view-cluster-metric-charts.md": {
-      "sourceHash": "376616d833242320b952dd938e2143c8277ae3564696ddafc291dc45673cca0e",
+      "sourceHash": "e4681d4c50ad57181f645c90bd6809f4eec742e9f9633751d12c327b2df71688",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/metrics-alerts/view-cluster-metric-charts.md",
-      "translatedAt": "2026-08-04T05:08:32.860Z"
+      "translatedAt": "2026-09-19T14:24:19.670Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-between-clusters/migrate-between-clusters.md": {
       "sourceHash": "bba775f26464b2fa0d3b7377009c35ff130072e8b7815042f520763bd04b07ce",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-between-clusters/migrate-between-clusters.md",
       "translatedAt": "2026-08-04T05:07:56.962Z"
+    },
+    "content/en/guides/tutorials/management/migrations/migrate-between-clusters/offline-migration.md": {
+      "sourceHash": "9fce41005918244180c20191b40be62a2c88006b6777867c42e408f71fcfd251",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-between-clusters/offline-migration.md",
+      "translatedAt": "2026-09-19T14:24:19.670Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/external-migration-basics.md": {
       "sourceHash": "188bc84639fb74025da0a816cfcba0197bad14edd4b250d33a71b54ff453e739",
@@ -2866,14 +2881,14 @@
       "translatedAt": "2026-08-25T09:23:01.605Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-pinecone.md": {
-      "sourceHash": "8762f3ad1a57d3004c028375c07c6cb3292e44c0a8b9e11169f0c51e12766f23",
+      "sourceHash": "e80e9ec7752bf6c2235462f44f9af89799cb7dd107185dc735024242cf473e81",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/migrate-from-pinecone.md",
-      "translatedAt": "2026-08-04T05:09:29.234Z"
+      "translatedAt": "2026-09-19T14:24:19.670Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-qdrant.md": {
-      "sourceHash": "65f766b0227c413e220c71d94571d4a0d1d4182149acdfb2270f4764744ca355",
+      "sourceHash": "63c065a48d1af25b39628a19ebef83ecfd8000540a332efcd5f00a081d0fb622",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/migrate-from-qdrant.md",
-      "translatedAt": "2026-08-04T05:10:00.469Z"
+      "translatedAt": "2026-09-19T14:24:19.670Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-tencent-cloud.md": {
       "sourceHash": "e6aad26897a327fe3e36ef37bc78cc364478c9b0fe85bd7f6c70e500cf322b49",

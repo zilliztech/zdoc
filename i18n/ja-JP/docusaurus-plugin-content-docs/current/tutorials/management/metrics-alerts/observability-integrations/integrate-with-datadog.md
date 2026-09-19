@@ -24,13 +24,13 @@ import Procedures from '@site/src/components/Procedures';
 
 [Datadog](https://www.datadoghq.com/) は、アプリケーションのパフォーマンス、インフラストラクチャ、およびログ管理に関するリアルタイムのインサイトを提供するクラウド監視および分析プラットフォームです。Zilliz Cloud を Datadog と統合することで、Zilliz Cloud クラスターに関するメトリクスデータを Datadog ダッシュボードに送信できます。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 この機能は、**Enterprise** プロジェクト内の **Dedicated** クラスターでのみ利用できます。
 
 </Admonition>
 
-## 始める前に\{#before-you-start}
+## 事前準備\{#before-you-start}
 
 - Datadog と統合するには、プロジェクトに対する **Organization Owner** または **Project Admin** のアクセス権が必要です。必要な権限がない場合は、Zilliz Cloud 管理者に連絡してください。
 
@@ -42,7 +42,7 @@ import Procedures from '@site/src/components/Procedures';
 
 <Procedures>
 
-1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login)にログインします。
+1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) にログインします。
 
 1. プロジェクトページの左側ナビゲーションペインで、**Integrations** をクリックします。
 
@@ -58,7 +58,7 @@ import Procedures from '@site/src/components/Procedures';
 
         1. **Datadog Site** で、Datadog サイトを選択します。Zilliz Cloud は以下の Datadog サイトをサポートしています。
 
-            | Site | Site URL | Site Parameter | Location |
+            | サイト | サイト URL | サイトパラメーター | 場所 |
             | --- | --- | --- | --- |
             | `US1` | `https://app.datadoghq.com` | `datadoghq.com` | US |
             | `US3` | `https://us3.datadoghq.com` | `us3.datadoghq.com` | US |
@@ -70,9 +70,9 @@ import Procedures from '@site/src/components/Procedures';
 
         1. **Test Integration** をクリックして、Zilliz Cloud と Datadog 間の接続を確認します。テストが成功したら、クラスターの割り当てに進みます。
 
-    1. **Assign Configuration to Zilliz Cloud Cluster(s)** ステップで、Datadog にメトリクスデータがプッシュされる 1 つ以上のクラスターを選択します。
+    1. **Assign Configuration to Zilliz Cloud クラスター(s)** ステップで、Datadog にメトリクスデータがプッシュされる 1 つ以上のクラスターを選択します。
 
-        <Admonition type="info" icon="📘" title="注意">
+        <Admonition type="info" title="Notes">
 
         **Dedicated-Enterprise** プラン階層のクラスターのみ選択できます。
 
@@ -106,7 +106,7 @@ Datadog 統合を管理するには、**Actions** 列を使用します。
 
 ### Resource\{#resource}
 
-| Metric Name | Metric Type | Description |
+| メトリクス名 | メトリクスタイプ | 説明 |
 | --- | --- | --- |
 | CU Computation<br/>(`zilliz.cluster.cu.computation.current`) | Gauge | 使用中の容量を CU の総容量に対する比率で表した指標です。範囲は 0 から 1 です。 |
 | CU Capacity<br/>(`zilliz.cluster.cu.capacity.current`) | Gauge | 使用されている計算能力を CU の総計算容量に対する比率で表した指標です。範囲は 0 から 1 です。 |
@@ -114,9 +114,9 @@ Datadog 統合を管理するには、**Actions** 列を使用します。
 
 ### Performance\{#performance}
 
-| Metric Name | Metric Type | Description |
+| メトリクス名 | メトリクスタイプ | 説明 |
 | --- | --- | --- |
-| Cluster Write Performance Capacity<br/>(`zilliz.cluster.write.performance.capacity.current`) | Gauge | 現在の書き込み操作レートを、書き込みレート制限に対する比率で表した指標です。範囲は 0 から 1 です。 |
+| クラスター Write Performance Capacity<br/>(`zilliz.cluster.write.performance.capacity.current`) | Gauge | 現在の書き込み操作レートを、書き込みレート制限に対する比率で表した指標です。範囲は 0 から 1 です。 |
 | Slow Query Count<br/>(`zilliz.request.slow.queries.total`) | Count | 低速なクエリリクエストの総数です。 |
 | QPS, Request Failure Rate, Number of Flush Operations<br/>(`zilliz.requests.total`) | Count | 処理されたリクエストの総数です。 |
 | VPS<br/>(`zilliz.request.vectors.total`) | Count | すべてのリクエストにわたって操作されたベクトルの総数です。 |
@@ -124,18 +124,18 @@ Datadog 統合を管理するには、**Actions** 列を使用します。
 
 ### Data\{#data}
 
-| Metric Name | Metric Type | Description |
+| メトリクス名 | メトリクスタイプ | 説明 |
 | --- | --- | --- |
 | Entity Count<br/>(`zilliz.entities.current`) | Gauge | エンティティの数です。 |
 | Loaded Entities<br/>(`zilliz.loaded.entities.current`) | Gauge | ロード済みエンティティの数です。 |
-| Collection Count<br/>(`zilliz.collections.current`) | Gauge | コレクションの数です。 |
-| Number of Unloaded Collections<br/>(`zilliz.unloaded.collections.current`) | Gauge | 未ロードのコレクションの数です。 |
+| コレクション Count<br/>(`zilliz.collections.current`) | Gauge | コレクションの数です。 |
+| Number of Unloaded コレクション<br/>(`zilliz.unloaded.collections.current`) | Gauge | 未ロードのコレクションの数です。 |
 
 ## Datadog で利用できるタグ\{#tags-available-to-datadog}
 
 Datadog は、一部のメトリクスに以下のタグを送信し、リソースの理解、整理、および識別をしやすくします。
 
-| Tag Name | Description |
+| タグ名 | 説明 |
 | --- | --- |
 | `org_id` | メトリクスに関連付けられた Zilliz Cloud 組織の ID。 |
 | `project_id` | メトリクスに関連付けられた Zilliz Cloud プロジェクトの ID。 |

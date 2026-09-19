@@ -117,7 +117,7 @@ CU は、データの並列処理に使用されるコンピュートリソー�
 | Serverless | Zilliz Cloud の Serverless クラスターには容量制限がありません。 |
 | Dedicated (per CU) | Zilliz Cloud の Dedicated クラスターには容量制限がありません。 |
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Dedicated クラスターの容量上限は、使用する CU タイプとサイズによって異なります。クラスターの容量が不足している場合は、CU タイプとサイズの調整を検討してください。詳細については、[クラスタースケーリングの計画](./plan-cluster-scaling) を参照してください。
 
@@ -132,7 +132,7 @@ Dedicated クラスターの容量上限は、使用する CU タイプとサイ
 | レプリカ | 100 | 最大 100 個のレプリカを作成できます。 |
 | Query CU x Replica Count | 204,800 | クラスターのレプリカ数 x query CU は 204,800 を超えてはなりません。 |
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 以前の Milvus リリースと互換性のある一部のクラスターでは、レプリカを追加するために少なくとも 12 CUs が必要になる場合があります。 
 
@@ -162,7 +162,7 @@ Zilliz Cloud クラスターにおけるコレクションとパーティショ�
 
 - 両方の条件を満たす必要があります。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 **Free** および **Serverless** クラスターには、代わりに次の制限が適用されます。
 
@@ -228,7 +228,7 @@ Zilliz Cloud クラスターにおけるコレクションとパーティショ�
      <td><p>8</p></td>
    </tr>
    <tr>
-     <td><p>> 64 CU</p></td>
+     <td><p>&gt; 64 CU</p></td>
      <td><p>16</p></td>
    </tr>
 </table>
@@ -282,7 +282,7 @@ insert および upsert 操作のレート制限は、クラスターのデプ�
 
 インデックスタイプはフィールドタイプによって異なります。次の表は、インデックス化可能なフィールドタイプと、それに対応するインデックスタイプを示しています。
 
-| **フィールドタイプ** | **インデックスタイプ** | **メトリックタイプ** |
+| **フィールドタイプ** | **インデックスタイプ** | **メトリクスタイプ** |
 | --- | --- | --- |
 | ベクトルフィールド | AUTOINDEX | L2、IP、COSINE |
 | VarChar フィールド | TRIE | N/A |
@@ -297,7 +297,7 @@ flush リクエストのレート制限は 1 秒あたり 0.1 リクエストで
 
 - Milvus v2.4.x 以降と互換性のある、beta バージョンにアップグレードされた Dedicated クラスター。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 flush 操作を手動で実行することは推奨されません。Zilliz Cloud クラスターがこれを適切に処理します。
 
@@ -307,7 +307,7 @@ flush 操作を手動で実行することは推奨されません。Zilliz Clou
 
 load リクエストのレート制限は、クラスターあたり **20** req/s です。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 すでに load 済みのコレクションについては、新しいデータがそれらのコレクションに入ってきている場合でも、コレクションの load を実行する必要はありません。
 

@@ -24,7 +24,7 @@ import Supademo from '@site/src/components/Supademo';
 
 オフライン移行は、ソース Zilliz Cloud クラスターからターゲット Zilliz Cloud クラスターへ既存のすべてのデータを転送します。この方法は、同一組織内および異なる組織間の移行の両方をサポートします。計画メンテナンス中や小規模なデータベース移行など、一時的な書き込み中断を許容できるシナリオに最適です。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 カットオーバー中にアプリケーションがソースクラスターへの書き込みを継続すると、ターゲットクラスターで新しいエンティティが欠落する可能性があります。特に、移行ジョブ完了後に挿入されたエンティティは欠落するおそれがあります。ターゲットのデータ完全性を保つには、カットオーバー時間帯を設定し、ソースクラスターへの書き込みを一時停止し、移行ジョブの完了を待ち、ターゲットクラスターを検証してから、ターゲットクラスターのみに書き込みを再開してください。
 
@@ -48,9 +48,9 @@ import Supademo from '@site/src/components/Supademo';
    </tr>
    <tr>
      <td><p>Free クラスター</p></td>
-     <td><p>サポートされていません</p></td>
-     <td><p>サポートされていません</p><p>(Free クラスターは Serverless クラスターにのみアップグレードできます。詳細は <a href="./manage-cluster">Manage Cluster</a> を参照してください。)</p></td>
-     <td><p>サポートされています</p><p>(Free クラスターを Dedicated クラスターにアップグレードすることもできます。詳細は <a href="./manage-cluster">Manage Cluster</a> を参照してください。)</p></td>
+     <td><p>Not supported</p></td>
+     <td><p>Not supported</p><p>(You can only upgrade a Free クラスター to a Serverless クラスター. Refer to <a href="./manage-cluster">Manage クラスター</a> for more details.)</p></td>
+     <td><p>Supported</p><p>(You can also upgrade a Free クラスター to a dedicated クラスター. Refer to <a href="./manage-cluster">Manage クラスター</a> for more details.)</p></td>
    </tr>
    <tr>
      <td><p>Serverless クラスター</p></td>
@@ -126,7 +126,7 @@ import Supademo from '@site/src/components/Supademo';
 
 <Supademo id="cmb91ow5v0me4sn1rzlbzqi8x" title=""  />
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 移行されたコレクションは、検索またはクエリ操作ですぐには利用できません。検索およびクエリ機能を有効にするには、Zilliz Cloud でコレクションを手動でロードする必要があります。詳細は [Load & Release](./load-release-collections) を参照してください。
 

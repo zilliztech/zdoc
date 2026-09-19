@@ -30,11 +30,11 @@ import Supademo from '@site/src/components/Supademo';
 
 デフォルトでは、組織の web コンソールには任意の IP アドレスからアクセスできます。アクセスを制限してセキュリティを強化するには、console IP allowlist を設定し、オフィスネットワークの IP など、指定したアドレスからのみ web コンソールにアクセスできるようにします。
 
-console IP allowlist は、組織の web コンソールにのみ適用されます。project cluster へのアクセスは制御しません。cluster へのアクセスを制限するには、[Cluster IP Allowlist を設定する](./setup-whitelist) を参照してください。
+The console IP allowlist applies only to the organization web console. It does not control access to project クラスター. To restrict access to クラスター, see [Set up クラスター IP Allowlist](./setup-whitelist).
 
 ## 制限事項\{#limits}
 
-- Zilliz Cloud 組織には、**Enterprise** project 内に少なくとも 1 つの**稼働中の Dedicated** cluster が必要です。
+- Your Zilliz Cloud organization should have at least one **running Dedicated** クラスター in an **Enterprise** project.
 
 - 組織には有効な支払い方法が必要です。
 
@@ -48,7 +48,7 @@ allowlist には、IPv4 アドレス（例: `192.168.0.0`）または CIDR ブ�
 
 ロックアウトを避けるため、現在の IP と頻繁に使用する IP を追加することを推奨します。 
 
-<Admonition type="info" icon="📘" title="📘 注意">
+<Admonition type="info" title="Notes">
 
 `0.0.0.0/0` は任意の IP からのアクセスを許可します。
 
@@ -72,7 +72,7 @@ allowlist を設定した後は、いつでも IP を確認できます。
 
 IP または CIDR エントリを削除して、その送信元からのコンソールアクセスを拒否できます。すべてのエントリを削除すると、コンソールは任意の IP からアクセス可能になります。
 
-<Admonition type="info" icon="📘" title="📘 注意">
+<Admonition type="info" title="Notes">
 
 console IP allowlist への更新は 30 秒以内に反映されます。
 
@@ -106,9 +106,9 @@ console IP allowlist への更新は 30 秒以内に反映されます。
 
     いいえ。[SSO](./single-sign-on)、[MFA](./multi-factor-auth)、および組織の console IP allowlist は、それぞれ独立した制御です。 
 
-1. **組織の console IP allowlist は cluster へのアクセスに影響しますか？**
+1. **Does the organization console IP allowlist affect クラスター access?**
 
-    いいえ。console IP allowlist は web コンソールへのアクセスのみを制限します。cluster へのアクセスを制限するには、[cluster IP allowlist](./setup-whitelist) を設定してください。
+    No. The console IP allowlist only restricts access to the web console. To restrict access to クラスター, configure the [クラスター IP allowlist](./setup-whitelist).
 
 1. **動的 IP を使用している場合はどうなりますか？**
 
