@@ -25,7 +25,7 @@ import TabItem from '@theme/TabItem';
 
 Zilliz Cloud では、これらのパターン制約をスカラーフィルターで表現できます。単純なワイルドカードマッチングには `LIKE` を使用し、[RE2](https://github.com/google/re2/wiki/syntax) 正規表現には `=~` または `!~` を使用します。これらのフィルターは、`query`、`search`、またはハイブリッド検索と組み合わせることができます。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 このページでは、query、search、およびハイブリッド検索で使用されるスカラーフィルター式のパターンマッチングについて説明します。これらの式はフィールド値を評価するものであり、アナライザーが生成するトークンを変更しません。テキスト分析中にトークンをフィルタリングするには、[Regex Analyzer Filter](./regex-filter) を参照してください。
 
@@ -33,7 +33,7 @@ Zilliz Cloud では、これらのパターン制約をスカラーフィルタ�
 
 パターンマッチング式は `filter` パラメーターに記述します。たとえば、次のクエリは `E1001` のようなエラーコードを含むログメッセージに一致します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -148,11 +148,27 @@ curl --request POST \
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+zilliz vector query --collection log_events --filter 'message =~ "E[0-9]{4}"' --output-fields 'message,severity'
+```
+
+</TabItem>
 </Tabs>
 
 このページの例では、`filter` に指定する式を中心に説明しています。`query`、`search`、ハイブリッド検索など、スカラーフィルターを受け入れる Zilliz Cloud 操作でも同じフィルター式構文を使用できます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 フィルター式の左辺のリテラルには、以下の例で使用されている `message` や `email` などのコレクションフィールド名、あるいは `filter = 'struct[0][subfield] =~ "E[0-9]{4}"'` のように特定の要素インデックスにある StructArray サブフィールドの名前を指定できます。
 
@@ -184,7 +200,7 @@ StructArray フィールドでのスカラーフィルタリングの詳細に�
 | 単純なサフィックス一致 | `LIKE` | `filename LIKE "%.json"` | `.json` で終わる文字列に一致します。 |
 | 単純な部分一致 | `LIKE` | `description LIKE "%vector database%"` | 文字列内の任意の位置に `vector database` を含む値に一致します。 |
 | 構造化コードまたは固定長パターンの一致 | `=&#126;` | `code =&#126; "E[0-9]{4}"` | `E` の後に 4 桁の数字が続く文字列（`E1001` など）に、大文字小文字を区別して一致します。 |
-| 大文字小文字を区別しないパターンマッチング | `=&#126;` with `(?i)` | `message =&#126; "(?i)error"` | `error`、`ERROR`、またはその他の大文字小文字のバリエーションに一致します。 |
+| 大文字小文字を区別しないパターンマッチング | `=&#126;` と `(?i)` の併用 | `message =&#126; "(?i)error"` | `error`、`ERROR`、またはその他の大文字小文字のバリエーションに一致します。 |
 | 正規表現パターンに一致する値の除外 | `!&#126;` | `message !&#126; "^DEBUG"` | `DEBUG` で始まる文字列を除外します。 |
 
 単純なワイルドカードマッチングには `LIKE` を使用します。文字クラス、繰り返し、`error|failed` のような選択、アンカー、または大文字小文字を区別しないマッチングが必要な場合は、正規表現を使用してください。
@@ -244,7 +260,7 @@ raw 文字列リテラルは `r"..."` または `r'...'` と記述され、Zilli
 
 例:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -284,6 +300,22 @@ filter='filename =~ r"\.json$"'
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+zilliz vector query --collection my_collection --filter 'filename =~ r"\.json$"' --output-fields 'filename'
+```
+
+</TabItem>
 </Tabs>
 
 これは、`2026-07-01` のような日付形式の値を含む文字列にマッチします。
@@ -307,7 +339,7 @@ raw 文字列を使用しない場合、通常の文字列リテラルは regex 
 
 複数の単語のいずれかにマッチさせるには、`|` を使った選択を使用します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -347,11 +379,27 @@ filter='message =~ "error|failed|timeout"'
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+zilliz vector query --collection my_collection --filter 'message =~ "error|failed|timeout"' --output-fields 'message'
+```
+
+</TabItem>
 </Tabs>
 
 regex のメタ文字をリテラルとしてマッチさせる場合は、regex パターン内でエスケープします。たとえば、リテラルのドット（regex では `\.`）にマッチさせるには、Python のフィルター文字列で `\\.` と記述します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -391,6 +439,22 @@ filter='email =~ "@gmail\\.com$"'
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+zilliz vector query --collection my_collection --filter 'email =~ "@gmail\\.com$"' --output-fields 'email'
+```
+
+</TabItem>
 </Tabs>
 
 注: Zilliz Cloud の regex フィルターは RE2 構文に従います。regex パターンが RE2 でサポートされていない構文を使用している場合や、その他の理由で無効な場合、Zilliz Cloud はそのフィルター式を拒否します。regex のメタ文字、フラグ、マッチング動作の詳細については、[RE2 構文](https://github.com/google/re2/wiki/syntax) リファレンスを参照してください。
@@ -401,7 +465,7 @@ filter='email =~ "@gmail\\.com$"'
 
 Zilliz Cloud の regex マッチは部分文字列セマンティクスに基づきます。パターンはフィールド値全体にマッチする必要はありません。たとえば、以下のフィルターは `E1001` と `failed with E1001 after retry` の両方にマッチします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -441,11 +505,27 @@ filter='message =~ "E[0-9]{4}"'
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+zilliz vector query --collection log_events --filter 'message =~ "E[0-9]{4}"' --output-fields 'message,severity'
+```
+
+</TabItem>
 </Tabs>
 
 フィールド値全体にマッチさせるには、`^` と `$` のアンカーを使用します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -489,13 +569,29 @@ filter='code =~ "^E[0-9]{4}$"'
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+zilliz vector query --collection my_collection --filter 'code =~ "^E[0-9]{4}$"' --output-fields 'code'
+```
+
+</TabItem>
 </Tabs>
 
 **NULL 許容 VARCHAR フィールド**
 
 regex フィルターは null 値にマッチしません。これは `=~` と `!~` の両方に当てはまります。regex パターンに合致する値を除外しつつ null 値を残したい場合は、明示的に `OR field IS NULL` を追加してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -532,6 +628,22 @@ const filter = 'message !~ "^DEBUG" OR message IS NULL';
 
 ```bash
 filter='message !~ "^DEBUG" OR message IS NULL'
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+zilliz vector query --collection log_events --filter 'message !~ "^DEBUG" OR message IS NULL' --output-fields 'message,severity'
 ```
 
 </TabItem>

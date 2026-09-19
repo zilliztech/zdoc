@@ -31,7 +31,7 @@ Grouping Search を使用すると、Zilliz Cloud は検索結果を指定され
 
 ![LhJEwzWiphLWxobMaiCcbVDPnNb](https://zdoc-images.s3.us-west-2.amazonaws.com/LhJEwzWiphLWxobMaiCcbVDPnNb.png)
 
-このようなコレクションに対して Approximate Nearest Neighbor (ANN) 検索を実行すると、検索結果に同じドキュメントからの複数の段落が含まれる場合があり、その結果、他のドキュメントが見落とされる可能性があります。これは意図したユースケースに合わないことがあります。
+このようなコレクションに対して Approximate Nearest Neighbor（ANN）検索を実行すると、検索結果に同じドキュメントからの複数の段落が含まれる場合があり、その結果、他のドキュメントが見落とされる可能性があります。これは意図したユースケースに合わないことがあります。
 
 ![Ktj8wigrHhvz4nbDES5coKZJnZe](https://zdoc-images.s3.us-west-2.amazonaws.com/Ktj8wigrHhvz4nbDES5coKZJnZe.png)
 
@@ -43,9 +43,9 @@ Grouping Search を使用すると、Zilliz Cloud は検索結果を指定され
 
 - `limit` パラメータで定義された各グループの上位結果を、各グループ内で最も類似する entity とともに返します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-デフォルトでは、Grouping Search はグループごとに 1 つの entity のみを返します。グループごとに返す結果数を増やしたい場合は、`group_size` パラメータと `strict_group_size` パラメータで制御できます。
+デフォルトでは、Grouping Search はグループごとに 1つの entity のみを返します。グループごとに返す結果数を増やしたい場合は、`group_size` パラメータと `strict_group_size` パラメータで制御できます。
 
 </Admonition>
 
@@ -309,11 +309,11 @@ zilliz vector search \
 </TabItem>
 </Tabs>
 
-上記のリクエストでは、`limit=3` は、システムが 3 つのグループから検索結果を返し、各グループにクエリベクトルに最も類似する 1 つの entity が含まれることを示します。
+上記のリクエストでは、`limit=3` は、システムが 3つのグループから検索結果を返し、各グループにクエリベクトルに最も類似する 1つの entity が含まれることを示します。
 
 ## グループサイズを設定する\{#configure-group-size}
 
-デフォルトでは、Grouping Search はグループごとに 1 つの entity のみを返します。グループごとに複数の結果を取得する場合は、`group_size` パラメータと `strict_group_size` パラメータを調整します。
+デフォルトでは、Grouping Search はグループごとに 1つの entity のみを返します。グループごとに複数の結果を取得する場合は、`group_size` パラメータと `strict_group_size` パラメータを調整します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
@@ -547,9 +547,9 @@ zilliz vector search \
 
 上記の例では、次のとおりです。
 
-- `group_size`: グループごとに返す entity の希望数を指定します。たとえば、`group_size=2` に設定すると、各グループ（または各 `docId`）は理想的には最も類似する 2 つの段落（または **チャンク**）を返します。`group_size` を設定しない場合、システムはデフォルトでグループごとに 1 件の結果を返します。
+- `group_size`: グループごとに返す entity の希望数を指定します。たとえば、`group_size=2` に設定すると、各グループ（または各 `docId`）は理想的には最も類似する 2つの段落（または **チャンク**）を返します。`group_size` を設定しない場合、システムはデフォルトでグループごとに 1 件の結果を返します。
 
-- `strict_group_size`: このブール値パラメータは、システムが `group_size` で設定された件数を厳密に適用するかどうかを制御します。`strict_group_size=True` の場合、システムは、そのグループに十分なデータがない場合を除き、各グループに `group_size` で指定された正確な数の entity（たとえば 2 つの段落）を含めようとします。デフォルト（`strict_group_size=False`）では、システムは各グループに `group_size` 件の entity を確実に含めることよりも、`limit` パラメータで指定されたグループ数を満たすことを優先します。このアプローチは、データ分布が不均一な場合に一般的により効率的です。
+- `strict_group_size`: このブール値パラメータは、システムが `group_size` で設定された件数を厳密に適用するかどうかを制御します。`strict_group_size=True` の場合、システムは、そのグループに十分なデータがない場合を除き、各グループに `group_size` で指定された正確な数の entity（たとえば 2つの段落）を含めようとします。デフォルト（`strict_group_size=False`）では、システムは各グループに `group_size` 件の entity を確実に含めることよりも、`limit` パラメータで指定されたグループ数を満たすことを優先します。このアプローチは、データ分布が不均一な場合に一般的により効率的です。
 
 パラメータの詳細については、[search](/reference/python/python/Vector-search) を参照してください。
 
@@ -557,7 +557,7 @@ zilliz vector search \
 
 Grouping Search を `order_by_fields` と組み合わせることで、グループをスカラーフィールドで並べ替えることができます。これは、グループ間で多様な結果を得たい一方で、価格や評価などビジネス上重要な順序に従ってグループを並べ替えたい場合に役立ちます。
 
-次の例では、検索結果を `category` でグループ化し、グループごとに最大 3 つの entity を返し、返されたグループを `price` の低い順から高い順に並べ替えます。
+次の例では、検索結果を `category` でグループ化し、グループごとに最大 3つの entity を返し、返されたグループを `price` の低い順から高い順に並べ替えます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
@@ -782,4 +782,3 @@ zilliz vector search \
 - **厳密なグループサイズ**: `strict_group_size=True` の場合、システムは、そのグループに十分なデータがない場合を除き、各グループに対して指定された数の entity（`group_size`）を返そうとします。この設定により、グループごとの entity 数の一貫性が確保されますが、データ分布が不均一な場合やリソースが限られている場合には、性能が低下する可能性があります。厳密な entity 数が不要な場合は、`strict_group_size=False` に設定することでクエリ速度を向上させることができます。
 
 - クエリベクトルがすでに対象のコレクションに存在する場合は、検索前にそれらを取得する代わりに `ids` を使用することを検討してください。詳細については、[Primary-Key Search](./primary-key-search) を参照してください。
-

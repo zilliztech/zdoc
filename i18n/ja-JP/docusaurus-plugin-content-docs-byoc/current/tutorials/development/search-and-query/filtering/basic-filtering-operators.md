@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud は、データを効率的にフィルタリングおよびクエリするための豊富な基本演算子セットを提供します。これらの演算子を使用すると、スカラーフィールド、数値計算、論理条件などに基づいて検索条件を絞り込むことができます。これらの演算子の使い方を理解することは、正確なクエリを構築し、検索の効率を最大化するうえで重要です。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 フィルタリング式の左辺にあるリテラルには、以下の例で使用されている `status` や `color` などのコレクションフィールド名、または `filter = 'struct[0][subfield] > 10'` のように特定の要素インデックスにある StructArray サブフィールドの名前を指定できます。 
 
@@ -263,7 +263,7 @@ filter = 'NOT color == "green"'
 
 - `IS NOT NULL`: 特定のフィールドに null 以外の値が含まれている、つまりフィールドに有効で定義済みの値があるエンティティを識別します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 これらの演算子は大文字と小文字を区別しないため、`IS NULL` または `is null`、`IS NOT NULL` または `is not null` を使用できます。
 
@@ -273,7 +273,7 @@ filter = 'NOT color == "green"'
 
 Zilliz Cloud では、文字列や数値など、null 値を含む通常のスカラーフィールドに対してフィルタリングできます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 空の文字列 `""` は、`VARCHAR` フィールドでは null 値として扱われません。
 
@@ -305,7 +305,7 @@ Zilliz Cloud では、null 値を含む JSON フィールドに対してフィ�
 
 - JSON フィールド自体がエンティティから完全に欠落している場合。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 JSON オブジェクト内の一部の要素（たとえば個々のキー）が null であっても、そのフィールドは null ではないと見なされます。たとえば `\{"metadata": \{"category": None, "price": 99.99}}` は、`category` キーが null であっても null として扱われません。
 
@@ -373,7 +373,7 @@ Zilliz Cloud では、null 値を含む ARRAY フィールドに対してフィ�
 
 - ARRAY フィールドがエンティティから完全に欠落している場合。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 ARRAY フィールド内のすべての要素は同じデータ型でなければならないため、ARRAY フィールドに部分的な null 値を含めることはできません。詳細については、[Array Field](./use-array-fields) を参照してください。
 

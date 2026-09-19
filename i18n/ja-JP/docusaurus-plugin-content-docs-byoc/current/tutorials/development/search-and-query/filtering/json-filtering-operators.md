@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud は、JSON フィールドのクエリとフィルタリングのための高度な演算子をサポートしており、複雑で構造化されたデータの管理に最適です。これらの演算子により、JSON ドキュメントに対して非常に効果的なクエリを実行でき、JSON フィールド内の特定の要素、値、または条件に基づいてエンティティを取得できます。このセクションでは、Zilliz Cloud における JSON 専用演算子の使用方法を、実用的な例を交えて説明します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 JSON フィールドは複雑なネスト構造を扱うことができず、すべてのネスト構造を単なる文字列として扱います。そのため、JSON フィールドを扱う際は、過度に深いネストを避け、最適なパフォーマンスのためにできるだけフラットなデータ構造にすることを推奨します。
 
@@ -46,7 +46,7 @@ Zilliz Cloud には、JSON データのフィルタリングやクエリに役�
 
 **例**
 
-各 product に `tags` フィールドがあり、`["electronics", "sale", "new"]` のような文字列の JSON 配列を含む collection があるとします。タグ `"sale"` を持つ product をフィルタリングしたい場合を考えます。
+`["electronics", "sale", "new"]` のような文字列の JSON 配列を含む `tags` フィールドを持つ商品のコレクションがあるとします。タグ `"sale"` を持つ商品をフィルタリングしたいとします。
 
 ```python
 # JSON data: {"tags": ["electronics", "sale", "new"]}

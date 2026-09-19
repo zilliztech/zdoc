@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "eコマースシステム、コラボレーションツール、分散ログなど、地域をまたいで時刻を追跡するアプリケーションでは、タイムゾーン付きタイムスタンプを正確に扱う必要があります。Zilliz Cloud の `TIMESTAMPTZ` データ型は、関連付けられたタイムゾーンとともにタイムスタンプを保存することで、この機能を提供します。 | BYOC"
+description: "eコマースシステム、コラボレーションツール、分散ログなど、地域をまたいで時刻を追跡するアプリケーションでは、タイムゾーン付きのタイムスタンプを正確に扱う必要があります。Zilliz Cloud の `TIMESTAMPTZ` データ型は、タイムスタンプを関連するタイムゾーンとあわせて格納することで、この機能を提供します。 | BYOC"
 type: origin
 token: RxUiwJ77WiFKZGkC8rEcLeopnTf
 sidebar_position: 13
@@ -21,13 +21,13 @@ import TabItem from '@theme/TabItem';
 
 # TIMESTAMPTZ フィールド
 
-eコマースシステム、コラボレーションツール、分散ログなど、地域をまたいで時刻を追跡するアプリケーションでは、タイムゾーン付きタイムスタンプを正確に扱う必要があります。Zilliz Cloud の `TIMESTAMPTZ` データ型は、関連付けられたタイムゾーンとともにタイムスタンプを保存することで、この機能を提供します。
+eコマースシステム、コラボレーションツール、分散ログなど、地域をまたいで時刻を追跡するアプリケーションでは、タイムゾーン付きのタイムスタンプを正確に扱う必要があります。Zilliz Cloud の `TIMESTAMPTZ` データ型は、タイムスタンプを関連するタイムゾーンとあわせて格納することで、この機能を提供します。
 
-## TIMESTAMPTZ フィールドとは？\{#what-is-a-timestamptz-field}
+## TIMESTAMPTZ フィールドとは\{#what-is-a-timestamptz-field}
 
-`TIMESTAMPTZ` フィールドは、Zilliz Cloud のスキーマで定義されるデータ型（`DataType.TIMESTAMPTZ`）であり、タイムゾーンを認識する入力を処理し、すべての時点を内部的には UTC の絶対時刻として保存します。
+`TIMESTAMPTZ` フィールドは、Zilliz Cloud のスキーマで定義されるデータ型（`DataType.TIMESTAMPTZ`）であり、タイムゾーンを考慮した入力を受け付け、すべての時点を内部的に UTC の絶対時刻として格納します。
 
-- **受け入れ可能な入力形式**: `TIMESTAMPTZ` フィールドは、以下を含む [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) 互換のタイムスタンプ文字列を受け入れます。
+- **受け入れ可能な入力形式**: `TIMESTAMPTZ` フィールドは、[ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) 互換のタイムスタンプ文字列を受け付けます。例を以下に示します。
 
     - `"2024-12-31 22:00:00"`
 
@@ -37,37 +37,37 @@ eコマースシステム、コラボレーションツール、分散ログな�
 
     - `"2024-12-31T22:00:00Z"`
 
-- **タイムスタンプの解析ルール**: タイムスタンプがどのように解釈されるかは、入力文字列にタイムゾーンが明示的に指定されているかどうかによって異なります。
+- **タイムスタンプの解析ルール**: タイムスタンプの解釈方法は、入力文字列でタイムゾーンが明示的に指定されているかどうかによって異なります。
 
-    - 入力にタイムゾーンオフセット（たとえば **+08:00** や **Z**）が含まれている場合、それは絶対的な時点として扱われます。
+    - 入力にタイムゾーンオフセット（たとえば **+08:00** や **Z**）が含まれている場合、その入力は絶対的な時点として扱われます。
 
-    - 入力にタイムゾーンオフセットが含まれていない場合は、collection に設定されたタイムゾーンを使用して解釈されます。たとえば、collection のタイムゾーンが **Asia/Shanghai** の場合:
+    - 入力にタイムゾーンオフセットが含まれていない場合は、コレクションに設定されたタイムゾーンに基づいて解釈されます。たとえば、コレクションのタイムゾーンが **Asia/Shanghai**: の場合、次のとおりです。
 
-        - `"2024-12-31 22:00:00"` は **2024-12-31T22:00:00+08:00** として解釈されます
+        - `"2024-12-31 22:00:00"` は **2024-12-31T22:00:00+08:00** として解釈されます。
 
-        - `"2024-12-31T22:00:00"` は **2024-12-31T22:00:00Z** として解釈され、これは **2025-01-01T06:00:00+08:00** に対応します
+        - `"2024-12-31T22:00:00"` は **2024-12-31T22:00:00Z** として解釈され、これは **2025-01-01T06:00:00+08:00** に相当します。
 
-- **内部保存**: すべての `TIMESTAMPTZ` 値は正規化され、[協定世界時](https://en.wikipedia.org/wiki/Coordinated_Universal_Time)（UTC）で保存されます。
+- **内部保存**: すべての `TIMESTAMPTZ` 値は正規化され、[協定世界時](https://en.wikipedia.org/wiki/Coordinated_Universal_Time)（UTC）として格納されます。
 
-- **比較とフィルタリング**: TIMESTAMPTZ フィールドに対するすべての比較、フィルタリング、順序付け操作は、UTC に正規化された値に対して実行されるため、異なるタイムゾーン間でも一貫した動作が保証されます。
+- **比較とフィルタリング**: TIMESTAMPTZ フィールドに対するすべての比較、フィルタリング、並べ替え操作は、UTC に正規化された値に対して実行されるため、異なるタイムゾーン間でも一貫した動作が保証されます。
 
-<Admonition type="info" icon="📘" title="注">
+<Admonition type="info" title="Notes">
 
-- `TIMESTAMPTZ` フィールドでは、欠損値を許可するために `nullable=True` を設定できます。
+- `TIMESTAMPTZ` フィールドには `nullable=True` を設定して、値の欠損を許可できます。
 
-- [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) 形式で `default_value` 属性を使用して、デフォルトのタイムスタンプ値を指定できます。
+- `default_value` 属性を使用すると、[ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) 形式でデフォルトのタイムスタンプ値を指定できます。
 
-詳細は [Nullable & Default](./nullable-fields) を参照してください。
+詳細は、[Nullable & Default](./nullable-fields) を参照してください。
 
 </Admonition>
 
-## 基本操作\{#basic-operations}
+## 基本的な操作\{#basic-operations}
 
-`TIMESTAMPTZ` フィールドを使用する基本的なワークフローは、Zilliz Cloud の他の scalar フィールドと同様です: フィールドの定義 → データの挿入 → クエリ/フィルタリング。
+`TIMESTAMPTZ` フィールドを使用する基本的なワークフローは、Zilliz Cloud の他のスカラーフィールドと同じです。フィールドの定義 → データの挿入 → クエリ/filter. という流れになります。
 
 ### ステップ 1: TIMESTAMPTZ フィールドを定義する\{#step-1-define-a-timestamptz-field}
 
-`TIMESTAMPTZ` フィールドを使用するには、collection 作成時に collection スキーマで明示的に定義する必要があります。次の例は、`DataType.TIMESTAMPTZ` 型の `tsz` フィールドを持つ collection を作成する方法を示しています。
+`TIMESTAMPTZ` フィールドを使用するには、コレクションの作成時にコレクションスキーマで明示的に定義します。次の例では、`DataType.TIMESTAMPTZ` 型の `tsz` フィールドを持つコレクションを作成する方法を示します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -258,15 +258,15 @@ if (!status.IsOk()) {
 
 ### ステップ 2: データを挿入する\{#step-2-insert-data}
 
-タイムゾーンオフセット付きの ISO 8601 文字列を含むエンティティを挿入します。
+タイムゾーンオフセットを含む ISO 8601 文字列を持つエンティティを挿入します。
 
-以下の例では、collection に 8,193 行のサンプルデータを挿入します。各行には次の内容が含まれます。
+次の例では、コレクションに 8,193 行のサンプルデータを挿入します。各行には次のものが含まれます。
 
 - 一意の ID
 
-- タイムゾーン対応のタイムスタンプ（上海時間）
+- タイムゾーンを考慮したタイムスタンプ（上海時間）
 
-- シンプルな 4 次元 vector
+- シンプルな 4 次元ベクトル
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -446,17 +446,17 @@ if (!status.IsOk()) {
 
 ### ステップ 3: フィルタリング操作\{#step-3-filtering-operations}
 
-`TIMESTAMPTZ` は、scalar 比較、時間間隔演算、時刻コンポーネントの抽出をサポートしています。
+`TIMESTAMPTZ` は、スカラー比較、インターバル演算、および時間コンポーネントの抽出をサポートしています。
 
-`TIMESTAMPTZ` フィールドに対してフィルタリング操作を実行する前に、次の点を確認してください。
+`TIMESTAMPTZ` フィールドに対してフィルタリング操作を実行する前に、次の条件を満たしていることを確認してください。
 
-- 各 vector フィールドに index を作成していること。
+- 各ベクトルフィールドにインデックスを作成していること。
 
-- collection がメモリにロードされていること。
+- コレクションがメモリにロードされていること。
 
 <details>
 
-<summary>コード例を表示</summary>
+<summary>サンプルコードを表示</summary>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -566,17 +566,17 @@ if (!status.IsOk()) {
 
 #### タイムスタンプフィルタリングを使用したクエリ\{#query-with-timestamp-filtering}
 
-`==`、`!=`、`<`、`>`、`<=`、`>=` などの算術演算子を使用します。Zilliz Cloud で使用可能な算術演算子の完全な一覧については、[算術演算子](./basic-filtering-operators#arithmetic-operators) を参照してください。
+`==`、`!=`、`<`、`>`、`<=`、`>=` などの算術演算子を使用します。Zilliz Cloud で使用可能な算術演算子の完全なリストについては、[Arithmetic Operators](./basic-filtering-operators#arithmetic-operators) を参照してください。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-連鎖範囲式（たとえば `lower_bound < tsz < upper_bound`）はサポートされていません。
+連結した範囲式（たとえば `lower_bound < tsz < upper_bound`）はサポートされていません。
 
-代わりに論理積を使用してください: `tsz > lower_bound AND tsz < upper_bound`。
+代わりに論理積を使用してください：`tsz > lower_bound AND tsz < upper_bound`。
 
 </Admonition>
 
-以下の例では、タイムスタンプ (`tsz`) が **2025-01-03T00:00:00+08:00** と等しくないエンティティをフィルタリングします。
+次の例では、タイムスタンプ（`tsz`）が **2025-01-03T00:00:00+08:00** と等しくないエンティティをフィルタリングします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -694,17 +694,17 @@ for (const auto& row : output_rows) {
 
 上記の例では、
 
-- `tsz` はスキーマで定義された `TIMESTAMPTZ` フィールド名です。
+- `tsz` は、スキーマで定義された `TIMESTAMPTZ` フィールドの名前です。
 
 - `ISO '2025-01-03T00:00:00+08:00'` は、タイムゾーンオフセットを含む [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) 形式のタイムスタンプリテラルです。
 
-- `!=` はフィールド値をそのリテラルと比較します。その他のサポートされる演算子には、`==`、`<`、`<=`、`>`、`>=` があります。
+- `!=` は、フィールド値とそのリテラルを比較します。他にサポートされている演算子には、`==`、`<`、`<=`、`>`、`>=` があります。
 
-#### `INTERVAL` 演算\{#interval-operations}
+#### インターバル演算\{#interval-operations}
 
-[ISO 8601 の期間形式](https://en.wikipedia.org/wiki/ISO_8601#Durations) の **INTERVAL** 値を使用して、`TIMESTAMPTZ` フィールドに対する算術演算を実行できます。これにより、データをフィルタリングする際に、タイムスタンプに日、時間、分などの期間を加算または減算できます。
+[ISO 8601 の期間形式](https://en.wikipedia.org/wiki/ISO_8601#Durations)の **INTERVAL** 値を使用して、`TIMESTAMPTZ` フィールドに対する算術演算を実行できます。これにより、データをフィルタリングする際に、タイムスタンプに対して日、時間、分などの期間を加算または減算できます。
 
-たとえば、次のクエリは、タイムスタンプ (`tsz`) に 0 日を加えた値が **2025-01-03T00:00:00+08:00** と**等しくない**エンティティをフィルタリングします。
+たとえば、次のクエリは、タイムスタンプ（`tsz`）に 0 日を加算した値が **2025-01-03T00:00:00+08:00** と **等しくない** エンティティをフィルタリングします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -811,27 +811,27 @@ for (const auto& row : output_rows) {
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-`INTERVAL` 値は [ISO 8601 の期間構文](https://www.w3.org/TR/xmlschema-2/#duration) に従います。たとえば:
+`INTERVAL` 値は [ISO 8601 の期間構文](https://www.w3.org/TR/xmlschema-2/#duration)に従います。例を以下に示します。
 
-- `P1D` → 1日
+- `P1D` → 1 日
 
-- `PT3H` → 3時間
+- `PT3H` → 3 時間
 
-- `P2DT6H` → 2日と6時間
+- `P2DT6H` → 2 日と 6 時間
 
-次のように、フィルタ式内で `INTERVAL` 算術を直接使用できます。
+`INTERVAL` の算術演算は、次のようにフィルター式で直接使用できます。
 
-- `tsz + INTERVAL 'P3D'` → 3日を加算
+- `tsz + INTERVAL 'P3D'` → 3 日を加算します
 
-- `tsz - INTERVAL 'PT2H'` → 2時間を減算
+- `tsz - INTERVAL 'PT2H'` → 2 時間を減算します
 
 </Admonition>
 
 #### タイムスタンプフィルタリングを使用した検索\{#search-with-timestamp-filtering}
 
-`TIMESTAMPTZ` フィルタリングをベクトル類似性検索と組み合わせて、時間と類似性の両方で結果を絞り込むことができます。
+`TIMESTAMPTZ` によるフィルタリングとベクトル類似検索を組み合わせることで、時間と類似度の両方の基準で結果を絞り込むことができます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -951,26 +951,26 @@ for (auto& result : search_results.Results()) {
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-コレクションに 2 つ以上のベクトルフィールドがある場合は、タイムスタンプフィルタリングを使用したハイブリッド検索操作を実行できます。詳細については、[マルチベクトルハイブリッド検索](./hybrid-search) を参照してください。
+コレクションに 2 つ以上のベクトルフィールドがある場合は、タイムスタンプフィルタリングを使用したハイブリッド検索を実行できます。詳細は、[マルチベクトルハイブリッド検索](./hybrid-search) を参照してください。
 
 </Admonition>
 
 ## 高度な使用方法\{#advanced-usage}
 
-高度な使用方法として、異なるレベル（たとえばデータベース、コレクション、またはクエリ）でタイムゾーンを管理したり、インデックスを使用して `TIMESTAMPTZ` フィールドに対するクエリを高速化したりできます。
+高度な使用方法として、タイムゾーンをさまざまなレベル（データベース、コレクション、クエリなど）で管理したり、インデックスを使用して `TIMESTAMPTZ` フィールドに対するクエリを高速化したりできます。
 
-### 異なるレベルでタイムゾーンを管理する\{#manage-time-zones-at-different-levels}
+### さまざまなレベルでタイムゾーンを管理する\{#manage-time-zones-at-different-levels}
 
-`TIMESTAMPTZ` フィールドのタイムゾーンは、**コレクション** レベルまたは **クエリ/検索** レベルで制御できます。
+`TIMESTAMPTZ` フィールドのタイムゾーンは、**コレクション** レベルまたは **クエリ/search** レベルで制御できます。
 
-| レベル | パラメータ | スコープ | 優先度 |
+| レベル | パラメーター | スコープ | 優先度 |
 | --- | --- | --- | --- |
-| コレクション | `timezone` | そのコレクションに対してデータベースのデフォルトタイムゾーン設定を上書きします | 中 |
-| クエリ/検索/ハイブリッド検索 | `timezone` | 特定の 1 回の操作に対する一時的な上書き | 最高 |
+| コレクション | `timezone` | そのコレクションのデータベース既定のタイムゾーン設定を上書きします。 | 中 |
+| クエリ/search/hybrid search | `timezone` | 特定の 1 つの操作に対して一時的に上書きします。 | 最高 |
 
-手順ごとの説明とコードサンプルについては、専用ページを参照してください。
+手順とコードサンプルについては、それぞれの専用ページを参照してください。
 
 - [コレクションの変更](./modify-collections#example-7-set-collection-time-zone)
 
@@ -982,6 +982,6 @@ for (auto& result : search_results.Results()) {
 
 ### クエリを高速化する\{#accelerate-queries}
 
-デフォルトでは、インデックスのない `TIMESTAMPTZ` フィールドに対するクエリはすべての行をフルスキャンするため、大規模なデータセットでは遅くなる可能性があります。タイムスタンプクエリを高速化するには、`TIMESTAMPTZ` フィールドに AUTOINDEX インデックスを作成してください。
+デフォルトでは、インデックスのない `TIMESTAMPTZ` フィールドに対するクエリはすべての行をフルスキャンするため、大規模なデータセットでは遅くなる可能性があります。タイムスタンプクエリを高速化するには、`TIMESTAMPTZ` フィールドに AUTOINDEX インデックスを作成します。
 
-詳細については、[STL_SORT](./slt-sort-index-type) を参照してください。
+詳細は、[STL_SORT](./slt-sort-index-type) を参照してください。

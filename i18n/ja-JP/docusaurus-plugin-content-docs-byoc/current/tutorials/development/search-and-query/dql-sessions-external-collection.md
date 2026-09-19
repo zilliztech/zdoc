@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 オンデマンドコンピューティング用のコレクションで search、query、get、hybrid search などの DQL 操作を実行するには、オンデマンドクラスターからコンピュートリソースをアタッチする必要があります。Zilliz Cloud を使用すると、オンデマンドのコンピュートニーズを満たすセッションを作成できます。
 
-この記事では、プロジェクトエンドポイントを使用してデータベースにコレクションが作成済みであることを前提としています。詳細については、[外部コレクションの作成](./create-external-collection)を参照してください。
+この記事では、プロジェクトエンドポイントを使用してデータベースにコレクションが作成済みであることを前提としています。詳細については、[外部コレクションの作成](./create-external-collection) を参照してください。
 
 ## プロジェクトエンドポイントへの接続\{#connect-to-a-project-endpoint}
 
@@ -86,7 +86,7 @@ curl --request POST \
 
 以下の例では、ID が `inxx-xxxxxxxxxxxxxxxxx` のオンデマンドクラスターが作成済みであることを前提としています。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 RESTful リクエストの場合、セッションを作成する代わりに、クラスター ID をクエリパラメーターとして DQL 呼び出しに渡します。
 
@@ -196,7 +196,7 @@ curl --request POST \
 
 オンデマンドコンピューティングタスクが完了したら、セッションを終了できます。終了したセッションは、それ以降の DQL 操作には使用できません。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 RESTful 呼び出しではこの手順は不要です。
 

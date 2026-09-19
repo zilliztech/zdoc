@@ -22,11 +22,11 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud では、多数の要素を含む複雑なフィルター式、特に CJK 文字のような非 ASCII 文字を含むものは、クエリ性能に大きな影響を与える可能性があります。これに対処するため、Zilliz Cloud では、複雑な式の解析に費やす時間を削減して効率を向上させるよう設計されたフィルター式テンプレート化メカニズムを導入しています。このページでは、search、query、および delete 操作でフィルター式テンプレート化を使用する方法について説明します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-フィルター式の左辺にあるリテラルは、以下の例で使用されている `age`、`city` などの collection フィールド名、または `filter = 'struct[0][subfield] > {var}'` のように特定の要素インデックスにある StructArray のサブフィールド名のいずれかです。 
+フィルタリング式の左辺にあるリテラルには、以下の例で使用されている `age`、`city` などのコレクションフィールド名、または `filter = 'struct[0][subfield] > {var}'` のように特定の要素インデックスにある StructArray サブフィールドの名前を指定できます。 
 
-StructArray フィールドにおける scalar フィルタリングの詳細については、[StructArray Operators](./struct-array-filtering) を参照してください。
+StructArray フィールドにおけるスカラーフィルタリングの詳細については、[StructArray Operators](./struct-array-filtering) を参照してください。
 
 </Admonition>
 

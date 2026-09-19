@@ -27,19 +27,19 @@ import TabItem from '@theme/TabItem';
 
 マルチベクターハイブリッド検索は、異なる検索手法を統合したり、さまざまなモダリティの埋め込みを横断的に扱ったりします。
 
-- **Sparse-Dense ベクトル Search**: [Dense ベクトル](./use-dense-vector) はセマンティックな関係を捉えるのに優れており、[Sparse ベクトル](./use-sparse-vector) は正確なキーワードマッチングに非常に効果的です。ハイブリッド検索はこれらのアプローチを組み合わせることで、広範な概念理解と厳密な用語の関連性の両方を提供し、検索結果を改善します。各手法の強みを活かすことで、ハイブリッド検索は個別のアプローチの限界を克服し、複雑なクエリに対してより優れたパフォーマンスを実現します。セマンティック検索と全文検索を組み合わせたハイブリッド検索の詳細な[ガイド](https://milvus.io/docs/full_text_search_with_milvus.md)はこちらです。
+- **Sparse-Dense ベクトル検索**: [Dense ベクトル](./use-dense-vector) はセマンティックな関係を捉えるのに優れており、[Sparse ベクトル](./use-sparse-vector) は正確なキーワードマッチングに非常に効果的です。ハイブリッド検索はこれらのアプローチを組み合わせることで、広範な概念理解と厳密な用語の関連性の両方を提供し、検索結果を改善します。各手法の強みを活かすことで、ハイブリッド検索は個別のアプローチの限界を克服し、複雑なクエリに対してより優れたパフォーマンスを実現します。セマンティック検索と全文検索を組み合わせたハイブリッド検索の詳細な[ガイド](https://milvus.io/docs/full_text_search_with_milvus.md)はこちらです。
 
-- **Multimodal ベクトル Search**: マルチモーダルベクトル検索は、テキスト、画像、音声など、さまざまなデータ型を横断して検索できる強力な手法です。このアプローチの主な利点は、異なるモダリティをシームレスで一貫性のある検索体験に統合できることです。たとえば商品検索では、ユーザーがテキストクエリを入力して、テキストと画像の両方で説明された商品を探すことがあります。ハイブリッド検索手法によってこれらのモダリティを組み合わせることで、検索精度を高めたり、検索結果をより豊かにしたりできます。
+- **マルチモーダルベクトル検索**: マルチモーダルベクトル検索は、テキスト、画像、音声など、さまざまなデータ型を横断して検索できる強力な手法です。このアプローチの主な利点は、異なるモダリティをシームレスで一貫性のある検索体験に統合できることです。たとえば商品検索では、ユーザーがテキストクエリを入力して、テキストと画像の両方で説明された商品を探すことがあります。ハイブリッド検索手法によってこれらのモダリティを組み合わせることで、検索精度を高めたり、検索結果をより豊かにしたりできます。
 
 ## 例\{#example}
 
 各商品にテキストによる説明と画像が含まれる、実際のユースケースを考えてみましょう。利用可能なデータに基づいて、次の 3 種類の検索を実行できます。
 
-- **Semantic Text Search:** これは、高密度ベクトルを使用して商品のテキスト説明をクエリするものです。テキスト埋め込みは、[BERT](https://zilliz.com/learn/explore-colbert-token-level-embedding-and-ranking-model-for-similarity-search?_gl=1*d243m9*_gcl_au*MjcyNTAwMzUyLjE3NDMxMzE1MjY.*_ga*MTQ3OTI4MDc5My4xNzQzMTMxNTI2*_ga_KKMVYG8YF2*MTc0NTkwODU0Mi45NC4xLjE3NDU5MDg4MzcuMC4wLjA.#A-Quick-Recap-of-BERT) や [Transformers](https://zilliz.com/learn/NLP-essentials-understanding-transformers-in-AI?_gl=1*d243m9*_gcl_au*MjcyNTAwMzUyLjE3NDMxMzE1MjY.*_ga*MTQ3OTI4MDc5My4xNzQzMTMxNTI2*_ga_KKMVYG8YF2*MTc0NTkwODU0Mi45NC4xLjE3NDU5MDg4MzcuMC4wLjA.) のようなモデル、または [OpenAI](https://zilliz.com/learn/guide-to-using-openai-text-embedding-models) のようなサービスを使用して生成できます。
+- **セマンティックテキスト検索:** これは、高密度ベクトルを使用して商品のテキスト説明をクエリするものです。テキスト埋め込みは、[BERT](https://zilliz.com/learn/explore-colbert-token-level-embedding-and-ranking-model-for-similarity-search?_gl=1*d243m9*_gcl_au*MjcyNTAwMzUyLjE3NDMxMzE1MjY.*_ga*MTQ3OTI4MDc5My4xNzQzMTMxNTI2*_ga_KKMVYG8YF2*MTc0NTkwODU0Mi45NC4xLjE3NDU5MDg4MzcuMC4wLjA.#A-Quick-Recap-of-BERT) や [Transformers](https://zilliz.com/learn/NLP-essentials-understanding-transformers-in-AI?_gl=1*d243m9*_gcl_au*MjcyNTAwMzUyLjE3NDMxMzE1MjY.*_ga*MTQ3OTI4MDc5My4xNzQzMTMxNTI2*_ga_KKMVYG8YF2*MTc0NTkwODU0Mi45NC4xLjE3NDU5MDg4MzcuMC4wLjA.) のようなモデル、または [OpenAI](https://zilliz.com/learn/guide-to-using-openai-text-embedding-models) のようなサービスを使用して生成できます。
 
-- **Full-Text Search**: ここでは、スパースベクトルを使用したキーワードマッチによって商品のテキスト説明をクエリします。[BM25](https://zilliz.com/learn/mastering-bm25-a-deep-dive-into-the-algorithm-and-application-in-milvus) のようなアルゴリズムや、[BGE-M3](https://zilliz.com/learn/bge-m3-and-splade-two-machine-learning-models-for-generating-sparse-embeddings?_gl=1*1cde1oq*_gcl_au*MjcyNTAwMzUyLjE3NDMxMzE1MjY.*_ga*MTQ3OTI4MDc5My4xNzQzMTMxNTI2*_ga_KKMVYG8YF2*MTc0NTkwODU0Mi45NC4xLjE3NDU5MDg4MzcuMC4wLjA.#BGE-M3) や [SPLADE](https://zilliz.com/learn/bge-m3-and-splade-two-machine-learning-models-for-generating-sparse-embeddings?_gl=1*ov2die*_gcl_au*MjcyNTAwMzUyLjE3NDMxMzE1MjY.*_ga*MTQ3OTI4MDc5My4xNzQzMTMxNTI2*_ga_KKMVYG8YF2*MTc0NTkwODU0Mi45NC4xLjE3NDU5MDg4MzcuMC4wLjA.#SPLADE) のようなスパース埋め込みモデルをこの目的に使用できます。
+- **全文検索**: ここでは、スパースベクトルを使用したキーワードマッチによって商品のテキスト説明をクエリします。[BM25](https://zilliz.com/learn/mastering-bm25-a-deep-dive-into-the-algorithm-and-application-in-milvus) のようなアルゴリズムや、[BGE-M3](https://zilliz.com/learn/bge-m3-and-splade-two-machine-learning-models-for-generating-sparse-embeddings?_gl=1*1cde1oq*_gcl_au*MjcyNTAwMzUyLjE3NDMxMzE1MjY.*_ga*MTQ3OTI4MDc5My4xNzQzMTMxNTI2*_ga_KKMVYG8YF2*MTc0NTkwODU0Mi45NC4xLjE3NDU5MDg4MzcuMC4wLjA.#BGE-M3) や [SPLADE](https://zilliz.com/learn/bge-m3-and-splade-two-machine-learning-models-for-generating-sparse-embeddings?_gl=1*ov2die*_gcl_au*MjcyNTAwMzUyLjE3NDMxMzE1MjY.*_ga*MTQ3OTI4MDc5My4xNzQzMTMxNTI2*_ga_KKMVYG8YF2*MTc0NTkwODU0Mi45NC4xLjE3NDU5MDg4MzcuMC4wLjA.#SPLADE) のようなスパース埋め込みモデルをこの目的に使用できます。
 
-- **Multimodal Image Search:** この手法では、高密度ベクトルを使用したテキストクエリで画像を検索します。画像埋め込みは、[CLIP](https://zilliz.com/learn/exploring-openai-clip-the-future-of-multimodal-ai-learning) のようなモデルで生成できます。
+- **マルチモーダル画像検索:** この手法では、高密度ベクトルを使用したテキストクエリで画像を検索します。画像埋め込みは、[CLIP](https://zilliz.com/learn/exploring-openai-clip-the-future-of-multimodal-ai-learning) のようなモデルで生成できます。
 
 このガイドでは、商品の生のテキスト説明と画像埋め込みを前提として、上記の検索手法を組み合わせたマルチモーダルハイブリッド検索の例を順を追って説明します。マルチベクターデータを保存し、再ランキング戦略を使用してハイブリッド検索を実行する方法を示します。
 
@@ -358,6 +358,29 @@ schema->AddField(milvus::FieldSchema("image_dense", milvus::DataType::FLOAT_VECT
 
 ```shell
 # Zilliz CLI
+# Prerequisite: run `zilliz login` and select your cluster with `zilliz context set`.
+# Save the schema to a file and use it in the next step:
+cat > schema.json << 'EOF'
+{
+  "autoId": false,
+  "functions": [
+    {
+      "name": "text_bm25_emb",
+      "type": "BM25",
+      "inputFieldNames": ["text"],
+      "outputFieldNames": ["text_sparse"],
+      "params": {}
+    }
+  ],
+  "fields": [
+    {"fieldName": "id", "dataType": "Int64", "isPrimary": true},
+    {"fieldName": "text", "dataType": "VarChar", "elementTypeParams": {"max_length": 1000, "enable_analyzer": true}},
+    {"fieldName": "text_dense", "dataType": "FloatVector", "elementTypeParams": {"dim": "768"}},
+    {"fieldName": "text_sparse", "dataType": "SparseFloatVector"},
+    {"fieldName": "image_dense", "dataType": "FloatVector", "elementTypeParams": {"dim": "512"}}
+  ]
+}
+EOF
 ```
 
 </TabItem>
@@ -529,6 +552,13 @@ std::vector<milvus::IndexDesc> indexes = {
 
 ```shell
 # Zilliz CLI
+cat > indexes.json << 'EOF'
+[
+  {"fieldName": "text_dense", "indexName": "text_dense_index", "indexType": "AUTOINDEX", "metricType": "IP"},
+  {"fieldName": "text_sparse", "indexName": "text_sparse_index", "indexType": "SPARSE_INVERTED_INDEX", "metricType": "BM25", "params": {"inverted_index_algo": "DAAT_MAXSCORE"}},
+  {"fieldName": "image_dense", "indexName": "image_dense_index", "indexType": "AUTOINDEX", "metricType": "IP"}
+]
+EOF
 ```
 
 </TabItem>
@@ -628,6 +658,31 @@ if (!status.IsOk()) {
 
 ```shell
 # Zilliz CLI
+cat > collection.json << 'EOF'
+{
+  "collectionName": "my_collection",
+  "schema": {
+    "autoId": false,
+    "functions": [
+      {"name": "text_bm25_emb", "type": "BM25", "inputFieldNames": ["text"], "outputFieldNames": ["text_sparse"], "params": {}}
+    ],
+    "fields": [
+      {"fieldName": "id", "dataType": "Int64", "isPrimary": true},
+      {"fieldName": "text", "dataType": "VarChar", "elementTypeParams": {"max_length": 1000, "enable_analyzer": true}},
+      {"fieldName": "text_dense", "dataType": "FloatVector", "elementTypeParams": {"dim": "768"}},
+      {"fieldName": "text_sparse", "dataType": "SparseFloatVector"},
+      {"fieldName": "image_dense", "dataType": "FloatVector", "elementTypeParams": {"dim": "512"}}
+    ]
+  },
+  "indexParams": [
+    {"fieldName": "text_dense", "indexName": "text_dense_index", "indexType": "AUTOINDEX", "metricType": "IP"},
+    {"fieldName": "text_sparse", "indexName": "text_sparse_index", "indexType": "SPARSE_INVERTED_INDEX", "metricType": "BM25", "params": {"inverted_index_algo": "DAAT_MAXSCORE"}},
+    {"fieldName": "image_dense", "indexName": "image_dense_index", "indexType": "AUTOINDEX", "metricType": "IP"}
+  ]
+}
+EOF
+
+zilliz collection create --body file://collection.json
 ```
 
 </TabItem>
@@ -831,6 +886,7 @@ if (!status.IsOk()) {
 
 ```shell
 # Zilliz CLI
+zilliz vector insert --collection my_collection --body file://insert.json
 ```
 
 </TabItem>
@@ -844,7 +900,7 @@ if (!status.IsOk()) {
 
 また、`AnnSearchRequest` の `expr` パラメータを構成することで、ハイブリッド検索のフィルタ条件を設定できます。詳しくは、[フィルタ付き検索](./filtered-search) および [フィルタリングの解説](./filtering-overview) を参照してください。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 ハイブリッド検索では、各 `AnnSearchRequest` は 1 つのクエリデータのみをサポートします。
 
@@ -1035,6 +1091,14 @@ auto sub_req3 = milvus::SubSearchRequest()
 
 ```shell
 # Zilliz CLI
+# Each sub-request is a JSON object in the --search array. Save it to a file:
+cat > search_requests.json << 'EOF'
+[
+  {"data": [[0.3580376395471989, -0.6023495712049978, 0.18414012509913835]], "annsField": "text_dense", "params": {"nprobe": 10}, "limit": 2},
+  {"data": ["white headphones, quiet and comfortable"], "annsField": "text_sparse", "limit": 2},
+  {"data": [[0.015829865178701663, 0.5264158340734488]], "annsField": "image_dense", "params": {"nprobe": 10}, "limit": 2}
+]
+EOF
 ```
 
 </TabItem>
@@ -1147,6 +1211,9 @@ auto ranker = std::make_shared<milvus::RRFRerank>(100);
 
 ```shell
 # Zilliz CLI
+cat > rerank.json << 'EOF'
+{"strategy": "rrf", "params": {"k": 100}}
+EOF
 ```
 
 </TabItem>
@@ -1291,6 +1358,7 @@ for (auto& result : response.Results().Results()) {
 
 ```shell
 # Zilliz CLI
+zilliz vector hybrid-search --collection my_collection --body file://hybrid.json
 ```
 
 </TabItem>
@@ -1303,3 +1371,4 @@ for (auto& result : response.Results().Results()) {
 ```
 
 ハイブリッド検索に `limit=2` パラメータを指定すると、Zilliz Cloud は 3 回の検索で得られた 6 件の結果を再ランキングします。最終的に、最も類似した上位 2 件の結果のみが返されます。
+

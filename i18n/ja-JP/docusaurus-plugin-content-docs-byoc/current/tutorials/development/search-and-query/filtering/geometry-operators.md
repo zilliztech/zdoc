@@ -48,7 +48,7 @@ Zilliz Cloud の `GEOMETRY` フィールドの詳細については、[ジオメ
 
 次の表は、Zilliz Cloud で利用可能なジオメトリ演算子を示しています。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 演算子名は **すべて大文字** または **すべて小文字** である必要があります。同じ演算子名の中で大文字と小文字を混在させないでください。
 
