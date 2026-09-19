@@ -32,15 +32,15 @@ Organization Owner は、組織設定を管理する権限を持っています�
 
 Zilliz Cloud にサインアップすると、デフォルトの組織が自動的に作成されます。新しい組織を作成することはできませんが、招待を受けて他のユーザーの組織に参加できます。
 
-[Zilliz Cloud コンソール](https://cloud.zilliz.com/login) にログインすると、参加している組織の一覧ページが表示されます。ここから各組織を確認し、アクセスできます。
+[Zilliz Cloud コンソール](https://cloud.zilliz.com/login) にログインすると、所属している組織の一覧ページが表示されます。ここから各組織を確認し、アクセスできます。
 
-参加しているすべての組織を素早く確認するには、左上隅の **All Organizations** をクリックします。
+所属しているすべての組織をすばやく確認するには、左上隅の **All Organizations** をクリックします。
 
 ![view-organizations](https://zdoc-images.s3.us-west-2.amazonaws.com/view-organizations.png "view-organizations")
 
 ## 組織の作成\{#create-an-organization}
 
-複数の組織が必要な場合は、[サポートチケットを送信](http://support.zilliz.com)してください。マルチ組織機能を有効にします。機能が有効になると、ご自身で新しい組織を作成できるようになります。
+複数の組織が必要な場合は、マルチ組織機能を有効にするため、[サポートチケットを送信](http://support.zilliz.com)してください。機能が有効になると、ご自身で新しい組織を作成できるようになります。
 
 ![SJ2xw2rO4h2LJTblDpmcgHh0nHg](https://zdoc-images.s3.us-west-2.amazonaws.com/SJ2xw2rO4h2LJTblDpmcgHh0nHg.png)
 
@@ -54,7 +54,7 @@ Zilliz Cloud にサインアップすると、デフォルトの組織が自動�
 
 システムのタイムゾーンは、最初にログインした場所に基づいて設定され、Zilliz Cloud に表示されるすべての時刻表記に適用されます。
 
-現在のタイムゾーンを確認するには、Organization Owner または Organization Member のいずれかである必要があります。組織内のロールの詳細については、[プラットフォームロールの管理](./manage-platform-roles) を参照してください。
+現在のタイムゾーンを確認するには、Organization Owner または Organization Member である必要があります。組織内のロールの詳細については、[プラットフォームロールの管理](./manage-platform-roles) を参照してください。
 
 ![byoc-timezone-settings](https://zdoc-images.s3.us-west-2.amazonaws.com/byoc-timezone-settings.png "byoc-timezone-settings")
 
@@ -62,33 +62,33 @@ Zilliz Cloud にサインアップすると、デフォルトの組織が自動�
 
 ## 優先メンテナンス時間枠の設定\{#set-up-preferred-maintenance-window}
 
-優先メンテナンス時間枠とは、Zilliz Cloud がスケジュールされたメンテナンス（Dedicated クラスターの Milvus バージョンアップグレードなど）を自動的に実行する **4時間** の期間です。
+優先メンテナンス時間枠とは、Zilliz Cloud がスケジュールされたメンテナンス（Dedicated クラスターの Milvus バージョンのアップグレードなど）を自動的に実行する **4 時間** の期間です。
 
-優先時間枠を設定することで、トラフィックのピーク時間帯を避けてメンテナンスをスケジュールでき、ワークロードへの影響を最小限に抑えられます。
+優先時間枠を設定すると、トラフィックのピーク時間帯を避けてメンテナンスをスケジュールし、ワークロードへの影響を最小限に抑えられます。
 
-デフォルトでは、時間枠は **午前2:00～午前6:00** に設定されています。必要に応じて変更できます。
+デフォルトでは、時間枠は **午前 2:00～午前 6:00** に設定されています。必要に応じて変更できます。
 
-次のデモでは、優先メンテナンス時間枠を編集する方法を示します。
+以下のデモでは、優先メンテナンス時間枠を編集する方法を示します。
 
 <Supademo id="cmn4bhv4l0ps5z3qmdcrmuij7" title=""  />
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
-メンテナンスが優先時間枠を超えても、完了するまで継続されます。
+メンテナンスが優先時間枠を超えて続く場合でも、完了するまで実行されます。
 
 </Admonition>
 
-スケジュールされたメンテナンスの7日前に、Web コンソールの **クラスター概要** ページに通知が表示されます。
+スケジュールされたメンテナンスの 7 日前に、Web コンソールの **クラスター Overview** ページに通知が表示されます。
 
 ![Czaab7qPaoElX6xVizQcEiwznmh](https://zdoc-images.s3.us-west-2.amazonaws.com/czaab7qpaoelx6xvizqceiwznmh.png "Czaab7qPaoElX6xVizQcEiwznmh")
 
-- **Organization Owners** および **Project Admins** は、以下のいずれかを選択できます。
+- **Organization Owners** および **Project Admins** の場合は、以下のいずれかを選択できます。
 
-    - クラスターを最新の Milvus バージョンへ即時アップグレードする。
+    - クラスターを最新の Milvus バージョンにすぐにアップグレードできます。
 
-    - メンテナンスを7日間延期する。延期は1回のみ可能です。
+    - メンテナンスを 7 日間延期できます。延期は 1 回のみです。
 
-    - 何もしないで、スケジュール通りにメンテナンスを実行させる。
+    - 何もせず、予定どおりにメンテナンスを実行させることができます。
 
 - **Organization Members** の場合は、[SDK の互換性](./install-sdks#sdk-compatibility) を確認してください。
 
@@ -100,7 +100,7 @@ Zilliz Cloud にサインアップすると、デフォルトの組織が自動�
 
 - 対象の組織で [Organization Owner](./manage-platform-roles#predefined-organization-roles) ロールが付与されていること。
 
-- 残りの前払い金がすべて返金済みであること。
+- 残りの前払い金がすべて返金されていること。
 
 組織を削除するには、以下の手順を実行します。
 
@@ -108,19 +108,19 @@ Zilliz Cloud にサインアップすると、デフォルトの組織が自動�
 
 1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) にログインします。
 
-1. 削除したい組織に移動します。
+1. 削除する組織に入ります。
 
 1. 左側のナビゲーションペインで **Settings** をクリックします。
 
-1. **System Settings** ページの **Delete Organization** セクションにあるボタンをクリックします。
+1. **System Settings** ページで **Delete Organization** 領域を見つけ、ボタンをクリックします。
 
 1. ポップアップウィンドウの指示に従い、ボタンをクリックして組織の削除を完了します。
 
 </Procedures>
 
-<Admonition type="danger" icon="🚧" title="🚧 Warning">
+<Admonition type="danger" title="Danger">
 
-組織の削除は取り消せません。操作の際は十分にご注意ください。
+組織の削除は取り消せません。この操作には十分注意してください。
 
 </Admonition>
 

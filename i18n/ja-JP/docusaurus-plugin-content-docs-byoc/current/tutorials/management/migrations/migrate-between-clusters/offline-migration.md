@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Offline Migration は、ソース Zilliz Cloud cluster からターゲット Zilliz Cloud cluster へ既存のすべてのデータを転送します。この方法は、同一 organization 内および異なる organization 間の移行の両方をサポートします。計画メンテナンス時や小規模なデータベース移行など、一時的な書き込み中断を許容できるシナリオに最適です。 | BYOC"
+description: "オフライン移行は、ソース Zilliz Cloud クラスターからターゲット Zilliz Cloud クラスターへ既存のすべてのデータを転送します。この方法は、同一組織内および異なる組織間の移行の両方をサポートします。計画メンテナンス時や小規模なデータベース移行など、一時的な書き込み中断を許容できるシナリオに最適です。 | BYOC"
 type: origin
 token: MTqjwwUKhiyns4kGV7Lc7PRlnwb
 sidebar_position: 1
@@ -22,11 +22,11 @@ import Supademo from '@site/src/components/Supademo';
 
 # オフライン移行
 
-Offline Migration は、ソース Zilliz Cloud cluster からターゲット Zilliz Cloud cluster へ既存のすべてのデータを転送します。この方法は、同一 organization 内および異なる organization 間の移行の両方をサポートします。計画メンテナンス時や小規模なデータベース移行など、一時的な書き込み中断を許容できるシナリオに最適です。
+オフライン移行は、ソース Zilliz Cloud クラスターからターゲット Zilliz Cloud クラスターへ既存のすべてのデータを転送します。この方法は、同一組織内および異なる組織間の移行の両方をサポートします。計画メンテナンス時や小規模なデータベース移行など、一時的な書き込み中断を許容できるシナリオに最適です。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-カットオーバー中にアプリケーションがソース cluster への書き込みを継続すると、ターゲット cluster で新しい entity を取りこぼす可能性があります。特に、移行ジョブの完了後に挿入された entity は見落とされる可能性があります。ターゲットデータの完全性を保つには、カットオーバーウィンドウを設定し、ソース cluster への書き込みを一時停止し、移行ジョブの完了を待ち、ターゲット cluster を検証してから、ターゲット cluster のみに対する書き込みを再開してください。
+アプリケーションがカットオーバー中もソースクラスターへの書き込みを継続すると、ターゲットクラスターで新しいエンティティが欠落する可能性があります。特に、移行ジョブの完了後に挿入されたエンティティは欠落するおそれがあります。ターゲットのデータ完全性を保つには、カットオーバー時間帯を設定し、ソースクラスターへの書き込みを一時停止し、移行ジョブの完了を待ち、ターゲットクラスターを検証してから、ターゲットクラスターのみに書き込みを再開してください。
 
 </Admonition>
 
@@ -36,20 +36,20 @@ Offline Migration は、ソース Zilliz Cloud cluster からターゲット Zil
 
 | 移行タイプ | 説明 | ユースケース |
 | --- | --- | --- |
-| 同一 project 内 | 同じ Zilliz Cloud project 内の既存 cluster 間で移行 | Cluster のアップグレード、パフォーマンス最適化、データ統合 |
-| project または organization をまたぐ | 異なる Zilliz Cloud project または organization にある既存 cluster 間で移行 | 企業合併、部門移管、マルチテナントのシナリオ |
+| 同一 project 内 | 同じ Zilliz Cloud project 内の既存クラスター間で移行 | クラスターのアップグレード、パフォーマンス最適化、データ統合 |
+| project または organization をまたぐ | 異なる Zilliz Cloud project または organization にある既存クラスター間で移行 | 企業合併、部門移管、マルチテナントのシナリオ |
 
 ### 直接データ転送\{#direct-data-transfer}
 
-オフライン移行は、以下の特性を持つ Zilliz Cloud cluster 間の直接データレプリケーションを実行します。
+オフライン移行は、次の特徴を持つ Zilliz Cloud クラスター間の直接データレプリケーションを実行します。
 
-- **Schema の保持**: ソース schema は変更されずにターゲット cluster に転送されます
+- **スキーマの保持**: ソースのスキーマは変更されずにターゲットクラスターに転送されます
 
 - **フィールド変更なし**: 移行中にフィールド名の変更、データ型の変更、フィールド属性の変更はできません
 
-- **自動 indexing**: ターゲット cluster の vector フィールドに対して AUTOINDEX が自動的に作成されます
+- **自動インデックス作成**: ターゲットクラスターのベクトルフィールドに対して AUTOINDEX が自動的に作成されます
 
-- **1 回限りのデータコピー**: Offline Migration は移行ジョブ中にソース cluster からデータをコピーします。移行ジョブ完了後の新しい書き込みについて、ターゲット cluster との同期は維持されません。
+- **一回限りのデータコピー**: オフライン移行は、移行ジョブ中にソースクラスターからデータをコピーします。移行ジョブ完了後の新しい書き込みについて、ターゲットクラスターとの同期は維持されません。
 
 ## 前提条件\{#prerequisites}
 
@@ -60,31 +60,31 @@ Offline Migration は、ソース Zilliz Cloud cluster からターゲット Zil
 | 要件 | 詳細 |
 | --- | --- |
 | ユーザー権限 | Organization Owner または Project Admin ロール |
-| ソース cluster へのアクセス | ソース cluster はパブリックインターネットからアクセス可能である必要があります |
-| ターゲット cluster の容量 | ソースデータを収容するのに十分な CU サイズ（[CU calculator](https://zilliz.com/pricing#calculator) を使用） |
+| ソースクラスターへのアクセス | ソースクラスターはパブリックインターネットからアクセス可能である必要があります |
+| ターゲットクラスターの容量 | ソースデータを収容するのに十分な CU サイズ（[CU calculator](https://zilliz.com/pricing#calculator) を使用） |
 
 ### project または organization をまたぐ移行の要件\{#cross-project-or-organization-migration-requirements}
 
 | 要件 | 詳細 |
 | --- | --- |
-| 接続認証情報 | ソース cluster のパブリック endpoint、API key、または cluster のユーザー名とパスワード |
-| ネットワークアクセス | ターゲット organization からソース cluster に接続できること |
+| 接続認証情報 | ソースクラスターのパブリックエンドポイント、API キー、またはクラスターのユーザー名とパスワード |
+| ネットワークアクセス | ターゲット組織からソースクラスターに接続できること |
 
 ### カットオーバーの計画\{#plan-the-cutover}
 
-オフライン移行を開始する前に、アプリケーションがソース cluster への書き込みを一時的に停止できるカットオーバーウィンドウを選択してください。データの取りこぼしを避けるために、次のプロセスを使用します。
+オフライン移行を開始する前に、アプリケーションがソースクラスターへの書き込みを一時的に停止できるカットオーバー時間帯を選択してください。データ欠落を避けるため、次の手順に従ってください。
 
-1. 最終的な移行および検証ウィンドウの前に、ソース cluster への書き込みを一時停止します。
+1. 最終移行および検証ウィンドウの前に、ソースクラスターへの書き込みを一時停止します。
 
 1. 移行ジョブを実行し、ジョブステータスが **Successful** に変わるまで待ちます。
 
-1. ターゲット cluster のデータを検証します。たとえば、entity 数の確認や、最近挿入された entity のサンプリングを行います。
+1. エンティティ数の確認や最近挿入されたエンティティのサンプリングなどにより、ターゲットクラスターのデータを検証します。
 
-1. アプリケーションの読み取り先と書き込み先をターゲット cluster に切り替えます。
+1. アプリケーションの読み取りと書き込みをターゲットクラスターに切り替えます。
 
-1. ターゲット cluster に対してのみ書き込みを再開します。
+1. 書き込みはターゲットクラスターでのみ再開します。
 
-移行データが完全であることを確認するまでは、ソース cluster を利用可能な状態にしておいてください。
+移行されたデータが完全であることを確認するまで、ソースクラスターを利用可能な状態にしておいてください。
 
 ## はじめに\{#getting-started}
 
@@ -92,9 +92,9 @@ Offline Migration は、ソース Zilliz Cloud cluster からターゲット Zil
 
 <Supademo id="cmb91ow5v0me4sn1rzlbzqi8x" title=""  />
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-移行された collection は、すぐには検索またはクエリ操作に使用できません。検索およびクエリ機能を有効にするには、Zilliz Cloud で collection を手動で load する必要があります。詳細については、[Load & Release](./load-release-collections) を参照してください。
+移行されたコレクションは、検索またはクエリ操作ですぐには利用できません。検索およびクエリ機能を有効にするには、Zilliz Cloud でコレクションを手動でロードする必要があります。詳細は [Load & Release](./load-release-collections) を参照してください。
 
 </Admonition>
 

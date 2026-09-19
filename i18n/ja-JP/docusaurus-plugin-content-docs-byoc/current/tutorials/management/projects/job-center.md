@@ -40,7 +40,7 @@ Zilliz Cloud は、同一プロジェクト内のすべての履歴データタ�
          <td><p>クラスターのバックアップファイルを作成します</p></td>
        </tr>
        <tr>
-         <td><p>コレクションまたは指定したコレクションのバックアップファイルを作成します</p></td>
+         <td><p>コレクションまたは指定した複数のコレクションのバックアップファイルを作成します</p></td>
        </tr>
        <tr>
          <td><p>指定したクラウドリージョンにバックアップをコピーします</p></td>
@@ -114,7 +114,7 @@ Zilliz Cloud は、同一プロジェクト内のすべての履歴データタ�
 
 - バックアップファイルのエクスポートジョブ
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 ジョブをキャンセルするには、**Organization Owner** または **Project Admin** の権限が必要です。
 
@@ -124,7 +124,7 @@ Zilliz Cloud は、同一プロジェクト内のすべての履歴データタ�
 
 ## 失敗したジョブの再試行\{#retry-failed-job}
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 現在、再試行できるのは失敗したインポートジョブのみです。
 

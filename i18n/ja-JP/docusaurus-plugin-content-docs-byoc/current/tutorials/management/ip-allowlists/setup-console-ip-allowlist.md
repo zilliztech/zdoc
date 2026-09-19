@@ -30,7 +30,7 @@ import Supademo from '@site/src/components/Supademo';
 
 デフォルトでは、組織の Web コンソールには任意の IP アドレスからアクセスできます。アクセスを制限してセキュリティを強化するには、コンソール IP 許可リストを設定し、オフィス ネットワークの IP など、指定したアドレスからのみユーザーが Web コンソールにアクセスできるようにします。
 
-コンソール IP 許可リストは、組織の Web コンソールにのみ適用されます。プロジェクトクラスタへのアクセスは制御しません。
+コンソール IP 許可リストは、組織の Web コンソールにのみ適用されます。プロジェクトのクラスターへのアクセスは制御しません。
 
 ## 制限\{#limits}
 
@@ -44,7 +44,7 @@ import Supademo from '@site/src/components/Supademo';
 
 ロックアウトを避けるために、現在の IP とよく使用する IP を追加しておくことを推奨します。 
 
-<Admonition type="info" icon="📘" title="📘 メモ">
+<Admonition type="info" title="Notes">
 
 `0.0.0.0/0` は任意の IP からのアクセスを許可します。
 
@@ -68,7 +68,7 @@ import Supademo from '@site/src/components/Supademo';
 
 IP または CIDR エントリを削除して、その送信元からのコンソールアクセスを拒否できます。すべてのエントリを削除すると、コンソールは任意の IP からアクセス可能になります。
 
-<Admonition type="info" icon="📘" title="📘 メモ">
+<Admonition type="info" title="Notes">
 
 コンソール IP 許可リストへの更新は 30 秒以内に反映されます。
 
@@ -102,7 +102,7 @@ IP または CIDR エントリを削除して、その送信元からのコン�
 
     いいえ。[SSO](./single-sign-on)、[MFA](./multi-factor-auth)、および組織コンソールの IP 許可リストは、それぞれ独立した制御です。 
 
-1. **組織コンソールの IP 許可リストはクラスタアクセスに影響しますか？**
+1. **組織のコンソール IP 許可リストはクラスターへのアクセスに影響しますか？**
 
     いいえ。コンソール IP 許可リストは、Web コンソールへのアクセスのみを制限します。 
 

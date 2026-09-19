@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 このガイドでは、Zilliz Cloud における slow logs のライフサイクル全体（有効化、設定の調整、無効化）について説明します。
 
-<Admonition type="info" icon="📘" title="注記">
+<Admonition type="info" title="Notes">
 
 - このリリースでは、低速な Search、HybridSearch、および Query リクエストが記録されます。
 
@@ -40,7 +40,7 @@ import Procedures from '@site/src/components/Procedures';
 
 - 対象クラスターと同じリージョンに設定されたオブジェクトストレージ連携（AWS S3、Google Cloud Storage、または Azure Blob Storage）。
 
-- プロジェクトに対する **Organization Owner**、**Project Admin**、または **Cluster Admin** 権限。必要な権限がない場合は、Zilliz Cloud 管理者に連絡してください。
+- プロジェクトに対する **Organization Owner**、**Project Admin**、または **クラスター Admin** の権限を持っていること。必要な権限がない場合は、Zilliz Cloud 管理者にお問い合わせください。
 
 ## slow logs を有効にする\{#enable-slow-logs}
 
@@ -60,7 +60,7 @@ import Procedures from '@site/src/components/Procedures';
 
     - **Directory**: access logs を保存するバケット内のディレクトリを指定します。
 
-    - **Threshold**: slow log 収集のしきい値を指定します。実行時間がこの値を超える操作は slow logs に記録されます。デフォルト値は 150 ms です。
+    - **Threshold**: slow log コレクションのしきい値を指定します。実行時間がこの値を超える操作は slow logs に記録されます。デフォルト値は 150 ms です。
 
 1. **Save** をクリックします。
 

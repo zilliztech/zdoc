@@ -26,7 +26,7 @@ Zilliz から Zilliz への移行では、同一組織内または異なる組�
 
 - パフォーマンス最適化のためにインフラストラクチャを再編成する。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 同じ Kubernetes クラスター内、または同じクラウドリージョン内にデプロイされたクラスター間で移行できます。
 

@@ -44,7 +44,7 @@ Zilliz Cloud のアラート通知により、クラスター内で発生する�
 
 1. 既存のアラートを変更するには、対象のアラートターゲットの横にある **Actions** 列から **Edit** を選択します。新規にアラートを作成する場合は、右上の **+ Alert** をクリックします。
 
-    <Admonition type="info" icon="📘" title="📘 Notes">
+    <Admonition type="info" title="Notes">
 
     組織アラートでは既存のアラートターゲットのみ編集可能で、新規作成はサポートされていません。詳細については、[組織アラートの管理](./manage-organization-alerts) を参照してください。
 
@@ -74,7 +74,7 @@ PagerDuty サービスと連携する手順は以下のとおりです。
 
     1. 既存のアラートを変更するには、対象のアラートターゲットの横にある **Actions** 列から **Edit** を選択します。新規にアラートを作成する場合は、右上の **+ Alert** をクリックします。
 
-        <Admonition type="info" icon="📘" title="📘 Notes">
+        <Admonition type="info" title="Notes">
 
         組織アラートでは既存のアラートターゲットのみ編集可能で、新規作成はサポートされていません。詳細については、[組織アラートの管理](./manage-organization-alerts) を参照してください。
 
@@ -104,7 +104,7 @@ Slack 連携を設定する手順は以下のとおりです。
 
     1. 既存のアラートを変更するには、対象のアラートターゲットの横にある **Actions** 列から **Edit** を選択します。新規にアラートを作成する場合は、右上の **+ Alert** をクリックします。
 
-        <Admonition type="info" icon="📘" title="📘 Notes">
+        <Admonition type="info" title="Notes">
 
         組織アラートでは既存のアラートターゲットのみ編集可能で、新規作成はサポートされていません。詳細については、[組織アラートの管理](./manage-organization-alerts) を参照してください。
 
@@ -140,7 +140,7 @@ Opsgenie 連携を設定する手順は以下のとおりです。
 
     1. 既存のアラートを変更するには、対象のアラートターゲットの横にある **Actions** 列から **Edit** を選択します。新規にアラートを作成する場合は、右上の **+ Alert** をクリックします。
 
-        <Admonition type="info" icon="📘" title="📘 Notes">
+        <Admonition type="info" title="Notes">
 
         組織アラートでは既存のアラートターゲットのみ編集可能で、新規作成はサポートされていません。詳細については、[組織アラートの管理](./manage-organization-alerts) を参照してください。
 
@@ -160,7 +160,7 @@ Lark 連携を設定する手順は以下のとおりです。
 
 <Procedures>
 
-1. 対象の Lark グループにカスタムボットを招待し、そのボットに対応する Webhook URL を取得します。詳細な手順については、[Custom bot usage guide](https://open.larksuite.com/document/client-docs/bot-v3/add-custom-bot) を参照してください。
+1. 対象の Lark グループに移動してカスタムボットを招待し、そのボットに対応する Webhook URL を取得します。詳細な手順については、[Custom bot usage guide](https://open.larksuite.com/document/client-docs/bot-v3/add-custom-bot) を参照してください。
 
 1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/signup) で Lark 通知チャネルを設定します。
 
@@ -168,7 +168,7 @@ Lark 連携を設定する手順は以下のとおりです。
 
     1. 既存のアラートを変更するには、対象のアラートターゲットの横にある **Actions** 列から **Edit** を選択します。新規にアラートを作成する場合は、右上の **+ Alert** をクリックします。
 
-        <Admonition type="info" icon="📘" title="📘 Notes">
+        <Admonition type="info" title="Notes">
 
         組織アラートでは既存のアラートターゲットのみ編集可能で、新規作成はサポートされていません。詳細については、[組織アラートの管理](./manage-organization-alerts) を参照してください。
 
@@ -196,7 +196,7 @@ Zilliz Cloud が提供する **Webhook** オプションを使用すると、カ
 
     1. 既存のアラートを変更するには、対象のアラートターゲットの横にある **Actions** 列から **Edit** を選択します。新規にアラートを作成する場合は、右上の **+ Alert** をクリックします。
 
-        <Admonition type="info" icon="📘" title="📘 Notes">
+        <Admonition type="info" title="Notes">
 
         組織アラートでは既存のアラートターゲットのみ編集可能で、新規作成はサポートされていません。詳細については、[組織アラートの管理](./manage-organization-alerts) を参照してください。
 
@@ -210,7 +210,7 @@ Zilliz Cloud が提供する **Webhook** オプションを使用すると、カ
 
 </Procedures>
 
-Webhook 通知の例:
+Webhook 通知の例は以下のとおりです。
 
 ```json
 {
@@ -230,7 +230,7 @@ WeCom のアラート通知を設定する手順は以下のとおりです。
 
 1. WeCom グループでグループボットを作成します。詳しい手順については、[グループボットの作成](https://open.work.weixin.qq.com/help2/pc/14931?person_id=1&searchData=#%E4%BA%8C%E3%80%81%E7%BE%A4%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%B7%BB%E5%8A%A0%E5%85%A5%E5%8F%A3) を参照してください。 
 
-    <Admonition type="info" icon="📘" title="📘 Notes">
+    <Admonition type="info" title="Notes">
 
     WeCom の設定によっては、一部のグループでグループボットを追加できない場合があります。
 
@@ -244,7 +244,7 @@ WeCom のアラート通知を設定する手順は以下のとおりです。
 
     1. 既存のアラートを変更するには、対象のアラートターゲットの横にある **Actions** 列から **Edit** を選択します。新規にアラートを作成する場合は、右上の **+ Alert** をクリックします。
 
-        <Admonition type="info" icon="📘" title="📘 Notes">
+        <Admonition type="info" title="Notes">
 
         組織アラートでは既存のアラートターゲットのみ編集可能で、新規作成はサポートされていません。詳細については、[組織アラートの管理](./manage-organization-alerts) を参照してください。
 
@@ -266,7 +266,7 @@ DingTalk のアラート通知を設定する手順は以下のとおりです�
 
 1. DingTalk グループでカスタムボットを作成します。詳しい手順については、[カスタムボットの統合](https://open.dingtalk.com/document/robots/custom-robot-access) を参照してください。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     カスタムボットを設定する際は、**Security Setting** で **Custom Keywords** を指定します。
     
@@ -284,7 +284,7 @@ DingTalk のアラート通知を設定する手順は以下のとおりです�
 
     1. 既存のアラートを変更するには、対象のアラートターゲットの横にある **Actions** 列から **Edit** を選択します。新規にアラートを作成する場合は、右上の **+ Alert** をクリックします。
 
-        <Admonition type="info" icon="📘" title="📘 Notes">
+        <Admonition type="info" title="Notes">
 
         組織アラートでは既存のアラートターゲットのみ編集可能で、新規作成はサポートされていません。詳細については、[組織アラートの管理](./manage-organization-alerts) を参照してください。
 
@@ -303,4 +303,3 @@ DingTalk のアラート通知を設定する手順は以下のとおりです�
 通知チャネルを設定した後、Send Test Message アイコンをクリックして、正しく設定されていることを確認します。
 
 ![test-connectivity](https://zdoc-images.s3.us-west-2.amazonaws.com/test-connectivity.png "test-connectivity")
-

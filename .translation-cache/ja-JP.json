@@ -1206,19 +1206,24 @@
       "translatedAt": "2026-09-19T13:43:11.314Z"
     },
     "content/en/byoc/tutorials/management/identity-management/single-sign-on/single-sign-on.md": {
-      "sourceHash": "ac6a693c2de0f9cd0468fd229941e89dc64e2c56f26eabbd99cd150526c4115b",
+      "sourceHash": "05823e560f3024f92dfafee9c0d0fb365aa0a3a0a61e95000db05400345b842a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/identity-management/single-sign-on/single-sign-on.md",
-      "translatedAt": "2026-08-25T05:13:06.229Z"
+      "translatedAt": "2026-09-19T14:01:58.853Z"
+    },
+    "content/en/byoc/tutorials/management/ip-allowlists/setup-console-ip-allowlist.md": {
+      "sourceHash": "4ee965fe470f04089e82d1a001c9235c4ed0d53cfc994df951a266e5ba82fac8",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/ip-allowlists/setup-console-ip-allowlist.md",
+      "translatedAt": "2026-09-19T14:01:58.853Z"
     },
     "content/en/byoc/tutorials/management/limits/limits.md": {
-      "sourceHash": "a86f16080d479c85bbc89d32ece93da809e5dfd03dc01e9074fcfc57aa458d8d",
+      "sourceHash": "9da3ba69f14e9bed164121e959dbb6109e8db916d864957fe3283e89862ecbd3",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/limits/limits.md",
-      "translatedAt": "2026-08-04T05:05:23.401Z"
+      "translatedAt": "2026-09-19T14:01:58.853Z"
     },
     "content/en/byoc/tutorials/management/metrics-alerts/manage-notification-channels.md": {
-      "sourceHash": "7afdca3d7bbd89bd289d325c51f4258231f2d7647d9a29ae5b7fb0effdeeee02",
+      "sourceHash": "bcad2e810440f0020c1b4ef8f6abce51dc135bcb0212e12e30529eaf15410eaa",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/metrics-alerts/manage-notification-channels.md",
-      "translatedAt": "2026-08-25T17:09:25.476Z"
+      "translatedAt": "2026-09-19T14:01:58.853Z"
     },
     "content/en/byoc/tutorials/management/metrics-alerts/manage-organization-alerts.md": {
       "sourceHash": "d2d8c1e8cc42082b5fa044750d5a7f7c1091f75d8ad21c057f4bab62047ab1a0",
@@ -1226,44 +1231,74 @@
       "translatedAt": "2026-08-25T07:05:04.006Z"
     },
     "content/en/byoc/tutorials/management/metrics-alerts/manage-project-alerts.md": {
-      "sourceHash": "f8a47584d4f71698242167b79ed901cf86f0930552af16513f8361741a625bee",
+      "sourceHash": "f8444f02ed9dc1cadc287ba9751077eed6de4b3ebb6659738440b1948ebcee46",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/metrics-alerts/manage-project-alerts.md",
-      "translatedAt": "2026-08-25T17:11:22.673Z"
+      "translatedAt": "2026-09-19T14:01:58.853Z"
     },
     "content/en/byoc/tutorials/management/metrics-alerts/metrics-alerts-reference.md": {
-      "sourceHash": "84703899a41da73af9fb1d285763ea5999785ece1493c3e449c24de35db6a0b0",
+      "sourceHash": "dd7c05ae20b96ecb1933e51d845824cc8fcc1e5407e88f74f9b1956999bf1959",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/metrics-alerts/metrics-alerts-reference.md",
-      "translatedAt": "2026-08-04T05:14:57.505Z"
+      "translatedAt": "2026-09-19T14:01:58.853Z"
     },
     "content/en/byoc/tutorials/management/metrics-alerts/observability-integrations/prometheus-monitoring.md": {
-      "sourceHash": "bee020db5d5a74a6e23000fa2a7368c85e160cd04998dd85f0c504c1f2cc1256",
+      "sourceHash": "292d256d0ddfa25f4b34aa0a8eeca626f7cff696f47d0b88cb26d9005bc7ea2d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/metrics-alerts/observability-integrations/prometheus-monitoring.md",
-      "translatedAt": "2026-08-04T05:14:49.627Z"
+      "translatedAt": "2026-09-19T14:01:58.853Z"
     },
     "content/en/byoc/tutorials/management/metrics-alerts/view-cluster-metric-charts.md": {
       "sourceHash": "977bb62baa194c94fef617b9c57506004b9fc85b98427bb9885dd80a8d47316a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/metrics-alerts/view-cluster-metric-charts.md",
       "translatedAt": "2026-08-04T05:14:18.171Z"
     },
+    "content/en/byoc/tutorials/management/migrations/migrate-between-clusters/migrate-between-clusters.md": {
+      "sourceHash": "1421f3624620b0974015af4ff2813e52cd2a712daca5d4f2dd8532e089e8bea0",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/migrations/migrate-between-clusters/migrate-between-clusters.md",
+      "translatedAt": "2026-09-19T14:01:58.853Z"
+    },
+    "content/en/byoc/tutorials/management/migrations/migrate-between-clusters/offline-migration.md": {
+      "sourceHash": "1005ee56c3be8540a89bd16305c7c682a69850e7a2665d1a26d1f172b85bbe8b",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/migrations/migrate-between-clusters/offline-migration.md",
+      "translatedAt": "2026-09-19T14:01:58.853Z"
+    },
     "content/en/byoc/tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips.md": {
       "sourceHash": "753c2e1de506a3355a40450e280dd4eadb065c54ab6c5c67fd005759a48a874a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips.md",
       "translatedAt": "2026-08-25T07:15:02.148Z"
     },
+    "content/en/byoc/tutorials/management/migrations/migrate-from-milvus/via-backup-files.md": {
+      "sourceHash": "7507056a965a95d10e84114c73bca7d91683e47198af57c17f283cd3f8b477e3",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/migrations/migrate-from-milvus/via-backup-files.md",
+      "translatedAt": "2026-09-19T14:01:58.853Z"
+    },
     "content/en/byoc/tutorials/management/organizations/organization-settings.md": {
-      "sourceHash": "72e6f9c6d130a83968c10f2388a73abb707bc13750cee1d5a1620011f3d83858",
+      "sourceHash": "f7120b0a7a23ce235c94ddcb7eaebaa1a8a8bc00036078e3a555bfd01be4bb77",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/organizations/organization-settings.md",
-      "translatedAt": "2026-08-25T17:14:07.557Z"
+      "translatedAt": "2026-09-19T14:01:58.853Z"
+    },
+    "content/en/byoc/tutorials/management/organizations/use-recycle-bin.md": {
+      "sourceHash": "76558b66f44a49e77c337d2c23cda058083409331b45ae549ca3b5f482f5ad9f",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/organizations/use-recycle-bin.md",
+      "translatedAt": "2026-09-19T14:01:58.853Z"
     },
     "content/en/byoc/tutorials/management/projects/job-center.md": {
-      "sourceHash": "c5f4db4aadbf8e2aa6c4e650630d50a342909e28151e385f30395ce9cb937ed6",
+      "sourceHash": "50ca060736521561ca7adad4f7d5cb08bb2f547f5f3ae576f1dfd4f75322352f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/projects/job-center.md",
-      "translatedAt": "2026-08-04T05:05:14.256Z"
+      "translatedAt": "2026-09-19T14:01:58.853Z"
     },
     "content/en/byoc/tutorials/management/projects/manage-projects.md": {
       "sourceHash": "ebc1be179f50878b2e18ae765b5362a3391dc911083dced9f46ce73a2408af7d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/projects/manage-projects.md",
       "translatedAt": "2026-08-25T17:18:58.230Z"
+    },
+    "content/en/byoc/tutorials/management/slow-logs/configure-slow-logs.md": {
+      "sourceHash": "da2b86e70b32387146b3958df58057f60dea62b77efb0ef7481d314c968869b5",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/slow-logs/configure-slow-logs.md",
+      "translatedAt": "2026-09-19T14:01:58.853Z"
+    },
+    "content/en/byoc/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-ai-prompts.md": {
+      "sourceHash": "518f417364096be9cc6a16e3359cdc08855d8fb229b26038cc5f68e3c18a2805",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-ai-prompts.md",
+      "translatedAt": "2026-09-19T14:01:58.853Z"
     },
     "content/en/guides/tutorials/ai-models/integrate-with-model-providers.md": {
       "sourceHash": "5fd86b230d39f10c2803caad7cc39675f6477be027d561224aef80edc705ec26",

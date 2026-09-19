@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud は、Milvus vector database を自身でインフラ管理することなく利用したいユーザー向けに、完全マネージドなクラウドホスト型ソリューションとして Milvus を提供します。このトピックでは、バックアップファイルを直接アップロードして Milvus から移行する方法について説明します。 | BYOC"
+description: "Zilliz Cloud は、インフラを自分で管理することなく Milvus ベクトルデータベースを利用したいユーザー向けに、Milvus をフルマネージドのクラウドホスト型ソリューションとして提供します。このトピックでは、バックアップファイルを直接アップロードして Milvus から移行する方法について説明します。 | BYOC"
 type: origin
 token: IO4fwm5fJiroaoktKeIcbdkDnRb
 sidebar_position: 2
@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 # バックアップファイルを介して Milvus から Zilliz Cloud に移行
 
-Zilliz Cloud は、Milvus vector database を自身でインフラ管理することなく利用したいユーザー向けに、完全マネージドなクラウドホスト型ソリューションとして Milvus を提供します。このトピックでは、バックアップファイルを直接アップロードして Milvus から移行する方法について説明します。
+Zilliz Cloud は、インフラを自分で管理することなく Milvus ベクトルデータベースを利用したいユーザー向けに、Milvus をフルマネージドのクラウドホスト型ソリューションとして提供します。このトピックでは、バックアップファイルを直接アップロードして Milvus から移行する方法について説明します。
 
 ## 開始前に\{#before-you-start}
 
@@ -36,15 +36,15 @@ Zilliz Cloud は、Milvus vector database を自身でインフラ管理する�
 
     - **From Object Storage**: Milvus object storage の公開 URL とアクセス認証情報。長期認証情報または一時認証情報を選択できます。object storage URL の詳細な例については、[FAQ](./via-backup-files#faq) を参照してください。
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" title="Notes">
 
-        低レイテンシで安定した体験を確保するため、ターゲット cluster と同じプロバイダーかつ同じリージョンの bucket または blob container を使用することを推奨します。
+        低レイテンシで安定した体験を確保するため、ターゲットクラスターと同じプロバイダーかつ同じリージョンにあるバケットまたは blob コンテナを使用することをお勧めします。
 
         </Admonition>
 
 - **Organization Owner** または **Project Admin** ロールが付与されていること。必要な権限がない場合は、Zilliz Cloud の Organization Owner にお問い合わせください。
 
-- ターゲット cluster の CU サイズがソースデータを収容できることを確認してください。必要な CU サイズを見積もるには、[calculator](https://zilliz.com/pricing?_gl=1*qro801*_ga*MzkzNTY1NDM0LjE3Mjk1MDExNzQ.*_ga_Q1F8R2NWDP*MTc0NTQ4MzY1Ni4zMDEuMS4xNzQ1NDg0MTEzLjAuMC4w*_ga_KKMVYG8YF2*MTc0NTQ4MzY1Ni4yNTIuMS4xNzQ1NDg0MTEzLjAuMC4w#calculator) を使用してください。
+- ターゲットクラスターの CU サイズがソースデータを収容できること。必要な CU サイズを見積もるには、[計算ツール](https://zilliz.com/pricing?_gl=1*qro801*_ga*MzkzNTY1NDM0LjE3Mjk1MDExNzQ.*_ga_Q1F8R2NWDP*MTc0NTQ4MzY1Ni4zMDEuMS4xNzQ1NDg0MTEzLjAuMC4w*_ga_KKMVYG8YF2*MTc0NTQ4MzY1Ni4yNTIuMS4xNzQ1NDg0MTEzLjAuMC4w#calculator) を使用してください。
 
 ## 移行用バックアップファイルの準備\{#prepare-backup-files-for-migration}
 
@@ -54,7 +54,7 @@ Milvus 2.x の移行データを準備するには、
 
 1. **[milvus-backup](https://github.com/zilliztech/milvus-backup/releases)** をダウンロードします。必ず最新リリースを使用してください。
 
-    現在、Milvus 2.2 以降のバージョンから Zilliz Cloud clusters へデータを移行できます。互換性のあるソースおよびターゲットの Milvus バージョンの詳細については、[Milvus Backup Overview](https://milvus.io/docs/milvus_backup_overview.md) を参照してください。
+    現在、Milvus 2.2 以降のバージョンから Zilliz Cloud クラスターにデータを移行できます。互換性のあるソースおよびターゲットの Milvus バージョンの詳細については、[Milvus Backup Overview](https://milvus.io/docs/milvus_backup_overview.md) を参照してください。
 
 1. ダウンロードしたバイナリと同じ階層に **configs** フォルダを作成し、**[backup.yaml](https://raw.githubusercontent.com/zilliztech/milvus-backup/master/configs/backup.yaml)** を **configs** フォルダにダウンロードします。
 
@@ -92,7 +92,7 @@ Milvus 2.x の移行データを準備するには、
       ...
     ```
 
-    <Admonition type="info" icon="📘" title="📘 Notes">
+    <Admonition type="info" title="Notes">
 
     - Docker Compose を使用してインストールされた Milvus インスタンスでは、`minio.bucketName` のデフォルトは `a-bucket`、`rootPath` のデフォルトは `files` です。
     
@@ -143,9 +143,9 @@ Milvus 2.x の移行データを準備するには、
 
 <Supademo id="cmbhd2wj85jktsn1rnjmi4t5o" title="Zilliz Cloud - Migrate from Milvus via Backup File Demo" />
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-ソース collection ですでに全文検索が有効になっている場合、Zilliz Cloud は移行後のターゲット collection にその Function 設定を保持します。これらの継承された設定は変更できません。
+ソースコレクションで全文検索がすでに有効になっている場合、Zilliz Cloud は移行後にその Function 設定をターゲットコレクションに保持します。これらの継承された設定は変更できません。
 
 </Admonition>
 
@@ -155,9 +155,9 @@ Milvus 2.x の移行データを準備するには、
 
 <Supademo id="cme9my2nn4b64h3pyiyvsakqb" title="Zilliz Cloud - Monitor the Migration Process" />
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-移行後、ターゲット cluster 内の collections 数と entities 数がデータソースと一致していることを確認してください。不一致が見つかった場合は、欠落している entities を含む collections を削除して、再度移行してください。
+移行後、ターゲットクラスター内のコレクションとエンティティの数がデータソースと一致していることを確認してください。不一致が見つかった場合は、エンティティが欠落しているコレクションを削除して再移行してください。
 
 </Admonition>
 
@@ -165,9 +165,9 @@ Milvus 2.x の移行データを準備するには、
 
 移行ジョブの完了後は、次の点に注意してください。
 
-- **Index Creation**: 移行プロセスでは、移行された collections に対して [AUTOINDEX](./autoindex-explained) が自動的に作成されます。
+- **インデックスの作成**: 移行プロセスでは、移行されたコレクションに対して [AUTOINDEX](./autoindex-explained) が自動的に作成されます。
 
-- **Manual Loading Required**: 自動 indexing が行われても、移行された collections はすぐには検索またはクエリ操作に使用できません。検索およびクエリ機能を有効にするには、Zilliz Cloud で collections を手動で load する必要があります。詳細については、[Load & Release](./load-release-collections) を参照してください。
+- **手動でのロードが必要**: 自動インデックス作成が行われても、移行されたコレクションはすぐには検索またはクエリ操作に使用できません。検索およびクエリ機能を有効にするには、Zilliz Cloud でコレクションを手動でロードする必要があります。詳細については、[Load & Release](./load-release-collections) を参照してください。
 
 ## 移行ジョブのキャンセル\{#cancel-migration-job}
 

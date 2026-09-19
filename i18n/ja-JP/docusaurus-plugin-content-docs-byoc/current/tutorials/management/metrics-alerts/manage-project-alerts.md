@@ -25,11 +25,11 @@ import Supademo from '@site/src/components/Supademo';
 
 プロジェクトアラートを使用すると、指定した条件を満たした際に通知を送信し、Zilliz Cloud クラスターをプロアクティブに監視できます。CU キャパシティやクエリパフォーマンスなどのクラスターメトリクスを監視するよう設定することで、対応が必要な潜在的な問題が発生した際にすぐに通知を受け取ることができます。
 
-## 始める前に\{#before-you-start}
+## 事前準備\{#before-you-start}
 
 プロジェクトアラートを作成または管理する前に、以下の要件を満たしていることを確認してください。
 
-- **Organization Owner** または **Project Admin** ロールのアクセス権限
+- **Organization Owner** または **Project Admin** ロールのアクセス権限を持っていること。
 
 ## プロジェクトアラートの表示\{#view-project-alerts}
 
@@ -171,7 +171,7 @@ curl --request POST \
 
 <Supademo id="cmb5ywkim01nozo0iqfsmhy3q" title="Manage Project Alerts" isShowcase="true" />
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 RESTful API を使用してプロジェクトアラートを管理することもできます。詳細については、[Update Alert Rule](/reference/restful/update-alert-rule-v2) および [Delete Alert Rule](/reference/restful/delete-alert-rule-v2) を参照してください。
 
@@ -213,7 +213,7 @@ RESTful API を使用してプロジェクトアラートを管理すること�
 
 不要になった監視ルールや冗長なルールを削除します。
 
-<Admonition type="danger" icon="🚧" title="Danger">
+<Admonition type="danger" title="Danger">
 
 アラートの削除は永続的であり、元に戻すことはできません。実行前に、そのアラートが不要であることを必ず確認してください。
 
@@ -227,7 +227,7 @@ RESTful API を使用してプロジェクトアラートを管理すること�
 
 設定時には、以下の項目を確認してください。
 
-- **送信先**: 新規アラート作成時に自動選択されるデフォルトの通知チャネル（メール、Slack、Webhook）です。よく使うチャネルを登録しておくと、アラート作成がスムーズになります。
+- **送信先**: 新規アラート作成時に自動選択されるデフォルトの通知チャネル（メール、Slack、Webhook）です。よく使用するチャネルを設定しておくと、アラート作成を効率化できます。
 
 - **アラート解決通知**: 有効にすると、アラートが解消された際にも通知が届きます。
 
@@ -239,15 +239,14 @@ RESTful API を使用してプロジェクトアラートを管理すること�
 
 アラート通知は、以下のスケジュールで自動的に送信されます。
 
-- **初回通知**: アラートのしきい値超過時に即時送信
+- **最初の通知**: アラートのしきい値を超えた時点で即座に送信されます
 
-- **2回目の通知**: 条件が継続している場合、1時間後に送信
+- **2 回目の通知**: 条件が継続している場合、1 時間後に送信されます
 
-- **以降の通知**: アラート状態が継続中は1日1回送信
+- **以降の通知**: アラート条件が継続している間、1 日 1 回送信されます
 
 通知が頻繁すぎると感じる場合は、以下の対応が可能です。
 
 - [アラートを編集](./manage-project-alerts#edit-an-alert)して、条件のしきい値や継続時間の要件を調整する
 
 - [アラートを無効化](./manage-project-alerts#disable-or-enable-an-alert)して、設定を保持したまま一時的に通知を停止する
-
