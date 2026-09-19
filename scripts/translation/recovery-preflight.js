@@ -85,6 +85,7 @@ function analyzeRecoveryCompatibility({siteDir, manifest, artifacts, promptContr
     sourcePath: candidate.sourcePath,
     targetPath: candidate.targetPath,
     sourceHash: candidate.sourceHash,
+    recoveryCovered: candidate.recoveryCovered === true,
     ...(candidate.recoveryChunkResume ? {chunkResume: candidate.recoveryChunkResume} : {}),
     ...(candidate.recoverySemanticResume ? {semanticResume: candidate.recoverySemanticResume} : {}),
   }))
@@ -100,8 +101,14 @@ function analyzeRecoveryCompatibility({siteDir, manifest, artifacts, promptContr
   const recoveredSemanticUnitCount = pending.reduce((total, candidate) => total + (candidate.semanticResume?.report?.entries?.length || 0), 0)
   const rejectedChunks = recovery.rejectedChunks || []
   const rejectedChunkCount = rejectedChunks.length
+  // Full-retranslation risk means every current candidate was covered by the
+  // previous run yet nothing is compatible. Candidates the previous run never
+  // covered (e.g. batches a failed run never reached) are planned new work,
+  // not a compatibility failure, so they never force the full-retranslation
+  // authorization gate.
+  const uncoveredCandidateCount = pending.filter(candidate => candidate.recoveryCovered === false).length
   const fullRetranslation = candidateCount > 0 && restored.length === 0 && pending.length === candidateCount &&
-    resumableFileCount === 0 && semanticResumableFileCount === 0
+    resumableFileCount === 0 && semanticResumableFileCount === 0 && uncoveredCandidateCount === 0
   let reconciliation = null
   if (currentReconciliationPlan) {
     const currentPlan = validateReconciliationPlan(currentReconciliationPlan)
@@ -152,6 +159,7 @@ function analyzeRecoveryCompatibility({siteDir, manifest, artifacts, promptContr
     rejectedChunkCount,
     semanticResumableFileCount,
     recoveredSemanticUnitCount,
+    uncoveredCandidateCount,
     fullRetranslation,
     compatibilityMode: restored.some(item => item.compatibility === 'revalidated') ||
       pending.some(item => item.chunkResume?.compatibility === 'revalidated' || item.semanticResume?.compatibility === 'revalidated')
