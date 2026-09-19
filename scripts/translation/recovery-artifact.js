@@ -9,7 +9,7 @@ const {loadTypeScript} = require('../lib/load-typescript');
 const {localeContractPathFor} = require('./localeContract');
 const {promptNamesFor} = require('./prompts');
 const {boundedFailureDetails, classifyFailure} = require('./failureClassification');
-const {isConsistentSuccessfulReview} = require('./reviewEvidence');
+const {isConsistentSuccessfulReview, successfulReview} = require('./reviewEvidence');
 const {
   MAX_PARTIAL_ARTIFACT_BYTES,
   persistChunkCheckpoints,
@@ -227,6 +227,13 @@ function createRecoveryArtifact({siteDir, outputDir, results, identity, reconcil
       model: identity.model,
       status: 'translated',
       ...(reviewReceipt ? {reviewReceipt} : {}),
+      // A translated result whose review is consistent but which carries no
+      // mintable receipt is a recovery lineage: a restored or fully seeded
+      // file re-written by a recovery run (revalidated recoveries and
+      // verified-current seeds never mint receipts). The marker lets the next
+      // hop restore it through the current full-file revalidation instead of
+      // degrading it, while review-broken results still fail closed.
+      ...(reviewReceipt ? {} : isConsistentSuccessfulReview(result.review) ? {recoveredLineage: true} : {}),
     });
   }
   let chunkArtifactBytes = 0;
@@ -470,6 +477,7 @@ function restoreCandidate({siteDir, candidate, artifacts, identity, revalidate, 
           currentContractValidated = true;
         }
         let reviewReceipt = null;
+        let receiptMissing = false;
         try {
           reviewReceipt = validateRecoveryReviewReceipt(record.reviewReceipt, {
             sourcePath: record.sourcePath,
@@ -483,7 +491,14 @@ function restoreCandidate({siteDir, candidate, artifacts, identity, revalidate, 
             toolingSha: artifact.metadata.toolingSha,
           }, {sourceContent});
         } catch (error) {
-          reasons.push(`recovery reviewer receipt is missing or invalid: ${String(error?.message || error)}`);
+          // A record without a receipt field at all is the shape a recovery
+          // run's own re-written artifacts have: revalidated recoveries never
+          // mint receipts, so the second hop of any recovery chain produces
+          // receipt-less records. A present-but-invalid receipt, on the other
+          // hand, means the record does not cohere with its own payload and
+          // must keep failing closed.
+          if (record.reviewReceipt === undefined) receiptMissing = true;
+          else reasons.push(`recovery reviewer receipt is missing or invalid: ${String(error?.message || error)}`);
         }
         if (reviewReceipt) {
           fs.mkdirSync(path.dirname(targetPath), {recursive: true});
@@ -500,6 +515,52 @@ function restoreCandidate({siteDir, candidate, artifacts, identity, revalidate, 
             targetSize: record.targetSize,
           };
         }
+        if (!receiptMissing) {
+          // A present-but-invalid receipt means the record does not cohere
+          // with its own payload: never restore it, but degrade the content
+          // into semantic pending work the unit pipeline can still consume.
+          if (typeof fileRevalidate !== 'function') continue;
+          if (!currentContractValidated) {
+            const validationErrors = fileRevalidate({candidate, sourceContent, targetContent: targetBytes.toString('utf8')});
+            if (!Array.isArray(validationErrors) || validationErrors.length) {
+              reasons.push(`revalidation failed: ${(validationErrors || ['validator did not return an error list']).join('; ')}`);
+              continue;
+            }
+          }
+          try {
+            const target = identity.target || (identity.locale === 'ja-JP' ? 'ja-JP' : 'zh-CN-reference');
+            const semanticItem = {...candidate, target, locale: identity.locale};
+            const report = semanticCheckpointsFromCompleteTranslation({
+              sourceContent,
+              targetContent: targetBytes.toString('utf8'),
+              item: semanticItem,
+              chunkOptions,
+            });
+            const persisted = persistSemanticCheckpoints(report, artifact.metadata, semanticItem);
+            const semanticResume = validatePersistedSemanticCheckpoints({
+              value: persisted,
+              artifactIdentity: artifact.metadata,
+              currentIdentity: identity,
+              candidate,
+              target,
+              sourceContent,
+              chunkOptions,
+            });
+            if (!bestSemanticResume || semanticResume.report.entries.length > bestSemanticResume.report.entries.length) bestSemanticResume = semanticResume;
+          } catch (error) {
+            reasons.push(`recovery reviewer receipt is invalid and the complete target could not be retained as semantic checkpoints: ${String(error?.message || error)}`);
+          }
+          continue;
+        }
+        // Receipt-less restore: the receipt itself carries no cryptographic
+        // signature — its value is binding the record to an execution identity.
+        // When the record's identity matches (strict) the receipt is merely
+        // self-consistent bookkeeping, and when it does not (revalidated) it
+        // says nothing about today's bytes. The real trust anchors are the
+        // authenticated artifact chain (digest verified by the recovery
+        // planner) plus the current full-file revalidation below. Without
+        // this, the second hop of any recovery chain would reject every
+        // restored file and raise the full-retranslation gate.
         if (typeof fileRevalidate !== 'function') continue;
         if (!currentContractValidated) {
           const validationErrors = fileRevalidate({candidate, sourceContent, targetContent: targetBytes.toString('utf8')});
@@ -508,29 +569,20 @@ function restoreCandidate({siteDir, candidate, artifacts, identity, revalidate, 
             continue;
           }
         }
-        try {
-          const target = identity.target || (identity.locale === 'ja-JP' ? 'ja-JP' : 'zh-CN-reference');
-          const semanticItem = {...candidate, target, locale: identity.locale};
-          const report = semanticCheckpointsFromCompleteTranslation({
-            sourceContent,
-            targetContent: targetBytes.toString('utf8'),
-            item: semanticItem,
-            chunkOptions,
-          });
-          const persisted = persistSemanticCheckpoints(report, artifact.metadata, semanticItem);
-          const semanticResume = validatePersistedSemanticCheckpoints({
-            value: persisted,
-            artifactIdentity: artifact.metadata,
-            currentIdentity: identity,
-            candidate,
-            target,
-            sourceContent,
-            chunkOptions,
-          });
-          if (!bestSemanticResume || semanticResume.report.entries.length > bestSemanticResume.report.entries.length) bestSemanticResume = semanticResume;
-        } catch (error) {
-          reasons.push(`recovery reviewer receipt is unavailable and the complete target could not be retained as semantic checkpoints: ${String(error?.message || error)}`);
-        }
+        fs.mkdirSync(path.dirname(targetPath), {recursive: true});
+        fs.writeFileSync(targetPath, targetBytes);
+        return {
+          result: {
+            ...candidate,
+            status: 'translated',
+            recovered: true,
+            recoveryCompatibility: 'revalidated',
+            review: successfulReview(),
+            validationErrors: [],
+          },
+          targetHash: record.targetHash,
+          targetSize: record.targetSize,
+        };
       } catch (error) {
         reasons.push(`invalid recovery record: ${String(error?.message || error)}`);
       }

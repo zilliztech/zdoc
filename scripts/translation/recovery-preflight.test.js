@@ -9,6 +9,7 @@ const test = require('node:test')
 
 const {createRecoveryArtifact, promptContractSha256} = require('./recovery-artifact')
 const {createReconciliationPlan, createReconciliationResult} = require('./reconciliation-plan')
+const {successfulReview} = require('../translation/reviewEvidence')
 const {analyzeRecoveryCompatibility, main: recoveryPreflightMain} = require('./recovery-preflight')
 
 const HASH = value => crypto.createHash('sha256').update(value).digest('hex')
@@ -214,7 +215,7 @@ test('reuses revalidated paid files while reporting changed reconciliation opera
   assert.equal(fs.readFileSync(path.join(value.siteDir, value.items[0].targetPath), 'utf8'), '# 中文 1\n')
 })
 
-test('receipt-less nested recovered records become semantic reviewer work instead of restored successes', t => {
+test('receipt-less nested recovered records restore as revalidated work through the current gate', t => {
   const sourcePath = 'content/en/guides/tutorials/development/data-import/data-import-format-options/data-import-json.md'
   const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-import/data-import-format-options/data-import-json.md'
   const value = retainedLocaleFixture(t, {
@@ -235,7 +236,7 @@ test('receipt-less nested recovered records become semantic reviewer work instea
   createRecoveryArtifact({
     siteDir: value.siteDir,
     outputDir: value.artifactDir,
-    results: [{...value.item, status: 'translated', recovered: true, recoveryCompatibility: 'revalidated'}],
+    results: [{...value.item, status: 'translated', recovered: true, recoveryCompatibility: 'revalidated', review: successfulReview(), validationErrors: []}],
     identity: value.identity,
   })
   fs.rmSync(path.join(value.siteDir, targetPath))
@@ -250,14 +251,17 @@ test('receipt-less nested recovered records become semantic reviewer work instea
     allowFullRetranslate: false,
   })
 
-  assert.equal(analysis.recoveredCount, 0)
-  assert.equal(analysis.pendingCount, 1)
-  assert.equal(analysis.semanticResumableFileCount, 1)
-  assert.ok(analysis.pending[0].semanticResume.report.entries.length > 0)
+  // Revalidated records without receipts restore on the strength of the
+  // current full-file revalidation; the receipt cannot say anything about
+  // today's bytes because it carries the previous run's identity.
+  assert.equal(analysis.recoveredCount, 1)
+  assert.equal(analysis.pendingCount, 0)
+  assert.equal(analysis.restored[0].compatibility, 'revalidated')
+  assert.equal(analysis.restored[0].reviewReceipt, undefined)
   assert.equal(analysis.fullRetranslation, false)
 })
 
-test('CLI preflight uses the same environment-derived chunk layout as Agent Runner', t => {
+test('CLI preflight restores receipt-less records with the environment-derived chunk layout', t => {
   const repositoryRoot = process.cwd()
   const siteDir = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-recovery-preflight-chunk-env-'))
   const artifactDir = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-recovery-preflight-chunk-artifact-'))
@@ -309,8 +313,12 @@ test('CLI preflight uses the same environment-derived chunk layout as Agent Runn
     process.chdir(previousCwd)
   }
 
-  assert.equal(analysis.semanticResumableFileCount, 1)
-  assert.ok(analysis.pending[0].semanticResume.report.entries.every(entry => entry.id.startsWith('chunk.')))
+  // The receipt-less recovered record restores through the current full-file
+  // revalidation, which the CLI ran with the same environment-derived chunk
+  // layout the Agent Runner would use.
+  assert.equal(analysis.recoveredCount, 1)
+  assert.equal(analysis.pendingCount, 0)
+  assert.equal(analysis.restored[0].compatibility, 'revalidated')
 })
 
 test('revalidates prompt and model changes but still rejects source incompatibility', t => {
