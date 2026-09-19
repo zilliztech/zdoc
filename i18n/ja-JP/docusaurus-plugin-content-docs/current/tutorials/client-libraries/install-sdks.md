@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud は、マネージド Milvus ベクトルデータベースをサービスとして提供します。クラスター接続を容易にする SDK オプションには、[Python](./install-sdks#install-pymilvus-python-sdk)、[Java](./install-sdks#install-java-sdk)、[Go](./install-sdks#install-go-sdk)、[Node.js](./install-sdks#install-nodejs-sdk) の 4つがあります。
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 - Zilliz Cloud は、バージョンの互換性を確保するためにクラスターを継続的にアップグレードします。詳細については、[組織設定の管理](./organization-settings) ページを参照してください。SDK バージョンの不一致により接続の問題が発生した場合は、表示されるプロンプトに従って互換性のある SDK バージョンに戻してください。メンテナンス完了後に通知しますので、その後は安心して SDK をアップグレードできます。
 
@@ -44,7 +44,7 @@ Zilliz Cloud は、マネージド Milvus ベクトルデータベースをサ�
 
 PyMilvus は Milvus の Python SDK です。[GitHub のソースコード](https://github.com/milvus-io/pymilvus) にアクセスできます。
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 インストールする前に、**Python** のバージョンが **3.8** を超えていることを確認してください。
 
@@ -65,7 +65,7 @@ python -m pip list | grep pymilvus
 
 Milvus の Node.js SDK を利用するには、**npm** または **yarn** を使用します。[GitHub のソースコード](https://github.com/milvus-io/milvus-sdk-node) にアクセスできます。
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 インストールする前に、**Node.js** のバージョンが **14** 以上であることを確認してください。
 

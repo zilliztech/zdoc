@@ -26,9 +26,9 @@ import Procedures from '@site/src/components/Procedures';
 
 外部プロバイダーでホストされている text embedding または reranking モデルは、プロバイダーがプロジェクトからのリクエストを認証できるようになるまで、Zilliz Cloud から呼び出すことはできません。**モデルプロバイダー統合**は、プロバイダー発行の認証情報をプロジェクトレベルで保存し、text embedding および reranking 機能が参照できる integration ID を Zilliz Cloud に提供します。これにより、個々の Function または Ranker 設定に認証情報を配置する必要がなくなります。
 
-<Admonition type="info" icon="📘" title="注">
+<Admonition type="info" title="Notes">
 
-モデルプロバイダー統合の作成自体に料金は発生しません。外部プロバイダーはモデル推論に対して課金する場合があり、プロバイダーへデータを送信すると[データ転送コスト](./data-transfer-cost)が発生する可能性があります。
+モデルプロバイダー統合の作成に料金は発生しません。外部プロバイダーはモデル推論に対して課金する場合があり、プロバイダーにデータを送信すると[データ転送コスト](./data-transfer-cost) が発生する可能性があります。
 
 </Admonition>
 
@@ -36,26 +36,26 @@ import Procedures from '@site/src/components/Procedures';
 
 以下のモデルプロバイダーを Zilliz Cloud と統合できます。
 
-| Model provider | Supported Zilliz Cloud features | Required credential |
+| モデルプロバイダー | サポートされている Zilliz Cloud 機能 | 必要な認証情報 |
 | --- | --- | --- |
-| **OpenAI** | Text Embedding Function | API key。取得方法については、[OpenAI API quickstart](https://developers.openai.com/api/docs/quickstart#create-and-export-an-api-key)を参照してください。 |
-| **Cohere** | Text Embedding Function および model-based Ranker | API key。取得方法については、[API Keys and Rate Limits](https://docs.cohere.com/docs/rate-limits)を参照してください。 |
-| **Voyage AI** | Text Embedding Function および model-based Ranker | API key。取得方法については、[API Key and Python Client](https://docs.voyageai.com/docs/api-key-and-installation)を参照してください。 |
-| **Hugging Face** | [Text Embedding Function](./hugging-face) および [Hugging Face Ranker](./hugging-face-ranker) | **Make calls to Inference Providers** 権限を持つ User Access Token。取得方法については、[User Access Tokens](https://huggingface.co/docs/hub/en/security-tokens)を参照してください。 |
+| **OpenAI** | Text Embedding Function | API key。取得方法については、[OpenAI API quickstart](https://developers.openai.com/api/docs/quickstart#create-and-export-an-api-key) を参照してください。 |
+| **Cohere** | Text Embedding Function および model-based Ranker | API key。取得方法については、[API Keys and Rate Limits](https://docs.cohere.com/docs/rate-limits) を参照してください。 |
+| **Voyage AI** | Text Embedding Function および model-based Ranker | API key。取得方法については、[API Key and Python Client](https://docs.voyageai.com/docs/api-key-and-installation) を参照してください。 |
+| **Hugging Face** | [Text Embedding Function](./hugging-face) および [Hugging Face Ranker](./hugging-face-ranker) | **Make calls to Inference Providers** 権限を持つ User Access Token。取得方法については、[User Access Tokens](https://huggingface.co/docs/hub/en/security-tokens) を参照してください。 |
 
-<Admonition type="info" icon="📘" title="注">
+<Admonition type="info" title="Notes">
 
 外部プロバイダーのモデルを選択する際は、そのプロバイダーが現在、必要なタスクに対してそのモデルを提供していることを確認してください。モデルの可用性、タスク対応、安定性、レイテンシ、出力品質は、プロバイダーと選択したモデルによって異なります。本番環境でモデルを使用する前に、これらの特性をワークロードに対して評価してください。
 
 </Admonition>
 
-## 開始する前に\{#before-you-start}
+## 事前準備\{#before-you-start}
 
 モデルプロバイダー統合を作成する前に、以下を確認してください。
 
-- 対象の Zilliz Cloud プロジェクトに対する **Organization Owner** または **Project Admin** 権限を持っていること。十分な権限がない場合は、Zilliz Cloud の Organization Owner に連絡してください。
+- 対象の Zilliz Cloud プロジェクトに対する **Organization Owner** または **Project Admin** 権限を持っていること。十分な権限がない場合は、Zilliz Cloud 組織の Organization Owner に連絡してください。
 
-- 選択したモデルプロバイダーで必要な認証情報を持っていること。[サポートされているモデルプロバイダー](./integrate-with-model-providers)を参照してください。
+- 選択したモデルプロバイダーに必要な認証情報を持っていること。[サポートされているモデルプロバイダー](./integrate-with-model-providers) を参照してください。
 
 ## Zilliz Cloud コンソールで統合を作成する\{#create-an-integration-in-the-zilliz-cloud-console}
 
@@ -65,23 +65,23 @@ import Procedures from '@site/src/components/Procedures';
 
 <Procedures>
 
-1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login)にログインします。
+1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) にログインします。
 
 1. プロジェクトページで、左側のナビゲーションペインから **Integrations** に移動します。
 
-1. **Model Providers** セクションで、**+ Integration** をクリックします。
+1. **Model Providers** セクションで **+ Integration** をクリックします。
 
 1. 表示されるダイアログボックスで、**Basic Settings** を設定します。
 
     - **Model Provider**: 統合するモデルプロバイダーを選択します。
 
-    - **Integration Name**: この統合の一意な名前です（例: `test`）。
+    - **Integration Name**: この統合の一意の名前です（例: `test`）。
 
     - **Integration Description***(optional)*: この統合の説明です（例: `for model provider`）。
 
-    - **Provider** *(Hugging Face only)*: デフォルト値 `hf-inference` のままにします。Hugging Face Text Embedding と Hugging Face Ranker は現在、この Inference Provider のみをサポートしています。
+    - **Provider** *(Hugging Face only)*: デフォルト値の `hf-inference` のままにします。Hugging Face Text Embedding と Hugging Face Ranker は現在、この Inference Provider のみをサポートしています。
 
-1. **Next** をクリックします。**Credential Information** ステップに移動します。
+1. **Next** をクリックします。**Credential Information** ステップにリダイレクトされます。
 
     1. 選択したモデルプロバイダーに必要な認証情報を入力します。Hugging Face の場合は、**Hugging Face Access Token** フィールドに User Access Token を入力します。
 
@@ -107,9 +107,9 @@ import Procedures from '@site/src/components/Procedures';
 
 - 不要になった統合を削除する
 
-<Admonition type="info" icon="📘" title="注">
+<Admonition type="info" title="Notes">
 
-統合が削除されたり無効になったりすると、それを参照している collections や rankers は、統合が更新または置き換えられるまで、insert または search 操作中に失敗する可能性があります。
+統合が削除されたり無効になったりすると、それを参照しているコレクションまたは ranker は、統合が更新または置き換えられるまで、insert または search 操作中に失敗する可能性があります。
 
 </Admonition>
 
@@ -119,13 +119,13 @@ import Procedures from '@site/src/components/Procedures';
 
 モデルプロバイダー統合を作成した後は、次のことができます。
 
-- **Text Embedding Function** と一緒に使用して、テキストを dense vectors に変換する。
+- **Text Embedding Function** と組み合わせて使用し、テキストを密ベクトルに変換する。
 
-- model-based Ranker を使用して、検索結果を rerank する。
+- model-based Ranker を使用して検索結果を rerank する。
 
 詳細な手順については、以下を参照してください。
 
-- [Function Overview](./function-and-model-inference-overview)
+- [Function の概要](./function-and-model-inference-overview)
 
 - [OpenAI](./openai)
 
@@ -140,4 +140,3 @@ import Procedures from '@site/src/components/Procedures';
 - [Cohere Ranker](./cohere-model-ranker)
 
 - [Voyage AI Ranker](./voyage-ai-model-ranker)
-

@@ -27,7 +27,7 @@ import Supademo from '@site/src/components/Supademo';
 
 Zilliz Cloud では、analyzer はコレクション作成時にコレクションスキーマへ `VARCHAR` フィールドを追加する際に設定されます。analyzer によって生成されたトークンは、キーワードマッチング用のインデックス構築や、全文検索用のスパース埋め込みへの変換に使用できます。詳細については、[全文検索](./full-text-search) または [テキストマッチ](./text-match) を参照してください。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 analyzer の使用はパフォーマンスに影響を与える可能性があります。
 
@@ -45,7 +45,7 @@ Zilliz Cloud の analyzer は、必ず 1 つの **tokenizer** と **0 個以上*
 
 - **Filters**: filter を適用することで、トークンの小文字化や一般的な単語の除去など、トークンをさらに加工できます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 tokenizer がサポートするのは UTF-8 形式のみです。その他の形式への対応は今後のリリースで追加される予定です。
 
@@ -63,7 +63,7 @@ Zilliz Cloud は、さまざまなテキスト処理ニーズに対応するた�
 
 - **カスタム analyzer**: より高度な要件には、tokenizer と 0 個以上の filter の両方を指定して独自の構成を定義できます。このカスタマイズは、テキスト処理を細かく制御する必要がある特殊なユースケースで特に有効です。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - コレクション作成時に analyzer の設定を省略した場合、Zilliz Cloud はデフォルトで `standard` analyzer をすべてのテキスト処理に使用します。詳細については、[Standard](./standard-analyzer) を参照してください。
 
@@ -1393,7 +1393,7 @@ if (!status.IsOk()) {
 
 <Supademo id="cmfxfue5c41ld10k86la66x1v" title=""  />
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 analyzer の設定は、コレクションの作成後は変更できません。設定を変更する場合は、目的の設定で新しいコレクションを作成し、データを[移行](./migrate-between-clusters)してください。
 

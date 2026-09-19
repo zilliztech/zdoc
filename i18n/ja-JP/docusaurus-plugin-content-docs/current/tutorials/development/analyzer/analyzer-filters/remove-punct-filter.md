@@ -23,13 +23,13 @@ import TabItem from '@theme/TabItem';
 
 `removepunct` フィルターは、トークンストリームから独立した句読点トークンを削除します。句読点ではなく意味のある内容語に焦点を当てた、よりクリーンなテキスト処理を行いたい場合に使用します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-このフィルターは、句読点を個別のトークンとして保持する `jieba`、`lindera`、`icu` tokenizer で最も効果的です（例: `"Hello!"` → `["Hello", "!"]`）。`standard` や `whitespace` のような他の tokenizer はトークン化時に句読点を破棄するため、`removepunct` はそれらには効果がありません。
+このフィルターは、句読点を個別のトークンとして保持する `jieba`、`lindera`、`icu` tokenizer で最も効果的です（例: `"Hello!"` → `["Hello", "!"]`）。`standard` や `whitespace` などの他の tokenizer はトークン化時に句読点を破棄するため、`removepunct` はそれらには効果がありません。
 
 </Admonition>
 
-## Configuration\{#configuration}
+## 設定\{#configuration}
 
 `removepunct` フィルターは Zilliz Cloud に組み込まれています。使用するには、`analyzer_params` 内の `filter` セクションでその名前を指定するだけです。
 
@@ -93,13 +93,13 @@ nlohmann::json analyzer_params = {
 
 `removepunct` フィルターは tokenizer によって生成された用語に対して動作するため、tokenizer と組み合わせて使用する必要があります。
 
-`analyzer_params` を定義した後は、collection schema を定義する際にそれらを `VARCHAR` フィールドへ適用できます。これにより Zilliz Cloud は、そのフィールド内のテキストを指定した analyzer を使用して処理し、効率的なトークン化とフィルタリングを行えます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後は、コレクションスキーマを定義する際に、それらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定した analyzer を使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを行えます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
-## Examples\{#examples}
+## 例\{#examples}
 
-analyzer 設定を collection schema に適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+analyzer 設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
-### Analyzer configuration\{#analyzer-configuration}
+### Analyzer 設定\{#analyzer-configuration}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -289,4 +289,3 @@ if (!status.IsOk()) {
 ```sql
 ['Привет', 'Как', 'дела']
 ```
-

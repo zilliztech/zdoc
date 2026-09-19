@@ -1300,15 +1300,55 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-ai-prompts.md",
       "translatedAt": "2026-09-19T14:01:58.853Z"
     },
+    "content/en/byoc/tutorials/tools/agents-and-prompts/zilliz-gemini-extension.md": {
+      "sourceHash": "3be1b82eafc09eabc141235117bf5aeacf60cd1f7d4b7a67c8dc75d15a7f3aef",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/tools/agents-and-prompts/zilliz-gemini-extension.md",
+      "translatedAt": "2026-09-19T14:03:19.679Z"
+    },
+    "content/en/byoc/tutorials/tools/agents-and-prompts/zilliz-plugin/zilliz-plugin.md": {
+      "sourceHash": "9848b7eb43cc99aaa68c752657777d68ec685a139188f49caf74d224b15cf112",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/tools/agents-and-prompts/zilliz-plugin/zilliz-plugin.md",
+      "translatedAt": "2026-09-19T14:03:19.679Z"
+    },
+    "content/en/byoc/tutorials/tools/terraform-provider.md": {
+      "sourceHash": "f5e55b588742f4835872c203f60399f03d6031211eb214bed96449c4b357984e",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/tools/terraform-provider.md",
+      "translatedAt": "2026-09-19T14:03:19.679Z"
+    },
     "content/en/guides/tutorials/ai-models/integrate-with-model-providers.md": {
-      "sourceHash": "5fd86b230d39f10c2803caad7cc39675f6477be027d561224aef80edc705ec26",
+      "sourceHash": "f78109287303e1ae1a4d2dbaf8811c18b8afa0b2447bfccd90669a8ffec7a5a8",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/ai-models/integrate-with-model-providers.md",
-      "translatedAt": "2026-08-04T05:05:16.690Z"
+      "translatedAt": "2026-09-19T14:03:19.679Z"
     },
     "content/en/guides/tutorials/architecture/best-practices/environment-isolation.md": {
       "sourceHash": "3f5d5554a1acdd6ebe760a1f2aca7f07325eb952b144b10438828f493e9c3d7a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/architecture/best-practices/environment-isolation.md",
       "translatedAt": "2026-08-25T17:19:39.161Z"
+    },
+    "content/en/guides/tutorials/architecture/best-practices/multi-tenancy.md": {
+      "sourceHash": "3b6299509067c05ae3479d36c34aed2224a8e0da6ad75d4439b5d723fc7b9d7b",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/architecture/best-practices/multi-tenancy.md",
+      "translatedAt": "2026-09-19T14:03:19.679Z"
+    },
+    "content/en/guides/tutorials/architecture/best-practices/perf-benchmark-vectordb.md": {
+      "sourceHash": "a0aa09f1c7e353f100570225b5a1eadf49d1ccf837cfc8581dc62fe939ae2bb9",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/architecture/best-practices/perf-benchmark-vectordb.md",
+      "translatedAt": "2026-09-19T14:03:19.679Z"
+    },
+    "content/en/guides/tutorials/architecture/data-resilience.md": {
+      "sourceHash": "198cea322e373c044b36689e50951afff37874dba79d2e584532e89621d4f946",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/architecture/data-resilience.md",
+      "translatedAt": "2026-09-19T14:03:19.679Z"
+    },
+    "content/en/guides/tutorials/architecture/data-security.md": {
+      "sourceHash": "e2078ee1b460aa651390faf99e1f6200861efa283091906987102c7fcdba00de",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/architecture/data-security.md",
+      "translatedAt": "2026-09-19T14:03:19.679Z"
+    },
+    "content/en/guides/tutorials/client-libraries/install-sdks.md": {
+      "sourceHash": "239ba675ac37b6d67e8ebb4a8d12774c12c62e1de3eca119d7115737ce57642a",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/client-libraries/install-sdks.md",
+      "translatedAt": "2026-09-19T14:03:19.679Z"
     },
     "content/en/guides/tutorials/development/analyzer/analyzer-filters/alphanumonly-filter.md": {
       "sourceHash": "d81aae7dbde2dda5568718dab9b42e6507eaaa25ba59a87949c6acd771fa9da5",
@@ -1351,14 +1391,14 @@
       "translatedAt": "2026-08-04T05:07:40.782Z"
     },
     "content/en/guides/tutorials/development/analyzer/analyzer-filters/regex-filter.md": {
-      "sourceHash": "c26f765bd492bef43e03dd62aacee1102b8bcd8dd4a278e357026a2cf611af88",
+      "sourceHash": "2d27cabfd27b9e94671ebaca1f4bd14440961899f60235eefd6e5e33622035c1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/analyzer/analyzer-filters/regex-filter.md",
-      "translatedAt": "2026-08-25T07:23:22.369Z"
+      "translatedAt": "2026-09-19T14:03:19.679Z"
     },
     "content/en/guides/tutorials/development/analyzer/analyzer-filters/remove-punct-filter.md": {
-      "sourceHash": "b65dd23e405ce4ce63dfdaf5eba488b37c7a6f5360a311c15c516892565b155f",
+      "sourceHash": "d9a79b00a360cd08e9740d57d9ed07520a8bde9f11948edf6aa28cd094588d4b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/analyzer/analyzer-filters/remove-punct-filter.md",
-      "translatedAt": "2026-08-04T05:08:19.791Z"
+      "translatedAt": "2026-09-19T14:03:19.679Z"
     },
     "content/en/guides/tutorials/development/analyzer/analyzer-filters/stemmer-filter.md": {
       "sourceHash": "edc783e55d208e35f68ccac42c0a5899e847beff31b59c042224fef9a8419046",
@@ -1371,24 +1411,24 @@
       "translatedAt": "2026-08-25T07:24:24.852Z"
     },
     "content/en/guides/tutorials/development/analyzer/analyzer-overview.md": {
-      "sourceHash": "52870ac6ea09eb16fb1cd67fce402a36fd9697f45b4205748b2d3a0293fb73f7",
+      "sourceHash": "c7638f9e1614fb32c6476097f7eccd1071140ac6a45945bb13aab90e099173ac",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/analyzer/analyzer-overview.md",
-      "translatedAt": "2026-08-25T07:26:58.830Z"
+      "translatedAt": "2026-09-19T14:03:19.679Z"
     },
     "content/en/guides/tutorials/development/analyzer/analyzer-tokenizers/icu-tokenizer.md": {
-      "sourceHash": "2cffd41903b9413ae341519eaa6509f92a61f2c7c91a78bf67d4414a7da370c1",
+      "sourceHash": "6885809ac5b916f2b25d806fbaf70e5d0776093e34eb7c5da9ebf45b06d7548f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/analyzer/analyzer-tokenizers/icu-tokenizer.md",
-      "translatedAt": "2026-08-04T05:13:25.903Z"
+      "translatedAt": "2026-09-19T14:03:19.679Z"
     },
     "content/en/guides/tutorials/development/analyzer/analyzer-tokenizers/jieba-tokenizer.md": {
-      "sourceHash": "4b3cf1d823040d0f856d489a5cb94a1f3b9fb23063db734dbc21b9255f29f599",
+      "sourceHash": "ded44bff6b84c779f1d4a5c847a1dba20e03aa2f86ff158c534c80532a6d858d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/analyzer/analyzer-tokenizers/jieba-tokenizer.md",
-      "translatedAt": "2026-08-25T07:29:16.913Z"
+      "translatedAt": "2026-09-19T14:03:19.679Z"
     },
     "content/en/guides/tutorials/development/analyzer/analyzer-tokenizers/language-identifier-tokenizer.md": {
-      "sourceHash": "13c7954c39dc91ff50bee790ed1b73a6ddeee3f992ca82ef8f7df87cfe471900",
+      "sourceHash": "61ed123ea01e9f9fe944216a460d22ab1302a5bb905179877db0052c955bbce7",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/analyzer/analyzer-tokenizers/language-identifier-tokenizer.md",
-      "translatedAt": "2026-08-04T05:15:39.327Z"
+      "translatedAt": "2026-09-19T14:03:19.679Z"
     },
     "content/en/guides/tutorials/development/analyzer/analyzer-tokenizers/lindera-tokenizer.md": {
       "sourceHash": "119336e7ca2e4a763c9278773a99d8494391ad35a18485cefc2454795e67d898",

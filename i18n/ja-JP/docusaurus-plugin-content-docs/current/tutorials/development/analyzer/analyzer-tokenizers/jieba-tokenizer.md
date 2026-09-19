@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 `jieba` トークナイザーは、中国語テキストを構成単語に分割して処理します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 `jieba` トークナイザーは、句読点を個別のトークンとして出力に保持します。たとえば、`"你好！世界。"` は `["你好", "！", "世界", "。"]` となります。これらの単独の句読点トークンを除去するには、[`removepunct`](./remove-punct-filter) フィルターを使用してください。
 

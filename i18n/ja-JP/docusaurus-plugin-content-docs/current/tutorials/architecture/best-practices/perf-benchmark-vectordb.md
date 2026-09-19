@@ -125,7 +125,7 @@ Web ページを一番下までスクロールし、**Run Your Test >** をク�
 
 必要に応じて、左側のナビゲーションペインで **DB Filter** と **Case Filter** を設定し、事前定義済みのベクトルデータベースとケースのベンチマーク結果を比較できます。
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 データベースは [database_name]-[db_label] の形式で命名されます。 
 

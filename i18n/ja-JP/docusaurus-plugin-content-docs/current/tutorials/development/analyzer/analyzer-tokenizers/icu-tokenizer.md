@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`icu` tokenizer は Internationalization Components of Unicode オープンソースプロジェクト上に構築されており、ソフトウェアの国際化に不可欠なツールを提供します。ICU の単語分割アルゴリズムを使用することで、この tokenizer は世界の大半の言語においてテキストを正確に単語へ分割できます。 | Cloud"
+description: "`icu` トークナイザーは、ソフトウェアの国際化に不可欠なツールを提供する Internationalization Components of Unicode オープンソースプロジェクト上に構築されています。ICU の単語分割アルゴリズムを使用することで、このトークナイザーは世界の大半の言語においてテキストを正確に単語へ分割できます。 | Cloud"
 type: origin
 token: Q3gKwc5lkilAbKkalCWcW2AbnLe
 sidebar_position: 5
@@ -21,17 +21,17 @@ import TabItem from '@theme/TabItem';
 
 # ICU
 
-`icu` tokenizer は、ソフトウェアの国際化に不可欠なツールを提供する [Internationalization Components of Unicode](http://site.icu-project.org/) (ICU) オープンソースプロジェクト上に構築されています。ICU の単語分割アルゴリズムを使用することで、この tokenizer は世界の大半の言語においてテキストを正確に単語へ分割できます。
+`icu` トークナイザーは、ソフトウェアの国際化に不可欠なツールを提供する [Internationalization Components of Unicode](http://site.icu-project.org/)（ICU）オープンソースプロジェクト上に構築されています。ICU の単語分割アルゴリズムを使用することで、このトークナイザーは世界の大半の言語においてテキストを正確に単語へ分割できます。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-`icu` tokenizer は、句読点とスペースを出力内で個別の token として保持します。たとえば、`"Привет! Как дела?"` は `["Привет", "!", " ", "Как", " ", "дела", "?"]` になります。こうした単独の句読点 token を削除するには、[`removepunct`](./remove-punct-filter) filter を使用してください。
+`icu` トークナイザーは、句読点とスペースを出力内で個別のトークンとして保持します。たとえば、`"Привет! Как дела?"` は `["Привет", "!", " ", "Как", " ", "дела", "?"]` になります。こうした単独の句読点トークンを削除するには、[`removepunct`](./remove-punct-filter) フィルターを使用してください。
 
 </Admonition>
 
-## Configuration\{#configuration}
+## 設定\{#configuration}
 
-`icu` tokenizer を使用して analyzer を設定するには、`analyzer_params` 内で `tokenizer` を `icu` に設定します。
+`icu` トークナイザーを使用してアナライザーを構成するには、`analyzer_params` 内で `tokenizer` を `icu` に設定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -88,7 +88,7 @@ nlohmann::json analyzer_params = {
 </TabItem>
 </Tabs>
 
-`icu` tokenizer は、1 つ以上の filter と組み合わせて使用できます。たとえば、次のコードは `icu` tokenizer と [remove punct filter](./remove-punct-filter) を使用する analyzer を定義しています。
+`icu` トークナイザーは、1 つ以上のフィルターと組み合わせて使用できます。たとえば、次のコードは `icu` トークナイザーと [remove punct filter](./remove-punct-filter) を使用するアナライザーを定義しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -148,13 +148,13 @@ nlohmann::json analyzer_params = {
 </TabItem>
 </Tabs>
 
-`analyzer_params` を定義した後、collection schema を定義する際にそれらを `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud は効率的な tokenization と filtering のために、指定された analyzer を使用してそのフィールド内のテキストを処理できます。詳細は、[使用例](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後、コレクションスキーマを定義する際にそれらを `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを実現できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
-## Examples\{#examples}
+## 例\{#examples}
 
-analyzer 設定を collection schema に適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
-### Analyzer configuration\{#analyzer-configuration}
+### アナライザー設定\{#analyzer-configuration}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -211,7 +211,7 @@ nlohmann::json analyzer_params = {
 </TabItem>
 </Tabs>
 
-### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
+### `run_analyzer` による検証\{#verification-using-runanalyzer}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -340,9 +340,8 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-### Expected output\{#expected-output}
+### 期待される出力\{#expected-output}
 
 ```sql
 ['Привет', '!', ' ', 'Как', ' ', 'дела', '?']
 ```
-

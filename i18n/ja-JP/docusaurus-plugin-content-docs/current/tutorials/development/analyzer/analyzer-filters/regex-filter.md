@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 `regex` フィルターは正規表現フィルターです。トークナイザーが生成したトークンのうち、指定した式に一致するものだけが保持され、それ以外はすべて破棄されます。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 このページでは、アナライザーパイプラインにおける regex フィルターについて説明します。このフィルターはトークナイザーが生成したトークンをフィルタリングし、テキスト解析時に生成されるタームに影響を与えます。query、search、またはハイブリッド検索において、field =~ "pattern" や field !~ "pattern" などのスカラー式を使ってエンティティをフィルタリングする方法については、[Pattern Matching](./pattern-match) を参照してください。
 

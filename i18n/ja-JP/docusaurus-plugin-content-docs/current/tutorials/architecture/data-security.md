@@ -36,7 +36,7 @@ Zilliz Cloud は、クラスターに対して堅牢な分離と保護を提供�
 
 - **複数のデータレジデンシーオプション**: 利用可能なクラウドプロバイダーとリージョンの中から希望する場所にクラスターを作成できます。詳細については、[クラウドプロバイダーとリージョン](./cloud-providers-and-regions)を参照してください。
 
-- **専用名前空間:** 各専用クラスターは、カスタマイズされたネットワークポリシーを持つ分離された名前空間で動作します。
+- **Dedicated 名前空間:** 各専用クラスターは、カスタマイズされたネットワークポリシーを持つ分離された名前空間で動作します。
 
 - **分離されたストレージ:** データは専用のオブジェクトストレージバケットに個別に保存されます。
 
@@ -52,7 +52,7 @@ Zilliz Cloud は、安全なユーザー認証に OAuth0 を利用します。
 
 - API キーとクラスター認証情報を通じてクラスターへのアクセスを提供します。
 
-詳細については、[シングルサインオン（SSO）](./single-sign-on)、[MFA](./multi-factor-auth)、および [Cluster Credentials](./cluster-credentials) を参照してください。
+詳細については、[シングルサインオン（SSO）](./single-sign-on)、[MFA](./multi-factor-auth)、および [クラスター Credentials](./cluster-credentials) を参照してください。
 
 ## アクセス制御\{#access-control}
 
@@ -72,11 +72,11 @@ Zilliz Cloud は、以下を通じてネットワーク上のやり取りを保�
 
 - **コンソール IP Allowlisting:** 許可された IP 範囲（CIDR ブロック）によってコンソールアクセスを制限します。
 
-- **Cluster IP Allowlisting**: IP 範囲によってクラスターの Data Plane ネットワークアクセスを制限します。
+- **クラスター IP Allowlisting**: IP 範囲によって、クラスターデータプレーンのネットワークアクセスを制限します。
 
 - **Private Links:** VPC と Zilliz Cloud Control Plane の間に、安全なプライベート接続を確立します。
 
-詳細については、[Cluster IP Allowlist の設定](./setup-whitelist)、[PrivateLink (AWS) の設定](./setup-a-private-link-aws)、[Private Service Connect (GCP) の設定](./setup-a-private-link-gcp)、および [Private Link (Azure) の設定](./setup-a-private-link-azure)を参照してください。
+詳細については、[クラスター IP 許可リストの設定](./setup-whitelist)、[PrivateLink（AWS）を設定する](./setup-a-private-link-aws)、[Private Service Connect（GCP）を設定する](./setup-a-private-link-gcp)、および [Private Link を設定する（Azure）](./setup-a-private-link-azure) を参照してください。
 
 ## データ暗号化\{#data-encryption}
 
@@ -122,7 +122,7 @@ Zilliz Cloud は安全な接続を保証します。
 
 - TLS 1.2 以上のみをサポートします。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 双方向 TLS（mTLS）は現在利用できません。 
 
