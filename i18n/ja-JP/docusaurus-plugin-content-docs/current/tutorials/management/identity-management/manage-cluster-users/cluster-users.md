@@ -26,7 +26,7 @@ Zilliz Cloud では、クラスターユーザーを作成してクラスター�
 
 クラスターユーザーを管理するには、**Organization Owner** または **Project Admin** であるか、**Cluster_Admin** 権限を持つロールが必要です。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 この機能は **Dedicated** クラスターでのみ利用できます。
 
@@ -46,7 +46,7 @@ Zilliz Cloud では、クラスターユーザーを作成してクラスター�
 
 ![X8A2bdNuTopfLWxt53Ich1FHntf](https://zdoc-images.s3.us-west-2.amazonaws.com/x8a2bdnutopflwxt53ich1fhntf.png "X8A2bdNuTopfLWxt53Ich1FHntf")
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 各クラスターには最大500のクラスターユーザーを作成できます。
 
@@ -58,10 +58,11 @@ Zilliz Cloud では、クラスターユーザーを作成してクラスター�
 
 ## クラスターユーザーの削除\{#drop-a-cluster-user}
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 デフォルトユーザー **db_admin** は削除できません。
 
 </Admonition>
 
 ![drop-クラスター-user](https://zdoc-images.s3.us-west-2.amazonaws.com/drop-cluster-user.png "drop-クラスター-user")
+

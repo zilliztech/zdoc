@@ -42,11 +42,11 @@ Query CU Cost = Query CU Unit Price × Number of Query CU × Active Runtime
 
 - **Number of Query CU**: オンデマンドクラスターに設定された Query CU の数です。
 
-- **Active Runtime**: オンデマンドクラスターのコンピュートリソースが使用されている間の課金対象ランタイムです。
+- **Active Runtime**: オンデマンドクラスターのコンピュートリソースが使用されているときの課金対象ランタイムです。
 
     - 課金は、オンデマンドクラスターが **Running** ステータスになった時点で開始されます。
 
-    - 課金は、非アクティブ状態によりオンデマンドクラスターが自動的に一時停止される（**Suspending** または **Suspended** ステータス）と停止します。
+    - 課金は、非アクティブ状態によりオンデマンドクラスターが自動的に一時停止されたとき（**Suspending** または **Suspended** ステータス）に停止します。
 
     - 最小課金単位は **1 分** です。1 分未満の使用も 1 分として課金されます。
 
@@ -70,11 +70,11 @@ Indexing CU Cost = Indexing CU Unit Price × Number of Indexing CU x Time
 
 - **Indexing CU Unit Price**: クラウドリージョンとプロジェクトプランによって決まります。詳細な料金については、[Zilliz Cloud Pricing Guide](https://zilliz.com/pricing/pricing-guide) を参照してください。
 
-- **Number of Indexing CU**: システムが最も適切な量の Indexing CU を自動的に割り当てます。使用する Indexing CU の数を指定することはできません。
+- **Number of Indexing CU**: システムが最も適切な量の Indexing CU を自動的に割り当てます。使用する Indexing CU の数は指定できません。
 
 - **Time**: インデックス構築ジョブの完了にかかる時間です。ジョブの実行時間のみが計上される点に注意してください。キューでの待機時間と失敗したジョブは課金されません。最小課金単位は 1 分です。1 分未満の使用も 1 分として課金されます。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 [Usage](./analyze-cost) ページと [Invoice](./view-invoice) ページでは、Indexing CU コストは個々のジョブ単位ではなくデータベースごとの合計として表示されます。  
 
@@ -107,3 +107,4 @@ Indexing CU Cost = Indexing CU Unit Price × Number of Indexing CU x Time
 `Indexing CU Cost = (120 ÷ 60) x $0.41 = $0.82`
 
 `Total On-demand Compute Cost = $1.64 + $0.82 = $2.46`
+

@@ -28,7 +28,7 @@ import Procedures from '@site/src/components/Procedures';
 
 組織メンバーは、Zilliz Cloud 組織に所属するユーザーです。コンソールにサインインでき、担当業務に応じて組織ロール、プロジェクトアクセス、その他の権限が割り当てられる場合があります。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 組織メンバーを管理するには、Organization Owner や同等のカスタム組織ロールなど、メンバーとロールの管理権限を含む組織ロールが必要です。
 
@@ -36,7 +36,7 @@ import Procedures from '@site/src/components/Procedures';
 
 ### 組織メンバーの招待\{#invite-organization-members}
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 各組織のメンバーは最大 100 人です。
 
@@ -128,7 +128,7 @@ import Procedures from '@site/src/components/Procedures';
 
 メンバーが組織に所属する必要がなくなった場合は、そのメンバーを削除します。組織メンバーを削除すると、組織のメンバーシップと、その組織における直接のロール割り当てが削除されます。
 
-<Admonition type="danger" icon="🚧" title="Notes">
+<Admonition type="danger" title="Notes">
 
 メンバーを削除すると、対応する個人用 API キーが即座に無効化され、アクセスが拒否されます。サービスの中断を防ぐため、環境で使用している個人用キーは削除前に必ず置き換えてください。この操作は元に戻せません。
 
@@ -156,7 +156,7 @@ import Procedures from '@site/src/components/Procedures';
 
 メンバーは、アクセスが不要になったときに組織から脱退できます。各組織には少なくとも 1 人の Organization Owner が必要です。自分が唯一の Organization Owner である場合は、脱退する前に別のユーザーを Organization Owner に割り当ててください。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 組織から脱退すると、別の管理者から再度招待されない限り、その組織およびそのリソースにアクセスできなくなります。
 
@@ -200,7 +200,7 @@ import Procedures from '@site/src/components/Procedures';
 
 プロジェクトユーザーは、プロジェクトメンバーとも呼ばれ、特定のプロジェクトへのアクセス権を持つユーザーまたはグループです。プロジェクトユーザーを使用すると、組織レベルでの広範な権限を付与せずに、プロジェクトのリソースへのアクセス権を付与できます。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 プロジェクトアクセスは明示的です。プロジェクトロールの割り当ては、特定のプロジェクトを対象とする必要があります。Zilliz Cloud は、現在および将来のすべてのプロジェクトを対象とするプロジェクト横断的なワイルドカード割り当てをサポートしていません。
 
@@ -250,7 +250,7 @@ import Procedures from '@site/src/components/Procedures';
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 組織メンバーではないユーザーをプロジェクトに招待した場合、そのユーザーは招待を承諾すると組織のメンバーになります。
 
@@ -304,7 +304,7 @@ import Procedures from '@site/src/components/Procedures';
 
 ユーザーは、アクセスが不要になったときにプロジェクトから脱退できます。各プロジェクトには少なくとも 1 人の Project Admin が必要です。自分が唯一の Project Admin である場合は、脱退する前に別のユーザーを Project Admin に割り当ててください。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 プロジェクトから脱退すると、別の管理者から再度招待されない限り、そのプロジェクトおよびそのリソースにアクセスできなくなります。
 

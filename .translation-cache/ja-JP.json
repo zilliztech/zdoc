@@ -2701,69 +2701,79 @@
       "translatedAt": "2026-09-19T14:22:01.285Z"
     },
     "content/en/guides/tutorials/management/cost-management/understand-cost/dedicated-cluster-cost.md": {
-      "sourceHash": "07160e95c43f773dd130bd4d3544d29fd5762d48d5768da8beb6fe0776a9d59f",
+      "sourceHash": "caf0c217a4ad213568c7f976c789df152edebc06b76ec8cb411ca7d64be763d9",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cost-management/understand-cost/dedicated-cluster-cost.md",
-      "translatedAt": "2026-08-04T05:15:58.024Z"
+      "translatedAt": "2026-09-19T14:23:03.631Z"
     },
     "content/en/guides/tutorials/management/cost-management/understand-cost/on-demand-compute-cost.md": {
-      "sourceHash": "7be1a74d5a892f69b6aef5178b09b6213ea76e4def21ea3561fa8057c6be9fd1",
+      "sourceHash": "9ba9846ebd41c44bdc65ace2b74828f056e39a0a5acb2c4a22a8e6949138e6dc",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cost-management/understand-cost/on-demand-compute-cost.md",
-      "translatedAt": "2026-08-04T05:04:57.358Z"
+      "translatedAt": "2026-09-19T14:23:03.631Z"
     },
     "content/en/guides/tutorials/management/cost-management/understand-cost/serverless-cluster-cost.md": {
-      "sourceHash": "de0005519ae4f2ab70467f15755122e29df04fc75d3c854f27a5a357808ac1d0",
+      "sourceHash": "2f35a5da425364f6661b08ac333158699788472079228f0ec8f1cf06954a44e7",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cost-management/understand-cost/serverless-cluster-cost.md",
-      "translatedAt": "2026-08-04T05:04:37.863Z"
+      "translatedAt": "2026-09-19T14:23:03.631Z"
     },
     "content/en/guides/tutorials/management/cost-management/understand-cost/storage-cost.md": {
-      "sourceHash": "32c1f1d6f5ad40f3049ed819c1863d2fba218998956794c689ac76da1bcd01f9",
+      "sourceHash": "11920a546c5efd57293d878bc6072c095f4f518d7ed4c60202e02b5d2941b89b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cost-management/understand-cost/storage-cost.md",
-      "translatedAt": "2026-08-04T05:05:08.679Z"
+      "translatedAt": "2026-09-19T14:23:03.631Z"
     },
     "content/en/guides/tutorials/management/identity-management/identity-management-overview.md": {
-      "sourceHash": "f4699ad71ed2efef66feeda028d97fde253a6c1ccaad610ac688b44a5a7b5544",
+      "sourceHash": "025c7296504d1332820984ba1459bc4171470bd396ea7a804eff0303e230c020",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/identity-management-overview.md",
-      "translatedAt": "2026-08-25T05:27:03.867Z"
+      "translatedAt": "2026-09-19T14:23:03.631Z"
+    },
+    "content/en/guides/tutorials/management/identity-management/manage-cluster-users/cluster-users-sdk.md": {
+      "sourceHash": "cb5687d75d620bb0a45ead80d09a8bfb295fa8b929bc9f4639dd9b5b8abd6be7",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/manage-cluster-users/cluster-users-sdk.md",
+      "translatedAt": "2026-09-19T14:23:03.631Z"
+    },
+    "content/en/guides/tutorials/management/identity-management/manage-cluster-users/cluster-users.md": {
+      "sourceHash": "b1a4de18294531848bb53b75363887cb530a95df95da74d36c828cd8e7c1711f",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/manage-cluster-users/cluster-users.md",
+      "translatedAt": "2026-09-19T14:23:03.631Z"
     },
     "content/en/guides/tutorials/management/identity-management/manage-platform-users.md": {
-      "sourceHash": "515b1492f748bb50fbde3eadb3ca84867469f2abb2a193dc6d349314914b537e",
+      "sourceHash": "b10d672f8035ccc260704bac9d8b1342fd5f2ecbf5fdd7e46f4215bb2410e3d8",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/manage-platform-users.md",
-      "translatedAt": "2026-08-25T05:31:03.607Z"
+      "translatedAt": "2026-09-19T14:23:03.631Z"
     },
     "content/en/guides/tutorials/management/identity-management/scim-provisioning/configure-scim-provisioning-with-microsoft-entra.md": {
-      "sourceHash": "d8e5792130a144bec580f739b5ca87223700173cdd21c5f633977ce8dc7c3a30",
+      "sourceHash": "1d61b9abae1260c8eb548e2ce668150f817421838b96f6ef571354d7a0f1e7ae",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/scim-provisioning/configure-scim-provisioning-with-microsoft-entra.md",
-      "translatedAt": "2026-08-25T05:32:29.107Z"
+      "translatedAt": "2026-09-19T14:23:03.631Z"
     },
     "content/en/guides/tutorials/management/identity-management/scim-provisioning/configure-scim-provisioning-with-okta.md": {
-      "sourceHash": "5350a4214e5404282185212c763df7578e4fcf1acc327a466dd960aedfe3f4d5",
+      "sourceHash": "fe835ae2ae50e7b6540a6926d6a3322c57df74126e54638190e2f6cb00579847",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/scim-provisioning/configure-scim-provisioning-with-okta.md",
-      "translatedAt": "2026-08-25T05:34:11.070Z"
+      "translatedAt": "2026-09-19T14:23:03.631Z"
     },
     "content/en/guides/tutorials/management/identity-management/scim-provisioning/scim-provisioning-overview.md": {
-      "sourceHash": "5f7496d02ad1773ade60ac4815e656dabe09b83984a2c3270f649d0b1a9b3f71",
+      "sourceHash": "34ae30cd55b907c24be1c5e2c84632e2c565e76b555d641f8ba3bee7d9b9da84",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/scim-provisioning/scim-provisioning-overview.md",
-      "translatedAt": "2026-08-25T05:35:32.054Z"
+      "translatedAt": "2026-09-19T14:23:03.631Z"
     },
     "content/en/guides/tutorials/management/identity-management/scim-provisioning/view-scim-synced-groups.md": {
-      "sourceHash": "b51ae761327896c897ddeef6fee6652c8e6948d25b933ae65f8f7604b56aaa7b",
+      "sourceHash": "ffa0f24d6b05467a2a526df70c8deb3b7bfee63752b1166625ea95178636ac43",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/scim-provisioning/view-scim-synced-groups.md",
-      "translatedAt": "2026-08-25T05:35:52.384Z"
+      "translatedAt": "2026-09-19T14:23:03.631Z"
     },
     "content/en/guides/tutorials/management/identity-management/single-sign-on/enforce-sso-in-your-organization.md": {
-      "sourceHash": "56d68c7328f6b223f7a54ade27001ba5e70f259ae840aaaf61e22d07cffdf4d9",
+      "sourceHash": "5551331f4adfe89d552c06d2ba66b2c7ce7e3b2a191650f0b155f2e5f618f509",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/single-sign-on/enforce-sso-in-your-organization.md",
-      "translatedAt": "2026-08-25T05:37:09.692Z"
+      "translatedAt": "2026-09-19T14:23:03.631Z"
     },
     "content/en/guides/tutorials/management/identity-management/single-sign-on/openid-connect.md": {
-      "sourceHash": "3f7ab406b9cae5e6b92d5194bc4d49e5a6b20ea0198afa9090d3046f804df374",
+      "sourceHash": "cdb84bba7cd25410e1eee898ac1f8cc168e00b8ff641b52267eea473b2e9ec18",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/single-sign-on/openid-connect.md",
-      "translatedAt": "2026-08-25T18:25:50.939Z"
+      "translatedAt": "2026-09-19T14:23:03.631Z"
     },
     "content/en/guides/tutorials/management/identity-management/single-sign-on/single-sign-on-with-google-workspace.md": {
-      "sourceHash": "874aa983b21f6a0b72baeec3bd978a6e4be1ed54008f90902e4536bd6cb2a934",
+      "sourceHash": "40a30b61ec98b1110f3205d2113aaed65ebd563c20f9b0940b8137da9fc77495",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/single-sign-on/single-sign-on-with-google-workspace.md",
-      "translatedAt": "2026-08-25T18:27:30.037Z"
+      "translatedAt": "2026-09-19T14:23:03.631Z"
     },
     "content/en/guides/tutorials/management/identity-management/single-sign-on/single-sign-on-with-okta.md": {
       "sourceHash": "db84b54fb338a68bfb7e24ff632d2503731987561582c78b7abd0bafe1791027",

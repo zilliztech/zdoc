@@ -102,7 +102,7 @@ SP である Zilliz Cloud は、Okta で OIDC アプリを設定する際に必�
 
     - **Okta domain**
 
-    これらの値は、[手順 3](./openid-connect#step-3-configure-idp-settings-in-zilliz-cloud-console) で Zilliz Cloud コンソールに入力する必要があります。
+    これらの値は、[手順 3](./openid-connect#step-3-configure-idp-settings-in-zilliz-cloud-console) の Zilliz Cloud コンソールで必要になります。
 
 </Procedures>
 
@@ -160,7 +160,7 @@ SP である Zilliz Cloud は、Okta で OIDC アプリを設定する際に必�
 
 プロジェクトへの招待後、**Organization** **Owner** はエンタープライズユーザーに対して Zilliz Cloud のログイン URL を共有し、SSO 経由でサインインできるように案内できます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 組織で SSO 強制が有効になっている場合、組織レベルでのメンバー直接招待は無効になります。代わりに IdP を通じてユーザーをプロビジョニングしてください。プロジェクトレベルでメンバーを招待する場合は、既存の組織メンバーのみが対象となります。
 
@@ -170,9 +170,9 @@ SP である Zilliz Cloud は、Okta で OIDC アプリを設定する際に必�
 
 ### タスク 3: （オプション）SSO 強制を有効にする\{#task-3-optional-enable-sso-enforcement}
 
-SSO 接続の設定とテストが完了したら、オプションで **SSO 強制** を有効にして、すべての組織メンバーに SSO 経由でのログインを必須にすることができます。有効化すると、メール/passwordやサードパーティーアカウント（Google、GitHub）によるサインインはできなくなります。
+SSO 接続の設定とテストが完了したら、オプションで **SSO 強制** を有効にして、すべての組織メンバーに SSO 経由でのログインを必須にすることができます。有効にすると、メンバーは email/password やサードパーティーアカウント（Google、GitHub）を使用してサインインできなくなります。
 
-<Admonition type="warning" icon="🚧" title="Warning">
+<Admonition type="warning" title="Warning">
 
 この機能を有効にすると、パスワードでサインインしているすべてのメンバーが即座にログアウトされ、SSO 以外のログイン方法がブロックされます。
 
@@ -198,4 +198,4 @@ SSO でログインすると、ユーザーにはデフォルトで **Organizati
 
 ### 同じ組織に複数の SSO プロバイダーを設定できますか？\{#can-i-configure-multiple-sso-providers-for-the-same-organization}
 
-現在、各 Zilliz Cloud 組織で有効にできる SAML SSO 設定は **1 つのみ** です。
+現在、各 Zilliz Cloud 組織が同時にサポートできるのは **1 つの有効な SAML SSO 構成** のみです。

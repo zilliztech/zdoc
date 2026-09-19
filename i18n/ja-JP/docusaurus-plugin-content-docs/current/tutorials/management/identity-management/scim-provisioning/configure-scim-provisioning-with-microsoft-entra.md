@@ -40,7 +40,7 @@ import Procedures from '@site/src/components/Procedures';
 
 - Microsoft Entra でエンタープライズアプリケーションとそのプロビジョニング設定を作成または管理できること。
 
-## ステップ 1: Zilliz Cloud で SCIM ベース URL と API トークンを取得する\{#step-1-get-the-scim-base-url-and-api-token-in-zilliz-cloud}
+## ステップ 1: Zilliz Cloud で SCIM Base URL と API トークンを取得する\{#step-1-get-the-scim-base-url-and-api-token-in-zilliz-cloud}
 
 Zilliz Cloud の SCIM プロビジョニング設定では、Microsoft Entra が Zilliz Cloud SCIM API を呼び出すために必要な接続情報が提供されます。
 
@@ -98,7 +98,7 @@ Zilliz Cloud の SCIM 資格情報を使用してエンタープライズアプ�
 
 </Procedures>
 
-SCIM API トークンはベアラートークンとして使用されます。プロビジョニングを開始する前に、デフォルトのマッピングとプロビジョニングスコープを確認してください。他の SCIM 統合との類推だけを根拠に属性を追加したり再マッピングしたりしないでください。マッピングの概念については、[アプリケーション属性のカスタマイズ](https://learn.microsoft.com/en-us/entra/identity/app-provisioning/customize-application-attributes) を参照してください。
+SCIM API トークンはベアラートークンとして使用されます。プロビジョニングを開始する前に、デフォルトのマッピングとプロビジョニングスコープを確認してください。他の SCIM 統合との類推のみに基づいて属性を追加または再マッピングしないでください。マッピングの概念については、[アプリケーション属性のカスタマイズ](https://learn.microsoft.com/en-us/entra/identity/app-provisioning/customize-application-attributes) を参照してください。
 
 ## ステップ 4: Microsoft Entra からユーザーとグループをプロビジョニングする\{#step-4-provision-users-and-groups-from-microsoft-entra}
 
@@ -110,7 +110,7 @@ SCIM API トークンはベアラートークンとして使用されます。�
 
 1. エンタープライズアプリケーションで **Users and groups** を開きます。
 
-1. **Add user/group**, をクリックしてメンバーセレクターを開きます。
+1. **Add user/group**, をクリックし、続いてメンバーセレクターを開きます。
 
 1. **Groups** タブを開き、対象のグループを選択して **Select** をクリックし、続いて **Assign** をクリックします。
 
