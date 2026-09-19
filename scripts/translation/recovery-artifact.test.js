@@ -8,6 +8,7 @@ const path = require('node:path');
 const test = require('node:test');
 
 const {createRecoveryArtifact, promptContractSha256, readArtifact, restoreRecoveryFiles} = require('./recovery-artifact');
+const {isConsistentSuccessfulReview, successfulReview} = require('./reviewEvidence');
 const {createReconciliationPlan, createReconciliationResult} = require('./reconciliation-plan');
 const {promptNamesFor} = require('./prompts');
 
@@ -237,7 +238,7 @@ test('does not restore a translated payload whose reviewer receipt is not bound 
   }
 });
 
-test('does not mint or restore internally contradictory shell reviewer receipts', () => {
+test('review-broken results never mint receipts, and their records restore only through the current gate', () => {
   const mutations = [
     review => { review.issues = [{type: 'accuracy_mistranslation'}]; },
     review => { review.unsupportedIssues = [{reason: 'unsupported'}]; },
@@ -252,7 +253,9 @@ test('does not mint or restore internally contradictory shell reviewer receipts'
     mutate(result.review);
     createRecoveryArtifact({siteDir: value.siteDir, outputDir: value.artifactDir, results: [result], identity: value.identity});
     const manifest = JSON.parse(fs.readFileSync(path.join(value.artifactDir, 'manifest.json'), 'utf8'));
+    // No receipt is minted for a review that does not attest success.
     assert.equal(Object.hasOwn(manifest.files[0], 'reviewReceipt'), false);
+    assert.equal(manifest.files[0].recoveredLineage, undefined);
     fs.rmSync(path.join(value.siteDir, value.targetPath));
     const restored = restoreRecoveryFiles({
       siteDir: value.siteDir,
@@ -261,9 +264,13 @@ test('does not mint or restore internally contradictory shell reviewer receipts'
       identity: value.identity,
       revalidate: () => [],
     });
-    assert.equal(restored.restored.length, 0);
-    assert.equal(restored.pending.length, 1);
-    assert.ok(restored.pending[0].recoverySemanticResume?.report?.entries?.length > 0);
+    // The record is receipt-less, so trust falls to the current full-file
+    // revalidation (the deterministic validator is the final arbiter); it
+    // still never carries a minted receipt.
+    assert.equal(restored.restored.length, 1);
+    assert.equal(restored.pending.length, 0);
+    assert.equal(restored.restored[0].recoveryCompatibility, 'revalidated');
+    assert.equal(Object.hasOwn(restored.restored[0], 'recoveryReviewReceipt'), false);
     fs.rmSync(value.siteDir, {recursive: true, force: true});
     fs.rmSync(value.artifactDir, {recursive: true, force: true});
   }
@@ -341,6 +348,11 @@ test('does not launder a cross-identity receipt into a strict third-generation r
     assert.equal(Object.hasOwn(nestedManifest.files[0], 'reviewReceipt'), false);
     fs.rmSync(path.join(value.siteDir, value.targetPath));
 
+    // The second generation re-writes the record with the next identity and
+    // without a receipt (revalidated recoveries never mint one), but it marks
+    // the recovered lineage. The third generation therefore restores through
+    // the current full-file revalidation instead of degrading into pending
+    // work — this is what keeps recovery chains operable across hops.
     let thirdGenerationRevalidations = 0;
     const thirdGeneration = restoreRecoveryFiles({
       siteDir: value.siteDir,
@@ -349,9 +361,10 @@ test('does not launder a cross-identity receipt into a strict third-generation r
       identity: nextIdentity,
       revalidate: () => { thirdGenerationRevalidations += 1; return []; },
     });
-    assert.equal(thirdGeneration.restored.length, 0);
-    assert.equal(thirdGeneration.pending.length, 1);
-    assert.ok(thirdGeneration.pending[0].recoverySemanticResume?.report?.entries?.length > 0);
+    assert.equal(thirdGeneration.restored.length, 1);
+    assert.equal(thirdGeneration.pending.length, 0);
+    assert.equal(thirdGeneration.restored[0].recoveryCompatibility, 'revalidated');
+    assert.equal(Object.hasOwn(thirdGeneration.restored[0], 'recoveryReviewReceipt'), false);
     assert.equal(thirdGenerationRevalidations, 1);
   } finally {
     fs.rmSync(nestedDir, {recursive: true, force: true});
@@ -370,7 +383,7 @@ test('does not mint a current-identity receipt from revalidated recovered review
 });
 
 
-test('turns real-path translated records without reviewer receipts into semantic pending work', t => {
+test('restores revalidated records without reviewer receipts on the strength of the current full-file revalidation', t => {
   for (const [sourcePath, targetPath] of [
     [
       'content/en/byoc/tutorials/development/analyzer/analyzer-filters/regex-filter.md',
@@ -385,7 +398,7 @@ test('turns real-path translated records without reviewer receipts into semantic
     createRecoveryArtifact({
       siteDir: value.siteDir,
       outputDir: value.artifactDir,
-      results: [{...value.candidate, status: 'translated', recovered: true, recoveryCompatibility: 'revalidated'}],
+      results: [{...value.candidate, status: 'translated', recovered: true, recoveryCompatibility: 'revalidated', review: successfulReview(), validationErrors: []}],
       identity: value.identity,
     });
     fs.rmSync(path.join(value.siteDir, value.targetPath));
@@ -398,11 +411,76 @@ test('turns real-path translated records without reviewer receipts into semantic
       revalidate: () => [],
     });
 
-    assert.equal(restored.restored.length, 0, sourcePath);
-    assert.equal(restored.pending.length, 1, sourcePath);
-    assert.ok(restored.pending[0].recoverySemanticResume?.report?.entries?.length > 0, sourcePath);
-    assert.equal(fs.existsSync(path.join(value.siteDir, value.targetPath)), false, sourcePath);
+    // The second hop of a recovery chain re-writes records whose receipt was
+    // deliberately not minted (revalidated recoveries never mint receipts).
+    // Trust comes from the current full-file revalidation, not from the
+    // receipt, so the record restores without receipt fields.
+    assert.equal(restored.restored.length, 1, sourcePath);
+    assert.equal(restored.pending.length, 0, sourcePath);
+    assert.equal(restored.restored[0].recoveryCompatibility, 'revalidated', sourcePath);
+    assert.ok(isConsistentSuccessfulReview(restored.restored[0].review), sourcePath);
+    assert.equal(restored.restored[0].recoveryReviewReceipt, undefined, sourcePath);
+    assert.equal(fs.readFileSync(path.join(value.siteDir, value.targetPath), 'utf8'), value.target, sourcePath);
   }
+});
+
+test('strict records without reviewer receipts restore through the current full-file revalidation', t => {
+  const [sourcePath, targetPath] = [
+    'content/en/guides/tutorials/development/data-import/data-import-format-options/data-import-json.md',
+    'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-import/data-import-format-options/data-import-json.md',
+  ];
+  const value = guidesFixture(t, sourcePath, targetPath);
+  createRecoveryArtifact({
+    siteDir: value.siteDir,
+    outputDir: value.artifactDir,
+    results: [{...value.candidate, status: 'translated', recovered: true, recoveryCompatibility: 'revalidated', review: successfulReview(), validationErrors: []}],
+    identity: value.identity,
+  });
+  fs.rmSync(path.join(value.siteDir, value.targetPath));
+
+  const restored = restoreRecoveryFiles({
+    siteDir: value.siteDir,
+    candidates: [value.candidate],
+    artifacts: [value.artifactDir],
+    // Same tooling as the artifact: strict identity match, but the record has
+    // no receipt because it was re-written by a recovery run (revalidated
+    // recoveries never mint receipts). The authenticated artifact chain plus
+    // the current full-file revalidation are the trust anchors, so the record
+    // still restores instead of degrading into unconsumable pending work.
+    identity: {...value.identity},
+    revalidate: () => [],
+  });
+
+  assert.equal(restored.restored.length, 1);
+  assert.equal(restored.pending.length, 0);
+  assert.equal(restored.restored[0].recoveryCompatibility, 'revalidated');
+  assert.equal(restored.restored[0].recoveryReviewReceipt, undefined);
+  assert.ok(isConsistentSuccessfulReview(restored.restored[0].review));
+  assert.equal(fs.readFileSync(path.join(value.siteDir, value.targetPath), 'utf8'), value.target);
+});
+
+test('revalidation failure still rejects a receipt-less record', t => {
+  const value = fixture();
+  createRecoveryArtifact({
+    siteDir: value.siteDir,
+    outputDir: value.artifactDir,
+    results: [{...value.candidate, status: 'translated', recovered: true, recoveryCompatibility: 'revalidated', review: successfulReview(), validationErrors: []}],
+    identity: value.identity,
+  });
+  fs.rmSync(path.join(value.siteDir, value.targetPath));
+
+  const restored = restoreRecoveryFiles({
+    siteDir: value.siteDir,
+    candidates: [value.candidate],
+    artifacts: [value.artifactDir],
+    identity: {...value.identity, toolingSha: 'd'.repeat(40)},
+    revalidateFile: () => ['validator rejected the retained payload'],
+  });
+
+  assert.equal(restored.restored.length, 0);
+  assert.equal(restored.pending.length, 1);
+  assert.match(restored.rejected[0].recoveryReason, /revalidation failed/);
+  assert.equal(fs.existsSync(path.join(value.siteDir, value.targetPath)), false);
 });
 
 test('records structured terminal failures while keeping translated payloads recoverable', () => {
