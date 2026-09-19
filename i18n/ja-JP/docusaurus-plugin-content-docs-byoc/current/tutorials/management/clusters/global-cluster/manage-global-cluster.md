@@ -48,7 +48,7 @@ import Procedures from '@site/src/components/Procedures';
 
 リージョンのカバレッジを向上させるために、既存のグローバルクラスターに異なるリージョンのセカンダリクラスターを追加できます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 グローバルクラスターには、セカンダリクラスターを最大5つまでしか追加できません。
 

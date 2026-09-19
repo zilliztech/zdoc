@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 <FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
 
-この機能は、Business Critical (SaaS) および BYOC デプロイメントでのみ利用できます。
+この機能は、Business Critical（SaaS）および BYOC デプロイメントでのみ利用できます。
 
 </FeatureNote>
 

@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 スケジュールスケーリングを使用すると、事前に定義した時刻に Dedicated サービングクラスターのサイズを変更できます。平日の業務時間中のトラフィック増加、週末の低トラフィック期間、予測可能なバッチ/queryウィンドウなど、ワークロードに繰り返しのパターンがある場合に有効です。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 Query CU の手動スケーリングは、すべてのプランで利用できます。
 
@@ -156,7 +156,7 @@ curl --request POST \
 
 スケーリングジョブの実行中、クラスターのステータスは `Modifying` です。ジョブが成功すると、クラスターのステータスは `Running` に戻ります。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 スケーリングジョブの実行中も、Zilliz Cloud は変更前の構成に基づいてクラスターに課金します。新しい Query CU またはレプリカ構成での課金が適用されるのは、スケーリングジョブが正常に完了した後です。これはスケールアップ、スケールダウンの両方に適用されます。
 
@@ -171,3 +171,4 @@ curl --request POST \
 **cron で使用されるタイムゾーンは何ですか？**
 
 cron スケジュールは、スケジュールスケーリングの設定時に選択したタイムゾーンに基づいて評価されます。
+

@@ -1026,44 +1026,69 @@
       "translatedAt": "2026-09-19T13:58:15.656Z"
     },
     "content/en/byoc/tutorials/management/clusters/dedicated-cluster/create-cluster.md": {
-      "sourceHash": "427f4046ec1458ff63b8d6bb18e85a3d5cad0c247e57bea3a46f32a16503853a",
+      "sourceHash": "89fea643544249a7a847ab1044420e51c3963f8790de780c15a086edef60b42c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/dedicated-cluster/create-cluster.md",
-      "translatedAt": "2026-08-04T05:18:13.838Z"
+      "translatedAt": "2026-09-19T13:59:24.026Z"
+    },
+    "content/en/byoc/tutorials/management/clusters/dedicated-cluster/manage-cluster.md": {
+      "sourceHash": "9e0ade649ff796d74712c5801430fd2fdcdd197129049525697865448298b407",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/dedicated-cluster/manage-cluster.md",
+      "translatedAt": "2026-09-19T13:59:24.026Z"
     },
     "content/en/byoc/tutorials/management/clusters/dedicated-cluster/scale-cluster/auto-scaling.md": {
-      "sourceHash": "6686ec7a70ee712d21ecf8e2924308d8f6ab6a5eabcd7246c1817998e6025d74",
+      "sourceHash": "ce2015598ebbca88183ff8af3185ad0d7f7a3644d1868bf43f8f2338a3927123",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/dedicated-cluster/scale-cluster/auto-scaling.md",
-      "translatedAt": "2026-08-04T05:19:18.278Z"
+      "translatedAt": "2026-09-19T13:59:24.026Z"
     },
     "content/en/byoc/tutorials/management/clusters/dedicated-cluster/scale-cluster/canary-upgrade.md": {
-      "sourceHash": "171973b0d0e95e1428bc2741b639c10245638d9f69b63c598d69aa47684ef334",
+      "sourceHash": "76a3909e5cefd7c0b73c4470ed80aa1170bd303d5a88fff97fb88f45235ce827",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/dedicated-cluster/scale-cluster/canary-upgrade.md",
-      "translatedAt": "2026-08-25T06:57:36.004Z"
+      "translatedAt": "2026-09-19T13:59:24.026Z"
     },
     "content/en/byoc/tutorials/management/clusters/dedicated-cluster/scale-cluster/cron-expression.md": {
-      "sourceHash": "61d5771430b56dd24f0205c9019647fb988fa19c5a16b2788af540224f3b453e",
+      "sourceHash": "4d6f5a6e00ebad20d0d71dc15b001c68cd532f05d55e5235a575265aae2291e5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/dedicated-cluster/scale-cluster/cron-expression.md",
-      "translatedAt": "2026-08-25T04:46:37.173Z"
+      "translatedAt": "2026-09-19T13:59:24.026Z"
+    },
+    "content/en/byoc/tutorials/management/clusters/dedicated-cluster/scale-cluster/manual-scaling.md": {
+      "sourceHash": "e3eb2f04f6a830e88b24b73cffbb841e5b7c0b76ffe618cd8a7bdad59b3e5f45",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/dedicated-cluster/scale-cluster/manual-scaling.md",
+      "translatedAt": "2026-09-19T13:59:24.026Z"
+    },
+    "content/en/byoc/tutorials/management/clusters/dedicated-cluster/scale-cluster/plan-cluster-scaling.md": {
+      "sourceHash": "c570eb3412343f99850adc095ec77cc821817dce66c52e8b50bbac78417a0a43",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/dedicated-cluster/scale-cluster/plan-cluster-scaling.md",
+      "translatedAt": "2026-09-19T13:59:24.026Z"
+    },
+    "content/en/byoc/tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling.md": {
+      "sourceHash": "1608fca0195aacb84ad31592b524d6789afbcb94416ac3283a91fffae95a4a1a",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling.md",
+      "translatedAt": "2026-09-19T13:59:24.026Z"
+    },
+    "content/en/byoc/tutorials/management/clusters/free-and-serverless-clusters.md": {
+      "sourceHash": "0a109049cf4bb585b9e438a849f16e1c2a705936af1b16c8d5f32c099e25b37b",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/free-and-serverless-clusters.md",
+      "translatedAt": "2026-09-19T13:59:24.026Z"
     },
     "content/en/byoc/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md": {
-      "sourceHash": "3c63ee0d6c962db7acb89e1ea81f371c836cac9fed0d8e30d570bffc85fdacbd",
+      "sourceHash": "dc3e591fd7513817e4ed723dc3b196191bab296cbd7846a9f822db65563e419c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md",
-      "translatedAt": "2026-08-04T05:07:31.690Z"
+      "translatedAt": "2026-09-19T13:59:24.026Z"
     },
     "content/en/byoc/tutorials/management/clusters/global-cluster/create-global-cluster.md": {
-      "sourceHash": "00974039b72e4cfaf71afb6a7d03bd201daffe5ba7b6461e2626ea6a6a2cbc44",
+      "sourceHash": "a0f9b050369b94dbe5ba1e5dd9f6dee057b1f6cb2aad665d0e355aad1887c931",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/global-cluster/create-global-cluster.md",
-      "translatedAt": "2026-08-04T05:08:14.720Z"
+      "translatedAt": "2026-09-19T13:59:24.026Z"
     },
     "content/en/byoc/tutorials/management/clusters/global-cluster/global-cluster-explained.md": {
-      "sourceHash": "572e25fcfd79ab708594892c3fc28cc03cf3a9a548b89be4f40aa74428d377df",
+      "sourceHash": "1b859d6ff4dc8cb3cd0a21d0cb50acd9ce5b267b0056809af15cd82bc4d9805a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/global-cluster/global-cluster-explained.md",
-      "translatedAt": "2026-08-04T05:08:27.358Z"
+      "translatedAt": "2026-09-19T13:59:24.026Z"
     },
     "content/en/byoc/tutorials/management/clusters/global-cluster/manage-global-cluster.md": {
-      "sourceHash": "0a6159d842eabbb7afdddf4d47d8ee2cfb8894fdda0e96757798fd931a341190",
+      "sourceHash": "a350283ce11967e159471683f69d9f9d522f59e607e49314c02cab3babd9efd5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/global-cluster/manage-global-cluster.md",
-      "translatedAt": "2026-08-04T05:09:27.540Z"
+      "translatedAt": "2026-09-19T13:59:24.026Z"
     },
     "content/en/byoc/tutorials/management/clusters/global-cluster/monitor-global-cluster.md": {
       "sourceHash": "03bab39523a98fc1dfdceafa786b79bf4781a4604986bbcccadc6938493b39ee",
@@ -1076,9 +1101,14 @@
       "translatedAt": "2026-08-04T05:09:08.772Z"
     },
     "content/en/byoc/tutorials/management/clusters/global-cluster/switchover-and-failover.md": {
-      "sourceHash": "6c1b214fe7b04ba498a85e17779a0a080cdc5b2137f87e36568ad0caf9d30f80",
+      "sourceHash": "894da58eb26aa3739049a79e9f299b52bd47951d5469a4a25f04d540fcf35354",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/global-cluster/switchover-and-failover.md",
-      "translatedAt": "2026-08-04T05:12:32.329Z"
+      "translatedAt": "2026-09-19T13:59:24.026Z"
+    },
+    "content/en/byoc/tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters.md": {
+      "sourceHash": "19c2c6afa4c6e72dde92bfc740bae9ae81ebd41e1d19707463cee7e053c31e27",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters.md",
+      "translatedAt": "2026-09-19T13:59:24.026Z"
     },
     "content/en/byoc/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md": {
       "sourceHash": "ea7048aa9ed25f4d38b38c13feeea46c10d44aaa31205aaae2f039a5c95f4858",

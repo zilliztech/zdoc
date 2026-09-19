@@ -1,13 +1,13 @@
 ---
-title: "Free & Serverless Clusters | BYOC"
+title: "Free & Serverless クラスター | BYOC"
 slug: /free-and-serverless-clusters
-sidebar_label: "Free & Serverless Clusters"
+sidebar_label: "Free & Serverless クラスター"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Free および Serverless cluster は serving cluster です。基本的なライフサイクルである作成、接続、管理についてはこのページを参照してください。 | BYOC"
+description: "Free および Serverless クラスターはサービングクラスターです。作成、接続、管理という基本的なライフサイクルについては、このページを参照してください。 | BYOC"
 type: origin
 token: EO58wVRLpiTBXQkceRjccN28nrh
 sidebar_position: 1
@@ -19,31 +19,31 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Free & Serverless Clusters
+# Free & Serverless クラスター
 
-Free および Serverless cluster は serving cluster です。基本的なライフサイクルである作成、接続、管理についてはこのページを参照してください。
+Free および Serverless クラスターはサービングクラスターです。作成、接続、管理という基本的なライフサイクルについては、このページを参照してください。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
-Dedicated cluster については、[Dedicated Cluster](./manage-cluster) を参照してください。project endpoint を介したオンデマンド検索については、[Connect for On-Demand Search](./connect-for-on-demand-search) を参照してください。
+Dedicated クラスターについては、[Dedicated クラスター](./manage-cluster) を参照してください。プロジェクトエンドポイントを介したオンデマンド検索については、[オンデマンド検索への接続](./connect-for-on-demand-search) を参照してください。
 
 </Admonition>
 
 ## Create\{#create}
 
-Free または Serverless cluster を作成する前に、Zilliz Cloud に登録済みであり、cluster を作成する organization または project の所有権を持っていることを確認してください。
+Free または Serverless クラスターを作成する前に、Zilliz Cloud に登録済みであり、クラスターを作成する組織またはプロジェクトの所有権を持っていることを確認してください。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
-各 organization では、作成できる Free cluster は 1 つのみです。追加の serving cluster が必要な場合は、Serverless または Dedicated を使用してください。
+各組織で作成できる Free クラスターは 1 つのみです。追加のサービングクラスターが必要な場合は、Serverless または Dedicated を使用してください。
 
 </Admonition>
 
-Zilliz Cloud コンソールから Free または Serverless cluster を作成できます。cluster のステータスが **Running** に変わると、cluster は使用可能です。作成時に表示される cluster 認証情報は保存しておいてください。パスワードは一度しか表示されません。
+Zilliz Cloud コンソールから Free または Serverless クラスターを作成できます。クラスターのステータスが **Running** に変わると、クラスターの準備は完了です。作成時に表示されるクラスター認証情報は保存してください。パスワードは一度しか表示されません。
 
-RESTful API を使用して cluster を作成することもできます。
+RESTful API を使用してクラスターを作成することもできます。
 
-### Create a Free cluster\{#create-a-free-cluster}
+### Free クラスターを作成する\{#create-a-free-cluster}
 
 ```bash
 curl --request POST \
@@ -58,7 +58,7 @@ curl --request POST \
     }'
 ```
 
-### Create a Serverless cluster\{#create-a-serverless-cluster}
+### Serverless クラスターを作成する\{#create-a-serverless-cluster}
 
 ```bash
 curl --request POST \
@@ -76,19 +76,19 @@ curl --request POST \
 | Parameter | 説明 |
 | --- | --- |
 | `API_KEY` | control-plane API リクエストの認証に使用する API key。 |
-| `clusterName` | 作成する cluster の名前。 |
-| `projectId` | cluster を作成する project の ID。 |
-| `regionId` | cluster を作成するクラウドリージョンの ID。 |
+| `clusterName` | 作成するクラスターの名前。 |
+| `projectId` | クラスターを作成するプロジェクトの ID。 |
+| `regionId` | クラスターを作成するクラウドリージョンの ID。 |
 
 ## Connect\{#connect}
 
-Free および Serverless cluster は、次の serving endpoint パターンを使用します。
+Free および Serverless クラスターでは、以下のサービングエンドポイントパターンを使用します。
 
 ```bash
 https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com
 ```
 
-cluster 詳細ページの **Connect** カードから cluster の public endpoint をコピーします。token としては、cluster にアクセスできる API key、または `username:password` 形式の cluster 認証情報のいずれかを使用します。
+クラスターの詳細ページの **Connect** カードから、クラスターのパブリックエンドポイントをコピーします。トークンには、そのクラスターにアクセスできる API キー、または `username:password` 形式のクラスター認証情報のいずれかを使用します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -165,7 +165,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-接続を確認するには、collections の一覧取得のような軽量な操作を実行します。
+接続を確認するには、コレクションの一覧表示のような軽量な操作を実行します。
 
 ```python
 collections = client.list_collections()
@@ -174,20 +174,20 @@ print(collections)
 
 ## Manage\{#manage}
 
-Free および Serverless cluster は、cluster 詳細ページから管理できます。
+Free および Serverless クラスターは、クラスター詳細ページから管理できます。
 
-| Operation | Free cluster | Serverless cluster |
+| Operation | Free クラスター | Serverless クラスター |
 | --- | --- | --- |
 | Rename | サポートされています。 | サポートされています。 |
-| Resume | Free cluster は、7 日連続で非アクティブな場合に自動的に一時停止され、いつでも再開できます。 | Serverless cluster は suspend および resume 操作をサポートしていません。 |
-| Upgrade deployment option | Serverless または Dedicated にアップグレードできます。Free から Dedicated へのアップグレードでは、新しい Dedicated cluster が作成され、Free cluster からデータが移行されます。 | Dedicated にアップグレードできます。Serverless から Dedicated へのアップグレードでは、新しい Dedicated cluster が作成され、Serverless cluster からデータが移行されます。 |
-| Drop | サポートされています。Free cluster は削除後、recycle bin から復元できません。 | サポートされています。 |
+| Resume | Free クラスターは、7 日間連続で非アクティブな場合に自動的に一時停止され、いつでも再開できます。 | Serverless クラスターは、一時停止および再開操作をサポートしていません。 |
+| Upgrade deployment option | Serverless または Dedicated にアップグレードできます。Free から Dedicated へのアップグレードでは、新しい Dedicated クラスターが作成され、Free クラスターからデータが移行されます。 | Dedicated にアップグレードできます。Serverless から Dedicated へのアップグレードでは、新しい Dedicated クラスターが作成され、Serverless クラスターからデータが移行されます。 |
+| Drop | サポートされています。Free クラスターは、削除後にごみ箱から復元できません。 | サポートされています。 |
 
-アップグレードによって新しい Dedicated cluster が作成される場合は、アプリケーションコード内の cluster endpoint を忘れずに更新してください。
+アップグレードによって新しい Dedicated クラスターが作成される場合は、アプリケーションコード内のクラスターエンドポイントを忘れずに更新してください。
 
 ## Drop\{#drop}
 
-プログラムから cluster を削除するには、cluster ID を指定して drop cluster API を呼び出します。
+プログラムからクラスターを削除するには、クラスター ID を指定してクラスター削除 API を呼び出します。
 
 ```bash
 curl --request POST \

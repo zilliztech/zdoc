@@ -125,7 +125,7 @@ curl --request POST \
 
 <Supademo id="cm9tr2hze0t1j11m7ijth1pr5" title=""  />
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 **Resume クラスター** ダイアログボックスで **Resume** をクリックすると、プロジェクトのリソースクォータを確認するよう求められます。リソースが十分であれば、確認完了後にダイアログボックスは閉じます。十分でない場合は、次のいずれかを実行できます。 
 
@@ -179,7 +179,7 @@ curl --request POST \
 
 既存のクラスターを [グローバルクラスター](./global-cluster-explained) に変換する必要がある場合は、以下の手順に従ってください。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 グローバルクラスターは Milvus 2.6.x とのみ互換性があります。Milvus 3.0.x と互換性のある通常のクラスターをグローバルクラスターに変換することはできません。
 
@@ -234,3 +234,4 @@ curl --request POST \
 </TabItem>
 
 </Tabs>
+

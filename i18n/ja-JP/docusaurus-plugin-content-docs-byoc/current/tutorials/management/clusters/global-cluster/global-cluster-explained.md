@@ -28,7 +28,7 @@ import Admonition from '@theme/Admonition';
 
 <FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
 
-この機能は、すべての AWS リージョンと、次の Google Cloud リージョンで利用できます：gcp-us-central1 および gcp-us-east4。Microsoft Azure では利用できません。
+この機能は、すべての AWS リージョンおよび次の Google Cloud リージョン（gcp-us-central1、gcp-us-east4）で利用できます。Microsoft Azure では利用できません。
 
 </FeatureNote>
 

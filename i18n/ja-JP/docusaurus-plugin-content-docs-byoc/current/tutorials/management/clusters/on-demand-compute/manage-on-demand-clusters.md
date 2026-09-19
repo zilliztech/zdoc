@@ -299,7 +299,7 @@ keep-warm スケジュールは、毎週繰り返される一定の時間帯に�
 
 keep-warm スケジュールは `Auto Suspend` を永続的に無効化するものではなく、keep-warm ウィンドウが終了したときにオンデマンドクラスターを能動的にサスペンドするものでもありません。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 keep-warm ウィンドウ中にオンデマンドクラスターをサスペンドするには、先に keep-warm スケジュールを無効化または削除してください。
 
@@ -347,7 +347,7 @@ keep-warm スケジュールを作成または更新する場合は、ルール�
 
 keep-warm スケジュールを有効化または無効化するには、ルールセット全体と目的の `enabled` 値を指定して PUT リクエストを送信します。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 スケジュールを無効化しても、構成済みのルールはすべて保持されます。オンデマンドクラスターが keep-warm ウィンドウ内にある場合、Zilliz Cloud は直ちに keep-warm モードを終了します。スケジュールによってオンデマンドクラスターがサスペンドされることはありません。
 
@@ -417,7 +417,7 @@ keep-warm スケジュールを削除すると、スケジュールとすべて�
 
 ## オンデマンドクラスターの削除\{#drop-an-on-demand-cluster}
 
-<Admonition type="danger" icon="🚧" title="Danger">
+<Admonition type="danger" title="Danger">
 
 オンデマンドクラスターを削除すると、即座に除去され、復元することはできません。この操作は取り消せません。
 
@@ -465,3 +465,4 @@ curl --request DELETE \
 - オンデマンドクラスターを作成するには、[オンデマンドクラスターの作成](./on-demand-cluster) を参照してください。
 
 - プロジェクトエンドポイント経由で接続するには、[オンデマンド検索への接続](./connect-for-on-demand-search) を参照してください。
+

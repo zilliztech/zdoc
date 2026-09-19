@@ -1,13 +1,13 @@
 ---
-title: "Global Cluster への接続 | BYOC"
+title: "グローバルクラスターへの接続 | BYOC"
 slug: /connect-to-global-cluster
-sidebar_label: "Global Cluster への接続"
+sidebar_label: "グローバルクラスターへの接続"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "global cluster の実行後、endpoint と認証トークンを使用して接続します。このページでは、2 種類の endpoint、それぞれの使い分け、switchover および failover 中のルーティング動作について説明します。 | BYOC"
+description: "グローバルクラスターが稼働したら、エンドポイントと認証トークンを使用して接続します。このページでは、2 種類のエンドポイント、それぞれの使い分け、およびスイッチオーバーとフェイルオーバー中のルーティング動作について説明します。 | BYOC"
 type: origin
 token: DknbwaLS3iAAiUk9ifPc1Vmvnze
 sidebar_position: 3
@@ -21,7 +21,7 @@ import TabItem from '@theme/TabItem';
 
 import Procedures from '@site/src/components/Procedures';
 
-# Global Cluster への接続
+# グローバルクラスターへの接続
 
 <FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
 
@@ -35,74 +35,74 @@ import Procedures from '@site/src/components/Procedures';
 
 </FeatureNote>
 
-global cluster の実行後、endpoint と認証トークンを使用して接続します。このページでは、2 種類の endpoint、それぞれの使い分け、switchover および failover 中のルーティング動作について説明します。
+グローバルクラスターが稼働したら、エンドポイントと認証トークンを使用して接続します。このページでは、2 種類のエンドポイント、それぞれの使い分け、およびスイッチオーバーとフェイルオーバー中のルーティング動作について説明します。
 
-## endpoint タイプを選択する\{#choose-an-endpoint-type}
+## エンドポイントタイプを選択する\{#choose-an-endpoint-type}
 
-global cluster では、次の 2 つの接続方法を提供します。
+グローバルクラスターでは、次の 2 つの接続方法を提供します。
 
-- **global endpoint** を使用する
+- **グローバルエンドポイント** 経由
 
-- global cluster 内の primary または secondary cluster の **public endpoint または private endpoint** を使用する
+- グローバルクラスター内のプライマリクラスターまたはセカンダリクラスターの **パブリックエンドポイントまたはプライベートエンドポイント** 経由
 
-次の表は、2 種類の接続 endpoint を比較したものです。
+次の表は、2 つの接続エンドポイントを比較したものです。
 
-|  | **Global endpoint** | **primary または secondary cluster の endpoint** |
+|  | **グローバルエンドポイント** | **プライマリクラスターまたはセカンダリクラスターのエンドポイント** |
 | --- | --- | --- |
-| **Write routing** | 自動的に primary cluster にルーティングされる | 書き込みを受け付けるのは primary の public endpoint のみ |
-| **Read routing** | primary cluster にルーティングされる<br/>(レイテンシに基づいて最も近い利用可能な cluster へインテリジェントにルーティングする機能は近日サポート予定です。) | 読み取りは、接続先の特定の cluster に送られる |
-| **Switchover / Failover** | 自動的に再ルーティングされる — コード変更不要 | 新しい primary を指すように接続先を更新する必要がある |
-| **Private Link** | 非対応（パブリックインターネットが必要） | 対応 |
-| **Best for** | 自動 failover とレイテンシベースのルーティングを必要とする本番アプリケーション | 特定の cluster への直接アクセス（例: 環境レプリケーション、テスト、デバッグ） |
+| **書き込みルーティング** | プライマリクラスターに自動的にルーティングされます | 書き込みを受け付けるのはプライマリのパブリックエンドポイントのみです |
+| **読み取りルーティング** | プライマリクラスターにルーティングされます<br/>（レイテンシーに基づいて、最も近い利用可能なクラスターへインテリジェントにルーティングする機能は近日サポート予定です。） | 読み取りは、接続先の特定のクラスターに送られます |
+| **スイッチオーバー / フェイルオーバー** | 自動的に再ルーティングされます — コード変更は不要です | 新しいプライマリを指すように接続先を更新する必要があります |
+| **Private Link** | サポートされていません（パブリックインターネットが必要です） | サポートされています |
+| **最適な用途** | 自動フェイルオーバーとレイテンシーベースのルーティングを必要とする本番アプリケーション | 特定のクラスターへの直接アクセス（例: 環境レプリケーション、テスト、デバッグ） |
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-本番ワークロードでは global endpoint の使用を推奨します。これにより、switchover または failover 時にアプリケーションコードで endpoint の変更を処理する必要がなくなります。
+本番ワークロードではグローバルエンドポイントの使用を推奨します。これにより、スイッチオーバーまたはフェイルオーバー時にアプリケーションコードでエンドポイントの変更を処理する必要がなくなります。
 
 </Admonition>
 
-## endpoint とトークンを取得する\{#get-your-endpoint-and-token}
+## エンドポイントとトークンを取得する\{#get-your-endpoint-and-token}
 
 <Procedures>
 
-1. global cluster または対象 cluster に移動します。
+1. グローバルクラスターまたは対象クラスターに移動します。
 
-    - **global endpoint** の場合: **Global** **Cluster** ページに移動します。
+    - **グローバル** **エンドポイント** の場合: **Global** **Cluster** ページに移動します。
 
-    - **public endpoint** の場合: 対象の primary または secondary cluster の **Cluster** **Details** ページに移動します。
+    - **パブリック** **エンドポイント** の場合: 対象のプライマリクラスターまたはセカンダリクラスターの **Cluster** **Details** ページに移動します。
 
 1. Connect カードで、**Global Endpoint** または **Public Endpoint** をコピーします。
 
     ![OPCTbMaYIoUXHKxDf0ycdMNBnze](https://zdoc-images.s3.us-west-2.amazonaws.com/opctbmayiouxhkxdf0ycdmnbnze.png "OPCTbMaYIoUXHKxDf0ycdMNBnze")
 
-1. 認証トークンを準備します。これは [API key](./manage-api-keys) または [cluster credential](./cluster-credentials)（`username:password`）のいずれかです。
+1. 認証トークンを準備します。これは [API キー](./manage-api-keys) または [クラスター認証情報](./cluster-credentials)（`username:password`）のいずれかです。
 
 </Procedures>
 
-## global endpoint を使用して接続する\{#connect-using-the-global-endpoint}
+## グローバルエンドポイントを使用して接続する\{#connect-using-the-global-endpoint}
 
-global endpoint は、リクエストを global cluster 内の現在の primary cluster に常にルーティングする単一の URL です。 
+グローバルエンドポイントは、リクエストをグローバルクラスター内の現在のプライマリクラスターに常にルーティングする単一の URL です。
 
-switchover または failover が発生した場合、Zilliz Cloud は global endpoint を自動的に更新して新しい primary cluster を指すようにします。これにより、cluster URI を手動で変更しなくても、アプリケーションは同じ endpoint を継続して使用できます。
+スイッチオーバーまたはフェイルオーバーが発生した場合、Zilliz Cloud はグローバルエンドポイントを自動的に更新し、新しいプライマリクラスターを指すようにします。これにより、クラスター URI を手動で変更しなくても、アプリケーションは同じエンドポイントを継続して使用できます。
 
-Zilliz Cloud は、SDK と RESTful API の両方を介した global endpoint への接続をサポートしています。本番アプリケーションでは、SDK クライアントの使用を推奨します。
+Zilliz Cloud は、SDK と RESTful API の両方を通じたグローバルエンドポイントへの接続をサポートしています。本番アプリケーションでは、SDK クライアントの使用を推奨します。
 
 <details>
 
-<summary>RESTful API 接続より SDK 接続が推奨されるのはなぜですか？</summary>
+<summary>RESTful API 接続よりも SDK 接続が推奨されるのはなぜですか？</summary>
 
-SDK クライアントは、endpoint リスト、primary と secondary のロール、cluster の正常性を含む global cluster トポロジーを取得できます。この情報により、primary cluster が変更されたときに SDK クライアントはより迅速に対応できます。将来的には SDK クライアントで read/write splitting もサポートされ、書き込みリクエストは primary cluster にルーティングされ、対象となる読み取りリクエストは global cluster トポロジーに基づいてルーティングされます。
+SDK クライアントは、エンドポイントリスト、プライマリとセカンダリのロール、クラスターの健全性など、グローバルクラスターのトポロジーを取得できます。この情報があれば、SDK クライアントはプライマリクラスターが変更されたときにより迅速に対応できます。また、SDK クライアントは将来的に read/write splitting もサポートする予定であり、書き込みリクエストはプライマリクラスターにルーティングされ、対象となる読み取りリクエストはグローバルクラスターのトポロジーに基づいてルーティングされます。
 
-一方、RESTful API 接続は global cluster トポロジー情報を保持しません。その結果、switchover または failover の後、新しい primary cluster への切り替えに RESTful API 接続はより長い時間を要する可能性があります。同じ理由により、RESTful API 接続では read/write splitting をサポートできません。
+ただし、RESTful API 接続はグローバルクラスターのトポロジー情報を保持しません。そのため、スイッチオーバーまたはフェイルオーバー後に新しいプライマリクラスターへ切り替わるまでに、RESTful API 接続の方が時間がかかる場合があります。同じ理由により、RESTful API 接続では read/write splitting をサポートできません。
 
 次の表は、SDK 接続と RESTful API 接続を比較したものです。
 
-| **Dimension** | **SDK connection** | **RESTful API connection** |
+| **観点** | **SDK 接続** | **RESTful API 接続** |
 | --- | --- | --- |
-| Best for | ロール変更時のより高速な復旧と、将来的な read/write splitting を必要とする本番アプリケーション。 | 軽量なスクリプト、シンプルな REST 統合、単発の管理操作。 |
-| Topology awareness | endpoint リスト、primary と secondary のロール、cluster の正常性を含む global cluster トポロジーを取得する。 | global cluster トポロジー情報を保持しない。 |
-| Primary change handling | switchover または failover 後に primary cluster が変更された場合、通常は数秒以内により速く対応できる。 | クライアントがトポロジー情報を保持しないため、新しい primary への切り替えに通常は数分かかる場合がある。 |
-| Read/write splitting | ✅ 近日サポート予定 | ❌ 非対応 |
+| 最適な用途 | ロール変更時のより迅速な復旧と、将来の read/write splitting を必要とする本番アプリケーション | 軽量なスクリプト、シンプルな REST 統合、単発の管理操作 |
+| トポロジーの認識 | エンドポイントリスト、プライマリとセカンダリのロール、クラスターの健全性など、グローバルクラスターのトポロジーを取得します。 | グローバルクラスターのトポロジー情報を保持しません。 |
+| プライマリ変更時の処理 | スイッチオーバーまたはフェイルオーバー後にプライマリクラスターが変更された場合、通常は数秒以内に迅速に対応できます。 | クライアントがトポロジー情報を保持しないため、新しいプライマリへの切り替えに通常は数分かかる場合があります。 |
+| Read/write splitting | ✅ 近日サポート予定です。 | ❌ サポートされていません |
 
 </details>
 
@@ -110,7 +110,7 @@ SDK クライアントは、endpoint リスト、primary と secondary のロー
 
 開始する前に、SDK を[インストール](./install-sdks)していること、および SDK が最小バージョン要件を満たしていることを確認してください。
 
-| SDK | Minimum Version |
+| SDK | 最小バージョン |
 | --- | --- |
 | Python | `2.6.9` |
 | Java | `2.6.14` |
@@ -161,9 +161,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## public endpoint を使用して接続する\{#connect-using-a-public-endpoint}
+## パブリックエンドポイントを使用して接続する\{#connect-using-a-public-endpoint}
 
-global cluster 内の各 cluster には、それぞれ独自の public endpoint があります。特定の cluster を直接指定する必要がある場合に使用します。
+グローバルクラスター内の各クラスターには、それぞれ独自のパブリックエンドポイントがあります。特定のクラスターを直接指定する必要がある場合に使用します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -237,29 +237,29 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-public endpoint を使用する場合、書き込み操作を受け付けるのは primary cluster の public endpoint のみです。secondary cluster の public endpoint への書き込みは失敗します。
+パブリックエンドポイントを使用する場合、書き込み操作を受け付けるのはプライマリクラスターのパブリックエンドポイントのみです。セカンダリクラスターのパブリックエンドポイントへの書き込みは失敗します。
 
 </Admonition>
 
 ## ルーティング動作\{#routing-behavior}
 
-### 通常動作中\{#during-normal-operation}
+### 通常運用時\{#during-normal-operation}
 
-| **Request type** | **Global endpoint** | **Public endpoint** |
+| **リクエストタイプ** | **グローバルエンドポイント** | **パブリックエンドポイント** |
 | --- | --- | --- |
-| Write (insert, upsert, delete) | primary cluster にルーティングされる | primary cluster の endpoint でのみ受け付けられる |
-| Read (search, query) | primary cluster にルーティングされる<br/>(レイテンシに基づいて最も近い利用可能な cluster へインテリジェントにルーティングする機能は近日サポート予定です。) | 接続先の特定の cluster が処理する |
+| 書き込み（insert、upsert、delete） | プライマリクラスターにルーティングされます | プライマリクラスターのエンドポイントでのみ受け付けられます |
+| 読み取り（search、query） | プライマリクラスターにルーティングされます<br/>（レイテンシーに基づいて、最も近い利用可能なクラスターへインテリジェントにルーティングする機能は近日サポート予定です。） | 接続先の特定のクラスターによって処理されます |
 
-### switchover / failover 中および完了後\{#during-and-after-switchover-failover}
+### スイッチオーバー / フェイルオーバー中および完了後\{#during-and-after-switchover-failover}
 
-| **Scenario** | **Global endpoint** | **Public endpoint** |
+| **シナリオ** | **グローバルエンドポイント** | **パブリックエンドポイント** |
 | --- | --- | --- |
-| Switchover in progress | 書き込みは一時的に停止し、その後新しい primary で再開される。読み取りは継続する。 | endpoint に変更はない。旧 primary は secondary になる。 |
-| Failover in progress | 新しい primary が昇格するまで書き込みは利用不可。読み取りは secondary で継続する。 | 旧 primary の endpoint には到達できなくなる。 |
-| After completion | 自動的に新しい primary にルーティングされる。コード変更は不要。 | 書き込みのために、新しい primary の public endpoint を使用するようコードを更新する。 |
+| スイッチオーバー進行中 | 書き込みは一時的に停止し、その後新しいプライマリで再開されます。読み取りは継続されます。 | エンドポイントに変更はありません。旧プライマリはセカンダリになります。 |
+| フェイルオーバー進行中 | 新しいプライマリが昇格するまで書き込みは利用できません。読み取りはセカンダリで継続されます。 | 旧プライマリのエンドポイントに到達できなくなります。 |
+| 完了後 | 自動的に新しいプライマリにルーティングされます。コード変更は不要です。 | 書き込みに新しいプライマリのパブリックエンドポイントを使用するよう、コードを更新してください。 |
 
 ### SDK の自動再接続\{#sdk-automatic-reconnection}
 
-global endpoint を使用する場合、Zilliz Cloud SDK は switchover および failover 中の endpoint 再ルーティングを処理します。アプリケーション側で、ルーティング変更そのものに対するリトライロジックを実装する必要はありません。ただし、切り替えの瞬間に処理中だった書き込みは一時的なエラーを受け取る可能性があります。このようなケースは、アプリケーション内の標準的なリトライロジックで処理できます。
+グローバルエンドポイントを使用する場合、Zilliz Cloud SDK はスイッチオーバーおよびフェイルオーバー中のエンドポイント再ルーティングを処理します。アプリケーション側で、ルーティング変更そのものに対するリトライロジックを実装する必要はありません。ただし、切り替えの瞬間に処理中だった書き込みは一時的なエラーを受け取る可能性があります。このようなケースは、アプリケーション内の標準的なリトライロジックで処理できます。

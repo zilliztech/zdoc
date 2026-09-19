@@ -26,13 +26,13 @@ import Procedures from '@site/src/components/Procedures';
 
 <FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
 
-この機能は、Business Critical (SaaS) および BYOC デプロイでのみ利用できます。
+この機能は、Business Critical（SaaS）および BYOC デプロイでのみ利用できます。
 
 </FeatureNote>
 
 <FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
 
-この機能は、すべての AWS リージョンと、以下の Google Cloud リージョンで利用できます: gcp-us-central1 および gcp-us-east4。Microsoft Azure では利用できません。
+この機能は、すべての AWS リージョンと、以下の Google Cloud リージョンで利用できます：gcp-us-central1 および gcp-us-east4。Microsoft Azure では利用できません。
 
 </FeatureNote>
 
@@ -67,12 +67,12 @@ Zilliz Cloud のグローバルクラスターは、どのリージョンがプ�
      <td><p>プライマリクラスターが異常状態になった際の復旧アクションとして手動で開始されます</p></td>
    </tr>
    <tr>
-     <td><p><strong>データ損失 (RPO)</strong></p></td>
+     <td><p><strong>データ損失（RPO）</strong></p></td>
      <td><p>0 — データ損失はありません。昇格はデータ同期が完全に完了した後にのみ行われます。</p></td>
      <td><p>フェイルオーバー時点の同期遅延に等しくなります。</p></td>
    </tr>
    <tr>
-     <td><p><strong>停止時間 (RTO)</strong></p></td>
+     <td><p><strong>停止時間（RTO）</strong></p></td>
      <td><p>ほぼゼロです。グローバルエンドポイントは自動的に再ルーティングされます。</p></td>
      <td><p>通常は数分程度です。</p></td>
    </tr>
@@ -88,8 +88,8 @@ Zilliz Cloud のグローバルクラスターは、どのリージョンがプ�
    </tr>
    <tr>
      <td><p><strong>アプリケーションの変更</strong></p></td>
-     <td><p>グローバルエンドポイントを使用している場合は不要です。ルーティングは自動的に更新されます。詳細は <a href="./connect-to-global-cluster">Connect to Global Cluster</a> を参照してください</p></td>
-     <td><p>グローバルエンドポイントを使用している場合は不要です。ルーティングは自動的に更新されます。詳細は <a href="./connect-to-global-cluster">Connect to Global Cluster</a> を参照してください</p></td>
+     <td><p>グローバルエンドポイントを使用している場合は不要です。ルーティングは自動的に更新されます。詳細は <a href="./connect-to-global-cluster">Connect to Global クラスター</a> を参照してください</p></td>
+     <td><p>グローバルエンドポイントを使用している場合は不要です。ルーティングは自動的に更新されます。詳細は <a href="./connect-to-global-cluster">Connect to Global クラスター</a> を参照してください</p></td>
    </tr>
 </table>
 
@@ -121,13 +121,13 @@ Zilliz Cloud のグローバルクラスターは、どのリージョンがプ�
 
 計画的なリージョンローテーションでは、セカンダリクラスターをプライマリの役割に昇格させるためにスイッチオーバーを実行できます。
 
-### 始める前に\{#before-you-start}
+### 事前準備\{#before-you-start}
 
-- グローバルクラスター内のすべてのクラスターが **RUNNING** 状態である必要があります。
+- グローバルクラスター内のすべてのクラスターが **RUNNING** 状態であること。
 
-- 同期遅延は 30 秒以下である必要があります。遅延がこのしきい値を超える場合、スイッチオーバーは拒否されます。[Global Topology](./monitor-global-cluster#global-topology) タブで遅延を確認してください。
+- 同期遅延が 30 秒以下であること。遅延がこのしきい値を超える場合、スイッチオーバーは拒否されます。[Global Topology](./monitor-global-cluster#global-topology) タブで遅延を確認してください。
 
-- Query CU または Replica の [スケーリング](./scale-global-cluster) 操作が進行中でないことを確認してください。
+- Query CU または Replica の [スケーリング](./scale-global-cluster) 操作が進行中でないこと。
 
 ### 手順\{#procedures}
 
@@ -139,7 +139,7 @@ Zilliz Cloud のグローバルクラスターは、どのリージョンがプ�
 
     <Procedures>
 
-    1. **Global Cluster** ページに移動します。
+    1. **Global クラスター** ページに移動します。
 
     1. **Switchover or Failover** をクリックします。
 
@@ -151,11 +151,11 @@ Zilliz Cloud のグローバルクラスターは、どのリージョンがプ�
 
     </Procedures>
 
-    スイッチオーバーを開始すると、Zilliz Cloud はターゲットのセカンダリが現在のプライマリと完全に同期するのを待ってから、新しいプライマリに昇格させます。 
+    スイッチオーバーを開始すると、Zilliz Cloud はターゲットのセカンダリが現在のプライマリと完全に同期するのを待ってから、新しいプライマリに昇格させます。
 
 - **RESTful API を使用する場合**
 
-    次の例では、クラスター `in01-secondary` が新しいプライマリクラスターになるようにスイッチオーバーを実行します。API の詳細については、[Switchover Global Cluster](/reference/restful/switchover-global-cluster-v2) を参照してください。
+    次の例では、クラスター `in01-secondary` が新しいプライマリクラスターになるようにスイッチオーバーを実行します。API の詳細については、[Switchover Global クラスター](/reference/restful/switchover-global-cluster-v2) を参照してください。
 
     ```bash
     curl --request POST \
@@ -197,11 +197,11 @@ Zilliz Cloud のグローバルクラスターは、どのリージョンがプ�
 
 フェイルオーバーは緊急操作です。スイッチオーバーとは異なり、完全なデータ同期を待ちません。プライマリでコミットされたものの、ターゲットのセカンダリにまだ複製されていない書き込みは失われます。データ損失量は、フェイルオーバー時点の同期遅延に等しくなります。
 
-### 始める前に\{#before-you-start}
+### 事前準備\{#before-you-start}
 
-- プライマリクラスターに到達できず、ABNORMAL 状態であることを確認してください。
+- プライマリクラスターに到達できず、ABNORMAL 状態であることを確認すること。
 
-- 昇格するセカンダリクラスターを特定してください。複数のセカンダリが利用可能な場合は、同期遅延が最も小さいもの（プライマリの最新状態に最も近いもの）を選択してください。
+- 昇格するセカンダリクラスターを特定すること。複数のセカンダリが利用可能な場合は、同期遅延が最も小さいもの（プライマリの最新状態に最も近いもの）を選択してください。
 
 ### 手順\{#procedures}
 
@@ -213,7 +213,7 @@ Zilliz Cloud のグローバルクラスターは、どのリージョンがプ�
 
     <Procedures>
 
-    1. **Global Cluster** ページに移動します。
+    1. **Global クラスター** ページに移動します。
 
     1. **Switchover or Failover** をクリックします。
 
@@ -225,15 +225,15 @@ Zilliz Cloud のグローバルクラスターは、どのリージョンがプ�
 
     </Procedures>
 
-    <Admonition type="info" icon="📘" title="注意">
+    <Admonition type="info" title="Notes">
 
     フェイルオーバーが失敗した場合、クラスターは ABNORMAL 状態のままです。フェイルオーバー操作を再試行するか、[サポートチケットを作成](http://support.zilliz.com) できます。
 
     </Admonition>
 
-- **RESTful API を使用する場合** 
+- **RESTful API を使用する場合**
 
-    次の例では、クラスター `in01-secondary` が強制的にプライマリに昇格されるようフェイルオーバーを実行します。API の詳細については、[Failover Global Cluster](/reference/restful/failover-global-cluster-v2) を参照してください。
+    次の例では、クラスター `in01-secondary` が強制的にプライマリに昇格されるようフェイルオーバーを実行します。API の詳細については、[Failover Global クラスター](/reference/restful/failover-global-cluster-v2) を参照してください。
 
     ```bash
     curl --request POST \
@@ -264,7 +264,7 @@ Zilliz Cloud のグローバルクラスターは、どのリージョンがプ�
 
 - 元のプライマリは破棄され、ごみ箱に移動されます。**Global Topology** ビューには表示されなくなります。
 
-- 完全なグローバルトポロジーを復元するために、新しいセカンダリクラスターが自動的に作成されます。新しいセカンダリのプロビジョニング中は、グローバルトポロジーからは見えません。代わりに、グローバルクラスターのページに次のバナーが表示されます: *"A new secondary cluster will be created and become available shortly."*
+- 完全なグローバルトポロジーを復元するために、新しいセカンダリクラスターが自動的に作成されます。新しいセカンダリのプロビジョニング中は、グローバルトポロジーからは見えません。代わりに、グローバルクラスターのページに次のバナーが表示されます：*"A new secondary cluster will be created and become available shortly."*
 
 - 残りのセカンダリクラスターもリビルドのために CREATING 状態に遷移し、リビルドが完了すると RUNNING になります。
 

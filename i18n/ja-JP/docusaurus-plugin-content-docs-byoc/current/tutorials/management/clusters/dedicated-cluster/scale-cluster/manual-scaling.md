@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "手動スケーリングでは、必要な目標リソース構成が分かっている場合に Dedicated serving cluster のサイズを変更できます。cluster 容量を調整するには Query CU を増減し、クエリスループットと可用性を調整するには replicas を増減できます。 | BYOC"
+description: "手動スケーリングを使用すると、必要なターゲットリソース構成が分かっている場合に、Dedicated サービングクラスターのサイズを変更できます。Query CU を増減してクラスターの容量を調整することも、レプリカを増減してクエリのスループットと可用性を調整することもできます。 | BYOC"
 type: origin
 token: ByBTwOfgIie7e2k090Mc1EPknSf
 sidebar_position: 2
@@ -24,13 +24,13 @@ import Procedures from '@site/src/components/Procedures';
 
 # 手動スケーリング
 
-手動スケーリングでは、必要な目標リソース構成が分かっている場合に Dedicated serving cluster のサイズを変更できます。cluster 容量を調整するには Query CU を増減し、クエリスループットと可用性を調整するには replicas を増減できます。
+手動スケーリングを使用すると、必要なターゲットリソース構成が分かっている場合に、Dedicated サービングクラスターのサイズを変更できます。Query CU を増減してクラスターの容量を調整することも、レプリカを増減してクエリのスループットと可用性を調整することもできます。
 
 手動スケーリングは、本番リリース、負荷テスト、移行期間、予測可能なトラフィック増加、またはトラフィック減少後の一時的なコスト最適化など、計画的な変更に役立ちます。
 
-手動スケーリングは serving cluster にのみ適用される点に注意してください。オンデマンド cluster は、リクエストが到着すると自動的にスケールし、アイドル時にはゼロまでスケールダウンします。
+手動スケーリングはサービングクラスターにのみ適用されます。オンデマンドクラスターは、リクエストが到着すると自動的にスケーリングされ、アイドル状態になるとゼロにスケールバックされます。
 
-<Admonition type="info" icon="📘" title="注">
+<Admonition type="info" title="Note">
 
 Query CU の手動スケーリングは、すべてのプランでサポートされています。
 
@@ -42,7 +42,7 @@ replicas の手動スケーリングは、Enterprise プラン以上でサポー
 
 ## 開始前に\{#before-you-start}
 
-始める前に、[Plan Cluster Scaling](./plan-cluster-scaling) を読んで、主要なスケーリングの概念を理解し、ワークロードに適したスケーリング方法を選択してください。
+作業を始める前に、[クラスタースケーリングの計画](./plan-cluster-scaling) を参照し、スケーリングの主要な概念を理解した上で、ワークロードに適したスケーリング方法を選択してください。
 
 ## Web コンソールでの手動スケーリング\{#manual-scaling-via-web-console}
 
@@ -52,7 +52,7 @@ replicas の手動スケーリングは、Enterprise プラン以上でサポー
 
 <Procedures>
 
-1. **Cluster Details** ページに移動します。
+1. **クラスター Details** ページに移動します。
 
 1. **Query** **CU Settings** カードの **Scale** をクリックします。
 
@@ -62,13 +62,13 @@ replicas の手動スケーリングは、Enterprise プラン以上でサポー
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 **Scale Query Node CU** ダイアログボックスで **Save** をクリックすると、プロジェクトのリソースクォータを確認するよう求められます。リソースが十分であれば、確認完了後にダイアログボックスは閉じます。十分でない場合は、次のいずれかを実行できます。 
 
 - **Go To Project Resource Settings** をクリックして、プロジェクトのリソース設定を編集する、または
 
-- **Back to Last Step** をクリックして、cluster 設定を変更する。
+- **Back to Last Step** をクリックして、クラスター設定を変更します。
 
 この処理中、ローリングのために追加のリソースが一時的に必要になります。これらのリソースは使用後に解放されます。
 
@@ -80,7 +80,7 @@ replicas の手動スケーリングは、Enterprise プラン以上でサポー
 
 <Procedures>
 
-1. **Cluster Details** ページに移動します。
+1. **クラスター Details** ページに移動します。
 
 1. **Replica Settings** カードの **Scale** をクリックします。
 
@@ -90,13 +90,13 @@ replicas の手動スケーリングは、Enterprise プラン以上でサポー
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-**Scale Cluster Replicas** ダイアログボックスで **Save** をクリックすると、プロジェクトのリソースクォータを確認するよう求められます。リソースが十分であれば、確認完了後にダイアログボックスは閉じます。十分でない場合は、次のいずれかを実行できます。 
+**Scale クラスター Replicas** ダイアログボックスで **Save** をクリックすると、プロジェクトのリソースクォータを確認するよう求められます。リソースが十分であれば、確認完了後にダイアログボックスは閉じます。十分でない場合は、次のいずれかを実行できます。 
 
 - **Go To Project Resource Settings** をクリックして、プロジェクトのリソース設定を編集する、または
 
-- **Back to Last Step** をクリックして、cluster 設定を変更する。
+- **Back to Last Step** をクリックして、クラスター設定を変更します。
 
 この処理中、ローリングのために追加のリソースが一時的に必要になります。これらのリソースは使用後に解放されます。
 
@@ -104,7 +104,7 @@ replicas の手動スケーリングは、Enterprise プラン以上でサポー
 
 ## RESTful API による手動スケーリング\{#manual-scaling-via-restful-api}
 
-RESTful API を使用すると、単一の [Modify Cluster](/reference/restful/modify-cluster-v2) リクエストで Query CU と replica を手動でスケーリングできます。
+RESTful API を使用すると、1 回の [Modify クラスター](/reference/restful/modify-cluster-v2) リクエストで Query CU とレプリカを手動でスケーリングできます。
 
 ```bash
 export TOKEN="YOUR_API_KEY"
@@ -131,13 +131,13 @@ curl --request POST \
 
 1. **Jobs** に移動します。
 
-1. 対象 cluster のスケーリングジョブを見つけます。
+1. 対象クラスターのスケーリングジョブを探します。
 
 1. ジョブステータスを確認します。
 
 </Procedures>
 
-スケーリングジョブの進行中は、cluster ステータスは `Modifying` です。ジョブが成功すると、cluster ステータスは `Running` に戻ります。
+スケーリングジョブの実行中、クラスターのステータスは `Modifying` です。ジョブが成功すると、クラスターのステータスは `Running` に戻ります。
 
 ## FAQ\{#faq}
 
@@ -147,7 +147,7 @@ curl --request POST \
 
 **スケールダウンが許可されない場合はどうなりますか？**
 
-ターゲットの Query CU サイズが現在のデータ量、collection 数、または partition 数をサポートできない場合、スケールダウンのリクエストは失敗することがあります。この場合は、現在のサイズを維持するか、より大きいターゲット構成を選択してください。
+対象の Query CU サイズが現在のデータ量、コレクション数、またはパーティション数をサポートできない場合、スケールダウンリクエストが失敗することがあります。その場合は、現在のサイズを維持するか、より大きなターゲット構成を選択してください。
 
 **手動スケーリング、スケジュールスケーリング、または動的スケーリングのどれを使うべきですか？**
 
