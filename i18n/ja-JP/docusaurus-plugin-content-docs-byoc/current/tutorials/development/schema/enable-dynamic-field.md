@@ -494,7 +494,7 @@ if (!status.IsOk()) {
 
 Zilliz Cloud では、**JSON path indexing** を使用して、dynamic field 内の特定のキーにインデックスを作成できます。これらのキーは、スカラー値または JSON オブジェクト内のネストされた値です。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 dynamic field キーへのインデックス作成は**任意**です。インデックスがなくても dynamic field キーでクエリやフィルタリングを実行できますが、総当たり検索になるためパフォーマンスが低下する可能性があります。
 
@@ -894,7 +894,7 @@ string_price_index.AddExtraParam("json_cast_function", "STRING_TO_DOUBLE");
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - 型変換に失敗した場合（たとえば値 `"not_a_number"` を数値に変換できない場合）、その値はスキップされ、インデックスは作成されません。
 
@@ -1257,7 +1257,7 @@ for (auto& result : search_results.Results()) {
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 dynamic field キーはデフォルトでは結果に含まれないため、明示的に要求する必要があります。
 

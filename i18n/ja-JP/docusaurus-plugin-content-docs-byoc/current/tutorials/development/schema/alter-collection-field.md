@@ -1,13 +1,13 @@
 ---
-title: "Collection Field の変更 | BYOC"
+title: "コレクションフィールドの変更 | BYOC"
 slug: /alter-collection-field
-sidebar_label: "Field の変更"
+sidebar_label: "フィールドの変更"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "column 制約を変更したり、より厳格なデータ整合性ルールを適用したりするために、collection field のプロパティを変更できます。 | BYOC"
+description: "コレクションフィールドのプロパティを変更して、カラム制約を変更したり、より厳格なデータ整合性ルールを適用したりできます。 | BYOC"
 type: origin
 token: PLjFwlcT8ilFBakYXyfcg6S2n7d
 sidebar_position: 17
@@ -19,25 +19,25 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Collection Field の変更
+# コレクションフィールドの変更
 
-column 制約を変更したり、より厳格なデータ整合性ルールを適用したりするために、collection field のプロパティを変更できます。
+コレクションフィールドのプロパティを変更して、カラム制約を変更したり、より厳格なデータ整合性ルールを適用したりできます。
 
-このページでは field プロパティの変更について説明しており、field の追加や削除などの schema 形状の変更は対象ではありません。既存の collection に scalar field を追加したり、field を削除したりするには、[Collection Schema の変更](./add-fields-to-an-existing-collection)を参照してください。
+このページではフィールドプロパティの変更について説明しており、フィールドの追加や削除といったスキーマ形状の変更は対象外です。既存のコレクションにスカラーフィールドを追加したり、フィールドを削除したりする場合は、[コレクションスキーマの変更](./add-fields-to-an-existing-collection) を参照してください。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-- 各 collection は 1 つの primary field のみを持ちます。collection 作成時に設定すると、その primary field を変更したり、そのプロパティを変更したりすることはできません。
+- 各コレクションが持つプライマリフィールドは 1 つだけです。コレクション作成時に設定したプライマリフィールドは、そのフィールドを変更することもプロパティを変更することもできません。
 
-- 各 collection には 1 つの partition key しか設定できません。collection 作成時に設定すると、その partition key を変更することはできません。
+- 各コレクションに設定できるパーティションキーは 1 つだけです。コレクション作成時に設定したパーティションキーは変更できません。
 
 </Admonition>
 
-## VarChar field の変更\{#alter-varchar-field}
+## VarChar フィールドの変更\{#alter-varchar-field}
 
-VarChar field には `max_length` というプロパティがあり、field 値に含められる最大文字数を制限します。`max_length` プロパティは変更できます。
+VarChar フィールドには `max_length` というプロパティがあり、フィールド値に含めることができる最大文字数を制限します。変更できるのは `max_length` プロパティです。
 
-以下の例では、collection に `varchar` という名前の VarChar field があることを前提に、その `max_length` プロパティを設定しています。
+以下の例では、コレクションに `varchar` という名前の VarChar フィールドがあることを前提に、その `max_length` プロパティを設定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -176,11 +176,11 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-## ARRAY field の変更\{#alter-array-field}
+## ARRAY フィールドの変更\{#alter-array-field}
 
-array field には `element_type` と `max_capacity` という 2 つのプロパティがあります。前者は array 内の要素のデータ型を決定し、後者は array に含められる要素数の上限を制限します。変更できるのは `max_capacity` プロパティのみです。
+ARRAY フィールドには `element_type` と `max_capacity` という 2 つのプロパティがあります。前者は配列内の要素のデータ型を決定し、後者は配列内の要素の最大数を制限します。変更できるのは `max_capacity` プロパティのみです。
 
-以下の例では、collection に `array` という名前の array field があることを前提に、その `max_capacity` プロパティを設定しています。
+以下の例では、コレクションに `array` という名前の ARRAY フィールドがあることを前提に、その `max_capacity` プロパティを設定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -271,11 +271,11 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-## field レベルの mmap 設定の変更\{#alter-field-level-mmap-settings}
+## フィールドレベルの mmap 設定の変更\{#alter-field-level-mmap-settings}
 
-Memory mapping（Mmap）は、ディスク上の大きなファイルへの直接メモリアクセスを可能にし、Zilliz Cloud が index とデータをメモリとハードドライブの両方に保存できるようにします。このアプローチにより、アクセス頻度に基づいてデータ配置ポリシーを最適化でき、検索パフォーマンスに影響を与えることなく collection の保存容量を拡張できます。
+メモリマッピング（Mmap）は、ディスク上の大きなファイルへの直接メモリアクセスを可能にし、Zilliz Cloud がインデックスとデータをメモリとハードドライブの両方に保存できるようにします。このアプローチは、アクセス頻度に基づいてデータ配置ポリシーを最適化し、検索パフォーマンスに影響を与えることなくコレクションのストレージ容量を拡張するのに役立ちます。
 
-以下の例では、collection に `doc_chunk` という名前の field があることを前提に、その `mmap_enabled` プロパティを設定しています。
+以下の例では、コレクションに `doc_chunk` という名前のフィールドがあることを前提に、その `mmap_enabled` プロパティを設定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>

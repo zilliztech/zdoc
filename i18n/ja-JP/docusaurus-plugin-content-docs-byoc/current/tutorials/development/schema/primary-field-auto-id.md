@@ -1,13 +1,13 @@
 ---
-title: "Primary Field と AutoID | BYOC"
+title: "プライマリフィールドと AutoID | BYOC"
 slug: /primary-field-auto-id
-sidebar_label: "Primary Field"
+sidebar_label: "プライマリフィールド"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud のすべての collection には、各 entity を一意に識別するための primary field が必要です。このフィールドにより、すべての entity を曖昧さなく挿入、更新、クエリ、削除できます。 | BYOC"
+description: "Zilliz Cloud のすべてのコレクションには、各エンティティを一意に識別するためのプライマリフィールドが必要です。このフィールドにより、すべてのエンティティを曖昧さなく挿入、更新、クエリ、削除できます。 | BYOC"
 type: origin
 token: D2ctwKZhNilLY0ke1vpcHL62n5G
 sidebar_position: 2
@@ -19,57 +19,57 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Primary Field と AutoID
+# プライマリフィールドと AutoID
 
-Zilliz Cloud のすべての collection には、各 entity を一意に識別するための primary field が必要です。このフィールドにより、すべての entity を曖昧さなく挿入、更新、クエリ、削除できます。
+Zilliz Cloud のすべてのコレクションには、各エンティティを一意に識別するためのプライマリフィールドが必要です。このフィールドにより、すべてのエンティティを曖昧さなく挿入、更新、クエリ、削除できます。
 
-ユースケースに応じて、Zilliz Cloud に ID を自動生成させる（AutoID）ことも、自分で ID を手動で割り当てることもできます。
+ユースケースに応じて、Zilliz Cloud に ID を自動生成させる（AutoID）ことも、独自の ID を手動で割り当てることもできます。
 
-## primary field とは何ですか？\{#what-is-a-primary-field}
+## プライマリフィールドとは何ですか？\{#what-is-a-primary-field}
 
-primary field は、従来のデータベースにおける主キーのように、collection 内の各 entity の一意キーとして機能します。Zilliz Cloud は、挿入、upsert、削除、クエリの各操作で entity を管理するために primary field を使用します。
+プライマリフィールドは、従来のデータベースにおける主キーと同様に、コレクション内の各エンティティの一意キーとして機能します。Zilliz Cloud は、挿入、upsert、削除、クエリの各操作でエンティティを管理するためにプライマリフィールドを使用します。
 
 主な要件:
 
-- 各 collection には **ちょうど 1 つ** の primary field が必要です。
+- 各コレクションには、プライマリフィールドを **ちょうど 1 つ** 持つ必要があります。
 
-- primary field の値を null にすることはできません。
+- プライマリフィールドの値は null にできません。
 
 - データ型は作成時に指定する必要があり、後から変更することはできません。
 
 ## サポートされるデータ型\{#supported-data-types}
 
-primary field には、entity を一意に識別できる、サポート対象の scalar データ型を使用する必要があります。
+プライマリフィールドには、エンティティを一意に識別できる、サポート対象のスカラーデータ型を使用する必要があります。
 
-| Data Type | 説明 |
+| データ型 | 説明 |
 | --- | --- |
-| `INT64` | 64-bit integer 型で、AutoID とよく使われます。ほとんどのユースケースで推奨されるオプションです。 |
-| `VARCHAR` | 可変長文字列型です。entity 識別子が外部システム由来である場合（たとえば、製品コードやユーザー ID）に使用します。各値に許可される最大バイト数を定義するために `max_length` プロパティが必要です。 |
+| `INT64` | 64 ビット整数型で、AutoID と組み合わせてよく使用されます。ほとんどのユースケースで推奨されるオプションです。 |
+| `VARCHAR` | 可変長文字列型です。エンティティ識別子が外部システムに由来する場合（たとえば、製品コードやユーザー ID）に使用します。値ごとに許可される最大バイト数を定義するために `max_length` プロパティが必要です。 |
 
-## AutoID と Manual IDs の選び方\{#choose-between-autoid-and-manual-ids}
+## AutoID と手動 ID の選択\{#choose-between-autoid-and-manual-ids}
 
-Zilliz Cloud は、primary key の値を割り当てるための 2 つのモードをサポートしています。
+Zilliz Cloud は、プライマリキーの値を割り当てるための 2 つのモードをサポートしています。
 
-| Mode | 説明 | 推奨される用途 |
+| モード | 説明 | 推奨される用途 |
 | --- | --- | --- |
-| AutoID | Zilliz Cloud が、挿入またはインポートされた entity に対して一意の識別子を自動生成します。 | ID を手動で管理する必要がないほとんどのシナリオ。 |
-| Manual ID | データの挿入またはインポート時に、自分で一意の ID を指定します。 | ID を外部システムや既存データセットに合わせる必要がある場合。 |
+| AutoID | Zilliz Cloud が、挿入またはインポートされたエンティティに対して一意の識別子を自動生成します。 | ID を手動で管理する必要がないほとんどのシナリオ。 |
+| 手動 ID | データを挿入またはインポートする際に、一意の ID を自分で指定します。 | ID を外部システムや既存のデータセットに合わせる必要がある場合。 |
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-- どちらのモードを選ぶべきか迷う場合は、よりシンプルな取り込みと一意性の保証のために、[AutoID から始めてください](./primary-field-auto-id#quickstart-use-autoid)。
+- どちらのモードを選択すべきかわからない場合は、よりシンプルな取り込みと一意性の保証のために、[AutoID から始めてください](./primary-field-auto-id#quickstart-use-autoid)。
 
-- primary key を手動設定することに利点がある場合を除き、すべてのケースで `autoId` を利用することを推奨します。
+- プライマリキーを手動で設定することが有益な場合を除き、どのようなケースでも `autoId` を利用することを推奨します。
 
 </Admonition>
 
-## クイックスタート: AutoID を使う\{#quickstart-use-autoid}
+## クイックスタート: AutoID を使用する\{#quickstart-use-autoid}
 
-ID の生成を Zilliz Cloud に自動的に任せることができます。
+Zilliz Cloud に ID の生成を自動的に処理させることができます。
 
-### ステップ 1: AutoID を有効にして collection を作成する\{#step-1-create-a-collection-with-autoid}
+### ステップ 1: AutoID を有効にしたコレクションを作成する\{#step-1-create-a-collection-with-autoid}
 
-primary field の定義で `auto_id=True` を有効にします。Zilliz Cloud が自動的に ID 生成を処理します。
+プライマリフィールドの定義で `auto_id=True` を有効にします。Zilliz Cloud が ID の生成を自動的に処理します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -276,7 +276,7 @@ if (!status.IsOk()) {
 
 ### ステップ 2: データを挿入する\{#step-2-insert-data}
 
-**重要:** データに primary field 列を含めないでください。Zilliz Cloud が自動的に ID を生成します。
+**重要:** データにプライマリフィールドの列を含めないでください。Zilliz Cloud が ID を自動的に生成します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -396,17 +396,17 @@ auto ids = response.Results().IdArray().IntIDArray();
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-既存の entity を扱う場合は、重複 ID エラーを避けるために `insert()` ではなく `upsert()` を使用してください。
+既存のエンティティを扱う場合は、重複 ID エラーを回避するために `insert()` ではなく `upsert()` を使用してください。
 
 </Admonition>
 
-## Manual IDs を使う\{#use-manual-ids}
+## 手動 ID を使用する\{#use-manual-ids}
 
 ID を手動で制御する必要がある場合は、AutoID を無効にして独自の値を指定します。
 
-### ステップ 1: AutoID を使わずに collection を作成する\{#step-1-create-a-collection-without-autoid}
+### ステップ 1: AutoID を使用せずにコレクションを作成する\{#step-1-create-a-collection-without-autoid}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -614,7 +614,7 @@ if (!status.IsOk()) {
 
 ### ステップ 2: 独自の ID でデータを挿入する\{#step-2-insert-data-with-your-ids}
 
-すべての挿入操作で、primary field の列を含める必要があります。
+すべての挿入操作でプライマリフィールドの列を含める必要があります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -740,11 +740,11 @@ auto ids = response.Results().IdArray().StrIDArray()
 </TabItem>
 </Tabs>
 
-あなたの責務:
+お客様の責務:
 
-- すべての entity 間で各 ID が一意であることを保証する
+- すべてのエンティティ間で ID が一意であることを保証する。
 
-- すべての insert/import 操作に primary field を含める
+- すべての insert/import 操作にプライマリフィールドを含める。
 
-- ID の競合と重複検出を自分で処理する
+- ID の競合と重複の検出を自分で処理する。
 

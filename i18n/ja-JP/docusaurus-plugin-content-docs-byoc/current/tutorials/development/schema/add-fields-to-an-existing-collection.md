@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 コレクションが開発から本番環境へ移行するにつれて、そのスキーマはしばしば変化します。フィルタリングやアプリケーションロジックのために `source_uri` や `review_status` のようなスカラーフィールドを追加したり、アプリケーションが生成する埋め込み用に新しいベクトルフィールドを追加したり、既存のテキストに対する語彙検索のために BM25 関数とその生成されたスパースベクトルフィールドを追加したり、不要になったフィールドや関数を削除したりすることがあります。コレクションスキーマの変更を使用すると、コレクションを再作成する代わりに、サポートされているフィールドと関数の変更をインプレースで行えます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - このガイドでは、マネージドコレクションにおけるユーザー定義フィールドと、生成されたベクトルフィールドを持つ関数のスキーマ変更について説明します。フィールドプロパティの変更（`VARCHAR` フィールドの `max_length` や `ARRAY` フィールドの `max_capacity` の変更など）については、[コレクションフィールドの変更](./alter-collection-field) を参照してください。動的フィールドの動作については、[動的フィールド](./enable-dynamic-field) および [コレクションの変更](./modify-collections) を参照してください。
 
@@ -66,7 +66,7 @@ import Admonition from '@theme/Admonition';
 
 - 生成されたベクトルフィールドを削除するとコレクションにベクトルフィールドが 1 つも残らなくなる場合、関数の削除は拒否されます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 サポートされている追加・削除操作以外のスキーマ変更を行う場合は、コレクションを再作成するか移行してください。
 

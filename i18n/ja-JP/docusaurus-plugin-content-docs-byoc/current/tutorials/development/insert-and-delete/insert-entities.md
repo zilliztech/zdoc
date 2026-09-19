@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 コレクション内のエンティティは、同じフィールドセットを共有するデータレコードです。各データレコードのフィールド値が1つのエンティティを形成します。このページでは、コレクションにエンティティを挿入する方法について説明します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - **コレクション作成後に追加されたフィールド**: 作成後にコレクションへ新しいフィールドを追加し、挿入時に値を指定しなかった場合、MilvusZilliz Cloud によって、定義済みのデフォルト値、またはデフォルト値が設定されていない場合は `NULL` が自動的に設定されます。詳細については、[コレクションスキーマの変更](./add-fields-to-an-existing-collection) を参照してください。
 

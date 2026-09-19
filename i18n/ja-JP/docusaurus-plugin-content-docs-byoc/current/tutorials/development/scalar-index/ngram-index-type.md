@@ -34,7 +34,7 @@ Zilliz Cloud の `NGRAM` インデックスは、`VARCHAR` フィールドまた
 
 - `url =~ "/api/v[0-9]+/users"`
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 `LIKE` と regex フィルタ式の構文の詳細については、[Pattern Matching](./pattern-match) を参照してください。
 
@@ -250,7 +250,7 @@ For more information on filter expression syntax, refer to [Pattern Matching](./
 
 Use the `drop_index()` method to remove an existing index from a collection.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 In your cluster compatible with **Milvus v2.6.x**, you can drop a scalar index directly once it’s no longer needed—no need to release the collection first.
 
