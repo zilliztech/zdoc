@@ -1,5 +1,5 @@
 ---
-title: "Voyage AI Ranker | クラウド"
+title: "Voyage AI Ranker | Cloud"
 slug: /voyage-ai-model-ranker
 sidebar_label: "Voyage AI Ranker"
 beta: FALSE
@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Voyage AI Ranker は、Voyage AI の特化型 reranker を活用して、セマンティック reranking により検索の関連性を向上させます。 | クラウド"
+description: "Voyage AI Ranker は、Voyage AI のものと検索アプリケーションを活用します。 | Cloud"
 type: origin
 token: PpGlwYU6PiSsfVkZ7doco50vnKg
 sidebar_position: 2
@@ -20,9 +20,9 @@ import Admonition from '@theme/Admonition';
 
 # Voyage AI Ranker
 
-Voyage AI Ranker は、[Voyage AI](https://www.voyageai.com/) の特化型 reranker を活用して、セマンティック reranking によって検索の関連性を向上させます。これは、retrieval-augmented generation（RAG）および検索アプリケーション向けに最適化された高性能な reranking 機能を提供します。
+Voyage AI Ranker は、[Voyage AI](https://www.voyageai.com/) の特化型 reranker を活用し、セマンティック reranking によって検索の関連性を向上させます。retrieval-augmented generation（RAG）と検索アプリケーション向けに最適化された高性能な reranking 機能を提供します。
 
-Voyage AI Ranker は、特に以下を必要とするアプリケーションで有用です。
+Voyage AI Ranker は、次のようなアプリケーションで特に有用です。
 
 - reranking タスク向けに特別にトレーニングされたモデルによる高度なセマンティック理解
 
@@ -32,37 +32,37 @@ Voyage AI Ranker は、特に以下を必要とするアプリケーションで
 
 - 異なるモデルバリアント（rerank-2、rerank-lite など）にわたる微調整された性能
 
-## Before you start\{#before-you-start}
+## 事前準備\{#before-you-start}
 
-Voyage AI Ranker を使用する前に、以下の前提条件を満たしていることを確認してください。
+Voyage AI Ranker を使用する前に、次の前提条件を満たしていることを確認してください。
 
 - **rerank モデルを選択する**
 
-    `rerank-2.5` など、使用する Cohere rerank モデルを決定します。選択したモデルによって、reranking 中にセマンティック関連性がどのように評価されるかが決まります。詳細については、[Voyage AI 公式ドキュメント](https://docs.voyageai.com/docs/reranker)を参照してください。
+    `rerank-2.5` など、使用する Cohere rerank モデルを決定します。選択したモデルによって、reranking 時にセマンティックな関連性をどのように評価するかが決まります。詳細については、[Voyage AI 公式ドキュメント](https://docs.voyageai.com/docs/reranker) を参照してください。
 
 - **Voyage AI と統合し、integration ID を取得する**
 
-    Voyage AI Ranker を使用するには、まず [Zilliz Cloud コンソール](https://cloud.zilliz.com/login)で Voyage AI をモデルプロバイダーとして統合する必要があります。
+    Voyage AI Ranker を使用するには、まず [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) で Voyage AI をモデルプロバイダーとして統合する必要があります。
 
-    統合後、Zilliz Cloud は **integration ID** を生成します。これは rerank 関数を定義する際に参照します。詳細な手順については、[モデルプロバイダーとの統合](./integrate-with-model-providers)を参照してください。
+    統合後、Zilliz Cloud は **integration ID** を生成します。これは rerank 関数を定義する際に参照するものです。詳細な手順については、[モデルプロバイダーとの統合](./integrate-with-model-providers) を参照してください。
 
-- **rerank 可能なテキストフィールドを含む collection スキーマを計画する**
+- **rerank 可能なテキストフィールドを含むコレクションスキーマを計画する**
 
-    collection に、rerank 対象のテキストを含む `VARCHAR` フィールドが 1 つ含まれていることを確認してください。
+    コレクションに、rerank 対象のテキストを含む `VARCHAR` フィールドが 1 つ含まれていることを確認してください。
 
-## Use Voyage AI Ranker\{#use-voyage-ai-ranker}
+## Voyage AI Ranker を使用する\{#use-voyage-ai-ranker}
 
-このセクションでは、検索時に Voyage AI Ranker を適用して取得結果を rerank する方法を示します。
+このセクションでは、検索時に Voyage AI Ranker を適用して、取得した結果を rerank する方法を説明します。
 
 rerank 関数は検索時に定義および適用されるため、クエリごとに reranking の動作を有効化、無効化、または変更できます。
 
-### Preparations\{#preparations}
+### 準備\{#preparations}
 
-以下のセットアップでは、検索および reranking のための collection とサンプルデータを準備します。
+次のセットアップでは、検索および reranking に使用するコレクションとサンプルデータを準備します。
 
 <details>
 
-<summary><strong>サンプルデータを含む collection を準備する</strong></summary>
+<summary><strong>サンプルデータを含むコレクションを準備する</strong></summary>
 
 ```python
 from pymilvus import MilvusClient, DataType
@@ -124,11 +124,11 @@ client.insert(collection_name, data)
 
 </details>
 
-### Define the rerank function\{#define-the-rerank-function}
+### rerank 関数を定義する\{#define-the-rerank-function}
 
-Voyage AI Ranker は、collection スキーマの一部としてではなく、**検索時** に定義されます。
+Voyage AI Ranker は、コレクションスキーマの一部としてではなく、**検索時**に定義されます。
 
-rerank 関数では、以下を指定します。
+rerank 関数では、次の項目を指定します。
 
 - rerank するテキストフィールド（`VARCHAR`）
 
@@ -154,13 +154,13 @@ voyage_ranker = Function(
 )
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-`queries` 内の文字列数は、検索リクエストで発行されるクエリ数と一致している必要があります。
+`queries` 内の文字列の数は、検索リクエストで発行されるクエリの数と一致している必要があります。
 
 </Admonition>
 
-### Search with the rerank function\{#search-with-the-rerank-function}
+### rerank 関数を使用して検索する\{#search-with-the-rerank-function}
 
 ```python
 query_vector = [0.12, 0.21, 0.29, 0.41]
@@ -178,20 +178,20 @@ results = client.search(
 print(results)
 ```
 
-この検索では、次のことが行われます。
+この検索では、次の処理が実行されます。
 
-1. vector search を使用して候補が取得されます。
+1. ベクトル検索を使用して候補が取得されます。
 
-1. Voyage AI Ranker が各候補のセマンティック関連性を評価します。
+1. Voyage AI Ranker が各候補のセマンティックな関連性を評価します。
 
 1. 結果セットは返される前に並べ替えられます。
 
-## Next steps\{#next-steps}
+## 次のステップ\{#next-steps}
 
-Voyage AI Ranker は hybrid search と組み合わせて使用することもできます。
+Voyage AI Ranker はハイブリッド検索と組み合わせて使用することもできます。
 
-検索と hybrid search では、同じ方法で ranker を適用します。
+検索とハイブリッド検索では、同じ方法で ranker を適用します。
 
-どちらの場合でも、検索時に `ranker` パラメータを介して rerank 関数を渡します。
+どちらの場合も、検索時に `ranker` パラメータを介して rerank 関数を渡します。
 
-詳細については、[Multi-Vector Hybrid Search](./hybrid-search)を参照してください。
+詳細については、[マルチベクトルハイブリッド検索](./hybrid-search) を参照してください。

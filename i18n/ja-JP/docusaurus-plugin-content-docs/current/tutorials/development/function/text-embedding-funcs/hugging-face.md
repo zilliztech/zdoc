@@ -51,7 +51,7 @@ Text Embedding Function で Hugging Face モデルを使用するには、その
 | [`dragonkue/snowflake-arctic-embed-l-v2.0-ko`](https://huggingface.co/dragonkue/snowflake-arctic-embed-l-v2.0-ko) | Feature Extraction | 1024 | 2026-07-27 |
 | [`upskyy/bge-m3-korean`](https://huggingface.co/upskyy/bge-m3-korean) | Feature Extraction | 1024 | 2026-07-27 |
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 この表は互換性のあるモデルの完全な一覧ではありません。ここに記載されていないモデルでも、統合と互換性がある可能性があります。
 
@@ -59,11 +59,11 @@ Text Embedding Function で Hugging Face モデルを使用するには、その
 
 </Admonition>
 
-## 始める前に\{#before-you-start}
+## 事前準備\{#before-you-start}
 
-Hugging Face テキスト埋め込みを使用する前に、以下を行ってください。
+Hugging Face テキスト埋め込みを使用する前に、以下を確認してください。
 
-- Hugging Face モデルプロバイダー統合を作成し、その統合 ID をコピーします。**Provider** を `hf-inference` に設定します。手順については、[Integrate with Model Providers](./integrate-with-model-providers) を参照してください。
+- Hugging Face モデルプロバイダー統合を作成し、その統合 ID をコピーします。**Provider** を `hf-inference` に設定します。手順については、[モデルプロバイダーとの統合](./integrate-with-model-providers) を参照してください。
 
 - モデルの Hugging Face ページを開き、**Inference Providers** セクションを確認します。`hf-inference` が現在そのモデルを `feature-extraction` タスク向けに提供していることを確認してください。
 
@@ -150,7 +150,7 @@ schema.add_function(text_embedding_function)
 | --- | --- | --- |
 | `provider` | Yes | Zilliz Cloud モデルプロバイダーです。この値は `huggingface` に設定します。 |
 | `model_name` | Yes | 現在 `feature-extraction` タスク用に `hf-inference` を通じて提供されているモデルの Hugging Face モデル ID。 |
-| `integration_id` | Yes | Hugging Face モデルプロバイダー統合の ID。手順については、[Integrate with Model Providers](./integrate-with-model-providers) を参照してください。 |
+| `integration_id` | Yes | Hugging Face モデルプロバイダー統合の ID。手順については、[モデルプロバイダーとの統合](./integrate-with-model-providers) を参照してください。 |
 | `normalize` | No | 正規化された埋め込みをリクエストするかどうか。省略した場合、Zilliz Cloud は Hugging Face リクエストにこのオプションを設定せず、動作は選択したモデルに従います。 |
 | `prompt_name` | No | 選択したモデルの Sentence Transformers 設定で定義されたプロンプトの名前。Hugging Face はエンコード前に対応するプロンプトテキストを先頭に追加します。省略した場合、プロンプトはリクエストされません。 |
 | `truncate` | No | 入力がモデルのサポートする長さを超えた場合に切り詰めをリクエストするかどうか。省略した場合、Zilliz Cloud は Hugging Face リクエストにこのオプションを設定せず、動作は選択したモデルに従います。 |
@@ -233,7 +233,7 @@ print(results)
 
 ### モデルが feature-extraction タスクで利用できない\{#the-model-is-unavailable-for-the-feature-extraction-task}
 
-Hugging Face 上でモデルページを開き、**Inference Providers** セクションを確認してください。`hf-inference` が現在そのモデルを提供していること、およびそのモデルが `feature-extraction` をサポートしていることを確認してください。どちらかの要件を満たしていない場合は、別のモデルを選択し、そのモデルページで確認してください。Model compatibility 表は完全な一覧ではなく、記載されていないモデルでも互換性がある可能性があります。モデルを変更する場合は、Function の出力フィールドの次元が置き換え先のモデルと一致していることを確認してください。
+Hugging Face 上でモデルページを開き、**Inference Providers** セクションを確認してください。`hf-inference` が現在そのモデルを提供していること、およびそのモデルが `feature-extraction` をサポートしていることを確認してください。どちらかの要件を満たしていない場合は、別のモデルを選択し、そのモデルページで確認してください。モデル互換性の表は完全な一覧ではなく、記載されていないモデルでも互換性がある可能性があります。モデルを変更する場合は、Function の出力フィールドの次元が置き換え先のモデルと一致していることを確認してください。
 
 ### 返されたベクトル次元がスキーマと一致しない\{#the-returned-vector-dimension-does-not-match-the-schema}
 
@@ -241,6 +241,6 @@ Hugging Face 上でモデルページを開き、**Inference Providers** セク�
 
 ## 次のステップ\{#next-steps}
 
-Functions に関する一般的な情報については、[Function Overview](./function-and-model-inference-overview) を参照してください。
+Functions に関する一般的な情報については、[Function の概要](./function-and-model-inference-overview) を参照してください。
 
 Hugging Face Sentence Similarity スコアを使用してベクトル検索の候補を再ランク付けするには、[Hugging Face Ranker](./hugging-face-ranker) を参照してください。

@@ -49,7 +49,7 @@ Zilliz Cloud では、コレクション内のエンティティをカウント�
 
     参考までに、すべてのデータ操作は非同期であるため、内部トラッカーはエンティティ数をリアルタイムで反映できません。詳細については、[get_collection_stats() を使用する](./count-entities#use-getcollectionstats) を参照してください。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 上記の 2つの方法はどちらも、同じプライマリキーを持つエンティティを別々のエンティティとしてカウントします。
 

@@ -62,7 +62,7 @@ import TabItem from '@theme/TabItem';
 
 1. Boost Ranker で指定された重みを適用し、特定されたエンティティのスコアをブーストします。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Boost Ranker はマルチベクトルハイブリッド検索では使用できません。
 
@@ -123,7 +123,7 @@ Boost Ranker はマルチベクトルハイブリッド検索では使用でき�
     | 48 | body | 0.265 | 0.265 | 4 | 0002 |
     | **276** | **abstract** | **0.845** | **0.423** | **5** | **0002** |
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     重みは、選択した浮動小数点数である必要があります。上記の例のように、スコアが小さいほど関連性が高い場合は、**1** 未満の重みを使用してください。そうでない場合は、**1** より大きい重みを使用してください。
 
@@ -657,4 +657,3 @@ if (!status.IsOk()) {
      <td><p><code>&quot;Sum&quot;</code></p></td>
    </tr>
 </table>
-

@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "ベクトル検索はベクトル距離で結果を並べますが、初期の順序は各候補のテキストがクエリにどれだけ適切に答えているかを反映しない場合があります。Hugging Face model provider integration を使用すると、Hugging Face Ranker は Hugging Face の sentence-similarity タスクのスコアを使用して、ベクトル検索で返された候補を再順位付けします。 | Cloud"
+description: "ベクトル検索はベクトル距離で結果を並べますが、初期の順序は各候補のテキストがクエリにどれだけ適切に答えているかを反映しない場合があります。Hugging Face モデルプロバイダー統合を使用すると、Hugging Face Ranker は Hugging Face の sentence-similarity タスクのスコアを使用して、ベクトル検索で返された候補を再順位付けします。 | Cloud"
 type: origin
 token: P4UywHFH2iDFJWk2kwwcs22SnRc
 sidebar_position: 3
@@ -20,7 +20,7 @@ import Admonition from '@theme/Admonition';
 
 # Hugging Face Ranker
 
-ベクトル検索はベクトル距離で結果を並べますが、初期の順序は各候補のテキストがクエリにどれだけ適切に答えているかを反映しない場合があります。[Hugging Face model provider integration](./integrate-with-model-providers) を使用すると、Hugging Face Ranker は Hugging Face の sentence-similarity タスクのスコアを使用して、ベクトル検索で返された候補を再順位付けします。
+ベクトル検索はベクトル距離で結果を並べますが、初期の順序は各候補のテキストがクエリにどれだけ適切に答えているかを反映しない場合があります。[Hugging Face モデルプロバイダー統合](./integrate-with-model-providers) を使用すると、Hugging Face Ranker は Hugging Face の sentence-similarity タスクのスコアを使用して、ベクトル検索で返された候補を再順位付けします。
 
 ## 仕組み\{#how-it-works}
 
@@ -32,7 +32,7 @@ Hugging Face Ranker は、ベクトル検索後に候補エンティティを再
 
 1. **候補エンティティを取得します。** Zilliz Cloud は設定されたベクトルフィールドに対してベクトル検索を実行し、候補エンティティを返します。
 
-1. **再順位付け用のテキストを準備します。** Ranker は、`params.queries` からクエリテキストを読み取り、`input_field_names` で指定された null 不可の `VARCHAR` フィールドから候補テキストを読み取ります。
+1. **再順位付け用のテキストを準備します。** Ranker は、`params.queries` からクエリテキストを読み取り、`input_field_names` で指定された null 非許容の `VARCHAR` フィールドから候補テキストを読み取ります。
 
 1. **再順位付けスコアをリクエストします。** Zilliz Cloud はクエリと候補テキストを Hugging Face に送信し、各候補に対して新たに計算された類似度スコアを受け取ります。
 
@@ -54,33 +54,33 @@ Hugging Face Ranker は、ベクトル検索後に候補エンティティを再
 
 事前計算済みベクトルを挿入する場合は、Hugging Face Ranker が再順位付け時に読み取れるよう、元の候補テキストも `VARCHAR` フィールドに保存してください。
 
-## 始める前に\{#before-you-start}
+## 事前準備\{#before-you-start}
 
 Hugging Face Ranker を使用する前に、以下を確認してください。
 
-<Admonition type="info" icon="📘" title="注記">
+<Admonition type="info" title="Notes">
 
 Zilliz Cloud は [`hf-inference`](https://huggingface.co/docs/inference-providers/providers/hf-inference) を通じて Hugging Face に接続し、Hugging Face Ranker には [`sentence-similarity`](https://huggingface.co/tasks/sentence-similarity) タスクを使用します。特定のモデルが現在 `hf-inference` で提供されているかどうか、引き続き利用可能かどうか、あるいは安定性、レイテンシ、出力品質に関する要件を満たすかどうかは、Zilliz Cloud では制御できません。本番環境で使用する前に、選択したモデルを Hugging Face 上で確認し、ワークロードに対して評価してください。
 
 </Admonition>
 
-- Hugging Face model provider integration を作成し、その integration ID をコピーします。手順については、[Integrate with Model Providers](./integrate-with-model-providers) を参照してください。
+- Hugging Face モデルプロバイダー統合を作成し、その統合 ID をコピーします。手順については、[モデルプロバイダーとの統合](./integrate-with-model-providers) を参照してください。
 
 - モデルの Hugging Face ページを開き、**Inference Providers** セクションを確認します。`hf-inference` が現在そのモデルを `sentence-similarity` タスク用に提供していることを確認してください。
 
-- collection に候補テキストが null 不可の `VARCHAR` フィールドとして保存されていることを確認します。rerank function は `input_field_names` でそのようなフィールドをちょうど 1 つ参照する必要があります。collection には他のテキストフィールドを含めることもできます。
+- コレクションに候補テキストが null 非許容の `VARCHAR` フィールドとして保存されていることを確認します。rerank 関数は、`input_field_names` でそのようなフィールドをちょうど 1 つ参照する必要があります。コレクションには、他のテキストフィールドを含めることもできます。
 
 ## Hugging Face Ranker を使用する\{#use-hugging-face-ranker}
 
-Hugging Face Ranker は検索時に定義して適用します。collection schema を変更せずに、検索リクエストごとに ranker を有効化、無効化、または変更できます。
+Hugging Face Ranker は、検索時に定義して適用します。コレクションスキーマを変更することなく、検索リクエストごとに ranker を有効化、無効化、または変更できます。
 
 ### 準備\{#preparations}
 
-次のセットアップでは、3 つのフィールドを持つ collection を作成します。`id` は主キー、`document` は再順位付けに使用する候補テキストを保存する `VARCHAR` フィールド、`dense` は初期検索に使用するベクトルフィールドです。また、検索および再順位付けの例のためのサンプルデータも挿入します。
+次のセットアップでは、3 つのフィールドを持つコレクションを作成します。`id` は主キー、`document` は再順位付けに使用する候補テキストを保存する `VARCHAR` フィールド、`dense` は初期検索に使用するベクトルフィールドです。また、検索および再順位付けの例で使用するサンプルデータも挿入します。
 
 <details>
 
-<summary>**サンプルデータを含む collection を準備する**</summary>
+<summary>**サンプルデータを含むコレクションを準備する**</summary>
 
 ```python
 from pymilvus import DataType, MilvusClient
@@ -140,9 +140,9 @@ client.insert(collection_name=collection_name, data=data)
 
 </details>
 
-### rerank function を定義する\{#define-the-rerank-function}
+### rerank 関数を定義する\{#define-the-rerank-function}
 
-ベクトル検索で返された候補を、`document` に保存されたテキストを使って再順位付けする `RERANK` function を定義します。この function では、クエリテキスト、Hugging Face モデル、および model provider integration も指定します。
+ベクトル検索で返された候補を、`document` に保存されたテキストを使って再順位付けする `RERANK` 関数を定義します。この関数では、クエリテキスト、Hugging Face モデル、およびモデルプロバイダー統合も指定します。
 
 ```python
 from pymilvus import Function, FunctionType
@@ -165,24 +165,24 @@ hugging_face_ranker = Function(
 )
 ```
 
-この例では、設定方法を示すためだけに `sentence-transformers/all-MiniLM-L6-v2` を使用しています。このモデルは Zilliz Cloud による推奨や認定を意味するものではありません。
+この例では、設定方法を示すためだけに `sentence-transformers/all-MiniLM-L6-v2` を使用しています。このモデルは、Zilliz Cloud による推奨や認定を意味するものではありません。
 
-次の表は、Hugging Face Ranker の `params` にある、ユーザーが設定可能なすべての項目を説明しています。
+次の表は、Hugging Face Ranker についてユーザーが設定できる `params` のすべての項目を説明しています。
 
 | Parameter | Required | Description |
 | --- | --- | --- |
 | `reranker` | Yes | 再順位付けの実装です。この値は `model` に設定します。 |
-| `provider` | Yes | Zilliz Cloud model provider です。この値は `huggingface` に設定します。 |
-| `model_name` | Yes | `sentence-similarity` タスク用に `hf-inference` を通じて現在提供されているモデルの Hugging Face Model ID です。 |
-| `queries` | Yes | 再順位付けに使用するクエリテキストのリストです。初期検索でクエリベクトルを使用する場合でも、各検索クエリ (`nq`) に対して 1 つの文字列を指定してください。 |
-| `integration_id` | Yes | Hugging Face model provider integration の ID です。手順については、[Integrate with Model Providers](./integrate-with-model-providers) を参照してください。 |
+| `provider` | Yes | Zilliz Cloud のモデルプロバイダーです。この値は `huggingface` に設定します。 |
+| `model_name` | Yes | `sentence-similarity` タスク用に `hf-inference` を通じて現在提供されているモデルの Hugging Face モデル ID です。 |
+| `queries` | Yes | 再順位付けに使用するクエリテキストのリストです。初期検索でクエリベクトルを使用する場合でも、検索クエリごと（`nq`）に 1 つの文字列を指定してください。 |
+| `integration_id` | Yes | Hugging Face モデルプロバイダー統合の ID です。手順については、[モデルプロバイダーとの統合](./integrate-with-model-providers) を参照してください。 |
 | `max_client_batch_size` | No | 1 回のリクエストで Hugging Face に送信する候補テキストの最大数です。デフォルト値は `32` です。値は `0` より大きい必要があります。 |
 
-function 定義に Hugging Face の認証情報を含めないでください。
+関数定義に Hugging Face の認証情報を含めないでください。
 
-### rerank function で検索する\{#search-with-the-rerank-function}
+### rerank 関数で検索する\{#search-with-the-rerank-function}
 
-`ranker` パラメータを通じて function を `search()` に渡します。
+`ranker` パラメータを通じて、rerank 関数を `search()` に渡します。
 
 ```python
 query_vector = [0.12, 0.21, 0.29, 0.41]
@@ -200,20 +200,20 @@ results = client.search(
 print(results)
 ```
 
-検索では、まず `dense` ベクトルフィールドから候補エンティティを取得します。次に Hugging Face Ranker は、`queries` 内のクエリテキストと各候補の `document` テキストを使用して、sentence-similarity タスクを通じて類似度スコアを計算します。Zilliz Cloud は、スコアの高い順に候補を返します。
+検索では、まず `dense` ベクトルフィールドから候補エンティティを取得します。次に、Hugging Face Ranker は `queries` 内のクエリテキストと各候補の `document` テキストを使用して、sentence-similarity タスクを通じて類似度スコアを計算します。Zilliz Cloud は、スコアの降順で候補を返します。
 
 ## トラブルシューティング\{#troubleshooting}
 
-### モデルが sentence-similarity タスクで利用できません\{#the-model-is-unavailable-for-the-sentence-similarity-task}
+### モデルが sentence-similarity タスクで利用できない場合\{#the-model-is-unavailable-for-the-sentence-similarity-task}
 
-Hugging Face のモデルページを開き、**Inference Providers** セクションを確認してください。`hf-inference` が現在そのモデルを提供しており、そのモデルが `sentence-similarity` をサポートしていることを確認します。いずれかの要件を満たしていない場合は、別のモデルを選択し、そのモデルページで確認してください。Zilliz Cloud は Hugging Face モデル向けのサポート対象モデルカタログを管理していません。
+Hugging Face でモデルページを開き、**Inference Providers** セクションを確認してください。`hf-inference` が現在そのモデルを提供しており、そのモデルが `sentence-similarity` をサポートしていることを確認します。いずれかの要件が満たされていない場合は、別のモデルを選択し、そのモデルページで確認してください。Zilliz Cloud は、Hugging Face モデル向けのサポート対象モデルカタログを管理していません。
 
-### クエリテキストの数が検索リクエストと一致しません\{#the-number-of-query-texts-does-not-match-the-search-request}
+### クエリテキストの数が検索リクエストと一致しない場合\{#the-number-of-query-texts-does-not-match-the-search-request}
 
-`queries` 内の文字列数は、検索クエリ数 (`nq`) と等しくなければなりません。1 つのクエリベクトルで検索する場合は、クエリ文字列をちょうど 1 つ指定してください。
+`queries` 内の文字列の数は、検索クエリの数（`nq`）と等しくなければなりません。1 つのクエリベクトルで検索する場合は、クエリ文字列をちょうど 1 つ指定してください。
 
 ## 次のステップ\{#next-steps}
 
-Hugging Face Ranker はハイブリッド検索でも使用できます。検索とハイブリッド検索では、同じ方法で ranker を適用します。つまり、検索時に `ranker` パラメータを通じて rerank function を渡します。
+Hugging Face Ranker はハイブリッド検索でも使用できます。検索とハイブリッド検索では、同じ方法で ranker を適用します。つまり、検索時に `ranker` パラメータを通じて rerank 関数を渡します。
 
-詳細については、[Multi-Vector Hybrid Search](./hybrid-search) を参照してください。
+詳細については、[Multi-ベクトル Hybrid Search](./hybrid-search) を参照してください。

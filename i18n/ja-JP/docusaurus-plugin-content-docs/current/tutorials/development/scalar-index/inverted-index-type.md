@@ -119,7 +119,7 @@ client.create_index(
 
 `drop_index()` メソッドを使用して、コレクションから既存のインデックスを削除します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 **Milvus v2.6.x** と互換性のあるクラスターでは、不要になったスカラーインデックスを直接削除できます。先にコレクションをリリースする必要はありません。
 
