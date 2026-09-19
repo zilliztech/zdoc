@@ -55,3 +55,4 @@ Zilliz Cloud は、シンガポールのパブリッククラウドリージョ�
 - Dedicated クラスターアクセス
 
     ユーザーにより広い制御性と柔軟性を提供するため、Dedicated クラスターに RESTful API 経由でアクセスおよび管理できるようになり、統合や自動化がより簡単になりました。詳細については、[API reference](/reference/restful/cloud-meta) を参照してください。
+

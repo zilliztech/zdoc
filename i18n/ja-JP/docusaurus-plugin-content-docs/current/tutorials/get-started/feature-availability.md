@@ -28,7 +28,7 @@ import Admonition from '@theme/Admonition';
 
 - **Private Preview:** 
 
-    - **定義:** Private Preview の機能は現在も活発に開発中であり、変更される可能性があります。Zilliz Cloud 内で実装およびテストされていますが、使いやすさ、安定性、およびエッジケースへの対応が完全ではない場合があります。
+    - **定義:** Private Preview の機能は現在活発に開発中であり、変更される可能性があります。Zilliz Cloud 内で実装およびテストされていますが、使いやすさ、安定性、およびコーナーケースへの対応が完全ではない場合があります。
 
     - **アクセス**: デフォルトでは利用できません。アクセスを希望する場合は、[Zilliz Support](http://support.zilliz.com) にお問い合わせください。
 
@@ -36,7 +36,7 @@ import Admonition from '@theme/Admonition';
 
 - **Public Preview:** 
 
-    - **定義:** Public Preview の機能は本番環境で利用できる状態に近づいており、General Availability（GA）に到達する前に大きく変更される可能性はほとんどありません。
+    - **定義:** Public Preview の機能は本番環境で利用できる状態に近く、General Availability（GA）に到達する前に大幅に変更される可能性はほとんどありません。
 
     - **アクセス**: 通常、クラスターの Milvus バージョンをアップグレードするとデフォルトで有効になります。クラスターで古いバージョンの Milvus を実行している場合、一部の機能を利用できないことがあります。そのような場合は、クラスターをアップグレードするために [サポートにお問い合わせください](http://support.zilliz.com)。
 
@@ -44,7 +44,7 @@ import Admonition from '@theme/Admonition';
 
 - **General Availability (GA):** 
 
-    - <strong>定義:</strong> GA の機能は完全にリリースされており、本番環境に対応し、積極的にサポートされています。
+    - <strong>定義:</strong> GA の機能は完全にリリースされ、本番環境に対応しており、積極的にサポートされています。
 
     - **アクセス**: ほとんどのユーザーに対してデフォルトで有効になっていますが、価格に関する考慮事項があるエンタープライズ機能など、一部の機能については有効化のために [営業担当者へのお問い合わせ](https://zilliz.com/contact-sales) が必要です。
 
@@ -54,7 +54,7 @@ import Admonition from '@theme/Admonition';
 
     - <strong>定義:</strong> このフェーズの機能は引き続き動作しアクセスできますが、重大なバグ修正を除き、積極的な開発は行われていません。
 
-    - **アクセス**: 引き続き利用できますが、正式な廃止予定の告知がメールで送信されています。
+    - **アクセス**: 引き続き利用できますが、正式な非推奨の告知がメールで発行されています。
 
     - **使用**: この機能は将来の日付で削除される予定であるため、新しいソリューションへの移行を開始するには [専門家にご相談ください](https://zilliz.com/contact-sales)。
 
@@ -76,7 +76,7 @@ import Admonition from '@theme/Admonition';
 
 - Hosted models
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 これらの機能へのアクセスを希望する場合は、[Zilliz Support](http://support.zilliz.com) にお問い合わせください。 
 
@@ -86,7 +86,7 @@ import Admonition from '@theme/Admonition';
 
 - Embedding（[OpenAI](./openai)、[Voyage AI](./voyage-ai)、および [Cohere](./cohere)）と Rerank Functions（[Cohere reranker](./cohere-model-ranker) および [Voyage AI reranker](./voyage-ai-model-ranker)）
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 これらの機能にアクセスするには、クラスターの Milvus バージョンをアップグレードしてください。
 
@@ -98,7 +98,7 @@ import Admonition from '@theme/Admonition';
 
 - [Spark バッチジョブ](./spark-batch-jobs)
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 お使いのリージョンがこの機能をサポートしている場合は、より多くのリージョンについて [お問い合わせください](http://support.zilliz.com)
 

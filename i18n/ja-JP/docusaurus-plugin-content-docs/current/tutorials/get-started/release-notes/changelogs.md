@@ -56,7 +56,7 @@ import Grid from '@site/src/components/Grid';
 
         - 🐢 **[Dedicated クラスターの Slow logs](./configure-slow-logs)** — 遅い Search、Hybrid Search、Query リクエストをキャプチャし、分析のためにログをご自身のオブジェクトストレージへ配信します。
 
-        - 📈 **クラスター作成時のレプリカとオートスケーリングの構成** — Dedicated クラスターまたは Global クラスター を作成する際に、[レプリカ数と Query CU](./create-cluster) のオートスケーリング範囲を設定します。
+        - 📈 **クラスター作成時のレプリカとオートスケーリングの構成** — Dedicated クラスターまたは Global クラスターを作成する際に、[レプリカ数と Query CU](./create-cluster) のオートスケーリング範囲を設定します。
 
         - 🌎 **リージョンを考慮したプロジェクトナビゲーション** — [プロジェクト](./manage-projects) のリソースをリージョン別に管理し、リージョンの追加や削除をより簡単に行い、マルチリージョンプロジェクトでのクラスター作成を効率化します。
 
@@ -110,7 +110,7 @@ import Grid from '@site/src/components/Grid';
 
         - 📈 オンデマンドクラスターで [コレクションレベルのメトリクス](./metrics-alerts-reference) が利用可能になりました。
 
-        - 💳 オンデマンドコンピューティングと external volumes で課金が発生するようになりました。内訳については、[On-Demand Compute Cost](./on-demand-compute-cost) および [Storage Request Cost](./storage-request-cost) を参照してください。
+        - 💳 オンデマンドコンピューティングと外部ボリュームで課金が発生するようになりました。内訳については、[On-Demand Compute Cost](./on-demand-compute-cost) および [Storage Request Cost](./storage-request-cost) を参照してください。
 
         - 💻 [Programmable storage integrations](/reference/restful/storage-integration-operations-v2) が RESTful API を通じて利用可能になりました。
 
@@ -208,19 +208,19 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        - 🏠 Zilliz Cloud はベクトルデータベース製品から、以下の注目機能を備えた ベクトル Lakebase プラットフォームへと進化しました:
+        - 🏠 Zilliz Cloud は、ベクトルデータベース製品から以下の注目機能を備えたベクトル Lakebase プラットフォームへと進化しました：
 
             - [On-demand search](./quick-start-to-on-demand-search)
 
             - [External data lake search](./quick-start-to-external-data-lake-search)
 
-        - 🐦 Zilliz Cloud のオンデマンドコンピューティング向けに、Milvus v3.0.x の Private Review が以下の機能とともに開始されました:
+        - 🐦 Zilliz Cloud のオンデマンドコンピューティング向けに、Milvus v3.0.x の Private Review が以下の機能とともに開始されました：
 
-            - [External コレクション and backfill](./create-external-collection)
+            - [外部コレクションとバックフィル](./create-external-collection)
 
             - [Null 許容ベクトル](./nullable-fields)
 
-            - [Embedding list searches and filtering](./use-array-of-structs),
+            - [Embedding list searches and filtering](./use-array-of-structs)、
 
             - [MinHash function](./minhash-function)
 
@@ -232,9 +232,9 @@ import Grid from '@site/src/components/Grid';
 
             - Force merge
 
-            - Custom dictionaries and tokenizers
+            - カスタム辞書とトークナイザー
 
-            - Spark semantic deduplication and abnormal detection
+            - Spark のセマンティック重複排除と異常検出
 
         - 💾 インポート、移行、および外部コレクションのワークフロー向けの読み取り専用 [external volumes](./external-volume) が利用可能になりました。
 
@@ -360,17 +360,17 @@ import Grid from '@site/src/components/Grid';
 
             - [Text Highlighter](./text-highlighter)
 
-        - 🤖 [OpenAI](./openai)、[Voyage AI](./voyage-ai)、[Cohere](./cohere) などのモデルベース embedding functions と、[Cohere reranker](./cohere-model-ranker) や [Voyage AI reranker](./voyage-ai-model-ranker) などの reranking functions が Public Preview で利用可能になりました。
+        - 🤖 [OpenAI](./openai)、[Voyage AI](./voyage-ai)、[Cohere](./cohere) などのモデルベースの埋め込み関数と、[Cohere reranker](./cohere-model-ranker) や [Voyage AI reranker](./voyage-ai-model-ranker) などのリランキング関数が Public Preview で利用可能になりました。
 
-        - 🤖 Hosted models が Private Preview で利用可能になりました。
+        - 🤖 ホスト型モデルが Private Preview で利用可能になりました。
 
         - 🛠️ インテリジェンスを備えた [Dynamic replica autoscaling](./auto-scaling)。
 
         - 📅 使い慣れた cron 設定による高度な [scheduled scaling](./scheduled-scaling)。
 
-        - 🌎 [Global cluster](./global-cluster-explained) が利用可能になりました。アクセスするには [お問い合わせください](https://support.zilliz.com/hc/en-us)。
+        - 🌎 [Global クラスター](./global-cluster-explained) が利用可能になりました。アクセスするには [お問い合わせください](https://support.zilliz.com/hc/en-us)。
 
-        - ☁️ BYOC は以下の機能強化により、さらに使いやすくなりました:
+        - ☁️ BYOC は以下の機能強化により、さらに使いやすくなりました：
 
             - [Manual Scaling](./manual-scaling)、[Auto-scaling](./auto-scaling)、[Scheduled Scaling](./scheduled-scaling) などのフルオートスケーリング機能。
 
@@ -428,9 +428,9 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        - 🚀  Milvus v2.6.x がより多くのデータ型とともに Zilliz Cloud で利用可能になりました:
+        - 🚀  Milvus v2.6.x がより多くのデータ型とともに Zilliz Cloud で利用可能になりました：
 
-            - [Geometry](./use-geometry-field), and
+            - [Geometry](./use-geometry-field)、および
 
             - [Array of Structs](./use-array-of-structs)
 
@@ -438,7 +438,7 @@ import Grid from '@site/src/components/Grid';
 
         - ⏰  [通知間隔](./manage-project-alerts#alert-settings) をカスタマイズして、繰り返しのアラートを抑制できます。
 
-        - 🔧  [dynamic field は既存のコレクションに対して有効化可能](./modify-collections#example-5-enable-dynamic-field) になり、コレクションの再作成が不要になりました。
+        - 🔧  [動的フィールドを既存のコレクションで有効化可能](./modify-collections#example-5-enable-dynamic-field) になり、コレクションを再作成する必要がなくなりました。
 
         - 💳  サブスクリプションプランはプロジェクトレベルに移行され、クラスターには複数のデプロイオプションが用意されました。詳しくは [Detailed Plan Comparison](./select-zilliz-cloud-service-plans) を参照してください。
 
@@ -530,7 +530,7 @@ import Grid from '@site/src/components/Grid';
 
         - 📦  移行およびデータインポート用の共有ステージングレイヤーとしての [Stage](./managed-volume)
 
-        - 📅  [Schedule-based cluster autoscaling](./scheduled-scaling)
+        - 📅  [スケジュールベースのクラスターオートスケーリング](./scheduled-scaling)
 
         - [🔄  クラスターの部分復元](./restore-from-backup-files#restore-a-partial-cluster)
 
@@ -640,7 +640,7 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        - 🎯  [search level の調整](./tune-recall-rate) による高い再現率
+        - 🎯  [検索レベルの調整](./tune-recall-rate) による高い再現率
 
         - [🔐  コレクションレベル RBAC サポート](./cluster-privileges#collection-level-privilege-groups)
 
@@ -668,11 +668,11 @@ import Grid from '@site/src/components/Grid';
 
         - 🎨  Zilliz Cloud コンソールを再構成しました
 
-        - 🔄  対応ソースを拡張したデータ移行: 
+        - 🔄  対応ソースを拡張したデータ移行：
 
-            - [Qdrant](./migrate-from-qdrant),
+            - [Qdrant](./migrate-from-qdrant)、
 
-            - [Pinecone](./migrate-from-pinecone), and
+            - [Pinecone](./migrate-from-pinecone)、および
 
             - [Tencent Cloud](./migrate-from-tencent-cloud)
 
@@ -724,13 +724,13 @@ import Grid from '@site/src/components/Grid';
 
         - 🔄  [Multi-replica](./auto-scaling) が Public Preview で利用可能になりました
 
-        - 📦  Zilliz Cloud へデータを移行するための移行サービス:
+        - 📦  Zilliz Cloud へデータを移行するための移行サービス：
 
             - [Milvus](./migrate-from-milvus)
 
             - [Elasticsearch](./migrate-from-elasticsearch)
 
-            - [PostgreSQL](./migrate-from-pgvector), and
+            - [PostgreSQL](./migrate-from-pgvector)、および
 
             - [Zilliz Cloud クラスター間](./offline-migration)
 
@@ -810,7 +810,7 @@ import Grid from '@site/src/components/Grid';
 
         - **新リージョン**: 🇩🇪 GCP europe-west3 (Frankfurt) および 🇺🇸 us-east-4 (Virginia)
 
-        - 🧠  text pipelines と image pipelines が利用可能になりました
+        - 🧠  テキストパイプラインと画像パイプラインが利用可能になりました
 
     </div>
 
@@ -828,9 +828,9 @@ import Grid from '@site/src/components/Grid';
 
         - [🛒  Azure Marketplace](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/zillizinc1703056661329.zilliz_cloud?tab=PlansAndPrice) が公開されました
 
-        - 🔌  Pipelines が connectors をサポートするようになりました
+        - 🔌  Pipelines がコネクタをサポートするようになりました
 
-        - 🔄  Pipelines に search pipelines 向け rerankers が導入されました
+        - 🔄  Pipelines に検索パイプライン向けのリランカーが導入されました
 
         - [📊  RESTful API によるメトリクス監視](/reference/restful/query-metrics) が利用可能です
 
@@ -850,7 +850,7 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        - 🧠  Pipelines がより多くの embedding models をサポートするようになりました
+        - 🧠  Pipelines がより多くの埋め込みモデルをサポートするようになりました
 
         - 🎮  コレクションのプレイグラウンドが Zilliz Cloud コンソールで利用可能になりました
 
@@ -890,7 +890,7 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        - ☁️  Zilliz Cloud が以下のリージョンで Azure で利用可能になりました:
+        - ☁️  Zilliz Cloud が Azure で以下のリージョンにおいて利用可能になりました：
 
             - **新リージョン**: 🇺🇸  Azure East US
 

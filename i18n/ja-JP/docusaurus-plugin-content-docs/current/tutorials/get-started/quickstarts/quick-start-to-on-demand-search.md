@@ -25,11 +25,11 @@ Zilliz Cloud はオンデマンドのコンピューティングリソースを�
 
 ![ZhWHbgOD0o56IpxbQ32ctGaInBe](https://zdoc-images.s3.us-west-2.amazonaws.com/zhwhbgod0o56ipxbq32ctgainbe.png "ZhWHbgOD0o56IpxbQ32ctGaInBe")
 
-## Step 1: プロジェクトエンドポイントに接続する。\{#step-1-connect-to-a-project-endpoint}
+## ステップ 1: プロジェクトエンドポイントに接続する\{#step-1-connect-to-a-project-endpoint}
 
 データベースで作業する前に、プロジェクトエンドポイントに接続します。プロジェクトエンドポイントは、Zilliz Cloud コンソールでオンデマンドコンピュートを有効化した後、クイックスタートページで取得できます。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 - マネージドコレクションの操作では、認証のために **API キー** が必要です。このフローでは `username:password` 認証はサポートされていません。
 
@@ -121,7 +121,7 @@ auto status = client->Connect(connect_param);
 </TabItem>
 </Tabs>
 
-## Step 2: （任意）データベースを作成する。\{#step-2-optional-create-a-database}
+## ステップ 2: （任意）データベースを作成する\{#step-2-optional-create-a-database}
 
 Zilliz Cloud にはデフォルトのデータベースが用意されています。それを使用する場合は、このステップをスキップしてください。以下のようにデータベースを作成することもできます。
 
@@ -203,7 +203,7 @@ auto status = client->CreateDatabase(request);
 </TabItem>
 </Tabs>
 
-## Step 3: マネージドコレクションを作成する。\{#step-3-create-a-managed-collection}
+## ステップ 3: マネージドコレクションを作成する\{#step-3-create-a-managed-collection}
 
 データベースの準備ができたら、その中にマネージドコレクションを作成できます。コレクションの列を外部データファイルにマッピングする外部コレクションとは異なり、マネージドコレクションでは大幅なパフォーマンス向上のためにデータをインポートする必要があります。 
 
@@ -497,7 +497,7 @@ status = client->CreateCollection(request);
 </TabItem>
 </Tabs>
 
-## Step 4: インデックスを作成する。\{#step-4-create-indexes}
+## ステップ 4: インデックスを作成する\{#step-4-create-indexes}
 
 すべてのベクトルフィールドに対してインデックスを作成する必要があり、必要に応じて選択したスカラーフィールドにも作成できます。
 
@@ -669,11 +669,11 @@ auto status = client->CreateIndex(request);
 </TabItem>
 </Tabs>
 
-## ステップ 5: データをインポートする。\{#step-5-import-data}
+## ステップ 5: データをインポートする\{#step-5-import-data}
 
 すべての設定が完了したら、処理済みデータをインポートできます。以下の例では、処理済みデータを外部ストレージバケットに保存していることを前提としています。
 
-バケット内のデータ形式またはストレージ統合については、[形式オプション](./data-import-format-options)を参照してください。
+バケットまたはストレージ統合におけるデータ形式については、[フォーマットオプション](./data-import-format-options)を参照してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
@@ -917,7 +917,7 @@ curl --request POST \
 
 デフォルトでは、クラスターは最後のリクエストから 60 秒後に自動的にサスペンドされます。ユースケースに応じて適切な値に設定できます。 
 
-## ステップ 7: 検索を実行する。\{#step-7-conduct-searches}
+## ステップ 7: 検索を実行する\{#step-7-conduct-searches}
 
 検索、クエリ、またはハイブリッド検索を実行する必要がある場合は、セッションを通じて前のステップで作成したオンデマンドクラスターにアタッチできます。
 

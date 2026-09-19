@@ -60,7 +60,7 @@ Zilliz Cloud への登録およびログインには、以下のオプション�
 
     - 数字（0–9）
 
-    - 特殊文字（例: !@#&#36;%^&&ast;）
+    - 特殊文字（例：!@#&#36;%^&&ast;）
 
 1. **I agree to the [Terms of Service](https://zilliz.com/terms-and-conditions) and [Privacy Policy](https://zilliz.com/privacy-policy)** のチェックボックスをオンにします。
 
@@ -72,7 +72,7 @@ Zilliz Cloud への登録およびログインには、以下のオプション�
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 初回ログイン時には、サービスをより適切に提供するため、追加情報の入力が求められます。
 
@@ -94,7 +94,7 @@ Google アカウントを Zilliz Cloud と連携するには、以下の手順�
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 登録をスムーズに行うため、連携前に [Google が管理する MFA を無効化](https://support.google.com/accounts/answer/1064203?hl=en&ref_topic=7189195&sjid=2449417013251062800-AP)してください。
 
@@ -136,7 +136,7 @@ GitHub アカウントを連携するには、以下の手順に従います。
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 登録をスムーズに行うため、連携前に [GitHub が管理する MFA を無効化](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/disabling-two-factor-authentication-for-your-personal-account)してください。
 
@@ -145,6 +145,14 @@ GitHub アカウントを連携するには、以下の手順に従います。
 ### Zilliz Cloud アカウントへのログイン\{#log-in-to-your-zilliz-cloud-account}
 
 Zilliz Cloud アカウントへログインする際は、必ず登録時に選択した方法を使用してください。
+
+<Admonition type="info" title="Notes">
+
+セキュリティのため、Zilliz Cloud コンソールのセッションは 6 時間操作がないと失効します。セッションが失効した場合は、再度サインインしてコンソールの使用を続けてください。
+
+詳細については、[コンソールセッション](./email-accounts#console-session)を参照してください。
+
+</Admonition>
 
 ## FAQ\{#faq}
 

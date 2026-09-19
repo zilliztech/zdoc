@@ -24,7 +24,7 @@ import Admonition from '@theme/Admonition';
 
 - 料金計算ツール
 
-    新機能である料金計算ツールの提供開始をお知らせできることを嬉しく思います。この新機能は、ユーザーがコストを効果的に計画し、見積もれるように設計されています。料金計算ツールでは、ユーザーは CU タイプを簡単に選択し、エンティティ数とベクトル次元数を入力することで、推奨される CU サイズと Zilliz Cloud のコスト見積もりを取得できます。お試しになるには[こちらをクリック](https://zilliz.com/pricing#calculator)してください。
+    新機能である料金計算ツールの提供開始をお知らせできることを嬉しく思います。この新機能は、ユーザーがコストを効果的に計画し、見積もれるように設計されています。料金計算ツールでは、ユーザーは CU タイプを簡単に選択し、エンティティ数とベクトル次元数を入力することで、推奨される CU サイズと Zilliz Cloud のコスト見積もりを取得できます。お試しになるには [こちらをクリック](https://zilliz.com/pricing#calculator) してください。
 
     現在、料金計算ツールがサポートするのはベクトルデータのみですが、将来的にはスカラーデータも含めるよう機能を拡張し、ユーザーにさらに正確なコスト見積もりを提供する予定です。
 
@@ -32,13 +32,13 @@ import Admonition from '@theme/Admonition';
 
     今回のリリースにより、当社のプラットフォームで Google Cloud Platform（GCP）におけるデータベースのバックアップと復元がサポートされるようになりました。この最新リリースにより、ユーザーは GCP 上でデータベースを簡単にバックアップおよび復元でき、データ復旧と事業継続性を確保できます。
 
-    詳細については、[バックアップの作成](./create-backup)および[バックアップファイルからの復元](./restore-from-backup-files)を参照してください。
+    詳細については、[バックアップの作成](./create-backup) および [バックアップファイルからの復元](./restore-from-backup-files) を参照してください。
 
 - カスタムタイムゾーン
 
     タイムゾーン設定のサポートを追加しました。これにより、ユーザーはタイムゾーンの設定をカスタマイズでき、すべてのデータで正確なタイムスタンプを確保できます。
 
-    詳細については、[タイムゾーンの管理](./organization-settings#manage-timezone)を参照してください。
+    詳細については、[タイムゾーンの管理](./organization-settings#manage-timezone) を参照してください。
 
 - コレクション名の変更
 
@@ -59,4 +59,3 @@ import Admonition from '@theme/Admonition';
     - Billing の UI を改善しました。
 
     - CU タイプの名称を更新しました。"High Performance" は "Performance-optimized" に、"Big Data" は "Capacity-optimized" に変更されました。
-

@@ -1,13 +1,13 @@
 ---
-title: "Quickstart to External Data Lake Search | Cloud"
+title: "外部データレイク検索のクイックスタート | Cloud"
 slug: /quick-start-to-external-data-lake-search
-sidebar_label: "Quickstart to External Data Lake Search"
+sidebar_label: "外部データレイク検索のクイックスタート"
 beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "External data lake search を使用すると、外部ストレージまたは Zilliz Cloud にインポートされたデータへゼロコピーでアクセスし、コンピューティングリソースを常時稼働させることなく大規模なデータセットを検索できます。外部ボリュームやインポート済みファイルからコレクションを作成し、プロジェクトデータプレーンエンドポイント経由でインデックスの構築とメタデータの更新を行い、検索やクエリを実行する際にのみオンデマンドクラスターを起動できます。 | Cloud"
+description: "外部データレイク検索を使用すると、外部ストレージまたは Zilliz Cloud にインポートされたデータへゼロコピーでアクセスし、コンピューティングリソースを常時稼働させることなく大規模なデータセットを検索できます。外部ボリュームやインポート済みファイルからコレクションを作成し、プロジェクトデータプレーンエンドポイント経由でインデックスの構築とメタデータの更新を行い、検索やクエリを実行する際にのみオンデマンドクラスターを起動できます。 | Cloud"
 type: origin
 token: KdwFwQnDNisT4skHH6Hc16uInji
 sidebar_position: 4
@@ -19,13 +19,13 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Quickstart to External Data Lake Search
+# 外部データレイク検索のクイックスタート
 
-External data lake search を使用すると、外部ストレージまたは Zilliz Cloud にインポートされたデータへゼロコピーでアクセスし、コンピューティングリソースを常時稼働させることなく大規模なデータセットを検索できます。外部ボリュームやインポート済みファイルからコレクションを作成し、プロジェクトデータプレーンエンドポイント経由でインデックスの構築とメタデータの更新を行い、検索やクエリを実行する際にのみオンデマンドクラスターを起動できます。
+外部データレイク検索を使用すると、外部ストレージまたは Zilliz Cloud にインポートされたデータへゼロコピーでアクセスし、コンピューティングリソースを常時稼働させることなく大規模なデータセットを検索できます。外部ボリュームやインポート済みファイルからコレクションを作成し、プロジェクトデータプレーンエンドポイント経由でインデックスの構築とメタデータの更新を行い、検索やクエリを実行する際にのみオンデマンドクラスターを起動できます。
 
 手順は以下のとおりです。
 
-## 始める前に\{#before-you-start}
+## 事前準備\{#before-you-start}
 
 - **ストレージ統合を作成します。**
 
@@ -33,13 +33,13 @@ External data lake search を使用すると、外部ストレージまたは Zi
 
 - **外部ボリュームを作成します。**
 
-    外部ボリュームは、ストレージ統合内のパスです。生データがそのパスに配置されていることを確認してください。同じストレージ統合から複数の外部ボリュームを作成できます。外部ボリュームの作成については、[External Volumes](./external-volume#create-an-external-volume) を参照してください。
+    外部ボリュームは、ストレージ統合内のパスです。生データがそのパスに配置されていることを確認してください。同じストレージ統合から複数の外部ボリュームを作成できます。外部ボリュームの作成については、[外部ボリューム](./external-volume#create-an-external-volume) を参照してください。
 
 ## ステップ 1: プロジェクトエンドポイントに接続する\{#step-1-connect-to-a-project-endpoint}
 
 データベースを操作する前に、プロジェクトエンドポイントに接続します。プロジェクトエンドポイントは、Zilliz Cloud コンソールでオンデマンドコンピューティングを有効にした後、クイックスタートページで取得できます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 外部コレクションの操作には、認証に **API key** が必要です。このフローでは `username:password` 認証はサポートされていません。
 
@@ -68,7 +68,7 @@ export PROJECT_ENDPOINT="https://{project-id}.{region}.api.zillizcloud.com"
 </TabItem>
 </Tabs>
 
-## ステップ 2: (オプション) データベースを作成する\{#step-2-optional-create-a-database}
+## ステップ 2: （オプション）データベースを作成する\{#step-2-optional-create-a-database}
 
 Zilliz Cloud にはデフォルトのデータベースが用意されています。デフォルトのデータベースを使用する場合は、このステップをスキップしてください。以下のように新しいデータベースを作成することもできます。
 
@@ -102,9 +102,9 @@ curl --request POST \
 
 データベースの準備ができたら、外部コレクションを作成できます。外部コレクションは、指定したデータファイルにカラムをマッピングし、そのコレクションでの検索用にオンデマンドのコンピューティングリソースを割り当てます。
 
-生データをコレクションにインポートする必要があるマネージドコレクションとは異なり、外部コレクションはサブ秒級の更新操作によって生データからメタデータを生成します。
+生データをコレクションにインポートする必要があるマネージドコレクションとは異なり、外部コレクションはサブ秒単位の更新操作によって生データからメタデータを生成します。
 
-次の例は、コレクションフィールドとデータファイルのマッピング関係を設定する方法を示しています。スキーマ作成時に、ボリュームパスとデータ形式を指定します。このクイックスタートでは Iceberg テーブルを使用します。サポートされているデータソースと形式の完全なリストについては、[Supported data sources and formats](./create-external-collection#support-data-sources) を参照してください。
+次の例は、コレクションフィールドとデータファイルのマッピング関係を設定する方法を示しています。スキーマ作成時に、ボリュームパスとデータ形式を指定します。このクイックスタートでは Iceberg テーブルを使用します。サポートされているデータソースと形式の完全なリストについては、[サポートされるデータソースと形式](./create-external-collection#support-data-sources) を参照してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -432,7 +432,7 @@ curl --request POST \
 
 ## ステップ 6: 検索の実行\{#step-6-conduct-searches}
 
-検索、クエリ、またはハイブリッド検索を実行する際は、セッションを通じて前のステップで作成したオンデマンドクラスターに接続できます。
+検索、クエリ、またはハイブリッド検索を実行する際は、セッションを通じて前のステップで作成したオンデマンドクラスターにアタッチできます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
