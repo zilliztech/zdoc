@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このガイドでは、Zilliz Cloud collection からデータをエクスポートする方法の例を示します。 | BYOC"
+description: "このガイドでは、Zilliz Cloud コレクションからデータをエクスポートする方法の例を示します。 | BYOC"
 type: origin
 token: N6fZwCUXqiqoJEkFiVNcvDJEnnc
 sidebar_position: 1
@@ -21,11 +21,11 @@ import TabItem from '@theme/TabItem';
 
 # イテレータを使用してデータをエクスポート
 
-このガイドでは、Zilliz Cloud collection からデータをエクスポートする方法の例を示します。
+このガイドでは、Zilliz Cloud コレクションからデータをエクスポートする方法の例を示します。
 
 ## 概要\{#overview}
 
-Milvus の Python SDK と Java SDK はどちらも、collection 内のエンティティをメモリ効率よく反復処理するための一連の iterator API を提供しています。詳細については、[Search Iterator](./with-iterators) を参照してください。
+Milvus の Python SDK と Java SDK はどちらも、コレクション内のエンティティをメモリ効率よく反復処理するための一連の iterator API を提供しています。詳細については、[Search Iterator](./with-iterators) を参照してください。
 
 iterator を使用すると、次のような利点があります。
 
@@ -35,19 +35,19 @@ iterator を使用すると、次のような利点があります。
 
 - **一貫性**: ブールフィルタによって一貫したデータセットサイズを保証します。
 
-これらの API を使用して、Zilliz Cloud collection から特定の、またはすべてのエンティティをエクスポートできます。
+これらの API を使用して、Zilliz Cloud コレクションから特定の、またはすべてのエンティティをエクスポートできます。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-この機能は、Milvus 2.3.x 以降と互換性のある Zilliz Cloud cluster で利用できます。
+この機能は、Milvus 2.3.x 以降と互換性のある Zilliz Cloud クラスターで利用できます。
 
 </Admonition>
 
 ## 準備\{#preparations}
 
-以下の手順では、コードを流用して Zilliz Cloud cluster に接続し、すばやく collection をセットアップして、ランダムに生成された 10,000 件を超えるエンティティを collection に挿入します。
+以下の手順では、コードを流用して Zilliz Cloud クラスターに接続し、すばやくコレクションをセットアップして、ランダムに生成された 10,000 件を超えるエンティティをコレクションに挿入します。
 
-### ステップ 1: collection を作成する\{#step-1-create-a-collection}
+### ステップ 1: コレクションを作成する\{#step-1-create-a-collection}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -358,4 +358,3 @@ while (true) {
 
 </TabItem>
 </Tabs>
-

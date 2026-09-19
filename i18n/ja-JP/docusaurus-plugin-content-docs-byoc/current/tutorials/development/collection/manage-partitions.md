@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "partition は collection のサブセットです。各 partition は親 collection と同じデータ構造を共有しますが、collection 内のデータの一部のみを含みます。このページでは、partition を管理する方法について説明します。 | BYOC"
+description: "partition はコレクションのサブセットです。各 partition は親コレクションと同じデータ構造を共有しますが、コレクション内のデータの一部のみを含みます。このページでは、partition を管理する方法について説明します。 | BYOC"
 type: origin
 token: JCMPwIyVciCT4Hk4O20c96MEnch
 sidebar_position: 9
@@ -21,19 +21,19 @@ import TabItem from '@theme/TabItem';
 
 # Partitions の管理
 
-partition は collection のサブセットです。各 partition は親 collection と同じデータ構造を共有しますが、collection 内のデータの一部のみを含みます。このページでは、partition を管理する方法について説明します。
+partition はコレクションのサブセットです。各 partition は親コレクションと同じデータ構造を共有しますが、コレクション内のデータの一部のみを含みます。このページでは、partition を管理する方法について説明します。
 
 ## 概要\{#overview}
 
-collection を作成すると、Zilliz Cloud はその collection 内に **_default** という名前の partition も作成します。ほかの partition を追加しない場合、collection に挿入されたすべての entity は default partition に入り、すべての検索およびクエリも default partition 内で実行されます。
+コレクションを作成すると、Zilliz Cloud はそのコレクション内に **_default** という名前の partition も作成します。ほかの partition を追加しない場合、コレクションに挿入されたすべての entity は default partition に入り、すべての検索およびクエリも default partition 内で実行されます。
 
 特定の条件に基づいてさらに partition を追加し、それらに entity を挿入できます。その後、特定の partition 内に検索やクエリを制限することで、検索パフォーマンスを向上させることができます。
 
-1 つの collection には最大 1,024 個の partition を持てます。
+1 つのコレクションには最大 1,024 個の partition を持てます。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-**Partition Key** 機能は partition に基づく検索最適化機能であり、特定の scalar フィールドの値に基づいて Zilliz Cloud が entity を異なる partition に分散できるようにします。この機能は、partition 指向のマルチテナンシーの実装と検索パフォーマンスの向上に役立ちます。
+**Partition Key** 機能は partition に基づく検索最適化機能であり、特定のスカラーフィールドの値に基づいて Zilliz Cloud が entity を異なる partition に分散できるようにします。この機能は、partition 指向のマルチテナンシーの実装と検索パフォーマンスの向上に役立ちます。
 
 このページではこの機能については扱いません。詳細については、[Use Partition Key](./use-partition-key) を参照してください。
 
@@ -41,7 +41,7 @@ collection を作成すると、Zilliz Cloud はその collection 内に **_defa
 
 ## Partitions を一覧表示する\{#list-partitions}
 
-collection を作成すると、Zilliz Cloud はその collection 内に **_default** という名前の partition も作成します。collection 内の partition は次のように一覧表示できます。
+コレクションを作成すると、Zilliz Cloud はそのコレクション内に **_default** という名前の partition も作成します。コレクション内の partition は次のように一覧表示できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -211,7 +211,7 @@ for (auto& info : response.PartitionInfos()) {
 
 ## Partition を作成する\{#create-partition}
 
-collection にさらに partition を追加し、特定の条件に基づいてそれらの partition に entity を挿入できます。
+コレクションにさらに partition を追加し、特定の条件に基づいてそれらの partition に entity を挿入できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -378,7 +378,7 @@ for (auto& info : response.PartitionInfos()) {
 
 ## 特定の Partition を確認する\{#check-for-a-specific-partition}
 
-以下のコードスニペットは、特定の collection に partition が存在するかどうかを確認する方法を示しています。
+以下のコードスニペットは、特定のコレクションに partition が存在するかどうかを確認する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -496,7 +496,7 @@ std::cout << response.Has() << std::endl;
 
 ### Partitions をロードする\{#load-partitions}
 
-collection 内の特定の partition を個別にロードできます。なお、collection 内に未ロードの partition がある場合、collection のロード状態は unloaded のままになります。
+コレクション内の特定の partition を個別にロードできます。なお、コレクション内に未ロードの partition がある場合、コレクションのロード状態は unloaded のままになります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>

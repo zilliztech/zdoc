@@ -30,11 +30,11 @@ import Supademo from '@site/src/components/Supademo';
 
 <Supademo id="cmokttyiy05dxpimdm3d8vnxv" title=""  />
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-- オンデマンドコンピューティングデータベースで作成された外部コレクションでは、インデックスの削除はサポートされていません。
+- オンデマンドコンピューティング用データベースで作成された外部コレクションでは、インデックスの削除はサポートされていません。
 
-- 外部コレクションを作成できるのは、オンデマンドコンピューティングデータベースのみです。サービングDedicatedクラスターでの外部コレクション作成サポートは近日公開予定です。
+- 外部コレクションを作成できるのは、オンデマンドコンピューティング用データベースに限られます。サービング Dedicated クラスターでの外部コレクション作成サポートは、近日公開予定です。
 
 </Admonition>
 
@@ -53,4 +53,3 @@ import Supademo from '@site/src/components/Supademo';
 外部コレクションを削除しても、Zilliz Cloud 上のスキーマ、マニフェスト、インデックスのみが削除されます。データ自体はオブジェクトストレージにそのまま保持されます。
 
 <Supademo id="cmokvd5hr06grpimd8ugly112" title=""  />
-

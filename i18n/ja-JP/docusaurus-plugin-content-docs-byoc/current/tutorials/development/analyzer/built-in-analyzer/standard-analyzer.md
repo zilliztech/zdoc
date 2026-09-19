@@ -23,15 +23,15 @@ import TabItem from '@theme/TabItem';
 
 `standard` analyzer は Zilliz Cloud のデフォルト analyzer であり、analyzer が指定されていない場合にテキストフィールドへ自動的に適用されます。文法ベースの tokenization を使用するため、ほとんどの言語で効果的です。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 `standard` analyzer は、単語境界に区切り文字（スペースや句読点など）を用いる言語に適しています。ただし、中国語、日本語、韓国語のような言語では辞書ベースの tokenization が必要です。そのような場合は、正確な tokenization とより良い検索結果を実現するために、[`chinese`](./chinese-analyzer) のような言語固有の analyzer や、専用 tokenizer（[`lindera`](./lindera-tokenizer)、[`icu`](./icu-tokenizer) など）および filter を組み合わせたカスタム analyzer の使用を強く推奨します。
 
 </Admonition>
 
-## Definition\{#definition}
+## 定義\{#definition}
 
-`standard` analyzer は以下で構成されます。
+`standard` analyzer は、以下で構成されます。
 
 - **Tokenizer**: `standard` tokenizer を使用して、文法ルールに基づいてテキストを個別の単語単位に分割します。詳細については、[Standard Tokenizer](./standard-tokenizer) を参照してください。
 
@@ -106,7 +106,7 @@ nlohmann::json analyzer_params = {
 </TabItem>
 </Tabs>
 
-## Configuration\{#configuration}
+## 設定\{#configuration}
 
 `standard` analyzer をフィールドに適用するには、`analyzer_params` の `type` を `standard` に設定し、必要に応じてオプションのパラメータを含めるだけです。
 
@@ -170,13 +170,13 @@ nlohmann::json analyzer_params = {
 </TabItem>
 </Tabs>
 
-`standard` analyzer は、次のオプションパラメータを受け付けます。 
+`standard` analyzer は、次のオプションパラメータを受け付けます。
 
-| Parameter | Description |
+| パラメーター | 説明 |
 | --- | --- |
-| `stop_words` | stop word のリストを含む配列で、tokenization から除外されます。 |
+| `stop_words` | tokenization から除外される stop word のリストを含む配列です。 |
 
-カスタム stop word の設定例:
+カスタム stop word の設定例：
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -245,13 +245,13 @@ nlohmann::json analyzer_params = {
 </TabItem>
 </Tabs>
 
-`analyzer_params` を定義した後、collection schema を定義する際にそれらを `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud は指定された analyzer を使用して、そのフィールド内のテキストを効率的に tokenization および filtering できます。詳細については、[Example use](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後、コレクションスキーマを定義する際にそれらを `VARCHAR` フィールドへ適用できます。これにより Zilliz Cloud は、指定された analyzer を使用してそのフィールド内のテキストを処理し、効率的な tokenization と filtering を実現できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
-## Examples\{#examples}
+## 例\{#examples}
 
-analyzer 設定を collection schema に適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+analyzer 設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
-### Analyzer configuration\{#analyzer-configuration}
+### Analyzer 設定\{#analyzer-configuration}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>

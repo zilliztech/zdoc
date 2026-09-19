@@ -96,9 +96,9 @@ Zilliz Cloud は自動的に [標準アナライザー](./standard-analyzer) を
 
 **標準アナライザーの動作**:
 
-- スペースと句読点でテキストを分割する
+- スペースと句読点でテキストを分割します。
 
-- すべてのトークンを小文字に変換する
+- すべてのトークンを小文字に変換します。
 
 **変換例**:
 
@@ -148,7 +148,7 @@ Output: ['the', 'milvus', 'vector', 'database', 'is', 'built', 'for', 'scale']
    </tr>
    <tr>
      <td><p><a href="./english-analyzer"><code>english</code></a></p></td>
-     <td><p>英語専用（Dedicated to English）。ステミングとストップワード除去を適用し、英語のセマンティックマッチング精度を向上させます</p></td>
+     <td><p>英語専用（Dedicated to English）で、ステミングとストップワード除去を適用し、英語のセマンティックマッチング精度を向上させます</p></td>
      <td><ul><li><p>トークナイザー: <code>standard</code></p></li><li><p>フィルター: <code>lowercase</code>, <code>stemmer</code>, <code>stop</code></p></li></ul></td>
      <td><p>英語のみのコンテンツには <code>standard</code> よりも推奨されます。</p></td>
    </tr>
@@ -181,7 +181,7 @@ schema.add_field(
 )
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 詳細な使用方法については、[全文検索](./full-text-search)、[テキストマッチ](./text-match)、または[フレーズ一致](./phrase-match)を参照してください。
 
@@ -337,7 +337,7 @@ schema.add_field(
    </tr>
 </table>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 東アジア言語（中国語、日本語、韓国語など）の場合は、代わりに[言語固有のフィルター](./choose-the-right-analyzer-for-your-use-case#language-specific-filters)に注目してください。これらの言語は通常、テキスト処理に異なるアプローチを使用するため、ステミングの効果が限定的な場合があります。
 
@@ -485,7 +485,7 @@ print("Analyzer output:", result)
 
 このセクションでは、Zilliz Cloud でアナライザーを使用する際の一般的なユースケース向けに、推奨されるトークナイザーとフィルターの構成を紹介します。コンテンツの種類と検索要件に最適な組み合わせを選択してください。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 アナライザーをコレクションに適用する前に、[`run_analyzer`](https://milvus.io/api-reference/pymilvus/v2.6.x/MilvusClient/CollectionSchema/run_analyzer.md) を使用してテキスト解析のパフォーマンスをテスト・検証することを推奨します。
 
@@ -745,9 +745,9 @@ analyzer_params = {
 
 言語ごとにトークンの挙動をより細かく制御するには、次の方法があります。
 
-- **多言語アナライザー**の設定を使用します。詳細は「[多言語アナライザー](./multi-language-analyzers)」を参照してください。
+- **多言語アナライザー**の設定を使用します。詳細は[多言語アナライザー](./multi-language-analyzers)を参照してください。
 
-- コンテンツに**言語識別子**を実装します。詳細は「[言語識別子](./language-identifier-tokenizer)」を参照してください。
+- コンテンツに**言語識別子**を実装します。詳細は[言語識別子](./language-identifier-tokenizer)を参照してください。
 
 ## Zilliz Cloud でアナライザーを設定・プレビューする\{#configure-and-preview-analyzers-in-zilliz-cloud}
 

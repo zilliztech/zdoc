@@ -20,7 +20,7 @@ import Admonition from '@theme/Admonition';
 
 # JSON/JSON Lines ファイルからインポート
 
-[JSON](https://www.json.org/json-en.html) (JavaScript Object Notation) は、機械が容易に解析および生成できる、軽量で人間が読みやすいデータ形式です。言語に依存せず、C 系言語のプログラマーに馴染みのある規則に従っているため、理想的なデータ交換形式です。
+[JSON](https://www.json.org/json-en.html)（JavaScript Object Notation）は、機械が容易に解析および生成できる、軽量で人間が読みやすいデータ形式です。言語に依存せず、C 系言語のプログラマーに馴染みのある規則に従っているため、理想的なデータ交換形式です。
 
 JSON Line は、各行が完全かつ有効な JSON オブジェクトであるテキスト形式であり、標準的なテキストツールを使用してデータストリームを逐次的に処理しやすくします。
 
@@ -28,8 +28,8 @@ JSON Line は、各行が完全かつ有効な JSON オブジェクトである�
 
 <table>
    <tr>
-     <th><p><strong>File Format</strong></p></th>
-     <th><p><strong>Example</strong></p></th>
+     <th><p><strong>ファイル形式</strong></p></th>
+     <th><p><strong>例</strong></p></th>
    </tr>
    <tr>
      <td><p>JSON (.json)</p></td>
@@ -45,7 +45,7 @@ JSON Line は、各行が完全かつ有効な JSON オブジェクトである�
 
 ![json_data_structure](https://zdoc-images.s3.us-west-2.amazonaws.com/jsondatastructure.png "json_data_structure")
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - **AutoID を有効にするかどうか**
 
@@ -81,7 +81,7 @@ JSON Line は、各行が完全かつ有効な JSON オブジェクトである�
 
 - [単一ファイルをインポート](./data-import-json#import-a-single-file)
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 ファイルが比較的小さい場合は、フォルダー方式または複数パス方式を使用して一度にすべてインポートすることをお勧めします。この方法では、インポート処理中に内部的な最適化が行われるため、後続のリソース消費を抑えるのに役立ちます。
 
@@ -135,7 +135,7 @@ curl --request POST \
     }'
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 フォルダーに複数の形式のファイルが含まれている場合、リクエストは失敗します。
 
@@ -177,7 +177,7 @@ Zilliz Cloud は、クラウドストレージからのデータインポート�
 
 ローカルの JSON ファイル、またはクラウドストレージ上の JSON ファイルからデータをインポートする際には、いくつかの制限に従う必要があります。 
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 有効な JSON ファイルには **rows** という名前のルートキーがあり、その対応する値は辞書のリストです。各辞書は、対象コレクションのスキーマに一致するエンティティを表します。
 

@@ -26,7 +26,7 @@ import Supademo from '@site/src/components/Supademo';
 
 このガイドでは、Web コンソールでのコレクションの作成および管理操作について説明します。視覚的なインターフェースを好むユーザーを対象としています。SDK に慣れている場合は、SDK を使用してコレクションを作成および管理することもできます。詳細については、[コレクションの作成](./manage-collections-sdks) を参照してください。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 強力なデータ分離が必要で、管理するテナント数が少ない場合は、テナントごとに個別のコレクションを作成できます。
 
@@ -76,7 +76,7 @@ Zilliz Cloud コンソールでは、コレクションを作成する 3 つの�
 
 <Supademo id="cmaqefyds2e7aho3rna9w8trp" title="Zilliz Cloud - Create Collection Schema" />
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 スキーマ構成のほとんどは、コレクションの作成後に変更できません。現在および将来のビジネス要件を満たすように、スキーマを慎重に設計してください。ベストプラクティスについては、[スキーマの解説](./schema-explained) を参照してください。
 
@@ -124,7 +124,7 @@ Zilliz Cloud では、**関数**は、データ挿入時およびクエリ実行
 
 **パーティションキー:** パーティションキーは、パーティションに基づく検索最適化ソリューションです。プライマリキー以外の `INT64` または `VARCHAR` フィールドをパーティションキーとして指定すると、Zilliz Cloud によって 16 個のパーティションが自動的に作成され、挿入されたすべてのエンティティは、そのパーティションキーの値に基づいてこれら 16 個の自動生成パーティションに入ります。コレクションでパーティションキーを有効にすると、このコレクションで手動でパーティションを作成できなくなります。詳細については、[パーティションキーを使用する](./use-partition-key) を参照してください。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 パーティションを作成する必要があるか、パーティションキーを使用する必要があるかを判断するには、次の要素を検討できます。
 
@@ -148,7 +148,7 @@ Zilliz Cloud では、**関数**は、データ挿入時およびクエリ実行
 
 - **フィールドレベルの mmap:** カスタム設定により、選択したフィールドの生データおよびスカラーインデックスに対して mmap を有効にします。一般に、データサイズが大きく、フィルターやクエリで頻繁に使用されないフィールドに対して mmap を有効にすることが推奨されます。この設定は選択したフィールドにのみ適用され、後から変更することもできます。フィールドレベルの mmap 設定を変更するには、最初にコレクションをリリースする必要があります。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 mmap 設定には十分注意してください。デフォルトの mmap 設定を変更すると、パフォーマンス低下や、メモリ不足（OOM）によるロード失敗を引き起こす可能性があります。ベストプラクティスについては、[mmap を使用する](./use-mmap#collection-specific-mmap-settings) を参照してください。
 

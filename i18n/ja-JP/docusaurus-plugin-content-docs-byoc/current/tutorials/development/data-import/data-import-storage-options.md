@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 データをインポートする前に、サポートされているクラウドストレージのオプションと、それぞれに対応する URL 形式を理解しておくことが重要です。これにより、リクエストが検証エラーを起こすことなく適切に処理されます。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 Zilliz Cloud では現在、クラスターをホストしているクラウドプロバイダーに関係なく、任意のオブジェクトストレージサービスから任意の Zilliz Cloud クラスターにデータをインポートできます。たとえば、AWS S3 バケットから GCP 上にデプロイされた Zilliz Cloud クラスターにデータをインポートできます。
 
@@ -65,7 +65,7 @@ Zilliz Cloud では現在、クラスターをホストしているクラウド�
 
     - `kms:Decrypt`
 
-        <Admonition type="info" icon="📘" title="注意">
+        <Admonition type="info" title="Notes">
 
         バケット、またはバケット内の特定の項目がカスタム KMS ID で暗号化されている場合は、認証情報とともに、その KMS ID に対する復号権限を指定する必要があります。
 

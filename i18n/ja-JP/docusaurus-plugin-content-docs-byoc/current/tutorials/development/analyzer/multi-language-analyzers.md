@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud がテキスト分析を実行する際、通常は collection 内のテキストフィールド全体に単一のアナライザーを適用します。そのアナライザーが英語向けに最適化されている場合、中国語、スペイン語、フランス語など他の言語で必要となる大きく異なるトークン化やステミングのルールにうまく対応できず、結果として再現率が低下します。たとえば、スペイン語の *\"teléfono\"*（*\"phone\"* を意味する）を検索すると、英語中心のアナライザーでは適切に処理できない場合があります。アクセントを落としてしまい、スペイン語固有のステミングも適用されないため、関連する結果が見落とされる可能性があります。 | BYOC"
+description: "Zilliz Cloud がテキスト分析を実行する場合、通常はコレクション内のテキストフィールド全体に単一のアナライザーを適用します。そのアナライザーが英語向けに最適化されていると、中国語、スペイン語、フランス語など他の言語で必要とされる大きく異なるトークン化やステミングのルールにうまく対応できず、再現率が低下します。たとえば、スペイン語の単語 \"teléfono\"（\"phone\" を意味する）を検索すると、英語に最適化されたアナライザーではうまく処理できません。アクセントが削除され、スペイン語固有のステミングも適用されないため、関連する結果が見落とされる可能性があります。 | BYOC"
 type: origin
 token: BnYLwepruiGNpwkJfBHcdrrOnOh
 sidebar_position: 5
@@ -21,61 +21,61 @@ import TabItem from '@theme/TabItem';
 
 # 多言語アナライザー
 
-Zilliz Cloud がテキスト分析を実行する際、通常は collection 内のテキストフィールド全体に単一のアナライザーを適用します。そのアナライザーが英語向けに最適化されている場合、中国語、スペイン語、フランス語など他の言語で必要となる大きく異なるトークン化やステミングのルールにうまく対応できず、結果として再現率が低下します。たとえば、スペイン語の *"teléfono"*（*"phone"* を意味する）を検索すると、英語中心のアナライザーでは適切に処理できない場合があります。アクセントを落としてしまい、スペイン語固有のステミングも適用されないため、関連する結果が見落とされる可能性があります。
+Zilliz Cloud がテキスト分析を実行する場合、通常はコレクション内のテキストフィールド全体に単一のアナライザーを適用します。そのアナライザーが英語向けに最適化されていると、中国語、スペイン語、フランス語など他の言語で必要とされる大きく異なるトークン化やステミングのルールにうまく対応できず、再現率が低下します。たとえば、スペイン語の単語 *"teléfono"*（*"phone"* を意味する）を検索すると、英語に最適化されたアナライザーではうまく処理できません。アクセントが削除され、スペイン語固有のステミングも適用されないため、関連する結果が見落とされる可能性があります。
 
-多言語アナライザーは、単一の collection 内のテキストフィールドに対して複数のアナライザーを設定できるようにすることで、この問題を解決します。これにより、多言語ドキュメントを1つのテキストフィールドに保存でき、Zilliz Cloud は各ドキュメントに対して適切な言語ルールに従ってテキストを分析します。
+多言語アナライザーは、単一のコレクション内のテキストフィールドに複数のアナライザーを構成できるようにすることで、この問題を解決します。これにより、多言語のドキュメントを1つのテキストフィールドに保存でき、Zilliz Cloud は各ドキュメントに適した言語ルールに従ってテキストを分析します。
 
 ## 制限事項\{#limits}
 
-- この機能は、BM25 ベースのテキスト検索と sparse vector でのみ動作します。詳細については、[Full Text Search](./full-text-search) を参照してください。
+- この機能は、BM25 ベースのテキスト検索とスパースベクトルでのみ動作します。詳細については、[全文検索](./full-text-search) を参照してください。
 
-- 単一の collection 内の各ドキュメントで使用できるアナライザーは1つだけであり、それは言語識別子フィールドの値によって決まります。
+- 単一のコレクション内の各ドキュメントが使用できるアナライザーは1つだけで、それは言語識別子フィールドの値によって決まります。
 
-- パフォーマンスは、アナライザーの複雑さやテキストデータのサイズによって異なる場合があります。
+- パフォーマンスは、アナライザーの複雑さとテキストデータのサイズによって異なる場合があります。
 
 ## 概要\{#overview}
 
-次の図は、Zilliz Cloud で多言語アナライザーを設定して使用するワークフローを示しています。
+次の図は、Zilliz Cloud で多言語アナライザーを構成して使用するワークフローを示しています。
 
 ![ZDYIwC1HwhTrdlbfOgNcOZ4OnWg](https://zdoc-images.s3.us-west-2.amazonaws.com/ZDYIwC1HwhTrdlbfOgNcOZ4OnWg.png)
 
-1. **多言語アナライザーを設定**: 
+1. **多言語アナライザーを構成する**: 
 
-    - `<analyzer_name>: <analyzer_config>` 形式で複数の言語別アナライザーを設定します。各 `analyzer_config` は、[Analyzer Overview](./analyzer-overview#analyzer-types) で説明されている標準の `analyzer_params` 設定に従います。
+    - `<analyzer_name>: <analyzer_config>` という形式を使用して、言語固有の複数のアナライザーを設定します。ここで、各 `analyzer_config` は、[アナライザーの概要](./analyzer-overview#analyzer-types) で説明されている標準の `analyzer_params` 構成に従います。
 
-    - 各ドキュメントに対するアナライザー選択を決定する特別な識別子フィールドを定義します。
+    - 各ドキュメントのアナライザーの選択を決定する特別な識別子フィールドを定義します。
 
-    - 不明な言語を処理するための `default` アナライザーを設定します。
+    - 未知の言語を処理するための `default` アナライザーを構成します。
 
-1. **Collection を作成**: 
+1. **コレクションを作成する**: 
 
     - 必須フィールドを含むスキーマを定義します: 
 
-        - **primary_key**: 一意のドキュメント識別子。
+        - **primary_key**: ドキュメントの一意の識別子です。
 
-        - **text_field**: 元のテキスト内容を保存します。
+        - **text_field**: 元のテキストコンテンツを格納します。
 
-        - **identifier_field**: 各ドキュメントにどのアナライザーを使用するかを示します。
+        - **identifier_field**: 各ドキュメントで使用するアナライザーを示します。
 
-        - **vector_field**: BM25 関数によって生成される sparse embedding を保存します。
+        - **vector_field**: BM25 関数によって生成されるスパース埋め込みを格納します。
 
-    - BM25 関数と indexing パラメータを設定します。
+    - BM25 関数とインデックス作成パラメーターを構成します。
 
-1. **言語識別子付きでデータを挿入**:
+1. **言語識別子を持つデータを挿入する**:
 
     - さまざまな言語のテキストを含むドキュメントを追加します。各ドキュメントには、使用するアナライザーを指定する識別子の値が含まれます。
 
-    - Zilliz Cloud は識別子フィールドに基づいて適切なアナライザーを選択し、不明な識別子を持つドキュメントには `default` アナライザーを使用します。
+    - Zilliz Cloud は識別子フィールドに基づいて適切なアナライザーを選択し、未知の識別子を持つドキュメントには `default` アナライザーが使用されます。
 
-1. **言語固有のアナライザーで検索**:
+1. **言語固有のアナライザーで検索する**:
 
-    - アナライザー名を指定したクエリテキストを提供すると、Zilliz Cloud は指定されたアナライザーを使用してクエリを処理します。
+    - アナライザー名を指定してクエリテキストを渡すと、Zilliz Cloud は指定されたアナライザーを使用してクエリを処理します。
 
-    - トークン化は言語固有のルールに従って行われ、検索では類似性に基づいてその言語に適した結果が返されます。
+    - トークン化は言語固有のルールに従って行われ、検索は類似度に基づいて言語に適した結果を返します。
 
-## ステップ 1: multi_analyzer_params を設定する\{#step-1-configure-multianalyzerparams}
+## ステップ 1: multi_analyzer_params を構成する\{#step-1-configure-multianalyzerparams}
 
-`multi_analyzer_params` は、Zilliz Cloud が各 entity に対して適切なアナライザーをどのように選択するかを決定する単一の JSON オブジェクトです。
+`multi_analyzer_params` は、Zilliz Cloud が各エンティティに対して適切なアナライザーを選択する方法を決定する単一の JSON オブジェクトです:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -208,46 +208,46 @@ nlohmann::json multi_analyzer_params = {
 
 <table>
    <tr>
-     <th><p>パラメータ</p></th>
-     <th><p>必須?</p></th>
+     <th><p>パラメーター</p></th>
+     <th><p>必須</p></th>
      <th><p>説明</p></th>
      <th><p>ルール</p></th>
    </tr>
    <tr>
      <td><p><code>analyzers</code></p></td>
-     <td><p>Yes</p></td>
-     <td><p>Zilliz Cloud がテキスト処理に使用できる、言語別の各アナライザーを一覧化します。</p><p><code>analyzers</code> 内の各アナライザーは、<code>&lt;analyzer_name&gt;: &lt;analyzer_params&gt;</code> 形式に従います。</p></td>
-     <td><ul><li><p>標準の <code>analyzer_params</code> 構文で各アナライザーを定義してください（<a href="./analyzer-overview#analyzer-types">Analyzer Overview</a> を参照）。</p></li><li><p>キーが <code>default</code> のエントリを追加してください。<code>by_field</code> に保存された値が他のアナライザー名と一致しない場合、Zilliz Cloud はこのアナライザーにフォールバックします。</p></li></ul></td>
+     <td><p>はい</p></td>
+     <td><p>Zilliz Cloud がテキストの処理に使用できる言語固有のアナライザーをすべてリストします。</p><p><code>analyzers</code> の各アナライザーは、<code>&lt;analyzer_name&gt;: &lt;analyzer_params&gt;</code> という形式に従います。</p></td>
+     <td><ul><li><p>各アナライザーを標準の <code>analyzer_params</code> 構文で定義します（<a href="./analyzer-overview#analyzer-types">アナライザーの概要</a> を参照）。</p></li><li><p>キーが <code>default</code> であるエントリを追加します。Zilliz Cloud は、<code>by_field</code> に格納された値が他のどのアナライザー名にも一致しない場合に、このアナライザーにフォールバックします。</p></li></ul></td>
    </tr>
    <tr>
      <td><p><code>by_field</code></p></td>
-     <td><p>Yes</p></td>
-     <td><p>各ドキュメントについて、Zilliz Cloud が適用すべき言語（つまりアナライザー名）を保存するフィールド名です。</p></td>
-     <td><ul><li><p>collection 内で定義された <code>VARCHAR</code> フィールドである必要があります。</p></li><li><p>各行の値は、<code>analyzers</code> に一覧化されたアナライザー名（または alias）のいずれかと完全に一致する必要があります。</p></li><li><p>行の値が欠落している、または見つからない場合、Zilliz Cloud は自動的に <code>default</code> アナライザーを適用します。</p></li></ul></td>
+     <td><p>はい</p></td>
+     <td><p>Zilliz Cloud が適用すべき言語（つまりアナライザー名）を、すべてのドキュメントについて格納するフィールドの名前です。</p></td>
+     <td><ul><li><p>コレクション内で定義された <code>VARCHAR</code> フィールドである必要があります。</p></li><li><p>すべての行の値は、<code>analyzers</code> にリストされているアナライザー名（またはエイリアス）のいずれかと完全に一致する必要があります。</p></li><li><p>行の値が欠落しているか見つからない場合、Zilliz Cloud は <code>default</code> アナライザーを自動的に適用します。</p></li></ul></td>
    </tr>
    <tr>
      <td><p><code>alias</code></p></td>
-     <td><p>No</p></td>
-     <td><p>アナライザーのショートカット名や別名を作成し、コード内で参照しやすくします。各アナライザーには1つ以上の alias を設定できます。</p></td>
-     <td><p>各 alias は既存のアナライザーキーにマッピングされている必要があります。</p></td>
+     <td><p>いいえ</p></td>
+     <td><p>アナライザーのショートカットまたは代替名を作成し、コード内で参照しやすくします。各アナライザーは1つ以上のエイリアスを持つことができます。</p></td>
+     <td><p>各エイリアスは、既存のアナライザーキーにマップされる必要があります。</p></td>
    </tr>
 </table>
 
-## ステップ 2: collection を作成する\{#step-2-create-collection}
+## ステップ 2: コレクションを作成する\{#step-2-create-collection}
 
-多言語対応の collection を作成するには、特定のフィールドと index を設定する必要があります。
+多言語サポートを備えたコレクションを作成するには、特定のフィールドとインデックスを構成する必要があります:
 
 ### ステップ 1: フィールドを追加する\{#step-1-add-fields}
 
-このステップでは、4つの必須フィールドを持つ collection スキーマを定義します。
+このステップでは、4つの必須フィールドを含むコレクションスキーマを定義します:
 
-- **Primary Key Field** (`id`): collection 内の各 entity の一意な識別子です。`auto_id=True` を設定すると、Zilliz Cloud がこれらの ID を自動生成します。
+- **Primary Key Field**（`id`）: コレクション内の各エンティティの一意の識別子です。`auto_id=True` を設定すると、Zilliz Cloud がこれらの ID を自動的に生成できるようになります。
 
-- **Language Indicator Field** (`language`): この VARCHAR フィールドは、`multi_analyzer_params` で指定した `by_field` に対応します。各 entity の言語識別子を保存し、Zilliz Cloud にどのアナライザーを使用するかを伝えます。
+- **Language Indicator Field**（`language`）: この VARCHAR フィールドは、`multi_analyzer_params` で指定した `by_field` に対応します。各エンティティの言語識別子を格納し、これによって Zilliz Cloud が使用するアナライザーが決まります。
 
-- **Text Content Field** (`text`): この VARCHAR フィールドには、分析および検索したい実際のテキストデータを保存します。`enable_analyzer=True` の設定は重要で、このフィールドのテキスト分析機能を有効にします。`multi_analyzer_params` 設定はこのフィールドに直接関連付けられ、テキストデータと言語別アナライザーの接続を確立します。
+- **Text Content Field**（`text`）: この VARCHAR フィールドは、分析および検索する実際のテキストデータを格納します。`enable_analyzer=True` の設定は、このフィールドのテキスト分析機能を有効にするため非常に重要です。`multi_analyzer_params` 構成はこのフィールドに直接関連付けられ、テキストデータと言語固有のアナライザーの間の接続を確立します。
 
-- **Vector Field** (`sparse`): このフィールドには、BM25 関数によって生成された sparse vector を保存します。これらのベクトルは、テキストデータの検索可能な形式を表し、Zilliz Cloud が実際に検索対象とするものです。
+- **ベクトル Field**（`sparse`）: このフィールドには、BM25 関数によって生成されるスパースベクトルが格納されます。これらのベクトルは、テキストデータを分析可能な形式で表したものであり、Zilliz Cloud が実際に検索する対象です。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -507,7 +507,7 @@ schema->AddField(milvus::FieldSchema("sparse", milvus::DataType::SPARSE_FLOAT_VE
 
 ### ステップ 2: BM25 関数を定義する\{#step-2-define-bm25-function}
 
-生のテキストデータから疎ベクトル表現を生成するために、BM25 関数を定義します。
+生のテキストデータからスパースベクトル表現を生成する BM25 関数を定義します:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -609,11 +609,11 @@ schema->AddFunction(function);
 </TabItem>
 </Tabs>
 
-この関数は、言語識別子に基づいて各テキストエントリに適切なアナライザーを自動的に適用します。BM25 ベースのテキスト検索の詳細については、[Full Text Search](./full-text-search) を参照してください。
+この関数は、各テキストエントリの言語識別子に基づいて、適切なアナライザーを自動的に適用します。BM25 ベースのテキスト検索の詳細については、[全文検索](./full-text-search) を参照してください。
 
-### ステップ 3: インデックスパラメーターを設定する\{#step-3-configure-index-params}
+### ステップ 3: インデックスパラメーターを構成する\{#step-3-configure-index-params}
 
-効率的な検索を可能にするために、疎ベクトルフィールドにインデックスを作成します。
+効率的な検索を可能にするには、スパースベクトルフィールドにインデックスを作成します:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -691,13 +691,13 @@ milvus::IndexDesc index_vector("sparse", "", milvus::IndexType::AUTOINDEX, milvu
 </TabItem>
 </Tabs>
 
-このインデックスは、疎ベクトルを整理して効率的な BM25 類似度計算を可能にすることで、検索性能を向上させます。
+インデックスは、スパースベクトルを整理して BM25 の類似度計算を効率的に行うことで、検索パフォーマンスを向上させます。
 
 ### ステップ 4: コレクションを作成する\{#step-4-create-the-collection}
 
-この最後の作成ステップでは、これまでの設定をすべてまとめます。
+この最後の作成ステップでは、これまでのすべての構成をまとめます:
 
-- `collection_name="multilang_demo"` は、今後参照するためのコレクション名を指定します。
+- `collection_name="multilang_demo"` は、後で参照できるようにコレクションに名前を付けます。
 
 - `schema=schema` は、定義したフィールド構造と関数を適用します。
 
@@ -804,11 +804,11 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-この時点で、Zilliz Cloud は多言語アナライザーをサポートする空のコレクションを作成し、データを受け取る準備が整います。
+この時点で、Zilliz Cloud は多言語アナライザーをサポートする空のコレクションを作成し、データを受け入れる準備が整います。
 
 ## ステップ 3: サンプルデータを挿入する\{#step-3-insert-example-data}
 
-多言語コレクションにドキュメントを追加する際は、それぞれにテキスト内容と言語識別子の両方を含める必要があります。
+多言語コレクションにドキュメントを追加する場合、各ドキュメントにはテキストコンテンツと言語識別子の両方を含める必要があります:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -1002,33 +1002,33 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-挿入時に、Zilliz Cloud は次の処理を行います。
+挿入時に、Zilliz Cloud は次の処理を行います:
 
-1. 各ドキュメントの `language` フィールドを読み取る
+1. 各ドキュメントの `language` フィールドを読み取ります
 
-1. 対応するアナライザーを `text` フィールドに適用する
+1. 対応するアナライザーを `text` フィールドに適用します
 
-1. BM25 関数を介して疎ベクトル表現を生成する
+1. BM25 関数を介してスパースベクトル表現を生成します
 
-1. 元のテキストと生成された疎ベクトルの両方を保存する
+1. 元のテキストと生成されたスパースベクトルの両方を格納します
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-疎ベクトルを直接指定する必要はありません。BM25 関数が、テキストと指定されたアナライザーに基づいて自動的に生成します。
+スパースベクトルを直接指定する必要はありません。BM25 関数が、テキストと指定されたアナライザーに基づいて自動的に生成します。
 
 </Admonition>
 
 ## ステップ 4: 検索操作を実行する\{#step-4-perform-search-operations}
 
-### 英語アナライザーを使用する\{#use-english-analyzer}
+### 英語のアナライザーを使用する\{#use-english-analyzer}
 
-多言語アナライザーで検索する場合、`search_params` には重要な設定が含まれます。 
+多言語アナライザーで検索する場合、`search_params` には重要な構成が含まれます: 
 
-- `metric_type="BM25"` はインデックス設定と一致している必要があります。
+- `metric_type="BM25"` は、インデックス構成と一致する必要があります。
 
-- `analyzer_name="english"` は、クエリテキストに適用するアナライザーを指定します。これは保存済みドキュメントに使用されたアナライザーとは独立しています。
+- `analyzer_name="english"` は、クエリテキストに適用するアナライザーを指定します。これは、格納されたドキュメントで使用されるアナライザーとは独立しています。
 
-- `params={"drop_ratio_search": "0"}` は BM25 固有の動作を制御します。ここでは、検索内のすべての用語を保持します。詳細については、[Sparse Vector](./use-sparse-vector) を参照してください。
+- `params={"drop_ratio_search": "0"}` は BM25 固有の動作を制御します。ここでは、検索ですべての用語を保持します。詳細については、[スパースベクトル](./use-sparse-vector) を参照してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -1201,9 +1201,9 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-### 中国語アナライザーを使用する\{#use-chinese-analyzer}
+### 中国語のアナライザーを使用する\{#use-chinese-analyzer}
 
-この例では、異なるクエリテキストに対して中国語アナライザー（エイリアス `"cn"` を使用）へ切り替える方法を示します。その他のすべてのパラメータは同じままですが、クエリテキストは中国語固有のトークン化ルールを使用して処理されます。
+この例では、異なるクエリテキストに対して中国語のアナライザー（エイリアス `"cn"` を使用）に切り替える方法を示します。その他のパラメーターはすべて同じですが、クエリテキストは中国語固有のトークン化ルールを使用して処理されるようになります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>

@@ -26,7 +26,7 @@ import Admonition from '@theme/Admonition';
 
 ![parquet_file_structure_en](https://zdoc-images.s3.us-west-2.amazonaws.com/parquet_file_structure_en.png "parquet_file_structure_en")
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 - **AutoID を有効にするかどうか**
 
@@ -62,7 +62,7 @@ import Admonition from '@theme/Admonition';
 
 - [単一ファイルをインポート](./data-import-parquet#import-a-single-file)
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 ファイルが比較的小さい場合は、フォルダ方式または複数パス方式を使用して一度にすべてインポートすることをお勧めします。この方法では、インポート処理中に内部最適化を行えるため、後続のリソース消費を抑えるのに役立ちます。
 
@@ -116,7 +116,7 @@ curl --request POST \
     }'
 ```
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 フォルダに複数形式のファイルが含まれている場合、リクエストは失敗します。
 
