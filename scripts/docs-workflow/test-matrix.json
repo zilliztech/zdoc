@@ -942,6 +942,8 @@
         "apps/docs/plugins/llms-txt/**",
         "packages/docs-ui/src/shared/utils/channelCode*",
         "packages/docs-ui/src/shared/components/ChannelCode/**",
+        "packages/docs-ui/src/shared/components/ReleaseChannelPaginator/**",
+        "packages/docs-ui/src/shared/theme/DocItem/Paginator/**",
         "packages/docs-tooling/src/lark/codeVariantFilter*",
         "packages/docs-tooling/src/lark/CODE_VARIANTS.md"
       ],
@@ -951,6 +953,7 @@
         "pnpm vitest run apps/docs/src/config/createDocusaurusConfig.test.ts",
         "node --test apps/docs/plugins/release-channel-routes/index.test.js",
         "pnpm vitest run packages/docs-ui/src/shared/components/NextChannel/index.test.tsx",
+        "pnpm vitest run packages/docs-ui/src/shared/components/ReleaseChannelPaginator/index.test.tsx",
         "node packages/docs-tooling/src/lark/larkDocWriter.next-channel.test.js",
         "node --test scripts/translation/validate-translation-file.test.js",
         "node --test apps/docs/plugins/next-channel-view.test.js",
@@ -965,7 +968,7 @@
         "pnpm typecheck",
         "git diff --check"
       ],
-      "reason": "Release Channel (CURRENT/NEXT) front matter and sidebar customProps gate NEXT docs per deployment: runtime env.js injection, client gating with the shared 404 page and banner, server-side route blocking, and build capability exclusions must stay aligned. Block-level gating adds the globally registered NextChannel MDX component (CURRENT-fail-closed runtime gate), writer pass-through plus structural lint, and translation output parity for the channel tags. Static AI surfaces (.md copies, llms.txt) and description front matter resolve the CURRENT view of block gates via the shared next-channel-view resolver. Code-block channel directives ((next|current)-channel-*) add the ChannelCode renderer wrapper, fence-interior resolution in the static resolver, and Fetch-time structural/ reserved-target lint."
+      "reason": "Release Channel (CURRENT/NEXT) front matter and sidebar customProps gate NEXT docs per deployment: runtime env.js injection, client gating with the shared 404 page and banner, server-side route blocking, and build capability exclusions must stay aligned. Block-level gating adds the globally registered NextChannel MDX component (CURRENT-fail-closed runtime gate), writer pass-through plus structural lint, and translation output parity for the channel tags. Static AI surfaces (.md copies, llms.txt) and description front matter resolve the CURRENT view of block gates via the shared next-channel-view resolver. Code-block channel directives ((next|current)-channel-*) add the ChannelCode renderer wrapper, fence-interior resolution in the static resolver, and Fetch-time structural/ reserved-target lint. The sidebar filter must remove NEXT leaves at any nesting depth, and the paginator override keeps Previous/Next from advertising routes the sidebar hides and the nginx gate blocks."
     }
   ]
 }

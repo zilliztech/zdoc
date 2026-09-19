@@ -57,20 +57,40 @@ export function isNextChannelSidebarItem(item: PropSidebarItem): boolean {
 /** Removes NEXT-channel items for CURRENT deployments. A category is dropped
  * when its own landing page is NEXT (the writer annotates the whole category)
  * or when filtering emptied children that previously existed; pre-existing
- * empty categories keep their current behavior. */
-export function filterNextChannelSidebarItems(items: readonly PropSidebarItem[]): PropSidebarItem[] {
+ * empty categories keep their current behavior.
+ *
+ * Change tracking, not a child-count comparison: a category whose own child
+ * list is untouched can still hold a filtered descendant (the SSO leaf sits
+ * three levels down), and the ancestors of that leaf keep the same direct child
+ * count. Returning the rebuilt children only when the subtree actually changed
+ * keeps unfiltered categories reference-identical for React. */
+function filterNextChannelItems(
+  items: readonly PropSidebarItem[],
+): {items: PropSidebarItem[]; changed: boolean} {
   const filtered: PropSidebarItem[] = [];
+  let changed = false;
   for (const item of items) {
-    if (isNextChannelSidebarItem(item)) continue;
+    if (isNextChannelSidebarItem(item)) {
+      changed = true;
+      continue;
+    }
     if (item.type === 'category') {
-      const children = filterNextChannelSidebarItems(item.items);
-      if (children.length === 0 && item.items.length > 0) continue;
-      filtered.push(children.length === item.items.length ? item : {...item, items: children});
+      const children = filterNextChannelItems(item.items);
+      if (children.items.length === 0 && item.items.length > 0) {
+        changed = true;
+        continue;
+      }
+      if (children.changed) changed = true;
+      filtered.push(children.changed ? {...item, items: children.items} : item);
       continue;
     }
     filtered.push(item);
   }
-  return filtered;
+  return {items: filtered, changed};
+}
+
+export function filterNextChannelSidebarItems(items: readonly PropSidebarItem[]): PropSidebarItem[] {
+  return filterNextChannelItems(items).items;
 }
 
 function normalizeSidebarPath(path: string): string {
@@ -102,4 +122,23 @@ export function sidebarPathIsNextChannel(
     }
   }
   return false;
+}
+
+/** Pagination links (previous/next) follow the sidebar order, so a CURRENT
+ * deployment must drop the targets the sidebar hides and the nginx gate 404s.
+ * Docusaurus stores only `{title, permalink}`, hence the lookup by permalink.
+ * Callers on NEXT deployments skip this entirely instead of passing an empty
+ * sidebar, so a missing sidebar never reads as "nothing to filter". */
+export function filterNextChannelPaginationLinks<T extends {permalink: string}>(
+  previous: T | undefined,
+  next: T | undefined,
+  sidebarItems: readonly PropSidebarItem[] | undefined,
+): {previous: T | undefined; next: T | undefined} {
+  if (!sidebarItems) return {previous, next};
+  const isBlocked = (link: T | undefined): boolean =>
+    !!link && sidebarPathIsNextChannel(sidebarItems, link.permalink);
+  return {
+    previous: isBlocked(previous) ? undefined : previous,
+    next: isBlocked(next) ? undefined : next,
+  };
 }
