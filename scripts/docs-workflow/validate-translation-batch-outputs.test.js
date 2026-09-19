@@ -508,9 +508,9 @@ test('rejects report identity, reviewer, validation, count, and cardinality defe
   const cases = [
     ['identity mismatch', value => { value.results[0].targetPath = `${TARGET}.wrong` }, /targetPath mismatch/],
     ['review failure', value => { value.results[0].review.pass = false }, /review evidence is not internally consistent/],
-    ['revalidated recovered marker without receipt', value => {
+    ['recovered non-revalidated marker without receipt', value => {
       value.results[0].recovered = true
-      value.results[0].recoveryCompatibility = 'revalidated'
+      value.results[0].recoveryCompatibility = 'strict'
     }, /recovery reviewer receipt/i],
     ['validation errors', value => { value.results[0].validationErrors = ['bad MDX'] }, /validation evidence is not clean/],
     ['extra result', value => { value.results.push({ ...value.results[0], sourcePath: 'docs/tutorials/extra.md' }) }, /result count/],
@@ -881,5 +881,34 @@ test('module API rejects non-object, missing, unknown, and mistyped options', ()
     assert.throws(() => validateTranslationBatchOutputs({ ...valid, testHooks: { afterJsonOpen: true } }), /testHooks\.afterJsonOpen must be a function/)
   } finally {
     fs.rmSync(root, { recursive: true, force: true })
+  }
+})
+
+test('receipt-less lineage restores pass the batch gate; non-revalidated receipt-less results do not', () => {
+  // A recovered result restored through the current full-file gate (#685)
+  // carries no receipt: the deterministic gate plus the review-consistency
+  // and clean-validation assertions above anchor it.
+  const lineageReport = report()
+  Object.assign(lineageReport.results[0], {
+    recovered: true,
+    recoveryCompatibility: 'revalidated',
+    review: {pass: true, issues: [], unsupportedIssues: [], contractConflicts: [], localeContractIssues: [], reviewerPass: true, error: null},
+    validationErrors: [],
+  })
+  const lineageRoot = fixture({report: lineageReport})
+  try {
+    assert.deepEqual(validate(lineageRoot), {candidateCount: 1, reconciliationOnly: false})
+  } finally {
+    fs.rmSync(lineageRoot, {recursive: true, force: true})
+  }
+
+  // Without the revalidated marker, a missing receipt stays a hard failure.
+  const legacyReport = report()
+  Object.assign(legacyReport.results[0], {recovered: true})
+  const legacyRoot = fixture({report: legacyReport})
+  try {
+    assert.throws(() => validate(legacyRoot), /recovered result is missing its recovery reviewer receipt/)
+  } finally {
+    fs.rmSync(legacyRoot, {recursive: true, force: true})
   }
 })
