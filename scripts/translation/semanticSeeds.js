@@ -156,6 +156,18 @@ function buildSeedReport({item, manifest, currentSource, translationsByHash, chu
   const protectedCurrentUnits = protectSemanticUnits(currentUnits, unit => unit.source, {literalTokens: localeContract.doNotTranslate})
   const usable = filterUsableSemanticCheckpoints(candidates, protectedCurrentUnits, localeContract)
   if (!usable.size) return {report: null, reason: 'no_matching_units'}
+  // Classify the units left out of the seed report for the consumer's
+  // verified-current decision: a "filtered" unit had a published translation
+  // whose English is byte-identical today but which the stricter per-unit gate
+  // rejected (protected-span content such as fenced-table column names the
+  // file-level validator accepts); a "new" unit is changed or added English
+  // that genuinely needs translation.
+  const filtered = []
+  const fresh = []
+  for (const unit of currentUnits) {
+    if (usable.has(unit.id)) continue
+    ;(candidates.has(unit.id) ? filtered : fresh).push(unit.id)
+  }
   const entries = [...usable.values()].sort((left, right) => left.id.localeCompare(right.id))
   if (entries.length > MAX_SEMANTIC_CHECKPOINTS_PER_FILE ||
       entries.reduce((total, entry) => total + Buffer.byteLength(entry.translation), 0) > MAX_SEMANTIC_CHECKPOINT_FILE_BYTES) {
@@ -172,7 +184,7 @@ function buildSeedReport({item, manifest, currentSource, translationsByHash, chu
     entries,
   }
   loadSemanticCheckpoints(report, {...item, target: manifest.target})
-  return {report, seededUnits: entries.length}
+  return {report, seededUnits: entries.length, pending: {filtered, new: fresh}}
 }
 
 function planSemanticSeeds({manifest, repository, baseline, sourceBaselineSha, chunkOptions}) {
@@ -203,6 +215,7 @@ function planSemanticSeeds({manifest, repository, baseline, sourceBaselineSha, c
             reports.push({reportFile, report: seeded.report})
             record.reportFile = reportFile
             record.seededUnits = seeded.seededUnits
+            record.pending = seeded.pending
             counts.seededUnits += seeded.seededUnits
             counts.seededFiles += 1
           } else {
