@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "今回のリリースでは、Zilliz Cloud にいくつかの重要なアップデートが導入されています。まず、Zilliz Cloud Serverless の GA により、自動スケーリングが提供され、最大 50 倍のコスト削減が可能になります。Milvus 2.4 の機能も GA となり、疎ベクトル、マルチベクトルハイブリッド検索、あいまい一致に対応した転置インデックスなどの機能が導入されました。また、このリリースには public preview のマルチレプリカ機能が含まれており、複数の Availability Zones（AZ）にまたがるレプリカにワークロードを分散することで、クエリスループットと可用性を向上できます。さらに、Zilliz Cloud の新しい Migration Service は、オープンソース Milvus、pgvector、Elasticsearch からの移行をサポートし、Zilliz Cloud 内での組織内および組織間のデータ移行を可能にします。バックアップ、復元、移行、ジョブ管理向けに拡張された RESTful API により、ユーザーは自動化された運用ワークフローを構築できます。その他の機能強化として、Project Read-only ロールのサポートや、クラスターとスナップショットの名前変更が含まれています。 | Cloud"
+description: "今回のリリースでは、Zilliz Cloud にいくつかの重要なアップデートが導入されています。まず、Zilliz Cloud Serverless の GA により、自動スケーリングが提供され、最大 50 倍のコスト削減が可能になります。Milvus 2.4 の機能も GA となり、疎ベクトル、マルチベクトルハイブリッド検索、あいまい一致に対応した転置インデックスなどの機能が導入されました。また、このリリースにはパブリックプレビューのマルチレプリカ機能が含まれており、複数の Availability Zones（AZ）にまたがるレプリカにワークロードを分散することで、クエリスループットと可用性を向上できます。さらに、Zilliz Cloud の新しい Migration Service は、オープンソース Milvus、pgvector、Elasticsearch からの移行をサポートし、Zilliz Cloud 内での組織内および組織間のデータ移行を可能にします。バックアップ、復元、移行、ジョブ管理向けに拡張された RESTful API により、ユーザーは自動化された運用ワークフローを構築できます。その他の機能強化として、Project Read-only ロールのサポートや、クラスターとスナップショットの名前変更が含まれています。 | Cloud"
 type: origin
 token: PJ4hwwD1DiVnv0kWPZBceLrdnSf
 sidebar_position: 21
@@ -20,7 +20,7 @@ import Admonition from '@theme/Admonition';
 
 # リリースノート（2024年9月4日）
 
-今回のリリースでは、Zilliz Cloud にいくつかの重要なアップデートが導入されています。まず、**Zilliz Cloud Serverless の GA** により、自動スケーリングが提供され、最大 50 倍のコスト削減が可能になります。**Milvus 2.4 の機能** も GA となり、疎ベクトル、マルチベクトルハイブリッド検索、あいまい一致に対応した転置インデックスなどの機能が導入されました。また、このリリースには public preview の **マルチレプリカ機能** が含まれており、複数の Availability Zones（AZ）にまたがるレプリカにワークロードを分散することで、クエリスループットと可用性を向上できます。さらに、Zilliz Cloud の新しい **Migration Service** は、オープンソース Milvus、pgvector、Elasticsearch からの移行をサポートし、Zilliz Cloud 内での組織内および組織間のデータ移行を可能にします。バックアップ、復元、移行、ジョブ管理向けに拡張された **RESTful API** により、ユーザーは自動化された運用ワークフローを構築できます。そのほか、Project Read-only ロールのサポートや、クラスターとスナップショットの名前変更機能も追加されています。
+今回のリリースでは、Zilliz Cloud にいくつかの重要なアップデートが導入されています。まず、**Zilliz Cloud Serverless の GA** により、自動スケーリングが提供され、最大 50 倍のコスト削減が可能になります。**Milvus 2.4 の機能** も GA となり、疎ベクトル、マルチベクトルハイブリッド検索、あいまい一致に対応した転置インデックスなどの機能が導入されました。また、このリリースにはパブリックプレビューの **マルチレプリカ機能** が含まれており、複数の Availability Zones（AZ）にまたがるレプリカにワークロードを分散することで、クエリスループットと可用性を向上できます。さらに、Zilliz Cloud の新しい **Migration Service** は、オープンソース Milvus、pgvector、Elasticsearch からの移行をサポートし、Zilliz Cloud 内での組織内および組織間のデータ移行を可能にします。バックアップ、復元、移行、ジョブ管理向けに拡張された **RESTful API** により、ユーザーは自動化された運用ワークフローを構築できます。そのほか、Project Read-only ロールのサポートや、クラスターとスナップショットの名前変更機能も追加されています。
 
 ### Milvus 互換性\{#milvus-compatibility}
 
@@ -88,7 +88,7 @@ Milvus 2.4 は、RAG やマルチモーダルデータ検索に非常に実用�
 
 - **可用性の強化**: マルチレプリカは、複数の Availability Zones（AZ）にレプリカを分散することで可用性を強化します。この構成により、AZ の障害が発生した場合でもデータへの継続的なアクセスが確保され、ミッションクリティカルなアプリケーションに対してより高い信頼性が提供されます。
 
-現在、マルチレプリカ機能は public preview であり、Enterprise Plan で利用できます。詳細については、[クラスタースケーリングの計画](./plan-cluster-scaling) を参照してください。
+現在、マルチレプリカ機能はパブリックプレビューであり、Enterprise Plan で利用できます。詳細については、[クラスタースケーリングの計画](./plan-cluster-scaling) を参照してください。
 
 ### Migration Service\{#migration-service}
 
@@ -115,3 +115,4 @@ Zilliz Cloud は、包括的な Migration Service を提供するようになり
 - [Project Read-only Role](./manage-platform-roles#predefined-project-roles) のサポート
 
 - クラスターとスナップショットの名前変更のサポート
+

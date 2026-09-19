@@ -59,3 +59,4 @@ import Admonition from '@theme/Admonition';
 ### 機能強化\{#enhancements}
 
 - replica 構成プロセスを最適化しました。この新しいバージョンでは、すべての コレクション を事前にリリースする必要なく、ユーザーは replica 数を直接調整できるようになりました。
+
