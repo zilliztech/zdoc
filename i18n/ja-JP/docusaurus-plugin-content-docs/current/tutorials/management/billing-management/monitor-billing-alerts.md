@@ -24,7 +24,7 @@ Zilliz Cloud 組織の最近の使用状況、クレジットの状態、支払�
 
 このガイドでは、請求関連のアラートについて説明します。請求アラートの設定方法については、[組織アラートを管理する](./manage-organization-alerts) を参照してください。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 請求アラートを表示または管理するには、**Organization Owner** または **Organization Billing Admin** である必要があります。
 
@@ -34,7 +34,7 @@ Zilliz Cloud 組織の最近の使用状況、クレジットの状態、支払�
 
 Zilliz Cloud は、以下の請求アラートメトリクスを提供します。
 
-| **指標** | **説明** | **推奨アクション** |
+| **メトリクス** | **説明** | **推奨アクション** |
 | --- | --- | --- |
 | Usage Amount in the Past Day (&#36;) | 過去 1 日間の累積使用料金。 | 使用量を予算と比較してください。使用量が想定より多い場合は、最近のアクティビティを確認し、[ワークロードを最適化](./cost-optimization) するか、必要に応じて予算を調整してください。 |
 | Credit Validity (days) | 無料クレジットの有効期限までの日数。 | 対象のクレジットは有効期限前に使用するか、クレジットの有効性について支援が必要な場合は [営業に問い合わせて](http://zilliz.com/contact-sales) ください。 |

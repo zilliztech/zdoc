@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 クレジットは、長期的な支払い方法を設定する前に、Zilliz Cloud を試したり、評価用のワークロードを実行したりするのに役立ちます。
 
-<Admonition type="info" icon="📘" title="📘 Note">
+<Admonition type="info" title="Note">
 
 クレジットと支払い方法を管理するには、**Organization Owner** または **Organization Billing Admin** である必要があります。
 
@@ -106,3 +106,4 @@ Zilliz Cloud は、クレジットと支払いの健全性を監視するのに�
 | --- | --- | --- |
 | Credit Validity (days) | 無料クレジットの有効期限までの日数。 | 対象となるクレジットを有効期限前に使用するか、PoC を完全に完了するためにクレジットの有効期限を延長する必要がある場合は [Zilliz 営業担当](http://zilliz.com/contact-sales) にお問い合わせください。 |
 | Remaining Credits (&#36;) | 残りのクレジット残高。 | クレジットがなくなる前に、別の支払い方法を追加または設定してください。PoC 用の追加クレジットについては、[Zilliz 営業担当](http://zilliz.com/contact-sales) にお問い合わせいただけます。 |
+

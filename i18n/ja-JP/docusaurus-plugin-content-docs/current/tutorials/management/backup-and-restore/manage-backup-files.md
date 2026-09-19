@@ -24,7 +24,7 @@ import Supademo from '@site/src/components/Supademo';
 
 このガイドでは、既存のバックアップファイルを表示、名前変更、削除する方法について説明します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 この機能は **Dedicated** クラスターでのみ利用できます。
 
@@ -48,7 +48,7 @@ Zilliz Cloud の Web コンソールでバックアップファイルとその�
 
 - すべてのバックアップファイルを表示
 
-    次の例では、project ID も cluster ID も指定していないため、現在の organization 内のすべてのバックアップファイルを一覧表示します。特定の project またはクラスターのバックアップを表示するには、リクエストに対応する project ID または cluster ID を含めてください。RESTful API の詳細については、[List Backups](/reference/restful/list-backups-v2) を参照してください。
+    The following example lists all backup files in the current organization, as neither project ID nor クラスター ID is specified. To view backups for a specific project or クラスター, include the corresponding project ID or クラスター ID in your request. For details about the RESTful API, see [List Backups](/reference/restful/list-backups-v2).
 
     ```bash
     curl --request GET \

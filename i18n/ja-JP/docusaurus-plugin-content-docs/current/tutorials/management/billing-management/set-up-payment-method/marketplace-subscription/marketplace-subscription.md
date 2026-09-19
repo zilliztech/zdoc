@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 対応するクラウドマーケットプレイスを通じて Zilliz Cloud をサブスクライブすると、Zilliz Cloud の料金は既存のクラウド請求アカウントを通じて請求されます。
 
-<Admonition type="info" icon="📘" title="📘 Note">
+<Admonition type="info" title="Note">
 
 支払い方法とサブスクリプションを管理するには、**Organization Owner** または **Organization Billing Admin** である必要があります。
 
@@ -54,7 +54,7 @@ Zilliz Cloud は、以下のマーケットプレイスを通じたサブスク�
 | Marketplace Public Offer | クラウドマーケットプレイスで利用できる標準の Zilliz Cloud リスティングです。 | 標準的な価格と条件によるセルフサービスサブスクリプション。 | マーケットプレイスのリスティングページに記載されている公開価格、契約条件、請求ルールが適用されます。 | **AWS、Google Cloud、Mircosoft** Marketplace を通じた Zilliz Cloud **SaaS** デプロイメントでのみ利用できます。 |
 | Marketplace Private Offer | Zilliz がお客様の組織向けに作成するカスタムオファーです。 | エンタープライズ調達、割引、コミット済み支出、カスタム条件、または BYOC の購入。 | 交渉済みの価格、カスタム契約期間、支払いスケジュール、その他の商用条件を含めることができます。 | **AWS、Google Cloud、Mircosoft** Marketplace を通じた Zilliz Cloud **SaaS** および **BYOC** デプロイメントの両方で利用できます。 |
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 AWS Marketplace Free Trial は AWS Marketplace を通じて開始および管理されます。トライアル後にアップグレードした場合、以降の料金は AWS Marketplace を通じて請求されます。このオプションは、AWS Marketplace での調達と請求を希望するチームに適しています。
 

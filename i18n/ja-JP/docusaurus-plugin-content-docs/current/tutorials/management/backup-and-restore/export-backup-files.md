@@ -22,9 +22,9 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud コンソールを使用して、バックアップファイルをオブジェクトストレージにエクスポートできます。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-この機能は、**Enterprise** プロジェクト内の **Dedicated** cluster を対象に **Private Preview** として提供されています。この機能を有効にする方法、または関連する費用については、[Zilliz Cloud サポート](https://support.zilliz.com/hc/en-us)にお問い合わせください。
+This feature is in **Private Preview** for **Dedicated** クラスター in **Enterprise** projects. To enable this feature or learn about the associated costs, contact [Zilliz Cloud support](https://support.zilliz.com/hc/en-us).
 
 </Admonition>
 
@@ -46,7 +46,7 @@ Zilliz Cloud からのバックアップファイルのエクスポートは、Z
 
 1. 表示されたページで対象のバックアップファイルを見つけ、**Actions** 列の **...** をクリックしてから **Export** を選択します。
 
-    <Admonition type="info" icon="📘" title="注意">
+    <Admonition type="info" title="Notes">
 
     エクスポートできるのは、ステータスが **Available** のバックアップファイルのみです。
 
@@ -54,7 +54,7 @@ Zilliz Cloud からのバックアップファイルのエクスポートは、Z
 
 1. **Export Backup File** ダイアログボックスで、バックアップ設定を構成します。
 
-    - **Cloud Region of Cluster in Backup File**: バックアップファイルが作成された cloud region を表示します。
+    - **Cloud Region of クラスター in Backup File**: Displays the cloud region where the backup file was created.
 
     - **Integration**: Zilliz Cloud と統合されているオブジェクトストレージプロバイダーを選択します。
 
@@ -117,7 +117,7 @@ curl --request POST \
 
 ジョブが **IN PROGRESS** ステータスのままで、続行しないことにした場合は、**Actions** 列の **Cancel** をクリックしてジョブをキャンセルできます。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 途中でキャンセルしても、すでにバケットにアップロードされたデータは削除されません。
 

@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 支払いの失敗は、組織の請求ステータスや有料の Zilliz Cloud 機能へのアクセスに影響を及ぼす可能性があります。このガイドでは、支払いが失敗する一般的な原因、支払いを完了できない場合に何が起こるか、および組織を復旧する方法について説明します。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 支払いと請求の設定を管理するには、**Organization Owner** または **Organization Billing Admin** である必要があります。
 

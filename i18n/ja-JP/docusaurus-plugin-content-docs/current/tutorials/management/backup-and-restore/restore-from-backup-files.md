@@ -26,7 +26,7 @@ Zilliz Cloud の復元機能を使用すると、偶発的なデータ損失、�
 
 このガイドでは、バックアップファイルからクラスター全体または一部を復元する方法を説明します。
 
-<Admonition type="info" icon="📘" title="注">
+<Admonition type="info" title="Notes">
 
 この機能は **Dedicated** クラスターでのみ利用できます。
 
@@ -70,7 +70,7 @@ Zilliz Cloud の復元機能を使用すると、偶発的なデータ損失、�
 
 ### RESTful API 経由\{#via-restful-api}
 
-次の例では、既存のバックアップファイルからクラスター全体を `Dedicated-01-backup` という名前の新しいクラスターに復元します。RESTful API の詳細については、[Restore Cluster Backup](/reference/restful/restore-cluster-backup-v2) を参照してください。
+The following example restores a full クラスター for an existing backup file to a new クラスター named `Dedicated-01-backup`. For details about the RESTful API, see [Restore クラスター Backup](/reference/restful/restore-cluster-backup-v2).
 
 ```bash
 export API_KEY="YOUR_API_KEY"
@@ -146,7 +146,7 @@ curl --request POST \
 
 ### RESTful API 経由\{#via-restful-api}
 
-次の例では、バックアップファイルからコレクションを既存のクラスター `inxx-xxxxxxxxxxxxxxx` に復元します。RESTful API の詳細については、[Restore Collection Backup](/reference/restful/restore-collection-backup-v2) を参照してください。
+The following example restores a コレクション from backup file to an existing クラスター `inxx-xxxxxxxxxxxxxxx`. For details about the RESTful API, see [Restore コレクション Backup](/reference/restful/restore-collection-backup-v2).
 
 ```bash
 curl --request POST \
@@ -184,7 +184,7 @@ curl --request POST \
 
 暗号化されたバックアップを新しいクラスターに復元する場合、Zilliz Cloud はバックアップファイルに関連付けられた KMS キーを使用して復元前にデータを復号します。したがって、暗号化の有無にかかわらず、そのバックアップを新しいクラスターに復元できます。 
 
-<Admonition type="info" icon="📘" title="注">
+<Admonition type="info" title="Notes">
 
 この機能は、**Business Critical** プロジェクト内の **Dedicated** クラスターでのみ利用できます。
 

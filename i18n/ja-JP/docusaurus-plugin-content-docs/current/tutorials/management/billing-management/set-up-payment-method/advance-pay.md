@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud は、クレジットカードの追加や AWS Marketplace でのサブスクリプションに代わる支払い方法として、前払い（銀行振込）に対応しています。 
 
-<Admonition type="info" icon="📘" title="📘 Note">
+<Admonition type="info" title="Note">
 
 支払い方法を管理するには、**Organization Owner** または **Organization Billing Admin** である必要があります。
 

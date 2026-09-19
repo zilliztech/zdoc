@@ -2466,54 +2466,79 @@
       "translatedAt": "2026-09-19T14:18:28.626Z"
     },
     "content/en/guides/tutorials/management/backup-and-restore/backup-to-other-regions.md": {
-      "sourceHash": "c8c64437eb1c218f51a3322730a7f2637b5c8c7587620d92df2e8eacc11aeee9",
+      "sourceHash": "a04b323e2875a99e948361471659790c485ee9bc10681988eacb47c51c7eb770",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/backup-and-restore/backup-to-other-regions.md",
-      "translatedAt": "2026-08-04T05:06:51.198Z"
+      "translatedAt": "2026-09-19T14:19:41.492Z"
     },
     "content/en/guides/tutorials/management/backup-and-restore/create-backup.md": {
-      "sourceHash": "cf9ff1ccddfd0efb4696e7438c56ed5ec1f2fd1f934ec894b4df69e71150913f",
+      "sourceHash": "91cd57d02f94eab04c4f31c78acb28b9f87e4b008ab3513a951550c2429acfe0",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/backup-and-restore/create-backup.md",
-      "translatedAt": "2026-08-25T08:44:03.417Z"
+      "translatedAt": "2026-09-19T14:19:41.492Z"
+    },
+    "content/en/guides/tutorials/management/backup-and-restore/export-backup-files.md": {
+      "sourceHash": "4667376a91ecf51be767dd13a7cb223a5faf4faf0c0b12dd532fd1e0b42e446c",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/backup-and-restore/export-backup-files.md",
+      "translatedAt": "2026-09-19T14:19:41.492Z"
+    },
+    "content/en/guides/tutorials/management/backup-and-restore/manage-backup-files.md": {
+      "sourceHash": "a794bcfbd92bc59eaf1c51632e3722f1896d42220c29bb5149897e78af5e4eeb",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/backup-and-restore/manage-backup-files.md",
+      "translatedAt": "2026-09-19T14:19:41.492Z"
+    },
+    "content/en/guides/tutorials/management/backup-and-restore/restore-from-backup-files.md": {
+      "sourceHash": "ee5ac0b88efa73bf39db7597ff910a914b029a471deb00026b1e55df1b1ed584",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/backup-and-restore/restore-from-backup-files.md",
+      "translatedAt": "2026-09-19T14:19:41.492Z"
     },
     "content/en/guides/tutorials/management/backup-and-restore/schedule-automatic-backups.md": {
-      "sourceHash": "4823483f12b0829176cfd058beeaeaff966e21a366d3196ad8abffb7240b0dab",
+      "sourceHash": "dc28e6b1aded2a1f997102f1dbed2e755a30dd1eb35f7902f5b56efa1c1bb85f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/backup-and-restore/schedule-automatic-backups.md",
-      "translatedAt": "2026-08-25T08:45:20.329Z"
+      "translatedAt": "2026-09-19T14:19:41.492Z"
     },
     "content/en/guides/tutorials/management/billing-management/failed-payments-organization-recovery.md": {
-      "sourceHash": "b6dd740be2599f87264777bf1e1379aa2c2c8616c1d9ea018c35ef9b89243b0f",
+      "sourceHash": "875eb71210c933359f93b4765fe4520c7d8e78c9e9e2474f7dc7e2691dbafec8",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/failed-payments-organization-recovery.md",
-      "translatedAt": "2026-08-25T08:46:34.128Z"
+      "translatedAt": "2026-09-19T14:19:41.492Z"
     },
     "content/en/guides/tutorials/management/billing-management/manage-invoice.md": {
-      "sourceHash": "c683f637a3b18b1338948b7cbeb94f1e77dc38e9412240a3d84f2cb289dc9b55",
+      "sourceHash": "896a8b83d8c502172281aad7804a482ece038bfb1df71dd0fff69ccaa60f9f2c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/manage-invoice.md",
-      "translatedAt": "2026-08-25T18:00:58.295Z"
+      "translatedAt": "2026-09-19T14:19:41.492Z"
     },
     "content/en/guides/tutorials/management/billing-management/monitor-billing-alerts.md": {
-      "sourceHash": "03e9d57486246f1e13e9fb23d56a203bb1dc0a42ab4ebde742cb3eeecfb657e8",
+      "sourceHash": "7358e77563caecbff012a5de81a53f6843aae2e30bff8cb05ce9054712b39e54",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/monitor-billing-alerts.md",
-      "translatedAt": "2026-08-04T05:09:11.430Z"
+      "translatedAt": "2026-09-19T14:19:41.492Z"
     },
     "content/en/guides/tutorials/management/billing-management/payment-billing.md": {
-      "sourceHash": "4d5d3314bd833020587d32e518c6029c58ae692742511064938dc9adb1e189bd",
+      "sourceHash": "e1b7c733c29ac92ea39f6f0f0525c723a8f3df7614d57175277d3fbf5dcd4fbd",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/payment-billing.md",
-      "translatedAt": "2026-08-04T05:10:55.859Z"
+      "translatedAt": "2026-09-19T14:19:41.492Z"
     },
     "content/en/guides/tutorials/management/billing-management/separate-billing/separate-zilliz-cloud-billing-on-aws-marketplace.md": {
-      "sourceHash": "168ecbd403f8dd4e925c248426cb9b52388285dc26fbc45d6c8f070eb3c1c7f8",
+      "sourceHash": "a57270038135a4a509d4e1504cdb5b9e1335e77c7351ec1ec0391ba9777a177b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/separate-billing/separate-zilliz-cloud-billing-on-aws-marketplace.md",
-      "translatedAt": "2026-08-04T05:19:39.720Z"
+      "translatedAt": "2026-09-19T14:19:41.492Z"
     },
     "content/en/guides/tutorials/management/billing-management/separate-billing/separate-zilliz-cloud-billing-on-azure-marketplace.md": {
-      "sourceHash": "eafb73ccc0d2b9bd16f45ac03a61ab910a26299d84a9b4c95d688f0b835c21e4",
+      "sourceHash": "4ef34314acf3901180da86233f7061746c45118a9b6ed726ac34b39809b01e64",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/separate-billing/separate-zilliz-cloud-billing-on-azure-marketplace.md",
-      "translatedAt": "2026-08-04T05:19:55.292Z"
+      "translatedAt": "2026-09-19T14:19:41.492Z"
+    },
+    "content/en/guides/tutorials/management/billing-management/set-up-payment-method/advance-pay.md": {
+      "sourceHash": "5a246f73dd3764a45a7913bae57d9ced59104cdc8a56f6d26dc63944b34743d4",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/set-up-payment-method/advance-pay.md",
+      "translatedAt": "2026-09-19T14:19:41.492Z"
+    },
+    "content/en/guides/tutorials/management/billing-management/set-up-payment-method/credits.md": {
+      "sourceHash": "6c42af81dd18ec4931612ab7962f5f953370c725ef2c245b8d0219b192252c28",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/set-up-payment-method/credits.md",
+      "translatedAt": "2026-09-19T14:19:41.492Z"
     },
     "content/en/guides/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/marketplace-subscription.md": {
-      "sourceHash": "c4e78e0a88e2e073653c5b214ad0d582d99c442b495838abb8de5e4101f94033",
+      "sourceHash": "58cde2905a234fc0be6fdb5ec6815bfad565983aba8f9f0fac1c3314043d6905",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/marketplace-subscription.md",
-      "translatedAt": "2026-08-25T08:49:38.924Z"
+      "translatedAt": "2026-09-19T14:19:41.492Z"
     },
     "content/en/guides/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace-free-trial.md": {
       "sourceHash": "2b6320233bcea9b6cf66c1e32475da33abac706020b568b1c23c23db1cbdfe5d",
