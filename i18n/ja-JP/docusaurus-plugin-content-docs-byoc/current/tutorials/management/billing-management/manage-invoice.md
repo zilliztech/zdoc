@@ -25,11 +25,11 @@ import Procedures from '@site/src/components/Procedures';
 
 このガイドでは、Zilliz Cloud 組織の請求書を表示、ダウンロード、および追跡する方法について説明します。
 
-お支払い方法に応じて、請求書は Zilliz Cloud またはサブスクリプションを登録したクラウドマーケットプレイスから発行されます。
+お支払い方法に応じて、請求書は Zilliz Cloud または契約したクラウドマーケットプレイスから発行される場合があります。
 
-<Admonition type="info" icon="📘" title="📘 Note">
+<Admonition type="info" title="Note">
 
-請求書を管理するには、**Organization Owner** または **Organization Billing Admin** の権限が必要です。
+請求書を管理するには、**Organization Owner** または **Organization Billing Admin** である必要があります。
 
 </Admonition>
 
@@ -53,7 +53,7 @@ import Procedures from '@site/src/components/Procedures';
 
 <TabItem value="Bash">
 
-リクエストは次の例のようになります。ここで、`{TOKEN}` は [Organization Owner または Billing Admin ロール](./manage-platform-roles#predefined-organization-roles) を持つ認証用 API キーです。以下の `GET` リクエストにより、組織のすべての請求書が一覧表示されます。
+リクエストは以下の例のようになります。ここで、`{TOKEN}` は [Organization Owner または Billing Admin ロール](./manage-platform-roles#predefined-organization-roles) を持つ認証用 API キーです。以下の `GET` リクエストは、組織のすべての請求書を一覧表示します。
 
 ```bash
 curl --request GET \
@@ -91,9 +91,9 @@ curl --request GET \
 # }
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-API から返される結果において、金額はすべてセント単位です。
+API から返される結果では、金額はすべてセント単位です。
 
 </Admonition>
 
@@ -123,7 +123,7 @@ API から返される結果において、金額はすべてセント単位で�
 
 <TabItem value="Bash">
 
-リクエストは次の例のようになります。ここで、`{TOKEN}` は [Organization Owner または Billing Admin ロール](./manage-platform-roles#predefined-organization-roles) を持つ認証用 API キーです。以下の `GET` リクエストにより、指定された請求書の詳細が返されます。
+リクエストは以下の例のようになります。ここで、`{TOKEN}` は [Organization Owner または Billing Admin ロール](./manage-platform-roles#predefined-organization-roles) を持つ認証用 API キーです。以下の `GET` リクエストは、指定した請求書を記述します。
 
 ```bash
 curl --request GET \
@@ -154,15 +154,15 @@ curl --request GET \
 # }
 ```
 
-上記のコマンドにおける各項目は以下の通りです。
+上記のコマンドでは、
 
 - `{API_KEY}`: API リクエストの認証に使用する認証情報です。値をご自身のものに置き換えてください。
 
-- `{INVOICE_ID}`: 詳細を取得する請求書の ID です。
+- `{INVOICE_ID}`: 記述する請求書の ID です。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-API から返される結果において、金額はすべてセント単位です。
+API から返される結果では、金額はすべてセント単位です。
 
 </Admonition>
 
@@ -181,4 +181,3 @@ API から返される結果において、金額はすべてセント単位で�
 請求書をダウンロードするには、Zilliz Cloud Web コンソールで対象の請求書の横にあるダウンロードアイコンをクリックします。
 
 ![download-invoices](https://zdoc-images.s3.us-west-2.amazonaws.com/download-invoices.png "download-invoices")
-

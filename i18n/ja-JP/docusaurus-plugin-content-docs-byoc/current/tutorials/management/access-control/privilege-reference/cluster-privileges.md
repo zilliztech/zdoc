@@ -37,7 +37,7 @@ import TabItem from '@theme/TabItem';
 
 Zilliz Cloud は、コレクション、データベース、クラスターの各レベルに合計9つの組み込み権限グループを提供しており、[ロールの作成](./cluster-roles)時に直接付与できます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 これら3つのレベルの組み込み権限グループの間にはカスケード関係はありません。クラスターレベルで権限グループを設定しても、そのインスタンス配下のすべてのデータベースやコレクションに自動的に権限が適用されるわけではありません。データベースレベルおよびコレクションレベルの権限は、それぞれ手動で設定する必要があります。
 
@@ -143,7 +143,7 @@ Zilliz Cloud は、コレクション、データベース、クラスターの�
 
 組み込み権限で要件を満たせない場合は、SDKを使用してカスタム権限グループを作成し、任意の権限を追加できます。
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 この機能は**Private Preview**として提供されています。ご利用をご希望の場合は、[サポートチケットを作成](http://support.zilliz.com)して有効化をリクエストしてください。
 
@@ -584,3 +584,4 @@ curl --request POST \
 | DropPrivilegeGroup | 権限グループを削除します |
 | ListPrivilegeGroups | 現在のインスタンス内のすべての権限グループを一覧表示します |
 | OperatePrivilegeGroup | 権限グループに対して権限の追加または削除を行います |
+

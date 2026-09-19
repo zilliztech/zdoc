@@ -132,7 +132,7 @@ BYOC を選択した場合、プランをさらに選択する必要はありま
      <td><p>クロスリージョンバックアップ</p></td>
      <td><p>❌</p></td>
      <td><p>❌</p></td>
-     <td><p>✅</p><Admonition type="info" icon="📘" title="Note"> クロスリージョンバックアップは現在 BYOC ではサポートされていません。 </Admonition></td>
+     <td><p>✅</p><Admonition type="info" title="Note"> クロスリージョンバックアップは現在 BYOC ではサポートされていません。 </Admonition></td>
    </tr>
    <tr>
      <td><p>ストレージ統合（AWS S3、Google Cloud Storage、Azure Blob Storage）</p></td>
@@ -162,7 +162,7 @@ BYOC を選択した場合、プランをさらに選択する必要はありま
      <td><p>クラスター IP 許可リスト</p></td>
      <td><p>✅</p></td>
      <td><p>✅</p></td>
-     <td><p>✅</p><Admonition type="info" icon="📘" title="Note"> クラスター IP 許可リストは現在 BYOC ではサポートされていません。 </Admonition></td>
+     <td><p>✅</p><Admonition type="info" title="Note"> クラスター IP 許可リストは現在 BYOC ではサポートされていません。 </Admonition></td>
    </tr>
    <tr>
      <td><p>プライベートエンドポイント</p></td>
@@ -189,4 +189,3 @@ BYOC を選択した場合、プランをさらに選択する必要はありま
      <td><p>✅</p></td>
    </tr>
 </table>
-

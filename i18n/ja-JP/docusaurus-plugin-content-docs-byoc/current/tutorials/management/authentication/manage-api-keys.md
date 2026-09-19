@@ -36,7 +36,7 @@ Zilliz Cloud では、多様なユーザー要件に対応するために 2 種�
 
 - **Customized API keys**: **Organization Owners** および **Project Admins** が、Zilliz Cloud アカウントを持たないアプリケーションまたは外部ユーザー向けに手動で作成します。これらのキーは長期的なアクセス要件に適しており、API キーの最初の作成者が組織を離れた場合でもサービスの継続性を確保できます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 本番環境では、代わりに customized キーを使用してください。Personal API keys はユーザーアカウントとともに削除されます。
 
@@ -255,7 +255,7 @@ Zilliz Cloud が各組織ユーザーに対して自動的に生成する person
 
     - **API Key Access**: 適切な組織ロールとプロジェクトロールを割り当てて、現在の customized API キーのアクセス範囲を定義します。よりきめ細かなアクセス制御が必要な場合は、**Restrict Access to Specific クラスター and Volumes** をチェックして、キーがアクセスできるクラスターとボリュームを制限できます。
 
-        <Admonition type="info" icon="📘" title="📘 Notes">
+        <Admonition type="info" title="Notes">
 
         [Project Admins](./manage-platform-roles#predefined-project-roles) の場合、このユーザーが API キーに付与できる権限は、そのユーザー自身の権限範囲に限定されます。
 
@@ -297,7 +297,7 @@ Zilliz Cloud が各組織ユーザーに対して自動的に生成する person
 
     - **API Key Access**: 適切な組織ロールとプロジェクトロールを割り当てて、現在の customized API キーのアクセス範囲を定義します。よりきめ細かなアクセス制御が必要な場合は、**Restrict Access to Specific クラスター and Volumes** をチェックして、キーがアクセスできるクラスターとボリュームを制限できます。
 
-        <Admonition type="info" icon="📘" title="📘 Notes">
+        <Admonition type="info" title="Notes">
 
         [Project Admins](./manage-platform-roles#predefined-project-roles) の場合、このユーザーが API キーに付与できる権限は、そのユーザー自身の権限範囲に限定されます。
 
@@ -309,7 +309,7 @@ Zilliz Cloud が各組織ユーザーに対して自動的に生成する person
 
 personal または customized API キーが漏洩した可能性がある場合は、直ちにリセットしてください。
 
-<Admonition type="info" icon="📘" title="🚧 Warning">
+<Admonition type="warning" title="Warning">
 
 この操作により、現在の API キーはリセットされ、無効になります。このキーを使用しているアプリケーションコードは、新しいキー値で関連するコードを更新するまで動作しなくなります。
 
@@ -333,7 +333,7 @@ personal キーは手動で削除できません。ただし、対応するユ�
 
 以下のスクリーンショットは、customized API キーを削除する方法を示しています。
 
-<Admonition type="info" icon="📘" title="🚧 Warning">
+<Admonition type="warning" title="Warning">
 
 API キーを削除すると、そのキーを使用しているすべてのサービスの Zilliz Cloud リソースへのアクセスが不可逆的に終了します。
 
@@ -348,3 +348,4 @@ API キーを削除すると、そのキーを使用しているすべてのサ�
 いいえ。**Personal API keys** は個々のユーザーアカウントに紐付けられており、ユーザーが組織を離れると自動的に削除されます。キー所有者のアカウントが削除されると、そのキーに依存しているアプリケーションやサービスは直ちに Zilliz Cloud リソースへのアクセスを失います。
 
 本番環境では、代わりに **customized API keys** を使用してください。customized キーは特定の個人ユーザーアカウントに依存しないため、チームメンバーが組織を離れた場合でもサービスの継続性を確保できます。
+

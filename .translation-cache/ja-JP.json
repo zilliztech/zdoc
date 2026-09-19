@@ -860,20 +860,60 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/get-started/register-with-zilliz-cloud.md",
       "translatedAt": "2026-09-19T13:55:44.409Z"
     },
+    "content/en/byoc/tutorials/get-started/select-zilliz-cloud-service-plans.md": {
+      "sourceHash": "30cfbb81502cdc9e989d60707da0c5d62bad1d82279d4f9b5d147594af83450f",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/get-started/select-zilliz-cloud-service-plans.md",
+      "translatedAt": "2026-09-19T13:57:10.436Z"
+    },
     "content/en/byoc/tutorials/management/access-control/access-control-overview.md": {
-      "sourceHash": "25654ced5c32a6570c9c6863063bcd827c191bd2144c70ec803d18dd32fc5643",
+      "sourceHash": "3214ebc1438a032cc13a6085f4ec17316a746ec29fcf392e59cb6430408566cd",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/access-control/access-control-overview.md",
-      "translatedAt": "2026-08-25T06:42:04.007Z"
+      "translatedAt": "2026-09-19T13:57:10.436Z"
     },
     "content/en/byoc/tutorials/management/access-control/manage-cluster-roles/cluster-roles-sdk.md": {
-      "sourceHash": "bc38465df42540293330769881bad8e97f231470726a8e70547cf6a2254b9fde",
+      "sourceHash": "1b1f99cfdb3eee2d77a1c266c9d85aa6efa0fbce99168c89d9359eb01c7d1787",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/access-control/manage-cluster-roles/cluster-roles-sdk.md",
-      "translatedAt": "2026-08-25T04:37:05.499Z"
+      "translatedAt": "2026-09-19T13:57:10.436Z"
+    },
+    "content/en/byoc/tutorials/management/access-control/manage-cluster-roles/cluster-roles.md": {
+      "sourceHash": "b1f6b2687ed9dac2f2606f65feff172e5fb9e5276916e459ffc11293e27333f1",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/access-control/manage-cluster-roles/cluster-roles.md",
+      "translatedAt": "2026-09-19T13:57:10.436Z"
     },
     "content/en/byoc/tutorials/management/access-control/manage-platform-roles.md": {
-      "sourceHash": "0fd0630f3255c312cb6ccc0de362c6f8ee0a7f3d56b428394a5c815bae08f5a2",
+      "sourceHash": "72f6e9974c5263a7a6ff1462a34ccab5cfe5bfb1fed3b4c4514484e097248a61",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/access-control/manage-platform-roles.md",
-      "translatedAt": "2026-08-25T04:40:43.257Z"
+      "translatedAt": "2026-09-19T13:57:10.436Z"
+    },
+    "content/en/byoc/tutorials/management/access-control/privilege-reference/cluster-privileges.md": {
+      "sourceHash": "db61d680c041226f6c288b1de63ce14252d0347a445c8710c54cdd8b0eeb0100",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/access-control/privilege-reference/cluster-privileges.md",
+      "translatedAt": "2026-09-19T13:57:10.436Z"
+    },
+    "content/en/byoc/tutorials/management/access-control/privilege-reference/platform-privileges.md": {
+      "sourceHash": "f6aca0cd9b7b11630112ba98f2bdff59206c1afee1d9209afa263adbae04293b",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/access-control/privilege-reference/platform-privileges.md",
+      "translatedAt": "2026-09-19T13:57:10.436Z"
+    },
+    "content/en/byoc/tutorials/management/access-logs/access-log-overview.md": {
+      "sourceHash": "2eb39da8907fbfeec74e97f3f30be498df59d33ca7aff55428b37a09e32ccbb1",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/access-logs/access-log-overview.md",
+      "translatedAt": "2026-09-19T13:57:10.436Z"
+    },
+    "content/en/byoc/tutorials/management/access-logs/access-log-reference.md": {
+      "sourceHash": "9dcf3e49d565770edb60d1935620e79f8da11c55dfe4f001ced39ff9bcf23f54",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/access-logs/access-log-reference.md",
+      "translatedAt": "2026-09-19T13:57:10.436Z"
+    },
+    "content/en/byoc/tutorials/management/access-logs/configure-access-logs.md": {
+      "sourceHash": "7302265fc5e9b5935af0528b89f84d297e6ede04c2b05db06e92d7adc3823faf",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/access-logs/configure-access-logs.md",
+      "translatedAt": "2026-09-19T13:57:10.436Z"
+    },
+    "content/en/byoc/tutorials/management/auditing/audit-logs.md": {
+      "sourceHash": "21dce36757951a9286c150ab455be355be871741fc60453c1003b18750e48bf8",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/auditing/audit-logs.md",
+      "translatedAt": "2026-09-19T13:57:10.436Z"
     },
     "content/en/byoc/tutorials/management/auditing/view-activities.md": {
       "sourceHash": "d14d0ab84059ff09a9980f04d99607fade473481d81f620917d4cdd328a32e1a",
@@ -881,9 +921,19 @@
       "translatedAt": "2026-09-19T13:43:11.314Z"
     },
     "content/en/byoc/tutorials/management/authentication/email-accounts.md": {
-      "sourceHash": "059a2918e5384378a14cb052103986d40736e177187a9dddf028a1dbe72cb05f",
+      "sourceHash": "3f39484d197a28bdc9a711fb6f6e14c2480f2edf3646a76aef1e4bc7ba1c82bd",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/authentication/email-accounts.md",
-      "translatedAt": "2026-08-25T06:45:41.964Z"
+      "translatedAt": "2026-09-19T13:57:10.436Z"
+    },
+    "content/en/byoc/tutorials/management/authentication/manage-api-keys.md": {
+      "sourceHash": "bc847f439fa9ac17dcb076f0713097121dec624c519eb8ab3d71b9ed9d249870",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/authentication/manage-api-keys.md",
+      "translatedAt": "2026-09-19T13:57:10.436Z"
+    },
+    "content/en/byoc/tutorials/management/authentication/multi-factor-auth.md": {
+      "sourceHash": "15b7ce8b513c7e945097b3a617f61f579021ab5abf8eff4dc4d410e103f2b532",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/authentication/multi-factor-auth.md",
+      "translatedAt": "2026-09-19T13:57:10.436Z"
     },
     "content/en/byoc/tutorials/management/backup-and-restore/create-backup.md": {
       "sourceHash": "6751cd1f0f30a00c648b53e8f25607a79918343ec000d2ea747725805e747d34",
@@ -896,9 +946,9 @@
       "translatedAt": "2026-08-25T16:39:59.142Z"
     },
     "content/en/byoc/tutorials/management/billing-management/manage-invoice.md": {
-      "sourceHash": "38447eee3e70f283cbb13451d0c267b57c6f94f5c8d7a075706f5b30bb29fe8b",
+      "sourceHash": "7b2525db43dc2474dc7b795f7d970605a1aa3cb1d2f143a00a30af9eb660eefd",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/manage-invoice.md",
-      "translatedAt": "2026-08-25T16:40:30.624Z"
+      "translatedAt": "2026-09-19T13:57:10.436Z"
     },
     "content/en/byoc/tutorials/management/billing-management/payment-billing.md": {
       "sourceHash": "82f97d9e021db176ce7219574f84a0a961e27dd5e1a198eef5570fc41ead2ba0",

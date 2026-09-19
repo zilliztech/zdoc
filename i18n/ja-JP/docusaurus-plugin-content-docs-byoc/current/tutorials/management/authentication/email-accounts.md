@@ -24,6 +24,12 @@ import Procedures from '@site/src/components/Procedures';
 
 Zilliz Cloud で[アカウントを登録](./register-with-zilliz-cloud)すると、アカウント情報の管理、ログイン方法の切り替え、Google アカウントまたは GitHub アカウントとの連携解除を行えます。
 
+## コンソールセッション\{#console-session}
+
+Zilliz Cloud コンソールにサインインした後、コンソールを使い続けている間はログインセッションが有効なまま維持されます。6 時間操作がないとセッションが失効し、再度サインインする必要があります。
+
+この非アクティブタイムアウトは Zilliz Cloud コンソールのセッションに適用されます。API キー、クラスターの認証情報、既存の Zilliz Cloud クラスターへの接続には影響しません。
+
 ## プロフィール情報の変更\{#modify-your-profile-information}
 
 ![modify_account_info](https://zdoc-images.s3.us-west-2.amazonaws.com/modifyaccountinfo.png "modify_account_info")
@@ -42,17 +48,17 @@ Zilliz Cloud で[アカウントを登録](./register-with-zilliz-cloud)する�
 
 </Procedures>
 
-## アカウントのメールアドレスを更新する\{#update-account-email-address}
+## アカウントのメールアドレスを更新\{#update-account-email-address}
 
 ![update_email_address](https://zdoc-images.s3.us-west-2.amazonaws.com/updateemailaddress.png "update_email_address")
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
-メールアドレスを更新しても、請求書やアラートの送信先は変更されません。必要に応じて、これらの情報を手動で更新してください。
+メールアドレスを更新しても、請求書やアラートの受信者は変更されません。必要に応じて、これらの情報を手動で更新してください。
 
 </Admonition>
 
-## アカウントのパスワードを変更する\{#change-account-password}
+## アカウントのパスワードを変更\{#change-account-password}
 
 ![change_password](https://zdoc-images.s3.us-west-2.amazonaws.com/changepassword.png "change_password")
 
@@ -74,7 +80,7 @@ Zilliz Cloud で[アカウントを登録](./register-with-zilliz-cloud)する�
 
 初回登録時と同じログイン方法を維持する必要がありますが、ログイン方法を切り替える必要がある場合は、Zilliz Cloud が柔軟に対応します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 組織のユーザーは、ID プロバイダー（IdP）である Okta を使用してシングルサインオン（SSO）を設定できます。これにより、組織のユーザーは Okta で認証した後、個別に Zilliz Cloud アカウントを作成することなく、業務用メールアドレスを使用して Zilliz Cloud にシームレスにアクセスできます。詳細については、[Okta を使用したシングルサインオン](./single-sign-on-with-okta) を参照してください。
 
@@ -140,7 +146,7 @@ Zilliz Cloud アカウントをサードパーティアカウントにすでに�
 
 ## アカウントを閉じる\{#close-your-account}
 
-<Admonition type="info" icon="📘" title="🚧 Warning">
+<Admonition type="warning" title="Warning">
 
 アカウントを閉じると、そのアカウントを使用して Zilliz Cloud にログインできなくなります。気が変わってアカウントを再開する必要がある場合は、[Zilliz Cloud サポートポータル](https://support.zilliz.com/hc/en-us) でサポートチケットを作成してください。30 日後、このアカウント内のすべてのデータは消去されます。
 

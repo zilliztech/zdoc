@@ -1,7 +1,7 @@
 ---
-title: "クラスターロールの管理 (SDK) | BYOC"
+title: "クラスターロールの管理（SDK） | BYOC"
 slug: /cluster-roles-sdk
-sidebar_label: "クラスターロールの管理 (SDK)"
+sidebar_label: "クラスターロールの管理（SDK）"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -19,13 +19,13 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# クラスターロールの管理 (SDK)
+# クラスターロールの管理（SDK）
 
 クラスターロールは、クラスター内でユーザーが持つ権限を定義します。より具体的には、クラスターロールはクラスター、データベース、コレクションレベルでのクラスターユーザーの権限を制御します。
 
-このガイドでは、ロールの作成、組み込み権限グループの付与と取り消し、およびロールの削除について順を追って説明します。組み込み権限グループの詳細については、[Privileges](./cluster-privileges#built-in-privilege-groups) を参照してください。
+このガイドでは、ロールの作成、ロールへの組み込み権限グループの付与、ロールからの権限グループの取り消し、最後にロールを削除する方法について順を追って説明します。組み込み権限グループの詳細については、[Privileges](./cluster-privileges#built-in-privilege-groups) を参照してください。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 この機能は Dedicated クラスターでのみ利用可能です。
 
@@ -152,11 +152,11 @@ Zilliz Cloud では、以下の項目をロールに付与できます。
 
 - **カスタム権限グループ:** 組み込み権限で要件を満たせない場合は、複数の権限を組み合わせて独自のカスタム権限グループを作成できます。詳細については、[Custom privilege groups](./cluster-privileges#custom-privilege-groups) を参照してください。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - カスタム権限グループをロールに付与する場合は、機能を有効化するため [サポートチケットを作成](http://support.zilliz.com) してください。
 
-- Milvus 2.5.x 以降のクラスターでは、個別の権限付与はサポートされていません。
+- Milvus 2.5.x 以降を実行しているクラスターでは、個別の権限はサポートされなくなりました。
 
 </Admonition>
 
@@ -542,7 +542,7 @@ curl --request POST \
 
 次の例では、ロール `role_a` を削除する方法を示します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 組み込みロール `admin` は削除できません。
 
@@ -645,9 +645,8 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-以下は出力例です。リストに `role_a` が含まれていない場合、削除操作は成功しています。
+以下は出力例です。リストに `role_a` は含まれていません。削除操作は成功しています。
 
 ```bash
 ['admin']
 ```
-

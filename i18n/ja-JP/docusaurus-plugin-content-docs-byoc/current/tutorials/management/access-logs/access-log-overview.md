@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 Access Logs はその可視性を提供します。Zilliz Cloud クラスターで有効にすると、アクセスログパイプラインがクエリ活動を収集し、構造化されたログファイルとしてお客様自身のオブジェクトストレージに配信します。これらのログをデータウェアハウスにロードし、エンティティ ID ごとに集計することで、ホットデータ、遅いクエリ、利用傾向を特定できます。
 
-<Admonition type="info" icon="📘" title="注">
+<Admonition type="info" title="Notes">
 
 - このリリースでは、Search、HybridSearch、Query のみ、つまり検索またはクエリクラスのアクションだけがログに記録されます。全アクションリストのサポートは今後のリリースで予定されています。
 
@@ -40,7 +40,7 @@ Access Logs はその可視性を提供します。Zilliz Cloud クラスター�
 
 ## パイプラインの仕組み\{#how-the-pipeline-works}
 
-アクセスログパイプラインは 2 つのフェーズで構成されます。Zilliz Cloud 側での収集と、お客様側での分析です。
+アクセスログパイプラインには、Zilliz Cloud 側でのコレクションと、お客様側での分析という 2 つのフェーズがあります。
 
 ![TWlbbeheTo3aOnxE5t5cEYgcnbb](https://zdoc-images.s3.us-west-2.amazonaws.com/twlbbeheto3aonxe5t5ceygcnbb.png "TWlbbeheTo3aOnxE5t5cEYgcnbb")
 
@@ -86,7 +86,7 @@ Access Logs はその可視性を提供します。Zilliz Cloud クラスター�
 
 ### 非ブロッキング保証\{#non-blocking-guarantee}
 
-アクセスログの収集によってユーザーリクエストが遅延したりブロックされたりすることはありません。システムがクエリの完了とログエントリの書き込みのどちらかを選ばなければならない場合、常にクエリが優先されます。
+アクセスログのコレクションがユーザーリクエストを遅延させたりブロックしたりすることはありません。クエリの完了とログエントリの書き込みのどちらかをシステムが選択しなければならない場合は、常にクエリが優先されます。
 
 ### グレースフルデグラデーション\{#graceful-degradation}
 

@@ -28,11 +28,11 @@ import Admonition from '@theme/Admonition';
 
 監査ログにより、管理者は Zilliz Cloud クラスター上でユーザー主導の操作や API 呼び出しを追跡・監視できます。この機能は、ベクトル検索、クエリ実行、インデックス管理、その他のデータ操作など、ベクトル DB のアクティビティの詳細な記録を提供します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 - 監査ログは、Milvus 2.5.x 以降で動作する Zilliz Cloud クラスターでのみサポートされています。
 
-- BYOC デプロイでは、VDB 監査ログはデータプレーンのローカルオブジェクトストレージ（S3/Azure Blob Storage/GCS）で設定されたログバケットに直接書き込まれるため、データがインフラストラクチャの外に出ることはありません。監査ログを有効化して設定するには、[お問い合わせ](https://support.zilliz.com/hc/en-us)ください。
+- BYOC デプロイでは、VDB 監査ログはデータプレーンのローカルオブジェクトストレージ (S3/Azure Blob Storage/GCS), に設定されたログバケットへ直接書き込まれるため、データがインフラストラクチャの外部に出ることはありません。監査ログを有効にして設定するには、[お問い合わせ](https://support.zilliz.com/hc/en-us)ください。
 
 </Admonition>
 
@@ -46,7 +46,7 @@ import Admonition from '@theme/Admonition';
 
 - **システムイベント**: ユーザーアクセス試行、認可チェック、その他の事前定義されたアクション。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 移行、バックアップ、リストアなどのクラスター レベルのデータジョブでは監査ログは生成されません。これらのアクティビティ記録を表示するには、[アクティビティを表示](./view-activities)を参照してください。
 
@@ -60,7 +60,7 @@ import Admonition from '@theme/Admonition';
 
 以下は、バケットに転送される監査ログエントリの例です。
 
-- **Create Collection**
+- **コレクションの作成**
 
     ```json
     {
@@ -81,7 +81,7 @@ import Admonition from '@theme/Admonition';
     }
     ```
 
-- **Create Index**
+- **インデックスの作成**
 
     ```json
     {
@@ -101,7 +101,7 @@ import Admonition from '@theme/Admonition';
     }
     ```
 
-- **Drop Index**
+- **インデックスの削除**
 
     ```json
     {
@@ -123,7 +123,7 @@ import Admonition from '@theme/Admonition';
 
 サポートされているアクションと対応するログフィールドの詳細な一覧については、[監査ログリファレンス](./audit-logs-ref)を参照してください。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 監査ログは、データプレーンのデプロイ時に設定されたオブジェクトストレージバケットへ直接転送されます。
 

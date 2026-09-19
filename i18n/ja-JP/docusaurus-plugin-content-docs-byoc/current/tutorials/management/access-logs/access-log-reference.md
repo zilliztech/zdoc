@@ -111,7 +111,7 @@ import Admonition from '@theme/Admonition';
 | HybridSearch | リランキング付きマルチベクトル検索 |
 | Query | スカラーフィルタリングクエリ |
 
-<Admonition type="info" icon="📘" title="注記">
+<Admonition type="info" title="Notes">
 
 追加のアクションのサポートは、今後のリリースで予定されています。
 
@@ -127,7 +127,7 @@ import Admonition from '@theme/Admonition';
 
 | **Component** | **Format** | **Example** |
 | --- | --- | --- |
-| Cluster ID | クラスターの一意識別子 | `inxx-xxxxxxxxxxxxxxx` |
+| クラスター ID | クラスターの一意識別子 | `inxx-xxxxxxxxxxxxxxx` |
 | Log type | access、audit、または slow | `access` |
 | Date | ISO 日付（YYYY-MM-DD） | `2024-12-20` |
 | File name | HH:MM:SS-&lt;UUID&gt;。HH:MM:SS は UTC 時刻、&lt;UUID&gt; は一意性のためのランダム文字列 | `09:16:53-jz5l7D8Q` |
@@ -138,4 +138,3 @@ import Admonition from '@theme/Admonition';
 ```plaintext
 /inxx-xxxxxxxxxxxxxxx/access/2024-12-20/09:16:53-jz5l7D8Q.log
 ```
-
