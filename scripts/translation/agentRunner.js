@@ -1727,14 +1727,21 @@ function loadSemanticSeedIndex(seedDir, manifest) {
     if (summary[key] !== manifest[key]) throw new Error(`Semantic seed summary ${key} does not match the current manifest`)
   }
   const reportsBySourcePath = new Map()
+  const pendingBySourcePath = new Map()
   for (const [sourcePath, record] of Object.entries(summary.files || {})) {
     if (typeof record?.reportFile !== 'string' || !record.reportFile) continue
     if (!/^[0-9a-z][\w./-]*\.json$/i.test(record.reportFile) || record.reportFile.includes('..')) {
       throw new Error(`Semantic seed report file is unsafe: ${record.reportFile}`)
     }
     reportsBySourcePath.set(sourcePath, record.reportFile)
+    if (record.pending && typeof record.pending === 'object') {
+      pendingBySourcePath.set(sourcePath, {
+        filtered: new Set(Array.isArray(record.pending.filtered) ? record.pending.filtered : []),
+        fresh: new Set(Array.isArray(record.pending.new) ? record.pending.new : []),
+      })
+    }
   }
-  return {summary, reportsBySourcePath}
+  return {summary, reportsBySourcePath, pendingBySourcePath}
 }
 
 function mergeSeedAndRecoveryReports(seedReport, recoveryReport) {

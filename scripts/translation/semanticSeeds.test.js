@@ -230,6 +230,13 @@ test('planSemanticSeeds drops seeds that break protected content', () => {
     assert.equal(plan.summary.counts.seededFiles, 1)
     const ids = plan.reports[0].report.entries.map(entry => entry.id)
     assert.ok(!ids.includes('document.paragraph.0001'))
+    // The dropped unit had a published pairing (filtered); the revised second
+    // paragraph has no old pairing (new) — consumers use this to decide the
+    // verified-current fast path.
+    assert.deepEqual(plan.summary.files[item.sourcePath].pending, {
+      filtered: ['document.paragraph.0001'],
+      new: ['document.paragraph.0002'],
+    })
   })
 })
 
