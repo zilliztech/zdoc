@@ -591,3 +591,40 @@ test('a failed file-level revalidation surfaces as the rejection reason instead 
     fs.rmSync(siblingDir, {recursive: true, force: true});
   }
 });
+
+test('restoreRecoveryFiles distinguishes covered and uncovered pending candidates', () => {
+  const value = fixture();
+  // The artifact only ever contained the first candidate (as a failure): the
+  // second candidate was never part of the previous run.
+  const secondCandidate = {
+    sourcePath: 'content/en/reference/api/python/page-2.md',
+    targetPath: 'content/zh-CN/reference/api/python/page-2.md',
+    sourceHash: HASH('# Source 2\n'),
+    locale: 'zh-CN', type: 'reference', reason: 'stale_source',
+  };
+  write(value.siteDir, secondCandidate.sourcePath, '# Source 2\n');
+  createRecoveryArtifact({
+    siteDir: value.siteDir,
+    outputDir: value.artifactDir,
+    results: [{...value.candidate, status: 'failed', failureCategory: 'unknown', error: 'agent did not write the draft'}],
+    identity: value.identity,
+  });
+  for (const target of [value.targetPath, secondCandidate.targetPath]) fs.rmSync(path.join(value.siteDir, target), {force: true});
+
+  const outcome = restoreRecoveryFiles({
+    siteDir: value.siteDir,
+    candidates: [value.candidate, secondCandidate],
+    artifacts: [value.artifactDir],
+    identity: value.identity,
+    revalidate: () => ['validator rejected the retained payload'],
+  });
+
+  assert.equal(outcome.restored.length, 0);
+  assert.equal(outcome.pending.length, 2);
+  const covered = outcome.pending.find(item => item.sourcePath === value.candidate.sourcePath);
+  const uncovered = outcome.pending.find(item => item.sourcePath === secondCandidate.sourcePath);
+  assert.equal(covered.recoveryCovered, true);
+  assert.equal(uncovered.recoveryCovered, false);
+  assert.equal(outcome.rejected.find(item => item.sourcePath === value.candidate.sourcePath).recoveryCovered, true);
+  assert.equal(outcome.rejected.find(item => item.sourcePath === secondCandidate.sourcePath).recoveryCovered, false);
+});
