@@ -28,7 +28,7 @@ Zilliz Cloud Bring-Your-Own-Cloud (BYOC) ソリューションを使用すると
 
 このページでは、これらの要件を満たすカスタマー管理 VPC で Zilliz Cloud BYOC プロジェクトをホストするための最小要件を列挙します。 
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Zilliz BYOC は現在 **General Availability** として利用可能です。アクセス方法および実装の詳細については、[Zilliz Cloud sales](https://zilliz.com/contact-sales) までお問い合わせください。
 
@@ -91,7 +91,7 @@ Zilliz Cloud プロジェクトをホストするには、このセクション�
 
 Zilliz Cloud は、VPC の IPv4 CIDR 設定で **/18** のネットマスクを使用することを推奨しています。これにより、CIDR ブロックから 1 つのパブリック subnet と 3 つのプライベート subnets を作成できます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Zilliz Cloud は現在、IPv4 CIDR ブロックのみをサポートしています。
 
@@ -107,11 +107,11 @@ Google Cloud Router は、VPC と他のネットワーク間で動的ルート�
 
 ### Firewall Rules\{#firewall-rules}
 
-2 つの ingress firewall rule を作成する必要があります。1 つは Zilliz Cloud が BYOC プロジェクト内の cluster に対してヘルスチェックを実行するためのもので、もう 1 つは VPC ネットワーク内の VM インスタンス同士が相互通信するためのものです。
+2 つの ingress firewall rule を作成する必要があります。1 つは Zilliz Cloud が BYOC プロジェクト内のクラスターに対してヘルスチェックを実行するためのもので、もう 1 つは VPC ネットワーク内の VM インスタンスが相互に通信するためのものです。
 
 ### Private Service Connect (PSC) endpoint\{#private-service-connect-psc-endpoint}
 
-PSC endpoint はオプションであり、BYOC cluster 用の private endpoint を設定する際に使用されます。 
+PSC endpoint はオプションであり、BYOC クラスター用にプライベートエンドポイントを設定する際に使用されます。
 
 ## 手順\{#procedure}
 
@@ -247,7 +247,7 @@ Cloud Router と NAT gateway を設定する手順は次のとおりです。
 
 ### ステップ 4: firewall rules を追加する\{#step-4-add-firewall-rules}
 
-このステップでは 2 つの firewall rule を追加します。1 つ目の rule は、VPC ネットワーク上にデプロイされた BYOC cluster に対するヘルスチェックを有効にするためのもので、2 つ目は、ターゲットタグ `zilliz-byoc` を持つすべての VM 間の通信を有効にするためのものです。
+このステップでは 2 つの firewall rule を追加します。1 つ目の rule は、VPC ネットワーク上にデプロイされた BYOC クラスターに対するヘルスチェックを有効にするためのもので、2 つ目は、ターゲットタグ `zilliz-byoc` を持つすべての VM 間の通信を有効にするためのものです。
 
 <Supademo id="cmbj0hb9p7c84sn1r5q4o16k0" title=""  />
 
@@ -265,7 +265,7 @@ Cloud Router と NAT gateway を設定する手順は次のとおりです。
 
 1. **Add Firewall rule** をクリックします。
 
-    - BYOC cluster に対するヘルスチェック用の firewall rule
+    - BYOC クラスターに対するヘルスチェック用の firewall rule
 
         | **Name** | ingress-rule-for-health-checks |
         | --- | --- |

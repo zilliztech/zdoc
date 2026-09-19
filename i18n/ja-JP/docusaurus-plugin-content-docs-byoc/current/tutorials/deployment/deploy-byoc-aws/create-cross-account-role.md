@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 このページでは、Zilliz Cloud がプロジェクトのデータプレーンをブートストラップするためのクロスアカウントロールを作成して設定する方法について説明します。このロールにより、Zilliz Cloud はお客様に代わって VPC リソースを管理するための制限付き権限を得ます。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 Zilliz BYOC は現在、**General Availability** で利用可能です。アクセス方法および実装の詳細については、[Zilliz Cloud 営業チーム](https://zilliz.com/contact-sales)までお問い合わせください。
 

@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 このページでは、Zilliz Cloud Terraform Provider を使用して GCP リソースを作成するために必要な Google Cloud Platform (GCP) API サービスを一覧で示し、それらを有効化するいくつかの方法を提供します。
 
-<Admonition type="info" icon="📘" title="注記">
+<Admonition type="info" title="Notes">
 
 Zilliz BYOC は現在 **General Availability** で利用可能です。アクセス方法および実装の詳細については、[Zilliz Cloud sales](https://zilliz.com/contact-sales) までお問い合わせください。
 
@@ -54,7 +54,7 @@ gcloud services enable \
   --project=PROJECT_ID
 ```
 
-<Admonition type="info" icon="📘" title="注記">
+<Admonition type="info" title="Notes">
 
 - 上記のコマンドを実行する前に、これらのサービスを有効化するための十分な権限があることを確認してください。権限がない場合は、まず GCP プロジェクトのセキュリティ管理者に依頼してください。
 
@@ -80,7 +80,7 @@ gcloud services enable \
 gcloud services list --enabled --project=PROJECT_ID
 ```
 
-<Admonition type="info" icon="📘" title="注記">
+<Admonition type="info" title="Notes">
 
 上記のコマンド内の `PROJECT_ID` は、使用している GCP プロジェクト ID に置き換える必要があります。
 

@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 このページでは、Zilliz Cloud がプロジェクトのデータプレーンをブートストラップするためのクロスアカウントサービスアカウントを作成および設定する方法について説明します。このサービスアカウントは、Zilliz Cloud に代行で VPC リソースを管理するために必要な権限を付与します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 Zilliz BYOC は現在 **General Availability** で利用可能です。アクセス方法および実装の詳細については、[Zilliz Cloud sales](https://zilliz.com/contact-sales) までお問い合わせください。
 
@@ -137,7 +137,7 @@ custom role を作成する手順は次のとおりです。
     | Kubernetes Engine Admin | GCP-managed | N/A |
     | Storage Object Viewer | GCP-managed | `resource.name.startsWith("projects/_/buckets/YOUR_BUCKET_NAME")` |
 
-    <Admonition type="info" icon="📘" title="注意">
+    <Admonition type="info" title="Notes">
 
     上記の式内にある 3 つのプレースホルダーを実際の値に置き換える必要があります。
     
@@ -151,9 +151,9 @@ custom role を作成する手順は次のとおりです。
     
     - `CLUSTER_NAME`
     
-        これは、Zilliz Cloud が代行で作成する GKE cluster の名前です。 
+        これは、Zilliz Cloud が代行で作成する GKE クラスターの名前です。 
     
-        Google Cloud は cluster 名の前に `gke-` というプレフィックスを追加する点に注意してください。したがって、条件内では `gke-` プレフィックスをそのまま保持し、`CLUSTER_NAME` のみを実際の名前に置き換えてください。
+        Google Cloud は、クラスター名の前に `gke-` というプレフィックスを追加することに注意してください。そのため、条件内の `gke-` プレフィックスはそのまま残し、`CLUSTER_NAME` だけを実際の名前に置き換えてください。
     
     - `YOUR_BUCKET_NAME` 
     
@@ -183,7 +183,7 @@ custom role を作成する手順は次のとおりです。
     | --- | --- |
     | `PROJECT_NUMBER-compute@developer.gserviceaccount.com` | このサービスアカウントは、Compute Engine API を有効にすると自動的に作成されます。 |
 
-    <Admonition type="info" icon="📘" title="注意">
+    <Admonition type="info" title="Notes">
 
     GCP project には project ID と project number があります。project ID は GCP コンソールで project を作成するときに入力した文字列であり、project number は作成時に GCP が project に割り当てる文字列です。
     

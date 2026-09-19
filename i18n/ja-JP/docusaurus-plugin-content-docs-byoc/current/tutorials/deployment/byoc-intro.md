@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 Bring Your Own Cloud (BYOC) は、Zilliz Cloud のインフラストラクチャを使用する代わりに、組織が自社のクラウドアカウントでアプリケーションとデータをホストするためのデプロイメントオプションです。このソリューションは、データに対する完全な管理主権を維持する必要がある、特定のセキュリティ要件や規制コンプライアンス要件を持つ組織に最適です。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 Zilliz BYOC は現在 **General Availability** で利用可能です。アクセス方法および実装の詳細については、[Zilliz Cloud サポート](https://zilliz.com/contact-sales) にお問い合わせください。
 
@@ -36,17 +36,17 @@ Zilliz BYOC は、以下の利点により運用オーバーヘッドを排除�
 
     - [Zilliz Cloud コンソール](https://cloud.zilliz.com) で BYOC project を作成し、インフラストラクチャをデプロイできます。
 
-    - project 内の BYOC cluster を監視するために、適切に調整されたメトリクスとアラート設定を利用できます。
+    - プロジェクト内の BYOC クラスターを監視するために、適切にチューニングされたメトリクスとアラート設定を利用できます。
 
 - **スケーラビリティ**
 
     - さらにライセンスを購入することで、いつでも BYOC project をスケールできます。
 
-    - BYOC project 内の cluster も、手動および自動のスケーリングメカニズムでスケーラブルです。
+    - BYOC project 内のクラスターも、手動および自動のスケーリングメカニズムでスケールできます。
 
 - **データ管理とセキュリティ**
 
-    - organization、project、cluster レベルでのロールベースアクセス制御（RBAC）。
+    - 組織、プロジェクト、クラスターレベルでのロールベースアクセス制御（RBAC）。
 
     - すべてのデータは、お客様のクラウドアカウント内で安全に保存および処理されます。
 
@@ -62,11 +62,11 @@ Zilliz BYOC は、多様なエンタープライズガバナンス要件に対�
 
 ### BYOC\{#byoc}
 
-この完全マネージド型の Zilliz BYOC モードでは、クラウドプロバイダーが提供するクロスアカウントロール引き受けメカニズムを使用し、Zilliz Cloud がお客様に代わって EKS cluster と EC2 インスタンスを管理するための権限を引き受けます。
+この Zilliz BYOC の完全マネージドモードでは、クラウドプロバイダーが提供するクロスアカウントロール引き受けメカニズムを採用することで、Zilliz Cloud がお客様に代わって EKS クラスターと EC2 インスタンスを管理するための権限を引き受けることができます。
 
 ![PCAOw33vKhCLHubzOiCciDDMnGg](https://zdoc-images.s3.us-west-2.amazonaws.com/PCAOw33vKhCLHubzOiCciDDMnGg.png)
 
-上記のアーキテクチャに従うと、Zilliz Cloud がお客様に代わって EKS cluster を起動し、Milvus Operator、Import/Backup ツール、Grafana と Prometheus を含む monitoring stack、そして Milvus インスタンスなどの必要なコンポーネントをデプロイできるようにするために、VPC、S3 bucket、および最小限の権限を提供する必要があります。 
+上記のアーキテクチャに従って、Zilliz Cloud がお客様に代わって EKS クラスターを起動し、Milvus Operator、Import/Backup ツール、Grafana と Prometheus を含む monitoring stack、Milvus インスタンスなどの必要なコンポーネントをデプロイするために、VPC、S3 バケット、および最小限の権限を提供する必要があります。 
 
 monitoring stack は Zilliz Cloud control plane を介するのではなく、お客様の BYOC インフラストラクチャ内にローカル統合される点に注意してください。監視統合を有効化および設定するには、[Zilliz Technical Support](https://support.zilliz.com/hc/en-us) にお問い合わせください。
 
@@ -78,7 +78,7 @@ monitoring stack は Zilliz Cloud control plane を介するのではなく、�
 
 - **Data Plane**
 
-    data plane は、お客様のアプリケーション/サービスとお客様の VPC にデプロイされた Milvus インスタンス間の通信を可能にし、特にデータの保存と取得に使用されます。
+    data plane は、お客様の applications/services と、お客様の VPC にデプロイされた Milvus インスタンスとの間の通信を可能にし、特にデータの保存と取得を目的としています。
 
 ### BYOC-I\{#byoc-i}
 
@@ -96,7 +96,7 @@ Zilliz Cloud は、包括的な暗号化と厳格なアクセス制御により�
 
 ### ネットワークセキュリティ\{#network-security}
 
-- **内部トラフィック**: cluster セキュリティグループ内での完全な TCP/UDP 通信。
+- **内部トラフィック**: クラスターのセキュリティグループ内での完全な TCP/UDP 通信。
 
 - **外部トラフィック**: ポート 443 上の暗号化されたアウトバウンド専用 TCP 接続により、以下を実現します。 
 
@@ -104,7 +104,7 @@ Zilliz Cloud は、包括的な暗号化と厳格なアクセス制御により�
 
     - データソースおよびイメージリポジトリへのアクセス。
 
-- **同一セキュリティグループ**: cluster 内通信のために TCP/UDP 接続を許可。
+- **同一セキュリティグループ**: クラスター内通信で許可される TCP/UDP 接続。
 
 ### アクセス制御\{#access-control}
 
@@ -118,7 +118,7 @@ Zilliz Cloud は、包括的な暗号化と厳格なアクセス制御により�
 
 ### 転送中の暗号化\{#encryption-in-transit}
 
-クライアントは Zilliz Cluster への HTTPS または gRPC 接続を確立します。HTTPS/gRPC 接続では、転送中のユーザーデータを暗号化するために、AES-256（256 ビット Advanced Encryption Standard）を使用した TLS 1.2（またはそれ以上）プロトコルを使用します。
+クライアントは、HTTPS または gRPC 接続を Zilliz クラスターに確立します。HTTPS/gRPC 接続では、転送中のユーザーデータを暗号化するために、TLS 1.2（またはそれ以上）プロトコルと AES-256（256 ビット Advanced Encryption Standard）を使用します。
 
 ### 保存時の暗号化\{#encryption-at-rest}
 
@@ -129,4 +129,3 @@ Zilliz Cloud の data plane は、AWS S3 に保存されたデータを AES-256�
 Zilliz BYOC では、リソース管理を通じて BYOC project で使用したサービスに対して課金されます。ただし、次の図に示すように、クラウドサービスプロバイダーからのインフラストラクチャ費用は引き続き発生します。
 
 ![TudFwgMGthlQmvbeH9qcXx0jnzn](https://zdoc-images.s3.us-west-2.amazonaws.com/TudFwgMGthlQmvbeH9qcXx0jnzn.png)
-

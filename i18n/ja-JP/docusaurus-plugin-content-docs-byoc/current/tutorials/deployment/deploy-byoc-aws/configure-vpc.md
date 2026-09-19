@@ -26,7 +26,7 @@ Zilliz Cloud Bring-Your-Own-Cloud (BYOC) ソリューションを使用すると
 
 このページでは、これらの要件を満たすカスタマー管理 VPC で Zilliz Cloud BYOC プロジェクトをホストするための最小要件を示します。 
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Zilliz BYOC は現在 **General Availability** で利用可能です。アクセス方法および実装の詳細については、[Zilliz Cloud sales](https://zilliz.com/contact-sales) までお問い合わせください。
 
@@ -116,7 +116,7 @@ Zilliz Cloud プロジェクトをホストするには、このセクション�
 
 Zilliz Cloud では、VPC の IPv4 CIDR 設定で **/16** のネットマスクを使用することを推奨しています。これにより、CIDR ブロックから 1 つのパブリックサブネットと 3 つのプライベートサブネットを作成できます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Zilliz Cloud は現在、IPv4 CIDR ブロックのみをサポートしています。
 
@@ -246,7 +246,7 @@ VPC 内のセキュリティグループは、インバウンドおよびアウ�
 
 VPC endpoint は、安全なクラスター接続リレーを確保し、Zilliz Cloud REST API へのプライベートコールを可能にします。AWS Management Console を使用して VPC endpoint を管理する方法については、AWS Management Console の [AWS article Create VPC endpoints](https://docs.aws.amazon.com/vpc/latest/privatelink/create-interface-endpoint.html) を参照するか、次の手順を使用してください。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 このセクションで作成する VPC endpoint は、AWS PrivateLink のセットアップに使用されます。VPC endpoint の準備ができたら、hosted zone を作成し、いくつかの DNS レコードを追加する必要があります。
 

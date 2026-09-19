@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 このページでは、AWS Virtual Private Cloud (VPC) 内に BYOC エージェントを使用して Bring-Your-Own-Cloud (BYOC) データプレーンをデプロイする方法について説明します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - Zilliz BYOC は現在 **General Availability** で提供されています。アクセス方法および実装の詳細については、[Zilliz Cloud support](https://zilliz.com/contact-sales) までお問い合わせください。
 
@@ -209,7 +209,7 @@ BYOC-I 組織内で **Create Project** ボタンをクリックしてデプロ�
 
         ![FKDsbxbUuoEqMJxniZGcSZMQnb3](https://zdoc-images.s3.us-west-2.amazonaws.com/fkdsbxbuuoeqmjxnizgcszmqnb3.png "FKDsbxbUuoEqMJxniZGcSZMQnb3")
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" title="Notes">
 
         - **Project Size** での選択は、**Tiered Storage Node** の設定には影響しません。
         
@@ -217,7 +217,7 @@ BYOC-I 組織内で **Create Project** ボタンをクリックしてデプロ�
         
         - **Auto-scaling** が有効な場合、**Default Query Node** と **Tiered Query Node** の両方の **Min** 値の合計は正の整数である必要があります。
         
-        - BYOC で Tiered Storage が利用可能になる前に作成されたクラスターについては、Tiered Storage を手動で有効化できます。詳細は、[Enable Tiered Storage for Exisiting クラスター](./enable-tiered-storage-aws) を参照してください。
+        - BYOC で Tiered Storage が利用可能になる前に作成されたクラスターについては、Tiered Storage を手動で有効化できます。詳細は、[既存クラスターで階層型ストレージを有効にする](./enable-tiered-storage-aws) を参照してください。
 
         </Admonition>
 
@@ -233,7 +233,7 @@ BYOC-I 組織内で **Create Project** ボタンをクリックしてデプロ�
 
 上記 Terraform スクリプトの実行方法の詳細については、[Zilliz Cloud BYOC-I Project Setup Guide](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/guides/create-a-byoc-i-project) を参照してください。
 
-プロジェクトのデータプレーンをデプロイしてクラスターを作成した後は、直接 VPC アクセスまたは AWS PrivateLink のいずれかを通じてこれらのクラスターに接続できます。詳細は、[Connect to BYOC クラスター](./prepare-for-cluster-connection) を参照してください。
+プロジェクトのデータプレーンをデプロイしてクラスターを作成した後は、直接 VPC アクセスまたは AWS PrivateLink のいずれかを通じてこれらのクラスターに接続できます。詳細は、[BYOC クラスターへの接続](./prepare-for-cluster-connection) を参照してください。
 
 ## データプレーンを管理する\{#manage-dataplanes}
 

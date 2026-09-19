@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 このページでは、適切な権限を持つ Bring-Your-Own-Cloud (BYOC) プロジェクトのルートストレージを作成および設定する手順について説明します。
 
-<Admonition type="info" icon="📘" title="注記">
+<Admonition type="info" title="Notes">
 
 Zilliz BYOC は現在 **General Availability** で利用可能です。アクセス方法および実装の詳細については、[Zilliz Cloud の営業担当](https://zilliz.com/contact-sales)までお問い合わせください。
 

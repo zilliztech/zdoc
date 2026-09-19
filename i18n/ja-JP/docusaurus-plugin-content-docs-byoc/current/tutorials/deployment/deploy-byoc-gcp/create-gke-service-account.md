@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 このページでは、Zilliz Cloud プロジェクト用の Google Kubernetes Engine (GKE) クラスターを Zilliz Cloud がデプロイできるようにするためのサービスアカウントの作成と設定方法について説明します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 Zilliz BYOC は現在 **General Availability** で利用可能です。アクセス方法と実装の詳細については、[Zilliz Cloud sales](https://zilliz.com/contact-sales) までお問い合わせください。
 
@@ -62,7 +62,7 @@ Google Cloud Platform (GCP) ダッシュボードを使用して EKS ロール�
     resource.name.startsWith("projects/PROJECT_ID/locations/REGION/clusters/CLUSTER_NAME")
     ```
 
-    <Admonition type="info" icon="📘" title="注意">
+    <Admonition type="info" title="Notes">
 
     上記の式にある 3 つのプレースホルダーは実際の値に置き換える必要があります。
     

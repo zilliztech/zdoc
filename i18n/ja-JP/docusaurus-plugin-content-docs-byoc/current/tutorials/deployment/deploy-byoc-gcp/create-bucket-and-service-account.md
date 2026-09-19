@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 このページでは、適切な権限を使用して Bring-Your-Own-Cloud (BYOC) プロジェクトのルートストレージを作成および設定する手順について説明します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 Zilliz BYOC は現在 **General Availability** で利用可能です。アクセス方法および実装の詳細については、[Zilliz Cloud の営業チーム](https://zilliz.com/contact-sales) にお問い合わせください。
 
@@ -110,7 +110,7 @@ GCP ダッシュボードを使用して、バケットとサービスアカウ�
         resource.name.startsWith("projects/_/buckets/YOUR_BUCKET_NAME")
         ```
 
-        <Admonition type="info" icon="📘" title="注意">
+        <Admonition type="info" title="Notes">
 
         `YOUR_BUCKET_NAME` は、前のステップで作成したバケット名に置き換えてください。
 
@@ -128,7 +128,7 @@ GCP ダッシュボードを使用して、バケットとサービスアカウ�
         resource.name.startsWith("projects/_/buckets/YOUR_BUCKET_NAME")
         ```
 
-        <Admonition type="info" icon="📘" title="注意">
+        <Admonition type="info" title="Notes">
 
         **Condition builder** と **Condition editor** は、条件を設定するための同等の方法です。どちらの場合も、`YOUR_BUCKET_NAME` は前のステップで作成したバケット名に置き換えてください。
 

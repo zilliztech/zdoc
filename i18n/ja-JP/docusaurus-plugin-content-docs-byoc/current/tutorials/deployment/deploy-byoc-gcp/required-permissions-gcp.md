@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 このページでは、お客様の VPC ネットワーク上に Zilliz BYOC データプレーンをデプロイする際に必要な IAM ポリシーを一覧表示します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 Zilliz BYOC は現在 **General Availability** で利用可能です。アクセスおよび実装の詳細については、[Zilliz Cloud sales](https://zilliz.com/contact-sales) までお問い合わせください。
 

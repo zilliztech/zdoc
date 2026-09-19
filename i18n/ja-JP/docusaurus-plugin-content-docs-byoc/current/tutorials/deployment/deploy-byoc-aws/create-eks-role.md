@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 このページでは、Zilliz Cloud プロジェクト用の EKS クラスターを Zilliz Cloud がデプロイできるようにするための IAM ロールの作成および設定方法について説明します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 Zilliz BYOC は現在 **General Availability** で提供されています。アクセスおよび導入の詳細については、[Zilliz Cloud sales](https://zilliz.com/contact-sales) までお問い合わせください。
 
@@ -148,7 +148,7 @@ AWS コンソールを使用して EKS ロールを作成できます。別の�
 | --- | --- | --- |
 | [AmazonEC2ContainerRegistryReadOnly](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEC2ContainerRegistryReadOnly.html) | AWS | Amazon EC2 Container Registry リポジトリへの読み取り専用アクセスを提供します。 |
 | [AmazonEKS_CNI_Policy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKS_CNI_Policy.html) | AWS | Amazon VPC CNI Plugin (amazon-vpc-cni-k8s) が EKS ワーカーノード上の IP アドレス設定を変更するために必要な権限を提供します。 |
-| [AmazonEKSWorkerNodePolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSWorkerNodePolicy.html) | AWS | Amazon EKS ワーカーノードが Amazon EKS Clusters に接続できるようにします。 |
+| [AmazonEKSWorkerNodePolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSWorkerNodePolicy.html) | AWS | Amazon EKS ワーカーノードが Amazon EKS クラスターに接続できるようにします。 |
 | [AmazonEKSClusterPolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSClusterPolicy.html) | AWS | Kubernetes がお客様に代わってリソースを管理するために必要な権限を提供します。 |
 | [AmazonEKSVPCResourceController](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSVPCResourceController.html) | AWS | VPC Resource Controller がワーカーノードの ENI と IP を管理できるようにします。 |
 
@@ -156,7 +156,7 @@ AWS コンソールを使用して EKS ロールを作成できます。別の�
 
 これらのポリシーが **Permissions** policies リストに表示されます。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 EKS クラスターの作成時には、クラスターと一緒に 2 つの [service-linked roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html#iam-term-service-linked-role) も自動的に作成されます。それらは [AmazonEKSServiceRolePolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSServiceRolePolicy.html) と [AWSServiceRoleForAmazonEKSNodegroup](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSServiceRoleForAmazonEKSNodegroup.html) です。これら 2 つのロールは、Amazon EKS がお客様に代わって他の AWS サービスを呼び出すために必要です。
 
@@ -170,9 +170,8 @@ EKS クラスターの作成時には、クラスターと一緒に 2 つの [se
 | --- | --- | --- |
 | [AWS Load Balancer Controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller/blob/main/docs/install/iam_policy.json) | Kubernetes SIGs | AWS Load Balancer Controller は、Kubernetes クラスターの Elastic Load Balancers の管理を支援するコントローラーです。<br/>AWS Load Balancer Controller リポジトリの詳細については、[README](https://github.com/kubernetes-sigs/aws-load-balancer-controller/tree/main) ファイルを参照してください。 |
 | [Amazon EBS CSI driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/example-iam-policy.json) | Kubernetes SIGs | Amazon Elastic Block Store Container Storage Interface (CSI) Driver は、Container Orchestrators が Amazon EBS ボリュームのライフサイクルを管理するために使用する CSI インターフェースを提供します。<br/>Amazon EBS CSI driver の詳細については、[README](https://github.com/kubernetes-sigs/aws-ebs-csi-driver) ファイルを参照してください。 |
-| [Cluster AutoScaler](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md#full-cluster-autoscaler-features-policy-recommended) | Kubernetes SIGs | Cluster AutoScaler は、すべてのポッドが実行場所を持ち、不要なノードが存在しないように、Kubernetes クラスターのサイズを自動的に調整するコンポーネントです。<br/>AWS 上の Cluster AutoScaler の詳細については、[README](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md) ファイルを参照してください。 |
+| [クラスター AutoScaler](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md#full-cluster-autoscaler-features-policy-recommended) | Kubernetes SIGs | クラスター AutoScaler は、すべての Pod に実行場所があり、不要なノードが存在しないように、Kubernetes クラスターのサイズを自動的に調整するコンポーネントです。<br/>AWS 上のクラスター AutoScaler の詳細については、[README](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md) ファイルを参照してください。 |
 
 **Create inline policy** を選択した後、**Specify permissions** ページで **Policy editor** セクションの **JSON** をクリックしてポリシーエディターを開きます。次に、上記のいずれかの権限をコピーしてポリシーエディターに貼り付けます。
 
 **Next** をクリックし、**Policy details** で **Policy name** を設定します。一覧にあるインラインポリシーをすべて追加したら、**Create policy** をクリックします。これらのポリシーが **Permissions** policies リストに表示されます。
-

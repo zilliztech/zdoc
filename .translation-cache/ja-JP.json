@@ -30,20 +30,80 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/client-libraries/install-sdks.md",
       "translatedAt": "2026-09-19T13:43:11.314Z"
     },
+    "content/en/byoc/tutorials/deployment/byoc-intro.md": {
+      "sourceHash": "596b7006022a6899173d379ca8732e83fe696eede302f1b7c6efcb7651e541fe",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/byoc-intro.md",
+      "translatedAt": "2026-09-19T13:44:37.664Z"
+    },
+    "content/en/byoc/tutorials/deployment/deploy-byoc-aws/configure-vpc.md": {
+      "sourceHash": "824300ac6756644ccc01aaa80d30ca3bf23432216c27c1d8feafc9d868f69b21",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/deploy-byoc-aws/configure-vpc.md",
+      "translatedAt": "2026-09-19T13:44:37.664Z"
+    },
+    "content/en/byoc/tutorials/deployment/deploy-byoc-aws/create-bucket-and-role.md": {
+      "sourceHash": "9807257a968c7ab22ab9024930d661cac5fc966b6b477bc7376c4f2186d5c457",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/deploy-byoc-aws/create-bucket-and-role.md",
+      "translatedAt": "2026-09-19T13:44:37.664Z"
+    },
+    "content/en/byoc/tutorials/deployment/deploy-byoc-aws/create-cross-account-role.md": {
+      "sourceHash": "dc748e01060d3c2fe196beb84c3b04f3a608c85d99593a2a597311190fe34135",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/deploy-byoc-aws/create-cross-account-role.md",
+      "translatedAt": "2026-09-19T13:44:37.664Z"
+    },
+    "content/en/byoc/tutorials/deployment/deploy-byoc-aws/create-eks-role.md": {
+      "sourceHash": "851e90e319ff0097a15d003e52abb9630e5456ffe258b23a75496af5d1661a82",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/deploy-byoc-aws/create-eks-role.md",
+      "translatedAt": "2026-09-19T13:44:37.664Z"
+    },
     "content/en/byoc/tutorials/deployment/deploy-byoc-aws/deploy-byoc-aws.md": {
-      "sourceHash": "51f9f9ed9e85a164aa9e4eb3b2c8a6f5b2574228c59382b2b67425c44868addb",
+      "sourceHash": "7aff0d378fc9bc7b63c618b185280b82ee45abbb81eeaccd11d3fe7abac3ea74",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/deploy-byoc-aws/deploy-byoc-aws.md",
-      "translatedAt": "2026-08-04T05:11:22.054Z"
+      "translatedAt": "2026-09-19T13:44:37.664Z"
+    },
+    "content/en/byoc/tutorials/deployment/deploy-byoc-aws/permissions-in-roles.md": {
+      "sourceHash": "9ad6b9b64948c888c252a5d4fd7312660ee2031fb384e1d8f4350d3b49ad2512",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/deploy-byoc-aws/permissions-in-roles.md",
+      "translatedAt": "2026-09-19T13:44:37.664Z"
+    },
+    "content/en/byoc/tutorials/deployment/deploy-byoc-gcp/configure-vpc-gcp.md": {
+      "sourceHash": "693148e3f6a8546a698cbe2aaf574771afb4f6aed8f36e05c1b495b998683330",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/deploy-byoc-gcp/configure-vpc-gcp.md",
+      "translatedAt": "2026-09-19T13:44:37.664Z"
+    },
+    "content/en/byoc/tutorials/deployment/deploy-byoc-gcp/create-bucket-and-service-account.md": {
+      "sourceHash": "f3959e28dbac97a742e9f4918ccbf8d613029b364cea0a7b0c1cd5fb73e0cbc5",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/deploy-byoc-gcp/create-bucket-and-service-account.md",
+      "translatedAt": "2026-09-19T13:44:37.664Z"
+    },
+    "content/en/byoc/tutorials/deployment/deploy-byoc-gcp/create-cross-account-sa.md": {
+      "sourceHash": "6bf7bfd43ca6e78258ccdf12041a60d9b9291ffb3f0119c49f0ed2291e92aee7",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/deploy-byoc-gcp/create-cross-account-sa.md",
+      "translatedAt": "2026-09-19T13:44:37.664Z"
+    },
+    "content/en/byoc/tutorials/deployment/deploy-byoc-gcp/create-gke-service-account.md": {
+      "sourceHash": "a2a8a4a7d4af460c97e078d979486957e3736a0cf55616f479b6fae8c97b48b9",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/deploy-byoc-gcp/create-gke-service-account.md",
+      "translatedAt": "2026-09-19T13:44:37.664Z"
     },
     "content/en/byoc/tutorials/deployment/deploy-byoc-gcp/deploy-byoc-gcp.md": {
-      "sourceHash": "1a23caa0bad2b91ad2866f5a9f9dda0e9f4bac0bf0967d221fc8f8b6fad2b8c0",
+      "sourceHash": "cc0fa5ae460276fcbc70b13914ad89bbf32e1fa97b63691af1bb33b845d988ff",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/deploy-byoc-gcp/deploy-byoc-gcp.md",
-      "translatedAt": "2026-08-04T05:11:35.102Z"
+      "translatedAt": "2026-09-19T13:44:37.664Z"
+    },
+    "content/en/byoc/tutorials/deployment/deploy-byoc-gcp/required-api-services-gcp.md": {
+      "sourceHash": "52dbd6d21579784b83e69353d31fcc83fb8cbebfae8654eb9faa73735b7a36a7",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/deploy-byoc-gcp/required-api-services-gcp.md",
+      "translatedAt": "2026-09-19T13:44:37.664Z"
+    },
+    "content/en/byoc/tutorials/deployment/deploy-byoc-gcp/required-permissions-gcp.md": {
+      "sourceHash": "46604a16fa6a2ff6c91e3ef99ddc27614b7d8e87cf1a0caebddebb6a6326c611",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/deploy-byoc-gcp/required-permissions-gcp.md",
+      "translatedAt": "2026-09-19T13:44:37.664Z"
     },
     "content/en/byoc/tutorials/deployment/deploy-byoc-i-aws/deploy-byoc-i-aws.md": {
-      "sourceHash": "6dc23499f822845de0804d964062e4d33b1ebb079affa9349f2b50e8b1a8ab70",
+      "sourceHash": "1e0133f5ccb522954ea02f45643ee0591eed88fb525438476f6838042509e3d6",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/deploy-byoc-i-aws/deploy-byoc-i-aws.md",
-      "translatedAt": "2026-08-04T05:14:04.159Z"
+      "translatedAt": "2026-09-19T13:44:37.664Z"
     },
     "content/en/byoc/tutorials/deployment/deploy-byoc-i-azure.md": {
       "sourceHash": "5c355a7924bddc34174c5e1372d26db8947eb357d6c638b23cd6574139e575ed",
