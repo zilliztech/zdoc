@@ -62,7 +62,7 @@ Zilliz Cloud の SCIM プロビジョニング設定では、Okta が Zilliz Clo
 
 ## ステップ 2: Okta Admin で SCIM アプリを作成する\{#step-2-create-a-scim-app-in-okta-admin}
 
-Okta Admin で専用の SCIM アプリを作成し、Zilliz Cloud へ ID をプロビジョニングします。このステップでは、Okta の **SCIM 2.0 Test App (OAuth Bearer Token)** 統合を追加し、アプリケーションのユーザー名形式をメールに設定します。これにより、プロビジョニングされたユーザーを Zilliz Cloud 上でメールアドレスによって照合できるようになります。Okta における一般的な SCIM アプリ作成手順については、[Okta documentation](https://help.okta.com/oie/en-us/content/topics/apps/aiw_scim_entitlements.htm) を参照してください。
+Okta Admin で専用の SCIM アプリを作成し、Zilliz Cloud へ ID をプロビジョニングします。このステップでは、Okta の **SCIM 2.0 Test App (OAuth Bearer Token)** 統合を追加し、アプリケーションのユーザー名形式をメールに設定します。これにより、プロビジョニングされたユーザーを Zilliz Cloud 上でメールアドレスによって照合できるようになります。Okta における一般的な SCIM アプリ作成手順については、[Okta ドキュメント](https://help.okta.com/oie/en-us/content/topics/apps/aiw_scim_entitlements.htm) を参照してください。
 
 <Supademo id="cmqyl1i0z1x69qmecc4ph3mte" title=""  />
 
@@ -138,7 +138,7 @@ SCIM アプリの設定が完了したら、Okta から Zilliz Cloud へプロ�
 
 ### 4.2 Zilliz Cloud へグループをプッシュする\{#42-push-groups-to-zilliz-cloud}
 
-Push Groups を使用して、Okta のグループオブジェクトとグループメンバーシップを Zilliz Cloud にプロビジョニングします。Okta における一般的な Group Push の手順については、[Okta documentation](https://help.okta.com/en-us/content/topics/users-groups-profiles/usgp-enable-group-push.htm) を参照してください。
+Push Groups を使用して、Okta のグループオブジェクトとグループメンバーシップを Zilliz Cloud にプロビジョニングします。Okta における一般的な Group Push の手順については、[Okta ドキュメント](https://help.okta.com/en-us/content/topics/users-groups-profiles/usgp-enable-group-push.htm) を参照してください。
 
 <Supademo id="cmryls4dy537tqmblismw3az5" title=""  />
 

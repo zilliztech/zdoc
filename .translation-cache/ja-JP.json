@@ -1115,60 +1115,80 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md",
       "translatedAt": "2026-08-25T16:58:23.572Z"
     },
+    "content/en/byoc/tutorials/management/cmek/aws-kms.md": {
+      "sourceHash": "3dd2ce30d86aa794d99f9ae24e6712b07050595d0d877567a5429206add5f77b",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/cmek/aws-kms.md",
+      "translatedAt": "2026-09-19T14:00:37.142Z"
+    },
     "content/en/byoc/tutorials/management/cmek/cmek.md": {
       "sourceHash": "a7396ad63ead85a854ba20f7f137b9a65f0310387e3974d6a8cc81ad5edf88ef",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/cmek/cmek.md",
       "translatedAt": "2026-08-25T07:00:25.895Z"
     },
     "content/en/byoc/tutorials/management/cost-management/analyze-cost.md": {
-      "sourceHash": "b51a9dd526284807bab1d7c5e04acc1711462d85a6589007093ed733d45c8cfc",
+      "sourceHash": "30ff9cf4d8d3be6fb59a53436ba19712537dad5f58106028d694d517c4b81e9a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/cost-management/analyze-cost.md",
-      "translatedAt": "2026-08-04T05:19:40.572Z"
+      "translatedAt": "2026-09-19T14:00:37.142Z"
     },
     "content/en/byoc/tutorials/management/identity-management/identity-management-overview.md": {
-      "sourceHash": "c4ee5e0db949ecad1578ee3058f195ee124eeebddaa51017f016fca30c41076c",
+      "sourceHash": "069fd4fcdb90bb4639efabfa2a1459c5f3feb775d746c0dcaac8e9a91bab0a27",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/identity-management/identity-management-overview.md",
-      "translatedAt": "2026-08-25T04:53:55.373Z"
+      "translatedAt": "2026-09-19T14:00:37.142Z"
+    },
+    "content/en/byoc/tutorials/management/identity-management/manage-cluster-users/cluster-users-sdk.md": {
+      "sourceHash": "df696804224c539307e6b46fbf4d9ff4cc00b129474eea81c90dea22af12ed31",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/identity-management/manage-cluster-users/cluster-users-sdk.md",
+      "translatedAt": "2026-09-19T14:00:37.142Z"
+    },
+    "content/en/byoc/tutorials/management/identity-management/manage-cluster-users/cluster-users.md": {
+      "sourceHash": "a5b51f58e760b4468417f9dad30a2720f88675e176a3e3bf6800af6cf0680331",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/identity-management/manage-cluster-users/cluster-users.md",
+      "translatedAt": "2026-09-19T14:00:37.142Z"
     },
     "content/en/byoc/tutorials/management/identity-management/manage-platform-users.md": {
-      "sourceHash": "8384b6912cab39f3b4ffb317a8a5ed27aca5745b7e2e11e76b593fa6fdad5984",
+      "sourceHash": "7328e4eb66f5ad1f01676c3527e5ac82747295d0585c03f2af18b81954565f18",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/identity-management/manage-platform-users.md",
-      "translatedAt": "2026-08-25T04:58:22.709Z"
+      "translatedAt": "2026-09-19T14:00:37.142Z"
     },
     "content/en/byoc/tutorials/management/identity-management/scim-provisioning/configure-scim-provisioning-with-microsoft-entra.md": {
-      "sourceHash": "03ea6c92a916f07e962b3905397a22b5e217b53e1c19589bd24330a4feb8c47d",
+      "sourceHash": "ba78cd93d8309fadffba59c105603233eae20c299792ecbe21a5f1a14081a1e3",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/identity-management/scim-provisioning/configure-scim-provisioning-with-microsoft-entra.md",
-      "translatedAt": "2026-08-25T04:59:47.875Z"
+      "translatedAt": "2026-09-19T14:00:37.142Z"
     },
     "content/en/byoc/tutorials/management/identity-management/scim-provisioning/configure-scim-provisioning-with-okta.md": {
-      "sourceHash": "5920af64aa7814503638c68463946ad7c0d5cf079b3894508de47f262a73d56c",
+      "sourceHash": "91801b1fdb53647d229dc3d4c3f90c21e99cdc3eede283a28a98fc46275fb852",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/identity-management/scim-provisioning/configure-scim-provisioning-with-okta.md",
-      "translatedAt": "2026-08-25T05:01:14.855Z"
+      "translatedAt": "2026-09-19T14:00:37.142Z"
     },
     "content/en/byoc/tutorials/management/identity-management/scim-provisioning/scim-provisioning-overview.md": {
-      "sourceHash": "f3dfbe45889872687d0e23c779151e020cbac9fc3c1592e396fc6703158f499c",
+      "sourceHash": "dc08b8a8e11edff7832391d37fff7102679798d021dfd43d8999edbc8f61457e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/identity-management/scim-provisioning/scim-provisioning-overview.md",
-      "translatedAt": "2026-08-25T05:02:46.886Z"
+      "translatedAt": "2026-09-19T14:00:37.142Z"
     },
     "content/en/byoc/tutorials/management/identity-management/scim-provisioning/view-scim-synced-groups.md": {
-      "sourceHash": "bd83746dc5ee6464273157df493645af3290dfaa249ed61e47c7ac95c1b6676e",
+      "sourceHash": "d3700e1643ff5c5d42e7f625f1e2d6bb713e52ee2368f278da03f79ef2a9699d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/identity-management/scim-provisioning/view-scim-synced-groups.md",
-      "translatedAt": "2026-08-25T05:03:06.342Z"
+      "translatedAt": "2026-09-19T14:00:37.142Z"
     },
     "content/en/byoc/tutorials/management/identity-management/single-sign-on/enforce-sso-in-your-organization.md": {
-      "sourceHash": "9601290f7c47e90f3155d3df4da743dc35630df05e140307cf0e7288faa5feba",
+      "sourceHash": "4142db5ce7fc361b3295d2c3975e57905f52606401d18eb2180978cab75325f8",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/identity-management/single-sign-on/enforce-sso-in-your-organization.md",
-      "translatedAt": "2026-08-25T05:04:25.426Z"
+      "translatedAt": "2026-09-19T14:00:37.142Z"
     },
     "content/en/byoc/tutorials/management/identity-management/single-sign-on/openid-connect.md": {
-      "sourceHash": "5559f94d4aa444acfa8719d198b4fc8e37faef955ed7c833214ea0bba8877f30",
+      "sourceHash": "c4240a88e9cbfcdd3875927dc08767831ac55c807a81943401e81ff9ab5debee",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/identity-management/single-sign-on/openid-connect.md",
-      "translatedAt": "2026-08-25T17:00:03.500Z"
+      "translatedAt": "2026-09-19T14:00:37.142Z"
     },
     "content/en/byoc/tutorials/management/identity-management/single-sign-on/single-sign-on-with-google-workspace.md": {
-      "sourceHash": "8faef974d7ad879b2b08a214520b0c64f8e8811cb845a1344720017da1eefaa1",
+      "sourceHash": "f3c099af364d9b1d2c5d083f9baa8344347cf2bc247aad6f7ee346b485a082ac",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/identity-management/single-sign-on/single-sign-on-with-google-workspace.md",
-      "translatedAt": "2026-08-25T17:01:54.749Z"
+      "translatedAt": "2026-09-19T14:00:37.142Z"
+    },
+    "content/en/byoc/tutorials/management/identity-management/single-sign-on/single-sign-on-with-microsoft-entra.md": {
+      "sourceHash": "9c8f8b8dc9d1c09e4234f7b90d010d1048ede588ef5a4d2128088c794ea26616",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/identity-management/single-sign-on/single-sign-on-with-microsoft-entra.md",
+      "translatedAt": "2026-09-19T14:00:37.142Z"
     },
     "content/en/byoc/tutorials/management/identity-management/single-sign-on/single-sign-on-with-okta.md": {
       "sourceHash": "63c878a4e85198c5e5c28c85509e64fddcac128ab6d785a756a29fd0ac93bd97",
@@ -1176,9 +1196,9 @@
       "translatedAt": "2026-09-19T13:43:11.314Z"
     },
     "content/en/byoc/tutorials/management/identity-management/single-sign-on/single-sign-on-with-other-idp.md": {
-      "sourceHash": "e42541466e13aa2f7ac468a5b0ddb8bdbb31c2d3609e3ba99c171768c5e39b9c",
+      "sourceHash": "8ebf84671e1292116850e9675ef6122554eb25bac0781a1468f5d93c8fe6c989",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/identity-management/single-sign-on/single-sign-on-with-other-idp.md",
-      "translatedAt": "2026-08-25T17:05:16.045Z"
+      "translatedAt": "2026-09-19T14:00:37.142Z"
     },
     "content/en/byoc/tutorials/management/identity-management/single-sign-on/single-sign-on-with-ping-one.md": {
       "sourceHash": "acde87ee22f34d472db34aea9f274b8b5e66f89dbcee1f1cb4193661b5333c8d",

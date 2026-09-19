@@ -74,7 +74,7 @@ AWS Key Management Service (KMS) は AWS が管理するサービスであり、
 
         この手順は任意です。指定した IAM ロールで作成済みの KMS キーがすでにある場合は、この手順をスキップして次に進むことができます。これはマルチリージョンレプリカキーを追加する場合に便利です。
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" title="Notes">
 
         暗号化された Zilliz Cloud クラスターをあるクラウドリージョンから別のリージョンにバックアップした後、ターゲットリージョンでバックアップを復号するには、元のクラスターの暗号化に使用したものと同じキーを使用する必要があります。 
         
@@ -120,7 +120,7 @@ AWS Key Management Service (KMS) は AWS が管理するサービスであり、
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 KMS キーを使用して Zilliz Cloud クラスターを暗号化すると、クラスターは 10 分ごとにそのキーの可用性を確認します。キーが利用可能であることを検出した後にのみ、利用可能になります。
 
@@ -154,7 +154,7 @@ KMS キーを追加したら、次のように暗号化されたクラスター�
 
 1. **Encryption at Rest with CMEK** を有効にし、既存の KMS キーを選択します。作成するクラスターと同じリージョンにある KMS キーのみ選択できます。
 
-1. 概要を確認してから、**Create Cluster** をクリックします。
+1. 概要を確認し、**Create Cluster** をクリックします。
 
     ![Iy8JbR19eoBQ4YxV1PjcLfUinl7](https://zdoc-images.s3.us-west-2.amazonaws.com/iy8jbr19eobq4yxv1pjclfuinl7.png "Iy8JbR19eoBQ4YxV1PjcLfUinl7")
 
@@ -175,4 +175,3 @@ KMS キーを追加したら、次のように暗号化されたクラスター�
 - このオプションを有効にすると、復元後に作成されるクラスターは以下で指定した KMS キーを使用して暗号化されます。
 
 - このオプションを無効にすると、復元後に作成されるクラスターは暗号化されません。
-

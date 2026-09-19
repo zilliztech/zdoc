@@ -160,7 +160,7 @@ SP である Zilliz Cloud は、Okta で OIDC アプリを設定する際に必�
 
 プロジェクトに招待された後は、**Organization** **Owner** が Zilliz Cloud のログイン URL をエンタープライズユーザーと共有することで、ユーザーは SSO 経由でサインインできるようになります。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 組織で SSO enforcement が有効になっている場合、組織レベルでのメンバーの直接招待は無効になります。代わりに IdP 経由でユーザーをプロビジョニングしてください。プロジェクトレベルでメンバーを招待する際は、既存の組織メンバーだけを招待できます。
 
@@ -172,7 +172,7 @@ SP である Zilliz Cloud は、Okta で OIDC アプリを設定する際に必�
 
 SSO 接続の構成とテストが完了したら、任意で **SSO enforcement** を有効にして、すべての組織メンバーが SSO 経由でのみログインすることを必須にできます。これを有効にすると、メンバーはメール/passwordやサードパーティーアカウント（Google、GitHub）でサインインできなくなります。
 
-<Admonition type="warning" icon="🚧" title="Warning">
+<Admonition type="warning" title="Warning">
 
 この機能を有効にすると、パスワードでサインインしているすべてのメンバーが即座にログアウトされ、SSO 以外のログイン方法がブロックされます。
 

@@ -46,7 +46,7 @@ import Procedures from '@site/src/components/Procedures';
 
 ## 構成手順\{#configuration-steps}
 
-### 手順 1: Zilliz Cloud コンソールで SP の詳細を確認する\{#step-1-access-sp-details-in-zilliz-cloud-console}
+### ステップ 1: Zilliz Cloud コンソールで SP の詳細にアクセスする\{#step-1-access-sp-details-in-zilliz-cloud-console}
 
 SP である Zilliz Cloud は、Google Admin で SAML アプリを設定する際に必要な **Entity ID** と **ACS URL** を提供します。
 
@@ -62,21 +62,21 @@ SP である Zilliz Cloud は、Google Admin で SAML アプリを設定する�
 
 1. 表示されるダイアログボックスで、IdP およびプロトコルとして **Google Workspace (SAML 2.0)** を選択します。
 
-1. **Service Provider Details** カードで **Entity ID** と **ACS URL** をコピーします。これらの値は、Google Admin コンソールで SAML アプリを作成する [手順 2](./single-sign-on-with-google-workspace#step-2-create-a-custom-saml-app-in-google-admin-console) で必要になります。
+1. **Service Provider Details** カードで **Entity ID** と **ACS URL** をコピーします。これらの値は、Google Admin コンソールで SAML アプリを作成する [ステップ 2](./single-sign-on-with-google-workspace#step-2-create-a-custom-saml-app-in-google-admin-console) で必要になります。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
-    または、ここで **SSO URL** と **Certificate** をコピーすることもできます。その場合は、[手順 3](./single-sign-on-with-google-workspace#step-3-configure-idp-settings-in-zilliz-cloud-console) で IdP の詳細を Manual モードで構成する必要があります。
+    または、ここで **SSO URL** と **Certificate** をコピーすることもできます。その場合は、[ステップ 3](./single-sign-on-with-google-workspace#step-3-configure-idp-settings-in-zilliz-cloud-console) で IdP の詳細を Manual モードで構成する必要があります。
 
     </Admonition>
 
-1. 完了したら、[手順 2](./single-sign-on-with-google-workspace#step-2-create-a-custom-saml-app-in-google-admin-console) に進みます。
+1. 完了したら、[ステップ 2](./single-sign-on-with-google-workspace#step-2-create-a-custom-saml-app-in-google-admin-console) に進みます。
 
 </Procedures>
 
-### 手順 2: Google Admin コンソールでカスタム SAML アプリを作成する\{#step-2-create-a-custom-saml-app-in-google-admin-console}
+### ステップ 2: Google Admin コンソールでカスタム SAML アプリを作成する\{#step-2-create-a-custom-saml-app-in-google-admin-console}
 
-この手順では、Zilliz Cloud から取得した SP の詳細を使用して Google Workspace（IdP）を構成します。
+このステップでは、Zilliz Cloud から取得した SP の詳細を使用して Google Workspace（IdP）を構成します。
 
 <Supademo id="cmdwjibf16qq99f96c9uz5n8i" title="Step 2: Create SAML app in Google Admin" />
 
@@ -88,19 +88,19 @@ SP である Zilliz Cloud は、Google Admin で SAML アプリを設定する�
 
 1. アプリ名をカスタマイズし（例: **zilliz**）、**CONTINUE** をクリックします。
 
-1. 表示されるページで、**Option 1: Download IdP metadata** から IdP メタデータをダウンロードします。これは、[手順 3](./single-sign-on-with-google-workspace#step-3-configure-idp-settings-in-zilliz-cloud-console) で Zilliz Cloud コンソールの IdP 設定を構成する際に必要になります。その後、**Continue** をクリックします。
+1. 表示されるページで、**Option 1: Download IdP metadata** から IdP メタデータをダウンロードします。これは、[ステップ 3](./single-sign-on-with-google-workspace#step-3-configure-idp-settings-in-zilliz-cloud-console) で Zilliz Cloud コンソールの IdP 設定を構成する際に必要になります。その後、**Continue** をクリックします。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
-    または、**Option 2: Copy the SSO URL, entity ID, and certificate** から **SSO URL**、**Entity ID**、**Certificate** をそれぞれ取得します。これらは、[手順 3](./single-sign-on-with-google-workspace#step-3-configure-idp-settings-in-zilliz-cloud-console) で **Manual** モードを選択した場合に Zilliz Cloud コンソールで必要になります。
+    または、**Option 2: Copy the SSO URL, entity ID, and certificate** から **SSO URL**、**Entity ID**、**Certificate** をそれぞれ取得します。これらは、[ステップ 3](./single-sign-on-with-google-workspace#step-3-configure-idp-settings-in-zilliz-cloud-console) で **Manual** モードを選択した場合に Zilliz Cloud コンソールで必要になります。
 
     </Admonition>
 
 1. **Service provider details** セクションで以下を構成します。
 
-    - **ACS URL**: [手順 1](./single-sign-on-with-google-workspace#step-1-access-sp-details-in-zilliz-cloud-console) で Zilliz Cloud コンソールからコピーした **ACS URL** を貼り付けます。
+    - **ACS URL**: [ステップ 1](./single-sign-on-with-google-workspace#step-1-access-sp-details-in-zilliz-cloud-console) で Zilliz Cloud コンソールからコピーした **ACS URL** を貼り付けます。
 
-    - **Entity ID**: [手順 1](./single-sign-on-with-google-workspace#step-1-access-sp-details-in-zilliz-cloud-console) で Zilliz Cloud コンソールからコピーした **Entity ID** を貼り付けます。
+    - **Entity ID**: [ステップ 1](./single-sign-on-with-google-workspace#step-1-access-sp-details-in-zilliz-cloud-console) で Zilliz Cloud コンソールからコピーした **Entity ID** を貼り付けます。
 
     完了したら、**Continue** をクリックします。
 
@@ -114,9 +114,9 @@ SP である Zilliz Cloud は、Google Admin で SAML アプリを設定する�
 
 </Procedures>
 
-### 手順 3: Zilliz Cloud コンソールで IdP 設定を構成する\{#step-3-configure-idp-settings-in-zilliz-cloud-console}
+### ステップ 3: Zilliz Cloud コンソールで IdP 設定を構成する\{#step-3-configure-idp-settings-in-zilliz-cloud-console}
 
-この手順では、SAML の信頼関係を確立するために、Google Workspace の IdP 詳細を Zilliz Cloud に登録します。
+このステップでは、SAML の信頼関係を確立するために、Google Workspace の IdP 詳細を Zilliz Cloud に登録します。
 
 <Supademo id="cme6g56mb1zs2h3pyn5cynqgb" title="Step 3: Configure IdP settings in Zilliz Cloud" />
 
@@ -124,15 +124,15 @@ SP である Zilliz Cloud は、Google Admin で SAML アプリを設定する�
 
 1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) に戻ります。
 
-1. **Configure Single Sign-On (SSO)** ダイアログボックスの **Identity Provider Details** カードで、[手順 2](./single-sign-on-with-google-workspace#step-2-create-a-custom-saml-app-in-google-admin-console) で Google Admin コンソールからダウンロードしたメタデータファイルをアップロードします。
+1. **Configure Single Sign-On (SSO)** ダイアログボックスの **Identity Provider Details** カードで、[ステップ 2](./single-sign-on-with-google-workspace#step-2-create-a-custom-saml-app-in-google-admin-console) で Google Admin コンソールからダウンロードしたメタデータファイルをアップロードします。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     または、IdP 詳細の構成で **Manual** モードを選択した場合は、以下を構成します。
 
-    - **SSO URL**: [手順 2](./single-sign-on-with-google-workspace#step-2-create-a-custom-saml-app-in-google-admin-console) でコピーした **SSO URL** をここに貼り付けます。
+    - **SSO URL**: [ステップ 2](./single-sign-on-with-google-workspace#step-2-create-a-custom-saml-app-in-google-admin-console) でコピーした **SSO URL** をここに貼り付けます。
 
-    - **Certificate**: [手順 2](./single-sign-on-with-google-workspace#step-2-create-a-custom-saml-app-in-google-admin-console) でコピーした **Certificate** をここに貼り付けます。
+    - **Certificate**: [ステップ 2](./single-sign-on-with-google-workspace#step-2-create-a-custom-saml-app-in-google-admin-console) でコピーした **Certificate** をここに貼り付けます。
 
     </Admonition>
 
@@ -150,11 +150,11 @@ SP である Zilliz Cloud は、Google Admin で SAML アプリを設定する�
 
 <Procedures>
 
-1. 新しく作成したアプリの詳細ページで **User access** 領域を見つけ、サービスステータスを編集するためにクリックします。
+1. 新しく作成したアプリの詳細ページで **User access** 領域を見つけ、クリックしてサービスステータスを編集します。
 
-1. 組織内の全員に対してサービスを有効または無効にするには、全員に対して **ON**、または全員に対して **OFF** をクリックし、続いて **Save** をクリックします。
+1. 組織内の全員に対してサービスを有効または無効にするには、全員に対して **ON** または **OFF** をクリックし、続いて **Save** をクリックします。
 
-1. （オプション）組織単位に対してサービスを有効または無効にするには:
+1. （任意）組織単位に対してサービスを有効または無効にするには:
 
     1. 左側で組織単位を選択します。
 
@@ -165,9 +165,9 @@ SP である Zilliz Cloud は、Google Admin で SAML アプリを設定する�
         - **Service status** が **Inherited** に設定されていて、親の設定が変更された場合でも更新された設定を維持する場合は、**Override** をクリックします。
 
         - **Service status** が **Overridden** に設定されている場合は、**Inherit** をクリックして親と同じ設定に戻すか、**Save** をクリックして、親の設定が変更された場合でも新しい設定を維持します。<br/>
-          注: [組織構造](https://support.google.com/a/answer/4352075) について詳しくは、こちらを参照してください。
+          注: 詳細については、[組織構造](https://support.google.com/a/answer/4352075) を参照してください。
 
-1. （オプション）組織単位の内外を問わず、特定のユーザーセットに対してサービスを有効にするには、アクセスグループを選択します。詳細については、[Use groups to customize service access](https://support.google.com/a/answer/9050643) を参照してください。
+1. （任意）組織単位の内外を問わず、特定のユーザーセットに対してサービスを有効にするには、アクセスグループを選択します。詳細については、[グループを使用してサービスアクセスをカスタマイズする](https://support.google.com/a/answer/9050643) を参照してください。
 
 1. ユーザーが SAML アプリへのサインインに使用するメールアドレスが、Google ドメインへのサインインに使用するメールアドレスと一致していることを確認します。
 
@@ -185,11 +185,11 @@ SP である Zilliz Cloud は、Google Admin で SAML アプリを設定する�
 
 セットアップまたはテストの過程で問題が発生した場合は、[Zilliz サポート](https://zilliz.com/contact-sales) にお問い合わせください。
 
-### タスク 3:（任意）SSO enforcement を有効にする\{#task-3-optional-enable-sso-enforcement}
+### タスク 3: （任意）SSO enforcement を有効にする\{#task-3-optional-enable-sso-enforcement}
 
 SSO 接続の構成とテストが完了したら、任意で **SSO enforcement** を有効にして、すべての組織メンバーに SSO 経由でのログインを必須にすることができます。有効にすると、メンバーはメールアドレス/password またはサードパーティアカウント（Google、GitHub）を使用してサインインできなくなります。
 
-<Admonition type="warning" icon="🚧" title="Warning">
+<Admonition type="warning" title="Warning">
 
 この機能を有効にすると、現在パスワードでサインインしているすべてのメンバーが即座にログアウトされ、SSO 以外のログイン方法がブロックされます。
 

@@ -98,12 +98,12 @@ SP である Zilliz Cloud は、Microsoft Entra で SAML アプリケーショ�
 
 1. 完了したら、作成したアプリケーションの **Single sign-on** パネルに戻り、**App Federation Metadata Url** をコピーします。この値は、[手順 3](./single-sign-on-with-microsoft-entra#step-3-configure-idp-settings-in-zilliz-cloud-console) で Zilliz Cloud コンソールに入力する必要があります。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     または、以下の情報を取得します。
-
+    
     - **SAML Certificates** セクションで **Download** をクリックして **Certificate (Base64)** を保存します。[手順 3](./single-sign-on-with-microsoft-entra#step-3-configure-idp-settings-in-zilliz-cloud-console) で **Manual** モードを選択した場合は、Zilliz Cloud コンソールで必要になります。
-
+    
     - **Set up zilliz** セクションで **Login URL** をコピーします。[手順 3](./single-sign-on-with-microsoft-entra#step-3-configure-idp-settings-in-zilliz-cloud-console) で **Manual** モードを選択した場合は、Zilliz Cloud コンソールで必要になります。
 
     </Admonition>
@@ -122,12 +122,12 @@ SP である Zilliz Cloud は、Microsoft Entra で SAML アプリケーショ�
 
 1. **Configure Single Sign-On (SSO)** ダイアログボックスの **Identity Provider Details** カードに、[手順 2](./single-sign-on-with-microsoft-entra#step-2-set-up-an-application-in-microsoft-entra-admin-center) で Microsoft Entra 管理センターからコピーした **App Federation Metadata URL** を貼り付けます。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     または、IdP 詳細の構成で **Manual** モードを選択する場合は、以下を設定します。
-
+    
     - **Login URL**: [手順 2](./single-sign-on-with-microsoft-entra#step-2-set-up-an-application-in-microsoft-entra-admin-center) で Microsoft Entra 管理センターからコピーした Login URL をここに貼り付けます。
-
+    
     - **Certificate (Base64)**: [手順 2](./single-sign-on-with-microsoft-entra#step-2-set-up-an-application-in-microsoft-entra-admin-center) で Microsoft Entra 管理センターからダウンロードした証明書をここにアップロードします。`-----BEGIN CERTIFICATE-----` で始まり `-----END CERTIFICATE-----` で終わる行を含め、証明書の内容全体を提供するようにしてください。
 
     </Admonition>
@@ -170,7 +170,7 @@ SP である Zilliz Cloud は、Microsoft Entra で SAML アプリケーショ�
 
 SSO 接続の構成とテストが完了したら、任意で **SSO enforcement** を有効にして、すべての組織メンバーが SSO 経由でのみログインすることを必須にできます。有効にすると、メンバーはメールアドレス/password またはサードパーティーアカウント（Google、GitHub）でサインインできなくなります。
 
-<Admonition type="warning" icon="🚧" title="Warning">
+<Admonition type="warning" title="Warning">
 
 この機能を有効にすると、パスワードでサインインしているすべてのメンバーが即座にログアウトされ、SSO 以外のログイン方法がブロックされます。
 

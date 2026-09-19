@@ -22,9 +22,9 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud の **Usage** ページでは、可視化されたコスト分析ツールが提供されており、複数の観点から Zilliz Cloud の使用量と費用を表示および追跡できます。
 
-## 前提条件\{#prerequisites}
+## 事前準備\{#prerequisites}
 
-Zilliz Cloud の使用状況ページを使用してコストにアクセスし分析するには、**Organization Owner** または **Billing Admin** の権限が必要です。
+Zilliz Cloud の使用状況ページからコストにアクセスして分析するには、**Organization Owner** または **Billing Admin** の権限が必要です。
 
 ## 手順\{#procedures}
 
@@ -32,13 +32,13 @@ Zilliz Cloud でコストを分析する方法は 2 つあります。
 
 - [Web UI を使用](./analyze-cost#via-web-ui): コストの傾向を可視化したい場合は、Web UI の使用をお勧めします。Web UI 上の使用状況の詳細は **小数点以下 10 桁** に丸められます。
 
-- [RESTful API を使用](./analyze-cost#via-restful-api): 日次使用量についてより詳細な分析が必要な場合は、RESTful API の使用をお勧めします。RESTful API で取得される使用状況の詳細は **小数点以下 10 桁** の精度です。
+- [RESTful API を使用](./analyze-cost#via-restful-api): 日次使用量をより詳細に把握したい場合は、RESTful API の使用をお勧めします。RESTful API で取得される使用状況の詳細は **小数点以下 10 桁** の精度です。
 
 ### Web UI を使用\{#via-web-ui}
 
 **Billing** ページで、**Usage** タブに切り替えます。さまざまな観点で使用量とコストの傾向を監視できます。
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 使用状況データは 1 時間ごとに更新されます。
 
@@ -72,7 +72,7 @@ Zilliz Cloud でコストを分析する方法は 2 つあります。
 
 ### RESTful API を使用\{#via-restful-api}
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 Query Daily Usage RESTful API は現在パブリックプレビュー中です。この API を使用するには、[お問い合わせください](http://support.zilliz.com)。
 
@@ -108,4 +108,3 @@ Zilliz Cloud は **小数点以下 10 桁** の精度で料金を計算してお
 - **RESTful API**: すべての数値（例: Unit Price、Usage、Usage Amount）は、常にちょうど小数点以下 10 桁で返されます。値の小数桁数が 10 桁未満の場合は、末尾に 0 が追加されて 10 桁になります。RESTful API の使用方法の詳細については、[Query Daily Usage](/reference/restful/query-daily-usage-v2) を参照してください。
 
 - **Web Console UI**: 表示される金額は API の値と一致していますが、可読性向上のために末尾の 0 は省略されます。たとえば、`0.1234000000` は UI では `0.1234` と表示されます。
-
