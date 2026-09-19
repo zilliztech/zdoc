@@ -383,11 +383,20 @@ function preferRecoveryReason(reasons) {
 // `revalidate` callback used to serve both contexts, which forced whole files
 // through unit-level per-unit terminology enforcement.
 function restoreCandidate({siteDir, candidate, artifacts, identity, revalidate, revalidateFile, chunkOptions}) {
+  // A candidate is "covered" when the previous run's retained artifacts know
+  // it at all — a successful record or a failure record. Uncovered candidates
+  // were never candidates of the previous run (e.g. batches a failed run never
+  // reached): retranslating them is the planned work, not a recovery
+  // compatibility failure.
+  const covered = artifacts.some(artifact => !artifact.error && (
+    artifact.files.some(record => record?.sourcePath === candidate.sourcePath && record?.targetPath === candidate.targetPath) ||
+    artifact.failures.some(failure => failure?.sourcePath === candidate.sourcePath && failure?.targetPath === candidate.targetPath)
+  ));
   const sourcePath = safePath(siteDir, candidate.sourcePath, 'Recovery candidate source path');
   const sourceBytes = fs.readFileSync(sourcePath);
   const sourceContent = sourceBytes.toString('utf8');
   const currentSourceHash = sha256(sourceBytes);
-  if (currentSourceHash !== candidate.sourceHash) return {reason: 'current source hash does not match recovery candidate'};
+  if (currentSourceHash !== candidate.sourceHash) return {reason: 'current source hash does not match recovery candidate', covered};
   const fileRevalidate = revalidateFile || revalidate;
   const reasons = [];
   let bestChunkResume = null;
@@ -565,8 +574,8 @@ function restoreCandidate({siteDir, candidate, artifacts, identity, revalidate, 
       }
     }
   }
-  if (bestChunkResume || bestSemanticResume) return {chunkResume: bestChunkResume, semanticResume: bestSemanticResume, rejectedChunks};
-  return {reason: preferRecoveryReason(reasons), rejectedChunks};
+  if (bestChunkResume || bestSemanticResume) return {chunkResume: bestChunkResume, semanticResume: bestSemanticResume, rejectedChunks, covered};
+  return {reason: preferRecoveryReason(reasons), rejectedChunks, covered};
 }
 
 function restoreRecoveryFiles({siteDir, candidates, artifacts, identity, revalidate, revalidateFile, chunkOptions}) {
@@ -589,8 +598,9 @@ function restoreRecoveryFiles({siteDir, candidates, artifacts, identity, revalid
         ...candidate,
         ...(outcome.chunkResume ? {recoveryChunkResume: outcome.chunkResume} : {}),
         ...(outcome.semanticResume ? {recoverySemanticResume: outcome.semanticResume} : {}),
+        recoveryCovered: outcome.covered === true,
       });
-      if (artifacts.length > 0 && !outcome.chunkResume && !outcome.semanticResume) rejected.push({...candidate, recoveryReason: outcome.reason});
+      if (artifacts.length > 0 && !outcome.chunkResume && !outcome.semanticResume) rejected.push({...candidate, recoveryReason: outcome.reason, recoveryCovered: outcome.covered === true});
     }
     rejectedChunks.push(...(outcome.rejectedChunks || []).map(rejection => ({
       sourcePath: candidate.sourcePath,
