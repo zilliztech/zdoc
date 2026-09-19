@@ -2,6 +2,7 @@ import {describe, expect, it} from 'vitest';
 import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
 
 import {
+  filterNextChannelPaginationLinks,
   filterNextChannelSidebarItems,
   frontMatterReleaseChannel,
   isNextChannelSidebarItem,
@@ -96,6 +97,117 @@ describe('filterNextChannelSidebarItems', () => {
         items: [docItem('mixed/stable')],
       },
     ]);
+  });
+
+  it('removes NEXT leaves nested below categories whose own child count is unchanged', () => {
+    // Regression: the SSO leaf sits three levels deep, so every ancestor keeps
+    // its direct child count while the filtered descendant disappears.
+    const category = (label: string, items: PropSidebarItem[]): PropSidebarItem =>
+      ({type: 'category', label, items}) as unknown as PropSidebarItem;
+
+    const items: PropSidebarItem[] = [
+      category('Management', [
+        category('Identity Management', [
+          category('Single Sign-on (SSO)', [
+            docItem('sso/okta'),
+            docItem('sso/ping-one', {customProps: {channel: 'next'}}),
+            docItem('sso/other-idp'),
+          ]),
+        ]),
+      ]),
+    ];
+
+    expect(filterNextChannelSidebarItems(items)).toEqual([
+      category('Management', [
+        category('Identity Management', [
+          category('Single Sign-on (SSO)', [docItem('sso/okta'), docItem('sso/other-idp')]),
+        ]),
+      ]),
+    ]);
+  });
+
+  it('drops a category emptied by a deeply nested removal, up to the top', () => {
+    const items: PropSidebarItem[] = [
+      {
+        type: 'category',
+        label: 'Outer',
+        items: [
+          {
+            type: 'category',
+            label: 'Inner',
+            items: [docItem('outer/inner/only', {customProps: {channel: 'next'}})],
+          } as unknown as PropSidebarItem,
+          docItem('outer/keep'),
+        ],
+      } as unknown as PropSidebarItem,
+    ];
+
+    expect(filterNextChannelSidebarItems(items)).toEqual([
+      {type: 'category', label: 'Outer', items: [docItem('outer/keep')]},
+    ]);
+  });
+
+  it('keeps untouched subtrees reference-identical for React', () => {
+    const untouched: PropSidebarItem = {
+      type: 'category',
+      label: 'Untouched',
+      items: [docItem('untouched/a'), docItem('untouched/b')],
+    } as unknown as PropSidebarItem;
+    const items: PropSidebarItem[] = [
+      untouched,
+      {
+        type: 'category',
+        label: 'Touched',
+        items: [docItem('touched/a'), docItem('touched/next', {customProps: {channel: 'next'}})],
+      } as unknown as PropSidebarItem,
+    ];
+
+    const filtered = filterNextChannelSidebarItems(items);
+    expect(filtered[0]).toBe(untouched);
+    expect(filtered[1]).not.toBe(items[1]);
+  });
+});
+
+describe('filterNextChannelPaginationLinks', () => {
+  const sidebar: PropSidebarItem[] = [
+    {type: 'link', key: 'a', href: '/docs/stable', label: 'Stable'} as unknown as PropSidebarItem,
+    {
+      type: 'link',
+      key: 'b',
+      href: '/docs/single-sign-on-with-ping-one',
+      label: 'PingOne',
+      customProps: {channel: 'next'},
+    } as unknown as PropSidebarItem,
+  ];
+
+  it('drops pagination targets the sidebar hides on a CURRENT deployment', () => {
+    const previous = {title: 'Google Workspace', permalink: '/docs/stable'};
+    const next = {title: 'PingOne', permalink: '/docs/single-sign-on-with-ping-one'};
+
+    expect(filterNextChannelPaginationLinks(previous, next, sidebar)).toEqual({
+      previous,
+      next: undefined,
+    });
+  });
+
+  it('keeps every link on NEXT deployments, signalled by an absent sidebar', () => {
+    const previous = {title: 'Google Workspace', permalink: '/docs/stable'};
+    const next = {title: 'PingOne', permalink: '/docs/single-sign-on-with-ping-one'};
+
+    expect(filterNextChannelPaginationLinks(previous, next, undefined)).toEqual({previous, next});
+  });
+
+  it('tolerates a trailing slash and a missing link', () => {
+    const next = {title: 'PingOne', permalink: '/docs/single-sign-on-with-ping-one/'};
+
+    expect(filterNextChannelPaginationLinks(undefined, next, sidebar)).toEqual({
+      previous: undefined,
+      next: undefined,
+    });
+    expect(filterNextChannelPaginationLinks(undefined, undefined, sidebar)).toEqual({
+      previous: undefined,
+      next: undefined,
+    });
   });
 });
 
