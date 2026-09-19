@@ -198,7 +198,7 @@ Zilliz Cloud では、[Azure Blob Storage](https://azure.microsoft.com/en-us/pro
 
 1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) で、**Validate Integration** をクリックし、コンテナとロール割り当ての設定が有効であることを確認します。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     検証は、Azure のロール割り当ての反映に時間がかかるため、完了するまでに最大で約 10 分かかる場合があります。
 
@@ -465,3 +465,4 @@ curl --request DELETE \
     - Zilliz Cloud と Azure Portal の両方で、必要な権限があることを確認してください。
 
     - ロールを構成した直後に **AuthorizationPermissionMismatch** または同様の権限エラーが発生した場合は、待機して再試行してください。Azure のロール割り当ての反映には最大 10 分かかることがあり、管理グループのスコープが関与するまれなケースでは、反映に最大 12 時間かかることがあります。
+

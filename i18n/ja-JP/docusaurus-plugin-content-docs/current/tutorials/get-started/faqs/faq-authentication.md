@@ -19,6 +19,7 @@ displayed_sidebar: default
 ## 目次
 
 - [Zilliz Cloud クラスターへの接続に使用するパスワードを忘れた場合はどうすればよいですか？](#what-can-i-do-if-i-forget-the-password-used-to-connect-to-my-zilliz-cloud-cluster)
+- [Zilliz Cloud コンソールからサインアウトされたのはなぜですか？](#why-was-i-signed-out-of-the-zilliz-cloud-console)
 
 ## FAQ
 
@@ -27,4 +28,8 @@ displayed_sidebar: default
 
 ### Zilliz Cloud クラスターへの接続に使用するパスワードを忘れた場合はどうすればよいですか？\{#what-can-i-do-if-i-forget-the-password-used-to-connect-to-my-zilliz-cloud-cluster}
 
-パスワードを忘れた場合は、パスワードをリセットできます。ただし、デフォルトユーザーのパスワードを忘れた場合は、新しいパスワードで新しいユーザーを作成できます。詳細については、[Cluster Credentials (Console)](./cluster-credentials) および [Cluster Credentials (Console)](./cluster-credentials) を参照してください。
+パスワードを忘れた場合は、パスワードをリセットできます。ただし、デフォルトユーザーのパスワードを忘れた場合は、新しいパスワードで新しいユーザーを作成できます。詳細については、[クラスター Credentials (Console)](./cluster-credentials) および [クラスター Credentials (Console)](./cluster-credentials) を参照してください。
+
+### Zilliz Cloud コンソールからサインアウトされたのはなぜですか？\{#why-was-i-signed-out-of-the-zilliz-cloud-console}
+
+セキュリティのため、Zilliz Cloud コンソールのセッションは 6 時間操作がないと期限切れになります。セッションが期限切れになった場合は、再度サインインしてコンソールの使用を続けてください。詳細については、[Console sessions](./email-accounts#console-session) を参照してください。

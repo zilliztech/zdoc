@@ -305,7 +305,7 @@ API キーを取得し、必要なファイルを Zilliz Cloud ボリューム�
    </tr>
 </table>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 `input` の場合、`format` によって使用される Spark データソースリーダーが決まります。このパラメーターを省略すると、ジョブはデフォルトで Parquet リーダーを使用し、指定したパス配下の Parquet ファイルのみを処理します。JSON や CSV などほかの形式のファイルは無視されます。
 

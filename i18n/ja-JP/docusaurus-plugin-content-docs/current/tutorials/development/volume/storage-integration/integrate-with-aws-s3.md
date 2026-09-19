@@ -48,9 +48,9 @@ Zilliz Cloud では、Amazon Simple Storage Service（Amazon S3）と統合し�
 
 1. 表示されたダイアログボックスで、**Basic Settings** を設定します。
 
-    - **Integration Name**: この統合の一意の名前（例: `integration_0819`）。
+    - **Integration Name**: この統合の一意の名前です（例: `integration_0819`）。
 
-    - **Integration Description** *(任意)*: この統合の説明（例: `for export backupfile`）。
+    - **Integration Description** *(任意)*: この統合の説明です（例: `for export backupfile`）。
 
     - **Bucket Permission**: S3 バケットに対して Zilliz Cloud が持つアクセスレベルを選択します。以下の表で各オプションについて説明します。
 
@@ -75,7 +75,7 @@ Zilliz Cloud では、Amazon Simple Storage Service（Amazon S3）と統合し�
 
 1. [Amazon S3 コンソール](https://console.aws.amazon.com/s3/) の右上隅で、Zilliz Cloud のクラスターまたは外部ボリュームのリージョンと一致する AWS リージョンを選択します。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     - バケットを作成する AWS リージョンは、Zilliz Cloud のクラスターまたは外部ボリュームが存在するリージョンと一致している必要があります。Zilliz Cloud がサポートするリージョンについては、[クラウドプロバイダーとリージョン](./cloud-providers-and-regions) を参照してください。
     
@@ -117,7 +117,7 @@ Zilliz Cloud に AWS S3 へのアクセスを許可するには、IAM ポリシ�
 
 <Supademo id="cmeibzhk09d4rh3pyaipwhqi7" title="Step 3: Create IAM policy (1)" />
 
-簡単にするため、JSON エディタを使用してポリシーを作成します。
+簡単にするため、JSON エディターを使用してポリシーを作成します。
 
 <Procedures>
 
@@ -125,7 +125,7 @@ Zilliz Cloud に AWS S3 へのアクセスを許可するには、IAM ポリシ�
 
 1. **Policy editor** セクションで、**JSON** オプションを選択します。
 
-1. Zilliz Cloud から提供された JSON ポリシードキュメントをコピーしてポリシーエディタに貼り付けます。その後、**Next** をクリックします。
+1. Zilliz Cloud から提供された JSON ポリシードキュメントをコピーしてポリシーエディターに貼り付けます。その後、**Next** をクリックします。
 
     以下は JSON ポリシードキュメントのサンプルです。統合に合わせた正確なポリシーについては、Zilliz Cloud コンソールの **Create IAM Policy** ステップを参照してください。
 
@@ -183,7 +183,7 @@ Zilliz Cloud に AWS S3 へのアクセスを許可するには、IAM ポリシ�
     }
     ```
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     - `<bucket>` は、実際の S3 バケット名に置き換えてください。
     
@@ -245,7 +245,7 @@ AWS コンソールで IAM ロールを作成する前に、Zilliz Cloud コン�
     }
     ```
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     `965570967084` と `my-external-id` は、Zilliz Cloud コンソールの **Create IAM Role** ステップに表示される実際の AWS アカウント ID と外部 ID に置き換えてください。
 
@@ -271,7 +271,7 @@ AWS コンソールで IAM ロールを作成する前に、Zilliz Cloud コン�
 
 1. ステータスが **Successful** に変わると、統合が機能します。**Add** をクリックします。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     IAM の変更が反映されるまでに時間がかかる場合があります。設定直後に検証が失敗した場合は、しばらく待ってから再試行してください。
 
@@ -370,7 +370,7 @@ Zilliz Cloud コンソールでの操作の代わりに、ストレージ統合�
 
 1. ストレージ統合を作成します。
 
-    このリクエストは、説明を除き、検証リクエストとほとんど同じパラメータを共有します。
+    このリクエストは、説明を除き、検証リクエストとほとんどのパラメータが共通しています。
 
     ```bash
     curl --request POST \
@@ -468,7 +468,7 @@ curl --request GET \
 --header "Content-Type: application/json"
 ```
 
-レスポンスは次のようになります。
+レスポンスは以下の通りです。
 
 ```bash
 {

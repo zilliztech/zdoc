@@ -226,7 +226,7 @@ import Procedures from '@site/src/components/Procedures';
        </tr>
     </table>
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     `similarityThreshold` と `targetDedupRate` は相互に排他的です。両方を指定した場合、またはどちらも指定しない場合はエラーになります。
 
@@ -309,3 +309,4 @@ import Procedures from '@site/src/components/Procedures';
 ## 次のステップ\{#next-step}
 
 まだ実施していない場合は、[プライマリキー重複排除](./primary-key-dedup) を使用して、同じプライマリキー値を持つレコードを特定します。モデルトレーニングや大規模なデータ分析には、[K-Means クラスタリング](./k-means-clustering) を使用して埋め込みの分布を調べ、[異常検知](./anomaly-detection) を使用して、さらに確認が必要な可能性がある異常なレコードを見つけます。 
+

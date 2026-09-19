@@ -156,7 +156,7 @@ Zilliz Cloud では、[Google Cloud Storage](https://cloud.google.com/storage) �
 
 1. **Validate Integration** をクリックして、コンテナとロール割り当ての設定が有効であることを確認します。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     通常、検証には 2 分ほどかかりますが、場合によっては 7 分以上かかることがあります。
 

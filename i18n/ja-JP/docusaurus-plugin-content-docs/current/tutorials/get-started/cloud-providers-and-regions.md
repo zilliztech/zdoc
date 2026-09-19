@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud は、AWS、Google Cloud、Microsoft Azure にまたがる複数のクラウドプロバイダーとリージョンをサポートしています。
 
-リージョンのサポートは、ワークロードタイプ、デプロイオプション、および機能によって異なる場合があります。[プロジェクトを作成](./manage-projects#create-a-project)する前に、このページを使用してリージョンを選択してください。
+リージョンのサポートは、ワークロードタイプ、デプロイオプション、および機能によって異なる場合があります。[プロジェクトを作成](./manage-projects#create-a-project)する前に、このページを参考にリージョンを選択してください。
 
 ## クラウドリージョンの選び方\{#how-to-choose-a-cloud-region}
 
@@ -195,7 +195,7 @@ Zilliz Cloud は、AWS、Google Cloud、Microsoft Azure にまたがる複数の
    </tr>
 </table>
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 一覧にないリージョンでオンデマンドコンピュートが必要な場合は、[お問い合わせください](http://zilliz.com/contact-sales)。
 
@@ -230,7 +230,7 @@ Zilliz Cloud は、AWS、Google Cloud、Microsoft Azure にまたがる複数の
    </tr>
 </table>
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 BYOC デプロイが必要な場合は、[お問い合わせください](http://zilliz.com/contact-sales)。
 
@@ -260,7 +260,7 @@ BYOC デプロイが必要な場合は、[お問い合わせください](http:/
    <tr>
      <td><p><a href="./global-cluster-explained">グローバルクラスター</a></p></td>
      <td><p>✅ すべてのリージョン</p></td>
-     <td><p>ℹ️   一部のリージョン：</p><ul><li><p>gcp-us-central1</p></li><li><p>gcp-us-east4</p></li></ul><Admonition type="info" icon="📘" title="Note"> Google Cloud リージョンでこの機能を使用する必要がある場合は、[お問い合わせください](http://support.zilliz.com)。 </Admonition></td>
+     <td><p>ℹ️   一部のリージョン：</p><ul><li><p>gcp-us-central1</p></li><li><p>gcp-us-east4</p></li></ul><Admonition type="info" title="Note"> Google Cloud リージョンでこの機能を使用する必要がある場合は、[お問い合わせください](http://support.zilliz.com)。 </Admonition></td>
      <td><p>❌</p></td>
    </tr>
    <tr>
@@ -283,9 +283,8 @@ BYOC デプロイが必要な場合は、[お問い合わせください](http:/
    </tr>
 </table>
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 一部の機能は、追加の構成、プロジェクトプラン、またはデプロイモードによって異なります。詳細については、[デプロイメントとプランの比較](./select-zilliz-cloud-service-plans) を参照してください。
 
 </Admonition>
-

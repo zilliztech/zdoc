@@ -2050,15 +2050,45 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/spark-batch-jobs/data-backfill.md",
       "translatedAt": "2026-09-19T14:12:08.171Z"
     },
+    "content/en/guides/tutorials/development/spark-batch-jobs/k-means-clustering.md": {
+      "sourceHash": "4a973b1b985a0ca8ca6bf1bbdbf7965e03e945034f6fad4378d5378a93658337",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/spark-batch-jobs/k-means-clustering.md",
+      "translatedAt": "2026-09-19T14:13:27.901Z"
+    },
     "content/en/guides/tutorials/development/spark-batch-jobs/manage-spark-batch-jobs.md": {
-      "sourceHash": "4df07cfef886c7cbbcfc6f829c0daf94fe7b2bae5fb1309f2380bd5db736236a",
+      "sourceHash": "dcae4d27b973f63d0d0e9d25fd3fbe3f862fef1b3f6288b78e14c88bb40cd01a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/spark-batch-jobs/manage-spark-batch-jobs.md",
-      "translatedAt": "2026-08-25T15:31:42.980Z"
+      "translatedAt": "2026-09-19T14:13:27.901Z"
+    },
+    "content/en/guides/tutorials/development/spark-batch-jobs/primary-key-dedup.md": {
+      "sourceHash": "6cf0447b52ea20cf2d690d46a9f46381154299e57df0d92815244aa29c0eec47",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/spark-batch-jobs/primary-key-dedup.md",
+      "translatedAt": "2026-09-19T14:13:27.901Z"
+    },
+    "content/en/guides/tutorials/development/spark-batch-jobs/spark-batch-jobs.md": {
+      "sourceHash": "d90f311a08df7aca27fc998ad3c518075a63a511bf07f8d3bcd995364e4d4f31",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/spark-batch-jobs/spark-batch-jobs.md",
+      "translatedAt": "2026-09-19T14:13:27.901Z"
+    },
+    "content/en/guides/tutorials/development/spark-batch-jobs/vector-similarity-dedup.md": {
+      "sourceHash": "56c4fb18c76215d377c39279fc8c12bec4aad6495a113a6979ed87bc2d8e3d98",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/spark-batch-jobs/vector-similarity-dedup.md",
+      "translatedAt": "2026-09-19T14:13:27.901Z"
+    },
+    "content/en/guides/tutorials/development/vector-index/autoindex-explained.md": {
+      "sourceHash": "36f9001c91168e0dc5470011dc1ccdb643fbd07913448ee27577a0d81e369ede",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/vector-index/autoindex-explained.md",
+      "translatedAt": "2026-09-19T14:13:27.901Z"
+    },
+    "content/en/guides/tutorials/development/vector-index/minhash-lsh.md": {
+      "sourceHash": "0c4eb20c5b0e7fea268fea23a557d2034dfbd438bff822f59d2ea1ca75b972a5",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/vector-index/minhash-lsh.md",
+      "translatedAt": "2026-09-19T14:13:27.901Z"
     },
     "content/en/guides/tutorials/development/vector-index/tune-index-build-level.md": {
-      "sourceHash": "fbde9a4857c2b060b105df1b97435615549ed5525bfb1cbe6023f05d0e848d1b",
+      "sourceHash": "bb3fafa287bb7be066f93f34e61224729472bc867e4277c0f86daf7adb0085ea",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/vector-index/tune-index-build-level.md",
-      "translatedAt": "2026-08-04T05:06:00.513Z"
+      "translatedAt": "2026-09-19T14:13:27.901Z"
     },
     "content/en/guides/tutorials/development/volume/external-volume.md": {
       "sourceHash": "3b47a4c5fa6e9fac21748e7260f431de1ef5672090f3243637056ecfc043434e",
@@ -2066,19 +2096,34 @@
       "translatedAt": "2026-08-04T05:11:03.799Z"
     },
     "content/en/guides/tutorials/development/volume/managed-volume.md": {
-      "sourceHash": "e7708fe858e02fa82893ef7e010f34d9645f75c57b69d412466c0d11e36ee4c7",
+      "sourceHash": "e38805dbde161c3c1fb204d8abd510070340b78caaf0a6d9ff499a404b49242c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/volume/managed-volume.md",
-      "translatedAt": "2026-08-25T08:28:46.632Z"
+      "translatedAt": "2026-09-19T14:13:27.901Z"
     },
     "content/en/guides/tutorials/development/volume/storage-integration/integrate-with-aws-s3.md": {
-      "sourceHash": "b9965f0156c2e441d1cec07023c05c84728b6b866c970c9639fff96427a8c3fd",
+      "sourceHash": "3b106f0d500b12f94d7371081f19cfef0fc746d0a41de9650cc7c22dec7b2b5d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/volume/storage-integration/integrate-with-aws-s3.md",
-      "translatedAt": "2026-08-04T05:09:03.478Z"
+      "translatedAt": "2026-09-19T14:13:27.901Z"
+    },
+    "content/en/guides/tutorials/development/volume/storage-integration/integrate-with-azure-blob-storage.md": {
+      "sourceHash": "7cba370bbe05121aa3b533666e3cd69e8cd634896399e87085f57561ddbe6fe2",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/volume/storage-integration/integrate-with-azure-blob-storage.md",
+      "translatedAt": "2026-09-19T14:13:27.901Z"
+    },
+    "content/en/guides/tutorials/development/volume/storage-integration/integrate-with-gcp.md": {
+      "sourceHash": "3f09e0be2c350f835b3000f149fcface9ffd775bc421d576a363e464e69518b0",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/volume/storage-integration/integrate-with-gcp.md",
+      "translatedAt": "2026-09-19T14:13:27.901Z"
     },
     "content/en/guides/tutorials/get-started/cloud-providers-and-regions.md": {
-      "sourceHash": "111c1ca88e79137e909dbaea8bd6a9e59336ca5fe48cdb7944c0ca82c0c1c508",
+      "sourceHash": "86e5ca69ebeb103029412064af25b9ca1547b7b18b2654e7e460ab1f1307e60a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/cloud-providers-and-regions.md",
-      "translatedAt": "2026-08-04T05:06:09.661Z"
+      "translatedAt": "2026-09-19T14:13:27.901Z"
+    },
+    "content/en/guides/tutorials/get-started/faqs/faq-authentication.md": {
+      "sourceHash": "3ae91e19944e6c14e61fd0b3ad71e99c1e34afdbdc517cf9b6ecccf352b2a0f7",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/faqs/faq-authentication.md",
+      "translatedAt": "2026-09-19T14:13:27.901Z"
     },
     "content/en/guides/tutorials/get-started/faqs/faq-cluster.md": {
       "sourceHash": "841bcdd9765dccb6c1e340a656f2ac7656c20741a89df4315c94405e1c9d7f03",
@@ -2089,6 +2134,11 @@
       "sourceHash": "49406e90e401001e091ae15635cd6ad895e1af44b9e39876dfb9b443923e6d73",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/faqs/faq-collection.md",
       "translatedAt": "2026-08-04T05:07:11.021Z"
+    },
+    "content/en/guides/tutorials/get-started/faqs/faq-data-import.md": {
+      "sourceHash": "977c142130c839136b8b59d85e463d36ccdbe8f6b82786a886c9c3cd55f7ffef",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/faqs/faq-data-import.md",
+      "translatedAt": "2026-09-19T14:13:27.901Z"
     },
     "content/en/guides/tutorials/get-started/faqs/faq-get-started.md": {
       "sourceHash": "c471a81ce9f546e32596900882233bddfb5b26288b4291854245930b20a8ba4b",

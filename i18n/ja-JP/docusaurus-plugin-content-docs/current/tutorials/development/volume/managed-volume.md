@@ -1,7 +1,7 @@
 ---
-title: "Managed Volumes | Cloud"
+title: "マネージドボリューム | Cloud"
 slug: /managed-volume
-sidebar_label: "Managed Volumes"
+sidebar_label: "マネージドボリューム"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -23,7 +23,7 @@ import Supademo from '@site/src/components/Supademo';
 
 import Procedures from '@site/src/components/Procedures';
 
-# Managed Volumes
+# マネージドボリューム
 
 <FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
 
@@ -632,7 +632,7 @@ export TOKEN="YOUR_API_KEY"
 
 マネージドボリュームからのデータ削除は、ファイルやフォルダーのサイズに応じて数分かかる場合があります。
 
-<Admonition type="info" icon="📘" title="⚠️ Warning">
+<Admonition type="warning" title="Warning">
 
 削除したファイルやフォルダーは**復元できません**。操作の際はご注意ください。
 
@@ -658,7 +658,7 @@ export TOKEN="YOUR_API_KEY"
 
 マネージドボリュームを削除すると、**そのボリューム内のすべてのファイルとフォルダー**も同時に削除されます。
 
-<Admonition type="info" icon="📘" title="⚠️ Warning">
+<Admonition type="warning" title="Warning">
 
 削除したボリュームは**復元できません**。操作の際はご注意ください。
 
