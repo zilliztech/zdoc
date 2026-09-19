@@ -34,7 +34,7 @@ import Grid from '@site/src/components/Grid';
 
         ## Milvus v2.6 GA\{#milvus-v26-ga}
 
-        今回のリリースは Milvus v2.6.x の GA マイルストーンであり、Geometry、Struct、TimestampTz データ型、ダウンタイムなしのフィールド追加、強化された全文検索、高速化された JSON フィルタリング、新しい reranking 関数、INT8 ベクトルへの対応、partial upsert、MINHASH_LSH インデックスなどを含む、本番運用に対応した安定性と完全な機能サポートを Zilliz Cloud にもたらします。
+        今回のリリースは Milvus v2.6.x の GA マイルストーンであり、Geometry、Struct、TimestampTz データ型、ダウンタイムなしのフィールド追加、強化された全文検索、高速化された JSON フィルタリング、新しい reranking 関数、INT8 ベクトルへの対応、partial upserts、MINHASH_LSH インデックスなどを含め、本番運用に対応した安定性と完全な機能サポートを Zilliz Cloud にもたらします。
 
     </div>
 
@@ -125,4 +125,3 @@ import Grid from '@site/src/components/Grid';
     </div>
 
 </Grid>
-

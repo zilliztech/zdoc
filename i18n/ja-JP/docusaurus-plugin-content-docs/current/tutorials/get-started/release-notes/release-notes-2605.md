@@ -102,7 +102,7 @@ import Grid from '@site/src/components/Grid';
 
         ベクトル Lakebase のローンチに合わせて、Zilliz は Milvus 3.0 のパブリックプレビューもリリースします。このバージョンでは、Milvus はオープンなデータフォーマットと、既存のデータレイクや大規模データ処理エンジンとのより広範な統合を通じて、ベクトルデータベースの機能を AI データインフラストラクチャスタックへと拡張します。
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" title="Notes">
 
         このリリースでは、Milvus 3.0 の機能はオンデマンドクラスターでのみサポートされます。サービングクラスターはまだサポートされていません。
 

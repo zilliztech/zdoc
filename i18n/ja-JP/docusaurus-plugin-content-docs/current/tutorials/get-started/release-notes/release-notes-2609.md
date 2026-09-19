@@ -48,7 +48,7 @@ import Grid from '@site/src/components/Grid';
 
         - **Access Control ページの刷新:** Members、Groups、Project Roles の各タブに加え、組織ロールと任意のプロジェクトアクセスを 1 つのステップで設定できる Invite Member フローを備えています。詳細は、[Manage Platform Users](./manage-platform-users) を参照してください。
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" title="Notes">
 
         - **Organization Owner はプロジェクトへのアクセスを継承しなくなりました。** 組織ロールが対象とするのは、組織の設定、メンバー、請求、認証のみになりました。Organization Owner がプロジェクトのリソースを管理またはアクセスするには、プロジェクトロールが必要です。プロジェクトを作成した Organization Owner には、そのプロジェクトの Project Admin ロールが自動的に付与されます。
         
@@ -98,7 +98,7 @@ import Grid from '@site/src/components/Grid';
 
         ## 機能強化\{#enhancements}
 
-        - **オンデマンドクラスターのインプレースでのリサイズ** — コンソールまたは Update On-Demand クラスター API から、既存のオンデマンドクラスターのクエリ CU 数を、名前、説明、自動一時停止の間隔とあわせて変更できるようになりました。詳細は、[Manage On-Demand Cluster](./manage-on-demand-clusters) を参照してください。
+        - **Resize On-Demand クラスター in place** — You can now change the number of query CUs, along with the name, description, and auto-suspend interval, on an existing On-Demand クラスター from the console or the Update On-Demand クラスター API. For details, refer to [Manage On-Demand クラスター](./manage-on-demand-clusters).
 
         - **デフォルトプロジェクトの削除** — デフォルトプロジェクトも、クラスターやボリュームなどが存在しなくなれば、他のプロジェクトと同様に削除できるようになりました。詳細は、[Manage Projects](./manage-projects) を参照してください。
 
@@ -108,8 +108,9 @@ import Grid from '@site/src/components/Grid';
 
         - **ログ転送失敗に対するプロジェクトアラート** — Audit Log、Access Log、Slow Log の転送失敗に対してプロジェクトアラートを作成できるようになりました。転送が失敗すると、Zilliz Cloud が設定された受信者に通知するため、問題をすばやく特定できます。Audit Log の課金は自動的に一時停止され、転送が復旧すると再開されます。詳細は、[Manage Project Alerts](./manage-project-alerts) を参照してください。
 
-        - **BYOC のオンデマンドコンピュート** — BYOC プロジェクトでは、Serving Clusters の下に新しく追加された On-Demand エントリからデータプレーンごとにオンデマンドコンピュートを有効にし、ご自身のクラウドアカウント内でオンデマンドクラスター、外部コレクション、プロジェクトデータベースを使用できるようになりました。詳細は、[Quick Start to On-Demand Search](/docs/byoc/quick-start-to-on-demand-search)、[On-Demand データベース](/docs/byoc/on-demand-database)、および [Manage External コレクション (Console)](/docs/byoc/manage-external-collections-console) を参照してください。
+        - **On-Demand Compute for BYOC** — BYOC projects can now enable On-Demand Compute per Data Plane from the new On-Demand entry under Serving Clusters, and use On-Demand Clusters, external コレクション, and project データベース inside your own cloud account. For details, refer to [Quick Start to On-Demand Search](/docs/byoc/quick-start-to-on-demand-search), [On-Demand データベース](/docs/byoc/on-demand-database), and [Manage External コレクション (Console)](/docs/byoc/manage-external-collections-console).
 
     </div>
 
 </Grid>
+

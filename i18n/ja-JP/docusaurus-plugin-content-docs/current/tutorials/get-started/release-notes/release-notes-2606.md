@@ -84,7 +84,7 @@ import Grid from '@site/src/components/Grid';
 
         ベクトルフィールドが `nullable` 属性をサポートするようになり、既存のコレクションに新しいベクトルフィールドを追加できるようになりました。これは多くのお客様が待ち望んでいた機能です。nullable ベクトルにより、コレクション作成後にベクトル列を追加してスキーマを進化させ、コレクションを完全に稼働させたまま、自分のペースで埋め込みを後から埋めることができます。
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" title="Notes">
 
         Nullable ベクトル を使用するには、Serving クラスター で最新の Milvus 2.6.x バージョンが必要です。Milvus 3.0.x を実行している On-Demand クラスター では、この機能はすでにサポートされています。
 

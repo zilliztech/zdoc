@@ -32,7 +32,7 @@ import Admonition from '@theme/Admonition';
 
 Milvus 2.4 は、RAG とマルチモーダルデータ検索のための効率的な機能を多数提供しています。これらの新機能を試したい場合は、クラスターを BETA に更新できます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Milvus 2.4 はまだ安定版に達していません。本番環境で Milvus 2.4 の機能を採用する際は注意してください。
 
@@ -95,3 +95,4 @@ Zilliz Cloud は、パイプラインリクエストのトークン使用量を�
 このリリースには、以下の一連の機能強化も含まれています。
 
 - Dedicated クラスターをセルフサービス方式で 256 CU までスケールできるようになりました。さらに大規模なクラスターが必要な場合は、お問い合わせください。
+
