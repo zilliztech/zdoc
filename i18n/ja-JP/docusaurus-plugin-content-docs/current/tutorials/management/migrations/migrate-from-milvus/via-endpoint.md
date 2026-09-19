@@ -52,7 +52,7 @@ Milvus から Zilliz Cloud への移行を開始する前に、以下の要件�
 
 <Supademo id="cmbkiuxw98p13sn1rc65tt6b0" title="Zilliz Cloud - Migrate from Milvus via Endpoint" />
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 - ソースコレクションですでに全文検索が有効になっている場合、Zilliz Cloud は移行後のターゲットコレクションにその Function 設定を保持します。これらの継承された設定は変更できません。
 
@@ -74,7 +74,7 @@ Milvus から Zilliz Cloud への移行を開始する前に、以下の要件�
 
 - **手動でのロードが必要**: 自動的にインデックスが作成されても、移行されたコレクションはすぐには検索またはクエリ操作に利用できません。検索およびクエリ機能を有効にするには、Zilliz Cloud でコレクションを手動でロードする必要があります。詳細は、[Load & Release](./load-release-collections) を参照してください。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 コレクションがロードされたら、ターゲットクラスター内のコレクション数およびエンティティ数がデータソースと一致していることを確認してください。不一致が見つかった場合は、エンティティが不足しているコレクションを削除し、再度移行してください。
 

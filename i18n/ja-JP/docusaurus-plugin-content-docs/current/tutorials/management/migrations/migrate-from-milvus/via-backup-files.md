@@ -36,7 +36,7 @@ Zilliz Cloud は、インフラを自分で管理することなく Milvus ベ�
 
     - **From Object Storage**: Milvus オブジェクトストレージの公開 URL とアクセス認証情報を準備します。長期認証情報または一時認証情報を選択できます。オブジェクトストレージ URL の詳細な例については、[FAQ](./via-backup-files#faq) を参照してください。
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" title="Notes">
 
         低レイテンシで安定した利用体験を確保するため、ターゲットクラスターと同じプロバイダーかつ同じリージョンのバケットまたは blob コンテナーを使用することを推奨します。
 
@@ -98,7 +98,7 @@ Milvus 2.x の移行データを準備するには、
       ...
     ```
 
-    <Admonition type="info" icon="📘" title="📘 Notes">
+    <Admonition type="info" title="Notes">
 
     - Docker Compose を使用してインストールした Milvus インスタンスでは、`minio.bucketName` のデフォルト値は `a-bucket`、`rootPath` のデフォルト値は `files` です。
     
@@ -126,7 +126,7 @@ Milvus 2.x の移行データを準備するには、
 
         - [Minio Console](https://min.io/docs/minio/kubernetes/upstream/administration/minio-console.html) からダウンロードするには、Minio Console にログインし、`minio.address` で指定されたバケットを見つけて、そのバケット内のファイルを選択し、**Download** をクリックしてダウンロードします。
 
-        - [**mc** クライアント](https://min.io/docs/minio/linux/reference/minio-mc.html#mc-install) を使用したい場合は、次の手順に従ってください。
+        - If you prefer [the ](https://min.io/docs/minio/linux/reference/minio-mc.html#mc-install)**[mc](https://min.io/docs/minio/linux/reference/minio-mc.html#mc-install)**[ client](https://min.io/docs/minio/linux/reference/minio-mc.html#mc-install), do as follows:
 
             ```plaintext
             # configure a Minio host
@@ -149,7 +149,7 @@ Milvus 2.x の移行データを準備するには、
 
 <Supademo id="cmbhd2wj85jktsn1rnjmi4t5o" title="Zilliz Cloud - Migrate from Milvus via Backup File Demo" />
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 ソースコレクションでフルテキスト検索がすでに有効になっている場合、Zilliz Cloud は移行後にその Function 設定をターゲットコレクションに保持します。これらの継承された設定は変更できません。
 
@@ -161,7 +161,7 @@ Milvus 2.x の移行データを準備するには、
 
 <Supademo id="cme9my2nn4b64h3pyiyvsakqb" title="Zilliz Cloud - Monitor the Migration Process" />
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 移行後、ターゲットクラスター内のコレクションとエンティティの数がデータソースと一致していることを確認してください。不一致が見つかった場合は、エンティティが欠けているコレクションを削除し、再度それらを移行してください。
 
@@ -171,7 +171,7 @@ Milvus 2.x の移行データを準備するには、
 
 移行ジョブが完了したら、次の点に注意してください。
 
-- **Index Creation**: 移行プロセスでは、移行されたコレクションに対して [AUTOINDEX](./autoindex-explained) が自動的に作成されます。
+- **Index Creation**: The migration process automatically creates [AUTOINDEX](./autoindex-explained) for the migrated コレクション.
 
 - **Manual Loading Required**: 自動インデックス作成が行われても、移行されたコレクションはすぐに検索またはクエリ操作に使用できるわけではありません。検索およびクエリ機能を有効にするには、Zilliz Cloud でコレクションを手動でロードする必要があります。詳細については、[Load & Release](./load-release-collections) を参照してください。
 

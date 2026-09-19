@@ -102,7 +102,7 @@ Zilliz Cloud は、Milvus からのデータ移行用のバックアップ ツ�
           ...
         ```
 
-    <Admonition type="info" icon="📘" title="📘 Notes">
+    <Admonition type="info" title="Notes">
 
     - Docker Compose でインストールされた Milvus インスタンスの場合、`minio.bucketName` のデフォルト値は `a-bucket`、`rootPath` のデフォルト値は `files` です。
     
@@ -134,7 +134,7 @@ Zilliz Cloud は、Milvus からのデータ移行用のバックアップ ツ�
 
     このコマンドを実行すると、Milvus Backup が準備されたバックアップ ファイルを Zilliz Cloud プラットフォームにアップロードし、移行ジョブを作成して、コマンド出力としてジョブ ID を返します。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     Zilliz Cloud プラットフォームにアップロードされたバックアップ ファイルは、アップロード後 **3** 日間保持され、その後削除されます。
 
@@ -146,7 +146,7 @@ Zilliz Cloud は、Milvus からのデータ移行用のバックアップ ツ�
 
 **Migrate** をクリックすると移行ジョブが生成されます。移行の進行状況は [Jobs](./job-center) ページで確認できます。ジョブのステータスが **In Progress** から **Successful** に変わると、移行完了です。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 移行後、移行先クラスター内のコレクション数とエンティティ数が移行元と一致していることを確認します。不一致が見つかった場合は、エンティティが不足しているコレクションを削除して再移行してください。
 

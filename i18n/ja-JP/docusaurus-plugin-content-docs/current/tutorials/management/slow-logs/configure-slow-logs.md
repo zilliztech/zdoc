@@ -26,11 +26,11 @@ import Procedures from '@site/src/components/Procedures';
 
 このガイドでは、Zilliz Cloud における Slow logs のライフサイクル全体（有効化、設定の調整、無効化）について説明します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 - このリリースでは、低速な Search、HybridSearch、および Query リクエストが記録されます。
 
-- Slow logs は、**Enterprise** プロジェクト上の **Dedicated** cluster でのみ利用できます。お使いの cluster が別のプランまたは cluster タイプの場合は、アップグレードを検討してください。
+- Slow logs are available only for **Dedicated** クラスター on **Enterprise** projects. If your クラスター is on a different plan or クラスター type, consider upgrading it.
 
 - Slow logs 機能は無料で利用できます。
 
@@ -38,9 +38,9 @@ import Procedures from '@site/src/components/Procedures';
 
 ## 開始する前に\{#before-you-start}
 
-- ターゲット cluster と同じリージョンに設定されたオブジェクトストレージ連携（AWS S3、Google Cloud Storage、または Azure Blob Storage）。設定手順については、[AWS S3 との連携](./integrate-with-aws-s3)、[Google Cloud Storage との連携](./integrate-with-gcp)、または [Azure Blob Storage との連携](./integrate-with-azure-blob-storage) を参照してください。
+- An object storage integration (AWS S3, Google Cloud Storage, or Azure Blob Storage) configured in the same region as your target クラスター. For setup instructions, refer to [Integrate with AWS S3](./integrate-with-aws-s3), [Integrate with Google Cloud Storage](./integrate-with-gcp), or [Integrate with Azure Blob Storage](./integrate-with-azure-blob-storage).
 
-- プロジェクトに対する **Organization Owner**、**Project Admin**、または **Cluster Admin** 権限。必要な権限がない場合は、Zilliz Cloud 管理者にお問い合わせください。
+- **Organization Owner**, **Project Admin**, or **クラスター Admin** permissions for the project. If you do not have the required permissions, contact your Zilliz Cloud administrator.
 
 ## Slow logs を有効にする\{#enable-slow-logs}
 
@@ -48,7 +48,7 @@ import Procedures from '@site/src/components/Procedures';
 
 <Procedures>
 
-1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) を開き、ターゲット cluster に移動します。
+1. Open the [Zilliz Cloud console](https://cloud.zilliz.com/login) and navigate to your target クラスター.
 
 1. **Logs** タブをクリックします。
 
@@ -60,7 +60,7 @@ import Procedures from '@site/src/components/Procedures';
 
     - **Directory**: access logs を保存するための、バケット内のディレクトリを指定します。
 
-    - **Threshold**: Slow log 収集のしきい値を指定します。実行時間がこの値を超える操作は Slow logs に記録されます。デフォルト値は 150 ms です。
+    - **Threshold**: Specify the threshold for slow log コレクション. Operations whose execution time exceeds this value are recorded in slow logs. The default value is 150 ms.
 
 1. **Save** をクリックします。
 
@@ -72,7 +72,7 @@ import Procedures from '@site/src/components/Procedures';
 
 <Procedures>
 
-1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) を開き、cluster に移動します。
+1. Open the [Zilliz Cloud console](https://cloud.zilliz.com/login) and navigate to your クラスター.
 
 1. **Logs** タブをクリックします。
 
@@ -90,7 +90,7 @@ import Procedures from '@site/src/components/Procedures';
 
 <Procedures>
 
-1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) を開き、cluster に移動します。
+1. Open the [Zilliz Cloud console](https://cloud.zilliz.com/login) and navigate to your クラスター.
 
 1. **Logs** タブをクリックします。
 

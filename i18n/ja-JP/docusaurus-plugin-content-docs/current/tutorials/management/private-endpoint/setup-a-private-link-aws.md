@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 プライベートリンクはプロジェクトレベルで設定され、このプロジェクト配下で同じクラウドプロバイダーおよびリージョンにデプロイされたすべての **Dedicated** サービングクラスターと **on-demand** クラスターに対して有効です。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 プロジェクトごとに最大 10 個のプライベートエンドポイントを作成できます。
 
@@ -34,7 +34,7 @@ import Procedures from '@site/src/components/Procedures';
 
 Zilliz Cloud はプライベートエンドポイントの作成および使用に対して課金しません。ただし、Zilliz Cloud へのアクセスのために作成する各エンドポイントについては、クラウドプロバイダーから[課金される場合があります](https://aws.amazon.com/privatelink/pricing/)。
 
-## 開始前に\{#before-you-start}
+## 事前準備\{#before-you-start}
 
 以下を確認してください。
 
@@ -68,7 +68,7 @@ AWS リージョンにデプロイされたクラスター用のプライベー�
 
     1. AWS コンソールに移動し、右上でサービスが稼働しているリージョンを選択します。次に、左側のナビゲーションで **Endpoints** をクリックします。**Create Endpoint** をクリックします。
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" title="Notes">
 
         必ず、Zilliz Cloud クラスターへのアクセスが必要なサービスが存在するリージョンを使用してください。
         
@@ -88,7 +88,7 @@ AWS リージョンにデプロイされたクラスター用のプライベー�
 
         ![enter_service_name_gcp](https://zdoc-images.s3.us-west-2.amazonaws.com/enterservicenamegcp.png "enter_service_name_gcp")
 
-        <Admonition type="info" icon="📘" title="📘 Notes">
+        <Admonition type="info" title="Notes">
 
         サービスが Zilliz Cloud クラスターがホストされているリージョンとは異なるリージョンで動作している場合は、**Enable Cross Region endpoint** を選択し、Zilliz Cloud クラスターが稼働しているリージョンを選択してください。その後、**Verify service** をクリックします。 
         
@@ -100,7 +100,7 @@ AWS リージョンにデプロイされたクラスター用のプライベー�
 
     1. サービス名の検証が完了したら、まずサブネットとセキュリティグループを設定し、その後 **Create** をクリックします。
 
-    1. エンドポイントの作成に成功したら、Endpoint ID（`vpce-` で始まる）をコピーします。
+    1. エンドポイントの作成に成功したら、Endpoint ID（"vpce-" で始まる）をコピーします。
 
     </Procedures>
 
@@ -153,7 +153,7 @@ AWS リージョンにデプロイされたクラスター用のプライベー�
         }
         ```
 
-        返されたメッセージで、作成された VPC エンドポイントの VpcEndpointId（`vpce-` で始まる）をコピーします。
+        返されたメッセージで、作成された VPC エンドポイントの VpcEndpointId（"vpce-" で始まる）をコピーします。
 
     </Procedures>
 
@@ -240,7 +240,7 @@ Zilliz Cloud によって割り当てられたプライベートリンク経由�
 
 <Procedures>
 
-1. 対象クラスターの **Cluster Details** ページに移動します。
+1. 対象クラスターの **クラスター Details** ページに移動します。
 
 1. **Connect** セクションに移動します。
 
@@ -250,7 +250,7 @@ Zilliz Cloud によって割り当てられたプライベートリンク経由�
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 - プライベートエンドポイントは [data plane](/reference/restful/data-plane-v2) アクセスにのみ影響します。[Control plane](/reference/restful/control-plane-v2) には引き続きパブリックインターネット経由でアクセスできます。
 
@@ -272,7 +272,7 @@ Zilliz Cloud によって割り当てられたプライベートリンク経由�
 
     ![QOanbDGrYovMXHxczXmcCbUcnsc](https://zdoc-images.s3.us-west-2.amazonaws.com/qoanbdgryovmxhxczxmccbucnsc.png "QOanbDGrYovMXHxczXmcCbUcnsc")
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     ping リクエストの出力で VPC エンドポイントの IP アドレスが正しく解決されていれば、DNS レコードは機能しています。 
 
@@ -294,7 +294,7 @@ Zilliz Cloud によって割り当てられたプライベートリンク経由�
 
     ![KHj0bEy7ZojM6axnR0ocg1LPnue](https://zdoc-images.s3.us-west-2.amazonaws.com/khj0bey7zojm6axnr0ocg1lpnue.png "KHj0bEy7ZojM6axnR0ocg1LPnue")
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     2 つのセキュリティグループを設定する必要があります。1 つは EC2 インスタンス用で、プライベートリンクに関連付けられたポートでのトラフィックを許可する必要があります。もう 1 つは VPC エンドポイント用で、EC2 インスタンスの IP アドレスからのトラフィックを許可し、指定されたポート番号を対象とする必要があります。
 

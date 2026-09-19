@@ -24,9 +24,9 @@ Zilliz Cloud AI プロンプトライブラリは、AI 搭載 IDE 向けに厳�
 
 ## これらのプロンプトの使い方\{#how-to-use-these-prompts}
 
-Zilliz Cloud のプロンプトをリポジトリ内のファイルに保存し、その後チャット時に AI ツールへ含めてください。以下の表は、異なるツールでプロンプトをどこに配置するかを示しています。
+Zilliz Cloud のプロンプトをリポジトリ内のファイルに保存し、チャット時に AI ツールへ含めてください。以下の表は、各ツールでプロンプトをどこに配置するかを示しています。
 
-| **ツール** | **プロンプトの配置場所** | **参考資料** |
+| **ツール** | **プロンプトの配置場所** | **リファレンス** |
 | --- | --- | --- |
 | Claude Code | プロンプトを `CLAUDE.md` ファイルに含めます。 | [指示とメモリを保存する](https://code.claude.com/docs/en/memory) |
 | Cursor | プロンプトをプロジェクトルールに追加します。 | [プロジェクトルールを設定する](https://docs.cursor.com/en/context/rules) |
@@ -39,7 +39,7 @@ Zilliz Cloud のプロンプトをリポジトリ内のファイルに保存し�
 
 AI ツールに支援してほしい作業に一致するモジュールプロンプトを追加してください。
 
-API または SDK を使用して構築する場合は、使用したいインターフェースを AI ツールに伝えてください: RESTful API、Python SDK、Java SDK、Go SDK、Node.js SDK、または Terraform。
+API または SDK を使用して構築する場合は、使用するインターフェースを AI ツールに伝えてください：RESTful API、Python SDK、Java SDK、Go SDK、Node.js SDK、または Terraform。
 
 ## プロンプト\{#prompts}
 

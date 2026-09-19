@@ -26,29 +26,29 @@ import Procedures from '@site/src/components/Procedures';
 
 プライベートリンクはプロジェクトレベルで設定され、このプロジェクト配下で同じクラウドプロバイダーおよびリージョンにデプロイされているすべての **Dedicated** サービングクラスターと **on-demand** クラスターに対して有効です。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
-プロジェクトごとに最大 10 個のプライベートエンドポイントを作成できます。
+プライベートエンドポイントはプロジェクトごとに最大 10 個まで作成できます。
 
 </Admonition>
 
-Zilliz Cloud はプライベートエンドポイントの作成および使用に対して課金しません。ただし、Zilliz Cloud へのアクセスのために作成する各エンドポイントについては、クラウドプロバイダーから[課金される場合があります](https://aws.amazon.com/privatelink/pricing/)。
+Zilliz Cloud は、プライベートエンドポイントの作成および使用に対して課金しません。ただし、Zilliz Cloud へのアクセスのために作成するエンドポイントごとに、クラウドプロバイダーから[課金される場合があります](https://aws.amazon.com/privatelink/pricing/)。
 
 ## 事前準備\{#before-you-start}
 
-次の条件を満たしていることを確認してください。
+以下の条件を満たしていることを確認してください。
 
 - サービスと Zilliz Cloud クラスターが異なるリージョンにあり、そのサービスから Private Service Connect エンドポイント経由でクラスターにアクセスする場合は、エンドポイントの作成時にグローバルアクセスを有効にすること。
 
 ## プライベートエンドポイントを作成する\{#create-private-endpoint}
 
-Zilliz Cloud では、直感的な Web コンソールでプライベートエンドポイントを追加できます。対象のプロジェクトに移動し、左側のナビゲーションで **Network > Private Endpoint** をクリックします。**+ Private Endpoint** をクリックします。
+Zilliz Cloud では、直感的な Web コンソールからプライベートエンドポイントを追加できます。対象のプロジェクトに移動し、左側のナビゲーションで **Network > Private Endpoint** をクリックします。**+ Private Endpoint** をクリックします。
 
 ![Yz5Cb5PMooxAIExRkEvcoBr9noc](https://zdoc-images.s3.us-west-2.amazonaws.com/yz5cb5pmooxaiexrkevcobr9noc.png "Yz5Cb5PMooxAIExRkEvcoBr9noc")
 
 ### クラウドプロバイダーとリージョンを選択する\{#select-a-cloud-provider-and-region}
 
-GCP リージョンにデプロイされたクラスター用のプライベートエンドポイントを作成するには、**Cloud Provider** ドロップダウンリストから **GCP** を選択します。**Region** では、プライベートにアクセスしたいクラスターが配置されているリージョンを選択します。**Next** をクリックします。
+GCP リージョンにデプロイされたクラスター用のプライベートエンドポイントを作成するには、**Cloud Provider** ドロップダウンリストから **GCP** を選択します。**Region** では、プライベートにアクセスするクラスターが配置されているリージョンを選択します。**Next** をクリックします。
 
 利用可能なクラウドプロバイダーとリージョンの詳細については、[Cloud Providers & Regions](./cloud-providers-and-regions) を参照してください。
 
@@ -80,7 +80,7 @@ Zilliz Cloud コンソールで **Copy and Go** をクリックして GCP の Pr
 
 1. エンドポイントの **IP address** を選択するか、新しく作成します。
 
-1. サービスと対象の Zilliz Cloud クラスターが異なるリージョンにあり、そのサービスから Private Service Connect エンドポイント経由でクラスターにアクセスする場合は、エンドポイントで **Enable global access** を選択します。
+1. サービスと対象の Zilliz Cloud クラスターが異なるリージョンにあり、そのサービスから Private Service Connect エンドポイント経由でクラスターにアクセスする場合は、エンドポイントの **Enable global access** を選択します。
 
 1. ドロップダウンリストから **Namespace** を選択するか、新しい名前空間を作成します。
 
@@ -138,7 +138,7 @@ Zilliz Cloud コンソールで **Copy and Go** をクリックして GCP の Pr
 
 1. **Private Service Connect Endpoint Prefix** を入力します。
 
-    利便性のため、作成するすべての転送ルールにこのプレフィックスが付くように、**Private Service Connect Endpoint prefix** でエンドポイントプレフィックスを設定する必要があります。
+    便宜上、作成するすべての転送ルールにこのプレフィックスが付くように、**Private Service Connect Endpoint prefix** でエンドポイントプレフィックスを設定する必要があります。
 
 1. コードブロック内のコピーアイコンをクリックし、Google Cloud コンソールに移動します。
 
@@ -152,23 +152,23 @@ Zilliz Cloud コンソールで **Copy and Go** をクリックして GCP の Pr
 
 ### エンドポイントを承認する\{#authorize-your-endpoint}
 
-Google Cloud コンソールから取得したエンドポイント ID とプロジェクト ID を、Zilliz Cloud の **Endpoint ID** ボックスと **Project ID** ボックスにそれぞれ貼り付けます。**Create** をクリックします。
+Google Cloud コンソールから取得したエンドポイント ID とプロジェクト ID を、Zilliz Cloud の **Endpoint ID** と **Project ID** の各ボックスにそれぞれ貼り付けます。**Create** をクリックします。
 
 ![VOy4blyfmoi7RLxO0GWcXmzDnFe](https://zdoc-images.s3.us-west-2.amazonaws.com/voy4blyfmoi7rlxo0gwcxmzdnfe.png "VOy4blyfmoi7RLxO0GWcXmzDnFe")
 
 ## プライベートリンクを取得する\{#obtain-a-private-link}
 
-送信した前述の属性の検証および承認が完了すると、Zilliz Cloud はこのエンドポイントにプライベートリンクを割り当てます。このプロセスには約 5 分かかります。
+送信した上記の属性が検証および承認されると、Zilliz Cloud はこのエンドポイントにプライベートリンクを割り当てます。この処理には約 5 分かかります。
 
-プライベートリンクの準備が完了すると、Zilliz Cloud の **Private Link** ページで確認できます。
+プライベートリンクの準備ができると、Zilliz Cloud の **Private Link** ページで確認できます。
 
 ## ファイアウォールルールと DNS レコードを設定する\{#set-up-firewall-rules-and-a-dns-record}
 
-Zilliz Cloud によって割り当てられたプライベートリンク経由でクラスターにアクセスするには、DNS ゾーンに CNAME レコードを作成して、プライベートリンクを VPC エンドポイントの DNS 名に解決する必要があります。
+Zilliz Cloud によって割り当てられたプライベートリンクを介してクラスターにアクセスするには、プライベートリンクを VPC エンドポイントの DNS 名に解決する CNAME レコードを DNS ゾーンに作成する必要があります。
 
 ### ファイアウォールルールを作成する\{#create-firewall-rules}
 
-マネージドクラスターへのプライベートアクセスを許可するには、適切なファイアウォールルールを追加します。次のスニペットは、TCP ポート 22 経由のトラフィックを許可する方法を示しています。なお、**`VPC_NAME`** は VPC の名前に設定する必要があります。
+マネージドクラスターへのプライベートアクセスを許可するには、適切なファイアウォールルールを追加します。次のスニペットは、TCP ポート 22 経由のトラフィックを許可する方法を示しています。**`VPC_NAME`** を VPC の名前に設定する必要があることに注意してください。
 
 ```bash
 VPC_NAME={{vpc-name}};
@@ -218,7 +218,7 @@ GCP コンソールで [Cloud DNS](https://console.cloud.google.com/net-services
 
 ## クラスターへのインターネットアクセスを管理する\{#manage-internet-access-to-your-clusters}
 
-プライベートエンドポイントを設定した後、クラスターのパブリックエンドポイントを無効にして、プロジェクトへのインターネットアクセスを制限することを選択できます。パブリックエンドポイントを無効にすると、ユーザーはプライベートリンクを使用してのみクラスターに接続できます。
+プライベートエンドポイントを設定した後、クラスターのパブリックエンドポイントを無効にして、プロジェクトへのインターネットアクセスを制限できます。パブリックエンドポイントを無効にすると、ユーザーはプライベートリンクを使用してのみクラスターに接続できます。
 
 パブリックエンドポイントを無効にするには、次の手順を実行します。
 
@@ -234,11 +234,11 @@ GCP コンソールで [Cloud DNS](https://console.cloud.google.com/net-services
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
-- プライベートエンドポイントが影響するのは [data plane](/reference/restful/data-plane-v2) アクセスのみです。[control plane](/reference/restful/control-plane-v2) には引き続きパブリックインターネット経由でアクセスできます。
+- プライベートエンドポイントが影響するのは [data plane](/reference/restful/data-plane-v2) へのアクセスのみです。[control plane](/reference/restful/control-plane-v2) には引き続きパブリックインターネット経由でアクセスできます。
 
-- パブリックエンドポイントを再度有効にした後、パブリックエンドポイントにアクセスできるようになるまで、ローカル DNS キャッシュの有効期限が切れるのを待つ必要がある場合があります。
+- パブリックエンドポイントを再度有効にした後、パブリックエンドポイントにアクセスできるようになるまで、ローカル DNS キャッシュが期限切れになるのを待つ必要がある場合があります。
 
 </Admonition>
 
@@ -246,7 +246,7 @@ GCP コンソールで [Cloud DNS](https://console.cloud.google.com/net-services
 
 ## FAQ\{#faq}
 
-### GCP 上でプライベートリンクに ping を実行すると、常に `Name or service not known` と報告されるのはなぜですか？\{#why-does-it-always-report-name-or-service-not-known-when-i-ping-the-private-link-on-gcp}
+### GCP 上でプライベートリンクに ping を実行すると、常に `Name or service not known` が報告されるのはなぜですか？\{#why-does-it-always-report-name-or-service-not-known-when-i-ping-the-private-link-on-gcp}
 
 [ファイアウォールルールと DNS レコードを設定する](./setup-a-private-link-gcp#set-up-firewall-rules-and-a-dns-record) を参照して、DNS 設定を確認してください。
 

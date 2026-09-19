@@ -2891,49 +2891,79 @@
       "translatedAt": "2026-09-19T14:24:19.670Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-tencent-cloud.md": {
-      "sourceHash": "e6aad26897a327fe3e36ef37bc78cc364478c9b0fe85bd7f6c70e500cf322b49",
+      "sourceHash": "ccfb183fe279ea2394554cd6ae851c5485a24ce43e72448f7df1c5b7a2e5a6b1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/migrate-from-tencent-cloud.md",
-      "translatedAt": "2026-08-04T05:09:59.517Z"
+      "translatedAt": "2026-09-19T14:25:42.714Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips.md": {
       "sourceHash": "2a7a91addb51ed459cc640417f2473248fcb67e97c34f60b469344aed33713a2",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips.md",
       "translatedAt": "2026-08-25T09:24:49.503Z"
     },
+    "content/en/guides/tutorials/management/migrations/migrate-from-milvus/via-backup-files.md": {
+      "sourceHash": "847e8eb8e6b0f05d4929f3eebd5c080b5577deadda2a9f4242e53760838fd142",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-milvus/via-backup-files.md",
+      "translatedAt": "2026-09-19T14:25:42.714Z"
+    },
+    "content/en/guides/tutorials/management/migrations/migrate-from-milvus/via-endpoint.md": {
+      "sourceHash": "0b81fc2199d01e10f21608f16824f9f6c2f14bd5e5ca7a19c2ddc6b3804b76ae",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-milvus/via-endpoint.md",
+      "translatedAt": "2026-09-19T14:25:42.714Z"
+    },
     "content/en/guides/tutorials/management/migrations/migrate-from-milvus/via-stage.md": {
-      "sourceHash": "4863cdb578ebbd4a734df1ff6c64ae356311dc300e244d1ce91edfc0156c16d8",
+      "sourceHash": "edb2318d48e9fb97d1cad99ddae82fd59e7f41eedefef3e873e08be8d436d3b4",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-milvus/via-stage.md",
-      "translatedAt": "2026-08-25T18:41:04.985Z"
+      "translatedAt": "2026-09-19T14:25:42.714Z"
     },
     "content/en/guides/tutorials/management/organizations/organization-settings.md": {
-      "sourceHash": "c6f3846944c2ca9989886ec4e15c52ce27a18a27b9c2f141aa1343612895c475",
+      "sourceHash": "d354474b7b0d3470c87f9022e68901b286ba29e48ab55f2084beba10a4db6076",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/organizations/organization-settings.md",
-      "translatedAt": "2026-08-25T18:43:07.913Z"
+      "translatedAt": "2026-09-19T14:25:42.714Z"
+    },
+    "content/en/guides/tutorials/management/organizations/use-recycle-bin.md": {
+      "sourceHash": "f6f0884151582cba176f520e1df05ab5222afd35fc9b7d5a1337d1434f3bdad2",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/organizations/use-recycle-bin.md",
+      "translatedAt": "2026-09-19T14:25:42.714Z"
     },
     "content/en/guides/tutorials/management/private-endpoint/setup-a-private-link-aws.md": {
-      "sourceHash": "8acbb77a0564cc844103f7ba2600d3cb8b64ef6b8e457d8773baa9f52e31ce5c",
+      "sourceHash": "547846cc9ae2e538bc5caa687cd74debd8ea837423c2d860071e5f4c8c75284a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/private-endpoint/setup-a-private-link-aws.md",
-      "translatedAt": "2026-08-04T05:07:12.629Z"
+      "translatedAt": "2026-09-19T14:25:42.714Z"
     },
     "content/en/guides/tutorials/management/private-endpoint/setup-a-private-link-azure.md": {
-      "sourceHash": "376729be8d4f923ebd45eda36883eb3f9bf98a6c2fe59a5e0683ef2a8f57f7c0",
+      "sourceHash": "9a6ccd282bafeb64dcaffe3fb9d95e1f9929b0b5e96032c30d9bff2ba5c1627d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/private-endpoint/setup-a-private-link-azure.md",
-      "translatedAt": "2026-08-04T05:06:22.698Z"
+      "translatedAt": "2026-09-19T14:25:42.714Z"
     },
     "content/en/guides/tutorials/management/private-endpoint/setup-a-private-link-gcp.md": {
-      "sourceHash": "cf0b9518a0bd1edf2c1f64c3e81895bbedf7e421071cf56369403e62577481af",
+      "sourceHash": "1e70146e1d1713b30d2947d2b12201b831250d7fd4e5327f0a2a7e96b6a3995b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/private-endpoint/setup-a-private-link-gcp.md",
-      "translatedAt": "2026-08-04T05:07:31.449Z"
+      "translatedAt": "2026-09-19T14:25:42.714Z"
     },
     "content/en/guides/tutorials/management/projects/job-center.md": {
-      "sourceHash": "e33753bb224cc071c3b85c9ec4f3b500626e8bd85fe7efbe2172bb441ce177d6",
+      "sourceHash": "54dc7485e5aafac174da365cbaceec4af4afaf63a656812eb2f9738905fb27ae",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/projects/job-center.md",
-      "translatedAt": "2026-08-04T05:06:40.315Z"
+      "translatedAt": "2026-09-19T14:25:42.714Z"
     },
     "content/en/guides/tutorials/management/projects/manage-projects.md": {
-      "sourceHash": "1a00c43d961e3b0e8a3025d738f31c6e8d8fbba050e139771c8e649ecc2ec4a3",
+      "sourceHash": "1458ff903c84fbd155501876ab274d540a82f233dca2b9e55ac8644e13395fc2",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/projects/manage-projects.md",
-      "translatedAt": "2026-08-25T09:35:42.664Z"
+      "translatedAt": "2026-09-19T14:25:42.714Z"
+    },
+    "content/en/guides/tutorials/management/slow-logs/configure-slow-logs.md": {
+      "sourceHash": "e8a0defab30a6d6595f279298c374bb82e27956743a9508890f4fb5ec67097f8",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/slow-logs/configure-slow-logs.md",
+      "translatedAt": "2026-09-19T14:25:42.714Z"
+    },
+    "content/en/guides/tutorials/solution/schema-evolution/migrate-to-a-new-embedding-model.md": {
+      "sourceHash": "77e12acbb1902a51c795bd6d0e86f70bfbc9d9085568c11a44b666d53c410460",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/solution/schema-evolution/migrate-to-a-new-embedding-model.md",
+      "translatedAt": "2026-09-19T14:25:42.714Z"
+    },
+    "content/en/guides/tutorials/solution/schema-evolution/schema-evolution.md": {
+      "sourceHash": "60c06b12f3f734baab1ab325202bf79e107d5b1ad05291e05d5904c3bdba7cf2",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/solution/schema-evolution/schema-evolution.md",
+      "translatedAt": "2026-09-19T14:25:42.714Z"
     },
     "content/en/guides/tutorials/tools/agents-and-prompts/agents-and-prompts.md": {
       "sourceHash": "e881131f6ef8ca6416f7b01dfbb37ece2cd0d7fef7a5ea54342ebcf2eb80c5a6",
@@ -2946,9 +2976,9 @@
       "translatedAt": "2026-08-04T05:07:45.789Z"
     },
     "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-ai-prompts.md": {
-      "sourceHash": "d7cc42bda844010848ba7bd7954f6edd8c8297f206057c72afa21fe86d00be8c",
+      "sourceHash": "797094e6648bcc29714757763f61ef81f710fc492b047be84fd3771aa2144428",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-ai-prompts.md",
-      "translatedAt": "2026-08-04T05:08:27.304Z"
+      "translatedAt": "2026-09-19T14:25:42.714Z"
     },
     "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-base-prompts.md": {
       "sourceHash": "b983d0dbd953c2d1c5a0fd58e18f46d9d1474dc2dc71adbddd52e7c27006527c",
