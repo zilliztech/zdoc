@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このページでは、StructArray の要素レベル検索結果を親エンティティごとにグループ化する方法を説明します。要素レベル検索では、複数の Struct 要素がクエリに一致すると、同じエンティティから複数のヒットが返る場合があります。グルーピングにより、これらの要素ヒットがまとめられ、各親エンティティは最大 1 回だけ表示されます。 | BYOC"
+description: "このページでは、StructArray の要素レベル検索結果を親エンティティごとにグループ化する方法を説明します。要素レベル検索では、複数の Struct 要素がクエリに一致した場合に同じエンティティから複数のヒットが返されることがあります。グルーピングによりこれらの要素ヒットがまとめられるため、各親エンティティは最大 1 回だけ表示されます。 | BYOC"
 type: origin
 token: I60hwuYrSiVSWBkYq9RcqRcpnFh
 sidebar_position: 4
@@ -20,40 +20,40 @@ import Admonition from '@theme/Admonition';
 
 # StructArray を使ったグルーピング検索
 
-このページでは、StructArray の要素レベル検索結果を親エンティティごとにグループ化する方法を説明します。要素レベル検索では、複数の Struct 要素がクエリに一致すると、同じエンティティから複数のヒットが返る場合があります。グルーピングにより、これらの要素ヒットがまとめられ、各親エンティティは最大 1 回だけ表示されます。
+このページでは、StructArray の要素レベル検索結果を親エンティティごとにグループ化する方法を説明します。要素レベル検索では、複数の Struct 要素がクエリに一致した場合に同じエンティティから複数のヒットが返されることがあります。グルーピングによりこれらの要素ヒットがまとめられるため、各親エンティティは最大 1 回だけ表示されます。
 
-このページでは、[StructArray フィールドを作成する](./create-struct-array) の `tech_articles` collection を使用します。この collection には、`chunks` という名前の StructArray フィールドがあります。`chunks[emb]` vector サブフィールドは、通常の vector metric を使用した要素レベル検索用に index 化されています。
+このページでは、[StructArray フィールドを作成する](./create-struct-array) の `tech_articles` コレクションを使用します。このコレクションには、`chunks` という名前の StructArray フィールドがあります。`chunks[emb]` ベクトルサブフィールドは、通常のベクトルメトリクスを使用した要素レベル検索用にインデックス化されています。
 
 ## StructArray へのグルーピングの適用方法\{#how-grouping-applies-to-structarray}
 
-| Search mode | Grouping behavior | Result behavior |
+| 検索モード | グルーピングの動作 | 結果の動作 |
 | --- | --- | --- |
-| EmbeddingList search | サポートされていません。 | 該当なし。 |
-| Element-level search | 主キーによるグルーピングでサポートされます。 | 親エンティティごとに最大 1 件の結果を返します。要素レベルのメタデータは保持されるため、API または SDK で公開されている場合は、選択された要素の index または offset を返せます。 |
-| Hybrid search | すべてのサブ検索が同じ StructArray フィールド配下の要素レベル vector フィールドを対象とする場合にのみサポートされます。 | 最終的な結果処理の前に、要素レベルのサブ検索は主キーごとにグループ化されます。 |
+| EmbeddingList 検索 | サポートされていません。 | 該当しません。 |
+| 要素レベル検索 | 主キーによるグルーピングでサポートされています。 | 親エンティティごとに最大 1 件の結果を返します。要素レベルのメタデータが保持されるため、API または SDK で公開されている場合には、選択された要素のインデックスまたはオフセットを返すことができます。 |
+| ハイブリッド検索 | すべてのサブ検索が同じ StructArray フィールド配下の要素レベルベクトルフィールドを対象とする場合にのみサポートされています。 | 最終的な結果の処理の前に、要素レベルのサブ検索が主キーごとにグループ化されます。 |
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-グループ化されていない要素レベル検索で、重複した親エンティティが多すぎる場合はグルーピングを使用してください。一致したすべての Struct 要素を個別のヒットとして取得したい場合は、`group_by_field` を使わずに [StructArray を使った基本 vector 検索](./search-with-struct-array) を使用してください。
+グルーピングされていない要素レベル検索で重複する親エンティティが多すぎる場合は、グルーピングを使用してください。一致したすべての Struct 要素を個別のヒットとして取得する場合は、`group_by_field` を使用せずに [StructArray を使った基本的なベクトル検索](./search-with-struct-array) を使用してください。
 
 </Admonition>
 
-## 始める前に\{#before-you-begin}
+## 事前準備\{#before-you-begin}
 
-グルーピング検索を実行する前に、collection、データ、および index を準備してください。
+グルーピング検索を実行する前に、コレクション、データ、およびインデックスを準備してください。
 
-| Requirement | Details |
+| 要件 | 詳細 |
 | --- | --- |
-| Element-level vector subfield | `chunks[emb]` のような StructArray vector サブフィールドを使用し、通常の vector metric で index 化します。 |
-| Regular vector query | `EmbeddingList` ではなく、通常のクエリ vector を使用します。 |
-| Primary key grouping | `doc_id` のように、collection の主キーを `group_by_field` として使用します。 |
-| No range parameters | グルーピング検索を、`radius` や `range_filter` などの範囲検索パラメータと組み合わせないでください。 |
+| 要素レベルベクトルサブフィールド | `chunks[emb]` などの StructArray ベクトルサブフィールドを使用し、通常のベクトルメトリクスでインデックス化します。 |
+| 通常のベクトルクエリ | `EmbeddingList` ではなく、通常のクエリベクトルを使用します。 |
+| 主キーによるグルーピング | `doc_id` など、コレクションの主キーを `group_by_field` として使用します。 |
+| 範囲パラメータを使用しない | グルーピング検索を、`radius` や `range_filter` などの範囲検索パラメータと組み合わせないでください。 |
 
-index の設定については、[StructArray フィールドの index 化](./index-struct-array) を参照してください。
+インデックスの設定については、[StructArray フィールドのインデックス作成](./index-struct-array) を参照してください。
 
 ## グループ化された要素レベル検索を実行する\{#run-grouped-element-level-search}
 
-次の例では、まず個々の chunk を検索し、その後、要素ヒットを親エンティティの主キーごとにグループ化します。
+次の例では、まず個々のチャンクを検索し、その後、要素ヒットを親エンティティの主キーごとにグループ化します。
 
 ```python
 from pymilvus import MilvusClient
@@ -91,11 +91,11 @@ for hits in results:
         )
 ```
 
-グルーピングを行わない場合、複数の chunk がクエリに一致すると、同じ `doc_id` が複数回表示されることがあります。`group_by_field="doc_id"` を指定すると、各親エンティティは最大 1 回だけ表示されます。グルーピングでは要素レベルのメタデータが保持されるため、API または SDK が公開している場合、グループ化された結果には選択された Struct 要素の index または offset も含められます。
+グルーピングを行わない場合、複数のチャンクがクエリに一致すると、同じ `doc_id` が複数回出現することがあります。`group_by_field="doc_id"` を指定すると、各親エンティティは最大 1 回だけ出現します。グルーピングでは要素レベルのメタデータが保持されるため、API または SDK が公開している場合には、グループ化された結果に選択された Struct 要素のインデックスまたはオフセットを含めることもできます。
 
-## scalar フィルタを追加する\{#add-scalar-filters}
+## スカラーフィルタを追加する\{#add-scalar-filters}
 
-グルーピング検索は StructArray の scalar フィルタリングと組み合わせることができます。要素レベル vector 検索に参加する Struct 要素を scalar 条件で制限したい場合は、`element_filter` を使用します。
+グルーピング検索は、StructArray のスカラーフィルタリングと組み合わせることができます。スカラー条件によって、要素レベルベクトル検索に参加する Struct 要素を制限する場合は、`element_filter` を使用します。
 
 ```python
 filter_expr = (
@@ -123,13 +123,13 @@ results = client.search(
 )
 ```
 
-トップレベルの述語は候補エンティティを選択します。`element_filter` の述語は、要素レベル vector 検索を一致する Struct 要素のみに制限します。その後、グルーピングによって、一致した要素ヒットが主キーごとにまとめられます。
+トップレベルの述語は候補エンティティを選択します。`element_filter` 述語は、要素レベルベクトル検索を一致する Struct 要素に制限します。その後、グルーピングによって、一致した要素ヒットが主キーごとにまとめられます。
 
-## hybrid search でグルーピングを使用する\{#use-grouping-in-hybrid-search}
+## ハイブリッド検索でグルーピングを使用する\{#use-grouping-in-hybrid-search}
 
-StructArray での hybrid グルーピングは要素レベルの機能です。これは、すべてのサブ検索が同じ StructArray フィールド配下の要素レベル vector フィールドを対象とする場合にのみサポートされます。グループ化された StructArray hybrid search では、EmbeddingList レベルのリクエストを使用しないでください。
+StructArray でのハイブリッドグルーピングは、要素レベルの機能です。すべてのサブ検索が同じ StructArray フィールド配下の要素レベルベクトルフィールドを対象とする場合にのみサポートされます。グループ化された StructArray ハイブリッド検索では、EmbeddingList レベルのリクエストを使用しないでください。
 
-次の例では、`chunks` StructArray フィールドに 2 つの要素レベル vector サブフィールド `chunks[emb]` と `chunks[code_emb]` があり、両方とも通常の vector metric で index 化されていることを前提としています。
+次の例では、`chunks` StructArray フィールドに `chunks[emb]` と `chunks[code_emb]` という 2 つの要素レベルベクトルサブフィールドがあり、どちらも通常のベクトルメトリクスでインデックス化されていることを前提としています。
 
 ```python
 from pymilvus import AnnSearchRequest, RRFRanker
@@ -163,53 +163,53 @@ results = client.hybrid_search(
 )
 ```
 
-この例では、両方のサブリクエストが同じ StructArray フィールド `chunks` 配下の要素レベル vector フィールドを対象としています。通常の vector フィールド、異なる StructArray フィールド、または EmbeddingList レベルのリクエストを混在させる hybrid search では、要素レベルの group-by はサポートされません。
+この例では、両方のサブリクエストが同じ StructArray フィールド `chunks` 配下の要素レベルベクトルフィールドを対象としています。通常のベクトルフィールド、異なる StructArray フィールド、または EmbeddingList レベルのリクエストが混在するハイブリッド検索では、要素レベルの group-by はサポートされません。
 
 ## グループ化された結果を解釈する\{#interpret-grouped-results}
 
-| Result item | Meaning |
+| 結果項目 | 意味 |
 | --- | --- |
-| `id` | グループ化された親エンティティの主キー。 |
-| `distance` or score | その親エンティティに対して選択された Struct 要素の score または distance。 |
-| `offset` | 返された場合の、選択された Struct 要素の 0 ベースの位置。 |
-| Repeated primary keys | 主キーでグルーピングする場合は想定されません。 |
-| `limit` | グループ化された親エンティティ結果に適用されます。 |
+| `id` | グループ化された親エンティティの主キーです。 |
+| `distance` またはスコア | その親エンティティに対して選択された Struct 要素のスコアまたは距離です。 |
+| `offset` | 返される場合の、選択された Struct 要素の 0 から始まる位置です。 |
+| 重複する主キー | 主キーでグルーピングする場合、想定されません。 |
+| `limit` | グループ化された親エンティティの結果に適用されます。 |
 
 ## 制限事項\{#limitations}
 
-- グルーピング検索は、要素レベルの StructArray vector 検索にのみ適用されます。EmbeddingList search および EmbeddingList レベルの hybrid search では group-by はサポートされません。
+- グルーピング検索は、要素レベルの StructArray ベクトル検索にのみ適用されます。EmbeddingList 検索および EmbeddingList レベルのハイブリッド検索は group-by をサポートしていません。
 
-- `group_by_field` には主キーを使用してください。StructArray の要素レベルグルーピングは、任意の scalar フィールドに対する汎用的な group-by ではありません。
+- `group_by_field` には主キーを使用してください。StructArray の要素レベルのグルーピングは、任意のスカラーフィールドに対する汎用的な group-by ではありません。
 
-- グルーピング検索を range search と組み合わせないでください。
+- グルーピング検索と範囲検索を組み合わせないでください。
 
-- グルーピング検索では、`EmbeddingList` クエリまたは `MAX_SIM*` metric を使用しないでください。
+- グルーピング検索では、`EmbeddingList` クエリまたは `MAX_SIM*` メトリクスを使用しないでください。
 
-- hybrid グルーピングは、すべてのサブ検索が同じ StructArray フィールド配下の要素レベル vector フィールドを対象とする場合にのみサポートされます。
+- ハイブリッドグルーピングは、すべてのサブ検索が同じ StructArray フィールド配下の要素レベルベクトルフィールドを対象とする場合にのみサポートされます。
 
-- 通常の vector フィールド、異なる StructArray フィールド、または EmbeddingList レベルのリクエストを hybrid search に混在させる場合、hybrid グルーピングはサポートされません。
+- ハイブリッド検索で通常のベクトルフィールド、異なる StructArray フィールド、または EmbeddingList レベルのリクエストが混在する場合、ハイブリッドグルーピングはサポートされません。
 
 ## よくある間違い\{#common-mistakes}
 
-- EmbeddingList search 用である `chunks[emb_list_vector]` に対してグルーピングを使用すること。
+- EmbeddingList 検索を目的とした `chunks[emb_list_vector]` でグルーピングを使用すること。
 
-- 主キーではない scalar フィールドでグルーピングすること。
+- 主キーではないスカラーフィールドでグルーピングすること。
 
-- 複数のフィールドでグルーピングすること。要素レベルの StructArray グルーピングでは、主キーによるグルーピングのみをサポートしています。
+- 複数のフィールドでグルーピングすること。StructArray の要素レベルのグルーピングでは、主キーによるグルーピングのみがサポートされています。
 
-- グループ化された結果が、一致したすべての Struct 要素を表すと期待すること。グルーピングでは、親エンティティごとに最大 1 件の結果のみ返されます。
+- グループ化された結果が、一致したすべての Struct 要素を表すと期待すること。グルーピングでは、親エンティティごとに最大 1 件の結果のみが返されます。
 
-- グループ化された要素レベル検索が、EmbeddingList スタイルの `MAX_SIM*` score を再計算すると考えること。グルーピングは要素レベルのヒットをまとめるものであり、スコアリングモデルを変更するものではありません。
+- グループ化された要素レベル検索が EmbeddingList 形式の `MAX_SIM*` スコアを再計算すると想定すること。グルーピングは要素レベルのヒットをまとめるものであり、スコアリングモデルは変更しません。
 
 - `group_by_field` を `radius` または `range_filter` と組み合わせること。
 
 ## 次のステップ\{#next-steps}
 
-1. まずグループ化されていない要素レベル検索を学ぶには、[StructArray を使った基本 vector 検索](./search-with-struct-array) を参照してください。
+1. まずグルーピングされていない要素レベル検索について学ぶには、[StructArray を使った基本的なベクトル検索](./search-with-struct-array) を参照してください。
 
-1. グループ化検索に scalar フィルタを追加するには、[StructArray を使ったフィルタ付き検索](./filtered-search-with-struct-arrays) を参照してください。
+1. グループ化された検索にスカラーフィルタを追加するには、[StructArray を使ったフィルタ付き検索](./filtered-search-with-struct-arrays) を参照してください。
 
-1. グルーピングの代わりに score または distance の境界を使用するには、[StructArray を使った範囲検索](./range-search-with-struct-arrays) を参照してください。
+1. グルーピングの代わりにスコアまたは距離の境界を使用するには、[StructArray を使用した範囲検索](./range-search-with-struct-arrays) を参照してください。
 
 1. StructArray 検索の制限を確認するには、[StructArray の制限](./struct-array-limits) を参照してください。
 

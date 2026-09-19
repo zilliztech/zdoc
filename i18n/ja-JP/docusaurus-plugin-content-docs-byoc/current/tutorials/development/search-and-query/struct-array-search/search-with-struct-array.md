@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このページでは、StructArray フィールド内の vector サブフィールドに対してベクトル検索を実行します。StructArray は 2 つの基本的なベクトル検索モードをサポートしています。各 entity に格納された embedding list をスコアリングする EmbeddingList search と、各 Struct 要素を個別に検索する element-level search です。 | BYOC"
+description: "このページでは、StructArray フィールド内のベクトルサブフィールドに対してベクトル検索を実行します。StructArray は 2 つの基本的なベクトル検索モードをサポートしています。各エンティティに格納された embedding list をスコアリングする EmbeddingList 検索と、各 Struct 要素を個別に検索する要素レベル検索です。 | BYOC"
 type: origin
 token: EDzFwzb7Sifsz4kFYZIcAF9Pn1p
 sidebar_position: 1
@@ -20,42 +20,42 @@ import Admonition from '@theme/Admonition';
 
 # StructArray を使った基本的なベクトル検索
 
-このページでは、StructArray フィールド内の vector サブフィールドに対してベクトル検索を実行します。StructArray は 2 つの基本的なベクトル検索モードをサポートしています。各 entity に格納された embedding list をスコアリングする EmbeddingList search と、各 Struct 要素を個別に検索する element-level search です。
+このページでは、StructArray フィールド内のベクトルサブフィールドに対してベクトル検索を実行します。StructArray は 2 つの基本的なベクトル検索モード、つまり、各エンティティに格納された embedding list をスコアリングする EmbeddingList 検索と、各 Struct 要素を個別に検索する要素レベル検索をサポートしています。
 
-このページでは、[Create a StructArray Field](./create-struct-array) の `tech_articles` collection を使用します。この collection には `chunks` という名前の StructArray フィールドがあります。各 chunk には text、scalar metadata、EmbeddingList search 用の index が付いた `emb_list_vector` という名前の vector サブフィールド、および element-level search 用の index が付いた `emb` という名前の vector サブフィールドが含まれます。
+このページでは、[StructArray フィールドを作成する](./create-struct-array) の `tech_articles` コレクションを使用します。このコレクションには `chunks` という名前の StructArray フィールドがあります。各 chunk には、テキスト、スカラーメタデータ、EmbeddingList 検索用のインデックスが付いた `emb_list_vector` という名前のベクトルサブフィールド、および要素レベル検索用のインデックスが付いた `emb` という名前のベクトルサブフィールドが含まれます。
 
-## Before you begin\{#before-you-begin}
+## 事前準備\{#before-you-begin}
 
-collection schema、data、index がすでに準備されていることを確認してください。
+コレクションのスキーマ、データ、およびインデックスがすでに準備されていることを確認してください。
 
-| Requirement | Where to prepare it |
+| 要件 | 準備する場所 |
 | --- | --- |
-| `chunks` などの StructArray フィールドを作成する。 | [Create a StructArray Field](./create-struct-array) |
-| `chunks` フィールドに Struct オブジェクトを含む entity を挿入する。 | [Insert Data into StructArray Fields](./insert-struct-array) |
-| EmbeddingList search 用に `chunks[emb_list_vector]` に `MAX_SIM*` index を作成する。 | [Index StructArray Fields](./index-struct-array) |
-| element-level search 用に `chunks[emb]` に通常のベクトル metric index を作成する。 | [Index StructArray Fields](./index-struct-array) |
+| `chunks` などの StructArray フィールドを作成します。 | [StructArray フィールドを作成する](./create-struct-array) |
+| `chunks` フィールドに Struct オブジェクトを含むエンティティを挿入します。 | [StructArray フィールドにデータを挿入する](./insert-struct-array) |
+| EmbeddingList 検索用に `chunks[emb_list_vector]` に `MAX_SIM*` インデックスを作成します。 | [StructArray フィールドのインデックス作成](./index-struct-array) |
+| 要素レベル検索用に `chunks[emb]` に通常のベクトルメトリクスのインデックスを作成します。 | [StructArray フィールドのインデックス作成](./index-struct-array) |
 
-<Admonition type="warning" icon="🚧" title="Warning">
+<Admonition type="warning" title="Warning">
 
-vector フィールドまたは vector サブフィールドは 1 つの index しか受け付けません。EmbeddingList search と element-level search の両方が必要な場合は、2 つの別々の vector サブフィールドを作成してください。このページでは、`chunks[emb_list_vector]` は EmbeddingList search 用に index され、`chunks[emb]` は element-level search 用に index されています。
+ベクトルフィールドまたはベクトルサブフィールドは 1 つのインデックスしか受け付けません。EmbeddingList 検索と要素レベル検索の両方が必要な場合は、2 つの別々のベクトルサブフィールドを作成してください。このページでは、`chunks[emb_list_vector]` は EmbeddingList 検索用にインデックス化され、`chunks[emb]` は要素レベル検索用にインデックス化されています。
 
 </Admonition>
 
 ## 検索モードを選択する\{#choose-a-search-mode}
 
-| Aspect | EmbeddingList search | Element-level search |
+| 項目 | EmbeddingList 検索 | 要素レベル検索 |
 | --- | --- | --- |
 | 対象サブフィールド | `chunks[emb_list_vector]` | `chunks[emb]` |
-| クエリデータ | 1 つ以上の vector を含む embedding list。 | 通常の vector。 |
-| Metric ファミリー | `MAX_SIM*`。たとえば `MAX_SIM_COSINE`。 | 通常のベクトル metric。たとえば `COSINE`、`IP`、`L2`。 |
-| 1 件のヒットが表すもの | StructArray の vector サブフィールドがクエリ embedding list に類似している、マッチした entity。 | StructArray フィールド内のマッチした Struct 要素。 |
-| 結果の粒度 | Entity レベル。 | Struct 要素レベル。 |
-| Offset | 該当なし。 | 返される際に、マッチした Struct 要素の 0 ベース位置を示す。 |
-| 代表的な用途 | ColBERT、ColPali、その他の late-interaction retrieval パターン。 | chunk レベル、passage レベル、clip レベル、patch レベル、または fact レベルの retrieval。 |
+| クエリデータ | 1 つ以上のベクトルを含む embedding list。 | 通常のベクトル。 |
+| メトリクスファミリー | `MAX_SIM_COSINE` などの `MAX_SIM*`。 | `COSINE`、`IP`、`L2` などの通常のベクトルメトリクス。 |
+| 1 件のヒットが表すもの | StructArray のベクトルサブフィールドがクエリの embedding list に類似している、一致したエンティティ。 | StructArray フィールド内の一致した Struct 要素。 |
+| 結果の粒度 | エンティティレベル。 | Struct 要素レベル。 |
+| オフセット | 該当しません。 | 返される際に、一致した Struct 要素の 0 ベースの位置を示します。 |
+| 代表的な用途 | ColBERT、ColPali、その他の late interaction 検索パターン。 | chunk レベル、passage レベル、clip レベル、patch レベル、fact レベルの検索。 |
 
-## EmbeddingList search を実行する\{#run-embeddinglist-search}
+## EmbeddingList 検索を実行する\{#run-embeddinglist-search}
 
-クエリ自体が複数の vector を含み、対象の StructArray vector サブフィールドが `MAX_SIM*` metric で index されている場合は、EmbeddingList search を使用します。結果は entity レベルの一致です。
+クエリ自体が複数のベクトルを含み、対象の StructArray ベクトルサブフィールドが `MAX_SIM*` メトリクスでインデックス化されている場合は、EmbeddingList 検索を使用します。結果はエンティティレベルの一致です。
 
 ```python
 from pymilvus import MilvusClient
@@ -89,17 +89,17 @@ for hits in results:
         print(hit["id"], hit["distance"], hit["entity"])
 ```
 
-この検索モードでは、`limit` は各クエリに対して返される entity の数を制御します。出力には StructArray サブフィールドを含めることができますが、ヒット自体は特定の 1 つの Struct 要素ではなく、マッチした親 entity を表します。
+この検索モードでは、`limit` はクエリごとに返されるエンティティの数を制御します。出力には StructArray サブフィールドを含めることができますが、ヒット自体は特定の 1 つの Struct 要素ではなく、一致した親エンティティを表します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-完全な ColBERT または ColPali スタイルの手順については、[Search with Embedding Lists](./tutorial-colbert-colpali) を参照してください。このページでは、基本的な StructArray 検索動作のみを扱います。
+ColBERT や ColPali スタイルの完全な手順については、[Embedding List で検索する](./tutorial-colbert-colpali) を参照してください。このページでは、基本的な StructArray 検索の動作のみを扱います。
 
 </Admonition>
 
-## element-level search を実行する\{#run-element-level-search}
+## 要素レベル検索を実行する\{#run-element-level-search}
 
-各 Struct 要素が独立してベクトル検索に参加する必要がある場合は、element-level search を使用します。クエリは通常の vector であり、対象の vector サブフィールドは通常のベクトル metric で index されている必要があります。
+各 Struct 要素が個別にベクトル検索に参加する必要がある場合は、要素レベル検索を使用します。クエリは通常のベクトルであり、対象のベクトルサブフィールドは通常のベクトルメトリクスでインデックス化されている必要があります。
 
 ```python
 query_vector = [0.19, 0.24, 0.30, 0.37]
@@ -129,41 +129,40 @@ for hits in results:
         )
 ```
 
-element-level search では、各ヒットはマッチした Struct 要素を表します。`offset` 値は、StructArray フィールド内におけるその要素の 0 ベース位置です。複数の Struct 要素がクエリに一致した場合、同じ entity が複数回現れることがあります。`limit` 値は一意な親 entity ではなく、要素ヒットに適用されます。
+要素レベル検索では、各ヒットは一致した Struct 要素を表します。`offset` の値は、StructArray フィールド内におけるその要素の 0 ベースの位置です。複数の Struct 要素がクエリに一致する場合は、同じエンティティが複数回現れることがあります。`limit` の値は、一意の親エンティティではなく、要素のヒットに適用されます。
 
 ## 結果を解釈する\{#interpret-results}
 
-| Result item | EmbeddingList search | Element-level search |
+| 結果の項目 | EmbeddingList 検索 | 要素レベル検索 |
 | --- | --- | --- |
-| `id` | マッチした entity の主キー。 | マッチした Struct 要素を含む entity の主キー。 |
-| `distance` または score | クエリ embedding list と格納された embedding list の間の score または distance。 | クエリ vector とマッチした Struct 要素 vector の間の score または distance。 |
-| `offset` | 該当なし。 | 返される際に、マッチした Struct 要素の 0 ベース位置。 |
-| 繰り返される主キー | 結果が entity レベルであるため、単一クエリでは通常発生しない。 | 同じ entity 内の複数の Struct 要素が一致する可能性があるため、発生することがある。 |
-| 要求された StructArray 出力フィールド | マッチした entity から返される。 | 対象の API および SDK でサポートされる element-level hit 形式で返される。 |
+| `id` | 一致したエンティティの主キー。 | 一致した Struct 要素を含むエンティティの主キー。 |
+| `distance` またはスコア | クエリの embedding list と格納されている embedding list の間のスコアまたは距離。 | クエリベクトルと一致した Struct 要素のベクトルの間のスコアまたは距離。 |
+| `offset` | 該当しません。 | 返される際の、一致した Struct 要素の 0 ベースの位置。 |
+| 重複する主キー | 結果がエンティティレベルであるため、単一のクエリでは想定されません。 | 同じエンティティ内の複数の Struct 要素が一致する可能性があるため、発生する可能性があります。 |
+| 要求された StructArray 出力フィールド | 一致したエンティティから返されます。 | 対象の API と SDK でサポートされる要素レベルのヒット形式で返されます。 |
 
 ## よくある間違い\{#common-mistakes}
 
-- 必須のサブフィールドパス構文 `chunks[emb]` の代わりに `chunks.emb` を使う。
+- 必須のサブフィールドパス構文 `chunks[emb]` ではなく `chunks.emb` を使用すること。
 
-- 通常のベクトル metric で index された vector サブフィールドに対して EmbeddingList クエリを使用する。
+- 通常のベクトルメトリクスでインデックス化されたベクトルサブフィールドに対して EmbeddingList クエリを使用すること。
 
-- `MAX_SIM*` metric で index された vector サブフィールドに対して通常の vector クエリを使用する。
+- `MAX_SIM*` メトリクスでインデックス化されたベクトルサブフィールドに対して通常のベクトルクエリを使用すること。
 
-- element-level search の `limit` が、その数だけ一意な親 entity を返すと期待する。返されるのは要素ヒットです。
+- 要素レベル検索の `limit` が、その数だけ一意の親エンティティを返すと期待すること。返されるのは要素のヒットです。
 
-- EmbeddingList search が特定の要素 offset を返すと期待する。返されるのは entity レベルの一致です。
+- EmbeddingList 検索が特定の 1 つの要素オフセットを返すと期待すること。返されるのはエンティティレベルの一致です。
 
-- 1 つの vector サブフィールドを両方の検索モードで再利用する。各 vector サブフィールドは 1 つの index しか受け付けないため、別々の vector サブフィールドを使用してください。
+- 1 つのベクトルサブフィールドを両方の検索モードで再利用すること。各ベクトルサブフィールドは 1 つのインデックスしか受け付けないため、別々のベクトルサブフィールドを使用してください。
 
 ## 次のステップ\{#next-steps}
 
-1. scalar 条件で element-level search を制限するには、[Filtered Search with StructArray](./filtered-search-with-struct-arrays) をお読みください。
+1. スカラー条件で要素レベル検索を制限するには、[StructArray を使用したフィルター付き検索](./filtered-search-with-struct-arrays) を参照してください。
 
-1. score または distance の境界で検索するには、[Range Search with StructArray](./range-search-with-struct-arrays) をお読みください。
+1. スコアまたは距離の境界で検索するには、[StructArray を使用した範囲検索](./range-search-with-struct-arrays) を参照してください。
 
-1. element-level search の後に親 entity ごとに最大 1 件の結果だけを返すには、[Grouping Search with StructArray](./grouping-search-with-struct-array) をお読みください。
+1. 要素レベル検索の後に親エンティティごとに最大 1 件の結果を返すには、[StructArray を使ったグルーピング検索](./grouping-search-with-struct-array) を参照してください。
 
-1. StructArray 検索を他のベクトル検索と組み合わせるには、[Hybrid Search with StructArray](./hybrid-search-with-struct-array) をお読みください。
+1. StructArray 検索を他のベクトル検索と組み合わせるには、[StructArray を使用したハイブリッド検索](./hybrid-search-with-struct-array) を参照してください。
 
-1. サポートされるデータ型、metric、filter、バージョンごとの制限を確認するには、[StructArray Limits](./struct-array-limits) をお読みください。
-
+1. サポートされているデータ型、メトリクス、フィルター、バージョン固有の制限を確認するには、[StructArray の制限](./struct-array-limits) を参照してください。

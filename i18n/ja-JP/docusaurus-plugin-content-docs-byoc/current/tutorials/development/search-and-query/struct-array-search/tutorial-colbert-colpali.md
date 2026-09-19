@@ -28,7 +28,7 @@ import Admonition from '@theme/Admonition';
 
 テキスト検索システムを構築するには、精度と正確性を確保するために、ドキュメントをチャンクに分割し、各チャンクをその embedding とともにベクトルデータベース内のエンティティとして保存する必要がある場合があります。特に長いドキュメントでは、全文の embedding が意味的な特異性を薄めたり、モデルの入力制限を超えたりする可能性があるためです。
 
-ただし、データをチャンク単位で保存すると、検索結果もチャンク単位になります。つまり、検索で最初に特定されるのは、まとまりのある *ドキュメント* ではなく、関連する *セグメント* です。これに対処するには、検索後に追加の処理を実行する必要があります。
+ただし、データをチャンク単位で保存すると、検索結果もチャンク単位になります。つまり、検索で最初に特定されるのは、まとまりのある *ドキュメント* ではなく、関連する *セグメント* です。これに対処するには、検索後の追加処理を実行してください。
 
 ColBERT（arXiv: [2004.12832](https://arxiv.org/abs/2004.12832)）は、BERT 上での文脈を考慮した late interaction により、効率的で効果的な passage 検索を実現する text-text 検索システムです。クエリとドキュメントを独立して token 単位でエンコードし、それらの類似度を計算できます。
 
@@ -58,11 +58,11 @@ ColBERT におけるデータ取り込み時には、各ドキュメントが to
 
 上の図に示すように、クエリには `machine` と `learning` の 2つの token が含まれ、ウィンドウ内のドキュメントには `neural`、`network`、`python`、`tutorial` の 4つの token が含まれています。これらの token がベクトル化されると、各クエリ token のベクトル embedding がドキュメント内のベクトル embedding と比較され、類似度スコアのリストが得られます。次に、各スコアリストから最も高いスコアが合計され、最終スコアが生成されます。ドキュメントの最終スコアを決定するこのプロセスは、maximum similarity（**MAX_SIM**）として知られています。maximum similarity の詳細については、[Maximum similarity](./search-metrics-explained#maximum-similarity) を参照してください。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Milvus で ColBERT のようなテキスト検索システムを実装する場合、ドキュメントを token に分割することに限定されません。
 
-代わりに、ドキュメントを適切な任意のサイズのセグメントに分割し、各セグメントを embedding して embedding list を作成し、その埋め込み済みセグメントとともにドキュメントをエンティティに保存できます。
+代わりに、ドキュメントを任意の適切なサイズのセグメントに分割し、各セグメントを embedding 化して embedding list を作成し、ドキュメントをそのセグメントの embedding とともにエンティティに保存できます。
 
 </Admonition>
 
@@ -361,7 +361,7 @@ for _, row in df.iterrows():
     })
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 このステップは、embedding する必要があるデータ量が多いため、比較的時間がかかります。
 
@@ -440,7 +440,7 @@ client.insert(
 )
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 財務レポートの挿入には長い時間がかかる場合があります。各ページには 1,000 を超える patch ベクトルが含まれることがあり、各ベクトルは `patches` StructArray フィールド内に保存されます。データセットが大きい場合は、`data` を小さなバッチに分割し、1 回に 1 バッチずつ挿入してください。
 

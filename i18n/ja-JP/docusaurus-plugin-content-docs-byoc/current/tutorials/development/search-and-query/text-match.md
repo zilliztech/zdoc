@@ -1,5 +1,5 @@
 ---
-title: "Text Match | BYOC"
+title: "テキストマッチ | BYOC"
 slug: /text-match
 sidebar_label: "テキストマッチ"
 beta: FALSE
@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud のテキストマッチでは、特定の用語に基づいて正確にドキュメントを取得できます。この機能は主に、特定の条件を満たすためのフィルタ付き検索に使用され、クエリ結果を絞り込むために scalar フィルタリングを組み合わせることができます。これにより、scalar 条件を満たす vector 内で類似検索を実行できます。 | BYOC"
+description: "Zilliz Cloud のテキストマッチでは、特定の用語に基づいてドキュメントを正確に取得できます。この機能は主に、特定の条件を満たすためのフィルタ付き検索に使用され、クエリ結果を絞り込むためのスカラーフィルタリングを組み合わせることができます。これにより、スカラー条件を満たすベクトル内で類似検索を実行できます。 | BYOC"
 type: origin
 token: RQQKwqhZUiubFzkHo4WcR62Gnvh
 sidebar_position: 13
@@ -19,39 +19,39 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Text Match
+# テキストマッチ
 
-Zilliz Cloud のテキストマッチでは、特定の用語に基づいて正確にドキュメントを取得できます。この機能は主に、特定の条件を満たすためのフィルタ付き検索に使用され、クエリ結果を絞り込むために scalar フィルタリングを組み合わせることができます。これにより、scalar 条件を満たす vector 内で類似検索を実行できます。
+Zilliz Cloud のテキストマッチでは、特定の用語に基づいてドキュメントを正確に取得できます。この機能は主に、特定の条件を満たすためのフィルタ付き検索に使用され、クエリ結果を絞り込むためのスカラーフィルタリングを組み合わせることができます。これにより、スカラー条件を満たすベクトル内で類似検索を実行できます。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-テキストマッチは、一致したドキュメントの関連性をスコアリングすることなく、クエリ用語の完全一致箇所を見つけることに重点を置いています。クエリ用語の意味や重要度に基づいて、最も関連性の高いドキュメントを取得したい場合は、[Full Text Search](./full-text-search) の使用をおすすめします。
+テキストマッチは、一致したドキュメントの関連性をスコアリングすることなく、クエリ用語の完全一致箇所を見つけることに重点を置きます。クエリ用語の意味や重要度に基づいて最も関連性の高いドキュメントを取得したい場合は、[全文検索](./full-text-search) の使用を推奨します。
 
 </Admonition>
 
-Zilliz Cloud では、プログラムまたは Web コンソール経由でテキストマッチを有効にできます。このページでは、プログラムでテキストマッチを有効にする方法に焦点を当てています。Web コンソールでの操作の詳細については、[Manage Collections (Console)](./manage-collections-console#text-match) を参照してください。
+Zilliz Cloud では、プログラムまたは Web コンソールからテキストマッチを有効にできます。このページでは、プログラムでテキストマッチを有効にする方法について説明します。Web コンソールでの操作の詳細については、[コレクションの管理（コンソール）](./manage-collections-console#text-match) を参照してください。
 
-## Overview\{#overview}
+## 概要\{#overview}
 
-Zilliz Cloud は、基盤となる inverted index と用語ベースのテキスト検索を実現するために [Tantivy](https://github.com/quickwit-oss/tantivy) を統合しています。各テキストエントリについて、Zilliz Cloud は以下の手順に従ってインデックス化を行います。
+Zilliz Cloud は、基盤となる転置インデックスと用語ベースのテキスト検索を実現するために [Tantivy](https://github.com/quickwit-oss/tantivy) を統合しています。各テキストエントリについて、Zilliz Cloud は次の手順に従ってインデックスを作成します。
 
-1. [Analyzer](./analyzer-overview): analyzer は入力テキストを個々の単語、すなわち token に分割し、必要に応じてフィルタを適用して処理します。これにより、Zilliz Cloud はこれらの token に基づく index を構築できます。
+1. [アナライザー](./analyzer-overview): アナライザーは、入力テキストを個々の単語（トークン）にトークン化し、必要に応じてフィルターを適用して処理します。これにより、Zilliz Cloud はこれらのトークンに基づいてインデックスを構築できます。
 
-1. [Indexing](./indexes): テキスト解析の後、Zilliz Cloud は各一意の token を、その token を含むドキュメントに対応付ける inverted index を作成します。
+1. [インデックス作成](./indexes): テキスト解析後、Zilliz Cloud は各一意のトークンを、それを含むドキュメントに対応付ける転置インデックスを作成します。
 
-ユーザーがテキストマッチを実行すると、inverted index を使用して、その用語を含むすべてのドキュメントをすばやく取得します。これは各ドキュメントを個別に走査するよりもはるかに高速です。
+ユーザーがテキストマッチを実行すると、転置インデックスを使用して、その用語を含むすべてのドキュメントをすばやく取得します。これは、各ドキュメントを個別に走査するよりもはるかに高速です。
 
 ![N43zw7HuGhmCHRbYDDmctO1bnkd](https://zdoc-images.s3.us-west-2.amazonaws.com/N43zw7HuGhmCHRbYDDmctO1bnkd.png)
 
-## Enable text match\{#enable-text-match}
+## テキストマッチを有効にする\{#enable-text-match}
 
-テキストマッチは [`VARCHAR`](./use-string-field) field type で動作します。これは Zilliz Cloud における文字列データ型です。テキストマッチを有効にするには、collection schema を定義する際に `enable_analyzer` と `enable_match` の両方を `True` に設定し、その後必要に応じてテキスト解析用の [analyzer](./analyzer-overview) を構成します。
+テキストマッチは、Zilliz Cloud の文字列データ型である [`VARCHAR`](./use-string-field) フィールド型で動作します。テキストマッチを有効にするには、コレクションスキーマを定義する際に `enable_analyzer` と `enable_match` の両方を `True` に設定し、必要に応じてテキスト解析用の [アナライザー](./analyzer-overview) を構成します。
 
-### Set `enable_analyzer` and `enable_match`\{#set-enableanalyzer-and-enablematch}
+### `enable_analyzer` と `enable_match` を設定する\{#set-enableanalyzer-and-enablematch}
 
-特定の `VARCHAR` field に対してテキストマッチを有効にするには、field schema を定義する際に `enable_analyzer` と `enable_match` の両方のパラメータを `True` に設定します。これにより、Zilliz Cloud はテキストを token 化し、指定された field に対して inverted index を作成するようになり、高速かつ効率的なテキストマッチが可能になります。
+特定の `VARCHAR` フィールドでテキストマッチを有効にするには、フィールドスキーマを定義する際に `enable_analyzer` と `enable_match` の両方のパラメーターを `True` に設定します。これにより、Zilliz Cloud はテキストをトークン化し、指定されたフィールドの転置インデックスを作成するため、高速で効率的なテキストマッチが可能になります。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -208,17 +208,25 @@ schema->AddField(milvus::FieldSchema("embeddings", milvus::DataType::FLOAT_VECTO
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+```
+
+</TabItem>
 </Tabs>
 
-### Optional: Configure an analyzer\{#optional-configure-an-analyzer}
+### オプション: アナライザーを構成する\{#optional-configure-an-analyzer}
 
-キーワードマッチングの性能と精度は、選択した analyzer に依存します。異なる analyzer はさまざまな言語やテキスト構造に合わせて設計されているため、適切なものを選ぶことで、特定のユースケースにおける検索結果に大きな影響を与える可能性があります。
+キーワードマッチングのパフォーマンスと精度は、選択したアナライザーによって異なります。アナライザーは言語やテキスト構造に応じてそれぞれ適した設計になっているため、適切なものを選択することが、特定のユースケースにおける検索結果に大きく影響する可能性があります。
 
-デフォルトでは、Zilliz Cloud は `standard` analyzer を使用します。これは空白と句読点に基づいてテキストを token 化し、40 文字を超える token を削除し、テキストを小文字に変換します。このデフォルト設定を適用するために追加のパラメータは不要です。詳細については、[Standard](./standard-analyzer) を参照してください。
+デフォルトでは、Zilliz Cloud は `standard` アナライザーを使用します。これは、空白と句読点に基づいてテキストをトークン化し、40 文字を超えるトークンを削除して、テキストを小文字に変換します。このデフォルト設定を適用するために追加のパラメーターは必要ありません。詳細については、[Standard](./standard-analyzer) を参照してください。
 
-別の analyzer が必要な場合は、`analyzer_params` パラメータを使用して構成できます。たとえば、英語テキストの処理に `english` analyzer を適用するには、次のようにします。
+別のアナライザーが必要な場合は、`analyzer_params` パラメーターを使用して構成できます。たとえば、英語のテキストを処理するために `english` アナライザーを適用するには、次のようにします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -345,29 +353,83 @@ schema->AddField(milvus::FieldSchema("embeddings", milvus::DataType::FLOAT_VECTO
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+```
+
+</TabItem>
 </Tabs>
 
-Zilliz Cloud は、異なる言語やシナリオに適したさまざまな analyzer も提供しています。詳細については、[Analyzer Overview](./analyzer-overview) を参照してください。
+Zilliz Cloud は、さまざまな言語やシナリオに適した他のアナライザーも提供しています。詳細については、[アナライザーの概要](./analyzer-overview) を参照してください。
 
-## Use text match\{#use-text-match}
+## テキストマッチを使用する\{#use-text-match}
 
-collection schema 内の VARCHAR field に対してテキストマッチを有効にすると、`TEXT_MATCH` 式を使用してテキストマッチを実行できます。
+コレクションスキーマで VARCHAR フィールドのテキストマッチを有効にすると、`TEXT_MATCH` 式を使用してテキストマッチを実行できます。
 
-### TEXT_MATCH expression syntax\{#textmatch-expression-syntax}
+### TEXT_MATCH 式の構文\{#textmatch-expression-syntax}
 
-`TEXT_MATCH` 式は、検索対象の field と検索する用語を指定するために使用されます。構文は次のとおりです。
+`TEXT_MATCH` 式は、検索対象のフィールドと用語を指定するために使用します。構文は次のとおりです。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
+<TabItem value='python'>
 
 ```python
 TEXT_MATCH(field_name, text)
 ```
 
-- `field_name`: 検索対象の VARCHAR field の名前。
+</TabItem>
 
-- `text`: 検索する用語。複数の用語は、言語や構成された analyzer に応じて、スペースまたはその他の適切な区切り文字で区切ることができます。
+<TabItem value='java'>
 
-デフォルトでは、`TEXT_MATCH` は **OR** のマッチングロジックを使用します。つまり、指定した用語のいずれかを含むドキュメントを返します。たとえば、`text` field 内で `machine` または `deep` という用語を含むドキュメントを検索するには、次の式を使用します。
+```java
+// java
+```
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+```
+
+</TabItem>
+</Tabs>
+
+- `field_name`: 検索対象の VARCHAR フィールドの名前。
+
+- `text`: 検索対象の用語。言語および構成されたアナライザーに応じて、複数の用語をスペースまたはその他の適切な区切り文字で区切ることができます。
+
+デフォルトでは、`TEXT_MATCH` は **OR** マッチングロジックを使用します。つまり、指定された用語のいずれかを含むドキュメントを返します。たとえば、`text` フィールドに `machine` または `deep` という用語を含むドキュメントを検索するには、次の式を使用します。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -415,13 +477,21 @@ const auto filter = R"(TEXT_MATCH(text, "machine deep"))";
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+```
+
+</TabItem>
 </Tabs>
 
-複数の `TEXT_MATCH` 式を論理演算子で組み合わせて、**AND** マッチングを実行することもできます。 
+論理演算子を使用して複数の `TEXT_MATCH` 式を組み合わせ、**AND** マッチングを実行することもできます。
 
-- `text` field 内で `machine` と `deep` の両方を含むドキュメントを検索するには、次の式を使用します。
+- `machine` と `deep` の両方を `text` フィールドに含むドキュメントを検索するには、次の式を使用します。
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
     <TabItem value='python'>
 
     ```python
@@ -469,11 +539,19 @@ const auto filter = R"(TEXT_MATCH(text, "machine deep"))";
     ```
 
     </TabItem>
+
+    <TabItem value='shell'>
+
+    ```shell
+    # Zilliz CLI
+    ```
+
+    </TabItem>
     </Tabs>
 
-- `text` field 内で `machine` と `learning` の両方を含み、`deep` は含まないドキュメントを検索するには、次の式を使用します。
+- `deep` を含まず、`machine` と `learning` の両方を `text` フィールドに含むドキュメントを検索するには、次の式を使用します。
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
     <TabItem value='python'>
 
     ```python
@@ -521,15 +599,23 @@ const auto filter = R"(TEXT_MATCH(text, "machine deep"))";
     ```
 
     </TabItem>
+
+    <TabItem value='shell'>
+
+    ```shell
+    # Zilliz CLI
+    ```
+
+    </TabItem>
     </Tabs>
 
-### Search with text match\{#search-with-text-match}
+### テキストマッチを使用した検索\{#search-with-text-match}
 
-テキストマッチは、vector 類似検索と組み合わせて使用することで、検索範囲を絞り込み、検索性能を向上させることができます。vector 類似検索の前にテキストマッチで collection をフィルタリングすることで、検索対象となるドキュメント数を減らし、クエリ時間を短縮できます。
+テキストマッチは、ベクトル類似検索と組み合わせて使用することで、検索範囲を絞り込み、検索パフォーマンスを向上させることができます。ベクトル類似検索の前にテキストマッチでコレクションをフィルタリングすると、検索対象のドキュメント数を減らすことができ、クエリ時間を短縮できます。
 
-この例では、`filter` 式によって、指定した用語 `keyword1` または `keyword2` に一致するドキュメントのみが検索結果に含まれるようにフィルタリングしています。その後、このフィルタ済みのドキュメント部分集合に対して vector 類似検索が実行されます。
+この例では、`filter` 式によって、指定された用語 `keyword1` または `keyword2` に一致するドキュメントのみが検索結果に含まれるように絞り込まれます。その後、このフィルタリングされたドキュメントのサブセットに対してベクトル類似検索が実行されます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -662,15 +748,23 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+```
+
+</TabItem>
 </Tabs>
 
 ### テキストマッチを使用したクエリ\{#query-with-text-match}
 
-テキストマッチは、クエリ操作における scalar フィルタリングにも使用できます。`query()` メソッドの `expr` パラメータに `TEXT_MATCH` 式を指定することで、指定された用語に一致するドキュメントを取得できます。
+テキストマッチは、クエリ操作におけるスカラーフィルタリングにも使用できます。`query()` メソッドの `expr` パラメーターで `TEXT_MATCH` 式を指定すると、指定された用語に一致するドキュメントを取得できます。
 
-以下の例では、`text` フィールドに `keyword1` と `keyword2` の両方が含まれるドキュメントを取得します。
+以下の例では、`text` フィールドに `keyword1` と `keyword2` の両方の用語を含むドキュメントを取得します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -775,21 +869,29 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+```
+
+</TabItem>
 </Tabs>
 
 ## 考慮事項\{#considerations}
 
-- フィールドに対して用語マッチングを有効にすると、反転 index が作成され、ストレージリソースを消費します。この機能を有効にするかどうかを判断する際には、ストレージへの影響を考慮してください。影響は、テキストサイズ、一意のトークン数、使用する analyzer によって異なります。
+- フィールドの用語マッチングを有効にすると転置インデックスが作成され、ストレージリソースを消費します。この機能を有効にするかどうかを判断する際は、テキストのサイズ、一意のトークン、および使用するアナライザーによって影響が異なるため、ストレージへの影響を考慮してください。
 
-- スキーマで analyzer を定義すると、その設定はその collection に対して永続的になります。別の analyzer の方が要件に適していると判断した場合は、既存の collection を削除し、目的の analyzer 設定で新しい collection を作成することを検討してください。
+- スキーマでアナライザーを定義すると、その設定はそのコレクションに対して永続的になります。別のアナライザーの方がニーズに適していると判断した場合は、既存のコレクションを削除し、目的のアナライザー構成で新しいコレクションを作成することを検討してください。
 
-- フレーズマッチのパフォーマンスは、テキストがどのようにトークン化されるかに依存します。analyzer を collection 全体に適用する前に、`run_analyzer` メソッドを使用してトークン化の出力を確認してください。詳細については、[Analyzer Overview](./analyzer-overview#built-in-analyzer) を参照してください。
+- フレーズ一致のパフォーマンスは、テキストがどのようにトークン化されるかによって異なります。アナライザーをコレクション全体に適用する前に、`run_analyzer` メソッドを使用してトークン化の出力を確認してください。詳細については、[アナライザーの概要](./analyzer-overview#built-in-analyzer) を参照してください。
 
-- `filter` 式におけるエスケープ規則:
+- `filter` 式のエスケープルール：
 
-    - 式内でダブルクォートまたはシングルクォートで囲まれた文字は、文字列定数として解釈されます。文字列定数にエスケープ文字が含まれている場合、エスケープ文字はエスケープシーケンスで表現する必要があります。たとえば、`\` を表すには `\\`、タブ `\t` を表すには `\\t`、改行を表すには `\\n` を使用します。
+    - 式内で二重引用符または一重引用符で囲まれた文字は、文字列定数として解釈されます。文字列定数にエスケープ文字が含まれる場合は、エスケープ文字をエスケープシーケンスで表現する必要があります。たとえば、`\\` は `\` を表すために使用し、`\\t` はタブ `\t` を表すために、`\\n` は改行を表すために使用します。
 
-    - 文字列定数がシングルクォートで囲まれている場合、定数内のシングルクォートは `\\'` として表現する必要があります。一方、ダブルクォートは `"` または `\\"` のいずれでも表現できます。例: `'It\\'s milvus'`。
+    - 文字列定数を一重引用符で囲む場合、定数内の一重引用符は `\\'` として表現し、二重引用符は `"` または `\\"` のいずれかで表現できます。例: `'It\\'s milvus'`。
 
-    - 文字列定数がダブルクォートで囲まれている場合、定数内のダブルクォートは `\\"` として表現する必要があります。一方、シングルクォートは `'` または `\\'` のいずれでも表現できます。例: `"He said \\"Hi\\""`。
+    - 文字列定数を二重引用符で囲む場合、定数内の二重引用符は `\\"` として表現し、一重引用符は `'` または `\\'` のいずれかで表現できます。例: `"He said \\"Hi\\""`。
 

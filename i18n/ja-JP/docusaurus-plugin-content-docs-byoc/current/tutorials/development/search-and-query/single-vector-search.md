@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 ベクトル埋め込みのソート順を記録したインデックスファイルに基づき、近似最近傍探索（ANN search）は、受信した検索リクエストに含まれるクエリベクトルに基づいてベクトル埋め込みのサブセットを特定し、そのサブグループ内のベクトルとクエリベクトルを比較して、最も類似した結果を返します。ANN search により、Zilliz Cloud は効率的な検索体験を提供します。このページでは、基本的な ANN search の実行方法を学べます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 コレクションの作成後に新しいフィールドを追加した場合、これらのフィールドを含む検索では、明示的に値を設定していないエンティティに対して、定義済みのデフォルト値または `NULL` が返されます。詳細については、[コレクション スキーマの変更](./add-fields-to-an-existing-collection) を参照してください。
 
@@ -63,7 +63,7 @@ ANN search において、単一ベクトル検索とは、1 つのクエリベ�
 
 このセクションでは、単一ベクトル検索の実行方法について説明します。検索リクエストには 1 つのクエリベクトルを含め、Zilliz Cloud に対して Inner Product（IP）を使用してクエリベクトルとコレクション内のベクトルとの類似度を計算するよう指示すると、最も類似した 3 件が返されます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 データプレーン RESTful API エンドポイントを呼び出す際は、対象クラスターのユーザー名とパスワードをコロンで区切った文字列（例: `username:password`）を認証トークンとして使用します。
 
@@ -1855,7 +1855,7 @@ ANN search を最適化するために、Zilliz Cloud は、簡素化された�
 
 このパラメータは `1` から `10` の範囲で、デフォルトは `1` です。値を大きくすると検索の再現率は向上しますが、検索パフォーマンスは低下します。一般的なケースでは、デフォルト値で最大 90% の再現率が得られます。必要に応じて値を大きくしてください。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 `level` パラメータは現在も **Public Preview** です。`5` より大きい値を設定できない場合、お使いのクラスターがこの機能に完全には対応していない可能性があります。回避策として、代わりに `1` から `5` までの範囲の値を設定するか、[Zilliz Cloud support](https://zilliz.com/contact-sales) までお問い合わせください。
 
@@ -2054,7 +2054,7 @@ zilliz vector search \
 
 `level` パラメータを調整する際に `enable_recall_calculation` を `true` に設定すると、異なる `level` 値での検索の精度を評価できます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 `enable_recall_calculation` パラメータは現在も **Public Preview** であり、互換性の問題により使用できない場合があります。サポートが必要な場合は、[Zilliz Cloud support](https://zilliz.com/contact-sales) までお問い合わせください。
 
@@ -2241,7 +2241,7 @@ for (auto& result : response.Results().Results()) {
 
 コレクションに `TIMESTAMPTZ` フィールドがある場合、検索呼び出しで `timezone` パラメータを設定することで、1 回の操作に限りデータベースまたはコレクションのデフォルトのタイムゾーンを一時的に上書きできます。これは、操作中に `TIMESTAMPTZ` 値がどのように表示および比較されるかを制御します。
 
-`timezone` の値は、有効な [IANA time zone identifier](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) である必要があります（例： **Asia/Shanghai**, **America/Chicago**, または **UTC**）。`TIMESTAMPTZ` フィールドの使用方法の詳細については、[TIMESTAMPTZ フィールド](./use-timestamptz-field) を参照してください。
+`timezone` の値は、有効な [IANA time zone identifier](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) である必要があります（例: **Asia/Shanghai**, **America/Chicago**, または **UTC**）。`TIMESTAMPTZ` フィールドの使用方法の詳細については、[TIMESTAMPTZ フィールド](./use-timestamptz-field) を参照してください。
 
 以下の例では、検索操作のタイムゾーンを一時的に設定する方法を示します。
 
@@ -2428,7 +2428,7 @@ AUTOINDEX は ANN search の学習コストを大幅に軽減します。ただ�
 
     メタデータのフィルタリングとフィルタリング条件の詳細については、[Filtered Search](./filtered-search) および [フィルタリングの解説](./filtering-overview) を参照してください。
 
-- レンジ検索
+- 範囲検索
 
     返されるエンティティの距離またはスコアを特定の範囲内に制限することで、検索結果の関連性を向上できます。Zilliz Cloud のレンジ検索では、クエリベクトルに最も類似したベクトル埋め込みを中心とする 2 つの同心円を描きます。検索リクエストで両方の円の半径を指定すると、Zilliz Cloud は外側の円の内側で内側の円の外側にあるすべてのベクトル埋め込みを返します。
 

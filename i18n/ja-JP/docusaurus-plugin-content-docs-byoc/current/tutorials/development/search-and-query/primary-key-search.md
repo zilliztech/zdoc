@@ -49,7 +49,7 @@ EC プラットフォームでは、ユーザーがキーワードを入力す�
 
 以下の例では、指定したすべての Int64 ID が対象コレクションに存在することを前提としています。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 主キーはフィルタリングには使用されず、ベクトルの取得にのみ使用されます。
 
@@ -759,4 +759,3 @@ zilliz vector search \
 
 </TabItem>
 </Tabs>
-
