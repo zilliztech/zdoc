@@ -53,7 +53,7 @@ Partition Key を使用するには、次の操作が必要です。
 
 スカラーフィールドを Partition Key として指定するには、そのスカラーフィールドを追加するときに `is_partition_key` 属性を `true` に設定する必要があります。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 スカラーフィールドを Partition Key として設定した場合、フィールド値を空または null にすることはできません。
 
@@ -448,7 +448,7 @@ const auto filter = R"(partition_key in ['x', 'y', 'z'] && <other conditions>)";
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 `partition_key` は、パーティションキーとして指定されたフィールドの名前に置き換える必要があります。
 

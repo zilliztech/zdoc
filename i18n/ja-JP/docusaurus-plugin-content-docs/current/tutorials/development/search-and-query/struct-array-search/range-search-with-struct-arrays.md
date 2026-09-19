@@ -1,5 +1,5 @@
 ---
-title: "StructArray を使用した範囲検索 | Cloud"
+title: "StructArray を使った範囲検索 | Cloud"
 slug: /range-search-with-struct-arrays
 sidebar_label: "範囲検索"
 beta: PUBLIC
@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このページでは、StructArray ベクターサブフィールドに対して範囲検索を実行する方法を説明します。範囲検索は、スコアまたは距離が指定した境界内に収まるベクターヒットを返します。StructArray フィールドでは、各 Struct 要素を個別に検索する要素レベルのベクター検索とともに範囲検索を使用します。 | Cloud"
+description: "このページでは、StructArray のベクトルサブフィールドに対して範囲検索を実行する方法を説明します。範囲検索は、スコアまたは距離が指定した境界内に収まるベクトルヒットを返します。StructArray フィールドでは、各 Struct 要素を個別に検索する要素レベルのベクトル検索と組み合わせて範囲検索を使用します。 | Cloud"
 type: origin
 token: ZR1bwJFFSio2jkkabd7c1YAYncf
 sidebar_position: 3
@@ -18,53 +18,53 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
-# StructArray を使用した範囲検索
+# StructArray を使った範囲検索
 
-このページでは、StructArray ベクターサブフィールドに対して範囲検索を実行する方法を説明します。範囲検索は、スコアまたは距離が指定した境界内に収まるベクターヒットを返します。StructArray フィールドでは、各 Struct 要素を個別に検索する要素レベルのベクター検索とともに範囲検索を使用します。
+このページでは、StructArray のベクトルサブフィールドに対して範囲検索を実行する方法を説明します。範囲検索は、スコアまたは距離が指定した境界内に収まるベクトルヒットを返します。StructArray フィールドでは、各 Struct 要素を個別に検索する要素レベルのベクトル検索と組み合わせて範囲検索を使用します。
 
-このページでは、[StructArray フィールドの作成](./create-struct-array) の `tech_articles` collection を使用します。この collection には `chunks` という名前の StructArray フィールドがあります。`chunks[emb]` ベクターサブフィールドは、`COSINE`、`IP`、`L2` などの通常のベクターメトリックを使用した要素レベル検索向けにインデックス化されています。
+このページでは、[StructArray フィールドの作成](./create-struct-array) の `tech_articles` コレクションを使用します。このコレクションには `chunks` という名前の StructArray フィールドがあります。`chunks[emb]` ベクトルサブフィールドは、`COSINE`、`IP`、`L2` などの通常のベクトルメトリクスを使用した要素レベル検索用にインデックス化されています。
 
-## StructArray への範囲検索の適用方法\{#how-range-search-applies-to-structarray}
+## StructArray に対する範囲検索の適用方法\{#how-range-search-applies-to-structarray}
 
-| Search mode | Range search behavior | Result granularity |
+| 検索モード | 範囲検索の動作 | 結果の粒度 |
 | --- | --- | --- |
-| EmbeddingList search | サポートされていません。 | 該当なし。 |
-| Element-level search | `radius` と、必要に応じて `range_filter` を使用した通常のベクタークエリを使用します。 | Struct 要素レベル。 |
-| Hybrid search | StructArray リクエストが要素レベルのベクターフィールドを対象とする場合にサポートされます。EmbeddingList レベルのリクエストでは範囲検索はサポートされません。 | 要素レベルのサブ検索、その後 hybrid reranking。 |
+| EmbeddingList 検索 | サポートされていません。 | 該当しません。 |
+| 要素レベル検索 | `radius` と、必要に応じて `range_filter` を指定した通常のベクトルクエリを使用します。 | Struct 要素レベル。 |
+| ハイブリッド検索 | StructArray リクエストが要素レベルのベクトルフィールドを対象とする場合にサポートされます。EmbeddingList レベルのリクエストは範囲検索をサポートしていません。 | 要素レベルのサブ検索と、その後のハイブリッド再ランキング。 |
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-最も近い Struct 要素のみが必要な場合は、まず [StructArray を使用した基本ベクター検索](./search-with-struct-array) を参照してください。範囲検索は、結果が単なる top-K ランキングではなく、スコアまたは距離の境界条件を満たす必要がある場合に使用します。
+最も近い Struct 要素のみが必要な場合は、まず [StructArray を使った基本的なベクトル検索](./search-with-struct-array) を参照してください。範囲検索は、結果が単なる top-K ランキングではなく、スコアまたは距離の境界を満たす必要がある場合に使用します。
 
 </Admonition>
 
-## 始める前に\{#before-you-begin}
+## 事前準備\{#before-you-begin}
 
-範囲検索を実行する前に、collection、データ、およびインデックスを準備してください。
+範囲検索を実行する前に、コレクション、データ、インデックスを準備してください。
 
-| Requirement | Details |
+| 要件 | 詳細 |
 | --- | --- |
-| StructArray field | collection には `chunks` などの StructArray フィールドが含まれています。 |
-| Element-level vector subfield | 対象のベクターサブフィールドは `chunks[emb]` であり、`chunks[emb_list_vector]` ではありません。 |
-| Index metric | ベクターサブフィールドは、`COSINE`、`IP`、`L2` などの通常のベクターメトリックでインデックス化されています。 |
-| Query data | クエリは `EmbeddingList` ではなく通常のベクターです。 |
+| StructArray フィールド | コレクションに `chunks` などの StructArray フィールドが含まれています。 |
+| 要素レベルのベクトルサブフィールド | 対象のベクトルサブフィールドは `chunks[emb]` であり、`chunks[emb_list_vector]` ではありません。 |
+| インデックスのメトリクス | ベクトルサブフィールドは、`COSINE`、`IP`、`L2` などの通常のベクトルメトリクスでインデックス化されています。 |
+| クエリデータ | クエリは `EmbeddingList` ではなく、通常のベクトルです。 |
 
 インデックスの設定については、[StructArray フィールドのインデックス作成](./index-struct-array) を参照してください。
 
 ## radius と range_filter を使用する\{#use-radius-and-rangefilter}
 
-検索境界を定義するには `radius` を設定します。内側の境界も必要な場合は `range_filter` を設定します。方向は、距離が小さいほど良いのか、類似度スコアが大きいほど良いのかによって異なります。
+検索境界を定義するには `radius` を設定します。内側の境界も必要な場合は `range_filter` を設定します。範囲の向きは、距離が小さいほど良いのか、類似度スコアが大きいほど良いのかによって異なります。
 
-| Metric type | Higher score is better? | Range condition when `range_filter` is used |
+| メトリクスの種類 | スコアが大きいほど良いか | `range_filter` を使用する場合の範囲条件 |
 | --- | --- | --- |
 | `L2` | いいえ。距離が小さいほど良いです。 | `range_filter <= distance < radius` |
 | `IP`, `COSINE` | はい。スコアが大きいほど良いです。 | `radius < distance <= range_filter` |
 
-`radius` のみを設定した場合、範囲検索はそのメトリックにおける外側の境界を満たすヒットを返します。埋め込みのスコアまたは距離のスケールに応じて値を選択してください。
+`radius` のみを設定した場合、範囲検索はそのメトリクスの外側の境界を満たすヒットを返します。埋め込みのスコアまたは距離のスケールに応じて値を選択してください。
 
 ## 要素レベルの範囲検索を実行する\{#run-element-level-range-search}
 
-次の例では、`chunks[emb]` ベクターがクエリベクターに十分似ている個々のチャンクを検索します。各結果ヒットは、一致した Struct 要素を表します。
+次の例では、`chunks[emb]` ベクトルがクエリベクトルに十分類似している個々のチャンクを検索します。各結果のヒットは、一致した Struct 要素を表します。
 
 ```python
 from pymilvus import MilvusClient
@@ -107,11 +107,11 @@ for hits in results:
         )
 ```
 
-この例では、`COSINE` は類似度スタイルのメトリックであるため、結果の範囲は `radius` より大きく、`range_filter` 以下になります。返される場合、`offset` 値は `chunks` 配列内で一致した Struct 要素を識別します。
+この例では、`COSINE` は類似度ベースのメトリクスであるため、結果の範囲は `radius` より大きく、`range_filter` 以下になります。`offset` の値は、返される場合に、`chunks` 配列内で一致した Struct 要素を識別します。
 
-## scalar フィルターを追加する\{#add-scalar-filters}
+## スカラーフィルタを追加する\{#add-scalar-filters}
 
-要素レベルの範囲検索は、StructArray の scalar フィルタリングと組み合わせることができます。親エンティティフィールドにはトップレベルの述語を使用し、ベクター範囲検索に参加する Struct 要素を制約するには `element_filter` を使用します。
+要素レベルの範囲検索は、StructArray のスカラーフィルタリングと組み合わせることができます。親エンティティのフィールドにはトップレベルの述語を使用し、ベクトル範囲検索に参加する Struct 要素を制約するには `element_filter` を使用します。
 
 ```python
 filter_expr = (
@@ -144,11 +144,11 @@ results = client.search(
 )
 ```
 
-トップレベルの述語は候補エンティティを選択します。`element_filter` 述語は、一致する Struct 要素に対してのみベクター範囲検索を行うよう制限します。フィルタリングの詳細な例については、[StructArray を使用したフィルター検索](./filtered-search-with-struct-arrays) を参照してください。
+トップレベルの述語は候補エンティティを選択します。`element_filter` 述語は、ベクトル範囲検索を一致する Struct 要素に制限します。フィルタリングのその他の例については、[StructArray を使ったフィルタ付き検索](./filtered-search-with-struct-arrays) を参照してください。
 
-## hybrid search で範囲検索を使用する\{#use-range-search-in-hybrid-search}
+## ハイブリッド検索で範囲検索を使用する\{#use-range-search-in-hybrid-search}
 
-StructArray の要素レベルベクターフィールドは、hybrid search での範囲検索をサポートしています。StructArray の要素レベルベクターフィールドを対象とする `AnnSearchRequest` に `radius` と、必要に応じて `range_filter` を追加してください。
+StructArray の要素レベルのベクトルフィールドは、ハイブリッド検索での範囲検索をサポートしています。`radius` と、必要に応じて `range_filter` を、StructArray の要素レベルのベクトルフィールドを対象とする `AnnSearchRequest` に追加します。
 
 ```python
 from pymilvus import AnnSearchRequest, RRFRanker
@@ -187,45 +187,44 @@ results = client.hybrid_search(
 )
 ```
 
-この例では、`chunks[emb]` サブリクエストのみが範囲検索パラメーターを使用しています。StructArray リクエストは引き続き要素レベルのセマンティクスに従います。つまり、hybrid search が結果を結合して再ランク付けする前に、範囲境界が Struct 要素ヒットに適用されます。
+この例では、`chunks[emb]` サブリクエストのみが範囲検索パラメータを使用します。StructArray リクエストは引き続き要素レベルのセマンティクスに従います。つまり、ハイブリッド検索が結果を結合して再ランキングする前に、範囲境界が Struct 要素のヒットに適用されます。
 
-## 範囲検索結果を解釈する\{#interpret-range-results}
+## 範囲検索の結果を解釈する\{#interpret-range-results}
 
-| Result item | Meaning |
+| 結果項目 | 意味 |
 | --- | --- |
-| `id` | 一致した Struct 要素を含むエンティティの主キー。 |
-| `distance` or score | クエリベクターと一致した Struct 要素ベクターとの間のスコアまたは距離。 |
-| `offset` | 返される場合、StructArray フィールド内で一致した Struct 要素の 0 ベース位置。 |
-| Repeated primary keys | あり得ます。同じエンティティ内の複数の Struct 要素が指定された範囲内に入ることがあります。 |
-| `limit` | 一意な親エンティティではなく、要素ヒットに適用されます。 |
+| `id` | 一致した Struct 要素を含むエンティティのプライマリキー。 |
+| `distance` またはスコア | クエリベクトルと一致した Struct 要素ベクトルの間のスコアまたは距離。 |
+| `offset` | 返される場合の、StructArray フィールド内で一致した Struct 要素の 0 ベースの位置。 |
+| 繰り返されるプライマリキー | あり得ます。同じエンティティ内の複数の Struct 要素が指定された範囲に収まることがあります。 |
+| `limit` | 一意の親エンティティではなく、要素のヒットに適用されます。 |
 
 ## 制限事項\{#limitations}
 
-- StructArray ベクターサブフィールドの範囲検索では、`EmbeddingList` クエリまたは `MAX_SIM*` メトリックを使用しないでください。EmbeddingList レベルの検索は範囲検索をサポートしていません。
+- StructArray のベクトルサブフィールドに対する範囲検索では、`EmbeddingList` クエリまたは `MAX_SIM*` メトリクスを使用しないでください。EmbeddingList レベルの検索は範囲検索をサポートしていません。
 
-- 範囲検索を grouping search と組み合わせないでください。親エンティティごとに 1 件の結果が必要な場合は、範囲パラメーターなしで要素レベル検索を実行し、サポートされている場合は grouping を使用してください。
+- 範囲検索をグルーピング検索と組み合わせないでください。親エンティティごとに 1 件の結果が必要な場合は、範囲パラメータを指定せずに要素レベル検索を実行し、サポートされている場合はグルーピングを使用してください。
 
-- hybrid range search は StructArray の要素レベルベクターフィールドでサポートされています。EmbeddingList レベルの StructArray リクエストではサポートされていません。
+- ハイブリッド範囲検索は、StructArray の要素レベルのベクトルフィールドでサポートされています。EmbeddingList レベルの StructArray リクエストではサポートされていません。
 
 ## よくある間違い\{#common-mistakes}
 
-- `chunks[emb_list_vector]` に対して範囲検索を実行すること。これは EmbeddingList 検索用です。
+- `chunks[emb_list_vector]` に対して範囲検索を実行すること。これは EmbeddingList 検索を対象としています。
 
-- 要素レベルの範囲検索で、`COSINE` のような通常のメトリックではなく `MAX_SIM_COSINE` を使用すること。
+- 要素レベルの範囲検索で `MAX_SIM_COSINE` を `COSINE` などの通常のメトリクスの代わりに使用すること。
 
-- 通常のベクタークエリではなく `EmbeddingList` クエリを使用すること。
+- 通常のベクトルクエリの代わりに `EmbeddingList` クエリを使用すること。
 
-- 範囲検索の結果が親エンティティ単位で一意になると期待すること。範囲検索は一致した Struct 要素ヒットを返します。
+- 範囲検索の結果が親エンティティ単位で一意になると期待すること。範囲検索は一致した Struct 要素のヒットを返します。
 
-- 必要なサブフィールドパス構文 `chunks[emb]` ではなく `chunks.emb` を使用すること。
+- `chunks.emb` を、必須のサブフィールドパス構文 `chunks[emb]` の代わりに使用すること。
 
 ## 次のステップ\{#next-steps}
 
-1. StructArray ベクター検索の 2 つの基本モードについて学ぶには、[StructArray を使用した基本ベクター検索](./search-with-struct-array) を参照してください。
+1. StructArray の 2 つの基本的なベクトル検索モードについては、[StructArray を使った基本的なベクトル検索](./search-with-struct-array) を参照してください。
 
-1. 範囲検索に scalar フィルターを追加するには、[StructArray を使用したフィルター検索](./filtered-search-with-struct-arrays) を参照してください。
+1. 範囲検索にスカラーフィルタを追加するには、[StructArray を使ったフィルタ付き検索](./filtered-search-with-struct-arrays) を参照してください。
 
-1. サポートされている場合に親エンティティごとに最大 1 件の結果を返すには、[StructArray を使用したグルーピング検索](./grouping-search-with-struct-array) を参照してください。
+1. サポートされている場合に親エンティティごとに最大 1 件の結果を返すには、[StructArray を使ったグルーピング検索](./grouping-search-with-struct-array) を参照してください。
 
 1. バージョン固有の検索制限を確認するには、[StructArray の制限](./struct-array-limits) を参照してください。
-

@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 ただし、データをチャンク単位で保存すると、検索結果もチャンク単位になります。つまり、検索では最初に、まとまりのある *ドキュメント* ではなく関連する *セグメント* が特定されます。これに対処するには、検索後の追加処理を行う必要があります。
 
-ColBERT (arXiv: [2004.12832](https://arxiv.org/abs/2004.12832)) は、BERT 上での文脈化された late interaction を通じて、効率的かつ効果的な passage 検索を実現する text-text 検索システムです。クエリとドキュメントをトークン単位で独立してエンコードし、それらの類似度を計算できます。
+ColBERT (arXiv: [2004.12832](https://arxiv.org/abs/2004.12832)) は、BERT 上での文脈化された late interaction を通じて、効率的かつ効果的なパッセージ検索を実現する text-text 検索システムです。クエリとドキュメントをトークン単位で独立してエンコードし、それらの類似度を計算できます。
 
 ### トークン単位のエンコーディング\{#token-wise-encoding}
 
@@ -56,9 +56,9 @@ ColBERT におけるデータ取り込み時には、各ドキュメントはト
 
 ![BqBlwM4OOh6hM9bmNwbc2xUUnxc](https://zdoc-images.s3.us-west-2.amazonaws.com/BqBlwM4OOh6hM9bmNwbc2xUUnxc.png)
 
-上の図に示すように、クエリには `machine` と `learning` の 2 つのトークンが含まれ、ウィンドウ内のドキュメントには `neural`、`network`、`python`、`tutorial` の 4 つのトークンが含まれています。これらのトークンがベクトル化されると、各クエリトークンのベクトル埋め込みがドキュメント内のベクトル埋め込みと比較され、類似度スコアのリストが得られます。次に、各スコアリストの最高スコアが合計されて最終スコアが算出されます。ドキュメントの最終スコアを決定するこのプロセスは、maximum similarity (**MAX_SIM**) と呼ばれます。maximum similarity の詳細については、[最大類似度](./search-metrics-explained#maximum-similarity) を参照してください。
+上の図に示すように、クエリには `machine` と `learning` の 2 つのトークンが含まれ、ウィンドウ内のドキュメントには `neural`、`network`、`python`、`tutorial` の 4 つのトークンが含まれています。これらのトークンがベクトル化されると、各クエリトークンのベクトル埋め込みがドキュメント内のベクトル埋め込みと比較され、類似度スコアのリストが得られます。次に、各スコアリストの最高スコアが合計されて最終スコアが算出されます。ドキュメントの最終スコアを決定するこのプロセスは、最大類似度（**MAX_SIM**）と呼ばれます。最大類似度の詳細については、[最大類似度](./search-metrics-explained#maximum-similarity) を参照してください。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Milvus で ColBERT のようなテキスト検索システムを実装する場合、ドキュメントをトークンに分割する方法だけに限定されるわけではありません。
 
@@ -361,7 +361,7 @@ for _, row in df.iterrows():
     })
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 このステップは、埋め込む必要があるデータ量が多いため、比較的時間がかかります。
 
@@ -440,7 +440,7 @@ client.insert(
 )
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 財務報告書の挿入には長い時間がかかる場合があります。各ページには 1,000 個を超えるパッチベクトルが含まれることがあり、各ベクトルは `patches` StructArray フィールド内に保存されます。データセットが大きい場合は、`data` をより小さなバッチに分割し、一度に 1 つのバッチを挿入してください。
 

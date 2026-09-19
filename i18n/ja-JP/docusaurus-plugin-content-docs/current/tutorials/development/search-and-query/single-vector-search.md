@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 ベクトル埋め込みのソート順を記録したインデックスファイルに基づき、Approximate Nearest Neighbor（ANN）検索は、受信した検索リクエストに含まれるクエリベクトルに基づいてベクトル埋め込みのサブセットを特定し、そのサブグループ内のベクトルとクエリベクトルを比較して、最も類似した結果を返します。ANN 検索により、Zilliz Cloud は効率的な検索体験を提供します。このページでは、基本的な ANN 検索の実行方法を学べます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 コレクションの作成後に新しいフィールドを追加した場合、それらのフィールドを含む検索では、値を明示的に設定していないエンティティに対して、定義されたデフォルト値または `NULL` が返されます。詳細については、[コレクション スキーマの変更](./add-fields-to-an-existing-collection) を参照してください。
 
@@ -1849,7 +1849,7 @@ ANN 検索を最適化するために、Zilliz Cloud は、簡素化された検
 
 このパラメータの範囲は `1` から `10` で、デフォルトは `1` です。値を大きくすると検索の再現率が向上しますが、検索パフォーマンスは低下します。一般的なケースでは、デフォルト値で最大 90% の再現率が得られます。必要に応じて値を大きくしてください。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 `level` パラメータは現在も **Public Preview** です。`5` より大きい値を設定できない場合、お使いのクラスターがこの機能に完全には対応していない可能性があります。回避策として、代わりに `1` から `5` の範囲内の値を設定するか、[Zilliz Cloud support](https://zilliz.com/contact-sales) にお問い合わせください。
 
@@ -2048,7 +2048,7 @@ zilliz vector search \
 
 `level` パラメータを調整する際に `enable_recall_calculation` を `true` に設定すると、異なる `level` 値での検索精度を評価できます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 `enable_recall_calculation` パラメータは現在も **Public Preview** であり、互換性の問題により使用できない場合があります。支援が必要な場合は、[Zilliz Cloud support](https://zilliz.com/contact-sales) までお問い合わせください。
 

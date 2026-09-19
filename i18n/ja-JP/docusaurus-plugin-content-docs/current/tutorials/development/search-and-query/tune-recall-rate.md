@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud では、検索の再現率とパフォーマンスのバランスを取れるようにするための検索パラメータ `level` が導入されています。また、現在の検索の推定再現率を取得するための別の検索パラメータ `enable_recall_calculation` も提供されています。これら 2 つのパラメータを組み合わせることで、ベクトル検索の再現率を調整できます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 これは、基本的なベクトル検索、フィルタ付き検索、範囲検索、グループ化検索、ハイブリッド検索、検索イテレータを含むすべての検索に適用されます。
 
@@ -62,7 +62,7 @@ res = client.search(
 
 高い再現率（**99%** 以上）が必要なシナリオでは、`level` パラメータを `6` から `10` の整数に設定してみてください。検索効率が問題でない場合は、最も正確な結果を得るためにこのパラメータを `10` に設定できます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 最上位の level 設定でも不十分な場合は、[Zilliz Cloud support](https://zilliz.com/contact-sales) にお問い合わせください。
 
@@ -105,7 +105,7 @@ res = client.search(
 
 `enable_recall_calculation` を `True` に設定したうえで、`level` パラメータの値を調整して複数の再現率を取得できます。これらの推定値と各検索の所要時間を考慮することで、適切な level 設定をおおよそ見積もることができます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 `enable_recall_calculation` を有効にすると検索パフォーマンスに影響する可能性があるため、本番環境では推奨されません。
 

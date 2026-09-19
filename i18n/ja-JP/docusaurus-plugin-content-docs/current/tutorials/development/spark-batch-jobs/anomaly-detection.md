@@ -36,7 +36,7 @@ import Procedures from '@site/src/components/Procedures';
 
 ![AmEAw0tXEheK1tbrSsIcbTGwndf](https://zdoc-images.s3.us-west-2.amazonaws.com/AmEAw0tXEheK1tbrSsIcbTGwndf.png)
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Isolation Forest では、検査対象のデータセットに最低 368 件のレコードが必要です。
 

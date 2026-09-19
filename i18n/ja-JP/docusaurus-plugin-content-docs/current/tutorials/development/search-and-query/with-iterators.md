@@ -1,13 +1,13 @@
 ---
-title: "Search Iterator | Cloud"
+title: "検索イテレーター | Cloud"
 slug: /with-iterators
-sidebar_label: "Search Iterator"
+sidebar_label: "検索イテレーター"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "ANN Search では、1 回のクエリでリコールできるエンティティ数に最大制限があり、基本的な ANN Search だけでは大規模検索の要件を満たせない場合があります。topK が 16,384 を超える ANN Search リクエストでは、SearchIterator の使用を検討することを推奨します。このセクションでは、SearchIterator の使用方法と関連する考慮事項を紹介します。 | Cloud"
+description: "ANN Search には、1 回のクエリでリコールできるエンティティ数に最大制限があり、基本的な ANN Search だけでは大規模検索の要件を満たせない場合があります。topK が 16,384 を超える ANN Search リクエストでは、SearchIterator の使用を検討することを推奨します。このセクションでは、SearchIterator の使用方法と関連する考慮事項を紹介します。 | Cloud"
 type: origin
 token: QVTnwVz2aifvSAkgomAc9KWRnHb
 sidebar_position: 18
@@ -19,13 +19,13 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Search Iterator
+# 検索イテレーター
 
-ANN Search では、1 回のクエリでリコールできるエンティティ数に最大制限があり、基本的な ANN Search だけでは大規模検索の要件を満たせない場合があります。topK が 16,384 を超える ANN Search リクエストでは、SearchIterator の使用を検討することを推奨します。このセクションでは、SearchIterator の使用方法と関連する考慮事項を紹介します。
+ANN Search には、1 回のクエリでリコールできるエンティティ数に最大制限があり、基本的な ANN Search だけでは大規模検索の要件を満たせない場合があります。topK が 16,384 を超える ANN Search リクエストでは、SearchIterator の使用を検討することを推奨します。このセクションでは、SearchIterator の使用方法と関連する考慮事項を紹介します。
 
 ## 概要\{#overview}
 
-Search リクエストは検索結果を返しますが、SearchIterator はイテレータを返します。このイテレータの **next()** メソッドを呼び出すことで、検索結果を取得できます。
+Search リクエストは検索結果を返しますが、SearchIterator はイテレーターを返します。このイテレーターの **next()** メソッドを呼び出すことで、検索結果を取得できます。
 
 具体的には、SearchIterator は次のように使用できます。
 
@@ -33,13 +33,13 @@ Search リクエストは検索結果を返しますが、SearchIterator はイ�
 
 1. SearchIterator の **next()** メソッドをループ内で呼び出し、ページ分割された形で検索結果を取得します。
 
-1. **next()** メソッドが空の結果を返した場合は、イテレータの **close()** メソッドを呼び出してループを終了します。
+1. **next()** メソッドが空の結果を返した場合は、イテレーターの **close()** メソッドを呼び出してループを終了します。
 
 ## SearchIterator を作成する\{#create-searchiterator}
 
 次のコードスニペットは、SearchIterator を作成する方法を示しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -203,6 +203,14 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+```
+
+</TabItem>
 </Tabs>
 
 上記の例では、検索ごとに返すエンティティ数 (**batch_size**/**batchSize**) を 50、返すエンティティの総数 (**topK**) を 20,000 に設定しています。
@@ -211,7 +219,7 @@ if (!status.IsOk()) {
 
 SearchIterator の準備ができたら、その next() メソッドを呼び出して、ページ分割された形で検索結果を取得できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -310,6 +318,14 @@ while (true) {
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+```
+
+</TabItem>
 </Tabs>
 
-上記のコード例では、無限ループを作成し、そのループ内で **next()** メソッドを呼び出して検索結果を変数に格納し、**next()** が何も返さなくなった時点でイテレータを閉じています。
+上記のコード例では、無限ループを作成し、そのループ内で **next()** メソッドを呼び出して検索結果を変数に格納し、**next()** が何も返さなくなった時点でイテレーターを閉じています。
