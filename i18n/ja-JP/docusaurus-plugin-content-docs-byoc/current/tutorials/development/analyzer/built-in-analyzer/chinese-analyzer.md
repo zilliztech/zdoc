@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 `chinese` analyzer は、中国語テキストを処理するために特別に設計されており、効果的なセグメンテーションとトークン化を提供します。
 
-### Definition\{#definition}
+### 定義\{#definition}
 
 `chinese` analyzer は以下で構成されます。
 
@@ -33,7 +33,7 @@ import TabItem from '@theme/TabItem';
 
 `chinese` analyzer の機能は、次のカスタム analyzer 設定と同等です。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 組み込みの `chinese` analyzer は Pinyin トークンを出力しません。中国語テキストを Pinyin のクエリ語と一致させるには、`jieba` tokenizer と [Pinyin filter](./pinyin-filter) を使用したカスタム analyzer を使用してください。
 
@@ -106,7 +106,7 @@ nlohmann::json analyzer_params = {
 </TabItem>
 </Tabs>
 
-### Configuration\{#configuration}
+### 設定\{#configuration}
 
 フィールドに `chinese` analyzer を適用するには、`analyzer_params` で `type` を `chinese` に設定するだけです。
 
@@ -170,17 +170,17 @@ nlohmann::json analyzer_params = {
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 `chinese` analyzer はオプションのパラメータを受け付けません。
 
 </Admonition>
 
-## Examples\{#examples}
+## 例\{#examples}
 
-analyzer 設定を collection スキーマに適用する前に、`run_analyzer` method を使用してその動作を確認してください。
+analyzer 設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
-### Analyzer configuration\{#analyzer-configuration}
+### Analyzer 設定\{#analyzer-configuration}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -387,9 +387,8 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-### Expected output\{#expected-output}
+### 期待される出力\{#expected-output}
 
 ```python
 Chinese analyzer output: ['Milvus', '是', '一个', '高性', '性能', '高性能', '可', '扩展', '的', '向量', '数据', '据库', '数据库']
 ```
-

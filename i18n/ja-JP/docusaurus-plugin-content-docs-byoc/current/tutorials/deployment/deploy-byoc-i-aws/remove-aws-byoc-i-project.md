@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 このページでは、まず Zilliz Cloud から AWS BYOC-I データプレーンを削除し、コンソールから表示されなくなるまで待ってから、標準の Terraform CLI を使用して顧客クラウドのインフラストラクチャを削除する方法について説明します。
 
-<Admonition type="warning" icon="🚧" title="Warning">
+<Admonition type="warning" title="Warning">
 
 データプレーンを削除し、S3 の `force_destroy` を有効にすると、Milvus データが完全に削除されます。この手順を開始する前に、必要なバックアップを完了して検証してください。
 
@@ -71,7 +71,7 @@ import Procedures from '@site/src/components/Procedures';
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 **クラスターが存在している間は続行しないでください。** 実行中、一時停止中、または削除中のクラスターも存在しているものとみなされます。クラスターリストが空になるまで待ってください。
 
@@ -105,7 +105,7 @@ import Procedures from '@site/src/components/Procedures';
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 **Zilliz Cloud コンソールからデータプレーンが表示されなくなるまでは Terraform を実行しないでください。** *Deleting*、*Undeployed*、またはその他の状態で表示されているデータプレーンは、このゲートを通過していません。削除に失敗した場合、またはカードが表示されたままの場合は、いったん停止し、先にコンソール側の削除を解決してください。
 
@@ -142,7 +142,7 @@ terraform-zilliz-examples/
 | `examples/aws-project-byoc-I/variables.tf` | 必須の `project_id`、`dataplane_id`、およびオプションの `env` 入力をすでに宣言しています。削除固有の編集は不要です。 |
 | `examples/aws-project-byoc-I/provider.tf` | 空の `provider "zillizcloud"` ブロックは、環境から `ZILLIZCLOUD_API_KEY` を読み取ります。このファイルにキーを記述しないでください。 |
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 **リポジトリで別のパスを使用している場合:** `resource "zillizcloud_byoc_i_project"` を含むルートモジュールから開始します。`module "s3"` の `source` 値に従ってそのラッパーモジュールを特定し、同じ 3 つの論理的な変更を行います。呼び出し元を確認せずに、別のプロジェクトに属するファイルや共有のデプロイ済みコピーを編集しないでください。
 
@@ -219,7 +219,7 @@ lifecycle {
 }
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 バケットを削除する前に、S3 の `force_destroy = true` が正常に適用され、Terraform の状態に保存されている必要があります。この状態の更新と destroy 操作を同時に実行しないでください。
 
@@ -251,7 +251,7 @@ variable "env" {
 }
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Terraform の入力名は `dataplane_id` です。Zilliz Cloud プロバイダーのリソースでは、属性名 `data_plane_id` を使用します。以下のコマンドでは Terraform の入力名 `-var="dataplane_id=..."` を使用します。
 
@@ -259,7 +259,7 @@ Terraform の入力名は `dataplane_id` です。Zilliz Cloud プロバイダ�
 
 Zilliz Cloud プロバイダーは、`ZILLIZCLOUD_API_KEY` から API キーを読み取ります。Terraform コマンドごとに API キーを指定し、2 つの必須 ID を `-var` で渡します。これにより、apply コマンドと destroy コマンドを単独で実行できるようになります。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 `main.tf` の Terraform 出力では `${local.dataplane_id}` と `${local.project_id}` を使用しています。これは、Terraform が出力をレンダリングするときにこれらの式を置き換えるためです。手動で入力するコマンドでは、`<dataplane_id>` と `<project_id>` を記録した値に置き換えてください。
 
@@ -272,7 +272,7 @@ export AWS_PROFILE="<aws-profile>"
 aws sts get-caller-identity
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Zilliz Cloud API キーや AWS アクセスキーを `provider.tf`、`terraform.tfvars`、シェルスクリプト、またはプルリクエストにコミットしないでください。有効期間の短い環境認証情報、または承認された CI/role-based 認証メカニズムを使用してください。
 
@@ -294,7 +294,7 @@ terraform workspace show
 terraform workspace select <workspace>
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 AWS 呼び出し元の ID、リージョン、バックエンド、ワークスペース、および変数ファイルを確認します。いずれかの値が削除記録と異なる場合は、続行しないでください。
 
@@ -328,7 +328,7 @@ ZILLIZCLOUD_API_KEY=<api_key> terraform apply \
 
 これらの確認がすべて成功した後にのみ、`yes` を入力してください。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - apply が正常に完了し、S3 バケットの状態に `force_destroy = true` が含まれています。apply が成功していない状態で構成を編集しても、この要件は満たされません。
 
@@ -340,7 +340,7 @@ ZILLIZCLOUD_API_KEY=<api_key> terraform apply \
 
 準備用の apply が成功したときと同じディレクトリ、バックエンド、ワークスペース、認証情報、および変数ファイルを使用します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 この CLI ワークフローでは、準備用の apply の後も `examples/aws-project-byoc-I/main.tf` および参照されているモジュールを変更しないでください。Terraform は `terraform destroy` の実行時に既存の構成と状態を読み取ります。先にファイルを削除すると、プロバイダー、変数、または依存関係の情報が利用できなくなる可能性があります。
 
@@ -360,7 +360,7 @@ ZILLIZCLOUD_API_KEY=<api_key> terraform apply \
 
 - プランで、準備用の apply と同じバックエンドとワークスペースが使用されています。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - 表示された destroy プランがデータ所有者とインフラストラクチャ所有者によってレビューおよび承認されるまでは、`yes` を入力しないでください。この操作で削除された S3 オブジェクトは復元できません。
 
@@ -371,3 +371,4 @@ ZILLIZCLOUD_API_KEY=<api_key> terraform apply \
 表示されたプランが上記のすべての確認を通過した後にのみ、`yes` を入力して削除を開始してください。
 
 一般的なブロッカーには、S3 オブジェクトロックや保持ポリシー、Kubernetes が作成したロードバランサーと ENI、アタッチされた EBS ボリューム、まだ使用中の IAM ロール、AWS 権限の不足などがあります。
+

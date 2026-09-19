@@ -105,15 +105,35 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/deploy-byoc-i-aws/deploy-byoc-i-aws.md",
       "translatedAt": "2026-09-19T13:44:37.664Z"
     },
+    "content/en/byoc/tutorials/deployment/deploy-byoc-i-aws/remove-aws-byoc-i-project.md": {
+      "sourceHash": "07fa275e81dc2e8ef129fd0c539d04df6e1cfafbad19831dfafac51460f76f40",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/deploy-byoc-i-aws/remove-aws-byoc-i-project.md",
+      "translatedAt": "2026-09-19T13:45:51.402Z"
+    },
     "content/en/byoc/tutorials/deployment/deploy-byoc-i-azure.md": {
-      "sourceHash": "5c355a7924bddc34174c5e1372d26db8947eb357d6c638b23cd6574139e575ed",
+      "sourceHash": "ccd45ded2f99de113b0895fc501e411f63965805357c753f85ff7c746174bb4f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/deploy-byoc-i-azure.md",
-      "translatedAt": "2026-08-04T05:15:04.702Z"
+      "translatedAt": "2026-09-19T13:45:51.402Z"
     },
     "content/en/byoc/tutorials/deployment/deploy-byoc-i-gcp.md": {
-      "sourceHash": "c3b5e3ddcbeee9bbcbaf5cf9891eeb6ca7029137b5ce18b779ef186e5b13feac",
+      "sourceHash": "3fd4fd2ab1b2d1007e3240ed8e5fe8cc9b41d10e5d3770e8d2bb56b9c3c49502",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/deploy-byoc-i-gcp.md",
-      "translatedAt": "2026-08-04T05:13:39.255Z"
+      "translatedAt": "2026-09-19T13:45:51.402Z"
+    },
+    "content/en/byoc/tutorials/deployment/license-usage.md": {
+      "sourceHash": "8c24c73ebd2f31d1fa65ed276ad0a38099da7dc7b9b5eded7a3f8e845013c91b",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/license-usage.md",
+      "translatedAt": "2026-09-19T13:45:51.402Z"
+    },
+    "content/en/byoc/tutorials/deployment/prepare-for-cluster-connection.md": {
+      "sourceHash": "13c5e6612fec7ecb670d133bc5290c3913c1d9886ed9f74cda9c522ded06c6cf",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/prepare-for-cluster-connection.md",
+      "translatedAt": "2026-09-19T13:45:51.402Z"
+    },
+    "content/en/byoc/tutorials/deployment/shared-responsibilities.md": {
+      "sourceHash": "968e0d2c33973b613af45dc2910e840b8e8ef8564604dffaf4cc4dbaadfde1f9",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/shared-responsibilities.md",
+      "translatedAt": "2026-09-19T13:45:51.402Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-filters/alphanumonly-filter.md": {
       "sourceHash": "d46dce579fb639290720074e66abf744c0265b52d6fd68bbf6fb9a58790f7282",
@@ -156,14 +176,14 @@
       "translatedAt": "2026-08-04T05:15:40.910Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-filters/regex-filter.md": {
-      "sourceHash": "b6f3f5d649218de8ea52ed4c2d8f02388207257e8ffc9a2dd27d3028565eaf4c",
+      "sourceHash": "db1dbb5b2a7749079ce7cab446381f03fa4fb8b2b55ddee3163c23dd23aa3944",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-filters/regex-filter.md",
-      "translatedAt": "2026-08-25T05:45:58.834Z"
+      "translatedAt": "2026-09-19T13:45:51.402Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-filters/remove-punct-filter.md": {
-      "sourceHash": "6b6608a635b57c7f130c8c82676824fb54366d29e3d85b5f8c6a14231e2c2706",
+      "sourceHash": "aa6275960e0ad4efdf110209f6d1dc13496177d2e53867351581781c8b81a145",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-filters/remove-punct-filter.md",
-      "translatedAt": "2026-08-04T05:04:25.048Z"
+      "translatedAt": "2026-09-19T13:45:51.402Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-filters/stemmer-filter.md": {
       "sourceHash": "e6d391fbfbb2fd7736e7381ff26dffc3796240c86a88c07102176c645c4aba75",
@@ -176,34 +196,34 @@
       "translatedAt": "2026-08-25T05:47:13.853Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-overview.md": {
-      "sourceHash": "2d6a170cda04b30ef4932d94b6c947242548f9b2a79654d9527846aa8d59f8c8",
+      "sourceHash": "6712dbdfcf80912ef265a289851daa042d2b918bfdf5a261012c90b8114ca925",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-overview.md",
-      "translatedAt": "2026-08-25T05:49:48.718Z"
+      "translatedAt": "2026-09-19T13:45:51.402Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-tokenizers/icu-tokenizer.md": {
-      "sourceHash": "5af0871b871450db30d897b6b405af00dd78868ae0bf61d24c2f520351c12c42",
+      "sourceHash": "c5b5a2480156a7b3fc2554e24eac89a1db4cc922b0a6f759ac4130766f4ad8bf",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-tokenizers/icu-tokenizer.md",
-      "translatedAt": "2026-08-04T05:07:52.639Z"
+      "translatedAt": "2026-09-19T13:45:51.402Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-tokenizers/jieba-tokenizer.md": {
-      "sourceHash": "f6b0070cb3395edda97255e756981a0bff5f78211f12d46310e6ec7ef26592cb",
+      "sourceHash": "f824a674aedb1ae7274247c42205ff9a5c4ab5a04c17ea5b633ecd9a95ed0013",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-tokenizers/jieba-tokenizer.md",
-      "translatedAt": "2026-08-25T05:52:24.950Z"
+      "translatedAt": "2026-09-19T13:45:51.402Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-tokenizers/language-identifier-tokenizer.md": {
-      "sourceHash": "9c4f8828ddef0545773c601ad967035abb2163c1d6eff8a7e0255a9aea7dee2f",
+      "sourceHash": "259c130354ea07b3f3027c63a57893408e8246c1981c9a3e76a28a59763e86fe",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-tokenizers/language-identifier-tokenizer.md",
-      "translatedAt": "2026-08-04T05:08:33.537Z"
+      "translatedAt": "2026-09-19T13:45:51.402Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-tokenizers/lindera-tokenizer.md": {
-      "sourceHash": "aa81f0131758e10432bcffc1e9236495312ec3050d2eb7674a50e486047fbc28",
+      "sourceHash": "5ab33f4cebe86de9110cea5c2a3d1630a1febbe5b2621182c7287b104693e58b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-tokenizers/lindera-tokenizer.md",
-      "translatedAt": "2026-08-25T05:54:43.776Z"
+      "translatedAt": "2026-09-19T13:45:51.402Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-tokenizers/standard-tokenizer.md": {
-      "sourceHash": "0d27cd1ab91dab730791cf00aaed373e0724e5d9c298e32135efbfee5d269abf",
+      "sourceHash": "2e81a34a8c54ff60cc1c888bf5684cd29d2ef6500b0c020dcdca6844885e75fd",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-tokenizers/standard-tokenizer.md",
-      "translatedAt": "2026-08-04T05:08:38.846Z"
+      "translatedAt": "2026-09-19T13:45:51.402Z"
     },
     "content/en/byoc/tutorials/development/analyzer/analyzer-tokenizers/whitespace-tokenizer.md": {
       "sourceHash": "b31ee32cc099cb553e6be08dbda5efa50d3283b823e3bab33a197c29b84ddfe8",
@@ -211,9 +231,9 @@
       "translatedAt": "2026-08-04T05:10:12.872Z"
     },
     "content/en/byoc/tutorials/development/analyzer/built-in-analyzer/chinese-analyzer.md": {
-      "sourceHash": "f95ab06c01fc1c3f5af457d19b67e8f0917aa424e0f8c66d6f583df36e8376e3",
+      "sourceHash": "3702a99b2202bae88ea7aaec7ba7f2307952ca690e3c817236a86a723a303d05",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/built-in-analyzer/chinese-analyzer.md",
-      "translatedAt": "2026-08-04T05:05:25.783Z"
+      "translatedAt": "2026-09-19T13:45:51.402Z"
     },
     "content/en/byoc/tutorials/development/analyzer/built-in-analyzer/standard-analyzer.md": {
       "sourceHash": "5141d6f37688435e593f31b6572f426ccfb1e925cc5a384d75c5c2ce0b5ee7d6",

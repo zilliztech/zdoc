@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`icu` tokenizer は、ソフトウェアの国際化に不可欠なツールを提供する Internationalization Components of Unicode オープンソースプロジェクト上に構築されています。ICU の単語分割アルゴリズムを使用することで、この tokenizer は世界の大多数の言語でテキストを単語へ正確に分割できます。 | BYOC"
+description: "`icu` tokenizer は、ソフトウェアの国際化に不可欠なツールを提供する Internationalization Components of Unicode オープンソースプロジェクトを基盤として構築されています。ICU の単語分割アルゴリズムを利用することで、この tokenizer は世界の大多数の言語のテキストを単語に正確に分割できます。 | BYOC"
 type: origin
 token: Q3gKwc5lkilAbKkalCWcW2AbnLe
 sidebar_position: 5
@@ -21,9 +21,9 @@ import TabItem from '@theme/TabItem';
 
 # ICU
 
-`icu` tokenizer は、ソフトウェアの国際化に不可欠なツールを提供する [Internationalization Components of Unicode](http://site.icu-project.org/) (ICU) オープンソースプロジェクト上に構築されています。ICU の単語分割アルゴリズムを使用することで、この tokenizer は世界の大多数の言語でテキストを単語へ正確に分割できます。
+`icu` tokenizer は、ソフトウェアの国際化に不可欠なツールを提供する [Internationalization Components of Unicode](http://site.icu-project.org/)（ICU）オープンソースプロジェクトを基盤として構築されています。ICU の単語分割アルゴリズムを利用することで、この tokenizer は世界の大多数の言語のテキストを単語に正確に分割できます。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 `icu` tokenizer は、句読点と空白を出力内で個別の token として保持します。たとえば、`"Привет! Как дела?"` は `["Привет", "!", " ", "Как", " ", "дела", "?"]` になります。これらの独立した句読点 token を削除するには、[`removepunct`](./remove-punct-filter) filter を使用してください。
 
@@ -148,11 +148,11 @@ nlohmann::json analyzer_params = {
 </TabItem>
 </Tabs>
 
-`analyzer_params` を定義した後、collection schema を定義する際にそれらを `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud はそのフィールド内のテキストを、効率的な tokenization と filtering のために指定された analyzer を使って処理できます。詳細は、[使用例](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後、コレクションスキーマを定義する際にそれらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud はそのフィールド内のテキストを、指定された analyzer を使用して処理し、効率的な tokenization と filtering を実行できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
 ## Examples\{#examples}
 
-analyzer 設定を collection schema に適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+analyzer 設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
 ### Analyzer configuration\{#analyzer-configuration}
 

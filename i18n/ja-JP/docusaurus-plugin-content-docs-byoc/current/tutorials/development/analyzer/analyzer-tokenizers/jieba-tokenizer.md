@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 `jieba` トークナイザーは、中国語テキストを構成単語に分割して処理します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 `jieba` トークナイザーは、出力時に句読点を個別のトークンとして保持します。たとえば、`"你好！世界。"` は `["你好", "！", "世界", "。"]` となります。これらの単独の句読点トークンを除去するには、[`removepunct`](./remove-punct-filter) フィルターを使用してください。
 
@@ -169,7 +169,7 @@ nlohmann::json analyzer_params = {
 
 ### カスタム設定\{#custom-configuration}
 
-より詳細な制御を行うには、カスタム辞書の指定、分割モードの選択、Hidden Markov Model (HMM) の有効化・無効化が可能なカスタム設定を利用できます。例:
+より詳細な制御を行うには、カスタム辞書の指定、分割モードの選択、Hidden Markov Model（HMM）の有効化・無効化が可能なカスタム設定を利用できます。例:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -272,7 +272,7 @@ nlohmann::json analyzerParams = {
    </tr>
    <tr>
      <td><p><code>hmm</code></p></td>
-     <td><p>辞書に登録されていない単語に対して Hidden Markov Model (HMM) による確率的な分割を有効にするかどうかを示すブール値フラグです。</p></td>
+     <td><p>辞書に登録されていない単語に対して Hidden Markov Model（HMM）による確率的な分割を有効にするかどうかを示すブール値フラグです。</p></td>
      <td><p><code>true</code></p></td>
    </tr>
 </table>
@@ -496,4 +496,3 @@ if (!status.IsOk()) {
 ```python
 ['milvus', '结巴分词器', '中', '文', '测', '试']
 ```
-

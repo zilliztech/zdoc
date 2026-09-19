@@ -23,9 +23,9 @@ import TabItem from '@theme/TabItem';
 
 `regex` フィルターは正規表現フィルターです。トークナイザーによって生成されたトークンのうち、指定した式に一致するものだけが保持され、それ以外はすべて破棄されます。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
-このページでは、アナライザーパイプラインにおける regex フィルターについて説明します。このフィルターはトークナイザーが生成したトークンをフィルタリングし、テキスト解析時に生成されるタームに影響を与えます。query、search、またはハイブリッド検索で field =~ "pattern" や field !~ "pattern" などのスカラー式を使ってエンティティをフィルタリングする方法については、[Pattern Matching](./pattern-match) を参照してください。
+このページでは、アナライザーパイプラインにおける regex フィルターについて説明します。このフィルターはトークナイザーが生成したトークンをフィルタリングし、テキスト解析時に生成される用語に影響を与えます。query、search、またはハイブリッド検索で field =~ "pattern" や field !~ "pattern" などのスカラー式を使用してエンティティをフィルタリングする方法については、[パターンマッチング](./pattern-match) を参照してください。
 
 </Admonition>
 
@@ -109,11 +109,11 @@ nlohmann::json analyzer_params = {
 
 | パラメーター | 説明 |
 | --- | --- |
-| `expr` | 各トークンに適用される正規表現パターンです。パターンに一致するトークンは保持され、一致しないトークンは破棄されます。<br/>正規表現の構文の詳細については、[Syntax](https://docs.rs/regex/latest/regex/#syntax) を参照してください。 |
+| `expr` | 各トークンに適用される正規表現パターンです。一致するトークンは保持され、一致しないトークンは破棄されます。<br/>正規表現の構文の詳細については、[Syntax](https://docs.rs/regex/latest/regex/#syntax) を参照してください。 |
 
-`regex` フィルターはトークナイザーが生成したタームに対して動作するため、トークナイザーと組み合わせて使用する必要があります。
+`regex` フィルターはトークナイザーが生成した用語に対して動作するため、トークナイザーと組み合わせて使用する必要があります。
 
-`analyzer_params` を定義したら、コレクションスキーマの定義時にそれを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud が指定されたアナライザーを使用して該当フィールドのテキストを処理し、効率的なトークン化とフィルタリングを行えるようになります。詳細については、[Example use](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義したら、コレクションスキーマの定義時にそれを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud が指定されたアナライザーを使用して該当フィールドのテキストを処理し、効率的なトークン化とフィルタリングを行えるようになります。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
 ## 例\{#examples}
 
@@ -317,9 +317,8 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-### 想定される出力\{#expected-output}
+### 期待される出力\{#expected-output}
 
 ```python
 ['apple', 'banana']
 ```
-

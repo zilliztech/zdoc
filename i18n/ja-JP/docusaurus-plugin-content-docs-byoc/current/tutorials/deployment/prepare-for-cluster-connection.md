@@ -93,11 +93,11 @@ BYOC クラスターには、次のいずれかのモードで接続できます
 
 1. BYOC プロジェクトに移動し、クラスターを選択します。
 
-1. **Cluster Details** ページで、**Connect** カードを見つけます。
+1. **クラスター Details** ページで、**Connect** カードを見つけます。
 
-1. **Cluster Endpoint** をコピーします。形式は `https://${cluster-id}-internal.${region}.byoc.vectordb.zillizcloud.com:19530` です。
+1. **クラスター Endpoint** をコピーします — これは `https://${cluster-id}-internal.${region}.byoc.vectordb.zillizcloud.com:19530` の形式です。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     Terraform を使用してデプロイされた BYOC クラスターについては、Terraform の出力からエンドポイントを取得することもできます。
 
@@ -107,7 +107,7 @@ BYOC クラスターには、次のいずれかのモードで接続できます
 
 ### ステップ 2: クラスターに接続する\{#step-2-connect-to-the-cluster}
 
-次に、コピーしたクラスターエンドポイントと認証情報を使用してクラスターに接続できます。詳細については、[Connect to Clusters](./connect-to-clusters) を参照してください。
+その後、コピーしたクラスターエンドポイントと認証情報を使用してクラスターに接続できます。詳細については、[サービングクラスターへの接続](./connect-to-clusters) を参照してください。
 
 ## Private endpoint access\{#private-endpoint-access}
 
@@ -121,7 +121,7 @@ BYOC プロジェクトのデータプレーンのデプロイ中に private end
 
 クラスターエンドポイント (`*.${region}.byoc.vectordb.zillizcloud.com`) は、Zilliz Cloud によって管理されるパブリックアドレスに名前解決されます。したがって、各クライアント仮想ネットワークでは、wildcard ドメインを仮想ネットワークのプライベート IP アドレスに向ける DNS レコードを追加して、DNS 解決をオーバーライドする必要があります。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 データプレーンのデプロイ時に private endpoint オプションを選択解除していて、private endpoint access が必要な場合は、データプレーンで gateway デプロイメントを有効にできるよう [お問い合わせください](https://support.zilliz.com/hc/en-us/requests/new)。 
 
@@ -467,7 +467,7 @@ resource "aws_route53_zone_association" "additional_vpc" {
 
 ### ステップ 4: クラスターに接続する\{#step-4-connect-to-the-cluster}
 
-次に、コピーしたクラスターエンドポイントと認証情報を使用してクラスターに接続できます。詳細については、[Connect to Clusters](./connect-to-clusters) を参照してください。
+その後、コピーしたクラスターエンドポイントと認証情報を使用してクラスターに接続できます。詳細については、[サービングクラスターへの接続](./connect-to-clusters) を参照してください。
 
 ## トラブルシューティング\{#troubshootings}
 
@@ -479,4 +479,3 @@ resource "aws_route53_zone_association" "additional_vpc" {
 | 接続タイムアウト（モード 2） | DNS がオーバーライドされていない、または VPC Endpoint の準備ができていない | hosted zone が正しい VPC に関連付けられていることを確認し、endpoint のステータスが Available であることを確認します |
 | DNS が誤った IP アドレスに名前解決される（モード 2） | Private hosted zone がクライアント VPC に関連付けられていない | Route 53 hosted zone をすべてのクライアント VPC に関連付けます |
 | TLS エラー | SDK で `secure=True` / HTTPS が指定されていない | endpoint URI が `https://` で始まっていることを確認します |
-

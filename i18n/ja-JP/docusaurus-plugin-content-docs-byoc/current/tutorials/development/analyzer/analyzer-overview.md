@@ -27,7 +27,7 @@ import Supademo from '@site/src/components/Supademo';
 
 Zilliz Cloud では、アナライザーはコレクションの作成時に `VARCHAR` フィールドをコレクションスキーマに追加する際に構成されます。アナライザーが生成したトークンは、キーワードマッチング用のインデックスを構築するために使用したり、全文検索用のスパース埋め込みに変換したりできます。詳細については、[全文検索](./full-text-search) または [テキストマッチ](./text-match) を参照してください。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 アナライザーを使用すると、パフォーマンスに影響する可能性があります。
 
@@ -45,7 +45,7 @@ Zilliz Cloud のアナライザーは、正確に 1 つの **トークナイザ�
 
 - **フィルター**: フィルターをトークンに適用すると、たとえば小文字への変換や一般的な単語の削除など、トークンをさらに洗練できます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 トークナイザーは UTF-8 形式のみをサポートしています。他の形式のサポートは、今後のリリースで追加される予定です。
 
@@ -63,7 +63,7 @@ Zilliz Cloud は、さまざまなテキスト処理のニーズに対応する 
 
 - **カスタムアナライザー**: より高度な要件には、カスタムアナライザーを使用して、トークナイザーと 0 個以上のフィルターの両方を指定することで独自の構成を定義できます。このカスタマイズ性は、テキスト処理を精密に制御する必要がある特殊なユースケースに特に役立ちます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - コレクションの作成時にアナライザーの構成を省略した場合、Zilliz Cloud はデフォルトですべてのテキスト処理に `standard` アナライザーを使用します。詳細については、[Standard](./standard-analyzer) を参照してください。
 
@@ -1393,7 +1393,7 @@ Zilliz Cloud コンソールを使用して上記の操作を実行すること�
 
 <Supademo id="cmfxfue5c41ld10k86la66x1v" title=""  />
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 アナライザーの構成は、コレクションの作成後に変更できません。アナライザーの構成を変更するには、目的の設定で新しいコレクションを作成し、データを [移行](./migrate-between-clusters) します。
 

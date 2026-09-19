@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 `lindera` トークナイザーは、辞書ベースの形態素解析を実行します。単語がスペースで区切られず、文法マーカー（助詞）が単語に直接付着する日本語や韓国語向けに設計されています。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 **中国語テキストの場合**: `lindera` は `cc-cedict` 辞書を通じて中国語をサポートしていますが、代わりに [`jieba`](./jieba-tokenizer) トークナイザーの使用を推奨します。Jieba は中国語の単語分割に特化して設計されており、より高精度な結果を得られます。
 

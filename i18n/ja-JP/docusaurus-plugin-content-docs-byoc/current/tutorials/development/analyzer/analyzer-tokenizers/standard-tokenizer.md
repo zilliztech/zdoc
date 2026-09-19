@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud の `standard` tokenizer は、スペースと句読点に基づいてテキストを分割するため、ほとんどの言語に適しています。 | BYOC"
+description: "Zilliz Cloud の `standard` トークナイザーは、スペースと句読点に基づいてテキストを分割するため、ほとんどの言語に適しています。 | BYOC"
 type: origin
 token: GAX8wkC1QiTZhXkLBocc1GoTnke
 sidebar_position: 1
@@ -21,11 +21,11 @@ import TabItem from '@theme/TabItem';
 
 # Standard Tokenizer
 
-Zilliz Cloud の `standard` tokenizer は、スペースと句読点に基づいてテキストを分割するため、ほとんどの言語に適しています。
+Zilliz Cloud の `standard` トークナイザーは、スペースと句読点に基づいてテキストを分割するため、ほとんどの言語に適しています。
 
-## Configuration\{#configuration}
+## 設定\{#configuration}
 
-`standard` tokenizer を使用する analyzer を設定するには、`analyzer_params` で `tokenizer` を `standard` に設定します。
+`standard` トークナイザーを使用するアナライザーを設定するには、`analyzer_params` で `tokenizer` を `standard` に設定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -87,7 +87,7 @@ nlohmann::json analyzer_params = {
 </TabItem>
 </Tabs>
 
-`standard` tokenizer は、1 つ以上の filter と組み合わせて使用できます。たとえば、次のコードは `standard` tokenizer と `lowercase` filter を使用する analyzer を定義しています。
+`standard` トークナイザーは、1 つ以上のフィルターと組み合わせて使用できます。たとえば、次のコードは、`standard` トークナイザーと `lowercase` フィルターを使用するアナライザーを定義します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -156,19 +156,19 @@ nlohmann::json analyzer_params = {
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-より簡単に設定するには、`standard` tokenizer と [`lowercase`](./lowercase-filter)[ filter](./lowercase-filter) を組み合わせた [`standard`](./standard-analyzer) [analyzer](./standard-analyzer) を使用することもできます。
+よりシンプルに設定するには、[`standard`](./standard-analyzer) [アナライザー](./standard-analyzer) を使用することもできます。これは `standard` トークナイザーと [`lowercase`](./lowercase-filter)[フィルター](./lowercase-filter) を組み合わせたものです。
 
 </Admonition>
 
-`analyzer_params` を定義した後、それらを collection schema の定義時に `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud はそのフィールド内のテキストを、指定された analyzer を使用して処理し、効率的な tokenization と filtering を実行できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後、コレクションスキーマを定義する際に、これを `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud はそのフィールド内のテキストを、指定されたアナライザーを使用して処理し、効率的なトークン化とフィルタリングを実行できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
-## Examples\{#examples}
+## 例\{#examples}
 
-analyzer 設定を collection schema に適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
-### Analyzer configuration\{#analyzer-configuration}
+### アナライザー設定\{#analyzer-configuration}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -357,9 +357,8 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-### Expected output\{#expected-output}
+### 期待される出力\{#expected-output}
 
 ```sql
 ['the', 'milvus', 'vector', 'database', 'is', 'built', 'for', 'scale']
 ```
-
