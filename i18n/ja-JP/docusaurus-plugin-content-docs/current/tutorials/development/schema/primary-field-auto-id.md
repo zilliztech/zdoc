@@ -55,7 +55,7 @@ Zilliz Cloud は、プライマリキー値の割り当てに 2 つのモード�
 | AutoID | Zilliz Cloud が、挿入またはインポートされたエンティティに対して一意の識別子を自動生成します。 | ID を手動管理する必要がないほとんどのシナリオ。 |
 | Manual ID | データの挿入またはインポート時に、自分で一意の ID を指定します。 | ID を外部システムや既存のデータセットと一致させる必要がある場合。 |
 
-<Admonition type="info" icon="📘" title="メモ">
+<Admonition type="info" title="Notes">
 
 - どちらのモードを選ぶべきかわからない場合は、より簡単なデータ取り込みと一意性の保証のために、[AutoID から始めてください](./primary-field-auto-id#quickstart-use-autoid)。
 
@@ -396,7 +396,7 @@ auto ids = response.Results().IdArray().IntIDArray();
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="メモ">
+<Admonition type="info" title="Notes">
 
 既存のエンティティを扱う場合は、重複 ID エラーを避けるために `insert()` の代わりに `upsert()` を使用してください。
 
@@ -612,7 +612,7 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-### ステップ2: 独自のIDでデータを挿入する\{#step-2-insert-data-with-your-ids}
+### ステップ 2: 独自の ID でデータを挿入する\{#step-2-insert-data-with-your-ids}
 
 すべての挿入操作で、プライマリフィールド列を含める必要があります。
 
@@ -742,9 +742,9 @@ auto ids = response.Results().IdArray().StrIDArray()
 
 ユーザーの責任:
 
-- すべてのエンティティで各 ID が一意であることを確認する
+- すべてのエンティティ間で ID が一意になるようにしてください。
 
-- すべての insert/import 操作にプライマリフィールドを含める
+- すべての insert/import 操作にプライマリフィールドを含めてください。
 
-- ID の競合と重複検出を自分で処理する
+- ID の競合と重複の検出はご自身で処理してください。
 

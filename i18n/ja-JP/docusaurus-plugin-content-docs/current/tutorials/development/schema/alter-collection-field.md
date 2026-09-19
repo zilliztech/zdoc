@@ -1,5 +1,5 @@
 ---
-title: "collection フィールドの変更 | Cloud"
+title: "コレクションフィールドの変更 | Cloud"
 slug: /alter-collection-field
 sidebar_label: "フィールドの変更"
 beta: FALSE
@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "collection フィールドのプロパティを変更して、列の制約を変更したり、より厳格なデータ整合性ルールを適用したりできます。 | Cloud"
+description: "コレクションフィールドのプロパティを変更して、列の制約を変更したり、より厳格なデータ整合性ルールを適用したりできます。 | Cloud"
 type: origin
 token: PLjFwlcT8ilFBakYXyfcg6S2n7d
 sidebar_position: 17
@@ -19,17 +19,17 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Collection Field の変更
+# コレクションフィールドの変更
 
-collection フィールドのプロパティを変更して、列の制約を変更したり、より厳格なデータ整合性ルールを適用したりできます。
+コレクションフィールドのプロパティを変更して、列の制約を変更したり、より厳格なデータ整合性ルールを適用したりできます。
 
-このページではフィールドプロパティの変更について説明します。フィールドの追加や削除のようなスキーマ形状の変更については扱いません。既存の collection に scalar フィールドを追加したり、フィールドを削除したりするには、[Collection Schema の変更](./add-fields-to-an-existing-collection)を参照してください。
+このページでは、フィールドの追加や削除のようなスキーマ形状の変更ではなく、フィールドプロパティの変更について説明します。既存のコレクションにスカラーフィールドを追加したり、フィールドを削除したりするには、[コレクションスキーマの変更](./add-fields-to-an-existing-collection) を参照してください。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-- 各 collection は 1 つの primary field のみで構成されます。collection 作成時に設定すると、その後 primary field を変更したり、そのプロパティを変更したりすることはできません。
+- 各コレクションは 1 つのプライマリフィールドのみで構成されます。コレクション作成時に設定すると、プライマリフィールドを変更したり、そのプロパティを変更したりすることはできません。
 
-- 各 collection には 1 つの partition key のみを設定できます。collection 作成時に設定すると、その後 partition key を変更することはできません。
+- 各コレクションが持てるパーティションキーは 1 つだけです。コレクション作成時に設定すると、パーティションキーを変更することはできません。
 
 </Admonition>
 
@@ -37,7 +37,7 @@ collection フィールドのプロパティを変更して、列の制約を変
 
 VarChar フィールドには `max_length` というプロパティがあり、フィールド値に含められる最大文字数を制限します。`max_length` プロパティは変更できます。
 
-次の例では、collection に `varchar` という名前の VarChar フィールドが存在することを前提として、その `max_length` プロパティを設定します。
+次の例では、コレクションに `varchar` という名前の VarChar フィールドが存在することを前提として、その `max_length` プロパティを設定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -180,7 +180,7 @@ if (!status.IsOk()) {
 
 array フィールドには `element_type` と `max_capacity` の 2 つのプロパティがあります。前者は array 内の要素のデータ型を決定し、後者は array に含められる要素の最大数を制限します。変更できるのは `max_capacity` プロパティのみです。
 
-次の例では、collection に `array` という名前の array フィールドが存在することを前提として、その `max_capacity` プロパティを設定します。
+次の例では、コレクションに `array` という名前の array フィールドが存在することを前提として、その `max_capacity` プロパティを設定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -273,9 +273,9 @@ if (!status.IsOk()) {
 
 ## フィールドレベルの mmap 設定の変更\{#alter-field-level-mmap-settings}
 
-メモリマッピング（Mmap）により、ディスク上の大きなファイルへ直接メモリアクセスできるようになり、Zilliz Cloud は index とデータをメモリとハードドライブの両方に保存できます。このアプローチは、アクセス頻度に基づいてデータ配置ポリシーを最適化し、検索パフォーマンスに影響を与えることなく collection のストレージ容量を拡張するのに役立ちます。
+メモリマッピング（Mmap）により、ディスク上の大きなファイルへの直接メモリアクセスが可能になり、Zilliz Cloud はインデックスとデータをメモリとハードドライブの両方に保存できます。このアプローチは、アクセス頻度に基づいてデータ配置ポリシーを最適化し、検索パフォーマンスに影響を与えることなくコレクションのストレージ容量を拡張するのに役立ちます。
 
-次の例では、collection に `doc_chunk` という名前のフィールドが存在することを前提として、その `mmap_enabled` プロパティを設定します。
+次の例では、コレクションに `doc_chunk` という名前のフィールドが存在することを前提として、その `mmap_enabled` プロパティを設定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>

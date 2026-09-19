@@ -26,7 +26,7 @@ import Admonition from '@theme/Admonition';
 
 - `==`、`!=`、`>`、`<`、`>=`、`<=` 演算子を使用する比較フィルタリング
 
-- `IN` および `LIKE` 演算子を使用する範囲フィルタリング
+-  `IN` および `LIKE` 演算子を使用する範囲フィルタリング
 
 ## サポートされるデータ型\{#supported-data-types}
 
@@ -97,7 +97,7 @@ client.create_index(
 
 既存のインデックスをコレクションから削除するには、`drop_index()` メソッドを使用します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 **Milvus v2.6.x** と互換性のあるクラスターでは、不要になったスカラーインデックスを直接削除できます。事前にコレクションをリリースする必要はありません。
 

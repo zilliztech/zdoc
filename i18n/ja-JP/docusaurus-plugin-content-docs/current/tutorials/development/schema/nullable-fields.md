@@ -55,7 +55,7 @@ Zilliz Cloud では、フィールドに NULL 値を保存できるかどうか�
 
 nullable 属性は、コレクションスキーマ内の**スカラーフィールドとベクトルフィールドの両方**でサポートされています。サポート対象の On-Demand クラスターでは、親の StructArray フィールドでもサポートされています。Struct のサブフィールドを個別に nullable として設定しないでください。nullability は StructArray の親で定義し、その設定は内部的にサブフィールドに伝播されます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 nullability は、フィールド値が欠落していてもよいかどうかを決定するものであり、フィールドが欠落している場合にどの値が使用されるかを定義するものではありません。
 

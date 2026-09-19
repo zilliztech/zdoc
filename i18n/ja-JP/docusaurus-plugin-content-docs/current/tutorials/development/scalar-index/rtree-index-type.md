@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`RTREE` index はツリーベースのデータ構造で、Zilliz Cloud の `GEOMETRY` フィールドに対するクエリを高速化します。collection に points、lines、polygans などの幾何オブジェクトが Well-known text (WKT) 形式で格納されており、空間フィルタリングを高速化したい場合、`RTREE` は理想的な選択肢です。 | Cloud"
+description: "`RTREE` インデックスは、Zilliz Cloud における `GEOMETRY` フィールドのクエリを高速化するツリーベースのデータ構造です。コレクションにポイント、ライン、またはポリゴンなどの幾何オブジェクトが Well-known text (WKT) 形式で保存されており、空間フィルタリングを高速化したい場合、`RTREE` は理想的な選択です。 | Cloud"
 type: origin
 token: RlY2wylVQiZswikT0G2cBHVznTf
 sidebar_position: 4
@@ -20,17 +20,17 @@ import Admonition from '@theme/Admonition';
 
 # RTREE
 
-`RTREE` index はツリーベースのデータ構造で、Zilliz Cloud の `GEOMETRY` フィールドに対するクエリを高速化します。collection に points、lines、polygans などの幾何オブジェクトが [Well-known text (WKT)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) 形式で格納されており、空間フィルタリングを高速化したい場合、`RTREE` は理想的な選択肢です。
+`RTREE` インデックスは、Zilliz Cloud における `GEOMETRY` フィールドのクエリを高速化するツリーベースのデータ構造です。コレクションにポイント、ライン、またはポリゴンなどの幾何オブジェクトが [Well-known text (WKT)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) 形式で保存されており、空間フィルタリングを高速化したい場合、`RTREE` は理想的な選択です。
 
 ## 仕組み\{#how-it-works}
 
-Zilliz Cloud は `RTREE` index を使用して geometry データを効率的に整理およびフィルタリングし、2 段階のプロセスに従って動作します。
+Zilliz Cloud は `RTREE` インデックスを使用して geometry データを効率的に整理・フィルタリングし、次の 2 段階のプロセスに従います。
 
-### フェーズ 1: index の構築\{#phase-1-build-the-index}
+### フェーズ 1: インデックスの構築\{#phase-1-build-the-index}
 
 1. **リーフノードを作成する:** 各 geometry オブジェクトについて、そのオブジェクトを完全に含む最小の矩形である [Minimum Bounding Rectangle](https://en.wikipedia.org/wiki/Minimum_bounding_rectangle) (MBR) を計算し、リーフノードとして保存します。
 
-1. **より大きなボックスにグループ化する:** 近接するリーフノードをまとめてクラスタ化し、各グループを新しい MBR で囲んで内部ノードを形成します。たとえば、グループ **B** には **D** と **E** が含まれ、グループ **C** には **F** と **G** が含まれます。
+1. **より大きなボックスにグループ化する:** 近接するリーフノードをまとめてクラスター化し、各グループを新しい MBR で包んで内部ノードを形成します。たとえば、グループ **B** には **D** と **E** が含まれ、グループ **C** には **F** と **G** が含まれます。
 
 1. **ルートノードを追加する:** すべての内部グループを覆う MBR を持つルートノードを追加し、高さバランスの取れたツリー構造を作成します。
 
@@ -46,9 +46,9 @@ Zilliz Cloud は `RTREE` index を使用して geometry データを効率的に
 
 1. **完全一致:** 各候補に対して正確な空間述語を実行し、真の一致を判定します。
 
-## RTREE index を作成する\{#create-an-rtree-index}
+## RTREE インデックスを作成する\{#create-an-rtree-index}
 
-collection schema で定義された `GEOMETRY` フィールドに `RTREE` index を作成できます。
+コレクションスキーマで定義された `GEOMETRY` フィールドに `RTREE` インデックスを作成できます。
 
 ```python
 from pymilvus import MilvusClient
@@ -79,7 +79,7 @@ client.create_index(
 
 ## RTREE を使ってクエリする\{#query-with-rtree}
 
-`filter` 式で geometry 演算子を使用してフィルタリングします。対象の `GEOMETRY` フィールドに `RTREE` が存在する場合、Zilliz Cloud はこれを使用して候補を自動的に枝刈りします。index がない場合、フィルタはフルスキャンにフォールバックします。
+`filter` 式で geometry 演算子を使用してフィルタリングします。対象の `GEOMETRY` フィールドに `RTREE` が存在する場合、Zilliz Cloud は自動的にそれを使用して候補を枝刈りします。インデックスがない場合、フィルターはフルスキャンにフォールバックします。
 
 利用可能な geometry 専用演算子の完全な一覧については、[Geometry Operators](./geometry-operators) を参照してください。
 
@@ -99,9 +99,9 @@ res = client.query(
 print(res)   # Expected: a list of rows where geo is entirely inside the polygon
 ```
 
-### 例 2: vector search + 空間フィルタ\{#example-2-vector-search-spatial-filter}
+### 例 2: ベクトル検索 + 空間フィルター\{#example-2-vector-search-spatial-filter}
 
-線と交差する最近傍 vector を検索します。
+ラインと交差する最も近いベクトルを検索します。
 
 ```python
 # Assume you've also created an index on "vec" and loaded the collection.
@@ -120,13 +120,13 @@ print(hits)  # Expected: top-k by vector similarity among rows whose geo interse
 
 `GEOMETRY` フィールドの使用方法の詳細については、[Geometry Field](./use-geometry-field) を参照してください。
 
-## index を削除する\{#drop-an-index}
+## インデックスを削除する\{#drop-an-index}
 
-`drop_index()` メソッドを使用して、collection から既存の index を削除します。
+`drop_index()` メソッドを使用して、コレクションから既存のインデックスを削除します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-**Milvus v2.6.x** と互換性のある cluster では、不要になった scalar index を直接削除できます。事前に collection を release する必要はありません。
+**Milvus v2.6.x** と互換性のあるクラスターでは、不要になったスカラーインデックスを直接削除できます。事前にコレクションを release する必要はありません。
 
 </Admonition>
 

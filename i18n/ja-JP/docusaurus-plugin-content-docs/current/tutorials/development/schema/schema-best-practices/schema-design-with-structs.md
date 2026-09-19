@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "現代の AI アプリケーション、特に Internet of Things (IoT) や自動運転では、通常、豊富で構造化されたイベントを扱います。たとえば、タイムスタンプと vector embedding を持つセンサー読み取り値、エラーコードと音声スニペットを持つ診断ログ、位置情報・速度・シーンコンテキストを持つ走行区間などです。これらには、データベースがネストされたデータの取り込みと検索をネイティブにサポートすることが求められます。 | Cloud"
+description: "現代の AI アプリケーション、特にモノのインターネット（IoT）や自動運転では、タイムスタンプとベクトル埋め込みを伴うセンサーの読み取り値、エラーコードと音声スニペットを伴う診断ログ、位置、速度、シーンコンテキストを伴う走行セグメントなど、豊かで構造化されたイベントについて推論することが一般的です。そのため、データベースにはネストされたデータの取り込みと検索をネイティブにサポートすることが求められます。 | Cloud"
 type: origin
 token: VOkIwd5adiziGQkoDO1cRoRFnre
 sidebar_position: 2
@@ -20,33 +20,33 @@ import Admonition from '@theme/Admonition';
 
 # Struct の配列を使ったデータモデル設計
 
-現代の AI アプリケーション、特に Internet of Things (IoT) や自動運転では、通常、豊富で構造化されたイベントを扱います。たとえば、タイムスタンプと vector embedding を持つセンサー読み取り値、エラーコードと音声スニペットを持つ診断ログ、位置情報・速度・シーンコンテキストを持つ走行区間などです。これらには、データベースがネストされたデータの取り込みと検索をネイティブにサポートすることが求められます。 
+モノのインターネット（IoT）や自動運転をはじめとする現代の AI アプリケーションは、タイムスタンプとベクトル埋め込みを伴うセンサーの読み取り値、エラーコードと音声スニペットを伴う診断ログ、位置、速度、シーンコンテキストを伴う走行セグメントなど、豊かで構造化されたイベントについて推論することが一般的です。そのため、データベースにはネストされたデータの取り込みと検索をネイティブにサポートすることが求められます。
 
-ユーザーに原子的な構造イベントをフラットなデータモデルへ変換させる代わりに、Zilliz Cloud では Array of Structs を導入しています。この形式では、配列内の各 Struct が scalar と vector を保持でき、意味的な整合性を維持できます。
+ユーザーに原子的な構造イベントをフラットなデータモデルへ変換させる代わりに、Zilliz Cloud は Array of Structs を導入しています。Array 内の各 Struct はスカラーとベクトルを保持でき、セマンティックな整合性が保たれます。
 
 ## なぜ Array of Structs なのか\{#why-array-of-structs}
 
 自動運転からマルチモーダル検索まで、現代の AI アプリケーションはますますネストされた異種データに依存しています。従来のフラットなデータモデルでは、「**1 つのドキュメントに多数のアノテーション付きチャンクがある**」や「**1 つの運転シーンに複数の観測された操作がある**」のような複雑な関係を表現するのが困難です。そこで Zilliz Cloud の Array of Structs データ型が力を発揮します。
 
-Array of Structs を使うと、順序付けられた構造化要素の集合を保存できます。各 Struct には、それぞれ独自の scalar フィールドと vector embedding の組み合わせを含められます。これにより、次のような用途に最適です。
+Array of Structs を使用すると、順序付けられた構造化要素のセットを格納できます。各 Struct は、スカラーフィールドとベクトル埋め込みを独自に組み合わせて保持します。これにより、次の用途に最適です。
 
 - **階層データ**: 複数の子レコードを持つ親エンティティ。たとえば、多数のテキストチャンクを持つ書籍や、多数のアノテーション付きフレームを持つ動画など。
 
-- **マルチモーダル embedding**: 各 Struct は、メタデータとともに、テキスト embedding と画像 embedding など複数の vector を保持できます。
+- **マルチモーダル埋め込み**: 各 Struct は、メタデータとともに、テキスト埋め込みと画像埋め込みなど、複数のベクトルを保持できます。
 
 - **時系列または逐次データ**: Array フィールド内の Struct は、時系列データやステップごとのイベントを自然に表現します。
 
-JSON blob を保存したり、データを複数の collection に分割したりする従来の回避策とは異なり、Array of Structs は Zilliz Cloud 内でネイティブな schema の強制、vector index、効率的なストレージを提供します。
+JSON blob を保存したり、複数のコレクションにデータを分割したりする従来の回避策とは異なり、Array of Structs は Zilliz Cloud 内でネイティブなスキーマ適用、ベクトルインデックス作成、効率的なストレージを提供します。
 
-## schema 設計ガイドライン\{#schema-design-guidelines}
+## スキーマ設計ガイドライン\{#schema-design-guidelines}
 
 [検索のためのデータモデル設計](./schema-design-hands-on) で説明したすべてのガイドラインに加えて、データモデル設計で Array of Structs を使い始める前に、次の点も考慮する必要があります。
 
-### Struct schema を定義する\{#define-the-struct-schema}
+### Struct スキーマを定義する\{#define-the-struct-schema}
 
-collection に Array フィールドを追加する前に、内部の Struct schema を定義してください。struct 内の各フィールドは、scalar（**VARCHAR**、**INT**、**BOOLEAN** など）または vector（**FLOAT_VECTOR**）として明示的に型指定する必要があります。
+コレクションに Array フィールドを追加する前に、内部の Struct スキーマを定義します。struct 内の各フィールドは、スカラー（**VARCHAR**、**INT**、**BOOLEAN** など）またはベクトル（**FLOAT_VECTOR**）として明示的に型指定する必要があります。
 
-Struct schema は、取得または表示に使用するフィールドだけを含めて、できるだけ簡潔に保つことをお勧めします。使わないメタデータで肥大化させないでください。
+Struct スキーマは、取得や表示に使用するフィールドのみを含めてシンプルに保つことをお勧めします。未使用のメタデータによる肥大化を避けてください。
 
 ### 最大容量を慎重に設定する\{#set-the-max-capacity-thoughtfully}
 
@@ -54,9 +54,9 @@ Struct schema は、取得または表示に使用するフィールドだけを
 
 過度に高い値はメモリを無駄にするため、Array フィールド内の Struct の最大数を決定するために、ある程度の計算が必要になります。
 
-### Struct 内の vector フィールドに index を作成する\{#index-vector-fields-in-structs}
+### Struct 内のベクトルフィールドにインデックスを作成する\{#index-vector-fields-in-structs}
 
-index 作成は vector フィールドに必須であり、collection 内の vector フィールドと Struct 内で定義されたものの両方が対象です。Struct 内の vector フィールドについては、index type に `AUTOINDEX`、metric type に `MAX_SIM` シリーズを使用してください。
+ベクトルフィールドには、コレクション内のベクトルフィールドと Struct で定義されたベクトルフィールドの両方を含め、インデックス作成が必須です。Struct 内のベクトルフィールドには、インデックスタイプとして `AUTOINDEX` を、メトリクスタイプとして `MAX_SIM` シリーズを使用する必要があります。
 
 適用可能なすべての制限の詳細については、[制限事項](./use-array-of-structs) を参照してください。
 
@@ -72,7 +72,7 @@ index 作成は vector フィールドに必須であり、collection 内の vec
 
 この階層的でマルチモーダルな性質により、このデータセットは Array of Structs 機能の理想的な候補となります。CoVLA データセットの詳細については、[CoVLA Dataset Website](https://turingmotors.github.io/covla-ad/) を参照してください。
 
-### ステップ 1: データセットを collection schema にマッピングする\{#step-1-map-the-dataset-into-a-collection-schema}
+### ステップ 1: データセットをコレクションスキーマにマッピングする\{#step-1-map-the-dataset-into-a-collection-schema}
 
 CoVLA データセットは、10,000 本の動画クリップから構成される大規模なマルチモーダル運転データセットで、総計 80 時間を超える映像を含みます。フレームは 20Hz でサンプリングされ、各フレームには詳細な自然言語キャプションに加え、車両状態や検出された物体の座標情報が付与されています。
 
@@ -122,9 +122,9 @@ CoVLA データセットは、10,000 本の動画クリップから構成され�
 
 CoVLA データセットの構造は非常に階層的であり、収集されたデータが複数の `.jsonl` ファイルに分割され、さらに `.mp4` 形式の動画クリップが付随していることがわかります。
 
-Zilliz Cloud では、collection schema 内にネスト構造を作成するために、JSON フィールドまたは Array-of-Structs フィールドのいずれかを使用できます。ネスト形式に vector embedding が含まれる場合は、Array-of-Structs フィールドのみがサポートされます。ただし、Array 内の Struct 自体には、さらにネストされた構造を含めることはできません。CoVLA データセットを重要な関係性を保持したまま保存するには、不要な階層を取り除き、Zilliz Cloud の collection schema に収まるようにデータをフラット化する必要があります。
+Zilliz Cloud では、コレクションスキーマ内にネスト構造を作成するために、JSON フィールドまたは Array-of-Structs フィールドのいずれかを使用できます。ネスト形式にベクトル埋め込みが含まれる場合は、Array-of-Structs フィールドのみがサポートされます。ただし、Array 内の Struct 自体がさらにネストされた構造を含むことはできません。CoVLA データセットを重要な関係を維持したまま保存するには、不要な階層を削除し、データをフラット化して Zilliz Cloud のコレクションスキーマに適合させる必要があります。
 
-以下の図は、後続の schema で示される構成を使って、このデータセットをどのようにモデリングできるかを示しています。
+次の図は、以下のスキーマを使用してこのデータセットをどのようにモデル化できるかを示しています。
 
 ![PATjwyoKzhPELnb14kBcnAEAnGv](https://zdoc-images.s3.us-west-2.amazonaws.com/PATjwyoKzhPELnb14kBcnAEAnGv.png)
 
@@ -138,11 +138,11 @@ Zilliz Cloud では、collection schema 内にネスト構造を作成するた�
 
     - `frame_id` は、現在の動画内の特定のフレームを識別します。
 
-    - `plain_caption` は、天候、路面状況などの周辺環境を含まない現在のフレームの説明であり、`plain_cap_vector` はそれに対応する vector embeddings です。
+    - `plain_caption` は、天候や道路状況などの周辺環境を含まない現在のフレームの説明であり、`plain_cap_vector` はそれに対応するベクトル埋め込みです。
 
-    - `rich_caption` は、周辺環境を含む現在のフレームの説明であり、`rich_cap_vector` はそれに対応する vector embeddings です。
+    - `rich_caption` は、周辺環境を含む現在のフレームの説明であり、`rich_cap_vector` はそれに対応するベクトル埋め込みです。
 
-    - `risk` は、現在のフレームで自車両が直面するリスクの説明であり、`risk_vector` はそれに対応する vector embeddings です。
+    - `risk` は、現在のフレームで自車両が直面するリスクの説明であり、`risk_vector` はそれに対応するベクトル埋め込みです。
 
     - さらに、`road`、`weather`、`is_tunnel`、`has_pedestrain` など、フレームのその他すべての属性があります。
 
@@ -150,11 +150,11 @@ Zilliz Cloud では、collection schema 内にネスト構造を作成するた�
 
 - `front_cars` も Array of Structs であり、現在のフレームで識別されたすべての前方車両を含みます。
 
-### ステップ 2: schema を初期化する\{#step-2-initialize-the-schemas}
+### ステップ 2: スキーマを初期化する\{#step-2-initialize-the-schemas}
 
-まず、caption Struct、front_cars Struct、および collection の schema を初期化する必要があります。
+まず、caption Struct、front_cars Struct、およびコレクションのスキーマを初期化する必要があります。
 
-- Caption Struct の schema を初期化します。
+- Caption Struct のスキーマを初期化します。
 
     ```python
     client = MilvusClient("YOUR_CLUSTER_ENDPOINT")
@@ -291,11 +291,11 @@ Zilliz Cloud では、collection schema 内にネスト構造を作成するた�
     )
     ```
 
-- Front Car Struct の schema を初期化します
+- Front Car Struct のスキーマを初期化します。
 
-    <Admonition type="info" icon="📘" title="注意">
+    <Admonition type="info" title="Notes">
 
-    front car には vector embeddings は含まれませんが、データサイズが JSON フィールドの最大値を超えるため、引き続き Struct の配列として含める必要があります。
+    前方車両はベクトル埋め込みを伴いませんが、データサイズが JSON フィールドの上限を超えるため、Struct の配列として含める必要があります。
 
     </Admonition>
 
@@ -345,7 +345,7 @@ Zilliz Cloud では、collection schema 内にネスト構造を作成するた�
     )
     ```
 
-- collection の schema を初期化します
+- コレクションのスキーマを初期化します。
 
     ```python
     schema = client.create_schema()
@@ -391,9 +391,9 @@ Zilliz Cloud では、collection schema 内にネスト構造を作成するた�
     )
     ```
 
-### ステップ 3: index パラメータを設定する\{#step-3-set-index-parameters}
+### ステップ 3: インデックスパラメーターを設定する\{#step-3-set-index-parameters}
 
-すべての vector フィールドには index を作成する必要があります。要素 Struct 内の vector フィールドに index を作成するには、index type として `AUTOINDEX` を使用し、embedding リスト間の類似性を測定する metric type として `MAX_SIM` シリーズを使用する必要があります。
+すべてのベクトルフィールドにはインデックスを作成する必要があります。要素 Struct 内のベクトルフィールドにインデックスを作成するには、埋め込みリスト間の類似度を測定するために、インデックスタイプとして `AUTOINDEX` を、メトリクスタイプとして `MAX_SIM` シリーズを使用する必要があります。
 
 ```python
 index_params = client.prepare_index_params()
@@ -425,9 +425,9 @@ index_params.add_index(
 
 これらのフィールド内でのフィルタリングを高速化するために、JSON フィールドに対して JSON shredding を有効にすることをお勧めします。
 
-### ステップ 4: collection を作成する\{#step-4-create-a-collection}
+### ステップ 4: コレクションを作成する\{#step-4-create-a-collection}
 
-schema と index の準備ができたら、次のように対象の collection を作成できます。
+スキーマとインデックスの準備ができたら、次のようにして対象のコレクションを作成できます。
 
 ```python
 client.create_collection(
@@ -531,4 +531,3 @@ client.insert(
 
 # {'insert_count': 1, 'ids': ['0a0fc7a5db365174'], 'cost': 0}
 ```
-

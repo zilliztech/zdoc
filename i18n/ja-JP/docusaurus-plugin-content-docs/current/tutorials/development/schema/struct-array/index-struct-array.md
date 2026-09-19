@@ -36,7 +36,7 @@ import Admonition from '@theme/Admonition';
 | `chunks[quality_score]` | `FLOAT` | 数値フィルタリングと範囲スタイルの述語。 |
 | `chunks[has_code]` | `BOOL` | ブールフィルタリング。 |
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 ベクトルフィールドまたはベクトルサブフィールドが受け付けるインデックスは 1 つだけです。EmbeddingList 検索と要素レベル検索の両方が必要な場合は、2 つの別々のベクトルサブフィールドを作成し、それぞれに個別にインデックスを作成してください。このページでは、`chunks[emb_list_vector]` は EmbeddingList 検索用にインデックス化され、`chunks[emb]` は要素レベル検索用にインデックス化されています。
 
@@ -85,7 +85,7 @@ client.create_index(
 )
 ```
 
-<Admonition type="warning" icon="🚧" title="Warning">
+<Admonition type="warning" title="Warning">
 
 同じベクトルサブフィールドに `MAX_SIM*` インデックスと通常のベクトルメトリクスのインデックスを作成しないでください。両方の検索モードが必要な場合は、2 つの別々のベクトルサブフィールドにベクトルを書き込み、各サブフィールドに 1 つずつインデックスを作成します。
 
