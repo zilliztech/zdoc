@@ -29,7 +29,7 @@ import TabItem from '@theme/TabItem';
 
 サービングクラスター内のデータベースは、Dedicated サービングクラスターでホストされるコレクションの論理コンテナです。このページでは、サービングクラスターエンドポイントを通じてデータベースを作成、表示、設定、使用、削除する方法を説明します。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 このページは、サービングクラスター内のデータベースを対象としています。オンデマンドコンピュートでクエリされるプロジェクトレベルのデータベースについては、[オンデマンド検索用データベース](./on-demand-database) を参照してください。データベースモデルの比較については、[データベースの説明](./database-concept) を参照してください。
 
@@ -481,7 +481,7 @@ curl --request POST \
 
 SDK を使用する場合、再接続することなくデータベースを切り替えることができます。
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" title="Note">
 
 RESTful API は、永続接続上でのデータベースの切り替えをサポートしていません。RESTful API リクエストでは、操作が dbName をサポートしている場合、各リクエストボディで対象のデータベースを指定してください。
 
@@ -607,4 +607,3 @@ curl --request POST \
 - [データベースの説明](./database-concept)
 
 - [オンデマンド検索用データベース](./on-demand-database)
-

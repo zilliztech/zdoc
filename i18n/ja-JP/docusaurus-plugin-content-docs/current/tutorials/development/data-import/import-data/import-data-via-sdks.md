@@ -25,7 +25,7 @@ import TabItem from '@theme/TabItem';
 
 また、データ準備と Zilliz Cloud コレクションへのデータインポートの両方を扱う[短時間で学べるエンドツーエンドコース](./data-import-zero-to-hero)も参照できます。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 Zilliz Cloud では現在、クラスターをホストしているクラウドプロバイダーに関係なく、任意のオブジェクトストレージサービスから任意の Zilliz Cloud クラスターへデータをインポートできます。たとえば、AWS S3 バケットから GCP 上にデプロイされた Zilliz Cloud クラスターにデータをインポートできます。
 
@@ -65,7 +65,7 @@ python3 -m pip install --upgrade pymilvus minio
 </dependency>
 ```
 
-- Gradle/Grails の場合、次を実行します。
+- Gradle/Grails, の場合は、以下を実行します。
 
 ```shell
 compile 'io.milvus:milvus-sdk-java:2.4.8'
@@ -320,7 +320,7 @@ public static void main(String[] args) throws Exception {
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 データインポートを正常に行うには、ターゲットコレクションの実行中または保留中のインポートジョブ数が 10,000 未満であることを確認してください。
 
@@ -456,4 +456,3 @@ public static void main(String[] args) throws Exception {
 - [RESTful API を使用したデータのインポート](./import-data-via-restful-api)
 
 - [データインポート完全ガイド](./data-import-zero-to-hero) 
-

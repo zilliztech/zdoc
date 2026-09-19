@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "オンデマンドクラスターのコンピュートを使用してオンデマンドの検索またはクエリワークロードを実行したい場合は、プロジェクトエンドポイントを使用します。 | Cloud"
+description: "オンデマンドクラスターのコンピュートを使用してオンデマンド検索またはクエリワークロードを実行したい場合は、プロジェクトエンドポイントを使用します。 | Cloud"
 type: origin
 token: BTrNwoEfYii1e9kf0BScWDpcnA2
 sidebar_position: 2
@@ -20,11 +20,11 @@ import Admonition from '@theme/Admonition';
 
 # オンデマンド検索のための接続
 
-オンデマンドクラスターのコンピュートを使用してオンデマンドの検索またはクエリワークロードを実行したい場合は、プロジェクトエンドポイントを使用します。
+オンデマンドクラスターのコンピュートを使用してオンデマンド検索またはクエリワークロードを実行したい場合は、プロジェクトエンドポイントを使用します。
 
-<Admonition type="info" icon="📘" title="注">
+<Admonition type="info" title="Note">
 
-このページでは、オンデマンド検索のためにプロジェクトエンドポイントに接続する方法について説明します。Free、Serverless、または Dedicated のサービングクラスターに接続したい場合は、[サービングクラスターへの接続](./connect-to-clusters) を参照してください。
+このページは、オンデマンド検索のためにプロジェクトエンドポイントに接続する方法を説明します。Free、Serverless、または Dedicated のサービングクラスターに接続したい場合は、[サービングクラスターへの接続](./connect-to-clusters) を参照してください。
 
 </Admonition>
 
@@ -89,4 +89,4 @@ print(results)
 
 プロジェクトエンドポイントは、バッチ処理、探索、検証、実験、および常時稼働のサービングよりもオンデマンドコンピュートの方が適しているその他のワークロードに使用します。
 
-完全な Collection API と常時稼働の低レイテンシサービングを必要とする本番アプリケーションでは、代わりに Free、Serverless、または Dedicated のサービングクラスターに接続してください。サービングクラスターのエンドポイント形式と接続例については、[サービングクラスターへの接続](./connect-to-clusters) を参照してください。
+完全なコレクション API と常時稼働の低レイテンシサービングを必要とする本番アプリケーションでは、代わりに Free、Serverless、または Dedicated のサービングクラスターに接続してください。サービングクラスターのエンドポイント形式と接続例については、[サービングクラスターへの接続](./connect-to-clusters) を参照してください。

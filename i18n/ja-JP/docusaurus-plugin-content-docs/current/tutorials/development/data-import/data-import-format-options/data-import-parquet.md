@@ -26,19 +26,19 @@ import Admonition from '@theme/Admonition';
 
 ![parquet_file_structure_en](https://zdoc-images.s3.us-west-2.amazonaws.com/parquet_file_structure_en.png "parquet_file_structure_en")
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 - **AutoID を有効にするかどうか**
 
-    **id** フィールドは collection の主フィールドとして機能します。主フィールドを自動インクリメントにするには、スキーマで **AutoID** を有効にできます。この場合、ソースデータの各行から **id** フィールドを除外する必要があります。
+    **id** フィールドはコレクションのプライマリフィールドとして機能します。プライマリフィールドを自動インクリメントにするには、スキーマで **AutoID** を有効にできます。この場合、ソースデータの各行から **id** フィールドを除外する必要があります。
 
 - **動的フィールドを有効にするかどうか**
 
-    対象の collection で動的フィールドが有効になっている場合、事前定義されたスキーマに含まれていないフィールドを保存する必要があるときは、書き込み操作中に **&#36;meta** 列を指定し、対応するキーと値のデータを提供できます。
+    対象のコレクションで動的フィールドが有効になっている場合、事前定義されたスキーマに含まれていないフィールドを保存する必要があるときは、書き込み時に **&#36;meta** 列を指定し、対応するキーと値のデータを提供できます。
 
 - **大文字と小文字を区別**
 
-    辞書キーと collection のフィールド名は大文字と小文字を区別します。データ内の辞書キーが、対象 collection のフィールド名と完全に一致していることを確認してください。対象 collection に **id** というフィールドがある場合、各エンティティ辞書には **id** という名前のキーが必要です。**ID** や **Id** を使用するとエラーになります。 
+    辞書のキーとコレクションのフィールド名は大文字と小文字を区別します。データ内の辞書キーが対象コレクションのフィールド名と完全に一致していることを確認してください。対象コレクションに **id** という名前のフィールドがある場合、各エンティティの辞書には **id.** という名前のキーが必要です。**ID** や **Id** を使用するとエラーになります。
 
 </Admonition>
 
@@ -54,7 +54,7 @@ import Admonition from '@theme/Admonition';
 
 ## データをインポート\{#import-data}
 
-データの準備ができたら、次のいずれかの方法を使用して Zilliz Cloud collection にインポートできます。
+データの準備ができたら、次のいずれかの方法を使用して Zilliz Cloud コレクションにインポートできます。
 
 - [複数パスからファイルをインポート（推奨）](./data-import-parquet#import-files-from-multiple-paths-recommended)
 
@@ -62,7 +62,7 @@ import Admonition from '@theme/Admonition';
 
 - [単一ファイルをインポート](./data-import-parquet#import-a-single-file)
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 ファイルが比較的小さい場合は、フォルダまたは複数パスの方法を使用して一度にまとめてインポートすることを推奨します。この方法ではインポート処理中に内部最適化が行われるため、その後のリソース消費を減らすのに役立ちます。
 
@@ -116,7 +116,7 @@ curl --request POST \
     }'
 ```
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 フォルダに複数形式のファイルが含まれている場合、リクエストは失敗します。
 
@@ -161,10 +161,10 @@ Zilliz Cloud は、クラウドストレージからのデータインポート�
 <table>
    <tr>
      <th><p><strong>インポート方法</strong></p></th>
-     <th><p><strong>Cluster プラン</strong></p></th>
-     <th><p><strong>1 回のインポートあたりの最大ファイル数</strong></p></th>
+     <th><p><strong>クラスタープラン</strong></p></th>
+     <th><p><strong>インポートあたりの最大ファイル数</strong></p></th>
      <th><p><strong>最大ファイルサイズ</strong></p></th>
-     <th><p><strong>最大インポート合計サイズ</strong></p></th>
+     <th><p><strong>最大合計インポートサイズ</strong></p></th>
    </tr>
    <tr>
      <td><p>ローカルファイルから</p></td>

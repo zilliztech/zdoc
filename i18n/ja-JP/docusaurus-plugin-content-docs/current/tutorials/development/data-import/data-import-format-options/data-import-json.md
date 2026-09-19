@@ -45,7 +45,7 @@ JSON Line は、各行が完全かつ有効な JSON オブジェクトである�
 
 ![json_data_structure](https://zdoc-images.s3.us-west-2.amazonaws.com/jsondatastructure.png "json_data_structure")
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 - **AutoID を有効にするかどうか**
 
@@ -81,7 +81,7 @@ JSON Line は、各行が完全かつ有効な JSON オブジェクトである�
 
 - [単一ファイルをインポート](./data-import-json#import-a-single-file)
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 ファイルサイズが比較的小さい場合は、フォルダーまたは複数パスの方法を使用して、すべてを一括でインポートすることをお勧めします。この方法では、インポート処理中に内部的な最適化が行われるため、その後のリソース消費を抑えるのに役立ちます。
 
@@ -135,7 +135,7 @@ curl --request POST \
     }'
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 フォルダーに複数の形式のファイルが含まれている場合、リクエストは失敗します。
 
@@ -177,7 +177,7 @@ Zilliz Cloud は、お使いのクラウドストレージからのデータイ�
 
 ローカルの JSON ファイルまたはクラウドストレージ上の JSON ファイルからデータをインポートする際には、いくつか守るべき制限事項があります。 
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 有効な JSON ファイルには **rows** というルートキーがあり、その値は辞書のリストです。各辞書は、対象コレクションのスキーマに一致するエンティティを表します。
 

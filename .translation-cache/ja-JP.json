@@ -1510,15 +1510,30 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/set-collection-ttl.md",
       "translatedAt": "2026-09-19T14:04:43.571Z"
     },
+    "content/en/guides/tutorials/development/collection/truncate-collection.md": {
+      "sourceHash": "62f3716ab7429a103d73bb08939e104a6f8ac31a205b144aaa2c2551d83a6f6f",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/truncate-collection.md",
+      "translatedAt": "2026-09-19T14:05:52.293Z"
+    },
+    "content/en/guides/tutorials/development/collection/use-large-topk.md": {
+      "sourceHash": "d0c68f684dbfcc5703198e46dd927091ce0041cbdc1010f43cd4ba2a8e61d771",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/use-large-topk.md",
+      "translatedAt": "2026-09-19T14:05:52.293Z"
+    },
     "content/en/guides/tutorials/development/collection/view-collections.md": {
       "sourceHash": "8ec41883d3baff5489f7ac0537c0cac7f5242390efd644fc96b315579e5d0db9",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/view-collections.md",
       "translatedAt": "2026-08-04T05:14:03.535Z"
     },
     "content/en/guides/tutorials/development/connect-for-on-demand-search.md": {
-      "sourceHash": "f7e90d22aa1ecf382b83b0e97616cb2e9b2bd3cce7cc203a96a129e7f311ba1b",
+      "sourceHash": "6cbc59d7d2541ce567822f3f41f05dddc92f5b702da6ab48791248951f91b95f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/connect-for-on-demand-search.md",
-      "translatedAt": "2026-08-04T05:14:49.521Z"
+      "translatedAt": "2026-09-19T14:05:52.293Z"
+    },
+    "content/en/guides/tutorials/development/data-export/export-data-iterators.md": {
+      "sourceHash": "790bdebe2440bdb4cb3b5af4d134016427aab88d2afa65bee80215eaea9c0041",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-export/export-data-iterators.md",
+      "translatedAt": "2026-09-19T14:05:52.293Z"
     },
     "content/en/guides/tutorials/development/data-import/data-import-format-options/data-import-format-options.md": {
       "sourceHash": "9e5a9387a82e8c299a975b8237865a3a59230f91aa006d348005f30fd4767d3b",
@@ -1526,14 +1541,44 @@
       "translatedAt": "2026-08-04T05:16:18.746Z"
     },
     "content/en/guides/tutorials/development/data-import/data-import-format-options/data-import-json.md": {
-      "sourceHash": "d733a1a6d5dbcfbffd2002dd31ef03bfdb463321d86385b0ab38ffe6669cfcc7",
+      "sourceHash": "7916b2c1f34d8914c20716ef41e0017038cb8c1f3c3e6f1a12588f9e5aaba749",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-import/data-import-format-options/data-import-json.md",
-      "translatedAt": "2026-08-25T07:46:26.111Z"
+      "translatedAt": "2026-09-19T14:05:52.293Z"
     },
     "content/en/guides/tutorials/development/data-import/data-import-format-options/data-import-numpy.md": {
       "sourceHash": "762b9e74cef53ba25a12792670f8654b80fb743ac8f25c691c9a45007b989828",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-import/data-import-format-options/data-import-numpy.md",
       "translatedAt": "2026-09-19T13:43:11.314Z"
+    },
+    "content/en/guides/tutorials/development/data-import/data-import-format-options/data-import-parquet.md": {
+      "sourceHash": "499a42550e381f355b1d41da8b86f257f07c4d1a9677e20e0ea6aeefb647d93f",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-import/data-import-format-options/data-import-parquet.md",
+      "translatedAt": "2026-09-19T14:05:52.293Z"
+    },
+    "content/en/guides/tutorials/development/data-import/data-import-storage-options.md": {
+      "sourceHash": "a9fc2e43e828009118b5270a299f8f6cf282f2d876a095e490bef071569009d1",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-import/data-import-storage-options.md",
+      "translatedAt": "2026-09-19T14:05:52.293Z"
+    },
+    "content/en/guides/tutorials/development/data-import/data-import-zero-to-hero.md": {
+      "sourceHash": "9b7cd14f847c94fd2694888a51cd8f691e4506239714035c6d99386364c8bc62",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-import/data-import-zero-to-hero.md",
+      "translatedAt": "2026-09-19T14:05:52.293Z"
+    },
+    "content/en/guides/tutorials/development/data-import/import-data/import-data-on-web-ui.md": {
+      "sourceHash": "c1a7d059212b029e47d195400eaebae9b50075f6c2021e8b49cdc975e586df3f",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-import/import-data/import-data-on-web-ui.md",
+      "translatedAt": "2026-09-19T14:05:52.293Z"
+    },
+    "content/en/guides/tutorials/development/data-import/import-data/import-data-via-restful-api.md": {
+      "sourceHash": "7a4f9d34691e7027b7630cf9324599b33dd21f3a396d986480411fd34e554e2a",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-import/import-data/import-data-via-restful-api.md",
+      "translatedAt": "2026-09-19T14:05:52.293Z"
+    },
+    "content/en/guides/tutorials/development/data-import/import-data/import-data-via-sdks.md": {
+      "sourceHash": "fe0ba9f255fee2e78cc338057914372e68cf8f36e5e904dee2d0c0bdae7171eb",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-import/import-data/import-data-via-sdks.md",
+      "translatedAt": "2026-09-19T14:05:52.293Z"
     },
     "content/en/guides/tutorials/development/data-import/import-data/import-data.md": {
       "sourceHash": "9933a105105b091b87086357445a9082b3cf10b9276821113828b31caf6ca70c",
@@ -1545,10 +1590,25 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-import/prepare-data-import/prepare-data-import.md",
       "translatedAt": "2026-08-04T05:03:50.791Z"
     },
+    "content/en/guides/tutorials/development/data-import/prepare-data-import/use-bulkwriter.md": {
+      "sourceHash": "1a56965ec7949fb0d5fb151ce1b0757dc15fb745dbfc7e8881830c4a7b5ad472",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-import/prepare-data-import/use-bulkwriter.md",
+      "translatedAt": "2026-09-19T14:05:52.293Z"
+    },
+    "content/en/guides/tutorials/development/database/database-concept.md": {
+      "sourceHash": "d604f6ffb87a7f69d527af4a06b29474429a2e28debdd0315a4c8106897f8b6f",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/database/database-concept.md",
+      "translatedAt": "2026-09-19T14:05:52.293Z"
+    },
     "content/en/guides/tutorials/development/database/database.md": {
-      "sourceHash": "c52f44b075ecc0504aeb02a0a09a7ac2e5758f5d75b06b59e7a2a4cc8f88e644",
+      "sourceHash": "49c4285362cf154720b19674ee9f0c35a73f9f556b997f784b67a78da8daf557",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/database/database.md",
-      "translatedAt": "2026-08-04T05:15:18.693Z"
+      "translatedAt": "2026-09-19T14:05:52.293Z"
+    },
+    "content/en/guides/tutorials/development/database/on-demand-database.md": {
+      "sourceHash": "d32696d635d188fbde1b996bea149fb1c13c07f3fd00a761a2c429c8becf7eae",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/database/on-demand-database.md",
+      "translatedAt": "2026-09-19T14:05:52.293Z"
     },
     "content/en/guides/tutorials/development/function/bm25-function.md": {
       "sourceHash": "fe757da9be0c2d59ed86fc89d1faa8ede8e4e90e65042ff3a811d0df913b9a0b",

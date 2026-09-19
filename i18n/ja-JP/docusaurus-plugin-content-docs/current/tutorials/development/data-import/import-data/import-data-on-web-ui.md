@@ -28,9 +28,9 @@ import Supademo from '@site/src/components/Supademo';
 
 データファイルの準備ができたら、ローカルドライブから直接インポートするか、AWS S3、Google Cloud GCS、Azure Blob Storage などのオブジェクトストレージバケットにアップロードしてデータをインポートできます。
 
-<Admonition type="info" icon="📘" title="📘 注意">
+<Admonition type="info" title="Notes">
 
-- 1 つの collection では、実行中または保留中のインポートジョブを最大 10,000 件まで保持できます。
+- コレクション内では、最大 10,000 件の実行中または保留中のインポートジョブを保持できます。
 
 - Web コンソールでは、最大 1 GB のローカル JSON または Parquet ファイルのアップロードをサポートしています。より大きいファイルについては、代わりに[オブジェクトストレージからアップロード](./import-data-on-web-ui#remote-files-from-an-object-storage-bucket)することを推奨します。データのインポートで問題が発生した場合は、[サポートチケットを作成](https://support.zilliz.com/hc/en-us)してください。
 
@@ -62,11 +62,11 @@ Zilliz Cloud は、ローカルの JSON または Parquet ファイルからの�
 
 短期トークンの使用に関する詳細については、[この FAQ](/docs/faq-data-import#can-i-use-short-term-credentials-when-importing-data-from-an-object-storage-service) を参照してください。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-Zilliz Cloud では現在、cluster をホストしているクラウドプロバイダーに関係なく、任意のオブジェクトストレージサービスから任意の Zilliz Cloud cluster にデータをインポートできます。たとえば、AWS S3 バケットから GCP 上にデプロイされた Zilliz Cloud cluster にデータをインポートできます。
+Zilliz Cloud では、クラスターをホストしているクラウドプロバイダーに関係なく、任意のオブジェクトストレージサービスから任意の Zilliz Cloud クラスターにデータをインポートできるようになりました。たとえば、AWS S3 バケットから GCP にデプロイされた Zilliz Cloud クラスターにデータをインポートできます。
 
-低レイテンシで安定した体験を確保するため、ターゲット cluster と同じプロバイダーかつ同じリージョンのバケットまたは blob container を使用することを推奨します。
+低レイテンシで安定したエクスペリエンスを確保するには、ターゲットクラスターと同じプロバイダーおよび同じリージョンのバケットまたは BLOB コンテナーを使用することをお勧めします。
 
 </Admonition>
 
@@ -74,7 +74,7 @@ Zilliz Cloud では現在、cluster をホストしているクラウドプロ�
 
 ### volume から\{#from-a-volume}
 
-- **Managed volume**: ローカルファイルが非常に大きい場合（> 1GB）は、まず[ファイルを managed volume にアップロード](./managed-volume)してから、volume からインポートできます。準備したファイルを volume にアップロードしたら、ファイルパスをコピーし、そのまま collection へのファイルのインポートを続行します。
+- **Managed volume**: ローカルファイルが非常に大きい場合（1 GB 超）、まず[ファイルを managed volume にアップロード](./managed-volume)してから、その volume からインポートできます。準備したファイルを volume にアップロードしたら、ファイルパスをコピーし、コレクションへのファイルのインポートを続行します。
 
 - **External volume**: データファイルがクラウドオブジェクトストレージバケット内にある場合は、そのバケットにマッピングされる [external volume](./external-volume) を作成できます。その後、毎回認証情報を指定することなく、external volume から直接データをインポートできます。
 

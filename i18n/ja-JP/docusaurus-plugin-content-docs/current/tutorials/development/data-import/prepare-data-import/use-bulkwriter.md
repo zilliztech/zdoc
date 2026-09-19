@@ -243,7 +243,7 @@ private static byte[] genBinaryVector() {
 
     **LocalBulkWriter** を作成する際は、以下を行ってください。
 
-    - 作成したスキーマを **schema** に指定します。
+    - **schema** に作成したスキーマを指定します。
 
     - **local_path** に出力ディレクトリを設定します。
 
@@ -253,7 +253,7 @@ private static byte[] genBinaryVector() {
 
     パラメータ設定の詳細については、SDK リファレンスの **LocalBulkWriter** を参照してください。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     **LocalBulkWriter** を使用して生成した JSON ファイルおよび Parquet ファイルは、Zilliz Cloud コンソール上で直接 Zilliz Cloud にインポートできます。
     
@@ -290,7 +290,7 @@ private static byte[] genBinaryVector() {
 
     - データセットに多数のレコードが含まれている場合は、**withChunkSize()** に適切な値を設定してデータを分割することを推奨します。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" title="Notes">
 
     Java SDK の BulkWriter は、現在 Apache Parquet のみを有効な出力ファイル形式として使用します。
 
@@ -693,7 +693,7 @@ private static List<Long> genIntArray(int length) {
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 上記のコードブロックでは、`vector` フィールドと `scalar_1` フィールドの値は、それぞれ `generateFloatVectors()` と `generateString()` という 2 つのプライベート関数によって生成されます。詳細については、**Random data generator** タブのコードを参照してください。
 
@@ -896,4 +896,3 @@ BulkWriter は UUID を生成し、指定された出力ディレクトリ内に
 - [データのインポート（RESTful API）](./import-data-via-restful-api)
 
 - [データのインポート（SDK）](./import-data-via-sdks)
-

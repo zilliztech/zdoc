@@ -30,7 +30,7 @@ import Procedures from '@site/src/components/Procedures';
 
 オンデマンド検索用データベースは、Zilliz Cloud によって管理されるプロジェクトレベルのデータベースです。サービングクラスターには紐付けられません。このページでは、プロジェクトエンドポイントを通じてデータベースを作成、表示、削除する方法を説明します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 このページは、オンデマンド検索で使用されるプロジェクトレベルのデータベースを対象としています。サービングクラスターでホストされるデータベースについては、[サービングクラスター内のデータベース](./database) を参照してください。データベースモデルの比較については、[データベースの説明](./database-concept) を参照してください。
 
@@ -107,7 +107,7 @@ Zilliz Cloud コンソールでデータベースを表示するには、プロ�
 
 ## データベースを削除する\{#drop-database}
 
-<Admonition type="danger" icon="🚧" title="Danger">
+<Admonition type="danger" title="Danger">
 
 データベースを削除すると、即座に削除され、復元できません。この操作は元に戻せません。
 

@@ -23,9 +23,9 @@ import TabItem from '@theme/TabItem';
 
 コレクションを Truncate すると、コレクションのスキーマ、制約、インデックスを保持したまま、すべてのエンティティが削除されます。これはエンティティを削除するよりも効率的です。現在のタイムスタンプより前に flush されたすべてのエンティティを検索やクエリから隠し、バックグラウンドで削除するためです。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
-この機能は managed collection にのみ適用されます。
+この機能はマネージドコレクションにのみ適用されます。
 
 </Admonition>
 

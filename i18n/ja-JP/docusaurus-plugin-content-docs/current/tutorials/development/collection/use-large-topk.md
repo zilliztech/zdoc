@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud の collection では、検索またはクエリ結果で最大 16,384 件の entity を取得できます。topK の上限を超えてさらに多くの entity を取得するには、複雑で時間のかかる iterator を使用する代わりに、1 回の検索またはクエリ結果に数百万件の entity を含められるように query mode を設定できます。 | Cloud"
+description: "Zilliz Cloud のコレクションでは、検索またはクエリの結果で最大 16,384 個のエンティティを取得できます。topK の上限を超えてさらに多くのエンティティを取得するには、クエリモードを設定することで、複雑で時間のかかるイテレーターを使用する代わりに、Zilliz Cloud が 1 回の検索またはクエリの結果に数百万個のエンティティを含めることができます。 | Cloud"
 type: origin
 token: RH6MwFlaCig6LRkR6Qec206OnUc
 sidebar_position: 7
@@ -20,25 +20,25 @@ import Admonition from '@theme/Admonition';
 
 # Large TopK を使用する
 
-Zilliz Cloud の collection では、検索またはクエリ結果で最大 16,384 件の entity を取得できます。topK の上限を超えてさらに多くの entity を取得するには、複雑で時間のかかる iterator を使用する代わりに、1 回の検索またはクエリ結果に数百万件の entity を含められるように query mode を設定できます。
+Zilliz Cloud のコレクションでは、検索またはクエリの結果で最大 16,384 個のエンティティを取得できます。topK の上限を超えてさらに多くのエンティティを取得するには、クエリモードを設定することで、複雑で時間のかかるイテレーターを使用する代わりに、Zilliz Cloud が 1 回の検索またはクエリの結果に数百万個のエンティティを含めることができます。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-この機能は、Milvus v2.6.x と互換性のある Zilliz Cloud cluster で利用できます。この機能を試してみたい場合は、[お問い合わせください](https://support.zilliz.com/hc/en-us)。
+この機能は、Milvus v2.6.x と互換性のある Zilliz Cloud クラスターで利用できます。この機能を試す場合は、[お問い合わせ](https://support.zilliz.com/hc/en-us)ください。
 
 </Admonition>
 
 ## 概要\{#overview}
 
-デフォルトでは、Zilliz Cloud の collection は検索またはクエリ操作において最大 **16,384** の topK をサポートします。バッチ類似検索やデータマイニングのように、1 回のリクエストでより多くの entity を取得する必要がある場合は、collection の `query_mode` プロパティを `large_topk` に設定することで、**Large TopK** モードを有効にできます。これにより、topK の上限が **1,000,000**（100 万）entity に引き上げられます。
+デフォルトでは、Zilliz Cloud のコレクションは、検索またはクエリ操作で最大 topK **16,384** をサポートします。バッチ類似検索やデータマイニングなどのシナリオのように、1 回のリクエストでより多くのエンティティを取得する必要がある場合は、コレクションで `query_mode` プロパティを `large_topk` に設定して **Large TopK** モードを有効にできます。これにより、topK の上限が **1,000,000**（100 万）個のエンティティに引き上げられます。
 
-Large TopK を有効にすると、基盤となる index 戦略はデフォルトの Auto Index から、**IVF (Inverted File Index)** と **RaBitQ** の深い圧縮を組み合わせたものに変更されます。これは、高い再現率で広範囲の取得を最適化する一方で、小さな K のクエリ性能を犠牲にします。
+Large TopK を有効にすると、基盤となるインデックス戦略がデフォルトの Auto インデックス から、**RaBitQ** によるディープ圧縮を備えた **IVF（Inverted File インデックス）** に変わり、これは小さな K のクエリ性能と引き換えに、高い再現率での広範囲にわたる検索に最適化されています。
 
 ## Large TopK を使用すべき場合\{#when-to-use-large-topk}
 
 Large TopK は、1 回の検索で非常に多くの類似 entity を取得する必要があるシナリオ向けに設計されています。たとえば次のような場合です。
 
-- **バッチ類似検索**: 指定した query vector に対して、最も類似する上位 100,000 件または 1,000,000 件のアイテムを見つける。
+- **バッチ類似検索**: 指定したクエリベクトルに対して、類似度の高い上位 100,000 件または 1,000,000 件のアイテムを検索します。
 
 - **データマイニングと分析**: 後続の処理、フィルタリング、またはモデル学習のために、大きな候補集合を抽出する。
 
@@ -54,17 +54,17 @@ Large TopK を有効にする前に、次のトレードオフを理解してお
 
 - **クエリレイテンシ**: Large TopK クエリは標準クエリよりも大幅に高いレイテンシになります。topK が 100,000 の場合は数秒、topK が 1,000,000 の場合は数分かかることがあります。
 
-- **リソース使用量**: 単一の大規模 TopK クエリでも、結果のソートのために数 GB のメモリを消費することがあります。Perf cluster では、同じ cluster 上で実行中の他のクエリに影響する可能性があります。
+- **リソース使用量**: 1 回の大規模な TopK クエリは、結果の並べ替えのために数ギガバイトのメモリを消費することがあります。Perf クラスターでは、同じクラスターで実行されている他のクエリに影響を与える可能性があります。
 
-- **オフライン用途の推奨**: バッチワークロードでは、On-demand Compute database の利用を検討してください。database はオンデマンド CUs を使用するため、オンラインサービスに影響しません。
+- **オフラインの使用を推奨**: バッチワークロードには、オンデマンドコンピュートデータベースの使用を検討してください。データベースはオンデマンド CU を使用し、オンラインサービスに影響しません。
 
-- **index の再構築が必要**: collection にすでに vector index がある場合、Large TopK を有効にする前に既存の index を release および drop する必要があります。再構築中は検索を利用できません。
+- **インデックスの再構築が必要**: コレクションにすでにベクトルインデックスがある場合は、Large TopK を有効にする前に既存のインデックスを解放してドロップする必要があります。再構築中は検索を利用できません。
 
 ## Large TopK を有効にする\{#enable-large-topk}
 
-### collection 作成時（推奨）\{#during-collection-creation-recommended}
+### コレクション作成時（推奨）\{#during-collection-creation-recommended}
 
-collection で Large TopK が必要になることがわかっている場合は、後から切り替えるコストを避けるため、作成時に指定してください。
+コレクションで Large TopK が必要になることがわかっている場合は、後から切り替えるコストを避けるために、作成時に指定します。
 
 ```python
 from pymilvus import MilvusClient
@@ -79,9 +79,9 @@ client.create_collection(
 )
 ```
 
-### 既存の collection で有効化する\{#on-an-existing-collection}
+### 既存のコレクションの場合\{#on-an-existing-collection}
 
-vector index のない既存の collection では、直接 Large TopK を有効にできます。
+ベクトルインデックスがない既存のコレクションでは、Large TopK を直接有効にできます。
 
 ```python
 client.alter_collection_properties(
@@ -90,7 +90,7 @@ client.alter_collection_properties(
 )
 ```
 
-vector index が**ある**既存の collection では、まず index を drop し、その後モードを有効にして、最後に index を再作成する必要があります。
+ベクトルインデックスが**ある**既存のコレクションでは、まずインデックスをドロップし、次にモードを有効にして、最後にインデックスを再作成する必要があります。
 
 ```python
 # 1. Release and drop the existing index
@@ -120,7 +120,7 @@ query_mode = info["properties"].get("query_mode")  # None means default mode
 
 ### Large TopK を無効にする\{#disable-large-topk}
 
-デフォルトの query mode に戻すには、`query_mode` プロパティを削除します。なお、この場合も最初に既存の index を release および drop する必要があります。
+デフォルトのクエリモードに戻すには、`query_mode` プロパティをドロップします。この場合も、先に既存のインデックスを解放してドロップする必要があることに注意してください。
 
 ```python
 client.drop_collection_properties(
@@ -133,7 +133,7 @@ client.drop_collection_properties(
 
 Large TopK を有効にしたら、標準の `search` メソッドを大きな `limit` 値とともに使用します。
 
-### オンライン検索（Serving Cluster）\{#online-search-serving-cluster}
+### オンライン検索（サービングクラスター）\{#online-search-serving-cluster}
 
 ```python
 results = client.search(
@@ -206,14 +206,14 @@ Zilliz Cloud は、リソース枯渇を防ぐために Large TopK クエリに�
 
 ## 制限事項\{#limitations}
 
-- query mode の切り替えには vector index の再構築が必要です。再構築中、その collection では検索を利用できません。
+- クエリモードの切り替えには、ベクトルインデックスの再構築が必要です。再構築中は、そのコレクションで検索を利用できません。
 
-- Large TopK は collection レベルの設定です。collection 上のすべての index が影響を受けます。
+- Large TopK はコレクションレベルの設定です。コレクション上のすべてのインデックスが影響を受けます。
 
-- 3 種類の cluster タイプ（Performance-optimized、Capacity-optimized、Tiered Storage）はいずれも Large TopK をサポートします。
+- 3 種類のクラスタータイプ（Performance-optimized、Capacity-optimized、Tiered Storage）はすべて Large TopK をサポートしています。
 
 ## FAQ\{#faq}
 
 **Q: 頻繁に切り替えることはできますか？**
 
-技術的には可能ですが、推奨されません。切り替えのたびに index の release、drop、再作成が必要であり、その間は検索を利用できません。オンデマンド cluster では、再構築のたびに Index Build CU の料金も発生します。
+技術的には可能ですが、推奨されません。切り替えのたびにインデックスの解放、ドロップ、再作成が必要となり、その間は検索を利用できません。オンデマンドクラスターでは、再構築のたびに インデックス Build の CU 料金も発生します。

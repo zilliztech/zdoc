@@ -35,9 +35,9 @@ import TabItem from '@theme/TabItem';
 
 - サンプルデータセットに一致するスキーマでコレクションを作成していること。
 
-     コレクションの作成の詳細については、[Manage Collections (Console)](./manage-collections-console) を参照してください。
+     コレクションの作成方法の詳細については、[Manage コレクション (Console)](./manage-collections-console) を参照してください。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" title="Notes">
 
 Zilliz Cloud では現在、クラスターをホストしているクラウドプロバイダーに関係なく、任意のオブジェクトストレージサービスから任意の Zilliz Cloud クラスターにデータをインポートできます。たとえば、AWS S3 バケットから GCP 上にデプロイされた Zilliz Cloud クラスターにデータをインポートできます。
 
@@ -132,7 +132,7 @@ curl --request POST \
 
 セッショントークンの使用に関する詳細については、[この FAQ](/docs/faq-data-import#can-i-use-short-term-credentials-when-importing-data-from-an-object-storage-service) を参照してください。
 
-<Admonition type="info" icon="📘" title="📘 Notes">
+<Admonition type="info" title="Notes">
 
 データインポートを正常に行うには、ターゲットコレクションの実行中または保留中のインポートジョブが 10,000 未満であることを確認してください。
 
@@ -254,4 +254,3 @@ RESTful API を呼び出して、[現在のインポートジョブの進行状�
 - 外部ボリュームでは、認証情報管理のために [AWS S3 バケット](./integrate-with-aws-s3)、[Google Cloud Storage バケット](./integrate-with-gcp)、または [Microsoft Azure BLOB ストレージコンテナー](./integrate-with-azure-blob-storage) を Zilliz Cloud と統合する必要があります。認証情報は一度設定すれば、複数のボリュームや操作で再利用できます。データエンジニアはクラウドストレージキーへ直接アクセスする必要がありません。
 
 - 直接の [外部ストレージインポート](./import-data-on-web-ui#remote-files-from-an-object-storage-bucket) では、各インポートリクエストごとに認証情報（アクセスキーとシークレットキー）を指定する必要があります。これは単発のインポートにはより簡単ですが、認証情報の分離や再利用性は提供されません。
-
