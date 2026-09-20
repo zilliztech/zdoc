@@ -1,123 +1,17 @@
 {
-  "generated_at": "2026-09-20T10:25:56.215Z",
+  "generated_at": "2026-09-20T18:29:30.651Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
-  "changed_records": [
-    {
-      "record_id": "recvlPqGLmC059",
-      "table_id": "tblWv7PjNDsexddH",
-      "table_name": "Development",
-      "title": "Text Match",
-      "labels": "Text Match",
-      "slug": "text-match",
-      "release_channel": "current",
-      "doc_token": "RQQKwqhZUiubFzkHo4WcR62Gnvh",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/RQQKwqhZUiubFzkHo4WcR62Gnvh",
-      "reasons": [
-        "wiki node revision changed"
-      ]
-    },
-    {
-      "record_id": "recvlPqMlqof4j",
-      "table_id": "tblWv7PjNDsexddH",
-      "table_name": "Development",
-      "title": "Phrase Match",
-      "labels": "Phrase Match",
-      "slug": "phrase-match",
-      "release_channel": "current",
-      "doc_token": "O2YiwLai5iSjT1k1WEsc06E8nEe",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/O2YiwLai5iSjT1k1WEsc06E8nEe",
-      "reasons": [
-        "wiki node revision changed"
-      ]
-    }
-  ],
-  "changed_tokens": [
-    "O2YiwLai5iSjT1k1WEsc06E8nEe",
-    "RQQKwqhZUiubFzkHo4WcR62Gnvh"
-  ],
-  "expanded_tokens": [
-    "AIb1wNAE3iiKVSk8MHAcVA4QnJb",
-    "BJCjwpj8JizP0nkI11uci1pPndh",
-    "BaGlwzDmyiyVvVk6NurcFclInCd",
-    "CmR5wFcybi3iMokOJBxcXDQcntg",
-    "H8MVwnjdgihp0hkRHHKcjBe9n5e",
-    "I8K6wRTMmiyt64k4b5CcBb32nuh",
-    "MBVVww2Zii8k6Bk77GJcXbZJnpf",
-    "MUL3wkn7Yi3YoFkYk59csf8bnNc",
-    "O2YiwLai5iSjT1k1WEsc06E8nEe",
-    "PV2bwNENViEjXWkOgzZcXoKHnce",
-    "PmaowiSUaiTa8ckPMYJcqdRYnQg",
-    "Pulhw06e5iXJTFkidFXcGbylnod",
-    "QBXVwP7oiiuEovkprDnckJlEnoK",
-    "RQQKwqhZUiubFzkHo4WcR62Gnvh",
-    "RQTRwhOVPiwnwokqr4scAtyfnBf",
-    "WMSvwXXz4iR7mZkGmUscF3Y1nxs",
-    "Z9AMwNkVLiog0jkXxNscuMpJnjL"
-  ],
+  "changed_records": [],
+  "changed_tokens": [],
+  "expanded_tokens": [],
   "removed_records": [],
   "removed_tokens": [],
-  "reasons_by_token": {
-    "RQQKwqhZUiubFzkHo4WcR62Gnvh": [
-      "wiki node revision changed"
-    ],
-    "O2YiwLai5iSjT1k1WEsc06E8nEe": [
-      "wiki node revision changed"
-    ],
-    "H8MVwnjdgihp0hkRHHKcjBe9n5e": [
-      "outgoing reference from O2YiwLai5iSjT1k1WEsc06E8nEe"
-    ],
-    "WMSvwXXz4iR7mZkGmUscF3Y1nxs": [
-      "outgoing reference from O2YiwLai5iSjT1k1WEsc06E8nEe"
-    ],
-    "AIb1wNAE3iiKVSk8MHAcVA4QnJb": [
-      "incoming reference to O2YiwLai5iSjT1k1WEsc06E8nEe"
-    ],
-    "MUL3wkn7Yi3YoFkYk59csf8bnNc": [
-      "incoming reference to O2YiwLai5iSjT1k1WEsc06E8nEe"
-    ],
-    "PmaowiSUaiTa8ckPMYJcqdRYnQg": [
-      "incoming reference to O2YiwLai5iSjT1k1WEsc06E8nEe"
-    ],
-    "Pulhw06e5iXJTFkidFXcGbylnod": [
-      "incoming reference to O2YiwLai5iSjT1k1WEsc06E8nEe"
-    ],
-    "RQTRwhOVPiwnwokqr4scAtyfnBf": [
-      "outgoing reference from RQQKwqhZUiubFzkHo4WcR62Gnvh"
-    ],
-    "CmR5wFcybi3iMokOJBxcXDQcntg": [
-      "outgoing reference from RQQKwqhZUiubFzkHo4WcR62Gnvh"
-    ],
-    "I8K6wRTMmiyt64k4b5CcBb32nuh": [
-      "outgoing reference from RQQKwqhZUiubFzkHo4WcR62Gnvh"
-    ],
-    "MBVVww2Zii8k6Bk77GJcXbZJnpf": [
-      "outgoing reference from RQQKwqhZUiubFzkHo4WcR62Gnvh"
-    ],
-    "QBXVwP7oiiuEovkprDnckJlEnoK": [
-      "outgoing reference from RQQKwqhZUiubFzkHo4WcR62Gnvh"
-    ],
-    "BJCjwpj8JizP0nkI11uci1pPndh": [
-      "outgoing reference from RQQKwqhZUiubFzkHo4WcR62Gnvh"
-    ],
-    "BaGlwzDmyiyVvVk6NurcFclInCd": [
-      "incoming reference to RQQKwqhZUiubFzkHo4WcR62Gnvh"
-    ],
-    "PV2bwNENViEjXWkOgzZcXoKHnce": [
-      "incoming reference to RQQKwqhZUiubFzkHo4WcR62Gnvh"
-    ],
-    "Z9AMwNkVLiog0jkXxNscuMpJnjL": [
-      "incoming reference to RQQKwqhZUiubFzkHo4WcR62Gnvh"
-    ]
-  },
+  "reasons_by_token": {},
   "warnings": [],
-  "affected_tables": [
-    "tbl9BeCMjBmalJVb",
-    "tblWv7PjNDsexddH",
-    "tblm1SbEPZaZrGZQ"
-  ],
+  "affected_tables": [],
   "current_table_targets": {
     "tbl9BeCMjBmalJVb": [
       "zilliz.paas",
@@ -211,7 +105,7 @@
     "tblZMzoITXNsyKmQ": "Management"
   },
   "snapshot_basis": {
-    "generated_at": "2026-09-20T02:36:49.041Z",
+    "generated_at": "2026-09-20T10:27:03.790Z",
     "records": 395
   },
   "source_scope": "partial"
