@@ -213,6 +213,36 @@ schema->AddField(milvus::FieldSchema("embeddings", milvus::DataType::FLOAT_VECTO
 
 ```shell
 # Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+# Create a collection with a VARCHAR field configured for text matching
+zilliz collection create --collection-name my_collection --schema '{
+  "autoId": true,
+  "enabledDynamicField": false,
+  "fields": [
+    {
+      "fieldName": "id",
+      "dataType": "Int64",
+      "isPrimary": true
+    },
+    {
+      "fieldName": "text",
+      "dataType": "VarChar",
+      "elementTypeParams": {
+        "max_length": 1000,
+        "enable_analyzer": true,
+        "enable_match": true
+      }
+    },
+    {
+      "fieldName": "embeddings",
+      "dataType": "FloatVector",
+      "elementTypeParams": {
+        "dim": 5
+      }
+    }
+  ]
+}' 
 ```
 
 </TabItem>
@@ -358,6 +388,39 @@ schema->AddField(milvus::FieldSchema("embeddings", milvus::DataType::FLOAT_VECTO
 
 ```shell
 # Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+# Create a collection with English analyzer for text matching
+zilliz collection create --collection-name my_collection --schema '{
+  "autoId": true,
+  "enabledDynamicField": false,
+  "fields": [
+    {
+      "fieldName": "id",
+      "dataType": "Int64",
+      "isPrimary": true
+    },
+    {
+      "fieldName": "text",
+      "dataType": "VarChar",
+      "elementTypeParams": {
+        "max_length": 1000,
+        "enable_analyzer": true,
+        "enable_match": true,
+        "analyzer_params": {
+          "type": "english"
+        }
+      }
+    },
+    {
+      "fieldName": "embeddings",
+      "dataType": "FloatVector",
+      "elementTypeParams": {
+        "dim": 5
+      }
+    }
+  ]
+}' 
 ```
 
 </TabItem>
@@ -385,7 +448,31 @@ TEXT_MATCH(field_name, text)
 <TabItem value='java'>
 
 ```java
-// java
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+
+CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder()
+        .enableDynamicField(false)
+        .build();
+schema.addField(AddFieldReq.builder()
+        .fieldName("id")
+        .dataType(DataType.Int64)
+        .isPrimaryKey(true)
+        .autoID(true)
+        .build());
+schema.addField(AddFieldReq.builder()
+        .fieldName("text")
+        .dataType(DataType.VarChar)
+        .maxLength(1000)
+        .enableAnalyzer(true)
+        .enableMatch(true)
+        .build());
+schema.addField(AddFieldReq.builder()
+        .fieldName("embeddings")
+        .dataType(DataType.FloatVector)
+        .dimension(5)
+        .build());
 ```
 
 </TabItem>
@@ -393,7 +480,25 @@ TEXT_MATCH(field_name, text)
 <TabItem value='go'>
 
 ```go
-// go
+import "github.com/milvus-io/milvus/client/v2/entity"
+
+schema := entity.NewSchema().WithDynamicFieldEnabled(false)
+schema.WithField(entity.NewField().
+    WithName("id").
+    WithDataType(entity.FieldTypeInt64).
+    WithIsPrimaryKey(true).
+    WithIsAutoID(true),
+).WithField(entity.NewField().
+    WithName("text").
+    WithDataType(entity.FieldTypeVarChar).
+    WithEnableAnalyzer(true).
+    WithEnableMatch(true).
+    WithMaxLength(1000),
+).WithField(entity.NewField().
+    WithName("embeddings").
+    WithDataType(entity.FieldTypeFloatVector).
+    WithDim(5),
+)
 ```
 
 </TabItem>
@@ -401,7 +506,25 @@ TEXT_MATCH(field_name, text)
 <TabItem value='javascript'>
 
 ```javascript
-// nodejs
+const schema = [
+  {
+    name: "id",
+    data_type: DataType.Int64,
+    is_primary_key: true,
+  },
+  {
+    name: "text",
+    data_type: "VarChar",
+    enable_analyzer: true,
+    enable_match: true,
+    max_length: 1000,
+  },
+  {
+    name: "embeddings",
+    data_type: DataType.FloatVector,
+    dim: 5,
+  },
+];
 ```
 
 </TabItem>
@@ -409,7 +532,33 @@ TEXT_MATCH(field_name, text)
 <TabItem value='bash'>
 
 ```bash
-# restful
+export schema='{
+        "autoId": true,
+        "enabledDynamicField": false,
+        "fields": [
+            {
+                "fieldName": "id",
+                "dataType": "Int64",
+                "isPrimary": true
+            },
+            {
+                "fieldName": "text",
+                "dataType": "VarChar",
+                "elementTypeParams": {
+                    "max_length": 1000,
+                    "enable_analyzer": true,
+                    "enable_match": true
+                }
+            },
+            {
+                "fieldName": "embeddings",
+                "dataType": "FloatVector",
+                "elementTypeParams": {
+                    "dim": "5"
+                }
+            }
+        ]
+    }'
 ```
 
 </TabItem>
@@ -418,6 +567,10 @@ TEXT_MATCH(field_name, text)
 
 ```shell
 # Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+# Query documents containing "machine" and "deep" in the text field
+zilliz collection query --collection-name my_collection --filter "TEXT_MATCH(text, 'machine deep')" --output-fields "id,text" 
 ```
 
 </TabItem>
@@ -482,6 +635,10 @@ const auto filter = R"(TEXT_MATCH(text, "machine deep"))";
 
 ```shell
 # Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+# Query documents containing both "machine" and "deep"
+zilliz collection query --collection-name my_collection --filter "TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'deep')" --output-fields "id,text" 
 ```
 
 </TabItem>
@@ -544,6 +701,10 @@ You can also combine multiple `TEXT_MATCH` expressions using logical operators t
 
     ```shell
     # Zilliz CLI
+    # Prerequisite: run zilliz login and select your cluster with zilliz context set.
+    
+    # Query documents containing "machine" and "learning" but not "deep"
+    zilliz collection query --collection-name my_collection --filter "not TEXT_MATCH(text, 'deep') and TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'learning')" --output-fields "id,text" 
     ```
 
     </TabItem>
@@ -604,6 +765,10 @@ You can also combine multiple `TEXT_MATCH` expressions using logical operators t
 
     ```shell
     # Zilliz CLI
+    # Prerequisite: run zilliz login and select your cluster with zilliz context set.
+    
+    # Query documents containing "keyword1" or "keyword2"
+    zilliz collection query --collection-name my_collection --filter "TEXT_MATCH(text, 'keyword1 keyword2')" --output-fields "id,text" 
     ```
 
     </TabItem>
@@ -753,6 +918,10 @@ if (!status.IsOk()) {
 
 ```shell
 # Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+# Query documents with fuzzy matching (tolerates spelling differences)
+zilliz collection query --collection-name my_collection --filter "TEXT_MATCH_FUZZY(text, 'machne', max_edit_distance = 1)" --output-fields "id,text" 
 ```
 
 </TabItem>
@@ -874,6 +1043,10 @@ if (!status.IsOk()) {
 
 ```shell
 # Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+# Search documents containing "machine deep" with vector similarity
+zilliz collection search --collection-name my_collection --vector-field embeddings --vectors '[[0.1,0.2,0.3,0.4,0.5]]' --filter "TEXT_MATCH(text, 'machine deep')" --limit 10 --output-fields "id,text" 
 ```
 
 </TabItem>
