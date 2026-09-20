@@ -11,6 +11,7 @@ import {executeDocsToolingCommand, executeReferenceDocsToolingCommand, parseCliA
 import {manualRegistry, resolveGuidesSourceConfig} from './manuals/registry.ts';
 import {checkLinks} from './links/check.ts';
 import {checkBrokenLinks} from './links/brokenLinks.ts';
+import {checkProductDocLinks} from './links/checkProductDocLinks.ts';
 import {analyzeBrokenLinksCommand} from './links/brokenLinkAnalysis.ts';
 import {reportBrokenLinksCommand} from './links/reportBrokenLinks.ts';
 import {reportCanonicalLinksCommand} from './links/reportCanonicalLinks.ts';
@@ -325,6 +326,16 @@ async function executeExplicitCommand(argv: string[], repositoryRoot: string): P
   if (argv[0] === 'check-links') {
     const options = parseOptions(argv.slice(1));
     await checkLinks({repositoryRoot, site: requiredOption(options, 'site'), output: requiredOption(options, 'output')});
+    return true;
+  }
+  if (argv[0] === 'check-product-doc-links') {
+    const options = parseOptions(argv.slice(1));
+    await checkProductDocLinks({
+      repositoryRoot,
+      output: requiredOption(options, 'output'),
+      source: typeof options.source === 'string' ? options.source : undefined,
+      sourceRevision: typeof options.sourceRevision === 'string' ? options.sourceRevision : undefined,
+    });
     return true;
   }
   if (argv[0] === 'check-broken-links') {
