@@ -34,6 +34,9 @@ permissions:
   actions: read
   contents: read
 
+env:
+  FEISHU_NOTIFICATIONS_DISABLED: ${{ vars.FEISHU_NOTIFICATIONS_DISABLED || '' }}
+
 concurrency:
   # No producer run ever owns the production queue: standalone publish runs and
   # operator recovery runs both dispatch the short-lock publish-translation.yml

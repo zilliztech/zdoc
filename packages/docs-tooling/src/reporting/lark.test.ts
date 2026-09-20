@@ -529,6 +529,44 @@ describe('report-card client and command behavior', () => {
     expect(writes).toContain('om_123');
   });
 
+  it('skips every action without contacting Feishu when FEISHU_NOTIFICATIONS_DISABLED is set', async () => {
+    const root = mkdtempSync(path.join(tmpdir(), 'docs-tooling-card-'));
+    const githubOutput = path.join(root, 'github-output.txt');
+    writeFileSync(githubOutput, 'existing=value\n');
+    const warnings: string[] = [];
+    for (const action of ['create', 'advance', 'note', 'finish'] as const) {
+      const result = await executeReportCard({
+        repositoryRoot: root, action, options: {title: 'Build', stages: 'Build'},
+        environment: {
+          APP_ID: 'app-id', APP_SECRET: 'app-secret', FEISHU_HOST: 'https://open.feishu.cn',
+          FEISHU_NOTIFICATIONS_DISABLED: action === 'advance' ? '1' : 'true', GITHUB_OUTPUT: githubOutput,
+        },
+      }, {
+        tokenProvider: async () => { throw new Error('token provider must not run while notifications are disabled'); },
+        requestJson: async () => { throw new Error('Feishu must not be contacted while notifications are disabled'); },
+        write: () => { throw new Error('stdout must not be written while notifications are disabled'); },
+        warn: message => warnings.push(message),
+      });
+      expect(result).toBeNull();
+    }
+    expect(warnings).toHaveLength(4);
+    expect(existsSync(path.join(root, '.build-card-state.json'))).toBe(false);
+    expect(readFileSync(githubOutput, 'utf8')).toBe('existing=value\n');
+  });
+
+  it('still creates cards when FEISHU_NOTIFICATIONS_DISABLED is not a disabling value', async () => {
+    const root = mkdtempSync(path.join(tmpdir(), 'docs-tooling-card-'));
+    const writes: string[] = [];
+    await executeReportCard({
+      repositoryRoot: root, action: 'create', options: {title: 'Build', stages: 'Build'},
+      environment: {APP_ID: 'app-id', APP_SECRET: 'app-secret', FEISHU_HOST: 'https://open.feishu.cn', FEISHU_NOTIFICATIONS_DISABLED: 'false'},
+    }, {
+      tokenProvider: async () => 'token', requestJson: async () => ({data: {message_id: 'om_123'}}),
+      now: () => new Date('2026-07-16T10:00:00.000Z'), randomUUID: () => 'uuid', write: message => writes.push(message),
+    });
+    expect(persistedState(root)).toMatchObject({messageId: 'om_123'});
+  });
+
   it('rejects control characters in a created message id before local persistence or GitHub export', async () => {
     const root = mkdtempSync(path.join(tmpdir(), 'docs-tooling-card-'));
     const githubOutput = path.join(root, 'github-output.txt');

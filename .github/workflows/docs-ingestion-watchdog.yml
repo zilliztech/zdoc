@@ -9,6 +9,9 @@ permissions:
   actions: read
   contents: read
 
+env:
+  FEISHU_NOTIFICATIONS_DISABLED: ${{ vars.FEISHU_NOTIFICATIONS_DISABLED || '' }}
+
 jobs:
   watchdog:
     runs-on: ubuntu-latest
