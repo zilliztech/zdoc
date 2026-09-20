@@ -4,6 +4,7 @@ import {useCodeBlockContext} from '@docusaurus/theme-common/internal';
 import Container from '@theme/CodeBlock/Container';
 import Content from '@theme/CodeBlock/Content';
 import {useDocsUiText} from '../../../i18n/uiText';
+import {trackEvent} from '../../../utils/analytics';
 import styles from './styles.module.css';
 
 // Same icon set as the "Copy page" button, so code copy + page copy match.
@@ -20,7 +21,7 @@ const CheckIcon = () => (
   </svg>
 );
 
-function CodeCopyButton({code}: {code: string}) {
+function CodeCopyButton({code, lang}: {code: string; lang?: string}) {
   const text = useDocsUiText();
   const [copied, setCopied] = useState(false);
   return (
@@ -30,6 +31,7 @@ function CodeCopyButton({code}: {code: string}) {
       data-tip={copied ? text.common.copied : text.common.copy}
       aria-label={text.common.copyCode}
       onClick={() => {
+        trackEvent('code_copy', {code_language: lang});
         navigator.clipboard.writeText(code).then(() => {
           setCopied(true);
           setTimeout(() => setCopied(false), 1800);
@@ -57,7 +59,7 @@ function AskAiCodeButton({code, label, lang}: {code: string; label?: string; lan
       type="button"
       className={styles.askAiBtn}
       onClick={() => {
-        document.dispatchEvent(new CustomEvent('open-chat'));
+        document.dispatchEvent(new CustomEvent('open-chat', {detail: {trigger: 'code'}}));
         document.dispatchEvent(
           new CustomEvent('ask-ai-context', {detail: {kind: 'code', content: code, lang, label: label || text.chat.codeSnippet}}),
         );
@@ -173,7 +175,7 @@ export default function CodeBlockLayout({className}: {className?: string}): Reac
             label={displayName}
             lang={typeof rawName === 'string' ? rawName : undefined}
           />
-          <CodeCopyButton code={typeof metadata.code === 'string' ? metadata.code : ''} />
+          <CodeCopyButton code={typeof metadata.code === 'string' ? metadata.code : ''} lang={typeof rawName === 'string' ? rawName : undefined} />
         </div>
       </div>
       <div className={styles.codeContent}>

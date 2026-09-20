@@ -8,6 +8,7 @@ import {useRecentSearches} from './useRecentSearches';
 import {highlightMatches, groupBySection, type SearchResult} from './utils';
 import {DEFAULT_CHAT_ENDPOINT, getSearchEndpoint} from '../../components/ChatPanel/endpoints';
 import {useDocsUiText} from '../../i18n/uiText';
+import {trackEvent} from '../../utils/analytics';
 import styles from './styles.module.css';
 
 interface Props {
@@ -42,9 +43,10 @@ export default function SearchModal({onClose}: Props): ReactNode {
 
   const askAi = useCallback(() => {
     onClose();
+    trackEvent('ask_ai_open', {trigger: 'search'});
     const isDocsPage = /^\/(docs|reference)(\/|$)/.test(location.pathname);
     if (isDocsPage) {
-      document.dispatchEvent(new CustomEvent('open-chat', {detail: {query}}));
+      document.dispatchEvent(new CustomEvent('open-chat', {detail: {query, trigger: 'search'}}));
     } else {
       window.location.href = `/docs/home?chat=${encodeURIComponent(query)}`;
     }
@@ -52,7 +54,10 @@ export default function SearchModal({onClose}: Props): ReactNode {
 
   const goTo = useCallback(
     (url: string) => {
-      if (query.trim()) addRecent(query);
+      if (query.trim()) {
+        trackEvent('search_result_clicked', {search_term: query, result_path: url});
+        addRecent(query);
+      }
       onClose();
       window.location.href = url;
     },

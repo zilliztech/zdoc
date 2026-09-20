@@ -400,6 +400,20 @@ Never infer success from a green producer job, an artifact-only run, or a Chines
 
 For workflow changes, keep the local replay root, artifact identities, logs, final SHA, and ancestry checks as the handoff package. This makes a later recovery auditable and avoids repeating paid work merely to reconstruct missing evidence.
 
+## Analytics
+
+Both sites measure user actions (Ask-AI chat funnel, code copy, TOC navigation, console CTA clicks, 404 landings) through GTM into GA4. Theme code only pushes events to `window.dataLayer` via `trackEvent` in `packages/docs-ui/src/shared/utils/analytics.ts`; consent gating, trigger/tag wiring, custom definitions, and key events live in the GTM containers (en `GTM-MBBF2KR`, zh-CN `GTM-MBBL6Z9Q`) and the GA4 properties. The full event schema, the GA4/GTM setup steps, and the container-side Consent Mode decision are specified in `.claude/specs/2026-09-20-docs-analytics-and-search-404-design.md`.
+
+### Search-origin 404 report
+
+`GA4 Search 404 Report` (`.github/workflows/ga4-search-404-report.yml`) lists the pages that Google search results still point at which now return 404 — the `page_not_found` events whose referrer was Google, per site, for a sliding window. It is dispatch-only until the GA4 access is configured:
+
+1. Create a service account with read-only access to both GA4 properties and store its JSON key in the repository secret `GA4_SERVICE_ACCOUNT_JSON`.
+2. Add the repository variables `GA4_PROPERTY_ID_EN` and `GA4_PROPERTY_ID_ZH_CN` (numeric GA4 property IDs).
+3. Dispatch the workflow once and verify the Feishu card and the report artifact, then uncomment the schedule in the workflow.
+
+Without the secret the run degrades to a notice instead of failing. Remediation for recurring paths is an nginx `return 301` in `deploy/{en,zh-CN}/nginx.conf` with a matching redirect assertion in `deploy/contracts/container.test.mjs` — the same pattern as the existing "Analytics-derived 404 cleanup" blocks.
+
 ## Containers
 
 The runtime images contain only Nginx plus the selected static build output. Build from the repository root:

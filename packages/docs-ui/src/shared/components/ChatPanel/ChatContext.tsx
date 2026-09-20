@@ -7,6 +7,7 @@ import {createAgentStreamState, parseAgentStreamEvent, type AgentStreamUpdate} f
 import {getChatAgentConfig} from './agentConfig';
 import {fetchPageContext} from './pageContext';
 import {useDocsUiText} from '../../i18n/uiText';
+import {durationBucket, trackEvent} from '../../utils/analytics';
 export type {Source, FeedbackRating, ChatMessage, ChatHistoryEntry, AgentType, ConfidenceLevel, GroundingCitation} from './types';
 
 export interface ContextChip {
@@ -78,6 +79,13 @@ const DEBUG_KEY = 'zd-chat-debug';
 
 function summarizeClientText(text: string): {chars: number; bytes: number} {
   return {chars: text.length, bytes: new TextEncoder().encode(text).length};
+}
+
+/** The 404 page embeds the same chat surface as the docs shell; the body class
+ * its layout effect sets is the only signal distinguishing the two, and it is
+ * present well before any query can be submitted. */
+function chatSurface(): 'notfound' | 'panel' {
+  return document.body.classList.contains('zd-notfound-page') ? 'notfound' : 'panel';
 }
 
 function summarizeClientValue(value: unknown, key?: string, sensitiveContainer = false): unknown {
@@ -260,6 +268,11 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: Cha
       userText: text,
       pageContext: debugPageContext,
     });
+    trackEvent('ask_ai_query', {
+      query_chars: text.length,
+      has_context: chips.length > 0,
+      surface: chatSurface(),
+    });
 
     let controller: AbortController | null = null;
     const isCurrentRequest = () =>
@@ -328,6 +341,11 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: Cha
           return updated;
         });
         chatDebug('chat.client.error', {requestId, status: res.status, error: errorText});
+        trackEvent('ask_ai_completed', {
+          status: 'error',
+          duration_bucket: durationBucket(Date.now() - startedAt),
+          surface: chatSurface(),
+        });
         setIsStreaming(false);
         return;
       }
@@ -462,12 +480,23 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: Cha
         confidence,
         agentType,
       });
+      trackEvent('ask_ai_completed', {
+        status: 'completed',
+        duration_bucket: durationBucket(Date.now() - startedAt),
+        source_count: sourceCount,
+        surface: chatSurface(),
+      });
     } catch (err: unknown) {
       if (err instanceof DOMException && err.name === 'AbortError') {
         // User cancelled
       } else {
         const errorMsg = err instanceof Error ? err.message : uiText.chat.requestFailed(0);
         chatDebug('chat.client.error', {requestId, error: errorMsg});
+        trackEvent('ask_ai_completed', {
+          status: 'error',
+          duration_bucket: durationBucket(Date.now() - startedAt),
+          surface: chatSurface(),
+        });
         setMessages(prev => [...prev, {role: 'assistant', text: uiText.chat.unexpectedError(errorMsg)}]);
       }
     } finally {
@@ -488,6 +517,7 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: Cha
       const newRating = msg.feedback === rating ? null : rating;
       updated[messageIndex] = {...msg, feedback: newRating};
 
+      trackEvent('ask_ai_feedback', {rating, surface: chatSurface()});
       const endpoint = getFeedbackEndpoint(chatEndpoint);
       fetch(endpoint, {
         method: 'POST',
