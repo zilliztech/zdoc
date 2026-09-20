@@ -8,6 +8,9 @@ on:
 permissions:
   contents: read
 
+env:
+  FEISHU_NOTIFICATIONS_DISABLED: ${{ vars.FEISHU_NOTIFICATIONS_DISABLED || '' }}
+
 concurrency:
   group: broken-links-report
   cancel-in-progress: false
