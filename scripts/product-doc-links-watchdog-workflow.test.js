@@ -35,11 +35,17 @@ test('watchdog scans the product link source at a resolved upstream revision', (
   assert.equal(checkout.with.ref, '${{ github.sha }}')
 
   // The upstream repository is private, so revision resolution must go through
-  // the authenticated GitHub API, not an anonymous git transport.
+  // the authenticated GitHub API, not an anonymous git transport. `-f` and
+  // `--fail-with-body` are mutually exclusive curl options; the body flag alone
+  // keeps API error bodies visible while still failing the step. The missing
+  // secret must be reported with its own explicit message.
   const revision = stepNamed('Resolve product link source revision')
   assert.equal(revision.id, 'source')
   assert.equal(revision.env.PRODUCT_DOC_LINKS_GITHUB_TOKEN, '${{ secrets.PRODUCT_DOC_LINKS_GITHUB_TOKEN }}')
-  assert.match(revision.run, /curl -sf --fail-with-body/)
+  assert.match(revision.run, /test -n "\$PRODUCT_DOC_LINKS_GITHUB_TOKEN"/)
+  assert.match(revision.run, /provision a secret with contents:read/)
+  assert.match(revision.run, /curl -s --fail-with-body/)
+  assert.doesNotMatch(revision.run, /curl -sf /)
   assert.match(revision.run, /-H "Authorization: Bearer \$PRODUCT_DOC_LINKS_GITHUB_TOKEN"/)
   assert.match(revision.run, /https:\/\/api\.github\.com\/repos\/zilliztech\/zilliz-cloud-client\/commits\/main/)
   assert.match(revision.run, /jq -r '\.sha'/)
