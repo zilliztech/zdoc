@@ -109,27 +109,28 @@ Variables (`DLV_*`) of the same name. `page_view` for this SPA needs a GA4 Confi
 
 Consent Mode (decision updated 2026-09-20 after probing production):
 
-- **en (docs.zilliz.com): consent-gated.** The banner is NOT repo- or GTM-owned — it is injected
-  by the platform scripts `https://assets.zilliz.com/cookieconsent.js` +
-  `https://assets.zilliz.com/zilliz.js` (the same orestbida cookieconsent pattern as the repo's
-  zh-CN copy). Its contract: `onFirstAction`/`onAccept`/`onChange` all push a bare
-  `{event: 'consent_update'}`, and `window.cc.allowedCategory('analytics')` reports the recorded
-  choice. GTM en container therefore gets: (1) a Consent Initialization Custom HTML tag running
-  `gtag('consent','default',{analytics_storage:'denied', …})`, (2) a Custom HTML tag on the
-  `consent_update` custom event that reads `window.cc.allowedCategory('analytics')` and calls
-  `gtag('consent','update',{analytics_storage: granted ? 'granted' : 'denied'})`, (3) on every
-  GA4 tag, Advanced Settings → Consent Settings → "Require additional consent for tag to fire"
-  with `analytics_storage`, so denied users produce no hits at all rather than cookieless pings.
-  **Banner persistence verified (2026-09-20, correction of an earlier reading):** on a true
-  first visit (consent cookie purged) the docs banner stays on screen indefinitely — sampled
-  every ~1.8s for 14s with identical visible state and confirmed by screenshot; an earlier
-  "self-dismisses after ~6s" reading was a locator artifact (`role=dialog` matched a different
-  element). Two real behaviors to know instead: (a) the `zilliz_cookie_consent` cookie is scoped
-  to `.zilliz.com`, so accepting anywhere in the corporate web (e.g. www.zilliz.com) suppresses
-  the docs banner everywhere — returning users legitimately never see it; (b) the banner renders
-  as a bottom-left card with no dimming backdrop. Remaining platform-script observation for the
-  owner: the GPC branch `cc.accept(GPC ? ['necessary','analytics'] : [])` grants `analytics` to
-  GPC users, which reads backwards.
+- **en (docs.zilliz.com): consent-gated.** The banner scripts are NOT in the server HTML or this
+  repo — a **GTM Custom HTML tag in the shared container GTM-MBBF2KR** injects
+  `https://assets.zilliz.com/cookieconsent.js` + `https://assets.zilliz.com/zilliz.js` into
+  `<body>` at runtime (vanilla cookieconsent v2.9.2; visibility toggles via the
+  `show--consent` class on `<html>`). Its contract: `onFirstAction`/`onAccept`/`onChange` all
+  push a bare `{event: 'consent_update'}`, and `window.cc.allowedCategory('analytics')` reports
+  the recorded choice. GTM en container therefore gets: (1) a Consent Initialization Custom HTML
+  tag running `gtag('consent','default',{analytics_storage:'denied', …})`, (2) a Custom HTML tag
+  on the `consent_update` custom event that reads `window.cc.allowedCategory('analytics')` and
+  calls `gtag('consent','update',{analytics_storage: granted ? 'granted' : 'denied'})`, (3) on
+  every GA4 tag, Advanced Settings → Consent Settings → "Require additional consent for tag to
+  fire" with `analytics_storage`, so denied users produce no hits at all rather than cookieless
+  pings. **Banner flakiness owned by the same GTM tag:** repeated loads of the same page end in
+  two different states (modal shown with `show--consent` on `<html>` vs hidden with the class
+  missing) while the library itself has no auto-hide — consistent with the injecting tag firing
+  more than once / racing itself. Before wiring the consent gate, the container owner should
+  make the injection single-shot (one tag, one trigger, e.g. Init - All Pages); after that the
+  banner persists until an explicit choice (verified by sampling + screenshot on a purged-cookie
+  first visit). Remaining platform-script observation for the owner: the GPC branch
+  `cc.accept(GPC ? ['necessary','analytics'] : [])` grants `analytics` to GPC users, which reads
+  backwards; the banner copy ("By continuing to use our site, you agree…") also expresses
+  implied consent, contradicting a hard gate.
   Until Consent Mode is configured, events fire unconditionally.
 - **zh-CN (docs.zilliz.com.cn): ungated, deferred.** Production zh has no banner at all (the
   repo's `apps/docs/static/zh-CN/js/cookieconsent.js`/`zilliz.js` are not deployed there) and no
