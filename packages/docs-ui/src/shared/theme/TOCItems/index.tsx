@@ -13,6 +13,7 @@ import TOCItemsOriginal from '@theme-init/TOCItems';
 import type TOCItemsType from '@theme/TOCItems';
 import type { WrapperProps } from '@docusaurus/types';
 import {stripDocHeadingTag} from '../../utils/docHeadingTags';
+import {trackEvent} from '../../utils/analytics';
 
 type Props = WrapperProps<typeof TOCItemsType>;
 
@@ -208,6 +209,7 @@ export default function TOCItems(props: Props): JSX.Element {
       if (!link || !el.contains(link)) return;
       const id = link.getAttribute('href')?.slice(1);
       if (!id) return;
+      trackEvent('toc_click', {heading_id: id, surface: 'desktop'});
       pinnedIdRef.current = id;
       apply(el, id);
     };
