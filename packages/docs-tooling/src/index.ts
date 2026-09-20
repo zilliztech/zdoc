@@ -28,6 +28,8 @@ export {
 export type {PublicationAnchor, PublicationDiagnostics, PublicationDiagnosticsIdentity} from './publication/diagnostics.ts';
 export * from './mdx/index.ts';
 export {buildLinkCheckReport, checkLinks, renderLinkCheckMarkdown, resolveWorkflowRunUrl} from './links/check.ts';
+export {buildProductDocLinkReport, checkProductDocLinks, classifyProductDocLink, probeProductDocLink, ProductDocLinkReportSchema, renderProductDocLinkMarkdown} from './links/checkProductDocLinks.ts';
+export {DEFAULT_PRODUCT_DOC_LINK_SOURCE, extractProductDocLinks, PRODUCT_DOC_HOSTS, productDocLinkScope, readProductDocLinkSource} from './links/productDocLinks.ts';
 export {
   buildCardV2,
   buildExactState,

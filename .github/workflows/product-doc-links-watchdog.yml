@@ -1,0 +1,122 @@
+name: Product Doc Links Watchdog
+
+on:
+  schedule:
+    - cron: '43 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: product-doc-links-watchdog
+  cancel-in-progress: false
+
+jobs:
+  watchdog:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out immutable tooling revision
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # zilliztech/zilliz-cloud-client is a private repository. The
+      # PRODUCT_DOC_LINKS_GITHUB_TOKEN secret must be provisioned by an
+      # operator with contents:read access to it (fine-grained PAT or app
+      # installation token); anonymous reads fail closed.
+      - name: Resolve product link source revision
+        id: source
+        env:
+          PRODUCT_DOC_LINKS_GITHUB_TOKEN: ${{ secrets.PRODUCT_DOC_LINKS_GITHUB_TOKEN }}
+        run: |
+          revision=$(curl -sf --fail-with-body \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $PRODUCT_DOC_LINKS_GITHUB_TOKEN" \
+            https://api.github.com/repos/zilliztech/zilliz-cloud-client/commits/main \
+            | jq -r '.sha')
+          test -n "$revision"
+          echo "revision=$revision" >> "$GITHUB_OUTPUT"
+
+      - name: Scan product UI doc links
+        id: scan
+        env:
+          PRODUCT_DOC_LINKS_SOURCE_REVISION: ${{ steps.source.outputs.revision }}
+          PRODUCT_DOC_LINKS_GITHUB_TOKEN: ${{ secrets.PRODUCT_DOC_LINKS_GITHUB_TOKEN }}
+        run: |
+          pnpm docs-tooling check-product-doc-links --output tmp/product-doc-links/report.md
+          node <<'NODE'
+          const fs = require('node:fs')
+          const report = JSON.parse(fs.readFileSync('tmp/product-doc-links/report.json', 'utf8'))
+          const summary = report.summary
+          for (const key of ['checked', 'direct', 'redirected', 'broken', 'blocked', 'transient', 'other', 'unknown_docs_domain']) {
+            const count = summary[key]
+            if (!Number.isSafeInteger(count) || count < 0) throw new Error(`summary.${key} must be a non-negative safe integer`)
+          }
+          const attention = summary.broken + summary.blocked + summary.transient + summary.other + summary.unknown_docs_domain
+          const cardStatus = attention === 0 ? 'success' : 'fail'
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `broken_count=${summary.broken}\nredirected_count=${summary.redirected}\nunknown_domain_count=${summary.unknown_docs_domain}\ncard_status=${cardStatus}\n`)
+          NODE
+
+      - name: Upload product doc links report
+        id: report_artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: product-doc-links-${{ github.run_id }}
+          path: tmp/product-doc-links
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Append report to step summary
+        run: cat tmp/product-doc-links/report.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Create documentation site report card
+        id: report_card
+        continue-on-error: true
+        run: pnpm docs-tooling report-card create --title "Product UI Doc Links Watchdog" --stages "Scan product UI doc links"
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+
+      - name: Attach documentation site report note
+        if: ${{ steps.report_card.outputs.card_id != '' }}
+        continue-on-error: true
+        run: pnpm docs-tooling report-card note --file tmp/product-doc-links/report.md
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+
+      - name: Finish documentation site report card
+        if: ${{ steps.report_card.outputs.card_id != '' }}
+        continue-on-error: true
+        run: |
+          pnpm docs-tooling report-card finish \
+            --message-id "$CARD_ID" \
+            --started-at "$CARD_STARTED_AT" \
+            --stages "$CARD_STAGES" \
+            --title "$CARD_TITLE" \
+            --status "$CARD_STATUS"
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+          CARD_ID: ${{ steps.report_card.outputs.card_id }}
+          CARD_STARTED_AT: ${{ steps.report_card.outputs.card_started_at }}
+          CARD_STAGES: ${{ steps.report_card.outputs.card_stages }}
+          CARD_TITLE: ${{ steps.report_card.outputs.card_title }}
+          CARD_STATUS: ${{ steps.scan.outputs.card_status }}
