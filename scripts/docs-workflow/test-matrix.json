@@ -99,6 +99,28 @@
       "reason": "Shared docs navigation, mobile drawer, embedded demos, and document shell must preserve responsive controls, valid iframe markup, and a bounded content scroller."
     },
     {
+      "id": "docs-ui-analytics",
+      "paths": [
+        "packages/docs-ui/src/shared/utils/analytics*",
+        "packages/docs-ui/src/shared/components/ChatPanel/**",
+        "packages/docs-ui/src/shared/theme/NotFound/**",
+        "packages/docs-ui/src/shared/theme/CodeBlock/**",
+        "packages/docs-ui/src/shared/theme/TOCItems/**",
+        "packages/docs-ui/src/shared/theme/DocItem/TOC/**",
+        "packages/docs-ui/src/shared/theme/Search/**",
+        ".claude/specs/2026-09-20-docs-analytics-and-search-404-design.md"
+      ],
+      "focusedTests": [
+        "pnpm vitest run packages/docs-ui/src/shared/utils/analytics.test.ts packages/docs-ui/src/shared/components/ChatPanel/ChatContext.test.tsx packages/docs-ui/src/shared/theme/Search/index.test.tsx"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm test:workflow-matrix",
+        "git diff --check"
+      ],
+      "reason": "GA4 event instrumentation rides on the shared dataLayer helper and the chat/code/toc/search/404 interaction points; the helper contract and the chat and search surfaces must keep emitting the documented analytics events."
+    },
+    {
       "id": "rest-reference-fragments",
       "paths": [
         "packages/docs-tooling/src/reference/rest/meta/openapi/**",
@@ -516,6 +538,21 @@
         "pnpm test:workflow-policy"
       ],
       "reason": "Broken-link and canonical-link report writers build the Feishu table URLs and card notes published by the reporting workflows."
+    },
+    {
+      "id": "ga4-search-404-report-tooling",
+      "paths": [
+        "scripts/ga4-search-404-report*",
+        ".github/workflows/ga4-search-404-report.yml"
+      ],
+      "focusedTests": [
+        "node --test scripts/ga4-search-404-report.test.js scripts/ga4-search-404-report-workflow.test.js"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm test:workflow-policy"
+      ],
+      "reason": "The GA4 report script, its JWT exchange, and the workflow contract test must stay compatible with the ga4-search-404-report.yml credential gate and report-card steps."
     },
     {
       "id": "docs-tooling-cli-dispatch",

@@ -2,6 +2,7 @@ import React, {useState, useRef, useEffect, type ReactNode} from 'react';
 import {useDoc} from '@docusaurus/plugin-content-docs/client';
 import {stripDocHeadingTag} from '../../../../utils/docHeadingTags';
 import {useDocsUiText} from '../../../../i18n/uiText';
+import {trackEvent} from '../../../../utils/analytics';
 import styles from './styles.module.css';
 
 type TOCItem = {
@@ -18,7 +19,10 @@ function TocItem({item, onClick}: {item: TOCItem; onClick: () => void}) {
       <a
         href={`#${item.id}`}
         className={styles.tocLink}
-        onClick={onClick}
+        onClick={() => {
+          trackEvent('toc_click', {heading_id: item.id, surface: 'mobile'});
+          onClick();
+        }}
         // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{__html: value}}
       />

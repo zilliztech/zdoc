@@ -8,6 +8,7 @@ import {Search, LifeBuoy, LogIn, Menu, Globe, ChevronDown} from 'lucide-react';
 import SecondaryNavbar from '../../../navigation/SecondaryNavbar';
 import {hasInkeepCredentials} from '../../../inkeepRuntime';
 import {useDocsUiText} from '../../../../shared/i18n/uiText';
+import {trackEvent} from '../../../../shared/utils/analytics';
 import InkeepSearchEnhancer from './InkeepSearchEnhancer';
 import LazyInkeepModal from './LazyInkeepModal';
 import LocalSearchModal from './LocalSearchModal';
@@ -110,13 +111,15 @@ function LanguageDropdown(): ReactNode {
         <a
           role="menuitem"
           href="/docs/home"
-          className={`${styles.languageItem} ${!isJapanese ? styles.languageItemActive : ''}`}>
+          className={`${styles.languageItem} ${!isJapanese ? styles.languageItemActive : ''}`}
+          onClick={() => trackEvent('lang_switch', {to_locale: 'en'})}>
           English
         </a>
         <a
           role="menuitem"
           href="/ja-JP/docs/home"
-          className={`${styles.languageItem} ${isJapanese ? styles.languageItemActive : ''}`}>
+          className={`${styles.languageItem} ${isJapanese ? styles.languageItemActive : ''}`}
+          onClick={() => trackEvent('lang_switch', {to_locale: 'ja-JP'})}>
           日本語
         </a>
       </div>
@@ -156,7 +159,8 @@ export default function NavbarContent(): ReactNode {
     document.dispatchEvent(new CustomEvent('zdoc-search-reset'));
   }, []);
 
-  const openSearch = useCallback(() => {
+  const openSearch = useCallback((surface: string = 'navbar') => {
+    trackEvent('search_open', {surface});
     resetSearchInput();
     setSearchOpen(true);
   }, [resetSearchInput]);
@@ -171,7 +175,7 @@ export default function NavbarContent(): ReactNode {
   }, [resetSearchInput]);
 
   useEffect(() => {
-    const handler = () => openSearch();
+    const handler = () => openSearch('mobile');
     document.addEventListener('open-mobile-search', handler);
     return () => document.removeEventListener('open-mobile-search', handler);
   }, [openSearch]);
@@ -340,15 +344,15 @@ export default function NavbarContent(): ReactNode {
 
         <LanguageDropdown />
 
-        <a href="https://support.zilliz.com/hc/en-us" className="navbar-support-link" target="_blank" rel="noopener noreferrer">
+        <a href="https://support.zilliz.com/hc/en-us" className="navbar-support-link" target="_blank" rel="noopener noreferrer" onClick={() => trackEvent('cta_click', {cta_id: 'support', cta_location: 'navbar'})}>
           <LifeBuoy size={14} strokeWidth={1.9} aria-hidden="true" />
           {uiText.navbar.support}
         </a>
         <span className="navbar-action-divider" aria-hidden="true" />
-        <a href="https://cloud.zilliz.com/login" className="navbar-login-link" target="_blank" rel="noopener noreferrer">
+        <a href="https://cloud.zilliz.com/login" className="navbar-login-link" target="_blank" rel="noopener noreferrer" onClick={() => trackEvent('cta_click', {cta_id: 'login', cta_location: 'navbar'})}>
           {uiText.navbar.logIn}
         </a>
-        <a href="https://cloud.zilliz.com/signup" className="navbar-signup-btn" target="_blank" rel="noopener noreferrer">
+        <a href="https://cloud.zilliz.com/signup" className="navbar-signup-btn" target="_blank" rel="noopener noreferrer" onClick={() => trackEvent('cta_click', {cta_id: 'signup', cta_location: 'navbar'})}>
           {uiText.navbar.signUpFree}
         </a>
         {!mobileSidebar.disabled && <NavbarMobileSidebarToggle />}

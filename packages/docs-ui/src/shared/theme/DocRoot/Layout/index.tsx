@@ -13,6 +13,7 @@ import AskAiComposer from '../../../components/AskAiComposer';
 import {useChatContext} from '../../../components/ChatPanel/ChatContext';
 import {DEFAULT_CHAT_ENDPOINT} from '../../../components/ChatPanel/endpoints';
 import {useDocsUiText} from '../../../i18n/uiText';
+import {trackEvent} from '../../../utils/analytics';
 import {sidebarPathIsNextChannel, useRuntimeReleaseChannel} from '../../../utils/releaseChannel';
 
 import styles from './styles.module.css';
@@ -184,6 +185,7 @@ function FloatingChatInput({
   const submit = () => {
     const text = query.trim();
     if (!text || isStreaming) return;
+    trackEvent('ask_ai_open', {trigger: 'dock'});
     onOpen();
     setQuery('');
     void send(text);
@@ -300,7 +302,7 @@ function SelectionAskAiButton(): ReactNode {
       onClick={() => {
         const text = textRef.current;
         if (!text) return;
-        document.dispatchEvent(new CustomEvent('open-chat'));
+        document.dispatchEvent(new CustomEvent('open-chat', {detail: {trigger: 'selection'}}));
         document.dispatchEvent(new CustomEvent('ask-ai-context', {detail: {kind: 'text', content: text, label: text}}));
         window.getSelection()?.removeAllRanges();
         setPos(null);
@@ -377,10 +379,17 @@ function DocRootLayoutInner({children}: Props): ReactNode {
       chatCloseTimerRef.current = null;
     }, CHAT_PANE_ANIMATION_MS);
   }, [clearChatCloseTimer]);
-  const toggleChat = useCallback(() => {
-    if (isChatOpen) closeChat();
-    else openChat();
-  }, [closeChat, isChatOpen, openChat]);
+  const toggleChat = useCallback(
+    (trigger: string = 'navbar') => {
+      if (isChatOpen) {
+        closeChat();
+        return;
+      }
+      trackEvent('ask_ai_open', {trigger});
+      openChat();
+    },
+    [closeChat, isChatOpen, openChat],
+  );
   const isChatVisible = isChatOpen || chatClosing;
   const isChatLayoutReserved = isChatOpen;
 
@@ -510,7 +519,10 @@ function DocRootLayoutInner({children}: Props): ReactNode {
 
   useEffect(() => {
     const handler = (event: Event) => {
-      const query = (event as CustomEvent).detail?.query;
+      const {query, trigger} = (event as CustomEvent).detail ?? {};
+      // Dock submissions open through FloatingChatInput.onOpen, so this funnel
+      // only sees remote triggers (navbar buttons, selection, code, search).
+      trackEvent('ask_ai_open', {trigger: trigger ?? 'programmatic'});
       openChat();
       if (query) {
         setTimeout(() => {
@@ -532,7 +544,7 @@ function DocRootLayoutInner({children}: Props): ReactNode {
     const onKey = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && (e.key === 'i' || e.key === 'I')) {
         e.preventDefault();
-        toggleChat();
+        toggleChat('keyboard');
       }
     };
     document.addEventListener('keydown', onKey);
@@ -543,6 +555,7 @@ function DocRootLayoutInner({children}: Props): ReactNode {
     const params = new URLSearchParams(window.location.search);
     if (!params.has('chat')) return;
 
+    trackEvent('ask_ai_open', {trigger: 'url'});
     openChat();
     const query = params.get('chat');
     if (query && query !== '1') {

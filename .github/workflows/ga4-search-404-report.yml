@@ -1,0 +1,116 @@
+name: GA4 Search 404 Report
+
+# Dispatch-only until operators configure the GA4 service account and property
+# variables; once they exist, uncomment the schedule to run daily. Missing
+# credentials never fail the workflow — the run degrades to a no-op with a
+# notice (see the credential gate step).
+on:
+  workflow_dispatch:
+  # schedule:
+  #   - cron: '17 3 * * *'
+
+permissions:
+  contents: read
+
+env:
+  FEISHU_NOTIFICATIONS_DISABLED: ${{ vars.FEISHU_NOTIFICATIONS_DISABLED || '' }}
+
+concurrency:
+  group: ga4-search-404-report
+  cancel-in-progress: false
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out immutable tooling revision
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+
+      - name: Resolve GA4 credentials
+        id: credentials
+        env:
+          GA4_SERVICE_ACCOUNT_JSON: ${{ secrets.GA4_SERVICE_ACCOUNT_JSON }}
+        run: |
+          if [ -n "$GA4_SERVICE_ACCOUNT_JSON" ]; then
+            creds_file="$RUNNER_TEMP/ga4-service-account.json"
+            printf '%s' "$GA4_SERVICE_ACCOUNT_JSON" > "$creds_file"
+            {
+              echo "has_credentials=true"
+              echo "credentials_file=$creds_file"
+            } >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::GA4_SERVICE_ACCOUNT_JSON is not configured; skipping the GA4 search-origin 404 report."
+            echo "has_credentials=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: pnpm/action-setup@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22.6'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run GA4 search-origin 404 report
+        id: report
+        if: ${{ steps.credentials.outputs.has_credentials == 'true' }}
+        env:
+          GA4_PROPERTY_ID_EN: ${{ vars.GA4_PROPERTY_ID_EN }}
+          GA4_PROPERTY_ID_ZH_CN: ${{ vars.GA4_PROPERTY_ID_ZH_CN }}
+        run: |
+          node scripts/ga4-search-404-report.js --credentials "${{ steps.credentials.outputs.credentials_file }}" --output-dir tmp/ga4-search-404
+          echo "card_status=success" >> "$GITHUB_OUTPUT"
+
+      - name: Upload search-origin 404 report
+        id: report_artifact
+        if: ${{ steps.credentials.outputs.has_credentials == 'true' }}
+        uses: actions/upload-artifact@v6
+        with:
+          name: ga4-search-404-report-${{ github.run_id }}
+          path: tmp/ga4-search-404
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Create search-origin 404 report card
+        id: report_card
+        if: ${{ steps.credentials.outputs.has_credentials == 'true' }}
+        continue-on-error: true
+        run: pnpm docs-tooling report-card create --title "GA4 Search-Origin 404 Report" --stages "Collect search-origin 404 paths"
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+
+      - name: Attach search-origin 404 report note
+        if: ${{ steps.credentials.outputs.has_credentials == 'true' && steps.report_card.outputs.card_id != '' }}
+        continue-on-error: true
+        run: pnpm docs-tooling report-card note --file tmp/ga4-search-404/note.md
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+
+      - name: Finish search-origin 404 report card
+        if: ${{ steps.credentials.outputs.has_credentials == 'true' && steps.report_card.outputs.card_id != '' }}
+        continue-on-error: true
+        run: |
+          pnpm docs-tooling report-card finish \
+            --message-id "$CARD_ID" \
+            --started-at "$CARD_STARTED_AT" \
+            --stages "$CARD_STAGES" \
+            --title "$CARD_TITLE" \
+            --status "$CARD_STATUS"
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+          CARD_ID: ${{ steps.report_card.outputs.card_id }}
+          CARD_STARTED_AT: ${{ steps.report_card.outputs.card_started_at }}
+          CARD_STAGES: ${{ steps.report_card.outputs.card_stages }}
+          CARD_TITLE: ${{ steps.report_card.outputs.card_title }}
+          CARD_STATUS: ${{ steps.report.outputs.card_status }}
