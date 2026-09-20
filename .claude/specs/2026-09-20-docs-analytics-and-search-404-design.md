@@ -120,12 +120,16 @@ Consent Mode (decision updated 2026-09-20 after probing production):
   `gtag('consent','update',{analytics_storage: granted ? 'granted' : 'denied'})`, (3) on every
   GA4 tag, Advanced Settings → Consent Settings → "Require additional consent for tag to fire"
   with `analytics_storage`, so denied users produce no hits at all rather than cookieless pings.
-  **Prerequisite owned by the platform script:** the banner currently self-dismisses without
-  recording a choice (observed live: modal hidden, no `zilliz_cookie_consent` cookie,
-  `allowedCategory('analytics')` stays false while `_ga` cookies are already set). Until that is
-  fixed to await an explicit choice, a denied default blacks out en for everyone who ignores the
-  banner. Also note its GPC branch grants `analytics` to GPC users
-  (`cc.accept(GPC ? ['necessary','analytics'] : [])`), which is backwards and should deny.
+  **Banner persistence verified (2026-09-20, correction of an earlier reading):** on a true
+  first visit (consent cookie purged) the docs banner stays on screen indefinitely — sampled
+  every ~1.8s for 14s with identical visible state and confirmed by screenshot; an earlier
+  "self-dismisses after ~6s" reading was a locator artifact (`role=dialog` matched a different
+  element). Two real behaviors to know instead: (a) the `zilliz_cookie_consent` cookie is scoped
+  to `.zilliz.com`, so accepting anywhere in the corporate web (e.g. www.zilliz.com) suppresses
+  the docs banner everywhere — returning users legitimately never see it; (b) the banner renders
+  as a bottom-left card with no dimming backdrop. Remaining platform-script observation for the
+  owner: the GPC branch `cc.accept(GPC ? ['necessary','analytics'] : [])` grants `analytics` to
+  GPC users, which reads backwards.
   Until Consent Mode is configured, events fire unconditionally.
 - **zh-CN (docs.zilliz.com.cn): ungated, deferred.** Production zh has no banner at all (the
   repo's `apps/docs/static/zh-CN/js/cookieconsent.js`/`zilliz.js` are not deployed there) and no
