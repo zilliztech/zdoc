@@ -40,7 +40,7 @@ Data streams → configure internal traffic), not in code.
 | `ask_ai_completed` | `status` = completed\|error, `duration_bucket`, `source_count`, `surface` | beside `chat.client.completed` / both `chat.client.error` sites in `send`; user aborts emit nothing |
 | `ask_ai_feedback` | `rating` = up\|down, `surface` | `ChatContext.tsx` `rateFeedback` (covers ChatPanel and 404 thumbs) |
 | `code_copy` | `code_language` | `CodeBlock/Layout/index.tsx` `CodeCopyButton` |
-| `code_ask_ai` | (open-chat `detail.trigger = 'code'`) | `CodeBlock/Layout/index.tsx` `AskAiCodeButton` |
+| (code Ask-AI rides `ask_ai_open` with `trigger=code` — not a separate event) | | `CodeBlock/Layout/index.tsx` `AskAiCodeButton` |
 | `toc_click` | `heading_id`, `surface` = desktop\|mobile | `TOCItems/index.tsx` capture listener; `DocItem/TOC/Mobile/index.tsx` |
 | `lang_switch` | `to_locale` = en\|ja-JP | en navbar `LanguageDropdown` (en site only) |
 | `cta_click` | `cta_id` = signup\|login\|support, `cta_location` = navbar | en navbar external CTA links |
