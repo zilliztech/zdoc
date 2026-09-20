@@ -20,8 +20,9 @@ GTM containers (en `GTM-MBBF2KR`, zh-CN `GTM-MBBL6Z9Q`):
 
 ```
 docs-ui components ──trackEvent()──▶ window.dataLayer ──▶ GTM container (per site)
-                                                            ├─ GA4 event tags (12 triggers)
-                                                            └─ Consent Mode (default denied)
+                                                            ├─ GA4 event tags (11 triggers)
+                                                            └─ Consent Mode: en gated (default denied, tag-level
+                                                               require-consent); zh ungated for now
 GA4 property (en) ─┐
 GA4 property (zh) ─┴─ ga4-search-404-report.js ──▶ Feishu report card + artifact + Explore funnels
 ```
@@ -106,11 +107,30 @@ For each event above: one **Custom Event trigger** (event name = the GA4 event n
 Variables (`DLV_*`) of the same name. `page_view` for this SPA needs a GA4 Config tag on
 **Initialization** plus a **History Change** trigger so client-side route changes emit page_view.
 
-Consent Mode (decision: consent-gated, default denied): configure Consent Mode v2 with
-`analytics_storage` default `denied`; the existing zh-CN consent script
-(`apps/docs/static/zh-CN/js/zilliz.js`) already pushes `consent_update`. Wire the en container to
-the same banner behavior. Until Consent Mode is configured, events fire unconditionally — keep the
-enforcement window between "GTM wiring" and "public launch" short.
+Consent Mode (decision updated 2026-09-20 after probing production):
+
+- **en (docs.zilliz.com): consent-gated.** The banner is NOT repo- or GTM-owned — it is injected
+  by the platform scripts `https://assets.zilliz.com/cookieconsent.js` +
+  `https://assets.zilliz.com/zilliz.js` (the same orestbida cookieconsent pattern as the repo's
+  zh-CN copy). Its contract: `onFirstAction`/`onAccept`/`onChange` all push a bare
+  `{event: 'consent_update'}`, and `window.cc.allowedCategory('analytics')` reports the recorded
+  choice. GTM en container therefore gets: (1) a Consent Initialization Custom HTML tag running
+  `gtag('consent','default',{analytics_storage:'denied', …})`, (2) a Custom HTML tag on the
+  `consent_update` custom event that reads `window.cc.allowedCategory('analytics')` and calls
+  `gtag('consent','update',{analytics_storage: granted ? 'granted' : 'denied'})`, (3) on every
+  GA4 tag, Advanced Settings → Consent Settings → "Require additional consent for tag to fire"
+  with `analytics_storage`, so denied users produce no hits at all rather than cookieless pings.
+  **Prerequisite owned by the platform script:** the banner currently self-dismisses without
+  recording a choice (observed live: modal hidden, no `zilliz_cookie_consent` cookie,
+  `allowedCategory('analytics')` stays false while `_ga` cookies are already set). Until that is
+  fixed to await an explicit choice, a denied default blacks out en for everyone who ignores the
+  banner. Also note its GPC branch grants `analytics` to GPC users
+  (`cc.accept(GPC ? ['necessary','analytics'] : [])`), which is backwards and should deny.
+  Until Consent Mode is configured, events fire unconditionally.
+- **zh-CN (docs.zilliz.com.cn): ungated, deferred.** Production zh has no banner at all (the
+  repo's `apps/docs/static/zh-CN/js/cookieconsent.js`/`zilliz.js` are not deployed there) and no
+  GA4 tags yet; it keeps Baidu Analytics + HubSpot. A consent decision for zh is deferred until
+  the banner deployment question is settled.
 
 Verification: GTM Preview + GA4 DebugView (enable debug device), walk one happy path per event.
 
