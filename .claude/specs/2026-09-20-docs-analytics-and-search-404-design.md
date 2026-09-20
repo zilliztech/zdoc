@@ -132,6 +132,20 @@ Consent Mode (decision updated 2026-09-20 after probing production):
   GA4 tags yet; it keeps Baidu Analytics + HubSpot. A consent decision for zh is deferred until
   the banner deployment question is settled.
 
+Blast radius and main-site findings (zilliz.com probing, 2026-09-20): **GTM-MBBF2KR is shared
+between docs.zilliz.com and the corporate main site** (same container, same two GA4 streams,
+`_ga` client id shared across hosts). www.zilliz.com has no consent gate either — the banner is
+informational only: GA fires before any interaction, nothing consumes the `consent_update`
+dataLayer event (no `gtag('consent', …)` calls anywhere), and the choice is only recorded in the
+`zilliz_cookie_consent` cookie. The banner copy ("By continuing to use our site, you agree…")
+expresses implied consent, which contradicts a hard gate and needs updating platform-side.
+Consequences for rollout: (1) adding a Consent Default (denied) tag to GTM-MBBF2KR affects every
+site using that container, so the main-site/marketing analytics owners must sign off and GA on
+those sites switches to cookieless modeling until users accept; (2) tag-level require-consent
+should be rolled out per-tag, not big-bang; (3) the `consent_update` event fires twice per first
+action (`onFirstAction` + `onAccept`) — the consumer tag must be idempotent (a plain
+`gtag('consent','update')` is).
+
 Verification: GTM Preview + GA4 DebugView (enable debug device), walk one happy path per event.
 
 ## Search scope decision
