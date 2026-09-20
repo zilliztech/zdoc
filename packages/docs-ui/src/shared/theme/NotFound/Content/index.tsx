@@ -9,6 +9,7 @@ import AskAiComposer from '../../../components/AskAiComposer';
 import {ChatProvider, useChatContext} from '../../../components/ChatPanel/ChatContext';
 import {DEFAULT_CHAT_ENDPOINT} from '../../../components/ChatPanel/endpoints';
 import {useDocsUiText} from '../../../i18n/uiText';
+import {trackEvent} from '../../../utils/analytics';
 import styles from '../styles.module.css';
 
 /* The panel's watermark bolt, for the card's empty middle — same path and
@@ -261,6 +262,7 @@ export default function NotFoundContent(): React.ReactElement {
   // renders @theme/NotFound at all.
   useEffect(() => {
     document.body.classList.add('zd-notfound-page');
+    trackEvent('page_not_found', {requested_path: window.location.pathname});
     return () => document.body.classList.remove('zd-notfound-page');
   }, []);
 
