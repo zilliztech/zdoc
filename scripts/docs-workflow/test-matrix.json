@@ -522,6 +522,7 @@
       "paths": [
         "packages/docs-tooling/src/cli-main*",
         "packages/docs-tooling/src/cli.ts",
+        "packages/docs-tooling/src/index.ts",
         "packages/docs-tooling/src/validation/validation.test.ts"
       ],
       "focusedTests": [
@@ -548,6 +549,24 @@
         "pnpm test:workflow-policy"
       ],
       "reason": "The watchdog note renderer and its workflow contract test must stay compatible with the external-link-watchdog.yml step that invokes them."
+    },
+    {
+      "id": "product-doc-links-watchdog-tooling",
+      "paths": [
+        "packages/docs-tooling/src/links/productDocLinks*",
+        "packages/docs-tooling/src/links/checkProductDocLinks*",
+        "scripts/product-doc-links-watchdog-workflow.test.js",
+        ".github/workflows/product-doc-links-watchdog.yml"
+      ],
+      "focusedTests": [
+        "pnpm vitest run packages/docs-tooling/src/links/productDocLinks.test.ts packages/docs-tooling/src/links/checkProductDocLinks.test.ts",
+        "node --test scripts/product-doc-links-watchdog-workflow.test.js"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm test:workflow-policy"
+      ],
+      "reason": "The product link extractor, probe classifier, and workflow contract test must stay compatible with the product-doc-links-watchdog.yml step that invokes the check-product-doc-links command."
     },
     {
       "id": "workflow-yaml",
