@@ -42,6 +42,9 @@ permissions:
   contents: read
   actions: read
 
+env:
+  FEISHU_NOTIFICATIONS_DISABLED: ${{ vars.FEISHU_NOTIFICATIONS_DISABLED || '' }}
+
 concurrency:
   group: docs-production-dev
   queue: max

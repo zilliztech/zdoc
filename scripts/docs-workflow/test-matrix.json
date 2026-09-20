@@ -318,6 +318,20 @@
       "reason": "Progress and card changes cross artifact collection, terminal results, and both parent/child workflow views."
     },
     {
+      "id": "report-card-notifications",
+      "paths": [
+        "packages/docs-tooling/src/reporting/lark*"
+      ],
+      "focusedTests": [
+        "pnpm vitest run packages/docs-tooling/src/reporting/lark.test.ts"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm test:workflow-policy"
+      ],
+      "reason": "The report-card command is the single Feishu card sender for GitHub workflows; its tests pin the FEISHU_NOTIFICATIONS_DISABLED kill switch and card state contracts."
+    },
+    {
       "id": "reference-translation-manifest",
       "paths": [
         "packages/docs-tooling/src/reference/translationManifest*",

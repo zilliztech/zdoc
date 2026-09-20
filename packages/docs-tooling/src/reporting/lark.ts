@@ -1146,6 +1146,11 @@ function credentials(environment: NodeJS.ProcessEnv): FeishuCredentials {
   };
 }
 
+function notificationsDisabled(environment: NodeJS.ProcessEnv): boolean {
+  const value = environment.FEISHU_NOTIFICATIONS_DISABLED;
+  return value === 'true' || value === '1';
+}
+
 function commaSeparatedStrings(value: unknown): string[] {
   if (value === undefined || value === null || value === false) return [];
   return String(value).split(',').map(item => item.trim()).filter(Boolean);
@@ -1178,14 +1183,18 @@ export async function executeReportCard(
   if (!isReportCardAction(action)) {
     throw new Error('report-card action must be create, advance, note, or finish');
   }
+  const write = dependencies.write || (message => process.stdout.write(`${message}\n`));
+  const warn = dependencies.warn || (message => process.stderr.write(`${message}\n`));
+  if (notificationsDisabled(environment)) {
+    warn(`[report-card] FEISHU_NOTIFICATIONS_DISABLED is set - skipped ${action} without contacting Feishu`);
+    return null;
+  }
   recoverPendingAtomicWrites(repositoryRoot, [CARD_STATE_FILE], 'Card state');
   statePath(repositoryRoot);
   const auth = credentials(environment);
   const tokenProvider = dependencies.tokenProvider || defaultTokenProvider;
   const requestJson = dependencies.requestJson || fetchFeishuJsonWithRetry;
   const now = dependencies.now || (() => new Date());
-  const write = dependencies.write || (message => process.stdout.write(`${message}\n`));
-  const warn = dependencies.warn || (message => process.stderr.write(`${message}\n`));
   const randomUUID = dependencies.randomUUID || nodeRandomUUID;
   let tokenPromise: Promise<string> | null = null;
   const authorizedToken = async (): Promise<string> => {
