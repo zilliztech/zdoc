@@ -266,6 +266,12 @@ Monitor the parent run through these boundaries, in order:
 
 Do not treat a successful parent run as proof that Translation finished. When Translation is requested, open the child run from the parent handoff metadata and wait for its own terminal `aggregate`/`publish_ready` evidence. The final production identity is the reconciled `dev` SHA, not merely the last producer result.
 
+### Feishu progress cards and the notification kill switch
+
+Fetch and Translation runs report progress through Feishu cards created by `pnpm docs-tooling report-card`, and the scheduled watchdogs (`docs ingestion watchdog`, `External Link Watchdog`, `Broken Links Report`) post alert cards only when they detect a problem. Card sending is non-essential reporting: every card step is best effort, and monitor jobs start only when a card exists.
+
+To silence all workflow Feishu cards without touching the Feishu app credentials (which Fetch also uses to read source content), set the repository variable `FEISHU_NOTIFICATIONS_DISABLED` to `true` in GitHub Actions settings. The five card-sending workflows forward it to `docs-tooling` through their root `env`, the `report-card` command skips every action without contacting Feishu, and the resulting empty `card_id` output keeps all monitor and downstream card jobs disabled. Unset the variable, or set it to any other value, to restore notifications — no code or workflow change is required. This switch does not affect Feishu bitable reporting (`report-broken-links`, `report-external-links`) or Fetch content reads.
+
 ### Evidence required after a successful run
 
 Record the run URLs and retain these facts before handing off to Jenkins:
