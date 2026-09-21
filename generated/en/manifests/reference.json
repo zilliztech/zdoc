@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "fdbbfee6385bb2c3613b073ad93a874f90f687ea",
+  "sourceCommit": "976dc734abcc4ebf5408a57cca1220cb57e4e04e",
   "records": [
     {
       "manual": "cli",
@@ -4680,7 +4680,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-search_iterator.md",
-      "sourceHash": "8f215e9fc14179d17b3e33c0e153b97164ef3b2b263d5460899cb06722bd778a"
+      "sourceHash": "094ddf2bd667da9ca05d4ce386b5079d138ef56c274927398585bd9603b630d8"
     },
     {
       "manual": "python",
