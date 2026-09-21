@@ -175,6 +175,12 @@ export default function DocItemLayout({children}: Props): ReactNode {
   const runtimeChannel = useRuntimeReleaseChannel();
   const isNextChannelPage = frontMatterReleaseChannel(frontMatter) === 'next';
   const blockedByChannel = isNextChannelPage && runtimeChannel !== 'next';
+  const isRetiredChannelPage = frontMatterReleaseChannel(frontMatter) === 'retire-in-next';
+  // The mirror of blockedByChannel: a RETIRE-IN-NEXT page serves normally on
+  // CURRENT deployments (it is still the live production page and stays
+  // indexable) and renders the 404 content on NEXT deployments, which preview
+  // the world after the removal.
+  const retiredBlockedByChannel = isRetiredChannelPage && runtimeChannel === 'next';
   const hasTOC = toc.length > 0 && frontMatter.hide_table_of_contents !== true;
   // Desktop only: the TOC is always expanded; on mobile it disappears entirely.
   const showDesktopTOC = hasTOC && windowSize !== 'mobile';
@@ -185,10 +191,10 @@ export default function DocItemLayout({children}: Props): ReactNode {
   const isReference = pathname.startsWith('/reference');
   const showVersionInfo = isReference && hasDocMetaTags(frontMatter);
 
-  if (blockedByChannel) {
+  if (blockedByChannel || retiredBlockedByChannel) {
     // Defense in depth: the docs shell (DocRoot/Layout) already swaps the
     // whole page for the shared 404 content via the sidebar customProps, but a
-    // NEXT page missing from the active sidebar would still land here, so the
+    // gated page missing from the active sidebar would still land here, so the
     // front-matter gate renders the same 404 content within the shell.
     return (
       <div className={styles.docItemContainer}>

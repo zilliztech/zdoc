@@ -53,7 +53,7 @@ import {
 } from 'lucide-react';
 import IconButton from '../../../shared/components/IconButton';
 import SidebarIconVisibilityContext from '../../../shared/theme/DocSidebarItem/iconVisibility';
-import {filterNextChannelSidebarItems, useRuntimeReleaseChannel} from '../../../shared/utils/releaseChannel';
+import {filterNextChannelSidebarItems, filterRetiredChannelSidebarItems, useRuntimeReleaseChannel} from '../../../shared/utils/releaseChannel';
 import {
   parseDocsRoute,
   withLocalePrefix,
@@ -944,12 +944,15 @@ export default function DocSidebarWrapper(props: Props): ReactNode {
   const [isMobile, setIsMobile] = useState(() =>
     typeof window !== 'undefined' ? window.innerWidth <= 767 : false,
   );
-  // NEXT-channel entries stay in the navigation only on NEXT deployments; the
-  // prerendered CURRENT build (and any deployment without an injected channel)
-  // filters them out of every sidebar mode below.
+  // The deployment's hidden channel disappears from the navigation: NEXT
+  // entries on CURRENT deployments (the prerendered CURRENT build and any
+  // deployment without an injected channel), RETIRE-IN-NEXT entries on NEXT
+  // deployments — the mirror, staging a removal for the upcoming release.
   const runtimeChannel = useRuntimeReleaseChannel();
   const sidebar = useMemo(
-    () => (runtimeChannel === 'next' ? props.sidebar : filterNextChannelSidebarItems(props.sidebar)),
+    () => (runtimeChannel === 'next'
+      ? filterRetiredChannelSidebarItems(props.sidebar)
+      : filterNextChannelSidebarItems(props.sidebar)),
     [props.sidebar, runtimeChannel],
   );
   const sidebarProps = {...props, sidebar};

@@ -14,7 +14,7 @@ import {useChatContext} from '../../../components/ChatPanel/ChatContext';
 import {DEFAULT_CHAT_ENDPOINT} from '../../../components/ChatPanel/endpoints';
 import {useDocsUiText} from '../../../i18n/uiText';
 import {trackEvent} from '../../../utils/analytics';
-import {sidebarPathIsNextChannel, useRuntimeReleaseChannel} from '../../../utils/releaseChannel';
+import {sidebarPathIsNextChannel, sidebarPathIsRetiredChannel, useRuntimeReleaseChannel} from '../../../utils/releaseChannel';
 
 import styles from './styles.module.css';
 
@@ -633,15 +633,36 @@ export default function DocRootLayout(props: Props): ReactNode {
   const {siteConfig} = useDocusaurusContext();
   const chatEndpoint = (siteConfig.customFields?.chatEndpoint as string) || DEFAULT_CHAT_ENDPOINT;
   const chatDebug = Boolean(siteConfig.customFields?.chatDebug);
-  // A NEXT-channel page on a CURRENT deployment renders the shared 404 page in
+  // A page on the deployment's hidden channel renders the shared 404 page in
   // place of the whole docs shell — the exact presentation of a native miss
-  // under /docs (no sidebar, chrome-less), not an in-page variant of it. The
+  // under /docs (no sidebar, chrome-less), not an in-page variant of it. A
+  // NEXT page on a CURRENT deployment hides unreleased content; a
+  // RETIRE-IN-NEXT page on a NEXT deployment hides the page the upcoming
+  // release removes, so the next channel previews the post-split world. The
   // sidebar entry's customProps carry the channel here because the doc front
   // matter is only available below this layout.
   const runtimeChannel = useRuntimeReleaseChannel();
   const sidebar = useDocsSidebar();
   const {pathname} = useLocation();
-  if (runtimeChannel !== 'next' && sidebar && sidebarPathIsNextChannel(sidebar.items, pathname)) {
+  if (
+    runtimeChannel !== 'next'
+      && sidebar
+      && sidebarPathIsNextChannel(sidebar.items, pathname)
+  ) {
+    return (
+      <>
+        <Head>
+          <meta name="robots" content="noindex, nofollow" />
+        </Head>
+        <NotFoundContent />
+      </>
+    );
+  }
+  if (
+    runtimeChannel === 'next'
+      && sidebar
+      && sidebarPathIsRetiredChannel(sidebar.items, pathname)
+  ) {
     return (
       <>
         <Head>

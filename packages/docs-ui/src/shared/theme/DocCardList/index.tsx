@@ -7,7 +7,7 @@ import {
 } from '@docusaurus/plugin-content-docs/client';
 import type {Props} from '@theme/DocCardList';
 import DocCard from '../DocCard';
-import {filterNextChannelSidebarItems, useRuntimeReleaseChannel} from '../../utils/releaseChannel';
+import {filterNextChannelSidebarItems, filterRetiredChannelSidebarItems, useRuntimeReleaseChannel} from '../../utils/releaseChannel';
 
 type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
 
@@ -59,7 +59,7 @@ export default function DocCardList(props: Props): ReactNode {
   }
 
   const channelFilteredItems = runtimeChannel === 'next'
-    ? items
+    ? filterRetiredChannelSidebarItems(items)
     : filterNextChannelSidebarItems(items);
   const filteredItems = filterDocCardListItems(channelFilteredItems);
 
