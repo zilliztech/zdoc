@@ -53,7 +53,7 @@ Text Match 适用于 VARCHAR 字段类型，即 Zilliz Cloud 中的字符数据�
 
 要为特定的 `VARCHAR` 字段启用 Text Match，在定义字段 Schema 时需将 `enable_analyzer` 和 `enable_match` 参数都设置为 `True`。这指示 Milvus 对文本进行分词，并为指定字段创建倒排索引，从而实现快速高效的 Text Match。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -210,6 +210,44 @@ schema->AddField(milvus::FieldSchema("embeddings", milvus::DataType::FLOAT_VECTO
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+# Create a collection with a VARCHAR field configured for text matching
+zilliz collection create --collection-name my_collection --schema '{
+  "autoId": true,
+  "enabledDynamicField": false,
+  "fields": [
+    {
+      "fieldName": "id",
+      "dataType": "Int64",
+      "isPrimary": true
+    },
+    {
+      "fieldName": "text",
+      "dataType": "VarChar",
+      "elementTypeParams": {
+        "max_length": 1000,
+        "enable_analyzer": true,
+        "enable_match": true
+      }
+    },
+    {
+      "fieldName": "embeddings",
+      "dataType": "FloatVector",
+      "elementTypeParams": {
+        "dim": 5
+      }
+    }
+  ]
+}' 
+```
+
+</TabItem>
 </Tabs>
 
 ### 可选：配置 Analyzer\{#optional-configure-an-analyzer}
@@ -222,7 +260,7 @@ Text Match 的性能和准确性依赖于所选的 Analyzer。不同的 Analyzer
 
 要配置自定义 Analyzer，可以使用 `analyzer_params` 参数。例如，使用 **Jieba** 分词器处理中文文本：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -349,6 +387,47 @@ schema->AddField(milvus::FieldSchema("embeddings", milvus::DataType::FLOAT_VECTO
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+# Create a collection with English analyzer for text matching
+zilliz collection create --collection-name my_collection --schema '{
+  "autoId": true,
+  "enabledDynamicField": false,
+  "fields": [
+    {
+      "fieldName": "id",
+      "dataType": "Int64",
+      "isPrimary": true
+    },
+    {
+      "fieldName": "text",
+      "dataType": "VarChar",
+      "elementTypeParams": {
+        "max_length": 1000,
+        "enable_analyzer": true,
+        "enable_match": true,
+        "analyzer_params": {
+          "type": "english"
+        }
+      }
+    },
+    {
+      "fieldName": "embeddings",
+      "dataType": "FloatVector",
+      "elementTypeParams": {
+        "dim": 5
+      }
+    }
+  ]
+}' 
+```
+
+</TabItem>
 </Tabs>
 
 ## 使用 Text Match\{#use-text-match}
@@ -359,7 +438,7 @@ schema->AddField(milvus::FieldSchema("embeddings", milvus::DataType::FLOAT_VECTO
 
 `TEXT_MATCH` 表达式用于指定要搜索的字段和关键词，其语法如下：
 
-```python
+```plaintext
 TEXT_MATCH(field_name, text)
 ```
 
@@ -369,7 +448,7 @@ TEXT_MATCH(field_name, text)
 
 默认情况下，`TEXT_MATCH` 使用“OR”匹配逻辑，即会返回包含任意指定关键词的文档。例如，搜索 `docs` 字段中包含关键词 `"machine"` 或 `"deep"` 的文档，使用以下表达式：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -417,13 +496,25 @@ const auto filter = R"(TEXT_MATCH(text, "machine deep"))";
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+# Query documents containing both "machine" and "deep"
+zilliz collection query --collection-name my_collection --filter "TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'deep')" --output-fields "id,text" 
+```
+
+</TabItem>
 </Tabs>
 
 您也可以使用逻辑运算符组合多个 `TEXT_MATCH` 表达式，以实现“AND”匹配。
 
 - 例如，搜索 `text` 字段中同时包含 `"machine"` 和 `"deep"` 的文档，使用以下表达式：
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
     <TabItem value='python'>
 
     ```python
@@ -471,11 +562,23 @@ const auto filter = R"(TEXT_MATCH(text, "machine deep"))";
     ```
 
     </TabItem>
+
+    <TabItem value='shell'>
+
+    ```shell
+    # Zilliz CLI
+    # Prerequisite: run zilliz login and select your cluster with zilliz context set.
+    
+    # Query documents containing "machine" and "learning" but not "deep"
+    zilliz collection query --collection-name my_collection --filter "not TEXT_MATCH(text, 'deep') and TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'learning')" --output-fields "id,text" 
+    ```
+
+    </TabItem>
     </Tabs>
 
 - 搜索 `text` 字段中同时包含 `"machine"` 和 `"learning"` 但不包含 `"deep"` 的文档，使用以下表达式：
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
     <TabItem value='python'>
 
     ```python
@@ -523,7 +626,95 @@ const auto filter = R"(TEXT_MATCH(text, "machine deep"))";
     ```
 
     </TabItem>
+
+    <TabItem value='shell'>
+
+    ```shell
+    # Zilliz CLI
+    # Prerequisite: run zilliz login and select your cluster with zilliz context set.
+    
+    # Query documents containing "keyword1" or "keyword2"
+    zilliz collection query --collection-name my_collection --filter "TEXT_MATCH(text, 'keyword1 keyword2')" --output-fields "id,text" 
+    ```
+
+    </TabItem>
     </Tabs>
+
+### TEXT_MATCH_FUZZY 表达式语法 \{#text-match-fuzzy-expression-syntax}
+
+使用 `TEXT_MATCH_FUZZY` 可容忍查询 token 与已建立索引的 token 之间的拼写差异。Zilliz Cloud 会使用该字段的 Analyzer 分析查询文本，并对生成的每个 token 执行模糊匹配。如果查询生成多个 token，只要其中任意一个 token 满足配置的编辑距离，该表达式就会匹配相应实体。
+
+语法如下：
+
+```plaintext
+TEXT_MATCH_FUZZY(field_name, text, max_edit_distance = 1)
+```
+
+- `field_name`：要搜索的、已启用匹配功能的 `VARCHAR` 或 `TEXT` 字段名称。
+
+- `text`：用于分析并与索引 token 进行匹配的查询文本。
+
+- `max_edit_distance`：每个查询 token 允许的最大编辑距离。选项名称必须为 `max_edit_distance`，其值必须为 `0`、`1` 或 `2`。值为 `0` 时执行精确 token 匹配，等同于 `TEXT_MATCH`。
+
+例如，以下表达式会匹配与 `machne` 的编辑距离不超过 1 的 token，包括 `machine`：
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<TabItem value='python'>
+
+```python
+filter = "TEXT_MATCH_FUZZY(text, 'machne', max_edit_distance = 1)"
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "TEXT_MATCH_FUZZY(text, 'machne', max_edit_distance = 1)";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "TEXT_MATCH_FUZZY(text, 'machne', max_edit_distance = 1)"
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = "TEXT_MATCH_FUZZY(text, 'machne', max_edit_distance = 1)";
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export filter="\"TEXT_MATCH_FUZZY(text, 'machne', max_edit_distance = 1)\""
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::string filter = "TEXT_MATCH_FUZZY(text, 'machne', max_edit_distance = 1)";
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+```
+
+</TabItem>
+</Tabs>
 
 ### Search 时使用 Text Match\{#search-with-text-match}
 
@@ -531,7 +722,7 @@ Text Match 可以与向量相似度搜索结合使用，以缩小搜索范围并
 
 在以下示例中，`filter` 过滤了 Collection，只包括匹配指定关键词的文档。然后，在这个筛选后的文档子集中执行向量相似度搜索。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -664,6 +855,18 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+# Query documents with fuzzy matching (tolerates spelling differences)
+zilliz collection query --collection-name my_collection --filter "TEXT_MATCH_FUZZY(text, 'machne', max_edit_distance = 1)" --output-fields "id,text" 
+```
+
+</TabItem>
 </Tabs>
 
 ### Query 时使用 Text Match\{#query-with-text-match}
@@ -672,7 +875,7 @@ Text Match 还可以用于查询操作中的标量过滤。通过在 `query()` �
 
 以下示例中，查询 `text` 字段中包含关键词 `"keyword1"` 和 `"keyword2"`的文档：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -680,7 +883,8 @@ Text Match 还可以用于查询操作中的标量过滤。通过在 `query()` �
 filter = "TEXT_MATCH(text, 'keyword1') and TEXT_MATCH(text, 'keyword2')"
 
 result = client.query(
-    collection_name="YOUR_COLLECTION_NAME",
+    collection_name="my_collection",
+    # highlight-next-line
     filter=filter, 
     output_fields=["id", "text"]
 )
@@ -694,11 +898,27 @@ result = client.query(
 String filter = "TEXT_MATCH(text, 'keyword1') and TEXT_MATCH(text, 'keyword2')";
 
 QueryResp queryResp = client.query(QueryReq.builder()
-        .collectionName("YOUR_COLLECTION_NAME")
+        .collectionName("my_collection")
+        // highlight-next-line
         .filter(filter)
         .outputFields(Arrays.asList("id", "text"))
         .build()
 );
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter = "TEXT_MATCH(text, 'keyword1') and TEXT_MATCH(text, 'keyword2')"
+resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
+    WithFilter(filter).
+    WithOutputFields("id", "text"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -710,7 +930,8 @@ QueryResp queryResp = client.query(QueryReq.builder()
 const filter = "TEXT_MATCH(text, 'keyword1') and TEXT_MATCH(text, 'keyword2')";
 
 const result = await client.query(
-    collection_name: "YOUR_COLLECTION_NAME",
+    collection_name: "my_collection",
+    // highlight-next-line
     filter: filter, 
     output_fields: ["id", "text"]
 )
@@ -730,11 +951,44 @@ curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
 -d '{
-    "collectionName": "demo2",
+    "collectionName": "my_collection",
     "filter": '"$filter"',
     "outputFields": ["id", "text"]
 }'
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+const auto filter = R"(TEXT_MATCH(text, 'keyword1') and TEXT_MATCH(text, 'keyword2'))";
+
+auto request = milvus::QueryRequest()
+                       .WithCollectionName("my_collection")
+                       .WithFilter(filter)
+                       .AddOutputField("id")
+                       .AddOutputField("text");
+
+milvus::QueryResponse response;
+auto status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+# Search documents containing "machine deep" with vector similarity
+zilliz collection search --collection-name my_collection --vector-field embeddings --vectors '[[0.1,0.2,0.3,0.4,0.5]]' --filter "TEXT_MATCH(text, 'machine deep')" --limit 10 --output-fields "id,text" 
 ```
 
 </TabItem>
@@ -745,4 +999,14 @@ curl --request POST \
 - 为字段启用 Text Match 时，会创建倒排索引，这会占用存储资源。启用该功能时请考虑存储影响，因为这取决于文本大小、唯一分词数量以及使用的分词器。
 
 - 一旦在 Schema 中定义了分词器配置，该配置就会固定在 Collection 上。如果您认为其他分词器更适合您的需求，可以考虑删除现有的 Collection 并创建一个包含所需分词器配置的新 Collection。
+
+- Phrase Match 的性能取决于文本的分词方式。在将 Analyzer 应用于整个 Collection 之前，建议使用 `run_analyzer` 方法检查分词结果。更多信息，请参阅 [Analyzer 概述](./analyzer-overview)。
+
+- `filter` 表达式中的转义规则：
+
+    - 表达式中由双引号或单引号括起的内容会被解析为字符串常量。如果字符串常量中包含转义字符，则必须使用转义序列表示。例如，使用 `\\` 表示 `\`，使用 `\\t` 表示制表符 `\t`，使用 `\\n` 表示换行符。
+
+    - 如果字符串常量使用单引号括起，则其中的单引号应表示为 `\\'`，双引号既可以直接写为 `"`，也可以写为 `\\"`。例如：`'It\\'s milvus'`。
+
+    - 如果字符串常量使用双引号括起，则其中的双引号应表示为 `\\"`，单引号既可以直接写为 `'`，也可以写为 `\\'`。例如：`"He said \\"Hi\\""`。
 

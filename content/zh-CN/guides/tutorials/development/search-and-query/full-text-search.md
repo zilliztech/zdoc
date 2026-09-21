@@ -71,7 +71,7 @@ Full Text Search 简化了基于文本数据的搜索流程，无需您提前将
 
 首先，创建 Schema 并添加必要字段：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -197,7 +197,7 @@ const schema = [
   },
 ];
 
-console.log(res.results)
+console.log(schema);
 ```
 
 </TabItem>
@@ -231,10 +231,9 @@ export schema='{
 ```
 
 </TabItem>
+</Tabs>
 
-<TabItem value='c++'>
-
-```c++
+```plaintext
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
@@ -251,8 +250,9 @@ schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR).WithMaxL
 schema->AddField(milvus::FieldSchema("sparse", milvus::DataType::SPARSE_FLOAT_VECTOR));
 ```
 
-</TabItem>
-</Tabs>
+```shell
+# Zilliz CLI
+```
 
 在此配置中：
 
@@ -415,7 +415,7 @@ schema->AddField(milvus::FieldSchema("sparse", milvus::DataType::SPARSE_FLOAT_VE
 
 然后，创建一个将文本转换为稀疏向量的 Function，并将其添加到 Schema 中：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -475,7 +475,7 @@ const functions = [
       output_field_names: ['sparse'],
       params: {},
     },
-]；
+];
 ```
 
 </TabItem>
@@ -529,6 +529,14 @@ schema->AddFunction(function);
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+```
+
+</TabItem>
 </Tabs>
 
 | 参数 | 描述 |
@@ -548,7 +556,7 @@ schema->AddFunction(function);
 
 在定义包含必要字段和内置 Function 的 Schema 后，需要为 Collection 设置向量索引以加速查询。本例中使用 `AUTOINDEX` 作为 `index_type`，表示让 Zilliz Cloud 根据数据结构自动选择和配置最适合的索引类型。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -633,18 +641,18 @@ export indexParams='[
 ```
 
 </TabItem>
+</Tabs>
 
-<TabItem value='c++'>
-
-```c++
-auto index_params = milvus::IndexDesc("sparse", "", milvus::IndxType::SPARSE_INVERTED_INDEX, milvus::MetricType::BM25);
+```plaintext
+auto index_params = milvus::IndexDesc("sparse", "", milvus::IndexType::SPARSE_INVERTED_INDEX, milvus::MetricType::BM25);
 index_params.AddExtraParam("inverted_index_algo", "DAAT_MAXSCORE");
 index_params.AddExtraParam("bm25_k1", "1.2");
 index_params.AddExtraParam("bm25_b", "0.75");
 ```
 
-</TabItem>
-</Tabs>
+```shell
+# Zilliz CLI
+```
 
 <table>
    <tr>
@@ -685,7 +693,7 @@ index_params.AddExtraParam("bm25_b", "0.75");
 
 使用定义的 Schema 和索引参数创建 Collection：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -730,12 +738,12 @@ if err != nil {
 <TabItem value='javascript'>
 
 ```javascript
-await client.create_collection(
-    collection_name: 'my_collection', 
-    schema: schema, 
+await client.create_collection({
+    collection_name: 'my_collection',
+    schema: schema,
     index_params: index_params,
     functions: functions
-);
+});
 ```
 
 </TabItem>
@@ -759,27 +767,27 @@ curl --request POST \
 ```
 
 </TabItem>
+</Tabs>
 
-<TabItem value='c++'>
-
-```c++
+```plaintext
 auto status = client->CreateCollection(milvus::CreateCollectionRequest()
                                     .WithCollectionName("my_collection")
-                                    .WithCollectionSchema(schema))
-                                    .AddIndex(std::move(index_params));
+                                    .WithCollectionSchema(schema)
+                                    .AddIndex(std::move(index_params)));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 ```
 
-</TabItem>
-</Tabs>
+```shell
+# Zilliz CLI
+```
 
 ## 插入文本数据\{#insert-text-data}
 
 在设置好 Collection 和索引后，即可插入文本数据。只需提供原始文本，之前定义的内置 Function 会自动为每条文本生成对应的稀疏向量。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -818,7 +826,17 @@ client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
-// go
+_, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("my_collection").
+    WithVarcharColumn("text", []string{
+        "information retrieval is a field of study.",
+        "information retrieval focuses on finding relevant information in large datasets.",
+        "data mining and information retrieval overlap in research.",
+    }),
+)
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -827,12 +845,13 @@ client.insert(InsertReq.builder()
 
 ```javascript
 await client.insert({
-collection_name: 'my_collection', 
-data: [
-    {'text': 'information retrieval is a field of study.'},
-    {'text': 'information retrieval focuses on finding relevant information in large datasets.'},
-    {'text': 'data mining and information retrieval overlap in research.'},
-]);
+    collection_name: 'my_collection',
+    data: [
+        {'text': 'information retrieval is a field of study.'},
+        {'text': 'information retrieval focuses on finding relevant information in large datasets.'},
+        {'text': 'data mining and information retrieval overlap in research.'},
+    ],
+});
 ```
 
 </TabItem>
@@ -877,13 +896,21 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+```
+
+</TabItem>
 </Tabs>
 
 ## 执行 Full Text Search\{#perform-full-text-search}
 
 在向 Collection 插入数据后，可以使用原始查询文本执行 Full Text Search。Milvus 会自动将查询文本转换为稀疏向量，并使用 BM25 算法对匹配的搜索结果进行相关性排序。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -957,14 +984,13 @@ for _, resultSet := range resultSets {
 <TabItem value='javascript'>
 
 ```javascript
-await client.search(
-    collection_name: 'my_collection', 
+await client.search({
+    collection_name: 'my_collection',
     data: ['whats the focus of information retrieval?'],
     anns_field: 'sparse',
     output_fields: ['text'],
     limit: 3,
-    params: {'level': 10},
-)
+});
 ```
 
 </TabItem>
@@ -1013,6 +1039,14 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+```
+
+</TabItem>
 </Tabs>
 
 | 参数 | 描述 |
@@ -1038,28 +1072,117 @@ if (!status.IsOk()) {
 
 示例：
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 # ❌ This throws an error - you cannot output the sparse field
 client.search(
-    collection_name='my_collection', 
+    collection_name='my_collection',
     data=['query text'],
     anns_field='sparse',
     # highlight-next-line
-    output_fields=['text', 'sparse']  # 'sparse' causes an error
+    output_fields=['text', 'sparse'],  # 'sparse' causes an error
     limit=3,
     search_params=search_params
 )
 
 # ✅ This works - output text fields only
 client.search(
-    collection_name='my_collection', 
+    collection_name='my_collection',
     data=['query text'],
     anns_field='sparse',
     # highlight-next-line
-    output_fields=['text']
+    output_fields=['text'],
     limit=3,
     search_params=search_params
 )
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// Searching with the sparse field in outputFields throws an error.
+// Only output the original text and metadata fields.
+SearchResp searchResp = client.search(SearchReq.builder()
+        .collectionName("my_collection")
+        .data(Collections.singletonList(new EmbeddedText("query text")))
+        .annsField("sparse")
+        .topK(3)
+        .outputFields(Collections.singletonList("text"))
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// Searching with the sparse field in output_fields throws an error.
+// Only output the original text and metadata fields.
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "my_collection",
+    3,
+    []entity.Vector{entity.Text("query text")},
+).WithConsistencyLevel(entity.ClStrong).
+    WithANNSField("sparse").
+    WithAnnParam(index.NewCustomAnnParam()).
+    WithOutputFields("text"))
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// Searching with the sparse field in output_fields throws an error.
+// Only output the original text and metadata fields.
+await client.search({
+    collection_name: 'my_collection',
+    data: ['query text'],
+    anns_field: 'sparse',
+    output_fields: ['text'],
+    limit: 3,
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+--data-raw '{
+    "collectionName": "my_collection",
+    "data": ["query text"],
+    "annsField": "sparse",
+    "limit": 3,
+    "outputFields": ["text"]
+}'
+```
+
+</TabItem>
+</Tabs>
+
+```plaintext
+// Searching with the sparse field in output_fields throws an error.
+// Only output the original text and metadata fields.
+milvus::SearchRequest request = milvus::SearchRequest()
+    .WithCollectionName("my_collection")
+    .AddEmbeddedText("query text")
+    .WithLimit(3)
+    .WithAnnsField("sparse")
+    .AddOutputField("text");
+```
+
+```shell
+# Zilliz CLI
 ```
 
 ### 如果无法访问，为何还要定义稀疏向量字段呢？\{#why-do-i-need-to-define-a-sparse-vector-field-if-i-cant-access-it}

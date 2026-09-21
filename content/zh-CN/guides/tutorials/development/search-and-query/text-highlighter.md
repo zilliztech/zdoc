@@ -16,7 +16,8 @@ displayed_sidebar: default
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Lexical Highlighter
 
@@ -56,6 +57,9 @@ Milvus supports full text search. Use BM25 for keyword relevance. Filters can na
 
 要在 BM25 Full Text Search 中高亮搜索词，需要创建一个 `LexicalHighlighter`，并为 BM25 Full Text Search 启用搜索词高亮：
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<TabItem value='python'>
+
 ```python
 from pymilvus import LexicalHighlighter
 
@@ -66,6 +70,57 @@ highlighter = LexicalHighlighter(
 )
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI 
+```
+
+</TabItem>
+</Tabs>
+
 在该示例中：
 
 - `pre_tags` 和 `post_tags` 用于控制高亮文本在输出中的呈现方式。在这里，匹配到的词项会被 `{}` 包裹（例如 `{term}`）。你也可以以列表形式提供多个标签（例如 `["<b>", "<i>"]`）。当有多个词项被高亮时，标签会按照匹配顺序依次应用并循环使用。
@@ -73,6 +128,9 @@ highlighter = LexicalHighlighter(
 - `highlight_search_text=True` 表示让 Zilliz Cloud 使用 BM25 Full Text Search 中的搜索词作为高亮词项的来源。
 
 创建 Highlighter 对象后，将其配置应用到 BM25 全文搜索请求中：
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<TabItem value='python'>
 
 ```python
 results = client.search(
@@ -82,6 +140,57 @@ results = client.search(
     highlighter=highlighter # Pass highlighter config here
 )
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI 
+```
+
+</TabItem>
+</Tabs>
 
 **高亮输出**
 
@@ -116,13 +225,70 @@ results = client.search(
 
 假设某个文本字段中存储了如下内容：
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<TabItem value='python'>
+
 ```python
 This document explains how text filtering works in Milvus.
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI 
+```
+
+</TabItem>
+</Tabs>
+
 **Highlighter 配置**
 
 要高亮过滤条件中使用的查询词，需要创建一个 `LexicalHighlighter`，并定义一个与过滤条件对应的 `highlight_query`：
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<TabItem value='python'>
 
 ```python
 from pymilvus import LexicalHighlighter
@@ -138,6 +304,57 @@ highlighter = LexicalHighlighter(
 )
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI 
+```
+
+</TabItem>
+</Tabs>
+
 在该配置中：
 
 - `pre_tags` 和 `post_tags` 用于控制高亮文本在输出中的呈现方式。在这里，匹配到的词项会被 `{}` 包裹（例如 `{term}`）。你也可以以列表形式提供多个标签（例如 `["<b>", "<i>"]`）。当有多个词项被高亮时，标签会按照匹配顺序依次应用并循环使用。
@@ -145,6 +362,9 @@ highlighter = LexicalHighlighter(
 - `highlight_query` 用于定义需要被高亮的过滤查询词项。
 
 创建 Highlighter 对象后，在搜索请求中同时使用相同的过滤表达式，并传入 Highlighter 配置：
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<TabItem value='python'>
 
 ```python
 results = client.search(
@@ -154,6 +374,57 @@ results = client.search(
     highlighter=highlighter # Pass highlighter config here
 )
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI 
+```
+
+</TabItem>
+</Tabs>
 
 **高亮输出**
 
@@ -172,6 +443,56 @@ results = client.search(
 }
 ```
 
+<Tabs groupId="code" defaultValue='java' values={[{"label":"Java","value":"java"}]}>
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI 
+```
+
+</TabItem>
+</Tabs>
+
 如需控制返回片段的位置、长度以及返回的片段数量，请参阅[基于片段的高亮输出](./text-highlighter#fragment-based-highlighting-output)。
 
 ## 基于片段的高亮输出\{#fragment-based-highlighting-output}
@@ -188,6 +509,9 @@ Milvus supports full text search. Use BM25 for keyword relevance. Filters can na
 
 要控制高亮片段的形态，需要在 `LexicalHighlighter` 中配置与片段相关的选项：
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<TabItem value='python'>
+
 ```python
 from pymilvus import LexicalHighlighter
 
@@ -201,6 +525,57 @@ highlighter = LexicalHighlighter(
 )
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI 
+```
+
+</TabItem>
+</Tabs>
+
 在该配置中：
 
 - `fragment_offset` 用于在第一个被高亮的词项之前保留一定的上下文内容。
@@ -211,6 +586,9 @@ highlighter = LexicalHighlighter(
 
 创建 Highlighter 对象后，将其配置应用到搜索请求中：
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<TabItem value='python'>
+
 ```python
 results = client.search(
     ...,
@@ -219,6 +597,57 @@ results = client.search(
     highlighter=highlighter # Pass highlighter config here
 )
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI 
+```
+
+</TabItem>
+</Tabs>
 
 **高亮输出**
 
@@ -254,6 +683,9 @@ results = client.search(
 <details>
 
 <summary><strong>准备 Collection</strong></summary>
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<TabItem value='python'>
 
 ```python
 from pymilvus import (
@@ -320,6 +752,57 @@ SEARCH_PARAMS = {"params": {"drop_ratio_search": 0.0}}
 # ✓ Collection created with 4 documents
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI 
+```
+
+</TabItem>
+</Tabs>
+
 </details>
 
 ### 示例 1：在 BM25 Full Text Search 中高亮搜索词\{#example-1-highlight-search-terms-in-bm25-full-text-search}
@@ -329,6 +812,9 @@ SEARCH_PARAMS = {"params": {"drop_ratio_search": 0.0}}
 - BM25 Full Text Search 使用 `"test"` 作为搜索词
 
 - Highlighter 会使用 `{` 和 `}` 标签包裹文本中所有出现的 `"test"`
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<TabItem value='python'>
 
 ```python
 # highlight-start
@@ -355,6 +841,57 @@ for hit in results[0]:
 print()
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI 
+```
+
+</TabItem>
+</Tabs>
+
 <details>
 
 <summary>示例结果</summary>
@@ -377,6 +914,9 @@ print()
 - `queries` 参数将 `"my doc"` 添加到高亮词项列表中
 
 - Highlighter 会使用 `{` 和 `}` 包裹所有被匹配到的词项（`"my"`、`"test"`、`"doc"`）
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<TabItem value='python'>
 
 ```python
 # highlight-start
@@ -406,6 +946,57 @@ for hit in results[0]:
 print()
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI 
+```
+
+</TabItem>
+</Tabs>
+
 <details>
 
 <summary>示例结果</summary>
@@ -428,6 +1019,9 @@ print()
 - `fragment_size`：将每个高亮片段的长度限制在约 **60 个字符**以内（默认值为 100）。
 
 - `num_of_fragments`：限制每个文本值最多返回的高亮片段数量（默认值为 5）。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<TabItem value='python'>
 
 ```python
 # highlight-start
@@ -457,6 +1051,57 @@ for i, hit in enumerate(results[0]):
 print()
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI 
+```
+
+</TabItem>
+</Tabs>
+
 <details>
 
 <summary>示例结果</summary>
@@ -477,6 +1122,9 @@ Doc 2: ['my second test doc. {Milvus} is an open-source vector database']
 - 第一个查询在其结果集中高亮 `"test"`
 
 - 第二个查询在其结果集中高亮 `"Milvus"`
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<TabItem value='python'>
 
 ```python
 # highlight-start
@@ -506,6 +1154,57 @@ for nq_idx, hits in enumerate(results):
 print()
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI 
+```
+
+</TabItem>
+</Tabs>
+
 <details>
 
 <summary>示例结果</summary>
@@ -524,6 +1223,9 @@ Query 'Milvus':
 ### 示例 5：自定义 HTML 标签\{#example-5-custom-html-tags}
 
 你可以为高亮使用任意标签，例如适用于 Web UI 的 **HTML 安全标签**。这在浏览器中渲染搜索结果时非常有用。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<TabItem value='python'>
 
 ```python
 # highlight-start
@@ -549,6 +1251,57 @@ for hit in results[0]:
     print(f"  {hit.get('highlight', {}).get('text', [])}")
 print()
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI 
+```
+
+</TabItem>
+</Tabs>
 
 <details>
 

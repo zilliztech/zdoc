@@ -46,7 +46,7 @@ import Grid from '@site/src/components/Grid';
 
         本次发布后，所有订阅计划将统一提升到项目级别进行管理，以提升配置一致性并简化能力治理流程，这对于同时运行多个集群的组织尤为重要。您现有的工作负载、使用能力和计费将保持不变，无需进行任何配置调整。
 
-        发布后创建的新项目需选择订阅计划。目前控制台支持自行创建 Dedicated 版本；如需 BYOC 版本，欢迎[联系销售](http://zilliz.com.cn/contact-sales)咨询。
+        发布后创建的新项目需选择订阅计划。目前控制台支持自行创建 Dedicated 版本；如需 BYOC 版本，欢迎[联系销售](https://zilliz.com.cn/contact-sales)咨询。
 
         在项目内，新创建的集群可选择不同的部署方案，包括 Free、Serverless 和 Dedicated。
 

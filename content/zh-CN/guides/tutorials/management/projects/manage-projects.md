@@ -40,7 +40,7 @@ import Procedures from '@site/src/components/Procedures';
 
 ### 操作步骤\{#procedures}
 
-创建项目时，您需要输入项目名称并选择合适的项目版本。项目版本决定了可用功能特性与费用计算。如需了解不同版本的定价、版本差异以及如何选择合适的版本，请参考 [Zilliz Cloud 版本对比](./select-zilliz-cloud-service-plans)。如果您需要使用跨域多副本容灾、PITR、行级别权限（RLS）、CMEK、数据脱敏（Tokenization）、快照（Snapshot）等功能，请[联系我们](http://zilliz.com.cn/contact-sales)。
+创建项目时，您需要输入项目名称并选择合适的项目版本。项目版本决定了可用功能特性与费用计算。如需了解不同版本的定价、版本差异以及如何选择合适的版本，请参考 [Zilliz Cloud 版本对比](./select-zilliz-cloud-service-plans)。如果您需要使用跨域多副本容灾、PITR、行级别权限（RLS）、CMEK、数据脱敏（Tokenization）、快照（Snapshot）等功能，请[联系我们](https://zilliz.com.cn/contact-sales)。
 
 您可以通过 Web 控制台或 RESTful API 创建项目。
 
