@@ -95,9 +95,7 @@ search_iterator(
 
     The total number of entities to return.
 
-    You can use this parameter in combination with **offset** in **param** to enable pagination.
-
-    The sum of this value and **offset** in **param** should be less than 16,384. 
+    The `offset` parameter is not supported in this operation.
 
 - **output_fields** (l*ist[str]*) -
 
@@ -127,12 +125,6 @@ search_iterator(
 
             The value defaults to **1**, and ranges from **1** to **10**. Increasing the value results in a higher recall rate with degraded search performance. For details, refer to [Tune Recall Rate](/docs/tune-recall-rate).
 
-        - **page_retain_order** (*bool*) -
-
-            Whether to retain the order of the search result when `offset` is provided. 
-
-            This parameter applies only when you also set `radius`.
-
     For details on other applicable search parameters, read [AUTOINDEX Explained](/docs/autoindex-explained) to get more.
 
 - **group_by_field** (*str*)
@@ -158,14 +150,6 @@ search_iterator(
     The number of decimal places for distance values. The default value is -1, which indicates that no rounding is applied.
 
 - **kwargs** -
-
-    - **offset** (int) -
-
-        The number of records to skip in the search result. 
-
-        You can use this parameter in combination with `limit` to enable pagination.
-
-        The sum of this value and `limit` should be less than 16,384. 
 
     - **round_decimal** (int) -
 
