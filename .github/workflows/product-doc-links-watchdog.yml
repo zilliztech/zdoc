@@ -43,7 +43,11 @@ jobs:
         env:
           PRODUCT_DOC_LINKS_GITHUB_TOKEN: ${{ secrets.PRODUCT_DOC_LINKS_GITHUB_TOKEN }}
         run: |
-          revision=$(curl -sf --fail-with-body \
+          test -n "$PRODUCT_DOC_LINKS_GITHUB_TOKEN" || {
+            echo 'PRODUCT_DOC_LINKS_GITHUB_TOKEN is not configured; provision a secret with contents:read on zilliztech/zilliz-cloud-client' >&2
+            exit 1
+          }
+          revision=$(curl -s --fail-with-body \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer $PRODUCT_DOC_LINKS_GITHUB_TOKEN" \
             https://api.github.com/repos/zilliztech/zilliz-cloud-client/commits/main \
