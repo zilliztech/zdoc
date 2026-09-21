@@ -122,6 +122,118 @@ async function testValidateNextChannelTagsRejectsNextChannelPages() {
     })
 }
 
+async function testValidateNextChannelTagsRejectsRetireInNextPages() {
+    await withWriter(async writer => {
+        assert.throws(
+            () => writer.__validate_next_channel_tags('<NextChannel action="include">staged</NextChannel>', 'retire-in-next'),
+            /Block-level <NextChannel> tags on a RETIRE-IN-NEXT page never render/,
+        )
+        assert.throws(
+            () => writer.__validate_next_channel_tags('<NextChannel action="exclude">old wording</NextChannel>', 'retire-in-next'),
+            /Block-level <NextChannel> tags on a RETIRE-IN-NEXT page never render/,
+        )
+    })
+}
+
+async function testFrontMattersEmitRetireInNextChannel() {
+    await withWriter(async writer => {
+        const frontMatter = writer.__front_matters(
+            'Legacy Monolith',
+            'Cloud',
+            'legacy-monolith',
+            null,
+            null,
+            'origin',
+            'legacy-token',
+            undefined,
+            '',
+            '',
+            'default',
+            '',
+            'retire-in-next',
+        )
+        assert.match(frontMatter, /^channel: retire-in-next$/m)
+        // The runtime sidebar bridge carries the same value so NEXT deployments
+        // can hide the entry (the mirror of the NEXT filtering on CURRENT).
+        assert.match(frontMatter, /^sidebar_custom_props:\n  channel: retire-in-next$/m)
+
+        const currentFrontMatter = writer.__front_matters(
+            'Legacy Monolith',
+            'Cloud',
+            'legacy-monolith',
+            null,
+            null,
+            'origin',
+            'legacy-token',
+        )
+        assert.doesNotMatch(currentFrontMatter, /^channel:/m)
+        assert.doesNotMatch(currentFrontMatter, /^sidebar_custom_props:/m)
+    })
+}
+
+async function testSidebarMarksRetireInNextDocsViaCustomProps() {
+    await withTempDir(async dir => {
+        fs.writeFileSync(path.join(dir, 'root.json'), JSON.stringify({
+            title: 'Root',
+            slug: 'root',
+            node_token: 'root',
+            has_child: true,
+            children: [
+                { title: 'Legacy Monolith', slug: 'legacy-monolith', node_token: 'legacy-token', has_child: false },
+                { title: 'Split Part A', slug: 'split-part-a', node_token: 'split-token', has_child: false },
+            ],
+        }, null, 2))
+        for (const [file, title, slug, token, channel] of [
+            ['legacy', 'Legacy Monolith', 'legacy-monolith', 'legacy-token', 'RETIRE-IN-NEXT'],
+            ['split', 'Split Part A', 'split-part-a', 'split-token', null],
+        ]) {
+            fs.writeFileSync(path.join(dir, `${file}.json`), JSON.stringify({
+                title,
+                name: title,
+                slug,
+                node_token: token,
+                parent_node_token: 'root',
+                base_record_id: `rec-${file}`,
+                base_placement_type: 'canonical',
+                base_targets: ['Zilliz.SaaS'],
+                base_status: 'Draft',
+                base_channel: channel,
+                blocks: {
+                    items: [
+                        { block_type: 1, page: {}, children: ['text-block'] },
+                        { block_id: 'text-block', block_type: 2, text: { elements: [{ text_run: { content: 'body' } }] } },
+                    ],
+                },
+            }, null, 2))
+        }
+
+        const writer = new LarkDocWriter(
+            'root', 'base:*', 'default', dir, path.join(dir, 'images'),
+            'zilliz.saas', true, false,
+        )
+
+        try {
+            assert.deepEqual(await writer.generate_sidebar('docs/tutorials', 'docs'), [
+                {
+                    type: 'doc',
+                    id: 'tutorials/legacy-monolith',
+                    label: 'Legacy Monolith',
+                    key: 'doc:tutorials/legacy-monolith',
+                    customProps: { channel: 'retire-in-next' },
+                },
+                {
+                    type: 'doc',
+                    id: 'tutorials/split-part-a',
+                    label: 'Split Part A',
+                    key: 'doc:tutorials/split-part-a',
+                },
+            ])
+        } finally {
+            writer.destroy()
+        }
+    })
+}
+
 async function testExtractDescriptionResolvesCurrentView() {
     await withWriter(async writer => {
         const inline = [
@@ -214,6 +326,9 @@ async function run() {
     await testValidateNextChannelTagsAcceptsWellFormedTags()
     await testValidateNextChannelTagsRejectsStructuralErrors()
     await testValidateNextChannelTagsRejectsNextChannelPages()
+    await testValidateNextChannelTagsRejectsRetireInNextPages()
+    await testFrontMattersEmitRetireInNextChannel()
+    await testSidebarMarksRetireInNextDocsViaCustomProps()
     await testExtractDescriptionResolvesCurrentView()
     await testValidateChannelCodeDirectivesAcceptsWellFormedFences()
     await testValidateChannelCodeDirectivesRejectsStructuralErrors()

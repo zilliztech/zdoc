@@ -1,6 +1,6 @@
 import React, {type ComponentType, type ReactNode} from 'react';
 import {useDoc, useDocsSidebar} from '@docusaurus/plugin-content-docs/client';
-import {filterNextChannelPaginationLinks, useRuntimeReleaseChannel} from '../../utils/releaseChannel';
+import {filterNextChannelPaginationLinks, filterRetiredChannelPaginationLinks, useRuntimeReleaseChannel} from '../../utils/releaseChannel';
 
 type PageLink = {title: string; permalink: string};
 
@@ -19,10 +19,11 @@ type Props = {
 
 /** Paginator with the release-channel gate applied. Docusaurus derives the
  * Previous/Next links from the sidebar order but keeps only `{title,
- * permalink}`, so without this a CURRENT deployment hides a NEXT page from the
- * sidebar and 404s it via nginx while still advertising it in pagination.
- * NEXT deployments keep every link; the prerendered CURRENT view matches
- * hydration because the runtime channel only flips after mount. */
+ * permalink}`, so without this a deployment hides a page from the sidebar and
+ * 404s it via nginx while still advertising it in pagination: CURRENT drops
+ * NEXT targets, NEXT drops RETIRE-IN-NEXT targets. The prerendered CURRENT
+ * view matches hydration because the runtime channel only flips after
+ * mount. */
 export default function ReleaseChannelPaginator({Paginator, className}: Props): ReactNode {
   const {metadata} = useDoc();
   const sidebar = useDocsSidebar();
@@ -31,7 +32,7 @@ export default function ReleaseChannelPaginator({Paginator, className}: Props): 
   const next = metadata.next as PageLink | undefined;
 
   const links = runtimeChannel === 'next'
-    ? {previous, next}
+    ? filterRetiredChannelPaginationLinks(previous, next, sidebar?.items)
     : filterNextChannelPaginationLinks(previous, next, sidebar?.items);
 
   if (!links.previous && !links.next) {

@@ -280,14 +280,12 @@ function discoverReconciliation(options) {
   }
 
   for (const change of changes) if (change.status === 'D') {
-    if (target === 'zh-CN-reference' && sourceBaseline.has(change.path) && !replacements.has(change.path)) {
-      const targetPath = mapSourcePathForTarget(target, change.path)
-      if (targetPath && (targetBaseline.has(targetPath) || targetState.has(targetPath))) {
-        const error = new Error(`Missing authoritative replacement metadata for source deletion ${change.path}; refusing to infer rename or authorize deletion`)
-        error.code = 'RECONCILIATION_REJECTED'
-        throw error
-      }
-    }
+    // A source deletion observed between the authenticated baseline and
+    // checkpoint commits is itself the publication's recorded intent (for
+    // example a Base record leaving the publishable Progress set): it plans a
+    // delete_target operation like any other target, gated by the plan's own
+    // approval flow. An authoritative replacement still upgrades the same
+    // deletion to a replace_path plan; nothing is inferred here.
     addCandidate(change.path, 'source_delta')
   }
   if (sourceBaselineSha !== sourceCheckpointSha) {

@@ -86,8 +86,10 @@ test('discovers source-delta deletion from immutable SHAs with canonical evidenc
   remove(repository, source)
   const checkpoint = commit(repository, 'checkpoint')
 
-  assert.throws(() => discover(repository, {sourceBaselineSha: baseline, sourceCheckpointSha: checkpoint, targetBaselineSha: baseline}), /missing authoritative replacement metadata/i)
-  return
+  // A deletion observed between the authenticated baseline and checkpoint is
+  // the publication's recorded intent: it plans delete_target without
+  // demanding replacement metadata, gated downstream by plan approval.
+  const result = discover(repository, {sourceBaselineSha: baseline, sourceCheckpointSha: checkpoint, targetBaselineSha: baseline})
   assert.deepEqual(result.changes, [{status: 'D', path: source}])
   assert.deepEqual(result.candidates, [{
     kind: 'delete_target',
@@ -121,10 +123,10 @@ test('injects the authenticated completeness receipt digest into reconciliation 
   remove(repository, source)
   const checkpoint = commit(repository, 'checkpoint')
   const receiptSha256 = `sha256:${'d'.repeat(64)}`
-  assert.throws(() => discover(repository, {sourceBaselineSha: baseline, sourceCheckpointSha: checkpoint, targetBaselineSha: baseline}, {
+  const result = discover(repository, {sourceBaselineSha: baseline, sourceCheckpointSha: checkpoint, targetBaselineSha: baseline}, {
     completenessReceipt: {target: 'zh-CN-reference', group: 'python', receiptSha256},
-  }), /missing authoritative replacement metadata/i)
-  return
+  })
+  assert.equal(result.candidates[0].evidence.generatorCompletenessReceipt, receiptSha256)
 })
 
 test('does not reconcile target orphans when the source checkpoint is unchanged', () => {
@@ -183,7 +185,10 @@ test('keeps similarity hints separate and requires authoritative metadata for re
   const identities = {sourceBaselineSha: baseline, sourceCheckpointSha: checkpoint, targetBaselineSha: baseline}
   const hint = {sourcePath: oldSource, replacementSourcePath: newSource, similarity: 100}
 
-  assert.throws(() => discover(repository, identities, {replacementHints: [hint]}), /missing authoritative replacement metadata/i)
+  // Without authoritative metadata the deletion plans delete_target; hints
+  // never authorize a rename on their own.
+  const hinted = discover(repository, identities, {replacementHints: [hint]})
+  assert.equal(hinted.candidates[0].kind, 'delete_target')
 
   const authoritative = discover(repository, identities, {
     replacementHints: [hint],
@@ -211,9 +216,11 @@ test('produces equivalent canonical deletion shapes for Japanese and Chinese tar
   const checkpoint = commit(repository, 'checkpoint')
   const identities = {repository, group: 'python', sourceBaselineSha: baseline, sourceCheckpointSha: checkpoint, targetBaselineSha: baseline}
   const japanese = discoverReconciliation({...identities, target: 'ja-JP'}).candidates[0]
-  assert.throws(() => discoverReconciliation({...identities, target: 'zh-CN-reference'}), /missing authoritative replacement metadata/i)
+  const chinese = discoverReconciliation({...identities, target: 'zh-CN-reference'}).candidates[0]
   assert.equal(japanese.kind, 'delete_target')
   assert.equal(japanese.targetPath, japaneseTarget)
+  assert.equal(chinese.kind, 'delete_target')
+  assert.equal(chinese.targetPath, chineseTarget)
 })
 
 test('immutable and working-tree inventories reject symlinks', () => {

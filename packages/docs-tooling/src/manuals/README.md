@@ -77,9 +77,24 @@ Pitfalls 1–3 are now caught at PR time by the two master gates described below
 2. **Landing page not in `masterAuthoritativePaths`** → `inspectSync` fails: `modifies dev-owned paths: content/en/.../<manual>.md`. The page is under `content/`; without the declaration it is dev-owned and master may not touch it.
 3. **`sidebar-overrides/en/<manual>.json` committed to `master`** → `inspectSync` fails: `modifies dev-owned paths: sidebar-overrides/en/...`. That override is dev-owned; let the fetch produce it.
 4. **Sync runs before the fetch** → `validate-revision-inventory --site en` fails: `Revision inventory path is missing: generated/en/manifests/lark-revisions/<manual>.json`. `REVISION_GROUPS` is derived from `registry.ts`, so the new manual is expected immediately. Fetch first (or seed a clean-room inventory).
-5. **Stale `reference.json` sourceCommit** → `Reference source commit tree path set does not match the declared snapshot`. A real fetch's reconcile step regenerates it.
+5. **Stale `reference.json` sourceCommit** → `Reference source commit tree path set does not match the declared snapshot`. A real fetch's reconcile step regenerates it. If the reconcile itself failed first (see pitfall 8), the stale manifest persists until the cause is resolved and a fetch reconciles again.
 6. **`reference.ts` missing the `<manual>Sidebar` key on `dev`** → site build fails: `wants to display sidebar <manual>Sidebar but a sidebar with this name doesn't exist`. `reference.ts` is a master tooling file; it is fixed by `generate:reference-presentation` on `master` **and** the sync carrying it to `dev`.
 7. **Manual missing from the hardcoded reference ownership lists** → `zh-CN-reference/<manual>` translation fails with a canonical-ownership mismatch (`Historical translation manual does not match selected group ownership`). `expectedReferenceManual` (bootstrap-state.js) and `manualForReferenceSource` (candidates.ts) each hardcode the SDK→manual map and must include every reference manual.
+8. **Reference source removed without a declared retirement** → manifest generation fails: `Reference path requires an explicit retirement before generation`. Two legal ways out: declare the pair in `config/reference-retirements.json` (permanent removal, master PR), or let the reconcile's `--authorize-checkpoint-deletions` retire it from checkpoint evidence (see below). A vanish with neither still fails closed — that is the guard against accidental source loss.
+
+## Deleting a Reference page: the two retirement lanes
+
+A Reference source page can only vanish from `content/en/reference` through a publication checkpoint (the fetch only writes through authenticated units). Two lanes turn that deletion into a manifest state:
+
+- **Declared retirement** — `config/reference-retirements.json` on `master`, with a rationale and optional `changeKind: source_deleted | source_renamed`. This is the permanent lane: it carries 301/lifecycle intent and is reviewed like any master change.
+- **Checkpoint-deletion evidence** — the Fetch reconcile (`fetch-reference-reconciliation.js`) passes `--authorize-checkpoint-deletions` to `docs-tooling reference-manifest`. For every source path recorded by the previous manifest but absent from the tree, Git history attributes the deletion to a publication commit (`git log --diff-filter=D` in `previous.sourceCommit..sourceCommit`); the pair retires with `retirementEvidence: {kind: 'checkpoint-deletion', checkpointSha}` stamped on the record, re-verifiable at validation time. This is the automatic lane for Base records that leave the publishable Progress set (for example an edit cycle flipping Draft → WIP).
+
+Both lanes share the same state machine afterwards:
+
+- The zh target stays on disk, is excluded from the derived Chinese sidebar, and the record reads `status: 'retired'` (exactly one side missing).
+- A manually started Translation consumes the reconciliation plan — discovery plans `delete_target` for evidence-backed deletions (an `authoritativeReplacements` entry upgrades it to `replace_path`) — and physically removes the zh file, ja file, and ledger/cache state before model calls.
+- If the record becomes publishable again before the translation ran, the next reconcile un-retires automatically: source and target both present → the record recomputes as `translated` against the stale-but-intact target, and the git-diff translation selection picks the modified pair up on the next manual run (seeds reuse unchanged units). If the translation was already deleted, the restored source moves to `pendingRecords` for a fresh translation.
+- `assertRetirementsMatchManifest` accepts a retired record when it is covered by an active registry entry **or** carries Git-verifiable checkpoint evidence; anything else still fails validation.
 
 ## What CI validates, and where
 
