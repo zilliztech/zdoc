@@ -11,27 +11,9 @@ module.exports = [
     "items": [
       {
         "type": "doc",
-        "id": "api/cpp/cpp/Authentication/Authentication-AlterRole",
-        "label": "AlterRole()",
-        "key": "doc:api/cpp/cpp/Authentication/authentication-alterrole"
-      },
-      {
-        "type": "doc",
         "id": "api/cpp/cpp/Authentication/Authentication-CreateUser",
         "label": "CreateUser()",
         "key": "doc:api/cpp/cpp/Authentication/authentication-createuser"
-      },
-      {
-        "type": "doc",
-        "id": "api/cpp/cpp/Authentication/Authentication-DescribeRole",
-        "label": "DescribeRole()",
-        "key": "doc:api/cpp/cpp/Authentication/authentication-describerole"
-      },
-      {
-        "type": "doc",
-        "id": "api/cpp/cpp/Authentication/Authentication-DescribeUser",
-        "label": "DescribeUser()",
-        "key": "doc:api/cpp/cpp/Authentication/authentication-describeuser"
       },
       {
         "type": "doc",
@@ -107,18 +89,6 @@ module.exports = [
       },
       {
         "type": "doc",
-        "id": "api/cpp/cpp/Authentication/Authentication-UpdatePassword",
-        "label": "UpdatePassword()",
-        "key": "doc:api/cpp/cpp/Authentication/authentication-updatepassword"
-      },
-      {
-        "type": "doc",
-        "id": "api/cpp/cpp/Authentication/Authentication-UpdateUser",
-        "label": "UpdateUser()",
-        "key": "doc:api/cpp/cpp/Authentication/authentication-updateuser"
-      },
-      {
-        "type": "doc",
         "id": "api/cpp/cpp/Authentication/Authentication-UserDesc",
         "label": "UserDesc",
         "key": "doc:api/cpp/cpp/Authentication/authentication-userdesc"
@@ -132,27 +102,9 @@ module.exports = [
     "items": [
       {
         "type": "doc",
-        "id": "api/cpp/cpp/Client/Client-CheckHealth",
-        "label": "CheckHealth()",
-        "key": "doc:api/cpp/cpp/Client/client-checkhealth"
-      },
-      {
-        "type": "doc",
-        "id": "api/cpp/cpp/Client/Client-Connect",
-        "label": "Connect()",
-        "key": "doc:api/cpp/cpp/Client/client-connect"
-      },
-      {
-        "type": "doc",
         "id": "api/cpp/cpp/Client/Client-ConnectParam",
         "label": "ConnectParam",
         "key": "doc:api/cpp/cpp/Client/client-connectparam"
-      },
-      {
-        "type": "doc",
-        "id": "api/cpp/cpp/Client/Client-Create",
-        "label": "Create()",
-        "key": "doc:api/cpp/cpp/Client/client-create"
       },
       {
         "type": "doc",
@@ -195,18 +147,6 @@ module.exports = [
         "id": "api/cpp/cpp/Client/Client-SetRpcDeadlineMs",
         "label": "SetRpcDeadlineMs()",
         "key": "doc:api/cpp/cpp/Client/client-setrpcdeadlinems"
-      },
-      {
-        "type": "doc",
-        "id": "api/cpp/cpp/Client/Client-UseDatabase",
-        "label": "UseDatabase()",
-        "key": "doc:api/cpp/cpp/Client/client-usedatabase"
-      },
-      {
-        "type": "doc",
-        "id": "api/cpp/cpp/Client/Client-Session",
-        "label": "Session()",
-        "key": "doc:api/cpp/cpp/Client/client-session"
       }
     ]
   },
@@ -215,12 +155,6 @@ module.exports = [
     "label": "Collections",
     "key": "category:api/cpp/cpp/collections",
     "items": [
-      {
-        "type": "doc",
-        "id": "api/cpp/cpp/Collections/Collections-AddCollectionField",
-        "label": "AddCollectionField()",
-        "key": "doc:api/cpp/cpp/Collections/collections-addcollectionfield"
-      },
       {
         "type": "doc",
         "id": "api/cpp/cpp/Collections/Collections-AddCollectionFunction",
@@ -259,12 +193,6 @@ module.exports = [
       },
       {
         "type": "doc",
-        "id": "api/cpp/cpp/Collections/Collections-BatchDescribeCollections",
-        "label": "BatchDescribeCollections()",
-        "key": "doc:api/cpp/cpp/Collections/collections-batchdescribecollections"
-      },
-      {
-        "type": "doc",
         "id": "api/cpp/cpp/Collections/Collections-CollectionDesc",
         "label": "CollectionDesc",
         "key": "doc:api/cpp/cpp/Collections/collections-collectiondesc"
@@ -286,12 +214,6 @@ module.exports = [
         "id": "api/cpp/cpp/Collections/Collections-ConsistencyLevel",
         "label": "ConsistencyLevel",
         "key": "doc:api/cpp/cpp/Collections/collections-consistencylevel"
-      },
-      {
-        "type": "doc",
-        "id": "api/cpp/cpp/Collections/Collections-CreateAlias",
-        "label": "CreateAlias()",
-        "key": "doc:api/cpp/cpp/Collections/collections-createalias"
       },
       {
         "type": "doc",

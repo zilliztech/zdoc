@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "976dc734abcc4ebf5408a57cca1220cb57e4e04e",
+  "sourceCommit": "f39e2da4c762056d9bfba3cd02291cf5eef08f71",
   "records": [
     {
       "manual": "cli",
@@ -674,23 +674,8 @@
     },
     {
       "manual": "cpp",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-AlterRole.md",
-      "sourceHash": "344fff03a5d510ed2c5f489d34ab25e1265a5500e5b5bd7021eed66960a6fdca"
-    },
-    {
-      "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-CreateUser.md",
       "sourceHash": "79ac339df1ecbceeeb275dcf599f69dadb512a3ad84b9eda96a963e96738ed5b"
-    },
-    {
-      "manual": "cpp",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-DescribeRole.md",
-      "sourceHash": "54a301068c8e158a45d5b339a6e7c5d1ab00e8eda82a08b2538cad75fbf53e5d"
-    },
-    {
-      "manual": "cpp",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-DescribeUser.md",
-      "sourceHash": "4fe6490778f908da07afa4c87a215c1b371f3b773627633755fd39b81fbf892a"
     },
     {
       "manual": "cpp",
@@ -754,38 +739,13 @@
     },
     {
       "manual": "cpp",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-UpdatePassword.md",
-      "sourceHash": "e69631da378eb3b3fea72c9728554128aea94364bc65d0035840e10a0e05066e"
-    },
-    {
-      "manual": "cpp",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-UpdateUser.md",
-      "sourceHash": "f8b650d374a0752baec7d4f89c475f4f46910609fbf660df6fd8d1aad7f21bf1"
-    },
-    {
-      "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-UserDesc.md",
       "sourceHash": "10061b7d838016c006ef6abdf61281a1bda509863d6fef1aaf97b23dbc731f33"
     },
     {
       "manual": "cpp",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Client/Client-CheckHealth.md",
-      "sourceHash": "46349220d61e732f5194ba03d8ac1c05e4b8447a7f10ab7bce719599abe31d23"
-    },
-    {
-      "manual": "cpp",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Client/Client-Connect.md",
-      "sourceHash": "3501830ea0da0f7963dc4faac2afb417ac8c1bbf5ced691dc9afa1d9277fffe1"
-    },
-    {
-      "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Client/Client-ConnectParam.md",
       "sourceHash": "95a6f21755d8cf642a8eab65ca35fb5474f493de85a3f0b64bb4b795f3b4fd18"
-    },
-    {
-      "manual": "cpp",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Client/Client-Create.md",
-      "sourceHash": "4b1262851db415b2dbdf3ed607a04f4f49ec644eb03084e61001f019d0216c64"
     },
     {
       "manual": "cpp",
@@ -814,11 +774,6 @@
     },
     {
       "manual": "cpp",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Client/Client-Session.md",
-      "sourceHash": "fea928f1c86f47f7b96df5b43f8583df257566055595fdb04e0eea59abbeec06"
-    },
-    {
-      "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Client/Client-SetRetryParam.md",
       "sourceHash": "b534ded88007add5ae564ce05a6c0509d177384567cced3e61ea94e1d60b9700"
     },
@@ -826,16 +781,6 @@
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Client/Client-SetRpcDeadlineMs.md",
       "sourceHash": "b3623db0992a25964647f81cd38b3981bbfe1ee7998cf5b2cfec053b65f7d3b3"
-    },
-    {
-      "manual": "cpp",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Client/Client-UseDatabase.md",
-      "sourceHash": "dfb26d6c0132358769619ed7061938e3d90cbd5d83722b09e4adade0b1b62b53"
-    },
-    {
-      "manual": "cpp",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-AddCollectionField.md",
-      "sourceHash": "67a3c794270f8f1a521fb792409eee10fed0e9d93dee8697d9a0acce7268c95b"
     },
     {
       "manual": "cpp",
@@ -879,11 +824,6 @@
     },
     {
       "manual": "cpp",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-BatchDescribeCollections.md",
-      "sourceHash": "42abe8eb246fe69cd8a5f0179dc5d4507a03bb67196324065464c7b2c1ac1acf"
-    },
-    {
-      "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-CollectionDesc.md",
       "sourceHash": "f84982e4882dab0586296e78650afb07edb806a82ac93e7906dcf0012b380e85"
     },
@@ -901,11 +841,6 @@
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-ConsistencyLevel.md",
       "sourceHash": "a4d6448b10f4dfe09d88b76c1ef28236d0d8388c28aaa491e2dd55faf7a3f3e0"
-    },
-    {
-      "manual": "cpp",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-CreateAlias.md",
-      "sourceHash": "6f9784bca653b1e18a0077c6f35b4207d7d83a8ee4be4393c9e6f59262b9850f"
     },
     {
       "manual": "cpp",
