@@ -15,10 +15,12 @@ vi.mock('@docusaurus/plugin-content-docs/client', () => ({
 import ReleaseChannelPaginator from './index';
 
 const NEXT_PERMALINK = '/docs/single-sign-on-with-ping-one';
+const RETIRED_PERMALINK = '/docs/legacy-monolith';
 
 const SIDEBAR = [
   {type: 'link', key: 'a', href: '/docs/stable', label: 'Stable'},
   {type: 'link', key: 'b', href: NEXT_PERMALINK, label: 'PingOne', customProps: {channel: 'next'}},
+  {type: 'link', key: 'c', href: RETIRED_PERMALINK, label: 'Legacy Monolith', customProps: {channel: 'retire-in-next'}},
 ];
 
 /** Stands in for @theme/DocPaginator, which the theme override injects. */
@@ -64,16 +66,31 @@ describe('ReleaseChannelPaginator', () => {
     });
   });
 
-  it('keeps every link on a NEXT deployment', () => {
+  it('keeps every link on a NEXT deployment except RETIRE-IN-NEXT targets', () => {
     docState.current = {
-      previous: {title: 'Google Workspace', permalink: '/docs/stable'},
+      previous: {title: 'Legacy Monolith', permalink: RETIRED_PERMALINK},
       next: {title: 'PingOne', permalink: NEXT_PERMALINK},
     };
     sidebarState.current = {items: SIDEBAR};
 
     withEnv({RELEASE_CHANNEL: 'next'}, () => {
       const {getByTestId} = render(<ReleaseChannelPaginator Paginator={Paginator} />);
+      expect(getByTestId('prev').textContent).toBe('');
       expect(getByTestId('next').textContent).toBe('PingOne');
+    });
+  });
+
+  it('keeps a RETIRE-IN-NEXT target on a CURRENT deployment, where the page still serves', () => {
+    docState.current = {
+      previous: {title: 'Legacy Monolith', permalink: RETIRED_PERMALINK},
+      next: {title: 'Stable', permalink: '/docs/stable'},
+    };
+    sidebarState.current = {items: SIDEBAR};
+
+    withEnv({RELEASE_CHANNEL: 'current'}, () => {
+      const {getByTestId} = render(<ReleaseChannelPaginator Paginator={Paginator} />);
+      expect(getByTestId('prev').textContent).toBe('Legacy Monolith');
+      expect(getByTestId('next').textContent).toBe('Stable');
     });
   });
 

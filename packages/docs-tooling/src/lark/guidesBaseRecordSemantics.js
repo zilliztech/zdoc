@@ -2,7 +2,7 @@
 
 const PLACEMENTS = new Set(['canonical', 'section', 'link', 'ref'])
 const PUBLISHABLE_PROGRESS = new Set(['draft', 'reviewed', 'published', 'approved', 'publish'])
-const RELEASE_CHANNELS = new Set(['current', 'next'])
+const RELEASE_CHANNELS = new Set(['current', 'next', 'retire-in-next'])
 
 function plain(value) {
   if (value == null) return null
@@ -73,9 +73,12 @@ function guidesRecordChannel(record) {
       ?? fields(record)['Release Channel']
       ?? fields(record)['release channel'],
   )?.trim().toLowerCase()
-  // The Base field is a single-select with CURRENT/NEXT options, so a missing
-  // or unrecognized value means a pre-backfill or legacy record: treat it as
-  // CURRENT so promotion to NEXT stays an explicit editorial act.
+  // The Base field is a single-select with CURRENT/NEXT/RETIRE-IN-NEXT
+  // options, so a missing or unrecognized value means a pre-backfill or
+  // legacy record: treat it as CURRENT so both promotion to NEXT and staged
+  // retirement stay explicit editorial acts. RETIRE-IN-NEXT keeps the page
+  // live on CURRENT deployments while hiding it on NEXT ones (the mirror of
+  // NEXT), staging a split or restructure for the release that removes it.
   return RELEASE_CHANNELS.has(value) ? value : 'current'
 }
 

@@ -136,8 +136,8 @@ test('Guides Base preflight treats non-Feishu section Docs as empty', () => {
   }))
 })
 
-test('Guides Base preflight accepts CURRENT and NEXT release channels', () => {
-  for (const releaseChannel of ['CURRENT', 'NEXT', 'current', 'next', '']) {
+test('Guides Base preflight accepts CURRENT, NEXT, and RETIRE-IN-NEXT release channels', () => {
+  for (const releaseChannel of ['CURRENT', 'NEXT', 'RETIRE-IN-NEXT', 'current', 'next', 'retire-in-next', '']) {
     assert.doesNotThrow(() => validateGuidesBasePreflight({
       site: 'en', tables: [{table_id: 'table-1', name: 'Get Started'}], records: [
         canonical({fields: {...canonical().fields, 'Release Channel': releaseChannel}}),
