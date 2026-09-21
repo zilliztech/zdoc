@@ -436,145 +436,9 @@ Once you have enabled text match for a VARCHAR field in your collection schema, 
 
 The `TEXT_MATCH` expression is used to specify the field and the terms to search for. Its syntax is as follows:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
-<TabItem value='python'>
-
-```python
+```plaintext
 TEXT_MATCH(field_name, text)
 ```
-
-</TabItem>
-
-<TabItem value='java'>
-
-```java
-import io.milvus.v2.common.DataType;
-import io.milvus.v2.service.collection.request.AddFieldReq;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-
-CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder()
-        .enableDynamicField(false)
-        .build();
-schema.addField(AddFieldReq.builder()
-        .fieldName("id")
-        .dataType(DataType.Int64)
-        .isPrimaryKey(true)
-        .autoID(true)
-        .build());
-schema.addField(AddFieldReq.builder()
-        .fieldName("text")
-        .dataType(DataType.VarChar)
-        .maxLength(1000)
-        .enableAnalyzer(true)
-        .enableMatch(true)
-        .build());
-schema.addField(AddFieldReq.builder()
-        .fieldName("embeddings")
-        .dataType(DataType.FloatVector)
-        .dimension(5)
-        .build());
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-import "github.com/milvus-io/milvus/client/v2/entity"
-
-schema := entity.NewSchema().WithDynamicFieldEnabled(false)
-schema.WithField(entity.NewField().
-    WithName("id").
-    WithDataType(entity.FieldTypeInt64).
-    WithIsPrimaryKey(true).
-    WithIsAutoID(true),
-).WithField(entity.NewField().
-    WithName("text").
-    WithDataType(entity.FieldTypeVarChar).
-    WithEnableAnalyzer(true).
-    WithEnableMatch(true).
-    WithMaxLength(1000),
-).WithField(entity.NewField().
-    WithName("embeddings").
-    WithDataType(entity.FieldTypeFloatVector).
-    WithDim(5),
-)
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-const schema = [
-  {
-    name: "id",
-    data_type: DataType.Int64,
-    is_primary_key: true,
-  },
-  {
-    name: "text",
-    data_type: "VarChar",
-    enable_analyzer: true,
-    enable_match: true,
-    max_length: 1000,
-  },
-  {
-    name: "embeddings",
-    data_type: DataType.FloatVector,
-    dim: 5,
-  },
-];
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-export schema='{
-        "autoId": true,
-        "enabledDynamicField": false,
-        "fields": [
-            {
-                "fieldName": "id",
-                "dataType": "Int64",
-                "isPrimary": true
-            },
-            {
-                "fieldName": "text",
-                "dataType": "VarChar",
-                "elementTypeParams": {
-                    "max_length": 1000,
-                    "enable_analyzer": true,
-                    "enable_match": true
-                }
-            },
-            {
-                "fieldName": "embeddings",
-                "dataType": "FloatVector",
-                "elementTypeParams": {
-                    "dim": "5"
-                }
-            }
-        ]
-    }'
-```
-
-</TabItem>
-
-<TabItem value='shell'>
-
-```shell
-# Zilliz CLI
-# Prerequisite: run zilliz login and select your cluster with zilliz context set.
-
-# Query documents containing "machine" and "deep" in the text field
-zilliz collection query --collection-name my_collection --filter "TEXT_MATCH(text, 'machine deep')" --output-fields "id,text" 
-```
-
-</TabItem>
-</Tabs>
 
 - `field_name`: The name of the VARCHAR field to search for.
 
@@ -773,6 +637,82 @@ You can also combine multiple `TEXT_MATCH` expressions using logical operators t
 
     </TabItem>
     </Tabs>
+
+### TEXT_MATCH_FUZZY expression syntax\{#textmatchfuzzy-expression-syntax}
+
+Use `TEXT_MATCH_FUZZY` to tolerate spelling differences between query tokens and indexed tokens. Milvus analyzes the query text with the field’s analyzer and applies fuzzy matching to each resulting token. If the query produces multiple tokens, the expression matches an entity when any token satisfies the configured edit distance.
+
+The syntax is as follows:
+
+```plaintext
+TEXT_MATCH_FUZZY(field_name, text, max_edit_distance = 1)
+```
+
+- `field_name`: The name of the match-enabled `VARCHAR` or `TEXT` field to search for.
+
+- `text`: The query text to analyze and match against indexed tokens.
+
+- `max_edit_distance`: The maximum edit distance allowed for each query token. The option name must be exactly `max_edit_distance`, and its value must be `0`, `1`, or `2`. A value of `0` performs exact token matching, equivalent to `TEXT_MATCH`.
+
+For example, the following expression matches tokens within one edit of `machne`, including `machine`:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<TabItem value='python'>
+
+```python
+filter = "TEXT_MATCH_FUZZY(text, 'machne', max_edit_distance = 1)"
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "TEXT_MATCH_FUZZY(text, 'machne', max_edit_distance = 1)";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "TEXT_MATCH_FUZZY(text, 'machne', max_edit_distance = 1)"
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = "TEXT_MATCH_FUZZY(text, 'machne', max_edit_distance = 1)";
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export filter="\"TEXT_MATCH_FUZZY(text, 'machne', max_edit_distance = 1)\""
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::string filter = "TEXT_MATCH_FUZZY(text, 'machne', max_edit_distance = 1)";
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+```
+
+</TabItem>
+</Tabs>
 
 ### Search with text match\{#search-with-text-match}
 

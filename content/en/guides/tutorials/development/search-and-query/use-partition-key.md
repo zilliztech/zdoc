@@ -59,7 +59,7 @@ When you set a scalar field as the Partition Key, the field values cannot be emp
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -267,6 +267,14 @@ schema->AddField(milvus::FieldSchema("my_varchar", milvus::DataType::VARCHAR).Wi
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+```
+
+</TabItem>
 </Tabs>
 
 ### Set Partition Numbers\{#set-partition-numbers}
@@ -275,7 +283,7 @@ When you designate a scalar field in a collection as the Partition Key, Zilliz C
 
 You can also determine the number of partitions to create along with the collection. This is valid only if you have a scalar field designated as the Partition Key.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -367,6 +375,14 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+```
+
+</TabItem>
 </Tabs>
 
 ### Create Filtering Condition\{#create-filtering-condition}
@@ -377,7 +393,7 @@ When performing delete operations, It is advisable to include a filter expressio
 
 The following examples demonstrate Partition-Key-based filtering based on a specific Partition Key value and a set of Partition Key values.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -446,6 +462,14 @@ const auto filter = R"(partition_key in ['x', 'y', 'z'] && <other conditions>)";
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+```
+
+</TabItem>
 </Tabs>
 
 <Admonition type="info" title="Notes">
@@ -468,7 +492,7 @@ Once you have enabled Partition Key Isolation, you must include only one specifi
 
 The following code examples demonstrate how to enable Partition Key Isolation.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -561,6 +585,14 @@ auto status = client->CreateCollection(milvus::CreateCollectionRequest()
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
 ```
 
 </TabItem>

@@ -16,7 +16,8 @@ displayed_sidebar: default
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Lexical Highlighter
 
@@ -56,6 +57,9 @@ Milvus supports full text search. Use BM25 for keyword relevance. Filters can na
 
 To highlight search terms in BM25 full text search, create a `LexicalHighlighter` and enable search term highlighting for BM25 full text search:
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<TabItem value='python'>
+
 ```python
 from pymilvus import LexicalHighlighter
 
@@ -66,6 +70,57 @@ highlighter = LexicalHighlighter(
 )
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI 
+```
+
+</TabItem>
+</Tabs>
+
 In this example:
 
 - `pre_tags` and `post_tags` control how highlighted text appears in the output. In this case, matched terms are wrapped by `{}` (for example, `{term}`). You can also provide multiple tags as a list (for example, `["<b>", "<i>"]`). When multiple terms are highlighted, tags are applied in order and rotated by match sequence.
@@ -73,6 +128,9 @@ In this example:
 - `highlight_search_text=True` tells Zilliz Cloud to use the search terms in BM25 full text search as the source of highlighted terms.
 
 Once the Highlighter object is created, apply its configuration to your BM25 full text search request:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<TabItem value='python'>
 
 ```python
 results = client.search(
@@ -82,6 +140,57 @@ results = client.search(
     highlighter=highlighter # Pass highlighter config here
 )
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI 
+```
+
+</TabItem>
+</Tabs>
 
 **Highlighting output**
 
@@ -116,13 +225,70 @@ In this scenario, highlighted terms come from text-based filtering expressions. 
 
 Assume the following content is stored in a text field:
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<TabItem value='python'>
+
 ```python
 This document explains how text filtering works in Milvus.
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI 
+```
+
+</TabItem>
+</Tabs>
+
 **Highlighter configuration**
 
 To highlight query terms used in filtering, create a `LexicalHighlighter` and define a `highlight_query` that corresponds to the filtering condition:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<TabItem value='python'>
 
 ```python
 from pymilvus import LexicalHighlighter
@@ -138,6 +304,57 @@ highlighter = LexicalHighlighter(
 )
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI 
+```
+
+</TabItem>
+</Tabs>
+
 In this configuration:
 
 - `pre_tags` and `post_tags` control how highlighted text appears in the output. In this case, matched terms are wrapped by `{}` (for example, `{term}`). You can also provide multiple tags as a list (for example, `["<b>", "<i>"]`). When multiple terms are highlighted, tags are applied in order and rotated by match sequence.
@@ -145,6 +362,9 @@ In this configuration:
 - `highlight_query` defines which filtering terms should be highlighted.
 
 Once the Highlighter object is created, apply the same filtering expression and the highlighter configuration to your search request:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<TabItem value='python'>
 
 ```python
 results = client.search(
@@ -154,6 +374,57 @@ results = client.search(
     highlighter=highlighter # Pass highlighter config here
 )
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI 
+```
+
+</TabItem>
+</Tabs>
 
 **Highlighting output**
 
@@ -172,6 +443,56 @@ In this example, the first matched term is `"text"`, so the returned highlighted
 }
 ```
 
+<Tabs groupId="code" defaultValue='java' values={[{"label":"Java","value":"java"}]}>
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI 
+```
+
+</TabItem>
+</Tabs>
+
 To control the position, length, and number of returned fragments, see [Return highlighted text as fragments](./text-highlighter#fragment-based-highlighting-output).
 
 ## Fragment-based highlighting output\{#fragment-based-highlighting-output}
@@ -188,6 +509,9 @@ Milvus supports full text search. Use BM25 for keyword relevance. Filters can na
 
 To control the shape of highlighted fragments, configure fragment-related options in the `LexicalHighlighter`:
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<TabItem value='python'>
+
 ```python
 from pymilvus import LexicalHighlighter
 
@@ -201,6 +525,57 @@ highlighter = LexicalHighlighter(
 )
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI 
+```
+
+</TabItem>
+</Tabs>
+
 In this configuration:
 
 - `fragment_offset` reserves leading context before the first highlighted term.
@@ -211,6 +586,9 @@ In this configuration:
 
 Once the Highlighter object is created, apply the highlighter configuration to your search request:
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<TabItem value='python'>
+
 ```python
 results = client.search(
     ...,
@@ -219,6 +597,57 @@ results = client.search(
     highlighter=highlighter # Pass highlighter config here
 )
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI 
+```
+
+</TabItem>
+</Tabs>
 
 **Highlighting output**
 
@@ -254,6 +683,9 @@ The example below creates a collection that supports BM25 full text search and `
 <details>
 
 <summary><strong>Prepare your collection</strong></summary>
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<TabItem value='python'>
 
 ```python
 from pymilvus import (
@@ -320,6 +752,57 @@ SEARCH_PARAMS = {"params": {"drop_ratio_search": 0.0}}
 # ✓ Collection created with 4 documents
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI 
+```
+
+</TabItem>
+</Tabs>
+
 </details>
 
 ### Example 1: Highlight search terms in BM25 full text search\{#example-1-highlight-search-terms-in-bm25-full-text-search}
@@ -329,6 +812,9 @@ This example shows how to highlight search terms in BM25 full text search.
 - BM25 full text search uses `"test"` as the search term
 
 - The highlighter wraps all occurrences of "test" with `{` and `}` tags
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<TabItem value='python'>
 
 ```python
 # highlight-start
@@ -355,6 +841,57 @@ for hit in results[0]:
 print()
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI 
+```
+
+</TabItem>
+</Tabs>
+
 <details>
 
 <summary>Expected output</summary>
@@ -377,6 +914,9 @@ This example shows how to highlight terms matched by a `TEXT_MATCH` filter.
 - The `queries` parameter adds `"my doc"` to the highlight list
 
 - The highlighter wraps all matched terms (`"my"`, `"test"`, `"doc"`) with `{` and `}`
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<TabItem value='python'>
 
 ```python
 # highlight-start
@@ -406,6 +946,57 @@ for hit in results[0]:
 print()
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI 
+```
+
+</TabItem>
+</Tabs>
+
 <details>
 
 <summary>Expected output</summary>
@@ -428,6 +1019,9 @@ In this example, the query searches for `"Milvus"` and returns highlight fragmen
 - `fragment_size` limits each fragment to approximately 60 characters (default is 100).
 
 - `num_of_fragments` limits the number of returned fragments per text value (default is 5).
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<TabItem value='python'>
 
 ```python
 # highlight-start
@@ -457,6 +1051,57 @@ for i, hit in enumerate(results[0]):
 print()
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI 
+```
+
+</TabItem>
+</Tabs>
+
 <details>
 
 <summary>Expected output</summary>
@@ -477,6 +1122,9 @@ In the example below:
 - First query highlights `"test"` in its result set
 
 - Second query highlights `"Milvus"` in its result set
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<TabItem value='python'>
 
 ```python
 # highlight-start
@@ -506,6 +1154,57 @@ for nq_idx, hits in enumerate(results):
 print()
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI 
+```
+
+</TabItem>
+</Tabs>
+
 <details>
 
 <summary>Expected output</summary>
@@ -524,6 +1223,9 @@ Query 'Milvus':
 ### Example 5: Custom HTML tags\{#example-5-custom-html-tags}
 
 You can use any tags for highlighting, such as HTML-safe tags for web UIs. This is useful when rendering search results in a browser.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<TabItem value='python'>
 
 ```python
 # highlight-start
@@ -549,6 +1251,57 @@ for hit in results[0]:
     print(f"  {hit.get('highlight', {}).get('text', [])}")
 print()
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI 
+```
+
+</TabItem>
+</Tabs>
 
 <details>
 
