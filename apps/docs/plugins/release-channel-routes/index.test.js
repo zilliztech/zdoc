@@ -130,5 +130,109 @@ test('strips the baseUrl prefix when matching localized route passes', async () 
 test('rejects unsafe sources and output paths', () => {
   assert.throws(() => plugin({}, {sources: [{id: 'a', folder: 'relative/path', route: 'docs'}]}), /must be absolute/)
   assert.throws(() => plugin({}, {sources: [{id: 'a', folder: '/tmp', route: 'docs'}], outputFile: '../escape.txt'}), /safe relative path/)
+  assert.throws(() => plugin({}, {sources: [{id: 'a', folder: '/tmp', route: 'docs'}], retiredOutputFile: '../escape.txt'}), /safe relative path/)
   assert.doesNotThrow(() => plugin({}, {sources: []}))
+})
+
+test('lists RETIRE-IN-NEXT routes in the dedicated retired listing', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'release-channel-routes-'))
+  try {
+    const content = path.join(root, 'content')
+    const outDir = path.join(root, 'build')
+    fs.mkdirSync(outDir)
+    writeDoc(content, 'docs/live.md', 'title: Live\nslug: /live')
+    writeDoc(content, 'docs/legacy-monolith.md', 'title: Legacy\nslug: /legacy-monolith\nchannel: retire-in-next')
+    writeDoc(content, 'docs/split-part-a.md', 'title: Split A\nslug: /split-part-a\nchannel: next')
+
+    const instance = plugin({}, {sources: [{id: 'default', folder: content, route: 'docs'}]})
+    await instance.postBuild(lifecycle({
+      outDir,
+      routesPaths: ['/docs/live', '/docs/legacy-monolith', '/docs/split-part-a', '/ja-JP/docs/legacy-monolith'],
+      locales: ['ja-JP'],
+    }))
+
+    // The retired listing is the mirror of the NEXT listing: it gates the
+    // staged-for-removal page on NEXT deployments, so the split preview hides
+    // the legacy page while production keeps serving it.
+    assert.equal(
+      fs.readFileSync(path.join(outDir, 'release-channel-retired-routes.txt'), 'utf8'),
+      '/docs/legacy-monolith\n/ja-JP/docs/legacy-monolith\n',
+    )
+    // The NEXT listing only carries the genuinely unreleased pages.
+    assert.equal(
+      fs.readFileSync(path.join(outDir, 'release-channel-routes.txt'), 'utf8'),
+      '/docs/split-part-a\n',
+    )
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true })
+  }
+})
+
+test('propagates RETIRE-IN-NEXT to localized translations via the shared token', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'release-channel-routes-'))
+  try {
+    const content = path.join(root, 'content')
+    const localized = path.join(root, 'i18n', 'ja-JP', 'docusaurus-plugin-content-docs', 'current')
+    fs.mkdirSync(path.join(root, 'build'))
+    writeDoc(content, 'docs/legacy-monolith.md', 'title: Legacy\nslug: /legacy-monolith\nchannel: retire-in-next\ntoken: tok-legacy')
+    writeDoc(localized, 'docs/legacy-monolith.md', 'title: Legacy\nslug: /legacy-monolith\ntoken: tok-legacy')
+
+    const instance = plugin({}, {sources: [{id: 'default', folder: content, route: 'docs'}]})
+    await instance.postBuild({
+      outDir: path.join(root, 'build'),
+      routesPaths: ['/docs/legacy-monolith', '/ja-JP/docs/legacy-monolith'],
+      baseUrl: '/',
+      siteConfig: {i18n: {locales: ['en', 'ja-JP'], defaultLocale: 'en'}},
+      i18n: {currentLocale: 'en', defaultLocale: 'en', localizationDir: path.join(root, 'i18n')},
+    })
+
+    assert.equal(
+      fs.readFileSync(path.join(root, 'build', 'release-channel-retired-routes.txt'), 'utf8'),
+      '/docs/legacy-monolith\n/ja-JP/docs/legacy-monolith\n',
+    )
+    assert.equal(
+      fs.readFileSync(path.join(root, 'build', 'release-channel-routes.txt'), 'utf8'),
+      '',
+    )
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true })
+  }
+})
+
+test('gates a stale translation on every deployment while channels disagree', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'release-channel-routes-'))
+  try {
+    const content = path.join(root, 'content')
+    const localized = path.join(root, 'i18n', 'ja-JP', 'docusaurus-plugin-content-docs', 'current')
+    fs.mkdirSync(path.join(root, 'build'))
+    // The canonical record already retired the page, but the stale translation
+    // still carries NEXT front matter. In the localized build pass the stale
+    // translation is the file being read, so the page lands in both listings
+    // and stays gated on every deployment until Translation regenerates it.
+    writeDoc(content, 'docs/legacy.md', 'title: Legacy\nslug: /legacy\nchannel: retire-in-next\ntoken: tok-mixed')
+    writeDoc(localized, 'docs/legacy.md', 'title: Legacy\nslug: /legacy\nchannel: next\ntoken: tok-mixed')
+
+    const instance = plugin({}, {sources: [{id: 'default', folder: content, route: 'docs'}]})
+    await instance.postBuild({
+      outDir: path.join(root, 'build'),
+      routesPaths: ['/ja-JP/docs/legacy'],
+      baseUrl: '/',
+      siteConfig: {i18n: {locales: ['en', 'ja-JP'], defaultLocale: 'en'}},
+      // The localized build pass resolves source folders under
+      // <siteDir>/i18n/<locale>, so localizationDir already carries ja-JP.
+      i18n: {currentLocale: 'ja-JP', defaultLocale: 'en', localizationDir: path.join(root, 'i18n', 'ja-JP')},
+      localizationDir: path.join(root, 'i18n', 'ja-JP'),
+    })
+
+    assert.equal(
+      fs.readFileSync(path.join(root, 'build', 'release-channel-routes.txt'), 'utf8'),
+      '/ja-JP/docs/legacy\n',
+    )
+    assert.equal(
+      fs.readFileSync(path.join(root, 'build', 'release-channel-retired-routes.txt'), 'utf8'),
+      '/ja-JP/docs/legacy\n',
+    )
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true })
+  }
 })

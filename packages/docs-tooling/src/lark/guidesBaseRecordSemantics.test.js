@@ -65,3 +65,13 @@ test('normalizes Release Channel with CURRENT default for legacy records', () =>
   // Unrecognized values fall back to CURRENT instead of publishing early.
   assert.equal(guidesRecordChannel({ fields: { 'Release Channel': 'beta' } }), 'current')
 })
+
+test('normalizes RETIRE-IN-NEXT and keeps near-misses on CURRENT', () => {
+  assert.equal(guidesRecordChannel({ fields: { 'Release Channel': 'RETIRE-IN-NEXT' } }), 'retire-in-next')
+  assert.equal(guidesRecordChannel({ fields: { 'Release Channel': { text: 'Retire-in-Next' } } }), 'retire-in-next')
+  assert.equal(guidesRecordChannel({ base_channel: 'retire-in-next' }), 'retire-in-next')
+  // Staged retirement stays an explicit editorial act, exactly like promotion
+  // to NEXT: approximate spellings fall back to CURRENT.
+  assert.equal(guidesRecordChannel({ fields: { 'Release Channel': 'to-retire' } }), 'current')
+  assert.equal(guidesRecordChannel({ fields: { 'Release Channel': 'retired' } }), 'current')
+})
