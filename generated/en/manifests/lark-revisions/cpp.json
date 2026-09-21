@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "group": "cpp",
   "complete": true,
-  "generatedAt": "2026-09-21T10:38:33.328Z",
-  "sourceRunId": "35588193154",
+  "generatedAt": "2026-09-21T15:07:10.834Z",
+  "sourceRunId": "35614899821",
   "records": [
     {
       "canonicalToken": "A3gld3Xjco1VxSxi6Ndc3Bq4nuh",
@@ -87,15 +87,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "BXaGduFMvolXlnxaIFkcKy3Nnhu",
-      "title": "UpdatePassword()",
-      "contentPath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-UpdatePassword.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "C4kSd9x2GobYZGxDTkacZsX2nlc",
       "title": "IndexDesc",
       "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-IndexDesc.md",
@@ -123,6 +114,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "CfaudoM2CocOHtxYirFcJqbKnof",
+      "title": "Create()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "CmVxdb9mxoe1UixZ3nxc2fmCnOg",
       "title": "FieldSchema",
       "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-FieldSchema.md",
@@ -141,6 +141,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "E1zXdgCk0of1qOxrh52cPjAxnUb",
+      "title": "CreateAlias()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "E8V0dJNffoNiQHxsYyGcmQbennc",
       "title": "StructFieldSchema",
       "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-StructFieldSchema.md",
@@ -153,6 +162,15 @@
       "canonicalToken": "EHmkdGRrlooizbxSZ8wc9CYgnAb",
       "title": "HybridSearch()",
       "contentPath": "content/en/reference/api/cpp/cpp/Vector/Vector-HybridSearch.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "EVSGdMtnqoaLzixGFkfcrdCHnNe",
+      "title": "GetServerVersionV2()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -198,15 +216,6 @@
       "canonicalToken": "EyJ4d9M4joZE3WxIoIac1hTNnng",
       "title": "RevokeRole()",
       "contentPath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-RevokeRole.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "FBXDdgCrfoG5mzx2p1KcX2Kbnib",
-      "title": "Connect()",
-      "contentPath": "content/en/reference/api/cpp/cpp/Client/Client-Connect.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -276,6 +285,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "G70Odip3yoLDIwxaUGEc2e2Snoh",
+      "title": "UseDatabase()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "G7OGdOxABoDWKMxUZDncelbanEd",
       "title": "GetCompactionState()",
       "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-GetCompactionState.md",
@@ -339,15 +357,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "GvrfdEbvAoziA8xsAgPcBXDJnAb",
-      "title": "UseDatabase()",
-      "contentPath": "content/en/reference/api/cpp/cpp/Client/Client-UseDatabase.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "Gzj9djiMTooQUgxl4dfcOIfvnUb",
       "title": "PrivilegeGroupInfo",
       "contentPath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-PrivilegeGroupInfo.md",
@@ -369,6 +378,15 @@
       "canonicalToken": "H6bldn5xxoPeGJxoX7Icp0tpnMb",
       "title": "DropDatabase()",
       "contentPath": "content/en/reference/api/cpp/cpp/Database/Database-DropDatabase.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "H8bEdNoDNoQMojxNEWKc7xIQnPb",
+      "title": "CheckHealth()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -420,9 +438,9 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "IJ7ydRsczoA4TAxrcqjc6guMnSb",
-      "title": "CheckHealth()",
-      "contentPath": "content/en/reference/api/cpp/cpp/Client/Client-CheckHealth.md",
+      "canonicalToken": "IA1jdFAQ7ooZj5xkQT8cz6H3ndb",
+      "title": "RevokePrivilege()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -458,16 +476,7 @@
     {
       "canonicalToken": "IpztddRkJo1o6JxKNWHcPjO8n8f",
       "title": "BatchDescribeCollections()",
-      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-BatchDescribeCollections.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "J3Rqd884xoiTSTxl4YjcbtvunWf",
-      "title": "Create()",
-      "contentPath": "content/en/reference/api/cpp/cpp/Client/Client-Create.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -548,7 +557,7 @@
     {
       "canonicalToken": "KMuzdtwSaoadnbx0caLcHCAGn1b",
       "title": "AddCollectionField()",
-      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-AddCollectionField.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -603,6 +612,15 @@
       "canonicalToken": "Lh65dZfnWoZKFMxsJhdcieUJnEb",
       "title": "GetCollectionStats()",
       "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-GetCollectionStats.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Livud2dUIotCQbxD8SFc8oWwnGp",
+      "title": "UpdatePassword()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -951,15 +969,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "TCOmduhQKosBcNxfUQOcLdzqnAf",
-      "title": "CreateAlias()",
-      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-CreateAlias.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "TCfed4TH2o0XkdxkZDPcwPTdnWG",
       "title": "RemovePrivilegesFromGroup()",
       "contentPath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-RemovePrivilegesFromGroup.md",
@@ -1016,6 +1025,15 @@
     {
       "canonicalToken": "TriCdBud3o6kmnxaE3hcdRWlnCR",
       "title": "GetReplicateConfiguration()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "TuY9d4LfuoEptYxb25HcXmqcncb",
+      "title": "Connect()",
       "contentPath": null,
       "objectToken": null,
       "parentToken": null,
@@ -1115,7 +1133,7 @@
     {
       "canonicalToken": "VTkhdUYKvoYBPRx7EDiczhJhnhe",
       "title": "Session()",
-      "contentPath": "content/en/reference/api/cpp/cpp/Client/Client-Session.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1250,7 +1268,7 @@
     {
       "canonicalToken": "XXBwdXvCWo1te0xWjifc19kUnjf",
       "title": "UpdateUser()",
-      "contentPath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-UpdateUser.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
