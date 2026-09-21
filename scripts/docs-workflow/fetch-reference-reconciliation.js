@@ -193,7 +193,7 @@ async function reconcileFetchReferencePublication(input = {}) {
         ], environment)
         await command(runCommand, generationWorktree, 'pnpm', [
           'docs-tooling', 'reference-manifest', '--source', 'content/en/reference', '--target', 'content/zh-CN/reference',
-          '--source-commit', plan.sourceCommitSha, '--write',
+          '--source-commit', plan.sourceCommitSha, '--authorize-checkpoint-deletions', '--write',
         ], environment)
         await command(runCommand, generationWorktree, 'pnpm', ['generate:localization-input-inventory'], environment)
 

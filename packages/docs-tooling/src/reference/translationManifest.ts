@@ -35,6 +35,10 @@ const TranslationRecordSchema = z.object({
   sourceHash: z.string().regex(SHA256),
   targetHash: z.string().regex(SHA256),
   status: z.enum(['translated', 'unchanged', 'retired']),
+  retirementEvidence: z.object({
+    kind: z.literal('checkpoint-deletion'),
+    checkpointSha: z.string().regex(COMMIT_SHA),
+  }).strict().optional(),
 }).strict();
 
 const PendingRecordSchema = z.object({
@@ -166,6 +170,7 @@ export interface TranslationRecord {
   sourceHash: string;
   targetHash: string;
   status: 'translated' | 'unchanged' | 'retired';
+  retirementEvidence?: {kind: 'checkpoint-deletion'; checkpointSha: string};
 }
 
 export interface ReferencePendingRecord {
@@ -211,6 +216,14 @@ export type BuildReferenceManifestOptions = Readonly<{
   sourceSnapshot?: ReferenceTreeSnapshot;
   targetSnapshot?: ReferenceTreeSnapshot;
   supplementalMappings?: readonly Readonly<{sourcePath: string; targetPath: string; manual: string}>[];
+  /** Source paths that an authenticated publication checkpoint deleted, each
+   * mapped to the deleting commit SHA. They may retire without a static
+   * registry entry: the deletion is the recorded intent of a publish run
+   * (for example a Base record leaving the publishable Progress set), and the
+   * evidence is re-verifiable against Git history. The authorization is
+   * scoped to this generation — persistence across later runs comes from the
+   * retired records themselves carrying their `retirementEvidence`. */
+  authorizedDeletions?: ReadonlyMap<string, string>;
 }>;
 
 function sha256(bytes: Buffer): string {
@@ -446,6 +459,29 @@ export function buildReferenceManifests(options: BuildReferenceManifestOptions):
     sourceFiles.has(record.sourcePath) !== targetFiles.has(record.targetPath)
   ));
   const retired = new Set(registeredRetirements.map(record => `${record.sourcePath}\0${record.targetPath}`));
+  const retirementEvidence = new Map<string, {kind: 'checkpoint-deletion'; checkpointSha: string}>();
+  // Retired records from the previous manifest carry their authorization
+  // forward, so a deletion stays retired across later regenerations that no
+  // longer see the deleting checkpoint in their own evidence set. Only the
+  // vanish shape (source absent while its translation is still present)
+  // carries; a source that returned leaves retirement through the normal
+  // translated/pending branches below.
+  for (const record of options.previousTranslationManifest?.records ?? []) {
+    if (record.status !== 'retired') continue;
+    if (sourceFiles.has(record.sourcePath) || !targetFiles.has(record.targetPath)) continue;
+    retired.add(`${record.sourcePath}\0${record.targetPath}`);
+    if (record.retirementEvidence) retirementEvidence.set(record.sourcePath, record.retirementEvidence);
+  }
+  for (const [sourcePath, checkpointSha] of options.authorizedDeletions ?? []) {
+    if (!retirementEvidence.has(sourcePath)) retirementEvidence.set(sourcePath, {kind: 'checkpoint-deletion', checkpointSha});
+    // The deletion authorization only admits the vanish shape it evidences:
+    // source absent while its translation is still present. A source that
+    // returned (the record became publishable again) must not be re-retired.
+    if (sourceFiles.has(sourcePath)) continue;
+    const relative = sourcePath.slice(`${options.sourceRoot}/`.length);
+    const vanishedTarget = targetByRelative.get(relative);
+    if (vanishedTarget) retired.add(`${sourcePath}\0${vanishedTarget.filePath}`);
+  }
   const relativePaths = new Set([...sourceByRelative.keys(), ...targetByRelative.keys()]);
   const records: TranslationRecord[] = [];
   const pendingRecords: ReferencePendingRecord[] = [];
@@ -481,17 +517,21 @@ export function buildReferenceManifests(options: BuildReferenceManifestOptions):
     if (source && previousSourcePaths.has(sourcePath) && !previous && !previousPending && !previousExcluded) {
       throw new Error(`Historical Reference source is missing its translation record, pending record, or language-excluded record: ${sourcePath}`);
     }
+    if (source && !target && !retired.has(`${sourcePath}\0${targetPath}`) && (!previous || previous.status === 'retired')) {
+      // Either a brand-new source, or a retired source whose translation was
+      // physically removed by an approved reconciliation plan and whose record
+      // became publishable again: both need a translation, and the pending
+      // state is what the next Translation run consumes.
+      pendingRecords.push({
+        manual: options.manualForPath(sourcePath),
+        sourcePath,
+        targetPath,
+        sourceCommit,
+        sourceHash: source.hash,
+      });
+      continue;
+    }
     if ((!source || !target) && !retired.has(`${sourcePath}\0${targetPath}`)) {
-      if (source && !target && !previous) {
-        pendingRecords.push({
-          manual: options.manualForPath(sourcePath),
-          sourcePath,
-          targetPath,
-          sourceCommit,
-          sourceHash: source.hash,
-        });
-        continue;
-      }
       throw new Error(`Reference path requires an explicit retirement before generation: ${sourcePath} -> ${targetPath}`);
     }
     if (source && target && previous && (previous.status === 'translated' || previous.status === 'unchanged')) {
@@ -504,6 +544,7 @@ export function buildReferenceManifests(options: BuildReferenceManifestOptions):
       records.push(previous);
       continue;
     }
+    const status = source && target ? (source.hash === target.hash ? 'unchanged' : 'translated') : 'retired';
     records.push({
       manual,
       sourcePath,
@@ -511,7 +552,10 @@ export function buildReferenceManifests(options: BuildReferenceManifestOptions):
       sourceCommit,
       sourceHash: source?.hash ?? EMPTY_FILE_SHA256,
       targetHash: target?.hash ?? EMPTY_FILE_SHA256,
-      status: source && target ? (source.hash === target.hash ? 'unchanged' : 'translated') : 'retired',
+      status,
+      ...(status === 'retired' && retirementEvidence.has(sourcePath)
+        ? {retirementEvidence: retirementEvidence.get(sourcePath)}
+        : {}),
     });
   }
   records.sort(compareRecords);

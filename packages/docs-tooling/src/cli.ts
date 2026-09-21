@@ -141,6 +141,12 @@ export type ReferenceCommandDependencies = Readonly<{
   verifyTranslationSourceProvenance?: TranslationSourceProvenanceVerifier;
   manualForPath?: (repositoryRelativePath: string) => string;
   retirementRegistry?: ReferenceRetirementRegistry;
+  resolveAuthorizedDeletions?: (
+    repositoryRoot: string,
+    previousSourceManifest: ReferenceSourceManifest | undefined,
+    sourceCommit: string,
+    sourceSnapshot: ReferenceTreeSnapshot,
+  ) => ReadonlyMap<string, string>;
   validateReferenceNavigation?: typeof validateReferenceNavigation;
   write?: (message: string) => void;
 }>;
@@ -698,6 +704,7 @@ function assertRetirementsMatchManifest(
   translationManifest: ReturnType<typeof parseReferenceTranslationManifest>,
   sourceSnapshot: ReferenceTreeSnapshot,
   targetSnapshot: ReferenceTreeSnapshot,
+  repositoryRoot: string,
 ): void {
   // A retirement approval can predate a source becoming explicitly excluded
   // from the target locale. Once the authenticated translation manifest
@@ -710,12 +717,63 @@ function assertRetirementsMatchManifest(
     .filter(record => sourceSnapshot.has(record.sourcePath) !== targetSnapshot.has(record.targetPath))
     .filter(record => !languageExcluded.has(`${record.manual}\0${record.sourcePath}\0${record.targetPath}`))
     .map(record => `${record.manual}\0${record.sourcePath}\0${record.targetPath}`);
-  const actual = translationManifest.records
-    .filter(record => record.status === 'retired')
+  const expectedSet = new Set(expected);
+  const retiredRecords = translationManifest.records
+    .filter(record => record.status === 'retired');
+  const actual = retiredRecords
     .map(record => `${record.manual}\0${record.sourcePath}\0${record.targetPath}`);
-  if (expected.length !== actual.length || expected.some((record, index) => record !== actual[index])) {
-    throw new Error('Reference retirement registry does not exactly match retired translation manifest records');
+  const actualSet = new Set(actual);
+  if (actual.length !== actualSet.size) throw new Error('Reference retirement registry does not exactly match retired translation manifest records');
+  // Every active registry approval must be reflected by a retired record...
+  for (const tuple of expected) {
+    if (!actualSet.has(tuple)) throw new Error('Reference retirement registry does not exactly match retired translation manifest records');
   }
+  // ...and every retired record must be either registry-approved or backed by
+  // checkpoint-deletion evidence re-verifiable against Git history.
+  for (const record of retiredRecords) {
+    if (expectedSet.has(`${record.manual}\0${record.sourcePath}\0${record.targetPath}`)) continue;
+    if (record.retirementEvidence && verifyCheckpointDeletionEvidence(repositoryRoot, record)) continue;
+    throw new Error(`Reference retirement lacks an active registry approval or verifiable checkpoint evidence: ${record.sourcePath}`);
+  }
+}
+
+/** Re-verifies checkpoint-deletion evidence against immutable Git history: the
+ * deleting commit must exist and the source path must be absent in its tree. */
+function verifyCheckpointDeletionEvidence(
+  repositoryRoot: string,
+  record: {sourcePath: string; retirementEvidence?: {kind: 'checkpoint-deletion'; checkpointSha: string}},
+): boolean {
+  const evidence = record.retirementEvidence;
+  if (!evidence || evidence.kind !== 'checkpoint-deletion') return false;
+  const commit = nodeSpawnSync('git', ['cat-file', '-e', `${evidence.checkpointSha}^{commit}`], {cwd: repositoryRoot, encoding: 'utf8'});
+  if (commit.error || commit.status !== 0) return false;
+  const pathAtCheckpoint = nodeSpawnSync('git', ['cat-file', '-e', `${evidence.checkpointSha}:${record.sourcePath}`], {cwd: repositoryRoot, encoding: 'utf8'});
+  return pathAtCheckpoint.status !== 0;
+}
+
+/** Attributes vanished Reference source paths to the publication checkpoint
+ * commit that deleted each of them since the previous manifest's source
+ * commit. A path with no deleting commit in the range stays unevidenced and
+ * keeps the generation fail-closed. */
+function resolveCheckpointDeletionEvidence(
+  repositoryRoot: string,
+  previousSourceManifest: ReferenceSourceManifest | undefined,
+  sourceCommit: string,
+  sourceSnapshot: ReferenceTreeSnapshot,
+): ReadonlyMap<string, string> {
+  const evidence = new Map<string, string>();
+  if (!previousSourceManifest) return evidence;
+  for (const record of previousSourceManifest.records) {
+    if (sourceSnapshot.has(record.sourcePath)) continue;
+    const deletion = nodeSpawnSync('git', [
+      'log', '--diff-filter=D', '--format=%H', '-1',
+      `${previousSourceManifest.sourceCommit}..${sourceCommit}`, '--', record.sourcePath,
+    ], {cwd: repositoryRoot, encoding: 'utf8'});
+    if (deletion.error || deletion.status !== 0) continue;
+    const checkpointSha = deletion.stdout.trim();
+    if (/^[a-f0-9]{40}$/u.test(checkpointSha)) evidence.set(record.sourcePath, checkpointSha);
+  }
+  return evidence;
 }
 
 export async function executeReferenceDocsToolingCommand(
@@ -760,7 +818,7 @@ export async function executeReferenceDocsToolingCommand(
         manualForPath,
         excludedSourcePaths: masterAuthoritative,
       });
-      assertRetirementsMatchManifest(retirementRegistry, manifestState.translationManifest, sourceSnapshot, targetSnapshot);
+      assertRetirementsMatchManifest(retirementRegistry, manifestState.translationManifest, sourceSnapshot, targetSnapshot, repositoryRoot);
       validateReferenceTranslation({
         repositoryRoot,
         sourceRoot: REFERENCE_SOURCE_ROOT,
@@ -783,16 +841,20 @@ export async function executeReferenceDocsToolingCommand(
   }
   if (argv[0] === 'reference-manifest') {
     const shorthand = argv.length === 2 && argv[1] === '--write';
+    const authorizeCheckpointDeletions = argv.includes('--authorize-checkpoint-deletions');
     const values: Record<string, string> = shorthand
       ? {'--source': REFERENCE_SOURCE_ROOT, '--target': REFERENCE_TARGET_ROOT, '--source-commit': 'HEAD'}
       : {};
     if (!shorthand) {
-      if (argv.length !== 8 || argv[7] !== '--write') throw new Error('Usage: docs-tooling reference-manifest --source <dir> --target <dir> --source-commit <revision> --write');
-      for (let index = 1; index < 7; index += 2) {
-        const flag = argv[index];
+      const positional = argv.filter((value, index) => index > 0 && value !== '--authorize-checkpoint-deletions');
+      if (positional.length !== 7 || positional[6] !== '--write') {
+        throw new Error('Usage: docs-tooling reference-manifest --source <dir> --target <dir> --source-commit <revision> [--authorize-checkpoint-deletions] --write');
+      }
+      for (let index = 0; index < 6; index += 2) {
+        const flag = positional[index];
         if (!['--source', '--target', '--source-commit'].includes(flag)) throw new Error(`Unknown reference-manifest argument: ${flag}`);
         if (values[flag]) throw new Error(`Duplicate reference-manifest argument: ${flag}`);
-        const value = argv[index + 1];
+        const value = positional[index + 1];
         if (!value || value.startsWith('--')) throw new Error(`Missing value for ${flag}`);
         values[flag] = value;
       }
@@ -832,6 +894,10 @@ export async function executeReferenceDocsToolingCommand(
       sourceSnapshot,
       targetSnapshot,
       supplementalMappings: REFERENCE_SUPPLEMENTAL_TRANSLATION_MAPPINGS,
+      ...(authorizeCheckpointDeletions
+        ? {authorizedDeletions: (dependencies.resolveAuthorizedDeletions ?? resolveCheckpointDeletionEvidence)(
+            repositoryRoot, previousManifestState?.sourceManifest, sourceCommit, sourceSnapshot)}
+        : {}),
     });
     validateReferenceSource({repositoryRoot, sourceRoot: REFERENCE_SOURCE_ROOT, sourceManifest: manifests.sourceManifest, manualForPath});
     validateReferenceTranslation({
@@ -905,7 +971,7 @@ export async function executeReferenceDocsToolingCommand(
       const retirementRegistry = dependencies.retirementRegistry
         ?? parseReferenceRetirementRegistry(readJson(repositoryRoot, REFERENCE_RETIREMENT_REGISTRY));
       validateRetirementRegistry(retirementRegistry, sourceSnapshot, targetSnapshot, manualForPath);
-      assertRetirementsMatchManifest(retirementRegistry, translationManifest, sourceSnapshot, targetSnapshot);
+      assertRetirementsMatchManifest(retirementRegistry, translationManifest, sourceSnapshot, targetSnapshot, repositoryRoot);
       validateReferenceTranslation({
         repositoryRoot,
         sourceRoot: REFERENCE_SOURCE_ROOT,

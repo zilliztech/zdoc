@@ -874,6 +874,149 @@ describe('Reference translation provenance', () => {
     expect(result.translationManifest.records).toHaveLength(state === 'both-present' ? 1 : 0);
   });
 
+  it('retires a vanished source with checkpoint-deletion evidence instead of failing generation', () => {
+    const roots = fixture();
+    const sourcePath = 'content/en/reference/api/cpp/cpp/Authentication/Authentication-AlterRole.md';
+    const targetPath = 'content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-AlterRole.md';
+    const targetHash = sha256('# 翻译\n');
+    const checkpointSha = 'c'.repeat(40);
+    const result = buildReferenceManifests({
+      ...roots,
+      sourceCommit: 'b'.repeat(40),
+      manualForPath: () => 'cpp',
+      sourceSnapshot: new Map(),
+      targetSnapshot: new Map([[targetPath, targetHash]]),
+      authorizedDeletions: new Map([[sourcePath, checkpointSha]]),
+    });
+
+    expect(result.translationManifest.records).toEqual([{
+      manual: 'cpp',
+      sourcePath,
+      targetPath,
+      sourceCommit: 'b'.repeat(40),
+      sourceHash: EMPTY_FILE_SHA256,
+      targetHash,
+      status: 'retired',
+      retirementEvidence: {kind: 'checkpoint-deletion', checkpointSha},
+    }]);
+  });
+
+  it('still fails closed for a vanished source without registry or checkpoint evidence', () => {
+    const roots = fixture();
+    const sourcePath = 'content/en/reference/api/cpp/cpp/Authentication/Authentication-AlterRole.md';
+    const targetPath = 'content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-AlterRole.md';
+    expect(() => buildReferenceManifests({
+      ...roots,
+      sourceCommit: 'b'.repeat(40),
+      manualForPath: () => 'cpp',
+      sourceSnapshot: new Map(),
+      targetSnapshot: new Map([[targetPath, sha256('# 翻译\n')]]),
+    })).toThrow(/requires an explicit retirement/);
+  });
+
+  it('does not re-retire a source that returned just because a stale deletion authorization names it', () => {
+    const roots = fixture();
+    const sourcePath = 'content/en/reference/api/cpp/cpp/Authentication/Authentication-AlterRole.md';
+    const targetPath = 'content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-AlterRole.md';
+    const result = buildReferenceManifests({
+      ...roots,
+      sourceCommit: 'b'.repeat(40),
+      manualForPath: () => 'cpp',
+      sourceSnapshot: new Map([[sourcePath, sha256('# edited source\n')]]),
+      targetSnapshot: new Map(),
+      authorizedDeletions: new Map([[sourcePath, 'c'.repeat(40)]]),
+    });
+
+    // The record became publishable again: the page needs a translation, not a
+    // retirement, no matter what older deletion evidence still names it.
+    expect(result.translationManifest.records).toEqual([]);
+    expect(result.translationManifest.pendingRecords).toEqual([expect.objectContaining({sourcePath, targetPath})]);
+  });
+
+  it('carries a checkpoint-evidenced retirement into regenerations without fresh evidence', () => {
+    const roots = fixture();
+    const sourcePath = 'content/en/reference/api/cpp/cpp/Authentication/Authentication-AlterRole.md';
+    const targetPath = 'content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-AlterRole.md';
+    const targetHash = sha256('# 翻译\n');
+    const checkpointSha = 'c'.repeat(40);
+    const previous = translationManifest({records: [{
+      manual: 'cpp', sourcePath, targetPath,
+      sourceCommit: 'a'.repeat(40),
+      sourceHash: EMPTY_FILE_SHA256,
+      targetHash,
+      status: 'retired',
+      retirementEvidence: {kind: 'checkpoint-deletion', checkpointSha},
+    }]});
+    const result = buildReferenceManifests({
+      ...roots,
+      sourceCommit: 'b'.repeat(40),
+      manualForPath: () => 'cpp',
+      sourceSnapshot: new Map(),
+      targetSnapshot: new Map([[targetPath, targetHash]]),
+      previousTranslationManifest: previous,
+    });
+
+    expect(result.translationManifest.records).toEqual([expect.objectContaining({
+      sourcePath, status: 'retired', retirementEvidence: {kind: 'checkpoint-deletion', checkpointSha},
+    })]);
+  });
+
+  it('un-retires a checkpoint-evidenced record whose source returned with its translation intact', () => {
+    const roots = fixture();
+    const sourcePath = 'content/en/reference/api/cpp/cpp/Authentication/Authentication-AlterRole.md';
+    const targetPath = 'content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-AlterRole.md';
+    const editedSourceHash = sha256('# edited source\n');
+    const staleTargetHash = sha256('# 旧翻译\n');
+    const previous = translationManifest({records: [{
+      manual: 'cpp', sourcePath, targetPath,
+      sourceCommit: 'a'.repeat(40),
+      sourceHash: EMPTY_FILE_SHA256,
+      targetHash: staleTargetHash,
+      status: 'retired',
+      retirementEvidence: {kind: 'checkpoint-deletion', checkpointSha: 'c'.repeat(40)},
+    }]});
+    const result = buildReferenceManifests({
+      ...roots,
+      sourceCommit: 'b'.repeat(40),
+      manualForPath: () => 'cpp',
+      sourceSnapshot: new Map([[sourcePath, editedSourceHash]]),
+      targetSnapshot: new Map([[targetPath, staleTargetHash]]),
+      previousTranslationManifest: previous,
+    });
+
+    expect(result.translationManifest.records).toEqual([expect.objectContaining({
+      sourcePath, status: 'translated', sourceHash: editedSourceHash, targetHash: staleTargetHash,
+    })]);
+  });
+
+  it('moves a restored source whose translation was deleted to pending retranslation', () => {
+    const roots = fixture();
+    const sourcePath = 'content/en/reference/api/cpp/cpp/Authentication/Authentication-AlterRole.md';
+    const targetPath = 'content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-AlterRole.md';
+    const editedSourceHash = sha256('# edited source\n');
+    const previous = translationManifest({records: [{
+      manual: 'cpp', sourcePath, targetPath,
+      sourceCommit: 'a'.repeat(40),
+      sourceHash: EMPTY_FILE_SHA256,
+      targetHash: EMPTY_FILE_SHA256,
+      status: 'retired',
+      retirementEvidence: {kind: 'checkpoint-deletion', checkpointSha: 'c'.repeat(40)},
+    }]});
+    const result = buildReferenceManifests({
+      ...roots,
+      sourceCommit: 'b'.repeat(40),
+      manualForPath: () => 'cpp',
+      sourceSnapshot: new Map([[sourcePath, editedSourceHash]]),
+      targetSnapshot: new Map(),
+      previousTranslationManifest: previous,
+    });
+
+    expect(result.translationManifest.records).toEqual([]);
+    expect(result.translationManifest.pendingRecords).toEqual([expect.objectContaining({
+      sourcePath, targetPath, sourceHash: editedSourceHash,
+    })]);
+  });
+
   it('normalizes retirements to target-only records and preserves unrelated manuals', () => {
     const record = {
       manual: 'python',

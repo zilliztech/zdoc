@@ -123,7 +123,7 @@ test('prepares an authenticated empty plan when the source checkpoint is unchang
   }
 })
 
-test('rejects Chinese SDK deletions without authoritative replacement metadata', () => {
+test('plans delete_target for checkpoint-published Chinese SDK deletions without replacement metadata', () => {
   const fixture = repositoryFixture('java')
   try {
     const selection = selectionFixture('java', fixture.baseline)
@@ -137,14 +137,19 @@ test('rejects Chinese SDK deletions without authoritative replacement metadata',
       outputDir,
       reviewOutputDir: reviewDir,
     })
-    assert.equal(summary.status, 'rejected')
+    // The deletion observed between the authenticated baseline and checkpoint
+    // commits is the publication's recorded intent: both target locales plan
+    // a delete_target, gated downstream by the plan approval flow. An
+    // authoritative replacement still upgrades it to replace_path.
+    assert.equal(summary.status, 'approved')
     assert.equal(summary.reviewRequired, 0)
-    assert.equal(summary.approved, 1)
-    assert.equal(summary.rejected, 1)
+    assert.equal(summary.approved, 2)
+    assert.equal(summary.rejected, 0)
     assert.equal(summary.records.find(record => record.target === 'ja-JP').operationCount, 1)
-    assert.equal(summary.records.find(record => record.target === 'zh-CN-reference').status, 'rejected')
+    assert.equal(summary.records.find(record => record.target === 'zh-CN-reference').operationCount, 1)
+    const zhPlan = JSON.parse(fs.readFileSync(path.join(outputDir, 'translation-reconciliation-plan-zh-CN-reference-java.json'), 'utf8'))
+    assert.equal(zhPlan.operations[0].kind, 'delete_target')
     assert.equal(fs.existsSync(path.join(outputDir, 'translation-reconciliation-plan-ja-JP-java.json')), true)
-    assert.equal(fs.existsSync(path.join(outputDir, 'translation-reconciliation-plan-zh-CN-reference-java.json')), false)
   } finally {
     fs.rmSync(fixture.repository, {recursive: true, force: true})
   }
