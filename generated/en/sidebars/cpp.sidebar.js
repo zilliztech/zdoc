@@ -11,27 +11,9 @@ module.exports = [
     "items": [
       {
         "type": "doc",
-        "id": "api/cpp/cpp/Authentication/Authentication-AlterRole",
-        "label": "AlterRole()",
-        "key": "doc:api/cpp/cpp/Authentication/authentication-alterrole"
-      },
-      {
-        "type": "doc",
         "id": "api/cpp/cpp/Authentication/Authentication-CreateUser",
         "label": "CreateUser()",
         "key": "doc:api/cpp/cpp/Authentication/authentication-createuser"
-      },
-      {
-        "type": "doc",
-        "id": "api/cpp/cpp/Authentication/Authentication-DescribeRole",
-        "label": "DescribeRole()",
-        "key": "doc:api/cpp/cpp/Authentication/authentication-describerole"
-      },
-      {
-        "type": "doc",
-        "id": "api/cpp/cpp/Authentication/Authentication-DescribeUser",
-        "label": "DescribeUser()",
-        "key": "doc:api/cpp/cpp/Authentication/authentication-describeuser"
       },
       {
         "type": "doc",

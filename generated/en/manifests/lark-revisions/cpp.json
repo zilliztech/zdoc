@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "group": "cpp",
   "complete": true,
-  "generatedAt": "2026-08-23T14:47:26.216Z",
-  "sourceRunId": "32645549678",
+  "generatedAt": "2026-09-21T10:38:33.328Z",
+  "sourceRunId": "35588193154",
   "records": [
     {
       "canonicalToken": "A3gld3Xjco1VxSxi6Ndc3Bq4nuh",
@@ -213,6 +213,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "FPhDdyJa4oTIAxx6dHAcn9nynld",
+      "title": "GrantPrivilege()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "FTlxddhTlorM8hxprlsc3RUEnnb",
       "title": "IndexType",
       "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-IndexType.md",
@@ -395,7 +404,7 @@
     {
       "canonicalToken": "HkRQd5kF5om421xNwSmcoaz3nxb",
       "title": "AlterRole()",
-      "contentPath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-AlterRole.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1025,7 +1034,7 @@
     {
       "canonicalToken": "U8KCdu2BRohC5CxZK7vch6TGnrc",
       "title": "DescribeRole()",
-      "contentPath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-DescribeRole.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1187,7 +1196,7 @@
     {
       "canonicalToken": "WqOudbitToLoSRx9faGctun6nlf",
       "title": "DescribeUser()",
-      "contentPath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-DescribeUser.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,

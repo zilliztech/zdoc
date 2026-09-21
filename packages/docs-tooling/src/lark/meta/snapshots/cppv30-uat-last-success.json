@@ -8,7 +8,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-09-21T02:48:25.695Z",
+  "generated_at": "2026-09-21T10:38:33.050Z",
   "source_dir": "./packages/docs-tooling/src/lark/meta/sources/cpp/v3.0.x",
   "base_app_token": "QdLkbfmnFatl4TsThKDc5Dobn5g",
   "records": [
@@ -109,24 +109,19 @@
       "doc_token": "WqOudbitToLoSRx9faGctun6nlf",
       "doc_link": "https://zilliverse.feishu.cn/docx/WqOudbitToLoSRx9faGctun6nlf",
       "source_file": "WqOudbitToLoSRx9faGctun6nlf.json",
-      "source_hash": "d8a0dabba5576a7343697dcc63fe865b46d0af816e373514654c9af8223ee376",
+      "source_hash": "55daeb75eb2f1c7dcb33c7b380ff0ee1cf659e1576f6d4086e2f55d0b060f8e2",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": "20",
-      "publish_targets": [
-        "Milvus",
-        "Zilliz"
-      ],
-      "publish_status": "Draft",
+      "revision_id": "52",
+      "publish_targets": [],
+      "publish_status": "WIP",
       "release_channel": "current",
       "outgoing_tokens": [],
-      "output_paths": [
-        "content/en/reference/api/cpp/cpp/Authentication/Authentication-DescribeUser.md"
-      ]
+      "output_paths": []
     },
     {
       "record_id": "recvaTSHsGIQs7",
@@ -222,24 +217,19 @@
       "doc_token": "U8KCdu2BRohC5CxZK7vch6TGnrc",
       "doc_link": "https://zilliverse.feishu.cn/docx/U8KCdu2BRohC5CxZK7vch6TGnrc",
       "source_file": "U8KCdu2BRohC5CxZK7vch6TGnrc.json",
-      "source_hash": "a25628f0a86917b36ae40ba6e25191bbeac0383208b468aa42c218a38398512d",
+      "source_hash": "a2a7167d8d2c419636cc51138c7db1256aff3f94db5585fbec813472cd0bacdd",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": "21",
-      "publish_targets": [
-        "Milvus",
-        "Zilliz"
-      ],
-      "publish_status": "Draft",
+      "revision_id": "74",
+      "publish_targets": [],
+      "publish_status": "WIP",
       "release_channel": "current",
       "outgoing_tokens": [],
-      "output_paths": [
-        "content/en/reference/api/cpp/cpp/Authentication/Authentication-DescribeRole.md"
-      ]
+      "output_paths": []
     },
     {
       "record_id": "recvaTSMLztT84",
@@ -648,24 +638,43 @@
       "doc_token": "HkRQd5kF5om421xNwSmcoaz3nxb",
       "doc_link": "https://zilliverse.feishu.cn/docx/HkRQd5kF5om421xNwSmcoaz3nxb",
       "source_file": "HkRQd5kF5om421xNwSmcoaz3nxb.json",
-      "source_hash": "459d6b7f908d2f71d05451367b7e74605890256f7448b5559b62e6f32c070917",
+      "source_hash": "c3e9a89097737bb38a2479e88d4d6f9d6baecade3ca348cc326904d8801d8bb0",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": "5",
-      "publish_targets": [
-        "Milvus",
-        "Zilliz"
-      ],
-      "publish_status": "Draft",
+      "revision_id": "35",
+      "publish_targets": [],
+      "publish_status": "WIP",
       "release_channel": "current",
       "outgoing_tokens": [],
-      "output_paths": [
-        "content/en/reference/api/cpp/cpp/Authentication/Authentication-AlterRole.md"
-      ]
+      "output_paths": []
+    },
+    {
+      "record_id": "recvvQJdkBqGxu",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "GrantPrivilege()",
+      "slug": "Authentication-GrantPrivilege",
+      "doc_token": "FPhDdyJa4oTIAxx6dHAcn9nynld",
+      "doc_link": "https://zilliverse.feishu.cn/docx/FPhDdyJa4oTIAxx6dHAcn9nynld",
+      "source_file": null,
+      "source_hash": null,
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [],
+      "publish_status": "WIP",
+      "release_channel": "current",
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvaTQrOqaLnp",
