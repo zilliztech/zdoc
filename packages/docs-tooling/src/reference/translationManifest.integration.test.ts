@@ -544,4 +544,90 @@ describe('Reference manifest executable security boundary', () => {
     expect(result.stderr).toMatch(/landing page/i);
     expect(result.stderr).toMatch(/python/i);
   });
+
+  it('retires a checkpoint-published deletion with evidence, then un-retires on restore', () => {
+    // Incident shape: a Base record leaving the publishable Progress set
+    // publishes an English deletion; the manifest must admit it as retired
+    // without a static registry entry, and the record must come back when
+    // the source returns.
+    const root = repository();
+    for (const manual of referenceSidebarNames) {
+      writeFileSync(path.join(root, `generated/en/sidebars/${manual}.sidebar.js`), 'module.exports = ["api/python/landing"]\n');
+    }
+    expect(generate(root).status, 'baseline manifest').toBe(0);
+
+    rmSync(path.join(root, 'content/en/reference/api/python/page.md'));
+    git(root, ['add', '-A']);
+    git(root, ['commit', '--quiet', '-m', 'docs(python): publish SDK reference']);
+    const deletionCommit = gitOutput(root, ['rev-parse', 'HEAD']);
+
+    const unflagged = runReferenceManifest(root, [
+      'reference-manifest', '--source', 'content/en/reference', '--target', 'content/zh-CN/reference',
+      '--source-commit', 'HEAD', '--write',
+    ]);
+    expect(unflagged.status).not.toBe(0);
+    expect(unflagged.stderr).toMatch(/requires an explicit retirement/);
+
+    const flagged = runReferenceManifest(root, [
+      'reference-manifest', '--source', 'content/en/reference', '--target', 'content/zh-CN/reference',
+      '--source-commit', 'HEAD', '--authorize-checkpoint-deletions', '--write',
+    ]);
+    expect(flagged.status, flagged.stderr || flagged.stdout).toBe(0);
+    const retiredManifest = JSON.parse(readFileSync(path.join(root, 'generated/zh-CN/manifests/reference-translations.json'), 'utf8'));
+    expect(retiredManifest.records).toContainEqual(expect.objectContaining({
+      status: 'retired',
+      sourcePath: 'content/en/reference/api/python/page.md',
+      retirementEvidence: {kind: 'checkpoint-deletion', checkpointSha: deletionCommit},
+    }));
+
+    // Validation accepts the evidence-backed retirement without a registry
+    // entry and re-verifies it against Git history.
+    const zhValidation = validateChinese(root);
+    expect(zhValidation.status, zhValidation.stderr || zhValidation.stdout).toBe(0);
+
+    // The record becomes publishable again with edited content: the retired
+    // record returns to translated against the stale-but-present target, and
+    // the git-diff translation selection picks the pair up on the next run.
+    writeFileSync(path.join(root, 'content/en/reference/api/python/page.md'), '# edited source\n');
+    git(root, ['add', '-A']);
+    git(root, ['commit', '--quiet', '-m', 'docs(python): publish SDK reference']);
+    expect(generate(root).status).toBe(0);
+    const restoredManifest = JSON.parse(readFileSync(path.join(root, 'generated/zh-CN/manifests/reference-translations.json'), 'utf8'));
+    expect(restoredManifest.records).toContainEqual(expect.objectContaining({
+      status: 'translated',
+      sourcePath: 'content/en/reference/api/python/page.md',
+    }));
+    expect(validateChinese(root).status).toBe(0);
+  });
+
+  it('moves a restored source with a deleted translation to pending retranslation', () => {
+    const root = repository();
+    for (const manual of referenceSidebarNames) {
+      writeFileSync(path.join(root, `generated/en/sidebars/${manual}.sidebar.js`), 'module.exports = ["api/python/landing"]\n');
+    }
+    expect(generate(root).status).toBe(0);
+
+    rmSync(path.join(root, 'content/en/reference/api/python/page.md'));
+    git(root, ['add', '-A']);
+    git(root, ['commit', '--quiet', '-m', 'docs(python): publish SDK reference']);
+    const flagged = runReferenceManifest(root, [
+      'reference-manifest', '--source', 'content/en/reference', '--target', 'content/zh-CN/reference',
+      '--source-commit', 'HEAD', '--authorize-checkpoint-deletions', '--write',
+    ]);
+    expect(flagged.status, flagged.stderr).toBe(0);
+
+    // An approved reconciliation plan removed the stale translation, and the
+    // record became publishable again: the pair needs a fresh translation.
+    rmSync(path.join(root, 'content/zh-CN/reference/api/python/page.md'));
+    writeFileSync(path.join(root, 'content/en/reference/api/python/page.md'), '# edited source\n');
+    git(root, ['add', '-A']);
+    git(root, ['commit', '--quiet', '-m', 'docs(python): publish SDK reference']);
+    expect(generate(root).status).toBe(0);
+    const manifest = JSON.parse(readFileSync(path.join(root, 'generated/zh-CN/manifests/reference-translations.json'), 'utf8'));
+    expect(manifest.records.filter((record: {sourcePath: string}) => record.sourcePath === 'content/en/reference/api/python/page.md')).toEqual([]);
+    expect(manifest.pendingRecords).toContainEqual(expect.objectContaining({
+      sourcePath: 'content/en/reference/api/python/page.md',
+    }));
+    expect(validateChinese(root).status).toBe(0);
+  });
 });

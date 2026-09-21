@@ -27,6 +27,13 @@ const {
 } = require('./guidesBaseRecordSemantics')
 const { guidesTableSlug } = require('./guidesTableSlugs')
 
+// Sidebar entries and front matter carry the Base Release Channel verbatim
+// whenever it deviates from CURRENT; NEXT hides the entry on CURRENT
+// deployments and RETIRE-IN-NEXT hides it on NEXT deployments (the mirror).
+function channel_sidebar_props (channel) {
+    return ['next', 'retire-in-next'].includes(channel) ? { customProps: { channel } } : {}
+}
+
 // Leading emoji cluster (pictographic plus skin tones, VS16, and ZWJ joins) that
 // authors type into admonition titles like "📘 Notes". The theme renders its own
 // heading icon, so a title-embedded emoji would show up next to it.
@@ -143,7 +150,7 @@ class larkDocWriter {
                         id,
                         label: frontmatter.sidebar_label || frontmatter.title || slug,
                         key: this.__sidebar_key('doc', currentPath, contentRoot, slug, frontmatter.sidebar_label || frontmatter.title || slug),
-                        ...(frontmatter.channel === 'next' ? { customProps: { channel: 'next' } } : {}),
+                        ...channel_sidebar_props(frontmatter.channel),
                     },
                 }
             })
@@ -287,7 +294,7 @@ class larkDocWriter {
                     href,
                     label: meta.labels || child.title,
                     key: this.__sidebar_key('ref', currentPath, contentRoot, child.slug, child.title),
-                    ...(targetMeta.channel === 'next' ? { customProps: { channel: 'next' } } : {}),
+                    ...channel_sidebar_props(targetMeta.channel),
                 })
                 continue
             }
@@ -312,7 +319,7 @@ class larkDocWriter {
                         key: this.__sidebar_key('category', currentPath, contentRoot, slug, label),
                         link: { type: 'doc', id: docId },
                         items: childItems,
-                        ...(meta.channel === 'next' ? { customProps: { channel: 'next' } } : {}),
+                        ...channel_sidebar_props(meta.channel),
                     })
                 } else if (childItems.length > 0) {
                     items.push({
@@ -336,7 +343,7 @@ class larkDocWriter {
                     id: docId,
                     label,
                     key: this.__sidebar_key('doc', currentPath, contentRoot, slug, label),
-                    ...(meta.channel === 'next' ? { customProps: { channel: 'next' } } : {}),
+                    ...channel_sidebar_props(meta.channel),
                 })
             }
         }
@@ -1283,7 +1290,9 @@ class larkDocWriter {
     // Block-level channel tags pass through scraping as JSX and resolve to the
     // globally registered NextChannel component at MDX compile time. Structural
     // author errors must fail the fetch here rather than the site build, and
-    // the tags are meaningless on a page whose front matter is already NEXT.
+    // the tags are meaningless on a page whose front matter already deviates
+    // from CURRENT: a NEXT page never renders on CURRENT deployments and a
+    // RETIRE-IN-NEXT page never renders on NEXT deployments.
     __validate_next_channel_tags (markdown, channel) {
         const openMatches = [...markdown.matchAll(/<NextChannel\b([^>]*)>/g)]
         const closeMatches = [...markdown.matchAll(/<\/NextChannel>/g)]
@@ -1291,6 +1300,9 @@ class larkDocWriter {
 
         if (channel === 'next') {
             throw new Error('Block-level <NextChannel> tags on a NEXT-channel page never render: gate the whole record via the Base Release Channel field, or set the record to CURRENT and tag only the staged blocks')
+        }
+        if (channel === 'retire-in-next') {
+            throw new Error('Block-level <NextChannel> tags on a RETIRE-IN-NEXT page never render: the page ships its final CURRENT wording and is removed wholesale, so untag the blocks or keep the record CURRENT until the content is final')
         }
         if (openMatches.length !== closeMatches.length) {
             throw new Error(`Unbalanced <NextChannel> tags: ${openMatches.length} opening vs ${closeMatches.length} closing`)
@@ -1573,7 +1585,7 @@ class larkDocWriter {
         `sidebar_label: ${this.__yaml_string(sidebar_label ? sidebar_label : title)}` + '\n' +
         `beta: ${beta ? beta : 'FALSE'}` + '\n' +
         `notebook: ${notebook ? notebook : 'FALSE'}` + '\n' +
-        `${channel === 'next' ? 'channel: next\nsidebar_custom_props:\n  channel: next\n' : ''}` +
+        `${['next', 'retire-in-next'].includes(channel) ? `channel: ${channel}\nsidebar_custom_props:\n  channel: ${channel}\n` : ''}` +
         `description: ${this.__yaml_string(`${description} | ${suffix}`)}` + '\n' +
         `type: ${type}` + '\n' +
         `token: ${token}` + '\n' +

@@ -1,17 +1,23 @@
 import {useEffect, useState} from 'react';
 import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
 
-export type ReleaseChannel = 'current' | 'next';
+export type ReleaseChannel = 'current' | 'next' | 'retire-in-next';
 
 interface ZdocEnvLike {
   RELEASE_CHANNEL?: unknown;
 }
 
-/** Only an explicit NEXT value selects the next channel; anything else —
- * including a missing runtime injection — falls back to CURRENT so an unset
- * environment fails closed (unreleased pages stay hidden). */
+/** Only an explicit NEXT or RETIRE-IN-NEXT value selects that channel;
+ * anything else — including a missing runtime injection — falls back to
+ * CURRENT, so an unset environment fails closed for NEXT pages (unreleased
+ * content stays hidden). RETIRE-IN-NEXT is the mirror: the page stays served
+ * wherever the runtime channel is unknown, which only ever exposes content
+ * that is already live in production. */
 export function normalizeReleaseChannel(value: unknown): ReleaseChannel {
-  return String(value ?? '').trim().toLowerCase() === 'next' ? 'next' : 'current';
+  const normalized = String(value ?? '').trim().toLowerCase();
+  if (normalized === 'next') return 'next';
+  if (normalized === 'retire-in-next') return 'retire-in-next';
+  return 'current';
 }
 
 export function frontMatterReleaseChannel(
@@ -54,28 +60,34 @@ export function isNextChannelSidebarItem(item: PropSidebarItem): boolean {
   return sidebarItemChannel(item) === 'next';
 }
 
-/** Removes NEXT-channel items for CURRENT deployments. A category is dropped
- * when its own landing page is NEXT (the writer annotates the whole category)
- * or when filtering emptied children that previously existed; pre-existing
- * empty categories keep their current behavior.
+export function isRetiredChannelSidebarItem(item: PropSidebarItem): boolean {
+  return sidebarItemChannel(item) === 'retire-in-next';
+}
+
+/** Removes blocked items for the deployment's hidden channel: NEXT items on
+ * CURRENT deployments, RETIRE-IN-NEXT items on NEXT deployments. A category
+ * is dropped when its own landing page is blocked (the writer annotates the
+ * whole category) or when filtering emptied children that previously existed;
+ * pre-existing empty categories keep their current behavior.
  *
  * Change tracking, not a child-count comparison: a category whose own child
  * list is untouched can still hold a filtered descendant (the SSO leaf sits
  * three levels down), and the ancestors of that leaf keep the same direct child
  * count. Returning the rebuilt children only when the subtree actually changed
  * keeps unfiltered categories reference-identical for React. */
-function filterNextChannelItems(
+function filterChannelBlockedItems(
   items: readonly PropSidebarItem[],
+  isBlocked: (item: PropSidebarItem) => boolean,
 ): {items: PropSidebarItem[]; changed: boolean} {
   const filtered: PropSidebarItem[] = [];
   let changed = false;
   for (const item of items) {
-    if (isNextChannelSidebarItem(item)) {
+    if (isBlocked(item)) {
       changed = true;
       continue;
     }
     if (item.type === 'category') {
-      const children = filterNextChannelItems(item.items);
+      const children = filterChannelBlockedItems(item.items, isBlocked);
       if (children.items.length === 0 && item.items.length > 0) {
         changed = true;
         continue;
@@ -90,7 +102,11 @@ function filterNextChannelItems(
 }
 
 export function filterNextChannelSidebarItems(items: readonly PropSidebarItem[]): PropSidebarItem[] {
-  return filterNextChannelItems(items).items;
+  return filterChannelBlockedItems(items, isNextChannelSidebarItem).items;
+}
+
+export function filterRetiredChannelSidebarItems(items: readonly PropSidebarItem[]): PropSidebarItem[] {
+  return filterChannelBlockedItems(items, isRetiredChannelSidebarItem).items;
 }
 
 function normalizeSidebarPath(path: string): string {
@@ -104,41 +120,75 @@ function sidebarItemHref(item: PropSidebarItem): string | undefined {
   return (item as {href?: string}).href;
 }
 
-/** Whether the sidebar entry resolving to `pathname` is NEXT-channel — used by
- * the docs shell to swap in the shared 404 page before any doc chrome mounts.
- * Page-exact by design: a CURRENT page below a NEXT category still renders. */
-export function sidebarPathIsNextChannel(
+/** Whether the sidebar entry resolving to `pathname` is on the hidden channel
+ * for this predicate — used by the docs shell to swap in the shared 404 page
+ * before any doc chrome mounts. Page-exact by design: a CURRENT page below a
+ * NEXT category still renders. */
+function sidebarPathIsChannelBlocked(
   items: readonly PropSidebarItem[],
   pathname: string,
+  isBlocked: (item: PropSidebarItem) => boolean,
 ): boolean {
   const target = normalizeSidebarPath(pathname);
   for (const item of items) {
-    if (isNextChannelSidebarItem(item)) {
+    if (isBlocked(item)) {
       const href = sidebarItemHref(item);
       if (href && normalizeSidebarPath(href) === target) return true;
     }
-    if (item.type === 'category' && sidebarPathIsNextChannel(item.items, pathname)) {
+    if (item.type === 'category' && sidebarPathIsChannelBlocked(item.items, pathname, isBlocked)) {
       return true;
     }
   }
   return false;
 }
 
-/** Pagination links (previous/next) follow the sidebar order, so a CURRENT
- * deployment must drop the targets the sidebar hides and the nginx gate 404s.
- * Docusaurus stores only `{title, permalink}`, hence the lookup by permalink.
- * Callers on NEXT deployments skip this entirely instead of passing an empty
- * sidebar, so a missing sidebar never reads as "nothing to filter". */
+export function sidebarPathIsNextChannel(
+  items: readonly PropSidebarItem[],
+  pathname: string,
+): boolean {
+  return sidebarPathIsChannelBlocked(items, pathname, isNextChannelSidebarItem);
+}
+
+export function sidebarPathIsRetiredChannel(
+  items: readonly PropSidebarItem[],
+  pathname: string,
+): boolean {
+  return sidebarPathIsChannelBlocked(items, pathname, isRetiredChannelSidebarItem);
+}
+
+/** Pagination links (previous/next) follow the sidebar order, so a deployment
+ * must drop the targets its sidebar hides and the nginx gate 404s: CURRENT
+ * drops NEXT targets, NEXT drops RETIRE-IN-NEXT targets. Docusaurus stores
+ * only `{title, permalink}`, hence the lookup by permalink. Callers skip this
+ * entirely instead of passing an empty sidebar, so a missing sidebar never
+ * reads as "nothing to filter". */
+function filterChannelBlockedPaginationLinks<T extends {permalink: string}>(
+  previous: T | undefined,
+  next: T | undefined,
+  sidebarItems: readonly PropSidebarItem[] | undefined,
+  isPathBlocked: (items: readonly PropSidebarItem[], pathname: string) => boolean,
+): {previous: T | undefined; next: T | undefined} {
+  if (!sidebarItems) return {previous, next};
+  const isBlocked = (link: T | undefined): boolean =>
+    !!link && isPathBlocked(sidebarItems, link.permalink);
+  return {
+    previous: isBlocked(previous) ? undefined : previous,
+    next: isBlocked(next) ? undefined : next,
+  };
+}
+
 export function filterNextChannelPaginationLinks<T extends {permalink: string}>(
   previous: T | undefined,
   next: T | undefined,
   sidebarItems: readonly PropSidebarItem[] | undefined,
 ): {previous: T | undefined; next: T | undefined} {
-  if (!sidebarItems) return {previous, next};
-  const isBlocked = (link: T | undefined): boolean =>
-    !!link && sidebarPathIsNextChannel(sidebarItems, link.permalink);
-  return {
-    previous: isBlocked(previous) ? undefined : previous,
-    next: isBlocked(next) ? undefined : next,
-  };
+  return filterChannelBlockedPaginationLinks(previous, next, sidebarItems, sidebarPathIsNextChannel);
+}
+
+export function filterRetiredChannelPaginationLinks<T extends {permalink: string}>(
+  previous: T | undefined,
+  next: T | undefined,
+  sidebarItems: readonly PropSidebarItem[] | undefined,
+): {previous: T | undefined; next: T | undefined} {
+  return filterChannelBlockedPaginationLinks(previous, next, sidebarItems, sidebarPathIsRetiredChannel);
 }

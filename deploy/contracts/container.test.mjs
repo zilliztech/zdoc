@@ -343,9 +343,16 @@ test('release-channel route gate is generated into server context, never into ht
   // nginx.conf files include inside their server block.
   const entrypoint = read('deploy/runtime/40-zdoc-env.sh');
   assert.match(entrypoint, /gate_dir="\/etc\/nginx\/release-channel-gate"/);
-  assert.match(entrypoint, /gate_conf="\$gate_dir\/blocked-routes\.conf"/);
   assert.match(entrypoint, /mkdir -p "\$gate_dir"/);
   assert.doesNotMatch(entrypoint, /gate_conf="\/etc\/nginx\/conf\.d\//);
+  // NEXT routes gate CURRENT deployments (unreleased pages); RETIRE-IN-NEXT
+  // routes gate NEXT deployments (pages staged for removal by the upcoming
+  // release, the mirror direction).
+  assert.match(entrypoint, /"\$gate_dir\/blocked-routes\.conf"/);
+  assert.match(entrypoint, /"\$gate_dir\/blocked-retired-routes\.conf"/);
+  assert.match(entrypoint, /if \[ "\$release_channel" != "next" \] &&/);
+  assert.match(entrypoint, /if \[ "\$release_channel" = "next" \] &&/);
+  assert.match(entrypoint, /release-channel-retired-routes\.txt/);
 
   for (const site of ['en', 'zh-CN']) {
     const nginx = read(`deploy/${site}/nginx.conf`);
@@ -356,6 +363,24 @@ test('release-channel route gate is generated into server context, never into ht
     const between = nginx.slice(serverStart + 'server {'.length, includeAt);
     assert.ok(!/[{}]/.test(between), `${site}: release-channel-gate include must sit directly inside the server block, not in a nested block`);
   }
+});
+
+test('the runtime entrypoint generates matching nginx 404 gates from both channel listings', () => {
+  const entrypoint = read('deploy/runtime/40-zdoc-env.sh');
+  // Both gate branches share one writer that emits exact-match locations with
+  // and without the trailing slash, each serving the styled 404 page.
+  assert.match(entrypoint, /write_release_channel_gate\(\) \{/);
+  const writerBody = entrypoint.slice(
+    entrypoint.indexOf('write_release_channel_gate() {'),
+    entrypoint.indexOf('if [ "$release_channel" != "next" ]'),
+  );
+  assert.match(writerBody, /error_page 404 \/404\.html; return 404;/);
+  assert.match(writerBody, /location = %s \{ error_page 404 \/404\.html; return 404; \}\\n/);
+  assert.match(writerBody, /location = %s\/ \{ error_page 404 \/404\.html; return 404; \}\\n/);
+  // Each branch cleans its own conf file when its channel direction is not
+  // active, so flipping the deployment channel never serves a stale gate.
+  assert.match(entrypoint, /rm -f "\$gate_dir\/blocked-routes\.conf"/);
+  assert.match(entrypoint, /rm -f "\$gate_dir\/blocked-retired-routes\.conf"/);
 });
 
 test('browser chat assets keep UI and SSE ownership in docs-ui without server-only configuration', () => {

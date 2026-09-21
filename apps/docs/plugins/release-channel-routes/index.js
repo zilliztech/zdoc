@@ -87,16 +87,22 @@ function validateSources(sources) {
 }
 
 /**
- * Docusaurus plugin: emits release-channel-routes.txt into the build output,
- * one NEXT-channel URL path per line. The container entrypoint turns these
- * into nginx 404 rules for CURRENT deployments, so unreleased pages are
- * blocked server-side instead of relying only on client-side gating.
+ * Docusaurus plugin: emits per-channel route listings into the build output.
+ * `release-channel-routes.txt` lists NEXT-channel URL paths (one per line);
+ * `release-channel-retired-routes.txt` lists RETIRE-IN-NEXT paths. The
+ * container entrypoint turns the first into nginx 404 rules on CURRENT
+ * deployments and the second into 404 rules on NEXT deployments, so both
+ * unreleased and staged-for-removal pages are blocked server-side instead of
+ * relying only on client-side gating.
  */
 module.exports = function pluginReleaseChannelRoutes(context, options) {
   const sources = validateSources((options && options.sources) || []);
   const outputFile = (options && options.outputFile) || 'release-channel-routes.txt';
-  if (path.isAbsolute(outputFile) || outputFile.split('/').includes('..')) {
-    throw new Error(`[release-channel-routes] Output file must be a safe relative path: ${outputFile}`);
+  const retiredOutputFile = (options && options.retiredOutputFile) || 'release-channel-retired-routes.txt';
+  for (const derived of [outputFile, retiredOutputFile]) {
+    if (path.isAbsolute(derived) || derived.split('/').includes('..')) {
+      throw new Error(`[release-channel-routes] Output file must be a safe relative path: ${derived}`);
+    }
   }
 
   return {
@@ -130,9 +136,15 @@ module.exports = function pluginReleaseChannelRoutes(context, options) {
       // NEXT when its own front matter says so, or when it shares the Feishu
       // document token with a NEXT page — localized translations only gain the
       // channel front matter the next time they are regenerated, so the token
-      // keeps every locale of an unreleased page gated in the meantime.
+      // keeps every locale of an unreleased page gated in the meantime. The
+      // same propagation applies per channel for RETIRE-IN-NEXT. A stale
+      // translation that still carries NEXT while the canonical source is
+      // already RETIRE-IN-NEXT lands in both listings, gating the page on
+      // every deployment until the translation regenerates — fail closed.
       const nextRoutesByPath = new Map();
       const nextTokens = new Set();
+      const retiredRoutesByPath = new Map();
+      const retiredTokens = new Set();
       const fileRoutes = [];
       for (const source of sources) {
         const localizedFolder = resolveSourceFolder(source, lifecycle);
@@ -151,33 +163,43 @@ module.exports = function pluginReleaseChannelRoutes(context, options) {
           // The localized pass must still see the canonical source's channel:
           // a stale translation without the field would otherwise un-gate the
           // page in its locale.
-          const isNext = localizedInfo?.channel === 'next' || canonicalInfo.channel === 'next';
+          const channels = new Set([localizedInfo?.channel, canonicalInfo.channel]);
           const token = localizedInfo?.token ?? canonicalInfo.token;
-          if (isNext) {
+          if (channels.has('next')) {
             nextRoutesByPath.set(routeRelative, true);
             if (token) nextTokens.add(token);
+          }
+          if (channels.has('retire-in-next')) {
+            retiredRoutesByPath.set(routeRelative, true);
+            if (token) retiredTokens.add(token);
           }
           fileRoutes.push({routeRelative, token});
         }
       }
       for (const {routeRelative, token} of fileRoutes) {
         if (token && nextTokens.has(token)) nextRoutesByPath.set(routeRelative, true);
+        if (token && retiredTokens.has(token)) retiredRoutesByPath.set(routeRelative, true);
       }
 
-      const routes = [...new Set(
-        routesPaths
-          .map(routePath => ({urlPath: routePath.replace(/\/+$/, ''), matchPath: stripPrefixes(routePath)}))
-          .filter(({matchPath}) => matchPath && nextRoutesByPath.has(matchPath))
-          .map(({urlPath}) => urlPath),
-      )].sort();
+      const emitRoutesFile = (routesByPath, name, label) => {
+        const routes = [...new Set(
+          routesPaths
+            .map(routePath => ({urlPath: routePath.replace(/\/+$/, ''), matchPath: stripPrefixes(routePath)}))
+            .filter(({matchPath}) => matchPath && routesByPath.has(matchPath))
+            .map(({urlPath}) => urlPath),
+        )].sort();
 
-      const dest = path.join(outDir, outputFile);
-      if (path.relative(outDir, dest).startsWith('..')) {
-        throw new Error('[release-channel-routes] Output must stay within outDir');
-      }
-      fs.mkdirSync(path.dirname(dest), {recursive: true});
-      fs.writeFileSync(dest, routes.length > 0 ? `${routes.join('\n')}\n` : '', 'utf-8');
-      console.log(`[release-channel-routes] ${routes.length} NEXT-channel route(s) listed in ${outputFile}`);
+        const dest = path.join(outDir, name);
+        if (path.relative(outDir, dest).startsWith('..')) {
+          throw new Error('[release-channel-routes] Output must stay within outDir');
+        }
+        fs.mkdirSync(path.dirname(dest), {recursive: true});
+        fs.writeFileSync(dest, routes.length > 0 ? `${routes.join('\n')}\n` : '', 'utf-8');
+        console.log(`[release-channel-routes] ${routes.length} ${label} route(s) listed in ${name}`);
+      };
+
+      emitRoutesFile(nextRoutesByPath, outputFile, 'NEXT-channel');
+      emitRoutesFile(retiredRoutesByPath, retiredOutputFile, 'RETIRE-IN-NEXT');
     },
   };
 };

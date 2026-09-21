@@ -71,12 +71,12 @@ function validateGuidesBasePreflight({site, tables, records}) {
       })
     }
     const rawChannel = plain(record?.fields?.['Release Channel'])
-    if (rawChannel && !['CURRENT', 'NEXT'].includes(rawChannel.toUpperCase())) {
+    if (rawChannel && !['CURRENT', 'NEXT', 'RETIRE-IN-NEXT'].includes(rawChannel.toUpperCase())) {
       preflightError(site, record, {
         problem: 'Release Channel is not a supported option',
         field: 'Release Channel',
         value: rawChannel,
-        fix: 'Set Release Channel to exactly CURRENT or NEXT, or clear the field to fall back to CURRENT.',
+        fix: 'Set Release Channel to exactly CURRENT, NEXT, or RETIRE-IN-NEXT, or clear the field to fall back to CURRENT.',
       })
     }
   }
