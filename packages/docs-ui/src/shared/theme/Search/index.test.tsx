@@ -67,7 +67,7 @@ describe('SearchModal', () => {
     const input = screen.getByPlaceholderText('搜索文档...');
     expect(screen.getByRole('button', {name: /快速开始/})).toBeInTheDocument();
     fireEvent.change(input, {target: {value: '索引'}});
-    expect(screen.getByText('询问 AI：“索引”')).toBeInTheDocument();
+    expect(screen.getByText('Ask AI：“索引”')).toBeInTheDocument();
   });
 
   it('navigates with arrow keys', () => {

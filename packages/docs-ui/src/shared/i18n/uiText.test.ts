@@ -20,7 +20,7 @@ describe('docs UI localization', () => {
     expect(text.sidebar.documentationSections).toBe('文档栏目');
     expect(text.sidebar.documentationPages).toBe('文档页面');
     expect(text.sidebar.backTo('客户端库')).toBe('返回客户端库');
-    expect(text.chat.title).toBe('询问 AI');
+    expect(text.chat.title).toBe('Ask AI');
     expect(text.search.placeholder).toBe('搜索文档...');
     expect(text.notFound.heading).toBe('找不到页面');
     expect(text.copyPage.copyPage).toBe('复制页面');
@@ -38,7 +38,7 @@ describe('docs UI localization', () => {
 
   it('selects Japanese by locale on the English site and keeps English otherwise', () => {
     expect(getDocsUiText('en', 'ja-JP').navbar.docs).toBe('ドキュメント');
-    expect(getDocsUiText('en', 'ja-JP').chat.title).toBe('AI に質問');
+    expect(getDocsUiText('en', 'ja-JP').chat.title).toBe('Ask AI');
     expect(getDocsUiText('en', 'ja-JP').search.placeholder).toBe('ドキュメントを検索...');
     expect(getDocsUiText('en', 'ja-JP').toc.onThisPage).toBe('このページの内容');
     expect(getDocsUiText('en', 'en').navbar.docs).toBe('Docs');
