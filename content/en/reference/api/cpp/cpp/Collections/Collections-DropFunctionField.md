@@ -4,13 +4,13 @@ slug: /cpp/cpp/Collections-DropFunctionField
 sidebar_label: "DropFunctionField()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "Drop a function from an existing collection together with its generated output fields. | Cloud"
+description: "Drop a function of an existing collection together with its output field and bound index. | Cloud"
 type: docx
 token: CC9zdTSe3onmvrxGs5ic0e8inJd
-sidebar_position: 36
+sidebar_position: 37
 keywords: 
   - RAG
   - NLP
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # DropFunctionField()
 
-Drop a function from an existing collection together with its generated output fields.
+Drop a function of an existing collection together with its output field and bound index.
 
 ```c++
 Status DropFunctionField(const DropFunctionFieldRequest& request)
@@ -58,7 +58,7 @@ auto request = DropFunctionFieldRequest()
 
 - `WithFunctionName(std::string function_name)`
 
-    Set the name of the function to drop together with its output fields.
+    Set the name of the function to drop.
 
 **RETURNS:**
 

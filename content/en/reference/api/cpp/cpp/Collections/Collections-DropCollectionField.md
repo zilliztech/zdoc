@@ -4,13 +4,13 @@ slug: /cpp/cpp/Collections-DropCollectionField
 sidebar_label: "DropCollectionField()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "Drop a field from an existing collection. | Cloud"
 type: docx
 token: Qgmsdk9v3oAOXlxlx0nc1svZn2b
-sidebar_position: 35
+sidebar_position: 36
 keywords: 
   - milvus benchmark
   - managed milvus
@@ -43,8 +43,7 @@ Status DropCollectionField(const DropCollectionFieldRequest& request)
 auto request = DropCollectionFieldRequest()
     .WithDatabaseName(db_name)
     .WithCollectionName(collection_name)
-    .WithFieldName(field_name)
-    .WithFieldID(field_id);
+    .WithFieldName(field_name);
 ```
 
 **REQUEST METHODS:**

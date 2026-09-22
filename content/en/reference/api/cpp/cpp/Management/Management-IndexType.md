@@ -4,12 +4,12 @@ slug: /cpp/cpp/Management-IndexType
 sidebar_label: "IndexType"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This enum selects the index algorithm. Pass an `IndexType` value to `IndexDesc` when calling `CreateIndex()`. The valid choices depend on the field's data type. | Cloud"
 type: docx
-token: FTlxddhTlorM8hxprlsc3RUEnnb
+token: WiGbdKAIsoACkixKYHqcVz41npf
 sidebar_position: 12
 keywords: 
   - vector database tutorial
@@ -47,7 +47,7 @@ enum class IndexType {
     BIN_FLAT = 1001, BIN_IVF_FLAT = 1002, MINHASH_LSH = 1003,
     // Scalar fields
     TRIE = 1101, STL_SORT = 1102, INVERTED = 1103,
-    BITMAP = 1104, NGRAM = 1105,
+    BITMAP = 1104, NGRAM = 1105, FMINDEX = 1106,
     // Sparse vectors
     SPARSE_INVERTED_INDEX = 1201, SPARSE_WAND = 1202,
 };
@@ -110,6 +110,8 @@ enum class IndexType {
 - **BITMAP** (1104) - Bitmap index. Supports all scalar types except JSON, FLOAT, and DOUBLE. Optimal for low-cardinality fields (e.g., status codes, boolean-like integers).
 
 - **NGRAM** (1105) - N-gram index. **VARCHAR or JSON path only.** Enables fast infix (`LIKE '%keyword%'`) and tokenized text search.
+
+- **FMINDEX** (1106) - FM (frequency-matrix) index for full-text search on `TEXT` and `VARCHAR` fields.
 
 *Sparse vectors (`SPARSE_FLOAT_VECTOR`):*
 

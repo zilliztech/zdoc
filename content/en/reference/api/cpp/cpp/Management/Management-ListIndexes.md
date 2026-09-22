@@ -4,12 +4,12 @@ slug: /cpp/cpp/Management-ListIndexes
 sidebar_label: "ListIndexes()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation gets the index names of a collection. | Cloud"
 type: docx
-token: U7Y9dr70qoyDGYxlgBTcOGTgnbd
+token: QO98dfF7qoLAWYxwsy2cfalvntc
 sidebar_position: 13
 keywords: 
   - Faiss vector database
@@ -42,7 +42,8 @@ Status ListIndexes(const ListIndexesRequest& request, ListIndexesResponse& respo
 ```c++
 auto request = ListIndexesRequest()
     .WithDatabaseName(db_name)
-    .WithCollectionName(collection_name);
+    .WithCollectionName(collection_name)
+    .WithFieldName(field_name);
 ```
 
 **REQUEST METHODS:**
@@ -54,6 +55,10 @@ auto request = ListIndexesRequest()
 - `WithCollectionName(const std::string& collection_name)`
 
     Sets the name of the collection.
+
+- `WithFieldName(const std::string& field_name)`
+
+    Sets the field name. If it is empty, indexes of all fields are returned.
 
 **RETURNS:**
 

@@ -4,12 +4,12 @@ slug: /cpp/cpp/Client-ConnectParam
 sidebar_label: "ConnectParam"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This class holds the connection parameters passed to `MilvusClient:Connect()`. Use the constructor overloads for quick setup, then chain `With()` methods to configure advanced settings such as TLS, keepalive, and timeouts. | Cloud"
 type: docx
-token: VMgPdyPGuor1t7xlZGWcWV1tnhh
+token: YY8Rd5aoOoeUYbxGqINcOHgjnsb
 sidebar_position: 3
 keywords: 
   - knn algorithm
@@ -82,7 +82,8 @@ ConnectParam param(uri, token)
     .WithKeepaliveWithoutCalls(keepalive_without_calls)
     .WithRpcDeadlineMs(rpc_deadline_ms)
     .WithTls()
-    .WithDbName(db_name);
+    .WithDbName(db_name)
+    .WithTelemetryConfig(telemetry_config);
 ```
 
 **REQUEST METHODS:**
@@ -134,6 +135,10 @@ ConnectParam param(uri, token)
 - `WithDbName(const std::string& db_name)`
 
     Sets the default database to use after connecting. Default: `"default"`.
+
+- `WithTelemetryConfig(const TelemetryConfig& config)`
+
+    Sets the client telemetry configuration. See [TelemetryConfig](./Client-TelemetryConfig) for the available settings.
 
 ## Example\{#example}
 

@@ -101,14 +101,14 @@ The collection schema uses [DataType](./Collections-DataType) to declare each fi
 
 | Schema DataType | Column payload type | C++ representation | Notes |
 | --- | --- | --- | --- |
-| `BOOL` | `BoolFieldData` | `bool` | Boolean scalar values. |
-| `INT8`, `INT16`, `INT32`, `INT64` | Matching `Int*FieldData` | Matching fixed-width integer | Choose the container matching the schema type. |
-| `FLOAT`, `DOUBLE` | `FloatFieldData`, `DoubleFieldData` | `float`, `double` | Floating-point scalar values. |
-| `VARCHAR`, `JSON`, `GEOMETRY`, `TIMESTAMPTZ` | `VarCharFieldData` or `JSONFieldData` | `std::string` or `nlohmann::json` | Geometry and timestamptz are transported through string payload aliases. |
-| `FLOAT_VECTOR`, `FLOAT16_VECTOR`, `BFLOAT16_VECTOR`, `INT8_VECTOR` | Matching dense-vector `FieldData` class | `std::vector<float>`, `std::vector<uint16_t>`, or `std::vector<int8_t>` | Choose the container matching the vector encoding. |
-| `SPARSE_FLOAT_VECTOR`, `BINARY_VECTOR` | `SparseFloatVecFieldData`, `BinaryVecFieldData` | `std::map<uint32_t, float>` or dedicated binary storage | Binary vectors use a dedicated class. |
-| `ARRAY`, `STRUCT` | Specialized `Array*FieldData` or `StructFieldData` | Element-specific container or array-style `nlohmann::json` storage | Arrays declare an element type; structs use the array template with `DataType::STRUCT`. |
-| `UNKNOWN` | None | None | Has no insertion payload. |
+| BOOL | BoolFieldData | bool | Boolean scalar values. |
+| INT8, INT16, INT32, INT64 | Matching Int&ast;FieldData | Matching fixed-width integer | Choose the container matching the schema type. |
+| FLOAT, DOUBLE | FloatFieldData, DoubleFieldData | float, double | Floating-point scalar values. |
+| VARCHAR, JSON, GEOMETRY, TIMESTAMPTZ | VarCharFieldData or JSONFieldData | std::string or nlohmann::json | Geometry and timestamptz are transported through string payload aliases. |
+| FLOAT_VECTOR, FLOAT16_VECTOR, BFLOAT16_VECTOR, INT8_VECTOR | Matching dense-vector FieldData class | std::vector&lt;float&gt;, std::vector&lt;uint16_t&gt;, or std::vector&lt;int8_t&gt; | Choose the container matching the vector encoding. |
+| SPARSE_FLOAT_VECTOR, BINARY_VECTOR | SparseFloatVecFieldData, BinaryVecFieldData | std::map\<uint32_t, float> or dedicated binary storage | Binary vectors use a dedicated class. |
+| ARRAY, STRUCT | Specialized Array&ast;FieldData or StructFieldData | Element-specific container or array-style nlohmann::json storage | Arrays declare an element type; structs use the array template with DataType::STRUCT. |
+| UNKNOWN | None | None | Has no insertion payload. |
 
 For a concrete container `XxxFieldData`, the pointer alias `XxxFieldDataPtr` is `std::shared_ptr<XxxFieldData>`. DML requests accept these values through `FieldDataPtr`.
 
@@ -182,6 +182,10 @@ const DmlResults& results = response.Results();
 - `uint64_t UpsertCount() const`
 
     Number of rows that were upserted (inserted as new or replaced existing). Populated for `UpsertResponse`.
+
+- `int64_t Cost() const`
+
+    Returns the cost of the operation in milliseconds.
 
 **ERROR HANDLING:**
 

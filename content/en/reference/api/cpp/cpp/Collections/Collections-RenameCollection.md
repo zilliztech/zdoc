@@ -4,12 +4,12 @@ slug: /cpp/cpp/Collections-RenameCollection
 sidebar_label: "RenameCollection()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation renames a collection. | Cloud"
 type: docx
-token: EyHadkgMtohFXxxEEcucWAC5nje
+token: WaD1dzpIzohLMKx39p7cGgEEnDh
 sidebar_position: 31
 keywords: 
   - open source vector database
@@ -43,7 +43,8 @@ Status RenameCollection(const RenameCollectionRequest& request)
 auto request = RenameCollectionRequest()
     .WithDatabaseName(db_name)
     .WithCollectionName(collection_name1)
-    .WithNewCollectionName(collection_name2);
+    .WithNewCollectionName(collection_name2)
+    .WithTargetDatabaseName(db_name2);
 ```
 
 **REQUEST METHODS:**
@@ -59,6 +60,10 @@ auto request = RenameCollectionRequest()
 - `WithNewCollectionName(const std::string& collection_name)`
 
     Set the new name of the collection.
+
+- `WithTargetDatabaseName(const std::string& db_name)`
+
+    Set the name of the target database. The renamed collection is moved to this database. The default database applies if it is empty.
 
 **RETURNS:**
 

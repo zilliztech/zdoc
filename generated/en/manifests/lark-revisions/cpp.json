@@ -2,9 +2,18 @@
   "schemaVersion": 1,
   "group": "cpp",
   "complete": true,
-  "generatedAt": "2026-09-22T02:44:49.870Z",
-  "sourceRunId": "35679469901",
+  "generatedAt": "2026-09-22T23:32:58.584Z",
+  "sourceRunId": "35796572267",
   "records": [
+    {
+      "canonicalToken": "A1ePdfCEZo4ZX1xqZtVcKUcxnfE",
+      "title": "Compact()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-Compact.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
     {
       "canonicalToken": "A5FAdLCowoBG4sxh5vEcRH0Nnkb",
       "title": "ListCollections()",
@@ -33,15 +42,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "ATMTdUxB5oRc3Sx8ByIcL58Anrh",
-      "title": "CreateCollection()",
-      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-CreateCollection.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "AeHodu7bqoOWJcxdR1Gc0dounzf",
       "title": "LoadState",
       "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-LoadState.md",
@@ -60,6 +60,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "AtwgdHq42oYSt7xJrO7c8ZGUnqc",
+      "title": "LoadPartitions()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Partitions/Partitions-LoadPartitions.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "B9XjdA1Cgo0oBRxglOlcrlPan9e",
       "title": "Delete()",
       "contentPath": "content/en/reference/api/cpp/cpp/Vector/Vector-Delete.md",
@@ -72,6 +81,15 @@
       "canonicalToken": "BKrTduKHFoNkp8xN99XcD0olnJd",
       "title": "ListResourceGroups()",
       "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "BMdudw948onYFzxpJrYc2tlOn7g",
+      "title": "DropCollectionProperties()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-DropCollectionProperties.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -107,7 +125,7 @@
     {
       "canonicalToken": "CfaudoM2CocOHtxYirFcJqbKnof",
       "title": "Create()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/cpp/cpp/Client/Client-Create.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -126,15 +144,6 @@
       "canonicalToken": "DvRYdqk6qonziIxPQlJcqZN9nBd",
       "title": "CommitImport()",
       "contentPath": "content/en/reference/api/cpp/cpp/DataImport/DataImport-CommitImport.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "E1zXdgCk0of1qOxrh52cPjAxnUb",
-      "title": "CreateAlias()",
-      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -161,7 +170,7 @@
     {
       "canonicalToken": "EVSGdMtnqoaLzixGFkfcrdCHnNe",
       "title": "GetServerVersionV2()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/cpp/cpp/Client/Client-GetServerVersionV2.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -195,15 +204,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "EyHadkgMtohFXxxEEcucWAC5nje",
-      "title": "RenameCollection()",
-      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-RenameCollection.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "EyJ4d9M4joZE3WxIoIac1hTNnng",
       "title": "RevokeRole()",
       "contentPath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-RevokeRole.md",
@@ -213,18 +213,27 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "FPhDdyJa4oTIAxx6dHAcn9nynld",
-      "title": "GrantPrivilege()",
-      "contentPath": null,
+      "canonicalToken": "F2mid3PxKova16x44f8cyyIFnoe",
+      "title": "CreateIndex()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-CreateIndex.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
       "objectEditTime": null
     },
     {
-      "canonicalToken": "FTlxddhTlorM8hxprlsc3RUEnnb",
-      "title": "IndexType",
-      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-IndexType.md",
+      "canonicalToken": "FCj5dkwVqo6Mlsxi6w9c3c9xnZb",
+      "title": "DropCollectionFieldProperties()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-DropCollectionFieldProperties.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "FPhDdyJa4oTIAxx6dHAcn9nynld",
+      "title": "GrantPrivilege()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-GrantPrivilege.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -278,7 +287,7 @@
     {
       "canonicalToken": "G70Odip3yoLDIwxaUGEc2e2Snoh",
       "title": "UseDatabase()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/cpp/cpp/Client/Client-UseDatabase.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -288,6 +297,15 @@
       "canonicalToken": "G7OGdOxABoDWKMxUZDncelbanEd",
       "title": "GetCompactionState()",
       "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-GetCompactionState.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "GCNTd5HUkogWVDxUcuLcEusZnlh",
+      "title": "TruncateCollection()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-TruncateCollection.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -323,7 +341,7 @@
     {
       "canonicalToken": "GWPxd80BYoQleSxNCPNcFvWsnzb",
       "title": "AddCollectionStructField()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-AddCollectionStructField.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -333,6 +351,15 @@
       "canonicalToken": "GjhbdmL5PorgMXxkHTPcvVt6nul",
       "title": "RefreshExternalCollection()",
       "contentPath": "content/en/reference/api/cpp/cpp/FileResources/Management-RefreshExternalCollection.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "GkzpdbQMGovXFIx0n8pc6aDinfc",
+      "title": "DropDatabase()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Database/Database-DropDatabase.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -357,18 +384,9 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "H6bldn5xxoPeGJxoX7Icp0tpnMb",
-      "title": "DropDatabase()",
-      "contentPath": "content/en/reference/api/cpp/cpp/Database/Database-DropDatabase.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "H8bEdNoDNoQMojxNEWKc7xIQnPb",
       "title": "CheckHealth()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/cpp/cpp/Client/Client-CheckHealth.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -402,18 +420,18 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "HkRQd5kF5om421xNwSmcoaz3nxb",
-      "title": "AlterRole()",
-      "contentPath": null,
+      "canonicalToken": "HeMDdOpeKoRdCZxxhEkcWpCunDf",
+      "title": "AlterIndexProperties()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-AlterIndexProperties.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
       "objectEditTime": null
     },
     {
-      "canonicalToken": "I2fxdWeslorOwIxnv9ac0giWnps",
-      "title": "LoadPartitions()",
-      "contentPath": "content/en/reference/api/cpp/cpp/Partitions/Partitions-LoadPartitions.md",
+      "canonicalToken": "HkRQd5kF5om421xNwSmcoaz3nxb",
+      "title": "AlterRole()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-AlterRole.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -422,7 +440,16 @@
     {
       "canonicalToken": "IA1jdFAQ7ooZj5xkQT8cz6H3ndb",
       "title": "RevokePrivilege()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-RevokePrivilege.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "IQZ6dYY6hoNwfxxOJIjcVRqEn97",
+      "title": "CreateCollection()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-CreateCollection.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -458,16 +485,7 @@
     {
       "canonicalToken": "IpztddRkJo1o6JxKNWHcPjO8n8f",
       "title": "BatchDescribeCollections()",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "J7Yxdgw6moJca1xZCe7cLOIunve",
-      "title": "CreateIndex()",
-      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-CreateIndex.md",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-BatchDescribeCollections.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -519,9 +537,27 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "JUcUd5B8QoDmc5xEx0LcmVZHnyN",
+      "title": "DropAlias()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-DropAlias.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "JstbdGVJwocHJ0xQ8M8cagZHn2a",
       "title": "DropIndex()",
       "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-DropIndex.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "JzFlderJdofWMTxKLpOcTyfon6d",
+      "title": "DataType",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-DataType.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -539,16 +575,7 @@
     {
       "canonicalToken": "KMuzdtwSaoadnbx0caLcHCAGn1b",
       "title": "AddCollectionField()",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "KNcxdijIVobIUxxL1b3cyyhknsg",
-      "title": "GetCompactionPlans()",
-      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-GetCompactionPlans.md",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-AddCollectionField.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -582,15 +609,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "LT5qdvWCyocc1nxZv6ucyOHAnEf",
-      "title": "AlterAlias()",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "LaPcdArhDo6aGnxpX8Oc5azCnCe",
       "title": "GetPartitionStatistics()",
       "contentPath": "content/en/reference/api/cpp/cpp/Partitions/Partitions-GetPartitionStatistics.md",
@@ -600,18 +618,9 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "Lh65dZfnWoZKFMxsJhdcieUJnEb",
-      "title": "GetCollectionStats()",
-      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-GetCollectionStats.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "Livud2dUIotCQbxD8SFc8oWwnGp",
       "title": "UpdatePassword()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-UpdatePassword.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -630,6 +639,15 @@
       "canonicalToken": "LtZhdRryBo4vAwxHJmDcbsKvnhK",
       "title": "Query()",
       "contentPath": "content/en/reference/api/cpp/cpp/Vector/Vector-Query.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "LwzwdSZkSoV2Nrxsv49cyb4SnZf",
+      "title": "DescribeCollection()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-DescribeCollection.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -663,9 +681,9 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "MW7cdYuPyoNF2wxD5oKcibgynKd",
-      "title": "DescribeIndex()",
-      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-DescribeIndex.md",
+      "canonicalToken": "MjcFdDhKnoUvaCx8QtmclkOKnPn",
+      "title": "DropCollection()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-DropCollection.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -684,15 +702,6 @@
       "canonicalToken": "MvE4d5F6vovZTUxxLtqcwedbndf",
       "title": "Function",
       "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-Function.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "N75hd585FoNTfYxuw9Acq9Brnqg",
-      "title": "AlterCollectionProperties()",
-      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -726,9 +735,9 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "NqRLd36pCohKg8x3sa5cuCdynYf",
-      "title": "AlterCollectionFieldProperties()",
-      "contentPath": null,
+      "canonicalToken": "O5LQdgKNToskGyxVoGUc7Mj1nrb",
+      "title": "FunctionChain",
+      "contentPath": "content/en/reference/api/cpp/cpp/Vector/Vector-FunctionChain.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -755,7 +764,7 @@
     {
       "canonicalToken": "OrRqdvj4yoN2cMxbHUkcEE9Xnbg",
       "title": "AddCollectionFunction()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-AddCollectionFunction.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -765,6 +774,24 @@
       "canonicalToken": "OxCLdTg9RoIzS0xwicjc8yJXnzc",
       "title": "RetryParam",
       "contentPath": "content/en/reference/api/cpp/cpp/Client/Client-RetryParam.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "P03PdoFAHoGTfxxA8AScr9CmnDc",
+      "title": "DropIndexProperties()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-DropIndexProperties.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "P8QFdIyQiojuy1xDQwecMgwRnHg",
+      "title": "AlterCollectionProperties()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-AlterCollectionProperties.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -798,6 +825,24 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "Pz42dXmiqoCNScx0MPzcjmXLnib",
+      "title": "CreateAlias()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-CreateAlias.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Q9LBd7Mano2Sgyx3wJUcv4YrnLc",
+      "title": "GetCompactionPlans()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-GetCompactionPlans.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "QAA0daStropumHxwdk2cN4LUnPg",
       "title": "Search()",
       "contentPath": "content/en/reference/api/cpp/cpp/Vector/Vector-Search.md",
@@ -816,9 +861,9 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "QGzdd5UMMo3gKpx0hNgcvA9jnOb",
-      "title": "DropCollection()",
-      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-DropCollection.md",
+      "canonicalToken": "QO98dfF7qoLAWYxwsy2cfalvntc",
+      "title": "ListIndexes()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-ListIndexes.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -924,33 +969,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "SGYTdh0fJo6O1uxW3yjcET9Nnpf",
-      "title": "DataType",
-      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-DataType.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "SbJbdoDksoWVlxxvXQDcKYKsn4q",
-      "title": "DropIndexProperties()",
-      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-DropIndexProperties.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "Sljyd2yrWoidNAxyCgRc255Mnhg",
-      "title": "DropCollectionProperties()",
-      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-DropCollectionProperties.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "Syt3dskDpo3VcQxMu43cXcBFnre",
       "title": "ListRoles()",
       "contentPath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-ListRoles.md",
@@ -987,18 +1005,9 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "TKJ0dmfeiojGU8xOyixcO4M5ncb",
-      "title": "AlterIndexProperties()",
-      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-AlterIndexProperties.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "TcF2doHmuoNHsKxRRJbcsYevnph",
       "title": "AddFunctionField()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-AddFunctionField.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1008,6 +1017,15 @@
       "canonicalToken": "TfBadHlwqoakz4xzFOEchPpVnVd",
       "title": "UnpinSnapshotData()",
       "contentPath": "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-UnpinSnapshotData.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "TgEBdtrFron6aCxAE37cqHd3nvc",
+      "title": "AlterCollectionFieldProperties()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-AlterCollectionFieldProperties.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1032,6 +1050,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "TqIzdhIkFoR8KYxBXfscml0Ln8c",
+      "title": "LoadCollection()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-LoadCollection.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "TriCdBud3o6kmnxaE3hcdRWlnCR",
       "title": "GetReplicateConfiguration()",
       "contentPath": null,
@@ -1043,16 +1070,7 @@
     {
       "canonicalToken": "TuY9d4LfuoEptYxb25HcXmqcncb",
       "title": "Connect()",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "U7Y9dr70qoyDGYxlgBTcOGTgnbd",
-      "title": "ListIndexes()",
-      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-ListIndexes.md",
+      "contentPath": "content/en/reference/api/cpp/cpp/Client/Client-Connect.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1061,7 +1079,7 @@
     {
       "canonicalToken": "U8KCdu2BRohC5CxZK7vch6TGnrc",
       "title": "DescribeRole()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-DescribeRole.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1122,9 +1140,27 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "VMgPdyPGuor1t7xlZGWcWV1tnhh",
-      "title": "ConnectParam",
-      "contentPath": "content/en/reference/api/cpp/cpp/Client/Client-ConnectParam.md",
+      "canonicalToken": "UxoUdxGonoInL0xixsdcRHNwnll",
+      "title": "GetTelemetry()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Client/Client-GetTelemetry.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "V2TUd3ZWJoiv4LxTUFfc8H3Nnrc",
+      "title": "GetCollectionStats()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-GetCollectionStats.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "V2UCd9pXGobxHKxw10HcZBuQn8f",
+      "title": "AlterAlias()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-AlterAlias.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1133,16 +1169,7 @@
     {
       "canonicalToken": "VTkhdUYKvoYBPRx7EDiczhJhnhe",
       "title": "Session()",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "VWOqdczvioTtxqxThEKcJzI3n2g",
-      "title": "DropCollectionFieldProperties()",
-      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-DropCollectionFieldProperties.md",
+      "contentPath": "content/en/reference/api/cpp/cpp/Client/Client-Session.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1203,6 +1230,33 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "WaD1dzpIzohLMKx39p7cGgEEnDh",
+      "title": "RenameCollection()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-RenameCollection.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "WiGbdKAIsoACkixKYHqcVz41npf",
+      "title": "IndexType",
+      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-IndexType.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "WjEJdkVfTo20gWx0dWpcRy4Nnzh",
+      "title": "DescribeIndex()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-DescribeIndex.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "Wom0dLES1ojjtKxa8OdckAK3n1C",
       "title": "Disconnect()",
       "contentPath": "content/en/reference/api/cpp/cpp/Client/Client-Disconnect.md",
@@ -1214,16 +1268,7 @@
     {
       "canonicalToken": "WqOudbitToLoSRx9faGctun6nlf",
       "title": "DescribeUser()",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "WsSQdBrrOo4hhbx9XWFciuVAn3b",
-      "title": "DropAlias()",
-      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-DropAlias.md",
+      "contentPath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-DescribeUser.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1257,9 +1302,9 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "XQLWd904koQK58x9tkHcqqbZnVb",
-      "title": "DescribeCollection()",
-      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-DescribeCollection.md",
+      "canonicalToken": "XTxZdqmCIoUv7vx2yMVccq3RnYc",
+      "title": "TelemetryConfig",
+      "contentPath": "content/en/reference/api/cpp/cpp/Client/Client-TelemetryConfig.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1268,7 +1313,7 @@
     {
       "canonicalToken": "XXBwdXvCWo1te0xWjifc19kUnjf",
       "title": "UpdateUser()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-UpdateUser.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1296,6 +1341,15 @@
       "canonicalToken": "YI1BdnZOMoPSOMxjVMEcrrCwnWh",
       "title": "RefreshLoad()",
       "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-RefreshLoad.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "YY8Rd5aoOoeUYbxGqINcOHgjnsb",
+      "title": "ConnectParam",
+      "contentPath": "content/en/reference/api/cpp/cpp/Client/Client-ConnectParam.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1338,15 +1392,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "Z3KTdzp7xoWm7QxytFGcIqYangm",
-      "title": "LoadCollection()",
-      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-LoadCollection.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "ZLfgdRLpXolwPYx2ZOrcDmxGnnw",
       "title": "HasCollection()",
       "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-HasCollection.md",
@@ -1377,15 +1422,6 @@
       "canonicalToken": "ZPS0ddywzo9DObxXS9Rc7yornDc",
       "title": "GetSDKVersion()",
       "contentPath": "content/en/reference/api/cpp/cpp/Client/Client-GetSDKVersion.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "ZidndgXjGoLam3xqLOOcmFTYnBh",
-      "title": "Compact()",
-      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-Compact.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,

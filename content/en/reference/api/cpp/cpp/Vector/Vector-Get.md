@@ -4,7 +4,7 @@ slug: /cpp/cpp/Vector-Get
 sidebar_label: "Get()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation issues a query with primary keys and returns a list of records. | Cloud"
@@ -158,6 +158,28 @@ const QueryResults& results = response.Results();
 
     Number of rows returned. When the query uses `count(*)`, this returns the aggregate count.
 
+#### GetResponse statistics\{#getresponse-statistics}
+
+The `GetResponse` object exposes execution statistics that describe the cost of the operation.
+
+**METHODS:**
+
+- `int64_t Cost() const`
+
+    Returns the cost of the operation in milliseconds.
+
+- `int64_t ScannedRemoteBytes() const`
+
+    Returns the number of bytes scanned from remote storage.
+
+- `int64_t ScannedTotalBytes() const`
+
+    Returns the total number of bytes scanned.
+
+- `float CacheHitRatio() const`
+
+    Returns the cache hit ratio as a value between 0.0 and 1.0.
+
 **EXCEPTIONS:**
 
 - **StatusCode**
@@ -168,10 +190,10 @@ const QueryResults& results = response.Results();
 
 | Category | Concrete types | Representation and notes |
 | --- | --- | --- |
-| Scalar | `BoolFieldData`, `Int8FieldData`, `Int16FieldData`, `Int32FieldData`, `Int64FieldData`, `FloatFieldData`, `DoubleFieldData`, `VarCharFieldData`, `JSONFieldData`, `GeometryFieldData`, `TimestamptzFieldData` | Aliases of `FieldData<T, DataType::...>`. Geometry uses WKT strings; timestamptz uses ISO-8601 strings. |
-| Vector | `FloatVecFieldData`, `Float16VecFieldData`, `BFloat16VecFieldData`, `Int8VecFieldData`, `SparseFloatVecFieldData`, `BinaryVecFieldData` | Dense and sparse vector containers. `BinaryVecFieldData` is a derived class with string conversion helpers. |
-| Array and struct | `ArrayBoolFieldData`, `ArrayInt8FieldData`, `ArrayInt16FieldData`, `ArrayInt32FieldData`, `ArrayInt64FieldData`, `ArrayFloatFieldData`, `ArrayDoubleFieldData`, `ArrayVarCharFieldData`, `StructFieldData` | Aliases of `ArrayFieldData<T, Et>`; each entity row is a vector. Struct values use JSON storage. |
-| Shared pointers | `XxxFieldDataPtr` | Each concrete field-data type has a corresponding `std::shared_ptr<XxxFieldData>` alias. |
+| Scalar | BoolFieldData, Int8FieldData, Int16FieldData, Int32FieldData, Int64FieldData, FloatFieldData, DoubleFieldData, VarCharFieldData, JSONFieldData, GeometryFieldData, TimestamptzFieldData | Aliases of FieldData&lt;T, DataType::...&gt;. Geometry uses WKT strings; timestamptz uses ISO-8601 strings. |
+| Vector | FloatVecFieldData, Float16VecFieldData, BFloat16VecFieldData, Int8VecFieldData, SparseFloatVecFieldData, BinaryVecFieldData | Dense and sparse vector containers. BinaryVecFieldData is a derived class with string conversion helpers. |
+| Array and struct | ArrayBoolFieldData, ArrayInt8FieldData, ArrayInt16FieldData, ArrayInt32FieldData, ArrayInt64FieldData, ArrayFloatFieldData, ArrayDoubleFieldData, ArrayVarCharFieldData, StructFieldData | Aliases of ArrayFieldData&lt;T, Et&gt;; each entity row is a vector. Struct values use JSON storage. |
+| Shared pointers | XxxFieldDataPtr | Each concrete field-data type has a corresponding std::shared_ptr&lt;XxxFieldData&gt; alias. |
 
 ## Example\{#example}
 

@@ -4,7 +4,7 @@ slug: /cpp/cpp/Vector-Delete
 sidebar_label: "Delete()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation deletes entities by a filtering expression or an ID array. | Cloud"
@@ -69,11 +69,11 @@ auto request = DeleteRequest()
 
 - `AddFilterTemplate(std::string key, nlohmann::json&& filter_template)`
 
-    Adds a filter template. This takes effect only if `WithFilter()` is set.  Read this page for more about [filter templating](https://milvus.io/docs/filtering-templating.md).
+    Adds a filter template. This takes effect only if `WithFilter()` is set.  Read this page for more about [filter templating](/docs/filtering-templating).
 
 - `WithFilterTemplates(std::unordered_map<std::string, nlohmann::json>&& filter_templates)`
 
-    Sets filter templates. This takes effect only if `WithFilter()` is set.  Read this page for more about [filter templating](https://milvus.io/docs/filtering-templating.md).
+    Sets filter templates. This takes effect only if `WithFilter()` is set.  Read this page for more about [filter templating](/docs/filtering-templating).
 
 - `WithIDs(std::vector<int64_t>&& id_array)`
 
@@ -114,6 +114,10 @@ const DmlResults& results = response.Results();
 - `uint64_t UpsertCount() const`
 
     Number of rows that were upserted (inserted as new or replaced existing). Populated for `UpsertResponse`.
+
+- `int64_t Cost() const`
+
+    Returns the cost of the operation in milliseconds.
 
 **EXCEPTIONS:**
 

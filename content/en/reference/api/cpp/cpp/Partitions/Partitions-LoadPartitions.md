@@ -4,12 +4,12 @@ slug: /cpp/cpp/Partitions-LoadPartitions
 sidebar_label: "LoadPartitions()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation loads the data of specific partitions in one collection into query nodes. | Cloud"
 type: docx
-token: I2fxdWeslorOwIxnv9ac0giWnps
+token: AtwgdHq42oYSt7xJrO7c8ZGUnqc
 sidebar_position: 6
 keywords: 
   - Neural Network
@@ -50,7 +50,8 @@ auto request = LoadPartitionsRequest()
     .WithRefresh(refresh)
     .WithLoadFields(load_fields)
     .WithSkipDynamicField(skip_dynamic_field)
-    .WithTargetResourceGroups(target_resource_groups);
+    .WithTargetResourceGroups(target_resource_groups)
+    .WithLoadPriority(load_priority);
 ```
 
 **REQUEST METHODS:**
@@ -116,6 +117,10 @@ auto request = LoadPartitionsRequest()
 - `AddTargetResourceGroups(const std::string& target_resource_group)`
 
     Adds a target resource group.
+
+- `WithLoadPriority(const std::string& load_priority)`
+
+    Sets the load priority of the partitions. Set `"low"` to select low priority; any other value (including `"high"`) defaults to high priority.
 
 **RETURNS:**
 

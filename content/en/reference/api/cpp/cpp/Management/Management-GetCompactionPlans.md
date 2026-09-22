@@ -4,12 +4,12 @@ slug: /cpp/cpp/Management-GetCompactionPlans
 sidebar_label: "GetCompactionPlans()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "This operation returns the plans of a compaction job. | Cloud"
+description: "This operation fetches the current state and merge plans of a compaction job on a collection. Pass the compaction job ID returned by Compact(). | Cloud"
 type: docx
-token: KNcxdijIVobIUxxL1b3cyyhknsg
+token: Q9LBd7Mano2Sgyx3wJUcv4YrnLc
 sidebar_position: 8
 keywords: 
   - openai vector db
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # GetCompactionPlans()
 
-This operation returns the plans of a compaction job.
+This operation fetches the current state and merge plans of a compaction job on a collection. Pass the compaction job ID returned by Compact().
 
 ```c++
 Status GetCompactionPlans(const GetCompactionPlansRequest& request, GetCompactionPlansResponse& response)
@@ -48,41 +48,66 @@ auto request = GetCompactionPlansRequest()
 
 - `WithCompactionID(int64_t id)`
 
-    Sets the compaction job ID returned by `Compact()`.
+    Sets the ID of the compaction job to query, which is returned by Compact().
 
 **RETURNS:**
 
-*Status* with *GetCompactionPlansResponse*
+*Status*
 
-Check `status.IsOk()` to confirm success.
+Returns a Status indicating whether the operation succeeded. The compaction state and merge plans are carried in the response: call Plans() to get the list of plans, each mapping its source segments to the merged target segment, and State() for the CompactionStateCode.
 
-**EXCEPTIONS:**
+- **response** (*GetCompactionPlansResponse*) -
 
-- **StatusCode**
+    - **Plans** (*const CompactionPlans&*) -
 
-    Check `status.Code()` and `status.Message()` for error details.
+        Get plans of the compaction.
+
+        - **SourceSegments** (*const std::vector&lt;int64_t&gt;&*) -
+
+            Segment id array to be merged.
+
+        - **DestinySegemnt** (*int64_t*) -
+
+            New generated segment id after merging.
+
+    - **CompactionID** (*int64_t*) -
+
+        Get the id of the compaction.
+
+    - **State** (*CompactionStateCode*) -
+
+        Get the state of the compaction.
+
+**ERROR HANDLING:**
+
+- **std::exception**
+
+    Thrown when request construction, transport, or response processing fails. Inspect the exception message or the returned Status for failure details.
 
 ## Example\{#example}
 
-```c++
-#include "milvus/MilvusClientV2.h"
-auto client = milvus::MilvusClientV2::Create();
+Call GetCompactionPlans() on a connected MilvusClientV2 to fetch the state and merge plans of a compaction job.
 
+```c++
+auto client = milvus::MilvusClientV2::Create();
 milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
 auto status = client->Connect(connect_param);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 
-int64_t compaction_id = 12345;  // obtained from Compact()
+int64_t compaction_id = 448702239994542855;
 
+auto request = milvus::GetCompactionPlansRequest().WithCompactionID(compaction_id);
 milvus::GetCompactionPlansResponse response;
-status = client->GetCompactionPlans(
-    milvus::GetCompactionPlansRequest()
-        .WithCompactionID(compaction_id),
-    response);
+status = client->GetCompactionPlans(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
-std::cout << "Plan count: " << response.Plans().size() << std::endl;
+
+std::cout << "compaction state: " << static_cast<int>(response.State()) << std::endl;
+for (const auto& plan : response.Plans()) {
+    std::cout << "plan merges " << plan.SourceSegments().size() << " segments into segment "
+              << plan.DestinySegemnt() << std::endl;
+}
 ```

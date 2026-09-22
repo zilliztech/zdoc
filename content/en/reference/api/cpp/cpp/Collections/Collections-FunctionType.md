@@ -10,7 +10,7 @@ notebook: false
 description: "Enumerates the function types supported by collection schema functions. | Cloud"
 type: docx
 token: InoydNBt1osec5xj0C6cPCsRnTd
-sidebar_position: 37
+sidebar_position: 38
 keywords: 
   - llm eval
   - Sparse vs Dense

@@ -39,7 +39,7 @@ Status SearchIterator(SearchIteratorRequest& request, SearchIteratorPtr& respons
 
 <Admonition type="info" title="Notes">
 
-Do not disconnect the MilvusClientV2 when the iterator is in use. The order of the returned entities cannot be guaranteed. Read [this document](https://milvus.io/docs/with-iterators.md) for more.
+Do not disconnect the MilvusClientV2 when the iterator is in use. The order of the returned entities cannot be guaranteed. Read  for more.
 
 </Admonition>
 
@@ -106,7 +106,7 @@ auto request = SearchIteratorRequest()
 
 - `WithPartitionNames(std::set<std::string>&& partition_names)`
 
-    Set the partition names. If partition nemes are empty, will query in the entire collection.
+    Set the partition names. If partition names are empty, will query in the entire collection.
 
 - `AddPartitionName(const std::string& partition_name)`
 
@@ -122,7 +122,7 @@ auto request = SearchIteratorRequest()
 
 - `WithConsistencyLevel(ConsistencyLevel consistency_level)`
 
-    Set the consistency level. Read the doc for more info: https://milvus.io/docs/consistency.md#Consistency-Level.
+    Set the consistency level. [Consistency Level](/docs/consistency-level).
 
 - `AddBinaryVector(const std::string& vector)`
 
@@ -254,11 +254,11 @@ auto request = SearchIteratorRequest()
 
 - `WithRerank(const FunctionScorePtr& ranker)`
 
-    Set reranker. Allows multiple rerank functions such as Boost/Decay/Model, etc. Read the doc for more info: https://milvus.io/docs/boost-ranker.md.
+    Set reranker. Allows multiple rerank functions such as Boost/Decay/Model, etc. Read [Boost Ranker](/docs/boost-ranker) and its sibling pages.
 
 - `WithTimezone(const std::string& timezone)`
 
-    Set timezone, takes effect for Timestamptz field. Read the doc for more info: https://milvus.io/docs/single-vector-search.md#Temporarily-set-a-timezone-for-a-search.
+    Set timezone, takes effect for Timestamptz field. Read [Temporarily set a timezone](/docs/single-vector-search#temporarily-set-a-timezone-for-a-search) for a search for more..
 
 - `WithHighlighter(const HighlighterPtr& highlighter)`
 
@@ -282,13 +282,13 @@ The request accepts one query-vector representation matching the target field's 
 
 | Schema DataType | Request methods | C++ representation | Notes |
 | --- | --- | --- | --- |
-| `FLOAT_VECTOR` | `AddFloatVector()`, `WithFloatVectors()` | `std::vector<float>` | Dense float vectors. |
-| `BINARY_VECTOR` | `AddBinaryVector()`, `WithBinaryVectors()` | Binary bytes or string convenience input | Uses the dedicated binary-vector representation. |
-| `SPARSE_FLOAT_VECTOR` | `AddSparseVector()`, `WithSparseVectors()` | `std::map<uint32_t, float>` or supported JSON form | Sparse index-value pairs. |
-| `FLOAT16_VECTOR` | `AddFloat16Vector()`, `WithFloat16Vectors()` | `std::vector<uint16_t>` or convertible float vectors | Float overloads perform conversion. |
-| `BFLOAT16_VECTOR` | `AddBFloat16Vector()`, `WithBFloat16Vectors()` | `std::vector<uint16_t>` or convertible float vectors | Float overloads perform conversion. |
-| `INT8_VECTOR` | `AddInt8Vector()`, `WithInt8Vectors()` | `std::vector<int8_t>` | Dense signed-byte vectors. |
-| Function or struct-field input | `AddEmbeddedText()` / `WithEmbeddedTexts()`; `AddEmbeddingList()` / `WithEmbeddingLists()` | `std::string` or `EmbeddingList` | Use embedded text for supported functions and embedding lists for struct-field ANN search. |
+| FLOAT_VECTOR | AddFloatVector(), WithFloatVectors() | std::vector&lt;float&gt; | Dense float vectors. |
+| BINARY_VECTOR | AddBinaryVector(), WithBinaryVectors() | Binary bytes or string convenience input | Uses the dedicated binary-vector representation. |
+| SPARSE_FLOAT_VECTOR | AddSparseVector(), WithSparseVectors() | std::map\<uint32_t, float> or supported JSON form | Sparse index-value pairs. |
+| FLOAT16_VECTOR | AddFloat16Vector(), WithFloat16Vectors() | std::vector&lt;uint16_t&gt; or convertible float vectors | Float overloads perform conversion. |
+| BFLOAT16_VECTOR | AddBFloat16Vector(), WithBFloat16Vectors() | std::vector&lt;uint16_t&gt; or convertible float vectors | Float overloads perform conversion. |
+| INT8_VECTOR | AddInt8Vector(), WithInt8Vectors() | std::vector&lt;int8_t&gt; | Dense signed-byte vectors. |
+| Function or struct-field input | AddEmbeddedText() / WithEmbeddedTexts(); AddEmbeddingList() / WithEmbeddingLists() | std::string or EmbeddingList | Use embedded text for supported functions and embedding lists for struct-field ANN search. |
 
 **RETURNS:**
 

@@ -75,7 +75,7 @@ auto request = HybridSearchRequest()
 
 - `WithPartitionNames(std::set<std::string>&& partition_names)`
 
-    Set the partition names. If partition nemes are empty, will query in the entire collection.
+    Set the partition names. If partition names are empty, will query in the entire collection.
 
 - `AddPartitionName(const std::string& partition_name)`
 
@@ -91,7 +91,7 @@ auto request = HybridSearchRequest()
 
 - `WithConsistencyLevel(ConsistencyLevel consistency_level)`
 
-    Set the consistency level. Read the doc for more info: https://milvus.io/docs/consistency.md#Consistency-Level.
+    Set the consistency level. For details, refer to [Consistency Level](/docs/consistency-level).
 
 - `WithSubRequests(std::vector<SubSearchRequestPtr>&& requests)`
 
@@ -103,7 +103,7 @@ auto request = HybridSearchRequest()
 
 - `WithRerank(const FunctionPtr& rerank)`
 
-    Set rerank, suc as RRF/Weighted function. Read the doc for more info: https://milvus.io/docs/reranking.md.
+    Set rerank, suc as RRF/Weighted function. [Weighted Ranker](/docs/reranking-weighted-reranker) and its sibling pages.
 
 - `WithLimit(int64_t limit)`
 
@@ -152,37 +152,67 @@ SubSearchRequest()
 
 **REQUEST METHODS:**
 
-- `SubSearchRequest& WithAnnsField(const std::string& ann_field)`
+- `WithAnnsField(const std::string& ann_field)`
 
-- `SubSearchRequest& WithLimit(int64_t limit)`
+    Sets the target field of the ANN search.
 
-- `SubSearchRequest& WithFilter(std::string filter)`
+- `WithLimit(int64_t limit)`
 
-- `SubSearchRequest& WithMetricType(milvus::MetricType metric_type)`
+    Sets the search limit (topk) of this sub search.
 
-- `SubSearchRequest& WithTimezone(const std::string& timezone)`
+- `WithFilter(std::string filter)`
+
+    Sets the filter expression of this sub search.
+
+- `WithMetricType(milvus::MetricType metric_type)`
+
+    Specifies the metric type of this sub search.
+
+- `WithTimezone(const std::string& timezone)`
+
+    Sets the timezone; it takes effect for Timestamptz fields.
 
 **Inherited vector methods** (all return `SubSearchRequest&` for chaining):
 
 - `AddFloatVector(const FloatVecFieldData::ElementT& vector)`
 
+    Appends one dense float vector.
+
 - `AddBinaryVector(const std::string& vector)`
+
+    Appends one binary vector; the string overload converts the string to binary bytes.
 
 - `AddSparseVector(const SparseFloatVecFieldData::ElementT& vector)`
 
+    Appends one sparse vector from index-value data.
+
 - `AddFloat16Vector(const Float16VecFieldData::ElementT& vector)`
+
+    Appends one float16 vector.
 
 - `AddBFloat16Vector(const BFloat16VecFieldData::ElementT& vector)`
 
+    Appends one bfloat16 vector.
+
 - `AddInt8Vector(const Int8VecFieldData::ElementT& vector)`
+
+    Appends one dense int8 vector.
 
 - `AddEmbeddedText(const std::string& text)`
 
+    Appends embedded text for a supported text-embedding function such as BM25.
+
 - `AddEmbeddingList(EmbeddingList&& emb_list)` — for struct-field ANN
+
+    Adds an embedding list for struct-field ANN search.
 
 - `WithFloatVectors(std::vector<FloatVecFieldData::ElementT>&& vectors)` — batch
 
+    Sets the dense float vectors in batch.
+
 - `WithSparseVectors(...)`, `WithFloat16Vectors(...)`, etc. — batch variants
+
+    Batch variants of the corresponding add methods.
 
 ### Query vector types\{#query-vector-types}
 
@@ -190,13 +220,13 @@ Each `SubSearchRequest` accepts one query-vector representation matching the tar
 
 | Schema DataType | Request methods | C++ representation | Notes |
 | --- | --- | --- | --- |
-| `FLOAT_VECTOR` | `AddFloatVector()`, `WithFloatVectors()` | `std::vector<float>` | Dense float vectors. |
-| `BINARY_VECTOR` | `AddBinaryVector()`, `WithBinaryVectors()` | Binary bytes or string convenience input | Uses the dedicated binary-vector representation. |
-| `SPARSE_FLOAT_VECTOR` | `AddSparseVector()`, `WithSparseVectors()` | `std::map<uint32_t, float>` or supported JSON form | Sparse index-value pairs. |
-| `FLOAT16_VECTOR` | `AddFloat16Vector()`, `WithFloat16Vectors()` | `std::vector<uint16_t>` or convertible float vectors | Float overloads perform conversion. |
-| `BFLOAT16_VECTOR` | `AddBFloat16Vector()`, `WithBFloat16Vectors()` | `std::vector<uint16_t>` or convertible float vectors | Float overloads perform conversion. |
-| `INT8_VECTOR` | `AddInt8Vector()`, `WithInt8Vectors()` | `std::vector<int8_t>` | Dense signed-byte vectors. |
-| Function or struct-field input | `AddEmbeddedText()` / `WithEmbeddedTexts()`; `AddEmbeddingList()` / `WithEmbeddingLists()` | `std::string` or `EmbeddingList` | Use embedded text for supported functions and embedding lists for struct-field ANN search. |
+| FLOAT_VECTOR | AddFloatVector(), WithFloatVectors() | std::vector&lt;float&gt; | Dense float vectors. |
+| BINARY_VECTOR | AddBinaryVector(), WithBinaryVectors() | Binary bytes or string convenience input | Uses the dedicated binary-vector representation. |
+| SPARSE_FLOAT_VECTOR | AddSparseVector(), WithSparseVectors() | std::map\<uint32_t, float> or supported JSON form | Sparse index-value pairs. |
+| FLOAT16_VECTOR | AddFloat16Vector(), WithFloat16Vectors() | std::vector&lt;uint16_t&gt; or convertible float vectors | Float overloads perform conversion. |
+| BFLOAT16_VECTOR | AddBFloat16Vector(), WithBFloat16Vectors() | std::vector&lt;uint16_t&gt; or convertible float vectors | Float overloads perform conversion. |
+| INT8_VECTOR | AddInt8Vector(), WithInt8Vectors() | std::vector&lt;int8_t&gt; | Dense signed-byte vectors. |
+| Function or struct-field input | AddEmbeddedText() / WithEmbeddedTexts(); AddEmbeddingList() / WithEmbeddingLists() | std::string or EmbeddingList | Use embedded text for supported functions and embedding lists for struct-field ANN search. |
 
 **RETURNS:**
 

@@ -10,7 +10,7 @@ notebook: false
 description: "This operation resets the retry rules for each RPC call. | Cloud"
 type: docx
 token: IR7hd6VQcoQPg3xNzL2cBw6Nn7f
-sidebar_position: 10
+sidebar_position: 11
 keywords: 
   - multimodal vector database retrieval
   - Retrieval Augmented Generation

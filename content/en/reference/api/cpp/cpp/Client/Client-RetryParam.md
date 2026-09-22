@@ -10,7 +10,7 @@ notebook: false
 description: "This class holds the retry parameters passed to `MilvusClient:SetRetryParam()`. For retriable server errors such as rate-limit responses, the SDK will automatically re-issue the RPC call according to these parameters. Network errors and unrecoverable errors are not retried. | Cloud"
 type: docx
 token: OxCLdTg9RoIzS0xwicjc8yJXnzc
-sidebar_position: 9
+sidebar_position: 10
 keywords: 
   - Sparse vector
   - Vector Dimension

@@ -4,10 +4,10 @@ slug: /cpp/cpp/Collections-AlterCollectionFunction
 sidebar_label: "AlterCollectionFunction()"
 beta: false
 added_since: v2.6.3
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "This operation replaces the definition of an existing collection function identified by the function name in the provided Function object. | Cloud"
+description: "This operation alters a function of an existing collection. The function name carried by the Function object identifies which function is altered. | Cloud"
 type: docx
 token: YuvidafRvob4HuxnxrGcU7Vsnbh
 sidebar_position: 6
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # AlterCollectionFunction()
 
-This operation replaces the definition of an existing collection function identified by the function name in the provided Function object.
+This operation alters a function of an existing collection. The function name carried by the Function object identifies which function is altered.
 
 ```c++
 Status AlterCollectionFunction(const AlterCollectionFunctionRequest& request)
@@ -41,40 +41,42 @@ Status AlterCollectionFunction(const AlterCollectionFunctionRequest& request)
 
 ```c++
 auto request = AlterCollectionFunctionRequest()
+    .WithDatabaseName(db_name)
     .WithCollectionName(collection_name)
-    .WithFunction(function_ptr);
+    .WithFunction(function);
 ```
-
-### AlterCollectionFunctionRequest\{#altercollectionfunctionrequest}
 
 **REQUEST METHODS:**
 
-- `WithCollectionName(const std::string& collection_name)`
-
-    Sets the collection whose function definition will be changed.
-
 - `WithDatabaseName(const std::string& db_name)`
 
-    Sets the database containing the target collection.
+    Sets the target database name; the default database is used if it is empty.
+
+- `WithCollectionName(const std::string& collection_name)`
+
+    Sets the name of the collection.
 
 - `WithFunction(const FunctionPtr& function)`
 
-    Supplies the updated function definition. Its name identifies which function to alter.
+    Sets the function with the new definition, as a shared pointer to the function definition; its name identifies which function to alter.
 
 **RETURNS:**
 
 *Status*
 
-**EXCEPTIONS:**
+Returns a Status indicating whether the function was altered successfully.
 
-- **StatusCode**
+**ERROR HANDLING:**
 
-    Check `status.Code()` and `status.Message()` for missing function names, invalid function definitions, or unavailable collections.
+- **std::exception**
+
+    Thrown when request construction, transport, or response processing fails. Inspect the exception message or the returned Status for failure details.
 
 ## Example\{#example}
 
+Call AlterCollectionFunction() on a connected MilvusClientV2 to alter a function of an existing collection.
+
 ```c++
-#include <milvus/MilvusClientV2.h>
 auto client = milvus::MilvusClientV2::Create();
 milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
 auto status = client->Connect(connect_param);
@@ -82,13 +84,11 @@ if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 
-auto function = std::make_shared<milvus::Function>();
-function->SetName("bm25_fn");
-
-status = client->AlterCollectionFunction(
-    milvus::AlterCollectionFunctionRequest()
-        .WithCollectionName("docs")
-        .WithFunction(function));
+auto request = milvus::AlterCollectionFunctionRequest()
+    .WithDatabaseName(db_name)
+    .WithCollectionName(collection_name)
+    .WithFunction(function);
+status = client->AlterCollectionFunction(request);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }

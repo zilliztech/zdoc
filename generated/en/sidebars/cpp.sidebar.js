@@ -11,9 +11,27 @@ module.exports = [
     "items": [
       {
         "type": "doc",
+        "id": "api/cpp/cpp/Authentication/Authentication-AlterRole",
+        "label": "AlterRole()",
+        "key": "doc:api/cpp/cpp/Authentication/authentication-alterrole"
+      },
+      {
+        "type": "doc",
         "id": "api/cpp/cpp/Authentication/Authentication-CreateUser",
         "label": "CreateUser()",
         "key": "doc:api/cpp/cpp/Authentication/authentication-createuser"
+      },
+      {
+        "type": "doc",
+        "id": "api/cpp/cpp/Authentication/Authentication-DescribeRole",
+        "label": "DescribeRole()",
+        "key": "doc:api/cpp/cpp/Authentication/authentication-describerole"
+      },
+      {
+        "type": "doc",
+        "id": "api/cpp/cpp/Authentication/Authentication-DescribeUser",
+        "label": "DescribeUser()",
+        "key": "doc:api/cpp/cpp/Authentication/authentication-describeuser"
       },
       {
         "type": "doc",
@@ -89,9 +107,33 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/cpp/cpp/Authentication/Authentication-UpdatePassword",
+        "label": "UpdatePassword()",
+        "key": "doc:api/cpp/cpp/Authentication/authentication-updatepassword"
+      },
+      {
+        "type": "doc",
+        "id": "api/cpp/cpp/Authentication/Authentication-UpdateUser",
+        "label": "UpdateUser()",
+        "key": "doc:api/cpp/cpp/Authentication/authentication-updateuser"
+      },
+      {
+        "type": "doc",
         "id": "api/cpp/cpp/Authentication/Authentication-UserDesc",
         "label": "UserDesc",
         "key": "doc:api/cpp/cpp/Authentication/authentication-userdesc"
+      },
+      {
+        "type": "doc",
+        "id": "api/cpp/cpp/Authentication/Authentication-GrantPrivilege",
+        "label": "GrantPrivilege()",
+        "key": "doc:api/cpp/cpp/Authentication/authentication-grantprivilege"
+      },
+      {
+        "type": "doc",
+        "id": "api/cpp/cpp/Authentication/Authentication-RevokePrivilege",
+        "label": "RevokePrivilege()",
+        "key": "doc:api/cpp/cpp/Authentication/authentication-revokeprivilege"
       }
     ]
   },
@@ -102,9 +144,27 @@ module.exports = [
     "items": [
       {
         "type": "doc",
+        "id": "api/cpp/cpp/Client/Client-CheckHealth",
+        "label": "CheckHealth()",
+        "key": "doc:api/cpp/cpp/Client/client-checkhealth"
+      },
+      {
+        "type": "doc",
+        "id": "api/cpp/cpp/Client/Client-Connect",
+        "label": "Connect()",
+        "key": "doc:api/cpp/cpp/Client/client-connect"
+      },
+      {
+        "type": "doc",
         "id": "api/cpp/cpp/Client/Client-ConnectParam",
         "label": "ConnectParam",
         "key": "doc:api/cpp/cpp/Client/client-connectparam"
+      },
+      {
+        "type": "doc",
+        "id": "api/cpp/cpp/Client/Client-Create",
+        "label": "Create()",
+        "key": "doc:api/cpp/cpp/Client/client-create"
       },
       {
         "type": "doc",
@@ -132,6 +192,12 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/cpp/cpp/Client/Client-GetServerVersionV2",
+        "label": "GetServerVersionV2()",
+        "key": "doc:api/cpp/cpp/Client/client-getserverversionv2"
+      },
+      {
+        "type": "doc",
         "id": "api/cpp/cpp/Client/Client-RetryParam",
         "label": "RetryParam",
         "key": "doc:api/cpp/cpp/Client/client-retryparam"
@@ -147,6 +213,30 @@ module.exports = [
         "id": "api/cpp/cpp/Client/Client-SetRpcDeadlineMs",
         "label": "SetRpcDeadlineMs()",
         "key": "doc:api/cpp/cpp/Client/client-setrpcdeadlinems"
+      },
+      {
+        "type": "doc",
+        "id": "api/cpp/cpp/Client/Client-UseDatabase",
+        "label": "UseDatabase()",
+        "key": "doc:api/cpp/cpp/Client/client-usedatabase"
+      },
+      {
+        "type": "doc",
+        "id": "api/cpp/cpp/Client/Client-GetTelemetry",
+        "label": "GetTelemetry()",
+        "key": "doc:api/cpp/cpp/Client/client-gettelemetry"
+      },
+      {
+        "type": "doc",
+        "id": "api/cpp/cpp/Client/Client-Session",
+        "label": "Session()",
+        "key": "doc:api/cpp/cpp/Client/client-session"
+      },
+      {
+        "type": "doc",
+        "id": "api/cpp/cpp/Client/Client-TelemetryConfig",
+        "label": "TelemetryConfig",
+        "key": "doc:api/cpp/cpp/Client/client-telemetryconfig"
       }
     ]
   },
@@ -157,9 +247,33 @@ module.exports = [
     "items": [
       {
         "type": "doc",
+        "id": "api/cpp/cpp/Collections/Collections-AddCollectionField",
+        "label": "AddCollectionField()",
+        "key": "doc:api/cpp/cpp/Collections/collections-addcollectionfield"
+      },
+      {
+        "type": "doc",
+        "id": "api/cpp/cpp/Collections/Collections-AddCollectionFunction",
+        "label": "AddCollectionFunction()",
+        "key": "doc:api/cpp/cpp/Collections/collections-addcollectionfunction"
+      },
+      {
+        "type": "doc",
         "id": "api/cpp/cpp/Collections/Collections-AliasDesc",
         "label": "AliasDesc",
         "key": "doc:api/cpp/cpp/Collections/collections-aliasdesc"
+      },
+      {
+        "type": "doc",
+        "id": "api/cpp/cpp/Collections/Collections-AlterAlias",
+        "label": "AlterAlias()",
+        "key": "doc:api/cpp/cpp/Collections/collections-alteralias"
+      },
+      {
+        "type": "doc",
+        "id": "api/cpp/cpp/Collections/Collections-AlterCollectionFieldProperties",
+        "label": "AlterCollectionFieldProperties()",
+        "key": "doc:api/cpp/cpp/Collections/collections-altercollectionfieldproperties"
       },
       {
         "type": "doc",
@@ -172,6 +286,12 @@ module.exports = [
         "id": "api/cpp/cpp/Collections/Collections-AlterCollectionProperties",
         "label": "AlterCollectionProperties()",
         "key": "doc:api/cpp/cpp/Collections/collections-altercollectionproperties"
+      },
+      {
+        "type": "doc",
+        "id": "api/cpp/cpp/Collections/Collections-BatchDescribeCollections",
+        "label": "BatchDescribeCollections()",
+        "key": "doc:api/cpp/cpp/Collections/collections-batchdescribecollections"
       },
       {
         "type": "doc",
@@ -196,6 +316,12 @@ module.exports = [
         "id": "api/cpp/cpp/Collections/Collections-ConsistencyLevel",
         "label": "ConsistencyLevel",
         "key": "doc:api/cpp/cpp/Collections/collections-consistencylevel"
+      },
+      {
+        "type": "doc",
+        "id": "api/cpp/cpp/Collections/Collections-CreateAlias",
+        "label": "CreateAlias()",
+        "key": "doc:api/cpp/cpp/Collections/collections-createalias"
       },
       {
         "type": "doc",
@@ -310,6 +436,24 @@ module.exports = [
         "id": "api/cpp/cpp/Collections/Collections-StructFieldSchema",
         "label": "StructFieldSchema",
         "key": "doc:api/cpp/cpp/Collections/collections-structfieldschema"
+      },
+      {
+        "type": "doc",
+        "id": "api/cpp/cpp/Collections/Collections-TruncateCollection",
+        "label": "TruncateCollection()",
+        "key": "doc:api/cpp/cpp/Collections/collections-truncatecollection"
+      },
+      {
+        "type": "doc",
+        "id": "api/cpp/cpp/Collections/Collections-AddCollectionStructField",
+        "label": "AddCollectionStructField()",
+        "key": "doc:api/cpp/cpp/Collections/collections-addcollectionstructfield"
+      },
+      {
+        "type": "doc",
+        "id": "api/cpp/cpp/Collections/Collections-AddFunctionField",
+        "label": "AddFunctionField()",
+        "key": "doc:api/cpp/cpp/Collections/collections-addfunctionfield"
       },
       {
         "type": "doc",
@@ -595,6 +739,55 @@ module.exports = [
   },
   {
     "type": "category",
+    "label": "Partitions",
+    "key": "category:api/cpp/cpp/partitions",
+    "items": [
+      {
+        "type": "doc",
+        "id": "api/cpp/cpp/Partitions/Partitions-CreatePartition",
+        "label": "CreatePartition()",
+        "key": "doc:api/cpp/cpp/Partitions/partitions-createpartition"
+      },
+      {
+        "type": "doc",
+        "id": "api/cpp/cpp/Partitions/Partitions-DropPartition",
+        "label": "DropPartition()",
+        "key": "doc:api/cpp/cpp/Partitions/partitions-droppartition"
+      },
+      {
+        "type": "doc",
+        "id": "api/cpp/cpp/Partitions/Partitions-GetPartitionStatistics",
+        "label": "GetPartitionStatistics()",
+        "key": "doc:api/cpp/cpp/Partitions/partitions-getpartitionstatistics"
+      },
+      {
+        "type": "doc",
+        "id": "api/cpp/cpp/Partitions/Partitions-HasPartition",
+        "label": "HasPartition()",
+        "key": "doc:api/cpp/cpp/Partitions/partitions-haspartition"
+      },
+      {
+        "type": "doc",
+        "id": "api/cpp/cpp/Partitions/Partitions-ListPartitions",
+        "label": "ListPartitions()",
+        "key": "doc:api/cpp/cpp/Partitions/partitions-listpartitions"
+      },
+      {
+        "type": "doc",
+        "id": "api/cpp/cpp/Partitions/Partitions-LoadPartitions",
+        "label": "LoadPartitions()",
+        "key": "doc:api/cpp/cpp/Partitions/partitions-loadpartitions"
+      },
+      {
+        "type": "doc",
+        "id": "api/cpp/cpp/Partitions/Partitions-ReleasePartitions",
+        "label": "ReleasePartitions()",
+        "key": "doc:api/cpp/cpp/Partitions/partitions-releasepartitions"
+      }
+    ]
+  },
+  {
+    "type": "category",
     "label": "Snapshots",
     "key": "category:api/cpp/cpp/snapshots",
     "items": [
@@ -718,55 +911,12 @@ module.exports = [
         "id": "api/cpp/cpp/Vector/Vector-Upsert",
         "label": "Upsert()",
         "key": "doc:api/cpp/cpp/Vector/vector-upsert"
-      }
-    ]
-  },
-  {
-    "type": "category",
-    "label": "Partitions",
-    "key": "category:api/cpp/cpp/partitions",
-    "items": [
-      {
-        "type": "doc",
-        "id": "api/cpp/cpp/Partitions/Partitions-CreatePartition",
-        "label": "CreatePartition()",
-        "key": "doc:api/cpp/cpp/Partitions/partitions-createpartition"
       },
       {
         "type": "doc",
-        "id": "api/cpp/cpp/Partitions/Partitions-DropPartition",
-        "label": "DropPartition()",
-        "key": "doc:api/cpp/cpp/Partitions/partitions-droppartition"
-      },
-      {
-        "type": "doc",
-        "id": "api/cpp/cpp/Partitions/Partitions-GetPartitionStatistics",
-        "label": "GetPartitionStatistics()",
-        "key": "doc:api/cpp/cpp/Partitions/partitions-getpartitionstatistics"
-      },
-      {
-        "type": "doc",
-        "id": "api/cpp/cpp/Partitions/Partitions-HasPartition",
-        "label": "HasPartition()",
-        "key": "doc:api/cpp/cpp/Partitions/partitions-haspartition"
-      },
-      {
-        "type": "doc",
-        "id": "api/cpp/cpp/Partitions/Partitions-ListPartitions",
-        "label": "ListPartitions()",
-        "key": "doc:api/cpp/cpp/Partitions/partitions-listpartitions"
-      },
-      {
-        "type": "doc",
-        "id": "api/cpp/cpp/Partitions/Partitions-LoadPartitions",
-        "label": "LoadPartitions()",
-        "key": "doc:api/cpp/cpp/Partitions/partitions-loadpartitions"
-      },
-      {
-        "type": "doc",
-        "id": "api/cpp/cpp/Partitions/Partitions-ReleasePartitions",
-        "label": "ReleasePartitions()",
-        "key": "doc:api/cpp/cpp/Partitions/partitions-releasepartitions"
+        "id": "api/cpp/cpp/Vector/Vector-FunctionChain",
+        "label": "FunctionChain",
+        "key": "doc:api/cpp/cpp/Vector/vector-functionchain"
       }
     ]
   }

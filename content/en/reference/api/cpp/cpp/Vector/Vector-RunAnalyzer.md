@@ -4,10 +4,10 @@ slug: /cpp/cpp/Vector-RunAnalyzer
 sidebar_label: "RunAnalyzer()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "This operation dry-runs an analyzer. | Cloud"
+description: "Run analyzer. Return result tokens of analysis. | Cloud"
 type: docx
 token: ACnNdxazbo8zRUx2zeMcmoN2nah
 sidebar_position: 7
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # RunAnalyzer()
 
-This operation dry-runs an analyzer.
+Run analyzer. Return result tokens of analysis.
 
 ```c++
 Status RunAnalyzer(const RunAnalyzerRequest& request, RunAnalyzerResponse& response)
@@ -45,6 +45,8 @@ auto request = RunAnalyzerRequest()
     .WithCollectionName(collection_name)
     .WithFieldName(field_name)
     .WithTexts(texts)
+    .AddText(text)
+    .AddAnalyzerName(name)
     .WithAnalyzerParams(params)
     .WithDetail(with_detail)
     .WithHash(with_hash);
@@ -54,158 +56,92 @@ auto request = RunAnalyzerRequest()
 
 - `WithDatabaseName(const std::string& db_name)`
 
-    Sets the target database name. The default database applies if it is empty.
+    Set target db name, default is empty, means use the db name of MilvusClient.
 
 - `WithCollectionName(std::string collection_name)`
 
-    Sets the name of the collection.
+    Set name of this collection, cannot be empty.
 
 - `WithFieldName(std::string field_name)`
 
-    Sets the name of the target field, which cannot be empty.
+    Set name of the target field, cannot be empty.
 
 - `WithTexts(const std::vector<std::string>& texts)`
 
-    Sets the texts to be analyzed.
+    Set texts to be analyzed.
 
 - `AddText(std::string text)`
 
-    Adds the text for analyze.
+    Add text for analyze.
 
 - `AddAnalyzerName(std::string name)`
 
-    Sets the name of the analyzer to run.
+    Specify an analyzer.
 
 - `WithAnalyzerParams(const nlohmann::json& params)`
 
-    Sets the analyzer parameters.
+    Set analyzer parameters.
 
 - `WithDetail(bool with_detail)`
 
-    Whether to include the details in the returned results.
+    Include details in the results.
 
 - `WithHash(bool with_hash)`
 
-    Whether to include the hashed values in the returned results.
+    Include hash values in the results.
 
 **RETURNS:**
 
-*Status* with *RunAnalyzerResponse*
+*Status*
 
-Check `status.IsOk()` to confirm success.
+Returns a status indicating whether the operation succeeded.
 
-### AnalyzerResults\{#analyzerresults}
+- **response** (*RunAnalyzerResponse*) -
 
-This page documents `AnalyzerResults`, `AnalyzerResult`, and `AnalyzerToken`. `AnalyzerResults` is a type alias for `std::vector<AnalyzerResult>` and is returned via `Results()` on a `RunAnalyzerResponse`. Each `AnalyzerResult` corresponds to one input text string and contains the list of tokens produced by the analyzer.
+    - **Results** (*const AnalyzerResults&*) -
 
-```c++
-using AnalyzerResults = std::vector<AnalyzerResult>;
-```
+        Get results of analyzer.
 
-Access the per-text results via the standard vector API:
+        - **Tokens** (*const std::vector&lt;AnalyzerToken&gt;&*) -
 
-```c++
-const AnalyzerResults& results = response.Results();
-for (const auto& result : results) {
-    for (const auto& token : result.Tokens()) {
-        std::cout << token.token_ << "\n";
-    }
-}
-```
+            Set tokens to be analyzed.
 
-**EXCEPTIONS:**
+            - **token_** (*std::string*) -
 
-- **StatusCode**
+            - **start_offset_** (*int64_t*) -
 
-    Check `status.Code()` and `status.Message()` for error details.
+            - **end_offset_** (*int64_t*) -
 
-## AnalyzerResult\{#analyzerresult}
+            - **position_** (*int64_t*) -
 
-One `AnalyzerResult` holds all tokens for a single input text.
+            - **position_length_** (*int64_t*) -
 
-```c++
-explicit AnalyzerResult(std::vector<AnalyzerToken>&& tokens);
-```
+            - **hash_** (*uint32_t*) -
 
-- `const std::vector<AnalyzerToken>& Tokens() const`
+**ERROR HANDLING:**
 
-    Returns the list of tokens produced by the analyzer for this input text.
+- **std::exception**
 
-## AnalyzerToken\{#analyzertoken}
-
-`AnalyzerToken` is a plain struct describing a single token.
-
-```c++
-struct AnalyzerToken {
-    std::string token_;
-    int64_t start_offset_;
-    int64_t end_offset_;
-    int64_t position_;
-    int64_t position_length_;
-    uint32_t hash_;
-};
-```
-
-- `token_`
-
-    The token string, such as a word or sub-word.
-
-- `start_offset_`
-
-    Byte offset in the original text where the token starts.
-
-- `end_offset_`
-
-    Byte offset in the original text where the token ends.
-
-- `position_`
-
-    Position index of the token in the token sequence.
-
-- `position_length_`
-
-    Number of positions the token spans. This is usually 1.
-
-- `hash_`
-
-    32-bit hash of the token string.
+    Thrown when request construction, transport, or response processing fails. Inspect the exception message or returned Status for failure details.
 
 ## Example\{#example}
 
-```c++
-#include "milvus/MilvusClientV2.h"
-auto client = milvus::MilvusClientV2::Create();
+Use RunAnalyzer() after connecting a MilvusClientV2.
 
+```c++
+auto client = milvus::MilvusClientV2::Create();
 milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
 auto status = client->Connect(connect_param);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 
-// Define analyzer parameters (stop-word filter example)
-nlohmann::json analyzer_params = {
-    {"tokenizer", "standard"},
-    {"filter", {{{"type", "stop"}, {"stop_words", {"and", "for"}}}}},
-};
-std::string text = "Milvus supports L2 distance and IP similarity for float vector.";
-
-// Build and execute the RunAnalyzer request
-auto request =
-    milvus::RunAnalyzerRequest().AddText(text).WithAnalyzerParams(analyzer_params).WithDetail(true).WithHash(true);
-
-milvus::RunAnalyzerResponse response;
-status = client->RunAnalyzer(request, response);
+auto request = milvus::RunAnalyzerRequest()
+    .WithDatabaseName(db_name)
+    .WithCollectionName(collection_name)
+    .WithFieldName(field_name);
+status = client->RunAnalyzer(request);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
-}
-
-// Process analyzer results
-for (const auto& result : response.Results()) {
-    for (const auto& token : result.Tokens()) {
-        std::cout << "{token: " << token.token_
-                  << ", start: " << token.start_offset_
-                  << ", end: " << token.end_offset_
-                  << "}" << std::endl;
-    }
 }
 ```

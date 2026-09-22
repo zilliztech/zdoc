@@ -4,12 +4,12 @@ slug: /cpp/cpp/Collections-DataType
 sidebar_label: "DataType"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This Enum specifies the data type of a collection field. Pass a `DataType` value when constructing a `FieldSchema` or calling `FieldSchema:WithDataType()`. | Cloud"
 type: docx
-token: SGYTdh0fJo6O1uxW3yjcET9Nnpf
+token: JzFlderJdofWMTxKLpOcTyfon6d
 sidebar_position: 16
 keywords: 
   - Retrieval Augmented Generation
@@ -47,6 +47,7 @@ enum class DataType {
     ARRAY = 22,
     JSON = 23,
     GEOMETRY = 24,
+    TEXT = 25,
     TIMESTAMPTZ = 26,
     BINARY_VECTOR = 100,
     FLOAT_VECTOR = 101,
@@ -83,6 +84,8 @@ enum class DataType {
 - **JSON** (23) - Unstructured JSON document. Supports dynamic filtering on any nested key path.
 
 - **GEOMETRY** (24) - Geometric/spatial data stored in Well-Known Binary (WKB) format.
+
+- **TEXT** (25) - Text data type for full-text search. Indexed with a text-analysis index for tokenization.
 
 - **TIMESTAMPTZ** (26) - Timestamp with timezone (RFC 3339 string).
 

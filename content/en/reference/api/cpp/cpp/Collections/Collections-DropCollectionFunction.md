@@ -7,7 +7,7 @@ added_since: v2.6.3
 last_modified: v3.0.x
 deprecate_since: v3.0.x
 notebook: false
-description: "Drop a function of an existing collection. | Cloud"
+description: "This operation drops a function of an existing collection. | Cloud"
 type: docx
 token: C6UadudBVopgWOxeZRwcf0uKn6b
 sidebar_position: 22
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # DropCollectionFunction()
 
-Drop a function of an existing collection.
+This operation drops a function of an existing collection.
 
-<Admonition type="info" title="Note">
+<Admonition type="info" title="Notes">
 
-Deprecated in v3.0.x. Use DropFunctionField() to drop the function together with its output field and bound index.
+Deprecated in v3.0.x. Use [DropFunctionField()](./Collections-DropFunctionField) to drop the function together with its output field and bound index.
 
 </Admonition>
 
@@ -52,43 +52,50 @@ auto request = DropCollectionFunctionRequest()
     .WithFunctionName(function_name);
 ```
 
-### DropCollectionFunctionRequest\{#dropcollectionfunctionrequest}
-
 **REQUEST METHODS:**
 
 - `WithDatabaseName(const std::string& db_name)`
 
-    Set target db name, use default database if it is empty.
+    Sets the name of the target database. If it is empty, the default database is used.
 
 - `WithCollectionName(const std::string& collection_name)`
 
-    Set name of the collection.
+    Sets the name of the target collection.
 
 - `WithFunctionName(std::string function_name)`
 
-    Set the name of the function to drop.
+    Sets the name of the function to drop. This cannot be empty.
 
 **RETURNS:**
 
 *Status*
 
-Returns a status indicating whether the operation succeeded.
+Returns a Status indicating whether the function was dropped successfully.
 
 **ERROR HANDLING:**
 
 - **std::exception**
 
-    Thrown when request construction, transport, or response processing fails. Inspect the exception message or returned Status for failure details.
+    Thrown when request construction, transport, or response processing fails. Inspect the exception message or the returned Status for failure details.
 
 ## Example\{#example}
 
-Demonstrates DropCollectionFunction() with the C++ SDK.
+Call DropCollectionFunction() on a connected MilvusClientV2 to drop a function of an existing collection.
 
 ```c++
 auto client = milvus::MilvusClientV2::Create();
 milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-util::CheckStatus(client->Connect(connect_param));
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 
-auto request = milvus::DropCollectionFunctionRequest();
-util::CheckStatus(client->DropCollectionFunction(request));
+auto request = milvus::DropCollectionFunctionRequest()
+    .WithDatabaseName(db_name)
+    .WithCollectionName(collection_name)
+    .WithFunctionName(function_name);
+status = client->DropCollectionFunction(request);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```

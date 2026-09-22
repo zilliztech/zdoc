@@ -4,12 +4,12 @@ slug: /cpp/cpp/Management-LoadCollection
 sidebar_label: "LoadCollection()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation loads collection data into the query node's CPU and memory. If the request is in sync mode, this operation checks the collection's loading progress and waits until the collection is completely loaded into the query node. Otherwise, it will return immediately. | Cloud"
 type: docx
-token: Z3KTdzp7xoWm7QxytFGcIqYangm
+token: TqIzdhIkFoR8KYxBXfscml0Ln8c
 sidebar_position: 16
 keywords: 
   - nlp search
@@ -49,7 +49,8 @@ auto request = LoadCollectionRequest()
     .WithRefresh(refresh)
     .WithLoadFields(load_fields)
     .WithSkipDynamicField(skip_dynamic_field)
-    .WithTargetResourceGroups(target_resource_groups);
+    .WithTargetResourceGroups(target_resource_groups)
+    .WithLoadPriority(load_priority);
 ```
 
 **REQUEST METHODS:**
@@ -103,6 +104,10 @@ auto request = LoadCollectionRequest()
 - `WithTargetResourceGroups(const std::set<std::string>& target_resource_groups)`
 
     Sets the target resource groups.
+
+- `WithLoadPriority(const std::string& load_priority)`
+
+    Sets the load priority of the collection. Set `"low"` to select low priority; any other value (including `"high"`) defaults to high priority.
 
 **RETURNS:**
 
