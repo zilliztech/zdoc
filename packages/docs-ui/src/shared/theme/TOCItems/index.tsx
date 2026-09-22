@@ -14,6 +14,7 @@ import type TOCItemsType from '@theme/TOCItems';
 import type { WrapperProps } from '@docusaurus/types';
 import {stripDocHeadingTag} from '../../utils/docHeadingTags';
 import {trackEvent} from '../../utils/analytics';
+import {filterTOCItemsWithoutTargets} from './filterGatedHeadings';
 
 type Props = WrapperProps<typeof TOCItemsType>;
 
@@ -33,6 +34,7 @@ interface Rail {
 }
 
 type TOCItemWithChildren = {
+  readonly id?: string;
   readonly value?: string;
   readonly children?: readonly TOCItemWithChildren[];
 };
@@ -149,6 +151,8 @@ export default function TOCItems(props: Props): JSX.Element {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [rail, setRail] = useState<Rail | null>(null);
   const [tip, setTip] = useState<{ text: string; top: number; right: number } | null>(null);
+  const [mounted, setMounted] = useState(false);
+  const [hiddenIds, setHiddenIds] = useState<ReadonlySet<string>>(new Set());
   const activeIdRef = useRef<string | null>(null);
   // When the user CLICKS a TOC item, pin it active. Trailing headings near the
   // page bottom all collapse to the same maxScroll position, so scroll-derived
@@ -157,10 +161,45 @@ export default function TOCItems(props: Props): JSX.Element {
   // the programmatic anchor scroll a click triggers fires none of those.
   const pinnedIdRef = useRef<string | null>(null);
   const uid = useId().replace(/:/g, '');
-  const cleanProps = useMemo(
-    () => ({ ...props, toc: stripTagsFromTOCItems(props.toc) }),
-    [props],
+  const visibleToc = useMemo(
+    () => (hiddenIds.size ? filterTOCItemsWithoutTargets(props.toc, id => !hiddenIds.has(id)) : props.toc),
+    [props.toc, hiddenIds],
   );
+  const cleanProps = useMemo(
+    () => ({ ...props, toc: stripTagsFromTOCItems(visibleToc) }),
+    [props, visibleToc],
+  );
+
+  // Channel-gated headings appear or disappear only after mount (hydration
+  // resolves CURRENT, then env.js switches to the deployment channel), so the
+  // set of dead TOC anchors settles asynchronously: recheck on the same
+  // delayed schedule the rail positioning uses. Prerendered HTML keeps the
+  // full fail-closed CURRENT TOC.
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  useEffect(() => {
+    if (!mounted) return;
+    const recompute = () => {
+      const toc = props.toc;
+      if (!toc) return;
+      const missing = new Set<string>();
+      for (const item of toc) {
+        if (typeof item.id === 'string' && !document.getElementById(item.id)) missing.add(item.id);
+      }
+      setHiddenIds(previous => {
+        if (previous.size === missing.size && [...missing].every(id => previous.has(id))) return previous;
+        return missing;
+      });
+    };
+    recompute();
+    const timers = [60, 200, 600, 1500].map(ms => setTimeout(recompute, ms));
+    window.addEventListener('resize', recompute);
+    return () => {
+      timers.forEach(clearTimeout);
+      window.removeEventListener('resize', recompute);
+    };
+  }, [mounted, props.toc]);
 
   // Re-assert our active class after every render — the built-in highlight
   // (driven by window scroll, which never moves in this inner-scroll theme)
