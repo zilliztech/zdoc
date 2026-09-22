@@ -1004,6 +1004,7 @@
         "apps/docs/plugins/release-channel-routes*",
         "packages/docs-ui/src/shared/components/NextChannel/**",
         "packages/docs-ui/src/shared/components/NextChannelToast/**",
+        "packages/docs-ui/src/shared/theme/TOCItems/**",
         "packages/docs-ui/src/shared/i18n/uiText*",
         "packages/docs-ui/src/shared/theme/MDXComponents/**",
         "packages/docs-tooling/src/lark/larkDocWriter.next-channel.test.js",
@@ -1029,6 +1030,7 @@
         "node --test apps/docs/plugins/next-channel-view.test.js",
         "pnpm vitest run packages/docs-ui/src/shared/utils/channelCode.test.ts packages/docs-ui/src/shared/components/ChannelCode/index.test.tsx",
         "node --test packages/docs-tooling/src/lark/codeVariantFilter.test.js",
+        "pnpm vitest run packages/docs-ui/src/shared/theme/TOCItems/filterGatedHeadings.test.ts",
         "pnpm test:containers",
         "pnpm vitest run packages/docs-ui/src/shared/components/NextChannelToast/index.test.tsx"
       ],
@@ -1038,7 +1040,7 @@
         "pnpm typecheck",
         "git diff --check"
       ],
-      "reason": "Release Channel (CURRENT/NEXT/RETIRE-IN-NEXT) front matter and sidebar customProps gate per-channel docs per deployment: runtime env.js injection, client gating with the shared 404 page and banner, server-side route blocking in both directions (NEXT routes blocked on CURRENT deployments, RETIRE-IN-NEXT routes blocked on NEXT deployments), and build capability exclusions must stay aligned. Block-level gating adds the globally registered NextChannel MDX component (CURRENT-fail-closed runtime gate), writer pass-through plus structural lint, and translation output parity for the channel tags. Static AI surfaces (.md copies, llms.txt) and description front matter resolve the CURRENT view of block gates via the shared next-channel-view resolver; RETIRE-IN-NEXT pages stay CURRENT-view everywhere until their record is removed. Code-block channel directives ((next|current)-channel-*) add the ChannelCode renderer wrapper, fence-interior resolution in the static resolver, and Fetch-time structural/ reserved-target lint. The sidebar filter must remove hidden-channel leaves at any nesting depth, and the paginator override keeps Previous/Next from advertising routes the sidebar hides and the nginx gate blocks."
+      "reason": "Release Channel (CURRENT/NEXT/RETIRE-IN-NEXT) front matter and sidebar customProps gate per-channel docs per deployment: runtime env.js injection, client gating with the shared 404 page and banner, server-side route blocking in both directions (NEXT routes blocked on CURRENT deployments, RETIRE-IN-NEXT routes blocked on NEXT deployments), and build capability exclusions must stay aligned. Block-level gating adds the globally registered NextChannel MDX component (CURRENT-fail-closed runtime gate), writer pass-through plus structural lint, and translation output parity for the channel tags; the right-rail TOC filters its build-time entries at runtime, dropping items whose heading anchor the deployment's channel hides. Static AI surfaces (.md copies, llms.txt) and description front matter resolve the CURRENT view of block gates via the shared next-channel-view resolver; RETIRE-IN-NEXT pages stay CURRENT-view everywhere until their record is removed. Code-block channel directives ((next|current)-channel-*) add the ChannelCode renderer wrapper, fence-interior resolution in the static resolver, and Fetch-time structural/ reserved-target lint. The sidebar filter must remove hidden-channel leaves at any nesting depth, and the paginator override keeps Previous/Next from advertising routes the sidebar hides and the nginx gate blocks."
     }
   ]
 }
