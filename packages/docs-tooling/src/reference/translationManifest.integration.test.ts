@@ -1,5 +1,5 @@
 import {spawnSync} from 'node:child_process';
-import {existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync} from 'node:fs';
+import {cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 
@@ -599,6 +599,69 @@ describe('Reference manifest executable security boundary', () => {
     }));
     expect(validateChinese(root).status).toBe(0);
   });
+
+  it('accepts checkpoint evidence in a Git-less external snapshot and still requires verifiable history with Git', () => {
+    // Docker shape: the zh-CN image builds the same tree without Git metadata
+    // under a prevalidated external-snapshot identity, where checkpoint
+    // evidence cannot be replayed against history. With Git present, a forged
+    // checkpoint sha must still fail closed.
+    const root = repository();
+    for (const manual of referenceSidebarNames) {
+      writeFileSync(path.join(root, `generated/en/sidebars/${manual}.sidebar.js`), 'module.exports = ["api/python/landing"]\n');
+    }
+    expect(generate(root).status, 'baseline manifest').toBe(0);
+    rmSync(path.join(root, 'content/en/reference/api/python/page.md'));
+    git(root, ['add', '-A']);
+    git(root, ['commit', '--quiet', '-m', 'docs(python): publish SDK reference']);
+    const deletionCommit = gitOutput(root, ['rev-parse', 'HEAD']);
+    const flagged = runReferenceManifest(root, [
+      'reference-manifest', '--source', 'content/en/reference', '--target', 'content/zh-CN/reference',
+      '--source-commit', 'HEAD', '--authorize-checkpoint-deletions', '--write',
+    ]);
+    expect(flagged.status, flagged.stderr || flagged.stdout).toBe(0);
+
+    const manifestPath = path.join(root, 'generated/zh-CN/manifests/reference-translations.json');
+    const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
+
+    // With Git metadata, evidence that does not resolve to a deleting commit
+    // keeps failing closed.
+    const retiredRecord = manifest.records.find((record: {status: string}) => record.status === 'retired');
+    expect(retiredRecord).toBeDefined();
+    retiredRecord.retirementEvidence = {kind: 'checkpoint-deletion', checkpointSha: '0'.repeat(40)};
+    writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+    const forged = validateChinese(root);
+    expect(forged.status).not.toBe(0);
+    expect(forged.stderr).toMatch(/lacks an active registry approval or verifiable checkpoint evidence/);
+
+    retiredRecord.retirementEvidence = {kind: 'checkpoint-deletion', checkpointSha: deletionCommit};
+    writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+    expect(validateChinese(root).status).toBe(0);
+
+    // Git-less external snapshot: the same committed evidence validates under
+    // the prevalidated snapshot identity the Dockerfile builds with.
+    const snapshotRoot = mkdtempSync(path.join(tmpdir(), 'reference-cli-snapshot-'));
+    cpSync(root, snapshotRoot, {recursive: true, filter: source => path.basename(source) !== '.git'});
+    expect(existsSync(path.join(snapshotRoot, '.git'))).toBe(false);
+    mkdirSync(path.join(snapshotRoot, 'deploy/contracts'), {recursive: true});
+    writeFileSync(path.join(snapshotRoot, 'deploy/contracts/localization-inputs.inventory.json'), '{"schemaVersion":1,"paths":[]}\n');
+    const externalSnapshotEnv = {
+      ...process.env,
+      ZDOC_PROVENANCE_COMMIT: deletionCommit,
+      ZDOC_PROVENANCE_WORKTREE: 'external-snapshot',
+      ZDOC_PROVENANCE_TRACKED_INPUTS: 'deploy/contracts/localization-inputs.inventory.json',
+    };
+    const snapshotValidation = spawnSync(process.execPath, [
+      '--experimental-strip-types', cliMain, 'validate-reference', '--site', 'zh-CN',
+    ], {cwd: snapshotRoot, encoding: 'utf8', env: externalSnapshotEnv});
+    expect(snapshotValidation.status, snapshotValidation.stderr || snapshotValidation.stdout).toBe(0);
+
+    // Without that identity the Git-less tree cannot verify anything and must
+    // still fail closed.
+    const strictSnapshotValidation = spawnSync(process.execPath, [
+      '--experimental-strip-types', cliMain, 'validate-reference', '--site', 'zh-CN',
+    ], {cwd: snapshotRoot, encoding: 'utf8'});
+    expect(strictSnapshotValidation.status).not.toBe(0);
+  }, 30_000);
 
   it('moves a restored source with a deleted translation to pending retranslation', () => {
     const root = repository();
