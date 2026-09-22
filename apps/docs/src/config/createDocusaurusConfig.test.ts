@@ -886,6 +886,17 @@ describe('createDocusaurusConfig', () => {
     });
   });
 
+  it('links the navbar logo to the Chinese brand home only for the Chinese site', () => {
+    const chinese = createDocusaurusConfig(profile({id: 'zh-CN', language: 'zh-Hans', outputDir: 'build/zh-CN'}));
+    const english = createDocusaurusConfig(profile());
+    expect(chinese.themeConfig).toMatchObject({
+      navbar: {logo: {alt: 'Zilliz 标志', href: 'https://zilliz.com.cn'}},
+    });
+    expect(english.themeConfig).toMatchObject({
+      navbar: {logo: {href: 'https://zilliz.com'}},
+    });
+  });
+
   it('maps profile navigation, redirects, static roots, integrations, and features explicitly', () => {
     const config = createDocusaurusConfig(profile({
       integrations: {

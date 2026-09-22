@@ -252,7 +252,7 @@ export function createDocusaurusConfig(
         logo: {
           alt: profile.id === 'zh-CN' ? 'Zilliz 标志' : 'Zilliz Logo',
           src: '/img/logo.svg',
-          href: 'https://zilliz.com',
+          href: profile.id === 'zh-CN' ? 'https://zilliz.com.cn' : 'https://zilliz.com',
         },
         items: profile.navigation.items.map(item => ({...item})),
       },
