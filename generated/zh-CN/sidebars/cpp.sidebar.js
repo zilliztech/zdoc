@@ -157,27 +157,9 @@ module.exports = [
     "items": [
       {
         "type": "doc",
-        "id": "api/cpp/cpp/Collections/Collections-AddCollectionFunction",
-        "label": "AddCollectionFunction()",
-        "key": "doc:api/cpp/cpp/Collections/collections-addcollectionfunction"
-      },
-      {
-        "type": "doc",
         "id": "api/cpp/cpp/Collections/Collections-AliasDesc",
         "label": "AliasDesc",
         "key": "doc:api/cpp/cpp/Collections/collections-aliasdesc"
-      },
-      {
-        "type": "doc",
-        "id": "api/cpp/cpp/Collections/Collections-AlterAlias",
-        "label": "AlterAlias()",
-        "key": "doc:api/cpp/cpp/Collections/collections-alteralias"
-      },
-      {
-        "type": "doc",
-        "id": "api/cpp/cpp/Collections/Collections-AlterCollectionFieldProperties",
-        "label": "AlterCollectionFieldProperties()",
-        "key": "doc:api/cpp/cpp/Collections/collections-altercollectionfieldproperties"
       },
       {
         "type": "doc",
@@ -328,18 +310,6 @@ module.exports = [
         "id": "api/cpp/cpp/Collections/Collections-StructFieldSchema",
         "label": "StructFieldSchema",
         "key": "doc:api/cpp/cpp/Collections/collections-structfieldschema"
-      },
-      {
-        "type": "doc",
-        "id": "api/cpp/cpp/Collections/Collections-AddCollectionStructField",
-        "label": "AddCollectionStructField()",
-        "key": "doc:api/cpp/cpp/Collections/collections-addcollectionstructfield"
-      },
-      {
-        "type": "doc",
-        "id": "api/cpp/cpp/Collections/Collections-AddFunctionField",
-        "label": "AddFunctionField()",
-        "key": "doc:api/cpp/cpp/Collections/collections-addfunctionfield"
       },
       {
         "type": "doc",

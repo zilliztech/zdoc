@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "4aa91edfaf77465e386bf0d2c6650e9931e02eae",
+  "sourceCommit": "a57a628d95de3bedd017658e783f04319fa49289",
   "records": [
     {
       "manual": "cli",
@@ -784,33 +784,8 @@
     },
     {
       "manual": "cpp",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-AddCollectionFunction.md",
-      "sourceHash": "db59ca30b76b4de975d615c13ac59d13476efe33c4e633876073e3a2c0cc12a0"
-    },
-    {
-      "manual": "cpp",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-AddCollectionStructField.md",
-      "sourceHash": "5e1cde42333c683728c5e55cd9467de6556dce664d567759fffa61b2baa0e54e"
-    },
-    {
-      "manual": "cpp",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-AddFunctionField.md",
-      "sourceHash": "86947857d6e03501a5ef6c1dbe76e3b3c899ed292409e3e09b375595f0d00598"
-    },
-    {
-      "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-AliasDesc.md",
       "sourceHash": "3b7d0f7ef2b312fb85693d5353bd2f4ec12c260f233c40c80662706e6fdbe12f"
-    },
-    {
-      "manual": "cpp",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-AlterAlias.md",
-      "sourceHash": "9e59e00bb59c3cf50491d5fd638c3ecaa6fb608f24541864ca634e257d45d462"
-    },
-    {
-      "manual": "cpp",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-AlterCollectionFieldProperties.md",
-      "sourceHash": "f6e0fe8f9d276b0a6ca9418238321d6a44bf2f91f2ebb575036d1a0fe72a9f12"
     },
     {
       "manual": "cpp",
