@@ -1316,7 +1316,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/search-and-query/hybrid-search.md",
-      "sha256": "72065fb19d3c42b334fb105c8aa9417dc94760c32d2045405c642ab44edc134b",
+      "sha256": "c17a9ac510a55e99bd2f4fa76a2dee14a570f1c84dc5460e2158485652ac05cc",
       "docToken": "SU1DwjEeii0p2ik3odJcQ55Unbf",
       "revisionId": "3112"
     },
@@ -1850,9 +1850,9 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/limits/limits.md",
-      "sha256": "c79190ea796049674043bf4f1b5c2043062d937a8bbe642f79bedeb77603939b",
+      "sha256": "89997a8e9f721ea4e5fdcc62568ad5281e148201773147696697fe542da431b0",
       "docToken": "A8UFwSbMniMl6IkpJkNc4HsHnLc",
-      "revisionId": "3869"
+      "revisionId": "3897"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/metrics-alerts/manage-notification-channels.md",
@@ -2864,7 +2864,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/search-and-query/hybrid-search.md",
-      "sha256": "c06ec44637a5151d64051cb3c5f06bf70154d18f427307a08cb99360652b2f1b",
+      "sha256": "a9c3310e7a0eb7d79900c16b9344ae7cc0fef1603e6bf3e67adde68940df2bb4",
       "docToken": "SU1DwjEeii0p2ik3odJcQ55Unbf",
       "revisionId": "3112"
     },
@@ -3836,9 +3836,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/limits/limits.md",
-      "sha256": "710801427df107228f9ed967bfe8e87eecec24ff363758c69971656cdb3472ae",
+      "sha256": "e83f4951b29519027210a1f372440942bb133fb8326dba462d3c6766a888ed2b",
       "docToken": "A8UFwSbMniMl6IkpJkNc4HsHnLc",
-      "revisionId": "3869"
+      "revisionId": "3897"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/metrics-alerts/manage-notification-channels.md",

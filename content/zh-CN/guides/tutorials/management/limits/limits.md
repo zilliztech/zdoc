@@ -233,6 +233,14 @@ Shard 的数量上限取决于集群部署方式和 CU 规格。
 | Collection 操作（创建、加载、释放、删除） | 每个集群 20 req/s。 |
 | Partition 操作（创建、加载、释放、删除） | 每个集群 20 req/s。 |
 
+## Partition\{#partitions}
+
+下表列出了 Partition 的数据写入量限制。
+
+| 项目 | 限制 | 说明 |
+| --- | --- | --- |
+| Partition 数据写入量 | 2 TB | 单个 Partition 的数据写入量限制为 2 TB。 |
+
 ## 数据操作\{#operations}
 
 下文将介绍 Zilliz Cloud 集群中常见数据操作的速率限制。
