@@ -705,6 +705,7 @@ function assertRetirementsMatchManifest(
   sourceSnapshot: ReferenceTreeSnapshot,
   targetSnapshot: ReferenceTreeSnapshot,
   repositoryRoot: string,
+  options: {prevalidatedExternalSnapshot?: boolean} = {},
 ): void {
   // A retirement approval can predate a source becoming explicitly excluded
   // from the target locale. Once the authenticated translation manifest
@@ -733,6 +734,13 @@ function assertRetirementsMatchManifest(
   for (const record of retiredRecords) {
     if (expectedSet.has(`${record.manual}\0${record.sourcePath}\0${record.targetPath}`)) continue;
     if (record.retirementEvidence && verifyCheckpointDeletionEvidence(repositoryRoot, record)) continue;
+    // A Git-less Docker snapshot cannot replay `git cat-file` against history.
+    // There the build consumes an already-prevalidated exact snapshot identity
+    // (resolveExternalSnapshotIdentity rejects the mode outright when Git
+    // metadata is present), which authenticates the committed manifests the
+    // evidence was recorded into — so the recorded checkpoint-deletion
+    // evidence stands without the historical re-verification.
+    if (options.prevalidatedExternalSnapshot && record.retirementEvidence?.kind === 'checkpoint-deletion') continue;
     throw new Error(`Reference retirement lacks an active registry approval or verifiable checkpoint evidence: ${record.sourcePath}`);
   }
 }
@@ -818,7 +826,9 @@ export async function executeReferenceDocsToolingCommand(
         manualForPath,
         excludedSourcePaths: masterAuthoritative,
       });
-      assertRetirementsMatchManifest(retirementRegistry, manifestState.translationManifest, sourceSnapshot, targetSnapshot, repositoryRoot);
+      assertRetirementsMatchManifest(retirementRegistry, manifestState.translationManifest, sourceSnapshot, targetSnapshot, repositoryRoot, {
+        prevalidatedExternalSnapshot: externalSnapshot !== undefined,
+      });
       validateReferenceTranslation({
         repositoryRoot,
         sourceRoot: REFERENCE_SOURCE_ROOT,
@@ -971,7 +981,9 @@ export async function executeReferenceDocsToolingCommand(
       const retirementRegistry = dependencies.retirementRegistry
         ?? parseReferenceRetirementRegistry(readJson(repositoryRoot, REFERENCE_RETIREMENT_REGISTRY));
       validateRetirementRegistry(retirementRegistry, sourceSnapshot, targetSnapshot, manualForPath);
-      assertRetirementsMatchManifest(retirementRegistry, translationManifest, sourceSnapshot, targetSnapshot, repositoryRoot);
+      assertRetirementsMatchManifest(retirementRegistry, translationManifest, sourceSnapshot, targetSnapshot, repositoryRoot, {
+        prevalidatedExternalSnapshot: externalSnapshot !== undefined,
+      });
       validateReferenceTranslation({
         repositoryRoot,
         sourceRoot: REFERENCE_SOURCE_ROOT,
