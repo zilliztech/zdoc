@@ -2,18 +2,9 @@
   "schemaVersion": 1,
   "group": "cpp",
   "complete": true,
-  "generatedAt": "2026-09-21T15:07:10.834Z",
-  "sourceRunId": "35614899821",
+  "generatedAt": "2026-09-22T02:44:49.870Z",
+  "sourceRunId": "35679469901",
   "records": [
-    {
-      "canonicalToken": "A3gld3Xjco1VxSxi6Ndc3Bq4nuh",
-      "title": "AlterCollectionFieldProperties()",
-      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-AlterCollectionFieldProperties.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
     {
       "canonicalToken": "A5FAdLCowoBG4sxh5vEcRH0Nnkb",
       "title": "ListCollections()",
@@ -332,7 +323,7 @@
     {
       "canonicalToken": "GWPxd80BYoQleSxNCPNcFvWsnzb",
       "title": "AddCollectionStructField()",
-      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-AddCollectionStructField.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -360,15 +351,6 @@
       "canonicalToken": "Gzj9djiMTooQUgxl4dfcOIfvnUb",
       "title": "PrivilegeGroupInfo",
       "contentPath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-PrivilegeGroupInfo.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "H5oLd8ZVfooSgixa5O9cyq37nCb",
-      "title": "AlterCollectionProperties()",
-      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-AlterCollectionProperties.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -600,6 +582,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "LT5qdvWCyocc1nxZv6ucyOHAnEf",
+      "title": "AlterAlias()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "LaPcdArhDo6aGnxpX8Oc5azCnCe",
       "title": "GetPartitionStatistics()",
       "contentPath": "content/en/reference/api/cpp/cpp/Partitions/Partitions-GetPartitionStatistics.md",
@@ -699,6 +690,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "N75hd585FoNTfYxuw9Acq9Brnqg",
+      "title": "AlterCollectionProperties()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "NSvXdtRoioS4NKxdjANcGFd9nrc",
       "title": "ListUsers()",
       "contentPath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-ListUsers.md",
@@ -726,6 +726,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "NqRLd36pCohKg8x3sa5cuCdynYf",
+      "title": "AlterCollectionFieldProperties()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "O5bNd8683oYSmuxiNYNcQyudngh",
       "title": "AddPrivilegesToGroup()",
       "contentPath": null,
@@ -746,7 +755,7 @@
     {
       "canonicalToken": "OrRqdvj4yoN2cMxbHUkcEE9Xnbg",
       "title": "AddCollectionFunction()",
-      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-AddCollectionFunction.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -989,7 +998,7 @@
     {
       "canonicalToken": "TcF2doHmuoNHsKxRRJbcsYevnph",
       "title": "AddFunctionField()",
-      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-AddFunctionField.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1116,15 +1125,6 @@
       "canonicalToken": "VMgPdyPGuor1t7xlZGWcWV1tnhh",
       "title": "ConnectParam",
       "contentPath": "content/en/reference/api/cpp/cpp/Client/Client-ConnectParam.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "VRKNdqRGboPNcOxEnkDc3PiWn4e",
-      "title": "AlterAlias()",
-      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-AlterAlias.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
