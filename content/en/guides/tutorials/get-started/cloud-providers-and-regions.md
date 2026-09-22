@@ -226,7 +226,7 @@ Region support can vary by workload type, deployment option, and feature. Use th
      <td><p>BYOC</p></td>
      <td><p>✅ All regions</p><p>Plus:</p><ul><li><p>ap-east-1 (Hong Kong SAR)</p></li><li><p>ap-southeast-7 (Thailand)</p></li></ul></td>
      <td><p>✅ All regions</p><p>Plus:</p><ul><li>europe-west9 (Paris, France)</li></ul></td>
-     <td><p>✅ All regions</p></td>
+     <td><p>✅ All regions</p> <NextChannel action="include"><p>Plus:</p><ul><li>Malaysia West</li></ul> </NextChannel></td>
    </tr>
 </table>
 

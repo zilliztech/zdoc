@@ -2,7 +2,7 @@
 title: "Access Log Reference | BYOC"
 slug: /access-log-reference
 sidebar_label: "Access Log Reference"
-beta: PUBLIC
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

@@ -2,7 +2,7 @@
 title: "Configure Access Logs | Cloud"
 slug: /configure-access-logs
 sidebar_label: "Configure Access Logs"
-beta: PUBLIC
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

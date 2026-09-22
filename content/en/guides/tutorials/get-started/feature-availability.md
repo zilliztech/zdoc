@@ -84,15 +84,11 @@ Contact [Zilliz Support](http://support.zilliz.com) to request access to these f
 
 ### Public preview\{#public-preview}
 
-- Embedding ([OpenAI](./openai), [Voyage AI](./voyage-ai), and [Cohere](./cohere)) and Rerank Functions ([Cohere reranker](./cohere-model-ranker) and [Voyage AI reranker](./voyage-ai-model-ranker))
-
 <Admonition type="info" title="Notes">
 
 Upgrade your cluster Milvus version to access these features.
 
 </Admonition>
-
-- [Access Logs Overview](./access-log-overview)
 
 - [On-demand compute](./on-demand-cluster)
 

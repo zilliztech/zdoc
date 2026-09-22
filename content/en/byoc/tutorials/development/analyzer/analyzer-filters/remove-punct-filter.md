@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "The `removepunct` filter removes standalone punctuation tokens from the token stream. Use it when you want cleaner text processing that focuses on meaningful content words rather than punctuation marks. | BYOC"
+description: "The `removepunct` filter removes tokens that contain punctuation or whitespace from the token stream. Use it when you want cleaner text processing that focuses on meaningful content words rather than punctuation marks. | BYOC"
 type: origin
 token: TVfnwtCEQico7Bk9bngcnV1cnGb
 sidebar_position: 11
@@ -21,11 +21,11 @@ import TabItem from '@theme/TabItem';
 
 # Remove Punct
 
-The `removepunct` filter removes standalone punctuation tokens from the token stream. Use it when you want cleaner text processing that focuses on meaningful content words rather than punctuation marks.
+The `removepunct` filter removes tokens that contain punctuation or whitespace from the token stream. Use it when you want cleaner text processing that focuses on meaningful content words rather than punctuation marks.
 
 <Admonition type="info" title="Notes">
 
-This filter is most effective with `jieba`, `lindera`, and `icu` tokenizers, which preserve punctuation as separate tokens (e.g., `"Hello!"` → `["Hello", "!"]`). Other tokenizers like `standard` and `whitespace` discard punctuation during tokenization, so `removepunct` has no effect on them.
+This filter is most effective with `jieba`, `lindera`, and `icu` tokenizers, which preserve punctuation as separate tokens (e.g., `"Hello!"` → `["Hello", "!"]`). The `standard` tokenizer discards punctuation during tokenization. The `whitespace` tokenizer preserves punctuation, including punctuation within a token. When combined with `whitespace`, `removepunct` removes the entire token if it contains punctuation or whitespace; it does not strip individual characters from the token.
 
 </Admonition>
 

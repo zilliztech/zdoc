@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "The `standard` analyzer is the default analyzer in Zilliz Cloud, which is automatically applied to text fields if no analyzer is specified. It uses grammar-based tokenization, making it effective for most languages. | BYOC"
+description: "The `standard` analyzer is the default analyzer in Zilliz Cloud, which is automatically applied to text fields if no analyzer is specified. It combines the standard tokenizer with the lowercase filter. | BYOC"
 type: origin
 token: WMSvwXXz4iR7mZkGmUscF3Y1nxs
 sidebar_position: 1
@@ -21,7 +21,7 @@ import TabItem from '@theme/TabItem';
 
 # Standard Analyzer
 
-The `standard` analyzer is the default analyzer in Zilliz Cloud, which is automatically applied to text fields if no analyzer is specified. It uses grammar-based tokenization, making it effective for most languages.
+The `standard` analyzer is the default analyzer in Zilliz Cloud, which is automatically applied to text fields if no analyzer is specified. It combines the standard tokenizer with the lowercase filter.
 
 <Admonition type="info" title="Notes">
 
@@ -33,7 +33,7 @@ The `standard` analyzer is suitable for languages that rely on separators (such 
 
 The `standard` analyzer consists of:
 
-- **Tokenizer**: Uses the `standard` tokenizer to split text into discrete word units based on grammar rules. For more information, refer to [Standard Tokenizer](./standard-tokenizer).
+- **Tokenizer**: Uses the `standard` tokenizer to keep consecutive Unicode letters and numeric characters in tokens and split at other characters. For the exact character rules, refer to [Standard Tokenizer](./standard-tokenizer).
 
 - **Filter**: Uses the `lowercase` filter to convert all tokens to lowercase, enabling case-insensitive searches. For more information, refer to [Lowercase](./lowercase-filter).
 

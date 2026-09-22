@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "By default, after Single Sign-on (SSO) is configured for an organization, members can still choose to log in with email/password or third-party accounts (Google, GitHub). SSO enforcement removes this flexibility by mandating that all members use SSO as the only login method. | BYOC"
+description: "If your organization requires members to sign in through its identity provider (IdP), configuring single sign-on (SSO) alone does not meet that requirement. Members can still log in to Zilliz Cloud with email/password or third-party accounts such as Google and GitHub. | BYOC"
 type: origin
 token: MvE5wUlFli3gJOk0MkeclZCqnib
 sidebar_position: 7
@@ -24,37 +24,82 @@ import Procedures from '@site/src/components/Procedures';
 
 # Enforce SSO in Your Organization
 
-By default, after Single Sign-on (SSO) is configured for an organization, members can still choose to log in with email/password or third-party accounts (Google, GitHub). SSO enforcement removes this flexibility by mandating that all members use SSO as the only login method.
+<FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
 
-This feature is designed for organizations that need to meet enterprise security and compliance requirements, such as centralized authentication, audit controls, and identity governance through an identity provider (IdP).
+This feature is available only with the Enterprise plan or higher, and BYOC deployments.
 
-## Overview\{#overview}
+</FeatureNote>
 
-When SSO enforcement is enabled for an organization:
+If your organization requires members to sign in through its identity provider (IdP), configuring single sign-on (SSO) alone does not meet that requirement. Members can still log in to Zilliz Cloud with email/password or third-party accounts such as Google and GitHub.
 
-- Members who attempt to log in with email/password or third-party accounts (Google, GitHub) are blocked and prompted to log in via SSO instead.
+To require SSO for console access, enable SSO enforcement. You can apply this requirement to all members, including Organization Owners, or allow Organization Owners to use other login methods.
 
-- If a user belongs to multiple organizations and **any** of those organizations has SSO enforcement enabled, the user must log in via SSO. This applies regardless of which organization the user intends to access.
+## Owner exemption\{#owner-exemption}
 
-- Organization Owners are automatically exempt and can still log in with other methods. See [Exemption rules](./enforce-sso-in-your-organization#exemption-rules) for details.
+SSO enforcement lets you decide whether Organization Owners must also use SSO. Allowing Owner exemption provides an alternative way for owners to access the console and manage the organization if SSO login fails.
 
-- All active sessions for non-exempt members are immediately invalidated. Affected members are logged out and must re-authenticate via SSO.
+Choose the policy that meets your organization's authentication requirements:
 
-- Direct organization member invitations are disabled. You should provision users through your IdP. Project-level invitations are limited to existing organization members only.
+| Policy | What it means |
+| --- | --- |
+| **Allow Owner exemption** (default) | Organization Owners can use email/password or third-party accounts to log in. This helps them access the console to resolve SSO configuration issues. Other members must use SSO. |
+| **Require SSO for everyone** | All members, including Organization Owners, must authenticate through your IdP. Use this policy when your organization requires SSO without an Owner exception. |
 
-- If your organization has [MFA](./multi-factor-auth) enabled on Zilliz Cloud, it will be automatically disabled when SSO enforcement is turned on. If MFA is required, configure it within your IdP instead.
+<Admonition type="warning" title="Warning">
+
+Before requiring SSO for Organization Owners, verify that you can successfully log in through SSO. If an SSO configuration error prevents everyone from logging in, you must contact support to restore access.
+
+</Admonition>
+
+If your organization already had SSO enforcement enabled, Owner exemption remains enabled after this update. Organization Owners are not automatically required to switch to SSO.
+
+If you belong to multiple organizations, being exempt in one does not necessarily let you log in without SSO. You must still use SSO if another organization enforces it and you are not an Organization Owner there. The same applies if that organization does not allow Owner exemption.
+
+<details>
+
+<summary>How Owner exemption works across multiple organizations</summary>
+
+You can log in without SSO only if, in **every organization with SSO enforcement enabled** that you belong to:
+
+- You are an **Organization Owner**.
+
+- The organization allows Organization Owners to log in without SSO.
+
+If either condition is not met, you must use SSO, regardless of which organization you intend to access.
+
+| Your roles and organization settings | Can you log in without SSO? |
+| --- | --- |
+| You are an Owner in every SSO-enforced organization, and all of them allow Owner exemption. | Yes |
+| You are a regular member in at least one SSO-enforced organization. | No |
+| You are an Owner in every SSO-enforced organization, but at least one does not allow Owner exemption. | No |
+
+Organizations without SSO enforcement do not add this restriction. Being an Owner in such an organization does not exempt you from another organization's policy.
+
+These rules determine whether you can use a non-SSO login. They do not introduce a requirement to sign in separately through each organization's SSO.
+
+</details>
 
 ## Before you start\{#before-you-start}
 
-Before enabling SSO enforcement, ensure the following:
+Before enabling SSO enforcement, complete the following checks:
 
-- You are an **Organization Owner** in the Zilliz Cloud organization.
+- Ensure you are an **Organization Owner** in the target organization.
 
-- An SSO connection has been **configured and validated** for your organization. For setup instructions, refer to the configuration guide for your IdP (e.g., [Okta (OIDC)](./openid-connect)).
+- Configure and enable SSO for your organization, then verify that SSO login succeeds. For setup instructions, refer to the configuration guide for your IdP, such as [Okta (OIDC)](./openid-connect).
 
-- All intended members have been assigned to the SSO application in your IdP and can successfully log in via SSO.
+- Assign all intended members to the SSO application in your IdP and confirm that they can successfully log in through SSO. Before turning off Owner exemption, verify that **you can also log in through SSO**.
+
+- Prepare to provision organization members through your IdP. Enabling enforcement disables direct organization member invitations. Project-level invitations are limited to existing organization members.
+
+- If you require multi-factor authentication (MFA), configure it in your IdP. Any [MFA](./multi-factor-auth) enabled for your organization on Zilliz Cloud is automatically disabled when you enable SSO enforcement.
 
 ## Enable SSO enforcement\{#enable-sso-enforcement}
+
+<Admonition type="warning" title="Warning">
+
+Enabling SSO enforcement immediately invalidates all active sessions for non-exempt members, including sessions authenticated through SSO. Affected members must log in again through SSO. If you turn off Owner exemption, this also applies to Organization Owners, including you.
+
+</Admonition>
 
 <Supademo id="cml4tlban34cozsadvi68n666" title=""  />
 
@@ -64,15 +109,17 @@ Before enabling SSO enforcement, ensure the following:
 
 1. In the left-side navigation pane, click **Settings**.
 
-1. On the **Settings** page, find the **Single Sign-On (SSO)** section. Ensure SSO is already configured and enabled.
+1. Find the **Single Sign-On (SSO)** section. Ensure SSO is configured and enabled.
 
-1. Locate the **Enforce SSO Login** toggle and turn it on.
+1. Turn on **Enforce SSO Login**. The **Enable SSO Enforcement** dialog opens.
 
-1. Click **Confirm**. This will log out all members currently using passwords and disable direct member invitations.
+1. Set **Allow Organization Owners to log in without SSO**. Leave it on to allow Owner exemption, subject to other organizations' policies. Turn it off to require SSO for everyone, including Organization Owners.
+
+1. Review the impact before proceeding: all non-exempt members will be logged out, even if they logged in through SSO. If you turned off Owner exemption, you will also be logged out. Click **Enable** to apply the setting.
 
 </Procedures>
 
-Once enabled, all organization members (except **Organization Owners**) must log in via SSO. Attempts to log in with email/password or third-party accounts (Google, GitHub) will be blocked.
+SSO enforcement is now enabled with the Owner exemption setting you selected. Non-exempt members must log in through SSO. Zilliz Cloud sends Organization Owners an email containing the **SSO Login URL**.
 
 ## Disable SSO enforcement\{#disable-sso-enforcement}
 
@@ -86,26 +133,12 @@ Once enabled, all organization members (except **Organization Owners**) must log
 
 </Procedures>
 
-After SSO enforcement is disabled, members can log in with their original passwords.
+Disabling SSO enforcement removes this organization's requirement to use SSO. Members can use their existing non-SSO login methods only if no other organization they belong to requires them to use SSO under the Owner exemption rules.
 
-## Exemption rules\{#exemption-rules}
+## FAQ\{#faq}
 
-Organization Owners are automatically exempt from SSO enforcement. This serves as a break-glass mechanism to ensure that at least one administrator can always access the organization, even if the IdP is misconfigured or unavailable.
+**What should I do if I cannot log in after enabling SSO enforcement?**
 
-The exemption logic follows these rules:
+Use your organization's SSO Login URL to log in again. Organization Owners receive this URL by email when enforcement is enabled.
 
-- A user who is an **Organization Owner in every SSO-enforced organization** they belong to is exempt and can log in with any method.
-
-- A user who is an Organization Owner in **some** SSO-enforced organizations but a regular member in **any other** SSO-enforced organization is **not** exempt and must log in via SSO.
-
-The following table illustrates the exemption behavior for users across multiple organizations:
-
-| **User** | **Org A (SSO enforced)** | **Org B (SSO enforced)** | **Org C (no enforcement)** | **Exempt?** |
-| --- | --- | --- | --- | --- |
-| User X | Org Owner | Org Owner | Any role | Yes |
-| User Y1 | Org Owner | Org Member | Org Owner | **No** |
-| User Y2 | Org Owner | Org Member | Org Member | **No** |
-| User Y3 | Org Member | Org Member | Org Owner | **No** |
-| User Z | Org Member | Org Member | Org Member | No |
-
-In summary, a user is only exempt if they hold the Organization Owner role in **all** organizations that have SSO enforcement enabled. Being an Organization Owner in a non-enforced organization does not grant exemption.
+If Owner exemption is turned off and an incorrect IdP configuration prevents everyone from logging in, contact support for assistance restoring access. Organization Owners cannot bypass enforcement with email/password or third-party accounts in this case.

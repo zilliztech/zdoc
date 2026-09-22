@@ -48,7 +48,7 @@ The following examples use `{"tokenizer": "whitespace"}` with no filters. Inputs
 | `"a\x0Bb"` | `["a\x0Bb"]` |
 | `"a\u00A0b"` | `["a\u00A0b"]` |
 | `"a\u3000b"` | `["a\u3000b"]` |
-| `" a b "` | `["a", "b"]` |
+| `"\x20a\x20\x20b\x20"` | `["a", "b"]` |
 
 ## Configuration\{#configuration}
 

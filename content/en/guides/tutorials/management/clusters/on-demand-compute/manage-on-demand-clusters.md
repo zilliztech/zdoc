@@ -293,6 +293,8 @@ You can modify the settings, such as the name, description, and auto-suspend set
 
     ![M2XMwoWoih17BRbqhGhcb6i9njg](https://zdoc-images.s3.us-west-2.amazonaws.com/M2XMwoWoih17BRbqhGhcb6i9njg.png)
 
+<NextChannel action="include">
+
 ## Configure a keep-warm schedule\{#configure-a-keep-warm-schedule}
 
 A keep-warm schedule keeps an on-demand cluster running during recurring weekly windows. When a keep-warm window starts, Zilliz Cloud resumes the on-demand cluster if it is suspended. During the window, `Auto Suspend` is suppressed. When the window ends, the on-demand cluster follows its existing auto-suspension policy again.
@@ -414,6 +416,8 @@ Disabling a schedule keeps all configured rules. If the on-demand cluster is in 
 Deleting a schedule permanently removes all rules. To delete a keep-warm schedule, click **Delete Schedule** and confirm the operation as shown below. 
 
 ![SBkEwV2bihQXhDbdTlIcnnYknSd](https://zdoc-images.s3.us-west-2.amazonaws.com/SBkEwV2bihQXhDbdTlIcnnYknSd.png)
+
+</NextChannel>
 
 ## Drop an on-demand cluster\{#drop-an-on-demand-cluster}
 
