@@ -2,7 +2,7 @@
 title: "配置访问日志 | BYOC"
 slug: /configure-access-logs
 sidebar_label: "配置访问日志"
-beta: PUBLIC
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

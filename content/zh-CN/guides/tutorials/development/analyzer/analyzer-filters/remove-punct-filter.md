@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`removepunct` 过滤器会从 token 流中移除单独存在的标点符号。 | Cloud"
+description: "`removepunct` 过滤器会从词项流中移除包含标点符号或空白字符的词项。当您希望进行更干净的文本处理、专注于有意义的内容词而非标点时，可以使用该过滤器。 | Cloud"
 type: origin
 token: RA2vwGhS9itlQpkgoeXcKHVenpe
 sidebar_position: 11
@@ -21,14 +21,13 @@ import TabItem from '@theme/TabItem';
 
 # Remove Punct
 
-`removepunct` 过滤器会从 token 流中移除单独存在的标点符号。
- 当你希望进行更干净的文本处理、专注于有意义的内容词而非标点时，可以使用该过滤器。
+`removepunct` 过滤器会从词项流中移除包含标点符号或空白字符的词项。当您希望进行更干净的文本处理、专注于有意义的内容词而非标点时，可以使用该过滤器。
 
 <Admonition type="info" title="说明">
 
 - 该过滤器在 `jieba`、`lindera` 和 `icu` tokenizer 中最有效，因为这些 tokenizer 会将标点保留为独立的 token（例如 `"Hello!"` → `["Hello", "!"]`）。
 
-- 对于 `standard` 和 `whitespace` 等 tokenizer，它们在分词阶段就会丢弃标点，因此 `removepunct` 在这些情况下不会产生作用。
+- `standard` 分词器会在分词阶段丢弃标点符号。`whitespace` 分词器会保留标点符号，包括词项内部的标点。与 `whitespace` 配合使用时，如果词项包含标点符号或空白字符，`removepunct` 会删除整个词项，而不是仅移除其中的个别字符。
 
 </Admonition>
 

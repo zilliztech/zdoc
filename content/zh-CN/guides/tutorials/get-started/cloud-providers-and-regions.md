@@ -126,7 +126,7 @@ Zilliz Cloud 支持在亚马逊云科技以下地域部署集群。
    <tr>
      <td><p>按需计算</p></td>
      <td><p>✅ 全部地域</p></td>
-     <td><p>ℹ️ 部分地域：</p><ul><li>华北地区（北京）</li></ul></td>
+     <td><NextChannel action="include"><p>ℹ️ 部分地域：</p><ul><li>华北地区（北京）</li></ul> </NextChannel> <NextChannel action="exclude"><p>❌</p> </NextChannel></td>
      <td><p>❌</p></td>
    </tr>
 </table>

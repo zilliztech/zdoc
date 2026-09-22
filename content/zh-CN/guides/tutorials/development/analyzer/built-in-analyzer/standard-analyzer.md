@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Standard Analyzer 是 Zilliz Cloud 中的默认 Analyzer ，如果未指定 Analyzer ，它将自动应用于文本字段。它使用基于语法的分词，因此对大多数语言都有效。 | Cloud"
+description: "Standard Analyzer 是 Zilliz Cloud 中的默认 Analyzer，如果未指定 Analyzer，它将自动应用于文本字段。它由 `standard` 分词器和 `lowercase` 过滤器组成。 | Cloud"
 type: origin
 token: ZdWIwmiQCiKcIlkAHAZc1tDSngs
 sidebar_position: 1
@@ -21,7 +21,7 @@ import TabItem from '@theme/TabItem';
 
 # Standard Analyzer
 
-Standard Analyzer 是 Zilliz Cloud 中的默认 Analyzer ，如果未指定 Analyzer ，它将自动应用于文本字段。它使用基于语法的分词，因此对大多数语言都有效。
+Standard Analyzer 是 Zilliz Cloud 中的默认 Analyzer，如果未指定 Analyzer，它将自动应用于文本字段。它由 `standard` 分词器和 `lowercase` 过滤器组成。
 
 <Admonition type="info" title="说明">
 
@@ -33,7 +33,7 @@ Standard Analyzer 是 Zilliz Cloud 中的默认 Analyzer ，如果未指定 Anal
 
 Standard Analyzer由以下部分组成：  
 
-- **分词器**：使用标准分词器根据语法规则将文本拆分为离散的单词单元。
+- **分词器**：使用 `standard` 分词器，将连续的 Unicode 字母和数字字符保留在词项中，并在其他字符处切分。具体字符规则请参阅 [Standard 分词器](./standard-tokenizer)中的“分词规则”。
 
 - **过滤器**：使用小写过滤器将所有词元转换为小写，以实现不区分大小写的搜索。
 

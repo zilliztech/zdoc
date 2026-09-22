@@ -84,15 +84,11 @@ Zilliz Cloud 文档中，每个功能会以标签形式标注其当前支持阶�
 
 ### 公测版\{#public-preview}
 
-- Text Embedding 和 Rerank Function
-
 <Admonition type="info" title="说明">
 
 如需使用上述功能，请升级集群的 Milvus 版本。
 
 </Admonition>
-
-- [访问日志概述](./access-log-overview)
 
 - [按需计算](./on-demand-cluster)
 
