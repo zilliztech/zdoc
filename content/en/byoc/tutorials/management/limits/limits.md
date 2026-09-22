@@ -140,6 +140,14 @@ Zilliz Cloud also imposes rate limits on collection and partition data definitio
 | Collection DDL Operation<br/>(create, load, release, drop) | 20 req/s per cluster |
 | Partition DDL Operation<br/>(create, load, release, drop) | 20 req/s per cluster |
 
+## Partitions\{#partitions}
+
+The following table lists the data write volume of a partition.
+
+| Item | Limits | Remarks |
+| --- | --- | --- |
+| Partition data write volume | 2 TB | The data write volume for a single partition is limited to 2 TB. |
+
 ## Operations\{#operations}
 
 This section focuses on the rate limit for common data operations in Zilliz Cloud clusters.
