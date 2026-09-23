@@ -70,8 +70,12 @@ async function main() {
   fs.mkdirSync(fragmentDir)
   fs.writeFileSync(path.join(fragmentDir, 'spec.json'), `${JSON.stringify(buildSpecifications())}\n`)
   const manifestPath = path.join(cliDir, 'rest-derivation.json')
+  // The standalone entry registers the fetch options directly on the
+  // program, so no subcommand word is passed here. This also keeps the test
+  // compatible with commander >= 13, which errors on excess positionals
+  // where commander 10 silently ignored them.
   const cli = spawnSync(process.execPath, [
-    path.join(__dirname, 'index.js'), 'fetch-apifox-docs',
+    path.join(__dirname, 'index.js'),
     '-s', fragmentDir,
     '-l', 'en-US',
     '-o', path.join(cliDir, 'out'),
