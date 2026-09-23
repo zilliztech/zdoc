@@ -3,7 +3,12 @@
 // Static build capabilities (.md copies, llms.txt) cannot evaluate the runtime
 // release channel, so they must render the CURRENT view of block-level gates —
 // the same view prerendering produces: `action="include"` content is dropped,
-// `action="exclude"` content is unwrapped. Inside fenced code the channel
+// `action="exclude"` content is unwrapped. Gate blocks may themselves contain
+// fenced code examples, so gate state must carry across fence segments: an
+// include gate drops the fences it spans, an exclude gate keeps them. An
+// unterminated include gate drops the remainder (fail closed: staged prose must
+// never leak into a static artifact); an unterminated exclude gate keeps its
+// content, matching the CURRENT view. Inside fenced code the channel
 // directives (`(next|current)-channel-(next-line|start|end)`, any of the five
 // product comment styles) resolve the same way and the directive comment lines
 // themselves are removed; fences without directives stay byte-identical (tags
@@ -11,9 +16,10 @@
 // by the page-level front-matter gate; this resolver handles the blocks that
 // remain inside CURRENT pages. Both grammars are fixed by the Fetch lint, so
 // strict patterns are safe.
-const NEXT_CHANNEL_INCLUDE = /<NextChannel action="include">[\s\S]*?<\/NextChannel>/g;
-const NEXT_CHANNEL_EXCLUDE = /<NextChannel action="exclude">([\s\S]*?)<\/NextChannel>/g;
 const FENCED_SEGMENT = /(```[\s\S]*?```|~~~[\s\S]*?~~~)/g;
+const GATE_OPEN_TAG = /<NextChannel action="(include|exclude)">/;
+const GATE_CLOSE_TAG = '</NextChannel>';
+const CHANNEL_DIRECTIVE_HINT = /(next|current)-channel-(next-line|start|end)/;
 
 const CHANNEL_DIRECTIVE_BODY = '(next|current)-channel-(next-line|start|end)';
 const CHANNEL_DIRECTIVE_PATTERNS = [
@@ -52,17 +58,53 @@ function resolveFenceToCurrentView(fence) {
   return output.join('\n');
 }
 
-function resolveCurrentViewSegment(segment) {
-  return segment.replace(NEXT_CHANNEL_INCLUDE, '').replace(NEXT_CHANNEL_EXCLUDE, '$1');
+// Scan one prose segment for gate tags, carrying gate state in and out so a
+// gate that spans fenced segments resolves as a single block.
+function resolveProseSegment(segment, gate) {
+  let output = '';
+  let cursor = 0;
+  let activeGate = gate;
+  while (cursor < segment.length) {
+    if (activeGate === null) {
+      const open = segment.slice(cursor).match(GATE_OPEN_TAG);
+      if (!open) {
+        output += segment.slice(cursor);
+        break;
+      }
+      output += segment.slice(cursor, cursor + open.index);
+      activeGate = open[1];
+      cursor += open.index + open[0].length;
+      continue;
+    }
+    const closeIndex = segment.indexOf(GATE_CLOSE_TAG, cursor);
+    if (closeIndex === -1) {
+      if (activeGate === 'exclude') output += segment.slice(cursor);
+      break;
+    }
+    if (activeGate === 'exclude') output += segment.slice(cursor, closeIndex);
+    cursor = closeIndex + GATE_CLOSE_TAG.length;
+    activeGate = null;
+  }
+  return {output, gate: activeGate};
 }
 
 function resolveNextChannelCurrentView(content) {
   const text = String(content);
-  if (!text.includes('<NextChannel') && !/(next|current)-channel-(next-line|start|end)/.test(text)) return text;
-  return text
-    .split(FENCED_SEGMENT)
-    .map((segment, index) => (index % 2 === 1 ? resolveFenceToCurrentView(segment) : resolveCurrentViewSegment(segment)))
-    .join('');
+  if (!text.includes('<NextChannel') && !CHANNEL_DIRECTIVE_HINT.test(text)) return text;
+  const parts = [];
+  let gate = null;
+  const segments = text.split(FENCED_SEGMENT);
+  for (let index = 0; index < segments.length; index += 1) {
+    const segment = segments[index];
+    if (index % 2 === 1) {
+      if (gate !== 'include') parts.push(resolveFenceToCurrentView(segment));
+      continue;
+    }
+    const resolved = resolveProseSegment(segment, gate);
+    parts.push(resolved.output);
+    gate = resolved.gate;
+  }
+  return parts.join('');
 }
 
 module.exports = {resolveNextChannelCurrentView};
