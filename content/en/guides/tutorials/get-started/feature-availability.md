@@ -76,6 +76,8 @@ The availability phase of each feature is indicated in the Zilliz Cloud document
 
 - Hosted models
 
+- [Spark Batch Jobs](./spark-batch-jobs)
+
 <Admonition type="info" title="Notes">
 
 Contact [Zilliz Support](http://support.zilliz.com) to request access to these features. 
@@ -91,8 +93,6 @@ Upgrade your cluster Milvus version to access these features.
 </Admonition>
 
 - [On-demand compute](./on-demand-cluster)
-
-- [Spark Batch Jobs](./spark-batch-jobs)
 
 <Admonition type="info" title="Notes">
 

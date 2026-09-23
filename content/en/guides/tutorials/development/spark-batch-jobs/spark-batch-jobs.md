@@ -2,7 +2,7 @@
 title: "Spark Batch Jobs | Cloud"
 slug: /spark-batch-jobs
 sidebar_label: "Spark Batch Jobs"
-beta: PUBLIC
+beta: PRIVATE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

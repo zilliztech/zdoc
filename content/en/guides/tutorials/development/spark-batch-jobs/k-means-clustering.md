@@ -2,7 +2,7 @@
 title: "K-Means Clustering | Cloud"
 slug: /k-means-clustering
 sidebar_label: "K-Means Clustering"
-beta: PUBLIC
+beta: PRIVATE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

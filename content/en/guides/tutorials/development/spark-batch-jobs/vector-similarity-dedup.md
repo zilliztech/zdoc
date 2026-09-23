@@ -2,7 +2,7 @@
 title: "Vector Similarity Deduplication | Cloud"
 slug: /vector-similarity-dedup
 sidebar_label: "Vector Similarity Deduplication"
-beta: PUBLIC
+beta: PRIVATE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

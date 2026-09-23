@@ -2,7 +2,7 @@
 title: "Data Backfill  | Cloud"
 slug: /data-backfill
 sidebar_label: "Data Backfill "
-beta: PUBLIC
+beta: PRIVATE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

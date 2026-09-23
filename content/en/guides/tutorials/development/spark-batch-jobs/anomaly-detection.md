@@ -2,7 +2,7 @@
 title: "Anomaly Detection | Cloud"
 slug: /anomaly-detection
 sidebar_label: "Anomaly Detection"
-beta: PUBLIC
+beta: PRIVATE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

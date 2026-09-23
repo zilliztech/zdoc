@@ -2,7 +2,7 @@
 title: "Primary-Key Deduplication | Cloud"
 slug: /primary-key-dedup
 sidebar_label: "Primary-Key Deduplication"
-beta: PUBLIC
+beta: PRIVATE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

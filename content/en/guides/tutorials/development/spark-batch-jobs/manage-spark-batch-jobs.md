@@ -2,7 +2,7 @@
 title: "Manage Spark Batch Jobs | Cloud"
 slug: /manage-spark-batch-jobs
 sidebar_label: "Manage Spark Batch Jobs"
-beta: PUBLIC
+beta: PRIVATE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

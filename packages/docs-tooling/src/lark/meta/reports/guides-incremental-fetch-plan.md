@@ -1,33 +1,35 @@
 # guides Incremental Fetch Plan
 
-Generated: 2026-09-23T10:30:37.858Z
+Generated: 2026-09-23T18:37:51.753Z
 Mode: incremental
 Build env: uat
 Source dir: `packages/docs-tooling/src/lark/meta/sources/guides`
-Previous snapshot: 2026-09-23T03:50:06.048Z
+Previous snapshot: 2026-09-23T10:31:30.367Z
 
 ## Summary
 
-- Changed docs: 1
-- Expanded docs: 9
+- Changed docs: 2
+- Expanded docs: 10
 - Removed docs: 0
 - Warnings: 0
 
 ## Changed Docs
 
-- Quickstart to Serving Cluster (B1XTwQgNRizAMTkZQvrclGSonyc): wiki node revision changed
+- Quickstart to On-Demand Search (GQN0wDCrni4n36kyeVQcF41Lned): wiki node revision changed
+- Feature Availability (HpbSwzS6kiW9gikHpQ0cUZLWnlc): wiki node revision changed
 
 ## Expanded Tokens
 
-- Ah0DwMIWsilLa4kVbYocJGCMnlh: outgoing reference from B1XTwQgNRizAMTkZQvrclGSonyc
-- B1XTwQgNRizAMTkZQvrclGSonyc: wiki node revision changed
-- D1E4wLr5xiuHoFkJgblcHZ1FnLb: outgoing reference from B1XTwQgNRizAMTkZQvrclGSonyc
-- DsqzwjegpiYSdtk1k75c1zXsnZc: outgoing reference from B1XTwQgNRizAMTkZQvrclGSonyc
-- HriHwEU3qiQrgskz3a0cdkcpnyf: outgoing reference from B1XTwQgNRizAMTkZQvrclGSonyc
-- KmYgwHNOFiPQ9sk4bSDcMuIHnjC: outgoing reference from B1XTwQgNRizAMTkZQvrclGSonyc
-- MtGywZwmXiHg0AkJMavcWAtxnCg: outgoing reference from B1XTwQgNRizAMTkZQvrclGSonyc
-- QuBiwrIJdiDw3ckVDKBcPofinfe: outgoing reference from B1XTwQgNRizAMTkZQvrclGSonyc
-- RZqzw4UPkiikHOkdoa4chGDgnWX: outgoing reference from B1XTwQgNRizAMTkZQvrclGSonyc
+- FOwZwuxaWiuthnkZdedcGbJOnZf: outgoing reference from HpbSwzS6kiW9gikHpQ0cUZLWnlc
+- GQN0wDCrni4n36kyeVQcF41Lned: wiki node revision changed
+- HpbSwzS6kiW9gikHpQ0cUZLWnlc: wiki node revision changed
+- K4F3wDpFciHWwJkZd5qc302OnWg: outgoing reference from HpbSwzS6kiW9gikHpQ0cUZLWnlc
+- MUL3wkn7Yi3YoFkYk59csf8bnNc: incoming reference to GQN0wDCrni4n36kyeVQcF41Lned
+- MtGywZwmXiHg0AkJMavcWAtxnCg: outgoing reference from GQN0wDCrni4n36kyeVQcF41Lned
+- NRF1wGr3AiWWC1kVfWucZD6Xneb: incoming reference to GQN0wDCrni4n36kyeVQcF41Lned
+- QUTDwkbTTiA2UlkWYDlc796ensf: outgoing reference from HpbSwzS6kiW9gikHpQ0cUZLWnlc
+- RoxawNJhki1vXXkFsEEc7laMnxe: outgoing reference from HpbSwzS6kiW9gikHpQ0cUZLWnlc
+- WBONwyqFAi02DTkCG41c93wCn6e: incoming reference to HpbSwzS6kiW9gikHpQ0cUZLWnlc
 
 ## Removed Docs
 
