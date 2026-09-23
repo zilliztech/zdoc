@@ -3,7 +3,9 @@ import Heading from '@theme-init/Heading';
 import type HeadingType from '@theme/Heading';
 import type { WrapperProps } from '@docusaurus/types';
 import { useLocation } from '@docusaurus/router';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import DocTag from '../../components/DocTag';
+import {resolveTagLink} from './tagLinks';
 import styles from './styles.module.css';
 
 type Props = WrapperProps<typeof HeadingType>;
@@ -29,10 +31,10 @@ function isDocOrReferencePath(pathname: string): boolean {
   );
 }
 
-const CONTACT_SALES_URL = 'https://zilliz.com/contact-sales';
-
 export default function HeadingWrapper(props: Props): ReactNode {
   const { pathname } = useLocation();
+  const {siteConfig} = useDocusaurusContext();
+  const site = siteConfig.customFields?.site;
   const frontMatter = useDocFrontMatter();
 
   const onDocPage = isDocOrReferencePath(pathname) && frontMatter !== null;
@@ -54,7 +56,7 @@ export default function HeadingWrapper(props: Props): ReactNode {
     const beta = isByoc
       ? 'CONTACT SALES'
       : betaRaw && betaRaw !== 'FALSE' ? betaRaw : null;
-    const link = beta === 'CONTACT SALES' ? CONTACT_SALES_URL : undefined;
+    const link = resolveTagLink(beta ?? '', pathname, site);
 
     return (
       <div className={styles.h1Container}>
@@ -75,7 +77,7 @@ export default function HeadingWrapper(props: Props): ReactNode {
     const pipeIdx = children.indexOf('|');
     const title = children.slice(0, pipeIdx).trim();
     const tagType = children.slice(pipeIdx + 1).trim();
-    const link = tagType === 'CONTACT SALES' ? CONTACT_SALES_URL : undefined;
+    const link = resolveTagLink(tagType, pathname, site);
 
     return (
       <div className={styles.headingContainer}>
