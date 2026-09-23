@@ -2,6 +2,7 @@ const assert = require('node:assert/strict')
 const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
+const { spawnSync } = require('node:child_process')
 const RefGen = require('./refGen')
 
 function listFiles(dir) {
@@ -10,26 +11,30 @@ function listFiles(dir) {
     .map(entry => path.join(entry.parentPath ?? entry.path, entry.name))
 }
 
-function buildGenerator(target, targetPath) {
-  return new RefGen({
-    specifications: {
-      tags: [
-        { name: 'Vector (V1)' },
-        { name: 'Collection (V1)' },
-        { name: 'Vector Operations (V2)' },
-      ],
-      paths: {
-        '/v1/vector/collections': {
-          get: { summary: 'List', tags: ['Vector (V1)'], responses: {} },
-        },
-        '/v1/collections': {
-          get: { summary: 'List', tags: ['Collection (V1)'], responses: {} },
-        },
-        '/v2/vectordb/collections/list': {
-          post: { summary: 'List', tags: ['Vector Operations (V2)'], responses: {} },
-        },
+function buildSpecifications() {
+  return {
+    tags: [
+      { name: 'Vector (V1)' },
+      { name: 'Collection (V1)' },
+      { name: 'Vector Operations (V2)' },
+    ],
+    paths: {
+      '/v1/vector/collections': {
+        get: { summary: 'List', tags: ['Vector (V1)'], responses: {} },
+      },
+      '/v1/collections': {
+        get: { summary: 'List', tags: ['Collection (V1)'], responses: {} },
+      },
+      '/v2/vectordb/collections/list': {
+        post: { summary: 'List', tags: ['Vector Operations (V2)'], responses: {} },
       },
     },
+  }
+}
+
+function buildGenerator(target, targetPath) {
+  return new RefGen({
+    specifications: buildSpecifications(),
     lang: 'en-US',
     target,
     target_path: targetPath,
@@ -55,6 +60,29 @@ async function main() {
   const zilliz = buildGenerator('zilliz', zillizTarget)
   zilliz.make_groups()
   await assert.rejects(zilliz.write_refs(), /REST_PAGE_ROUTE_CONFLICT: \/restful\/list/)
+
+  // The production CLI must fail closed on the same conflict: the rejection
+  // has to surface before the derivation manifest is written (and before the
+  // S3 upload that follows it), so a failed run leaves no side effects
+  // beyond the target tree it was asked to generate into.
+  const cliDir = fs.mkdtempSync(path.join(os.tmpdir(), 'refgen-route-cli-'))
+  const fragmentDir = path.join(cliDir, 'fragments')
+  fs.mkdirSync(fragmentDir)
+  fs.writeFileSync(path.join(fragmentDir, 'spec.json'), `${JSON.stringify(buildSpecifications())}\n`)
+  const manifestPath = path.join(cliDir, 'rest-derivation.json')
+  const cli = spawnSync(process.execPath, [
+    path.join(__dirname, 'index.js'), 'fetch-apifox-docs',
+    '-s', fragmentDir,
+    '-l', 'en-US',
+    '-o', path.join(cliDir, 'out'),
+    '-t', 'zilliz',
+    '--derivation-manifest', manifestPath,
+    '--tooling-sha', 'a'.repeat(40),
+    '--generated-at', '2026-01-01T00:00:00.000Z',
+  ], { encoding: 'utf8' })
+  assert.notEqual(cli.status, 0)
+  assert.match(cli.stderr, /REST_PAGE_ROUTE_CONFLICT: \/restful\/list/)
+  assert.equal(fs.existsSync(manifestPath), false, 'derivation manifest must not be written on a route conflict')
 }
 
 main().then(
