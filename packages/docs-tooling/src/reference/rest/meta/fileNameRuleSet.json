@@ -1,212 +1,212 @@
 [
-  {
-    "path": "-collections",
-    "name": "-",
-    "match": "removeAndCapitalize"
-  },
-  {
-    "path": "-collection",
-    "name": "-",
-    "match": "removeAndCapitalize"
-  },
-  {
-    "path": "delete",
-    "name": "Delete",
-    "match": "endsWith"
-  },
-  {
-    "path": "get",
-    "name": "Get",
-    "match": "endsWith"
-  },
-  {
-    "path": "insert",
-    "name": "Insert",
-    "match": "endsWith"
-  },
-  {
-    "path": "hybrid-search",
-    "name": "Hybrid Search",
-    "match": "contains"
-  },
-  {
-    "path": "search",
-    "name": "Search",
-    "match": "endsWith"
-  },
-  {
-    "path": "upsert",
-    "name": "Upsert",
-    "match": "endsWith"
-  },
-  {
-    "path": "query",
-    "name": "Query",
-    "match": "endsWith"
-  },
-  {
-    "path": "-aliases",
-    "name": "-",
-    "match": "removeAndCapitalize"
-  },
-  {
-    "path": "-alias",
-    "name": "-",
-    "match": "removeAndCapitalize"
-  },
-  {
-    "path": "-indexes",
-    "name": "-",
-    "match": "removeAndCapitalize"
-  },
-  {
-    "path": "-index",
-    "name": "-",
-    "match": "removeAndCapitalize"
-  },
-  {
-    "path": "-partitions",
-    "name": "-",
-    "match": "removeAndCapitalize"
-  },
-  {
-    "path": "-partition",
-    "name": "-",
-    "match": "removeAndCapitalize"
-  },
-  {
-    "path": "-to-user",
-    "name": "-",
-    "match": "removeAndCapitalize"
-  },
-  {
-    "path": "-from-user",
-    "name": "-",
-    "match": "removeAndCapitalize"
-  },
-  {
-    "path": "-user",
-    "name": "-",
-    "match": "removeAndCapitalize"
-  },
-  {
-    "path": "-to-role",
-    "name": "-",
-    "match": "removeAndCapitalize"
-  },
-  {
-    "path": "-from-role",
-    "name": "-",
-    "match": "removeAndCapitalize"
-  },
-  {
-    "path": "-role",
-    "name": "-",
-    "match": "removeAndCapitalize"
-  },
-  {
-    "path": "-import-jobs",
-    "name": "-",
-    "match": "removeAndCapitalize"
-  },
-  {
-    "path": "-import-job",
-    "name": "-",
-    "match": "removeAndCapitalize"
-  },
-  {
-    "path": "alter-field-properties",
-    "name": "Alter Field Properties",
-    "match": "contains"
-  },
-  {
-    "path": "refresh-load",
-    "name": "Refresh Load",
-    "match": "contains"
-  },
-  {
-    "path": "get-compaction-state",
-    "name": "Get Compaction State",
-    "match": "contains"
-  },
-  {
-    "path": "run-analyzer",
-    "name": "Run Analyzer",
-    "match": "contains"
-  },
-  {
-    "path": "-database",
-    "name": "-",
-    "match": "removeAndCapitalize"
-  },
-  {
-    "path": "-databases",
-    "name": "-",
-    "match": "removeAndCapitalize"
-  },
-  {
-    "path": "-resource-group",
-    "name": "-",
-    "match": "removeAndCapitalize"
-  },
-  {
-    "path": "-resource-groups",
-    "name": "-",
-    "match": "removeAndCapitalize"
-  },
-  {
-    "path": "-privilege-groups",
-    "name": "-",
-    "match": "removeAndCapitalize"
-  },
-  {
-    "path": "-privilege-group",
-    "name": "-",
-    "match": "removeAndCapitalize"
-  },
-  {
-    "path": "-to-group",
-    "name": "-",
-    "match": "removeAndCapitalize"
-  },
-  {
-    "path": "-from-group",
-    "name": "-",
-    "match": "removeAndCapitalize"
-  },
-  {
-    "path": "add-file-resource",
-    "name": "Add File Resource",
-    "match": "endsWith"
-  },
-  {
-    "path": "list-file-resources",
-    "name": "List File Resources",
-    "match": "endsWith"
-  },
-  {
-    "path": "remove-file-resource",
-    "name": "Remove File Resource",
-    "match": "endsWith"
-  },
-  {
-    "path": "get-restore-snapshot-job-state",
-    "name": "Get Restore Snapshot Job State",
-    "match": "endsWith"
-  },
-  {
-    "path": "export-snapshot",
-    "name": "Export Snapshot",
-    "match": "endsWith"
-  },
-  {
-    "path": "list-restore-snapshot-jobs",
-    "name": "List Restore Snapshot Jobs",
-    "match": "endsWith"
-  },
-  {
-    "path": "restore-external-snapshot",
-    "name": "Restore External Snapshot",
-    "match": "endsWith"
-  }
+    {
+        "path": "-collections",
+        "name": "-",
+        "match": "removeAndCapitalize"
+    },
+    {
+        "path": "-collection",
+        "name": "-",
+        "match": "removeAndCapitalize"
+    },
+    {
+        "path": "delete",
+        "name": "Delete",
+        "match": "endsWith"
+    },
+    {
+        "path": "get",
+        "name": "Get",
+        "match": "endsWith"
+    },
+    {
+        "path": "insert",
+        "name": "Insert",
+        "match": "endsWith"
+    },
+    {
+        "path": "hybrid-search",
+        "name": "Hybrid Search",
+        "match": "contains"
+    },
+    {
+        "path": "search",
+        "name": "Search",
+        "match": "endsWith"
+    },
+    {
+        "path": "upsert",
+        "name": "Upsert",
+        "match": "endsWith"
+    },
+    {
+        "path": "query",
+        "name": "Query",
+        "match": "endsWith"
+    },
+    {
+        "path": "-aliases",
+        "name": "-",
+        "match": "removeAndCapitalize"
+    },
+    {
+        "path": "-alias",
+        "name": "-",
+        "match": "removeAndCapitalize"
+    },
+    {
+        "path": "-indexes",
+        "name": "-",
+        "match": "removeAndCapitalize"
+    },
+    {
+        "path": "-index",
+        "name": "-",
+        "match": "removeAndCapitalize"
+    },
+    {
+        "path": "-partitions",
+        "name": "-",
+        "match": "removeAndCapitalize"
+    },
+    {
+        "path": "-partition",
+        "name": "-",
+        "match": "removeAndCapitalize"
+    },
+    {
+        "path": "-to-user",
+        "name": "-",
+        "match": "removeAndCapitalize"
+    },
+    {
+        "path": "-from-user",
+        "name": "-",
+        "match": "removeAndCapitalize"
+    },
+    {
+        "path": "-user",
+        "name": "-",
+        "match": "removeAndCapitalize"
+    },
+    {
+        "path": "-to-role",
+        "name": "-",
+        "match": "removeAndCapitalize"
+    },
+    {
+        "path": "-from-role",
+        "name": "-",
+        "match": "removeAndCapitalize"
+    },
+    {
+        "path": "-role",
+        "name": "-",
+        "match": "removeAndCapitalize"
+    },
+    {
+        "path": "-import-jobs",
+        "name": "-",
+        "match": "removeAndCapitalize"
+    },
+    {
+        "path": "-import-job",
+        "name": "-",
+        "match": "removeAndCapitalize"
+    },
+    {
+        "path": "alter-field-properties",
+        "name": "Alter Field Properties",
+        "match": "contains"
+    },
+    {
+        "path": "refresh-load",
+        "name": "Refresh Load",
+        "match": "contains"
+    },
+    {
+        "path": "get-compaction-state",
+        "name": "Get Compaction State",
+        "match": "contains"
+    },
+    {
+        "path": "run-analyzer",
+        "name": "Run Analyzer",
+        "match": "contains"
+    },
+    {
+        "path": "-database",
+        "name": "-",
+        "match": "removeAndCapitalize"
+    },
+    {
+        "path": "-databases",
+        "name": "-",
+        "match": "removeAndCapitalize"
+    },
+    {
+        "path": "-resource-group",
+        "name": "-",
+        "match": "removeAndCapitalize"
+    },
+    {
+        "path": "-resource-groups",
+        "name": "-",
+        "match": "removeAndCapitalize"
+    },
+    {
+        "path": "-privilege-groups",
+        "name": "-",
+        "match": "removeAndCapitalize"
+    },
+    {
+        "path": "-privilege-group",
+        "name": "-",
+        "match": "removeAndCapitalize"
+    },
+    {
+        "path": "-to-group",
+        "name": "-",
+        "match": "removeAndCapitalize"
+    },
+    {
+        "path": "-from-group",
+        "name": "-",
+        "match": "removeAndCapitalize"
+    },
+    {
+        "path": "add-file-resource",
+        "name": "Add File Resource",
+        "match": "endsWith"
+    },
+    {
+        "path": "list-file-resources",
+        "name": "List File Resources",
+        "match": "endsWith"
+    },
+    {
+        "path": "remove-file-resource",
+        "name": "Remove File Resource",
+        "match": "endsWith"
+    },
+    {
+        "path": "get-restore-snapshot-job-state",
+        "name": "Get Restore Snapshot Job State",
+        "match": "endsWith"
+    },
+    {
+        "path": "export-snapshot",
+        "name": "Export Snapshot",
+        "match": "endsWith"
+    },
+    {
+        "path": "list-restore-snapshot-jobs",
+        "name": "List Restore Snapshot Jobs",
+        "match": "endsWith"
+    },
+    {
+        "path": "restore-external-snapshot",
+        "name": "Restore External Snapshot",
+        "match": "endsWith"
+    }
 ]
