@@ -31,22 +31,22 @@ The following procedure assumes that you have already created a serving cluster 
 
 Once you have obtained the cluster credentials or an API key, you can use it to connect to your cluster.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Rust","value":"rust"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 from pymilvus import MilvusClient, DataType
 
 SERVING_CLUSTER_ENDPOINT = "https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530"
-TOKEN = "YOUR_ZILLIZ_API_KEY" 
+TOKEN = "YOUR_ZILLIZ_API_KEY"
 # A valid token could be either
-# - An API key, or 
+# - An API key, or
 # - Use your Zilliz Cloud API key
 
 # 1. Set up a Milvus client
 client = MilvusClient(
     uri=SERVING_CLUSTER_ENDPOINT,
-    token=TOKEN 
+    token=TOKEN
 )
 ```
 
@@ -75,7 +75,7 @@ MilvusClientV2 client = new MilvusClientV2(config);
 import (
     "context"
 
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 SERVING_CLUSTER_ENDPOINT := "https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530"
 TOKEN := "YOUR_ZILLIZ_API_KEY"
@@ -87,6 +87,38 @@ cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
 })
 if err != nil {
     panic(err)
+}
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+
+const SERVING_CLUSTER_ENDPOINT: &str = "https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530";
+const TOKEN: &str = "YOUR_ZILLIZ_API_KEY";
+
+// 1. Set up a Milvus client
+let config = ConnectConfig::new().uri(SERVING_CLUSTER_ENDPOINT).token(TOKEN);
+let client = ClientV2::new(&config).await?;
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+
+const std::string SERVING_CLUSTER_ENDPOINT = "https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530";
+const std::string TOKEN = "YOUR_ZILLIZ_API_KEY";
+
+// 1. Set up a Milvus client
+auto client = milvus::MilvusClientV2::Create();
+auto status = client->Connect(milvus::ConnectParam(SERVING_CLUSTER_ENDPOINT).WithToken(TOKEN));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
 }
 ```
 
@@ -116,47 +148,18 @@ export CLOUD_PLATFORM_ENDPOINT="https://api.cloud.zilliz.com"
 export SERVING_CLUSTER_ENDPOINT="https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530"
 export TOKEN="YOUR_ZILLIZ_API_KEY"
 # A valid token could be either
-# - An API key, or 
+# - An API key, or
 # - Use your Zilliz Cloud API key
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-#include "milvus/MilvusClientV2.h"
-
-const std::string SERVING_CLUSTER_ENDPOINT = "https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530";
-const std::string TOKEN = "YOUR_ZILLIZ_API_KEY";
-
-// 1. Set up a Milvus client
-auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam(SERVING_CLUSTER_ENDPOINT).WithToken(TOKEN));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
 ```
 
 </TabItem>
 </Tabs>
 
-```rust
-use milvus::v2::prelude::*;
-
-const SERVING_CLUSTER_ENDPOINT: &str = "https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530";
-const TOKEN: &str = "YOUR_ZILLIZ_API_KEY";
-
-// 1. Set up a Milvus client
-let config = ConnectConfig::new().uri(SERVING_CLUSTER_ENDPOINT).token(TOKEN);
-let client = ClientV2::new(&config).await?;
-```
-
 ## Step 2: (Optional) Create a database.\{#step-2-optional-create-a-database}
 
 A serving cluster ships with a default database. If you choose that, skip this step. You can also create a database as follows:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Rust","value":"rust"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -196,6 +199,32 @@ if err != nil {
 ```
 
 </TabItem>
+</Tabs>
+
+```rust
+client
+    .create_database(
+        CreateDatabaseRequest::builder()
+            .database_name("my_database")
+            .build()?,
+    )
+    .await?;
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+
+auto status = client->CreateDatabase(
+    milvus::CreateDatabaseRequest().WithDatabaseName("my_database"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
 
 <TabItem value='javascript'>
 
@@ -220,29 +249,7 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto status = client->CreateDatabase(
-    milvus::CreateDatabaseRequest().WithDatabaseName("my_database"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
-
-```rust
-client
-    .create_database(
-        CreateDatabaseRequest::builder()
-            .database_name("my_database")
-            .build()?,
-    )
-    .await?;
-```
 
 ## Step 3: Create a collection.\{#step-3-create-a-collection}
 
@@ -250,7 +257,7 @@ Once the database is ready, you can create managed collections in it. Unlike an 
 
 The following example demonstrates how to set up the collection schema and create a collection.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Rust","value":"rust"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -310,12 +317,49 @@ collectionSchema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v2/entity"
+import "github.com/milvus-io/milvus/client/v3/entity"
 
 schema := entity.NewSchema().
     WithField(entity.NewField().WithName("product_id").WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true)).
     WithField(entity.NewField().WithName("product_name").WithDataType(entity.FieldTypeVarChar).WithMaxLength(512)).
     WithField(entity.NewField().WithName("embedding").WithDataType(entity.FieldTypeFloatVector).WithDim(768))
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let schema = CollectionSchema::new()
+    .add_field(
+        FieldSchema::new()
+            .name("product_id")
+            .data_type(DataType::Int64)
+            .primary_key(true),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("product_name")
+            .data_type(DataType::VarChar)
+            .max_length(512),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("embedding")
+            .data_type(DataType::FloatVector)
+            .dimension(768),
+    );
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->AddField(milvus::FieldSchema("product_id", milvus::DataType::INT64, "product id", true, false));
+milvus::FieldSchema name_field("product_name", milvus::DataType::VARCHAR, "product name");
+name_field.SetMaxLength(512);
+schema->AddField(name_field);
+schema->AddField(milvus::FieldSchema("embedding", milvus::DataType::FLOAT_VECTOR, "embedding").WithDimension(768));
 ```
 
 </TabItem>
@@ -363,46 +407,11 @@ export schema='{
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
-schema->AddField(milvus::FieldSchema("product_id", milvus::DataType::INT64, "product id", true, false));
-milvus::FieldSchema name_field("product_name", milvus::DataType::VARCHAR, "product name");
-name_field.SetMaxLength(512);
-schema->AddField(name_field);
-schema->AddField(milvus::FieldSchema("embedding", milvus::DataType::FLOAT_VECTOR, "embedding").WithDimension(768));
-```
-
-</TabItem>
 </Tabs>
-
-```rust
-let schema = CollectionSchema::new()
-    .add_field(
-        FieldSchema::new()
-            .name("product_id")
-            .data_type(DataType::Int64)
-            .primary_key(true),
-    )
-    .add_field(
-        FieldSchema::new()
-            .name("product_name")
-            .data_type(DataType::VarChar)
-            .max_length(512),
-    )
-    .add_field(
-        FieldSchema::new()
-            .name("embedding")
-            .data_type(DataType::FloatVector)
-            .dimension(768),
-    );
-```
 
 Then you can create a collection with the above schema. If you decide to use the default database, you can safely skip the `db_name` parameter.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Rust","value":"rust"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -447,6 +456,44 @@ if err != nil {
 ```
 
 </TabItem>
+</Tabs>
+
+```rust
+client
+    .use_database("my_database")
+    .await?;
+
+client
+    .create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name("prod_collection")
+            .schema(schema)
+            .build()?,
+    )
+    .await?;
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+
+auto status = client->UseDatabase("my_database");
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->CreateCollection(
+    milvus::CreateCollectionRequest()
+        .WithCollectionName("prod_collection")
+        .WithCollectionSchema(schema));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
 
 <TabItem value='javascript'>
 
@@ -476,47 +523,13 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto status = client->UseDatabase("my_database");
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-status = client->CreateCollection(
-    milvus::CreateCollectionRequest()
-        .WithCollectionName("prod_collection")
-        .WithCollectionSchema(schema));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
-
-```rust
-client
-    .use_database("my_database")
-    .await?;
-
-client
-    .create_collection(
-        CreateCollectionRequest::builder()
-            .collection_name("prod_collection")
-            .schema(schema)
-            .build()?,
-    )
-    .await?;
-```
 
 ## Step 4: Create indexes.\{#step-4-create-indexes}
 
 You need to create indexes for all vector fields and, optionally, for selected scalar fields.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Rust","value":"rust"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -548,12 +561,18 @@ client.create_index(
 ```java
 import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.index.request.CreateIndexReq;
+import java.util.ArrayList;
+import java.util.List;
 
 List<IndexParam> indexParams = new ArrayList<>();
 indexParams.add(IndexParam.builder()
     .fieldName("embedding")
     .indexType(IndexParam.IndexType.AUTOINDEX)
     .metricType(IndexParam.MetricType.COSINE)
+    .build());
+indexParams.add(IndexParam.builder()
+    .fieldName("product_name")
+    .indexType(IndexParam.IndexType.AUTOINDEX)
     .build());
 
 client.createIndex(CreateIndexReq.builder()
@@ -568,7 +587,7 @@ client.createIndex(CreateIndexReq.builder()
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v2/index"
+import "github.com/milvus-io/milvus/client/v3/index"
 
 task, err := cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption(
     "prod_collection",
@@ -581,6 +600,59 @@ if err != nil {
 if err = task.Await(ctx); err != nil {
     panic(err)
 }
+
+task, err = cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption(
+    "prod_collection",
+    "product_name",
+    index.NewAutoIndex(entity.COSINE),
+).WithIndexName("product_name"))
+if err != nil {
+    panic(err)
+}
+if err = task.Await(ctx); err != nil {
+    panic(err)
+}
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+client
+    .create_index(
+        CreateIndexRequest::builder()
+            .collection_name("prod_collection")
+            .index_params(vec![
+                IndexParam::new()
+                    .field_name("embedding")
+                    .index_type(IndexType::AutoIndex)
+                    .metric_type(MetricType::Cosine),
+                IndexParam::new()
+                    .field_name("product_name")
+                    .index_type(IndexType::AutoIndex),
+            ])
+            .build()?,
+    )
+    .await?;
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+
+milvus::IndexDesc index_embedding("embedding", "embedding", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE);
+milvus::IndexDesc index_name("product_name", "product_name", milvus::IndexType::AUTOINDEX);
+
+auto status = client->CreateIndex(
+    milvus::CreateIndexRequest()
+        .WithDatabaseName("my_database")
+        .WithCollectionName("prod_collection")
+        .WithIndexes({index_embedding, index_name}));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -588,13 +660,21 @@ if err = task.Await(ctx); err != nil {
 <TabItem value='javascript'>
 
 ```javascript
-await client.createIndex({
-  collection_name: 'prod_collection',
-  field_name: 'embedding',
-  index_type: 'AUTOINDEX',
-  metric_type: 'COSINE',
-  index_name: 'embedding',
-});
+await client.createIndex([
+  {
+    collection_name: 'prod_collection',
+    field_name: 'embedding',
+    index_type: 'AUTOINDEX',
+    metric_type: 'COSINE',
+    index_name: 'embedding',
+  },
+  {
+    collection_name: 'prod_collection',
+    field_name: 'product_name',
+    index_type: 'AUTOINDEX',
+    index_name: 'product_name',
+  },
+]);
 ```
 
 </TabItem>
@@ -628,50 +708,13 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-milvus::IndexDesc index_embedding("embedding", "embedding", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE);
-milvus::IndexDesc index_name("product_name", "product_name", milvus::IndexType::AUTOINDEX);
-
-auto status = client->CreateIndex(
-    milvus::CreateIndexRequest()
-        .WithDatabaseName("my_database")
-        .WithCollectionName("prod_collection")
-        .WithIndexes({index_embedding, index_name}));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
-
-```rust
-client
-    .create_index(
-        CreateIndexRequest::builder()
-            .collection_name("prod_collection")
-            .index_params(vec![
-                IndexParam::new()
-                    .field_name("embedding")
-                    .index_type(IndexType::AutoIndex)
-                    .metric_type(MetricType::Cosine),
-                IndexParam::new()
-                    .field_name("product_name")
-                    .index_type(IndexType::AutoIndex),
-            ])
-            .build()?,
-    )
-    .await?;
-```
 
 ## Step 5: Load the collection.\{#step-5-load-the-collection}
 
 Once indexes are ready, load the collection into memory.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Rust","value":"rust"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -709,6 +752,34 @@ if err = loadTask.Await(ctx); err != nil {
 ```
 
 </TabItem>
+</Tabs>
+
+```rust
+client
+    .load_collection(
+        LoadCollectionRequest::builder()
+            .collection_name("prod_collection")
+            .build()?,
+    )
+    .await?;
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+
+auto status = client->LoadCollection(
+    milvus::LoadCollectionRequest()
+        .WithDatabaseName("my_database")
+        .WithCollectionName("prod_collection"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
 
 <TabItem value='javascript'>
 
@@ -734,31 +805,7 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto status = client->LoadCollection(
-    milvus::LoadCollectionRequest()
-        .WithDatabaseName("my_database")
-        .WithCollectionName("prod_collection"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
-
-```rust
-client
-    .load_collection(
-        LoadCollectionRequest::builder()
-            .collection_name("prod_collection")
-            .build()?,
-    )
-    .await?;
-```
 
 ## Step 6: Import data.\{#step-6-import-data}
 
@@ -802,6 +849,7 @@ res = bulk_import(
 ```java
 import io.milvus.bulkwriter.request.import_.CloudImportRequest;
 import io.milvus.bulkwriter.restful.BulkImportUtils;
+import java.util.Collections;
 
 String CLOUD_PLATFORM_ENDPOINT = "https://api.cloud.zilliz.com";
 String API_KEY = "YOUR_ZILLIZ_API_KEY";
@@ -826,8 +874,24 @@ String job = BulkImportUtils.bulkImport(CLOUD_PLATFORM_ENDPOINT, importReq);
 <TabItem value='go'>
 
 ```go
-// Note: Not yet supported in milvus-sdk-go (client/v2) as of v2.6.5.
-// The Go SDK does not expose cloud bulk-import REST APIs. Use the REST API (bash) instead.
+import "github.com/milvus-io/milvus/client/v3/bulkwriter"
+
+CLOUD_PLATFORM_ENDPOINT := "https://api.cloud.zilliz.com"
+API_KEY := "YOUR_ZILLIZ_API_KEY"
+
+resp, err := bulkwriter.BulkImport(ctx, bulkwriter.NewCloudBulkImportOption(
+    CLOUD_PLATFORM_ENDPOINT,
+    "prod_collection",
+    API_KEY,
+    "https://s3.us-west-2.amazonaws.com/your-bucket/path/in/external/storage.json",
+    "inxx-xxxxxxxxxxxxxxxxxxx",
+    "YOUR_STORAGE_ACCESS_KEY",
+    "YOUR_STORAGE_SECRET_KEY",
+))
+if err != nil {
+    panic(err)
+}
+// job-xxxxxxxxxxxxxxxxxxxxx
 ```
 
 </TabItem>
@@ -884,12 +948,12 @@ nlohmann::json res = milvus::BulkImport::CreateImportJobs(
 ```javascript
 import { HttpClient } from '@zilliz/milvus2-sdk-node';
 
-const client = new HttpClient({
+const httpClient = new HttpClient({
   endpoint: 'https://api.cloud.zilliz.com',
   token: 'YOUR_ZILLIZ_API_KEY',
 });
 
-const res = await client.createImportJobs({
+const res = await httpClient.createImportJobs({
   projectId: 'proj-xxxxxxxxxxxxxxxxxxx',
   regionId: 'aws-us-west-2',
   dbName: 'my_database',
@@ -924,7 +988,7 @@ curl --request POST \
         "accessKey": "YOUR_STORAGE_ACCESS_KEY",
         "secretKey": "YOUR_STORAGE_SECRET_KEY"
     }'
-    
+
  # job-xxxxxxxxxxxxxxxxxxxxx
 ```
 
@@ -976,8 +1040,20 @@ String progress = BulkImportUtils.getImportProgress(CLOUD_PLATFORM_ENDPOINT, pro
 <TabItem value='go'>
 
 ```go
-// Note: Not yet supported in milvus-sdk-go (client/v2) as of v2.6.5.
-// The Go SDK does not expose cloud bulk-import REST APIs. Use the REST API (bash) instead.
+import "github.com/milvus-io/milvus/client/v3/bulkwriter"
+
+CLOUD_PLATFORM_ENDPOINT := "https://api.cloud.zilliz.com"
+API_KEY := "YOUR_ZILLIZ_API_KEY"
+
+progress, err := bulkwriter.GetImportProgress(ctx, bulkwriter.NewCloudGetImportProgressOption(
+    CLOUD_PLATFORM_ENDPOINT,
+    "job-xxxxxxxxxxxxxxxxxxxxx",
+    API_KEY,
+    "inxx-xxxxxxxxxxxxxxxxxxx",
+))
+if err != nil {
+    panic(err)
+}
 ```
 
 </TabItem>
@@ -1016,12 +1092,12 @@ nlohmann::json progress = milvus::BulkImport::GetImportJobProgress(
 ```javascript
 import { HttpClient } from '@zilliz/milvus2-sdk-node';
 
-const client = new HttpClient({
+const httpClient = new HttpClient({
   endpoint: 'https://api.cloud.zilliz.com',
   token: 'YOUR_ZILLIZ_API_KEY',
 });
 
-const resp = await client.getImportJobProgress({
+const resp = await httpClient.getImportJobProgress({
   projectId: 'proj-xxxxxxxxxxxxxxxxxxx',
   regionId: 'aws-us-west-2',
   dbName: 'my_database',
@@ -1037,7 +1113,7 @@ console.log(JSON.stringify(resp, null, 2));
 
 ```bash
 curl --request POST \
-     --url "${CLOUD_PLATFORM_ENDPOINT}/v2/vectordb/jobs/import/getProgress" \
+     --url "${CLOUD_PLATFORM_ENDPOINT}/v2/vectordb/jobs/import/describe" \
      --header "Authorization: Bearer ${TOKEN}" \
      --header "Accept: application/json" \
      --header "Content-Type: application/json" \
@@ -1054,7 +1130,7 @@ curl --request POST \
 
 Once the import completes, you can invite users to consume your data through searches, queries, and hybrid searches.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Rust","value":"rust"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1077,6 +1153,9 @@ res = client.search(
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 List<Float> queryVector = Arrays.asList(0.35803764f, -0.6023496f, 0.18414013f, -0.26286206f, 0.90294385f /* ...remaining dims */);
 SearchResp searchResp = client.search(SearchReq.builder()
@@ -1104,6 +1183,49 @@ if err != nil {
     panic(err)
 }
 _ = resultSets
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let query_vector = vec![0.3580376395471989f32, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592 /* ...remaining dims */];
+
+let search = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("prod_collection")
+            .vector_field("embedding")
+            .vectors(SearchVectors::Float(vec![query_vector]))
+            .output_fields(["product_name"])
+            .limit(3)
+            .build()?,
+    )
+    .await?;
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+
+std::vector<std::vector<float>> query_vectors = {
+    {0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f /* ...remaining dims */}};
+
+milvus::SearchResponse response;
+auto status = client->Search(
+    milvus::SearchRequest()
+        .WithDatabaseName("my_database")
+        .WithCollectionName("prod_collection")
+        .WithAnnsField("embedding")
+        .WithLimit(3)
+        .WithFloatVectors(std::move(query_vectors))
+        .AddOutputField("product_name"),
+    response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -1154,43 +1276,4 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-std::vector<std::vector<float>> query_vectors = {
-    {0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f /* ...remaining dims */}};
-
-milvus::SearchResponse response;
-auto status = client->Search(
-    milvus::SearchRequest()
-        .WithDatabaseName("my_database")
-        .WithCollectionName("prod_collection")
-        .WithAnnsField("embedding")
-        .WithLimit(3)
-        .WithFloatVectors(std::move(query_vectors))
-        .AddOutputField("product_name"),
-    response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
-
-```rust
-let query_vector = vec![0.3580376395471989f32, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592 /* ...remaining dims */];
-
-let search = client
-    .search(
-        SearchRequest::builder()
-            .collection_name("prod_collection")
-            .vector_field("embedding")
-            .vectors(SearchVectors::Float(vec![query_vector]))
-            .output_fields(["product_name"])
-            .limit(3)
-            .build()?,
-    )
-    .await?;
-```
