@@ -99,6 +99,22 @@
       "reason": "Shared docs navigation, mobile drawer, embedded demos, and document shell must preserve responsive controls, valid iframe markup, and a bounded content scroller."
     },
     {
+      "id": "docs-ui-heading-tags",
+      "paths": [
+        "packages/docs-ui/src/shared/theme/Heading/**",
+        "packages/docs-ui/src/shared/components/DocTag/**"
+      ],
+      "focusedTests": [
+        "pnpm vitest run packages/docs-ui/src/shared/theme/Heading/tagLinks.test.ts"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm test:workflow-matrix",
+        "git diff --check"
+      ],
+      "reason": "Heading beta tags and the TOC Contact Sales CTA must split the CONTACT SALES link by site language while the PUBLIC/PRIVATE preview tags link to the site-local feature-availability page, with the ja-JP locale prefix preserved on the English site."
+    },
+    {
       "id": "docs-ui-analytics",
       "paths": [
         "packages/docs-ui/src/shared/utils/analytics*",
