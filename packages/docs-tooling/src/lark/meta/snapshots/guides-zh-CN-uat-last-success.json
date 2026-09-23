@@ -9,7 +9,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-09-22T18:52:27.931Z",
+  "generated_at": "2026-09-23T10:28:54.997Z",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides-zh-CN",
   "base_app_token": "I6YUb1M0JajHrqsJGcLcZNh7neP",
   "records": [
@@ -10441,7 +10441,7 @@
       "doc_token": "ETznwYhvpitgrtk4Y7dcLSv0nLc",
       "doc_link": "https://zilliverse.feishu.cn/wiki/ETznwYhvpitgrtk4Y7dcLSv0nLc",
       "source_file": "ETznwYhvpitgrtk4Y7dcLSv0nLc.json",
-      "source_hash": "b25daac9cb08feac60987ec54c5bc7a24fdc42d9e278123381d35bd50a9e9f76",
+      "source_hash": "c424d86ea340520592aa1d6b1a5ad82c093bd8fd22c19c73fabfb7b30412fc45",
       "node_metadata": {
         "requested_token": "ETznwYhvpitgrtk4Y7dcLSv0nLc",
         "requested_node_token": "ETznwYhvpitgrtk4Y7dcLSv0nLc",
@@ -16300,7 +16300,7 @@
       ],
       "order": 24,
       "title": "管理 On-Demand 集群",
-      "labels": "Manage On-Demand Cluster",
+      "labels": "",
       "slug": "manage-on-demand-clusters",
       "targets": [
         "zilliz.saas"
@@ -25040,7 +25040,7 @@
   ],
   "table_digests": {
     "tblkdIEI58OHEJn0": "d517d72b132c73aa7c9c5b22637f444849ccff91f26ac05891f8fa81993eb92f",
-    "tblMuHkoG4qMugeX": "6f5607a171c6f24bef162161b30c392b187beb3b7f257d55670ed351b8718746",
+    "tblMuHkoG4qMugeX": "9edab463d364497eda3ef439bd28616a28ac9048729088db0469f4c142d99b70",
     "tbloC4PVprwYo0P0": "6ea1a9150c2acd9293e1925c36af3f0779d091bbd1dfcf36cf8f83fce1bc328f",
     "tblr7Zec2ReTfRmw": "12f28bf5a8d3d26dfa5c696b65e1dd8ddac6747a321225cf3ed13464122f1939",
     "tblRaa3JnIhllHb9": "5f574957fe13e90417d7fcf8302bd39bb81349c4d2d027f480c7633006918c5f",

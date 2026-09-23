@@ -36,7 +36,7 @@ import Admonition from '@theme/Admonition';
 
 当在 Zilliz Cloud 集群中启用该功能后，Zilliz Cloud 会以流式数据的方式向用户指定的对象存储桶中存入审计日志。您可以使用第三方数据仓库服务对该对象存储桶中的日志进行审计分析，支撑对集群中数据操作的监控以便更好地进行安全审计和合规审查。
 
-该功能现已作为**内测版**功能上线，如果您对该功能感兴趣，想要进一步了解服务价格或试用该功能，欢迎[联系我们](https://support.zilliz.com/hc/en-us)。关于如何在您的集群中开启该功能，可以参考[审计日志](./audit-logs)。
+该功能现已作为**内测版**功能上线，如果您对该功能感兴趣，想要进一步了解服务价格或试用该功能，欢迎[联系我们](https://support.zilliz.com.cn/hc/zh-cn)。关于如何在您的集群中开启该功能，可以参考[审计日志](./audit-logs)。
 
 该功能现已支持记录超过 70 种操作和事件，涉及 Collection、Database、Entities（搜索、混合搜索、插入、更新、删除）、索引、Partition 和 别名等多种资源对象。Zilliz Cloud 还会在未来的版本中增加对更多的操作和事件的支持。关于当前已支持的操作和事件，可以参考[审计日志参考](./audit-logs-ref)。
 

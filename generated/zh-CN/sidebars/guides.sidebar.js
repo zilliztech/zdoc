@@ -1705,7 +1705,7 @@ module.exports = [
               {
                 "type": "doc",
                 "id": "tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters",
-                "label": "Manage On-Demand Cluster",
+                "label": "管理 On-Demand 集群",
                 "key": "doc:tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters"
               },
               {

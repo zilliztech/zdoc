@@ -1,7 +1,7 @@
 ---
 title: "管理 On-Demand 集群 | Cloud"
 slug: /manage-on-demand-clusters
-sidebar_label: "Manage On-Demand Cluster"
+sidebar_label: "管理 On-Demand 集群"
 beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE

@@ -1442,7 +1442,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/vector-index/tune-index-build-level.md",
-      "sha256": "446e4f1fee145ed6e6ace06de241fc728ee20bf8c253f54c73e3419cbe7bb3a4",
+      "sha256": "657b0b3f0f2aa89a71bcbe15a114cf1303a4ac0ccd47b470ceec33c1b7b68d87",
       "docToken": "KCIawSSnKiuwBWk0PJ9ci5TYnBS",
       "revisionId": "312"
     },
@@ -1562,7 +1562,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/select-zilliz-cloud-service-plans.md",
-      "sha256": "787fbf8056400d0feaeddf44d7efb4cb0b97f13410f11ec56936482b817001fa",
+      "sha256": "299b7e0730d1ce5c7e2fd676304700d5566e48eaca1f11cc02bf01b02dc82637",
       "docToken": "XNCIwt9i6iFgEDkEQE9cTMf8nSe",
       "revisionId": "1479"
     },
@@ -3044,7 +3044,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/vector-index/tune-index-build-level.md",
-      "sha256": "ffe1da408a3f6aa6a637d7645d0045085656d93957160af6faa01c9ee209a9cc",
+      "sha256": "0e940e19968a777973e468ba2a046db18f1da248e9a60ea59ce9335fb55e8dd8",
       "docToken": "KCIawSSnKiuwBWk0PJ9ci5TYnBS",
       "revisionId": "312"
     },
@@ -3074,7 +3074,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/cloud-providers-and-regions.md",
-      "sha256": "29e60aca4405c24b7821b77469ba3a168b44178a681c5f840f3f823ea38ec2ec",
+      "sha256": "11d4228408ff4aa6f70ef9872c70269ea6a8547f00c9c4439f667ed5a847a2c1",
       "docToken": "BErdww1kOirndzkHrKoc2ibynlb",
       "revisionId": "425"
     },
@@ -3170,7 +3170,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/feature-availability.md",
-      "sha256": "815689bd5ff9e8fdfa33367cb174b74e0bfa01546c8ce777f319864e570a61d6",
+      "sha256": "f7566ff4b5f81e456cb198c103cf87d84eb3d60ecd36c91efa4bd476af3d7bc2",
       "docToken": "EZ2jwCJD7iazqKkmSGRcBfjWnCh",
       "revisionId": "396"
     },
@@ -3218,7 +3218,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/release-notes/release-notes-200.md",
-      "sha256": "0446372a074e53c4112fd217b83fa913163966eaaea52c61a6389331285698ac",
+      "sha256": "e6686e76f090e1b7a67fa3b56df5c57289efd716ba966d769090fa8fb856515f",
       "docToken": "X91KwMsQyiAv1Ukze3IcHxQgnic",
       "revisionId": "100"
     },
@@ -3254,7 +3254,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/release-notes/release-notes-2140.md",
-      "sha256": "264f18fd7793e0847b755ea776753f466808793f65f05ee65ff27ee1a6cbd9da",
+      "sha256": "751c2e689156f3394cbe9f5b064ebd2982a5b0f3dec1d4eb337bc252145ca17c",
       "docToken": "NYaTwrUG1iT6CCkUSnJcCQPqnsb",
       "revisionId": "532"
     },
@@ -3290,7 +3290,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/release-notes/release-notes-230.md",
-      "sha256": "784c9b154e3668d93c9d5f9f670064db62f666de8883a6ee2c7c3e54eb7d1f34",
+      "sha256": "5cf33a3f1e7c4198b1ee28237aafba41c572407b0d9a487d3a441310be5f300a",
       "docToken": "BuuSwsbhEiIHDJkB9YSc63xAnrh",
       "revisionId": "237"
     },
@@ -3302,7 +3302,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/release-notes/release-notes-2508.md",
-      "sha256": "1965028c1519e6066eaed582cd9bf2afae3ea18433e5554b7041bd9e299c151f",
+      "sha256": "7e16cb6e018e835ef32474b14f45269ececfa86ac61d4e55f39a43f844918392",
       "docToken": "RymVwbgxOiSKsDk60xtc8CXOn3c",
       "revisionId": "312"
     },
@@ -3314,7 +3314,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/release-notes/release-notes-2511.md",
-      "sha256": "d03cc5b40e2c75a49e17b5804a1f14ea1f9804a182c0a3ce9f151499519fe04c",
+      "sha256": "345b52ffd71d226fcc58028a4c577326b278913faa8334a6aefc6937adff6e54",
       "docToken": "OzmBwYXzjiOFXlkqQxYc9Y0knWb",
       "revisionId": "653"
     },
@@ -3398,7 +3398,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/select-zilliz-cloud-service-plans.md",
-      "sha256": "b72a629c5c649e30b72f4cdd52ee4583c5de684e769a66eee185e3bc22350f2a",
+      "sha256": "8aca260a1c06113f1255edb9073bbb851f6dd14ab927dc793326541fb3fe305f",
       "docToken": "XNCIwt9i6iFgEDkEQE9cTMf8nSe",
       "revisionId": "1479"
     },
@@ -3722,7 +3722,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters.md",
-      "sha256": "c907b1598469020b7db50ad8d06c2db5f3e5583047c1255961c55c0007d4a93e",
+      "sha256": "06654330561c3eecbf3fc70d8b1277ce1255db941eea4300752a8851aac327d2",
       "docToken": "ETznwYhvpitgrtk4Y7dcLSv0nLc",
       "revisionId": "78"
     },
@@ -4202,7 +4202,7 @@
     },
     {
       "path": "generated/zh-CN/sidebars/guides.sidebar.js",
-      "sha256": "66f738b2a1e070285e8c318daf3cf2d334b8609fd71919fe39101aed6a8ba34b",
+      "sha256": "5e3075cdd8e8eeee97591c72fbeb8f890d20efe840c10bc324c9238d24bba1ef",
       "docToken": null,
       "revisionId": null
     },
