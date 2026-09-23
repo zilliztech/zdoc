@@ -2,7 +2,7 @@
 title: "数据回填 | Cloud"
 slug: /data-backfill
 sidebar_label: "数据回填"
-beta: PUBLIC
+beta: PRIVATE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

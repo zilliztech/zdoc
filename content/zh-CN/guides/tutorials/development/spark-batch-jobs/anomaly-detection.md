@@ -2,7 +2,7 @@
 title: "异常点检测 | Cloud"
 slug: /anomaly-detection
 sidebar_label: "异常点检测"
-beta: PUBLIC
+beta: PRIVATE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

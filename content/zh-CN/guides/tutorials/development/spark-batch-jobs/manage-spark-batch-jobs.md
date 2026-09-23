@@ -2,7 +2,7 @@
 title: "管理 Spark 批量任务 | Cloud"
 slug: /manage-spark-batch-jobs
 sidebar_label: "管理 Spark 批量任务"
-beta: PUBLIC
+beta: PRIVATE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

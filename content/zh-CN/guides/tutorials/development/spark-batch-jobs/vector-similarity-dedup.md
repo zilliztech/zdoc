@@ -2,7 +2,7 @@
 title: "向量近似去重 | Cloud"
 slug: /vector-similarity-dedup
 sidebar_label: "向量近似去重"
-beta: PUBLIC
+beta: PRIVATE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

@@ -2,7 +2,7 @@
 title: "K-Means 聚类 | Cloud"
 slug: /k-means-clustering
 sidebar_label: "K-Means 聚类"
-beta: PUBLIC
+beta: PRIVATE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

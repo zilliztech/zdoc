@@ -2,7 +2,7 @@
 title: "Spark 批量任务 | Cloud"
 slug: /spark-batch-jobs
 sidebar_label: "Spark 批量任务"
-beta: PUBLIC
+beta: PRIVATE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
