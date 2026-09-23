@@ -3,6 +3,7 @@ import {findFirstSidebarItemLink, useDoc, useDocsSidebar} from '@docusaurus/plug
 import {useLocation} from '@docusaurus/router';
 import {useWindowSize} from '@docusaurus/theme-common';
 import Head from '@docusaurus/Head';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
 import DocVersionBanner from '@theme/DocVersionBanner';
 import DocVersionBadge from '@theme/DocVersionBadge';
@@ -13,6 +14,7 @@ import DocItemTOCDesktop from '@theme/DocItem/TOC/Desktop';
 import NotFoundContent from '@theme/NotFound/Content';
 import CopyPageButton from '../../Heading/CopyPageButton';
 import DocMetaTags, {hasDocMetaTags} from '../../Heading/DocMetaTags';
+import {contactSalesUrl} from '../../Heading/tagLinks';
 import NextChannelToast from '../../../components/NextChannelToast';
 import {useDocsUiText, type DocsUiText} from '../../../i18n/uiText';
 import {frontMatterReleaseChannel, useRuntimeReleaseChannel} from '../../../utils/releaseChannel';
@@ -169,6 +171,7 @@ function PageBreadcrumbs({text}: {text: DocsUiText}): ReactNode {
 
 export default function DocItemLayout({children}: Props): ReactNode {
   const text = useDocsUiText();
+  const {siteConfig} = useDocusaurusContext();
   const {frontMatter, metadata, toc} = useDoc();
   const {pathname} = useLocation();
   const windowSize = useWindowSize();
@@ -248,7 +251,7 @@ export default function DocItemLayout({children}: Props): ReactNode {
               {showContactSales && (
                 <a
                   className={styles.tocContactSales}
-                  href="https://zilliz.com/contact-sales"
+                  href={contactSalesUrl(siteConfig.customFields?.site)}
                   target="_blank"
                   rel="noopener noreferrer">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
