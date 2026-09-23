@@ -224,9 +224,18 @@ class refGen {
         const slug_title = lang === "zh-CN" ? page_title : specification.summary
         var page_slug = (this.get_slug(slug_title, target)) + slug_suffix
         const page_route = `/restful/${page_slug}`
-        const existingRoute = this.routeRegistry.get(page_route)
-        if (existingRoute) throw new Error(`REST_PAGE_ROUTE_CONFLICT: ${page_route} for ${existingRoute} and ${method}`)
-        this.routeRegistry.set(page_route, `${method.toUpperCase()} ${page_url}`)
+        // zdoc sites publish every page under a flat /restful/<slug> URL, so
+        // slug uniqueness is enforced there. milvus.io namespaces pages by
+        // version and group folder — its slug convention drops the -v2 suffix
+        // on purpose, so same-verb v1/v2 pages (List, Get, Insert, ...) are
+        // expected, and its real URL space is the physical page path. Only
+        // collisions within that path would overwrite an actual file.
+        const route_key = target === 'milvus'
+            ? `${version}/${upper_folder}/${page_parent}/${page_slug}`
+            : page_route
+        const existingRoute = this.routeRegistry.get(route_key)
+        if (existingRoute) throw new Error(`REST_PAGE_ROUTE_CONFLICT: ${route_key} for ${existingRoute} and ${method}`)
+        this.routeRegistry.set(route_key, `${method.toUpperCase()} ${page_url}`)
 
         // Check x-beta on operation, then tag, then fall back to defaults
         let beta_tag = specification['x-beta']

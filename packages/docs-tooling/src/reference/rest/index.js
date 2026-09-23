@@ -53,7 +53,7 @@ function registerFetchCommand(command) {
             }
 
             refGen.make_groups()
-            refGen.write_refs()
+            await refGen.write_refs()
 
             if (opts.derivationManifest) {
                 writeRestDerivationManifest({
