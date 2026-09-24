@@ -147,6 +147,40 @@ test('rejects a source checkpoint that omits a declared preserved landing', asyn
   );
 });
 
+test('source checkpoints drop externally owned files carried through the workspace', async () => {
+  // Reproduces the incident surface of run 35766910409: the Chinese Guides
+  // assemble workspace carries the translated home.md through, and the
+  // checkpoint must not ship it as fetch-owned payload.
+  const previousSite = process.env.ZDOC_SITE;
+  process.env.ZDOC_SITE = 'zh-CN';
+  try {
+    const root = await realpath(await mkdtemp(path.join(os.tmpdir(), 'checkpoint-eo-create-')));
+    const baselineDir = path.join(root, 'baseline');
+    const workspace = path.join(root, 'workspace');
+    const output = path.join(root, 'artifact');
+    const contentRoot = 'content/zh-CN/guides/tutorials';
+    await mkdir(path.join(baselineDir, contentRoot), { recursive: true });
+    await mkdir(path.join(workspace, contentRoot), { recursive: true });
+    await writeFile(path.join(baselineDir, contentRoot, 'home.md'), 'stale fetch baseline\n');
+    await writeFile(path.join(baselineDir, contentRoot, 'removed.md'), 'removed\n');
+    await writeFile(path.join(workspace, contentRoot, 'home.md'), 'stale fetch baseline\n');
+    await writeFile(path.join(workspace, contentRoot, 'deploy.md'), '# Deploy\n');
+
+    const manifest = await createCheckpointArtifact({
+      group: 'guides', masterSha: SHA_A, devBaselineSha: SHA_B,
+      baselineDir, workspace, output, createdAt: '2026-01-02T03:04:05.000Z',
+    });
+
+    assert.deepEqual(manifest.files.map((entry) => entry.path), [`${contentRoot}/deploy.md`]);
+    assert.deepEqual(manifest.deletions, [`${contentRoot}/removed.md`]);
+    await assert.doesNotReject(validateCheckpointArtifact(output, { group: 'guides', site: 'zh-CN' }));
+    await assert.rejects(readFile(path.join(output, 'payload', contentRoot, 'home.md')), /ENOENT/);
+  } finally {
+    if (previousSite === undefined) delete process.env.ZDOC_SITE;
+    else process.env.ZDOC_SITE = previousSite;
+  }
+});
+
 test('allows a reconciliation-only translation batch with zero pending model files', async () => {
   const f = await fixture();
   await prepareGuidesTranslation(f);
