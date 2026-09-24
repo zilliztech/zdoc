@@ -10,7 +10,7 @@ notebook: false
 description: "This operation lists registered file resources. Use it to discover resource names and paths available to server-side features. | Cloud"
 type: docx
 token: LHdcdoz6OoQajtx3SMMcGLjcnFh
-sidebar_position: 3
+sidebar_position: 2
 keywords: 
   - milvus database
   - milvus lite

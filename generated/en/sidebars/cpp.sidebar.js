@@ -568,27 +568,9 @@ module.exports = [
       },
       {
         "type": "doc",
-        "id": "api/cpp/cpp/FileResources/Management-GetRefreshExternalCollectionProgress",
-        "label": "GetRefreshExternalCollectionProgress()",
-        "key": "doc:api/cpp/cpp/FileResources/management-getrefreshexternalcollectionprogress"
-      },
-      {
-        "type": "doc",
         "id": "api/cpp/cpp/FileResources/FileResources-ListFileResources",
         "label": "ListFileResources()",
         "key": "doc:api/cpp/cpp/FileResources/fileresources-listfileresources"
-      },
-      {
-        "type": "doc",
-        "id": "api/cpp/cpp/FileResources/Management-ListRefreshExternalCollectionJobs",
-        "label": "ListRefreshExternalCollectionJobs()",
-        "key": "doc:api/cpp/cpp/FileResources/management-listrefreshexternalcollectionjobs"
-      },
-      {
-        "type": "doc",
-        "id": "api/cpp/cpp/FileResources/Management-RefreshExternalCollection",
-        "label": "RefreshExternalCollection()",
-        "key": "doc:api/cpp/cpp/FileResources/management-refreshexternalcollection"
       },
       {
         "type": "doc",
@@ -734,6 +716,24 @@ module.exports = [
         "id": "api/cpp/cpp/Management/Management-GetFlushAllState",
         "label": "GetFlushAllState()",
         "key": "doc:api/cpp/cpp/Management/management-getflushallstate"
+      },
+      {
+        "type": "doc",
+        "id": "api/cpp/cpp/Management/Management-GetRefreshExternalCollectionProgress",
+        "label": "GetRefreshExternalCollectionProgress()",
+        "key": "doc:api/cpp/cpp/Management/management-getrefreshexternalcollectionprogress"
+      },
+      {
+        "type": "doc",
+        "id": "api/cpp/cpp/Management/Management-ListRefreshExternalCollectionJobs",
+        "label": "ListRefreshExternalCollectionJobs()",
+        "key": "doc:api/cpp/cpp/Management/management-listrefreshexternalcollectionjobs"
+      },
+      {
+        "type": "doc",
+        "id": "api/cpp/cpp/Management/Management-RefreshExternalCollection",
+        "label": "RefreshExternalCollection()",
+        "key": "doc:api/cpp/cpp/Management/management-refreshexternalcollection"
       }
     ]
   },

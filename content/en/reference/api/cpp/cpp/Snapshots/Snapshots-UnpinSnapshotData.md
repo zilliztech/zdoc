@@ -4,7 +4,7 @@ slug: /cpp/cpp/Snapshots-UnpinSnapshotData
 sidebar_label: "UnpinSnapshotData()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation unpins snapshot data. Use it when pinned data is no longer needed before its TTL expires. | Cloud"
@@ -43,7 +43,8 @@ Status UnpinSnapshotData(const UnpinSnapshotDataRequest& request)
 auto request = milvus::UnpinSnapshotDataRequest()
     .WithDatabaseName("default")
     .WithCollectionName("book")
-    .WithSnapshotName("snapshot_20260617");
+    .WithSnapshotName("snapshot_20260617")
+    .WithPinID(pin_id);
 ```
 
 **REQUEST METHODS:**
@@ -59,6 +60,10 @@ auto request = milvus::UnpinSnapshotDataRequest()
 - `WithSnapshotName(const std::string& snapshot_name)`
 
     Sets the snapshot name.
+
+- `WithPinID(int64_t pin_id)`
+
+    Sets the ID of the pin whose data should be unpinned.
 
 **RETURNS:**
 
@@ -89,5 +94,3 @@ if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 ```
-
-{/* category: Snapshots; action: CREATE; addedSince: v3.0.x */}

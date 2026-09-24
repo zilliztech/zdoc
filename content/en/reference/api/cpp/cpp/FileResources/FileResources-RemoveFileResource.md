@@ -10,7 +10,7 @@ notebook: false
 description: "This operation removes a registered file resource. Use it to clean up resources that are no longer referenced. | Cloud"
 type: docx
 token: Gs0EdiKeEoU5Exxxnb8ckz74nId
-sidebar_position: 6
+sidebar_position: 3
 keywords: 
   - what is a vector database
   - vectordb

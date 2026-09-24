@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "group": "cpp",
   "complete": true,
-  "generatedAt": "2026-09-22T23:32:58.584Z",
-  "sourceRunId": "35796572267",
+  "generatedAt": "2026-09-24T10:34:18.098Z",
+  "sourceRunId": "35986527052",
   "records": [
     {
       "canonicalToken": "A1ePdfCEZo4ZX1xqZtVcKUcxnfE",
@@ -90,6 +90,15 @@
       "canonicalToken": "BMdudw948onYFzxpJrYc2tlOn7g",
       "title": "DropCollectionProperties()",
       "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-DropCollectionProperties.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "BRFNded7LoGTfJxgz9kcq20Vnmg",
+      "title": "RefreshExternalCollection()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-RefreshExternalCollection.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -342,15 +351,6 @@
       "canonicalToken": "GWPxd80BYoQleSxNCPNcFvWsnzb",
       "title": "AddCollectionStructField()",
       "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-AddCollectionStructField.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "GjhbdmL5PorgMXxkHTPcvVt6nul",
-      "title": "RefreshExternalCollection()",
-      "contentPath": "content/en/reference/api/cpp/cpp/FileResources/Management-RefreshExternalCollection.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -666,6 +666,15 @@
       "canonicalToken": "M7O7df6KLoqRS2x6ls0cuSwlnNh",
       "title": "HasPartition()",
       "contentPath": "content/en/reference/api/cpp/cpp/Partitions/Partitions-HasPartition.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "M9b1dFp2ioszBwxqFKUcs6gYn2e",
+      "title": "ListRefreshExternalCollectionJobs()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-ListRefreshExternalCollectionJobs.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1041,15 +1050,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "TjrfdFKTIoiaQ0x3NXUcMEvHnNb",
-      "title": "ListRefreshExternalCollectionJobs()",
-      "contentPath": "content/en/reference/api/cpp/cpp/FileResources/Management-ListRefreshExternalCollectionJobs.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "TqIzdhIkFoR8KYxBXfscml0Ln8c",
       "title": "LoadCollection()",
       "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-LoadCollection.md",
@@ -1286,7 +1286,7 @@
     {
       "canonicalToken": "X9AodAxugobD0Yxt7S9c27z9nNg",
       "title": "GetRefreshExternalCollectionProgress()",
-      "contentPath": "content/en/reference/api/cpp/cpp/FileResources/Management-GetRefreshExternalCollectionProgress.md",
+      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-GetRefreshExternalCollectionProgress.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,

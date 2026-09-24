@@ -4,7 +4,7 @@ slug: /cpp/cpp/Snapshots-GetRestoreSnapshotState
 sidebar_label: "GetRestoreSnapshotState()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation gets restore-snapshot job state. Use it to poll restore progress and failure reasons. | Cloud"
@@ -43,7 +43,8 @@ Status GetRestoreSnapshotState(const GetRestoreSnapshotStateRequest& request, Ge
 auto request = milvus::GetRestoreSnapshotStateRequest()
     .WithDatabaseName("default")
     .WithCollectionName("book_restored")
-    .WithSnapshotName("snapshot_20260617");
+    .WithSnapshotName("snapshot_20260617")
+    .WithJobID(job_id);
 ```
 
 **REQUEST METHODS:**
@@ -59,6 +60,10 @@ auto request = milvus::GetRestoreSnapshotStateRequest()
 - `WithSnapshotName(const std::string& snapshot_name)`
 
     Sets the snapshot name.
+
+- `WithJobID(int64_t job_id)`
+
+    Sets the ID of the restore-snapshot job to poll.
 
 **RETURNS:**
 
@@ -90,5 +95,3 @@ if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 ```
-
-{/* category: Snapshots; action: CREATE; addedSince: v3.0.x */}

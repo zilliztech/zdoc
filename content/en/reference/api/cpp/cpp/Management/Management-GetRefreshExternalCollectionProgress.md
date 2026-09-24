@@ -10,7 +10,7 @@ notebook: false
 description: "This operation gets progress for a refresh-external-collection job. Use it to poll job completion and inspect failure reasons. | Cloud"
 type: docx
 token: X9AodAxugobD0Yxt7S9c27z9nNg
-sidebar_position: 2
+sidebar_position: 23
 keywords: 
   - Zilliz Cloud
   - what is milvus
