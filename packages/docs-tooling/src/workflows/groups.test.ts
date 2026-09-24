@@ -149,6 +149,23 @@ describe('site-owned publication groups', () => {
     }
   });
 
+  it('splits externally owned files out of preservedPaths while keeping them walkable', () => {
+    const workflow = resolvePublicationGroupWorkflow('zh-CN', 'guides');
+    expect(workflow.externallyOwnedPaths).toEqual([
+      'content/zh-CN/guides/tutorials/home.md',
+    ]);
+    expect(workflow.preservedPaths).toEqual([]);
+    expect(workflow.checkpointPaths).toContain('content/zh-CN/guides/tutorials/home.md');
+    for (const site of ['en', 'zh-CN'] as const) {
+      for (const group of listPublicationGroups(site)) {
+        const resolved = resolvePublicationGroupWorkflow(site, group);
+        for (const owned of resolved.externallyOwnedPaths) {
+          expect(resolved.preservedPaths).not.toContain(owned);
+        }
+      }
+    }
+  });
+
   it('does not checkpoint English revision inventories for Chinese publication groups', () => {
     for (const group of ['guides', 'onpremise']) {
       expect(resolvePublicationGroupWorkflow('zh-CN', group).checkpointPaths).not.toContainEqual(
