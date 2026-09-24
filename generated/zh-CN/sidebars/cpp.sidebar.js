@@ -532,27 +532,9 @@ module.exports = [
       },
       {
         "type": "doc",
-        "id": "api/cpp/cpp/FileResources/Management-GetRefreshExternalCollectionProgress",
-        "label": "GetRefreshExternalCollectionProgress()",
-        "key": "doc:api/cpp/cpp/FileResources/management-getrefreshexternalcollectionprogress"
-      },
-      {
-        "type": "doc",
         "id": "api/cpp/cpp/FileResources/FileResources-ListFileResources",
         "label": "ListFileResources()",
         "key": "doc:api/cpp/cpp/FileResources/fileresources-listfileresources"
-      },
-      {
-        "type": "doc",
-        "id": "api/cpp/cpp/FileResources/Management-ListRefreshExternalCollectionJobs",
-        "label": "ListRefreshExternalCollectionJobs()",
-        "key": "doc:api/cpp/cpp/FileResources/management-listrefreshexternalcollectionjobs"
-      },
-      {
-        "type": "doc",
-        "id": "api/cpp/cpp/FileResources/Management-RefreshExternalCollection",
-        "label": "RefreshExternalCollection()",
-        "key": "doc:api/cpp/cpp/FileResources/management-refreshexternalcollection"
       },
       {
         "type": "doc",

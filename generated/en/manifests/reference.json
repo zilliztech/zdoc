@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "cf43040fe88481c116f85a8df9193ed889085c34",
+  "sourceCommit": "18754846c470b0b08e29ec0f8b8061674e38512f",
   "records": [
     {
       "manual": "cli",
@@ -1110,27 +1110,12 @@
     {
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/FileResources/FileResources-ListFileResources.md",
-      "sourceHash": "2a53123440dd1fef79be3dae6b5ccb824ee388c3ab50d6b68e8b72e57a3141ed"
+      "sourceHash": "476129edd4ec25be1d7e29fd24c93f75f0873ecd4e9953d4f4d886b2d1f5e2ac"
     },
     {
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/FileResources/FileResources-RemoveFileResource.md",
-      "sourceHash": "637889f4124e922828a3c4ac467aac0f7df7630913a474e3c10563178678d08c"
-    },
-    {
-      "manual": "cpp",
-      "sourcePath": "content/en/reference/api/cpp/cpp/FileResources/Management-GetRefreshExternalCollectionProgress.md",
-      "sourceHash": "249e0ec32bd0551042641be57f71cb91741b5770a63f7a0091bb098ab1f1319b"
-    },
-    {
-      "manual": "cpp",
-      "sourcePath": "content/en/reference/api/cpp/cpp/FileResources/Management-ListRefreshExternalCollectionJobs.md",
-      "sourceHash": "c28777d5b4ae9e0c36b4cccf1085b4efc3ac2b47352db5d58f9373d6603e51e1"
-    },
-    {
-      "manual": "cpp",
-      "sourcePath": "content/en/reference/api/cpp/cpp/FileResources/Management-RefreshExternalCollection.md",
-      "sourceHash": "00218fbbc7447a7cfa8b5cb88ac965c3b1a2eaf8223a44729b4f868d5c44baea"
+      "sourceHash": "7cd611f8e078d09f8b8c7ee3f121125343d871f6f46afe2848112dcc2db22900"
     },
     {
       "manual": "cpp",
@@ -1194,6 +1179,11 @@
     },
     {
       "manual": "cpp",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-GetRefreshExternalCollectionProgress.md",
+      "sourceHash": "6c0f03960994708ec179cb6ff10df93850f894d2517c84e59e6e23bb90da9739"
+    },
+    {
+      "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-IndexDesc.md",
       "sourceHash": "74c933a7279cc248ecde416659319ab40c74fe7f150877cff7d3676339e820d3"
     },
@@ -1219,6 +1209,11 @@
     },
     {
       "manual": "cpp",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-ListRefreshExternalCollectionJobs.md",
+      "sourceHash": "f4cc997540c24db42f3e43257bd1dafb24a4bb9ac0f335d00844857b061e37b0"
+    },
+    {
+      "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-LoadCollection.md",
       "sourceHash": "387be1ee75d9aea481a2deb41a78413a3f0ad552f840ceb26be12e47d280ccbc"
     },
@@ -1231,6 +1226,11 @@
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-Optimize.md",
       "sourceHash": "179afcba7ee5da2704ff6f2cae6c4d599f3072639839a2e5cf8aaf72a8c2d4e3"
+    },
+    {
+      "manual": "cpp",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-RefreshExternalCollection.md",
+      "sourceHash": "934fa3a64238d88784821c58db6c2a8dd591b365fb506fb254bbe618ba1d4cbe"
     },
     {
       "manual": "cpp",
@@ -1295,7 +1295,7 @@
     {
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-GetRestoreSnapshotState.md",
-      "sourceHash": "6447e132a6ffd0707b2fbde52b2004484a63e8dbf6b3bf5ae6fad55d885fe13d"
+      "sourceHash": "bf0a3e5ed90e120324efbe22b7baa70063c619b25554424f2b87feffb5833271"
     },
     {
       "manual": "cpp",
@@ -1320,7 +1320,7 @@
     {
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-UnpinSnapshotData.md",
-      "sourceHash": "1abc2d08066bf401aa7faa7006bf9730699027f085a6d3e56fd75d62ddc7e85f"
+      "sourceHash": "758cfb3a6b6e041650b9d6e70f814ad67dfd0b98f700c555740a756d00430d12"
     },
     {
       "manual": "cpp",
