@@ -22,6 +22,8 @@ import Admonition from '@theme/Admonition';
 
 This topic describes how Zilliz Cloud handles data type mapping, payload field conversion, and collection naming rules when migrating from [Qdrant](https://qdrant.tech/).
 
+For index settings and post-migration steps, see [External Migration Basics](./external-migration-basics#index-settings).
+
 ## Prerequisites\{#prerequisites}
 
 Before starting your Qdrant to Zilliz Cloud migration, ensure you meet these requirements:

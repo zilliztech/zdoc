@@ -22,6 +22,8 @@ import Admonition from '@theme/Admonition';
 
 This topic describes how Zilliz Cloud handles data type mapping, JSON field conversion, and collection naming rules when migrating from [Tencent Cloud VectorDB](https://www.tencentcloud.com/products/vdb).
 
+For index settings and post-migration steps, see [External Migration Basics](./external-migration-basics#index-settings).
+
 ## Prerequisites\{#prerequisites}
 
 Before starting your Tencent Cloud VectorDB to Zilliz Cloud migration, ensure you meet these requirements:

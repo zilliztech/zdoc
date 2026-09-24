@@ -24,6 +24,8 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud simplifies deployment and maintenance by offering managed Milvus services, enabling easy migration of your existing Milvus deployments to the cloud. By connecting to your Milvus instance or uploading backups, you can transfer your vector data to Zilliz Cloud.
 
+You can skip index creation when migrating [via endpoint](./via-endpoint). Backup file and backup tool migrations do not support this option.
+
 Zilliz Cloud provides the following methods for migrating your data from Milvus:
 
 

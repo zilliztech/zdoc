@@ -22,6 +22,8 @@ import Admonition from '@theme/Admonition';
 
 This topic describes how Zilliz Cloud handles data type mapping, collection naming rules, and considerations when migrating from [OpenSearch](https://opensearch.org/).
 
+For index settings and post-migration steps, see [External Migration Basics](./external-migration-basics#index-settings).
+
 ## Prerequisites\{#prerequisites}
 
 Before starting your OpenSearch to Zilliz Cloud migration, ensure you meet these requirements:

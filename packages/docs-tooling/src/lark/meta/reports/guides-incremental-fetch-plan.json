@@ -1,17 +1,406 @@
 {
-  "generated_at": "2026-09-24T02:37:24.159Z",
+  "generated_at": "2026-09-24T10:29:52.877Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
-  "changed_records": [],
-  "changed_tokens": [],
-  "expanded_tokens": [],
+  "changed_records": [
+    {
+      "record_id": "recvlPmHUapDaN",
+      "table_id": "tbl9BeCMjBmalJVb",
+      "table_name": "Get Started",
+      "title": "Quickstart to External Data Lake Search",
+      "labels": "Quickstart to External Data Lake Search",
+      "slug": "quick-start-to-external-data-lake-search",
+      "release_channel": "current",
+      "doc_token": "KdwFwQnDNisT4skHH6Hc16uInji",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/KdwFwQnDNisT4skHH6Hc16uInji",
+      "reasons": [
+        "wiki node revision changed"
+      ]
+    },
+    {
+      "record_id": "recvlPnjpHEiSf",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Connect to Serving Clusters",
+      "labels": "",
+      "slug": "connect-to-serving-cluster",
+      "release_channel": "current",
+      "doc_token": "SFPlwOh8cigh8wkm9xLcXHlfnVh",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/SFPlwOh8cigh8wkm9xLcXHlfnVh",
+      "reasons": [
+        "wiki node revision changed"
+      ]
+    },
+    {
+      "record_id": "recvlVTB9Z37Yp",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "title": "Free & Serverless Clusters",
+      "labels": "Free & Serverless Clusters",
+      "slug": "free-and-serverless-clusters",
+      "release_channel": "current",
+      "doc_token": "EO58wVRLpiTBXQkceRjccN28nrh",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/EO58wVRLpiTBXQkceRjccN28nrh",
+      "reasons": [
+        "wiki node revision changed"
+      ]
+    },
+    {
+      "record_id": "recvlVUCtGcPVF",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "title": "Connect to Clusters",
+      "labels": "",
+      "slug": "connect-to-clusters",
+      "release_channel": "current",
+      "doc_token": "ZWwJwKjeDi7SJGkzUQ0c7XfBnqh",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/ZWwJwKjeDi7SJGkzUQ0c7XfBnqh",
+      "reasons": [
+        "wiki node revision changed"
+      ]
+    },
+    {
+      "record_id": "recvlVWmEweOTS",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "title": "Migrate from Milvus to Zilliz Cloud",
+      "labels": "Migrate from Milvus",
+      "slug": "migrate-from-milvus",
+      "release_channel": "current",
+      "doc_token": "TDkbwhwMyi7bPykZAoUc5PFfnIb",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/TDkbwhwMyi7bPykZAoUc5PFfnIb",
+      "reasons": [
+        "wiki node revision changed"
+      ]
+    },
+    {
+      "record_id": "recvm10edNRApC",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "title": "Migrate from Milvus to Zilliz Cloud Via Endpoint",
+      "labels": "Via Endpoint",
+      "slug": "via-endpoint",
+      "release_channel": "current",
+      "doc_token": "PlX3wo82Di6oWVkg2ercRWCUnvV",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/PlX3wo82Di6oWVkg2ercRWCUnvV",
+      "reasons": [
+        "wiki node revision changed"
+      ]
+    },
+    {
+      "record_id": "recvlVWtAOvPUk",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "title": "External Migration Basics",
+      "labels": "External Migration Basics",
+      "slug": "external-migration-basics",
+      "release_channel": "current",
+      "doc_token": "WZe4w7lNji6RVHkR5alcrTw8nQ2",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/WZe4w7lNji6RVHkR5alcrTw8nQ2",
+      "reasons": [
+        "wiki node revision changed"
+      ]
+    },
+    {
+      "record_id": "recvlVXk6Nl4BS",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "title": "Migrate from Pinecone to Zilliz Cloud",
+      "labels": "Pinecone",
+      "slug": "migrate-from-pinecone",
+      "release_channel": "current",
+      "doc_token": "R33EwQchxiO3HKk4vPnce6vkntc",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/R33EwQchxiO3HKk4vPnce6vkntc",
+      "reasons": [
+        "wiki node revision changed"
+      ]
+    },
+    {
+      "record_id": "recvlVXman137y",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "title": "Migrate from Qdrant to Zilliz Cloud",
+      "labels": "Qdrant",
+      "slug": "migrate-from-qdrant",
+      "release_channel": "current",
+      "doc_token": "LqMIw1DXyiHUjAk9TEAcqHp6nDd",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/LqMIw1DXyiHUjAk9TEAcqHp6nDd",
+      "reasons": [
+        "wiki node revision changed"
+      ]
+    },
+    {
+      "record_id": "recvlVXnUqnsA5",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "title": "Migrate from Elasticsearch to Zilliz Cloud",
+      "labels": "Elasticsearch",
+      "slug": "migrate-from-elasticsearch",
+      "release_channel": "current",
+      "doc_token": "Y8nwwbi0KiwtVZkMaSQcsPcwnkf",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/Y8nwwbi0KiwtVZkMaSQcsPcwnkf",
+      "reasons": [
+        "wiki node revision changed"
+      ]
+    },
+    {
+      "record_id": "recvlVXrKgEFx2",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "title": "Migrate from PostgreSQL to Zilliz Cloud",
+      "labels": "PostgreSQL",
+      "slug": "migrate-from-pgvector",
+      "release_channel": "current",
+      "doc_token": "CiVHwbwPwipX5SkFkqVcLpESnfe",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/CiVHwbwPwipX5SkFkqVcLpESnfe",
+      "reasons": [
+        "wiki node revision changed"
+      ]
+    },
+    {
+      "record_id": "recvlVXtLt0snn",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "title": "Migrate from Tencent Cloud to Zilliz Cloud",
+      "labels": "Tencent Cloud VectorDB",
+      "slug": "migrate-from-tencent-cloud",
+      "release_channel": "current",
+      "doc_token": "SwgXwdHG6iqpbUknXrHcOPd7nRe",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/SwgXwdHG6iqpbUknXrHcOPd7nRe",
+      "reasons": [
+        "wiki node revision changed"
+      ]
+    },
+    {
+      "record_id": "recvlVXvwf4TrN",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "title": "Migrate from OpenSearch to Zilliz Cloud",
+      "labels": "OpenSearch",
+      "slug": "migrate-from-opensearch",
+      "release_channel": "current",
+      "doc_token": "VFMLwxpsniVGKYkE3DecmpQ2nrg",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/VFMLwxpsniVGKYkE3DecmpQ2nrg",
+      "reasons": [
+        "wiki node revision changed"
+      ]
+    }
+  ],
+  "changed_tokens": [
+    "CiVHwbwPwipX5SkFkqVcLpESnfe",
+    "EO58wVRLpiTBXQkceRjccN28nrh",
+    "KdwFwQnDNisT4skHH6Hc16uInji",
+    "LqMIw1DXyiHUjAk9TEAcqHp6nDd",
+    "PlX3wo82Di6oWVkg2ercRWCUnvV",
+    "R33EwQchxiO3HKk4vPnce6vkntc",
+    "SFPlwOh8cigh8wkm9xLcXHlfnVh",
+    "SwgXwdHG6iqpbUknXrHcOPd7nRe",
+    "TDkbwhwMyi7bPykZAoUc5PFfnIb",
+    "VFMLwxpsniVGKYkE3DecmpQ2nrg",
+    "WZe4w7lNji6RVHkR5alcrTw8nQ2",
+    "Y8nwwbi0KiwtVZkMaSQcsPcwnkf",
+    "ZWwJwKjeDi7SJGkzUQ0c7XfBnqh"
+  ],
+  "expanded_tokens": [
+    "Ah0DwMIWsilLa4kVbYocJGCMnlh",
+    "BTrNwoEfYii1e9kf0BScWDpcnA2",
+    "CK0ewQWC2iz6lakP0kscqogbnGh",
+    "CemEwKryciMUepkgYWZcOw6wncb",
+    "CiVHwbwPwipX5SkFkqVcLpESnfe",
+    "D1E4wLr5xiuHoFkJgblcHZ1FnLb",
+    "DF8HwUTD6iScNQkVzs8cZTr8n8b",
+    "DjROwgK6ziCf7Rkoji6ccyEUnsg",
+    "DsqzwjegpiYSdtk1k75c1zXsnZc",
+    "EA2twSf5oiERMDkriKScU9GInc4",
+    "EO58wVRLpiTBXQkceRjccN28nrh",
+    "EV41wG08BiOWW8kbo9xcTGoPnKd",
+    "GqyhwKVspiYRwDk8OaucNfgJnhd",
+    "HriHwEU3qiQrgskz3a0cdkcpnyf",
+    "HwWfwN9SViqU0Ukcv68cufBAnBe",
+    "INoRwFTjfiindPkaNlwc9XAgnkh",
+    "IzXPwUlJ5isTa4kH9KTcC6SfnvZ",
+    "J274wT61xiEM4fkYeL8cMb4Pnbd",
+    "JCMPwIyVciCT4Hk4O20c96MEnch",
+    "JaLdw76LPiX003kLpKHcA0n8n2d",
+    "KdwFwQnDNisT4skHH6Hc16uInji",
+    "KfgvwJKPDi8uDekl2aHcPOvgnSb",
+    "KmYgwHNOFiPQ9sk4bSDcMuIHnjC",
+    "KrbjwFhy3iojF3k97XmcvvXMnW7",
+    "LqMIw1DXyiHUjAk9TEAcqHp6nDd",
+    "MUL3wkn7Yi3YoFkYk59csf8bnNc",
+    "NRF1wGr3AiWWC1kVfWucZD6Xneb",
+    "OVxRwZWxNi4pYrkdKxCcOuY2nf1",
+    "PAViwMSb3iVMzuk56z3c1zfRnwh",
+    "PJ4hwwD1DiVnv0kWPZBceLrdnSf",
+    "PharwAysCiBzvgkuqqecmNzunQf",
+    "PlX3wo82Di6oWVkg2ercRWCUnvV",
+    "QWqiwrgJViA5AJkv64VcgQX2nKd",
+    "QuBiwrIJdiDw3ckVDKBcPofinfe",
+    "R33EwQchxiO3HKk4vPnce6vkntc",
+    "RQTRwhOVPiwnwokqr4scAtyfnBf",
+    "RY8ww0NDQi8yU9kNpjicHP7Gn4b",
+    "RsGAwmgAYiE6fgkOiokcijsBnEg",
+    "SFPlwOh8cigh8wkm9xLcXHlfnVh",
+    "SwgXwdHG6iqpbUknXrHcOPd7nRe",
+    "TDkbwhwMyi7bPykZAoUc5PFfnIb",
+    "VFMLwxpsniVGKYkE3DecmpQ2nrg",
+    "WZe4w7lNji6RVHkR5alcrTw8nQ2",
+    "XmUYwRgNDitesQkl9QDc3IslnOh",
+    "Y8nwwbi0KiwtVZkMaSQcsPcwnkf",
+    "ZWwJwKjeDi7SJGkzUQ0c7XfBnqh"
+  ],
   "removed_records": [],
   "removed_tokens": [],
-  "reasons_by_token": {},
+  "reasons_by_token": {
+    "KdwFwQnDNisT4skHH6Hc16uInji": [
+      "wiki node revision changed"
+    ],
+    "SFPlwOh8cigh8wkm9xLcXHlfnVh": [
+      "wiki node revision changed"
+    ],
+    "EO58wVRLpiTBXQkceRjccN28nrh": [
+      "wiki node revision changed"
+    ],
+    "ZWwJwKjeDi7SJGkzUQ0c7XfBnqh": [
+      "wiki node revision changed"
+    ],
+    "TDkbwhwMyi7bPykZAoUc5PFfnIb": [
+      "wiki node revision changed"
+    ],
+    "PlX3wo82Di6oWVkg2ercRWCUnvV": [
+      "wiki node revision changed"
+    ],
+    "WZe4w7lNji6RVHkR5alcrTw8nQ2": [
+      "wiki node revision changed"
+    ],
+    "R33EwQchxiO3HKk4vPnce6vkntc": [
+      "wiki node revision changed"
+    ],
+    "LqMIw1DXyiHUjAk9TEAcqHp6nDd": [
+      "wiki node revision changed"
+    ],
+    "Y8nwwbi0KiwtVZkMaSQcsPcwnkf": [
+      "wiki node revision changed"
+    ],
+    "CiVHwbwPwipX5SkFkqVcLpESnfe": [
+      "wiki node revision changed"
+    ],
+    "SwgXwdHG6iqpbUknXrHcOPd7nRe": [
+      "wiki node revision changed"
+    ],
+    "VFMLwxpsniVGKYkE3DecmpQ2nrg": [
+      "wiki node revision changed"
+    ],
+    "KfgvwJKPDi8uDekl2aHcPOvgnSb": [
+      "outgoing reference from CiVHwbwPwipX5SkFkqVcLpESnfe"
+    ],
+    "DF8HwUTD6iScNQkVzs8cZTr8n8b": [
+      "incoming reference to CiVHwbwPwipX5SkFkqVcLpESnfe"
+    ],
+    "MUL3wkn7Yi3YoFkYk59csf8bnNc": [
+      "incoming reference to CiVHwbwPwipX5SkFkqVcLpESnfe"
+    ],
+    "PJ4hwwD1DiVnv0kWPZBceLrdnSf": [
+      "incoming reference to CiVHwbwPwipX5SkFkqVcLpESnfe"
+    ],
+    "PharwAysCiBzvgkuqqecmNzunQf": [
+      "outgoing reference from EO58wVRLpiTBXQkceRjccN28nrh"
+    ],
+    "BTrNwoEfYii1e9kf0BScWDpcnA2": [
+      "outgoing reference from EO58wVRLpiTBXQkceRjccN28nrh"
+    ],
+    "KrbjwFhy3iojF3k97XmcvvXMnW7": [
+      "incoming reference to EO58wVRLpiTBXQkceRjccN28nrh"
+    ],
+    "PAViwMSb3iVMzuk56z3c1zfRnwh": [
+      "outgoing reference from KdwFwQnDNisT4skHH6Hc16uInji"
+    ],
+    "INoRwFTjfiindPkaNlwc9XAgnkh": [
+      "outgoing reference from KdwFwQnDNisT4skHH6Hc16uInji"
+    ],
+    "IzXPwUlJ5isTa4kH9KTcC6SfnvZ": [
+      "outgoing reference from KdwFwQnDNisT4skHH6Hc16uInji"
+    ],
+    "JaLdw76LPiX003kLpKHcA0n8n2d": [
+      "outgoing reference from KdwFwQnDNisT4skHH6Hc16uInji"
+    ],
+    "RsGAwmgAYiE6fgkOiokcijsBnEg": [
+      "outgoing reference from KdwFwQnDNisT4skHH6Hc16uInji"
+    ],
+    "NRF1wGr3AiWWC1kVfWucZD6Xneb": [
+      "incoming reference to KdwFwQnDNisT4skHH6Hc16uInji"
+    ],
+    "OVxRwZWxNi4pYrkdKxCcOuY2nf1": [
+      "outgoing reference from LqMIw1DXyiHUjAk9TEAcqHp6nDd"
+    ],
+    "DjROwgK6ziCf7Rkoji6ccyEUnsg": [
+      "outgoing reference from LqMIw1DXyiHUjAk9TEAcqHp6nDd"
+    ],
+    "QWqiwrgJViA5AJkv64VcgQX2nKd": [
+      "outgoing reference from LqMIw1DXyiHUjAk9TEAcqHp6nDd"
+    ],
+    "HwWfwN9SViqU0Ukcv68cufBAnBe": [
+      "incoming reference to LqMIw1DXyiHUjAk9TEAcqHp6nDd"
+    ],
+    "RQTRwhOVPiwnwokqr4scAtyfnBf": [
+      "outgoing reference from PlX3wo82Di6oWVkg2ercRWCUnvV"
+    ],
+    "RY8ww0NDQi8yU9kNpjicHP7Gn4b": [
+      "outgoing reference from PlX3wo82Di6oWVkg2ercRWCUnvV"
+    ],
+    "EA2twSf5oiERMDkriKScU9GInc4": [
+      "outgoing reference from PlX3wo82Di6oWVkg2ercRWCUnvV"
+    ],
+    "CemEwKryciMUepkgYWZcOw6wncb": [
+      "outgoing reference from PlX3wo82Di6oWVkg2ercRWCUnvV"
+    ],
+    "CK0ewQWC2iz6lakP0kscqogbnGh": [
+      "incoming reference to PlX3wo82Di6oWVkg2ercRWCUnvV"
+    ],
+    "JCMPwIyVciCT4Hk4O20c96MEnch": [
+      "outgoing reference from R33EwQchxiO3HKk4vPnce6vkntc"
+    ],
+    "EV41wG08BiOWW8kbo9xcTGoPnKd": [
+      "incoming reference to SFPlwOh8cigh8wkm9xLcXHlfnVh"
+    ],
+    "XmUYwRgNDitesQkl9QDc3IslnOh": [
+      "incoming reference to TDkbwhwMyi7bPykZAoUc5PFfnIb"
+    ],
+    "GqyhwKVspiYRwDk8OaucNfgJnhd": [
+      "incoming reference to Y8nwwbi0KiwtVZkMaSQcsPcwnkf"
+    ],
+    "HriHwEU3qiQrgskz3a0cdkcpnyf": [
+      "outgoing reference from ZWwJwKjeDi7SJGkzUQ0c7XfBnqh"
+    ],
+    "DsqzwjegpiYSdtk1k75c1zXsnZc": [
+      "outgoing reference from ZWwJwKjeDi7SJGkzUQ0c7XfBnqh"
+    ],
+    "D1E4wLr5xiuHoFkJgblcHZ1FnLb": [
+      "outgoing reference from ZWwJwKjeDi7SJGkzUQ0c7XfBnqh"
+    ],
+    "KmYgwHNOFiPQ9sk4bSDcMuIHnjC": [
+      "outgoing reference from ZWwJwKjeDi7SJGkzUQ0c7XfBnqh"
+    ],
+    "QuBiwrIJdiDw3ckVDKBcPofinfe": [
+      "outgoing reference from ZWwJwKjeDi7SJGkzUQ0c7XfBnqh"
+    ],
+    "Ah0DwMIWsilLa4kVbYocJGCMnlh": [
+      "outgoing reference from ZWwJwKjeDi7SJGkzUQ0c7XfBnqh"
+    ],
+    "J274wT61xiEM4fkYeL8cMb4Pnbd": [
+      "outgoing reference from ZWwJwKjeDi7SJGkzUQ0c7XfBnqh"
+    ]
+  },
   "warnings": [],
-  "affected_tables": [],
+  "affected_tables": [
+    "tbl9BeCMjBmalJVb",
+    "tblLMqwkNDtAEK5p",
+    "tblWv7PjNDsexddH",
+    "tblZMzoITXNsyKmQ",
+    "tblgHPdSvZP8gUz6"
+  ],
   "current_table_targets": {
     "tbl9BeCMjBmalJVb": [
       "zilliz.paas",

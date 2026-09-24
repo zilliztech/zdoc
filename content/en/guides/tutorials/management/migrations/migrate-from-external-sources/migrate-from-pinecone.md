@@ -22,6 +22,8 @@ import Admonition from '@theme/Admonition';
 
 This topic describes how Zilliz Cloud handles data type mapping, field conversion, namespace processing, and collection naming rules when migrating from [Pinecone](https://www.pinecone.io/).
 
+For index settings and post-migration steps, see [External Migration Basics](./external-migration-basics#index-settings).
+
 ## Prerequisites\{#prerequisites}
 
 Before starting your Pinecone to Zilliz Cloud migration, ensure you meet these requirements:

@@ -100,6 +100,8 @@ Our migration tools provide extensive configuration options to ensure your data 
    </tr>
 </table>
 
+**Index creation control**: Automatically create indexes after migration, or skip index creation and build indexes later. Configure this for the migration job in **Index settings** at the final confirmation step.
+
 ## Migration process\{#migration-process}
 
 The migration follows a three-phase approach designed to ensure data integrity and provide visibility throughout the process:
@@ -114,9 +116,9 @@ The migration follows a three-phase approach designed to ensure data integrity a
 
 1. **Configure target**: Select your Zilliz Cloud cluster and database as the destination
 
-### Phase 2: Review mappings\{#phase-2-review-mappings}
+### Phase 2: Review & configure\{#phase-2-review-and-configure}
 
-This phase involves two key components:
+Review the schema mappings and shard settings, then choose the index creation setting before submitting the migration job.
 
 #### Schema mapping\{#schema-mapping}
 
@@ -136,6 +138,22 @@ For optimal performance, configure shards based on your data volume:
 
 - **Large datasets** (>1B rows): [Contact support](https://zilliz.com/contact-sales) for optimal shard configuration
 
+#### Index settings\{#index-settings}
+
+At the final confirmation step, use **Index settings** to choose how this migration job handles indexes for the target collections.
+
+- **Create indexes after migration** is enabled by default. Leave it on to automatically create indexes according to the existing migration rules.
+
+- Turn it off to skip index creation and build indexes later, for example during a planned maintenance window.
+
+<Admonition type="info" title="Note">
+
+If you turn off Create indexes after migration, no vector or scalar indexes are created by the migration job. Migrated collections remain Unloaded and cannot be searched or queried until you manually create indexes and load the collections.
+
+</Admonition>
+
+Review the index setting in the confirmation information before clicking **Migrate**.
+
 ### Phase 3: Migrate & verify\{#phase-3-migrate-and-verify}
 
 Once configuration is complete, execute the migration and track progress:
@@ -148,13 +166,22 @@ Once configuration is complete, execute the migration and track progress:
 
 - **Validation**: Automatic row count verification ensures data completeness
 
+## Post-migration\{#post-migration}
+
+If you skip index creation, the job details show **Indexes skipped** after a successful migration. Complete the following steps before running searches or queries:
+
+1. **Check indexes.** If you left **Create indexes after migration** on, verify that automatic index creation succeeded. If you turned it off, manually create indexes on all vector fields. Create scalar indexes as needed for your workload. For index configuration, see [AUTOINDEX Explained](./autoindex-explained); for a REST API example, see [Create Index (V2)](/reference/restful/create-index-v2).
+
+1. **Load the collection.** Once index creation is complete, manually load the collection and wait until it is loaded. This step is required whether indexes were created automatically or manually. See [Load & Release](./load-release-collections).
+
+1. **Validate the migrated data.** Compare collection and entity counts with the source and run sample searches or queries before directing application traffic to the target.
+
 ## Limitations\{#limitations}
 
 Before starting your migration, be aware of these common limitations that apply across all supported data sources:
 
 | Consideration | Impact | Solution |
 | --- | --- | --- |
-| No automatic indexing or loading | Collections not queryable immediately | Manually create indexes and load the collections post-migration. For detailed steps, refer to [AUTOINDEX Explained](./autoindex-explained) and [Load & Release](./load-release-collections). |
 | Empty source data | Cannot select empty indexes/tables | Ensure source contains data before migrating |
 | Vector field requirements | Collections must contain vector data | Verify your source has vector fields before migration |
 | Unsupported data types | Some specialized data types may not transfer | Review platform-specific guides for data type mappings |

@@ -60,19 +60,39 @@ The following demo walks you through how to start migrating from Milvus via endp
 
 </Admonition>
 
+### Index settings\{#index-settings}
+
+At the final confirmation step, use **Index settings** to choose how this migration job handles indexes for the target collections.
+
+- **Create indexes after migration** is enabled by default. Leave it on to automatically create indexes according to the existing migration rules.
+
+- Turn it off to skip index creation and build indexes later, for example during a planned maintenance window.
+
+<Admonition type="info" title="Note">
+
+If you turn off Create indexes after migration, no vector or scalar indexes are created by the migration job. Migrated collections remain Unloaded and cannot be searched or queried until you manually create indexes and load the collections.
+
+</Admonition>
+
+Review the index setting in the confirmation information before clicking **Migrate**.
+
 ## Monitor the migration process\{#monitor-the-migration-process}
 
 Once you click **Migrate**, a migration job will be generated. You can check the migration progress on the [Jobs](./job-center) page. When the job status switches from **In Progress** to **Successful**, the migration is complete.
+
+If you skip index creation, the job details show **Indexes skipped** after a successful migration. Follow the [post-migration steps](./via-endpoint#post-migration) to create indexes and load the collections.
 
 ![RGsvb7oFpo7uzbxjSSFc6owNn0c](https://zdoc-images.s3.us-west-2.amazonaws.com/rgsvb7ofpo7uzbxjssfc6ownn0c.png "RGsvb7oFpo7uzbxjSSFc6owNn0c")
 
 ## Post-migration\{#post-migration}
 
-After the migration job is completed, note the following:
+After the migration job completes successfully, prepare the target collections for searches and queries:
 
-- **Index Creation**: The migration process automatically creates [AUTOINDEX](./autoindex-explained) for the migrated collections.
+- **Automatic index creation enabled:** The migration job creates [AUTOINDEX](./autoindex-explained) according to the existing Milvus migration rules. Verify that index creation succeeded in the job details.
 
-- **Manual Loading Required**: Despite automatic indexing, the migrated collections are not immediately available for search or query operations. You must manually load the collections in Zilliz Cloud to enable search and query functionalities. For details, refer to [Load & Release](./load-release-collections).
+- **Index creation skipped:** The migration job creates neither vector nor scalar indexes. Manually create indexes on all vector fields, and create scalar indexes as needed for your workload. For a REST API example, see [Create Index (V2)](/reference/restful/create-index-v2).
+
+- **Manual loading required:** After index creation completes, manually load each collection and wait until it is loaded before running searches or queries. This step is required whether indexes were created automatically or manually. See [Load & Release](./load-release-collections).
 
 <Admonition type="info" title="Notes">
 
