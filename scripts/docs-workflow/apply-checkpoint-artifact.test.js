@@ -43,7 +43,53 @@ test('copies binary files, applies deletions, preserves unrelated files, and fre
   assert.deepEqual(await readFile(path.join(f.targetDir, ROOT, 'new.bin')), Buffer.from([0, 255, 1]));
   await assert.rejects(readFile(path.join(f.targetDir, ROOT, 'old.md')), /ENOENT/);
   assert.equal(await readFile(path.join(f.targetDir, 'unrelated.txt'), 'utf8'), 'keep');
-  assert.deepEqual(result, { group: 'python', copied: 2, deletions: 1, translationCacheMerged: false }); assert.equal(Object.isFrozen(result), true);
+  assert.deepEqual(result, { group: 'python', copied: 2, deletions: 1, translationCacheMerged: false, externallyOwnedSkipped: [] }); assert.equal(Object.isFrozen(result), true);
+});
+
+test('carries externally owned source files through instead of overwriting or deleting them', async () => {
+  const home = 'content/zh-CN/guides/tutorials/home.md';
+  const deploy = 'content/zh-CN/guides/tutorials/deploy.md';
+  const buildArtifact = async (root, { files, deletions }) => {
+    const artifactDir = path.join(root, 'artifact'), targetDir = path.join(root, 'target');
+    await mkdir(path.join(artifactDir, 'payload'), { recursive: true }); await mkdir(targetDir);
+    const entries = [];
+    for (const [rel, value] of Object.entries(files).sort()) {
+      const bytes = Buffer.from(value);
+      const full = path.join(artifactDir, 'payload', rel);
+      await mkdir(path.dirname(full), { recursive: true }); await writeFile(full, bytes);
+      entries.push({ path: rel, sha256: crypto.createHash('sha256').update(bytes).digest('hex'), size: bytes.length });
+    }
+    const manifest = { schemaVersion: 1, stage: 'source', group: 'guides', masterSha: 'a'.repeat(40), devBaselineSha: 'b'.repeat(40), createdAt: '2026-01-02T03:04:05.000Z', ownershipVersion: 1, files: entries, deletions: [...deletions].sort(), snapshotManual: 'guides', validation: { commands: [], passed: true } };
+    await writeFile(path.join(artifactDir, 'manifest.json'), JSON.stringify(manifest));
+    const liveHome = path.join(targetDir, ...home.split('/'));
+    await mkdir(path.dirname(liveHome), { recursive: true }); await writeFile(liveHome, 'live translated home\n');
+    return { artifactDir, targetDir, liveHome };
+  };
+
+  // Reproduces incident run 35766910409: a retained source checkpoint that
+  // still lists the translated Chinese Guides home as fetch payload.
+  let root = await mkdtemp(path.join(os.tmpdir(), 'checkpoint-eo-apply-'));
+  let f = await buildArtifact(root, { files: { [home]: 'stale fetch baseline bytes\n', [deploy]: '# Deploy\n' }, deletions: [] });
+  let result = await applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir, site: 'zh-CN' });
+  assert.equal(await readFile(f.liveHome, 'utf8'), 'live translated home\n');
+  assert.equal(await readFile(path.join(f.targetDir, ...deploy.split('/')), 'utf8'), '# Deploy\n');
+  assert.deepEqual(result.externallyOwnedSkipped, [home]);
+  assert.equal(result.copied, 1);
+  assert.equal(result.deletions, 0);
+
+  // A deletion naming the file must not remove the owning lane's live file.
+  root = await mkdtemp(path.join(os.tmpdir(), 'checkpoint-eo-apply-'));
+  f = await buildArtifact(root, { files: { [deploy]: '# Deploy\n' }, deletions: [home] });
+  result = await applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir, site: 'zh-CN' });
+  assert.equal(await readFile(f.liveHome, 'utf8'), 'live translated home\n');
+  assert.deepEqual(result.externallyOwnedSkipped, [home]);
+
+  // Nor may an ancestor directory deletion sweep the externally owned file away.
+  root = await mkdtemp(path.join(os.tmpdir(), 'checkpoint-eo-apply-'));
+  f = await buildArtifact(root, { files: {}, deletions: ['content/zh-CN/guides/tutorials'] });
+  result = await applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir, site: 'zh-CN' });
+  assert.equal(await readFile(f.liveHome, 'utf8'), 'live translated home\n');
+  assert.deepEqual(result.externallyOwnedSkipped, ['content/zh-CN/guides/tutorials']);
 });
 
 test('supports authorized file-directory transitions and refuses unauthorized conflicts', async () => {

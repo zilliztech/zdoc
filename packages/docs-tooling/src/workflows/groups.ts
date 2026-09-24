@@ -21,6 +21,7 @@ export type PublicationGroupWorkflow = Readonly<{
   durableTranslationBatchSize: number;
   checkpointPaths: readonly string[];
   preservedPaths: readonly string[];
+  externallyOwnedPaths: readonly string[];
   commitMessage: string;
 }>;
 
@@ -197,7 +198,16 @@ export function resolvePublicationGroupWorkflow(site: SiteId, groupName: string)
   const resolved = group.manuals.map(manual => resolveManualPublication(manual, site));
   const sourceManuals = distinct(resolved.flatMap(entry => entry.sourceChain.map(source => source.source.generatorManual)));
   const sourceSnapshots = distinct(resolved.map(entry => entry.source.snapshotPath));
-  const preservedPaths = distinct(resolved.flatMap(entry => publicationPreservedPaths(entry.publication)));
+  const allPreservedPaths = distinct(resolved.flatMap(entry => publicationPreservedPaths(entry.publication)));
+  // externallyOwnedFiles are written by other publication lanes (for example the
+  // Chinese Guides home is produced by Translation). Unlike preserved landing
+  // pages they must never ride along inside a Fetch source checkpoint: applying
+  // such a payload would overwrite the owning lane's live file with stale
+  // carried-through bytes (incident run 35766910409).
+  const externallyOwnedPaths = distinct(resolved.flatMap(entry => (
+    entry.publication.externallyOwnedFiles ?? []
+  ).map(file => `${entry.publication.outputDir}/${file}`)));
+  const preservedPaths = allPreservedPaths.filter((candidate) => !externallyOwnedPaths.includes(candidate));
   return deepFreeze({
     group,
     sourceManuals,
@@ -207,7 +217,7 @@ export function resolvePublicationGroupWorkflow(site: SiteId, groupName: string)
     durableTranslationBatchSize: site === 'en' && groupName === 'guides' ? 15 : 0,
     checkpointPaths: distinct([
       ...group.ownedPaths,
-      ...preservedPaths,
+      ...allPreservedPaths,
       ...sourceSnapshots,
       ...(site === 'en' && groupName === 'guides' ? GUIDES_CHECKPOINT_PATHS : []),
       ...(site === 'en' ? [ENGLISH_REFERENCE_CONTENT_MANIFEST] : []),
@@ -215,6 +225,7 @@ export function resolvePublicationGroupWorkflow(site: SiteId, groupName: string)
       ...(site === 'en' ? [`generated/en/manifests/lark-revisions/${groupName}.json`] : []),
     ]),
     preservedPaths,
+    externallyOwnedPaths,
     commitMessage: COMMIT_MESSAGES[groupName as keyof typeof COMMIT_MESSAGES],
   });
 }
