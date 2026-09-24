@@ -215,6 +215,18 @@ async function createCheckpointArtifact(options) {
   const output = initialSafety.canonicalOutput;
   const ownedPaths = options.includeTranslationCache ? translationOwnedPaths(translationIdentity.translationTarget, group) : group.ownedPaths;
   const [baseline, current] = await Promise.all([collect(baselineDir, ownedPaths), collect(workspace, ownedPaths)]);
+  // Externally owned files are produced by other publication lanes (the Chinese
+  // Guides home is translated, never fetched). They must not enter a source
+  // checkpoint: applying such a payload would overwrite the owning lane's live
+  // file with stale carried-through bytes (incident run 35766910409).
+  if (!options.includeTranslationCache) {
+    for (const externallyOwned of group.externallyOwnedPaths || []) {
+      for (const rel of [externallyOwned, ...[...current.keys()].filter((candidate) => candidate.startsWith(`${externallyOwned}/`))]) {
+        current.delete(rel);
+        baseline.delete(rel);
+      }
+    }
+  }
   const translationTarget = translationIdentity ? resolveTranslationTarget(translationIdentity.translationTarget) : null;
   const translationStatePaths = translationTarget
     ? [translationTarget.state.path, ...('candidateState' in translationTarget ? [translationTarget.candidateState.path] : [])]

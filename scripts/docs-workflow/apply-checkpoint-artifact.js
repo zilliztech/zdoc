@@ -5,6 +5,7 @@ const fs = require('node:fs');
 const { cp, lstat, mkdir, mkdtemp, open, realpath, rename, rm, rmdir, statfs } = require('node:fs/promises');
 const path = require('node:path');
 const { loadTypeScript } = require('../lib/load-typescript');
+const { getContentGroup } = require('./content-groups');
 const { validateCheckpointArtifact } = require('./validate-checkpoint-artifact');
 const { resolveTranslationTarget } = loadTypeScript('../../packages/docs-tooling/src/translation/targets.ts');
 
@@ -224,6 +225,34 @@ async function readStateNoFollow(root, statePath, kind, hooks) {
   return readNoFollow(path.join(root, statePath), undefined, () => hooks?.afterCacheLstat?.({ kind, file: path.join(root, statePath) }));
 }
 
+// Source checkpoints minted before the externallyOwned split (or replayed from
+// retained archives) may still list carried-through files that another
+// publication lane owns, such as the translated Chinese Guides home. Applying
+// such an artifact must carry the live target file through instead of
+// overwriting it with stale payload bytes, so those paths are skipped here as
+// a defense behind the creation-side exclusion.
+function partitionExternallyOwned(manifest, site) {
+  if (manifest.stage !== 'source') return {files: manifest.files, deletions: manifest.deletions, externallyOwnedSkipped: []};
+  const externallyOwned = new Set(getContentGroup(manifest.group, site).externallyOwnedPaths || []);
+  if (!externallyOwned.size) return {files: manifest.files, deletions: manifest.deletions, externallyOwnedSkipped: []};
+  const guarded = (rel) => {
+    for (const owned of externallyOwned) {
+      if (rel === owned || rel.startsWith(`${owned}/`) || owned.startsWith(`${rel}/`)) return true;
+    }
+    return false;
+  };
+  const files = [], deletions = [], externallyOwnedSkipped = [];
+  for (const entry of manifest.files) {
+    if (guarded(entry.path)) externallyOwnedSkipped.push(entry.path);
+    else files.push(entry);
+  }
+  for (const rel of manifest.deletions) {
+    if (guarded(rel)) externallyOwnedSkipped.push(rel);
+    else deletions.push(rel);
+  }
+  return {files, deletions, externallyOwnedSkipped: externallyOwnedSkipped.sort()};
+}
+
 async function applyCheckpointArtifact(options = {}) {
   validateOptions(options);
   // `hooks` is the sole internal fault-injection surface. It is intentionally unavailable through the CLI.
@@ -235,15 +264,16 @@ async function applyCheckpointArtifact(options = {}) {
   const artifact = manifest.resolvedDir;
   const target = await safeTarget(options.targetDir);
   if (insideOrEqual(artifact, target) || insideOrEqual(target, artifact)) throw new Error('Artifact and target must not overlap');
+  const {files, deletions, externallyOwnedSkipped} = partitionExternallyOwned(manifest, options.site);
   const payload = path.join(artifact, 'payload');
   const payloadStats = new Map();
-  for (const entry of manifest.files) payloadStats.set(entry.path, await lstat(path.join(payload, entry.path)));
+  for (const entry of files) payloadStats.set(entry.path, await lstat(path.join(payload, entry.path)));
 
   const mergedStates = new Map();
   const translationTarget = manifest.stage === 'translation' ? resolveTranslationTarget(manifest.translationTarget) : null;
   const stateDescriptors = translationTarget
     ? [translationTarget.state, ...('candidateState' in translationTarget ? [translationTarget.candidateState] : [])]
-      .filter(state => manifest.files.some(entry => entry.path === state.path))
+      .filter(state => files.some(entry => entry.path === state.path))
     : [];
   if (stateDescriptors.length) {
     if (typeof options.baselineDir !== 'string' || !options.baselineDir) throw new Error('baselineDir is required for translation cache merge');
@@ -264,11 +294,11 @@ async function applyCheckpointArtifact(options = {}) {
     }
   }
 
-  const mutationPaths = minimalPaths([...manifest.deletions, ...manifest.files.map((entry) => entry.path)]);
+  const mutationPaths = minimalPaths([...deletions, ...files.map((entry) => entry.path)]);
   let guard = await captureGuard(target, mutationPaths);
   const fsInfo = hooks?.statfs ? await hooks.statfs({ target }) : await statfs(target);
   let journalEstimate = 0; for (const rel of mutationPaths) journalEstimate += await pathSize(path.join(target, rel));
-  const requiredBytes = manifest.files.reduce((sum, entry) => sum + entry.size, 0) + journalEstimate;
+  const requiredBytes = files.reduce((sum, entry) => sum + entry.size, 0) + journalEstimate;
   const availableBytes = Number(fsInfo.bavail) * Number(fsInfo.bsize);
   if (Number.isFinite(availableBytes) && availableBytes < requiredBytes) throw new Error(`Insufficient disk capacity: need ${requiredBytes} bytes, have ${availableBytes}`);
 
@@ -278,25 +308,25 @@ async function applyCheckpointArtifact(options = {}) {
   let complete = false;
   const createdDirs = [];
   try {
-    for (const rel of [...manifest.deletions].sort((a, b) => b.split('/').length - a.split('/').length || b.localeCompare(a))) { await hooks?.beforeDelete?.({ rel }); await verifyGuard(guard); await assertSafeAncestors(target, rel); await rm(path.join(target, rel), { recursive: true, force: true }); await verifyGuard(guard); }
+    for (const rel of [...deletions].sort((a, b) => b.split('/').length - a.split('/').length || b.localeCompare(a))) { await hooks?.beforeDelete?.({ rel }); await verifyGuard(guard); await assertSafeAncestors(target, rel); await rm(path.join(target, rel), { recursive: true, force: true }); await verifyGuard(guard); }
     await hooks?.beforeCopy?.();
-    for (const entry of manifest.files) {
+    for (const entry of files) {
       const rel = entry.path, destination = path.join(target, rel); await assertSafeAncestors(target, rel);
       const parts = rel.split('/'); let current = target;
       for (let i = 0; i < parts.length - 1; i++) {
         current = path.join(current, parts[i]); const stat = await maybeLstat(current);
         if (stat?.isSymbolicLink()) throw new Error(`Target symlink ancestor is not allowed: ${rel}`);
-        if (stat && !stat.isDirectory()) { const conflict = parts.slice(0, i + 1).join('/'); if (!manifest.deletions.some((d) => conflicts(d, conflict))) throw new Error(`Unauthorized target conflict: ${conflict}`); await rm(current, { recursive: true, force: true }); }
+        if (stat && !stat.isDirectory()) { const conflict = parts.slice(0, i + 1).join('/'); if (!deletions.some((d) => conflicts(d, conflict))) throw new Error(`Unauthorized target conflict: ${conflict}`); await rm(current, { recursive: true, force: true }); }
         if (!(await maybeLstat(current))) { await verifyGuard(guard); await mkdir(current); createdDirs.push(current); guard = await captureGuard(target, mutationPaths); await verifyGuard(guard); }
       }
       const existing = await maybeLstat(destination);
       if (existing?.isSymbolicLink()) throw new Error(`Target symlink is not allowed: ${rel}`);
-      if (existing?.isDirectory()) { if (!manifest.deletions.some((d) => conflicts(d, rel))) throw new Error(`Unauthorized target conflict: ${rel}`); await rm(destination, { recursive: true }); }
+      if (existing?.isDirectory()) { if (!deletions.some((d) => conflicts(d, rel))) throw new Error(`Unauthorized target conflict: ${rel}`); await rm(destination, { recursive: true }); }
       const bytes = mergedStates.get(rel) ?? await readNoFollow(path.join(payload, rel), payloadStats.get(rel));
       await hooks?.beforeCommit?.({ rel }); await verifyGuard(guard); await atomicWrite(destination, bytes); guard = await captureGuard(target, mutationPaths); await verifyGuard(guard); await hooks?.afterCopy?.({ rel });
     }
     complete = true;
-    return Object.freeze({ group: manifest.group, copied: manifest.files.length, deletions: manifest.deletions.length, translationCacheMerged: stateDescriptors.length > 0 });
+    return Object.freeze({ group: manifest.group, copied: files.length, deletions: deletions.length, translationCacheMerged: stateDescriptors.length > 0, externallyOwnedSkipped });
   } finally {
     if (!complete) {
       try {
