@@ -16,7 +16,8 @@ displayed_sidebar: default
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Basic Operators
 
@@ -52,49 +53,361 @@ Comparison operators are used to filter data based on equality, inequality, or s
 
 Assume you have a field named `status` and you want to find all entities where `status` is "active". You can use the equality operator `==`:
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = 'status == "active"'
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "status == \"active\"";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "status == \"active\""
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let filter = "status == \"active\"";
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+std::string filter = "status == \"active\"";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'status == "active"';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='status == "active"'
+```
+
+</TabItem>
+</Tabs>
 
 ### Example 2: Filtering with Not Equal To (`!=`)\{#example-2-filtering-with-not-equal-to}
 
 To find entities where `status` is not "inactive":
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = 'status != "inactive"'
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "status != \"inactive\"";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "status != \"inactive\""
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let filter = "status != \"inactive\"";
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+std::string filter = "status != \"inactive\"";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'status != "inactive"';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='status != "inactive"'
+```
+
+</TabItem>
+</Tabs>
 
 ### Example 3: Filtering with Greater Than (`>`)\{#example-3-filtering-with-greater-than-greater}
 
 If you want to find all entities with an `age` greater than 30:
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = 'age > 30'
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "age > 30";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "age > 30"
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let filter = "age > 30";
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+std::string filter = "age > 30";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'age > 30';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='age > 30'
+```
+
+</TabItem>
+</Tabs>
 
 ### Example 4: Filtering with Less Than\{#example-4-filtering-with-less-than}
 
 To find entities where `price` is less than 100:
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = 'price < 100'
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "price < 100";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "price < 100"
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let filter = "price < 100";
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+std::string filter = "price < 100";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'price < 100';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='price < 100'
+```
+
+</TabItem>
+</Tabs>
 
 ### Example 5: Filtering with Greater Than or Equal To (`>=`)\{#example-5-filtering-with-greater-than-or-equal-to-greater}
 
 If you want to find all entities with `rating` greater than or equal to 4:
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = 'rating >= 4'
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "rating >= 4";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "rating >= 4"
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let filter = "rating >= 4";
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+std::string filter = "rating >= 4";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'rating >= 4';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='rating >= 4'
+```
+
+</TabItem>
+</Tabs>
 
 ### Example 6: Filtering with Less Than or Equal To\{#example-6-filtering-with-less-than-or-equal-to}
 
 To find entities with `discount` less than or equal to 10%:
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = 'discount <= 10'
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "discount <= 10";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "discount <= 10"
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let filter = "discount <= 10";
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+std::string filter = "discount <= 10";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'discount <= 10';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='discount <= 10'
+```
+
+</TabItem>
+</Tabs>
 
 ## Range operators\{#range-operators}
 
@@ -102,9 +415,61 @@ Range operators help filter data based on a specific set of values. Zilliz Cloud
 
 If you want to find all entities where the `color` is either "red", "green", or "blue":
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = 'color in ["red", "green", "blue"]'
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "color in [\"red\", \"green\", \"blue\"]";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "color in [\"red\", \"green\", \"blue\"]"
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let filter = "color in [\"red\", \"green\", \"blue\"]";
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+std::string filter = "color in [\"red\", \"green\", \"blue\"]";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'color in ["red", "green", "blue"]';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='color in ["red", "green", "blue"]'
+```
+
+</TabItem>
+</Tabs>
 
 This is useful when you want to check for membership in a list of values.
 
@@ -120,21 +485,177 @@ Pattern matching operators help filter string values based on wildcard patterns 
 
 To find entities where `name` starts with `Prod`:
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = 'name LIKE "Prod%"'
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "name LIKE \"Prod%\"";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "name LIKE \"Prod%\""
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let filter = "name LIKE \"Prod%\"";
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+std::string filter = "name LIKE \"Prod%\"";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'name LIKE "Prod%"';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='name LIKE "Prod%"'
+```
+
+</TabItem>
+</Tabs>
+
 To find entities whose `code` contains an error code such as `E1001`:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 filter = 'code =~ "E[0-9]{4}"'
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "code =~ \"E[0-9]{4}\"";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "code =~ \"E[0-9]{4}\""
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let filter = "code =~ \"E[0-9]{4}\"";
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+std::string filter = "code =~ \"E[0-9]{4}\"";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'code =~ "E[0-9]{4}"';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='code =~ "E[0-9]{4}"'
+```
+
+</TabItem>
+</Tabs>
+
 To exclude entities whose `message` starts with `DEBUG`:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 filter = 'message !~ "^DEBUG"'
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "message !~ \"^DEBUG\"";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "message !~ \"^DEBUG\""
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let filter = "message !~ \"^DEBUG\"";
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+std::string filter = "message !~ \"^DEBUG\"";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'message !~ "^DEBUG"';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='message !~ "^DEBUG"'
+```
+
+</TabItem>
+</Tabs>
 
 For more details about choosing between `LIKE` and regex, supported field types, regex syntax, escaping rules, and performance, refer to [Pattern Matching](./pattern-match). Zilliz Cloud also allows you to build an `NGRAM` index on `VARCHAR` fields or JSON string paths to accelerate eligible pattern matching filters. For details, refer to [NGRAM](./ngram-index-type).
 
@@ -160,17 +681,121 @@ Arithmetic operators allow you to create conditions based on calculations involv
 
 To find entities where the `id` is an even number (i.e., divisible by 2):
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = 'id % 2 == 0'
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "id % 2 == 0";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "id % 2 == 0"
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let filter = "id % 2 == 0";
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+std::string filter = "id % 2 == 0";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'id % 2 == 0';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='id % 2 == 0'
+```
+
+</TabItem>
+</Tabs>
 
 ### Example 2: Using Exponentiation (`**`)\{#example-2-using-exponentiation}
 
 To find entities where `price` raised to the power of 2 is greater than 1000:
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = 'price ** 2 > 1000'
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "price ** 2 > 1000";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "price ** 2 > 1000"
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let filter = "price ** 2 > 1000";
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+std::string filter = "price ** 2 > 1000";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'price ** 2 > 1000';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='price ** 2 > 1000'
+```
+
+</TabItem>
+</Tabs>
 
 ## Bitwise operators\{#bitwise-operators}
 
@@ -201,21 +826,177 @@ For example, `permissions = 5` means that the `READ` and `SHARE` bits are set, b
 
 To find entities where the `SHARE` bit is set, use bitwise AND (`&`):
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = "(permissions & 4) == 4"
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "(permissions & 4) == 4";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "(permissions & 4) == 4"
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let filter = "(permissions & 4) == 4";
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+std::string filter = "(permissions & 4) == 4";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = '(permissions & 4) == 4';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='(permissions & 4) == 4'
+```
+
+</TabItem>
+</Tabs>
+
 To find entities where setting the `WRITE` bit produces the `READ + WRITE + SHARE` permission set, use bitwise OR (`|`):
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 filter = "(permissions | 2) == 7"
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "(permissions | 2) == 7";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "(permissions | 2) == 7"
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let filter = "(permissions | 2) == 7";
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+std::string filter = "(permissions | 2) == 7";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = '(permissions | 2) == 7';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='(permissions | 2) == 7'
+```
+
+</TabItem>
+</Tabs>
+
 To find entities whose permission bits differ from `READ + WRITE + SHARE` by only the `WRITE` bit, use bitwise XOR (`^`):
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 filter = "(permissions ^ 7) == 2"
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "(permissions ^ 7) == 2";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "(permissions ^ 7) == 2"
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let filter = "(permissions ^ 7) == 2";
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+std::string filter = "(permissions ^ 7) == 2";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = '(permissions ^ 7) == 2';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='(permissions ^ 7) == 2'
+```
+
+</TabItem>
+</Tabs>
 
 Note: Always wrap the bitwise operation in parentheses before comparing the result, such as `(permissions & 4) == 4`. 
 
@@ -235,25 +1016,181 @@ Logical operators are used to combine multiple conditions into a more complex fi
 
 To find all products where `price` is greater than 100 and `stock` is greater than 50:
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = 'price > 100 AND stock > 50'
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "price > 100 AND stock > 50";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "price > 100 AND stock > 50"
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let filter = "price > 100 AND stock > 50";
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+std::string filter = "price > 100 AND stock > 50";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'price > 100 AND stock > 50';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='price > 100 AND stock > 50'
+```
+
+</TabItem>
+</Tabs>
 
 ### Example 2: Using `OR` to Combine Conditions\{#example-2-using-or-to-combine-conditions}
 
 To find all products where `color` is either "red" or "blue":
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = 'color == "red" OR color == "blue"'
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "color == \"red\" OR color == \"blue\"";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "color == \"red\" OR color == \"blue\""
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let filter = "color == \"red\" OR color == \"blue\"";
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+std::string filter = "color == \"red\" OR color == \"blue\"";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'color == "red" OR color == "blue"';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='color == "red" OR color == "blue"'
+```
+
+</TabItem>
+</Tabs>
 
 ### Example 3: Using `NOT` to Exclude a Condition\{#example-3-using-not-to-exclude-a-condition}
 
 To find all products where `color` is not "green":
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = 'NOT color == "green"'
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "NOT color == \"green\"";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "NOT color == \"green\""
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let filter = "NOT color == \"green\"";
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+std::string filter = "NOT color == \"green\"";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'NOT color == "green"';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='NOT color == "green"'
+```
+
+</TabItem>
+</Tabs>
 
 ## IS NULL and IS NOT NULL Operators\{#is-null-and-is-not-null-operators}
 
@@ -281,21 +1218,177 @@ An empty string `""` is not treated as a null value for a `VARCHAR` field.
 
 To retrieve entities where the `description` field is null:
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = 'description IS NULL'
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "description IS NULL";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "description IS NULL"
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let filter = "description IS NULL";
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+std::string filter = "description IS NULL";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'description IS NULL';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='description IS NULL'
+```
+
+</TabItem>
+</Tabs>
+
 To retrieve entities where the `description` field is not null:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 filter = 'description IS NOT NULL'
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "description IS NOT NULL";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "description IS NOT NULL"
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let filter = "description IS NOT NULL";
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+std::string filter = "description IS NOT NULL";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'description IS NOT NULL';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='description IS NOT NULL'
+```
+
+</TabItem>
+</Tabs>
+
 To retrieve entities where the `description` field is not null and the `price` field is higher than 10:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 filter = 'description IS NOT NULL AND price > 10'
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "description IS NOT NULL AND price > 10";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "description IS NOT NULL AND price > 10"
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let filter = "description IS NOT NULL AND price > 10";
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+std::string filter = "description IS NOT NULL AND price > 10";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'description IS NOT NULL AND price > 10';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='description IS NOT NULL AND price > 10'
+```
+
+</TabItem>
+</Tabs>
 
 ### JSON Fields with Null Values\{#json-fields-with-null-values}
 
@@ -341,6 +1434,9 @@ data = [
 
 To find entities where the `metadata` field is either missing or explicitly set to None:
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = 'metadata IS NULL'
 
@@ -351,9 +1447,61 @@ filter = 'metadata IS NULL'
 # ]
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "metadata IS NULL";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "metadata IS NULL"
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let filter = "metadata IS NULL";
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+std::string filter = "metadata IS NULL";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'metadata IS NULL';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='metadata IS NULL'
+```
+
+</TabItem>
+</Tabs>
+
 **Example 2: Retrieve entities where `metadata` is not null**
 
 To find entities where the `metadata` field is not null:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 filter = 'metadata IS NOT NULL'
@@ -364,6 +1512,55 @@ filter = 'metadata IS NOT NULL'
 #     "{'metadata': {'category': None, 'price': 99.99, 'brand': 'BrandA'}, 'pk': 4}"
 # ]
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "metadata IS NOT NULL";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "metadata IS NOT NULL"
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let filter = "metadata IS NOT NULL";
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+std::string filter = "metadata IS NOT NULL";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'metadata IS NOT NULL';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='metadata IS NOT NULL'
+```
+
+</TabItem>
+</Tabs>
 
 ### ARRAY Fields with Null Values\{#array-fields-with-null-values}
 
@@ -407,6 +1604,9 @@ data = [
 
 To retrieve entities where the `tags` field is either missing or explicitly set to `None`:
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = 'tags IS NULL'
 
@@ -417,19 +1617,119 @@ filter = 'tags IS NULL'
 # ]
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "tags IS NULL";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "tags IS NULL"
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let filter = "tags IS NULL";
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+std::string filter = "tags IS NULL";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'tags IS NULL';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='tags IS NULL'
+```
+
+</TabItem>
+</Tabs>
+
 **Example 2: Retrieve entities where `tags` is not null**
 
 To retrieve entities where the `tags` field is not null:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 filter = 'tags IS NOT NULL'
 
 # Example output:
 # data: [
-#     "{'metadata': {'category': 'electronics', 'price': 99.99, 'brand': 'BrandA'}, 'pk': 1}",
-#     "{'metadata': {'category': None, 'price': 99.99, 'brand': 'BrandA'}, 'pk': 4}"
+#     "{'tags': ['pop', 'rock', 'classic'], 'ratings': [5, 4, 3], 'embedding': [0.12, 0.34, 0.56], 'pk': 1}"
 # ]
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "tags IS NOT NULL";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "tags IS NOT NULL"
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let filter = "tags IS NOT NULL";
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+std::string filter = "tags IS NOT NULL";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'tags IS NOT NULL';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='tags IS NOT NULL'
+```
+
+</TabItem>
+</Tabs>
 
 ## Tips on Using Basic Operators with JSON and ARRAY Fields\{#tips-on-using-basic-operators-with-json-and-array-fields}
 
@@ -437,15 +1737,119 @@ While the basic operators in Zilliz Cloud clusters are versatile and can be appl
 
 For example, if you have a `product` field that contains multiple keys like `price`, `model`, and `tags`, always reference the key directly:
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = 'product["price"] > 1000'
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "product[\"price\"] > 1000";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "product[\"price\"] > 1000"
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let filter = "product[\"price\"] > 1000";
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+std::string filter = "product[\"price\"] > 1000";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'product["price"] > 1000';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='product["price"] > 1000'
+```
+
+</TabItem>
+</Tabs>
+
 To find records where the first temperature in an array of recorded temperatures exceeds a certain value, use:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 filter = 'history_temperatures[0] > 30'
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "history_temperatures[0] > 30";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "history_temperatures[0] > 30"
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let filter = "history_temperatures[0] > 30";
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+std::string filter = "history_temperatures[0] > 30";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'history_temperatures[0] > 30';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='history_temperatures[0] > 30'
+```
+
+</TabItem>
+</Tabs>
 
 ## Conclusion\{#conclusion}
 

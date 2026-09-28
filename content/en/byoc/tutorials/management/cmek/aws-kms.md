@@ -50,7 +50,7 @@ For details on how encryption works and its scope, refer to [this section](./cme
 
     For details, refer to [this page](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html).
 
-- You have sufficient permissions to run KMS-related commands.
+- You have sufficient permissions to run key management commands.
 
 ## Add a KMS key\{#add-a-kms-key}
 

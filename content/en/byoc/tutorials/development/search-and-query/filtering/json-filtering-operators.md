@@ -16,7 +16,8 @@ displayed_sidebar: default
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # JSON Operators
 
@@ -48,10 +49,68 @@ The `json_contains` operator checks if a specific element or subarray exists wit
 
 Imagine you have a collection of products, each with a `tags` field that contains a JSON array of strings, such as `["electronics", "sale", "new"]`. You want to filter products that have the tag `"sale"`.
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 # JSON data: {"tags": ["electronics", "sale", "new"]}
 filter = 'json_contains(product["tags"], "sale")'
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// JSON data: {"tags": ["electronics", "sale", "new"]}
+String filter = "json_contains(product[\"tags\"], \"sale\")";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// JSON data: {"tags": ["electronics", "sale", "new"]}
+filter := "json_contains(product[\"tags\"], \"sale\")"
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+// JSON data: {"tags": ["electronics", "sale", "new"]}
+let filter = "json_contains(product[\"tags\"], \"sale\")";
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+// JSON data: {"tags": ["electronics", "sale", "new"]}
+std::string filter = "json_contains(product[\"tags\"], \"sale\")";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// JSON data: {"tags": ["electronics", "sale", "new"]}
+const filter = 'json_contains(product["tags"], "sale")';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# JSON data: {"tags": ["electronics", "sale", "new"]}
+filter='json_contains(product["tags"], "sale")'
+```
+
+</TabItem>
+</Tabs>
 
 In this example, Zilliz Cloud will return all products where the `tags` field contains the element `"sale"`.
 
@@ -63,10 +122,68 @@ The `json_contains_all` operator ensures that all elements of a specified JSON e
 
 Continuing with the product tags scenario, if you want to find all products that have the tags `"electronics"`, `"sale"`, and `"new"`, you can use the `json_contains_all` operator.
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 # JSON data: {"tags": ["electronics", "sale", "new", "discount"]}
 filter = 'json_contains_all(product["tags"], ["electronics", "sale", "new"])'
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// JSON data: {"tags": ["electronics", "sale", "new", "discount"]}
+String filter = "json_contains_all(product[\"tags\"], [\"electronics\", \"sale\", \"new\"])";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// JSON data: {"tags": ["electronics", "sale", "new", "discount"]}
+filter := "json_contains_all(product[\"tags\"], [\"electronics\", \"sale\", \"new\"])"
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+// JSON data: {"tags": ["electronics", "sale", "new", "discount"]}
+let filter = "json_contains_all(product[\"tags\"], [\"electronics\", \"sale\", \"new\"])";
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+// JSON data: {"tags": ["electronics", "sale", "new", "discount"]}
+std::string filter = "json_contains_all(product[\"tags\"], [\"electronics\", \"sale\", \"new\"])";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// JSON data: {"tags": ["electronics", "sale", "new", "discount"]}
+const filter = 'json_contains_all(product["tags"], ["electronics", "sale", "new"])';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# JSON data: {"tags": ["electronics", "sale", "new", "discount"]}
+filter='json_contains_all(product["tags"], ["electronics", "sale", "new"])'
+```
+
+</TabItem>
+</Tabs>
 
 This query will return all products where the `tags` array contains all three specified elements: `"electronics"`, `"sale"`, and `"new"`.
 
@@ -78,9 +195,67 @@ The `json_contains_any` operator filters entities where at least one member of t
 
 Let’s say you want to filter products that have at least one of the tags `"electronics"`, `"sale"`, or `"new"`. You can use the `json_contains_any` operator to achieve this.
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 # JSON data: {"tags": ["electronics", "sale", "new"]}
-filter = 'json_contains_any(tags, ["electronics", "new", "clearance"])'
+filter = 'json_contains_any(product["tags"], ["electronics", "new", "clearance"])'
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// JSON data: {"tags": ["electronics", "sale", "new"]}
+String filter = "json_contains_any(product[\"tags\"], [\"electronics\", \"new\", \"clearance\"])";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// JSON data: {"tags": ["electronics", "sale", "new"]}
+filter := "json_contains_any(product[\"tags\"], [\"electronics\", \"new\", \"clearance\"])"
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+// JSON data: {"tags": ["electronics", "sale", "new"]}
+let filter = "json_contains_any(product[\"tags\"], [\"electronics\", \"new\", \"clearance\"])";
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+// JSON data: {"tags": ["electronics", "sale", "new"]}
+std::string filter = "json_contains_any(product[\"tags\"], [\"electronics\", \"new\", \"clearance\"])";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// JSON data: {"tags": ["electronics", "sale", "new"]}
+const filter = 'json_contains_any(product["tags"], ["electronics", "new", "clearance"])';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# JSON data: {"tags": ["electronics", "sale", "new"]}
+filter='json_contains_any(product["tags"], ["electronics", "new", "clearance"])'
+```
+
+</TabItem>
+</Tabs>
 
 In this case, Zilliz Cloud will return all products that have at least one of the tags in the list `["electronics", "new", "clearance"]`. Even if a product only has one of these tags, it will be included in the result.
