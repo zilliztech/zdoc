@@ -35,7 +35,7 @@ Random sampling operates at the segment level, ensuring efficient performance wh
 
 ## Syntax\{#syntax}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -59,11 +59,25 @@ filter := "RANDOM_SAMPLE(sampling_factor)"
 ```
 
 </TabItem>
+</Tabs>
+
+```rust
+let filter = "RANDOM_SAMPLE(sampling_factor)";
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+auto filter = "RANDOM_SAMPLE(sampling_factor)";
+```
+
+</TabItem>
 
 <TabItem value='javascript'>
 
 ```javascript
-// node
+const filter = "RANDOM_SAMPLE(sampling_factor)";
 ```
 
 </TabItem>
@@ -73,14 +87,6 @@ filter := "RANDOM_SAMPLE(sampling_factor)"
 ```bash
 # restful
 export filterRandomSample='RANDOM_SAMPLE(sampling_factor)'
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto filter = "RANDOM_SAMPLE(sampling_factor)";
 ```
 
 </TabItem>
@@ -100,7 +106,7 @@ auto filter = "RANDOM_SAMPLE(sampling_factor)";
 
 The random sampling operator must be combined with other filtering expressions using logical `AND`. When combining filters, Milvus first applies the other conditions and then performs random sampling on the result set.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -119,11 +125,11 @@ filter = 'color == "red" OR RANDOM_SAMPLE(0.001)'  # ❌ Invalid logic
 
 ```java
 // Correct: Filter first, then sample
-String filter = 'color == "red" AND RANDOM_SAMPLE(0.001)';
+String filter = "color == \"red\" AND RANDOM_SAMPLE(0.001)";
 // Processing: Find all red items → Sample 0.1% of those red items
 
 // Incorrect: OR doesn't make logical sense
-String filter = 'color == "red" OR RANDOM_SAMPLE(0.001)';  // ❌ Invalid logic
+String filter = "color == \"red\" OR RANDOM_SAMPLE(0.001)";  // ❌ Invalid logic
 // This would mean: "Either red items OR sample everything" - which is meaningless
 ```
 
@@ -133,11 +139,32 @@ String filter = 'color == "red" OR RANDOM_SAMPLE(0.001)';  // ❌ Invalid logic
 
 ```go
 // Correct: Filter first, then sample
-filter := 'color == "red" AND RANDOM_SAMPLE(0.001)'
+filter := "color == \"red\" AND RANDOM_SAMPLE(0.001)"
 // Processing: Find all red items → Sample 0.1% of those red items
 
-filter := 'color == "red" OR RANDOM_SAMPLE(0.001)' // ❌ Invalid logic
+filter := "color == \"red\" OR RANDOM_SAMPLE(0.001)" // ❌ Invalid logic
 // This would mean: "Either red items OR sample everything" - which is meaningless
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+// Correct: Filter first, then sample
+let filter_correct = r#"color == "red" AND RANDOM_SAMPLE(0.001)"#;
+// Processing: Find all red items → Sample 0.1% of those red items
+
+// Incorrect: OR doesn't make logical sense
+let filter_incorrect = r#"color == "red" OR RANDOM_SAMPLE(0.001)"#;  // ❌ Invalid logic
+// This would mean: "Either red items OR sample everything" - which is meaningless
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+auto filter_sample_correct = R"(color == "red" AND RANDOM_SAMPLE(0.001))";
+auto filter_sample_incorrect = R"(color == "red" OR RANDOM_SAMPLE(0.001))";
 ```
 
 </TabItem>
@@ -145,7 +172,13 @@ filter := 'color == "red" OR RANDOM_SAMPLE(0.001)' // ❌ Invalid logic
 <TabItem value='javascript'>
 
 ```javascript
-// node
+// Correct: Filter first, then sample
+const filterCorrect = 'color == "red" AND RANDOM_SAMPLE(0.001)';
+// Processing: Find all red items → Sample 0.1% of those red items
+
+// Incorrect: OR doesn't make logical sense
+const filterIncorrect = 'color == "red" OR RANDOM_SAMPLE(0.001)';  // ❌ Invalid logic
+// This would mean: "Either red items OR sample everything" - which is meaningless
 ```
 
 </TabItem>
@@ -164,15 +197,6 @@ export filterSampleIncorrect='color == "red" OR RANDOM_SAMPLE(0.001)'  # ❌ Inv
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto filter_sample_correct = R"(color == "red" AND RANDOM_SAMPLE(0.001))";
-auto filter_sample_incorrect = R"(color == "red" OR RANDOM_SAMPLE(0.001))";
-```
-
-</TabItem>
 </Tabs>
 
 ## Examples\{#examples}
@@ -181,7 +205,7 @@ auto filter_sample_incorrect = R"(color == "red" OR RANDOM_SAMPLE(0.001))";
 
 Quickly preview your collection structure:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -239,8 +263,8 @@ import (
     "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/entity"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -269,37 +293,33 @@ fmt.Println("product_name: ", resultSet.GetColumn("product_name").FieldData().Ge
 ```
 
 </TabItem>
+</Tabs>
 
-<TabItem value='javascript'>
+```rust
+use milvus::v2::prelude::*;
 
-```javascript
-// node
+#[tokio::main]
+async fn main() -> Result<()> {
+    let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT")).await?;
+
+    // Sample approximately 1% of the entire collection
+    let res = client
+        .query(
+            QueryRequest::builder()
+                .collection_name("product_catalog")
+                .filter("RANDOM_SAMPLE(0.01)")
+                .output_fields(["id", "product_name"])
+                .limit(10)
+                .build()?,
+        )
+        .await?;
+
+    println!("Sampled {} products from collection", res.results().len());
+    Ok(())
+}
 ```
 
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-# restful
-export TOKEN="YOUR_CLUSTER_TOKEN"
-export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
-export filterSample='RANDOM_SAMPLE(0.01)'
-
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
---data "{
-  \"collectionName\": \"product_catalog\",
-  \"filter\": \"$filterSample\",
-  \"outputFields\": [\"id\", \"product_name\"],
-  \"limit\": 10
-}"
-```
-
-</TabItem>
-
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
 <TabItem value='c++'>
 
 ```c++
@@ -328,13 +348,55 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
+
+// Sample approximately 1% of the entire collection
+const res = await client.query({
+    collection_name: "product_catalog",
+    filter: "RANDOM_SAMPLE(0.01)",
+    output_fields: ["id", "product_name"],
+    limit: 10
+});
+
+console.log(`Sampled ${res.data.length} products from collection`);
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+export TOKEN="YOUR_CLUSTER_TOKEN"
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export filterSample='RANDOM_SAMPLE(0.01)'
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--data "{
+  \"collectionName\": \"product_catalog\",
+  \"filter\": \"$filterSample\",
+  \"outputFields\": [\"id\", \"product_name\"],
+  \"limit\": 10
+}"
+```
+
+</TabItem>
 </Tabs>
 
 ### Example 2: Combined filtering with random sampling\{#example-2-combined-filtering-with-random-sampling}
 
 Test filtering logic on a manageable subset:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -386,11 +448,64 @@ if err != nil {
 ```
 
 </TabItem>
+</Tabs>
+
+```rust
+// First filter by category and price, then sample 0.5% of results
+let filter_expression = r#"category == "electronics" AND price > 100 AND RANDOM_SAMPLE(0.005)"#;
+
+let res = client
+    .query(
+        QueryRequest::builder()
+            .collection_name("product_catalog")
+            .filter(filter_expression)
+            .output_fields(["product_name", "price", "rating"])
+            .limit(10)
+            .build()?,
+    )
+    .await?;
+
+println!("Found {} electronics products in sample", res.results().len());
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto filter = R"(category == "electronics" AND price > 100 AND RANDOM_SAMPLE(0.005))";
+auto request = milvus::QueryRequest()
+                       .WithCollectionName("product_catalog")
+                       .WithFilter(filter)
+                       .AddOutputField("product_name")
+                       .AddOutputField("price")
+                       .AddOutputField("rating")
+                       .WithLimit(10);
+
+milvus::QueryResponse response;
+auto status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
 
 <TabItem value='javascript'>
 
 ```javascript
-// node
+// First filter by category and price, then sample 0.5% of results
+const filter_expression = 'category == "electronics" AND price > 100 AND RANDOM_SAMPLE(0.005)';
+
+const res = await client.query({
+    collection_name: "product_catalog",
+    filter: filter_expression,
+    output_fields: ["product_name", "price", "rating"],
+    limit: 10
+});
+
+console.log(`Found ${res.data.length} electronics products in sample`);
 ```
 
 </TabItem>
@@ -413,39 +528,18 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto filter = R"(category == "electronics" AND price > 100 AND RANDOM_SAMPLE(0.005))";
-auto request = milvus::QueryRequest()
-                       .WithCollectionName("product_catalog")
-                       .WithFilter(filter)
-                       .AddOutputField("product_name")
-                       .AddOutputField("price")
-                       .AddOutputField("rating")
-                       .WithLimit(10);
-
-milvus::QueryResponse response;
-auto status = client->Query(request, response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
 
 ### Example 3: Quick analytics\{#example-3-quick-analytics}
 
 Perform rapid statistical analysis on filtered data:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 # Get insights from ~0.1% of premium customer data
-filter_expression = 'customer_tier == "premium" AND region == 'North America' AND RANDOM_SAMPLE(0.001)'
+filter_expression = 'customer_tier == "premium" AND region == "North America" AND RANDOM_SAMPLE(0.001)'
 
 result = client.query(
     collection_name="customer_profiles",
@@ -459,10 +553,10 @@ result = client.query(
 if result:
     average_purchase = sum(r["purchase_amount"] for r in result) / len(result)
     average_satisfaction = sum(r["satisfaction_score"] for r in result) / len(result)
-    
+
     print(f"Sample size: {len(result)}")
     print(f"Average purchase amount: ${average_purchase:.2f}")
-    print(f"Average satisfaction score: {average_satisfaction:.2f}")
+    print(f"Average satisfaction score: ${average_satisfaction:.2f}")
 ```
 
 </TabItem>
@@ -499,11 +593,72 @@ if err != nil {
 ```
 
 </TabItem>
+</Tabs>
+
+```rust
+// Get insights from ~0.1% of premium customer data
+let filter_expression = r#"customer_tier == "premium" AND region == "North America" AND RANDOM_SAMPLE(0.001)"#;
+
+let res = client
+    .query(
+        QueryRequest::builder()
+            .collection_name("customer_profiles")
+            .filter(filter_expression)
+            .output_fields(["purchase_amount", "satisfaction_score", "last_purchase_date"])
+            .limit(10)
+            .build()?,
+    )
+    .await?;
+
+println!("Sample size: {}", res.results().len());
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto filter = R"(customer_tier == "premium" AND region == "North America" AND RANDOM_SAMPLE(0.001))";
+auto request = milvus::QueryRequest()
+                       .WithCollectionName("customer_profiles")
+                       .WithFilter(filter)
+                       .AddOutputField("purchase_amount")
+                       .AddOutputField("satisfaction_score")
+                       .AddOutputField("last_purchase_date")
+                       .WithLimit(10);
+
+milvus::QueryResponse response;
+auto status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
 
 <TabItem value='javascript'>
 
 ```javascript
-// node
+// Get insights from ~0.1% of premium customer data
+const filter_expression = 'customer_tier == "premium" AND region == "North America" AND RANDOM_SAMPLE(0.001)';
+
+const res = await client.query({
+    collection_name: "customer_profiles",
+    filter: filter_expression,
+    output_fields: ["purchase_amount", "satisfaction_score", "last_purchase_date"],
+    limit: 10
+});
+
+// Analyze sample for quick insights
+if (res.data.length > 0) {
+    const average_purchase = res.data.reduce((sum, r) => sum + r.purchase_amount, 0) / res.data.length;
+    const average_satisfaction = res.data.reduce((sum, r) => sum + r.satisfaction_score, 0) / res.data.length;
+
+    console.log(`Sample size: ${res.data.length}`);
+    console.log(`Average purchase amount: $${average_purchase.toFixed(2)}`);
+    console.log(`Average satisfaction score: ${average_satisfaction.toFixed(2)}`);
+}
 ```
 
 </TabItem>
@@ -529,34 +684,13 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto filter = R"(customer_tier == "premium" AND region == "North America" AND RANDOM_SAMPLE(0.001))"
-auto request = milvus::QueryRequest()
-                       .WithCollectionName("customer_profiles")
-                       .WithFilter(filter)
-                       .AddOutputField("purchase_amount")
-                       .AddOutputField("satisfaction_score")
-                       .AddOutputField("last_purchase_date")
-                       .WithLimit(10);
-
-milvus::QueryResponse response;
-auto status = client->Query(request, response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
 
 ### Example 4: Combined with vector search\{#example-4-combined-with-vector-search}
 
 Use random sampling in filtered search scenarios:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -630,28 +764,32 @@ for _, resultSet := range resultSets {
 ```
 
 </TabItem>
+</Tabs>
 
-<TabItem value='javascript'>
+```rust
+// Search for similar products within a sampled subset
+let res = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("product_catalog")
+            .vector_field("vector")
+            .vectors(SearchVectors::Float(vec![vec![0.1, 0.2, 0.3, 0.4, 0.5]]))
+            .filter(r#"category == "books" AND RANDOM_SAMPLE(0.01)"#)
+            .limit(10)
+            .output_fields(["title", "author", "price"])
+            .build()?,
+    )
+    .await?;
 
-```javascript
-// node
+println!("Found {} similar books in sample", res.results().len());
 ```
 
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-# restful
-export TOKEN="YOUR_CLUSTER_TOKEN"
-export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
-```
-
-</TabItem>
-
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
 <TabItem value='c++'>
 
 ```c++
+#include "milvus/MilvusClientV2.h"
+
 std::vector<float> query_vector = {0.1, 0.2, 0.3, 0.4, 0.5};
 auto request = milvus::SearchRequest()
                    .WithCollectionName("product_catalog")
@@ -667,6 +805,46 @@ auto status = client->Search(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// Search for similar products within a sampled subset
+const res = await client.search({
+    collection_name: "product_catalog",
+    data: [[0.1, 0.2, 0.3, 0.4, 0.5]],  // query vector
+    filter: 'category == "books" AND RANDOM_SAMPLE(0.01)',
+    limit: 10,
+    output_fields: ["title", "author", "price"]
+});
+
+console.log(`Found ${res.results[0].length} similar books in sample`);
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+export TOKEN="YOUR_CLUSTER_TOKEN"
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--data '{
+  "collectionName": "product_catalog",
+  "data": [[0.1, 0.2, 0.3, 0.4, 0.5]],
+  "annsField": "vector",
+  "limit": 10,
+  "filter": "category == \"books\" AND RANDOM_SAMPLE(0.01)",
+  "outputFields": ["title", "author", "price"]
+}' 
 ```
 
 </TabItem>
