@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "group": "java",
   "complete": true,
-  "generatedAt": "2026-09-29T10:43:09.005Z",
-  "sourceRunId": "36554880060",
+  "generatedAt": "2026-09-29T18:46:44.098Z",
+  "sourceRunId": "36611887957",
   "records": [
     {
       "canonicalToken": "A6Vld2dJToRXs8xhq0wcGdiRnDc",
@@ -87,6 +87,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "Ai9jdBRUdoOaD4xOrtAcrwj2nEe",
+      "title": "revokePrivilegeV2()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "Al6Fdx294o4Yi6xtwe0cdq1cnnh",
       "title": "updateResourceGroups()",
       "contentPath": null,
@@ -114,9 +123,18 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "AxcldAxjAocxVVxW6WgcIu6Lnsd",
+      "title": "listPrivilegeGroups()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "Ay5BdddEboorRGxq3XacHXYHnwf",
       "title": "session()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-session.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -159,6 +177,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "BHOndJSmyoUV8Dx7OsYczbSynxf",
+      "title": "alterAlias()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "BLFEde4BuoCjTSxjYSUcZerEnOb",
       "title": "getBatchFiles()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-getBatchFiles.md",
@@ -179,7 +206,7 @@
     {
       "canonicalToken": "BqO8dsvRBoAZ5Mxgqhscqattnzh",
       "title": "hybridSearchAsync()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-hybridSearchAsync.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -197,7 +224,7 @@
     {
       "canonicalToken": "BvuWd2mJUotj3kxXhbqczE9Zn3U",
       "title": "getAsync()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-getAsync.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -213,8 +240,8 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "CIYQd12MNoiC4QxW97mcQLWYnYd",
-      "title": "dropPrivilegeGroup()",
+      "canonicalToken": "C5PrdABXTokjv0xcpb9cZQd5nSb",
+      "title": "TelemetryConfig",
       "contentPath": null,
       "objectToken": null,
       "parentToken": null,
@@ -240,6 +267,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "CPCydbcK5oiXF4xm20ycwXu5nSh",
+      "title": "dropPrivilegeGroup()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "CSaVdr3zao9zFpxaJBgcCTCYnPd",
       "title": "dropPartition()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-dropPartition.md",
@@ -249,9 +285,9 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "CW06d3MZQo2AzuxIv2ycCFpsn4b",
-      "title": "Function",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Collections-Function.md",
+      "canonicalToken": "CXRKdtrNCo9cNFxldBocHsS1nag",
+      "title": "StructFieldSchema",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -269,7 +305,7 @@
     {
       "canonicalToken": "D0UGdkudVo5vtLxlZw3c6cdqnmc",
       "title": "getPlaceholderType()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-EmbeddingList-getPlaceholderType.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -279,15 +315,6 @@
       "canonicalToken": "DAIfdXKk5oCHeNxOUvCc1KcpnNh",
       "title": "CreateSchema()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CreateSchema.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "DCszdG9rCoZxhfxfAuOcNsXRnOc",
-      "title": "StructFieldSchema",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-Collections-StructFieldSchema.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -341,7 +368,7 @@
     {
       "canonicalToken": "DONndM4QbouPN1xdGujcWedRnXb",
       "title": "searchAsync()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-searchAsync.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -359,16 +386,7 @@
     {
       "canonicalToken": "DZcddGCD3oh29txhnB5cuxzzn4d",
       "title": "getName()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getName.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "EXcNdtZrro7Ufkxp3G6cUArOn7b",
-      "title": "EmbeddingList",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-Collections-EmbeddingList.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -378,15 +396,6 @@
       "canonicalToken": "EeWldhw4AoT5WqxO8GgcSfjEnpb",
       "title": "dropSnapshot()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-dropSnapshot.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "EfM3drSXlo4Yzyxq2GpcmvoHnTm",
-      "title": "listUsers()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-listUsers.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -413,7 +422,25 @@
     {
       "canonicalToken": "ErNidktYPodbDxxow0xcV5qHnof",
       "title": "ConnectConfig",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-ConnectConfig.md",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Ewtkdz0gSo38D4xf9eecRyzynRd",
+      "title": "listUsers()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "EzGSdmnVYoWJ0WxiglLcoxn2neb",
+      "title": "dropRole()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -431,7 +458,7 @@
     {
       "canonicalToken": "FGO8dhjlTovfOdxpOw0c3wyNntc",
       "title": "addField()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-addField.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -449,7 +476,7 @@
     {
       "canonicalToken": "FIzIdKrRNooFttxaf3Pc1vOlnnc",
       "title": "getFields()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getFields.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -465,9 +492,9 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "FZN8dtlIRoMSGBxF7b1cWX48n0b",
-      "title": "revokePrivilegeV2()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-revokePrivilegeV2.md",
+      "canonicalToken": "FQqadrhPqoTo3zxCjRWc6ryUnne",
+      "title": "grantPrivilegeV2()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -477,6 +504,15 @@
       "canonicalToken": "FiyGdmoSHoDbrPxhSdncsMWbnhc",
       "title": "uploadFiles()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-VolumeFileManager-uploadFiles.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "FktXdVmoQoR9pcxSzlgcp3Iknjh",
+      "title": "Function",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -503,16 +539,7 @@
     {
       "canonicalToken": "FuSTdeSCdojDu0xSBEmcYgv9n4g",
       "title": "RRFRanker",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-RRFRanker.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "Fv8EdYIt4oThstxgpzqcm7C0nug",
-      "title": "alterAlias()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-alterAlias.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -600,6 +627,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "H5vPdKb4botW9IxeVC1cNyOJnSf",
+      "title": "revokeRole()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "HPs6dFV29ovzyBxpgUacXnnjngd",
       "title": "addFunction()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-FunctionScore-addFunction.md",
@@ -629,7 +665,7 @@
     {
       "canonicalToken": "HShjdZsU3oknh2x1ezkcRqGqn6b",
       "title": "FunctionType",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-FunctionType.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -719,7 +755,7 @@
     {
       "canonicalToken": "IW5SdBOhUop0P8xBslCc6OHLnse",
       "title": "ModelRanker",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-ModelRanker.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -765,15 +801,6 @@
       "canonicalToken": "IzfldHDU4o8dDRx377ecqJmlnSf",
       "title": "createRole()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-createRole.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "JB90dbBNRoz1I2xZY5rcSmJ1nSb",
-      "title": "grantRole()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-grantRole.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -879,6 +906,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "KOkDdGDXQo1yA5x3lalcmtglnUe",
+      "title": "dropUser()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "KQqgduahOo13yOxiRMgcfXQxnxd",
       "title": "flushAll()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-flushAll.md",
@@ -908,7 +944,7 @@
     {
       "canonicalToken": "KaW0dGLZ9os1SExEsbqcHM4yn8c",
       "title": "getData()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-EmbeddingList-getData.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -996,8 +1032,8 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "Lvl9dsIf7oWnA4xpsNDc7hNOnwe",
-      "title": "revokePrivilege()",
+      "canonicalToken": "LcitdP8NuoIahexCUMQcOgg2nYg",
+      "title": "grantPrivilege()",
       "contentPath": null,
       "objectToken": null,
       "parentToken": null,
@@ -1041,18 +1077,9 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "MF3tdne4DoEiC0xlAe0ctyxHn9g",
-      "title": "createPrivilegeGroup()",
+      "canonicalToken": "M4KYdO6CWofowQxFYDecYxjknEg",
+      "title": "listRoles()",
       "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "MFv3drbbXouqVxxE1OicBBl5ndf",
-      "title": "grantPrivilegeV2()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-grantPrivilegeV2.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1079,7 +1106,7 @@
     {
       "canonicalToken": "MPJ0dxzDIoNKYPxGA5PcD2F8nRb",
       "title": "getDataType()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getDataType.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1098,6 +1125,15 @@
       "canonicalToken": "NIm8dRx2Aozt4Qxv1Q6cAm3Fn97",
       "title": "BulkImport",
       "contentPath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-DataImport-BulkImport.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "NQgpd7JHBoAgzzxU5PXcYml5nSd",
+      "title": "EmbeddingList",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1140,15 +1176,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "OLVbdsTOAoQwybx7oLPcZE3wnCf",
-      "title": "dropRole()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-dropRole.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "OPPHd2AabonMIzxzfupcyNS9n1a",
       "title": "dropCollectionProperties()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-dropCollectionProperties.md",
@@ -1176,15 +1203,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "OjPkdoUiLo7R5fx6UcdcamQqnkg",
-      "title": "grantPrivilege()",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "OokbdVWhmog9aixBzg7cHUKvnHb",
       "title": "describeResourceGroup()",
       "contentPath": null,
@@ -1203,9 +1221,27 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "Ot93dm25goTTYOxcXsWcbjq0nsb",
+      "title": "ListCollectionsV2()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "OtrZdy7OtoC9N9xb8TjcCtM7nfc",
       "title": "alterCollectionField()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-alterCollectionField.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "OykrdeI7zobXOuxXsxBcId4pn8c",
+      "title": "getTelemetry()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1241,7 +1277,7 @@
     {
       "canonicalToken": "PSdEdxU7ZoTxelx7sLzcAAXsnQH",
       "title": "getMaxCapacity()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getMaxCapacity.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1250,7 +1286,7 @@
     {
       "canonicalToken": "PUOBd229uoQGUIxnHLWcMSidnQh",
       "title": "add()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-EmbeddingList-add.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1259,7 +1295,7 @@
     {
       "canonicalToken": "PWzJdbh5ZoT8K7xo1j4cbvNsnWe",
       "title": "queryAsync()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-queryAsync.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1275,9 +1311,18 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "PsIEd5UbFoIHIzxkXyCcgKwXnoe",
+      "title": "removePrivilegesFromGroup()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "PvRGdribPou7PHxcoSWcRK3unUc",
       "title": "getElementType()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getElementType.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1313,7 +1358,7 @@
     {
       "canonicalToken": "QIpldgpB1oP5IYxNSSdcyRNcn1c",
       "title": "DecayRanker",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-DecayRanker.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1322,7 +1367,7 @@
     {
       "canonicalToken": "QO5ldltYOoo5uFxS4ZJc24JWnUh",
       "title": "BoostRanker",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-BoostRanker.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1331,15 +1376,6 @@
     {
       "canonicalToken": "QbfPdyw7EoXpGwxSkGgcytBBnAb",
       "title": "getDescription()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getDescription.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "Qbntdds6XoByxcxrG1acL7IxnQe",
-      "title": "removePrivilegesFromGroup()",
       "contentPath": null,
       "objectToken": null,
       "parentToken": null,
@@ -1365,18 +1401,9 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "RFv2dtZ1qoP9XQxJEGqcgLGUnhc",
-      "title": "dropUser()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-dropUser.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "RQT1dGVPloPOLAx8G2mcifFEnCc",
       "title": "addCollectionStructField()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-addCollectionStructField.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1473,6 +1500,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "SOiMdD68wohoLqxFmltc6vwDnTf",
+      "title": "revokePrivilege()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "SW6Cdt9QeoY1J1x9SYQcZrc6nbg",
       "title": "dropCollection()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-dropCollection.md",
@@ -1518,15 +1554,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "TGsXduN5OoAjVyxZTvRc8HR2nse",
-      "title": "listPrivilegeGroups()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-listPrivilegeGroups.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "TOfvdLLzaoWJydxBTPQcKevfndd",
       "title": "getPartitionStats()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-getPartitionStats.md",
@@ -1539,6 +1566,15 @@
       "canonicalToken": "TR9OdLX5PoMZbMx4l2tcWKVmn3b",
       "title": "describeUser()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-describeUser.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Trm7dn8V2o4jEUxPJFmcuO15nkc",
+      "title": "MilvusClientV2Pool",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1608,9 +1644,9 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "UrjHd9KZKo1Rlfxfj8AcmXNinlg",
-      "title": "MilvusClientV2Pool",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-MilvusClientV2Pool.md",
+      "canonicalToken": "UjZ7dgX6foP9JqxIsehcvX9Yn9f",
+      "title": "startTelemetry()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1637,7 +1673,16 @@
     {
       "canonicalToken": "V9YUdnfxDoc5Gmx80Wec9P6Sn2d",
       "title": "WeightedRanker",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-WeightedRanker.md",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "VDGtd5FmbobsfdxpGCZcQQlwnHf",
+      "title": "createPrivilegeGroup()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1680,6 +1725,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "WAThdqGSxogL8FxhDBmc3Re5nVe",
+      "title": "close()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "WE4gduIjooCgQUxcKyLcwQe1n3g",
       "title": "createPartition()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-createPartition.md",
@@ -1710,15 +1764,6 @@
       "canonicalToken": "WRSYdEZwroNY1Txpk2DcI1sSnVg",
       "title": "describeReplicas()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-describeReplicas.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "WY4idJdzCozGGnxmLoFcIjC2ndw",
-      "title": "ListCollectionsV2()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-ListCollectionsV2.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1764,15 +1809,6 @@
       "canonicalToken": "XHyydLsEAoPwB2xNhcwc9KBwn7g",
       "title": "dropIndex()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-dropIndex.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "XIIyd3bMzoAVx3xVsoLcnQ2pnKh",
-      "title": "listRoles()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-listRoles.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1833,6 +1869,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "YjXDdG9vjoCXmJxnysrci2Y0nZd",
+      "title": "grantRole()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "YlpQdEUnKoFR3xxizt2cCV8UnZb",
       "title": "getBatchFiles()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-getBatchFiles.md",
@@ -1880,16 +1925,7 @@
     {
       "canonicalToken": "ZmeDd4zoPo7EynxnyGOckvzvnsh",
       "title": "describeRole()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-describeRole.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "Znb7dcNoeobIkkxGLGfcpVfUnIX",
-      "title": "revokeRole()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-revokeRole.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
