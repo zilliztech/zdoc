@@ -819,7 +819,7 @@ client.release_collection("my_collection")
 client.alter_collection_properties(
     collection_name="my_collection",
     properties={
-        "mmap.enabled": false
+        "mmap.enabled": False
     }
 )
 

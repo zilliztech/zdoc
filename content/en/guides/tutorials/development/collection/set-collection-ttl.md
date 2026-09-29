@@ -256,10 +256,24 @@ client.create_collection(CreateCollectionRequest::builder()
 <TabItem value='c++'>
 
 ```c++
-auto status = client->CreateCollection(milvus::CreateCollectionRequest()
-                                        .WithCollectionName("my_collection")
-                                        .WithCollectionSchema(schema)
-                                        .AddProperty(milvus::COLLECTION_TTL_SECONDS, "1209600"));
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT"));
+
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->AddField(milvus::FieldSchema("id", milvus::DataType::INT64, "", true, false));
+schema->AddField(milvus::FieldSchema("vector", milvus::DataType::FLOAT_VECTOR).WithDimension(128));
+
+std::vector<milvus::IndexDesc> indexes = {
+    milvus::IndexDesc("vector", "vector", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE)};
+
+status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                      .WithCollectionName("my_collection")
+                                      .WithCollectionSchema(schema)
+                                      .WithIndexes(std::move(indexes))
+                                      .AddProperty(milvus::COLLECTION_TTL_SECONDS, "1209600"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
@@ -460,9 +474,15 @@ client.alter_collection_properties(AlterCollectionPropertiesRequest::builder()
 <TabItem value='c++'>
 
 ```c++
-auto status = client->AlterCollectionProperties(milvus::AlterCollectionPropertiesRequest()
-                                                   .WithCollectionName("my_collection")
-                                                   .AddProperty(milvus::COLLECTION_TTL_SECONDS, "1209600"));
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT"));
+
+status = client->AlterCollectionProperties(milvus::AlterCollectionPropertiesRequest()
+                                               .WithCollectionName("my_collection")
+                                               .AddProperty(milvus::COLLECTION_TTL_SECONDS, "1209600"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
@@ -602,9 +622,15 @@ client.drop_collection_properties(DropCollectionPropertiesRequest::builder()
 <TabItem value='c++'>
 
 ```c++
-auto status = client->DropCollectionProperties(milvus::DropCollectionPropertiesRequest()
-                                                  .WithCollectionName("my_collection")
-                                                  .AddPropertyKey(milvus::COLLECTION_TTL_SECONDS));
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT"));
+
+status = client->DropCollectionProperties(milvus::DropCollectionPropertiesRequest()
+                                              .WithCollectionName("my_collection")
+                                              .AddPropertyKey(milvus::COLLECTION_TTL_SECONDS));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
@@ -1040,7 +1066,7 @@ for i := range vector1 {
 }
 
 expireAt, err := column.NewNullableColumnTimestamptzIsoString("expire_at",
-    []string{"", "2026-12-31T00:00:00Z", "2027-01-01T00:00:00+08:00"},
+    []string{"2026-12-31T00:00:00Z", "2027-01-01T00:00:00+08:00"},
     []bool{false, true, true})
 if err != nil {
     fmt.Println(err.Error())
@@ -1140,17 +1166,12 @@ await client.insert({
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
 export TOKEN="YOUR_CLUSTER_TOKEN"
 
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
---header "Request-Timeout: 10" \
--d "{
+curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert" --header "Authorization: Bearer ${TOKEN}" --header "Content-Type: application/json" --header "Request-Timeout: 10" -d "{
     \"collectionName\": \"my_collection\",
     \"data\": [
-        {\"id\": 1, \"expire_at\": null, \"vector\": """ + vec(0.5) + """},
-        {\"id\": 2, \"expire_at\": \"2026-12-31T00:00:00Z\", \"vector\": """ + vec(0.6) + """},
-        {\"id\": 3, \"expire_at\": \"2027-01-01T00:00:00+08:00\", \"vector\": """ + vec(0.7) + """}
+        {\"id\": 1, \"expire_at\": null, \"vector\": [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]},
+        {\"id\": 2, \"expire_at\": \"2026-12-31T00:00:00Z\", \"vector\": [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]},
+        {\"id\": 3, \"expire_at\": \"2027-01-01T00:00:00+08:00\", \"vector\": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]}
     ]
 }"
 ```
@@ -1239,7 +1260,7 @@ if err != nil {
 }
 defer client.Close(ctx)
 
-err = client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection"))
+_, err = client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection"))
 if err != nil {
     fmt.Println(err.Error())
     // handle error
@@ -1544,15 +1565,10 @@ await client.upsert({
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
 export TOKEN="YOUR_CLUSTER_TOKEN"
 
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/upsert" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
---header "Request-Timeout: 10" \
--d "{
+curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/upsert" --header "Authorization: Bearer ${TOKEN}" --header "Content-Type: application/json" --header "Request-Timeout: 10" -d "{
     \"collectionName\": \"my_collection\",
     \"data\": [
-        {\"id\": 2, \"vector\": """ + vec(0.8) + """, \"expire_at\": \"2028-01-01T00:00:00Z\"}
+        {\"id\": 2, \"vector\": [0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8], \"expire_at\": \"2028-01-01T00:00:00Z\"}
     ]
 }"
 ```
@@ -1764,7 +1780,7 @@ auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT"));
 // Step 1 — add a TIMESTAMPTZ column to the schema
 status = client->AddCollectionField(milvus::AddCollectionFieldRequest()
                                         .WithCollectionName("my_collection")
-                                        .WithField(milvus::FieldSchema("expire_at", milvus::DataType::TIMESTAMPTZ).WithNullable(true)));
+                                        .WithField(std::move(milvus::FieldSchema("expire_at", milvus::DataType::TIMESTAMPTZ).WithNullable(true))));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
@@ -1834,12 +1850,7 @@ export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
 export TOKEN="YOUR_CLUSTER_TOKEN"
 
 # Step 1 — add a TIMESTAMPTZ column to the schema
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/fields/add" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
---header "Request-Timeout: 10" \
--d "{
+curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/fields/add" --header "Authorization: Bearer ${TOKEN}" --header "Content-Type: application/json" --header "Request-Timeout: 10" -d "{
     \"collectionName\": \"my_collection\",
     \"fieldName\": \"expire_at\",
     \"dataType\": \"Timestamptz\",
@@ -1847,28 +1858,17 @@ curl --request POST \
 }"
 
 # Step 2 — mark the new column as the TTL field
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/alter_properties" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
---header "Request-Timeout: 10" \
--d "{
+curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/alter_properties" --header "Authorization: Bearer ${TOKEN}" --header "Content-Type: application/json" --header "Request-Timeout: 10" -d "{
     \"collectionName\": \"my_collection\",
     \"properties\": {
         \"ttl_field\": \"expire_at\"
     }
 }"
-
 # Step 3 (optional) — backfill expiration timestamps for historical rows
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/upsert" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
---header "Request-Timeout: 10" \
--d "{
+curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/upsert" --header "Authorization: Bearer ${TOKEN}" --header "Content-Type: application/json" --header "Request-Timeout: 10" -d "{
     \"collectionName\": \"my_collection\",
     \"data\": [
-        {\"id\": 1, \"vector\": """ + vec(0.9) + """, \"expire_at\": \"2026-12-31T00:00:00Z\"}
+        {\"id\": 1, \"vector\": [0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9], \"expire_at\": \"2026-12-31T00:00:00Z\"}
     ]
 }"
 ```
@@ -2271,7 +2271,7 @@ if (!status.IsOk()) {
 // Step 2 — add a TIMESTAMPTZ column to the schema
 status = client->AddCollectionField(milvus::AddCollectionFieldRequest()
                                         .WithCollectionName("my_collection")
-                                        .WithField(milvus::FieldSchema("expire_at", milvus::DataType::TIMESTAMPTZ).WithNullable(true)));
+                                        .WithField(std::move(milvus::FieldSchema("expire_at", milvus::DataType::TIMESTAMPTZ).WithNullable(true))));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
@@ -2344,55 +2344,10 @@ await client.upsert({
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
 export TOKEN="YOUR_CLUSTER_TOKEN"
 
-# Step 1 — disable collection-level TTL (mandatory; the two modes are mutually exclusive)
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/drop_properties" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
---header "Request-Timeout: 10" \
--d "{
-    \"collectionName\": \"my_collection\",
-    \"propertyKeys\": [
-        \"collection.ttl.seconds\"
-    ]
-}"
-
-# Step 2 — add a TIMESTAMPTZ column to the schema
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/fields/add" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
---header "Request-Timeout: 10" \
--d "{
-    \"collectionName\": \"my_collection\",
-    \"fieldName\": \"expire_at\",
-    \"dataType\": \"Timestamptz\",
-    \"nullable\": true
-}"
-
-# Step 3 — set the ttl_field property on the column you just added
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/alter_properties" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
---header "Request-Timeout: 10" \
--d "{
-    \"collectionName\": \"my_collection\",
-    \"properties\": {
-        \"ttl_field\": \"expire_at\"
-    }
-}"
-
-# Step 4 (optional) — backfill expiration timestamps for historical entities
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/upsert" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
---header "Request-Timeout: 10" \
--d "{
+curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/upsert" --header "Authorization: Bearer ${TOKEN}" --header "Content-Type: application/json" --header "Request-Timeout: 10" -d "{
     \"collectionName\": \"my_collection\",
     \"data\": [
-        {\"id\": 1, \"vector\": """ + vec(0.55) + """, \"expire_at\": \"2026-12-31T00:00:00Z\"}
+        {\"id\": 2, \"vector\": [0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8], \"expire_at\": \"2028-01-01T00:00:00Z\"}
     ]
 }"
 ```
@@ -2575,28 +2530,35 @@ await client.alterCollectionProperties({
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
 export TOKEN="YOUR_CLUSTER_TOKEN"
 
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/drop_properties" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
---header "Request-Timeout: 10" \
--d "{
+# Step 1 — disable collection-level TTL (mandatory; the two modes are mutually exclusive)
+curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/drop_properties" --header "Authorization: Bearer ${TOKEN}" --header "Content-Type: application/json" --header "Request-Timeout: 10" -d "{
     \"collectionName\": \"my_collection\",
     \"propertyKeys\": [
-        \"ttl_field\"
+        \"collection.ttl.seconds\"
     ]
 }"
 
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/alter_properties" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
---header "Request-Timeout: 10" \
--d "{
+# Step 2 — add a TIMESTAMPTZ column to the schema
+curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/fields/add" --header "Authorization: Bearer ${TOKEN}" --header "Content-Type: application/json" --header "Request-Timeout: 10" -d "{
+    \"collectionName\": \"my_collection\",
+    \"fieldName\": \"expire_at\",
+    \"dataType\": \"Timestamptz\",
+    \"nullable\": true
+}"
+
+# Step 3 — set the ttl_field property on the column you just added
+curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/alter_properties" --header "Authorization: Bearer ${TOKEN}" --header "Content-Type: application/json" --header "Request-Timeout: 10" -d "{
     \"collectionName\": \"my_collection\",
     \"properties\": {
-        \"collection.ttl.seconds\": 1209600
+        \"ttl_field\": \"expire_at\"
     }
+}"
+# Step 3 (optional) — backfill expiration timestamps for historical rows
+curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/upsert" --header "Authorization: Bearer ${TOKEN}" --header "Content-Type: application/json" --header "Request-Timeout: 10" -d "{
+    \"collectionName\": \"my_collection\",
+    \"data\": [
+        {\"id\": 1, \"vector\": [0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55], \"expire_at\": \"2026-12-31T00:00:00Z\"}
+    ]
 }"
 ```
 
