@@ -2024,6 +2024,15 @@ module.exports = [
             "id": "tutorials/management/cmek/aws-kms",
             "label": "AWS KMS",
             "key": "doc:tutorials/management/cmek/aws-kms"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/management/cmek/gcp-kms",
+            "label": "Google Cloud KMS",
+            "key": "doc:tutorials/management/cmek/gcp-kms",
+            "customProps": {
+              "channel": "next"
+            }
           }
         ]
       },

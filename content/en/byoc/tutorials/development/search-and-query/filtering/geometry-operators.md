@@ -16,7 +16,8 @@ displayed_sidebar: default
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Geometry Operators
 
@@ -73,10 +74,68 @@ The `ST_EQUALS` operator returns TRUE if two geometries are spatially identical,
 
 Suppose you want to check whether a stored geometry (such as a point or polygon) is exactly the same as a target geometry. For instance, you can compare a stored point to a specific point of interest.
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 # The filter expression to check if a geometry matches a specific point
 filter = "ST_EQUALS(geo_field, 'POINT(10 20)')"
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// The filter expression to check if a geometry matches a specific point
+String filter = "ST_EQUALS(geo_field, 'POINT(10 20)')";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// The filter expression to check if a geometry matches a specific point
+filter := "ST_EQUALS(geo_field, 'POINT(10 20)')"
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+// The filter expression to check if a geometry matches a specific point
+let filter = "ST_EQUALS(geo_field, 'POINT(10 20)')";
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+// The filter expression to check if a geometry matches a specific point
+std::string filter = "ST_EQUALS(geo_field, 'POINT(10 20)')";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// The filter expression to check if a geometry matches a specific point
+const filter = "ST_EQUALS(geo_field, 'POINT(10 20)')";
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# The filter expression to check if a geometry matches a specific point
+filter="ST_EQUALS(geo_field, 'POINT(10 20)')"
+```
+
+</TabItem>
+</Tabs>
 
 ## ST_CONTAINS / st_contains\{#stcontains-stcontains}
 
@@ -86,10 +145,68 @@ The `ST_CONTAINS` operator returns TRUE if the first geometry completely contain
 
 Imagine you have a collection of city districts and want to find a specific point of interest, such as a restaurant, that falls within the boundaries of a given district.
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 # The filter expression to find geometries completely within a specific polygon.
 filter = "ST_CONTAINS(geo_field, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')"
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// The filter expression to find geometries completely within a specific polygon.
+String filter = "ST_CONTAINS(geo_field, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// The filter expression to find geometries completely within a specific polygon.
+filter := "ST_CONTAINS(geo_field, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')"
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+// The filter expression to find geometries completely within a specific polygon.
+let filter = "ST_CONTAINS(geo_field, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')";
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+// The filter expression to find geometries completely within a specific polygon.
+std::string filter = "ST_CONTAINS(geo_field, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// The filter expression to find geometries completely within a specific polygon.
+const filter = "ST_CONTAINS(geo_field, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')";
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# The filter expression to find geometries completely within a specific polygon.
+filter="ST_CONTAINS(geo_field, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')"
+```
+
+</TabItem>
+</Tabs>
 
 ## ST_CROSSES / st_crosses\{#stcrosses-stcrosses}
 
@@ -99,10 +216,68 @@ The `ST_CROSSES` operator returns `TRUE` if the intersection of two geometries f
 
 You want to find all hiking trails (line strings) that cross a specific boundary line (another line string) or enter a protected area (polygon).
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 # The filter expression to find geometries that cross a line string.
 filter = "ST_CROSSES(geo_field, 'LINESTRING(5 0, 5 10)')"
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// The filter expression to find geometries that cross a line string.
+String filter = "ST_CROSSES(geo_field, 'LINESTRING(5 0, 5 10)')";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// The filter expression to find geometries that cross a line string.
+filter := "ST_CROSSES(geo_field, 'LINESTRING(5 0, 5 10)')"
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+// The filter expression to find geometries that cross a line string.
+let filter = "ST_CROSSES(geo_field, 'LINESTRING(5 0, 5 10)')";
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+// The filter expression to find geometries that cross a line string.
+std::string filter = "ST_CROSSES(geo_field, 'LINESTRING(5 0, 5 10)')";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// The filter expression to find geometries that cross a line string.
+const filter = "ST_CROSSES(geo_field, 'LINESTRING(5 0, 5 10)')";
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# The filter expression to find geometries that cross a line string.
+filter="ST_CROSSES(geo_field, 'LINESTRING(5 0, 5 10)')"
+```
+
+</TabItem>
+</Tabs>
 
 ## ST_INTERSECTS / st_intersects\{#stintersects-stintersects}
 
@@ -112,10 +287,68 @@ The `ST_INTERSECTS` operator returns `TRUE` if two geometries have any point of 
 
 If you have a collection of roads and want to find all roads that cross or touch a specific line string representing a proposed new road, you can use `ST_INTERSECTS`.
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 # The filter expression to find geometries that intersect with a specific line string.
 filter = "ST_INTERSECTS(geo_field, 'LINESTRING (1 1, 2 2)')"
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// The filter expression to find geometries that intersect with a specific line string.
+String filter = "ST_INTERSECTS(geo_field, 'LINESTRING (1 1, 2 2)')";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// The filter expression to find geometries that intersect with a specific line string.
+filter := "ST_INTERSECTS(geo_field, 'LINESTRING (1 1, 2 2)')"
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+// The filter expression to find geometries that intersect with a specific line string.
+let filter = "ST_INTERSECTS(geo_field, 'LINESTRING (1 1, 2 2)')";
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+// The filter expression to find geometries that intersect with a specific line string.
+std::string filter = "ST_INTERSECTS(geo_field, 'LINESTRING (1 1, 2 2)')";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// The filter expression to find geometries that intersect with a specific line string.
+const filter = "ST_INTERSECTS(geo_field, 'LINESTRING (1 1, 2 2)')";
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# The filter expression to find geometries that intersect with a specific line string.
+filter="ST_INTERSECTS(geo_field, 'LINESTRING (1 1, 2 2)')"
+```
+
+</TabItem>
+</Tabs>
 
 ## ST_OVERLAPS / st_overlaps\{#stoverlaps-stoverlaps}
 
@@ -125,10 +358,68 @@ The `ST_OVERLAPS` operator returns `TRUE` if two geometries of the same dimensio
 
 You have a set of overlapping sales regions and want to find all regions that partially overlap with a new proposed sales zone.
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 # The filter expression to find geometries that partially overlap with a polygon.
 filter = "ST_OVERLAPS(geo_field, 'POLYGON((0 0, 0 10, 10 10, 10 0, 0 0))')"
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// The filter expression to find geometries that partially overlap with a polygon.
+String filter = "ST_OVERLAPS(geo_field, 'POLYGON((0 0, 0 10, 10 10, 10 0, 0 0))')";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// The filter expression to find geometries that partially overlap with a polygon.
+filter := "ST_OVERLAPS(geo_field, 'POLYGON((0 0, 0 10, 10 10, 10 0, 0 0))')"
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+// The filter expression to find geometries that partially overlap with a polygon.
+let filter = "ST_OVERLAPS(geo_field, 'POLYGON((0 0, 0 10, 10 10, 10 0, 0 0))')";
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+// The filter expression to find geometries that partially overlap with a polygon.
+std::string filter = "ST_OVERLAPS(geo_field, 'POLYGON((0 0, 0 10, 10 10, 10 0, 0 0))')";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// The filter expression to find geometries that partially overlap with a polygon.
+const filter = "ST_OVERLAPS(geo_field, 'POLYGON((0 0, 0 10, 10 10, 10 0, 0 0))')";
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# The filter expression to find geometries that partially overlap with a polygon.
+filter="ST_OVERLAPS(geo_field, 'POLYGON((0 0, 0 10, 10 10, 10 0, 0 0))')"
+```
+
+</TabItem>
+</Tabs>
 
 ## ST_TOUCHES / st_touches\{#sttouches-sttouches}
 
@@ -138,10 +429,68 @@ The `ST_TOUCHES` operator returns `TRUE` if two geometries' boundaries touch, bu
 
 If you have a map of property parcels and want to find all parcels that are directly adjacent to a public park without any overlap.
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 # The filter expression to find geometries that only touch a line string at their boundaries.
 filter = "ST_TOUCHES(geo_field, 'LINESTRING(0 0, 1 1)')"
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// The filter expression to find geometries that only touch a line string at their boundaries.
+String filter = "ST_TOUCHES(geo_field, 'LINESTRING(0 0, 1 1)')";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// The filter expression to find geometries that only touch a line string at their boundaries.
+filter := "ST_TOUCHES(geo_field, 'LINESTRING(0 0, 1 1)')"
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+// The filter expression to find geometries that only touch a line string at their boundaries.
+let filter = "ST_TOUCHES(geo_field, 'LINESTRING(0 0, 1 1)')";
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+// The filter expression to find geometries that only touch a line string at their boundaries.
+std::string filter = "ST_TOUCHES(geo_field, 'LINESTRING(0 0, 1 1)')";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// The filter expression to find geometries that only touch a line string at their boundaries.
+const filter = "ST_TOUCHES(geo_field, 'LINESTRING(0 0, 1 1)')";
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# The filter expression to find geometries that only touch a line string at their boundaries.
+filter="ST_TOUCHES(geo_field, 'LINESTRING(0 0, 1 1)')"
+```
+
+</TabItem>
+</Tabs>
 
 ## ST_WITHIN / st_within\{#stwithin-stwithin}
 
@@ -151,10 +500,68 @@ The `ST_WITHIN` operator returns `TRUE` if the first geometry is completely with
 
 You want to find all small residential areas that are located entirely within a larger designated park area.
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 # The filter expression to find geometries that are completely within a larger polygon.
 filter = "ST_WITHIN(geo_field, 'POLYGON((110 38, 115 38, 115 42, 110 42, 110 38))')"
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// The filter expression to find geometries that are completely within a larger polygon.
+String filter = "ST_WITHIN(geo_field, 'POLYGON((110 38, 115 38, 115 42, 110 42, 110 38))')";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// The filter expression to find geometries that are completely within a larger polygon.
+filter := "ST_WITHIN(geo_field, 'POLYGON((110 38, 115 38, 115 42, 110 42, 110 38))')"
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+// The filter expression to find geometries that are completely within a larger polygon.
+let filter = "ST_WITHIN(geo_field, 'POLYGON((110 38, 115 38, 115 42, 110 42, 110 38))')";
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+// The filter expression to find geometries that are completely within a larger polygon.
+std::string filter = "ST_WITHIN(geo_field, 'POLYGON((110 38, 115 38, 115 42, 110 42, 110 38))')";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// The filter expression to find geometries that are completely within a larger polygon.
+const filter = "ST_WITHIN(geo_field, 'POLYGON((110 38, 115 38, 115 42, 110 42, 110 38))')";
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# The filter expression to find geometries that are completely within a larger polygon.
+filter="ST_WITHIN(geo_field, 'POLYGON((110 38, 115 38, 115 42, 110 42, 110 38))')"
+```
+
+</TabItem>
+</Tabs>
 
 For more information on how to use a `GEOMETRY` field, refer to [Geometry Field](./use-geometry-field).
 
@@ -166,7 +573,65 @@ The `ST_DWITHIN` operator returns `TRUE` if the distance between geometry A and 
 
 Suppose you have a collection of store locations and want to find all stores within 5,000 meters of a specific customer’s location.
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 # Find all stores within 5000 meters of the point (120 30)
 filter = "ST_DWITHIN(geo_field, 'POINT(120 30)', 5000)"
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// Find all stores within 5000 meters of the point (120 30)
+String filter = "ST_DWITHIN(geo_field, 'POINT(120 30)', 5000)";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// Find all stores within 5000 meters of the point (120 30)
+filter := "ST_DWITHIN(geo_field, 'POINT(120 30)', 5000)"
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+// Find all stores within 5000 meters of the point (120 30)
+let filter = "ST_DWITHIN(geo_field, 'POINT(120 30)', 5000)";
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+// Find all stores within 5000 meters of the point (120 30)
+std::string filter = "ST_DWITHIN(geo_field, 'POINT(120 30)', 5000)";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// Find all stores within 5000 meters of the point (120 30)
+const filter = "ST_DWITHIN(geo_field, 'POINT(120 30)', 5000)";
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# Find all stores within 5000 meters of the point (120 30)
+filter="ST_DWITHIN(geo_field, 'POINT(120 30)', 5000)"
+```
+
+</TabItem>
+</Tabs>

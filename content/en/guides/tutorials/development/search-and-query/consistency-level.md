@@ -69,7 +69,7 @@ You can set different consistency levels when you create a collection as well as
 
 When creating a collection, you can set the consistency level for the searches and queries within the collection. The following code example sets the consistency level to **Bounded**.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -90,7 +90,7 @@ CreateCollectionReq createCollectionReq = CreateCollectionReq.builder()
         .collectionName("my_collection")
         .collectionSchema(schema)
         // highlight-next-line
-        .consistencyLevel(ConsistencyLevel.Bounded)
+        .consistencyLevel(ConsistencyLevel.BOUNDED)
         .build();
 client.createCollection(createCollectionReq);
 ```
@@ -107,6 +107,45 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+client.create_collection(
+    CreateCollectionRequest::builder()
+        .collection_name("my_collection")
+        .schema(schema)
+        .consistency_level(ConsistencyLevel::Bounded)
+        .build()?,
+)
+.await?;
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+auto status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                          .WithCollectionName("my_collection")
+                                          .WithCollectionSchema(schema)
+                                          .WithConsistencyLevel(milvus::ConsistencyLevel::BOUNDED));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.createCollection({
+    collection_name: "my_collection",
+    schema,
+    consistency_level: "Bounded",
+});
 ```
 
 </TabItem>
@@ -157,20 +196,6 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto status = client->CreateCollection(milvus::CreateSimpleCollectionRequest()
-                                          .WithCollectionName("my_collection")
-                                          .WithCollectionSchema(schema)
-                                          .WithConsistencyLevel(milvus::ConsistencyLevel::BOUNDED));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
 
 Possible values for the `consistency_level` parameter are `Strong`, `Bounded`, `Eventually`, and `Session`.
@@ -179,14 +204,14 @@ Possible values for the `consistency_level` parameter are `Strong`, `Bounded`, `
 
 You can always change the consistency level for a specific search. The following code example sets the consistency level back to the **Bounded**. The change applies only to the current search request.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 res = client.search(
     collection_name="my_collection",
     data=[query_vector],
-    limit=3
+    limit=3,
     # highlight-start
     consistency_level="Bounded",
     # highlight-next
@@ -202,7 +227,6 @@ SearchReq searchReq = SearchReq.builder()
         .collectionName("my_collection")
         .data(Collections.singletonList(queryVector))
         .topK(3)
-        .searchParams(params)
         .consistencyLevel(ConsistencyLevel.BOUNDED)
         .build();
 
@@ -227,6 +251,53 @@ if err != nil {
 ```
 
 </TabItem>
+</Tabs>
+
+```rust
+client.search(
+    SearchRequest::builder()
+        .collection_name("my_collection")
+        .vector_field("vector")
+        .vectors(SearchVectors::Float(vec![query_vector]))
+        .limit(3)
+        .consistency_level(ConsistencyLevel::Bounded)
+        .build()?,
+)
+.await?;
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
+auto request = milvus::SearchRequest()
+                           .WithCollectionName("my_collection")
+                           .WithLimit(3)
+                           .AddFloatVector(std::move(query_vector))
+                           .WithConsistencyLevel(milvus::ConsistencyLevel::BOUNDED);
+
+milvus::SearchResponse response;
+auto status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const res = await client.search({
+    collection_name: "my_collection",
+    data: [query_vector],
+    limit: 3,
+    consistency_level: "Bounded",
+});
+```
+
+</TabItem>
 
 <TabItem value='bash'>
 
@@ -246,25 +317,6 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
-auto request = milvus::SearchRequest()
-                           .WithCollectionName("my_collection")
-                           .WithLimit(3)
-                           .AddFloatVector(std::move(query_vector))
-                           .WithConsistencyLevel(milvus::ConsistencyLevel::BOUNDED);
-
-milvus::SearchResponse response;
-auto status = client->Search(request, response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
 
 This parameter is also available in hybrid searches and the search iterator. Possible values for the `consistency_level` parameter are `Strong`, `Bounded`, `Eventually`, and `Session`.
@@ -273,7 +325,7 @@ This parameter is also available in hybrid searches and the search iterator. Pos
 
 You can always change the consistency level for a specific search. The following code example sets the consistency level to the **Eventually**. The setting applies only to the current query request.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -281,7 +333,7 @@ res = client.query(
     collection_name="my_collection",
     filter="color like \"red%\"",
     output_fields=["vector", "color"],
-    limit=3，
+    limit=3,
     # highlight-start
     consistency_level="Bounded",
     # highlight-next
@@ -298,10 +350,10 @@ QueryReq queryReq = QueryReq.builder()
         .filter("color like \"red%\"")
         .outputFields(Arrays.asList("vector", "color"))
         .limit(3)
-        .consistencyLevel(ConsistencyLevel.Bounded)
+        .consistencyLevel(ConsistencyLevel.BOUNDED)
         .build();
-        
- QueryResp getResp = client.query(queryReq);
+
+QueryResp getResp = client.query(queryReq);
 ```
 
 </TabItem>
@@ -321,6 +373,54 @@ if err != nil {
 ```
 
 </TabItem>
+</Tabs>
+
+```rust
+client.query(
+    QueryRequest::builder()
+        .collection_name("my_collection")
+        .filter(r#"color like "red%""#)
+        .output_fields(["vector", "color"])
+        .limit(3)
+        .consistency_level(ConsistencyLevel::Bounded)
+        .build()?,
+)
+.await?;
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+auto request = milvus::QueryRequest()
+                       .WithCollectionName("my_collection")
+                       .WithFilter(R"(color like "red%")")
+                       .WithOutputFields({"vector", "color"})
+                       .WithLimit(3)
+                       .WithConsistencyLevel(milvus::ConsistencyLevel::BOUNDED);
+
+milvus::QueryResponse response;
+auto status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const res = await client.query({
+    collection_name: "my_collection",
+    filter: 'color like "red%"',
+    output_fields: ["vector", "color"],
+    limit: 3,
+    consistency_level: "Bounded",
+});
+```
+
+</TabItem>
 
 <TabItem value='bash'>
 
@@ -331,28 +431,11 @@ curl --request POST \
 --header "Content-Type: application/json" \
 -d '{
     "collectionName": "my_collection",
-    "filter": "color like \"red_%\"",
+    "filter": "color like \"red%\"",
+    "outputFields": ["vector", "color"],
     "consistencyLevel": "Bounded",
     "limit": 3
 }'
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto request = milvus::QueryRequest()
-                       .WithCollectionName("my_collection")
-                       .WithFilter(R"(color like "red%")")
-                       .WithLimit(3)
-                       .WithConsistencyLevel(milvus::ConsistencyLevel::BOUNDED);
-
-milvus::QueryResponse response;
-auto status = client->Query(request, response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
 ```
 
 </TabItem>

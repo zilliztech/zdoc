@@ -153,6 +153,12 @@ If you choose BYOC, you do not need to further choose the plan. The feature supp
      <td><p>✅</p></td>
    </tr>
    <tr>
+     <td><p><a href="./scim-provisioning-overview">SCIM (System for Cross-domain Identity Management)</a></p></td>
+     <td><p>❌</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+   </tr>
+   <tr>
      <td><p><a href="./setup-console-ip-allowlist">Console IP allowlist</a></p></td>
      <td><p>❌</p></td>
      <td><p>✅</p></td>

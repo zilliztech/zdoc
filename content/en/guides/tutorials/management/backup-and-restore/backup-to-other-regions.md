@@ -24,7 +24,7 @@ import Supademo from '@site/src/components/Supademo';
 
 <FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
 
-This feature is available only on Business Critical (SaaS) and BYOC deployments.
+This feature is available only on Business Critical (SaaS).
 
 </FeatureNote>
 

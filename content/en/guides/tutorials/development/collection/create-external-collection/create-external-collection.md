@@ -106,7 +106,7 @@ The external source should end with a forward slash (/) to indicate this is a fo
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -127,7 +127,7 @@ import com.google.gson.JsonObject;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
 
 JsonObject externalSpec = new JsonObject();
-externalSpec.addProperty("format", "parquet");
+eexternalSpec.addProperty("format", "parquet");
 CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder()
         .externalSource("volume://my_volume/path/to/a/folder/")
         .externalSpec(externalSpec)
@@ -140,8 +140,8 @@ CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSche
 
 ```go
 import (
-    "github.com/milvus-io/milvus/client/v2/entity"
-    client "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 schema := entity.NewSchema().
@@ -151,11 +151,34 @@ schema := entity.NewSchema().
 ```
 
 </TabItem>
+</Tabs>
+
+```rust
+use serde_json::json;
+
+let schema = CollectionSchema::new()
+    .external_source("volume://my_volume/path/to/a/folder/")
+    .external_spec(json!({"format": "parquet"}));
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+milvus::CollectionSchema schema;
+schema.SetExternalSource("volume://my_volume/path/to/a/folder/");
+schema.SetExternalSpec(nlohmann::json{{"format", "parquet"}});
+```
+
+</TabItem>
 
 <TabItem value='javascript'>
 
 ```javascript
-// node
+const schema = {
+    external_source: 'volume://my_volume/path/to/a/folder/',
+    external_spec: '{"format": "parquet"}'
+};
 ```
 
 </TabItem>
@@ -193,7 +216,7 @@ export fields='[
 
 Once the schema is ready, you can add fields as follows:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -252,8 +275,8 @@ schema.addField(AddFieldReq.builder()
 
 ```go
 import (
-    "github.com/milvus-io/milvus/client/v2/entity"
-    client "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 schema = schema.
@@ -280,11 +303,51 @@ schema = schema.
 ```
 
 </TabItem>
+</Tabs>
+
+```rust
+let schema = CollectionSchema::new()
+    .add_field(
+        FieldSchema::new()
+            .name("product_id")
+            .data_type(DataType::Int64)
+            .external_field("id"),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("product_name")
+            .data_type(DataType::VarChar)
+            .max_length(512)
+            .external_field("name"),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("embedding")
+            .data_type(DataType::FloatVector)
+            .dimension(768)
+            .external_field("vector"),
+    );
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+schema.AddField(milvus::FieldSchema("product_id", milvus::DataType::INT64, "").WithExternalField("id"));
+schema.AddField(milvus::FieldSchema("product_name", milvus::DataType::VARCHAR, "").WithExternalField("name"));
+schema.AddField(milvus::FieldSchema("embedding", milvus::DataType::FLOAT_VECTOR, "").WithExternalField("vector"));
+```
+
+</TabItem>
 
 <TabItem value='javascript'>
 
 ```javascript
-// node
+const schema = [
+    { field_name: 'product_id', data_type: 'Int64', external_field: 'id' },
+    { field_name: 'product_name', data_type: 'VarChar', max_length: 512, external_field: 'name' },
+    { field_name: 'embedding', data_type: 'FloatVector', dim: 768, external_field: 'vector' },
+];
 ```
 
 </TabItem>
@@ -312,7 +375,7 @@ You can create external collections in a database at the project level, which is
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -359,8 +422,8 @@ client.createCollection(createReq);
 
 ```go
 import (
-    "github.com/milvus-io/milvus/client/v2/entity"
-    client "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -382,11 +445,67 @@ if err != nil {
 ```
 
 </TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let client = ClientV2::new(
+        &ConnectConfig::new()
+            .uri("https://{project-id}.{region}.vectordb.zillizcloud.com")
+            .token("YOUR_API_KEY"),
+    )
+    .await?;
+
+    client.use_database("my_database").await?;
+
+    client
+        .create_collection(
+            CreateCollectionRequest::builder()
+                .collection_name("test_collection")
+                .schema(schema)
+                .build()?,
+        )
+        .await?;
+
+    Ok(())
+}
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+auto client = milvus::MilvusClientV2::Create();
+auto status = client->Connect(milvus::ConnectParam("https://{project-id}.{region}.vectordb.zillizcloud.com", "YOUR_API_KEY"));
+
+status = client->UseDatabase("my_database");
+status = client->CreateCollection(milvus::CreateCollectionRequest()
+    .WithDatabaseName("my_database")
+    .WithCollectionName("test_collection")
+    .WithSchema(schema));
+```
+
+</TabItem>
 
 <TabItem value='javascript'>
 
 ```javascript
-// node
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({
+    address: "https://{project-id}.{region}.vectordb.zillizcloud.com",
+    token: "YOUR_API_KEY",
+});
+
+await client.useDatabase({ db_name: "my_database" });
+
+await client.createCollection({
+    collection_name: "test_collection",
+    schema,
+});
 ```
 
 </TabItem>
@@ -413,7 +532,7 @@ curl --request POST \
 
 You can create indexes for external collection columns as you do in managed collections.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -470,9 +589,9 @@ client.createIndex(createIndexReq);
 
 ```go
 import (
-    "github.com/milvus-io/milvus/client/v2/entity"
-    "github.com/milvus-io/milvus/client/v2/index"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 collectionName := "test_collection"
@@ -488,6 +607,41 @@ err = indexTask.Await(ctx)
 if err != nil {
     // handler err
 }
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+client
+    .create_index(
+        CreateIndexRequest::builder()
+            .collection_name("test_collection")
+            .index_param(
+                IndexParam::new()
+                    .field_name("embedding")
+                    .index_type(IndexType::AutoIndex)
+                    .metric_type(MetricType::Cosine),
+            )
+            .index_param(
+                IndexParam::new()
+                    .field_name("product_name")
+                    .index_type(IndexType::AutoIndex),
+            )
+            .build()?,
+    )
+    .await?;
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+milvus::CreateIndexRequest indexRequest;
+indexRequest.WithCollectionName("test_collection");
+indexRequest.AddIndex(milvus::IndexSchema("embedding", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE));
+indexRequest.AddIndex(milvus::IndexSchema("product_name", milvus::IndexType::AUTOINDEX));
+status = client->CreateIndex(indexRequest);
 ```
 
 </TabItem>
@@ -546,7 +700,7 @@ curl --request POST \
 
 Once the collection is ready, refresh it to create the metadata and indexes for your data.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -602,12 +756,12 @@ while (true) {
 <TabItem value='go'>
 
 ```go
-refreshResult, err := client.RefreshExternalCollection(ctx,
-    client.NewRefreshExternalCollectionOption("test_collection"))
+refreshResult, err := milvusclient.RefreshExternalCollection(ctx,
+    milvusclient.NewRefreshExternalCollectionOption("test_collection"))
 jobID := refreshResult.JobID
 for {
-    progress, _ := client.GetRefreshExternalCollectionProgress(ctx,
-        client.NewGetRefreshExternalCollectionProgressOption(jobID))
+    progress, _ := milvusclient.GetRefreshExternalCollectionProgress(ctx,
+        milvusclient.NewGetRefreshExternalCollectionProgressOption(jobID))
     fmt.Printf("State: %s\n", progress.State)
     if progress.State == entity.RefreshStateCompleted {
         fmt.Println("Refresh completed!")
@@ -622,11 +776,42 @@ for {
 ```
 
 </TabItem>
+</Tabs>
+
+```rust
+let refresh = client
+    .refresh_external_collection(
+        RefreshExternalCollectionRequest::builder()
+            .collection_name("test_collection")
+            .build()?,
+    )
+    .await?;
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+milvus::RefreshExternalCollectionRequest refreshRequest;
+refreshRequest.WithCollectionName("test_collection");
+milvus::RefreshExternalCollectionResponse refreshResponse;
+status = client->RefreshExternalCollection(refreshRequest, refreshResponse);
+```
+
+</TabItem>
 
 <TabItem value='javascript'>
 
 ```javascript
-// node
+const job = await client.refreshExternalCollection({
+    collection_name: "test_collection",
+});
+while (true) {
+    const progress = await client.getRefreshExternalCollectionProgress({ job_id: job.job_id });
+    console.log(`${progress.state}: ${progress.progress}%`);
+    if (progress.state === "RefreshCompleted" || progress.state === "RefreshFailed") break;
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+}
 ```
 
 </TabItem>

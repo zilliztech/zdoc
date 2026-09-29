@@ -130,7 +130,7 @@ When you use a KMS key to encrypt a Zilliz Cloud cluster, the cluster checks the
 
 You can view the added AWS KMS keys on the Zilliz Cloud console.
 
-![OyNQwDHFhhUIXDbRMjac08Xdn1g](https://zdoc-images.s3.us-west-2.amazonaws.com/OyNQwDHFhhUIXDbRMjac08Xdn1g.png)
+![S3NKwZYR7hj6ocbkpIQcB66Unyg](https://zdoc-images.s3.us-west-2.amazonaws.com/S3NKwZYR7hj6ocbkpIQcB66Unyg.png)
 
 When a KMS key is no longer needed, you can delete it if any clusters do not use it.
 
