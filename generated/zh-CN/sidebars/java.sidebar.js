@@ -23,69 +23,9 @@ module.exports = [
       },
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-Authentication/v2-Authentication-describeRole",
-        "label": "describeRole()",
-        "key": "doc:api/java/java/v2/v2-Authentication/v2-authentication-describerole"
-      },
-      {
-        "type": "doc",
         "id": "api/java/java/v2/v2-Authentication/v2-Authentication-describeUser",
         "label": "describeUser()",
         "key": "doc:api/java/java/v2/v2-Authentication/v2-authentication-describeuser"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Authentication/v2-Authentication-dropRole",
-        "label": "dropRole()",
-        "key": "doc:api/java/java/v2/v2-Authentication/v2-authentication-droprole"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Authentication/v2-Authentication-dropUser",
-        "label": "dropUser()",
-        "key": "doc:api/java/java/v2/v2-Authentication/v2-authentication-dropuser"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Authentication/v2-Authentication-grantPrivilegeV2",
-        "label": "grantPrivilegeV2()",
-        "key": "doc:api/java/java/v2/v2-Authentication/v2-authentication-grantprivilegev2"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Authentication/v2-Authentication-grantRole",
-        "label": "grantRole()",
-        "key": "doc:api/java/java/v2/v2-Authentication/v2-authentication-grantrole"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Authentication/v2-Authentication-listPrivilegeGroups",
-        "label": "listPrivilegeGroups()",
-        "key": "doc:api/java/java/v2/v2-Authentication/v2-authentication-listprivilegegroups"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Authentication/v2-Authentication-listRoles",
-        "label": "listRoles()",
-        "key": "doc:api/java/java/v2/v2-Authentication/v2-authentication-listroles"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Authentication/v2-Authentication-listUsers",
-        "label": "listUsers()",
-        "key": "doc:api/java/java/v2/v2-Authentication/v2-authentication-listusers"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Authentication/v2-Authentication-revokePrivilegeV2",
-        "label": "revokePrivilegeV2()",
-        "key": "doc:api/java/java/v2/v2-Authentication/v2-authentication-revokeprivilegev2"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Authentication/v2-Authentication-revokeRole",
-        "label": "revokeRole()",
-        "key": "doc:api/java/java/v2/v2-Authentication/v2-authentication-revokerole"
       },
       {
         "type": "doc",
@@ -120,21 +60,9 @@ module.exports = [
       },
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-Client/v2-Client-MilvusClientV2Pool",
-        "label": "MilvusClientV2Pool",
-        "key": "doc:api/java/java/v2/v2-Client/v2-client-milvusclientv2pool"
-      },
-      {
-        "type": "doc",
         "id": "api/java/java/v2/v2-Client/v2-Client-clientIsReady",
         "label": "clientIsReady()",
         "key": "doc:api/java/java/v2/v2-Client/v2-client-clientisready"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Client/v2-Client-ConnectConfig",
-        "label": "ConnectConfig",
-        "key": "doc:api/java/java/v2/v2-Client/v2-client-connectconfig"
       },
       {
         "type": "doc",
@@ -149,12 +77,6 @@ module.exports = [
     "label": "Collections",
     "key": "category:api/java/java/v2/v2-collections",
     "items": [
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Collections/v2-Collections-alterAlias",
-        "label": "alterAlias()",
-        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-alteralias"
-      },
       {
         "type": "doc",
         "id": "api/java/java/v2/v2-Collections/v2-Collections-alterCollectionField",
@@ -343,61 +265,6 @@ module.exports = [
         "key": "doc:api/java/java/v2/v2-Collections/v2-collections-dropcollectionfieldproperties"
       },
       {
-        "type": "category",
-        "label": "Function",
-        "key": "category:api/java/java/v2/v2-Collections/v2-collections-function",
-        "items": [
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-BoostRanker",
-            "label": "BoostRanker",
-            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-Function/v2-function-boostranker"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-DecayRanker",
-            "label": "DecayRanker",
-            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-Function/v2-function-decayranker"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Collections-Function",
-            "label": "Function",
-            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-Function/v2-collections-function"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-FunctionType",
-            "label": "FunctionType",
-            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-Function/v2-function-functiontype"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-ModelRanker",
-            "label": "ModelRanker",
-            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-Function/v2-function-modelranker"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-RRFRanker",
-            "label": "RRFRanker",
-            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-Function/v2-function-rrfranker"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-WeightedRanker",
-            "label": "WeightedRanker",
-            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-Function/v2-function-weightedranker"
-          }
-        ]
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Collections/v2-Collections-ListCollectionsV2",
-        "label": "ListCollectionsV2()",
-        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-listcollectionsv2"
-      },
-      {
         "type": "doc",
         "id": "api/java/java/v2/v2-Collections/v2-Collections-addCollectionFunction",
         "label": "addCollectionFunction()",
@@ -422,102 +289,10 @@ module.exports = [
         "key": "doc:api/java/java/v2/v2-Collections/v2-collections-dropcollectionfunction"
       },
       {
-        "type": "category",
-        "label": "EmbeddingList",
-        "key": "category:api/java/java/v2/v2-Collections/v2-collections-embeddinglist",
-        "items": [
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-EmbeddingList-add",
-            "label": "add()",
-            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-embeddinglist-add"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-Collections-EmbeddingList",
-            "label": "EmbeddingList",
-            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-collections-embeddinglist"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-EmbeddingList-getData",
-            "label": "getData()",
-            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-embeddinglist-getdata"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-EmbeddingList-getPlaceholderType",
-            "label": "getPlaceholderType()",
-            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-embeddinglist-getplaceholdertype"
-          }
-        ]
-      },
-      {
-        "type": "category",
-        "label": "StructFieldSchema",
-        "key": "category:api/java/java/v2/v2-Collections/v2-collections-structfieldschema",
-        "items": [
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-addField",
-            "label": "addField()",
-            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-structfieldschema-addfield"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getDataType",
-            "label": "getDataType()",
-            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-structfieldschema-getdatatype"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getDescription",
-            "label": "getDescription()",
-            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-structfieldschema-getdescription"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getElementType",
-            "label": "getElementType()",
-            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-structfieldschema-getelementtype"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getFields",
-            "label": "getFields()",
-            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-structfieldschema-getfields"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getMaxCapacity",
-            "label": "getMaxCapacity()",
-            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-structfieldschema-getmaxcapacity"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getName",
-            "label": "getName()",
-            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-structfieldschema-getname"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-Collections-StructFieldSchema",
-            "label": "StructFieldSchema",
-            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-collections-structfieldschema"
-          }
-        ]
-      },
-      {
         "type": "doc",
         "id": "api/java/java/v2/v2-Collections/v2-Collections-truncateCollection",
         "label": "truncateCollection()",
         "key": "doc:api/java/java/v2/v2-Collections/v2-collections-truncatecollection"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Collections/v2-Collections-addCollectionStructField",
-        "label": "addCollectionStructField()",
-        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-addcollectionstructfield"
       },
       {
         "type": "doc",

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "2c39153d2bdfe1b2508858ce9f3e166501b45b2a",
+  "sourceCommit": "3e69220ce5a8a3bdf14ae143ec8349a47f9a1a75",
   "records": [
     {
       "manual": "cli",
@@ -2104,58 +2104,8 @@
     },
     {
       "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-describeRole.md",
-      "sourceHash": "64aa2db2fac1083dcb40e802cd927bff73cb01984340fcaf0b23979e90e5e03e"
-    },
-    {
-      "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-describeUser.md",
       "sourceHash": "690a77fa373b548ea4969fb839b4a721aa2e85e955c37cc21842b24ce2187874"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-dropRole.md",
-      "sourceHash": "526c7bbd9f389632ccd998080e2b5fc8fc6b7c90b8d9c996a08760a37adeb114"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-dropUser.md",
-      "sourceHash": "eb53fc33e907bf0cbd2bc6532baba29740242c6145b1626e2da009b124c0aa05"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-grantPrivilegeV2.md",
-      "sourceHash": "aad0e7966129bec1e9f2bdd516abb9c8f8b73bb2b00043f8b90de314a002c16e"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-grantRole.md",
-      "sourceHash": "dc3bd153c339f22a740aba1d089949fba9aab540b28f68dd6f78b88305916cec"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-listPrivilegeGroups.md",
-      "sourceHash": "00c090711c95ab6d0edd00b566c46a91b943a6e010fcdc77ca52d99485ddf3ff"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-listRoles.md",
-      "sourceHash": "d54de80a9fc85f4caea950f095e4bc9a69441f992c6d4c67534f3dd8fa8a4baf"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-listUsers.md",
-      "sourceHash": "9f6da27a2f493fba3ee15635e70edc875cb59d84e1e0c474a5a0944d9ca13830"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-revokePrivilegeV2.md",
-      "sourceHash": "5bb738aafb5672a98060c22cc64a02e1380e054689a183b2d414bc01f6db9a21"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-revokeRole.md",
-      "sourceHash": "3b67e7eea2d0c34efbb55b5b0b7359985f689331113423bc69a5cc9c83af171f"
     },
     {
       "manual": "java",
@@ -2169,18 +2119,8 @@
     },
     {
       "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-ConnectConfig.md",
-      "sourceHash": "098664ad42e01d65c90a1f47009f56a5d1fb345f0356a87e4ed52ddba1fc686f"
-    },
-    {
-      "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-MilvusClientV2.md",
       "sourceHash": "c8fa5495598dc5692f7af155cc024de27093f102deaa2321ffee6a849a02b418"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-MilvusClientV2Pool.md",
-      "sourceHash": "67055b93fcff02c8f4e308f5a1d7df4adf0859c83810eefe0bdc828624c2fa66"
     },
     {
       "manual": "java",
@@ -2191,6 +2131,11 @@
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-getServerVersionV2.md",
       "sourceHash": "2f9722693af1cdc78dae0b01b3d63d9359c17fc02ca8bf5a458912f1ef0d0614"
+    },
+    {
+      "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-session.md",
+      "sourceHash": "4ea07f8d199d8dc24ba78dc8c0f76d02024e939e51fddbe19b1e8710f558f3d1"
     },
     {
       "manual": "java",
@@ -2254,108 +2199,8 @@
     },
     {
       "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-Collections-EmbeddingList.md",
-      "sourceHash": "492f8c1949f96fd318d8f25158f249005d288dcc2d56e9486062f138fb0e2429"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-EmbeddingList-add.md",
-      "sourceHash": "356423d2e23b10af497d5f2d4542cf90679ffc668f0d3cff130d768b307bf6e3"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-EmbeddingList-getData.md",
-      "sourceHash": "374e2b3748030c9a27f6abef04bc72168820b94414d9a5b2ea8a7cc14b5451ea"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-EmbeddingList-getPlaceholderType.md",
-      "sourceHash": "5896ae154ab1249d22cafe34dcc6b257339cf3f361f63ccf9c62f542b9bd24aa"
-    },
-    {
-      "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-FieldSchema.md",
       "sourceHash": "4125938e959f0cc7218d63c43eecdb542fce7847e1afd00ee5126ec13ab6a1cb"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Collections-Function.md",
-      "sourceHash": "2c7a56881fec25ced211c52d368e3518c93f052f76d73cccc1aea07b5ad0d71c"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-BoostRanker.md",
-      "sourceHash": "62289b9ab0fd585693208f96fbb01c71365e54574b09311f7a53430bcf11b60d"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-DecayRanker.md",
-      "sourceHash": "b99eb9dc6e4e1b99bf113cd2b766ea97c60d13c52314645d84cd80e66c7397f4"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-FunctionType.md",
-      "sourceHash": "aa0894692ba8e665a022224612e7046f26b8d6c2c125e560d4bf90b294e3d229"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-ModelRanker.md",
-      "sourceHash": "36e006219ae2e41a73f4ca7769c2f95f1b4990f33a5f8f1e23029bd1fb0afeb1"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-RRFRanker.md",
-      "sourceHash": "e63550e97dc9d7e1bd86fd30194f44796d6f120cc8cd165069ed28b084d4fa10"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-WeightedRanker.md",
-      "sourceHash": "55a536db7279ec608818a7488a5ebadbf9c84f84b3ad3567ea972bbb77227597"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-ListCollectionsV2.md",
-      "sourceHash": "bf47b622442743c101daa191c2aa681d95d58d86a7db2bbddb476bf790fe9a3a"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-Collections-StructFieldSchema.md",
-      "sourceHash": "c96d07583b86a39ee44a2e8e54063080f0398c978f3cb70e4c17899ea1c8529e"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-addField.md",
-      "sourceHash": "9a3d5dde050bd38f1d3ca3a86c86e0d00f3317c0f74c4b6606c940506c5ba1cc"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getDataType.md",
-      "sourceHash": "13ecc164090f3540fab633414c484f4541524b1436ef86758835b05c564dc57e"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getDescription.md",
-      "sourceHash": "3b86ca00c5b8bca9014d0fad5481e339b00a730ea2bf61e3b61461f6cc272784"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getElementType.md",
-      "sourceHash": "d696665fed8b76c0427630d3a057524906f238064b453b1aed107622e962bc3b"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getFields.md",
-      "sourceHash": "47dae415860366781ab5ac1bc0e30173a9d016e3f23b6dedebeb29d17974b436"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getMaxCapacity.md",
-      "sourceHash": "a9810a3213211bdde63c6f0d2be634af48f2dbb0da72f25b922e2a4fa581bad8"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getName.md",
-      "sourceHash": "10e5b1256f8358148146cbc2fd8bd23bb5348d87d057ac0d6ddd50383b9763bb"
     },
     {
       "manual": "java",
@@ -2369,18 +2214,8 @@
     },
     {
       "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-addCollectionStructField.md",
-      "sourceHash": "408d29e9161503d5464caafdd3c517a478ee6418cc19aaaf2a4a49960281fa45"
-    },
-    {
-      "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-addFunctionField.md",
       "sourceHash": "6a9db4fd09ef5a6230ecff9deb2a28b49db7fd127161027ed1cab6b95e25af17"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-alterAlias.md",
-      "sourceHash": "3055a9b19ce953c12c8c594dd68307149133d0f5645e75693297f81cdb7b0e2e"
     },
     {
       "manual": "java",
@@ -2924,8 +2759,18 @@
     },
     {
       "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-getAsync.md",
+      "sourceHash": "072575888e8d326f136f7b74af9af64779c83bad8aa2735ba5a8e4dda8fdb895"
+    },
+    {
+      "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-hybridSearch.md",
       "sourceHash": "447efb4b032f7bbdd13429d496a45adc4de0582fc9645de6b5f78fb63641d15c"
+    },
+    {
+      "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-hybridSearchAsync.md",
+      "sourceHash": "83242b651d0b56c39267d636b2211eb8c6016279bb15556657ce8f2e8e907076"
     },
     {
       "manual": "java",
@@ -2936,6 +2781,11 @@
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-query.md",
       "sourceHash": "ec74db4d5bdf8330a386dcc7324926a29da896c2ad56efa40b5d51bc1dc38bbe"
+    },
+    {
+      "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-queryAsync.md",
+      "sourceHash": "8bb5304a176bae4d59921d55f1d3e0afaf29519eb6838c4153be7fa810a781ea"
     },
     {
       "manual": "java",
@@ -2951,6 +2801,11 @@
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-search.md",
       "sourceHash": "3d55d31c9fa72b5efff23b60c73b6e1635b5a5303d49bb4751f08cde94abc052"
+    },
+    {
+      "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-searchAsync.md",
+      "sourceHash": "fe4cfa8969a45093bea2467e8e78d5ab85fe0aefdb4325eec8e24e50f826cac4"
     },
     {
       "manual": "java",
