@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "group": "java",
   "complete": true,
-  "generatedAt": "2026-09-29T02:48:17.685Z",
-  "sourceRunId": "36512646006",
+  "generatedAt": "2026-09-29T10:43:09.005Z",
+  "sourceRunId": "36554880060",
   "records": [
     {
       "canonicalToken": "A6Vld2dJToRXs8xhq0wcGdiRnDc",
@@ -1797,15 +1797,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "XneodrTwUor8bBxjJBPcJR8snCg",
-      "title": "addPrivilegesToGroup()",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "XoUqdHpskoe2mOxPtITcHpPUnHg",
       "title": "isEnableDynamicField()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-isEnableDynamicField.md",
@@ -1872,6 +1863,15 @@
       "canonicalToken": "ZhiOdVH0uoMI0axpcYMcfhQXnkf",
       "title": "listSnapshots()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-listSnapshots.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Zk2sduIEOoytTDxSFy0cUxiinpg",
+      "title": "addPrivilegesToGroup()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
