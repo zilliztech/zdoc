@@ -60,7 +60,7 @@ Each project allows up to **20** keys, regardless of the KMS providers. You can 
 
 ## Procedures\{#procedures}
 
-Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login), go into one of your **Business Critical** projects, choose **Network** > **CMEK** from the left navigation pane, click the target project card, click **+ CMEK** in the open page, and follow the steps in the **Add CMEK (AWS KMS)** dialog box to complete the process. 
+To add an AWS KMS key, log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login), choose **Network** > **CMEK** from the left navigation pane, go into one of your **Business Critical** projects located in an applicable AWS region, click **+ CMEK**, and follow the steps in the **Add CMEK (AWS KMS)** dialog box to complete the process. 
 
 Before you start, you need to determine the IAM role to use during the procedure. An IAM role will be listed in Zilliz Cloud once you use it to add KMS keys. Check the drop-down list in the **Select AWS IAM Role** step in the **Existing IAM Role** tab and determine whether the IAM role you need is listed.
 
