@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "group": "java",
   "complete": true,
-  "generatedAt": "2026-09-10T03:53:36.414Z",
-  "sourceRunId": "34429445527",
+  "generatedAt": "2026-09-29T02:48:17.685Z",
+  "sourceRunId": "36512646006",
   "records": [
     {
       "canonicalToken": "A6Vld2dJToRXs8xhq0wcGdiRnDc",
@@ -1509,15 +1509,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "T9Jqd5JfdoW5Jxxwx1eckCOCn6c",
-      "title": "addPrivilegesToGroup()",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "TCw7d7brCovAUpxA5D8cjOIGn1b",
       "title": "refreshLoad()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-refreshLoad.md",
@@ -1800,6 +1791,15 @@
       "canonicalToken": "Xl3QdxmFxo3MNCxWlrxc9jFbnFc",
       "title": "get()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-get.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "XneodrTwUor8bBxjJBPcJR8snCg",
+      "title": "addPrivilegesToGroup()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
