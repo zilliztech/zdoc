@@ -164,24 +164,6 @@ module.exports = [
       },
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-Collections/v2-Collections-dropAlias",
-        "label": "dropAlias()",
-        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-dropalias"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Collections/v2-Collections-dropCollection",
-        "label": "dropCollection()",
-        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-dropcollection"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Collections/v2-Collections-dropCollectionProperties",
-        "label": "dropCollectionProperties()",
-        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-dropcollectionproperties"
-      },
-      {
-        "type": "doc",
         "id": "api/java/java/v2/v2-Collections/v2-Collections-FieldSchema",
         "label": "FieldSchema",
         "key": "doc:api/java/java/v2/v2-Collections/v2-collections-fieldschema"
@@ -194,39 +176,9 @@ module.exports = [
       },
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-Collections/v2-Collections-hasCollection",
-        "label": "hasCollection()",
-        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-hascollection"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Collections/v2-Collections-listAliases",
-        "label": "listAliases()",
-        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-listaliases"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Collections/v2-Collections-listCollections",
-        "label": "listCollections()",
-        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-listcollections"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Collections/v2-Collections-renameCollection",
-        "label": "renameCollection()",
-        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-renamecollection"
-      },
-      {
-        "type": "doc",
         "id": "api/java/java/v2/v2-Collections/v2-Collections-CreateSchema",
         "label": "CreateSchema()",
         "key": "doc:api/java/java/v2/v2-Collections/v2-collections-createschema"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Collections/v2-Collections-dropCollectionFieldProperties",
-        "label": "dropCollectionFieldProperties()",
-        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-dropcollectionfieldproperties"
       },
       {
         "type": "doc",
@@ -383,92 +335,6 @@ module.exports = [
       },
       {
         "type": "category",
-        "label": "LocalBulkWriter",
-        "key": "category:api/java/java/v2/v2-DataImport/v2-dataimport-localbulkwriter",
-        "items": [
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-close",
-            "label": "close()",
-            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-localbulkwriter-close"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-commit",
-            "label": "commit()",
-            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-localbulkwriter-commit"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-getBatchFiles",
-            "label": "getBatchFiles()",
-            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-localbulkwriter-getbatchfiles"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-DataImport-LocalBulkWriter",
-            "label": "LocalBulkWriter",
-            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-dataimport-localbulkwriter"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-appendRow",
-            "label": "appendRow()",
-            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-localbulkwriter-appendrow"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-getTotalRowCount",
-            "label": "getTotalRowCount()",
-            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-localbulkwriter-gettotalrowcount"
-          }
-        ]
-      },
-      {
-        "type": "category",
-        "label": "RemoteBulkWriter",
-        "key": "category:api/java/java/v2/v2-DataImport/v2-dataimport-remotebulkwriter",
-        "items": [
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-close",
-            "label": "close()",
-            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-remotebulkwriter-close"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-commit",
-            "label": "commit()",
-            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-remotebulkwriter-commit"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-getBatchFiles",
-            "label": "getBatchFiles()",
-            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-remotebulkwriter-getbatchfiles"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-DataImport-RemoteBulkWriter",
-            "label": "RemoteBulkWriter",
-            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-dataimport-remotebulkwriter"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-appendRow",
-            "label": "appendRow()",
-            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-remotebulkwriter-appendrow"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-getTotalRowCount",
-            "label": "getTotalRowCount()",
-            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-remotebulkwriter-gettotalrowcount"
-          }
-        ]
-      },
-      {
-        "type": "category",
         "label": "VolumeBulkWriter",
         "key": "category:api/java/java/v2/v2-DataImport/v2-dataimport-volumebulkwriter",
         "items": [
@@ -550,36 +416,6 @@ module.exports = [
     "items": [
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-Management/v2-Management-alterIndexProperties",
-        "label": "alterIndexProperties()",
-        "key": "doc:api/java/java/v2/v2-Management/v2-management-alterindexproperties"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Management/v2-Management-compact",
-        "label": "compact()",
-        "key": "doc:api/java/java/v2/v2-Management/v2-management-compact"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Management/v2-Management-createIndex",
-        "label": "createIndex()",
-        "key": "doc:api/java/java/v2/v2-Management/v2-management-createindex"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Management/v2-Management-describeIndex",
-        "label": "describeIndex()",
-        "key": "doc:api/java/java/v2/v2-Management/v2-management-describeindex"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Management/v2-Management-dropIndex",
-        "label": "dropIndex()",
-        "key": "doc:api/java/java/v2/v2-Management/v2-management-dropindex"
-      },
-      {
-        "type": "doc",
         "id": "api/java/java/v2/v2-Management/v2-Management-dropIndexProperties",
         "label": "dropIndexProperties()",
         "key": "doc:api/java/java/v2/v2-Management/v2-management-dropindexproperties"
@@ -595,18 +431,6 @@ module.exports = [
         "id": "api/java/java/v2/v2-Management/v2-Management-getLoadState",
         "label": "getLoadState()",
         "key": "doc:api/java/java/v2/v2-Management/v2-management-getloadstate"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Management/v2-Management-IndexParam",
-        "label": "IndexParam",
-        "key": "doc:api/java/java/v2/v2-Management/v2-management-indexparam"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Management/v2-Management-IndexType",
-        "label": "IndexType",
-        "key": "doc:api/java/java/v2/v2-Management/v2-management-indextype"
       },
       {
         "type": "doc",
@@ -870,12 +694,6 @@ module.exports = [
         "items": [
           {
             "type": "doc",
-            "id": "api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-FunctionScore-addFunction",
-            "label": "addFunction()",
-            "key": "doc:api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-functionscore-addfunction"
-          },
-          {
-            "type": "doc",
             "id": "api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-Vector-FunctionScore",
             "label": "FunctionScore",
             "key": "doc:api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-vector-functionscore"
@@ -904,18 +722,6 @@ module.exports = [
             "id": "api/java/java/v2/v2-Vector/v2-Vector-Highlighter/v2-Vector-Highlighter",
             "label": "Highlighter",
             "key": "doc:api/java/java/v2/v2-Vector/v2-Vector-Highlighter/v2-vector-highlighter"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-Vector/v2-Vector-Highlighter/v2-Highlighter-LexicalHighlighter",
-            "label": "LexicalHighlighter",
-            "key": "doc:api/java/java/v2/v2-Vector/v2-Vector-Highlighter/v2-highlighter-lexicalhighlighter"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-Vector/v2-Vector-Highlighter/v2-Highlighter-SemanticHighlighter",
-            "label": "SemanticHighlighter",
-            "key": "doc:api/java/java/v2/v2-Vector/v2-Vector-Highlighter/v2-highlighter-semantichighlighter"
           }
         ]
       },
@@ -1019,48 +825,6 @@ module.exports = [
     "label": "Database",
     "key": "category:api/java/java/v2/v2-database",
     "items": [
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Database/v2-Database-alterDatabaseProperties",
-        "label": "alterDatabaseProperties()",
-        "key": "doc:api/java/java/v2/v2-Database/v2-database-alterdatabaseproperties"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Database/v2-Database-createDatabase",
-        "label": "createDatabase()",
-        "key": "doc:api/java/java/v2/v2-Database/v2-database-createdatabase"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Database/v2-Database-describeDatabase",
-        "label": "describeDatabase()",
-        "key": "doc:api/java/java/v2/v2-Database/v2-database-describedatabase"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Database/v2-Database-dropDatabase",
-        "label": "dropDatabase()",
-        "key": "doc:api/java/java/v2/v2-Database/v2-database-dropdatabase"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Database/v2-Database-dropDatabaseProperties",
-        "label": "dropDatabaseProperties()",
-        "key": "doc:api/java/java/v2/v2-Database/v2-database-dropdatabaseproperties"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Database/v2-Database-listDatabases",
-        "label": "listDatabases()",
-        "key": "doc:api/java/java/v2/v2-Database/v2-database-listdatabases"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Database/v2-Database-useDatabase",
-        "label": "useDatabase()",
-        "key": "doc:api/java/java/v2/v2-Database/v2-database-usedatabase"
-      },
       {
         "type": "doc",
         "id": "api/java/java/v2/v2-Database/v2-Database-currentUsedDatabase",

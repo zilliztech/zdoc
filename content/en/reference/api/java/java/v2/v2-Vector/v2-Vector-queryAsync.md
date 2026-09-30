@@ -10,7 +10,7 @@ notebook: false
 description: "This operation queries entities asynchronously with a scalar filter, a primary-key list, or both. Use it when query latency should not block the caller thread. | Java | v2"
 type: docx
 token: PWzJdbh5ZoT8K7xo1j4cbvNsnWe
-sidebar_position: 16
+sidebar_position: 18
 keywords: 
   - Context Window
   - Natural language search

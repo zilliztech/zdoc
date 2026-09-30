@@ -10,7 +10,7 @@ notebook: false
 description: "This operation returns the name of the database currently being used by this client. | Java | v2"
 type: docx
 token: UCpTdpkNEoHDyjxxCqqcZLSXnAe
-sidebar_position: 8
+sidebar_position: 15
 keywords: 
   - vector db comparison
   - openai vector db

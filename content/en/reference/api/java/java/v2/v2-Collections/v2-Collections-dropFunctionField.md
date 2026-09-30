@@ -10,7 +10,7 @@ notebook: false
 description: "Drops a function and the output field owned by that function. | Java | v2"
 type: docx
 token: LUUvdGTqrog0AIxfea7cc9a1nCd
-sidebar_position: 40
+sidebar_position: 43
 keywords: 
   - what are vector databases
   - vector databases comparison
