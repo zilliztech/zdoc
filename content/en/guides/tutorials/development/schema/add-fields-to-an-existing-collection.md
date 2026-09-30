@@ -16,7 +16,8 @@ displayed_sidebar: default
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Alter Collection Schema
 
@@ -102,6 +103,9 @@ Scalar filter expressions do not match `NULL` scalar values. For details, refer 
 
 The following example adds a nullable `source` field to an existing collection named `product_catalog`.
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 from pymilvus import DataType, MilvusClient
 
@@ -118,11 +122,271 @@ client.add_collection_field(
 # highlight-end
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.client.ConnectConfig;
+
+import io.milvus.v2.client.MilvusClientV2;
+
+import io.milvus.v2.common.DataType;
+
+import io.milvus.v2.service.collection.request.AddCollectionFieldReq;
+
+public class AddNullableScalarField {
+
+    public static void main(String[] args) {
+
+        ConnectConfig connectConfig = ConnectConfig.builder()
+
+                .uri("YOUR_CLUSTER_ENDPOINT")
+
+                .build();
+
+        MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+        client.addCollectionField(AddCollectionFieldReq.builder()
+
+                .collectionName("product_catalog")
+
+                .fieldName("source")
+
+                .dataType(DataType.VarChar)
+
+                .maxLength(128)
+
+                .isNullable(true)
+
+                .build());
+
+        client.close();
+
+    }
+
+}
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+package main
+
+import (
+
+    "context"
+
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+
+)
+
+func main() {
+
+    ctx := context.Background()
+
+    cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+
+        Address: "YOUR_CLUSTER_ENDPOINT",
+
+    })
+
+    if err != nil {
+
+        log.Fatal("failed to connect to milvus server: ", err.Error())
+
+    }
+
+    newField := entity.NewField().
+
+        WithName("source").
+
+        WithDataType(entity.FieldTypeVarChar).
+
+        WithNullable(true).
+
+        WithMaxLength(128)
+
+    err = cli.AddCollectionField(ctx, milvusclient.NewAddCollectionFieldOption("product_catalog", newField))
+
+    if err != nil {
+
+        log.Fatal("failed to add field: ", err.Error())
+
+    }
+
+}
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+
+async fn main() -> Result<()> {
+
+    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
+
+    let client = ClientV2::new(&config).await?;
+
+    client
+
+        .add_collection_field(
+
+            AddCollectionFieldRequest::builder()
+
+                .collection_name("product_catalog")
+
+                .field(
+
+                    FieldSchema::new()
+
+                        .name("source")
+
+                        .data_type(DataType::VarChar)
+
+                        .max_length(128)
+
+                        .nullable(true),
+
+                )
+
+                .build()?,
+
+        )
+
+        .await?;
+
+    Ok(())
+
+}
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+
+#include "milvus/MilvusClientV2.h"
+
+int main() {
+
+    auto client = milvus::MilvusClientV2::Create();
+
+    auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT"));
+
+    if (!status.IsOk()) {
+
+        std::cout << status.Message() << std::endl;
+
+    }
+
+    milvus::FieldSchema field = milvus::FieldSchema("source", milvus::DataType::VARCHAR)
+
+                                    .WithMaxLength(128)
+
+                                    .WithNullable(true);
+
+    status = client->AddCollectionField(
+
+        milvus::AddCollectionFieldRequest().WithCollectionName("product_catalog").WithField(std::move(field)));
+
+    if (!status.IsOk()) {
+
+        std::cout << status.Message() << std::endl;
+
+    }
+
+    return 0;
+
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
+
+await client.addCollectionField({
+
+    collection_name: "product_catalog",
+
+    field: {
+
+        name: "source",
+
+        data_type: "VarChar",
+
+        max_length: 128,
+
+        nullable: true,
+
+    },
+
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+
+     --url YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/fields/add \
+
+     --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+
+     --header "Content-Type: application/json" \
+
+     -d '{
+
+       "collectionName": "product_catalog",
+
+       "schema": {
+
+         "fieldName": "source",
+
+         "dataType": "VarChar",
+
+         "nullable": true,
+
+         "elementTypeParams": {
+
+           "max_length": 128
+
+         }
+
+       }
+
+     }'
+```
+
+</TabItem>
+</Tabs>
+
 After the field is added, entities that already existed in the collection return `NULL` for `source`. New entities can set `source` during insert or upsert.
 
 **Example: Add a scalar field with a default value**
 
 If existing entities should return a concrete value instead of `NULL`, specify `default_value` when adding the field. The following example adds a `review_status` field and uses `"unreviewed"` as the default value.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 from pymilvus import DataType, MilvusClient
@@ -141,6 +405,275 @@ client.add_collection_field(
 # highlight-end
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.client.ConnectConfig;
+
+import io.milvus.v2.client.MilvusClientV2;
+
+import io.milvus.v2.common.DataType;
+
+import io.milvus.v2.service.collection.request.AddCollectionFieldReq;
+
+public class AddScalarFieldWithDefault {
+
+    public static void main(String[] args) {
+
+        ConnectConfig connectConfig = ConnectConfig.builder()
+
+                .uri("YOUR_CLUSTER_ENDPOINT")
+
+                .build();
+
+        MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+        client.addCollectionField(AddCollectionFieldReq.builder()
+
+                .collectionName("product_catalog")
+
+                .fieldName("review_status")
+
+                .dataType(DataType.VarChar)
+
+                .maxLength(32)
+
+                .isNullable(true)
+
+                .defaultValue("unreviewed")
+
+                .build());
+
+        client.close();
+
+    }
+
+}
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+package main
+
+import (
+
+    "context"
+
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+
+)
+
+func main() {
+
+    ctx := context.Background()
+
+    cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+
+        Address: "YOUR_CLUSTER_ENDPOINT",
+
+    })
+
+    if err != nil {
+
+        log.Fatal("failed to connect to milvus server: ", err.Error())
+
+    }
+
+    newField := entity.NewField().
+
+        WithName("review_status").
+
+        WithDataType(entity.FieldTypeVarChar).
+
+        WithNullable(true).
+
+        WithMaxLength(32).
+
+        WithDefaultValueString("unreviewed")
+
+    err = cli.AddCollectionField(ctx, milvusclient.NewAddCollectionFieldOption("product_catalog", newField))
+
+    if err != nil {
+
+        log.Fatal("failed to add field: ", err.Error())
+
+    }
+
+}
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+
+async fn main() -> Result<()> {
+
+    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
+
+    let client = ClientV2::new(&config).await?;
+
+    client
+
+        .add_collection_field(
+
+            AddCollectionFieldRequest::builder()
+
+                .collection_name("product_catalog")
+
+                .field(
+
+                    FieldSchema::new()
+
+                        .name("review_status")
+
+                        .data_type(DataType::VarChar)
+
+                        .max_length(32)
+
+                        .nullable(true)
+
+                        .default_value(DefaultValue::String("unreviewed".into())),
+
+                )
+
+                .build()?,
+
+        )
+
+        .await?;
+
+    Ok(())
+
+}
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+
+#include "milvus/MilvusClientV2.h"
+
+int main() {
+
+    auto client = milvus::MilvusClientV2::Create();
+
+    auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT"));
+
+    if (!status.IsOk()) {
+
+        std::cout << status.Message() << std::endl;
+
+    }
+
+    milvus::FieldSchema field = milvus::FieldSchema("review_status", milvus::DataType::VARCHAR)
+
+                                    .WithMaxLength(32)
+
+                                    .WithNullable(true)
+
+                                    .WithDefaultValue("unreviewed");
+
+    status = client->AddCollectionField(
+
+        milvus::AddCollectionFieldRequest().WithCollectionName("product_catalog").WithField(std::move(field)));
+
+    if (!status.IsOk()) {
+
+        std::cout << status.Message() << std::endl;
+
+    }
+
+    return 0;
+
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
+
+await client.addCollectionField({
+
+    collection_name: "product_catalog",
+
+    field: {
+
+        name: "review_status",
+
+        data_type: "VarChar",
+
+        max_length: 32,
+
+        nullable: true,
+
+        default_value: "unreviewed",
+
+    },
+
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+
+     --url YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/fields/add \
+
+     --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+
+     --header "Content-Type: application/json" \
+
+     -d '{
+
+       "collectionName": "product_catalog",
+
+       "schema": {
+
+         "fieldName": "review_status",
+
+         "dataType": "VarChar",
+
+         "nullable": true,
+
+         "defaultValue": "unreviewed",
+
+         "elementTypeParams": {
+
+           "max_length": 32
+
+         }
+
+       }
+
+     }'
+```
+
+</TabItem>
+</Tabs>
+
 After the field is added, entities that already existed in the collection return `"unreviewed"` for `review_status`. New entities can set a different value or use the default value when no value is provided.
 
 ### Add StructArray fields\{#add-structarray-fields}
@@ -154,6 +687,9 @@ Use `add_collection_struct_field()` to add a StructArray field that accepts arra
 1. Set `nullable` to `True` in the request.
 
 **Example: Add a nullable StructArray field**
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 from pymilvus import DataType, MilvusClient
@@ -182,6 +718,395 @@ client.add_collection_struct_field(
 # highlight-end
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.client.ConnectConfig;
+
+import io.milvus.v2.client.MilvusClientV2;
+
+import io.milvus.v2.common.DataType;
+
+import io.milvus.v2.service.collection.request.AddCollectionStructFieldReq;
+
+import io.milvus.v2.service.collection.request.AddFieldReq;
+
+import java.util.Collections;
+
+import java.util.Map;
+
+public class AddStructArrayField {
+
+    public static void main(String[] args) {
+
+        ConnectConfig connectConfig = ConnectConfig.builder()
+
+                .uri("YOUR_CLUSTER_ENDPOINT")
+
+                .build();
+
+        MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+        // Create a struct schema and add its subfields
+
+        // add a vector subfield with mmap enabled
+
+        Map<String, String> mmapParams = Collections.singletonMap("mmap.enabled", "true");
+
+        client.addCollectionStructField(AddCollectionStructFieldReq.builder()
+
+                .collectionName("books")
+
+                .fieldName("chunks")
+
+                .maxCapacity(1024)
+
+                .addStructField(AddFieldReq.builder()
+
+                        .fieldName("text")
+
+                        .dataType(DataType.VarChar)
+
+                        .maxLength(65535)
+
+                        .build())
+
+                .addStructField(AddFieldReq.builder()
+
+                        .fieldName("chapter")
+
+                        .dataType(DataType.VarChar)
+
+                        .maxLength(512)
+
+                        .build())
+
+                .addStructField(AddFieldReq.builder()
+
+                        .fieldName("text_vector")
+
+                        .dataType(DataType.FloatVector)
+
+                        .dimension(5)
+
+                        .typeParams(mmapParams)
+
+                        .build())
+
+                .addStructField(AddFieldReq.builder()
+
+                        .fieldName("chapter_vector")
+
+                        .dataType(DataType.FloatVector)
+
+                        .dimension(5)
+
+                        .typeParams(mmapParams)
+
+                        .build())
+
+                .build());
+
+        client.close();
+
+    }
+
+}
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+package main
+
+import (
+
+    "context"
+
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+
+)
+
+func main() {
+
+    ctx := context.Background()
+
+    cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+
+        Address: "YOUR_CLUSTER_ENDPOINT",
+
+    })
+
+    if err != nil {
+
+        log.Fatal("failed to connect to milvus server: ", err.Error())
+
+    }
+
+    // Create a struct schema and add its subfields
+
+    // add a vector subfield with mmap enabled
+
+    structSchema := entity.NewStructSchema().
+
+        WithField(entity.NewField().WithName("text").WithDataType(entity.FieldTypeVarChar).WithMaxLength(65535)).
+
+        WithField(entity.NewField().WithName("chapter").WithDataType(entity.FieldTypeVarChar).WithMaxLength(512)).
+
+        WithField(entity.NewField().WithName("text_vector").WithDataType(entity.FieldTypeFloatVector).WithDim(5).WithTypeParams("mmap.enabled", "true")).
+
+        WithField(entity.NewField().WithName("chapter_vector").WithDataType(entity.FieldTypeFloatVector).WithDim(5).WithTypeParams("mmap.enabled", "true"))
+
+    newField := entity.NewField().
+
+        WithName("chunks").
+
+        WithDataType(entity.FieldTypeArray).
+
+        WithElementType(entity.FieldTypeStruct).
+
+        WithNullable(true).
+
+        WithMaxCapacity(1024).
+
+        WithStructSchema(structSchema)
+
+    err = cli.AddCollectionStructField(ctx, milvusclient.NewAddCollectionStructFieldOption("books", newField))
+
+    if err != nil {
+
+        log.Fatal("failed to add struct field: ", err.Error())
+
+    }
+
+}
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+
+async fn main() -> Result<()> {
+
+    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
+
+    let client = ClientV2::new(&config).await?;
+
+    // Create a struct schema and add its subfields
+
+    // add a vector subfield with mmap enabled
+
+    let struct_schema = StructFieldSchema::new()
+
+        .name("chunks")
+
+        .max_capacity(1024)
+
+        .nullable(true)
+
+        .add_field(
+
+            FieldSchema::new()
+
+                .name("text")
+
+                .data_type(DataType::VarChar)
+
+                .max_length(65535),
+
+        )
+
+        .add_field(
+
+            FieldSchema::new()
+
+                .name("chapter")
+
+                .data_type(DataType::VarChar)
+
+                .max_length(512),
+
+        )
+
+        .add_field(
+
+            FieldSchema::new()
+
+                .name("text_vector")
+
+                .data_type(DataType::FloatVector)
+
+                .dimension(5)
+
+                .type_params(
+
+                    std::collections::HashMap::from([("mmap.enabled".to_string(), "true".to_string())]),
+
+                ),
+
+        )
+
+        .add_field(
+
+            FieldSchema::new()
+
+                .name("chapter_vector")
+
+                .data_type(DataType::FloatVector)
+
+                .dimension(5)
+
+                .type_params(
+
+                    std::collections::HashMap::from([("mmap.enabled".to_string(), "true".to_string())]),
+
+                ),
+
+        );
+
+    client
+
+        .add_collection_struct_field(
+
+            AddCollectionStructFieldRequest::builder()
+
+                .collection_name("books")
+
+                .struct_field(struct_schema)
+
+                .build()?,
+
+        )
+
+        .await?;
+
+    Ok(())
+
+}
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+
+#include "milvus/MilvusClientV2.h"
+
+int main() {
+
+    auto client = milvus::MilvusClientV2::Create();
+
+    auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT"));
+
+    if (!status.IsOk()) {
+
+        std::cout << status.Message() << std::endl;
+
+    }
+
+    // Create a struct schema and add its subfields
+
+    // add a vector subfield with mmap enabled
+
+    milvus::StructFieldSchema struct_schema = milvus::StructFieldSchema("chunks")
+
+                                                  .WithMaxCapacity(1024)
+
+                                                  .WithNullable(true)
+
+                                                  .AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR).WithMaxLength(65535))
+
+                                                  .AddField(milvus::FieldSchema("chapter", milvus::DataType::VARCHAR).WithMaxLength(512))
+
+                                                  .AddField(milvus::FieldSchema("text_vector", milvus::DataType::FLOAT_VECTOR).WithDimension(5))
+
+                                                  .AddField(milvus::FieldSchema("chapter_vector", milvus::DataType::FLOAT_VECTOR).WithDimension(5));
+
+    status = client->AddCollectionStructField(
+
+        milvus::AddCollectionStructFieldRequest().WithCollectionName("books").WithStructField(std::move(struct_schema)));
+
+    if (!status.IsOk()) {
+
+        std::cout << status.Message() << std::endl;
+
+    }
+
+    return 0;
+
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
+
+// Create a struct schema and add its subfields
+
+// add a vector subfield with mmap enabled
+
+await client.addCollectionField({
+
+    collection_name: "books",
+
+    field: {
+
+        name: "chunks",
+
+        data_type: "Array",
+
+        element_type: "Struct",
+
+        max_capacity: 1024,
+
+        nullable: true,
+
+        fields: [
+
+            { name: "text", data_type: "VarChar", max_length: 65535 },
+
+            { name: "chapter", data_type: "VarChar", max_length: 512 },
+
+            { name: "text_vector", data_type: "FloatVector", dim: 5 },
+
+            { name: "chapter_vector", data_type: "FloatVector", dim: 5 },
+
+        ],
+
+    },
+
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# Note: The REST API does not expose a StructArray add-field operation as of v3.0.x. Use the gRPC SDKs instead.
+```
+
+</TabItem>
+</Tabs>
+
 After the StructArray field is added, entities that already exist in the collection return null for `chunks` across all its subfields. When you insert a new entity, ensure that all subfields are either null or have valid values. Inserting an entity with some subfields set to null and others to valid values results in errors.
 
 ### Add user-defined vector fields\{#add-user-defined-vector-fields}
@@ -193,6 +1118,9 @@ Every added user-defined vector field must be nullable. Existing entities have `
 **Example: Add a nullable vector field**
 
 The following example adds a nullable dense vector field named `embedding_v2` to an existing collection. Set `dim` to the dimensionality of the embeddings generated by your application.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 from pymilvus import DataType, MilvusClient
@@ -210,7 +1138,267 @@ client.add_collection_field(
 # highlight-end
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.client.ConnectConfig;
+
+import io.milvus.v2.client.MilvusClientV2;
+
+import io.milvus.v2.common.DataType;
+
+import io.milvus.v2.service.collection.request.AddCollectionFieldReq;
+
+public class AddNullableVectorField {
+
+    public static void main(String[] args) {
+
+        ConnectConfig connectConfig = ConnectConfig.builder()
+
+                .uri("YOUR_CLUSTER_ENDPOINT")
+
+                .build();
+
+        MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+        client.addCollectionField(AddCollectionFieldReq.builder()
+
+                .collectionName("product_catalog")
+
+                .fieldName("embedding_v2")
+
+                .dataType(DataType.FloatVector)
+
+                .dimension(768)
+
+                .isNullable(true)
+
+                .build());
+
+        client.close();
+
+    }
+
+}
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+package main
+
+import (
+
+    "context"
+
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+
+)
+
+func main() {
+
+    ctx := context.Background()
+
+    cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+
+        Address: "YOUR_CLUSTER_ENDPOINT",
+
+    })
+
+    if err != nil {
+
+        log.Fatal("failed to connect to milvus server: ", err.Error())
+
+    }
+
+    newField := entity.NewField().
+
+        WithName("embedding_v2").
+
+        WithDataType(entity.FieldTypeFloatVector).
+
+        WithNullable(true).
+
+        WithDim(768)
+
+    err = cli.AddCollectionField(ctx, milvusclient.NewAddCollectionFieldOption("product_catalog", newField))
+
+    if err != nil {
+
+        log.Fatal("failed to add field: ", err.Error())
+
+    }
+
+}
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+
+async fn main() -> Result<()> {
+
+    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
+
+    let client = ClientV2::new(&config).await?;
+
+    client
+
+        .add_collection_field(
+
+            AddCollectionFieldRequest::builder()
+
+                .collection_name("product_catalog")
+
+                .field(
+
+                    FieldSchema::new()
+
+                        .name("embedding_v2")
+
+                        .data_type(DataType::FloatVector)
+
+                        .dimension(768)
+
+                        .nullable(true),
+
+                )
+
+                .build()?,
+
+        )
+
+        .await?;
+
+    Ok(())
+
+}
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+
+#include "milvus/MilvusClientV2.h"
+
+int main() {
+
+    auto client = milvus::MilvusClientV2::Create();
+
+    auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT"));
+
+    if (!status.IsOk()) {
+
+        std::cout << status.Message() << std::endl;
+
+    }
+
+    milvus::FieldSchema field = milvus::FieldSchema("embedding_v2", milvus::DataType::FLOAT_VECTOR)
+
+                                    .WithDimension(768)
+
+                                    .WithNullable(true);
+
+    status = client->AddCollectionField(
+
+        milvus::AddCollectionFieldRequest().WithCollectionName("product_catalog").WithField(std::move(field)));
+
+    if (!status.IsOk()) {
+
+        std::cout << status.Message() << std::endl;
+
+    }
+
+    return 0;
+
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
+
+await client.addCollectionField({
+
+    collection_name: "product_catalog",
+
+    field: {
+
+        name: "embedding_v2",
+
+        data_type: "FloatVector",
+
+        dim: 768,
+
+        nullable: true,
+
+    },
+
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+
+     --url YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/fields/add \
+
+     --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+
+     --header "Content-Type: application/json" \
+
+     -d '{
+
+       "collectionName": "product_catalog",
+
+       "schema": {
+
+         "fieldName": "embedding_v2",
+
+         "dataType": "FloatVector",
+
+         "nullable": true,
+
+         "elementTypeParams": {
+
+           "dim": 768
+
+         }
+
+       }
+
+     }'
+```
+
+</TabItem>
+</Tabs>
+
 After the field is added, create an index on the new vector field before searching it:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 index_params = client.prepare_index_params()
@@ -226,6 +1414,247 @@ client.create_index(
     index_params=index_params,
 )
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.client.ConnectConfig;
+
+import io.milvus.v2.client.MilvusClientV2;
+
+import io.milvus.v2.common.IndexParam;
+
+import io.milvus.v2.service.index.request.CreateIndexReq;
+
+import java.util.Collections;
+
+public class CreateVectorIndex {
+
+    public static void main(String[] args) {
+
+        ConnectConfig connectConfig = ConnectConfig.builder()
+
+                .uri("YOUR_CLUSTER_ENDPOINT")
+
+                .build();
+
+        MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+        client.createIndex(CreateIndexReq.builder()
+
+                .collectionName("product_catalog")
+
+                .indexParams(Collections.singletonList(IndexParam.builder()
+
+                        .fieldName("embedding_v2")
+
+                        .indexType(IndexParam.IndexType.AUTOINDEX)
+
+                        .metricType(IndexParam.MetricType.COSINE)
+
+                        .build()))
+
+                .build());
+
+        client.close();
+
+    }
+
+}
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+package main
+
+import (
+
+    "context"
+
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+
+    "github.com/milvus-io/milvus/client/v3/index"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+
+)
+
+func main() {
+
+    ctx := context.Background()
+
+    cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+
+        Address: "YOUR_CLUSTER_ENDPOINT",
+
+    })
+
+    if err != nil {
+
+        log.Fatal("failed to connect to milvus server: ", err.Error())
+
+    }
+
+    indexOpt := milvusclient.NewCreateIndexOption("product_catalog", "embedding_v2", index.NewAutoIndex(entity.COSINE))
+
+    err = cli.CreateIndex(ctx, indexOpt)
+
+    if err != nil {
+
+        log.Fatal("failed to create index: ", err.Error())
+
+    }
+
+}
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+
+async fn main() -> Result<()> {
+
+    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
+
+    let client = ClientV2::new(&config).await?;
+
+    client
+
+        .create_index(
+
+            CreateIndexRequest::builder()
+
+                .collection_name("product_catalog")
+
+                .index_param(
+
+                    IndexParam::new()
+
+                        .field_name("embedding_v2")
+
+                        .index_type(IndexType::AutoIndex)
+
+                        .metric_type(MetricType::Cosine),
+
+                )
+
+                .build()?,
+
+        )
+
+        .await?;
+
+    Ok(())
+
+}
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+
+#include "milvus/MilvusClientV2.h"
+
+int main() {
+
+    auto client = milvus::MilvusClientV2::Create();
+
+    auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT"));
+
+    if (!status.IsOk()) {
+
+        std::cout << status.Message() << std::endl;
+
+    }
+
+    milvus::IndexDesc index_desc("embedding_v2", "", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE);
+
+    status = client->CreateIndex(
+
+        milvus::CreateIndexRequest().WithCollectionName("product_catalog").AddIndex(std::move(index_desc)));
+
+    if (!status.IsOk()) {
+
+        std::cout << status.Message() << std::endl;
+
+    }
+
+    return 0;
+
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
+
+await client.createIndex({
+
+    collection_name: "product_catalog",
+
+    field_name: "embedding_v2",
+
+    index_type: "AUTOINDEX",
+
+    metric_type: "COSINE",
+
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+
+     --url YOUR_CLUSTER_ENDPOINT/v2/vectordb/indexes/create \
+
+     --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+
+     --header "Content-Type: application/json" \
+
+     -d '{
+
+       "collectionName": "product_catalog",
+
+       "indexParams": [
+
+         {
+
+           "fieldName": "embedding_v2",
+
+           "indexType": "AUTOINDEX",
+
+           "metricType": "COSINE"
+
+         }
+
+       ]
+
+     }'
+```
+
+</TabItem>
+</Tabs>
 
 Existing entities have `NULL` for `embedding_v2` and are skipped when you search on this field. To make existing entities searchable through `embedding_v2`, write non-NULL vector values through upsert workflows. New entities can include `embedding_v2` during insert.
 
@@ -255,6 +1684,9 @@ The generated vector field must not already exist in the collection, and it cann
 **Example: Add a BM25 Function and its generated sparse vector field**
 
 The following example adds a BM25 Function named `text_bm25` and its generated sparse vector field named `text_sparse` to an existing collection. The collection must already have a `VARCHAR` field named `text` with analyzer enabled.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 from pymilvus import DataType, Function, FunctionType, MilvusClient
@@ -296,6 +1728,345 @@ client.add_function_field(
 )
 # highlight-end
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.common.clientenum.FunctionType;
+
+import io.milvus.v2.client.ConnectConfig;
+
+import io.milvus.v2.client.MilvusClientV2;
+
+import io.milvus.v2.common.DataType;
+
+import io.milvus.v2.common.IndexParam;
+
+import io.milvus.v2.service.collection.request.AddFunctionFieldReq;
+
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+
+import java.util.Collections;
+
+public class AddBm25Function {
+
+    public static void main(String[] args) {
+
+        ConnectConfig connectConfig = ConnectConfig.builder()
+
+                .uri("YOUR_CLUSTER_ENDPOINT")
+
+                .build();
+
+        MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+        // Add a BM25 function, its generated sparse vector field, and the bound index
+
+        client.addFunctionField(AddFunctionFieldReq.builder()
+
+                .collectionName("product_catalog")
+
+                .fieldName("text_sparse")
+
+                .dataType(DataType.SparseFloatVector)
+
+                .indexParam(IndexParam.builder()
+
+                        .fieldName("text_sparse")
+
+                        .indexType(IndexParam.IndexType.SPARSE_INVERTED_INDEX)
+
+                        .metricType(IndexParam.MetricType.BM25)
+
+                        .build())
+
+                .function(CreateCollectionReq.Function.builder()
+
+                        .name("text_bm25")
+
+                        .functionType(FunctionType.BM25)
+
+                        .inputFieldNames(Collections.singletonList("text"))
+
+                        .outputFieldNames(Collections.singletonList("text_sparse"))
+
+                        .build())
+
+                .build());
+
+        client.close();
+
+    }
+
+}
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+package main
+
+import (
+
+    "context"
+
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+
+    "github.com/milvus-io/milvus/client/v3/index"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+
+)
+
+func main() {
+
+    ctx := context.Background()
+
+    cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+
+        Address: "YOUR_CLUSTER_ENDPOINT",
+
+    })
+
+    if err != nil {
+
+        log.Fatal("failed to connect to milvus server: ", err.Error())
+
+    }
+
+    // Add a BM25 function, its generated sparse vector field, and the bound index
+
+    field := entity.NewField().
+
+        WithName("text_sparse").
+
+        WithDataType(entity.FieldTypeSparseVector)
+
+    function := entity.NewFunction().
+
+        WithName("text_bm25").
+
+        WithType(entity.FunctionTypeBM25).
+
+        WithInputFields("text").
+
+        WithOutputFields("text_sparse")
+
+    boundIndex := index.NewSparseInvertedIndex(entity.BM25, 0.2)
+
+    err = cli.AddFunctionField(ctx, milvusclient.NewAddFunctionFieldOption("product_catalog", field, function, boundIndex))
+
+    if err != nil {
+
+        log.Fatal("failed to add function field: ", err.Error())
+
+    }
+
+}
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+
+async fn main() -> Result<()> {
+
+    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
+
+    let client = ClientV2::new(&config).await?;
+
+    // Add a BM25 function, its generated sparse vector field, and the bound index
+
+    client
+
+        .add_function_field(
+
+            AddFunctionFieldRequest::builder()
+
+                .collection_name("product_catalog")
+
+                .field(
+
+                    FieldSchema::new()
+
+                        .name("text_sparse")
+
+                        .data_type(DataType::SparseFloatVector),
+
+                )
+
+                .function(
+
+                    Function::new()
+
+                        .name("text_bm25")
+
+                        .function_type(FunctionType::Bm25)
+
+                        .input_fields(["text"])
+
+                        .output_fields(["text_sparse"]),
+
+                )
+
+                .index(
+
+                    IndexParam::new()
+
+                        .field_name("text_sparse")
+
+                        .index_type(IndexType::SparseInvertedIndex)
+
+                        .metric_type(MetricType::Bm25),
+
+                )
+
+                .build()?,
+
+        )
+
+        .await?;
+
+    Ok(())
+
+}
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+
+#include "milvus/MilvusClientV2.h"
+
+int main() {
+
+    auto client = milvus::MilvusClientV2::Create();
+
+    auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT"));
+
+    if (!status.IsOk()) {
+
+        std::cout << status.Message() << std::endl;
+
+    }
+
+    // Add a BM25 function, its generated sparse vector field, and the bound index
+
+    milvus::FieldSchema sparse_field("text_sparse", milvus::DataType::SPARSE_FLOAT_VECTOR);
+
+    milvus::FunctionPtr function = std::make_shared<milvus::Function>("text_bm25", milvus::FunctionType::BM25);
+
+    function->AddInputFieldName("text");
+
+    function->AddOutputFieldName("text_sparse");
+
+    milvus::IndexDesc index("text_sparse", "", milvus::IndexType::SPARSE_INVERTED_INDEX, milvus::MetricType::BM25);
+
+    status = client->AddFunctionField(milvus::AddFunctionFieldRequest()
+
+                                          .WithCollectionName("product_catalog")
+
+                                          .WithField(std::move(sparse_field))
+
+                                          .WithFunction(function)
+
+                                          .WithIndex(std::move(index)));
+
+    if (!status.IsOk()) {
+
+        std::cout << status.Message() << std::endl;
+
+    }
+
+    return 0;
+
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
+
+// Add a BM25 function, its generated sparse vector field, and the bound index
+
+await client.addFunctionField({
+
+    collection_name: "product_catalog",
+
+    field: {
+
+        name: "text_sparse",
+
+        data_type: "SparseFloatVector",
+
+    },
+
+    function: {
+
+        name: "text_bm25",
+
+        type: "BM25",
+
+        input_field_names: ["text"],
+
+        output_field_names: ["text_sparse"],
+
+    },
+
+    extra_params: {
+
+        index_type: "SPARSE_INVERTED_INDEX",
+
+        metric_type: "BM25",
+
+        params: {
+
+            inverted_index_algo: "DAAT_MAXSCORE",
+
+            bm25_k1: 1.2,
+
+            bm25_b: 0.75,
+
+        },
+
+    },
+
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# Note: The REST /v2/vectordb/collections/add_function endpoint maps to the
+
+# deprecated AddCollectionFunction RPC, which Milvus 3.0 rejects. Adding a
+
+# Function together with its generated vector field and bound index is not
+
+# exposed via the REST API as of v3.0.x; use the gRPC SDKs instead.
+```
+
+</TabItem>
+</Tabs>
 
 The `index_params` object must contain exactly one index definition for the new Function output field. The Function, its generated vector field, and the bound index definition are submitted in the same schema change. Do not call `create_index()` separately after `add_function_field()`.
 
@@ -343,6 +2114,9 @@ Storage cleanup is handled separately from schema cleanup. For details, refer to
 
 The following example assumes that `experiment_tag` is a user-defined scalar field in `product_catalog`, and drops it from the collection.
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 from pymilvus import MilvusClient
 
@@ -356,11 +2130,197 @@ client.drop_collection_field(
 # highlight-end
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.client.ConnectConfig;
+
+import io.milvus.v2.client.MilvusClientV2;
+
+import io.milvus.v2.service.collection.request.DropCollectionFieldReq;
+
+public class DropScalarField {
+
+    public static void main(String[] args) {
+
+        ConnectConfig connectConfig = ConnectConfig.builder()
+
+                .uri("YOUR_CLUSTER_ENDPOINT")
+
+                .build();
+
+        MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+        client.dropCollectionField(DropCollectionFieldReq.builder()
+
+                .collectionName("product_catalog")
+
+                .fieldName("experiment_tag")
+
+                .build());
+
+        client.close();
+
+    }
+
+}
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+package main
+
+import (
+
+    "context"
+
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+
+)
+
+func main() {
+
+    ctx := context.Background()
+
+    cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+
+        Address: "YOUR_CLUSTER_ENDPOINT",
+
+    })
+
+    if err != nil {
+
+        log.Fatal("failed to connect to milvus server: ", err.Error())
+
+    }
+
+    err = cli.DropCollectionField(ctx, milvusclient.NewDropCollectionFieldOption("product_catalog", "experiment_tag"))
+
+    if err != nil {
+
+        log.Fatal("failed to drop field: ", err.Error())
+
+    }
+
+}
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+
+async fn main() -> Result<()> {
+
+    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
+
+    let client = ClientV2::new(&config).await?;
+
+    client
+
+        .drop_collection_field(
+
+            DropCollectionFieldRequest::builder()
+
+                .collection_name("product_catalog")
+
+                .field_name("experiment_tag")
+
+                .build()?,
+
+        )
+
+        .await?;
+
+    Ok(())
+
+}
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+
+#include "milvus/MilvusClientV2.h"
+
+int main() {
+
+    auto client = milvus::MilvusClientV2::Create();
+
+    auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT"));
+
+    if (!status.IsOk()) {
+
+        std::cout << status.Message() << std::endl;
+
+    }
+
+    status = client->DropCollectionField(milvus::DropCollectionFieldRequest()
+
+                                             .WithCollectionName("product_catalog")
+
+                                             .WithFieldName("experiment_tag"));
+
+    if (!status.IsOk()) {
+
+        std::cout << status.Message() << std::endl;
+
+    }
+
+    return 0;
+
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
+
+await client.dropCollectionField({
+
+    collection_name: "product_catalog",
+
+    field_name: "experiment_tag",
+
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# Note: The REST API does not expose a drop-field operation as of v3.0.x. Use the gRPC SDKs instead.
+```
+
+</TabItem>
+</Tabs>
+
 After dropping a field, you can call `describe_collection()` to verify that the field is no longer part of the schema.
 
 **Example: Drop a StructArray field**
 
 The following example assumes that the `chunks` field is a StructArray field in `my_collection`, and drops it from the collection.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 from pymilvus import MilvusClient
@@ -375,11 +2335,197 @@ client.drop_collection_field(
 # highlight-end
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.client.ConnectConfig;
+
+import io.milvus.v2.client.MilvusClientV2;
+
+import io.milvus.v2.service.collection.request.DropCollectionFieldReq;
+
+public class DropStructArrayField {
+
+    public static void main(String[] args) {
+
+        ConnectConfig connectConfig = ConnectConfig.builder()
+
+                .uri("YOUR_CLUSTER_ENDPOINT")
+
+                .build();
+
+        MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+        client.dropCollectionField(DropCollectionFieldReq.builder()
+
+                .collectionName("my_collection")
+
+                .fieldName("chunks")
+
+                .build());
+
+        client.close();
+
+    }
+
+}
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+package main
+
+import (
+
+    "context"
+
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+
+)
+
+func main() {
+
+    ctx := context.Background()
+
+    cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+
+        Address: "YOUR_CLUSTER_ENDPOINT",
+
+    })
+
+    if err != nil {
+
+        log.Fatal("failed to connect to milvus server: ", err.Error())
+
+    }
+
+    err = cli.DropCollectionField(ctx, milvusclient.NewDropCollectionFieldOption("my_collection", "chunks"))
+
+    if err != nil {
+
+        log.Fatal("failed to drop field: ", err.Error())
+
+    }
+
+}
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+
+async fn main() -> Result<()> {
+
+    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
+
+    let client = ClientV2::new(&config).await?;
+
+    client
+
+        .drop_collection_field(
+
+            DropCollectionFieldRequest::builder()
+
+                .collection_name("my_collection")
+
+                .field_name("chunks")
+
+                .build()?,
+
+        )
+
+        .await?;
+
+    Ok(())
+
+}
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+
+#include "milvus/MilvusClientV2.h"
+
+int main() {
+
+    auto client = milvus::MilvusClientV2::Create();
+
+    auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT"));
+
+    if (!status.IsOk()) {
+
+        std::cout << status.Message() << std::endl;
+
+    }
+
+    status = client->DropCollectionField(milvus::DropCollectionFieldRequest()
+
+                                             .WithCollectionName("my_collection")
+
+                                             .WithFieldName("chunks"));
+
+    if (!status.IsOk()) {
+
+        std::cout << status.Message() << std::endl;
+
+    }
+
+    return 0;
+
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
+
+await client.dropCollectionField({
+
+    collection_name: "my_collection",
+
+    field_name: "chunks",
+
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# Note: The REST API does not expose a drop-field operation as of v3.0.x. Use the gRPC SDKs instead.
+```
+
+</TabItem>
+</Tabs>
+
 **Example: Drop a user-defined vector field**
 
 You can drop a vector field with the same `drop_collection_field()` method, but the collection must still contain at least one vector field after the drop. This is useful for collections that temporarily carry multiple vector representations and later standardize on one of them.
 
 The following example assumes that `image_vector` is a user-defined vector field in `hybrid_catalog`, and that the collection still retains another vector field, such as `text_vector`.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 from pymilvus import MilvusClient
@@ -394,6 +2540,189 @@ client.drop_collection_field(
 # highlight-end
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.client.ConnectConfig;
+
+import io.milvus.v2.client.MilvusClientV2;
+
+import io.milvus.v2.service.collection.request.DropCollectionFieldReq;
+
+public class DropVectorField {
+
+    public static void main(String[] args) {
+
+        ConnectConfig connectConfig = ConnectConfig.builder()
+
+                .uri("YOUR_CLUSTER_ENDPOINT")
+
+                .build();
+
+        MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+        client.dropCollectionField(DropCollectionFieldReq.builder()
+
+                .collectionName("hybrid_catalog")
+
+                .fieldName("image_vector")
+
+                .build());
+
+        client.close();
+
+    }
+
+}
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+package main
+
+import (
+
+    "context"
+
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+
+)
+
+func main() {
+
+    ctx := context.Background()
+
+    cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+
+        Address: "YOUR_CLUSTER_ENDPOINT",
+
+    })
+
+    if err != nil {
+
+        log.Fatal("failed to connect to milvus server: ", err.Error())
+
+    }
+
+    err = cli.DropCollectionField(ctx, milvusclient.NewDropCollectionFieldOption("hybrid_catalog", "image_vector"))
+
+    if err != nil {
+
+        log.Fatal("failed to drop field: ", err.Error())
+
+    }
+
+}
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+
+async fn main() -> Result<()> {
+
+    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
+
+    let client = ClientV2::new(&config).await?;
+
+    client
+
+        .drop_collection_field(
+
+            DropCollectionFieldRequest::builder()
+
+                .collection_name("hybrid_catalog")
+
+                .field_name("image_vector")
+
+                .build()?,
+
+        )
+
+        .await?;
+
+    Ok(())
+
+}
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+
+#include "milvus/MilvusClientV2.h"
+
+int main() {
+
+    auto client = milvus::MilvusClientV2::Create();
+
+    auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT"));
+
+    if (!status.IsOk()) {
+
+        std::cout << status.Message() << std::endl;
+
+    }
+
+    status = client->DropCollectionField(milvus::DropCollectionFieldRequest()
+
+                                             .WithCollectionName("hybrid_catalog")
+
+                                             .WithFieldName("image_vector"));
+
+    if (!status.IsOk()) {
+
+        std::cout << status.Message() << std::endl;
+
+    }
+
+    return 0;
+
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
+
+await client.dropCollectionField({
+
+    collection_name: "hybrid_catalog",
+
+    field_name: "image_vector",
+
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# Note: The REST API does not expose a drop-field operation as of v3.0.x. Use the gRPC SDKs instead.
+```
+
+</TabItem>
+</Tabs>
+
 If `image_vector` is the last vector field in the collection, the drop operation is rejected.
 
 ### Drop a Function and its generated vector field\{#drop-a-function-and-its-generated-vector-field}
@@ -405,6 +2734,9 @@ Call `drop_function_field()` with the Function name. The operation removes the F
 **Example: Drop a BM25 Function and its generated sparse vector field**
 
 The following example assumes that `text_bm25` is a BM25 Function in `product_catalog` and generates a sparse vector output field named `text_sparse`.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 from pymilvus import MilvusClient
@@ -418,6 +2750,195 @@ client.drop_function_field(
 )
 # highlight-end
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.client.ConnectConfig;
+
+import io.milvus.v2.client.MilvusClientV2;
+
+import io.milvus.v2.service.collection.request.DropFunctionFieldReq;
+
+public class DropBm25Function {
+
+    public static void main(String[] args) {
+
+        ConnectConfig connectConfig = ConnectConfig.builder()
+
+                .uri("YOUR_CLUSTER_ENDPOINT")
+
+                .build();
+
+        MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+        client.dropFunctionField(DropFunctionFieldReq.builder()
+
+                .collectionName("product_catalog")
+
+                .functionName("text_bm25")
+
+                .build());
+
+        client.close();
+
+    }
+
+}
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+package main
+
+import (
+
+    "context"
+
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+
+)
+
+func main() {
+
+    ctx := context.Background()
+
+    cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+
+        Address: "YOUR_CLUSTER_ENDPOINT",
+
+    })
+
+    if err != nil {
+
+        log.Fatal("failed to connect to milvus server: ", err.Error())
+
+    }
+
+    err = cli.DropFunctionField(ctx, milvusclient.NewDropFunctionFieldOption("product_catalog", "text_bm25"))
+
+    if err != nil {
+
+        log.Fatal("failed to drop function field: ", err.Error())
+
+    }
+
+}
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+
+async fn main() -> Result<()> {
+
+    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
+
+    let client = ClientV2::new(&config).await?;
+
+    client
+
+        .drop_function_field(
+
+            DropFunctionFieldRequest::builder()
+
+                .collection_name("product_catalog")
+
+                .function_name("text_bm25")
+
+                .build()?,
+
+        )
+
+        .await?;
+
+    Ok(())
+
+}
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+
+#include "milvus/MilvusClientV2.h"
+
+int main() {
+
+    auto client = milvus::MilvusClientV2::Create();
+
+    auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT"));
+
+    if (!status.IsOk()) {
+
+        std::cout << status.Message() << std::endl;
+
+    }
+
+    status = client->DropFunctionField(milvus::DropFunctionFieldRequest()
+
+                                           .WithCollectionName("product_catalog")
+
+                                           .WithFunctionName("text_bm25"));
+
+    if (!status.IsOk()) {
+
+        std::cout << status.Message() << std::endl;
+
+    }
+
+    return 0;
+
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
+
+await client.dropFunctionField({
+
+    collection_name: "product_catalog",
+
+    function_name: "text_bm25",
+
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# Note: The REST /v2/vectordb/collections/drop_function endpoint maps to the
+
+# deprecated DropCollectionFunction RPC, which Milvus 3.0 rejects. Dropping a
+
+# Function together with its generated vector field is not exposed via the
+
+# REST API as of v3.0.x; use the gRPC SDKs instead.
+```
+
+</TabItem>
+</Tabs>
 
 After the operation succeeds, `describe_collection()` no longer returns the dropped Function or its generated vector field. The Function input fields remain in the schema.
 

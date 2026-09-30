@@ -157,6 +157,8 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
 - Initialize the schema for the Caption Struct.
 
     ```python
+    from pymilvus import MilvusClient, DataType
+    
     client = MilvusClient("YOUR_CLUSTER_ENDPOINT")
     
     # create the schema for the caption struct
@@ -402,24 +404,21 @@ index_params.add_index(
     field_name="captions[plain_cap_vector]", 
     index_type="AUTOINDEX", 
     metric_type="MAX_SIM_COSINE", 
-    index_name="captions_plain_cap_vector_idx", # mandatory for now
-    index_params={"M": 16, "efConstruction": 200}
+    index_name="captions_plain_cap_vector_idx"
 )
 
 index_params.add_index(
     field_name="captions[rich_cap_vector]", 
     index_type="AUTOINDEX", 
     metric_type="MAX_SIM_COSINE", 
-    index_name="captions_rich_cap_vector_idx", # mandatory for now
-    index_params={"M": 16, "efConstruction": 200}
+    index_name="captions_rich_cap_vector_idx"
 )
 
 index_params.add_index(
     field_name="captions[risk_vector]", 
     index_type="AUTOINDEX", 
     metric_type="MAX_SIM_COSINE", 
-    index_name="captions_risk_vector_idx", # mandatory for now
-    index_params={"M": 16, "efConstruction": 200}
+    index_name="captions_risk_vector_idx"
 )
 ```
 
@@ -529,6 +528,6 @@ client.insert(
     data=[data]
 )
 
-# {'insert_count': 1, 'ids': ['0a0fc7a5db365174'], 'cost': 0}
+# {'insert_count': 1, 'ids': ['0a0fc7a5db365174']}
 ```
 

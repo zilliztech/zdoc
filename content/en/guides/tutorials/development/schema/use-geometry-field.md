@@ -70,7 +70,6 @@ To use a `GEOMETRY` field, explicitly define it in your collection schema when c
 
 ```python
 from pymilvus import MilvusClient, DataType
-import numpy as np
 
 dim = 8
 collection_name = "geo_collection"
@@ -325,7 +324,6 @@ Insert entities with geometry data in [WKT](https://en.wikipedia.org/wiki/Well-k
 <TabItem value='python'>
 
 ```python
-rng = np.random.default_rng(seed=19530)
 geo_points = [
     'POINT(13.399710 52.518010)',
     'POINT(13.403934 52.522877)',
@@ -336,12 +334,12 @@ geo_points = [
 ]
 
 rows = [
-    {"id": 1, "name": "Shop A", "embeddings": rng.random((1, dim))[0], "geo": geo_points[0]},
-    {"id": 2, "name": "Shop B", "embeddings": rng.random((1, dim))[0], "geo": geo_points[1]},
-    {"id": 3, "name": "Shop C", "embeddings": rng.random((1, dim))[0], "geo": geo_points[2]},
-    {"id": 4, "name": "Shop D", "embeddings": rng.random((1, dim))[0], "geo": geo_points[3]},
-    {"id": 5, "name": "Shop E", "embeddings": rng.random((1, dim))[0], "geo": geo_points[4]},
-    {"id": 6, "name": "Shop F", "embeddings": rng.random((1, dim))[0], "geo": geo_points[5]},
+    {"id": 1, "name": "Shop A", "embeddings": [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8], "geo": geo_points[0]},
+    {"id": 2, "name": "Shop B", "embeddings": [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9], "geo": geo_points[1]},
+    {"id": 3, "name": "Shop C", "embeddings": [0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0], "geo": geo_points[2]},
+    {"id": 4, "name": "Shop D", "embeddings": [0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 0.1], "geo": geo_points[3]},
+    {"id": 5, "name": "Shop E", "embeddings": [0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 0.1, 0.2], "geo": geo_points[4]},
+    {"id": 6, "name": "Shop F", "embeddings": [0.6, 0.7, 0.8, 0.9, 1.0, 0.1, 0.2, 0.3], "geo": geo_points[5]},
 ]
 
 insert_result = milvus_client.insert(collection_name, rows)
@@ -363,10 +361,8 @@ import io.milvus.v2.service.vector.request.InsertReq;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 String COLLECTION_NAME = "geo_collection";
-int DIM = 8;
 
 List<String> geoPoints = Arrays.asList(
         "POINT(13.399710 52.518010)",
@@ -377,7 +373,14 @@ List<String> geoPoints = Arrays.asList(
         "POINT(13.408529 52.519274)"
 );
 List<String> names = Arrays.asList("Shop A", "Shop B", "Shop C", "Shop D", "Shop E", "Shop F");
-Random ran = new Random();
+float[][] vectors = {
+        {0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f},
+        {0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.9f},
+        {0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.9f, 1.0f},
+        {0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.9f, 1.0f, 0.1f},
+        {0.5f, 0.6f, 0.7f, 0.8f, 0.9f, 1.0f, 0.1f, 0.2f},
+        {0.6f, 0.7f, 0.8f, 0.9f, 1.0f, 0.1f, 0.2f, 0.3f}
+};
 Gson gson = new Gson();
 List<JsonObject> rows = new ArrayList<>();
 for (int i = 0; i < geoPoints.size(); i++) {
@@ -386,8 +389,8 @@ for (int i = 0; i < geoPoints.size(); i++) {
     row.addProperty("geo", geoPoints.get(i));
     row.addProperty("name", names.get(i));
     List<Float> vector = new ArrayList<>();
-    for (int d = 0; d < DIM; ++d) {
-        vector.add(ran.nextFloat());
+    for (int d = 0; d < vectors[i].length; ++d) {
+        vector.add(vectors[i][d]);
     }
     row.add("embeddings", gson.toJsonTree(vector));
     rows.add(row);
@@ -585,25 +588,25 @@ curl --request POST \
       {
         \"id\": 3,
         \"name\": \"Shop C\",
-        \"embeddings\": [0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.1],
+        \"embeddings\": [0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
         \"geo\": \"POINT(13.405088 52.521124)\"
       },
       {
         \"id\": 4,
         \"name\": \"Shop D\",
-        \"embeddings\": [0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.1, 0.2],
+        \"embeddings\": [0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 0.1],
         \"geo\": \"POINT(13.408223 52.516876)\"
       },
       {
         \"id\": 5,
         \"name\": \"Shop E\",
-        \"embeddings\": [0.5, 0.6, 0.7, 0.8, 0.9, 0.1, 0.2, 0.3],
+        \"embeddings\": [0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 0.1, 0.2],
         \"geo\": \"POINT(13.400092 52.521507)\"
       },
       {
         \"id\": 6,
         \"name\": \"Shop F\",
-        \"embeddings\": [0.6, 0.7, 0.8, 0.9, 0.1, 0.2, 0.3, 0.4],
+        \"embeddings\": [0.6, 0.7, 0.8, 0.9, 1.0, 0.1, 0.2, 0.3],
         \"geo\": \"POINT(13.408529 52.519274)\"
       }
     ]
@@ -867,15 +870,9 @@ query_results = milvus_client.query(
 )
 for ret in query_results:
     print(ret)
-    
+
 # Expected output:
 # {'name': 'Shop D', 'geo': 'POINT (13.408223 52.516876)', 'id': 4}
-# {'name': 'Shop F', 'geo': 'POINT (13.408529 52.519274)', 'id': 6}
-# {'name': 'Shop A', 'geo': 'POINT (13.39971 52.51801)', 'id': 1}
-# {'name': 'Shop B', 'geo': 'POINT (13.403934 52.522877)', 'id': 2}
-# {'name': 'Shop C', 'geo': 'POINT (13.405088 52.521124)', 'id': 3}
-# {'name': 'Shop D', 'geo': 'POINT (13.408223 52.516876)', 'id': 4}
-# {'name': 'Shop E', 'geo': 'POINT (13.400092 52.521507)', 'id': 5}
 # {'name': 'Shop F', 'geo': 'POINT (13.408529 52.519274)', 'id': 6}
 ```
 
@@ -1076,9 +1073,14 @@ query_results = milvus_client.query(
 )
 for ret in query_results:
     print(ret)
-    
+
 # Expected output:
-# hit: {'id': 4, 'distance': 0.9823770523071289, 'entity': {'name': 'Shop D', 'geo': 'POINT (13.408223 52.516876)'}}
+# {'name': 'Shop A', 'geo': 'POINT (13.39971 52.51801)', 'id': 1}
+# {'name': 'Shop B', 'geo': 'POINT (13.403934 52.522877)', 'id': 2}
+# {'name': 'Shop C', 'geo': 'POINT (13.405088 52.521124)', 'id': 3}
+# {'name': 'Shop D', 'geo': 'POINT (13.408223 52.516876)', 'id': 4}
+# {'name': 'Shop E', 'geo': 'POINT (13.400092 52.521507)', 'id': 5}
+# {'name': 'Shop F', 'geo': 'POINT (13.408529 52.519274)', 'id': 6}
 ```
 
 </TabItem>
@@ -1261,7 +1263,7 @@ curl --request POST \
 <TabItem value='python'>
 
 ```python
-vectors_to_search = rng.random((1, dim))
+vectors_to_search = [[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]]
 result = milvus_client.search(
     collection_name,
     vectors_to_search,
@@ -1273,9 +1275,10 @@ result = milvus_client.search(
 for hits in result:
     for hit in hits:
         print(f"hit: {hit}")
-        
+
 # Expected output:
-# hit: {'id': 6, 'distance': 1.3406795263290405, 'entity': {'name': 'Shop F', 'geo': 'POINT (13.408529 52.519274)'}}
+# hit: {'id': 4, 'distance': 1.1200000047683716, 'entity': {'geo': 'POINT (13.408223 52.516876)', 'name': 'Shop D'}}
+# hit: {'id': 6, 'distance': 2.0, 'entity': {'geo': 'POINT (13.408529 52.519274)', 'name': 'Shop F'}}
 ```
 
 </TabItem>
@@ -1287,21 +1290,14 @@ import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 String COLLECTION_NAME = "geo_collection";
-int DIM = 8;
 String boundingBoxWkt = "POLYGON((13.403683 52.520711, 13.455868 52.520711, 13.455868 52.495862, 13.403683 52.495862, 13.403683 52.520711))";
 
-Random ran = new Random();
-List<Float> vector = new ArrayList<>();
-for (int d = 0; d < DIM; ++d) {
-    vector.add(ran.nextFloat());
-}
+List<Float> vector = Arrays.asList(0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f);
 String filter = String.format("st_within(geo, '%s')", boundingBoxWkt);
 SearchReq request = SearchReq.builder()
         .collectionName(COLLECTION_NAME)
@@ -1471,8 +1467,8 @@ BOTTOM_RIGHT_LAT=52.495862
 # Construct WKT polygon
 BOUNDING_BOX_WKT="POLYGON((${TOP_LEFT_LON} ${TOP_LEFT_LAT}, ${BOTTOM_RIGHT_LON} ${TOP_LEFT_LAT}, ${BOTTOM_RIGHT_LON} ${BOTTOM_RIGHT_LAT}, ${TOP_LEFT_LON} ${BOTTOM_RIGHT_LAT}, ${TOP_LEFT_LON} ${TOP_LEFT_LAT}))"
 
-# Define query vector (MUST have 8 elements to match the collection's dimension: 8)
-QUERY_VECTOR="[0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592, 0.1, 0.2, 0.3]"
+# Define query vector (same as the Go SDK query vector)
+QUERY_VECTOR="[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]"
 echo -e "\n\n=== 7. Execute vector search with st_within filter (Geospatial + Vector Search) ==="
 # Execute vector search with st_within filter (Geospatial + Vector Search)
 curl --request POST \

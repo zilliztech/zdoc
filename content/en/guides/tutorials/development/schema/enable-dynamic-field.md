@@ -106,7 +106,7 @@ Each of the above keys and values would be stored inside the `$meta` field.
 
 To use the dynamic field feature, set `enable_dynamic_field=True` when creating the collection schema:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -138,7 +138,9 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.*;
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.common.DataType;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 
@@ -170,45 +172,14 @@ client.createCollection(requestCreate);
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-import { MilvusClient, DataType, CreateCollectionReq } from '@zilliz/milvus2-sdk-node';
-
-// Initialize client
-const client = new MilvusClient({ address: 'YOUR_CLUSTER_ENDPOINT' });
-
-// Create collection
-const res = await client.createCollection({
-  collection_name: 'my_collection',
-  schema:  [
-      {
-        name: 'my_id',
-        data_type: DataType.Int64,
-        is_primary_key: true,
-        autoID: false,
-      },
-      {
-        name: 'my_vector',
-        data_type: DataType.FloatVector,
-        type_params: {
-          dim: '5',
-      }
-   ],
-   enable_dynamic_field: true
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
 import (
     "context"
 
-    "github.com/milvus-io/milvus/client/v2/entity"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -223,7 +194,7 @@ if err != nil {
 
 schema := entity.NewSchema().WithDynamicFieldEnabled(true)
 schema.WithField(entity.NewField().
-    WithName("my_id").pk
+    WithName("my_id").
     WithDataType(entity.FieldTypeInt64).
     WithIsPrimaryKey(true),
 ).WithField(entity.NewField().
@@ -236,6 +207,101 @@ err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("my_co
 if err != nil {
     return err
 }
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+
+// Initialize client
+let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT")).await?;
+
+// Create schema with dynamic field enabled
+let schema = CollectionSchema::new()
+    .enable_dynamic_field(true)
+    .add_field(
+        FieldSchema::new()
+            .name("my_id")
+            .data_type(DataType::Int64)
+            .primary_key(true),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("my_vector")
+            .data_type(DataType::FloatVector)
+            .dimension(5),
+    );
+
+// Create the collection
+client
+    .create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name("my_collection")
+            .schema(schema)
+            .build()?,
+    )
+    .await?;
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->SetEnableDynamicField(true);
+schema->AddField({"my_id", milvus::DataType::INT64, "", true, false});
+schema->AddField(milvus::FieldSchema("my_vector", milvus::DataType::FLOAT_VECTOR).WithDimension(5));
+
+status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                    .WithCollectionName("my_collection")
+                                    .WithCollectionSchema(schema));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient, DataType } from '@zilliz/milvus2-sdk-node';
+
+// Initialize client
+const client = new MilvusClient({ address: 'YOUR_CLUSTER_ENDPOINT' });
+
+// Create collection
+const res = await client.createCollection({
+  collection_name: 'my_collection',
+  schema: [
+    {
+      name: 'my_id',
+      data_type: DataType.Int64,
+      is_primary_key: true,
+      autoID: false,
+    },
+    {
+      name: 'my_vector',
+      data_type: DataType.FloatVector,
+      type_params: {
+        dim: '5',
+      },
+    },
+  ],
+  enable_dynamic_field: true,
+});
 ```
 
 </TabItem>
@@ -283,41 +349,13 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
-auto status = client->Connect(connect_param);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
-schema->SetEnableDynamicField(true);
-schema->AddField({"my_id", milvus::DataType::INT64, "", true, false});
-schema->AddField(milvus::FieldSchema("my_vector", milvus::DataType::FLOAT_VECTOR).WithDimension(5));
-
-status = client->CreateCollection(milvus::CreateCollectionRequest()
-                                    .WithCollectionName("my_collection")
-                                    .WithCollectionSchema(schema));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
 
 ## Insert entities to the collection\{#insert-entities-to-the-collection}
 
 The dynamic field allows you to insert extra fields not defined in the schema. These fields will be stored automatically in `$meta`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -349,6 +387,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import io.milvus.v2.service.vector.request.InsertReq;
+import java.util.Arrays;
+import java.util.Collections;
 
 Gson gson = new Gson();
 JsonObject row = new JsonObject();
@@ -375,6 +415,87 @@ client.insert(InsertReq.builder()
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+import (
+    "github.com/milvus-io/milvus/client/v3/column"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+_, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("my_collection").
+    WithInt64Column("my_id", []int64{1}).
+    WithFloatVectorColumn("my_vector", 5, [][]float32{
+        {0.1, 0.2, 0.3, 0.4, 0.5},
+    }).WithColumns(
+    column.NewColumnVarChar("overview", []string{"Great product"}),
+    column.NewColumnInt32("words", []int32{150}),
+    column.NewColumnJSONBytes("dynamic_json", [][]byte{
+        []byte(`{"varchar":"some text","nested":{"value":42.5},"string_price":"99.99"}`),
+    }),
+))
+if err != nil {
+    return err
+}
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
+
+let insert = client
+    .insert(
+        InsertRequest::builder()
+            .collection_name("my_collection")
+            .columns(vec![
+                FieldData::int64("my_id", vec![1]),
+                FieldData::float_vector("my_vector", vec![vec![0.1, 0.2, 0.3, 0.4, 0.5]]),
+                FieldData::varchar("overview", vec!["Great product".to_string()]),
+                FieldData::int32("words", vec![150]),
+                FieldData::json(
+                    "dynamic_json",
+                    vec![json!({"varchar": "some text", "nested": {"value": 42.5}, "string_price": "99.99"})],
+                ),
+            ])
+            .build()?,
+    )
+    .await?;
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+milvus::EntityRows data = {
+    {
+        {"my_id", 1},
+        {"my_vector", std::vector<float>{0.1, 0.2, 0.3, 0.4, 0.5}},
+        {"overview", "Great product"},
+        {"words", 150},
+        {"dynamic_json", {
+                {"varchar", "some text"},
+                {"nested", {"value", 42.5}},
+                {"string_price", "99.99"},
+            }
+        }
+    }
+};
+
+milvus::InsertResponse response;
+auto status = client->Insert(milvus::InsertRequest()
+                                .WithCollectionName("my_collection")
+                                .WithRowsData(std::move(data)),
+                             response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -397,33 +518,6 @@ const res = await client.insert({
     collection_name: 'my_collection',
     data: entities,
 });
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-_, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("my_collection").
-    WithInt64Column("my_id", []int64{1}).
-    WithFloatVectorColumn("my_vector", 5, [][]float32{
-        {0.1, 0.2, 0.3, 0.4, 0.5},
-    }).WithColumns(
-    column.NewColumnVarChar("overview", []string{"Great product"}),
-    column.NewColumnInt32("words", []int32{150}),
-    column.NewColumnJSONBytes("dynamic_json", [][]byte{
-        []byte(`{
-            varchar: 'some text',
-            nested: {
-                value: 42.5,
-            },
-            string_price: '99.99',
-        }`),
-    }),
-))
-if err != nil {
-    return err
-}
 ```
 
 </TabItem>
@@ -455,36 +549,6 @@ curl --request POST \
   ],
   "collectionName": "my_collection"
 }'
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-milvus::EntityRows data = {
-    {
-        {"my_id", 1},
-        {"my_vector", std::vector<float>{0.1, 0.2, 0.3, 0.4, 0.5}},
-        {"overview", "Great product"},
-        {"words", 150},
-        {"dynamic_json", {
-                {"varchar", "some text"},
-                {"nested", {"value", 42.5}},
-                {"string_price", "99.99"},
-            }
-        }
-    }
-};
-
-milvus::InsertResponse response;
-auto status = client->Insert(milvus::InsertRequest()
-                                .WithCollectionName("my_collection")
-                                .WithRowsData(std::move(data)),
-                             response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
 ```
 
 </TabItem>
@@ -526,7 +590,7 @@ Since the dynamic field is a JSON field, you can index any key within it using J
 
 - For nested keys: `dynamic_json['varchar']`, `dynamic_json['nested']['value']`
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -595,6 +659,12 @@ index_params.add_index(
 
 ```java
 import io.milvus.v2.common.IndexParam;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+List<IndexParam> indexParams = new ArrayList<>();
 
 Map<String,Object> extraParams1 = new HashMap<>();
 extraParams1.put("json_path", "overview");
@@ -635,6 +705,95 @@ indexParams.add(IndexParam.builder()
         .indexType(IndexParam.IndexType.AUTOINDEX)
         .extraParams(extraParams4)
         .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+jsonIndex1 := index.NewJSONPathIndex(index.AUTOINDEX, "varchar", "overview").
+    WithIndexName("overview_index")
+jsonIndex2 := index.NewJSONPathIndex(index.AUTOINDEX, "double", "words").
+    WithIndexName("words_index")
+jsonIndex3 := index.NewJSONPathIndex(index.AUTOINDEX, "varchar", `dynamic_json['varchar']`).
+    WithIndexName("json_varchar_index")
+jsonIndex4 := index.NewJSONPathIndex(index.AUTOINDEX, "double", `dynamic_json['nested']['value']`).
+    WithIndexName("json_nested_index")
+
+indexOpt1 := milvusclient.NewCreateIndexOption("my_collection", "overview", jsonIndex1)
+indexOpt2 := milvusclient.NewCreateIndexOption("my_collection", "words", jsonIndex2)
+indexOpt3 := milvusclient.NewCreateIndexOption("my_collection", "dynamic_json", jsonIndex3)
+indexOpt4 := milvusclient.NewCreateIndexOption("my_collection", "dynamic_json", jsonIndex4)
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+use std::collections::HashMap;
+
+let mut index_params = vec![
+    IndexParam::new()
+        .field_name("overview")
+        .index_name("overview_index")
+        .index_type(IndexType::AutoIndex)
+        .extra_params(HashMap::from([
+            ("json_cast_type".to_string(), "varchar".to_string()),
+            ("json_path".to_string(), "overview".to_string()),
+        ])),
+    IndexParam::new()
+        .field_name("words")
+        .index_name("words_index")
+        .index_type(IndexType::AutoIndex)
+        .extra_params(HashMap::from([
+            ("json_cast_type".to_string(), "double".to_string()),
+            ("json_path".to_string(), "words".to_string()),
+        ])),
+    IndexParam::new()
+        .field_name("dynamic_json")
+        .index_name("json_varchar_index")
+        .index_type(IndexType::AutoIndex)
+        .extra_params(HashMap::from([
+            ("json_cast_type".to_string(), "varchar".to_string()),
+            ("json_path".to_string(), "dynamic_json['varchar']".to_string()),
+        ])),
+    IndexParam::new()
+        .field_name("dynamic_json")
+        .index_name("json_nested_index")
+        .index_type(IndexType::AutoIndex)
+        .extra_params(HashMap::from([
+            ("json_cast_type".to_string(), "double".to_string()),
+            ("json_path".to_string(), "dynamic_json['nested']['value']".to_string()),
+        ])),
+];
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+milvus::IndexDesc overview_index("overview", "overview_index", milvus::IndexType::AUTOINDEX);
+overview_index.AddExtraParam("json_cast_type", "varchar");
+overview_index.AddExtraParam("json_path", "overview");
+
+milvus::IndexDesc words_index("words", "words_index", milvus::IndexType::AUTOINDEX);
+words_index.AddExtraParam("json_cast_type", "double");
+words_index.AddExtraParam("json_path", "words");
+
+milvus::IndexDesc json_varchar_index("dynamic_json", "json_varchar_index", milvus::IndexType::AUTOINDEX);
+json_varchar_index.AddExtraParam("json_cast_type", "varchar");
+json_varchar_index.AddExtraParam("json_path", "dynamic_json['varchar']");
+
+milvus::IndexDesc json_nested_index("dynamic_json", "json_nested_index", milvus::IndexType::AUTOINDEX);
+json_nested_index.AddExtraParam("json_cast_type", "double");
+json_nested_index.AddExtraParam("json_path", "dynamic_json['nested']['value']");
 ```
 
 </TabItem>
@@ -692,30 +851,6 @@ const indexParams = [
 
 </TabItem>
 
-<TabItem value='go'>
-
-```go
-import (
-    "github.com/milvus-io/milvus/client/v2/index"
-)
-
-jsonIndex1 := index.NewJSONPathIndex(index.AUTOINDEX, "varchar", "overview")
-    .WithIndexName("overview_index")
-jsonIndex2 := index.NewJSONPathIndex(index.AUTOINDEX, "double", "words")
-    .WithIndexName("words_index")
-jsonIndex3 := index.NewJSONPathIndex(index.AUTOINDEX, "varchar", `dynamic_json['varchar']`)
-    .WithIndexName("json_varchar_index")
-jsonIndex4 := index.NewJSONPathIndex(index.AUTOINDEX, "double", `dynamic_json['nested']['value']`)
-    .WithIndexName("json_nested_index")
-
-indexOpt1 := milvusclient.NewCreateIndexOption("my_collection", "overview", jsonIndex1)
-indexOpt2 := milvusclient.NewCreateIndexOption("my_collection", "words", jsonIndex2)
-indexOpt3 := milvusclient.NewCreateIndexOption("my_collection", "dynamic_json", jsonIndex3)
-indexOpt4 := milvusclient.NewCreateIndexOption("my_collection", "dynamic_json", jsonIndex4)
-```
-
-</TabItem>
-
 <TabItem value='bash'>
 
 ```bash
@@ -723,22 +858,22 @@ export TOKEN="YOUR_CLUSTER_TOKEN"
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
 
 export overviewIndex='{
-  "fieldName": "dynamic_json",
+  "fieldName": "overview",
   "indexName": "overview_index",
   "params": {
     "index_type": "AUTOINDEX",
     "json_cast_type": "varchar",
-    "json_path": "dynamic_json[\"overview\"]"
+    "json_path": "overview"
   }
 }'
 
 export wordsIndex='{
-  "fieldName": "dynamic_json",
+  "fieldName": "words",
   "indexName": "words_index",
   "params": {
     "index_type": "AUTOINDEX",
     "json_cast_type": "double",
-    "json_path": "dynamic_json[\"words\"]"
+    "json_path": "words"
   }
 }'
 
@@ -748,7 +883,7 @@ export varcharIndex='{
   "params": {
     "index_type": "AUTOINDEX",
     "json_cast_type": "varchar",
-    "json_path": "dynamic_json[\"varchar\"]"
+    "json_path": "dynamic_json["varchar"]"
   }
 }'
 
@@ -758,36 +893,9 @@ export nestedIndex='{
   "params": {
     "index_type": "AUTOINDEX",
     "json_cast_type": "double",
-          "json_path": "dynamic_json[\"nested\"][\"value\"]"
-    }
-  }'
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-milvus::IndexDesc overview_index("overview", "overview_index", milvus::IndexType::AUTOINDEX);
-overview_index.AddExtraParam("json_cast_type", "varchar");
-overview_index.AddExtraParam("json_path", "overview");
-
-milvus::IndexDesc words_index("words", "words_index", milvus::IndexType::AUTOINDEX);
-words_index.AddExtraParam("json_cast_type", "double");
-words_index.AddExtraParam("json_path", "words");
-
-milvus::IndexDesc json_nested_index("dynamic_json", "json_nested_index", milvus::IndexType::AUTOINDEX);
-json_nested_index.AddExtraParam("json_cast_type", "double");
-json_nested_index.AddExtraParam("json_path", "dynamic_json['nested']['value']");
-
-auto status = client->CreateIndex(milvus::CreateIndexRequest()
-                                     .WithCollectionName(collection_name)
-                                     .AddIndex(std::move(overview_index))
-                                     .AddIndex(std::move(words_index))
-                                     .AddIndex(std::move(json_nested_index)));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
+    "json_path": "dynamic_json["nested"]["value"]"
+  }
+}'
 ```
 
 </TabItem>
@@ -797,7 +905,7 @@ if (!status.IsOk()) {
 
 If a dynamic field key contains values in an incorrect format, (e.g. numbers stored as strings), you can use a cast function to convert it:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -820,15 +928,59 @@ index_params.add_index(
 <TabItem value='java'>
 
 ```java
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String,Object> extraParams5 = new HashMap<>();
 extraParams5.put("json_path", "dynamic_json['string_price']");
 extraParams5.put("json_cast_type", "double");
+extraParams5.put("json_cast_function", "STRING_TO_DOUBLE");
 indexParams.add(IndexParam.builder()
         .fieldName("dynamic_json")
         .indexName("json_string_price_index")
         .indexType(IndexParam.IndexType.AUTOINDEX)
         .extraParams(extraParams5)
         .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+jsonIndex5 := index.NewJSONPathIndex(index.AUTOINDEX, "double", `dynamic_json['string_price']`).
+    WithIndexName("json_string_price_index")
+// Note: json_cast_function (STRING_TO_DOUBLE) is not supported in milvus-sdk-go as of client/v3.0.0.
+indexOpt5 := milvusclient.NewCreateIndexOption("my_collection", "dynamic_json", jsonIndex5)
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use std::collections::HashMap;
+
+index_params.push(
+    IndexParam::new()
+        .field_name("dynamic_json")
+        .index_name("json_string_price_index")
+        .index_type(IndexType::AutoIndex)
+        .extra_params(HashMap::from([
+            ("json_cast_type".to_string(), "double".to_string()),
+            ("json_path".to_string(), "dynamic_json['string_price']".to_string()),
+            ("json_cast_function".to_string(), "STRING_TO_DOUBLE".to_string()),
+        ])),
+);
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+milvus::IndexDesc string_price_index("dynamic_json", "json_string_price_index", milvus::IndexType::AUTOINDEX);
+string_price_index.AddExtraParam("json_cast_type", "double");
+string_price_index.AddExtraParam("json_path", "dynamic_json['string_price']");
+string_price_index.AddExtraParam("json_cast_function", "STRING_TO_DOUBLE");
 ```
 
 </TabItem>
@@ -852,16 +1004,6 @@ indexParams.push({
 
 </TabItem>
 
-<TabItem value='go'>
-
-```go
-jsonIndex5 := index.NewJSONPathIndex(index.AUTOINDEX, "double", `dynamic_json['string_price']`)
-    .WithIndexName("json_string_price_index")
-indexOpt5 := milvusclient.NewCreateIndexOption("my_collection", "dynamic_json", jsonIndex5)
-```
-
-</TabItem>
-
 <TabItem value='bash'>
 
 ```bash
@@ -881,17 +1023,6 @@ export stringPriceIndex='{
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-milvus::IndexDesc string_price_index("dynamic_json", "json_string_price_index", milvus::IndexType::AUTOINDEX);
-string_price_index.AddExtraParam("json_cast_type", "double");
-string_price_index.AddExtraParam("json_path", "dynamic_json['string_price']");
-string_price_index.AddExtraParam("json_cast_function", "STRING_TO_DOUBLE");
-```
-
-</TabItem>
 </Tabs>
 
 <Admonition type="info" title="Notes">
@@ -906,7 +1037,7 @@ string_price_index.AddExtraParam("json_cast_function", "STRING_TO_DOUBLE");
 
 After defining the index parameters, you can apply them to the collection using `create_index()`:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -927,14 +1058,6 @@ client.createIndex(CreateIndexReq.builder()
         .collectionName("my_collection")
         .indexParams(indexParams)
         .build());
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-  await client.createIndex(indexParams);
 ```
 
 </TabItem>
@@ -965,6 +1088,44 @@ if err != nil {
 ```
 
 </TabItem>
+</Tabs>
+
+```rust
+client
+    .create_index(
+        CreateIndexRequest::builder()
+            .collection_name("my_collection")
+            .index_params(index_params)
+            .build()?,
+    )
+    .await?;
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+auto status = client->CreateIndex(milvus::CreateIndexRequest()
+                                     .WithCollectionName("my_collection")
+                                     .AddIndex(std::move(overview_index))
+                                     .AddIndex(std::move(words_index))
+                                     .AddIndex(std::move(json_varchar_index))
+                                     .AddIndex(std::move(json_nested_index))
+                                     .AddIndex(std::move(string_price_index)));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+  await client.createIndex(indexParams);
+```
+
+</TabItem>
 
 <TabItem value='bash'>
 
@@ -990,22 +1151,6 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto status = client->CreateIndex(milvus::CreateIndexRequest()
-                                     .WithCollectionName(collection_name)
-                                     .AddIndex(std::move(overview_index))
-                                     .AddIndex(std::move(words_index))
-                                     .AddIndex(std::move(json_nested_index))
-                                     .AddIndex(std::move(string_price_index)));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
 
 ## Filter by dynamic field keys\{#filter-by-dynamic-field-keys}
@@ -1018,7 +1163,7 @@ After inserting entities with dynamic field keys, you can filter them using stan
 
 Based on [the ](./enable-dynamic-field#insert-entities-to-the-collection)[example entity](./enable-dynamic-field#insert-entities-to-the-collection) from the previous section, valid filter expressions include:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1032,9 +1177,37 @@ filter = 'dynamic_json["nested"]["value"] < 50'       # JSON object key
 <TabItem value='java'>
 
 ```java
-String filter = 'overview == "Great product"';
-String filter = 'words >= 100';
-String filter = 'dynamic_json["nested"]["value"] < 50';
+String filter = "overview == \"Great product\"";                // Non-JSON key
+String filter1 = "words >= 100";                               // Non-JSON key
+String filter2 = "dynamic_json[\"nested\"][\"value\"] < 50";       // JSON object key
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := `overview == "Great product"`                // Non-JSON key
+filter1 := "words >= 100"                               // Non-JSON key
+filter2 := `dynamic_json["nested"]["value"] < 50`       // JSON object key
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let filter = r#"overview == "Great product""#;  // Non-JSON key
+let filter1 = "words >= 100";                  // Non-JSON key
+let filter2 = r#"dynamic_json["nested"]["value"] < 50"#;  // JSON object key
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+std::string filter = R"(overview == "Great product")";   // Non-JSON key
+std::string filter1 = R"(words >= 100)";                  // Non-JSON key
+std::string filter2 = R"(dynamic_json["nested"]["value"] < 50)";  // JSON object key
 ```
 
 </TabItem>
@@ -1049,16 +1222,6 @@ filter = 'dynamic_json["nested"]["value"] < 50'       // JSON object key
 
 </TabItem>
 
-<TabItem value='go'>
-
-```go
-filter := 'overview == "Great product"'
-filter := 'words >= 100'
-filter := 'dynamic_json["nested"]["value"] < 50'
-```
-
-</TabItem>
-
 <TabItem value='bash'>
 
 ```bash
@@ -1069,21 +1232,11 @@ export filter='dynamic_json["nested"]["value"] < 50'
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-std::string filter = R"(overview == "Great product")";
-std::string filter = R"(words >= 100)";
-std::string filter = R"(dynamic_json["nested"]["value"] < 50)";
-```
-
-</TabItem>
 </Tabs>
 
 **Retrieving dynamic field keys**: To return dynamic field keys in search or query results, you must explicitly specify them in the `output_fields` parameter using the same JSON path syntax as filtering:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1109,47 +1262,27 @@ results = client.search(
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.SearchReq
+import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Arrays;
+import java.util.Collections;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .token("YOUR_CLUSTER_TOKEN")
         .build());
 
-FloatVec queryVector = new FloatVec(new float[]{0.1, 0.2, 0.3, 0.4, 0.5});
+FloatVec queryVector = new FloatVec(new float[]{0.1f, 0.2f, 0.3f, 0.4f, 0.5f});
 SearchReq searchReq = SearchReq.builder()
         .collectionName("my_collection")
         .data(Collections.singletonList(queryVector))
-        .topK(5)
+        .topK(10)
         .filter(filter)
         .outputFields(Arrays.asList("overview", "dynamic_json"))
         .build();
 
 SearchResp searchResp = client.search(searchReq);
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
-
-const address = "YOUR_CLUSTER_ENDPOINT";
-const token = "YOUR_CLUSTER_TOKEN";
-const client = new MilvusClient({address, token});
-
-const query_vector = [0.1, 0.2, 0.3, 0.4, 0.5]
-
-const res = await client.search({
-    collection_name: "my_collection",
-    data: [query_vector],
-    limit: 5,
-    filters: filter,
-    output_fields: ["overview", "dynamic_json"]
-})
 ```
 
 </TabItem>
@@ -1161,8 +1294,8 @@ import (
     "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/entity"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -1171,7 +1304,7 @@ defer cancel()
 milvusAddr := "YOUR_CLUSTER_ENDPOINT"
 token := "YOUR_CLUSTER_TOKEN"
 
-client, err := client.New(ctx, &client.ClientConfig{
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: milvusAddr,
     APIKey:  token,
 })
@@ -1185,7 +1318,7 @@ queryVector := []float32{0.1, 0.2, 0.3, 0.4, 0.5}
 
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
     "my_collection", // collectionName
-    5,               // limit
+    10,              // limit
     []entity.Vector{entity.FloatVector(queryVector)},
 ).WithConsistencyLevel(entity.ClStrong).
     WithANNSField("my_vector").
@@ -1198,33 +1331,24 @@ if err != nil {
 ```
 
 </TabItem>
+</Tabs>
 
-<TabItem value='bash'>
-
-```bash
-export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
-export TOKEN="YOUR_CLUSTER_TOKEN"
-export FILTER='color like "red%" and likes > 50'
-
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
---header "Request-Timeout: 10" \
---data "{
-  \"collectionName\": \"my_collection\",
-  \"data\": [
-    [0.1, 0.2, 0.3, 0.4, 0.5]
-  ],
-  \"annsField\": \"my_vector\",
-  \"filter\": \"${FILTER}\",
-  \"limit\": 5,
-  \"outputFields\": [\"overview\", \"dynamic_json\"]
-}"
+```rust
+let search = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("my_collection")
+            .vector_field("my_vector")
+            .vectors(SearchVectors::Float(vec![vec![0.1, 0.2, 0.3, 0.4, 0.5]]))
+            .filter(filter)
+            .output_fields(["overview", "dynamic_json"])
+            .limit(10)
+            .build()?,
+    )
+    .await?;
 ```
 
-</TabItem>
-
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
 <TabItem value='c++'>
 
 ```c++
@@ -1232,7 +1356,7 @@ std::vector<float> query_vector = {0.1, 0.2, 0.3, 0.4, 0.5};
 auto request = milvus::SearchRequest()
                    .WithCollectionName("my_collection")
                    .WithAnnsField("my_vector")
-                   .WithLimit(5)
+                   .WithLimit(10)
                    .WithFilter(filter)
                    .AddOutputField("overview")
                    .AddOutputField("dynamic_json")
@@ -1252,6 +1376,49 @@ for (auto& result : search_results.Results()) {
         std::cout << "\t" << row << std::endl;
     }
 }
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const query_vector = [0.1, 0.2, 0.3, 0.4, 0.5];
+
+const res = await client.search({
+    collection_name: "my_collection",
+    data: [query_vector],
+    limit: 10,
+    filter: filter,
+    output_fields: ["overview", "dynamic_json"]
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+export FILTER='overview == "Great product"'
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+--data "{
+  \"collectionName\": \"my_collection\",
+  \"data\": [
+    [0.1, 0.2, 0.3, 0.4, 0.5]
+  ],
+  \"annsField\": \"my_vector\",
+  \"filter\": \"${FILTER}\",
+  \"limit\": 10,
+  \"outputFields\": [\"overview\", \"dynamic_json\"]
+}"
 ```
 
 </TabItem>

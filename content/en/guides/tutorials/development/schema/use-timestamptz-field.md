@@ -69,7 +69,7 @@ The basic workflow of using a `TIMESTAMPTZ` field mirrors other scalar fields in
 
 To use a `TIMESTAMPTZ` field, explicitly define it in your collection schema when creating the collection. The following example demonstrates how to create a collection with a `tsz` field of type `DataType.TIMESTAMPTZ`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -207,7 +207,66 @@ if err != nil {
 ```
 
 </TabItem>
+</Tabs>
 
+```rust
+use milvus::v2::prelude::*;
+
+const COLLECTION_NAME: &str = "timestamptz_test123";
+
+// Drop the collection if it already exists
+if client
+    .has_collection(
+        HasCollectionRequest::builder()
+            .collection_name(COLLECTION_NAME)
+            .build()?,
+    )
+    .await?
+    .exists()
+{
+    client
+        .drop_collection(
+            DropCollectionRequest::builder()
+                .collection_name(COLLECTION_NAME)
+                .build()?,
+        )
+        .await?;
+}
+
+// Define the collection schema with a TIMESTAMPTZ field
+let schema = CollectionSchema::new()
+    .add_field(
+        FieldSchema::new()
+            .name("id")
+            .data_type(DataType::Int64)
+            .primary_key(true),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("tsz")
+            .data_type(DataType::Timestamptz)
+            .nullable(true),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("vec")
+            .data_type(DataType::FloatVector)
+            .dimension(4),
+    );
+
+client
+    .create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name(COLLECTION_NAME)
+            .schema(schema)
+            .consistency_level(ConsistencyLevel::Session)
+            .build()?,
+    )
+    .await?;
+println!("Collection '{COLLECTION_NAME}' with a TimestampTz field created successfully.");
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
 <TabItem value='c++'>
 
 ```c++
@@ -339,7 +398,7 @@ The example below inserts 8,193 rows of sample data into the collection. Each ro
 
 - a simple 4-dimensional vector
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -361,7 +420,7 @@ data = [
         "tsz": shanghai_tz.localize(
             datetime.datetime(2025, 1, 1, 0, 0, 0) + datetime.timedelta(days=i)
         ).isoformat(),
-        "vec": [float(i) / 10 for i in range(4)],
+        "vec": [float(i) / 10 for _ in range(4)],
     }
     for i in range(data_size)
 ]
@@ -380,6 +439,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -397,12 +457,8 @@ for (long i = 0L; i < rowCount; ++i) {
     JsonObject row = new JsonObject();
     row.addProperty("id", i + 1);
 
-    List<Float> vector = new ArrayList<>();
-    vector.add(0.0f);
-    vector.add(0.1f);
-    vector.add(0.2f);
-    vector.add(0.3f);
-    row.add("vec", gson.toJsonTree(vector));
+    float v = (float) i / 10;
+    row.add("vec", gson.toJsonTree(Arrays.asList(v, v, v, v)));
 
     LocalDateTime tt = LocalDateTime.of(2025, 1, 1, 0, 0, 0).plusDays(i);
     ZonedDateTime zt = tt.atZone(zone);
@@ -439,7 +495,8 @@ vecs := make([][]float32, dataSize)
 for i := 0; i < dataSize; i++ {
     ids[i] = int64(i + 1)
     tszs[i] = fmt.Sprintf("2025-01-%02dT00:00:00+08:00", i+1)
-    vecs[i] = []float32{0.0, 0.1, 0.2, 0.3}
+    v := float32(i) / 10
+    vecs[i] = []float32{v, v, v, v}
 }
 
 _, err = cli.Insert(ctx, milvusclient.NewColumnBasedInsertOption(collectionName,
@@ -453,7 +510,37 @@ if err != nil {
 ```
 
 </TabItem>
+</Tabs>
 
+```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
+
+const COLLECTION_NAME: &str = "timestamptz_test123";
+
+// Build 10 rows with a timezone-aware timestamp (Asia/Shanghai) and a 4-dim vector
+let rows: Vec<_> = (0..10)
+    .map(|i| {
+        json!({
+            "id": i + 1,
+            "tsz": format!("2025-01-{:02}T00:00:00+08:00", i + 1),
+            "vec": vec![i as f64 / 10.0; 4],
+        })
+    })
+    .collect();
+
+client
+    .insert(
+        InsertRequest::builder()
+            .collection_name(COLLECTION_NAME)
+            .rows(rows)
+            .build()?,
+    )
+    .await?;
+println!("Data inserted successfully.");
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
 <TabItem value='c++'>
 
 ```c++
@@ -482,7 +569,8 @@ milvus::EntityRows rows;
 for (auto i = 0; i < 10; i++) {
     milvus::EntityRow row;
     row["id"] = i + 1;
-    row["vec"] = std::vector<float>{0.0f, 0.1f, 0.2f, 0.3f};
+    float v = static_cast<float>(i) / 10.0f;
+    row["vec"] = std::vector<float>{v, v, v, v};
     row["tsz"] = formatDateWithTimezone(2025, 01, i + 1, 0, 0, 0);
     rows.emplace_back(std::move(row));
 }
@@ -523,10 +611,11 @@ for (let i = 0; i < dataSize; i++) {
   const day = 1 + i;
   const isoString = formatDateWithTimezone(year, month, day, 0, 0, 0, '+08:00');
 
+  const v = i / 10;
   data.push({
     id: i + 1,
     tsz: isoString,
-    vec: [0.0, 0.1, 0.2, 0.3],
+    vec: [v, v, v, v],
   });
 }
 
@@ -551,16 +640,16 @@ curl --request POST \
      --data '{
        "collectionName": "timestamptz_test123",
        "data": [
-         { "id": 1, "tsz": "2025-01-01T00:00:00+08:00", "vec": [0.0, 0.1, 0.2, 0.3] },
-         { "id": 2, "tsz": "2025-01-02T00:00:00+08:00", "vec": [0.0, 0.1, 0.2, 0.3] },
-         { "id": 3, "tsz": "2025-01-03T00:00:00+08:00", "vec": [0.0, 0.1, 0.2, 0.3] },
-         { "id": 4, "tsz": "2025-01-04T00:00:00+08:00", "vec": [0.0, 0.1, 0.2, 0.3] },
-         { "id": 5, "tsz": "2025-01-05T00:00:00+08:00", "vec": [0.0, 0.1, 0.2, 0.3] },
-         { "id": 6, "tsz": "2025-01-06T00:00:00+08:00", "vec": [0.0, 0.1, 0.2, 0.3] },
-         { "id": 7, "tsz": "2025-01-07T00:00:00+08:00", "vec": [0.0, 0.1, 0.2, 0.3] },
-         { "id": 8, "tsz": "2025-01-08T00:00:00+08:00", "vec": [0.0, 0.1, 0.2, 0.3] },
-         { "id": 9, "tsz": "2025-01-09T00:00:00+08:00", "vec": [0.0, 0.1, 0.2, 0.3] },
-         { "id": 10, "tsz": "2025-01-10T00:00:00+08:00", "vec": [0.0, 0.1, 0.2, 0.3] }
+         { "id": 1, "tsz": "2025-01-01T00:00:00+08:00", "vec": [0.0, 0.0, 0.0, 0.0] },
+         { "id": 2, "tsz": "2025-01-02T00:00:00+08:00", "vec": [0.1, 0.1, 0.1, 0.1] },
+         { "id": 3, "tsz": "2025-01-03T00:00:00+08:00", "vec": [0.2, 0.2, 0.2, 0.2] },
+         { "id": 4, "tsz": "2025-01-04T00:00:00+08:00", "vec": [0.3, 0.3, 0.3, 0.3] },
+         { "id": 5, "tsz": "2025-01-05T00:00:00+08:00", "vec": [0.4, 0.4, 0.4, 0.4] },
+         { "id": 6, "tsz": "2025-01-06T00:00:00+08:00", "vec": [0.5, 0.5, 0.5, 0.5] },
+         { "id": 7, "tsz": "2025-01-07T00:00:00+08:00", "vec": [0.6, 0.6, 0.6, 0.6] },
+         { "id": 8, "tsz": "2025-01-08T00:00:00+08:00", "vec": [0.7, 0.7, 0.7, 0.7] },
+         { "id": 9, "tsz": "2025-01-09T00:00:00+08:00", "vec": [0.8, 0.8, 0.8, 0.8] },
+         { "id": 10, "tsz": "2025-01-10T00:00:00+08:00", "vec": [0.9, 0.9, 0.9, 0.9] }
        ]
      }'
 ```
@@ -582,7 +671,7 @@ Before you can perform filtering operations on `TIMESTAMPTZ` fields, make sure:
 
 <summary>Show example code</summary>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -664,7 +753,40 @@ if err != nil {
 ```
 
 </TabItem>
+</Tabs>
 
+```rust
+use milvus::v2::prelude::*;
+
+const COLLECTION_NAME: &str = "timestamptz_test123";
+
+// 1. Create an index on the vector field
+client
+    .create_index(
+        CreateIndexRequest::builder()
+            .collection_name(COLLECTION_NAME)
+            .index_params(vec![
+                IndexParam::new()
+                    .field_name("vec")
+                    .index_name("vec_index")
+                    .index_type(IndexType::AutoIndex)
+                    .metric_type(MetricType::Cosine),
+            ])
+            .build()?,
+    )
+    .await?;
+
+// 2. Load the collection
+client
+    .load_collection(
+        LoadCollectionRequest::builder()
+            .collection_name(COLLECTION_NAME)
+            .build()?,
+    )
+    .await?;
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
 <TabItem value='c++'>
 
 ```c++
@@ -744,7 +866,7 @@ Use logical conjunction instead: `tsz > lower_bound AND tsz < upper_bound`.
 
 The example below filters entities with timestamps (`tsz`) that are not equal to **2025-01-03T00:00:00+08:00**:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -824,7 +946,32 @@ for i := 0; i < res.Len(); i++ {
 ```
 
 </TabItem>
+</Tabs>
 
+```rust
+use milvus::v2::prelude::*;
+
+const COLLECTION_NAME: &str = "timestamptz_test123";
+
+let filter = "tsz != ISO '2025-01-03T00:00:00+08:00'";
+let response = client
+    .query(
+        QueryRequest::builder()
+            .collection_name(COLLECTION_NAME)
+            .filter(filter)
+            .output_fields(["id", "tsz"])
+            .limit(10)
+            .build()?,
+    )
+    .await?;
+
+println!("Query result: ");
+for row in response.results().rows()? {
+    println!("{:?}", row.to_entity_row()?);
+}
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
 <TabItem value='c++'>
 
 ```c++
@@ -909,7 +1056,7 @@ You can perform arithmetic on `TIMESTAMPTZ` fields using **INTERVAL** values in 
 
 For example, the following query filters entities where the timestamp (`tsz`) plus zero days is **not equal** to **2025-01-03T00:00:00+08:00**:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -988,7 +1135,32 @@ for i := 0; i < res.Len(); i++ {
 ```
 
 </TabItem>
+</Tabs>
 
+```rust
+use milvus::v2::prelude::*;
+
+const COLLECTION_NAME: &str = "timestamptz_test123";
+
+let filter = "tsz + INTERVAL 'P0D' != ISO '2025-01-03T00:00:00+08:00'";
+let response = client
+    .query(
+        QueryRequest::builder()
+            .collection_name(COLLECTION_NAME)
+            .filter(filter)
+            .output_fields(["id", "tsz"])
+            .limit(10)
+            .build()?,
+    )
+    .await?;
+
+println!("Query result: ");
+for row in response.results().rows()? {
+    println!("{:?}", row.to_entity_row()?);
+}
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
 <TabItem value='c++'>
 
 ```c++
@@ -1081,7 +1253,7 @@ You can use `INTERVAL` arithmetic directly in filter expressions, such as:
 
 You can combine `TIMESTAMPTZ` filtering with vector similarity search to narrow results by both time and similarity.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1100,7 +1272,7 @@ res = client.search(
 print("Search result: ", res)
 
 # Expected output:
-# Search result:  data: [[{'id': 6, 'distance': 0.9759000539779663, 'entity': {'tsz': '2025-01-05T16:00:00Z', 'id': 6}}, {'id': 7, 'distance': 0.9759000539779663, 'entity': {'tsz': '2025-01-06T16:00:00Z', 'id': 7}}, {'id': 8, 'distance': 0.9759000539779663, 'entity': {'tsz': '2025-01-07T16:00:00Z', 'id': 8}}, {'id': 9, 'distance': 0.9759000539779663, 'entity': {'tsz': '2025-01-08T16:00:00Z', 'id': 9}}, {'id': 10, 'distance': 0.9759000539779663, 'entity': {'tsz': '2025-01-09T16:00:00Z', 'id': 10}}]]
+# Search result:  data: [[{'id': 6, 'distance': 0.9128709435462952, 'entity': {'tsz': '2025-01-05T16:00:00Z', 'id': 6}}, {'id': 7, 'distance': 0.9128709435462952, 'entity': {'tsz': '2025-01-06T16:00:00Z', 'id': 7}}, {'id': 8, 'distance': 0.9128709435462952, 'entity': {'tsz': '2025-01-07T16:00:00Z', 'id': 8}}, {'id': 10, 'distance': 0.9128709435462952, 'entity': {'tsz': '2025-01-09T16:00:00Z', 'id': 10}}, {'id': 9, 'distance': 0.9128708839416504, 'entity': {'tsz': '2025-01-08T16:00:00Z', 'id': 9}}]]
 ```
 
 </TabItem>
@@ -1168,7 +1340,36 @@ for _, rs := range results {
 ```
 
 </TabItem>
+</Tabs>
 
+```rust
+use milvus::v2::prelude::*;
+
+const COLLECTION_NAME: &str = "timestamptz_test123";
+
+let filter = "tsz > ISO '2025-01-05T00:00:00+08:00'";
+let response = client
+    .search(
+        SearchRequest::builder()
+            .collection_name(COLLECTION_NAME)
+            .vector_field("vec")
+            .vectors(SearchVectors::Float(vec![vec![0.1, 0.2, 0.3, 0.4]]))
+            .filter(filter)
+            .output_fields(["id", "tsz"])
+            .limit(5)
+            .build()?,
+    )
+    .await?;
+
+println!("Search result: ");
+for result in response.results() {
+    for row in result.rows()? {
+        println!("{:?}", row.to_entity_row()?);
+    }
+}
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
 <TabItem value='c++'>
 
 ```c++

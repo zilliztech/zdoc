@@ -541,7 +541,7 @@ if err != nil {
     // handle err
 }
 
-err = client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection"))
+_, err = client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection"))
 if err != nil {
     fmt.Println(err.Error())
     // handle err
@@ -929,7 +929,7 @@ let query_results = client
             .build()?,
     )
     .await?;
-for row in query_results.get_output_rows()? {
+for row in query_results.results().get_output_rows()? {
     println!("{:?}", row);
 }
 ```
@@ -1056,7 +1056,7 @@ let query_results = client
             .build()?,
     )
     .await?;
-for row in query_results.get_output_rows()? {
+for row in query_results.results().get_output_rows()? {
     println!("{:?}", row);
 }
 ```
@@ -1212,8 +1212,10 @@ let search_results = client
             .build()?,
     )
     .await?;
-for row in search_results.results().get_output_rows()? {
-    println!("{:?}", row);
+for result in search_results.results().iter() {
+    for row in result.get_output_rows()? {
+        println!("{:?}", row);
+    }
 }
 ```
 

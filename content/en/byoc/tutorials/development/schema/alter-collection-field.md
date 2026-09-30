@@ -39,7 +39,7 @@ A VarChar field has a property named `max_length`, which constrains the maximum 
 
 The following example assumes the collection has a VarChar field named `varchar` and sets its `max_length` property.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -83,18 +83,6 @@ client.alterCollectionField(AlterCollectionFieldReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-await client.alterCollectionFieldProperties({
-  collection_name: LOAD_COLLECTION_NAME,
-  field_name: 'varchar',
-  properties: { max_length: 1024 },
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -102,13 +90,11 @@ import (
     "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/entity"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
-    "github.com/milvus-io/milvus/pkg/v2/common"
+    "github.com/milvus-io/milvus/client/v3/common"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-ctx, cancel := context.WithCancel(context.Background())
-defer cancel()
+ctx := context.Background()
 
 milvusAddr := "YOUR_CLUSTER_ENDPOINT"
 
@@ -130,31 +116,28 @@ if err != nil {
 ```
 
 </TabItem>
+</Tabs>
 
-<TabItem value='bash'>
+```rust
+use milvus::v2::prelude::*;
 
-```bash
-# restful
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/collections/fields/alter_properties" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
---header "Request-Timeout: 10" \
---data '{
-    "collectionName": "my_collection",
-    "field_name": "varchar",
-    "properties": {
-        "max_length": "1024"
-    }
-}'
+client
+    .alter_collection_field_properties(
+        AlterCollectionFieldPropertiesRequest::builder()
+            .collection_name("my_collection")
+            .field_name("varchar")
+            .property("max_length", "1024")
+            .build()?,
+    )
+    .await?;
 ```
 
-</TabItem>
-
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
 <TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
+#include <iostream>
 
 auto client = milvus::MilvusClientV2::Create();
 
@@ -174,6 +157,42 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
+
+const client = new MilvusClient({ address: 'YOUR_CLUSTER_ENDPOINT', token: 'YOUR_CLUSTER_TOKEN' });
+
+await client.alterCollectionFieldProperties({
+  collection_name: 'my_collection',
+  field_name: 'varchar',
+  properties: { max_length: 1024 },
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/fields/alter_properties" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+--data '{
+    "collectionName": "my_collection",
+    "fieldName": "varchar",
+    "fieldParams": {
+        "max_length": "1024"
+    }
+}'
+```
+
+</TabItem>
 </Tabs>
 
 ## Alter ARRAY field\{#alter-array-field}
@@ -182,7 +201,7 @@ An array field has two properties, namely `element_type` and `max_capacity`. The
 
 The following example assumes the collection has an array field named `array` and sets its `max_capacity` property.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -209,6 +228,49 @@ client.alterCollectionField(AlterCollectionFieldReq.builder()
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+err = client.AlterCollectionFieldProperty(ctx, milvusclient.NewAlterCollectionFieldPropertiesOption(
+    "my_collection", "array").WithProperty(common.MaxCapacityKey, 64))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+
+client
+    .alter_collection_field_properties(
+        AlterCollectionFieldPropertiesRequest::builder()
+            .collection_name("my_collection")
+            .field_name("array")
+            .property("max_capacity", "64")
+            .build()?,
+    )
+    .await?;
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+auto status = client->AlterCollectionFieldProperties(milvus::AlterCollectionFieldPropertiesRequest()
+                                                .WithCollectionName("my_collection")
+                                                .WithFieldName("array")
+                                                .AddProperty("max_capacity", "64"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -223,49 +285,22 @@ await client.alterCollectionFieldProperties({
 
 </TabItem>
 
-<TabItem value='go'>
-
-```go
-err = client.AlterCollectionFieldProperty(ctx, milvusclient.NewAlterCollectionFieldPropertiesOption(
-    "my_collection", "array").WithProperty(common.MaxCapacityKey, 64))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-```
-
-</TabItem>
-
 <TabItem value='bash'>
 
 ```bash
 # restful
 curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/collections/fields/alter_properties" \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/fields/alter_properties" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --header "Request-Timeout: 10" \
 --data '{
     "collectionName": "my_collection",
-    "field_name": "array",
-    "properties": {
+    "fieldName": "array",
+    "fieldParams": {
         "max_capacity": "64"
     }
 }'
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto status = client->AlterCollectionFieldProperties(milvus::AlterCollectionFieldPropertiesRequest()
-                                                .WithCollectionName("my_collection")
-                                                .WithFieldName("array")
-                                                .AddProperty("max_capacity", "64"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
 ```
 
 </TabItem>
@@ -277,14 +312,14 @@ Memory mapping (Mmap) enables direct memory access to large files on disk, allow
 
 The following example assumes the collection has a field named `doc_chunk` and sets its `mmap_enabled` property.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 client.alter_collection_field(
-    collection="my_collection",
+    collection_name="my_collection",
     field_name="doc_chunk",
-    properties={"mmap.enabled": True}
+    field_params={"mmap.enabled": True}
 )
 ```
 
@@ -296,22 +331,8 @@ client.alter_collection_field(
 client.alterCollectionField(AlterCollectionFieldReq.builder()
         .collectionName("my_collection")
         .fieldName("doc_chunk")
-        .property("mmap.enabled", "True")
+        .property("mmap.enabled", "true")
         .build());
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-await client.alterCollectionProperties({
-  collection_name: "my_collection",
-  field_name: 'doc_chunk',
-  properties: { 
-      'mmap.enabled': true, 
-  }
-});
 ```
 
 </TabItem>
@@ -328,27 +349,23 @@ if err != nil {
 ```
 
 </TabItem>
+</Tabs>
 
-<TabItem value='bash'>
+```rust
+use milvus::v2::prelude::*;
 
-```bash
-# restful
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/collections/fields/alter_properties" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
---header "Request-Timeout: 10" \
---data '{
-    "collectionName": "my_collection",
-    "field_name": "doc_chunk",
-    "properties": {
-        "mmap.enabled": True
-    }
-}'
+client
+    .alter_collection_field_properties(
+        AlterCollectionFieldPropertiesRequest::builder()
+            .collection_name("my_collection")
+            .field_name("doc_chunk")
+            .property("mmap.enabled", "true")
+            .build()?,
+    )
+    .await?;
 ```
 
-</TabItem>
-
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
 <TabItem value='c++'>
 
 ```c++
@@ -359,6 +376,38 @@ auto status = client->AlterCollectionFieldProperties(milvus::AlterCollectionFiel
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.alterCollectionFieldProperties({
+  collection_name: 'my_collection',
+  field_name: 'doc_chunk',
+  properties: { 'mmap.enabled': true },
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/fields/alter_properties" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+--data '{
+    "collectionName": "my_collection",
+    "fieldName": "doc_chunk",
+    "fieldParams": {
+        "mmap.enabled": true
+    }
+}'
 ```
 
 </TabItem>
