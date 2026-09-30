@@ -85,12 +85,6 @@ module.exports = [
     "items": [
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-Collections/v2-Collections-alterCollectionField",
-        "label": "alterCollectionField()",
-        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-altercollectionfield"
-      },
-      {
-        "type": "doc",
         "id": "api/java/java/v2/v2-Collections/v2-Collections-alterCollectionProperties",
         "label": "alterCollectionProperties()",
         "key": "doc:api/java/java/v2/v2-Collections/v2-collections-altercollectionproperties"
@@ -293,6 +287,61 @@ module.exports = [
         "id": "api/java/java/v2/v2-Collections/v2-Collections-dropCollectionFunction",
         "label": "dropCollectionFunction()",
         "key": "doc:api/java/java/v2/v2-Collections/v2-collections-dropcollectionfunction"
+      },
+      {
+        "type": "category",
+        "label": "StructFieldSchema",
+        "key": "category:api/java/java/v2/v2-Collections/v2-collections-structfieldschema",
+        "items": [
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-addField",
+            "label": "addField()",
+            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-structfieldschema-addfield"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getDataType",
+            "label": "getDataType()",
+            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-structfieldschema-getdatatype"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getDescription",
+            "label": "getDescription()",
+            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-structfieldschema-getdescription"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getElementType",
+            "label": "getElementType()",
+            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-structfieldschema-getelementtype"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getFields",
+            "label": "getFields()",
+            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-structfieldschema-getfields"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getMaxCapacity",
+            "label": "getMaxCapacity()",
+            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-structfieldschema-getmaxcapacity"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getName",
+            "label": "getName()",
+            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-structfieldschema-getname"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-Collections-StructFieldSchema",
+            "label": "StructFieldSchema",
+            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-collections-structfieldschema"
+          }
+        ]
       },
       {
         "type": "doc",

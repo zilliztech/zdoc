@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "group": "java",
   "complete": true,
-  "generatedAt": "2026-09-29T18:46:44.098Z",
-  "sourceRunId": "36611887957",
+  "generatedAt": "2026-09-30T02:52:30.303Z",
+  "sourceRunId": "36660162659",
   "records": [
     {
       "canonicalToken": "A6Vld2dJToRXs8xhq0wcGdiRnDc",
@@ -177,15 +177,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "BHOndJSmyoUV8Dx7OsYczbSynxf",
-      "title": "alterAlias()",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "BLFEde4BuoCjTSxjYSUcZerEnOb",
       "title": "getBatchFiles()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-getBatchFiles.md",
@@ -285,15 +276,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "CXRKdtrNCo9cNFxldBocHsS1nag",
-      "title": "StructFieldSchema",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "Cde1dlUbDosa86xjuShcoKgQnvg",
       "title": "listVolumes()",
       "contentPath": null,
@@ -315,6 +297,15 @@
       "canonicalToken": "DAIfdXKk5oCHeNxOUvCc1KcpnNh",
       "title": "CreateSchema()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CreateSchema.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "DCszdG9rCoZxhfxfAuOcNsXRnOc",
+      "title": "StructFieldSchema",
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-Collections-StructFieldSchema.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -386,6 +377,15 @@
     {
       "canonicalToken": "DZcddGCD3oh29txhnB5cuxzzn4d",
       "title": "getName()",
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getName.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "EIpEd9GbBos4ArxNxzocfI4EnQh",
+      "title": "alterCollectionField()",
       "contentPath": null,
       "objectToken": null,
       "parentToken": null,
@@ -458,7 +458,7 @@
     {
       "canonicalToken": "FGO8dhjlTovfOdxpOw0c3wyNntc",
       "title": "addField()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-addField.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -476,7 +476,7 @@
     {
       "canonicalToken": "FIzIdKrRNooFttxaf3Pc1vOlnnc",
       "title": "getFields()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getFields.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1106,7 +1106,7 @@
     {
       "canonicalToken": "MPJ0dxzDIoNKYPxGA5PcD2F8nRb",
       "title": "getDataType()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getDataType.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1230,15 +1230,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "OtrZdy7OtoC9N9xb8TjcCtM7nfc",
-      "title": "alterCollectionField()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-alterCollectionField.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "OykrdeI7zobXOuxXsxBcId4pn8c",
       "title": "getTelemetry()",
       "contentPath": null,
@@ -1277,7 +1268,7 @@
     {
       "canonicalToken": "PSdEdxU7ZoTxelx7sLzcAAXsnQH",
       "title": "getMaxCapacity()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getMaxCapacity.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1322,7 +1313,7 @@
     {
       "canonicalToken": "PvRGdribPou7PHxcoSWcRK3unUc",
       "title": "getElementType()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getElementType.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1376,7 +1367,7 @@
     {
       "canonicalToken": "QbfPdyw7EoXpGwxSkGgcytBBnAb",
       "title": "getDescription()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getDescription.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1545,6 +1536,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "SkdsdSZ9lo79GYx31YEcvaSon4c",
+      "title": "alterAlias()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "TCw7d7brCovAUpxA5D8cjOIGn1b",
       "title": "refreshLoad()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-refreshLoad.md",
@@ -1644,15 +1644,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "UjZ7dgX6foP9JqxIsehcvX9Yn9f",
-      "title": "startTelemetry()",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "V39Ady6thoD9cCxBcopcquFKnzc",
       "title": "commit()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-commit.md",
@@ -1719,15 +1710,6 @@
       "canonicalToken": "Vv4NdWVa5o5BSrx11OZcNVnQnbh",
       "title": "listCollections()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-listCollections.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "WAThdqGSxogL8FxhDBmc3Re5nVe",
-      "title": "close()",
-      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
