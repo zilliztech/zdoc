@@ -10,7 +10,7 @@ notebook: false
 description: "This enum specifies the distance metric used to compare vectors. Pass a `MetricType` value to `IndexDesc` when creating an index, and to search request arguments when running a search. The valid choices depend on the vector field's data type. | Cloud"
 type: docx
 token: Fh1mdjyzRo7LanxIvHqcF9ihnLb
-sidebar_position: 17
+sidebar_position: 19
 keywords: 
   - Faiss
   - Video search

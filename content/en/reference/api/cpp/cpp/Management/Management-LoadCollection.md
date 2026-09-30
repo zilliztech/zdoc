@@ -10,7 +10,7 @@ notebook: false
 description: "This operation loads collection data into the query node's CPU and memory. If the request is in sync mode, this operation checks the collection's loading progress and waits until the collection is completely loaded into the query node. Otherwise, it will return immediately. | Cloud"
 type: docx
 token: TqIzdhIkFoR8KYxBXfscml0Ln8c
-sidebar_position: 16
+sidebar_position: 18
 keywords: 
   - nlp search
   - hallucinations llm

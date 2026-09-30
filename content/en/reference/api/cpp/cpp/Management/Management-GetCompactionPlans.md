@@ -10,7 +10,7 @@ notebook: false
 description: "This operation fetches the current state and merge plans of a compaction job on a collection. Pass the compaction job ID returned by Compact(). | Cloud"
 type: docx
 token: Q9LBd7Mano2Sgyx3wJUcv4YrnLc
-sidebar_position: 8
+sidebar_position: 9
 keywords: 
   - openai vector db
   - natural language processing database

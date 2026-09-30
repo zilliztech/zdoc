@@ -10,7 +10,7 @@ notebook: false
 description: "This class carries the parameters needed to build a vector or scalar index. Pass one or more `IndexDesc` objects to `CreateIndexRequest:AddIndex()`. `DescribeIndex()` also returns `IndexDesc` objects (via `DescribeIndexResponse::Descs()`) that include build-progress and state information. | Cloud"
 type: docx
 token: C4kSd9x2GobYZGxDTkacZsX2nlc
-sidebar_position: 11
+sidebar_position: 13
 keywords: 
   - Vectorization
   - k nearest neighbor algorithm

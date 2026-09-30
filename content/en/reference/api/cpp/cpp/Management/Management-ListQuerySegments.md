@@ -10,7 +10,7 @@ notebook: false
 description: "This operation retrieves information about loaded segments from query nodes. | Cloud"
 type: docx
 token: J946dq9upog3BoxXTaucrrqvn4g
-sidebar_position: 15
+sidebar_position: 17
 keywords: 
   - Sparse vs Dense
   - Dense vector

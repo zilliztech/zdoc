@@ -10,7 +10,7 @@ notebook: false
 description: "This operation retrieves information about persisted segments from data nodes. | Cloud"
 type: docx
 token: XhwtdeOEmoyc9YxuVpqck1ejnNe
-sidebar_position: 14
+sidebar_position: 16
 keywords: 
   - multimodal RAG
   - llm hallucinations

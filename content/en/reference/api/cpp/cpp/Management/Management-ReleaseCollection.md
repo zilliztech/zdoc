@@ -10,7 +10,7 @@ notebook: false
 description: "This operation releases collection data from the query node. | Cloud"
 type: docx
 token: RzmYdsC1joL3LuxT765csIbwnCh
-sidebar_position: 20
+sidebar_position: 22
 keywords: 
   - vector similarity search
   - approximate nearest neighbor search

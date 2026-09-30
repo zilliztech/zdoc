@@ -10,7 +10,7 @@ notebook: false
 description: "This operation flushes insert buffers for all collections in a database. Use it before backup or verification workflows that require persisted writes. | Cloud"
 type: docx
 token: UbjxdApcFonLD4xmm9fcJI2knKd
-sidebar_position: 21
+sidebar_position: 8
 keywords: 
   - milvus database
   - milvus lite

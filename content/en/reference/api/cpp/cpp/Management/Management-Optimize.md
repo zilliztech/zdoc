@@ -10,7 +10,7 @@ notebook: false
 description: "This operation optimizes a collection's segments by waiting for pending index builds, compacting toward the requested target segment size, and refreshing the load state if the collection is loaded. With the async option the work runs in a background task exposed through the OptimizeTask handle, which yields the final result. | Cloud"
 type: docx
 token: NlpedMAt2of5d6xPHvucRSzjnVe
-sidebar_position: 18
+sidebar_position: 20
 keywords: 
   - Hierarchical Navigable Small Worlds
   - Dense embedding

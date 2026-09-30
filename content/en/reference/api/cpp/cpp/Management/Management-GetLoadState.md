@@ -10,7 +10,7 @@ notebook: false
 description: "This operation gets the load state of the collection or partitions. | Cloud"
 type: docx
 token: Vs0rdbqzcoC2ODxjnR3cN1imnPd
-sidebar_position: 10
+sidebar_position: 12
 keywords: 
   - Pinecone vs Milvus
   - Chroma vs Milvus

@@ -10,7 +10,7 @@ notebook: false
 description: "This operation gets the status of a compaction job. | Cloud"
 type: docx
 token: G7OGdOxABoDWKMxUZDncelbanEd
-sidebar_position: 9
+sidebar_position: 10
 keywords: 
   - Video similarity search
   - Vector retrieval

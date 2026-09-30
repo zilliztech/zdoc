@@ -10,7 +10,7 @@ notebook: false
 description: "This operation gets the index names of a collection. | Cloud"
 type: docx
 token: QO98dfF7qoLAWYxwsy2cfalvntc
-sidebar_position: 13
+sidebar_position: 15
 keywords: 
   - Faiss vector database
   - Chroma vector database

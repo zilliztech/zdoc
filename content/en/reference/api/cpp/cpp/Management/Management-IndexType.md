@@ -10,7 +10,7 @@ notebook: false
 description: "This enum selects the index algorithm. Pass an `IndexType` value to `IndexDesc` when calling `CreateIndex()`. The valid choices depend on the field's data type. | Cloud"
 type: docx
 token: WiGbdKAIsoACkixKYHqcVz41npf
-sidebar_position: 12
+sidebar_position: 14
 keywords: 
   - vector database tutorial
   - how do vector databases work

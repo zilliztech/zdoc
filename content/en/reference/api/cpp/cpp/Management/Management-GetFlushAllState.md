@@ -10,7 +10,7 @@ notebook: false
 description: "This operation checks whether a flush-all action has completed. Use it when you need to poll completion separately from the initial flush request. | Cloud"
 type: docx
 token: TBtpd6bsLoelhbx2iXDccaVDnqe
-sidebar_position: 22
+sidebar_position: 11
 keywords: 
   - Audio similarity search
   - Elastic vector database

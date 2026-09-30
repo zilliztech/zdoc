@@ -10,7 +10,7 @@ notebook: false
 description: "This operation refreshes a loaded collection in QueryNode memory. Use it after significant ingestion or compaction when you want the loaded data view to catch up immediately. | Cloud"
 type: docx
 token: YI1BdnZOMoPSOMxjVMEcrrCwnWh
-sidebar_position: 19
+sidebar_position: 21
 keywords: 
   - vector similarity search
   - approximate nearest neighbor search

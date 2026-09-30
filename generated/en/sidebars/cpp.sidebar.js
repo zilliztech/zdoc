@@ -629,6 +629,12 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/cpp/cpp/Management/Management-FlushAll",
+        "label": "FlushAll()",
+        "key": "doc:api/cpp/cpp/Management/management-flushall"
+      },
+      {
+        "type": "doc",
         "id": "api/cpp/cpp/Management/Management-GetCompactionPlans",
         "label": "GetCompactionPlans()",
         "key": "doc:api/cpp/cpp/Management/management-getcompactionplans"
@@ -638,6 +644,12 @@ module.exports = [
         "id": "api/cpp/cpp/Management/Management-GetCompactionState",
         "label": "GetCompactionState()",
         "key": "doc:api/cpp/cpp/Management/management-getcompactionstate"
+      },
+      {
+        "type": "doc",
+        "id": "api/cpp/cpp/Management/Management-GetFlushAllState",
+        "label": "GetFlushAllState()",
+        "key": "doc:api/cpp/cpp/Management/management-getflushallstate"
       },
       {
         "type": "doc",
@@ -704,18 +716,6 @@ module.exports = [
         "id": "api/cpp/cpp/Management/Management-ReleaseCollection",
         "label": "ReleaseCollection()",
         "key": "doc:api/cpp/cpp/Management/management-releasecollection"
-      },
-      {
-        "type": "doc",
-        "id": "api/cpp/cpp/Management/Management-FlushAll",
-        "label": "FlushAll()",
-        "key": "doc:api/cpp/cpp/Management/management-flushall"
-      },
-      {
-        "type": "doc",
-        "id": "api/cpp/cpp/Management/Management-GetFlushAllState",
-        "label": "GetFlushAllState()",
-        "key": "doc:api/cpp/cpp/Management/management-getflushallstate"
       },
       {
         "type": "doc",
