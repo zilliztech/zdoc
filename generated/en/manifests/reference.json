@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "2f012dbbf400804e3e478d317001a6992ee91dba",
+  "sourceCommit": "1951fb44c80c56b84ada0eaaa6edb9b3c28d57ac",
   "records": [
     {
       "manual": "cli",
@@ -1155,27 +1155,27 @@
     {
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-FlushAll.md",
-      "sourceHash": "217262fb506596659e5cbb11b15176c73aa2261082d3cdbc94afbe04f1607524"
+      "sourceHash": "1392a268a89e3fe345c9bb2ef4c6a547c4f44dfbf355f20ca2cc1ddbe5f23246"
     },
     {
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-GetCompactionPlans.md",
-      "sourceHash": "65296e3cb2db4df7fea478e84c3e1579acef85d4ebc57ff753c7ac573ea18c46"
+      "sourceHash": "87e96cb1e1030b616c5cdc4b5a76e5370ce235d844978bf3fca72b1fae7c4b3d"
     },
     {
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-GetCompactionState.md",
-      "sourceHash": "71260855a20626944e41eb32f2a44597693f08f5a46c165f544a9a87b66908cd"
+      "sourceHash": "78d8880c626fa5748ed68cfb15709919e15d40af9066ddb82542cedf59a42868"
     },
     {
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-GetFlushAllState.md",
-      "sourceHash": "f87f80386c315e04437debdc3b90c1ffb6a8540d54dc5e593b8a5506cf02531e"
+      "sourceHash": "65baf4d7a64aa597b886a462cd74f027a4d116884d625598f8f6549edea36148"
     },
     {
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-GetLoadState.md",
-      "sourceHash": "732af9752010cbd6e6c64fa9caeb641116a8f723f8f35a5e03e6cf7c8c7a7fff"
+      "sourceHash": "d510488822bd874921956b7740a72dcba9a9dd9ecd62e80ed4f0bc15affbbad5"
     },
     {
       "manual": "cpp",
@@ -1185,27 +1185,27 @@
     {
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-IndexDesc.md",
-      "sourceHash": "74c933a7279cc248ecde416659319ab40c74fe7f150877cff7d3676339e820d3"
+      "sourceHash": "8c79a54c500b2cf16ab5959ba241ffc9782a42298fcb16526beead58d4fc173a"
     },
     {
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-IndexType.md",
-      "sourceHash": "4f47b334d96b720be4fba25069b0ad93058d86aab8bc4d66b209eee6cf4ad1a4"
+      "sourceHash": "42878acc21c1a4cc8c51b4da26b8b0bec6e91d381f6a8331b224697469fb31f8"
     },
     {
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-ListIndexes.md",
-      "sourceHash": "f63db9d5932a39b0d0cb6628352328e5caae4d0d199941ce7e02fd8a3aa5bcc5"
+      "sourceHash": "d5ab1a1de6e5044bfa2316de328278c996d6975efa6274da3f68500e073f5a3a"
     },
     {
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-ListPersistentSegments.md",
-      "sourceHash": "2e0270e8aed0a651c9397ff2380ef7a0132f5876913246311dbf036ae296559c"
+      "sourceHash": "17f0e948aa482f31e95d9c59b5d6ba1b35071a79a79eb51d54a6c35a539f260a"
     },
     {
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-ListQuerySegments.md",
-      "sourceHash": "1b4ae2b5783caba81dbeafd1670b4d324b076f6aa3d737d9f08f4869c5d518e0"
+      "sourceHash": "ba24783237aa1617dc897193779066351ab8dc84345707a7fdc2bc51d25d3908"
     },
     {
       "manual": "cpp",
@@ -1215,17 +1215,17 @@
     {
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-LoadCollection.md",
-      "sourceHash": "387be1ee75d9aea481a2deb41a78413a3f0ad552f840ceb26be12e47d280ccbc"
+      "sourceHash": "4299100d8fa1c2b75786b83fb8f2e2b4418657de95a6bbf61034cffc686fc7f9"
     },
     {
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-MetricType.md",
-      "sourceHash": "2b6b95a6ce19e797887416d2fe5f12e5fbd07122b36f441cb47a2f302a9bfb44"
+      "sourceHash": "22e14d20f59badf5d703fda0aa81b523850d73f4ce6c34bb9abd9b593f1856f2"
     },
     {
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-Optimize.md",
-      "sourceHash": "179afcba7ee5da2704ff6f2cae6c4d599f3072639839a2e5cf8aaf72a8c2d4e3"
+      "sourceHash": "9c7bdcfb03603f6196ac945e91bbbf1a8c69c72d432b5e714b695f90a94c838f"
     },
     {
       "manual": "cpp",
@@ -1235,12 +1235,12 @@
     {
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-RefreshLoad.md",
-      "sourceHash": "ffe30d643654300a0a64eb77b99d31795865ee1e9db5902295196c4b89d4066a"
+      "sourceHash": "959a98191b5565512106ec453476f31b9e214ad96fcb9a92b1021df96fcf3d3a"
     },
     {
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-ReleaseCollection.md",
-      "sourceHash": "fd1ee8004215e4d51412250762ee8b72f5a49339fcfed3ee98762a5ac569d2e5"
+      "sourceHash": "d55f6bbc751cb345075be02c5965dbbec894702114348c7b90af72328c710da1"
     },
     {
       "manual": "cpp",
@@ -2256,46 +2256,6 @@
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-addFunctionField.md",
       "sourceHash": "6a9db4fd09ef5a6230ecff9deb2a28b49db7fd127161027ed1cab6b95e25af17"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-alterCollectionFunction.md",
-      "sourceHash": "8aa3f8f16b235cac8a3f884176a3c09645a00b586d0bc9940637d7f55c0f9f4c"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-alterCollectionProperties.md",
-      "sourceHash": "a2b30e369061bc772f1bb3b63974625de9661a1436ba956f116eff4c303b6e2b"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-batchDescribeCollection.md",
-      "sourceHash": "440db868461a092fb2a64bffab25193a097b92ef64c8386baad6b27f04cfe78d"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-createAlias.md",
-      "sourceHash": "32ccb071b2ebe74d03a97838db832f26dcc7db355074df47bb89315a3f2122f2"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-createCollection.md",
-      "sourceHash": "70bfd268dec90b8690a3d23650ef850f44ac540ca1bf2be85340c5e031054c1d"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-describeAlias.md",
-      "sourceHash": "48a448ca85a4955a478aa45479672752f5a7decd9209d6970be2fdaa4a67bc85"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-describeCollection.md",
-      "sourceHash": "db2802b19857c3dbcd7a16830890f6d5bcbd00f2fe90441603f8c8931877ec41"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-describeReplicas.md",
-      "sourceHash": "dcdbaa78ab7be071088b7c09ae1c58fb5b146b7e7a98611a1f6be3f5f3d7bad4"
     },
     {
       "manual": "java",
@@ -4326,11 +4286,6 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Highlighter/Highlighter-LexicalHighlighter.md",
       "sourceHash": "f1dee1b31139d4a60baec62b471c076274b3629ecb692dcc2705db601e51240a"
-    },
-    {
-      "manual": "python",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Highlighter/Highlighter-SemanticHighlighter.md",
-      "sourceHash": "9acae2b19de4b399e90b08e5eafdc2d880a8817b5bdd5de6f90de82d9191a359"
     },
     {
       "manual": "python",
