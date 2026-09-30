@@ -92,7 +92,7 @@ To use sparse vectors in Zilliz Cloud clusters, you need to create a collection 
 
 - Typically, the raw text that the sparse vector represents is also stored in the collection. You can use a `VARCHAR` field for storing the raw text.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -149,37 +149,6 @@ schema.addField(AddFieldReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-import { DataType } from "@zilliz/milvus2-sdk-node";
-
-const schema = [
-  {
-    name: "metadata",
-    data_type: DataType.JSON,
-  },
-  {
-    name: "pk",
-    data_type: DataType.Int64,
-    is_primary_key: true,
-  },
-  {
-    name: "sparse_vector",
-    data_type: DataType.SparseFloatVector,
-  },
-  {
-    name: "text",
-    data_type: "VarChar",
-    enable_analyzer: true,
-    enable_match: true,
-    max_length: 65535,
-  },
-];
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -187,18 +156,15 @@ import (
     "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/column"
-    "github.com/milvus-io/milvus/client/v2/entity"
-    "github.com/milvus-io/milvus/client/v2/index"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-ctx, cancel := context.WithCancel(context.Background())
-defer cancel()
+ctx := context.Background()
 
-milvusAddr := "YOUR_CLUSTER_ENDPOINT"
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: milvusAddr,
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
 })
 if err != nil {
     fmt.Println(err.Error())
@@ -222,6 +188,97 @@ schema.WithField(entity.NewField().
     WithEnableAnalyzer(true).
     WithMaxLength(65535),
 )
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+// rust
+use milvus::v2::prelude::*;
+
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+)
+.await?;
+
+let schema = CollectionSchema::new()
+    .add_field(
+        FieldSchema::new()
+            .name("pk")
+            .data_type(DataType::VarChar)
+            .primary_key(true)
+            .auto_id(true)
+            .max_length(100),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("sparse_vector")
+            .data_type(DataType::SparseFloatVector),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("text")
+            .data_type(DataType::VarChar)
+            .enable_analyzer(true)
+            .max_length(65535),
+    );
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->AddField(milvus::FieldSchema("pk", milvus::DataType::VARCHAR, "", true, true).WithMaxLength(100));
+schema->AddField(milvus::FieldSchema("sparse_vector", milvus::DataType::SPARSE_FLOAT_VECTOR));
+schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR).WithMaxLength(65535).EnableAnalyzer(true));
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient, DataType, MetricType, IndexType } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({
+  address: "YOUR_CLUSTER_ENDPOINT",
+  token: "YOUR_CLUSTER_TOKEN",
+});
+
+const schema = [
+  {
+    name: "pk",
+    data_type: DataType.VarChar,
+    is_primary_key: true,
+    autoID: true,
+    max_length: 100,
+  },
+  {
+    name: "sparse_vector",
+    data_type: DataType.SparseFloatVector,
+  },
+  {
+    name: "text",
+    data_type: DataType.VarChar,
+    enable_analyzer: true,
+    max_length: 65535,
+  },
+];
 ```
 
 </TabItem>
@@ -263,27 +320,6 @@ export schema="{
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
-auto status = client->Connect(connect_param);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
-schema->AddField(milvus::FieldSchema("pk", milvus::DataType::VARCHAR, "", true, true).WithMaxLength(100));
-schema->AddField(milvus::FieldSchema("sparse_vector", milvus::DataType::SPARSE_FLOAT_VECTOR));
-schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR).WithMaxLength(65535).EnableAnalyzer(true));
-```
-
-</TabItem>
 </Tabs>
 
 In this example, three fields are added:
@@ -304,7 +340,7 @@ To enable  or Zilliz Cloud to generate sparse vector embeddings from a specified
 
 The process of creating an index for sparse vectors is similar to that for [dense vectors](./use-dense-vector), but with differences in the specified index type (`index_type`), distance metric (`metric_type`), and index parameters (`params`).
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -336,24 +372,50 @@ indexes.add(IndexParam.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-const indexParams = await client.createIndex({
-    field_name: 'sparse_vector',
-    metric_type: MetricType.IP,
-    index_name: 'sparse_auto_index',
-    index_type: IndexType.AUTOINDEX,
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
 idx := index.NewSparseInvertedIndex(entity.IP, 0.2)
 indexOption := milvusclient.NewCreateIndexOption("my_collection", "sparse_vector", idx)
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+// rust
+use milvus::v2::prelude::*;
+use std::collections::HashMap;
+
+let index_param = IndexParam::new()
+    .field_name("sparse_vector")
+    .index_name("sparse_inverted_index")
+    .index_type(IndexType::SparseInvertedIndex)
+    .metric_type(MetricType::Ip)
+    .extra_params(HashMap::from([(
+        "inverted_index_algo".to_string(),
+        "DAAT_MAXSCORE".to_string(),
+    )]));
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+milvus::IndexDesc sparse_index("sparse_vector", "sparse_auto_index", milvus::IndexType::AUTOINDEX, milvus::MetricType::IP);
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const indexParams = {
+    field_name: 'sparse_vector',
+    metric_type: MetricType.IP,
+    index_name: 'sparse_auto_index',
+    index_type: IndexType.AUTOINDEX,
+};
 ```
 
 </TabItem>
@@ -372,14 +434,6 @@ export indexParams='[
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-milvus::IndexDesc sparse_index("sparse_vector", "sparse_auto_index", milvus::IndexType::AUTOINDEX, milvus::MetricType::IP);
-```
-
-</TabItem>
 </Tabs>
 
 This example uses the `SPARSE_INVERTED_INDEX` index type with `IP` as the metric. For more details, see the following resources:
@@ -392,7 +446,7 @@ This example uses the `SPARSE_INVERTED_INDEX` index type with `IP` as the metric
 
 Once the sparse vector and index settings are complete, you can create a collection that contains sparse vectors. The example below uses the [`create_collection`](./manage-collections-sdks) method to create a collection named `my_collection`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -418,20 +472,6 @@ client.createCollection(requestCreate);
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-import { MilvusClient } from "@zilliz/milvus2-sdk-node";
-
-await client.createCollection({
-    collection_name: 'my_collection',
-    schema: schema,
-    index_params: indexParams
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -442,6 +482,70 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
+
+loadTask, err := client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+err = loadTask.Await(ctx)
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+// rust
+use milvus::v2::prelude::*;
+
+client
+    .create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name("my_collection")
+            .schema(schema)
+            .index_params(vec![index_param])
+            .build()?,
+    )
+    .await?;
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+
+auto status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                        .WithCollectionName("my_collection")
+                                        .AddIndex(std::move(sparse_index))
+                                        .WithCollectionSchema(schema));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.createCollection({
+    collection_name: 'my_collection',
+    schema: schema,
+});
+
+await client.createIndex({
+    collection_name: 'my_collection',
+    ...indexParams,
+});
+
+await client.loadCollection({
+    collection_name: 'my_collection',
+});
 ```
 
 </TabItem>
@@ -449,6 +553,9 @@ if err != nil {
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/create" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -462,27 +569,13 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto status = client->CreateCollection(milvus::CreateCollectionRequest()
-                                        .WithCollectionName("my_collection")
-                                        .AddIndex(std::move(sparse_index))
-                                        .WithCollectionSchema(schema));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
 
 ## Insert data\{#insert-data}
 
 You must provide data for all fields defined during collection creation, except for fields that are auto-generated (such as the primary key with `auto_id` enabled). If you are using the built-in BM25 function to auto-generate sparse vectors, you should also omit the sparse vector field when inserting data.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -552,27 +645,6 @@ InsertResp insertResp = client.insert(InsertReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-const data = [
-    {
-        text: 'information retrieval is a field of study.',
-        sparse_vector: {1: 0.5, 100: 0.3, 500: 0.8}
-    {
-        text: 'information retrieval focuses on finding relevant information in large datasets.',
-        sparse_vector: {10: 0.1, 200: 0.7, 1000: 0.9}
-    },
-];
-
-client.insert({
-    collection_name: "my_collection",
-    data: data
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -580,7 +652,7 @@ texts := []string{
     "information retrieval is a field of study.",
     "information retrieval focuses on finding relevant information in large datasets.",
 }
-textColumn := entity.NewColumnVarChar("text", texts)
+textColumn := column.NewColumnVarChar("text", texts)
 
 // Prepare sparse vectors
 sparseVectors := make([]entity.SparseEmbedding, 0, 2)
@@ -588,18 +660,78 @@ sparseVector1, _ := entity.NewSliceSparseEmbedding([]uint32{1, 100, 500}, []floa
 sparseVectors = append(sparseVectors, sparseVector1)
 sparseVector2, _ := entity.NewSliceSparseEmbedding([]uint32{10, 200, 1000}, []float32{0.1, 0.7, 0.9})
 sparseVectors = append(sparseVectors, sparseVector2)
-sparseVectorColumn := entity.NewColumnSparseVectors("sparse_vector", sparseVectors)
+sparseVectorColumn := column.NewColumnSparseVectors("sparse_vector", sparseVectors)
 
 _, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("my_collection").
     WithColumns(
         sparseVectorColumn,
-        textColumn
-        
+        textColumn,
     ))
 if err != nil {
     fmt.Println(err.Error())
     // handle err
 }
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+// rust
+use milvus::v2::prelude::*;
+
+client
+    .insert(
+        InsertRequest::builder()
+            .collection_name("my_collection")
+            .rows([
+                serde_json::json!({"text": "information retrieval is a field of study.", "sparse_vector": {"1": 0.5, "100": 0.3, "500": 0.8}}),
+                serde_json::json!({"text": "information retrieval focuses on finding relevant information in large datasets.", "sparse_vector": {"10": 0.1, "200": 0.7, "1000": 0.9}}),
+            ])
+            .build()?,
+    )
+    .await?;
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+
+milvus::EntityRows data = {{{"text", "information retrieval is a field of study."}, {"sparse_vector", {{"1", 0.5}, {"100", 0.3}, {"500", 0.8}}}},
+                           {{"text", "information retrieval focuses on finding relevant information in large datasets."}, {"sparse_vector", {{"10", 0.1}, {"200", 0.7}, {"1000", 0.9}}}}};
+
+milvus::InsertResponse response;
+auto status = client->Insert(milvus::InsertRequest()
+                                .WithCollectionName("my_collection")
+                                .WithRowsData(std::move(data)),
+                             response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const data = [
+    {
+        text: 'information retrieval is a field of study.',
+        sparse_vector: {1: 0.5, 100: 0.3, 500: 0.8},
+    },
+    {
+        text: 'information retrieval focuses on finding relevant information in large datasets.',
+        sparse_vector: {10: 0.1, 200: 0.7, 1000: 0.9},
+    },
+];
+
+await client.insert({
+    collection_name: "my_collection",
+    data: data
+});
 ```
 
 </TabItem>
@@ -628,31 +760,13 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-milvus::EntityRows data = {{"text", "information retrieval is a field of study.", {"sparse_vector", {{"1", 0.5}, {"100", 0.3}, {"500", 0.8}}}},
-                           {{"text", "information retrieval focuses on finding relevant information in large datasets."}, {"sparse_vector", {{"10", 0.1}, {"200", 0.7}, {"1000", 0.9}}}}};
-                           
-milvus::InsertResponse response;
-auto status = client->Insert(milvus::InsertRequest()
-                                .WithCollectionName("my_collection")
-                                .WithRowsData(std::move(data)),
-                             response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
 
 ## Perform Similarity Search\{#perform-similarity-search}
 
 To perform a similarity search using sparse vectors, prepare both the query data and the search parameters. 
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -670,8 +784,12 @@ query_data = [{1: 0.2, 50: 0.4, 1000: 0.7}]
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.request.data.SparseFloatVec;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 // Prepare search parameters
 Map<String,Object> searchParams = new HashMap<>();
@@ -699,6 +817,32 @@ queryData, _ := entity.NewSliceSparseEmbedding([]uint32{1, 50, 1000}, []float32{
 ```
 
 </TabItem>
+</Tabs>
+
+```rust
+// rust
+use milvus::v2::prelude::*;
+use std::collections::HashMap;
+
+// Prepare search parameters
+let search_params = HashMap::from([("drop_ratio_search".to_string(), "0.2".to_string())]);
+
+// Query with the sparse vector
+let sparse: SparseVector = [(1, 0.2f32), (50, 0.4f32), (1000, 0.7f32)].into_iter().collect();
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+// Prepare search parameters
+const std::string drop_ratio_search = "0.2";  // A tunable drop ratio parameter with a valid range between 0 and 1
+
+// Query with the sparse vector
+nlohmann::json query_vector = {{"1", 0.2}, {"50", 0.4}, {"1000", 0.7}};
+```
+
+</TabItem>
 
 <TabItem value='javascript'>
 
@@ -716,18 +860,10 @@ const queryData = [{1: 0.2, 50: 0.4, 1000: 0.7}]
 
 ```bash
 # Prepare search parameters
-export queryData='["What is information retrieval?"]'
+export searchParams='{"drop_ratio_search": 0.2}'
 
 # Query with the sparse vector
-export queryData='[{1: 0.2, 50: 0.4, 1000: 0.7}]'
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-nlohmann::json query_vector = {{"1", 0.2}, {"50", 0.4}, {"1000", 0.7}};
+export queryData='[{"1": 0.2, "50": 0.4, "1000": 0.7}]'
 ```
 
 </TabItem>
@@ -735,7 +871,7 @@ nlohmann::json query_vector = {{"1", 0.2}, {"50", 0.4}, {"1000", 0.7}};
 
 Then, execute the similarity search using the `search` method:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -759,10 +895,11 @@ print(res)
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.ConsistencyLevel;
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.response.SearchResp;
 
-SparseFloatVec queryVector = new SparseFloatVec(sparse);
+import java.util.Collections;
 
 SearchResp searchR = client.search(SearchReq.builder()
         .collectionName("my_collection")
@@ -773,27 +910,12 @@ SearchResp searchR = client.search(SearchReq.builder()
         .topK(3)
         .outputFields(Collections.singletonList("pk"))
         .build());
-        
+
 System.out.println(searchR.getSearchResults());
 
 // Output
 //
 // [[SearchResp.SearchResult(entity={pk=457270974427187729}, score=0.63, id=457270974427187729), SearchResp.SearchResult(entity={pk=457270974427187728}, score=0.1, id=457270974427187728)]]
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-await client.search({
-    collection_name: 'my_collection',
-    data: queryData,
-    limit: 3,
-    output_fields: ['pk'],
-    params: searchParams,
-    consistency_level: "Strong"
-});
 ```
 
 </TabItem>
@@ -826,42 +948,39 @@ for _, resultSet := range resultSets {
 ```
 
 </TabItem>
+</Tabs>
 
-<TabItem value='bash'>
+```rust
+// rust
+use milvus::v2::prelude::*;
 
-```bash
-export params='{
-    "consistencyLevel": "Strong"
-}'
+let results = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("my_collection")
+            .vector_field("sparse_vector")
+            .vectors(SearchVectors::SparseFloat(vec![sparse]))
+            .limit(3)
+            .output_fields(["pk"])
+            .extra_params(search_params)
+            .build()?,
+    )
+    .await?;
 
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
---header "Request-Timeout: 10" \
--d '{
-    "collectionName": "my_collection",
-    "data": $queryData,
-    "annsField": "sparse_vector",
-    "limit": 3,
-    "searchParams": $searchParams,
-    "outputFields": ["pk"],
-    "params": $params
-}'
-
-## {"code":0,"cost":0,"data":[{"distance":0.63,"id":"453577185629572535","pk":"453577185629572535"},{"distance":0.1,"id":"453577185629572534","pk":"453577185629572534"}]}
+println!("{:?}", results);
 ```
 
-</TabItem>
-
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+
 auto request = milvus::SearchRequest()
                    .WithCollectionName("my_collection")
                    .WithAnnsField("sparse_vector")
                    .WithLimit(3)
-                   .AddExtraParam("drop_ratio_search", "0.2")
+                   .AddExtraParam("drop_ratio_search", drop_ratio_search)
                    .AddOutputField("pk")
                    .AddSparseVector(query_vector);
 
@@ -878,6 +997,42 @@ for (auto& result : search_results.Results()) {
         std::cout << "\t" << row << std::endl;
     }
 }
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.search({
+    collection_name: 'my_collection',
+    data: queryData,
+    limit: 3,
+    output_fields: ['pk'],
+    params: searchParams,
+    consistency_level: "Strong"
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d "{
+    \"collectionName\": \"my_collection\",
+    \"data\": $queryData,
+    \"annsField\": \"sparse_vector\",
+    \"limit\": 3,
+    \"searchParams\": $searchParams,
+    \"outputFields\": [\"pk\"],
+    \"consistencyLevel\": \"Strong\"
+}"
 ```
 
 </TabItem>

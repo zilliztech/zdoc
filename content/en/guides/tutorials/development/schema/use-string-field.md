@@ -47,11 +47,11 @@ To store short, bounded string metadata in Zilliz Cloud clusters, define a `VARC
 
 <Admonition type="info" title="Notes">
 
-If you set `enable_dynamic_fields=True` when defining the schema, Zilliz Cloud allows you to insert scalar fields that were not defined in advance. However, this may increase the complexity of queries and management, potentially impacting performance. For more information, refer to [Dynamic Field](./enable-dynamic-field).
+If you set `enable_dynamic_field=True` when defining the schema, Zilliz Cloud allows you to insert scalar fields that were not defined in advance. However, this may increase the complexity of queries and management, potentially impacting performance. For more information, refer to [Dynamic Field](./enable-dynamic-field).
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -67,7 +67,7 @@ client = MilvusClient(uri=SERVER_ADDR)
 # Define the collection schema
 schema = client.create_schema(
     auto_id=False,
-    enable_dynamic_fields=True,
+    enable_dynamic_field=True,
 )
 
 # Add `varchar_field1` that supports null values with default value "Unknown"
@@ -127,40 +127,6 @@ schema.addField(AddFieldReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
-
-const client = new MilvusClient({
-  address: `YOUR_CLUSTER_ENDPOINT`
-});
-
-const schema = [
-  {
-    name: "metadata",
-    data_type: DataType.JSON,
-  },
-  {
-    name: "pk",
-    data_type: DataType.Int64,
-    is_primary_key: true,
-  },
-  {
-    name: "varchar_field2",
-    data_type: DataType.VarChar,
-    max_length: 200,
-  },
-  {
-    name: "varchar_field1",
-    data_type: DataType.VarChar,
-    max_length: 100,
-  },
-];
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -168,10 +134,10 @@ import (
     "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/column"
-    "github.com/milvus-io/milvus/client/v2/entity"
-    "github.com/milvus-io/milvus/client/v2/index"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/column"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -212,6 +178,116 @@ schema.WithField(entity.NewField().
 ```
 
 </TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let client = ClientV2::new(
+        &ConnectConfig::new()
+            .uri("YOUR_CLUSTER_ENDPOINT")
+            .token("YOUR_CLUSTER_TOKEN"),
+    )
+    .await?;
+
+    let schema = CollectionSchema::new()
+        .add_field(
+            FieldSchema::new()
+                .name("varchar_field1")
+                .data_type(DataType::VarChar)
+                .max_length(100)
+                .nullable(true)
+                .default_value(DefaultValue::String("Unknown".to_string())),
+        )
+        .add_field(
+            FieldSchema::new()
+                .name("varchar_field2")
+                .data_type(DataType::VarChar)
+                .max_length(200)
+                .nullable(true),
+        )
+        .add_field(
+            FieldSchema::new()
+                .name("pk")
+                .data_type(DataType::Int64)
+                .primary_key(true),
+        )
+        .add_field(
+            FieldSchema::new()
+                .name("embedding")
+                .data_type(DataType::FloatVector)
+                .dimension(3),
+        );
+
+    Ok(())
+}
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include <memory>
+
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->AddField({"pk", milvus::DataType::INT64, "", true, false});
+schema->AddField(milvus::FieldSchema("embedding", milvus::DataType::FLOAT_VECTOR).WithDimension(3));
+schema->AddField(milvus::FieldSchema("varchar_field1", milvus::DataType::VARCHAR).WithMaxLength(100).WithNullable(true).WithDefaultValue("Unknown"));
+schema->AddField(milvus::FieldSchema("varchar_field2", milvus::DataType::VARCHAR).WithMaxLength(200).WithNullable(true));
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({
+  address: `YOUR_CLUSTER_ENDPOINT`
+});
+
+const schema = [
+  {
+    name: "varchar_field1",
+    data_type: DataType.VarChar,
+    max_length: 100,
+    nullable: true,
+    default_value: "Unknown",
+  },
+  {
+    name: "varchar_field2",
+    data_type: DataType.VarChar,
+    max_length: 200,
+    nullable: true,
+  },
+  {
+    name: "pk",
+    data_type: DataType.Int64,
+    is_primary_key: true,
+  },
+  {
+    name: "embedding",
+    data_type: DataType.FloatVector,
+    dim: 3,
+  },
+];
+```
+
+</TabItem>
 
 <TabItem value='bash'>
 
@@ -222,7 +298,8 @@ export varcharField1='{
     "elementTypeParams": {
         "max_length": 100
     },
-    "nullable": true
+    "nullable": true,
+    "defaultValue": "Unknown"
 }'
 
 export varcharField2='{
@@ -260,28 +337,6 @@ export schema="{
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
-auto status = client->Connect(connect_param);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
-schema->AddField({"pk", milvus::DataType::INT64, "", true, false});
-schema->AddField(milvus::FieldSchema("embedding", milvus::DataType::FLOAT_VECTOR,).WithDimension(3));
-schema->AddField(milvus::FieldSchema("varchar_field1", milvus::DataType::VARCHAR).WithMaxLength(100).WithNullable(true));
-schema->AddField(milvus::FieldSchema("varchar_field2", milvus::DataType::VARCHAR).WithMaxLength(200).WithNullable(true));
-```
-
-</TabItem>
 </Tabs>
 
 ## Set index params\{#set-index-params}
@@ -290,7 +345,7 @@ Indexing helps improve search and query performance. In Zilliz Cloud clusters, i
 
 The following example creates indexes on the vector field `embedding` and the scalar field `varchar_field1`, both using the `AUTOINDEX` index type. With this type, Milvus automatically selects the most suitable index based on the data type.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -341,9 +396,35 @@ indexes.add(IndexParam.builder()
 
 ```go
 indexOption1 := milvusclient.NewCreateIndexOption("my_collection", "embedding",
-    index.NewAutoIndex(index.MetricType(entity.IP)))
+    index.NewAutoIndex(index.MetricType(entity.COSINE)))
 indexOption2 := milvusclient.NewCreateIndexOption("my_collection", "varchar_field1",
     index.NewInvertedIndex())
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let indexes = vec![
+    IndexParam::new()
+        .field_name("varchar_field1")
+        .index_name("varchar_index")
+        .index_type(IndexType::AutoIndex),
+    IndexParam::new()
+        .field_name("embedding")
+        .index_type(IndexType::AutoIndex)
+        .metric_type(MetricType::Cosine),
+];
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+std::vector<milvus::IndexDesc> indexes = {
+    milvus::IndexDesc("varchar_field1", "varchar_index", milvus::IndexType::AUTOINDEX),
+    milvus::IndexDesc("embedding", "", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE)
+};
 ```
 
 </TabItem>
@@ -351,14 +432,15 @@ indexOption2 := milvusclient.NewCreateIndexOption("my_collection", "varchar_fiel
 <TabItem value='javascript'>
 
 ```javascript
+import { IndexType, MetricType } from "@zilliz/milvus2-sdk-node";
+
 const indexParams = [{
     index_name: 'varchar_index',
     field_name: 'varchar_field1',
     index_type: IndexType.AUTOINDEX,
-)];
+}];
 
 indexParams.push({
-    index_name: 'embedding_index',
     field_name: 'embedding',
     metric_type: MetricType.COSINE,
     index_type: IndexType.AUTOINDEX,
@@ -375,32 +457,13 @@ export indexParams='[
             "fieldName": "varchar_field1",
             "indexName": "varchar_index",
             "indexType": "AUTOINDEX"
-        }
-    ]'
-    
-export indexParams='[
-        {
-            "fieldName": "varchar_field1",
-            "indexName": "varchar_index",
-            "indexType": "AUTOINDEX"
         },
         {
             "fieldName": "embedding",
             "metricType": "COSINE",
             "indexType": "AUTOINDEX"
         }
-    ]'
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-std::vector<milvus::IndexDesc> indexes = {
-    milvus::IndexDesc("varchar_field1", "varchar_index", milvus::IndexType::AUTOINDEX),
-    milvus::IndexDesc("embedding", "", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE)
-}
+    ]' 
 ```
 
 </TabItem>
@@ -410,12 +473,12 @@ std::vector<milvus::IndexDesc> indexes = {
 
 Once the schema and index are defined, create a collection that includes string fields.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 # Create Collection
-client.create_collection(
+client.createCollection(
     collection_name="my_collection",
     schema=schema,
     index_params=index_params
@@ -450,11 +513,39 @@ if err != nil {
 ```
 
 </TabItem>
+</Tabs>
+
+```rust
+client
+    .create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name("my_collection")
+            .schema(schema)
+            .index_params(indexes)
+            .build()?,
+    )
+    .await?;
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+auto status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                        .WithCollectionName("my_collection")
+                                        .WithIndexes(std::move(indexes))
+                                        .WithCollectionSchema(schema));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
 
 <TabItem value='javascript'>
 
 ```javascript
-await client.create_collection({
+await client.createCollection({
     collection_name: "my_collection",
     schema: schema,
     index_params: index_params
@@ -480,27 +571,13 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto status = client->CreateCollection(milvus::CreateCollectionRequest()
-                                        .WithCollectionName("my_collection")
-                                        .WithIndexes(std::move(indexes))
-                                        .WithCollectionSchema(schema));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
 
 ## Insert data\{#insert-data}
 
 After creating the collection, insert entities that match the schema.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -580,6 +657,80 @@ if err != nil {
 ```
 
 </TabItem>
+</Tabs>
+
+```rust
+client
+    .insert(
+        InsertRequest::builder()
+            .collection_name("my_collection")
+            .columns(vec![
+                FieldData::nullable(
+                    FieldData::varchar(
+                        "varchar_field1",
+                        vec![
+                            "Product A".to_string(),
+                            "Product B".to_string(),
+                            "Product C".to_string(),
+                            "Unknown".to_string(),
+                            "".to_string(),
+                        ],
+                    ),
+                    vec![true, true, false, true, false, true, true],
+                )?,
+                FieldData::nullable(
+                    FieldData::varchar(
+                        "varchar_field2",
+                        vec![
+                            "High quality product".to_string(),
+                            "Exclusive deal".to_string(),
+                            "Best seller".to_string(),
+                        ],
+                    ),
+                    vec![true, false, false, false, true, false, true],
+                )?,
+                FieldData::int64("pk", vec![1, 2, 3, 4, 5, 6, 7]),
+                FieldData::float_vector(
+                    "embedding",
+                    vec![
+                        vec![0.1, 0.2, 0.3],
+                        vec![0.4, 0.5, 0.6],
+                        vec![0.2, 0.3, 0.1],
+                        vec![0.5, 0.7, 0.2],
+                        vec![0.6, 0.4, 0.8],
+                        vec![0.8, 0.5, 0.3],
+                        vec![0.8, 0.5, 0.3],
+                    ],
+                ),
+            ])
+            .build()?,
+    )
+    .await?;
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+milvus::EntityRows data = {{{"varchar_field1", "Product A"}, {"varchar_field2", "High quality product"}, {"pk", 1}, {"embedding", std::vector<float>{0.1, 0.2, 0.3}}},
+                           {{"varchar_field1", "Product B"}, {"pk", 2}, {"embedding", std::vector<float>{0.4, 0.5, 0.6}}},
+                           {{"varchar_field1", nullptr}, {"varchar_field2", nullptr}, {"pk", 3}, {"embedding", std::vector<float>{0.2, 0.3, 0.1}}},
+                           {{"varchar_field1", "Product C"}, {"varchar_field2", nullptr}, {"pk", 4}, {"embedding", std::vector<float>{0.5, 0.7, 0.2}}},
+                           {{"varchar_field1", nullptr}, {"varchar_field2", "Exclusive deal"}, {"pk", 5}, {"embedding", std::vector<float>{0.5, 0.4, 0.8}}},
+                           {{"varchar_field1", "Unknown"}, {"varchar_field2", nullptr}, {"pk", 6}, {"embedding", std::vector<float>{0.8, 0.5, 0.3}}},
+                           {{"varchar_field1", ""}, {"varchar_field2", "Best seller"}, {"pk", 7}, {"embedding", std::vector<float>{0.8, 0.5, 0.3}}}};
+
+milvus::InsertResponse response;
+auto status = client->Insert(milvus::InsertRequest()
+                                .WithCollectionName("my_collection")
+                                .WithRowsData(std::move(data)),
+                             response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
 
 <TabItem value='javascript'>
 
@@ -638,29 +789,6 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-milvus::EntityRows data = {{{"varchar_field1", "Product A"}, {"varchar_field2", "High quality product"}, {"pk", 1}, {"embedding", std::vector<float>{0.1, 0.2, 0.3}}},
-                           {{"varchar_field1", "Product B"}, {"pk", 2}, {"embedding", std::vector<float>{0.4, 0.5, 0.6}}},
-                           {{"varchar_field1", nullptr}, {"varchar_field2", nullptr}, {"pk", 3}, {"embedding", std::vector<float>{0.2, 0.3, 0.1}}},
-                           {{"varchar_field1", "Product C"}, {"varchar_field2", nullptr}, {"pk", 4}, {"embedding", std::vector<float>{0.5, 0.7, 0.2}}},
-                           {{"varchar_field1", nullptr}, {"varchar_field2", "Exclusive deal"}, {"pk", 5}, {"embedding", std::vector<float>{0.5, 0.4, 0.8}}},
-                           {{"varchar_field1", "Unknown"}, {"varchar_field2", nullptr}, {"pk", 6}, {"embedding", std::vector<float>{0.8, 0.5, 0.3}}},
-                           {{"varchar_field1", ""}, {"varchar_field2", "Best seller"}, {"pk", 7}, {"embedding", std::vector<float>{0.8, 0.5, 0.3}}}};
-
-milvus::InsertResponse response;
-auto status = client->Insert(milvus::InsertRequest()
-                                .WithCollectionName("my_collection")
-                                .WithRowsData(std::move(data)),
-                             response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
 
 ## Query with filter expressions\{#query-with-filter-expressions}
@@ -669,7 +797,7 @@ After inserting entities, use the `query` method to retrieve entities that match
 
 To retrieve entities where the `varchar_field1` matches the string `"Product A"`:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -735,6 +863,46 @@ fmt.Println("varchar_field2", queryResult.GetColumn("varchar_field2").FieldData(
 ```
 
 </TabItem>
+</Tabs>
+
+```rust
+let res = client
+    .query(
+        QueryRequest::builder()
+            .collection_name("my_collection")
+            .filter(r#"varchar_field1 == "Product A""#)
+            .output_fields(["varchar_field1", "varchar_field2"])
+            .build()?,
+    )
+    .await?;
+
+println!("{:?}", res.results());
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+auto request = milvus::QueryRequest()
+                       .WithCollectionName("my_collection")
+                       .WithFilter(R"(varchar_field1 == "Product A")")
+                       .AddOutputField("varchar_field1")
+                       .AddOutputField("varchar_field2");
+
+milvus::QueryResponse response;
+auto status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::EntityRows output_rows;
+status = response.Results().OutputRows(output_rows);
+for (const auto& row : output_rows) {
+    std::cout << "\t" << row << std::endl;
+}
+```
+
+</TabItem>
 
 <TabItem value='javascript'>
 
@@ -765,35 +933,11 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto request = milvus::QueryRequest()
-                       .WithCollectionName("my_collection")
-                       .WithFilter(R"(varchar_field1 == "Product A")")
-                       .AddOutputField("varchar_field1")
-                       .AddOutputField("varchar_field2");
-
-milvus::QueryResponse response;
-auto status = client->Query(request, response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-milvus::EntityRows output_rows;
-status = response.Results().OutputRows(output_rows);
-for (const auto& row : output_rows) {
-    std::cout << "\t" << row << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
 
 To retrieve entities where the `varchar_field2` is null:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -859,6 +1003,46 @@ fmt.Println("varchar_field2", queryResult.GetColumn("varchar_field2"))
 ```
 
 </TabItem>
+</Tabs>
+
+```rust
+let res = client
+    .query(
+        QueryRequest::builder()
+            .collection_name("my_collection")
+            .filter("varchar_field2 is null")
+            .output_fields(["varchar_field1", "varchar_field2"])
+            .build()?,
+    )
+    .await?;
+
+println!("{:?}", res.results());
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+auto request = milvus::QueryRequest()
+                       .WithCollectionName("my_collection")
+                       .WithFilter("varchar_field2 IS NULL")
+                       .AddOutputField("varchar_field1")
+                       .AddOutputField("varchar_field2");
+
+milvus::QueryResponse response;
+auto status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::EntityRows output_rows;
+status = response.Results().OutputRows(output_rows);
+for (const auto& row : output_rows) {
+    std::cout << "\t" << row << std::endl;
+}
+```
+
+</TabItem>
 
 <TabItem value='javascript'>
 
@@ -889,35 +1073,11 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto request = milvus::QueryRequest()
-                       .WithCollectionName("my_collection")
-                       .WithFilter("varchar_field2 IS NULL")
-                       .AddOutputField("varchar_field1")
-                       .AddOutputField("varchar_field2");
-
-milvus::QueryResponse response;
-auto status = client->Query(request, response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-milvus::EntityRows output_rows;
-status = response.Results().OutputRows(output_rows);
-for (const auto& row : output_rows) {
-    std::cout << "\t" << row << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
 
 To retrieve entities where `varchar_field1` has the value `"Unknown"`, use the following expression below. As the default value of `varchar_field1` is `"Unknown"`, the expected result should include entities with `varchar_field1` explicitly set to `"Unknown"` or with `varchar_field1` set to null.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -981,6 +1141,45 @@ fmt.Println("varchar_field2", queryResult.GetColumn("varchar_field2"))
 ```
 
 </TabItem>
+</Tabs>
+
+```rust
+let res = client
+    .query(
+        QueryRequest::builder()
+            .collection_name("my_collection")
+            .filter(r#"varchar_field1 == "Unknown""#)
+            .output_fields(["varchar_field1", "varchar_field2"])
+            .build()?,
+    )
+    .await?;
+
+println!("{:?}", res.results());
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+auto request = milvus::QueryRequest()
+                       .WithCollectionName("my_collection")
+                       .WithFilter(R"(varchar_field1 == "Unknown")")
+                       .AddOutputField("varchar_field1")
+                       .AddOutputField("varchar_field2");
+
+milvus::QueryResponse response;
+auto status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+milvus::EntityRows output_rows;
+status = response.Results().OutputRows(output_rows);
+for (const auto& row : output_rows) {
+    std::cout << "\t" << row << std::endl;
+}
+```
+
+</TabItem>
 
 <TabItem value='javascript'>
 
@@ -1012,36 +1211,13 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto request = milvus::QueryRequest()
-                       .WithCollectionName("my_collection")
-                       .WithFilter(R"(varchar_field1 == "Unknown")")
-                       .AddOutputField("varchar_field1")
-                       .AddOutputField("varchar_field2");
-
-milvus::QueryResponse response;
-auto status = client->Query(request, response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-milvus::EntityRows output_rows;
-status = response.Results().OutputRows(output_rows);
-for (const auto& row : output_rows) {
-    std::cout << "\t" << row << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
 
 ## Vector search with filter expressions\{#vector-search-with-filter-expressions}
 
 In addition to basic scalar field filtering, you can combine vector similarity searches with scalar field filters. For example, the following code shows how to add a scalar field filter to a vector search:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1124,6 +1300,56 @@ for _, resultSet := range resultSets {
 ```
 
 </TabItem>
+</Tabs>
+
+```rust
+let res = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("my_collection")
+            .vector_field("embedding")
+            .vectors(SearchVectors::Float(vec![vec![0.3, -0.6, 0.1]]))
+            .filter(r#"varchar_field2 == "Best seller""#)
+            .output_fields(["varchar_field1", "varchar_field2"])
+            .limit(5)
+            .build()?,
+    )
+    .await?;
+
+println!("{:?}", res.results());
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+std::vector<float> query_vector = {0.3, -0.6, 0.1};
+auto request = milvus::SearchRequest()
+                   .WithCollectionName("my_collection")
+                   .WithAnnsField("embedding")
+                   .WithFilter(R"(varchar_field2 == "Best seller")")
+                   .WithLimit(5)
+                   .AddExtraParam("nprobe", "10")
+                   .AddOutputField("varchar_field1")
+                   .AddOutputField("varchar_field2")
+                   .AddFloatVector(query_vector);
+
+milvus::SearchResponse response;
+auto status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+auto search_results = response.Results();
+for (auto& result : search_results.Results()) {
+    milvus::EntityRows output_rows;
+    status = result.OutputRows(output_rows);
+    for (const auto& row : output_rows) {
+        std::cout << "\t" << row << std::endl;
+    }
+}
+```
+
+</TabItem>
 
 <TabItem value='javascript'>
 
@@ -1133,9 +1359,9 @@ await client.search({
     data: [0.3, -0.6, 0.1],
     limit: 5,
     output_fields: ['varchar_field1', 'varchar_field2'],
-    filter: 'varchar_field2 == "Best seller"'
+    filter: 'varchar_field2 == "Best seller"',
     params: {
-       nprobe:10
+       nprobe: 10
     }
 });
 ```
@@ -1164,37 +1390,6 @@ curl --request POST \
 }'
 
 ## {"code":0,"cost":0,"data":[{"distance":-0.2364331,"id":1,"varchar_field1":"Product A","varchar_field2":"High quality product"}]}
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-std::vector<float> query_vector = {0.3, -0.6, 0.1};
-auto request = milvus::SearchRequest()
-                   .WithCollectionName("my_collection")
-                   .WithAnnsField("embedding")
-                   .WithFilter(R"(varchar_field2 == "Best seller")")
-                   .WithLimit(5)
-                   .AddExtraParam("nprobe", "10")
-                   .AddOutputField("varchar_field1")
-                   .AddOutputField("varchar_field2")
-                   .AddFloatVector(query_vector);
-
-milvus::SearchResponse response;
-auto status = client->Search(request, response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-auto search_results = response.Results();
-for (auto& result : search_results.Results()) {
-    milvus::EntityRows output_rows;
-    status = result.OutputRows(output_rows);
-    for (const auto& row : output_rows) {
-        std::cout << "\t" << row << std::endl;
-    }
-}
 ```
 
 </TabItem>

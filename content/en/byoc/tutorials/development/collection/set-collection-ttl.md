@@ -366,18 +366,39 @@ client.alter_collection_properties(
 <TabItem value='java'>
 
 ```java
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.AlterCollectionPropertiesReq;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import io.milvus.v2.service.collection.request.HasCollectionReq;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .build());
 
 // Assumes "my_collection" was created earlier without TTL.
+if (!client.hasCollection(HasCollectionReq.builder().collectionName("my_collection").build())) {
+    CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder().build();
+    schema.addField(AddFieldReq.builder().fieldName("id").dataType(DataType.Int64)
+            .isPrimaryKey(true).autoID(false).build());
+    schema.addField(AddFieldReq.builder().fieldName("vector").dataType(DataType.FloatVector)
+            .dimension(128).build());
+    IndexParam indexParam = IndexParam.builder().fieldName("vector")
+            .indexType(IndexParam.IndexType.AUTOINDEX)
+            .metricType(IndexParam.MetricType.COSINE).build();
+    client.createCollection(CreateCollectionReq.builder()
+            .collectionName("my_collection")
+            .collectionSchema(schema)
+            .indexParams(Collections.singletonList(indexParam))
+            .build());
+}
 
 // highlight-start
 Map<String, String> properties = new HashMap<>();
@@ -456,6 +477,24 @@ let client = ClientV2::new(&ConnectConfig::new()
     .uri("YOUR_CLUSTER_ENDPOINT")
     .token("YOUR_CLUSTER_TOKEN")).await?;
 
+let has = client.has_collection(HasCollectionRequest::builder()
+    .collection_name("my_collection")
+    .build()?).await?;
+if !has.exists() {
+    let schema = CollectionSchema::new()
+        .enable_dynamic_field(false)
+        .add_field(FieldSchema::new().name("id").data_type(DataType::Int64).primary_key(true).auto_id(false))
+        .add_field(FieldSchema::new().name("vector").data_type(DataType::FloatVector).dimension(128));
+    let index_params = vec![
+        IndexParam::new().field_name("vector").index_type(IndexType::AutoIndex).metric_type(MetricType::Cosine),
+    ];
+    client.create_collection(CreateCollectionRequest::builder()
+        .collection_name("my_collection")
+        .schema(schema)
+        .index_params(index_params)
+        .build()?).await?;
+}
+
 client.alter_collection_properties(AlterCollectionPropertiesRequest::builder()
     .collection_name("my_collection")
     .properties(std::collections::HashMap::from([("collection.ttl.seconds".to_string(), "1209600".to_string())]))
@@ -472,6 +511,28 @@ client.alter_collection_properties(AlterCollectionPropertiesRequest::builder()
 auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT"));
 
+milvus::HasCollectionResponse has_response;
+status = client->HasCollection(milvus::HasCollectionRequest()
+                                   .WithCollectionName("my_collection"),
+                               has_response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+if (!has_response.Has()) {
+    milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+    schema->AddField(milvus::FieldSchema("id", milvus::DataType::INT64, "", true, false));
+    schema->AddField(milvus::FieldSchema("vector", milvus::DataType::FLOAT_VECTOR).WithDimension(128));
+    std::vector<milvus::IndexDesc> indexes = {
+        milvus::IndexDesc("vector", "vector", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE)};
+    status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                          .WithCollectionName("my_collection")
+                                          .WithCollectionSchema(schema)
+                                          .WithIndexes(std::move(indexes)));
+    if (!status.IsOk()) {
+        std::cout << status.Message() << std::endl;
+    }
+}
+
 status = client->AlterCollectionProperties(milvus::AlterCollectionPropertiesRequest()
                                                .WithCollectionName("my_collection")
                                                .AddProperty(milvus::COLLECTION_TTL_SECONDS, "1209600"));
@@ -485,11 +546,24 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient } = require("@zilliz/milvus2-sdk-node");
+const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node");
 
 const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
 
 // Assumes "my_collection" was created earlier without TTL.
+if (!(await client.hasCollection({ collection_name: "my_collection" })).value) {
+  await client.createCollection({
+    collection_name: "my_collection",
+    fields: [
+      { name: "id", data_type: DataType.Int64, is_primary_key: true, autoID: false },
+      { name: "vector", data_type: DataType.FloatVector, dim: 128 },
+    ],
+    index_params: [
+      { field_name: "vector", index_type: "AUTOINDEX", metric_type: "COSINE" },
+    ],
+  });
+}
+
 // highlight-start
 await client.alterCollectionProperties({
   collection_name: "my_collection",
@@ -503,6 +577,57 @@ await client.alterCollectionProperties({
 <TabItem value='bash'>
 
 ```bash
+export schema='{
+        "autoId": false,
+        "enableDynamicField": false,
+        "fields": [
+            {
+                "fieldName": "id",
+                "dataType": "Int64",
+                "isPrimary": true
+            },
+            {
+                "fieldName": "vector",
+                "dataType": "FloatVector",
+                "elementTypeParams": {
+                    "dim": "128"
+                }
+            }
+        ]
+    }'
+
+export indexParams='[
+        {
+            "fieldName": "vector",
+            "metricType": "COSINE",
+            "indexName": "vector",
+            "indexType": "AUTOINDEX"
+        }
+    ]'
+
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+# Assumes "my_collection" was created earlier without TTL.
+if ! curl --silent --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/has" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d "{
+    \"collectionName\": \"my_collection\"
+}" | grep -q '"has":true'; then
+    curl --request POST \
+    --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/create" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Content-Type: application/json" \
+    --header "Request-Timeout: 10" \
+    -d "{
+        \"collectionName\": \"my_collection\",
+        \"schema\": $schema,
+        \"indexParams\": $indexParams
+    }"
+fi
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/alter_properties" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -1086,7 +1211,7 @@ let client = ClientV2::new(&ConnectConfig::new()
     .uri("YOUR_CLUSTER_ENDPOINT")
     .token("YOUR_CLUSTER_TOKEN")).await?;
 
-let vector = vec![0.5f32; 128];
+let vector: Vec<f32> = (0..128).map(|_| rand::random::<f32>()).collect();
 client.insert(InsertRequest::builder()
     .collection_name("my_collection")
     .rows(vec![
@@ -1101,13 +1226,17 @@ client.insert(InsertRequest::builder()
 <TabItem value='c++'>
 
 ```c++
+#include <cstdlib>
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT"));
 
-std::vector<float> vector(128, 0.5f);
+std::vector<float> vector(128);
+for (auto& v : vector) {
+    v = static_cast<float>(rand()) / RAND_MAX;
+}
 milvus::EntityRows rows;
 rows.push_back({{"id", 1}, {"expire_at", nullptr}, {"vector", vector}});
 rows.push_back({{"id", 2}, {"expire_at", "2026-12-31T00:00:00Z"}, {"vector", vector}});
@@ -1493,7 +1622,7 @@ let client = ClientV2::new(&ConnectConfig::new()
     .uri("YOUR_CLUSTER_ENDPOINT")
     .token("YOUR_CLUSTER_TOKEN")).await?;
 
-let vector = vec![0.5f32; 128];
+let vector: Vec<f32> = (0..128).map(|_| rand::random::<f32>()).collect();
 client.upsert(UpsertRequest::builder()
     .insert(InsertRequest::builder()
         .collection_name("my_collection")
@@ -1508,13 +1637,17 @@ client.upsert(UpsertRequest::builder()
 <TabItem value='c++'>
 
 ```c++
+#include <cstdlib>
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT"));
 
-std::vector<float> vector(128, 0.5f);
+std::vector<float> vector(128);
+for (auto& v : vector) {
+    v = static_cast<float>(rand()) / RAND_MAX;
+}
 milvus::EntityRows rows;
 rows.push_back({{"id", 2}, {"vector", vector}, {"expire_at", "2028-01-01T00:00:00Z"}});
 
@@ -1748,7 +1881,7 @@ client.alter_collection_properties(AlterCollectionPropertiesRequest::builder()
     .build()?).await?;
 
 // Step 3 (optional) — backfill expiration timestamps for historical rows
-let vector = vec![0.5f32; 128];
+let vector: Vec<f32> = (0..128).map(|_| rand::random::<f32>()).collect();
 client.upsert(UpsertRequest::builder()
     .insert(InsertRequest::builder()
         .collection_name("my_collection")
@@ -1763,6 +1896,7 @@ client.upsert(UpsertRequest::builder()
 <TabItem value='c++'>
 
 ```c++
+#include <cstdlib>
 #include <iostream>
 #include "milvus/MilvusClientV2.h"
 
@@ -1786,7 +1920,10 @@ if (!status.IsOk()) {
 }
 
 // Step 3 (optional) — backfill expiration timestamps for historical rows
-std::vector<float> vector(128, 0.5f);
+std::vector<float> vector(128);
+for (auto& v : vector) {
+    v = static_cast<float>(rand()) / RAND_MAX;
+}
 milvus::EntityRows rows;
 rows.push_back({{"id", 1}, {"vector", vector}, {"expire_at", "2026-12-31T00:00:00Z"}});
 milvus::UpsertResponse response;

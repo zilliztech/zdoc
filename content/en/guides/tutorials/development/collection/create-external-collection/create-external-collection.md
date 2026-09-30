@@ -727,12 +727,18 @@ while True:
 
 ```java
 import io.milvus.v2.service.utility.request.GetRefreshExternalCollectionProgressReq;
-import io.milvus.v2.service.utility.request.ListRefreshExternalCollectionJobsReq;
 import io.milvus.v2.service.utility.request.RefreshExternalCollectionReq;
 import io.milvus.v2.service.utility.response.GetRefreshExternalCollectionProgressResp;
-import io.milvus.v2.service.utility.response.ListRefreshExternalCollectionJobsResp;
 import io.milvus.v2.service.utility.response.RefreshExternalCollectionJobInfo;
 import io.milvus.v2.service.utility.response.RefreshExternalCollectionResp;
+import java.util.concurrent.TimeUnit;
+
+RefreshExternalCollectionResp refreshResp = client.refreshExternalCollection(
+        RefreshExternalCollectionReq.builder()
+                .collectionName("test_collection")
+                .build());
+
+long jobId = refreshResp.getJobId();
 
 while (true) {
     GetRefreshExternalCollectionProgressResp resp = client.getRefreshExternalCollectionProgress(
@@ -786,6 +792,29 @@ let refresh = client
             .build()?,
     )
     .await?;
+
+loop {
+    let progress = client
+        .get_refresh_external_collection_progress(
+            GetRefreshExternalCollectionProgressRequest::builder()
+                .job_id(refresh.job_id())
+                .build()?,
+        )
+        .await?;
+    let job_info = progress.job_info();
+    println!("  {}: {}%", job_info.get_state().as_str(), job_info.get_progress());
+    match job_info.get_state() {
+        RefreshExternalCollectionStateCode::Completed => {
+            println!("  Completed in {}ms", job_info.get_end_time() - job_info.get_start_time());
+            break;
+        }
+        RefreshExternalCollectionStateCode::Failed => {
+            println!("  Failed: {}", job_info.get_reason());
+            break;
+        }
+        _ => tokio::time::sleep(std::time::Duration::from_secs(2)).await,
+    }
+}
 ```
 
 <Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
@@ -796,6 +825,23 @@ milvus::RefreshExternalCollectionRequest refreshRequest;
 refreshRequest.WithCollectionName("test_collection");
 milvus::RefreshExternalCollectionResponse refreshResponse;
 status = client->RefreshExternalCollection(refreshRequest, refreshResponse);
+
+while (true) {
+    milvus::GetRefreshExternalCollectionProgressRequest progressRequest;
+    progressRequest.WithJobID(refreshResponse.JobID());
+    milvus::GetRefreshExternalCollectionProgressResponse progressResponse;
+    status = client->GetRefreshExternalCollectionProgress(progressRequest, progressResponse);
+    const auto& jobInfo = progressResponse.JobInfo();
+    std::cout << "  progress: " << jobInfo.Progress() << "%" << std::endl;
+    if (jobInfo.State() == milvus::RefreshExternalCollectionStateCode::COMPLETED) {
+        std::cout << "  Completed in " << (jobInfo.EndTime() - jobInfo.StartTime()) << "ms" << std::endl;
+        break;
+    } else if (jobInfo.State() == milvus::RefreshExternalCollectionStateCode::FAILED) {
+        std::cout << "  Failed: " << jobInfo.Reason() << std::endl;
+        break;
+    }
+    std::this_thread::sleep_for(std::chrono::seconds(2));
+}
 ```
 
 </TabItem>

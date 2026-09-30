@@ -27,7 +27,7 @@ Zilliz Cloud provides the `TEXT` scalar field type for storing long source text 
 
 To define a `TEXT` field in a collection schema, set `datatype` to `DataType.TEXT`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -43,7 +43,11 @@ schema.add_field(
 <TabItem value='java'>
 
 ```java
-// java
+schema.addField(AddFieldReq.builder()
+        .fieldName("content")
+        .dataType(DataType.Text)
+        .enableAnalyzer(true)
+        .build());
 ```
 
 </TabItem>
@@ -51,7 +55,22 @@ schema.add_field(
 <TabItem value='go'>
 
 ```go
-// go
+// Note: DataType.Text is not supported in milvus-sdk-go as of client/v3.0.0-beta.
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+// Note: DataType.Text is not supported in milvus-sdk-rust as of v3.0.2.
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+milvus::FieldSchema content_field("content", milvus::DataType::TEXT);
+content_field.EnableAnalyzer(true);
 ```
 
 </TabItem>
@@ -59,7 +78,11 @@ schema.add_field(
 <TabItem value='javascript'>
 
 ```javascript
-// nodejs
+schema.push({
+    name: "content",
+    data_type: DataType.Text,
+    enable_analyzer: true
+});
 ```
 
 </TabItem>
@@ -67,15 +90,13 @@ schema.add_field(
 <TabItem value='bash'>
 
 ```bash
-# restful
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-// cpp
+export contentField='{
+    "fieldName": "content",
+    "dataType": "Text",
+    "elementTypeParams": {
+        "enable_analyzer": true
+    }
+}'
 ```
 
 </TabItem>
@@ -133,7 +154,7 @@ The following example creates a collection with a `TEXT` field for source conten
 
 For BM25 full text search, the input `TEXT` field must set `enable_analyzer=True`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -172,7 +193,49 @@ schema.add_function(bm25_function)
 <TabItem value='java'>
 
 ```java
-// java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.common.DataType;
+import java.util.*;
+import io.milvus.common.clientenum.FunctionType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import io.milvus.v2.service.collection.request.DropCollectionReq;
+
+ConnectConfig config = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .build();
+MilvusClientV2 client = new MilvusClientV2(config);
+
+String COLLECTION_NAME = "text_bm25_collection";
+client.dropCollection(DropCollectionReq.builder()
+        .collectionName(COLLECTION_NAME)
+        .async(false)
+        .build());
+
+CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder()
+        .build();
+schema.addField(AddFieldReq.builder()
+        .fieldName("id")
+        .dataType(DataType.Int64)
+        .isPrimaryKey(true)
+        .build());
+schema.addField(AddFieldReq.builder()
+        .fieldName("content")
+        .dataType(DataType.Text)
+        .enableAnalyzer(true)
+        .build());
+schema.addField(AddFieldReq.builder()
+        .fieldName("sparse")
+        .dataType(DataType.SparseFloatVector)
+        .build());
+
+schema.addFunction(CreateCollectionReq.Function.builder()
+        .name("content_bm25")
+        .functionType(FunctionType.BM25)
+        .inputFieldNames(Collections.singletonList("content"))
+        .outputFieldNames(Collections.singletonList("sparse"))
+        .build());
 ```
 
 </TabItem>
@@ -180,7 +243,42 @@ schema.add_function(bm25_function)
 <TabItem value='go'>
 
 ```go
-// go
+// Note: DataType.Text is not supported in milvus-sdk-go as of client/v3.0.0-beta.
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+// Note: DataType.Text is not supported in milvus-sdk-rust as of v3.0.2.
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include <memory>
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+const std::string COLLECTION_NAME = "text_bm25_collection";
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->SetEnableDynamicField(false);
+schema->AddField(milvus::FieldSchema("id", milvus::DataType::INT64, "", true));
+schema->AddField(milvus::FieldSchema("content", milvus::DataType::TEXT).EnableAnalyzer(true));
+schema->AddField(milvus::FieldSchema("sparse", milvus::DataType::SPARSE_FLOAT_VECTOR));
+
+auto function = std::make_shared<milvus::Function>("content_bm25", milvus::FunctionType::BM25);
+function->AddInputFieldName("content");
+function->AddOutputFieldName("sparse");
+schema->AddFunction(function);
 ```
 
 </TabItem>
@@ -188,7 +286,28 @@ schema.add_function(bm25_function)
 <TabItem value='javascript'>
 
 ```javascript
-// nodejs
+import { MilvusClient, DataType, FunctionType } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
+const COLLECTION_NAME = "text_bm25_collection";
+
+if (await client.hasCollection({ collection_name: COLLECTION_NAME })) {
+    await client.dropCollection({ collection_name: COLLECTION_NAME });
+}
+
+const schema = [
+    { name: "id", data_type: DataType.Int64, is_primary_key: true },
+    { name: "content", data_type: DataType.Text, enable_analyzer: true },
+    { name: "sparse", data_type: DataType.SparseFloatVector }
+];
+
+const functions = [{
+    name: "content_bm25",
+    type: FunctionType.BM25,
+    input_field_names: ["content"],
+    output_field_names: ["sparse"],
+    params: {}
+}];
 ```
 
 </TabItem>
@@ -196,15 +315,32 @@ schema.add_function(bm25_function)
 <TabItem value='bash'>
 
 ```bash
-# restful
-```
+export BASE_URL="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+export COLLECTION_NAME="text_bm25_collection"
 
-</TabItem>
+# Drop an old copy if this example is run repeatedly.
+curl --request POST \
+--url "${BASE_URL}/v2/vectordb/collections/drop" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d "{\"collectionName\": \"${COLLECTION_NAME}\"}"
 
-<TabItem value='c++'>
-
-```c++
-// cpp
+export schema='{
+    "fields": [
+        {"fieldName": "id", "dataType": "Int64", "isPrimary": true},
+        {"fieldName": "content", "dataType": "Text", "elementTypeParams": {"enable_analyzer": true}},
+        {"fieldName": "sparse", "dataType": "SparseFloatVector"}
+    ],
+    "functions": [
+        {
+            "name": "content_bm25",
+            "type": "BM25",
+            "inputFieldNames": ["content"],
+            "outputFieldNames": ["sparse"]
+        }
+    ]
+}'
 ```
 
 </TabItem>
@@ -222,7 +358,7 @@ schema.add_function(bm25_function)
 
 Create an index on the sparse vector field generated by the BM25 function. The metric type must be set to `BM25`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -252,7 +388,28 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
-// java
+import io.milvus.v2.common.IndexParam;
+import java.util.*;
+
+List<IndexParam> indexParams = new ArrayList<>();
+Map<String, Object> bm25Params = new HashMap<>();
+bm25Params.put("inverted_index_algo", "DAAT_MAXSCORE");
+bm25Params.put("bm25_k1", 1.2);
+bm25Params.put("bm25_b", 0.75);
+indexParams.add(IndexParam.builder()
+        .fieldName("sparse")
+        .indexName("sparse_bm25_index")
+        .indexType(IndexParam.IndexType.SPARSE_INVERTED_INDEX)
+        .metricType(IndexParam.MetricType.BM25)
+        .extraParams(bm25Params)
+        .build());
+
+CreateCollectionReq requestCreate = CreateCollectionReq.builder()
+        .collectionName("text_bm25_collection")
+        .collectionSchema(schema)
+        .indexParams(indexParams)
+        .build();
+client.createCollection(requestCreate);
 ```
 
 </TabItem>
@@ -260,7 +417,31 @@ client.create_collection(
 <TabItem value='go'>
 
 ```go
-// go
+// Note: DataType.Text is not supported in milvus-sdk-go as of client/v3.0.0-beta.
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+// Note: DataType.Text is not supported in milvus-sdk-rust as of v3.0.2.
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+std::vector<milvus::IndexDesc> indexes = {
+    milvus::IndexDesc("sparse", "sparse_bm25_index", milvus::IndexType::SPARSE_INVERTED_INDEX, milvus::MetricType::BM25)
+};
+
+status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                      .WithCollectionName("text_bm25_collection")
+                                      .WithIndexes(std::move(indexes))
+                                      .WithCollectionSchema(schema));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -268,7 +449,26 @@ client.create_collection(
 <TabItem value='javascript'>
 
 ```javascript
-// nodejs
+const indexParams = [{
+    field_name: "sparse",
+    index_name: "sparse_bm25_index",
+    index_type: "SPARSE_INVERTED_INDEX",
+    metric_type: "BM25",
+    params: {
+        inverted_index_algo: "DAAT_MAXSCORE",
+        bm25_k1: 1.2,
+        bm25_b: 0.75
+    }
+}];
+
+const res = await client.createCollection({
+    collection_name: "text_bm25_collection",
+    schema: schema,
+    functions: functions,
+    index_params: indexParams
+});
+
+console.log(res);
 ```
 
 </TabItem>
@@ -276,15 +476,30 @@ client.create_collection(
 <TabItem value='bash'>
 
 ```bash
-# restful
-```
+export indexParams='[
+    {
+        "fieldName": "sparse",
+        "indexName": "sparse_bm25_index",
+        "indexType": "SPARSE_INVERTED_INDEX",
+        "metricType": "BM25",
+        "params": {
+            "inverted_index_algo": "DAAT_MAXSCORE",
+            "bm25_k1": 1.2,
+            "bm25_b": 0.75
+        }
+    }
+]'
 
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-// cpp
+curl --request POST \
+--url "${BASE_URL}/v2/vectordb/collections/create" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 30" \
+-d "{
+    \"collectionName\": \"text_bm25_collection\",
+    \"schema\": $schema,
+    \"indexParams\": $indexParams
+}"
 ```
 
 </TabItem>
@@ -302,7 +517,7 @@ client.create_collection(
 
 Insert text directly into the `TEXT` field. Do not provide values for the `sparse` field. Milvus generates the sparse vectors internally by applying the BM25 function to `content`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -330,7 +545,21 @@ client.load_collection(collection_name=COLLECTION_NAME)
 <TabItem value='java'>
 
 ```java
-// java
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import io.milvus.v2.service.vector.request.InsertReq;
+
+Gson gson = new Gson();
+List<JsonObject> rows = Arrays.asList(
+        gson.fromJson("{\"id\": 1, \"content\": \"Milvus stores vector embeddings and scalar fields in collections. It supports vector search, full text search, and metadata filtering for retrieval applications.\"}", JsonObject.class),
+        gson.fromJson("{\"id\": 2, \"content\": \"Long documents are often split into passages before embedding. Store each passage in a TEXT field so search results can return the source text.\"}", JsonObject.class),
+        gson.fromJson("{\"id\": 3, \"content\": \"Operational logs and support tickets often contain long natural-language text. TEXT fields can store these values without a fixed max_length setting.\"}", JsonObject.class)
+);
+
+client.insert(InsertReq.builder()
+        .collectionName("text_bm25_collection")
+        .data(rows)
+        .build());
 ```
 
 </TabItem>
@@ -338,7 +567,37 @@ client.load_collection(collection_name=COLLECTION_NAME)
 <TabItem value='go'>
 
 ```go
-// go
+// Note: DataType.Text is not supported in milvus-sdk-go as of client/v3.0.0-beta.
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+// Note: DataType.Text is not supported in milvus-sdk-rust as of v3.0.2.
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+milvus::EntityRows rows = {
+    {{"id", static_cast<int64_t>(1)},
+     {"content", "Milvus stores vector embeddings and scalar fields in collections. It supports vector search, full text search, and metadata filtering for retrieval applications."}},
+    {{"id", static_cast<int64_t>(2)},
+     {"content", "Long documents are often split into passages before embedding. Store each passage in a TEXT field so search results can return the source text."}},
+    {{"id", static_cast<int64_t>(3)},
+     {"content", "Operational logs and support tickets often contain long natural-language text. TEXT fields can store these values without a fixed max_length setting."}}
+};
+
+milvus::InsertResponse response;
+status = client->Insert(milvus::InsertRequest()
+                            .WithCollectionName("text_bm25_collection")
+                            .WithRowsData(std::move(rows)),
+                         response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -346,7 +605,29 @@ client.load_collection(collection_name=COLLECTION_NAME)
 <TabItem value='javascript'>
 
 ```javascript
-// nodejs
+const data = [
+    {
+        id: 1,
+        content: "Milvus stores vector embeddings and scalar fields in collections. It supports vector search, full text search, and metadata filtering for retrieval applications."
+    },
+    {
+        id: 2,
+        content: "Long documents are often split into passages before embedding. Store each passage in a TEXT field so search results can return the source text."
+    },
+    {
+        id: 3,
+        content: "Operational logs and support tickets often contain long natural-language text. TEXT fields can store these values without a fixed max_length setting."
+    }
+];
+
+const res = await client.insert({
+    collection_name: "text_bm25_collection",
+    data: data
+});
+
+console.log(res);
+
+await client.flushSync({ collection_names: ["text_bm25_collection"] });
 ```
 
 </TabItem>
@@ -354,15 +635,28 @@ client.load_collection(collection_name=COLLECTION_NAME)
 <TabItem value='bash'>
 
 ```bash
-# restful
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-// cpp
+curl --request POST \
+--url "${BASE_URL}/v2/vectordb/entities/insert" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 30" \
+-d "{
+    \"collectionName\": \"${COLLECTION_NAME}\",
+    \"data\": [
+        {
+            \"id\": 1,
+            \"content\": \"Milvus stores vector embeddings and scalar fields in collections. It supports vector search, full text search, and metadata filtering for retrieval applications.\"
+        },
+        {
+            \"id\": 2,
+            \"content\": \"Long documents are often split into passages before embedding. Store each passage in a TEXT field so search results can return the source text.\"
+        },
+        {
+            \"id\": 3,
+            \"content\": \"Operational logs and support tickets often contain long natural-language text. TEXT fields can store these values without a fixed max_length setting.\"
+        }
+    ]
+}"
 ```
 
 </TabItem>
@@ -380,7 +674,7 @@ client.load_collection(collection_name=COLLECTION_NAME)
 
 Use raw query text as the search data and search against the sparse vector field. Milvus converts the query text into a sparse vector, ranks matches with BM25, and returns the requested `TEXT` field in `output_fields`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -400,7 +694,17 @@ results = client.search(
 <TabItem value='java'>
 
 ```java
-// java
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.EmbeddedText;
+import io.milvus.v2.service.vector.response.SearchResp;
+
+SearchResp searchResp = client.search(SearchReq.builder()
+        .collectionName("text_bm25_collection")
+        .data(Collections.singletonList(new EmbeddedText("how does Milvus store source text for retrieval")))
+        .annsField("sparse")
+        .limit(2)
+        .outputFields(Collections.singletonList("content"))
+        .build());
 ```
 
 </TabItem>
@@ -408,7 +712,33 @@ results = client.search(
 <TabItem value='go'>
 
 ```go
-// go
+// Note: DataType.Text is not supported in milvus-sdk-go as of client/v3.0.0-beta.
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+// Note: DataType.Text is not supported in milvus-sdk-rust as of v3.0.2.
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+std::string query_text = "how does Milvus store source text for retrieval";
+auto request = milvus::SearchRequest()
+                   .WithCollectionName("text_bm25_collection")
+                   .WithAnnsField("sparse")
+                   .WithLimit(2)
+                   .AddOutputField("content")
+                   .AddEmbeddedText(query_text);
+
+milvus::SearchResponse response;
+status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -416,7 +746,15 @@ results = client.search(
 <TabItem value='javascript'>
 
 ```javascript
-// nodejs
+const res = await client.search({
+    collection_name: "text_bm25_collection",
+    data: ["how does Milvus store source text for retrieval"],
+    anns_field: "sparse",
+    limit: 2,
+    output_fields: ["id", "content"]
+});
+
+console.log(JSON.stringify(res.results, null, 2));
 ```
 
 </TabItem>
@@ -424,15 +762,18 @@ results = client.search(
 <TabItem value='bash'>
 
 ```bash
-# restful
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-// cpp
+curl --request POST \
+--url "${BASE_URL}/v2/vectordb/entities/search" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 30" \
+-d "{
+    \"collectionName\": \"${COLLECTION_NAME}\",
+    \"data\": [\"how does Milvus store source text for retrieval\"],
+    \"annsField\": \"sparse\",
+    \"limit\": 2,
+    \"outputFields\": [\"content\"]
+}"
 ```
 
 </TabItem>
@@ -450,7 +791,7 @@ results = client.search(
 
 Each search hit includes the BM25 score and the original `TEXT` value.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -464,7 +805,12 @@ for hit in results[0]:
 <TabItem value='java'>
 
 ```java
-// java
+for (List<SearchResp.SearchResult> hits : searchResp.getSearchResults()) {
+    for (SearchResp.SearchResult hit : hits) {
+        System.out.println("id: " + hit.getId() + ", score: " + hit.getScore());
+        System.out.println(hit.getEntity().get("content"));
+    }
+}
 ```
 
 </TabItem>
@@ -472,7 +818,32 @@ for hit in results[0]:
 <TabItem value='go'>
 
 ```go
-// go
+// Note: DataType.Text is not supported in milvus-sdk-go as of client/v3.0.0-beta.
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+// Note: DataType.Text is not supported in milvus-sdk-rust as of v3.0.2.
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+auto search_results = response.Results();
+for (auto& result : search_results.Results()) {
+    milvus::EntityRows output_rows;
+    status = result.OutputRows(output_rows);
+    if (!status.IsOk()) {
+        std::cout << status.Message() << std::endl;
+        continue;
+    }
+    for (const auto& row : output_rows) {
+        std::cout << row << std::endl;
+    }
+}
 ```
 
 </TabItem>
@@ -480,7 +851,10 @@ for hit in results[0]:
 <TabItem value='javascript'>
 
 ```javascript
-// nodejs
+for (const hit of res.results) {
+    console.log(`id: ${hit.id}, score: ${hit.distance}`);
+    console.log(hit.entity?.content ?? hit.content);
+}
 ```
 
 </TabItem>
@@ -488,15 +862,17 @@ for hit in results[0]:
 <TabItem value='bash'>
 
 ```bash
-# restful
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-// cpp
+curl --request POST \
+--url "${BASE_URL}/v2/vectordb/entities/search" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d "{
+    \"collectionName\": \"text_bm25_collection\",
+    \"data\": [\"how does Milvus store source text for retrieval\"],
+    \"annsField\": \"sparse\",
+    \"limit\": 2,
+    \"outputFields\": [\"content\"]
+}"
 ```
 
 </TabItem>

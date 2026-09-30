@@ -79,7 +79,7 @@ To use dense vectors in Zilliz Cloud clusters, first define a vector field for s
 
 In the example below, we add a vector field named `dense_vector` to store dense vectors. The field's data type is `FLOAT_VECTOR`, with a dimension of `4`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -131,58 +131,112 @@ schema.addField(AddFieldReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-import { DataType } from "@zilliz/milvus2-sdk-node";
-
-schema.push({
-  name: "dense_vector",
-  data_type: DataType.FloatVector,
-  dim: 4,
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v2/column"
-    "github.com/milvus-io/milvus/client/v2/entity"
-    "github.com/milvus-io/milvus/client/v2/index"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
-)
-
-ctx, cancel := context.WithCancel(context.Background())
-defer cancel()
-
-milvusAddr := "YOUR_CLUSTER_ENDPOINT"
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: milvusAddr,
-})
+err = client.CreateCollection(ctx,
+    milvusclient.NewCreateCollectionOption("my_collection", schema).
+        WithIndexOptions(indexOption))
 if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
-defer client.Close(ctx)
 
-schema := entity.NewSchema()
-schema.WithField(entity.NewField().
-    WithName("pk").
-    WithDataType(entity.FieldTypeVarChar).
-    WithIsPrimaryKey(true).
-    WithIsAutoID(true).
-    WithMaxLength(100),
-).WithField(entity.NewField().
-    WithName("dense_vector").
-    WithDataType(entity.FieldTypeFloatVector).
-    WithDim(4),
-)
+// CreateCollection does not implicitly load the collection; load it before search.
+loadTask, err := client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+if err := loadTask.Await(ctx); err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let client = ClientV2::new(
+        &ConnectConfig::new()
+            .uri("YOUR_CLUSTER_ENDPOINT")
+            .token("YOUR_CLUSTER_TOKEN"),
+    )
+    .await?;
+
+    let schema = CollectionSchema::new()
+        .enable_dynamic_field(true)
+        .add_field(
+            FieldSchema::new()
+                .name("pk")
+                .data_type(DataType::VarChar)
+                .primary_key(true)
+                .auto_id(true)
+                .max_length(100),
+        )
+        .add_field(
+            FieldSchema::new()
+                .name("dense_vector")
+                .data_type(DataType::FloatVector)
+                .dimension(4),
+        );
+
+    Ok(())
+}
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include <memory>
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->SetEnableDynamicField(true);
+schema->AddField(milvus::FieldSchema("pk", milvus::DataType::VARCHAR, "", true, true).WithMaxLength(100));
+schema->AddField(milvus::FieldSchema("dense_vector", milvus::DataType::FLOAT_VECTOR).WithDimension(4));
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({
+    address: "YOUR_CLUSTER_ENDPOINT"
+});
+
+const schema = [
+    {
+        name: "pk",
+        data_type: DataType.VarChar,
+        is_primary_key: true,
+        autoID: true,
+        max_length: 100
+    },
+    {
+        name: "dense_vector",
+        data_type: DataType.FloatVector,
+        dim: 4
+    }
+];
 ```
 
 </TabItem>
@@ -217,27 +271,6 @@ export schema="{
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
-auto status = client->Connect(connect_param);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
-schema->SetEnableDynamicField(true);
-schema->AddField(milvus::FieldSchema("pk", milvus::DataType::VARCHAR, "", true, true).WithMaxLength(100));
-schema->AddField(milvus::FieldSchema("dense_vector", milvus::DataType::FLOAT_VECTOR).WithDimension(4));
-```
-
-</TabItem>
 </Tabs>
 
 **Supported data types for dense vector fields**:
@@ -253,7 +286,7 @@ schema->AddField(milvus::FieldSchema("dense_vector", milvus::DataType::FLOAT_VEC
 
 To accelerate semantic searches, an index must be created for the vector field. Indexing can significantly improve the retrieval efficiency of large-scale vector data.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -279,9 +312,41 @@ List<IndexParam> indexes = new ArrayList<>();
 
 indexes.add(IndexParam.builder()
         .fieldName("dense_vector")
+        .indexName("dense_vector_index")
         .indexType(IndexParam.IndexType.AUTOINDEX)
         .metricType(IndexParam.MetricType.IP)
         .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+idx := index.NewAutoIndex(index.MetricType(entity.IP))
+indexOption := milvusclient.NewCreateIndexOption("my_collection", "dense_vector", idx)
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let index_params = vec![IndexParam::new()
+    .field_name("dense_vector")
+    .index_name("dense_vector_index")
+    .index_type(IndexType::AutoIndex)
+    .metric_type(MetricType::Ip)];
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+#include <vector>
+
+std::vector<milvus::IndexDesc> indexes = {
+    milvus::IndexDesc("dense_vector", "dense_vector_index", milvus::IndexType::AUTOINDEX, milvus::MetricType::IP)
+};
 ```
 
 </TabItem>
@@ -301,15 +366,6 @@ const indexParams = {
 
 </TabItem>
 
-<TabItem value='go'>
-
-```go
-idx := index.NewAutoIndex(index.MetricType(entity.IP))
-indexOption := milvusclient.NewCreateIndexOption("my_collection", "dense_vector", idx)
-```
-
-</TabItem>
-
 <TabItem value='bash'>
 
 ```bash
@@ -324,16 +380,6 @@ export indexParams='[
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-std::vector<milvus::IndexDesc> indexes = {
-    milvus::IndexDesc("dense_vector", "dense_vector_index", milvus::IndexType::AUTOINDEX, milvus::MetricType::IP)
-}
-```
-
-</TabItem>
 </Tabs>
 
 In the example above, an index named `dense_vector_index` is created for the `dense_vector` field using the `AUTOINDEX` index type. The `metric_type` is set to `IP`, indicating that inner product will be used as the distance metric.
@@ -344,7 +390,7 @@ Zilliz Cloud supports other metric types. For more information, refer to [Metric
 
 Once the dense vector and index param settings are complete, you can create a collection containing dense vectors. The example below uses the `create_collection` method to create a collection named `my_collection`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -372,20 +418,6 @@ client.createCollection(requestCreate);
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-import { MilvusClient } from "@zilliz/milvus2-sdk-node";
-
-await client.createCollection({
-    collection_name: 'my_collection',
-    schema: schema,
-    index_params: indexParams
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -396,6 +428,59 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
+
+loadTask, err := client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+if err := loadTask.Await(ctx); err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+client
+    .create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name("my_collection")
+            .schema(schema)
+            .index_params(index_params)
+            .build()?,
+    )
+    .await?;
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+// CreateCollection creates the configured indexes and loads the collection automatically.
+auto status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                            .WithCollectionName("my_collection")
+                                            .WithIndexes(std::move(indexes))
+                                            .WithCollectionSchema(schema));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const res = await client.createCollection({
+    collection_name: "my_collection",
+    schema: schema,
+    index_params: indexParams
+});
+
+console.log(res);
 ```
 
 </TabItem>
@@ -403,6 +488,9 @@ if err != nil {
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/create" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -416,27 +504,13 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto status = client->CreateCollection(milvus::CreateCollectionRequest()
-                                            .WithCollectionName("my_collection")
-                                            .WithIndexes(std::move(indexes))
-                                            .WithCollectionSchema(schema));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
 
 ### Insert data\{#insert-data}
 
 After creating the collection, use the `insert` method to add data containing dense vectors. Ensure that the dimensionality of the dense vectors being inserted matches the `dim` value defined when adding the dense vector field.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -463,29 +537,13 @@ import io.milvus.v2.service.vector.response.InsertResp;
 
 List<JsonObject> rows = new ArrayList<>();
 Gson gson = new Gson();
-rows.add(gson.fromJson("{\"dense_vector\": [0.1, 0.2, 0.3, 0.4]}", JsonObject.class));
-rows.add(gson.fromJson("{\"dense_vector\": [0.2, 0.3, 0.4, 0.5]}", JsonObject.class));
+rows.add(gson.fromJson("{\"dense_vector\": [0.1, 0.2, 0.3, 0.7]}", JsonObject.class));
+rows.add(gson.fromJson("{\"dense_vector\": [0.2, 0.3, 0.4, 0.8]}", JsonObject.class));
 
 InsertResp insertR = client.insert(InsertReq.builder()
         .collectionName("my_collection")
         .data(rows)
         .build());
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-const data = [
-  { dense_vector: [0.1, 0.2, 0.3, 0.7] },
-  { dense_vector: [0.2, 0.3, 0.4, 0.8] },
-];
-
-client.insert({
-  collection_name: "my_collection",
-  data: data,
-});
 ```
 
 </TabItem>
@@ -503,36 +561,44 @@ if err != nil {
     fmt.Println(err.Error())
     // handle err
 }
+
+flushTask, err := client.Flush(ctx, milvusclient.NewFlushOption("my_collection"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle err
+}
+if err := flushTask.Await(ctx); err != nil {
+    fmt.Println(err.Error())
+    // handle err
+}
 ```
 
 </TabItem>
+</Tabs>
 
-<TabItem value='bash'>
+```rust
+let rows = vec![
+    serde_json::json!({"dense_vector": [0.1, 0.2, 0.3, 0.7]}),
+    serde_json::json!({"dense_vector": [0.2, 0.3, 0.4, 0.8]}),
+];
 
-```bash
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
---header "Request-Timeout: 10" \
--d '{
-    "data": [
-        {"dense_vector": [0.1, 0.2, 0.3, 0.4]},
-        {"dense_vector": [0.2, 0.3, 0.4, 0.5]}        
-    ],
-    "collectionName": "my_collection"
-}'
-
-## {"code":0,"cost":0,"data":{"insertCount":2,"insertIds":["453577185629572531","453577185629572532"]}}
+let insert = client
+    .insert(
+        InsertRequest::builder()
+            .collection_name("my_collection")
+            .rows(rows)
+            .build()?,
+    )
+    .await?;
+println!("{} rows inserted", insert.insert_count());
 ```
 
-</TabItem>
-
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
 <TabItem value='c++'>
 
 ```c++
-milvus::EntityRows data = {{{"dense_vector", std::vector<float>{0.1, 0.2, 0.3, 0.4}}},
-                           {{"dense_vector", std::vector<float>{0.2, 0.3, 0.4, 0.5}}}};
+milvus::EntityRows data = {{{"dense_vector", std::vector<float>{0.1, 0.2, 0.3, 0.7}}},
+                           {{"dense_vector", std::vector<float>{0.2, 0.3, 0.4, 0.8}}}};
 
 milvus::InsertResponse response;
 auto status = client->Insert(milvus::InsertRequest()
@@ -542,6 +608,53 @@ auto status = client->Insert(milvus::InsertRequest()
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
+
+status = client->Flush(milvus::FlushRequest().AddCollectionName("my_collection"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const data = [
+    { dense_vector: [0.1, 0.2, 0.3, 0.7] },
+    { dense_vector: [0.2, 0.3, 0.4, 0.8] }
+];
+
+const res = await client.insert({
+    collection_name: "my_collection",
+    data: data
+});
+
+console.log(res);
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d '{
+    "data": [
+        {"dense_vector": [0.1, 0.2, 0.3, 0.7]},
+        {"dense_vector": [0.2, 0.3, 0.4, 0.8]}
+    ],
+    "collectionName": "my_collection"
+}'
+
+## {"code":0,"cost":0,"data":{"insertCount":2,"insertIds":["453577185629572531","453577185629572532"]}}
 ```
 
 </TabItem>
@@ -551,7 +664,7 @@ if (!status.IsOk()) {
 
 Semantic search based on dense vectors is one of the core features of Zilliz Cloud clusters, allowing you to quickly find data that is most similar to a query vector based on the distance between vectors. To perform a similarity search, prepare the query vector and search parameters, then call the `search` method.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -581,12 +694,14 @@ print(res)
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
 
 Map<String,Object> searchParams = new HashMap<>();
-searchParams.put("nprobe",10);
+searchParams.put("nprobe", 10);
 
-FloatVec queryVector = new FloatVec(new float[]{0.1f, 0.3f, 0.3f, 0.4f});
+FloatVec queryVector = new FloatVec(new float[]{0.1f, 0.2f, 0.3f, 0.7f});
 
 SearchResp searchR = client.search(SearchReq.builder()
         .collectionName("my_collection")
@@ -596,30 +711,8 @@ SearchResp searchR = client.search(SearchReq.builder()
         .topK(5)
         .outputFields(Collections.singletonList("pk"))
         .build());
-        
+
 System.out.println(searchR.getSearchResults());
-
-// Output
-//
-// [[SearchResp.SearchResult(entity={pk=453444327741536779}, score=0.65, id=453444327741536779), SearchResp.SearchResult(entity={pk=453444327741536778}, score=0.65, id=453444327741536778)]]
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-query_vector = [0.1, 0.2, 0.3, 0.7];
-
-client.search({
-    collection_name: 'my_collection',
-    data: query_vector,
-    limit: 5,
-    output_fields: ['pk'],
-    params: {
-        nprobe: 10
-    }
-});
 ```
 
 </TabItem>
@@ -651,33 +744,30 @@ for _, resultSet := range resultSets {
 ```
 
 </TabItem>
+</Tabs>
 
-<TabItem value='bash'>
+```rust
+use std::collections::HashMap;
 
-```bash
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
---header "Request-Timeout: 10" \
--d '{
-    "collectionName": "my_collection",
-    "data": [
-        [0.1, 0.2, 0.3, 0.7]
-    ],
-    "annsField": "dense_vector",
-    "limit": 5,
-    "searchParams":{
-        "params":{"nprobe":10}
-    },
-    "outputFields": ["pk"]
-}'
+let query_vector = vec![0.1, 0.2, 0.3, 0.7];
 
-## {"code":0,"cost":0,"data":[{"distance":0.55,"id":"453577185629572532","pk":"453577185629572532"},{"distance":0.42,"id":"453577185629572531","pk":"453577185629572531"}]}
+let search = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("my_collection")
+            .vector_field("dense_vector")
+            .vectors(SearchVectors::Float(vec![query_vector]))
+            .extra_params(HashMap::from([("nprobe".to_string(), "10".to_string())]))
+            .limit(5)
+            .output_fields(["pk"])
+            .build()?,
+    )
+    .await?;
+
+println!("{:?}", search.results());
 ```
 
-</TabItem>
-
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
 <TabItem value='c++'>
 
 ```c++
@@ -703,6 +793,56 @@ for (auto& result : search_results.Results()) {
         std::cout << "\t" << row << std::endl;
     }
 }
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const query_vector = [0.1, 0.2, 0.3, 0.7];
+
+const res = await client.search({
+    collection_name: "my_collection",
+    data: query_vector,
+    anns_field: "dense_vector",
+    limit: 5,
+    output_fields: ["pk"],
+    params: {
+        nprobe: 10
+    }
+});
+
+console.log(res);
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d '{
+    "collectionName": "my_collection",
+    "data": [
+        [0.1, 0.2, 0.3, 0.7]
+    ],
+    "annsField": "dense_vector",
+    "limit": 5,
+    "searchParams":{
+        "params":{"nprobe":10}
+    },
+    "outputFields": ["pk"]
+}'
+
+## {"code":0,"cost":0,"data":[{"distance":0.55,"id":"453577185629572532","pk":"453577185629572532"},{"distance":0.42,"id":"453577185629572531","pk":"453577185629572531"}]}
 ```
 
 </TabItem>

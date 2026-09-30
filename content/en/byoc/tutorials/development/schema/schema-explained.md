@@ -41,7 +41,7 @@ Refer to [Schema Design Hands-On](./schema-design-hands-on) to figure out how to
 
 The following code snippet demonstrates how to create a schema.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -55,9 +55,38 @@ schema = MilvusClient.create_schema()
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
 
-CreateCollectionReq.CollectionSchema schema = client.createSchema();
+CreateCollectionReq.CollectionSchema schema = MilvusClientV2.CreateSchema();
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
+schema := entity.NewSchema()
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+
+let mut schema = CollectionSchema::new();
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
 ```
 
 </TabItem>
@@ -72,16 +101,6 @@ const schema = []
 
 </TabItem>
 
-<TabItem value='go'>
-
-```go
-import "github.com/milvus-io/milvus/client/v2/entity"
-
-schema := entity.NewSchema()
-```
-
-</TabItem>
-
 <TabItem value='bash'>
 
 ```bash
@@ -91,23 +110,13 @@ export schema='{
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-#include "milvus/MilvusClientV2.h"
-
-milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
-```
-
-</TabItem>
 </Tabs>
 
 ## Add Primary Field\{#add-primary-field}
 
 The primary field in a collection uniquely identifies an entity. It only accepts **Int64** or **VarChar** values. The following code snippets demonstrate how to add the primary field.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -141,6 +150,40 @@ schema.addField(AddFieldReq.builder()
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+schema.WithField(entity.NewField().WithName("my_id").
+    WithDataType(entity.FieldTypeInt64).
+    // highlight-start
+    WithIsPrimaryKey(true).
+    WithIsAutoID(false),
+    // highlight-end
+)
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+schema = schema.add_field(
+    FieldSchema::new()
+        .name("my_id")
+        .data_type(DataType::Int64)
+        .primary_key(true)
+        .auto_id(false),
+);
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+schema->AddField(milvus::FieldSchema("my_id", milvus::DataType::INT64, "", true, false));
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -156,20 +199,6 @@ schema.push({
 
 </TabItem>
 
-<TabItem value='go'>
-
-```go
-schema.WithField(entity.NewField().WithName("my_id").
-    WithDataType(entity.FieldTypeInt64).
-    // highlight-start
-    WithIsPrimaryKey(true).
-    WithIsAutoID(false),
-    // highlight-end
-)
-```
-
-</TabItem>
-
 <TabItem value='bash'>
 
 ```bash
@@ -179,20 +208,12 @@ export primaryField='{
     "isPrimary": true
 }'
 
-export schema='{
+export schema="{
     \"autoID\": false,
     \"fields\": [
         $primaryField
     ]
-}'
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-schema->AddField(milvus::FieldSchema("my_id", milvus::DataType::INT64, "", true, false));
+}"
 ```
 
 </TabItem>
@@ -214,7 +235,7 @@ For details, refer to [Primary Field & AutoId](./primary-field-auto-id).
 
 Vector fields accept various sparse and dense vector embeddings. On Zilliz Cloud, you can add four vector fields to a collection. The following code snippets demonstrate how to add a vector field.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -241,6 +262,37 @@ schema.addField(AddFieldReq.builder()
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+schema.WithField(entity.NewField().WithName("my_vector").
+    WithDataType(entity.FieldTypeFloatVector).
+    // highlight-next-line
+    WithDim(5),
+)
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+schema = schema.add_field(
+    FieldSchema::new()
+        .name("my_vector")
+        .data_type(DataType::FloatVector)
+        .dimension(5),
+);
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+schema->AddField(milvus::FieldSchema("my_vector", milvus::DataType::FLOAT_VECTOR).WithDimension(5));
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -250,18 +302,6 @@ schema.push({
     // highlight-next-line
     dim: 5
 });
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-schema.WithField(entity.NewField().WithName("my_vector").
-    WithDataType(entity.FieldTypeFloatVector).
-    // highlight-next-line
-    WithDim(5),
-)
 ```
 
 </TabItem>
@@ -284,14 +324,6 @@ export schema="{
         $vectorField
     ]
 }"
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-schema->AddField(milvus::FieldSchema("my_vector", milvus::DataType::FLOAT_VECTOR).WithDimension(5));
 ```
 
 </TabItem>
@@ -327,7 +359,7 @@ In common cases, you can use scalar fields to store the metadata of the vector e
 
 In Zilliz Cloud clusters, you can use VarChar fields to store strings. For more on the VarChar field, refer to [String Field](./use-string-field).
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -354,6 +386,36 @@ schema.addField(AddFieldReq.builder()
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+schema.WithField(entity.NewField().WithName("my_varchar").
+    WithDataType(entity.FieldTypeVarChar).
+    WithMaxLength(512),
+)
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+schema = schema.add_field(
+    FieldSchema::new()
+        .name("my_varchar")
+        .data_type(DataType::VarChar)
+        .max_length(512),
+);
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+schema->AddField(milvus::FieldSchema("my_varchar", milvus::DataType::VARCHAR).WithMaxLength(512));
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -363,17 +425,6 @@ schema.push({
     // highlight-next-line
     max_length: 512
 });
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-schema.WithField(entity.NewField().WithName("my_varchar").
-    WithDataType(entity.FieldTypeVarChar).
-    WithMaxLength(512),
-)
 ```
 
 </TabItem>
@@ -400,21 +451,13 @@ export schema="{
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-schema->AddField(milvus::FieldSchema("my_varchar", milvus::DataType::VARCHAR).WithMaxLength(512));
-```
-
-</TabItem>
 </Tabs>
 
 ### Add TEXT Fields\{#add-text-fields}
 
 In Milvus 3.0 and later, you can use `TEXT` fields to store document text, passages, logs, and other long text content. Unlike `VARCHAR`, a `TEXT` field does not require `max_length`. For more on the `TEXT` field, refer to [TEXT Field](./use-text-field).
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -429,15 +472,10 @@ schema.add_field(
 <TabItem value='java'>
 
 ```java
-// java
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-// nodejs
+schema.addField(AddFieldReq.builder()
+        .fieldName("my_text")
+        .dataType(DataType.Text)
+        .build());
 ```
 
 </TabItem>
@@ -445,7 +483,34 @@ schema.add_field(
 <TabItem value='go'>
 
 ```go
-// go
+schema.WithField(entity.NewField().WithName("my_text").
+    WithDataType(entity.FieldTypeText),
+)
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+// Note: Not yet supported in milvus-sdk-rust as of v3.0.2.
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+schema->AddField(milvus::FieldSchema("my_text", milvus::DataType::TEXT));
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+schema.push({
+    name: "my_text",
+    data_type: DataType.Text
+});
 ```
 
 </TabItem>
@@ -453,7 +518,20 @@ schema.add_field(
 <TabItem value='bash'>
 
 ```bash
-# restful
+export textField='{
+    "fieldName": "my_text",
+    "dataType": "Text"
+}'
+
+export schema="{
+    \"autoID\": false,
+    \"fields\": [
+        $primaryField,
+        $vectorField,
+        $varCharField,
+        $textField
+    ]
+}"
 ```
 
 </TabItem>
@@ -463,7 +541,7 @@ schema.add_field(
 
 The types of numbers that Zilliz Cloud supports are `Int8`, `Int16`, `Int32`, `Int64`, `Float`, and `Double`. For more on the number fields, refer to [Number Field](./use-number-field).
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -486,6 +564,34 @@ schema.addField(AddFieldReq.builder()
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+schema.WithField(entity.NewField().WithName("my_int64").
+    WithDataType(entity.FieldTypeInt64),
+)
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+schema = schema.add_field(
+    FieldSchema::new()
+        .name("my_int64")
+        .data_type(DataType::Int64),
+);
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+schema->AddField(milvus::FieldSchema("my_int64", milvus::DataType::INT64));
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -493,16 +599,6 @@ schema.push({
     name: "my_int64",
     data_type: DataType.Int64,
 });
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-schema.WithField(entity.NewField().WithName("my_int64").
-    WithDataType(entity.FieldTypeInt64),
-)
 ```
 
 </TabItem>
@@ -521,17 +617,10 @@ export schema="{
         $primaryField,
         $vectorField,
         $varCharField,
+        $textField,
         $int64Field
     ]
 }"
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-schema->AddField(milvus::FieldSchema("my_int64", milvus::DataType::INT64));
 ```
 
 </TabItem>
@@ -541,7 +630,7 @@ schema->AddField(milvus::FieldSchema("my_int64", milvus::DataType::INT64));
 
 Zilliz Cloud supports boolean fields. The following code snippets demonstrate how to add a boolean field.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -564,17 +653,6 @@ schema.addField(AddFieldReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-schema.push({
-    name: "my_bool",
-    data_type: DataType.Boolean,
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -584,13 +662,42 @@ schema.WithField(entity.NewField().WithName("my_bool").
 ```
 
 </TabItem>
+</Tabs>
+
+```rust
+schema = schema.add_field(
+    FieldSchema::new()
+        .name("my_bool")
+        .data_type(DataType::Bool),
+);
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+schema->AddField(milvus::FieldSchema("my_bool", milvus::DataType::BOOL));
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+schema.push({
+    name: "my_bool",
+    data_type: DataType.Bool
+});
+```
+
+</TabItem>
 
 <TabItem value='bash'>
 
 ```bash
 export boolField='{
     "fieldName": "my_bool",
-    "dataType": "Boolean"
+    "dataType": "Bool"
 }'
 
 export schema="{
@@ -599,18 +706,11 @@ export schema="{
         $primaryField,
         $vectorField,
         $varCharField,
+        $textField,
         $int64Field,
         $boolField
     ]
 }"
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-schema->AddField(milvus::FieldSchema("my_bool", milvus::DataType::BOOL));
 ```
 
 </TabItem>
@@ -624,7 +724,7 @@ In Zilliz Cloud, a composite field is a field that can be divided into smaller s
 
 A JSON field usually stores half-structured JSON data. For more on the JSON fields, refer to [JSON Field Overview](./json-field-overview).
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -647,6 +747,34 @@ schema.addField(AddFieldReq.builder()
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+schema.WithField(entity.NewField().WithName("my_json").
+    WithDataType(entity.FieldTypeJSON),
+)
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+schema = schema.add_field(
+    FieldSchema::new()
+        .name("my_json")
+        .data_type(DataType::Json),
+);
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+schema->AddField(milvus::FieldSchema("my_json", milvus::DataType::JSON));
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -654,16 +782,6 @@ schema.push({
     name: "my_json",
     data_type: DataType.JSON,
 });
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-schema.WithField(entity.NewField().WithName("my_json").
-    WithDataType(entity.FieldTypeJSON),
-)
 ```
 
 </TabItem>
@@ -682,19 +800,12 @@ export schema="{
         $primaryField,
         $vectorField,
         $varCharField,
+        $textField,
         $int64Field,
         $boolField,
         $jsonField
     ]
 }"
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-schema->AddField(milvus::FieldSchema("my_json", milvus::DataType::JSON));
 ```
 
 </TabItem>
@@ -704,7 +815,7 @@ schema->AddField(milvus::FieldSchema("my_json", milvus::DataType::JSON));
 
 An array field stores a list of elements. The data types of all elements in an array field should be the same. For more on the array fields, refer to [Array Field](./use-array-fields).
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -733,6 +844,43 @@ schema.addField(AddFieldReq.builder()
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+schema.WithField(entity.NewField().WithName("my_array").
+    WithDataType(entity.FieldTypeArray).
+    WithElementType(entity.FieldTypeVarChar).
+    WithMaxLength(512).
+    WithMaxCapacity(5),
+)
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+schema = schema.add_field(
+    FieldSchema::new()
+        .name("my_array")
+        .data_type(DataType::Array)
+        .element_type(DataType::VarChar)
+        .max_length(512)
+        .max_capacity(5),
+);
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+schema->AddField(milvus::FieldSchema("my_array", milvus::DataType::ARRAY)
+                                    .WithElementType(milvus::DataType::VARCHAR)
+                                    .WithMaxCapacity(5)
+                                    .WithMaxLength(512));
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -747,19 +895,6 @@ schema.push({
 
 </TabItem>
 
-<TabItem value='go'>
-
-```go
-schema.WithField(entity.NewField().WithName("my_array").
-    WithDataType(entity.FieldTypeArray).
-    WithElementType(entity.FieldTypeInt64).
-    WithMaxLength(512).
-    WithMaxCapacity(5),
-)
-```
-
-</TabItem>
-
 <TabItem value='bash'>
 
 ```bash
@@ -768,6 +903,7 @@ export arrayField='{
     "dataType": "Array",
     "elementDataType": "VarChar",
     "elementTypeParams": {
+        "max_capacity": 5,
         "max_length": 512
     }
 }'
@@ -778,23 +914,13 @@ export schema="{
         $primaryField,
         $vectorField,
         $varCharField,
+        $textField,
         $int64Field,
         $boolField,
         $jsonField,
         $arrayField
     ]
 }"
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-schema->AddField(milvus::FieldSchema("my_array", milvus::DataType::ARRAY)
-                                    .WithElementType(milvus::DataType::VARCHAR)
-                                    .WithMaxCapacity(5)
-                                    .WithMaxLength(512));
 ```
 
 </TabItem>

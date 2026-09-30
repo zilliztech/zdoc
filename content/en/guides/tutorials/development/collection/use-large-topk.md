@@ -82,7 +82,7 @@ schema.add_field("title", DataType.VARCHAR, max_length=128)
 schema.add_field("vector", DataType.FLOAT_VECTOR, dim=4)
 
 index_params = client.prepare_index_params()
-index_params.add_index(field_name="vector", index_type="AUTOINDEX", metric_type="COSINE")
+index_params.add_index(field_name="vector", index_name="vector_idx", index_type="AUTOINDEX", metric_type="COSINE")
 
 client.create_collection(
     collection_name="scenarios_corpus",
@@ -124,6 +124,7 @@ client.createCollection(CreateCollectionReq.builder()
         .collectionSchema(schema)
         .indexParams(Arrays.asList(IndexParam.builder()
                 .fieldName("vector")
+                .indexName("vector_idx")
                 .indexType(IndexParam.IndexType.AUTOINDEX)
                 .metricType(IndexParam.MetricType.COSINE)
                 .build()))
@@ -161,17 +162,9 @@ schema := entity.NewSchema().
     WithField(entity.NewField().WithName("vector").WithDataType(entity.FieldTypeFloatVector).WithDim(4))
 
 err = cli.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("scenarios_corpus", schema).
-    WithIndexOptions(milvusclient.NewCreateIndexOption("scenarios_corpus", "vector", index.NewAutoIndex(entity.COSINE))).
+    WithIndexOptions(milvusclient.NewCreateIndexOption("scenarios_corpus", "vector", index.NewAutoIndex(entity.COSINE)).WithIndexName("vector_idx")).
     WithProperty("query_mode", "large_topk"))
 if err != nil {
-    panic(err)
-}
-
-loadTask, err := cli.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("scenarios_corpus"))
-if err != nil {
-    panic(err)
-}
-if err = loadTask.Await(ctx); err != nil {
     panic(err)
 }
 ```
@@ -196,6 +189,7 @@ client.create_collection(
         .schema(schema)
         .index_params(vec![IndexParam::new()
             .field_name("vector")
+            .index_name("vector_idx")
             .index_type(IndexType::AutoIndex)
             .metric_type(MetricType::Cosine)])
         .properties(HashMap::from([("query_mode".to_string(), "large_topk".to_string())]))
@@ -228,20 +222,9 @@ schema->AddField(milvus::FieldSchema("vector", milvus::DataType::FLOAT_VECTOR, "
 status = client->CreateCollection(milvus::CreateCollectionRequest()
     .WithCollectionName("scenarios_corpus")
     .WithCollectionSchema(schema)
+    .WithIndexes({milvus::IndexDesc(
+        "vector", "vector_idx", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE)})
     .AddProperty("query_mode", "large_topk"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-    return 1;
-}
-
-status = client->CreateIndex(milvus::CreateIndexRequest().WithCollectionName("scenarios_corpus").WithIndexes({milvus::IndexDesc(
-    "vector", "vector", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE)}));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-    return 1;
-}
-
-status = client->LoadCollection(milvus::LoadCollectionRequest().WithCollectionName("scenarios_corpus"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
     return 1;
@@ -265,7 +248,7 @@ await client.createCollection({
     { name: "title", data_type: DataType.VarChar, max_length: 128 },
     { name: "vector", data_type: DataType.FloatVector, dim: 4 },
   ],
-  index_params: [{ field_name: "vector", index_type: "AUTOINDEX", metric_type: "COSINE" }],
+  index_params: [{ field_name: "vector", index_name: "vector_idx", index_type: "AUTOINDEX", metric_type: "COSINE" }],
   properties: { query_mode: "large_topk" },
 });
 ```
@@ -293,9 +276,9 @@ curl --request POST \
         {"fieldName": "vector", "dataType": "FloatVector", "elementTypeParams": {"dim": 4}}
       ]
     },
-    "indexParams": [{"fieldName": "vector", "indexType": "AUTOINDEX", "metricType": "COSINE"}],
+    "indexParams": [{"fieldName": "vector", "indexName": "vector_idx", "indexType": "AUTOINDEX", "metricType": "COSINE"}],
     "properties": {"query_mode": "large_topk"}
-  }' 
+  }'
 ```
 
 </TabItem>
@@ -321,7 +304,7 @@ client.alter_collection_properties(
 
 # 2. Create the vector index and load the collection
 index_params = client.prepare_index_params()
-index_params.add_index(field_name="vector", index_type="AUTOINDEX", metric_type="COSINE")
+index_params.add_index(field_name="vector", index_name="vector_idx", index_type="AUTOINDEX", metric_type="COSINE")
 client.create_index(collection_name="scenarios_corpus", index_params=index_params)
 client.load_collection(collection_name="scenarios_corpus")
 ```
@@ -335,17 +318,8 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.collection.request.AlterCollectionPropertiesReq;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import io.milvus.v2.service.collection.request.CreateIndexReq;
 import io.milvus.v2.service.collection.request.LoadCollectionReq;
-import io.milvus.v2.service.collection.request.ReleaseCollectionReq;
-import io.milvus.v2.service.collection.request.DropCollectionPropertiesReq;
-import io.milvus.v2.service.collection.request.DescribeCollectionReq;
-import io.milvus.v2.service.collection.response.DescribeCollectionResp;
-import io.milvus.v2.service.index.request.CreateIndexReq;
-import io.milvus.v2.service.index.request.DropIndexReq;
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -364,11 +338,12 @@ client.createIndex(CreateIndexReq.builder()
         .collectionName("scenarios_corpus")
         .indexParams(Arrays.asList(IndexParam.builder()
                 .fieldName("vector")
+                .indexName("vector_idx")
                 .indexType(IndexParam.IndexType.AUTOINDEX)
                 .metricType(IndexParam.MetricType.COSINE)
                 .build()))
         .build());
-client.loadCollection(io.milvus.v2.service.collection.request.LoadCollectionReq.builder()
+client.loadCollection(LoadCollectionReq.builder()
         .collectionName("scenarios_corpus")
         .build());
 ```
@@ -401,7 +376,7 @@ if err != nil {
 }
 
 // 2. Create the vector index and load the collection
-indexTask, err := cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption("scenarios_corpus", "vector", index.NewAutoIndex(entity.COSINE)))
+indexTask, err := cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption("scenarios_corpus", "vector", index.NewAutoIndex(entity.COSINE)).WithIndexName("vector_idx"))
 if err != nil {
     panic(err)
 }
@@ -424,6 +399,8 @@ if err = loadTask.Await(ctx); err != nil {
 use milvus::v2::prelude::*;
 use std::collections::HashMap;
 
+let client = ClientV2::new(&ConnectConfig::new().uri("your_uri").token("your_token")).await?;
+
 // 1. Enable Large TopK
 client.alter_collection_properties(
     AlterCollectionPropertiesRequest::builder()
@@ -436,7 +413,7 @@ client.alter_collection_properties(
 client.create_index(
     CreateIndexRequest::builder()
         .collection_name("scenarios_corpus")
-        .index_param(IndexParam::new().field_name("vector").index_type(IndexType::AutoIndex).metric_type(MetricType::Cosine))
+        .index_param(IndexParam::new().field_name("vector").index_name("vector_idx").index_type(IndexType::AutoIndex).metric_type(MetricType::Cosine))
         .build()?,
 ).await?;
 client.load_collection(LoadCollectionRequest::builder().collection_name("scenarios_corpus").build()?).await?;
@@ -560,7 +537,7 @@ client.alter_collection_properties(
 
 # 3. Recreate the index and load the collection
 index_params = client.prepare_index_params()
-index_params.add_index(field_name="vector", index_type="AUTOINDEX", metric_type="COSINE")
+index_params.add_index(field_name="vector", index_name="vector_idx", index_type="AUTOINDEX", metric_type="COSINE")
 client.create_index(collection_name="scenarios_corpus", index_params=index_params)
 client.load_collection(collection_name="scenarios_corpus")
 ```
@@ -574,17 +551,10 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.collection.request.AlterCollectionPropertiesReq;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
 import io.milvus.v2.service.collection.request.LoadCollectionReq;
 import io.milvus.v2.service.collection.request.ReleaseCollectionReq;
-import io.milvus.v2.service.collection.request.DropCollectionPropertiesReq;
-import io.milvus.v2.service.collection.request.DescribeCollectionReq;
-import io.milvus.v2.service.collection.response.DescribeCollectionResp;
 import io.milvus.v2.service.index.request.CreateIndexReq;
 import io.milvus.v2.service.index.request.DropIndexReq;
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -607,11 +577,12 @@ client.createIndex(CreateIndexReq.builder()
         .collectionName("scenarios_corpus")
         .indexParams(Arrays.asList(IndexParam.builder()
                 .fieldName("vector")
+                .indexName("vector_idx")
                 .indexType(IndexParam.IndexType.AUTOINDEX)
                 .metricType(IndexParam.MetricType.COSINE)
                 .build()))
         .build());
-client.loadCollection(io.milvus.v2.service.collection.request.LoadCollectionReq.builder()
+client.loadCollection(LoadCollectionReq.builder()
         .collectionName("scenarios_corpus")
         .build());
 ```
@@ -651,7 +622,7 @@ if err := cli.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionProp
 }
 
 // 3. Recreate the index and load the collection
-indexTask, err := cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption("scenarios_corpus", "vector", index.NewAutoIndex(entity.COSINE)))
+indexTask, err := cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption("scenarios_corpus", "vector", index.NewAutoIndex(entity.COSINE)).WithIndexName("vector_idx"))
 if err != nil {
     panic(err)
 }
@@ -674,6 +645,8 @@ if err = loadTask.Await(ctx); err != nil {
 use milvus::v2::prelude::*;
 use std::collections::HashMap;
 
+let client = ClientV2::new(&ConnectConfig::new().uri("your_uri").token("your_token")).await?;
+
 // 1. Release and drop the existing index
 client.release_collection(ReleaseCollectionRequest::builder().collection_name("scenarios_corpus").build()?).await?;
 client.drop_index(DropIndexRequest::builder().collection_name("scenarios_corpus").index_name("vector_idx").build()?).await?;
@@ -690,7 +663,7 @@ client.alter_collection_properties(
 client.create_index(
     CreateIndexRequest::builder()
         .collection_name("scenarios_corpus")
-        .index_param(IndexParam::new().field_name("vector").index_type(IndexType::AutoIndex).metric_type(MetricType::Cosine))
+        .index_param(IndexParam::new().field_name("vector").index_name("vector_idx").index_type(IndexType::AutoIndex).metric_type(MetricType::Cosine))
         .build()?,
 ).await?;
 client.load_collection(LoadCollectionRequest::builder().collection_name("scenarios_corpus").build()?).await?;
@@ -821,22 +794,8 @@ query_mode = info["properties"].get("query_mode")  # None means default mode
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.common.IndexParam;
-import io.milvus.v2.service.collection.request.AlterCollectionPropertiesReq;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-import io.milvus.v2.service.collection.request.LoadCollectionReq;
-import io.milvus.v2.service.collection.request.ReleaseCollectionReq;
-import io.milvus.v2.service.collection.request.DropCollectionPropertiesReq;
 import io.milvus.v2.service.collection.request.DescribeCollectionReq;
 import io.milvus.v2.service.collection.response.DescribeCollectionResp;
-import io.milvus.v2.service.index.request.CreateIndexReq;
-import io.milvus.v2.service.index.request.DropIndexReq;
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
-
-import java.util.Arrays;
-import java.util.Collections;
 
 ConnectConfig config = ConnectConfig.builder().uri("your_uri").token("your_token").build();
 MilvusClientV2 client = new MilvusClientV2(config);
@@ -876,6 +835,8 @@ _ = queryMode
 
 ```rust
 use milvus::v2::prelude::*;
+
+let client = ClientV2::new(&ConnectConfig::new().uri("your_uri").token("your_token")).await?;
 
 let info = client
     .describe_collection(DescribeCollectionRequest::builder().collection_name("scenarios_corpus").build()?)
@@ -960,7 +921,7 @@ client.drop_collection_properties(
 
 # 3. Recreate the index and load the collection
 index_params = client.prepare_index_params()
-index_params.add_index(field_name="vector", index_type="AUTOINDEX", metric_type="COSINE")
+index_params.add_index(field_name="vector", index_name="vector_idx", index_type="AUTOINDEX", metric_type="COSINE")
 client.create_index(collection_name="scenarios_corpus", index_params=index_params)
 client.load_collection(collection_name="scenarios_corpus")
 ```
@@ -973,29 +934,16 @@ client.load_collection(collection_name="scenarios_corpus")
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.common.IndexParam;
-import io.milvus.v2.service.collection.request.AlterCollectionPropertiesReq;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import io.milvus.v2.service.collection.request.DropCollectionPropertiesReq;
 import io.milvus.v2.service.collection.request.LoadCollectionReq;
 import io.milvus.v2.service.collection.request.ReleaseCollectionReq;
-import io.milvus.v2.service.collection.request.DropCollectionPropertiesReq;
-import io.milvus.v2.service.collection.request.DescribeCollectionReq;
-import io.milvus.v2.service.collection.response.DescribeCollectionResp;
 import io.milvus.v2.service.index.request.CreateIndexReq;
 import io.milvus.v2.service.index.request.DropIndexReq;
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 ConnectConfig config = ConnectConfig.builder().uri("your_uri").token("your_token").build();
 MilvusClientV2 client = new MilvusClientV2(config);
-
-import io.milvus.v2.service.collection.request.DropCollectionPropertiesReq;
-import io.milvus.v2.service.collection.request.LoadCollectionReq;
-import io.milvus.v2.service.collection.request.ReleaseCollectionReq;
-import io.milvus.v2.service.index.request.DropIndexReq;
 
 // 1. Release and drop the existing index
 client.releaseCollection(ReleaseCollectionReq.builder().collectionName("scenarios_corpus").build());
@@ -1012,11 +960,12 @@ client.createIndex(CreateIndexReq.builder()
         .collectionName("scenarios_corpus")
         .indexParams(Arrays.asList(IndexParam.builder()
                 .fieldName("vector")
+                .indexName("vector_idx")
                 .indexType(IndexParam.IndexType.AUTOINDEX)
                 .metricType(IndexParam.MetricType.COSINE)
                 .build()))
         .build());
-client.loadCollection(io.milvus.v2.service.collection.request.LoadCollectionReq.builder()
+client.loadCollection(LoadCollectionReq.builder()
         .collectionName("scenarios_corpus")
         .build());
 ```
@@ -1055,7 +1004,7 @@ if err := cli.DropCollectionProperties(ctx, milvusclient.NewDropCollectionProper
 }
 
 // 3. Recreate the index and load the collection
-indexTask, err := cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption("scenarios_corpus", "vector", index.NewAutoIndex(entity.COSINE)))
+indexTask, err := cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption("scenarios_corpus", "vector", index.NewAutoIndex(entity.COSINE)).WithIndexName("vector_idx"))
 if err != nil {
     panic(err)
 }
@@ -1077,6 +1026,8 @@ if err = loadTask.Await(ctx); err != nil {
 ```rust
 use milvus::v2::prelude::*;
 
+let client = ClientV2::new(&ConnectConfig::new().uri("your_uri").token("your_token")).await?;
+
 // 1. Release and drop the existing index
 client.release_collection(ReleaseCollectionRequest::builder().collection_name("scenarios_corpus").build()?).await?;
 client.drop_index(DropIndexRequest::builder().collection_name("scenarios_corpus").index_name("vector_idx").build()?).await?;
@@ -1093,7 +1044,7 @@ client.drop_collection_properties(
 client.create_index(
     CreateIndexRequest::builder()
         .collection_name("scenarios_corpus")
-        .index_param(IndexParam::new().field_name("vector").index_type(IndexType::AutoIndex).metric_type(MetricType::Cosine))
+        .index_param(IndexParam::new().field_name("vector").index_name("vector_idx").index_type(IndexType::AutoIndex).metric_type(MetricType::Cosine))
         .build()?,
 ).await?;
 client.load_collection(LoadCollectionRequest::builder().collection_name("scenarios_corpus").build()?).await?;
@@ -1233,22 +1184,11 @@ results = client.search(
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.common.IndexParam;
-import io.milvus.v2.service.collection.request.AlterCollectionPropertiesReq;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-import io.milvus.v2.service.collection.request.LoadCollectionReq;
-import io.milvus.v2.service.collection.request.ReleaseCollectionReq;
-import io.milvus.v2.service.collection.request.DropCollectionPropertiesReq;
-import io.milvus.v2.service.collection.request.DescribeCollectionReq;
-import io.milvus.v2.service.collection.response.DescribeCollectionResp;
-import io.milvus.v2.service.index.request.CreateIndexReq;
-import io.milvus.v2.service.index.request.DropIndexReq;
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 ConnectConfig config = ConnectConfig.builder().uri("your_uri").token("your_token").build();
 MilvusClientV2 client = new MilvusClientV2(config);
@@ -1257,7 +1197,7 @@ float[] queryVector = {0.1f, 0.2f, 0.3f, 0.4f};
 
 SearchResp results = client.search(SearchReq.builder()
         .collectionName("scenarios_serving")
-        .data(Arrays.asList(new FloatVec(Arrays.asList(0.1f, 0.2f, 0.3f, 0.4f))))
+        .data(Arrays.asList(new FloatVec(queryVector)))
         .topK(500000)
         .build());
 ```
@@ -1295,6 +1235,8 @@ _ = resultSets
 
 ```rust
 use milvus::v2::prelude::*;
+
+let client = ClientV2::new(&ConnectConfig::new().uri("your_uri").token("your_token")).await?;
 
 let query_vector = vec![0.1, 0.2, 0.3, 0.4];
 let results = client
@@ -1393,22 +1335,11 @@ results = client.search(
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.common.IndexParam;
-import io.milvus.v2.service.collection.request.AlterCollectionPropertiesReq;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-import io.milvus.v2.service.collection.request.LoadCollectionReq;
-import io.milvus.v2.service.collection.request.ReleaseCollectionReq;
-import io.milvus.v2.service.collection.request.DropCollectionPropertiesReq;
-import io.milvus.v2.service.collection.request.DescribeCollectionReq;
-import io.milvus.v2.service.collection.response.DescribeCollectionResp;
-import io.milvus.v2.service.index.request.CreateIndexReq;
-import io.milvus.v2.service.index.request.DropIndexReq;
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 ConnectConfig config = ConnectConfig.builder().uri("your_uri").token("your_token").build();
 MilvusClientV2 client = new MilvusClientV2(config);
@@ -1417,7 +1348,7 @@ float[] queryVector = {0.1f, 0.2f, 0.3f, 0.4f};
 
 SearchResp results = client.search(SearchReq.builder()
         .collectionName("scenarios_corpus")
-        .data(Arrays.asList(new FloatVec(Arrays.asList(0.1f, 0.2f, 0.3f, 0.4f))))
+        .data(Arrays.asList(new FloatVec(queryVector)))
         .topK(500000)
         .build());
 ```
@@ -1455,6 +1386,8 @@ _ = resultSets
 
 ```rust
 use milvus::v2::prelude::*;
+
+let client = ClientV2::new(&ConnectConfig::new().uri("your_uri").token("your_token")).await?;
 
 let query_vector = vec![0.1, 0.2, 0.3, 0.4];
 let results = client

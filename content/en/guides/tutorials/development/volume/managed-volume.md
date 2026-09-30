@@ -51,7 +51,7 @@ If you need to create and manage volumes via SDK, you need to initiate a volume 
 
 A volume manager maintains the connection to Zilliz Cloud's volume service. You need to initiate a volume manager before managing volumes. 
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -72,11 +72,45 @@ import io.milvus.bulkwriter.VolumeManager;
 import io.milvus.bulkwriter.VolumeManagerParam;
 
 VolumeManagerParam volumeManagerParam = VolumeManagerParam.newBuilder()
-    .withCloudEndpoint("https://api.cloud.zilliz.com")
-    .withApiKey("YOUR_API_KEY")
-    .build();
-        
+        .withCloudEndpoint("https://api.cloud.zilliz.com")
+        .withApiKey("YOUR_API_KEY")
+        .build();
 VolumeManager volumeManager = new VolumeManager(volumeManagerParam);
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// Note: VolumeManager is not supported by milvus-sdk-go as of client/v3.0.0-beta.
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+// Note: VolumeManager is not supported in milvus-sdk-rust as of v3.0.2.
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+// Note: VolumeManager is not supported in milvus-sdk-cpp as of v3.0.3.
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { VolumeManager } from "@zilliz/milvus2-sdk-node";
+
+const volumeManager = new VolumeManager({
+    cloudEndpoint: "https://api.cloud.zilliz.com",
+    apiKey: "YOUR_API_KEY"
+});
 ```
 
 </TabItem>
@@ -99,7 +133,7 @@ You can create a volume on the web console or via SDK.
 
     A volume is specific to a Zilliz Cloud project. When creating a volume, you need to provide the project ID, region ID, and the name of the volume, as follows:
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -111,14 +145,16 @@ You can create a volume on the web console or via SDK.
         api_key="YOUR_API_KEY"
     )
     
+    volume_name = "managed_volume"
+    
     # Create a managed volume
     volume_manager.create_volume(
-        project_id="proj-xxxxxxxxxxxxxxxxxxxxxxx", 
-        region_id="aws-us-west-2", 
-        volume_name="managed_volume"
+        project_id="proj-xxxxxxxxxxxxxxxxxxxxxxx",
+        region_id="aws-us-west-2",
+        volume_name=volume_name
     )
     
-    print(f"\nVolume managed_volume created")
+    print(f"\nVolume {volume_name} created")
     
     # Volume managed_volume created
     ```
@@ -128,31 +164,77 @@ You can create a volume on the web console or via SDK.
     <TabItem value='java'>
 
     ```java
-    // Initiate a volume manager
     import io.milvus.bulkwriter.VolumeManager;
     import io.milvus.bulkwriter.VolumeManagerParam;
-    
-    VolumeManagerParam volumeManagerParam = VolumeManagerParam.newBuilder()
-        .withCloudEndpoint("https://api.cloud.zilliz.com")
-        .withApiKey("YOUR_API_KEY")
-        .build();
-            
-    VolumeManager volumeManager = new VolumeManager(volumeManagerParam);
-    
-    // Create a managed volume
     import io.milvus.bulkwriter.request.volume.CreateVolumeRequest;
     
+    String cloudEndpoint = "https://api.cloud.zilliz.com";
+    String apiKey = "YOUR_API_KEY";
+    String projectId = "proj-xxxxxxxxxxxxxxxxxxxxxxx";
+    String regionId = "aws-us-west-2";
+    String volumeName = "managed_volume";
+    
+    VolumeManagerParam volumeManagerParam = VolumeManagerParam.newBuilder()
+            .withCloudEndpoint(cloudEndpoint)
+            .withApiKey(apiKey)
+            .build();
+    VolumeManager volumeManager = new VolumeManager(volumeManagerParam);
+    
     CreateVolumeRequest request = CreateVolumeRequest.builder()
-        .projectId("proj-xxxxxxxxxxxxxxxxxxxxxxx")
-        .regionId("aws-us-west-2")
-        .volumeName("managed_volume")
-        .build();
+            .projectId(projectId)
+            .regionId(regionId)
+            .volumeName(volumeName)
+            .build();
     
     volumeManager.createVolume(request);
-    
-    System.out.printf("\nVolume %s created%n", "managed_volume");
+    System.out.printf("%nVolume %s created%n", volumeName);
     
     // Volume managed_volume created
+    ```
+
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    // Note: Managed Volume management is not supported by milvus-sdk-go as of client/v3.0.0-beta.
+    ```
+
+    </TabItem>
+    </Tabs>
+
+    ```rust
+    // Note: Managed Volume management is not supported in milvus-sdk-rust as of v3.0.2.
+    ```
+
+    <Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+    <TabItem value='c++'>
+
+    ```c++
+    // Note: Managed Volume management is not supported in milvus-sdk-cpp as of v3.0.3.
+    ```
+
+    </TabItem>
+
+    <TabItem value='javascript'>
+
+    ```javascript
+    import { VolumeManager } from "@zilliz/milvus2-sdk-node";
+    
+    const volumeManager = new VolumeManager({
+        cloudEndpoint: "https://api.cloud.zilliz.com",
+        apiKey: "YOUR_API_KEY"
+    });
+    
+    const res = await volumeManager.createVolume({
+        projectId: "proj-xxxxxxxxxxxxxxxxxxxxxxx",
+        regionId: "aws-us-west-2",
+        volumeName: "managed_volume"
+    });
+    
+    console.log(res.data);
+    
+    // { volumeName: "managed_volume" }
     ```
 
     </TabItem>
@@ -160,6 +242,9 @@ You can create a volume on the web console or via SDK.
     <TabItem value='bash'>
 
     ```bash
+    export BASE_URL="https://api.cloud.zilliz.com"
+    export TOKEN="YOUR_API_KEY"
+    
     curl --request POST \
     --url "${BASE_URL}/v2/volumes/create" \
     --header "Authorization: Bearer ${TOKEN}" \
@@ -168,7 +253,7 @@ You can create a volume on the web console or via SDK.
     -d '{
         "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
         "regionId": "aws-us-west-2",
-        "volumeName": "my_volume",
+        "volumeName": "managed_volume",
         "description": "A volume for storing collection data."
     }'
     
@@ -244,7 +329,7 @@ You can view all existing volumes in a project.
 
 - **Via SDKs**
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -256,28 +341,14 @@ You can view all existing volumes in a project.
         api_key="YOUR_API_KEY"
     )
     
-    # View volumes
+    # List volumes
     volume_list = volume_manager.list_volumes(
         project_id="proj-xxxxxxxxxxxxxxxxxxxxxxx",
-        current_page=1, 
+        current_page=1,
         page_size=10
     )
     
-    print(f"\nlistVolumes results: \n", volume_list.json()['data'])
-    
-    # listVolumes results: 
-    # 
-    # {
-    #     "count": 1,
-    #     "currentPage": 1,
-    #     "pageSize": 10,
-    #     "volumes": [
-    #         {
-    #             "volumeName": "external_volume"
-    #             "type":"EXTERNAL"
-    #         }        
-    #     ]
-    # }
+    print("\nlistVolumes results:\n", volume_list.json()["data"])
     ```
 
     </TabItem>
@@ -285,45 +356,68 @@ You can view all existing volumes in a project.
     <TabItem value='java'>
 
     ```java
-    // Initiate a volume manager
+    import com.google.gson.Gson;
     import io.milvus.bulkwriter.VolumeManager;
     import io.milvus.bulkwriter.VolumeManagerParam;
-    
-    VolumeManagerParam volumeManagerParam = VolumeManagerParam.newBuilder()
-        .withCloudEndpoint("https://api.cloud.zilliz.com")
-        .withApiKey("YOUR_API_KEY")
-        .build();
-            
-    VolumeManager volumeManager = new VolumeManager(volumeManagerParam);
-    
-    // View volumes
-    import com.google.gson.Gson;
     import io.milvus.bulkwriter.request.volume.ListVolumesRequest;
     import io.milvus.bulkwriter.response.volume.ListVolumesResponse;
     
+    VolumeManagerParam volumeManagerParam = VolumeManagerParam.newBuilder()
+            .withCloudEndpoint("https://api.cloud.zilliz.com")
+            .withApiKey("YOUR_API_KEY")
+            .build();
+    VolumeManager volumeManager = new VolumeManager(volumeManagerParam);
+    
     ListVolumesRequest request = ListVolumesRequest.builder()
-        .projectId("proj-xxxxxxxxxxxxxxxxxxxxxxx")
-        .currentPage(1)
-        .pageSize(10)
-        .build();
-        
-    ListVolumesResponse listVolumesResponse = volumeManager.listVolumes(request);
+            .projectId("proj-xxxxxxxxxxxxxxxxxxxxxxx")
+            .currentPage(1)
+            .pageSize(10)
+            .build();
+    ListVolumesResponse response = volumeManager.listVolumes(request);
+    System.out.println("listVolumes results: " + new Gson().toJson(response));
+    ```
+
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    // Note: External Volume management with VolumeManager is not supported by milvus-sdk-go as of client/v3.0.0-beta.
+    ```
+
+    </TabItem>
+    </Tabs>
+
+    ```rust
+    // Note: External Volume management with VolumeManager is not supported in milvus-sdk-rust as of v3.0.2.
+    ```
+
+    <Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+    <TabItem value='c++'>
+
+    ```c++
+    // Note: External Volume management with VolumeManager is not supported in milvus-sdk-cpp as of v3.0.3.
+    ```
+
+    </TabItem>
+
+    <TabItem value='javascript'>
+
+    ```javascript
+    import { VolumeManager } from "@zilliz/milvus2-sdk-node";
     
-    System.out.println("\nlistVolumes results: " + new Gson().toJson(listVolumesResponse));
+    const volumeManager = new VolumeManager({
+        cloudEndpoint: "https://api.cloud.zilliz.com",
+        apiKey: "YOUR_API_KEY"
+    });
     
-    // listVolumes results: 
-    // 
-    // {
-    //     "count": 1,
-    //     "currentPage": 1,
-    //     "pageSize": 10,
-    //     "volumes": [
-    //         {
-    //             "volumeName": "external_volume",
-    //             "type":"EXTERNAL"
-    //         }        
-    //     ]
-    // }
+    const res = await volumeManager.listVolumes({
+        projectId: "proj-xxxxxxxxxxxxxxxxxxxxxxx",
+        currentPage: 1,
+        pageSize: 10
+    });
+    
+    console.log(res.data);
     ```
 
     </TabItem>
@@ -335,35 +429,9 @@ You can view all existing volumes in a project.
     export TOKEN="YOUR_API_KEY"
     
     curl --request GET \
-    --url "${BASE_URL}/v2/volumes?projectId=proj-xxxxxxxxxxxxxxxxx" \
+    --url "${BASE_URL}/v2/volumes?projectId=proj-xxxxxxxxxxxxxxxxxxxxxxx&currentPage=1&pageSize=10" \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "Content-Type: application/json"
-    
-    # {
-    #    "code": 200,
-    #    "data": {
-    #        "count": 3,
-    #        "currentPage": 1,
-    #        "pageSize": 10,
-    #        "volumes": [
-    #            {
-    #                "volumeName": "my_volume_1",
-    #                "type": "MANAGED",
-    #                "description": "A volume for storing collection data."
-    #            },
-    #            {
-    #                "volumeName": "my_volume_2",
-    #                "type": "EXTERNAL",
-    #                "description": "A volume for storing collection data."
-    #            },
-    #            {
-    #                "volumeName": "my_volume_3",
-    #                "type": "MANAGED",
-    #                "description": "A volume for storing collection data."
-    #            }
-    #        ]
-    #    }
-    #}
     ```
 
     </TabItem>
@@ -379,7 +447,7 @@ You can also check the details of a specific managed volume.
 
 - **Via SDKs**
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -391,20 +459,22 @@ You can also check the details of a specific managed volume.
         api_key="YOUR_API_KEY"
     )
     
-    # View volumes
-    volume_list = volume_manager.describe_volume(
-        volume_name="managed_volume",
+    volume_name = "managed_volume"
+    
+    # Describe a volume
+    volume_info = volume_manager.describe_volume(
+        volume_name=volume_name
     )
     
-    print(f"\ndescVolume result: \n", volume_list.json()['data'])
+    print("\ndescribeVolume result:\n", volume_info.json()["data"])
     
-    # describeVolume result: 
+    # describeVolume result:
     # {
-    #    "volumeName": "managed_volume",
-    #    "type": "MANAGED",
-    #    "regionId": "aws-us-west-2",
-    #    "status": "RUNNING",
-    #    "createTime": "2026-05-06T02:24:26Z"
+    #     "volumeName": "managed_volume",
+    #     "type": "MANAGED",
+    #     "regionId": "aws-us-west-2",
+    #     "status": "RUNNING",
+    #     "createTime": "2026-05-06T02:24:26Z"
     # }
     ```
 
@@ -413,29 +483,29 @@ You can also check the details of a specific managed volume.
     <TabItem value='java'>
 
     ```java
-    // Initiate a volume manager
+    import com.google.gson.Gson;
     import io.milvus.bulkwriter.VolumeManager;
     import io.milvus.bulkwriter.VolumeManagerParam;
+    import io.milvus.bulkwriter.request.volume.DescribeVolumeRequest;
+    import io.milvus.bulkwriter.response.volume.VolumeInfo;
+    
+    String cloudEndpoint = "https://api.cloud.zilliz.com";
+    String apiKey = "YOUR_API_KEY";
+    String volumeName = "managed_volume";
     
     VolumeManagerParam volumeManagerParam = VolumeManagerParam.newBuilder()
-        .withCloudEndpoint("https://api.cloud.zilliz.com")
-        .withApiKey("YOUR_API_KEY")
-        .build();
-            
+            .withCloudEndpoint(cloudEndpoint)
+            .withApiKey(apiKey)
+            .build();
     VolumeManager volumeManager = new VolumeManager(volumeManagerParam);
     
-    // View volumes
-    import com.google.gson.Gson;
-    import io.milvus.bulkwriter.request.volume.ListVolumesRequest;
-    import io.milvus.bulkwriter.response.volume.ListVolumesResponse;
-    
     DescribeVolumeRequest request = DescribeVolumeRequest.builder()
-            .volumeName("managed_volume")
+            .volumeName(volumeName)
             .build();
     VolumeInfo volumeInfo = volumeManager.describeVolume(request);
-    System.out.println("\ndescribeVolume result: " + new Gson().toJson(volumeInfo));;
+    System.out.println("describeVolume result: " + new Gson().toJson(volumeInfo));
     
-    // describeVolume results: 
+    // describeVolume result:
     //{
     //    "volumeName": "managed_volume",
     //    "type": "MANAGED",
@@ -447,11 +517,53 @@ You can also check the details of a specific managed volume.
 
     </TabItem>
 
+    <TabItem value='go'>
+
+    ```go
+    // Note: Managed Volume management is not supported by milvus-sdk-go as of client/v3.0.0-beta.
+    ```
+
+    </TabItem>
+    </Tabs>
+
+    ```rust
+    // Note: Managed Volume management is not supported in milvus-sdk-rust as of v3.0.2.
+    ```
+
+    <Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+    <TabItem value='c++'>
+
+    ```c++
+    // Note: Managed Volume management is not supported in milvus-sdk-cpp as of v3.0.3.
+    ```
+
+    </TabItem>
+
+    <TabItem value='javascript'>
+
+    ```javascript
+    import { VolumeManager } from "@zilliz/milvus2-sdk-node";
+    
+    const volumeManager = new VolumeManager({
+        cloudEndpoint: "https://api.cloud.zilliz.com",
+        apiKey: "YOUR_API_KEY"
+    });
+    
+    const res = await volumeManager.describeVolume({
+        volumeName: "managed_volume"
+    });
+    
+    console.log(res.data);
+    ```
+
+    </TabItem>
+
     <TabItem value='bash'>
 
     ```bash
     export BASE_URL="https://api.cloud.zilliz.com"
     export TOKEN="YOUR_API_KEY"
+    export VOLUME_NAME="managed_volume"
     
     curl --request GET \
     --url "${BASE_URL}/v2/volumes/${VOLUME_NAME}" \
@@ -459,15 +571,15 @@ You can also check the details of a specific managed volume.
     --header "Content-Type: application/json"
     
     # {
-    #    "code": 0,
-    #    "data": {
-    #        "volumeName": "ext-volume",
-    #        "type": "MANAGED",
-    #        "regionId": "aws-us-west-2",
-    #        "status": "RUNNING",
-    #        "createTime": "2024-04-15T12:00:00Z"
-    #    }
-    #}
+    #     "code": 0,
+    #     "data": {
+    #         "volumeName": "managed_volume",
+    #         "type": "MANAGED",
+    #         "regionId": "aws-us-west-2",
+    #         "status": "RUNNING",
+    #         "createTime": "2026-05-06T02:24:26Z"
+    #     }
+    # }
     ```
 
     </TabItem>
@@ -487,7 +599,7 @@ Currently, you can only upload your data file or folder into a managed volume vi
 
     A volume file manager maintains the connection to a specific volume on Zilliz Cloud's volume service. You need to initiate a volume file manager before uploading files to the volume.
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -518,6 +630,44 @@ Currently, you can only upload your data file or folder into a managed volume vi
     ```
 
     </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    // Note: VolumeFileManager and volume file upload are not supported by milvus-sdk-go as of client/v3.0.0-beta.
+    ```
+
+    </TabItem>
+    </Tabs>
+
+    ```rust
+    // Note: VolumeFileManager and volume file upload are not supported in milvus-sdk-rust as of v3.0.2.
+    ```
+
+    <Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+    <TabItem value='c++'>
+
+    ```c++
+    // Note: VolumeFileManager and volume file upload are not supported in milvus-sdk-cpp as of v3.0.3.
+    ```
+
+    </TabItem>
+
+    <TabItem value='javascript'>
+
+    ```javascript
+    // Note: VolumeFileManager and volume file upload are not supported in @zilliz/milvus2-sdk-node as of v3.0.6.
+    ```
+
+    </TabItem>
+
+    <TabItem value='bash'>
+
+    ```bash
+    # Note: Volume file upload is not exposed by the current /v2/volumes RESTful API.
+    ```
+
+    </TabItem>
     </Tabs>
 
 1. **Upload file or folder**
@@ -528,7 +678,7 @@ Currently, you can only upload your data file or folder into a managed volume vi
 
         The following example uploads the local file at the source file path to the target file path within the volume.
 
-        <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+        <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
         <TabItem value='python'>
 
         ```python
@@ -574,25 +724,63 @@ Currently, you can only upload your data file or folder into a managed volume vi
         ```
 
         </TabItem>
+
+        <TabItem value='go'>
+
+        ```go
+        // Note: VolumeFileManager and volume file upload are not supported by milvus-sdk-go as of client/v3.0.0-beta.
+        ```
+
+        </TabItem>
+        </Tabs>
+
+        ```rust
+        // Note: VolumeFileManager and volume file upload are not supported in milvus-sdk-rust as of v3.0.2.
+        ```
+
+        <Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+        <TabItem value='c++'>
+
+        ```c++
+        // Note: VolumeFileManager and volume file upload are not supported in milvus-sdk-cpp as of v3.0.3.
+        ```
+
+        </TabItem>
+
+        <TabItem value='javascript'>
+
+        ```javascript
+        // Note: VolumeFileManager and volume file upload are not supported in @zilliz/milvus2-sdk-node as of v3.0.6.
+        ```
+
+        </TabItem>
+
+        <TabItem value='bash'>
+
+        ```bash
+        # Note: Volume file upload is not exposed by the current /v2/volumes RESTful API.
+        ```
+
+        </TabItem>
         </Tabs>
 
     - **Upload a folder**
 
         The following example uploads the local file at the source file path to the target file path within the volume.
 
-        <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+        <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
         <TabItem value='python'>
 
         ```python
         result = volume_file_manager.upload_file_to_volume(
-            source_file_path="/path/to/your/local/data/folder/", 
+            source_file_path="/path/to/your/local/data/folder/",
             target_volume_path="data/"
         )
         
         print(f"\nuploadFileToVolume results: {result}")
         
-        # uploadFileToVolume results: 
-        # 
+        # uploadFileToVolume results:
+        #
         # {
         #     "volumeName": "managed_volume",
         #     "path": "data/"
@@ -609,20 +797,57 @@ Currently, you can only upload your data file or folder into a managed volume vi
         import io.milvus.bulkwriter.request.volume.UploadFilesRequest;
         
         UploadFilesRequest request = UploadFilesRequest.builder()
-            .sourceFilePath("/path/to/your/local/data/folder/")
-            .targetVolumePath("data/")
-            .build();
+                .sourceFilePath("/path/to/your/local/data/folder/")
+                .targetVolumePath("data/")
+                .build();
         
         UploadFilesResult result = volumeFileManager.uploadFilesAsync(request).get();
+        System.out.println("uploadFiles results: " + new Gson().toJson(result));
         
-        System.out.println("\nuploadFiles results: " + new Gson().toJson(result));
-        
-        // uploadFileToVolume results: 
-        // 
+        // uploadFileToVolume results:
+        //
         // {
         //     "volumeName": "managed_volume",
         //     "path": "data/"
         // }
+        ```
+
+        </TabItem>
+
+        <TabItem value='go'>
+
+        ```go
+        // Note: Volume file upload is not supported by milvus-sdk-go as of client/v3.0.0-beta.
+        ```
+
+        </TabItem>
+        </Tabs>
+
+        ```rust
+        // Note: Volume file upload is not supported in milvus-sdk-rust as of v3.0.2.
+        ```
+
+        <Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+        <TabItem value='c++'>
+
+        ```c++
+        // Note: Volume file upload is not supported in milvus-sdk-cpp as of v3.0.3.
+        ```
+
+        </TabItem>
+
+        <TabItem value='javascript'>
+
+        ```javascript
+        // Note: Volume file upload is not supported in @zilliz/milvus2-sdk-node as of v3.0.6.
+        ```
+
+        </TabItem>
+
+        <TabItem value='bash'>
+
+        ```bash
+        # Note: Volume file upload is not exposed by the RESTful API as of the current v2 volume endpoints.
         ```
 
         </TabItem>
@@ -668,7 +893,7 @@ Deleted volumes **cannot be recovered**. Proceed with caution.
 
     You can delete a managed volume as follows:
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -680,12 +905,14 @@ Deleted volumes **cannot be recovered**. Proceed with caution.
         api_key="YOUR_API_KEY"
     )
     
+    volume_name = "managed_volume"
+    
     # Delete a volume
     volume_manager.delete_volume(
-        volume_name="managed_volume"
+        volume_name=volume_name
     )
     
-    print(f"\nVolume managed_volume deleted")
+    print(f"\nVolume {volume_name} deleted")
     
     # Volume managed_volume deleted
     ```
@@ -695,29 +922,69 @@ Deleted volumes **cannot be recovered**. Proceed with caution.
     <TabItem value='java'>
 
     ```java
-    // Initiate a volume manager
     import io.milvus.bulkwriter.VolumeManager;
     import io.milvus.bulkwriter.VolumeManagerParam;
-    
-    VolumeManagerParam volumeManagerParam = VolumeManagerParam.newBuilder()
-        .withCloudEndpoint("https://api.cloud.zilliz.com")
-        .withApiKey("YOUR_API_KEY")
-        .build();
-            
-    VolumeManager volumeManager = new VolumeManager(volumeManagerParam);
-    
-    // Delete a volume
     import io.milvus.bulkwriter.request.volume.DeleteVolumeRequest;
     
+    String cloudEndpoint = "https://api.cloud.zilliz.com";
+    String apiKey = "YOUR_API_KEY";
+    String volumeName = "managed_volume";
+    
+    VolumeManagerParam volumeManagerParam = VolumeManagerParam.newBuilder()
+            .withCloudEndpoint(cloudEndpoint)
+            .withApiKey(apiKey)
+            .build();
+    VolumeManager volumeManager = new VolumeManager(volumeManagerParam);
+    
     DeleteVolumeRequest request = DeleteVolumeRequest.builder()
-        .volumeName("managed_volume")
-        .build();
+            .volumeName(volumeName)
+            .build();
     
     volumeManager.deleteVolume(request);
-    
-    System.out.printf("\nVolume %s deleted%n", "managed_volume");
+    System.out.printf("%nVolume %s deleted%n", volumeName);
     
     // Volume managed_volume deleted
+    ```
+
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    // Note: Managed Volume management is not supported by milvus-sdk-go as of client/v3.0.0-beta.
+    ```
+
+    </TabItem>
+    </Tabs>
+
+    ```rust
+    // Note: Managed Volume management is not supported in milvus-sdk-rust as of v3.0.2.
+    ```
+
+    <Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+    <TabItem value='c++'>
+
+    ```c++
+    // Note: Managed Volume management is not supported in milvus-sdk-cpp as of v3.0.3.
+    ```
+
+    </TabItem>
+
+    <TabItem value='javascript'>
+
+    ```javascript
+    import { VolumeManager } from "@zilliz/milvus2-sdk-node";
+    
+    const volumeManager = new VolumeManager({
+        cloudEndpoint: "https://api.cloud.zilliz.com",
+        apiKey: "YOUR_API_KEY"
+    });
+    
+    const res = await volumeManager.deleteVolume({
+        volumeName: "managed_volume"
+    });
+    
+    console.log(res.data);
     ```
 
     </TabItem>
