@@ -315,6 +315,54 @@ test('English nginx preserves active REST role operation routes while redirectin
   assert.match(nginx, /location\s+=\s+\/reference\/restful\/grant-privilege-to-role-v2-v2\s*\{[\s\S]*?return\s+301\s+\/reference\/restful\/grant-privilege-to-role-v2;/);
 });
 
+test('English nginx redirect targets resolve to published routes, redirect chains, or the reviewed allowlist', () => {
+  // A `return 301` that points at a retired or renamed page chains users
+  // straight into a 404. Every local target must therefore resolve against
+  // the production sitemap snapshot (CURRENT-channel truth: a redirect may
+  // only target a page that is already published, which also blocks
+  // shadowing next-channel pages before promotion), against another
+  // exact-match redirect source in the same file (chain), or against the
+  // reviewed allowlist for paths that only exist in the ja-JP build. The
+  // ja-JP locale falls back to English content, so /ja-JP targets resolve
+  // against the same English routes after the prefix is stripped. Targets
+  // with request variables ($1, $ja_path, ...) and external URLs are out of
+  // scope. The Chinese configuration serves a different route space and is
+  // not covered by this snapshot.
+  const snapshot = JSON.parse(read('deploy/contracts/en-redirect-target-routes.json'));
+  assert.equal(snapshot.schemaVersion, 1);
+  assert.match(snapshot.source, /^https:\/\/docs\.zilliz\.com\/sitemap\.xml$/u);
+  assert.match(snapshot.capturedAt, /^\d{4}-\d{2}-\d{2}$/u);
+  assert.ok(snapshot.refresh.includes('docs.zilliz.com/sitemap.xml'), 'snapshot must document its refresh command');
+  const routes = new Set(snapshot.routes);
+  assert.ok(snapshot.routes.length > 1000, 'route snapshot looks truncated');
+  for (const route of snapshot.routes) assert.match(route, /^\//u, `route snapshot entry is not an absolute path: ${route}`);
+  const allowlist = new Map(Object.entries(snapshot.allowlist ?? {}));
+  for (const [allowed, reason] of allowlist) {
+    assert.match(allowed, /^\//u, `allowlist entry is not an absolute path: ${allowed}`);
+    assert.ok(reason.length > 0, `allowlist entry ${allowed} must document why it cannot appear in the sitemap`);
+    assert.ok(!routes.has(allowed), `allowlist entry ${allowed} already exists in the route snapshot; remove the allowlist entry`);
+  }
+
+  const nginx = read('deploy/en/nginx.conf');
+  const exactSources = new Set([...nginx.matchAll(/location = ([^ {]+) \{/gu)].map(match => match[1]));
+  const unresolved = [];
+  let checked = 0;
+  for (const match of nginx.matchAll(/return 301\s+([^;\s]+);/gu)) {
+    let target = match[1].split('#', 1)[0];
+    if (/^https?:\/\//u.test(target) || target.includes('$')) continue;
+    if (target.startsWith('/ja-JP/')) target = target.slice('/ja-JP'.length);
+    checked += 1;
+    if (routes.has(target) || exactSources.has(target) || allowlist.has(target)) continue;
+    unresolved.push(target);
+  }
+  assert.ok(checked > 700, `only ${checked} redirect targets were parsed; the location/return extraction is broken`);
+  assert.deepEqual(unresolved, [], [
+    'dead nginx redirect targets (fix the redirect, refresh the snapshot after a release,',
+    `or verify the path returns 200 on production before allowlisting): ${[...new Set(unresolved)].sort().join(', ')}`,
+    `snapshot refresh: ${snapshot.refresh}`,
+  ].join('\n'));
+});
+
 test('both site-owned images route chat directly to the private agent runtime', () => {
   const entrypoint = read('deploy/runtime/40-zdoc-env.sh');
   assert.match(entrypoint, /upstream docs_agent\s*\{/);
