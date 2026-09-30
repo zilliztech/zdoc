@@ -84,12 +84,6 @@ module.exports = [
     "key": "category:api/java/java/v2/v2-collections",
     "items": [
       {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Collections/v2-Collections-alterCollectionProperties",
-        "label": "alterCollectionProperties()",
-        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-altercollectionproperties"
-      },
-      {
         "type": "category",
         "label": "CollectionSchema",
         "key": "category:api/java/java/v2/v2-Collections/v2-collections-collectionschema",
@@ -158,18 +152,6 @@ module.exports = [
       },
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-Collections/v2-Collections-createAlias",
-        "label": "createAlias()",
-        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-createalias"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Collections/v2-Collections-createCollection",
-        "label": "createCollection()",
-        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-createcollection"
-      },
-      {
-        "type": "doc",
         "id": "api/java/java/v2/v2-Collections/v2-Collections-addCollectionField",
         "label": "addCollectionField()",
         "key": "doc:api/java/java/v2/v2-Collections/v2-collections-addcollectionfield"
@@ -179,18 +161,6 @@ module.exports = [
         "id": "api/java/java/v2/v2-Collections/v2-Collections-DataType",
         "label": "DataType",
         "key": "doc:api/java/java/v2/v2-Collections/v2-collections-datatype"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Collections/v2-Collections-describeAlias",
-        "label": "describeAlias()",
-        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-describealias"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Collections/v2-Collections-describeCollection",
-        "label": "describeCollection()",
-        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-describecollection"
       },
       {
         "type": "doc",
@@ -254,12 +224,6 @@ module.exports = [
       },
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-Collections/v2-Collections-describeReplicas",
-        "label": "describeReplicas()",
-        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-describereplicas"
-      },
-      {
-        "type": "doc",
         "id": "api/java/java/v2/v2-Collections/v2-Collections-dropCollectionFieldProperties",
         "label": "dropCollectionFieldProperties()",
         "key": "doc:api/java/java/v2/v2-Collections/v2-collections-dropcollectionfieldproperties"
@@ -269,18 +233,6 @@ module.exports = [
         "id": "api/java/java/v2/v2-Collections/v2-Collections-addCollectionFunction",
         "label": "addCollectionFunction()",
         "key": "doc:api/java/java/v2/v2-Collections/v2-collections-addcollectionfunction"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Collections/v2-Collections-alterCollectionFunction",
-        "label": "alterCollectionFunction()",
-        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-altercollectionfunction"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Collections/v2-Collections-batchDescribeCollection",
-        "label": "batchDescribeCollection()",
-        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-batchdescribecollection"
       },
       {
         "type": "doc",
