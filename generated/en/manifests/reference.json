@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "3e69220ce5a8a3bdf14ae143ec8349a47f9a1a75",
+  "sourceCommit": "2f012dbbf400804e3e478d317001a6992ee91dba",
   "records": [
     {
       "manual": "cli",
@@ -2204,6 +2204,46 @@
     },
     {
       "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-Collections-StructFieldSchema.md",
+      "sourceHash": "c96d07583b86a39ee44a2e8e54063080f0398c978f3cb70e4c17899ea1c8529e"
+    },
+    {
+      "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-addField.md",
+      "sourceHash": "9a3d5dde050bd38f1d3ca3a86c86e0d00f3317c0f74c4b6606c940506c5ba1cc"
+    },
+    {
+      "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getDataType.md",
+      "sourceHash": "13ecc164090f3540fab633414c484f4541524b1436ef86758835b05c564dc57e"
+    },
+    {
+      "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getDescription.md",
+      "sourceHash": "3b86ca00c5b8bca9014d0fad5481e339b00a730ea2bf61e3b61461f6cc272784"
+    },
+    {
+      "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getElementType.md",
+      "sourceHash": "d696665fed8b76c0427630d3a057524906f238064b453b1aed107622e962bc3b"
+    },
+    {
+      "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getFields.md",
+      "sourceHash": "47dae415860366781ab5ac1bc0e30173a9d016e3f23b6dedebeb29d17974b436"
+    },
+    {
+      "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getMaxCapacity.md",
+      "sourceHash": "a9810a3213211bdde63c6f0d2be634af48f2dbb0da72f25b922e2a4fa581bad8"
+    },
+    {
+      "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getName.md",
+      "sourceHash": "10e5b1256f8358148146cbc2fd8bd23bb5348d87d057ac0d6ddd50383b9763bb"
+    },
+    {
+      "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-addCollectionField.md",
       "sourceHash": "40b3122a86d00bcdd96d076d1c29f585ae0fd76496b8f09edd01c5c6a16ec2cf"
     },
@@ -2216,11 +2256,6 @@
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-addFunctionField.md",
       "sourceHash": "6a9db4fd09ef5a6230ecff9deb2a28b49db7fd127161027ed1cab6b95e25af17"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-alterCollectionField.md",
-      "sourceHash": "b9ea769875fb53ea9a35ff87b6328cb4fa6ba10939526fa329b6543836cbc061"
     },
     {
       "manual": "java",
