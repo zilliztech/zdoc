@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "1951fb44c80c56b84ada0eaaa6edb9b3c28d57ac",
+  "sourceCommit": "1607d31e48d9e4bc7dbe759948d80facb6133d85",
   "records": [
     {
       "manual": "cli",
@@ -2255,27 +2255,12 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-addFunctionField.md",
-      "sourceHash": "6a9db4fd09ef5a6230ecff9deb2a28b49db7fd127161027ed1cab6b95e25af17"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-dropAlias.md",
-      "sourceHash": "1cf8003335d43ff31cdc8b1aaa70b25cb6ad94789e62349362eea4012a8a0f91"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-dropCollection.md",
-      "sourceHash": "301e11a5dded5d780d678356f742604e9713a7941f5b0c1f072650208342e8a9"
+      "sourceHash": "8da8bd8d9e672a809a2ca7622b760e41475643fcea8f6a730c60d8443c384a64"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-dropCollectionField.md",
-      "sourceHash": "7a0a117cd76506b0c77c8b5b72eef98e17b3126903d74287239b4192f7488d75"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-dropCollectionFieldProperties.md",
-      "sourceHash": "d56036f1d01664e0dabdd3dba4e77272758137742a673f9823ef2861518d2161"
+      "sourceHash": "a79bc963189038fb1408b01e6b36c93cb97b04fb533aa69d6c63ceeb1907c48b"
     },
     {
       "manual": "java",
@@ -2284,13 +2269,8 @@
     },
     {
       "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-dropCollectionProperties.md",
-      "sourceHash": "8908ad65bb6c67d9842ee1611d1c08264b438b89fbc12d14560021a1a940a295"
-    },
-    {
-      "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-dropFunctionField.md",
-      "sourceHash": "fde46e980574fbe013948dcf573466638e55271b0d1e865e2b3e75ba1cf2fa65"
+      "sourceHash": "75db5216fc93ec945e16f8a89017a9c39fb6bc7d9a92cf2faa5b4a5dc738b4ff"
     },
     {
       "manual": "java",
@@ -2300,27 +2280,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-getLoadStateV2.md",
-      "sourceHash": "ee089df51f32e01f67ef32d7ee793db4b48f18b8dc8ce4df27a66b32c73f37a8"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-hasCollection.md",
-      "sourceHash": "9825ba278ecd5184a67a9ef90ed33d21fc27f7b9a157eb9421f21cfc0b0b30d5"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-listAliases.md",
-      "sourceHash": "2f3c431740ace8cf22dec00f3bd17167dcce8da12191f0e81101440bfe055863"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-listCollections.md",
-      "sourceHash": "193e31a7d2382d3d1dc7dc8e18c4ad7ec6c9a9bff1509353f1569c2794c010a7"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-renameCollection.md",
-      "sourceHash": "d275858d2c2917b416941e817182ca3db348a6ed1e965d90cef2871af465c619"
+      "sourceHash": "2e4a45faca32980a247bbb7bbe97696182d1befe0cad2d431f98defaad097864"
     },
     {
       "manual": "java",
@@ -2364,66 +2324,6 @@
     },
     {
       "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-DataImport-LocalBulkWriter.md",
-      "sourceHash": "6a6a82831dba2743381844036cb6ef72df077d90f4ce6a09bc667e935966298c"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-appendRow.md",
-      "sourceHash": "8d5757857eae7fedba00261b2fb51eb252f521684aaa68489c5e3bde718eae0b"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-close.md",
-      "sourceHash": "c6e12d3647f9ad2b428371a79299a0f6e23a1674b505f7719a99a1d32c61c649"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-commit.md",
-      "sourceHash": "7b544f207b86b36cc3ae16a7e17277693c1de067a74f76fb264d94e9e033f04a"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-getBatchFiles.md",
-      "sourceHash": "d78ff883a41107ff2aeb9af3e2e89955b75d1912bb59ca5eabd4137569893d92"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-getTotalRowCount.md",
-      "sourceHash": "af7bffd241fbc1f87748f7f826385c4197aea036af1a19ff3c5b7b86deb94eb7"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-DataImport-RemoteBulkWriter.md",
-      "sourceHash": "0b049bf940dd026267809738b7a765260be7664c78d98ae5e576bcb81c27caa9"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-appendRow.md",
-      "sourceHash": "c23368e7e107f6198e19236a1590b742b02b7680e396b6fb311f413350ed9d05"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-close.md",
-      "sourceHash": "6b6ef88844d83d319c7179f3e7b20a370848349cc229d85d3ef4b6b0804700fd"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-commit.md",
-      "sourceHash": "15bba314dccf3cca237b15e6baf172b3c9d585035c13060ed9c232141ca1f3f7"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-getBatchFiles.md",
-      "sourceHash": "9a8a8dc5fb9c02ad2bf2a0ae6c5380c3b634a917bd3a5f8a4c354af81c4a4892"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-getTotalRowCount.md",
-      "sourceHash": "15510777d3dad7153bb8c551c9013466978e75044e5c26cb17246410d67263ba"
-    },
-    {
-      "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-DataImport-VolumeBulkWriter.md",
       "sourceHash": "626c5b55b246db0e2c85ced6c7338149f8f4ce32b5ffa18286b56fbd40e7e1ee"
     },
@@ -2459,43 +2359,8 @@
     },
     {
       "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Database/v2-Database-alterDatabaseProperties.md",
-      "sourceHash": "3ffe1e098d76e30b394c5ce6ace29f47f466ffa3cc7abd531c1a998a38a22e05"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Database/v2-Database-createDatabase.md",
-      "sourceHash": "a0dbb7105d89758fd6bb929d50c9d68b72de46ac3564ba73040be3cd4dcd6c04"
-    },
-    {
-      "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Database/v2-Database-currentUsedDatabase.md",
-      "sourceHash": "f229e3f715d3c608178673b6fa0507a4bb79c00514237a314b9788e9a2858a98"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Database/v2-Database-describeDatabase.md",
-      "sourceHash": "8a486db25513d8a91d8d972f6f968fad319c76824cfe35f9f78d461d24755e45"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Database/v2-Database-dropDatabase.md",
-      "sourceHash": "7d8ef1d5024d9753786baab71bd60635b7704548995571548214cc96daded37a"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Database/v2-Database-dropDatabaseProperties.md",
-      "sourceHash": "4483f170c9457ad4c1e8fd791b830e9e5c3bcb80f68303b7bdaf93f148382b31"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Database/v2-Database-listDatabases.md",
-      "sourceHash": "5870c6d1f9aaeea446b07d21910893b98f932f12517143d9f0b9f87d1de939b1"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Database/v2-Database-useDatabase.md",
-      "sourceHash": "ce323ffa3bcfbe7f2fc39b00bf17c5544a3f068ab164e596524bf93f73b15230"
+      "sourceHash": "69718f142d9fde2ea35a374378493af285e2085f75dbf53e6d2fc9ffd5a3cc8d"
     },
     {
       "manual": "java",
@@ -2514,43 +2379,8 @@
     },
     {
       "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-IndexParam.md",
-      "sourceHash": "4a3a69887666c41f6aa0ba94755f3b398a26cd52639083c995ccb3db13769924"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-IndexType.md",
-      "sourceHash": "7a56eb7c299650a2853286f9e598baf0df892154587ec099b04cf2f0ae1579ee"
-    },
-    {
-      "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-MetricType.md",
       "sourceHash": "ea5c391f741e9748eb7d97e0d1e47cfd54be1783850dbd6c06ff03de60874957"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-alterIndexProperties.md",
-      "sourceHash": "fa5c5ab20a8d080cd58dd497cffa9439b65a4d1e6f8b15fdf7f543edd2d79db0"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-compact.md",
-      "sourceHash": "f5bec09af588d7e68ebb2c02175ac42923f3326290e5c757057c0259f56c49e7"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-createIndex.md",
-      "sourceHash": "f7419b4d92fc181b08c07a6a93434126cb91d9e381bb7a68cec913ea4a01036d"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-describeIndex.md",
-      "sourceHash": "ca222e0a7f1454bb016cf860fc5a411e21b3a7fc10437bac888cea9d2e240a26"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-dropIndex.md",
-      "sourceHash": "889f33c0a0429367005d1477024b661c7872c0625b0fca0f711989449baea318"
     },
     {
       "manual": "java",
@@ -2704,11 +2534,6 @@
     },
     {
       "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-FunctionScore-addFunction.md",
-      "sourceHash": "ede31ff7872a266f2b91fe4a708e2d7d5eb9fd5404f46f40d88cd81ccec00807"
-    },
-    {
-      "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-FunctionScore-getFunctions.md",
       "sourceHash": "4403b763b66961107abcaea5433244c13aef7f0262bcf1c7df882c5a1fc1f7c9"
     },
@@ -2721,16 +2546,6 @@
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-Vector-FunctionScore.md",
       "sourceHash": "705638d3721ee579cfc24a8bee474aa4b090b4c9fc04827d45bb2e7b0fc43fbf"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-Highlighter/v2-Highlighter-LexicalHighlighter.md",
-      "sourceHash": "c1557cfee29ce2e256ee84d0bbb25c192dc5d071b9799fa78b55efa6b650bc37"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-Highlighter/v2-Highlighter-SemanticHighlighter.md",
-      "sourceHash": "3d724626f6a2909e081f0f4b63ad5eeacc667b4c14faddc775f9fd6d03387170"
     },
     {
       "manual": "java",
@@ -2755,7 +2570,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-getAsync.md",
-      "sourceHash": "072575888e8d326f136f7b74af9af64779c83bad8aa2735ba5a8e4dda8fdb895"
+      "sourceHash": "6f5ab46b2b65067773c252b641a5d97d0104dcca007306251fdce7998fcbf0b7"
     },
     {
       "manual": "java",
@@ -2765,7 +2580,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-hybridSearchAsync.md",
-      "sourceHash": "83242b651d0b56c39267d636b2211eb8c6016279bb15556657ce8f2e8e907076"
+      "sourceHash": "6915eb53f41f41316317106cf8b381e19addfbf5b2d7eba434bcf7f3e74c4626"
     },
     {
       "manual": "java",
@@ -2780,7 +2595,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-queryAsync.md",
-      "sourceHash": "8bb5304a176bae4d59921d55f1d3e0afaf29519eb6838c4153be7fa810a781ea"
+      "sourceHash": "a013d4558be613d5f963a485e38132c6931bed71cff5cd2bcddf70d3ef55974c"
     },
     {
       "manual": "java",
@@ -2800,7 +2615,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-searchAsync.md",
-      "sourceHash": "fe4cfa8969a45093bea2467e8e78d5ab85fe0aefdb4325eec8e24e50f826cac4"
+      "sourceHash": "97d30a52d393579f02c5f6c5bf6325b32d7b0e4cfc9293a021812dc3c65c9770"
     },
     {
       "manual": "java",
