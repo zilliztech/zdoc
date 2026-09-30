@@ -1,13 +1,12 @@
 name: GA4 Search 404 Report
 
-# Dispatch-only until operators configure the GA4 service account and property
-# variables; once they exist, uncomment the schedule to run daily. Missing
-# credentials never fail the workflow — the run degrades to a no-op with a
-# notice (see the credential gate step).
+# Runs daily at 03:17 UTC. Until operators configure the GA4 service account
+# secret and property variables, every run degrades to a no-op with a notice
+# instead of failing (see the credential gate step).
 on:
   workflow_dispatch:
-  # schedule:
-  #   - cron: '17 3 * * *'
+  schedule:
+    - cron: '17 3 * * *'
 
 permissions:
   contents: read
@@ -33,8 +32,10 @@ jobs:
         id: credentials
         env:
           GA4_SERVICE_ACCOUNT_JSON: ${{ secrets.GA4_SERVICE_ACCOUNT_JSON }}
+          GA4_PROPERTY_ID_EN: ${{ vars.GA4_PROPERTY_ID_EN }}
+          GA4_PROPERTY_ID_ZH_CN: ${{ vars.GA4_PROPERTY_ID_ZH_CN }}
         run: |
-          if [ -n "$GA4_SERVICE_ACCOUNT_JSON" ]; then
+          if [ -n "$GA4_SERVICE_ACCOUNT_JSON" ] && { [ -n "$GA4_PROPERTY_ID_EN" ] || [ -n "$GA4_PROPERTY_ID_ZH_CN" ]; }; then
             creds_file="$RUNNER_TEMP/ga4-service-account.json"
             printf '%s' "$GA4_SERVICE_ACCOUNT_JSON" > "$creds_file"
             {
@@ -42,7 +43,7 @@ jobs:
               echo "credentials_file=$creds_file"
             } >> "$GITHUB_OUTPUT"
           else
-            echo "::notice::GA4_SERVICE_ACCOUNT_JSON is not configured; skipping the GA4 search-origin 404 report."
+            echo "::notice::GA4 search-origin 404 reporting is not configured; set GA4_SERVICE_ACCOUNT_JSON plus GA4_PROPERTY_ID_EN and/or GA4_PROPERTY_ID_ZH_CN to enable it."
             echo "has_credentials=false" >> "$GITHUB_OUTPUT"
           fi
 
