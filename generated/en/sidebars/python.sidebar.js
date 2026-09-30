@@ -933,12 +933,6 @@ module.exports = [
           },
           {
             "type": "doc",
-            "id": "api/python/python/MilvusClient/MilvusClient-Highlighter/Highlighter-SemanticHighlighter",
-            "label": "SemanticHighlighter",
-            "key": "doc:api/python/python/MilvusClient/MilvusClient-Highlighter/highlighter-semantichighlighter"
-          },
-          {
-            "type": "doc",
             "id": "api/python/python/MilvusClient/MilvusClient-Highlighter/Highlighter-with_query",
             "label": "with_query()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Highlighter/highlighter-withquery"

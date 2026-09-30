@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "group": "python",
   "complete": true,
-  "generatedAt": "2026-09-03T11:09:09.735Z",
-  "sourceRunId": "33746285496",
+  "generatedAt": "2026-09-30T10:46:11.037Z",
+  "sourceRunId": "36701790318",
   "records": [
     {
       "canonicalToken": "A96udk9seoF5x5xywQZcLasanIe",
@@ -2321,7 +2321,7 @@
     {
       "canonicalToken": "SVoVdTdZRotav9xFjdFcZ8V2n3d",
       "title": "SemanticHighlighter",
-      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Highlighter/Highlighter-SemanticHighlighter.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
