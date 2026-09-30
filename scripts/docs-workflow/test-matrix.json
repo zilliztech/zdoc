@@ -1018,6 +1018,7 @@
         "deploy/en/nginx.conf",
         "deploy/zh-CN/nginx.conf",
         "deploy/contracts/container.test.mjs",
+        "deploy/contracts/en-redirect-target-routes.json",
         "apps/docs/plugins/release-channel-routes*",
         "packages/docs-ui/src/shared/components/NextChannel/**",
         "packages/docs-ui/src/shared/components/NextChannelToast/**",
