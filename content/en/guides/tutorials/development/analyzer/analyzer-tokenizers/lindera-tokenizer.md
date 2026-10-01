@@ -71,7 +71,7 @@ This two-stage process—segmentation followed by POS-based filtering—enables 
 
 To configure an analyzer using the `lindera` tokenizer, set `tokenizer.type` to `lindera`, choose a dictionary with `dict_kind`, and optionally apply filters.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -132,6 +132,44 @@ analyzerParams := map[string]interface{}{
           },
       },
   }
+
+fmt.Println(analyzerParams)
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use serde_json::json;
+
+let analyzer_params = json!({
+    "tokenizer": {
+        "type": "lindera",
+        "dict_kind": "ko-dic",
+        "filter": [
+            {
+                "kind": "korean_stop_tags",
+                "tags": ["SP", "SSC", "SSO", "SC", "SE", "SF", "JKS", "JKC", "JKG", "JKO", "JKB", "JKV", "JKQ", "JX", "JC", "UNK", "EP", "ETM"]
+            }
+        ]
+    }
+});
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"tokenizer", {
+        {"type", "lindera"},
+        {"dict_kind", "ko-dic"},
+        {"filter", {{
+            {"kind", "korean_stop_tags"},
+            {"tags", {"SP", "SSC", "SSO", "SC", "SE", "SF", "JKS", "JKC", "JKG", "JKO", "JKB", "JKV", "JKQ", "JX", "JC", "UNK", "EP", "ETM"}}
+        }}}
+    }}
+};
 ```
 
 </TabItem>
@@ -158,7 +196,17 @@ const analyzer_params = {
 <TabItem value='bash'>
 
 ```bash
-# restful
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/common/run_analyzer" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "analyzerParams": "{\"tokenizer\":{\"type\":\"lindera\",\"dict_kind\":\"ko-dic\",\"filter\":[{\"kind\":\"korean_stop_tags\",\"tags\":[\"SP\",\"SSC\",\"SSO\",\"SC\",\"SE\",\"SF\",\"JKS\",\"JKC\",\"JKG\",\"JKO\",\"JKB\",\"JKV\",\"JKQ\",\"JX\",\"JC\",\"UNK\",\"EP\",\"ETM\"]}]}}",
+    "text": ["서울에서 맛있는 음식을 먹었습니다"]
+}' 
 ```
 
 </TabItem>
@@ -191,7 +239,7 @@ Before applying the analyzer configuration to your collection schema, verify its
 
 ### Korean example\{#korean-example}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -229,15 +277,17 @@ import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
 
+import java.util.*;
+
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .build();
 MilvusClientV2 client = new MilvusClientV2(config);
 
-Map<String, Object> analyzerParams = new HashMap<>();                                                                          
+Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", new HashMap<String, Object>() {{
-  put("type", "lindera");                                                                                                    
-  put("dict_kind", "ko-dic");                                 
+  put("type", "lindera");
+  put("dict_kind", "ko-dic");
   put("filter", Arrays.asList(
       new HashMap<String, Object>() {{
           put("kind", "korean_stop_tags");
@@ -267,11 +317,12 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 ```go
 import (
     "context"
-    "encoding/json"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
+
+ctx := context.Background()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
@@ -299,15 +350,82 @@ analyzerParams := map[string]interface{}{
   },
 }
 
-bs, _ := json.Marshal(analyzerParams)
 texts := []string{"서울에서 맛있는 음식을 먹었습니다"}
-option := milvusclient.NewRunAnalyzerOption(texts).
-    WithAnalyzerParams(string(bs))
+option := milvusclient.NewRunAnalyzerOption(texts...).
+    WithAnalyzerParams(analyzerParams)
 
-result, err := client.RunAnalyzer(ctx, option)
+_, err = client.RunAnalyzer(ctx, option)
 if err != nil {
     fmt.Println(err.Error())
     // handle error
+}
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
+
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
+let client = ClientV2::new(&config).await?;
+
+let analyzer_params = json!({
+    "tokenizer": {
+        "type": "lindera",
+        "dict_kind": "ko-dic",
+        "filter": [
+            {
+                "kind": "korean_stop_tags",
+                "tags": ["SP", "SSC", "SSO", "SC", "SE", "SF", "JKS", "JKC", "JKG", "JKO", "JKB", "JKV", "JKQ", "JX", "JC", "UNK", "EP", "ETM"]
+            }
+        ]
+    }
+});
+
+let run_analyzer_req = RunAnalyzerRequest::builder()
+    .texts(vec!["서울에서 맛있는 음식을 먹었습니다"])
+    .analyzer_params(analyzer_params)
+    .build()?;
+
+let res = client.run_analyzer(run_analyzer_req).await?;
+println!("{:?}", res.results());
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+nlohmann::json analyzer_params = {
+    {"tokenizer", {
+        {"type", "lindera"},
+        {"dict_kind", "ko-dic"},
+        {"filter", {{
+            {"kind", "korean_stop_tags"},
+            {"tags", {"SP", "SSC", "SSO", "SC", "SE", "SF", "JKS", "JKC", "JKG", "JKO", "JKB", "JKV", "JKQ", "JX", "JC", "UNK", "EP", "ETM"}}
+        }}}
+    }}
+};
+
+milvus::RunAnalyzerResponse response;
+status = client->RunAnalyzer(milvus::RunAnalyzerRequest()
+                                 .WithTexts({"서울에서 맛있는 음식을 먹었습니다"})
+                                 .WithAnalyzerParams(analyzer_params),
+                             response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
 }
 ```
 
@@ -319,7 +437,7 @@ if err != nil {
 import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 
 const client = new MilvusClient({
-  uri: "YOUR_CLUSTER_ENDPOINT",
+  address: "YOUR_CLUSTER_ENDPOINT",
 });
 
 const analyzer_params = {
@@ -356,7 +474,10 @@ const analyzer_params = {
 
 const sample_text = "서울에서 맛있는 음식을 먹었습니다";
 
-const result = await client.run_analyzer(sample_text, analyzer_params);
+const result = await client.runAnalyzer({
+  analyzer_params: analyzer_params,
+  text: sample_text,
+});
 console.log("Analyzer output:", result);
 ```
 
@@ -365,7 +486,17 @@ console.log("Analyzer output:", result);
 <TabItem value='bash'>
 
 ```bash
-# restful
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/common/run_analyzer" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "analyzerParams": "{\"tokenizer\":{\"type\":\"lindera\",\"dict_kind\":\"ko-dic\",\"filter\":[{\"kind\":\"korean_stop_tags\",\"tags\":[\"SP\",\"SSC\",\"SSO\",\"SC\",\"SE\",\"SF\",\"JKS\",\"JKC\",\"JKG\",\"JKO\",\"JKB\",\"JKV\",\"JKQ\",\"JX\",\"JC\",\"UNK\",\"EP\",\"ETM\"]}]}}",
+    "text": ["서울에서 맛있는 음식을 먹었습니다"]
+}' 
 ```
 
 </TabItem>
@@ -381,7 +512,7 @@ Without `korean_stop_tags`, the output would include particles like `에서` (in
 
 ### Japanese example\{#japanese-example}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -414,7 +545,40 @@ print("Analyzer output:", result)
 <TabItem value='java'>
 
 ```java
-// java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.vector.request.RunAnalyzerReq;
+import io.milvus.v2.service.vector.response.RunAnalyzerResp;
+
+import java.util.*;
+
+ConnectConfig config = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .build();
+MilvusClientV2 client = new MilvusClientV2(config);
+
+Map<String, Object> analyzerParams = new HashMap<>();
+analyzerParams.put("tokenizer", new HashMap<String, Object>() {{
+  put("type", "lindera");
+  put("dict_kind", "ipadic");
+  put("filter", Arrays.asList(
+      new HashMap<String, Object>() {{
+          put("kind", "japanese_stop_tags");
+          put("tags", Arrays.asList(
+              "接続詞", "助詞,格助詞", "助詞,格助詞,一般", "助詞,格助詞,引用", "助詞,格助詞,連語", "助詞,係助詞", "助詞,終助詞", "助詞,接続助詞", "助詞,特殊", "助詞,副助詞", "助詞,副助詞／並立助詞／終助詞", "助詞,連体化", "助詞,副詞化", "助詞,並立助詞", "助動詞", "記号,一般", "記号,読点", "記号,句点", "記号,空白", "記号,括弧閉", "記号,括弧開", "その他,間投", "フィラー", "非言語音"
+          ));
+      }}
+  ));
+}});
+
+List<String> texts = new ArrayList<>();
+texts.add("東京スカイツリーの最寄り駅はとうきょうスカイツリー駅です");
+
+RunAnalyzerResp resp = client.runAnalyzer(RunAnalyzerReq.builder()
+        .texts(texts)
+        .analyzerParams(analyzerParams)
+        .build());
+List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 ```
 
 </TabItem>
@@ -422,21 +586,61 @@ print("Analyzer output:", result)
 <TabItem value='go'>
 
 ```go
-// go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
+
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+analyzerParams := map[string]interface{}{
+  "tokenizer": map[string]interface{}{
+      "type":      "lindera",
+      "dict_kind": "ipadic",
+      "filter": []interface{}{
+          map[string]interface{}{
+              "kind": "japanese_stop_tags",
+              "tags": []string{
+                  "接続詞", "助詞,格助詞", "助詞,格助詞,一般", "助詞,格助詞,引用", "助詞,格助詞,連語", "助詞,係助詞", "助詞,終助詞", "助詞,接続助詞", "助詞,特殊", "助詞,副助詞", "助詞,副助詞／並立助詞／終助詞", "助詞,連体化", "助詞,副詞化", "助詞,並立助詞", "助動詞", "記号,一般", "記号,読点", "記号,句点", "記号,空白", "記号,括弧閉", "記号,括弧開", "その他,間投", "フィラー", "非言語音",
+              },
+          },
+      },
+  },
+}
+
+texts := []string{"東京スカイツリーの最寄り駅はとうきょうスカイツリー駅です"}
+option := milvusclient.NewRunAnalyzerOption(texts...).
+    WithAnalyzerParams(analyzerParams)
+
+_, err = client.RunAnalyzer(ctx, option)
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
+</Tabs>
 
-<TabItem value='javascript'>
+```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
 
-```javascript
-import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
+let client = ClientV2::new(&config).await?;
 
-const client = new MilvusClient({
-  uri: "YOUR_CLUSTER_ENDPOINT",
-});
-
-const analyzer_params = {
+let analyzer_params = json!({
     "tokenizer": {
         "type": "lindera",
         "dict_kind": "ipadic",
@@ -447,12 +651,83 @@ const analyzer_params = {
             }
         ]
     }
+});
+
+let run_analyzer_req = RunAnalyzerRequest::builder()
+    .texts(vec!["東京スカイツリーの最寄り駅はとうきょうスカイツリー駅です"])
+    .analyzer_params(analyzer_params)
+    .build()?;
+
+let res = client.run_analyzer(run_analyzer_req).await?;
+println!("{:?}", res.results());
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
 }
 
-// Sample Japanese text: "東京スカイツリーの最寄り駅はとうきょうスカイツリー駅です"
-const sample_text = "東京スカイツリーの最寄り駅はとうきょうスカイツリー駅です"
+nlohmann::json analyzer_params = {
+    {"tokenizer", {
+        {"type", "lindera"},
+        {"dict_kind", "ipadic"},
+        {"filter", {{
+            {"kind", "japanese_stop_tags"},
+            {"tags", {"接続詞", "助詞,格助詞", "助詞,格助詞,一般", "助詞,格助詞,引用", "助詞,格助詞,連語", "助詞,係助詞", "助詞,終助詞", "助詞,接続助詞", "助詞,特殊", "助詞,副助詞", "助詞,副助詞／並立助詞／終助詞", "助詞,連体化", "助詞,副詞化", "助詞,並立助詞", "助動詞", "記号,一般", "記号,読点", "記号,句点", "記号,空白", "記号,括弧閉", "記号,括弧開", "その他,間投", "フィラー", "非言語音"}}
+        }}}
+    }}
+};
 
-const result = await client.run_analyzer(sample_text, analyzer_params);
+milvus::RunAnalyzerResponse response;
+status = client->RunAnalyzer(milvus::RunAnalyzerRequest()
+                                 .WithTexts({"東京スカイツリーの最寄り駅はとうきょうスカイツリー駅です"})
+                                 .WithAnalyzerParams(analyzer_params),
+                             response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({
+  address: "YOUR_CLUSTER_ENDPOINT",
+});
+
+const analyzer_params = {
+  tokenizer: {
+    type: "lindera",
+    dict_kind: "ipadic",
+    filter: [
+      {
+        kind: "japanese_stop_tags",
+        tags: ["接続詞", "助詞,格助詞", "助詞,格助詞,一般", "助詞,格助詞,引用", "助詞,格助詞,連語", "助詞,係助詞", "助詞,終助詞", "助詞,接続助詞", "助詞,特殊", "助詞,副助詞", "助詞,副助詞／並立助詞／終助詞", "助詞,連体化", "助詞,副詞化", "助詞,並立助詞", "助動詞", "記号,一般", "記号,読点", "記号,句点", "記号,空白", "記号,括弧閉", "記号,括弧開", "その他,間投", "フィラー", "非言語音"],
+      },
+    ],
+  },
+};
+
+const sample_text = "東京スカイツリーの最寄り駅はとうきょうスカイツリー駅です";
+
+const result = await client.runAnalyzer({
+  analyzer_params: analyzer_params,
+  text: sample_text,
+});
 console.log("Analyzer output:", result);
 ```
 
@@ -461,7 +736,17 @@ console.log("Analyzer output:", result);
 <TabItem value='bash'>
 
 ```bash
-# restful
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/common/run_analyzer" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "analyzerParams": "{\"tokenizer\":{\"type\":\"lindera\",\"dict_kind\":\"ipadic\",\"filter\":[{\"kind\":\"japanese_stop_tags\",\"tags\":[\"接続詞\",\"助詞,格助詞\",\"助詞,格助詞,一般\",\"助詞,格助詞,引用\",\"助詞,格助詞,連語\",\"助詞,係助詞\",\"助詞,終助詞\",\"助詞,接続助詞\",\"助詞,特殊\",\"助詞,副助詞\",\"助詞,副助詞／並立助詞／終助詞\",\"助詞,連体化\",\"助詞,副詞化\",\"助詞,並立助詞\",\"助動詞\",\"記号,一般\",\"記号,読点\",\"記号,句点\",\"記号,空白\",\"記号,括弧閉\",\"記号,括弧開\",\"その他,間投\",\"フィラー\",\"非言語音\"]}]}}",
+    "text": ["東京スカイツリーの最寄り駅はとうきょうスカイツリー駅です"]
+}' 
 ```
 
 </TabItem>

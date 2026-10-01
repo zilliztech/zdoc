@@ -39,7 +39,7 @@ The `standard` analyzer consists of:
 
 The functionality of the `standard` analyzer is equivalent to the following custom analyzer configuration:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -61,6 +61,34 @@ analyzerParams.put("filter", Collections.singletonList("lowercase"));
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+analyzerParams := map[string]any{"tokenizer": "standard", "filter": []any{"lowercase"}}
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let analyzer_params = serde_json::json!({
+    "tokenizer": "standard",
+    "filter": ["lowercase"]
+});
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"tokenizer", "standard"},
+    {"filter", {"lowercase"}},
+};
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -68,14 +96,6 @@ const analyzer_params = {
     "tokenizer": "standard",
     "filter": ["lowercase"]
 };
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-analyzerParams := map[string]any{"tokenizer": "standard", "filter": []any{"lowercase"}}
 ```
 
 </TabItem>
@@ -93,24 +113,13 @@ analyzerParams='{
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-nlohmann::json analyzer_params = {
-    {"tokenizer", "standard"},
-    {"filter", {"lowercase"}},
-};
-```
-
-</TabItem>
 </Tabs>
 
 ## Configuration\{#configuration}
 
 To apply the `standard` analyzer to a field, simply set `type` to `standard` in `analyzer_params`, and include optional parameters as needed.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -130,20 +139,38 @@ analyzerParams.put("type", "standard");
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+analyzerParams = map[string]any{"type": "standard"}
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let analyzer_params = serde_json::json!({
+    "type": "standard"
+});
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"type", "standard"},
+};
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
 const analyzer_params = {
     "type": "standard", // Specifies the standard analyzer type
 }
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-analyzerParams = map[string]any{"type": "standard"}
 ```
 
 </TabItem>
@@ -158,16 +185,6 @@ analyzerParams='{
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-nlohmann::json analyzer_params = {
-    {"tokenizer", "standard"},
-};
-```
-
-</TabItem>
 </Tabs>
 
 The `standard` analyzer accepts the following optional parameters: 
@@ -178,13 +195,13 @@ The `standard` analyzer accepts the following optional parameters:
 
 Example configuration of custom stop words:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 analyzer_params = {
     "type": "standard", # Specifies the standard analyzer type
-    "stop_words", ["of"] # Optional: List of words to exclude from tokenization
+    "stop_words": ["of"] # Optional: List of words to exclude from tokenization
 }
 ```
 
@@ -200,21 +217,41 @@ analyzerParams.put("stop_words", Collections.singletonList("of"));
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+analyzerParams = map[string]any{"type": "standard", "stop_words": []string{"of"}}
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let analyzer_params = serde_json::json!({
+    "type": "standard",
+    "stop_words": ["of"]
+});
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"type", "standard"},
+    {"stop_words", {"of"}},
+};
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
 analyzer_params = {
     "type": "standard", // Specifies the standard analyzer type
-    "stop_words", ["of"] // Optional: List of words to exclude from tokenization
+    "stop_words": ["of"] // Optional: List of words to exclude from tokenization
 }
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-analyzerParams = map[string]any{"type": "standard", "stop_words": []string{"of"}}
 ```
 
 </TabItem>
@@ -232,17 +269,6 @@ analyzerParams='{
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-nlohmann::json analyzer_params = {
-    {"type", "standard"},
-    {"stop_words", {"of"}},
-};
-```
-
-</TabItem>
 </Tabs>
 
 After defining `analyzer_params`, you can apply them to a `VARCHAR` field when defining a collection schema. This allows Zilliz Cloud to process the text in that field using the specified analyzer for efficient tokenization and filtering. For more information, refer to [Example use](./analyzer-overview#example-use).
@@ -253,7 +279,7 @@ Before applying the analyzer configuration to your collection schema, verify its
 
 ### Analyzer configuration\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -275,22 +301,42 @@ analyzerParams.put("stop_words", Collections.singletonList("for"));
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+analyzerParams = map[string]any{"type": "standard", "stop_words": []string{"for"}}
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let analyzer_params = serde_json::json!({
+    "type": "standard",
+    "stop_words": ["for"]
+});
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"type", "standard"},
+    {"stop_words", {"for"}},
+};
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
 // javascript
 analyzer_params = {
     "type": "standard", // Specifies the standard analyzer type
-    "stop_words", ["for"] // Optional: List of words to exclude from tokenization
+    "stop_words": ["for"] // Optional: List of words to exclude from tokenization
 }
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-analyzerParams = map[string]any{"type": "standard", "stop_words": []string{"for"}}
 ```
 
 </TabItem>
@@ -308,22 +354,11 @@ analyzerParams='{
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-nlohmann::json analyzer_params = {
-    {"type", "standard"},
-    {"stop_words", {"for"}},
-};
-```
-
-</TabItem>
 </Tabs>
 
 ### Verification using `run_analyzer`\{#verification-using-runanalyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -354,6 +389,11 @@ import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .token("YOUR_CLUSTER_TOKEN")
@@ -372,14 +412,6 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// javascript
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -388,7 +420,7 @@ import (
     "encoding/json"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
@@ -402,8 +434,8 @@ if err != nil {
 
 bs, _ := json.Marshal(analyzerParams)
 texts := []string{"The Milvus vector database is built for scale!"}
-option := milvusclient.NewRunAnalyzerOption(texts).
-    WithAnalyzerParams(string(bs))
+option := milvusclient.NewRunAnalyzerOption(texts...).
+    WithAnalyzerParamsStr(string(bs))
 
 result, err := client.RunAnalyzer(ctx, option)
 if err != nil {
@@ -413,19 +445,43 @@ if err != nil {
 ```
 
 </TabItem>
+</Tabs>
 
-<TabItem value='bash'>
+```rust
+use milvus::v2::error::Result;
+use milvus::v2::prelude::*;
 
-```bash
-# restful
+#[tokio::main]
+async fn main() -> Result<()> {
+    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+    let client = ClientV2::new(&config).await?;
+
+    let texts = ["The Milvus vector database is built for scale!".to_string()];
+    let analyzer_params = serde_json::json!({
+        "type": "standard",
+        "stop_words": ["for"]
+    });
+
+    let result = client.run_analyzer(
+        RunAnalyzerRequest::builder()
+            .texts(texts)
+            .analyzer_params(analyzer_params)
+            .build()?,
+    ).await?;
+
+    println!("{:?}", result.results());
+    Ok(())
+}
 ```
 
-</TabItem>
-
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
 <TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
+
+#include <iostream>
+#include <string>
 
 auto client = milvus::MilvusClientV2::Create();
 
@@ -445,6 +501,36 @@ status = client->RunAnalyzer(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// javascript
+const res = await client.runAnalyzer({
+    text: 'The Milvus vector database is built for scale!',
+    analyzer_params: analyzer_params
+});
+
+console.log(res);
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+curl --request POST \
+  --url "${CLUSTER_ENDPOINT}/v2/vectordb/common/run_analyzer" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "analyzerParams": "{\"type\":\"standard\",\"stop_words\":[\"for\"]}",
+    "text": ["The Milvus vector database is built for scale!"]
+  }'
 ```
 
 </TabItem>

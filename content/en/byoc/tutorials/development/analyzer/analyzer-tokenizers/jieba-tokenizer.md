@@ -37,7 +37,7 @@ Milvus supports two configuration approaches for the `jieba` tokenizer: a simple
 
 With the simple configuration, you only need to set the tokenizer to `"jieba"`. For example:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -58,20 +58,43 @@ analyzerParams.put("tokenizer", "jieba");
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+analyzerParams := map[string]any{"tokenizer": "jieba"}
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let analyzer_params = serde_json::json!({"tokenizer": "jieba"});
+
+    Ok(())
+}
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"tokenizer", "jieba"}
+};
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
 const analyzer_params = {
     "tokenizer": "jieba",
 };
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-analyzerParams = map[string]any{"tokenizer": "jieba"}
 ```
 
 </TabItem>
@@ -86,30 +109,22 @@ analyzerParams='{
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-nlohmann::json analyzer_params = {
-    {"tokenizer", "jieba"}
-};
-```
-
-</TabItem>
 </Tabs>
 
 This simple configuration is equivalent to the following custom configuration:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 # Custom configuration equivalent to the simple configuration above
 analyzer_params = {
-    "type": "jieba",          # Tokenizer type, fixed as "jieba"
-    "dict": ["_default_"],     # Use the default dictionary
-    "mode": "search",          # Use search mode for improved recall (see mode details below)
-    "hmm": True                # Enable HMM for probabilistic segmentation
+    "tokenizer": {                 # Tokenizer configuration
+        "type": "jieba",           # Tokenizer type, fixed as "jieba"
+        "dict": ["_default_"],     # Use the default dictionary
+        "mode": "search",          # Use search mode for improved recall (see mode details below)
+        "hmm": True                # Enable HMM for probabilistic segmentation
+    }
 }
 ```
 
@@ -119,18 +134,12 @@ analyzer_params = {
 
 ```java
 Map<String, Object> analyzerParams = new HashMap<>();
-analyzerParams.put("type", "jieba");
-analyzerParams.put("dict", Collections.singletonList("_default_"));
-analyzerParams.put("mode", "search");
-analyzerParams.put("hmm", true);
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-// javascript
+analyzerParams.put("tokenizer", new HashMap<String, Object>() {{
+  put("type", "jieba");
+  put("dict", Collections.singletonList("_default_"));
+  put("mode", "search");
+  put("hmm", true);
+}});
 ```
 
 </TabItem>
@@ -138,7 +147,57 @@ analyzerParams.put("hmm", true);
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"type": "jieba", "dict": []any{"_default_"}, "mode": "search", "hmm": true}
+analyzerParams := map[string]any{
+  "tokenizer": map[string]any{
+    "type": "jieba",
+    "dict": []any{"_default_"},
+    "mode": "search",
+    "hmm":  true,
+  },
+}
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+    let analyzer_params = serde_json::json!({
+        "tokenizer": {
+            "type": "jieba",
+            "dict": ["_default_"],
+            "mode": "search",
+            "hmm": true
+        }
+    });
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"tokenizer", {
+        {"type", "jieba"},
+        {"dict", {"_default_"}},
+        {"mode", "search"},
+        {"hmm", true}
+    }}
+};
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+  tokenizer: {
+    type: "jieba",
+    dict: ["_default_"],
+    mode: "search",
+    hmm: true,
+  },
+};
 ```
 
 </TabItem>
@@ -147,19 +206,14 @@ analyzerParams = map[string]any{"type": "jieba", "dict": []any{"_default_"}, "mo
 
 ```bash
 # restful
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-nlohmann::json analyzer_params = {
-    {"tokenizer", "jieba"},
-    {"dict", {"_default_"}},
-    {"mode", "search"},
-    {"hmm", true}
-};
+export analyzerParams='{
+  "tokenizer": {
+    "type": "jieba",
+    "dict": ["_default_"],
+    "mode": "search",
+    "hmm": true
+  }
+}'
 ```
 
 </TabItem>
@@ -171,7 +225,7 @@ For details on parameters, refer to [Custom configuration](./jieba-tokenizer#cus
 
 For more control, you can provide a custom configuration that allows you to specify a custom dictionary, select the segmentation mode, and enable or disable the Hidden Markov Model (HMM). For example:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -202,14 +256,6 @@ analyzerParams.put("tokenizer", new HashMap<String, Object>() {{
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// javascript
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -224,15 +270,20 @@ analyzerParams := map[string]interface{}{
 ```
 
 </TabItem>
+</Tabs>
 
-<TabItem value='bash'>
-
-```bash
-# restful
+```rust
+    let analyzer_params = serde_json::json!({
+        "tokenizer": {
+            "type": "jieba",
+            "dict": ["customDictionary"],
+            "mode": "exact",
+            "hmm": false
+        }
+    });
 ```
 
-</TabItem>
-
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
 <TabItem value='c++'>
 
 ```c++
@@ -244,6 +295,37 @@ nlohmann::json analyzerParams = {
       {"hmm", false}                                          
   }}
 };
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+  tokenizer: {
+    type: "jieba",
+    dict: ["customDictionary"],
+    mode: "exact",
+    hmm: false,
+  },
+};
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+export analyzerParams='{
+  "tokenizer": {
+    "type": "jieba",
+    "dict": ["customDictionary"],
+    "mode": "exact",
+    "hmm": false
+  }
+}'
 ```
 
 </TabItem>
@@ -285,7 +367,7 @@ Before applying the analyzer configuration to your collection schema, verify its
 
 ### Analyzer configuration\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -315,14 +397,6 @@ analyzerParams.put("tokenizer", new HashMap<String, Object>() {{
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// javascript
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -337,15 +411,20 @@ analyzerParams := map[string]interface{}{
 ```
 
 </TabItem>
+</Tabs>
 
-<TabItem value='bash'>
-
-```bash
-# restful
+```rust
+    let analyzer_params = serde_json::json!({
+        "tokenizer": {
+            "type": "jieba",
+            "dict": ["结巴分词器"],
+            "mode": "exact",
+            "hmm": false
+        }
+    });
 ```
 
-</TabItem>
-
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
 <TabItem value='c++'>
 
 ```c++
@@ -360,11 +439,42 @@ nlohmann::json analyzerParams = {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+  tokenizer: {
+    type: "jieba",
+    dict: ["结巴分词器"],
+    mode: "exact",
+    hmm: false,
+  },
+};
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+export analyzerParams='{
+  "tokenizer": {
+    "type": "jieba",
+    "dict": ["结巴分词器"],
+    "mode": "exact",
+    "hmm": false
+  }
+}'
+```
+
+</TabItem>
 </Tabs>
 
 ### Verification using `run_analyzer`\{#verification-using-runanalyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -413,14 +523,6 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// javascript
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -429,7 +531,7 @@ import (
     "encoding/json"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
@@ -444,7 +546,7 @@ if err != nil {
 bs, _ := json.Marshal(analyzerParams)
 texts := []string{"milvus结巴分词器中文测试"}
 option := milvusclient.NewRunAnalyzerOption(texts).
-    WithAnalyzerParams(string(bs))
+    WithAnalyzerParamsStr(string(bs))
 
 result, err := client.RunAnalyzer(ctx, option)
 if err != nil {
@@ -454,15 +556,17 @@ if err != nil {
 ```
 
 </TabItem>
+</Tabs>
 
-<TabItem value='bash'>
-
-```bash
-# restful
+```rust
+    let resp = client.run_analyzer(RunAnalyzerRequest::builder()
+        .texts(vec!["milvus结巴分词器中文测试"])
+        .analyzer_params(analyzer_params)
+        .build()?).await?;
+    println!("{:?}", resp.results());
 ```
 
-</TabItem>
-
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
 <TabItem value='c++'>
 
 ```c++
@@ -486,6 +590,49 @@ status = client->RunAnalyzer(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+  tokenizer: {
+    type: "jieba",
+    dict: ["结巴分词器"],
+    mode: "exact",
+    hmm: false,
+  },
+};
+
+const result = await client.runAnalyzer({
+  text: "milvus结巴分词器中文测试",
+  analyzer_params,
+});
+console.log(result.results);
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/common/run" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--data '{
+  "text": "milvus结巴分词器中文测试",
+  "analyzerParams": {
+    "tokenizer": {
+      "type": "jieba",
+      "dict": ["结巴分词器"],
+      "mode": "exact",
+      "hmm": false
+    }
+  }
+}'
 ```
 
 </TabItem>

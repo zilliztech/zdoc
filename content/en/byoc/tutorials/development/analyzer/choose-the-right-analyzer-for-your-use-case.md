@@ -543,7 +543,7 @@ Before applying an analyzer to your collection, we recommend you use [`run_analy
     "tokenizer": "icu",
     "filter": ["lowercase", {
         "type": "stop",
-        "stop_words": [<put stop words list here>]
+        "stop_words": []
     }]
 }
 ```
@@ -573,12 +573,19 @@ Before applying an analyzer to your collection, we recommend you use [`run_analy
 
 ```json
 {
-    "tokenizer": {
-        "type": "lindera",
-        "dict_kind": "ipadic"
-    },
+    "tokenizer": "standard",
     "filter": [
-        "removepunct"
+        "lowercase",
+        {
+            "type": "stemmer",
+            "language": "german"
+        },
+        {
+            "type": "stop",
+            "stop_words": [
+                "_german_"
+            ]
+        }
     ]
 }
 ```
@@ -590,7 +597,7 @@ Before applying an analyzer to your collection, we recommend you use [`run_analy
     "tokenizer": "icu",
     "filter": ["lowercase", {
         "type": "stop",
-        "stop_words": [<put stop words list here>]
+        "stop_words": []
     }]
 }
 ```
@@ -696,7 +703,7 @@ Before applying an analyzer to your collection, we recommend you use [`run_analy
     "tokenizer": "standard",
     "filter": ["lowercase", {
         "type": "stop",
-        "stop_words": [<put stop words list here>]
+        "stop_words": []
     }]
 }
 ```
@@ -723,7 +730,7 @@ Before applying an analyzer to your collection, we recommend you use [`run_analy
     "tokenizer": "icu",
     "filter": ["lowercase", {
         "type": "stop",
-        "stop_words": [<put stop words list here>]
+        "stop_words": []
     }]
 }
 ```

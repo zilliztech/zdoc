@@ -131,10 +131,10 @@ import (
     "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/column"
-    "github.com/milvus-io/milvus/client/v2/entity"
-    "github.com/milvus-io/milvus/client/v2/index"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/column"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -145,7 +145,7 @@ token := "YOUR_CLUSTER_TOKEN"
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: milvusAddr,
-    APIKey: token
+    APIKey:  token,
 })
 if err != nil {
     fmt.Println(err.Error())
@@ -439,7 +439,7 @@ params.put("bm25_b", 0.75);
 List<IndexParam> indexes = new ArrayList<>();
 indexes.add(IndexParam.builder()
         .fieldName("sparse")
-        .indexType(IndexParam.IndexType.AUTOINDEX)
+        .indexType(IndexParam.IndexType.SPARSE_INVERTED_INDEX)
         .metricType(IndexParam.MetricType.BM25)
         .extraParams(params)
         .build());    
@@ -451,10 +451,10 @@ indexes.add(IndexParam.builder()
 
 ```go
 indexOption := milvusclient.NewCreateIndexOption("my_collection", "sparse",
-    index.NewAutoIndex(entity.MetricType(entity.BM25)))
-    .WithExtraParam("inverted_index_algo", "DAAT_MAXSCORE")
-    .WithExtraParam("bm25_k1", 1.2)
-    .WithExtraParam("bm25_b", 0.75)
+    index.NewSparseInvertedIndex(entity.BM25, 0.05))
+indexOption.WithExtraParam("inverted_index_algo", "DAAT_MAXSCORE")
+indexOption.WithExtraParam("bm25_k1", 1.2)
+indexOption.WithExtraParam("bm25_b", 0.75)
 ```
 
 </TabItem>
@@ -485,7 +485,7 @@ export indexParams='[
         {
             "fieldName": "sparse",
             "metricType": "BM25",
-            "indexType": "AUTOINDEX",
+            "indexType": "SPARSE_INVERTED_INDEX",
             "params":{
                "inverted_index_algo": "DAAT_MAXSCORE",
                "bm25_k1": 1.2,
@@ -548,7 +548,7 @@ index_params.AddExtraParam("bm25_b", "0.75");
 
 Now create the collection using the schema and index parameters defined.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -557,6 +557,8 @@ client.create_collection(
     schema=schema, 
     index_params=index_params
 )
+
+client.load_collection('my_collection')
 ```
 
 </TabItem>
@@ -565,6 +567,7 @@ client.create_collection(
 
 ```java
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import io.milvus.v2.service.collection.request.LoadCollectionReq;
 
 CreateCollectionReq requestCreate = CreateCollectionReq.builder()
         .collectionName("my_collection")
@@ -572,6 +575,9 @@ CreateCollectionReq requestCreate = CreateCollectionReq.builder()
         .indexParams(indexes)
         .build();
 client.createCollection(requestCreate);
+client.loadCollection(LoadCollectionReq.builder()
+        .collectionName("my_collection")
+        .build());
 ```
 
 </TabItem>
@@ -586,6 +592,12 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
+
+_, err = client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -593,12 +605,14 @@ if err != nil {
 <TabItem value='javascript'>
 
 ```javascript
-await client.create_collection({
+await client.createCollection({
     collection_name: 'my_collection',
     schema: schema,
     index_params: index_params,
     functions: functions
 });
+
+await client.loadCollection({ collection_name: "my_collection" });
 ```
 
 </TabItem>
@@ -619,24 +633,45 @@ curl --request POST \
     \"schema\": $schema,
     \"indexParams\": $indexParams
 }"
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/load" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--data '{
+  "collectionName": "my_collection"
+}'
 ```
 
 </TabItem>
-</Tabs>
 
-```plaintext
-auto status = client->CreateCollection(milvus::CreateCollectionRequest()
+<TabItem value='c++'>
+
+```c++
+status = client->CreateCollection(milvus::CreateCollectionRequest()
                                     .WithCollectionName("my_collection")
                                     .WithCollectionSchema(schema)
                                     .AddIndex(std::move(index_params)));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
+
+status = client->LoadCollection(milvus::LoadCollectionRequest()
+                                    .WithCollectionName("my_collection"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
+
+</TabItem>
+
+<TabItem value='shell'>
 
 ```shell
 # Zilliz CLI
 ```
+
+</TabItem>
+</Tabs>
 
 ## Insert text data\{#insert-text-data}
 
@@ -770,6 +805,7 @@ Once you've inserted data into your collection, you can perform full text search
 
 ```python
 search_params = {
+    "metric_type": "BM25",  # Metric type must be BM25 for full text search
     'params': {'level': 10},
 }
 
@@ -797,6 +833,7 @@ import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.response.SearchResp;
 
 Map<String,Object> searchParams = new HashMap<>();
+searchParams.put("metric_type", "BM25");
 searchParams.put("level", 10);
 SearchResp searchResp = client.search(SearchReq.builder()
         .collectionName("my_collection")
@@ -814,6 +851,7 @@ SearchResp searchResp = client.search(SearchReq.builder()
 
 ```go
 annSearchParams := index.NewCustomAnnParam()
+annSearchParams.WithExtraParam("metric_type", "BM25")
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
     "my_collection", // collectionName
     3,               // limit
@@ -844,6 +882,7 @@ await client.search({
     data: ['whats the focus of information retrieval?'],
     anns_field: 'sparse',
     output_fields: ['text'],
+    params: { metric_type: "BM25" },
     limit: 3,
 });
 ```
@@ -869,6 +908,7 @@ curl --request POST \
         "text"
     ],
     "searchParams":{
+        "metric_type": "BM25",
         "params":{}
     }
 }'
@@ -884,6 +924,7 @@ auto request = milvus::SearchRequest()
                        .AddEmbeddedText("whats the focus of information retrieval?")
                        .WithLimit(3)
                        .WithAnnsField("sparse")
+                       .AddExtraParam("metric_type", "BM25")
                        .AddOutputField("text");
 
 milvus::SearchResponse response;

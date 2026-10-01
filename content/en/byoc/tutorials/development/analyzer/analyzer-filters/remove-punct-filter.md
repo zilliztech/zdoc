@@ -33,7 +33,7 @@ This filter is most effective with `jieba`, `lindera`, and `icu` tokenizers, whi
 
 The `removepunct` filter is built into Zilliz Cloud. To use it, simply specify its name in the `filter` section within `analyzer_params`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -55,18 +55,43 @@ analyzerParams.put("filter", Collections.singletonList("removepunct"));
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='go'>
 
-```javascript
-// node
+```go
+analyzerParams := map[string]any{"tokenizer": "jieba", "filter": []any{"removepunct"}}
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use serde_json::json;
+
+let analyzer_params = json!({
+    "tokenizer": "jieba",
+    "filter": ["removepunct"]
+});
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"tokenizer", "jieba"},
+    {"filter", {"removepunct"}}
+};
 ```
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='javascript'>
 
-```go
-analyzerParams = map[string]any{"tokenizer": "jieba", "filter": []any{"removepunct"}}
+```javascript
+const analyzer_params = {
+    "tokenizer": "jieba",
+    "filter": ["removepunct"],
+};
 ```
 
 </TabItem>
@@ -75,17 +100,12 @@ analyzerParams = map[string]any{"tokenizer": "jieba", "filter": []any{"removepun
 
 ```bash
 # restful
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-nlohmann::json analyzer_params = {
-    {"tokenizer", "jieba"},
-    {"filter", {"removepunct"}}
-};
+analyzerParams='{
+  "tokenizer": "jieba",
+  "filter": [
+    "removepunct"
+  ]
+}'
 ```
 
 </TabItem>
@@ -101,7 +121,7 @@ Before applying the analyzer configuration to your collection schema, verify its
 
 ### Analyzer configuration\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -123,30 +143,25 @@ analyzerParams.put("filter", Collections.singletonList("removepunct"));
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// node
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"tokenizer": "icu", "filter": []string{"removepunct"}}
+analyzerParams := map[string]any{"tokenizer": "icu", "filter": []string{"removepunct"}}
 ```
 
 </TabItem>
+</Tabs>
 
-<TabItem value='bash'>
+```rust
+use serde_json::json;
 
-```bash
-# restful
+let analyzer_params = json!({
+    "tokenizer": "icu",
+    "filter": ["removepunct"]
+});
 ```
 
-</TabItem>
-
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
 <TabItem value='c++'>
 
 ```c++
@@ -157,11 +172,36 @@ nlohmann::json analyzer_params = {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+    "tokenizer": "icu",
+    "filter": ["removepunct"],
+};
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+analyzerParams='{
+  "tokenizer": "icu",
+  "filter": [
+    "removepunct"
+  ]
+}'
+```
+
+</TabItem>
 </Tabs>
 
 ### Verification using `run_analyzer`\{#verification-using-runanalyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -206,24 +246,17 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// javascript
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
 import (
     "context"
-    "encoding/json"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
+
+ctx := context.Background()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
@@ -234,10 +267,9 @@ if err != nil {
     // handle error
 }
 
-bs, _ := json.Marshal(analyzerParams)
 texts := []string{"Привет! Как дела?"}
-option := milvusclient.NewRunAnalyzerOption(texts).
-    WithAnalyzerParams(string(bs))
+option := milvusclient.NewRunAnalyzerOption(texts...).
+    WithAnalyzerParams(analyzerParams)
 
 result, err := client.RunAnalyzer(ctx, option)
 if err != nil {
@@ -247,15 +279,31 @@ if err != nil {
 ```
 
 </TabItem>
+</Tabs>
 
-<TabItem value='bash'>
+```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
 
-```bash
-# restful
+let text = "Привет! Как дела?";
+
+let response = client
+    .run_analyzer(
+        RunAnalyzerRequest::builder()
+            .texts([text])
+            .analyzer_params(json!({"tokenizer": "icu", "filter": ["removepunct"]}))
+            .build()?,
+    )
+    .await?;
+
+for result in response.results() {
+    for token in result.get_tokens() {
+        println!("{}", token.get_text());
+    }
+}
 ```
 
-</TabItem>
-
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
 <TabItem value='c++'>
 
 ```c++
@@ -282,11 +330,45 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const sampleText = "Привет! Как дела?";
+
+const client = new MilvusClient({
+  address: "YOUR_CLUSTER_ENDPOINT",
+});
+
+const result = await client.runAnalyzer({
+  analyzer_params: analyzerParams,
+  text: sampleText,
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/common/run_analyzer" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+  -d '{
+    "analyzerParams": "{\"tokenizer\": \"icu\", \"filter\": [\"removepunct\"]}",
+    "text": ["Привет! Как дела?"]
+  }'
+```
+
+</TabItem>
 </Tabs>
 
 ### Expected output\{#expected-output}
 
-```sql
+```python
 ['Привет', 'Как', 'дела']
 ```
 
