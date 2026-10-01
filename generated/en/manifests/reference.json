@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "5b95f202f80b51b8bf1ee55d8eacd1f3e88d41b4",
+  "sourceCommit": "ac1553519eb4ab6d448dad9e231c5be3f3e682f5",
   "records": [
     {
       "manual": "cli",
@@ -2419,43 +2419,8 @@
     },
     {
       "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-releaseCollection.md",
-      "sourceHash": "16b4d9609d69a1e67f3142d9d5d1432e159ddae57100583714ff39bbcfc98a86"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-createPartition.md",
-      "sourceHash": "4ec4ab67e55aabb185a3e622bba17c5d332b41ab05f7b912ce21d84b0e6d78de"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-dropPartition.md",
-      "sourceHash": "392303e79b68c3d6692efae03bf164c1c20103daf03a73226813cfff750606cd"
-    },
-    {
-      "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-getPartitionStats.md",
       "sourceHash": "860004d9b89cdb0914323abc06f78a72ff112e4e435eb75724c6b98e2353e36e"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-hasPartition.md",
-      "sourceHash": "ad2383f10a6d862444f007f1600dd3f9f36ef0d8f4cfca87c666208a55f83e15"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-listPartitions.md",
-      "sourceHash": "0023fdb74ac209a37fd841afa58c2214fa988d21bff03f43d81a4cc809de76ec"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-loadPartitions.md",
-      "sourceHash": "d3b17aca29aef4a12c1cfdcddb47401c4dd41c9bc577bd2c645cd8a5cfeac622"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-releasePartitions.md",
-      "sourceHash": "2c8ae287b937dd1679f2e64a3458905782aea2cd92ecf523085951c37b998def"
     },
     {
       "manual": "java",
@@ -2504,21 +2469,6 @@
     },
     {
       "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-FunctionScore-getFunctions.md",
-      "sourceHash": "4403b763b66961107abcaea5433244c13aef7f0262bcf1c7df882c5a1fc1f7c9"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-FunctionScore-getParams.md",
-      "sourceHash": "4aed10d741bd7272251c83c1b8b864d762058afa295168a3211faeab004b666f"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-Vector-FunctionScore.md",
-      "sourceHash": "705638d3721ee579cfc24a8bee474aa4b090b4c9fc04827d45bb2e7b0fc43fbf"
-    },
-    {
-      "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-Highlighter/v2-Vector-Highlighter.md",
       "sourceHash": "7cb800638b0f214070d41fd23a846e59fc44d2986ce6babfd53eb728c92b51b7"
     },
@@ -2529,18 +2479,13 @@
     },
     {
       "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-delete.md",
-      "sourceHash": "d6e41edb91da0ac8428b7966684ac409ffbad87e81f2860d466a059cc6db7e8c"
-    },
-    {
-      "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-get.md",
       "sourceHash": "c5e0f95a583d995e29c10b698b4b39bedb10c44f0ee9aa2df757f07c942d1c8f"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-getAsync.md",
-      "sourceHash": "6f5ab46b2b65067773c252b641a5d97d0104dcca007306251fdce7998fcbf0b7"
+      "sourceHash": "565390148f471bcf1dc83c33a8fea93db44418c2770e1edf57ecb3778928a68b"
     },
     {
       "manual": "java",
@@ -2550,7 +2495,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-hybridSearchAsync.md",
-      "sourceHash": "6915eb53f41f41316317106cf8b381e19addfbf5b2d7eba434bcf7f3e74c4626"
+      "sourceHash": "ec37428479d7bb528e15ae39cc7e4f01041dfb1cd6ebe8de8ff519ad1a01d155"
     },
     {
       "manual": "java",
@@ -2565,7 +2510,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-queryAsync.md",
-      "sourceHash": "a013d4558be613d5f963a485e38132c6931bed71cff5cd2bcddf70d3ef55974c"
+      "sourceHash": "9bb573df0477ac73fa8cc55a70db7fdfd3ed84ecfb3f2c2a27145ffcd2b40c3e"
     },
     {
       "manual": "java",
@@ -2585,7 +2530,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-searchAsync.md",
-      "sourceHash": "97d30a52d393579f02c5f6c5bf6325b32d7b0e4cfc9293a021812dc3c65c9770"
+      "sourceHash": "96a9861f9c2a4b9cad23e9bad37d5e4ec268ad9d85b213f4f4a9a8a664c0c703"
     },
     {
       "manual": "java",
