@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "1607d31e48d9e4bc7dbe759948d80facb6133d85",
+  "sourceCommit": "5b95f202f80b51b8bf1ee55d8eacd1f3e88d41b4",
   "records": [
     {
       "manual": "cli",
@@ -2384,16 +2384,6 @@
     },
     {
       "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-dropIndexProperties.md",
-      "sourceHash": "b7b44cb7ee6d14bb8d129f6d2dc07d7cf18244044c2d15957708773b9bc93e0f"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-flush.md",
-      "sourceHash": "4cb70852087a4f84c6226d39da53bc1e62d75010f2d34eea44ef9e2587009f10"
-    },
-    {
-      "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-flushAll.md",
       "sourceHash": "342873cd1a32c01db8a1fc323d41fe8f021286509e75a3524ffad7881eb11e67"
     },
@@ -2409,11 +2399,6 @@
     },
     {
       "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getLoadState.md",
-      "sourceHash": "5643cc474f8c044b6a9cac572b2fdbe5643cd634b41614ecf4ae41943a4f2ec9"
-    },
-    {
-      "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getRefreshExternalCollectionProgress.md",
       "sourceHash": "dffc8d4471d8f93644db2497647f654d7435ac90af015ad6e26f51a9d6086883"
     },
@@ -2424,28 +2409,13 @@
     },
     {
       "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-listIndexes.md",
-      "sourceHash": "5906d1edd10ff4f4409d5544916609628ccd003ca6e3c16eaf5d9a041a4ac393"
-    },
-    {
-      "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-listRefreshExternalCollectionJobs.md",
       "sourceHash": "b431446c3263ca67b76f965c7beca98c77b626abdf7dbc2b55207f0c3b6b720f"
     },
     {
       "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-loadCollection.md",
-      "sourceHash": "6a2f0ee35df79c3b9cf2ae46d064adf2c873d4656e2b6fc02c21ff5db37d8f34"
-    },
-    {
-      "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-refreshExternalCollection.md",
-      "sourceHash": "ca6845e566ab7fe40519d2d478c98812c2c01c8e06cbadf10f5937dd80c16875"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-refreshLoad.md",
-      "sourceHash": "f40f0112e9c978ecbf4d809bae35e560363adb97a3279745667ac814ec8e5562"
+      "sourceHash": "1c5aec7dc3d110b4b3bd37a00313aeef6940d461fbdadd0c38b8c3e812e12d3a"
     },
     {
       "manual": "java",
