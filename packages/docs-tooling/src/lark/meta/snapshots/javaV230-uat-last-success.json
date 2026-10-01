@@ -8,7 +8,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-10-01T02:58:58.384Z",
+  "generated_at": "2026-10-01T10:42:08.244Z",
   "source_dir": "./packages/docs-tooling/src/lark/meta/sources/java/v3.0.x/v2",
   "base_app_token": "AOFDbSmwma9XrNsLa8KcQgt9ngc",
   "records": [
@@ -3693,27 +3693,25 @@
       "placement_type": "canonical",
       "title": "releaseCollection()",
       "slug": "v2-Management-releaseCollection",
-      "doc_token": "K5t2dl0XloN4VHx1lcpc6Uq3nye",
-      "doc_link": "https://zilliverse.feishu.cn/docx/K5t2dl0XloN4VHx1lcpc6Uq3nye",
-      "source_file": "K5t2dl0XloN4VHx1lcpc6Uq3nye.json",
-      "source_hash": "e6edb673e8158ca3595ca56f4fb3506a6e432197619de7f00d4689b0b80ee758",
+      "doc_token": "AjbDdUJTuoB9MqxN5PDcyYeLnRe",
+      "doc_link": "https://zilliverse.feishu.cn/docx/AjbDdUJTuoB9MqxN5PDcyYeLnRe",
+      "source_file": "AjbDdUJTuoB9MqxN5PDcyYeLnRe.json",
+      "source_hash": "e95a94789c94442e3463d5dcafa3a1927abdea9e308c57308b0414a58e49d2b6",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": "8",
+      "revision_id": "9",
       "publish_targets": [
         "Milvus",
         "Zilliz"
       ],
-      "publish_status": "Draft",
+      "publish_status": "WIP",
       "release_channel": "current",
       "outgoing_tokens": [],
-      "output_paths": [
-        "content/en/reference/api/java/java/v2/v2-Management/v2-Management-releaseCollection.md"
-      ]
+      "output_paths": []
     },
     {
       "record_id": "recuF7Ez9HFADU",
@@ -3970,21 +3968,21 @@
       "placement_type": "canonical",
       "title": "updateReplicateConfiguration()",
       "slug": "v2-Management-updateReplicateConfiguration",
-      "doc_token": "HcMEdTL7uog3MXx36ONcpaOlnfe",
-      "doc_link": "https://zilliverse.feishu.cn/docx/HcMEdTL7uog3MXx36ONcpaOlnfe",
-      "source_file": "HcMEdTL7uog3MXx36ONcpaOlnfe.json",
-      "source_hash": "12e762d40af1c49796e221452e8b9cb4c34958e0266c8b1826f3a31e7f07d807",
+      "doc_token": "EQ2LdAQqIo79HAxVl45cS8pknTe",
+      "doc_link": "https://zilliverse.feishu.cn/docx/EQ2LdAQqIo79HAxVl45cS8pknTe",
+      "source_file": "EQ2LdAQqIo79HAxVl45cS8pknTe.json",
+      "source_hash": "43d15bf63399d59fff30959bb12ea13774edc50e86036b1574577d5e9604d7a9",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": "4",
+      "revision_id": "6",
       "publish_targets": [
         "Milvus"
       ],
-      "publish_status": "Draft",
+      "publish_status": "WIP",
       "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
@@ -4165,27 +4163,25 @@
       "placement_type": "canonical",
       "title": "createPartition()",
       "slug": "v2-Partitions-createPartition",
-      "doc_token": "WE4gduIjooCgQUxcKyLcwQe1n3g",
-      "doc_link": "https://zilliverse.feishu.cn/docx/WE4gduIjooCgQUxcKyLcwQe1n3g",
-      "source_file": "WE4gduIjooCgQUxcKyLcwQe1n3g.json",
-      "source_hash": "b12d971aa495a6d94d66564c262e9f4cf88238182d119f79d2b1ca8d6b483bb9",
+      "doc_token": "Un23d2Ac7ovfQsxFDIsczDYzn9d",
+      "doc_link": "https://zilliverse.feishu.cn/docx/Un23d2Ac7ovfQsxFDIsczDYzn9d",
+      "source_file": "Un23d2Ac7ovfQsxFDIsczDYzn9d.json",
+      "source_hash": "7b8ffd96f4c5423faf8ff06863f6a9714d34a8ed4ebe6264da3d118ac7b71dc9",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": "28",
+      "revision_id": "8",
       "publish_targets": [
         "Milvus",
         "Zilliz"
       ],
-      "publish_status": "Draft",
+      "publish_status": "WIP",
       "release_channel": "current",
       "outgoing_tokens": [],
-      "output_paths": [
-        "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-createPartition.md"
-      ]
+      "output_paths": []
     },
     {
       "record_id": "recu4ON1RVJE9O",
@@ -4194,27 +4190,25 @@
       "placement_type": "canonical",
       "title": "dropPartition()",
       "slug": "v2-Partitions-dropPartition",
-      "doc_token": "CSaVdr3zao9zFpxaJBgcCTCYnPd",
-      "doc_link": "https://zilliverse.feishu.cn/docx/CSaVdr3zao9zFpxaJBgcCTCYnPd",
-      "source_file": "CSaVdr3zao9zFpxaJBgcCTCYnPd.json",
-      "source_hash": "2152f291ab6981aad63d7beafdd000e9e45a240afda6bd61e1bd0d82fbae6123",
+      "doc_token": "GfGfd7P5Aong4Fx4bctc4SQPn1g",
+      "doc_link": "https://zilliverse.feishu.cn/docx/GfGfd7P5Aong4Fx4bctc4SQPn1g",
+      "source_file": "GfGfd7P5Aong4Fx4bctc4SQPn1g.json",
+      "source_hash": "28aefc7e61431b3b31b9c1748f82f68d02c1ef3611cf025d6cf40bcd7e1abd04",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": "28",
+      "revision_id": "9",
       "publish_targets": [
         "Milvus",
         "Zilliz"
       ],
-      "publish_status": "Draft",
+      "publish_status": "WIP",
       "release_channel": "current",
       "outgoing_tokens": [],
-      "output_paths": [
-        "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-dropPartition.md"
-      ]
+      "output_paths": []
     },
     {
       "record_id": "recuF7EHL1heBz",
@@ -4252,27 +4246,25 @@
       "placement_type": "canonical",
       "title": "hasPartition()",
       "slug": "v2-Partitions-hasPartition",
-      "doc_token": "KVSUdHV0ho7nnwxeQKMcEL47nKe",
-      "doc_link": "https://zilliverse.feishu.cn/docx/KVSUdHV0ho7nnwxeQKMcEL47nKe",
-      "source_file": "KVSUdHV0ho7nnwxeQKMcEL47nKe.json",
-      "source_hash": "b7f4b6ed1a131113d454c028453de5b11d7153bae093f54ae59f697df682831a",
+      "doc_token": "NF0FdJbD7o5HHtx9kxwczbq0nwf",
+      "doc_link": "https://zilliverse.feishu.cn/docx/NF0FdJbD7o5HHtx9kxwczbq0nwf",
+      "source_file": "NF0FdJbD7o5HHtx9kxwczbq0nwf.json",
+      "source_hash": "32f961fffdde6d5a0293851df7348d1a34538aacd8adce3d690b60bfc78def8c",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": "23",
+      "revision_id": "8",
       "publish_targets": [
         "Milvus",
         "Zilliz"
       ],
-      "publish_status": "Draft",
+      "publish_status": "WIP",
       "release_channel": "current",
       "outgoing_tokens": [],
-      "output_paths": [
-        "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-hasPartition.md"
-      ]
+      "output_paths": []
     },
     {
       "record_id": "recu4ON5xbbh6N",
@@ -4281,27 +4273,25 @@
       "placement_type": "canonical",
       "title": "listPartitions()",
       "slug": "v2-Partitions-listPartitions",
-      "doc_token": "Bjs5dej7ZoBKhXxZzMjclPCynmd",
-      "doc_link": "https://zilliverse.feishu.cn/docx/Bjs5dej7ZoBKhXxZzMjclPCynmd",
-      "source_file": "Bjs5dej7ZoBKhXxZzMjclPCynmd.json",
-      "source_hash": "2712c905f86ed98131249371185c248ecb2c5731dfc59343d8727c0033d2b39a",
+      "doc_token": "Jj60dRCiVoLLRzxVCiGcjI37nHc",
+      "doc_link": "https://zilliverse.feishu.cn/docx/Jj60dRCiVoLLRzxVCiGcjI37nHc",
+      "source_file": "Jj60dRCiVoLLRzxVCiGcjI37nHc.json",
+      "source_hash": "78a0ca2c5ca74ce990c5a905c6018011e14515afd4ea0e08dcddb42313e8d381",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": "28",
+      "revision_id": "7",
       "publish_targets": [
         "Milvus",
         "Zilliz"
       ],
-      "publish_status": "Draft",
+      "publish_status": "WIP",
       "release_channel": "current",
       "outgoing_tokens": [],
-      "output_paths": [
-        "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-listPartitions.md"
-      ]
+      "output_paths": []
     },
     {
       "record_id": "recu4ON7f3GsWx",
@@ -4310,27 +4300,25 @@
       "placement_type": "canonical",
       "title": "loadPartitions()",
       "slug": "v2-Partitions-loadPartitions",
-      "doc_token": "MH8cdNxkgoliJ5xU0f9cBKqunYe",
-      "doc_link": "https://zilliverse.feishu.cn/docx/MH8cdNxkgoliJ5xU0f9cBKqunYe",
-      "source_file": "MH8cdNxkgoliJ5xU0f9cBKqunYe.json",
-      "source_hash": "e2506c33adb912c1aa3c667484941dac94b488a2da4de3c7dabc6703010829b8",
+      "doc_token": "QHhAd0ObroZgicxARuKcOqEmnfb",
+      "doc_link": "https://zilliverse.feishu.cn/docx/QHhAd0ObroZgicxARuKcOqEmnfb",
+      "source_file": "QHhAd0ObroZgicxARuKcOqEmnfb.json",
+      "source_hash": "c4d31aa1d8bc6c0740d5c807a0ccd86fb3d76b070af341758da40a0e2614b226",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": "13",
+      "revision_id": "15",
       "publish_targets": [
         "Milvus",
         "Zilliz"
       ],
-      "publish_status": "Draft",
+      "publish_status": "WIP",
       "release_channel": "current",
       "outgoing_tokens": [],
-      "output_paths": [
-        "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-loadPartitions.md"
-      ]
+      "output_paths": []
     },
     {
       "record_id": "recu4ON9ciljeB",
@@ -4339,27 +4327,25 @@
       "placement_type": "canonical",
       "title": "releasePartitions()",
       "slug": "v2-Partitions-releasePartitions",
-      "doc_token": "VsyQdDkXnoloWYxfjXNchc0dnng",
-      "doc_link": "https://zilliverse.feishu.cn/docx/VsyQdDkXnoloWYxfjXNchc0dnng",
-      "source_file": "VsyQdDkXnoloWYxfjXNchc0dnng.json",
-      "source_hash": "f49d4f3a46faf484934b50cc011afb852c217d961ba16347f70c5a29c603f310",
+      "doc_token": "DykedGfgOo5JM7x6ZmncT5i9nVf",
+      "doc_link": "https://zilliverse.feishu.cn/docx/DykedGfgOo5JM7x6ZmncT5i9nVf",
+      "source_file": "DykedGfgOo5JM7x6ZmncT5i9nVf.json",
+      "source_hash": "99bc35ae2d92bd16c3c87502692ed88e41e321ca3c9ef543a155dd7ddf8c96dc",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": "29",
+      "revision_id": "8",
       "publish_targets": [
         "Milvus",
         "Zilliz"
       ],
-      "publish_status": "Draft",
+      "publish_status": "WIP",
       "release_channel": "current",
       "outgoing_tokens": [],
-      "output_paths": [
-        "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-releasePartitions.md"
-      ]
+      "output_paths": []
     },
     {
       "record_id": "recu4ONcts8h80",
@@ -4368,27 +4354,25 @@
       "placement_type": "canonical",
       "title": "delete()",
       "slug": "v2-Vector-delete",
-      "doc_token": "NTCHdGKwNo9kl2xFzgKcjo8wndg",
-      "doc_link": "https://zilliverse.feishu.cn/docx/NTCHdGKwNo9kl2xFzgKcjo8wndg",
-      "source_file": "NTCHdGKwNo9kl2xFzgKcjo8wndg.json",
-      "source_hash": "3423d08707822c0c9c116fe880def965908b9721fe4168f8eea96047cc688e64",
+      "doc_token": "FrMNdXnZYo0oZ9xfs0xcjbVmn2c",
+      "doc_link": "https://zilliverse.feishu.cn/docx/FrMNdXnZYo0oZ9xfs0xcjbVmn2c",
+      "source_file": "FrMNdXnZYo0oZ9xfs0xcjbVmn2c.json",
+      "source_hash": "a0af087b09c21231078341da6cc9adb58ce044a8e48b9d92692816f033a309cc",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": "9",
+      "revision_id": "11",
       "publish_targets": [
         "Milvus",
         "Zilliz"
       ],
-      "publish_status": "Draft",
+      "publish_status": "WIP",
       "release_channel": "current",
       "outgoing_tokens": [],
-      "output_paths": [
-        "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-delete.md"
-      ]
+      "output_paths": []
     },
     {
       "record_id": "recu4ONfpU2XD2",
@@ -4400,14 +4384,14 @@
       "doc_token": "Xl3QdxmFxo3MNCxWlrxc9jFbnFc",
       "doc_link": "https://zilliverse.feishu.cn/docx/Xl3QdxmFxo3MNCxWlrxc9jFbnFc",
       "source_file": "Xl3QdxmFxo3MNCxWlrxc9jFbnFc.json",
-      "source_hash": "33f8ee7c36aee9a2a1845cc5c8541b47bd96e691f8d687a0206d016e1da95961",
+      "source_hash": "bde31e0acb3311743772c06d148ac00947df5c7612438b323354a6cfe2702a3e",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": "57",
+      "revision_id": "70",
       "publish_targets": [
         "Milvus",
         "Zilliz"
@@ -4545,14 +4529,14 @@
       "doc_token": "R1NDdFPnVo4wTuxvHjFcozc8nMa",
       "doc_link": "https://zilliverse.feishu.cn/docx/R1NDdFPnVo4wTuxvHjFcozc8nMa",
       "source_file": "R1NDdFPnVo4wTuxvHjFcozc8nMa.json",
-      "source_hash": "cda99f82dc611cffa38b3d19572479e52177a061eaffc6ead288eb40320337f6",
+      "source_hash": "cedb13b276805d5803f475f0b6c442b939dd955931f20a3c6c9b4552f2942ea6",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": "57",
+      "revision_id": "58",
       "publish_targets": [
         "Milvus",
         "Zilliz"
@@ -4687,27 +4671,25 @@
       "placement_type": "canonical",
       "title": "FunctionScore",
       "slug": "v2-Vector-FunctionScore",
-      "doc_token": "Au6Wda1HUonyXOx5Pfzc0Cpjnab",
-      "doc_link": "https://zilliverse.feishu.cn/docx/Au6Wda1HUonyXOx5Pfzc0Cpjnab",
-      "source_file": "Au6Wda1HUonyXOx5Pfzc0Cpjnab.json",
-      "source_hash": "72543d3dc7b92eabf6ac13f00e3eb38b4516a52da3212531bde266907a907a96",
+      "doc_token": "QwsCdrceioo36Bxu2ricF15knUh",
+      "doc_link": "https://zilliverse.feishu.cn/docx/QwsCdrceioo36Bxu2ricF15knUh",
+      "source_file": "WtCQfKhCll78bpdsAeHcc42BnYc.json",
+      "source_hash": "2961c5b8eec947fc9898b67b4e60bd1cb857525145db48aa169528ffc07a11d0",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": "271",
+      "revision_id": null,
       "publish_targets": [
         "Milvus",
         "Zilliz"
       ],
-      "publish_status": "Draft",
+      "publish_status": "WIP",
       "release_channel": "current",
       "outgoing_tokens": [],
-      "output_paths": [
-        "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-Vector-FunctionScore.md"
-      ]
+      "output_paths": []
     },
     {
       "record_id": "recv0Ju85Hbn9M",
@@ -4746,7 +4728,7 @@
       "doc_token": "RsqKdZaMnoHbaRxYr1fcqRbRnth",
       "doc_link": "https://zilliverse.feishu.cn/docx/RsqKdZaMnoHbaRxYr1fcqRbRnth",
       "source_file": "RsqKdZaMnoHbaRxYr1fcqRbRnth.json",
-      "source_hash": "035dfe67709f2da83b1873d0f66359656cb730ea3a58010272ff618f13e91d2e",
+      "source_hash": "cf9961d9809452bde592258ab3f9b23790375a38fa1ee9bea549fb0e0d730fe0",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
@@ -4761,9 +4743,7 @@
       "publish_status": "Draft",
       "release_channel": "current",
       "outgoing_tokens": [],
-      "output_paths": [
-        "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-FunctionScore-getFunctions.md"
-      ]
+      "output_paths": []
     },
     {
       "record_id": "recvaIMLZizqCh",
@@ -4775,7 +4755,7 @@
       "doc_token": "DUJsdflImor0joxV14ecSwpnnDb",
       "doc_link": "https://zilliverse.feishu.cn/docx/DUJsdflImor0joxV14ecSwpnnDb",
       "source_file": "DUJsdflImor0joxV14ecSwpnnDb.json",
-      "source_hash": "245c00b7f3c631809aa939427df0db0fad8a177c379d6d760015bfbc28eb119b",
+      "source_hash": "61951bd8f81672100d6efbf956757dfcd01863eee9cef6bfd64c15a4d36366bd",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
@@ -4790,9 +4770,7 @@
       "publish_status": "Draft",
       "release_channel": "current",
       "outgoing_tokens": [],
-      "output_paths": [
-        "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-FunctionScore-getParams.md"
-      ]
+      "output_paths": []
     },
     {
       "record_id": "recv971zTqxDY8",
@@ -4991,6 +4969,30 @@
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-hybridSearchAsync.md"
       ]
+    },
+    {
+      "record_id": "recvwLUrVQVmKV",
+      "table_id": "tbl63oNrbGDCXorc",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "FunctionChain",
+      "slug": "v2-Vector-FunctionChain",
+      "doc_token": "U0mKd1nlXoWkDqxf9zRcoURVnCb",
+      "doc_link": "https://zilliverse.feishu.cn/docx/U0mKd1nlXoWkDqxf9zRcoURVnCb",
+      "source_file": "U0mKd1nlXoWkDqxf9zRcoURVnCb.json",
+      "source_hash": "d8c421c190734e2951d0e905c7a18c90844b94f3713a7f60bffbdb20335ca71e",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": "13",
+      "publish_targets": [],
+      "publish_status": "WIP",
+      "release_channel": "current",
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recuF7EQsrzqtl",
@@ -5217,21 +5219,21 @@
       "placement_type": "canonical",
       "title": "createResourceGroup()",
       "slug": "v2-ResourceGroup-createResourceGroup",
-      "doc_token": "AG2odswpoomo3ZxyLJvcdGSInrb",
-      "doc_link": "https://zilliverse.feishu.cn/docx/AG2odswpoomo3ZxyLJvcdGSInrb",
-      "source_file": "AG2odswpoomo3ZxyLJvcdGSInrb.json",
-      "source_hash": "9cd55790aacbbc51a55bb298b522768425448487f921f2080684e522eeb71cf4",
+      "doc_token": "SKeZdWoGLoussdx6G3ec5b3znZg",
+      "doc_link": "https://zilliverse.feishu.cn/docx/SKeZdWoGLoussdx6G3ec5b3znZg",
+      "source_file": "SKeZdWoGLoussdx6G3ec5b3znZg.json",
+      "source_hash": "32fdd947182723a5aa5214fab10e1909ffb4d3c39c3a523757e65dcfba6958c2",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": "395",
+      "revision_id": "16",
       "publish_targets": [
         "Milvus"
       ],
-      "publish_status": "Draft",
+      "publish_status": "WIP",
       "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
@@ -5243,21 +5245,21 @@
       "placement_type": "canonical",
       "title": "describeResourceGroup()",
       "slug": "v2-ResourceGroup-describeResourceGroup",
-      "doc_token": "OokbdVWhmog9aixBzg7cHUKvnHb",
-      "doc_link": "https://zilliverse.feishu.cn/docx/OokbdVWhmog9aixBzg7cHUKvnHb",
-      "source_file": "OokbdVWhmog9aixBzg7cHUKvnHb.json",
-      "source_hash": "e5c36699ae42dc8cb47fee8e18408a8ce6ecc53394a744cfdb1620940abb8923",
+      "doc_token": "ObVNdHaHWosy0HxWjXRcSjShngd",
+      "doc_link": "https://zilliverse.feishu.cn/docx/ObVNdHaHWosy0HxWjXRcSjShngd",
+      "source_file": "ObVNdHaHWosy0HxWjXRcSjShngd.json",
+      "source_hash": "9eeba56cb15943d0214e7315f05a7b37cc10695f845fb3cc8f55e1934a4e7401",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": "396",
+      "revision_id": "21",
       "publish_targets": [
         "Milvus"
       ],
-      "publish_status": "Draft",
+      "publish_status": "WIP",
       "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
@@ -5269,21 +5271,21 @@
       "placement_type": "canonical",
       "title": "dropResourceGroup()",
       "slug": "v2-ResourceGroup-dropResourceGroup",
-      "doc_token": "DHQNdSiMxooV99xSdPZc4Yv9nzg",
-      "doc_link": "https://zilliverse.feishu.cn/docx/DHQNdSiMxooV99xSdPZc4Yv9nzg",
-      "source_file": "DHQNdSiMxooV99xSdPZc4Yv9nzg.json",
-      "source_hash": "31e39b55e4bd4f5af8c7cfb33f78d93bf4115c21d790a900def7eac714869c08",
+      "doc_token": "YAoMdigproLMErxrFEic1Hjcnkh",
+      "doc_link": "https://zilliverse.feishu.cn/docx/YAoMdigproLMErxrFEic1Hjcnkh",
+      "source_file": "YAoMdigproLMErxrFEic1Hjcnkh.json",
+      "source_hash": "af79e0e5ac553fce9af1e10a067420cdd31dd42e863cf21e2087ff08993d6885",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": "45",
+      "revision_id": "6",
       "publish_targets": [
         "Milvus"
       ],
-      "publish_status": "Draft",
+      "publish_status": "WIP",
       "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
@@ -5295,21 +5297,21 @@
       "placement_type": "canonical",
       "title": "listResourceGroups()",
       "slug": "v2-ResourceGroup-listResourceGroups",
-      "doc_token": "Ue0tdSQeTo7vqsxve1EcNZ7VnKb",
-      "doc_link": "https://zilliverse.feishu.cn/docx/Ue0tdSQeTo7vqsxve1EcNZ7VnKb",
-      "source_file": "Ue0tdSQeTo7vqsxve1EcNZ7VnKb.json",
-      "source_hash": "3573a2c9f9be5be011760d07678d0c18e85acd6c3cf44871443b13593337b332",
+      "doc_token": "IAoWdYfBqoXBvsxNhancVifgnDe",
+      "doc_link": "https://zilliverse.feishu.cn/docx/IAoWdYfBqoXBvsxNhancVifgnDe",
+      "source_file": "IAoWdYfBqoXBvsxNhancVifgnDe.json",
+      "source_hash": "81caf1e990af2e2f72ab6e0305b1ff3300c018dd88b380982c32ac423590092d",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": "67",
+      "revision_id": "6",
       "publish_targets": [
         "Milvus"
       ],
-      "publish_status": "Draft",
+      "publish_status": "WIP",
       "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
@@ -5321,21 +5323,21 @@
       "placement_type": "canonical",
       "title": "transferReplica()",
       "slug": "v2-ResourceGroup-transferReplica",
-      "doc_token": "FmMhdGH69oXzkyxGVtycx4u0nHb",
-      "doc_link": "https://zilliverse.feishu.cn/docx/FmMhdGH69oXzkyxGVtycx4u0nHb",
-      "source_file": "FmMhdGH69oXzkyxGVtycx4u0nHb.json",
-      "source_hash": "a811e8123d9f8c7457722d243fb19aa999f36b572ad589e707d8f014cf432fb3",
+      "doc_token": "KHFudiMCJoibJJx7gvwcSuv7nWf",
+      "doc_link": "https://zilliverse.feishu.cn/docx/KHFudiMCJoibJJx7gvwcSuv7nWf",
+      "source_file": "KHFudiMCJoibJJx7gvwcSuv7nWf.json",
+      "source_hash": "d0fd73682075eea89784413794acfc1f2651c9eaa19c78b963743667654b1859",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": "155",
+      "revision_id": "12",
       "publish_targets": [
         "Milvus"
       ],
-      "publish_status": "Draft",
+      "publish_status": "WIP",
       "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
@@ -5373,21 +5375,21 @@
       "placement_type": "canonical",
       "title": "updateResourceGroups()",
       "slug": "v2-ResourceGroup-updateResourceGroups",
-      "doc_token": "Al6Fdx294o4Yi6xtwe0cdq1cnnh",
-      "doc_link": "https://zilliverse.feishu.cn/docx/Al6Fdx294o4Yi6xtwe0cdq1cnnh",
-      "source_file": "Al6Fdx294o4Yi6xtwe0cdq1cnnh.json",
-      "source_hash": "4b68e5f6b507ef749a62abb7b731431fa55ecd89168534bb1397c135a9046df0",
+      "doc_token": "QxPUddsenocUGOxKVQ8c2aCZnQd",
+      "doc_link": "https://zilliverse.feishu.cn/docx/QxPUddsenocUGOxKVQ8c2aCZnQd",
+      "source_file": "QxPUddsenocUGOxKVQ8c2aCZnQd.json",
+      "source_hash": "8daf22b8aacca4f45ea813df0050173296e6988589f65d508d4eb0acc36da07a",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": "105",
+      "revision_id": "8",
       "publish_targets": [
         "Milvus"
       ],
-      "publish_status": "Draft",
+      "publish_status": "WIP",
       "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []

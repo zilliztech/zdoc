@@ -10,7 +10,7 @@ notebook: false
 description: "This operation retrieves entities by primary key asynchronously. Use it when an application needs to overlap a point lookup with other work or compose the result with other `CompletableFuture` tasks. | Java | v2"
 type: docx
 token: BvuWd2mJUotj3kxXhbqczE9Zn3U
-sidebar_position: 15
+sidebar_position: 16
 keywords: 
   - Vector store
   - open source vector database

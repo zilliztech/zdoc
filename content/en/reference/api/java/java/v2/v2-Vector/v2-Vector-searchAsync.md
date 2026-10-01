@@ -10,7 +10,7 @@ notebook: false
 description: "This operation searches vector data asynchronously. Use it when an application needs to issue vector search without blocking the current thread, or when multiple searches should be composed concurrently. | Java | v2"
 type: docx
 token: DONndM4QbouPN1xdGujcWedRnXb
-sidebar_position: 19
+sidebar_position: 20
 keywords: 
   - knn algorithm
   - HNSW

@@ -422,12 +422,6 @@ module.exports = [
       },
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-Management/v2-Management-releaseCollection",
-        "label": "releaseCollection()",
-        "key": "doc:api/java/java/v2/v2-Management/v2-management-releasecollection"
-      },
-      {
-        "type": "doc",
         "id": "api/java/java/v2/v2-Management/v2-Management-flushAll",
         "label": "flushAll()",
         "key": "doc:api/java/java/v2/v2-Management/v2-management-flushall"
@@ -477,45 +471,9 @@ module.exports = [
     "items": [
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-createPartition",
-        "label": "createPartition()",
-        "key": "doc:api/java/java/v2/v2-Partitions/v2-partitions-createpartition"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-dropPartition",
-        "label": "dropPartition()",
-        "key": "doc:api/java/java/v2/v2-Partitions/v2-partitions-droppartition"
-      },
-      {
-        "type": "doc",
         "id": "api/java/java/v2/v2-Partitions/v2-Partitions-getPartitionStats",
         "label": "getPartitionStats()",
         "key": "doc:api/java/java/v2/v2-Partitions/v2-partitions-getpartitionstats"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-hasPartition",
-        "label": "hasPartition()",
-        "key": "doc:api/java/java/v2/v2-Partitions/v2-partitions-haspartition"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-listPartitions",
-        "label": "listPartitions()",
-        "key": "doc:api/java/java/v2/v2-Partitions/v2-partitions-listpartitions"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-loadPartitions",
-        "label": "loadPartitions()",
-        "key": "doc:api/java/java/v2/v2-Partitions/v2-partitions-loadpartitions"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-releasePartitions",
-        "label": "releasePartitions()",
-        "key": "doc:api/java/java/v2/v2-Partitions/v2-partitions-releasepartitions"
       }
     ]
   },
@@ -587,12 +545,6 @@ module.exports = [
     "items": [
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-Vector/v2-Vector-delete",
-        "label": "delete()",
-        "key": "doc:api/java/java/v2/v2-Vector/v2-vector-delete"
-      },
-      {
-        "type": "doc",
         "id": "api/java/java/v2/v2-Vector/v2-Vector-get",
         "label": "get()",
         "key": "doc:api/java/java/v2/v2-Vector/v2-vector-get"
@@ -650,31 +602,6 @@ module.exports = [
         "id": "api/java/java/v2/v2-Vector/v2-Vector-SearchIteratorV2",
         "label": "SearchIteratorV2()",
         "key": "doc:api/java/java/v2/v2-Vector/v2-vector-searchiteratorv2"
-      },
-      {
-        "type": "category",
-        "label": "FunctionScore",
-        "key": "category:api/java/java/v2/v2-Vector/v2-vector-functionscore",
-        "items": [
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-Vector-FunctionScore",
-            "label": "FunctionScore",
-            "key": "doc:api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-vector-functionscore"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-FunctionScore-getFunctions",
-            "label": "getFunctions()",
-            "key": "doc:api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-functionscore-getfunctions"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-FunctionScore-getParams",
-            "label": "getParams()",
-            "key": "doc:api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-functionscore-getparams"
-          }
-        ]
       },
       {
         "type": "category",

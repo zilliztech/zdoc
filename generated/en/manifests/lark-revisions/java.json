@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "group": "java",
   "complete": true,
-  "generatedAt": "2026-10-01T02:58:58.673Z",
-  "sourceRunId": "36806627218",
+  "generatedAt": "2026-10-01T10:42:08.546Z",
+  "sourceRunId": "36848447257",
   "records": [
     {
       "canonicalToken": "A2Vpd1kXsoF5uexKYb8ckcGMnWe",
@@ -18,15 +18,6 @@
       "canonicalToken": "AAudd8xDRoRfNLx6OpgcsfkpnVb",
       "title": "updateUser()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-updateUser.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "AG2odswpoomo3ZxyLJvcdGSInrb",
-      "title": "createResourceGroup()",
-      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -87,8 +78,8 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "Al6Fdx294o4Yi6xtwe0cdq1cnnh",
-      "title": "updateResourceGroups()",
+      "canonicalToken": "AjbDdUJTuoB9MqxN5PDcyYeLnRe",
+      "title": "releaseCollection()",
       "contentPath": null,
       "objectToken": null,
       "parentToken": null,
@@ -99,15 +90,6 @@
       "canonicalToken": "AnuCd3jgDojhA8x2kNFcddCynLh",
       "title": "updatePassword()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-updatePassword.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "Au6Wda1HUonyXOx5Pfzc0Cpjnab",
-      "title": "FunctionScore",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-Vector-FunctionScore.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -162,15 +144,6 @@
       "canonicalToken": "BLFEde4BuoCjTSxjYSUcZerEnOb",
       "title": "getBatchFiles()",
       "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "Bjs5dej7ZoBKhXxZzMjclPCynmd",
-      "title": "listPartitions()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-listPartitions.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -249,15 +222,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "CSaVdr3zao9zFpxaJBgcCTCYnPd",
-      "title": "dropPartition()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-dropPartition.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "Cde1dlUbDosa86xjuShcoKgQnvg",
       "title": "listVolumes()",
       "contentPath": null,
@@ -297,15 +261,6 @@
       "canonicalToken": "DFyndL57goJMr0xAcMEcVq5Lnhh",
       "title": "commitImport()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-BulkImport-commitImport.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "DHQNdSiMxooV99xSdPZc4Yv9nzg",
-      "title": "dropResourceGroup()",
-      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -359,7 +314,7 @@
     {
       "canonicalToken": "DUJsdflImor0joxV14ecSwpnnDb",
       "title": "getParams()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-FunctionScore-getParams.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -393,6 +348,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "DykedGfgOo5JM7x6ZmncT5i9nVf",
+      "title": "releasePartitions()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "E2hHdOb5BoCYhnxR9FWcerHrnsb",
       "title": "describeReplicas()",
       "contentPath": null,
@@ -413,6 +377,15 @@
     {
       "canonicalToken": "EM0nd4Q6toGP0zx0I40cX4OmnHh",
       "title": "dropCollectionProperties()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "EQ2LdAQqIo79HAxVl45cS8pknTe",
+      "title": "updateReplicateConfiguration()",
       "contentPath": null,
       "objectToken": null,
       "parentToken": null,
@@ -546,8 +519,8 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "FmMhdGH69oXzkyxGVtycx4u0nHb",
-      "title": "transferReplica()",
+      "canonicalToken": "FrMNdXnZYo0oZ9xfs0xcjbVmn2c",
+      "title": "delete()",
       "contentPath": null,
       "objectToken": null,
       "parentToken": null,
@@ -594,6 +567,15 @@
       "canonicalToken": "GTZHdG3fMoBZi0x23BNctsO7nEE",
       "title": "addFunctionField()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-addFunctionField.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "GfGfd7P5Aong4Fx4bctc4SQPn1g",
+      "title": "dropPartition()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -672,15 +654,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "HcMEdTL7uog3MXx36ONcpaOlnfe",
-      "title": "updateReplicateConfiguration()",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "HnxQdhvGQotpwfxgo4pcviKNn4g",
       "title": "queryIterator()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-queryIterator.md",
@@ -729,6 +702,15 @@
       "canonicalToken": "I98vddTeco48kYxHEkOccG9ynYe",
       "title": "listRestoreSnapshotJobs()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-listRestoreSnapshotJobs.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "IAoWdYfBqoXBvsxNhancVifgnDe",
+      "title": "listResourceGroups()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -834,6 +816,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "Jj60dRCiVoLLRzxVCiGcjI37nHc",
+      "title": "listPartitions()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "K0wedJ57uoHCyXxOFtNc673tnuA",
       "title": "dropCollectionFunction()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-dropCollectionFunction.md",
@@ -843,17 +834,17 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "K5t2dl0XloN4VHx1lcpc6Uq3nye",
-      "title": "releaseCollection()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-releaseCollection.md",
+      "canonicalToken": "K9E6dtYlJojtOCxTG0EcGBVnnKe",
+      "title": "WaitForDropCollection()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
       "objectEditTime": null
     },
     {
-      "canonicalToken": "K9E6dtYlJojtOCxTG0EcGBVnnKe",
-      "title": "WaitForDropCollection()",
+      "canonicalToken": "KHFudiMCJoibJJx7gvwcSuv7nWf",
+      "title": "transferReplica()",
       "contentPath": null,
       "objectToken": null,
       "parentToken": null,
@@ -882,15 +873,6 @@
       "canonicalToken": "KQqgduahOo13yOxiRMgcfXQxnxd",
       "title": "flushAll()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-flushAll.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "KVSUdHV0ho7nnwxeQKMcEL47nKe",
-      "title": "hasPartition()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-hasPartition.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1041,15 +1023,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "MH8cdNxkgoliJ5xU0f9cBKqunYe",
-      "title": "loadPartitions()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-loadPartitions.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "MPJ0dxzDIoNKYPxGA5PcD2F8nRb",
       "title": "getDataType()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getDataType.md",
@@ -1079,6 +1052,15 @@
     {
       "canonicalToken": "N9dldTSNMopDzfxXCTmcKSGynvd",
       "title": "LocalBulkWriter",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "NF0FdJbD7o5HHtx9kxwczbq0nwf",
+      "title": "hasPartition()",
       "contentPath": null,
       "objectToken": null,
       "parentToken": null,
@@ -1125,15 +1107,6 @@
       "canonicalToken": "NRGzdPUvRoyltmxsdqKchWFTnTe",
       "title": "alterCollectionField()",
       "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "NTCHdGKwNo9kl2xFzgKcjo8wndg",
-      "title": "delete()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-delete.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1203,8 +1176,8 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "OfL3da2p1oeJcRxMrxQcb1lbnd2",
-      "title": "dropAlias()",
+      "canonicalToken": "ObVNdHaHWosy0HxWjXRcSjShngd",
+      "title": "describeResourceGroup()",
       "contentPath": null,
       "objectToken": null,
       "parentToken": null,
@@ -1212,8 +1185,8 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "OokbdVWhmog9aixBzg7cHUKvnHb",
-      "title": "describeResourceGroup()",
+      "canonicalToken": "OfL3da2p1oeJcRxMrxQcb1lbnd2",
+      "title": "dropAlias()",
       "contentPath": null,
       "objectToken": null,
       "parentToken": null,
@@ -1347,6 +1320,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "QHhAd0ObroZgicxARuKcOqEmnfb",
+      "title": "loadPartitions()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "QHyGdm4FyoFwCzxDgUUc9yQrnPf",
       "title": "VolumeManager",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-Volume-VolumeManager.md",
@@ -1385,6 +1367,24 @@
     {
       "canonicalToken": "QuXrdxjjro2u25xZChncXfBunlO",
       "title": "getQuerySegmentInfo()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "QwsCdrceioo36Bxu2ricF15knUh",
+      "title": "FunctionScore",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "QxPUddsenocUGOxKVQ8c2aCZnQd",
+      "title": "updateResourceGroups()",
       "contentPath": null,
       "objectToken": null,
       "parentToken": null,
@@ -1448,7 +1448,7 @@
     {
       "canonicalToken": "RsqKdZaMnoHbaRxYr1fcqRbRnth",
       "title": "getFunctions()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-FunctionScore-getFunctions.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1484,6 +1484,15 @@
     {
       "canonicalToken": "SJ3ndk2d7oQbAOxP5iHcGtr1nrb",
       "title": "commit()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "SKeZdWoGLoussdx6G3ec5b3znZg",
+      "title": "createResourceGroup()",
       "contentPath": null,
       "objectToken": null,
       "parentToken": null,
@@ -1581,6 +1590,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "U0mKd1nlXoWkDqxf9zRcoURVnCb",
+      "title": "FunctionChain",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "U55Vd0IR9oz8m9xS76scr4KDnNh",
       "title": "getFlushAllState()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getFlushAllState.md",
@@ -1635,18 +1653,18 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "Ue0tdSQeTo7vqsxve1EcNZ7VnKb",
-      "title": "listResourceGroups()",
-      "contentPath": null,
+      "canonicalToken": "Ufpqdh2gaossHmxZ4CacIO0Hnyc",
+      "title": "alterRole()",
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-alterRole.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
       "objectEditTime": null
     },
     {
-      "canonicalToken": "Ufpqdh2gaossHmxZ4CacIO0Hnyc",
-      "title": "alterRole()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-alterRole.md",
+      "canonicalToken": "Un23d2Ac7ovfQsxFDIsczDYzn9d",
+      "title": "createPartition()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1707,27 +1725,9 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "VsyQdDkXnoloWYxfjXNchc0dnng",
-      "title": "releasePartitions()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-releasePartitions.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "VtCvd8vpoo1P7hxhJltcAIldnDg",
       "title": "listCollections()",
       "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "WE4gduIjooCgQUxcKyLcwQe1n3g",
-      "title": "createPartition()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-createPartition.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1854,6 +1854,15 @@
       "canonicalToken": "XzmYdQU59oMUagxiKVicyG8zn6f",
       "title": "Highlighter",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-Highlighter/v2-Vector-Highlighter.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "YAoMdigproLMErxrFEic1Hjcnkh",
+      "title": "dropResourceGroup()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
