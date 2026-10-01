@@ -416,45 +416,9 @@ module.exports = [
     "items": [
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-Management/v2-Management-dropIndexProperties",
-        "label": "dropIndexProperties()",
-        "key": "doc:api/java/java/v2/v2-Management/v2-management-dropindexproperties"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Management/v2-Management-flush",
-        "label": "flush()",
-        "key": "doc:api/java/java/v2/v2-Management/v2-management-flush"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Management/v2-Management-getLoadState",
-        "label": "getLoadState()",
-        "key": "doc:api/java/java/v2/v2-Management/v2-management-getloadstate"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Management/v2-Management-listIndexes",
-        "label": "listIndexes()",
-        "key": "doc:api/java/java/v2/v2-Management/v2-management-listindexes"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Management/v2-Management-loadCollection",
-        "label": "loadCollection()",
-        "key": "doc:api/java/java/v2/v2-Management/v2-management-loadcollection"
-      },
-      {
-        "type": "doc",
         "id": "api/java/java/v2/v2-Management/v2-Management-MetricType",
         "label": "MetricType",
         "key": "doc:api/java/java/v2/v2-Management/v2-management-metrictype"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Management/v2-Management-refreshLoad",
-        "label": "refreshLoad()",
-        "key": "doc:api/java/java/v2/v2-Management/v2-management-refreshload"
       },
       {
         "type": "doc",

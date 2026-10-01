@@ -2,9 +2,18 @@
   "schemaVersion": 1,
   "group": "java",
   "complete": true,
-  "generatedAt": "2026-09-30T18:42:24.546Z",
-  "sourceRunId": "36758274135",
+  "generatedAt": "2026-10-01T02:58:58.673Z",
+  "sourceRunId": "36806627218",
   "records": [
+    {
+      "canonicalToken": "A2Vpd1kXsoF5uexKYb8ckcGMnWe",
+      "title": "getCompactionState()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
     {
       "canonicalToken": "AAudd8xDRoRfNLx6OpgcsfkpnVb",
       "title": "updateUser()",
@@ -393,6 +402,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "EHnydLjdkoNJCUxSM4ocd6Cfnrb",
+      "title": "loadCollection()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "EM0nd4Q6toGP0zx0I40cX4OmnHh",
       "title": "dropCollectionProperties()",
       "contentPath": null,
@@ -549,15 +567,6 @@
       "canonicalToken": "FzEydqTwRoajhnxZOftcKxKpndg",
       "title": "getRefreshExternalCollectionProgress()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getRefreshExternalCollectionProgress.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "G7sndcjgfo12MmxngpPc31Xvnq1",
-      "title": "getPersistentSegmentInfo()",
-      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -738,15 +747,6 @@
       "canonicalToken": "IXVHdXVncoEp64xD6vdcvUJwnlH",
       "title": "CollectionSchema",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-Collections-CollectionSchema.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "IdNAdlMhjoM40pxjpKecpc7inbd",
-      "title": "dropIndexProperties()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-dropIndexProperties.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1005,9 +1005,9 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "LxwIdeFiGoYaRAxKS72cdjNkneh",
+      "canonicalToken": "Lq2vdHAmAo7m6axzZOpcWdkcnzd",
       "title": "listIndexes()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-listIndexes.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1068,15 +1068,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "N4R0dHR6MoiW2Rx9ClGc9MSlnOe",
-      "title": "flush()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-flush.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "N4TUdZOmso4MVfxTYFbcVQ3Kn1c",
       "title": "dropDatabase()",
       "contentPath": null,
@@ -1113,6 +1104,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "NQSXdTousodlN4xy1WZc7Nc8n2e",
+      "title": "dropIndexProperties()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "NQgpd7JHBoAgzzxU5PXcYml5nSd",
       "title": "EmbeddingList",
       "contentPath": null,
@@ -1134,6 +1134,15 @@
       "canonicalToken": "NTCHdGKwNo9kl2xFzgKcjo8wndg",
       "title": "delete()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-delete.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Njodd6A2romru0xEX3cckwPlnpb",
+      "title": "refreshLoad()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1257,15 +1266,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "PAs7dwIIrop4OixCUr8ctHVLnXc",
-      "title": "getLoadState()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getLoadState.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "PSdEdxU7ZoTxelx7sLzcAAXsnQH",
       "title": "getMaxCapacity()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getMaxCapacity.md",
@@ -1368,6 +1368,24 @@
       "canonicalToken": "Qbvcd9DG1ofMpuxVdEqcToU1nIb",
       "title": "addCollectionFunction()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-addCollectionFunction.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Qg8wdRoRdoan3pxQnJLcOW5jnub",
+      "title": "getPersistentSegmentInfo()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "QuXrdxjjro2u25xZChncXfBunlO",
+      "title": "getQuerySegmentInfo()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1491,6 +1509,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "SfTCdUemEoNBDbxvn7PcHguFnPn",
+      "title": "flush()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "SkdsdSZ9lo79GYx31YEcvaSon4c",
       "title": "alterAlias()",
       "contentPath": null,
@@ -1500,9 +1527,9 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "TCw7d7brCovAUpxA5D8cjOIGn1b",
-      "title": "refreshLoad()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-refreshLoad.md",
+      "canonicalToken": "SxrVdEzD4oLV9MxZbuzc6ltNnKe",
+      "title": "optimize()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1599,6 +1626,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "UN0oddDrNoaIq2xDGCLcG9XCnob",
+      "title": "getLoadState()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "Ue0tdSQeTo7vqsxve1EcNZ7VnKb",
       "title": "listResourceGroups()",
       "contentPath": null,
@@ -1682,15 +1718,6 @@
     {
       "canonicalToken": "VtCvd8vpoo1P7hxhJltcAIldnDg",
       "title": "listCollections()",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "Vv41dSgcVovb2Xx1z6ScVRFsnLh",
-      "title": "getCompactionState()",
       "contentPath": null,
       "objectToken": null,
       "parentToken": null,
@@ -1833,15 +1860,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "Y3q1d5FzmoSiNkxsWDLcHnAlnQf",
-      "title": "loadCollection()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-loadCollection.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "YjXDdG9vjoCXmJxnysrci2Y0nZd",
       "title": "grantRole()",
       "contentPath": null,
@@ -1862,15 +1880,6 @@
     {
       "canonicalToken": "ZKj1dLHd2otxtAxRL33cxVZznDb",
       "title": "ModelRanker",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "ZVhHdijY5oYhxYxk4TgcjmGanle",
-      "title": "getQuerySegmentInfo()",
       "contentPath": null,
       "objectToken": null,
       "parentToken": null,
