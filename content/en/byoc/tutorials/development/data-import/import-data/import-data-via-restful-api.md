@@ -107,7 +107,7 @@ For details, see [Import](/reference/restful/create-import-jobs-v2) and [Get Imp
 
 If the command output is similar as follows, the import job is successfully submitted:
 
-```bash
+```json
 {
     "code": 0,
     "data": {

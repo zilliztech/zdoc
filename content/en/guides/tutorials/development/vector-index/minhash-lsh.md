@@ -16,7 +16,8 @@ displayed_sidebar: default
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # MINHASH_LSH
 
@@ -250,11 +251,99 @@ Once your MinHash vectors and original token sets are ready, you can store, inde
 
 ### Connect to your cluster\{#connect-to-your-cluster}
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 from pymilvus import MilvusClient
 
 client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")  # Update if your URI is different
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .build();
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+})
+if err != nil {
+    log.Fatal(err)
+}
+defer cli.Close(ctx)
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
+let client = ClientV2::new(&config).await?;
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
+
+const client = new MilvusClient({ address: 'YOUR_CLUSTER_ENDPOINT' });
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+```
+
+</TabItem>
+</Tabs>
 
 ### Define collection schema\{#define-collection-schema}
 
@@ -268,10 +357,13 @@ Define a schema with:
 
 - Optionally, a `document` field for original text
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 from pymilvus import DataType
 
-VECTOR_DIM = MINHASH_DIM * HASH_BIT_WIDTH  # 256 × 64 = 8192 bits
+VECTOR_DIM = MINHASH_DIM * HASH_BIT_WIDTH  # 256 × 64 = 16384 bits
 
 schema = client.create_schema(auto_id=False, enable_dynamic_field=False)
 schema.add_field("doc_id", DataType.INT64, is_primary=True)
@@ -280,9 +372,116 @@ schema.add_field("token_set", DataType.VARCHAR, max_length=1000)  # required for
 schema.add_field("document", DataType.VARCHAR, max_length=1000)
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+
+int VECTOR_DIM = 256 * 64;  // 256 × 64 = 16384 bits
+
+CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder()
+        .enableDynamicField(false)
+        .build();
+schema.addField(AddFieldReq.builder()
+        .fieldName("doc_id").dataType(DataType.Int64).isPrimaryKey(true).build());
+schema.addField(AddFieldReq.builder()
+        .fieldName("minhash_signature").dataType(DataType.BinaryVector).dimension(VECTOR_DIM).build());
+schema.addField(AddFieldReq.builder()
+        .fieldName("token_set").dataType(DataType.VarChar).maxLength(1000).build());
+schema.addField(AddFieldReq.builder()
+        .fieldName("document").dataType(DataType.VarChar).maxLength(1000).build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+)
+
+// 256 × 64 = 16384 bits
+schema := entity.NewSchema().
+    WithField(entity.NewField().WithName("doc_id").WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true)).
+    WithField(entity.NewField().WithName("minhash_signature").WithDataType(entity.FieldTypeBinaryVector).WithDim(256 * 64)).
+    WithField(entity.NewField().WithName("token_set").WithDataType(entity.FieldTypeVarChar).WithMaxLength(1000)).
+    WithField(entity.NewField().WithName("document").WithDataType(entity.FieldTypeVarChar).WithMaxLength(1000))
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+
+// 256 × 64 = 16384 bits
+let schema = CollectionSchema::new()
+    .enable_dynamic_field(false)
+    .add_field(FieldSchema::new().name("doc_id").data_type(DataType::Int64).primary_key(true))
+    .add_field(FieldSchema::new().name("minhash_signature").data_type(DataType::BinaryVector).dimension(256 * 64))
+    .add_field(FieldSchema::new().name("token_set").data_type(DataType::VarChar).max_length(1000))
+    .add_field(FieldSchema::new().name("document").data_type(DataType::VarChar).max_length(1000));
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+const int VECTOR_DIM = 256 * 64;  // 256 × 64 = 16384 bits
+
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->AddField({"doc_id", milvus::DataType::INT64, "", true, false});
+schema->AddField(milvus::FieldSchema("minhash_signature", milvus::DataType::BINARY_VECTOR).WithDimension(VECTOR_DIM));
+schema->AddField(milvus::FieldSchema("token_set", milvus::DataType::VARCHAR).WithMaxLength(1000));
+schema->AddField(milvus::FieldSchema("document", milvus::DataType::VARCHAR).WithMaxLength(1000));
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const VECTOR_DIM = 256 * 64; // 256 × 64 = 16384 bits
+
+const schema = [
+  { name: 'doc_id', data_type: DataType.Int64, is_primary_key: true },
+  { name: 'minhash_signature', data_type: DataType.BinaryVector, dim: VECTOR_DIM },
+  { name: 'token_set', data_type: DataType.VarChar, max_length: 1000 },
+  { name: 'document', data_type: DataType.VarChar, max_length: 1000 },
+];
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+SCHEMA='{
+  "autoId": false,
+  "enableDynamicField": false,
+  "fields": [
+    {"fieldName": "doc_id", "dataType": "Int64", "isPrimary": true},
+    {"fieldName": "minhash_signature", "dataType": "BinaryVector", "elementTypeParams": {"dim": "16384"}},
+    {"fieldName": "token_set", "dataType": "VarChar", "elementTypeParams": {"max_length": "1000"}},
+    {"fieldName": "document", "dataType": "VarChar", "elementTypeParams": {"max_length": "1000"}}
+  ]
+}'
+```
+
+</TabItem>
+</Tabs>
+
 ### Build index parameters and create collection\{#build-index-parameters-and-create-collection}
 
 Build a `MINHASH_LSH` index with Jaccard refinement enabled:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 index_params = client.prepare_index_params()
@@ -292,13 +491,153 @@ index_params.add_index(
     metric_type="MHJACCARD",
     params={
         "mh_element_bit_width": HASH_BIT_WIDTH,  # Must match signature bit width
-        "mh_lsh_band": 16,                       # Band count (128/16 = 8 hashes per band)
+        "mh_lsh_band": 16,                       # Band count (256/16 = 16 hashes per band)
         "with_raw_data": True                    # Required for Jaccard refinement
     }
 )
 
 client.create_collection("minhash_demo", schema=schema, index_params=index_params)
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+
+import java.util.Collections;
+
+IndexParam indexParam = IndexParam.builder()
+        .fieldName("minhash_signature")
+        .indexType(IndexParam.IndexType.MINHASH_LSH)
+        .metricType(IndexParam.MetricType.MHJACCARD)
+        .extraParams(new java.util.HashMap<String, Object>() {{
+            put("mh_element_bit_width", 64);
+            put("mh_lsh_band", 16);
+            put("with_raw_data", true);
+        }})
+        .build();
+
+client.createCollection(CreateCollectionReq.builder()
+        .collectionName("minhash_demo")
+        .collectionSchema(schema)
+        .indexParams(Collections.singletonList(indexParam))
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+idx := index.NewMinHashLSHIndex(entity.MHJACCARD, 16).
+    WithElementBitWidth(64).
+    WithRawData(true)
+
+err = cli.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("minhash_demo", schema).
+    WithIndexOptions(milvusclient.NewCreateIndexOption("minhash_demo", "minhash_signature", idx)))
+if err != nil {
+    log.Fatal(err)
+}
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+use std::collections::HashMap;
+
+let index_param = IndexParam::new()
+    .field_name("minhash_signature")
+    .index_type(IndexType::MinhashLsh)
+    .metric_type(MetricType::MhJaccard)
+    .extra_params(HashMap::from([
+        ("mh_element_bit_width".into(), "64".into()),
+        ("mh_lsh_band".into(), "16".into()),
+        ("with_raw_data".into(), "true".into()),
+    ]));
+
+client
+    .create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name("minhash_demo")
+            .schema(schema)
+            .index_param(index_param)
+            .build()?,
+    )
+    .await?;
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+milvus::IndexDesc index_vector("minhash_signature", "", milvus::IndexType::MINHASH_LSH, milvus::MetricType::MHJACCARD);
+index_vector.AddExtraParam("mh_element_bit_width", "64");
+index_vector.AddExtraParam("mh_lsh_band", "16");
+index_vector.AddExtraParam("with_raw_data", "true");
+
+auto status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                .WithCollectionName("minhash_demo")
+                                .WithCollectionSchema(schema)
+                                .AddIndex(std::move(index_vector)));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.createCollection({
+  collection_name: 'minhash_demo',
+  fields: schema,
+  index_params: [{
+    field_name: 'minhash_signature',
+    index_type: 'MINHASH_LSH',
+    metric_type: 'MHJACCARD',
+    params: { mh_element_bit_width: 64, mh_lsh_band: 16, with_raw_data: true },
+  }],
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/create" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+--data "{
+    \"collectionName\": \"minhash_demo\",
+    \"schema\": ${SCHEMA},
+    \"indexParams\": [
+        {
+            \"fieldName\": \"minhash_signature\",
+            \"indexType\": \"MINHASH_LSH\",
+            \"metricType\": \"MHJACCARD\",
+            \"params\": {\"mh_element_bit_width\": \"64\", \"mh_lsh_band\": \"16\", \"with_raw_data\": \"true\"}
+        }
+    ]
+}"
+```
+
+</TabItem>
+</Tabs>
 
 For more information on index building parameters, refer to [Index building params](./minhash-lsh#index-building-params).
 
@@ -311,6 +650,9 @@ For each document, prepare:
 - A serialized token set string
 
 - (Optionally) the original text
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 documents = [
@@ -333,6 +675,212 @@ client.insert("minhash_demo", insert_data)
 client.flush("minhash_demo")
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import io.milvus.v2.service.vector.request.InsertReq;
+
+import java.util.ArrayList;
+import java.util.List;
+
+// MinHash signatures (2048 bytes each) generated externally, e.g. via datasketch.
+// `signatures[i]` corresponds to `documents[i]`.
+String[] documents = {
+    "machine learning algorithms process data automatically",
+    "deep learning uses neural networks to model patterns"
+};
+String[] tokenSets = {
+    "automatically learning data machine algorithms process",
+    "learning uses deep neural networks to model patterns"
+};
+byte[][] signatures = { signature0, signature1 };
+
+Gson gson = new Gson();
+List<JsonObject> rows = new ArrayList<>();
+for (int i = 0; i < documents.length; i++) {
+    JsonObject row = new JsonObject();
+    row.addProperty("doc_id", i);
+    row.add("minhash_signature", gson.toJsonTree(signatures[i]));
+    row.addProperty("token_set", tokenSets[i]);
+    row.addProperty("document", documents[i]);
+    rows.add(row);
+}
+
+client.insert(InsertReq.builder()
+        .collectionName("minhash_demo")
+        .data(rows)
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "github.com/milvus-io/milvus/client/v3/column"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+// MinHash signatures (2048 bytes each) generated externally, e.g. via datasketch.
+// `signatures[i]` corresponds to `documents[i]`.
+documents := []string{
+    "machine learning algorithms process data automatically",
+    "deep learning uses neural networks to model patterns",
+}
+tokenSets := []string{
+    "automatically learning data machine algorithms process",
+    "learning uses deep neural networks to model patterns",
+}
+signatures := [][]byte{signature0, signature1}
+
+result, err := cli.Insert(ctx, milvusclient.NewColumnBasedInsertOption("minhash_demo").
+    WithInt64Column("doc_id", []int64{0, 1}).
+    WithColumns(
+        column.NewColumnBinaryVector("minhash_signature", 16384, signatures),
+        column.NewColumnVarChar("token_set", tokenSets),
+        column.NewColumnVarChar("document", documents),
+    ))
+if err != nil {
+    log.Fatal(err)
+}
+log.Println("insert count:", result.InsertCount)
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
+
+// MinHash signatures (2048 bytes each) generated externally, e.g. via datasketch.
+// `signatures[i]` corresponds to `documents[i]`.
+let documents = [
+    "machine learning algorithms process data automatically",
+    "deep learning uses neural networks to model patterns",
+];
+let token_sets = [
+    "automatically learning data machine algorithms process",
+    "learning uses deep neural networks to model patterns",
+];
+let signatures: [Vec<u8>; 2] = [signature0, signature1];
+
+for i in 0..documents.len() {
+    client
+        .insert(
+            InsertRequest::builder()
+                .collection_name("minhash_demo")
+                .row(json!({
+                    "doc_id": i,
+                    "minhash_signature": signatures[i],
+                    "token_set": token_sets[i],
+                    "document": documents[i],
+                }))
+                .build()?,
+        )
+        .await?;
+}
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+// MinHash signatures (2048 bytes each) generated externally, e.g. via datasketch.
+// `signatures[i]` corresponds to `documents[i]`.
+std::vector<std::vector<uint8_t>> signatures = {signature0, signature1};
+
+milvus::EntityRows data = {
+    {{"doc_id", 0}, {"minhash_signature", signatures[0]},
+     {"token_set", "automatically learning data machine algorithms process"},
+     {"document", "machine learning algorithms process data automatically"}},
+    {{"doc_id", 1}, {"minhash_signature", signatures[1]},
+     {"token_set", "learning uses deep neural networks to model patterns"},
+     {"document", "deep learning uses neural networks to model patterns"}},
+};
+
+milvus::InsertResponse response;
+auto status = client->Insert(milvus::InsertRequest()
+                                .WithCollectionName("minhash_demo")
+                                .WithRowsData(std::move(data)),
+                             response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// MinHash signatures (2048 bytes each) generated externally, e.g. via datasketch.
+// `signatures[i]` corresponds to `documents[i]`.
+const documents = [
+  'machine learning algorithms process data automatically',
+  'deep learning uses neural networks to model patterns',
+];
+const tokenSets = [
+  'automatically learning data machine algorithms process',
+  'learning uses deep neural networks to model patterns',
+];
+const signatures = [signature0, signature1]; // Buffer(2048) each
+
+const rows = documents.map((doc, i) => ({
+  doc_id: i,
+  minhash_signature: signatures[i],
+  token_set: tokenSets[i],
+  document: doc,
+}));
+
+await client.insert({
+  collection_name: 'minhash_demo',
+  data: rows,
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# MinHash signatures (2048 bytes each) generated externally, e.g. via datasketch,
+# and base64-encoded for the REST insert.
+SIGNATURE_0="<base64 of the 2048-byte MinHash signature>"
+SIGNATURE_1="<base64 of the 2048-byte MinHash signature>"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+--data "{
+    \"collectionName\": \"minhash_demo\",
+    \"data\": [
+        {
+            \"doc_id\": 0,
+            \"minhash_signature\": \"${SIGNATURE_0}\",
+            \"token_set\": \"automatically learning data machine algorithms process\",
+            \"document\": \"machine learning algorithms process data automatically\"
+        },
+        {
+            \"doc_id\": 1,
+            \"minhash_signature\": \"${SIGNATURE_1}\",
+            \"token_set\": \"learning uses deep neural networks to model patterns\",
+            \"document\": \"deep learning uses neural networks to model patterns\"
+        }
+    ]
+}"
+```
+
+</TabItem>
+</Tabs>
+
 ### Perform similarity search\{#perform-similarity-search}
 
 Zilliz Cloud supports two modes of similarity search using MinHash LSH:
@@ -345,14 +893,88 @@ Zilliz Cloud supports two modes of similarity search using MinHash LSH:
 
 To perform a similarity search, generate a MinHash signature for the query document. This signature must match the same dimension and encoding format used during data insertion.
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
-query_text = "neural networks model patterns in data"
+query_text = "deep learning uses neural networks to model patterns"
 query_sig = generate_minhash_signature(query_text)
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String queryText = "deep learning uses neural networks to model patterns";
+// MinHash signature of the query text, generated externally (e.g., via datasketch).
+byte[] querySignature = querySignatureBytes;
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+queryText := "deep learning uses neural networks to model patterns"
+// MinHash signature of the query text, generated externally (e.g., via datasketch).
+querySignature := querySignatureBytes
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let query_text = "deep learning uses neural networks to model patterns";
+// MinHash signature of the query text, generated externally (e.g., via datasketch).
+let query_signature: Vec<u8> = query_signature_bytes;
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+std::string query_text = "deep learning uses neural networks to model patterns";
+// MinHash signature of the query text, generated externally (e.g., via datasketch).
+std::vector<uint8_t> query_signature = query_signature_bytes;
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const queryText = 'deep learning uses neural networks to model patterns';
+// MinHash signature of the query text, generated externally (e.g., via datasketch).
+const querySignature = querySignatureBytes; // Buffer(2048)
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# MinHash signature of the query text, generated externally (e.g., via datasketch),
+# and base64-encoded for the REST search request.
+QUERY_SIGNATURE="<base64 of the query MinHash signature>"
+
+# Load the collection before searching (REST does not auto-load).
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/load" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--data '{"collectionName": "minhash_demo"}'
+```
+
+</TabItem>
+</Tabs>
 
 #### 5.2 Approximate search (LSH-only)\{#52-approximate-search-lsh-only}
 
 This is fast and scalable but may miss close matches or include false positives:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 # highlight-start
@@ -374,13 +996,176 @@ approx_results = client.search(
 )
 
 for i, hit in enumerate(approx_results[0]):
-    sim = 1 - hit['distance']
+    sim = hit['distance']
     print(f"{i+1}. Similarity: {sim:.3f} | {hit['entity']['document']}")
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.BinaryVec;
+import io.milvus.v2.service.vector.response.SearchResp;
+
+import java.util.Collections;
+
+// Approximate search (LSH-only): uses only MinHash signatures and LSH.
+SearchResp approxResp = client.search(SearchReq.builder()
+        .collectionName("minhash_demo")
+        .annsField("minhash_signature")
+        .data(Collections.singletonList(new BinaryVec(querySignature)))
+        .metricType(IndexParam.MetricType.MHJACCARD)
+        .searchParams(Collections.emptyMap())
+        .limit(3)
+        .outputFields(Collections.singletonList("document"))
+        .build());
+
+for (SearchResp.SearchResult hit : approxResp.getSearchResults().get(0)) {
+    double sim = hit.getScore();
+    System.out.printf("Similarity: %.3f | %s%n", sim, hit.getEntity().get("document"));
+}
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+// Approximate search (LSH-only): uses only MinHash signatures and LSH.
+resultSets, err := cli.Search(ctx, milvusclient.NewSearchOption("minhash_demo", 3, []entity.Vector{entity.BinaryVector(querySignature)}).
+    WithANNSField("minhash_signature").
+    WithAnnParam(index.NewMinHashLSHAnnParam()).
+    WithOutputFields("doc_id", "document"))
+if err != nil {
+    log.Fatal(err)
+}
+for _, resultSet := range resultSets {
+    docCol := resultSet.GetColumn("document")
+    for i := 0; i < resultSet.ResultCount; i++ {
+        doc, _ := docCol.GetAsString(i)
+        log.Printf("Similarity: %.3f | %s", resultSet.Scores[i], doc)
+    }
+}
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+// Approximate search (LSH-only): uses only MinHash signatures and LSH.
+let response = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("minhash_demo")
+            .vector_field("minhash_signature")
+            .vectors(SearchVectors::Binary(vec![query_signature]))
+            .metric_type(MetricType::MhJaccard)
+            .limit(3)
+            .output_fields(["doc_id", "document"])
+            .build()?,
+    )
+    .await?;
+
+for result in response.results() {
+    for row in result.rows()? {
+        let entity = row.to_entity_row()?;
+        let sim = entity.get("distance").unwrap_or_default();
+        println!("{:?}", entity);
+    }
+}
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+// Approximate search (LSH-only): uses only MinHash signatures and LSH.
+auto request = milvus::SearchRequest()
+                    .WithCollectionName("minhash_demo")
+                    .WithAnnsField("minhash_signature")
+                    .WithMetricType(milvus::MetricType::MHJACCARD)
+                    .WithLimit(3)
+                    .AddOutputField("doc_id")
+                    .AddOutputField("document")
+                    .AddBinaryVector(query_signature);
+
+milvus::SearchResponse response;
+auto status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+auto search_results = response.Results();
+for (auto& result : search_results.Results()) {
+    milvus::EntityRows rows;
+    status = result.OutputRows(rows);
+    for (const auto& row : rows) {
+        std::cout << row << std::endl;
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// Approximate search (LSH-only): uses only MinHash signatures and LSH.
+const approx_results = await client.search({
+  collection_name: 'minhash_demo',
+  data: [querySignature],
+  anns_field: 'minhash_signature',
+  metric_type: 'MHJACCARD',
+  params: {},
+  limit: 3,
+  output_fields: ['doc_id', 'document'],
+  consistency_level: 'Strong',
+});
+for (const hit of approx_results.results) {
+  const sim = hit.score;
+  console.log(`Similarity: ${sim.toFixed(3)} | ${hit.document}`);
+}
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# Approximate search (LSH-only): uses only MinHash signatures and LSH.
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+--data "{
+    \"collectionName\": \"minhash_demo\",
+    \"data\": [\"${QUERY_SIGNATURE}\"],
+    \"annsField\": \"minhash_signature\",
+    \"metricType\": \"MHJACCARD\",
+    \"limit\": 3,
+    \"outputFields\": [\"doc_id\", \"document\"]
+}"
+```
+
+</TabItem>
+</Tabs>
 
 #### 5.3 Refined search (recommended for accuracy):\{#53-refined-search-recommended-for-accuracy}
 
 This enables accurate Jaccard comparison using the original token sets stored in Zilliz Cloud. It's slightly slower but recommended for quality-sensitive tasks:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 # highlight-start
@@ -405,9 +1190,162 @@ refined_results = client.search(
 )
 
 for i, hit in enumerate(refined_results[0]):
-    sim = 1 - hit['distance']
+    sim = hit['distance']
     print(f"{i+1}. Similarity: {sim:.3f} | {hit['entity']['document']}")
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.BinaryVec;
+import io.milvus.v2.service.vector.response.SearchResp;
+
+import java.util.Collections;
+
+// Refined search: re-computes the exact Jaccard similarity on the candidates.
+SearchResp refinedResp = client.search(SearchReq.builder()
+        .collectionName("minhash_demo")
+        .annsField("minhash_signature")
+        .data(Collections.singletonList(new BinaryVec(querySignature)))
+        .metricType(IndexParam.MetricType.MHJACCARD)
+        .searchParams(new java.util.HashMap<String, Object>() {{
+            put("mh_search_with_jaccard", true);
+            put("refine_k", 5);
+        }})
+        .limit(3)
+        .outputFields(Collections.singletonList("document"))
+        .build());
+
+for (SearchResp.SearchResult hit : refinedResp.getSearchResults().get(0)) {
+    double sim = hit.getScore();
+    System.out.printf("Similarity: %.3f | %s%n", sim, hit.getEntity().get("document"));
+}
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+// Refined search: re-computes the exact Jaccard similarity on the candidates.
+resultSets, err := cli.Search(ctx, milvusclient.NewSearchOption("minhash_demo", 3, []entity.Vector{entity.BinaryVector(querySignature)}).
+    WithANNSField("minhash_signature").
+    WithSearchParam("params", `{"mh_search_with_jaccard":true,"refine_k":5}`).
+    WithOutputFields("doc_id", "document"))
+if err != nil {
+    log.Fatal(err)
+}
+for _, resultSet := range resultSets {
+    docCol := resultSet.GetColumn("document")
+    for i := 0; i < resultSet.ResultCount; i++ {
+        doc, _ := docCol.GetAsString(i)
+        log.Printf("Similarity: %.3f | %s", resultSet.Scores[i], doc)
+    }
+}
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+// Note: Refined search (`mh_search_with_jaccard` / `refine_k`) is not supported
+// in milvus-sdk-rust as of v3.0.2 — search params are string-typed, and the
+// server rejects the string form for MINHASH refinement. Use the approximate
+// LSH search above instead; refined Jaccard search is available in the
+// Python, Java, Go, and Node.js SDKs.
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+// Refined search: re-computes the exact Jaccard similarity on the candidates.
+auto request = milvus::SearchRequest()
+                    .WithCollectionName("minhash_demo")
+                    .WithAnnsField("minhash_signature")
+                    .WithMetricType(milvus::MetricType::MHJACCARD)
+                    .WithExtraParams({{"mh_search_with_jaccard", "true"}, {"refine_k", "5"}})
+                    .WithLimit(3)
+                    .AddOutputField("doc_id")
+                    .AddOutputField("document")
+                    .AddBinaryVector(query_signature);
+
+milvus::SearchResponse response;
+auto status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+auto search_results = response.Results();
+for (auto& result : search_results.Results()) {
+    milvus::EntityRows rows;
+    status = result.OutputRows(rows);
+    for (const auto& row : rows) {
+        std::cout << row << std::endl;
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// Refined search: re-computes the exact Jaccard similarity on the candidates.
+const refined_results = await client.search({
+  collection_name: 'minhash_demo',
+  data: [querySignature],
+  anns_field: 'minhash_signature',
+  metric_type: 'MHJACCARD',
+  params: {
+    mh_search_with_jaccard: true,
+    refine_k: 5,
+  },
+  limit: 3,
+  output_fields: ['doc_id', 'document'],
+  consistency_level: 'Strong',
+});
+for (const hit of refined_results.results) {
+  const sim = hit.score;
+  console.log(`Similarity: ${sim.toFixed(3)} | ${hit.document}`);
+}
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# The REST API accepts only numeric values in search `params`, so the boolean
+# `mh_search_with_jaccard` cannot be expressed. Use the approximate LSH search
+# (refined Jaccard search is available via the SDKs).
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+--data "{
+    \"collectionName\": \"minhash_demo\",
+    \"data\": [\"${QUERY_SIGNATURE}\"],
+    \"annsField\": \"minhash_signature\",
+    \"metricType\": \"MHJACCARD\",
+    \"limit\": 3,
+    \"outputFields\": [\"doc_id\", \"document\"]
+}"
+```
+
+</TabItem>
+</Tabs>
 
 ## Index params\{#index-params}
 

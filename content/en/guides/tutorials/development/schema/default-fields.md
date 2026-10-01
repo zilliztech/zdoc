@@ -39,7 +39,7 @@ When creating a collection, use the `default_value` parameter in `add_field()` t
 
 The following example creates a collection with two scalar fields that have default values: `age` defaults to `18` and `status` defaults to `"active"`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -234,6 +234,140 @@ if err := loadTask.Await(ctx); err != nil {
 ```
 
 </TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+
+const COLLECTION_NAME: &str = "my_collection";
+
+// Drop the collection if it already exists
+if client
+    .has_collection(
+        HasCollectionRequest::builder()
+            .collection_name(COLLECTION_NAME)
+            .build()?,
+    )
+    .await?
+    .exists()
+{
+    client
+        .drop_collection(
+            DropCollectionRequest::builder()
+                .collection_name(COLLECTION_NAME)
+                .build()?,
+        )
+        .await?;
+}
+
+// Define the collection schema
+let schema = CollectionSchema::new()
+    .enable_dynamic_field(true)
+    .add_field(
+        FieldSchema::new()
+            .name("id")
+            .data_type(DataType::Int64)
+            .primary_key(true)
+            .auto_id(false),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("vector")
+            .data_type(DataType::FloatVector)
+            .dimension(5),
+    )
+    // highlight-start
+    .add_field(
+        FieldSchema::new()
+            .name("age")
+            .data_type(DataType::Int64)
+            .default_value(DefaultValue::Int64(18)),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("status")
+            .data_type(DataType::VarChar)
+            .default_value(DefaultValue::String("active".into()))
+            .max_length(10),
+    );
+    // highlight-end
+
+client
+    .create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name(COLLECTION_NAME)
+            .schema(schema)
+            .index_params(vec![IndexParam::new()
+                .field_name("vector")
+                .index_type(IndexType::AutoIndex)
+                .metric_type(MetricType::L2)])
+            .build()?,
+    )
+    .await?;
+
+client
+    .load_collection(
+        LoadCollectionRequest::builder()
+            .collection_name(COLLECTION_NAME)
+            .build()?,
+    )
+    .await?;
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include <string>
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+const std::string collection_name = "my_collection";
+
+// Drop the collection if it already exists
+milvus::HasCollectionResponse has_resp;
+status = client->HasCollection(milvus::HasCollectionRequest().WithCollectionName(collection_name), has_resp);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+if (has_resp.Has()) {
+    status = client->DropCollection(milvus::DropCollectionRequest().WithCollectionName(collection_name));
+    if (!status.IsOk()) {
+        std::cout << status.Message() << std::endl;
+    }
+}
+
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->AddField({"id", milvus::DataType::INT64, "", true, false});
+schema->AddField(milvus::FieldSchema("vector", milvus::DataType::FLOAT_VECTOR).WithDimension(5));
+// highlight-start
+schema->AddField(milvus::FieldSchema("age", milvus::DataType::INT64).WithDefaultValue(18));
+schema->AddField(milvus::FieldSchema("status", milvus::DataType::VARCHAR).WithDefaultValue("active").WithMaxLength(10));
+// highlight-end
+
+status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                        .WithCollectionName(collection_name)
+                                        .WithCollectionSchema(schema)
+                                        .AddIndex(milvus::IndexDesc("vector", "vector_index", milvus::IndexType::AUTOINDEX, milvus::MetricType::L2)));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->LoadCollection(milvus::LoadCollectionRequest().WithCollectionName(collection_name));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
 
 <TabItem value='javascript'>
 
@@ -370,7 +504,7 @@ curl --request POST \
 
 When inserting data, if you omit a field that has a default value or explicitly set it to NULL, Zilliz Cloud automatically uses the configured default value.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -386,6 +520,9 @@ data = [
 ]
 
 client.insert(collection_name="my_collection", data=data)
+
+# Flush so the inserted rows are immediately queryable
+client.flush(collection_name="my_collection")
 ```
 
 </TabItem>
@@ -396,9 +533,11 @@ client.insert(collection_name="my_collection", data=data)
 import com.google.gson.Gson;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
+import io.milvus.v2.service.utility.request.FlushReq;
 import io.milvus.v2.service.vector.request.InsertReq;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 String collectionName = "my_collection";
@@ -439,6 +578,11 @@ data.add(row4);
 client.insert(InsertReq.builder()
         .collectionName(collectionName)
         .data(data)
+        .build());
+
+// Flush so the inserted rows are immediately queryable
+client.flush(FlushReq.builder()
+        .collectionNames(Collections.singletonList(collectionName))
         .build());
 ```
 
@@ -492,6 +636,83 @@ _, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption(collectionNa
 if err != nil {
     log.Fatal(err)
 }
+
+// Flush so the inserted rows are immediately queryable
+flushTask, err := client.Flush(ctx, milvusclient.NewFlushOption(collectionName))
+if err != nil {
+    log.Fatal(err)
+}
+if err := flushTask.Await(ctx); err != nil {
+    log.Fatal(err)
+}
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
+
+const COLLECTION_NAME: &str = "my_collection";
+
+let rows = vec![
+    json!({"id": 1, "vector": [0.1, 0.2, 0.3, 0.4, 0.5], "age": 30, "status": "premium"}),
+    json!({"id": 2, "vector": [0.2, 0.3, 0.4, 0.5, 0.6]}),
+    json!({"id": 3, "vector": [0.3, 0.4, 0.5, 0.6, 0.7], "age": 25, "status": null}),
+    json!({"id": 4, "vector": [0.4, 0.5, 0.6, 0.7, 0.8], "age": null, "status": "inactive"}),
+];
+
+client
+    .insert(
+        InsertRequest::builder()
+            .collection_name(COLLECTION_NAME)
+            .rows(rows)
+            .build()?,
+    )
+    .await?;
+
+client
+    .flush(
+        FlushRequest::builder()
+            .collection_names([COLLECTION_NAME])
+            .wait_flushed_ms(60_000)
+            .build()?,
+    )
+    .await?;
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include <string>
+#include <vector>
+
+const std::string collection_name = "my_collection";
+
+milvus::EntityRows rows;
+rows.push_back({{"id", 1}, {"vector", std::vector<float>{0.1f, 0.2f, 0.3f, 0.4f, 0.5f}}, {"age", 30}, {"status", "premium"}});
+rows.push_back({{"id", 2}, {"vector", std::vector<float>{0.2f, 0.3f, 0.4f, 0.5f, 0.6f}}});
+rows.push_back({{"id", 3}, {"vector", std::vector<float>{0.3f, 0.4f, 0.5f, 0.6f, 0.7f}}, {"age", 25}, {"status", nullptr}});
+rows.push_back({{"id", 4}, {"vector", std::vector<float>{0.4f, 0.5f, 0.6f, 0.7f, 0.8f}}, {"age", nullptr}, {"status", "inactive"}});
+
+milvus::InsertResponse resp_insert;
+auto status = client->Insert(milvus::InsertRequest()
+                                 .WithCollectionName(collection_name)
+                                 .WithRowsData(std::move(rows)),
+                             resp_insert);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->Flush(milvus::FlushRequest()
+                           .WithCollectionNames({collection_name})
+                           .WithWaitFlushedMs(60000));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -518,6 +739,9 @@ await client.insert({
   collection_name: collectionName,
   fields_data: data,
 });
+
+// Flush so the inserted rows are immediately queryable
+await client.flush({ collection_names: [collectionName] });
 ```
 
 </TabItem>
@@ -556,6 +780,14 @@ curl --request POST \
       }
     ]
   }'
+
+curl --request POST \
+  --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/flush" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "collectionName": "my_collection"
+  }'
 ```
 
 </TabItem>
@@ -567,7 +799,7 @@ Entities containing default values behave the same as any other entities during 
 
 The following example searches for entities where `age` equals the default value `18`:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -660,6 +892,75 @@ for _, resultSet := range searchResults {
 ```
 
 </TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+use std::collections::HashMap;
+
+const COLLECTION_NAME: &str = "my_collection";
+
+let response = client
+    .search(
+        SearchRequest::builder()
+            .collection_name(COLLECTION_NAME)
+            .vector_field("vector")
+            .vectors(SearchVectors::Float(vec![vec![0.1, 0.2, 0.4, 0.3, 0.5]]))
+            .filter("age == 18")
+            .output_fields(["id", "age", "status"])
+            .extra_params(HashMap::from([("nprobe".into(), "16".into())]))
+            .limit(10)
+            .build()?,
+    )
+    .await?;
+
+println!("Search results (age == 18):");
+for result in response.results() {
+    for row in result.rows()? {
+        let e = row.to_entity_row()?;
+        println!("  id: {}, age: {}, status: {}", e["id"], e["age"], e["status"]);
+    }
+}
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include <string>
+#include <vector>
+
+const std::string collection_name = "my_collection";
+
+std::string filter = "age == 18";
+std::vector<float> query_vector = {0.1f, 0.2f, 0.4f, 0.3f, 0.5f};
+auto request = milvus::SearchRequest()
+                   .WithCollectionName(collection_name)
+                   .WithFilter(filter)
+                   .WithLimit(10)
+                   .AddOutputField("id")
+                   .AddOutputField("age")
+                   .AddOutputField("status")
+                   .AddFloatVector(query_vector);
+
+milvus::SearchResponse response;
+auto status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+std::cout << "Search results (age == 18):" << std::endl;
+for (auto& result : response.Results().Results()) {
+    milvus::EntityRows output_rows;
+    status = result.OutputRows(output_rows);
+    for (const auto& row : output_rows) {
+        std::cout << "  id: " << row["id"] << ", age: " << row["age"] << ", status: " << row["status"] << std::endl;
+    }
+}
+```
+
+</TabItem>
 
 <TabItem value='javascript'>
 
@@ -728,7 +1029,7 @@ Search results (age == 18):
 
 You can also query entities by matching default values directly:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -839,6 +1140,101 @@ if err != nil {
 
 fmt.Println("\nQuery results (status == 'active'):")
 fmt.Println(defaultStatusResults.Fields)
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+
+const COLLECTION_NAME: &str = "my_collection";
+
+let response = client
+    .query(
+        QueryRequest::builder()
+            .collection_name(COLLECTION_NAME)
+            .filter("age == 18")
+            .output_fields(["id", "age", "status"])
+            .build()?,
+    )
+    .await?;
+
+println!("\nQuery results (age == 18):");
+for row in response.results().rows()? {
+    let e = row.to_entity_row()?;
+    println!("  id: {}, age: {}, status: {}", e["id"], e["age"], e["status"]);
+}
+
+let response = client
+    .query(
+        QueryRequest::builder()
+            .collection_name(COLLECTION_NAME)
+            .filter("status == \"active\"")
+            .output_fields(["id", "age", "status"])
+            .build()?,
+    )
+    .await?;
+
+println!("\nQuery results (status == 'active'):");
+for row in response.results().rows()? {
+    let e = row.to_entity_row()?;
+    println!("  id: {}, age: {}, status: {}", e["id"], e["age"], e["status"]);
+}
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include <string>
+
+const std::string collection_name = "my_collection";
+
+// Query entities where age equals the default value (18)
+std::string filter = "age == 18";
+auto request = milvus::QueryRequest()
+                       .WithCollectionName(collection_name)
+                       .WithFilter(filter)
+                       .AddOutputField("id")
+                       .AddOutputField("age")
+                       .AddOutputField("status");
+
+milvus::QueryResponse response;
+auto status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+std::cout << "\nQuery results (age == 18):" << std::endl;
+milvus::EntityRows output_rows;
+status = response.Results().OutputRows(output_rows);
+for (const auto& row : output_rows) {
+    std::cout << "  id: " << row["id"] << ", age: " << row["age"] << ", status: " << row["status"] << std::endl;
+}
+
+// Query entities where status equals the default value ("active")
+std::string filter2 = "status == \"active\"";
+auto request2 = milvus::QueryRequest()
+                       .WithCollectionName(collection_name)
+                       .WithFilter(filter2)
+                       .AddOutputField("id")
+                       .AddOutputField("age")
+                       .AddOutputField("status");
+
+milvus::QueryResponse response2;
+status = client->Query(request2, response2);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+std::cout << "\nQuery results (status == 'active'):" << std::endl;
+milvus::EntityRows output_rows2;
+status = response2.Results().OutputRows(output_rows2);
+for (const auto& row : output_rows2) {
+    std::cout << "  id: " << row["id"] << ", age: " << row["age"] << ", status: " << row["status"] << std::endl;
+}
 ```
 
 </TabItem>

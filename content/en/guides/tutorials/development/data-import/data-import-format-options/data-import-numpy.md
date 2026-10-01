@@ -87,6 +87,8 @@ You can also import your data on the Zilliz Cloud console using Milvus SDKs. For
 When importing files from multiple paths, include each NumPy file folder path in a separate list, then group all the lists into a higher-level list as in the following code example.
 
 ```bash
+export TOKEN="YOUR_API_KEY"
+
 curl --request POST \
      --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/create" \
      --header "Authorization: Bearer ${TOKEN}" \
@@ -101,8 +103,8 @@ curl --request POST \
             ["s3://bucket-name/numpy-folder-2/1/"],
             ["s3://bucket-name/numpy-folder-3/1/"]
          ],
-        "accessKey": "",
-        "secretKey": ""
+        "accessKey": "YOUR_ACCESS_KEY",
+        "secretKey": "YOUR_SECRET_KEY"
     }'
 ```
 
@@ -111,6 +113,8 @@ curl --request POST \
 If the source folder contains only the NumPy file folder to import, you can simply include the source folder in the request as follows:
 
 ```bash
+export TOKEN="YOUR_API_KEY"
+
 curl --request POST \
      --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/create" \
      --header "Authorization: Bearer ${TOKEN}" \
@@ -123,8 +127,8 @@ curl --request POST \
         "objectUrls": [
             ["s3://bucket-name/numpy-folder/1/"]
          ],
-        "accessKey": "",
-        "secretKey": ""
+        "accessKey": "YOUR_ACCESS_KEY",
+        "secretKey": "YOUR_SECRET_KEY"
     }'
 ```
 

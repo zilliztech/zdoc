@@ -106,7 +106,7 @@ After Zilliz Cloud processes the above request, you will receive a job ID. Use t
 
 ```bash
 curl --request POST \
-     --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/getProgress" \
+     --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/get_progress" \
      --header "Authorization: Bearer ${API_KEY}" \
      --header "Accept: application/json" \
      --header "Content-Type: application/json" \
@@ -218,7 +218,7 @@ curl --request POST \
      --header "Accept: application/json" \
      --header "Content-Type: application/json" \
      -d '{
-        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "jobId": "job-xxxxxxxxxxxxxxxxxxxxx",
         "projectId": "proj-xxxxxxxxxxxxxxxxxxxxx",
         "regionId": "aws-us-west-2"
     }'
@@ -234,7 +234,7 @@ For details, see [Import](/reference/restful/create-import-jobs-v2) and [Get Imp
 
 If the command output is similar as follows, the import job is successfully submitted:
 
-```bash
+```json
 {
     "code": 0,
     "data": {

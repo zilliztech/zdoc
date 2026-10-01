@@ -494,7 +494,7 @@ Before applying an analyzer to your collection, we recommend you use [`run_analy
 ### English\{#english}
 
 ```json
-analyzer_params = {
+{
     "tokenizer": "standard",
     "filter": [
         "lowercase",
@@ -523,7 +523,7 @@ analyzer_params = {
 
 ### Arabic\{#arabic}
 
-```python
+```json
 {
     "tokenizer": "standard",
     "filter": [
@@ -538,7 +538,7 @@ analyzer_params = {
 
 ### Bengali\{#bengali}
 
-```python
+```json
 {
     "tokenizer": "icu",
     "filter": ["lowercase", {

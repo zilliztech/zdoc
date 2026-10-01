@@ -67,8 +67,8 @@ If you prefer to prepare your data into JSON or JSON Lines files, place all file
 
 ```plaintext
 ├── json-folder
-│       ├── 1.json
-│       └── 2.json 
+│   ├── 1.json
+│   └── 2.json
 ```
 
 ## Import data\{#import-data}

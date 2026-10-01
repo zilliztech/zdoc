@@ -373,13 +373,13 @@ schema.WithField(entity.NewField().
 </Tabs>
 
 ```rust
-.add_field(
+let schema = schema.add_field(
     FieldSchema::new()
         .name("age")
         .data_type(DataType::Int64)
         // highlight-next-line
         .nullable(true),
-)
+);
 ```
 
 <Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>

@@ -140,7 +140,7 @@ For more information on schemas and detailed guidance on adding various types of
 
 To begin, we need to create an empty schema. This step establishes a foundational structure for defining the data model.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -161,6 +161,7 @@ import io.milvus.v2.service.collection.request.CreateCollectionReq;
 // 1. Connect to Milvus server
 ConnectConfig connectConfig = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build();
 
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
@@ -171,37 +172,29 @@ CreateCollectionReq.CollectionSchema schema = client.createSchema();
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
-
-//Skip this step using JavaScript
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v2/entity"
+import "github.com/milvus-io/milvus/client/v3/entity"
 
 schema := entity.NewSchema()
 ```
 
 </TabItem>
+</Tabs>
 
-<TabItem value='bash'>
+```rust
+use milvus::v2::prelude::*;
 
-```bash
-# Skip this step using cURL
+let schema = CollectionSchema::new();
 ```
 
-</TabItem>
-
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
@@ -216,13 +209,31 @@ milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>(
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+
+//Skip this step using JavaScript
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# Skip this step using cURL
+```
+
+</TabItem>
 </Tabs>
 
 ### Step 2: Add fields\{#step-2-add-fields}
 
 Once the schema is created, the next step is to specify the fields that will comprise your data. Each field is associated with their respective data types and attributes.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -260,7 +271,7 @@ schema.addField(AddFieldReq.builder()
 schema.addField(AddFieldReq.builder()
         .fieldName("timestamp")
         .dataType(DataType.Int32)
-        .build())
+        .build());
 schema.addField(AddFieldReq.builder()
         .fieldName("text")
         .dataType(DataType.VarChar)
@@ -276,6 +287,99 @@ schema.addField(AddFieldReq.builder()
         .fieldName("text_sparse_vector")
         .dataType(DataType.SparseFloatVector)
         .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+schema.WithField(entity.NewField().
+    WithName("article_id").
+    WithDataType(entity.FieldTypeInt64).
+    WithIsPrimaryKey(true).
+    WithIsAutoID(true).
+    WithDescription("article id"),
+).WithField(entity.NewField().
+    WithName("title").
+    WithDataType(entity.FieldTypeVarChar).
+    WithMaxLength(200).
+    WithEnableAnalyzer(true).
+    WithEnableMatch(true).
+    WithDescription("article title"),
+).WithField(entity.NewField().
+    WithName("timestamp").
+    WithDataType(entity.FieldTypeInt32).
+    WithDescription("publish date"),
+).WithField(entity.NewField().
+    WithName("text").
+    WithDataType(entity.FieldTypeVarChar).
+    WithMaxLength(2000).
+    WithEnableAnalyzer(true).
+    WithDescription("article text content"),
+).WithField(entity.NewField().
+    WithName("text_dense_vector").
+    WithDataType(entity.FieldTypeFloatVector).
+    WithDim(768).
+    WithDescription("text dense vector"),
+).WithField(entity.NewField().
+    WithName("text_sparse_vector").
+    WithDataType(entity.FieldTypeSparseVector).
+    WithDescription("text sparse vector"),
+)
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let schema = schema
+    .add_field(FieldSchema::new()
+        .name("article_id")
+        .data_type(DataType::Int64)
+        .primary_key(true)
+        .auto_id(true)
+        .description("article id"))
+    .add_field(FieldSchema::new()
+        .name("title")
+        .data_type(DataType::VarChar)
+        .max_length(200)
+        .enable_analyzer(true)
+        .enable_match(true)
+        .description("article title"))
+    .add_field(FieldSchema::new()
+        .name("timestamp")
+        .data_type(DataType::Int32)
+        .description("publish date"))
+    .add_field(FieldSchema::new()
+        .name("text")
+        .data_type(DataType::VarChar)
+        .max_length(2000)
+        .enable_analyzer(true)
+        .description("article text content"))
+    .add_field(FieldSchema::new()
+        .name("text_dense_vector")
+        .data_type(DataType::FloatVector)
+        .dimension(768)
+        .description("text dense vector"))
+    .add_field(FieldSchema::new()
+        .name("text_sparse_vector")
+        .data_type(DataType::SparseFloatVector)
+        .description("text sparse vector"));
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+schema->AddField({"article_id", milvus::DataType::INT64, "", true, true});
+schema->AddField(milvus::FieldSchema("title", milvus::DataType::VARCHAR)
+                    .WithMaxLength(200).EnableAnalyzer(true).EnableMatch(true));
+schema->AddField(milvus::FieldSchema("timestamp", milvus::DataType::INT32));
+schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR)
+                    .WithMaxLength(2000).EnableAnalyzer(true));
+schema->AddField(milvus::FieldSchema("text_dense_vector", milvus::DataType::FLOAT_VECTOR).WithDimension(768));
+schema->AddField(milvus::FieldSchema("text_sparse_vector", milvus::DataType::SPARSE_FLOAT_VECTOR));
 ```
 
 </TabItem>
@@ -321,46 +425,6 @@ const fields = [
 
 </TabItem>
 
-<TabItem value='go'>
-
-```go
-schema.WithField(entity.NewField().
-    WithName("article_id").
-    WithDataType(entity.FieldTypeInt64).
-    WithIsPrimaryKey(true).
-    WithIsAutoID(true).
-    WithDescription("article id"),
-).WithField(entity.NewField().
-    WithName("title").
-    WithDataType(entity.FieldTypeVarChar).
-    WithMaxLength(200).
-    WithEnableAnalyzer(true).
-    WithEnableMatch(true).
-    WithDescription("article title"),
-).WithField(entity.NewField().
-    WithName("timestamp").
-    WithDataType(entity.FieldTypeInt32).
-    WithDescription("publish date"),
-).WithField(entity.NewField().
-    WithName("text").
-    WithDataType(entity.FieldTypeVarChar).
-    WithMaxLength(2000).
-    WithEnableAnalyzer(true).
-    WithDescription("article text content"),
-).WithField(entity.NewField().
-    WithName("text_dense_vector").
-    WithDataType(entity.FieldTypeFloatVector).
-    WithDim(768).
-    WithDescription("text dense vector"),
-).WithField(entity.NewField().
-    WithName("text_sparse_vector").
-    WithDataType(entity.FieldTypeSparseVector).
-    WithDescription("text sparse vector"),
-)
-```
-
-</TabItem>
-
 <TabItem value='bash'>
 
 ```bash
@@ -400,7 +464,7 @@ export fields='[
     },
     {
        "fieldName": "text_sparse_vector",
-       "dataType": "SparseFloatVector",
+       "dataType": "SparseFloatVector"
     }
 ]'
 
@@ -408,21 +472,6 @@ export schema="{
     \"autoID\": true,
     \"fields\": $fields
 }"
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-schema->AddField({"article_id", milvus::DataType::INT64, "", true, true});
-schema->AddField(milvus::FieldSchema("title", milvus::DataType::VARCHAR)
-                    .WithMaxLength(200).EnableAnalyzer(true).EnableMatch(true));
-schema->AddField(milvus::FieldSchema("timestamp", milvus::DataType::INT32));
-schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR)
-                    .WithMaxLength(2000).EnableAnalyzer(true));
-schema->AddField(milvus::FieldSchema("text_dense_vector", milvus::DataType::FLOAT_VECTOR).WithDimension(768));
-schema->AddField(milvus::FieldSchema("text_sparse_vector", milvus::DataType::SPARSE_FLOAT_VECTOR));
 ```
 
 </TabItem>
@@ -440,7 +489,7 @@ In this example, the following attributes are specified for fields:
 
 To enhance data querying capabilities, functions can be incorporated into the schema. For instance, a function can be created to process related to specific fields.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -476,10 +525,46 @@ schema.addFunction(Function.builder()
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+function := entity.NewFunction().
+    WithName("text_bm25").
+    WithInputFields("text").
+    WithOutputFields("text_sparse_vector").
+    WithType(entity.FunctionTypeBM25)
+schema.WithFunction(function)
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let schema = schema.add_function(
+    Function::new()
+        .name("text_bm25")
+        .function_type(FunctionType::Bm25)
+        .input_fields(["text"])
+        .output_fields(["text_sparse_vector"]),
+);
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+milvus::FunctionPtr function = std::make_shared<milvus::Function>("text_bm25", milvus::FunctionType::BM25);
+function->AddInputFieldName("text");
+function->AddOutputFieldName("text_sparse_vector");
+schema->AddFunction(function);
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
-import FunctionType from "@zilliz/milvus2-sdk-node";
+import { FunctionType } from "@zilliz/milvus2-sdk-node";
 
 const functions = [
     {
@@ -490,20 +575,7 @@ const functions = [
       output_field_names: ['text_sparse_vector'],
       params: {},
     },
-]；
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-function := entity.NewFunction().
-    WithName("text_bm25").
-    WithInputFields("text").
-    WithOutputFields("text_sparse_vector").
-    WithType(entity.FunctionTypeBM25)
-schema.WithFunction(function)
+];
 ```
 
 </TabItem>
@@ -523,20 +595,9 @@ export myFunctions='[
 
 export schema="{
     \"autoID\": true,
-    \"fields\": $fields
+    \"fields\": $fields,
     \"functions\": $myFunctions
 }"
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-milvus::FunctionPtr function = std::make_shared<milvus::Function>("text_bm25", milvus::FunctionType::BM25);
-function->AddInputFieldName("text");
-function->AddOutputFieldName("text_sparse_vector");
-schema->AddFunction(function);
 ```
 
 </TabItem>

@@ -24,7 +24,7 @@ import Admonition from '@theme/Admonition';
 
 You are advised to use [the BulkWriter tool](./use-bulkwriter) to prepare your raw data into Parquet files. The following figure demonstrates how your raw data can be mapped into a Parquet file.
 
-![parquet_file_structure_en](https://zdoc-images.s3.us-west-2.amazonaws.com/parquet_file_structure_en.png "parquet_file_structure_en")
+![parquet_file_structure_en](https://zdoc-images.s3.us-west-2.amazonaws.com/parquetfilestructureen.png "parquet_file_structure_en")
 
 <Admonition type="info" title="Notes">
 
@@ -74,7 +74,7 @@ You can also import your data on the Zilliz Cloud console using Milvus SDKs. For
 
 When importing files from multiple paths, include each Parquet file path in a separate list, then group all the lists into a higher-level list as in the following code example.
 
-```python
+```bash
 curl --request POST \
      --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/create" \
      --header "Authorization: Bearer ${TOKEN}" \
@@ -98,7 +98,7 @@ curl --request POST \
 
 If the source folder contains only the Parquet files to import, you can simply include the source folder in the request as follows:
 
-```python
+```bash
 curl --request POST \
      --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/create" \
      --header "Authorization: Bearer ${TOKEN}" \
@@ -126,7 +126,7 @@ If the folder contains multiple formats of files, the request will fail.
 
 If your prepared data file is a single Parquet file, import it as demonstrated in the following code example.
 
-```python
+```bash
 curl --request POST \
      --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/create" \
      --header "Authorization: Bearer ${TOKEN}" \

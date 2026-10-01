@@ -16,7 +16,8 @@ displayed_sidebar: default
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 import Supademo from '@site/src/components/Supademo';
 
@@ -108,12 +109,15 @@ To set `build_level`, you need to do it when you [index a vector field](./autoin
 
 The following example assumes that you have already created a collection. Setting `build_level` to `1` indicates that the **Balanced** option applies.
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 # 4. Set up index
 # 4.1. Set up the index parameters
 index_params = MilvusClient.prepare_index_params()
 
-# 4.2. Add an index on the vector field.
+# 4.2. Add an index on the vector field
 index_params.add_index(
     field_name="vector",
     metric_type="COSINE",
@@ -123,17 +127,195 @@ index_params.add_index(
     build_level=1
 )
 
-# 4.4. Create an index file
+# 4.3. Create the index
 client.create_index(
     collection_name="customized_setup",
     index_params=index_params
 )
 
-# 5. Describe index
+# 5. List indexes
 res = client.list_indexes(
     collection_name="customized_setup"
 )
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.index.request.CreateIndexReq;
+import io.milvus.v2.service.index.request.ListIndexesReq;
+
+import java.util.Collections;
+import java.util.List;
+
+IndexParam indexParam = IndexParam.builder()
+        .fieldName("vector")
+        .indexType(IndexParam.IndexType.AUTOINDEX)
+        .metricType(IndexParam.MetricType.COSINE)
+        .indexName("vector_index")
+        .extraParams(Collections.singletonMap("build_level", 1))
+        .build();
+
+client.createIndex(CreateIndexReq.builder()
+        .collectionName("customized_setup")
+        .indexParams(Collections.singletonList(indexParam))
+        .build());
+
+// 5. List indexes
+List<String> indexNames = client.listIndexes(ListIndexesReq.builder()
+        .collectionName("customized_setup")
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+idx := index.WithExtraIndexParams(
+    index.NewAutoIndex(entity.COSINE),
+    map[string]string{"build_level": "1"},
+)
+
+_, err := client.CreateIndex(ctx, milvusclient.NewCreateIndexOption("customized_setup", "vector", idx).WithIndexName("vector_index"))
+if err != nil {
+    log.Fatal(err)
+}
+
+// 5. List indexes
+indexes, err := client.ListIndexes(ctx, milvusclient.NewListIndexOption("customized_setup"))
+if err != nil {
+    log.Fatal(err)
+}
+log.Println(indexes)
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+use std::collections::HashMap;
+
+const COLLECTION_NAME: &str = "customized_setup";
+
+client
+    .create_index(
+        CreateIndexRequest::builder()
+            .collection_name(COLLECTION_NAME)
+            .index_params(vec![
+                IndexParam::new()
+                    .field_name("vector")
+                    .index_name("vector_index")
+                    .index_type(IndexType::AutoIndex)
+                    .metric_type(MetricType::Cosine)
+                    .extra_params(HashMap::from([("build_level".into(), "1".into())])),
+            ])
+            .build()?,
+    )
+    .await?;
+
+let res = client
+    .list_indexes(
+        ListIndexesRequest::builder()
+            .collection_name(COLLECTION_NAME)
+            .build()?,
+    )
+    .await?;
+println!("{:?}", res.index_names());
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include <string>
+
+const std::string collection_name = "customized_setup";
+
+milvus::IndexDesc index_vector("vector", "vector_index", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE);
+index_vector.AddExtraParam("build_level", "1");
+auto status = client->CreateIndex(milvus::CreateIndexRequest()
+                                    .WithCollectionName(collection_name)
+                                    .AddIndex(std::move(index_vector)));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::ListIndexesResponse list_resp;
+status = client->ListIndexes(milvus::ListIndexesRequest().WithCollectionName(collection_name), list_resp);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
+
+const collectionName = 'customized_setup';
+
+// 4. Create the index with build_level
+await client.createIndex({
+  collection_name: collectionName,
+  field_name: 'vector',
+  index_type: 'AUTOINDEX',
+  index_name: 'vector_index',
+  metric_type: 'COSINE',
+  params: { build_level: 1 },
+});
+
+// 5. List indexes
+const res = await client.listIndexes({ collection_name: collectionName });
+console.log(res);
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+  --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/indexes/create" \
+  --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "collectionName": "customized_setup",
+    "indexParams": [
+      {
+        "fieldName": "vector",
+        "indexName": "vector_index",
+        "metricType": "COSINE",
+        "indexType": "AUTOINDEX",
+        "params": { "build_level": 1 }
+      }
+    ]
+  }'
+
+curl --request POST \
+  --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/indexes/list" \
+  --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+  --header "Content-Type: application/json" \
+  --data '{"collectionName": "customized_setup"}' 
+```
+
+</TabItem>
+</Tabs>
 
 ### Set build_level on the Zilliz Cloud console\{#set-buildlevel-on-the-zilliz-cloud-console}
 

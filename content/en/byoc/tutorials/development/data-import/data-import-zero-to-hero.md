@@ -71,14 +71,20 @@ python3 -m pip install --upgrade pymilvus minio
 <dependency>
   <groupId>io.milvus</groupId>
   <artifactId>milvus-sdk-java</artifactId>
-  <version>2.4.8</version>
+  <version>3.0.10</version>
+</dependency>
+<dependency>
+  <groupId>io.milvus</groupId>
+  <artifactId>milvus-sdk-java-bulkwriter</artifactId>
+  <version>3.0.10</version>
 </dependency>
 ```
 
 - For Gradle/Grails, run the following
 
 ```shell
-compile 'io.milvus:milvus-sdk-java:2.4.8'
+compile 'io.milvus:milvus-sdk-java:3.0.10'
+compile 'io.milvus:milvus-sdk-java-bulkwriter:3.0.10'
 ```
 
 </TabItem>
@@ -164,22 +170,22 @@ schema = MilvusClient.create_schema(
 
 DIM = 512
 
-schema.add_field(field_name="id", datatype=DataType.INT64, is_primary=True),
-schema.add_field(field_name="bool", datatype=DataType.BOOL),
-schema.add_field(field_name="int8", datatype=DataType.INT8),
-schema.add_field(field_name="int16", datatype=DataType.INT16),
-schema.add_field(field_name="int32", datatype=DataType.INT32),
-schema.add_field(field_name="int64", datatype=DataType.INT64),
-schema.add_field(field_name="float", datatype=DataType.FLOAT),
-schema.add_field(field_name="double", datatype=DataType.DOUBLE),
-schema.add_field(field_name="varchar", datatype=DataType.VARCHAR, max_length=512),
-schema.add_field(field_name="json", datatype=DataType.JSON),
+schema.add_field(field_name="id", datatype=DataType.INT64, is_primary=True)
+schema.add_field(field_name="bool", datatype=DataType.BOOL)
+schema.add_field(field_name="int8", datatype=DataType.INT8)
+schema.add_field(field_name="int16", datatype=DataType.INT16)
+schema.add_field(field_name="int32", datatype=DataType.INT32)
+schema.add_field(field_name="int64", datatype=DataType.INT64)
+schema.add_field(field_name="float", datatype=DataType.FLOAT)
+schema.add_field(field_name="double", datatype=DataType.DOUBLE)
+schema.add_field(field_name="varchar", datatype=DataType.VARCHAR, max_length=512)
+schema.add_field(field_name="json", datatype=DataType.JSON)
 schema.add_field(field_name="array_str", datatype=DataType.ARRAY, max_capacity=100, element_type=DataType.VARCHAR, max_length=128)
 schema.add_field(field_name="array_int", datatype=DataType.ARRAY, max_capacity=100, element_type=DataType.INT64)
-schema.add_field(field_name="float_vector", datatype=DataType.FLOAT_VECTOR, dim=DIM),
-schema.add_field(field_name="binary_vector", datatype=DataType.BINARY_VECTOR, dim=DIM),
-schema.add_field(field_name="float16_vector", datatype=DataType.FLOAT16_VECTOR, dim=DIM),
-# schema.add_field(field_name="bfloat16_vector", datatype=DataType.BFLOAT16_VECTOR, dim=DIM),
+schema.add_field(field_name="float_vector", datatype=DataType.FLOAT_VECTOR, dim=DIM)
+schema.add_field(field_name="binary_vector", datatype=DataType.BINARY_VECTOR, dim=DIM)
+schema.add_field(field_name="float16_vector", datatype=DataType.FLOAT16_VECTOR, dim=DIM)
+# schema.add_field(field_name="bfloat16_vector", datatype=DataType.BFLOAT16_VECTOR, dim=DIM)
 schema.add_field(field_name="sparse_vector", datatype=DataType.SPARSE_FLOAT_VECTOR)
 
 schema.verify()
@@ -218,7 +224,7 @@ The parameters in the above code are described as follows:
 ```java
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import io.milvus.bulkwriter.BulkImport;
+
 import io.milvus.bulkwriter.RemoteBulkWriter;
 import io.milvus.bulkwriter.RemoteBulkWriterParam;
 import io.milvus.bulkwriter.common.clientenum.BulkFileType;
@@ -498,14 +504,15 @@ conn = RemoteBulkWriter.AzureConnectParam(
 
 # or
 
-# Thrid-party constants
+# Third-party constants
 AZURE_ACCOUNT_URL = ""
 AZURE_CREDENTIAL = ""
 
 conn = RemoteBulkWriter.AzureConnectParam(
+    container_name=BUCKET_NAME,
+    conn_str="",
     account_url=AZURE_ACCOUNT_URL,
-    credential=AZURE_CREDENTIAL,
-    container_name=BUCKET_NAME
+    credential=AZURE_CREDENTIAL
 )
 ```
 
@@ -538,8 +545,8 @@ StorageConnectParam storageConnectParam = S3ConnectParam.newBuilder()
 import io.milvus.bulkwriter.connect.AzureConnectParam;
 import io.milvus.bulkwriter.connect.StorageConnectParam;
 
-String AZURE_CONNECT_STRING = ""
-String AZURE_CONTAINER = ""
+String AZURE_CONNECT_STRING = "";
+String AZURE_CONTAINER = "";
 
 StorageConnectParam storageConnectParam = AzureConnectParam.newBuilder()
         .withConnStr(AZURE_CONNECT_STRING)
@@ -578,7 +585,7 @@ Then, you can reference the connection parameters in the **RemoteBulkWriter** as
 writer = RemoteBulkWriter(
     schema=schema, # Target collection schema
     remote_path="/", # Output directory relative to the remote bucket root
-    segment_size=1024*1024*1024, # Maximum segment size when segmenting the raw data
+    chunk_size=1024*1024*1024, # Maximum segment size when segmenting the raw data
     connect_param=conn, # Connection parameters defined above
     file_type=BulkFileType.PARQUET # Type of the generated file.
 )
@@ -667,12 +674,11 @@ You can append rows from the source dataset as follows:
 ```python
 import random, string, json
 import numpy as np
-import tensorflow as tf
 
 def generate_random_str(length=5):
     letters = string.ascii_uppercase
     digits = string.digits
-    
+
     return ''.join(random.choices(letters + digits, k=length))
 
 # optional input for binary vector:
@@ -990,7 +996,7 @@ print(job_id)
 
 ```java
 import io.milvus.bulkwriter.request.import_.CloudImportRequest;
-import io.milvus.bulkwriter.BulkImport;
+import io.milvus.bulkwriter.restful.BulkImportUtils;
 
 // Insert the data into the collection
 String prefix = batchFiles.get(0).get(0).split("/")[0];
@@ -1004,7 +1010,7 @@ CloudImportRequest cloudImportRequest = CloudImportRequest.builder()
         .accessKey(ACCESS_KEY)
         .secretKey(SECRET_KEY)
         .build();
-String bulkImportResult = BulkImport.bulkImport(CLOUD_API_ENDPOINT, cloudImportRequest);
+String bulkImportResult = BulkImportUtils.bulkImport(CLOUD_API_ENDPOINT, cloudImportRequest);
 
 JsonObject bulkImportObject = new Gson().fromJson(bulkImportResult, JsonObject.class);
 String jobId = bulkImportObject.getAsJsonObject("data").get("jobId").getAsString();
@@ -1032,7 +1038,7 @@ The following code checks the bulk-import progress every 5 seconds and outputs t
 
 ```python
 import time
-from pymilvus import get_import_progress
+from pymilvus.bulk_writer import get_import_progress
 
 job_id = res.json()['data']['jobId']
 
@@ -1056,7 +1062,7 @@ while res.json()["data"]["progress"] < 100:
         job_id=job_id,
         cluster_id=CLUSTER_ID
     )
-    
+
     print(res.json()["data"]["progress"])
 
 # 0   -- import progress 0%
@@ -1069,16 +1075,19 @@ while res.json()["data"]["progress"] < 100:
 <TabItem value='java'>
 
 ```java
+import io.milvus.bulkwriter.request.describe.CloudDescribeImportRequest;
+import io.milvus.bulkwriter.restful.BulkImportUtils;
+
 while (true) {
     System.out.println("Wait 5 second to check bulkInsert job state...");
     TimeUnit.SECONDS.sleep(5);
-    
+
     CloudDescribeImportRequest request = CloudDescribeImportRequest.builder()
         .apiKey(API_KEY)
         .clusterId(CLUSTER_ID)
         .jobId(jobId)
         .build();
-    String getImportProgressResult = BulkImport.getImportProgress(CLOUD_API_ENDPOINT, request);
+    String getImportProgressResult = BulkImportUtils.getImportProgress(CLOUD_API_ENDPOINT, request);
     JsonObject getImportProgressObject = GSON_INSTANCE.fromJson(getImportProgressResult, JsonObject.class);
     String importProgressState = getImportProgressObject.getAsJsonObject("data").get("state").getAsString();
     String progress = getImportProgressObject.getAsJsonObject("data").get("progress").getAsString();
@@ -1115,7 +1124,7 @@ You can list all bulk-import jobs as follows:
 <TabItem value='python'>
 
 ```python
-from pymilvus import list_import_jobs
+from pymilvus.bulk_writer import list_import_jobs
 
 res = list_import_jobs(
     api_key=API_KEY,
@@ -1148,11 +1157,14 @@ print(res.json())
 <TabItem value='java'>
 
 ```java
+import io.milvus.bulkwriter.request.list.CloudListImportJobsRequest;
+import io.milvus.bulkwriter.restful.BulkImportUtils;
+
 CloudListImportJobsRequest listImportJobsRequest = CloudListImportJobsRequest.builder()
         .apiKey(API_KEY)
         .clusterId(CLUSTER_ID) // Zilliz Cloud cluster ID, like "in01-xxxxxxxxxxxxxxx"
         .build();
-String listImportJobsResult = BulkImport.listImportJobs(CLOUD_API_ENDPOINT, listImportJobsRequest);
+String listImportJobsResult = BulkImportUtils.listImportJobs(CLOUD_API_ENDPOINT, listImportJobsRequest);
 System.out.println(listImportJobsResult);
 ```
 

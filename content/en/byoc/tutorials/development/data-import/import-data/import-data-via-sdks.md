@@ -55,7 +55,13 @@ python3 -m pip install --upgrade pymilvus minio
 <dependency>
   <groupId>io.milvus</groupId>
   <artifactId>milvus-sdk-java</artifactId>
-  <version>2.4.8</version>
+  <version>3.0.10</version>
+</dependency>
+
+<dependency>
+  <groupId>io.milvus</groupId>
+  <artifactId>milvus-sdk-java-bulkwriter</artifactId>
+  <version>3.0.10</version>
 </dependency>
 
 <dependency>
@@ -68,8 +74,9 @@ python3 -m pip install --upgrade pymilvus minio
 - For Gradle/Grails, run the following
 
 ```shell
-compile 'io.milvus:milvus-sdk-java:2.4.8'
-compile 'io.minio:minio:8.5.9'
+implementation 'io.milvus:milvus-sdk-java:3.0.10'
+implementation 'io.milvus:milvus-sdk-java-bulkwriter:3.0.10'
+implementation 'io.minio:minio:8.5.9'
 ```
 
 </TabItem>
@@ -128,6 +135,7 @@ print([obj.object_name for obj in objects])
 ```java
 import io.minio.MinioClient;
 import io.minio.Result;
+import io.minio.ListObjectsArgs;
 import io.minio.messages.Item;
 
 import java.util.Iterator;
@@ -142,13 +150,12 @@ MinioClient minioClient = MinioClient.builder()
         .endpoint("storage.googleapis.com") // use 's3.amazonaws.com' for AWS S3
         .credentials(ACCESS_KEY, SECRET_KEY)
         .build();
-        
+
 Iterable<Result<Item>> results = minioClient.listObjects(
-    ListObjectsArgs.builder().bucket(BUCKET_NAME).prefix(REMOTE_PATH).build();
+    ListObjectsArgs.builder().bucket(BUCKET_NAME).prefix(REMOTE_PATH).build()
 );
 
-while (results.hasNext()) {
-    Result<Item> result = results.next();
+for (Result<Item> result : results) {
     System.out.println(result.get().objectName());
 }
 
@@ -185,7 +192,7 @@ res = bulk_import(
     api_key=API_KEY,
     url=CLOUD_API_ENDPOINT,
     cluster_id=CLUSTER_ID,
-    collection_name="quick_setup",
+    collection_name="medium_articles",
     object_url=STORAGE_URL,
     access_key=ACCESS_KEY,
     secret_key=SECRET_KEY
@@ -222,17 +229,18 @@ private static String bulkImport() throws InterruptedException {
     CloudImportRequest cloudImportRequest = CloudImportRequest.builder()
             .apiKey(API_KEY)
             .clusterId(CLUSTER_ID)
-            .collectionName("quick_setup")
+            .collectionName("medium_articles")
             .objectUrl(STORAGE_URL)
             .accessKey(ACCESS_KEY)
             .secretKey(SECRET_KEY)
             .build();
-    String bulkImportResult = BulkImport.bulkImport(CLOUD_API_ENDPOINT, cloudImportRequest);
+
+    String bulkImportResult = BulkImportUtils.bulkImport(CLOUD_API_ENDPOINT, cloudImportRequest);
     System.out.println(bulkImportResult);
 
     JsonObject bulkImportObject = new Gson().fromJson(bulkImportResult, JsonObject.class);
     String jobId = bulkImportObject.getAsJsonObject("data").get("jobId").getAsString();
-    System.out.println("Create a bulkInert task, job id: " + jobId);
+    System.out.println("Create a bulkImport task, job id: " + jobId);
     return jobId;
 }
 
@@ -285,9 +293,11 @@ print(json.dumps(resp.json(), indent=4))
 
 ```java
 private static void getImportProgress(String jobId) {
+
     /**
      * The value of the URL is fixed.
      */
+
     String CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
     String CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx";
     String API_KEY = "";
@@ -297,11 +307,13 @@ private static void getImportProgress(String jobId) {
         .clusterId(CLUSTER_ID)
         .jobId(jobId)
         .build();
-    String getImportProgressResult = BulkImport.getImportProgress(CLOUD_API_ENDPOINT, request);
+
+    String getImportProgressResult = BulkImportUtils.getImportProgress(CLOUD_API_ENDPOINT, request);
     System.out.println("Get import progress, result: " + getImportProgressResult);
 }
 
 public static void main(String[] args) throws Exception {
+
     getImportProgress("job-xxxx");
 }
 ```
@@ -341,21 +353,25 @@ print(json.dumps(resp.json(), indent=4))
 
 ```java
 private static void listImportJobs() {
+
     /**
      * The value of the URL is fixed.
      */
+
     String CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
     String CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx";
     String API_KEY = "";
-    
+
     CloudListImportJobsRequest listImportJobsRequest = CloudListImportJobsRequest.builder()
             .apiKey(API_KEY)
             .clusterId(CLUSTER_ID).build();
-    String listImportJobsResult = BulkImport.listImportJobs(CLOUD_API_ENDPOINT, listImportJobsRequest);
+
+    String listImportJobsResult = BulkImportUtils.listImportJobs(CLOUD_API_ENDPOINT, listImportJobsRequest);
     System.out.println(listImportJobsResult);
 }
 
 public static void main(String[] args) throws Exception {
+
     listImportJobs();
 }
 ```
