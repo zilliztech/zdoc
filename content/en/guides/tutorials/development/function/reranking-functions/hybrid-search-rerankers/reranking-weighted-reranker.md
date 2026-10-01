@@ -103,7 +103,7 @@ When using the WeightedRanker strategy, it is necessary to input weight values. 
 
 For example, suppose there are two basic ANN search requests in a Hybrid Search: text search and image search. If the text search is considered more important, it should be assigned a greater weight.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -140,6 +140,52 @@ CreateCollectionReq.Function rerank = CreateCollectionReq.Function.builder()
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+)
+
+rerank := entity.NewFunction().
+    WithName("weight").
+    WithType(entity.FunctionTypeRerank).
+    WithInputFields().
+    WithParam("reranker", "weighted").
+    WithParam("weights", "[0.1, 0.9]").
+    WithParam("norm_score", "true")
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+use std::collections::HashMap;
+
+let rerank = Function::new()
+    .name("weight")
+    .function_type(FunctionType::Rerank)
+    .input_fields([])
+    .params(HashMap::from([
+        ("reranker".into(), "weighted".into()),
+        ("weights".into(), "[0.1, 0.9]".into()),
+        ("norm_score".into(), "true".into()),
+    ]));
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+auto rerank = std::make_shared<milvus::Function>("weight", milvus::FunctionType::RERANK);
+rerank->AddParam("reranker", "weighted");
+rerank->AddParam("weights", "[0.1, 0.9]");
+rerank->AddParam("norm_score", "true");
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -159,29 +205,20 @@ const rerank = {
 
 </TabItem>
 
-<TabItem value='go'>
-
-```go
-// Go
-```
-
-</TabItem>
-
 <TabItem value='bash'>
 
 ```bash
 # Restful
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto rerank = std::make_shared<milvus::Function>("weight", milvus::FunctionType::RERANK);
-rerank->AddParam("reranker", "weighted");
-rerank->AddParam("weights", "[0.1, 0.9]");
-rerank->AddParam("norm_score", "true");
+export rerank='{
+  "name": "weight",
+  "inputFieldNames": [],
+  "functionType": "RERANK",
+  "params": {
+    "reranker": "weighted",
+    "weights": "[0.1, 0.9]",
+    "norm_score": "true"
+  }
+}'
 ```
 
 </TabItem>
@@ -200,7 +237,7 @@ rerank->AddParam("norm_score", "true");
 
 Weighted Ranker is designed specifically for hybrid search operations that combine multiple vector fields. When performing hybrid search, you must specify the weights for each search path:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -259,11 +296,11 @@ MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .token("YOUR_CLUSTER_TOKEN")
         .build());
-        
+
 List<AnnSearchReq> searchRequests = new ArrayList<>();
 searchRequests.add(AnnSearchReq.builder()
         .vectorFieldName("text_vector")
-        .vectors(Collections.singletonList(new EmbeddedText("\"modern dining table\"")))
+        .vectors(Collections.singletonList(new EmbeddedText("modern dining table")))
         .limit(10)
         .build());
 searchRequests.add(AnnSearchReq.builder()
@@ -271,50 +308,14 @@ searchRequests.add(AnnSearchReq.builder()
         .vectors(Collections.singletonList(new FloatVec(imageEmbedding)))
         .limit(10)
         .build());
-        
+
 HybridSearchReq hybridSearchReq = HybridSearchReq.builder()
-                .collectionName(COLLECTION_NAME)
-                .searchRequests(searchRequests)
-                .ranker(ranker)
-                .limit(10)
-                .outputFields(Arrays.asList("product_name", "price", "category"))
-                .build();
+        .collectionName(COLLECTION_NAME)
+        .searchRequests(searchRequests)
+        .ranker(rerank)
+        .limit(10)
+        .build();
 SearchResp searchResp = client.hybridSearch(hybridSearchReq);
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-import { MilvusClient, FunctionType } from "@zilliz/milvus2-sdk-node";
-
-const milvusClient = new MilvusClient({ 
-    address: "YOUR_CLUSTER_ENDPOINT",
-    token: "YOUR_CLUSTER_TOKEN"
-});
-
-const text_search = {
-  data: ["modern dining table"],
-  anns_field: "text_vector",
-  param: {},
-  limit: 10,
-};
-
-const image_search = {
-  data: [image_embedding],
-  anns_field: "image_vector",
-  param: {},
-  limit: 10,
-};
-
-const search = await milvusClient.search({
-  collection_name: collection_name,
-  limit: 10,
-  data: [text_search, image_search],
-  rerank: rerank,
-  output_fields = ["product_name", "price", "category"],
-});
 ```
 
 </TabItem>
@@ -322,19 +323,67 @@ const search = await milvusClient.search({
 <TabItem value='go'>
 
 ```go
-// go
+import (
+    "context"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
+
+// Define two ANN sub-search requests
+textSearch := milvusclient.NewAnnRequest("text_vector", 10, []entity.Vector{textEmbedding}...).WithSearchParam("metric_type", "COSINE")
+imageSearch := milvusclient.NewAnnRequest("image_vector", 10, []entity.Vector{imageEmbedding}...).WithSearchParam("metric_type", "IP")
+
+// Apply Weighted Ranker: text search has 0.8 weight, image search has 0.3 weight
+rerank := milvusclient.NewWeightedReranker([]float64{0.8, 0.3})
+
+hybridResults, err := cli.HybridSearch(ctx, milvusclient.NewHybridSearchOption(collectionName, 10, textSearch, imageSearch).
+    WithReranker(rerank).
+    WithOutputFields("product_name", "price", "category"))
+if err != nil {
+    log.Fatal(err)
+}
 ```
 
 </TabItem>
+</Tabs>
 
-<TabItem value='bash'>
+```rust
+use milvus::v2::prelude::*;
 
-```bash
-# restful
+// Define two ANN sub-search requests
+let text_search = SubSearchRequest::builder()
+    .vector_field("text_vector")
+    .vectors(SearchVectors::Float(vec![text_embedding]))
+    .metric_type(MetricType::Cosine)
+    .limit(10)
+    .build()?;
+let image_search = SubSearchRequest::builder()
+    .vector_field("image_vector")
+    .vectors(SearchVectors::Float(vec![image_embedding]))
+    .metric_type(MetricType::Ip)
+    .limit(10)
+    .build()?;
+
+// Apply Weighted Ranker: text search has 0.8 weight, image search has 0.3 weight
+let rerank = WeightedRerank::new().weights(vec![0.8, 0.3]);
+
+let response = client
+    .hybrid_search(
+        HybridSearchRequest::builder()
+            .collection_name(collection_name)
+            .sub_requests(vec![text_search, image_search])
+            .rerank(rerank)
+            .limit(10)
+            .output_fields(["product_name", "price", "category"])
+            .build()?,
+    )
+    .await?;
 ```
 
-</TabItem>
-
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
 <TabItem value='c++'>
 
 ```c++
@@ -363,6 +412,72 @@ auto status = client->HybridSearch(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const milvusClient = new MilvusClient({ 
+    address: "YOUR_CLUSTER_ENDPOINT",
+    token: "YOUR_CLUSTER_TOKEN"
+});
+
+const text_search = {
+  data: ["modern dining table"],
+  anns_field: "text_vector",
+  params: {},
+};
+
+const image_search = {
+  data: [image_embedding],
+  anns_field: "image_vector",
+  params: {},
+};
+
+const search = await milvusClient.search({
+  collection_name: collection_name,
+  limit: 10,
+  data: [text_search, image_search],
+  rerank: rerank,
+  output_fields: ["product_name", "price", "category"],
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/hybrid_search" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+--data "{
+    \"collectionName\": \"${COLLECTION_NAME}\",
+    \"search\": [
+        {
+            \"annsField\": \"text_vector\",
+            \"data\": [\"modern dining table\"],
+            \"params\": { \"metric_type\": \"COSINE\" },
+            \"limit\": 10
+        },
+        {
+            \"annsField\": \"image_vector\",
+            \"data\": [${IMAGE_EMBEDDING}],
+            \"params\": { \"metric_type\": \"IP\" },
+            \"limit\": 10
+        }
+    ],
+    \"rerank\": ${rerank},
+    \"limit\": 10,
+    \"outputFields\": [\"product_name\", \"price\", \"category\"]
+}"
 ```
 
 </TabItem>

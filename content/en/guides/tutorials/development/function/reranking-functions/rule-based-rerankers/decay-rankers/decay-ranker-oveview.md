@@ -173,7 +173,7 @@ Before using decay functions, you must first create a collection with appropriat
 
 To implement decay ranking, first define a `Function` object with the appropriate configuration:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -221,6 +221,63 @@ DecayRanker rerank = DecayRanker.builder()
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+rerank := entity.NewFunction().
+    WithName("time_decay").
+    WithInputFields("timestamp").
+    WithType(entity.FunctionTypeRerank).
+    WithParam("reranker", "decay").
+    WithParam("function", "gauss").
+    WithParam("origin", 1735689600).
+    WithParam("scale", 7*24*60*60).
+    WithParam("offset", 24*60*60).
+    WithParam("decay", 0.5)
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+    let client = ClientV2::new(&config).await?;
+
+    let rerank = DecayRerank::new()
+        .function(Function::new()
+            .name("time_decay")
+            .input_fields(["timestamp"])
+            .function_type(FunctionType::Rerank)
+            .param("reranker", "decay"))
+        .decay_function("gauss")
+        .origin(1735689600)
+        .scale(7 * 24 * 60 * 60)
+        .offset(24 * 60 * 60)
+        .decay(0.5);
+
+    Ok(())
+}
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+auto rerank = std::make_shared<milvus::DecayRerank>("time_decay");
+rerank->AddInputFieldName("timestamp");
+rerank->SetFunction("gauss");
+rerank->SetOrigin(1735689600);
+rerank->SetScale(7 * 24 * 60 * 60);
+rerank->SetOffset(24 * 60 * 60);
+rerank->SetDecay(0.5);
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -243,32 +300,10 @@ const rerank = {
 
 </TabItem>
 
-<TabItem value='go'>
-
-```go
-// go
-```
-
-</TabItem>
-
 <TabItem value='bash'>
 
 ```bash
-# restful
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto rerank = std::make_shared<milvus::DecayRerank>("time_decay");
-rerank->AddInputFieldName("timestamp");
-rerank->SetFunction("gauss");
-rerank->SetOrigin(1735689600);
-rerank->SetScale(7 * 24 * 60 * 60);
-rerank->SetOffset(24 * 60 * 60);
-rerank->SetDecay(0.5);
+# Note: The RESTful API does not expose the decay/rerank operation as of Milvus v3.0.x.
 ```
 
 </TabItem>
@@ -341,7 +376,7 @@ rerank->SetDecay(0.5);
 
 After defining your decay ranker, you can apply it during search operations by passing it to the `ranker` parameter:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -382,6 +417,64 @@ SearchResp searchResp = client.search(searchReq);
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+functionScore := entity.NewFunctionScore().AddFunction(rerank)
+
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+    collection_name, // collection name
+    10,              // limit
+    []entity.Vector{your_query_vector}, // query vector
+).WithANNSField("vector_field").
+    WithFunctionScore(functionScore).
+    WithOutputFields("document", "timestamp"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+    let function_score = FunctionScore::new().add_function(rerank);
+    let request = SearchRequest::builder()
+        .collection_name(collection_name)
+        .vectors(SearchVectors::Float(vec![your_query_vector]))
+        .vector_field("vector_field")
+        .limit(10)
+        .output_fields(vec!["document", "timestamp"])
+        .rerank(function_score)
+        .build()?;
+    let resp = client.search(request).await?;
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+auto function_score = std::make_shared<milvus::FunctionScore>();
+function_score->AddFunction(rerank);
+
+auto request = milvus::SearchRequest()
+                   .WithCollectionName(collection_name)
+                   .WithAnnsField("dense")
+                   .WithRerank(function_score)
+                   .AddOutputField("document")
+                   .AddOutputField("timestamp")
+                   .AddFloatVector(your_query_vector);
+
+milvus::SearchResponse response;
+status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -398,41 +491,10 @@ const result = await milvusClient.search({
 
 </TabItem>
 
-<TabItem value='go'>
-
-```go
-// go
-```
-
-</TabItem>
-
 <TabItem value='bash'>
 
 ```bash
-# restful
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto function_score = std::make_shared<milvus::FunctionScore>();
-function_score->AddFunction(rerank);
-
-auto request = milvus::SearchRequest()
-                   .WithCollectionName(collection_name)
-                   .WithAnnsField("dense")
-                   .WithRerank(function_score)
-                   .AddOutputField("document")
-                   .AddOutputField("timestamp")
-                   .AddFloatVector(your_query_vector);
-
-milvus::SearchResponse response;
-auto status = client->Search(request, response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
+# Note: The RESTful API does not expose the decay/rerank operation as of Milvus v3.0.x.
 ```
 
 </TabItem>

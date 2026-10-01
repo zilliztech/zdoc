@@ -338,6 +338,9 @@ As an alternative to working on Zilliz Cloud console, you can also programmatica
     In the request, set `externalCred.roleArn` to the role ARN noted in the previous step, and `externalCred.externalId` to the one displayed in the obtained authentication materials.
 
     ```bash
+    export BASE_URL="https://api.cloud.zilliz.com"
+    export TOKEN="YOUR_API_KEY"
+    
     curl --request POST \
     --url "${BASE_URL}/v2/storageIntegrations/validate" \
     --header "Authorization: Bearer ${TOKEN}" \
@@ -373,6 +376,9 @@ As an alternative to working on Zilliz Cloud console, you can also programmatica
     This request shares most parameters with the validation request, except for a description.
 
     ```bash
+    export BASE_URL="https://api.cloud.zilliz.com"
+    export TOKEN="YOUR_API_KEY"
+    
     curl --request POST \
     --url "${BASE_URL}/v2/storageIntegrations" \
     --header "Authorization: Bearer ${TOKEN}" \
@@ -420,6 +426,7 @@ If you need to use the RESTful API to export backup files to one of your AWS S3 
 Alternatively, you can obtain the integration ID by running the following command.
 
 ```bash
+export BASE_URL="https://api.cloud.zilliz.com"
 export TOKEN="YOUR_API_KEY"
 
 curl --request GET \
@@ -459,6 +466,9 @@ For details on parameter descriptions, refer to [List Storage Integrations](/ref
 You can use the following command to view integration details
 
 ```bash
+export BASE_URL="https://api.cloud.zilliz.com"
+export TOKEN="YOUR_API_KEY"
+
 export integrationId="integ-xxxxxxxxxxxxxxxxxxx"
 
 curl --request GET \
@@ -497,6 +507,9 @@ For details on parameter descriptions, refer to [Describe Storage Integration](/
 As an alternative method for clicking **Remove** on the Zilliz Cloud console. You can use the following command to delete unnecessary storage integration.
 
 ```bash
+export BASE_URL="https://api.cloud.zilliz.com"
+export TOKEN="YOUR_API_KEY"
+
 export integrationId="integ-xxxxxxxxxxxxxxxxxxx"
 
 curl --request DELETE \

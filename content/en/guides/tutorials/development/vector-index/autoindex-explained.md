@@ -16,7 +16,8 @@ displayed_sidebar: default
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # AUTOINDEX Explained
 
@@ -88,6 +89,9 @@ Indexing a floating vector on Zilliz Cloud is not an obstacle. Simply set the in
 
 The differences between the index-building settings on Milvus and Zilliz Cloud are shown below:
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 # For index-building
 # On Milvus
@@ -112,7 +116,130 @@ index_params = {
 }
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+// On Milvus
+Map<String, Object> indexParams = new HashMap<>();
+indexParams.put("metric_type", "L2");
+indexParams.put("index_type", "IVF_FLAT");
+Map<String, Object> milvusParams = new HashMap<>();
+milvusParams.put("nlist", 1024);
+indexParams.put("params", milvusParams);
+
+// On Zilliz Cloud
+Map<String, Object> cloudIndexParams = new HashMap<>();
+cloudIndexParams.put("index_type", "AUTOINDEX");
+cloudIndexParams.put("metric_type", "L2");
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// On Milvus
+indexParams := map[string]any{
+    "metric_type": "L2",
+    "index_type":  "IVF_FLAT",
+    "params":      map[string]any{"nlist": 1024},
+}
+
+// On Zilliz Cloud
+indexParams = map[string]any{
+    "index_type": "AUTOINDEX",
+    "metric_type": "L2",
+}
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use serde_json::json;
+
+// On Milvus
+let index_params = json!({
+    "metric_type": "L2",
+    "index_type": "IVF_FLAT",
+    "params": { "nlist": 1024 }
+});
+
+// On Zilliz Cloud
+let cloud_index_params = json!({
+    "index_type": "AUTOINDEX",
+    "metric_type": "L2"
+});
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+// On Milvus
+nlohmann::json index_params = {
+    {"metric_type", "L2"},
+    {"index_type", "IVF_FLAT"},
+    {"params", {{"nlist", 1024}}}
+};
+
+// On Zilliz Cloud
+nlohmann::json cloud_index_params = {
+    {"index_type", "AUTOINDEX"},
+    {"metric_type", "L2"}
+};
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// On Milvus
+const indexParams = {
+  metric_type: 'L2',
+  index_type: 'IVF_FLAT',
+  params: { nlist: 1024 },
+};
+
+// On Zilliz Cloud
+const cloudIndexParams = {
+  index_type: 'AUTOINDEX',
+  metric_type: 'L2',
+};
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# On Milvus
+index_params='{
+  "metric_type": "L2",
+  "index_type": "IVF_FLAT",
+  "params": { "nlist": 1024 }
+}'
+
+# On Zilliz Cloud
+cloud_index_params='{
+  "index_type": "AUTOINDEX",
+  "metric_type": "L2"
+}' 
+```
+
+</TabItem>
+</Tabs>
+
 The differences between the search parameter settings are as follows:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 # For searches
@@ -132,6 +259,110 @@ search_params = {
     }
 }
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+// On Milvus
+Map<String, Object> searchParams = new HashMap<>();
+Map<String, Object> milvusParams = new HashMap<>();
+milvusParams.put("nprobe", 10);
+searchParams.put("params", milvusParams);
+
+// On Zilliz Cloud
+Map<String, Object> cloudSearchParams = new HashMap<>();
+Map<String, Object> levelParams = new HashMap<>();
+levelParams.put("level", 1); // The default value applies when left unspecified
+cloudSearchParams.put("params", levelParams);
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// On Milvus
+searchParams := map[string]any{
+    "params": map[string]any{"nprobe": 10},
+}
+
+// On Zilliz Cloud
+searchParams = map[string]any{
+    "params": map[string]any{"level": 1}, // The default value applies when left unspecified
+}
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use serde_json::json;
+
+// On Milvus
+let search_params = json!({
+    "params": { "nprobe": 10 }
+});
+
+// On Zilliz Cloud
+let cloud_search_params = json!({
+    "params": { "level": 1 } // The default value applies when left unspecified
+});
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+// On Milvus
+nlohmann::json search_params = {
+    {"params", {{"nprobe", 10}}}
+};
+
+// On Zilliz Cloud
+nlohmann::json cloud_search_params = {
+    {"params", {{"level", 1}}} // The default value applies when left unspecified
+};
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// On Milvus
+const searchParams = {
+  params: { nprobe: 10 },
+};
+
+// On Zilliz Cloud
+const cloudSearchParams = {
+  params: { level: 1 }, // The default value applies when left unspecified
+};
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# On Milvus
+search_params='{
+  "params": { "nprobe": 10 }
+}'
+
+# On Zilliz Cloud
+cloud_search_params='{
+  "params": { "level": 1 }
+}' 
+```
+
+</TabItem>
+</Tabs>
 
 ### About the `level` parameter\{#about-the-level-parameter}
 

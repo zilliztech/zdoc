@@ -363,15 +363,15 @@ The response is similar to the following:
     "code": 0,
     "data": {
         "integrationId": "integ-xxxxxxxxxxxxxxxxxxx",
-        "name": "analytics-s3",
+        "name": "analytics-gcp",
         "description": "GCP bucket for external tables",
         "status": "ACTIVE",
         "message": "",
         "regionId": "gcp-us-central1",
         "bucketName": "my-bucket",
         "externalCred": {
-            "roleArn": "arn:aws:iam::123456789012:role/zilliz-bucket-role",
-            "externalId": "zilliz-external-AbCdEf12345678"
+            "gcpProjectId": "my-gcp-project",
+            "serviceAccountEmail": "bucket-access@my-gcp-project.iam.gserviceaccount.com"
         },
         "createTime": "2024-07-30T16:49:50Z"
     }
