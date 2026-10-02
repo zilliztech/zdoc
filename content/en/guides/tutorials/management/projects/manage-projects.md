@@ -203,7 +203,7 @@ If you need to upgrade a project to the **Business Critical** or **BYOC** plan, 
 
     The following demo shows how to upgrade the plan of a project from **Standard** to **Enterprise**.
 
-    <Supademo id="cmhiw3gu85zhlfati4r154s2h" title=""  />
+    <Supademo id="cmur1bl9j0u2iqm0p6hr5sr2h" title=""  />
 
 ## View all projects\{#view-all-projects}
 
