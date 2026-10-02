@@ -16,7 +16,8 @@ displayed_sidebar: default
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Hugging Face
 
@@ -87,6 +88,9 @@ Create a collection schema containing:
 
 The following example uses `BAAI/bge-small-en-v1.5`, which produces 384-dimensional vectors.
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 from pymilvus import DataType, Function, FunctionType, MilvusClient
 
@@ -120,9 +124,137 @@ schema.add_field(
 )
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+
+String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
+String TOKEN = "YOUR_CLUSTER_TOKEN";
+
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri(CLUSTER_ENDPOINT)
+        .token(TOKEN)
+        .build();
+
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+CreateCollectionReq.CollectionSchema schema = client.createSchema();
+
+schema.addField(AddFieldReq.builder()
+        .fieldName("id")
+        .dataType(DataType.Int64)
+        .isPrimaryKey(true)
+        .autoID(false)
+        .build());
+
+schema.addField(AddFieldReq.builder()
+        .fieldName("document")
+        .dataType(DataType.VarChar)
+        .maxLength(9000)
+        .build());
+
+schema.addField(AddFieldReq.builder()
+        .fieldName("dense")
+        .dataType(DataType.FloatVector)
+        .dimension(384)
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+schema := entity.NewSchema().
+    WithField(entity.NewField().WithName("id").WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true).WithIsAutoID(false)).
+    WithField(entity.NewField().WithName("document").WithDataType(entity.FieldTypeVarChar).WithMaxLength(9000)).
+    WithField(entity.NewField().WithName("dense").WithDataType(entity.FieldTypeFloatVector).WithDim(384))
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+
+let schema = CollectionSchema::new()
+    .add_field(FieldSchema::new().name("id").data_type(DataType::Int64).primary_key(true).auto_id(false))
+    .add_field(FieldSchema::new().name("document").data_type(DataType::VarChar).max_length(9000))
+    .add_field(FieldSchema::new().name("dense").data_type(DataType::FloatVector).dimension(384));
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->AddField({"id", milvus::DataType::INT64, "", true, false});
+schema->AddField(milvus::FieldSchema("document", milvus::DataType::VARCHAR).WithMaxLength(9000));
+schema->AddField(milvus::FieldSchema("dense", milvus::DataType::FLOAT_VECTOR).WithDimension(384));
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient, DataType } from '@zilliz/milvus2-sdk-node';
+
+const client = new MilvusClient({
+  address: 'YOUR_CLUSTER_ENDPOINT',
+  token: 'YOUR_CLUSTER_TOKEN',
+});
+
+const schema = {
+  fields: [
+    { name: 'id', data_type: DataType.Int64, is_primary_key: true, autoID: false },
+    { name: 'document', data_type: DataType.VarChar, max_length: 9000 },
+    { name: 'dense', data_type: DataType.FloatVector, dim: 384 },
+  ],
+};
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# Define the collection schema
+SCHEMA='{
+  "fields": [
+    { "fieldName": "id", "dataType": "Int64", "isPrimary": true },
+    { "fieldName": "document", "dataType": "VarChar", "elementTypeParams": { "max_length": "9000" } },
+    { "fieldName": "dense", "dataType": "FloatVector", "elementTypeParams": { "dim": "384" } }
+  ]
+}' 
+```
+
+</TabItem>
+</Tabs>
+
 #### Define the text embedding function\{#define-the-text-embedding-function}
 
 Define a `TEXTEMBEDDING` Function that converts values from the `document` field into embeddings and writes them to the `dense` field.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 text_embedding_function = Function(
@@ -144,6 +276,131 @@ text_embedding_function = Function(
 schema.add_function(text_embedding_function)
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.common.clientenum.FunctionType;
+import io.milvus.v2.service.collection.request.CreateCollectionReq.Function;
+
+import java.util.Collections;
+
+Function function = Function.builder()
+        .functionType(FunctionType.TEXTEMBEDDING)
+        .name("hugging_face_embedding")
+        .inputFieldNames(Collections.singletonList("document"))
+        .outputFieldNames(Collections.singletonList("dense"))
+        .param("provider", "huggingface")
+        .param("model_name", "BAAI/bge-small-en-v1.5")
+        .param("integration_id", "YOUR_INTEGRATION_ID")
+        .param("normalize", "true")
+        .param("truncate", "true")
+        .build();
+schema.addFunction(function);
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+function := entity.NewFunction().
+    WithName("hugging_face_embedding").
+    WithType(entity.FunctionTypeTextEmbedding).
+    WithInputFields("document").
+    WithOutputFields("dense").
+    WithParam("provider", "huggingface").
+    WithParam("model_name", "BAAI/bge-small-en-v1.5").
+    WithParam("integration_id", "YOUR_INTEGRATION_ID").
+    WithParam("normalize", "true").
+    WithParam("truncate", "true")
+
+schema.WithFunction(function)
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+use std::collections::HashMap;
+
+let function = Function::new()
+    .name("hugging_face_embedding")
+    .function_type(FunctionType::TextEmbedding)
+    .input_fields(["document"])
+    .output_fields(["dense"])
+    .params(HashMap::from([
+        ("provider".into(), "huggingface".into()),
+        ("model_name".into(), "BAAI/bge-small-en-v1.5".into()),
+        ("integration_id".into(), "YOUR_INTEGRATION_ID".into()),
+        ("normalize".into(), "true".into()),
+        ("truncate".into(), "true".into()),
+    ]));
+
+schema.add_function(function);
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+milvus::FunctionPtr function = std::make_shared<milvus::Function>("hugging_face_embedding", milvus::FunctionType::TEXTEMBEDDING);
+function->AddInputFieldName("document");
+function->AddOutputFieldName("dense");
+function->AddParam("provider", "huggingface");
+function->AddParam("model_name", "BAAI/bge-small-en-v1.5");
+function->AddParam("integration_id", "YOUR_INTEGRATION_ID");
+function->AddParam("normalize", "true");
+function->AddParam("truncate", "true");
+schema->AddFunction(function);
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const hfFunc = {
+  name: 'hugging_face_embedding',
+  type: 'TextEmbedding',
+  input_field_names: ['document'],
+  output_field_names: ['dense'],
+  params: {
+    provider: 'huggingface',
+    model_name: 'BAAI/bge-small-en-v1.5',
+    integration_id: 'YOUR_INTEGRATION_ID',
+    normalize: 'true',
+    truncate: 'true',
+  },
+};
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# Define the text embedding function
+FUNCTION='{
+  "name": "hugging_face_embedding",
+  "type": "TextEmbedding",
+  "inputFieldNames": ["document"],
+  "outputFieldNames": ["dense"],
+  "params": {
+    "provider": "huggingface",
+    "model_name": "BAAI/bge-small-en-v1.5",
+    "integration_id": "YOUR_INTEGRATION_ID",
+    "normalize": "true",
+    "truncate": "true"
+  }
+}' 
+```
+
+</TabItem>
+</Tabs>
+
 The following table describes all supported entries in `params`. The Hugging Face request options follow the [Feature Extraction API specification](https://huggingface.co/docs/inference-providers/en/tasks/feature-extraction#api-specification); `provider`, `model_name`, `integration_id`, and `max_client_batch_size` configure the Zilliz Cloud integration.
 
 | Parameter | Required | Description |
@@ -161,6 +418,9 @@ The following table describes all supported entries in `params`. The Hugging Fac
 
 Configure an index for the output vector field. The following example uses `AUTOINDEX` and cosine similarity.
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 index_params = client.prepare_index_params()
 
@@ -171,9 +431,85 @@ index_params.add_index(
 )
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.common.IndexParam;
+
+List<IndexParam> indexes = new ArrayList<>();
+indexes.add(IndexParam.builder()
+        .fieldName("dense")
+        .indexType(IndexParam.IndexType.AUTOINDEX)
+        .metricType(IndexParam.MetricType.COSINE)
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+indexOption := milvusclient.NewCreateIndexOption("hugging_face_demo", "dense", index.NewAutoIndex(entity.COSINE))
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let index_params = vec![
+    IndexParam::new()
+        .field_name("dense")
+        .index_type(IndexType::AutoIndex)
+        .metric_type(MetricType::Cosine),
+];
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+std::vector<milvus::IndexDesc> indexes = {
+    milvus::IndexDesc("dense", "", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE)
+};
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const indexParams = {
+  field_name: 'dense',
+  index_type: 'AUTOINDEX',
+  metric_type: 'COSINE',
+};
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# Define the index parameters
+indexParams='{
+  "fieldName": "dense",
+  "indexName": "dense_index",
+  "indexType": "AUTOINDEX",
+  "metricType": "COSINE"
+}' 
+```
+
+</TabItem>
+</Tabs>
+
 #### Create the collection\{#create-the-collection}
 
 Create the collection with the schema and index parameters.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 client.create_collection(
@@ -183,11 +519,133 @@ client.create_collection(
 )
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+
+CreateCollectionReq requestCreate = CreateCollectionReq.builder()
+        .collectionName("hugging_face_demo")
+        .collectionSchema(schema)
+        .indexParams(indexes)
+        .build();
+client.createCollection(requestCreate);
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("hugging_face_demo", schema).WithIndexOptions(indexOption))
+if err != nil {
+    log.Fatal(err)
+}
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+client
+    .create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name("hugging_face_demo")
+            .schema(schema)
+            .index_params(index_params)
+            .build()?,
+    )
+    .await?;
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+auto status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                    .WithCollectionName("hugging_face_demo")
+                                    .WithIndexes(std::move(indexes))
+                                    .WithCollectionSchema(schema));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.createCollection({
+  collection_name: 'hugging_face_demo',
+  fields: schema.fields,
+  functions: [hfFunc],
+});
+
+// Create the index on the dense vector field
+await client.createIndex({
+  collection_name: 'hugging_face_demo',
+  ...indexParams,
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+  --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/create" \
+  --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "collectionName": "hugging_face_demo",
+    "schema": {
+      "fields": [
+        { "fieldName": "id", "dataType": "Int64", "isPrimary": true },
+        { "fieldName": "document", "dataType": "VarChar", "elementTypeParams": { "max_length": "9000" } },
+        { "fieldName": "dense", "dataType": "FloatVector", "elementTypeParams": { "dim": "384" } }
+      ],
+      "functions": [
+        {
+          "name": "hugging_face_embedding",
+          "type": "TextEmbedding",
+          "inputFieldNames": ["document"],
+          "outputFieldNames": ["dense"],
+          "params": {
+            "provider": "huggingface",
+            "model_name": "BAAI/bge-small-en-v1.5",
+            "integration_id": "YOUR_INTEGRATION_ID",
+            "normalize": "true",
+            "truncate": "true"
+          }
+        }
+      ]
+    },
+    "indexParams": [
+      {
+        "fieldName": "dense",
+        "indexName": "dense_index",
+        "indexType": "AUTOINDEX",
+        "metricType": "COSINE"
+      }
+    ]
+  }' 
+```
+
+</TabItem>
+</Tabs>
+
 The collection is created with a text embedding function that writes 384-dimensional vectors to the `dense` field.
 
 ### Step 2: Insert data\{#step-2-insert-data}
 
 Insert raw text without providing vectors. Zilliz Cloud calls the Hugging Face model and writes the generated embeddings to the `dense` field.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 client.insert(
@@ -209,11 +667,130 @@ client.insert(
 )
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import io.milvus.v2.service.vector.request.InsertReq;
+
+Gson gson = new Gson();
+List<JsonObject> rows = Arrays.asList(
+        gson.fromJson("{\"id\": 1, \"document\": \"Milvus simplifies semantic search through embeddings.\"}", JsonObject.class),
+        gson.fromJson("{\"id\": 2, \"document\": \"Vector embeddings convert text into searchable numeric data.\"}", JsonObject.class),
+        gson.fromJson("{\"id\": 3, \"document\": \"Semantic search helps users find relevant information quickly.\"}", JsonObject.class),
+);
+
+client.insert(InsertReq.builder()
+        .collectionName("hugging_face_demo")
+        .data(rows)
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+_, err = client.Insert(ctx, milvusclient.NewRowBasedInsertOption("hugging_face_demo",
+    map[string]any{"id": 1, "document": "Milvus simplifies semantic search through embeddings."},
+    map[string]any{"id": 2, "document": "Vector embeddings convert text into searchable numeric data."},
+    map[string]any{"id": 3, "document": "Semantic search helps users find relevant information quickly."},
+))
+if err != nil {
+    log.Fatal(err)
+}
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use serde_json::json;
+
+let rows = vec![
+    json!({"id": 1, "document": "Milvus simplifies semantic search through embeddings."}),
+    json!({"id": 2, "document": "Vector embeddings convert text into searchable numeric data."}),
+    json!({"id": 3, "document": "Semantic search helps users find relevant information quickly."}),
+];
+
+client
+    .insert(
+        InsertRequest::builder()
+            .collection_name("hugging_face_demo")
+            .rows(rows)
+            .build()?,
+    )
+    .await?;
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+milvus::EntityRows data = {
+    {{"id", 1}, {"document", "Milvus simplifies semantic search through embeddings."}},
+    {{"id", 2}, {"document", "Vector embeddings convert text into searchable numeric data."}},
+    {{"id", 3}, {"document", "Semantic search helps users find relevant information quickly."}}
+};
+
+milvus::InsertResponse response;
+auto status = client->Insert(milvus::InsertRequest()
+                                .WithCollectionName("hugging_face_demo")
+                                .WithRowsData(std::move(data))
+                                , response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.insert({
+  collection_name: 'hugging_face_demo',
+  fields_data: [
+    { id: 1, document: 'Milvus simplifies semantic search through embeddings.' },
+    { id: 2, document: 'Vector embeddings convert text into searchable numeric data.' },
+    { id: 3, document: 'Semantic search helps users find relevant information quickly.' },
+  ],
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+  --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/insert" \
+  --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "collectionName": "hugging_face_demo",
+    "data": [
+      { "id": 1, "document": "Milvus simplifies semantic search through embeddings." },
+      { "id": 2, "document": "Vector embeddings convert text into searchable numeric data." },
+      { "id": 3, "document": "Semantic search helps users find relevant information quickly." }
+    ]
+  }' 
+```
+
+</TabItem>
+</Tabs>
+
 The insert operation stores the raw text and generates one embedding for each entity.
 
 ### Step 3: Search with text\{#step-3-search-with-text}
 
 Search using raw query text. Zilliz Cloud uses the same Function, model, and optional inference parameters to convert the query text into an embedding before running vector search.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 results = client.search(
@@ -226,6 +803,121 @@ results = client.search(
 
 print(results)
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.EmbeddedText;
+import io.milvus.v2.service.vector.response.SearchResp;
+
+SearchResp searchResp = client.search(SearchReq.builder()
+        .collectionName("hugging_face_demo")
+        .data(Collections.singletonList(new EmbeddedText("How does Milvus handle semantic search?")))
+        .annsField("dense")
+        .limit(3)
+        .outputFields(Collections.singletonList("document"))
+        .build());
+List<List<SearchResp.SearchResult>> searchResults = searchResp.getSearchResults();
+for (List<SearchResp.SearchResult> results : searchResults) {
+    for (SearchResp.SearchResult result : results) {
+        System.out.println(result);
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+searchResults, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "hugging_face_demo",
+    3,
+    []entity.Vector{entity.Text("How does Milvus handle semantic search?")},
+).
+    WithANNSField("dense").
+    WithOutputFields("document"))
+if err != nil {
+    log.Fatal(err)
+}
+for _, rs := range searchResults {
+    fmt.Println(rs.Fields)
+}
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let response = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("hugging_face_demo")
+            .vector_field("dense")
+            .vectors(SearchVectors::EmbeddedText(vec!["How does Milvus handle semantic search?".into()]))
+            .limit(3)
+            .output_fields(["document"])
+            .build()?,
+    )
+    .await?;
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+auto request = milvus::SearchRequest()
+                   .WithCollectionName("hugging_face_demo")
+                   .AddEmbeddedText("How does Milvus handle semantic search?")
+                   .WithAnnsField("dense")
+                   .WithLimit(3)
+                   .AddOutputField("document");
+
+milvus::SearchResponse response;
+auto status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const results = await client.search({
+  collection_name: 'hugging_face_demo',
+  data: ['How does Milvus handle semantic search?'],
+  anns_field: 'dense',
+  limit: 3,
+  output_fields: ['document'],
+});
+console.log(results);
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+  --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
+  --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "collectionName": "hugging_face_demo",
+    "data": ["How does Milvus handle semantic search?"],
+    "annsField": "dense",
+    "limit": 3,
+    "outputFields": ["document"]
+  }' 
+```
+
+</TabItem>
+</Tabs>
 
 The search result contains the documents most relevant to the query text, ordered by cosine similarity.
 

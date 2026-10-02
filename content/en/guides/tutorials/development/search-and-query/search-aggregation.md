@@ -85,7 +85,7 @@ The examples below use a product collection with brand, category, color, price, 
 
 <summary>Set up the example collection</summary>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -300,6 +300,147 @@ private static JsonObject product(long id, float[] embedding, String name, Strin
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+client, err := milvusclient.New(context.Background(), &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    log.Fatal(err)
+}
+defer client.Close(context.Background())
+
+collectionName := "product_search_aggregation"
+client.DropCollection(context.Background(), milvusclient.NewDropCollectionOption(collectionName))
+
+schema := entity.NewSchema()
+schema.WithField(entity.NewField().WithName("id").WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true).
+    WithIsAutoID(false),
+).WithField(entity.NewField().WithName("embedding").WithDataType(entity.FieldTypeFloatVector).WithDim(5),
+).WithField(entity.NewField().WithName("name").WithDataType(entity.FieldTypeVarChar).WithMaxLength(200),
+).WithField(entity.NewField().WithName("brand").WithDataType(entity.FieldTypeVarChar).WithMaxLength(100),
+).WithField(entity.NewField().WithName("category").WithDataType(entity.FieldTypeVarChar).WithMaxLength(100),
+).WithField(entity.NewField().WithName("color").WithDataType(entity.FieldTypeVarChar).WithMaxLength(50),
+).WithField(entity.NewField().WithName("price").WithDataType(entity.FieldTypeDouble),
+).WithField(entity.NewField().WithName("rating").WithDataType(entity.FieldTypeDouble),
+).WithField(entity.NewField().WithName("in_stock").WithDataType(entity.FieldTypeBool),
+)
+
+indexOpt := milvusclient.NewCreateIndexOption(collectionName, "embedding", index.NewAutoIndex(entity.COSINE))
+
+err = client.CreateCollection(context.Background(), milvusclient.NewCreateCollectionOption(collectionName, schema).
+    WithIndexOptions(indexOpt))
+if err != nil {
+    log.Fatal(err)
+}
+
+rows := []entity.Row{
+    entity.NewRow().WithFields(
+        entity.RowField("id", 1), entity.RowField("embedding", []float32{0.12, 0.42, 0.18, 0.66, 0.31}),
+        entity.RowField("name", "Runner A1"), entity.RowField("brand", "Brand A"),
+        entity.RowField("category", "running_shoes"), entity.RowField("color", "black"),
+        entity.RowField("price", 129.99), entity.RowField("rating", 4.7), entity.RowField("in_stock", true)),
+}
+_, err = client.Insert(context.Background(), milvusclient.NewRowBasedInsertOption(collectionName, rows))
+if err != nil {
+    log.Fatal(err)
+}
+
+_, err = client.LoadCollection(context.Background(), milvusclient.NewLoadCollectionOption(collectionName))
+if err != nil {
+    log.Fatal(err)
+}
+
+queryVector := []float32{0.11, 0.40, 0.19, 0.64, 0.30}
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::error::Result;
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+    let client = ClientV2::new(&config).await?;
+
+    let collection_name = "product_search_aggregation";
+    client.drop_collection(
+        DropCollectionRequest::builder().collection_name(collection_name).build()?,
+    ).await.ok();
+
+    let schema = CollectionSchema::new()
+        .add_field(FieldSchema::new().name("id").data_type(DataType::Int64).primary_key(true))
+        .add_field(FieldSchema::new().name("embedding").data_type(DataType::FloatVector).dimension(5))
+        .add_field(FieldSchema::new().name("name").data_type(DataType::VarChar).max_length(200))
+        .add_field(FieldSchema::new().name("brand").data_type(DataType::VarChar).max_length(100))
+        .add_field(FieldSchema::new().name("category").data_type(DataType::VarChar).max_length(100))
+        .add_field(FieldSchema::new().name("color").data_type(DataType::VarChar).max_length(50))
+        .add_field(FieldSchema::new().name("price").data_type(DataType::Double))
+        .add_field(FieldSchema::new().name("rating").data_type(DataType::Double))
+        .add_field(FieldSchema::new().name("in_stock").data_type(DataType::Bool));
+
+    client.create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name(collection_name)
+            .schema(schema)
+            .build()?,
+    ).await?;
+    Ok(())
+}
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+#include <iostream>
+#include <memory>
+
+auto client = milvus::MilvusClientV2::Create();
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->AddField(milvus::FieldSchema("id", milvus::DataType::INT64).WithPrimaryKey(true));
+schema->AddField(milvus::FieldSchema("embedding", milvus::DataType::FLOAT_VECTOR).WithDimension(5));
+schema->AddField(milvus::FieldSchema("name", milvus::DataType::VARCHAR).WithMaxLength(200));
+schema->AddField(milvus::FieldSchema("brand", milvus::DataType::VARCHAR).WithMaxLength(100));
+schema->AddField(milvus::FieldSchema("category", milvus::DataType::VARCHAR).WithMaxLength(100));
+schema->AddField(milvus::FieldSchema("color", milvus::DataType::VARCHAR).WithMaxLength(50));
+schema->AddField(milvus::FieldSchema("price", milvus::DataType::DOUBLE));
+schema->AddField(milvus::FieldSchema("rating", milvus::DataType::DOUBLE));
+schema->AddField(milvus::FieldSchema("in_stock", milvus::DataType::BOOL));
+
+status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                      .WithCollectionName("product_search_aggregation")
+                                      .WithCollectionSchema(schema));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -349,14 +490,6 @@ const searchParams = { metric_type: 'COSINE', params: {} };
 
 </TabItem>
 
-<TabItem value='go'>
-
-```go
-// TBD: Search Aggregation is not yet available in the released Go SDK.
-```
-
-</TabItem>
-
 <TabItem value='bash'>
 
 ```bash
@@ -393,7 +526,7 @@ If your goal is only to improve result diversity by returning one or more entiti
 
 The following configuration creates up to three brand buckets, calculates metrics for each bucket, and sorts the buckets by average price:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -446,6 +579,51 @@ SearchAggregation aggregation = SearchAggregation.builder()
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+aggregation := milvusclient.NewSearchAggregation([]string{"brand"}, 3).
+    WithMetric("product_count", "count", "*").
+    WithMetric("avg_price", "avg", "price").
+    WithMetric("min_price", "min", "price").
+    WithOrder("avg_price", "desc").
+    WithOrder("_key", "asc")
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let aggregation = SearchAggregation::new()
+    .fields(["brand"])
+    .size(3)
+    .add_metric("product_count", MetricSpec::new().op(MetricOp::Count).field_name("*"))
+    .add_metric("avg_price", MetricSpec::new().op(MetricOp::Avg).field_name("price"))
+    .add_metric("min_price", MetricSpec::new().op(MetricOp::Min).field_name("price"))
+    .add_order(OrderSpec::new().key("avg_price").direction(AggDirection::Desc))
+    .add_order(OrderSpec::new().key("_key").direction(AggDirection::Asc));
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+milvus::SearchAggregationPtr aggregation = std::make_shared<milvus::SearchAggregation>();
+aggregation->WithFields({"brand"}).
+    WithSize(3).
+    WithMetrics({
+        {"product_count", milvus::AggregationMetric(milvus::AggregationMetricOp::COUNT, "*")},
+        {"avg_price", milvus::AggregationMetric(milvus::AggregationMetricOp::AVG, "price")},
+        {"min_price", milvus::AggregationMetric(milvus::AggregationMetricOp::MIN, "price")},
+    }).
+    WithOrders({
+        milvus::AggregationOrder("avg_price", milvus::AggregationDirection::DESC),
+        milvus::AggregationOrder("_key", milvus::AggregationDirection::ASC),
+    });
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -462,14 +640,6 @@ const aggregation = {
     { key: '_key', direction: 'asc' },
   ],
 };
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-// TBD: Search Aggregation is not yet available in the released Go SDK.
 ```
 
 </TabItem>
@@ -496,7 +666,7 @@ search "$payload"
 
 Pass the object to the `search_aggregation` parameter of `MilvusClient.search()`:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -539,6 +709,61 @@ List<AggregationBucket> buckets = result.getAggregationBuckets().get(0);
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+resultSets, err := client.Search(context.Background(), milvusclient.NewSearchOption(
+    collectionName,
+    10,
+    []entity.Vector{entity.FloatVector(queryVector)},
+).WithANNSField("embedding").
+    WithSearchParam("metric_type", "COSINE").
+    WithOutputFields("name", "brand", "category", "color", "price", "rating", "in_stock").
+    WithSearchAggregation(aggregation))
+if err != nil {
+    log.Fatal(err)
+}
+
+buckets := resultSets[0].AggregationBuckets
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let result = client.search(
+    SearchRequest::builder()
+        .collection_name("product_search_aggregation")
+        .vector_field("embedding")
+        .vectors(SearchVectors::Float(vec![vec![0.11f32, 0.40, 0.19, 0.64, 0.30]]))
+        .limit(10)
+        .output_fields(["name", "brand", "category", "color", "price", "rating", "in_stock"])
+        .search_aggregation(aggregation)
+        .build()?,
+).await?;
+println!("{:?}", result.results().get_agg_buckets());
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+milvus::SearchResponse search_resp;
+status = client->Search(milvus::SearchRequest()
+                            .WithCollectionName("product_search_aggregation")
+                            .WithAnnsField("embedding")
+                            .WithLimit(10)
+                            .WithOutputFields({"name", "brand", "category", "color", "price", "rating", "in_stock"})
+                            .AddFloatVector({0.11f, 0.40f, 0.19f, 0.64f, 0.30f})
+                            .WithSearchAggregation(aggregation),
+                        search_resp);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -553,14 +778,6 @@ const result = await client.search({
 });
 
 const buckets = result.agg_buckets;
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-// TBD: Search Aggregation is not yet available in the released Go SDK.
 ```
 
 </TabItem>
@@ -697,7 +914,7 @@ Each `order` entry maps a key to `"asc"` or `"desc"`. Zilliz Cloud evaluates mul
 
 To sort buckets by vector match quality, first calculate a bucket-level metric from `_score`, and then use the metric alias in `order`. You cannot use `_score` directly as a bucket-order key because each bucket can contain multiple entity scores. For example, with `COSINE` or `IP`:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -724,6 +941,38 @@ SearchAggregation aggregation = SearchAggregation.builder()
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+aggregation := milvusclient.NewSearchAggregation([]string{"brand"}, 3).
+    WithMetric("max_score", "max", "_score").
+    WithOrder("max_score", "desc")
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let aggregation = SearchAggregation::new()
+    .fields(["brand"])
+    .size(3)
+    .add_metric("max_score", MetricSpec::new().op(MetricOp::Max).field_name("_score"))
+    .add_order(OrderSpec::new().key("max_score").direction(AggDirection::Desc));
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+milvus::SearchAggregationPtr aggregation = std::make_shared<milvus::SearchAggregation>();
+aggregation->WithFields({"brand"}).
+    WithSize(3).
+    WithMetrics({{"max_score", milvus::AggregationMetric(milvus::AggregationMetricOp::MAX, "_score")}}).
+    WithOrders({milvus::AggregationOrder("max_score", milvus::AggregationDirection::DESC)});
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -733,14 +982,6 @@ const aggregation = {
   metrics: { max_score: { op: 'max', field_name: '_score' } },
   order: [{ key: 'max_score', direction: 'desc' }],
 };
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-// TBD: Search Aggregation is not yet available in the released Go SDK.
 ```
 
 </TabItem>
@@ -770,7 +1011,7 @@ With `L2`, calculate the minimum `_score` value and sort the metric alias in asc
 
 To create a composite bucket key, pass multiple field names in the same list:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -796,6 +1037,31 @@ SearchAggregation aggregation = SearchAggregation.builder()
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+aggregation := milvusclient.NewSearchAggregation([]string{"brand", "color"}, 6)
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let aggregation = SearchAggregation::new()
+    .fields(["brand", "color"])
+    .size(6);
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+milvus::SearchAggregationPtr aggregation = std::make_shared<milvus::SearchAggregation>();
+aggregation->WithFields({"brand", "color"}).WithSize(6);
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -803,14 +1069,6 @@ const aggregation = {
   fields: ['brand', 'color'],
   size: 6,
 };
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-// TBD: Search Aggregation is not yet available in the released Go SDK.
 ```
 
 </TabItem>
@@ -846,7 +1104,7 @@ Include representative entities when the application needs to show actual produc
 
 Configure `TopHits` as follows:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -882,6 +1140,45 @@ SearchAggregation aggregation = SearchAggregation.builder().fields(Collections.s
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+aggregation := milvusclient.NewSearchAggregation([]string{"brand"}, 3).
+    WithTopHits(milvusclient.NewTopHits(2).
+        WithSort("rating", "desc").
+        WithSort("_score", "desc"))
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let aggregation = SearchAggregation::new()
+    .fields(["brand"])
+    .size(3)
+    .top_hits(TopHitsSpec::new()
+        .size(2)
+        .add_sort(SortSpec::new().field_name("rating").direction(AggDirection::Desc))
+        .add_sort(SortSpec::new().field_name("_score").direction(AggDirection::Desc)));
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+milvus::AggregationTopHitsPtr top_hits = std::make_shared<milvus::AggregationTopHits>();
+top_hits->WithSize(2).
+    WithSorts({
+        milvus::AggregationSort("rating", milvus::AggregationDirection::DESC),
+        milvus::AggregationSort("_score", milvus::AggregationDirection::DESC),
+    });
+
+milvus::SearchAggregationPtr aggregation = std::make_shared<milvus::SearchAggregation>();
+aggregation->WithFields({"brand"}).WithSize(3).WithTopHits(top_hits);
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -896,14 +1193,6 @@ const aggregation = {
     ],
   },
 };
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-// TBD: Search Aggregation is not yet available in the released Go SDK.
 ```
 
 </TabItem>
@@ -1010,7 +1299,7 @@ Each level can independently use multiple fields. For example, using `fields=["b
 
 The following configuration implements this hierarchy:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1060,6 +1349,73 @@ SearchAggregation aggregation = SearchAggregation.builder().fields(Collections.s
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+aggregation := milvusclient.NewSearchAggregation([]string{"category"}, 2).
+    WithMetric("product_count", "count", "*").
+    WithMetric("avg_price", "avg", "price").
+    WithOrder("product_count", "desc").
+    WithSubAggregation(milvusclient.NewSearchAggregation([]string{"brand"}, 3).
+        WithMetric("brand_count", "count", "*").
+        WithMetric("avg_rating", "avg", "rating").
+        WithOrder("avg_rating", "desc").
+        WithTopHits(milvusclient.NewTopHits(2).WithSort("rating", "desc")))
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let aggregation = SearchAggregation::new()
+    .fields(["category"])
+    .size(2)
+    .add_metric("product_count", MetricSpec::new().op(MetricOp::Count).field_name("*"))
+    .add_metric("avg_price", MetricSpec::new().op(MetricOp::Avg).field_name("price"))
+    .add_order(OrderSpec::new().key("product_count").direction(AggDirection::Desc))
+    .sub_aggregation(
+        SearchAggregation::new()
+            .fields(["brand"])
+            .size(3)
+            .add_metric("brand_count", MetricSpec::new().op(MetricOp::Count).field_name("*"))
+            .add_metric("avg_rating", MetricSpec::new().op(MetricOp::Avg).field_name("rating"))
+            .add_order(OrderSpec::new().key("avg_rating").direction(AggDirection::Desc))
+            .top_hits(TopHitsSpec::new()
+                .size(2)
+                .add_sort(SortSpec::new().field_name("rating").direction(AggDirection::Desc))),
+    );
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+milvus::SearchAggregationPtr sub = std::make_shared<milvus::SearchAggregation>();
+sub->WithFields({"brand"}).
+    WithSize(3).
+    WithMetrics({
+        {"brand_count", milvus::AggregationMetric(milvus::AggregationMetricOp::COUNT, "*")},
+        {"avg_rating", milvus::AggregationMetric(milvus::AggregationMetricOp::AVG, "rating")},
+    }).
+    WithOrders({milvus::AggregationOrder("avg_rating", milvus::AggregationDirection::DESC)});
+
+milvus::AggregationTopHitsPtr top_hits = std::make_shared<milvus::AggregationTopHits>();
+top_hits->WithSize(2).WithSorts({milvus::AggregationSort("rating", milvus::AggregationDirection::DESC)});
+sub->WithTopHits(top_hits);
+
+milvus::SearchAggregationPtr aggregation = std::make_shared<milvus::SearchAggregation>();
+aggregation->WithFields({"category"}).
+    WithSize(2).
+    WithMetrics({
+        {"product_count", milvus::AggregationMetric(milvus::AggregationMetricOp::COUNT, "*")},
+        {"avg_price", milvus::AggregationMetric(milvus::AggregationMetricOp::AVG, "price")},
+    }).
+    WithOrders({milvus::AggregationOrder("product_count", milvus::AggregationDirection::DESC)}).
+    WithSubAggregation(sub);
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -1085,14 +1441,6 @@ const aggregation = {
     },
   },
 };
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-// TBD: Search Aggregation is not yet available in the released Go SDK.
 ```
 
 </TabItem>
