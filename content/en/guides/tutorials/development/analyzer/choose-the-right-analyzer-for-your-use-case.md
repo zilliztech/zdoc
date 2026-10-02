@@ -16,7 +16,8 @@ displayed_sidebar: default
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 import Supademo from '@site/src/components/Supademo';
 
@@ -164,6 +165,9 @@ Built-in analyzers are pre-configured solutions for common languages. They are t
 
 To use a built-in analyzer, simply specify its type in the `analyzer_params` when defining your field schema.
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 # Using built-in English analyzer
 analyzer_params = {
@@ -180,6 +184,104 @@ schema.add_field(
     analyzer_params=analyzer_params,
 )
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+import java.util.HashMap;
+import java.util.Map;
+
+Map<String, Object> analyzerParams = new HashMap<>();
+analyzerParams.put("type", "english");
+
+schema.addField(AddFieldReq.builder()
+        .fieldName("text")
+        .dataType(DataType.VarChar)
+        .maxLength(200)
+        .enableAnalyzer(true)
+        .analyzerParams(analyzerParams)
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+analyzerParams := map[string]any{"type": "english"}
+
+schema.WithField(entity.NewField().
+    WithName("text").
+    WithDataType(entity.FieldTypeVarChar).
+    WithMaxLength(200).
+    WithEnableAnalyzer(true).
+    WithAnalyzerParams(analyzerParams))
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let analyzer_params = serde_json::json!({"type": "english"});
+let schema = CollectionSchema::new().add_field(FieldSchema::new()
+    .name("text")
+    .data_type(DataType::VarChar)
+    .max_length(200)
+    .enable_analyzer(true)
+    .analyzer_params(analyzer_params));
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {{"type", "english"}};
+schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR)
+                     .WithMaxLength(200)
+                     .EnableAnalyzer(true)
+                     .WithAnalyzerParams(analyzer_params));
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = { type: "english" };
+
+const schema = [
+  {
+    name: "text",
+    data_type: DataType.VarChar,
+    max_length: 200,
+    enable_analyzer: true,
+    analyzer_params,
+  },
+];
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export textField='{
+  "fieldName": "text",
+  "dataType": "VarChar",
+  "elementTypeParams": {
+    "max_length": 200,
+    "enable_analyzer": true,
+    "analyzer_params": "{\"type\":\"english\"}"
+  }
+}'
+```
+
+</TabItem>
+</Tabs>
 
 <Admonition type="info" title="Notes">
 
@@ -440,6 +542,9 @@ These filters handle specific language characteristics:
 
 To create your custom analyzer, you define the tokenizer and a list of filters in the `analyzer_params` dictionary. The filters are applied in the order they are listed.
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 # Example: A custom analyzer for technical content
 analyzer_params = {
@@ -458,9 +563,124 @@ schema.add_field(
 )
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+Map<String, Object> analyzerParams = new HashMap<>();
+analyzerParams.put("tokenizer", "whitespace");
+analyzerParams.put("filter", Arrays.asList("lowercase", "alphanumonly"));
+
+schema.addField(AddFieldReq.builder()
+        .fieldName("text")
+        .dataType(DataType.VarChar)
+        .maxLength(200)
+        .enableAnalyzer(true)
+        .analyzerParams(analyzerParams)
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+analyzerParams := map[string]any{
+    "tokenizer": "whitespace",
+    "filter": []any{"lowercase", "alphanumonly"},
+}
+
+schema.WithField(entity.NewField().
+    WithName("text").
+    WithDataType(entity.FieldTypeVarChar).
+    WithMaxLength(200).
+    WithEnableAnalyzer(true).
+    WithAnalyzerParams(analyzerParams))
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let analyzer_params = serde_json::json!({
+    "tokenizer": "whitespace",
+    "filter": ["lowercase", "alphanumonly"]
+});
+let schema = CollectionSchema::new().add_field(FieldSchema::new()
+    .name("text")
+    .data_type(DataType::VarChar)
+    .max_length(200)
+    .enable_analyzer(true)
+    .analyzer_params(analyzer_params));
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"tokenizer", "whitespace"},
+    {"filter", {"lowercase", "alphanumonly"}}
+};
+schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR)
+                     .WithMaxLength(200)
+                     .EnableAnalyzer(true)
+                     .WithAnalyzerParams(analyzer_params));
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+  tokenizer: "whitespace",
+  filter: ["lowercase", "alphanumonly"],
+};
+
+const schema = [
+  {
+    name: "text",
+    data_type: DataType.VarChar,
+    max_length: 200,
+    enable_analyzer: true,
+    analyzer_params,
+  },
+];
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export textField='{
+  "fieldName": "text",
+  "dataType": "VarChar",
+  "elementTypeParams": {
+    "max_length": 200,
+    "enable_analyzer": true,
+    "analyzer_params": "{\"tokenizer\":\"whitespace\",\"filter\":[\"lowercase\",\"alphanumonly\"]}"
+  }
+}'
+```
+
+</TabItem>
+</Tabs>
+
 #### Final: Test with `run_analyzer`\{#final-test-with-runanalyzer}
 
 Always validate your configuration before applying to a collection:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 # Sample text to analyze
@@ -470,6 +690,125 @@ sample_text = "The Milvus vector database is built for scale!"
 result = client.run_analyzer(sample_text, analyzer_params)
 print("Analyzer output:", result)
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.vector.request.RunAnalyzerReq;
+import io.milvus.v2.service.vector.response.RunAnalyzerResp;
+import java.util.ArrayList;
+import java.util.List;
+
+ConnectConfig config = ConnectConfig.builder().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN").build();
+MilvusClientV2 client = new MilvusClientV2(config);
+
+List<String> texts = new ArrayList<>();
+texts.add("The Milvus vector database is built for scale!");
+RunAnalyzerResp resp = client.runAnalyzer(RunAnalyzerReq.builder()
+        .texts(texts)
+        .analyzerParams(analyzerParams)
+        .build());
+System.out.println(resp.getResults());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "encoding/json"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    fmt.Println(err.Error())
+}
+
+bs, _ := json.Marshal(analyzerParams)
+texts := []string{"The Milvus vector database is built for scale!"}
+option := milvusclient.NewRunAnalyzerOption(texts...).
+    WithAnalyzerParamsStr(string(bs))
+result, err := client.RunAnalyzer(ctx, option)
+if err != nil {
+    fmt.Println(err.Error())
+}
+fmt.Println(result)
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+    let resp = client.run_analyzer(RunAnalyzerRequest::builder()
+        .texts(vec!["The Milvus vector database is built for scale!"])
+        .analyzer_params(analyzer_params)
+        .build()?).await?;
+    println!("{:?}", resp.results());
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+milvus::RunAnalyzerRequest request;
+request.WithAnalyzerParams(analyzer_params);
+request.AddText("The Milvus vector database is built for scale!");
+
+milvus::RunAnalyzerResponse response;
+status = client->RunAnalyzer(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
+
+const result = await client.runAnalyzer({
+  text: "The Milvus vector database is built for scale!",
+  analyzer_params,
+});
+console.log(result.results);
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/common/run" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--data '{
+  "text": "The Milvus vector database is built for scale!",
+  "analyzerParams": {
+    "type": "english"
+  }
+}'
+```
+
+</TabItem>
+</Tabs>
 
 Common issues to check:
 
@@ -741,12 +1080,81 @@ When working with content that spans multiple languages or uses scripts unpredic
 
 **Basic multilingual configuration (no stemming)**:
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 analyzer_params = {
     "tokenizer": "icu",
     "filter": ["lowercase", "asciifolding"]
 }
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+Map<String, Object> analyzerParams = new HashMap<>();
+analyzerParams.put("tokenizer", "icu");
+analyzerParams.put("filter", Arrays.asList("lowercase", "asciifolding"));
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+analyzerParams := map[string]any{
+    "tokenizer": "icu",
+    "filter": []any{"lowercase", "asciifolding"},
+}
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+let analyzer_params = serde_json::json!({
+    "tokenizer": "icu",
+    "filter": ["lowercase", "asciifolding"]
+});
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"tokenizer", "icu"},
+    {"filter", {"lowercase", "asciifolding"}}
+};
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+  tokenizer: "icu",
+  filter: ["lowercase", "asciifolding"],
+};
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export analyzerParams='{
+  "tokenizer": "icu",
+  "filter": ["lowercase", "asciifolding"]
+}'
+```
+
+</TabItem>
+</Tabs>
 
 **Advanced multilingual processing**:
 

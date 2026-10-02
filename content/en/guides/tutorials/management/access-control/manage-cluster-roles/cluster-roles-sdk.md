@@ -37,7 +37,7 @@ The following example demonstrates how to create a role named `role_a`.
 
 The role name must start with a letter and can only include uppercase or lowercase letters, numbers, and underscores.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -61,14 +61,78 @@ CreateRoleReq createRoleReq = CreateRoleReq.builder()
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
+
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
+
+err = client.CreateRole(ctx, milvusclient.NewCreateRoleOption("role_a").WithDescription("a cluster read only role"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+
+client
+    .create_role(
+        CreateRoleRequest::builder()
+            .role_name("role_a")
+            .description("a cluster read only role")
+            .build()?,
+    )
+    .await?;
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+auto status = client->CreateRole(milvus::CreateRoleRequest()
+                                     .WithRoleName("role_a")
+                                     .WithDescription("a cluster read only role"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
-client.createRole(createRoleReq);
-const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
 
-await milvusClient.createRole({
-   roleName: 'role_a',
+const client = new MilvusClient({
+  address: 'YOUR_CLUSTER_ENDPOINT',
+  token: 'YOUR_CLUSTER_TOKEN',
+});
+
+await client.createRole({
+  roleName: 'role_a',
+  description: 'a cluster read only role',
 });
 ```
 
@@ -77,6 +141,9 @@ await milvusClient.createRole({
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/roles/create" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -84,7 +151,7 @@ curl --request POST \
 -d '{
     "roleName": "role_a",
     "description": "a cluster read only role"
-}'
+}' 
 ```
 
 </TabItem>
@@ -94,7 +161,7 @@ curl --request POST \
 
 After creating several roles, you can list and view all existing roles.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -113,14 +180,73 @@ List<String> roles = client.listRoles();
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
+
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
+
+roles, err := client.ListRoles(ctx, milvusclient.NewListRoleOption())
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+fmt.Println(roles)
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+
+let roles = client
+    .list_roles(ListRolesRequest::builder().build()?)
+    .await?;
+println!("{:?}", roles.role_names());
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+milvus::ListRolesResponse resp;
+auto status = client->ListRoles(milvus::ListRolesRequest(), resp);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
 
-await milvusClient.listRoles(
-    includeUserInfo: True
-);
+const client = new MilvusClient({
+  address: 'YOUR_CLUSTER_ENDPOINT',
+  token: 'YOUR_CLUSTER_TOKEN',
+});
+
+const roles = await client.listRoles();
+console.log(roles);
 ```
 
 </TabItem>
@@ -128,11 +254,14 @@ await milvusClient.listRoles(
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/roles/list" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
--d '{}'
+-d '{}' 
 ```
 
 </TabItem>
@@ -162,7 +291,7 @@ In Zilliz Cloud, you can grant the followings to a role:
 
 The following example demonstrates how to grant a custom privilege group named `privilege_group_1` and a built-in privilege group `ClusterReadOnly` to the role `role_a`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -214,11 +343,10 @@ import (
     "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-ctx, cancel := context.WithCancel(context.Background())
-defer cancel()
+ctx := context.Background()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
@@ -244,28 +372,73 @@ if err != nil {
 ```
 
 </TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+
+client
+    .grant_privilege(
+        GrantPrivilegeRequest::builder()
+            .role_name("role_a")
+            .privilege("privilege_group_1")
+            .database_name("default")
+            .collection_name("collection_01")
+            .build()?,
+    )
+    .await?;
+
+client
+    .grant_privilege(
+        GrantPrivilegeRequest::builder()
+            .role_name("role_a")
+            .privilege("ClusterReadOnly")
+            .database_name("*")
+            .collection_name("*")
+            .build()?,
+    )
+    .await?;
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+milvus::GrantPrivilegeV2Request grant_req;
+grant_req.WithRoleName("role_a")
+         .WithPrivilege("privilege_group_1")
+         .WithDatabaseName("default")
+         .WithCollectionName("collection_01");
+auto status = client->GrantPrivilegeV2(grant_req);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
 
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
 
-const address = "YOUR_CLUSTER_ENDPOINT";
-const token = "YOUR_CLUSTER_TOKEN";
-const client = new MilvusClient({address, token});
-
-await client.grantPrivilegeV2({
-    role: "role_a",
-    privilege: "privilege_group_1"
-    collection_name: 'collection_01'
-    db_name: 'default',
+const client = new MilvusClient({
+  address: 'YOUR_CLUSTER_ENDPOINT',
+  token: 'YOUR_CLUSTER_TOKEN',
 });
 
 await client.grantPrivilegeV2({
-    role: "role_a",
-    privilege: "ClusterReadOnly"
-    collection_name: '*'
-    db_name: '*',
+  role: 'role_a',
+  privilege: 'privilege_group_1',
+  collection_name: 'collection_01',
+  db_name: 'default',
+});
+
+await client.grantPrivilegeV2({
+  role: 'role_a',
+  privilege: 'ClusterReadOnly',
+  collection_name: '*',
+  db_name: '*',
 });
 ```
 
@@ -274,6 +447,9 @@ await client.grantPrivilegeV2({
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/roles/grant_privilege_v2" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -294,7 +470,7 @@ curl --request POST \
     "privilege": "ClusterReadOnly",
     "collectionName": "*",
     "dbName":"*"
-}'
+}' 
 ```
 
 </TabItem>
@@ -351,23 +527,13 @@ The following are the parameters and corresponding explanations.
 
 The following example demonstrates how to view the privileges granted to the role `role_a` using the `describe_role` method.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Go","value":"go"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 from pymilvus import MilvusClient
 
 client.describe_role(role_name="role_a")
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-import "github.com/milvus-io/milvus-sdk-go/v2/client"
-
-client.ListRoles(context.Background())
 ```
 
 </TabItem>
@@ -387,12 +553,77 @@ List<DescribeRoleResp.GrantInfo> infos = resp.getGrantInfos();
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
+
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
+
+role, err := client.DescribeRole(ctx, milvusclient.NewDescribeRoleOption("role_a"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+fmt.Println(role)
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+
+let role = client
+    .describe_role(
+        DescribeRoleRequest::builder()
+            .role_name("role_a")
+            .build()?,
+    )
+    .await?;
+println!("{:?}", role.role_name());
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+milvus::DescribeRoleResponse resp;
+auto status = client->DescribeRole(milvus::DescribeRoleRequest().WithRoleName("role_a"), resp);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
 
-await milvusClient.describeRole({roleName: 'role_a'});
+const client = new MilvusClient({
+  address: 'YOUR_CLUSTER_ENDPOINT',
+  token: 'YOUR_CLUSTER_TOKEN',
+});
+
+const role = await client.describeRole({ roleName: 'role_a' });
+console.log(role);
 ```
 
 </TabItem>
@@ -400,13 +631,16 @@ await milvusClient.describeRole({roleName: 'role_a'});
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/roles/describe" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
     "roleName": "role_a"
-}'
+}' 
 ```
 
 </TabItem>
@@ -426,7 +660,7 @@ Below is an example output.
 
 The following example demonstrates how to revoke the customprivilege group `privilege_group_1` and the built-in privilege group `ClusterReadOnly` that have been granted to the role `role_a`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -488,22 +722,73 @@ if err != nil {
 ```
 
 </TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+
+client
+    .revoke_privilege(
+        RevokePrivilegeRequest::builder()
+            .role_name("role_a")
+            .privilege("privilege_group_1")
+            .database_name("default")
+            .collection_name("collection_01")
+            .build()?,
+    )
+    .await?;
+
+client
+    .revoke_privilege(
+        RevokePrivilegeRequest::builder()
+            .role_name("role_a")
+            .privilege("ClusterReadOnly")
+            .database_name("*")
+            .collection_name("*")
+            .build()?,
+    )
+    .await?;
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+milvus::RevokePrivilegeV2Request revoke_req;
+revoke_req.WithRoleName("role_a")
+           .WithPrivilege("privilege_group_1")
+           .WithDatabaseName("default")
+           .WithCollectionName("collection_01");
+auto status = client->RevokePrivilegeV2(revoke_req);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
 
 <TabItem value='javascript'>
 
 ```javascript
-await client.revokePrivilegeV2({
-    role: 'role_a',
-    collection_name: 'collection_01',
-    privilege: 'Search',
-    db_name: 'default'
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
+
+const client = new MilvusClient({
+  address: 'YOUR_CLUSTER_ENDPOINT',
+  token: 'YOUR_CLUSTER_TOKEN',
 });
 
 await client.revokePrivilegeV2({
-    role: 'role_a',
-    collection_name: '*',
-    privilege: 'ClusterReadOnly',
-    db_name: '*'
+  role: 'role_a',
+  privilege: 'privilege_group_1',
+  collection_name: 'collection_01',
+  db_name: 'default',
+});
+
+await client.revokePrivilegeV2({
+  role: 'role_a',
+  privilege: 'ClusterReadOnly',
+  collection_name: '*',
+  db_name: '*',
 });
 ```
 
@@ -512,13 +797,16 @@ await client.revokePrivilegeV2({
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/roles/revoke_privilege_v2" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
     "roleName": "role_a",
-    "privilege": "Search",
+    "privilege": "privilege_group_1",
     "collectionName": "collection_01",
     "dbName":"default"
 }'
@@ -532,7 +820,7 @@ curl --request POST \
     "privilege": "ClusterReadOnly",
     "collectionName": "*",
     "dbName":"*"
-}'
+}' 
 ```
 
 </TabItem>
@@ -548,7 +836,7 @@ The built-in role `admin` cannot be dropped.
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -572,14 +860,54 @@ client.dropRole(dropRoleReq);
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+err = client.DropRole(ctx, milvusclient.NewDropRoleOption("role_a"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+
+client
+    .drop_role(
+        DropRoleRequest::builder()
+            .role_name("role_a")
+            .build()?,
+    )
+    .await?;
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+auto status = client->DropRole(milvus::DropRoleRequest().WithRoleName("role_a"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
 
-milvusClient.dropRole({
-   roleName: 'role_a',
- })
+const client = new MilvusClient({
+  address: 'YOUR_CLUSTER_ENDPOINT',
+  token: 'YOUR_CLUSTER_TOKEN',
+});
+
+await client.dropRole({ roleName: 'role_a' });
 ```
 
 </TabItem>
@@ -587,13 +915,16 @@ milvusClient.dropRole({
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/roles/drop" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
     "roleName": "role_a"
-}'
+}' 
 ```
 
 </TabItem>
@@ -601,7 +932,7 @@ curl --request POST \
 
 Once the role is dropped, you can list all existing roles to check if the drop operation is successful. 
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -620,14 +951,73 @@ List<String> resp = client.listRoles();
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
+
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
+
+roles, err := client.ListRoles(ctx, milvusclient.NewListRoleOption())
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+fmt.Println(roles)
+```
+
+</TabItem>
+</Tabs>
+
+```rust
+use milvus::v2::prelude::*;
+
+let roles = client
+    .list_roles(ListRolesRequest::builder().build()?)
+    .await?;
+println!("{:?}", roles.role_names());
+```
+
+<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+<TabItem value='c++'>
+
+```c++
+milvus::ListRolesResponse resp;
+auto status = client->ListRoles(milvus::ListRolesRequest(), resp);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
 
-milvusClient.listRoles(
-    includeUserInfo: True
-)
+const client = new MilvusClient({
+  address: 'YOUR_CLUSTER_ENDPOINT',
+  token: 'YOUR_CLUSTER_TOKEN',
+});
+
+const roles = await client.listRoles();
+console.log(roles);
 ```
 
 </TabItem>
@@ -635,11 +1025,14 @@ milvusClient.listRoles(
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/roles/list" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
--d '{}'
+-d '{}' 
 ```
 
 </TabItem>
