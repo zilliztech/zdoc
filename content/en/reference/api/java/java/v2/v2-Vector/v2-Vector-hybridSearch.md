@@ -43,7 +43,6 @@ public SearchResp hybridSearch(HybridSearchReq request)
 hybridSearch(HybridSearchReq.builder()
     .databaseName(String databaseName)
     .collectionName(String collectionName)
-    .clusterId(String clusterId)
     .partitionNames(List<String> partitionNames)
     .searchRequests(List<AnnSearchReq> searchRequests)
     .topK(int topK)
@@ -66,13 +65,13 @@ hybridSearch(HybridSearchReq.builder()
 
     The name of the database. Defaults to the current database if not specified.
 
+- `clusterId(String clusterId)`
+
+    **Deprecated.** The ID of the cluster to query. Applies to global-cluster deployments.
+
 - `collectionName(String collectionName)`
 
     The name of the target collection.
-
-- `clusterId(String clusterId)`
-
-    The target cluster ID for this vector read request. Use `session(String clusterId)` when multiple requests should share the same cluster ID.
 
 - `partitionNames(List<String> partitionNames)`
 
@@ -122,11 +121,17 @@ hybridSearch(HybridSearchReq.builder()
 
     A FunctionScore object for custom scoring.
 
+- `ranker(CreateCollectionReq.Function ranker)`
+
+    **Deprecated.** A single rerank function applied to the search results. Prefer `functionScore()`.
+
+**RETURN TYPE:**
+
+*SearchResp*
+
 **RETURNS:**
 
-*SearchResp*
-
-*SearchResp*
+A **SearchResp** object containing the merged results from all query vectors, ordered by the reranking strategy.
 
 **EXCEPTIONS:**
 

@@ -10,7 +10,7 @@ notebook: false
 description: "A FieldSchema instance defines the data type and related attributes of a specific field in a collection. | Java | v2"
 type: docx
 token: ZwKPdk2rzoQUU7xm4CHcPiZqnjh
-sidebar_position: 16
+sidebar_position: 33
 keywords: 
   - LLMs
   - Machine Learning
@@ -79,11 +79,11 @@ CreateCollectionReq.FieldSchema.builder()
 
 - `maxLength(Integer maxLength)` -
 
-    The maximum number of characters a value should contain. This is required if **[dataType](./v2-Collections-DataType)** of this field is set to **DataType.VarChar**.
+    The maximum number of characters a value should contain. This is required if **[dataType](./v2-https:zilliversefeishucndrivefolderK6akf7IbXl5Jj1dFV8Fca62Inkd-DataType)** of this field is set to **DataType.VarChar**.
 
 - `dimension(Integer dimension)` -
 
-    The number of dimensions a value should have. This is required if **[dataType](./v2-Collections-DataType)** of this field is set to **DataType.FloatVector**.
+    The number of dimensions a value should have. This is required if **[dataType](./v2-https:zilliversefeishucndrivefolderK6akf7IbXl5Jj1dFV8Fca62Inkd-DataType)** of this field is set to **DataType.FloatVector**.
 
 - `isPrimaryKey(Boolean isPrimaryKey)` -
 
@@ -103,11 +103,11 @@ CreateCollectionReq.FieldSchema.builder()
 
 - `elementType(DataType elementType)` -
 
-    The data type of elements in array fields. This is required if **[dataType](./v2-Collections-DataType)** of this field is set to **DataType.Array**. 
+    The data type of elements in array fields. This is required if **[dataType](./v2-https:zilliversefeishucndrivefolderK6akf7IbXl5Jj1dFV8Fca62Inkd-DataType)** of this field is set to **DataType.Array**. 
 
 - `maxCapacity(Integer maxCapacity)` -
 
-    The maximum number of elements that an array field can contain. This is required if **[dataType](./v2-Collections-DataType)** of this field is set to **DataType.Array**. 
+    The maximum number of elements that an array field can contain. This is required if **[dataType](./v2-https:zilliversefeishucndrivefolderK6akf7IbXl5Jj1dFV8Fca62Inkd-DataType)** of this field is set to **DataType.Array**. 
 
 - `isNullable(Boolean isNullable)` -
 

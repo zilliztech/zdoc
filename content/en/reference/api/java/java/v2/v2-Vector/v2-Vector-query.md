@@ -69,10 +69,6 @@ QueryReq.builder()
 
     The name of the target collection.
 
-- `clusterId(String clusterId)`
-
-    The Zilliz Cloud cluster ID for this request.
-
 - `partitionNames(List<String> partitionNames)`
 
     The partitions to query.
@@ -121,11 +117,47 @@ QueryReq.builder()
 
     Values substituted into placeholders in the filter expression.
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *QueryResp*
 
-Contains query rows ordered according to orderByFields when provided.
+**RETURNS:**
+
+Contains query rows ordered according to orderByFields when provided, along with execution metrics (`getCost()`, `getScannedRemoteBytes()`, `getScannedTotalBytes()`, `getCacheHitRatio()`). For struct-array element-level queries (via `element_filter`), each returned `QueryResult` carries the matched element's index through `getElementOffset()`.
+
+**PARAMETERS:**
+
+- **queryResults** (*List&lt;QueryResp.QueryResult&gt;*) -
+
+    A list of query results, each of which contains the following fields:
+
+    - **entity** (*Map&lt;String,Object&gt;*) -
+
+        A map that contains the field names and values of the matched entity.
+
+    - **elementOffset** (*Long*) -
+
+        For struct-array element-level queries, the matched element's index within the array. Null for ordinary queries.
+
+- **sessionTs** (*long*) -
+
+    The session timestamp of the read.
+
+- **cost** (*Long*) -
+
+    The time cost of the operation.
+
+- **scannedRemoteBytes** (*Long*) -
+
+    The number of bytes scanned remotely during the query.
+
+- **scannedTotalBytes** (*Long*) -
+
+    The total number of bytes scanned during the query.
+
+- **cacheHitRatio** (*Float*) -
+
+    The cache hit ratio of the query.
 
 **EXCEPTIONS:**
 
@@ -135,7 +167,7 @@ Contains query rows ordered according to orderByFields when provided.
 
 ## Example\{#example}
 
-Demonstrates query() against a Zilliz Cloud cluster.
+Demonstrates query() against Milvus.
 
 ```java
 QueryResp response = client.query(QueryReq.builder()

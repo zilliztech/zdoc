@@ -10,7 +10,7 @@ notebook: false
 description: "Returns the complete collection statistics map in addition to the entity count. | Java | v2"
 type: docx
 token: RSNDdgCQ2oRIMWxeVafcNf8LnAc
-sidebar_position: 17
+sidebar_position: 15
 keywords: 
   - Dense embedding
   - Faiss vector database

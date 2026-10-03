@@ -10,7 +10,7 @@ notebook: false
 description: "Adds a function-backed field and its explicitly configured bound index to an existing Milvus 3.0 collection. | Java | v2"
 type: docx
 token: GTZHdG3fMoBZi0x23BNctsO7nEE
-sidebar_position: 39
+sidebar_position: 38
 keywords: 
   - Vector store
   - open source vector database

@@ -1,6 +1,6 @@
 ---
 title: "uploadFilesAsync() | Java | v2"
-slug: /java/java/v2-Volume-VolumeFileManager/v2-VolumeFileManager-uploadFilesAsync
+slug: /java/java/v2-VolumeFileManager-uploadFilesAsync
 sidebar_label: "uploadFilesAsync()"
 beta: false
 added_since: false
@@ -10,7 +10,7 @@ notebook: false
 description: "Asynchronously uploads a file or directory to a Zilliz Cloud volume with configurable retry, concurrency, multipart, and progress reporting. | Java | v2"
 type: docx
 token: Op8ydBXyZo2rlZxhgfNcaC3unRg
-sidebar_position: 5
+sidebar_position: 1
 keywords: 
   - ANN Search
   - What are vector embeddings

@@ -1,6 +1,6 @@
 ---
 title: "addCollectionField() | Java | v2"
-slug: /java/java/v2-Collections/v2-Collections-addCollectionField
+slug: /java/java/v2-Collections-addCollectionField
 sidebar_label: "addCollectionField()"
 beta: false
 added_since: v2.6.x
@@ -10,7 +10,7 @@ notebook: false
 description: "This operation adds a new scalar or vector field to an existing collection without recreating the collection. Existing rows do not have values for the new field, so added vector fields must be nullable. | Java | v2"
 type: docx
 token: LaHmdGNGZog0JbxA8amcblpsnDR
-sidebar_position: 23
+sidebar_position: 27
 keywords: 
   - milvus open source
   - how does milvus work

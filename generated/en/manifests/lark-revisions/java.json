@@ -2,12 +2,21 @@
   "schemaVersion": 1,
   "group": "java",
   "complete": true,
-  "generatedAt": "2026-10-01T10:42:08.546Z",
-  "sourceRunId": "36848447257",
+  "generatedAt": "2026-10-03T19:13:22.001Z",
+  "sourceRunId": "37145669978",
   "records": [
     {
       "canonicalToken": "A2Vpd1kXsoF5uexKYb8ckcGMnWe",
       "title": "getCompactionState()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "A6jodK8uxonu3Gx8pS6ccsJtnte",
+      "title": "FunctionChainOp",
       "contentPath": null,
       "objectToken": null,
       "parentToken": null,
@@ -35,7 +44,7 @@
     {
       "canonicalToken": "AUQvd5EdFomWEWx3DrwcffYHnmb",
       "title": "getTotalRowCount()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-getTotalRowCount.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -44,7 +53,7 @@
     {
       "canonicalToken": "AVK9dgWG5oqvmgxYkxocGKLqnWb",
       "title": "RRFRanker",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Function-RRFRanker.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -60,18 +69,9 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "AXt2dvFmQoP04wx9zlVciuitnQf",
-      "title": "runAnalyzer()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-runAnalyzer.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "Ai9jdBRUdoOaD4xOrtAcrwj2nEe",
       "title": "revokePrivilegeV2()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-revokePrivilegeV2.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -80,7 +80,7 @@
     {
       "canonicalToken": "AjbDdUJTuoB9MqxN5PDcyYeLnRe",
       "title": "releaseCollection()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-releaseCollection.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -98,7 +98,7 @@
     {
       "canonicalToken": "AxcldAxjAocxVVxW6WgcIu6Lnsd",
       "title": "listPrivilegeGroups()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-listPrivilegeGroups.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -116,7 +116,7 @@
     {
       "canonicalToken": "B4CpdqvN7oZy3zxB9fscTAG8n7E",
       "title": "batchDescribeCollection()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-batchDescribeCollection.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -143,7 +143,7 @@
     {
       "canonicalToken": "BLFEde4BuoCjTSxjYSUcZerEnOb",
       "title": "getBatchFiles()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-getBatchFiles.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -170,7 +170,7 @@
     {
       "canonicalToken": "ByKadzyxVodrkxxhaGuc4HtFnWh",
       "title": "close()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-close.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -179,7 +179,7 @@
     {
       "canonicalToken": "C5PrdABXTokjv0xcpb9cZQd5nSb",
       "title": "TelemetryConfig",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-TelemetryConfig.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -197,7 +197,7 @@
     {
       "canonicalToken": "CJcWdpdqLoZiEExhfagc9A0jnag",
       "title": "add()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-EmbeddingList-add.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -242,16 +242,7 @@
     {
       "canonicalToken": "DAIfdXKk5oCHeNxOUvCc1KcpnNh",
       "title": "CreateSchema()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CreateSchema.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "DCszdG9rCoZxhfxfAuOcNsXRnOc",
-      "title": "StructFieldSchema",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-Collections-StructFieldSchema.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -305,7 +296,7 @@
     {
       "canonicalToken": "DU5gdncRGoDE0exDDUXcxAOsnIi",
       "title": "dropCollectionFieldProperties()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-dropCollectionFieldProperties.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -323,7 +314,7 @@
     {
       "canonicalToken": "DZcddGCD3oh29txhnB5cuxzzn4d",
       "title": "getName()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getName.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -332,7 +323,7 @@
     {
       "canonicalToken": "DfZadsub8olf6gx6HIKc3QIVnAg",
       "title": "alterCollectionFunction()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-alterCollectionFunction.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -341,7 +332,7 @@
     {
       "canonicalToken": "DqOKdIhSZoQpDWxsUeocILbXn4g",
       "title": "listAliases()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-listAliases.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -350,6 +341,15 @@
     {
       "canonicalToken": "DykedGfgOo5JM7x6ZmncT5i9nVf",
       "title": "releasePartitions()",
+      "contentPath": "content/en/reference/api/java/java/v2/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh-releasePartitions.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "E1GAdX9woo39BTxEwfocb6fVnCb",
+      "title": "FunctionChainStage",
       "contentPath": null,
       "objectToken": null,
       "parentToken": null,
@@ -359,7 +359,16 @@
     {
       "canonicalToken": "E2hHdOb5BoCYhnxR9FWcerHrnsb",
       "title": "describeReplicas()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-describeReplicas.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "E48jdYsExowaeux0GV5cfKZTnPp",
+      "title": "StructFieldSchema",
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -368,7 +377,7 @@
     {
       "canonicalToken": "EHnydLjdkoNJCUxSM4ocd6Cfnrb",
       "title": "loadCollection()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-loadCollection.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -377,7 +386,7 @@
     {
       "canonicalToken": "EM0nd4Q6toGP0zx0I40cX4OmnHh",
       "title": "dropCollectionProperties()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-dropCollectionProperties.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -422,7 +431,7 @@
     {
       "canonicalToken": "ErNidktYPodbDxxow0xcV5qHnof",
       "title": "ConnectConfig",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-ConnectConfig.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -431,7 +440,7 @@
     {
       "canonicalToken": "Ewtkdz0gSo38D4xf9eecRyzynRd",
       "title": "listUsers()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-listUsers.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -440,7 +449,7 @@
     {
       "canonicalToken": "EzGSdmnVYoWJ0WxiglLcoxn2neb",
       "title": "dropRole()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-dropRole.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -458,7 +467,7 @@
     {
       "canonicalToken": "FGO8dhjlTovfOdxpOw0c3wyNntc",
       "title": "addField()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-addField.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -476,7 +485,7 @@
     {
       "canonicalToken": "FIzIdKrRNooFttxaf3Pc1vOlnnc",
       "title": "getFields()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getFields.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -494,7 +503,7 @@
     {
       "canonicalToken": "FQqadrhPqoTo3zxCjRWc6ryUnne",
       "title": "grantPrivilegeV2()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-grantPrivilegeV2.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -521,7 +530,7 @@
     {
       "canonicalToken": "FrMNdXnZYo0oZ9xfs0xcjbVmn2c",
       "title": "delete()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-delete.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -575,7 +584,7 @@
     {
       "canonicalToken": "GfGfd7P5Aong4Fx4bctc4SQPn1g",
       "title": "dropPartition()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh-dropPartition.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -584,7 +593,7 @@
     {
       "canonicalToken": "Gl75dvp4MoxJRAxNsPYcdtunnFc",
       "title": "BoostRanker",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Function-BoostRanker.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -611,7 +620,7 @@
     {
       "canonicalToken": "H5vPdKb4botW9IxeVC1cNyOJnSf",
       "title": "revokeRole()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-revokeRole.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -620,7 +629,7 @@
     {
       "canonicalToken": "HH9bdZvbuoblNfxXeLycoHsSn9g",
       "title": "describeIndex()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-describeIndex.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -629,7 +638,7 @@
     {
       "canonicalToken": "HQXgddhkMoC3onxxjFjc46W3nNf",
       "title": "alterDatabaseProperties()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg-alterDatabaseProperties.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -647,6 +656,15 @@
     {
       "canonicalToken": "HShjdZsU3oknh2x1ezkcRqGqn6b",
       "title": "FunctionType",
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-FunctionType.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "HYTwdAVAEo85oqxQPI4ctxErnDh",
+      "title": "FunctionParamValue",
       "contentPath": null,
       "objectToken": null,
       "parentToken": null,
@@ -665,7 +683,7 @@
     {
       "canonicalToken": "I0cddYcHmorxaYxChficr214nAf",
       "title": "useDatabase()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg-useDatabase.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -737,7 +755,7 @@
     {
       "canonicalToken": "IeNKdLhpKovMZ4x6sYtc6ZEsnqg",
       "title": "dropDatabaseProperties()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg-dropDatabaseProperties.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -764,7 +782,7 @@
     {
       "canonicalToken": "JETLdPGdboaeksx2o7acgo8lnMc",
       "title": "RemoteBulkWriter",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-DataImport-RemoteBulkWriter.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -809,7 +827,7 @@
     {
       "canonicalToken": "JiLLdfLlPoKWL6xEgOAcdCU3nol",
       "title": "truncateCollection()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-truncateCollection.md",
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-https:zilliversefeishucndrivefolderK6akf7IbXl5Jj1dFV8Fca62Inkd-truncateCollection.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -818,7 +836,7 @@
     {
       "canonicalToken": "Jj60dRCiVoLLRzxVCiGcjI37nHc",
       "title": "listPartitions()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh-listPartitions.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -854,7 +872,7 @@
     {
       "canonicalToken": "KJSvdrks9o6WOsxr0rZcPXe5ngn",
       "title": "getStructField()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-getStructField.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -863,7 +881,7 @@
     {
       "canonicalToken": "KOkDdGDXQo1yA5x3lalcmtglnUe",
       "title": "dropUser()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-dropUser.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -908,7 +926,7 @@
     {
       "canonicalToken": "Knf4dT9GFopG6Hx89JKcl9CLnWN",
       "title": "DecayRanker",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Function-DecayRanker.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -926,7 +944,7 @@
     {
       "canonicalToken": "LDQsdzUJQotV2GxWGaqcFkDenuq",
       "title": "compact()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-compact.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -971,7 +989,7 @@
     {
       "canonicalToken": "LhrNdndqnoYPaZxCAMscINykno8",
       "title": "createCollection()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-createCollection.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -980,7 +998,7 @@
     {
       "canonicalToken": "LirKdHD5lomrfSxXrZzcOAWpnMf",
       "title": "createDatabase()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg-createDatabase.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -989,7 +1007,7 @@
     {
       "canonicalToken": "Lq2vdHAmAo7m6axzZOpcWdkcnzd",
       "title": "listIndexes()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-listIndexes.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -998,7 +1016,7 @@
     {
       "canonicalToken": "LzctdSxZ9ogGTwxx1yXcTc7ynvf",
       "title": "appendRow()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-appendRow.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1016,7 +1034,7 @@
     {
       "canonicalToken": "M4KYdO6CWofowQxFYDecYxjknEg",
       "title": "listRoles()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-listRoles.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1025,7 +1043,7 @@
     {
       "canonicalToken": "MPJ0dxzDIoNKYPxGA5PcD2F8nRb",
       "title": "getDataType()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getDataType.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1034,7 +1052,7 @@
     {
       "canonicalToken": "Mz7NdzJkfo3A17x7YAlc3m0Xnbc",
       "title": "createIndex()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-createIndex.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1043,7 +1061,7 @@
     {
       "canonicalToken": "N4TUdZOmso4MVfxTYFbcVQ3Kn1c",
       "title": "dropDatabase()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg-dropDatabase.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1052,7 +1070,7 @@
     {
       "canonicalToken": "N9dldTSNMopDzfxXCTmcKSGynvd",
       "title": "LocalBulkWriter",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-DataImport-LocalBulkWriter.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1061,7 +1079,7 @@
     {
       "canonicalToken": "NF0FdJbD7o5HHtx9kxwczbq0nwf",
       "title": "hasPartition()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh-hasPartition.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1077,9 +1095,18 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "NLr1dU4t1oyTHcxZvXUc10Aundb",
+      "title": "startTelemetry()",
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-startTelemetry.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "NNiQd9MxVocy3ux400jcUabhnsh",
       "title": "alterIndexProperties()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-alterIndexProperties.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1088,7 +1115,7 @@
     {
       "canonicalToken": "NQSXdTousodlN4xy1WZc7Nc8n2e",
       "title": "dropIndexProperties()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-dropIndexProperties.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1097,7 +1124,7 @@
     {
       "canonicalToken": "NQgpd7JHBoAgzzxU5PXcYml5nSd",
       "title": "EmbeddingList",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1106,7 +1133,7 @@
     {
       "canonicalToken": "NRGzdPUvRoyltmxsdqKchWFTnTe",
       "title": "alterCollectionField()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-alterCollectionField.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1115,7 +1142,7 @@
     {
       "canonicalToken": "Njodd6A2romru0xEX3cckwPlnpb",
       "title": "refreshLoad()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-refreshLoad.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1124,7 +1151,7 @@
     {
       "canonicalToken": "NpcZdo5JooJWWnxh4RAcwPEOnOf",
       "title": "hasCollection()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-hasCollection.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1142,7 +1169,7 @@
     {
       "canonicalToken": "NzCuda5k8oJHOOxVLk0cg7HInMg",
       "title": "alterCollectionProperties()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-alterCollectionProperties.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1151,7 +1178,7 @@
     {
       "canonicalToken": "OEcUdoX1yoc94axfwpjcdA2jnEf",
       "title": "close()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-close.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1160,7 +1187,7 @@
     {
       "canonicalToken": "OUhTdWnXBoHqKdxTA0HcdMY5n4b",
       "title": "commit()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-commit.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1187,7 +1214,7 @@
     {
       "canonicalToken": "OfL3da2p1oeJcRxMrxQcb1lbnd2",
       "title": "dropAlias()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-dropAlias.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1205,7 +1232,7 @@
     {
       "canonicalToken": "Ot93dm25goTTYOxcXsWcbjq0nsb",
       "title": "ListCollectionsV2()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-ListCollectionsV2.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1214,7 +1241,7 @@
     {
       "canonicalToken": "OykrdeI7zobXOuxXsxBcId4pn8c",
       "title": "getTelemetry()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-getTelemetry.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1232,7 +1259,7 @@
     {
       "canonicalToken": "PA3Ad6PPYom1wexoyqgcGvNanyV",
       "title": "createAlias()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-createAlias.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1241,7 +1268,7 @@
     {
       "canonicalToken": "PSdEdxU7ZoTxelx7sLzcAAXsnQH",
       "title": "getMaxCapacity()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getMaxCapacity.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1268,7 +1295,7 @@
     {
       "canonicalToken": "PpTcd5ptzoYJjZxRPdMcQvSjnDc",
       "title": "IndexParam",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-IndexParam.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1286,7 +1313,7 @@
     {
       "canonicalToken": "PvRGdribPou7PHxcoSWcRK3unUc",
       "title": "getElementType()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getElementType.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1295,7 +1322,7 @@
     {
       "canonicalToken": "Q1M5dNmqoo9wizxhCD6cSJVcn8b",
       "title": "SemanticHighlighter",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-Highlighter/v2-Highlighter-SemanticHighlighter.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1313,7 +1340,7 @@
     {
       "canonicalToken": "QH3hdlzwDoxHjTxPj39c6qMSnbg",
       "title": "getTotalRowCount()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-getTotalRowCount.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1322,7 +1349,7 @@
     {
       "canonicalToken": "QHhAd0ObroZgicxARuKcOqEmnfb",
       "title": "loadPartitions()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh-loadPartitions.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1340,7 +1367,7 @@
     {
       "canonicalToken": "QbfPdyw7EoXpGwxSkGgcytBBnAb",
       "title": "getDescription()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getDescription.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1376,7 +1403,7 @@
     {
       "canonicalToken": "QwsCdrceioo36Bxu2ricF15knUh",
       "title": "FunctionScore",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1403,7 +1430,7 @@
     {
       "canonicalToken": "RQT1dGVPloPOLAx8G2mcifFEnCc",
       "title": "addCollectionStructField()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-addCollectionStructField.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1421,7 +1448,7 @@
     {
       "canonicalToken": "RZ8idPxaho5yMoxJzGdc7QAcnNf",
       "title": "DataType",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-DataType.md",
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-https:zilliversefeishucndrivefolderK6akf7IbXl5Jj1dFV8Fca62Inkd-DataType.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1455,6 +1482,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "RyvBdUjTKo2sF4xtwoRc2FNbn3d",
+      "title": "FunctionChainExpr",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "S0ITdsnpYoDpH9xKv9fcBhe5nWA",
       "title": "bulkImport()",
       "contentPath": null,
@@ -1466,7 +1502,7 @@
     {
       "canonicalToken": "S0Iudxn6NoqusZx4xjRcLWLpnGc",
       "title": "getStructFields()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-getStructFields.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1484,7 +1520,7 @@
     {
       "canonicalToken": "SJ3ndk2d7oQbAOxP5iHcGtr1nrb",
       "title": "commit()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-commit.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1520,7 +1556,7 @@
     {
       "canonicalToken": "SfTCdUemEoNBDbxvn7PcHguFnPn",
       "title": "flush()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-flush.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1529,7 +1565,7 @@
     {
       "canonicalToken": "SkdsdSZ9lo79GYx31YEcvaSon4c",
       "title": "alterAlias()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-alterAlias.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1538,7 +1574,7 @@
     {
       "canonicalToken": "SxrVdEzD4oLV9MxZbuzc6ltNnKe",
       "title": "optimize()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-optimize.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1547,7 +1583,7 @@
     {
       "canonicalToken": "TOfvdLLzaoWJydxBTPQcKevfndd",
       "title": "getPartitionStats()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-getPartitionStats.md",
+      "contentPath": "content/en/reference/api/java/java/v2/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh-getPartitionStats.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1572,9 +1608,18 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "TX2vdOOxtomTrQxK4EbcjxPCn1g",
+      "title": "close()",
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-close.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "TcDydsHo2o2vnOx1leHcOqNCnxc",
       "title": "createSchema()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-createSchema.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1583,7 +1628,7 @@
     {
       "canonicalToken": "Trm7dn8V2o4jEUxPJFmcuO15nkc",
       "title": "MilvusClientV2Pool",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-MilvusClientV2Pool.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1592,7 +1637,7 @@
     {
       "canonicalToken": "U0mKd1nlXoWkDqxf9zRcoURVnCb",
       "title": "FunctionChain",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionChain.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1610,7 +1655,7 @@
     {
       "canonicalToken": "U7Ipdm0FTo8FCVxaxbZcwMygnWd",
       "title": "renameCollection()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-renameCollection.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1628,7 +1673,7 @@
     {
       "canonicalToken": "UCpTdpkNEoHDyjxxCqqcZLSXnAe",
       "title": "currentUsedDatabase()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Database/v2-Database-currentUsedDatabase.md",
+      "contentPath": "content/en/reference/api/java/java/v2/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg/v2-Database-currentUsedDatabase.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1637,7 +1682,7 @@
     {
       "canonicalToken": "UJg8dnXiUoB6FnxanBicIzcLnsb",
       "title": "getFunctionList()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-getFunctionList.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1646,7 +1691,7 @@
     {
       "canonicalToken": "UN0oddDrNoaIq2xDGCLcG9XCnob",
       "title": "getLoadState()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getLoadState.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1664,7 +1709,7 @@
     {
       "canonicalToken": "Un23d2Ac7ovfQsxFDIsczDYzn9d",
       "title": "createPartition()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh-createPartition.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1691,7 +1736,7 @@
     {
       "canonicalToken": "VNw2dXf4wopDtYxVSvlc21aDn2g",
       "title": "LexicalHighlighter",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-Highlighter/v2-Highlighter-LexicalHighlighter.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1700,7 +1745,7 @@
     {
       "canonicalToken": "VStqdo03iougInxoHwMc8SJKnCe",
       "title": "describeAlias()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-describeAlias.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1709,7 +1754,7 @@
     {
       "canonicalToken": "VZ64davS5osZHKxxbPac3Ixtnlc",
       "title": "describeDatabase()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg-describeDatabase.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1727,7 +1772,7 @@
     {
       "canonicalToken": "VtCvd8vpoo1P7hxhJltcAIldnDg",
       "title": "listCollections()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-listCollections.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1736,7 +1781,7 @@
     {
       "canonicalToken": "WEE6ddFntowCIixVMCmc3pESnug",
       "title": "describeCollection()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-describeCollection.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1754,7 +1799,7 @@
     {
       "canonicalToken": "WMdhdOQGWooN4axfpQQcIRGTnsb",
       "title": "addFunction()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Vector/v2-FunctionScore-addFunction.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1763,7 +1808,7 @@
     {
       "canonicalToken": "WNqcdscscoj64pxr24jcITJKnLb",
       "title": "WeightedRanker",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Function-WeightedRanker.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1772,7 +1817,7 @@
     {
       "canonicalToken": "WzKzdXYFxodRQqxqBu8cNihTnPc",
       "title": "dropCollection()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-dropCollection.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1781,7 +1826,7 @@
     {
       "canonicalToken": "X2dbdeazuofnEVxVQtgcBHujnvf",
       "title": "listDatabases()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg-listDatabases.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1808,7 +1853,7 @@
     {
       "canonicalToken": "XFs1dqEocoNydExQDjicp4V2n7d",
       "title": "dropIndex()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-dropIndex.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1835,7 +1880,7 @@
     {
       "canonicalToken": "XoUqdHpskoe2mOxPtITcHpPUnHg",
       "title": "isEnableDynamicField()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-isEnableDynamicField.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1844,7 +1889,7 @@
     {
       "canonicalToken": "XssmdFjdZoXgyXxMDxWceywrnud",
       "title": "getFieldSchemaList()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-getFieldSchemaList.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1871,7 +1916,7 @@
     {
       "canonicalToken": "YjXDdG9vjoCXmJxnysrci2Y0nZd",
       "title": "grantRole()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-grantRole.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1880,7 +1925,7 @@
     {
       "canonicalToken": "YlpQdEUnKoFR3xxizt2cCV8UnZb",
       "title": "getBatchFiles()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-getBatchFiles.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1889,7 +1934,7 @@
     {
       "canonicalToken": "ZKj1dLHd2otxtAxRL33cxVZznDb",
       "title": "ModelRanker",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Function-ModelRanker.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1898,7 +1943,7 @@
     {
       "canonicalToken": "ZWoqd1OFgoYwGyxWmz9ciWwsnZx",
       "title": "appendRow()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-appendRow.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1907,7 +1952,7 @@
     {
       "canonicalToken": "Zh6adGbCBoqXsPxnvGXcfrMwnhc",
       "title": "IndexType",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-IndexType.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1934,7 +1979,7 @@
     {
       "canonicalToken": "ZmeDd4zoPo7EynxnyGOckvzvnsh",
       "title": "describeRole()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-describeRole.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1944,6 +1989,15 @@
       "canonicalToken": "ZouQdklUsoSZEDxWkJvc90pvnmg",
       "title": "SearchIteratorV2()",
       "contentPath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-SearchIteratorV2.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ZtsPdcamWoCjzhxZMnDc3aIZnxc",
+      "title": "runAnalyzer()",
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-runAnalyzer.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,

@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "(placeholder) | Java | v2"
+description: "This method returns a search iterator to iterate search results. | Java | v2"
 type: docx
 token: X7Ybdk6yRoVRPZxeHklct1i2n8c
 sidebar_position: 8
@@ -31,8 +31,6 @@ import Admonition from '@theme/Admonition';
 
 # searchIterator()
 
-# searchIterator()\{#searchiterator}
-
 This method returns a search iterator to iterate search results.
 
 ```java
@@ -45,9 +43,9 @@ public SearchIterator searchIterator(SearchIteratorReq request)
 searchIterator(SearchIteratorReq.builder()
     .databaseName(String databaseName)
     .collectionName(String collectionName)
-    .clusterId(String clusterId)
     .partitionNames(List<String> partitionNames)
     .vectorFieldName(String vectorFieldName)
+    .metricType(IndexParam.MetricType metricType)
     .topK(int topK)
     .limit(long limit)
     .expr(String expr)
@@ -69,13 +67,13 @@ searchIterator(SearchIteratorReq.builder()
 
     The name of the database. Defaults to the current database if not specified.
 
+- `clusterId(String clusterId)`
+
+    **Deprecated.** The ID of the cluster to query. Applies to global-cluster deployments.
+
 - `collectionName(String collectionName)`
 
     The name of the target collection.
-
-- `clusterId(String clusterId)`
-
-    The target cluster ID for this vector read request. Use `session(String clusterId)` when multiple requests should share the same cluster ID.
 
 - `partitionNames(List<String> partitionNames)`
 
@@ -84,6 +82,10 @@ searchIterator(SearchIteratorReq.builder()
 - `vectorFieldName(String vectorFieldName)`
 
     The name of the vector field.
+
+- `metricType(IndexParam.MetricType metricType)`
+
+    The metric type used to measure vector similarity.
 
 - `topK(int topK)`
 
@@ -129,11 +131,21 @@ searchIterator(SearchIteratorReq.builder()
 
     The batch size for iterator operations.
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *SearchIterator*
 
-A *SearchIterator* object to iterate search results, which offers the following methods:
+**RETURNS:**
+
+A **SearchIterator** object to iterate search results, which offers the following methods:
+
+- **next()** (*List&lt;SearchResp.SearchResult&gt;*) -
+
+    Returns the next batch of results matching the search expression.
+
+- **close()** -
+
+    Releases the iterator and the resources held by its cursor.
 
 **EXCEPTIONS:**
 
@@ -152,6 +164,11 @@ import io.milvus.v2.common.ConsistencyLevel;
 import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.vector.request.SearchIteratorReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
+
+import com.google.common.collect.Lists;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()

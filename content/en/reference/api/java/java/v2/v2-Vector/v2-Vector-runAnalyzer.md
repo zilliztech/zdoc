@@ -4,12 +4,12 @@ slug: /java/java/v2-Vector-runAnalyzer
 sidebar_label: "runAnalyzer()"
 beta: false
 added_since: v2.6.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation processes the input data and generates tokenized output. | Java | v2"
 type: docx
-token: AXt2dvFmQoP04wx9zlVciuitnQf
+token: ZtsPdcamWoCjzhxZMnDc3aIZnxc
 sidebar_position: 10
 keywords: 
   - Faiss
@@ -87,11 +87,23 @@ runAnalyzer(RunAnalyzerReq.builder()
 
     A list of analyzer names to use.
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *RunAnalyzerResp*
 
-A **RunAnalyzerResp** contains a list of **AnalyzerResult** objects, each of which is a list of **AnalyzerToken** objects. 
+**RETURNS:**
+
+A **RunAnalyzerResp** contains a list of **AnalyzerResult** objects, each of which is a list of **AnalyzerToken** objects.
+
+**PARAMETERS:**
+
+- **results** (*List&lt;AnalyzerResult&gt;*) -
+
+    A list of analyzer results, one per input text, each of which contains the following fields:
+
+    - **tokens** (*List&lt;AnalyzerToken&gt;*) -
+
+        The tokens produced by the analyzer, each of which contains the following fields:
 
 **EXCEPTIONS:**
 
@@ -106,6 +118,12 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()

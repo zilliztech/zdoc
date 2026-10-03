@@ -4,13 +4,13 @@ slug: /java/java/v2-Vector-getAsync
 sidebar_label: "getAsync()"
 beta: false
 added_since: v3.0.7
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "This operation retrieves entities by primary key asynchronously. Use it when an application needs to overlap a point lookup with other work or compose the result with other `CompletableFuture` tasks. | Java | v2"
+description: "Gets specific entities by their IDs asynchronously and returns a future. | Java | v2"
 type: docx
 token: BvuWd2mJUotj3kxXhbqczE9Zn3U
-sidebar_position: 16
+sidebar_position: 13
 keywords: 
   - Vector store
   - open source vector database
@@ -31,81 +31,57 @@ import Admonition from '@theme/Admonition';
 
 # getAsync()
 
-This operation retrieves entities by primary key asynchronously. Use it when an application needs to overlap a point lookup with other work or compose the result with other `CompletableFuture` tasks.
+Gets specific entities by their IDs asynchronously and returns a future.
 
 ```java
 public CompletableFuture<GetResp> getAsync(GetReq request)
 ```
 
+This method uses the same request parameters as `get()` but returns a `CompletableFuture<GetResp>` immediately. Use the returned future to consume the result or handle the exceptional completion when the operation fails.
+
 ## Request Syntax\{#request-syntax}
 
 ```java
-CompletableFuture<GetResp> future = getAsync(GetReq.builder()
+CompletableFuture<GetResp> future = client.getAsync(GetReq.builder()
     .collectionName(String collectionName)
-    .partitionName(String partitionName)
-    .partitionNames(List<String> partitionNames)
     .ids(List<Object> ids)
-    .outputFields(List<String> outputFields)
-    .build()
-);
+    .build());
 ```
 
-**BUILDER METHODS:**
+For the full list of `GetReq` builder methods, refer to [get()](./v2-Vector-get).
 
-- `collectionName(String collectionName)` -
-
-    **[REQUIRED]**
-
-    The name of the collection to read from.
-
-- `partitionName(String partitionName)` -
-
-    The name of one partition to read from. Use either `partitionName()` or `partitionNames()` when the lookup should be limited to specific partitions.
-
-- `partitionNames(List<String> partitionNames)` -
-
-    The names of multiple partitions to read from.
-
-- `ids(List<Object> ids)` -
-
-    **[REQUIRED]**
-
-    The primary key values of the entities to retrieve. Values must match the primary-key field type of the collection.
-
-- `outputFields(List<String> outputFields)` -
-
-    The scalar and vector fields to return for each entity. If omitted, Milvus returns the default output fields.
-
-**RETURNS:**
+**RETURN TYPE:**
 
 *CompletableFuture&lt;GetResp&gt;*
 
-The future completes with a `GetResp` when the lookup succeeds, or completes exceptionally if the RPC fails or Milvus returns an error.
+**RETURNS:**
+
+A future completed with a `GetResp`, or completed exceptionally when the operation fails.
 
 **EXCEPTIONS:**
 
 - **MilvusClientException**
 
-    This exception will be raised synchronously if the client is closed before the request can be submitted.
-
-- **MilvusClientException**
-
-    This exception may complete the future exceptionally when any error occurs during this operation.
+    This exception will be raised when request validation, transport, or server execution fails.
 
 ## Example\{#example}
 
 ```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.GetReq;
 import io.milvus.v2.service.vector.response.GetResp;
-import java.util.Arrays;
-import java.util.concurrent.CompletableFuture;
+
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
 CompletableFuture<GetResp> future = client.getAsync(GetReq.builder()
-    .collectionName("book_catalog")
-    .ids(Arrays.asList(1001L, 1002L))
-    .outputFields(Arrays.asList("id", "title", "category"))
-    .build());
-
-GetResp resp = future.join();
-System.out.println(resp.getGetResults().size());
+        .collectionName("my_collection")
+        .ids(Collections.singletonList("0"))
+        .build());
+GetResp response = future.get();
 ```

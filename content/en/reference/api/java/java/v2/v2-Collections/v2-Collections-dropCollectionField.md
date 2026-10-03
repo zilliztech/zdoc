@@ -10,7 +10,7 @@ notebook: false
 description: "Drops an existing collection field by field name or field ID. | Java | v2"
 type: docx
 token: PcFWdgr7VoPK74xt1mmcmH8gndf
-sidebar_position: 42
+sidebar_position: 41
 keywords: 
   - Video deduplication
   - Video similarity search

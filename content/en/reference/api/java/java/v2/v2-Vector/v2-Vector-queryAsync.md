@@ -4,13 +4,13 @@ slug: /java/java/v2-Vector-queryAsync
 sidebar_label: "queryAsync()"
 beta: false
 added_since: v3.0.7
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "This operation queries entities asynchronously with a scalar filter, a primary-key list, or both. Use it when query latency should not block the caller thread. | Java | v2"
+description: "Queries entities in a collection asynchronously and returns a future. | Java | v2"
 type: docx
 token: PWzJdbh5ZoT8K7xo1j4cbvNsnWe
-sidebar_position: 19
+sidebar_position: 16
 keywords: 
   - Context Window
   - Natural language search
@@ -31,121 +31,93 @@ import Admonition from '@theme/Admonition';
 
 # queryAsync()
 
-This operation queries entities asynchronously with a scalar filter, a primary-key list, or both. Use it when query latency should not block the caller thread.
+Queries entities in a collection asynchronously and returns a future.
 
 ```java
 public CompletableFuture<QueryResp> queryAsync(QueryReq request)
 ```
 
+This method uses the same request parameters as `query()` but returns a `CompletableFuture<QueryResp>` immediately. Use the returned future to consume the result or handle the exceptional completion when the operation fails.
+
 ## Request Syntax\{#request-syntax}
 
 ```java
-CompletableFuture<QueryResp> future = queryAsync(QueryReq.builder()
+CompletableFuture<QueryResp> future = client.queryAsync(QueryReq.builder()
     .collectionName(String collectionName)
-    .partitionNames(List<String> partitionNames)
-    .outputFields(List<String> outputFields)
-    .ids(List<Object> ids)
     .filter(String filter)
-    .consistencyLevel(ConsistencyLevel consistencyLevel)
-    .offset(long offset)
-    .limit(long limit)
-    .ignoreGrowing(boolean ignoreGrowing)
-    .timezone(String timezone)
-    .orderByFields(List<OrderByField> orderByFields)
-    .queryParams(Map<String, Object> queryParams)
-    .filterTemplateValues(Map<String, Object> filterTemplateValues)
-    .build()
-);
+    .outputFields(List<String> outputFields)
+    .build());
 ```
 
-**BUILDER METHODS:**
+For the full list of `QueryReq` builder methods, refer to [query()](./v2-Vector-query).
 
-- `collectionName(String collectionName)` -
-
-    **[REQUIRED]**
-
-    The name of the collection to query.
-
-- `partitionNames(List<String> partitionNames)` -
-
-    The partition names to query. If omitted, Milvus queries all loaded partitions.
-
-- `outputFields(List<String> outputFields)` -
-
-    The fields to return for each matched entity.
-
-- `ids(List<Object> ids)` -
-
-    Primary key values to query. Use this for exact entity retrieval when the primary keys are known.
-
-- `filter(String filter)` -
-
-    A boolean expression used to filter entities, such as `"price > 20 and category == 'database'"`.
-
-- `consistencyLevel(ConsistencyLevel consistencyLevel)` -
-
-    The consistency level for the query. If omitted, the collection or client default is used.
-
-- `offset(long offset)` -
-
-    The number of matched entities to skip before returning results.
-
-- `limit(long limit)` -
-
-    The maximum number of entities to return.
-
-- `ignoreGrowing(boolean ignoreGrowing)` -
-
-    Whether to ignore growing segments during query.
-
-- `timezone(String timezone)` -
-
-    The timezone used for time-related expression evaluation.
-
-- `orderByFields(List<OrderByField> orderByFields)` -
-
-    Sort definitions for ordered query results.
-
-- `queryParams(Map<String, Object> queryParams)` -
-
-    Additional query parameters supported by the server.
-
-- `filterTemplateValues(Map<String, Object> filterTemplateValues)` -
-
-    Template values for placeholders in `filter()`. Use this to avoid repeatedly parsing very large literal lists inside an expression.
-
-**RETURNS:**
+**RETURN TYPE:**
 
 *CompletableFuture&lt;QueryResp&gt;*
 
-The future completes with a `QueryResp` when the query succeeds, or completes exceptionally if the RPC fails or Milvus returns an error.
+**RETURNS:**
+
+A future completed with a `QueryResp`, or completed exceptionally when the operation fails.
+
+**PARAMETERS:**
+
+- **queryResults** (*List&lt;QueryResp.QueryResult&gt;*) -
+
+    A list of query results, each of which contains the following fields:
+
+    - **entity** (*Map&lt;String,Object&gt;*) -
+
+        A map that contains the field names and values of the matched entity.
+
+    - **elementOffset** (*Long*) -
+
+        For struct-array element-level queries, the matched element's index within the array. Null for ordinary queries.
+
+- **sessionTs** (*long*) -
+
+    The session timestamp of the read.
+
+- **cost** (*Long*) -
+
+    The time cost of the operation.
+
+- **scannedRemoteBytes** (*Long*) -
+
+    The number of bytes scanned remotely during the query.
+
+- **scannedTotalBytes** (*Long*) -
+
+    The total number of bytes scanned during the query.
+
+- **cacheHitRatio** (*Float*) -
+
+    The cache hit ratio of the query.
 
 **EXCEPTIONS:**
 
 - **MilvusClientException**
 
-    This exception will be raised synchronously if the client is closed before the request can be submitted.
-
-- **MilvusClientException**
-
-    This exception may complete the future exceptionally when any error occurs during this operation.
+    This exception will be raised when request validation, transport, or server execution fails.
 
 ## Example\{#example}
 
 ```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.QueryReq;
 import io.milvus.v2.service.vector.response.QueryResp;
-import java.util.Arrays;
-import java.util.concurrent.CompletableFuture;
+
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
 CompletableFuture<QueryResp> future = client.queryAsync(QueryReq.builder()
-    .collectionName("book_catalog")
-    .filter("category == \"database\"")
-    .outputFields(Arrays.asList("id", "title", "price"))
-    .limit(20)
-    .build());
-
-future.thenAccept(resp ->
-    System.out.println("Matched rows: " + resp.getQueryResults().size())
-).join();
+        .collectionName("my_collection")
+        .filter("age > 20")
+        .outputFields(Arrays.asList("name", "age"))
+        .build());
+QueryResp response = future.get();
 ```

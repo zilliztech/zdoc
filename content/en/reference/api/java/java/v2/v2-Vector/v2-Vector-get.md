@@ -45,6 +45,7 @@ get(GetReq.builder()
     .collectionName(String collectionName)
     .clusterId(String clusterId)
     .partitionName(String partitionName)
+    .partitionNames(List<String> partitionNames)
     .ids(List<Object> ids)
     .outputFields(List<String> outputFields)
     .build()
@@ -63,11 +64,15 @@ get(GetReq.builder()
 
 - `clusterId(String clusterId)`
 
-    The target cluster ID for this vector read request. Use `session(String clusterId)` when multiple requests should share the same cluster ID.
+    The ID of the cluster to query. Applies to global-cluster deployments.
 
 - `partitionName(String partitionName)`
 
     The name of a partition.
+
+- `partitionNames(List<String> partitionNames)`
+
+    A list of partition names to query.
 
 - `ids(List<Object> ids)`
 
@@ -83,15 +88,43 @@ get(GetReq.builder()
 
 **RETURNS:**
 
-A **GetResp** object representing one or more queried entities.
+A **GetResp** object representing one or more queried entities, including the operation cost (`getCost()`) and scanned-byte metrics (`getScannedRemoteBytes()`, `getScannedTotalBytes()`, `getCacheHitRatio()`) when available.
 
 **PARAMETERS:**
 
-- **getResults** (*List\\\&lt;QueryResp.QueryResult\\\&gt;*)
+- **getResults** (*List&lt;QueryResp.QueryResult&gt;*) -
 
-    A list of **QueryResp.QueryResult** objects.
+    A list of retrieved entities. Each **QueryResp.QueryResult** contains the following fields:
 
-- **fields** (*Map\\\&lt;String,Object\\\&gt;*)
+    - **entity** (*Map&lt;String,Object&gt;*) -
+
+        A map that contains key-value pairs of field names and their values.
+
+    - **elementOffset** (*Long*) -
+
+        For struct-array element-level queries, the matched element's index within the array. Null for ordinary queries.
+
+- **sessionTs** (*long*) -
+
+    The session timestamp of the read.
+
+- **cost** (*Long*) -
+
+    The time cost of the operation.
+
+- **scannedRemoteBytes** (*Long*) -
+
+    The number of bytes scanned remotely during the query.
+
+- **scannedTotalBytes** (*Long*) -
+
+    The total number of bytes scanned during the query.
+
+- **cacheHitRatio** (*Float*) -
+
+    The cache hit ratio of the query.
+
+- **fields** (*Map&lt;String,Object&gt;*) -
 
     A map that contains key-value pairs of field names and their values.
 

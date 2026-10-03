@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 Validates and appends one row to the writer. When buffered data exceeds the configured `chunkSize`, the writer commits the current file automatically.
 
-[`StructFieldSchema`](./v2-Collections-StructFieldSchema) fields can contain binary, float16, bfloat16, and int8 vector values.
+[`StructFieldSchema`](./v2-https:zilliversefeishucndrivefolderK6akf7IbXl5Jj1dFV8Fca62Inkd-StructFieldSchema) fields can contain binary, float16, bfloat16, and int8 vector values.
 
 ```java
 public void appendRow(JsonObject rowData)

@@ -1,0 +1,90 @@
+---
+title: "dropRole() | Java | v2"
+slug: /java/java/v2-Authentication-dropRole
+sidebar_label: "dropRole()"
+beta: false
+added_since: v2.3.x
+last_modified: v3.0.x
+deprecate_since: false
+notebook: false
+description: "This operation drops a custom role. | Java | v2"
+type: docx
+token: EzGSdmnVYoWJ0WxiglLcoxn2neb
+sidebar_position: 8
+keywords: 
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - dropRole()
+  - javaV230
+displayed_sidebar: javaSidebar
+
+displayed_sidbar: javaSidebar
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# dropRole()
+
+This operation drops a custom role.
+
+```java
+public void dropRole(DropRoleReq request)
+```
+
+## Request Syntax\{#request-syntax}
+
+```java
+dropRole(DropRoleReq.builder()
+    .roleName(String roleName)
+    .build()
+)
+```
+
+**BUILDER METHODS:**
+
+- `roleName(String roleName)`
+
+    The name of the role to drop.
+
+- `forceDrop(boolean forceDrop)`
+
+    Whether to drop the role forcibly even if it is still in use.
+
+**RETURNS:**
+
+*void*
+
+**EXCEPTIONS:**
+
+- **MilvusClientExceptions**
+
+    This exception will be raised when any error occurs during this operation.
+
+## Example\{#example}
+
+```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.rbac.request.DropRoleReq;
+import java.util.Set;
+
+// 1. Set up a client
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+        
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+// 2. Drop a role
+DropRoleReq dropRoleReq = DropRoleReq.builder()
+        .roleName("test")
+        .build();
+client.dropRole(dropRoleReq);
+```

@@ -1,0 +1,86 @@
+---
+title: "dropDatabase() | Java | v2"
+slug: /java/java/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg-dropDatabase
+sidebar_label: "dropDatabase()"
+beta: false
+added_since: v2.4.x
+last_modified: v3.0.x
+deprecate_since: false
+notebook: false
+description: "This operation drops a database with the specified name. | Java | v2"
+type: docx
+token: N4TUdZOmso4MVfxTYFbcVQ3Kn1c
+sidebar_position: 4
+keywords: 
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - dropDatabase()
+  - javaV230
+displayed_sidebar: javaSidebar
+
+displayed_sidbar: javaSidebar
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# dropDatabase()
+
+This operation drops a database with the specified name. 
+
+```java
+public void dropDatabase(DropDatabaseReq request)
+```
+
+## Request Syntax\{#request-syntax}
+
+```java
+dropDatabase(DropDatabaseReq.builder()
+    .databaseName(String databaseName)
+    .build()
+)
+```
+
+**BUILDER METHODS:**
+
+- `databaseName(String databaseName)`
+
+    The name of the database to drop.
+
+**RETURNS:**
+
+*void*
+
+**EXCEPTIONS:**
+
+- **MilvusClientExceptions**
+
+    This exception is raised when any error occurs during this operation.
+
+## Example\{#example}
+
+```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.database.request.DropDatabaseReq;
+import java.util.Set;
+
+// 1. Set up a client
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+        
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+// 2. Drop a database
+DropDatabaseReq dropDatabaseReq = DropDatabaseReq.builder()
+        .databaseName(databaseName)
+        .build();
+client.dropDatabase(dropDatabaseReq);
+```

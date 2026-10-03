@@ -10,7 +10,7 @@ notebook: false
 description: "Adds a function definition to an existing collection. In Milvus 3.0, use `addFunctionField()` when the function output field and its index must be added together. | Java | v2"
 type: docx
 token: Qbvcd9DG1ofMpuxVdEqcToU1nIb
-sidebar_position: 30
+sidebar_position: 28
 keywords: 
   - sentence transformers
   - Recommender systems

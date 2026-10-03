@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "(placeholder) | Java | v2"
+description: "This method returns a query iterator to iterate data. | Java | v2"
 type: docx
 token: HnxQdhvGQotpwfxgo4pcviKNn4g
 sidebar_position: 6
@@ -31,8 +31,6 @@ import Admonition from '@theme/Admonition';
 
 # queryIterator()
 
-# queryIterator()\{#queryiterator}
-
 This method returns a query iterator to iterate data.
 
 ```java
@@ -45,7 +43,6 @@ public QueryIterator queryIterator(QueryIteratorReq request)
 queryIterator(QueryIteratorReq.builder()
     .databaseName(String databaseName)
     .collectionName(String collectionName)
-    .clusterId(String clusterId)
     .partitionNames(List<String> partitionNames)
     .outputFields(List<String> outputFields)
     .expr(String expr)
@@ -56,6 +53,7 @@ queryIterator(QueryIteratorReq.builder()
     .timezone(String timezone)
     .batchSize(long batchSize)
     .reduceStopForBest(boolean reduceStopForBest)
+    .cursor(QueryIteratorCursor cursor)
     .filterTemplateValues(Map<String, Object> filterTemplateValues)
     .build()
 );
@@ -70,10 +68,6 @@ queryIterator(QueryIteratorReq.builder()
 - `collectionName(String collectionName)`
 
     The name of the target collection.
-
-- `clusterId(String clusterId)`
-
-    The target cluster ID for this vector read request. Use `session(String clusterId)` when multiple requests should share the same cluster ID.
 
 - `partitionNames(List<String> partitionNames)`
 
@@ -115,15 +109,33 @@ queryIterator(QueryIteratorReq.builder()
 
     Whether to stop iteration when the best result is found.
 
+- `cursor(QueryIteratorCursor cursor)`
+
+    A previously captured cursor to resume pagination from. When set, the iterator continues from the cursor's session timestamp and position instead of starting over; `offset()` is ignored in that case.
+
 - `filterTemplateValues(Map<String, Object> filterTemplateValues)`
 
     A map of template variable values for parameterized filters.
 
+**RETURN TYPE:**
+
+*QueryIterator*
+
 **RETURNS:**
 
-*QueryIterator*
+A **QueryIterator** object to iterate query results page by page, which offers the following methods:
 
-*QueryIterator*
+- **next()** (*List&lt;QueryResultsWrapper.RowRecord&gt;*) -
+
+    Returns the next batch of rows matching the query expression.
+
+- **close()** -
+
+    Releases the iterator and the resources held by its cursor.
+
+- **getCursor()** (*QueryIteratorCursor*) -
+
+    Returns the cursor that holds the iteration progress.
 
 **EXCEPTIONS:**
 

@@ -10,7 +10,7 @@ notebook: false
 description: "Removes a function definition from an existing collection without removing its output field. Use `dropFunctionField()` to remove both. | Java | v2"
 type: docx
 token: K0wedJ57uoHCyXxOFtNc673tnuA
-sidebar_position: 33
+sidebar_position: 31
 keywords: 
   - milvus vector database
   - milvus db

@@ -65,6 +65,7 @@ SearchReq.builder()
     .groupSize(groupSize)
     .strictGroupSize(strictGroupSize)
     .functionScore(functionScore)
+    .functionChains(functionChains)
     .filterTemplateValues(filterTemplateValues)
     .highlighter(highlighter)
     .searchAggregation(searchAggregation)
@@ -81,10 +82,6 @@ SearchReq.builder()
 
     The name of the target collection.
 
-- `clusterId(String clusterId)`
-
-    The Zilliz Cloud cluster ID for this request.
-
 - `partitionNames(List<String> partitionNames)`
 
     The partitions to search.
@@ -92,6 +89,10 @@ SearchReq.builder()
 - `annsField(String annsField)`
 
     The vector field used for approximate nearest-neighbor search.
+
+- `metricType(IndexParam.MetricType metricType)`
+
+    The metric type used to measure vector similarity.
 
 - `topK(int topK)`
 
@@ -169,6 +170,18 @@ SearchReq.builder()
 
     The scoring functions applied to the search results.
 
+- `ranker(CreateCollectionReq.Function ranker)`
+
+    A single rerank function applied to the search results. Do not use together with `functionScore()` or `functionChains()`.
+
+- `functionChains(List<FunctionChain> functionChains)`
+
+    The function chains applied to post-process the search results. Function chains and rerank (`ranker()`/`functionScore()`) cannot be used together. See FunctionChain.
+
+- `addFunctionChain(FunctionChain functionChain)`
+
+    Appends one function chain to the search request. Function chains and rerank (`ranker()`/`functionScore()`) cannot be used together. See FunctionChain.
+
 - `filterTemplateValues(Map<String, Object> filterTemplateValues)`
 
     Values substituted into placeholders in the filter expression.
@@ -181,11 +194,67 @@ SearchReq.builder()
 
     Aggregation fields, metrics, ordering, top hits, and nested aggregation configuration.
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *SearchResp*
 
+**RETURNS:**
+
 Contains search results, recalls, cost, scanned byte counts, cache hit ratio, and aggregation buckets.
+
+**PARAMETERS:**
+
+- **searchResults** (*List&lt;List&lt;SearchResult&gt;&gt;*) -
+
+    A list of search result batches, one per query vector, each containing **SearchResult** entries with the following fields:
+
+    - **id** (*Object*) -
+
+        The primary key value of the matched entity.
+
+    - **score** (*Float*) -
+
+        The relevance score of the match.
+
+    - **entity** (*Map&lt;String,Object&gt;*) -
+
+        A map that contains the field names and values of the matched entity.
+
+    - **primaryKey** (*String*) -
+
+        The name of the primary key field.
+
+    - **highlightResults** (*Map&lt;String,HighlightResult&gt;*) -
+
+        The highlight results keyed by field name, when highlighting is requested.
+
+- **sessionTs** (*long*) -
+
+    The session timestamp of the read.
+
+- **recalls** (*List&lt;Float&gt;*) -
+
+    The recall of each query vector, when reported.
+
+- **cost** (*Long*) -
+
+    The time cost of the operation.
+
+- **scannedRemoteBytes** (*Long*) -
+
+    The number of bytes scanned remotely during the search.
+
+- **scannedTotalBytes** (*Long*) -
+
+    The total number of bytes scanned during the search.
+
+- **cacheHitRatio** (*Float*) -
+
+    The cache hit ratio of the search.
+
+- **aggregationBuckets** (*List&lt;List&lt;AggregationBucket&gt;&gt;*) -
+
+    The aggregation buckets grouped by query vector, when an aggregation is requested.
 
 **EXCEPTIONS:**
 
@@ -195,7 +264,7 @@ Contains search results, recalls, cost, scanned byte counts, cache hit ratio, an
 
 ## Example\{#example}
 
-Demonstrates search() against a Zilliz Cloud cluster.
+Demonstrates search() against Milvus.
 
 ```java
 SearchResp response = client.search(SearchReq.builder()
