@@ -8,6 +8,7 @@ const {
     findMalformedProceduresBlocks,
     escapeCppNamespaceTypes,
     escapePlainTextBraces,
+    findUnmatchedOpeningBraces,
 } = require('./validate.cjs');
 const LarkDocWriter = require('../lark/larkDocWriter');
 
@@ -449,6 +450,64 @@ async function testMathBracesRemainLatexGrouping() {
     );
 }
 
+// The java LexicalHighlighter (v3.0.x) regression: the preTags parameter
+// description contains a bare `{` example plus HTML markers in prose. The lone
+// `{` opens a JSX expression that never closes, surfacing as an
+// `unexpected-eof` MDX error that previously aborted the whole java build.
+const loneBraceProse = 'Tags inserted before each matched term in the returned highlight. Supports plain strings (e.g., {) or HTML-safe markers (e.g., <em>, <mark>). If multiple tags are provided, the tags rotate across matches in order.';
+
+async function testLoneProseBraceIsEscaped() {
+    // Full fetch-path pipeline (larkDocWriter passes repairEndTagMismatch) must
+    // converge and compile.
+    const patched = await applyMdxPatches(loneBraceProse, { repairEndTagMismatch: true });
+    assert.ok(patched.includes('(e.g., \\{)'), 'expected the lone prose brace to be escaped');
+    await compileToString(patched);
+
+    // A lone brace without any HTML tags must converge through the default
+    // options as well (the unexpected-eof repair must not depend on options).
+    const barePatched = await applyMdxPatches('A fragment opener like { never closes here.');
+    assert.ok(barePatched.includes('like \\{ never'), 'expected the lone brace to be escaped with default options');
+    await compileToString(barePatched);
+
+    // The fetch path itself (the exact call site used by publish-group).
+    const writer = new LarkDocWriter('', '', 'javaSidebar');
+    const writerPatched = await writer.__mdx_patches(loneBraceProse);
+    assert.ok(writerPatched.includes('(e.g., \\{)'), 'expected larkDocWriter to escape the lone brace');
+    await compileToString(writerPatched);
+}
+
+async function testFindUnmatchedOpeningBraces() {
+    // Lone brace in prose is reported at its absolute offset.
+    assert.deepEqual(
+        findUnmatchedOpeningBraces('Supports plain strings (e.g., {) or markers.'),
+        ['Supports plain strings (e.g., '.length],
+    );
+
+    // Braces inside fenced code blocks are ignored.
+    assert.deepEqual(
+        findUnmatchedOpeningBraces(['```java', 'preTags.add("{");', '```'].join('\n')),
+        [],
+    );
+
+    // Braces inside inline code spans are ignored.
+    assert.deepEqual(findUnmatchedOpeningBraces('Use `{` in code, but a bare { in prose.'), ['Use `{` in code, but a bare '.length]);
+
+    // Balanced braces — including JSX attributes and multi-line expressions —
+    // are not reported.
+    assert.deepEqual(findUnmatchedOpeningBraces('<Tabs values={[{"label":"Java","value":"java"}]}>'), []);
+    assert.deepEqual(findUnmatchedOpeningBraces('A multi-line { label: "java"\n} expression'), []);
+
+    // Display math is claimed by remark-math before MDX expressions.
+    assert.deepEqual(findUnmatchedOpeningBraces(['$$', 'S(x) = \\left\\{ x \\right\\}', '$$'].join('\n')), []);
+
+    // Already-escaped braces are skipped; multiple unmatched braces are all
+    // reported in ascending order.
+    assert.deepEqual(findUnmatchedOpeningBraces('escaped \\{ stays literal'), []);
+    const two = findUnmatchedOpeningBraces('one { two { three');
+    assert.equal(two.length, 2);
+    assert.ok(two[0] < two[1]);
+}
+
 async function run() {
     await testNormalizeCodeTagContent();
     await testNormalizationPreservesFencedCodeBlocks();
@@ -477,6 +536,8 @@ async function run() {
     await testCppNamespaceTypesAreEscapedToEntities();
     await testCppNamespaceTypesWithoutClosingAngleAreEscaped();
     await testPlainTextBracesAreEscaped();
+    await testLoneProseBraceIsEscaped();
+    await testFindUnmatchedOpeningBraces();
     await testLarkDocWriterEscapesPlainTextBraces();
     await testMathBracesRemainLatexGrouping();
     console.log('mdxPatcher regression tests passed');
