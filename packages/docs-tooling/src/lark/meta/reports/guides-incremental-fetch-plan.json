@@ -1,93 +1,17 @@
 {
-  "generated_at": "2026-10-02T18:35:46.542Z",
+  "generated_at": "2026-10-03T02:42:45.943Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
-  "changed_records": [
-    {
-      "record_id": "recvlVTvgmcd0O",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "title": "Manage Projects",
-      "labels": "Projects",
-      "slug": "manage-projects",
-      "release_channel": "current",
-      "doc_token": "NXypwJ2ySiv7RAkyKb5cZ9SKnvf",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/NXypwJ2ySiv7RAkyKb5cZ9SKnvf",
-      "reasons": [
-        "wiki node revision changed"
-      ]
-    }
-  ],
-  "changed_tokens": [
-    "NXypwJ2ySiv7RAkyKb5cZ9SKnvf"
-  ],
-  "expanded_tokens": [
-    "A33MwQX84iXyQNkzopece3oenye",
-    "AICcwQ55yiNqEPkjdV6cb2i8nqe",
-    "CPLrwghdWiSvGBkdeEecGjgLnSb",
-    "EV41wG08BiOWW8kbo9xcTGoPnKd",
-    "Ghq9wEiOOivgeIkmj2HcHC9onXe",
-    "LQwnwNY73iCd8Hkj55ZczQTOn6g",
-    "MTqjwwUKhiyns4kGV7Lc7PRlnwb",
-    "MUL3wkn7Yi3YoFkYk59csf8bnNc",
-    "MZ2WwklE5ifX4hkO4ZOcXz0indc",
-    "MyKpwdBxUizDsukJm5Kc8orenbT",
-    "NXypwJ2ySiv7RAkyKb5cZ9SKnvf",
-    "O1kHwD3jsioeD1km983cCRx7ndh",
-    "PharwAysCiBzvgkuqqecmNzunQf"
-  ],
+  "changed_records": [],
+  "changed_tokens": [],
+  "expanded_tokens": [],
   "removed_records": [],
   "removed_tokens": [],
-  "reasons_by_token": {
-    "NXypwJ2ySiv7RAkyKb5cZ9SKnvf": [
-      "wiki node revision changed"
-    ],
-    "MyKpwdBxUizDsukJm5Kc8orenbT": [
-      "outgoing reference from NXypwJ2ySiv7RAkyKb5cZ9SKnvf"
-    ],
-    "Ghq9wEiOOivgeIkmj2HcHC9onXe": [
-      "outgoing reference from NXypwJ2ySiv7RAkyKb5cZ9SKnvf"
-    ],
-    "CPLrwghdWiSvGBkdeEecGjgLnSb": [
-      "outgoing reference from NXypwJ2ySiv7RAkyKb5cZ9SKnvf"
-    ],
-    "AICcwQ55yiNqEPkjdV6cb2i8nqe": [
-      "outgoing reference from NXypwJ2ySiv7RAkyKb5cZ9SKnvf"
-    ],
-    "PharwAysCiBzvgkuqqecmNzunQf": [
-      "outgoing reference from NXypwJ2ySiv7RAkyKb5cZ9SKnvf"
-    ],
-    "A33MwQX84iXyQNkzopece3oenye": [
-      "outgoing reference from NXypwJ2ySiv7RAkyKb5cZ9SKnvf"
-    ],
-    "MTqjwwUKhiyns4kGV7Lc7PRlnwb": [
-      "outgoing reference from NXypwJ2ySiv7RAkyKb5cZ9SKnvf"
-    ],
-    "EV41wG08BiOWW8kbo9xcTGoPnKd": [
-      "incoming reference to NXypwJ2ySiv7RAkyKb5cZ9SKnvf"
-    ],
-    "LQwnwNY73iCd8Hkj55ZczQTOn6g": [
-      "incoming reference to NXypwJ2ySiv7RAkyKb5cZ9SKnvf"
-    ],
-    "MUL3wkn7Yi3YoFkYk59csf8bnNc": [
-      "incoming reference to NXypwJ2ySiv7RAkyKb5cZ9SKnvf"
-    ],
-    "MZ2WwklE5ifX4hkO4ZOcXz0indc": [
-      "incoming reference to NXypwJ2ySiv7RAkyKb5cZ9SKnvf"
-    ],
-    "O1kHwD3jsioeD1km983cCRx7ndh": [
-      "incoming reference to NXypwJ2ySiv7RAkyKb5cZ9SKnvf"
-    ]
-  },
+  "reasons_by_token": {},
   "warnings": [],
-  "affected_tables": [
-    "tbl9BeCMjBmalJVb",
-    "tblWv7PjNDsexddH",
-    "tblZMzoITXNsyKmQ",
-    "tblh7utKxg0dgdTo"
-  ],
+  "affected_tables": [],
   "current_table_targets": {
     "tbl9BeCMjBmalJVb": [
       "zilliz.paas",
@@ -181,7 +105,7 @@
     "tblZMzoITXNsyKmQ": "Management"
   },
   "snapshot_basis": {
-    "generated_at": "2026-10-02T10:32:22.783Z",
+    "generated_at": "2026-10-02T18:36:45.737Z",
     "records": 396
   },
   "source_scope": "partial"
