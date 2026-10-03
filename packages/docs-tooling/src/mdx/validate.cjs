@@ -684,6 +684,78 @@ function escapeHtmlElementBraces(content) {
 }
 
 /**
+ * Find `{` characters with no matching `}` anywhere later in the document,
+ * ignoring fenced code blocks, inline code spans, ESM import/export lines,
+ * display/inline math, and already-escaped braces. The positions are absolute
+ * offsets into the original content, in ascending order.
+ *
+ * Feeds the `unexpected-eof` repair in applyMdxPatches: a lone `{` in prose
+ * (e.g. "plain strings (e.g., {) or HTML-safe markers") opens a JSX expression
+ * that never closes, which micromark only reports as an end-of-file error —
+ * the error place points at EOF, not at the offending brace.
+ */
+function findUnmatchedOpeningBraces(content) {
+    const lines = content.split('\n');
+    const fence = createFenceTracker();
+    const stack = [];
+    let inDisplayMath = false;
+    let offset = 0;
+
+    for (const line of lines) {
+        const lineStart = offset;
+        offset += line.length + 1;
+        fence.update(line);
+
+        if (fence.inCodeBlock || isMdxEsmLine(line)) {
+            continue;
+        }
+
+        if (line.trim() === '$$') {
+            inDisplayMath = !inDisplayMath;
+            continue;
+        }
+        if (inDisplayMath) {
+            continue;
+        }
+
+        // Split by inline code spans; odd-indexed segments are inside backticks
+        // and are skipped, mirroring escapePlainTextBraces.
+        const parts = line.split(/(`+[^`]+`+)/);
+        let partOffset = lineStart;
+        for (let i = 0; i < parts.length; i++) {
+            const part = parts[i];
+            // Odd-indexed parts are inline code; odd-indexed segments below are
+            // inline math. Only prose is scanned.
+            const segments = i % 2 === 0
+                ? part.split(/((?<!\$)\$(?!\$)(?:[^$\\]|\\.)+\$)/g)
+                : [part];
+            let segmentOffset = partOffset;
+            for (let s = 0; s < segments.length; s++) {
+                const segment = segments[s];
+                if (i % 2 === 0 && s % 2 === 0) {
+                    for (let c = 0; c < segment.length; c++) {
+                        const ch = segment[c];
+                        if (ch === '\\') {
+                            c++; // skip the escaped character
+                            continue;
+                        }
+                        if (ch === '{') {
+                            stack.push(segmentOffset + c);
+                        } else if (ch === '}' && stack.length > 0) {
+                            stack.pop();
+                        }
+                    }
+                }
+                segmentOffset += segment.length;
+            }
+            partOffset += part.length;
+        }
+    }
+
+    return stack;
+}
+
+/**
  * Pre-processing: escape literal {identifier} placeholders in plain prose
  * (outside fenced code blocks, inline backtick spans, ESM import/export lines,
  * and JSX attribute values) so MDX does not evaluate them as JSX expressions.
@@ -907,6 +979,25 @@ async function applyMdxPatches(content, options = {}) {
                         }
                         break;
 
+                    case 'unexpected-eof': {
+                        // "Unexpected end of file in expression, expected a corresponding
+                        // closing brace for `{`" — a lone `{` in prose (e.g. the java
+                        // LexicalHighlighter "plain strings (e.g., {) or HTML-safe markers"
+                        // sentence) opens an expression that never closes. The error place
+                        // points at EOF, not at the brace, so locate unmatched opening
+                        // braces and escape them the same way the acorn case does.
+                        const unmatched = findUnmatchedOpeningBraces(patchedContent);
+                        if (unmatched.length > 0) {
+                            // Escape from the end so earlier offsets stay valid.
+                            for (let i = unmatched.length - 1; i >= 0; i--) {
+                                const braceOffset = unmatched[i];
+                                patchedContent = patchedContent.slice(0, braceOffset) + '\\' + patchedContent.slice(braceOffset);
+                            }
+                            madeChanges = true;
+                        }
+                        break;
+                    }
+
                     case 'end-tag-mismatch': {
                         if (!options.repairEndTagMismatch) {
                             // Tag mismatches in translated content indicate a structural LLM error
@@ -1089,6 +1180,7 @@ module.exports = {
     findMalformedProceduresBlocks,
     escapeHtmlElementBraces,
     escapePlainTextBraces,
+    findUnmatchedOpeningBraces,
     escapeNonHtmlTags,
     escapeCppNamespaceTypes,
 };
