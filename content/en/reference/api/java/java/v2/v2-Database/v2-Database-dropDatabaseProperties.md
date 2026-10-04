@@ -1,6 +1,6 @@
 ---
 title: "dropDatabaseProperties() | Java | v2"
-slug: /java/java/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg-dropDatabaseProperties
+slug: /java/java/v2-Database-dropDatabaseProperties
 sidebar_label: "dropDatabaseProperties()"
 beta: false
 added_since: v2.4.x
@@ -10,12 +10,12 @@ notebook: false
 description: "This operation resets the database properties to their default values. | Java | v2"
 type: docx
 token: IeNKdLhpKovMZ4x6sYtc6ZEsnqg
-sidebar_position: 8
+sidebar_position: 5
 keywords: 
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
   - zilliz
   - zilliz cloud
   - cloud

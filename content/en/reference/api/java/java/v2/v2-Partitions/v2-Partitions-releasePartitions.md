@@ -1,6 +1,6 @@
 ---
 title: "releasePartitions() | Java | v2"
-slug: /java/java/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh-releasePartitions
+slug: /java/java/v2-Partitions-releasePartitions
 sidebar_label: "releasePartitions()"
 beta: false
 added_since: v2.3.x
@@ -12,10 +12,10 @@ type: docx
 token: DykedGfgOo5JM7x6ZmncT5i9nVf
 sidebar_position: 7
 keywords: 
-  - k nearest neighbor algorithm
   - ANNS
   - Vector search
   - knn algorithm
+  - HNSW
   - zilliz
   - zilliz cloud
   - cloud

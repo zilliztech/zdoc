@@ -10,7 +10,7 @@ notebook: false
 description: "An ordered rerank/refine plan applied to search results. A `FunctionChain` composes `map`, `sort`, and `limit` operations that post-process the result columns of a `search()` call. | Java | v2"
 type: docx
 token: U0mKd1nlXoWkDqxf9zRcoURVnCb
-sidebar_position: 19
+sidebar_position: 1
 keywords: 
   - vector database example
   - rag vector database

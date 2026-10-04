@@ -1,6 +1,6 @@
 ---
 title: "dropPartition() | Java | v2"
-slug: /java/java/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh-dropPartition
+slug: /java/java/v2-Partitions-dropPartition
 sidebar_label: "dropPartition()"
 beta: false
 added_since: v2.3.x
@@ -12,10 +12,10 @@ type: docx
 token: GfGfd7P5Aong4Fx4bctc4SQPn1g
 sidebar_position: 2
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
   - zilliz
   - zilliz cloud
   - cloud

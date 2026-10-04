@@ -1,6 +1,6 @@
 ---
 title: "getPartitionStats() | Java | v2"
-slug: /java/java/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh-getPartitionStats
+slug: /java/java/v2-Partitions-getPartitionStats
 sidebar_label: "getPartitionStats()"
 beta: false
 added_since: v2.4.x
@@ -12,10 +12,10 @@ type: docx
 token: TOfvdLLzaoWJydxBTPQcKevfndd
 sidebar_position: 3
 keywords: 
-  - multimodal vector database retrieval
   - Retrieval Augmented Generation
   - Large language model
   - Vectorization
+  - k nearest neighbor algorithm
   - zilliz
   - zilliz cloud
   - cloud

@@ -1,25 +1,25 @@
 ---
-title: "listPartitions() | Java | v2"
-slug: /java/java/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh-listPartitions
-sidebar_label: "listPartitions()"
+title: "createPartition() | Java | v2"
+slug: /java/java/v2-Partitions-createPartition
+sidebar_label: "createPartition()"
 beta: false
 added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "This operation lists the partitions in a specified collection. | Java | v2"
+description: "This operation creates a partition in the target collection. | Java | v2"
 type: docx
-token: Jj60dRCiVoLLRzxVCiGcjI37nHc
-sidebar_position: 5
+token: Un23d2Ac7ovfQsxFDIsczDYzn9d
+sidebar_position: 1
 keywords: 
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
   - zilliz
   - zilliz cloud
   - cloud
-  - listPartitions()
+  - createPartition()
   - javaV230
 displayed_sidebar: javaSidebar
 
@@ -29,20 +29,21 @@ displayed_sidbar: javaSidebar
 import Admonition from '@theme/Admonition';
 
 
-# listPartitions()
+# createPartition()
 
-This operation lists the partitions in a specified collection.
+This operation creates a partition in the target collection.
 
 ```java
-public List<String> listPartitions(ListPartitionsReq request)
+public void createPartition(CreatePartitionReq request)
 ```
 
 ## Request Syntax\{#request-syntax}
 
 ```java
-listPartitions(ListPartitionsReq.builder()
+createPartition(CreatePartitionReq.builder()
     .databaseName(String databaseName)
     .collectionName(String collectionName)
+    .partitionName(String partitionName)
     .build()
 )
 ```
@@ -55,29 +56,28 @@ listPartitions(ListPartitionsReq.builder()
 
 - `collectionName(String collectionName)`
 
-    The name of an existing collection.
+    (Required) The name of an existing collection.
 
-**RETURN TYPE:**
+- `partitionName(String partitionName)`
 
-*List&lt;String&gt;*
+    (Required) The name of the partition to create.
 
 **RETURNS:**
 
-A list of partition names.
+*void*
 
 **EXCEPTIONS:**
 
 - **MilvusClientExceptions**
 
-    This exception is raised when an error occurs during this operation.
+    This exception is raised when any error occurs during this operation.
 
 ## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.partition.request.ListPartitionsReq;
-import java.util.List;
+import io.milvus.v2.service.partition.request.CreatePartitionReq;
 import java.util.Set;
 
 // 1. Set up a client
@@ -88,9 +88,10 @@ ConnectConfig connectConfig = ConnectConfig.builder()
         
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
-// 2. List partitions in collection
-ListPartitionsReq listPartitionsReq = ListPartitionsReq.builder()
+// 2. Create a partition "test_partition" in collection "test"
+CreatePartitionReq createPartitionReq = CreatePartitionReq.builder()
         .collectionName("test")
+        .partitionName("test_partition")
         .build();
-List<String> res = client.listPartitions(listPartitionsReq);
+client.createPartition(createPartitionReq);
 ```

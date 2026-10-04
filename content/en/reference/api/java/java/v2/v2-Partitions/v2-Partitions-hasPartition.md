@@ -1,6 +1,6 @@
 ---
 title: "hasPartition() | Java | v2"
-slug: /java/java/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh-hasPartition
+slug: /java/java/v2-Partitions-hasPartition
 sidebar_label: "hasPartition()"
 beta: false
 added_since: v2.3.x
@@ -12,10 +12,10 @@ type: docx
 token: NF0FdJbD7o5HHtx9kxwczbq0nwf
 sidebar_position: 4
 keywords: 
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
   - zilliz
   - zilliz cloud
   - cloud

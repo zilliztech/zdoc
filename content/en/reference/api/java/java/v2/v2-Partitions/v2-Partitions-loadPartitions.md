@@ -1,6 +1,6 @@
 ---
 title: "loadPartitions() | Java | v2"
-slug: /java/java/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh-loadPartitions
+slug: /java/java/v2-Partitions-loadPartitions
 sidebar_label: "loadPartitions()"
 beta: false
 added_since: v2.3.x
@@ -12,10 +12,10 @@ type: docx
 token: QHhAd0ObroZgicxARuKcOqEmnfb
 sidebar_position: 6
 keywords: 
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
   - zilliz
   - zilliz cloud
   - cloud

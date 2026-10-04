@@ -84,7 +84,7 @@ CollectionSchema.addField(AddFieldReq.builder()
 
     The maximum number of characters a value should contain.
 
-    This is required if **[dataType](./v2-https:zilliversefeishucndrivefolderK6akf7IbXl5Jj1dFV8Fca62Inkd-DataType)** of this field is set to **DataType.VarChar**.
+    This is required if **[dataType](./v2-Collections-DataType)** of this field is set to **DataType.VarChar**.
 
 - `isPrimaryKey(Boolean isPrimaryKey)` -
 
@@ -110,19 +110,19 @@ CollectionSchema.addField(AddFieldReq.builder()
 
     The dimensionality of a vector field. The value should be greater than 1 and is usually determined by the embedding model in use.
 
-    This is required if **[dataType](./v2-https:zilliversefeishucndrivefolderK6akf7IbXl5Jj1dFV8Fca62Inkd-DataType)** of this field is set to **DataType.FloatVector**.
+    This is required if **[dataType](./v2-Collections-DataType)** of this field is set to **DataType.FloatVector**.
 
 - `elementType(DataType elementType)` -
 
     The data type of elements in array fields.
 
-    This is required if **[dataType](./v2-https:zilliversefeishucndrivefolderK6akf7IbXl5Jj1dFV8Fca62Inkd-DataType)** of this field is set to **DataType.Array**.
+    This is required if **[dataType](./v2-Collections-DataType)** of this field is set to **DataType.Array**.
 
 - `maxCapacity(Integer maxCapacity)` -
 
     The maximum number of elements that an array field can contain.
 
-    This is required if **[dataType](./v2-https:zilliversefeishucndrivefolderK6akf7IbXl5Jj1dFV8Fca62Inkd-DataType)** of this field is set to **DataType.Array**.
+    This is required if **[dataType](./v2-Collections-DataType)** of this field is set to **DataType.Array**.
 
 - `isNullable(Boolean isNullable)` -
 
@@ -158,7 +158,7 @@ CollectionSchema.addField(AddFieldReq.builder()
 
     A list of fields in the Array of Structs field.
 
-    This is required if **[dataType](./v2-https:zilliversefeishucndrivefolderK6akf7IbXl5Jj1dFV8Fca62Inkd-DataType)** of this field is set to **DataType.Array** and **elementType** of this field is set to **DataType.Struct**.
+    This is required if **[dataType](./v2-Collections-DataType)** of this field is set to **DataType.Array** and **elementType** of this field is set to **DataType.Struct**.
 
 - `externalField(String externalField)` -
 

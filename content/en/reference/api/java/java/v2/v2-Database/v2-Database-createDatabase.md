@@ -1,6 +1,6 @@
 ---
 title: "createDatabase() | Java | v2"
-slug: /java/java/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg-createDatabase
+slug: /java/java/v2-Database-createDatabase
 sidebar_label: "createDatabase()"
 beta: false
 added_since: v2.4.x
@@ -12,10 +12,10 @@ type: docx
 token: LirKdHD5lomrfSxXrZzcOAWpnMf
 sidebar_position: 2
 keywords: 
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud

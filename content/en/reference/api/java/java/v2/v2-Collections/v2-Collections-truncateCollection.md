@@ -1,6 +1,6 @@
 ---
 title: "truncateCollection() | Java | v2"
-slug: /java/java/v2-https:zilliversefeishucndrivefolderK6akf7IbXl5Jj1dFV8Fca62Inkd-truncateCollection
+slug: /java/java/v2-Collections-truncateCollection
 sidebar_label: "truncateCollection()"
 beta: false
 added_since: v2.6.16
@@ -12,10 +12,10 @@ type: docx
 token: JiLLdfLlPoKWL6xEgOAcdCU3nol
 sidebar_position: 35
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
   - zilliz
   - zilliz cloud
   - cloud

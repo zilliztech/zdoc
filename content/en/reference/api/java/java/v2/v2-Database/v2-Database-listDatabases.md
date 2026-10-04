@@ -1,6 +1,6 @@
 ---
 title: "listDatabases() | Java | v2"
-slug: /java/java/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg-listDatabases
+slug: /java/java/v2-Database-listDatabases
 sidebar_label: "listDatabases()"
 beta: false
 added_since: v2.4.x
@@ -10,12 +10,12 @@ notebook: false
 description: "This operation lists all the database names. | Java | v2"
 type: docx
 token: X2dbdeazuofnEVxVQtgcBHujnvf
-sidebar_position: 5
+sidebar_position: 6
 keywords: 
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
   - zilliz
   - zilliz cloud
   - cloud

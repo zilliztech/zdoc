@@ -10,7 +10,7 @@ notebook: false
 description: "A `FunctionScore` instance is a list of `Function` instances used as rerankers. | Java | v2"
 type: docx
 token: QwsCdrceioo36Bxu2ricF15knUh
-sidebar_position: 12
+sidebar_position: 2
 keywords: 
   - Anomaly Detection
   - sentence transformers

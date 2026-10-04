@@ -225,6 +225,36 @@ module.exports = [
             "id": "api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-addFunction",
             "label": "addFunction()",
             "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-collectionschema-addfunction"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-getFieldSchemaList",
+            "label": "getFieldSchemaList()",
+            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-collectionschema-getfieldschemalist"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-getFunctionList",
+            "label": "getFunctionList()",
+            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-collectionschema-getfunctionlist"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-getStructField",
+            "label": "getStructField()",
+            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-collectionschema-getstructfield"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-getStructFields",
+            "label": "getStructFields()",
+            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-collectionschema-getstructfields"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-isEnableDynamicField",
+            "label": "isEnableDynamicField()",
+            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-collectionschema-isenabledynamicfield"
           }
         ]
       },
@@ -254,9 +284,9 @@ module.exports = [
       },
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-Collections/v2-https:zilliversefeishucndrivefolderK6akf7IbXl5Jj1dFV8Fca62Inkd-DataType",
+        "id": "api/java/java/v2/v2-Collections/v2-Collections-DataType",
         "label": "DataType",
-        "key": "doc:api/java/java/v2/v2-Collections/v2-httpszilliversefeishucndrivefolderk6akf7ibxl5jj1dfv8fca62inkd-datatype"
+        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-datatype"
       },
       {
         "type": "doc",
@@ -349,6 +379,12 @@ module.exports = [
           },
           {
             "type": "doc",
+            "id": "api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Collections-Function",
+            "label": "Function",
+            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-Function/v2-collections-function"
+          },
+          {
+            "type": "doc",
             "id": "api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-FunctionType",
             "label": "FunctionType",
             "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-Function/v2-function-functiontype"
@@ -429,9 +465,9 @@ module.exports = [
       },
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-Collections/v2-https:zilliversefeishucndrivefolderK6akf7IbXl5Jj1dFV8Fca62Inkd-truncateCollection",
+        "id": "api/java/java/v2/v2-Collections/v2-Collections-truncateCollection",
         "label": "truncateCollection()",
-        "key": "doc:api/java/java/v2/v2-Collections/v2-httpszilliversefeishucndrivefolderk6akf7ibxl5jj1dfv8fca62inkd-truncatecollection"
+        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-truncatecollection"
       },
       {
         "type": "doc",
@@ -695,55 +731,55 @@ module.exports = [
   {
     "type": "category",
     "label": "Database",
-    "key": "category:api/java/java/v2/v2-httpszilliversefeishucndrivefoldergbh2f7ly1lwpmzduf7ncxtmkneg",
+    "key": "category:api/java/java/v2/v2-database",
     "items": [
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg-alterDatabaseProperties",
+        "id": "api/java/java/v2/v2-Database/v2-Database-alterDatabaseProperties",
         "label": "alterDatabaseProperties()",
-        "key": "doc:api/java/java/v2/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg/v2-httpszilliversefeishucndrivefoldergbh2f7ly1lwpmzduf7ncxtmkneg-alterdatabaseproperties"
+        "key": "doc:api/java/java/v2/v2-Database/v2-database-alterdatabaseproperties"
       },
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg-createDatabase",
+        "id": "api/java/java/v2/v2-Database/v2-Database-createDatabase",
         "label": "createDatabase()",
-        "key": "doc:api/java/java/v2/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg/v2-httpszilliversefeishucndrivefoldergbh2f7ly1lwpmzduf7ncxtmkneg-createdatabase"
+        "key": "doc:api/java/java/v2/v2-Database/v2-database-createdatabase"
       },
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg-describeDatabase",
+        "id": "api/java/java/v2/v2-Database/v2-Database-describeDatabase",
         "label": "describeDatabase()",
-        "key": "doc:api/java/java/v2/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg/v2-httpszilliversefeishucndrivefoldergbh2f7ly1lwpmzduf7ncxtmkneg-describedatabase"
+        "key": "doc:api/java/java/v2/v2-Database/v2-database-describedatabase"
       },
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg-dropDatabase",
+        "id": "api/java/java/v2/v2-Database/v2-Database-dropDatabase",
         "label": "dropDatabase()",
-        "key": "doc:api/java/java/v2/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg/v2-httpszilliversefeishucndrivefoldergbh2f7ly1lwpmzduf7ncxtmkneg-dropdatabase"
+        "key": "doc:api/java/java/v2/v2-Database/v2-database-dropdatabase"
       },
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg-listDatabases",
-        "label": "listDatabases()",
-        "key": "doc:api/java/java/v2/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg/v2-httpszilliversefeishucndrivefoldergbh2f7ly1lwpmzduf7ncxtmkneg-listdatabases"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg-useDatabase",
-        "label": "useDatabase()",
-        "key": "doc:api/java/java/v2/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg/v2-httpszilliversefeishucndrivefoldergbh2f7ly1lwpmzduf7ncxtmkneg-usedatabase"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg/v2-Database-currentUsedDatabase",
-        "label": "currentUsedDatabase()",
-        "key": "doc:api/java/java/v2/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg/v2-database-currentuseddatabase"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg-dropDatabaseProperties",
+        "id": "api/java/java/v2/v2-Database/v2-Database-dropDatabaseProperties",
         "label": "dropDatabaseProperties()",
-        "key": "doc:api/java/java/v2/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg/v2-httpszilliversefeishucndrivefoldergbh2f7ly1lwpmzduf7ncxtmkneg-dropdatabaseproperties"
+        "key": "doc:api/java/java/v2/v2-Database/v2-database-dropdatabaseproperties"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Database/v2-Database-listDatabases",
+        "label": "listDatabases()",
+        "key": "doc:api/java/java/v2/v2-Database/v2-database-listdatabases"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Database/v2-Database-useDatabase",
+        "label": "useDatabase()",
+        "key": "doc:api/java/java/v2/v2-Database/v2-database-usedatabase"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Database/v2-Database-currentUsedDatabase",
+        "label": "currentUsedDatabase()",
+        "key": "doc:api/java/java/v2/v2-Database/v2-database-currentuseddatabase"
       }
     ]
   },
@@ -920,49 +956,49 @@ module.exports = [
   {
     "type": "category",
     "label": "Partitions",
-    "key": "category:api/java/java/v2/v2-httpszilliversefeishucndrivefolderptqwfbnaxldppadvol2clx4jnkh",
+    "key": "category:api/java/java/v2/v2-partitions",
     "items": [
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh-createPartition",
+        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-createPartition",
         "label": "createPartition()",
-        "key": "doc:api/java/java/v2/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh/v2-httpszilliversefeishucndrivefolderptqwfbnaxldppadvol2clx4jnkh-createpartition"
+        "key": "doc:api/java/java/v2/v2-Partitions/v2-partitions-createpartition"
       },
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh-dropPartition",
+        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-dropPartition",
         "label": "dropPartition()",
-        "key": "doc:api/java/java/v2/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh/v2-httpszilliversefeishucndrivefolderptqwfbnaxldppadvol2clx4jnkh-droppartition"
+        "key": "doc:api/java/java/v2/v2-Partitions/v2-partitions-droppartition"
       },
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh-getPartitionStats",
+        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-getPartitionStats",
         "label": "getPartitionStats()",
-        "key": "doc:api/java/java/v2/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh/v2-httpszilliversefeishucndrivefolderptqwfbnaxldppadvol2clx4jnkh-getpartitionstats"
+        "key": "doc:api/java/java/v2/v2-Partitions/v2-partitions-getpartitionstats"
       },
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh-hasPartition",
+        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-hasPartition",
         "label": "hasPartition()",
-        "key": "doc:api/java/java/v2/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh/v2-httpszilliversefeishucndrivefolderptqwfbnaxldppadvol2clx4jnkh-haspartition"
+        "key": "doc:api/java/java/v2/v2-Partitions/v2-partitions-haspartition"
       },
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh-listPartitions",
+        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-listPartitions",
         "label": "listPartitions()",
-        "key": "doc:api/java/java/v2/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh/v2-httpszilliversefeishucndrivefolderptqwfbnaxldppadvol2clx4jnkh-listpartitions"
+        "key": "doc:api/java/java/v2/v2-Partitions/v2-partitions-listpartitions"
       },
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh-loadPartitions",
+        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-loadPartitions",
         "label": "loadPartitions()",
-        "key": "doc:api/java/java/v2/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh/v2-httpszilliversefeishucndrivefolderptqwfbnaxldppadvol2clx4jnkh-loadpartitions"
+        "key": "doc:api/java/java/v2/v2-Partitions/v2-partitions-loadpartitions"
       },
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh-releasePartitions",
+        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-releasePartitions",
         "label": "releasePartitions()",
-        "key": "doc:api/java/java/v2/v2-https:zilliversefeishucndrivefolderPtQwfbNaXldpPadVOL2clx4jnKh/v2-httpszilliversefeishucndrivefolderptqwfbnaxldppadvol2clx4jnkh-releasepartitions"
+        "key": "doc:api/java/java/v2/v2-Partitions/v2-partitions-releasepartitions"
       }
     ]
   },
@@ -1099,10 +1135,35 @@ module.exports = [
         "key": "doc:api/java/java/v2/v2-Vector/v2-vector-searchiteratorv2"
       },
       {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Vector/v2-Vector-FunctionScore",
+        "type": "category",
         "label": "FunctionScore",
-        "key": "doc:api/java/java/v2/v2-Vector/v2-vector-functionscore"
+        "key": "category:api/java/java/v2/v2-Vector/v2-vector-functionscore",
+        "items": [
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-FunctionScore-addFunction",
+            "label": "addFunction()",
+            "key": "doc:api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-functionscore-addfunction"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-Vector-FunctionScore",
+            "label": "FunctionScore",
+            "key": "doc:api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-vector-functionscore"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-FunctionScore-getFunctions",
+            "label": "getFunctions()",
+            "key": "doc:api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-functionscore-getfunctions"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-FunctionScore-getParams",
+            "label": "getParams()",
+            "key": "doc:api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-functionscore-getparams"
+          }
+        ]
       },
       {
         "type": "doc",
@@ -1154,16 +1215,47 @@ module.exports = [
         "key": "doc:api/java/java/v2/v2-Vector/v2-vector-searchasync"
       },
       {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Vector/v2-FunctionScore-addFunction",
-        "label": "addFunction()",
-        "key": "doc:api/java/java/v2/v2-Vector/v2-functionscore-addfunction"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Vector/v2-Vector-FunctionChain",
+        "type": "category",
         "label": "FunctionChain",
-        "key": "doc:api/java/java/v2/v2-Vector/v2-vector-functionchain"
+        "key": "category:api/java/java/v2/v2-Vector/v2-vector-functionchain",
+        "items": [
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-Vector-FunctionChain",
+            "label": "FunctionChain",
+            "key": "doc:api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-vector-functionchain"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-FunctionChain-FunctionChainArg",
+            "label": "FunctionChainArg",
+            "key": "doc:api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-functionchain-functionchainarg"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-FunctionChain-FunctionChainExpr",
+            "label": "FunctionChainExpr",
+            "key": "doc:api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-functionchain-functionchainexpr"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-FunctionChain-FunctionChainOp",
+            "label": "FunctionChainOp",
+            "key": "doc:api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-functionchain-functionchainop"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-FunctionChain-FunctionChainStage",
+            "label": "FunctionChainStage",
+            "key": "doc:api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-functionchain-functionchainstage"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-FunctionChain-FunctionParamValue",
+            "label": "FunctionParamValue",
+            "key": "doc:api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-functionchain-functionparamvalue"
+          }
+        ]
       }
     ]
   },

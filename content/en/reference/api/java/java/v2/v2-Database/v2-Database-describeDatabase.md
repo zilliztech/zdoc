@@ -1,6 +1,6 @@
 ---
 title: "describeDatabase() | Java | v2"
-slug: /java/java/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg-describeDatabase
+slug: /java/java/v2-Database-describeDatabase
 sidebar_label: "describeDatabase()"
 beta: false
 added_since: v2.4.x
@@ -12,10 +12,10 @@ type: docx
 token: VZ64davS5osZHKxxbPac3Ixtnlc
 sidebar_position: 3
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
   - zilliz
   - zilliz cloud
   - cloud

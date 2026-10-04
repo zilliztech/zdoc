@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # add()
 
-This operation adds vector embeddings to an **[EmbeddingList](./v2-https:zilliversefeishucndrivefolderK6akf7IbXl5Jj1dFV8Fca62Inkd-EmbeddingList)** instance.
+This operation adds vector embeddings to an **[EmbeddingList](./v2-Collections-EmbeddingList)** instance.
 
 ```java
 public void add(BaseVector vector)

@@ -10,7 +10,7 @@ notebook: false
 description: "This operation adds a function to the `FunctionScore` instance. | Java | v2"
 type: docx
 token: WMdhdOQGWooN4axfpQQcIRGTnsb
-sidebar_position: 18
+sidebar_position: 1
 keywords: 
   - hybrid vector search
   - Video deduplication

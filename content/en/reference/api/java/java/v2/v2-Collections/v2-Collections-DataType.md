@@ -1,6 +1,6 @@
 ---
 title: "DataType | Java | v2"
-slug: /java/java/v2-https:zilliversefeishucndrivefolderK6akf7IbXl5Jj1dFV8Fca62Inkd-DataType
+slug: /java/java/v2-Collections-DataType
 sidebar_label: "DataType"
 beta: false
 added_since: v2.3.x
@@ -12,10 +12,10 @@ type: docx
 token: RZ8idPxaho5yMoxJzGdc7QAcnNf
 sidebar_position: 9
 keywords: 
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
   - zilliz
   - zilliz cloud
   - cloud

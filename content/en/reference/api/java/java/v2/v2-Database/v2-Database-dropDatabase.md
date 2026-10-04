@@ -1,6 +1,6 @@
 ---
 title: "dropDatabase() | Java | v2"
-slug: /java/java/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg-dropDatabase
+slug: /java/java/v2-Database-dropDatabase
 sidebar_label: "dropDatabase()"
 beta: false
 added_since: v2.4.x
@@ -12,10 +12,10 @@ type: docx
 token: N4TUdZOmso4MVfxTYFbcVQ3Kn1c
 sidebar_position: 4
 keywords: 
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
   - zilliz
   - zilliz cloud
   - cloud

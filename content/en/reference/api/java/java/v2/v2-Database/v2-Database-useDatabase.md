@@ -1,6 +1,6 @@
 ---
 title: "useDatabase() | Java | v2"
-slug: /java/java/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg-useDatabase
+slug: /java/java/v2-Database-useDatabase
 sidebar_label: "useDatabase()"
 beta: false
 added_since: v2.4.x
@@ -10,12 +10,12 @@ notebook: false
 description: "This operation changes the database in use. | Java | v2"
 type: docx
 token: I0cddYcHmorxaYxChficr214nAf
-sidebar_position: 6
+sidebar_position: 7
 keywords: 
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
   - zilliz
   - zilliz cloud
   - cloud

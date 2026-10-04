@@ -1,6 +1,6 @@
 ---
 title: "alterDatabaseProperties() | Java | v2"
-slug: /java/java/v2-https:zilliversefeishucndrivefolderGBH2f7LY1lWPMzdUf7NcxTmKneg-alterDatabaseProperties
+slug: /java/java/v2-Database-alterDatabaseProperties
 sidebar_label: "alterDatabaseProperties()"
 beta: false
 added_since: v2.4.x
@@ -12,10 +12,10 @@ type: docx
 token: HQXgddhkMoC3onxxjFjc46W3nNf
 sidebar_position: 1
 keywords: 
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
   - zilliz
   - zilliz cloud
   - cloud
