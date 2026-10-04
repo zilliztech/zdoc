@@ -459,6 +459,23 @@
       "reason": "Guides cache, assembly, render, and table artifacts feed site-qualified Fetch units and final card evidence. Release-channel state rides the same record projection, snapshot, and incremental planner."
     },
     {
+      "id": "sdk-reference-fallback-source-reconciliation",
+      "paths": [
+        "packages/docs-tooling/src/lark/larkUtils.js",
+        "packages/docs-tooling/src/lark/larkUtils.test.js"
+      ],
+      "focusedTests": [
+        "node packages/docs-tooling/src/lark/larkUtils.test.js"
+      ],
+      "harnesses": [
+        "pnpm test:replay:fetch"
+      ],
+      "gates": [
+        "pnpm test:workflow-policy"
+      ],
+      "reason": "SDK reference manuals reconcile fetched drive/wiki sources against the previous-version fallback tree. Title pairing and slug reconciliation must agree so a renamed child pairs with its materialized same-slug successor instead of leaving a dangling token reference that fails the produce-stage integrity check."
+    },
+    {
       "id": "ja-sidebar-label-dictionary",
       "paths": [
         "scripts/docs-workflow/generate-ja-sidebar-labels*",
