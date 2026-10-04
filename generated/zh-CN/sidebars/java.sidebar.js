@@ -195,6 +195,36 @@ module.exports = [
             "id": "api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-addFunction",
             "label": "addFunction()",
             "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-collectionschema-addfunction"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-getFieldSchemaList",
+            "label": "getFieldSchemaList()",
+            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-collectionschema-getfieldschemalist"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-getFunctionList",
+            "label": "getFunctionList()",
+            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-collectionschema-getfunctionlist"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-getStructField",
+            "label": "getStructField()",
+            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-collectionschema-getstructfield"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-getStructFields",
+            "label": "getStructFields()",
+            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-collectionschema-getstructfields"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-isEnableDynamicField",
+            "label": "isEnableDynamicField()",
+            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-collectionschema-isenabledynamicfield"
           }
         ]
       },
@@ -215,6 +245,12 @@ module.exports = [
         "id": "api/java/java/v2/v2-Collections/v2-Collections-createCollection",
         "label": "createCollection()",
         "key": "doc:api/java/java/v2/v2-Collections/v2-collections-createcollection"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Collections/v2-Collections-DataType",
+        "label": "DataType",
+        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-datatype"
       },
       {
         "type": "doc",
@@ -307,6 +343,12 @@ module.exports = [
           },
           {
             "type": "doc",
+            "id": "api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Collections-Function",
+            "label": "Function",
+            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-Function/v2-collections-function"
+          },
+          {
+            "type": "doc",
             "id": "api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-FunctionType",
             "label": "FunctionType",
             "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-Function/v2-function-functiontype"
@@ -372,6 +414,12 @@ module.exports = [
         "id": "api/java/java/v2/v2-Collections/v2-Collections-FieldSchema",
         "label": "FieldSchema",
         "key": "doc:api/java/java/v2/v2-Collections/v2-collections-fieldschema"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Collections/v2-Collections-truncateCollection",
+        "label": "truncateCollection()",
+        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-truncatecollection"
       },
       {
         "type": "doc",
@@ -598,6 +646,61 @@ module.exports = [
   },
   {
     "type": "category",
+    "label": "Database",
+    "key": "category:api/java/java/v2/v2-database",
+    "items": [
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Database/v2-Database-alterDatabaseProperties",
+        "label": "alterDatabaseProperties()",
+        "key": "doc:api/java/java/v2/v2-Database/v2-database-alterdatabaseproperties"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Database/v2-Database-createDatabase",
+        "label": "createDatabase()",
+        "key": "doc:api/java/java/v2/v2-Database/v2-database-createdatabase"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Database/v2-Database-describeDatabase",
+        "label": "describeDatabase()",
+        "key": "doc:api/java/java/v2/v2-Database/v2-database-describedatabase"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Database/v2-Database-dropDatabase",
+        "label": "dropDatabase()",
+        "key": "doc:api/java/java/v2/v2-Database/v2-database-dropdatabase"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Database/v2-Database-dropDatabaseProperties",
+        "label": "dropDatabaseProperties()",
+        "key": "doc:api/java/java/v2/v2-Database/v2-database-dropdatabaseproperties"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Database/v2-Database-listDatabases",
+        "label": "listDatabases()",
+        "key": "doc:api/java/java/v2/v2-Database/v2-database-listdatabases"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Database/v2-Database-useDatabase",
+        "label": "useDatabase()",
+        "key": "doc:api/java/java/v2/v2-Database/v2-database-usedatabase"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Database/v2-Database-currentUsedDatabase",
+        "label": "currentUsedDatabase()",
+        "key": "doc:api/java/java/v2/v2-Database/v2-database-currentuseddatabase"
+      }
+    ]
+  },
+  {
+    "type": "category",
     "label": "File Resources",
     "key": "category:api/java/java/v2/v2-fileresources",
     "items": [
@@ -762,6 +865,55 @@ module.exports = [
   },
   {
     "type": "category",
+    "label": "Partitions",
+    "key": "category:api/java/java/v2/v2-partitions",
+    "items": [
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-createPartition",
+        "label": "createPartition()",
+        "key": "doc:api/java/java/v2/v2-Partitions/v2-partitions-createpartition"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-dropPartition",
+        "label": "dropPartition()",
+        "key": "doc:api/java/java/v2/v2-Partitions/v2-partitions-droppartition"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-getPartitionStats",
+        "label": "getPartitionStats()",
+        "key": "doc:api/java/java/v2/v2-Partitions/v2-partitions-getpartitionstats"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-hasPartition",
+        "label": "hasPartition()",
+        "key": "doc:api/java/java/v2/v2-Partitions/v2-partitions-haspartition"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-listPartitions",
+        "label": "listPartitions()",
+        "key": "doc:api/java/java/v2/v2-Partitions/v2-partitions-listpartitions"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-loadPartitions",
+        "label": "loadPartitions()",
+        "key": "doc:api/java/java/v2/v2-Partitions/v2-partitions-loadpartitions"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-releasePartitions",
+        "label": "releasePartitions()",
+        "key": "doc:api/java/java/v2/v2-Partitions/v2-partitions-releasepartitions"
+      }
+    ]
+  },
+  {
+    "type": "category",
     "label": "Snapshots",
     "key": "category:api/java/java/v2/v2-snapshots",
     "items": [
@@ -891,6 +1043,37 @@ module.exports = [
         "id": "api/java/java/v2/v2-Vector/v2-Vector-SearchIteratorV2",
         "label": "SearchIteratorV2()",
         "key": "doc:api/java/java/v2/v2-Vector/v2-vector-searchiteratorv2"
+      },
+      {
+        "type": "category",
+        "label": "FunctionScore",
+        "key": "category:api/java/java/v2/v2-Vector/v2-vector-functionscore",
+        "items": [
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-FunctionScore-addFunction",
+            "label": "addFunction()",
+            "key": "doc:api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-functionscore-addfunction"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-Vector-FunctionScore",
+            "label": "FunctionScore",
+            "key": "doc:api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-vector-functionscore"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-FunctionScore-getFunctions",
+            "label": "getFunctions()",
+            "key": "doc:api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-functionscore-getfunctions"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-FunctionScore-getParams",
+            "label": "getParams()",
+            "key": "doc:api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-functionscore-getparams"
+          }
+        ]
       },
       {
         "type": "category",
