@@ -284,10 +284,23 @@ class larkUtils {
             recordReplacement(fallbackRoot[TOKEN], sourceRoot[TOKEN])
         }
         const handledFallbackRoot = sourceRoot && fallbackRoot
+        const fallbackSourcesByToken = new Map(fallbackSources.map(source => [source[TOKEN], source]))
+        // A renamed child (title drift) must still pair with its materialized
+        // successor when both sides carry the same stable slug; otherwise the
+        // stale token reference survives the title-only pairing below while the
+        // folder/document reconciliation remaps the fallback body, and the
+        // touched-folder integrity check fails on the dangling reference.
+        const materializedSlugSibling = (fallbackChild, siblings) => {
+            if (!fallbackChild || !hasSlug(fallbackChild)) return null
+            const expectFolder = folderSource(fallbackChild)
+            return (siblings || []).find(sibling => {
+                const full = sourcesByToken.get(sibling[TOKEN])
+                if (!full || full.slug !== fallbackChild.slug) return false
+                return expectFolder ? folderSource(full) : docSource(full)
+            }) || null
+        }
 
         if (sourceRoot?.children?.length > 0 && fallbackRoot?.children?.length > 0) {
-            const fallbackSourcesByToken = new Map(fallbackSources.map(source => [source[TOKEN], source]))
-
             fallbackRoot.children.forEach(child => {
                 const pairIndex = sourceRoot.children.findIndex(s => s[TITLE] === child[TITLE])
                 const pair = pairIndex === -1 ? null : sourceRoot.children[pairIndex]
@@ -296,14 +309,26 @@ class larkUtils {
                 if (materializedPair(pair)) {
                     recordReplacement(child[TOKEN], pair[TOKEN])
                 } else {
-                    child[PARENT] = sourceRoot[TOKEN]
-                    if (fallbackChildSource) {
-                        fallbackChildSource[PARENT] = sourceRoot[TOKEN]
+                    const slugPair = materializedSlugSibling(fallbackChildSource, sourceRoot.children)
+                    if (slugPair) {
+                        recordReplacement(child[TOKEN], slugPair[TOKEN])
+                        if (fallbackChildSource) {
+                            fallbackChildSource[PARENT] = sourceRoot[TOKEN]
+                        }
+                        if (pairIndex !== -1) {
+                            sourceRoot.children.splice(pairIndex, 1)
+                            touchedFolderTokens.add(sourceRoot[TOKEN])
+                        }
+                    } else {
+                        child[PARENT] = sourceRoot[TOKEN]
+                        if (fallbackChildSource) {
+                            fallbackChildSource[PARENT] = sourceRoot[TOKEN]
+                        }
+                        if (pairIndex === -1) sourceRoot.children.push(child)
+                        else sourceRoot.children.splice(pairIndex, 1, child)
+                        touchedFolderTokens.add(sourceRoot[TOKEN])
+                        // fallbackSources.find(fb => fb.token === child.token).parent_token = sourceRoot.token
                     }
-                    if (pairIndex === -1) sourceRoot.children.push(child)
-                    else sourceRoot.children.splice(pairIndex, 1, child)
-                    touchedFolderTokens.add(sourceRoot[TOKEN])
-                    // fallbackSources.find(fb => fb.token === child.token).parent_token = sourceRoot.token
                 }
             })
 
@@ -339,16 +364,27 @@ class larkUtils {
                         child[TOKEN] = pair[TOKEN]
                         touchedFolderTokens.add(source[TOKEN])
                     } else {
-                        child[PARENT] = source[TOKEN]
-                        if (pairIndex === -1) source.children.push(child)
-                        else source.children.splice(pairIndex, 1, child)
-                        touchedFolderTokens.add(source[TOKEN])
-                        // fallbackSources.find(fb => fb.token === child.token).parent_token = source.token
+                        const slugPair = materializedSlugSibling(fallbackSourcesByToken.get(child[TOKEN]), source.children)
+                        if (slugPair) {
+                            recordReplacement(child[TOKEN], slugPair[TOKEN])
+
+                            child[TITLE] = slugPair[TITLE]
+                            child[PARENT] = slugPair[PARENT]
+                            child.url = slugPair.url
+                            child[TOKEN] = slugPair[TOKEN]
+                            touchedFolderTokens.add(source[TOKEN])
+                        } else {
+                            child[PARENT] = source[TOKEN]
+                            if (pairIndex === -1) source.children.push(child)
+                            else source.children.splice(pairIndex, 1, child)
+                            touchedFolderTokens.add(source[TOKEN])
+                            // fallbackSources.find(fb => fb.token === child.token).parent_token = source.token
+                        }
                     }
                 })
 
                 source.children.forEach(s => {
-                    if (!(fallback.children.find(fb => fb[TITLE] === s[TITLE]))) {
+                    if (!(fallback.children.find(fb => fb[TITLE] === s[TITLE] || fb[TOKEN] === s[TOKEN]))) {
                         fallback.children.push(s)
                         touchedFolderTokens.add(source[TOKEN])
                     }
