@@ -172,6 +172,24 @@ module.exports = [
           },
           {
             "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-create_user",
+            "label": "create_user()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Authentication/authentication-createuser"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-describe_role",
+            "label": "describe_role()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Authentication/authentication-describerole"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-describe_user",
+            "label": "describe_user()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Authentication/authentication-describeuser"
+          },
+          {
+            "type": "doc",
             "id": "api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-drop_role",
             "label": "drop_role()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Authentication/authentication-droprole"
@@ -575,12 +593,6 @@ module.exports = [
             "id": "api/python/python/MilvusClient/MilvusClient-Management/Management-flush_all",
             "label": "flush_all()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Management/management-flushall"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/MilvusClient/MilvusClient-Management/Management-get_compaction_plans",
-            "label": "get_compaction_plans()",
-            "key": "doc:api/python/python/MilvusClient/MilvusClient-Management/management-getcompactionplans"
           },
           {
             "type": "doc",

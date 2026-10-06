@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "7a626a2266e56856a13894e51130aa781d0a9ba2",
+  "sourceCommit": "feb7de3101e662fae87bb973545d7de09696c5e4",
   "records": [
     {
       "manual": "cli",
@@ -1389,8 +1389,18 @@
     },
     {
       "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-AddPrivilegesToGroup.md",
+      "sourceHash": "e24da3877f24bf203617bb5905e3959ff2aaf41e06439480d2970c98c821ee54"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-AlterRole.md",
+      "sourceHash": "7b1ba4d9655b5c589c5e3057ce0c03e8edc8042e001261f18917603933752861"
+    },
+    {
+      "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-BackupRBAC.md",
-      "sourceHash": "09495824e8c877fa21de192810b65482d81bf54bb85c89692de7f84cf6dacfcb"
+      "sourceHash": "008704a9d2d89b4866aef81a540fc53b5e11d8ea05a6f73b8adc2ffaa51a60cd"
     },
     {
       "manual": "go",
@@ -3825,17 +3835,17 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/DataImport/DataImport-VolumeBulkWriter/DataImport-VolumeBulkWriter.md",
-      "sourceHash": "cbb3203572fc13413c0d46856bfd8a8dfc60760ed3a5981979905eac3f2cacbd"
+      "sourceHash": "0f97ccc9261f36ef81e9780abe0e651e728693a2dc8fe390f8b3ded7799b0fca"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/DataImport/DataImport-VolumeBulkWriter/VolumeBulkWriter-append_row.md",
-      "sourceHash": "1fdea3003baddb4733146b8a6094f52f0c625016e3098bd5404401c4cf21c291"
+      "sourceHash": "99e09edd458e034dd8ee18e5ca23e7d05720d2fbdedce8cf2332158f4143bd89"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/DataImport/DataImport-VolumeBulkWriter/VolumeBulkWriter-commit.md",
-      "sourceHash": "d3204bdd882deadd07b4064752622f65e59c9ec234e8cebefef23a0ac8ca59ba"
+      "sourceHash": "d59f2a33b7217294aac58997a178c2a446c6450ecbb51c04adc032b4006c9d30"
     },
     {
       "manual": "python",
@@ -4144,6 +4154,21 @@
     },
     {
       "manual": "python",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-create_user.md",
+      "sourceHash": "031d55daea1efa84ea5a5c0bd72b4cf09d0de4852c5f4018a6746eebd2a6f6d8"
+    },
+    {
+      "manual": "python",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-describe_role.md",
+      "sourceHash": "67c37fc0a4cc83c69c246abb67e8ac6a41d8ee67bcc2eee7ec318d5da1ef0cab"
+    },
+    {
+      "manual": "python",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-describe_user.md",
+      "sourceHash": "4c379d205747f7ae4877dbb6d8da64c93dff43321a605f70c0b99a2c587b0740"
+    },
+    {
+      "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-drop_role.md",
       "sourceHash": "2a355c51fdbe4794b08e9a532328b8547c22794bdc50e19a725bbd3a4a98cd24"
     },
@@ -4191,6 +4216,11 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-update_password.md",
       "sourceHash": "9790e195da15c9ce4d0933d807c2ed24e41cd0f8d28dc349ec9d84905396c82f"
+    },
+    {
+      "manual": "python",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-update_user.md",
+      "sourceHash": "5a742949ed1e24e59d6264aaef77ddce088937c16854e580d06af2398179990e"
     },
     {
       "manual": "python",
@@ -4269,6 +4299,11 @@
     },
     {
       "manual": "python",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-add_collection_struct_field.md",
+      "sourceHash": "b527fdef9b4ae4a2cf3d1430c7229f489c221e98c4da339dbe9f9a5f6c4bb2c7"
+    },
+    {
+      "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-alter_alias.md",
       "sourceHash": "a47c732639bc794162dd300dd0033114f426859079dad6f415671c40181ff61b"
     },
@@ -4325,7 +4360,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-drop_collection_field.md",
-      "sourceHash": "9bf150d4b7c79cf02e11ab4b228f9da47049c7283d19212feb3a84b3d46ac9f2"
+      "sourceHash": "e89de361119d2dcc24fc7a2766eab3822ebeb5ce7a8a10fd884cf73403f7bfd5"
     },
     {
       "manual": "python",
@@ -4345,7 +4380,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-get_refresh_external_collection_progress.md",
-      "sourceHash": "bf36fc2335a0893f3f16f4b481c33c1f16c54dddf6dddb35dff7670c6c4063a1"
+      "sourceHash": "444c55c1839ed818d1e329228cdabecb7dd5ef34771c6d9f844fd6e5acbf9985"
     },
     {
       "manual": "python",
@@ -4365,12 +4400,12 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-list_refresh_external_collection_jobs.md",
-      "sourceHash": "75ee4e197e2d6a66b93721dcdf573ad1ff918bfa7935b8354357db0248c6b564"
+      "sourceHash": "840bdfef7d186887cd6da14972a2e816a52cd30f5fb70e1776a2d7be7ac81032"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-refresh_external_collection.md",
-      "sourceHash": "5e24fb749f2872475636a0dc18abbcbe9cb8181b0853a32ecada73bad373a402"
+      "sourceHash": "93d999d962cc4e4bb0af365a9bd7bbce26343b45001e752bba1967c44ed21765"
     },
     {
       "manual": "python",
@@ -4459,8 +4494,18 @@
     },
     {
       "manual": "python",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Function/Function-add_function_field.md",
+      "sourceHash": "03fc9a8abfcdb1ee9bbed2f2a44d270f46db266e95d031d4a421dcdad3ab438c"
+    },
+    {
+      "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Function/Function-construct_from_dict.md",
       "sourceHash": "7bb4fc4c0e34ff0b212e6a01ad4c7f49f2caf4ab1d524ed26a12c488a9786c69"
+    },
+    {
+      "manual": "python",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Function/Function-drop_function_field.md",
+      "sourceHash": "8e3b5fdfe97807e0e903eb859205339010387dcae30bcfc2b6673daf6848ab0f"
     },
     {
       "manual": "python",
@@ -4541,11 +4586,6 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-get_compact_state.md",
       "sourceHash": "3cb387e7ce9b791012a573a9d347f3be43e7cc34424512ef96224aa3ea281749"
-    },
-    {
-      "manual": "python",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-get_compaction_plans.md",
-      "sourceHash": "366a49db6563c691c6eb8be69ca5222dbd45ce06cd75af10128ae174504d01b5"
     },
     {
       "manual": "python",
