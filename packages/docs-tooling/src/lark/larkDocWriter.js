@@ -27,6 +27,11 @@ const {
 } = require('./guidesBaseRecordSemantics')
 const { guidesTableSlug } = require('./guidesTableSlugs')
 
+// Languages trusted to join a code tab group unconditionally. Any other
+// detected language joins automatically when it sits in a consecutive code
+// run and its language is unique within that run; see __code_tab_group.
+const CODE_TAB_LANGS = ['Python', 'JavaScript', 'Java', 'Go', 'C++', 'Bash', 'Shell']
+
 // Sidebar entries and front matter carry the Base Release Channel verbatim
 // whenever it deviates from CURRENT; NEXT hides the entry on CURRENT
 // deployments and RETIRE-IN-NEXT hides it on NEXT deployments (the mirror).
@@ -965,7 +970,9 @@ class larkDocWriter {
                 return this.__retrieve_block_by_id(child)
             })
 
+            this.code_tab_doc = { title, token: 'faqs' }
             let a = await this.__markdown()
+            this.code_tab_doc = null
             a = this.__filter_content(a, this.targets).split('\n')
             let header_pos = a.map((line, index) => {
                 if (line.startsWith('##')) {
@@ -1449,7 +1456,9 @@ class larkDocWriter {
     }
 
     async __write_page({title, suffix, slug, beta, channel, notebook, addedSince, lastModified, deprecateSince, path, type, token, sidebar_position, sidebar_label, keywords, doc_card_list}) {
+        this.code_tab_doc = { title, token }
         let markdown = await this.__markdown()
+        this.code_tab_doc = null
         markdown = this.__filter_content(markdown, this.targets)
         this.__validate_next_channel_tags(markdown, channel)
         this.__validate_channel_code_directives(markdown)
@@ -1644,8 +1653,6 @@ class larkDocWriter {
             }
             console.log(block['block_id'], this.block_types[block['block_type']-1], block['block_type']);
             const blockType = this.block_types[block['block_type'] - 1];
-            const prev_block = idx > 0 ? blocks[idx-1] : null;
-            const next_block = idx < blocks.length-1 ? blocks[idx+1] : null;
 
             if (blockType === undefined) {
                 nextGridFeatureCardConfig = null;
@@ -1681,7 +1688,7 @@ class larkDocWriter {
                 markdown.push(await this.__ordered(block, indent));
             } else if (blockType === 'code') {
                 nextGridFeatureCardConfig = null;
-                markdown.push(await this.__code(block['code'], indent, prev_block, next_block, blocks));
+                markdown.push(await this.__code(block['code'], indent, blocks, idx));
             } else if (blockType === 'quote_container') {
                 nextGridFeatureCardConfig = null;
                 markdown.push(await this.__quote(block, indent));
@@ -2107,61 +2114,99 @@ class larkDocWriter {
         return explicit || this.__infer_code_language(renderedElements ?? this.__code_plain_text(code))
     }
 
-    async __code(code, indent, prev, next, blocks) {
-        const valid_langs = ['Python', 'JavaScript', 'Java', 'Go', 'C++', 'Bash', 'Shell']
+    async __code(code, indent, blocks, idx = -1) {
         let elements = (await Promise.all(code['elements'].map( async x => {
             let content = await this.__text_run(x, code['elements'], true)
             content = content.replaceAll('&#36;', '$')
             return content
-        }))).join('') 
+        }))).join('')
         let lang = this.__code_language(code, elements) || 'plaintext'
         elements = filterCodeVariants(elements, this.targets)
 
-        // if (lang === 'C++') return; // to be removed once c++ is supported
-
-        if (valid_langs.includes(lang)) {
-            const prev_type = prev ? this.block_types[prev['block_type']-1] : null;
-            const next_type = next ? this.block_types[next['block_type']-1] : null;
-            const prev_lang = prev && prev_type === 'code' ? this.__code_language(prev.code) : null;
-            const next_lang = next && next_type === 'code' ? this.__code_language(next.code) : null;
-
-            // first block
-            if ((!prev || (prev && prev_type !== 'code') || 
-                (prev && prev_type === 'code' && (!valid_langs.includes(prev_lang) || prev_lang === lang))) &&
-                (next && next_type === 'code' && valid_langs.includes(next_lang) && next_lang !== lang)
-            ) {
-                console.log('first block')
-                const values = this.__code_tabs(code, prev, next, blocks)
-
-                return this.__code_block_split(elements, indent, lang, 'first', values);
-            }
-            
-            // last block
-            if (prev && prev_type === 'code' && valid_langs.includes(prev_lang) && prev_lang !== lang &&
-                (!next || (next && next_type !== 'code') || 
-                (next && next_type === 'code' && (!valid_langs.includes(next_lang) || next_lang === lang)))) {
-                console.log('last block')
-                return this.__code_block_split(elements, indent, lang, 'last');
-            }
-            
-            // middle block
-            if (prev && prev_type === 'code' && valid_langs.includes(prev_lang) && prev_lang !== lang && next && next_type === 'code' && valid_langs.includes(next_lang) && next_lang !== lang) {
-                console.log('middle block')
-                return this.__code_block_split(elements, indent, lang, 'middle');
-            } 
-
-            // only block
-            if (!prev || (prev && prev_type !== 'code') ||
-                (prev && (prev_type === 'code' || !valid_langs.includes(prev_lang) || prev_lang === lang)) ||
-                (next && (next_type === 'code' || !valid_langs.includes(next_lang) || next_lang === lang)) ||
-                !next || (next && next_type !== 'code')
-            ) {
-                console.log('only block')           
-                return this.__code_block_split(elements, indent, lang);
-            }             
-        } else {
-            console.log('not valid lang')
+        const group = this.__code_tab_group(blocks, idx)
+        if (!group) {
             return this.__code_block_split(elements, indent, lang);
+        }
+        const position = idx === group.start ? 'first' : (idx === group.end ? 'last' : 'middle')
+        return this.__code_block_split(elements, indent, lang, position, position === 'first' ? this.__code_tab_values(group) : null);
+    }
+
+    __is_code_block(block) {
+        return block != null && this.block_types[block['block_type'] - 1] === 'code'
+    }
+
+    // A tab group is a maximal span of adjacent code blocks that all join the
+    // tabs. Languages in CODE_TAB_LANGS always join; any other detected
+    // language joins when it is unique within its consecutive code run.
+    // Undetected (`plaintext`) blocks and same-language repeats stay outside,
+    // which closes the tabs before them and reopens a new group afterwards —
+    // __warn_code_tab_split reports that split so the source can be fixed.
+    __code_tab_group(blocks, idx) {
+        if (!Array.isArray(blocks) || idx < 0 || !this.__is_code_block(blocks[idx])) {
+            return null
+        }
+
+        let runStart = idx
+        while (runStart > 0 && this.__is_code_block(blocks[runStart - 1])) runStart -= 1
+        let runEnd = idx
+        while (runEnd < blocks.length - 1 && this.__is_code_block(blocks[runEnd + 1])) runEnd += 1
+
+        const runLangs = []
+        for (let i = runStart; i <= runEnd; i++) {
+            runLangs.push(this.__code_language(blocks[i].code))
+        }
+
+        const joins = (position) => {
+            const runLang = runLangs[position]
+            if (!runLang || runLang.toLowerCase() === 'plaintext') return false
+            if (CODE_TAB_LANGS.includes(runLang)) return true
+            return runLangs.filter(l => l === runLang).length === 1
+        }
+
+        if (!joins(idx - runStart)) {
+            this.__warn_code_tab_split(blocks[idx], idx - runStart, runLangs, joins)
+            return null
+        }
+
+        let start = idx
+        while (start > runStart && joins(start - 1 - runStart) && runLangs[start - 1 - runStart] !== runLangs[start - runStart]) start -= 1
+        let end = idx
+        while (end < runEnd && joins(end + 1 - runStart) && runLangs[end + 1 - runStart] !== runLangs[end - runStart]) end += 1
+
+        if (end <= start) return null
+        return { start, end, langs: runLangs.slice(start - runStart, end - runStart + 1) }
+    }
+
+    __warn_code_tab_split(block, position, runLangs, joins) {
+        const hasJoinerBefore = runLangs.some((lang, i) => i < position && joins(i))
+        const hasJoinerAfter = runLangs.some((lang, i) => i > position && joins(i))
+        if (!hasJoinerBefore || !hasJoinerAfter) return
+
+        const doc = this.code_tab_doc
+            ? `"${this.code_tab_doc.title}" (${this.code_tab_doc.token})`
+            : 'unknown page'
+        const lang = runLangs[position]
+        if (!lang || lang.toLowerCase() === 'plaintext') {
+            console.warn(`[code-tabs] ${doc} block ${block.block_id}: code block without a usable language sits between tab-joined code blocks and renders as a bare fence that splits the tabs. Set a language on the block or move it out of the run.`)
+        } else {
+            console.warn(`[code-tabs] ${doc} block ${block.block_id}: language "${lang}" appears ${runLangs.filter(l => l === lang).length} times in one consecutive code run, so its blocks stay outside the tabs and split the group. Deduplicate the source blocks.`)
+        }
+    }
+
+    __code_tab_values(group) {
+        return group.langs.map(lang => ({ label: this.__code_tab_label(lang), value: lang.toLowerCase() }))
+    }
+
+    __code_tab_label(lang) {
+        switch (lang) {
+            case 'JavaScript':
+                return 'NodeJS'
+            case 'Bash':
+                return 'cURL'
+            case 'Shell':
+                return 'Zilliz CLI'
+            default:
+                return lang
         }
     }
 
@@ -2219,54 +2264,6 @@ class larkDocWriter {
                     return [inner_tabs_start, inner_tab_item_start_1, half_1, inner_tab_item_end, inner_tab_item_start_2, half_2, inner_tab_item_end, inner_tabs_end].join('\n');
             }
         }
-    }
-
-    __code_tabs(code, prev, next, blocks) {
-        let values = [];
-        let lang = this.__code_language(code) || 'plaintext'
-        
-        if ((!prev || (prev && this.block_types[prev['block_type']-1] !== 'code')) && next && this.block_types[next['block_type']-1] === 'code') {
-
-            values.push({ label: get_label(lang), value: lang.toLowerCase() });
-
-            has_next_code.call(this, next, this.block_types);
-            
-            function has_next_code(next, block_types) {
-                const next_lang = this.__code_language(next.code);
-
-                values.push({ label: get_label(next_lang), value: next_lang.toLowerCase() });
-                try {
-                    next = blocks[blocks.indexOf(next) + 1];
-                if (next && block_types[next['block_type']-1] === 'code') {
-                    has_next_code.call(this, next, block_types);
-                }
-                } catch {
-                // do nothing
-                }
-            }
-
-            function get_label(lang) {
-                let label;
-                switch (lang) {
-                    case 'JavaScript':
-                        label = 'NodeJS'
-                        break;
-                    case 'Bash':
-                        label = 'cURL'
-                        break;
-                    case 'Shell':
-                        label = 'Zilliz CLI'
-                        break;
-                    default:
-                        label = lang
-                        break;
-                }
-
-                return label;
-            }    
-        }
-        
-        return values;
     }
 
     async __quote(block, indent) {
