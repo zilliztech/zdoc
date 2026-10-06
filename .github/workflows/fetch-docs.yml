@@ -32,9 +32,13 @@ on:
         type: string
         default: master
       source_ref:
-        description: English content baseline branch, tag, or exact SHA
+        description: "English content baseline branch, tag, or exact SHA"
         type: string
         default: dev
+      force_full_fetch:
+        description: "Force a full Guides source fetch that ignores incremental planning (manual dispatch only; applies to en and zh-CN Guides)"
+        type: boolean
+        default: false
   schedule:
     - cron: "0 2,10,18 * * *"
 
@@ -67,6 +71,7 @@ jobs:
       publish: ${{ steps.refs.outputs.publish }}
       run_translations: ${{ steps.refs.outputs.run_translations }}
       media_upload_mode: ${{ steps.refs.outputs.media_upload_mode }}
+      force_full_fetch: ${{ steps.refs.outputs.force_full_fetch }}
       selected_group: ${{ steps.refs.outputs.selected_group }}
       has_translation_units: ${{ steps.translation_units.outputs.has_translation_units }}
       retention_days: ${{ steps.refs.outputs.retention_days }}
@@ -92,6 +97,7 @@ jobs:
           MEDIA_UPLOAD_MODE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.media_upload_mode || 'write' }}
           TOOLING_REF: ${{ github.event.inputs.tooling_ref || 'master' }}
           SOURCE_REF: ${{ github.event.inputs.source_ref || 'dev' }}
+          FORCE_FULL_FETCH: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.force_full_fetch == 'true' }}
         run: |
           set -euo pipefail
           if [[ "$TARGET_BRANCH" == -* || "$TARGET_BRANCH" == *:* || "$TARGET_BRANCH" == *$'\n'* || "$TARGET_BRANCH" == *$'\r'* ]]; then
@@ -138,7 +144,7 @@ jobs:
           if [[ "$PUBLISH" == true ]]; then card_parts+=("Publish" "Verify"); fi
           [[ "$RUN_TRANSLATIONS" == true ]] && card_parts+=("Handoff")
           card_stages=$(IFS=,; echo "${card_parts[*]}")
-          printf 'tooling_sha=%s\nsource_sha=%s\nmaster_sha=%s\ndev_baseline_sha=%s\ninitial_target_sha=%s\ntarget_branch=%s\npublish=%s\nrun_translations=%s\nmedia_upload_mode=%s\nselected_group=%s\nretention_days=%s\ncard_stages=%s\n' "$tooling_sha" "$source_sha" "$master_sha" "$dev_baseline_sha" "$initial_target_sha" "$TARGET_BRANCH" "$PUBLISH" "$RUN_TRANSLATIONS" "$MEDIA_UPLOAD_MODE" "$SELECTED_GROUP" "$RETENTION_DAYS" "$card_stages" >> "$GITHUB_OUTPUT"
+          printf 'tooling_sha=%s\nsource_sha=%s\nmaster_sha=%s\ndev_baseline_sha=%s\ninitial_target_sha=%s\ntarget_branch=%s\npublish=%s\nrun_translations=%s\nmedia_upload_mode=%s\nselected_group=%s\nretention_days=%s\ncard_stages=%s\nforce_full_fetch=%s\n' "$tooling_sha" "$source_sha" "$master_sha" "$dev_baseline_sha" "$initial_target_sha" "$TARGET_BRANCH" "$PUBLISH" "$RUN_TRANSLATIONS" "$MEDIA_UPLOAD_MODE" "$SELECTED_GROUP" "$RETENTION_DAYS" "$card_stages" "$FORCE_FULL_FETCH" >> "$GITHUB_OUTPUT"
       - uses: pnpm/action-setup@v5
       - uses: actions/setup-node@v5
         with: { node-version: '22.6', cache: pnpm }
@@ -268,6 +274,7 @@ jobs:
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
       media_upload_mode: ${{ needs.prepare.outputs.media_upload_mode }}
+      force_full_fetch: ${{ needs.prepare.outputs.force_full_fetch == 'true' }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
     secrets:
       APP_ID: ${{ secrets.APP_ID }}
@@ -332,6 +339,7 @@ jobs:
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
       media_upload_mode: ${{ needs.prepare.outputs.media_upload_mode }}
+      force_full_fetch: ${{ needs.prepare.outputs.force_full_fetch == 'true' }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
     secrets:
       APP_ID: ${{ secrets.APP_ID }}

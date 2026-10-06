@@ -7,6 +7,7 @@ on:
       master_sha: { required: true, type: string }
       dev_baseline_sha: { required: true, type: string }
       media_upload_mode: { required: false, type: string, default: write }
+      force_full_fetch: { required: false, type: boolean, default: false }
       artifact_retention_days: { required: false, type: number, default: 3 }
     outputs:
       status: { value: '${{ jobs.fetch.outputs.status }}' }
@@ -218,6 +219,10 @@ jobs:
           echo "[source-cache] source=$source_valid media=$media_valid version=$cache_version state=$cache_state"
       - name: Fetch shared guides sources
         run: |
+          if [[ "${{ inputs.force_full_fetch }}" == true ]]; then
+            echo "[source-cache] force_full_fetch requested; ignoring incremental planning."
+            export DOCS_TOOLING_FORCE_FULL_FETCH=1
+          fi
           if [[ "${{ steps.source_cache_check.outputs.source_valid }}" != true ]]; then
             echo "[source-cache] Source graph unavailable; forcing full bootstrap fetch."
             export DOCS_TOOLING_FORCE_FULL_FETCH=1
