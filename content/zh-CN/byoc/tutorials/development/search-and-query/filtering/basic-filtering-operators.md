@@ -16,7 +16,8 @@ displayed_sidebar: default
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # 基本操作符
 
@@ -52,49 +53,373 @@ Zilliz Cloud 提供了丰富的基本操作符，可帮助您高效过滤和查�
 
 假设有一个名为 `status` 的字段，您需要查找 `status` 为 "active" 的所有实体。可以使用等于操作符 `==`：
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = 'status == "active"'
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "status == \"active\"";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "status == \"active\""
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let filter = "status == \"active\"";
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::string filter = "status == \"active\"";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'status == "active"';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='status == "active"'
+```
+
+</TabItem>
+</Tabs>
 
 ### 示例 2：使用不等于（`!=`）操作符过滤\{#example-2-filtering-with-not-equal-to}
 
 要查找 `status` 不为 "inactive" 的实体：
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = 'status != "inactive"'
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "status != \"inactive\"";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "status != \"inactive\""
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let filter = "status != \"inactive\"";
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::string filter = "status != \"inactive\"";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'status != "inactive"';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='status != "inactive"'
+```
+
+</TabItem>
+</Tabs>
 
 ### 示例 3：使用大于（`>`）操作符过滤\{#example-3-filtering-with-greater-than-greater}
 
 要查找 `age` 大于 30 的所有实体：
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = 'age > 30'
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "age > 30";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "age > 30"
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let filter = "age > 30";
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::string filter = "age > 30";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'age > 30';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='age > 30'
+```
+
+</TabItem>
+</Tabs>
 
 ### 示例 4：使用小于（`<`）操作符过滤\{#example-4-filtering-with-less-than}
 
 要查找 `price` 小于 100 的实体：
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = 'price < 100'
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "price < 100";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "price < 100"
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let filter = "price < 100";
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::string filter = "price < 100";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'price < 100';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='price < 100'
+```
+
+</TabItem>
+</Tabs>
 
 ### 示例 5：使用大于或等于（`>=`）操作符过滤\{#example-5-filtering-with-greater-than-or-equal-to-greater}
 
 要查找 `rating` 大于或等于 4 的所有实体：
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = 'rating >= 4'
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "rating >= 4";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "rating >= 4"
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let filter = "rating >= 4";
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::string filter = "rating >= 4";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'rating >= 4';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='rating >= 4'
+```
+
+</TabItem>
+</Tabs>
 
 ### 示例 6：使用小于或等于（`<=`）操作符过滤\{#example-6-filtering-with-less-than-or-equal-to}
 
 要查找 `discount` 小于或等于 10% 的实体：
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = 'discount <= 10'
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "discount <= 10";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "discount <= 10"
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let filter = "discount <= 10";
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::string filter = "discount <= 10";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'discount <= 10';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='discount <= 10'
+```
+
+</TabItem>
+</Tabs>
 
 ## 范围操作符\{#range-operators}
 
@@ -102,9 +427,63 @@ filter = 'discount <= 10'
 
 要查找 `color` 为 "red"、"green" 或 "blue" 的所有实体：
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = 'color in ["red", "green", "blue"]'
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "color in [\"red\", \"green\", \"blue\"]";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "color in [\"red\", \"green\", \"blue\"]"
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let filter = "color in [\"red\", \"green\", \"blue\"]";
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::string filter = "color in [\"red\", \"green\", \"blue\"]";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'color in ["red", "green", "blue"]';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='color in ["red", "green", "blue"]'
+```
+
+</TabItem>
+</Tabs>
 
 需要检查某个值是否属于值列表时，这种方法非常有用。
 
@@ -120,21 +499,183 @@ filter = 'color in ["red", "green", "blue"]'
 
 要查找 `name` 以 `Prod` 开头的实体：
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = 'name LIKE "Prod%"'
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "name LIKE \"Prod%\"";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "name LIKE \"Prod%\""
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let filter = "name LIKE \"Prod%\"";
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::string filter = "name LIKE \"Prod%\"";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'name LIKE "Prod%"';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='name LIKE "Prod%"'
+```
+
+</TabItem>
+</Tabs>
+
 要查找 `code` 中包含 `E1001` 等错误代码的实体：
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 filter = 'code =~ "E[0-9]{4}"'
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "code =~ \"E[0-9]{4}\"";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "code =~ \"E[0-9]{4}\""
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let filter = "code =~ \"E[0-9]{4}\"";
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::string filter = "code =~ \"E[0-9]{4}\"";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'code =~ "E[0-9]{4}"';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='code =~ "E[0-9]{4}"'
+```
+
+</TabItem>
+</Tabs>
+
 要排除 `message` 以 `DEBUG` 开头的实体：
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 filter = 'message !~ "^DEBUG"'
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "message !~ \"^DEBUG\"";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "message !~ \"^DEBUG\""
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let filter = "message !~ \"^DEBUG\"";
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::string filter = "message !~ \"^DEBUG\"";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'message !~ "^DEBUG"';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='message !~ "^DEBUG"'
+```
+
+</TabItem>
+</Tabs>
 
 有关如何选择 `LIKE` 或正则表达式，以及支持的字段类型、正则表达式语法、转义规则和性能等详细信息，请参阅[模式匹配](./pattern-match)。Zilliz Cloud 还支持在 `VARCHAR` 字段或 JSON 字符串路径上构建 `NGRAM` 索引，以加速符合条件的模式匹配过滤。有关详细信息，请参阅 [NGRAM](./ngram-index-type)。
 
@@ -160,17 +701,125 @@ filter = 'message !~ "^DEBUG"'
 
 要查找 `id` 为偶数（即能被 2 整除）的实体：
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = 'id % 2 == 0'
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "id % 2 == 0";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "id % 2 == 0"
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let filter = "id % 2 == 0";
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::string filter = "id % 2 == 0";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'id % 2 == 0';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='id % 2 == 0'
+```
+
+</TabItem>
+</Tabs>
 
 ### 示例 2：使用幂运算（`**`）操作符\{#example-2-using-exponentiation}
 
 要查找 `price` 的平方大于 1000 的实体：
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = 'price ** 2 > 1000'
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "price ** 2 > 1000";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "price ** 2 > 1000"
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let filter = "price ** 2 > 1000";
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::string filter = "price ** 2 > 1000";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'price ** 2 > 1000';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='price ** 2 > 1000'
+```
+
+</TabItem>
+</Tabs>
 
 ## 按位操作符\{#bitwise-operators}
 
@@ -201,21 +850,183 @@ filter = 'price ** 2 > 1000'
 
 要查找已设置 `SHARE` 位的实体，请使用按位与（`&`）：
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = "(permissions & 4) == 4"
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "(permissions & 4) == 4";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "(permissions & 4) == 4"
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let filter = "(permissions & 4) == 4";
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::string filter = "(permissions & 4) == 4";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = '(permissions & 4) == 4';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='(permissions & 4) == 4'
+```
+
+</TabItem>
+</Tabs>
+
 要查找设置 `WRITE` 位后得到 `READ + WRITE + SHARE` 权限组合的实体，请使用按位或（`|`）：
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 filter = "(permissions | 2) == 7"
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "(permissions | 2) == 7";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "(permissions | 2) == 7"
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let filter = "(permissions | 2) == 7";
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::string filter = "(permissions | 2) == 7";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = '(permissions | 2) == 7';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='(permissions | 2) == 7'
+```
+
+</TabItem>
+</Tabs>
+
 要查找权限位与 `READ + WRITE + SHARE` 仅相差 `WRITE` 位的实体，请使用按位异或（`^`）：
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 filter = "(permissions ^ 7) == 2"
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "(permissions ^ 7) == 2";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "(permissions ^ 7) == 2"
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let filter = "(permissions ^ 7) == 2";
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::string filter = "(permissions ^ 7) == 2";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = '(permissions ^ 7) == 2';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='(permissions ^ 7) == 2'
+```
+
+</TabItem>
+</Tabs>
 
 注意：在比较结果前，始终需要用括号包裹按位运算，例如 `(permissions & 4) == 4`。
 
@@ -235,25 +1046,187 @@ filter = "(permissions ^ 7) == 2"
 
 要查找 `price` 大于 100 且 `stock` 大于 50 的所有产品：
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = 'price > 100 AND stock > 50'
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "price > 100 AND stock > 50";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "price > 100 AND stock > 50"
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let filter = "price > 100 AND stock > 50";
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::string filter = "price > 100 AND stock > 50";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'price > 100 AND stock > 50';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='price > 100 AND stock > 50'
+```
+
+</TabItem>
+</Tabs>
 
 ### 示例 2：使用 `OR` 组合条件\{#example-2-using-or-to-combine-conditions}
 
 要查找 `color` 为 "red" 或 "blue" 的所有产品：
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = 'color == "red" OR color == "blue"'
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "color == \"red\" OR color == \"blue\"";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "color == \"red\" OR color == \"blue\""
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let filter = "color == \"red\" OR color == \"blue\"";
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::string filter = "color == \"red\" OR color == \"blue\"";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'color == "red" OR color == "blue"';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='color == "red" OR color == "blue"'
+```
+
+</TabItem>
+</Tabs>
 
 ### 示例 3：使用 `NOT` 排除条件\{#example-3-using-not-to-exclude-a-condition}
 
 要查找 `color` 不为 "green" 的所有产品：
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = 'NOT color == "green"'
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "NOT color == \"green\"";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "NOT color == \"green\""
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let filter = "NOT color == \"green\"";
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::string filter = "NOT color == \"green\"";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'NOT color == "green"';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='NOT color == "green"'
+```
+
+</TabItem>
+</Tabs>
 
 ## IS NULL 和 IS NOT NULL 操作符\{#is-null-and-is-not-null-operators}
 
@@ -281,21 +1254,183 @@ Zilliz Cloud 支持对包含 null 值的常规标量字段（例如字符串或�
 
 要检索 `description` 字段为 null 的实体：
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = 'description IS NULL'
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "description IS NULL";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "description IS NULL"
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let filter = "description IS NULL";
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::string filter = "description IS NULL";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'description IS NULL';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='description IS NULL'
+```
+
+</TabItem>
+</Tabs>
+
 要检索 `description` 字段不为 null 的实体：
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 filter = 'description IS NOT NULL'
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "description IS NOT NULL";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "description IS NOT NULL"
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let filter = "description IS NOT NULL";
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::string filter = "description IS NOT NULL";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'description IS NOT NULL';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='description IS NOT NULL'
+```
+
+</TabItem>
+</Tabs>
+
 要检索 `description` 字段不为 null 且 `price` 字段大于 10 的实体：
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 filter = 'description IS NOT NULL AND price > 10'
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "description IS NOT NULL AND price > 10";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "description IS NOT NULL AND price > 10"
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let filter = "description IS NOT NULL AND price > 10";
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::string filter = "description IS NOT NULL AND price > 10";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'description IS NOT NULL AND price > 10';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='description IS NOT NULL AND price > 10'
+```
+
+</TabItem>
+</Tabs>
 
 ### 包含 Null 值的 JSON 字段\{#json-fields-with-null-values}
 
@@ -341,6 +1476,9 @@ data = [
 
 要查找 `metadata` 字段缺失或被显式设置为 None 的实体：
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = 'metadata IS NULL'
 
@@ -351,9 +1489,63 @@ filter = 'metadata IS NULL'
 # ]
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "metadata IS NULL";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "metadata IS NULL"
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let filter = "metadata IS NULL";
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::string filter = "metadata IS NULL";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'metadata IS NULL';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='metadata IS NULL'
+```
+
+</TabItem>
+</Tabs>
+
 **示例 2：检索** `metadata` **不为 null 的实体**
 
 要查找 `metadata` 字段不为 null 的实体：
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 filter = 'metadata IS NOT NULL'
@@ -364,6 +1556,57 @@ filter = 'metadata IS NOT NULL'
 #     "{'metadata': {'category': None, 'price': 99.99, 'brand': 'BrandA'}, 'pk': 4}"
 # ]
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "metadata IS NOT NULL";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "metadata IS NOT NULL"
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let filter = "metadata IS NOT NULL";
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::string filter = "metadata IS NOT NULL";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'metadata IS NOT NULL';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='metadata IS NOT NULL'
+```
+
+</TabItem>
+</Tabs>
 
 ### 包含 Null 值的 ARRAY 字段\{#array-fields-with-null-values}
 
@@ -407,6 +1650,9 @@ data = [
 
 要检索 `tags` 字段缺失或被显式设置为 `None` 的实体：
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = 'tags IS NULL'
 
@@ -417,19 +1663,123 @@ filter = 'tags IS NULL'
 # ]
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "tags IS NULL";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "tags IS NULL"
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let filter = "tags IS NULL";
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::string filter = "tags IS NULL";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'tags IS NULL';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='tags IS NULL'
+```
+
+</TabItem>
+</Tabs>
+
 **示例 2：检索** `tags` **不为 null 的实体**
 
 要检索 `tags` 字段不为 null 的实体：
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 filter = 'tags IS NOT NULL'
 
 # Example output:
 # data: [
-#     "{'metadata': {'category': 'electronics', 'price': 99.99, 'brand': 'BrandA'}, 'pk': 1}",
-#     "{'metadata': {'category': None, 'price': 99.99, 'brand': 'BrandA'}, 'pk': 4}"
+#     "{'tags': ['pop', 'rock', 'classic'], 'ratings': [5, 4, 3], 'embedding': [0.12, 0.34, 0.56], 'pk': 1}"
 # ]
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "tags IS NOT NULL";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "tags IS NOT NULL"
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let filter = "tags IS NOT NULL";
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::string filter = "tags IS NOT NULL";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'tags IS NOT NULL';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='tags IS NOT NULL'
+```
+
+</TabItem>
+</Tabs>
 
 ## 在 JSON 和 ARRAY 字段中使用基本操作符的注意事项\{#tips-on-using-basic-operators-with-json-and-array-fields}
 
@@ -437,15 +1787,123 @@ Zilliz Cloud 集群 中的基本操作符用途广泛，不仅适用于标量字
 
 例如，如果 `product` 字段包含 `price`、`model` 和 `tags` 等多个键，应始终直接引用目标键：
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = 'product["price"] > 1000'
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "product[\"price\"] > 1000";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "product[\"price\"] > 1000"
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let filter = "product[\"price\"] > 1000";
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::string filter = "product[\"price\"] > 1000";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'product["price"] > 1000';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='product["price"] > 1000'
+```
+
+</TabItem>
+</Tabs>
+
 要查找温度记录数组中第一个温度值超过指定数值的记录，可以使用：
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 filter = 'history_temperatures[0] > 30'
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "history_temperatures[0] > 30";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "history_temperatures[0] > 30"
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let filter = "history_temperatures[0] > 30";
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::string filter = "history_temperatures[0] > 30";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'history_temperatures[0] > 30';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='history_temperatures[0] > 30'
+```
+
+</TabItem>
+</Tabs>
 
 ## 总结\{#conclusion}
 

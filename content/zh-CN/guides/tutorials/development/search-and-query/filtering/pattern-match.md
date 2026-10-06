@@ -33,7 +33,7 @@ import TabItem from '@theme/TabItem';
 
 模式匹配表达式写在 `filter` 参数中。例如，以下查询匹配包含 `E1001` 之类错误代码的日志消息：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -148,6 +148,22 @@ curl --request POST \
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+zilliz vector query --collection log_events --filter 'message =~ "E[0-9]{4}"' --output-fields 'message,severity'
+```
+
+</TabItem>
 </Tabs>
 
 本页示例重点介绍赋给 `filter` 的表达式。在 Zilliz Cloud 中，凡是接受标量过滤表达式的操作（例如 `query`、`search` 和混合搜索），都可以使用相同的过滤表达式语法。
@@ -244,7 +260,7 @@ curl --request POST \
 
 例如：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -284,6 +300,22 @@ filter='filename =~ r"\.json$"'
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+zilliz vector query --collection my_collection --filter 'filename =~ r"\.json$"' --output-fields 'filename'
+```
+
+</TabItem>
 </Tabs>
 
 该表达式匹配包含 `2026-07-01` 之类日期格式值的字符串。
@@ -307,7 +339,7 @@ filter='filename =~ r"\.json$"'
 
 若要匹配多个单词中的任意一个，请使用 `|` 进行分支匹配：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -347,11 +379,27 @@ filter='message =~ "error|failed|timeout"'
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+zilliz vector query --collection my_collection --filter 'message =~ "error|failed|timeout"' --output-fields 'message'
+```
+
+</TabItem>
 </Tabs>
 
 按字面值匹配正则表达式元字符时，请在正则表达式模式中进行转义。例如，若要匹配字面点号（正则表达式中的 `\.`），请在 Python 过滤字符串中写作 `\\.`：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -391,6 +439,22 @@ filter='email =~ "@gmail\\.com$"'
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+zilliz vector query --collection my_collection --filter 'email =~ "@gmail\\.com$"' --output-fields 'email'
+```
+
+</TabItem>
 </Tabs>
 
 注意：Zilliz Cloud 正则表达式过滤遵循 RE2 语法。如果正则表达式模式使用 RE2 不支持的语法，或模式本身无效，Zilliz Cloud 会拒绝该过滤表达式。有关正则表达式元字符、标志和匹配行为的详细信息，请参阅 [RE2 语法参考](https://github.com/google/re2/wiki/syntax)。
@@ -401,7 +465,7 @@ filter='email =~ "@gmail\\.com$"'
 
 Zilliz Cloud 的正则表达式匹配采用子字符串语义，模式无需匹配整个字段值。例如，以下过滤表达式既匹配 `E1001`，也匹配 `failed with E1001 after retry`：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -441,11 +505,27 @@ filter='message =~ "E[0-9]{4}"'
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+zilliz vector query --collection log_events --filter 'message =~ "E[0-9]{4}"' --output-fields 'message,severity'
+```
+
+</TabItem>
 </Tabs>
 
 若要匹配整个字段值，请使用 `^` 和 `$` 锚点：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -489,13 +569,29 @@ filter='code =~ "^E[0-9]{4}$"'
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+zilliz vector query --collection my_collection --filter 'code =~ "^E[0-9]{4}$"' --output-fields 'code'
+```
+
+</TabItem>
 </Tabs>
 
 **可为空的 VARCHAR 字段**
 
 正则表达式过滤不会匹配 null 值，`=~` 和 `!~` 都是如此。如果希望排除某个正则表达式模式但保留 null 值，请显式添加 `OR field IS NULL`：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -532,6 +628,22 @@ const filter = 'message !~ "^DEBUG" OR message IS NULL';
 
 ```bash
 filter='message !~ "^DEBUG" OR message IS NULL'
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+zilliz vector query --collection log_events --filter 'message !~ "^DEBUG" OR message IS NULL' --output-fields 'message,severity'
 ```
 
 </TabItem>

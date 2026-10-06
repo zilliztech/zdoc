@@ -16,7 +16,8 @@ displayed_sidebar: default
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # BITMAP
 
@@ -82,12 +83,196 @@ client.create_index(
 
 </Admonition>
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 client.drop_index(
     collection_name="my_collection",   # Name of the collection
     index_name="category_bitmap_index" # Name of the index to drop
 )
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.client.ConnectConfig;
+
+import io.milvus.v2.client.MilvusClientV2;
+
+import io.milvus.v2.service.index.request.DropIndexReq;
+
+MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
+
+        .uri("YOUR_CLUSTER_ENDPOINT")
+
+        .build());
+
+client.dropIndex(DropIndexReq.builder()
+
+        .collectionName("my_collection")
+
+        .indexName("category_bitmap_index")
+
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+
+    "context"
+
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+
+)
+
+ctx := context.Background()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+
+    Address: "YOUR_CLUSTER_ENDPOINT",
+
+})
+
+if err != nil {
+
+    log.Fatal("failed to connect to milvus server: ", err.Error())
+
+}
+
+err = cli.DropIndex(ctx, milvusclient.NewDropIndexOption("my_collection", "category_bitmap_index"))
+
+if err != nil {
+
+    log.Fatal("failed to drop index: ", err.Error())
+
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
+
+let client = ClientV2::new(&config).await?;
+
+client
+
+    .drop_index(
+
+        DropIndexRequest::builder()
+
+            .collection_name("my_collection")
+
+            .index_name("category_bitmap_index")
+
+            .build()?,
+
+    )
+
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT"));
+
+if (!status.IsOk()) {
+
+    std::cout << status.Message() << std::endl;
+
+}
+
+status = client->DropIndex(milvus::DropIndexRequest()
+
+        .WithCollectionName("my_collection")
+
+        .WithIndexName("category_bitmap_index"));
+
+if (!status.IsOk()) {
+
+    std::cout << status.Message() << std::endl;
+
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
+
+await client.dropIndex({
+
+    collection_name: "my_collection",
+
+    index_name: "category_bitmap_index",
+
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/indexes/drop" \
+
+--header "Authorization: Bearer ${TOKEN}" \
+
+--header "Content-Type: application/json" \
+
+--header "Request-Timeout: 10" \
+
+-d '{
+
+    "collectionName": "my_collection",
+
+    "indexName": "category_bitmap_index"
+
+}'
+
+# {
+
+#     "code": 0,
+
+#     "data": {}
+
+# }
+```
+
+</TabItem>
+</Tabs>
 
 ## 注意事项\{#limits}
 

@@ -27,7 +27,7 @@ Zilliz Cloud 支持通过过滤表达式批量删除 Entity，也支持基于指
 
 在批量删除 Entity 时，可以使用过滤表达式。下方的示例代码中使用了 **in** 操作符，批量删除了所有 **color** 值为 **red** 和 **green** 的 Entity。你也可以使用其它操作符构建符合要求的过滤表达式。关于过滤表达式的更多介绍，可以参考本手册中[过滤表达式概览](./filtering-overview)一节的内容。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -60,7 +60,7 @@ import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.DeleteReq;
 import io.milvus.v2.service.vector.response.DeleteResp;
 
-ilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
+MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .token("YOUR_CLUSTER_TOKEN")
         .build());
@@ -73,32 +73,6 @@ DeleteResp deleteResp = client.delete(DeleteReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
-
-const address = "YOUR_CLUSTER_ENDPOINT";
-const token = "YOUR_CLUSTER_TOKEN";
-const client = new MilvusClient({address, token});
-
-// 7. Delete entities
-res = await client.delete({
-    collection_name: "quick_setup",
-    // highlight-next-line
-    filter: "color in ['red_7025', 'purple_4976]"
-})
-
-console.log(res.delete_cnt)
-
-// Output
-// 
-// 3
-// 
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -106,9 +80,7 @@ import (
     "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/column"
-    "github.com/milvus-io/milvus/client/v2/entity"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -129,6 +101,80 @@ if err != nil {
     fmt.Println(err.Error())
     // handle err
 }
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+    let client = ClientV2::new(&config).await?;
+
+    let request = DeleteRequest::builder()
+        .collection_name("quick_setup")
+        .filter("color in ['red_7025', 'purple_4976']")
+        .build()?;
+    let response = client.delete(request).await?;
+    println!("{:?}", response.delete_count());
+
+    Ok(())
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::DeleteResponse response;
+status = client->Delete(milvus::DeleteRequest()
+                            .WithCollectionName("quick_setup")
+                            .WithFilter("color in ['red_7025', 'purple_4976']"),
+                        response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
+
+const address = "YOUR_CLUSTER_ENDPOINT";
+const token = "YOUR_CLUSTER_TOKEN";
+const client = new MilvusClient({address, token});
+
+// 7. Delete entities
+res = await client.delete({
+    collection_name: "quick_setup",
+    // highlight-next-line
+    filter: "color in ['red_7025', 'purple_4976']"
+})
+
+console.log(res.delete_cnt)
+
+// Output
+// 
+// 3
+// 
 ```
 
 </TabItem>
@@ -157,7 +203,7 @@ curl --request POST \
 
 在大多数情况下，主键值能够确定唯一 Entity。可以在删除请求中指定需要删除的 Entity 的主键值来删除这些 Entity。下方的示例代码中，指定了需要删除的 Entity 主键值为 **18** 和 **19**。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -191,6 +237,47 @@ DeleteResp deleteResp = client.delete(DeleteReq.builder()
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+_, err = client.Delete(ctx, milvusclient.NewDeleteOption("quick_setup").
+    WithInt64IDs("id", []int64{18, 19}))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle err
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+    let request = DeleteRequest::builder()
+        .collection_name("quick_setup")
+        .ids(Ids::Int64(vec![18, 19]))
+        .build()?;
+    let response = client.delete(request).await?;
+    println!("{:?}", response.delete_count());
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::DeleteResponse response;
+auto status = client->Delete(milvus::DeleteRequest()
+                                .WithCollectionName("quick_setup")
+                                .WithIDs(std::vector<int64_t>{18, 19}),
+                             response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -207,19 +294,6 @@ console.log(res.delete_cnt)
 // 
 // 2
 // 
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-_, err = client.Delete(ctx, milvusclient.NewDeleteOption("quick_setup").
-    WithInt64IDs("id", []int64{18, 19}))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle err
-}
 ```
 
 </TabItem>
@@ -249,7 +323,7 @@ curl --request POST \
 
 您还可以从指定的 Partition 中删除 Entity。示例代码中假设 Collection 中存在一个名为 **partitionA** 的 Partition。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -284,6 +358,50 @@ DeleteResp deleteResp = client.delete(DeleteReq.builder()
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+_, err = client.Delete(ctx, milvusclient.NewDeleteOption("quick_setup").
+    WithInt64IDs("id", []int64{18, 19}).
+    WithPartition("partitionA"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle err
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+    let request = DeleteRequest::builder()
+        .collection_name("quick_setup")
+        .ids(Ids::Int64(vec![18, 19]))
+        .partition_name("partitionA")
+        .build()?;
+    let response = client.delete(request).await?;
+    println!("{:?}", response.delete_count());
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::DeleteResponse response;
+auto status = client->Delete(milvus::DeleteRequest()
+                                .WithCollectionName("quick_setup")
+                                .WithPartitionName("partitionA")
+                                .WithIDs(std::vector<int64_t>{18, 19}),
+                             response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -301,20 +419,6 @@ console.log(res.delete_cnt)
 // 
 // 2
 // 
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-_, err = client.Delete(ctx, milvusclient.NewDeleteOption("quick_setup").
-    WithInt64IDs("id", []int64{18, 19}).
-    WithPartition("partitionA"))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle err
-}
 ```
 
 </TabItem>

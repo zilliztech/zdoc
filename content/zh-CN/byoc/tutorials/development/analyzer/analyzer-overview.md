@@ -77,7 +77,7 @@ Zilliz Cloud 集群中的内置 Analyzer 已预先配置特定的分词器和过
 
 例如，要使用内置的 `standard` Analyzer，只需将其名称 `standard` 指定为 `type`，还可以选择添加该 Analyzer 类型特有的额外配置，例如 `stop_words`：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -99,17 +99,6 @@ analyzerParams.put("stop_words", Arrays.asList("a", "an", "for"));
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-const analyzer_params = {
-    "type": "standard", // Uses the standard built-in analyzer
-    "stop_words": ["a", "an", "for"] // Defines a list of common words (stop words) to exclude from tokenization
-};
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -118,13 +107,15 @@ analyzerParams := map[string]any{"type": "standard", "stop_words": []string{"a",
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-export analyzerParams='{
-       "type": "standard",
-       "stop_words": ["a", "an", "for"]
-    }'
+```rust
+use milvus::v2::prelude::*;
+
+let analyzer_params = serde_json::json!({
+    "type": "standard",
+    "stop_words": ["a", "an", "for"]
+});
 ```
 
 </TabItem>
@@ -139,11 +130,33 @@ nlohmann::json analyzer_params = {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+    "type": "standard", // Uses the standard built-in analyzer
+    "stop_words": ["a", "an", "for"] // Defines a list of common words (stop words) to exclude from tokenization
+};
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export analyzerParams='{
+       "type": "standard",
+       "stop_words": ["a", "an", "for"]
+    }'
+```
+
+</TabItem>
 </Tabs>
 
 要检查 Analyzer 的执行结果，请使用 `run_analyzer` 方法：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -177,36 +190,19 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// javascrip# Sample text to analyze
-const text = "An efficient system relies on a robust analyzer to correctly process text for various applications."
-
-// Run analyzer
-const result = await client.run_analyzer({
-    text,
-    analyzer_params
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
 import (
     "context"
-    "encoding/json"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-bs, _ := json.Marshal(analyzerParams)
 texts := []string{"An efficient system relies on a robust analyzer to correctly process text for various applications."}
-option := milvusclient.NewRunAnalyzerOption(texts).
-    WithAnalyzerParams(string(bs))
+option := milvusclient.NewRunAnalyzerOption(texts...).
+    WithAnalyzerParams(analyzerParams)
 
 result, err := client.RunAnalyzer(ctx, option)
 if err != nil {
@@ -217,19 +213,19 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
-export MILVUS_HOST="YOUR_CLUSTER_ENDPOINT"
-export TEXT_TO_ANALYZE="An efficient system relies on a robust analyzer to correctly process text for various applications."
-curl -X POST "http://${MILVUS_HOST}/v2/vectordb/common/run_analyzer" \
-  -H "Content-Type: application/json" \
-  -H "Request-Timeout: 10" \
-  -d '{
-    "text": ["'"${TEXT_TO_ANALYZE}"'"],
-    "analyzerParams": "{\"type\":\"standard\",\"stop_words\":[\"a\",\"an\",\"for\"]}"
-  }'
+```rust
+let sample_text = "An efficient system relies on a robust analyzer to correctly process text for various applications.";
+let response = client
+    .run_analyzer(
+        RunAnalyzerRequest::builder()
+            .texts([sample_text])
+            .analyzer_params(analyzer_params.clone())
+            .build()?,
+    )
+    .await?;
+println!("{:?}", response);
 ```
 
 </TabItem>
@@ -251,6 +247,38 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// Sample text to analyze
+const text = "An efficient system relies on a robust analyzer to correctly process text for various applications."
+
+// Run analyzer
+const result = await client.runAnalyzer({
+    text,
+    analyzer_params
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+export MILVUS_HOST="YOUR_CLUSTER_ENDPOINT"
+export TEXT_TO_ANALYZE="An efficient system relies on a robust analyzer to correctly process text for various applications."
+curl -X POST "http://${MILVUS_HOST}/v2/vectordb/common/run_analyzer" \
+  -H "Content-Type: application/json" \
+  -H "Request-Timeout: 10" \
+  -d '{
+    "text": ["'"${TEXT_TO_ANALYZE}"'"],
+    "analyzerParams": "{\"type\":\"standard\",\"stop_words\":[\"a\",\"an\",\"for\"]}"
+  }'
+```
+
+</TabItem>
 </Tabs>
 
 输出如下：
@@ -263,7 +291,7 @@ if (!status.IsOk()) {
 
 上述内置 `standard` Analyzer 的配置等同于使用以下参数设置自定义 Analyzer。其中显式定义了 `tokenizer` 和 `filter` 选项，以实现等效的 Function 行为：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -296,6 +324,40 @@ analyzerParams.put("filter",
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+analyzerParams = map[string]any{"tokenizer": "standard",
+    "filter": []any{"lowercase", map[string]any{
+        "type":       "stop",
+        "stop_words": []string{"a", "an", "for"},
+    }}}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let analyzer_params = serde_json::json!({
+    "tokenizer": "standard",
+    "filter": ["lowercase", {"type": "stop", "stop_words": ["a", "an", "for"]}]
+});
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"type", "standard"},
+    {"filter", {"lowercase", {{"type", "stop"}, {"stop_words", {"a", "an", "for"}}}}},
+};
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -313,18 +375,6 @@ const analyzer_params = {
 
 </TabItem>
 
-<TabItem value='go'>
-
-```go
-analyzerParams = map[string]any{"tokenizer": "standard",
-    "filter": []any{"lowercase", map[string]any{
-        "type":       "stop",
-        "stop_words": []string{"a", "an", "for"},
-    }}}
-```
-
-</TabItem>
-
 <TabItem value='bash'>
 
 ```bash
@@ -338,17 +388,6 @@ export analyzerParams='{
        }
    ]
 }'
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-nlohmann::json analyzer_params = {
-    {"type", "standard"},
-    {"filter", {"lowercase", {{"type", "stop"}, {"stop_words", {"a", "an", "for"}}}}},
-};
 ```
 
 </TabItem>
@@ -378,7 +417,7 @@ Zilliz Cloud 提供以下内置 Analyzer，每种 Analyzer 都针对特定的文
 
 **指定分词器的示例**：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -398,16 +437,6 @@ analyzerParams.put("tokenizer", "whitespace");
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-const analyzer_params = {
-    "tokenizer": "whitespace",
-};
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -416,12 +445,10 @@ analyzerParams = map[string]any{"tokenizer": "whitespace"}
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-export analyzerParams='{
-       "type": "whitespace"
-    }'
+```rust
+let analyzer_params = serde_json::json!({"tokenizer": "whitespace"});
 ```
 
 </TabItem>
@@ -432,6 +459,26 @@ export analyzerParams='{
 nlohmann::json analyzer_params = {
     {"type", "whitespace"}
 };
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+    "tokenizer": "whitespace",
+};
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export analyzerParams='{
+       "type": "whitespace"
+    }'
 ```
 
 </TabItem>
@@ -463,7 +510,7 @@ nlohmann::json analyzer_params = {
 
     **使用内置过滤器的示例：**
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -485,17 +532,6 @@ nlohmann::json analyzer_params = {
 
     </TabItem>
 
-    <TabItem value='javascript'>
-
-    ```javascript
-    const analyzer_params = {
-        "tokenizer": "standard", // Mandatory: Specifies tokenizer
-        "filter": ["lowercase"], // Optional: Built-in filter that converts text to lowercase
-    }
-    ```
-
-    </TabItem>
-
     <TabItem value='go'>
 
     ```go
@@ -505,13 +541,10 @@ nlohmann::json analyzer_params = {
 
     </TabItem>
 
-    <TabItem value='bash'>
+    <TabItem value='rust'>
 
-    ```bash
-    export analyzerParams='{
-           "type": "standard",
-           "filter":  ["lowercase"]
-        }'
+    ```rust
+    let analyzer_params = serde_json::json!({"tokenizer": "standard", "filter": ["lowercase"]});
     ```
 
     </TabItem>
@@ -523,6 +556,28 @@ nlohmann::json analyzer_params = {
         {"type", "standard"},
         {"filter", {"lowercase"}},
     };
+    ```
+
+    </TabItem>
+
+    <TabItem value='javascript'>
+
+    ```javascript
+    const analyzer_params = {
+        "tokenizer": "standard", // Mandatory: Specifies tokenizer
+        "filter": ["lowercase"], // Optional: Built-in filter that converts text to lowercase
+    }
+    ```
+
+    </TabItem>
+
+    <TabItem value='bash'>
+
+    ```bash
+    export analyzerParams='{
+           "type": "standard",
+           "filter":  ["lowercase"]
+        }'
     ```
 
     </TabItem>
@@ -538,7 +593,7 @@ nlohmann::json analyzer_params = {
 
     **配置自定义过滤器的示例：**
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -563,8 +618,42 @@ nlohmann::json analyzer_params = {
     analyzerParams.put("filter",
             Collections.singletonList(new HashMap<String, Object>() {{
                 put("type", "stop");
-                put("stop_words", Arrays.asList("a", "an", "for"));
+                put("stop_words", Arrays.asList("of", "to"));
             }}));
+    ```
+
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    analyzerParams = map[string]any{"tokenizer": "standard",
+        "filter": []any{map[string]any{
+            "type":       "stop",
+            "stop_words": []string{"of", "to"},
+        }}}
+    ```
+
+    </TabItem>
+
+    <TabItem value='rust'>
+
+    ```rust
+    let analyzer_params = serde_json::json!({
+        "tokenizer": "standard",
+        "filter": [{"type": "stop", "stop_words": ["of", "to"]}]
+    });
+    ```
+
+    </TabItem>
+
+    <TabItem value='c++'>
+
+    ```c++
+    nlohmann::json analyzer_params = {
+        {"type", "standard"},
+        {"filter", {{{"type", "stop"}, {"stop_words", {"of", "to"}}}}},
+    };
     ```
 
     </TabItem>
@@ -585,18 +674,6 @@ nlohmann::json analyzer_params = {
 
     </TabItem>
 
-    <TabItem value='go'>
-
-    ```go
-    analyzerParams = map[string]any{"tokenizer": "standard",
-        "filter": []any{map[string]any{
-            "type":       "stop",
-            "stop_words": []string{"of", "to"},
-        }}}
-    ```
-
-    </TabItem>
-
     <TabItem value='bash'>
 
     ```bash
@@ -605,21 +682,10 @@ nlohmann::json analyzer_params = {
            "filter":  [
            {
                 "type": "stop",
-                "stop_words": ["a", "an", "for"]
+                "stop_words": ["of", "to"]
            }
         ]
-    }'
-    ```
-
-    </TabItem>
-
-    <TabItem value='c++'>
-
-    ```c++
-    nlohmann::json analyzer_params = {
-        {"type", "standard"},
-        {"filter", {{{"type", "stop"}, {"stop_words", {"a", "an", "for"}}}}},
-    };
+    }' 
     ```
 
     </TabItem>
@@ -643,7 +709,7 @@ nlohmann::json analyzer_params = {
 
 首先设置 Milvus 客户端并创建一个新的 Schema。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -651,7 +717,7 @@ from pymilvus import MilvusClient, DataType
 
 # Set up a Milvus client
 client = MilvusClient(
-    uri="YOUR_CLUSTER_ENDPOINT"，
+    uri="YOUR_CLUSTER_ENDPOINT",
     token="YOUR_CLUSTER_TOKEN"
 )
 
@@ -671,6 +737,8 @@ import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
 
+import java.util.*;
+
 // Set up a Milvus client
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -686,6 +754,65 @@ CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSche
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle err
+}
+defer client.Close(ctx)
+
+schema := entity.NewSchema().WithAutoID(true).WithDynamicFieldEnabled(false)
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN")).await?;
+let schema = CollectionSchema::new().enable_dynamic_field(false);
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->SetEnableDynamicField(false);
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -695,38 +822,7 @@ import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 const client = new MilvusClient({
     address: "YOUR_CLUSTER_ENDPOINT",
     token: "YOUR_CLUSTER_TOKEN"
-);
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v2/column"
-    "github.com/milvus-io/milvus/client/v2/entity"
-    "github.com/milvus-io/milvus/client/v2/index"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
-)  
-
-ctx, cancel := context.WithCancel(context.Background())
-defer cancel()
-
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    token: "YOUR_CLUSTER_TOKEN"
-})
-if err != nil {
-    fmt.Println(err.Error())
-    // handle err
-}
-defer client.Close(ctx)
-
-schema := entity.NewSchema().WithAutoID(true).WithDynamicFieldEnabled(false)
+});
 ```
 
 </TabItem>
@@ -752,25 +848,6 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-auto status = client->Connect(connect_param);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
-schema->SetEnableDynamicField(false);
-```
-
-</TabItem>
 </Tabs>
 
 ### 步骤 2：定义并验证 Analyzer 配置\{#step-2-define-and-verify-analyzer-configurations}
@@ -781,7 +858,7 @@ schema->SetEnableDynamicField(false);
 
     - <strong>验证：</strong>使用 `run_analyzer` 检查该 Analyzer 配置是否生成预期的分词结果。
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -818,6 +895,63 @@ schema->SetEnableDynamicField(false);
 
     </TabItem>
 
+    <TabItem value='go'>
+
+    ```go
+    analyzerParamsBuiltin := map[string]any{"type": "english"}
+    
+    texts := []string{"Milvus simplifies text analysis for search."}
+    option := milvusclient.NewRunAnalyzerOption(texts...).
+        WithAnalyzerParams(analyzerParamsBuiltin)
+    
+    result, err := client.RunAnalyzer(ctx, option)
+    if err != nil {
+        fmt.Println(err.Error())
+        // handle error
+    }
+    ```
+
+    </TabItem>
+
+    <TabItem value='rust'>
+
+    ```rust
+    let analyzer_params_built_in = serde_json::json!({"type": "english"});
+    let sample_text = "Milvus simplifies text analysis for search.";
+    let response = client
+        .run_analyzer(
+            RunAnalyzerRequest::builder()
+                .texts([sample_text])
+                .analyzer_params(analyzer_params_built_in)
+                .build()?,
+        )
+        .await?;
+    println!("{:?}", response);
+    ```
+
+    </TabItem>
+
+    <TabItem value='c++'>
+
+    ```c++
+    nlohmann::json analyzer_params_built_in = {
+            {"type", "english"}
+    };
+    
+    std::string sample_text = "Milvus simplifies text analysis for search.";
+    auto request = milvus::RunAnalyzerRequest()
+                       .AddText(sample_text)
+                       .WithAnalyzerParams(analyzer_params_built_in);
+    
+    milvus::RunAnalyzerResponse response;
+    auto status = client->RunAnalyzer(request, response);
+    if (!status.IsOk()) {
+        std::cout << status.Message() << std::endl;
+    }
+    ```
+
+    </TabItem>
+
     <TabItem value='javascript'>
 
     ```javascript
@@ -827,29 +961,10 @@ schema->SetEnableDynamicField(false);
     };
     
     const sample_text = "Milvus simplifies text analysis for search.";
-    const result = await client.run_analyzer({
-        text: sample_text, 
+    const result = await client.runAnalyzer({
+        text: sample_text,
         analyzer_params: analyzer_params_built_in
     });
-    ```
-
-    </TabItem>
-
-    <TabItem value='go'>
-
-    ```go
-    analyzerParamsBuiltin := map[string]any{"type": "english"}
-    
-    bs, _ := json.Marshal(analyzerParamsBuiltin)
-    texts := []string{"Milvus simplifies text analysis for search."}
-    option := milvusclient.NewRunAnalyzerOption(texts).
-        WithAnalyzerParams(string(bs))
-    
-    result, err := client.RunAnalyzer(ctx, option)
-    if err != nil {
-        fmt.Println(err.Error())
-        // handle error
-    }
     ```
 
     </TabItem>
@@ -870,27 +985,6 @@ schema->SetEnableDynamicField(false);
     ```
 
     </TabItem>
-
-    <TabItem value='c++'>
-
-    ```c++
-    nlohmann::json analyzer_params_built_in = {
-            {"type", "standard"}
-    };
-    
-    std::string sample_text = "Milvus simplifies text analysis for search.";
-    auto request = milvus::RunAnalyzerRequest()
-                       .AddText(sample_text)
-                       .WithAnalyzerParams(analyzer_params_built_in);
-    
-    milvus::RunAnalyzerResponse response;
-    auto status = client->RunAnalyzer(request, response);
-    if (!status.IsOk()) {
-        std::cout << status.Message() << std::endl;
-    }
-    ```
-
-    </TabItem>
     </Tabs>
 
 1. **配置并验证自定义 Analyzer：**
@@ -899,7 +993,7 @@ schema->SetEnableDynamicField(false);
 
     - <strong>验证：</strong>使用 `run_analyzer` 确认自定义 Analyzer 配置能够按预期处理文本。
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -961,6 +1055,83 @@ schema->SetEnableDynamicField(false);
 
     </TabItem>
 
+    <TabItem value='go'>
+
+    ```go
+    analyzerParamsCustom := map[string]any{"tokenizer": "standard",
+        "filter": []any{"lowercase",
+            map[string]any{
+                "type": "length",
+                "max":  40,
+            },
+            map[string]any{
+                "type":       "stop",
+                "stop_words": []string{"of", "to"},
+            }}}
+    
+    texts := []string{"Milvus provides flexible, customizable analyzers for robust text processing."}
+    option := milvusclient.NewRunAnalyzerOption(texts...).
+        WithAnalyzerParams(analyzerParamsCustom)
+    
+    result, err := client.RunAnalyzer(ctx, option)
+    if err != nil {
+        fmt.Println(err.Error())
+        // handle error
+    }
+    ```
+
+    </TabItem>
+
+    <TabItem value='rust'>
+
+    ```rust
+    let analyzer_params_custom = serde_json::json!({
+        "tokenizer": "standard",
+        "filter": ["lowercase", {"type": "length", "max": 40}, {"type": "stop", "stop_words": ["of", "to"]}]
+    });
+    let sample_text = "Milvus provides flexible, customizable analyzers for robust text processing.";
+    let response = client
+        .run_analyzer(
+            RunAnalyzerRequest::builder()
+                .texts([sample_text])
+                .analyzer_params(analyzer_params_custom)
+                .build()?,
+        )
+        .await?;
+    println!("{:?}", response);
+    ```
+
+    </TabItem>
+
+    <TabItem value='c++'>
+
+    ```c++
+    nlohmann::json analyzer_params_custom = {
+        {"tokenizer", "standard"},
+        {"filter", {
+            "lowercase",
+            {{"type", "length"}, {"max", 40}},
+            {{"type", "stop"}, {"stop_words", {"of", "to"}}}
+        }},
+    };
+    
+    const std::vector<std::string> texts = {
+            "Milvus provides flexible, customizable analyzers for robust text processing."
+    };
+    
+    auto request = milvus::RunAnalyzerRequest()
+                           .WithTexts(texts)
+                           .WithAnalyzerParams(analyzer_params_custom);
+    
+    milvus::RunAnalyzerResponse response;
+    auto status = client->RunAnalyzer(request, response);
+    if (!status.IsOk()) {
+        std::cout << status.Message() << std::endl;
+    }
+    ```
+
+    </TabItem>
+
     <TabItem value='javascript'>
 
     ```javascript
@@ -980,37 +1151,10 @@ schema->SetEnableDynamicField(false);
       ],
     };
     const sample_text = "Milvus provides flexible, customizable analyzers for robust text processing.";
-    const result = await client.run_analyzer({
-        text: sample_text, 
+    const result = await client.runAnalyzer({
+        text: sample_text,
         analyzer_params: analyzer_params_custom
     });
-    ```
-
-    </TabItem>
-
-    <TabItem value='go'>
-
-    ```go
-    analyzerParamsCustom = map[string]any{"tokenizer": "standard",
-        "filter": []any{"lowercase", 
-        map[string]any{
-            "type": "length",
-            "max":  40,
-        map[string]any{
-            "type": "stop",
-            "stop_words": []string{"of", "to"},
-        }}}
-        
-    bs, _ := json.Marshal(analyzerParamsCustom)
-    texts := []string{"Milvus provides flexible, customizable analyzers for robust text processing."}
-    option := milvusclient.NewRunAnalyzerOption(texts).
-        WithAnalyzerParams(string(bs))
-    
-    result, err := client.RunAnalyzer(ctx, option)
-    if err != nil {
-        fmt.Println(err.Error())
-        // handle error
-    }
     ```
 
     </TabItem>
@@ -1032,42 +1176,13 @@ schema->SetEnableDynamicField(false);
     ```
 
     </TabItem>
-
-    <TabItem value='c++'>
-
-    ```c++
-    nlohmann::json analyzer_params_custom = {
-        {"tokenizer", "standard"},
-        {"filter", {
-            "lowercase", 
-            {{"type", "length"}, {"max", 40}},
-            {{"type", "stop"}, {"stop_words", {"of", "to"}}}
-        }},
-    };
-    
-    const std::vector<std::string> texts = {
-            "Milvus provides flexible, customizable analyzers for robust text processing."
-    };
-    
-    auto request = milvus::RunAnalyzerRequest()
-                           .WithTexts(text_content)
-                           .WithAnalyzerParams(analyzer_params_custom);
-    
-    milvus::RunAnalyzerResponse response;
-    auto status = client->RunAnalyzer(request, response);
-    if (!status.IsOk()) {
-        std::cout << status.Message() << std::endl;
-    }
-    ```
-
-    </TabItem>
     </Tabs>
 
 ### 步骤 3：将 Analyzer 添加到 Schema 字段\{#step-3-add-fields-to-the-schema}
 
 验证 Analyzer 配置后，将其添加到 Schema 字段：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1138,45 +1253,6 @@ schema.addField(AddFieldReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// Create schema
-const schema = {
-  auto_id: true,
-  fields: [
-    {
-      name: "id",
-      type: DataType.INT64,
-      is_primary: true,
-    },
-    {
-      name: "title_en",
-      data_type: DataType.VARCHAR,
-      max_length: 1000,
-      enable_analyzer: true,
-      analyzer_params: analyzerParamsBuiltIn,
-      enable_match: true,
-    },
-    {
-      name: "title",
-      data_type: DataType.VARCHAR,
-      max_length: 1000,
-      enable_analyzer: true,
-      analyzer_params: analyzerParamsCustom,
-      enable_match: true,
-    },
-    {
-      name: "embedding",
-      data_type: DataType.FLOAT_VECTOR,
-      dim: 4,
-    },
-  ],
-};
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -1208,12 +1284,74 @@ schema.WithField(entity.NewField().
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+let schema = schema
+    .add_field(FieldSchema::new().name("id").data_type(DataType::Int64).primary_key(true).auto_id(true))
+    .add_field(FieldSchema::new().name("title_en").data_type(DataType::VarChar).max_length(1000).enable_analyzer(true).enable_match(true).analyzer_params(analyzer_params_built_in))
+    .add_field(FieldSchema::new().name("title").data_type(DataType::VarChar).max_length(1000).enable_analyzer(true).enable_match(true).analyzer_params(analyzer_params_custom))
+    .add_field(FieldSchema::new().name("embedding").data_type(DataType::FloatVector).dimension(3));
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+schema->AddField({"id", milvus::DataType::INT64, "", true, false});
+schema->AddField(milvus::FieldSchema("title_en", milvus::DataType::VARCHAR).WithMaxLength(1000)
+                    .EnableAnalyzer(true).EnableMatch(true).WithAnalyzerParams(analyzer_params_built_in));
+schema->AddField(milvus::FieldSchema("title", milvus::DataType::VARCHAR).WithMaxLength(1000)
+                    .EnableAnalyzer(true).EnableMatch(true).WithAnalyzerParams(analyzer_params_custom));
+schema->AddField(milvus::FieldSchema("embedding", milvus::DataType::FLOAT_VECTOR).WithDimension(3));
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// Create schema
+const schema = [
+  {
+    name: "id",
+    data_type: DataType.Int64,
+    is_primary_key: true,
+    autoID: true,
+  },
+  {
+    name: "title_en",
+    data_type: DataType.VarChar,
+    max_length: 1000,
+    enable_analyzer: true,
+    analyzer_params: analyzer_params_built_in,
+    enable_match: true,
+  },
+  {
+    name: "title",
+    data_type: DataType.VarChar,
+    max_length: 1000,
+    enable_analyzer: true,
+    analyzer_params: analyzer_params_custom,
+    enable_match: true,
+  },
+  {
+    name: "embedding",
+    data_type: DataType.FloatVector,
+    dim: 3,
+  },
+];
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
 # restful
 export SCHEMA_CONFIG='{
-  "autoId": false,
+  "autoId": true,
   "enableDynamicField": false,
   "fields": [
     {
@@ -1249,20 +1387,7 @@ export SCHEMA_CONFIG='{
       }
     }
   ]
-}'
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-schema->AddField({"id", milvus::DataType::INT64, "", true, false});
-schema->AddField(milvus::FieldSchema("title_en", milvus::DataType::VARCHAR).WithMaxLength(1000)
-                    .EnableAnalyzer(true).EnableMatch(true).WithAnalyzerParams(analyzer_params_built_in));
-schema->AddField(milvus::FieldSchema("title", milvus::DataType::VARCHAR).WithMaxLength(1000)
-                    .EnableAnalyzer(true).EnableMatch(true).WithAnalyzerParams(analyzer_params_custom));
-schema->AddField(milvus::FieldSchema("embedding", milvus::DataType::FLOAT_VECTOR).WithDimension(3));
+}' 
 ```
 
 </TabItem>
@@ -1270,7 +1395,7 @@ schema->AddField(milvus::FieldSchema("embedding", milvus::DataType::FLOAT_VECTOR
 
 ### 步骤 4：准备索引参数并创建 Collection\{#step-4-prepare-index-parameters-and-create-the-collection}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1310,30 +1435,6 @@ client.createCollection(requestCreate);
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// Set up index params for vector field
-const indexParams = [
-  {
-    name: "embedding",
-    metric_type: "COSINE",
-    index_type: "AUTOINDEX",
-  },
-];
-
-// Create collection with defined schema
-await client.createCollection({
-  collection_name: "my_collection",
-  schema: schema,
-  index_params: indexParams,
-});
-
-console.log("Collection created successfully!");
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -1351,19 +1452,23 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-export INDEX_PARAMS='[{"fieldName": "embedding", "metricType": "COSINE", "indexType": "AUTOINDEX"}]'
-# restful
-curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/create" \
-  -H "Content-Type: application/json" \
-  -H "Request-Timeout: 10" \
-  -d "{
-    \"collectionName\": \"my_collection\",
-    \"schema\": ${SCHEMA_CONFIG},
-    \"indexParams\": ${INDEX_PARAMS}
-  }"
+```rust
+client
+    .create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name("my_collection")
+            .schema(schema)
+            .index_param(
+                IndexParam::new()
+                    .field_name("embedding")
+                    .index_type(IndexType::AutoIndex)
+                    .metric_type(MetricType::Cosine),
+            )
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -1382,6 +1487,47 @@ auto status = client->CreateCollection(milvus::CreateCollectionRequest()
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// Set up index params for vector field
+const indexParams = [
+  {
+    field_name: "embedding",
+    metric_type: "COSINE",
+    index_type: "AUTOINDEX",
+  },
+];
+
+// Create collection with defined schema
+await client.createCollection({
+  collection_name: "my_collection",
+  schema: schema,
+  index_params: indexParams,
+});
+
+console.log("Collection created successfully!");
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export INDEX_PARAMS='[{"fieldName": "embedding", "metricType": "COSINE", "indexType": "AUTOINDEX"}]'
+# restful
+curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/create" \
+  -H "Content-Type: application/json" \
+  -H "Request-Timeout: 10" \
+  -d "{
+    \"collectionName\": \"my_collection\",
+    \"schema\": ${SCHEMA_CONFIG},
+    \"indexParams\": ${INDEX_PARAMS}
+  }"
 ```
 
 </TabItem>

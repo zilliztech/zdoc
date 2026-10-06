@@ -39,7 +39,7 @@ ANN Search 单次召回的 Entity 有最大数量限制，单纯使用基本 ANN
 
 如下代码演示了如何创建一个 Search Iterator。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -166,7 +166,28 @@ const iterator = milvusClient.searchIterator({
 <TabItem value='bash'>
 
 ```bash
-# restful
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d '{
+    "collectionName": "iterator_collection",
+    "annsField": "vector",
+    "data": [[0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]],
+    "searchParams": {
+        "metricType": "L2",
+        "params": {
+            "nprobe": 16
+        }
+    },
+    "limit": 50,
+    "offset": 0,
+    "outputFields": ["color"]
+}'
 ```
 
 </TabItem>
@@ -203,6 +224,18 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+# Create a search with pagination (equivalent to the first batch of a SearchIterator)
+zilliz collection search --collection-name my_collection --vector-field vector --vectors '[[0.1,0.2,0.3,0.4,0.5]]' --limit 50 --offset 0 --output-fields "id,color" 
+```
+
+</TabItem>
 </Tabs>
 
 上述示例代码设置了单页召回数量（**batch_size**/**batchSize**）为 50，topK（**limit**/**topK**） 为 20,000。
@@ -213,7 +246,7 @@ if (!status.IsOk()) {
 
 在创建好迭代器后，可以参考如下示例代码循环调用 `next()` 方法获取搜索结果。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -282,7 +315,47 @@ for await (const result of iterator) {
 <TabItem value='bash'>
 
 ```bash
-# restful
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+batch_size=50
+limit=20000
+offset=0
+
+# Paginate with offset until an empty page is returned. Note that the sum of
+# offset and limit in each request must not exceed the server-side result
+# window (16,384 by default); SDK search iterators do not have this limit.
+while [ "$offset" -lt "$limit" ]; do
+    # highlight-next-line
+    response=$(curl --silent --request POST \
+        --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
+        --header "Authorization: Bearer ${TOKEN}" \
+        --header "Content-Type: application/json" \
+        --header "Request-Timeout: 10" \
+        -d '{
+            "collectionName": "iterator_collection",
+            "annsField": "vector",
+            "data": [[0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]],
+            "searchParams": {
+                "metricType": "L2",
+                "params": {
+                    "nprobe": 16
+                }
+            },
+            "limit": '"$batch_size"',
+            "offset": '"$offset"',
+            "outputFields": ["color"]
+        }')
+
+    count=$(echo "$response" | jq -r '.data | length')
+    if [ "$count" -eq 0 ]; then
+        # highlight-next-line
+        break
+    fi
+
+    echo "$response" | jq -r '.data[]'
+    offset=$((offset + batch_size))
+done
 ```
 
 </TabItem>
@@ -309,6 +382,27 @@ while (true) {
         std::cout << row.dump() << std::endl;
     }
 }
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+# Iterate through results with pagination (batch_size=50)
+# Batch 1: offset 0
+zilliz collection search --collection-name my_collection --vector-field vector --vectors '[[0.1,0.2,0.3,0.4,0.5]]' --limit 50 --offset 0 --output-fields "id,color"
+
+# Batch 2: offset 50
+zilliz collection search --collection-name my_collection --vector-field vector --vectors '[[0.1,0.2,0.3,0.4,0.5]]' --limit 50 --offset 50 --output-fields "id,color"
+
+# Batch 3: offset 100
+zilliz collection search --collection-name my_collection --vector-field vector --vectors '[[0.1,0.2,0.3,0.4,0.5]]' --limit 50 --offset 100 --output-fields "id,color"
+
+# Continue incrementing offset by 50 until an empty page is returned
 ```
 
 </TabItem>

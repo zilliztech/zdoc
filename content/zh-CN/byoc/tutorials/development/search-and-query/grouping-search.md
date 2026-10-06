@@ -59,7 +59,7 @@ Milvus 3.0 还支持[搜索聚合](./search-aggregation)，该功能使用 `grou
 
 本节将结合具体代码示例来介绍如何使用 Grouping Search。以下示例代码假设 Collection 中有 `id`、`vector`、`chunk` 和 `docId` 四个字段。
 
-```python
+```plaintext
 [
         {"id": 0, "vector": [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592], "chunk": "pink_8682", "docId": 1},
         {"id": 1, "vector": [0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104], "chunk": "red_7025", "docId": 5},
@@ -76,7 +76,7 @@ Milvus 3.0 还支持[搜索聚合](./search-aggregation)，该功能使用 `grou
 
 在 Search 请求中，将 `group_by_field` 和 `output_fields` 都设置为 `docId`。 在收到请求后，Zilliz Cloud 会根据指定的字段对搜索结果分组并返回每组结果中最与查询向量最相似的一个 Entity，并在每个返回的 Entity 中携带该 Entity 在 docId 字段上的取值。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -244,6 +244,75 @@ curl --request POST \
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
+auto request = milvus::SearchRequest()
+                   .WithCollectionName("my_collection")
+                   .AddFloatVector(query_vector)
+                   .WithLimit(3)
+                   .WithAnnsField("vector")
+                   .WithGroupByField("docId")
+                   .AddOutputField("docId");
+
+milvus::SearchResponse response;
+auto status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+for (auto& result : response.Results().Results()) {
+    std::cout << "TopK results:" << std::endl;
+    milvus::EntityRows output_rows;
+    status = result.OutputRows(output_rows);
+    for (const auto& row : output_rows) {
+        std::cout << "\t" << row << std::endl;
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+zilliz vector search \
+  --collection my_collection \
+  --body '{
+  "data": [
+    [
+      0.14529211512077012,
+      0.9147257273453546,
+      0.7965055218724449,
+      0.7009258593102812,
+      0.5605206522382088
+    ]
+  ],
+  "annsField": "vector",
+  "limit": 3,
+  "groupingField": "docId",
+  "outputFields": [
+    "docId"
+  ]
+}' \
+  --output json
+```
+
+</TabItem>
 </Tabs>
 
 在以上请求中，`limit=3` 表示系统将返回最多 3 个分组，每个分组中包含一条与查询向量最相似的 Entity。
@@ -252,7 +321,7 @@ curl --request POST \
 
 在默认情况下，Grouping Search 仅为每个分组返回一条 Entity。如果希望每个分组中返回多个结果，可以通过设置 `group_size` 和 `strict_group_size` 参数实现。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -407,6 +476,79 @@ curl --request POST \
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
+auto request = milvus::SearchRequest()
+                   .WithCollectionName("my_collection")
+                   .AddFloatVector(query_vector)
+                   .WithLimit(5)
+                   .WithAnnsField("vector")
+                   .WithGroupByField("docId")
+                   .WithGroupSize(2)
+                   .WithStrictGroupSize(true)
+                   .AddOutputField("docId");
+
+milvus::SearchResponse response;
+auto status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+for (auto& result : response.Results().Results()) {
+    std::cout << "TopK results:" << std::endl;
+    milvus::EntityRows output_rows;
+    status = result.OutputRows(output_rows);
+    for (const auto& row : output_rows) {
+        std::cout << "\t" << row << std::endl;
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+zilliz vector search \
+  --collection my_collection \
+  --body '{
+  "data": [
+    [
+      0.14529211512077012,
+      0.9147257273453546,
+      0.7965055218724449,
+      0.7009258593102812,
+      0.5605206522382088
+    ]
+  ],
+  "annsField": "vector",
+  "limit": 5,
+  "groupingField": "docId",
+  "outputFields": [
+    "docId"
+  ],
+  "groupSize": 2,
+  "strictGroupSize": true
+}' \
+  --output json
+```
+
+</TabItem>
 </Tabs>
 
 在以上示例中：
@@ -423,7 +565,7 @@ curl --request POST \
 
 下面的示例按 `category` 字段对搜索结果进行分组，每个分组最多返回 3 条 Entity，并按照 `price` 字段从低到高对返回的分组进行排序。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -449,7 +591,31 @@ res = client.search(
 <TabItem value='java'>
 
 ```java
-// java
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.request.aggregation.AggDirection;
+import io.milvus.v2.service.vector.request.aggregation.OrderByField;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.List;
+
+// Prerequisite: client is connected to the project endpoint;
+// clusterId identifies the on-demand cluster containing product_catalog.
+var session = client.session(clusterId);
+FloatVec queryVector = new FloatVec(new float[]{0.14529211512077012f, 0.9147257273453546f, 0.7965055218724449f, 0.7009258593102812f, 0.5605206522382088f});
+SearchReq request = SearchReq.builder()
+    .collectionName("product_catalog")
+    .data(List.of(queryVector))
+    .annsField("embedding")
+    .topK(20)
+    .groupByFieldName("category")
+    .groupSize(3)
+    .strictGroupSize(true)
+    .outputFields(List.of("category", "price", "rating"))
+    .orderByFields(List.of(OrderByField.builder()
+        .fieldName("price").direction(AggDirection.ASC).build()))
+    .build();
+SearchResp response = session.search(request);
+System.out.println(response.getSearchResults());
 ```
 
 </TabItem>
@@ -457,7 +623,22 @@ res = client.search(
 <TabItem value='javascript'>
 
 ```javascript
-// nodejs
+// Prerequisite: client is connected to the project endpoint;
+// clusterId identifies the on-demand cluster containing product_catalog.
+const session = client.session(clusterId);
+const queryVector = [0.14529211512077012, 0.9147257273453546, 0.7965055218724449, 0.7009258593102812, 0.5605206522382088];
+const response = await session.search({
+  collection_name: "product_catalog",
+  data: [queryVector],
+  anns_field: "embedding",
+  limit: 20,
+  group_by_field: "category",
+  group_size: 3,
+  strict_group_size: true,
+  output_fields: ["category", "price", "rating"],
+  order_by_fields: [{ field: "price", order: "asc" }],
+});
+console.log(response.results);
 ```
 
 </TabItem>
@@ -465,7 +646,32 @@ res = client.search(
 <TabItem value='go'>
 
 ```go
-// go
+import (
+    "fmt"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+// Prerequisite: client is connected to the project endpoint;
+// clusterID identifies the on-demand cluster containing product_catalog.
+queryVector := []float32{0.14529211512077012, 0.9147257273453546, 0.7965055218724449, 0.7009258593102812, 0.5605206522382088}
+results, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "product_catalog", 20, []entity.Vector{entity.FloatVector(queryVector)},
+).
+    WithANNSField("embedding").
+    WithGroupByField("category").
+    WithGroupSize(3).
+    WithStrictGroupSize(true).
+    WithOutputFields("category", "price", "rating").
+    WithSearchParam("order_by_fields", "price:asc").
+    WithSearchParam("cluster_id", clusterID))
+if err != nil {
+    panic(err)
+}
+for _, result := range results {
+    fmt.Println(result.IDs, result.Scores)
+    fmt.Println(result.GetColumn("category"), result.GetColumn("price"), result.GetColumn("rating"))
+}
 ```
 
 </TabItem>
@@ -473,7 +679,22 @@ res = client.search(
 <TabItem value='bash'>
 
 ```bash
-# restful
+# Prerequisite: set PROJECT_ENDPOINT, TOKEN, and CLUSTER_ID for your on-demand cluster.
+curl --request POST \
+  --url "${PROJECT_ENDPOINT}/v2/vectordb/entities/search?cluster_id=${CLUSTER_ID}" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "collectionName": "product_catalog",
+    "data": [[0.14529211512077012, 0.9147257273453546, 0.7965055218724449, 0.7009258593102812, 0.5605206522382088]],
+    "annsField": "embedding",
+    "limit": 20,
+    "groupingField": "category",
+    "groupSize": 3,
+    "strictGroupSize": true,
+    "outputFields": ["category", "price", "rating"],
+    "orderByFields": ["price:asc"]
+  }'
 ```
 
 </TabItem>
@@ -481,7 +702,74 @@ res = client.search(
 <TabItem value='c++'>
 
 ```c++
-// cpp
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+#include <stdexcept>
+
+// Prerequisite: client is connected to the project endpoint;
+// cluster_id identifies the on-demand cluster containing product_catalog.
+milvus::MilvusClientV2SessionPtr session;
+auto status = client->Session(cluster_id, session);
+if (!status.IsOk()) { throw std::runtime_error(status.Message()); }
+std::vector<float> query_vector = {0.14529211512077012f, 0.9147257273453546f, 0.7965055218724449f, 0.7009258593102812f, 0.5605206522382088f};
+auto request = milvus::SearchRequest()
+    .WithCollectionName("product_catalog")
+    .AddFloatVector(query_vector)
+    .WithAnnsField("embedding")
+    .WithLimit(20)
+    .WithGroupByField("category")
+    .WithGroupSize(3)
+    .WithStrictGroupSize(true)
+    .AddOutputField("category")
+    .AddOutputField("price")
+    .AddOutputField("rating")
+    .AddOrderByField(milvus::OrderByField("price", milvus::AggregationDirection::ASC));
+milvus::SearchResponse response;
+status = session->Search(request, response);
+if (!status.IsOk()) { throw std::runtime_error(status.Message()); }
+for (const auto& result : response.Results().Results()) {
+    milvus::EntityRows rows;
+    status = result.OutputRows(rows);
+    if (!status.IsOk()) { throw std::runtime_error(status.Message()); }
+    std::cout << rows << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+# Select an on-demand cluster containing product_catalog.
+zilliz vector search \
+  --collection product_catalog \
+  --body '{
+  "data": [
+    [
+      0.14529211512077012,
+      0.9147257273453546,
+      0.7965055218724449,
+      0.7009258593102812,
+      0.5605206522382088
+    ]
+  ],
+  "annsField": "embedding",
+  "limit": 20,
+  "groupingField": "category",
+  "groupSize": 3,
+  "strictGroupSize": true,
+  "outputFields": [
+    "category",
+    "price",
+    "rating"
+  ],
+  "orderByFields": [
+    "price:asc"
+  ]
+}' \
+  --output json
 ```
 
 </TabItem>

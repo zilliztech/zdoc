@@ -78,7 +78,7 @@ Collection 中可以存储多种类型的标量字段。您可以让 Milvus 基�
 
 当您需要根据 Entity 主键从 Collection 或 Partition 中查询 Entity 时，可以使用 Get 方法。如下代码示例中假设 Collection 有 `id`、`vector` 和 `color` 三个字段。
 
-```python
+```plaintext
 [
         {"id": 0, "vector": [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592], "color": "pink_8682"},
         {"id": 1, "vector": [0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104], "color": "red_7025"},
@@ -95,7 +95,7 @@ Collection 中可以存储多种类型的标量字段。您可以让 Milvus 基�
 
 您可以参考如下代码示例获取主键值为 `0`、`1`、`2` 的三个 Entity。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -233,6 +233,43 @@ curl --request POST \
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+std::vector<int64_t> ids = {0, 1, 2};
+auto request = milvus::GetRequest()
+                   .WithCollectionName("my_collection")
+                   .WithIDs(std::move(ids))
+                   .AddOutputField("color")
+                   .AddOutputField("vector");
+                   
+milvus::GetResponse response;
+status = client->Get(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+```
+
+</TabItem>
 </Tabs>
 
 ## 使用 Query\{#use-query}
@@ -241,7 +278,7 @@ curl --request POST \
 
 当您需要根据自定义条件查询，且返回所有或指定数量的符合条件的 Entity 时，可以使用 Query 方法。如下代码示例中假设 Collection 有 `id`、`vector` 和 `color` 三个字段。要求返回三个 `color` 以 `red` 开头的 Entity。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -348,6 +385,43 @@ curl --request POST \
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+ #include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+auto request = milvus::QueryRequest()
+                   .WithCollectionName("my_collection")
+                   .WithFilter(R"(color like "red%")")
+                   .WithLimit(3)
+                   .AddOutputField("vector")
+                   .AddOutputField("color");
+
+milvus::QueryResponse response;
+status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+```
+
+</TabItem>
 </Tabs>
 
 ### 对查询结果排序 | ONDEMAND \{#sort-query-results}
@@ -364,7 +438,7 @@ curl --request POST \
 
 向 `order_by` 参数传入一个 `"field_name:direction"` 字符串列表，其中 `direction` 为 `asc`（升序）或 `desc`（降序）。注意，`asc` 和 `desc` 区分大小写。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -427,7 +501,26 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 <TabItem value='go'>
 
 ```go
-// go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
+    WithFilter("color like \\"red%\\"").
+    WithOutputFields("vector", "color").
+    WithLimit(3).
+    WithOrderBy("id:asc"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+fmt.Println("id: ", resultSet.GetColumn("id").FieldData().GetScalars())
+fmt.Println("vector: ", resultSet.GetColumn("vector").FieldData().GetVectors())
+fmt.Println("color: ", resultSet.GetColumn("color").FieldData().GetScalars())
 ```
 
 </TabItem>
@@ -458,25 +551,62 @@ console.log(res.data);
 <TabItem value='bash'>
 
 ```bash
-# restful
-```
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
 
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-// c++
+curl --request POST \\
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \\
+--header "Authorization: Bearer ${TOKEN}" \\
+--header "Content-Type: application/json" \\
+--header "Request-Timeout: 10" \\
+-d '{
+    "collectionName": "my_collection",
+    "filter": "color like \\"red%\\"",
+    "limit": 3,
+    "outputFields": ["vector", "color"],
+    "orderByFields": ["id:asc"]
+}' 
 ```
 
 </TabItem>
 </Tabs>
 
+```plaintext
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+auto request = milvus::QueryRequest()
+                   .WithCollectionName("my_collection")
+                   .WithFilter(R"(color like "red%")")
+                   .WithLimit(3)
+                   .AddOutputField("vector")
+                   .AddOutputField("color")
+                   .WithOrderBy("id:asc");
+
+milvus::QueryResponse response;
+status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+```shell
+# Zilliz CLI
+```
+
 #### 多字段排序\{#multi-field-sort}
 
 您可以同时按多个字段排序。结果会先按列表中的第一个字段排序。当两条结果在该字段上的值相同时，再由第二个字段决定它们的顺序，依此类推。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -519,7 +649,25 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 <TabItem value='go'>
 
 ```go
-// go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
+    WithFilter("").
+    WithOutputFields("color", "rating", "price").
+    WithLimit(10).
+    WithOrderBy("rating:desc,price:asc"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+fmt.Println("id: ", resultSet.GetColumn("id").FieldData().GetScalars())
+fmt.Println("color: ", resultSet.GetColumn("color").FieldData().GetScalars())
 ```
 
 </TabItem>
@@ -544,25 +692,63 @@ console.log(res.data);
 <TabItem value='bash'>
 
 ```bash
-# restful
-```
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
 
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-// c++
+curl --request POST \\
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \\
+--header "Authorization: Bearer ${TOKEN}" \\
+--header "Content-Type: application/json" \\
+--header "Request-Timeout: 10" \\
+-d '{
+    "collectionName": "my_collection",
+    "filter": "",
+    "limit": 10,
+    "outputFields": ["color", "rating", "price"],
+    "orderByFields": ["rating:desc,price:asc"]
+}' 
 ```
 
 </TabItem>
 </Tabs>
 
+```plaintext
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+auto request = milvus::QueryRequest()
+                   .WithCollectionName("my_collection")
+                   .WithFilter("")
+                   .WithLimit(10)
+                   .AddOutputField("color")
+                   .AddOutputField("rating")
+                   .AddOutputField("price")
+                   .WithOrderBy("rating:desc,price:asc");
+
+milvus::QueryResponse response;
+status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+```shell
+# Zilliz CLI
+```
+
 #### 结合分页排序\{#pagination-with-sort}
 
 将 `order_by` 与 `limit` 和 `offset` 一起使用，可以对排序后的结果进行分页。例如，如果要按价格排序展示商品列表，每个页面都会按正确的价格顺序显示下一批商品，且不会出现重复或遗漏。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -632,7 +818,37 @@ for (QueryResp.QueryResult result : page2.getQueryResults()) {
 <TabItem value='go'>
 
 ```go
-// go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+page1, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
+    WithFilter("color like \\"red%\\"").
+    WithOutputFields("color", "price").
+    WithLimit(5).
+    WithOffset(0).
+    WithOrderBy("price:asc"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+page2, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
+    WithFilter("color like \\"red%\\"").
+    WithOutputFields("color", "price").
+    WithLimit(5).
+    WithOffset(5).
+    WithOrderBy("price:asc"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+fmt.Println("page1: ", page1.GetColumn("color").FieldData().GetScalars())
+fmt.Println("page2: ", page2.GetColumn("color").FieldData().GetScalars())
 ```
 
 </TabItem>
@@ -670,19 +886,87 @@ console.log(page2.data);
 <TabItem value='bash'>
 
 ```bash
-# restful
-```
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
 
-</TabItem>
+curl --request POST \\
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \\
+--header "Authorization: Bearer ${TOKEN}" \\
+--header "Content-Type: application/json" \\
+--header "Request-Timeout: 10" \\
+-d '{
+    "collectionName": "my_collection",
+    "filter": "color like \\"red%\\"",
+    "limit": 5,
+    "offset": 0,
+    "outputFields": ["color", "price"],
+    "orderByFields": ["price:asc"]
+}'
 
-<TabItem value='c++'>
-
-```c++
-// c++
+curl --request POST \\
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \\
+--header "Authorization: Bearer ${TOKEN}" \\
+--header "Content-Type: application/json" \\
+--header "Request-Timeout: 10" \\
+-d '{
+    "collectionName": "my_collection",
+    "filter": "color like \\"red%\\"",
+    "limit": 5,
+    "offset": 5,
+    "outputFields": ["color", "price"],
+    "orderByFields": ["price:asc"]
+}' 
 ```
 
 </TabItem>
 </Tabs>
+
+```plaintext
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+auto page1Req = milvus::QueryRequest()
+                    .WithCollectionName("my_collection")
+                    .WithFilter(R"(color like "red%")")
+                    .WithLimit(5)
+                    .WithOffset(0)
+                    .AddOutputField("color")
+                    .AddOutputField("price")
+                    .WithOrderBy("price:asc");
+
+milvus::QueryResponse page1;
+status = client->Query(page1Req, page1);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+auto page2Req = milvus::QueryRequest()
+                    .WithCollectionName("my_collection")
+                    .WithFilter(R"(color like "red%")")
+                    .WithLimit(5)
+                    .WithOffset(5)
+                    .AddOutputField("color")
+                    .AddOutputField("price")
+                    .WithOrderBy("price:asc");
+
+milvus::QueryResponse page2;
+status = client->Query(page2Req, page2);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+```shell
+# Zilliz CLI
+```
 
 ### 对查询结果进行分组聚合 | ONDEMAND \{#aggregate-query-results}
 
@@ -698,7 +982,7 @@ console.log(page2.data);
 
 以下示例按 `color` 字段对 Entity 进行分组，并返回每个颜色分组中的 Entity 数量：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -772,7 +1056,24 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 <TabItem value='go'>
 
 ```go
-// go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
+    WithFilter("").
+    WithOutputFields("color", "count(*)", "avg(price)", "max(rating)").
+    WithGroupByFields("color").
+    WithLimit(5))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+fmt.Println("color: ", resultSet.GetColumn("color").FieldData().GetScalars())
 ```
 
 </TabItem>
@@ -780,7 +1081,21 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 <TabItem value='javascript'>
 
 ```javascript
-// nodejs
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const address = "YOUR_CLUSTER_ENDPOINT";
+const token = "YOUR_CLUSTER_TOKEN";
+const client = new MilvusClient({address, token});
+
+const res = await client.query({
+    collection_name: "my_collection",
+    filter: "",
+    output_fields: ["color", "avg(price)", "count(*)"],
+    limit: 5,
+    group_by_field: "color"
+});
+
+console.log(res.data);
 ```
 
 </TabItem>
@@ -788,23 +1103,61 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 <TabItem value='bash'>
 
 ```bash
-# restful
-```
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
 
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-// cpp
+curl --request POST \\
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \\
+--header "Authorization: Bearer ${TOKEN}" \\
+--header "Content-Type: application/json" \\
+--header "Request-Timeout: 10" \\
+-d '{
+    "collectionName": "my_collection",
+    "filter": "",
+    "limit": 5,
+    "outputFields": ["color", "avg(price)", "count(*)"],
+    "groupByFields": ["color"]
+}' 
 ```
 
 </TabItem>
 </Tabs>
 
+```plaintext
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+auto request = milvus::QueryRequest()
+                   .WithCollectionName("my_collection")
+                   .WithFilter("")
+                   .WithLimit(5)
+                   .AddOutputField("color")
+                   .AddOutputField("avg(price)")
+                   .AddOutputField("count(*)")
+                   .AddGroupByField("color");
+
+milvus::QueryResponse response;
+status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+```shell
+# Zilliz CLI
+```
+
 一次调用中可以请求多个聚合表达式。以下示例按 `color` 分组，并返回每个分组的行数、平均价格和最高评分：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -858,7 +1211,24 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 <TabItem value='go'>
 
 ```go
-// go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
+    WithFilter("").
+    WithOutputFields("color", "count(*)", "avg(price)", "max(rating)").
+    WithGroupByFields("color").
+    WithLimit(5))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+fmt.Println("color: ", resultSet.GetColumn("color").FieldData().GetScalars())
 ```
 
 </TabItem>
@@ -866,7 +1236,21 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 <TabItem value='javascript'>
 
 ```javascript
-// nodejs
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const address = "YOUR_CLUSTER_ENDPOINT";
+const token = "YOUR_CLUSTER_TOKEN";
+const client = new MilvusClient({address, token});
+
+const res = await client.query({
+    collection_name: "my_collection",
+    filter: "",
+    output_fields: ["color", "avg(price)", "count(*)"],
+    limit: 5,
+    group_by_field: "color"
+});
+
+console.log(res.data);
 ```
 
 </TabItem>
@@ -874,23 +1258,61 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 <TabItem value='bash'>
 
 ```bash
-# restful
-```
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
 
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-// cpp
+curl --request POST \\
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \\
+--header "Authorization: Bearer ${TOKEN}" \\
+--header "Content-Type: application/json" \\
+--header "Request-Timeout: 10" \\
+-d '{
+    "collectionName": "my_collection",
+    "filter": "",
+    "limit": 5,
+    "outputFields": ["color", "avg(price)", "count(*)"],
+    "groupByFields": ["color"]
+}' 
 ```
 
 </TabItem>
 </Tabs>
 
+```plaintext
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+auto request = milvus::QueryRequest()
+                   .WithCollectionName("my_collection")
+                   .WithFilter("")
+                   .WithLimit(5)
+                   .AddOutputField("color")
+                   .AddOutputField("avg(price)")
+                   .AddOutputField("count(*)")
+                   .AddGroupByField("color");
+
+milvus::QueryResponse response;
+status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+```shell
+# Zilliz CLI
+```
+
 向 `group_by_fields` 传入多个字段可以构成复合分组。以下示例按 `(color, rating)` 分组，并计算每个分组中的价格范围：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -946,7 +1368,24 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 <TabItem value='go'>
 
 ```go
-// go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
+    WithFilter("").
+    WithOutputFields("color", "count(*)", "avg(price)", "max(rating)").
+    WithGroupByFields("color").
+    WithLimit(5))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+fmt.Println("color: ", resultSet.GetColumn("color").FieldData().GetScalars())
 ```
 
 </TabItem>
@@ -954,7 +1393,21 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 <TabItem value='javascript'>
 
 ```javascript
-// nodejs
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const address = "YOUR_CLUSTER_ENDPOINT";
+const token = "YOUR_CLUSTER_TOKEN";
+const client = new MilvusClient({address, token});
+
+const res = await client.query({
+    collection_name: "my_collection",
+    filter: "",
+    output_fields: ["color", "avg(price)", "count(*)"],
+    limit: 5,
+    group_by_field: "color"
+});
+
+console.log(res.data);
 ```
 
 </TabItem>
@@ -962,23 +1415,61 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 <TabItem value='bash'>
 
 ```bash
-# restful
-```
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
 
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-// cpp
+curl --request POST \\
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \\
+--header "Authorization: Bearer ${TOKEN}" \\
+--header "Content-Type: application/json" \\
+--header "Request-Timeout: 10" \\
+-d '{
+    "collectionName": "my_collection",
+    "filter": "",
+    "limit": 5,
+    "outputFields": ["color", "avg(price)", "count(*)"],
+    "groupByFields": ["color"]
+}' 
 ```
 
 </TabItem>
 </Tabs>
 
+```plaintext
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+auto request = milvus::QueryRequest()
+                   .WithCollectionName("my_collection")
+                   .WithFilter("")
+                   .WithLimit(5)
+                   .AddOutputField("color")
+                   .AddOutputField("avg(price)")
+                   .AddOutputField("count(*)")
+                   .AddGroupByField("color");
+
+milvus::QueryResponse response;
+status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+```shell
+# Zilliz CLI
+```
+
 还可以将 `group_by_fields` 与 `limit` 结合使用，限制返回的分组数量——当某个字段的基数较高、只需要采样部分分组时非常有用：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1033,7 +1524,24 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 <TabItem value='go'>
 
 ```go
-// go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
+    WithFilter("").
+    WithOutputFields("color", "count(*)", "avg(price)", "max(rating)").
+    WithGroupByFields("color").
+    WithLimit(5))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+fmt.Println("color: ", resultSet.GetColumn("color").FieldData().GetScalars())
 ```
 
 </TabItem>
@@ -1041,7 +1549,21 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 <TabItem value='javascript'>
 
 ```javascript
-// nodejs
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const address = "YOUR_CLUSTER_ENDPOINT";
+const token = "YOUR_CLUSTER_TOKEN";
+const client = new MilvusClient({address, token});
+
+const res = await client.query({
+    collection_name: "my_collection",
+    filter: "",
+    output_fields: ["color", "avg(price)", "count(*)"],
+    limit: 5,
+    group_by_field: "color"
+});
+
+console.log(res.data);
 ```
 
 </TabItem>
@@ -1049,25 +1571,63 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 <TabItem value='bash'>
 
 ```bash
-# restful
-```
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
 
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-// cpp
+curl --request POST \\
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \\
+--header "Authorization: Bearer ${TOKEN}" \\
+--header "Content-Type: application/json" \\
+--header "Request-Timeout: 10" \\
+-d '{
+    "collectionName": "my_collection",
+    "filter": "",
+    "limit": 5,
+    "outputFields": ["color", "avg(price)", "count(*)"],
+    "groupByFields": ["color"]
+}' 
 ```
 
 </TabItem>
 </Tabs>
 
+```plaintext
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+auto request = milvus::QueryRequest()
+                   .WithCollectionName("my_collection")
+                   .WithFilter("")
+                   .WithLimit(5)
+                   .AddOutputField("color")
+                   .AddOutputField("avg(price)")
+                   .AddOutputField("count(*)")
+                   .AddGroupByField("color");
+
+milvus::QueryResponse response;
+status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+```shell
+# Zilliz CLI
+```
+
 ## 使用 QueryIterator\{#use-query-iterator}
 
 当您需要根据自定义条件查询，且分页返回所有符合条件的 Entity，可以使用 QueryIterator 创建一个迭代器。然后使用迭代器的 `next()` 方法循环遍历所有符合条件的 Entity。如下代码示例中假设 Collection 有 `id`、`vector` 和 `color` 三个字段。要求返回所有 `color` 以 `red` 开头的 Entity。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1131,7 +1691,38 @@ while (true) {
 <TabItem value='go'>
 
 ```go
-// go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+iterator, err := client.QueryIterator(ctx, milvusclient.NewQueryIteratorOption("my_collection").
+    WithFilter("color like \\"red%\\"").
+    WithBatchSize(10).
+    WithOutputFields("color"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+for {
+    resultSet, err := iterator.Next()
+    if err != nil {
+        fmt.Println(err.Error())
+        break
+    }
+    if resultSet == nil {
+        break
+    }
+    fmt.Println("color: ", resultSet.GetColumn("color").FieldData().GetScalars())
+}
+
+err = iterator.Close()
+if err != nil {
+    fmt.Println(err.Error())
+}
 ```
 
 </TabItem>
@@ -1160,7 +1751,56 @@ for await (const value of iterator) {
 <TabItem value='bash'>
 
 ```bash
-# Not available
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+# QueryIterator is not yet available in RESTful API.
+# Use repeated query calls with offset for pagination.
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::QueryIteratorRequest request;
+request.SetCollectionName("my_collection");
+request.SetBatchSize(10);
+request.SetFilter(R"(color like "red%")");
+request.AddOutputField("color");
+
+milvus::QueryIteratorPtr iterator;
+auto status = client->QueryIterator(request, iterator);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+while (true) {
+    milvus::QueryResults batch_results;
+    status = iterator->Next(batch_results);
+    if (!status.IsOk()) {
+        std::cout << status.Message() << std::endl;
+        break;
+    }
+
+    milvus::EntityRows rows;
+    status = batch_results.OutputRows(rows);
+    if (!status.IsOk()) {
+        std::cout << status.Message() << std::endl;
+        break;
+    }
+    for (const auto& row : rows) {
+        std::cout << row.dump() << std::endl;
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
 ```
 
 </TabItem>
@@ -1170,7 +1810,7 @@ for await (const value of iterator) {
 
 除了在 Collection 中进行过滤查询外，还可以在指定的一个或多个 Partition 中进行过滤查询，只需要在上面的 Get、Query 和 QueryIterator 方法中增加 Partition 名称即可。如下示例代码中假设 Collection 中存在一个名为 PartitionA 的 Partition。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1356,6 +1996,89 @@ curl --request POST \
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// Use get
+{
+    std::vector<int64_t> ids = {10, 11, 12};
+    auto request = milvus::GetRequest()
+                       .WithCollectionName("my_collection")
+                       .AddPartitionName("partitionA")
+                       .WithIDs(std::move(ids))
+                       .AddOutputField("color")
+                       .AddOutputField("vector");
+                       
+    milvus::GetResponse response;
+    status = client->Get(request, response);
+    if (!status.IsOk()) {
+        std::cout << status.Message() << std::endl;
+    }
+}
+
+// Use query
+{
+    auto request = milvus::QueryRequest()
+                       .WithCollectionName("my_collection")
+                       .AddPartitionName("partitionA")
+                       .WithFilter(R"(color like "red%")")
+                       .WithLimit(3)
+                       .AddOutputField("vector")
+                       .AddOutputField("color");
+    
+    milvus::QueryResponse response;
+    status = client->Query(request, response);
+    if (!status.IsOk()) {
+        std::cout << status.Message() << std::endl;
+    }
+}
+
+// Use queryiterator
+{
+    milvus::QueryIteratorRequest request;
+    request.SetCollectionName("my_collection");
+    request.AddPartitionName("partitionA")
+    request.SetBatchSize(10);
+    request.SetFilter(R"(color like "red%")");
+    request.AddOutputField("color");
+    
+    milvus::QueryIteratorPtr iterator;
+    auto status = client->QueryIterator(request, iterator);
+    if (!status.IsOk()) {
+        std::cout << status.Message() << std::endl;
+    }
+    
+    while (true) {
+        milvus::QueryResults batch_results;
+        status = iterator->Next(batch_results);
+        if (!status.IsOk()) {
+            std::cout << status.Message() << std::endl;
+            break;
+        }
+    
+        milvus::EntityRows rows;
+        status = batch_results.OutputRows(rows);
+        if (!status.IsOk()) {
+            std::cout << status.Message() << std::endl;
+            break;
+        }
+        for (const auto& row : rows) {
+            std::cout << row.dump() << std::endl;
+        }
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+```
+
+</TabItem>
 </Tabs>
 
 ## 使用 Query 进行随机取样\{#random-sampling-with-query}
@@ -1368,7 +2091,7 @@ curl --request POST \
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1464,7 +2187,30 @@ if err != nil {
 <TabItem value='javascript'>
 
 ```javascript
-// node
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+
+const address = "YOUR_CLUSTER_ENDPOINT";
+const token = "YOUR_CLUSTER_TOKEN";
+const client = new MilvusClient({address, token});
+
+// Sample 1% of the entire collection
+let res = await client.query({
+    collection_name: "my_collection",
+    filter: "RANDOM_SAMPLE(0.01)",
+    output_fields: ["vector", "color"]
+});
+
+console.log(`Sampled ${res.data.length} entities from collection`);
+
+// Combine with other filters - first filter, then sample
+res = await client.query({
+    collection_name: "my_collection",
+    filter: 'color like "red%" AND RANDOM_SAMPLE(0.005)',
+    output_fields: ["vector", "color"],
+    limit: 10
+});
+
+console.log(`Found ${res.data.length} red items in sample`);
 ```
 
 </TabItem>
@@ -1472,7 +2218,63 @@ if err != nil {
 <TabItem value='bash'>
 
 ```bash
-# restful
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \\
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \\
+--header "Authorization: Bearer ${TOKEN}" \\
+--header "Content-Type: application/json" \\
+--header "Request-Timeout: 10" \\
+-d '{
+    "collectionName": "my_collection",
+    "filter": "RANDOM_SAMPLE(0.01)",
+    "outputFields": ["vector", "color"]
+}'
+
+curl --request POST \\
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \\
+--header "Authorization: Bearer ${TOKEN}" \\
+--header "Content-Type: application/json" \\
+--header "Request-Timeout: 10" \\
+-d '{
+    "collectionName": "my_collection",
+    "filter": "color like \\"red%\\" AND RANDOM_SAMPLE(0.005)",
+    "limit": 10,
+    "outputFields": ["vector", "color"]
+}' 
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto request = milvus::QueryRequest()
+                   .WithCollectionName("my_collection")
+                   .WithFilter("RANDOM_SAMPLE(0.01)")
+                   .AddOutputField("vector")
+                   .AddOutputField("color");
+
+milvus::QueryResponse response;
+status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+request.SetFilter(R"(color like "red%" AND RANDOM_SAMPLE(0.005))")
+status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
 ```
 
 </TabItem>
@@ -1484,7 +2286,7 @@ if err != nil {
 
 以下示例展示了如何为 query 操作设置临时时区：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1504,7 +2306,34 @@ results = client.query(
 <TabItem value='java'>
 
 ```java
-// java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build());
+
+Map<String, Object> queryParams = new HashMap<>();
+queryParams.put("timezone", "America/Havana");
+
+QueryReq queryReq = QueryReq.builder()
+        .collectionName("my_collection")
+        .filter("id <= 10")
+        .outputFields(Arrays.asList("id", "tsz", "vec"))
+        .limit(2)
+        .queryParams(queryParams)
+        .build();
+
+QueryResp queryResp = client.query(queryReq);
+for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
+    System.out.println(result.getEntity());
+}
 ```
 
 </TabItem>
@@ -1512,7 +2341,21 @@ results = client.query(
 <TabItem value='javascript'>
 
 ```javascript
-// js
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const address = "YOUR_CLUSTER_ENDPOINT";
+const token = "YOUR_CLUSTER_TOKEN";
+const client = new MilvusClient({address, token});
+
+const res = await client.query({
+    collection_name: "my_collection",
+    filter: "id <= 10",
+    output_fields: ["id", "tsz", "vec"],
+    limit: 2,
+    timezone: "America/Havana"
+});
+
+console.log(res.data);
 ```
 
 </TabItem>
@@ -1520,7 +2363,25 @@ results = client.query(
 <TabItem value='go'>
 
 ```go
-// go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
+    WithFilter("id <= 10").
+    WithOutputFields("id", "tsz", "vec").
+    WithLimit(2).
+    WithTimezone("America/Havana"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+fmt.Println("id: ", resultSet.GetColumn("id").FieldData().GetScalars())
+fmt.Println("tsz: ", resultSet.GetColumn("tsz").FieldData().GetScalars())
 ```
 
 </TabItem>
@@ -1528,7 +2389,50 @@ results = client.query(
 <TabItem value='bash'>
 
 ```bash
-# restful
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \\
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \\
+--header "Authorization: Bearer ${TOKEN}" \\
+--header "Content-Type: application/json" \\
+--header "Request-Timeout: 10" \\
+-d '{
+    "collectionName": "my_collection",
+    "filter": "id <= 10",
+    "limit": 2,
+    "outputFields": ["id", "tsz", "vec"],
+    "timezone": "America/Havana"
+}' 
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto request = milvus::QueryRequest()
+                   .WithCollectionName("my_collection")
+                   .WithFilter("id <= 10")
+                   .WithLimit(2)
+                   .AddOutputField("id")
+                   .AddOutputField("tsz")
+                   .AddOutputField("vec")
+                   .WithTimezone("America/Havana");
+
+milvus::QueryResponse response;
+status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
 ```
 
 </TabItem>

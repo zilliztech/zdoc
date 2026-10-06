@@ -106,7 +106,7 @@ $$
 
 在您的集合设置了一个数字字段（此处，以 `distance` 为例，单位为米）后，创建一个使用高斯衰减的 Decay Ranker：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -148,40 +148,38 @@ DecayRanker rerank = DecayRanker.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-import { FunctionType } from "@zilliz/milvus2-sdk-node";
-
-const rerank = {
-  name: "restaurant_distance_decay",
-  input_field_names: ["distance"],
-  function_type: FunctionType.RERANK,
-  params: {
-    reranker: "decay",
-    function: "gauss",
-    origin: 0,
-    offset: 300,
-    decay: 0.5,
-    scale: 2000,
-  },
-};
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
-// go
+rerank := entity.NewFunction().
+    WithName("restaurant_distance_decay").
+    WithType(entity.FunctionTypeRerank).
+    WithInputFields("distance").
+    WithParam("reranker", "decay").
+    WithParam("function", "gauss").
+    WithParam("origin", "0").
+    WithParam("offset", "300").
+    WithParam("decay", "0.5").
+    WithParam("scale", "2000")
 ```
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+use milvus::v2::prelude::*;
+
+let rerank = Function::new()
+    .name("restaurant_distance_decay")
+    .function_type(FunctionType::Rerank)
+    .input_fields(vec!["distance"])
+    .param("reranker", "decay")
+    .param("function", "gauss")
+    .param("origin", "0")
+    .param("offset", "300")
+    .param("decay", "0.5")
+    .param("scale", "2000");
 ```
 
 </TabItem>
@@ -199,13 +197,55 @@ rerank->SetDecay(0.5);
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { FunctionType } from "@zilliz/milvus2-sdk-node";
+
+const rerank = {
+  name: "restaurant_distance_decay",
+  input_field_names: ["distance"],
+  type: FunctionType.RERANK,
+  params: {
+    reranker: "decay",
+    function: "gauss",
+    origin: 0,
+    offset: 300,
+    decay: 0.5,
+    scale: 2000,
+  },
+};
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+rerank='{
+  "name": "restaurant_distance_decay",
+  "type": "Rerank",
+  "inputFieldNames": ["distance"],
+  "params": {
+    "reranker": "decay",
+    "function": "gauss",
+    "origin": 0,
+    "offset": 300,
+    "decay": 0.5,
+    "scale": 2000
+  }
+}' 
+```
+
+</TabItem>
 </Tabs>
 
 ### 在标准向量搜索中使用\{#apply-to-standard-vector-search}
 
 定义 Decay Ranker 后，您可以在搜索请求中通过将其传递给 `ranker` 参数来应用它：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -228,14 +268,18 @@ result = milvus_client.search(
 
 ```java
 import io.milvus.v2.common.ConsistencyLevel;
+import io.milvus.v2.service.vector.request.FunctionScore;
 import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
-import io.milvus.v2.service.vector.request.data.EmbeddedText;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 SearchReq searchReq = SearchReq.builder()
         .collectionName(COLLECTION_NAME)
-        .data(Collections.singletonList(new EmbeddedText("italian restaurants")))
-        .annsField("vector_field")
+        .data(Collections.singletonList(new FloatVec(new float[]{0.1f, 0.2f, 0.3f, 0.4f}))) // Replace with your query vector
+        .annsField("dense")
         .limit(10)
         .outputFields(Arrays.asList("name", "cuisine", "distance"))
         .functionScore(FunctionScore.builder()
@@ -248,34 +292,42 @@ SearchResp searchResp = client.search(searchReq);
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-const result = await milvusClient.search({
-  collection_name: collection_name,
-  data: [your_query_vector], // Replace with your query vector
-  anns_field: "dense",
-  limit: 10,
-  output_fields: ["name", "cuisine", "distance"],
-  rerank: rerank,
-  consistency_level: "Strong",
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
-// go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
+results, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "restaurant_db", 10,
+    []entity.Vector{entity.FloatVector{0.1, 0.2, 0.3, 0.4}}). // Replace with your query vector
+    WithANNSField("dense").
+    WithOutputFields("name", "cuisine", "distance").
+    WithFunctionReranker(rerank).
+    WithConsistencyLevel(entity.ClStrong))
+if err != nil {
+    fmt.Println(err.Error())
+}
 ```
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+use milvus::v2::prelude::*;
+
+let search_req = SearchRequest::builder()
+    .collection_name("restaurant_db")
+    .vector_field("dense")
+    .vectors(SearchVectors::Float(vec![vec![0.1f32, 0.2, 0.3, 0.4]]))
+    .limit(10)
+    .output_fields(vec!["name", "cuisine", "distance"])
+    .rerank(FunctionScore::new().add_function(rerank))
+    .consistency_level(ConsistencyLevel::Strong)
+    .build()?;
+
+let res = client.search(search_req).await?;
+println!("{:?}", res.results());
 ```
 
 </TabItem>
@@ -302,6 +354,54 @@ auto status = client->Search(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const result = await milvusClient.search({
+  collection_name: collection_name,
+  data: [your_query_vector], // Replace with your query vector
+  anns_field: "dense",
+  limit: 10,
+  output_fields: ["name", "cuisine", "distance"],
+  rerank: rerank,
+  consistency_level: "Strong",
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "collectionName": "restaurant_db",
+    "data": [[0.1, 0.2, 0.3, 0.4]],
+    "annsField": "dense",
+    "limit": 10,
+    "outputFields": ["name", "cuisine", "distance"],
+    "functionScore": {
+        "functions": [
+            {
+                "name": "restaurant_distance_decay",
+                "type": "Rerank",
+                "inputFieldNames": ["distance"],
+                "params": {"reranker": "decay", "function": "gauss", "origin": 0, "offset": 300, "decay": 0.5, "scale": 2000}
+            }
+        ]
+    },
+    "consistencyLevel": "Strong"
+}' 
 ```
 
 </TabItem>

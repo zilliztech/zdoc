@@ -54,7 +54,7 @@ import TabItem from '@theme/TabItem';
 
 要使用空格分词器配置分析器，请在 `analyzer_params` 中将 `tokenizer` 设置为 `whitespace`。 
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -74,20 +74,38 @@ analyzerParams.put("tokenizer", "whitespace");
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+analyzerParams := map[string]any{"tokenizer": "whitespace"}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let analyzer_params = serde_json::json!({"tokenizer": "whitespace"});
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"tokenizer", "whitespace"}
+};
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
 const analyzer_params = {
     "tokenizer": "whitespace"
 };
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-analyzerParams = map[string]any{"tokenizer": "whitespace"}
 ```
 
 </TabItem>
@@ -102,21 +120,11 @@ analyzerParams='{
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-nlohmann::json analyzer_params = {
-    {"tokenizer", "whitespace"}
-};
-```
-
-</TabItem>
 </Tabs>
 
 空格分词器可以与一个或多个过滤器结合使用。例如，以下代码定义了一个使用空格分词器和小写过滤器的分析器：  
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -138,6 +146,33 @@ analyzerParams.put("filter", Collections.singletonList("lowercase"));
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+analyzerParams = map[string]any{"tokenizer": "whitespace", "filter": []any{"lowercase"}}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let analyzer_params = serde_json::json!({"tokenizer": "whitespace", "filter": ["lowercase"]});
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"tokenizer", "whitespace"},
+    {"filter", {"lowercase"}}
+};
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -145,14 +180,6 @@ const analyzer_params = {
     "tokenizer": "whitespace",
     "filter": ["lowercase"]
 };
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-analyzerParams = map[string]any{"tokenizer": "whitespace", "filter": []any{"lowercase"}}
 ```
 
 </TabItem>
@@ -170,17 +197,6 @@ analyzerParams='{
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-nlohmann::json analyzer_params = {
-    {"tokenizer", "whitespace"},
-    {"filter", {"lowercase"}}
-};
-```
-
-</TabItem>
 </Tabs>
 
 定义 `analyzer_params` 后，您可以在定义 Collection Schema 时将其应用于 VARCHAR 字段。这使得 Zilliz Cloud 能够使用指定的分析器处理该字段中的文本，以实现高效的分词和过滤。更多信息，请参阅[使用示例](./analyzer-overview)。  
@@ -191,7 +207,7 @@ nlohmann::json analyzer_params = {
 
 ### Analyzer 配置\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -213,14 +229,6 @@ analyzerParams.put("filter", Collections.singletonList("lowercase"));
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// javascript
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -229,10 +237,10 @@ analyzerParams = map[string]any{"tokenizer": "whitespace", "filter": []any{"lowe
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+let analyzer_params = serde_json::json!({"tokenizer": "whitespace", "filter": ["lowercase"]});
 ```
 
 </TabItem>
@@ -247,11 +255,36 @@ nlohmann::json analyzer_params = {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+    "tokenizer": "whitespace",
+    "filter": ["lowercase"]
+};
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+analyzerParams='{
+  "tokenizer": "whitespace",
+  "filter": [
+    "lowercase"
+  ]
+}' 
+```
+
+</TabItem>
 </Tabs>
 
 ### 使用 run_analyzer 验证效果\{#verification-using-run_analyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -282,6 +315,8 @@ import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
 
+import java.util.*;
+
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .token("YOUR_CLUSTER_TOKEN")
@@ -300,14 +335,6 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// javascript
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -315,7 +342,7 @@ import (
     "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx := context.Background()
@@ -341,10 +368,22 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+use milvus::v2::prelude::*;
+
+let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN")).await?;
+
+let sample_text = "The Milvus vector database is built for scale!";
+client
+    .run_analyzer(
+        RunAnalyzerRequest::builder()
+            .texts([sample_text])
+            .analyzer_params(analyzer_params.clone())
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -352,6 +391,8 @@ if err != nil {
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
@@ -372,6 +413,45 @@ status = client->RunAnalyzer(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({
+    address: "YOUR_CLUSTER_ENDPOINT",
+    token: "YOUR_CLUSTER_TOKEN"
+});
+
+// Sample text to analyze
+const sample_text = "The Milvus vector database is built for scale!";
+
+// Run the whitespace analyzer with the defined configuration
+const result = await client.runAnalyzer({
+    text: sample_text,
+    analyzer_params: analyzer_params
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+export MILVUS_HOST="YOUR_CLUSTER_ENDPOINT"
+export SAMPLE_TEXT="The Milvus vector database is built for scale!"
+curl -X POST "http://${MILVUS_HOST}/v2/vectordb/common/run_analyzer" \
+  -H "Content-Type: application/json" \
+  -H "Request-Timeout: 10" \
+  -d '{
+    "text": ["'"${SAMPLE_TEXT}"'"],
+    "analyzerParams": "{\"tokenizer\":\"whitespace\",\"filter\":[\"lowercase\"]}"
+  }' 
 ```
 
 </TabItem>

@@ -165,7 +165,7 @@ document_score =
 
 - **稀疏向量字段（SPARSE_FLOAT_VECTOR）**：用于存储由 BM25 Function 自动生成的稀疏向量表示。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -223,10 +223,10 @@ import (
     "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/column"
-    "github.com/milvus-io/milvus/client/v2/entity"
-    "github.com/milvus-io/milvus/client/v2/index"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/column"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -237,7 +237,7 @@ token := "YOUR_CLUSTER_TOKEN"
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: milvusAddr,
-    APIKey: token
+    APIKey:  token,
 })
 if err != nil {
     fmt.Println(err.Error())
@@ -291,7 +291,7 @@ const schema = [
   },
 ];
 
-console.log(res.results)
+console.log(schema);
 ```
 
 </TabItem>
@@ -325,10 +325,9 @@ export schema='{
 ```
 
 </TabItem>
+</Tabs>
 
-<TabItem value='c++'>
-
-```c++
+```plaintext
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
@@ -345,8 +344,9 @@ schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR).WithMaxL
 schema->AddField(milvus::FieldSchema("sparse", milvus::DataType::SPARSE_FLOAT_VECTOR));
 ```
 
-</TabItem>
-</Tabs>
+```shell
+# Zilliz CLI
+```
 
 #### 定义 BM25 Function\{#define-bm25-function}
 
@@ -354,7 +354,7 @@ BM25 Function 用于将分词后的文本转换为稀疏向量，以支持基于
 
 请先定义 BM25 Function，然后将其添加到 Collection 的 Schema 中：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -414,7 +414,7 @@ const functions = [
       output_field_names: ['sparse'],
       params: {},
     },
-]；
+];
 ```
 
 </TabItem>
@@ -468,6 +468,14 @@ schema->AddFunction(function);
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+```
+
+</TabItem>
 </Tabs>
 
 #### 配置索引\{#configure-the-index}
@@ -476,7 +484,7 @@ schema->AddFunction(function);
 
 为简化这一过程，你可以将 index_type 设置为 **AUTOINDEX**。该选项会由 Zilliz Cloud 根据数据结构自动选择并配置最合适的索引类型。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -504,7 +512,7 @@ params.put("bm25_b", 0.75);
 List<IndexParam> indexes = new ArrayList<>();
 indexes.add(IndexParam.builder()
         .fieldName("sparse")
-        .indexType(IndexParam.IndexType.AUTOINDEX)
+        .indexType(IndexParam.IndexType.SPARSE_INVERTED_INDEX)
         .metricType(IndexParam.MetricType.BM25)
         .extraParams(params)
         .build());    
@@ -516,10 +524,10 @@ indexes.add(IndexParam.builder()
 
 ```go
 indexOption := milvusclient.NewCreateIndexOption("my_collection", "sparse",
-    index.NewAutoIndex(entity.MetricType(entity.BM25)))
-    .WithExtraParam("inverted_index_algo", "DAAT_MAXSCORE")
-    .WithExtraParam("bm25_k1", 1.2)
-    .WithExtraParam("bm25_b", 0.75)
+    index.NewSparseInvertedIndex(entity.BM25, 0.05))
+indexOption.WithExtraParam("inverted_index_algo", "DAAT_MAXSCORE")
+indexOption.WithExtraParam("bm25_k1", 1.2)
+indexOption.WithExtraParam("bm25_b", 0.75)
 ```
 
 </TabItem>
@@ -550,7 +558,7 @@ export indexParams='[
         {
             "fieldName": "sparse",
             "metricType": "BM25",
-            "indexType": "AUTOINDEX",
+            "indexType": "SPARSE_INVERTED_INDEX",
             "params":{
                "inverted_index_algo": "DAAT_MAXSCORE",
                "bm25_k1": 1.2,
@@ -561,24 +569,24 @@ export indexParams='[
 ```
 
 </TabItem>
+</Tabs>
 
-<TabItem value='c++'>
-
-```c++
-auto index_params = milvus::IndexDesc("sparse", "", milvus::IndxType::SPARSE_INVERTED_INDEX, milvus::MetricType::BM25);
+```plaintext
+auto index_params = milvus::IndexDesc("sparse", "", milvus::IndexType::SPARSE_INVERTED_INDEX, milvus::MetricType::BM25);
 index_params.AddExtraParam("inverted_index_algo", "DAAT_MAXSCORE");
 index_params.AddExtraParam("bm25_k1", "1.2");
 index_params.AddExtraParam("bm25_b", "0.75");
 ```
 
-</TabItem>
-</Tabs>
+```shell
+# Zilliz CLI
+```
 
 #### 创建 Collection\{#create-the-collection}
 
 现在，使用前面定义好的 schema 和索引参数来创建 Collection：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -587,6 +595,8 @@ client.create_collection(
     schema=schema, 
     index_params=index_params
 )
+
+client.load_collection('my_collection')
 ```
 
 </TabItem>
@@ -595,6 +605,7 @@ client.create_collection(
 
 ```java
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import io.milvus.v2.service.collection.request.LoadCollectionReq;
 
 CreateCollectionReq requestCreate = CreateCollectionReq.builder()
         .collectionName("my_collection")
@@ -602,6 +613,9 @@ CreateCollectionReq requestCreate = CreateCollectionReq.builder()
         .indexParams(indexes)
         .build();
 client.createCollection(requestCreate);
+client.loadCollection(LoadCollectionReq.builder()
+        .collectionName("my_collection")
+        .build());
 ```
 
 </TabItem>
@@ -616,6 +630,12 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
+
+_, err = client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -623,12 +643,14 @@ if err != nil {
 <TabItem value='javascript'>
 
 ```javascript
-await client.create_collection(
-    collection_name: 'my_collection', 
-    schema: schema, 
+await client.createCollection({
+    collection_name: 'my_collection',
+    schema: schema,
     index_params: index_params,
     functions: functions
-);
+});
+
+await client.loadCollection({ collection_name: "my_collection" });
 ```
 
 </TabItem>
@@ -649,6 +671,13 @@ curl --request POST \
     \"schema\": $schema,
     \"indexParams\": $indexParams
 }"
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/load" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--data '{
+  "collectionName": "my_collection"
+}'
 ```
 
 </TabItem>
@@ -656,13 +685,27 @@ curl --request POST \
 <TabItem value='c++'>
 
 ```c++
-auto status = client->CreateCollection(milvus::CreateCollectionRequest()
+status = client->CreateCollection(milvus::CreateCollectionRequest()
                                     .WithCollectionName("my_collection")
-                                    .WithCollectionSchema(schema))
-                                    .AddIndex(std::move(index_params));
+                                    .WithCollectionSchema(schema)
+                                    .AddIndex(std::move(index_params)));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
+
+status = client->LoadCollection(milvus::LoadCollectionRequest()
+                                    .WithCollectionName("my_collection"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
 ```
 
 </TabItem>
@@ -678,7 +721,7 @@ if (!status.IsOk()) {
 
 完成 Collection 和索引的配置后，即可开始写入文本数据。在这一过程中，你只需提供原始文本内容。此前定义的 BM25 Function 会在写入阶段自动为每条文本生成对应的稀疏向量表示。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -717,7 +760,17 @@ client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
-// go
+_, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("my_collection").
+    WithVarcharColumn("text", []string{
+        "information retrieval is a field of study.",
+        "information retrieval focuses on finding relevant information in large datasets.",
+        "data mining and information retrieval overlap in research.",
+    }),
+)
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -726,12 +779,13 @@ client.insert(InsertReq.builder()
 
 ```javascript
 await client.insert({
-collection_name: 'my_collection', 
-data: [
-    {'text': 'information retrieval is a field of study.'},
-    {'text': 'information retrieval focuses on finding relevant information in large datasets.'},
-    {'text': 'data mining and information retrieval overlap in research.'},
-]);
+    collection_name: 'my_collection',
+    data: [
+        {'text': 'information retrieval is a field of study.'},
+        {'text': 'information retrieval focuses on finding relevant information in large datasets.'},
+        {'text': 'data mining and information retrieval overlap in research.'},
+    ],
+});
 ```
 
 </TabItem>
@@ -776,6 +830,14 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+```
+
+</TabItem>
 </Tabs>
 
 ## 步骤 3：使用文本查询进行搜索\{#step-3-search-with-text-query}
@@ -784,11 +846,12 @@ if (!status.IsOk()) {
 
 Zilliz Cloud 会自动将查询文本转换为稀疏向量，并使用 BM25 算法对匹配结果进行排序，最终返回得分最高的 Top-K（`limit`） 条结果。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
 search_params = {
+    "metric_type": "BM25",  # Metric type must be BM25 for full text search
     'params': {'level': 10},
 }
 
@@ -816,6 +879,7 @@ import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.response.SearchResp;
 
 Map<String,Object> searchParams = new HashMap<>();
+searchParams.put("metric_type", "BM25");
 searchParams.put("level", 10);
 SearchResp searchResp = client.search(SearchReq.builder()
         .collectionName("my_collection")
@@ -833,6 +897,7 @@ SearchResp searchResp = client.search(SearchReq.builder()
 
 ```go
 annSearchParams := index.NewCustomAnnParam()
+annSearchParams.WithExtraParam("metric_type", "BM25")
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
     "my_collection", // collectionName
     3,               // limit
@@ -858,14 +923,14 @@ for _, resultSet := range resultSets {
 <TabItem value='javascript'>
 
 ```javascript
-await client.search(
-    collection_name: 'my_collection', 
+await client.search({
+    collection_name: 'my_collection',
     data: ['whats the focus of information retrieval?'],
     anns_field: 'sparse',
     output_fields: ['text'],
+    params: { metric_type: "BM25" },
     limit: 3,
-    params: {'level': 10},
-)
+});
 ```
 
 </TabItem>
@@ -889,6 +954,7 @@ curl --request POST \
         "text"
     ],
     "searchParams":{
+        "metric_type": "BM25",
         "params":{}
     }
 }'
@@ -904,6 +970,7 @@ auto request = milvus::SearchRequest()
                        .AddEmbeddedText("whats the focus of information retrieval?")
                        .WithLimit(3)
                        .WithAnnsField("sparse")
+                       .AddExtraParam("metric_type", "BM25")
                        .AddOutputField("text");
 
 milvus::SearchResponse response;
@@ -911,6 +978,14 @@ auto status = client->Search(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
 ```
 
 </TabItem>

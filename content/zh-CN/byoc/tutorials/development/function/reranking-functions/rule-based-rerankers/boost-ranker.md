@@ -147,7 +147,7 @@ Boost Ranker 不单纯依赖基于向量距离计算的语义相似度，而是�
 
 在将 Boost Ranker 作为搜索请求的重排器传递之前，您应该按照以下方式将 Boost Ranker 正确定义为重排函数：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -179,9 +179,9 @@ import io.milvus.v2.service.vector.request.ranker.BoostRanker;
 BoostRanker rerank = BoostRanker.builder()
         .name("boost")
         .filter("doctype == \"abstract\"")
-        .weight(5.0f)
+        .weight(0.5f)
         .randomScoreField("id")
-        .randomScoreSeed(126)
+        .randomScoreSeed(126L)
         .build();
 ```
 
@@ -190,7 +190,44 @@ BoostRanker rerank = BoostRanker.builder()
 <TabItem value='go'>
 
 ```go
-// go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
+rerank := entity.NewFunction().
+    WithName("boost").
+    WithType(entity.FunctionTypeRerank).
+    WithParam("reranker", "boost").
+    WithParam("filter", "doctype == 'abstract'").
+    WithParam("random_score", "{\"seed\": 126, \"field\": \"id\"}").
+    WithParam("weight", "0.5")
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let rerank = Function::new()
+    .name("boost")
+    .function_type(FunctionType::Rerank)
+    .param("reranker", "boost")
+    .param("filter", "doctype == 'abstract'")
+    .param("random_score", "{\"seed\": 126, \"field\": \"id\"}")
+    .param("weight", "0.5");
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto rerank = std::make_shared<milvus::BoostRerank>("boost");
+rerank->SetFilter("doctype == 'abstract'");
+rerank->SetWeight(0.5);
+// Note: SetRandomScoreField()/SetRandomScoreSeed() are not usable as of
+// milvus-sdk-cpp v3.0.3 - the SDK sends the seed as a string, which the
+// server rejects (a numeric seed is required).
 ```
 
 </TabItem>
@@ -222,18 +259,18 @@ const rerank = {
 
 ```bash
 # restful
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto rerank = std::make_shared<milvus::BoostRerank>("boost");
-rerank->SetFilter("doctype == 'abstract'");
-rerank->SetWeight(0.5);
-rerank->SetRandomScoreField("id");
-rerank->SetRandomScoreSeed(126);
+export RANKER='{
+    "name": "boost",
+    "type": "Rerank",
+    "inputFieldNames": [],
+    "outputFieldNames": [],
+    "params": {
+        "reranker": "boost",
+        "filter": "doctype == '\''abstract'\''",
+        "random_score": {"seed": 126, "field": "id"},
+        "weight": 0.5
+    }
+}' 
 ```
 
 </TabItem>
@@ -294,7 +331,7 @@ rerank->SetRandomScoreSeed(126);
 
 一旦Boost Ranker函数准备就绪，您就可以在搜索请求中引用它。以下示例假设您已经创建了一个包含以下字段的集合：**id**、**vector**和**doctype**。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -314,7 +351,7 @@ client.search(
     data=[[-0.619954382375778, 0.4479436794798608, -0.17493894838751745, -0.4248030059917294, -0.8648452746018911]],
     anns_field="vector",
     params={},
-    output_field=["doctype"],
+    output_fields=["doctype"],
     ranker=rerank
 )
 ```
@@ -326,25 +363,28 @@ client.search(
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.vector.request.FunctionScore;
 import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.response.SearchResp;
 import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
+
+import java.util.*;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .token("YOUR_CLUSTER_TOKEN")
         .build());
-        
-SearchResp searchReq = client.search(SearchReq.builder()
+
+SearchResp searchResp = client.search(SearchReq.builder()
         .collectionName("my_collection")
         .data(Collections.singletonList(new FloatVec(new float[]{-0.619954f, 0.447943f, -0.174938f, -0.424803f, -0.864845f})))
         .annsField("vector")
         .outputFields(Collections.singletonList("doctype"))
+        .topK(10)
         .functionScore(FunctionScore.builder()
                 .addFunction(rerank)
                 .build())
         .build());
-SearchResp searchResp = client.search(searchReq);
 ```
 
 </TabItem>
@@ -352,7 +392,85 @@ SearchResp searchResp = client.search(searchReq);
 <TabItem value='go'>
 
 ```go
-// go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+resultSet, err := client.Search(ctx, milvusclient.NewSearchOption("my_collection", 10, []entity.Vector{
+    entity.FloatVector{-0.619954382375778, 0.4479436794798608, -0.17493894838751745, -0.4248030059917294, -0.8648452746018911},
+}).
+    WithANNSField("vector").
+    WithOutputFields("doctype").
+    WithFunctionScore(entity.NewFunctionScore().AddFunction(rerank)))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+fmt.Println(resultSet)
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN")).await?;
+
+let response = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("my_collection")
+            .vector_field("vector")
+            .vectors(SearchVectors::Float(vec![vec![-0.619954382375778, 0.4479436794798608, -0.17493894838751745, -0.4248030059917294, -0.8648452746018911]]))
+            .output_fields(["doctype"])
+            .limit(10)
+            .rerank(FunctionScore::new().add_function(rerank.clone()))
+            .build()?,
+    )
+    .await?;
+println!("{:?}", response);
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+#include <vector>
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+auto function_score = std::make_shared<milvus::FunctionScore>();
+function_score->AddFunction(rerank);
+
+std::vector<float> query_vector = {-0.619954382375778, 0.4479436794798608, -0.17493894838751745, -0.4248030059917294, -0.8648452746018911};
+auto request = milvus::SearchRequest()
+                   .WithCollectionName("my_collection")
+                   .WithAnnsField("vector")
+                   .WithLimit(10)
+                   .WithRerank(function_score)
+                   .AddOutputField("doctype")
+                   .AddFloatVector(query_vector);
+
+milvus::SearchResponse response;
+status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -376,6 +494,7 @@ const searchResults = await client.search({
   data: [-0.619954382375778, 0.4479436794798608, -0.17493894838751745, -0.4248030059917294, -0.8648452746018911],
   anns_field: 'vector',
   output_fields: ['doctype'],
+  limit: 10,
   rerank: rerank,
 });
 
@@ -388,39 +507,35 @@ console.log('Search results:', searchResults);
 
 ```bash
 # restful
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-auto status = client->Connect(connect_param);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-auto function_score = std::make_shared<milvus::FunctionScore>();
-function_score->AddFunction(rerank);
-
-std::vector<float> query_vector = {-0.619954382375778, 0.4479436794798608, -0.17493894838751745, -0.4248030059917294, -0.8648452746018911};
-auto request = milvus::SearchRequest()
-                   .WithCollectionName("my_collection")
-                   .WithAnnsField("vector")
-                   .WithRerank(function_score)
-                   .AddOutputField("doctype")
-                   .AddFloatVector(query_vector);
-
-milvus::SearchResponse response;
-status = client->Search(request, response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
+export MILVUS_HOST="YOUR_CLUSTER_ENDPOINT"
+export MILVUS_TOKEN="YOUR_CLUSTER_TOKEN"
+curl -X POST "http://${MILVUS_HOST}/v2/vectordb/entities/search" \
+  -H "Content-Type: application/json" \
+  -H "Request-Timeout: 10" \
+  -H "Authorization: Bearer ${MILVUS_TOKEN}" \
+  -d '{
+    "collectionName": "my_collection",
+    "data": [[-0.619954382375778, 0.4479436794798608, -0.17493894838751745, -0.4248030059917294, -0.8648452746018911]],
+    "annsField": "vector",
+    "limit": 10,
+    "outputFields": ["doctype"],
+    "functionScore": {
+        "functions": [
+            {
+                "name": "boost",
+                "type": "Rerank",
+                "inputFieldNames": [],
+                "outputFieldNames": [],
+                "params": {
+                    "reranker": "boost",
+                    "filter": "doctype == '\''abstract'\''",
+                    "random_score": {"seed": 126, "field": "id"},
+                    "weight": 0.5
+                }
+            }
+        ]
+    }
+  }' 
 ```
 
 </TabItem>
@@ -432,7 +547,7 @@ if (!status.IsOk()) {
 
 以下示例展示了如何通过应用介于 **0.8** 和 **1.2** 之间的权重来修改所有已识别实体的分数。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -481,7 +596,7 @@ client.search(
     data=[[-0.619954382375778, 0.4479436794798608, -0.17493894838751745, -0.4248030059917294, -0.8648452746018911]],
     anns_field="vector",
     params={},
-    output_field=["doctype"],
+    output_fields=["doctype"],
     ranker=ranker
 )
 ```
@@ -493,39 +608,46 @@ client.search(
 ```java
 import io.milvus.common.clientenum.FunctionType;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import io.milvus.v2.service.vector.request.FunctionScore;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
+
+import java.util.*;
 
 CreateCollectionReq.Function fixWeightRanker = CreateCollectionReq.Function.builder()
-                 .functionType(FunctionType.RERANK)
-                 .name("boost")
-                 .param("reranker", "boost")
-                 .param("weight", "0.8")
-                 .build();
-                 
+        .functionType(FunctionType.RERANK)
+        .name("boost")
+        .param("reranker", "boost")
+        .param("weight", "0.8")
+        .build();
+
 CreateCollectionReq.Function randomWeightRanker = CreateCollectionReq.Function.builder()
-                 .functionType(FunctionType.RERANK)
-                 .name("boost")
-                 .param("reranker", "boost")
-                 .param("weight", "0.4")
-                 .param("random_score", "{\"seed\": 126}")
-                 .build();
+        .functionType(FunctionType.RERANK)
+        .name("boost")
+        .param("reranker", "boost")
+        .param("weight", "0.4")
+        .param("random_score", "{\"seed\": 126}")
+        .build();
 
 Map<String, String> params = new HashMap<>();
-params.put("boost_mode","Multiply");
-params.put("function_mode","Sum");     
-FunctionScore ranker = FunctionScore.builder()
-                 .addFunction(fixWeightRanker)
-                 .addFunction(randomWeightRanker)
-                 .params(params)
-                 .build()
+params.put("boost_mode", "Multiply");
+params.put("function_mode", "Sum");
 
-SearchResp searchReq = client.search(SearchReq.builder()
-                 .collectionName("my_collection")
-                 .data(Collections.singletonList(new FloatVec(new float[]{-0.619954f, 0.447943f, -0.174938f, -0.424803f, -0.864845f})))
-                 .annsField("vector")
-                 .outputFields(Collections.singletonList("doctype"))
-                 .addFunction(ranker)
-                 .build());
-SearchResp searchResp = client.search(searchReq);
+FunctionScore ranker = FunctionScore.builder()
+        .addFunction(fixWeightRanker)
+        .addFunction(randomWeightRanker)
+        .params(params)
+        .build();
+
+SearchResp searchResp = client.search(SearchReq.builder()
+        .collectionName("my_collection")
+        .data(Collections.singletonList(new FloatVec(new float[]{-0.619954382375778f, 0.4479436794798608f, -0.17493894838751745f, -0.4248030059917294f, -0.8648452746018911f})))
+        .annsField("vector")
+        .outputFields(Collections.singletonList("doctype"))
+        .topK(10)
+        .functionScore(ranker)
+        .build());
 ```
 
 </TabItem>
@@ -533,7 +655,125 @@ SearchResp searchResp = client.search(searchReq);
 <TabItem value='go'>
 
 ```go
-// go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+fixWeightRanker := entity.NewFunction().
+    WithName("boost").
+    WithType(entity.FunctionTypeRerank).
+    WithParam("reranker", "boost").
+    WithParam("weight", "0.8")
+
+randomWeightRanker := entity.NewFunction().
+    WithName("boost").
+    WithType(entity.FunctionTypeRerank).
+    WithParam("reranker", "boost").
+    WithParam("random_score", "{\"seed\": 126}").
+    WithParam("weight", "0.4")
+
+ranker := entity.NewFunctionScore().
+    AddFunction(fixWeightRanker).
+    AddFunction(randomWeightRanker).
+    WithParam("boost_mode", "Multiply").
+    WithParam("function_mode", "Sum")
+
+resultSet, err := client.Search(ctx, milvusclient.NewSearchOption("my_collection", 10, []entity.Vector{entity.FloatVector{-0.619954382375778, 0.4479436794798608, -0.17493894838751745, -0.4248030059917294, -0.8648452746018911}}).
+    WithANNSField("vector").
+    WithOutputFields("doctype").
+    WithFunctionScore(ranker))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+fmt.Println(resultSet)
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+use std::collections::HashMap;
+
+let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN")).await?;
+
+let fix_weight_ranker = Function::new()
+    .name("boost")
+    .function_type(FunctionType::Rerank)
+    .param("reranker", "boost")
+    .param("weight", "0.8");
+
+let random_weight_ranker = Function::new()
+    .name("boost")
+    .function_type(FunctionType::Rerank)
+    .param("reranker", "boost")
+    .param("random_score", "{\"seed\": 126}")
+    .param("weight", "0.4");
+
+let function_score = FunctionScore::new()
+    .add_function(fix_weight_ranker)
+    .add_function(random_weight_ranker)
+    .params(HashMap::from([
+        ("boost_mode".to_string(), "Multiply".into()),
+        ("function_mode".to_string(), "Sum".into()),
+    ]));
+
+let response = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("my_collection")
+            .vector_field("vector")
+            .vectors(SearchVectors::Float(vec![vec![-0.619954382375778, 0.4479436794798608, -0.17493894838751745, -0.4248030059917294, -0.8648452746018911]]))
+            .output_fields(["doctype"])
+            .limit(10)
+            .rerank(function_score)
+            .build()?,
+    )
+    .await?;
+println!("{:?}", response);
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include <vector>
+
+auto fix_weight_ranker = std::make_shared<milvus::BoostRerank>("boost");
+fix_weight_ranker->SetWeight(0.8);
+
+auto random_weight_ranker = std::make_shared<milvus::BoostRerank>("boost");
+random_weight_ranker->SetWeight(0.4);
+// Note: SetRandomScoreSeed() is not usable as of milvus-sdk-cpp v3.0.3 —
+// the SDK sends the seed as a string, which the server rejects.
+
+auto function_score = std::make_shared<milvus::FunctionScore>();
+function_score->AddFunction(fix_weight_ranker);
+function_score->AddFunction(random_weight_ranker);
+
+std::vector<float> query_vector = {-0.619954382375778, 0.4479436794798608, -0.17493894838751745, -0.4248030059917294, -0.8648452746018911};
+auto request = milvus::SearchRequest()
+                   .WithCollectionName("my_collection")
+                   .WithAnnsField("vector")
+                   .WithLimit(10)
+                   .WithRerank(function_score)
+                   .AddOutputField("doctype")
+                   .AddFloatVector(query_vector);
+
+milvus::SearchResponse response;
+auto status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -579,8 +819,9 @@ await client.search({
   data: [[-0.619954382375778, 0.4479436794798608, -0.17493894838751745, -0.4248030059917294, -0.8648452746018911]],
   anns_field: "vector",
   params: {},
-  output_field: ["doctype"],
-  ranker: ranker
+  output_fields: ["doctype"],
+  limit: 10,
+  rerank: ranker
 });
 ```
 
@@ -590,38 +831,48 @@ await client.search({
 
 ```bash
 # restful
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto fix_weight_ranker = std::make_shared<milvus::BoostRerank>("boost");
-fix_weight_ranker->SetWeight(0.8);
-
-auto random_weight_ranker = std::make_shared<milvus::BoostRerank>("boost");
-random_weight_ranker->SetWeight(0.4);
-random_weight_ranker->SetRandomScoreSeed(126);
-
-auto function_score = std::make_shared<milvus::FunctionScore>();
-function_score->AddFunction(fix_weight_ranker);
-function_score->AddFunction(random_weight_ranker);
-
-std::vector<float> query_vector = {-0.619954382375778, 0.4479436794798608, -0.17493894838751745, -0.4248030059917294, -0.8648452746018911};
-auto request = milvus::SearchRequest()
-                   .WithCollectionName("my_collection")
-                   .WithAnnsField("vector")
-                   .WithLimit(10)
-                   .WithRerank(function_score)
-                   .AddOutputField("doctype")
-                   .AddFloatVector(query_vector);
-
-milvus::SearchResponse response;
-auto status = client->Search(request, response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
+export MILVUS_HOST="YOUR_CLUSTER_ENDPOINT"
+export MILVUS_TOKEN="YOUR_CLUSTER_TOKEN"
+curl -X POST "http://${MILVUS_HOST}/v2/vectordb/entities/search" \
+  -H "Content-Type: application/json" \
+  -H "Request-Timeout: 10" \
+  -H "Authorization: Bearer ${MILVUS_TOKEN}" \
+  -d '{
+    "collectionName": "my_collection",
+    "data": [[-0.619954382375778, 0.4479436794798608, -0.17493894838751745, -0.4248030059917294, -0.8648452746018911]],
+    "annsField": "vector",
+    "limit": 10,
+    "outputFields": ["doctype"],
+    "functionScore": {
+        "functions": [
+            {
+                "name": "boost",
+                "type": "Rerank",
+                "inputFieldNames": [],
+                "outputFieldNames": [],
+                "params": {
+                    "reranker": "boost",
+                    "weight": 0.8
+                }
+            },
+            {
+                "name": "boost",
+                "type": "Rerank",
+                "inputFieldNames": [],
+                "outputFieldNames": [],
+                "params": {
+                    "reranker": "boost",
+                    "random_score": {"seed": 126},
+                    "weight": 0.4
+                }
+            }
+        ],
+        "params": {
+            "boost_mode": "Multiply",
+            "function_mode": "Sum"
+        }
+    }
+  }' 
 ```
 
 </TabItem>

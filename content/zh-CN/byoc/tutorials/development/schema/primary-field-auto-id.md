@@ -73,7 +73,7 @@ Zilliz Cloud 支持两种主键分配方式：
 
 在主键定义中启用 `auto_id=True`，系统会自动生成 ID。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -110,6 +110,7 @@ client.create_collection(collection_name="demo_autoid", schema=schema)
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.common.DataType;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
 import io.milvus.v2.service.collection.request.DropCollectionReq;
@@ -117,7 +118,7 @@ import io.milvus.v2.service.collection.request.DropCollectionReq;
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .build());
-        
+
 CreateCollectionReq.CollectionSchema collectionSchema = CreateCollectionReq.CollectionSchema.builder()
         .build();
 collectionSchema.addField(AddFieldReq.builder()
@@ -146,6 +147,146 @@ CreateCollectionReq requestCreate = CreateCollectionReq.builder()
         .collectionSchema(collectionSchema)
         .build();
 client.createCollection(requestCreate);
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+import (
+    "context"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+        Address: "YOUR_CLUSTER_ENDPOINT",
+        APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+        log.Fatal("failed to connect:", err)
+}
+defer cli.Close(ctx)
+
+schema := &entity.Schema{
+        CollectionName: "demo_autoid",
+        Fields: []*entity.Field{
+                entity.NewField().WithName("id").WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true).WithIsAutoID(true),
+                entity.NewField().WithName("embedding").WithDataType(entity.FieldTypeFloatVector).WithDim(4),
+                entity.NewField().WithName("category").WithDataType(entity.FieldTypeVarChar).WithMaxLength(1000),
+        },
+}
+
+cli.DropCollection(ctx, milvusclient.NewDropCollectionOption("demo_autoid"))
+
+err = cli.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("demo_autoid", schema))
+if err != nil {
+        log.Fatal("failed to create collection:", err)
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+// rust
+use milvus::v2::prelude::*;
+
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+)
+.await?;
+
+let schema = CollectionSchema::new()
+    .add_field(
+        FieldSchema::new()
+            .name("id")
+            .data_type(DataType::Int64)
+            .primary_key(true)
+            .auto_id(true),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("embedding")
+            .data_type(DataType::FloatVector)
+            .dimension(4),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("category")
+            .data_type(DataType::VarChar)
+            .max_length(1000),
+    );
+
+if client
+    .has_collection(
+        HasCollectionRequest::builder()
+            .collection_name("demo_autoid")
+            .build()?,
+    )
+    .await?
+    .exists()
+{
+    client
+        .drop_collection(
+            DropCollectionRequest::builder()
+                .collection_name("demo_autoid")
+                .build()?,
+        )
+        .await?;
+}
+
+client
+    .create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name("demo_autoid")
+            .schema(schema)
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->AddField({"id", milvus::DataType::INT64, "Primary field", true, true});
+schema->AddField(milvus::FieldSchema("embedding", milvus::DataType::FLOAT_VECTOR, "Vector field").WithDimension(4));
+schema->AddField(milvus::FieldSchema("category", milvus::DataType::VARCHAR, "Scalar field").WithMaxLength(1000));
+
+status = client->DropCollection(milvus::DropCollectionRequest().WithCollectionName("demo_autoid"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                    .WithCollectionName("demo_autoid")
+                                    .WithCollectionSchema(schema));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -187,14 +328,6 @@ await client.createCollection({
   collection_name: "demo_autoid",
   fields: schema,
 });
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-// go
 ```
 
 </TabItem>
@@ -247,7 +380,7 @@ curl -X POST 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/create' \
 
 **重要提示：** 插入数据时不要包含主键列，系统会自动生成 ID。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -271,6 +404,8 @@ print("Generated IDs:", res.get("ids"))
 import com.google.gson.*;
 import io.milvus.v2.service.vector.request.InsertReq;
 import io.milvus.v2.service.vector.response.InsertResp;
+import java.util.ArrayList;
+import java.util.List;
 
 List<JsonObject> rows = new ArrayList<>();
 Gson gson = new Gson();
@@ -293,6 +428,69 @@ System.out.printf("Generated IDs: %s\n", insertR.getPrimaryKeys());
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+// go
+data := []any{
+        map[string]any{"embedding": []float32{0.1, 0.2, 0.3, 0.4}, "category": "book"},
+        map[string]any{"embedding": []float32{0.2, 0.3, 0.4, 0.5}, "category": "toy"},
+}
+
+result, err := cli.Insert(ctx, milvusclient.NewRowBasedInsertOption("demo_autoid", data...))
+if err != nil {
+        log.Fatal("failed to insert:", err)
+}
+for i := 0; i < result.IDs.Len(); i++ {
+        id, _ := result.IDs.GetAsInt64(i)
+        fmt.Println("Generated ID:", id)
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+// rust
+use milvus::v2::prelude::*;
+
+client
+    .insert(
+        InsertRequest::builder()
+            .collection_name("demo_autoid")
+            .rows([
+                serde_json::json!({"embedding": [0.1, 0.2, 0.3, 0.4], "category": "book"}),
+                serde_json::json!({"embedding": [0.2, 0.3, 0.4, 0.5], "category": "toy"}),
+            ])
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+
+milvus::EntityRows data = {{{"embedding", std::vector<float>{0.1, 0.2, 0.3, 0.4}}, {"category", "book"}},
+                           {{"embedding", std::vector<float>{0.2, 0.3, 0.4, 0.5}}, {"category", "toy"}}};
+
+milvus::InsertResponse response;
+auto status = client->Insert(milvus::InsertRequest()
+                                .WithCollectionName("demo_autoid")
+                                .WithRowsData(std::move(data))
+                                , response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+auto ids = response.Results().IdArray().IntIDArray();
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -307,14 +505,6 @@ const res = await client.insert({
 });
 
 console.log(res);
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-// go
 ```
 
 </TabItem>
@@ -358,7 +548,7 @@ curl -X POST 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/insert' \
 
 ### 步骤 1：创建未启用 AutoID 的 Collection\{#step-1-create-a-collection-without-autoID}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -396,6 +586,7 @@ client.create_collection(collection_name="demo_manual_ids", schema=schema)
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.common.DataType;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
 import io.milvus.v2.service.collection.request.DropCollectionReq;
@@ -403,7 +594,7 @@ import io.milvus.v2.service.collection.request.DropCollectionReq;
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .build());
-        
+
 CreateCollectionReq.CollectionSchema collectionSchema = CreateCollectionReq.CollectionSchema.builder()
         .build();
 collectionSchema.addField(AddFieldReq.builder()
@@ -437,6 +628,146 @@ client.createCollection(requestCreate);
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+// go
+import (
+    "context"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+        Address: "YOUR_CLUSTER_ENDPOINT",
+        APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+        log.Fatal("failed to connect:", err)
+}
+defer cli.Close(ctx)
+
+schema := &entity.Schema{
+        CollectionName: "demo_manual_ids",
+        Fields: []*entity.Field{
+                entity.NewField().WithName("product_id").WithDataType(entity.FieldTypeVarChar).WithIsPrimaryKey(true).WithMaxLength(100),
+                entity.NewField().WithName("embedding").WithDataType(entity.FieldTypeFloatVector).WithDim(4),
+                entity.NewField().WithName("category").WithDataType(entity.FieldTypeVarChar).WithMaxLength(1000),
+        },
+}
+
+cli.DropCollection(ctx, milvusclient.NewDropCollectionOption("demo_manual_ids"))
+
+err = cli.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("demo_manual_ids", schema))
+if err != nil {
+        log.Fatal("failed to create collection:", err)
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+// rust
+use milvus::v2::prelude::*;
+
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+)
+.await?;
+
+let schema = CollectionSchema::new()
+    .add_field(
+        FieldSchema::new()
+            .name("product_id")
+            .data_type(DataType::VarChar)
+            .primary_key(true)
+            .max_length(100),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("embedding")
+            .data_type(DataType::FloatVector)
+            .dimension(4),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("category")
+            .data_type(DataType::VarChar)
+            .max_length(1000),
+    );
+
+if client
+    .has_collection(
+        HasCollectionRequest::builder()
+            .collection_name("demo_manual_ids")
+            .build()?,
+    )
+    .await?
+    .exists()
+{
+    client
+        .drop_collection(
+            DropCollectionRequest::builder()
+                .collection_name("demo_manual_ids")
+                .build()?,
+        )
+        .await?;
+}
+
+client
+    .create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name("demo_manual_ids")
+            .schema(schema)
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->AddField(milvus::FieldSchema("product_id", milvus::DataType::VARCHAR, "", true, false).WithMaxLength(100));
+schema->AddField(milvus::FieldSchema("embedding", milvus::DataType::FLOAT_VECTOR).WithDimension(4));
+schema->AddField(milvus::FieldSchema("category", milvus::DataType::VARCHAR).WithMaxLength(1000));
+
+status = client->DropCollection(milvus::DropCollectionRequest().WithCollectionName("demo_manual_ids"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                    .WithCollectionName("demo_manual_ids")
+                                    .WithCollectionSchema(schema));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -444,41 +775,32 @@ import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
 const client = new MilvusClient({
   address: "YOUR_CLUSTER_ENDPOINT",
-  username: "username",
-  password: "Aa12345!!",
 });
 
 const schema = [
   {
     name: "product_id",
-    data_type: DataType.VARCHAR,
+    data_type: DataType.VarChar,
     is_primary_key: true,
     autoID: false,
+    max_length: 100,
   },
   {
     name: "embedding",
-    data_type: DataType.FLOAT_VECTOR,
+    data_type: DataType.FloatVector,
     dim: 4,
   },
   {
     name: "category",
-    data_type: DataType.VARCHAR,
+    data_type: DataType.VarChar,
     max_length: 1000,
   },
 ];
 
-const res = await client.createCollection({
-  collection_name: "demo_autoid",
-  schema: schema,
+await client.createCollection({
+  collection_name: "demo_manual_ids",
+  fields: schema,
 });
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-// go
 ```
 
 </TabItem>
@@ -533,7 +855,7 @@ curl -X POST 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/create' \
 
 插入数据时必须包含主键。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -558,6 +880,8 @@ print("Generated IDs:", res.get("ids"))
 import com.google.gson.*;
 import io.milvus.v2.service.vector.request.InsertReq;
 import io.milvus.v2.service.vector.response.InsertResp;
+import java.util.ArrayList;
+import java.util.List;
 
 List<JsonObject> rows = new ArrayList<>();
 Gson gson = new Gson();
@@ -582,6 +906,69 @@ System.out.printf("Generated IDs: %s\n", insertR.getPrimaryKeys());
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+// go
+data := []any{
+        map[string]any{"product_id": "PROD-001", "embedding": []float32{0.1, 0.2, 0.3, 0.4}, "category": "book"},
+        map[string]any{"product_id": "PROD-002", "embedding": []float32{0.2, 0.3, 0.4, 0.5}, "category": "toy"},
+}
+
+result, err := cli.Insert(ctx, milvusclient.NewRowBasedInsertOption("demo_manual_ids", data...))
+if err != nil {
+        log.Fatal("failed to insert:", err)
+}
+for i := 0; i < result.IDs.Len(); i++ {
+        id, _ := result.IDs.GetAsString(i)
+        fmt.Println("Inserted ID:", id)
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+// rust
+use milvus::v2::prelude::*;
+
+client
+    .insert(
+        InsertRequest::builder()
+            .collection_name("demo_manual_ids")
+            .rows([
+                serde_json::json!({"product_id": "PROD-001", "embedding": [0.1, 0.2, 0.3, 0.4], "category": "book"}),
+                serde_json::json!({"product_id": "PROD-002", "embedding": [0.2, 0.3, 0.4, 0.5], "category": "toy"}),
+            ])
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+
+milvus::EntityRows data = {{{"product_id", "PROD-001"}, {"embedding", std::vector<float>{0.1, 0.2, 0.3, 0.4}}, {"category", "book"}},
+                           {{"product_id", "PROD-002"}, {"embedding", std::vector<float>{0.2, 0.3, 0.4, 0.5}}, {"category", "toy"}}};
+
+milvus::InsertResponse response;
+auto status = client->Insert(milvus::InsertRequest()
+                                .WithCollectionName("demo_manual_ids")
+                                .WithRowsData(std::move(data))
+                                , response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+auto ids = response.Results().IdArray().StrIDArray();
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -591,19 +978,11 @@ const data = [
 ];
 
 const insert = await client.insert({
-    collection_name: "demo_autoid",
+    collection_name: "demo_manual_ids",
     fields_data: data,
 });
 
 console.log(insert);
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-// go
 ```
 
 </TabItem>

@@ -49,7 +49,7 @@ Partition Key 是一种搜索优化解决方案，通过作为 Collection 的 Na
 
 您需要在 Collection Schema 中添加待充当 Partition Key 的字段时，将其指定为 Partition Key。具体操作可以参考如下代码。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -132,10 +132,8 @@ import (
     "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/column"
-    "github.com/milvus-io/milvus/client/v2/entity"
-    "github.com/milvus-io/milvus/client/v2/index"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -144,6 +142,7 @@ defer cancel()
 milvusAddr := "YOUR_CLUSTER_ENDPOINT"
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: milvusAddr,
+    APIKey:  "YOUR_CLUSTER_TOKEN",
 })
 if err != nil {
     fmt.Println(err.Error())
@@ -170,6 +169,61 @@ schema.WithField(entity.NewField().
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let config = ConnectConfig::new()
+    .uri("YOUR_CLUSTER_ENDPOINT")
+    .token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
+
+let schema = CollectionSchema::new()
+    .add_field(
+        FieldSchema::new()
+            .name("id")
+            .data_type(DataType::Int64)
+            .primary_key(true),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("vector")
+            .data_type(DataType::FloatVector)
+            .dimension(5),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("my_varchar")
+            .data_type(DataType::VarChar)
+            .max_length(512)
+            .partition_key(true), // Add the partition key
+    );
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->AddField({"id", milvus::DataType::INT64, "", true, false});
+schema->AddField(milvus::FieldSchema("vector", milvus::DataType::FLOAT_VECTOR).WithDimension(5));
+schema->AddField(milvus::FieldSchema("my_varchar", milvus::DataType::VARCHAR).WithPartitionKey(true).WithMaxLength(512));
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -179,8 +233,7 @@ const address = "YOUR_CLUSTER_ENDPOINT";
 const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
 
-// 3. Create a collection in customized setup mode
-// 3.1 Define fields
+// Define fields
 const fields = [
   {
     name: 'id',
@@ -208,7 +261,7 @@ const fields = [
 
 ```bash
 export schema='{
-        "autoId": true,
+        "autoId": false,
         "enabledDynamicField": false,
         "fields": [
             {
@@ -237,23 +290,10 @@ export schema='{
 
 </TabItem>
 
-<TabItem value='c++'>
+<TabItem value='shell'>
 
-```c++
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-auto status = client->Connect(connect_param);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
-schema->AddField({"id", milvus::DataType::INT64, "", true, true});
-schema->AddField(milvus::FieldSchema("vector", milvus::DataType::FLOAT_VECTOR).WithDimension(5));
-schema->AddField(milvus::FieldSchema("my_varchar", milvus::DataType::VARCHAR).WithPartitionKey(true).WithMaxLength(512));
+```shell
+# Zilliz CLI
 ```
 
 </TabItem>
@@ -267,7 +307,7 @@ schema->AddField(milvus::FieldSchema("my_varchar", milvus::DataType::VARCHAR).Wi
 
 如果您需要，也可以参考如下代码在创建 Collection 时设置 Partition 的数量。注意，此设置仅在您参与上一步中的示例指定了 Partition Key 时有效。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -310,12 +350,41 @@ if err != nil {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+client.create_collection(
+    CreateCollectionRequest::builder()
+        .collection_name("my_collection")
+        .schema(schema)
+        .num_partitions(128)
+        .build()?,
+)
+.await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                      .WithCollectionName("my_collection")
+                                      .WithCollectionSchema(schema)
+                                      .WithNumPartitions(128));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
-await client.create_collection({
+await client.createCollection({
     collection_name: "my_collection",
-    schema: schema,
+    fields: fields,
     num_partitions: 128
 })
 ```
@@ -346,16 +415,10 @@ curl --request POST \
 
 </TabItem>
 
-<TabItem value='c++'>
+<TabItem value='shell'>
 
-```c++
-auto status = client->CreateCollection(milvus::CreateCollectionRequest()
-                                          .WithCollectionName("my_collection")
-                                          .WithCollectionSchema(schema)
-                                          .WithNumPartitions(128));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
+```shell
+# Zilliz CLI
 ```
 
 </TabItem>
@@ -369,7 +432,7 @@ if (!status.IsOk()) {
 
 如下代码演示了 Search 请求中需要携带的两种过滤条件表达式：一种是基于一个 Partition Key 值进行过滤，另一个是基于多个 Partition Key 值进行过滤。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -389,7 +452,7 @@ filter='partition_key in ["x", "y", "z"] && <other conditions>'
 String filter = "partition_key == 'x' && <other conditions>";
 
 // Filter based on multiple partition key values
-String filter = "partition_key in ['x', 'y', 'z'] && <other conditions>";
+filter = "partition_key in ['x', 'y', 'z'] && <other conditions>";
 ```
 
 </TabItem>
@@ -398,10 +461,34 @@ String filter = "partition_key in ['x', 'y', 'z'] && <other conditions>";
 
 ```go
 // Filter based on a single partition key value, or
-filter = "partition_key == 'x' && <other conditions>"
+filter := "partition_key == 'x' && <other conditions>"
 
 // Filter based on multiple partition key values
 filter = "partition_key in ['x', 'y', 'z'] && <other conditions>"
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+// Filter based on a single partition key value, or
+let filter = "partition_key == 'x' && <other conditions>";
+
+// Filter based on multiple partition key values
+let filter = "partition_key in ['x', 'y', 'z'] && <other conditions>";
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// Filter based on a single partition key value, or
+std::string filter = R"(partition_key == 'x' && <other conditions>)";
+
+// Filter based on multiple partition key values
+filter = R"(partition_key in ['x', 'y', 'z'] && <other conditions>)";
 ```
 
 </TabItem>
@@ -410,10 +497,10 @@ filter = "partition_key in ['x', 'y', 'z'] && <other conditions>"
 
 ```javascript
 // Filter based on a single partition key value, or
-const filter = 'partition_key == "x" && <other conditions>'
+let filter = 'partition_key == "x" && <other conditions>'
 
 // Filter based on multiple partition key values
-const filter = 'partition_key in ["x", "y", "z"] && <other conditions>'
+filter = 'partition_key in ["x", "y", "z"] && <other conditions>' 
 ```
 
 </TabItem>
@@ -430,11 +517,10 @@ export filter='partition_key in ["x", "y", "z"] && <other conditions>'
 
 </TabItem>
 
-<TabItem value='c++'>
+<TabItem value='shell'>
 
-```c++
-const auto filter = R"(partition_key == 'x' && <other conditions>)";
-const auto filter = R"(partition_key in ['x', 'y', 'z'] && <other conditions>)";
+```shell
+# Zilliz CLI
 ```
 
 </TabItem>
@@ -454,7 +540,7 @@ const auto filter = R"(partition_key in ['x', 'y', 'z'] && <other conditions>)";
 
 如果您需要使用  Partition Key Isolation 功能，可以参考如下代码在创建 Collection 时手动开启该功能。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -472,6 +558,8 @@ client.create_collection(
 
 ```java
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import java.util.HashMap;
+import java.util.Map;
 
 Map<String, String> properties = new HashMap<>();
 properties.put("partitionkey.isolation", "true");
@@ -500,11 +588,46 @@ if err != nil {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use std::collections::HashMap;
+
+client.create_collection(
+    CreateCollectionRequest::builder()
+        .collection_name("my_collection")
+        .schema(schema)
+        .properties(HashMap::from([(
+            "partitionkey.isolation".to_string(),
+            "true".to_string(),
+        )]))
+        .build()?,
+)
+.await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                      .WithCollectionName("my_collection")
+                                      .WithCollectionSchema(schema)
+                                      .AddProperty("partitionkey.isolation", "true"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
-res = await client.alterCollection({
+await client.createCollection({
     collection_name: "my_collection",
+    fields: fields,
     properties: {
         "partitionkey.isolation": true
     }
@@ -537,16 +660,10 @@ curl --request POST \
 
 </TabItem>
 
-<TabItem value='c++'>
+<TabItem value='shell'>
 
-```c++
-auto status = client->CreateCollection(milvus::CreateCollectionRequest()
-                                          .WithCollectionName("my_collection")
-                                          .WithCollectionSchema(schema)
-                                          .AddProperty("partitionkey.isolation", "true"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
+```shell
+# Zilliz CLI
 ```
 
 </TabItem>

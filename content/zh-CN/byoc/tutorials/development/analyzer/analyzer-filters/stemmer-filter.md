@@ -27,7 +27,7 @@ import TabItem from '@theme/TabItem';
 
 `stemmer` 过滤器是 Zilliz Cloud 中的自定义过滤器，通过在过滤器配置中设置 `"type": "stemmer"` 并将 `language` 参数设置为您需要的值的方式来指定。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -59,28 +59,59 @@ analyzerParams.put("filter",
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+analyzerParams := map[string]any{"tokenizer": "standard",
+    "filter": []any{map[string]any{
+        "type":     "stemmer",
+        "language": "english",
+    }}}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use serde_json::json;
+
+let analyzer_params = json!({
+    "tokenizer": "standard",
+    "filter": [
+        { "type": "stemmer", "language": "english" }
+    ]
+});
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"tokenizer", "standard"},
+    {"filter", {
+        {
+            {"type", "stemmer"},
+            {"language", "english"}
+        }
+    }}
+};
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
 const analyzer_params = {
     "tokenizer": "standard",
     "filter":[{
-        "type": "stemmer", // Specifies the filter type as stop
-        "language": "english", 
+        "type": "stemmer", // Specifies the filter type as stemmer
+        "language": "english",
     }],
 };
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-analyzerParams = map[string]any{"tokenizer": "standard",
-    "filter": []any{map[string]any{
-        "type":     "stemmer",
-        "language": "english",
-    }}}
 ```
 
 </TabItem>
@@ -119,7 +150,7 @@ analyzerParams='{
 
 ### Analyzer 配置\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -151,22 +182,59 @@ analyzerParams.put("filter",
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// javascript
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"tokenizer": "standard",
+analyzerParams := map[string]any{"tokenizer": "standard",
     "filter": []any{map[string]any{
         "type":     "stemmer",
         "language": "english",
     }}}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use serde_json::json;
+
+let analyzer_params = json!({
+    "tokenizer": "standard",
+    "filter": [
+        { "type": "stemmer", "language": "english" }
+    ]
+});
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"tokenizer", "standard"},
+    {"filter", {
+        {
+            {"type", "stemmer"},
+            {"language", "english"}
+        }
+    }}
+};
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+    "tokenizer": "standard",
+    "filter":[{
+        "type": "stemmer", // Specifies the filter type as stemmer
+        "language": "english",
+    }],
+};
 ```
 
 </TabItem>
@@ -191,7 +259,7 @@ analyzerParams='{
 
 ### 使用 run_analyzer 验证效果\{#verification-using-run_analyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -219,6 +287,9 @@ import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
 
+import java.util.ArrayList;
+import java.util.List;
+
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .build();
@@ -236,23 +307,14 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// javascript
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
 import (
     "context"
-    "encoding/json"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
@@ -264,10 +326,9 @@ if err != nil {
     // handle error
 }
 
-bs, _ := json.Marshal(analyzerParams)
 texts := []string{"running runs looked ran runner"}
-option := milvusclient.NewRunAnalyzerOption(texts).
-    WithAnalyzerParams(string(bs))
+option := milvusclient.NewRunAnalyzerOption(texts...).
+    WithAnalyzerParams(analyzerParams)
 
 result, err := client.RunAnalyzer(ctx, option)
 if err != nil {
@@ -278,11 +339,87 @@ if err != nil {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let response = client
+    .run_analyzer(
+        RunAnalyzerRequest::builder()
+            .texts(["running runs looked ran runner"])
+            .analyzer_params(analyzer_params)
+            .build()?,
+    )
+    .await?;
+
+for result in response.results() {
+    for token in result.get_tokens() {
+        println!("Standard analyzer output: {}", token.get_text());
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+std::string text = "running runs looked ran runner";
+auto request = milvus::RunAnalyzerRequest()
+                       .AddText(text)
+                       .WithAnalyzerParams(analyzer_params);
+
+milvus::RunAnalyzerResponse response;
+status = client->RunAnalyzer(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
+
+const client = new MilvusClient({
+  address: 'YOUR_CLUSTER_ENDPOINT',
+});
+
+const sample_text = 'running runs looked ran runner';
+const result = await client.runAnalyzer({
+  text: sample_text,
+  analyzer_params,
+});
+const tokens = result.results.flatMap(r => r.tokens.map(t => t.token));
+console.log('Standard analyzer output:', tokens);
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
-# restful
-not support yet
+curl --request POST \
+  --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/common/run_analyzer" \
+  --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+  --header "Content-Type: application/json" \
+  --data-raw '{
+    "analyzerParams": "{\"tokenizer\": \"standard\", \"filter\": [{\"type\": \"stemmer\", \"language\": \"english\"}]}",
+    "text": ["running runs looked ran runner"]
+  }' 
 ```
 
 </TabItem>

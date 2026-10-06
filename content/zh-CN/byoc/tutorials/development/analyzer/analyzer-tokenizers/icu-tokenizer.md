@@ -35,7 +35,7 @@ ICU 分词器会在输出中将标点符号和空格保留为单独的 token。�
 
 要使用 `icu` 分词器，请在 `analyzer_params` 中将 `tokenizer` 设置为 `icu`。 
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -55,14 +55,6 @@ analyzerParams.put("tokenizer", "icu");
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// node
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -71,10 +63,44 @@ analyzerParams = map[string]any{"tokenizer": "icu"}
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
+
+let analyzer_params = json!({ "tokenizer": "icu" });
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"tokenizer", "icu"}
+};
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+    tokenizer: "icu",
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
-# curl
+# restful
+analyzerParams='{
+  "tokenizer": "icu"
+}'
 ```
 
 </TabItem>
@@ -82,7 +108,7 @@ analyzerParams = map[string]any{"tokenizer": "icu"}
 
 ICU 分词器可以与一个或多个过滤器配合使用。例如，以下代码定义了一个使用 `icu` 分词器和 `removepunct` 过滤器的 Analyzer：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -104,14 +130,6 @@ analyzerParams.put("filter", Collections.singletonList("removepunct"));
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// node
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -120,10 +138,50 @@ analyzerParams = map[string]any{"tokenizer": "icu", "filter": []string{"removepu
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
+
+let analyzer_params = json!({
+    "tokenizer": "icu",
+    "filter": ["removepunct"]
+});
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"tokenizer", "icu"},
+    {"filter", {"removepunct"}}
+};
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+    tokenizer: "icu",
+    filter: ["removepunct"],
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
-# curl
+# restful
+analyzerParams='{
+  "tokenizer": "icu",
+  "filter": ["removepunct"]
+}'
 ```
 
 </TabItem>
@@ -137,7 +195,7 @@ analyzerParams = map[string]any{"tokenizer": "icu", "filter": []string{"removepu
 
 ### Analyzer 配置\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -157,14 +215,6 @@ analyzerParams.put("tokenizer", "icu");
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// node
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -173,10 +223,44 @@ analyzerParams = map[string]any{"tokenizer": "icu"}
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
+
+let analyzer_params = json!({ "tokenizer": "icu" });
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"tokenizer", "icu"}
+};
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+    tokenizer: "icu",
+};
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
-# curl
+# restful
+analyzerParams='{
+  "tokenizer": "icu"
+}'
 ```
 
 </TabItem>
@@ -184,7 +268,7 @@ analyzerParams = map[string]any{"tokenizer": "icu"}
 
 ### 使用 run_analyzer 验证效果\{#verification-using-run_analyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -233,23 +317,14 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// javascript
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
 import (
     "context"
-    "encoding/json"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
@@ -261,10 +336,9 @@ if err != nil {
     // handle error
 }
 
-bs, _ := json.Marshal(analyzerParams)
 texts := []string{"Привет! Как дела?"}
-option := milvusclient.NewRunAnalyzerOption(texts).
-    WithAnalyzerParams(string(bs))
+option := milvusclient.NewRunAnalyzerOption(texts...).
+    WithAnalyzerParams(analyzerParams)
 
 result, err := client.RunAnalyzer(ctx, option)
 if err != nil {
@@ -275,10 +349,79 @@ if err != nil {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
+
+let analyzer_params = json!({ "tokenizer": "icu" });
+let result = client
+    .run_analyzer(
+        RunAnalyzerRequest::builder()
+            .texts(vec!["Привет! Как дела?"])
+            .analyzer_params(analyzer_params)
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+std::string text = "Привет! Как дела?";
+auto request = milvus::RunAnalyzerRequest()
+                       .AddText(text)
+                       .WithAnalyzerParams(analyzer_params);
+
+milvus::RunAnalyzerResponse response;
+status = client->RunAnalyzer(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const sample_text = "Привет! Как дела?";
+
+// Run the icu analyzer with the defined configuration
+const result = await client.runAnalyzer({
+    text: sample_text,
+    analyzer_params,
+});
+console.log("ICU analyzer output:", result);
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
 # restful
+curl --request POST \
+     --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/common/run_analyzer" \
+     --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+     --header "Content-Type: application/json" \
+     -d '{
+        "text": ["Привет! Как дела?"],
+        "analyzerParams": "{\"tokenizer\": \"icu\"}"
+     }'
 ```
 
 </TabItem>
@@ -286,7 +429,7 @@ if err != nil {
 
 ### 预期输出\{#expected-output}
 
-```sql
+```plaintext
 ['Привет', '!', ' ', 'Как', ' ', 'дела', '?']
 ```
 

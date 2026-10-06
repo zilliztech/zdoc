@@ -80,7 +80,7 @@ Zilliz Cloud 是一款内存密集型的数据库系统。可用内存的大小�
 
 如下示例假设您连接到了一个使用性能型 CU 的 Dedicated 集群，并演示了如何在名为 **doc_chunk** 的 VARCHAR 字段上启用 mmap。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -101,7 +101,7 @@ schema.add_field("vector", DataType.FLOAT_VECTOR, dim=5)
 # Disable mmap on a field upon creating the schema for a collection
 schema.add_field(
     field_name="doc_chunk",
-    datatype=DataType.INT64,
+    datatype=DataType.VARCHAR,
     max_length=512,
     # highlight-next-line
     mmap_enabled=False,
@@ -109,7 +109,7 @@ schema.add_field(
 
 client.create_collection(collection_name="my_collection", schema=schema)
 
-# Disable mmap on an existing field
+# Enable mmap on an existing field
 # The following assumes that you have a collection named `my_collection`
 client.alter_collection_field(
     collection_name="my_collection",
@@ -127,17 +127,19 @@ import io.milvus.param.Constant;
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.common.DataType;
+import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.collection.request.*;
+import io.milvus.v2.service.index.request.*;
 
 import java.util.*;
 
 String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
 String TOKEN = "YOUR_CLUSTER_TOKEN";
-client = new MilvusClientV2(ConnectConfig.builder()
+MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri(CLUSTER_ENDPOINT)
         .token(TOKEN)
         .build());
-        
+
 CreateCollectionReq.CollectionSchema schema = client.createSchema();
 
 schema.addField(AddFieldReq.builder()
@@ -178,46 +180,6 @@ client.alterCollectionField(AlterCollectionFieldReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-import { MilvusClient, DataType } from '@zilliz/milvus2-sdk-node';
-
-const CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT";
-const TOKEN="YOUR_TOKEN";
-
-const client = await MilvusClient({
-    address: CLUSTER_ENDPOINT,
-    token: TOKEN
-});
-
-const schema = [
-{
-    name: 'vector',
-    data_type: DataType.FloatVector
-},
-{
-    name: "doc_chunk",
-    data_type: DataType.VarChar,
-    max_length: 512,
-    'mmap.enabled': false,
-}
-];
-
-await client.createCollection({
-    collection_name: "my_collection",
-    schema: schema
-});
-
-await client.alterCollectionFieldProperties({
-    collection_name: "my_collection",
-    field_name: "doc_chunk",
-    properties: {"mmap_enable": true}
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -225,9 +187,10 @@ import (
     "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/column"
-    "github.com/milvus-io/milvus/client/v2/entity"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/common"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -276,6 +239,145 @@ if err != nil {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use std::collections::HashMap;
+
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+    let client = ClientV2::new(&config).await?;
+
+    let schema = CollectionSchema::new()
+        .add_field(FieldSchema::new().name("id").data_type(DataType::Int64).primary_key(true))
+        .add_field(FieldSchema::new().name("vector").data_type(DataType::FloatVector).dimension(5))
+        .add_field(
+            FieldSchema::new()
+                .name("doc_chunk")
+                .data_type(DataType::VarChar)
+                .max_length(512)
+                .type_params(HashMap::from([("mmap.enabled".to_string(), "false".to_string())])),
+        );
+
+    client
+        .create_collection(
+            CreateCollectionRequest::builder()
+                .collection_name("my_collection")
+                .schema(schema)
+                .build()?,
+        )
+        .await?;
+
+    client
+        .alter_collection_field_properties(
+            AlterCollectionFieldPropertiesRequest::builder()
+                .collection_name("my_collection")
+                .field_name("doc_chunk")
+                .properties(HashMap::from([("mmap.enabled".to_string(), "true".to_string())]))
+                .build()?,
+        )
+        .await?;
+
+    Ok(())
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include <memory>
+#include <string>
+#include <utility>
+
+#include "milvus/MilvusClientV2.h"
+
+const std::string CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
+const std::string TOKEN = "YOUR_CLUSTER_TOKEN";
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{CLUSTER_ENDPOINT, TOKEN};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->AddField({"id", milvus::DataType::INT64, "", true, false});
+schema->AddField(milvus::FieldSchema("vector", milvus::DataType::FLOAT_VECTOR).WithDimension(5));
+schema->AddField(milvus::FieldSchema("doc_chunk", milvus::DataType::VARCHAR).WithMaxLength(512).AddTypeParam("mmap.enabled", "false"));
+
+status = client->CreateCollection(milvus::CreateCollectionRequest()
+    .WithCollectionName("my_collection")
+    .WithCollectionSchema(schema));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->AlterCollectionFieldProperties(milvus::AlterCollectionFieldPropertiesRequest()
+    .WithCollectionName("my_collection")
+    .WithFieldName("doc_chunk")
+    .AddProperty("mmap.enabled", "true"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient, DataType } from '@zilliz/milvus2-sdk-node';
+
+const CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT";
+const TOKEN="YOUR_CLUSTER_TOKEN";
+
+const client = new MilvusClient({
+    address: CLUSTER_ENDPOINT,
+    token: TOKEN
+});
+
+const schema = [
+{
+    name: 'id',
+    data_type: DataType.Int64,
+    is_primary_key: true,
+    autoID: false,
+},
+{
+    name: 'vector',
+    data_type: DataType.FloatVector,
+    dim: 5,
+},
+{
+    name: "doc_chunk",
+    data_type: DataType.VarChar,
+    max_length: 512,
+    'mmap.enabled': false,
+}
+];
+
+await client.createCollection({
+    collection_name: "my_collection",
+    schema: schema
+});
+
+await client.alterCollectionFieldProperties({
+    collection_name: "my_collection",
+    field_name: "doc_chunk",
+    properties: {"mmap.enabled": true}
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -286,8 +388,7 @@ export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
 export idField='{
     "fieldName": "id",
     "dataType": "Int64",
-    "isPrimary": true,
-    "auto_id": false
+    "isPrimary": true
 }'
 
 export vectorField='{
@@ -300,7 +401,7 @@ export vectorField='{
 
 export docChunkField='{
     "fieldName": "doc_chunk",
-    "dataType": "Varchar",
+    "dataType": "VarChar",
     "elementTypeParams": {
         "max_length": 512,
         "mmap.enabled": false
@@ -337,31 +438,7 @@ curl --request POST \
     "fieldParams":{
         "mmap.enabled": true
     }
-}'
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-#include "milvus/MilvusClientV2.h"
-
-const std::string CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
-const std::string TOKEN = "YOUR_CLUSTER_TOKEN";
-
-auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{CLUSTER_ENDPOINT, TOKEN};
-auto status = client->Connect(connect_param);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
-schema->AddField({"id", milvus::DataType::INT64, "", true, false});
-schema->AddField(milvus::FieldSchema("vector", milvus::DataType::FLOAT_VECTOR).WithDimension(5));
-schema->AddField(milvus::FieldSchema("doc_chunk", milvus::DataType::VARCHAR).WithMaxLength(512).AddProperty("mmap.enabled", "true"));
+}' 
 ```
 
 </TabItem>
@@ -375,7 +452,7 @@ schema->AddField(milvus::FieldSchema("doc_chunk", milvus::DataType::VARCHAR).Wit
 
 如下示例假设您连接到一个使用了容量型 CU 的 Dedicated 集群，并演示了如果在名为 **title** 的 VARCHAR 字段的索引上关闭 mmap 来加速对该字段的访问。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -395,6 +472,7 @@ index_params.add_index(
     # highlight-next-line
     params={ "mmap.enabled": "false" }
 )
+client.create_index(collection_name="my_collection", index_params=index_params)
 
 # Change mmap settings for an index
 # The following assumes that you have a collection named `my_collection`
@@ -415,7 +493,7 @@ schema.addField(AddFieldReq.builder()
         .dataType(DataType.VarChar)
         .maxLength(512)
         .build());
-        
+
 List<IndexParam> indexParams = new ArrayList<>();
 Map<String, Object> extraParams = new HashMap<String, Object>() {{
     put(Constant.MMAP_ENABLED, false);
@@ -425,33 +503,17 @@ indexParams.add(IndexParam.builder()
         .indexType(IndexParam.IndexType.AUTOINDEX)
         .extraParams(extraParams)
         .build());
-        
+
+client.createIndex(CreateIndexReq.builder()
+        .collectionName("my_collection")
+        .indexParams(indexParams)
+        .build());
+
 client.alterIndexProperties(AlterIndexPropertiesReq.builder()
         .collectionName("my_collection")
         .indexName("title")
         .property(Constant.MMAP_ENABLED, "true")
         .build());
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-// Create index on the varchar field with mmap settings
-await client.createIndex({
-    collection_name: "my_collection",
-    field_name: "title",
-    params: { "mmap.enabled": false }
-});
-
-// Change mmap settings for an index
-// The following assumes that you have a collection named `my_collection`
-await client.alterIndexProperties({
-    collection_name: "my_collection",
-    index_name: "title",
-    properties:{"mmap.enabled": true}
-});
 ```
 
 </TabItem>
@@ -469,6 +531,12 @@ indexOption := milvusclient.NewCreateIndexOption("my_collection", "title",
     index.NewInvertedIndex())
 indexOption.WithExtraParam(common.MmapEnabledKey, "false")
 
+_, err = client.CreateIndex(ctx, indexOption)
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
 err = client.AlterIndexProperties(ctx, milvusclient.NewAlterIndexPropertiesOption("my_collection", "title").
     WithProperty(common.MmapEnabledKey, "true"))
 if err != nil {
@@ -479,11 +547,93 @@ if err != nil {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+let schema = schema.add_field(
+    FieldSchema::new().name("title").data_type(DataType::VarChar).max_length(512),
+);
+
+client
+    .create_index(
+        CreateIndexRequest::builder()
+            .collection_name("my_collection")
+            .index_param(
+                IndexParam::new()
+                    .field_name("title")
+                    .index_type(IndexType::AutoIndex)
+                    .extra_params(HashMap::from([("mmap.enabled".to_string(), "false".to_string())])),
+            )
+            .build()?,
+    )
+    .await?;
+
+client
+    .alter_index_properties(
+        AlterIndexPropertiesRequest::builder()
+            .collection_name("my_collection")
+            .index_name("title")
+            .properties(HashMap::from([("mmap.enabled".to_string(), "true".to_string())]))
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+schema->AddField(milvus::FieldSchema("title", milvus::DataType::VARCHAR).WithMaxLength(512));
+
+milvus::IndexDesc index("title", "", milvus::IndexType::AUTOINDEX);
+index.AddExtraParam("mmap.enabled", "false");
+status = client->CreateIndex(milvus::CreateIndexRequest()
+                                    .WithCollectionName("my_collection")
+                                    .AddIndex(std::move(index)));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->AlterIndexProperties(milvus::AlterIndexPropertiesRequest()
+                                    .WithCollectionName("my_collection")
+                                    .WithIndexName("title")
+                                    .AddProperty("mmap.enabled", "true"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// Create index on the varchar field with mmap settings
+await client.createIndex({
+    collection_name: "my_collection",
+    field_name: "title",
+    index_type: "AUTOINDEX",
+    params: { "mmap.enabled": false }
+});
+
+// Change mmap settings for an index
+// The following assumes that you have a collection named `my_collection`
+await client.alterIndexProperties({
+    collection_name: "my_collection",
+    index_name: "title",
+    properties:{"mmap.enabled": true}
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
 # restful
 export TOKEN="YOUR_CLUSTER_TOKEN"
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
 
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/indexes/create" \
@@ -514,32 +664,7 @@ curl --request POST \
     "properties": {
         "mmap.enabled": true
     }
-}'
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-schema->AddField(milvus::FieldSchema("title", milvus::DataType::VARCHAR).WithMaxLength(512));
-
-milvus::IndexDesc index("title", "", milvus::IndexType::AUTOINDEX);
-index.AddExtraParam("mmap.enabled", "false");
-auto status = client->CreateIndex(milvus::CreateIndexRequest()
-                                    .WithCollectionName("my_collection")
-                                    .AddIndex(std::move(index)));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-status = client->AlterIndexProperties(milvus::AlterIndexPropertiesRequest()
-                                    .WithCollectionName("my_collection")
-                                    .WithIndexName("title")
-                                    .AddProperty("mmap.enabled", "true"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
+}' 
 ```
 
 </TabItem>
@@ -553,11 +678,11 @@ if (!status.IsOk()) {
 
 如下示例假设您连接了一个性能型的 Dedicated 集群，并演示了如何在创建 Collection 时禁用 mmap。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-# Enable mmap when creating a collection
+# Disable mmap when creating a collection
 client.create_collection(
     collection_name="my_collection",
     schema=schema,
@@ -580,18 +705,6 @@ client.createCollection(req);
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-await client.createCollection({
-    collection_name: "my_collection",
-    scheme: schema,
-    properties: { "mmap.enabled": false }
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -602,6 +715,48 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+client
+    .create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name("my_collection")
+            .schema(schema)
+            .properties(HashMap::from([("mmap.enabled".to_string(), "false".to_string())]))
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                          .WithCollectionName("my_collection")
+                                          .WithCollectionSchema(schema)
+                                          .AddProperty("mmap.enabled", "false"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.createCollection({
+    collection_name: "my_collection",
+    schema: schema,
+    properties: { "mmap.enabled": false }
+});
 ```
 
 </TabItem>
@@ -624,25 +779,11 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto status = client->CreateCollection(milvus::CreateCollectionRequest()
-                                          .WithCollectionName("my_collection")
-                                          .WithCollectionSchema(schema)
-                                          .AddProperty("mmap.enabled", "false"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
 
 您也可以参考如下示例修改现有 Collection 的 mmap 配置。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -654,7 +795,7 @@ client.release_collection("my_collection")
 client.alter_collection_properties(
     collection_name="my_collection",
     properties={
-        "mmap.enabled": false
+        "mmap.enabled": False
     }
 )
 
@@ -670,7 +811,7 @@ client.load_collection("my_collection")
 client.releaseCollection(ReleaseCollectionReq.builder()
         .collectionName("my_collection")
         .build());
-        
+
 client.alterCollectionProperties(AlterCollectionPropertiesReq.builder()
         .collectionName("my_collection")
         .property(Constant.MMAP_ENABLED, "false")
@@ -679,7 +820,75 @@ client.alterCollectionProperties(AlterCollectionPropertiesReq.builder()
 client.loadCollection(LoadCollectionReq.builder()
         .collectionName("my_collection")
         .build());
-       
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+err = client.ReleaseCollection(ctx, milvusclient.NewReleaseCollectionOption("my_collection"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").
+    WithProperty(common.MmapEnabledKey, "false"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+_, err = client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+client.release_collection(ReleaseCollectionRequest::builder().collection_name("my_collection").build()?).await?;
+
+client
+    .alter_collection_properties(
+        AlterCollectionPropertiesRequest::builder()
+            .collection_name("my_collection")
+            .properties(HashMap::from([("mmap.enabled".to_string(), "false".to_string())]))
+            .build()?,
+    )
+    .await?;
+
+client.load_collection(LoadCollectionRequest::builder().collection_name("my_collection").build()?).await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+status = client->ReleaseCollection(milvus::ReleaseCollectionRequest()
+                                            .WithCollectionName("my_collection"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->AlterCollectionProperties(milvus::AlterCollectionPropertiesRequest()
+                                            .WithCollectionName("my_collection")
+                                            .AddProperty("mmap.enabled", "false"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->LoadCollection(milvus::LoadCollectionRequest()
+                                    .WithCollectionName("my_collection"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -709,31 +918,6 @@ await client.loadCollection({
 
 </TabItem>
 
-<TabItem value='go'>
-
-```go
-err = client.ReleaseCollection(ctx, milvusclient.NewReleaseCollectionOption("my_collection"))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-
-err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").
-    WithProperty(common.MmapEnabledKey, "false"))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-
-_, err := client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection"))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle err
-}
-```
-
-</TabItem>
-
 <TabItem value='bash'>
 
 ```bash
@@ -758,7 +942,7 @@ curl --request POST \
 -d '{
     "collectionName": "my_collection",
     "properties": {
-        "mmmap.enabled": false
+        "mmap.enabled": false
     }
 }'
 
@@ -769,33 +953,7 @@ curl --request POST \
 --header "Request-Timeout: 10" \
 -d '{
     "collectionName": "my_collection"
-}'
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto status = client->ReleaseCollection(milvus::ReleaseCollectionRequest()
-                                            .WithCollectionName("my_collection"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-status = client->AlterCollectionProperties(milvus::AlterCollectionPropertiesRequest()
-                                            .WithCollectionName("my_collection")
-                                            .AddProperty("mmmap.enabled", "false"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-status = client->LoadCollection(milvus::LoadCollectionRequest()
-                                    .WithCollectionName("my_collection"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-                                         
+}' 
 ```
 
 </TabItem>

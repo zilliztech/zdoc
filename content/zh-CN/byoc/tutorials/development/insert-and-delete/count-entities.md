@@ -61,7 +61,7 @@ Zilliz Cloud 为您提供了两种统计集合中 Entity 数量的方法。
 
 要获取准确的 Entity 计数，请加载 Collection 并运行一个查询，并将 `count(*)` 作为输出字段，且将查询的 `consistency_level` 设置为 `Strong`。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -101,8 +101,11 @@ print(res[0]['count(*)'])
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.QueryReq
-import io.milvus.v2.service.vector.request.QueryResp
+import io.milvus.v2.common.ConsistencyLevel;
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
+
+import java.util.*;
 
 // Count without the entities in growing segments
 QueryResp count = client.query(QueryReq.builder()
@@ -123,7 +126,7 @@ count = client.query(QueryReq.builder()
         .build());
 
 // Count the entities in a specific partition
-countR = client.query(QueryReq.builder()
+QueryResp countR = client.query(QueryReq.builder()
         .collectionName("test_collection")
         .filter("")
         // highlight-start
@@ -143,7 +146,26 @@ System.out.print(count.getQueryResults().get(0).getEntity().get("count(*)"));
 <TabItem value='go'>
 
 ```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+// Count without the entities in growing segments
 resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("test_collection").
+    WithFilter("").
+    WithOutputFields("count(*)"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+fmt.Println("count: ", resultSet.GetColumn("count(*)").FieldData().GetScalars())
+
+// Count with the entities in growing segments
+resultSet, err = client.Query(ctx, milvusclient.NewQueryOption("test_collection").
     WithFilter("").
     WithOutputFields("count(*)").
     WithConsistencyLevel(entity.ClStrong))
@@ -151,8 +173,113 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
+fmt.Println("count: ", resultSet.GetColumn("count(*)").FieldData().GetScalars())
 
-fmt.Println("count: ", resultSet.GetColumn("count").FieldData().GetScalars())
+// Count the entities in a specific partition
+resultSet, err = client.Query(ctx, milvusclient.NewQueryOption("test_collection").
+    WithFilter("").
+    WithOutputFields("count(*)").
+    WithPartitions("_default"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+fmt.Println("count: ", resultSet.GetColumn("count(*)").FieldData().GetScalars())
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+// 1. Connect to Milvus
+let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN")).await?;
+
+// 2. Count without the entities in growing segments
+let response = client
+    .query(
+        QueryRequest::builder()
+            .collection_name("test_collection")
+            .output_fields(["count(*)"])
+            .build()?,
+    )
+    .await?;
+println!("count: {}", response.results().rows()?.next().unwrap().get_i64("count(*)")?);
+
+// 3. Count with the entities in growing segments
+let response = client
+    .query(
+        QueryRequest::builder()
+            .collection_name("test_collection")
+            .output_fields(["count(*)"])
+            .consistency_level(ConsistencyLevel::Strong)
+            .build()?,
+    )
+    .await?;
+println!("count: {}", response.results().rows()?.next().unwrap().get_i64("count(*)")?);
+
+// 4. Count the entities in a specific partition
+let response = client
+    .query(
+        QueryRequest::builder()
+            .collection_name("test_collection")
+            .output_fields(["count(*)"])
+            .partition_names(["_default"])
+            .build()?,
+    )
+    .await?;
+println!("count: {}", response.results().rows()?.next().unwrap().get_i64("count(*)")?);
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+auto request = milvus::QueryRequest()
+                       .WithCollectionName("test_collection")
+                       .AddOutputField("count(*)");
+
+milvus::QueryResponse response;
+status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+request = milvus::QueryRequest()
+                   .WithCollectionName("test_collection")
+                   .AddOutputField("count(*)")
+                   .WithConsistencyLevel(milvus::ConsistencyLevel::STRONG);
+
+status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+request = milvus::QueryRequest()
+                   .WithCollectionName("test_collection")
+                   .AddOutputField("count(*)")
+                   .AddPartitionName("_default");
+
+status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+std::cout << response.Results().GetRowCount() << std::endl;
 ```
 
 </TabItem>
@@ -166,8 +293,14 @@ const address = "YOUR_CLUSTER_ENDPOINT";
 const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
 
-// Count with the entities in growing segments
+// Count without the entities in growing segments
 let res = await client.query({
+    collection_name: "test_collection",
+    output_fields: ["count(*)"]
+});
+
+// Count with the entities in growing segments
+res = await client.query({
     collection_name: "test_collection",
     output_fields: ["count(*)"],
     consistency_level: 'Strong'
@@ -216,7 +349,7 @@ curl --request POST \
 
 以下示例假定存在一个名为`test_collection`的集合。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -229,7 +362,7 @@ client = MilvusClient(
 )
 
 # 2. Get the entity count of a collection
-client.get_collection_stats(collection_name="test_collection") 
+client.get_collection_stats(collection_name="test_collection")
 
 # Output
 # 
@@ -241,7 +374,7 @@ client.get_collection_stats(collection_name="test_collection")
 client.get_partition_stats(
     collection_name="test_collection",
     partition_name="_default"
-) 
+)
 
 # Output
 # 
@@ -287,7 +420,96 @@ System.out.print(partitionStats.getNumOfEntities());
 <TabItem value='go'>
 
 ```go
-// go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+// 1. Get the entity count of a collection
+stats, err := client.GetCollectionStats(ctx, milvusclient.NewGetCollectionStatsOption("test_collection"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+fmt.Println("row_count: ", stats["row_count"])
+
+// 2. Get the entity count of a partition
+partitionStats, err := client.GetPartitionStats(ctx, milvusclient.NewGetPartitionStatsOption("test_collection", "_default"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+fmt.Println("row_count: ", partitionStats["row_count"])
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+// 1. Connect to Milvus
+let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN")).await?;
+
+// 2. Get the entity count of a collection
+let stats = client
+    .get_collection_stats(
+        GetCollectionStatsRequest::builder()
+            .collection_name("test_collection")
+            .build()?,
+    )
+    .await?;
+println!("row_count: {:?}", stats.row_count());
+
+// 3. Get the entity count of a partition
+let partition_stats = client
+    .get_partition_stats(
+        GetPartitionStatsRequest::builder()
+            .collection_name("test_collection")
+            .partition_name("_default")
+            .build()?,
+    )
+    .await?;
+println!("row_count: {:?}", partition_stats.row_count());
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::GetCollectionStatsResponse response;
+status = client->GetCollectionStats(milvus::GetCollectionStatsRequest()
+                                    .WithCollectionName("test_collection"), response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::GetPartitionStatsResponse partition_response;
+status = client->GetPartitionStatistics(milvus::GetPartitionStatsRequest()
+                                        .WithCollectionName("test_collection")
+                                        .WithPartitionName("_default"), partition_response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+std::cout << response.Stats().RowCount() << std::endl;
+std::cout << partition_response.Stats().RowCount() << std::endl;
 ```
 
 </TabItem>
@@ -295,7 +517,7 @@ System.out.print(partitionStats.getNumOfEntities());
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient } from '@zilliz/milvus2-sdk-node';
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
 // 1. Set up a milvus client
 const milvusClient = new MilvusClient({
@@ -304,7 +526,12 @@ const milvusClient = new MilvusClient({
 });
 
 // 2. Get the entity count
-milvusClient.getCollectionStats({
+await milvusClient.getCollectionStats({
+ collection_name: 'test_collection'
+});
+
+// 3. Get the entity count of a partition
+await milvusClient.getPartitionStats({
  collection_name: 'test_collection',
  partition_name: '_default'
 });
@@ -321,7 +548,29 @@ milvusClient.getCollectionStats({
 <TabItem value='bash'>
 
 ```bash
-# curl
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+# Get the entity count of a collection
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/get_stats" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "collectionName": "test_collection"
+}'
+#{"code":0,"data":{"rowCount":1000}}
+
+# Get the entity count of a partition
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/partitions/get_stats" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "collectionName": "test_collection",
+    "partitionName": "_default"
+}'
+#{"code":0,"data":{"rowCount":1000}}
 ```
 
 </TabItem>

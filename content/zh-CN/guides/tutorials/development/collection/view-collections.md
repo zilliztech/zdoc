@@ -27,7 +27,7 @@ import TabItem from '@theme/TabItem';
 
 如下示例演示了如何查看当前连接的数据库中已创建的 Collection 名称列表。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -65,22 +65,6 @@ System.out.println(resp.getCollectionNames());
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-import { MilvusClient } from '@zilliz/milvus2-sdk-node';
-
-const client = new MilvusClient({
-    address: 'YOUR_CLUSTER_ENDPOINT',
-    token: 'YOUR_CLUSTER_TOKEN'
-});
-
-const collections = await client.listCollections();
-console.log(collections);
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -88,7 +72,7 @@ import (
     "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -117,15 +101,27 @@ fmt.Println(collectionNames)
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/list" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
---header "Request-Timeout: 10" \
--d '{}'
+```rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let client = ClientV2::new(
+        &ConnectConfig::new()
+            .uri("YOUR_CLUSTER_ENDPOINT")
+            .token("YOUR_CLUSTER_TOKEN"),
+    )
+    .await?;
+
+    let collections = client
+        .list_collections(ListCollectionsRequest::builder().build()?)
+        .await?;
+    println!("{:?}", collections.collection_names());
+
+    Ok(())
+}
 ```
 
 </TabItem>
@@ -133,6 +129,7 @@ curl --request POST \
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
@@ -145,9 +142,45 @@ if (!status.IsOk()) {
 
 milvus::ListCollectionsResponse response;
 status = client->ListCollections(milvus::ListCollectionsRequest(), response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
 for (auto& name : response.CollectionNames()) {
     std::cout << "\t" << name << std::endl;
 }
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
+
+const client = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN'
+});
+
+const collections = await client.listCollections();
+console.log(collections);
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/list" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d '{}'
 ```
 
 </TabItem>
@@ -163,7 +196,7 @@ for (auto& name : response.CollectionNames()) {
 
 您也可以根据需要查看某个 Collection 的详细情况。如下示例代码中假设您已经创建了名为 quick_setup 的 Collection。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -191,18 +224,6 @@ System.out.println(resp);
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-const res = await client.describeCollection({
-    collection_name: "quick_setup"
-});
-
-console.log(res);
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -217,17 +238,18 @@ fmt.Println(collection)
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/describe" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
---header "Request-Timeout: 10" \
--d '{
-    "collectionName": "quick_setup"
-}'
+```rust
+let description = client
+    .describe_collection(
+        DescribeCollectionRequest::builder()
+            .collection_name("quick_setup")
+            .build()?,
+    )
+    .await?;
+
+println!("{:?}", description.description());
 ```
 
 </TabItem>
@@ -235,6 +257,8 @@ curl --request POST \
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+
 milvus::DescribeCollectionResponse response;
 auto status = client->DescribeCollection(milvus::DescribeCollectionRequest()
                                             .WithCollectionName("quick_setup"),
@@ -245,6 +269,36 @@ if (!status.IsOk()) {
 
 std::cout << "Collection name: " << response.Desc().CollectionName() << std::endl;
 std::cout << "Collection ID: " << response.Desc().ID() << std::endl;
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const res = await client.describeCollection({
+    collection_name: "quick_setup"
+});
+
+console.log(res);
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/describe" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d '{
+    "collectionName": "quick_setup"
+}'
 ```
 
 </TabItem>

@@ -27,7 +27,7 @@ import TabItem from '@theme/TabItem';
 
 如果您需要重命名 Collection，可以参考如下代码进行操作：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -74,23 +74,6 @@ client.renameCollection(renameCollectionReq);
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
-
-const address = "YOUR_CLUSTER_ENDPOINT";
-const token = "YOUR_CLUSTER_TOKEN";
-const client = new MilvusClient({address, token});
-
-const res = await client.renameCollection({
-    oldName: "my_collection",
-    newName: "my_new_collection"
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -98,7 +81,7 @@ import (
     "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -126,21 +109,16 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
-export TOKEN="YOUR_CLUSTER_TOKEN"
-
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/rename" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
---header "Request-Timeout: 10" \
--d '{
-    "collectionName": "my_collection",
-    "newCollectionName": "my_new_collection"
-}'
+```rust
+client.rename_collection(
+    RenameCollectionRequest::builder()
+        .collection_name("my_collection")
+        .new_collection_name("my_new_collection")
+        .build()?,
+)
+.await?;
 ```
 
 </TabItem>
@@ -164,6 +142,42 @@ status = client->RenameCollection(milvus::RenameCollectionRequest()
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+
+const address = "YOUR_CLUSTER_ENDPOINT";
+const token = "YOUR_CLUSTER_TOKEN";
+const client = new MilvusClient({address, token});
+
+const res = await client.renameCollection({
+    collection_name: "my_collection",
+    new_collection_name: "my_new_collection"
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/rename" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d '{
+    "collectionName": "my_collection",
+    "newCollectionName": "my_new_collection"
+}'
 ```
 
 </TabItem>
@@ -212,7 +226,7 @@ if (!status.IsOk()) {
 
 如下代码演示了如何设置 Collection 的生存时间（TTL）。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -242,19 +256,6 @@ client.alterCollectionProperties(alterCollectionReq);
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-res = await client.alterCollection({
-    collection_name: "my_collection",
-    properties: {
-        "collection.ttl.seconds": 60
-    }
-})
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -263,6 +264,46 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+client.alter_collection_properties(
+    AlterCollectionPropertiesRequest::builder()
+        .collection_name("my_collection")
+        .property("collection.ttl.seconds", "60")
+        .build()?,
+)
+.await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto status = client->AlterCollectionProperties(milvus::AlterCollectionPropertiesRequest()
+                                                   .WithCollectionName("my_collection")
+                                                   .AddProperty(milvus::COLLECTION_TTL_SECONDS, "60"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.alterCollectionProperties({
+    collection_name: "my_collection",
+    properties: {
+        "collection.ttl.seconds": 60
+    }
+});
 ```
 
 </TabItem>
@@ -287,19 +328,6 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto status = client->AlterCollectionProperties(milvus::AlterCollectionPropertiesRequest()
-                                                   .WithCollectionName("my_collection")
-                                                   .AddProperty(milvus::COLLECTION_TTL_SECONDS, "60"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
 
 ### 示例 2：设置 Entity 级别 TTL \{#example-2-set-entity-ttl}
@@ -308,7 +336,7 @@ if (!status.IsOk()) {
 
 如需了解完整的 Entity 级别 TTL 工作流（包括 schema 配置、插入、查询、刷新与删除），请参见[设置 Collection 生存时间](./set-collection-ttl)。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -326,15 +354,14 @@ client.alter_collection_properties(
 <TabItem value='java'>
 
 ```java
-// java
-```
+import io.milvus.v2.service.collection.request.AlterCollectionPropertiesReq;
 
-</TabItem>
+AlterCollectionPropertiesReq alterCollectionReq = AlterCollectionPropertiesReq.builder()
+        .collectionName("my_collection")
+        .property("ttl_field", "expire_at")
+        .build();
 
-<TabItem value='javascript'>
-
-```javascript
-// nodejs
+client.alterCollectionProperties(alterCollectionReq);
 ```
 
 </TabItem>
@@ -342,15 +369,25 @@ client.alter_collection_properties(
 <TabItem value='go'>
 
 ```go
-// go
+err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").WithProperty("ttl_field", "expire_at"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+client.alter_collection_properties(
+    AlterCollectionPropertiesRequest::builder()
+        .collection_name("my_collection")
+        .property("ttl_field", "expire_at")
+        .build()?,
+)
+.await?;
 ```
 
 </TabItem>
@@ -358,7 +395,46 @@ client.alter_collection_properties(
 <TabItem value='c++'>
 
 ```c++
-// cpp
+auto status = client->AlterCollectionProperties(milvus::AlterCollectionPropertiesRequest()
+                                                   .WithCollectionName("my_collection")
+                                                   .AddProperty("ttl_field", "expire_at"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.alterCollectionProperties({
+    collection_name: "my_collection",
+    properties: {
+        "ttl_field": "expire_at"
+    }
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/alter_properties" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d '{
+    "collectionName": "my_collection",
+    "properties": {
+        "ttl_field": "expire_at"
+    }
+}'
 ```
 
 </TabItem>
@@ -368,7 +444,7 @@ client.alter_collection_properties(
 
 如下代码演示了如何开启 mmap。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -395,19 +471,6 @@ client.alterCollectionProperties(alterCollectionReq);
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-await client.alterCollectionProperties({
-    collection_name: "my_collection",
-    properties: {
-        "mmap.enabled": true
-    }
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -420,18 +483,16 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
-curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/alter_properties" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "collectionName": "my_collection",
-    "properties": {
-      "mmap.enabled": "true"
-    }
-  }'
+```rust
+client.alter_collection_properties(
+    AlterCollectionPropertiesRequest::builder()
+        .collection_name("my_collection")
+        .property("mmap.enabled", "true")
+        .build()?,
+)
+.await?;
 ```
 
 </TabItem>
@@ -448,13 +509,47 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.alterCollectionProperties({
+    collection_name: "my_collection",
+    properties: {
+        "mmap.enabled": true
+    }
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/alter_properties" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d '{
+    "collectionName": "my_collection",
+    "properties": {
+        "mmap.enabled": "true"
+    }
+}'
+```
+
+</TabItem>
 </Tabs>
 
 ### 示例 4：开启 Partition Key\{#example-4-enable-partition-key}
 
 如下代码演示了如何开启 Partition Key。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -481,23 +576,10 @@ client.alterCollectionProperties(alterCollectionReq);
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-await client.alterCollectionProperties({
-    collection_name: "my_collection",
-    properties: {
-        "partitionkey.isolation": true
-    }
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
-err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").WithProperty(common.PartitionKeyIsolationKey, true))
+err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").WithProperty("partitionkey.isolation", true))
 if err != nil {
     fmt.Println(err.Error())
     // handle error
@@ -506,19 +588,16 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
-curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/alter_properties" \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <token>" \
-  -d '{
-    "collectionName": "my_collection",
-    "properties": {
-      "partitionkey.isolation": "true"
-    }
-  }'
+```rust
+client.alter_collection_properties(
+    AlterCollectionPropertiesRequest::builder()
+        .collection_name("my_collection")
+        .property("partitionkey.isolation", "true")
+        .build()?,
+)
+.await?;
 ```
 
 </TabItem>
@@ -535,13 +614,47 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.alterCollectionProperties({
+    collection_name: "my_collection",
+    properties: {
+        "partitionkey.isolation": true
+    }
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/alter_properties" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d '{
+    "collectionName": "my_collection",
+    "properties": {
+        "partitionkey.isolation": "true"
+    }
+}'
+```
+
+</TabItem>
 </Tabs>
 
 ### 示例 5：开启 Dynamic Field\{#example-5-enable-dynamic-field}
 
 如下代码演示了如何开启 Dynamic Field。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -568,23 +681,10 @@ client.alterCollectionProperties(alterCollectionReq);
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-await client.alterCollectionProperties({
-    collection_name: "my_collection",
-    properties: {
-        "dynamicfield.enabled": true
-    }
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
-err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").WithProperty(common.EnableDynamicSchemaKey, true))
+err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").WithProperty("dynamicfield.enabled", true))
 if err != nil {
     fmt.Println(err.Error())
     // handle error
@@ -593,19 +693,16 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
-curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/alter_properties" \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <token>" \
-  -d '{
-    "collectionName": "my_collection",
-    "properties": {
-      "dynamicfield.enabled": "true"
-    }
-  }'
+```rust
+client.alter_collection_properties(
+    AlterCollectionPropertiesRequest::builder()
+        .collection_name("my_collection")
+        .property("dynamicfield.enabled", "true")
+        .build()?,
+)
+.await?;
 ```
 
 </TabItem>
@@ -622,6 +719,40 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.alterCollectionProperties({
+    collection_name: "my_collection",
+    properties: {
+        "dynamicfield.enabled": true
+    }
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/alter_properties" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d '{
+    "collectionName": "my_collection",
+    "properties": {
+        "dynamicfield.enabled": "true"
+    }
+}'
+```
+
+</TabItem>
 </Tabs>
 
 ### 示例 6：开启 allow_insert_auto_id\{#example-6-enable-allow_insert_auto_id}
@@ -630,7 +761,7 @@ if (!status.IsOk()) {
 
 以下示例展示了如何启用 `allow_insert_auto_id` 属性：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -657,23 +788,10 @@ client.alterCollectionProperties(alterCollectionReq);
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-await client.alterCollectionProperties({
-    collection_name: "my_collection",
-    properties: {
-        "allow_insert_auto_id": true
-    }
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
-err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").WithProperty(common.AllowInsertAutoIDKey, true))
+err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").WithProperty("allow_insert_auto_id", "true"))
 if err != nil {
     fmt.Println(err.Error())
     // handle error
@@ -682,19 +800,16 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
-curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/alter_properties" \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <token>" \
-  -d '{
-    "collectionName": "my_collection",
-    "properties": {
-      "allow_insert_auto_id": "true"
-    }
-  }'
+```rust
+client.alter_collection_properties(
+    AlterCollectionPropertiesRequest::builder()
+        .collection_name("my_collection")
+        .property("allow_insert_auto_id", "true")
+        .build()?,
+)
+.await?;
 ```
 
 </TabItem>
@@ -708,6 +823,40 @@ auto status = client->AlterCollectionProperties(milvus::AlterCollectionPropertie
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.alterCollectionProperties({
+    collection_name: "my_collection",
+    properties: {
+        "allow_insert_auto_id": true
+    }
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/alter_properties" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d '{
+    "collectionName": "my_collection",
+    "properties": {
+        "allow_insert_auto_id": "true"
+    }
+}'
 ```
 
 </TabItem>
@@ -725,7 +874,7 @@ if (!status.IsOk()) {
 
 下面的示例演示如何将 Collection 的时区设置为 **Asia/Shanghai**：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -751,18 +900,10 @@ client.alterCollectionProperties(alterCollectionReq);
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// js
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
-err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").WithProperty(common.CollectionDefaultTimezone, true))
+err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").WithProperty("timezone", "Asia/Shanghai"))
 if err != nil {
     fmt.Println(err.Error())
     // handle error
@@ -771,19 +912,16 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
-curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/alter_properties" \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <token>" \
-  -d '{
-    "collectionName": "my_collection",
-    "properties": {
-      "timezone": "Asia/Shanghai"
-    }
-  }'
+```rust
+client.alter_collection_properties(
+    AlterCollectionPropertiesRequest::builder()
+        .collection_name("my_collection")
+        .property("timezone", "Asia/Shanghai")
+        .build()?,
+)
+.await?;
 ```
 
 </TabItem>
@@ -800,13 +938,47 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.alterCollectionProperties({
+    collection_name: "my_collection",
+    properties: {
+        "timezone": "Asia/Shanghai"
+    }
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/alter_properties" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d '{
+    "collectionName": "my_collection",
+    "properties": {
+        "timezone": "Asia/Shanghai"
+    }
+}'
+```
+
+</TabItem>
 </Tabs>
 
 ## 删除 Collection 属性\{#drop-collection-properties}
 
 你还可以参考如下代码示例删除 Collection 相关属性。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -831,17 +1003,6 @@ client.dropCollectionProperties(DropCollectionPropertiesReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-client.dropCollectionProperties({
-    collection_name:"my_collection",
-    properties: ['collection.ttl.seconds'],
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -850,6 +1011,44 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+client.drop_collection_properties(
+    DropCollectionPropertiesRequest::builder()
+        .collection_name("my_collection")
+        .property_keys(["collection.ttl.seconds"])
+        .build()?,
+)
+.await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto status = client->DropCollectionProperties(milvus::DropCollectionPropertiesRequest()
+                                                  .WithCollectionName("my_collection")
+                                                  .AddPropertyKey(milvus::COLLECTION_TTL_SECONDS));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+client.dropCollectionProperties({
+    collection_name:"my_collection",
+    properties: ['collection.ttl.seconds'],
+});
 ```
 
 </TabItem>
@@ -868,19 +1067,6 @@ curl --request POST \
         "collection.ttl.seconds"
     ]
 }'
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto status = client->DropCollectionProperties(milvus::DropCollectionPropertiesRequest()
-                                                  .WithCollectionName("my_collection")
-                                                  .AddPropertyKey(milvus::COLLECTION_TTL_SECONDS));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
 ```
 
 </TabItem>

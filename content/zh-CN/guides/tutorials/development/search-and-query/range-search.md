@@ -55,7 +55,7 @@ Range Search 是一种通过指定搜索结果的相似度得分范围的方式�
 
 示例 Search 请求中指定的 **radius** 为 0.4，**range_filter** 为 0.6。在收到此请求后，Zilliz Cloud 会返回所有与查询向量相似度得分在 0.4 到 0.6 之间的 Entity。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -235,6 +235,78 @@ curl --request POST \
     }
 }'
 # {"code":0,"cost":0,"data":[]}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
+auto request = milvus::SearchRequest()
+                   .WithCollectionName("my_collection")
+                   .AddFloatVector(query_vector)
+                   .WithLimit(5)
+                   .WithAnnsField("vector")
+                   .WithRadius(0.4)
+                   .WithRangeFilter(0.6);
+
+milvus::SearchResponse response;
+auto status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+for (auto& result : response.Results().Results()) {
+    std::cout << "TopK results:" << std::endl;
+    milvus::EntityRows output_rows;
+    status = result.OutputRows(output_rows);
+    for (const auto& row : output_rows) {
+        std::cout << "\t" << row << std::endl;
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+zilliz vector search \
+  --collection my_collection \
+  --body '{
+    "data": [
+        [
+            0.3580376395471989,
+            -0.6023495712049978,
+            0.18414012509913835,
+            -0.26286205330961354,
+            0.9029438446296592
+        ]
+    ],
+    "annsField": "vector",
+    "limit": 3,
+    "searchParams": {
+        "params": {
+            "radius": 0.4,
+            "range_filter": 0.6
+        }
+    }
+}' \
+  --output json
 ```
 
 </TabItem>

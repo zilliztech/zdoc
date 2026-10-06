@@ -82,7 +82,7 @@ import TabItem from '@theme/TabItem';
 
 当使用如下示例代码在上述 Entity 中进行搜索时，我们需要在 Search 请求中添加过滤条件。为了方便检查搜索结果是否满足过滤条件，我们还在 Search 请求中指定了 Output Fields。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -255,6 +255,77 @@ curl --request POST \
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
+auto request = milvus::SearchRequest()
+                   .WithCollectionName("my_collection")
+                   .AddFloatVector(query_vector)
+                   .WithLimit(5)
+                   .WithAnnsField("vector")
+                   .WithFilter(R"("color like "red%" and likes > 50")")
+                   .AddOutputField("color")
+                   .AddOutputField("likes");
+
+milvus::SearchResponse response;
+status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+for (auto& result : response.Results().Results()) {
+    std::cout << "TopK results:" << std::endl;
+    milvus::EntityRows output_rows;
+    status = result.OutputRows(output_rows);
+    for (const auto& row : output_rows) {
+        std::cout << "\t" << row << std::endl;
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+zilliz vector search \
+  --collection my_collection \
+  --body '{
+  "data": [
+    [
+      0.3580376395471989,
+      -0.6023495712049978,
+      0.18414012509913835,
+      -0.26286205330961354,
+      0.9029438446296592
+    ]
+  ],
+  "annsField": "vector",
+  "filter": "color like \"red%\" and likes > 50",
+  "limit": 5,
+  "outputFields": [
+    "color",
+    "likes"
+  ]
+}' \
+  --output json
+```
+
+</TabItem>
 </Tabs>
 
 在上述代码示例中使用的过滤条件表达式 `color like "red%" and likes > 50` 中包含了使用 `and` 操作符连接的两个过滤条件：一个是 **color** 字段的值以 **red** 开头，另一个是 **likes** 字段的值大于 **50**。在示例数据中，符合此条件的数据只有两条，因此在满足 **topK** 小于等于 **3** 的情况下，这两条数据会全部返回。
@@ -288,7 +359,7 @@ curl --request POST \
 
 要使用迭代 Filtered Search 进行过滤搜索，您可以执行以下操作：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -465,6 +536,81 @@ curl --request POST \
     "outputFields": ["color", "likes"]
 }'
 # {"code":0,"cost":0,"data":[]}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
+auto request = milvus::SearchRequest()
+                   .WithCollectionName("my_collection")
+                   .AddFloatVector(query_vector)
+                   .WithLimit(5)
+                   .WithAnnsField("vector")
+                   .WithFilter(R"("color like "red%" and likes > 50")")
+                   .AddExtraParam("hints", "iterative_filter")
+                   .AddOutputField("color")
+                   .AddOutputField("likes");
+
+milvus::SearchResponse response;
+status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+for (auto& result : response.Results().Results()) {
+    std::cout << "TopK results:" << std::endl;
+    milvus::EntityRows output_rows;
+    status = result.OutputRows(output_rows);
+    for (const auto& row : output_rows) {
+        std::cout << "\t" << row << std::endl;
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+zilliz vector search \
+  --collection my_collection \
+  --body '{
+  "data": [
+    [
+      0.3580376395471989,
+      -0.6023495712049978,
+      0.18414012509913835,
+      -0.26286205330961354,
+      0.9029438446296592
+    ]
+  ],
+  "annsField": "vector",
+  "filter": "color like \"red%\" and likes > 50",
+  "limit": 5,
+  "outputFields": [
+    "color",
+    "likes"
+  ],
+  "searchParams": {
+    "hints": "iterative_filter"
+  }
+}' \
+  --output json
 ```
 
 </TabItem>

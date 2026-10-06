@@ -77,7 +77,7 @@ import TabItem from '@theme/TabItem';
 
 `multi_analyzer_params` 是一个 JSON 对象，用于决定 Zilliz Cloud 如何为每条数据选择合适的 Analyzer。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -123,27 +123,6 @@ analyzerParams.put("alias", new HashMap<String, Object>() {{
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-const multi_analyzer_params = {
-  // Define language-specific analyzers
-  // Each analyzer follows this format: <analyzer_name>: <analyzer_params>
-  "analyzers": {
-    "english": {"type": "english"},          # English-optimized analyzer
-    "chinese": {"type": "chinese"},          # Chinese-optimized analyzer
-    "default": {"tokenizer": "icu"}          # Required fallback analyzer
-  },
-  "by_field": "language",                    # Field determining analyzer selection
-  "alias": {
-    "cn": "chinese",                         # Use "cn" as shorthand for Chinese
-    "en": "english"                          # Use "en" as shorthand for English
-  }
-}
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -158,6 +137,70 @@ multiAnalyzerParams := map[string]any{
         "cn": "chinese",
         "en": "english",
     },
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+use std::collections::HashMap;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+    let client = ClientV2::new(&config).await?;
+
+    let multi_analyzer_params = serde_json::json!({
+        "analyzers": {
+            "english": {"type": "english"},
+            "chinese": {"type": "chinese"},
+            "default": {"tokenizer": "icu"}
+        },
+        "by_field": "language",
+        "alias": {"cn": "chinese", "en": "english"}
+    });
+
+    Ok(())
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+nlohmann::json multi_analyzer_params = {
+    {"analyzers", {
+        {"english", {{"type", "english"}}},
+        {"chinese", {{"type", "chinese"}}},
+        {"default", {{"tokenizer", "icu"}}}
+    }},
+    {"by_field", "language"},
+    {"alias", {{"cn", "chinese"}, {"en", "english"}}}
+};
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const multi_analyzer_params = {
+  // Define language-specific analyzers
+  // Each analyzer follows this format: <analyzer_name>: <analyzer_params>
+  "analyzers": {
+    "english": {"type": "english"},          // English-optimized analyzer
+    "chinese": {"type": "chinese"},          // Chinese-optimized analyzer
+    "default": {"tokenizer": "icu"}          // Required fallback analyzer
+  },
+  "by_field": "language",                    // Field determining analyzer selection
+  "alias": {
+    "cn": "chinese",                         // Use "cn" as shorthand for Chinese
+    "en": "english"                          // Use "en" as shorthand for English
+  }
 }
 ```
 
@@ -233,7 +276,7 @@ export multi_analyzer_params='{
 
 - **向量字段 (`sparse`)**：此字段用于存储 BM25 函数生成的稀疏向量。这些向量表示文本数据的可分析形式，也是 Zilliz Cloud 实际用于搜索的内容。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -336,6 +379,96 @@ collectionSchema.addField(AddFieldReq.builder()
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/column"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
+
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+schema := entity.NewSchema()
+
+schema.WithField(entity.NewField().
+    WithName("id").
+    WithDataType(entity.FieldTypeInt64).
+    WithIsPrimaryKey(true).
+    WithIsAutoID(true),
+).WithField(entity.NewField().
+    WithName("language").
+    WithDataType(entity.FieldTypeVarChar).
+    WithMaxLength(255),
+).WithField(entity.NewField().
+    WithName("text").
+    WithDataType(entity.FieldTypeVarChar).
+    WithMaxLength(8192).
+    WithEnableAnalyzer(true).
+    WithMultiAnalyzerParams(multiAnalyzerParams),
+).WithField(entity.NewField().
+    WithName("sparse").
+    WithDataType(entity.FieldTypeSparseVector),
+)
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+    let schema = CollectionSchema::new()
+        .add_field(FieldSchema::new().name("id").data_type(DataType::Int64).primary_key(true).auto_id(true))
+        .add_field(FieldSchema::new().name("language").data_type(DataType::VarChar).max_length(255))
+        .add_field(FieldSchema::new().name("text").data_type(DataType::VarChar).max_length(8192)
+            .enable_analyzer(true)
+            .multi_analyzer_params(multi_analyzer_params.clone()))
+        .add_field(FieldSchema::new().name("sparse").data_type(DataType::SparseFloatVector));
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->AddField({"id", milvus::DataType::INT64, "", true, true});
+schema->AddField(milvus::FieldSchema("language", milvus::DataType::VARCHAR)
+                     .WithMaxLength(255));
+schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR)
+                     .WithMaxLength(8192)
+                     .EnableAnalyzer(true)
+                     .WithMultiAnalyzerParams(multi_analyzer_params));
+schema->AddField(milvus::FieldSchema("sparse", milvus::DataType::SPARSE_FLOAT_VECTOR));
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -376,53 +509,6 @@ const schema = [
 
 </TabItem>
 
-<TabItem value='go'>
-
-```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v2/column"
-    "github.com/milvus-io/milvus/client/v2/entity"
-    "github.com/milvus-io/milvus/client/v2/index"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
-)
-
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-
-schema := entity.NewSchema()
-
-schema.WithField(entity.NewField().
-    WithName("id").
-    WithDataType(entity.FieldTypeInt64).
-    WithIsPrimaryKey(true).
-    WithIsAutoID(true),
-).WithField(entity.NewField().
-    WithName("language").
-    WithDataType(entity.FieldTypeVarChar).
-    WithMaxLength(255),
-).WithField(entity.NewField().
-    WithName("text").
-    WithDataType(entity.FieldTypeVarChar).
-    WithMaxLength(8192).
-    WithEnableAnalyzer(true).
-    WithMultiAnalyzerParams(multiAnalyzerParams),
-).WithField(entity.NewField().
-    WithName("sparse").
-    WithDataType(entity.FieldTypeSparseVector),
-)
-```
-
-</TabItem>
-
 <TabItem value='bash'>
 
 ```bash
@@ -450,8 +536,8 @@ export textField='{
   "dataType": "VarChar",
   "elementTypeParams": {
     "max_length": 8192,
-    "enable_analyzer": true，
-    "multiAnalyzerParam": '"$multi_analyzer_params"'
+    "enable_analyzer": true,
+    "multi_analyzer_params": '"$multi_analyzer_params"'
   },
 }'
 
@@ -468,7 +554,7 @@ export sparseField='{
 
 定义 BM25 function 为文本生成稀疏向量：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -500,6 +586,42 @@ collectionSchema.addFunction(function);
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+function := entity.NewFunction()
+schema.WithFunction(function.WithName("text_to_vector").
+    WithType(entity.FunctionTypeBM25).
+    WithInputFields("text").
+    WithOutputFields("sparse"))
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+    let function = Function::new()
+        .name("text_to_vector")
+        .function_type(FunctionType::Bm25)
+        .input_fields(["text"])
+        .output_fields(["sparse"]);
+    let schema = schema.add_function(function);
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::FunctionPtr function = std::make_shared<milvus::Function>("text_to_vector", milvus::FunctionType::BM25);
+function->AddInputFieldName("text");
+function->AddOutputFieldName("sparse");
+schema->AddFunction(function);
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -513,18 +635,6 @@ const functions = [
     params: {},
   },
 ];
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-function := entity.NewFunction()
-schema.WithFunction(function.WithName("text_to_vector").
-    WithType(entity.FunctionTypeBM25).
-    WithInputFields("text").
-    WithOutputFields("sparse"))
 ```
 
 </TabItem>
@@ -563,7 +673,7 @@ export schema="{
 
 为稀疏向量配置索引参数：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -593,6 +703,34 @@ indexes.add(IndexParam.builder()
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+idx := index.NewAutoIndex(index.MetricType(entity.BM25))
+indexOption := milvusclient.NewCreateIndexOption("multilingual_documents", "sparse", idx)
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+    let index_params = vec![IndexParam::new()
+        .field_name("sparse")
+        .index_type(IndexType::AutoIndex)
+        .metric_type(MetricType::Bm25)];
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::IndexDesc index_vector("sparse", "", milvus::IndexType::AUTOINDEX, milvus::MetricType::BM25);
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -601,15 +739,6 @@ const index_params = [{
     index_type: "AUTOINDEX",
     metric_type: "BM25"
 }];
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-idx := index.NewAutoIndex(index.MetricType(entity.BM25))
-indexOption := milvusclient.NewCreateIndexOption("multilingual_documents", "sparse", idx)
 ```
 
 </TabItem>
@@ -641,7 +770,7 @@ export IndexParams='[
 
 - `index_params=index_params`：实现高效搜索所需的索引策略。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -659,6 +788,8 @@ client.create_collection(
     schema=schema,                         # Our multilingual schema
     index_params=index_params              # Our search index configuration
 )
+
+client.load_collection(COLLECTION_NAME)
 ```
 
 </TabItem>
@@ -669,13 +800,72 @@ client.create_collection(
 client.dropCollection(DropCollectionReq.builder()
         .collectionName("multilingual_documents")
         .build());
-        
+
 CreateCollectionReq requestCreate = CreateCollectionReq.builder()
         .collectionName("multilingual_documents")
         .collectionSchema(collectionSchema)
         .indexParams(indexes)
         .build();
 client.createCollection(requestCreate);
+client.loadCollection(LoadCollectionReq.builder()
+        .collectionName("multilingual_documents")
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+err = client.CreateCollection(ctx,
+    milvusclient.NewCreateCollectionOption("multilingual_documents", schema).
+        WithIndexOptions(indexOption))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+_, err = client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("multilingual_documents"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+    let _ = client.drop_collection(DropCollectionRequest::builder()
+        .collection_name("multilingual_documents").build()?).await;
+    client.create_collection(CreateCollectionRequest::builder()
+        .collection_name("multilingual_documents")
+        .schema(schema)
+        .index_params(index_params)
+        .build()?).await?;
+    client.load_collection(LoadCollectionRequest::builder()
+        .collection_name("multilingual_documents").build()?).await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                        .WithCollectionName("multilingual_documents")
+                                        .AddIndex(std::move(index_vector))
+                                        .WithCollectionSchema(schema));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->LoadCollection(milvus::LoadCollectionRequest()
+                                    .WithCollectionName("multilingual_documents"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -692,20 +882,9 @@ await client.createCollection({
   index_params: index_params,
   functions: functions
 });
-```
 
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-err = client.CreateCollection(ctx,
-    milvusclient.NewCreateCollectionOption("multilingual_documents", schema).
-        WithIndexOptions(indexOption))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
+// Load the collection so queries can run
+await client.loadCollection({ collection_name: COLLECTION_NAME });
 ```
 
 </TabItem>
@@ -723,6 +902,14 @@ curl --request POST \
   \"schema\": $schema,
   \"indexParams\": $IndexParams
 }"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/load" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--data '{
+  "collectionName": "multilingual_documents"
+}'
 ```
 
 </TabItem>
@@ -734,7 +921,7 @@ curl --request POST \
 
 在向多语言 Collection 中添加文档时，每个文档必须同时包含文本内容和语言标识符：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -803,9 +990,75 @@ client.insert(InsertReq.builder()
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+column1 := column.NewColumnVarChar("text",
+    []string{
+        "Artificial intelligence is transforming technology",
+        "Machine learning models require large datasets",
+        "人工智能正在改变技术领域",
+        "机器学习模型需要大型数据集",
+    })
+column2 := column.NewColumnVarChar("language",
+    []string{"english", "en", "chinese", "cn"})
+
+_, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("multilingual_documents").
+    WithColumns(column1, column2),
+)
+if err != nil {
+    fmt.Println(err.Error())
+    // handle err
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+    let documents = vec![
+        serde_json::json!({"text": "Artificial intelligence is transforming technology", "language": "english"}),
+        serde_json::json!({"text": "Machine learning models require large datasets", "language": "en"}),
+        serde_json::json!({"text": "人工智能正在改变技术领域", "language": "chinese"}),
+        serde_json::json!({"text": "机器学习模型需要大型数据集", "language": "cn"}),
+    ];
+    let resp = client.insert(InsertRequest::builder()
+        .collection_name("multilingual_documents")
+        .rows(documents)
+        .build()?).await?;
+    println!("inserted: {}", resp.insert_count());
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::vector<milvus::EntityRow> documents = {
+    {{"text", "Artificial intelligence is transforming technology"}, {"language", "english"}},
+    {{"text", "Machine learning models require large datasets"}, {"language", "en"}},
+    {{"text", "人工智能正在改变技术领域"}, {"language", "chinese"}},
+    {{"text", "机器学习模型需要大型数据集"}, {"language", "cn"}}
+};
+
+milvus::InsertResponse resp_insert;
+status = client->Insert(milvus::InsertRequest()
+                                .WithCollectionName("multilingual_documents")
+                                .WithRowsData(std::move(documents)),
+                            resp_insert);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
+const COLLECTION_NAME = "multilingual_documents";
+
 // Prepare multilingual documents
 const documents = [
   // English documents
@@ -842,30 +1095,6 @@ console.log("Documents by language: 2 English, 2 Chinese");
 // Expected output:
 // Successfully inserted 4 documents
 // Documents by language: 2 English, 2 Chinese
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-column1 := column.NewColumnVarChar("text",
-    []string{
-        "Artificial intelligence is transforming technology",
-        "Machine learning models require large datasets",
-        "人工智能正在改变技术领域",
-        "机器学习模型需要大型数据集",
-    })
-column2 := column.NewColumnVarChar("language",
-    []string{"english", "en", "chinese", "cn"})
-
-_, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("multilingual_documents").
-    WithColumns(column1, column2),
-)
-if err != nil {
-    fmt.Println(err.Error())
-    // handle err
-}
 ```
 
 </TabItem>
@@ -932,7 +1161,7 @@ curl --request POST \
 
 - `params={"drop_ratio_search": "0"}`：控制 BM25 的特定行为，此处表示保留查询中的所有词项。更多信息请参考 [稀疏向量](./use-sparse-vector)。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -992,36 +1221,6 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// Execute the search
-const english_results = await client.search({
-  collection_name: COLLECTION_NAME,
-  data: ["artificial intelligence"],
-  anns_field: "sparse",
-  params: {
-    metric_type: "BM25",
-    analyzer_name: "english",
-    drop_ratio_search: "0",
-  },
-  limit: 3,
-  output_fields: ["text", "language"],
-  consistency_level: "Bounded",
-});
-
-// Display English search results
-console.log("\n=== English Search Results ===");
-english_results.results.forEach((hit, i) => {
-  console.log(
-    `${i + 1}. [${hit.score.toFixed(4)}] ${hit.entity.text} ` +
-      `(Language: ${hit.entity.language})`
-  );
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -1049,6 +1248,86 @@ for _, resultSet := range resultSets {
         fmt.Println("Score: ", resultSet.Scores[i], "Text: ", text, "Language:", lang)
     }
 }
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+    let request = SearchRequest::builder()
+        .collection_name("multilingual_documents")
+        .vectors(SearchVectors::EmbeddedText(vec!["artificial intelligence".to_string()]))
+        .vector_field("sparse")
+        .limit(3)
+        .output_fields(vec!["text", "language"])
+        .metric_type(MetricType::Bm25)
+        .extra_params(HashMap::from([
+            ("analyzer_name".to_string(), "english".to_string()),
+            ("drop_ratio_search".to_string(), "0".to_string()),
+        ]))
+        .build()?;
+    let resp = client.search(request).await?;
+    for result in resp.results().iter() {
+        println!("score: {:?}", result.get_scores());
+    }
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::SearchRequest request =
+    milvus::SearchRequest()
+        .WithCollectionName("multilingual_documents")
+        .AddEmbeddedText("artificial intelligence")
+        .WithAnnsField("sparse")
+        .WithLimit(3)
+        .AddExtraParam("metric_type", "BM25")
+        .AddExtraParam("analyzer_name", "english")
+        .AddExtraParam("drop_ratio_search", "0")
+        .AddOutputField("text")
+        .AddOutputField("language")
+        .WithConsistencyLevel(milvus::ConsistencyLevel::STRONG);
+
+milvus::SearchResponse response;
+status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const COLLECTION_NAME = "multilingual_documents";
+
+// Execute the search
+const english_results = await client.search({
+  collection_name: COLLECTION_NAME,
+  data: ["artificial intelligence"],
+  anns_field: "sparse",
+  params: {
+    metric_type: "BM25",
+    analyzer_name: "english",
+    drop_ratio_search: "0",
+  },
+  limit: 3,
+  output_fields: ["text", "language"],
+  consistency_level: "Bounded",
+});
+
+// Display English search results
+console.log("\n=== English Search Results ===");
+english_results.results.forEach((hit, i) => {
+  console.log(
+    `${i + 1}. [${hit.score.toFixed(4)}] ${hit.entity.text} ` +
+      `(Language: ${hit.entity.language})`
+  );
+});
 ```
 
 </TabItem>
@@ -1083,7 +1362,7 @@ curl --request POST \
 
 此示例演示了如何切换为中文 Analyzer（使用其别名 `"cn"`）来处理不同的查询文本。其他参数保持不变，但查询文本会按照中文特有的分词规则进行处理。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1135,36 +1414,6 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// Execute the search
-const cn_results = await client.search({
-  collection_name: COLLECTION_NAME,
-  data: ["人工智能"],
-  anns_field: "sparse",
-  params: {
-    metric_type: "BM25",
-    analyzer_name: "cn",
-    drop_ratio_search: "0",
-  },
-  limit: 3,
-  output_fields: ["text", "language"],
-  consistency_level: "Bounded",
-});
-
-// Display Chinese search results
-console.log("\n=== Chinese Search Results ===");
-cn_results.results.forEach((hit, i) => {
-  console.log(
-    `${i + 1}. [${hit.score.toFixed(4)}] ${hit.entity.text} ` +
-      `(Language: ${hit.entity.language})`
-  );
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -1189,6 +1438,86 @@ for _, resultSet := range resultSets {
         fmt.Println("Score: ", resultSet.Scores[i], "Text: ", text, "Language:", lang)
     }
 }
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+    let request = SearchRequest::builder()
+        .collection_name("multilingual_documents")
+        .vectors(SearchVectors::EmbeddedText(vec!["人工智能".to_string()]))
+        .vector_field("sparse")
+        .limit(3)
+        .output_fields(vec!["text", "language"])
+        .metric_type(MetricType::Bm25)
+        .extra_params(HashMap::from([
+            ("analyzer_name".to_string(), "cn".to_string()),
+            ("drop_ratio_search".to_string(), "0".to_string()),
+        ]))
+        .build()?;
+    let resp = client.search(request).await?;
+    for result in resp.results().iter() {
+        println!("score: {:?}", result.get_scores());
+    }
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::SearchRequest request_cn =
+    milvus::SearchRequest()
+        .WithCollectionName("multilingual_documents")
+        .AddEmbeddedText("人工智能")
+        .WithAnnsField("sparse")
+        .WithLimit(3)
+        .AddExtraParam("metric_type", "BM25")
+        .AddExtraParam("analyzer_name", "cn")
+        .AddExtraParam("drop_ratio_search", "0")
+        .AddOutputField("text")
+        .AddOutputField("language")
+        .WithConsistencyLevel(milvus::ConsistencyLevel::STRONG);
+
+milvus::SearchResponse response_cn;
+status = client->Search(request_cn, response_cn);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const COLLECTION_NAME = "multilingual_documents";
+
+// Execute the search
+const cn_results = await client.search({
+  collection_name: COLLECTION_NAME,
+  data: ["人工智能"],
+  anns_field: "sparse",
+  params: {
+    metric_type: "BM25",
+    analyzer_name: "cn",
+    drop_ratio_search: "0",
+  },
+  limit: 3,
+  output_fields: ["text", "language"],
+  consistency_level: "Bounded",
+});
+
+// Display Chinese search results
+console.log("\n=== Chinese Search Results ===");
+cn_results.results.forEach((hit, i) => {
+  console.log(
+    `${i + 1}. [${hit.score.toFixed(4)}] ${hit.entity.text} ` +
+      `(Language: ${hit.entity.language})`
+  );
+});
 ```
 
 </TabItem>

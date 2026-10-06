@@ -65,7 +65,7 @@ Binary 向量可以通过多种方法生成。在文本处理中，可以使用�
 
 1. 使用 `dim` 参数指定向量的维度。注意，`dim` 必须是 8 的倍数，因为 Binary 向量在插入时需要转换为 byte 数组。每 8 个布尔值（0 或 1）将被打包为 1 个 byte。例如，如果 `dim=128`，则插入时需要提供 16 个 byte 的数组。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -89,16 +89,16 @@ schema.add_field(field_name="binary_vector", datatype=DataType.BINARY_VECTOR, di
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
-
 import io.milvus.v2.common.DataType;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build());
-        
-CreateCollectionReq.CollectionSchema schema = client.createSchema();
+
+CreateCollectionReq.CollectionSchema schema = MilvusClientV2.CreateSchema();
 schema.setEnableDynamicField(true);
 schema.addField(AddFieldReq.builder()
         .fieldName("pk")
@@ -117,20 +117,6 @@ schema.addField(AddFieldReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-import { DataType } from "@zilliz/milvus2-sdk-node";
-
-schema.push({
-  name: "binary vector",
-  data_type: DataType.BinaryVector,
-  dim: 128,
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -138,18 +124,16 @@ import (
     "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/column"
-    "github.com/milvus-io/milvus/client/v2/entity"
-    "github.com/milvus-io/milvus/client/v2/index"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
-milvusAddr := "YOUR_CLUSTER_ENDPOINT"
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: milvusAddr,
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
 })
 if err != nil {
     fmt.Println(err.Error())
@@ -157,18 +141,85 @@ if err != nil {
 }
 defer client.Close(ctx)
 
-schema := entity.NewSchema()
-schema.WithField(entity.NewField().
-    WithName("pk").
-    WithDataType(entity.FieldTypeVarChar).
-    WithIsAutoID(true).
-    WithIsPrimaryKey(true).
-    WithMaxLength(100),
-).WithField(entity.NewField().
-    WithName("binary_vector").
-    WithDataType(entity.FieldTypeBinaryVector).
-    WithDim(128),
+schema := entity.NewSchema().WithEnableDynamicField(true).
+    WithField(entity.NewField().
+        WithName("pk").
+        WithDataType(entity.FieldTypeVarChar).
+        WithIsAutoID(true).
+        WithIsPrimaryKey(true).
+        WithMaxLength(100),
+    ).WithField(entity.NewField().
+        WithName("binary_vector").
+        WithDataType(entity.FieldTypeBinaryVector).
+        WithDim(128),
+    )
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
 )
+.await?;
+
+let mut schema = CollectionSchema::new().enable_dynamic_field(true);
+schema = schema
+    .add_field(
+        FieldSchema::new()
+            .name("pk")
+            .data_type(DataType::VarChar)
+            .primary_key(true)
+            .auto_id(true)
+            .max_length(100),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("binary_vector")
+            .data_type(DataType::BinaryVector)
+            .dimension(128),
+    );
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->SetEnableDynamicField(true);
+schema->AddField(milvus::FieldSchema("pk", milvus::DataType::VARCHAR, "", true, true).WithMaxLength(100));
+schema->AddField(milvus::FieldSchema("binary_vector", milvus::DataType::BINARY_VECTOR).WithDimension(128));
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { DataType } from "@zilliz/milvus2-sdk-node";
+
+schema.push({
+  name: "binary_vector",
+  data_type: DataType.BinaryVector,
+  dim: 128,
+});
 ```
 
 </TabItem>
@@ -212,7 +263,7 @@ export schema="{
 
 为了加速搜索，我们需要为 Binary 向量字段创建索引。索引可以显著提高大规模向量数据的检索效率。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -235,13 +286,44 @@ import io.milvus.v2.common.IndexParam;
 import java.util.*;
 
 List<IndexParam> indexParams = new ArrayList<>();
-Map<String,Object> extraParams = new HashMap<>();
 
 indexParams.add(IndexParam.builder()
         .fieldName("binary_vector")
+        .indexName("binary_vector_index")
         .indexType(IndexParam.IndexType.AUTOINDEX)
         .metricType(IndexParam.MetricType.HAMMING)
         .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+idx := index.NewAutoIndex(entity.HAMMING)
+indexOption := milvusclient.NewCreateIndexOption("my_collection", "binary_vector", idx)
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let index_params = vec![IndexParam::new()
+    .field_name("binary_vector")
+    .index_name("binary_vector_index")
+    .index_type(IndexType::AutoIndex)
+    .metric_type(MetricType::Hamming)];
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::vector<milvus::IndexDesc> indexes = {
+    milvus::IndexDesc("binary_vector", "binary_vector_index", milvus::IndexType::AUTOINDEX, milvus::MetricType::HAMMING)
+};
 ```
 
 </TabItem>
@@ -257,15 +339,6 @@ const indexParams = {
   metric_type: MetricType.HAMMING,
   index_type: IndexType.AUTOINDEX
 };
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-idx := index.NewAutoIndex(entity.HAMMING)
-indexOption := milvusclient.NewCreateIndexOption("my_collection", "binary_vector", idx)
 ```
 
 </TabItem>
@@ -294,7 +367,7 @@ export indexParams='[
 
 Binary 向量和索引定义完成后，我们便可以创建包含 Binary 向量的 Collection。以下示例通过 `create_collection` 方法创建了一个名为 `my_binary_collection` 的 Collection。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -322,20 +395,6 @@ client.createCollection(requestCreate);
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-import { MilvusClient } from "@zilliz/milvus2-sdk-node";
-
-await client.createCollection({
-    collection_name: 'my_collection',
-    schema: schema,
-    index_params: indexParams
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -346,6 +405,50 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+client
+    .create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name("my_collection")
+            .schema(schema)
+            .index_params(index_params)
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                        .WithCollectionName("my_collection")
+                                        .WithIndexes(std::move(indexes))
+                                        .WithCollectionSchema(schema));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+await client.createCollection({
+    collection_name: 'my_collection',
+    schema: schema,
+    index_params: indexParams
+});
 ```
 
 </TabItem>
@@ -374,7 +477,7 @@ curl --request POST \
 
 例如，对于 128 维的 Binary 向量，需要提供 16 个 byte 的数组（因为 128 位 ÷ 8 位/byte = 16 byte）。以下是插入数据的代码示例：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -412,34 +515,29 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import io.milvus.v2.service.vector.request.InsertReq;
 import io.milvus.v2.service.vector.response.InsertResp;
+import java.nio.ByteBuffer;
 
-private static byte[] convertBoolArrayToBytes(boolean[] booleanArray) {
-    byte[] byteArray = new byte[booleanArray.length / Byte.SIZE];
-    for (int i = 0; i < booleanArray.length; i++) {
-        if (booleanArray[i]) {
-            int index = i / Byte.SIZE;
-            int shift = i % Byte.SIZE;
-            byteArray[index] |= (byte) (1 << shift);
-        }
-    }
+// Binary vectors (128 bits = 16 bytes)
+// vector1: [1,0,0,1,1,0,1,1, 0,1,0,1,0,1,0,0] + [0]*112
+byte[] vector1 = new byte[16];
+vector1[0] = (byte) 0xD9;
+vector1[1] = 0x2A;
 
-    return byteArray;
-}
+// vector2: [0,1,0,1,0,1,0,0, 1,1,0,0,1,1,0,1] + [0]*112
+byte[] vector2 = new byte[16];
+vector2[0] = 0x2A;
+vector2[1] = (byte) 0xB3;
 
 List<JsonObject> rows = new ArrayList<>();
 Gson gson = new Gson();
-{
-    boolean[] boolArray = {true, false, false, true, true, false, true, true, false, true, false, false, true, true, false, true};
-    JsonObject row = new JsonObject();
-    row.add("binary_vector", gson.toJsonTree(convertBoolArrayToBytes(boolArray)));
-    rows.add(row);
-}
-{
-    boolean[] boolArray = {false, true, false, true, false, true, false, false, true, true, false, false, true, true, false, true};
-    JsonObject row = new JsonObject();
-    row.add("binary_vector", gson.toJsonTree(convertBoolArrayToBytes(boolArray)));
-    rows.add(row);
-}
+
+JsonObject row1 = new JsonObject();
+row1.add("binary_vector", gson.toJsonTree(vector1));
+rows.add(row1);
+
+JsonObject row2 = new JsonObject();
+row2.add("binary_vector", gson.toJsonTree(vector2));
+rows.add(row2);
 
 InsertResp insertR = client.insert(InsertReq.builder()
         .collectionName("my_collection")
@@ -449,34 +547,82 @@ InsertResp insertR = client.insert(InsertReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-const data = [
-  { binary_vector: [1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1] },
-  { binary_vector: [1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1] },
-];
-
-client.insert({
-  collection_name: "my_collection",
-  data: data,
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
 _, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("my_collection").
     WithBinaryVectorColumn("binary_vector", 128, [][]byte{
-        {0b10011011, 0b01010100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0b10011011, 0b01010101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0b11011001, 0b00101010, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0b00101010, 0b10110011, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
     }))
 if err != nil {
     fmt.Println(err.Error())
     // handle err
 }
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+// Binary vectors (128 bits = 16 bytes)
+let binary_vectors: Vec<Vec<u8>> = vec![
+    vec![0xD9, 0x2A, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    vec![0x2A, 0xB3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+];
+
+client
+    .insert(
+        InsertRequest::builder()
+            .collection_name("my_collection")
+            .columns(vec![FieldData::binary_vector(
+                "binary_vector",
+                binary_vectors,
+            )])
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// Binary vectors (128 bits = 16 bytes)
+std::vector<uint8_t> vector1 = {0xD9, 0x2A, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+std::vector<uint8_t> vector2 = {0x2A, 0xB3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+milvus::EntityRows data = {
+    {{"binary_vector", vector1}},
+    {{"binary_vector", vector2}}
+};
+
+milvus::InsertResponse response;
+auto status = client->Insert(milvus::InsertRequest()
+                                .WithCollectionName("my_collection")
+                                .WithRowsData(std::move(data)),
+                             response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const data = [
+  { binary_vector: [1,0,0,1,1,0,1,1,0,1,0,1,0,1,0,0] },
+  { binary_vector: [0,1,0,1,0,1,0,0,1,1,0,0,1,1,0,1] },
+];
+
+await client.insert({
+  collection_name: "my_collection",
+  data: data,
+});
 ```
 
 </TabItem>
@@ -504,7 +650,7 @@ curl --request POST \
 
 在搜索时，Binary 向量同样需要以 byte 数组的形式提供。确保查询向量的维度与定义 `dim` 时一致，并按照 8 个布尔值转换为 1 个 byte。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -538,45 +684,27 @@ print(res)
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.BinaryVec;
 import io.milvus.v2.service.vector.response.SearchResp;
+import java.nio.ByteBuffer;
+
+// query vector = vector1
+byte[] queryBytes = new byte[16];
+queryBytes[0] = (byte) 0xD9;
+queryBytes[1] = 0x2A;
+ByteBuffer queryVector = ByteBuffer.wrap(queryBytes);
 
 Map<String,Object> searchParams = new HashMap<>();
-searchParams.put("nprobe",10);
-
-boolean[] boolArray = {true, false, false, true, true, false, true, true, false, true, false, false, true, true, false, true};
-BinaryVec queryVector = new BinaryVec(convertBoolArrayToBytes(boolArray));
+searchParams.put("nprobe", 10);
 
 SearchResp searchR = client.search(SearchReq.builder()
         .collectionName("my_collection")
-        .data(Collections.singletonList(queryVector))
+        .data(Collections.singletonList(new BinaryVec(queryVector)))
         .annsField("binary_vector")
         .searchParams(searchParams)
         .topK(5)
         .outputFields(Collections.singletonList("pk"))
         .build());
-        
- System.out.println(searchR.getSearchResults());
- 
- // Output
- //
- // [[SearchResp.SearchResult(entity={pk=453444327741536775}, score=0.0, id=453444327741536775), SearchResp.SearchResult(entity={pk=453444327741536776}, score=7.0, id=453444327741536776)]]
-```
 
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-query_vector = [1,0,1,0,1,1,1,1,1,1,1,1];
-
-client.search({
-    collection_name: 'my_collection',
-    data: query_vector,
-    limit: 5,
-    output_fields: ['pk'],
-    params: {
-        nprobe: 10
-    }
-});
+System.out.println(searchR.getSearchResults());
 ```
 
 </TabItem>
@@ -584,13 +712,13 @@ client.search({
 <TabItem value='go'>
 
 ```go
-queryVector := []byte{0b10011011, 0b01010100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+queryVector := []byte{0b11011001, 0b00101010, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 
 annSearchParams := index.NewCustomAnnParam()
 annSearchParams.WithExtraParam("nprobe", 10)
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
     "my_collection", // collectionName
-    5,                      // limit
+    5,               // limit
     []entity.Vector{entity.BinaryVector(queryVector)},
 ).WithANNSField("binary_vector").
     WithOutputFields("pk").
@@ -605,6 +733,76 @@ for _, resultSet := range resultSets {
     fmt.Println("Scores: ", resultSet.Scores)
     fmt.Println("Pks: ", resultSet.GetColumn("pk").FieldData().GetScalars())
 }
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+// query vector = vector1
+let query_vector: Vec<u8> = vec![0xD9, 0x2A, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+let results = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("my_collection")
+            .vector_field("binary_vector")
+            .vectors(SearchVectors::Binary(vec![query_vector]))
+            .limit(5)
+            .output_fields(vec!["pk"])
+            .metric_type(MetricType::Hamming)
+            .build()?,
+    )
+    .await?;
+println!("{:?}", results.results());
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// query vector = vector1
+std::vector<uint8_t> query_vector = {0xD9, 0x2A, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+auto request = milvus::SearchRequest()
+                   .WithCollectionName("my_collection")
+                   .WithAnnsField("binary_vector")
+                   .WithLimit(5)
+                   .AddOutputField("pk")
+                   .AddBinaryVector(query_vector);
+
+milvus::SearchResponse response;
+auto status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+auto search_results = response.Results();
+for (auto& result : search_results.Results()) {
+    milvus::EntityRows output_rows;
+    status = result.OutputRows(output_rows);
+    for (const auto& row : output_rows) {
+        std::cout << "\t" << row << std::endl;
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const query_vector = [1,0,0,1,1,0,1,1,0,1,0,1,0,1,0,0];
+
+await client.search({
+    collection_name: 'my_collection',
+    data: query_vector,
+    anns_field: 'binary_vector',
+    limit: 5,
+    output_fields: ['pk'],
+    params: { nprobe: 10 }
+});
 ```
 
 </TabItem>

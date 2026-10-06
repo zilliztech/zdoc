@@ -39,7 +39,7 @@ import TabItem from '@theme/TabItem';
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -61,6 +61,38 @@ analyzerParams.put("filter", Collections.singletonList("cnalphanumonly"));
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+analyzerParams := map[string]any{"tokenizer": "jieba", "filter": []any{"cnalphanumonly"}}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use serde_json::json;
+
+let analyzer_params = json!({
+    "tokenizer": "jieba",
+    "filter": ["cnalphanumonly"]
+});
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"tokenizer", "jieba"},
+    {"filter", {"cnalphanumonly"}}
+};
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -68,14 +100,6 @@ const analyzer_params = {
     "tokenizer": "jieba",
     "filter": ["cnalphanumonly"]
 };
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-analyzerParams = map[string]any{"tokenizer": "jieba", "filter": []any{"cnalphanumonly"}}
 ```
 
 </TabItem>
@@ -99,7 +123,7 @@ analyzerParams='{
 
 要将中文 Analyzer 应用于字段，只需在 `analyzer_params` 中将 `type` 设置为 `chinese`，并根据需要包含可选参数。  
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -119,20 +143,42 @@ analyzerParams.put("type", "chinese");
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+analyzerParams := map[string]any{"type": "chinese"}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use serde_json::json;
+
+let analyzer_params = json!({
+    "type": "chinese"
+});
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"type", "chinese"}
+};
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
 const analyzer_params = {
     "type": "chinese",
 }
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-analyzerParams = map[string]any{"type": "chinese"}
 ```
 
 </TabItem>
@@ -161,7 +207,7 @@ analyzerParams='{
 
 ### Analyzer 配置\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -181,20 +227,42 @@ analyzerParams.put("type", "chinese");
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+analyzerParams := map[string]any{"type": "chinese"}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use serde_json::json;
+
+let analyzer_params = json!({
+    "type": "chinese"
+});
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"type", "chinese"}
+};
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
 analyzer_params = {
     "type": "chinese",
 }
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-analyzerParams = map[string]any{"type": "chinese"}
 ```
 
 </TabItem>
@@ -211,7 +279,7 @@ analyzerParams='{"type": "chinese"}'
 
 ### 使用 `run_analyzer` 验证效果\{#verification-using-run_analyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -260,35 +328,17 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-import { MilvusClient } from "@zilliz/milvus2-node-sdk";
-
-const sampleText = "Milvus 是一个高性能、可扩展的向量数据库！";
-
-const client = new MilvusClient({
-  address: "YOUR_CLUSTER_ENDPOINT",
-});
-
-const result = await client.runAnalyzer({
-    ...analyzerParams,
-    text: sampleText
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
 import (
     "context"
-    "encoding/json"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
+
+ctx := context.Background()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
@@ -299,16 +349,87 @@ if err != nil {
     // handle error
 }
 
-bs, _ := json.Marshal(analyzerParams)
 texts := []string{"Milvus 是一个高性能、可扩展的向量数据库！"}
-option := milvusclient.NewRunAnalyzerOption(texts).
-    WithAnalyzerParams(string(bs))
+option := milvusclient.NewRunAnalyzerOption(texts...).
+    WithAnalyzerParams(analyzerParams)
 
 result, err := client.RunAnalyzer(ctx, option)
 if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
+
+let text = "Milvus 是一个高性能、可扩展的向量数据库！";
+
+let response = client
+    .run_analyzer(
+        RunAnalyzerRequest::builder()
+            .texts([text])
+            .analyzer_params(json!({"type": "chinese"}))
+            .build()?,
+    )
+    .await?;
+
+for result in response.results() {
+    for token in result.get_tokens() {
+        println!("{}", token.get_text());
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+std::string text = "Milvus 是一个高性能、可扩展的向量数据库！";
+auto request = milvus::RunAnalyzerRequest()
+                       .AddText(text)
+                       .WithAnalyzerParams(analyzer_params);
+
+milvus::RunAnalyzerResponse response;
+status = client->RunAnalyzer(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const sampleText = "Milvus 是一个高性能、可扩展的向量数据库！";
+
+const client = new MilvusClient({
+  address: "YOUR_CLUSTER_ENDPOINT",
+});
+
+const result = await client.runAnalyzer({
+  analyzer_params: analyzerParams,
+  text: sampleText,
+});
 ```
 
 </TabItem>

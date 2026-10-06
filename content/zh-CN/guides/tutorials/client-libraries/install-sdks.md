@@ -55,14 +55,14 @@ PyMilvus 是 Milvus 的 Python SDK。您可以在 [GitHub](https://github.com/mi
 执行以下命令，安装 PyMilvus：
 
 ```bash
-# Install pymilvus
-python -m pip install pymilvus
+# Install or update PyMilvus to the latest v3.0.x
+pip install --upgrade pymilvus==v3.0.1
 
-# Update PyMilvus to the newest version
-python -m pip install --upgrade pymilvus
+# Install the Model library for embedding operations (optional)
+pip install pymilvus[model]
 
-# Verify installation success
-python -m pip list | grep pymilvus
+# Verify the installed version
+python -c "from pymilvus import __version__; print(__version__)"
 ```
 
 ## 安装 Node.js SDK\{#install-nodejs-sdk}
@@ -110,12 +110,18 @@ import { MilvusClient } from "@zilliz/milvus2-sdk-node"
     只需将以下依赖项添加到 **`pom.xml`**：
 
     ```xml
-    <!-- Install Java SDK compatible with Milvus v2.5.x -->
+    <!-- Install the Java SDK compatible with Milvus v3.0.x -->
     <dependency>
-         <groupId>io.milvus</groupId>
-         <artifactId>milvus-sdk-java</artifactId>
-         <version>2.6.24</version>
-     </dependency>
+        <groupId>io.milvus</groupId>
+        <artifactId>milvus-sdk-java</artifactId>
+        <version>3.0.10</version>
+    </dependency>
+    <!-- Optional: to use BulkWriter, also add -->
+    <dependency>
+        <groupId>io.milvus</groupId>
+        <artifactId>milvus-sdk-java-bulkwriter</artifactId>
+        <version>3.0.10</version>
+    </dependency>
     ```
 
 - Gradle / Grails
@@ -123,8 +129,10 @@ import { MilvusClient } from "@zilliz/milvus2-sdk-node"
     在 Shell 中执行以下命令：
 
     ```bash
-    # Install Java SDK compatible with Milvus v2.5.x
-    compile 'io.milvus:milvus-sdk-java:2.6.24'
+    # Install the Java SDK compatible with Milvus v3.0.x
+    implementation 'io.milvus:milvus-sdk-java:3.0.10'
+    # Optional: to use BulkWriter, also add
+    implementation 'io.milvus:milvus-sdk-java-bulkwriter:3.0.10' 
     ```
 
 如果您的集群兼容 **Milvus v3.0.x** 的公测版本，请将上述版本号由 `2.6.24` 修改为 `3.0.8`。
@@ -134,8 +142,8 @@ import { MilvusClient } from "@zilliz/milvus2-sdk-node"
 您可以通过 `go get` 安装 Go SDK。您可以在 [GitHub](https://github.com/milvus-io/milvus-sdk-go) 找到相关源代码。
 
 ```bash
-# Install Go SDK compatible with Milvus v2.5.x
-go get -u github.com/milvus-io/milvus-sdk-go/v2@v2.6.5
+# Install the Go SDK compatible with Milvus v3.0.x
+go get -u github.com/milvus-io/milvus/client/v3
 ```
 
 如果您的集群兼容 **Milvus v3.0.x** 的公测版本，请将上述版本号由 `2.6.5` 修改为 `3.0.0-beta`。

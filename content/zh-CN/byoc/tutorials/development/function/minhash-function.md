@@ -99,7 +99,7 @@ Collection Schema 至少需要包含以下三个字段：
 
 - **二进制向量字段**（`BINARY_VECTOR`）：存储 MinHash Function 自动生成的二进制向量。该字段的维度必须等于 `32 * num_hashes`。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -119,15 +119,35 @@ schema.add_field(field_name="binary_vector", datatype=DataType.BINARY_VECTOR, di
 <TabItem value='java'>
 
 ```java
-// java
-```
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
 
-</TabItem>
+MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build());
 
-<TabItem value='javascript'>
-
-```javascript
-// nodejs
+CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder().build();
+schema.addField(AddFieldReq.builder()
+        .fieldName("id")
+        .dataType(DataType.Int64)
+        .isPrimaryKey(true)
+        .autoID(true)
+        .build());
+schema.addField(AddFieldReq.builder()
+        .fieldName("document_content")
+        .dataType(DataType.VarChar)
+        .maxLength(9000)
+        .enableAnalyzer(true)
+        .build());
+schema.addField(AddFieldReq.builder()
+        .fieldName("binary_vector")
+        .dataType(DataType.BinaryVector)
+        .dimension(8192)
+        .build());
 ```
 
 </TabItem>
@@ -135,15 +155,43 @@ schema.add_field(field_name="binary_vector", datatype=DataType.BINARY_VECTOR, di
 <TabItem value='go'>
 
 ```go
-// go
+import (
+    "context"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    log.Fatal(err)
+}
+
+schema := entity.NewSchema().
+    WithField(entity.NewField().WithName("id").WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true).WithIsAutoID(true)).
+    WithField(entity.NewField().WithName("document_content").WithDataType(entity.FieldTypeVarChar).WithMaxLength(9000).WithEnableAnalyzer(true)).
+    WithField(entity.NewField().WithName("binary_vector").WithDataType(entity.FieldTypeBinaryVector).WithDim(8192))
 ```
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+use milvus::v2::prelude::*;
+
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
+let client = ClientV2::new(&config).await?;
+
+let schema = CollectionSchema::new()
+    .add_field(FieldSchema::new().name("id").data_type(DataType::Int64).primary_key(true).auto_id(true))
+    .add_field(FieldSchema::new().name("document_content").data_type(DataType::VarChar).max_length(9000).enable_analyzer(true))
+    .add_field(FieldSchema::new().name("binary_vector").data_type(DataType::BinaryVector).dimension(8192));
 ```
 
 </TabItem>
@@ -151,7 +199,48 @@ schema.add_field(field_name="binary_vector", datatype=DataType.BINARY_VECTOR, di
 <TabItem value='c++'>
 
 ```c++
-// cpp
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+
+auto client = milvus::MilvusClientV2::Create();
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+auto schema = std::make_shared<milvus::CollectionSchema>();
+schema->AddField(milvus::FieldSchema("id", milvus::DataType::INT64).WithPrimaryKey(true).WithAutoID(true));
+schema->AddField(milvus::FieldSchema("document_content", milvus::DataType::VARCHAR).WithMaxLength(9000).EnableAnalyzer(true));
+schema->AddField(milvus::FieldSchema("binary_vector", milvus::DataType::BINARY_VECTOR).WithDimension(8192));
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient, DataType, FunctionType, IndexType, MetricType } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
+
+const fields = [
+  { name: "id", data_type: DataType.Int64, is_primary_key: true, autoID: true },
+  { name: "document_content", data_type: DataType.VarChar, max_length: 9000, enable_analyzer: true },
+  { name: "binary_vector", data_type: DataType.BinaryVector, dim: 8192 },
+];
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+fields='[
+  {"fieldName": "id", "dataType": "Int64", "isPrimary": true},
+  {"fieldName": "document_content", "dataType": "VarChar", "elementTypeParams": {"max_length": 9000, "enable_analyzer": true}},
+  {"fieldName": "binary_vector", "dataType": "BinaryVector", "elementTypeParams": {"dim": 8192}}
+]' 
 ```
 
 </TabItem>
@@ -163,7 +252,7 @@ MinHash Function 会将分析后的文本转换为二进制向量，用于近似
 
 定义 Function 并将其添加到 Schema 中：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -186,15 +275,17 @@ schema.add_function(minhash_function)
 <TabItem value='java'>
 
 ```java
-// java
-```
+import io.milvus.common.clientenum.FunctionType;
+import java.util.Collections;
 
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-// nodejs
+schema.addFunction(CreateCollectionReq.Function.builder()
+        .name("minhash_function")
+        .functionType(FunctionType.MINHASH)
+        .inputFieldNames(Collections.singletonList("document_content"))
+        .outputFieldNames(Collections.singletonList("binary_vector"))
+        .param("num_hashes", "256")
+        .param("shingle_size", "3")
+        .build());
 ```
 
 </TabItem>
@@ -202,15 +293,31 @@ schema.add_function(minhash_function)
 <TabItem value='go'>
 
 ```go
-// go
+function := entity.NewFunction().
+    WithName("minhash_function").
+    WithType(entity.FunctionTypeMinHash).
+    WithInputFields("document_content").
+    WithOutputFields("binary_vector").
+    WithParam("num_hashes", "256").
+    WithParam("shingle_size", "3")
+
+schema = schema.WithFunction(function)
 ```
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+let schema = schema.add_function(
+    Function::new()
+        .name("minhash_function")
+        .function_type(FunctionType::MinHash)
+        .input_fields(vec!["document_content"])
+        .output_fields(vec!["binary_vector"])
+        .param("num_hashes", "256")
+        .param("shingle_size", "3"),
+);
 ```
 
 </TabItem>
@@ -218,7 +325,42 @@ schema.add_function(minhash_function)
 <TabItem value='c++'>
 
 ```c++
-// cpp
+auto function = std::make_shared<milvus::Function>("minhash_function", milvus::FunctionType::MINHASH);
+function->AddInputFieldName("document_content");
+function->AddOutputFieldName("binary_vector");
+function->AddParam("num_hashes", "256");
+function->AddParam("shingle_size", "3");
+schema->AddFunction(function);
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const functions = [
+  {
+    name: "minhash_function",
+    type: FunctionType.MINHASH,
+    input_field_names: ["document_content"],
+    output_field_names: ["binary_vector"],
+    params: { num_hashes: 256, shingle_size: 3 },
+  },
+];
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+function='{
+  "name": "minhash_function",
+  "type": "MinHash",
+  "inputFieldNames": ["document_content"],
+  "outputFieldNames": ["binary_vector"],
+  "params": {"num_hashes": 256, "shingle_size": 3}
+}' 
 ```
 
 </TabItem>
@@ -271,7 +413,7 @@ MinHash Function 的 `params` 字典支持以下参数。所有参数名都**不
 
 MinHash 二进制向量推荐使用 `MINHASH_LSH` 索引，Metric Type 为 `MHJACCARD`。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -294,15 +436,19 @@ index_params.add_index(
 <TabItem value='java'>
 
 ```java
-// java
-```
+import io.milvus.v2.common.IndexParam;
+import java.util.HashMap;
 
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-// nodejs
+IndexParam indexParam = IndexParam.builder()
+        .fieldName("binary_vector")
+        .indexType(IndexParam.IndexType.MINHASH_LSH)
+        .metricType(IndexParam.MetricType.MHJACCARD)
+        .extraParams(new HashMap<String, Object>() {{
+            put("mh_lsh_band", 128);
+            put("mh_element_bit_width", 32);
+            put("with_raw_data", true);
+        }})
+        .build();
 ```
 
 </TabItem>
@@ -310,15 +456,35 @@ index_params.add_index(
 <TabItem value='go'>
 
 ```go
-// go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+indexOption := milvusclient.NewCreateIndexOption("dedup_collection", "binary_vector", index.NewMinHashLSHIndex(entity.MHJACCARD, 128).
+    WithElementBitWidth(32).
+    WithRawData(true)).
+    WithIndexName("minhash_index")
 ```
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+use std::collections::HashMap;
+
+let index_param = IndexParam::new()
+    .field_name("binary_vector")
+    .index_name("minhash_index")
+    .index_type(IndexType::MinhashLsh)
+    .metric_type(MetricType::MhJaccard)
+    .extra_params(HashMap::from([
+        ("mh_lsh_band".to_string(), "128".to_string()),
+        ("mh_element_bit_width".to_string(), "32".to_string()),
+        ("with_raw_data".to_string(), "true".to_string()),
+    ]));
 ```
 
 </TabItem>
@@ -326,7 +492,33 @@ index_params.add_index(
 <TabItem value='c++'>
 
 ```c++
-// cpp
+milvus::IndexDesc index("binary_vector", "minhash_index", milvus::IndexType::MINHASH_LSH, milvus::MetricType::MHJACCARD);
+index.AddExtraParam("mh_lsh_band", "128");
+index.AddExtraParam("mh_element_bit_width", "32");
+index.AddExtraParam("with_raw_data", "true");
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const indexParam = {
+  field_name: "binary_vector",
+  index_type: IndexType.MINHASH_LSH,
+  metric_type: MetricType.MHJACCARD,
+  params: { mh_lsh_band: 128, mh_element_bit_width: 32, with_raw_data: true },
+};
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+indexParams='[
+  {"fieldName": "binary_vector", "indexType": "MINHASH_LSH", "metricType": "MHJACCARD", "params": {"mh_lsh_band": 128, "mh_element_bit_width": 32, "with_raw_data": true}}
+]' 
 ```
 
 </TabItem>
@@ -336,7 +528,7 @@ index_params.add_index(
 
 使用上面定义的 Schema 和索引参数创建 Collection：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -352,15 +544,13 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
-// java
-```
+import java.util.Collections;
 
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-// nodejs
+client.createCollection(CreateCollectionReq.builder()
+        .collectionName("dedup_collection")
+        .collectionSchema(schema)
+        .indexParams(Collections.singletonList(indexParam))
+        .build());
 ```
 
 </TabItem>
@@ -368,15 +558,24 @@ client.create_collection(
 <TabItem value='go'>
 
 ```go
-// go
+err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("dedup_collection", schema).
+    WithIndexOptions(indexOption))
+if err != nil {
+    log.Fatal(err)
+}
 ```
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+client.create_collection(CreateCollectionRequest::builder()
+    .collection_name("dedup_collection")
+    .schema(schema)
+    .index_params(vec![index_param])
+    .build()?)
+.await?;
 ```
 
 </TabItem>
@@ -384,7 +583,60 @@ client.create_collection(
 <TabItem value='c++'>
 
 ```c++
-// cpp
+status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                 .WithCollectionName("dedup_collection")
+                                 .WithCollectionSchema(schema));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.createCollection({
+  collection_name: "dedup_collection",
+  fields: fields,
+  functions: functions,
+});
+
+await client.createIndex({
+  collection_name: "dedup_collection",
+  ...indexParam,
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/create" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "collectionName": "dedup_collection",
+    "schema": {
+        "fields": [
+            {"fieldName": "id", "dataType": "Int64", "isPrimary": true},
+            {"fieldName": "document_content", "dataType": "VarChar", "elementTypeParams": {"max_length": 9000, "enable_analyzer": true}},
+            {"fieldName": "binary_vector", "dataType": "BinaryVector", "elementTypeParams": {"dim": 8192}}
+        ],
+        "functions": [
+            {"name": "minhash_function", "type": "MinHash", "inputFieldNames": ["document_content"], "outputFieldNames": ["binary_vector"], "params": {"num_hashes": 256, "shingle_size": 3}}
+        ],
+        "autoID": true
+    },
+    "indexParams": [
+        {"fieldName": "binary_vector", "indexType": "MINHASH_LSH", "metricType": "MHJACCARD", "params": {"mh_lsh_band": 128, "mh_element_bit_width": 32, "with_raw_data": true}}
+    ]
+}' 
 ```
 
 </TabItem>
@@ -394,7 +646,7 @@ client.create_collection(
 
 Collection 创建完成后，插入文本数据。您只需要提供原始文本，MinHash Function 会为每个文档自动生成二进制向量。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -413,15 +665,29 @@ client.insert(
 <TabItem value='java'>
 
 ```java
-// java
-```
+import com.google.gson.JsonObject;
+import io.milvus.v2.service.vector.request.InsertReq;
+import java.util.ArrayList;
+import java.util.List;
 
-</TabItem>
+List<JsonObject> data = new ArrayList<>();
 
-<TabItem value='javascript'>
+JsonObject row1 = new JsonObject();
+row1.addProperty("document_content", "information retrieval is a field of study that helps users find relevant information in large datasets");
+data.add(row1);
 
-```javascript
-// nodejs
+JsonObject row2 = new JsonObject();
+row2.addProperty("document_content", "information retrieval is a research field focused on helping users find relevant data in large collections");
+data.add(row2);
+
+JsonObject row3 = new JsonObject();
+row3.addProperty("document_content", "information retrieval is a field of research helping users search for relevant information in large datasets");
+data.add(row3);
+
+client.insert(InsertReq.builder()
+        .collectionName("dedup_collection")
+        .data(data)
+        .build());
 ```
 
 </TabItem>
@@ -429,15 +695,34 @@ client.insert(
 <TabItem value='go'>
 
 ```go
-// go
+_, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("dedup_collection").
+    WithVarcharColumn("document_content", []string{
+        "information retrieval is a field of study that helps users find relevant information in large datasets",
+        "information retrieval is a research field focused on helping users find relevant data in large collections",
+        "information retrieval is a field of research helping users search for relevant information in large datasets",
+    }))
+if err != nil {
+    log.Fatal(err)
+}
 ```
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+use serde_json::json;
+
+let insert_req = InsertRequest::builder()
+    .collection_name("dedup_collection")
+    .rows(vec![
+        json!({"document_content": "information retrieval is a field of study that helps users find relevant information in large datasets"}),
+        json!({"document_content": "information retrieval is a research field focused on helping users find relevant data in large collections"}),
+        json!({"document_content": "information retrieval is a field of research helping users search for relevant information in large datasets"}),
+    ])
+    .build()?;
+
+client.insert(insert_req).await?;
 ```
 
 </TabItem>
@@ -445,7 +730,56 @@ client.insert(
 <TabItem value='c++'>
 
 ```c++
-// cpp
+milvus::EntityRows rows;
+rows.emplace_back(milvus::EntityRow{{"document_content", "information retrieval is a field of study that helps users find relevant information in large datasets"}});
+rows.emplace_back(milvus::EntityRow{{"document_content", "information retrieval is a research field focused on helping users find relevant data in large collections"}});
+rows.emplace_back(milvus::EntityRow{{"document_content", "information retrieval is a field of research helping users search for relevant information in large datasets"}});
+
+milvus::InsertResponse insert_response;
+status = client->Insert(milvus::InsertRequest()
+                            .WithCollectionName("dedup_collection")
+                            .WithRowsData(std::move(rows)),
+                        insert_response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.insert({
+  collection_name: "dedup_collection",
+  data: [
+    { document_content: "information retrieval is a field of study that helps users find relevant information in large datasets" },
+    { document_content: "information retrieval is a research field focused on helping users find relevant data in large collections" },
+    { document_content: "information retrieval is a field of research helping users search for relevant information in large datasets" },
+  ],
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "collectionName": "dedup_collection",
+    "data": [
+        {"document_content": "information retrieval is a field of study that helps users find relevant information in large datasets"},
+        {"document_content": "information retrieval is a research field focused on helping users find relevant data in large collections"},
+        {"document_content": "information retrieval is a field of research helping users search for relevant information in large datasets"}
+    ]
+}' 
 ```
 
 </TabItem>
@@ -455,7 +789,7 @@ client.insert(
 
 插入数据后，您可以通过提供原始文本查询来搜索近重复文档。Zilliz Cloud 会自动将查询文本转换为 MinHash 二进制向量，并返回带有 `MHJACCARD` 分数的候选文档。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -487,15 +821,31 @@ for hits in results:
 <TabItem value='java'>
 
 ```java
-// java
-```
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.EmbeddedText;
+import io.milvus.v2.service.vector.response.SearchResp;
+import io.milvus.v2.common.IndexParam;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 
-</TabItem>
+SearchResp resp = client.search(SearchReq.builder()
+        .collectionName("dedup_collection")
+        .annsField("binary_vector")
+        .data(Collections.singletonList(new EmbeddedText("information retrieval is a research field focused on helping users find relevant data in large collections")))
+        .metricType(IndexParam.MetricType.MHJACCARD)
+        .searchParams(new HashMap<String, Object>() {{
+            put("mh_search_with_jaccard", true);
+            put("refine_k", 3);
+        }})
+        .limit(3)
+        .outputFields(Collections.singletonList("document_content"))
+        .build());
 
-<TabItem value='javascript'>
-
-```javascript
-// nodejs
+for (SearchResp.SearchResult hit : resp.getSearchResults().get(0)) {
+    System.out.println("ID: " + hit.getEntity().get("id") + ", Distance: " + hit.getScore());
+    System.out.println("Document: " + hit.getEntity().get("document_content"));
+}
 ```
 
 </TabItem>
@@ -503,15 +853,51 @@ for hits in results:
 <TabItem value='go'>
 
 ```go
-// go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+)
+
+results, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "dedup_collection", 3,
+    []entity.Vector{entity.Text("information retrieval is a research field focused on helping users find relevant data in large collections")}).
+    WithANNSField("binary_vector").
+    WithOutputFields("document_content").
+    WithSearchParam("metric_type", "MHJACCARD").
+    WithSearchParam("mh_search_with_jaccard", "true").
+    WithSearchParam("refine_k", "3"))
+if err != nil {
+    log.Fatal(err)
+}
+
+for _, rs := range results {
+    fmt.Printf("ID: %v, Distance: %v\n", rs.IDs, rs.Scores)
+}
 ```
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+use std::collections::HashMap;
+
+let search_req = SearchRequest::builder()
+    .collection_name("dedup_collection")
+    .vector_field("binary_vector")
+    .vectors(SearchVectors::EmbeddedText(vec!["information retrieval is a research field focused on helping users find relevant data in large collections".to_string()]))
+    .metric_type(MetricType::MhJaccard)
+    .extra_params(HashMap::from([
+        ("mh_search_with_jaccard".to_string(), "true".to_string()),
+        ("refine_k".to_string(), "3".to_string()),
+    ]))
+    .output_fields(vec!["document_content"])
+    .limit(3)
+    .build()?;
+
+let res = client.search(search_req).await?;
+println!("{:?}", res.results());
 ```
 
 </TabItem>
@@ -519,7 +905,61 @@ for hits in results:
 <TabItem value='c++'>
 
 ```c++
-// cpp
+milvus::SearchResponse response;
+status = client->Search(milvus::SearchRequest()
+                            .WithCollectionName("dedup_collection")
+                            .WithAnnsField("binary_vector")
+                            .AddEmbeddedText("information retrieval is a research field focused on helping users find relevant data in large collections")
+                            .WithMetricType(milvus::MetricType::MHJACCARD)
+                            .AddExtraParam("mh_search_with_jaccard", "true")
+                            .AddExtraParam("refine_k", "3")
+                            .WithLimit(3)
+                            .AddOutputField("document_content"),
+                        response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const results = await client.search({
+  collection_name: "dedup_collection",
+  anns_field: "binary_vector",
+  data: ["information retrieval is a research field focused on helping users find relevant data in large collections"],
+  output_fields: ["document_content"],
+  search_params: {
+    metric_type: "MHJACCARD",
+    topk: 3,
+    params: JSON.stringify({ mh_search_with_jaccard: true, refine_k: 3 }),
+  },
+});
+console.log(results);
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "collectionName": "dedup_collection",
+    "annsField": "binary_vector",
+    "data": ["information retrieval is a research field focused on helping users find relevant data in large collections"],
+    "limit": 3,
+    "outputFields": ["document_content"],
+    "searchParams": {"metric_type": "MHJACCARD", "params": {"mh_search_with_jaccard": true, "refine_k": 3}}
+}' 
 ```
 
 </TabItem>

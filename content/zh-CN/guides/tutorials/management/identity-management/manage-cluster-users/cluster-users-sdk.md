@@ -33,7 +33,7 @@ import TabItem from '@theme/TabItem';
 
 - 密码：长度需为 8-64 个字符，且必须包含大写字母、小写字母、数字和特殊字符中的三种。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -74,18 +74,101 @@ client.createUser(createUserReq);
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
+
+err = client.CreateUser(ctx, milvusclient.NewCreateUserOption("user_1", "P@ssw0rd").
+    WithDescription("a new user in the developers team"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2 as sdk;
+use milvus::v2::error::Result;
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let client = ClientV2::new(
+        &ConnectConfig::new()
+            .uri("YOUR_CLUSTER_ENDPOINT")
+            .token("YOUR_CLUSTER_TOKEN"),
+    ).await?;
+
+    client.create_user(
+        sdk::request::rbac::CreateUserRequest::builder()
+            .username("user_1")
+            .password("P@ssw0rd")
+            .description("a new user in the developers team")
+            .build()?,
+    ).await?;
+    Ok(())
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->CreateUser(milvus::CreateUserRequest()
+                                .WithUserName("user_1")
+                                .WithPassword("P@ssw0rd")
+                                .WithDescription("a new user in the developers team"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
+const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node");
 
 const address = "YOUR_CLUSTER_ENDPOINT";
 const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
 
-await milvusClient.createUser({
+await client.createUser({
    username: 'user_1',
    password: 'P@ssw0rd',
+   description: 'a new user in the developers team',
  });
 ```
 
@@ -103,9 +186,9 @@ curl --request POST \
 --header "Content-Type: application/json" \
 -d '{
     "userName": "user_1",
-    "password": "P@ssw0rd"
+    "password": "P@ssw0rd",
     "description": "a new user in the developers team"
-}'
+}' 
 ```
 
 </TabItem>
@@ -115,7 +198,7 @@ curl --request POST \
 
 在创建了多个用户后，您可以查看所有已创建的用户列表。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -129,7 +212,44 @@ client.list_users()
 <TabItem value='java'>
 
 ```java
+import java.util.List;
+
 List<String> resp = client.listUsers();
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+users, err := client.ListUsers(ctx, milvusclient.NewListUserOption())
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let users = client.list_users(
+    sdk::request::rbac::ListUsersRequest::builder().build()?,
+).await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::ListUsersRequest request;
+milvus::ListUsersResponse response;
+auto status = client->ListUsers(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -137,9 +257,7 @@ List<String> resp = client.listUsers();
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
-
-await milvusClient.listUsers();
+await client.listUsers();
 ```
 
 </TabItem>
@@ -167,7 +285,7 @@ curl --request POST \
 
 以下示例展示了如何将角色 `role_a` 分配给用户 `user_1`。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -209,19 +327,98 @@ client.grantRole(grantRoleReq);
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
+
+err = client.GrantRole(ctx, milvusclient.NewGrantRoleOption("user_1", "role_a"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2 as sdk;
+use milvus::v2::error::Result;
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let client = ClientV2::new(
+        &ConnectConfig::new()
+            .uri("YOUR_CLUSTER_ENDPOINT")
+            .token("YOUR_CLUSTER_TOKEN"),
+    ).await?;
+
+    client.grant_role(
+        sdk::request::rbac::GrantRoleRequest::builder()
+            .username("user_1")
+            .role_name("role_a")
+            .build()?,
+    ).await?;
+    Ok(())
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->GrantRole(milvus::GrantRoleRequest()
+                               .WithUserName("user_1")
+                               .WithRoleName("role_a"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
+const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node");
 
 const address = "YOUR_CLUSTER_ENDPOINT";
 const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
 
-milvusClient.grantRole({
+await client.grantRole({
    username: 'user_1',
    roleName: 'role_a'
- })
+ });
 ```
 
 </TabItem>
@@ -251,7 +448,7 @@ curl --request POST \
 
 以下示例展示了如何查看用户 `user_1` 的角色。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -276,12 +473,47 @@ DescribeUserResp describeUserResp = client.describeUser(describeUserReq);
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+user, err := client.DescribeUser(ctx, milvusclient.NewDescribeUserOption("user_1"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let user = client.describe_user(
+    sdk::request::rbac::DescribeUserRequest::builder()
+        .username("user_1")
+        .build()?,
+).await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::DescribeUserResponse response;
+auto status = client->DescribeUser(
+    milvus::DescribeUserRequest().WithUserName("user_1"), response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
-
-milvusClient.describeUser({username: 'user_1'})
+await client.describeUser({username: 'user_1'});
 ```
 
 </TabItem>
@@ -313,7 +545,7 @@ curl --request POST \
 
 以下示例展示了如何撤销已分配给用户 `user_1` 的角色 `role_a`。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -336,6 +568,44 @@ client.revokeRole(RevokeRoleReq.builder()
         .userName("user_1")
         .roleName("role_a")
         .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+err = client.RevokeRole(ctx, milvusclient.NewRevokeRoleOption("user_1", "role_a"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+client.revoke_role(
+    sdk::request::rbac::RevokeRoleRequest::builder()
+        .username("user_1")
+        .role_name("role_a")
+        .build()?,
+).await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto status = client->RevokeRole(milvus::RevokeRoleRequest()
+                                     .WithUserName("user_1")
+                                     .WithRoleName("role_a"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -377,7 +647,7 @@ curl --request POST \
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -388,7 +658,7 @@ client = MilvusClient(
     token="YOUR_CLUSTER_TOKEN"
 )
 
-# create a user
+# drop the user
 client.drop_user(user_name="user_1")
 ```
 
@@ -397,15 +667,15 @@ client.drop_user(user_name="user_1")
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.ConnectConfig
-import io.milvus.v2.client.MilvusClientV2
-import io.milvus.v2.service.rbac.request.DropUserReq
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.rbac.request.DropUserReq;
 
 ConnectConfig connectConfig = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .token("YOUR_CLUSTER_TOKEN")
         .build();
-        
+
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
 DropUserReq dropUserReq = DropUserReq.builder()
@@ -416,18 +686,94 @@ client.dropUser(dropUserReq);
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
+
+err = client.DropUser(ctx, milvusclient.NewDropUserOption("user_1"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2 as sdk;
+use milvus::v2::error::Result;
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let client = ClientV2::new(
+        &ConnectConfig::new()
+            .uri("YOUR_CLUSTER_ENDPOINT")
+            .token("YOUR_CLUSTER_TOKEN"),
+    ).await?;
+
+    client.drop_user(
+        sdk::request::rbac::DropUserRequest::builder()
+            .username("user_1")
+            .build()?,
+    ).await?;
+    Ok(())
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->DropUser(milvus::DropUserRequest().WithUserName("user_1"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
+const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node");
 
 const address = "YOUR_CLUSTER_ENDPOINT";
 const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
 
-milvusClient.deleteUser({
+await client.deleteUser({
     username: 'user_1'
-})
+});
 ```
 
 </TabItem>
@@ -452,7 +798,7 @@ curl --request POST \
 
 删除后，您可以通过查看所有用户操作检查是否删除成功。如果列表中未展示此前删除的用户则视为删除成功。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -466,9 +812,44 @@ client.list_users()
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.rbac.request.listUsersReq
+import java.util.List;
 
 List<String> resp = client.listUsers();
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+users, err := client.ListUsers(ctx, milvusclient.NewListUserOption())
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let users = client.list_users(
+    sdk::request::rbac::ListUsersRequest::builder().build()?,
+).await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::ListUsersRequest request;
+milvus::ListUsersResponse response;
+auto status = client->ListUsers(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -476,9 +857,7 @@ List<String> resp = client.listUsers();
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
-
-milvusClient.listUsers()
+await client.listUsers();
 ```
 
 </TabItem>

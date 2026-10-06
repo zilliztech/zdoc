@@ -122,7 +122,7 @@ $$
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -151,17 +151,85 @@ rerank = Function(
 <TabItem value='java'>
 
 ```java
+import java.util.Collections;
 import io.milvus.v2.service.vector.request.ranker.DecayRanker;
 
 DecayRanker rerank = DecayRanker.builder()
         .name("news_recency")
         .inputFieldNames(Collections.singletonList("publish_time"))
         .function("exp")
-        .origin(System.currentTimeMillis())
+        .origin(System.currentTimeMillis() / 1000)  // Current time (seconds, matching collection data)
+        .offset(3 * 60 * 60)            // 3 hour breaking news window (seconds)
+        .decay(0.5)                     // Half score at scale distance
+        .scale(24 * 60 * 60)            // 24 hours (in seconds, matching collection data)
+        .build();
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "time"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+)
+
+// Create an exponential decay ranker for news recency
+// Note: All time parameters must use the same unit as your collection data
+rerank := entity.NewFunction().
+    WithName("news_recency").
+    WithInputFields("publish_time").
+    WithType(entity.FunctionTypeRerank).
+    WithParam("reranker", "decay").
+    WithParam("function", "exp").
+    WithParam("origin", time.Now().Unix()).
+    WithParam("offset", 3*60*60).
+    WithParam("decay", 0.5).
+    WithParam("scale", 24*60*60)
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+// Create an exponential decay ranker for news recency
+// Note: All time parameters must use the same unit as your collection data
+let origin = std::time::SystemTime::now()
+    .duration_since(std::time::UNIX_EPOCH)
+    .unwrap()
+    .as_secs();
+let rerank = {
+    let mut rerank = DecayRerank::new()
+        .name("news_recency")
+        .decay_function("exp")
+        .origin(origin)
         .offset(3 * 60 * 60)
         .decay(0.5)
-        .scale(24 * 60 * 60)
-        .build();
+        .scale(24 * 60 * 60);
+    rerank.function(rerank.get_function().clone().input_fields(["publish_time"]))
+};
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <ctime>
+#include "milvus/MilvusClientV2.h"
+
+auto rerank = std::make_shared<milvus::DecayRerank>("news_recency");
+rerank->AddInputFieldName("publish_time");
+rerank->SetFunction("exp");
+rerank->SetOrigin(std::time(nullptr));  // Current time (seconds, matching collection data)
+rerank->SetScale(24 * 60 * 60);
+rerank->SetOffset(3 * 60 * 60);
+rerank->SetDecay(0.5);
 ```
 
 </TabItem>
@@ -178,20 +246,12 @@ const rerank = {
   params: {
     reranker: "decay",
     function: "exp",
-    origin: new Date(2025, 1, 15).getTime(),
-    offset: 3 * 60 * 60,
-    decay: 0.5,
-    scale: 24 * 60 * 60,
+    origin: Math.floor(Date.now() / 1000), // Current time (seconds)
+    offset: 3 * 60 * 60,                   // 3 hour breaking news window (seconds)
+    decay: 0.5,                            // Half score at scale distance
+    scale: 24 * 60 * 60,                   // 24 hours (seconds)
   },
 };
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-// go
 ```
 
 </TabItem>
@@ -199,21 +259,9 @@ const rerank = {
 <TabItem value='bash'>
 
 ```bash
-# restful
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto rerank = std::make_shared<milvus::DecayRerank>("news_recency");
-rerank->AddInputFieldName("publish_time");
-rerank->SetFunction("exp");
-rerank->SetOrigin(1736870400);
-rerank->SetScale(24 * 60 * 60);
-rerank->SetOffset(3 * 60 * 60);
-rerank->SetDecay(0.5);
+# Note: The RESTful API does not expose a standalone "create a decay ranker"
+# endpoint. The decay function is passed inline through the functionScore
+# field of the search request (see the next section).
 ```
 
 </TabItem>
@@ -223,7 +271,7 @@ rerank->SetDecay(0.5);
 
 定义 Decay Ranker 后，您可以在搜索请求中通过将其传递给 `ranker` 参数来应用它：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -245,19 +293,24 @@ result = milvus_client.search(
 <TabItem value='java'>
 
 ```java
+import java.util.Arrays;
+import java.util.Collections;
 import io.milvus.v2.common.ConsistencyLevel;
+import io.milvus.v2.service.vector.request.FunctionScore;
 import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
-import io.milvus.v2.service.vector.request.data.EmbeddedText;
+
+String COLLECTION_NAME = "collection_name";
 
 SearchReq searchReq = SearchReq.builder()
         .collectionName(COLLECTION_NAME)
-        .data(Collections.singletonList(new EmbeddedText("market analysis")))
-        .annsField("vector_field")
-        .limit(10)
-        .outputFields(Arrays.asList("title", "publish_time"))
+        .data(Collections.singletonList(new FloatVec(Arrays.asList(0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f))))  // Replace with your query vector
+        .annsField("dense")                    // Vector field to search
+        .limit(10)                             // Number of results
+        .outputFields(Arrays.asList("title", "publish_time"))  // Fields to return
         .functionScore(FunctionScore.builder()
-                .addFunction(rerank)
+                .addFunction(rerank)           // Apply the decay ranker
                 .build())
         .consistencyLevel(ConsistencyLevel.STRONG)
         .build();
@@ -266,38 +319,49 @@ SearchResp searchResp = client.search(searchReq);
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-import { FunctionType MilvusClient } from "@zilliz/milvus2-sdk-node";
-
-const milvusClient = new MilvusClient("YOUR_CLUSTER_ENDPOINT");
-
-const result = await milvusClient.search({
-  collection_name: collection_name,
-  data: [your_query_vector], // Replace with your query vector
-  anns_field: "dense",
-  limit: 10,
-  output_fields: ["title", "publish_time"],
-  rerank: rerank,
-  consistency_level: "Strong",
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
-// go
+import (
+    "context"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+// Apply decay ranker to vector search
+resultSets, err := cli.Search(ctx, milvusclient.NewSearchOption(
+    "collection_name", 10, []entity.Vector{
+        entity.FloatVector{0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8}, // Replace with your query vector
+    }).
+    WithANNSField("dense").                    // Vector field to search
+    WithOutputFields("title", "publish_time"). // Fields to return
+    WithFunctionReranker(rerank).              // Apply the decay ranker
+    WithConsistencyLevel(entity.ClStrong))
+if err != nil {
+    panic(err)
+}
 ```
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+use milvus::v2::prelude::*;
+
+// Apply decay ranker to vector search
+let response = client.search(
+    SearchRequest::builder()
+        .collection_name("collection_name")
+        .vector_field("dense")                                // Vector field to search
+        .vectors(SearchVectors::Float(vec![vec![0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]])) // Replace with your query vector
+        .limit(10)                                             // Number of results
+        .output_fields(["title", "publish_time"])             // Fields to return
+        .rerank(FunctionScore::new().add_function(rerank))    // Apply the decay ranker
+        .consistency_level(ConsistencyLevel::Strong)
+        .build()?,
+).await?;
 ```
 
 </TabItem>
@@ -305,6 +369,9 @@ const result = await milvusClient.search({
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
 auto function_score = std::make_shared<milvus::FunctionScore>();
 function_score->AddFunction(rerank);
 
@@ -323,6 +390,61 @@ auto status = client->Search(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const milvusClient = new MilvusClient("YOUR_CLUSTER_ENDPOINT");
+
+const result = await milvusClient.search({
+  collection_name: "collection_name",
+  data: [[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]], // Replace with your query vector
+  anns_field: "dense",
+  limit: 10,
+  output_fields: ["title", "publish_time"],
+  rerank: rerank, // Apply the decay ranker
+  consistency_level: "Strong",
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl -s YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search \
+    -H "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+    -H "Content-Type: application/json" \
+    -d '{
+        "collectionName": "collection_name",
+        "data": [[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]],
+        "annsField": "dense",
+        "limit": 10,
+        "outputFields": ["title", "publish_time"],
+        "functionScore": {
+            "functions": [{
+                "name": "news_recency",
+                "type": "Rerank",
+                "inputFieldNames": ["publish_time"],
+                "outputFieldNames": [],
+                "params": {
+                    "reranker": "decay",
+                    "function": "exp",
+                    "origin": 1790872778,
+                    "offset": 10800,
+                    "decay": 0.5,
+                    "scale": 86400
+                }
+            }],
+            "params": {}
+        },
+        "consistencyLevel": "Strong"
+    }'
 ```
 
 </TabItem>

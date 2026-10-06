@@ -51,7 +51,7 @@ External Volume 映射至您自有云服务对象存储（如阿里云 OSS 或�
 
 - **通过 SDK**
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -63,19 +63,21 @@ External Volume 映射至您自有云服务对象存储（如阿里云 OSS 或�
         api_key="YOUR_API_KEY"
     )
     
-    # Create a volume
+    volume_name = "external_volume"
+    
+    # Create an EXTERNAL volume
     volume_manager.create_volume(
-        project_id="proj-xxxxxxxxxxxxxxxxxxxxxxx", 
-        region_id="aws-us-west-2", 
-        volume_name="external_volume",
+        project_id="proj-xxxxxxxxxxxxxxxxxxxxxxx",
+        region_id="aws-us-west-2",
+        volume_name=volume_name,
         volume_type="EXTERNAL",
         storage_integration_id="integ-xxxx",
-        path="data/",
+        path="data/"
     )
     
-    print(f"\nVolume external_volume created")
+    print(f"\nVolume {volume_name} created")
     
-    # Volume external_volume created
+    # Note: description is not supported by VolumeManager.create_volume as of pymilvus v3.0.2.
     ```
 
     </TabItem>
@@ -83,34 +85,85 @@ External Volume 映射至您自有云服务对象存储（如阿里云 OSS 或�
     <TabItem value='java'>
 
     ```java
-    // Initiate a volume manager
     import io.milvus.bulkwriter.VolumeManager;
     import io.milvus.bulkwriter.VolumeManagerParam;
-    
-    VolumeManagerParam volumeManagerParam = VolumeManagerParam.newBuilder()
-        .withCloudEndpoint("https://api.cloud.zilliz.com")
-        .withApiKey("YOUR_API_KEY")
-        .build();
-            
-    VolumeManager volumeManager = new VolumeManager(volumeManagerParam);
-    
-    // Create a EXTERNAL volume
     import io.milvus.bulkwriter.request.volume.CreateVolumeRequest;
     
+    String cloudEndpoint = "https://api.cloud.zilliz.com";
+    String apiKey = "YOUR_API_KEY";
+    String projectId = "proj-xxxxxxxxxxxxxxxxxxxxxxx";
+    String regionId = "aws-us-west-2";
+    String volumeName = "external_volume";
+    
+    VolumeManagerParam volumeManagerParam = VolumeManagerParam.newBuilder()
+            .withCloudEndpoint(cloudEndpoint)
+            .withApiKey(apiKey)
+            .build();
+    VolumeManager volumeManager = new VolumeManager(volumeManagerParam);
+    
     CreateVolumeRequest request = CreateVolumeRequest.builder()
-        .projectId("proj-xxxxxxxxxxxxxxxxxxxxxxx")
-        .regionId("aws-us-west-2")
-        .volumeName("external_volume")
-        .type("EXTERNAL")
-        .storageIntegrationId("integ-xxxx")
-        .path("data/")
-        .build();
+            .projectId(projectId)
+            .regionId(regionId)
+            .volumeName(volumeName)
+            .type("EXTERNAL")
+            .storageIntegrationId("integ-xxxx")
+            .path("data/")
+            .build();
     
     volumeManager.createVolume(request);
+    System.out.printf("%nVolume %s created%n", volumeName);
     
-    System.out.printf("\nVolume %s created%n", "external_volume");
+    // Note: description is not supported by CreateVolumeRequest as of milvus-sdk-java-bulkwriter v3.0.10.
+    ```
+
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    // Note: External Volume management with VolumeManager is not supported by milvus-sdk-go as of client/v3.0.0-beta.
+    ```
+
+    </TabItem>
+
+    <TabItem value='rust'>
+
+    ```rust
+    // Note: External Volume management with VolumeManager is not supported in milvus-sdk-rust as of v3.0.2.
+    ```
+
+    </TabItem>
+
+    <TabItem value='c++'>
+
+    ```c++
+    // Note: External Volume management with VolumeManager is not supported in milvus-sdk-cpp as of v3.0.3.
+    ```
+
+    </TabItem>
+
+    <TabItem value='javascript'>
+
+    ```javascript
+    import { VolumeManager } from "@zilliz/milvus2-sdk-node";
     
-    // Volume external_volume created
+    const volumeManager = new VolumeManager({
+        cloudEndpoint: "https://api.cloud.zilliz.com",
+        apiKey: "YOUR_API_KEY"
+    });
+    
+    const res = await volumeManager.createVolume({
+        projectId: "proj-xxxxxxxxxxxxxxxxxxxxxxx",
+        regionId: "aws-us-west-2",
+        volumeName: "external_volume",
+        type: "EXTERNAL",
+        storageIntegrationId: "integ-xxxx",
+        path: "data/"
+    });
+    
+    console.log(res.data);
+    
+    // Note: description is not supported by VolumeCreateReq as of @zilliz/milvus2-sdk-node v3.0.6.
     ```
 
     </TabItem>
@@ -118,6 +171,9 @@ External Volume 映射至您自有云服务对象存储（如阿里云 OSS 或�
     <TabItem value='bash'>
 
     ```bash
+    export BASE_URL="https://api.cloud.zilliz.com"
+    export TOKEN="YOUR_API_KEY"
+    
     curl --request POST \
     --url "${BASE_URL}/v2/volumes/create" \
     --header "Authorization: Bearer ${TOKEN}" \
@@ -126,9 +182,9 @@ External Volume 映射至您自有云服务对象存储（如阿里云 OSS 或�
     -d '{
         "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
         "regionId": "aws-us-west-2",
-        "volumeName": "my_external_volume",
+        "volumeName": "external_volume",
         "type": "EXTERNAL",
-        "storageIntegrationId": "integ-xxxxxxxxxxxxxxxxxxx",
+        "storageIntegrationId": "integ-xxxx",
         "path": "data/",
         "description": "A volume for storing collection data."
     }'
@@ -188,7 +244,7 @@ External Volume 映射至您自有云服务对象存储（如阿里云 OSS 或�
 
     您可以查看一个项目中的所有 Volume。
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -200,28 +256,14 @@ External Volume 映射至您自有云服务对象存储（如阿里云 OSS 或�
         api_key="YOUR_API_KEY"
     )
     
-    # View volumes
+    # List volumes
     volume_list = volume_manager.list_volumes(
         project_id="proj-xxxxxxxxxxxxxxxxxxxxxxx",
-        current_page=1, 
+        current_page=1,
         page_size=10
     )
     
-    print(f"\nlistVolumes results: \n", volume_list.json()['data'])
-    
-    # listVolumes results: 
-    # 
-    # {
-    #     "count": 1,
-    #     "currentPage": 1,
-    #     "pageSize": 10,
-    #     "volumes": [
-    #         {
-    #             "volumeName": "external_volume"
-    #             "type":"EXTERNAL"
-    #         }        
-    #     ]
-    # }
+    print("\nlistVolumes results:\n", volume_list.json()["data"])
     ```
 
     </TabItem>
@@ -229,45 +271,70 @@ External Volume 映射至您自有云服务对象存储（如阿里云 OSS 或�
     <TabItem value='java'>
 
     ```java
-    // Initiate a volume manager
+    import com.google.gson.Gson;
     import io.milvus.bulkwriter.VolumeManager;
     import io.milvus.bulkwriter.VolumeManagerParam;
-    
-    VolumeManagerParam volumeManagerParam = VolumeManagerParam.newBuilder()
-        .withCloudEndpoint("https://api.cloud.zilliz.com")
-        .withApiKey("YOUR_API_KEY")
-        .build();
-            
-    VolumeManager volumeManager = new VolumeManager(volumeManagerParam);
-    
-    // View volumes
-    import com.google.gson.Gson;
     import io.milvus.bulkwriter.request.volume.ListVolumesRequest;
     import io.milvus.bulkwriter.response.volume.ListVolumesResponse;
     
+    VolumeManagerParam volumeManagerParam = VolumeManagerParam.newBuilder()
+            .withCloudEndpoint("https://api.cloud.zilliz.com")
+            .withApiKey("YOUR_API_KEY")
+            .build();
+    VolumeManager volumeManager = new VolumeManager(volumeManagerParam);
+    
     ListVolumesRequest request = ListVolumesRequest.builder()
-        .projectId("proj-xxxxxxxxxxxxxxxxxxxxxxx")
-        .currentPage(1)
-        .pageSize(10)
-        .build();
-        
-    ListVolumesResponse listVolumesResponse = volumeManager.listVolumes(request);
+            .projectId("proj-xxxxxxxxxxxxxxxxxxxxxxx")
+            .currentPage(1)
+            .pageSize(10)
+            .build();
+    ListVolumesResponse response = volumeManager.listVolumes(request);
+    System.out.println("listVolumes results: " + new Gson().toJson(response));
+    ```
+
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    // Note: External Volume management with VolumeManager is not supported by milvus-sdk-go as of client/v3.0.0-beta.
+    ```
+
+    </TabItem>
+
+    <TabItem value='rust'>
+
+    ```rust
+    // Note: External Volume management with VolumeManager is not supported in milvus-sdk-rust as of v3.0.2.
+    ```
+
+    </TabItem>
+
+    <TabItem value='c++'>
+
+    ```c++
+    // Note: External Volume management with VolumeManager is not supported in milvus-sdk-cpp as of v3.0.3.
+    ```
+
+    </TabItem>
+
+    <TabItem value='javascript'>
+
+    ```javascript
+    import { VolumeManager } from "@zilliz/milvus2-sdk-node";
     
-    System.out.println("\nlistVolumes results: " + new Gson().toJson(listVolumesResponse));
+    const volumeManager = new VolumeManager({
+        cloudEndpoint: "https://api.cloud.zilliz.com",
+        apiKey: "YOUR_API_KEY"
+    });
     
-    // listVolumes results: 
-    // 
-    // {
-    //     "count": 1,
-    //     "currentPage": 1,
-    //     "pageSize": 10,
-    //     "volumes": [
-    //         {
-    //             "volumeName": "external_volume",
-    //             "type":"EXTERNAL"
-    //         }        
-    //     ]
-    // }
+    const res = await volumeManager.listVolumes({
+        projectId: "proj-xxxxxxxxxxxxxxxxxxxxxxx",
+        currentPage: 1,
+        pageSize: 10
+    });
+    
+    console.log(res.data);
     ```
 
     </TabItem>
@@ -279,35 +346,9 @@ External Volume 映射至您自有云服务对象存储（如阿里云 OSS 或�
     export TOKEN="YOUR_API_KEY"
     
     curl --request GET \
-    --url "${BASE_URL}/v2/volumes?projectId=proj-xxxxxxxxxxxxxxxxx" \
+    --url "${BASE_URL}/v2/volumes?projectId=proj-xxxxxxxxxxxxxxxxxxxxxxx&currentPage=1&pageSize=10" \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "Content-Type: application/json"
-    
-    # {
-    #    "code": 200,
-    #    "data": {
-    #        "count": 3,
-    #        "currentPage": 1,
-    #        "pageSize": 10,
-    #        "volumes": [
-    #            {
-    #                "volumeName": "my_volume_1",
-    #                "type": "MANAGED",
-    #                "description": "A volume for storing collection data."
-    #            },
-    #            {
-    #                "volumeName": "my_volume_2",
-    #                "type": "EXTERNAL",
-    #                "description": "A volume for storing collection data."
-    #            },
-    #            {
-    #                "volumeName": "my_volume_3",
-    #                "type": "MANAGED",
-    #                "description": "A volume for storing collection data."
-    #            }
-    #        ]
-    #    }
-    #}
     ```
 
     </TabItem>

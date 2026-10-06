@@ -16,7 +16,8 @@ displayed_sidebar: default
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # 召回调优
 
@@ -42,8 +43,18 @@ Zilliz Cloud 向量搜索中的召回率通常是指成功召回的相关结果�
 
 您可以通过在搜索请求中添加 `level` 参数的方式将该请求变更为可调优请求。
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
-query_vector = [0.3580376395471989, ..., 0.9029438446296592],
+from pymilvus import MilvusClient
+
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
+)
+
+query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
 
 res = client.search(
     collection_name="quick_setup",
@@ -57,6 +68,213 @@ res = client.search(
     }
 )
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
+
+import java.util.*;
+
+MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build());
+
+FloatVec queryVector = new FloatVec(new float[]{0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f});
+
+Map<String, Object> searchParams = new HashMap<>();
+searchParams.put("level", 1);
+
+SearchReq searchReq = SearchReq.builder()
+        .collectionName("quick_setup")
+        .data(Collections.singletonList(queryVector))
+        .annsField("vector")
+        .topK(3)
+        .searchParams(searchParams)
+        .build();
+
+SearchResp searchResp = client.search(searchReq);
+
+System.out.println(searchResp.getSearchResults());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
+
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
+
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "quick_setup", // collectionName
+    3,               // limit
+    []entity.Vector{entity.FloatVector(queryVector)},
+).WithANNSField("vector").
+    WithSearchParam("level", "1"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+for _, resultSet := range resultSets {
+    fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
+    fmt.Println("Scores: ", resultSet.Scores)
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let client = ClientV2::new(
+        &ConnectConfig::new()
+            .uri("YOUR_CLUSTER_ENDPOINT")
+            .token("YOUR_CLUSTER_TOKEN"),
+    )
+    .await?;
+
+    let query_vector = vec![0.3580376395471989f32, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
+
+    let res = client
+        .search(
+            SearchRequest::builder()
+                .collection_name("quick_setup")
+                .vector_field("vector")
+                .vectors(SearchVectors::Float(vec![query_vector]))
+                .limit(3)
+                .extra_params(HashMap::from([("level".into(), "1".into())]))
+                .build()?,
+        )
+        .await?;
+
+    println!("{:?}", res.results());
+    Ok(())
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include <vector>
+
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"));
+if (!status.IsOk()) {
+    std::cerr << "Failed to connect: " << status.Message() << std::endl;
+    return;
+}
+
+std::vector<float> queryVector = {
+    0.35803764F, -0.60234958F, 0.18414013F, -0.26286206F, 0.90294385F
+};
+
+auto searchRequest = milvus::SearchRequest()
+                         .WithCollectionName("quick_setup")
+                         .WithAnnsField("vector")
+                         .WithLimit(3)
+                         .WithExtraParams({{"level", "1"}})
+                         .AddFloatVector(queryVector);
+
+milvus::SearchResponse searchResponse;
+status = client->Search(searchRequest, searchResponse);
+if (!status.IsOk()) {
+    std::cerr << "Search failed: " << status.Message() << std::endl;
+    return;
+}
+
+for (const auto& result : searchResponse.Results().Results()) {
+    const auto ids = result.Ids().IntIDArray();
+    for (size_t i = 0; i < result.Scores().size(); ++i) {
+        std::cout << "id=" << ids[i] << ", score=" << result.Scores()[i] << std::endl;
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
+
+const queryVector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
+
+const res = await client.search({
+    collection_name: "quick_setup",
+    data: queryVector,
+    limit: 3,
+    params: {
+        level: "1"
+    }
+});
+
+console.log(res.results);
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+  --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
+  --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+  --header "Content-Type: application/json" \
+  --data '{
+      "collectionName": "quick_setup",
+      "data": [
+          [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
+      ],
+      "annsField": "vector",
+      "limit": 3,
+      "searchParams": {
+          "params": {
+              "level": 1
+          }
+      }
+  }'
+```
+
+</TabItem>
+</Tabs>
 
 该参数取值范围在 `1` 到 `10` 之间，默认值为 `1`。默认值通常能获得 `90%` 以上的召回率，能够满足大多数场景的需要。
 
@@ -72,8 +290,18 @@ res = client.search(
 
 为了方便您调整 `level` 参数，Zilliz Cloud 还提供了另一个名为 `enable_recall_calculation` 的参数。通过设置该参数为 `True`，您可以让 Zilliz Cloud 在搜索结果中包含本次搜索的预估召回率。
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
-query_vector = [0.3580376395471989, ..., 0.9029438446296592],
+from pymilvus import MilvusClient
+
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
+)
+
+query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
 
 res = client.search(
     collection_name="quick_setup",
@@ -81,19 +309,297 @@ res = client.search(
     limit=3, # The number of results to return
     search_params={
         "params": {
-            "level": 6 # The precision control
+            "level": 6, # The precision control
             # highlight-next-line
             "enable_recall_calculation": True # Ask for recall rate calculation
         }
     }
 )
+
+print(res)
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
+
+import java.util.*;
+
+MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build());
+
+FloatVec queryVector = new FloatVec(new float[]{0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f});
+
+Map<String, Object> searchParams = new HashMap<>();
+searchParams.put("level", 6);
+searchParams.put("enable_recall_calculation", true);
+
+SearchReq searchReq = SearchReq.builder()
+        .collectionName("quick_setup")
+        .data(Collections.singletonList(queryVector))
+        .annsField("vector")
+        .topK(3)
+        .searchParams(searchParams)
+        .build();
+
+SearchResp searchResp = client.search(searchReq);
+
+System.out.println(searchResp.getSearchResults());
+System.out.println(searchResp.getRecalls());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
+
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
+
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "quick_setup", // collectionName
+    3,               // limit
+    []entity.Vector{entity.FloatVector(queryVector)},
+).WithANNSField("vector").
+    WithSearchParam("level", "6").
+    WithSearchParam("enable_recall_calculation", "true"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+for _, resultSet := range resultSets {
+    fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
+    fmt.Println("Scores: ", resultSet.Scores)
+    fmt.Println("Recall: ", resultSet.Recall)
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let client = ClientV2::new(
+        &ConnectConfig::new()
+            .uri("YOUR_CLUSTER_ENDPOINT")
+            .token("YOUR_CLUSTER_TOKEN"),
+    )
+    .await?;
+
+    let query_vector = vec![0.3580376395471989f32, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
+
+    let res = client
+        .search(
+            SearchRequest::builder()
+                .collection_name("quick_setup")
+                .vector_field("vector")
+                .vectors(SearchVectors::Float(vec![query_vector]))
+                .limit(3)
+                .extra_params(HashMap::from([
+                    ("level".into(), "6".into()),
+                    ("enable_recall_calculation".into(), "true".into()),
+                ]))
+                .build()?,
+        )
+        .await?;
+
+    println!("results: {:?}", res.results());
+    println!("recalls: {:?}", res.results().get_recalls());
+    Ok(())
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include <vector>
+
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"));
+if (!status.IsOk()) {
+    std::cerr << "Failed to connect: " << status.Message() << std::endl;
+    return;
+}
+
+std::vector<float> queryVector = {
+    0.35803764F, -0.60234958F, 0.18414013F, -0.26286206F, 0.90294385F
+};
+
+auto searchRequest = milvus::SearchRequest()
+                         .WithCollectionName("quick_setup")
+                         .WithAnnsField("vector")
+                         .WithLimit(3)
+                         .WithExtraParams({{"level", "6"}, {"enable_recall_calculation", "true"}})
+                         .AddFloatVector(queryVector);
+
+milvus::SearchResponse searchResponse;
+status = client->Search(searchRequest, searchResponse);
+if (!status.IsOk()) {
+    std::cerr << "Search failed: " << status.Message() << std::endl;
+    return;
+}
+
+for (const auto& result : searchResponse.Results().Results()) {
+    const auto ids = result.Ids().IntIDArray();
+    for (size_t i = 0; i < result.Scores().size(); ++i) {
+        std::cout << "id=" << ids[i] << ", score=" << result.Scores()[i] << std::endl;
+    }
+}
+
+for (const auto& recall : searchResponse.Results().Recalls()) {
+    std::cout << "recall=" << recall << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
+
+const queryVector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
+
+const res = await client.search({
+    collection_name: "quick_setup",
+    data: queryVector,
+    limit: 3,
+    params: {
+        level: "6",
+        enable_recall_calculation: "true"
+    }
+});
+
+console.log(res.results);
+console.log(res.recalls);
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+  --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
+  --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+  --header "Content-Type: application/json" \
+  --data '{
+      "collectionName": "quick_setup",
+      "data": [
+          [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
+      ],
+      "annsField": "vector",
+      "limit": 3,
+      "searchParams": {
+          "params": {
+              "level": 6,
+              "enable_recall_calculation": true
+          }
+      }
+  }'
+```
+
+</TabItem>
+</Tabs>
+
 在使用上述搜索请求进行向量搜索后，您可以得到如下响应，其中 `recalls` 即为预估召回率。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 # data: [...], recalls: [0.98]
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// searchResults: [...], recalls: [0.98]
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// IDs: [...], Scores: [...], Recall: 0.98
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+// results: [...], recalls: [0.98]
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// id=..., score=...; recall=0.98
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// results: [...], recalls: [0.98]
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# data: [...], recalls: [0.98]
+```
+
+</TabItem>
+</Tabs>
 
 在预估过程中， Zilliz Cloud 执行了如下操作：
 

@@ -105,7 +105,7 @@ RRF Ranker 策略的主要工作流程如下：
 
 在您的集合设置了多个向量字段后，使用适当的平滑参数创建一个RRF排序器：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -140,6 +140,52 @@ CreateCollectionReq.Function rerank = CreateCollectionReq.Function.builder()
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
+rerank := entity.NewFunction().
+
+    WithName("rrf").
+
+    WithType(entity.FunctionTypeRerank).
+
+    WithInputFields().
+
+    WithParam("reranker", "rrf").
+
+    WithParam("k", 100)
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let rerank = Function::new()
+
+    .name("rrf")
+
+    .function_type(FunctionType::Rerank)
+
+    .param("reranker", "rrf")
+
+    .param("k", "100");
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto rerank = std::make_shared<milvus::Function>("rrf", milvus::FunctionType::RERANK);
+rerank->AddParam("reranker", "rrf");
+rerank->AddParam("k", "100");
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -158,28 +204,32 @@ const rerank = {
 
 </TabItem>
 
-<TabItem value='go'>
-
-```go
-// Go
-```
-
-</TabItem>
-
 <TabItem value='bash'>
 
 ```bash
-# Restful
-```
+# restful
 
-</TabItem>
+functions='[
 
-<TabItem value='c++'>
+  {
 
-```c++
-auto rerank = std::make_shared<milvus::Function>("rrf", milvus::FunctionType::RERANK);
-rerank->AddParam("reranker", "rrf");
-rerank->AddParam("k", "100");
+    "name": "rrf",
+
+    "type": "Rerank",
+
+    "inputFieldNames": [],
+
+    "params": {
+
+      "reranker": "rrf",
+
+      "k": 100
+
+    }
+
+  }
+
+]'
 ```
 
 </TabItem>
@@ -197,7 +247,7 @@ rerank->AddParam("k", "100");
 
 RRF Ranker 专为结合多个向量字段的混合搜索操作而设计。以下是在混合搜索中使用它的方法：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -242,37 +292,222 @@ hybrid_results = milvus_client.hybrid_search(
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
+
 import io.milvus.v2.client.MilvusClientV2;
+
 import io.milvus.v2.service.vector.request.AnnSearchReq;
+
 import io.milvus.v2.service.vector.request.HybridSearchReq;
+
 import io.milvus.v2.service.vector.response.SearchResp;
+
 import io.milvus.v2.service.vector.request.data.EmbeddedText;
+
 import io.milvus.v2.service.vector.request.data.FloatVec;
 
+import java.util.ArrayList;
+
+import java.util.Arrays;
+
+import java.util.Collections;
+
+import java.util.List;
+
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
+
         .uri("YOUR_CLUSTER_ENDPOINT")
+
         .build());
-        
+
 List<AnnSearchReq> searchRequests = new ArrayList<>();
+
 searchRequests.add(AnnSearchReq.builder()
+
         .vectorFieldName("text_vector")
-        .vectors(Collections.singletonList(new EmbeddedText("\"modern dining table\"")))
+
+        .vectors(Collections.singletonList(new EmbeddedText("modern dining table")))
+
         .limit(10)
+
         .build());
+
 searchRequests.add(AnnSearchReq.builder()
+
         .vectorFieldName("image_vector")
+
         .vectors(Collections.singletonList(new FloatVec(imageEmbedding)))
+
         .limit(10)
+
         .build());
-        
+
 HybridSearchReq hybridSearchReq = HybridSearchReq.builder()
-                .collectionName(COLLECTION_NAME)
-                .searchRequests(searchRequests)
-                .ranker(rerank)
-                .limit(10)
-                .outputFields(Arrays.asList("product_name", "price", "category"))
-                .build();
+
+        .collectionName(collectionName)
+
+        .searchRequests(searchRequests)
+
+        .ranker(rerank)
+
+        .limit(10)
+
+        .outFields(Arrays.asList("product_name", "price", "category"))
+
+        .build();
+
 SearchResp searchResp = client.hybridSearch(hybridSearchReq);
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+
+    "context"
+
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+
+)
+
+ctx := context.Background()
+
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+
+    Address: "YOUR_CLUSTER_ENDPOINT",
+
+})
+
+if err != nil {
+
+    fmt.Println(err.Error())
+
+    // handle error
+
+}
+
+// Define text vector search request
+
+textSearch := milvusclient.NewAnnRequest("text_vector", 10, entity.FloatVector(textEmbedding))
+
+// Define image vector search request
+
+imageSearch := milvusclient.NewAnnRequest("image_vector", 10, entity.FloatVector(imageEmbedding))
+
+// Apply RRF Ranker to product hybrid search
+
+resultSets, err := client.HybridSearch(ctx, milvusclient.NewHybridSearchOption(
+
+    collectionName, 10, textSearch, imageSearch,
+
+).WithReranker(milvusclient.NewRRFReranker()))
+
+if err != nil {
+
+    fmt.Println(err.Error())
+
+    // handle error
+
+}
+
+fmt.Println(resultSets)
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
+
+let client = ClientV2::new(&config).await?;
+
+// Define text vector search request
+
+let text_search = SubSearchRequest::builder()
+
+    .vector_field("text_vector")
+
+    .vectors(SearchVectors::EmbeddedText(vec!["modern dining table".to_string()]))
+
+    .limit(10)
+
+    .build()?;
+
+// Define image vector search request
+
+let image_search = SubSearchRequest::builder()
+
+    .vector_field("image_vector")
+
+    .vectors(SearchVectors::Float(vec![image_embedding]))
+
+    .limit(10)
+
+    .build()?;
+
+// Apply RRF Ranker to product hybrid search
+
+let hybrid_results = client
+
+    .hybrid_search(
+
+        HybridSearchRequest::builder()
+
+            .collection_name(collection_name)
+
+            .sub_requests(vec![text_search, image_search])
+
+            .rerank(RRFRerank::new().k(100))
+
+            .limit(10)
+
+            .output_fields(["product_name", "price", "category"])
+
+            .build()?,
+
+    )
+
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto text_search = milvus::SubSearchRequest()
+                    .WithLimit(10)
+                    .WithAnnsField("text_vector")
+                    .AddEmbeddedText("modern dining table");
+
+auto image_search = milvus::SubSearchRequest()
+                    .WithLimit(10)
+                    .WithAnnsField("image_vector")
+                    .AddFloatVector(image_embedding);
+
+auto request = milvus::HybridSearchRequest()
+                    .WithCollectionName(collection_name)
+                    .WithLimit(10)
+                    .AddSubRequest(std::make_shared<milvus::SubSearchRequest>(std::move(text_search)))
+                    .AddSubRequest(std::make_shared<milvus::SubSearchRequest>(std::move(image_search)))
+                    .WithRerank(rerank)
+                    .AddOutputField("product_name")
+                    .AddOutputField("price")
+                    .AddOutputField("category");
+
+milvus::SearchResponse response;
+auto status = client->HybridSearch(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -309,50 +544,66 @@ const search = await milvusClient.search({
 
 </TabItem>
 
-<TabItem value='go'>
-
-```go
-// go
-```
-
-</TabItem>
-
 <TabItem value='bash'>
 
 ```bash
-# restful
-```
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
 
-</TabItem>
+export TOKEN="YOUR_CLUSTER_TOKEN"
 
-<TabItem value='c++'>
+curl --request POST \
 
-```c++
-auto text_search = milvus::SubSearchRequest()
-                    .WithLimit(10)
-                    .WithAnnsField("text_vector")
-                    .AddEmbeddedText("modern dining table");
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/hybrid_search" \
 
-auto image_search = milvus::SubSearchRequest()
-                    .WithLimit(10)
-                    .WithAnnsField("image_vector")
-                    .AddFloatVector(image_embedding);
+--header "Authorization: Bearer ${TOKEN}" \
 
-auto request = milvus::HybridSearchRequest()
-                    .WithCollectionName(collection_name)
-                    .WithLimit(10)
-                    .AddSubRequest(std::make_shared<milvus::SubSearchRequest>(std::move(text_search)))
-                    .AddSubRequest(std::make_shared<milvus::SubSearchRequest>(std::move(image_search)))
-                    .WithRerank(rerank)
-                    .AddOutputField("product_name")
-                    .AddOutputField("price")
-                    .AddOutputField("category");
+--header "Content-Type: application/json" \
 
-milvus::SearchResponse response;
-auto status = client->HybridSearch(request, response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
+-d '{
+
+    "collectionName": "collection_name",
+
+    "data": [
+
+        {
+
+            "data": ["modern dining table"],
+
+            "annsField": "text_vector",
+
+            "limit": 10
+
+        },
+
+        {
+
+            "data": [image_embedding],
+
+            "annsField": "image_vector",
+
+            "limit": 10
+
+        }
+
+    ],
+
+    "rerank": {
+
+        "strategy": "rrf",
+
+        "params": {
+
+            "k": 100
+
+        }
+
+    },
+
+    "limit": 10,
+
+    "outputFields": ["product_name", "price", "category"]
+
+}'
 ```
 
 </TabItem>

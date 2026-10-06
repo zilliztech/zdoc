@@ -16,7 +16,8 @@ displayed_sidebar: default
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # NGRAM
 
@@ -116,6 +117,9 @@ Zilliz Cloud 以两阶段流程实现 NGRAM 索引：
 
 ### 示例 1：在 VARCHAR 字段上\{#example-1-create-on-a-varchar-field}
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 from pymilvus import MilvusClient
 
@@ -144,9 +148,182 @@ client.create_index(
 )
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.index.request.CreateIndexReq;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+Map<String, Object> params = new HashMap<>();
+params.put("min_gram", "2");
+params.put("max_gram", "3");
+
+client.createIndex(CreateIndexReq.builder()
+        .collectionName("Documents")
+        .indexParams(Arrays.asList(
+                IndexParam.builder().fieldName("text").indexType(IndexParam.IndexType.NGRAM)
+                        .indexName("ngram_index")
+                        .extraParams(params)
+                        .build()))
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    fmt.Println(err)
+}
+
+_, err = cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption("Documents", "text", index.NewNgramIndex(2, 3)).WithIndexName("ngram_index"))
+if err != nil {
+    fmt.Println(err)
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+use std::collections::HashMap;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+    let client = ClientV2::new(&config).await?;
+
+    let request = CreateIndexRequest::builder()
+        .collection_name("Documents")
+        .index_params(vec![IndexParam::new()
+            .field_name("text")
+            .index_name("ngram_index")
+            .index_type(IndexType::Ngram)
+            .extra_params(HashMap::from([
+                ("min_gram".to_string(), "2".to_string()),
+                ("max_gram".to_string(), "3".to_string()),
+            ]))])
+        .build()?;
+    client.create_index(request).await?;
+
+    Ok(())
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+
+auto client = milvus::MilvusClientV2::Create();
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::IndexDesc ngram_index("text", "ngram_index", milvus::IndexType::NGRAM);
+ngram_index.AddExtraParam("min_gram", "2");
+ngram_index.AddExtraParam("max_gram", "3");
+
+milvus::CreateIndexRequest create_request;
+create_request.WithCollectionName("Documents");
+create_request.WithIndexes({ngram_index});
+create_request.WithSync(true);
+
+status = client->CreateIndex(create_request);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
+
+await client.createIndex({
+    collection_name: "Documents",
+    field_name: "text",
+    index_name: "ngram_index",
+    index_type: "NGRAM",
+    params: { min_gram: 2, max_gram: 3 },
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/indexes/create" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "collectionName": "Documents",
+    "indexParams": [
+        {
+            "fieldName": "text",
+            "indexName": "ngram_index",
+            "params": {
+                "index_type": "NGRAM",
+                "min_gram": 2,
+                "max_gram": 3
+            }
+        }
+    ]
+}'
+```
+
+</TabItem>
+</Tabs>
+
 此配置会为 `text` 字段中的每个字符串生成 2-gram 和 3-gram，并存储到倒排索引中。
 
 ### 示例 2：在 JSON 路径上\{#example-2-create-on-a-json-field}
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 # Assume you have defined a JSON field named "json_field" in your collection schema, with a JSON path named "body"
@@ -175,6 +352,136 @@ client.create_index(
     index_params=index_params
 )
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.index.request.CreateIndexReq;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+Map<String, Object> params = new HashMap<>();
+params.put("min_gram", "2");
+params.put("max_gram", "4");
+params.put("json_path", "json_field[\"body\"]");
+params.put("json_cast_type", "varchar");
+
+client.createIndex(CreateIndexReq.builder()
+        .collectionName("Documents")
+        .indexParams(Arrays.asList(
+                IndexParam.builder().fieldName("json_field").indexType(IndexParam.IndexType.NGRAM)
+                        .indexName("json_ngram_index")
+                        .extraParams(params)
+                        .build()))
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+opt := milvusclient.NewCreateIndexOption("Documents", "json_field", index.NewNgramIndex(2, 4)).
+    WithIndexName("json_ngram_index")
+opt.WithExtraParam("json_path", `json_field["body"]`)
+opt.WithExtraParam("json_cast_type", "varchar")
+
+_, err = cli.CreateIndex(ctx, opt)
+if err != nil {
+    fmt.Println(err)
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+    let request = CreateIndexRequest::builder()
+        .collection_name("Documents")
+        .index_params(vec![IndexParam::new()
+            .field_name("json_field")
+            .index_name("json_ngram_index")
+            .index_type(IndexType::Ngram)
+            .extra_params(HashMap::from([
+                ("min_gram".to_string(), "2".to_string()),
+                ("max_gram".to_string(), "4".to_string()),
+                ("json_path".to_string(), "json_field[\"body\"]".to_string()),
+                ("json_cast_type".to_string(), "varchar".to_string()),
+            ]))])
+        .build()?;
+    client.create_index(request).await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::IndexDesc json_ngram_index("json_field", "json_ngram_index", milvus::IndexType::NGRAM);
+json_ngram_index.AddExtraParam("min_gram", "2");
+json_ngram_index.AddExtraParam("max_gram", "4");
+json_ngram_index.AddExtraParam("json_path", "json_field[\"body\"]");
+json_ngram_index.AddExtraParam("json_cast_type", "varchar");
+
+milvus::CreateIndexRequest create_request;
+create_request.WithCollectionName("Documents");
+create_request.WithIndexes({json_ngram_index});
+create_request.WithSync(true);
+
+status = client->CreateIndex(create_request);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.createIndex({
+    collection_name: "Documents",
+    field_name: "json_field",
+    index_name: "json_ngram_index",
+    index_type: "NGRAM",
+    params: { min_gram: 2, max_gram: 4, json_path: 'json_field["body"]', json_cast_type: "varchar" },
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/indexes/create" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "collectionName": "Documents",
+    "indexParams": [
+        {
+            "fieldName": "json_field",
+            "indexName": "json_ngram_index",
+            "params": {
+                "index_type": "NGRAM",
+                "min_gram": 2,
+                "max_gram": 4,
+                "json_path": "json_field[\"body\"]",
+                "json_cast_type": "varchar"
+            }
+        }
+    ]
+}'
+```
+
+</TabItem>
+</Tabs>
 
 在该示例中：
 
@@ -218,12 +525,90 @@ NGRAM 索引会被应用于：
 
 </Admonition>
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 client.drop_index(
     collection_name="Documents",   # Name of the collection
     index_name="ngram_index" # Name of the index to drop
 )
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.service.index.request.DropIndexReq;
+
+client.dropIndex(DropIndexReq.builder()
+        .collectionName("Documents")
+        .indexName("ngram_index")
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+err = cli.DropIndex(ctx, milvusclient.NewDropIndexOption("Documents", "ngram_index"))
+if err != nil {
+    fmt.Println(err)
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+    let request = DropIndexRequest::builder()
+        .collection_name("Documents")
+        .index_name("ngram_index")
+        .build()?;
+    client.drop_index(request).await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+status = client->DropIndex(milvus::DropIndexRequest()
+                               .WithCollectionName("Documents")
+                               .WithIndexName("ngram_index"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.dropIndex({ collection_name: "Documents", index_name: "ngram_index" });
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/indexes/drop" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "collectionName": "Documents",
+    "indexName": "ngram_index"
+}'
+```
+
+</TabItem>
+</Tabs>
 
 ## 使用须知\{#usage-notes}
 

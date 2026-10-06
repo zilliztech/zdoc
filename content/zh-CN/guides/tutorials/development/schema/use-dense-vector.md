@@ -79,7 +79,7 @@ import TabItem from '@theme/TabItem';
 
 以下示例中，我们添加了一个名为 `dense_vector` 的向量字段，用于存储稠密向量。该字段的数据类型为 `FLOAT_VECTOR`，向量维度为 `4`。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -131,58 +131,114 @@ schema.addField(AddFieldReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-import { DataType } from "@zilliz/milvus2-sdk-node";
-
-schema.push({
-  name: "dense_vector",
-  data_type: DataType.FloatVector,
-  dim: 4,
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v2/column"
-    "github.com/milvus-io/milvus/client/v2/entity"
-    "github.com/milvus-io/milvus/client/v2/index"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
-)
-
-ctx, cancel := context.WithCancel(context.Background())
-defer cancel()
-
-milvusAddr := "YOUR_CLUSTER_ENDPOINT"
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: milvusAddr,
-})
+err = client.CreateCollection(ctx,
+    milvusclient.NewCreateCollectionOption("my_collection", schema).
+        WithIndexOptions(indexOption))
 if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
-defer client.Close(ctx)
 
-schema := entity.NewSchema()
-schema.WithField(entity.NewField().
-    WithName("pk").
-    WithDataType(entity.FieldTypeVarChar).
-    WithIsPrimaryKey(true).
-    WithIsAutoID(true).
-    WithMaxLength(100),
-).WithField(entity.NewField().
-    WithName("dense_vector").
-    WithDataType(entity.FieldTypeFloatVector).
-    WithDim(4),
-)
+// CreateCollection does not implicitly load the collection; load it before search.
+loadTask, err := client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+if err := loadTask.Await(ctx); err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let client = ClientV2::new(
+        &ConnectConfig::new()
+            .uri("YOUR_CLUSTER_ENDPOINT")
+            .token("YOUR_CLUSTER_TOKEN"),
+    )
+    .await?;
+
+    let schema = CollectionSchema::new()
+        .enable_dynamic_field(true)
+        .add_field(
+            FieldSchema::new()
+                .name("pk")
+                .data_type(DataType::VarChar)
+                .primary_key(true)
+                .auto_id(true)
+                .max_length(100),
+        )
+        .add_field(
+            FieldSchema::new()
+                .name("dense_vector")
+                .data_type(DataType::FloatVector)
+                .dimension(4),
+        );
+
+    Ok(())
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include <memory>
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->SetEnableDynamicField(true);
+schema->AddField(milvus::FieldSchema("pk", milvus::DataType::VARCHAR, "", true, true).WithMaxLength(100));
+schema->AddField(milvus::FieldSchema("dense_vector", milvus::DataType::FLOAT_VECTOR).WithDimension(4));
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({
+    address: "YOUR_CLUSTER_ENDPOINT"
+});
+
+const schema = [
+    {
+        name: "pk",
+        data_type: DataType.VarChar,
+        is_primary_key: true,
+        autoID: true,
+        max_length: 100
+    },
+    {
+        name: "dense_vector",
+        data_type: DataType.FloatVector,
+        dim: 4
+    }
+];
 ```
 
 </TabItem>
@@ -231,7 +287,7 @@ export schema="{
 
 为加速语义搜索，我们需要为向量字段创建索引。索引可以显著提高大规模向量数据的检索效率。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -257,9 +313,43 @@ List<IndexParam> indexes = new ArrayList<>();
 
 indexes.add(IndexParam.builder()
         .fieldName("dense_vector")
+        .indexName("dense_vector_index")
         .indexType(IndexParam.IndexType.AUTOINDEX)
         .metricType(IndexParam.MetricType.IP)
         .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+idx := index.NewAutoIndex(index.MetricType(entity.IP))
+indexOption := milvusclient.NewCreateIndexOption("my_collection", "dense_vector", idx)
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let index_params = vec![IndexParam::new()
+    .field_name("dense_vector")
+    .index_name("dense_vector_index")
+    .index_type(IndexType::AutoIndex)
+    .metric_type(MetricType::Ip)];
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <vector>
+
+std::vector<milvus::IndexDesc> indexes = {
+    milvus::IndexDesc("dense_vector", "dense_vector_index", milvus::IndexType::AUTOINDEX, milvus::MetricType::IP)
+};
 ```
 
 </TabItem>
@@ -275,15 +365,6 @@ const indexParams = {
     metric_type: MetricType.IP,
     index_type: IndexType.AUTOINDEX
 };
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-idx := index.NewAutoIndex(index.MetricType(entity.IP))
-indexOption := milvusclient.NewCreateIndexOption("my_collection", "dense_vector", idx)
 ```
 
 </TabItem>
@@ -312,7 +393,7 @@ export indexParams='[
 
 稠密向量和索引定义完成后，我们便可以创建包含稠密向量的 Collection。以下示例通过 `create_collection` 方法创建了一个名为 `my_dense_collection` 的 Collection。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -340,20 +421,6 @@ client.createCollection(requestCreate);
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-import { MilvusClient } from "@zilliz/milvus2-sdk-node";
-
-await client.createCollection({
-    collection_name: 'my_collection',
-    schema: schema,
-    index_params: indexParams
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -364,6 +431,61 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
+
+loadTask, err := client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+if err := loadTask.Await(ctx); err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+client
+    .create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name("my_collection")
+            .schema(schema)
+            .index_params(index_params)
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// CreateCollection creates the configured indexes and loads the collection automatically.
+auto status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                            .WithCollectionName("my_collection")
+                                            .WithIndexes(std::move(indexes))
+                                            .WithCollectionSchema(schema));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const res = await client.createCollection({
+    collection_name: "my_collection",
+    schema: schema,
+    index_params: indexParams
+});
+
+console.log(res);
 ```
 
 </TabItem>
@@ -371,6 +493,9 @@ if err != nil {
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/create" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -390,7 +515,7 @@ curl --request POST \
 
 创建 Collection 后，我们可以通过 `insert` 方法插入包含稠密向量的数据。注意，插入的稠密向量的维度必须与[添加稠密向量字段](./use-dense-vector)时定义的 `dim` 值相同。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -417,29 +542,13 @@ import io.milvus.v2.service.vector.response.InsertResp;
 
 List<JsonObject> rows = new ArrayList<>();
 Gson gson = new Gson();
-rows.add(gson.fromJson("{\"dense_vector\": [0.1, 0.2, 0.3, 0.4]}", JsonObject.class));
-rows.add(gson.fromJson("{\"dense_vector\": [0.2, 0.3, 0.4, 0.5]}", JsonObject.class));
+rows.add(gson.fromJson("{\"dense_vector\": [0.1, 0.2, 0.3, 0.7]}", JsonObject.class));
+rows.add(gson.fromJson("{\"dense_vector\": [0.2, 0.3, 0.4, 0.8]}", JsonObject.class));
 
 InsertResp insertR = client.insert(InsertReq.builder()
         .collectionName("my_collection")
         .data(rows)
         .build());
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-const data = [
-  { dense_vector: [0.1, 0.2, 0.3, 0.7] },
-  { dense_vector: [0.2, 0.3, 0.4, 0.8] },
-];
-
-client.insert({
-  collection_name: "my_collection",
-  data: data,
-});
 ```
 
 </TabItem>
@@ -457,6 +566,78 @@ if err != nil {
     fmt.Println(err.Error())
     // handle err
 }
+
+flushTask, err := client.Flush(ctx, milvusclient.NewFlushOption("my_collection"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle err
+}
+if err := flushTask.Await(ctx); err != nil {
+    fmt.Println(err.Error())
+    // handle err
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let rows = vec![
+    serde_json::json!({"dense_vector": [0.1, 0.2, 0.3, 0.7]}),
+    serde_json::json!({"dense_vector": [0.2, 0.3, 0.4, 0.8]}),
+];
+
+let insert = client
+    .insert(
+        InsertRequest::builder()
+            .collection_name("my_collection")
+            .rows(rows)
+            .build()?,
+    )
+    .await?;
+println!("{} rows inserted", insert.insert_count());
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::EntityRows data = {{{"dense_vector", std::vector<float>{0.1, 0.2, 0.3, 0.7}}},
+                           {{"dense_vector", std::vector<float>{0.2, 0.3, 0.4, 0.8}}}};
+
+milvus::InsertResponse response;
+auto status = client->Insert(milvus::InsertRequest()
+                                .WithCollectionName("my_collection")
+                                .WithRowsData(std::move(data)),
+                             response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->Flush(milvus::FlushRequest().AddCollectionName("my_collection"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const data = [
+    { dense_vector: [0.1, 0.2, 0.3, 0.7] },
+    { dense_vector: [0.2, 0.3, 0.4, 0.8] }
+];
+
+const res = await client.insert({
+    collection_name: "my_collection",
+    data: data
+});
+
+console.log(res);
 ```
 
 </TabItem>
@@ -464,6 +645,9 @@ if err != nil {
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -471,8 +655,8 @@ curl --request POST \
 --header "Request-Timeout: 10" \
 -d '{
     "data": [
-        {"dense_vector": [0.1, 0.2, 0.3, 0.4]},
-        {"dense_vector": [0.2, 0.3, 0.4, 0.5]}        
+        {"dense_vector": [0.1, 0.2, 0.3, 0.7]},
+        {"dense_vector": [0.2, 0.3, 0.4, 0.8]}
     ],
     "collectionName": "my_collection"
 }'
@@ -487,7 +671,7 @@ curl --request POST \
 
 基于稠密向量的语义搜索是 Milvus 的核心功能之一，可以根据向量之间的距离快速找到与查询向量最相似的数据。要执行相似性搜索，您需要准备查询向量和搜索参数，然后调用 `search` 方法。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -517,12 +701,14 @@ print(res)
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
 
 Map<String,Object> searchParams = new HashMap<>();
-searchParams.put("nprobe",10);
+searchParams.put("nprobe", 10);
 
-FloatVec queryVector = new FloatVec(new float[]{0.1f, 0.3f, 0.3f, 0.4f});
+FloatVec queryVector = new FloatVec(new float[]{0.1f, 0.2f, 0.3f, 0.7f});
 
 SearchResp searchR = client.search(SearchReq.builder()
         .collectionName("my_collection")
@@ -532,30 +718,8 @@ SearchResp searchR = client.search(SearchReq.builder()
         .topK(5)
         .outputFields(Collections.singletonList("pk"))
         .build());
-        
+
 System.out.println(searchR.getSearchResults());
-
-// Output
-//
-// [[SearchResp.SearchResult(entity={pk=453444327741536779}, score=0.65, id=453444327741536779), SearchResp.SearchResult(entity={pk=453444327741536778}, score=0.65, id=453444327741536778)]]
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-query_vector = [0.1, 0.2, 0.3, 0.7];
-
-client.search({
-    collection_name: 'my_collection',
-    data: query_vector,
-    limit: 5,
-    output_fields: ['pk'],
-    params: {
-        nprobe: 10
-    }
-});
 ```
 
 </TabItem>
@@ -588,9 +752,87 @@ for _, resultSet := range resultSets {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use std::collections::HashMap;
+
+let query_vector = vec![0.1, 0.2, 0.3, 0.7];
+
+let search = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("my_collection")
+            .vector_field("dense_vector")
+            .vectors(SearchVectors::Float(vec![query_vector]))
+            .extra_params(HashMap::from([("nprobe".to_string(), "10".to_string())]))
+            .limit(5)
+            .output_fields(["pk"])
+            .build()?,
+    )
+    .await?;
+
+println!("{:?}", search.results());
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::vector<float> query_vector = {0.1, 0.2, 0.3, 0.7};
+auto request = milvus::SearchRequest()
+                   .WithCollectionName("my_collection")
+                   .WithAnnsField("dense_vector")
+                   .WithLimit(5)
+                   .AddExtraParam("nprobe", "10")
+                   .AddOutputField("pk")
+                   .AddFloatVector(query_vector);
+
+milvus::SearchResponse response;
+auto status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+auto search_results = response.Results();
+for (auto& result : search_results.Results()) {
+    milvus::EntityRows output_rows;
+    status = result.OutputRows(output_rows);
+    for (const auto& row : output_rows) {
+        std::cout << "\t" << row << std::endl;
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const query_vector = [0.1, 0.2, 0.3, 0.7];
+
+const res = await client.search({
+    collection_name: "my_collection",
+    data: query_vector,
+    anns_field: "dense_vector",
+    limit: 5,
+    output_fields: ["pk"],
+    params: {
+        nprobe: 10
+    }
+});
+
+console.log(res);
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
 --header "Authorization: Bearer ${TOKEN}" \

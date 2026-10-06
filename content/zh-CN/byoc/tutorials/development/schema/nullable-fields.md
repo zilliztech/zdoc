@@ -71,7 +71,7 @@ Collection Schema 中的 **标量字段和向量字段** 都支持 `nullable` �
 
 在以下示例中，Collection Schema 定义了一个名为 `embedding` 的向量字段，并设置 `nullable=True`。这样，Collection 中的 Entity 就可以在数据写入期间省略该向量值，或显式将其设置为 `NULL`。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -139,37 +139,6 @@ client.createCollection(CreateCollectionReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-import { MilvusClient, DataType } from '@zilliz/milvus2-sdk-node';
-
-const client = new MilvusClient({
-  address: 'YOUR_CLUSTER_ENDPOINT',
-  token: 'YOUR_CLUSTER_TOKEN'
-});
-
-await client.createCollection({
-  collection_name: 'my_collection',
-  fields: [
-    {
-      name: 'id',
-      data_type: DataType.Int64,
-      is_primary_key: true
-    },
-    {
-      name: 'embedding',
-      data_type: DataType.FloatVector,
-      dim: 4,
-      // highlight-next-line
-      nullable: true // Enable the nullable attribute; defaults to false
-    }
-  ]
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -177,8 +146,8 @@ import (
     "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/entity"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -217,6 +186,104 @@ if err != nil {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::error::Result;
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+    let client = ClientV2::new(&config).await?;
+
+    let schema = CollectionSchema::new()
+        .add_field(
+            FieldSchema::new()
+                .name("id")
+                .data_type(DataType::Int64)
+                .primary_key(true),
+        )
+        .add_field(
+            FieldSchema::new()
+                .name("embedding")
+                .data_type(DataType::FloatVector)
+                .dimension(4)
+                // highlight-next-line
+                .nullable(true),
+        );
+
+    client.create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name("my_collection")
+            .schema(schema)
+            .build()?,
+    ).await?;
+    Ok(())
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+#include <iostream>
+#include <memory>
+
+auto client = milvus::MilvusClientV2::Create();
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->AddField(milvus::FieldSchema("id", milvus::DataType::INT64).WithPrimaryKey(true));
+schema->AddField(milvus::FieldSchema("embedding", milvus::DataType::FLOAT_VECTOR).WithDimension(4).WithNullable(true));
+
+status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                    .WithCollectionName("my_collection")
+                                    .WithCollectionSchema(schema));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient, DataType } from '@zilliz/milvus2-sdk-node';
+
+const client = new MilvusClient({
+  address: 'YOUR_CLUSTER_ENDPOINT',
+  token: 'YOUR_CLUSTER_TOKEN'
+});
+
+await client.createCollection({
+  collection_name: 'my_collection',
+  fields: [
+    {
+      name: 'id',
+      data_type: DataType.Int64,
+      is_primary_key: true
+    },
+    {
+      name: 'embedding',
+      data_type: DataType.FloatVector,
+      dim: 4,
+      // highlight-next-line
+      nullable: true // Enable the nullable attribute; defaults to false
+    }
+  ]
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -238,7 +305,7 @@ curl --request POST \
           "fieldName": "embedding",
           "dataType": "FloatVector",
           "elementTypeParams": {
-            "dim": "4"
+            "dim": 4
           },
           "nullable": true
         }
@@ -266,7 +333,7 @@ curl --request POST \
 
 标量字段也可以启用同一个 `nullable` 属性，并在写入期间遵循相同规则。例如：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -293,19 +360,6 @@ schema.addField(AddFieldReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-const ageField = {
-  name: 'age',
-  data_type: DataType.Int64,
-  // highlight-next-line
-  nullable: true
-};
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -315,6 +369,41 @@ schema.WithField(entity.NewField().
     // highlight-next-line
     WithNullable(true),
 )
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let schema = schema.add_field(
+    FieldSchema::new()
+        .name("age")
+        .data_type(DataType::Int64)
+        // highlight-next-line
+        .nullable(true),
+);
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+schema->AddField(milvus::FieldSchema("age", milvus::DataType::INT64).WithNullable(true));
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const ageField = {
+  name: 'age',
+  data_type: DataType.Int64,
+  // highlight-next-line
+  nullable: true
+};
 ```
 
 </TabItem>
@@ -340,7 +429,7 @@ schema.WithField(entity.NewField().
 
 以下示例向前面创建的 Collection 插入 3 个 Entity，展示不同输入情况：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -400,39 +489,14 @@ client.insert(InsertReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-const data = [
-  {
-    id: 1,
-    embedding: [0.1, 0.2, 0.3, 0.4]
-  },
-  {
-    id: 2,
-    embedding: null // Explicitly set to NULL
-  },
-  {
-    id: 3 // Field omitted; stored as NULL
-  }
-];
-
-await client.insert({
-  collection_name: 'my_collection',
-  data
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
 import (
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/column"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/column"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 embeddingCol, err := column.NewNullableColumnFloatVector(
@@ -455,6 +519,77 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use serde_json::json;
+
+let rows = vec![
+    json!({"id": 1, "embedding": [0.1, 0.2, 0.3, 0.4]}),
+    json!({"id": 2, "embedding": None::<Vec<f32>>}),
+    json!({"id": 3}),
+];
+
+client.insert(
+    InsertRequest::builder()
+        .collection_name("my_collection")
+        .rows(rows)
+        .build()?,
+).await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+#include <vector>
+
+milvus::EntityRows data = {
+    {{"id", 1}, {"embedding", std::vector<float>{0.1, 0.2, 0.3, 0.4}}},
+    {{"id", 2}, {"embedding", nullptr}},
+    {{"id", 3}},
+};
+
+milvus::InsertResponse insert_response;
+status = client->Insert(milvus::InsertRequest()
+                            .WithCollectionName("my_collection")
+                            .WithRowsData(std::move(data)),
+                        insert_response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const data = [
+  {
+    id: 1,
+    embedding: [0.1, 0.2, 0.3, 0.4]
+  },
+  {
+    id: 2,
+    embedding: null // Explicitly set to NULL
+  },
+  {
+    id: 3 // Field omitted; stored as NULL
+  }
+];
+
+await client.insert({
+  collection_name: 'my_collection',
+  data
+});
 ```
 
 </TabItem>
@@ -505,7 +640,7 @@ curl --request POST \
 
 对于启用 `nullable` 属性的向量字段，这意味着只有包含有效向量的 Entity 才能通过向量相似度被搜索到。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -557,32 +692,15 @@ client.loadCollection(LoadCollectionReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-await client.createIndex({
-  collection_name: 'my_collection',
-  field_name: 'embedding',
-  index_type: 'AUTOINDEX',
-  metric_type: 'COSINE'
-});
-
-await client.loadCollection({
-  collection_name: 'my_collection'
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
 import (
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/entity"
-    "github.com/milvus-io/milvus/client/v2/index"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 indexTask, err := client.CreateIndex(ctx, milvusclient.NewCreateIndexOption(
@@ -612,6 +730,67 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+client.create_index(
+    CreateIndexRequest::builder()
+        .collection_name("my_collection")
+        .index_param(
+            IndexParam::new()
+                .field_name("embedding")
+                .index_type(IndexType::AutoIndex)
+                .metric_type(MetricType::Cosine),
+        )
+        .build()?,
+).await?;
+
+client.load_collection(
+    LoadCollectionRequest::builder()
+        .collection_name("my_collection")
+        .build()?,
+).await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+status = client->CreateIndex(milvus::CreateIndexRequest()
+                                .WithCollectionName("my_collection")
+                                .AddIndex(milvus::IndexDesc("embedding", "", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE))
+                                .WithSync(true));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->LoadCollection(milvus::LoadCollectionRequest()
+                                .WithCollectionName("my_collection"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.createIndex({
+  collection_name: 'my_collection',
+  field_name: 'embedding',
+  index_type: 'AUTOINDEX',
+  metric_type: 'COSINE'
+});
+
+await client.loadCollection({
+  collection_name: 'my_collection'
+});
 ```
 
 </TabItem>
@@ -667,7 +846,7 @@ curl --request POST \
 
 以下示例在启用 `nullable` 属性的 `embedding` 向量字段上执行向量搜索：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -707,30 +886,14 @@ System.out.println(res);
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-const res = await client.search({
-  collection_name: 'my_collection',
-  data: [[0.1, 0.2, 0.3, 0.4]],
-  anns_field: 'embedding',
-  limit: 3,
-  output_fields: ['embedding']
-});
-
-console.log(res);
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
 import (
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/entity"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 query := []float32{0.1, 0.2, 0.3, 0.4}
@@ -746,6 +909,66 @@ if err != nil {
 }
 
 fmt.Println(resultSets)
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let search_results = client.search(
+    SearchRequest::builder()
+        .collection_name("my_collection")
+        .vector_field("embedding")
+        .vectors(SearchVectors::Float(vec![vec![0.1f32, 0.2, 0.3, 0.4]]))
+        .output_fields(["embedding"])
+        .limit(3)
+        .build()?,
+).await?;
+for result in search_results.results().iter() {
+    for row in result.get_output_rows()? {
+        println!("{:?}", row);
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+#include <vector>
+
+std::vector<float> query_vector = {0.1, 0.2, 0.3, 0.4};
+milvus::SearchResponse search_response;
+status = client->Search(milvus::SearchRequest()
+                            .WithCollectionName("my_collection")
+                            .WithAnnsField("embedding")
+                            .WithLimit(3)
+                            .AddOutputField("embedding")
+                            .AddFloatVector(query_vector),
+                        search_response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const res = await client.search({
+  collection_name: 'my_collection',
+  data: [[0.1, 0.2, 0.3, 0.4]],
+  anns_field: 'embedding',
+  limit: 3,
+  output_fields: ['embedding']
+});
+
+console.log(res);
 ```
 
 </TabItem>
@@ -785,7 +1008,7 @@ curl --request POST \
 
 例如，给定一个启用 `nullable` 属性的标量字段 `age`，以下过滤表达式会选择 `age` 大于 `18` 的 Entity：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -802,18 +1025,34 @@ String filter = "age > 18";
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-const filter = 'age > 18';
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
 filter := "age > 18"
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let expr = "age > 18";
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::string expr = "age > 18";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'age > 18';
 ```
 
 </TabItem>
@@ -831,7 +1070,7 @@ filter := "age > 18"
 
 同样，等值检查也不会匹配 `NULL` 值。例如：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -848,18 +1087,34 @@ String filter = "status == \"active\"";
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-const filter = 'status == "active"';
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
 filter := `status == "active"`
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let expr = "status == \"active\"";
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::string expr = "status == \"active\"";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'status == "active"';
 ```
 
 </TabItem>
