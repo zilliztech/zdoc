@@ -108,7 +108,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 client.rename_collection(
@@ -120,7 +121,8 @@ client.rename_collection(
 .await?;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -267,7 +269,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 client.alter_collection_properties(
@@ -279,7 +282,8 @@ client.alter_collection_properties(
 .await?;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -370,7 +374,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 client.alter_collection_properties(
@@ -382,7 +387,8 @@ client.alter_collection_properties(
 .await?;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -473,7 +479,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 client.alter_collection_properties(
@@ -485,7 +492,8 @@ client.alter_collection_properties(
 .await?;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -576,7 +584,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 client.alter_collection_properties(
@@ -588,7 +597,8 @@ client.alter_collection_properties(
 .await?;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -681,7 +691,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 client.alter_collection_properties(
@@ -693,7 +704,8 @@ client.alter_collection_properties(
 .await?;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -787,7 +799,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 client.alter_collection_properties(
@@ -799,7 +812,8 @@ client.alter_collection_properties(
 .await?;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -888,7 +902,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 client.drop_collection_properties(
@@ -900,7 +915,8 @@ client.drop_collection_properties(
 .await?;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++

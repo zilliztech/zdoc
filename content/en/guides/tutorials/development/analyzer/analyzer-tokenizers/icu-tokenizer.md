@@ -60,7 +60,8 @@ analyzerParams = map[string]any{"tokenizer": "icu"}
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use milvus::v2::prelude::*;
@@ -69,7 +70,8 @@ use serde_json::json;
 let analyzer_params = json!({ "tokenizer": "icu" });
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -133,7 +135,8 @@ analyzerParams = map[string]any{"tokenizer": "icu", "filter": []string{"removepu
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use milvus::v2::prelude::*;
@@ -145,7 +148,8 @@ let analyzer_params = json!({
 });
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -216,7 +220,8 @@ analyzerParams = map[string]any{"tokenizer": "icu"}
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use milvus::v2::prelude::*;
@@ -225,7 +230,8 @@ use serde_json::json;
 let analyzer_params = json!({ "tokenizer": "icu" });
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -340,7 +346,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use milvus::v2::prelude::*;
@@ -357,7 +364,8 @@ let result = client
     .await?;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++

@@ -71,7 +71,8 @@ fmt.Println(analyzerParams)
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use serde_json::json;
@@ -87,7 +88,8 @@ let analyzer_params = json!({
 });
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -205,7 +207,8 @@ fmt.Println(analyzerParams)
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use serde_json::json;
@@ -221,7 +224,8 @@ let analyzer_params = json!({
 });
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -362,7 +366,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use milvus::v2::prelude::*;
@@ -390,7 +395,8 @@ let res = client.run_analyzer(run_analyzer_req).await?;
 println!("{:?}", res.results());
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++

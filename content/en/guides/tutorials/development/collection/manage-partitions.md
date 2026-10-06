@@ -145,7 +145,8 @@ fmt.Println(partitionNames)
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use milvus::v2::prelude::*;
@@ -176,7 +177,8 @@ async fn main() -> Result<()> {
 // ["_default"]
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -331,7 +333,8 @@ fmt.Println(partitionNames)
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 client
@@ -357,7 +360,8 @@ println!("{:?}", partitions.partition_names());
 // ["_default", "partitionA"]
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -500,7 +504,8 @@ fmt.Println(result)
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let has = client
@@ -518,7 +523,8 @@ println!("{}", has.exists());
 // true
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -658,7 +664,8 @@ fmt.Println(state)
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 client
@@ -685,7 +692,8 @@ println!("{:?}", state.state());
 // Loaded
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -848,7 +856,8 @@ fmt.Println(state)
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 client
@@ -875,7 +884,8 @@ println!("{:?}", state.state());
 // NotLoad
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -1073,7 +1083,8 @@ fmt.Println(partitionNames)
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 client
@@ -1108,7 +1119,8 @@ println!("{:?}", partitions.partition_names());
 // ["_default"]
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++

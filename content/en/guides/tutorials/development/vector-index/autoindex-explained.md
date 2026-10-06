@@ -158,7 +158,8 @@ indexParams = map[string]any{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use serde_json::json;
@@ -177,7 +178,8 @@ let cloud_index_params = json!({
 });
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -298,7 +300,8 @@ searchParams = map[string]any{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use serde_json::json;
@@ -314,7 +317,8 @@ let cloud_search_params = json!({
 });
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++

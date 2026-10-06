@@ -167,7 +167,8 @@ schema := entity.NewSchema().WithDynamicFieldEnabled(true).
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use milvus::v2::prelude::*;
@@ -185,7 +186,8 @@ let schema = CollectionSchema::new()
     .add_field(FieldSchema::new().name("my_varchar").data_type(DataType::VarChar).max_length(512));
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -352,7 +354,8 @@ indexOptions := []milvusclient.CreateIndexOption{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // 3.3 + 3.4 Prepare and add index parameters
@@ -362,7 +365,8 @@ let index_params = vec![
 ];
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -486,7 +490,8 @@ fmt.Println("collection created")
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // 3.5 Create a collection with the index loaded simultaneously
@@ -502,7 +507,8 @@ let res = client.get_load_state(GetLoadStateRequest::builder()
 println!("{:?}", res.state());
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -648,7 +654,8 @@ fmt.Println(state.State)
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // 3.6 Create a collection and index it separately
@@ -663,7 +670,8 @@ let res = client.get_load_state(GetLoadStateRequest::builder()
 println!("{:?}", res.state());
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -799,7 +807,8 @@ fmt.Println("collection created")
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // With shard number
@@ -810,7 +819,8 @@ client.create_collection(CreateCollectionRequest::builder()
     .build()?).await?;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -913,7 +923,8 @@ fmt.Println("collection created")
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // With mmap
@@ -924,7 +935,8 @@ client.create_collection(CreateCollectionRequest::builder()
     .build()?).await?;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -1033,7 +1045,8 @@ fmt.Println("collection created")
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // With TTL
@@ -1044,7 +1057,8 @@ client.create_collection(CreateCollectionRequest::builder()
     .build()?).await?;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -1150,7 +1164,8 @@ fmt.Println("collection created")
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // With consistency level
@@ -1161,7 +1176,8 @@ client.create_collection(CreateCollectionRequest::builder()
     .build()?).await?;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++

@@ -87,13 +87,15 @@ VolumeManager volumeManager = new VolumeManager(volumeManagerParam);
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // Note: VolumeManager is not supported in milvus-sdk-rust as of v3.0.2.
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -201,13 +203,15 @@ You can create a volume on the web console or via SDK.
     ```
 
     </TabItem>
-    </Tabs>
+
+    <TabItem value='rust'>
 
     ```rust
     // Note: Managed Volume management is not supported in milvus-sdk-rust as of v3.0.2.
     ```
 
-    <Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+    </TabItem>
+
     <TabItem value='c++'>
 
     ```c++
@@ -386,13 +390,15 @@ You can view all existing volumes in a project.
     ```
 
     </TabItem>
-    </Tabs>
+
+    <TabItem value='rust'>
 
     ```rust
     // Note: External Volume management with VolumeManager is not supported in milvus-sdk-rust as of v3.0.2.
     ```
 
-    <Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+    </TabItem>
+
     <TabItem value='c++'>
 
     ```c++
@@ -524,13 +530,15 @@ You can also check the details of a specific managed volume.
     ```
 
     </TabItem>
-    </Tabs>
+
+    <TabItem value='rust'>
 
     ```rust
     // Note: Managed Volume management is not supported in milvus-sdk-rust as of v3.0.2.
     ```
 
-    <Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+    </TabItem>
+
     <TabItem value='c++'>
 
     ```c++
@@ -638,13 +646,15 @@ Currently, you can only upload your data file or folder into a managed volume vi
     ```
 
     </TabItem>
-    </Tabs>
+
+    <TabItem value='rust'>
 
     ```rust
     // Note: VolumeFileManager and volume file upload are not supported in milvus-sdk-rust as of v3.0.2.
     ```
 
-    <Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+    </TabItem>
+
     <TabItem value='c++'>
 
     ```c++
@@ -732,13 +742,15 @@ Currently, you can only upload your data file or folder into a managed volume vi
         ```
 
         </TabItem>
-        </Tabs>
+
+        <TabItem value='rust'>
 
         ```rust
         // Note: VolumeFileManager and volume file upload are not supported in milvus-sdk-rust as of v3.0.2.
         ```
 
-        <Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+        </TabItem>
+
         <TabItem value='c++'>
 
         ```c++
@@ -821,13 +833,15 @@ Currently, you can only upload your data file or folder into a managed volume vi
         ```
 
         </TabItem>
-        </Tabs>
+
+        <TabItem value='rust'>
 
         ```rust
         // Note: Volume file upload is not supported in milvus-sdk-rust as of v3.0.2.
         ```
 
-        <Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+        </TabItem>
+
         <TabItem value='c++'>
 
         ```c++
@@ -955,13 +969,15 @@ Deleted volumes **cannot be recovered**. Proceed with caution.
     ```
 
     </TabItem>
-    </Tabs>
+
+    <TabItem value='rust'>
 
     ```rust
     // Note: Managed Volume management is not supported in milvus-sdk-rust as of v3.0.2.
     ```
 
-    <Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+    </TabItem>
+
     <TabItem value='c++'>
 
     ```c++

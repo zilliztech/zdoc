@@ -102,7 +102,8 @@ _ = client.DropCollection(ctx, milvusclient.NewDropCollectionOption(collectionNa
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
@@ -112,7 +113,8 @@ let collection_name = "news_articles_tutorial";
 client.drop_collection(DropCollectionRequest::builder().collection_name(collection_name).build()?).await.ok();
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -217,7 +219,8 @@ schema := entity.NewSchema().
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use milvus::v2::prelude::*;
@@ -231,7 +234,8 @@ let schema = CollectionSchema::new()
     .add_field(FieldSchema::new().name("publish_date").data_type(DataType::Int64));
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -364,7 +368,8 @@ schema = schema.WithFunction(bm25Function)
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use std::collections::HashMap;
@@ -389,7 +394,8 @@ let schema = schema.add_function(
 );
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -541,7 +547,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let index_params = vec![
@@ -558,7 +565,8 @@ client.create_collection(CreateCollectionRequest::builder()
 .await?;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -752,7 +760,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use chrono::Utc;
@@ -771,7 +780,8 @@ let insert_req = InsertRequest::builder()
 client.insert(insert_req).await?;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -977,7 +987,8 @@ linearRanker := entity.NewFunction().
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use chrono::Utc;
@@ -1018,7 +1029,8 @@ let linear_ranker = Function::new()
     .param("scale", "1209600");
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -1182,13 +1194,15 @@ for days in [0, 3, 7, 10, 14, 21, 30, 60, 90]:
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // Note: This visualization step uses Python matplotlib and is not applicable to milvus-sdk-rust.
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -1281,7 +1295,8 @@ func printSearchResults(results []milvusclient.ResultSet, title string) {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 fn print_search_results(results: &[SingleResult], title: &str) {
@@ -1292,7 +1307,8 @@ fn print_search_results(results: &[SingleResult], title: &str) {
 }
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -1496,7 +1512,8 @@ if err != nil { log.Fatal(err) }
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let query = "artificial intelligence advancements";
@@ -1528,7 +1545,8 @@ let exponential = client.search(search_req(exponential_ranker.clone())?).await?;
 let linear = client.search(search_req(linear_ranker.clone())?).await?;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -1794,7 +1812,8 @@ fmt.Printf("Expected final score = Original x Decay: %.4f\n", expectedScore)
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let days_ago = (current_time - publish_date) / (24 * 60 * 60);
@@ -1803,7 +1822,8 @@ let expected_score = original_score * decay_factor;
 println!("Expected final score = Original x Decay: {:.4}", expected_score);
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -1945,7 +1965,8 @@ if err != nil { log.Fatal(err) }
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let hybrid_req = HybridSearchRequest::builder()
@@ -1970,7 +1991,8 @@ let hybrid_req = HybridSearchRequest::builder()
 let hybrid = client.hybrid_search(hybrid_req).await?;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -2200,7 +2222,8 @@ for _, scaleDays := range []int{7, 14, 30} {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 for scale_days in [7, 14, 30] {
@@ -2228,7 +2251,8 @@ for scale_days in [7, 14, 30] {
 }
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -2448,7 +2472,8 @@ for _, testQuery := range []string{"machine learning", "neural networks", "ethic
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 for test_query in ["machine learning", "neural networks", "ethics in AI"] {
@@ -2465,7 +2490,8 @@ for test_query in ["machine learning", "neural networks", "ethics in AI"] {
 }
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++

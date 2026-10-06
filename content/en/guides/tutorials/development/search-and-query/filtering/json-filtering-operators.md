@@ -76,14 +76,16 @@ filter := "json_contains(product[\"tags\"], \"sale\")"
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // JSON data: {"tags": ["electronics", "sale", "new"]}
 let filter = "json_contains(product[\"tags\"], \"sale\")";
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -149,14 +151,16 @@ filter := "json_contains_all(product[\"tags\"], [\"electronics\", \"sale\", \"ne
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // JSON data: {"tags": ["electronics", "sale", "new", "discount"]}
 let filter = "json_contains_all(product[\"tags\"], [\"electronics\", \"sale\", \"new\"])";
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -222,14 +226,16 @@ filter := "json_contains_any(product[\"tags\"], [\"electronics\", \"new\", \"cle
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // JSON data: {"tags": ["electronics", "sale", "new"]}
 let filter = "json_contains_any(product[\"tags\"], [\"electronics\", \"new\", \"clearance\"])";
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++

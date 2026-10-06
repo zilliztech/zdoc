@@ -156,7 +156,8 @@ schema := entity.NewSchema().WithEnableDynamicField(true).
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use milvus::v2::prelude::*;
@@ -186,7 +187,8 @@ schema = schema
     );
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -303,7 +305,8 @@ indexOption := milvusclient.NewCreateIndexOption("my_collection", "binary_vector
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let index_params = vec![IndexParam::new()
@@ -313,7 +316,8 @@ let index_params = vec![IndexParam::new()
     .metric_type(MetricType::Hamming)];
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -404,7 +408,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 client
@@ -418,7 +423,8 @@ client
     .await?;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -556,7 +562,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // Binary vectors (128 bits = 16 bytes)
@@ -578,7 +585,8 @@ client
     .await?;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -728,7 +736,8 @@ for _, resultSet := range resultSets {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // query vector = vector1
@@ -749,7 +758,8 @@ let results = client
 println!("{:?}", results.results());
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++

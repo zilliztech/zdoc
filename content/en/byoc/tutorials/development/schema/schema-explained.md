@@ -72,7 +72,8 @@ schema := entity.NewSchema()
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use milvus::v2::prelude::*;
@@ -80,7 +81,8 @@ use milvus::v2::prelude::*;
 let mut schema = CollectionSchema::new();
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -163,7 +165,8 @@ schema.WithField(entity.NewField().WithName("my_id").
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 schema = schema.add_field(
@@ -175,7 +178,8 @@ schema = schema.add_field(
 );
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -273,7 +277,8 @@ schema.WithField(entity.NewField().WithName("my_vector").
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 schema = schema.add_field(
@@ -284,7 +289,8 @@ schema = schema.add_field(
 );
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -396,7 +402,8 @@ schema.WithField(entity.NewField().WithName("my_varchar").
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 schema = schema.add_field(
@@ -407,7 +414,8 @@ schema = schema.add_field(
 );
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -489,13 +497,15 @@ schema.WithField(entity.NewField().WithName("my_text").
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // Note: Not yet supported in milvus-sdk-rust as of v3.0.2.
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -573,7 +583,8 @@ schema.WithField(entity.NewField().WithName("my_int64").
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 schema = schema.add_field(
@@ -583,7 +594,8 @@ schema = schema.add_field(
 );
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -662,7 +674,8 @@ schema.WithField(entity.NewField().WithName("my_bool").
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 schema = schema.add_field(
@@ -672,7 +685,8 @@ schema = schema.add_field(
 );
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -756,7 +770,8 @@ schema.WithField(entity.NewField().WithName("my_json").
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 schema = schema.add_field(
@@ -766,7 +781,8 @@ schema = schema.add_field(
 );
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -856,7 +872,8 @@ schema.WithField(entity.NewField().WithName("my_array").
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 schema = schema.add_field(
@@ -869,7 +886,8 @@ schema = schema.add_field(
 );
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++

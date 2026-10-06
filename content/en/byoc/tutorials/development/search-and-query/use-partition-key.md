@@ -178,7 +178,8 @@ schema.WithField(entity.NewField().
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use milvus::v2::prelude::*;
@@ -210,7 +211,8 @@ let schema = CollectionSchema::new()
     );
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -355,7 +357,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 client.create_collection(
@@ -368,7 +371,8 @@ client.create_collection(
 .await?;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -472,7 +476,8 @@ filter = "partition_key in ['x', 'y', 'z'] && <other conditions>"
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // Filter based on a single partition key value, or
@@ -482,7 +487,8 @@ let filter = "partition_key == 'x' && <other conditions>";
 let filter = "partition_key in ['x', 'y', 'z'] && <other conditions>";
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -595,7 +601,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use std::collections::HashMap;
@@ -613,7 +620,8 @@ client.create_collection(
 .await?;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++

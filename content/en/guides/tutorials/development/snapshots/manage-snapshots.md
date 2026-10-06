@@ -140,7 +140,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use milvus::v2::error::Result;
@@ -170,7 +171,8 @@ async fn main() -> Result<()> {
 }
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -296,7 +298,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // List all snapshots for a collection
@@ -308,7 +311,8 @@ let snapshots = client.list_snapshots(
 println!("{:?}", snapshots);
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -412,7 +416,8 @@ fmt.Printf("Collection: %s\n", resp.GetCollectionName())
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // Describe a snapshot
@@ -425,7 +430,8 @@ let snapshot_info = client.describe_snapshot(
 println!("{:?}", snapshot_info);
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -534,7 +540,8 @@ defer func() {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // Pin snapshot data
@@ -554,7 +561,8 @@ client.unpin_snapshot_data(
 ).await?;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -677,7 +685,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // Restore snapshot to new collection
@@ -691,7 +700,8 @@ let job_id = client.restore_snapshot(
 println!("job id: {}", job_id);
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -785,7 +795,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 client.drop_snapshot(
@@ -796,7 +807,8 @@ client.drop_snapshot(
 ).await?;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -901,7 +913,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // List all restore jobs
@@ -916,7 +929,8 @@ for job in &jobs {
 }
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -1023,7 +1037,8 @@ fmt.Printf("Time Cost: %dms\n", state.GetTimeCost())
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // Get restoration state
@@ -1038,7 +1053,8 @@ println!("State: {:?}", state.state());
 println!("Progress: {}%", state.progress());
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++

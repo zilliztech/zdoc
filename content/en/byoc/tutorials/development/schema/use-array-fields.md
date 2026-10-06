@@ -187,7 +187,8 @@ schema.WithField(entity.NewField().
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use milvus::v2::error::Result;
@@ -233,7 +234,8 @@ async fn main() -> Result<()> {
 }
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -423,7 +425,8 @@ indexOpt2 := milvusclient.NewCreateIndexOption("my_collection", "embedding", ind
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let tags_index = IndexParam::new()
@@ -437,7 +440,8 @@ let embedding_index = IndexParam::new()
     .metric_type(MetricType::Cosine);
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -549,7 +553,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 client.create_collection(
@@ -575,7 +580,8 @@ client.load_collection(
 ).await?;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -726,7 +732,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use serde_json::json;
@@ -759,7 +766,8 @@ client.insert(
 ).await?;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -917,7 +925,8 @@ fmt.Println("ratings", rs.GetColumn("ratings").FieldData().GetScalars())
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let query_results = client
@@ -934,7 +943,8 @@ for row in query_results.results().get_output_rows()? {
 }
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -1044,7 +1054,8 @@ fmt.Println("ratings", rs.GetColumn("ratings").FieldData().GetScalars())
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let query_results = client
@@ -1061,7 +1072,8 @@ for row in query_results.results().get_output_rows()? {
 }
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -1197,7 +1209,8 @@ for _, resultSet := range resultSets {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let search_results = client
@@ -1219,7 +1232,8 @@ for result in search_results.results().iter() {
 }
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++

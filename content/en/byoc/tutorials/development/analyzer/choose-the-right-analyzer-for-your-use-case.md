@@ -223,7 +223,8 @@ schema.WithField(entity.NewField().
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let analyzer_params = serde_json::json!({"type": "english"});
@@ -235,7 +236,8 @@ let schema = CollectionSchema::new().add_field(FieldSchema::new()
     .analyzer_params(analyzer_params));
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -606,7 +608,8 @@ schema.WithField(entity.NewField().
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let analyzer_params = serde_json::json!({
@@ -621,7 +624,8 @@ let schema = CollectionSchema::new().add_field(FieldSchema::new()
     .analyzer_params(analyzer_params));
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -749,7 +753,8 @@ fmt.Println(result)
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
     let resp = client.run_analyzer(RunAnalyzerRequest::builder()
@@ -759,7 +764,8 @@ fmt.Println(result)
     println!("{:?}", resp.results());
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -1112,7 +1118,8 @@ analyzerParams := map[string]any{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let analyzer_params = serde_json::json!({
@@ -1121,7 +1128,8 @@ let analyzer_params = serde_json::json!({
 });
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++

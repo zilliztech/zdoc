@@ -155,7 +155,8 @@ if err := loadTask.Await(ctx); err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use milvus::v2::prelude::*;
@@ -190,7 +191,8 @@ async fn main() -> Result<()> {
 }
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -328,7 +330,8 @@ indexOption := milvusclient.NewCreateIndexOption("my_collection", "dense_vector"
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let index_params = vec![IndexParam::new()
@@ -338,7 +341,8 @@ let index_params = vec![IndexParam::new()
     .metric_type(MetricType::Ip)];
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -441,7 +445,8 @@ if err := loadTask.Await(ctx); err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 client
@@ -455,7 +460,8 @@ client
     .await?;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -574,7 +580,8 @@ if err := flushTask.Await(ctx); err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let rows = vec![
@@ -593,7 +600,8 @@ let insert = client
 println!("{} rows inserted", insert.insert_count());
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -744,7 +752,8 @@ for _, resultSet := range resultSets {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use std::collections::HashMap;
@@ -767,7 +776,8 @@ let search = client
 println!("{:?}", search.results());
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++

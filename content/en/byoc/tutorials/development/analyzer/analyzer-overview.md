@@ -106,7 +106,8 @@ analyzerParams := map[string]any{"type": "standard", "stop_words": []string{"a",
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use milvus::v2::prelude::*;
@@ -117,7 +118,8 @@ let analyzer_params = serde_json::json!({
 });
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -210,7 +212,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let sample_text = "An efficient system relies on a robust analyzer to correctly process text for various applications.";
@@ -225,7 +228,8 @@ let response = client
 println!("{:?}", response);
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -331,7 +335,8 @@ analyzerParams = map[string]any{"tokenizer": "standard",
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let analyzer_params = serde_json::json!({
@@ -340,7 +345,8 @@ let analyzer_params = serde_json::json!({
 });
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -438,13 +444,15 @@ analyzerParams = map[string]any{"tokenizer": "whitespace"}
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let analyzer_params = serde_json::json!({"tokenizer": "whitespace"});
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -532,13 +540,15 @@ Filters in a custom analyzer can be either **built-in** or **custom**, depending
     ```
 
     </TabItem>
-    </Tabs>
+
+    <TabItem value='rust'>
 
     ```rust
     let analyzer_params = serde_json::json!({"tokenizer": "standard", "filter": ["lowercase"]});
     ```
 
-    <Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+    </TabItem>
+
     <TabItem value='c++'>
 
     ```c++
@@ -625,7 +635,8 @@ Filters in a custom analyzer can be either **built-in** or **custom**, depending
     ```
 
     </TabItem>
-    </Tabs>
+
+    <TabItem value='rust'>
 
     ```rust
     let analyzer_params = serde_json::json!({
@@ -634,7 +645,8 @@ Filters in a custom analyzer can be either **built-in** or **custom**, depending
     });
     ```
 
-    <Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+    </TabItem>
+
     <TabItem value='c++'>
 
     ```c++
@@ -770,7 +782,8 @@ schema := entity.NewSchema().WithAutoID(true).WithDynamicFieldEnabled(false)
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use milvus::v2::prelude::*;
@@ -779,7 +792,8 @@ let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").to
 let schema = CollectionSchema::new().enable_dynamic_field(false);
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -898,7 +912,8 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
     ```
 
     </TabItem>
-    </Tabs>
+
+    <TabItem value='rust'>
 
     ```rust
     let analyzer_params_built_in = serde_json::json!({"type": "english"});
@@ -914,7 +929,8 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
     println!("{:?}", response);
     ```
 
-    <Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+    </TabItem>
+
     <TabItem value='c++'>
 
     ```c++
@@ -1065,7 +1081,8 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
     ```
 
     </TabItem>
-    </Tabs>
+
+    <TabItem value='rust'>
 
     ```rust
     let analyzer_params_custom = serde_json::json!({
@@ -1084,7 +1101,8 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
     println!("{:?}", response);
     ```
 
-    <Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+    </TabItem>
+
     <TabItem value='c++'>
 
     ```c++
@@ -1265,7 +1283,8 @@ schema.WithField(entity.NewField().
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let schema = schema
@@ -1275,7 +1294,8 @@ let schema = schema
     .add_field(FieldSchema::new().name("embedding").data_type(DataType::FloatVector).dimension(3));
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -1431,7 +1451,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 client
@@ -1450,7 +1471,8 @@ client
     .await?;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++

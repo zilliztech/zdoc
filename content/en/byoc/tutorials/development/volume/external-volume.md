@@ -131,13 +131,15 @@ Before creating an external volume, you need to integrate your [AWS S3 bucket](.
     ```
 
     </TabItem>
-    </Tabs>
+
+    <TabItem value='rust'>
 
     ```rust
     // Note: External Volume management with VolumeManager is not supported in milvus-sdk-rust as of v3.0.2.
     ```
 
-    <Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+    </TabItem>
+
     <TabItem value='c++'>
 
     ```c++
@@ -305,13 +307,15 @@ You can view all existing volumes in a project.
     ```
 
     </TabItem>
-    </Tabs>
+
+    <TabItem value='rust'>
 
     ```rust
     // Note: External Volume management with VolumeManager is not supported in milvus-sdk-rust as of v3.0.2.
     ```
 
-    <Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+    </TabItem>
+
     <TabItem value='c++'>
 
     ```c++
@@ -425,13 +429,15 @@ You can check the details of a specific volume.
     ```
 
     </TabItem>
-    </Tabs>
+
+    <TabItem value='rust'>
 
     ```rust
     // Note: External Volume management with VolumeManager is not supported in milvus-sdk-rust as of v3.0.2.
     ```
 
-    <Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+    </TabItem>
+
     <TabItem value='c++'>
 
     ```c++
@@ -558,13 +564,15 @@ Deleting an external volume removes only the volume metadata from Zilliz Cloud; 
     ```
 
     </TabItem>
-    </Tabs>
+
+    <TabItem value='rust'>
 
     ```rust
     // Note: External Volume management with VolumeManager is not supported in milvus-sdk-rust as of v3.0.2.
     ```
 
-    <Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+    </TabItem>
+
     <TabItem value='c++'>
 
     ```c++

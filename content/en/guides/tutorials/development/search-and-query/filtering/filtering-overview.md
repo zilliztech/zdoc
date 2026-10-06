@@ -67,13 +67,15 @@ filter := "color in [\"red\", \"green\", \"blue\"]"
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let filter = "color in [\"red\", \"green\", \"blue\"]";
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -127,13 +129,15 @@ filter := "(permissions & 4) == 4"
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let filter = "(permissions & 4) == 4";
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -187,13 +191,15 @@ filter := "message =~ \"E[0-9]{4}\""
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let filter = "message =~ \"E[0-9]{4}\"";
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -249,13 +255,15 @@ filter := "product[\"model\"] == \"JSN-087\" AND product[\"price\"] < 1850"
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let filter = "product[\"model\"] == \"JSN-087\" AND product[\"price\"] < 1850";
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -309,13 +317,15 @@ filter := "history_temperatures[10] > 23"
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let filter = "history_temperatures[10] > 23";
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -375,13 +385,15 @@ filter := "age > 25 AND city IN ['北京', '上海']"
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let filter = "age > 25 AND city IN ['北京', '上海']";
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -440,7 +452,8 @@ filter := "age > {age} AND city in {city}"
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use milvus::v2::prelude::*;
@@ -453,7 +466,8 @@ let filter_templates: HashMap<String, FilterTemplateValue> = HashMap::from([
 ]);
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -524,14 +538,16 @@ filter := "json_contains(tags, \"sale\")"
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // JSON data: {"tags": ["electronics", "sale", "new"]}
 let filter = "json_contains(tags, \"sale\")";
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -589,14 +605,16 @@ filter := "json_contains_all(tags, [\"electronics\", \"sale\", \"new\"])"
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // JSON data: {"tags": ["electronics", "sale", "new", "discount"]}
 let filter = "json_contains_all(tags, [\"electronics\", \"sale\", \"new\"])";
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -654,14 +672,16 @@ filter := "json_contains_any(tags, [\"electronics\", \"new\", \"clearance\"])"
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // JSON data: {"tags": ["electronics", "sale", "new"]}
 let filter = "json_contains_any(tags, [\"electronics\", \"new\", \"clearance\"])";
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -722,13 +742,15 @@ filter := "ARRAY_CONTAINS(history_temperatures, 23)"
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let filter = "ARRAY_CONTAINS(history_temperatures, 23)";
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -780,13 +802,15 @@ filter := "ARRAY_CONTAINS_ALL(history_temperatures, [23, 24])"
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let filter = "ARRAY_CONTAINS_ALL(history_temperatures, [23, 24])";
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -838,13 +862,15 @@ filter := "ARRAY_CONTAINS_ANY(history_temperatures, [23, 24])"
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let filter = "ARRAY_CONTAINS_ANY(history_temperatures, [23, 24])";
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -896,13 +922,15 @@ filter := "ARRAY_LENGTH(history_temperatures) < 10"
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let filter = "ARRAY_LENGTH(history_temperatures) < 10";
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++

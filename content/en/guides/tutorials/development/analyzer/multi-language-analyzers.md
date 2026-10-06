@@ -141,7 +141,8 @@ multiAnalyzerParams := map[string]any{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use milvus::v2::prelude::*;
@@ -166,7 +167,8 @@ async fn main() -> Result<()> {
 }
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -425,7 +427,8 @@ schema.WithField(entity.NewField().
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
     let schema = CollectionSchema::new()
@@ -437,7 +440,8 @@ schema.WithField(entity.NewField().
         .add_field(FieldSchema::new().name("sparse").data_type(DataType::SparseFloatVector));
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -593,7 +597,8 @@ schema.WithFunction(function.WithName("text_to_vector").
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
     let function = Function::new()
@@ -604,7 +609,8 @@ schema.WithFunction(function.WithName("text_to_vector").
     let schema = schema.add_function(function);
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -705,7 +711,8 @@ indexOption := milvusclient.NewCreateIndexOption("multilingual_documents", "spar
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
     let index_params = vec![IndexParam::new()
@@ -714,7 +721,8 @@ indexOption := milvusclient.NewCreateIndexOption("multilingual_documents", "spar
         .metric_type(MetricType::Bm25)];
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -827,7 +835,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
     let _ = client.drop_collection(DropCollectionRequest::builder()
@@ -841,7 +850,8 @@ if err != nil {
         .collection_name("multilingual_documents").build()?).await?;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -1005,7 +1015,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
     let documents = vec![
@@ -1021,7 +1032,8 @@ if err != nil {
     println!("inserted: {}", resp.insert_count());
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -1241,7 +1253,8 @@ for _, resultSet := range resultSets {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
     let request = SearchRequest::builder()
@@ -1262,7 +1275,8 @@ for _, resultSet := range resultSets {
     }
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -1429,7 +1443,8 @@ for _, resultSet := range resultSets {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
     let request = SearchRequest::builder()
@@ -1450,7 +1465,8 @@ for _, resultSet := range resultSets {
     }
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++

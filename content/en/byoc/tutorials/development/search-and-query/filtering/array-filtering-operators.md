@@ -76,13 +76,15 @@ filter := "ARRAY_CONTAINS(history_temperatures, 23)"
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let filter = "ARRAY_CONTAINS(history_temperatures, 23)";
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -142,13 +144,15 @@ filter := "ARRAY_CONTAINS_ALL(history_temperatures, [23, 24])"
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let filter = "ARRAY_CONTAINS_ALL(history_temperatures, [23, 24])";
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -208,13 +212,15 @@ filter := "ARRAY_CONTAINS_ANY(history_temperatures, [23, 24])"
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let filter = "ARRAY_CONTAINS_ANY(history_temperatures, [23, 24])";
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -274,13 +280,15 @@ filter := "ARRAY_LENGTH(history_temperatures) < 10"
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let filter = "ARRAY_LENGTH(history_temperatures) < 10";
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -376,7 +384,8 @@ client.Upsert(ctx, milvusclient.NewColumnBasedInsertOption("users").
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use milvus::v2::prelude::*;
@@ -401,7 +410,8 @@ let res = client
     .await?;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -515,7 +525,8 @@ client.Upsert(ctx, milvusclient.NewColumnBasedInsertOption("users").
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use milvus::v2::prelude::*;
@@ -540,7 +551,8 @@ let res = client
     .await?;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++

@@ -383,7 +383,8 @@ func main() {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use milvus::v2::prelude::*;
@@ -455,7 +456,8 @@ async fn main() -> Result<()> {
 }
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -631,13 +633,15 @@ var indexOpts []milvusclient.CreateIndexOption
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let mut index_params = Vec::new();
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -713,7 +717,8 @@ indexOpts = append(indexOpts, milvusclient.NewCreateIndexOption("your_collection
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 index_params.push(
@@ -728,7 +733,8 @@ index_params.push(
 );
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -821,7 +827,8 @@ indexOpts = append(indexOpts, milvusclient.NewCreateIndexOption("your_collection
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 index_params.push(
@@ -836,7 +843,8 @@ index_params.push(
 );
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -929,7 +937,8 @@ indexOpts = append(indexOpts, milvusclient.NewCreateIndexOption("your_collection
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 index_params.push(
@@ -944,7 +953,8 @@ index_params.push(
 );
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -1039,7 +1049,8 @@ indexOpts = append(indexOpts, milvusclient.NewCreateIndexOption("your_collection
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 index_params.push(
@@ -1054,7 +1065,8 @@ index_params.push(
 );
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -1153,7 +1165,8 @@ indexOpts = append(indexOpts, milvusclient.NewCreateIndexOption("your_collection
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 index_params.push(
@@ -1169,7 +1182,8 @@ index_params.push(
 );
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -1277,7 +1291,8 @@ indexOpts = append(indexOpts, milvusclient.NewCreateIndexOption("your_collection
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 index_params.push(
@@ -1292,7 +1307,8 @@ index_params.push(
 );
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -1383,7 +1399,8 @@ indexOpts = append(indexOpts, milvusclient.NewCreateIndexOption("your_collection
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 index_params.push(
@@ -1398,7 +1415,8 @@ index_params.push(
 );
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -1485,7 +1503,8 @@ for _, opt := range indexOpts {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 client.create_index(
@@ -1497,7 +1516,8 @@ client.create_index(
 .await?;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -1582,7 +1602,8 @@ log.Printf("state=%s totalRows=%d indexedRows=%d", desc.State, desc.TotalRows, d
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let desc = client
@@ -1596,7 +1617,8 @@ let desc = client
 println!("{:?}", desc);
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -1732,7 +1754,8 @@ indexOpts = append(indexOpts, milvusclient.NewCreateIndexOption("your_collection
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 index_params.push(
@@ -1748,7 +1771,8 @@ index_params.push(
 );
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++

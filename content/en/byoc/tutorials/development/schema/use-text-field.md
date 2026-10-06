@@ -59,13 +59,15 @@ schema.addField(AddFieldReq.builder()
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // Note: DataType.Text is not supported in milvus-sdk-rust as of v3.0.2.
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -247,13 +249,15 @@ schema.addFunction(CreateCollectionReq.Function.builder()
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // Note: DataType.Text is not supported in milvus-sdk-rust as of v3.0.2.
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -421,13 +425,15 @@ client.createCollection(requestCreate);
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // Note: DataType.Text is not supported in milvus-sdk-rust as of v3.0.2.
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -571,13 +577,15 @@ client.insert(InsertReq.builder()
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // Note: DataType.Text is not supported in milvus-sdk-rust as of v3.0.2.
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -716,13 +724,15 @@ SearchResp searchResp = client.search(SearchReq.builder()
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // Note: DataType.Text is not supported in milvus-sdk-rust as of v3.0.2.
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -822,13 +832,15 @@ for (List<SearchResp.SearchResult> hits : searchResp.getSearchResults()) {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // Note: DataType.Text is not supported in milvus-sdk-rust as of v3.0.2.
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++

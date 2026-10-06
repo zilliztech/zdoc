@@ -298,7 +298,8 @@ defer cli.Close(ctx)
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use milvus::v2::prelude::*;
@@ -307,7 +308,8 @@ let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
 let client = ClientV2::new(&config).await?;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -414,7 +416,8 @@ schema := entity.NewSchema().
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use milvus::v2::prelude::*;
@@ -428,7 +431,8 @@ let schema = CollectionSchema::new()
     .add_field(FieldSchema::new().name("document").data_type(DataType::VarChar).max_length(1000));
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -550,7 +554,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use milvus::v2::prelude::*;
@@ -577,7 +582,8 @@ client
     .await?;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -752,7 +758,8 @@ log.Println("insert count:", result.InsertCount)
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use milvus::v2::prelude::*;
@@ -787,7 +794,8 @@ for i in 0..documents.len() {
 }
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -922,7 +930,8 @@ querySignature := querySignatureBytes
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let query_text = "deep learning uses neural networks to model patterns";
@@ -930,7 +939,8 @@ let query_text = "deep learning uses neural networks to model patterns";
 let query_signature: Vec<u8> = query_signature_bytes;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -1058,7 +1068,8 @@ for _, resultSet := range resultSets {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // Approximate search (LSH-only): uses only MinHash signatures and LSH.
@@ -1084,7 +1095,8 @@ for result in response.results() {
 }
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -1255,7 +1267,8 @@ for _, resultSet := range resultSets {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // Note: Refined search (`mh_search_with_jaccard` / `refine_k`) is not supported
@@ -1265,7 +1278,8 @@ for _, resultSet := range resultSets {
 // Python, Java, Go, and Node.js SDKs.
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++

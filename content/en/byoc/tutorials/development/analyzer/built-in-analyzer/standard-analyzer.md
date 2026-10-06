@@ -68,7 +68,8 @@ analyzerParams := map[string]any{"tokenizer": "standard", "filter": []any{"lower
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let analyzer_params = serde_json::json!({
@@ -77,7 +78,8 @@ let analyzer_params = serde_json::json!({
 });
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -146,7 +148,8 @@ analyzerParams = map[string]any{"type": "standard"}
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let analyzer_params = serde_json::json!({
@@ -154,7 +157,8 @@ let analyzer_params = serde_json::json!({
 });
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -224,7 +228,8 @@ analyzerParams = map[string]any{"type": "standard", "stop_words": []string{"of"}
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let analyzer_params = serde_json::json!({
@@ -233,7 +238,8 @@ let analyzer_params = serde_json::json!({
 });
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -308,7 +314,8 @@ analyzerParams = map[string]any{"type": "standard", "stop_words": []string{"for"
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let analyzer_params = serde_json::json!({
@@ -317,7 +324,8 @@ let analyzer_params = serde_json::json!({
 });
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -445,7 +453,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use milvus::v2::error::Result;
@@ -474,7 +483,8 @@ async fn main() -> Result<()> {
 }
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++

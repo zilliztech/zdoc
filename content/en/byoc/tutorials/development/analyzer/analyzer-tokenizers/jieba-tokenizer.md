@@ -65,7 +65,8 @@ analyzerParams := map[string]any{"tokenizer": "jieba"}
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use milvus::v2::prelude::*;
@@ -78,7 +79,8 @@ async fn main() -> Result<()> {
 }
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -158,7 +160,8 @@ analyzerParams := map[string]any{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
     let analyzer_params = serde_json::json!({
@@ -171,7 +174,8 @@ analyzerParams := map[string]any{
     });
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -270,7 +274,8 @@ analyzerParams := map[string]interface{}{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
     let analyzer_params = serde_json::json!({
@@ -283,7 +288,8 @@ analyzerParams := map[string]interface{}{
     });
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -411,7 +417,8 @@ analyzerParams := map[string]interface{}{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
     let analyzer_params = serde_json::json!({
@@ -424,7 +431,8 @@ analyzerParams := map[string]interface{}{
     });
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -556,7 +564,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
     let resp = client.run_analyzer(RunAnalyzerRequest::builder()
@@ -566,7 +575,8 @@ if err != nil {
     println!("{:?}", resp.results());
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++

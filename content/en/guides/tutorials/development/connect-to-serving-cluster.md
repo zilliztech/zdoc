@@ -88,7 +88,8 @@ client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use milvus::v2::prelude::*;
@@ -99,7 +100,8 @@ let config = ConnectConfig::new()
 let client = ClientV2::new(&config).await?;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -200,7 +202,8 @@ client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use milvus::v2::prelude::*;
@@ -211,7 +214,8 @@ let config = ConnectConfig::new()
 let client = ClientV2::new(&config).await?;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++

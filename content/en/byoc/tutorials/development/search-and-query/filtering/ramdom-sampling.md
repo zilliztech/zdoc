@@ -59,13 +59,15 @@ filter := "RANDOM_SAMPLE(sampling_factor)"
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let filter = "RANDOM_SAMPLE(sampling_factor)";
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -147,7 +149,8 @@ filter := "color == \"red\" OR RANDOM_SAMPLE(0.001)" // ❌ Invalid logic
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // Correct: Filter first, then sample
@@ -159,7 +162,8 @@ let filter_incorrect = r#"color == "red" OR RANDOM_SAMPLE(0.001)"#;  // ❌ Inva
 // This would mean: "Either red items OR sample everything" - which is meaningless
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -293,7 +297,8 @@ fmt.Println("product_name: ", resultSet.GetColumn("product_name").FieldData().Ge
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use milvus::v2::prelude::*;
@@ -319,7 +324,8 @@ async fn main() -> Result<()> {
 }
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -448,7 +454,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // First filter by category and price, then sample 0.5% of results
@@ -468,7 +475,8 @@ let res = client
 println!("Found {} electronics products in sample", res.results().len());
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -593,7 +601,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // Get insights from ~0.1% of premium customer data
@@ -613,7 +622,8 @@ let res = client
 println!("Sample size: {}", res.results().len());
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -764,7 +774,8 @@ for _, resultSet := range resultSets {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // Search for similar products within a sampled subset
@@ -784,7 +795,8 @@ let res = client
 println!("Found {} similar books in sample", res.results().len());
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++

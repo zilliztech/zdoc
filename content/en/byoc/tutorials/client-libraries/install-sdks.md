@@ -157,11 +157,18 @@ make install       # install to /usr/local
 
 For Milvus's Rust SDK, use [Cargo](https://crates.io/crates/milvus-sdk-rust). Access its source code on [GitHub](https://github.com/milvus-io/milvus-sdk-rust).
 
+<Tabs groupId="code" defaultValue='shell' values={[{"label":"Zilliz CLI","value":"shell"},{"label":"Rust","value":"rust"}]}>
+<TabItem value='shell'>
+
 ```shell
 # Add the Rust SDK to your Cargo.toml
 [dependencies]
 milvus-sdk-rust = "3.0.2"
 ```
+
+</TabItem>
+
+<TabItem value='rust'>
 
 ```rust
 use milvus::v2::prelude::*;
@@ -173,3 +180,6 @@ async fn main() -> Result<()> {
     Ok(())
 }
 ```
+
+</TabItem>
+</Tabs>

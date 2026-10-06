@@ -131,7 +131,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
     let request = CreateIndexRequest::builder()
@@ -150,7 +151,8 @@ if err != nil {
     client.create_index(request).await?;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -320,7 +322,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
     let request = CreateIndexRequest::builder()
@@ -335,7 +338,8 @@ if err != nil {
     client.create_index(request).await?;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -493,7 +497,8 @@ fmt.Println(indexes)
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
     let resp = client.list_indexes(ListIndexesRequest::builder()
@@ -501,7 +506,8 @@ fmt.Println(indexes)
     println!("{:?}", resp.index_names());
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -584,7 +590,8 @@ fmt.Println(indexDesc.IndexType())
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
     let resp = client.describe_index(DescribeIndexRequest::builder()
@@ -592,7 +599,8 @@ fmt.Println(indexDesc.IndexType())
     println!("{:?}", resp.index_type());
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++

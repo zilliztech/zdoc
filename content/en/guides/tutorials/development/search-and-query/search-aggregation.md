@@ -367,7 +367,8 @@ queryVector := []float32{0.11, 0.40, 0.19, 0.64, 0.30}
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use milvus::v2::error::Result;
@@ -404,7 +405,8 @@ async fn main() -> Result<()> {
 }
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -591,7 +593,8 @@ aggregation := milvusclient.NewSearchAggregation([]string{"brand"}, 3).
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let aggregation = SearchAggregation::new()
@@ -604,7 +607,8 @@ let aggregation = SearchAggregation::new()
     .add_order(OrderSpec::new().key("_key").direction(AggDirection::Asc));
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -728,7 +732,8 @@ buckets := resultSets[0].AggregationBuckets
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let result = client.search(
@@ -744,7 +749,8 @@ let result = client.search(
 println!("{:?}", result.results().get_agg_buckets());
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -950,7 +956,8 @@ aggregation := milvusclient.NewSearchAggregation([]string{"brand"}, 3).
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let aggregation = SearchAggregation::new()
@@ -960,7 +967,8 @@ let aggregation = SearchAggregation::new()
     .add_order(OrderSpec::new().key("max_score").direction(AggDirection::Desc));
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -1044,7 +1052,8 @@ aggregation := milvusclient.NewSearchAggregation([]string{"brand", "color"}, 6)
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let aggregation = SearchAggregation::new()
@@ -1052,7 +1061,8 @@ let aggregation = SearchAggregation::new()
     .size(6);
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -1150,7 +1160,8 @@ aggregation := milvusclient.NewSearchAggregation([]string{"brand"}, 3).
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let aggregation = SearchAggregation::new()
@@ -1162,7 +1173,8 @@ let aggregation = SearchAggregation::new()
         .add_sort(SortSpec::new().field_name("_score").direction(AggDirection::Desc)));
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -1364,7 +1376,8 @@ aggregation := milvusclient.NewSearchAggregation([]string{"category"}, 2).
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 let aggregation = SearchAggregation::new()
@@ -1386,7 +1399,8 @@ let aggregation = SearchAggregation::new()
     );
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++

@@ -101,14 +101,16 @@ filter := "ST_EQUALS(geo_field, 'POINT(10 20)')"
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // The filter expression to check if a geometry matches a specific point
 let filter = "ST_EQUALS(geo_field, 'POINT(10 20)')";
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -172,14 +174,16 @@ filter := "ST_CONTAINS(geo_field, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')"
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // The filter expression to find geometries completely within a specific polygon.
 let filter = "ST_CONTAINS(geo_field, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')";
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -243,14 +247,16 @@ filter := "ST_CROSSES(geo_field, 'LINESTRING(5 0, 5 10)')"
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // The filter expression to find geometries that cross a line string.
 let filter = "ST_CROSSES(geo_field, 'LINESTRING(5 0, 5 10)')";
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -314,14 +320,16 @@ filter := "ST_INTERSECTS(geo_field, 'LINESTRING (1 1, 2 2)')"
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // The filter expression to find geometries that intersect with a specific line string.
 let filter = "ST_INTERSECTS(geo_field, 'LINESTRING (1 1, 2 2)')";
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -385,14 +393,16 @@ filter := "ST_OVERLAPS(geo_field, 'POLYGON((0 0, 0 10, 10 10, 10 0, 0 0))')"
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // The filter expression to find geometries that partially overlap with a polygon.
 let filter = "ST_OVERLAPS(geo_field, 'POLYGON((0 0, 0 10, 10 10, 10 0, 0 0))')";
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -456,14 +466,16 @@ filter := "ST_TOUCHES(geo_field, 'LINESTRING(0 0, 1 1)')"
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // The filter expression to find geometries that only touch a line string at their boundaries.
 let filter = "ST_TOUCHES(geo_field, 'LINESTRING(0 0, 1 1)')";
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -527,14 +539,16 @@ filter := "ST_WITHIN(geo_field, 'POLYGON((110 38, 115 38, 115 42, 110 42, 110 38
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // The filter expression to find geometries that are completely within a larger polygon.
 let filter = "ST_WITHIN(geo_field, 'POLYGON((110 38, 115 38, 115 42, 110 42, 110 38))')";
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -600,14 +614,16 @@ filter := "ST_DWITHIN(geo_field, 'POINT(120 30)', 5000)"
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 // Find all stores within 5000 meters of the point (120 30)
 let filter = "ST_DWITHIN(geo_field, 'POINT(120 30)', 5000)";
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++

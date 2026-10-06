@@ -433,7 +433,8 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
     ```
 
     </TabItem>
-    </Tabs>
+
+    <TabItem value='rust'>
 
     ```rust
     use milvus::v2::prelude::*;
@@ -491,7 +492,8 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
         ;
     ```
 
-    <Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+    </TabItem>
+
     <TabItem value='c++'>
 
     ```c++
@@ -687,7 +689,8 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
     ```
 
     </TabItem>
-    </Tabs>
+
+    <TabItem value='rust'>
 
     ```rust
         // create the schema for the front car struct
@@ -712,7 +715,8 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
         ;
     ```
 
-    <Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+    </TabItem>
+
     <TabItem value='c++'>
 
     ```c++
@@ -853,7 +857,8 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
     ```
 
     </TabItem>
-    </Tabs>
+
+    <TabItem value='rust'>
 
     ```rust
         let schema = CollectionSchema::new()
@@ -867,7 +872,8 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
             .add_struct_field(front_car_schema);
     ```
 
-    <Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+    </TabItem>
+
     <TabItem value='c++'>
 
     ```c++
@@ -989,7 +995,8 @@ indexes := []milvusclient.CreateIndexOption{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
     let index_params = vec![
@@ -1008,7 +1015,8 @@ indexes := []milvusclient.CreateIndexOption{
     ];
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -1089,7 +1097,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
     let request = CreateCollectionRequest::builder()
@@ -1100,7 +1109,8 @@ if err != nil {
     client.create_collection(request).await?;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -1383,7 +1393,8 @@ fmt.Println("insert OK, ids:", ins.IDs)
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
     let request = InsertRequest::builder()
@@ -1450,7 +1461,8 @@ fmt.Println("insert OK, ids:", ins.IDs)
     client.insert(request).await?;
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++

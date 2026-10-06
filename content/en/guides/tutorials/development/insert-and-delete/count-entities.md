@@ -188,7 +188,8 @@ fmt.Println("count: ", resultSet.GetColumn("count(*)").FieldData().GetScalars())
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use milvus::v2::prelude::*;
@@ -232,7 +233,8 @@ let response = client
 println!("count: {}", response.results().rows()?.next().unwrap().get_i64("count(*)")?);
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -443,7 +445,8 @@ fmt.Println("row_count: ", partitionStats["row_count"])
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='rust'>
 
 ```rust
 use milvus::v2::prelude::*;
@@ -473,7 +476,8 @@ let partition_stats = client
 println!("row_count: {:?}", partition_stats.row_count());
 ```
 
-<Tabs groupId="code" defaultValue='c++' values={[{"label":"C++","value":"c++"}]}>
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
