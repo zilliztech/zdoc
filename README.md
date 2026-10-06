@@ -251,6 +251,7 @@ For a normal full release, dispatch `fetch lark docs` with:
 - `media_upload_mode=write`
 - `run_translations=true` when the downstream Translation handoff is required
 - the intended `tooling_ref` and `source_ref` (normally `master` and `dev`)
+- `force_full_fetch=true` only for a manual full Guides re-fetch; it bypasses incremental planning for the en and zh-CN Guides source stages (scheduled runs always stay incremental)
 
 Use `publish=false` only for an artifact-only validation. `media_upload_mode=skip` is restricted to the controlled artifact-only Guides validation contract; it is not a production publish mode.
 
