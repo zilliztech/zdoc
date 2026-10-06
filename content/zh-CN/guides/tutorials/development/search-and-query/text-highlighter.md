@@ -432,6 +432,9 @@ results = client.search(
 
 在该示例中，第一个匹配到的词项是 `"text"`，因此返回的高亮文本会从该位置开始：
 
+<Tabs groupId="code" defaultValue='json' values={[{"label":"JSON","value":"json"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<TabItem value='json'>
+
 ```json
 {
     ...,
@@ -443,7 +446,8 @@ results = client.search(
 }
 ```
 
-<Tabs groupId="code" defaultValue='java' values={[{"label":"Java","value":"java"}]}>
+</TabItem>
+
 <TabItem value='java'>
 
 ```java

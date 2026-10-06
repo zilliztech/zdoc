@@ -1394,7 +1394,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/search-and-query/text-highlighter.md",
-      "sha256": "e925ab79a89429e2a48916f2250c85ec046f566346b243803c95615d090ae35c",
+      "sha256": "032fd2454aa277181e5fa76d33d7e6066944337aa9f59581b056b375ddd4c2d6",
       "docToken": "UAiSwzyTxi8EJ4k45cwcXJ10neb",
       "revisionId": "373"
     },
@@ -2942,7 +2942,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/search-and-query/text-highlighter.md",
-      "sha256": "aad781a9e72b4e82638e785497ad5496a70a972fd04f81c4398b912b70f65c9e",
+      "sha256": "246ee389373e55b243bf5b47c692a8f8038d17add67008d33c757aae91c94b38",
       "docToken": "UAiSwzyTxi8EJ4k45cwcXJ10neb",
       "revisionId": "373"
     },
