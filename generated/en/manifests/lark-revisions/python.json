@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "group": "python",
   "complete": true,
-  "generatedAt": "2026-10-06T12:54:05.117Z",
-  "sourceRunId": "37462965759",
+  "generatedAt": "2026-10-06T19:10:36.668Z",
+  "sourceRunId": "37510984867",
   "records": [
     {
       "canonicalToken": "A96udk9seoF5x5xywQZcLasanIe",
@@ -566,7 +566,7 @@
     {
       "canonicalToken": "EglSdm1jkozDSlxq6SEc4CRonVe",
       "title": "create_user()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-create_user.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -684,6 +684,15 @@
       "canonicalToken": "FbzLd0f5ToAPRdxa8XWcWfUwnwe",
       "title": "delete_volume()",
       "contentPath": "content/en/reference/api/python/python/Volume/Volume-VolumeManager/VolumeManager-delete_volume.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "FfGddUVeSolWXUxHWLoc8c6JnBd",
+      "title": "commit()",
+      "contentPath": "content/en/reference/api/python/python/DataImport/DataImport-VolumeBulkWriter/VolumeBulkWriter-commit.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1104,6 +1113,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "IUVldU03IosKJqxo8W9cU0g5nWh",
+      "title": "FunctionChainStage",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "IbWgdAwWOoTa1exF2LicP9henJJ",
       "title": "VolumeFileManager",
       "contentPath": "content/en/reference/api/python/python/Volume/Volume-VolumeFileManager/Volume-VolumeFileManager.md",
@@ -1302,6 +1320,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "KOiCdsfhvoyfgdxbzbFcZOHmnXf",
+      "title": "VolumeBulkWriter",
+      "contentPath": "content/en/reference/api/python/python/DataImport/DataImport-VolumeBulkWriter/DataImport-VolumeBulkWriter.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "KSECdBDcUoIkL7xI4KOc29Ukn1g",
       "title": "verify()",
       "contentPath": "content/en/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-verify_1.md",
@@ -1349,7 +1376,7 @@
     {
       "canonicalToken": "KoC3dcgn8oiJkNx8uZNcHvE4nxe",
       "title": "describe_role()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-describe_role.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1437,15 +1464,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "L9ozd33RroJ0NZxHUc0czKjpnbh",
-      "title": "VolumeBulkWriter",
-      "contentPath": "content/en/reference/api/python/python/DataImport/DataImport-VolumeBulkWriter/DataImport-VolumeBulkWriter.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "LB90d4VGZogYIZxwCgpcSkgKnng",
       "title": "revoke_privilege()",
       "contentPath": null,
@@ -1467,15 +1485,6 @@
       "canonicalToken": "LEaYdk179oZn0vxqa0lcn4mnnrg",
       "title": "describe_database()",
       "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Database/Database-describe_database.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "LJKOd7ZDUopRISxNzamcwb1PnMJ",
-      "title": "append_row()",
-      "contentPath": "content/en/reference/api/python/python/DataImport/DataImport-VolumeBulkWriter/VolumeBulkWriter-append_row.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1565,7 +1574,7 @@
     {
       "canonicalToken": "M1KhdfoEDokSUIxwB8fcKBeMn2b",
       "title": "describe_user()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-describe_user.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1593,6 +1602,15 @@
       "canonicalToken": "M7pWdbu8foKkJAxY3uBcMfHrnrh",
       "title": "\\_\\_call\\_\\_()",
       "contentPath": "content/en/reference/api/python/python/Rerankers/Rerankers-CohereRerankFunction/CohereRerankFunction-__call__.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "M97RdhP3Co4QadxrDFGcpV8EnYe",
+      "title": "add_collection_struct_field()",
+      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-add_collection_struct_field.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -2112,15 +2130,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "Qa8ZdRkOKocH60xujcLcOxuBnkh",
-      "title": "get_compaction_plans()",
-      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-get_compaction_plans.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "Qe3GdWZa9oAxjrx85tkct8ManRe",
       "title": "add_collection_function()",
       "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-add_collection_function.md",
@@ -2142,6 +2151,15 @@
       "canonicalToken": "QgxEdfBMSodYo6xCg24cH3hInr4",
       "title": "list_collections()",
       "contentPath": "content/en/reference/api/python/python/ORM/ORM-utility/utility-list_collections.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Qp9tdzovXo3xCvxPlszcLGcInPh",
+      "title": "FunctionChain",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -2214,15 +2232,6 @@
       "canonicalToken": "RkQ8dnWDHo3DiDxiCVRcP1xPnob",
       "title": "index()",
       "contentPath": "content/en/reference/api/python/python/ORM/ORM-Collection/Collection-index.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "RwmUdNd0WoQ75zxrCndcal6HnXT",
-      "title": "commit()",
-      "contentPath": "content/en/reference/api/python/python/DataImport/DataImport-VolumeBulkWriter/VolumeBulkWriter-commit.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -2310,6 +2319,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "SPl9dAH9noQ2e9xu86Zcy4XxnTb",
+      "title": "add_function_field()",
+      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Function/Function-add_function_field.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "SSQ6dFGdxouy7hxRwCOcatnEn0e",
       "title": "has_collection()",
       "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-has_collection.md",
@@ -2340,6 +2358,15 @@
       "canonicalToken": "SVoVdTdZRotav9xFjdFcZ8V2n3d",
       "title": "SemanticHighlighter",
       "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ScbQdPbi5obs0ex85uucaO2Mnzd",
+      "title": "update_user()",
+      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-update_user.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -2733,6 +2760,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "UxyedGPErolaikxcssgc2IF1nAh",
+      "title": "drop_function_field()",
+      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Function/Function-drop_function_field.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "V7BWdrC39oPAauxoWBzcaldwnVc",
       "title": "drop_alias()",
       "contentPath": "content/en/reference/api/python/python/ORM/ORM-utility/utility-drop_alias.md",
@@ -2868,6 +2904,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "W2HMdGNjrokVNvxQqYEcFR5Yn4g",
+      "title": "dump_messages()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "W39Wdr7S6ohrtfxI8r7cyTeInlb",
       "title": "grant_privilege()",
       "contentPath": null,
@@ -2985,6 +3030,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "Wlw2dkci9oDVsmx8hkDcf85qndf",
+      "title": "append_row()",
+      "contentPath": "content/en/reference/api/python/python/DataImport/DataImport-VolumeBulkWriter/VolumeBulkWriter-append_row.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "WtyZdeFKMoSv5exaYRxcPLCSndg",
       "title": "drop_user()",
       "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-drop_user.md",
@@ -3096,6 +3150,15 @@
       "canonicalToken": "XhcVd1JXvoAgUfxSEpQcL2H6nVg",
       "title": "add_function()",
       "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Function/Function-add_function.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "XnCrdUF2MoACxExami4c5B5Hnph",
+      "title": "get_compaction_plans()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,

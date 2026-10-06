@@ -10,7 +10,7 @@ notebook: false
 description: "This operation removes a field from an existing collection schema by field name or field ID. | Python | MilvusClient"
 type: docx
 token: SpmqdHRBjoRKQuxTibQcx0zMnnb
-sidebar_position: 26
+sidebar_position: 27
 keywords: 
   - Large language model
   - Vectorization

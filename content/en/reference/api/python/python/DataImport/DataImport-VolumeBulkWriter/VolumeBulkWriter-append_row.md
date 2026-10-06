@@ -4,12 +4,12 @@ slug: /python/python/VolumeBulkWriter-append_row
 sidebar_label: "append_row()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation appends a single row of data to the internal buffer. When the buffer size exceeds the configured chunk size, the buffer is automatically flushed to local files and uploaded to the remote volume. | Python"
 type: docx
-token: LJKOd7ZDUopRISxNzamcwb1PnMJ
+token: Wlw2dkci9oDVsmx8hkDcf85qndf
 sidebar_position: 1
 keywords: 
   - LLMs
@@ -50,48 +50,19 @@ VolumeBulkWriter.append_row(
 
     A dictionary representing a single row of data. The keys must match the field names defined in the collection schema, and the values must conform to the corresponding field types.
 
-**RETURN TYPE:**
-
-*None*
-
-This method does not return a value.
-
 **EXCEPTIONS:**
 
 - **MilvusException**
 
-    Raised when the row data fails validation against the collection schema (e.g., type mismatch, missing required fields, vector dimension mismatch).
+    Raised when the row data fails validation against the collection schema. Inspect the server error message for the exact failure reason.
 
 ## Examples\{#examples}
 
 ```python
-from pymilvus.bulk_writer.volume_bulk_writer import VolumeBulkWriter
-from pymilvus import CollectionSchema, FieldSchema, DataType
-
-fields = [
-    FieldSchema(name="id", dtype=DataType.INT64, is_primary=True, auto_id=False),
-    FieldSchema(name="vector", dtype=DataType.FLOAT_VECTOR, dim=128),
-]
-schema = CollectionSchema(fields, "example_collection")
-
-writer = VolumeBulkWriter(
-    schema=schema,
-    remote_path="/data/bulk_import",
-    cloud_endpoint="https://your-cloud-endpoint.zillizcloud.com",
-    api_key="your-api-key",
-    volume_name="my-volume",
-)
-
-# Append a single row
-writer.append_row({
-    "id": 1,
-    "vector": [0.1] * 128,
-})
-
-# Append multiple rows
-for i in range(1000):
-    writer.append_row({
-        "id": i,
+writer.append_row(
+    row={
+        "id": 1,
         "vector": [0.1] * 128,
-    })
+    },
+)
 ```

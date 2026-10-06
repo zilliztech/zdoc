@@ -10,7 +10,7 @@ notebook: false
 description: "This operation lists the external collection refresh jobs of all or specified collections. | Python | MilvusClient"
 type: docx
 token: VkBFdLHwao9hVMxzRurcBYIynFh
-sidebar_position: 28
+sidebar_position: 29
 keywords: 
   - Large language model
   - Vectorization

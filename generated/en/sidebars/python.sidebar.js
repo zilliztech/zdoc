@@ -172,6 +172,24 @@ module.exports = [
           },
           {
             "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-create_user",
+            "label": "create_user()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Authentication/authentication-createuser"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-describe_role",
+            "label": "describe_role()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Authentication/authentication-describerole"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-describe_user",
+            "label": "describe_user()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Authentication/authentication-describeuser"
+          },
+          {
+            "type": "doc",
             "id": "api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-drop_role",
             "label": "drop_role()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Authentication/authentication-droprole"
@@ -235,6 +253,12 @@ module.exports = [
             "id": "api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-alter_role",
             "label": "alter_role()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Authentication/authentication-alterrole"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-update_user",
+            "label": "update_user()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Authentication/authentication-updateuser"
           }
         ]
       },
@@ -414,6 +438,12 @@ module.exports = [
           },
           {
             "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Collections/Collections-add_collection_struct_field",
+            "label": "add_collection_struct_field()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Collections/collections-addcollectionstructfield"
+          },
+          {
+            "type": "doc",
             "id": "api/python/python/MilvusClient/MilvusClient-Collections/Collections-drop_collection_field",
             "label": "drop_collection_field()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Collections/collections-dropcollectionfield"
@@ -581,12 +611,6 @@ module.exports = [
             "id": "api/python/python/MilvusClient/MilvusClient-Management/Management-flush_all",
             "label": "flush_all()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Management/management-flushall"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/MilvusClient/MilvusClient-Management/Management-get_compaction_plans",
-            "label": "get_compaction_plans()",
-            "key": "doc:api/python/python/MilvusClient/MilvusClient-Management/management-getcompactionplans"
           },
           {
             "type": "doc",
@@ -843,6 +867,18 @@ module.exports = [
             "id": "api/python/python/MilvusClient/MilvusClient-Function/Function-verify",
             "label": "verify()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Function/function-verify"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Function/Function-add_function_field",
+            "label": "add_function_field()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Function/function-addfunctionfield"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Function/Function-drop_function_field",
+            "label": "drop_function_field()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Function/function-dropfunctionfield"
           }
         ]
       },
@@ -1018,6 +1054,12 @@ module.exports = [
             "key": "doc:api/python/python/MilvusClient/MilvusClient-StructFieldSchema/structfieldschema-todict"
           }
         ]
+      },
+      {
+        "type": "category",
+        "label": "FunctionChain",
+        "key": "category:api/python/python/MilvusClient/functionchain-functionchain",
+        "items": []
       }
     ]
   },

@@ -10,7 +10,7 @@ notebook: false
 description: "This operation scans the data files in the schema-defined external storage and generates metadata files that record their mapping relationship to those data files. | Python | MilvusClient"
 type: docx
 token: ZVs4dDpvmoXI0OxOnKhc9numnJd
-sidebar_position: 29
+sidebar_position: 30
 keywords: 
   - Sparse vs Dense
   - Dense vector
