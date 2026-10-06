@@ -8,7 +8,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-10-06T12:42:41.013Z",
+  "generated_at": "2026-10-06T18:37:39.934Z",
   "source_dir": "./packages/docs-tooling/src/lark/meta/sources/go/v3.0.x",
   "base_app_token": "KQT5bV62QaioKisKZT0crwZDnke",
   "records": [
@@ -3781,28 +3781,26 @@
       "table_id": "tbltgcl1fpw5Mt8E",
       "table_name": "数据表",
       "placement_type": "canonical",
-      "title": "BackupRBAC()",
+      "title": "BackupRBAC",
       "slug": "v2-Authentication-BackupRBAC",
-      "doc_token": "Iz1ZdJDWVo0uoUxQjlPcIbS2nMo",
-      "doc_link": "https://zilliverse.feishu.cn/docx/Iz1ZdJDWVo0uoUxQjlPcIbS2nMo",
-      "source_file": "Iz1ZdJDWVo0uoUxQjlPcIbS2nMo.json",
-      "source_hash": "7e0f945fca9dd267923580a97a6c767500835ff1a468922cbe15e9df27de639c",
+      "doc_token": "IXV9dcjNHoDBgXx5jJucsAbYnPd",
+      "doc_link": "https://zilliverse.feishu.cn/docx/IXV9dcjNHoDBgXx5jJucsAbYnPd",
+      "source_file": "IXV9dcjNHoDBgXx5jJucsAbYnPd.json",
+      "source_hash": "c92632017f97bc70564819f90678f4d7bb248bc2999fbaeea06c8769817e5498",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": "7",
+      "revision_id": "9",
       "publish_targets": [
         "Milvus",
         "Zilliz"
       ],
       "publish_status": "Draft",
       "release_channel": "current",
-      "outgoing_tokens": [
-        "GyCrdXyvzobrrAxzFRbcRTlSnUb"
-      ],
+      "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-BackupRBAC.md"
       ]
@@ -4297,26 +4295,29 @@
       "table_id": "tbltgcl1fpw5Mt8E",
       "table_name": "数据表",
       "placement_type": "canonical",
-      "title": "AddPrivilegesToGroup()",
+      "title": "AddPrivilegesToGroup",
       "slug": "v2-Authentication-AddPrivilegesToGroup",
-      "doc_token": "QudZd1mXdosbIhxUHhGcjrF2nOd",
-      "doc_link": "https://zilliverse.feishu.cn/docx/QudZd1mXdosbIhxUHhGcjrF2nOd",
-      "source_file": "QudZd1mXdosbIhxUHhGcjrF2nOd.json",
-      "source_hash": "1e7689bb10d32c8990630ae2dda8e50e05c386c3d4126b8a22bf9822f6ab7b34",
+      "doc_token": "VCAedbFRIoAQS8x97rRcN32unMg",
+      "doc_link": "https://zilliverse.feishu.cn/docx/VCAedbFRIoAQS8x97rRcN32unMg",
+      "source_file": "VCAedbFRIoAQS8x97rRcN32unMg.json",
+      "source_hash": "081b8aae3c32bc026df6a010a5c1e72899a0544712e54136f7178d4e52312587",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": "10",
+      "revision_id": "7",
       "publish_targets": [
-        "Milvus"
+        "Milvus",
+        "Zilliz"
       ],
       "publish_status": "Draft",
       "release_channel": "current",
       "outgoing_tokens": [],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-AddPrivilegesToGroup.md"
+      ]
     },
     {
       "record_id": "recvb060WsmuCo",
@@ -4516,6 +4517,35 @@
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-PrivilegeGroup.md"
+      ]
+    },
+    {
+      "record_id": "recvxhwe4lapZL",
+      "table_id": "tbltgcl1fpw5Mt8E",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "AlterRole",
+      "slug": "v2-Authentication-AlterRole",
+      "doc_token": "HvS9dO1v7ofQuhx49Q3ceroCnmI",
+      "doc_link": "https://zilliverse.feishu.cn/docx/HvS9dO1v7ofQuhx49Q3ceroCnmI",
+      "source_file": "HvS9dO1v7ofQuhx49Q3ceroCnmI.json",
+      "source_hash": "b317b882d3264804ecd6b7e66e8379155a532873869635928ec9acce21cdbb86",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": "6",
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "release_channel": "current",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-AlterRole.md"
       ]
     },
     {

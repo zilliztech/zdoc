@@ -1,25 +1,25 @@
 ---
-title: "BackupRBAC() | Go | v2"
+title: "BackupRBAC | Go | v2"
 slug: /go/go/v2-Authentication-BackupRBAC
-sidebar_label: "BackupRBAC()"
+sidebar_label: "BackupRBAC"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation creates a full backup of RBAC metadata, including users, roles, grants, and privilege groups. | Go | v2"
 type: docx
-token: Iz1ZdJDWVo0uoUxQjlPcIbS2nMo
+token: IXV9dcjNHoDBgXx5jJucsAbYnPd
 sidebar_position: 2
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
   - zilliz
   - zilliz cloud
   - cloud
-  - BackupRBAC()
+  - BackupRBAC
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# BackupRBAC()
+# BackupRBAC
 
 This operation creates a full backup of RBAC metadata, including users, roles, grants, and privilege groups.
 
@@ -37,28 +37,73 @@ This operation creates a full backup of RBAC metadata, including users, roles, g
 func (c *Client) BackupRBAC(ctx context.Context, option BackupRBACOption, callOptions ...grpc.CallOption) (*entity.RBACMeta, error)
 ```
 
+## Request Syntax\{#request-syntax}
+
+Creates the request for BackupRBAC().
+
+```go
+option := milvusclient.NewBackupRBACOption()
+
+backup, err := client.BackupRBAC(ctx, option)
+```
+
+**BUILDER METHODS:**
+
+- `NewBackupRBACOption()`
+
+    Creates the request for BackupRBAC().
+
 **RETURN TYPE:**
 
-&ast;*[entity.RBACMeta](./v2-Authentication-RBACMeta), error*
+&ast;*entity.RBACMeta, error*
 
 **RETURNS:**
 
 The full RBAC metadata snapshot including users, roles, grants, and privilege groups. Returns an error if the operation fails.
 
-**EXCEPTIONS:**
+```go
+type RBACMeta struct {
+    Users []*UserInfo
+    Roles []*Role
+    RoleGrants []*RoleGrants
+    PrivilegeGroups []*PrivilegeGroup
+}
+```
+
+**PARAMETERS:**
+
+- **Users** (<em>[]</em>UserInfo&ast;) -
+
+    The users.
+
+- **Roles** (<em>[]</em>Role&ast;) -
+
+    The list of assigned roles.
+
+- **RoleGrants** (<em>[]</em>RoleGrants&ast;) -
+
+    The role grants.
+
+- **PrivilegeGroups** (<em>[]</em>PrivilegeGroup&ast;) -
+
+    The privilege groups.
+
+**ERROR HANDLING:**
 
 - **error**
 
-    Check `err != nil` for failure details.
+    The operation fails. Check `err != nil` for failure details.
 
 ## Example\{#example}
+
+Demonstrates BackupRBAC() usage.
 
 ```go
 import (
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

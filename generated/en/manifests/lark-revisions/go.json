@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "group": "go",
   "complete": true,
-  "generatedAt": "2026-09-01T10:36:40.156Z",
-  "sourceRunId": "33496917058",
+  "generatedAt": "2026-10-06T18:37:40.225Z",
+  "sourceRunId": "37510984867",
   "records": [
     {
       "canonicalToken": "A3WWdqm52oLqtuxaR9EcjmybnwT",
@@ -528,6 +528,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "HvS9dO1v7ofQuhx49Q3ceroCnmI",
+      "title": "AlterRole",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-AlterRole.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "I053djRjsob1JJxKXvUcGelbn2d",
       "title": "NewRTreeIndex()",
       "contentPath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewRTreeIndex.md",
@@ -564,18 +573,18 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "Ip2HdObkAodufpxSIoTcJ6rbnWf",
-      "title": "ColumnFloat16VectorArray",
-      "contentPath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnFloat16VectorArray.md",
+      "canonicalToken": "IXV9dcjNHoDBgXx5jJucsAbYnPd",
+      "title": "BackupRBAC",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-BackupRBAC.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
       "objectEditTime": null
     },
     {
-      "canonicalToken": "Iz1ZdJDWVo0uoUxQjlPcIbS2nMo",
-      "title": "BackupRBAC()",
-      "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-BackupRBAC.md",
+      "canonicalToken": "Ip2HdObkAodufpxSIoTcJ6rbnWf",
+      "title": "ColumnFloat16VectorArray",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnFloat16VectorArray.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1077,15 +1086,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "QudZd1mXdosbIhxUHhGcjrF2nOd",
-      "title": "AddPrivilegesToGroup()",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "S3Vndkuxco3965xyea6cN406nWc",
       "title": "ListUsers()",
       "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-ListUsers.md",
@@ -1305,6 +1305,15 @@
       "canonicalToken": "V7bwdcBPGosCFWxjYQfctDDInmb",
       "title": "TruncateCollection()",
       "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-TruncateCollection.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "VCAedbFRIoAQS8x97rRcN32unMg",
+      "title": "AddPrivilegesToGroup",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-AddPrivilegesToGroup.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,

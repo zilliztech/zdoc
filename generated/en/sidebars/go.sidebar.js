@@ -11,8 +11,14 @@ module.exports = [
     "items": [
       {
         "type": "doc",
+        "id": "api/go/go/v2/v2-Authentication/v2-Authentication-AddPrivilegesToGroup",
+        "label": "AddPrivilegesToGroup",
+        "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-addprivilegestogroup"
+      },
+      {
+        "type": "doc",
         "id": "api/go/go/v2/v2-Authentication/v2-Authentication-BackupRBAC",
-        "label": "BackupRBAC()",
+        "label": "BackupRBAC",
         "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-backuprbac"
       },
       {
@@ -128,6 +134,12 @@ module.exports = [
         "id": "api/go/go/v2/v2-Authentication/v2-Authentication-User",
         "label": "User",
         "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-user"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Authentication/v2-Authentication-AlterRole",
+        "label": "AlterRole",
+        "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-alterrole"
       }
     ]
   },
