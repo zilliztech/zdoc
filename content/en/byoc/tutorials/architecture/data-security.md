@@ -68,7 +68,7 @@ Granular and role-based access control:
 
 - Both intuitive operations on the console and programmatic access from your app are available.
 
-For details, refer to [Access Control Explained](./access-control-overview).
+For details, refer to Access Control Explained.
 
 ## Secure Network Access\{#secure-network-access}
 

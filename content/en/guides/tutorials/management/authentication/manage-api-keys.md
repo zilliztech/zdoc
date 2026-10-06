@@ -46,7 +46,7 @@ The following diagram illustrates API Key roles and resource access.
 
 ![Ec7wwrAnFhGIZFbJTWwc57bVn0f](https://zdoc-images.s3.us-west-2.amazonaws.com/Ec7wwrAnFhGIZFbJTWwc57bVn0f.png)
 
-The table below details the access scope of API keys based on assigned roles. For more information about roles and privileges, see [Access Control Explained](./access-control-overview).
+The table below details the access scope of API keys based on assigned roles. For more information about roles and privileges, see Access Control Explained.
 
 <table>
    <tr>

@@ -46,7 +46,7 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        **[Sept 3](./release-notes-2609)[, 2026](./release-notes-2609)**
+        **Sept 3, 2026**
 
     </div>
 
@@ -924,7 +924,7 @@ import Grid from '@site/src/components/Grid';
 
             - [Cosine metric type](./search-metrics-explained)
 
-            - [Access control](./access-control-overview)
+            - Access control
 
             - Raw vectors in return
 
@@ -1010,7 +1010,7 @@ import Grid from '@site/src/components/Grid';
 
         - [💰  Zilliz Cloud plan tiers introduced](https://zilliz.com/pricing)
 
-        - 👥  Organization, collaboration and RBAC for [access control](./access-control-overview)
+        - 👥  Organization, collaboration and RBAC for access control
 
         - 🏷️  Partition key for namespacing introduced
 

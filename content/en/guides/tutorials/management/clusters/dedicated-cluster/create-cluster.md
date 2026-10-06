@@ -39,7 +39,7 @@ Ensure:
 
 - Registration with Zilliz Cloud. Refer to [Register with Zilliz Cloud](./register-with-zilliz-cloud).
 
-- Ownership of the organization or project where the cluster is to be established. For details on roles and permissions, see [Access Control Explained](./access-control-overview).
+- Ownership of the organization or project where the cluster is to be established. For details on roles and permissions, see Access Control Explained.
 
 ## Create a Dedicated cluster\{#create-a-dedicated-cluster}
 

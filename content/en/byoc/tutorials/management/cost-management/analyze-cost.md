@@ -44,7 +44,7 @@ Usage data is updated on an hourly basis.
 
 </Admonition>
 
-![analyze_cost](https://zdoc-images.s3.us-west-2.amazonaws.com/analyze_cost.png "analyze_cost")
+![analyze_cost](https://zdoc-images.s3.us-west-2.amazonaws.com/analyzecost.png "analyze_cost")
 
 - **By Project**
 

@@ -46,7 +46,7 @@ In the Operation Layer, Zilliz Cloud supports four types of roles, of which Orga
 
 - Project Member: Has read and write permissions to all clusters within the project, can view cluster details, and manage Collections and Indexes.
 
-In the Data Layer, Zilliz Cloud provides three built-in roles: Admin, Read-Only, and Read-Write, to control management, write, and read permissions of data. Zilliz Cloud allows users to create custom roles. These custom roles can define permissions for specific Collections, Partitions, or operations, ensuring the principle of minimal data permissions while using Zilliz Cloud. See [Access Control Explained](./access-control-overview).
+In the Data Layer, Zilliz Cloud provides three built-in roles: Admin, Read-Only, and Read-Write, to control management, write, and read permissions of data. Zilliz Cloud allows users to create custom roles. These custom roles can define permissions for specific Collections, Partitions, or operations, ensuring the principle of minimal data permissions while using Zilliz Cloud. See Access Control Explained.
 
 ## Metrics & Alert\{#metrics-and-alert}
 
