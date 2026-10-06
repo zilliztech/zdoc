@@ -34,7 +34,7 @@ import TabItem from '@theme/TabItem';
 `regex` 过滤器在 Zilliz Cloud 中属于自定义过滤器。
  要使用它，请在过滤器配置中指定 `"type": "regex"`，并通过 `expr` 参数设定所需的正则表达式。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -112,7 +112,8 @@ let analyzer_params = serde_json::json!({
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -123,7 +124,8 @@ nlohmann::json analyzer_params = {
 };
 ```
 
-<Tabs groupId="code" defaultValue='javascript' values={[{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -174,15 +176,6 @@ analyzerParams='{
 
 </TabItem>
 </Tabs>
-
-```c++
-nlohmann::json analyzer_params = {
-    {"tokenizer", "standard"},
-    {"filter", {
-        {{"type", "regex"}, {"expr", "^(?!test)"}}
-    }}
-};
-```
 
 `regex` 过滤器支持以下可配置参数：
 
