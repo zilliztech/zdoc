@@ -27,11 +27,6 @@ const {
 } = require('./guidesBaseRecordSemantics')
 const { guidesTableSlug } = require('./guidesTableSlugs')
 
-// Languages trusted to join a code tab group unconditionally. Any other
-// detected language joins automatically when it sits in a consecutive code
-// run and its language is unique within that run; see __code_tab_group.
-const CODE_TAB_LANGS = ['Python', 'JavaScript', 'Java', 'Go', 'C++', 'Bash', 'Shell']
-
 // Sidebar entries and front matter carry the Base Release Channel verbatim
 // whenever it deviates from CURRENT; NEXT hides the entry on CURRENT
 // deployments and RETIRE-IN-NEXT hides it on NEXT deployments (the mirror).
@@ -2136,11 +2131,13 @@ class larkDocWriter {
     }
 
     // A tab group is a maximal span of adjacent code blocks that all join the
-    // tabs. Languages in CODE_TAB_LANGS always join; any other detected
-    // language joins when it is unique within its consecutive code run.
-    // Undetected (`plaintext`) blocks and same-language repeats stay outside,
-    // which closes the tabs before them and reopens a new group afterwards —
-    // __warn_code_tab_split reports that split so the source can be fixed.
+    // tabs. A block joins when its language is detected and unique within its
+    // consecutive code run — no language allowlist, so a newly added SDK
+    // language joins automatically. Plaintext/undetected blocks and blocks
+    // whose language repeats in the run stay outside as bare fences, closing
+    // the tabs before them and reopening a new group afterwards; repeated
+    // languages would otherwise produce duplicate tab values, which Docusaurus
+    // rejects at SSG time. __warn_code_tab_exclusion reports both cases.
     __code_tab_group(blocks, idx) {
         if (!Array.isArray(blocks) || idx < 0 || !this.__is_code_block(blocks[idx])) {
             return null
@@ -2159,38 +2156,40 @@ class larkDocWriter {
         const joins = (position) => {
             const runLang = runLangs[position]
             if (!runLang || runLang.toLowerCase() === 'plaintext') return false
-            if (CODE_TAB_LANGS.includes(runLang)) return true
             return runLangs.filter(l => l === runLang).length === 1
         }
 
         if (!joins(idx - runStart)) {
-            this.__warn_code_tab_split(blocks[idx], idx - runStart, runLangs, joins)
+            this.__warn_code_tab_exclusion(blocks[idx], idx - runStart, runLangs, joins)
             return null
         }
 
         let start = idx
-        while (start > runStart && joins(start - 1 - runStart) && runLangs[start - 1 - runStart] !== runLangs[start - runStart]) start -= 1
+        while (start > runStart && joins(start - 1 - runStart)) start -= 1
         let end = idx
-        while (end < runEnd && joins(end + 1 - runStart) && runLangs[end + 1 - runStart] !== runLangs[end - runStart]) end += 1
+        while (end < runEnd && joins(end + 1 - runStart)) end += 1
 
         if (end <= start) return null
         return { start, end, langs: runLangs.slice(start - runStart, end - runStart + 1) }
     }
 
-    __warn_code_tab_split(block, position, runLangs, joins) {
-        const hasJoinerBefore = runLangs.some((lang, i) => i < position && joins(i))
-        const hasJoinerAfter = runLangs.some((lang, i) => i > position && joins(i))
-        if (!hasJoinerBefore || !hasJoinerAfter) return
-
+    __warn_code_tab_exclusion(block, position, runLangs, joins) {
+        const lang = runLangs[position]
+        const duplicates = lang ? runLangs.filter(l => l === lang).length : 0
         const doc = this.code_tab_doc
             ? `"${this.code_tab_doc.title}" (${this.code_tab_doc.token})`
             : 'unknown page'
-        const lang = runLangs[position]
-        if (!lang || lang.toLowerCase() === 'plaintext') {
-            console.warn(`[code-tabs] ${doc} block ${block.block_id}: code block without a usable language sits between tab-joined code blocks and renders as a bare fence that splits the tabs. Set a language on the block or move it out of the run.`)
-        } else {
-            console.warn(`[code-tabs] ${doc} block ${block.block_id}: language "${lang}" appears ${runLangs.filter(l => l === lang).length} times in one consecutive code run, so its blocks stay outside the tabs and split the group. Deduplicate the source blocks.`)
+
+        if (duplicates > 1) {
+            console.warn(`[code-tabs] ${doc} block ${block.block_id}: language "${lang}" appears ${duplicates} times in one consecutive code run, so every occurrence stays outside the tabs as a bare fence. Deduplicate the source blocks.`)
+            return
         }
+
+        const hasJoinerBefore = runLangs.some((l, i) => i < position && joins(i))
+        const hasJoinerAfter = runLangs.some((l, i) => i > position && joins(i))
+        if (!hasJoinerBefore || !hasJoinerAfter) return
+
+        console.warn(`[code-tabs] ${doc} block ${block.block_id}: code block without a usable language sits between tab-joined code blocks and renders as a bare fence that splits the tabs. Set a language on the block or move it out of the run.`)
     }
 
     __code_tab_values(group) {

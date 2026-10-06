@@ -1021,6 +1021,36 @@ async function testCodeTabGroupAdmitsUnlistedTrailingLanguage() {
   assertBalancedTabMarkup(markdown);
 }
 
+async function testCodeTabGroupExcludesRepeatedKnownLanguage() {
+  const blocks = [
+    codeBlock('code-python', 'page', 'filter = "color == \\"red\\""', { language: 49 }),
+    codeBlock('code-java', 'page', 'String filter = "color == \\"red\\"";', { language: 29 }),
+    codeBlock('code-go', 'page', 'filter := "color == \\"red\\""', { language: 22 }),
+    codeBlock('code-rust', 'page', 'let filter = "color == \\"red\\"";', { language: 53 }),
+    codeBlock('code-cpp', 'page', 'std::string filter = "color == \\"red\\"";', { language: 9 }),
+    codeBlock('code-js', 'page', 'const filter = "color == \'red\'";', { language: 30 }),
+    codeBlock('code-bash', 'page', 'export filter="color == \'red\'"', { language: 7 }),
+    codeBlock('code-cpp-2', 'page', 'std::string other = "value";', { language: 9 }),
+  ];
+  const writer = createWriter(blocks);
+  const warnings = await captureCodeTabWarnings(async () => {
+    var markdown = await writer.__markdown(blocks, 0);
+
+    const cppTabItems = (markdown.match(/<TabItem value='c\+\+'>/g) || []).length;
+    assert.equal(cppTabItems, 0, 'repeated language must never enter a tab group');
+    assert.equal((markdown.match(/```c\+\+/g) || []).length, 2);
+    assert.doesNotMatch(markdown, /"value":"c\+\+"[^]]*"value":"c\+\+"/);
+    assertBalancedTabMarkup(markdown);
+    await assertMdxCompiles(markdown);
+  });
+
+  const dupWarnings = warnings.filter(w => w.startsWith('[code-tabs]'));
+  assert.equal(dupWarnings.length, 2);
+  assert.ok(dupWarnings.every(w => w.includes('"C++" appears 2 times')));
+  assert.ok(dupWarnings.some(w => w.includes('block code-cpp:')));
+  assert.ok(dupWarnings.some(w => w.includes('block code-cpp-2:')));
+}
+
 async function captureCodeTabWarnings(run) {
   const warnings = [];
   const originalWarn = console.warn;
@@ -1313,6 +1343,7 @@ async function run() {
   await testCodeTabGroupAdmitsUnlistedMiddleLanguage();
   await testCodeTabGroupAdmitsUnlistedLeadingLanguage();
   await testCodeTabGroupAdmitsUnlistedTrailingLanguage();
+  await testCodeTabGroupExcludesRepeatedKnownLanguage();
   await testCodeTabGroupExcludesDuplicatedUnlistedLanguage();
   await testCodeTabGroupExcludesPlaintextInsideRun();
   await testCodeTabSplitWarningSilentForTrailingPlaintext();
