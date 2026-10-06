@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "4901509d3c57e92d171662d58b6473dc94183cbf",
+  "sourceCommit": "7a626a2266e56856a13894e51130aa781d0a9ba2",
   "records": [
     {
       "manual": "cli",
@@ -4134,23 +4134,13 @@
     },
     {
       "manual": "python",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-alter_role.md",
+      "sourceHash": "931826ce7373839a2360c6b6474c9f01c3e9e412a1b0283fd3b046b3b363e421"
+    },
+    {
+      "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-create_role.md",
-      "sourceHash": "5f157fc16b3ec98d27f4d93247c133d872af644fa9beac52b71c03efc52405d1"
-    },
-    {
-      "manual": "python",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-create_user.md",
-      "sourceHash": "9a6834ff8686cfcc044a53ae0913eff14133012701fb4202eaf2586860cf7cba"
-    },
-    {
-      "manual": "python",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-describe_role.md",
-      "sourceHash": "05c63cf5dc0182c50448d372848c1c396ecb8730337a45ddcd2df4e5125de300"
-    },
-    {
-      "manual": "python",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-describe_user.md",
-      "sourceHash": "91ecfd1b41c830e2965b8ce57b9e690c656ad44be296c1fa55180f645ce76465"
+      "sourceHash": "c5a21912db7a3e8b319aca9355cf458fa2c289d2bd541c727a1c9b78ed95ba17"
     },
     {
       "manual": "python",
@@ -4200,7 +4190,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-update_password.md",
-      "sourceHash": "f11e84d813c5d192253d4586b282b775407fbe6016dabdcc6f9c4cd2ac348713"
+      "sourceHash": "9790e195da15c9ce4d0933d807c2ed24e41cd0f8d28dc349ec9d84905396c82f"
     },
     {
       "manual": "python",
