@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "group": "python",
   "complete": true,
-  "generatedAt": "2026-09-30T10:46:11.037Z",
-  "sourceRunId": "36701790318",
+  "generatedAt": "2026-10-06T12:54:05.117Z",
+  "sourceRunId": "37462965759",
   "records": [
     {
       "canonicalToken": "A96udk9seoF5x5xywQZcLasanIe",
@@ -566,7 +566,7 @@
     {
       "canonicalToken": "EglSdm1jkozDSlxq6SEc4CRonVe",
       "title": "create_user()",
-      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-create_user.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1176,15 +1176,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "JJz3dFrE2oJP3AxySWYcJlf4nMh",
-      "title": "describe_role()",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "JOFedA4h8otTjHxsYQ7cnjsunHd",
       "title": "SentenceTransformerEmbeddingFunction",
       "contentPath": "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-SentenceTransformerEmbeddingFunction/EmbeddingModels-SentenceTransformerEmbeddingFunction.md",
@@ -1349,6 +1340,15 @@
     {
       "canonicalToken": "Ki33dZaE6oZq0fxDSHcc9cKzn5d",
       "title": "array_remove()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "KoC3dcgn8oiJkNx8uZNcHvE4nxe",
+      "title": "describe_role()",
       "contentPath": null,
       "objectToken": null,
       "parentToken": null,
@@ -1557,6 +1557,15 @@
       "canonicalToken": "M0qRdF1cLokrxvxyrXScJ64FnEe",
       "title": "rename_collection()",
       "contentPath": "content/en/reference/api/python/python/ORM/ORM-utility/utility-rename_collection.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "M1KhdfoEDokSUIxwB8fcKBeMn2b",
+      "title": "describe_user()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1827,6 +1836,15 @@
       "canonicalToken": "NqWDdRxKYoi6uTxHaYEcafx9nGc",
       "title": "pin_snapshot_data()",
       "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-pin_snapshot_data.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Nz26dTDqnoSqmhxRRK5cUNVunQd",
+      "title": "alter_role()",
+      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-alter_role.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -2895,15 +2913,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "WGDod7Qehou4GWx4Co2cJ34VnKb",
-      "title": "update_password()",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "WJY1dMUO5owB1gxkOlLcaB2Rn7g",
       "title": "encode_documents()",
       "contentPath": "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-Model2VecEmbeddingFunction/Model2VecEmbeddingFunction-encode_documents.md",
@@ -2979,15 +2988,6 @@
       "canonicalToken": "WtyZdeFKMoSv5exaYRxcPLCSndg",
       "title": "drop_user()",
       "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-drop_user.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "Wz3HdtvPCoEquvxFY7PcDHxcnEe",
-      "title": "describe_user()",
-      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -3240,6 +3240,15 @@
       "canonicalToken": "ZWLCdBWwOo4OSVxfnNRcDrv5nhe",
       "title": "\\_\\_call\\_\\_()",
       "contentPath": "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-SentenceTransformerEmbeddingFunction/SentenceTransformerEmbeddingFunction-__call__.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ZbGcdPeOZoyFpPxfKwnclTv5ncf",
+      "title": "update_password()",
+      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-update_password.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,

@@ -8,7 +8,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-10-06T10:12:49.421Z",
+  "generated_at": "2026-10-06T12:54:04.791Z",
   "source_dir": "./packages/docs-tooling/src/lark/meta/sources/python/v3.0.x",
   "base_app_token": "Hk05b5eI6aXXSSsd6j9cqwwMn5a",
   "records": [
@@ -568,14 +568,14 @@
       "doc_token": "HRqudGOOnokInhxczclcADBDn8g",
       "doc_link": "https://zilliverse.feishu.cn/docx/HRqudGOOnokInhxczclcADBDn8g",
       "source_file": "HRqudGOOnokInhxczclcADBDn8g.json",
-      "source_hash": "551ddb3a389be64760c9e414fccf0b0e9b46be5baecf35037e1716c1c90af9bd",
+      "source_hash": "8ea3949469b7512d7124fd69c379af7267976470747e140951c6749048564be4",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": "6",
+      "revision_id": "20",
       "publish_targets": [
         "Milvus",
         "Zilliz"
@@ -597,14 +597,14 @@
       "doc_token": "EglSdm1jkozDSlxq6SEc4CRonVe",
       "doc_link": "https://zilliverse.feishu.cn/docx/EglSdm1jkozDSlxq6SEc4CRonVe",
       "source_file": "EglSdm1jkozDSlxq6SEc4CRonVe.json",
-      "source_hash": "f1c8ec9744de5b798fa1a7b5a77f25f185b2132a254abd02024da5cad352ae80",
+      "source_hash": "d2ad08c150365ddbcfe8c79b274145c1eec5deacfcbf2d62dc5b5ee3fe1d019d",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": "7",
+      "revision_id": "21",
       "publish_targets": [
         "Milvus",
         "Zilliz"
@@ -612,9 +612,7 @@
       "publish_status": "Draft",
       "release_channel": "current",
       "outgoing_tokens": [],
-      "output_paths": [
-        "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-create_user.md"
-      ]
+      "output_paths": []
     },
     {
       "record_id": "recu3QwshpGluL",
@@ -623,17 +621,17 @@
       "placement_type": "canonical",
       "title": "describe_role()",
       "slug": "Authentication-describe_role",
-      "doc_token": "JJz3dFrE2oJP3AxySWYcJlf4nMh",
-      "doc_link": "https://zilliverse.feishu.cn/docx/JJz3dFrE2oJP3AxySWYcJlf4nMh",
-      "source_file": null,
-      "source_hash": null,
+      "doc_token": "KoC3dcgn8oiJkNx8uZNcHvE4nxe",
+      "doc_link": "https://zilliverse.feishu.cn/docx/KoC3dcgn8oiJkNx8uZNcHvE4nxe",
+      "source_file": "KoC3dcgn8oiJkNx8uZNcHvE4nxe.json",
+      "source_hash": "d00cbe053fbf96a66e8b0ab0655242963a41faf6eea2abb1883201562a08027a",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": null,
+      "revision_id": "5",
       "publish_targets": [
         "Milvus",
         "Zilliz"
@@ -650,17 +648,17 @@
       "placement_type": "canonical",
       "title": "describe_user()",
       "slug": "Authentication-describe_user",
-      "doc_token": "Wz3HdtvPCoEquvxFY7PcDHxcnEe",
-      "doc_link": "https://zilliverse.feishu.cn/docx/Wz3HdtvPCoEquvxFY7PcDHxcnEe",
-      "source_file": null,
-      "source_hash": null,
+      "doc_token": "M1KhdfoEDokSUIxwB8fcKBeMn2b",
+      "doc_link": "https://zilliverse.feishu.cn/docx/M1KhdfoEDokSUIxwB8fcKBeMn2b",
+      "source_file": "M1KhdfoEDokSUIxwB8fcKBeMn2b.json",
+      "source_hash": "eaa3339a85a2a02c5e574072104a350cf12da5418a61e7e8e637e0dedcae5d8b",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": null,
+      "revision_id": "5",
       "publish_targets": [
         "Milvus",
         "Zilliz"
@@ -709,7 +707,7 @@
       "doc_token": "WtyZdeFKMoSv5exaYRxcPLCSndg",
       "doc_link": "https://zilliverse.feishu.cn/docx/WtyZdeFKMoSv5exaYRxcPLCSndg",
       "source_file": "WtyZdeFKMoSv5exaYRxcPLCSndg.json",
-      "source_hash": "815e66c91c16f9f2307c10fafeaa6947e2c87f9b66ea434fa2bcd80aaf07d7bb",
+      "source_hash": "b62838fdc2ff3aa2f48bcec1eccd0164cac70395f8d94096879d7c0542d93bd5",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
@@ -726,8 +724,8 @@
       "outgoing_tokens": [
         "EZ2YdBHoDoRTlxx91tscffm1nSb",
         "EglSdm1jkozDSlxq6SEc4CRonVe",
-        "Q8QIdA1DioRRL9xUtlgcCPLHnPc",
-        "TwTnduPOioywHDx8hPQc80tRnKg"
+        "M1KhdfoEDokSUIxwB8fcKBeMn2b",
+        "ZbGcdPeOZoyFpPxfKwnclTv5ncf"
       ],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-drop_user.md"
@@ -829,7 +827,7 @@
       "doc_token": "EZ2YdBHoDoRTlxx91tscffm1nSb",
       "doc_link": "https://zilliverse.feishu.cn/docx/EZ2YdBHoDoRTlxx91tscffm1nSb",
       "source_file": "EZ2YdBHoDoRTlxx91tscffm1nSb.json",
-      "source_hash": "9b676faeec3fa0a061ce2ef088382cabf9b38b05ad158cc5c499064d86e80c00",
+      "source_hash": "23d8850e4ad99952870509cae2a8f923c25f323a173f595e1bb19107bad10b4a",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
@@ -845,9 +843,9 @@
       "release_channel": "current",
       "outgoing_tokens": [
         "EglSdm1jkozDSlxq6SEc4CRonVe",
-        "Q8QIdA1DioRRL9xUtlgcCPLHnPc",
-        "TwTnduPOioywHDx8hPQc80tRnKg",
-        "WtyZdeFKMoSv5exaYRxcPLCSndg"
+        "M1KhdfoEDokSUIxwB8fcKBeMn2b",
+        "WtyZdeFKMoSv5exaYRxcPLCSndg",
+        "ZbGcdPeOZoyFpPxfKwnclTv5ncf"
       ],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-list_users.md"
@@ -918,17 +916,17 @@
       "placement_type": "canonical",
       "title": "update_password()",
       "slug": "Authentication-update_password",
-      "doc_token": "WGDod7Qehou4GWx4Co2cJ34VnKb",
-      "doc_link": "https://zilliverse.feishu.cn/docx/WGDod7Qehou4GWx4Co2cJ34VnKb",
-      "source_file": null,
-      "source_hash": null,
+      "doc_token": "ZbGcdPeOZoyFpPxfKwnclTv5ncf",
+      "doc_link": "https://zilliverse.feishu.cn/docx/ZbGcdPeOZoyFpPxfKwnclTv5ncf",
+      "source_file": "ZbGcdPeOZoyFpPxfKwnclTv5ncf.json",
+      "source_hash": "751bd748d5e651eba96e969eb3479976cec68a6c392280a145d158d42d59e39d",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": null,
+      "revision_id": "8",
       "publish_targets": [
         "Milvus",
         "Zilliz"
@@ -936,7 +934,9 @@
       "publish_status": "Draft",
       "release_channel": "current",
       "outgoing_tokens": [],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-update_password.md"
+      ]
     },
     {
       "record_id": "recuAAA1uKjJYs",
@@ -1154,6 +1154,35 @@
       "release_channel": "current",
       "outgoing_tokens": [],
       "output_paths": []
+    },
+    {
+      "record_id": "recvxgvAjO4vj3",
+      "table_id": "tblKV2Wj45qrmD0J",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "alter_role()",
+      "slug": "Authentication-alter_role",
+      "doc_token": "Nz26dTDqnoSqmhxRRK5cUNVunQd",
+      "doc_link": "https://zilliverse.feishu.cn/docx/Nz26dTDqnoSqmhxRRK5cUNVunQd",
+      "source_file": "Nz26dTDqnoSqmhxRRK5cUNVunQd.json",
+      "source_hash": "b662ba49a759234cb2fce8534f841dc58ed0d350abab5cc09cb1a5c7c23ed590",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": "14",
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "release_channel": "current",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-alter_role.md"
+      ]
     },
     {
       "record_id": "recu3Qw3xrdt4c",

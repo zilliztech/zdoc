@@ -172,24 +172,6 @@ module.exports = [
           },
           {
             "type": "doc",
-            "id": "api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-create_user",
-            "label": "create_user()",
-            "key": "doc:api/python/python/MilvusClient/MilvusClient-Authentication/authentication-createuser"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-describe_role",
-            "label": "describe_role()",
-            "key": "doc:api/python/python/MilvusClient/MilvusClient-Authentication/authentication-describerole"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-describe_user",
-            "label": "describe_user()",
-            "key": "doc:api/python/python/MilvusClient/MilvusClient-Authentication/authentication-describeuser"
-          },
-          {
-            "type": "doc",
             "id": "api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-drop_role",
             "label": "drop_role()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Authentication/authentication-droprole"
@@ -247,6 +229,12 @@ module.exports = [
             "id": "api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-update_password",
             "label": "update_password()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Authentication/authentication-updatepassword"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-alter_role",
+            "label": "alter_role()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Authentication/authentication-alterrole"
           }
         ]
       },
