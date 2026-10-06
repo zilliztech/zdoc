@@ -438,7 +438,7 @@ By default, Query returns results in an unspecified order. Use the `order_by` pa
 
 Pass a list of `"field_name:direction"` strings to the `order_by` parameter, where `direction` is either `asc` (ascending) or `desc` (descending). Note that `asc` and `desc` are case-sensitive.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -569,9 +569,10 @@ curl --request POST \\
 ```
 
 </TabItem>
-</Tabs>
 
-```plaintext
+<TabItem value='c++'>
+
+```c++
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 
@@ -598,15 +599,22 @@ if (!status.IsOk()) {
 }
 ```
 
+</TabItem>
+
+<TabItem value='shell'>
+
 ```shell
 # Zilliz CLI
 ```
+
+</TabItem>
+</Tabs>
 
 #### Multi-field Sort\{#multi-field-sort}
 
 You can sort by multiple fields at once. Results are first ordered by the first field in the list. When two rows have the same value in that field, the second field determines their order, and so on.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -710,9 +718,10 @@ curl --request POST \\
 ```
 
 </TabItem>
-</Tabs>
 
-```plaintext
+<TabItem value='c++'>
+
+```c++
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 
@@ -740,15 +749,22 @@ if (!status.IsOk()) {
 }
 ```
 
+</TabItem>
+
+<TabItem value='shell'>
+
 ```shell
 # Zilliz CLI
 ```
+
+</TabItem>
+</Tabs>
 
 #### Pagination with Sort\{#pagination-with-sort}
 
 Use `order_by` together with `limit` and `offset` to paginate through sorted results. For example, to display a product list sorted by price across multiple pages, each page shows the next batch of items in the correct price order without duplicates or gaps.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -919,9 +935,10 @@ curl --request POST \\
 ```
 
 </TabItem>
-</Tabs>
 
-```plaintext
+<TabItem value='c++'>
+
+```c++
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 
@@ -964,9 +981,16 @@ if (!status.IsOk()) {
 }
 ```
 
+</TabItem>
+
+<TabItem value='shell'>
+
 ```shell
 # Zilliz CLI
 ```
+
+</TabItem>
+</Tabs>
 
 ### Aggregate Query Results | ONDEMAND\{#aggregate-query-results}
 
@@ -982,7 +1006,7 @@ To enable aggregation, pass `group_by_fields` to `query()` and add aggregation e
 
 The following example groups entities by the `color` field and returns the number of entities in each color group:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1121,9 +1145,10 @@ curl --request POST \\
 ```
 
 </TabItem>
-</Tabs>
 
-```plaintext
+<TabItem value='c++'>
+
+```c++
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 
@@ -1151,13 +1176,20 @@ if (!status.IsOk()) {
 }
 ```
 
+</TabItem>
+
+<TabItem value='shell'>
+
 ```shell
 # Zilliz CLI
 ```
 
+</TabItem>
+</Tabs>
+
 You can request several aggregation expressions in a single call. The following example groups by `color` and returns the row count, average price, and maximum rating for each group:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1276,9 +1308,10 @@ curl --request POST \\
 ```
 
 </TabItem>
-</Tabs>
 
-```plaintext
+<TabItem value='c++'>
+
+```c++
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 
@@ -1306,13 +1339,20 @@ if (!status.IsOk()) {
 }
 ```
 
+</TabItem>
+
+<TabItem value='shell'>
+
 ```shell
 # Zilliz CLI
 ```
 
+</TabItem>
+</Tabs>
+
 Pass more than one field to `group_by_fields` to compute composite groups. The following example groups by `(color, rating)` and computes the price range in each bucket:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1433,9 +1473,10 @@ curl --request POST \\
 ```
 
 </TabItem>
-</Tabs>
 
-```plaintext
+<TabItem value='c++'>
+
+```c++
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 
@@ -1463,13 +1504,20 @@ if (!status.IsOk()) {
 }
 ```
 
+</TabItem>
+
+<TabItem value='shell'>
+
 ```shell
 # Zilliz CLI
 ```
 
+</TabItem>
+</Tabs>
+
 You can also combine `group_by_fields` with `limit` to cap how many groups come back — useful when a field has high cardinality and you only need a sample of buckets:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1589,9 +1637,10 @@ curl --request POST \\
 ```
 
 </TabItem>
-</Tabs>
 
-```plaintext
+<TabItem value='c++'>
+
+```c++
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 
@@ -1619,9 +1668,16 @@ if (!status.IsOk()) {
 }
 ```
 
+</TabItem>
+
+<TabItem value='shell'>
+
 ```shell
 # Zilliz CLI
 ```
+
+</TabItem>
+</Tabs>
 
 ## Use QueryIterator\{#use-queryiterator}
 
