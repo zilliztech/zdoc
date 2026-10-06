@@ -861,15 +861,11 @@ async function testCodeBlocksInferLanguageWhenFeishuOmitsLanguage() {
   const python = await writer.__code(
     codeBlock('code-python', 'page', 'from pymilvus import MilvusClient\n\ncollections = client.list_collections()').code,
     0,
-    null,
-    null,
     []
   );
   const java = await writer.__code(
     codeBlock('code-java', 'page', 'import io.milvus.v2.client.MilvusClientV2;\n\nString TOKEN = "YOUR_CLUSTER_TOKEN";').code,
     0,
-    null,
-    null,
     []
   );
 
@@ -955,6 +951,145 @@ async function testCodeTabGroupCrossesSourceSyncedBoundary() {
   assert.match(markdown, /<TabItem value='c\+\+'>/);
   assert.doesNotMatch(markdown, /<\/Tabs>\s*```c\+\+/);
   await assertMdxCompiles(markdown);
+}
+
+function assertBalancedTabMarkup(markdown) {
+  const lines = markdown.split('\n');
+  let depth = 0;
+
+  for (const line of lines) {
+    if (/<TabItem\b/.test(line)) {
+      assert.ok(depth > 0, `orphan TabItem rendered outside Tabs: ${line}`);
+    }
+    if (/<Tabs\b/.test(line)) depth += 1;
+    if (/<\/Tabs>/.test(line)) depth -= 1;
+  }
+
+  assert.equal(depth, 0, 'unbalanced <Tabs> markup');
+}
+
+async function testCodeTabGroupAdmitsUnlistedMiddleLanguage() {
+  const blocks = [
+    codeBlock('code-python', 'page', 'filter = "color == \\"red\\""', { language: 49 }),
+    codeBlock('code-java', 'page', 'String filter = "color == \\"red\\"";', { language: 29 }),
+    codeBlock('code-go', 'page', 'filter := "color == \\"red\\""', { language: 22 }),
+    codeBlock('code-rust', 'page', 'let filter = "color == \\"red\\"";', { language: 53 }),
+    codeBlock('code-cpp', 'page', 'auto filter = "color == \\"red\\"";', { language: 9 }),
+    codeBlock('code-js', 'page', 'const filter = "color == \'red\'";', { language: 30 }),
+    codeBlock('code-bash', 'page', 'export filter="color == \'red\'"', { language: 7 }),
+  ];
+  const writer = createWriter(blocks);
+  const markdown = await writer.__markdown(blocks, 0);
+
+  const tabsCount = (markdown.match(/<Tabs groupId="code"/g) || []).length;
+  assert.equal(tabsCount, 1, `expected a single tab group, got ${tabsCount}`);
+  assert.match(markdown, /"label":"Rust","value":"rust"/);
+  assert.match(markdown, /<TabItem value='rust'>/);
+  assert.doesNotMatch(markdown, /<\/Tabs>\s*```rust/);
+  assert.doesNotMatch(markdown, /```rust\s*<Tabs/);
+  assertBalancedTabMarkup(markdown);
+  await assertMdxCompiles(markdown);
+}
+
+async function testCodeTabGroupAdmitsUnlistedLeadingLanguage() {
+  const blocks = [
+    codeBlock('code-rust', 'page', 'let filter = "color == \\"red\\"";', { language: 53 }),
+    codeBlock('code-python', 'page', 'filter = "color == \\"red\\""', { language: 49 }),
+    codeBlock('code-java', 'page', 'String filter = "color == \\"red\\"";', { language: 29 }),
+  ];
+  const writer = createWriter(blocks);
+  const markdown = await writer.__markdown(blocks, 0);
+
+  assert.ok(markdown.includes(`<Tabs groupId="code" defaultValue='rust' values={[{"label":"Rust","value":"rust"},{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>`));
+  assert.equal((markdown.match(/<Tabs groupId="code"/g) || []).length, 1);
+  assertBalancedTabMarkup(markdown);
+}
+
+async function testCodeTabGroupAdmitsUnlistedTrailingLanguage() {
+  const blocks = [
+    codeBlock('code-python', 'page', 'filter = "color == \\"red\\""', { language: 49 }),
+    codeBlock('code-java', 'page', 'String filter = "color == \\"red\\"";', { language: 29 }),
+    codeBlock('code-rust', 'page', 'let filter = "color == \\"red\\"";', { language: 53 }),
+  ];
+  const writer = createWriter(blocks);
+  const markdown = await writer.__markdown(blocks, 0);
+
+  assert.equal((markdown.match(/<Tabs groupId="code"/g) || []).length, 1);
+  assert.match(markdown, /"label":"Rust","value":"rust"/);
+  assert.match(markdown, /<TabItem value='rust'>/);
+  assert.doesNotMatch(markdown, /<\/Tabs>\s*```rust/);
+  assertBalancedTabMarkup(markdown);
+}
+
+async function captureCodeTabWarnings(run) {
+  const warnings = [];
+  const originalWarn = console.warn;
+  console.warn = message => warnings.push(String(message));
+  try {
+    await run();
+  } finally {
+    console.warn = originalWarn;
+  }
+  return warnings;
+}
+
+async function testCodeTabGroupExcludesDuplicatedUnlistedLanguage() {
+  const blocks = [
+    codeBlock('code-python', 'page', 'filter = "color == \\"red\\""', { language: 49 }),
+    codeBlock('code-rust', 'page', 'let filter = "color == \\"red\\"";', { language: 53 }),
+    codeBlock('code-rust-2', 'page', 'let other = "value";', { language: 53 }),
+    codeBlock('code-java', 'page', 'String filter = "color == \\"red\\"";', { language: 29 }),
+  ];
+  const writer = createWriter(blocks);
+  const warnings = await captureCodeTabWarnings(async () => {
+    var markdown = await writer.__markdown(blocks, 0);
+    assert.doesNotMatch(markdown, /<Tabs\b/);
+    assert.doesNotMatch(markdown, /<TabItem\b/);
+    assert.equal((markdown.match(/```rust/g) || []).length, 2);
+  });
+
+  const splitWarnings = warnings.filter(w => w.startsWith('[code-tabs]'));
+  assert.equal(splitWarnings.length, 2);
+  assert.ok(splitWarnings.every(w => w.includes('appears 2 times')));
+  assert.ok(splitWarnings.some(w => w.includes('block code-rust:')));
+  assert.ok(splitWarnings.some(w => w.includes('block code-rust-2:')));
+}
+
+async function testCodeTabGroupExcludesPlaintextInsideRun() {
+  const blocks = [
+    codeBlock('code-python', 'page', 'print(f"Sampled {len(result)} products")', { language: 49 }),
+    codeBlock('code-output', 'page', 'Sampled 3 products from collection', { language: 1 }),
+    codeBlock('code-java', 'page', 'System.out.println("Sampled 3 products");', { language: 29 }),
+  ];
+  const writer = createWriter(blocks);
+  const warnings = await captureCodeTabWarnings(async () => {
+    var markdown = await writer.__markdown(blocks, 0);
+    assert.doesNotMatch(markdown, /<Tabs\b/);
+    assert.doesNotMatch(markdown, /<TabItem\b/);
+    assert.match(markdown, /```plaintext\nSampled 3 products/);
+  });
+
+  const splitWarnings = warnings.filter(w => w.startsWith('[code-tabs]'));
+  assert.equal(splitWarnings.length, 1);
+  assert.ok(splitWarnings[0].includes('block code-output:'));
+  assert.ok(splitWarnings[0].includes('without a usable language'));
+}
+
+async function testCodeTabSplitWarningSilentForTrailingPlaintext() {
+  const blocks = [
+    codeBlock('code-python', 'page', 'print(f"Sampled {len(result)} products")', { language: 49 }),
+    codeBlock('code-java', 'page', 'System.out.println("Sampled 3 products");', { language: 29 }),
+    codeBlock('code-output', 'page', 'Sampled 3 products from collection', { language: 1 }),
+  ];
+  const writer = createWriter(blocks);
+  const warnings = await captureCodeTabWarnings(async () => {
+    var markdown = await writer.__markdown(blocks, 0);
+    assert.match(markdown, /<TabItem value='python'>/);
+    assert.match(markdown, /```plaintext\nSampled 3 products/);
+    assertBalancedTabMarkup(markdown);
+  });
+
+  assert.equal(warnings.filter(w => w.startsWith('[code-tabs]')).length, 0);
 }
 
 async function testBulletPreservesInlineLineBreaks() {
@@ -1175,6 +1310,12 @@ async function run() {
   await testCodeBlocksInferLanguageWhenFeishuOmitsLanguage();
   await testCodeVariantsFilterBeforeFencing();
   await testCodeTabGroupKeepsInferredMiddleLanguageInsideTabs();
+  await testCodeTabGroupAdmitsUnlistedMiddleLanguage();
+  await testCodeTabGroupAdmitsUnlistedLeadingLanguage();
+  await testCodeTabGroupAdmitsUnlistedTrailingLanguage();
+  await testCodeTabGroupExcludesDuplicatedUnlistedLanguage();
+  await testCodeTabGroupExcludesPlaintextInsideRun();
+  await testCodeTabSplitWarningSilentForTrailingPlaintext();
   await testBulletPreservesInlineLineBreaks();
   await testCodeTabGroupCrossesSourceSyncedBoundary();
   testSourceIndexDelegatesLookupHelpersWithoutFilesystemEnumeration();
