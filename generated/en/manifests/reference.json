@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "a06539f2caadcd9b97974053bc0c26b92da34a3c",
+  "sourceCommit": "460065e21411a58d2d2a76c94ff84ba5efdb2cb1",
   "records": [
     {
       "manual": "cli",
@@ -1450,27 +1450,37 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-GrantPrivilegeV2.md",
-      "sourceHash": "eb9cc194c686435b58082cbdeeaee9cc12ece0061233e09c56ed04d6efd981b4"
+      "sourceHash": "24c1193dcb4f3b5936b80e2419e0c5804f7291d6595d75607ed3e4bdc1f62543"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-GrantRole.md",
-      "sourceHash": "6ddf6b1ffc4cdcd54b932e736f96807dc1ea2a4299b15906facffc588df044ce"
+      "sourceHash": "ff6cdfc9d36e6e78f92bdb4b764926c82fdf2cfe15fbdb5c549c62e2f62d74ec"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-GrantV2.md",
+      "sourceHash": "72d7be0fc5b56bfe187b4a643b5d44cc9e6951d44094c423d6c8a207122544a2"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-ListPrivilegeGroups.md",
-      "sourceHash": "ad2879db7fca46812c1a0aeb78b79e6fbb042aa70e654ba95e4eda584094ec26"
+      "sourceHash": "a1d6e3337695b01fdbd93a4a76bda87f0a4001af78d77a5785b31dd39f7f7303"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-ListRoles.md",
-      "sourceHash": "e8192f0a8ca8a09c03696d493988548fd877e88eb11f0ec96faaa410bdd46d8c"
+      "sourceHash": "6a88d22049f3cc3f02532d7ba5774f66f26bafff3557db2a7da6f7c7732cc203"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-ListUsers.md",
-      "sourceHash": "51c9dd633ecdf98f312ef96f473b6a3a859bef75fde716d3cbe1e35c485f542b"
+      "sourceHash": "55c26d4991e9a3fdb28a13f6d21787aad2495cc0aaeb5aa7ec3370cf20c8eabd"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-OperatePrivilegeGroup.md",
+      "sourceHash": "046fb94e274aaa1272d782f6b76d685f0aa4af041f713a29aabc13c3bba57abc"
     },
     {
       "manual": "go",
@@ -1484,18 +1494,33 @@
     },
     {
       "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RemovePrivilegesFromGroup.md",
+      "sourceHash": "193c56c9ae7d8ac590e043b4045c1d5c839d804bbe65d425e43a07e95001171a"
+    },
+    {
+      "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RestoreRBAC.md",
-      "sourceHash": "23415018fae1fe8545f6f528f44787b93acffd8215cdcc5f6d151b9e65886493"
+      "sourceHash": "e00b6365f5b3403aa48a0442d7fc2726727cd80a694d92de72fe42423bef2088"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RevokePrivilege.md",
+      "sourceHash": "4fe44797ed5d9758de83711f2748a9b35524e9cbf428a0d7cbecbbc9a332bff2"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RevokePrivilegeV2.md",
-      "sourceHash": "04b5de6625867d2c3da38decfa045d523f1d55a92084a88e69a924eafddb5026"
+      "sourceHash": "01ba36ca63237f4b9cdc1ef0a42226b4e8afd5be6e8705d42727189d67dd8eea"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RevokeRole.md",
-      "sourceHash": "4e09aee2a016ba4409458dd004d6576a8af4aa89813cc28646a1bf8d9f28bd0f"
+      "sourceHash": "929d6753ccd23d36eff44db055a85d6696611781c3cab506ebd766dadefd4174"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RevokeV2.md",
+      "sourceHash": "2f6b1f334b8fef989355d56133b67718706a8eea74698bde28a34a071fcf424e"
     },
     {
       "manual": "go",
@@ -1505,7 +1530,7 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-UpdatePassword.md",
-      "sourceHash": "64b616b5330bc28f353986fdc5317118376fe689e937ada568c27d0a25dbaa19"
+      "sourceHash": "11ece5b81117d73f1dad9239528aa07c96bad5c7d83a982421873d371bcd3290"
     },
     {
       "manual": "go",
@@ -2135,82 +2160,102 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-createUser.md",
-      "sourceHash": "968c7712ffab8c546314636352cde32cf06561638fac963ab5f3e5b8c100a81b"
+      "sourceHash": "ab2746bd598f1a59e7452b7dc8714123745dac8ef83a2781e2ab8221641be5b7"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-describeRole.md",
-      "sourceHash": "b230f6b168284bcc1cc1089b03f1d8201c5def5ebe511d469e6b46550b298207"
+      "sourceHash": "91499abc4d3a5d6e09307a5e575637d168b03e79ea4fd3b3b9cd6f4be422bd74"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-describeUser.md",
-      "sourceHash": "690a77fa373b548ea4969fb839b4a721aa2e85e955c37cc21842b24ce2187874"
+      "sourceHash": "8761b0493db3c2add55df387690050500f7adfae7fdaf7c089c173b382347ba8"
+    },
+    {
+      "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-dropPrivilegeGroup.md",
+      "sourceHash": "188e15b8153e36bf1a8b45c85d8d8a801c7ee18aa5473d32f0b53f7f1d72b339"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-dropRole.md",
-      "sourceHash": "701c15a90bb876cc9ddd8db3f36736c87b70284d78160f438114c9244ec23868"
+      "sourceHash": "815aa35ef27338884ca7bbf1859b4fd02883d5417a14b3402f0114d30848c159"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-dropUser.md",
-      "sourceHash": "1800420171a78865edb10d9a62b10db0838242da47ce7396a67090ef062241f5"
+      "sourceHash": "fc3199d66362d584b4e5e5a843367f262e224b7901a4aa4703a2530ca1ee8862"
+    },
+    {
+      "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-grantPrivilege.md",
+      "sourceHash": "bb5bdc585d6a11d484d4296450e10a80b0c841d88c279a7166aebdc14c266550"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-grantPrivilegeV2.md",
-      "sourceHash": "28cb6be861337ffe9974bfd14da2c55be9a853241b9ac6fb7672385ad78d4478"
+      "sourceHash": "527281d9940cc3bc6a57d7d66d729d1c58745d535931896c33d1c16ca1957a62"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-grantRole.md",
-      "sourceHash": "96a098e6ef422ed6f63fb695fec0852610f1274c7c9007617d962851c80385a6"
+      "sourceHash": "616c1f8e84ee4e594573b5b1fa6107316634e62f00a7bcc1b8c9b37c7789a2ac"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-listPrivilegeGroups.md",
-      "sourceHash": "e17f16761056a8fdfc443e2403ec819bc1145efa7b658b3da43908f017034470"
+      "sourceHash": "e9ccf3073c8602b460e6d06d844f42fe13b878f01cf2cef92b4dc89ba4876313"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-listRoles.md",
-      "sourceHash": "39d7fab342ba569a8857161cbd47f342b0b97cf326c3390886e64421ee9c2d5f"
+      "sourceHash": "205c36ae41f3e04d223bb4bd204ac8fa6fb4e988e2f82a210731870c6a415cd6"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-listUsers.md",
-      "sourceHash": "4909e9ba6018f83cf16e622765da57f58bcf65242ece30c241c722e5f88b0f9f"
+      "sourceHash": "57067b0108aedf555d8847484adca2b2f87a037dbaf37c1c10096f21385229ef"
+    },
+    {
+      "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-removePrivilegesFromGroup.md",
+      "sourceHash": "dc96e6175c807e79103136e44fd50de72225a59131cdf2996b0b353c0764bbaf"
+    },
+    {
+      "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-revokePrivilege.md",
+      "sourceHash": "6b07ee86c4dc355732ddd7abe7dfac2492b970e9a1082258ae42898c198fd7b3"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-revokePrivilegeV2.md",
-      "sourceHash": "7fa10413d140b1eb4dbddda0a3317959e13f0211e3193fbe03d764b48155c6a0"
+      "sourceHash": "2c3cbdada47b960ce7a03b8c5323949d65a452d7c269e20218405a94a0d35cca"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-revokeRole.md",
-      "sourceHash": "a7ddab46fdbb9211499f1492b70f02ecd75b66b1184c0f3cdbe86471fa96c9b7"
+      "sourceHash": "d52e9f27b76d29b6a2f6682e25055638c926d76d68abd3183169b71c056c7709"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-updatePassword.md",
-      "sourceHash": "8b6b6a31ab4f15a741793f5f4d247c30ed015c200f7afc7bf7ccaf604c214614"
+      "sourceHash": "3d6f3d27997b1a9796920676f7c5423b771f848f78f5f5765d8bff6c265a828f"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-updateUser.md",
-      "sourceHash": "05a03eb2011d38a6910b0a7a504a3ac1bbe85413a17c6a7914c48089b67447fb"
+      "sourceHash": "54b98ad28a7f5e40850a4b851c9234badbc2c2f140034b7484709d5af5c9cd42"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-ConnectConfig.md",
-      "sourceHash": "5fa0053847d6f0d2cd56b940135e4839ae5ea4a9c0a18ae9e9e4120f29a3b192"
+      "sourceHash": "053daeac1ea2c2ce6052effa625195cf4d74b3d3e3adc85463599e51ec476dd4"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-MilvusClientV2.md",
-      "sourceHash": "c8fa5495598dc5692f7af155cc024de27093f102deaa2321ffee6a849a02b418"
+      "sourceHash": "4d6a69dde21454f3ea4c489d757254f66022bdbb2df6db5c3651df385335b3b1"
     },
     {
       "manual": "java",
@@ -2220,12 +2265,12 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-TelemetryConfig.md",
-      "sourceHash": "edc5db299e4fb77912994f176571cb18c95b8a715419da47cd3f80ad3a148e40"
+      "sourceHash": "53b6680963fee7c19804b10e090b1d8183d957175bac985728a33ed36451b831"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-clientIsReady.md",
-      "sourceHash": "993ec948a1366df5dfa9f6b5e4a03f1f19bc71feaf3c21d41b3ef5bb6072e376"
+      "sourceHash": "f5de658afeb3b621e7b1850a7c35809dde81a2e8fc707888f0c65d3c12b1713d"
     },
     {
       "manual": "java",
@@ -2235,17 +2280,17 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-getServerVersionV2.md",
-      "sourceHash": "2f9722693af1cdc78dae0b01b3d63d9359c17fc02ca8bf5a458912f1ef0d0614"
+      "sourceHash": "1512a5c46d9527f2baa9cbeed9cc7918f246a84420b20efcca70c7576f1609f0"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-getTelemetry.md",
-      "sourceHash": "22db940c903a1fea0371fcad69535bcc5703867cf138e91125959844defaf9a2"
+      "sourceHash": "d2fbd160a53601badcd01b411e97513142acb1c80425bd5695f1a03bda180f35"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-session.md",
-      "sourceHash": "4ea07f8d199d8dc24ba78dc8c0f76d02024e939e51fddbe19b1e8710f558f3d1"
+      "sourceHash": "0fb305541279050f6df10db0e807f0f3a47340b31a300f0758039c8d572f8068"
     },
     {
       "manual": "java",
@@ -2365,17 +2410,17 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-addCollectionField.md",
-      "sourceHash": "255a14721389ab6a2c30574a4b349ee40bcc9108efd72e46599ac9d3401db320"
+      "sourceHash": "8b9d94e9fa5ab8e095a14204083de17aa263444151dc78633731271352a93fcc"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-addCollectionFunction.md",
-      "sourceHash": "171fa30e09a143d74336137a6a2d66a4ffbffe7996b47f6715793f37676cdf17"
+      "sourceHash": "abcbc498ab8c7bdc29bb912c214bd193d97526e092bd62ef890a9a68abb3cbff"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-addCollectionStructField.md",
-      "sourceHash": "cfcac7afb2050d38ace8a1449eba91a3f5fb1fb019d0ca8e42022b1e6b8b0ae8"
+      "sourceHash": "108eee3aa7baa020048d9656cf43b27264b923a382d7f172ac0e2ebbbc487897"
     },
     {
       "manual": "java",
@@ -2545,7 +2590,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-BulkImport-abortImport.md",
-      "sourceHash": "2006caf4ef7d22f45276ab6ebb3017783cfa5f32ed5984595a58c64055615191"
+      "sourceHash": "96ec0a5bbf921ba0f4633cfcb17ed843e156c9615f698fb6231d5c340ba14fdf"
     },
     {
       "manual": "java",
@@ -2555,7 +2600,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-BulkImport-commitImport.md",
-      "sourceHash": "f63a98d24a89402ae69796f1a123c0d6c377fd6d4cdc9298c9344ed1fd5e92fe"
+      "sourceHash": "c14f4a7e9347a61dad24fe1b426a85175253ffb946a69452b40aa2c1930df3c8"
     },
     {
       "manual": "java",
@@ -4295,7 +4340,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/MilvusClient-CollectionSchema.md",
-      "sourceHash": "3f57ef689a4509f67331d44a74168e76cbe2d686d89ca734f5e44c41adcc0461"
+      "sourceHash": "38f344b624aa74a6b4d32e6baab4f9b4ff864c588ab29f75360dc1d389c260b0"
     },
     {
       "manual": "python",
@@ -4325,7 +4370,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-add_collection_struct_field.md",
-      "sourceHash": "b527fdef9b4ae4a2cf3d1430c7229f489c221e98c4da339dbe9f9a5f6c4bb2c7"
+      "sourceHash": "9d963ef3788a6b9e39a31218a604b78f8672b75808951515856773ce33b1cc67"
     },
     {
       "manual": "python",
@@ -4510,7 +4555,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FieldSchema/MilvusClient-FieldSchema.md",
-      "sourceHash": "284f0a74c41ffa6c03dd70a0726d07fe12c32252f92e4660f642a85a0f875977"
+      "sourceHash": "6b2f160971fe3482ab0e2cee9ef53cc4d12e0799178d10a0c294c34d330c8adb"
     },
     {
       "manual": "python",
@@ -4669,6 +4714,11 @@
     },
     {
       "manual": "python",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-list_compaction_tasks.md",
+      "sourceHash": "d12de806fa0ef03699d6f5780a788d7a5e75030589176447973eb4f8091340a3"
+    },
+    {
+      "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-list_indexes.md",
       "sourceHash": "e49ea37e043569dfaadd6792082cd72bafe5753ffdca457954e9c277752d28aa"
     },
@@ -4680,7 +4730,12 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-list_persistent_segments.md",
-      "sourceHash": "4360c486c1573a9b6e9fa4413e305544d3df7c42aa1fec62535372c2c71a5771"
+      "sourceHash": "d8e98075cb24db6d0c053b9983cbf4b4a1aa6f8fd5855c7bd7cbb030af8510ed"
+    },
+    {
+      "manual": "python",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-list_segments.md",
+      "sourceHash": "12c84003ad8ea700fca757b102c254eccbcc06ce37ce68f369743f98c149b0e9"
     },
     {
       "manual": "python",
@@ -4790,7 +4845,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-StructFieldSchema/MilvusClient-StructFieldSchema.md",
-      "sourceHash": "a3e8a9ee9d15e7e6f84864e0d66c42618f7c5f9f00c8373cd6b0dd41de66661e"
+      "sourceHash": "5457d534ec3f4589d768b745b3d2da49066f42b7ac89d72c299df897bbbe4bf0"
     },
     {
       "manual": "python",
@@ -4810,22 +4865,22 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-AggregationBucket.md",
-      "sourceHash": "8217bb3d1d16fb145dce15b359be2bacfbeb0bc68523839a33f8d51fd6d7aff1"
+      "sourceHash": "ac97abeb580a63182b6234ad4bca463f9be027fd6edb1a08ec4d56b2be9e82f6"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-AggregationHit.md",
-      "sourceHash": "2872d766f44185ae80567afe40f70fd062502db150cf8c3d2c8f408a957f0c89"
+      "sourceHash": "3e20bbd76b4085f6a8ec2dadfcc8b5d23ac54833a21d27d38bf1ab5baa26ac0d"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-SearchAggregation.md",
-      "sourceHash": "9daf2fab883fb4e34fc03043ba9f7e8b694f8dee60b33e8577b951fb485c7242"
+      "sourceHash": "ac5efe5ecf74ebf8273bcbe321c09df924439295e142cc36558966248e0e8a36"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-TopHits.md",
-      "sourceHash": "05a5108285e5c6a14359ae85a0652aed6a26f593bad292d5593e8711fe1fa0f7"
+      "sourceHash": "52c57167e0b668b48130ddc7722932599d7323bfaa3575f1b76d8437513217ae"
     },
     {
       "manual": "python",
@@ -4865,7 +4920,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-search_iterator.md",
-      "sourceHash": "094ddf2bd667da9ca05d4ce386b5079d138ef56c274927398585bd9603b630d8"
+      "sourceHash": "e59b10c5c5fd5c0dd8472c1ce0ac3f9fabad08651322d3364213fa8811faa214"
     },
     {
       "manual": "python",
