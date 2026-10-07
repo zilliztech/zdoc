@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "group": "java",
   "complete": true,
-  "generatedAt": "2026-10-04T19:29:39.693Z",
-  "sourceRunId": "37227068516",
+  "generatedAt": "2026-10-07T02:56:35.100Z",
+  "sourceRunId": "37562625738",
   "records": [
     {
       "canonicalToken": "A2Vpd1kXsoF5uexKYb8ckcGMnWe",
@@ -1727,7 +1727,7 @@
     {
       "canonicalToken": "VDGtd5FmbobsfdxpGCZcQQlwnHf",
       "title": "createPrivilegeGroup()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-createPrivilegeGroup.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1970,7 +1970,7 @@
     {
       "canonicalToken": "Zk2sduIEOoytTDxSFy0cUxiinpg",
       "title": "addPrivilegesToGroup()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-addPrivilegesToGroup.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,

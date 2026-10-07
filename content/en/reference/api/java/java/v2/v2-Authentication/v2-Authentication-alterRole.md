@@ -59,12 +59,6 @@ client.alterRole(AlterRoleReq.builder()
 
     The new description of the role. Use an empty string to clear the description.
 
-**RETURNS:**
-
-*void*
-
-This operation returns no value.
-
 **EXCEPTIONS:**
 
 - **MilvusClientException**

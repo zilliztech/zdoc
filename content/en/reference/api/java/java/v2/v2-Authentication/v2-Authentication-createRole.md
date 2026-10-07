@@ -59,12 +59,6 @@ client.createRole(CreateRoleReq.builder()
 
     An optional description of the role. Defaults to an empty string.
 
-**RETURNS:**
-
-*void*
-
-This operation returns no value.
-
 **EXCEPTIONS:**
 
 - **MilvusClientException**

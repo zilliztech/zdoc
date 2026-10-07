@@ -11,6 +11,18 @@ module.exports = [
     "items": [
       {
         "type": "doc",
+        "id": "api/java/java/v2/v2-Authentication/v2-Authentication-addPrivilegesToGroup",
+        "label": "addPrivilegesToGroup()",
+        "key": "doc:api/java/java/v2/v2-Authentication/v2-authentication-addprivilegestogroup"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Authentication/v2-Authentication-createPrivilegeGroup",
+        "label": "createPrivilegeGroup()",
+        "key": "doc:api/java/java/v2/v2-Authentication/v2-authentication-createprivilegegroup"
+      },
+      {
+        "type": "doc",
         "id": "api/java/java/v2/v2-Authentication/v2-Authentication-createRole",
         "label": "createRole()",
         "key": "doc:api/java/java/v2/v2-Authentication/v2-authentication-createrole"
