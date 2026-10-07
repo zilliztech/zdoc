@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "460065e21411a58d2d2a76c94ff84ba5efdb2cb1",
+  "sourceCommit": "7ed1f2dca749631a5042fbcd0744a8bcf2c74af2",
   "records": [
     {
       "manual": "cli",
@@ -1539,28 +1539,43 @@
     },
     {
       "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-CDC/v2-CDC-CreateReplicateStream.md",
+      "sourceHash": "de75880ee26aca65a0ec1eb4914679d3184c5fb8ac5393b0328d5ac310997678"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-CDC/v2-CDC-DumpMessages.md",
+      "sourceHash": "165eb10801cb722ee875fa912c4f750c199295cebf02bc848404867bc4a1d88e"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-CDC/v2-CDC-GetReplicateConfiguration.md",
+      "sourceHash": "89fdc7373a1d0df55ac8dc515b32f0a31bfb1da35dc54185d91176c36194b9bc"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-CDC/v2-CDC-GetReplicateInfo.md",
+      "sourceHash": "92582298ba6487ed6366b3e9760309be540a7515a84868512afa45edb9fb08d8"
+    },
+    {
+      "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Client/v2-Client-ClientConfig.md",
       "sourceHash": "9a4511fe4ca6f59a44bcd1e5c9b56a096dfa7d39b8852833c039c1dc8ea59d11"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Client/v2-Client-Close.md",
-      "sourceHash": "d2eaa8b2e3477118974839d6780ad1c485795e88863656c3a5ebed53f260bc5a"
+      "sourceHash": "4684084f06ee9e0c2a4c3955f8b7a799f2d526e7c011ddfab0023c10a4d2ec6d"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Client/v2-Client-GetServerVersion.md",
-      "sourceHash": "8eb73c0691778ef3d284a22e3197e5cb7beefc9ed8bc8b4d7fef17c18b8cb793"
+      "sourceHash": "e4f30270dfc3fab97c8969709fc8e13bf0f66469bd2c537c171de55082547700"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Client/v2-Client-GetTelemetry.md",
-      "sourceHash": "096cdef98b5ebd7363dc1515401e657ae3dcf20abf6bf194b2493961c95273b3"
-    },
-    {
-      "manual": "go",
-      "sourcePath": "content/en/reference/api/go/go/v2/v2-Client/v2-Client-New.md",
-      "sourceHash": "dcf655d908a74a186792a691e6b855c0b6f9f04ffa7989235b0e46d73434bf18"
+      "sourceHash": "7e70f340e477700045aa65174736e77b4f4568ab21fca9fe92f701942ff353a1"
     },
     {
       "manual": "go",
@@ -4875,12 +4890,12 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-SearchAggregation.md",
-      "sourceHash": "ac5efe5ecf74ebf8273bcbe321c09df924439295e142cc36558966248e0e8a36"
+      "sourceHash": "7dad40da9c49132f53e0fd6af602560e40cc97ec6a7f79d395204499e13af057"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-TopHits.md",
-      "sourceHash": "52c57167e0b668b48130ddc7722932599d7323bfaa3575f1b76d8437513217ae"
+      "sourceHash": "c7d7c31758395c648d3872cd157b4f56245a80c219752c426fc7639314960870"
     },
     {
       "manual": "python",
@@ -4914,13 +4929,8 @@
     },
     {
       "manual": "python",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-search.md",
-      "sourceHash": "63c0c97337d8ffc0d9e39c009f7e7e781db9d56ea3bb0ce95588e6b2e1512e7b"
-    },
-    {
-      "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-search_iterator.md",
-      "sourceHash": "e59b10c5c5fd5c0dd8472c1ce0ac3f9fabad08651322d3364213fa8811faa214"
+      "sourceHash": "094b329ee9437e20aba458e4efb5aa92113f1901ad10f4b9c298674adbc4514a"
     },
     {
       "manual": "python",

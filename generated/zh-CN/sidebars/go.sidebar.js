@@ -156,12 +156,6 @@ module.exports = [
       },
       {
         "type": "doc",
-        "id": "api/go/go/v2/v2-Client/v2-Client-New",
-        "label": "New()",
-        "key": "doc:api/go/go/v2/v2-Client/v2-client-new"
-      },
-      {
-        "type": "doc",
         "id": "api/go/go/v2/v2-Client/v2-Client-GetTelemetry",
         "label": "GetTelemetry()",
         "key": "doc:api/go/go/v2/v2-Client/v2-client-gettelemetry"
