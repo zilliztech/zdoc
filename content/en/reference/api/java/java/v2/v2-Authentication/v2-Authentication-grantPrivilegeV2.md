@@ -57,7 +57,7 @@ grantPrivilegeV2(GrantPrivilegeReqV2.builder()
 
 - `privilege(String privilege)`
 
-    The privilege or privilege group to be granted to the specified role. For details on possible privileges, refer to [Grant Privileges or Privilege Group to Roles](https://milvus.io/docs/grant_privileges.md).
+    The privilege or privilege group to be granted to the specified role. For details on possible privileges, refer to [Manage Cluster Roles(SDK)](/docs/cluster-roles-sdk).
 
 - `dbName(String dbName)`
 
@@ -66,10 +66,6 @@ grantPrivilegeV2(GrantPrivilegeReqV2.builder()
 - `collectionName(String collectionName)`
 
     The target resource collection in the specified database. The specified role has access to the specified privileges within the specified collection.
-
-**RETURNS:**
-
-*void*
 
 **EXCEPTIONS:**
 

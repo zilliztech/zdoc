@@ -54,49 +54,35 @@ addCollectionStructField(AddCollectionStructFieldReq.builder()
 
 **BUILDER METHODS:**
 
-- `collectionName(String collectionName)`
+- `collectionName(String collectionName)`<br/>
+  The target collection name.
 
-    The target collection name.
+- `databaseName(String databaseName)`<br/>
+  The database that contains the collection. Omit this field to use the current database.
 
-- `databaseName(String databaseName)`
+- `fieldName(String fieldName)`<br/>
+  The name of the struct array field to add.
 
-    The database that contains the collection. Omit this field to use the current database.
+- `description(String description)`<br/>
+  A human-readable description for the new field.
 
-- `fieldName(String fieldName)`
+- `maxCapacity(Integer maxCapacity)`<br/>
+  The maximum number of struct elements allowed in each row.
 
-    The name of the struct array field to add.
+- `nullable(Boolean nullable)`<br/>
+  Whether the struct field can be null.
 
-- `description(String description)`
+- `structFields(List<CreateCollectionReq.FieldSchema> structFields)`<br/>
+  The scalar or vector fields contained in each struct element.
 
-    A human-readable description for the new field.
+- `addStructField(AddFieldReq addFieldReq)`<br/>
+  Converts the given field request into a struct sub-field and appends it to the struct field definition.
 
-- `maxCapacity(Integer maxCapacity)`
+- `typeParams(Map<String, String> typeParams)`<br/>
+  Additional type parameters passed to the server for the struct field.
 
-    The maximum number of struct elements allowed in each row.
-
-- `nullable(Boolean nullable)`
-
-    Whether the struct field can be null.
-
-- `structFields(List<CreateCollectionReq.FieldSchema> structFields)`
-
-    The scalar or vector fields contained in each struct element.
-
-- `addStructField(AddFieldReq addFieldReq)`
-
-    Converts the given field request into a struct sub-field and appends it to the struct field definition.
-
-- `typeParams(Map<String, String> typeParams)`
-
-    Additional type parameters passed to the server for the struct field.
-
-- `typeParam(String key, String value)`
-
-    Adds a single type parameter to the struct field.
-
-**RETURNS:**
-
-*void*
+- `typeParam(String key, String value)`<br/>
+  Adds a single type parameter to the struct field.
 
 **EXCEPTIONS:**
 

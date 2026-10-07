@@ -53,6 +53,12 @@ List<String> roles = client.listRoles();
 
 A list of strings containing the role names.
 
+**PARAMETERS:**
+
+- **roleNames** (*List&lt;String&gt;*) -
+
+    A list of the names of all custom roles.
+
 **EXCEPTIONS:**
 
 - **MilvusClientExceptions**

@@ -57,10 +57,6 @@ grantRole(GrantRoleReq.builder()
 
     The name of an existing user.
 
-**RETURNS:**
-
-*void*
-
 **EXCEPTIONS:**
 
 - **MilvusClientExceptions**

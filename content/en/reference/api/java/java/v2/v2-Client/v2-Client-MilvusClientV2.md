@@ -41,19 +41,15 @@ io.milvus.v2.client.MilvusClientV2
 
 Constructs a client for common use cases.
 
-<Admonition type="info" title="Notes">
-
 This client serves as an easy-to-use alternative for the current set of APIs that handles Create, Read, Update, and Delete (CRUD) operations on Zilliz Cloud.
-
-</Admonition>
 
 ```java
 MilvusClientV2(ConnectConfig connectConfig);
 ```
 
-## [ConnectConfig](./v2-Client-ConnectConfig)\{#connectconfigv2-client-connectconfig}
+## ConnectConfig\{#connectconfig}
 
-**[ConnectConfig](./v2-Client-ConnectConfig)** allows you to configure the connection properties in one place so that **MilvusClientV2** can reference it to create and manage the connection pool.
+**ConnectConfig** allows you to configure the connection properties in one place so that **MilvusClientV2** can reference it to create and manage the connection pool.
 
 ```java
 // use either token or username/password
@@ -87,131 +83,116 @@ ConnectConfig.builder()
 
     The URI of the Zilliz Cloud cluster. For example:
 
-    ```plaintext
-    https://inxx-xxxxxxxxxxxxxxxxx.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540
-    ```
+```plaintext
+https://inxx-xxxxxxxxxxxxxxxxx.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540
+```
 
 - `token(String token)`
 
-    A valid access token to access the specified Zilliz Cloud cluster. 
+    A valid access token to access the specified Zilliz Cloud cluster.
 
-    This can be used as a recommended alternative to setting **user** and **password** separately.
+This can be used as a recommended alternative to setting **user** and **password** separately.
 
-    When setting this field, notice that:
+When setting this field, notice that:
 
-    A valid token should be either
+A valid token should be either
 
-    - An [API key](/docs/manage-api-keys) with sufficient permissions, or
+- An API key with sufficient permissions, or
 
-    - A pair of [username and password ](/docs/cluster-credentials)used to access the target cluster, joined by a colon (:). For example, you can set this to `username:p@ssw0rd`.
+- A pair of username and password used to access the target cluster, joined by a colon (:). For example, you can set this to `username:p@ssw0rd`.
 
 - `username(String userName)`
 
     A valid username used to connect to the specified Zilliz Cloud cluster.
 
-    This should be used along with **password**.
+This should be used along with **password**.
 
 - `password(String password)`
 
     A valid password used to connect to the specified Zilliz Cloud cluster.
 
-    This should be used along with **user**.
+This should be used along with **user**.
 
 - `connectTimeoutMs(long connectTimeout)`
 
-    The timeout duration for this operation, in milliseconds. 
+    The timeout duration for this operation, in milliseconds.
 
-    The value defaults to **10000**.
+The value defaults to **10000**.
 
 - `keepAliveTimeMs(long keepAliveTime)`
 
     The time in milliseconds between keep-alive probes sent by the client to the server.
 
-    The value defaults to **55000**.
+The value defaults to **55000**.
 
 - `keepAliveTimeoutMs(long keepAliveTimeout)`
 
     The timeout duration in milliseconds for the server to respond to a keep-alive probe sent by the client.
 
-    The value defaults to **20000**.
+The value defaults to **20000**.
 
 - `keepAliveWithoutCalls(boolean enable)`
 
     Whether to send keep-alive probes without making requests.
 
-    The value defaults to **false**.
+The value defaults to **false**.
 
 - `rpcDeadlineMs(long rpcDeadline)`
 
     The deadline for RPC calls (disabled).
 
-    The value defaults to **0**, which indicates the deadline is disabled.
+The value defaults to **0**, which indicates the deadline is disabled.
 
-- `clientKeyPath(String clientKeyPath)`
+- `clientKeyPath(String clientKeyPath)`<br/>
+  The path to the client key file for two-way authentication.
 
-    The path to the client key file for two-way authentication.
+- `clientPemPath(String clientPemPath)`<br/>
+  The path to the client PEM file for two-way authentication.
 
-- `clientPemPath(String clientPemPath)`
+- `caPemPath(String caPemPath)`<br/>
+  The path to the CA PEM file for two-way authentication.
 
-    The path to the client PEM file for two-way authentication.
+- `serverPemPath(String serverPemPath)`<br/>
+  The path to the server PEM file for two-way authentication.
 
-- `caPemPath(String caPemPath)`
+- `serverName(String serverName)`<br/>
+  The expected name of the server.
 
-    The path to the CA PEM file for two-way authentication.
+- `proxyAddress(String proxyAddress)`<br/>
+  The proxy server's address through which the connection is to be established.
 
-- `serverPemPath(String serverPemPath)`
+- `secure(boolean enable)`<br/>
+  Whether to use TLS for the connection.
 
-    The path to the server PEM file for two-way authentication.
+The value defaults to **true**.
 
-- `serverName(String serverName)`
+- `idleTimeoutMs(long idleTimeout)`<br/>
+  The idle timeout for a connection.
 
-    The expected name of the server.
+- `.clientRequestId(ThreadLocal<String> clientRequestId)`<br/>
+  The ID of a client request. You can use this parameter to maintain a map of threads, with each thread mapping to a specific request ID.
 
-- `proxyAddress(String proxyAddress)`
-
-    The proxy server's address through which the connection is to be established.
-
-- `secure(boolean enable)`
-
-    Whether to use TLS for the connection.
-
-    The value defaults to **true**.
-
-- `idleTimeoutMs(long idleTimeout)`
-
-    The idle timeout for a connection.
-
-- `.clientRequestId(ThreadLocal<String> clientRequestId)`
-
-    The ID of a client request. You can use this parameter to maintain a map of threads, with each thread mapping to a specific request ID. 
-
-    The request ID will be passed to the server, so that you can learn about which client calls this interface from the access logs.
+The request ID will be passed to the server, so that you can learn about which client calls this interface from the access logs.
 
 **PUBLIC METHODS:**
 
-- `getHost()`
+- `getHost()`<br/>
+  Returns the hostname of the currently connected Milvus instance.
 
-    Returns the hostname of the currently connected Milvus instance.
+- `getPort()`<br/>
+  Returns the port number at which the currently connected Milvus instance.
 
-- `getPort()`
+- `getAuthorization()`<br/>
+  Returns the credentials used to set up the current connection.
 
-    Returns the port number at which the currently connected Milvus instance.
+- `getDbName()`<br/>
+  Returns the name of the database currently in use.
 
-- `getAuthorization()`
+- `isSecure()`<br/>
+  Returns whether the current connection is over TLS.
 
-    Returns the credentials used to set up the current connection.
-
-- `getDbName()`
-
-    Returns the name of the database currently in use.
-
-- `isSecure()`
-
-    Returns whether the current connection is over TLS.
-
-- `getProxyAddress()`
-
-    Returns the proxy server's address specified in **[ConnectConfig](./v2-Client-ConnectConfig)**.
+- `getProxyAddress()`<br/>
+  Returns the proxy server's address specified in **ConnectConfig**.
 
 ## Examples\{#examples}
 
@@ -227,9 +208,5 @@ ConnectConfig connectConfig = ConnectConfig.builder()
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 ```
 
-<Admonition type="info" title="Notes">
-
 Set **uri** to your cluster endpoint. The **token** parameter can be a Zilliz Cloud API key with sufficient permissions or the credentials of a cluster user in the format of `username:p@ssw0rd`.
-
-</Admonition>
 

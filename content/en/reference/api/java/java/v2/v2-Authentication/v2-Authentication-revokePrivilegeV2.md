@@ -57,7 +57,7 @@ revokePrivilegeV2(RevokePrivilegeReqV2.builder()
 
 - `privilege(String privilege)`
 
-    The privilege or privilege group to be revoked from the specified role. For details on possible privileges, refer to [Grant Privileges or Privilege Group to Roles](https://milvus.io/docs/grant_privileges.md).
+    The privilege or privilege group to be revoked from the specified role. For details on possible privileges, refer to Grant Privileges or Privilege Group to Roles.
 
 - `dbName(String dbName)`
 
@@ -66,10 +66,6 @@ revokePrivilegeV2(RevokePrivilegeReqV2.builder()
 - `collectionName(String collectionName)`
 
     The target resource collection in the specified database. After this operation, the specified role loses access to the specified privileges within the specified collection.
-
-**RETURNS:**
-
-*void*
 
 **EXCEPTIONS:**
 

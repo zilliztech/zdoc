@@ -47,6 +47,12 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/java/java/v2/v2-Authentication/v2-Authentication-dropPrivilegeGroup",
+        "label": "dropPrivilegeGroup()",
+        "key": "doc:api/java/java/v2/v2-Authentication/v2-authentication-dropprivilegegroup"
+      },
+      {
+        "type": "doc",
         "id": "api/java/java/v2/v2-Authentication/v2-Authentication-dropRole",
         "label": "dropRole()",
         "key": "doc:api/java/java/v2/v2-Authentication/v2-authentication-droprole"
@@ -56,6 +62,12 @@ module.exports = [
         "id": "api/java/java/v2/v2-Authentication/v2-Authentication-dropUser",
         "label": "dropUser()",
         "key": "doc:api/java/java/v2/v2-Authentication/v2-authentication-dropuser"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Authentication/v2-Authentication-grantPrivilege",
+        "label": "grantPrivilege()",
+        "key": "doc:api/java/java/v2/v2-Authentication/v2-authentication-grantprivilege"
       },
       {
         "type": "doc",
@@ -86,6 +98,18 @@ module.exports = [
         "id": "api/java/java/v2/v2-Authentication/v2-Authentication-listUsers",
         "label": "listUsers()",
         "key": "doc:api/java/java/v2/v2-Authentication/v2-authentication-listusers"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Authentication/v2-Authentication-removePrivilegesFromGroup",
+        "label": "removePrivilegesFromGroup()",
+        "key": "doc:api/java/java/v2/v2-Authentication/v2-authentication-removeprivilegesfromgroup"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Authentication/v2-Authentication-revokePrivilege",
+        "label": "revokePrivilege()",
+        "key": "doc:api/java/java/v2/v2-Authentication/v2-authentication-revokeprivilege"
       },
       {
         "type": "doc",

@@ -51,6 +51,12 @@ listUsers();
 
 A list of strings containing the user names.
 
+**PARAMETERS:**
+
+- **userNames** (*List&lt;String&gt;*) -
+
+    A list of the names of all existing users.
+
 **EXCEPTIONS:**
 
 - **MilvusClientExceptions**

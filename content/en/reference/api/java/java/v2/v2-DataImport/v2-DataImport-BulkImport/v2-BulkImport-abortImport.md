@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "Aborts an existing bulk-import job. | Java | v2"
+description: "This operation aborts an existing bulk-import job. | Java | v2"
 type: docx
 token: RayydoBX1oNrb0xAiOtciVyen9c
 sidebar_position: 5
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # abortImport()
 
-Aborts an existing bulk-import job.
+This operation aborts an existing bulk-import job.
 
 ```java
 public static String abortImport(String url, BaseDescribeImportRequest request)
@@ -75,11 +75,19 @@ Uses `CloudDescribeImportRequest` for Zilliz Cloud. Set `clusterId`, or set both
 
     The import job identifier to abort.
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *String*
 
+**RETURNS:**
+
 The JSON response body returned by the import endpoint.
+
+**PARAMETERS:**
+
+- **response** (*String*) -
+
+    The JSON response body of the abort-import call.
 
 **EXCEPTIONS:**
 

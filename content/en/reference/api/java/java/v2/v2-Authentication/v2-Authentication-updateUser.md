@@ -59,12 +59,6 @@ client.updateUser(UpdateUserReq.builder()
 
     The new description of the user. Use an empty string to clear the description.
 
-**RETURNS:**
-
-*void*
-
-This operation returns no value.
-
 **EXCEPTIONS:**
 
 - **MilvusClientException**

@@ -66,12 +66,6 @@ client.createUser(CreateUserReq.builder()
 
     An optional description of the user. Defaults to an empty string.
 
-**RETURNS:**
-
-*void*
-
-This operation returns no value.
-
 **EXCEPTIONS:**
 
 - **MilvusClientException**

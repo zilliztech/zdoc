@@ -49,23 +49,31 @@ MilvusClientV2Session session = client.session(String clusterId);
 
     **[REQUIRED]**
 
-    The ID of the cluster to bind the session to. The value cannot be null or empty. Operations invoked through the returned session route to this cluster.
+The ID of the cluster to bind the session to. The value cannot be null or empty. Operations invoked through the returned session route to this cluster.
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *MilvusClientV2Session*
 
+**RETURNS:**
+
 The returned session exposes cluster-scoped variants of vector operations such as `search()`, `hybridSearch()`, `query()`, `get()`, `queryIterator()`, `searchIterator()`, and their supported async forms. Call `close()` when the session should no longer be used.
+
+A **MilvusClientV2Session** object contains the following fields:
+
+**PARAMETERS:**
+
+- **clusterId** (*String*) -
+
+    The ID of the cluster the session is bound to. Read it with `getClusterId()`. Operations invoked through the session route to this cluster.
 
 **EXCEPTIONS:**
 
-- **MilvusClientException**
+- **MilvusClientException**<br/>
+  This exception will be raised if `clusterId` is null or empty.
 
-    This exception will be raised if `clusterId` is null or empty.
-
-- **MilvusClientException**
-
-    This exception will be raised when any session operation fails.
+- **MilvusClientException**<br/>
+  This exception will be raised when any session operation fails.
 
 ## Example\{#example}
 

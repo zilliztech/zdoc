@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "Adds a function definition to an existing collection. In Milvus 3.0, use `addFunctionField()` when the function output field and its index must be added together. | Java | v2"
+description: "This operation adds a function definition to an existing collection. In Milvus 3.0, use addFunctionField() when the function output field and its index must be added together. | Java | v2"
 type: docx
 token: Qbvcd9DG1ofMpuxVdEqcToU1nIb
 sidebar_position: 28
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # addCollectionFunction()
 
-Adds a function definition to an existing collection. In Milvus 3.0, use [`addFunctionField()`](./v2-Collections-addFunctionField) when the function output field and its index must be added together.
+This operation adds a function definition to an existing collection. In Milvus 3.0, use [addFunctionField()](./v2-Collections-addFunctionField) when the function output field and its index must be added together.
 
 ```java
 public void addCollectionFunction(AddCollectionFunctionReq request)
@@ -49,23 +49,14 @@ AddCollectionFunctionReq.builder()
 
 **BUILDER METHODS:**
 
-- `collectionName(String collectionName)`
+- `collectionName(String collectionName)`<br/>
+  The name of the target collection.
 
-    The name of the target collection.
+- `databaseName(String databaseName)`<br/>
+  The name of the database. Defaults to the current database when omitted.
 
-- `databaseName(String databaseName)`
-
-    The name of the database. Defaults to the current database when omitted.
-
-- `function(CreateCollectionReq.Function function)`
-
-    The function definition to add to existing collection fields.
-
-**RETURNS:**
-
-*void*
-
-This operation does not return a value.
+- `function(CreateCollectionReq.Function function)`<br/>
+  The function definition to add to existing collection fields.
 
 **EXCEPTIONS:**
 

@@ -37,11 +37,19 @@ This operation returns the telemetry manager for the connected client.
 public ClientTelemetryManager getTelemetry()
 ```
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *ClientTelemetryManager*
 
+**RETURNS:**
+
 The telemetry manager for the connected client, or `null` when telemetry is not available.
+
+**PARAMETERS:**
+
+- **telemetry** (*ClientTelemetryManager*) -
+
+    The **ClientTelemetryManager** instance for the connected client. Check telemetry support with `isSupported()`, register a server-pushed command handler with `registerCommandHandler()`, and read the active configuration with `getConfig()`.
 
 **EXCEPTIONS:**
 

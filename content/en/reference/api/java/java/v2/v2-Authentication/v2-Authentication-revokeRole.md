@@ -57,10 +57,6 @@ revokeRole(RevokeRoleReq.builder()
 
     The name of an existing user.
 
-**RETURNS:**
-
-*void*
-
 **EXCEPTIONS:**
 
 - **MilvusClientExceptions**

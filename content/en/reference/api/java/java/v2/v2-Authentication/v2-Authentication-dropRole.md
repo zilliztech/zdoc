@@ -56,10 +56,6 @@ dropRole(DropRoleReq.builder()
 
     Whether to drop the role forcibly even if it is still in use.
 
-**RETURNS:**
-
-*void*
-
 **EXCEPTIONS:**
 
 - **MilvusClientExceptions**

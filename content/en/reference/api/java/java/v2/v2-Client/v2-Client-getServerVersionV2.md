@@ -51,9 +51,35 @@ getServerVersionV2(GetServerVersionReq.builder()
 
     Whether to fetch detailed server build information. Defaults to `Boolean.FALSE`.
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *GetServerVersionResp*
+
+**RETURNS:**
+
+A **GetServerVersionResp** object that contains server version information. The response contains the following fields:
+
+**PARAMETERS:**
+
+- **version** (*String*) -
+
+    The version string of the connected server.
+
+- **buildTime** (*String*) -
+
+    The build time of the server. Returned when `detail(true)` is set.
+
+- **gitCommit** (*String*) -
+
+    The Git commit the server was built from. Returned when `detail(true)` is set.
+
+- **goVersion** (*String*) -
+
+    The Go version the server was built with. Returned when `detail(true)` is set.
+
+- **deployMode** (*String*) -
+
+    The deploy mode of the server. Returned when `detail(true)` is set.
 
 **EXCEPTIONS:**
 

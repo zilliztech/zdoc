@@ -65,81 +65,59 @@ client.addCollectionField(AddCollectionFieldReq.builder()
 
 **BUILDER METHODS:**
 
-- `collectionName(String collectionName)` -
+- `collectionName(String collectionName)` -<br/>
+  The name of the target collection.
 
-    The name of the target collection.
+- `databaseName(String databaseName)` -<br/>
+  The name of the database. Defaults to the current database if not specified.
 
-- `databaseName(String databaseName)` -
+- `fieldName(String fieldName)` -<br/>
+  The name of the field to add.
 
-    The name of the database. Defaults to the current database if not specified.
+- `description(String description)` -<br/>
+  A human-readable description for the field.
 
-- `fieldName(String fieldName)` -
+- `dataType(DataType dataType)` -<br/>
+  The data type of the field. Scalar, vector, array, JSON, and struct-related field types follow the same `DataType` values used when creating a collection.
 
-    The name of the field to add.
+- `maxLength(Integer maxLength)` -<br/>
+  The maximum number of characters for a `DataType.VarChar` field. This is required for VarChar fields unless the value is supplied through `typeParams`.
 
-- `description(String description)` -
+- `dimension(Integer dimension)` -<br/>
+  The vector dimension. This is required for fixed-dimension vector fields such as `DataType.FloatVector`.
 
-    A human-readable description for the field.
+- `elementType(DataType elementType)` -<br/>
+  The element type for an array field.
 
-- `dataType(DataType dataType)` -
+- `maxCapacity(Integer maxCapacity)` -<br/>
+  The maximum number of elements allowed in an array field.
 
-    The data type of the field. Scalar, vector, array, JSON, and struct-related field types follow the same `DataType` values used when creating a collection.
+- `isNullable(Boolean isNullable)` -<br/>
+  Whether the added field accepts `null` values. For v3.0.1 and later, vector fields added to an existing collection must set this to `true`; otherwise the SDK raises `MilvusClientException`.
 
-- `maxLength(Integer maxLength)` -
+- `defaultValue(Object defaultValue)` -<br/>
+  The default value for the added field. The runtime type must match `dataType`.
 
-    The maximum number of characters for a `DataType.VarChar` field. This is required for VarChar fields unless the value is supplied through `typeParams`.
+- `enableAnalyzer(Boolean enableAnalyzer)` -<br/>
+  Whether to enable text analysis for a `DataType.VarChar` field.
 
-- `dimension(Integer dimension)` -
+- `analyzerParams(Map<String, Object> analyzerParams)` -<br/>
+  Analyzer configuration for a VarChar field, such as tokenizer and filter settings.
 
-    The vector dimension. This is required for fixed-dimension vector fields such as `DataType.FloatVector`.
+- `enableMatch(Boolean enableMatch)` -<br/>
+  Whether to enable keyword matching for a VarChar field.
 
-- `elementType(DataType elementType)` -
+- `typeParams(Map<String, String> typeParams)` -<br/>
+  Additional field type parameters. Dedicated builder methods such as `dimension` or `maxLength` override corresponding entries in this map.
 
-    The element type for an array field.
+- `multiAnalyzerParams(Map<String, Object> multiAnalyzerParams)` -<br/>
+  Multi-language analyzer configuration for a text field.
 
-- `maxCapacity(Integer maxCapacity)` -
+- `structFields(List<CreateCollectionReq.FieldSchema> structFields)` -<br/>
+  Nested field schemas for a struct field.
 
-    The maximum number of elements allowed in an array field.
-
-- `isNullable(Boolean isNullable)` -
-
-    Whether the added field accepts `null` values. For v3.0.1 and later, vector fields added to an existing collection must set this to `true`; otherwise the SDK raises `MilvusClientException`.
-
-- `defaultValue(Object defaultValue)` -
-
-    The default value for the added field. The runtime type must match `dataType`.
-
-- `enableAnalyzer(Boolean enableAnalyzer)` -
-
-    Whether to enable text analysis for a `DataType.VarChar` field.
-
-- `analyzerParams(Map<String, Object> analyzerParams)` -
-
-    Analyzer configuration for a VarChar field, such as tokenizer and filter settings.
-
-- `enableMatch(Boolean enableMatch)` -
-
-    Whether to enable keyword matching for a VarChar field.
-
-- `typeParams(Map<String, String> typeParams)` -
-
-    Additional field type parameters. Dedicated builder methods such as `dimension` or `maxLength` override corresponding entries in this map.
-
-- `multiAnalyzerParams(Map<String, Object> multiAnalyzerParams)` -
-
-    Multi-language analyzer configuration for a text field.
-
-- `structFields(List<CreateCollectionReq.FieldSchema> structFields)` -
-
-    Nested field schemas for a struct field.
-
-- `externalField(String externalField)` -
-
-    The external source field that maps to this Milvus field when the collection is backed by an external source.
-
-**RETURNS:**
-
-*void*
+- `externalField(String externalField)` -<br/>
+  The external source field that maps to this Milvus field when the collection is backed by an external source.
 
 **EXCEPTIONS:**
 

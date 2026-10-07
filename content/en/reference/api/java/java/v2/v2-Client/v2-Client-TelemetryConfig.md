@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "A `TelemetryConfig` holds the client telemetry configuration used to report metrics, heartbeats, and server-pushed commands. | Java | v2"
+description: "A TelemetryConfig instance holds the client telemetry configuration used to report metrics, heartbeats, and server-pushed commands. | Java | v2"
 type: docx
 token: C5PrdABXTokjv0xcpb9cZQd5nSb
 sidebar_position: 10
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # TelemetryConfig
 
-A `TelemetryConfig` holds the client telemetry configuration used to report metrics, heartbeats, and server-pushed commands.
+A TelemetryConfig instance holds the client telemetry configuration used to report metrics, heartbeats, and server-pushed commands.
 
 ```java
 io.milvus.telemetry.TelemetryConfig
@@ -53,51 +53,67 @@ TelemetryConfig.builder()
 
 **BUILDER METHODS:**
 
-- `enabled(boolean enabled)`
+- `enabled(boolean enabled)`<br/>
+  Whether telemetry reporting is enabled. Defaults to `true`.
 
-    Whether telemetry reporting is enabled. Defaults to `true`.
+- `heartbeatIntervalMs(long heartbeatIntervalMs)`<br/>
+  Milliseconds between heartbeats, which is also the metrics window. Each heartbeat carries the operations since the last one. Defaults to `10000`.
 
-- `heartbeatIntervalMs(long heartbeatIntervalMs)`
+- `samplingRate(double samplingRate)`<br/>
+  Sampling rate of recorded operations (0.0 to 1.0). Defaults to `1.0`.
 
-    Milliseconds between heartbeats, which is also the metrics window. Each heartbeat carries the operations since the last one. Defaults to `10000`.
+- `errorMaxCount(int errorMaxCount)`<br/>
+  The maximum number of recorded errors retained. Defaults to `100`.
 
-- `samplingRate(double samplingRate)`
-
-    Sampling rate of recorded operations (0.0 to 1.0). Defaults to `1.0`.
-
-- `errorMaxCount(int errorMaxCount)`
-
-    The maximum number of recorded errors retained. Defaults to `100`.
-
-- `clientId(String clientId)`
-
-    An optional stable identity. A random UUID is used when empty.
+- `clientId(String clientId)`<br/>
+  An optional stable identity. A random UUID is used when empty.
 
 **RETURN TYPE:**
 
 *TelemetryConfig*
 
+**RETURNS:**
+
+A **TelemetryConfig** object contains the following fields:
+
+**PARAMETERS:**
+
+- **enabled** (*boolean*) -
+
+    Whether telemetry reporting is enabled. Defaults to `true`.
+
+- **heartbeatIntervalMs** (*long*) -
+
+    Milliseconds between heartbeats, which is also the metrics window. Defaults to `10000`.
+
+- **samplingRate** (*double*) -
+
+    Sampling rate of recorded operations (0.0 to 1.0). Defaults to `1.0`.
+
+- **errorMaxCount** (*int*) -
+
+    The maximum number of recorded errors retained. Defaults to `100`.
+
+- **clientId** (*String*) -
+
+    An optional stable client identity. A random UUID is used when empty.
+
 **METHODS:**
 
-- `boolean isEnabled()`
+- `boolean isEnabled()`<br/>
+  Returns whether telemetry reporting is enabled.
 
-    Returns whether telemetry reporting is enabled.
+- `long getHeartbeatIntervalMs()`<br/>
+  Returns the heartbeat interval in milliseconds.
 
-- `long getHeartbeatIntervalMs()`
+- `double getSamplingRate()`<br/>
+  Returns the sampling rate of recorded operations.
 
-    Returns the heartbeat interval in milliseconds.
+- `int getErrorMaxCount()`<br/>
+  Returns the maximum number of recorded errors retained.
 
-- `double getSamplingRate()`
-
-    Returns the sampling rate of recorded operations.
-
-- `int getErrorMaxCount()`
-
-    Returns the maximum number of recorded errors retained.
-
-- `String getClientId()`
-
-    Returns the stable client identity.
+- `String getClientId()`<br/>
+  Returns the stable client identity.
 
 ## Example\{#example}
 

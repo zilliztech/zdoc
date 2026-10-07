@@ -37,11 +37,19 @@ This operation checks whether the client connection to the server is ready.
 public boolean clientIsReady()
 ```
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *boolean*
 
+**RETURNS:**
+
 Returns **true** if the client is connected and ready, **false** otherwise.
+
+**PARAMETERS:**
+
+- **ready** (*boolean*) -
+
+    Whether the client connection is ready: **true** when the underlying channel is open and usable, **false** otherwise.
 
 ## Example\{#example}
 

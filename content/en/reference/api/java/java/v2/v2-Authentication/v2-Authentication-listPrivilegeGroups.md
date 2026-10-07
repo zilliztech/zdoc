@@ -53,6 +53,8 @@ listPrivilegeGroups(ListPrivilegeGroupsReq.builder()
 
 A **ListPrivilegeGroupsResp** object contains the following fields:
 
+**PARAMETERS:**
+
 - **privilegeGroups** (*List&lt;PrivilegeGroup&gt;*) -
 
     A list of privilege groups, each of which is a **PrivilegeGroup** object.

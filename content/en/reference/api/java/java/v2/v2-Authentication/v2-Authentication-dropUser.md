@@ -52,10 +52,6 @@ dropUser(DropUserReq.builder()
 
     The name of the user to drop.
 
-**RETURNS:**
-
-*void*
-
 **EXCEPTIONS:**
 
 - **MilvusClientExceptions**

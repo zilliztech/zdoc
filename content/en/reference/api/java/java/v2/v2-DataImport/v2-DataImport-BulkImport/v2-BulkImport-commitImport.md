@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "Commits a prepared bulk-import job. | Java | v2"
+description: "This operation commits a prepared bulk-import job. | Java | v2"
 type: docx
 token: DFyndL57goJMr0xAcMEcVq5Lnhh
 sidebar_position: 6
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # commitImport()
 
-Commits a prepared bulk-import job.
+This operation commits a prepared bulk-import job.
 
 ```java
 public static String commitImport(String url, BaseDescribeImportRequest request)
@@ -75,11 +75,19 @@ Uses `CloudDescribeImportRequest` for Zilliz Cloud. Set `clusterId`, or set both
 
     The import job identifier to commit.
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *String*
 
+**RETURNS:**
+
 The JSON response body returned by the import endpoint.
+
+**PARAMETERS:**
+
+- **response** (*String*) -
+
+    The JSON response body of the commit-import call.
 
 **EXCEPTIONS:**
 

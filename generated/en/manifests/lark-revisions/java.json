@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "group": "java",
   "complete": true,
-  "generatedAt": "2026-10-07T02:56:35.100Z",
-  "sourceRunId": "37562625738",
+  "generatedAt": "2026-10-07T10:42:13.834Z",
+  "sourceRunId": "37606621003",
   "records": [
     {
       "canonicalToken": "A2Vpd1kXsoF5uexKYb8ckcGMnWe",
@@ -215,7 +215,7 @@
     {
       "canonicalToken": "CPCydbcK5oiXF4xm20ycwXu5nSh",
       "title": "dropPrivilegeGroup()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-dropPrivilegeGroup.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -980,7 +980,7 @@
     {
       "canonicalToken": "LcitdP8NuoIahexCUMQcOgg2nYg",
       "title": "grantPrivilege()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-grantPrivilege.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1304,7 +1304,7 @@
     {
       "canonicalToken": "PsIEd5UbFoIHIzxkXyCcgKwXnoe",
       "title": "removePrivilegesFromGroup()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-removePrivilegesFromGroup.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1538,7 +1538,7 @@
     {
       "canonicalToken": "SOiMdD68wohoLqxFmltc6vwDnTf",
       "title": "revokePrivilege()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-revokePrivilege.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,

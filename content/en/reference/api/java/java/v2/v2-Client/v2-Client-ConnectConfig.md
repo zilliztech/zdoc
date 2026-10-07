@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "A ConnectConfig builder holds the connection configuration used when creating a `MilvusClientV2` instance. Use the builder pattern to configure all connection parameters, including authentication, TLS, timeouts, and keepalive settings. | Java | v2"
+description: "A ConnectConfig instance holds the connection configuration used when creating a `MilvusClientV2`. Use the builder pattern to configure all connection parameters, including authentication, TLS, timeouts, and keepalive settings. | Java | v2"
 type: docx
 token: ErNidktYPodbDxxow0xcV5qHnof
 sidebar_position: 5
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # ConnectConfig
 
-A ConnectConfig builder holds the connection configuration used when creating a `MilvusClientV2` instance. Use the builder pattern to configure all connection parameters, including authentication, TLS, timeouts, and keepalive settings.
+A ConnectConfig instance holds the connection configuration used when creating a `MilvusClientV2`. Use the builder pattern to configure all connection parameters, including authentication, TLS, timeouts, and keepalive settings.
 
 ```java
 ConnectConfig.builder()
