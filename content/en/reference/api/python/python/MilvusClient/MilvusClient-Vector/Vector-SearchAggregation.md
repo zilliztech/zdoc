@@ -10,7 +10,7 @@ notebook: false
 description: "A SearchAggregation instance defines one level of bucket aggregation for a vector search. | Python | MilvusClient"
 type: docx
 token: Ccr8dU36Lo7Wz9xhDozcrtGenAd
-sidebar_position: 13
+sidebar_position: 14
 keywords: 
   - ANNS
   - Vector search

@@ -4,7 +4,7 @@ slug: /python/python/Vector-search_iterator
 sidebar_label: "search_iterator()"
 beta: false
 added_since: v2.5.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation conducts a vector similarity search with an optional scalar filtering expression in an iterative manner. | Python | MilvusClient"
@@ -55,6 +55,8 @@ search_iterator(
     partition_names: Optional[List[str]] = None,
     anns_field: Optional[str] = None,
     round_decimal: int = -1
+    *,
+    external_filter_func: Optional[Callable[[Hits], Union[Hits, List[Hit]]]] = None,
     **kwargs,
 ) -> List[List[dict]]
 ```
@@ -151,11 +153,19 @@ search_iterator(
 
 - **kwargs** -
 
+    Additional arguments to pass to the search operation.
+
     - **round_decimal** (int) -
 
         The number of decimal places that Zilliz Cloud rounds the calculated distances to.
 
         The value defaults to **-1**, indicating that Zilliz Cloud skips rounding the calculated distances and returns the raw value.
+
+- **external_filter_func** (*Callable[[Hits], Hits | List[Hit]] | None*) -
+
+    A client-side callback that filters each page of search hits. The callback receives a Hits object and returns Hits or a list of Hit objects.
+
+    This argument is keyword-only and is supported by Search Iterator V2.
 
 **RETURN TYPE:**
 

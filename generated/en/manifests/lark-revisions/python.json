@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "group": "python",
   "complete": true,
-  "generatedAt": "2026-10-07T10:47:52.789Z",
-  "sourceRunId": "37606621003",
+  "generatedAt": "2026-10-07T18:57:24.637Z",
+  "sourceRunId": "37666619868",
   "records": [
     {
       "canonicalToken": "A96udk9seoF5x5xywQZcLasanIe",
@@ -485,7 +485,7 @@
     {
       "canonicalToken": "DvaZdhYnyoo7lOxNIBwc5eKEn7d",
       "title": "search()",
-      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-search.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,

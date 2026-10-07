@@ -10,7 +10,7 @@ notebook: false
 description: "A TopHits instance configures the representative entities returned from each SearchAggregation bucket. | Python | MilvusClient"
 type: docx
 token: PszSdqvtRo4t96xrW0ycWlVAnfc
-sidebar_position: 14
+sidebar_position: 15
 keywords: 
   - milvus open source
   - how does milvus work

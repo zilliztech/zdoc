@@ -8,7 +8,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-10-07T10:47:52.442Z",
+  "generated_at": "2026-10-07T18:57:24.306Z",
   "source_dir": "./packages/docs-tooling/src/lark/meta/sources/python/v3.0.x",
   "base_app_token": "Hk05b5eI6aXXSSsd6j9cqwwMn5a",
   "records": [
@@ -4781,28 +4781,27 @@
       "doc_token": "DvaZdhYnyoo7lOxNIBwc5eKEn7d",
       "doc_link": "https://zilliverse.feishu.cn/docx/DvaZdhYnyoo7lOxNIBwc5eKEn7d",
       "source_file": "DvaZdhYnyoo7lOxNIBwc5eKEn7d.json",
-      "source_hash": "2a01f3dbfad5daad163afbd72d33a38a105555baac48450b4430ac83d26a242f",
+      "source_hash": "6204ac51d660a8f668d5c1582c7feefa9464b73889ae2f447b225053cacf29a2",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": "135",
+      "revision_id": "166",
       "publish_targets": [
         "Milvus",
         "Zilliz"
       ],
-      "publish_status": "Draft",
+      "publish_status": "WIP",
       "release_channel": "current",
       "outgoing_tokens": [
         "GaCYdVohYoHFhrx897zcmcNfn6e",
         "PfJNdkuMDoCqqcxm6S2cDD6TnFh",
+        "Qp9tdzovXo3xCvxPlszcLGcInPh",
         "SojTdgw1joOuA8xMzb5cMUFYnce"
       ],
-      "output_paths": [
-        "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-search.md"
-      ]
+      "output_paths": []
     },
     {
       "record_id": "recvhRkU0BiQSi",
@@ -4843,14 +4842,14 @@
       "doc_token": "Z8WId53zDonHYuxckCDccOEcnjb",
       "doc_link": "https://zilliverse.feishu.cn/docx/Z8WId53zDonHYuxckCDccOEcnjb",
       "source_file": "Z8WId53zDonHYuxckCDccOEcnjb.json",
-      "source_hash": "886d663092054da6f4913708554dcdb96a0958f08296e728e54b673498c2ae29",
+      "source_hash": "8b3e6475a42a416986890ea1b0de840b06687ce6562581e582fde2b8504dd169",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": "1",
+      "revision_id": "34",
       "publish_targets": [
         "Milvus",
         "Zilliz"
