@@ -4,10 +4,10 @@ slug: /python/python/Vector-SearchAggregation
 sidebar_label: "SearchAggregation"
 beta: PUBLIC
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "A `SearchAggregation` instance defines one level of bucket aggregation for a vector search. It controls the bucket key, bucket limit, per-bucket metrics, bucket ordering, representative hits, and an optional nested aggregation. | Python | MilvusClient"
+description: "A SearchAggregation instance defines one level of bucket aggregation for a vector search. | Python | MilvusClient"
 type: docx
 token: Ccr8dU36Lo7Wz9xhDozcrtGenAd
 sidebar_position: 13
@@ -31,42 +31,42 @@ import Admonition from '@theme/Admonition';
 
 # SearchAggregation
 
-A `SearchAggregation` instance defines one level of bucket aggregation for a vector search. It controls the bucket key, bucket limit, per-bucket metrics, bucket ordering, representative hits, and an optional nested aggregation.
+A SearchAggregation instance defines one level of bucket aggregation for a vector search.
+
+## Request Syntax\{#request-syntax}
 
 ```python
-class pymilvus.SearchAggregation
-```
-
-## Constructor\{#constructor}
-
-```python
-SearchAggregation(
-    fields: list[str],
+__init__(
+    fields: List[str],
     size: int,
-    metrics: dict[str, dict[str, str]] | None = None,
-    order: list[dict[str, str]] | None = None,
-    top_hits: TopHits | None = None,
-    sub_aggregation: SearchAggregation | None = None,
+    metrics: Optional[Dict[str, Dict[str, str]]] = None,
+    order: Optional[List[Dict[str, str]]] = None,
+    top_hits: Optional[TopHits] = None,
+    sub_aggregation: Optional[SearchAggregation] = None
 )
 ```
 
 **PARAMETERS:**
 
-- **fields** (*list[str]*) **[REQUIRED]** -
+- **fields** (*list[str]*) -
+
+    **[REQUIRED]**
 
     A non-empty list of scalar field names that form the bucket key. Multiple fields form a composite key in list order. JSON paths such as `meta["region"]` are not accepted.
 
-- **size** (*int*) **[REQUIRED]** -
+- **size** (*int*) -
+
+    **[REQUIRED]**
 
     The maximum number of buckets returned at this aggregation level. The value must be a positive integer.
 
 - **metrics** (*dict[str, dict[str, str]] | None*) -
 
-    Per-bucket metric definitions. Each key is a metric alias and each value is a single-key dictionary in the form `{operation: field}`. Supported operations are `count`, `sum`, `avg`, `min`, and `max`. Only `count` accepts `"*"`; the other operations require a field name or `_score`.
+    The per-bucket metric definitions. Each key is a metric alias and each value is a single-key dictionary in the form \{operation: field}. Supported operations are count, sum, avg, min, and max.
 
 - **order** (*list[dict[str, str]] | None*) -
 
-    Bucket ordering rules evaluated in list order. Each item must contain one metric alias, `_count`, or `_key`, mapped to `"asc"` or `"desc"`.
+    The bucket ordering rules, evaluated in list order. Each item must contain one metric alias, _count, or _key, mapped to "asc" or "desc".
 
 - **top_hits** (*TopHits | None*) -
 
@@ -74,36 +74,29 @@ SearchAggregation(
 
 - **sub_aggregation** (*SearchAggregation | None*) -
 
-    Defines a nested bucket level under each bucket at the current level.
-
-**RETURN TYPE:**
-
-*SearchAggregation*
+    The nested bucket level under each bucket at the current level.
 
 **EXCEPTIONS:**
 
-- **ParamError** - Raised for empty or invalid fields, a non-positive size, unsupported metric definitions, invalid ordering keys or directions, or objects of the wrong type.
+- **MilvusException**
 
-## Example\{#example}
+    Raised when the server rejects the request or the RPC fails. Inspect the server error message for the exact failure reason.
+
+## Examples\{#examples}
 
 ```python
-from pymilvus import SearchAggregation, TopHits
+from pymilvus import MilvusClient, SearchAggregation, TopHits
 
-aggregation = SearchAggregation(
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+agg = SearchAggregation(
     fields=["category"],
-    size=5,
-    metrics={
-        "product_count": {"count": "*"},
-        "avg_price": {"avg": "price"},
-    },
-    order=[{"product_count": "desc"}, {"_key": "asc"}],
-    sub_aggregation=SearchAggregation(
-        fields=["brand"],
-        size=3,
-        top_hits=TopHits(
-            size=2,
-            sort=[{"rating": "desc"}, {"_score": "desc"}],
-        ),
-    ),
+    size=10,
+    top_hits=TopHits(size=3),
+)
+results = client.search(
+    collection_name="docs",
+    data=[[0.1, 0.2]],
+    limit=100,
+    search_aggregation=agg,
 )
 ```

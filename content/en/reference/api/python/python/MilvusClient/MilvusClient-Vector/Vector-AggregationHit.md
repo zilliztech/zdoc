@@ -4,10 +4,10 @@ slug: /python/python/Vector-AggregationHit
 sidebar_label: "AggregationHit"
 beta: PUBLIC
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "`AggregationHit` represents one entity returned as a representative hit inside an `AggregationBucket`. PyMilvus creates these objects from the server response; applications do not construct them directly. | Python | MilvusClient"
+description: "A Hit instance is one document inside an aggregation bucket, carrying its primary key, similarity score, and output fields. | Python | MilvusClient"
 type: docx
 token: SSsbdMWqsoapZ8xQSRtcOXdInAh
 sidebar_position: 12
@@ -31,40 +31,33 @@ import Admonition from '@theme/Admonition';
 
 # AggregationHit
 
-`AggregationHit` represents one entity returned as a representative hit inside an `AggregationBucket`. PyMilvus creates these objects from the server response; applications do not construct them directly.
+A Hit instance is one document inside an aggregation bucket, carrying its primary key, similarity score, and output fields.
+
+**METHODS:**
+
+- `pk`
+
+    The primary key of this document, as an int or a string depending on the primary field type of the collection.
+
+- `score`
+
+    The similarity score of this document within its bucket.
+
+- `fields`
+
+    The output field values of this document, keyed by field_name and filled by the server.
+
+- `field_ids()`
+
+    The numeric identity view of this hit as a map of field_name to field_id for the fields present.
+
+## Examples\{#examples}
 
 ```python
-class pymilvus.AggregationHit
-```
-
-## Properties and methods\{#properties-and-methods}
-
-- **pk** (*int | str | None*) -
-
-    The entity primary key.
-
-- **score** (*float*) -
-
-    The vector similarity score or distance returned for the entity.
-
-- **fields** (*dict[str, Any]*) -
-
-    The requested output fields keyed by field name.
-
-- **field_ids()** (*dict[str, int]*) -
-
-    Returns a mapping from each returned field name to its numeric schema field ID.
-
-The `fields` and `field_ids()` mappings are copies. Changing them does not mutate the hit object.
-
-## Example\{#example}
-
-```python
-bucket = result.agg_buckets[0][0]
-
-for hit in bucket.hits:
-    print(hit.pk)
-    print(hit.score)
-    print(hit.fields)
-    print(hit.field_ids())
+for hit in bucket["hits"]:
+    print(
+        hit["pk"],
+        hit["score"],
+        hit["fields"],
+    )
 ```

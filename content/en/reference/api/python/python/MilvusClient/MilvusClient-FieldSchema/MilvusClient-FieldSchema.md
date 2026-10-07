@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "Defines a field's name, data type, description, and additional schema options. | Python | MilvusClient"
+description: "A FieldSchema instance defines one field of a collection schema. | Python | MilvusClient"
 type: docx
 token: OD8mdC5aXo0XHbxSthRczioXnaf
 sidebar_position: 1
@@ -31,59 +31,52 @@ import Admonition from '@theme/Admonition';
 
 # FieldSchema
 
-Defines a field's name, data type, description, and additional schema options.
+A FieldSchema instance defines one field of a collection schema.
 
 ## Request Syntax\{#request-syntax}
 
 ```python
-FieldSchema(
-    name: str,
-    dtype: DataType,
-    description: str = "",
-    **kwargs
+__init__(
+    raw: Any
 )
 ```
 
 **PARAMETERS:**
 
-- **name** (*str*) -<br/>
-  **[REQUIRED]**<br/>
-  Name of the field.
+- **name** (*str*) -
 
-- **dtype** ([DataType](./Collections-DataType)) -<br/>
-  **[REQUIRED]**<br/>
-  Data type of the field.
+    **[REQUIRED]**
 
-- **description** (*str*) -<br/>
-  Default: `""`<br/>
-  Description of the field.
+    The name of the field.
 
-- **kwargs** (*Any*) -<br/>
-  Additional field options.
+- **dtype** (*[DataType](./Collections-DataType)*) -
 
-**RETURN TYPE:**
+    **[REQUIRED]**
 
-*FieldSchema*
+    The data type of the field.
 
-**RETURNS:**
+- **description** (*str*) -
 
-Field schema instance containing the configured data type, constraints, default, and nullable metadata.
+    The description of the field.
+
+- **kwargs** (*Any*) -
+
+    Additional field options.
 
 **EXCEPTIONS:**
 
-- **MilvusException**<br/>
-  Raised when supplied field options are invalid. Inspect the exception message for the invalid data type or field constraint.
+- **MilvusException**
+
+    Raised when the server rejects the request or the RPC fails. Inspect the server error message for the exact failure reason.
 
 ## Examples\{#examples}
 
-Creates field definitions for a collection schema.
-
 ```python
-from pymilvus import CollectionSchema, DataType, FieldSchema
+from pymilvus import FieldSchema, DataType
 
-schema = CollectionSchema(fields=[
-    FieldSchema(name="id", dtype=DataType.INT64, is_primary=True),
-    FieldSchema(name="vector", dtype=DataType.FLOAT_VECTOR, dim=3),
-])
-print(schema)
+field = FieldSchema(
+    name="vector",
+    dtype=DataType.FLOAT_VECTOR,
+    dim=128,
+)
 ```

@@ -57,7 +57,7 @@ add_collection_struct_field(
 
     The name of the struct field to add.
 
-- **struct_schema** ([StructFieldSchema](./MilvusClient-StructFieldSchema)) -
+- **struct_schema** (StructFieldSchema) -
 
     The schema of the struct field, defining its element fields.
 

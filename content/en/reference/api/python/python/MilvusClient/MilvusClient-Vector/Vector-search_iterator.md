@@ -9,7 +9,7 @@ deprecate_since: false
 notebook: false
 description: "This operation conducts a vector similarity search with an optional scalar filtering expression in an iterative manner. | Python | MilvusClient"
 type: docx
-token: T9KhdDJQColJEuxZ7YOcV2zdnlb
+token: Z8WId53zDonHYuxckCDccOEcnjb
 sidebar_position: 7
 keywords: 
   - how do vector databases work

@@ -4,12 +4,12 @@ slug: /python/python/MilvusClient-StructFieldSchema
 sidebar_label: "StructFieldSchema"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "A StructFieldSchema instance describes a struct-typed field that contains one or more child fields. | Python | MilvusClient"
+description: "A StructFieldSchema instance defines a struct (array-of-structs) field. | Python | MilvusClient"
 type: docx
-token: ZnKKd2PsyoRc1MxtC1BcJQjgnBh
+token: R4vxd8dReoaZ85xZ23qctjfLnDh
 sidebar_position: 3
 keywords: 
   - Elastic vector database
@@ -31,53 +31,46 @@ import Admonition from '@theme/Admonition';
 
 # StructFieldSchema
 
-A **StructFieldSchema** instance describes a struct-typed field that contains one or more child fields.
+A StructFieldSchema instance defines a struct (array-of-structs) field.
 
 ## Request Syntax\{#request-syntax}
 
 ```python
-StructFieldSchema(
+__init__(
     nullable: bool = False,
-    description: str = "",
+    description: str = ""
 )
 ```
 
 **PARAMETERS:**
 
-- **nullable** (*bool*) -<br/>
-  Default: `False`<br/>
-  The flag that allows the struct field to contain null values.
+- **nullable** (*bool*) -
 
-- **description** (*str*) -<br/>
-  Default: `""`<br/>
-  The description of the struct field.
+    The flag that allows the struct field to contain null values.
 
-**RETURN TYPE:**
+- **description** (*str*) -
 
-*StructFieldSchema*
-
-**RETURNS:**
-
-Struct field schema instance containing nested fields and nullable/default metadata.
+    The description of the struct field.
 
 **EXCEPTIONS:**
 
-- **MilvusException**<br/>
-  Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details.
+- **MilvusException**
+
+    Raised when the server rejects the request or the RPC fails. Inspect the server error message for the exact failure reason.
 
 ## Examples\{#examples}
 
-Demonstrates StructFieldSchema usage.
-
 ```python
-from pymilvus import CollectionSchema, DataType, FieldSchema, StructFieldSchema
+from pymilvus import StructFieldSchema, FieldSchema, DataType
 
-chunk = StructFieldSchema(nullable=True, description="Optional chunk metadata")
-chunk.add_field("source", DataType.VARCHAR, max_length=128)
-
-schema = CollectionSchema(fields=[
-    FieldSchema(name="id", dtype=DataType.INT64, is_primary=True),
-    FieldSchema(name="vector", dtype=DataType.FLOAT_VECTOR, dim=3),
-])
-print(schema)
+author = StructFieldSchema(
+    fields=[
+        FieldSchema(
+            name="name",
+            dtype=DataType.VARCHAR,
+            max_length=256,
+        ),
+    ],
+)
+author.nullable = True
 ```

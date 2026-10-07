@@ -659,6 +659,18 @@ module.exports = [
             "id": "api/python/python/MilvusClient/MilvusClient-Management/Management-optimize",
             "label": "optimize()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Management/management-optimize"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Management/Management-list_compaction_tasks",
+            "label": "list_compaction_tasks()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Management/management-listcompactiontasks"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Management/Management-list_segments",
+            "label": "list_segments()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Management/management-listsegments"
           }
         ]
       },

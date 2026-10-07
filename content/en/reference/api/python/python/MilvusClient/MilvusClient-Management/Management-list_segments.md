@@ -1,25 +1,25 @@
 ---
-title: "list_persistent_segments() | Python | MilvusClient"
-slug: /python/python/Management-list_persistent_segments
-sidebar_label: "list_persistent_segments()"
+title: "list_segments() | Python | MilvusClient"
+slug: /python/python/Management-list_segments
+sidebar_label: "list_segments()"
 beta: false
-added_since: v2.6.x
-last_modified: v3.0.x
+added_since: v3.0.x
+last_modified: false
 deprecate_since: false
 notebook: false
-description: "This operation lists all persistent (flushed) segments for a collection, including information about row count, sort status, and storage level. | Python | MilvusClient"
+description: "This operation lists a collection's segments still retained in the requested lifecycle states. | Python | MilvusClient"
 type: docx
-token: EvBwdrnRHoExdlxVKcLcZyeQnHg
-sidebar_position: 25
+token: XQaYdrunfo03uZxNvv9csRTGnYc
+sidebar_position: 28
 keywords: 
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
   - zilliz
   - zilliz cloud
   - cloud
-  - list_persistent_segments()
+  - list_segments()
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
@@ -29,23 +29,17 @@ displayed_sidbar: pythonSidebar
 import Admonition from '@theme/Admonition';
 
 
-# list_persistent_segments()
+# list_segments()
 
-This operation lists all persistent (flushed) segments for a collection, including information about row count, sort status, and storage level.
-
-<Admonition type="info" title="Notes">
-
-This only applies to managed collections.
-
-</Admonition>
+This operation lists a collection's segments still retained in the requested lifecycle states.
 
 ## Request Syntax\{#request-syntax}
 
 ```python
-list_persistent_segments(
+list_segments(
     collection_name: str,
-    timeout: Optional[float] = None,
     states: Optional[Sequence[SegmentState]] = None,
+    timeout: Optional[float] = None,
     **kwargs
 ) -> List[SegmentInfo]
 ```
@@ -54,13 +48,19 @@ list_persistent_segments(
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    The name of the target collection.
 
-    The name of the collection.
+- **states** (*Sequence[SegmentState] | None*) -
+
+    Default: `None`
+
+    The lifecycle states to filter by, such as a list containing SegmentState.Sealed. All retained states are returned when omitted.
 
 - **timeout** (*float | None*) -
 
-    The timeout duration for this operation. Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.
+    Default: `None`
+
+    The timeout in seconds for this operation.
 
 **RETURN TYPE:**
 
@@ -68,7 +68,7 @@ list_persistent_segments(
 
 **RETURNS:**
 
-A list of persistent segment information objects. Each SegmentInfo object carries the members listed below.
+A list of SegmentInfo objects describing the retained segments, including each segment's identifier and lifecycle state.
 
 **PARAMETERS:**
 
@@ -128,8 +128,13 @@ A list of persistent segment information objects. Each SegmentInfo object carrie
 from pymilvus import MilvusClient, SegmentState
 
 client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
-segments = client.list_persistent_segments(
+segments = client.list_segments(
     collection_name="docs",
     states=[SegmentState.Sealed],
 )
+for s in segments:
+    print(
+        s.segment_id,
+        s.state,
+    )
 ```

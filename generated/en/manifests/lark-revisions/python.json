@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "group": "python",
   "complete": true,
-  "generatedAt": "2026-10-07T03:02:08.725Z",
-  "sourceRunId": "37562625738",
+  "generatedAt": "2026-10-07T10:47:52.789Z",
+  "sourceRunId": "37606621003",
   "records": [
     {
       "canonicalToken": "A96udk9seoF5x5xywQZcLasanIe",
@@ -618,6 +618,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "EvBwdrnRHoExdlxVKcLcZyeQnHg",
+      "title": "list_persistent_segments()",
+      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-list_persistent_segments.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "F1MFdP8VvoMu17x4Vg9cH6ztnqb",
       "title": "append_row()",
       "contentPath": "content/en/reference/api/python/python/DataImport/DataImport-RemoteBulkWriter/RemoteBulkWriter-append_row.md",
@@ -765,6 +774,15 @@
       "canonicalToken": "G31wdmzVFo687JxZTAGctQlKnir",
       "title": "get_flush_all_state()",
       "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-get_flush_all_state.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "G3gAdImCAoH7wCxiur7co8JTnz8",
+      "title": "list_compaction_tasks()",
+      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-list_compaction_tasks.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -2193,15 +2211,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "QsGNdp1t3oHaunxgIZGc3PdSnof",
-      "title": "list_persistent_segments()",
-      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-list_persistent_segments.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "QsOsda2lRoJP32xNSLWcbgMOnKI",
       "title": "has_partition()",
       "contentPath": "content/en/reference/api/python/python/ORM/ORM-Collection/Collection-has_partition.md",
@@ -2223,6 +2232,15 @@
       "canonicalToken": "R3gEdUOSfo6JzMxwUsTcevNHn9g",
       "title": "\\_\\_call\\_\\_()",
       "contentPath": "content/en/reference/api/python/python/Rerankers/Rerankers-JinaRerankFunction/JinaRerankFunction-__call__.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "R4vxd8dReoaZ85xZ23qctjfLnDh",
+      "title": "StructFieldSchema",
+      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-StructFieldSchema/MilvusClient-StructFieldSchema.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -2529,15 +2547,6 @@
       "canonicalToken": "T2lWd4LMOoAkUCxa8wjcJVoinrf",
       "title": "truncate_collection()",
       "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "T9KhdDJQColJEuxZ7YOcV2zdnlb",
-      "title": "search_iterator()",
-      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-search_iterator.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -3138,6 +3147,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "XQaYdrunfo03uZxNvv9csRTGnYc",
+      "title": "list_segments()",
+      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-list_segments.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "XW72dhBuNoqNWhxUQLtcfa6Fnwd",
       "title": "search()",
       "contentPath": "content/en/reference/api/python/python/ORM/ORM-Partition/Partition-search.md",
@@ -3309,6 +3327,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "Z8WId53zDonHYuxckCDccOEcnjb",
+      "title": "search_iterator()",
+      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-search_iterator.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "ZMs1dJJOGobyBjxRo7icXtE8nPe",
       "title": "encode_documents()",
       "contentPath": "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-JinaEmbeddingFunction/JinaEmbeddingFunction-encode_documents.md",
@@ -3366,15 +3393,6 @@
       "canonicalToken": "ZkWBdbMZkoBjT1xe4qDcTBOHnGx",
       "title": "encode_queries()",
       "contentPath": "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-OnnxEmbeddingFunction/OnnxEmbeddingFunction-encode_queries.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "ZnKKd2PsyoRc1MxtC1BcJQjgnBh",
-      "title": "StructFieldSchema",
-      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-StructFieldSchema/MilvusClient-StructFieldSchema.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
