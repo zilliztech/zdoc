@@ -195,7 +195,32 @@ module.exports = [
     "type": "category",
     "label": "CDC",
     "key": "category:api/go/go/v2/v2-cdc",
-    "items": []
+    "items": [
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-CDC/v2-CDC-CreateReplicateStream",
+        "label": "CreateReplicateStream",
+        "key": "doc:api/go/go/v2/v2-CDC/v2-cdc-createreplicatestream"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-CDC/v2-CDC-DumpMessages",
+        "label": "DumpMessages",
+        "key": "doc:api/go/go/v2/v2-CDC/v2-cdc-dumpmessages"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-CDC/v2-CDC-GetReplicateConfiguration",
+        "label": "GetReplicateConfiguration",
+        "key": "doc:api/go/go/v2/v2-CDC/v2-cdc-getreplicateconfiguration"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-CDC/v2-CDC-GetReplicateInfo",
+        "label": "GetReplicateInfo",
+        "key": "doc:api/go/go/v2/v2-CDC/v2-cdc-getreplicateinfo"
+      }
+    ]
   },
   {
     "type": "category",
@@ -211,20 +236,14 @@ module.exports = [
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Client/v2-Client-Close",
-        "label": "Close()",
+        "label": "Close",
         "key": "doc:api/go/go/v2/v2-Client/v2-client-close"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Client/v2-Client-GetServerVersion",
-        "label": "GetServerVersion()",
+        "label": "GetServerVersion",
         "key": "doc:api/go/go/v2/v2-Client/v2-client-getserverversion"
-      },
-      {
-        "type": "doc",
-        "id": "api/go/go/v2/v2-Client/v2-Client-New",
-        "label": "New()",
-        "key": "doc:api/go/go/v2/v2-Client/v2-client-new"
       },
       {
         "type": "doc",

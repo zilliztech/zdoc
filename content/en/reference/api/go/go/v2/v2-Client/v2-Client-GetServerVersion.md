@@ -1,25 +1,25 @@
 ---
-title: "GetServerVersion() | Go | v2"
+title: "GetServerVersion | Go | v2"
 slug: /go/go/v2-Client-GetServerVersion
-sidebar_label: "GetServerVersion()"
+sidebar_label: "GetServerVersion"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "This operation returns the version of the connected Zilliz Cloud cluster. | Go | v2"
+description: "This operation returns the version of the connected Milvus server. | Go | v2"
 type: docx
-token: TUYsd2ko4oAlB4xa9nxc6rhRnpc
+token: ZZ1mdvZJVoi5egxObkncej3SnUc
 sidebar_position: 3
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
   - zilliz
   - zilliz cloud
   - cloud
-  - GetServerVersion()
+  - GetServerVersion
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,13 +29,29 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# GetServerVersion()
+# GetServerVersion
 
-This operation returns the version of the connected Zilliz Cloud cluster.
+This operation returns the version of the connected Milvus server.
 
 ```go
 func (c *Client) GetServerVersion(ctx context.Context, option GetServerVersionOption, callOptions ...grpc.CallOption) (string, error)
 ```
+
+## Request Syntax\{#request-syntax}
+
+Creates the request for GetServerVersion().
+
+```go
+option := milvusclient.NewGetServerVersionOption()
+
+version, err := client.GetServerVersion(ctx, option)
+```
+
+**BUILDER METHODS:**
+
+- `NewGetServerVersionOption()`
+
+    Creates the request for GetServerVersion().
 
 **RETURN TYPE:**
 
@@ -45,13 +61,21 @@ func (c *Client) GetServerVersion(ctx context.Context, option GetServerVersionOp
 
 The requested string value. Returns an error if the operation fails.
 
-**EXCEPTIONS:**
+**PARAMETERS:**
+
+- **result** (*string*) -
+
+    The string value returned by GetServerVersion().
+
+**ERROR HANDLING:**
 
 - **error**
 
-    Check `err != nil` for failure details.
+    The operation fails. Check `err != nil` for failure details.
 
 ## Example\{#example}
+
+Demonstrates GetServerVersion() usage.
 
 ```go
 import (
@@ -59,7 +83,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
