@@ -1,25 +1,25 @@
 ---
-title: "DescribeUser() | Go | v2"
+title: "DescribeUser | Go | v2"
 slug: /go/go/v2-Authentication-DescribeUser
-sidebar_label: "DescribeUser()"
+sidebar_label: "DescribeUser"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation returns detailed information about a user, including their assigned roles. | Go | v2"
 type: docx
-token: EbOodxkWBoRvwAxzJOkcsM6lnic
+token: PQHKdFLGXohyD3xIjALcEDa7n6g
 sidebar_position: 7
 keywords: 
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
   - zilliz
   - zilliz cloud
   - cloud
-  - DescribeUser()
+  - DescribeUser
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# DescribeUser()
+# DescribeUser
 
 This operation returns detailed information about a user, including their assigned roles.
 
@@ -39,6 +39,8 @@ func (c *Client) DescribeUser(ctx context.Context, opt DescribeUserOption, callO
 
 ## Request Syntax\{#request-syntax}
 
+Creates the request for DescribeUser().
+
 ```go
 option := milvusclient.NewDescribeUserOption(userName)
 
@@ -47,32 +49,59 @@ result, err := client.DescribeUser(ctx, option)
 
 **PARAMETERS:**
 
-- **userName** (*string*)
+- **userName** (*string*) -
+
+    **[REQUIRED]**
 
     The name of the user.
 
+**BUILDER METHODS:**
+
+- `NewDescribeUserOption(userName)`
+
+    Creates the request for DescribeUser().
+
 **RETURN TYPE:**
 
-&ast;*[entity.User](./v2-Authentication-User), error*
+&ast;*entity.User, error*
 
 **RETURNS:**
 
 The user description including assigned roles. Returns an error if the operation fails.
 
-**EXCEPTIONS:**
+```go
+type User struct {
+    UserName string
+    Roles []string
+}
+```
+
+**PARAMETERS:**
+
+- **UserName** (*string*) -
+
+    The name of the user.
+
+- **Roles** (*[]string*) -
+
+    The list of assigned roles.
+
+**ERROR HANDLING:**
 
 - **error**
 
-    Check `err != nil` for failure details.
+    The operation fails. Check `err != nil` for failure details.
 
 ## Example\{#example}
+
+Demonstrates DescribeUser() usage.
 
 ```go
 import (
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

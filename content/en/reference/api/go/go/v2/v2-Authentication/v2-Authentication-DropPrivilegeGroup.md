@@ -1,25 +1,25 @@
 ---
-title: "CreateUser | Go | v2"
-slug: /go/go/v2-Authentication-CreateUser
-sidebar_label: "CreateUser"
+title: "DropPrivilegeGroup | Go | v2"
+slug: /go/go/v2-Authentication-DropPrivilegeGroup
+sidebar_label: "DropPrivilegeGroup"
 beta: false
 added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "This operation creates a new user with a username and password. | Go | v2"
+description: "This operation drops a privilege group. | Go | v2"
 type: docx
-token: OgksdyybIol0ZuxfGk5cptU6nQf
-sidebar_position: 5
+token: Vt7adLFyNoUVsJxfYpdcDdVanae
+sidebar_position: 8
 keywords: 
+  - Vector index
+  - vector database open source
   - open source vector db
   - vector database example
-  - rag vector database
-  - what is vector db
   - zilliz
   - zilliz cloud
   - cloud
-  - CreateUser
+  - DropPrivilegeGroup
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,43 +29,37 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# CreateUser
+# DropPrivilegeGroup
 
-This operation creates a new user with a username and password.
+This operation drops a privilege group.
 
 ```go
-func (c *Client) CreateUser(ctx context.Context, opt CreateUserOption, callOpts ...grpc.CallOption) error
+func (c *Client) DropPrivilegeGroup(ctx context.Context, option DropPrivilegeGroupOption, callOptions ...grpc.CallOption) error
 ```
 
 ## Request Syntax\{#request-syntax}
 
-Creates the request for CreateUser().
+Creates the request for DropPrivilegeGroup().
 
 ```go
-option := milvusclient.NewCreateUserOption(userName, password)
+option := milvusclient.NewDropPrivilegeGroupOption(groupName)
 
-err := client.CreateUser(ctx, option)
+err := client.DropPrivilegeGroup(ctx, option)
 ```
 
 **PARAMETERS:**
 
-- **userName** (*string*) -
+- **groupName** (*string*) -
 
     **[REQUIRED]**
 
-    The name of the user.
-
-- **password** (*string*) -
-
-    **[REQUIRED]**
-
-    The password for the user.
+    The name of the privilege group.
 
 **BUILDER METHODS:**
 
-- `NewCreateUserOption(userName, password)`
+- `NewDropPrivilegeGroupOption(groupName)`
 
-    Creates the request for CreateUser().
+    Creates the request for DropPrivilegeGroup().
 
 **RETURN TYPE:**
 
@@ -83,7 +77,7 @@ Returns nil on success, or an error describing what went wrong.
 
 ## Example\{#example}
 
-Demonstrates CreateUser() usage.
+Demonstrates DropPrivilegeGroup() usage.
 
 ```go
 import (
@@ -103,7 +97,7 @@ if err != nil {
 }
 defer cli.Close(ctx)
 
-err = cli.CreateUser(ctx, milvusclient.NewCreateUserOption("my_user", "P@ssw0rd"))
+err = cli.DropPrivilegeGroup(ctx, milvusclient.NewDropPrivilegeGroupOption("my_priv_group"))
 if err != nil {
 	// handle error
 }

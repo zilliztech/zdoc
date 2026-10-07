@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "group": "go",
   "complete": true,
-  "generatedAt": "2026-10-06T18:37:40.225Z",
-  "sourceRunId": "37510984867",
+  "generatedAt": "2026-10-07T02:52:06.024Z",
+  "sourceRunId": "37562625738",
   "records": [
     {
       "canonicalToken": "A3WWdqm52oLqtuxaR9EcjmybnwT",
@@ -45,24 +45,6 @@
       "canonicalToken": "AVEcd3SCwoRyiTxcNodcQAepnGf",
       "title": "ListCollections()",
       "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-ListCollections.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "AgrvdHGCLokFr4xuZeVcn7Sunwb",
-      "title": "DropPrivilegeGroup()",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "Al0MdMHIEoqgU9x7r8lcG3ZDnlc",
-      "title": "GrantPrivilege()",
-      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -177,6 +159,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "CUNxd572AoblwWxPx5SclwaOn5f",
+      "title": "CreatePrivilegeGroup",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-CreatePrivilegeGroup.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "Cased8tfhoZ25Sx4VALcy4gZnbh",
       "title": "HasPartition()",
       "contentPath": "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-HasPartition.md",
@@ -222,18 +213,18 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "DrQidTj6koNKBkxHi4NcAxBfnDd",
-      "title": "RestoreSnapshot()",
-      "contentPath": "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-RestoreSnapshot.md",
+      "canonicalToken": "DgJjdMnqgoBVB5xd6cgcMl4VnCh",
+      "title": "GrantPrivilege",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-GrantPrivilege.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
       "objectEditTime": null
     },
     {
-      "canonicalToken": "DtPRdNBBeoCPXDxXc2qcLXv8nob",
-      "title": "CreatePrivilegeGroup()",
-      "contentPath": null,
+      "canonicalToken": "DrQidTj6koNKBkxHi4NcAxBfnDd",
+      "title": "RestoreSnapshot()",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-RestoreSnapshot.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -258,18 +249,18 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "DzchdYLEYomSrzxOys8c1mbanhg",
-      "title": "DropIndex()",
-      "contentPath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-DropIndex.md",
+      "canonicalToken": "DwNPdAshLoAsYvxrs4lcQCe0n4g",
+      "title": "DropUser",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DropUser.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
       "objectEditTime": null
     },
     {
-      "canonicalToken": "EAs8dmRIuoMvW5xXLHdcDw2Gn0d",
-      "title": "DescribeRole()",
-      "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DescribeRole.md",
+      "canonicalToken": "DzchdYLEYomSrzxOys8c1mbanhg",
+      "title": "DropIndex()",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-DropIndex.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -288,15 +279,6 @@
       "canonicalToken": "ERQodkjAzotUQ3xKvA8c6jmLn3e",
       "title": "Index",
       "contentPath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Management-Index.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "EbOodxkWBoRvwAxzJOkcsM6lnic",
-      "title": "DescribeUser()",
-      "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DescribeUser.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -762,15 +744,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "Liv8dqreJo6t26xf3UWcC8ePnpe",
-      "title": "CreateUser()",
-      "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-CreateUser.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "LmAGdSkEloit68xPo6HctbWonIh",
       "title": "TransferReplica()",
       "contentPath": null,
@@ -828,15 +801,6 @@
       "canonicalToken": "NM44dNuQtoKR9UxlEbqcZrVUnpb",
       "title": "DescribeSnapshot()",
       "contentPath": "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-DescribeSnapshot.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "NMsddLaMUoGUxexlFIScnY0Knpg",
-      "title": "CreateRole()",
-      "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-CreateRole.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -951,6 +915,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "OgksdyybIol0ZuxfGk5cptU6nQf",
+      "title": "CreateUser",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-CreateUser.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "Or8Gd2JEIo1swQxD3QTccFoBn9b",
       "title": "RefreshExternalCollectionState",
       "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollectionState.md",
@@ -963,6 +936,15 @@
       "canonicalToken": "P84bd17ncosvh4xuahpcFGzoneb",
       "title": "Query()",
       "contentPath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Query.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "P8PRdHt2soM6rfxHbJacm4iWnYf",
+      "title": "CreateRole",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-CreateRole.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -999,6 +981,15 @@
       "canonicalToken": "PNwFdxMMdo6rtIxERDHcVFgdnxc",
       "title": "Collection",
       "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "PQHKdFLGXohyD3xIjALcEDa7n6g",
+      "title": "DescribeUser",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DescribeUser.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1042,17 +1033,8 @@
     },
     {
       "canonicalToken": "QKItdAf6HoDzMVxzWEbcDVL9n5r",
-      "title": "DropRole()",
+      "title": "DropRole",
       "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DropRole.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "QM8QdP63jofHxkxwxSEcXVXZnKX",
-      "title": "DropUser()",
-      "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DropUser.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1197,6 +1179,15 @@
       "canonicalToken": "TUYsd2ko4oAlB4xa9nxc6rhRnpc",
       "title": "GetServerVersion()",
       "contentPath": "content/en/reference/api/go/go/v2/v2-Client/v2-Client-GetServerVersion.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "TfY6dRxjhoz0hexPK8xchxQ4nsh",
+      "title": "DescribeRole",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DescribeRole.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1386,6 +1377,15 @@
       "canonicalToken": "VpTGdml4UoPgyHxYUlgcWrmxnad",
       "title": "NewSparseWANDIndex()",
       "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Vt7adLFyNoUVsJxfYpdcDdVanae",
+      "title": "DropPrivilegeGroup",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DropPrivilegeGroup.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,

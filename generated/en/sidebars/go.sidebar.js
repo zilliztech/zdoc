@@ -23,27 +23,39 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/go/go/v2/v2-Authentication/v2-Authentication-CreatePrivilegeGroup",
+        "label": "CreatePrivilegeGroup",
+        "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-createprivilegegroup"
+      },
+      {
+        "type": "doc",
         "id": "api/go/go/v2/v2-Authentication/v2-Authentication-CreateRole",
-        "label": "CreateRole()",
+        "label": "CreateRole",
         "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-createrole"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Authentication/v2-Authentication-CreateUser",
-        "label": "CreateUser()",
+        "label": "CreateUser",
         "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-createuser"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Authentication/v2-Authentication-DescribeRole",
-        "label": "DescribeRole()",
+        "label": "DescribeRole",
         "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-describerole"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Authentication/v2-Authentication-DescribeUser",
-        "label": "DescribeUser()",
+        "label": "DescribeUser",
         "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-describeuser"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Authentication/v2-Authentication-DropPrivilegeGroup",
+        "label": "DropPrivilegeGroup",
+        "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-dropprivilegegroup"
       },
       {
         "type": "doc",
@@ -54,8 +66,14 @@ module.exports = [
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Authentication/v2-Authentication-DropUser",
-        "label": "DropUser()",
+        "label": "DropUser",
         "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-dropuser"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Authentication/v2-Authentication-GrantPrivilege",
+        "label": "GrantPrivilege",
+        "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-grantprivilege"
       },
       {
         "type": "doc",

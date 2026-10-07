@@ -4,7 +4,7 @@ slug: /go/go/v2-Authentication-DropRole
 sidebar_label: "DropRole()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation drops a role from the system. | Go | v2"
@@ -39,6 +39,8 @@ func (c *Client) DropRole(ctx context.Context, opt DropRoleOption, callOpts ...g
 
 ## Request Syntax\{#request-syntax}
 
+Creates the request for DropRole().
+
 ```go
 option := milvusclient.NewDropRoleOption("my_role").
     WithForce(true)
@@ -48,11 +50,15 @@ err := cli.DropRole(ctx, option)
 
 **PARAMETERS:**
 
-- **opt** (*DropRoleOption*) -
+- **roleName** (*string*) -
 
-    The options for dropping the role.
+    The name of the role.
 
 **BUILDER METHODS:**
+
+- `NewDropRoleOption(roleName string)`
+
+    Creates the request for DropRole().
 
 - `WithForce(force bool)`
 
@@ -66,20 +72,22 @@ err := cli.DropRole(ctx, option)
 
 Returns nil on success, or an error describing what went wrong.
 
-**EXCEPTIONS:**
+**ERROR HANDLING:**
 
 - **error**
 
-    Check err != nil for failure details.
+    The operation fails. Check err != nil for failure details.
 
 ## Example\{#example}
+
+Demonstrates DropRole() usage.
 
 ```go
 import (
 	"context"
 	"log"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

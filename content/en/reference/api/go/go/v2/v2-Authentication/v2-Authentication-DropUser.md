@@ -1,25 +1,25 @@
 ---
-title: "DropUser() | Go | v2"
+title: "DropUser | Go | v2"
 slug: /go/go/v2-Authentication-DropUser
-sidebar_label: "DropUser()"
+sidebar_label: "DropUser"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation drops a user from the system. | Go | v2"
 type: docx
-token: QM8QdP63jofHxkxwxSEcXVXZnKX
+token: DwNPdAshLoAsYvxrs4lcQCe0n4g
 sidebar_position: 10
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
   - zilliz
   - zilliz cloud
   - cloud
-  - DropUser()
+  - DropUser
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# DropUser()
+# DropUser
 
 This operation drops a user from the system.
 
@@ -39,6 +39,8 @@ func (c *Client) DropUser(ctx context.Context, opt DropUserOption, callOpts ...g
 
 ## Request Syntax\{#request-syntax}
 
+Creates the request for DropUser().
+
 ```go
 option := milvusclient.NewDropUserOption(userName)
 
@@ -47,9 +49,17 @@ err := client.DropUser(ctx, option)
 
 **PARAMETERS:**
 
-- **userName** (*string*)
+- **userName** (*string*) -
+
+    **[REQUIRED]**
 
     The name of the user.
+
+**BUILDER METHODS:**
+
+- `NewDropUserOption(userName string)`
+
+    Creates the request for DropUser().
 
 **RETURN TYPE:**
 
@@ -59,19 +69,21 @@ err := client.DropUser(ctx, option)
 
 Returns nil on success, or an error describing what went wrong.
 
-**EXCEPTIONS:**
+**ERROR HANDLING:**
 
 - **error**
 
-    Check `err != nil` for failure details.
+    The operation fails. Check `err != nil` for failure details.
 
 ## Example\{#example}
+
+Demonstrates DropUser() usage.
 
 ```go
 import (
 	"context"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

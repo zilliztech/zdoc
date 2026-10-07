@@ -1,25 +1,25 @@
 ---
-title: "CreateRole() | Go | v2"
+title: "CreateRole | Go | v2"
 slug: /go/go/v2-Authentication-CreateRole
-sidebar_label: "CreateRole()"
+sidebar_label: "CreateRole"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation creates a new role for access control. | Go | v2"
 type: docx
-token: NMsddLaMUoGUxexlFIScnY0Knpg
+token: P8PRdHt2soM6rfxHbJacm4iWnYf
 sidebar_position: 4
 keywords: 
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud
-  - CreateRole()
+  - CreateRole
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# CreateRole()
+# CreateRole
 
 This operation creates a new role for access control.
 
@@ -39,6 +39,8 @@ func (c *Client) CreateRole(ctx context.Context, opt CreateRoleOption, callOpts 
 
 ## Request Syntax\{#request-syntax}
 
+Creates the request for CreateRole().
+
 ```go
 option := milvusclient.NewCreateRoleOption(roleName)
 
@@ -47,9 +49,17 @@ err := client.CreateRole(ctx, option)
 
 **PARAMETERS:**
 
-- **roleName** (*string*)
+- **roleName** (*string*) -
+
+    **[REQUIRED]**
 
     The name of the role.
+
+**BUILDER METHODS:**
+
+- `NewCreateRoleOption(roleName)`
+
+    Creates the request for CreateRole().
 
 **RETURN TYPE:**
 
@@ -59,19 +69,21 @@ err := client.CreateRole(ctx, option)
 
 Returns nil on success, or an error describing what went wrong.
 
-**EXCEPTIONS:**
+**ERROR HANDLING:**
 
 - **error**
 
-    Check `err != nil` for failure details.
+    The operation fails. Check `err != nil` for failure details.
 
 ## Example\{#example}
+
+Demonstrates CreateRole() usage.
 
 ```go
 import (
 	"context"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

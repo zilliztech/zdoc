@@ -1,25 +1,25 @@
 ---
-title: "DescribeRole() | Go | v2"
+title: "DescribeRole | Go | v2"
 slug: /go/go/v2-Authentication-DescribeRole
-sidebar_label: "DescribeRole()"
+sidebar_label: "DescribeRole"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "This operation returns detailed information about a role, including its granted privileges. | Go | v2"
+description: "This operation returns detailed information about a role, including its description and privileges. | Go | v2"
 type: docx
-token: EAs8dmRIuoMvW5xXLHdcDw2Gn0d
+token: TfY6dRxjhoz0hexPK8xchxQ4nsh
 sidebar_position: 6
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
   - zilliz
   - zilliz cloud
   - cloud
-  - DescribeRole()
+  - DescribeRole
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,15 +29,17 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# DescribeRole()
+# DescribeRole
 
-This operation returns detailed information about a role, including its granted privileges.
+This operation returns detailed information about a role, including its description and privileges.
 
 ```go
 func (c *Client) DescribeRole(ctx context.Context, option DescribeRoleOption, callOptions ...grpc.CallOption) (*entity.Role, error)
 ```
 
 ## Request Syntax\{#request-syntax}
+
+Creates the request for DescribeRole().
 
 ```go
 option := milvusclient.NewDescribeRoleOption(roleName).
@@ -48,11 +50,17 @@ result, err := client.DescribeRole(ctx, option)
 
 **PARAMETERS:**
 
-- **roleName** (*string*)
+- **roleName** (*string*) -
 
-    The name of the role.
+    **[REQUIRED]**
 
-**OPTION METHODS:**
+    The options for describing the role. Use `NewDescribeRoleOption` to construct.
+
+**BUILDER METHODS:**
+
+- `NewDescribeRoleOption(roleName string)`
+
+    Creates options to describe a role. `roleName` specifies the role to describe.
 
 - `WithDbName(dbName string)`
 
@@ -60,34 +68,51 @@ result, err := client.DescribeRole(ctx, option)
 
 **RETURN TYPE:**
 
-&ast;*[entity.Role](./v2-Authentication-Role), error*
+&ast;*entity.Role, error*
 
 **RETURNS:**
 
-The role details including granted privileges. Returns an error if the operation fails.
+The role description including the role name, description, and privileges. Returns an error if the role is not found or the operation fails.
 
-**EXCEPTIONS:**
+```go
+type Role struct {
+    RoleName string
+    Privileges []GrantItem
+}
+```
+
+**PARAMETERS:**
+
+- **RoleName** (*string*) -
+
+    The name of the role.
+
+- **Privileges** (*[]GrantItem*) -
+
+    The list of granted privileges.
+
+**ERROR HANDLING:**
 
 - **error**
 
-    Check `err != nil` for failure details.
+    The operation fails. Check `err != nil` for failure details.
 
 ## Example\{#example}
+
+Demonstrates DescribeRole() usage.
 
 ```go
 import (
 	"context"
-	"fmt"
+	"log"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-	Address: "YOUR_CLUSTER_ENDPOINT",
-})
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{Address: "YOUR_CLUSTER_ENDPOINT"})
 if err != nil {
 	// handle error
 }
@@ -97,5 +122,5 @@ role, err := cli.DescribeRole(ctx, milvusclient.NewDescribeRoleOption("my_role")
 if err != nil {
 	// handle error
 }
-fmt.Println(role)
+log.Println(role)
 ```
