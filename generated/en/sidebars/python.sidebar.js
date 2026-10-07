@@ -608,9 +608,21 @@ module.exports = [
           },
           {
             "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Management/Management-dump_messages",
+            "label": "dump_messages()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Management/management-dumpmessages"
+          },
+          {
+            "type": "doc",
             "id": "api/python/python/MilvusClient/MilvusClient-Management/Management-flush_all",
             "label": "flush_all()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Management/management-flushall"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Management/Management-get_compaction_plans",
+            "label": "get_compaction_plans()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Management/management-getcompactionplans"
           },
           {
             "type": "doc",
@@ -623,6 +635,12 @@ module.exports = [
             "id": "api/python/python/MilvusClient/MilvusClient-Management/Management-get_flush_all_state",
             "label": "get_flush_all_state()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Management/management-getflushallstate"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Management/Management-get_replicate_info",
+            "label": "get_replicate_info()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Management/management-getreplicateinfo"
           },
           {
             "type": "doc",
@@ -1058,8 +1076,39 @@ module.exports = [
       {
         "type": "category",
         "label": "FunctionChain",
-        "key": "category:api/python/python/MilvusClient/functionchain-functionchain",
-        "items": []
+        "key": "category:api/python/python/MilvusClient/milvusclient-functionchain",
+        "items": [
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-FunctionChain/MilvusClient-FunctionChain",
+            "label": "FunctionChain",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-FunctionChain/milvusclient-functionchain"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-FunctionChainStage",
+            "label": "FunctionChainStage",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-FunctionChain/functionchain-functionchainstage"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-limit",
+            "label": "limit()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-FunctionChain/functionchain-limit"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-map",
+            "label": "map()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-FunctionChain/functionchain-map"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-sort",
+            "label": "sort()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-FunctionChain/functionchain-sort"
+          }
+        ]
       }
     ]
   },

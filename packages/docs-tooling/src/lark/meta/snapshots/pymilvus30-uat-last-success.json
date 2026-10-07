@@ -8,7 +8,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-10-06T19:10:36.355Z",
+  "generated_at": "2026-10-07T03:02:08.412Z",
   "source_dir": "./packages/docs-tooling/src/lark/meta/sources/python/v3.0.x",
   "base_app_token": "Hk05b5eI6aXXSSsd6j9cqwwMn5a",
   "records": [
@@ -3759,22 +3759,24 @@
       "doc_token": "XnCrdUF2MoACxExami4c5B5Hnph",
       "doc_link": "https://zilliverse.feishu.cn/docx/XnCrdUF2MoACxExami4c5B5Hnph",
       "source_file": "XnCrdUF2MoACxExami4c5B5Hnph.json",
-      "source_hash": "ebd6c3b112f386f317beb7d2b625df8904cfd20f38ec1fa59611c776e74ed6a3",
+      "source_hash": "d20aefea004e224ee8d21fadc8f470b2994b30fed4f72970771c69e3dccb073a",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": "6",
+      "revision_id": "19",
       "publish_targets": [
         "Milvus",
         "Zilliz"
       ],
-      "publish_status": "WIP",
+      "publish_status": "Draft",
       "release_channel": "current",
       "outgoing_tokens": [],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-get_compaction_plans.md"
+      ]
     },
     {
       "record_id": "recvaDoJYFLAK1",
@@ -3825,11 +3827,45 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": "9",
-      "publish_targets": [],
-      "publish_status": "WIP",
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "release_channel": "current",
       "outgoing_tokens": [],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-dump_messages.md"
+      ]
+    },
+    {
+      "record_id": "recvxjMDi5HDns",
+      "table_id": "tblKV2Wj45qrmD0J",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "get_replicate_info()",
+      "slug": "Management-get_replicate_info",
+      "doc_token": "C5UqdwH46o2mt1xleeRcx51knJA",
+      "doc_link": "https://zilliverse.feishu.cn/docx/C5UqdwH46o2mt1xleeRcx51knJA",
+      "source_file": "C5UqdwH46o2mt1xleeRcx51knJA.json",
+      "source_hash": "23b684cb3d245f055e772725439b9f2dd65a78b576c6f0e33dc7f7ac03dd0325",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": "7",
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "release_channel": "current",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-get_replicate_info.md"
+      ]
     },
     {
       "record_id": "recu3QwbUhX7gN",
@@ -5326,23 +5362,30 @@
       "table_name": "数据表",
       "placement_type": "canonical",
       "title": "FunctionChain",
-      "slug": "FunctionChain-FunctionChain",
+      "slug": "MilvusClient-FunctionChain",
       "doc_token": "Qp9tdzovXo3xCvxPlszcLGcInPh",
       "doc_link": "https://zilliverse.feishu.cn/docx/Qp9tdzovXo3xCvxPlszcLGcInPh",
       "source_file": "Qp9tdzovXo3xCvxPlszcLGcInPh.json",
-      "source_hash": "fb33beaf1f099138a729e5739c9c9c90ca28abb23738f3c88b1807e0db62feea",
+      "source_hash": "5352cb72f156c0f9d217e44a6e44c31ca7b9ae27a003c93515da8092301e1203",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": "10",
-      "publish_targets": [],
-      "publish_status": "WIP",
+      "revision_id": "21",
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "release_channel": "current",
-      "outgoing_tokens": [],
-      "output_paths": []
+      "outgoing_tokens": [
+        "IUVldU03IosKJqxo8W9cU0g5nWh"
+      ],
+      "output_paths": [
+        "content/en/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/MilvusClient-FunctionChain.md"
+      ]
     },
     {
       "record_id": "recvxhAtMvaJwj",
@@ -5362,11 +5405,112 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": "9",
-      "publish_targets": [],
-      "publish_status": "WIP",
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "release_channel": "current",
       "outgoing_tokens": [],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-FunctionChainStage.md"
+      ]
+    },
+    {
+      "record_id": "recvxjYqkWoEE8",
+      "table_id": "tblKV2Wj45qrmD0J",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "map()",
+      "slug": "FunctionChain-map",
+      "doc_token": "Vo8NdVAd6oBnY4xdWR1c3jNEnye",
+      "doc_link": "https://zilliverse.feishu.cn/docx/Vo8NdVAd6oBnY4xdWR1c3jNEnye",
+      "source_file": "Vo8NdVAd6oBnY4xdWR1c3jNEnye.json",
+      "source_hash": "70629be7ce12a4ed507ca32e32732cfb42013fb11cb8d7a4578555b06d2a8fc9",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": "8",
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "release_channel": "current",
+      "outgoing_tokens": [
+        "IUVldU03IosKJqxo8W9cU0g5nWh",
+        "Qp9tdzovXo3xCvxPlszcLGcInPh"
+      ],
+      "output_paths": [
+        "content/en/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-map.md"
+      ]
+    },
+    {
+      "record_id": "recvxjZ3rTTT01",
+      "table_id": "tblKV2Wj45qrmD0J",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "sort()",
+      "slug": "FunctionChain-sort",
+      "doc_token": "NqVVdpsuPoWuD8xKcf5cAvq3nJh",
+      "doc_link": "https://zilliverse.feishu.cn/docx/NqVVdpsuPoWuD8xKcf5cAvq3nJh",
+      "source_file": "NqVVdpsuPoWuD8xKcf5cAvq3nJh.json",
+      "source_hash": "e7885cdf9a856f5ae234bca6c1e920d4d032ad3cab84f3adddd2b61ab6deefaa",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": "9",
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "release_channel": "current",
+      "outgoing_tokens": [
+        "IUVldU03IosKJqxo8W9cU0g5nWh",
+        "Qp9tdzovXo3xCvxPlszcLGcInPh"
+      ],
+      "output_paths": [
+        "content/en/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-sort.md"
+      ]
+    },
+    {
+      "record_id": "recvxjZiP3EUtp",
+      "table_id": "tblKV2Wj45qrmD0J",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "limit()",
+      "slug": "FunctionChain-limit",
+      "doc_token": "KhBxdmmAGobyzWxEdHvcYEqWnxe",
+      "doc_link": "https://zilliverse.feishu.cn/docx/KhBxdmmAGobyzWxEdHvcYEqWnxe",
+      "source_file": "KhBxdmmAGobyzWxEdHvcYEqWnxe.json",
+      "source_hash": "2ee77d2a825b9e29d670df5a15062cb7d4303f3ffc6b93529fa69bf5ef1a74d7",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": "8",
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "release_channel": "current",
+      "outgoing_tokens": [
+        "IUVldU03IosKJqxo8W9cU0g5nWh",
+        "Qp9tdzovXo3xCvxPlszcLGcInPh"
+      ],
+      "output_paths": [
+        "content/en/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-limit.md"
+      ]
     },
     {
       "record_id": "recvhGAgsjcsl8",

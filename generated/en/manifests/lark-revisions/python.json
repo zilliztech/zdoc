@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "group": "python",
   "complete": true,
-  "generatedAt": "2026-10-06T19:10:36.668Z",
-  "sourceRunId": "37510984867",
+  "generatedAt": "2026-10-07T03:02:08.725Z",
+  "sourceRunId": "37562625738",
   "records": [
     {
       "canonicalToken": "A96udk9seoF5x5xywQZcLasanIe",
@@ -216,6 +216,15 @@
       "canonicalToken": "C37ldNLbFog6ThxA23ScMldnnmb",
       "title": "add_connection()",
       "contentPath": "content/en/reference/api/python/python/ORM/ORM-Connections/Connections-add_connection.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "C5UqdwH46o2mt1xleeRcx51knJA",
+      "title": "get_replicate_info()",
+      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-get_replicate_info.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1115,7 +1124,7 @@
     {
       "canonicalToken": "IUVldU03IosKJqxo8W9cU0g5nWh",
       "title": "FunctionChainStage",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-FunctionChainStage.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1359,6 +1368,15 @@
       "canonicalToken": "KeoHdMDBCo3PByxKbWncifFMn9e",
       "title": "construct_from_dict()",
       "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-StructFieldSchema/StructFieldSchema-construct_from_dict.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "KhBxdmmAGobyzWxEdHvcYEqWnxe",
+      "title": "limit()",
+      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-limit.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1851,6 +1869,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "NqVVdpsuPoWuD8xKcf5cAvq3nJh",
+      "title": "sort()",
+      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-sort.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "NqWDdRxKYoi6uTxHaYEcafx9nGc",
       "title": "pin_snapshot_data()",
       "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-pin_snapshot_data.md",
@@ -2159,7 +2186,7 @@
     {
       "canonicalToken": "Qp9tdzovXo3xCvxPlszcLGcInPh",
       "title": "FunctionChain",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/MilvusClient-FunctionChain.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -2886,6 +2913,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "Vo8NdVAd6oBnY4xdWR1c3jNEnye",
+      "title": "map()",
+      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-map.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "Vqw7d0U1qoVXozxrCMtcJGZ8nkh",
       "title": "load()",
       "contentPath": null,
@@ -2906,7 +2942,7 @@
     {
       "canonicalToken": "W2HMdGNjrokVNvxQqYEcFR5Yn4g",
       "title": "dump_messages()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-dump_messages.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -3158,7 +3194,7 @@
     {
       "canonicalToken": "XnCrdUF2MoACxExami4c5B5Hnph",
       "title": "get_compaction_plans()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-get_compaction_plans.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
