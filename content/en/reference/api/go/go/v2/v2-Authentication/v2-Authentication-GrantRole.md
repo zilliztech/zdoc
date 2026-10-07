@@ -1,25 +1,25 @@
 ---
-title: "GrantRole() | Go | v2"
+title: "GrantRole | Go | v2"
 slug: /go/go/v2-Authentication-GrantRole
-sidebar_label: "GrantRole()"
+sidebar_label: "GrantRole"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation assigns a role to a user. | Go | v2"
 type: docx
-token: OPfXdP02ZoeDIUxhBUOcU3vBngb
+token: PXoWdX9cPoJapOxK9kbcE2S6nVh
 sidebar_position: 13
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
   - zilliz
   - zilliz cloud
   - cloud
-  - GrantRole()
+  - GrantRole
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# GrantRole()
+# GrantRole
 
 This operation assigns a role to a user.
 
@@ -39,6 +39,8 @@ func (c *Client) GrantRole(ctx context.Context, opt GrantRoleOption, callOpts ..
 
 ## Request Syntax\{#request-syntax}
 
+Creates the request for GrantRole().
+
 ```go
 option := milvusclient.NewGrantRoleOption(userName, roleName)
 
@@ -47,13 +49,23 @@ err := client.GrantRole(ctx, option)
 
 **PARAMETERS:**
 
-- **userName** (*string*)
+- **userName** (*string*) -
+
+    **[REQUIRED]**
 
     The name of the user.
 
-- **roleName** (*string*)
+- **roleName** (*string*) -
+
+    **[REQUIRED]**
 
     The name of the role.
+
+**BUILDER METHODS:**
+
+- `NewGrantRoleOption(userName string, roleName string)`
+
+    Creates the request for GrantRole().
 
 **RETURN TYPE:**
 
@@ -63,19 +75,21 @@ err := client.GrantRole(ctx, option)
 
 Returns nil on success, or an error describing what went wrong.
 
-**EXCEPTIONS:**
+**ERROR HANDLING:**
 
 - **error**
 
-    Check `err != nil` for failure details.
+    The operation fails. Check `err != nil` for failure details.
 
 ## Example\{#example}
+
+Demonstrates GrantRole() usage.
 
 ```go
 import (
 	"context"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

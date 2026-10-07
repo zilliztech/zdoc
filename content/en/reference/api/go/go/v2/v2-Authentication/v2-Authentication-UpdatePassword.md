@@ -1,25 +1,25 @@
 ---
-title: "UpdatePassword() | Go | v2"
+title: "UpdatePassword | Go | v2"
 slug: /go/go/v2-Authentication-UpdatePassword
-sidebar_label: "UpdatePassword()"
+sidebar_label: "UpdatePassword"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation updates the password for an existing user. | Go | v2"
 type: docx
-token: GKDQd15KkoiLPSxs8UYcFUamnIg
+token: W0UgdXTMmoA1VVx5Cooc1Re8nnb
 sidebar_position: 25
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
   - zilliz
   - zilliz cloud
   - cloud
-  - UpdatePassword()
+  - UpdatePassword
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# UpdatePassword()
+# UpdatePassword
 
 This operation updates the password for an existing user.
 
@@ -39,6 +39,8 @@ func (c *Client) UpdatePassword(ctx context.Context, opt UpdatePasswordOption, c
 
 ## Request Syntax\{#request-syntax}
 
+Creates the request for UpdatePassword().
+
 ```go
 option := milvusclient.NewUpdatePasswordOption(userName, oldPassword, newPassword)
 
@@ -47,17 +49,29 @@ err := client.UpdatePassword(ctx, option)
 
 **PARAMETERS:**
 
-- **userName** (*string*)
+- **userName** (*string*) -
+
+    **[REQUIRED]**
 
     The name of the user.
 
-- **oldPassword** (*string*)
+- **oldPassword** (*string*) -
+
+    **[REQUIRED]**
 
     The current password for verification.
 
-- **newPassword** (*string*)
+- **newPassword** (*string*) -
+
+    **[REQUIRED]**
 
     The new password to set.
+
+**BUILDER METHODS:**
+
+- `NewUpdatePasswordOption(userName string, oldPassword string, newPassword string)`
+
+    Creates the request for UpdatePassword().
 
 **RETURN TYPE:**
 
@@ -67,19 +81,21 @@ err := client.UpdatePassword(ctx, option)
 
 Returns nil on success, or an error describing what went wrong.
 
-**EXCEPTIONS:**
+**ERROR HANDLING:**
 
 - **error**
 
-    Check `err != nil` for failure details.
+    The operation fails. Check `err != nil` for failure details.
 
 ## Example\{#example}
+
+Demonstrates UpdatePassword() usage.
 
 ```go
 import (
 	"context"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

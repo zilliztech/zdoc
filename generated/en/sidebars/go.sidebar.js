@@ -78,31 +78,31 @@ module.exports = [
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Authentication/v2-Authentication-GrantPrivilegeV2",
-        "label": "GrantPrivilegeV2()",
+        "label": "GrantPrivilegeV2",
         "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-grantprivilegev2"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Authentication/v2-Authentication-GrantRole",
-        "label": "GrantRole()",
+        "label": "GrantRole",
         "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-grantrole"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Authentication/v2-Authentication-ListPrivilegeGroups",
-        "label": "ListPrivilegeGroups()",
+        "label": "ListPrivilegeGroups",
         "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-listprivilegegroups"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Authentication/v2-Authentication-ListRoles",
-        "label": "ListRoles()",
+        "label": "ListRoles",
         "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-listroles"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Authentication/v2-Authentication-ListUsers",
-        "label": "ListUsers()",
+        "label": "ListUsers",
         "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-listusers"
       },
       {
@@ -119,20 +119,32 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/go/go/v2/v2-Authentication/v2-Authentication-RemovePrivilegesFromGroup",
+        "label": "RemovePrivilegesFromGroup",
+        "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-removeprivilegesfromgroup"
+      },
+      {
+        "type": "doc",
         "id": "api/go/go/v2/v2-Authentication/v2-Authentication-RestoreRBAC",
-        "label": "RestoreRBAC()",
+        "label": "RestoreRBAC",
         "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-restorerbac"
       },
       {
         "type": "doc",
+        "id": "api/go/go/v2/v2-Authentication/v2-Authentication-RevokePrivilege",
+        "label": "RevokePrivilege",
+        "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-revokeprivilege"
+      },
+      {
+        "type": "doc",
         "id": "api/go/go/v2/v2-Authentication/v2-Authentication-RevokePrivilegeV2",
-        "label": "RevokePrivilegeV2()",
+        "label": "RevokePrivilegeV2",
         "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-revokeprivilegev2"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Authentication/v2-Authentication-RevokeRole",
-        "label": "RevokeRole()",
+        "label": "RevokeRole",
         "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-revokerole"
       },
       {
@@ -144,7 +156,7 @@ module.exports = [
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Authentication/v2-Authentication-UpdatePassword",
-        "label": "UpdatePassword()",
+        "label": "UpdatePassword",
         "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-updatepassword"
       },
       {
@@ -158,8 +170,32 @@ module.exports = [
         "id": "api/go/go/v2/v2-Authentication/v2-Authentication-AlterRole",
         "label": "AlterRole",
         "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-alterrole"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Authentication/v2-Authentication-GrantV2",
+        "label": "GrantV2",
+        "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-grantv2"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Authentication/v2-Authentication-OperatePrivilegeGroup",
+        "label": "OperatePrivilegeGroup",
+        "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-operateprivilegegroup"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Authentication/v2-Authentication-RevokeV2",
+        "label": "RevokeV2",
+        "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-revokev2"
       }
     ]
+  },
+  {
+    "type": "category",
+    "label": "CDC",
+    "key": "category:api/go/go/v2/v2-cdc",
+    "items": []
   },
   {
     "type": "category",

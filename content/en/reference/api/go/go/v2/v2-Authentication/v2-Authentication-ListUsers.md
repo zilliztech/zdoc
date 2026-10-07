@@ -1,25 +1,25 @@
 ---
-title: "ListUsers() | Go | v2"
+title: "ListUsers | Go | v2"
 slug: /go/go/v2-Authentication-ListUsers
-sidebar_label: "ListUsers()"
+sidebar_label: "ListUsers"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation lists all users in the Milvus instance. | Go | v2"
 type: docx
-token: S3Vndkuxco3965xyea6cN406nWc
+token: M6AhdT0bvoytK5x81QdciNKnnLd
 sidebar_position: 16
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
   - zilliz
   - zilliz cloud
   - cloud
-  - ListUsers()
+  - ListUsers
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,13 +29,29 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# ListUsers()
+# ListUsers
 
 This operation lists all users in the Milvus instance.
 
 ```go
 func (c *Client) ListUsers(ctx context.Context, opt ListUserOption, callOpts ...grpc.CallOption) ([]string, error)
 ```
+
+## Request Syntax\{#request-syntax}
+
+Creates the request for ListUsers().
+
+```go
+option := milvusclient.NewListUserOption()
+
+users, err := client.ListUsers(ctx, option)
+```
+
+**BUILDER METHODS:**
+
+- `NewListUserOption()`
+
+    Creates the request for ListUsers().
 
 **RETURN TYPE:**
 
@@ -45,20 +61,28 @@ func (c *Client) ListUsers(ctx context.Context, opt ListUserOption, callOpts ...
 
 A list of names. Returns an error if the operation fails.
 
-**EXCEPTIONS:**
+**PARAMETERS:**
+
+- **result** (*[]string*) -
+
+    The []string value returned by ListUsers().
+
+**ERROR HANDLING:**
 
 - **error**
 
-    Check `err != nil` for failure details.
+    The operation fails. Check `err != nil` for failure details.
 
 ## Example\{#example}
+
+Demonstrates ListUsers() usage.
 
 ```go
 import (
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

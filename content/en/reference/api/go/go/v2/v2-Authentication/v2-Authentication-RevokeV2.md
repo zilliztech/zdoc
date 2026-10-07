@@ -1,25 +1,25 @@
 ---
-title: "RevokePrivilegeV2 | Go | v2"
-slug: /go/go/v2-Authentication-RevokePrivilegeV2
-sidebar_label: "RevokePrivilegeV2"
+title: "RevokeV2 | Go | v2"
+slug: /go/go/v2-Authentication-RevokeV2
+sidebar_label: "RevokeV2"
 beta: false
-added_since: v2.6.x
-last_modified: v3.0.x
+added_since: v3.0.x
+last_modified: false
 deprecate_since: false
 notebook: false
 description: "This operation revokes a privilege from a role using the v2 API. | Go | v2"
 type: docx
-token: LQj8d9Osgo8oNAx8yD2cmtYNnDc
-sidebar_position: 22
+token: NylxdfK4NoqbPPxPsZ4cOF14n1f
+sidebar_position: 30
 keywords: 
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
-  - RevokePrivilegeV2
+  - RevokeV2
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,50 +29,54 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# RevokePrivilegeV2
+# RevokeV2
 
 This operation revokes a privilege from a role using the v2 API.
 
+<Admonition type="info" title="Notes">
+
+This interface is deprecated, use RevokePrivilegeV2() instead.
+
+</Admonition>
+
 ```go
-func (c *Client) RevokePrivilegeV2(ctx context.Context, option RevokePrivilegeV2Option, callOptions ...grpc.CallOption) error
+func (c *Client) RevokeV2(ctx context.Context, option RevokeV2Option, callOptions ...grpc.CallOption) error
 ```
 
 ## Request Syntax\{#request-syntax}
 
-Creates the request for RevokePrivilegeV2().
+Creates the request for RevokeV2().
 
 ```go
-option := milvusclient.NewRevokePrivilegeV2Option(roleName, privilegeName, collectionName).
+option := milvusclient.NewRevokeV2Option(roleName, privilegeName, dbName, collectionName).
     WithDbName(dbName)
 
-err := client.RevokePrivilegeV2(ctx, option)
+err := client.RevokeV2(ctx, option)
 ```
 
 **PARAMETERS:**
 
 - **roleName** (*string*) -
 
-    **[REQUIRED]**
-
     The name of the role.
 
 - **privilegeName** (*string*) -
 
-    **[REQUIRED]**
-
     The name of the privilege.
 
-- **collectionName** (*string*) -
+- **dbName** (*string*) -
 
-    **[REQUIRED]**
+    The name of the database.
+
+- **collectionName** (*string*) -
 
     The name of the target collection.
 
 **BUILDER METHODS:**
 
-- `NewRevokePrivilegeV2Option(roleName string, privilegeName string, collectionName string)`
+- `NewRevokeV2Option(roleName string, privilegeName string, dbName string, collectionName string)`
 
-    Creates the request for RevokePrivilegeV2().
+    Creates a new option to revoke a privilege using the v2 API. Deprecated, use `NewRevokePrivilegeV2Option` instead.
 
 - `WithDbName(dbName string)`
 
@@ -94,7 +98,7 @@ Returns nil on success, or an error describing what went wrong.
 
 ## Example\{#example}
 
-Demonstrates RevokePrivilegeV2() usage.
+Demonstrates RevokeV2() usage.
 
 ```go
 import (
@@ -107,14 +111,15 @@ ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
 cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-	Address: "YOUR_CLUSTER_ENDPOINT",
+	Address: milvusAddr,
 })
 if err != nil {
 	// handle error
 }
+
 defer cli.Close(ctx)
 
-err = cli.RevokePrivilegeV2(ctx, milvusclient.NewRevokePrivilegeV2Option("my_role", "Search", "quick_setup"))
+err = cli.RevokeV2(ctx, milvusclient.NewRevokeV2Option("my_role", "Search", "default", "quick_setup"))
 if err != nil {
 	// handle error
 }
