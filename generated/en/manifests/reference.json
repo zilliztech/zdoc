@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "feb7de3101e662fae87bb973545d7de09696c5e4",
+  "sourceCommit": "a06539f2caadcd9b97974053bc0c26b92da34a3c",
   "records": [
     {
       "manual": "cli",
@@ -1404,33 +1404,48 @@
     },
     {
       "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-CreatePrivilegeGroup.md",
+      "sourceHash": "b5648c4f0a93a4e0ec9322bdc1ac5b24bd264ee699ad83bb9e2b6f28e766dfc8"
+    },
+    {
+      "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-CreateRole.md",
-      "sourceHash": "6254b5ff2fb9519596777808dcd46bf33be66eec0a594018eb360a36c2e6871c"
+      "sourceHash": "3e75a6179ed22b083244d37659aeda53919b9346e9db822cf36d1d39560fff50"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-CreateUser.md",
-      "sourceHash": "0affa55bb15cb1239693312cd9c7ca28571ca04acd4da1322d4c38d7978d37d3"
+      "sourceHash": "014642bc2538019d4b8dcf6cc6301ffb3f255368bd9178de496237fecdbd9d75"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DescribeRole.md",
-      "sourceHash": "dc2b00a97f92c3e22ccfb7e5669e332369691429dec15ff7e70a07d9b68da89d"
+      "sourceHash": "1498bc0c6bcec03d01adff4c739a598840bb301b70e8b67259c5b331b637b6ee"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DescribeUser.md",
-      "sourceHash": "4ac85377377aefb0a0e1afc3307c812cacbadff154dbcd8c3406333b76ffb096"
+      "sourceHash": "f45d46a201c6d4cc007ffbfe4399bef75c46f1785ae9334e19f75dec8ca6ef33"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DropPrivilegeGroup.md",
+      "sourceHash": "b855e5900b0cf04b4e43eea4a21f46723aeb2d1c99fa90092dc09643ab8e765a"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DropRole.md",
-      "sourceHash": "2adbae7cfc339831c8239ee74ab297fe8cc2d44b5658591af8b4b3e8e81a7fbc"
+      "sourceHash": "6abea001acb9ea8b7dcb22b0fac94dfc4d2a6c32724d78eeb540b61a3de56351"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DropUser.md",
-      "sourceHash": "dc5de6dc683c0b94c903938f8977985500a68875a87e2aab3352d7728fdfea31"
+      "sourceHash": "9d81546fef0ef23550e0ae38df51bf45a40c78e0f2fa03c20c7c51ffc66f83cf"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-GrantPrivilege.md",
+      "sourceHash": "64ff164038f9d0afaaa050464fe42501f8818b10ce2f1b0bc129538eb916e700"
     },
     {
       "manual": "go",
@@ -2099,13 +2114,23 @@
     },
     {
       "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-addPrivilegesToGroup.md",
+      "sourceHash": "66cb6b4fca5271ef0941e6ba04d38bf5038d676274c2f3c1ce02db4dcb9d08a4"
+    },
+    {
+      "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-alterRole.md",
-      "sourceHash": "1ffe8bc23ed1cbd50bc6de9101f42f06cda9b16a5ddb2b0229c8a418edb0e1b7"
+      "sourceHash": "c70a0b6d064e68f53abd3d5683fea5a9ef86a0472b197c0068d8b9788f3dff63"
+    },
+    {
+      "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-createPrivilegeGroup.md",
+      "sourceHash": "46f7758bc0425aa5dc2db007c99936672297bce971d4ce5afb7debc0ad66eca8"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-createRole.md",
-      "sourceHash": "801bd0cec9a289e29d9e360404a19d5467daaf81fc34318c721623da95a5a7fa"
+      "sourceHash": "f35926b5dabeab882c84034c7232cb028e39fddfafbfc3205acecdbef11371ea"
     },
     {
       "manual": "java",
@@ -4524,6 +4549,31 @@
     },
     {
       "manual": "python",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-FunctionChainStage.md",
+      "sourceHash": "521f9157d621bedd94bf9f9c80b5560f9c6faafa3ae2ba62df11760b2fea0c78"
+    },
+    {
+      "manual": "python",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-limit.md",
+      "sourceHash": "cc6e448a0f579d221eb8f76a1b9a2d260b0944fdaf5fe93dae5b2b83c3ff8c2c"
+    },
+    {
+      "manual": "python",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-map.md",
+      "sourceHash": "b2ad6f1487dad92f19de8ad482c04501c4acb29a1f4e979ff20826bd9a390530"
+    },
+    {
+      "manual": "python",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-sort.md",
+      "sourceHash": "151d99cfe29729498cfdaed97303a7c2e8b6bafa4a8a076390700a43354351bd"
+    },
+    {
+      "manual": "python",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/MilvusClient-FunctionChain.md",
+      "sourceHash": "9a9681a3e4ade57259b095553764147e40983b1b66f2800170018130c0b21b69"
+    },
+    {
+      "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FunctionScore.md",
       "sourceHash": "71bd6e68d5ddd5567296c4260c0c1527c308ece348fd8b5466a88378d1d2b631"
     },
@@ -4574,6 +4624,11 @@
     },
     {
       "manual": "python",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-dump_messages.md",
+      "sourceHash": "ab54c5c78b5b0aeb1873d3ae00d586c555dfca3610d1595564423e4a6c6d9335"
+    },
+    {
+      "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-flush.md",
       "sourceHash": "56117d5675dc1bf6ab144851973ba2b93a2e468f22f39280709deb6ed28dcd95"
     },
@@ -4589,6 +4644,11 @@
     },
     {
       "manual": "python",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-get_compaction_plans.md",
+      "sourceHash": "272e1bb42a72dc5846552b54525b99bebaacc44d7afd836dcc31c7fd0849f92b"
+    },
+    {
+      "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-get_compaction_state.md",
       "sourceHash": "b181177c96a23638ab9810a4f56accbdf81057425dd7ebe3b0833af410eb0019"
     },
@@ -4601,6 +4661,11 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-get_load_state.md",
       "sourceHash": "d7019079316b140c9c4f5417c643a4557ab5999ecbfaab94d9a28ef90ff3767a"
+    },
+    {
+      "manual": "python",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-get_replicate_info.md",
+      "sourceHash": "2097896ebec67d05d1d592aac070cb84b36733ea42866e896aed48f6ada848ce"
     },
     {
       "manual": "python",

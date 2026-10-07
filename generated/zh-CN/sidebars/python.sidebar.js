@@ -596,6 +596,12 @@ module.exports = [
           },
           {
             "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Management/Management-get_compaction_plans",
+            "label": "get_compaction_plans()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Management/management-getcompactionplans"
+          },
+          {
+            "type": "doc",
             "id": "api/python/python/MilvusClient/MilvusClient-Management/Management-get_compaction_state",
             "label": "get_compaction_state()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Management/management-getcompactionstate"
