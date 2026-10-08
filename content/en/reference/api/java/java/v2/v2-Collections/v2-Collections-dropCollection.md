@@ -67,10 +67,6 @@ dropCollection(DropCollectionReq.builder()
 
     The timeout duration in milliseconds.
 
-**RETURNS:**
-
-*void*
-
 **EXCEPTIONS:**
 
 - **MilvusClientException**

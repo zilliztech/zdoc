@@ -58,10 +58,6 @@ TruncateCollectionReq.builder()
 
     The name of the database containing the collection. If not specified, the default database is used.
 
-**RETURNS:**
-
-*void*
-
 **EXCEPTIONS:**
 
 - **MilvusClientException** - The specified collection does not exist or the server is unreachable.

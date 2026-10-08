@@ -67,10 +67,6 @@ renameCollection(RenameCollectionReq.builder()
 
     The name of the target database. Set this when the collection is being moved into another database.
 
-**RETURNS:**
-
-*void*
-
 **EXCEPTIONS:**
 
 - **MilvusClientException**

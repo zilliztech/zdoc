@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # FieldSchema
 
-A **FieldSchema** instance defines the data type and related attributes of a specific field in a collection.
+A FieldSchema instance defines the data type and related attributes of a specific field in a collection.
 
 ```java
 io.milvus.v2.service.collection.request.CreateCollectionReq.FieldSchema
@@ -52,6 +52,8 @@ CreateCollectionReq.FieldSchema.builder()
     .isPartitionKey(Boolean isPartitionKey)
     .isClusteringKey(Boolean isClusteringKey)
     .autoID(Boolean autoID)
+    .elementType(DataType elementType)
+    .maxCapacity(Integer maxCapacity)
     .isNullable(Boolean isNullable)
     .defaultValue(Object defaultValue)
     .enableAnalyzer(Boolean enableAnalyzer)
@@ -79,11 +81,11 @@ CreateCollectionReq.FieldSchema.builder()
 
 - `maxLength(Integer maxLength)` -
 
-    The maximum number of characters a value should contain. This is required if **[dataType](./v2-Collections-DataType)** of this field is set to **DataType.VarChar**.
+    The maximum number of characters a value should contain. This is required if [dataType](./v2-Collections-DataType) of this field is set to **DataType.VarChar**.
 
 - `dimension(Integer dimension)` -
 
-    The number of dimensions a value should have. This is required if **[dataType](./v2-Collections-DataType)** of this field is set to **DataType.FloatVector**.
+    The number of dimensions a value should have. This is required if [dataType](./v2-Collections-DataType) of this field is set to **DataType.FloatVector**.
 
 - `isPrimaryKey(Boolean isPrimaryKey)` -
 
@@ -103,11 +105,11 @@ CreateCollectionReq.FieldSchema.builder()
 
 - `elementType(DataType elementType)` -
 
-    The data type of elements in array fields. This is required if **[dataType](./v2-Collections-DataType)** of this field is set to **DataType.Array**. 
+    The data type of elements in array fields. This is required if **dataType** of this field is set to **DataType.Array**.
 
 - `maxCapacity(Integer maxCapacity)` -
 
-    The maximum number of elements that an array field can contain. This is required if **[dataType](./v2-Collections-DataType)** of this field is set to **DataType.Array**. 
+    The maximum number of elements that an array field can contain. This is required if **dataType** of this field is set to **DataType.Array**.
 
 - `isNullable(Boolean isNullable)` -
 
@@ -148,6 +150,84 @@ CreateCollectionReq.FieldSchema.builder()
 **RETURNS:**
 
 A **FieldSchema** object.
+
+**PARAMETERS:**
+
+- **name** (*String*) -
+
+    The name of the field.
+
+- **description** (*String*) -
+
+    The description of the field.
+
+- **dataType** (*DataType*) -
+
+    The data type of the field.
+
+- **maxLength** (*Integer*) -
+
+    The maximum number of characters a value should contain. Required if **dataType** is **DataType.VarChar**.
+
+- **dimension** (*Integer*) -
+
+    The number of dimensions a value should have. Required if **dataType** is **DataType.FloatVector**.
+
+- **isPrimaryKey** (*Boolean*) -
+
+    Whether the current field is the primary field.
+
+- **isPartitionKey** (*Boolean*) -
+
+    Whether the current field is the partition-key field.
+
+- **isClusteringKey** (*Boolean*) -
+
+    Whether the current field is the clustering key.
+
+- **autoID** (*Boolean*) -
+
+    Whether the primary field automatically increments.
+
+- **elementType** (*DataType*) -
+
+    The data type of elements in array fields. Required if **dataType** is **DataType.Array**.
+
+- **maxCapacity** (*Integer*) -
+
+    The maximum number of elements that an array field can contain.
+
+- **isNullable** (*Boolean*) -
+
+    Whether the field allows `null` values. Default: `false`.
+
+- **defaultValue** (*Object*) -
+
+    The default value used when the field is absent from an insert. The runtime type must match `dataType`.
+
+- **enableAnalyzer** (*Boolean*) -
+
+    Whether to enable text analysis for the specified `VARCHAR` field.
+
+- **analyzerParams** (*Map&lt;String, Object&gt;*) -
+
+    Per-field analyzer configuration for `DataType.VarChar` fields.
+
+- **enableMatch** (*Boolean*) -
+
+    Whether to enable keyword matching for the specified `VARCHAR` field.
+
+- **typeParams** (*Map&lt;String, String&gt;*) -
+
+    Generic per-type parameters not surfaced as dedicated builder methods.
+
+- **multiAnalyzerParams** (*Map&lt;String, Object&gt;*) -
+
+    Multi-language analyzer configuration for the text field.
+
+- **externalField** (*String*) -
+
+    The external source field that maps to this Milvus field.
 
 **EXCEPTIONS:**
 

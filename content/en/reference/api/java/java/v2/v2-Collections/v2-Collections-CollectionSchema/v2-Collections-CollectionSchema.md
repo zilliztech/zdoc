@@ -56,7 +56,7 @@ CreateCollectionReq.CollectionSchema.builder()
 
 - `fieldSchemaList(List<CreateCollectionReq.FieldSchema> fieldSchemaList)` -
 
-    A list of **[FieldSchema](./v2-Collections-FieldSchema)** objects that define the fields in the collection schema. A field schema represents and contains metadata for a single field, while **CollectionSchema** ties together a list of FieldSchema objects to define the full schema.
+    A list of **FieldSchema** objects that define the fields in the collection schema. A field schema represents and contains metadata for a single field, while **CollectionSchema** ties together a list of FieldSchema objects to define the full schema.
 
 - `structFields(List<CreateCollectionReq.StructFieldSchema> structFields)` -
 
@@ -85,6 +85,34 @@ CreateCollectionReq.CollectionSchema.builder()
 **RETURNS:**
 
 A **CollectionSchema** object.
+
+The **CollectionSchema** object contains the following fields:
+
+**PARAMETERS:**
+
+- **fieldSchemaList** (*List&lt;CreateCollectionReq.FieldSchema&gt;*) -
+
+    A list of **FieldSchema** objects that define the regular fields in the collection schema.
+
+- **structFields** (*List&lt;CreateCollectionReq.StructFieldSchema&gt;*) -
+
+    A list of **StructFieldSchema** objects that define the struct fields (nested-object fields) in the collection schema.
+
+- **enableDynamicField** (*boolean*) -
+
+    Whether the hidden dynamic field (`$meta`) is enabled so inserts can carry arbitrary key-value attributes outside the declared schema. Default: `false`.
+
+- **functionList** (*List&lt;CreateCollectionReq.Function&gt;*) -
+
+    The functions (e.g. BM25, JSON-path extraction) attached to the schema that derive values from existing fields at insert time.
+
+- **externalSource** (*String*) -
+
+    The name of the external source (e.g. an S3 bucket or a Lakehouse table) bound to this collection. Defaults to an empty string.
+
+- **externalSpec** (*JsonObject*) -
+
+    The specification of the external source, typically JSON describing connection details and refresh policy.
 
 **EXCEPTIONS:**
 

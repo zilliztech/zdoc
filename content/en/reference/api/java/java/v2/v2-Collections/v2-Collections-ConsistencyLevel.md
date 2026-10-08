@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "This is an enumeration that provides the following constants. | Java | v2"
+description: "A ConsistencyLevel instance is an enumeration constant that sets the consistency level of search and query operations on a collection. | Java | v2"
 type: docx
 token: Q8IidbqKMopplgxSxaicS2o9nwc
 sidebar_position: 5
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # ConsistencyLevel
 
-This is an enumeration that provides the following constants.
+A ConsistencyLevel instance is an enumeration constant that sets the consistency level of search and query operations on a collection.
 
 ## Constants\{#constants}
 
@@ -50,4 +50,3 @@ This is an enumeration that provides the following constants.
 - **EVENTUALLY**
 
     Sets the consistency level to **Eventually**, with a code value of 3.
-

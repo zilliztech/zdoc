@@ -74,10 +74,6 @@ alterCollectionProperties(AlterCollectionPropertiesReq.builder()
 
     Adds a single property to the collection.
 
-**RETURNS:**
-
-*void*
-
 **EXCEPTIONS:**
 
 - **MilvusClientExceptions**

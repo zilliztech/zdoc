@@ -59,10 +59,6 @@ dropAlias(DropAliasReq.builder()
 
     Before this operation, ensure that the alias exists. Otherwise, an exception is thrown.
 
-**RETURNS:**
-
-*void*
-
 **EXCEPTIONS:**
 
 - **MilvusClientExceptions**

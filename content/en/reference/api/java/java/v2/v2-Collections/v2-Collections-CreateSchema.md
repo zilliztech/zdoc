@@ -1,0 +1,107 @@
+---
+title: "CreateSchema() | Java | v2"
+slug: /java/java/v2-Collections-CreateSchema
+sidebar_label: "CreateSchema()"
+beta: false
+added_since: v2.5.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "This operation creates a collection schema. | Java | v2"
+type: docx
+token: DAIfdXKk5oCHeNxOUvCc1KcpnNh
+sidebar_position: 21
+keywords: 
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - CreateSchema()
+  - javaV230
+displayed_sidebar: javaSidebar
+
+displayed_sidbar: javaSidebar
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# CreateSchema()
+
+This operation creates a collection schema.
+
+```java
+public static CreateCollectionReq.CollectionSchema CreateSchema()
+```
+
+## Request Syntax\{#request-syntax}
+
+```java
+MilvusClientV2.createSchema()
+```
+
+**PARAMETERS:**
+
+None
+
+**RETURN TYPE:**
+
+*CreateCollectionReq.CollectionSchema*
+
+**RETURNS:**
+
+A **CreateCollectionReq.CollectionSchema** object.
+
+The **CreateCollectionReq.CollectionSchema** object contains the following fields:
+
+**PARAMETERS:**
+
+- **fieldSchemaList** (*List&lt;CreateCollectionReq.FieldSchema&gt;*) -
+
+    A list of **FieldSchema** objects that define the regular fields in the collection schema.
+
+- **structFields** (*List&lt;CreateCollectionReq.StructFieldSchema&gt;*) -
+
+    A list of **StructFieldSchema** objects that define the struct fields (nested-object fields) in the collection schema.
+
+- **enableDynamicField** (*boolean*) -
+
+    Whether the hidden dynamic field (`$meta`) is enabled so inserts can carry arbitrary key-value attributes outside the declared schema. Default: `false`.
+
+- **functionList** (*List&lt;CreateCollectionReq.Function&gt;*) -
+
+    The functions (e.g. BM25, JSON-path extraction) attached to the schema that derive values from existing fields at insert time.
+
+- **externalSource** (*String*) -
+
+    The name of the external source (e.g. an S3 bucket or a Lakehouse table) bound to this collection. Defaults to an empty string.
+
+- **externalSpec** (*JsonObject*) -
+
+    The specification of the external source, typically JSON describing connection details and refresh policy.
+
+## Example\{#example}
+
+```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+
+// 1. Set up a client
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+        
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+// 2 Quickly create a collectionSchema
+CreateCollectionReq.CollectionSchema collectionSchema = client.CreateSchema();
+collectionSchema.addField(AddFieldReq.builder().fieldName("id").dataType(DataType.Int64).isPrimaryKey(Boolean.TRUE).autoID(Boolean.FALSE).description("id").build());
+collectionSchema.addField(AddFieldReq.builder().fieldName("vector").dataType(DataType.FloatVector).dimension(dim).build());
+```

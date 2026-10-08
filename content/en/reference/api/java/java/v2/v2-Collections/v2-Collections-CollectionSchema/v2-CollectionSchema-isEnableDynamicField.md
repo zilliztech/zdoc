@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "This getter returns whether the dynamic field is enabled for the collection schema. | Java | v2"
+description: "This operation returns whether the dynamic field is enabled for the collection schema. | Java | v2"
 type: docx
 token: XoUqdHpskoe2mOxPtITcHpPUnHg
 sidebar_position: 9
@@ -31,15 +31,25 @@ import Admonition from '@theme/Admonition';
 
 # isEnableDynamicField()
 
-This getter returns whether the dynamic field is enabled for the collection schema.
+This operation returns whether the dynamic field is enabled for the collection schema.
 
 ```java
 public boolean isEnableDynamicField()
 ```
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *boolean*
+
+**RETURNS:**
+
+Returns **true** if the dynamic field is enabled for the collection schema, **false** otherwise.
+
+**PARAMETERS:**
+
+- **Return value** (*boolean*) -
+
+    Whether the dynamic field (`$meta`) is enabled for the collection schema.
 
 **EXCEPTIONS:**
 

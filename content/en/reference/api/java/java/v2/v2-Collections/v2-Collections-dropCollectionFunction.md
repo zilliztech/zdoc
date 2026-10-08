@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "Removes a function definition from an existing collection without removing its output field. Use `dropFunctionField()` to remove both. | Java | v2"
+description: "This operation removes a function definition from an existing collection without removing its output field. Use `dropFunctionField()` to remove both. | Java | v2"
 type: docx
 token: K0wedJ57uoHCyXxOFtNc673tnuA
 sidebar_position: 31
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # dropCollectionFunction()
 
-Removes a function definition from an existing collection without removing its output field. Use [`dropFunctionField()`](./v2-Collections-dropFunctionField) to remove both.
+This operation removes a function definition from an existing collection without removing its output field. Use `dropFunctionField()` to remove both.
 
 ```java
 public void dropCollectionFunction(DropCollectionFunctionReq request)
@@ -60,12 +60,6 @@ DropCollectionFunctionReq.builder()
 - `functionName(String functionName)`
 
     The name of the function definition to remove.
-
-**RETURNS:**
-
-*void*
-
-This operation does not return a value.
 
 **EXCEPTIONS:**
 

@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "This is an enumeration that provides the following constants. | Java | v2"
+description: "A DataType instance is an enumeration constant that sets the data type of a field in a collection schema. | Java | v2"
 type: docx
 token: RZ8idPxaho5yMoxJzGdc7QAcnNf
 sidebar_position: 9
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # DataType
 
-This is an enumeration that provides the following constants.
+A DataType instance is an enumeration constant that sets the data type of a field in a collection schema.
 
 ## Constants\{#constants}
 

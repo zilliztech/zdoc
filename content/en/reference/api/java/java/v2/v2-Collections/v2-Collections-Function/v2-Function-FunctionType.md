@@ -7,7 +7,7 @@ added_since: v2.5.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "Represents the supported server-side function types and provides conversion by name or numeric code. | Java | v2"
+description: "A FunctionType instance represents one of the supported server-side function types and provides conversion by name or numeric code. | Java | v2"
 type: docx
 token: HShjdZsU3oknh2x1ezkcRqGqn6b
 sidebar_position: 4
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # FunctionType
 
-Represents the supported server-side function types and provides conversion by name or numeric code.
+A FunctionType instance represents one of the supported server-side function types and provides conversion by name or numeric code.
 
 ```java
 public enum FunctionType
@@ -63,11 +63,23 @@ Represents a MinHash function.
 
 Represents a molecular-fingerprint function.
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *FunctionType*
 
+**RETURNS:**
+
 An enum value describing the server-side function type.
+
+**PARAMETERS:**
+
+- **name** (*String*) -
+
+    The name of the function type, for example `Rerank` or `BM25`.
+
+- **code** (*int*) -
+
+    The numeric protocol code of the function type.
 
 ## Example\{#example}
 

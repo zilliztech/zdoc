@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "Removes a previously uploaded file resource by name. Removing a resource that is still referenced by an active function or analyzer fails with an error. | Java | v2"
+description: "This operation removes a previously uploaded file resource by name. Removing a resource that is still referenced by an active function or analyzer fails with an error. | Java | v2"
 type: docx
 token: I5yTdfJXNoHDICxSwWXcNjwxnoc
 sidebar_position: 3
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # removeFileResource()
 
-Removes a previously uploaded file resource by name. Removing a resource that is still referenced by an active function or analyzer fails with an error.
+This operation removes a previously uploaded file resource by name. Removing a resource that is still referenced by an active function or analyzer fails with an error.
 
 ```java
 public void removeFileResource(RemoveFileResourceReq request)
@@ -53,10 +53,6 @@ removeFileResource(RemoveFileResourceReq.builder()
     **[REQUIRED]**
 
     The name of the file resource to remove.
-
-**RETURNS:**
-
-*void*
 
 **EXCEPTIONS:**
 

@@ -7,7 +7,7 @@ added_since: v2.5.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "A `Function` instance for generating vector embeddings from user-provided raw data or configuring rerankers for searches. | Java | v2"
+description: "A Function instance is used for generating vector embeddings from user-provided raw data or configuring rerankers for searches. | Java | v2"
 type: docx
 token: FktXdVmoQoR9pcxSzlgcp3Iknjh
 sidebar_position: 3
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # Function
 
-A `Function` instance for generating vector embeddings from user-provided raw data or configuring rerankers for searches.
+A Function instance is used for generating vector embeddings from user-provided raw data or configuring rerankers for searches.
 
 ```java
 io.milvus.v2.service.collection.request.CreateCollectionReq.Function
@@ -87,6 +87,32 @@ CreateCollectionReq.Function.builder()
 **RETURNS:**
 
 A `Function` object that can be registered with a Milvus collection, facilitating automatic embedding generation during data insertion.
+
+**PARAMETERS:**
+
+- **name** (*String*) -
+
+    The name of the function, used to reference the function within queries and collections.
+
+- **description** (*String*) -
+
+    A brief description of the function's purpose. Defaults to an empty string.
+
+- **functionType** (*FunctionType*) -
+
+    The type of function for processing raw data, e.g. `FunctionType.BM25`.
+
+- **inputFieldNames** (*List&lt;String&gt;*) -
+
+    The names of the fields containing the raw data to convert into vector representation.
+
+- **outputFieldNames** (*List&lt;String&gt;*) -
+
+    The names of the vector fields where the generated embeddings are stored.
+
+- **params** (*Map&lt;String, String&gt;*) -
+
+    Key-value pairs that configure the function properties.
 
 **EXCEPTIONS:**
 

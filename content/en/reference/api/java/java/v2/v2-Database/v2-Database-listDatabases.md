@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listDatabases()
 
-This operation lists all the database names. 
+This operation lists all the database names.
 
 ```java
 public ListDatabasesResp listDatabases()
@@ -44,6 +44,12 @@ public ListDatabasesResp listDatabases()
 **RETURNS:**
 
 A ListDatabasesResp object contains a list of all database names.
+
+**PARAMETERS:**
+
+- **databaseNames** (*List&lt;String&gt;*) -
+
+    A list of the names of all databases.
 
 **EXCEPTIONS:**
 

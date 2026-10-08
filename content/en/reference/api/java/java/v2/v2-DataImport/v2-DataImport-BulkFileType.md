@@ -7,7 +7,7 @@ added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "This is an enumeration that provides the following constants. | Java | v2"
+description: "A BulkFileType instance holds one of the bulk data file types supported by the Milvus BulkWriter, together with its numeric code and file name suffix. | Java | v2"
 type: docx
 token: FGZadH85KoLEhRxkbLxcc1zbn4c
 sidebar_position: 1
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # BulkFileType
 
-This is an enumeration that provides the following constants.
+A BulkFileType instance holds one of the bulk data file types supported by the Milvus BulkWriter, together with its numeric code and file name suffix.
 
 ## Constants\{#constants}
 
 - **PARQUET**
 
-    Sets the file type to [Parquet](https://parquet.apache.org/) (*.parquet*).
+    Sets the file type to Parquet (*.parquet*).
 
 - **JSON**
 

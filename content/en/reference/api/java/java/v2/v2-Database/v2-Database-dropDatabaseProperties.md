@@ -57,12 +57,6 @@ dropDatabaseProperties(DropDatabasePropertiesReq.builder()
 
     A list of property key names to drop.
 
-**RETURNS:**
-
-*void*
-
-*void*
-
 **EXCEPTIONS:**
 
 - **MilvusClientException**

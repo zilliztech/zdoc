@@ -70,10 +70,6 @@ dropCollectionProperties(DropCollectionPropertiesReq.builder()
 
         Whether to enable mmap for the raw data and indexes of all fields in the collection.
 
-**RETURNS:**
-
-*void*
-
 **EXCEPTIONS:**
 
 - **MilvusClientExceptions**

@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "Configures a VolumeBulkWriter, including its collection schema, output path, and volume connection. | Java | v2"
+description: "A VolumeBulkWriter instance holds the collection schema, output path, and volume connection used to write data to a Zilliz Cloud Volume. | Java | v2"
 type: docx
 token: NtxedWgOpof2Qtx8BU2ckktunWc
 sidebar_position: 7
@@ -31,17 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # VolumeBulkWriter
 
-Configures a VolumeBulkWriter, including its collection schema, output path, and volume connection.
+A VolumeBulkWriter instance holds the collection schema, output path, and volume connection used to write data to a Zilliz Cloud Volume.
 
 ```java
 public class VolumeBulkWriter
 ```
 
-<Admonition type="info" title="Notes">
-
 A **VolumeBulkWriter** object intends to rewrite your raw data to a Zilliz Cloud Volume in a format that Milvus understands.
-
-</Admonition>
 
 **BUILDER METHODS:**
 
@@ -51,7 +47,7 @@ A **VolumeBulkWriter** object intends to rewrite your raw data to a Zilliz Cloud
 
 - `withCollectionSchema(CreateCollectionReq.CollectionSchema collectionSchema)`
 
-    The schema of the target collection, defined with [`CreateCollectionReq.CollectionSchema`](./v2-Collections-CollectionSchema).
+    The schema of the target collection, defined with `CreateCollectionReq.CollectionSchema`.
 
 - `withRemotePath(String remotePath)`
 
@@ -63,7 +59,7 @@ A **VolumeBulkWriter** object intends to rewrite your raw data to a Zilliz Cloud
 
 - `withFileType(BulkFileType fileType)`
 
-    The output file format. For available values, refer to [`BulkFileType`](./v2-DataImport-BulkFileType).
+    The output file format. For available values, refer to `BulkFileType`.
 
 - `withConfig(String key, Object value)`
 

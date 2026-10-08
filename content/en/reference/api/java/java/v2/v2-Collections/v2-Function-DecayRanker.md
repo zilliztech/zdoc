@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "The DecayRanker class extends the Function class and provides extra parameters. | Java | v2"
+description: "A DecayRanker instance is a rerank function that adjusts search rankings based on numeric field values, extending the Function class with extra parameters. | Java | v2"
 type: docx
 token: Knf4dT9GFopG6Hx89JKcl9CLnWN
 sidebar_position: 40
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # DecayRanker
 
-The DecayRanker class extends the Function class and provides extra parameters.
+A DecayRanker instance is a rerank function that adjusts search rankings based on numeric field values, extending the **Function** class with extra parameters.
 
 ```java
 public class DecayRanker extends CreateCollectionReq.Function
@@ -111,6 +111,32 @@ DecayRanker.builder()
 **RETURNS:**
 
 A decay ranker instance.
+
+**PARAMETERS:**
+
+- **functionType** (*FunctionType*) -
+
+    The function type of this ranker: always `RERANK`.
+
+- **function** (*String*) -
+
+    The decay function to apply: `gauss`, `exp`, or `linear`.
+
+- **origin** (*Number*) -
+
+    The reference point from which the decay score is calculated.
+
+- **offset** (*Number*) -
+
+    The range around the `origin` in which scores are not decayed.
+
+- **scale** (*Number*) -
+
+    The distance or time at which relevance drops to the `decay` value.
+
+- **decay** (*Number*) -
+
+    The decay rate at the `scale` distance that controls how quickly relevance declines.
 
 ## Examples:\{#examples}
 

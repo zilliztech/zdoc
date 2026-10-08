@@ -37,11 +37,19 @@ This operation returns the name of the database currently being used by this cli
 public String currentUsedDatabase()
 ```
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *String*
 
+**RETURNS:**
+
 The name of the currently active database.
+
+**PARAMETERS:**
+
+- **databaseName** (*String*) -
+
+    The name of the database currently in use by this client. Returns `default` when no database has been configured.
 
 ## Example\{#example}
 

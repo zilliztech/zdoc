@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # createDatabase()
 
-This operation creates a database with the specified name. 
+This operation creates a database with the specified name.
 
 ```java
 public void createDatabase(CreateDatabaseReq request)
@@ -55,11 +55,7 @@ createDatabase(CreateDatabaseReq.builder()
 
 - `properties(Map<String, String> properties)`
 
-The properties of the database, such as the replica number and resource groups.
-
-**RETURNS:**
-
-*void*
+    The properties of the database, such as the replica number and resource groups.
 
 **EXCEPTIONS:**
 

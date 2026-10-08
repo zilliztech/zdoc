@@ -61,9 +61,23 @@ getLoadStateV2(GetLoadStateReq.builder()
 
     An optional partition name. Omit it to inspect the collection-level load state.
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *GetLoadStateResp*
+
+**RETURNS:**
+
+A **GetLoadStateResp** object that contains the load state and the loading progress of the specified collection or partition.
+
+**PARAMETERS:**
+
+- **state** (*LoadState*) -
+
+    The current load state of the collection or partition.
+
+- **progress** (*Long*) -
+
+    The loading progress of the collection or partition. This field carries a value only when the load state is **Loading**.
 
 **EXCEPTIONS:**
 

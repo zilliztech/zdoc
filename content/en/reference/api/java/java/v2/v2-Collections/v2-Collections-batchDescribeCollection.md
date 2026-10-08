@@ -50,19 +50,107 @@ batchDescribeCollection(BatchDescribeCollectionReq.builder()
 
 **BUILDER METHODS:**
 
-- `databaseName(String databaseName)` -<br/>
-  The name of the database. Defaults to the current database if not specified.
+- `databaseName(String databaseName)` -
+
+    The name of the database. Defaults to the current database if not specified.
 
 - `collectionNames(List<String> collectionNames)` -
 
-- `collectionIds(List<Long> collectionIds)` -<br/>
-  A list of collection IDs to describe in batch.
+    A list of collection names to describe in batch.
 
-**RETURNS:**
+- `collectionIds(List<Long> collectionIds)` -
+
+    A list of collection IDs to describe in batch.
+
+**RETURN TYPE:**
 
 *List&lt;DescribeCollectionResp&gt;*
 
-A list of **DescribeCollectionResp** objects.
+**RETURNS:**
+
+A list of **DescribeCollectionResp** objects. Each **DescribeCollectionResp** object contains the following fields:
+
+**PARAMETERS:**
+
+- **collectionName** (*String*) -
+
+    The name of the collection.
+
+- **collectionID** (*Long*) -
+
+    The ID of the collection.
+
+- **databaseName** (*String*) -
+
+    The name of the database that holds the collection.
+
+- **description** (*String*) -
+
+    The description of the collection.
+
+- **numOfPartitions** (*Long*) -
+
+    The number of partitions in the collection.
+
+- **fieldNames** (*List&lt;String&gt;*) -
+
+    A list of the names of all fields in the collection.
+
+- **vectorFieldNames** (*List&lt;String&gt;*) -
+
+    A list of the names of the vector fields in the collection.
+
+- **primaryFieldName** (*String*) -
+
+    The name of the primary key field of the collection.
+
+- **enableDynamicField** (*Boolean*) -
+
+    Whether the dynamic field is enabled for the collection.
+
+- **autoID** (*Boolean*) -
+
+    Whether Milvus auto-generates primary key values for the collection.
+
+- **collectionSchema** (*CreateCollectionReq.CollectionSchema*) -
+
+    The schema of the collection.
+
+- **createTime** (*Long*) -
+
+    The timestamp when the collection was created.
+
+- **createUtcTime** (*Long*) -
+
+    The UTC timestamp when the collection was created.
+
+- **consistencyLevel** (*ConsistencyLevel*) -
+
+    The consistency level of the collection.
+
+- **shardsNum** (*Integer*) -
+
+    The number of shards in the collection.
+
+- **properties** (*Map&lt;String, String&gt;*) -
+
+    The properties of the collection.
+
+- **aliases** (*List&lt;String&gt;*) -
+
+    A list of the aliases of the collection.
+
+- **updateTimestamp** (*Long*) -
+
+    The timestamp when the collection was last updated.
+
+- **enableNamespace** (*Boolean*) -
+
+    Whether the namespace feature is enabled for the collection.
+
+- **schemaVersion** (*Integer*) -
+
+    The schema version of the collection.
 
 **EXCEPTIONS:**
 

@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "Uploads a local file as a named resource so it can be referenced by other Milvus operations (e.g., functions, analyzers). Names are unique per database — re-using a name overwrites the existing resource. | Java | v2"
+description: "This operation uploads a local file as a named resource so it can be referenced by other Milvus operations (e.g., functions, analyzers). Names are unique per database — re-using a name overwrites the existing resource. | Java | v2"
 type: docx
 token: H0kadFay8oD1d0xserJcuL8wnhf
 sidebar_position: 1
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # addFileResource()
 
-Uploads a local file as a named resource so it can be referenced by other Milvus operations (e.g., functions, analyzers). Names are unique per database — re-using a name overwrites the existing resource.
+This operation uploads a local file as a named resource so it can be referenced by other Milvus operations (e.g., functions, analyzers). Names are unique per database — re-using a name overwrites the existing resource.
 
 ```java
 public void addFileResource(AddFileResourceReq request)
@@ -60,10 +60,6 @@ addFileResource(AddFileResourceReq.builder()
     **[REQUIRED]**
 
     The local filesystem path of the file to upload.
-
-**RETURNS:**
-
-*void*
 
 **EXCEPTIONS:**
 

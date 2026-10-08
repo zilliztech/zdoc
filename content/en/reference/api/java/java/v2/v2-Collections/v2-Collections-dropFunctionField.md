@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "Drops a function and the output field owned by that function. | Java | v2"
+description: "This operation drops a function and the output field owned by that function. | Java | v2"
 type: docx
 token: LUUvdGTqrog0AIxfea7cc9a1nCd
 sidebar_position: 42
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # dropFunctionField()
 
-Drops a function and the output field owned by that function.
+This operation drops a function and the output field owned by that function.
 
 ```java
 public void dropFunctionField(DropFunctionFieldReq request)
@@ -60,12 +60,6 @@ DropFunctionFieldReq.builder()
 - `functionName(String functionName)`
 
     The name of the function whose definition and output field should be removed.
-
-**RETURNS:**
-
-*void*
-
-This operation does not return a value.
 
 **EXCEPTIONS:**
 

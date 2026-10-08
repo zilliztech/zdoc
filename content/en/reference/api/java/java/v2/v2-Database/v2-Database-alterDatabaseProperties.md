@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # alterDatabaseProperties()
 
-This operation alters a database's properties. 
+This operation alters a database's properties.
 
 ```java
 public Void alterDatabaseProperties(AlterDatabasePropertiesReq request)
@@ -84,10 +84,6 @@ alterDatabaseProperties(AlterDatabasePropertiesReq.builder()
 - `property(String key, String value)`
 
     Adds a single property to the database.
-
-**RETURNS:**
-
-*void*
 
 **EXCEPTIONS:**
 

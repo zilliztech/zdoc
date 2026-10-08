@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # StructFieldSchema
 
-A **StructFieldSchema** instance represents the schema of the Struct elements in an Array of Structs field. A schema sketches the structure of its Struct elements.
+A StructFieldSchema instance represents the schema of the Struct elements in an Array of Structs field. A schema sketches the structure of its Struct elements.
 
 ```java
 io.milvus.v2.service.collection.request.CreateCollectionReq.StructFieldSchema
@@ -45,7 +45,7 @@ This class cannot be explicitly instantiated. You need to describe a collection 
 
 ## Example\{#example}
 
-The following example illustrates how to create an Array of Structs field and add fields to its Struct elements. 
+The following example illustrates how to create an Array of Structs field and add fields to its Struct elements.
 
 ```java
 import io.milvus.v2.common.DataType;

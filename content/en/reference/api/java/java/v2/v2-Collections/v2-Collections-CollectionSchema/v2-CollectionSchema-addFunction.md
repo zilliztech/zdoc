@@ -81,6 +81,34 @@ addFunction(Function.builder()
 
 A `Function` object
 
+The **Function** object contains the following fields:
+
+**PARAMETERS:**
+
+- **name** (*String*) -
+
+    The name of the function. This identifier is used to reference the function within queries and collections. Defaults to an empty string.
+
+- **description** (*String*) -
+
+    A brief description of the function's purpose. Defaults to an empty string.
+
+- **functionType** (*FunctionType*) -
+
+    The type of the function. For example, `FunctionType.BM25` uses the BM25 algorithm to generate sparse embeddings from a `VARCHAR` field.
+
+- **inputFieldNames** (*List&lt;String&gt;*) -
+
+    The names of the fields containing the raw data that requires conversion to vector representation. For functions using `FunctionType.BM25`, this accepts only one field name.
+
+- **outputFieldNames** (*List&lt;String&gt;*) -
+
+    The names of the fields where the generated outputs are stored. This should correspond to a vector field defined in the collection schema. For functions using `FunctionType.BM25`, this accepts only one field name.
+
+- **params** (*Map&lt;String, String&gt;*) -
+
+    Function-specific parameters passed to the server, such as the analyzer parameters of a BM25 function.
+
 **EXCEPTIONS:**
 
 - **MilvusClientExceptions**

@@ -140,10 +140,6 @@ createCollection(CreateCollectionReq.builder()
 
     Adds a single property to the collection.
 
-**RETURNS:**
-
-*void*
-
 **EXCEPTIONS:**
 
 - **MilvusClientException**

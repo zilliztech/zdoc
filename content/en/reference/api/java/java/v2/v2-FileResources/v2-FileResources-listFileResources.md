@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "Lists all uploaded file resources in the current database. | Java | v2"
+description: "This operation lists all uploaded file resources in the current database. | Java | v2"
 type: docx
 token: JbG0d6GAdoOpkixsVUpcE0YMnPd
 sidebar_position: 2
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listFileResources()
 
-Lists all uploaded file resources in the current database.
+This operation lists all uploaded file resources in the current database.
 
 ```java
 public ListFileResourcesResp listFileResources(ListFileResourcesReq request)
@@ -45,15 +45,27 @@ listFileResources(ListFileResourcesReq.builder().build());
 
 This request takes no parameters.
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *ListFileResourcesResp*
 
-The response wraps `List<FileResourceInfo>` accessible via `getResources()`. Each `FileResourceInfo` entry has:
+**RETURNS:**
 
-- `name` (*String*) - The unique name of the resource.
+A **ListFileResourcesResp** object that contains the registered file resources.
 
-- `path` (*String*) - The original local path that was uploaded.
+**PARAMETERS:**
+
+- **resources** (*List&lt;FileResourceInfo&gt;*) -
+
+    The file resources registered in the current database, accessible via `getResources()`. Each **FileResourceInfo** entry contains the following fields:
+
+    - **name** (*String*) -
+
+        The unique name of the resource.
+
+    - **path** (*String*) -
+
+        The original local path that was uploaded.
 
 **EXCEPTIONS:**
 

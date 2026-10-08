@@ -62,10 +62,6 @@ createAlias(CreateAliasReq.builder()
 
     The alias name.
 
-**RETURNS:**
-
-*void*
-
 **EXCEPTIONS:**
 
 - **MilvusClientException**

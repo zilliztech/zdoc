@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "Returns the complete collection statistics map in addition to the entity count. | Java | v2"
+description: "This operation returns the complete collection statistics map in addition to the entity count. | Java | v2"
 type: docx
 token: RSNDdgCQ2oRIMWxeVafcNf8LnAc
 sidebar_position: 15
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getCollectionStats()
 
-Returns the complete collection statistics map in addition to the entity count.
+This operation returns the complete collection statistics map in addition to the entity count.
 
 ```java
 public GetCollectionStatsResp getCollectionStats(GetCollectionStatsReq request)
@@ -56,11 +56,23 @@ GetCollectionStatsReq.builder()
 
     The name of the target collection.
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *GetCollectionStatsResp*
 
-Contains numOfEntities and the complete stats map returned by Milvus.
+**RETURNS:**
+
+A **GetCollectionStatsResp** object that contains the entity count and the complete statistics map of the specified collection.
+
+**PARAMETERS:**
+
+- **numOfEntities** (*Long*) -
+
+    The number of entities in the collection.
+
+- **stats** (*Map&lt;String, String&gt;*) -
+
+    The complete statistics map of the collection, returned by Milvus as key-value pairs.
 
 **EXCEPTIONS:**
 

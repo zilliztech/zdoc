@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "Adds a function-backed field and its explicitly configured bound index to an existing Milvus 3.0 collection. | Java | v2"
+description: "This operation adds a function-backed field and its explicitly configured bound index to an existing Milvus 3.0 collection. | Java | v2"
 type: docx
 token: GTZHdG3fMoBZi0x23BNctsO7nEE
 sidebar_position: 38
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # addFunctionField()
 
-Adds a function-backed field and its explicitly configured bound index to an existing Milvus 3.0 collection.
+This operation adds a function-backed field and its explicitly configured bound index to an existing Milvus 3.0 collection.
 
 ```java
 public void addFunctionField(AddFunctionFieldReq request)
@@ -130,12 +130,6 @@ AddFunctionFieldReq.builder()
 - `indexParam(IndexParam indexParam)`
 
     The bound index configuration. It must use the same field and an explicit index type other than None or AUTOINDEX.
-
-**RETURNS:**
-
-*void*
-
-This operation does not return a value.
 
 **EXCEPTIONS:**
 

@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # RemoteBulkWriter
 
-A **RemoteBulkWriter** instance writes your raw data in a format that Milvus understands into an AWS-S3-compatible bucket.
+A RemoteBulkWriter instance writes your raw data in a format that Milvus understands into an AWS-S3-compatible bucket.
 
 ```java
 io.milvus.bulkwriter.RemoteBulkWriter
@@ -41,11 +41,7 @@ io.milvus.bulkwriter.RemoteBulkWriter
 
 Constructs a **RemoteBulkWriter** instance with a set of parameters, such as **schema**, **remote_path**, **connect_param,** etc.
 
-<Admonition type="info" title="Notes">
-
 A **RemoteBulkWriter** object intends to rewrite your raw data in a format that Milvus understands into an AWS-S3-compatible or a Microsoft Azure Blob Storage bucket.
-
-</Admonition>
 
 ```java
 public RemoteBulkWriter(RemoteBulkWriterParam bulkWriterParam)
@@ -92,16 +88,11 @@ RemoteBulkWriterParam.newBuilder()
 
     The value defaults to **536,870,912** in bytes, which is **512 MB**.
 
-<Admonition type="info" title="Notes">
-
-The way BulkWriter segments your data varies with the target file type.
-If the generated file exceeds the specified segment size, BulkWriter creates multiple files and names them in sequence numbers, each no larger than the segment size.
-
-</Admonition>
+    The way BulkWriter segments your data varies with the target file type. If the generated file exceeds the specified segment size, BulkWriter creates multiple files and names them in sequence numbers, each no larger than the segment size.
 
 - `withFileType(BulkFileType fileType)`
 
-    The type of the output file. Possible options are listed in [BulkFileType](./v2-DataImport-BulkFileType).
+    The type of the output file. Possible options are listed in BulkFileType.
 
 - `withConfig(String key, Object val)`
 
@@ -140,15 +131,15 @@ AzureConnectParam.newBuilder()
 
 - `withConnStr(String connStr)`
 
-    A connection string to an Azure Storage account, which can be parsed to an account_url and a credential. To generate a connection string, read [this link](https://learn.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string).
+    A connection string to an Azure Storage account, which can be parsed to an account_url and a credential. To generate a connection string, read this link.
 
 - `withAccountUrl(String accountUrl)`
 
-    A string in format like `https://<storage-account>.blob.core.windows.net`. Read [this link](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview) for more info.
+    A string in format like `https://<storage-account>.blob.core.windows.net`. Read this link for more info.
 
 - `withCredential(TokenCrendtial credential)`
 
-    Account access key for the account. Read [this link](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys) for more info.
+    Account access key for the account. Read this link for more info.
 
 ### S3ConnectParam\{#s3connectparam}
 

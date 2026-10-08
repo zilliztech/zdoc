@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "group": "java",
   "complete": true,
-  "generatedAt": "2026-10-07T10:42:13.834Z",
-  "sourceRunId": "37606621003",
+  "generatedAt": "2026-10-08T10:40:37.843Z",
+  "sourceRunId": "37762873406",
   "records": [
     {
       "canonicalToken": "A2Vpd1kXsoF5uexKYb8ckcGMnWe",
@@ -242,7 +242,7 @@
     {
       "canonicalToken": "DAIfdXKk5oCHeNxOUvCc1KcpnNh",
       "title": "CreateSchema()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CreateSchema.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -854,7 +854,7 @@
     {
       "canonicalToken": "K9E6dtYlJojtOCxTG0EcGBVnnKe",
       "title": "WaitForDropCollection()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-WaitForDropCollection.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1619,7 +1619,7 @@
     {
       "canonicalToken": "TcDydsHo2o2vnOx1leHcOqNCnxc",
       "title": "createSchema()",
-      "contentPath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-createSchema.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,

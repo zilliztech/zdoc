@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # dropDatabase()
 
-This operation drops a database with the specified name. 
+This operation drops a database with the specified name.
 
 ```java
 public void dropDatabase(DropDatabaseReq request)
@@ -51,10 +51,6 @@ dropDatabase(DropDatabaseReq.builder()
 - `databaseName(String databaseName)`
 
     The name of the database to drop.
-
-**RETURNS:**
-
-*void*
 
 **EXCEPTIONS:**
 

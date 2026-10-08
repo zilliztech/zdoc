@@ -65,6 +65,12 @@ hasCollection(HasCollectionReq.builder()
 
 A boolean value indicating whether the specified collection exists.
 
+**PARAMETERS:**
+
+- **exists** (*Boolean*) -
+
+    Whether the specified collection exists.
+
 **EXCEPTIONS:**
 
 - **MilvusClientExceptions**

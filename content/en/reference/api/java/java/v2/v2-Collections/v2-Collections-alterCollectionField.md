@@ -93,10 +93,6 @@ alterCollectionField(AlterCollectionFieldReq.builder()
 
     Adds a single property to alter on the field.
 
-**RETURNS:**
-
-*void*
-
 **EXCEPTIONS:**
 
 - **MilvusClientExceptions**

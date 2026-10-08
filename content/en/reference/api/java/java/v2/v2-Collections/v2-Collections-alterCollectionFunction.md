@@ -66,10 +66,6 @@ alterCollectionFunction(AlterCollectionFunctionReq.builder()
 
     The new function definition to replace the existing one.
 
-**RETURNS:**
-
-*void*
-
 **EXCEPTIONS:**
 
 - **MilvusClientException**

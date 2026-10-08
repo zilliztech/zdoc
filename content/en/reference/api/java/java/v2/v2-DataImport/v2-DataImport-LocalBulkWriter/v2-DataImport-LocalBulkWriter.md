@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # LocalBulkWriter
 
-A **LocalBulkWriter** instance rewrites your raw data locally in a format that Milvus understands.
+A LocalBulkWriter instance rewrites your raw data locally in a format that Milvus understands.
 
 ```java
 io.milvus.bulkwriter.LocalBulkWriter
@@ -41,11 +41,7 @@ io.milvus.bulkwriter.LocalBulkWriter
 
 Constructs a LocalBulkWriter instance based on the schema, output path, segment size, and file type.
 
-<Admonition type="info" title="Notes">
-
 A LocalBulkWriter object rewrites your raw data locally in a format that Milvus understands.
-
-</Admonition>
 
 ```java
 LocalBulkWriter(LocalBulkWriterParam bulkWriterParam)
@@ -87,16 +83,11 @@ LocalBulkWriterParam.newBuilder()
 
     The value defaults to 536,870,912 bytes, which is 512 MB.
 
-<Admonition type="info" title="Notes">
-
-The way BulkWriter segments your data varies with the target file type.
-If the generated file exceeds the specified segment size, BulkWriter creates multiple files and names them with sequential numbers, each no larger than the segment size.
-
-</Admonition>
+    The way BulkWriter segments your data varies with the target file type. If the generated file exceeds the specified segment size, BulkWriter creates multiple files and names them with sequential numbers, each no larger than the segment size.
 
 - `withFileType(BulkFileType fileType)`
 
-    The type of the output file. Possible options are listed in [BulkFileType](./v2-DataImport-BulkFileType).
+    The type of the output file. Possible options are listed in BulkFileType.
 
 - `withConfig(String key, Object val)`
 

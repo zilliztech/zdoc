@@ -67,14 +67,6 @@ dropCollectionFieldProperties(DropCollectionFieldPropertiesReq.builder()
 
     The names of the properties to drop from the specified field.
 
-**RETURN TYPE:**
-
-*void*
-
-**RETURNS:** 
-
-None
-
 ## Example\{#example}
 
 ```java

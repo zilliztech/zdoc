@@ -314,12 +314,6 @@ module.exports = [
       },
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-Collections/v2-Collections-createSchema",
-        "label": "createSchema()",
-        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-createschema"
-      },
-      {
-        "type": "doc",
         "id": "api/java/java/v2/v2-Collections/v2-Collections-DataType",
         "label": "DataType",
         "key": "doc:api/java/java/v2/v2-Collections/v2-collections-datatype"
@@ -383,6 +377,18 @@ module.exports = [
         "id": "api/java/java/v2/v2-Collections/v2-Collections-renameCollection",
         "label": "renameCollection()",
         "key": "doc:api/java/java/v2/v2-Collections/v2-collections-renamecollection"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Collections/v2-Collections-WaitForDropCollection",
+        "label": "WaitForDropCollection()",
+        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-waitfordropcollection"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Collections/v2-Collections-CreateSchema",
+        "label": "CreateSchema()",
+        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-createschema"
       },
       {
         "type": "doc",

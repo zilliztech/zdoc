@@ -54,7 +54,7 @@ alterAlias(AlterAliasReq.builder()
 
     The alias of the collection. Note that the alias should exist beforehand.
 
-    A collection alias is an additional name for a collection. Collection aliases are useful when you want to switch your application to a new collection without changing your code. 
+    A collection alias is an additional name for a collection. Collection aliases are useful when you want to switch your application to a new collection without changing your code.
 
     In Milvus, a collection alias is a globally unique identifier. One alias can be assigned to exactly one collection. Conversely, a collection can have multiple aliases.
 
@@ -79,10 +79,6 @@ alterAlias(AlterAliasReq.builder()
 - `collectionName(String collectionName)`
 
     The name of the target collection to reassign an alias to.
-
-**RETURNS:**
-
-*void*
 
 **EXCEPTIONS:**
 

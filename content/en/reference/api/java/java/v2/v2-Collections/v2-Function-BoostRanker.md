@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "The BoostRanker extends from the Function class and provides extra parameters. | Java | v2"
+description: "A BoostRanker instance is a rerank function that boosts the scores of entities matching a filter expression, extending the Function class with extra parameters. | Java | v2"
 type: docx
 token: Gl75dvp4MoxJRAxNsPYcdtunnFc
 sidebar_position: 39
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # BoostRanker
 
-The BoostRanker extends from the **Function** class and provides extra parameters.
+A BoostRanker instance is a rerank function that boosts the scores of entities matching a filter expression, extending the **Function** class with extra parameters.
 
 ```java
 public class BoostRanker extends CreateCollectionReq.Function
@@ -72,13 +72,9 @@ BoostRanker.builder()
 
 - `filter(String filter)`
 
-    The filter expression that will be used to match entities among search result entities. It can be any valid basic filter expression mentioned in [Filtering Explained](https://milvus.io/docs/boolean.md).
+    The filter expression that will be used to match entities among search result entities. It can be any valid basic filter expression mentioned in Filtering Explained.
 
-<Admonition type="info" title="Notes">
-
-Only use basic operators, such as `==`, `>`, or `<`. Using advanced operators, such as `text_match` or `phrase_match`, will degrade search performance.
-
-</Admonition>
+    Only use basic operators, such as `==`, `>`, or `<`. Using advanced operators, such as `text_match` or `phrase_match`, will degrade search performance.
 
 - `weight(Float weight)`
 
@@ -92,13 +88,13 @@ Only use basic operators, such as `==`, `>`, or `<`. Using advanced operators, s
 
 - `randomScoreSeed(Long randomScoreSeed)`
 
-    The random function that works with `randomScoreField(String randomScoreField)` to generate a value between `0` and `1` randomly. 
+    The random function that works with `randomScoreField(String randomScoreField)` to generate a value between `0` and `1` randomly.
 
     You should specify an initial value to start a pseudorandom number generator (PRNG).
 
 - `randomScoreField(String randomScoreField)`
 
-    The random function that works with `randomScoreSeed(Long randomScoreSeed)` to generate a value between `0` and `1` randomly. 
+    The random function that works with `randomScoreSeed(Long randomScoreSeed)` to generate a value between `0` and `1` randomly.
 
     You should specify the name of a field whose value will be used as a random factor in generating the random number. A field with unique values will suffice.
 
@@ -109,6 +105,28 @@ Only use basic operators, such as `==`, `>`, or `<`. Using advanced operators, s
 **RETURNS:**
 
 A boost ranker instance.
+
+**PARAMETERS:**
+
+- **functionType** (*FunctionType*) -
+
+    The function type of this ranker: always `RERANK`.
+
+- **filter** (*String*) -
+
+    The filter expression that selects the entities to boost.
+
+- **weight** (*Float*) -
+
+    The weight applied to the scores of the boosted entities.
+
+- **randomScoreSeed** (*Long*) -
+
+    The seed used for the random score, when random boosting is enabled.
+
+- **randomScoreField** (*String*) -
+
+    The field used as the basis of the random score.
 
 ## Examples:\{#examples}
 

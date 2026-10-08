@@ -52,13 +52,23 @@ describeDatabase(DescribeDatabaseReq.builder()
 
     The name of the database.
 
-**RETURN TYPE**:
+**RETURN TYPE:**
 
 *DescribeDatabaseResp*
 
 **RETURNS:**
 
 A **DescribeDatabaseResp** object that contains detailed information about the specified database.
+
+**PARAMETERS:**
+
+- **databaseName** (*String*) -
+
+    The name of the database.
+
+- **properties** (*Map&lt;String, String&gt;*) -
+
+    The properties of the database.
 
 **EXCEPTIONS:**
 
