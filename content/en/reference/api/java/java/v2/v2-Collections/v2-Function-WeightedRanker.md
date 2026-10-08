@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "The WeightedRanker class extends from the Function class and provides extra parameters. | Java | v2"
+description: "A WeightedRanker instance is a rerank function that re-scores results by averaging the weighted scores of multiple search paths, extending the Function class with extra parameters. | Java | v2"
 type: docx
 token: WNqcdscscoj64pxr24jcITJKnLb
 sidebar_position: 46
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # WeightedRanker
 
-The **WeightedRanker** class extends from the **Function** class and provides extra parameters.
+A WeightedRanker instance is a rerank function that re-scores results by averaging the weighted scores of multiple search paths, extending the **Function** class with extra parameters.
 
 ```java
 public class WeightedRanker extends CreateCollectionReq.Function
@@ -74,6 +74,16 @@ WeightedRanker.builder()
 **RETURNS:**
 
 A weighted ranker instance.
+
+**PARAMETERS:**
+
+- **functionType** (*FunctionType*) -
+
+    The function type of this ranker: always `RERANK`.
+
+- **weights** (*List&lt;Float&gt;*) -
+
+    The weights of the search paths, each value ranging from `0` to `1`.
 
 ## Examples:\{#examples}
 

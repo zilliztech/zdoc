@@ -67,10 +67,6 @@ dropIndex(DropIndexReq.builder()
 
     The name of the index to drop.
 
-**RETURNS:**
-
-*void*
-
 **EXCEPTIONS:**
 
 - **MilvusClientExceptions**

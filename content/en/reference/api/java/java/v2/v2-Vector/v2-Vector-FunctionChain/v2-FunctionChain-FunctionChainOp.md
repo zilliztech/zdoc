@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "A single operation in a function-chain pipeline, such as `map`, `sort`, or `limit`. | Java | v2"
+description: "A FunctionChainOp instance is a single operation in a function-chain pipeline, such as `map`, `sort`, or `limit`. | Java | v2"
 type: docx
 token: A6jodK8uxonu3Gx8pS6ccsJtnte
 sidebar_position: 4
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # FunctionChainOp
 
-A single operation in a function-chain pipeline, such as `map`, `sort`, or `limit`.
+A FunctionChainOp instance is a single operation in a function-chain pipeline, such as `map`, `sort`, or `limit`.
 
 ```java
 io.milvus.v2.service.vector.request.FunctionChainOp
@@ -84,6 +84,32 @@ FunctionChainOp.builder()
 **RETURN TYPE:**
 
 *FunctionChainOp*
+
+**RETURNS:**
+
+A **FunctionChainOp** instance.
+
+**PARAMETERS:**
+
+- **op** (*String*) -
+
+    The server-recognized operation name, e.g. `"map"`, `"sort"`, `"limit"`.
+
+- **expr** (*FunctionChainExpr*) -
+
+    The function expression attached to this operation, or `null` when the operation has none.
+
+- **inputs** (*List&lt;String&gt;*) -
+
+    The input columns consumed by this operation.
+
+- **outputs** (*List&lt;String&gt;*) -
+
+    The output columns produced by this operation.
+
+- **params** (*Map&lt;String, FunctionParamValue&gt;*) -
+
+    The named parameters of this operation, each value being a **FunctionParamValue** object.
 
 **METHODS:**
 

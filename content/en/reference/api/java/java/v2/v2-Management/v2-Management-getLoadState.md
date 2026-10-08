@@ -68,13 +68,13 @@ getLoadState(GetLoadStateReq.builder()
 
 **RETURNS:**
 
-A Boolean value that indicates the status of the specified collection or partition. 
+A Boolean value that indicates the status of the specified collection or partition.
 
-<Admonition type="info" title="Notes">
+**PARAMETERS:**
 
-A collection is in the loaded state if any or all of its partitions are loaded.
+- **loaded** (*Boolean*) -
 
-</Admonition>
+    Whether the specified collection or partition is loaded: `true` if loaded, `false` otherwise.
 
 **EXCEPTIONS:**
 

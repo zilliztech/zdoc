@@ -899,6 +899,12 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/java/java/v2/v2-Management/v2-Management-getCompactionState",
+        "label": "getCompactionState()",
+        "key": "doc:api/java/java/v2/v2-Management/v2-management-getcompactionstate"
+      },
+      {
+        "type": "doc",
         "id": "api/java/java/v2/v2-Management/v2-Management-getLoadState",
         "label": "getLoadState()",
         "key": "doc:api/java/java/v2/v2-Management/v2-management-getloadstate"
@@ -944,6 +950,24 @@ module.exports = [
         "id": "api/java/java/v2/v2-Management/v2-Management-releaseCollection",
         "label": "releaseCollection()",
         "key": "doc:api/java/java/v2/v2-Management/v2-management-releasecollection"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Management/v2-Management-checkHealth",
+        "label": "checkHealth()",
+        "key": "doc:api/java/java/v2/v2-Management/v2-management-checkhealth"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Management/v2-Management-getPersistentSegmentInfo",
+        "label": "getPersistentSegmentInfo()",
+        "key": "doc:api/java/java/v2/v2-Management/v2-management-getpersistentsegmentinfo"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Management/v2-Management-getQuerySegmentInfo",
+        "label": "getQuerySegmentInfo()",
+        "key": "doc:api/java/java/v2/v2-Management/v2-management-getquerysegmentinfo"
       },
       {
         "type": "doc",

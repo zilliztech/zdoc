@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "A typed value used for function-chain expression and operation parameters. | Java | v2"
+description: "A FunctionParamValue instance is a typed value used for function-chain expression and operation parameters. | Java | v2"
 type: docx
 token: HYTwdAVAEo85oqxQPI4ctxErnDh
 sidebar_position: 6
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # FunctionParamValue
 
-A typed value used for function-chain expression and operation parameters.
+A FunctionParamValue instance is a typed value used for function-chain expression and operation parameters.
 
 ```java
 io.milvus.v2.service.vector.request.FunctionParamValue

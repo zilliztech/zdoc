@@ -76,7 +76,7 @@ LexicalHighlighter.builder()
 
     If unset, no filtering terms are highlighted.
 
-    For details, refer to [Text Highlighter](https://milvus.io/docs/text-highlighter.md).
+    For details, refer to Text Highlighter.
 
 - `highlightSearchText(Boolean)`
 
@@ -109,6 +109,36 @@ LexicalHighlighter.builder()
 **RETURNS:**
 
 A **LexicalHighlighter** instance.
+
+**PARAMETERS:**
+
+- **highlightQueries** (*List&lt;HighlightQuery&gt;*) -
+
+    The query terms to highlight. Each entry is a **HighlightQuery** instance that selects the terms to mark from a text-based filter.
+
+- **highlightSearchText** (*Boolean*) -
+
+    Whether the BM25 search terms are used as the source of highlighted terms.
+
+- **preTags** (*List&lt;String&gt;*) -
+
+    Tags inserted before each matched term. Multiple tags rotate across matches in order.
+
+- **postTags** (*List&lt;String&gt;*) -
+
+    Tags inserted after each matched term, paired with the pre-tags.
+
+- **fragmentOffset** (*Integer*) -
+
+    Number of leading characters kept as context before the first highlighted match in fragment-based output.
+
+- **fragmentSize** (*Integer*) -
+
+    Maximum length of each returned fragment, in characters.
+
+- **numOfFragments** (*Integer*) -
+
+    Maximum number of fragments returned per text value.
 
 ## Example\{#example}
 

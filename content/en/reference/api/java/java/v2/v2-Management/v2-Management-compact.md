@@ -77,11 +77,19 @@ compact(CompactReq.builder()
 
     The unit of `targetSize`. Supported values: `"b"`, `"kb"`, `"mb"`, `"gb"`, `"tb"`, `"pb"`. Defaults to `"mb"`.
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *CompactResp*
 
-A **CompactResp** object contains a compaction ID.
+**RETURNS:**
+
+A **CompactResp** object contains the following fields:
+
+**PARAMETERS:**
+
+- **compactionID** (*Long*) -
+
+    The ID of the compaction task.
 
 **EXCEPTIONS:**
 

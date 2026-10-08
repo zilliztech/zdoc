@@ -47,7 +47,7 @@ addFunction(
 
 **PARAMETERS:**
 
-- **func** (*CreateCollectionReq.Function*) 
+- **func** (*CreateCollectionReq.Function*)
 
     The function to add.
 
@@ -55,9 +55,19 @@ addFunction(
 
 *B extends FunctionScore.FunctionScoreBuilder&lt;C, B&gt;*
 
-**RETURNS**
+**RETURNS:**
 
 A FunctionScore builder for chaining multiple addFunction() methods.
+
+**PARAMETERS:**
+
+- **functions** (*List&lt;CreateCollectionReq.Function&gt;*) -
+
+    The functions added so far; each addFunction() call appends to this list.
+
+- **params** (*Map&lt;String, String&gt;*) -
+
+    The parameters of this function score, set with `params(Map<String, String> params)`.
 
 ## Example\{#example}
 

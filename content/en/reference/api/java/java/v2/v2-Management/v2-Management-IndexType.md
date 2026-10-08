@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "This is an enumeration that provides the following constants. | Java | v2"
+description: "A IndexType instance is an enumeration constant. The enumeration provides the following constants. | Java | v2"
 type: docx
 token: Zh6adGbCBoqXsPxnvGXcfrMwnhc
 sidebar_position: 11
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # IndexType
 
-This is an enumeration that provides the following constants.
+A IndexType instance is an enumeration constant. The enumeration provides the following constants.
 
 ## Constants\{#constants}
 

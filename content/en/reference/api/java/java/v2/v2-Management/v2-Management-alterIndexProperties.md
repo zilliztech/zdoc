@@ -75,10 +75,6 @@ alterIndexProperties(AlterIndexPropertiesReq.builder()
 
     Adds a single property to the index.
 
-**RETURNS:**
-
-*void*
-
 **EXCEPTIONS:**
 
 - **MilvusClientExceptions**

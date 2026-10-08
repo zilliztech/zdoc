@@ -56,9 +56,19 @@ flushAll(FlushAllReq.builder()
 
     How long to wait for the flush-all operation to finish. Values greater than zero enable synchronous waiting.
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *FlushAllResp*
+
+**RETURNS:**
+
+A **FlushAllResp** object that contains the timestamp of the flush-all operation.
+
+**PARAMETERS:**
+
+- **flushAllTs** (*Long*) -
+
+    The timestamp that identifies the flush-all operation. Pass it to `getFlushAllState` to poll whether the flush-all operation has finished.
 
 **EXCEPTIONS:**
 
@@ -80,5 +90,3 @@ FlushAllResp resp = client.flushAll(FlushAllReq.builder()
     .build());
 System.out.println(resp.getFlushAllTs());
 ```
-
-{/* category: Management; action: CREATE; addedSince: v3.0.x */}

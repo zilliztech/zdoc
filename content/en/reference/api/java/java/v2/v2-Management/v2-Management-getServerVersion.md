@@ -37,11 +37,19 @@ This operation returns the version string of the connected .
 public String getServerVersion()
 ```
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *String*
 
+**RETURNS:**
+
 The version string of the server (e.g., `"2.6.13"`).
+
+**PARAMETERS:**
+
+- **version** (*String*) -
+
+    The version string of the connected Milvus server.
 
 **EXCEPTIONS:**
 

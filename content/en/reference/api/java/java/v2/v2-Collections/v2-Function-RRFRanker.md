@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "The RRFRanker class extends the Function class and provides extra parameters. | Java | v2"
+description: "A RRFRanker instance is a rerank function that merges results from multiple searches by reciprocal rank fusion, extending the Function class with extra parameters. | Java | v2"
 type: docx
 token: AVK9dgWG5oqvmgxYkxocGKLqnWb
 sidebar_position: 45
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # RRFRanker
 
-The RRFRanker class extends the Function class and provides extra parameters.
+A RRFRanker instance is a rerank function that merges results from multiple searches by reciprocal rank fusion, extending the **Function** class with extra parameters.
 
 ```java
 public class RRFRanker extends CreateCollectionReq.Function
@@ -73,6 +73,16 @@ RRFRanker.builder()
 **RETURNS:**
 
 An RRF ranker instance.
+
+**PARAMETERS:**
+
+- **functionType** (*FunctionType*) -
+
+    The function type of this ranker: always `RERANK`.
+
+- **k** (*int*) -
+
+    The smoothing parameter that controls the impact of document ranks, ranging from `1` to `16383`.
 
 ## Examples:\{#examples}
 

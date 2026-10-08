@@ -72,11 +72,67 @@ describeIndex(DescribeIndexReq.builder()
 
     A timestamp for time-travel queries. Defaults to `0L`.
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *DescribeIndexResp*
 
+**RETURNS:**
+
 A **DescribeIndexResp** object that contains the details of the specified index.
+
+**PARAMETERS:**
+
+- **indexDescriptions** (*List&lt;IndexDesc&gt;*) -
+
+    A list of index descriptions, each of which is an **IndexDesc** object that contains the following fields:
+
+    - **fieldName** (*String*) -
+
+        The name of the field on which the index is built.
+
+    - **indexName** (*String*) -
+
+        The name of the index.
+
+    - **id** (*long*) -
+
+        The ID of the index.
+
+    - **indexType** (*IndexParam.IndexType*) -
+
+        The type of the index.
+
+    - **metricType** (*IndexParam.MetricType*) -
+
+        The metric type used to measure vector similarity with this index.
+
+    - **extraParams** (*Map&lt;String, String&gt;*) -
+
+        The extra parameters of the index.
+
+    - **indexedRows** (*long*) -
+
+        The number of rows that have been indexed.
+
+    - **totalRows** (*long*) -
+
+        The total number of rows in the target field.
+
+    - **pendingIndexRows** (*long*) -
+
+        The number of rows waiting to be indexed.
+
+    - **indexState** (*IndexBuildState*) -
+
+        The state of the index build task. Possible values are: `IndexStateNone`, `Unissued`, `InProgress`, `Finished`, `Failed`, `Retry`.
+
+    - **indexFailedReason** (*String*) -
+
+        The reason why the index build task failed.
+
+    - **properties** (*Map&lt;String, String&gt;*) -
+
+        The index properties. Deprecated: index properties are now dispatched to `extraParams`.
 
 **EXCEPTIONS:**
 

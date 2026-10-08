@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "This getter returns the list of functions defined in this FunctionScore object. | Java | v2"
+description: "This operation returns the list of functions defined in this FunctionScore object. | Java | v2"
 type: docx
 token: RsqKdZaMnoHbaRxYr1fcqRbRnth
 sidebar_position: 3
@@ -31,15 +31,25 @@ import Admonition from '@theme/Admonition';
 
 # getFunctions()
 
-This getter returns the list of functions defined in this FunctionScore object.
+This operation returns the list of functions defined in this FunctionScore object.
 
 ```java
 public List<CreateCollectionReq.Function> getFunctions()
 ```
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *List&lt;CreateCollectionReq.Function&gt;*
+
+**RETURNS:**
+
+A **List&lt;CreateCollectionReq.Function&gt;** of the functions defined in this FunctionScore object.
+
+**PARAMETERS:**
+
+- **functions** (*List&lt;CreateCollectionReq.Function&gt;*) -
+
+    The functions defined in this FunctionScore object, each of which is a **CreateCollectionReq.Function** object.
 
 **EXCEPTIONS:**
 

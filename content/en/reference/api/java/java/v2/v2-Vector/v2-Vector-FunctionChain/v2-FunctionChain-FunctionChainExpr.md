@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "A function invocation expression used by a function-chain operation, such as `numcombine`, `decay`, or `rounddecimal`. | Java | v2"
+description: "A FunctionChainExpr instance is a function invocation expression used by a function-chain operation, such as `numcombine`, `decay`, or `rounddecimal`. | Java | v2"
 type: docx
 token: RyvBdUjTKo2sF4xtwoRc2FNbn3d
 sidebar_position: 3
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # FunctionChainExpr
 
-A function invocation expression used by a function-chain operation, such as `num_combine`, `decay`, or `round_decimal`.
+A FunctionChainExpr instance is a function invocation expression used by a function-chain operation, such as `num_combine`, `decay`, or `round_decimal`.
 
 ```java
 io.milvus.v2.service.vector.request.FunctionChainExpr
@@ -66,6 +66,24 @@ FunctionChainExpr.builder()
 **RETURN TYPE:**
 
 *FunctionChainExpr*
+
+**RETURNS:**
+
+A **FunctionChainExpr** instance.
+
+**PARAMETERS:**
+
+- **name** (*String*) -
+
+    The expression name, e.g. `"num_combine"`.
+
+- **args** (*List&lt;FunctionChainArg&gt;*) -
+
+    The arguments of the expression, each of which is a **FunctionChainArg** object.
+
+- **params** (*Map&lt;String, FunctionParamValue&gt;*) -
+
+    The named parameters of the expression, each value being a **FunctionParamValue** object.
 
 **METHODS:**
 

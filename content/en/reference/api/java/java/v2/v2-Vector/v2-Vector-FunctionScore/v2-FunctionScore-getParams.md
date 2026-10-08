@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "This getter returns the parameters map of this FunctionScore object. | Java | v2"
+description: "This operation returns the parameters map of this FunctionScore object. | Java | v2"
 type: docx
 token: DUJsdflImor0joxV14ecSwpnnDb
 sidebar_position: 4
@@ -31,15 +31,25 @@ import Admonition from '@theme/Admonition';
 
 # getParams()
 
-This getter returns the parameters map of this FunctionScore object.
+This operation returns the parameters map of this FunctionScore object.
 
 ```java
 public Map<String, String> getParams()
 ```
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *Map&lt;String, String&gt;*
+
+**RETURNS:**
+
+A **Map&lt;String, String&gt;** of the parameters of this FunctionScore object.
+
+**PARAMETERS:**
+
+- **params** (*Map&lt;String, String&gt;*) -
+
+    The parameters of this FunctionScore object, used by the `search` API to re-rank or modify the scores of search results.
 
 **EXCEPTIONS:**
 

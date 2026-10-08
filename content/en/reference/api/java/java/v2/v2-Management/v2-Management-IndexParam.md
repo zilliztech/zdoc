@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "IndexParam defines the parameters for configuring an index on a collection field. | Java | v2"
+description: "A IndexParam instance holds the parameters for configuring an index on a collection field. | Java | v2"
 type: docx
 token: PpTcd5ptzoYJjZxRPdMcQvSjnDc
 sidebar_position: 10
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # IndexParam
 
-IndexParam defines the parameters for configuring an index on a collection field.
+A IndexParam instance holds the parameters for configuring an index on a collection field.
 
 ```java
 IndexParam.builder()
@@ -60,9 +60,35 @@ IndexParam.builder()
 
     Additional index-specific parameters as key-value pairs. For example, `{"M": 16, "efConstruction": 256}` for HNSW indexes.
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *IndexParam*
+
+**RETURNS:**
+
+An **IndexParam** object contains the following fields:
+
+**PARAMETERS:**
+
+- **fieldName** (*String*) -
+
+    The name of the field to index.
+
+- **indexName** (*String*) -
+
+    The name of the index.
+
+- **indexType** (*IndexType*) -
+
+    The type of index to build on the field. Default: `AUTOINDEX`.
+
+- **metricType** (*MetricType*) -
+
+    The metric type used to measure vector similarity.
+
+- **extraParams** (*Map&lt;String, Object&gt;*) -
+
+    Additional index-specific parameters as key-value pairs, such as `nlist` or `M`.
 
 **EXCEPTIONS:**
 

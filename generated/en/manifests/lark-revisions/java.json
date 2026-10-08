@@ -2,13 +2,13 @@
   "schemaVersion": 1,
   "group": "java",
   "complete": true,
-  "generatedAt": "2026-10-08T10:40:37.843Z",
-  "sourceRunId": "37762873406",
+  "generatedAt": "2026-10-08T18:46:11.761Z",
+  "sourceRunId": "37823988862",
   "records": [
     {
       "canonicalToken": "A2Vpd1kXsoF5uexKYb8ckcGMnWe",
       "title": "getCompactionState()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getCompactionState.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1385,7 +1385,7 @@
     {
       "canonicalToken": "Qg8wdRoRdoan3pxQnJLcOW5jnub",
       "title": "getPersistentSegmentInfo()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getPersistentSegmentInfo.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1394,7 +1394,7 @@
     {
       "canonicalToken": "QuXrdxjjro2u25xZChncXfBunlO",
       "title": "getQuerySegmentInfo()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getQuerySegmentInfo.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1601,7 +1601,7 @@
     {
       "canonicalToken": "TSuFdRAGiopuefxPbEVczwlCnRg",
       "title": "checkHealth()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-checkHealth.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,

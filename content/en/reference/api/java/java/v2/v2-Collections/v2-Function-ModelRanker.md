@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "The ModelRanker class extends the Function class and provides extra parameters. | Java | v2"
+description: "A ModelRanker instance is a rerank function that uses a language model to compute relevance scores between queries and documents, extending the Function class with extra parameters. | Java | v2"
 type: docx
 token: ZKj1dLHd2otxtAxRL33cxVZznDb
 sidebar_position: 44
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # ModelRanker
 
-The ModelRanker class extends the Function class and provides extra parameters.
+A ModelRanker instance is a rerank function that uses a language model to compute relevance scores between queries and documents, extending the **Function** class with extra parameters.
 
 ```java
 public class ModelRanker extends CreateCollectionReq.Function
@@ -69,13 +69,13 @@ ModelRanker.builder()
 
     A set of key-value pairs that configures the function properties.
 
-    - `max_client_batch_size`(int) -
+- `max_client_batch_size`(int) -
 
-        The maximum number of documents to process in a single batch. Larger values increase throughput but require more memory. The value defaults to `32`.
+    The maximum number of documents to process in a single batch. Larger values increase throughput but require more memory. The value defaults to `32`.
 
 - `provider(String provider)`
 
-    The name of the reranking model provider. For possible values, refer to [Choose a model provider for your needs](https://milvus.io/docs/model-ranker-overview.md#Choose-a-model-provider-for-your-needs).
+    The name of the reranking model provider. For possible values, refer to Choose a model provider for your needs.
 
 - `queries(List<String> queries)`
 
@@ -92,6 +92,24 @@ ModelRanker.builder()
 **RETURNS:**
 
 A model ranker instance.
+
+**PARAMETERS:**
+
+- **functionType** (*FunctionType*) -
+
+    The function type of this ranker: always `RERANK`.
+
+- **provider** (*String*) -
+
+    The name of the reranking model provider, for example `tei` or `vllm`.
+
+- **queries** (*List&lt;String&gt;*) -
+
+    The query strings used by the model to compute relevance scores.
+
+- **endpoint** (*String*) -
+
+    The URL of the deployed rerank model service.
 
 ## Examples:\{#examples}
 

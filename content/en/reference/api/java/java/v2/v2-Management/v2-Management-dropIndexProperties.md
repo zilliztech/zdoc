@@ -71,10 +71,6 @@ dropIndexProperties(DropIndexPropertiesReq.builder()
 
         Whether to enable mmap for the current index.
 
-**RETURNS:**
-
-*void*
-
 **EXCEPTIONS:**
 
 - **MilvusClientExceptions**

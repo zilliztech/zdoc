@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "A `SemanticHighlighter` instance configures post-processing semantic highlighting for text fields in search results. Unlike lexical highlighting which matches exact terms, semantic highlighting identifies and marks relevant text segments based on semantic similarity to the query. Highlighting annotates matched spans using customizable tags. It does not impact retrieval, filtering, ranking, or scoring. | Java | v2"
+description: "A SemanticHighlighter instance configures post-processing semantic highlighting for text fields in search results. Unlike lexical highlighting which matches exact terms, semantic highlighting identifies and marks relevant text segments based on semantic similarity to the query. Highlighting annotates matched spans using customizable tags. It does not impact retrieval, filtering, ranking, or scoring. | Java | v2"
 type: docx
 token: Q1M5dNmqoo9wizxhCD6cSJVcn8b
 sidebar_position: 3
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # SemanticHighlighter
 
-A `SemanticHighlighter` instance configures post-processing semantic highlighting for text fields in search results. Unlike lexical highlighting which matches exact terms, semantic highlighting identifies and marks relevant text segments based on semantic similarity to the query. Highlighting annotates matched spans using customizable tags. It does not impact retrieval, filtering, ranking, or scoring.
+A SemanticHighlighter instance configures post-processing semantic highlighting for text fields in search results. Unlike lexical highlighting which matches exact terms, semantic highlighting identifies and marks relevant text segments based on semantic similarity to the query. Highlighting annotates matched spans using customizable tags. It does not impact retrieval, filtering, ranking, or scoring.
 
 ```java
 io.milvus.v2.service.vector.request.highlighter.SemanticHighlighter
@@ -95,6 +95,40 @@ SemanticHighlighter.builder()
 **RETURNS:**
 
 A **SemanticHighlighter** instance.
+
+**PARAMETERS:**
+
+- **queries** (*List&lt;String&gt;*) -
+
+    The search queries used to identify semantically relevant text segments in the results.
+
+- **inputFields** (*List&lt;String&gt;*) -
+
+    The schema text fields in the search results to highlight.
+
+- **preTags** (*List&lt;String&gt;*) -
+
+    Tags inserted before each matched segment. Multiple tags rotate by match sequence.
+
+- **postTags** (*List&lt;String&gt;*) -
+
+    Tags inserted after each matched segment, paired with the pre-tags.
+
+- **threshold** (*Float*) -
+
+    The minimum confidence score (0.0 to 1.0) for highlighting a segment.
+
+- **highlightOnly** (*Boolean*) -
+
+    Whether only the sentence-level related fragments are returned instead of full paragraphs.
+
+- **modelDeploymentID** (*String*) -
+
+    The ID of the deployed highlight model used for semantic inference.
+
+- **maxClientBatchSize** (*Integer*) -
+
+    The maximum number of items processed in a single batch.
 
 ## Examples\{#examples}
 

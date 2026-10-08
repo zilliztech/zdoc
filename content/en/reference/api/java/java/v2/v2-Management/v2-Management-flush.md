@@ -62,10 +62,6 @@ flush(FlushReq.builder()
 
     The timeout in milliseconds to wait for flush completion.
 
-**RETURNS:**
-
-*void*
-
 **EXCEPTIONS:**
 
 - **MilvusClientException**

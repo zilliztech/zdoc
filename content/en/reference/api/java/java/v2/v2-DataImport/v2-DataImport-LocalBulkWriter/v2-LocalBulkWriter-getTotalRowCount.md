@@ -37,9 +37,19 @@ This operation returns the total number of rows written by this LocalBulkWriter 
 public Long getTotalRowCount()
 ```
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *Long*
+
+**RETURNS:**
+
+The total number of rows written by this LocalBulkWriter instance.
+
+**PARAMETERS:**
+
+- **totalRowCount** (*Long*) -
+
+    The total number of rows appended to this writer so far.
 
 **EXCEPTIONS:**
 

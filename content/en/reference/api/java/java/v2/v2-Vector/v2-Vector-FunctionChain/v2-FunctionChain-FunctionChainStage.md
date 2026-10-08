@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "This enumeration specifies the execution stage where a function chain runs. Numeric values mirror the gRPC `FunctionChainStage` message. | Java | v2"
+description: "A FunctionChainStage instance specifies the execution stage where a function chain runs. Numeric values mirror the gRPC `FunctionChainStage` message. | Java | v2"
 type: docx
 token: E1GAdX9woo39BTxEwfocb6fVnCb
 sidebar_position: 5
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # FunctionChainStage
 
-This enumeration specifies the execution stage where a function chain runs. Numeric values mirror the gRPC `FunctionChainStage` message.
+A FunctionChainStage instance specifies the execution stage where a function chain runs. Numeric values mirror the gRPC `FunctionChainStage` message.
 
 ```java
 io.milvus.v2.service.vector.request.FunctionChainStage

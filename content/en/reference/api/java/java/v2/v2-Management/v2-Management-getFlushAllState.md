@@ -56,9 +56,19 @@ getFlushAllState(GetFlushAllStateReq.builder()
 
     The flush-all timestamp returned by `flushAll`.
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *GetFlushAllStateResp*
+
+**RETURNS:**
+
+A **GetFlushAllStateResp** object that indicates whether the flush-all operation has finished.
+
+**PARAMETERS:**
+
+- **flushed** (*Boolean*) -
+
+    Whether the flush-all operation has finished: `true` if finished, `false` otherwise.
 
 **EXCEPTIONS:**
 
@@ -83,5 +93,3 @@ GetFlushAllStateResp state = client.getFlushAllState(GetFlushAllStateReq.builder
     .build());
 System.out.println(state.getFlushed());
 ```
-
-{/* category: Management; action: CREATE; addedSince: v3.0.x */}
