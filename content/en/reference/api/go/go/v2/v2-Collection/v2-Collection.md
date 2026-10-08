@@ -74,7 +74,7 @@ type Collection struct {
 
     Whether the resource is loaded into memory.
 
-- **[ConsistencyLevel](./v2-Collection-ConsistencyLevel)** (*[ConsistencyLevel](./v2-Collection-ConsistencyLevel)*)
+- **ConsistencyLevel** (*ConsistencyLevel*)
 
     The consistency level for read operations.
 

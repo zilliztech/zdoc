@@ -10,7 +10,7 @@ notebook: false
 description: "This operation lists the external collection refresh jobs of all or specified collections. | Go | v2"
 type: docx
 token: KTeqdqUI2o3YO1xg3EXcJqGcnbe
-sidebar_position: 27
+sidebar_position: 29
 keywords: 
   - how do vector databases work
   - vector db comparison

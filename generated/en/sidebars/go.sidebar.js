@@ -247,6 +247,12 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/go/go/v2/v2-Client/v2-Client-New",
+        "label": "New",
+        "key": "doc:api/go/go/v2/v2-Client/v2-client-new"
+      },
+      {
+        "type": "doc",
         "id": "api/go/go/v2/v2-Client/v2-Client-GetTelemetry",
         "label": "GetTelemetry()",
         "key": "doc:api/go/go/v2/v2-Client/v2-client-gettelemetry"
@@ -273,19 +279,19 @@ module.exports = [
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Collection/v2-Collection-AlterAlias",
-        "label": "AlterAlias()",
+        "label": "AlterAlias",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection-alteralias"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Collection/v2-Collection-AlterCollectionFieldProperty",
-        "label": "AlterCollectionFieldProperty()",
+        "label": "AlterCollectionFieldProperty",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection-altercollectionfieldproperty"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Collection/v2-Collection-AlterCollectionProperties",
-        "label": "AlterCollectionProperties()",
+        "label": "AlterCollectionProperties",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection-altercollectionproperties"
       },
       {
@@ -296,14 +302,8 @@ module.exports = [
       },
       {
         "type": "doc",
-        "id": "api/go/go/v2/v2-Collection/v2-Collection-ConsistencyLevel",
-        "label": "ConsistencyLevel",
-        "key": "doc:api/go/go/v2/v2-Collection/v2-collection-consistencylevel"
-      },
-      {
-        "type": "doc",
         "id": "api/go/go/v2/v2-Collection/v2-Collection-CreateAlias",
-        "label": "CreateAlias()",
+        "label": "CreateAlias",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection-createalias"
       },
       {
@@ -407,6 +407,18 @@ module.exports = [
         "id": "api/go/go/v2/v2-Collection/v2-Collection-TruncateCollection",
         "label": "TruncateCollection()",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection-truncatecollection"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Collection/v2-Collection-AddCollectionStructField",
+        "label": "AddCollectionStructField",
+        "key": "doc:api/go/go/v2/v2-Collection/v2-collection-addcollectionstructfield"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Collection/v2-Collection-AddFunctionField",
+        "label": "AddFunctionField",
+        "key": "doc:api/go/go/v2/v2-Collection/v2-collection-addfunctionfield"
       },
       {
         "type": "doc",

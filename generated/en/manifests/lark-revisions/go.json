@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "group": "go",
   "complete": true,
-  "generatedAt": "2026-10-07T18:43:18.912Z",
-  "sourceRunId": "37666619868",
+  "generatedAt": "2026-10-08T02:50:32.562Z",
+  "sourceRunId": "37718371912",
   "records": [
     {
       "canonicalToken": "A3WWdqm52oLqtuxaR9EcjmybnwT",
@@ -132,15 +132,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "CBg7dbZZ7oxxvJx1eV4cJXWGnbe",
-      "title": "ConsistencyLevel",
-      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-ConsistencyLevel.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "CCWrdPlSao0pOTx9oIgcA64Nnjd",
       "title": "ResultSet",
       "contentPath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ResultSet.md",
@@ -204,6 +195,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "DcWidpe28otXGSxUzvucDyrhnoc",
+      "title": "AlterCollectionFieldProperty",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-AlterCollectionFieldProperty.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "DfoBdvU6SoC16Yx8zuEcwgw0nHh",
       "title": "GetTelemetry",
       "contentPath": "content/en/reference/api/go/go/v2/v2-Client/v2-Client-GetTelemetry.md",
@@ -234,15 +234,6 @@
       "canonicalToken": "Du2ZdjCWIorDg4xdwercNnYgnJb",
       "title": "Schema",
       "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-Schema.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "DumcdeKcuoSJybxv0V5ckFrFnyg",
-      "title": "AlterCollectionProperties()",
-      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-AlterCollectionProperties.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -402,15 +393,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "GNQcdBgh2oMyS9xxJk0cvESGnfe",
-      "title": "AlterAlias()",
-      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-AlterAlias.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "GbIAdIuWsoumzoxHWpOcVjVbnle",
       "title": "UseDatabase()",
       "contentPath": "content/en/reference/api/go/go/v2/v2-Database/v2-Database-UseDatabase.md",
@@ -477,15 +459,6 @@
       "canonicalToken": "HWG7dWY6XoKyapx5L5Mc69kLnld",
       "title": "NewDiskANNIndex()",
       "contentPath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewDiskANNIndex.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "HbsGdw2PboyE0Yxcp8IcaG4Qnmg",
-      "title": "CreateAlias()",
-      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-CreateAlias.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -601,7 +574,7 @@
     },
     {
       "canonicalToken": "Jm5IdnexOoFaMpx0HqDcbXeDnGe",
-      "title": "CreateCollection()",
+      "title": "CreateCollection",
       "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-CreateCollection.md",
       "objectToken": null,
       "parentToken": null,
@@ -780,15 +753,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "MIyedieIBo43Yrxee0lcY3cUn8b",
-      "title": "AlterCollectionFieldProperty()",
-      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-AlterCollectionFieldProperty.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "MSFrdlGjaoh9zdxHuZqcf6VsnDw",
       "title": "NewTrieIndex()",
       "contentPath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewTrieIndex.md",
@@ -834,6 +798,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "NOBpdRuf2oSRrJxZSYMcOLEcnAE",
+      "title": "AlterAlias",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-AlterAlias.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "NQsbdUsP8oIAbOxSnEEcKUBMnkg",
       "title": "Insert()",
       "contentPath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Insert.md",
@@ -853,7 +826,7 @@
     },
     {
       "canonicalToken": "NmAwdxspJop8U0xi2DPcNYpmnBe",
-      "title": "AddCollectionField()",
+      "title": "AddCollectionField",
       "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-AddCollectionField.md",
       "objectToken": null,
       "parentToken": null,
@@ -1026,6 +999,15 @@
       "canonicalToken": "Pp0KdUrYGoX4PbxXNFvczjePn4f",
       "title": "CreatePartition()",
       "contentPath": "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-CreatePartition.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Q9Atd2A9LoykWSxJHuXcq09xnRg",
+      "title": "AlterCollectionProperties",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-AlterCollectionProperties.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1214,7 +1196,16 @@
     {
       "canonicalToken": "TiJxdTD1yoot4TxXHHUchnERn8e",
       "title": "New",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Client/v2-Client-New.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Tn98dTncaoafNVxRazGc47auneY",
+      "title": "AddFunctionField",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-AddFunctionField.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1260,6 +1251,15 @@
       "canonicalToken": "TxKwd5bEqoHUuLxqENic3Uv6nhg",
       "title": "NewInvertedIndex()",
       "contentPath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewInvertedIndex.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "U2DXdRPC4o7hUDx6JECc0LQWnub",
+      "title": "ConsistencyLevel",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1608,6 +1608,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "YJuQdfyRfonHrTxLh6ucA3EDnQf",
+      "title": "CreateAlias",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-CreateAlias.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "YKm9dpXcVoy277xHVT2cIymfnRj",
       "title": "Search()",
       "contentPath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Search.md",
@@ -1674,6 +1683,15 @@
       "canonicalToken": "ZNvXd7eldozvRHxpHOcc5CPAnug",
       "title": "ListPartitions()",
       "contentPath": "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-ListPartitions.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ZSsxdrxftoPHDhxu0u6c8j2Fntm",
+      "title": "AddCollectionStructField",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-AddCollectionStructField.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,

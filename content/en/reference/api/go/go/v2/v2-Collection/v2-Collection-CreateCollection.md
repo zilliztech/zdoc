@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "Creates a collection after automatically validating options that expose a `Validate()` method, including struct-array schemas. | Go | v2"
+description: "This operation creates a collection after automatically validating options that expose a `Validate()` method, including struct-array schemas. | Go | v2"
 type: docx
 token: Jm5IdnexOoFaMpx0HqDcbXeDnGe
 sidebar_position: 9
@@ -31,10 +31,18 @@ import Admonition from '@theme/Admonition';
 
 # CreateCollection()
 
-Creates a collection after automatically validating options that expose a `Validate()` method, including struct-array schemas.
+This operation creates a collection after automatically validating options that expose a `Validate()` method, including struct-array schemas.
 
 ```go
 func (c *Client) CreateCollection(ctx context.Context, option CreateCollectionOption, callOptions ...grpc.CallOption) error
+```
+
+## Request Syntax\{#request-syntax}
+
+Creates the request for CreateCollection().
+
+```go
+err = cli.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("books", schema))
 ```
 
 **PARAMETERS:**
@@ -97,6 +105,10 @@ func (c *Client) CreateCollection(ctx context.Context, option CreateCollectionOp
 
     This sets the number of partitions used with a partition key.
 
+- `SimpleCreateCollectionOptions(name string, dim int64)`
+
+    This creates a CreateCollectionOption with sensible defaults for a fast collection setup: a single `Int64` primary-key field named `id` and a `FloatVector` field named `vector` with the given dimension.
+
 **RETURN TYPE:**
 
 *error*
@@ -109,7 +121,7 @@ Returns nil after the collection is created. Returns an error when schema valida
 
 - **error**
 
-    Validation, request construction, or the RPC fails. Check the returned error for failure details.
+    The operation fails. Validation, request construction, or the RPC fails. Check the returned error for failure details.
 
 ## Example\{#example}
 

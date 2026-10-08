@@ -1,25 +1,25 @@
 ---
-title: "AlterAlias() | Go | v2"
+title: "AlterAlias | Go | v2"
 slug: /go/go/v2-Collection-AlterAlias
-sidebar_label: "AlterAlias()"
+sidebar_label: "AlterAlias"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation reassigns an existing alias to a different collection. | Go | v2"
 type: docx
-token: GNQcdBgh2oMyS9xxJk0cvESGnfe
+token: NOBpdRuf2oSRrJxZSYMcOLEcnAE
 sidebar_position: 3
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - zilliz
   - zilliz cloud
   - cloud
-  - AlterAlias()
+  - AlterAlias
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# AlterAlias()
+# AlterAlias
 
 This operation reassigns an existing alias to a different collection.
 
@@ -39,6 +39,8 @@ func (c *Client) AlterAlias(ctx context.Context, option AlterAliasOption, callOp
 
 ## Request Syntax\{#request-syntax}
 
+Creates the request for AlterAlias().
+
 ```go
 option := milvusclient.NewAlterAliasOption(alias, collectionName)
 
@@ -47,13 +49,23 @@ err := client.AlterAlias(ctx, option)
 
 **PARAMETERS:**
 
-- **[alias](./v2-Collection-Alias)** (*string*)
+- **alias** (*string*) -
+
+    **[REQUIRED]**
 
     The alias name to assign.
 
-- **collectionName** (*string*)
+- **collectionName** (*string*) -
+
+    **[REQUIRED]**
 
     The name of the target collection.
+
+**BUILDER METHODS:**
+
+- `NewAlterAliasOption(alias string, collectionName string)`
+
+    Creates the request for AlterAlias().
 
 **RETURN TYPE:**
 
@@ -63,20 +75,22 @@ err := client.AlterAlias(ctx, option)
 
 Returns nil on success, or an error describing what went wrong.
 
-**EXCEPTIONS:**
+**ERROR HANDLING:**
 
 - **error**
 
-    Check `err != nil` for failure details.
+    The operation fails. Check `err != nil` for failure details.
 
 ## Example\{#example}
+
+Demonstrates AlterAlias() usage.
 
 ```go
 import (
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

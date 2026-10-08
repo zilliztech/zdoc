@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "Adds a nullable field to an existing collection after validating the field option on the client. | Go | v2"
+description: "This operation adds a nullable field to an existing collection by altering the collection schema on the server, then evicts the client collection cache for the collection. | Go | v2"
 type: docx
 token: NmAwdxspJop8U0xi2DPcNYpmnBe
 sidebar_position: 1
@@ -31,10 +31,20 @@ import Admonition from '@theme/Admonition';
 
 # AddCollectionField()
 
-Adds a nullable field to an existing collection after validating the field option on the client.
+This operation adds a nullable field to an existing collection by altering the collection schema on the server, then evicts the client collection cache for the collection.
 
 ```go
 func (c *Client) AddCollectionField(ctx context.Context, opt AddCollectionFieldOption, callOpts ...grpc.CallOption) error
+```
+
+## Request Syntax\{#request-syntax}
+
+Creates the request for AddCollectionField().
+
+```go
+option := milvusclient.NewAddCollectionFieldOption(collectionName, field)
+
+err := client.AddCollectionField(ctx, option)
 ```
 
 **PARAMETERS:**
@@ -51,23 +61,29 @@ func (c *Client) AddCollectionField(ctx context.Context, opt AddCollectionFieldO
 
     The field definition to add. Vector fields must be nullable.
 
+**BUILDER METHODS:**
+
+- `NewAddCollectionFieldOption(collectionName string, field *entity.Field)`
+
+    Creates the request for AddCollectionField().
+
 **RETURN TYPE:**
 
 *error*
 
 **RETURNS:**
 
-Returns nil after the field is added. Returns an error when client-side validation or the RPC fails.
+Returns nil after the operation succeeds. Returns an error when client-side validation or the RPC fails.
 
 **ERROR HANDLING:**
 
 - **error**
 
-    Validation, request construction, or the RPC fails. Check the returned error for failure details.
+    Client-side validation or the RPC fails. Check the returned error for failure details.
 
 ## Example\{#example}
 
-Demonstrates AddCollectionField() usage.
+Demonstrates AddCollectionField usage.
 
 ```go
 import (
@@ -80,7 +96,9 @@ import (
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{Address: "YOUR_CLUSTER_ENDPOINT"})
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: "YOUR_CLUSTER_ENDPOINT",
+})
 if err != nil {
 	// handle error
 }
