@@ -211,6 +211,12 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/go/go/v2/v2-Collection/v2-Collection-ConsistencyLevel",
+        "label": "ConsistencyLevel",
+        "key": "doc:api/go/go/v2/v2-Collection/v2-collection-consistencylevel"
+      },
+      {
+        "type": "doc",
         "id": "api/go/go/v2/v2-Collection/v2-Collection-CreateAlias",
         "label": "CreateAlias()",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection-createalias"
@@ -295,12 +301,6 @@ module.exports = [
       },
       {
         "type": "doc",
-        "id": "api/go/go/v2/v2-Collection/v2-Collection-RenameCollection",
-        "label": "RenameCollection()",
-        "key": "doc:api/go/go/v2/v2-Collection/v2-collection-renamecollection"
-      },
-      {
-        "type": "doc",
         "id": "api/go/go/v2/v2-Collection/v2-Collection-Schema",
         "label": "Schema",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection-schema"
@@ -319,33 +319,9 @@ module.exports = [
       },
       {
         "type": "doc",
-        "id": "api/go/go/v2/v2-Collection/v2-Collection-GetRefreshExternalCollectionProgress",
-        "label": "GetRefreshExternalCollectionProgress()",
-        "key": "doc:api/go/go/v2/v2-Collection/v2-collection-getrefreshexternalcollectionprogress"
-      },
-      {
-        "type": "doc",
         "id": "api/go/go/v2/v2-Collection/v2-Collection-ListRefreshExternalCollectionJobs",
         "label": "ListRefreshExternalCollectionJobs()",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection-listrefreshexternalcollectionjobs"
-      },
-      {
-        "type": "doc",
-        "id": "api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollection",
-        "label": "RefreshExternalCollection()",
-        "key": "doc:api/go/go/v2/v2-Collection/v2-collection-refreshexternalcollection"
-      },
-      {
-        "type": "doc",
-        "id": "api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollectionJobInfo",
-        "label": "RefreshExternalCollectionJobInfo",
-        "key": "doc:api/go/go/v2/v2-Collection/v2-collection-refreshexternalcollectionjobinfo"
-      },
-      {
-        "type": "doc",
-        "id": "api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollectionState",
-        "label": "RefreshExternalCollectionState",
-        "key": "doc:api/go/go/v2/v2-Collection/v2-collection-refreshexternalcollectionstate"
       }
     ]
   },

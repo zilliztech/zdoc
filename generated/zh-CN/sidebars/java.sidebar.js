@@ -314,6 +314,12 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/java/java/v2/v2-Collections/v2-Collections-CreateSchema",
+        "label": "CreateSchema()",
+        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-createschema"
+      },
+      {
+        "type": "doc",
         "id": "api/java/java/v2/v2-Collections/v2-Collections-describeReplicas",
         "label": "describeReplicas()",
         "key": "doc:api/java/java/v2/v2-Collections/v2-collections-describereplicas"
