@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud 提供了强大的过滤功能，可帮助您精确查询数据。过滤表达式允许您针对特定的标量字段，并通过不同条件细化搜索结果。本文将介绍如何在 Zilliz Cloud 集群中使用过滤表达式，并提供侧重于查询操作的示例。您还可以在搜索和删除请求中应用这些过滤条件。 | BYOC"
+description: "Zilliz Cloud 提供了强大的过滤功能，可帮助您精确查询数据。过滤表达式允许您根据字段值筛选实体，并通过不同条件细化搜索结果。本文将介绍如何在 Zilliz Cloud 集群中使用过滤表达式，并提供侧重于查询操作的示例。您还可以在搜索和删除请求中应用这些过滤条件。 | BYOC"
 type: origin
 token: XIhbwrNsoiBfJvkENlFc3H8Xnjb
 sidebar_position: 1
@@ -20,7 +20,7 @@ import Admonition from '@theme/Admonition';
 
 # 过滤表达式概览
 
-Zilliz Cloud 提供了强大的过滤功能，可帮助您精确查询数据。过滤表达式允许您针对特定的标量字段，并通过不同条件细化搜索结果。本文将介绍如何在 Zilliz Cloud 集群中使用过滤表达式，并提供侧重于查询操作的示例。您还可以在搜索和删除请求中应用这些过滤条件。
+Zilliz Cloud 提供了强大的过滤功能，可帮助您精确查询数据。过滤表达式允许您根据字段值筛选实体，并通过不同条件细化搜索结果。本文将介绍如何在 Zilliz Cloud 集群中使用过滤表达式，并提供侧重于查询操作的示例。您还可以在搜索和删除请求中应用这些过滤条件。
 
 ## 基本操作符\{#basic-operators}
 
@@ -36,7 +36,7 @@ Zilliz Cloud 支持使用多种基本操作符来过滤数据：
 
 - **逻辑操作符**：`AND`、`OR` 和 `NOT` 可将多个条件组合成复杂表达式。
 
-- **IS NULL 和 IS NOT NULL 操作符**：`IS NULL` 和 `IS NOT NULL` 操作符用于根据字段是否包含 null 值（即缺少数据）进行过滤。详细信息请参阅[基本操作符](https://milvus.io/docs/basic-operators.md#IS-NULL-and-IS-NOT-NULL-operators)。
+- **IS NULL 和 IS NOT NULL 操作符**：使用 `IS NULL` 筛选指定字段值为 NULL 的实体，或使用 `IS NOT NULL` 筛选指定字段值为非 NULL 的实体。这两个操作符支持标量字段。支持的类型、语法和示例，请参阅[IS NULL 和 IS NOT NULL 操作符](./basic-filtering-operators#is-null-and-is-not-null-operators)。
 
 ### 示例：按颜色过滤\{#example-filtering-by-color}
 

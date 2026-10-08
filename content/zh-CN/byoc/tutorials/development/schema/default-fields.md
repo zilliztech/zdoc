@@ -89,7 +89,6 @@ import io.milvus.v2.service.collection.request.CreateCollectionReq;
 import io.milvus.v2.service.collection.request.DropCollectionReq;
 import io.milvus.v2.service.collection.request.HasCollectionReq;
 import io.milvus.v2.service.collection.request.LoadCollectionReq;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -537,7 +536,6 @@ import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import io.milvus.v2.service.utility.request.FlushReq;
 import io.milvus.v2.service.vector.request.InsertReq;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -830,7 +828,6 @@ import io.milvus.v2.common.ConsistencyLevel;
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
-
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -1070,7 +1067,6 @@ for r in default_status_results:
 import io.milvus.v2.common.ConsistencyLevel;
 import io.milvus.v2.service.vector.request.QueryReq;
 import io.milvus.v2.service.vector.response.QueryResp;
-
 import java.util.Arrays;
 
 String collectionName = "my_collection";

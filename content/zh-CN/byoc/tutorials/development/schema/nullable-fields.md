@@ -33,8 +33,6 @@ Zilliz Cloud 支持 `nullable` 属性。启用 `nullable` 属性后，字段值�
 
 ## 限制\{#limits}
 
-- 允许 `NULL` 值的向量字段不支持 `IS NULL` 或 `IS NOT NULL` 过滤表达式。您不能根据向量字段值是否为 `NULL` 来显式过滤 Entity。
-
 - Array of Structs 字段不支持 `NULL` 值。您不能为 Array of Structs 字段或其内部嵌套字段启用 `nullable` 属性。
 
 - `nullable` 属性在创建字段时定义，之后不能修改。您不能为已有字段启用或禁用 `nullable` 属性。
@@ -229,7 +227,6 @@ async fn main() -> Result<()> {
 
 ```c++
 #include "milvus/MilvusClientV2.h"
-
 #include <iostream>
 #include <memory>
 
@@ -462,7 +459,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import io.milvus.v2.service.vector.request.InsertReq;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -548,7 +544,6 @@ client.insert(
 
 ```c++
 #include "milvus/MilvusClientV2.h"
-
 #include <vector>
 
 milvus::EntityRows data = {
@@ -670,7 +665,6 @@ client.load_collection(collection_name="my_collection")
 import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.collection.request.LoadCollectionReq;
 import io.milvus.v2.service.index.request.CreateIndexReq;
-
 import java.util.Collections;
 
 IndexParam indexParam = IndexParam.builder()
@@ -869,7 +863,6 @@ print(res)
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
-
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -938,7 +931,6 @@ for result in search_results.results().iter() {
 
 ```c++
 #include "milvus/MilvusClientV2.h"
-
 #include <vector>
 
 std::vector<float> query_vector = {0.1, 0.2, 0.3, 0.4};
@@ -1002,9 +994,9 @@ curl --request POST \
 
 ## 查询与过滤影响\{#query-filtering-implications}
 
-前面的示例重点介绍向量字段。本节说明 **标量过滤表达式** 中 `NULL` 值的行为。
+前面的示例重点介绍向量字段。以下示例说明普通比较条件如何处理标量字段中的 NULL 值。
 
-标量字段可以定义为 `nullable=True`，并遵循与向量字段相同的写入规则。不过，**NULL 标量值在过滤表达式中始终评估为 False**。
+标量字段可以定义为 `nullable=True`，并遵循与向量字段相同的写入规则。`age > 18` 或 `status == "active"` 这样的普通比较条件不会匹配 NULL 值。要根据受支持字段是否为 NULL 显式筛选实体，请使用 `IS NULL` 或 `IS NOT NULL`。
 
 例如，给定一个启用 `nullable` 属性的标量字段 `age`，以下过滤表达式会选择 `age` 大于 `18` 的 Entity：
 

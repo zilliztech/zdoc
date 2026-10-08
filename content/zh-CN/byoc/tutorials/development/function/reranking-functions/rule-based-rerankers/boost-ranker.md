@@ -367,7 +367,6 @@ import io.milvus.v2.service.vector.request.FunctionScore;
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
-
 import java.util.*;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
@@ -612,7 +611,6 @@ import io.milvus.v2.service.vector.request.FunctionScore;
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
-
 import java.util.*;
 
 CreateCollectionReq.Function fixWeightRanker = CreateCollectionReq.Function.builder()
@@ -699,7 +697,6 @@ fmt.Println(resultSet)
 
 ```rust
 use milvus::v2::prelude::*;
-
 use std::collections::HashMap;
 
 let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN")).await?;

@@ -310,7 +310,6 @@ curl --request POST \
       ]
     }
   }"
-
 ```
 
 </TabItem>
@@ -363,7 +362,6 @@ print(insert_result)
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import io.milvus.v2.service.vector.request.InsertReq;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -655,7 +653,6 @@ milvus_client.load_collection(collection_name)
 import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.collection.request.LoadCollectionReq;
 import io.milvus.v2.service.index.request.CreateIndexReq;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -893,7 +890,6 @@ for ret in query_results:
 ```java
 import io.milvus.v2.service.vector.request.QueryReq;
 import io.milvus.v2.service.vector.response.QueryResp;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -1102,7 +1098,6 @@ for ret in query_results:
 ```java
 import io.milvus.v2.service.vector.request.QueryReq;
 import io.milvus.v2.service.vector.response.QueryResp;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -1303,7 +1298,6 @@ for hits in result:
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;

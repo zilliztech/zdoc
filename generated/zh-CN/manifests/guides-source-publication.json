@@ -692,7 +692,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/analyzer/analyzer-overview.md",
-      "sha256": "390e28fc8b93412756c0ff536b6c98202dc98619b6dc5385cc39ca55395219ff",
+      "sha256": "9ad193177d6669b4d972fc95d6a26d9a10bf701d170faa7be0a74d84167c1bee",
       "docToken": "XDNVwL0r1iSJgqk0XkkcVQK9nvh",
       "revisionId": "1554"
     },
@@ -944,9 +944,9 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/function/bm25-function.md",
-      "sha256": "a0e3da57c507e112bfb24522986fb2b9f91ad5982ab20d264c671eec57c12981",
+      "sha256": "b6e6a65dc1695a15fe8cbd937ecfe0ff678d568309e2c5cc3efefc7d6e398c89",
       "docToken": "K6J1wapTRipxweklQpNcdFCgnEr",
-      "revisionId": "397"
+      "revisionId": "402"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/function/function-and-model-inference-overview.md",
@@ -956,7 +956,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/function/minhash-function.md",
-      "sha256": "4d9a9470b5cf5f6974296d847124497549437927bd9e4ddde3c6e882bbfd1865",
+      "sha256": "217b62c318492952a9aa22b9cc6c528c244effa8d450215cc83943f780a40460",
       "docToken": "Xz97wLGqdiZXFxke1DlcEefpn7b",
       "revisionId": "128"
     },
@@ -974,7 +974,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/function/reranking-functions/rule-based-rerankers/boost-ranker.md",
-      "sha256": "9f239b78ae6b5f0237b5cb804ea6b720a30602f8ccae353fd8f59b9b71e9ba7b",
+      "sha256": "734a646d87513bc6055da2241ad039848011d53058cc64e6c4b6ff9177044c38",
       "docToken": "HUDPwedOIi1eqikLQUVcvACgnwg",
       "revisionId": "384"
     },
@@ -1034,7 +1034,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/scalar-index/bitmap-index-type.md",
-      "sha256": "93a342bafcfc606e645041d5e7ac1b2f1a8e619513ac2ed73a12bab586a5cf5c",
+      "sha256": "49c00ddb97e75bb331edea6c63d2c99666ed8bb9c8797f717925c3e7c0f88bd7",
       "docToken": "XvR4wXgb2iGBZ3kuUgVcRLWmnEd",
       "revisionId": "203"
     },
@@ -1064,9 +1064,9 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/schema/add-fields-to-an-existing-collection.md",
-      "sha256": "b81585f031599d8361a52d2c3949e46de18b378e652dc8484e03995fa428f499",
+      "sha256": "d17b5ab5c785e2ab443bd94b00e794fdc2126007049fba2dcbdea073704df3cd",
       "docToken": "JU6ZwfYLpilJ6vkncdzcLtFLnjf",
-      "revisionId": "1974"
+      "revisionId": "1976"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/schema/alter-collection-field.md",
@@ -1082,7 +1082,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/schema/default-fields.md",
-      "sha256": "345deb28157f0f603cbac51f84770c19cf3c15152fe483d52a15bb2870fc526c",
+      "sha256": "d5875ddfb2d869b00c61ef5c90c0cffb9925f4b9784ed9e3678eb32bb0f4d3ea",
       "docToken": "PH1hwciixiXnF5kd0z2cVzxDnzh",
       "revisionId": "76"
     },
@@ -1094,7 +1094,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/schema/json-fields/json-field-overview.md",
-      "sha256": "9654ae42cf3afcadd88b0e0913adc4097b645eed5e8d0fb0779c3f1e459d3690",
+      "sha256": "cd9f1ae49fdd6aff3064d33df1f132f41bc854ef4bb370d9bf434cadb2d8c005",
       "docToken": "W1c9w47DGipPiAkMpr8cKviNnpb",
       "revisionId": "350"
     },
@@ -1112,9 +1112,9 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/schema/nullable-fields.md",
-      "sha256": "c2b2ae4f985aaa6cc3aba1116dccbdc0f9d559681d255ab0abee20f921632559",
+      "sha256": "29910004a9f271a9c25e62ac6c3959919a94f172fd53cf39dab88587f337a3e1",
       "docToken": "BdZswOSRyiVxWakbGbCceGminNC",
-      "revisionId": "3454"
+      "revisionId": "3459"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/schema/primary-field-auto-id.md",
@@ -1190,7 +1190,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/schema/use-geometry-field.md",
-      "sha256": "1ad9910f7b4ca46a57acb387efab90369374e7db83202e08146f0bf7cc8832d8",
+      "sha256": "016df948fec1cb3da39fbed01a5eb8dbb454f523168b918a101c90a74f1618ec",
       "docToken": "IMamwu8Qyiaad2kbkJjc7p9Snag",
       "revisionId": "357"
     },
@@ -1240,7 +1240,7 @@
       "path": "content/zh-CN/byoc/tutorials/development/search-and-query/filtered-search.md",
       "sha256": "96d10cf081ac18bb494f30cdb891237a8510d414388dfd3fe45d16b7313ac360",
       "docToken": "RWKFw1KKWiwCyMk53zqcLx5WnRf",
-      "revisionId": "1517"
+      "revisionId": "1518"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/search-and-query/filtering/array-filtering-operators.md",
@@ -1250,15 +1250,15 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/search-and-query/filtering/basic-filtering-operators.md",
-      "sha256": "06251b573ed52b24475a315b22e2e2aff9dcda8b2c436372c7eb24d3404d9339",
+      "sha256": "7776b2e9ed8ec33c8975734b2e4f92216e900f8cad3f6f4ef665ecbc0390e097",
       "docToken": "OEw6wSUvXiKQKpkOLIAcYk6unbc",
-      "revisionId": "3086"
+      "revisionId": "3092"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/search-and-query/filtering/filtering-overview.md",
-      "sha256": "f3c4cd2bb99921073f49317ea524a522bd95606b8bafa72d043e8042ae43f47f",
+      "sha256": "7d6974a84eb8ee0acd812f21e185603a66e7b04d0b55d20a4f443f746abcc7dd",
       "docToken": "XIhbwrNsoiBfJvkENlFc3H8Xnjb",
-      "revisionId": "1303"
+      "revisionId": "1305"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/search-and-query/filtering/filtering-templating.md",
@@ -1298,13 +1298,13 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/search-and-query/full-text-search.md",
-      "sha256": "96b04664fc1fbafc1293dc0662c9fd625f28812a6ed7778112973d8cca49d472",
+      "sha256": "673e4b619e03b906050eb0e8b913fc366e10974028c284ed5944111fdfbbb8c4",
       "docToken": "TO6fwkZ2jiT6FSkkgbCcyHTvn0d",
       "revisionId": "1130"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/search-and-query/get-and-scalar-query.md",
-      "sha256": "c82c8cdbbb8fa72873cc1485bc499171684f18cff6a7e3ce00fff28633d1f50b",
+      "sha256": "ef13f2d490ea2d15e26f8252f5bf867c60d283c755fc58282efb38089563ff8f",
       "docToken": "GMOpwnUH0iYRN1kbRidcET0cnKg",
       "revisionId": "2048"
     },
@@ -2186,7 +2186,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/analyzer/analyzer-overview.md",
-      "sha256": "6438e5ceb4988adb7d8eec17d93eb22fdcd9b698e506b19b18e7df28c2e8b37f",
+      "sha256": "c696cb2221d64c6a6f8cd41d7f36203d62822f9be3abf2f394285fc2ae10c2db",
       "docToken": "XDNVwL0r1iSJgqk0XkkcVQK9nvh",
       "revisionId": "1554"
     },
@@ -2474,9 +2474,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/function/bm25-function.md",
-      "sha256": "e4518cdc10558714ec82c17feb8363843d9fe176c433362bf07431b865ab7f81",
+      "sha256": "96973dcfbdb1d0858d0210762f1065b191e9855ad3e73f4218a3e75a635c582f",
       "docToken": "K6J1wapTRipxweklQpNcdFCgnEr",
-      "revisionId": "397"
+      "revisionId": "402"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/function/function-and-model-inference-overview.md",
@@ -2486,7 +2486,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/function/minhash-function.md",
-      "sha256": "3cee7e7fe0a542cbddd5acc0a94cca2c0fa662940c18454622110d1c9260a2b4",
+      "sha256": "977607ba541dbcc18d6a5f9f845d2e757bf5cd9c061df602b8fa045937a230ca",
       "docToken": "Xz97wLGqdiZXFxke1DlcEefpn7b",
       "revisionId": "128"
     },
@@ -2510,7 +2510,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/function/reranking-functions/rule-based-rerankers/boost-ranker.md",
-      "sha256": "1ea336acb8106698ccc3c6096a9016d7becdea4fdeb5566aed2fb4dee2f0ad4e",
+      "sha256": "5b3e4c6f967cd809c500a8e7207009646d0afd28c84ca34e6d7ad067d09c4c13",
       "docToken": "HUDPwedOIi1eqikLQUVcvACgnwg",
       "revisionId": "384"
     },
@@ -2576,7 +2576,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/scalar-index/bitmap-index-type.md",
-      "sha256": "0db2b2aa88a29f8f8f403c8570fd5bbf32d7c75f77360521fb8f5c51b66a348f",
+      "sha256": "11483fa8eedd773f2bbd49dd519a2e85c1d0803fb51dc5e07cb2af0d6c20e73d",
       "docToken": "XvR4wXgb2iGBZ3kuUgVcRLWmnEd",
       "revisionId": "203"
     },
@@ -2606,9 +2606,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/schema/add-fields-to-an-existing-collection.md",
-      "sha256": "e0b2894a6765d088ca2350cdbc9c0ea685a370d8ddb63f787793b101b3126c12",
+      "sha256": "b6583547024f16b536250a1cc03fd2e418929edf3a09c6d6d9423415b8b832ee",
       "docToken": "JU6ZwfYLpilJ6vkncdzcLtFLnjf",
-      "revisionId": "1974"
+      "revisionId": "1976"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/schema/alter-collection-field.md",
@@ -2624,7 +2624,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/schema/default-fields.md",
-      "sha256": "6a6857311e8b00006898640124250b08c2e2c53e98989abd22fc1ec0078f7c8f",
+      "sha256": "6d8615151b38f962ab389c4bec4a41c9da7deede56536b4499f964f7bde179b6",
       "docToken": "PH1hwciixiXnF5kd0z2cVzxDnzh",
       "revisionId": "76"
     },
@@ -2636,7 +2636,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/schema/json-fields/json-field-overview.md",
-      "sha256": "0a2cd46c374736dafab567db3c598c180984ffba3e2bdd38bf30c0f6420fd820",
+      "sha256": "06831cdd2119c1f103371118fe61fa0280b7d5c6a4614ace4ef93da99da214e7",
       "docToken": "W1c9w47DGipPiAkMpr8cKviNnpb",
       "revisionId": "350"
     },
@@ -2654,9 +2654,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/schema/nullable-fields.md",
-      "sha256": "3cf7da29290074e47a19aa59b9b5dda818e2970e85e230eca8038ecb7b9d46d3",
+      "sha256": "646ea1e7073866ce8fe7108a050c95d17d594be148aa427fdaa8efee87cbaa1d",
       "docToken": "BdZswOSRyiVxWakbGbCceGminNC",
-      "revisionId": "3454"
+      "revisionId": "3459"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/schema/primary-field-auto-id.md",
@@ -2732,7 +2732,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/schema/use-geometry-field.md",
-      "sha256": "05f03b5aa0f52c60fc7828116cb73820754850451d099ec5a18145c47cb7aac6",
+      "sha256": "df2cb08220412484d45f3729786ac824c01d3887fd9318d644b3a6df99c2b170",
       "docToken": "IMamwu8Qyiaad2kbkJjc7p9Snag",
       "revisionId": "357"
     },
@@ -2788,7 +2788,7 @@
       "path": "content/zh-CN/guides/tutorials/development/search-and-query/filtered-search.md",
       "sha256": "827c9109b7679b93ca84dd34fb76b67418d9c65f6f75c744e1c7e408f9636c47",
       "docToken": "RWKFw1KKWiwCyMk53zqcLx5WnRf",
-      "revisionId": "1517"
+      "revisionId": "1518"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/search-and-query/filtering/array-filtering-operators.md",
@@ -2798,15 +2798,15 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/search-and-query/filtering/basic-filtering-operators.md",
-      "sha256": "02dd1de71a17882de2da5193a6c767c4cb153da109751b68e421ff5e80b13e1d",
+      "sha256": "fcaac77a5708693926ff76fa10b2e03a972e8091882a1140209e77c881dfbaea",
       "docToken": "OEw6wSUvXiKQKpkOLIAcYk6unbc",
-      "revisionId": "3086"
+      "revisionId": "3092"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/search-and-query/filtering/filtering-overview.md",
-      "sha256": "6f39f967bef725471dcf6b9fff2ad24818c4ab8e6b53584dc3e8e1823c2f96fc",
+      "sha256": "ee2390196cc428a9ab5943dea752fcd2c9d0153163c2d2a94cf27dbcbbbbdcf4",
       "docToken": "XIhbwrNsoiBfJvkENlFc3H8Xnjb",
-      "revisionId": "1303"
+      "revisionId": "1305"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/search-and-query/filtering/filtering-templating.md",
@@ -2846,13 +2846,13 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/search-and-query/full-text-search.md",
-      "sha256": "78d5aa98f0b9e92da456b23d12a1510cb2fb7d7f8fbd99163726b1936a28c90a",
+      "sha256": "49b7e0c15019cc6144610c0a8691a76605c559da5c6e449f1f090d17dbb777c0",
       "docToken": "TO6fwkZ2jiT6FSkkgbCcyHTvn0d",
       "revisionId": "1130"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/search-and-query/get-and-scalar-query.md",
-      "sha256": "3b5a2b64480a60860d4d3ee041ad5a024de99598db0155accc84c5db3a75ae01",
+      "sha256": "0a8498e0b745b0311c684f52e4c667dff07e58fd26d465265c51ba13df64e61f",
       "docToken": "GMOpwnUH0iYRN1kbRidcET0cnKg",
       "revisionId": "2048"
     },

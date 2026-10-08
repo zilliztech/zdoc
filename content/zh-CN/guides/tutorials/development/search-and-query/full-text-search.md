@@ -71,7 +71,7 @@ Full Text Search 简化了基于文本数据的搜索流程，无需您提前将
 
 首先，创建 Schema 并添加必要字段：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -231,9 +231,10 @@ export schema='{
 ```
 
 </TabItem>
-</Tabs>
 
-```plaintext
+<TabItem value='c++'>
+
+```c++
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
@@ -250,9 +251,16 @@ schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR).WithMaxL
 schema->AddField(milvus::FieldSchema("sparse", milvus::DataType::SPARSE_FLOAT_VECTOR));
 ```
 
+</TabItem>
+
+<TabItem value='shell'>
+
 ```shell
 # Zilliz CLI
 ```
+
+</TabItem>
+</Tabs>
 
 在此配置中：
 
@@ -580,7 +588,7 @@ schema->AddFunction(function);
 
 在定义包含必要字段和内置 Function 的 Schema 后，需要为 Collection 设置向量索引以加速查询。本例中使用 `AUTOINDEX` 作为 `index_type`，表示让 Zilliz Cloud 根据数据结构自动选择和配置最适合的索引类型。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -665,18 +673,26 @@ export indexParams='[
 ```
 
 </TabItem>
-</Tabs>
 
-```plaintext
+<TabItem value='c++'>
+
+```c++
 auto index_params = milvus::IndexDesc("sparse", "", milvus::IndexType::SPARSE_INVERTED_INDEX, milvus::MetricType::BM25);
 index_params.AddExtraParam("inverted_index_algo", "DAAT_MAXSCORE");
 index_params.AddExtraParam("bm25_k1", "1.2");
 index_params.AddExtraParam("bm25_b", "0.75");
 ```
 
+</TabItem>
+
+<TabItem value='shell'>
+
 ```shell
 # Zilliz CLI
 ```
+
+</TabItem>
+</Tabs>
 
 <table>
    <tr>
@@ -1137,7 +1153,7 @@ if (!status.IsOk()) {
 
 示例：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1233,9 +1249,10 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
 
-```plaintext
+<TabItem value='c++'>
+
+```c++
 // Searching with the sparse field in output_fields throws an error.
 // Only output the original text and metadata fields.
 milvus::SearchRequest request = milvus::SearchRequest()
@@ -1246,9 +1263,16 @@ milvus::SearchRequest request = milvus::SearchRequest()
     .AddOutputField("text");
 ```
 
+</TabItem>
+
+<TabItem value='shell'>
+
 ```shell
 # Zilliz CLI
 ```
+
+</TabItem>
+</Tabs>
 
 ### 如果无法访问，为何还要定义稀疏向量字段呢？\{#why-do-i-need-to-define-a-sparse-vector-field-if-i-cant-access-it}
 

@@ -19,6 +19,8 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
+import Supademo from '@site/src/components/Supademo';
+
 # BM25 Function
 
 BM25 Function 通过将原始文本转换为稀疏向量，并基于词法相关性对文档进行评分，从而实现全文检索。它采用基于词项的匹配机制和考虑词频的加权方式，高效检索与查询词高度匹配的文本内容。
@@ -165,7 +167,7 @@ document_score =
 
 - **稀疏向量字段（SPARSE_FLOAT_VECTOR）**：用于存储由 BM25 Function 自动生成的稀疏向量表示。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -325,9 +327,10 @@ export schema='{
 ```
 
 </TabItem>
-</Tabs>
 
-```plaintext
+<TabItem value='c++'>
+
+```c++
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
@@ -344,9 +347,16 @@ schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR).WithMaxL
 schema->AddField(milvus::FieldSchema("sparse", milvus::DataType::SPARSE_FLOAT_VECTOR));
 ```
 
+</TabItem>
+
+<TabItem value='shell'>
+
 ```shell
 # Zilliz CLI
 ```
+
+</TabItem>
+</Tabs>
 
 #### 定义 BM25 Function\{#define-bm25-function}
 
@@ -484,7 +494,7 @@ schema->AddFunction(function);
 
 为简化这一过程，你可以将 index_type 设置为 **AUTOINDEX**。该选项会由 Zilliz Cloud 根据数据结构自动选择并配置最合适的索引类型。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -569,18 +579,26 @@ export indexParams='[
 ```
 
 </TabItem>
-</Tabs>
 
-```plaintext
+<TabItem value='c++'>
+
+```c++
 auto index_params = milvus::IndexDesc("sparse", "", milvus::IndexType::SPARSE_INVERTED_INDEX, milvus::MetricType::BM25);
 index_params.AddExtraParam("inverted_index_algo", "DAAT_MAXSCORE");
 index_params.AddExtraParam("bm25_k1", "1.2");
 index_params.AddExtraParam("bm25_b", "0.75");
 ```
 
+</TabItem>
+
+<TabItem value='shell'>
+
 ```shell
 # Zilliz CLI
 ```
+
+</TabItem>
+</Tabs>
 
 #### 创建 Collection\{#create-the-collection}
 
@@ -714,6 +732,8 @@ if (!status.IsOk()) {
 ### 通过控制台创建\{#via-web-console}
 
 或者，你也可以在 Zilliz Cloud 控制台中创建包含 BM25 Function 的 Collection。
+
+<Supademo id="cmuywx5bz025rqm7zokfuwfag" title=""  />
 
 在创建好包含 BM25 Function 的 Collection 后，你就可以插入文本数据，并基于文本查询执行词法搜索。
 

@@ -438,7 +438,7 @@ if (!status.IsOk()) {
 
 向 `order_by` 参数传入一个 `"field_name:direction"` 字符串列表，其中 `direction` 为 `asc`（升序）或 `desc`（降序）。注意，`asc` 和 `desc` 区分大小写。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -569,9 +569,10 @@ curl --request POST \\
 ```
 
 </TabItem>
-</Tabs>
 
-```plaintext
+<TabItem value='c++'>
+
+```c++
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 
@@ -598,15 +599,22 @@ if (!status.IsOk()) {
 }
 ```
 
+</TabItem>
+
+<TabItem value='shell'>
+
 ```shell
 # Zilliz CLI
 ```
+
+</TabItem>
+</Tabs>
 
 #### 多字段排序\{#multi-field-sort}
 
 您可以同时按多个字段排序。结果会先按列表中的第一个字段排序。当两条结果在该字段上的值相同时，再由第二个字段决定它们的顺序，依此类推。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -710,9 +718,10 @@ curl --request POST \\
 ```
 
 </TabItem>
-</Tabs>
 
-```plaintext
+<TabItem value='c++'>
+
+```c++
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 
@@ -740,15 +749,22 @@ if (!status.IsOk()) {
 }
 ```
 
+</TabItem>
+
+<TabItem value='shell'>
+
 ```shell
 # Zilliz CLI
 ```
+
+</TabItem>
+</Tabs>
 
 #### 结合分页排序\{#pagination-with-sort}
 
 将 `order_by` 与 `limit` 和 `offset` 一起使用，可以对排序后的结果进行分页。例如，如果要按价格排序展示商品列表，每个页面都会按正确的价格顺序显示下一批商品，且不会出现重复或遗漏。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -919,9 +935,10 @@ curl --request POST \\
 ```
 
 </TabItem>
-</Tabs>
 
-```plaintext
+<TabItem value='c++'>
+
+```c++
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 
@@ -964,9 +981,16 @@ if (!status.IsOk()) {
 }
 ```
 
+</TabItem>
+
+<TabItem value='shell'>
+
 ```shell
 # Zilliz CLI
 ```
+
+</TabItem>
+</Tabs>
 
 ### 对查询结果进行分组聚合 | ONDEMAND \{#aggregate-query-results}
 
@@ -982,7 +1006,7 @@ if (!status.IsOk()) {
 
 以下示例按 `color` 字段对 Entity 进行分组，并返回每个颜色分组中的 Entity 数量：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1121,9 +1145,10 @@ curl --request POST \\
 ```
 
 </TabItem>
-</Tabs>
 
-```plaintext
+<TabItem value='c++'>
+
+```c++
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 
@@ -1151,13 +1176,20 @@ if (!status.IsOk()) {
 }
 ```
 
+</TabItem>
+
+<TabItem value='shell'>
+
 ```shell
 # Zilliz CLI
 ```
 
+</TabItem>
+</Tabs>
+
 一次调用中可以请求多个聚合表达式。以下示例按 `color` 分组，并返回每个分组的行数、平均价格和最高评分：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1276,9 +1308,10 @@ curl --request POST \\
 ```
 
 </TabItem>
-</Tabs>
 
-```plaintext
+<TabItem value='c++'>
+
+```c++
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 
@@ -1306,13 +1339,20 @@ if (!status.IsOk()) {
 }
 ```
 
+</TabItem>
+
+<TabItem value='shell'>
+
 ```shell
 # Zilliz CLI
 ```
 
+</TabItem>
+</Tabs>
+
 向 `group_by_fields` 传入多个字段可以构成复合分组。以下示例按 `(color, rating)` 分组，并计算每个分组中的价格范围：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1433,9 +1473,10 @@ curl --request POST \\
 ```
 
 </TabItem>
-</Tabs>
 
-```plaintext
+<TabItem value='c++'>
+
+```c++
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 
@@ -1463,13 +1504,20 @@ if (!status.IsOk()) {
 }
 ```
 
+</TabItem>
+
+<TabItem value='shell'>
+
 ```shell
 # Zilliz CLI
 ```
 
+</TabItem>
+</Tabs>
+
 还可以将 `group_by_fields` 与 `limit` 结合使用，限制返回的分组数量——当某个字段的基数较高、只需要采样部分分组时非常有用：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1589,9 +1637,10 @@ curl --request POST \\
 ```
 
 </TabItem>
-</Tabs>
 
-```plaintext
+<TabItem value='c++'>
+
+```c++
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
 
@@ -1619,9 +1668,16 @@ if (!status.IsOk()) {
 }
 ```
 
+</TabItem>
+
+<TabItem value='shell'>
+
 ```shell
 # Zilliz CLI
 ```
+
+</TabItem>
+</Tabs>
 
 ## 使用 QueryIterator\{#use-query-iterator}
 

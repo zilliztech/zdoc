@@ -1230,35 +1230,49 @@ filter='NOT color == "green"'
 
 ## IS NULL 和 IS NOT NULL 操作符\{#is-null-and-is-not-null-operators}
 
-`IS NULL` 和 `IS NOT NULL` 操作符用于根据字段是否包含 null 值（即缺少数据）进行过滤。
+使用 `IS NULL` 和 `IS NOT NULL` 可以查找字段值缺失或已有值的实体。例如，你可以查找尚未设置分类的商品，或已生成向量、可以参与搜索的实体。这两个操作符都适用于受支持的标量字段和向量字段，含义相同：
 
-- `IS NULL`：查找指定字段包含 null 值（即值缺失或未定义）的实体。
+| 操作符 | 匹配的实体 |
+| --- | --- |
+| `<field> IS NULL` | 指定字段的值为 NULL 的实体 |
+| `<field> IS NOT NULL` | 指定字段的值为非 NULL 的实体 |
 
-- `IS NOT NULL`：查找指定字段包含 null 以外的任意值（即字段具有有效定义值）的实体。
+支持的标量字段包括布尔、数值、`VARCHAR`、`JSON` 和 `ARRAY` 字段。这两个操作符不支持 TEXT 字段。
 
-<Admonition type="info" title="说明">
+从 Milvus 3.0.3 开始，这两个操作符还支持普通向量字段：`FLOAT_VECTOR`、`BINARY_VECTOR`、`FLOAT16_VECTOR`、`BFLOAT16_VECTOR`、`SPARSE_FLOAT_VECTOR` 和 `INT8_VECTOR`。
 
-这些操作符不区分大小写，因此可以使用 `IS NULL` 或 `is null`，也可以使用 `IS NOT NULL` 或 `is not null`。
+操作符不区分大小写：`IS NULL` 与 `is null` 等价，`IS NOT NULL` 与 `is not null` 等价。
 
-</Admonition>
+### 示例：查找字段值缺失或已有值的实体\{#example-find-entities-with-missing-or-available-values}
 
-### 包含 Null 值的常规标量字段\{#regular-scalar-fields-with-null-values}
+假设集合 `products` 已建立索引并加载。集合包含名为 `id` 的 `INT64` 主键字段、允许 NULL 值的 `VARCHAR` 字段 `category`，以及允许 NULL 值的三维 `FLOAT_VECTOR` 字段 `embedding`。集合中已有以下实体：
 
-Zilliz Cloud 支持对包含 null 值的常规标量字段（例如字符串或数值字段）进行过滤。
+| `id` | `category` | `embedding` |
+| --- | --- | --- |
+| `1` | `"book"` | `[0.1, 0.2, 0.3]` |
+| `2` | NULL | `[0.4, 0.5, 0.6]` |
+| `3` | `"book"` | NULL |
 
-<Admonition type="info" title="说明">
+此处省略集合创建和数据插入步骤。有关这些步骤，请参阅可空字段。
 
-空字符串 `""` 不会被视为 `VARCHAR` 字段的 null 值。
-
-</Admonition>
-
-要检索 `description` 字段为 null 的实体：
+要查找尚未生成向量的实体，请使用 `embedding IS NULL` 进行查询。请根据你的服务配置调整连接设置。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-filter = 'description IS NULL'
+from pymilvus import MilvusClient
+
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+
+results = client.query(
+    collection_name="products",
+    filter="embedding IS NULL",
+    output_fields=["id"],
+    limit=10,
+)
+print(sorted(entity["id"] for entity in results))
+# Expected: [3]
 ```
 
 </TabItem>
@@ -1266,7 +1280,7 @@ filter = 'description IS NULL'
 <TabItem value='java'>
 
 ```java
-String filter = "description IS NULL";
+// java
 ```
 
 </TabItem>
@@ -1274,7 +1288,7 @@ String filter = "description IS NULL";
 <TabItem value='go'>
 
 ```go
-filter := "description IS NULL"
+// go
 ```
 
 </TabItem>
@@ -1282,7 +1296,7 @@ filter := "description IS NULL"
 <TabItem value='rust'>
 
 ```rust
-let filter = "description IS NULL";
+// rust
 ```
 
 </TabItem>
@@ -1290,7 +1304,7 @@ let filter = "description IS NULL";
 <TabItem value='c++'>
 
 ```c++
-std::string filter = "description IS NULL";
+// cpp
 ```
 
 </TabItem>
@@ -1298,7 +1312,7 @@ std::string filter = "description IS NULL";
 <TabItem value='javascript'>
 
 ```javascript
-const filter = 'description IS NULL';
+// nodejs
 ```
 
 </TabItem>
@@ -1306,480 +1320,50 @@ const filter = 'description IS NULL';
 <TabItem value='bash'>
 
 ```bash
-filter='description IS NULL'
+# restful
 ```
 
 </TabItem>
 </Tabs>
 
-要检索 `description` 字段不为 null 的实体：
+在同一个查询中替换 `filter`，即可检查任一字段，或组合多个条件：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
-<TabItem value='python'>
+| 过滤表达式 | 匹配的 ID | 用途 |
+| --- | --- | --- |
+| `category IS NULL` | `2` | 查找未设置分类的实体 |
+| `category IS NOT NULL` | `1`、`3` | 查找已设置分类的实体 |
+| `embedding IS NULL` | `3` | 查找没有向量的实体 |
+| `embedding IS NOT NULL` | `1`、`2` | 查找已有向量的实体 |
+| `category IS NOT NULL AND embedding IS NOT NULL` | `1` | 查找两个字段均已有值的实体 |
 
-```python
-filter = 'description IS NOT NULL'
-```
+### 字段值如何判定\{#how-field-values-are-treated}
 
-</TabItem>
+操作符检查的是字段实际存储的值。对于允许 NULL 值且未设置默认值的字段，插入时省略该字段或显式将其设置为 NULL，都会存储 NULL。配置默认值可能改变实际存储的值。详情请参阅可空字段和默认值。
 
-<TabItem value='java'>
+| 字段类型 | NULL 判定规则 |
+| --- | --- |
+| `VARCHAR` | 空字符串 `""` 是非 NULL 值。 |
+| `JSON` | 整个字段的值为 NULL 时，匹配 `IS NULL`。`{"category": null}` 这样的 JSON 对象是非 NULL 值，即使其中某个键的值为 NULL。 |
+| `ARRAY` | 整个字段的值为 NULL 时，匹配 `IS NULL`。数组元素不能为 NULL，且 `IS NULL` / `IS NOT NULL` 不支持 `tags[0]` 这样的数组元素访问。请参阅 [Array 类型](./use-array-fields)。 |
+| 普通向量类型 | NULL 表示向量值缺失。各分量均为零的向量不是 NULL。 |
 
-```java
-String filter = "description IS NOT NULL";
-```
+对于定义为 `nullable=False` 的受支持字段，`IS NULL` 不匹配任何实体，`IS NOT NULL` 匹配所有可见实体。过滤表达式中的其他条件仍然生效。
 
-</TabItem>
+### 在向量搜索中使用 NULL 过滤\{#use-null-filters-in-vector-search}
 
-<TabItem value='go'>
+这两个操作符也可以用于搜索过滤条件。不过，实体只有在被搜索的向量字段中有向量值，才能参与相似性搜索。
 
-```go
-filter := "description IS NOT NULL"
-```
+以上述数据为例，假设搜索指定了 `anns_field="embedding"`：
 
-</TabItem>
+| 过滤表达式 | 可参与相似性搜索的实体 | 原因 |
+| --- | --- | --- |
+| `category IS NULL` | `2` | 实体 `2` 没有分类，但有 `embedding` 向量。 |
+| `embedding IS NULL` | 无 | 实体 `3` 满足过滤条件，但没有可与查询向量比较的 `embedding` 向量。 |
+| `embedding IS NOT NULL` | `1`、`2` | 两个实体都有 `embedding` 向量。 |
 
-<TabItem value='rust'>
+这三个过滤表达式都是有效的。搜索 `embedding` 时，如果同时使用 `embedding IS NULL` 过滤，将没有命中结果，因为没有实体能同时满足“字段为 NULL”和“具有可用于比较的向量”这两个条件。要获取缺失向量的实体，请使用上文示例中的 `query()`。
 
-```rust
-let filter = "description IS NOT NULL";
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-std::string filter = "description IS NOT NULL";
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-const filter = 'description IS NOT NULL';
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-filter='description IS NOT NULL'
-```
-
-</TabItem>
-</Tabs>
-
-要检索 `description` 字段不为 null 且 `price` 字段大于 10 的实体：
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
-<TabItem value='python'>
-
-```python
-filter = 'description IS NOT NULL AND price > 10'
-```
-
-</TabItem>
-
-<TabItem value='java'>
-
-```java
-String filter = "description IS NOT NULL AND price > 10";
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-filter := "description IS NOT NULL AND price > 10"
-```
-
-</TabItem>
-
-<TabItem value='rust'>
-
-```rust
-let filter = "description IS NOT NULL AND price > 10";
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-std::string filter = "description IS NOT NULL AND price > 10";
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-const filter = 'description IS NOT NULL AND price > 10';
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-filter='description IS NOT NULL AND price > 10'
-```
-
-</TabItem>
-</Tabs>
-
-### 包含 Null 值的 JSON 字段\{#json-fields-with-null-values}
-
-Zilliz Cloud 支持对包含 null 值的 JSON 字段进行过滤。在以下情况下，JSON 字段会被视为 null：
-
-- 整个 JSON 对象被显式设置为 None（null），例如 `{"metadata": None}`。
-
-- Entity 中完全缺少该 JSON 字段。
-
-<Admonition type="info" title="说明">
-
-如果 JSON 对象中的部分元素（例如单个键）为 null，该字段仍会被视为非 null。例如，`\{"metadata": \{"category": None, "price": 99.99}}` 不会被视为 null，即使其中的 `category` 键为 null。
-
-</Admonition>
-
-为了进一步说明 Zilliz Cloud 如何处理包含 null 值的 JSON 字段，请考虑以下带有 JSON 字段 `metadata` 的示例数据：
-
-```python
-data = [
-  {
-      "metadata": {"category": "electronics", "price": 99.99, "brand": "BrandA"},
-      "pk": 1,
-      "embedding": [0.12, 0.34, 0.56]
-  },
-  {
-      "metadata": None, # Entire JSON object is null
-      "pk": 2,
-      "embedding": [0.56, 0.78, 0.90]
-  },
-  {  # JSON field `metadata` is completely missing
-      "pk": 3,
-      "embedding": [0.91, 0.18, 0.23]
-  },
-  {
-      "metadata": {"category": None, "price": 99.99, "brand": "BrandA"}, # Individual key value is null
-      "pk": 4,
-      "embedding": [0.56, 0.38, 0.21]
-  }
-]
-```
-
-**示例 1：检索** `metadata` **为 null 的实体**
-
-要查找 `metadata` 字段缺失或被显式设置为 None 的实体：
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
-<TabItem value='python'>
-
-```python
-filter = 'metadata IS NULL'
-
-# Example output:
-# data: [
-#     "{'metadata': None, 'pk': 2}",
-#     "{'metadata': None, 'pk': 3}"
-# ]
-```
-
-</TabItem>
-
-<TabItem value='java'>
-
-```java
-String filter = "metadata IS NULL";
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-filter := "metadata IS NULL"
-```
-
-</TabItem>
-
-<TabItem value='rust'>
-
-```rust
-let filter = "metadata IS NULL";
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-std::string filter = "metadata IS NULL";
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-const filter = 'metadata IS NULL';
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-filter='metadata IS NULL'
-```
-
-</TabItem>
-</Tabs>
-
-**示例 2：检索** `metadata` **不为 null 的实体**
-
-要查找 `metadata` 字段不为 null 的实体：
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
-<TabItem value='python'>
-
-```python
-filter = 'metadata IS NOT NULL'
-
-# Example output:
-# data: [
-#     "{'metadata': {'category': 'electronics', 'price': 99.99, 'brand': 'BrandA'}, 'pk': 1}",
-#     "{'metadata': {'category': None, 'price': 99.99, 'brand': 'BrandA'}, 'pk': 4}"
-# ]
-```
-
-</TabItem>
-
-<TabItem value='java'>
-
-```java
-String filter = "metadata IS NOT NULL";
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-filter := "metadata IS NOT NULL"
-```
-
-</TabItem>
-
-<TabItem value='rust'>
-
-```rust
-let filter = "metadata IS NOT NULL";
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-std::string filter = "metadata IS NOT NULL";
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-const filter = 'metadata IS NOT NULL';
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-filter='metadata IS NOT NULL'
-```
-
-</TabItem>
-</Tabs>
-
-### 包含 Null 值的 ARRAY 字段\{#array-fields-with-null-values}
-
-Zilliz Cloud 支持对包含 null 值的 ARRAY 字段进行过滤。在以下情况下，ARRAY 字段会被视为 null：
-
-- 整个 ARRAY 字段被显式设置为 None（null），例如 `"tags": None`。
-
-- Entity 中完全缺少该 ARRAY 字段。
-
-<Admonition type="info" title="说明">
-
-ARRAY 字段不能包含部分 null 值，因为 ARRAY 字段中的所有元素必须具有相同的数据类型。有关详细信息，请参阅 [Array 类型](./use-array-fields)。
-
-</Admonition>
-
-为了进一步说明 Zilliz Cloud 如何处理包含 null 值的 ARRAY 字段，请考虑以下带有 ARRAY 字段 `tags` 的示例数据：
-
-```python
-data = [
-  {
-      "tags": ["pop", "rock", "classic"],
-      "ratings": [5, 4, 3],
-      "pk": 1,
-      "embedding": [0.12, 0.34, 0.56]
-  },
-  {
-      "tags": None,  # Entire ARRAY is null
-      "ratings": [4, 5],
-      "pk": 2,
-      "embedding": [0.78, 0.91, 0.23]
-  },
-  {  # The tags field is completely missing
-      "ratings": [9, 5],
-      "pk": 3,
-      "embedding": [0.18, 0.11, 0.23]
-  }
-]
-```
-
-**示例 1：检索** `tags` **为 null 的实体**
-
-要检索 `tags` 字段缺失或被显式设置为 `None` 的实体：
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
-<TabItem value='python'>
-
-```python
-filter = 'tags IS NULL'
-
-# Example output:
-# data: [
-#     "{'tags': None, 'ratings': [4, 5], 'embedding': [0.78, 0.91, 0.23], 'pk': 2}",
-#     "{'tags': None, 'ratings': [9, 5], 'embedding': [0.18, 0.11, 0.23], 'pk': 3}"
-# ]
-```
-
-</TabItem>
-
-<TabItem value='java'>
-
-```java
-String filter = "tags IS NULL";
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-filter := "tags IS NULL"
-```
-
-</TabItem>
-
-<TabItem value='rust'>
-
-```rust
-let filter = "tags IS NULL";
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-std::string filter = "tags IS NULL";
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-const filter = 'tags IS NULL';
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-filter='tags IS NULL'
-```
-
-</TabItem>
-</Tabs>
-
-**示例 2：检索** `tags` **不为 null 的实体**
-
-要检索 `tags` 字段不为 null 的实体：
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
-<TabItem value='python'>
-
-```python
-filter = 'tags IS NOT NULL'
-
-# Example output:
-# data: [
-#     "{'tags': ['pop', 'rock', 'classic'], 'ratings': [5, 4, 3], 'embedding': [0.12, 0.34, 0.56], 'pk': 1}"
-# ]
-```
-
-</TabItem>
-
-<TabItem value='java'>
-
-```java
-String filter = "tags IS NOT NULL";
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-filter := "tags IS NOT NULL"
-```
-
-</TabItem>
-
-<TabItem value='rust'>
-
-```rust
-let filter = "tags IS NOT NULL";
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-std::string filter = "tags IS NOT NULL";
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-const filter = 'tags IS NOT NULL';
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-filter='tags IS NOT NULL'
-```
-
-</TabItem>
-</Tabs>
+向量搜索本身就会跳过被搜索的向量字段为 NULL 的实体，因此在搜索 `embedding` 时，`embedding IS NOT NULL` 不会进一步缩小候选范围。排序、其他过滤条件和搜索结果数量限制仍会决定最终返回哪些候选实体。
 
 ## 在 JSON 和 ARRAY 字段中使用基本操作符的注意事项\{#tips-on-using-basic-operators-with-json-and-array-fields}
 
