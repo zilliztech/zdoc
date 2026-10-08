@@ -1,25 +1,25 @@
 ---
-title: "DescribeDatabase() | Go | v2"
+title: "DescribeDatabase | Go | v2"
 slug: /go/go/v2-Database-DescribeDatabase
-sidebar_label: "DescribeDatabase()"
+sidebar_label: "DescribeDatabase"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation returns detailed information about a database, including its properties. | Go | v2"
 type: docx
-token: AR0Bdq0okohr1Cxa1rOcDtvTnoc
+token: TA9gd2U0moA7oPx2x9Ocsq8dnud
 sidebar_position: 4
 keywords: 
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
   - zilliz
   - zilliz cloud
   - cloud
-  - DescribeDatabase()
+  - DescribeDatabase
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# DescribeDatabase()
+# DescribeDatabase
 
 This operation returns detailed information about a database, including its properties.
 
@@ -39,6 +39,8 @@ func (c *Client) DescribeDatabase(ctx context.Context, option DescribeDatabaseOp
 
 ## Request Syntax\{#request-syntax}
 
+Creates the request for DescribeDatabase().
+
 ```go
 option := milvusclient.NewDescribeDatabaseOption(dbName)
 
@@ -47,9 +49,17 @@ result, err := client.DescribeDatabase(ctx, option)
 
 **PARAMETERS:**
 
-- **dbName** (*string*)
+- **dbName** (*string*) -
+
+    **[REQUIRED]**
 
     The name of the database.
+
+**BUILDER METHODS:**
+
+- `NewDescribeDatabaseOption(dbName string)`
+
+    Creates the request for DescribeDatabase().
 
 **RETURN TYPE:**
 
@@ -59,20 +69,39 @@ result, err := client.DescribeDatabase(ctx, option)
 
 The database description including properties. Returns an error if the operation fails.
 
-**EXCEPTIONS:**
+```go
+type Database struct {
+    Name       string
+    Properties map[string]string
+}
+```
+
+**PARAMETERS:**
+
+- **Name** (*string*) -
+
+    The name of the database.
+
+- **Properties** (*map[string]string*) -
+
+    The properties of the database.
+
+**ERROR HANDLING:**
 
 - **error**
 
-    Check `err != nil` for failure details.
+    The operation fails. Check `err != nil` for failure details.
 
 ## Example\{#example}
+
+Demonstrates DescribeDatabase() usage.
 
 ```go
 import (
 	"context"
 	"log"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

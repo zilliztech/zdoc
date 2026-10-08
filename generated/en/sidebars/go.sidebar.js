@@ -392,6 +392,12 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/go/go/v2/v2-Collection/v2-Collection-RenameCollection",
+        "label": "RenameCollection",
+        "key": "doc:api/go/go/v2/v2-Collection/v2-collection-renamecollection"
+      },
+      {
+        "type": "doc",
         "id": "api/go/go/v2/v2-Collection/v2-Collection-Schema",
         "label": "Schema",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection-schema"
@@ -405,7 +411,7 @@ module.exports = [
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Collection/v2-Collection-TruncateCollection",
-        "label": "TruncateCollection()",
+        "label": "TruncateCollection",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection-truncatecollection"
       },
       {
@@ -440,9 +446,88 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/go/go/v2/v2-Collection/v2-Collection-GetRefreshExternalCollectionProgress",
+        "label": "GetRefreshExternalCollectionProgress()",
+        "key": "doc:api/go/go/v2/v2-Collection/v2-collection-getrefreshexternalcollectionprogress"
+      },
+      {
+        "type": "doc",
         "id": "api/go/go/v2/v2-Collection/v2-Collection-ListRefreshExternalCollectionJobs",
         "label": "ListRefreshExternalCollectionJobs()",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection-listrefreshexternalcollectionjobs"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollection",
+        "label": "RefreshExternalCollection()",
+        "key": "doc:api/go/go/v2/v2-Collection/v2-collection-refreshexternalcollection"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollectionJobInfo",
+        "label": "RefreshExternalCollectionJobInfo",
+        "key": "doc:api/go/go/v2/v2-Collection/v2-collection-refreshexternalcollectionjobinfo"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollectionState",
+        "label": "RefreshExternalCollectionState",
+        "key": "doc:api/go/go/v2/v2-Collection/v2-collection-refreshexternalcollectionstate"
+      }
+    ]
+  },
+  {
+    "type": "category",
+    "label": "Database",
+    "key": "category:api/go/go/v2/v2-database",
+    "items": [
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Database/v2-Database-AlterDatabaseProperties",
+        "label": "AlterDatabaseProperties",
+        "key": "doc:api/go/go/v2/v2-Database/v2-database-alterdatabaseproperties"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Database/v2-Database-CreateDatabase",
+        "label": "CreateDatabase",
+        "key": "doc:api/go/go/v2/v2-Database/v2-database-createdatabase"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Database/v2-Database",
+        "label": "Database",
+        "key": "doc:api/go/go/v2/v2-Database/v2-database"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Database/v2-Database-DescribeDatabase",
+        "label": "DescribeDatabase",
+        "key": "doc:api/go/go/v2/v2-Database/v2-database-describedatabase"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Database/v2-Database-DropDatabase",
+        "label": "DropDatabase",
+        "key": "doc:api/go/go/v2/v2-Database/v2-database-dropdatabase"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Database/v2-Database-DropDatabaseProperties",
+        "label": "DropDatabaseProperties",
+        "key": "doc:api/go/go/v2/v2-Database/v2-database-dropdatabaseproperties"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Database/v2-Database-ListDatabase",
+        "label": "ListDatabase",
+        "key": "doc:api/go/go/v2/v2-Database/v2-database-listdatabase"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Database/v2-Database-UseDatabase",
+        "label": "UseDatabase",
+        "key": "doc:api/go/go/v2/v2-Database/v2-database-usedatabase"
       }
     ]
   },
@@ -650,61 +735,6 @@ module.exports = [
         "id": "api/go/go/v2/v2-Vector/v2-Vector",
         "label": "Vector",
         "key": "doc:api/go/go/v2/v2-Vector/v2-vector"
-      }
-    ]
-  },
-  {
-    "type": "category",
-    "label": "Database",
-    "key": "category:api/go/go/v2/v2-database",
-    "items": [
-      {
-        "type": "doc",
-        "id": "api/go/go/v2/v2-Database/v2-Database-AlterDatabaseProperties",
-        "label": "AlterDatabaseProperties()",
-        "key": "doc:api/go/go/v2/v2-Database/v2-database-alterdatabaseproperties"
-      },
-      {
-        "type": "doc",
-        "id": "api/go/go/v2/v2-Database/v2-Database-CreateDatabase",
-        "label": "CreateDatabase()",
-        "key": "doc:api/go/go/v2/v2-Database/v2-database-createdatabase"
-      },
-      {
-        "type": "doc",
-        "id": "api/go/go/v2/v2-Database/v2-Database",
-        "label": "Database",
-        "key": "doc:api/go/go/v2/v2-Database/v2-database"
-      },
-      {
-        "type": "doc",
-        "id": "api/go/go/v2/v2-Database/v2-Database-DescribeDatabase",
-        "label": "DescribeDatabase()",
-        "key": "doc:api/go/go/v2/v2-Database/v2-database-describedatabase"
-      },
-      {
-        "type": "doc",
-        "id": "api/go/go/v2/v2-Database/v2-Database-DropDatabase",
-        "label": "DropDatabase()",
-        "key": "doc:api/go/go/v2/v2-Database/v2-database-dropdatabase"
-      },
-      {
-        "type": "doc",
-        "id": "api/go/go/v2/v2-Database/v2-Database-DropDatabaseProperties",
-        "label": "DropDatabaseProperties()",
-        "key": "doc:api/go/go/v2/v2-Database/v2-database-dropdatabaseproperties"
-      },
-      {
-        "type": "doc",
-        "id": "api/go/go/v2/v2-Database/v2-Database-ListDatabase",
-        "label": "ListDatabase()",
-        "key": "doc:api/go/go/v2/v2-Database/v2-database-listdatabase"
-      },
-      {
-        "type": "doc",
-        "id": "api/go/go/v2/v2-Database/v2-Database-UseDatabase",
-        "label": "UseDatabase()",
-        "key": "doc:api/go/go/v2/v2-Database/v2-database-usedatabase"
       }
     ]
   },

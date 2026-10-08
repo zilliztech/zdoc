@@ -1,25 +1,25 @@
 ---
-title: "TruncateCollection() | Go | v2"
+title: "TruncateCollection | Go | v2"
 slug: /go/go/v2-Collection-TruncateCollection
-sidebar_label: "TruncateCollection()"
+sidebar_label: "TruncateCollection"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "This operation removes all data from a collection but retains the collection schema and structure | Go | v2"
+description: "This operation removes all data from a collection while keeping its schema. | Go | v2"
 type: docx
-token: V7bwdcBPGosCFWxjYQfctDDInmb
+token: CNcvdxPmgo6P3nx6t1tcW4R6nXf
 sidebar_position: 25
 keywords: 
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
   - zilliz
   - zilliz cloud
   - cloud
-  - TruncateCollection()
+  - TruncateCollection
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,9 +29,9 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# TruncateCollection()
+# TruncateCollection
 
-This operation removes all data from a collection but retains the collection schema and structure
+This operation removes all data from a collection while keeping its schema.
 
 ```go
 func (c *Client) TruncateCollection(ctx context.Context, option TruncateCollectionOption, callOptions ...grpc.CallOption) error
@@ -39,18 +39,27 @@ func (c *Client) TruncateCollection(ctx context.Context, option TruncateCollecti
 
 ## Request Syntax\{#request-syntax}
 
+Creates the request for TruncateCollection().
+
 ```go
-err := client.TruncateCollection(
-    ctx, 
-    milvusclient.NewTruncateCollectionOption("collection_name")
-)
+option := milvusclient.NewTruncateCollectionOption(collectionName)
+
+err := client.TruncateCollection(ctx, option)
 ```
 
 **PARAMETERS:**
 
-- **collectionName** (*string*)
+- **name** (*string*) -
 
-    The name of the target collection.
+    **[REQUIRED]**
+
+    The name of the collection to create.
+
+**BUILDER METHODS:**
+
+- `NewTruncateCollectionOption(name string)`
+
+    Creates options to truncate a collection. `name` specifies the collection to truncate.
 
 **RETURN TYPE:**
 
@@ -58,43 +67,36 @@ err := client.TruncateCollection(
 
 **RETURNS:**
 
-Returns nil on success, or an error describing what went wrong.
+Returns nil after the collection is truncated. Returns an error if the operation fails.
 
-**EXCEPTIONS:**
+**ERROR HANDLING:**
 
 - **error**
 
-    Check `err != nil` for failure details.
+    The operation fails. Request construction or the RPC fails. Check `err != nil` for failure details.
 
 ## Example\{#example}
 
-```go
-package main
+Demonstrates TruncateCollection() usage.
 
+```go
 import (
-    "context"
-    "log"
-    
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+	"context"
+
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-func main() {
-    ctx := context.Background()
-    
-    client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-        Address: "YOUR_CLUSTER_ENDPOINT",
-    })
-    if err != nil {
-        log.Fatal(err)
-    }
-    
-    // Truncate collection
-    err = client.TruncateCollection(ctx, milvusclient.NewTruncateCollectionOption("my_collection"))
-    if err != nil {
-        log.Printf("Failed to truncate collection: %v", err)
-        return
-    }
-    
-    log.Println("Collection truncated successfully")
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{Address: "YOUR_CLUSTER_ENDPOINT"})
+if err != nil {
+	// handle error
+}
+defer cli.Close(ctx)
+
+err = cli.TruncateCollection(ctx, milvusclient.NewTruncateCollectionOption("books"))
+if err != nil {
+	// handle error
 }
 ```

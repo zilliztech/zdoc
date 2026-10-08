@@ -1,25 +1,25 @@
 ---
-title: "DropDatabase() | Go | v2"
+title: "DropDatabase | Go | v2"
 slug: /go/go/v2-Database-DropDatabase
-sidebar_label: "DropDatabase()"
+sidebar_label: "DropDatabase"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation drops a database and all its collections permanently. | Go | v2"
 type: docx
-token: FfZ6dqEk2o9Cn3xFAgTckLhsnS6
+token: XjDhd3KjUo8gxdxqPvAcUqOUnfe
 sidebar_position: 5
 keywords: 
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
   - zilliz
   - zilliz cloud
   - cloud
-  - DropDatabase()
+  - DropDatabase
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# DropDatabase()
+# DropDatabase
 
 This operation drops a database and all its collections permanently.
 
@@ -39,6 +39,8 @@ func (c *Client) DropDatabase(ctx context.Context, option DropDatabaseOption, ca
 
 ## Request Syntax\{#request-syntax}
 
+Creates the request for DropDatabase().
+
 ```go
 option := milvusclient.NewDropDatabaseOption(dbName)
 
@@ -47,9 +49,17 @@ err := client.DropDatabase(ctx, option)
 
 **PARAMETERS:**
 
-- **dbName** (*string*)
+- **dbName** (*string*) -
+
+    **[REQUIRED]**
 
     The name of the database.
+
+**BUILDER METHODS:**
+
+- `NewDropDatabaseOption(dbName string)`
+
+    Creates the request for DropDatabase().
 
 **RETURN TYPE:**
 
@@ -59,19 +69,21 @@ err := client.DropDatabase(ctx, option)
 
 Returns nil on success, or an error describing what went wrong.
 
-**EXCEPTIONS:**
+**ERROR HANDLING:**
 
 - **error**
 
-    Check `err != nil` for failure details.
+    The operation fails. Check `err != nil` for failure details.
 
 ## Example\{#example}
+
+Demonstrates DropDatabase() usage.
 
 ```go
 import (
 	"context"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

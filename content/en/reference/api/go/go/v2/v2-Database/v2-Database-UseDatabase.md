@@ -1,25 +1,25 @@
 ---
-title: "UseDatabase() | Go | v2"
+title: "UseDatabase | Go | v2"
 slug: /go/go/v2-Database-UseDatabase
-sidebar_label: "UseDatabase()"
+sidebar_label: "UseDatabase"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation switches the active database for the current client connection. | Go | v2"
 type: docx
-token: GbIAdIuWsoumzoxHWpOcVjVbnle
+token: EwKhdwcBuoINVbxxLopcubz7nxa
 sidebar_position: 8
 keywords: 
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
   - zilliz
   - zilliz cloud
   - cloud
-  - UseDatabase()
+  - UseDatabase
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,13 +29,29 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# UseDatabase()
+# UseDatabase
 
 This operation switches the active database for the current client connection.
 
 ```go
 func (c *Client) UseDatabase(ctx context.Context, option UseDatabaseOption) error
 ```
+
+## Request Syntax\{#request-syntax}
+
+Creates the request for UseDatabase().
+
+```go
+option := milvusclient.NewUseDatabaseOption("my_database")
+
+ := client.UseDatabase(ctx, option)
+```
+
+**BUILDER METHODS:**
+
+- `NewUseDatabaseOption(dbName string)`
+
+    Creates the request for UseDatabase().
 
 **RETURN TYPE:**
 
@@ -45,19 +61,21 @@ func (c *Client) UseDatabase(ctx context.Context, option UseDatabaseOption) erro
 
 Returns nil on success, or an error describing what went wrong.
 
-**EXCEPTIONS:**
+**ERROR HANDLING:**
 
 - **error**
 
-    Check `err != nil` for failure details.
+    The operation fails. Check `err != nil` for failure details.
 
 ## Example\{#example}
+
+Demonstrates UseDatabase() usage.
 
 ```go
 import (
 	"context"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

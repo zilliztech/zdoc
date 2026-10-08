@@ -4,12 +4,12 @@ slug: /go/go/v2-Database
 sidebar_label: "Database"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "Represents a database description returned by DescribeDatabase, including custom properties. | Go | v2"
+description: "A Database instance represents a database and its properties, returned by DescribeDatabase. | Go | v2"
 type: docx
-token: KXgNdgTrWoglBsxXTjvcIwnpnqh
+token: YXVpdEBCWo4vpexKgwCcRbClnFc
 sidebar_position: 3
 keywords: 
   - Large language model
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # Database
 
-Represents a database description returned by DescribeDatabase, including custom properties.
+A Database instance represents a database and its properties, returned by DescribeDatabase.
 
 ```go
 type Database struct {
@@ -42,10 +42,41 @@ type Database struct {
 
 **FIELDS:**
 
-- **Name** (*string*)
+- **Name** (*string*) -
 
-    The name.
+    The name of the database.
 
-- **Properties** (*map[string]string*)
+- **Properties** (*map[string]string*) -
 
-    Custom key-value properties.
+    The properties of the database.
+
+## Example\{#example}
+
+Demonstrates Database usage.
+
+```go
+import (
+	"context"
+
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: "YOUR_CLUSTER_ENDPOINT",
+})
+if err != nil {
+	// handle error
+}
+defer cli.Close(ctx)
+
+databases, err := cli.ListDatabases(ctx, milvusclient.NewListDatabaseOption())
+if err != nil {
+	// handle error
+}
+for _, db := range databases {
+	fmt.Println(db.Name)
+}
+```

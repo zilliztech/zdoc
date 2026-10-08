@@ -1,25 +1,25 @@
 ---
-title: "CreateDatabase() | Go | v2"
+title: "CreateDatabase | Go | v2"
 slug: /go/go/v2-Database-CreateDatabase
-sidebar_label: "CreateDatabase()"
+sidebar_label: "CreateDatabase"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "This operation creates a new database. | Go | v2"
+description: "This operation creates a new database with the specified name and optional properties. | Go | v2"
 type: docx
-token: BMlVd8UFLor42pxDtr3cnobPnxe
+token: KgMSdCS28oPhbWx38NLcrXKanCd
 sidebar_position: 2
 keywords: 
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
   - zilliz
   - zilliz cloud
   - cloud
-  - CreateDatabase()
+  - CreateDatabase
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,9 +29,9 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# CreateDatabase()
+# CreateDatabase
 
-This operation creates a new database.
+This operation creates a new database with the specified name and optional properties.
 
 ```go
 func (c *Client) CreateDatabase(ctx context.Context, option CreateDatabaseOption, callOptions ...grpc.CallOption) error
@@ -39,24 +39,32 @@ func (c *Client) CreateDatabase(ctx context.Context, option CreateDatabaseOption
 
 ## Request Syntax\{#request-syntax}
 
+Creates the request for CreateDatabase().
+
 ```go
 option := milvusclient.NewCreateDatabaseOption(dbName).
-    WithProperty(key, val)
+    WithProperty(key, value)
 
 err := client.CreateDatabase(ctx, option)
 ```
 
 **PARAMETERS:**
 
-- **dbName** (*string*)
+- **dbName** (*string*) -
+
+    **[REQUIRED]**
 
     The name of the database.
 
-**OPTION METHODS:**
+**BUILDER METHODS:**
 
-- `WithProperty(key string, val any)`
+- `NewCreateDatabaseOption(dbName string)`
 
-    Sets a custom property key-value pair on the resource.
+    Creates options to create a database. `dbName` specifies the name of the database to create.
+
+- `WithProperty(key string, value any)`
+
+    Sets a database property key-value pair after converting the value to its string representation.
 
 **RETURN TYPE:**
 
@@ -64,36 +72,37 @@ err := client.CreateDatabase(ctx, option)
 
 **RETURNS:**
 
-Returns nil on success, or an error describing what went wrong.
+Returns nil after the database is created. Returns an error if the operation fails.
 
-**EXCEPTIONS:**
+**ERROR HANDLING:**
 
 - **error**
 
-    Check `err != nil` for failure details.
+    The operation fails. Request construction or the RPC fails. Check `err != nil` for failure details.
 
 ## Example\{#example}
+
+Demonstrates CreateDatabase() usage.
 
 ```go
 import (
 	"context"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
-dbName := `test_db`
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-	Address: milvusAddr,
-})
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{Address: "YOUR_CLUSTER_ENDPOINT"})
 if err != nil {
-	// handle err
+	// handle error
 }
+defer cli.Close(ctx)
 
-err = cli.CreateDatabase(ctx, milvusclient.NewCreateDatabaseOption(dbName))
+err = cli.CreateDatabase(ctx, milvusclient.NewCreateDatabaseOption("test_db").
+	WithProperty("database.replica.number", "3"))
 if err != nil {
-	// handle err
+	// handle error
 }
 ```
