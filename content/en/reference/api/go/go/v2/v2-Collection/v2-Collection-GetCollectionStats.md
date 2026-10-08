@@ -1,25 +1,25 @@
 ---
-title: "GetCollectionStats() | Go | v2"
+title: "GetCollectionStats | Go | v2"
 slug: /go/go/v2-Collection-GetCollectionStats
-sidebar_label: "GetCollectionStats()"
+sidebar_label: "GetCollectionStats"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation returns statistics about a collection, such as row count. | Go | v2"
 type: docx
-token: L4CvdyBIVoFsMNx546qcBqrOnJd
+token: GdghdqEWhon4rpxH4HBcJUddnsf
 sidebar_position: 18
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
   - zilliz
   - zilliz cloud
   - cloud
-  - GetCollectionStats()
+  - GetCollectionStats
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,13 +29,29 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# GetCollectionStats()
+# GetCollectionStats
 
 This operation returns statistics about a collection, such as row count.
 
 ```go
 func (c *Client) GetCollectionStats(ctx context.Context, opt GetCollectionOption) (map[string]string, error)
 ```
+
+## Request Syntax\{#request-syntax}
+
+Creates the request for GetCollectionStats().
+
+```go
+option := milvusclient.NewGetCollectionStatsOption("quick_setup")
+
+stats, err := client.GetCollectionStats(ctx, option)
+```
+
+**BUILDER METHODS:**
+
+- `NewGetCollectionStatsOption(collectionName string)`
+
+    Creates options for `GetCollectionStats()`. `collectionName` specifies the collection to inspect.
 
 **RETURN TYPE:**
 
@@ -45,13 +61,21 @@ func (c *Client) GetCollectionStats(ctx context.Context, opt GetCollectionOption
 
 A map of statistics key-value pairs. Returns an error if the operation fails.
 
-**EXCEPTIONS:**
+**PARAMETERS:**
+
+- **result** (*map[string]string*) -
+
+    The map[string]string value returned by GetCollectionStats().
+
+**ERROR HANDLING:**
 
 - **error**
 
-    Check `err != nil` for failure details.
+    The operation fails. Check `err != nil` for failure details.
 
 ## Example\{#example}
+
+Demonstrates GetCollectionStats() usage.
 
 ```go
 import (
@@ -59,7 +83,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

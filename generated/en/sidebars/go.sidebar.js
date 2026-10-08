@@ -302,6 +302,12 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/go/go/v2/v2-Collection/v2-Collection-ConsistencyLevel",
+        "label": "ConsistencyLevel",
+        "key": "doc:api/go/go/v2/v2-Collection/v2-collection-consistencylevel"
+      },
+      {
+        "type": "doc",
         "id": "api/go/go/v2/v2-Collection/v2-Collection-CreateAlias",
         "label": "CreateAlias",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection-createalias"
@@ -315,31 +321,31 @@ module.exports = [
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Collection/v2-Collection-DescribeAlias",
-        "label": "DescribeAlias()",
+        "label": "DescribeAlias",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection-describealias"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Collection/v2-Collection-DescribeCollection",
-        "label": "DescribeCollection()",
+        "label": "DescribeCollection",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection-describecollection"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Collection/v2-Collection-DropAlias",
-        "label": "DropAlias()",
+        "label": "DropAlias",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection-dropalias"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Collection/v2-Collection-DropCollection",
-        "label": "DropCollection()",
+        "label": "DropCollection",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection-dropcollection"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Collection/v2-Collection-DropCollectionProperties",
-        "label": "DropCollectionProperties()",
+        "label": "DropCollectionProperties",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection-dropcollectionproperties"
       },
       {
@@ -363,32 +369,26 @@ module.exports = [
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Collection/v2-Collection-GetCollectionStats",
-        "label": "GetCollectionStats()",
+        "label": "GetCollectionStats",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection-getcollectionstats"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Collection/v2-Collection-HasCollection",
-        "label": "HasCollection()",
+        "label": "HasCollection",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection-hascollection"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Collection/v2-Collection-ListAliases",
-        "label": "ListAliases()",
+        "label": "ListAliases",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection-listaliases"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Collection/v2-Collection-ListCollections",
-        "label": "ListCollections()",
+        "label": "ListCollections",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection-listcollections"
-      },
-      {
-        "type": "doc",
-        "id": "api/go/go/v2/v2-Collection/v2-Collection-RenameCollection",
-        "label": "RenameCollection()",
-        "key": "doc:api/go/go/v2/v2-Collection/v2-collection-renamecollection"
       },
       {
         "type": "doc",
@@ -422,33 +422,27 @@ module.exports = [
       },
       {
         "type": "doc",
-        "id": "api/go/go/v2/v2-Collection/v2-Collection-GetRefreshExternalCollectionProgress",
-        "label": "GetRefreshExternalCollectionProgress()",
-        "key": "doc:api/go/go/v2/v2-Collection/v2-collection-getrefreshexternalcollectionprogress"
+        "id": "api/go/go/v2/v2-Collection/v2-Collection-DropCollectionField",
+        "label": "DropCollectionField",
+        "key": "doc:api/go/go/v2/v2-Collection/v2-collection-dropcollectionfield"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Collection/v2-Collection-DropFunctionField",
+        "label": "DropFunctionField",
+        "key": "doc:api/go/go/v2/v2-Collection/v2-collection-dropfunctionfield"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Collection/v2-Collection-FunctionScore",
+        "label": "FunctionScore",
+        "key": "doc:api/go/go/v2/v2-Collection/v2-collection-functionscore"
       },
       {
         "type": "doc",
         "id": "api/go/go/v2/v2-Collection/v2-Collection-ListRefreshExternalCollectionJobs",
         "label": "ListRefreshExternalCollectionJobs()",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection-listrefreshexternalcollectionjobs"
-      },
-      {
-        "type": "doc",
-        "id": "api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollection",
-        "label": "RefreshExternalCollection()",
-        "key": "doc:api/go/go/v2/v2-Collection/v2-collection-refreshexternalcollection"
-      },
-      {
-        "type": "doc",
-        "id": "api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollectionJobInfo",
-        "label": "RefreshExternalCollectionJobInfo",
-        "key": "doc:api/go/go/v2/v2-Collection/v2-collection-refreshexternalcollectionjobinfo"
-      },
-      {
-        "type": "doc",
-        "id": "api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollectionState",
-        "label": "RefreshExternalCollectionState",
-        "key": "doc:api/go/go/v2/v2-Collection/v2-collection-refreshexternalcollectionstate"
       }
     ]
   },

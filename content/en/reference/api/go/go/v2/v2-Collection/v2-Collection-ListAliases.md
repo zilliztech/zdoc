@@ -1,25 +1,25 @@
 ---
-title: "ListAliases() | Go | v2"
+title: "ListAliases | Go | v2"
 slug: /go/go/v2-Collection-ListAliases
-sidebar_label: "ListAliases()"
+sidebar_label: "ListAliases"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "This operation lists all aliases associated with a collection. | Go | v2"
+description: "This operation returns the aliases of a specified collection. | Go | v2"
 type: docx
-token: Xq1Dd1B8goDbeRxHfMKc84VOnxg
+token: RXGLdpZ23o3178xZTb4cLZBmnQd
 sidebar_position: 20
 keywords: 
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
   - zilliz
   - zilliz cloud
   - cloud
-  - ListAliases()
+  - ListAliases
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,15 +29,17 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# ListAliases()
+# ListAliases
 
-This operation lists all aliases associated with a collection.
+This operation returns the aliases of a specified collection.
 
 ```go
 func (c *Client) ListAliases(ctx context.Context, option ListAliasesOption, callOptions ...grpc.CallOption) ([]string, error)
 ```
 
 ## Request Syntax\{#request-syntax}
+
+Creates the request for ListAliases().
 
 ```go
 option := milvusclient.NewListAliasesOption(collectionName)
@@ -47,9 +49,17 @@ result, err := client.ListAliases(ctx, option)
 
 **PARAMETERS:**
 
-- **collectionName** (*string*)
+- **collectionName** (*string*) -
+
+    **[REQUIRED]**
 
     The name of the target collection.
+
+**BUILDER METHODS:**
+
+- `NewListAliasesOption(collectionName string)`
+
+    Creates options to list the aliases of a collection. `collectionName` specifies the collection.
 
 **RETURN TYPE:**
 
@@ -57,39 +67,44 @@ result, err := client.ListAliases(ctx, option)
 
 **RETURNS:**
 
-A list of names. Returns an error if the operation fails.
+A list of alias names for the collection. Returns an error if the operation fails.
 
-**EXCEPTIONS:**
+**PARAMETERS:**
+
+- **result** (*[]string*) -
+
+    The []string value returned by ListAliases().
+
+**ERROR HANDLING:**
 
 - **error**
 
-    Check `err != nil` for failure details.
+    The operation fails. Check `err != nil` for failure details.
 
 ## Example\{#example}
+
+Demonstrates ListAliases() usage.
 
 ```go
 import (
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
-milvusAddr := "YOUR_CLUSTER_ENDPOINT"
-
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-	Address: milvusAddr,
-})
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{Address: "YOUR_CLUSTER_ENDPOINT"})
 if err != nil {
 	// handle error
 }
+defer cli.Close(ctx)
 
-aliases, err := cli.ListAliases(ctx, milvusclient.NewListAliasesOption("customized_setup_2"))
+result, err := cli.ListAliases(ctx, milvusclient.NewListAliasesOption("books"))
 if err != nil {
 	// handle error
 }
-fmt.Println(aliases)
+fmt.Println(result)
 ```

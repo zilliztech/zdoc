@@ -4,10 +4,10 @@ slug: /go/go/v2-Collection
 sidebar_label: "Collection"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "Represents a collection description returned by DescribeCollection, including schema, shards, and properties. | Go | v2"
+description: "A Collection instance represents collection metadata in Milvus, including the collection schema and consistency settings. Returned by `DescribeCollection()`. | Go | v2"
 type: docx
 token: PNwFdxMMdo6rtIxERDHcVFgdnxc
 sidebar_position: 6
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # Collection
 
-Represents a collection description returned by DescribeCollection, including schema, shards, and properties.
+A Collection instance represents collection metadata in Milvus, including the collection schema and consistency settings. Returned by `DescribeCollection()`.
 
 ```go
 type Collection struct {
@@ -50,42 +50,71 @@ type Collection struct {
 
 **FIELDS:**
 
-- **ID** (*int64*)
+- **ID** (*int64*) -
 
-    collection id
+    The unique identifier of the collection.
 
-- **Name** (*string*)
+- **Name** (*string*) -
 
-    collection name
+    The name of the collection.
 
-- **[Schema](./v2-Collection-Schema)** (&ast;*[Schema](./v2-Collection-Schema)*)
+- **Schema** ([Schema](./v2-Collection-Schema)) -
 
-    collection schema, with fields schema and primary key definition
+    The collection schema, with field definitions and the primary key.
 
-- **PhysicalChannels** (*[]string*)
+- **PhysicalChannels** (*[]string*) -
 
-    The physical channels.
+    The physical message channels the collection uses.
 
-- **VirtualChannels** (*[]string*)
+- **VirtualChannels** (*[]string*) -
 
-    The virtual channels.
+    The virtual message channels the collection uses.
 
-- **Loaded** (*bool*)
+- **Loaded** (*bool*) -
 
-    Whether the resource is loaded into memory.
+    Whether the collection is currently loaded.
 
-- **ConsistencyLevel** (*ConsistencyLevel*)
+- **ConsistencyLevel** ([ConsistencyLevel](./v2-Collection-ConsistencyLevel)) -
 
-    The consistency level for read operations.
+    The consistency level of the collection.
 
-- **ShardNum** (*int32*)
+- **ShardNum** (*int32*) -
 
-    The number of shards for data distribution.
+    The number of shards in the collection.
 
-- **Properties** (*map[string]string*)
+- **Properties** (*map[string]string*) -
 
-    Custom key-value properties.
+    The collection properties (e.g., TTL settings).
 
-- **UpdateTimestamp** (*uint64*)
+- **UpdateTimestamp** (*uint64*) -
 
-    The last update timestamp for change detection.
+    The collection update timestamp, usually used for internal change detection.
+
+## Example\{#example}
+
+Demonstrates Collection usage.
+
+```go
+import (
+	"context"
+
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: "YOUR_CLUSTER_ENDPOINT",
+})
+if err != nil {
+	// handle error
+}
+defer cli.Close(ctx)
+
+collection, err := cli.DescribeCollection(ctx, milvusclient.NewDescribeCollectionOption("books"))
+if err != nil {
+	// handle error
+}
+fmt.Println(collection.Name, collection.ConsistencyLevel)
+```

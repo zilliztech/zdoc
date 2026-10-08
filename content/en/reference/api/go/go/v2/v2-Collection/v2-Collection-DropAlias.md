@@ -1,25 +1,25 @@
 ---
-title: "DropAlias() | Go | v2"
+title: "DropAlias | Go | v2"
 slug: /go/go/v2-Collection-DropAlias
-sidebar_label: "DropAlias()"
+sidebar_label: "DropAlias"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation removes a collection alias. | Go | v2"
 type: docx
-token: PLPKdFJ0aoNUyTxMj7Mc3tPVn5d
+token: Y0S5dzY9coF6EDxHhBkcBKXhnJh
 sidebar_position: 12
 keywords: 
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
   - zilliz
   - zilliz cloud
   - cloud
-  - DropAlias()
+  - DropAlias
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# DropAlias()
+# DropAlias
 
 This operation removes a collection alias.
 
@@ -39,6 +39,8 @@ func (c *Client) DropAlias(ctx context.Context, option DropAliasOption, callOpti
 
 ## Request Syntax\{#request-syntax}
 
+Creates the request for DropAlias().
+
 ```go
 option := milvusclient.NewDropAliasOption(alias)
 
@@ -47,9 +49,17 @@ err := client.DropAlias(ctx, option)
 
 **PARAMETERS:**
 
-- **[alias](./v2-Collection-Alias)** (*string*)
+- **alias** (*string*) -
+
+    **[REQUIRED]**
 
     The alias name to assign.
+
+**BUILDER METHODS:**
+
+- `NewDropAliasOption(alias string)`
+
+    Creates the request for DropAlias().
 
 **RETURN TYPE:**
 
@@ -59,19 +69,21 @@ err := client.DropAlias(ctx, option)
 
 Returns nil on success, or an error describing what went wrong.
 
-**EXCEPTIONS:**
+**ERROR HANDLING:**
 
 - **error**
 
-    Check `err != nil` for failure details.
+    The operation fails. Check `err != nil` for failure details.
 
 ## Example\{#example}
+
+Demonstrates DropAlias() usage.
 
 ```go
 import (
 	"context"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

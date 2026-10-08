@@ -1,25 +1,25 @@
 ---
-title: "DropCollectionProperties() | Go | v2"
+title: "DropCollectionProperties | Go | v2"
 slug: /go/go/v2-Collection-DropCollectionProperties
-sidebar_label: "DropCollectionProperties()"
+sidebar_label: "DropCollectionProperties"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation removes specified properties from a collection. | Go | v2"
 type: docx
-token: Zyf1dXoBIo83V2xWHiKcXUEAnMc
+token: V7Zydmw53obtpRxMfqCcjj62njH
 sidebar_position: 14
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud
-  - DropCollectionProperties()
+  - DropCollectionProperties
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# DropCollectionProperties()
+# DropCollectionProperties
 
 This operation removes specified properties from a collection.
 
@@ -39,6 +39,8 @@ func (c *Client) DropCollectionProperties(ctx context.Context, option DropCollec
 
 ## Request Syntax\{#request-syntax}
 
+Creates the request for DropCollectionProperties().
+
 ```go
 option := milvusclient.NewDropCollectionPropertiesOption(collection, propertyKeys)
 
@@ -47,13 +49,23 @@ err := client.DropCollectionProperties(ctx, option)
 
 **PARAMETERS:**
 
-- **[collection](./v2-Collection)** (*string*)
+- **collection** (*string*) -
+
+    **[REQUIRED]**
 
     The collection.
 
-- **propertyKeys** (*...string*)
+- **propertyKeys** (*...string*) -
+
+    **[REQUIRED]**
 
     The property keys.
+
+**BUILDER METHODS:**
+
+- `NewDropCollectionPropertiesOption(collection string, propertyKeys ...string)`
+
+    Creates the request for DropCollectionProperties().
 
 **RETURN TYPE:**
 
@@ -63,20 +75,22 @@ err := client.DropCollectionProperties(ctx, option)
 
 Returns nil on success, or an error describing what went wrong.
 
-**EXCEPTIONS:**
+**ERROR HANDLING:**
 
 - **error**
 
-    Check `err != nil` for failure details.
+    The operation fails. Check `err != nil` for failure details.
 
 ## Example\{#example}
+
+Demonstrates DropCollectionProperties() usage.
 
 ```go
 import (
 	"context"
 	"log"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 	"github.com/milvus-io/milvus/pkg/v2/common"
 )
 

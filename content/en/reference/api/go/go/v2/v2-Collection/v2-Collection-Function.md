@@ -4,12 +4,12 @@ slug: /go/go/v2-Collection-Function
 sidebar_label: "Function"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "Defines a built-in function (e.g., BM25, text embedding) that can be attached to a collection schema. | Go | v2"
+description: "A Function instance defines a built-in function (e.g., BM25, text embedding) that can be attached to a collection schema. | Go | v2"
 type: docx
-token: G4dTdejt8otbQWxUqvucwKnBnYg
+token: CpbRdh7gOo7yrlxfgTyc65XJnug
 sidebar_position: 17
 keywords: 
   - Chroma vs Milvus
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # Function
 
-Defines a built-in function (e.g., BM25, text embedding) that can be attached to a collection schema.
+A Function instance defines a built-in function (e.g., BM25, text embedding) that can be attached to a collection schema.
 
 ```go
 type Function struct {
@@ -44,16 +44,31 @@ type Function struct {
 }
 ```
 
-## Constructor\{#constructor}
+**FIELDS:**
 
-```go
-entity.NewFunction().
-    WithName(name).
-    WithInputFields(inputFields).
-    WithOutputFields(outputFields).
-    WithType(funcType).
-    // ...
-```
+- **Name** (*string*) -
+
+    The name of the function.
+
+- **Description** (*string*) -
+
+    The human-readable description of the function.
+
+- **Type** (*FunctionType*) -
+
+    The type of the function, such as BM25 or Rerank.
+
+- **InputFieldNames** (*[]string*) -
+
+    The names of the input fields the function reads.
+
+- **OutputFieldNames** (*[]string*) -
+
+    The names of the fields the function writes its output to.
+
+- **Params** (*map[string]string*) -
+
+    The function parameters as key-value pairs.
 
 **BUILDER METHODS:**
 
@@ -71,23 +86,31 @@ entity.NewFunction().
 
 - `WithType(funcType FunctionType)`
 
-    Sets the function type (BM25, TextEmbedding, Rerank).
+    Sets the function type (BM25, MinHash, TextEmbedding, Rerank).
 
 - `WithParam(key string, value any)`
 
     Sets a function parameter key-value pair.
 
+**METHODS:**
+
+- `Clone() *Function`
+
+    Returns a deep copy of f.
+
 ## Example\{#example}
+
+Demonstrates Function usage.
 
 ```go
 import (
-    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v3/entity"
 )
 
 // Define a BM25 text embedding function on a VarChar field
 fn := entity.NewFunction().
     WithName("bm25_fn").
-    WithFunctionType(entity.FunctionTypeBM25).
+    WithType(entity.FunctionTypeBM25).
     WithInputFields("text").
     WithOutputFields("sparse_vector")
 

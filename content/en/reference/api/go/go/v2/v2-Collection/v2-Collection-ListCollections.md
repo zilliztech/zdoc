@@ -1,25 +1,25 @@
 ---
-title: "ListCollections() | Go | v2"
+title: "ListCollections | Go | v2"
 slug: /go/go/v2-Collection-ListCollections
-sidebar_label: "ListCollections()"
+sidebar_label: "ListCollections"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation lists all collections in the current database. | Go | v2"
 type: docx
-token: AVEcd3SCwoRyiTxcNodcQAepnGf
+token: TEBxdE4JvooYMjxHloBcP9k6nE6
 sidebar_position: 21
 keywords: 
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
   - zilliz
   - zilliz cloud
   - cloud
-  - ListCollections()
+  - ListCollections
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# ListCollections()
+# ListCollections
 
 This operation lists all collections in the current database.
 
@@ -39,11 +39,19 @@ func (c *Client) ListCollections(ctx context.Context, option ListCollectionOptio
 
 ## Request Syntax\{#request-syntax}
 
+Creates the request for ListCollections().
+
 ```go
 option := milvusclient.NewListCollectionOption()
 
 result, err := client.ListCollections(ctx, option)
 ```
+
+**BUILDER METHODS:**
+
+- `NewListCollectionOption()`
+
+    Creates the request for ListCollections().
 
 **RETURN TYPE:**
 
@@ -53,13 +61,21 @@ result, err := client.ListCollections(ctx, option)
 
 A list of names. Returns an error if the operation fails.
 
-**EXCEPTIONS:**
+**PARAMETERS:**
+
+- **result** (*collectionNames []string*) -
+
+    The collectionNames []string value returned by ListCollections().
+
+**ERROR HANDLING:**
 
 - **error**
 
-    Check `err != nil` for failure details.
+    The operation fails. Check `err != nil` for failure details.
 
 ## Example\{#example}
+
+Demonstrates ListCollections() usage.
 
 ```go
 import (
@@ -67,7 +83,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

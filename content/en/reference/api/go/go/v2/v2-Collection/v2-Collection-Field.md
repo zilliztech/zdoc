@@ -4,10 +4,10 @@ slug: /go/go/v2-Collection-Field
 sidebar_label: "Field"
 beta: false
 added_since: v2.6.x
-last_modified: v3.0.0
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "Defines a field in a collection schema, including its data type, constraints, and indexing properties. | Go | v2"
+description: "A Field instance defines a field in a collection schema, including its data type, constraints, and indexing properties. | Go | v2"
 type: docx
 token: DPcJdZceFoes0sxeRVKcKhaunq9
 sidebar_position: 15
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # Field
 
-Defines a field in a collection schema, including its data type, constraints, and indexing properties.
+A Field instance defines a field in a collection schema, including its data type, constraints, and indexing properties.
 
 ```go
 type Field struct {
@@ -50,19 +50,75 @@ type Field struct {
     DefaultValue *schemapb.ValueField
     Nullable bool
     StructSchema *StructSchema
+    ExternalField string
 }
 ```
 
-## Constructor\{#constructor}
+**FIELDS:**
 
-```go
-entity.NewField().
-    WithName(name).
-    WithDescription(desc).
-    WithDataType(dataType).
-    WithIsPrimaryKey(isPrimaryKey).
-    // ...
-```
+- **ID** (*int64*) -
+
+    The field ID, generated when the collection is created; the input value is ignored.
+
+- **Name** (*string*) -
+
+    The name of the field.
+
+- **PrimaryKey** (*bool*) -
+
+    Whether the field is the primary key.
+
+- **AutoID** (*bool*) -
+
+    Whether the ID is auto-generated.
+
+- **Description** (*string*) -
+
+    The human-readable description of the field.
+
+- **DataType** ([FieldType](./v2-Collection-FieldType)) -
+
+    The data type of the field.
+
+- **TypeParams** (*map[string]string*) -
+
+    The type parameters of the field, such as dim or max_length.
+
+- **IndexParams** (*map[string]string*) -
+
+    The index parameters of the field.
+
+- **IsDynamic** (*bool*) -
+
+    Whether the field is a dynamic field.
+
+- **IsPartitionKey** (*bool*) -
+
+    Whether the field is the partition key.
+
+- **IsClusteringKey** (*bool*) -
+
+    Whether the field is the clustering key.
+
+- **ElementType** ([FieldType](./v2-Collection-FieldType)) -
+
+    The element type of an array field.
+
+- **DefaultValue** (&ast;*schemapb.ValueField*) -
+
+    The default value of the field.
+
+- **Nullable** (*bool*) -
+
+    Whether the field accepts null values.
+
+- **StructSchema** (&ast;*StructSchema*) -
+
+    The struct schema of a struct-type field.
+
+- **ExternalField** (*string*) -
+
+    The name of a field in the external data files that the current field maps to.
 
 **BUILDER METHODS:**
 
@@ -74,7 +130,7 @@ entity.NewField().
 
     Sets the description of the field.
 
-- `WithDataType(dataType FieldType)`
+- `WithDataType(dataType [FieldType](FieldType.md))`
 
     Sets the data type of the field (e.g., Int64, VarChar, FloatVector).
 
@@ -142,7 +198,7 @@ entity.NewField().
 
     Sets the maximum character length for varchar fields.
 
-- `WithElementType(eleType FieldType)`
+- `WithElementType(eleType [FieldType](FieldType.md))`
 
     Sets the element type for array fields.
 
@@ -176,15 +232,17 @@ entity.NewField().
 
 **METHODS:**
 
-- `GetDim() int64, error`
+- `GetDim() (int64, error)`
 
-    Get dim.
+    Returns the dimension of the field.
 
 ## Example\{#example}
 
+Demonstrates Field usage.
+
 ```go
 import (
-    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v3/entity"
 )
 
 // Primary key field

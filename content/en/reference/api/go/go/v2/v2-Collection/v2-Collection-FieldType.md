@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "Enumerates supported Milvus field data types and provides helpers for identifying vector types. | Go | v2"
+description: "A FieldType instance enumerates supported Milvus field data types and provides helpers for identifying vector types. | Go | v2"
 type: docx
 token: V6aWdRUh3o1alDxmCo5c29hRnic
 sidebar_position: 16
@@ -31,103 +31,75 @@ import Admonition from '@theme/Admonition';
 
 # FieldType
 
-Enumerates supported Milvus field data types and provides helpers for identifying vector types.
+A FieldType instance enumerates supported Milvus field data types and provides helpers for identifying vector types.
 
-**RETURN TYPE:**
+<Admonition type="info" title="Notes">
 
-*FieldType*
+`IsVectorType()` returns true for binary, float, float16, bfloat16, sparse, and int8 vector field types.
 
-**RETURNS:**
+</Admonition>
 
-Enumerates the supported data types for collection fields.
+<Admonition type="info" title="Notes">
 
-- **FieldTypeNone** (*int32*) -
+`FieldTypeText` is a variable-length string type that does not require a `max_length`.
 
-    Default: `0`
+</Admonition>
+
+```go
+type FieldType int32
+```
+
+**VALUES:**
+
+- **FieldTypeNone** = `0`
 
     zero value place holder.
 
-- **FieldTypeBool** (*int32*) -
+- **FieldTypeBool** = `1`
 
-    Default: `1`
+- **FieldTypeInt8** = `2`
 
-- **FieldTypeInt8** (*int32*) -
+- **FieldTypeInt16** = `3`
 
-    Default: `2`
+- **FieldTypeInt32** = `4`
 
-- **FieldTypeInt16** (*int32*) -
+- **FieldTypeInt64** = `5`
 
-    Default: `3`
+- **FieldTypeFloat** = `10`
 
-- **FieldTypeInt32** (*int32*) -
+- **FieldTypeDouble** = `11`
 
-    Default: `4`
+- **FieldTypeString** = `20`
 
-- **FieldTypeInt64** (*int32*) -
-
-    Default: `5`
-
-- **FieldTypeFloat** (*int32*) -
-
-    Default: `10`
-
-- **FieldTypeDouble** (*int32*) -
-
-    Default: `11`
-
-- **FieldTypeString** (*int32*) -
-
-    Default: `20`
-
-- **FieldTypeVarChar** (*int32*) -
-
-    Default: `21`
+- **FieldTypeVarChar** = `21`
 
     variable-length strings with a specified maximum length.
 
-- **FieldTypeArray** (*int32*) -
+- **FieldTypeArray** = `22`
 
-    Default: `22`
+- **FieldTypeJSON** = `23`
 
-- **FieldTypeJSON** (*int32*) -
+- **FieldTypeGeometry** = `24`
 
-    Default: `23`
+- **FieldTypeText** = `25`
 
-- **FieldTypeGeometry** (*int32*) -
+    variable-length strings without a required max_length.
 
-    Default: `24`
+- **FieldTypeTimestamptz** = `26`
 
-- **FieldTypeTimestamptz** (*int32*) -
+- **FieldTypeBinaryVector** = `100`
 
-    Default: `26`
+- **FieldTypeFloatVector** = `101`
 
-- **FieldTypeBinaryVector** (*int32*) -
+- **FieldTypeFloat16Vector** = `102`
 
-    Default: `100`
+- **FieldTypeBFloat16Vector** = `103`
 
-- **FieldTypeFloatVector** (*int32*) -
+- **FieldTypeSparseVector** = `104`
 
-    Default: `101`
+- **FieldTypeInt8Vector** = `105`
 
-- **FieldTypeFloat16Vector** (*int32*) -
-
-    Default: `102`
-
-- **FieldTypeBFloat16Vector** (*int32*) -
-
-    Default: `103`
-
-- **FieldTypeSparseVector** (*int32*) -
-
-    Default: `104`
-
-- **FieldTypeInt8Vector** (*int32*) -
-
-    Default: `105`
-
-- **FieldTypeStruct** (*int32*) -
-
-    Default: `201`
+- **FieldTypeStruct** = `201`
 
 ## Example\{#example}
 
@@ -144,8 +116,3 @@ fieldType := entity.FieldTypeFloatVector
 fmt.Println(fieldType.Name())
 fmt.Println(fieldType.IsVectorType())
 ```
-
-## Notes\{#notes}
-
-- `IsVectorType()` returns true for binary, float, float16, bfloat16, sparse, and int8 vector field types.
-
