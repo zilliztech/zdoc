@@ -689,7 +689,7 @@ collection_schema->AddStructField(std::move(struct_schema));
 <TabItem value='javascript'>
 
 ```javascript
-{
+const chunksField = {
   name: "chunks",
   data_type: DataType.Array,
   element_type: DataType.Struct,
@@ -698,7 +698,7 @@ collection_schema->AddStructField(std::move(struct_schema));
   fields: [
     { name: "text", data_type: DataType.VarChar, max_length: 65535 },
   ],
-}
+};
 ```
 
 </TabItem>
@@ -810,16 +810,6 @@ client.add_collection_struct_field(
 ```java
 import io.milvus.v2.service.collection.request.AddCollectionStructFieldReq;
 
-List<AddFieldReq> structFields = Arrays.asList(
-        AddFieldReq.builder().fieldName("text").dataType(DataType.VarChar).maxLength(65535).build(),
-        AddFieldReq.builder().fieldName("section").dataType(DataType.VarChar).maxLength(128).build(),
-        AddFieldReq.builder().fieldName("page").dataType(DataType.Int64).build(),
-        AddFieldReq.builder().fieldName("quality_score").dataType(DataType.Float).build(),
-        AddFieldReq.builder().fieldName("has_code").dataType(DataType.Bool).build(),
-        AddFieldReq.builder().fieldName("emb_list_vector").dataType(DataType.FloatVector).dimension(4).build(),
-        AddFieldReq.builder().fieldName("emb").dataType(DataType.FloatVector).dimension(4).build()
-);
-
 client.addCollectionStructField(AddCollectionStructFieldReq.builder()
         .collectionName("tech_articles")
         .fieldName("chunks")
@@ -875,7 +865,7 @@ structField := entity.NewField().
         WithNullable(true).
         WithStructSchema(chunkSchema)
 
-err := cli.AddCollectionStructField(ctx, milvusclient.NewAddCollectionStructFieldOption("tech_articles", structField))
+err = cli.AddCollectionStructField(ctx, milvusclient.NewAddCollectionStructFieldOption("tech_articles", structField))
 if err != nil {
     fmt.Println(err)
     return
@@ -1048,7 +1038,7 @@ client.addCollectionStructField(AddCollectionStructFieldReq.builder()
 <TabItem value='go'>
 
 ```go
-err := cli.DropCollectionField(ctx, milvusclient.NewDropCollectionFieldOption("tech_articles", "chunks"))
+err = cli.DropCollectionField(ctx, milvusclient.NewDropCollectionFieldOption("tech_articles", "chunks"))
 if err != nil {
     fmt.Println(err)
     return
