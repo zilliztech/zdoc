@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "group": "python",
   "complete": true,
-  "generatedAt": "2026-10-07T18:57:24.637Z",
-  "sourceRunId": "37666619868",
+  "generatedAt": "2026-10-08T03:03:21.636Z",
+  "sourceRunId": "37718371912",
   "records": [
     {
       "canonicalToken": "A96udk9seoF5x5xywQZcLasanIe",
@@ -485,7 +485,7 @@
     {
       "canonicalToken": "DvaZdhYnyoo7lOxNIBwc5eKEn7d",
       "title": "search()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-search.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -738,15 +738,6 @@
       "canonicalToken": "FpWXdmIuforYz9xUCsqclyCXnLe",
       "title": "drop_alias()",
       "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-drop_alias.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "Fr3rdPTuXoC0Lzx7urIcwBqWnDb",
-      "title": "upload_file_to_volume()",
-      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1656,6 +1647,15 @@
       "canonicalToken": "MApVdDl17oU8OixzbMPcgceKnOh",
       "title": "list_roles()",
       "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-list_roles.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "MDzcdn1cIoX5Xtx3vo9cjSeLnT4",
+      "title": "upload_file_to_volume()",
+      "contentPath": "content/en/reference/api/python/python/Volume/Volume-VolumeFileManager/VolumeFileManager-upload_file_to_volume.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,

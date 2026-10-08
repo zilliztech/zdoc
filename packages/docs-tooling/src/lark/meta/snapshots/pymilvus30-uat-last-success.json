@@ -8,7 +8,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-10-07T18:57:24.306Z",
+  "generated_at": "2026-10-08T03:03:21.307Z",
   "source_dir": "./packages/docs-tooling/src/lark/meta/sources/python/v3.0.x",
   "base_app_token": "Hk05b5eI6aXXSSsd6j9cqwwMn5a",
   "records": [
@@ -4793,7 +4793,7 @@
         "Milvus",
         "Zilliz"
       ],
-      "publish_status": "WIP",
+      "publish_status": "Draft",
       "release_channel": "current",
       "outgoing_tokens": [
         "GaCYdVohYoHFhrx897zcmcNfn6e",
@@ -4801,7 +4801,9 @@
         "Qp9tdzovXo3xCvxPlszcLGcInPh",
         "SojTdgw1joOuA8xMzb5cMUFYnce"
       ],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-search.md"
+      ]
     },
     {
       "record_id": "recvhRkU0BiQSi",
@@ -9964,7 +9966,7 @@
       "doc_token": "IbWgdAwWOoTa1exF2LicP9henJJ",
       "doc_link": "https://zilliverse.feishu.cn/docx/IbWgdAwWOoTa1exF2LicP9henJJ",
       "source_file": "IbWgdAwWOoTa1exF2LicP9henJJ.json",
-      "source_hash": "9e3c3237dde38b1dfd31e58e52ab6bd69379851be134116cd41f59862c3248e0",
+      "source_hash": "1b83bc8086d9d0da2fb86e3646153f88c1e273b497e0d79cdc6406008538e785",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
@@ -9992,24 +9994,27 @@
       "placement_type": "canonical",
       "title": "upload_file_to_volume()",
       "slug": "VolumeFileManager-upload_file_to_volume",
-      "doc_token": "Fr3rdPTuXoC0Lzx7urIcwBqWnDb",
-      "doc_link": "https://zilliverse.feishu.cn/docx/Fr3rdPTuXoC0Lzx7urIcwBqWnDb",
-      "source_file": null,
-      "source_hash": null,
+      "doc_token": "MDzcdn1cIoX5Xtx3vo9cjSeLnT4",
+      "doc_link": "https://zilliverse.feishu.cn/docx/MDzcdn1cIoX5Xtx3vo9cjSeLnT4",
+      "source_file": "MDzcdn1cIoX5Xtx3vo9cjSeLnT4.json",
+      "source_hash": "a11ebe01013d5b614f95510c3c84471da5133959f5bb3228bd33ce90aa9c13e4",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": null,
+      "revision_id": "53",
       "publish_targets": [
+        "Milvus",
         "Zilliz"
       ],
       "publish_status": "Draft",
       "release_channel": "current",
       "outgoing_tokens": [],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/python/python/Volume/Volume-VolumeFileManager/VolumeFileManager-upload_file_to_volume.md"
+      ]
     },
     {
       "record_id": "recu7kLBUwUKUL",
