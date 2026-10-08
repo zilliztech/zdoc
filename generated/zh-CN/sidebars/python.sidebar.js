@@ -718,6 +718,12 @@ module.exports = [
           },
           {
             "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Vector/Vector-search",
+            "label": "search()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Vector/vector-search"
+          },
+          {
+            "type": "doc",
             "id": "api/python/python/MilvusClient/MilvusClient-Vector/Vector-search_iterator",
             "label": "search_iterator()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Vector/vector-searchiterator"

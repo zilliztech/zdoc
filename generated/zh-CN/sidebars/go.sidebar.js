@@ -156,6 +156,12 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/go/go/v2/v2-Client/v2-Client-New",
+        "label": "New()",
+        "key": "doc:api/go/go/v2/v2-Client/v2-client-new"
+      },
+      {
+        "type": "doc",
         "id": "api/go/go/v2/v2-Client/v2-Client-GetTelemetry",
         "label": "GetTelemetry()",
         "key": "doc:api/go/go/v2/v2-Client/v2-client-gettelemetry"
@@ -202,12 +208,6 @@ module.exports = [
         "id": "api/go/go/v2/v2-Collection/v2-Collection",
         "label": "Collection",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection"
-      },
-      {
-        "type": "doc",
-        "id": "api/go/go/v2/v2-Collection/v2-Collection-ConsistencyLevel",
-        "label": "ConsistencyLevel",
-        "key": "doc:api/go/go/v2/v2-Collection/v2-collection-consistencylevel"
       },
       {
         "type": "doc",
