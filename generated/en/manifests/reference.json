@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "d4fc5b75579f4a09f6b9589b69be468b321cbd7f",
+  "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
   "records": [
     {
       "manual": "cli",
@@ -1694,6 +1694,11 @@
     },
     {
       "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-GetRefreshExternalCollectionProgress.md",
+      "sourceHash": "162b8a661172cf16481615288b42e9e01f4929c3411d1074541f16e01254be63"
+    },
+    {
+      "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-HasCollection.md",
       "sourceHash": "5cd352f6c131c05b64e97d6e4ebd571a1c3d44acd341ca4dca3746263f2cbcfa"
     },
@@ -1710,12 +1715,32 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-ListRefreshExternalCollectionJobs.md",
-      "sourceHash": "9b4402e4c05a2dbc00daaa16b681b6f6b36113384d910c8e9e5cced93efc2817"
+      "sourceHash": "43eb5edc04f2fd351c2586c0577e2170e3d615194d077561926cb1d39320d7e1"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollection.md",
+      "sourceHash": "5984db579308834f9ce1328c2e195f2e09465044e680521f36c705788c868223"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollectionJobInfo.md",
+      "sourceHash": "b20e46d0ae7143e4134abcd77cb87c244e94b3e87dafc1f400291923d06a2165"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollectionState.md",
+      "sourceHash": "aff534695420db821588b26251ea52a39de345010e6cadffcefe2cc3098e8536"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RenameCollection.md",
+      "sourceHash": "5197e8a494b624b71f52506dbe36200e3f01addf9510c7f276c02bcebf83b0b4"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-Schema.md",
-      "sourceHash": "c3926d0c6770607836a48f34f0567c9f868be9c3fdf1ade0bdee0c364719051a"
+      "sourceHash": "51fc6859e8423630162a3f31d43ca6f38ec6e5b8ab7b0ac31faebbe65e2d8cc7"
     },
     {
       "manual": "go",
@@ -1725,7 +1750,7 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-TruncateCollection.md",
-      "sourceHash": "d4352190ab629ec7da576d40e59a21f877f12ddf6c392b58d93112389ecffb35"
+      "sourceHash": "faf785761c63ec81591e9ca34648c2dba99d3843e2fcf5f486bf6f5858b40b87"
     },
     {
       "manual": "go",
@@ -1780,42 +1805,42 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Database/v2-Database-AlterDatabaseProperties.md",
-      "sourceHash": "328ee9d61787d80da38f52d6a3774d856e0be60ea1d38d047771343a0ed7fd5b"
+      "sourceHash": "d130d98810456bcdbbc0a04bf0a995766ef2662f1102921470e34b0687bbb67b"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Database/v2-Database-CreateDatabase.md",
-      "sourceHash": "a7957c4bb17d251d980f87d176c0cfa0d8a9fa681a75ad5e6fbe9d2f22adba1f"
+      "sourceHash": "e39f9181147ef8957864e8b0cede1e5d601896ea9e1cdf4ef61a27479d1626a2"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Database/v2-Database-DescribeDatabase.md",
-      "sourceHash": "adf067422b856cc5910efa3178fedebb7d0f90896e2fb895776fcc8396f4e54c"
+      "sourceHash": "5349b24bdd32aca72ba8e42336a2b8a74a7328683a095cb550000c7a0a75c38c"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Database/v2-Database-DropDatabase.md",
-      "sourceHash": "c57e079e07bcf32d5e38650930aea97ff8eab9773e06fa95e589adf06d2f0899"
+      "sourceHash": "fd6a789e7b3045d4ac30a5032dcbeb9e79b625c4ffe2b550493f42f14ef7a1f9"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Database/v2-Database-DropDatabaseProperties.md",
-      "sourceHash": "93759a1c5cb7dabc55035771d9a5e4d5257dc0150a5c86265ea587dce6c4f21e"
+      "sourceHash": "fe4257f4d98c14a8c75510bbff0b15450b5468bce44bc3c46042f1e67242bfd2"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Database/v2-Database-ListDatabase.md",
-      "sourceHash": "50a19a651655051e4eab61587da4e525f3a9d05ec61679a75c342e61e80e28e4"
+      "sourceHash": "3d6fc159930436147b90ccd1a6c55186f3fc20abc4b0f4b983002e47385a64e5"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Database/v2-Database-UseDatabase.md",
-      "sourceHash": "79af150dde898eb6aca1cb22a2df9c72ed8e8391913613eb15b18438b881bb47"
+      "sourceHash": "025a8e7ce681b7bcfe940faddb28f869703a7488d1fd4dc7c314f04bb8e4fdbc"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Database/v2-Database.md",
-      "sourceHash": "7aafae66eb9113ffd3b42803f14aa1bcbf2ffa361325a0d174da3edcb713bb95"
+      "sourceHash": "5895d1d7c713d2eaa9a9ab1a34315bf2dc9ceb24e2cfa67097eaafaf17a7c211"
     },
     {
       "manual": "go",
@@ -2595,17 +2620,17 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Function-ModelRanker.md",
-      "sourceHash": "9341ed6c39fa8dbc8bd8c32a651eca0564c43c46fe69766a46ea90b49fd66658"
+      "sourceHash": "9493a4d76d0cc7a4e4275858cb0d5e561ddaef873955f0e9b1ac63ee8df90621"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Function-RRFRanker.md",
-      "sourceHash": "189bf5e6e1750135bfdb084d4767e2a0ade8d609e29af393b8e1d3c14adc79ef"
+      "sourceHash": "dee77430e4e01d7780e0f3346ef942f8a2191f95629145427029f0e57cd4fe26"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Function-WeightedRanker.md",
-      "sourceHash": "267106315b484925d89ec1f18469e4b8c643766e4ffa2879b28a4ce2c470d247"
+      "sourceHash": "7f9ccb4062e6418da65534593ebfb0c3e6496fdc6552436e055645c5dd89c38c"
     },
     {
       "manual": "java",
@@ -2650,7 +2675,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-appendRow.md",
-      "sourceHash": "8d5757857eae7fedba00261b2fb51eb252f521684aaa68489c5e3bde718eae0b"
+      "sourceHash": "37d389034d3b44ab3e7d157b650d4e152a09bd48fd0759970ee6fff31ce61f58"
     },
     {
       "manual": "java",
@@ -2660,7 +2685,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-commit.md",
-      "sourceHash": "7b544f207b86b36cc3ae16a7e17277693c1de067a74f76fb264d94e9e033f04a"
+      "sourceHash": "d982a48c59b790d1027a78612ed2418b70282578a9851871119497d368470902"
     },
     {
       "manual": "java",
@@ -2670,7 +2695,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-getTotalRowCount.md",
-      "sourceHash": "af7bffd241fbc1f87748f7f826385c4197aea036af1a19ff3c5b7b86deb94eb7"
+      "sourceHash": "ec73ce3969994bb33783ee389b5779f7d8a31923a7e8c800d7b8793711e776df"
     },
     {
       "manual": "java",
@@ -2795,12 +2820,12 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-IndexParam.md",
-      "sourceHash": "93d708a484ff06b61df40642c6c4832cc7b2065a1a727532bf71b99c88d30bab"
+      "sourceHash": "c67cc6afd7cded4bd3f32145538a9c6a78ebb8a15990edf434f5b250713e2c45"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-IndexType.md",
-      "sourceHash": "bca8d7a26f0b2357872b0d322062ccc9261bf61faa4dbefa9b8c1ee8261463dd"
+      "sourceHash": "2869c3137e4f563e5fce86c684747765e36673e7f6e43a5397c3aedb9c233800"
     },
     {
       "manual": "java",
@@ -2810,67 +2835,87 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-alterIndexProperties.md",
-      "sourceHash": "8c81a23acfef6930740895b5e6b1ce57fd8abcfde983058b89232c780180ff58"
+      "sourceHash": "857d53d153541ae9aedffaddf86fb37f9f67e5c056efb949f640386ed949f08a"
+    },
+    {
+      "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-checkHealth.md",
+      "sourceHash": "005bdb7a49eefba4f128be21145be633fb417b9d031f6acf9fbdfd8daeb12570"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-compact.md",
-      "sourceHash": "6618199aee2b7f564aba1d3cd4b9a93cf4418ca26f22c8127180dcad93025c69"
+      "sourceHash": "c3a761638c531689b18ed95fac605229d9e6d91404cb347642a38fff27762f14"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-createIndex.md",
-      "sourceHash": "2c7ac158ec5d3244c9eae9adb617267da032712e7ab5157780a7650b61b0683d"
+      "sourceHash": "b410e11ef0a67e70b0628e22c5c2e492666755b40a376756de04b0a2c1eb6408"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-describeIndex.md",
-      "sourceHash": "b0bbdc695f83f9b15f8ca0714cb6a1930ab334fdc4b8c353a02ac9f26cea65ff"
+      "sourceHash": "86944b61480677c6514d1630e69c71bea4ec47d5e968abb72ab56edbbc4390e7"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-dropIndex.md",
-      "sourceHash": "053e661cdb7a63b9ce53a53508fdd1ddd3223852d08d55f93594b2db24c2ae46"
+      "sourceHash": "5bf8145b55739706d54f39821ba38d7cce009740eb2a1f299583f3f73d80d424"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-dropIndexProperties.md",
-      "sourceHash": "3f8794b47273b256b5ade568055cc3fd12fe1b4bec3918029bff7923e7449426"
+      "sourceHash": "62b1ca60c695306b617f4f5aa204f1d2c8a31b7dabd4ad147dc9bbc4c4907035"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-flush.md",
-      "sourceHash": "6e7350a1890ebf8be8ce1c0c2761f110be94921c17f38debc793049d9c12590f"
+      "sourceHash": "9060ecec80ba561a7255f0352503c732af0d819b27107ddcaa293db510adc2b3"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-flushAll.md",
-      "sourceHash": "342873cd1a32c01db8a1fc323d41fe8f021286509e75a3524ffad7881eb11e67"
+      "sourceHash": "edcbf734e72c2e19a9b8068bc3a16283861362a2c917abf6fb9812c5ec9d5f07"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getCompactionPlans.md",
-      "sourceHash": "bd09d3455fdcbbfedecc63799a19d0cb631cb816506ca0040b083e8196927fa7"
+      "sourceHash": "c0a247492abb7451f52a5b47eb9243f8d21822e106eb5b36e42e29f76ca9dd93"
+    },
+    {
+      "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getCompactionState.md",
+      "sourceHash": "187ff753a7f2fa6086706bbef6a6d7eba9b2b1b0effb348e643beec4a6b0510e"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getFlushAllState.md",
-      "sourceHash": "c1f1dba9d2792ed9bfdb5b8976780e673adcd702422172816fb4e030fb00cdc2"
+      "sourceHash": "e894e860616e55ea529371b03a09103fd7e1c8c528fad7e8f4f378ee93bad9f3"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getLoadState.md",
-      "sourceHash": "d77d81f9649ef1313c3923579075b35ce866a6e2729256fda5387f78e55bd3e8"
+      "sourceHash": "f5b136dae5c3b588bb91e72e9048f57f4ab829d60d6cb478aed564ce60de2a5b"
+    },
+    {
+      "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getPersistentSegmentInfo.md",
+      "sourceHash": "3153ef34002ecdb7057901de0581980313ceb5264dd9211fa07d5cce4e564fb4"
+    },
+    {
+      "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getQuerySegmentInfo.md",
+      "sourceHash": "00e209d38fbf9b01c61cd621b4efaeaee548c438eac52ea5d0e6f302d700d4fc"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getRefreshExternalCollectionProgress.md",
-      "sourceHash": "dffc8d4471d8f93644db2497647f654d7435ac90af015ad6e26f51a9d6086883"
+      "sourceHash": "de2253e28d28643b14ec982edfe9534ed8945ccc3357d7a37ee5339bd2c77ffe"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getServerVersion.md",
-      "sourceHash": "c357714fa96df9c6948122721fb99f463218e12c6a4ad10d4afa13a5bea69a05"
+      "sourceHash": "faab3ca60540662d6a14023924c861ba5e8353d9e2e41818865b5501624903bb"
     },
     {
       "manual": "java",
@@ -2990,27 +3035,27 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-FunctionChain-FunctionChainArg.md",
-      "sourceHash": "a1354a340cf6e885d814dd022a8cfda3e95979bf4f1b1d091994e84f2098cdc2"
+      "sourceHash": "29e989ca01b3d3f6817cc31f2a803f53a57e6d4166d02a6a3b4c1e6a0e94defa"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-FunctionChain-FunctionChainExpr.md",
-      "sourceHash": "99a9652c0e93f82bafb047b12304291b2a59d33487919c2f81946e9215cbc905"
+      "sourceHash": "b3408d3bc5b0038a39e6fcf097240d33ba9325009c215c2b7eba9cdf72c40a21"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-FunctionChain-FunctionChainOp.md",
-      "sourceHash": "7da63bf103a7fb8804bd0110116904db5a887a62ba398032735b2565d86841b1"
+      "sourceHash": "5715eee33016ce692dbe3863ff6348c80bc58135f51c49316da6e56d8f311dcc"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-FunctionChain-FunctionChainStage.md",
-      "sourceHash": "7de291a13f94b4f92171e294d941e281084244d3be4d3bbd424527d322eb73d0"
+      "sourceHash": "e6233f59329db5a12953f6cf6cb5f608e5c6e32fadee7913c87cbe2e2dc58585"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-FunctionChain-FunctionParamValue.md",
-      "sourceHash": "c7d66cd061437b9c1c0071bc734c0e5c1bc84d8dae8907d9bd05b21218cba84b"
+      "sourceHash": "1ad364f6859d42e08a8981b00fd2adcbd0b4e4f07378d775147a0f5178cba86d"
     },
     {
       "manual": "java",
@@ -3020,17 +3065,17 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-FunctionScore-addFunction.md",
-      "sourceHash": "ce8a55bf7ca9e579a6d04987184e21ea028526b9078a42b01586131a3b65cdfa"
+      "sourceHash": "e90416e1db2c938eefff29848f392df280f658957c4284f59c66687c83f1b2c1"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-FunctionScore-getFunctions.md",
-      "sourceHash": "4403b763b66961107abcaea5433244c13aef7f0262bcf1c7df882c5a1fc1f7c9"
+      "sourceHash": "b149505ee0be22c7fcd75dd594c272816a6235884bbfead72be293cfe7a27cd5"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-FunctionScore-getParams.md",
-      "sourceHash": "4aed10d741bd7272251c83c1b8b864d762058afa295168a3211faeab004b666f"
+      "sourceHash": "f39d83dbffb365935ced5fed9249ba9a3ac528cc466871c846ef999a97a803ad"
     },
     {
       "manual": "java",
@@ -3040,12 +3085,12 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-Highlighter/v2-Highlighter-LexicalHighlighter.md",
-      "sourceHash": "8a22d4c632d95adec098428bf67c5fbb4ec9587ee6f221b4abfe857fe26cff19"
+      "sourceHash": "e918f0eefff87a7d879ccd02ac1d0d1b40adcdf582a6192cc25deef0eccb5069"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-Highlighter/v2-Highlighter-SemanticHighlighter.md",
-      "sourceHash": "c7bd2fedd5999f1d49644b62ab47d36a7cf1f6121a5b4d79b51f156371a1a92b"
+      "sourceHash": "43137690054110679c64eb84102fde103e6aef4dc327fd8589d11623a190105e"
     },
     {
       "manual": "java",
