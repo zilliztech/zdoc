@@ -16,7 +16,8 @@ displayed_sidebar: default
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Hybrid Search with StructArray
 
@@ -56,6 +57,9 @@ For index setup, see [Index StructArray Fields](./index-struct-array).
 
 EmbeddingList search on a StructArray vector subfield is entity-level in hybrid search. It behaves like an entity-level vector search request and does not return one matched Struct element offset.
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 from pymilvus import AnnSearchRequest, MilvusClient, RRFRanker
 from pymilvus.client.embedding_list import EmbeddingList
@@ -74,12 +78,14 @@ query_list.add([0.18, 0.23, 0.29, 0.36])
 title_req = AnnSearchRequest(
     data=[query_vector],
     anns_field="title_vector",
+    param={},
     limit=10,
 )
 
 chunk_list_req = AnnSearchRequest(
     data=[query_list],
     anns_field="chunks[emb_list_vector]",
+    param={},
     limit=10,
 )
 
@@ -98,6 +104,254 @@ results = client.hybrid_search(
 )
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.vector.request.AnnSearchReq;
+import io.milvus.v2.service.vector.request.HybridSearchReq;
+import io.milvus.v2.service.vector.request.data.EmbeddingList;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.request.ranker.RRFRanker;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Arrays;
+import java.util.Collections;
+
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+FloatVec queryVector = new FloatVec(Arrays.asList(0.19f, 0.24f, 0.30f, 0.37f));
+
+EmbeddingList queryList = new EmbeddingList();
+queryList.add(new FloatVec(Arrays.asList(0.12f, 0.21f, 0.32f, 0.44f)));
+queryList.add(new FloatVec(Arrays.asList(0.18f, 0.23f, 0.29f, 0.36f)));
+
+AnnSearchReq titleReq = AnnSearchReq.builder()
+        .vectorFieldName("title_vector")
+        .vectors(Collections.singletonList(queryVector))
+        .limit(10)
+        .build();
+
+AnnSearchReq chunkListReq = AnnSearchReq.builder()
+        .vectorFieldName("chunks[emb_list_vector]")
+        .vectors(Collections.singletonList(queryList))
+        .limit(10)
+        .build();
+
+SearchResp results = client.hybridSearch(HybridSearchReq.builder()
+        .collectionName("tech_articles")
+        .searchRequests(Arrays.asList(titleReq, chunkListReq))
+        .ranker(RRFRanker.builder().k(60).build())
+        .limit(5)
+        .outFields(Arrays.asList("doc_id", "title", "category", "chunks[text]", "chunks[section]"))
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    log.Fatal(err)
+}
+
+queryVector := entity.FloatVector{0.19, 0.24, 0.30, 0.37}
+
+queryList := entity.FloatVectorArray{
+    entity.FloatVector{0.12, 0.21, 0.32, 0.44},
+    entity.FloatVector{0.18, 0.23, 0.29, 0.36},
+}
+
+titleReq := milvusclient.NewAnnRequest("title_vector", 10, queryVector)
+chunkListReq := milvusclient.NewAnnRequest("chunks[emb_list_vector]", 10, queryList)
+
+results, err := cli.HybridSearch(ctx, milvusclient.NewHybridSearchOption("tech_articles", 5,
+    titleReq, chunkListReq).
+    WithReranker(milvusclient.NewRRFReranker()).
+    WithOutputFields("doc_id", "title", "category", "chunks[text]", "chunks[section]"))
+if err != nil {
+    fmt.Println(err.Error())
+}
+
+fmt.Printf("hybrid search returned %d result sets\n", len(results))
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+    let client = ClientV2::new(&config).await?;
+
+    let query_vector = vec![0.19f32, 0.24, 0.30, 0.37];
+
+    let query_list = EmbeddingList::new()
+        .add_vector(vec![0.12f32, 0.21, 0.32, 0.44])
+        .add_vector(vec![0.18f32, 0.23, 0.29, 0.36]);
+
+    let title_req = SubSearchRequest::builder()
+        .vector_field("title_vector")
+        .vectors(SearchVectors::Float(vec![query_vector.clone()]))
+        .limit(10)
+        .build()?;
+
+    let chunk_list_req = SubSearchRequest::builder()
+        .vector_field("chunks[emb_list_vector]")
+        .vectors(SearchVectors::EmbeddingLists(vec![query_list]))
+        .limit(10)
+        .build()?;
+
+    let request = HybridSearchRequest::builder()
+        .collection_name("tech_articles")
+        .sub_requests(vec![title_req, chunk_list_req])
+        .rerank(RRFRerank::new().k(60))
+        .limit(5)
+        .output_fields(vec!["doc_id", "title", "category", "chunks[text]", "chunks[section]"])
+        .build()?;
+
+    let results = client.hybrid_search(request).await?;
+
+    Ok(())
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include <memory>
+#include <vector>
+
+#include "milvus/MilvusClientV2.h"
+#include "milvus/request/dql/HybridSearchRequest.h"
+#include "milvus/types/SubSearchRequest.h"
+#include "milvus/types/EmbeddingList.h"
+
+auto client = milvus::MilvusClientV2::Create();
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+std::vector<float> query_vector = {0.19f, 0.24f, 0.30f, 0.37f};
+
+milvus::EmbeddingList query_list;
+query_list.AddFloatVector({0.12f, 0.21f, 0.32f, 0.44f});
+query_list.AddFloatVector({0.18f, 0.23f, 0.29f, 0.36f});
+
+auto title_req = std::make_shared<milvus::SubSearchRequest>();
+title_req->WithAnnsField("title_vector").WithLimit(10);
+title_req->AddFloatVector(query_vector);
+
+auto chunk_list_req = std::make_shared<milvus::SubSearchRequest>();
+chunk_list_req->WithAnnsField("chunks[emb_list_vector]").WithLimit(10);
+chunk_list_req->AddEmbeddingList(std::move(query_list));
+
+milvus::HybridSearchRequest request;
+request.WithCollectionName("tech_articles")
+       .WithLimit(5)
+       .AddSubRequest(title_req)
+       .AddSubRequest(chunk_list_req)
+       .WithRerank(std::make_shared<milvus::RRFRerank>(60));
+request.WithOutputFields({"doc_id", "title", "category", "chunks[text]", "chunks[section]"});
+
+milvus::HybridSearchResponse response;
+status = client->HybridSearch(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
+
+const query_vector = [0.19, 0.24, 0.30, 0.37];
+
+const query_list = [
+  [0.12, 0.21, 0.32, 0.44],
+  [0.18, 0.23, 0.29, 0.36],
+];
+
+const results = await client.search({
+  collection_name: "tech_articles",
+  data: [
+    { anns_field: "title_vector", data: [query_vector], limit: 10 },
+    { anns_field: "chunks[emb_list_vector]", data: query_list, limit: 10 },
+  ],
+  rerank: { strategy: "rrf", params: { k: 60 } },
+  limit: 5,
+  output_fields: ["doc_id", "title", "category", "chunks[text]", "chunks[section]"],
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/hybrid_search" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "collectionName": "tech_articles",
+    "search": [
+        {
+            "data": [[0.19, 0.24, 0.30, 0.37]],
+            "annsField": "title_vector",
+            "limit": 10
+        },
+        {
+            "data": [[[0.12, 0.21, 0.32, 0.44], [0.18, 0.23, 0.29, 0.36]]],
+            "annsField": "chunks[emb_list_vector]",
+            "limit": 10
+        }
+    ],
+    "rerank": { "strategy": "rrf", "params": { "k": 60 } },
+    "limit": 5,
+    "outputFields": ["doc_id", "title", "category", "chunks[text]", "chunks[section]"]
+}'
+```
+
+</TabItem>
+</Tabs>
+
 In this example, both `AnnSearchRequest` objects produce entity-level candidates. The final result is keyed by the parent entity primary key. Do not add `element_scope` to the EmbeddingList request.
 
 ## Run same-StructArray element-level hybrid search\{#run-same-structarray-element-level-hybrid-search}
@@ -106,11 +360,18 @@ When all `AnnSearchRequest` objects target element-level vector subfields under 
 
 The following example assumes the `chunks` StructArray field has two element-level vector subfields, `chunks[emb]` and `chunks[code_emb]`, and both use regular vector metrics.
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
+query_vector = [0.19, 0.24, 0.30, 0.37]
+code_query_vector = [0.20, 0.25, 0.31, 0.38]
+
 index_chunk_req = AnnSearchRequest(
     data=[query_vector],
     anns_field="chunks[emb]",
     limit=10,
+    param={},
     expr='element_filter(chunks, $[section] == "index")',
 )
 
@@ -118,6 +379,7 @@ code_chunk_req = AnnSearchRequest(
     data=[code_query_vector],
     anns_field="chunks[code_emb]",
     limit=10,
+    param={},
     expr='element_filter(chunks, $[has_code] == true)',
 )
 
@@ -138,12 +400,255 @@ results = client.hybrid_search(
 for hits in results:
     for hit in hits:
         print(
-            "doc_id:", hit["id"],
+            "doc_id:", hit["doc_id"],
             "distance:", hit["distance"],
             "offset:", hit.get("offset"),
             "entity:", hit["entity"],
         )
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.vector.request.AnnSearchReq;
+import io.milvus.v2.service.vector.request.HybridSearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.request.ranker.RRFRanker;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+FloatVec queryVector = new FloatVec(Arrays.asList(0.19f, 0.24f, 0.30f, 0.37f));
+FloatVec codeQueryVector = new FloatVec(Arrays.asList(0.20f, 0.25f, 0.31f, 0.38f));
+
+AnnSearchReq indexChunkReq = AnnSearchReq.builder()
+        .vectorFieldName("chunks[emb]")
+        .vectors(Collections.singletonList(queryVector))
+        .limit(10)
+        .filter("element_filter(chunks, $[section] == \"index\")")
+        .build();
+
+AnnSearchReq codeChunkReq = AnnSearchReq.builder()
+        .vectorFieldName("chunks[code_emb]")
+        .vectors(Collections.singletonList(codeQueryVector))
+        .limit(10)
+        .filter("element_filter(chunks, $[has_code] == true)")
+        .build();
+
+SearchResp results = client.hybridSearch(HybridSearchReq.builder()
+        .collectionName("tech_articles")
+        .searchRequests(Arrays.asList(indexChunkReq, codeChunkReq))
+        .ranker(RRFRanker.builder().k(60).build())
+        .limit(5)
+        .outFields(Arrays.asList("doc_id", "title", "chunks[text]", "chunks[section]", "chunks[quality_score]"))
+        .build());
+
+for (List<SearchResp.SearchResult> hits : results.getSearchResults()) {
+    for (SearchResp.SearchResult hit : hits) {
+        System.out.println("doc_id: " + hit.getId() + ", distance: " + hit.getScore()
+                + ", offset: " + hit.getElementOffset() + ", entity: " + hit.getEntity());
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    log.Fatal(err)
+}
+
+queryVector := entity.FloatVector{0.19, 0.24, 0.30, 0.37}
+codeQueryVector := entity.FloatVector{0.20, 0.25, 0.31, 0.38}
+
+indexChunkReq := milvusclient.NewAnnRequest("chunks[emb]", 10, queryVector).
+    WithFilter("element_filter(chunks, $[section] == \"index\")")
+codeChunkReq := milvusclient.NewAnnRequest("chunks[code_emb]", 10, codeQueryVector).
+    WithFilter("element_filter(chunks, $[has_code] == true)")
+
+results, err := cli.HybridSearch(ctx, milvusclient.NewHybridSearchOption("tech_articles", 5,
+    indexChunkReq, codeChunkReq).
+    WithReranker(milvusclient.NewRRFReranker()).
+    WithOutputFields("doc_id", "title", "chunks[text]", "chunks[section]", "chunks[quality_score]"))
+if err != nil {
+    fmt.Println(err.Error())
+}
+
+fmt.Printf("hybrid search returned %d result sets\n", len(results))
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+    let client = ClientV2::new(&config).await?;
+
+    let query_vector = vec![0.19f32, 0.24, 0.30, 0.37];
+    let code_query_vector = vec![0.20f32, 0.25, 0.31, 0.38];
+
+    let index_chunk_req = SubSearchRequest::builder()
+        .vector_field("chunks[emb]")
+        .vectors(SearchVectors::Float(vec![query_vector]))
+        .limit(10)
+        .filter("element_filter(chunks, $[section] == \"index\")")
+        .build()?;
+
+    let code_chunk_req = SubSearchRequest::builder()
+        .vector_field("chunks[code_emb]")
+        .vectors(SearchVectors::Float(vec![code_query_vector]))
+        .limit(10)
+        .filter("element_filter(chunks, $[has_code] == true)")
+        .build()?;
+
+    let request = HybridSearchRequest::builder()
+        .collection_name("tech_articles")
+        .sub_requests(vec![index_chunk_req, code_chunk_req])
+        .rerank(RRFRerank::new().k(60))
+        .limit(5)
+        .output_fields(vec!["doc_id", "title", "chunks[text]", "chunks[section]", "chunks[quality_score]"])
+        .build()?;
+
+    let results = client.hybrid_search(request).await?;
+
+    Ok(())
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include <memory>
+#include <vector>
+
+#include "milvus/MilvusClientV2.h"
+#include "milvus/request/dql/HybridSearchRequest.h"
+#include "milvus/types/SubSearchRequest.h"
+
+auto client = milvus::MilvusClientV2::Create();
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+std::vector<float> query_vector = {0.19f, 0.24f, 0.30f, 0.37f};
+std::vector<float> code_query_vector = {0.20f, 0.25f, 0.31f, 0.38f};
+
+auto index_chunk_req = std::make_shared<milvus::SubSearchRequest>();
+index_chunk_req->WithAnnsField("chunks[emb]").WithLimit(10);
+index_chunk_req->WithFilter("element_filter(chunks, $[section] == \"index\")");
+index_chunk_req->AddFloatVector(query_vector);
+
+auto code_chunk_req = std::make_shared<milvus::SubSearchRequest>();
+code_chunk_req->WithAnnsField("chunks[code_emb]").WithLimit(10);
+code_chunk_req->WithFilter("element_filter(chunks, $[has_code] == true)");
+code_chunk_req->AddFloatVector(code_query_vector);
+
+milvus::HybridSearchRequest request;
+request.WithCollectionName("tech_articles")
+       .WithLimit(5)
+       .AddSubRequest(index_chunk_req)
+       .AddSubRequest(code_chunk_req)
+       .WithRerank(std::make_shared<milvus::RRFRerank>(60));
+request.WithOutputFields({"doc_id", "title", "chunks[text]", "chunks[section]", "chunks[quality_score]"});
+
+milvus::HybridSearchResponse response;
+status = client->HybridSearch(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const query_vector = [0.19, 0.24, 0.30, 0.37];
+const code_query_vector = [0.20, 0.25, 0.31, 0.38];
+
+const results = await client.search({
+  collection_name: "tech_articles",
+  data: [
+    { anns_field: "chunks[emb]", data: [query_vector], limit: 10, expr: "element_filter(chunks, $[section] == \"index\")" },
+    { anns_field: "chunks[code_emb]", data: [code_query_vector], limit: 10, expr: "element_filter(chunks, $[has_code] == true)" },
+  ],
+  rerank: { strategy: "rrf", params: { k: 60 } },
+  limit: 5,
+  output_fields: ["doc_id", "title", "chunks[text]", "chunks[section]", "chunks[quality_score]"],
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/hybrid_search" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "collectionName": "tech_articles",
+    "search": [
+        {
+            "data": [[0.19, 0.24, 0.30, 0.37]],
+            "annsField": "chunks[emb]",
+            "limit": 10,
+            "filter": "element_filter(chunks, $[section] == \"index\")"
+        },
+        {
+            "data": [[0.20, 0.25, 0.31, 0.38]],
+            "annsField": "chunks[code_emb]",
+            "limit": 10,
+            "filter": "element_filter(chunks, $[has_code] == true)"
+        }
+    ],
+    "rerank": { "strategy": "rrf", "params": { "k": 60 } },
+    "limit": 5,
+    "outputFields": ["doc_id", "title", "chunks[text]", "chunks[section]", "chunks[quality_score]"]
+}'
+```
+
+</TabItem>
+</Tabs>
 
 Both `AnnSearchRequest` objects search vector subfields under `chunks`. The same zero-based offset refers to the same Struct element, so the hybrid reranker can rank element candidates directly. Do not set `element_scope` in this mode because no entity-level collapse is performed.
 
@@ -153,10 +658,16 @@ If a hybrid search mixes a StructArray element-level `AnnSearchRequest` with a c
 
 Use `element_scope` inside the `params` of the StructArray element-level `AnnSearchRequest` when you need to control how multiple matched elements from the same entity are collapsed.
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
+query_vector = [0.19, 0.24, 0.30, 0.37]
+
 title_req = AnnSearchRequest(
     data=[query_vector],
     anns_field="title_vector",
+    param={},
     limit=10,
 )
 
@@ -192,6 +703,247 @@ results = client.hybrid_search(
     ],
 )
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.vector.request.AnnSearchReq;
+import io.milvus.v2.service.vector.request.HybridSearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.request.ranker.RRFRanker;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Arrays;
+import java.util.Collections;
+
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+FloatVec queryVector = new FloatVec(Arrays.asList(0.19f, 0.24f, 0.30f, 0.37f));
+
+AnnSearchReq titleReq = AnnSearchReq.builder()
+        .vectorFieldName("title_vector")
+        .vectors(Collections.singletonList(queryVector))
+        .limit(10)
+        .build();
+
+AnnSearchReq chunkReq = AnnSearchReq.builder()
+        .vectorFieldName("chunks[emb]")
+        .vectors(Collections.singletonList(queryVector))
+        .limit(30)
+        .filter("element_filter(chunks, $[quality_score] > 0.8)")
+        .params("{\"element_scope\": {\"collapse\": {\"strategy\": \"topk_sum\", \"topk\": 3}}}")
+        .build();
+
+SearchResp results = client.hybridSearch(HybridSearchReq.builder()
+        .collectionName("tech_articles")
+        .searchRequests(Arrays.asList(titleReq, chunkReq))
+        .ranker(RRFRanker.builder().k(60).build())
+        .limit(5)
+        .outFields(Arrays.asList("doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]"))
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    log.Fatal(err)
+}
+
+queryVector := entity.FloatVector{0.19, 0.24, 0.30, 0.37}
+
+titleReq := milvusclient.NewAnnRequest("title_vector", 10, queryVector)
+
+chunkReq := milvusclient.NewAnnRequest("chunks[emb]", 30, queryVector).
+    WithFilter("element_filter(chunks, $[quality_score] > 0.8)").
+    WithSearchParam("params", "{\"element_scope\": {\"collapse\": {\"strategy\": \"topk_sum\", \"topk\": 3}}}")
+
+results, err := cli.HybridSearch(ctx, milvusclient.NewHybridSearchOption("tech_articles", 5,
+    titleReq, chunkReq).
+    WithReranker(milvusclient.NewRRFReranker()).
+    WithOutputFields("doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]"))
+if err != nil {
+    fmt.Println(err.Error())
+}
+
+fmt.Printf("hybrid search returned %d result sets\n", len(results))
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+    let client = ClientV2::new(&config).await?;
+
+    let query_vector = vec![0.19f32, 0.24, 0.30, 0.37];
+
+    let title_req = SubSearchRequest::builder()
+        .vector_field("title_vector")
+        .vectors(SearchVectors::Float(vec![query_vector.clone()]))
+        .limit(10)
+        .build()?;
+
+    let chunk_req = SubSearchRequest::builder()
+        .vector_field("chunks[emb]")
+        .vectors(SearchVectors::Float(vec![query_vector]))
+        .limit(30)
+        .filter("element_filter(chunks, $[quality_score] > 0.8)")
+        // Note: element_scope collapse is not yet supported in milvus-sdk-rust as of v3.0.2.
+        .build()?;
+
+    let request = HybridSearchRequest::builder()
+        .collection_name("tech_articles")
+        .sub_requests(vec![title_req, chunk_req])
+        .rerank(RRFRerank::new().k(60))
+        .limit(5)
+        .output_fields(vec!["doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]"])
+        .build()?;
+
+    let results = client.hybrid_search(request).await?;
+
+    Ok(())
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include <memory>
+#include <vector>
+
+#include "milvus/MilvusClientV2.h"
+#include "milvus/request/dql/HybridSearchRequest.h"
+#include "milvus/types/SubSearchRequest.h"
+
+auto client = milvus::MilvusClientV2::Create();
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+std::vector<float> query_vector = {0.19f, 0.24f, 0.30f, 0.37f};
+
+auto title_req = std::make_shared<milvus::SubSearchRequest>();
+title_req->WithAnnsField("title_vector").WithLimit(10);
+title_req->AddFloatVector(query_vector);
+
+auto chunk_req = std::make_shared<milvus::SubSearchRequest>();
+chunk_req->WithAnnsField("chunks[emb]").WithLimit(30);
+chunk_req->WithFilter("element_filter(chunks, $[quality_score] > 0.8)");
+// Note: element_scope collapse is not yet supported in milvus-sdk-cpp as of v3.0.3.
+chunk_req->AddFloatVector(query_vector);
+
+milvus::HybridSearchRequest request;
+request.WithCollectionName("tech_articles")
+       .WithLimit(5)
+       .AddSubRequest(title_req)
+       .AddSubRequest(chunk_req)
+       .WithRerank(std::make_shared<milvus::RRFRerank>(60));
+request.WithOutputFields({"doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]"});
+
+milvus::HybridSearchResponse response;
+status = client->HybridSearch(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const query_vector = [0.19, 0.24, 0.30, 0.37];
+
+const results = await client.search({
+  collection_name: "tech_articles",
+  data: [
+    { anns_field: "title_vector", data: [query_vector], limit: 10 },
+    {
+      anns_field: "chunks[emb]",
+      data: [query_vector],
+      limit: 30,
+      expr: "element_filter(chunks, $[quality_score] > 0.8)",
+      params: { element_scope: { collapse: { strategy: "topk_sum", topk: 3 } } },
+    },
+  ],
+  rerank: { strategy: "rrf", params: { k: 60 } },
+  limit: 5,
+  output_fields: ["doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]"],
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/hybrid_search" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "collectionName": "tech_articles",
+    "search": [
+        {
+            "data": [[0.19, 0.24, 0.30, 0.37]],
+            "annsField": "title_vector",
+            "limit": 10
+        },
+        {
+            "data": [[0.19, 0.24, 0.30, 0.37]],
+            "annsField": "chunks[emb]",
+            "limit": 30,
+            "filter": "element_filter(chunks, $[quality_score] > 0.8)",
+            "params": {
+                "element_scope": {
+                    "collapse": { "strategy": "topk_sum", "topk": 3 }
+                }
+            }
+        }
+    ],
+    "rerank": { "strategy": "rrf", "params": { "k": 60 } },
+    "limit": 5,
+    "outputFields": ["doc_id", "title", "category", "chunks[text]", "chunks[section]", "chunks[quality_score]"]
+}'
+```
+
+</TabItem>
+</Tabs>
 
 In this example, `title_req` is entity-level, so the final hybrid result is also entity-level. The `chunk_req` request first returns element hits from `chunks[emb]`, then collapses the returned elements from the same entity by summing the best three element scores. If `element_scope` is omitted when entity-level collapse is needed, the collapse strategy defaults to `max`.
 

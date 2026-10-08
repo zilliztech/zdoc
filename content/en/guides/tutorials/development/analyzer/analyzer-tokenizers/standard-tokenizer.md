@@ -70,7 +70,6 @@ analyzer_params = {
 
 ```java
 import java.util.HashMap;
-
 import java.util.Map;
 
 Map<String, Object> analyzerParams = new HashMap<>();
@@ -92,9 +91,7 @@ analyzerParams := map[string]any{"tokenizer": "standard"}
 
 ```rust
 let analyzer_params = serde_json::json!({
-
     "tokenizer": "standard"
-
 });
 ```
 
@@ -150,9 +147,7 @@ analyzer_params = {
 
 ```java
 import java.util.Collections;
-
 import java.util.HashMap;
-
 import java.util.Map;
 
 Map<String, Object> analyzerParams = new HashMap<>();
@@ -176,11 +171,8 @@ analyzerParams := map[string]any{"tokenizer": "standard", "filter": []any{"lower
 
 ```rust
 let analyzer_params = serde_json::json!({
-
     "tokenizer": "standard",
-
     "filter": ["lowercase"]
-
 });
 ```
 
@@ -253,9 +245,7 @@ analyzer_params = {
 
 ```java
 import java.util.Collections;
-
 import java.util.HashMap;
-
 import java.util.Map;
 
 Map<String, Object> analyzerParams = new HashMap<>();
@@ -279,11 +269,8 @@ analyzerParams := map[string]any{"tokenizer": "standard", "filter": []any{"lower
 
 ```rust
 let analyzer_params = serde_json::json!({
-
     "tokenizer": "standard",
-
     "filter": ["lowercase"]
-
 });
 ```
 
@@ -304,11 +291,8 @@ nlohmann::json analyzer_params = {
 
 ```javascript
 const analyzer_params = {
-
     "tokenizer": "standard",
-
     "filter": ["lowercase"]
-
 };
 ```
 
@@ -320,15 +304,10 @@ const analyzer_params = {
 # restful
 
 analyzerParams='{
-
   "tokenizer": "standard",
-
   "filter": [
-
     "lowercase"
-
   ]
-
 }'
 ```
 
@@ -364,15 +343,10 @@ print("Standard analyzer output:", result)
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
-
 import io.milvus.v2.client.MilvusClientV2;
-
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
-
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
-
 import java.util.ArrayList;
-
 import java.util.List;
 
 ConnectConfig config = ConnectConfig.builder()
@@ -406,31 +380,23 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 
 ```go
 import (
-
     "context"
-
     "fmt"
 
     "github.com/milvus-io/milvus/client/v3/milvusclient"
-
 )
 
 ctx := context.Background()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-
     Address: "YOUR_CLUSTER_ENDPOINT",
-
     APIKey:  "YOUR_CLUSTER_TOKEN",
-
 })
 
 if err != nil {
-
     fmt.Println(err.Error())
 
     // handle error
-
 }
 
 texts := []string{"The Milvus vector database is built for scale!"}
@@ -442,11 +408,9 @@ option := milvusclient.NewRunAnalyzerOption(texts...).
 result, err := client.RunAnalyzer(ctx, option)
 
 if err != nil {
-
     fmt.Println(err.Error())
 
     // handle error
-
 }
 
 fmt.Println(result)
@@ -476,7 +440,6 @@ let result = client
             .analyzer_params(analyzer_params)
 
             .build()?,
-
     )
 
     .await?;
@@ -523,11 +486,8 @@ const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR
 const sampleText = "The Milvus vector database is built for scale!";
 
 const result = await client.runAnalyzer({
-
     text: sampleText,
-
     analyzer_params,
-
 });
 
 console.log("Standard analyzer output:", result);
@@ -553,11 +513,8 @@ curl --request POST \
 --header "Request-Timeout: 10" \
 
 -d '{
-
     "text": ["The Milvus vector database is built for scale!"],
-
     "analyzerParams": "{\"tokenizer\": \"standard\", \"filter\": [\"lowercase\"]}"
-
 }'
 ```
 

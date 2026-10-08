@@ -411,7 +411,6 @@ async fn main() -> Result<()> {
 
 ```c++
 #include "milvus/MilvusClientV2.h"
-
 #include <iostream>
 #include <memory>
 

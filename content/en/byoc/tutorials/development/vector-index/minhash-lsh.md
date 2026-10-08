@@ -510,7 +510,6 @@ client.create_collection("minhash_demo", schema=schema, index_params=index_param
 ```java
 import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
-
 import java.util.Collections;
 
 IndexParam indexParam = IndexParam.builder()
@@ -538,6 +537,7 @@ client.createCollection(CreateCollectionReq.builder()
 ```go
 import (
     "github.com/milvus-io/milvus/client/v3/entity"
+
     "github.com/milvus-io/milvus/client/v3/index"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
@@ -689,7 +689,6 @@ client.flush("minhash_demo")
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import io.milvus.v2.service.vector.request.InsertReq;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -729,6 +728,7 @@ client.insert(InsertReq.builder()
 ```go
 import (
     "github.com/milvus-io/milvus/client/v3/column"
+
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
@@ -1019,7 +1019,6 @@ import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.BinaryVec;
 import io.milvus.v2.service.vector.response.SearchResp;
-
 import java.util.Collections;
 
 // Approximate search (LSH-only): uses only MinHash signatures and LSH.
@@ -1046,6 +1045,7 @@ for (SearchResp.SearchResult hit : approxResp.getSearchResults().get(0)) {
 ```go
 import (
     "github.com/milvus-io/milvus/client/v3/entity"
+
     "github.com/milvus-io/milvus/client/v3/index"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
@@ -1215,7 +1215,6 @@ import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.BinaryVec;
 import io.milvus.v2.service.vector.response.SearchResp;
-
 import java.util.Collections;
 
 // Refined search: re-computes the exact Jaccard similarity on the candidates.
@@ -1245,6 +1244,7 @@ for (SearchResp.SearchResult hit : refinedResp.getSearchResults().get(0)) {
 ```go
 import (
     "github.com/milvus-io/milvus/client/v3/entity"
+
     "github.com/milvus-io/milvus/client/v3/index"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )

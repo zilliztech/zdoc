@@ -429,7 +429,6 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
             WithDescription("probability/confidence of pedestrian presence")).
         WithField(entity.NewField().WithName("has_carrier_car").WithDataType(entity.FieldTypeBool).
             WithDescription("whether there is a carrier car present"))
-    
     ```
 
     </TabItem>
@@ -685,7 +684,6 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
             WithDescription("speed of the leading vehicle in km/h")).
         WithField(entity.NewField().WithName("lead_a").WithDataType(entity.FieldTypeFloat).
             WithDescription("acceleration of the leading vehicle"))
-    
     ```
 
     </TabItem>

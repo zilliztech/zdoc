@@ -52,25 +52,16 @@ analyzer_params = {
 
 ```java
 import java.util.Arrays;
-
 import java.util.HashMap;
-
 import java.util.Map;
 
 Map<String, Object> analyzerParams = new HashMap<>();
-
 analyzerParams.put("tokenizer", "standard");
-
 analyzerParams.put("filter",
-
         Arrays.asList(new HashMap<String, Object>() {{
-
             put("type", "regex");
-
             put("expr", "^(?!test)");
-
         }})
-
 );
 ```
 
@@ -80,13 +71,9 @@ analyzerParams.put("filter",
 
 ```go
 analyzerParams := map[string]any{"tokenizer": "standard",
-
     "filter": []any{map[string]any{
-
         "type": "regex",
-
         "expr": "^(?!test)",
-
     }}}
 ```
 
@@ -96,17 +83,11 @@ analyzerParams := map[string]any{"tokenizer": "standard",
 
 ```rust
 let analyzer_params = serde_json::json!({
-
     "tokenizer": "standard",
-
     "filter": [{
-
         "type": "regex",
-
         "expr": "^(?!test)"
-
     }]
-
 });
 ```
 
@@ -129,21 +110,13 @@ nlohmann::json analyzer_params = {
 
 ```javascript
 const analyzer_params = {
-
     "tokenizer": "standard",
-
     "filter": [
-
         {
-
             "type": "regex",
-
             "expr": "^(?!test)"
-
         }
-
     ],
-
 };
 ```
 
@@ -153,23 +126,14 @@ const analyzer_params = {
 
 ```bash
 # restful
-
 analyzerParams='{
-
   "tokenizer": "standard",
-
   "filter": [
-
     {
-
       "type": "regex",
-
       "expr": "^(?!test)"
-
     }
-
   ]
-
 }'
 ```
 
@@ -211,23 +175,15 @@ analyzer_params = {
 
 ```java
 import java.util.Collections;
-
 import java.util.HashMap;
-
 import java.util.Map;
 
 Map<String, Object> analyzerParams = new HashMap<>();
-
 analyzerParams.put("tokenizer", "standard");
-
 analyzerParams.put("filter",
-
         Collections.singletonList(new HashMap<String, Object>() {{
-
             put("type", "regex");
-
             put("expr", "^(?!test)");
-
         }}));
 ```
 
@@ -237,13 +193,9 @@ analyzerParams.put("filter",
 
 ```go
 analyzerParams := map[string]any{"tokenizer": "standard",
-
     "filter": []any{map[string]any{
-
         "type": "regex",
-
         "expr": "^(?!test)",
-
     }}}
 ```
 
@@ -253,17 +205,11 @@ analyzerParams := map[string]any{"tokenizer": "standard",
 
 ```rust
 let analyzer_params = serde_json::json!({
-
     "tokenizer": "standard",
-
     "filter": [{
-
         "type": "regex",
-
         "expr": "^(?!test)"
-
     }]
-
 });
 ```
 
@@ -286,21 +232,13 @@ nlohmann::json analyzer_params = {
 
 ```javascript
 const analyzer_params = {
-
     "tokenizer": "standard",
-
     "filter": [
-
         {
-
             "type": "regex",
-
             "expr": "^(?!test)"
-
         }
-
     ],
-
 };
 ```
 
@@ -310,23 +248,14 @@ const analyzer_params = {
 
 ```bash
 # restful
-
 analyzerParams='{
-
   "tokenizer": "standard",
-
   "filter": [
-
     {
-
       "type": "regex",
-
       "expr": "^(?!test)"
-
     }
-
   ]
-
 }'
 ```
 
@@ -359,37 +288,24 @@ print("Standard analyzer output:", result)
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
-
 import io.milvus.v2.client.MilvusClientV2;
-
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
-
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
-
 import java.util.ArrayList;
-
 import java.util.List;
 
 ConnectConfig config = ConnectConfig.builder()
-
         .uri("YOUR_CLUSTER_ENDPOINT")
-
         .build();
-
 MilvusClientV2 client = new MilvusClientV2(config);
 
 List<String> texts = new ArrayList<>();
-
 texts.add("testItem apple testCase banana");
 
 RunAnalyzerResp resp = client.runAnalyzer(RunAnalyzerReq.builder()
-
         .texts(texts)
-
         .analyzerParams(analyzerParams)
-
         .build());
-
 List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 ```
 
@@ -399,47 +315,30 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 
 ```go
 import (
-
     "context"
-
     "fmt"
 
     "github.com/milvus-io/milvus/client/v3/milvusclient"
-
 )
 
 ctx := context.Background()
-
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-
     Address: "YOUR_CLUSTER_ENDPOINT",
-
     APIKey:  "YOUR_CLUSTER_TOKEN",
-
 })
-
 if err != nil {
-
     fmt.Println(err.Error())
-
     // handle error
-
 }
 
 texts := []string{"testItem apple testCase banana"}
-
 option := milvusclient.NewRunAnalyzerOption(texts...).
-
     WithAnalyzerParams(analyzerParams)
 
 result, err := client.RunAnalyzer(ctx, option)
-
 if err != nil {
-
     fmt.Println(err.Error())
-
     // handle error
-
 }
 
 fmt.Println(result)
@@ -453,25 +352,16 @@ fmt.Println(result)
 use milvus::v2::prelude::*;
 
 let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
-
 let client = ClientV2::new(&config).await?;
 
 let sample_text = "testItem apple testCase banana";
-
 let result = client
-
     .run_analyzer(
-
         RunAnalyzerRequest::builder()
-
             .texts(vec![sample_text])
-
             .analyzer_params(analyzer_params)
-
             .build()?,
-
     )
-
     .await?;
 
 println!("Standard analyzer output: {:?}", result);
@@ -514,15 +404,10 @@ import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
 
 const sampleText = "testItem apple testCase banana";
-
 const result = await client.runAnalyzer({
-
     text: sampleText,
-
     analyzer_params,
-
 });
-
 console.log("Standard analyzer output:", result);
 ```
 
@@ -532,25 +417,16 @@ console.log("Standard analyzer output:", result);
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
-
 export TOKEN="YOUR_CLUSTER_TOKEN"
 
 curl --request POST \
-
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/common/run_analyzer" \
-
 --header "Authorization: Bearer ${TOKEN}" \
-
 --header "Content-Type: application/json" \
-
 --header "Request-Timeout: 10" \
-
 -d '{
-
     "text": ["testItem apple testCase banana"],
-
     "analyzerParams": "{\"tokenizer\": \"standard\", \"filter\": [{\"type\": \"regex\", \"expr\": \"^(?!test)\"}]}"
-
 }'
 ```
 

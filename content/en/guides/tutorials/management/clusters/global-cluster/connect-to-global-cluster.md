@@ -192,7 +192,6 @@ async fn main() -> Result<()> {
 
 ```c++
 #include "milvus/MilvusClientV2.h"
-
 #include <iostream>
 
 // Use the global endpoint for automatic routing
@@ -311,7 +310,6 @@ async fn main() -> Result<()> {
 
 ```c++
 #include "milvus/MilvusClientV2.h"
-
 #include <iostream>
 
 // Connect directly to a specific cluster

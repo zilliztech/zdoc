@@ -285,7 +285,6 @@ schema.add_function(text_embedding_function)
 ```java
 import io.milvus.common.clientenum.FunctionType;
 import io.milvus.v2.service.collection.request.CreateCollectionReq.Function;
-
 import java.util.Collections;
 
 Function function = Function.builder()

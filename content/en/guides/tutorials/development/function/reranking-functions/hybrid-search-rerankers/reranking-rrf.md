@@ -212,21 +212,13 @@ const rerank = {
 functions='[
 
   {
-
     "name": "rrf",
-
     "type": "Rerank",
-
     "inputFieldNames": [],
-
     "params": {
-
       "reranker": "rrf",
-
       "k": 100
-
     }
-
   }
 
 ]'
@@ -292,25 +284,15 @@ hybrid_results = milvus_client.hybrid_search(
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
-
 import io.milvus.v2.client.MilvusClientV2;
-
 import io.milvus.v2.service.vector.request.AnnSearchReq;
-
 import io.milvus.v2.service.vector.request.HybridSearchReq;
-
 import io.milvus.v2.service.vector.response.SearchResp;
-
 import io.milvus.v2.service.vector.request.data.EmbeddedText;
-
 import io.milvus.v2.service.vector.request.data.FloatVec;
-
 import java.util.ArrayList;
-
 import java.util.Arrays;
-
 import java.util.Collections;
-
 import java.util.List;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
@@ -364,31 +346,23 @@ SearchResp searchResp = client.hybridSearch(hybridSearchReq);
 
 ```go
 import (
-
     "context"
-
     "fmt"
 
     "github.com/milvus-io/milvus/client/v3/entity"
-
     "github.com/milvus-io/milvus/client/v3/milvusclient"
-
 )
 
 ctx := context.Background()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-
     Address: "YOUR_CLUSTER_ENDPOINT",
-
 })
 
 if err != nil {
-
     fmt.Println(err.Error())
 
     // handle error
-
 }
 
 // Define text vector search request
@@ -404,15 +378,12 @@ imageSearch := milvusclient.NewAnnRequest("image_vector", 10, entity.FloatVector
 resultSets, err := client.HybridSearch(ctx, milvusclient.NewHybridSearchOption(
 
     collectionName, 10, textSearch, imageSearch,
-
 ).WithReranker(milvusclient.NewRRFReranker()))
 
 if err != nil {
-
     fmt.Println(err.Error())
 
     // handle error
-
 }
 
 fmt.Println(resultSets)
@@ -472,7 +443,6 @@ let hybrid_results = client
             .output_fields(["product_name", "price", "category"])
 
             .build()?,
-
     )
 
     .await?;
@@ -560,49 +530,27 @@ curl --request POST \
 --header "Content-Type: application/json" \
 
 -d '{
-
     "collectionName": "collection_name",
-
     "data": [
-
         {
-
             "data": ["modern dining table"],
-
             "annsField": "text_vector",
-
             "limit": 10
-
         },
-
         {
-
             "data": [image_embedding],
-
             "annsField": "image_vector",
-
             "limit": 10
-
         }
-
     ],
-
     "rerank": {
-
         "strategy": "rrf",
-
         "params": {
-
             "k": 100
-
         }
-
     },
-
     "limit": 10,
-
     "outputFields": ["product_name", "price", "category"]
-
 }'
 ```
 

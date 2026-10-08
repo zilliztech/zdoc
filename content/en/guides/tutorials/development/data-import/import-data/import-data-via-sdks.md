@@ -137,7 +137,6 @@ import io.minio.MinioClient;
 import io.minio.Result;
 import io.minio.ListObjectsArgs;
 import io.minio.messages.Item;
-
 import java.util.Iterator;
 
 // Third-party constants
@@ -174,7 +173,7 @@ Once your data and collection are ready, you can import your data into a specifi
 
 To import data from a volume, first create a [managed or external volume](./managed-volume). For a managed volume, upload your data files to the volume. For an external volume, ensure the data files are in the mapped cloud storage bucket. Then import the data as follows:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -211,26 +210,22 @@ if __name__ == '__main__':
 
 ```java
 private static String bulkImport() throws InterruptedException {
-
     /**
      * The value of the URL is fixed.
      */
-
     String CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
     String CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx";
     String API_KEY = "";
     String VOLUME_NAME = "my-first-volume";
     List<String> DATA_PATH = Lists.newArrayList("dataPath");
-
     VolumeImportRequest volumeImportRequest = VolumeImportRequest.builder()
             .apiKey(API_KEY)
             .clusterId(CLUSTER_ID).collectionName("medium_articles")
-            .volumeName(VOLUME_NAME).dataPaths(Lists.newArrayList(Collections.singleton(DATA_PATH)))
+            .volumeName(VOLUME_NAME)
+            .dataPaths(Lists.newArrayList(Collections.singleton(DATA_PATH)))
             .build();
-
     String bulkImportResult = BulkImportUtils.bulkImport(CLOUD_API_ENDPOINT, volumeImportRequest);
     System.out.println(bulkImportResult);
-
     JsonObject bulkImportObject = new Gson().fromJson(bulkImportResult, JsonObject.class);
     String jobId = bulkImportObject.getAsJsonObject("data").get("jobId").getAsString();
     System.out.println("Create a bulkImport task, job id: " + jobId);
@@ -245,13 +240,88 @@ public static void main(String[] args) throws Exception {
 ```
 
 </TabItem>
+
+<TabItem value='go'>
+
+```go
+// Note: Cloud volume import (volumeName + dataPaths) is not supported in milvus-sdk-go as of v3.0.0.
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    // The value of the URL is fixed.
+    let config = BulkImportConfig::new()
+        .url("https://api.cloud.zilliz.com")
+        .api_key("YOUR_API_KEY");
+    let bulk_import = BulkImport::new(&config)?;
+
+    let request = BulkImportRequest::builder()
+        .collection_name("medium_articles")
+        .cluster_id("inxx-xxxxxxxxxxxxxxx")
+        .volume_name("my-first-volume")
+        .data_paths([["dataPath"]])
+        .build()?;
+
+    let resp = bulk_import.bulk_import(request).await?;
+    println!("{:?}", resp.job_id());
+    Ok(())
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// Note: milvus::BulkImport::CreateImportJobs() implements the import REST API,
+// but as of v3.0.3 it does not accept the cloud volume-import parameters
+// (volumeName/dataPaths/clusterId) used in this section.
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// Note: Cloud volume import is not supported in milvus-sdk-node as of v3.0.6.
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+--url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/create" \
+--header "Authorization: Bearer ${API_KEY}" \
+--header "Content-Type: application/json" \
+-d '{
+    "clusterId": "inxx-xxxxxxxxxxxxxxx",
+    "collectionName": "medium_articles",
+    "volumeName": "my-first-volume",
+    "dataPaths": [
+        [
+            "dataPath"
+        ]
+    ]
+}'
+```
+
+</TabItem>
 </Tabs>
 
 ### Import data via external storage\{#import-data-via-external-storage}
 
 If you prefer to import data via external storage, do as follows:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -302,7 +372,6 @@ private static String bulkImport() throws InterruptedException {
     String STORAGE_URL = "";
     String ACCESS_KEY = "";
     String SECRET_KEY = "";
-
     CloudImportRequest cloudImportRequest = CloudImportRequest.builder()
             .apiKey(API_KEY)
             .clusterId(CLUSTER_ID)
@@ -311,10 +380,8 @@ private static String bulkImport() throws InterruptedException {
             .accessKey(ACCESS_KEY)
             .secretKey(SECRET_KEY)
             .build();
-
     String bulkImportResult = BulkImportUtils.bulkImport(CLOUD_API_ENDPOINT, cloudImportRequest);
     System.out.println(bulkImportResult);
-
     JsonObject bulkImportObject = new Gson().fromJson(bulkImportResult, JsonObject.class);
     String jobId = bulkImportObject.getAsJsonObject("data").get("jobId").getAsString();
     System.out.println("Create a bulkImport task, job id: " + jobId);
@@ -326,6 +393,107 @@ public static void main(String[] args) throws Exception {
 }
 
 // 0f7fe853-d93e-4681-99f2-4719c63585cc
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/bulkwriter"
+)
+
+func main() {
+    ctx := context.Background()
+
+    opt := bulkwriter.NewCloudBulkImportOption(
+        "https://api.cloud.zilliz.com",
+        "medium_articles",
+        "YOUR_API_KEY",
+        "YOUR_OBJECT_URL",
+        "inxx-xxxxxxxxxxxxxxx",
+        "YOUR_ACCESS_KEY",
+        "YOUR_SECRET_KEY",
+    )
+    resp, err := bulkwriter.BulkImport(ctx, opt)
+    if err != nil {
+        log.Fatal(err)
+    }
+    fmt.Println(resp.Data.JobID)
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    // The value of the URL is fixed.
+    let config = BulkImportConfig::new()
+        .url("https://api.cloud.zilliz.com")
+        .api_key("YOUR_API_KEY");
+    let bulk_import = BulkImport::new(&config)?;
+
+    let request = BulkImportRequest::builder()
+        .collection_name("medium_articles")
+        .cluster_id("inxx-xxxxxxxxxxxxxxx")
+        .object_url("YOUR_OBJECT_URL")
+        .access_key("YOUR_ACCESS_KEY")
+        .secret_key("YOUR_SECRET_KEY")
+        .build()?;
+
+    let resp = bulk_import.bulk_import(request).await?;
+    println!("{:?}", resp.job_id());
+    Ok(())
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// Note: milvus::BulkImport::CreateImportJobs() implements the import REST API,
+// but as of v3.0.3 it does not accept the cloud object-storage parameters
+// (objectUrl/accessKey/secretKey/clusterId) used in this section.
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// Note: Cloud object-storage import is not supported in milvus-sdk-node as of v3.0.6.
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+     --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/create" \
+     --header "Authorization: Bearer ${API_KEY}" \
+     --header "Accept: application/json" \
+     --header "Content-Type: application/json" \
+     -d '{
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "collectionName": "medium_articles",
+        "objectUrl": "YOUR_OBJECT_URL",
+        "accessKey": "YOUR_ACCESS_KEY",
+        "secretKey": "YOUR_SECRET_KEY"
+    }'
 ```
 
 </TabItem>
@@ -341,7 +509,7 @@ For successful data import, ensure the target collection has less than 10,000 ru
 
 You can check the progress of a specified bulk-import job.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -370,29 +538,115 @@ print(json.dumps(resp.json(), indent=4))
 
 ```java
 private static void getImportProgress(String jobId) {
-
     /**
      * The value of the URL is fixed.
      */
-
     String CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
     String CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx";
     String API_KEY = "";
-
     CloudDescribeImportRequest request = CloudDescribeImportRequest.builder()
         .apiKey(API_KEY)
         .clusterId(CLUSTER_ID)
         .jobId(jobId)
         .build();
-
     String getImportProgressResult = BulkImportUtils.getImportProgress(CLOUD_API_ENDPOINT, request);
     System.out.println("Get import progress, result: " + getImportProgressResult);
 }
 
 public static void main(String[] args) throws Exception {
-
     getImportProgress("job-xxxx");
 }
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/bulkwriter"
+)
+
+func main() {
+    ctx := context.Background()
+
+    opt := bulkwriter.NewCloudGetImportProgressOption(
+        "https://api.cloud.zilliz.com",
+        "job-01fa0e5d42cjxudhpuehyp",
+        "YOUR_API_KEY",
+        "inxx-xxxxxxxxxxxxxxx",
+    )
+    resp, err := bulkwriter.GetImportProgress(ctx, opt)
+    if err != nil {
+        log.Fatal(err)
+    }
+    fmt.Printf("%+v\n", resp.Data)
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    // The value of the URL is fixed.
+    let config = BulkImportConfig::new()
+        .url("https://api.cloud.zilliz.com")
+        .api_key("YOUR_API_KEY");
+    let bulk_import = BulkImport::new(&config)?;
+
+    let request = GetImportProgressRequest::builder()
+        .job_id("job-01fa0e5d42cjxudhpuehyp")
+        .cluster_id("inxx-xxxxxxxxxxxxxxx")
+        .build()?;
+
+    let resp = bulk_import.get_import_progress(request).await?;
+    println!("{:?}", resp);
+    Ok(())
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// Note: milvus::BulkImport::GetImportJobProgress() implements the progress API,
+// but as of v3.0.3 it does not send the cloud clusterId used in this section.
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// Note: Cloud import progress is not supported in milvus-sdk-node as of v3.0.6.
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+     --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/get_progress" \
+     --header "Authorization: Bearer ${API_KEY}" \
+     --header "Accept: application/json" \
+     --header "Content-Type: application/json" \
+     -d '{
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "jobId": "job-01fa0e5d42cjxudhpuehyp"
+    }'
 ```
 
 </TabItem>
@@ -402,7 +656,7 @@ public static void main(String[] args) throws Exception {
 
 If you also want to know about all bulk-import tasks, you can call the list-import-jobs API as follows:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -430,27 +684,109 @@ print(json.dumps(resp.json(), indent=4))
 
 ```java
 private static void listImportJobs() {
-
     /**
      * The value of the URL is fixed.
      */
-
     String CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
     String CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx";
     String API_KEY = "";
-
     CloudListImportJobsRequest listImportJobsRequest = CloudListImportJobsRequest.builder()
             .apiKey(API_KEY)
             .clusterId(CLUSTER_ID).build();
-
     String listImportJobsResult = BulkImportUtils.listImportJobs(CLOUD_API_ENDPOINT, listImportJobsRequest);
     System.out.println(listImportJobsResult);
 }
 
 public static void main(String[] args) throws Exception {
-
     listImportJobs();
 }
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/bulkwriter"
+)
+
+func main() {
+    ctx := context.Background()
+
+    opt := bulkwriter.NewListImportJobsOption("https://api.cloud.zilliz.com", "")
+    opt.APIKey = "YOUR_API_KEY"
+    opt.ClusterID = "inxx-xxxxxxxxxxxxxxx"
+
+    resp, err := bulkwriter.ListImportJobs(ctx, opt)
+    if err != nil {
+        log.Fatal(err)
+    }
+    fmt.Println(resp.Data.Records)
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    // The value of the URL is fixed.
+    let config = BulkImportConfig::new()
+        .url("https://api.cloud.zilliz.com")
+        .api_key("YOUR_API_KEY");
+    let bulk_import = BulkImport::new(&config)?;
+
+    let request = ListImportJobsRequest::builder()
+        .cluster_id("inxx-xxxxxxxxxxxxxxx")
+        .build()?;
+
+    let resp = bulk_import.list_import_jobs(request).await?;
+    println!("{:?}", resp);
+    Ok(())
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// Note: milvus::BulkImport::ListImportJobs() implements the list-jobs API,
+// but as of v3.0.3 it does not send the cloud clusterId used in this section.
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// Note: Cloud import-jobs listing is not supported in milvus-sdk-node as of v3.0.6.
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+     --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/list" \
+     --header "Authorization: Bearer ${API_KEY}" \
+     --header "Accept: application/json" \
+     --header "Content-Type: application/json" \
+     -d '{
+        "clusterId": "inxx-xxxxxxxxxxxxxxx"
+    }'
 ```
 
 </TabItem>

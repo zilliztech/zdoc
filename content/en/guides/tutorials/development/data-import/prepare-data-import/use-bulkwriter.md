@@ -118,7 +118,6 @@ schema.verify()
 import io.milvus.v2.common.DataType;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
-
 import java.nio.ByteBuffer;
 import java.util.Random;
 
@@ -203,7 +202,6 @@ private static CreateCollectionReq.CollectionSchema createSchema() {
             .fieldName("sparse_vector")
             .dataType(DataType.SparseFloatVector)
             .build());
-
     return schema;
 }
 
@@ -474,7 +472,7 @@ There are two types of **BulkWriter**s available.
             .withConnectParam(storageConnectParam)
             .withFileType(BulkFileType.PARQUET)
             .build();
-            
+    
     RemoteBulkWriter remoteBulkWriter = new RemoteBulkWriter(remoteBulkWriterParam);
     ```
 
@@ -594,7 +592,6 @@ For demonstration purposes, the following code appends randomly generated data.
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import io.milvus.common.utils.Float16Utils;
-
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.*;
@@ -607,7 +604,6 @@ private static List<List<String>> uploadData() throws Exception {
     try (RemoteBulkWriter remoteBulkWriter = createRemoteBulkWriter(collectionSchema)) {
         for (int i = 0; i < 10000; ++i) {
             JsonObject rowObject = new JsonObject();
-
             rowObject.addProperty("id", i);
             rowObject.addProperty("bool", i % 3 == 0);
             rowObject.addProperty("int8", i % 128);
@@ -625,9 +621,7 @@ private static List<List<String>> uploadData() throws Exception {
             rowObject.add("float16_vector", GSON_INSTANCE.toJsonTree(genFloat16Vector()));
             rowObject.add("sparse_vector", GSON_INSTANCE.toJsonTree(genSparseVector()));
             rowObject.addProperty("dynamic", "dynamic_" + i);
-
             remoteBulkWriter.appendRow(rowObject);
-
             if ((i+1)%1000 == 0) {
                 remoteBulkWriter.commit(false);
             }
@@ -726,7 +720,7 @@ import string
 def generate_random_string(length=5):
     letters = string.ascii_uppercase
     digits = string.digits
-    
+
     return ''.join(random.choices(letters + digits, k=length))
 
 for i in range(10000):
@@ -736,7 +730,7 @@ for i in range(10000):
         "dynamic_field_1": random.choice([True, False]),
         "dynamic_field_2": random.randint(0, 100)
     })
-    
+
 writer.commit()
 ```
 
@@ -750,7 +744,6 @@ writer.commit()
 ```java
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

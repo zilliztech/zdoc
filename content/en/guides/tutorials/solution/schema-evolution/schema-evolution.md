@@ -16,7 +16,8 @@ displayed_sidebar: default
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Schema Evolution
 
@@ -112,6 +113,9 @@ After the updated readers and writers are ready, add the required fields to the 
 
 For example, the following code adds a nullable `category` field:
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 from pymilvus import DataType
 
@@ -123,6 +127,168 @@ client.add_collection_field(
     nullable=True,
 )
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddCollectionFieldReq;
+
+MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build());
+
+client.addCollectionField(AddCollectionFieldReq.builder()
+        .collectionName("documents")
+        .fieldName("category")
+        .dataType(DataType.VarChar)
+        .maxLength(64)
+        .isNullable(true)
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
+
+err = client.AddCollectionField(ctx, milvusclient.NewAddCollectionFieldOption("documents",
+    entity.NewField().
+        WithName("category").
+        WithDataType(entity.FieldTypeVarChar).
+        WithMaxLength(64).
+        WithNullable(true)))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let config = ConnectConfig::new()
+    .uri("YOUR_CLUSTER_ENDPOINT")
+    .token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
+
+client
+    .add_collection_field(
+        AddCollectionFieldRequest::builder()
+            .collection_name("documents")
+            .field(
+                FieldSchema::new()
+                    .name("category")
+                    .data_type(DataType::VarChar)
+                    .max_length(64)
+                    .nullable(true),
+            )
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include <utility>
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->AddCollectionField(milvus::AddCollectionFieldRequest()
+    .WithCollectionName("documents")
+    .WithField(std::move(milvus::FieldSchema("category", milvus::DataType::VARCHAR).WithMaxLength(64).WithNullable(true))));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
+
+await client.addCollectionField({
+    collection_name: "documents",
+    field: {
+        name: "category",
+        data_type: DataType.VarChar,
+        max_length: 64,
+        nullable: true,
+    },
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/fields/add" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d '{
+    "collectionName": "documents",
+    "schema": {
+        "fieldName": "category",
+        "dataType": "VarChar",
+        "elementTypeParams": {
+            "max_length": 64
+        },
+        "nullable": true
+    }
+}'
+```
+
+</TabItem>
+</Tabs>
 
 Adding a field changes only the collection schema. Existing entities are not rewritten and have `NULL` in the new field until the field is populated later in the migration.
 
@@ -147,6 +313,9 @@ client.insert(
 
 For a full-row upsert, include the new field in the payload as well:
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 client.upsert(
     collection_name="documents",
@@ -158,6 +327,180 @@ client.upsert(
     }],
 )
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.vector.request.UpsertReq;
+import java.util.Collections;
+
+MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build());
+
+JsonObject entity = new JsonObject();
+entity.addProperty("id", 1001);
+entity.addProperty("text", "example text");
+entity.add("embedding", new Gson().toJsonTree(new float[]{0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f}));
+entity.addProperty("category", "electronics");
+
+client.upsert(UpsertReq.builder()
+        .collectionName("documents")
+        .data(Collections.singletonList(entity))
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
+
+_, err = client.Upsert(ctx, milvusclient.NewRowBasedInsertOption("documents",
+    map[string]any{
+        "id":        int64(1001),
+        "text":      "example text",
+        "embedding": []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592},
+        "category":  "electronics",
+    }))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
+
+let config = ConnectConfig::new()
+    .uri("YOUR_CLUSTER_ENDPOINT")
+    .token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
+
+client
+    .upsert(
+        UpsertRequest::builder()
+            .insert(
+                InsertRequest::builder()
+                    .collection_name("documents")
+                    .rows(vec![
+                        json!({
+                            "id": 1001,
+                            "text": "example text",
+                            "embedding": [0.3580376395471989_f32, -0.6023495712049978_f32, 0.18414012509913835_f32, -0.26286205330961354_f32, 0.9029438446296592_f32],
+                            "category": "electronics",
+                        }),
+                    ])
+                    .build()?,
+            )
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include <vector>
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::UpsertResponse upsertResponse;
+status = client->Upsert(milvus::UpsertRequest()
+    .WithCollectionName("documents")
+    .AddRowData({{"id", 1001}, {"text", "example text"}, {"embedding", std::vector<float>{0.35803764F, -0.60234958F, 0.18414013F, -0.26286206F, 0.90294385F}}, {"category", "electronics"}}), upsertResponse);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
+
+await client.upsert({
+    collection_name: "documents",
+    data: [{
+        id: 1001,
+        text: "example text",
+        embedding: [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592],
+        category: "electronics",
+    }],
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/upsert" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d '{
+    "collectionName": "documents",
+    "data": [
+        {
+            "id": 1001,
+            "text": "example text",
+            "embedding": [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592],
+            "category": "electronics"
+        }
+    ]
+}'
+```
+
+</TabItem>
+</Tabs>
 
 Complete the writer switch before starting the backfill. From this point on, newly inserted or updated entities already contain values for the new fields, while existing entities are populated by the backfill. This ordering prevents a gap where writes made during the migration are missed by both paths.
 
@@ -211,6 +554,9 @@ After the backfill completes, verify that the new fields are populated correctly
 
 Start by querying a representative set of entities, including both historical entities processed by the backfill and entities inserted or updated after the writer switch:
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 results = client.query(
     collection_name="documents",
@@ -221,6 +567,153 @@ results = client.query(
 for result in results:
     print(result)
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
+import java.util.Arrays;
+
+MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build());
+
+QueryResp queryResp = client.query(QueryReq.builder()
+        .collectionName("documents")
+        .filter("id in [1001, 1002, 1003]")
+        .outputFields(Arrays.asList("id", "category"))
+        .build());
+
+for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
+    System.out.println(result.getEntity());
+}
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
+
+results, err := client.Query(ctx, milvusclient.NewQueryOption("documents").
+    WithFilter("id in [1001, 1002, 1003]").
+    WithOutputFields("id", "category"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let config = ConnectConfig::new()
+    .uri("YOUR_CLUSTER_ENDPOINT")
+    .token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
+
+let results = client
+    .query(
+        QueryRequest::builder()
+            .collection_name("documents")
+            .filter("id in [1001, 1002, 1003]")
+            .output_fields(["id", "category"])
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::QueryResponse queryResponse;
+status = client->Query(milvus::QueryRequest()
+    .WithCollectionName("documents")
+    .WithFilter("id in [1001, 1002, 1003]")
+    .WithOutputFields({"id", "category"}), queryResponse);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
+
+const results = await client.query({
+    collection_name: "documents",
+    filter: "id in [1001, 1002, 1003]",
+    output_fields: ["id", "category"],
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d '{
+    "collectionName": "documents",
+    "filter": "id in [1001, 1002, 1003]",
+    "outputFields": ["id", "category"]
+}'
+```
+
+</TabItem>
+</Tabs>
 
 Check that:
 

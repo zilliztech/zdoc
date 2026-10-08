@@ -387,7 +387,6 @@ client.insert(collection_name="my_collection", data=entities)
 ```java
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-
 import io.milvus.v2.service.vector.request.InsertReq;
 import java.util.Arrays;
 import java.util.Collections;
@@ -422,6 +421,7 @@ client.insert(InsertReq.builder()
 ```go
 import (
     "github.com/milvus-io/milvus/client/v3/column"
+
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
@@ -718,6 +718,7 @@ indexParams.add(IndexParam.builder()
 ```go
 import (
     "github.com/milvus-io/milvus/client/v3/index"
+
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 

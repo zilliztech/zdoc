@@ -174,6 +174,7 @@ let schema = CollectionSchema::new()
 
 ```c++
 #include "milvus/MilvusClientV2.h"
+#include <iostream>
 
 auto client = milvus::MilvusClientV2::Create();
 
@@ -397,6 +398,8 @@ index_params.add_index(
 
 ```java
 import io.milvus.v2.common.IndexParam;
+import java.util.ArrayList;
+import java.util.List;
 
 List<IndexParam> indexes = new ArrayList<>();
 indexes.add(IndexParam.builder()
@@ -434,7 +437,7 @@ let index_params = vec![
 ```c++
 std::vector<milvus::IndexDesc> indexes = {
     milvus::IndexDesc("dense", "", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE)
-}
+};
 ```
 
 </TabItem>
@@ -625,12 +628,14 @@ client.insert('demo', [
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import io.milvus.v2.service.vector.request.InsertReq;
+import java.util.Arrays;
+import java.util.List;
 
 Gson gson = new Gson();
 List<JsonObject> rows = Arrays.asList(
         gson.fromJson("{\"id\": 0, \"document\": \"Milvus simplifies semantic search through embeddings.\"}", JsonObject.class),
         gson.fromJson("{\"id\": 1, \"document\": \"Vector embeddings convert text into searchable numeric data.\"}", JsonObject.class),
-        gson.fromJson("{\"id\": 2, \"document\": \"Semantic search helps users find relevant information quickly.\"}", JsonObject.class),
+        gson.fromJson("{\"id\": 2, \"document\": \"Semantic search helps users find relevant information quickly.\"}", JsonObject.class)
 );
 
 client.insert(InsertReq.builder()
@@ -645,9 +650,9 @@ client.insert(InsertReq.builder()
 
 ```go
 _, err = client.Insert(ctx, milvusclient.NewRowBasedInsertOption("demo",
-    map[string]any{"id": 1, "document": "Milvus simplifies semantic search through embeddings."},
-    map[string]any{"id": 2, "document": "Vector embeddings convert text into searchable numeric data."},
-    map[string]any{"id": 3, "document": "Semantic search helps users find relevant information quickly."},
+    map[string]any{"id": int64(1), "document": "Milvus simplifies semantic search through embeddings."},
+    map[string]any{"id": int64(2), "document": "Vector embeddings convert text into searchable numeric data."},
+    map[string]any{"id": int64(3), "document": "Semantic search helps users find relevant information quickly."},
 ))
 if err != nil {
     log.Fatal(err)
@@ -763,6 +768,8 @@ print(results)
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Collections;
+import java.util.List;
 
 SearchResp searchResp = client.search(SearchReq.builder()
         .collectionName("demo")

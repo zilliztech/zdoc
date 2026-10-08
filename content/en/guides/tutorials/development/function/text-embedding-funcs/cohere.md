@@ -138,7 +138,7 @@ schema.addField(AddFieldReq.builder()
         .dataType(DataType.VarChar)
         .maxLength(9000)
         .build());
-        
+
 schema.addField(AddFieldReq.builder()
         .fieldName("dense")
         .dataType(DataType.FloatVector)
@@ -268,7 +268,6 @@ schema.add_function(text_embedding_function)
 ```java
 import io.milvus.common.clientenum.FunctionType;
 import io.milvus.v2.service.collection.request.CreateCollectionReq.Function;
-
 import java.util.Collections;
 
 Function function = Function.builder()
@@ -401,6 +400,8 @@ index_params.add_index(
 
 ```java
 import io.milvus.v2.common.IndexParam;
+import java.util.ArrayList;
+import java.util.List;
 
 List<IndexParam> indexes = new ArrayList<>();
 indexes.add(IndexParam.builder()
@@ -438,7 +439,7 @@ let index_params = vec![
 ```c++
 std::vector<milvus::IndexDesc> indexes = {
     milvus::IndexDesc("dense", "", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE)
-}
+};
 ```
 
 </TabItem>
@@ -534,10 +535,10 @@ client
 <TabItem value='c++'>
 
 ```c++
-auto status = client->CreateCollection(milvus::CreateCollectionRequest()
-                                    .WithCollectionName("demo")
-                                    .WithIndexes(std::move(indexes))
-                                    .WithCollectionSchema(schema));
+status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                .WithCollectionName("demo")
+                                .WithIndexes(std::move(indexes))
+                                .WithCollectionSchema(schema));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
@@ -629,12 +630,14 @@ client.insert('demo', [
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import io.milvus.v2.service.vector.request.InsertReq;
+import java.util.Arrays;
+import java.util.List;
 
 Gson gson = new Gson();
 List<JsonObject> rows = Arrays.asList(
         gson.fromJson("{\"id\": 0, \"document\": \"Milvus simplifies semantic search through embeddings.\"}", JsonObject.class),
         gson.fromJson("{\"id\": 1, \"document\": \"Vector embeddings convert text into searchable numeric data.\"}", JsonObject.class),
-        gson.fromJson("{\"id\": 2, \"document\": \"Semantic search helps users find relevant information quickly.\"}", JsonObject.class),
+        gson.fromJson("{\"id\": 2, \"document\": \"Semantic search helps users find relevant information quickly.\"}", JsonObject.class)
 );
 
 client.insert(InsertReq.builder()
@@ -649,9 +652,9 @@ client.insert(InsertReq.builder()
 
 ```go
 _, err = client.Insert(ctx, milvusclient.NewRowBasedInsertOption("demo",
-    map[string]any{"id": 1, "document": "Milvus simplifies semantic search through embeddings."},
-    map[string]any{"id": 2, "document": "Vector embeddings convert text into searchable numeric data."},
-    map[string]any{"id": 3, "document": "Semantic search helps users find relevant information quickly."},
+    map[string]any{"id": int64(1), "document": "Milvus simplifies semantic search through embeddings."},
+    map[string]any{"id": int64(2), "document": "Vector embeddings convert text into searchable numeric data."},
+    map[string]any{"id": int64(3), "document": "Semantic search helps users find relevant information quickly."},
 ))
 if err != nil {
     log.Fatal(err)
@@ -692,11 +695,11 @@ milvus::EntityRows data = {
     {{"id", 3}, {"document", "Semantic search helps users find relevant information quickly."}}
 };
 
-milvus::InsertResponse response;
-auto status = client->Insert(milvus::InsertRequest()
-                                .WithCollectionName("demo")
-                                .WithRowsData(std::move(data))
-                                , response);
+milvus::InsertResponse insert_response;
+status = client->Insert(milvus::InsertRequest()
+                            .WithCollectionName("demo")
+                            .WithRowsData(std::move(data)),
+                        insert_response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
@@ -767,6 +770,8 @@ print(results)
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Collections;
+import java.util.List;
 
 SearchResp searchResp = client.search(SearchReq.builder()
         .collectionName("demo")
@@ -826,14 +831,14 @@ let response = client
 
 ```c++
 auto request = milvus::SearchRequest()
-                   .WithCollectionName("demo")
-                   .AddEmbeddedText("How does Milvus handle semantic search?")
-                   .WithLimit(1)
-                   .WithAnnsField("dense")
-                   .AddOutputField("document");
+               .WithCollectionName("demo")
+               .AddEmbeddedText("How does Milvus handle semantic search?")
+               .WithLimit(1)
+               .WithAnnsField("dense")
+               .AddOutputField("document");
 
-milvus::SearchResponse response;
-auto status = client->Search(request, response);
+milvus::SearchResponse search_response;
+status = client->Search(request, search_response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }

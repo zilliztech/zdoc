@@ -399,7 +399,6 @@ client.insert(collection_name="product_catalog", data=entities)
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import io.milvus.v2.service.vector.request.InsertReq;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -657,7 +656,6 @@ client.load_collection(collection_name="product_catalog")
 import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.collection.request.LoadCollectionReq;
 import io.milvus.v2.service.index.request.CreateIndexReq;
-
 import java.util.Arrays;
 
 // Create an index on the vector field
@@ -861,7 +859,6 @@ client.search(
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
-
 import java.util.Arrays;
 
 // Define filter expression
@@ -1025,7 +1022,6 @@ print(res)
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
-
 import java.util.Arrays;
 
 // Define filter expression
@@ -1199,7 +1195,6 @@ print(res)
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
-
 import java.util.Arrays;
 
 // Define filter expression
@@ -1363,7 +1358,6 @@ print(res)
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
-
 import java.util.Arrays;
 
 // Define filter expression

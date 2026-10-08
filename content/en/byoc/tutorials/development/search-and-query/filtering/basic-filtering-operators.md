@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud provides a rich set of basic operators to help you filter and query data efficiently. These operators allow you to refine your search conditions based on scalar fields, numeric calculations, logical conditions, and more. Understanding how to use these operators is crucial for building precise queries and maximizing the efficiency of your searches. | BYOC"
+description: "Zilliz Cloud provides comparison, range, arithmetic, logical, and NULL operators for filtering entities. Each operator supports specific field types. | BYOC"
 type: origin
 token: LBbUwOGcwi1UMak3eE2cM1gvnUe
 sidebar_position: 2
@@ -21,7 +21,7 @@ import TabItem from '@theme/TabItem';
 
 # Basic Operators
 
-Zilliz Cloud provides a rich set of basic operators to help you filter and query data efficiently. These operators allow you to refine your search conditions based on scalar fields, numeric calculations, logical conditions, and more. Understanding how to use these operators is crucial for building precise queries and maximizing the efficiency of your searches.
+Zilliz Cloud provides comparison, range, arithmetic, logical, and NULL operators for filtering entities. Each operator supports specific field types.
 
 <Admonition type="info" title="Notes">
 
@@ -1230,35 +1230,49 @@ filter='NOT color == "green"'
 
 ## IS NULL and IS NOT NULL Operators\{#is-null-and-is-not-null-operators}
 
-The `IS NULL` and `IS NOT NULL` operators are used to filter fields based on whether they contain a null value (absence of data).
+Use `IS NULL` and `IS NOT NULL` to find entities with missing or available field values. For example, you can find products without a category or entities whose embeddings are ready for search. Both operators work on supported scalar and vector fields, with the same meaning:
 
-- `IS NULL`: Identifies entities where a specific field contains a null value, i.e., the value is absent or undefined.
+| Operator | Matches |
+| --- | --- |
+| `<field> IS NULL` | Entities whose specified field has a NULL value |
+| `<field> IS NOT NULL` | Entities whose specified field has a non-NULL value |
 
-- `IS NOT NULL`: Identifies entities where a specific field contains any value other than null, meaning the field has a valid, defined value.
+Supported scalar fields include Boolean, numeric, `VARCHAR`, `JSON`, and `ARRAY` fields. These operators do not support [TEXT fields](./use-text-field).
 
-<Admonition type="info" title="Notes">
+Starting in Milvus 3.0.3, the operators also support ordinary vector fields: `FLOAT_VECTOR`, `BINARY_VECTOR`, `FLOAT16_VECTOR`, `BFLOAT16_VECTOR`, `SPARSE_FLOAT_VECTOR`, and `INT8_VECTOR`.
 
-The operators are case-insensitive, so you can use `IS NULL` or `is null`, and `IS NOT NULL` or `is not null`.
+The operators are case-insensitive: `IS NULL` and `is null` are equivalent, as are `IS NOT NULL` and `is not null`.
 
-</Admonition>
+### Example: Find entities with missing or available values\{#example-find-entities-with-missing-or-available-values}
 
-### Regular Scalar Fields with Null Values\{#regular-scalar-fields-with-null-values}
+Assume a collection named `products` is indexed and loaded. The collection has an `INT64` primary key named `id`, a nullable `VARCHAR` field named `category`, and a nullable, three-dimensional `FLOAT_VECTOR` field named `embedding`. It already contains the following entities:
 
-Zilliz Cloud allows filtering on regular scalar fields, such as strings or numbers, with null values.
+| `id` | `category` | `embedding` |
+| --- | --- | --- |
+| `1` | `"book"` | `[0.1, 0.2, 0.3]` |
+| `2` | NULL | `[0.4, 0.5, 0.6]` |
+| `3` | `"book"` | NULL |
 
-<Admonition type="info" title="Notes">
+Collection creation and data insertion are omitted. For those steps, see [Nullable Fields](./nullable-fields).
 
-An empty string `""` is not treated as a null value for a `VARCHAR` field.
-
-</Admonition>
-
-To retrieve entities where the `description` field is null:
+To find entities that still need an embedding, query for `embedding IS NULL`. Adjust the connection settings for your server.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-filter = 'description IS NULL'
+from pymilvus import MilvusClient
+
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+
+results = client.query(
+    collection_name="products",
+    filter="embedding IS NULL",
+    output_fields=["id"],
+    limit=10,
+)
+print(sorted(entity["id"] for entity in results))
+# Expected: [3]
 ```
 
 </TabItem>
@@ -1266,7 +1280,7 @@ filter = 'description IS NULL'
 <TabItem value='java'>
 
 ```java
-String filter = "description IS NULL";
+// java
 ```
 
 </TabItem>
@@ -1274,7 +1288,7 @@ String filter = "description IS NULL";
 <TabItem value='go'>
 
 ```go
-filter := "description IS NULL"
+// go
 ```
 
 </TabItem>
@@ -1282,7 +1296,7 @@ filter := "description IS NULL"
 <TabItem value='rust'>
 
 ```rust
-let filter = "description IS NULL";
+// rust
 ```
 
 </TabItem>
@@ -1290,7 +1304,7 @@ let filter = "description IS NULL";
 <TabItem value='c++'>
 
 ```c++
-std::string filter = "description IS NULL";
+// cpp
 ```
 
 </TabItem>
@@ -1298,7 +1312,7 @@ std::string filter = "description IS NULL";
 <TabItem value='javascript'>
 
 ```javascript
-const filter = 'description IS NULL';
+// nodejs
 ```
 
 </TabItem>
@@ -1306,480 +1320,50 @@ const filter = 'description IS NULL';
 <TabItem value='bash'>
 
 ```bash
-filter='description IS NULL'
+# restful
 ```
 
 </TabItem>
 </Tabs>
 
-To retrieve entities where the `description` field is not null:
+Replace the `filter` in the same query to check either field or combine conditions:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
-<TabItem value='python'>
+| Filter expression | Matching IDs | Purpose |
+| --- | --- | --- |
+| `category IS NULL` | `2` | Find entities without a category |
+| `category IS NOT NULL` | `1`, `3` | Find entities with a category |
+| `embedding IS NULL` | `3` | Find entities without an embedding |
+| `embedding IS NOT NULL` | `1`, `2` | Find entities with an embedding |
+| `category IS NOT NULL AND embedding IS NOT NULL` | `1` | Find entities with both values |
 
-```python
-filter = 'description IS NOT NULL'
-```
+### How field values are treated\{#how-field-values-are-treated}
 
-</TabItem>
+The operators check the stored field value. For a nullable field without a default value, omitting the field during insertion or explicitly setting it to NULL stores NULL. A configured default value can change what is stored. For details, see [Nullable Fields](./nullable-fields) and [Default Values](./default-fields).
 
-<TabItem value='java'>
+| Field type | NULL behavior |
+| --- | --- |
+| `VARCHAR` | An empty string `""` is a non-NULL value. |
+| `JSON` | A NULL value for the entire field matches `IS NULL`. A JSON object such as `{"category": null}` is non-NULL, even though a value inside it is NULL. |
+| `ARRAY` | A NULL value for the entire field matches `IS NULL`. Individual elements cannot be NULL, and `IS NULL` / `IS NOT NULL` do not support array element access such as `tags[0]`. See [Array Field](./use-array-fields). |
+| Ordinary vector types | NULL means the vector value is absent. A vector whose components are zero is not NULL. |
 
-```java
-String filter = "description IS NOT NULL";
-```
+For a supported field defined with `nullable=False`, `IS NULL` matches no entities and `IS NOT NULL` matches all visible entities. Other conditions in the filter still apply.
 
-</TabItem>
+### Use NULL filters in vector search\{#use-null-filters-in-vector-search}
 
-<TabItem value='go'>
+The same operators can be used in search filters, but an entity also needs a vector in the field being searched to participate in similarity search.
 
-```go
-filter := "description IS NOT NULL"
-```
+Using the example data above, consider a search with `anns_field="embedding"`:
 
-</TabItem>
+| Filter expression | Entities eligible for similarity search | Reason |
+| --- | --- | --- |
+| `category IS NULL` | `2` | Entity `2` has no category, but has an `embedding` vector. |
+| `embedding IS NULL` | None | Entity `3` matches the filter, but has no `embedding` vector to compare with the query vector. |
+| `embedding IS NOT NULL` | `1`, `2` | Both entities have an `embedding` vector. |
 
-<TabItem value='rust'>
+All three filters are valid. A search on `embedding` with `embedding IS NULL` returns no hits because no entity can satisfy both requirements. To retrieve the entities with missing embeddings, use `query()` as shown above.
 
-```rust
-let filter = "description IS NOT NULL";
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-std::string filter = "description IS NOT NULL";
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-const filter = 'description IS NOT NULL';
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-filter='description IS NOT NULL'
-```
-
-</TabItem>
-</Tabs>
-
-To retrieve entities where the `description` field is not null and the `price` field is higher than 10:
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
-<TabItem value='python'>
-
-```python
-filter = 'description IS NOT NULL AND price > 10'
-```
-
-</TabItem>
-
-<TabItem value='java'>
-
-```java
-String filter = "description IS NOT NULL AND price > 10";
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-filter := "description IS NOT NULL AND price > 10"
-```
-
-</TabItem>
-
-<TabItem value='rust'>
-
-```rust
-let filter = "description IS NOT NULL AND price > 10";
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-std::string filter = "description IS NOT NULL AND price > 10";
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-const filter = 'description IS NOT NULL AND price > 10';
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-filter='description IS NOT NULL AND price > 10'
-```
-
-</TabItem>
-</Tabs>
-
-### JSON Fields with Null Values\{#json-fields-with-null-values}
-
-Zilliz Cloud allows filtering on JSON fields that contain null values. A JSON field is treated as null in the following ways:
-
-- The entire JSON object is explicitly set to None (null), for example, `{"metadata": None}`.
-
-- The JSON field itself is completely missing from the entity.
-
-<Admonition type="info" title="Notes">
-
-If some elements within a JSON object are null (e.g. individual keys), the field is still considered non-null. For example, `\{"metadata": \{"category": None, "price": 99.99}}` is not treated as null, even though the `category` key is null.
-
-</Admonition>
-
-To further illustrate how Zilliz Cloud handles JSON fields with null values, consider the following sample data with a JSON field `metadata`:
-
-```python
-data = [
-  {
-      "metadata": {"category": "electronics", "price": 99.99, "brand": "BrandA"},
-      "pk": 1,
-      "embedding": [0.12, 0.34, 0.56]
-  },
-  {
-      "metadata": None, # Entire JSON object is null
-      "pk": 2,
-      "embedding": [0.56, 0.78, 0.90]
-  },
-  {  # JSON field `metadata` is completely missing
-      "pk": 3,
-      "embedding": [0.91, 0.18, 0.23]
-  },
-  {
-      "metadata": {"category": None, "price": 99.99, "brand": "BrandA"}, # Individual key value is null
-      "pk": 4,
-      "embedding": [0.56, 0.38, 0.21]
-  }
-]
-```
-
-**Example 1: Retrieve entities where `metadata` is null**
-
-To find entities where the `metadata` field is either missing or explicitly set to None:
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
-<TabItem value='python'>
-
-```python
-filter = 'metadata IS NULL'
-
-# Example output:
-# data: [
-#     "{'metadata': None, 'pk': 2}",
-#     "{'metadata': None, 'pk': 3}"
-# ]
-```
-
-</TabItem>
-
-<TabItem value='java'>
-
-```java
-String filter = "metadata IS NULL";
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-filter := "metadata IS NULL"
-```
-
-</TabItem>
-
-<TabItem value='rust'>
-
-```rust
-let filter = "metadata IS NULL";
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-std::string filter = "metadata IS NULL";
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-const filter = 'metadata IS NULL';
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-filter='metadata IS NULL'
-```
-
-</TabItem>
-</Tabs>
-
-**Example 2: Retrieve entities where `metadata` is not null**
-
-To find entities where the `metadata` field is not null:
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
-<TabItem value='python'>
-
-```python
-filter = 'metadata IS NOT NULL'
-
-# Example output:
-# data: [
-#     "{'metadata': {'category': 'electronics', 'price': 99.99, 'brand': 'BrandA'}, 'pk': 1}",
-#     "{'metadata': {'category': None, 'price': 99.99, 'brand': 'BrandA'}, 'pk': 4}"
-# ]
-```
-
-</TabItem>
-
-<TabItem value='java'>
-
-```java
-String filter = "metadata IS NOT NULL";
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-filter := "metadata IS NOT NULL"
-```
-
-</TabItem>
-
-<TabItem value='rust'>
-
-```rust
-let filter = "metadata IS NOT NULL";
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-std::string filter = "metadata IS NOT NULL";
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-const filter = 'metadata IS NOT NULL';
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-filter='metadata IS NOT NULL'
-```
-
-</TabItem>
-</Tabs>
-
-### ARRAY Fields with Null Values\{#array-fields-with-null-values}
-
-Zilliz Cloud allows filtering on ARRAY fields that contain null values. An ARRAY field is treated as null in the following ways:
-
-- The entire ARRAY field is explicitly set to None (null), for example, `"tags": None`.
-
-- The ARRAY field is completely missing from the entity.
-
-<Admonition type="info" title="Notes">
-
-An ARRAY field cannot contain partial null values as all elements in an ARRAY field must have the same data type. For details, refer to [Array Field](./use-array-fields).
-
-</Admonition>
-
-To further illustrate how Zilliz Cloud handles ARRAY fields with null values, consider the following sample data with an ARRAY field `tags`:
-
-```python
-data = [
-  {
-      "tags": ["pop", "rock", "classic"],
-      "ratings": [5, 4, 3],
-      "pk": 1,
-      "embedding": [0.12, 0.34, 0.56]
-  },
-  {
-      "tags": None,  # Entire ARRAY is null
-      "ratings": [4, 5],
-      "pk": 2,
-      "embedding": [0.78, 0.91, 0.23]
-  },
-  {  # The tags field is completely missing
-      "ratings": [9, 5],
-      "pk": 3,
-      "embedding": [0.18, 0.11, 0.23]
-  }
-]
-```
-
-**Example 1: Retrieve entities where `tags` is null**
-
-To retrieve entities where the `tags` field is either missing or explicitly set to `None`:
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
-<TabItem value='python'>
-
-```python
-filter = 'tags IS NULL'
-
-# Example output:
-# data: [
-#     "{'tags': None, 'ratings': [4, 5], 'embedding': [0.78, 0.91, 0.23], 'pk': 2}",
-#     "{'tags': None, 'ratings': [9, 5], 'embedding': [0.18, 0.11, 0.23], 'pk': 3}"
-# ]
-```
-
-</TabItem>
-
-<TabItem value='java'>
-
-```java
-String filter = "tags IS NULL";
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-filter := "tags IS NULL"
-```
-
-</TabItem>
-
-<TabItem value='rust'>
-
-```rust
-let filter = "tags IS NULL";
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-std::string filter = "tags IS NULL";
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-const filter = 'tags IS NULL';
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-filter='tags IS NULL'
-```
-
-</TabItem>
-</Tabs>
-
-**Example 2: Retrieve entities where `tags` is not null**
-
-To retrieve entities where the `tags` field is not null:
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
-<TabItem value='python'>
-
-```python
-filter = 'tags IS NOT NULL'
-
-# Example output:
-# data: [
-#     "{'tags': ['pop', 'rock', 'classic'], 'ratings': [5, 4, 3], 'embedding': [0.12, 0.34, 0.56], 'pk': 1}"
-# ]
-```
-
-</TabItem>
-
-<TabItem value='java'>
-
-```java
-String filter = "tags IS NOT NULL";
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-filter := "tags IS NOT NULL"
-```
-
-</TabItem>
-
-<TabItem value='rust'>
-
-```rust
-let filter = "tags IS NOT NULL";
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-std::string filter = "tags IS NOT NULL";
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-const filter = 'tags IS NOT NULL';
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-filter='tags IS NOT NULL'
-```
-
-</TabItem>
-</Tabs>
+Vector search already skips entities whose searched vector field is NULL, so `embedding IS NOT NULL` does not further narrow the candidates for a search on `embedding`. Ranking, other filters, and the search limit still determine which candidates are returned.
 
 ## Tips on Using Basic Operators with JSON and ARRAY Fields\{#tips-on-using-basic-operators-with-json-and-array-fields}
 

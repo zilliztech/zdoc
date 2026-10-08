@@ -79,7 +79,6 @@ client.create_snapshot(
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.utility.request.FlushReq;
-
 import java.util.Collections;
 import io.milvus.v2.service.snapshot.request.CreateSnapshotReq;
 
@@ -177,7 +176,6 @@ async fn main() -> Result<()> {
 
 ```c++
 #include "milvus/MilvusClientV2.h"
-
 #include <iostream>
 #include <memory>
 

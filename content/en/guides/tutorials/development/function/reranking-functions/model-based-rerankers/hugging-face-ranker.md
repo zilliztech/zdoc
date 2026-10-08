@@ -156,7 +156,6 @@ import io.milvus.v2.service.index.request.CreateIndexReq;
 import io.milvus.v2.service.collection.request.LoadCollectionReq;
 import io.milvus.v2.service.vector.request.InsertReq;
 import io.milvus.v2.service.vector.response.InsertResp;
-
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.util.*;
@@ -522,7 +521,6 @@ hugging_face_ranker = Function(
 ```java
 import io.milvus.common.clientenum.FunctionType;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
-
 import java.util.*;
 
 CreateCollectionReq.Function huggingFaceRanker = CreateCollectionReq.Function.builder()

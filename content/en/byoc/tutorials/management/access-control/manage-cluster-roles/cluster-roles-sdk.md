@@ -56,7 +56,6 @@ CreateRoleReq createRoleReq = CreateRoleReq.builder()
         .roleName("role_a")
         .description("a cluster read only role")
         .build();
-       
 ```
 
 </TabItem>

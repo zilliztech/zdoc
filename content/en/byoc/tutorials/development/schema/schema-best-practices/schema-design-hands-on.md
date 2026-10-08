@@ -196,7 +196,6 @@ let schema = CollectionSchema::new();
 
 ```c++
 #include <iostream>
-
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
@@ -516,7 +515,6 @@ schema.add_function(bm25_function)
 ```java
 import io.milvus.common.clientenum.FunctionType;
 import io.milvus.v2.service.collection.request.CreateCollectionReq.Function;
-
 import java.util.*;
 
 schema.addFunction(Function.builder()

@@ -224,7 +224,6 @@ The parameters in the above code are described as follows:
 ```java
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-
 import io.milvus.bulkwriter.RemoteBulkWriter;
 import io.milvus.bulkwriter.RemoteBulkWriterParam;
 import io.milvus.bulkwriter.common.clientenum.BulkFileType;
@@ -239,7 +238,6 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.common.DataType;
 import io.milvus.v2.service.collection.request.*;
-
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.*;
@@ -332,7 +330,6 @@ private static CreateCollectionReq.CollectionSchema createSchema() {
             .fieldName("sparse_vector")
             .dataType(io.milvus.v2.common.DataType.SparseFloatVector)
             .build());
-    
     return schema;
 }
 ```
@@ -634,7 +631,7 @@ RemoteBulkWriterParam remoteBulkWriterParam = RemoteBulkWriterParam.newBuilder()
         .withConnectParam(storageConnectParam)
         .withFileType(BulkFileType.PARQUET)
         .build();
-        
+
 @SuppressWarnings("resource")
 RemoteBulkWriter remoteBulkWriter = new RemoteBulkWriter(remoteBulkWriterParam);
 

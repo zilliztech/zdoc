@@ -147,7 +147,6 @@ res = client.list_indexes(
 import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.index.request.CreateIndexReq;
 import io.milvus.v2.service.index.request.ListIndexesReq;
-
 import java.util.Collections;
 import java.util.List;
 

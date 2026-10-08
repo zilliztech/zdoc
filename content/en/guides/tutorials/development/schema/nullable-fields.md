@@ -33,8 +33,6 @@ Use nullable fields when:
 
 ## Limits\{#limits}
 
-- Vector fields that allow NULL values do not support `IS NULL` or `IS NOT NULL` filter expressions. You cannot explicitly filter entities based on whether a vector field value is NULL.
-
 - On Zilliz Cloud, nullable StructArray fields are supported on On-Demand Clusters running Milvus 3.0.0 or later in the 3.0.x line. Serving Clusters do not support nullable StructArray fields. Set `nullable=True` on the parent StructArray field, not on individual sub-fields. NULL applies to the whole StructArray field, not to an individual Struct element, and the parent setting is propagated to its sub-fields internally. A StructArray field added to an existing collection must be nullable so existing entities can return NULL for the new field. For details, see [StructArray Limits](./struct-array-limits).
 
 - The `nullable` attribute is defined when a field is created and cannot be modified afterward. You cannot enable or disable nullability for an existing field.
@@ -229,7 +227,6 @@ async fn main() -> Result<()> {
 
 ```c++
 #include "milvus/MilvusClientV2.h"
-
 #include <iostream>
 #include <memory>
 
@@ -462,7 +459,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import io.milvus.v2.service.vector.request.InsertReq;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -548,7 +544,6 @@ client.insert(
 
 ```c++
 #include "milvus/MilvusClientV2.h"
-
 #include <vector>
 
 milvus::EntityRows data = {
@@ -670,7 +665,6 @@ client.load_collection(collection_name="my_collection")
 import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.collection.request.LoadCollectionReq;
 import io.milvus.v2.service.index.request.CreateIndexReq;
-
 import java.util.Collections;
 
 IndexParam indexParam = IndexParam.builder()
@@ -869,7 +863,6 @@ print(res)
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
-
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -938,7 +931,6 @@ for result in search_results.results().iter() {
 
 ```c++
 #include "milvus/MilvusClientV2.h"
-
 #include <vector>
 
 std::vector<float> query_vector = {0.1, 0.2, 0.3, 0.4};
@@ -1002,9 +994,9 @@ In this search:
 
 ## Query & filtering implications\{#query-and-filtering-implications}
 
-The previous examples focus on vector fields. This section describes how NULL values behave in **scalar filter expressions**.
+The previous examples focus on vector fields. The following examples show how ordinary comparison filters treat NULL values in scalar fields.
 
-Scalar fields can be defined with `nullable=True` and follow the same ingestion rules as vector fields. However, **NULL scalar values always evaluate to false in filter expressions**.
+Scalar fields can be defined with `nullable=True` and follow the same ingestion rules as vector fields. Ordinary comparison filters, such as `age > 18` or `status == "active"`, do not match NULL values. Use `IS NULL` or `IS NOT NULL` to explicitly select entities based on whether a supported field is NULL.
 
 For example, given a nullable scalar field `age`, the following filter selects entities whose `age` is greater than 18:
 

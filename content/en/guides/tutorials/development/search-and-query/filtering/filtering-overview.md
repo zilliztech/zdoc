@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud provides powerful filtering capabilities that enable precise querying of your data. Filter expressions allow you to target specific scalar fields and refine search results with different conditions. This guide explains how to use filter expressions in Zilliz Cloud clusters, with examples focused on query operations. You can also apply these filters in search and delete requests. | Cloud"
+description: "Zilliz Cloud provides powerful filtering capabilities that enable precise querying of your data. Filter expressions allow you to select entities based on field values and refine search results with different conditions. This guide explains how to use filter expressions in Zilliz Cloud clusters, with examples focused on query operations. You can also apply these filters in search and delete requests. | Cloud"
 type: origin
 token: AIb1wNAE3iiKVSk8MHAcVA4QnJb
 sidebar_position: 1
@@ -21,7 +21,7 @@ import TabItem from '@theme/TabItem';
 
 # Filtering Explained
 
-Zilliz Cloud provides powerful filtering capabilities that enable precise querying of your data. Filter expressions allow you to target specific scalar fields and refine search results with different conditions. This guide explains how to use filter expressions in Zilliz Cloud clusters, with examples focused on query operations. You can also apply these filters in search and delete requests.
+Zilliz Cloud provides powerful filtering capabilities that enable precise querying of your data. Filter expressions allow you to select entities based on field values and refine search results with different conditions. This guide explains how to use filter expressions in Zilliz Cloud clusters, with examples focused on query operations. You can also apply these filters in search and delete requests.
 
 ## Basic operators\{#basic-operators}
 
@@ -37,7 +37,7 @@ Zilliz Cloud supports several basic operators for filtering data:
 
 - **Logical Operators**: `AND`, `OR`, and `NOT` combine multiple conditions into complex expressions.
 
-- **IS NULL and IS NOT NULL Operators**: The `IS NULL` and `IS NOT NULL` operators are used to filter fields based on whether they contain a null value (absence of data). For details, refer to [Basic Operators](https://milvus.io/docs/basic-operators.md#IS-NULL-and-IS-NOT-NULL-operators).
+- **IS NULL and IS NOT NULL Operators**: Use `IS NULL` to select entities whose field value is NULL, or `IS NOT NULL` to select entities whose field value is non-NULL. These operators support scalar fields.  For supported types, syntax, and examples, refer to [IS NULL and IS NOT NULL operators](./basic-filtering-operators#is-null-and-is-not-null-operators).
 
 ### Example: Filtering by Color\{#example-filtering-by-color}
 

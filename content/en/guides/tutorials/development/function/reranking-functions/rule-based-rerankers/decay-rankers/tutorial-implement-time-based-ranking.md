@@ -529,6 +529,7 @@ client.createCollection(CreateCollectionReq.builder()
 ```go
 import (
     "github.com/milvus-io/milvus/client/v3/entity"
+
     "github.com/milvus-io/milvus/client/v3/index"
 )
 
@@ -1173,7 +1174,7 @@ for days in [0, 3, 7, 10, 14, 21, 30, 60, 90]:
     gaussian_decay = 1.0 if days <= 7 else (0.5 ** ((days - 7) / 14))
     exponential_decay = 1.0 if days <= 3 else (0.3 ** ((days - 3) / 10))
     linear_decay = 1.0 if days <= 7 else max(0, 1.0 - ((days - 7) / 14) * 0.5)
-    
+
     print(f"{days:2d} days | {gaussian_decay:.4f}   | {exponential_decay:.4f}     | {linear_decay:.4f}")
 ```
 
@@ -1257,7 +1258,7 @@ def print_search_results(results, title):
     for i, hit in enumerate(results[0]):
         publish_date = datetime.datetime.fromtimestamp(hit.get('publish_date'))
         days_from_now = (current_time - hit.get('publish_date')) / (24 * 60 * 60)
-        
+
         print(f"{i+1}. {hit.get('headline')}")
         print(f"   Published: {publish_date.strftime('%Y-%m-%d')} ({int(days_from_now)} days ago)")
         print(f"   Score: {hit.score:.4f}")
@@ -1768,13 +1769,13 @@ for item in gaussian_results[0][:3]:
     headline = item.get('headline')
     publish_date = datetime.datetime.fromtimestamp(item.get('publish_date'))
     days_ago = (current_time - item.get('publish_date')) / (24 * 60 * 60)
-    
+
     # Get the original score
     original_score = original_scores.get(headline, 0)
-    
+
     # Calculate decay factor
     decay_factor = 1.0 if days_ago <= 7 else (0.5 ** ((days_ago - 7) / 14))
-    
+
     # Show breakdown
     print(f"Item: {headline}")
     print(f"  Published: {publish_date.strftime('%Y-%m-%d')} ({int(days_ago)} days ago)")
@@ -2153,7 +2154,7 @@ for scale_days in [7, 14, 30]:
             "scale": scale_days * 24 * 60 * 60  # Variable scale
         }
     )
-    
+
     # Get results
     scale_results = milvus_client.search(
         collection_name,
@@ -2164,7 +2165,7 @@ for scale_days in [7, 14, 30]:
         ranker=scaled_ranker,
         consistency_level="Strong"
     )
-    
+
     print_search_results(scale_results, f"SEARCH WITH GAUSSIAN DECAY (SCALE = {scale_days} DAYS)")
 ```
 

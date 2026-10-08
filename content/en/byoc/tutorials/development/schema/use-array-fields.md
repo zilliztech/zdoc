@@ -240,7 +240,6 @@ async fn main() -> Result<()> {
 
 ```c++
 #include "milvus/MilvusClientV2.h"
-
 #include <iostream>
 #include <memory>
 
@@ -416,6 +415,7 @@ indexes.add(IndexParam.builder()
 ```go
 import (
     "github.com/milvus-io/milvus/client/v3/entity"
+
     "github.com/milvus-io/milvus/client/v3/index"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
@@ -446,7 +446,6 @@ let embedding_index = IndexParam::new()
 
 ```c++
 #include "milvus/MilvusClientV2.h"
-
 #include <vector>
 
 std::vector<milvus::IndexDesc> indexes = {
@@ -687,7 +686,6 @@ client.insert(
 ```java
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-
 import io.milvus.v2.service.vector.request.InsertReq;
 import io.milvus.v2.service.vector.response.InsertResp;
 
@@ -772,7 +770,6 @@ client.insert(
 
 ```c++
 #include "milvus/MilvusClientV2.h"
-
 #include <string>
 #include <vector>
 

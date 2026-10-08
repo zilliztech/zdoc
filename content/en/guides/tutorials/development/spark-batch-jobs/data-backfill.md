@@ -172,7 +172,6 @@ Prepare the input data files to include a column corresponding to the primary ke
       ],
       "checkedRows": 0
     }
-     
     ```
 
     </details>

@@ -62,7 +62,7 @@ ConnectConfig connectConfig = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .token("YOUR_CLUSTER_TOKEN")
         .build();
-        
+
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
 CreateUserReq createUserReq = CreateUserReq.builder()
@@ -70,7 +70,7 @@ CreateUserReq createUserReq = CreateUserReq.builder()
         .password("P@ssw0rd")
         .description("a new user in the developers team")
         .build();
-        
+
 client.createUser(createUserReq);
 ```
 
@@ -317,7 +317,7 @@ ConnectConfig connectConfig = ConnectConfig.builder()
     .uri(CLUSTER_ENDPOINT)
     .token(TOKEN)
     .build();
-    
+
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
 GrantRoleReq grantRoleReq = GrantRoleReq.builder()

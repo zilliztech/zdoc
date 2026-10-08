@@ -86,13 +86,9 @@ index_params = client.prepare_index_params()
 index_params.add_index(
 
     field_name="tsz",
-
     index_type="STL_SORT",
-
     index_name="tsz_index",
-
     params={}
-
 )
 
 # Create the index on the collection
@@ -100,9 +96,7 @@ index_params.add_index(
 client.create_index(
 
     collection_name="tsz_demo",
-
     index_params=index_params
-
 )
 ```
 
@@ -112,13 +106,9 @@ client.create_index(
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
-
 import io.milvus.v2.client.MilvusClientV2;
-
 import io.milvus.v2.common.IndexParam;
-
 import io.milvus.v2.service.index.request.CreateIndexReq;
-
 import java.util.Collections;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
@@ -150,37 +140,27 @@ client.createIndex(CreateIndexReq.builder()
 
 ```go
 import (
-
     "context"
-
     "log"
 
     "github.com/milvus-io/milvus/client/v3/index"
-
     "github.com/milvus-io/milvus/client/v3/milvusclient"
-
 )
 
 ctx := context.Background()
 
 cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-
     Address: "YOUR_CLUSTER_ENDPOINT",
-
 })
 
 if err != nil {
-
     log.Fatal("failed to connect to milvus server: ", err.Error())
-
 }
 
 _, err = cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption("tsz_demo", "tsz", index.NewSortedIndex()).WithIndexName("tsz_index"))
 
 if err != nil {
-
     log.Fatal("failed to create index: ", err.Error())
-
 }
 ```
 
@@ -212,11 +192,9 @@ client
                     .index_type(IndexType::StlSort)
 
                     .index_name("tsz_index"),
-
             )
 
             .build()?,
-
     )
 
     .await?;
@@ -228,7 +206,6 @@ client
 
 ```c++
 #include <iostream>
-
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
@@ -236,9 +213,7 @@ auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT"));
 
 if (!status.IsOk()) {
-
     std::cout << status.Message() << std::endl;
-
 }
 
 status = client->CreateIndex(milvus::CreateIndexRequest().WithCollectionName("tsz_demo")
@@ -246,9 +221,7 @@ status = client->CreateIndex(milvus::CreateIndexRequest().WithCollectionName("ts
         .AddIndex(milvus::IndexDesc("tsz", "tsz_index", milvus::IndexType::STL_SORT, milvus::MetricType::L2)));
 
 if (!status.IsOk()) {
-
     std::cout << status.Message() << std::endl;
-
 }
 ```
 
@@ -262,15 +235,10 @@ import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
 
 await client.createIndex({
-
     collection_name: "tsz_demo",
-
     field_name: "tsz",
-
     index_type: "STL_SORT",
-
     index_name: "tsz_index",
-
 });
 ```
 
@@ -294,31 +262,19 @@ curl --request POST \
 --header "Request-Timeout: 10" \
 
 -d '{
-
     "collectionName": "tsz_demo",
-
     "indexParams": [
-
         {
-
             "fieldName": "tsz",
-
             "indexName": "tsz_index",
-
             "indexType": "STL_SORT"
-
         }
-
     ]
-
 }'
 
 # {
-
 #     "code": 0,
-
 #     "data": {}
-
 # }
 ```
 
@@ -342,9 +298,7 @@ In your cluster compatible with **Milvus v2.6.x**, you can drop a scalar index d
 client.drop_index(
 
     collection_name="tsz_demo",
-
     index_name="tsz_index"
-
 )
 ```
 
@@ -354,9 +308,7 @@ client.drop_index(
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
-
 import io.milvus.v2.client.MilvusClientV2;
-
 import io.milvus.v2.service.index.request.DropIndexReq;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
@@ -380,35 +332,26 @@ client.dropIndex(DropIndexReq.builder()
 
 ```go
 import (
-
     "context"
-
     "log"
 
     "github.com/milvus-io/milvus/client/v3/milvusclient"
-
 )
 
 ctx := context.Background()
 
 cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-
     Address: "YOUR_CLUSTER_ENDPOINT",
-
 })
 
 if err != nil {
-
     log.Fatal("failed to connect to milvus server: ", err.Error())
-
 }
 
 err = cli.DropIndex(ctx, milvusclient.NewDropIndexOption("tsz_demo", "tsz_index"))
 
 if err != nil {
-
     log.Fatal("failed to drop index: ", err.Error())
-
 }
 ```
 
@@ -434,7 +377,6 @@ client
             .index_name("tsz_index")
 
             .build()?,
-
     )
 
     .await?;
@@ -446,7 +388,6 @@ client
 
 ```c++
 #include <iostream>
-
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
@@ -454,9 +395,7 @@ auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT"));
 
 if (!status.IsOk()) {
-
     std::cout << status.Message() << std::endl;
-
 }
 
 status = client->DropIndex(milvus::DropIndexRequest()
@@ -466,9 +405,7 @@ status = client->DropIndex(milvus::DropIndexRequest()
         .WithIndexName("tsz_index"));
 
 if (!status.IsOk()) {
-
     std::cout << status.Message() << std::endl;
-
 }
 ```
 
@@ -482,11 +419,8 @@ import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
 
 await client.dropIndex({
-
     collection_name: "tsz_demo",
-
     index_name: "tsz_index",
-
 });
 ```
 
@@ -510,19 +444,13 @@ curl --request POST \
 --header "Request-Timeout: 10" \
 
 -d '{
-
     "collectionName": "tsz_demo",
-
     "indexName": "tsz_index"
-
 }'
 
 # {
-
 #     "code": 0,
-
 #     "data": {}
-
 # }
 ```
 
