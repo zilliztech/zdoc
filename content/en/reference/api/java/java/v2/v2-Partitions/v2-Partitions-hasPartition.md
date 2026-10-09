@@ -70,9 +70,15 @@ hasPartition(HasPartitionReq.builder()
 
 A boolean value indicating whether the specified partition exists.
 
+**PARAMETERS:**
+
+- **value** (*Boolean*) -
+
+    Whether the specified partition exists in the specified collection.
+
 **EXCEPTIONS:**
 
-- **MilvusClientExceptions**
+- **MilvusClientException**
 
     This exception is raised when any error occurs during this operation.
 

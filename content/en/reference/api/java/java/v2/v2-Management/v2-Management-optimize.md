@@ -72,45 +72,93 @@ optimize(OptimizeReq.builder()
 
     The timeout in milliseconds. A `null` value means no timeout.
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *OptimizeTask*
 
-An **OptimizeTask** that tracks progress and provides the optimization result.
+**RETURNS:**
+
+An **OptimizeTask** that tracks progress and provides the optimization result. Calling `getResult(Long timeoutMs)` blocks until the result is available and returns the final **OptimizeResp**, which contains the following fields:
+
+**PARAMETERS:**
+
+- **status** (*String*) -
+
+    The status of the optimization.
+
+- **collectionName** (*String*) -
+
+    The name of the optimized collection.
+
+- **compactionId** (*Long*) -
+
+    The ID of the compaction triggered by the optimization.
+
+- **targetSize** (*String*) -
+
+    The target segment size of the optimization.
+
+- **progress** (*List&lt;String&gt;*) -
+
+    The progress messages of the optimization.
 
 ### OptimizeTask\{#optimizetask}
 
 **METHODS:**
 
-- `void start()` — Starts the optimization task.
+- `void start()`
 
-- `boolean isDone()` — Returns whether the optimization has completed.
+    Starts the optimization task.
 
-- `boolean isCancelled()` — Returns whether the optimization was cancelled.
+- `boolean isDone()`
 
-- `ProgressStage getProgress()` — Returns the current progress stage.
+    Returns whether the optimization has completed.
 
-- `List<String> getProgressHistoryAsStrings()` — Returns the progress history as strings.
+- `boolean isCancelled()`
 
-- `boolean cancel()` — Attempts to cancel the optimization.
+    Returns whether the optimization was cancelled.
 
-- `OptimizeResp getResult(Long timeoutMs)` — Blocks until the result is available or the timeout elapses, then returns the `OptimizeResp`.
+- `ProgressStage getProgress()`
 
-**ProgressStage** values: `INITIALIZING`, `WAITING_FOR_INDEXES`, `COMPACTING`, `WAITING_FOR_COMPACTION`, `WAITING_FOR_INDEX_REBUILD`, `REFRESHING_LOAD`, `CANCELLED`.
+    Returns the current progress stage.
+
+- `List<String> getProgressHistoryAsStrings()`
+
+    Returns the progress history as strings.
+
+- `boolean cancel()`
+
+    Attempts to cancel the optimization.
+
+- `OptimizeResp getResult(Long timeoutMs)`
+
+    Blocks until the result is available or the timeout elapses, then returns the `OptimizeResp`.
+
+    **ProgressStage** values: `INITIALIZING`, `WAITING_FOR_INDEXES`, `COMPACTING`, `WAITING_FOR_COMPACTION`, `WAITING_FOR_INDEX_REBUILD`, `REFRESHING_LOAD`, `CANCELLED`.
 
 ### OptimizeResp\{#optimizeresp}
 
 **METHODS:**
 
-- `String getStatus()` — Returns the operation status.
+- `String getStatus()`
 
-- `String getCollectionName()` — Returns the name of the optimized collection.
+    Returns the operation status.
 
-- `Long getCompactionId()` — Returns the compaction ID.
+- `String getCollectionName()`
 
-- `String getTargetSize()` — Returns the target segment size.
+    Returns the name of the optimized collection.
 
-- `List<String> getProgress()` — Returns the progress messages.
+- `Long getCompactionId()`
+
+    Returns the compaction ID.
+
+- `String getTargetSize()`
+
+    Returns the target segment size.
+
+- `List<String> getProgress()`
+
+    Returns the progress messages.
 
 **EXCEPTIONS:**
 

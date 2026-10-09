@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "Returns the complete partition statistics map in addition to the entity count. | Java | v2"
+description: "This operation returns the complete partition statistics map in addition to the entity count. | Java | v2"
 type: docx
 token: TOfvdLLzaoWJydxBTPQcKevfndd
 sidebar_position: 3
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getPartitionStats()
 
-Returns the complete partition statistics map in addition to the entity count.
+This operation returns the complete partition statistics map in addition to the entity count.
 
 ```java
 public GetPartitionStatsResp getPartitionStats(GetPartitionStatsReq request)
@@ -61,11 +61,23 @@ GetPartitionStatsReq.builder()
 
     The name of the target partition.
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *GetPartitionStatsResp*
 
+**RETURNS:**
+
 Contains numOfEntities and the complete stats map returned by Milvus.
+
+**PARAMETERS:**
+
+- **numOfEntities** (*Long*) -
+
+    The number of entities in the partition.
+
+- **stats** (*Map&lt;String, String&gt;*) -
+
+    The complete statistics key-value map returned by Milvus.
 
 **EXCEPTIONS:**
 

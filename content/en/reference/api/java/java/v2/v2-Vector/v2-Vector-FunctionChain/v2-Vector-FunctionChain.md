@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "An ordered rerank/refine plan applied to search results. A `FunctionChain` composes `map`, `sort`, and `limit` operations that post-process the result columns of a `search()` call. | Java | v2"
+description: "A FunctionChain instance is an ordered rerank/refine plan applied to search results. It composes `map`, `sort`, and `limit` operations that post-process the result columns of a `search()` call. | Java | v2"
 type: docx
 token: U0mKd1nlXoWkDqxf9zRcoURVnCb
 sidebar_position: 1
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # FunctionChain
 
-An ordered rerank/refine plan applied to search results. A `FunctionChain` composes `map`, `sort`, and `limit` operations that post-process the result columns of a `search()` call.
+A FunctionChain instance is an ordered rerank/refine plan applied to search results. It composes `map`, `sort`, and `limit` operations that post-process the result columns of a `search()` call.
 
 ```java
 io.milvus.v2.service.vector.request.FunctionChain
@@ -85,6 +85,20 @@ FunctionChain.builder()
 **RETURNS:**
 
 A **FunctionChain** instance.
+
+**PARAMETERS:**
+
+- **stage** (*FunctionChainStage*) -
+
+    The execution stage where this function chain runs.
+
+- **name** (*String*) -
+
+    The name of this function chain. Defaults to an empty string.
+
+- **ops** (*List&lt;FunctionChainOp&gt;*) -
+
+    The ordered list of operations in this function chain.
 
 **METHODS:**
 

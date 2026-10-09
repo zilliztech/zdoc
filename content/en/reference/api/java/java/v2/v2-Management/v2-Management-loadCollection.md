@@ -97,10 +97,6 @@ loadCollection(LoadCollectionReq.builder()
 
     A list of resource group names for load balancing. Defaults to `new ArrayList<>()`.
 
-**RETURNS:**
-
-*void*
-
 **EXCEPTIONS:**
 
 - **MilvusClientException**

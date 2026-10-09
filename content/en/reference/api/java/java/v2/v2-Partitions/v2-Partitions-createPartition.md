@@ -62,13 +62,9 @@ createPartition(CreatePartitionReq.builder()
 
     (Required) The name of the partition to create.
 
-**RETURNS:**
-
-*void*
-
 **EXCEPTIONS:**
 
-- **MilvusClientExceptions**
+- **MilvusClientException**
 
     This exception is raised when any error occurs during this operation.
 

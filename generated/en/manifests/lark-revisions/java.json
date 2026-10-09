@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "group": "java",
   "complete": true,
-  "generatedAt": "2026-10-08T18:46:11.761Z",
-  "sourceRunId": "37823988862",
+  "generatedAt": "2026-10-09T02:58:22.298Z",
+  "sourceRunId": "37875202013",
   "records": [
     {
       "canonicalToken": "A2Vpd1kXsoF5uexKYb8ckcGMnWe",
@@ -395,7 +395,7 @@
     {
       "canonicalToken": "EQ2LdAQqIo79HAxVl45cS8pknTe",
       "title": "updateReplicateConfiguration()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-updateReplicateConfiguration.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -647,7 +647,7 @@
     {
       "canonicalToken": "HRicdDwU4oUDWEx6DrlcARGrn1c",
       "title": "waitForCollectionRelease()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-waitForCollectionRelease.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -953,7 +953,7 @@
     {
       "canonicalToken": "LMsOdAVFQopadPx1N2UcOn0unCf",
       "title": "waitForLoadCollection()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-waitForLoadCollection.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,

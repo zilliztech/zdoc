@@ -64,13 +64,9 @@ dropPartition(DropPartitionReq.builder()
 
     (Required) The name of the partition to drop.
 
-**RETURNS:**
-
-*void*
-
 **EXCEPTIONS:**
 
-- **MilvusClientExceptions**
+- **MilvusClientException**
 
     This exception is raised when any error occurs during this operation.
 

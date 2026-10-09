@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "This operation releases the partitions in a specified collection from memory. | Java | v2"
+description: "This operation loads the partitions in a specified collection into memory. | Java | v2"
 type: docx
 token: QHhAd0ObroZgicxARuKcOqEmnfb
 sidebar_position: 6
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # loadPartitions()
 
-This operation releases the partitions in a specified collection from memory.
+This operation loads the partitions in a specified collection into memory.
 
 ```java
 public void loadPartitions(LoadPartitionsReq request)
@@ -96,12 +96,6 @@ loadPartitions(LoadPartitionsReq.builder()
 - `resourceGroups(List<String> resourceGroups)` -
 
     A list of resource group names for load balancing.
-
-**RETURNS:**
-
-*void*
-
-*void*
 
 **EXCEPTIONS:**
 

@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "A `FunctionScore` instance is a list of `Function` instances used as rerankers. | Java | v2"
+description: "A FunctionScore instance is a list of `Function` instances used as rerankers. | Java | v2"
 type: docx
 token: QwsCdrceioo36Bxu2ricF15knUh
 sidebar_position: 2
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # FunctionScore
 
-A `FunctionScore` instance is a list of `Function` instances used as rerankers.
+A FunctionScore instance is a list of `Function` instances used as rerankers.
 
 ```java
 io.milvus.v2.service.vector.request.FunctionScore
@@ -58,33 +58,33 @@ FunctionScore.builder()
 
     Extra parameters for how the specified functions work together. For a Boost ranker, you can set the following parameters:
 
-    - `boost_mode` (String)
+- `boost_mode` (String)
 
-        Specifies how the specified weights influence the scores of any matching entities. Possible values are:
+    Specifies how the specified weights influence the scores of any matching entities. Possible values are:
 
-        - `Multiple`
+    - `Multiply`
 
-            Indicates that the weighted value is equal to the original score of a matching entity multiplied by the specified weight.
+        Indicates that the weighted value is equal to the original score of a matching entity multiplied by the specified weight.
 
-            This is the default value.
+        This is the default value.
 
-        - `Sum`
+    - `Sum`
 
-            Indicates that the weighted value is equal to the sum of the original score of a matching entity and the specified weight.
+        Indicates that the weighted value is equal to the sum of the original score of a matching entity and the specified weight.
 
-    - `function_mode` (String)
+- `function_mode` (String)
 
-        Specifies how the weighted values from various Boost rankers are processed. Possible values are:
+    Specifies how the weighted values from various Boost rankers are processed. Possible values are:
 
-        - `Multiplify`
+    - `Multiply`
 
-            Indicates that the final score of a matching entity is equal to the product of the weighted values from all Boost rankers.
+        Indicates that the final score of a matching entity is equal to the product of the weighted values from all Boost rankers.
 
-            This is the default value.
+        This is the default value.
 
-        - `Sum`
+    - `Sum`
 
-            Indicates that the final score of a matching entity is equal to the sum of the weighted values from all Boost rankers.
+        Indicates that the final score of a matching entity is equal to the sum of the weighted values from all Boost rankers.
 
 **RETURN TYPE:**
 
@@ -93,6 +93,16 @@ FunctionScore.builder()
 **RETURNS:**
 
 A **FunctionScore** instance.
+
+**PARAMETERS:**
+
+- **functions** (*List&lt;CreateCollectionReq.Function&gt;*) -
+
+    A list of `Function` instances used as rerankers.
+
+- **params** (*Map&lt;String, String&gt;*) -
+
+    Extra parameters for how the specified functions work together.
 
 ## Example\{#example}
 

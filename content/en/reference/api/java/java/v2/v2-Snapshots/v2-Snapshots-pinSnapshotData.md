@@ -67,11 +67,19 @@ pinSnapshotData(PinSnapshotDataReq.builder()
 
     The time-to-live in seconds for the snapshot data pin. Use `0L` to use the server default behavior.
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *PinSnapshotDataResp*
 
+**RETURNS:**
+
 A response containing the pin ID for the pinned snapshot data.
+
+**PARAMETERS:**
+
+- **pinId** (*Long*) -
+
+    The ID of the created pin.
 
 **EXCEPTIONS:**
 

@@ -65,9 +65,15 @@ listPartitions(ListPartitionsReq.builder()
 
 A list of partition names.
 
+**PARAMETERS:**
+
+- **partitionNames** (*List&lt;String&gt;*) -
+
+    A list of the partition names in the specified collection.
+
 **EXCEPTIONS:**
 
-- **MilvusClientExceptions**
+- **MilvusClientException**
 
     This exception is raised when an error occurs during this operation.
 

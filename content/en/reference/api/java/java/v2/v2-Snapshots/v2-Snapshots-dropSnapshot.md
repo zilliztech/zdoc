@@ -62,10 +62,6 @@ dropSnapshot(DropSnapshotReq.builder()
 
     The name of the snapshot.
 
-**RETURNS:**
-
-*void*
-
 **EXCEPTIONS:**
 
 - **MilvusClientException**

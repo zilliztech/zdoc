@@ -953,6 +953,18 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/java/java/v2/v2-Management/v2-Management-waitForCollectionRelease",
+        "label": "waitForCollectionRelease()",
+        "key": "doc:api/java/java/v2/v2-Management/v2-management-waitforcollectionrelease"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Management/v2-Management-waitForLoadCollection",
+        "label": "waitForLoadCollection()",
+        "key": "doc:api/java/java/v2/v2-Management/v2-management-waitforloadcollection"
+      },
+      {
+        "type": "doc",
         "id": "api/java/java/v2/v2-Management/v2-Management-checkHealth",
         "label": "checkHealth()",
         "key": "doc:api/java/java/v2/v2-Management/v2-management-checkhealth"
@@ -992,6 +1004,12 @@ module.exports = [
         "id": "api/java/java/v2/v2-Management/v2-Management-getServerVersion",
         "label": "getServerVersion()",
         "key": "doc:api/java/java/v2/v2-Management/v2-management-getserverversion"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Management/v2-Management-updateReplicateConfiguration",
+        "label": "updateReplicateConfiguration()",
+        "key": "doc:api/java/java/v2/v2-Management/v2-management-updatereplicateconfiguration"
       },
       {
         "type": "doc",

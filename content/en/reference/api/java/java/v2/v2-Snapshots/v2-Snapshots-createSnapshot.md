@@ -72,10 +72,6 @@ createSnapshot(CreateSnapshotReq.builder()
 
     The number of seconds to protect the snapshot from compaction. Use `0L` when no protection window is needed.
 
-**RETURNS:**
-
-*void*
-
 **EXCEPTIONS:**
 
 - **MilvusClientException**

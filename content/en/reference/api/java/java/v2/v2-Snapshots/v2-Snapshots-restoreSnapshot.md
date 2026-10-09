@@ -72,11 +72,19 @@ restoreSnapshot(RestoreSnapshotReq.builder()
 
     The database in which to create the restored collection. If omitted, the current database is used.
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *RestoreSnapshotResp*
 
+**RETURNS:**
+
 A response containing the restore snapshot job ID.
+
+**PARAMETERS:**
+
+- **jobId** (*Long*) -
+
+    The ID of the restore snapshot job.
 
 **EXCEPTIONS:**
 

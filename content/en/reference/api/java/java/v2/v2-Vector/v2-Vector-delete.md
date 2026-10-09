@@ -77,11 +77,27 @@ delete(DeleteReq.builder()
 
     A map of template variable values for parameterized filters.
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *DeleteResp*
 
+**RETURNS:**
+
 A **DeleteResp** object contains the number of deleted entities and the operation cost (`getCost()`).
+
+**PARAMETERS:**
+
+- **deleteCnt** (*long*) -
+
+    The number of entities deleted.
+
+- **primaryKeys** (*List&lt;Object&gt;*) -
+
+    Primary keys of the deleted entities. Milvus servers 2.3.2 and later no longer echo the deleted primary keys in the delete response, so this list is empty against a modern server. It is populated only when the connected server is an older release that returns the keys.
+
+- **cost** (*Long*) -
+
+    The time cost of the operation.
 
 **EXCEPTIONS:**
 

@@ -69,13 +69,19 @@ refreshExternalCollection(RefreshExternalCollectionReq.builder()
 
     A JSON object describing the external storage configuration. Fields depend on `externalSource` (typically include `endpoint`, `bucket`, `path`, credentials).
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *RefreshExternalCollectionResp*
 
-The response carries a single field:
+**RETURNS:**
 
-- `jobId` (*long*) - The numeric ID of the newly started refresh job. Persist this value to query progress with `getRefreshExternalCollectionProgress()`.
+A **RefreshExternalCollectionResp** object carries the ID of the newly started refresh job.
+
+**PARAMETERS:**
+
+- **jobId** (*long*) -
+
+    The numeric ID of the newly started refresh job. Persist this value to query progress with `getRefreshExternalCollectionProgress()`.
 
 **EXCEPTIONS:**
 

@@ -62,13 +62,9 @@ releasePartitions(ReleasePartitionsReq.builder()
 
     A list of the names of the partitions to release.
 
-**RETURNS:**
-
-*void*
-
 **EXCEPTIONS:**
 
-- **MilvusClientExceptions**
+- **MilvusClientException**
 
     This exception is raised when any error occurs during this operation.
 

@@ -133,6 +133,64 @@ hybridSearch(HybridSearchReq.builder()
 
 A **SearchResp** object containing the merged results from all query vectors, ordered by the reranking strategy.
 
+**PARAMETERS:**
+
+- **searchResults** (*List&lt;List&lt;SearchResult&gt;&gt;*) -
+
+    A list of search result batches, one per query vector, each containing **SearchResult** entries with the following fields:
+
+    - **id** (*Object*) -
+
+        The primary key value of the matched entity.
+
+    - **score** (*Float*) -
+
+        The relevance score of the match after reranking.
+
+    - **entity** (*Map&lt;String,Object&gt;*) -
+
+        A map that contains the field names and values of the matched entity.
+
+    - **primaryKey** (*String*) -
+
+        The name of the primary key field.
+
+    - **highlightResults** (*Map&lt;String,HighlightResult&gt;*) -
+
+        The highlight results keyed by field name, when highlighting is requested.
+
+    - **elementOffset** (*Long*) -
+
+        For struct-array element-level matches (via `element_filter`), the matched element's index within the array. Null for ordinary matches.
+
+- **sessionTs** (*long*) -
+
+    The session timestamp of the read.
+
+- **recalls** (*List&lt;Float&gt;*) -
+
+    The recall of each query vector, when reported.
+
+- **cost** (*Long*) -
+
+    The time cost of the operation.
+
+- **scannedRemoteBytes** (*Long*) -
+
+    The number of bytes scanned remotely during the search.
+
+- **scannedTotalBytes** (*Long*) -
+
+    The total number of bytes scanned during the search.
+
+- **cacheHitRatio** (*Float*) -
+
+    The cache hit ratio of the search.
+
+- **aggregationBuckets** (*List&lt;List&lt;AggregationBucket&gt;&gt;*) -
+
+    The aggregation buckets grouped by query vector, when an aggregation is requested.
+
 **EXCEPTIONS:**
 
 - **MilvusClientException**

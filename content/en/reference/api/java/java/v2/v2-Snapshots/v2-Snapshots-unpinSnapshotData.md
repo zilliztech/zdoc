@@ -52,10 +52,6 @@ unpinSnapshotData(UnpinSnapshotDataReq.builder()
 
     The pin ID returned by `pinSnapshotData()`.
 
-**RETURNS:**
-
-*void*
-
 **EXCEPTIONS:**
 
 - **MilvusClientException**

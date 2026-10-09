@@ -57,11 +57,55 @@ listRestoreSnapshotJobs(ListRestoreSnapshotJobsReq.builder()
 
     The name of the collection associated with the snapshot operation.
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *ListRestoreSnapshotJobsResp*
 
+**RETURNS:**
+
 A response containing restore snapshot jobs that match the request filter.
+
+**PARAMETERS:**
+
+- **jobs** (*List&lt;RestoreSnapshotJobInfo&gt;*) -
+
+    A list of restore snapshot jobs, each of which is a **RestoreSnapshotJobInfo** object that contains the following fields:
+
+    - **jobId** (*Long*) -
+
+        The ID of the restore snapshot job.
+
+    - **snapshotName** (*String*) -
+
+        The name of the snapshot being restored.
+
+    - **dbName** (*String*) -
+
+        The name of the target database.
+
+    - **collectionName** (*String*) -
+
+        The name of the target collection.
+
+    - **state** (*String*) -
+
+        The current state of the restore job: RestoreSnapshotNone, RestoreSnapshotPending, RestoreSnapshotExecuting, RestoreSnapshotCompleted, or RestoreSnapshotFailed.
+
+    - **progress** (*Integer*) -
+
+        The progress of the restore job as a percentage.
+
+    - **reason** (*String*) -
+
+        The failure reason when the job has failed.
+
+    - **startTime** (*Long*) -
+
+        The start time of the restore job.
+
+    - **timeCost** (*Long*) -
+
+        The time cost of the restore job.
 
 **EXCEPTIONS:**
 

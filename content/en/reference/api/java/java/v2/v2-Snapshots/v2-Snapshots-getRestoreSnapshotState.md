@@ -52,11 +52,55 @@ getRestoreSnapshotState(GetRestoreSnapshotStateReq.builder()
 
     The restore snapshot job ID returned by `restoreSnapshot()`.
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *GetRestoreSnapshotStateResp*
 
+**RETURNS:**
+
 A response containing restore job state, progress, reason, timing, and collection metadata.
+
+**PARAMETERS:**
+
+- **jobInfo** (*RestoreSnapshotJobInfo*) -
+
+    The information of the restore snapshot job. The job info contains the following fields:
+
+    - **jobId** (*Long*) -
+
+        The ID of the restore snapshot job.
+
+    - **snapshotName** (*String*) -
+
+        The name of the snapshot being restored.
+
+    - **dbName** (*String*) -
+
+        The name of the target database.
+
+    - **collectionName** (*String*) -
+
+        The name of the target collection.
+
+    - **state** (*String*) -
+
+        The current state of the restore job: RestoreSnapshotNone, RestoreSnapshotPending, RestoreSnapshotExecuting, RestoreSnapshotCompleted, or RestoreSnapshotFailed.
+
+    - **progress** (*Integer*) -
+
+        The progress of the restore job as a percentage.
+
+    - **reason** (*String*) -
+
+        The failure reason when the job has failed.
+
+    - **startTime** (*Long*) -
+
+        The start time of the restore job.
+
+    - **timeCost** (*Long*) -
+
+        The time cost of the restore job.
 
 **EXCEPTIONS:**
 

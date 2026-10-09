@@ -7,7 +7,7 @@ added_since: v3.0.7
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "Gets specific entities by their IDs asynchronously and returns a future. | Java | v2"
+description: "This operation gets specific entities by their IDs asynchronously and returns a future. | Java | v2"
 type: docx
 token: BvuWd2mJUotj3kxXhbqczE9Zn3U
 sidebar_position: 13
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getAsync()
 
-Gets specific entities by their IDs asynchronously and returns a future.
+This operation gets specific entities by their IDs asynchronously and returns a future.
 
 ```java
 public CompletableFuture<GetResp> getAsync(GetReq request)
@@ -48,7 +48,7 @@ CompletableFuture<GetResp> future = client.getAsync(GetReq.builder()
     .build());
 ```
 
-For the full list of `GetReq` builder methods, refer to [get()](./v2-Vector-get).
+For the full list of `GetReq` builder methods, refer to get().
 
 **RETURN TYPE:**
 
@@ -57,6 +57,40 @@ For the full list of `GetReq` builder methods, refer to [get()](./v2-Vector-get)
 **RETURNS:**
 
 A future completed with a `GetResp`, or completed exceptionally when the operation fails.
+
+**PARAMETERS:**
+
+- **queryResults** (*List&lt;QueryResp.QueryResult&gt;*) -
+
+    A list of query results, each of which contains the following fields:
+
+    - **entity** (*Map&lt;String,Object&gt;*) -
+
+        A map that contains the field names and values of the matched entity.
+
+    - **elementOffset** (*Long*) -
+
+        For struct-array element-level queries (via `element_filter`), the matched element's index within the array. Null for ordinary queries.
+
+- **sessionTs** (*long*) -
+
+    The session timestamp of the read.
+
+- **cost** (*Long*) -
+
+    The time cost of the operation.
+
+- **scannedRemoteBytes** (*Long*) -
+
+    The number of bytes scanned remotely during the operation.
+
+- **scannedTotalBytes** (*Long*) -
+
+    The total number of bytes scanned during the operation.
+
+- **cacheHitRatio** (*Float*) -
+
+    The cache hit ratio of the operation.
 
 **EXCEPTIONS:**
 

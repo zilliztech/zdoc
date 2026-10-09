@@ -67,10 +67,6 @@ releaseCollection(ReleaseCollectionReq.builder()
 
     The timeout duration in milliseconds. Defaults to `60000L`.
 
-**RETURNS:**
-
-*void*
-
 **EXCEPTIONS:**
 
 - **MilvusClientException**

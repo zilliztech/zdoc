@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "This is an enumeration that provides the following constants. | Java | v2"
+description: "A MetricType instance is an enumeration constant. The enumeration provides the following constants. | Java | v2"
 type: docx
 token: GEcrdVWnboOetOx08RrcRHVhn3g
 sidebar_position: 14
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # MetricType
 
-This is an enumeration that provides the following constants.
+A MetricType instance is an enumeration constant. The enumeration provides the following constants.
 
 ## Constants\{#constants}
 
@@ -86,4 +86,3 @@ This is an enumeration that provides the following constants.
 - MAX_SIM_HAMMING
 
     Sets the metric type to **MAX_SIM_HAMMING**. This applies only to binary vectors in Struct elements.
-

@@ -57,11 +57,55 @@ listRefreshExternalCollectionJobs(ListRefreshExternalCollectionJobsReq.builder()
 
     The collection name to filter by. If empty, jobs across all collections in the database are returned.
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *ListRefreshExternalCollectionJobsResp*
 
-The response wraps `List<RefreshExternalCollectionJobInfo>` accessible via `getJobs()`. Each job info entry exposes `jobId`, `collectionName`, `state`, `progress`, `reason`, `externalSource`, `startTime`, and `endTime` — the same shape as the entry returned by `getRefreshExternalCollectionProgress()`.
+**RETURNS:**
+
+A **ListRefreshExternalCollectionJobsResp** object wraps a `List<RefreshExternalCollectionJobInfo>` accessible via `getJobs()`. Each job info entry exposes the fields of a **RefreshExternalCollectionJobInfo** object.
+
+**PARAMETERS:**
+
+- **jobs** (*List&lt;RefreshExternalCollectionJobInfo&gt;*) -
+
+    A list of refresh external collection jobs, each of which is a **RefreshExternalCollectionJobInfo** object with the following fields:
+
+    - **jobId** (*long*) -
+
+        The ID of the refresh job.
+
+    - **collectionName** (*String*) -
+
+        The name of the target collection.
+
+    - **state** (*String*) -
+
+        The current job state (e.g., `"PENDING"`, `"RUNNING"`, `"SUCCEEDED"`, `"FAILED"`).
+
+    - **progress** (*int*) -
+
+        The completion percentage (0-100).
+
+    - **reason** (*String*) -
+
+        The failure reason if the job state is `"FAILED"`; empty otherwise.
+
+    - **externalSource** (*String*) -
+
+        The external source used by the job.
+
+    - **externalSpec** (*String*) -
+
+        The specification of the external data source.
+
+    - **startTime** (*long*) -
+
+        The job start timestamp (epoch milliseconds).
+
+    - **endTime** (*long*) -
+
+        The job end timestamp (epoch milliseconds), or 0 if still running.
 
 **EXCEPTIONS:**
 

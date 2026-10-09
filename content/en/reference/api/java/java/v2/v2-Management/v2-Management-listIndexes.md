@@ -62,13 +62,23 @@ listIndexes(ListIndexesReq.builder()
 
     The name of the target field.
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *List&lt;String&gt;*
 
+**RETURNS:**
+
+A list of the names of the indexes built on the target field. Returns an empty list if the collection has no index on the field.
+
+**PARAMETERS:**
+
+- **indexNames** (*List&lt;String&gt;*) -
+
+    A list of the names of the indexes built on the target field.
+
 **EXCEPTIONS:**
 
-- **MilvusClientExceptions**
+- **MilvusClientException**
 
     This exception will be raised when any error occurs during this operation.
 
