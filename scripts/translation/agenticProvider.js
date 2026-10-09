@@ -309,10 +309,14 @@ async function runAgenticFile({item, target, siteDir, callCodex, validate, maxRe
   // The agent never works in the repository: it gets a per-file scratch
   // workspace holding staged copies (source.md, the pre-seeded draft.md, and
   // the style guide) and hands its result back through draft.md, which the
-  // provider copies into the repository target path. Under the
-  // workspace-write sandbox the agent cannot write outside this scratch dir,
-  // so pipeline state under the repository tmp/ tree is structurally out of
-  // reach instead of merely unmentioned.
+  // provider copies into the repository target path. The production sandbox
+  // mode is danger-full-access (GitHub-hosted runners reject the bubblewrap
+  // namespace workspace-write needs), so this is context isolation, NOT a
+  // write barrier: the validator command embeds absolute repository and
+  // RUNNER_TEMP paths in the prompt, and a misbehaving agent can still reach
+  // repository tmp/ state. Do not treat anything outside the scratch dir as
+  // agent-safe; the canonical batch input lives in RUNNER_TEMP and seed
+  // reports are loaded eagerly precisely because of that.
   const workspaceRoot = scratchRoot ? path.resolve(scratchRoot) : fs.mkdtempSync(path.join(os.tmpdir(), 'agentic-workspace-'))
   const styleContent = styleGuideContent(siteDir, stylePromptPath)
   const workspace = createAgentWorkspace({

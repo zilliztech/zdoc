@@ -78,6 +78,27 @@ test('task prompt is locale-agnostic and references the staged style guide only 
   assert.match(bare, /No ja-JP style guide is registered/);
 });
 
+test('task prompt with a runner-shaped site dir embeds repository paths via the validator command', () => {
+  // Documents reality, not a desired property: on GitHub-hosted runners
+  // siteDir is /home/runner/work/zdoc/zdoc and the agent sandbox is
+  // danger-full-access (see _translate-content-group.yml), so the validator
+  // command intentionally embeds absolute repository and scratch paths. The
+  // "no repository paths" assertion in the locale-agnostic test above only
+  // holds because its siteDir lives under a neutral tmpdir. Closing this
+  // leak would require validatorCommandFor to stop inlining siteDir; the
+  // prompt is therefore context isolation, never a barrier.
+  const siteDir = '/home/runner/work/zdoc/zdoc';
+  const workspace = {
+    sourcePath: '/home/runner/work/_temp/agentic-work/session/source.md',
+    draftPath: '/home/runner/work/_temp/agentic-work/session/draft.md',
+  };
+  const validatorCommand = validatorCommandFor(siteDir, 'ja-JP', workspace);
+  const prompt = buildAgenticTaskPrompt({item: jaFixture(), target: 'ja-JP', validatorCommand, styleStaged: true});
+  assert.match(prompt, /\/home\/runner\/work\/zdoc\/zdoc\/scripts\/translation\/validate-translation-file\.js/);
+  assert.match(prompt, /--site-dir \/home\/runner\/work\/zdoc\/zdoc/);
+  assert.match(prompt, /\/home\/runner\/work\/_temp\/agentic-work\/session\/draft\.md/);
+});
+
 test('repair prompt bounds and quotes violations with the validator command', () => {
   const prompt = buildRepairPrompt({item: jaFixture(), target: 'ja-JP', violations: ['a'.repeat(600), 'second'], validatorCommand: 'node v.js'});
   assert.match(prompt, /failed deterministic validation/);
