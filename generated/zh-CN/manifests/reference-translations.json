@@ -1967,7 +1967,7 @@
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/FileResources/Management-GetRefreshExternalCollectionProgress.md",
       "targetPath": "content/zh-CN/reference/api/cpp/cpp/FileResources/Management-GetRefreshExternalCollectionProgress.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "6995564e7086285a2e92446f5f52de33e6b45be7cb0a1e38e95cbe0b0cd8d896",
       "status": "retired",
@@ -1980,7 +1980,7 @@
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/FileResources/Management-ListRefreshExternalCollectionJobs.md",
       "targetPath": "content/zh-CN/reference/api/cpp/cpp/FileResources/Management-ListRefreshExternalCollectionJobs.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "bef0d971e807318f0516a2d09446bc74dfd65a25ce27d732dc711fd051fd7ab5",
       "status": "retired",
@@ -1993,7 +1993,7 @@
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/FileResources/Management-RefreshExternalCollection.md",
       "targetPath": "content/zh-CN/reference/api/cpp/cpp/FileResources/Management-RefreshExternalCollection.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "737b40b590e9fcdf86002ee94bf8304706a5f4b12b7d2f6daa07fce7eaf1a857",
       "status": "retired",
@@ -2537,7 +2537,7 @@
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-GrantV2.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-GrantV2.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "72d7be0fc5b56bfe187b4a643b5d44cc9e6951d44094c423d6c8a207122544a2",
       "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "status": "retired"
@@ -2618,7 +2618,7 @@
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RevokeV2.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RevokeV2.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "2f6b1f334b8fef989355d56133b67718706a8eea74698bde28a34a071fcf424e",
       "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "status": "retired"
@@ -4031,7 +4031,7 @@
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-Collections-EmbeddingList.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-Collections-EmbeddingList.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "0cfcc30c9d45c85ebc11bb19d5dc21dc493e1c0e670d0a0fc7ee85454a840735",
       "status": "retired",
@@ -4044,7 +4044,7 @@
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-EmbeddingList-add.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-EmbeddingList-add.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "26f3c4ecf3d21b6cfcec3da0f9d7a0e3e3ae8a562eb8ba9ac64f6eb2d36cd4fe",
       "status": "retired",
@@ -4057,7 +4057,7 @@
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-EmbeddingList-getData.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-EmbeddingList-getData.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "aa714c3e89363aae570eb64eb179bbfde1cd050334a87562a7210c7fff9a58dc",
       "status": "retired",
@@ -4070,7 +4070,7 @@
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-EmbeddingList-getPlaceholderType.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-EmbeddingList-getPlaceholderType.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "3b3e4fbe7dbad0e90b6f462c737f7e791a7bdc798c29a03a66a44a963b24ba62",
       "status": "retired",
@@ -4164,7 +4164,7 @@
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-Collections-StructFieldSchema.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-Collections-StructFieldSchema.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "b169ca1d25f1d28be9c5d68b6e23ef174daa1dd0f2169f4fd23d1a2521f7d624",
       "status": "retired",
@@ -4177,7 +4177,7 @@
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-addField.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-addField.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "d456fd7a296b818c7e71aac0d4ee2e219b37e38235a0d1d6f0909c1412e6ef23",
       "status": "retired",
@@ -4190,7 +4190,7 @@
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getDataType.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getDataType.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "88dc6c95f7e5ae7f2a9190041585af2563e396d2f170b5613fb35c698b1991b8",
       "status": "retired",
@@ -4203,7 +4203,7 @@
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getDescription.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getDescription.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "7382fcdd18ebf22ae540eb6c9574d4d30a7529e2d88f5e02fc940eef95505dec",
       "status": "retired",
@@ -4216,7 +4216,7 @@
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getElementType.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getElementType.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "18bd9fc13fa0c44735c12431b3a28168bc1fb225f46dc9eccff8d3b183e93301",
       "status": "retired",
@@ -4229,7 +4229,7 @@
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getFields.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getFields.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "08f6942972c372428e02cbebb4d121431cafb4a7eb1b7435e8fdfa9df29256e4",
       "status": "retired",
@@ -4242,7 +4242,7 @@
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getMaxCapacity.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getMaxCapacity.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "5e8eeff97e0212a21695ee1a73fb8bf16f27b8959b167f4a462babb78f014adc",
       "status": "retired",
@@ -4255,7 +4255,7 @@
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getName.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getName.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "434f48b6a2fad233183aa9cfd2841881f065ba3cb84061275c1a873582006bb3",
       "status": "retired",
@@ -6725,7 +6725,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/DataImport/DataImport-BulkImport/DataImport-BulkImport.md",
       "targetPath": "content/zh-CN/reference/api/python/python/DataImport/DataImport-BulkImport/DataImport-BulkImport.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "130aa76e6d245c9bb67c2e55d4ec3b14a4f3e007aed0538175456db99401a474",
       "status": "retired"
@@ -6833,7 +6833,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/DataImport/DataImport.md",
       "targetPath": "content/zh-CN/reference/api/python/python/DataImport/DataImport.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "6aea95ed0213b4d8988da272af761a2d2d2bdc720f8c6b0dbe417ecd40846075",
       "status": "retired"
@@ -7346,7 +7346,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels.md",
       "targetPath": "content/zh-CN/reference/api/python/python/EmbeddingModels/EmbeddingModels.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "c1e2aa0a7e6dc757e7bf5aefaf8544ea115e357bce49f58906a94d06149a8bb3",
       "status": "retired"
@@ -7508,7 +7508,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/MilvusClient-Authentication.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Authentication/MilvusClient-Authentication.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "ad9c6a33da5debea78d02130fb18e5f0323d9c22ea50479015dd4a4947331611",
       "status": "retired"
@@ -7553,7 +7553,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Client/MilvusClient-Client.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Client/MilvusClient-Client.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "509d738c9b7358c4d1d3ccb79d189ae038e3e34ad7c97c1e33f85fdd82d4449a",
       "status": "retired"
@@ -7571,7 +7571,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-add_field_1.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-add_field_1.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "c137362f06c611dbac57cc770845051954b831632507485b12b49a5f5df7e3d0",
       "status": "retired"
@@ -7589,7 +7589,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-construct_from_dict_1.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-construct_from_dict_1.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "dbab9622841a54d7ebb08f7741ff9fe47242afd8a7eed25faf84e7fa35699d23",
       "status": "retired"
@@ -7616,7 +7616,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-to_dict_1.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-to_dict_1.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "80d992ed00e1327b7fc4512e1b4adfb37f72421ed2c193464ec8c5867dd97b0b",
       "status": "retired"
@@ -7634,7 +7634,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-verify_1.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-verify_1.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "058d0eb78cedeb6433c464296334a202f195df750026a924ad05fc8391fe5ea8",
       "status": "retired"
@@ -7895,7 +7895,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/MilvusClient-Collections.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Collections/MilvusClient-Collections.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "04358cd5c786aa8be68870b6c062cfb79416ea6aec7ab5a5c26f3444ea6f286f",
       "status": "retired"
@@ -7976,7 +7976,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Database/MilvusClient-Database.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Database/MilvusClient-Database.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "c5b09d448dc19ac9909c618728a2b7f39a1d853b5d6a6bf36ce242a20a561564",
       "status": "retired"
@@ -8111,7 +8111,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Highlighter/Highlighter-SemanticHighlighter.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Highlighter/Highlighter-SemanticHighlighter.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "1180983687c30d19f0190d54cc59d92682af20b6f5812923e6b32c3997279650",
       "status": "retired",
@@ -8331,7 +8331,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/MilvusClient-Management.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Management/MilvusClient-Management.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "494b67239a5baf614e6e669da47b300374d1ad95bc4ed5d229129cc252ef100b",
       "status": "retired"
@@ -8340,7 +8340,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Partitions/MilvusClient-Partitions.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Partitions/MilvusClient-Partitions.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "2d9d03b4dd1f866ce8203994502eee2c8897e5763f3a326673afa7804c7fadee",
       "status": "retired"
@@ -8529,7 +8529,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-Vector.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-Vector.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "7bd630007fbacf6f0f09d7c1679279e01abef39946363e81155429aab7bcf9cf",
       "status": "retired"
@@ -8556,7 +8556,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-GroupBy.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-GroupBy.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "88a1ad091fb0804b012ff3e964ea89da5319f19d8831d4401e1a9488b8791bdd",
       "status": "retired"
@@ -8664,7 +8664,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "1f7dc2489b42721642ad815841f57923539298699f183692e81fa340028224da",
       "status": "retired"
@@ -8934,7 +8934,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-add_field.md",
       "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-add_field.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "3e7016262651c276c588f4c9488a009d2a3856fbdd0562456e5ab94d8f881888",
       "status": "retired"
@@ -8943,7 +8943,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-construct_from_dict.md",
       "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-construct_from_dict.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "478e9a5c0944325a869aca38a48310b9b046e66d94937f48876d65ce0f2d754f",
       "status": "retired"
@@ -8961,7 +8961,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-to_dict.md",
       "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-to_dict.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "17e27962c7d6553dfa3ae1056bf53a06b3620b6ef3451187afe380bd30bf2d69",
       "status": "retired"
@@ -8979,7 +8979,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-verify.md",
       "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-verify.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "67bc3f1cf8bfd229fe0ea106691f673f0fb08c21e7d5ba685c50b0742c3adeae",
       "status": "retired"
@@ -9078,7 +9078,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-FieldSchema/FieldSchema-construct_from_dict.md",
       "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-FieldSchema/FieldSchema-construct_from_dict.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "8a97b08fbe66d89defadfa18d5742733904564086b324608dbfbd77e158922e3",
       "status": "retired"
@@ -9087,7 +9087,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-FieldSchema/FieldSchema-to_dict.md",
       "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-FieldSchema/FieldSchema-to_dict.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "ce5900e93f9aae81b21667a5d57f391f2981d0db4e101ab8d5e2ae63ad6d67dd",
       "status": "retired"
@@ -9096,7 +9096,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-FieldSchema/ORM-FieldSchema.md",
       "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-FieldSchema/ORM-FieldSchema.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "95fabbacaf6cf16315e8e516382a925c803308542193bd7b23f9a065e5fc7a8c",
       "status": "retired"
@@ -9303,7 +9303,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-db/ORM-db.md",
       "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-db/ORM-db.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "fb44ba6b1e6a73202ea1f3bc75daba6555859e7aae4d3b7b6c916189b51e44bb",
       "status": "retired"
@@ -9348,7 +9348,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-utility/ORM-utility.md",
       "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-utility/ORM-utility.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "17387a8286f74d0a918f5806ca325025d64f138f82750ce3d520dc92caaf9215",
       "status": "retired"
@@ -9744,7 +9744,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM.md",
       "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "a2f006f70b0f17f7415f6220e807d0966e533935dba85928adb8c787077cf746",
       "status": "retired"
@@ -9843,7 +9843,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/Rerankers/Rerankers.md",
       "targetPath": "content/zh-CN/reference/api/python/python/Rerankers/Rerankers.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "b6aff6cfcfd8a162c9ef6e0c15e11116c56f1e96351db54e77052c0338e3e06b",
       "status": "retired"
@@ -9915,7 +9915,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/Volume/Volume.md",
       "targetPath": "content/zh-CN/reference/api/python/python/Volume/Volume.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "ddced0133fe734e05b9baf6b723a2818c57888830bd16976eb999dde9103e7c4",
       "status": "retired"
@@ -9935,532 +9935,574 @@
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-GrantPrivilege.md",
       "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-GrantPrivilege.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "83ca246d4d91f28959e602a80749ac06c824759a6398c50fdb91114a1cf9a858"
     },
     {
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-RevokePrivilege.md",
       "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-RevokePrivilege.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "0cc9d29ceb5a90efc74ca1d7b3328364c17c57f0cbf7c6f7995da939df945b88"
     },
     {
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Client/Client-GetServerVersionV2.md",
       "targetPath": "content/zh-CN/reference/api/cpp/cpp/Client/Client-GetServerVersionV2.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "c587a36aa1c4e6045fe850c8e079fd00da2b1375e552691aba3594e9cfb1e8ff"
     },
     {
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Client/Client-GetTelemetry.md",
       "targetPath": "content/zh-CN/reference/api/cpp/cpp/Client/Client-GetTelemetry.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "fc23d46bb7fc79b1b390079ed98cb91530724b739f00e2e359a896bad4a9981f"
     },
     {
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Client/Client-TelemetryConfig.md",
       "targetPath": "content/zh-CN/reference/api/cpp/cpp/Client/Client-TelemetryConfig.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "c3b91f4d706d56a346ddece911aa0ecacaa04b19d4787d64dcd655e0b6cee96f"
     },
     {
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-TruncateCollection.md",
       "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-TruncateCollection.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "3919f66ae455993bb564794501b3d70c3dc551bdd7a222338e6faa17af622cfa"
     },
     {
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-GetRefreshExternalCollectionProgress.md",
       "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-GetRefreshExternalCollectionProgress.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "6c0f03960994708ec179cb6ff10df93850f894d2517c84e59e6e23bb90da9739"
     },
     {
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-ListRefreshExternalCollectionJobs.md",
       "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-ListRefreshExternalCollectionJobs.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "f4cc997540c24db42f3e43257bd1dafb24a4bb9ac0f335d00844857b061e37b0"
     },
     {
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-RefreshExternalCollection.md",
       "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-RefreshExternalCollection.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "934fa3a64238d88784821c58db6c2a8dd591b365fb506fb254bbe618ba1d4cbe"
     },
     {
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/Vector/Vector-FunctionChain.md",
       "targetPath": "content/zh-CN/reference/api/cpp/cpp/Vector/Vector-FunctionChain.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "952c9b995e9300566aece728dfb1c4337f3e3dcbfe501cd661d087a87d5e953b"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-AddPrivilegesToGroup.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-AddPrivilegesToGroup.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e24da3877f24bf203617bb5905e3959ff2aaf41e06439480d2970c98c821ee54"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-AlterRole.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-AlterRole.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "7b1ba4d9655b5c589c5e3057ce0c03e8edc8042e001261f18917603933752861"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-CreatePrivilegeGroup.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-CreatePrivilegeGroup.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "b5648c4f0a93a4e0ec9322bdc1ac5b24bd264ee699ad83bb9e2b6f28e766dfc8"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DropPrivilegeGroup.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DropPrivilegeGroup.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "b855e5900b0cf04b4e43eea4a21f46723aeb2d1c99fa90092dc09643ab8e765a"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-GrantPrivilege.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-GrantPrivilege.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "64ff164038f9d0afaaa050464fe42501f8818b10ce2f1b0bc129538eb916e700"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-OperatePrivilegeGroup.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-OperatePrivilegeGroup.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "046fb94e274aaa1272d782f6b76d685f0aa4af041f713a29aabc13c3bba57abc"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RemovePrivilegesFromGroup.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RemovePrivilegesFromGroup.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "193c56c9ae7d8ac590e043b4045c1d5c839d804bbe65d425e43a07e95001171a"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RevokePrivilege.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RevokePrivilege.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "4fe44797ed5d9758de83711f2748a9b35524e9cbf428a0d7cbecbbc9a332bff2"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-CDC/v2-CDC-CreateReplicateStream.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-CDC/v2-CDC-CreateReplicateStream.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "de75880ee26aca65a0ec1eb4914679d3184c5fb8ac5393b0328d5ac310997678"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-CDC/v2-CDC-DumpMessages.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-CDC/v2-CDC-DumpMessages.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "165eb10801cb722ee875fa912c4f750c199295cebf02bc848404867bc4a1d88e"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-CDC/v2-CDC-GetReplicateConfiguration.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-CDC/v2-CDC-GetReplicateConfiguration.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "89fdc7373a1d0df55ac8dc515b32f0a31bfb1da35dc54185d91176c36194b9bc"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-CDC/v2-CDC-GetReplicateInfo.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-CDC/v2-CDC-GetReplicateInfo.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "92582298ba6487ed6366b3e9760309be540a7515a84868512afa45edb9fb08d8"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-AddCollectionStructField.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-AddCollectionStructField.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "40adf6a09b1a8ee7b67e5579b6e616e556955c236fbc87e283d09571fe3e3498"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-AddFunctionField.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-AddFunctionField.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "aab2d9e70a267c1b4ad688179c718ad91982293a875df11776ee3c766b618fdb"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-DropCollectionField.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-DropCollectionField.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "37e3fcbb19b088279cb0391f4c79425abcc7607f7eea4dcb430966fbd16cb094"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-DropFunctionField.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-DropFunctionField.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "d348a3d57420c505af731cada54fdd569cf4bb76c0fcf327ff3e0cf90c8e879a"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-FunctionScore.md",
       "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-FunctionScore.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "19d6b640f649ee09fd0eff400c069e71897d8e9245d5e67b017800397f748985"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-AbortImport.md",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-DataImport/v2-DataImport-AbortImport.md",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
+      "sourceHash": "e93b7332562dd48501a3d512034806f0de4dbfe831b6a7cbd500e51a48e6370b"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-AbortImportOption.md",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-DataImport/v2-DataImport-AbortImportOption.md",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
+      "sourceHash": "61ffb5bea1b9782fe74b7d957a38a79e60edadf523d860665b7698f754371c65"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-AbortImportResponse.md",
+      "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-DataImport/v2-DataImport-AbortImportResponse.md",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
+      "sourceHash": "1cc0d624176eca01a0708162fe6a135fb569459cfa9653840654e06ecdd2eb26"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-addPrivilegesToGroup.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Authentication/v2-Authentication-addPrivilegesToGroup.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "66cb6b4fca5271ef0941e6ba04d38bf5038d676274c2f3c1ce02db4dcb9d08a4"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-createPrivilegeGroup.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Authentication/v2-Authentication-createPrivilegeGroup.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "46f7758bc0425aa5dc2db007c99936672297bce971d4ce5afb7debc0ad66eca8"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-dropPrivilegeGroup.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Authentication/v2-Authentication-dropPrivilegeGroup.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "188e15b8153e36bf1a8b45c85d8d8a801c7ee18aa5473d32f0b53f7f1d72b339"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-grantPrivilege.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Authentication/v2-Authentication-grantPrivilege.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "bb5bdc585d6a11d484d4296450e10a80b0c841d88c279a7166aebdc14c266550"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-removePrivilegesFromGroup.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Authentication/v2-Authentication-removePrivilegesFromGroup.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "dc96e6175c807e79103136e44fd50de72225a59131cdf2996b0b353c0764bbaf"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-revokePrivilege.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Authentication/v2-Authentication-revokePrivilege.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "6b07ee86c4dc355732ddd7abe7dfac2492b970e9a1082258ae42898c198fd7b3"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-TelemetryConfig.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Client/v2-Client-TelemetryConfig.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "53b6680963fee7c19804b10e090b1d8183d957175bac985728a33ed36451b831"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-close.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Client/v2-Client-close.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "d1030e2c38e309c51896cbfb2f440133739ac9892e2baa230c288df153320a09"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-getTelemetry.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Client/v2-Client-getTelemetry.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "d2fbd160a53601badcd01b411e97513142acb1c80425bd5695f1a03bda180f35"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-session.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Client/v2-Client-session.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "0fb305541279050f6df10db0e807f0f3a47340b31a300f0758039c8d572f8068"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-startTelemetry.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Client/v2-Client-startTelemetry.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "75f120ec85750c9241f3fdaf4ead0efb66a5c05682482a3d4793a65612f6a127"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "70ce2d2535717b26d7d46b500c4cde07e2595e93689e062c10e4629a5dd848aa"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "fa32db831e7d83da2d59e04823e31eea9df8379af551f613c47680137c2785d7"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-WaitForDropCollection.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-WaitForDropCollection.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "9dcfb2657b3d307d9f94d5ef9edd8a2dc500e601646d5e75388caec3f68003c2"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-EmbeddingList-add.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-EmbeddingList-add.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "546b93e2d45447a346a3d99ca143c08e5b1f8f8a54dff1eec7f11204896af83a"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Function-BoostRanker.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Function-BoostRanker.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "12ab60bfd458de0dd02b4ce994527a21acbb5b015530f2eaf3b3cb966751efde"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Function-DecayRanker.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Function-DecayRanker.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "63854dcbeb76cb74e11debc42a76c4e4eb631de9f9c9f6b5a39bdfd7004e5fcc"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Function-ModelRanker.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Function-ModelRanker.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "9493a4d76d0cc7a4e4275858cb0d5e561ddaef873955f0e9b1ac63ee8df90621"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Function-RRFRanker.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Function-RRFRanker.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "dee77430e4e01d7780e0f3346ef942f8a2191f95629145427029f0e57cd4fe26"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Function-WeightedRanker.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Function-WeightedRanker.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "7f9ccb4062e6418da65534593ebfb0c3e6496fdc6552436e055645c5dd89c38c"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-checkHealth.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-checkHealth.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "005bdb7a49eefba4f128be21145be633fb417b9d031f6acf9fbdfd8daeb12570"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getCompactionState.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-getCompactionState.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "187ff753a7f2fa6086706bbef6a6d7eba9b2b1b0effb348e643beec4a6b0510e"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getPersistentSegmentInfo.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-getPersistentSegmentInfo.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "3153ef34002ecdb7057901de0581980313ceb5264dd9211fa07d5cce4e564fb4"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getQuerySegmentInfo.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-getQuerySegmentInfo.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "00e209d38fbf9b01c61cd621b4efaeaee548c438eac52ea5d0e6f302d700d4fc"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-optimize.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-optimize.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
-      "sourceHash": "c44bdc6a23c1c4f25c42f8c20b3d925057ae19b320c531a9574fc1ccb8b22edc"
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
+      "sourceHash": "dbf65b0a750c31a4c7c4f892e7dcca64c1f957a8af7e73c6734a82df95aa4139"
+    },
+    {
+      "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-updateReplicateConfiguration.md",
+      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-updateReplicateConfiguration.md",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
+      "sourceHash": "984313e2ed61cf701088ed2ba765601b94e345068422823819ac75f6d95104d8"
+    },
+    {
+      "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-waitForCollectionRelease.md",
+      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-waitForCollectionRelease.md",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
+      "sourceHash": "568cbb95cd892eee5a13b7e29f894fed2d5ea0584744c0f2b382c4fc12d0787b"
+    },
+    {
+      "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-waitForLoadCollection.md",
+      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-waitForLoadCollection.md",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
+      "sourceHash": "3007fbae3285d39614a8da0c147d697e00ea9bb13239664cc4b101f184282893"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-FunctionChain-FunctionChainArg.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-FunctionChain-FunctionChainArg.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "29e989ca01b3d3f6817cc31f2a803f53a57e6d4166d02a6a3b4c1e6a0e94defa"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-FunctionChain-FunctionChainExpr.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-FunctionChain-FunctionChainExpr.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "b3408d3bc5b0038a39e6fcf097240d33ba9325009c215c2b7eba9cdf72c40a21"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-FunctionChain-FunctionChainOp.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-FunctionChain-FunctionChainOp.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "5715eee33016ce692dbe3863ff6348c80bc58135f51c49316da6e56d8f311dcc"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-FunctionChain-FunctionChainStage.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-FunctionChain-FunctionChainStage.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e6233f59329db5a12953f6cf6cb5f608e5c6e32fadee7913c87cbe2e2dc58585"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-FunctionChain-FunctionParamValue.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-FunctionChain-FunctionParamValue.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "1ad364f6859d42e08a8981b00fd2adcbd0b4e4f07378d775147a0f5178cba86d"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-Vector-FunctionChain.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-Vector-FunctionChain.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
-      "sourceHash": "f434a83230009d84a1be68e67b260eca22af04d650c3ab8dedc9316c0352cc91"
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
+      "sourceHash": "e77e31a01340b21d25f6b9fa07887e0c3758b94977b234c12562db04538b5b8c"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-getAsync.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Vector/v2-Vector-getAsync.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
-      "sourceHash": "ebfecfdad10b0ba8ea3c17b2ed2342b0439eced4abc8bea7e31a4e769100ace9"
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
+      "sourceHash": "a9aef1197317134933f8e5ce9d8d2ae04765f54ed7bc59eeff4806f886acae96"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-hybridSearchAsync.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Vector/v2-Vector-hybridSearchAsync.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
-      "sourceHash": "362b1339c7324b58bcd03a3e01b4281c51ac9227f4e3e1fe43f6462d5545c4b7"
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
+      "sourceHash": "906e694dbc78bbeb7b8044833929eb6418d23470486e6cdac9686caf20be5946"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-queryAsync.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Vector/v2-Vector-queryAsync.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "c78d24e35f5cfa1a7226ea6cf4c9be8a1d132733e1c1e6cf49ad5cb1d3d8feda"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-searchAsync.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Vector/v2-Vector-searchAsync.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "7fafe52115bde08f1fbc8f15885dd48543f5a7d15f55024d57f6771f948e829f"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-alter_role.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-alter_role.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "931826ce7373839a2360c6b6474c9f01c3e9e412a1b0283fd3b046b3b363e421"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-update_user.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-update_user.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "5a742949ed1e24e59d6264aaef77ddce088937c16854e580d06af2398179990e"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-add_collection_struct_field.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-add_collection_struct_field.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "9d963ef3788a6b9e39a31218a604b78f8672b75808951515856773ce33b1cc67"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Function/Function-add_function_field.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Function/Function-add_function_field.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "03fc9a8abfcdb1ee9bbed2f2a44d270f46db266e95d031d4a421dcdad3ab438c"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Function/Function-drop_function_field.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Function/Function-drop_function_field.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "8e3b5fdfe97807e0e903eb859205339010387dcae30bcfc2b6673daf6848ab0f"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-FunctionChainStage.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-FunctionChainStage.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "521f9157d621bedd94bf9f9c80b5560f9c6faafa3ae2ba62df11760b2fea0c78"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-limit.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-limit.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "cc6e448a0f579d221eb8f76a1b9a2d260b0944fdaf5fe93dae5b2b83c3ff8c2c"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-map.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-map.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "b2ad6f1487dad92f19de8ad482c04501c4acb29a1f4e979ff20826bd9a390530"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-sort.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/FunctionChain-sort.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "151d99cfe29729498cfdaed97303a7c2e8b6bafa4a8a076390700a43354351bd"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/MilvusClient-FunctionChain.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-FunctionChain/MilvusClient-FunctionChain.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "9a9681a3e4ade57259b095553764147e40983b1b66f2800170018130c0b21b69"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-dump_messages.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-dump_messages.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "ab54c5c78b5b0aeb1873d3ae00d586c555dfca3610d1595564423e4a6c6d9335"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-get_replicate_info.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-get_replicate_info.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "2097896ebec67d05d1d592aac070cb84b36733ea42866e896aed48f6ada848ce"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-list_compaction_tasks.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-list_compaction_tasks.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "d12de806fa0ef03699d6f5780a788d7a5e75030589176447973eb4f8091340a3"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-list_segments.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-list_segments.md",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "12c84003ad8ea700fca757b102c254eccbcc06ce37ce68f369743f98c149b0e9"
     }
   ],
@@ -10469,7 +10511,7 @@
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/grant-role-to-group-v2.mdx",
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/grant-role-to-group-v2.mdx",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "4fdf5c324a9ea32b9c50db3efb1124af887038ea87db8675bad6a36051a50989",
       "locale": "zh-CN",
       "reason": "x-include-langs"
@@ -10478,7 +10520,7 @@
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-group-members-v2.mdx",
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-group-members-v2.mdx",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "7ef723418d9cbf61918ed14abacf0590bbd4b187badb71035f5292dd0ca329c5",
       "locale": "zh-CN",
       "reason": "x-include-langs"
@@ -10487,7 +10529,7 @@
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-group-roles-v2.mdx",
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-group-roles-v2.mdx",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "e3e45064ddb92028c940c66d03fba3df9503b33281cecf4ceeeb376831c18a1c",
       "locale": "zh-CN",
       "reason": "x-include-langs"
@@ -10496,7 +10538,7 @@
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-groups-v2.mdx",
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-groups-v2.mdx",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "d74319d79214023924a4b6dfba423daa8d62da4511740ef58e46da434d121ec2",
       "locale": "zh-CN",
       "reason": "x-include-langs"
@@ -10505,7 +10547,7 @@
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/revoke-role-from-group-v2.mdx",
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/revoke-role-from-group-v2.mdx",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "5eebe3cd36dd9924cfd2991956589b36cdbcaa1ae0c03321f0aa86645b791dae",
       "locale": "zh-CN",
       "reason": "x-include-langs"
@@ -10514,7 +10556,7 @@
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/project-operations-v2/upgrade-project-v2.mdx",
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/control-plane/project-operations-v2/upgrade-project-v2.mdx",
-      "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+      "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
       "sourceHash": "1b4f8b9e207ec888fca81b717ddf73a4638f0de46de224bec89853eef44a7b65",
       "locale": "zh-CN",
       "reason": "x-include-langs"

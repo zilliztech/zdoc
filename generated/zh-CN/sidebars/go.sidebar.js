@@ -412,6 +412,67 @@ module.exports = [
   },
   {
     "type": "category",
+    "label": "DataImport",
+    "key": "category:api/go/go/v2/v2-dataimport",
+    "items": [
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-DataImport/v2-DataImport-BulkImport",
+        "label": "BulkImport()",
+        "key": "doc:api/go/go/v2/v2-DataImport/v2-dataimport-bulkimport"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-DataImport/v2-DataImport-BulkImportOption",
+        "label": "BulkImportOption",
+        "key": "doc:api/go/go/v2/v2-DataImport/v2-dataimport-bulkimportoption"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-DataImport/v2-DataImport-BulkImportResponse",
+        "label": "BulkImportResponse",
+        "key": "doc:api/go/go/v2/v2-DataImport/v2-dataimport-bulkimportresponse"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-DataImport/v2-DataImport-GetImportProgress",
+        "label": "GetImportProgress()",
+        "key": "doc:api/go/go/v2/v2-DataImport/v2-dataimport-getimportprogress"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-DataImport/v2-DataImport-GetImportProgressOption",
+        "label": "GetImportProgressOption",
+        "key": "doc:api/go/go/v2/v2-DataImport/v2-dataimport-getimportprogressoption"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-DataImport/v2-DataImport-GetImportProgressResponse",
+        "label": "GetImportProgressResponse",
+        "key": "doc:api/go/go/v2/v2-DataImport/v2-dataimport-getimportprogressresponse"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-DataImport/v2-DataImport-ListImportJobs",
+        "label": "ListImportJobs()",
+        "key": "doc:api/go/go/v2/v2-DataImport/v2-dataimport-listimportjobs"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-DataImport/v2-DataImport-ListImportJobsOption",
+        "label": "ListImportJobsOption",
+        "key": "doc:api/go/go/v2/v2-DataImport/v2-dataimport-listimportjobsoption"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-DataImport/v2-DataImport-ListImportJobsResponse",
+        "label": "ListImportJobsResponse",
+        "key": "doc:api/go/go/v2/v2-DataImport/v2-dataimport-listimportjobsresponse"
+      }
+    ]
+  },
+  {
+    "type": "category",
     "label": "Snapshot",
     "key": "category:api/go/go/v2/v2-snapshot",
     "items": [
@@ -614,67 +675,6 @@ module.exports = [
         "id": "api/go/go/v2/v2-Vector/v2-Vector",
         "label": "Vector",
         "key": "doc:api/go/go/v2/v2-Vector/v2-vector"
-      }
-    ]
-  },
-  {
-    "type": "category",
-    "label": "DataImport",
-    "key": "category:api/go/go/v2/v2-dataimport",
-    "items": [
-      {
-        "type": "doc",
-        "id": "api/go/go/v2/v2-DataImport/v2-DataImport-BulkImport",
-        "label": "BulkImport()",
-        "key": "doc:api/go/go/v2/v2-DataImport/v2-dataimport-bulkimport"
-      },
-      {
-        "type": "doc",
-        "id": "api/go/go/v2/v2-DataImport/v2-DataImport-BulkImportOption",
-        "label": "BulkImportOption",
-        "key": "doc:api/go/go/v2/v2-DataImport/v2-dataimport-bulkimportoption"
-      },
-      {
-        "type": "doc",
-        "id": "api/go/go/v2/v2-DataImport/v2-DataImport-BulkImportResponse",
-        "label": "BulkImportResponse",
-        "key": "doc:api/go/go/v2/v2-DataImport/v2-dataimport-bulkimportresponse"
-      },
-      {
-        "type": "doc",
-        "id": "api/go/go/v2/v2-DataImport/v2-DataImport-GetImportProgress",
-        "label": "GetImportProgress()",
-        "key": "doc:api/go/go/v2/v2-DataImport/v2-dataimport-getimportprogress"
-      },
-      {
-        "type": "doc",
-        "id": "api/go/go/v2/v2-DataImport/v2-DataImport-GetImportProgressOption",
-        "label": "GetImportProgressOption",
-        "key": "doc:api/go/go/v2/v2-DataImport/v2-dataimport-getimportprogressoption"
-      },
-      {
-        "type": "doc",
-        "id": "api/go/go/v2/v2-DataImport/v2-DataImport-GetImportProgressResponse",
-        "label": "GetImportProgressResponse",
-        "key": "doc:api/go/go/v2/v2-DataImport/v2-dataimport-getimportprogressresponse"
-      },
-      {
-        "type": "doc",
-        "id": "api/go/go/v2/v2-DataImport/v2-DataImport-ListImportJobs",
-        "label": "ListImportJobs()",
-        "key": "doc:api/go/go/v2/v2-DataImport/v2-dataimport-listimportjobs"
-      },
-      {
-        "type": "doc",
-        "id": "api/go/go/v2/v2-DataImport/v2-DataImport-ListImportJobsOption",
-        "label": "ListImportJobsOption",
-        "key": "doc:api/go/go/v2/v2-DataImport/v2-dataimport-listimportjobsoption"
-      },
-      {
-        "type": "doc",
-        "id": "api/go/go/v2/v2-DataImport/v2-DataImport-ListImportJobsResponse",
-        "label": "ListImportJobsResponse",
-        "key": "doc:api/go/go/v2/v2-DataImport/v2-dataimport-listimportjobsresponse"
       }
     ]
   },

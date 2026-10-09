@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "e2f01301cad5d0050d404389deb29a90853ec3b2",
+  "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
   "records": [
     {
       "manual": "cli",
@@ -1759,8 +1759,23 @@
     },
     {
       "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-AbortImport.md",
+      "sourceHash": "e93b7332562dd48501a3d512034806f0de4dbfe831b6a7cbd500e51a48e6370b"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-AbortImportOption.md",
+      "sourceHash": "61ffb5bea1b9782fe74b7d957a38a79e60edadf523d860665b7698f754371c65"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-AbortImportResponse.md",
+      "sourceHash": "1cc0d624176eca01a0708162fe6a135fb569459cfa9653840654e06ecdd2eb26"
+    },
+    {
+      "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-BulkImport.md",
-      "sourceHash": "110f670118646dcf17c4603250d4c69dc47dbbc1af21fcc03d7aad693e91500e"
+      "sourceHash": "71b3e26b9f86279a0fc2c430c7be0d7e6120c3ae4fd92d2f27a67771919fd4e0"
     },
     {
       "manual": "go",
@@ -1770,7 +1785,7 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-BulkImportResponse.md",
-      "sourceHash": "120344e580d42dae753e7f24292875a1984fa41c5396e8bf884225d01323897e"
+      "sourceHash": "fd7f0be55a6c93009f880e00f72a219db6a3deb21356a37f459ccaa556a99173"
     },
     {
       "manual": "go",
@@ -2705,7 +2720,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-appendRow.md",
-      "sourceHash": "c23368e7e107f6198e19236a1590b742b02b7680e396b6fb311f413350ed9d05"
+      "sourceHash": "a78527874e415e436a76489ae12d05015ab092e29bff4f954fc50a86f3f9c207"
     },
     {
       "manual": "java",
@@ -2715,7 +2730,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-commit.md",
-      "sourceHash": "15bba314dccf3cca237b15e6baf172b3c9d585035c13060ed9c232141ca1f3f7"
+      "sourceHash": "0851c22626f0e0a61843981f626bd8a4c9f9053828eec5f390a7df9803730f08"
     },
     {
       "manual": "java",
@@ -2725,7 +2740,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-getTotalRowCount.md",
-      "sourceHash": "15510777d3dad7153bb8c551c9013466978e75044e5c26cb17246410d67263ba"
+      "sourceHash": "f06acc42a6d8735fbc5a7ffde54d03d2a4d7a153eb2fd9bfd3b05306da1336ef"
     },
     {
       "manual": "java",
@@ -2830,7 +2845,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-MetricType.md",
-      "sourceHash": "ea5c391f741e9748eb7d97e0d1e47cfd54be1783850dbd6c06ff03de60874957"
+      "sourceHash": "679c341060194aaa77ee82616bc59f9ae0fc05442df0eb6a55b9246c4a7b39b0"
     },
     {
       "manual": "java",
@@ -2920,117 +2935,132 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-listIndexes.md",
-      "sourceHash": "1e8c5d9171bd4ec615b0bf4638a2e417baab2ec65aa22818312466f2309eb60f"
+      "sourceHash": "23bcac36e27b316bef2213200b5d79fd89a3e2535d44e9d5275fb381f696035e"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-listRefreshExternalCollectionJobs.md",
-      "sourceHash": "b431446c3263ca67b76f965c7beca98c77b626abdf7dbc2b55207f0c3b6b720f"
+      "sourceHash": "ce17d97978ba7674df3bad81cfee9cc907a582f47250a03b76e42f2969df1b14"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-loadCollection.md",
-      "sourceHash": "dd91012e99d899cac4687fb22b2fd7fe8f0e2b96319b8406fff1dbaef4f213e8"
+      "sourceHash": "4d1846c24d4ff3aa0609f9de9e0d2ee9d26eeb10454de87dbef9731dee7ba1a3"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-optimize.md",
-      "sourceHash": "c44bdc6a23c1c4f25c42f8c20b3d925057ae19b320c531a9574fc1ccb8b22edc"
+      "sourceHash": "dbf65b0a750c31a4c7c4f892e7dcca64c1f957a8af7e73c6734a82df95aa4139"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-refreshExternalCollection.md",
-      "sourceHash": "1c5aec7dc3d110b4b3bd37a00313aeef6940d461fbdadd0c38b8c3e812e12d3a"
+      "sourceHash": "b8a970ce873ffe301c5d23b22d386312d5f0bf1a3fc38488097afc5d1de36d18"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-refreshLoad.md",
-      "sourceHash": "18707b7bb1af71773cdbe27f36a968c8fb3e287962fd84aadaa04bdbf5209ec5"
+      "sourceHash": "7da7b8f08a9355f484feba1c7ac17238f98251752544299982c24e3c304492cb"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-releaseCollection.md",
-      "sourceHash": "aac301957982c1df9b0417a7ce90f4eeb0fc8a069a171154fe45c55eb434fdc4"
+      "sourceHash": "dd06edbaba41499782132a5be7584d7636ac3ec2dff7b52b554ef44bc80dcd89"
+    },
+    {
+      "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-updateReplicateConfiguration.md",
+      "sourceHash": "984313e2ed61cf701088ed2ba765601b94e345068422823819ac75f6d95104d8"
+    },
+    {
+      "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-waitForCollectionRelease.md",
+      "sourceHash": "568cbb95cd892eee5a13b7e29f894fed2d5ea0584744c0f2b382c4fc12d0787b"
+    },
+    {
+      "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-waitForLoadCollection.md",
+      "sourceHash": "3007fbae3285d39614a8da0c147d697e00ea9bb13239664cc4b101f184282893"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-createPartition.md",
-      "sourceHash": "3b39dc5b96c86b62c7bb6731319f01dcf2ed69906f7d5d1cba9ee89b6a7f7668"
+      "sourceHash": "67c1c815cac7d9aec38ad09f7b80a7636b604d3dcba652751158b9475893cddd"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-dropPartition.md",
-      "sourceHash": "c3036a77154aded95afe7ea1a221537246bd0df5bbd4b800b34be3d8b3f34427"
+      "sourceHash": "644a086a875ca219ce0e040fb1c6558b94f4d9774dabf6bcbd379564a715ca76"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-getPartitionStats.md",
-      "sourceHash": "860004d9b89cdb0914323abc06f78a72ff112e4e435eb75724c6b98e2353e36e"
+      "sourceHash": "50cc513d17b9935b31728402045b7a77727aa70c6e90f041230abff1bda178ac"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-hasPartition.md",
-      "sourceHash": "3696e34ffd28da794bb98ba79ba99a165dc0288e54e177831d96a80b612c50cb"
+      "sourceHash": "b96cfdc9f9ffcccdc1789f57b242c5bcd1f8aa1677e0629fb3431c3daa9e4e69"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-listPartitions.md",
-      "sourceHash": "4d41810d29b01ffd3b261256b4ddccdcd1ccf664f752c9944781fc2fbd851942"
+      "sourceHash": "936d21c2a9bbee3da94d4be768f5091ee69c28e946fc5cc01e63593b654a683a"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-loadPartitions.md",
-      "sourceHash": "738fb657a5f12371f8f453d5ea6905c4ffc24bb48a495b64989df3ac4ad93a4b"
+      "sourceHash": "0e02976963e716bd25360767172f9bbbe9100c5697696df4613c38192c69cfc4"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-releasePartitions.md",
-      "sourceHash": "6cf1105188d86cdeff6a05d92ea77e8b3333b490e1123ad0246e104879e1a155"
+      "sourceHash": "7ac3818fbb7a67e24867217ae046c7cb822499c25d81c46a45f513cfbcc71f62"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-createSnapshot.md",
-      "sourceHash": "51a7dd5f0ba63c2a834c3c3604d253be7e24ff04af5a250628e3191bf6780569"
+      "sourceHash": "3c4ccd0e9fab10245508ab1b658a0218580a0ae432c102d9a33b63f8779cdd4f"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-describeSnapshot.md",
-      "sourceHash": "7c003d9d5a0960d344d04ebdd520c0840a23ec7f28e636953afe651e765689e3"
+      "sourceHash": "3c7412613270a5d40828976b45b42558b0a94254ed999126dc4c13816c592f0a"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-dropSnapshot.md",
-      "sourceHash": "f0326782b35f186855d395cc688a1533c9ff12735a2de310fe5bf664a7b0dcf6"
+      "sourceHash": "8d23f101d1961c0c36da61fa8e8da63df1cfa2a826249f1aacf6ed127b906d50"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-getRestoreSnapshotState.md",
-      "sourceHash": "44d56ec74e9ede5d96a91b7dfef0112e55275e8bcedcbc8ec42aa1c07f91fef4"
+      "sourceHash": "69c03a6b1c8a28c91ce28067a68d478dea2e05963dee314e7c62be8e1c8e4f0d"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-listRestoreSnapshotJobs.md",
-      "sourceHash": "61184872bdd0dc1a7afdc2550ce402aa86f3d0da0d6c9deff70c9987388209d9"
+      "sourceHash": "de27fe791bd1a32068b928622f26dea7f7d18a2bccf393d10b017eb242f59e2a"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-listSnapshots.md",
-      "sourceHash": "9f0cc4e5de76010e9b05ebb339f654f618d0c03552389fccb78b19cbdd0600e7"
+      "sourceHash": "d3bf84f6a346721444608f59f0873273e9aff8eed79027c2bbdf0e048763ad48"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-pinSnapshotData.md",
-      "sourceHash": "fc805a870082b7c02c6679c6482a08e80873d56e702abbf5bb9440d12b083392"
+      "sourceHash": "cf6081fc9e5ebefafea4e40a44a6f998d1951ef133a90fb3fcd939e039792d3c"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-restoreSnapshot.md",
-      "sourceHash": "1bdf329c6d6d7f07cd09dbec9000442df76323c025aa4541d699e0185e361e71"
+      "sourceHash": "e688aec922cab3e62ff5f1d0404b801d73aa64d819ad3d0687f15f685820a5a2"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-unpinSnapshotData.md",
-      "sourceHash": "33d8d40d6257b15ef9b07eecb96896f932f6e132591af0e54c904aca4cdbcd9f"
+      "sourceHash": "0d4fb5cfae66432a19eca2206ba6ef125b7f1eb36eaba40e4ec77f28d360098c"
     },
     {
       "manual": "java",
@@ -3060,7 +3090,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionChain/v2-Vector-FunctionChain.md",
-      "sourceHash": "f434a83230009d84a1be68e67b260eca22af04d650c3ab8dedc9316c0352cc91"
+      "sourceHash": "e77e31a01340b21d25f6b9fa07887e0c3758b94977b234c12562db04538b5b8c"
     },
     {
       "manual": "java",
@@ -3080,7 +3110,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-Vector-FunctionScore.md",
-      "sourceHash": "d9f538af8b01bbf172ee6494f330ed78d35672ce16557541a87a4f7e206c4ec8"
+      "sourceHash": "de91abf799299e44bbf53040b32516012a795e110d0be972f93670729f33fd9e"
     },
     {
       "manual": "java",
@@ -3105,7 +3135,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-delete.md",
-      "sourceHash": "f50cd0597ccca37995957fe83cdb77d8a0db079a37909d11e91329d4aaebdfb9"
+      "sourceHash": "31b7de5a5dbc0cb1a64808fbbf6ee09f4715158a684ace9b7f7878d76ce6a99f"
     },
     {
       "manual": "java",
@@ -3115,17 +3145,17 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-getAsync.md",
-      "sourceHash": "ebfecfdad10b0ba8ea3c17b2ed2342b0439eced4abc8bea7e31a4e769100ace9"
+      "sourceHash": "a9aef1197317134933f8e5ce9d8d2ae04765f54ed7bc59eeff4806f886acae96"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-hybridSearch.md",
-      "sourceHash": "06958f80f774bc5baa8f6e983461335e3c293ed07fda34d5e0e64957abd333cb"
+      "sourceHash": "e6e91bc3198d5783e7df161c4e07f3ac10161ebd78f9bfd049e68b1e791fea0e"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-hybridSearchAsync.md",
-      "sourceHash": "362b1339c7324b58bcd03a3e01b4281c51ac9227f4e3e1fe43f6462d5545c4b7"
+      "sourceHash": "906e694dbc78bbeb7b8044833929eb6418d23470486e6cdac9686caf20be5946"
     },
     {
       "manual": "java",
