@@ -306,35 +306,43 @@ async function runAgenticFile({item, target, siteDir, callCodex, validate, maxRe
   }
   const writeDraft = content => fs.writeFileSync(draftPath, content.endsWith('\n') ? content : `${content}\n`)
   if (seeded) {
-    writeDraft(seeded.draft)
-    // Verified-current fast path: when every pending unit is "filtered" — the
-    // published translation exists and its English is unchanged, but the
-    // stricter per-unit seed gate rejected it while the whole-file validator
-    // accepts it (protected-span content such as fenced-table column names) —
-    // the assembled draft may already satisfy the full deterministic gate. In
-    // that case there is nothing to translate and the agent is skipped. Drafts
-    // with "new" (changed or added) English units, and legacy seed summaries
-    // without classification metadata, always go to the agent: passing the
-    // gate alone would risk publishing untranslated prose.
-    const allPendingFiltered = seeded.pendingUnits.length === 0 ||
-      (pendingInfo !== null && seeded.pendingUnits.every(unit => pendingInfo.filtered.has(unit.id)))
-    if (allPendingFiltered) {
-      let outcome = await validateWithRuntimeChecks({sourceContent, draftContent: fs.readFileSync(draftPath, 'utf8'), relPath: item.sourcePath, target, validate})
-      if (outcome.repaired !== fs.readFileSync(draftPath, 'utf8')) fs.writeFileSync(draftPath, outcome.repaired)
-      if (!outcome.errors.length) {
-        if (seeded.pendingUnits.length === 0) {
-          log.log(`[agentic-provider] seeded ${item.sourcePath} without a model call (${seeded.usableCount}/${seeded.totalUnits} units reused)`)
-          return {...item, target, attempts, status: 'translated', review: successfulReview(), validationErrors: [], semanticSeedUnits: seeded.usableCount}
+    // The fast path writes the seeded draft and its gate-repaired bytes
+    // before the agent section's try begins; an infra-level throw here (for
+    // example the validator failing to load) owes the same baseline rollback.
+    try {
+      writeDraft(seeded.draft)
+      // Verified-current fast path: when every pending unit is "filtered" — the
+      // published translation exists and its English is unchanged, but the
+      // stricter per-unit seed gate rejected it while the whole-file validator
+      // accepts it (protected-span content such as fenced-table column names) —
+      // the assembled draft may already satisfy the full deterministic gate. In
+      // that case there is nothing to translate and the agent is skipped. Drafts
+      // with "new" (changed or added) English units, and legacy seed summaries
+      // without classification metadata, always go to the agent: passing the
+      // gate alone would risk publishing untranslated prose.
+      const allPendingFiltered = seeded.pendingUnits.length === 0 ||
+        (pendingInfo !== null && seeded.pendingUnits.every(unit => pendingInfo.filtered.has(unit.id)))
+      if (allPendingFiltered) {
+        let outcome = await validateWithRuntimeChecks({sourceContent, draftContent: fs.readFileSync(draftPath, 'utf8'), relPath: item.sourcePath, target, validate})
+        if (outcome.repaired !== fs.readFileSync(draftPath, 'utf8')) fs.writeFileSync(draftPath, outcome.repaired)
+        if (!outcome.errors.length) {
+          if (seeded.pendingUnits.length === 0) {
+            log.log(`[agentic-provider] seeded ${item.sourcePath} without a model call (${seeded.usableCount}/${seeded.totalUnits} units reused)`)
+            return {...item, target, attempts, status: 'translated', review: successfulReview(), validationErrors: [], semanticSeedUnits: seeded.usableCount}
+          }
+          log.log(`[agentic-provider] verified-current ${item.sourcePath} without a model call (${seeded.usableCount}/${seeded.totalUnits} units reused, ${seeded.pendingUnits.length} pending unit(s) already satisfy the gate)`)
+          return {...item, target, attempts: ['verified-current'], status: 'translated', review: successfulReview(), validationErrors: [], semanticSeedUnits: seeded.usableCount}
         }
-        log.log(`[agentic-provider] verified-current ${item.sourcePath} without a model call (${seeded.usableCount}/${seeded.totalUnits} units reused, ${seeded.pendingUnits.length} pending unit(s) already satisfy the gate)`)
-        return {...item, target, attempts: ['verified-current'], status: 'translated', review: successfulReview(), validationErrors: [], semanticSeedUnits: seeded.usableCount}
+        if (seeded.pendingUnits.length === 0) {
+          log.log(`[agentic-provider] fully seeded draft failed the current gate; retranslating ${item.sourcePath}`)
+          seeded = null
+        } else {
+          log.log(`[agentic-provider] seeded draft failed the current gate; handing ${item.sourcePath} to the agent`)
+        }
       }
-      if (seeded.pendingUnits.length === 0) {
-        log.log(`[agentic-provider] fully seeded draft failed the current gate; retranslating ${item.sourcePath}`)
-        seeded = null
-      } else {
-        log.log(`[agentic-provider] seeded draft failed the current gate; handing ${item.sourcePath} to the agent`)
-      }
+    } catch (error) {
+      restoreBaselineDraft()
+      throw error
     }
   }
   // The agent never works in the repository: it gets a per-file scratch

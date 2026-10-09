@@ -278,6 +278,25 @@ test('runAgenticFile restores authenticated baseline bytes when a candidate fail
   });
 });
 
+test('runAgenticFile restores authenticated baseline bytes when an agent turn throws mid-repair', async () => {
+  await withSite(async siteDir => {
+    write(siteDir, jaFixture().sourcePath, EN_SOURCE);
+    const baselineDraft = `---\ntitle: 旧訳\nslug: /limits\n---\n\n# 旧訳\n\n以前の公開訳です。[docs](./other) を参照。\n`;
+    write(siteDir, jaFixture().targetPath, baselineDraft);
+    let turns = 0;
+    const callCodex = async ({workingDirectory}) => {
+      turns += 1;
+      if (turns > 1) throw new Error('simulated provider transport failure');
+      writeAgentDraft(workingDirectory, JA_TRANSLATED_LINK);
+      return 'DONE';
+    };
+    const result = await runAgenticFile({item: jaFixture(), target: 'ja-JP', siteDir, callCodex, maxRepairTurns: 2}).catch(error => ({thrown: String(error.message)}));
+    assert.ok(result.thrown, 'the transport failure must propagate as a thrown error');
+    assert.match(result.thrown, /simulated provider transport failure/);
+    assert.equal(fs.readFileSync(path.join(siteDir, jaFixture().targetPath), 'utf8'), baselineDraft, 'a thrown agent failure must restore the baseline bytes at the target');
+  });
+});
+
 const EN_MALFORMED_SOURCE = [
   '---',
   'title: Malformed',
