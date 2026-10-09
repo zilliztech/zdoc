@@ -29,6 +29,13 @@ function write(root, relativePath, content) {
   fs.writeFileSync(target, content);
 }
 
+// Mocked codex turns write the translation into the isolated scratch
+// workspace exactly like a real agent thread does.
+function writeAgentDraft(workingDirectory, content) {
+  assert.ok(workingDirectory && path.isAbsolute(workingDirectory), 'callCodex must receive the scratch working directory');
+  write(workingDirectory, 'draft.md', content);
+}
+
 async function withSite(run) {
   const siteDir = fs.mkdtempSync(path.join(os.tmpdir(), 'agentic-provider-'));
   try {
@@ -57,15 +64,18 @@ test('stylePromptPathFor resolves per target without hardcoding ja', () => {
   assert.equal(stylePromptPathFor('zh-CN-reference'), 'codex-style-guide.zh-CN-reference.md');
 });
 
-test('task prompt is locale-agnostic and references the registered style guide only when present', () => {
+test('task prompt is locale-agnostic and references the staged style guide only when present', () => {
   const item = jaFixture();
-  const withStyle = buildAgenticTaskPrompt({item, target: 'ja-JP', siteDir: '/site', stylePromptPath: stylePromptPathFor('ja-JP'), validatorCommand: 'node validate.js'});
-  assert.match(withStyle, /codex-style-guide\.ja-JP\.md/);
+  const withStyle = buildAgenticTaskPrompt({item, target: 'ja-JP', validatorCommand: 'node validate.js', styleStaged: true});
+  assert.match(withStyle, /style\.md is the authoritative ja-JP house style guide/);
   assert.match(withStyle, /<locale_contract>/);
   assert.match(withStyle, /node validate\.js/);
-  const zh = buildAgenticTaskPrompt({item, target: 'zh-CN-reference', siteDir: '/site', stylePromptPath: stylePromptPathFor('zh-CN-reference'), validatorCommand: 'node validate.js'});
-  assert.match(zh, /codex-style-guide\.zh-CN-reference\.md/);
+  assert.doesNotMatch(withStyle, /content\/en|content\/zh|\/home\/|i18n\//);
+  const zh = buildAgenticTaskPrompt({item, target: 'zh-CN-reference', validatorCommand: 'node validate.js', styleStaged: true});
+  assert.match(zh, /style\.md is the authoritative zh-CN-reference house style guide/);
   assert.match(zh, /zh-CN/);
+  const bare = buildAgenticTaskPrompt({item, target: 'ja-JP', validatorCommand: 'node validate.js'});
+  assert.match(bare, /No ja-JP style guide is registered/);
 });
 
 test('repair prompt bounds and quotes violations with the validator command', () => {
@@ -84,12 +94,12 @@ test('runAgenticTranslation isolates a session that never wrote the draft', asyn
     const report = await runAgenticTranslation({
       siteDir,
       manifest: {target: 'ja-JP', locale: 'ja-JP', group: 'guides', items},
-      callCodex: async ({item, phase}) => {
+      callCodex: async ({item, phase, workingDirectory}) => {
         if (item.sourcePath.endsWith('limits.md')) {
           // Simulate a session that completes without acting: no draft file.
           return 'I could not complete the task because of a sandbox denial.';
         }
-        write(siteDir, item.targetPath, JA_CLEAN);
+        writeAgentDraft(workingDirectory, JA_CLEAN);
         return 'DONE';
       },
       concurrency: 2,
@@ -132,11 +142,10 @@ test('preflightAgent passes when the agent writes, the validator runs, and OK is
     const calls = [];
     const result = await preflightAgent({
       siteDir, target: 'ja-JP',
-      callCodex: async ({phase, prompt}) => {
-        calls.push({phase, prompt});
-        const match = prompt.match(/Create the file (\S+) with exactly this content:/);
-        assert.ok(match, 'prompt must name the draft file');
-        write(siteDir, match[1], '---\ntitle: Preflight output\n---\n\n# Preflight output\n\nThe sentinel word is still zebra.\n');
+      callCodex: async ({phase, prompt, workingDirectory}) => {
+        calls.push({phase, prompt, workingDirectory});
+        assert.ok(workingDirectory && !workingDirectory.startsWith(siteDir), 'preflight must work outside the repository');
+        writeAgentDraft(workingDirectory, '---\ntitle: Preflight output\n---\n\n# Preflight output\n\nThe sentinel word is still zebra.\n');
         return 'OK';
       },
       log: {log: () => {}},
@@ -144,7 +153,7 @@ test('preflightAgent passes when the agent writes, the validator runs, and OK is
     assert.equal(result.ok, true);
     assert.equal(calls.length, 1);
     assert.equal(calls[0].phase, 'preflight');
-    assert.ok(fs.existsSync(path.join(siteDir, 'tmp', 'agentic-preflight')) === false, 'preflight files must be cleaned up');
+    assert.ok(fs.existsSync(calls[0].workingDirectory) === false, 'preflight workspace must be cleaned up');
   });
 });
 
@@ -152,9 +161,8 @@ test('preflightAgent refuses to pass when the agent cannot execute the validator
   await withSite(async siteDir => {
     const result = await preflightAgent({
       siteDir, target: 'ja-JP',
-      callCodex: async ({prompt}) => {
-        const match = prompt.match(/Create the file (\S+) with exactly this content:/);
-        write(siteDir, match[1], '---\ntitle: Preflight output\n---\n\n# Preflight output\n\nThe sentinel word is still zebra.\n');
+      callCodex: async ({workingDirectory}) => {
+        writeAgentDraft(workingDirectory, '---\ntitle: Preflight output\n---\n\n# Preflight output\n\nThe sentinel word is still zebra.\n');
         return 'I could not run the validator command because bwrap could not set up its network namespace.';
       },
       log: {log: () => {}},
@@ -198,9 +206,9 @@ test('runAgenticFile passes a clean draft through the report contract', async ()
   await withSite(async siteDir => {
     write(siteDir, jaFixture().sourcePath, EN_SOURCE);
     const calls = [];
-    const callCodex = async ({phase, prompt}) => {
+    const callCodex = async ({phase, prompt, workingDirectory}) => {
       calls.push({phase, prompt});
-      write(siteDir, jaFixture().targetPath, JA_CLEAN);
+      writeAgentDraft(workingDirectory, JA_CLEAN);
       return 'DONE';
     };
     const result = await runAgenticFile({item: jaFixture(), target: 'ja-JP', siteDir, callCodex});
@@ -217,9 +225,9 @@ test('runAgenticFile repairs bounded rounds and fails closed with bounded eviden
   await withSite(async siteDir => {
     write(siteDir, jaFixture().sourcePath, EN_SOURCE);
     let turns = 0;
-    const callCodex = async () => {
+    const callCodex = async ({workingDirectory}) => {
       turns += 1;
-      write(siteDir, jaFixture().targetPath, JA_TRANSLATED_LINK);
+      writeAgentDraft(workingDirectory, JA_TRANSLATED_LINK);
       return 'DONE';
     };
     const result = await runAgenticFile({item: jaFixture(), target: 'ja-JP', siteDir, callCodex, maxRepairTurns: 2});
@@ -237,9 +245,9 @@ test('runAgenticFile converges when a repair round fixes the violations', async 
   await withSite(async siteDir => {
     write(siteDir, jaFixture().sourcePath, EN_SOURCE);
     let turns = 0;
-    const callCodex = async () => {
+    const callCodex = async ({workingDirectory}) => {
       turns += 1;
-      write(siteDir, jaFixture().targetPath, turns === 1 ? JA_TRANSLATED_LINK : JA_CLEAN);
+      writeAgentDraft(workingDirectory, turns === 1 ? JA_TRANSLATED_LINK : JA_CLEAN);
       return 'DONE';
     };
     const result = await runAgenticFile({item: jaFixture(), target: 'ja-JP', siteDir, callCodex, maxRepairTurns: 2});
@@ -257,8 +265,8 @@ test('runAgenticTranslation emits the agentRunner-compatible report envelope', a
     const report = await runAgenticTranslation({
       siteDir,
       manifest: {target: 'ja-JP', locale: 'ja-JP', group: 'guides', items},
-      callCodex: async ({item}) => {
-        write(siteDir, item.targetPath, JA_CLEAN);
+      callCodex: async ({item, workingDirectory}) => {
+        writeAgentDraft(workingDirectory, JA_CLEAN);
         return 'DONE';
       },
       concurrency: 2,
@@ -287,9 +295,9 @@ test('runAgenticTranslation reuses restored recovery files without model calls',
     const report = await runAgenticTranslation({
       siteDir,
       manifest: {target: 'ja-JP', locale: 'ja-JP', group: 'guides', items},
-      callCodex: async ({item}) => {
+      callCodex: async ({item, workingDirectory}) => {
         modelCalls.push(item.sourcePath);
-        write(siteDir, item.targetPath, JA_CLEAN);
+        writeAgentDraft(workingDirectory, JA_CLEAN);
         return 'DONE';
       },
       recovery: {
@@ -329,9 +337,9 @@ test('runAgenticTranslation retranslates a restored file whose recovered draft f
     const report = await runAgenticTranslation({
       siteDir,
       manifest: {target: 'ja-JP', locale: 'ja-JP', group: 'guides', items},
-      callCodex: async ({item}) => {
+      callCodex: async ({item, workingDirectory}) => {
         modelCalls.push(item.sourcePath);
-        write(siteDir, item.targetPath, JA_CLEAN);
+        writeAgentDraft(workingDirectory, JA_CLEAN);
         return 'DONE';
       },
       recovery: {
@@ -507,10 +515,10 @@ test('runAgenticFile hands a partially seeded draft to the agent with the pendin
     let draftAtTurn = null;
     const result = await runAgenticFile({
       item, target: 'ja-JP', siteDir,
-      callCodex: async ({prompt}) => {
+      callCodex: async ({prompt, workingDirectory}) => {
         prompts.push(prompt);
-        draftAtTurn = fs.readFileSync(path.join(siteDir, item.targetPath), 'utf8');
-        write(siteDir, item.targetPath, JA_CLEAN);
+        draftAtTurn = fs.readFileSync(path.join(workingDirectory, 'draft.md'), 'utf8');
+        writeAgentDraft(workingDirectory, JA_CLEAN);
         return 'DONE';
       },
       // Leave the frontmatter title untranslated: the agent must finish it.
@@ -554,9 +562,9 @@ test('runAgenticFile falls back to a fresh translation when the seed report iden
     const prompts = [];
     const result = await runAgenticFile({
       item, target: 'ja-JP', siteDir,
-      callCodex: async ({prompt}) => {
+      callCodex: async ({prompt, workingDirectory}) => {
         prompts.push(prompt);
-        write(siteDir, item.targetPath, JA_CLEAN);
+        writeAgentDraft(workingDirectory, JA_CLEAN);
         return 'DONE';
       },
       log: {log: message => lines.push(message)},
@@ -648,8 +656,8 @@ test('runAgenticTranslation logs a batch overview and a cost summary with token 
     const report = await runAgenticTranslation({
       siteDir,
       manifest: {target: 'ja-JP', locale: 'ja-JP', group: 'guides', items},
-      callCodex: async ({item}) => {
-        write(siteDir, item.targetPath, JA_CLEAN);
+      callCodex: async ({item, workingDirectory}) => {
+        writeAgentDraft(workingDirectory, JA_CLEAN);
         return 'DONE';
       },
       concurrency: 1,
@@ -831,12 +839,12 @@ test('runAgenticFile hands a draft with new pending units to the agent even when
     const calls = [];
     const result = await runAgenticFile({
       item, target: 'ja-JP', siteDir,
-      callCodex: async ({prompt}) => {
+      callCodex: async ({prompt, workingDirectory}) => {
         calls.push(prompt);
         // The agent resolves the pending unit: write the translation with the
         // pending unit rendered in Japanese (a wording variation, so the
         // bytes differ from the seeded draft and the no-op guard passes).
-        write(siteDir, item.targetPath, FENCED_JA.replace('同一の重複グループに配置されます。', '同一の重複グループにまとめられます。'));
+        writeAgentDraft(workingDirectory, FENCED_JA.replace('同一の重複グループに配置されます。', '同一の重複グループにまとめられます。'));
         return 'DONE';
       },
       seedReport: {...plan.report, sourcePath: item.sourcePath, targetPath: item.targetPath, sourceHash: item.sourceHash},
@@ -849,4 +857,47 @@ test('runAgenticFile hands a draft with new pending units to the agent even when
     assert.equal(calls.length, 1);
     assert.match(calls[0], /pre-seeded draft/);
   });
+});
+
+test('runAgenticFile isolates the agent in a scratch workspace outside the repository', async () => {
+  await withSite(async siteDir => {
+    write(siteDir, jaFixture().sourcePath, EN_SOURCE);
+    const workspaces = [];
+    const prompts = [];
+    const result = await runAgenticFile({
+      item: jaFixture(), target: 'ja-JP', siteDir,
+      callCodex: async ({phase, prompt, workingDirectory}) => {
+        workspaces.push({phase, workingDirectory});
+        prompts.push(prompt);
+        writeAgentDraft(workingDirectory, JA_CLEAN);
+        return 'DONE';
+      },
+    });
+    assert.equal(result.status, 'translated');
+    // The agent session is rooted outside the repository checkout: its cwd
+    // cannot reach pipeline state under the repository tmp/ tree, and its
+    // context never mentions repository paths.
+    assert.equal(workspaces.length, 1);
+    assert.ok(!workspaces[0].workingDirectory.startsWith(siteDir), 'agent workspace must live outside the site directory');
+    assert.ok(fs.existsSync(path.join(siteDir, jaFixture().targetPath)), 'final draft must land in the repository');
+    assert.equal(fs.readFileSync(path.join(siteDir, jaFixture().targetPath), 'utf8'), JA_CLEAN);
+    assert.ok(!fs.existsSync(workspaces[0].workingDirectory), 'scratch workspace must be cleaned up');
+    assert.doesNotMatch(prompts[0], /content\/en\/guides/);
+    assert.doesNotMatch(prompts[0], /i18n\/ja-JP/);
+  });
+});
+
+test('validatorCommandFor points the agent at the scratch workspace with absolute paths', () => {
+  const workspace = {sourcePath: '/scratch/agent-1/source.md', draftPath: '/scratch/agent-1/draft.md'};
+  const command = validatorCommandFor('/repo', 'ja-JP', workspace);
+  assert.match(command, /--site-dir \/repo /);
+  assert.match(command, /--source "\/scratch\/agent-1\/source\.md"/);
+  assert.match(command, /--draft "\/scratch\/agent-1\/draft\.md"/);
+  assert.doesNotMatch(command, /content\/en/);
+});
+
+test('parseCliArgs accepts --agent-scratch-root', () => {
+  const options = parseCliArgs(['run', '--site-dir', '/tmp/site', '--manifest', 'tmp/m.json', '--report', 'tmp/r.json', '--model', 'm', '--base-url', 'https://x/v1', '--api-key-env', 'KEY', '--agent-scratch-root', '/tmp/agentic-work']);
+  assert.equal(options.agentScratchRoot, '/tmp/agentic-work');
+  assert.equal(parseCliArgs(['run', '--site-dir', '/tmp/site', '--manifest', 'tmp/m.json', '--report', 'tmp/r.json', '--model', 'm', '--base-url', 'https://x/v1', '--api-key-env', 'KEY']).agentScratchRoot, null);
 });

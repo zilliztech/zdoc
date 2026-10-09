@@ -298,10 +298,14 @@ jobs:
           if (( ${{ inputs.batch_number }} > 0 )) && [[ "$GROUP" == guides ]]; then
             plan_input_args=()
             plan_input_args=(--plan tmp/reconciliation-plan.json)
+            # The batch input is pure pipeline state: keep it in RUNNER_TEMP,
+            # outside the repository the translation agents operate against,
+            # so no agent command can delete it mid-run (an agent destroying
+            # workspace tmp/ files took down run 37898506986 at batch 5).
             node scripts/docs-workflow/translation-batch-input.js create \
               --manifest tmp/translation-manifest.json \
               "${plan_input_args[@]}" \
-              --output tmp/translation-batch-input.json
+              --output "$RUNNER_TEMP/translation-batch-input.json"
           fi
       - name: Build semantic translation seeds
         if: ${{ inputs.should_translate && inputs.semantic_seeds && steps.mode.outputs.effective_mode == 'incremental' && steps.manifest.outputs.count != '0' }}
@@ -444,7 +448,13 @@ jobs:
             }
           NODE
           if [[ "${TRANSLATION_PROVIDER:-unit-pipeline}" == "agentic" ]]; then
-            agentic_args=(--site-dir "$GITHUB_WORKSPACE" --manifest tmp/translation-manifest.json --report tmp/translation-report.json --model "$AGENTIC_TRANSLATION_MODEL" --base-url "$AGENTIC_BASE_URL" --api-key-env AGENTIC_PROVIDER_API_KEY --concurrency "$AGENTIC_CONCURRENCY" --codex-home "$RUNNER_TEMP/agentic-codex-home" --sandbox-mode danger-full-access --skip-preflight false)
+            # Translation agents run codex threads rooted in an isolated
+            # scratch workspace under RUNNER_TEMP with the workspace-write
+            # sandbox: they cannot write into the repository (pipeline state
+            # under tmp/ is structurally out of reach) and their context no
+            # longer includes the repository tree, which also collapses the
+            # per-file prompt cache read volume.
+            agentic_args=(--site-dir "$GITHUB_WORKSPACE" --manifest tmp/translation-manifest.json --report tmp/translation-report.json --model "$AGENTIC_TRANSLATION_MODEL" --base-url "$AGENTIC_BASE_URL" --api-key-env AGENTIC_PROVIDER_API_KEY --concurrency "$AGENTIC_CONCURRENCY" --codex-home "$RUNNER_TEMP/agentic-codex-home" --sandbox-mode workspace-write --agent-scratch-root "$RUNNER_TEMP/agentic-work" --skip-preflight false)
             if [[ -f "$RECOVERY_ANALYSIS" ]]; then
               agentic_args+=(--recovery-analysis "$RECOVERY_ANALYSIS")
             fi
@@ -552,11 +562,11 @@ jobs:
           REMAINING_COUNT: ${{ steps.agents.outputs.remaining_count || '0' }}
         run: |
           set -euo pipefail
-          node scripts/docs-workflow/translation-batch-input.js validate --input tmp/translation-batch-input.json
+          node scripts/docs-workflow/translation-batch-input.js validate --input "$RUNNER_TEMP/translation-batch-input.json"
           node scripts/docs-workflow/validate-translation-batch-outputs.js \
             --manifest tmp/translation-manifest.json \
             --report tmp/translation-report.json \
-            --batch-input tmp/translation-batch-input.json \
+            --batch-input "$RUNNER_TEMP/translation-batch-input.json" \
             --workspace "$GITHUB_WORKSPACE" \
             --baseline "$BASELINE_DIR" \
             --reconciliation-plan tmp/reconciliation-plan.json \
@@ -578,7 +588,7 @@ jobs:
           batch_input_args=()
           if (( ${{ inputs.batch_number }} > 0 )); then
             batch_args=(--batch-index "${{ inputs.batch_index }}" --batch-number "${{ inputs.batch_number }}" --batch-count "${{ inputs.batch_count }}" --batch-size "${{ inputs.batch_size }}" --pending-count "${{ inputs.pending_count }}" --pending-set-sha256 "${{ inputs.pending_set_sha256 }}")
-            if [[ "$GROUP" == guides ]]; then batch_input_args=(--batch-input tmp/translation-batch-input.json); fi
+            if [[ "$GROUP" == guides ]]; then batch_input_args=(--batch-input "$RUNNER_TEMP/translation-batch-input.json"); fi
           fi
           identity_args=(--translation-target "$TRANSLATION_TARGET" --source-site en --target-site "$([[ "$TRANSLATION_TARGET" == ja-JP ]] && echo en || echo zh-CN)" --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" --tooling-sha "$TOOLING_SHA")
           baseline_reconciliation_args=(--reconciliation-plan "$GITHUB_WORKSPACE/tmp/reconciliation-plan.json")

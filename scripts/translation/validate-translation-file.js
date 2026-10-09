@@ -132,8 +132,12 @@ async function main() {
   if (!path.isAbsolute(options.siteDir) || siteDir !== options.siteDir) {
     throw new Error('--site-dir must be an absolute normalized path')
   }
-  const sourcePath = path.join(siteDir, options.source)
-  const draftPath = path.join(siteDir, options.draft)
+  // Absolute --source/--draft inputs let agentic translation agents validate
+  // against draft files staged in an isolated scratch workspace outside the
+  // repository while siteDir keeps supplying the locale contract.
+  const resolveInput = value => (path.isAbsolute(value) ? value : path.join(siteDir, value))
+  const sourcePath = resolveInput(options.source)
+  const draftPath = resolveInput(options.draft)
   const sourceContent = fs.readFileSync(sourcePath, 'utf8')
   const draftContent = fs.readFileSync(draftPath, 'utf8')
   const {repaired, errors} = await validateWithRuntimeChecks({
