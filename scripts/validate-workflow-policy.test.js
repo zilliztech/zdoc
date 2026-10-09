@@ -2192,8 +2192,8 @@ test('reusable translation producer creates group-scoped checkpoint artifacts wi
   assert.match(numbered.if, /steps\.agents\.outputs\.failed_count \|\| '0'/)
   assert.match(numbered.if, /steps\.reconciliation\.outputs\.has_mutation == 'true'/)
   assert.doesNotMatch(numbered.run, /mdx-parse|validate-mdx|validate-translated-coverage|pnpm run build:en/)
-  assert.match(numbered.run, /translation-batch-input\.js validate --input tmp\/translation-batch-input\.json/)
-  assert.match(numbered.run, /validate-translation-batch-outputs\.js[\s\S]*--manifest tmp\/translation-manifest\.json[\s\S]*--report tmp\/translation-report\.json[\s\S]*--batch-input tmp\/translation-batch-input\.json[\s\S]*--workspace "\$GITHUB_WORKSPACE"[\s\S]*--baseline "\$BASELINE_DIR"[\s\S]*--reconciliation-plan tmp\/reconciliation-plan\.json[\s\S]*--agents-outcome "\$AGENTS_OUTCOME"[\s\S]*--translated-count "\$TRANSLATED_COUNT"[\s\S]*--failed-count "\$FAILED_COUNT"[\s\S]*--remaining-count "\$REMAINING_COUNT"/)
+  assert.match(numbered.run, /translation-batch-input\.js validate --input "\$RUNNER_TEMP\/translation-batch-input\.json"/)
+  assert.match(numbered.run, /validate-translation-batch-outputs\.js[\s\S]*--manifest tmp\/translation-manifest\.json[\s\S]*--report tmp\/translation-report\.json[\s\S]*--batch-input "\$RUNNER_TEMP\/translation-batch-input\.json"[\s\S]*--workspace "\$GITHUB_WORKSPACE"[\s\S]*--baseline "\$BASELINE_DIR"[\s\S]*--reconciliation-plan tmp\/reconciliation-plan\.json[\s\S]*--agents-outcome "\$AGENTS_OUTCOME"[\s\S]*--translated-count "\$TRANSLATED_COUNT"[\s\S]*--failed-count "\$FAILED_COUNT"[\s\S]*--remaining-count "\$REMAINING_COUNT"/)
   assert.match(numbered.run, /--baseline "\$BASELINE_DIR"/)
 
   assert.ok(unbatched, 'unbatched translations need group-local validation')
@@ -2336,6 +2336,16 @@ test('workflow policy rejects numbered translation batch validation regressions'
     {
       mutate(steps) { steps.find(step => step.name === 'Validate translated batch outputs').run = 'node scripts/docs-workflow/translation-batch-input.js validate --input tmp/translation-batch-input.json' },
       expected: `${workflowName}: numbered Guides batches must validate agent report evidence and exact candidate output files`,
+    },
+    {
+      // The canonical batch input must stay in RUNNER_TEMP: a repository
+      // tmp/ copy is writable by translation agents and took down run
+      // 37898506986 when an agent deleted it mid-batch.
+      mutate(steps) {
+        const step = steps.find(step => step.name === 'Validate translated batch outputs')
+        step.run = step.run.replaceAll('"$RUNNER_TEMP/translation-batch-input.json"', 'tmp/translation-batch-input.json')
+      },
+      expected: `${workflowName}: numbered Guides batches must validate the canonical batch input`,
     },
     {
       mutate(steps) { steps.find(step => step.name === 'Validate unbatched translated group').run = 'node scripts/translation/validate-group.js --target "$TRANSLATION_TARGET" --group "$GROUP"' },
