@@ -1,6 +1,6 @@
 ---
 title: "BoostRanker | Java | v2"
-slug: /java/java/v2-Collections/v2-Function-BoostRanker
+slug: /java/java/v2-Function-BoostRanker
 sidebar_label: "BoostRanker"
 beta: false
 added_since: v2.6.x

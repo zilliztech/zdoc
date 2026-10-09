@@ -409,18 +409,6 @@ module.exports = [
         "items": [
           {
             "type": "doc",
-            "id": "api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-BoostRanker",
-            "label": "BoostRanker",
-            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-Function/v2-function-boostranker"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-DecayRanker",
-            "label": "DecayRanker",
-            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-Function/v2-function-decayranker"
-          },
-          {
-            "type": "doc",
             "id": "api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Collections-Function",
             "label": "Function",
             "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-Function/v2-collections-function"
@@ -430,24 +418,6 @@ module.exports = [
             "id": "api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-FunctionType",
             "label": "FunctionType",
             "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-Function/v2-function-functiontype"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-ModelRanker",
-            "label": "ModelRanker",
-            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-Function/v2-function-modelranker"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-RRFRanker",
-            "label": "RRFRanker",
-            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-Function/v2-function-rrfranker"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-WeightedRanker",
-            "label": "WeightedRanker",
-            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-Function/v2-function-weightedranker"
           }
         ]
       },

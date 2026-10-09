@@ -1,6 +1,6 @@
 ---
 title: "ModelRanker | Java | v2"
-slug: /java/java/v2-Collections/v2-Function-ModelRanker
+slug: /java/java/v2-Function-ModelRanker
 sidebar_label: "ModelRanker"
 beta: false
 added_since: v2.6.x

@@ -1,6 +1,6 @@
 ---
 title: "WeightedRanker | Java | v2"
-slug: /java/java/v2-Collections/v2-Function-WeightedRanker
+slug: /java/java/v2-Function-WeightedRanker
 sidebar_label: "WeightedRanker"
 beta: false
 added_since: v2.6.x

@@ -1,6 +1,6 @@
 ---
 title: "DecayRanker | Java | v2"
-slug: /java/java/v2-Collections/v2-Function-DecayRanker
+slug: /java/java/v2-Function-DecayRanker
 sidebar_label: "DecayRanker"
 beta: false
 added_since: v2.6.x

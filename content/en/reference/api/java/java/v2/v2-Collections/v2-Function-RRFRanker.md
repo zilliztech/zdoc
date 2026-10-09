@@ -1,6 +1,6 @@
 ---
 title: "RRFRanker | Java | v2"
-slug: /java/java/v2-Collections/v2-Function-RRFRanker
+slug: /java/java/v2-Function-RRFRanker
 sidebar_label: "RRFRanker"
 beta: false
 added_since: v2.6.x

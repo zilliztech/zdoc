@@ -10,7 +10,7 @@ notebook: false
 description: "A Function instance is used for generating vector embeddings from user-provided raw data or configuring rerankers for searches. | Java | v2"
 type: docx
 token: FktXdVmoQoR9pcxSzlgcp3Iknjh
-sidebar_position: 3
+sidebar_position: 1
 keywords: 
   - RAG
   - NLP

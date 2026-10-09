@@ -10,7 +10,7 @@ notebook: false
 description: "A FunctionType instance represents one of the supported server-side function types and provides conversion by name or numeric code. | Java | v2"
 type: docx
 token: HShjdZsU3oknh2x1ezkcRqGqn6b
-sidebar_position: 4
+sidebar_position: 2
 keywords: 
   - Video deduplication
   - Video similarity search
