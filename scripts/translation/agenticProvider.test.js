@@ -259,6 +259,88 @@ test('runAgenticFile repairs bounded rounds and fails closed with bounded eviden
     assert.ok(['protected_content_failed', 'unknown'].includes(result.failureCategory));
     assert.ok(result.validationErrors.length >= 1);
     assert.ok(result.validationErrors.every(error => String(error).length <= 400));
+    assert.equal(fs.existsSync(path.join(siteDir, jaFixture().targetPath)), false, 'failed candidate must not leave its draft at the target when the baseline has no target');
+  });
+});
+
+test('runAgenticFile restores authenticated baseline bytes when a candidate fails after repairs', async () => {
+  await withSite(async siteDir => {
+    write(siteDir, jaFixture().sourcePath, EN_SOURCE);
+    const baselineDraft = `---\ntitle: 旧訳\nslug: /limits\n---\n\n# 旧訳\n\n以前の公開訳です。[docs](./other) を参照。\n`;
+    write(siteDir, jaFixture().targetPath, baselineDraft);
+    const callCodex = async ({workingDirectory}) => {
+      writeAgentDraft(workingDirectory, JA_TRANSLATED_LINK);
+      return 'DONE';
+    };
+    const result = await runAgenticFile({item: jaFixture(), target: 'ja-JP', siteDir, callCodex, maxRepairTurns: 1});
+    assert.equal(result.status, 'failed');
+    assert.equal(fs.readFileSync(path.join(siteDir, jaFixture().targetPath), 'utf8'), baselineDraft, 'failed candidate must restore the baseline bytes at the target');
+  });
+});
+
+test('runAgenticFile restores authenticated baseline bytes when an agent turn throws mid-repair', async () => {
+  await withSite(async siteDir => {
+    write(siteDir, jaFixture().sourcePath, EN_SOURCE);
+    const baselineDraft = `---\ntitle: 旧訳\nslug: /limits\n---\n\n# 旧訳\n\n以前の公開訳です。[docs](./other) を参照。\n`;
+    write(siteDir, jaFixture().targetPath, baselineDraft);
+    let turns = 0;
+    const callCodex = async ({workingDirectory}) => {
+      turns += 1;
+      if (turns > 1) throw new Error('simulated provider transport failure');
+      writeAgentDraft(workingDirectory, JA_TRANSLATED_LINK);
+      return 'DONE';
+    };
+    const result = await runAgenticFile({item: jaFixture(), target: 'ja-JP', siteDir, callCodex, maxRepairTurns: 2}).catch(error => ({thrown: String(error.message)}));
+    assert.ok(result.thrown, 'the transport failure must propagate as a thrown error');
+    assert.match(result.thrown, /simulated provider transport failure/);
+    assert.equal(fs.readFileSync(path.join(siteDir, jaFixture().targetPath), 'utf8'), baselineDraft, 'a thrown agent failure must restore the baseline bytes at the target');
+  });
+});
+
+const EN_MALFORMED_SOURCE = [
+  '---',
+  'title: Malformed',
+  'slug: /malformed',
+  '---',
+  '',
+  '# Malformed',
+  '',
+  'The collection limits apply per cluster. See [docs](./other).',
+  '',
+  '```python filter = \'text LIKE "database%"\'` ```',
+  '',
+  '<Tabs groupId="code">',
+  '<TabItem value=\'python\'>',
+  '',
+  '```python',
+  "filter = 'text'",
+  '```',
+  '',
+  '</TabItem>',
+  '</Tabs>',
+  '',
+].join('\n');
+
+test('runAgenticFile fails the source preflight without a model call when the source itself cannot pass the gates', async () => {
+  await withSite(async siteDir => {
+    const item = {...jaFixture(), sourcePath: `${GE}/dev/malformed.md`, targetPath: `${GJ}/dev/malformed.md`};
+    write(siteDir, item.sourcePath, EN_MALFORMED_SOURCE);
+    const lines = [];
+    const result = await runAgenticFile({
+      item,
+      target: 'ja-JP',
+      siteDir,
+      callCodex: async () => {
+        throw new Error('callCodex must not be invoked when the source preflight fails');
+      },
+      log: {log: message => lines.push(message)},
+    });
+    assert.equal(result.status, 'failed');
+    assert.deepEqual(result.attempts, []);
+    assert.match(result.error, /^source preflight:/);
+    assert.ok(result.validationErrors.some(error => String(error).includes('extra </Tabs> closing tag')), JSON.stringify(result.validationErrors));
+    assert.ok(lines.some(message => String(message).includes('source preflight failed') && String(message).includes('without a model call')));
+    assert.equal(fs.existsSync(path.join(siteDir, item.targetPath)), false, 'preflight failure must leave the target untouched');
   });
 });
 
