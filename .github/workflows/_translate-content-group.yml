@@ -449,17 +449,19 @@ jobs:
           NODE
           if [[ "${TRANSLATION_PROVIDER:-unit-pipeline}" == "agentic" ]]; then
             # Translation agents run codex threads rooted in an isolated
-            # scratch workspace under RUNNER_TEMP: their context carries no
-            # repository paths (which also collapses the per-file prompt
-            # cache read volume), and pipeline state they must not touch
-            # lives outside the repository (canonical batch input in
-            # RUNNER_TEMP) or is fully loaded before they start (seed
-            # reports). The sandbox itself stays danger-full-access: codex
-            # workspace-write needs a bubblewrap network namespace and
+            # scratch workspace under RUNNER_TEMP: their working context is
+            # the staged source/draft/style files only, which collapses the
+            # per-file prompt cache read volume. This is context isolation,
+            # not a write barrier: the sandbox stays danger-full-access
+            # (codex workspace-write needs a bubblewrap network namespace and
             # GitHub-hosted runners reject RTM_NEWADDR, so every agent shell
             # command dies with "bwrap: loopback: Failed RTM_NEWADDR" before
-            # executing (run 37935550408 preflight caught this before any
-            # paid turn).
+            # executing; run 37935550408 preflight caught this before any
+            # paid turn), the validator command still embeds absolute
+            # repository and RUNNER_TEMP paths in the prompt, and the
+            # canonical batch input lives in RUNNER_TEMP only to keep it out
+            # of the repository tree. Treat repository tmp/ state as
+            # agent-reachable; do not rely on it surviving a turn.
             agentic_args=(--site-dir "$GITHUB_WORKSPACE" --manifest tmp/translation-manifest.json --report tmp/translation-report.json --model "$AGENTIC_TRANSLATION_MODEL" --base-url "$AGENTIC_BASE_URL" --api-key-env AGENTIC_PROVIDER_API_KEY --concurrency "$AGENTIC_CONCURRENCY" --codex-home "$RUNNER_TEMP/agentic-codex-home" --sandbox-mode danger-full-access --agent-scratch-root "$RUNNER_TEMP/agentic-work" --skip-preflight false)
             if [[ -f "$RECOVERY_ANALYSIS" ]]; then
               agentic_args+=(--recovery-analysis "$RECOVERY_ANALYSIS")

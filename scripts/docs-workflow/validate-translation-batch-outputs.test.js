@@ -856,6 +856,52 @@ test('CLI parsing is strict and converts result counts', () => {
   }
 })
 
+test('CLI accepts an absolute batch input staged outside the workspace like the RUNNER_TEMP workflow contract', () => {
+  const root = fixture()
+  // os.tmpdir() may itself contain a symlink component (macOS /var), so stage
+  // the external input under its realpath the way RUNNER_TEMP is a real path
+  // on the runner.
+  const external = fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()), 'translation-batch-input-runner-temp-'))
+  try {
+    const externalInput = path.join(external, 'translation-batch-input.json')
+    fs.copyFileSync(path.join(root, 'tmp/translation-batch-input.json'), externalInput)
+    fs.rmSync(path.join(root, 'tmp/translation-batch-input.json'))
+    const cli = spawnSync(process.execPath, [path.join(__dirname, 'validate-translation-batch-outputs.js'),
+      '--manifest', 'tmp/translation-manifest.json',
+      '--report', 'tmp/translation-report.json',
+      '--batch-input', externalInput,
+      '--workspace', root,
+      '--baseline', path.join(root, 'baseline'),
+      '--reconciliation-plan', 'tmp/reconciliation-plan.json',
+      '--agents-outcome', 'success',
+      '--translated-count', '1',
+      '--failed-count', '0',
+      '--remaining-count', '0',
+    ], { encoding: 'utf8' })
+    assert.equal(cli.status, 0, cli.stderr)
+    assert.deepEqual(validate(root, {batchInputPath: externalInput}), { candidateCount: 1, reconciliationOnly: false })
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true })
+    fs.rmSync(external, { recursive: true, force: true })
+  }
+})
+
+test('absolute batch input paths keep the pinned-read symlink protections', () => {
+  const root = fixture()
+  const external = fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()), 'translation-batch-input-runner-temp-'))
+  try {
+    const linked = path.join(external, 'linked-batch-input.json')
+    fs.symlinkSync(path.join(root, 'tmp/translation-batch-input.json'), linked)
+    assert.throws(() => validate(root, {batchInputPath: linked}), /batch input .* has a symbolic-link path component/)
+    const missing = path.join(external, 'absent-batch-input.json')
+    assert.throws(() => validate(root, {batchInputPath: missing}), /batch input .* is missing/)
+    assert.throws(() => validate(root, {batchInputPath: 'content/en/guides/../../tmp/translation-batch-input.json'}), /batch input must be a.*safe relative path/)
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true })
+    fs.rmSync(external, { recursive: true, force: true })
+  }
+})
+
 test('module API rejects non-object, missing, unknown, and mistyped options', () => {
   assert.throws(() => validateTranslationBatchOutputs(null), /options must be an object with an exact schema/)
   const root = fixture()

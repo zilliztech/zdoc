@@ -897,6 +897,131 @@ function testDriveFallbackDropsRootChildRelocatedDeeperInTree() {
   });
 }
 
+function testDriveFallbackDropsRelocatedDocumentUnderAnotherParent() {
+  withTempSourceDirs((sourceDir, fallbackDir) => {
+    writeJson(sourceDir, 'V3_ROOT', {
+      token: 'V3_ROOT', name: 'v3.0.x', children: [
+        { name: 'Management', token: 'NEW_MGMT_FOLDER', parent_token: 'V3_ROOT', type: 'folder' },
+        { name: 'Reference', token: 'NEW_REF_FOLDER', parent_token: 'V3_ROOT', type: 'folder' },
+      ],
+    });
+    writeJson(sourceDir, 'NEW_MGMT_FOLDER', {
+      token: 'NEW_MGMT_FOLDER', name: 'Management', slug: 'Management', type: 'folder',
+      parent_token: 'V3_ROOT', children: [
+        { name: 'Flush()', token: 'NEW_FLUSH_DOC', parent_token: 'NEW_MGMT_FOLDER', type: 'docx' },
+      ],
+    });
+    writeJson(sourceDir, 'NEW_FLUSH_DOC', {
+      token: 'NEW_FLUSH_DOC', name: 'Flush()', slug: 'Flush', type: 'docx',
+      parent_token: 'NEW_MGMT_FOLDER', blocks: { items: [{ block_id: 'source-flush-page', block_type: 1 }] },
+    });
+    writeJson(sourceDir, 'NEW_REF_FOLDER', {
+      token: 'NEW_REF_FOLDER', name: 'Reference', slug: 'Reference', type: 'folder',
+      parent_token: 'V3_ROOT', children: [
+        { name: 'Index()', token: 'NEW_INDEX_DOC', parent_token: 'NEW_REF_FOLDER', type: 'docx' },
+      ],
+    });
+    writeJson(sourceDir, 'NEW_INDEX_DOC', {
+      token: 'NEW_INDEX_DOC', name: 'Index()', slug: 'Index', type: 'docx',
+      parent_token: 'NEW_REF_FOLDER', blocks: { items: [{ block_id: 'source-index-page', block_type: 1 }] },
+    });
+
+    writeJson(fallbackDir, 'V26_ROOT', {
+      token: 'V26_ROOT', name: 'v2.6.x', children: [
+        { name: 'Management', token: 'OLD_MGMT_FOLDER', parent_token: 'V26_ROOT', type: 'folder' },
+      ],
+    });
+    writeJson(fallbackDir, 'OLD_MGMT_FOLDER', {
+      token: 'OLD_MGMT_FOLDER', name: 'Management', slug: 'Management', type: 'folder',
+      parent_token: 'V26_ROOT', children: [
+        { name: 'Flush()', token: 'OLD_FLUSH_DOC', parent_token: 'OLD_MGMT_FOLDER', type: 'docx' },
+        { name: 'Index()', token: 'OLD_INDEX_DOC', parent_token: 'OLD_MGMT_FOLDER', type: 'docx' },
+      ],
+    });
+    writeJson(fallbackDir, 'OLD_FLUSH_DOC', {
+      token: 'OLD_FLUSH_DOC', name: 'Flush()', slug: 'Flush', type: 'docx',
+      parent_token: 'OLD_MGMT_FOLDER', blocks: { items: [{ block_id: 'fallback-flush-page', block_type: 1 }] },
+    });
+    writeJson(fallbackDir, 'OLD_INDEX_DOC', {
+      token: 'OLD_INDEX_DOC', name: 'Index()', slug: 'Index', type: 'docx',
+      parent_token: 'OLD_MGMT_FOLDER', blocks: { items: [{ block_id: 'fallback-index-page', block_type: 1 }] },
+    });
+
+    new larkUtils().fetch_fallback_sources(sourceDir, fallbackDir, 'drive', 'V3_ROOT');
+
+    // The relocated fallback document is dropped from its old folder because
+    // its slug successor materialized under a different parent; the retained
+    // Flush() document still pairs by title with its materialized successor.
+    const management = readJson(sourceDir, 'NEW_MGMT_FOLDER');
+    assert.deepEqual(management.children.map(child => child.token), ['NEW_FLUSH_DOC']);
+
+    const reference = readJson(sourceDir, 'NEW_REF_FOLDER');
+    assert.deepEqual(reference.children.map(child => child.token), ['NEW_INDEX_DOC']);
+
+    assert.equal(fs.existsSync(path.join(sourceDir, 'OLD_INDEX_DOC.json')), false);
+  });
+}
+
+function testDriveFallbackRejectsAmbiguousRelocatedSuccessors() {
+  withTempSourceDirs((sourceDir, fallbackDir) => {
+    writeJson(sourceDir, 'V3_ROOT', {
+      token: 'V3_ROOT', name: 'v3.0.x', children: [
+        { name: 'Management', token: 'NEW_MGMT_FOLDER', parent_token: 'V3_ROOT', type: 'folder' },
+        { name: 'Left', token: 'NEW_LEFT_FOLDER', parent_token: 'V3_ROOT', type: 'folder' },
+        { name: 'Right', token: 'NEW_RIGHT_FOLDER', parent_token: 'V3_ROOT', type: 'folder' },
+      ],
+    });
+    writeJson(sourceDir, 'NEW_MGMT_FOLDER', {
+      token: 'NEW_MGMT_FOLDER', name: 'Management', slug: 'Management', type: 'folder',
+      parent_token: 'V3_ROOT', children: [
+        { name: 'Flush()', token: 'NEW_FLUSH_DOC', parent_token: 'NEW_MGMT_FOLDER', type: 'docx' },
+      ],
+    });
+    writeJson(sourceDir, 'NEW_FLUSH_DOC', {
+      token: 'NEW_FLUSH_DOC', name: 'Flush()', slug: 'Flush', type: 'docx',
+      parent_token: 'NEW_MGMT_FOLDER', blocks: { items: [{ block_id: 'source-flush-page', block_type: 1 }] },
+    });
+    for (const folderToken of ['NEW_LEFT_FOLDER', 'NEW_RIGHT_FOLDER']) {
+      const docToken = folderToken === 'NEW_LEFT_FOLDER' ? 'NEW_INDEX_LEFT_DOC' : 'NEW_INDEX_RIGHT_DOC';
+      writeJson(sourceDir, folderToken, {
+        token: folderToken, name: folderToken === 'NEW_LEFT_FOLDER' ? 'Left' : 'Right',
+        slug: folderToken === 'NEW_LEFT_FOLDER' ? 'Left' : 'Right', type: 'folder',
+        parent_token: 'V3_ROOT', children: [
+          { name: 'Index()', token: docToken, parent_token: folderToken, type: 'docx' },
+        ],
+      });
+      writeJson(sourceDir, docToken, {
+        token: docToken, name: 'Index()', slug: 'Index', type: 'docx',
+        parent_token: folderToken, blocks: { items: [{ block_id: `source-${docToken}`, block_type: 1 }] },
+      });
+    }
+
+    writeJson(fallbackDir, 'V26_ROOT', {
+      token: 'V26_ROOT', name: 'v2.6.x', children: [
+        { name: 'Management', token: 'OLD_MGMT_FOLDER', parent_token: 'V26_ROOT', type: 'folder' },
+      ],
+    });
+    writeJson(fallbackDir, 'OLD_MGMT_FOLDER', {
+      token: 'OLD_MGMT_FOLDER', name: 'Management', slug: 'Management', type: 'folder',
+      parent_token: 'V26_ROOT', children: [
+        { name: 'Index()', token: 'OLD_INDEX_DOC', parent_token: 'OLD_MGMT_FOLDER', type: 'docx' },
+      ],
+    });
+    writeJson(fallbackDir, 'OLD_INDEX_DOC', {
+      token: 'OLD_INDEX_DOC', name: 'Index()', slug: 'Index', type: 'docx',
+      parent_token: 'OLD_MGMT_FOLDER', blocks: { items: [{ block_id: 'fallback-index-page', block_type: 1 }] },
+    });
+
+    // Two same-type, same-slug successors exist under different parents, so
+    // the relocation is ambiguous: guessing would silently drop the fallback
+    // document and rewrite its links to an arbitrary successor.
+    assert.throws(
+      () => new larkUtils().fetch_fallback_sources(sourceDir, fallbackDir, 'drive', 'V3_ROOT'),
+      /\[fallback-source\] Ambiguous relocated successors for OLD_INDEX_DOC \(Index\): NEW_INDEX_LEFT_DOC, NEW_INDEX_RIGHT_DOC/
+    );
+  });
+}
+
 function testPreProcessRemovesRootMarkdownFiles() {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-utils-preprocess-'));
 
@@ -969,6 +1094,8 @@ function run() {
   testDriveFallbackReplacesStaleUnfetchedSiblingWhenSlugPairIsMaterialized();
   testDriveFallbackDropsChildFolderRelocatedToAnotherParent();
   testDriveFallbackDropsRootChildRelocatedDeeperInTree();
+  testDriveFallbackDropsRelocatedDocumentUnderAnotherParent();
+  testDriveFallbackRejectsAmbiguousRelocatedSuccessors();
   testPreProcessRemovesRootMarkdownFiles();
   testPreProcessPreservesSelectedFiles();
   testPreProcessPreservesHomeByDefault();
