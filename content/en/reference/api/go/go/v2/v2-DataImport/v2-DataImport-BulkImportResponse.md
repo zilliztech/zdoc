@@ -4,12 +4,12 @@ slug: /go/go/v2-DataImport-BulkImportResponse
 sidebar_label: "BulkImportResponse"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "This class represents the response returned by the `BulkImport()` package function. It embeds `ResponseBase` for the common `Status` and `Message` fields, and exposes the assigned import job ID under `Data.JobID`. Use the embedded `CheckStatus()` method to verify the call succeeded before reading `Data`. | Go | v2"
+description: "A BulkImportResponse instance is the response returned by the `BulkImport()` package function. It embeds `ResponseBase` for the common `Status` and `Message` fields, and exposes the assigned import job ID under `Data.JobID`. Use the embedded `CheckStatus()` method to verify the call succeeded before reading `Data`. | Go | v2"
 type: docx
-token: A3WWdqm52oLqtuxaR9EcjmybnwT
+token: IeoJdXXQHo2E0Vx9l0CczMKAnSv
 sidebar_position: 3
 keywords: 
   - Video similarity search
@@ -31,30 +31,64 @@ import Admonition from '@theme/Admonition';
 
 # BulkImportResponse
 
-This class represents the response returned by the `BulkImport()` package function. It embeds `ResponseBase` for the common `Status` and `Message` fields, and exposes the assigned import job ID under `Data.JobID`. Use the embedded `CheckStatus()` method to verify the call succeeded before reading `Data`.
+A BulkImportResponse instance is the response returned by the `BulkImport()` package function. It embeds `ResponseBase` for the common `Status` and `Message` fields, and exposes the assigned import job ID under `Data.JobID`. Use the embedded `CheckStatus()` method to verify the call succeeded before reading `Data`.
 
 ```go
 type BulkImportResponse struct {
     ResponseBase
     Data struct {
-        JobID string `json:"jobId"`
-    } `json:"data"`
+    JobID string
 }
 ```
 
 **FIELDS:**
 
-- **Status** (*int*) -<br/>
-  Inherited from `ResponseBase`. A value of `0` indicates success; any other value indicates an error.
+- **Status** (*int*) -
 
-- **Message** (*string*) -<br/>
-  Inherited from `ResponseBase`. Human-readable error description when `Status` is non-zero.
+    Inherited from `ResponseBase`. A value of `0` indicates success; any other value indicates an error.
 
-- **Data.JobID** (*string*) -<br/>
-  The unique identifier assigned to the submitted bulk import job. Pass this to `GetImportProgress()` to track completion.
+- **Message** (*string*) -
 
-**METHODS:**
+    Inherited from `ResponseBase`. Human-readable error description when `Status` is non-zero.
+
+- **Data.JobID** (*string*) -
+
+    The unique identifier assigned to the submitted bulk import job. Pass this to `GetImportProgress()` to track completion.
+
+**BUILDER METHODS:**
 
 - `CheckStatus()`
 
     This validates the response status. Returns nil when `Status == 0`; otherwise returns a formatted error containing `Status` and `Message`.
+
+## Example\{#example}
+
+Demonstrates BulkImportResponse usage.
+
+```go
+import (
+	"context"
+
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: "YOUR_CLUSTER_ENDPOINT",
+})
+if err != nil {
+	// handle error
+}
+defer cli.Close(ctx)
+
+resp, err := milvusclient.BulkImport(ctx, milvusclient.NewBulkImportOption("milvus-bulk-imp", "https://example.com/rows.json"))
+if err != nil {
+	// handle error
+}
+if err := resp.CheckStatus(); err != nil {
+	// handle non-zero status
+}
+fmt.Println(resp.Data.JobID)
+```

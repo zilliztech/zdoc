@@ -2,22 +2,13 @@
   "schemaVersion": 1,
   "group": "go",
   "complete": true,
-  "generatedAt": "2026-10-08T18:43:18.229Z",
-  "sourceRunId": "37823988862",
+  "generatedAt": "2026-10-09T02:53:02.881Z",
+  "sourceRunId": "37875202013",
   "records": [
     {
       "canonicalToken": "A0bMdNQyvon0rhxJIQpcHbPPn3f",
       "title": "ListDatabase",
       "contentPath": "content/en/reference/api/go/go/v2/v2-Database/v2-Database-ListDatabase.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "A3WWdqm52oLqtuxaR9EcjmybnwT",
-      "title": "BulkImportResponse",
-      "contentPath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-BulkImportResponse.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -195,6 +186,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "DJ3VdUmf7o3QCdx1mTecsDaunHf",
+      "title": "AbortImportOption",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-AbortImportOption.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "DPcJdZceFoes0sxeRVKcKhaunq9",
       "title": "Field",
       "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-Field.md",
@@ -225,6 +225,15 @@
       "canonicalToken": "DgJjdMnqgoBVB5xd6cgcMl4VnCh",
       "title": "GrantPrivilege",
       "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-GrantPrivilege.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Dgy5deK30oq5pVxoy7lcgt9InPg",
+      "title": "BulkImport",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-BulkImport.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -546,6 +555,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "IeoJdXXQHo2E0Vx9l0CczMKAnSv",
+      "title": "BulkImportResponse",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-BulkImportResponse.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "Ip2HdObkAodufpxSIoTcJ6rbnWf",
       "title": "ColumnFloat16VectorArray",
       "contentPath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnFloat16VectorArray.md",
@@ -654,15 +672,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "KrkGdWfDqoZjS1xmQM5cA3xGnbE",
-      "title": "BulkImport()",
-      "contentPath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-BulkImport.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "KvLYd1wl2o4T7txTA0gcfY54nKc",
       "title": "NewIvfFlatIndex()",
       "contentPath": null,
@@ -756,6 +765,15 @@
       "canonicalToken": "MUdZdTFeDoEtcwxBCOycaHyanr7",
       "title": "Role",
       "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-Role.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "MYVqdXiLjoYbB2xQeQHcjrf1nmu",
+      "title": "AbortImport",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-AbortImport.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1044,6 +1062,15 @@
       "canonicalToken": "QisddwwM3oTHT8x3No8cKfYNnVb",
       "title": "GetReplicateInfo",
       "contentPath": "content/en/reference/api/go/go/v2/v2-CDC/v2-CDC-GetReplicateInfo.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Qle2dHiIuozcv4x6la2cZr7cnWe",
+      "title": "AbortImportResponse",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-AbortImportResponse.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
