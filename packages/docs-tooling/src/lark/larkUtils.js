@@ -304,14 +304,23 @@ class larkUtils {
         // to a top-level sibling). Gluing the stale entry back under its old
         // folder would contradict the successor's own parent_token and fail the
         // touched-folder integrity check, so callers must drop it instead.
+        // Same-type slug collisions across parents have occurred in live
+        // sources before, so when more than one candidate successor exists the
+        // relocation is ambiguous: dropping the entry against an arbitrary
+        // first match could silently delete unique fallback content and
+        // rewrite its links to an unrelated node. Fail closed instead.
         const materializedSlugSuccessorElsewhere = (fallbackChild, folderToken) => {
             if (!fallbackChild || !hasSlug(fallbackChild)) return null
             const expectFolder = folderSource(fallbackChild)
-            return sources.find(source => {
+            const matches = sources.filter(source => {
                 if (source[PARENT] === folderToken) return false
                 if (source.slug !== fallbackChild.slug) return false
                 return expectFolder ? folderSource(source) : docSource(source)
-            }) || null
+            })
+            if (matches.length > 1) {
+                throw new Error(`[fallback-source] Ambiguous relocated successors for ${fallbackChild[TOKEN]} (${fallbackChild.slug}): ${matches.map(source => source[TOKEN]).join(', ')}`)
+            }
+            return matches[0] || null
         }
         const dropRelocatedChild = (child, fallbackChildren, folderToken, successor) => {
             recordReplacement(child[TOKEN], successor[TOKEN])
