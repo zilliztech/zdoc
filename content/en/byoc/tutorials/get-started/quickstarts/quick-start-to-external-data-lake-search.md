@@ -45,7 +45,7 @@ External collection operations require an **API key** for authentication. This f
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -96,9 +96,23 @@ if err != nil {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let config = ConnectConfig::new()
+    .uri("https://{project-id}.{region}.api.zillizcloud.com")
+    .token("YOUR_API_KEY");
+let client = ClientV2::new(&config).await?;
+```
+
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
@@ -128,6 +142,7 @@ const client = new MilvusClient({
 
 ```bash
 export PROJECT_ENDPOINT="https://{project-id}.{region}.api.zillizcloud.com"
+export TOKEN="YOUR_API_KEY"
 ```
 
 </TabItem>
@@ -137,7 +152,7 @@ export PROJECT_ENDPOINT="https://{project-id}.{region}.api.zillizcloud.com"
 
 Zilliz Cloud ships with a default database. If you choose that, skip this step. You can also create a database as follows.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -167,6 +182,18 @@ err = client.CreateDatabase(ctx, milvusclient.NewCreateDatabaseOption("my_databa
 if err != nil {
     // handle error
 }
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+client
+    .create_database(CreateDatabaseRequest::builder()
+        .database_name("my_database")
+        .build()?)
+    .await?;
 ```
 
 </TabItem>
@@ -213,7 +240,7 @@ Unlike managed collections that require you to import your raw data into the col
 
 The following example demonstrates how to set up the mapping relationship between collection fields and your data files. When creating the schema, specify the volume path and data format. This quickstart uses an Iceberg table. For the complete list of supported data sources and formats, see [Supported data sources and formats](./create-external-collection#support-data-sources).
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -410,6 +437,29 @@ schema := entity.NewSchema().
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
+
+let schema = CollectionSchema::new()
+    .external_source("volume://my_volume/iceberg/metadata/00001-xxx.metadata.json")
+    .external_spec(json!({
+        "format": "iceberg-table",
+        "snapshot_id": "1234567890123456789"
+    }))
+    .add_field(FieldSchema::new().name("vector").data_type(DataType::FloatVector).dimension(1536).external_field("embedding"))
+    .add_field(FieldSchema::new().name("product_id").data_type(DataType::VarChar).max_length(32).nullable(true).external_field("product_id"))
+    .add_field(FieldSchema::new().name("title").data_type(DataType::VarChar).max_length(512).nullable(true).external_field("title"))
+    .add_field(FieldSchema::new().name("main_category").data_type(DataType::VarChar).max_length(64).nullable(true).external_field("main_category"))
+    .add_field(FieldSchema::new().name("price").data_type(DataType::Double).nullable(true).external_field("price"))
+    .add_field(FieldSchema::new().name("average_rating").data_type(DataType::Double).nullable(true).external_field("average_rating"))
+    .add_field(FieldSchema::new().name("rating_number").data_type(DataType::Int64).nullable(true).external_field("rating_number"));
+```
+
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -589,7 +639,7 @@ export schema='{
 
 Then you can create a collection with the above schema. If you decide to use the default database, you can safely skip the `db_name` parameter.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -634,6 +684,21 @@ err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("my_co
 if err != nil {
     // handle error
 }
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+client.use_database("my_database").await?;
+
+client
+    .create_collection(CreateCollectionRequest::builder()
+        .collection_name("my_collection")
+        .schema(schema)
+        .build()?)
+    .await?;
 ```
 
 </TabItem>
@@ -695,7 +760,7 @@ curl --request POST \
 
 You can create indexes in an external database as you do in managed collections. All vector fields should be indexed, and you can select to index some scalar fields for fast metadata filtering. However, you need to call refresh to build the index.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -783,6 +848,22 @@ if err != nil {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+client
+    .create_index(CreateIndexRequest::builder()
+        .collection_name("my_collection")
+        .index_params(vec![
+            IndexParam::new().field_name("vector").index_type(IndexType::AutoIndex).metric_type(MetricType::Cosine),
+            IndexParam::new().field_name("main_category").index_type(IndexType::AutoIndex),
+        ])
+        .build()?)
+    .await?;
+```
+
+</TabItem>
+
 <TabItem value='c++'>
 
 ```c++
@@ -852,7 +933,7 @@ curl --request POST \
 
 Then refresh the external collection. You can omit `externalSource` and `externalSpec` to reuse the collection schema, or provide both to refresh the collection schema from a new source.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -888,6 +969,19 @@ if err != nil {
     // handle error
 }
 jobID := refreshResult.JobID
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let resp = client
+    .refresh_external_collection(RefreshExternalCollectionRequest::builder()
+        .collection_name("my_collection")
+        .build()?)
+    .await?;
+let job_id = resp.job_id();
 ```
 
 </TabItem>
@@ -937,7 +1031,7 @@ curl --request POST \
 
 Then you can create a loop to wrap the progress-monitoring calls and track the refresh operation's progress.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -968,6 +1062,18 @@ progress, err := client.GetRefreshExternalCollectionProgress(ctx,
 if err != nil {
     // handle error
 }
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let progress = client
+    .get_refresh_external_collection_progress(GetRefreshExternalCollectionProgressRequest::builder()
+        .job_id(job_id)
+        .build()?)
+    .await?;
 ```
 
 </TabItem>
@@ -1037,7 +1143,7 @@ By default, the cluster automatically suspends for 60 seconds after the last req
 
 When you need to conduct searches, queries, or hybrid searches, you can attach to the on-demand cluster created in the previous step through a session.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1096,6 +1202,33 @@ SearchResp searchResp = session.search(SearchReq.builder()
 ```go
 // Note: session-based search (client.session + cluster-scoped search) is not
 // supported in the Go SDK as of client/v3.0.0-beta.
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let session = client.session("inxx-xxxxxxxxxxxxx")?;
+
+let query_vector = vec![
+    0.3580376395471989,
+    -0.6023495712049978,
+    0.18414012509913835,
+    -0.26286205330961354,
+    0.9029438446296592 /* ...remaining dims */,
+];
+
+let results = session
+    .search(SearchRequest::builder()
+        .database_name("my_database")
+        .collection_name("my_collection")
+        .vector_field("vector")
+        .vectors(SearchVectors::Float(vec![query_vector]))
+        .limit(3)
+        .output_fields(["product_id", "title", "main_category", "price", "average_rating", "rating_number"])
+        .build()?)
+    .await?;
 ```
 
 </TabItem>

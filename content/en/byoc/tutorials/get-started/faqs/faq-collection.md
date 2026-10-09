@@ -19,6 +19,7 @@ This topic lists the possible issues that you may encounter while you use Zilliz
 ## Contents
 
 - [How many collections are allowed in a single cluster?](#how-many-collections-are-allowed-in-a-single-cluster)
+- [Do I need to reload the collections manually after I restart one of my clusters?](#do-i-need-to-reload-the-collections-manually-after-i-restart-one-of-my-clusters)
 - [If dynamic field was disabled when the collection was created, can I enable it later?](#if-dynamic-field-was-disabled-when-the-collection-was-created-can-i-enable-it-later)
 - [What are the indexing metric types supported by Zilliz Cloud?](#what-are-the-indexing-metric-types-supported-by-zilliz-cloud)
 - [How to set the TTL (time to live) property of a created collection?](#how-to-set-the-ttl-time-to-live-property-of-a-created-collection)
@@ -45,6 +46,10 @@ If you have reached the maximum number of collections allowed in a serving clust
 1. [Drop](./drop-collection) unused collections.
 
 1. Try creating [partitions](./manage-partitions) instead of collections.
+
+### Do I need to reload the collections manually after I restart one of my clusters?\{#do-i-need-to-reload-the-collections-manually-after-i-restart-one-of-my-clusters}
+
+No. If collections are loaded before a cluster restarts, they will be loaded automatically once the restart succeeds.
 
 ### If dynamic field was disabled when the collection was created, can I enable it later?\{#if-dynamic-field-was-disabled-when-the-collection-was-created-can-i-enable-it-later}
 

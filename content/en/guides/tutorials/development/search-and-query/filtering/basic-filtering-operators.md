@@ -1267,12 +1267,12 @@ client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
 
 results = client.query(
     collection_name="products",
-    filter="embedding IS NULL",
+    filter="category IS NULL",
     output_fields=["id"],
     limit=10,
 )
 print(sorted(entity["id"] for entity in results))
-# Expected: [3]
+# Expected: [2]
 ```
 
 </TabItem>
@@ -1280,7 +1280,24 @@ print(sorted(entity["id"] for entity in results))
 <TabItem value='java'>
 
 ```java
-// java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
+import java.util.Collections;
+
+MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .build());
+
+QueryReq queryReq = QueryReq.builder()
+        .collectionName("products")
+        .filter("category IS NULL")
+        .outputFields(Collections.singletonList("id"))
+        .limit(10)
+        .build();
+QueryResp queryResp = client.query(queryReq);
+System.out.println(queryResp.getQueryResults());
 ```
 
 </TabItem>
@@ -1288,7 +1305,30 @@ print(sorted(entity["id"] for entity in results))
 <TabItem value='go'>
 
 ```go
-// go
+ctx := context.Background()
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    log.Fatal("failed to connect to milvus server: ", err.Error())
+}
+defer cli.Close(ctx)
+
+rs, err := cli.Query(ctx, milvusclient.NewQueryOption("products").
+    WithFilter("category IS NULL").
+    WithOutputFields("id").
+    WithLimit(10))
+if err != nil {
+    log.Fatal("failed to query: ", err.Error())
+}
+ids := rs.GetColumn("id")
+var result []int64
+for i := 0; i < ids.Len(); i++ {
+    v, _ := ids.GetAsInt64(i)
+    result = append(result, v)
+}
+fmt.Println(result)
 ```
 
 </TabItem>
@@ -1296,7 +1336,27 @@ print(sorted(entity["id"] for entity in results))
 <TabItem value='rust'>
 
 ```rust
-// rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let client = ClientV2::new(
+        &ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN"),
+    )
+    .await?;
+
+    let request = QueryRequest::builder()
+        .collection_name("products")
+        .filter("category IS NULL")
+        .output_fields(["id"])
+        .limit(10)
+        .build()?;
+    let response = client.query(request).await?;
+    for row in response.results().rows()? {
+        println!("{:?}", row.get_i64("id")?);
+    }
+    Ok(())
+}
 ```
 
 </TabItem>
@@ -1304,7 +1364,29 @@ print(sorted(entity["id"] for entity in results))
 <TabItem value='c++'>
 
 ```c++
-// cpp
+#include <iostream>
+#include <string>
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+auto request = milvus::QueryRequest()
+                   .WithCollectionName("products")
+                   .WithFilter("category IS NULL")
+                   .AddOutputField("id")
+                   .WithLimit(10);
+
+milvus::QueryResponse response;
+status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -1312,7 +1394,17 @@ print(sorted(entity["id"] for entity in results))
 <TabItem value='javascript'>
 
 ```javascript
-// nodejs
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
+
+const results = await client.query({
+  collection_name: "products",
+  filter: "category IS NULL",
+  output_fields: ["id"],
+  limit: 10,
+});
+console.log(results);
 ```
 
 </TabItem>
@@ -1320,7 +1412,17 @@ print(sorted(entity["id"] for entity in results))
 <TabItem value='bash'>
 
 ```bash
-# restful
+curl -X 'POST' \
+  'YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/query' \
+  -H 'accept: application/json' \
+  -H 'Authorization: Bearer YOUR_CLUSTER_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "collectionName": "products",
+    "filter": "category IS NULL",
+    "outputFields": ["id"],
+    "limit": 10
+  }'
 ```
 
 </TabItem>
