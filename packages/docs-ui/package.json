@@ -15,7 +15,7 @@
     "clsx": "^2.0.0",
     "lodash": "^4.17.21",
     "lucide-react": "^0.577.0",
-    "markdown-it": "^15.0.0",
+    "markdown-it": "^15.0.1",
     "prismjs": "^1.30.0",
     "react-markdown": "^10.1.0",
     "remark-gfm": "^4.0.1",

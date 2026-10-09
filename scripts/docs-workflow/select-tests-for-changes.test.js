@@ -125,6 +125,14 @@ test('selector maps REST reference rendering to its localized component regressi
   assert.equal(selected.commands.includes('pnpm test:workflow-matrix'), true)
 })
 
+test('selector maps dependency manifests and the lockfile to the replay toolchain gates', () => {
+  const selected = selectTests(['pnpm-lock.yaml', 'packages/docs-tooling/package.json'])
+  assert.deepEqual(selected.areas.map(area => area.id), ['dependency-manifests'])
+  assert.equal(selected.commands.includes('pnpm test:replay:contract'), true)
+  assert.equal(selected.commands.includes('pnpm test:replay:all'), true)
+  assert.equal(selected.commands.includes('pnpm test:workflow-policy'), true)
+})
+
 test('workflow and replay infrastructure changes select structural and aggregate gates', () => {
   const selected = selectTests(['.github/workflows/replay-tests.yml', 'package.json'])
   assert.deepEqual(selected.areas.map(area => area.id), ['workflow-yaml', 'replay-infrastructure'])
