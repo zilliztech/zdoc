@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "group": "python",
   "complete": true,
-  "generatedAt": "2026-10-08T03:03:21.636Z",
-  "sourceRunId": "37718371912",
+  "generatedAt": "2026-10-09T18:52:53.158Z",
+  "sourceRunId": "37972952508",
   "records": [
     {
       "canonicalToken": "A96udk9seoF5x5xywQZcLasanIe",
@@ -548,7 +548,7 @@
     {
       "canonicalToken": "ES6KdwdwUoN700xriVUcS3EBnVc",
       "title": "replace()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/FieldOp-replace.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1097,7 +1097,7 @@
     {
       "canonicalToken": "I8zBdZOdaorBS1xAxl4cC4E5njf",
       "title": "FieldOpType",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/FieldOp-FieldOpType.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1394,7 +1394,7 @@
     {
       "canonicalToken": "Ki33dZaE6oZq0fxDSHcc9cKzn5d",
       "title": "array_remove()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/FieldOp-array_remove.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1529,7 +1529,7 @@
     {
       "canonicalToken": "LKTzdLal1oEAJYxzEWJcfgkgnhb",
       "title": "FieldOp",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/Vector-FieldOp.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -2303,7 +2303,7 @@
     {
       "canonicalToken": "S7Otdiukfo0a4GxNUWpcQca3nSb",
       "title": "array_append()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/FieldOp-array_append.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,

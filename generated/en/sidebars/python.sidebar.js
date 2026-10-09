@@ -783,6 +783,43 @@ module.exports = [
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Vector/vector-hybridsearch"
           },
           {
+            "type": "category",
+            "label": "FieldOp",
+            "key": "category:api/python/python/MilvusClient/MilvusClient-Vector/vector-fieldop",
+            "items": [
+              {
+                "type": "doc",
+                "id": "api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/FieldOp-array_append",
+                "label": "array_append()",
+                "key": "doc:api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/fieldop-arrayappend"
+              },
+              {
+                "type": "doc",
+                "id": "api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/FieldOp-array_remove",
+                "label": "array_remove()",
+                "key": "doc:api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/fieldop-arrayremove"
+              },
+              {
+                "type": "doc",
+                "id": "api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/Vector-FieldOp",
+                "label": "FieldOp",
+                "key": "doc:api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/vector-fieldop"
+              },
+              {
+                "type": "doc",
+                "id": "api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/FieldOp-FieldOpType",
+                "label": "FieldOpType",
+                "key": "doc:api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/fieldop-fieldoptype"
+              },
+              {
+                "type": "doc",
+                "id": "api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/FieldOp-replace",
+                "label": "replace()",
+                "key": "doc:api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/fieldop-replace"
+              }
+            ]
+          },
+          {
             "type": "doc",
             "id": "api/python/python/MilvusClient/MilvusClient-Vector/Vector-AggregationBucket",
             "label": "AggregationBucket",
