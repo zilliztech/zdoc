@@ -19,6 +19,7 @@ displayed_sidebar: default
 ## Contents
 
 - [1 个集群中最多可创建多少个 Collection？](#how-many-collections-are-allowed-in-a-single-cluster)
+- [当集群重启后，重启前已加载的 Collection 是否需要重新加载？](#do-i-need-to-reload-the-collections-manually-after-I-restart-one-of-my-clusters?)
 - [如果创建 Collection 时未开启动态列，Collection 创建成功后是否还能开启动态列？](#if-dynamic-schema-was-disabled-when-the-collection-was-created-can-i-enable-it-later)
 - [Zilliz Cloud 支持哪些相似度类型？](#what-are-the-indexing-metric-types-supported-by-zilliz-cloud)
 - [Collection 加载为何失败，如何解决？](#why-do-i-fail-to-load-collections-what-can-i-do)
@@ -46,6 +47,10 @@ displayed_sidebar: default
 1. [删除](./manage-cluster#drop-cluster)未使用的 Collection。
 
 1. [使用 Partition Key](./use-partition-key) 创建 Partition。
+
+### 当集群重启后，重启前已加载的 Collection 是否需要重新加载？\{#do-i-need-to-reload-the-collections-manually-after-I-restart-one-of-my-clusters?}
+
+不需要，如果集群重启前 Collection 已加载，集群重启后 Collection 会自动加载，无须手动操作。
 
 ### 如果创建 Collection 时未开启动态列，Collection 创建成功后是否还能开启动态列？\{#if-dynamic-schema-was-disabled-when-the-collection-was-created-can-i-enable-it-later}
 
