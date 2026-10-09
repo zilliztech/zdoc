@@ -426,3 +426,31 @@ test('seeded semantic checkpoints skip model calls and land verbatim', async () 
     else process.env.TRANSLATION_SKIP_BLIND_REVIEW = previousSkip
   }
 })
+
+test('loadSemanticSeedIndex eagerly parses report contents and survives mid-run report deletion', () => {
+  withTempDir(dir => {
+    const manifest = manifestFor([])
+    const seedDir = path.join(dir, 'seeds')
+    fs.mkdirSync(path.join(seedDir, 'reports'), {recursive: true})
+    const report = {schemaVersion: 1, target: 'ja-JP', sourcePath: 'content/en/guides/t.md', entries: []}
+    fs.writeFileSync(path.join(seedDir, 'reports', '000001.json'), JSON.stringify(report))
+    fs.writeFileSync(path.join(seedDir, 'summary.json'), JSON.stringify({
+      schemaVersion: 1, kind: 'semantic-translation-seeds', target: 'ja-JP', locale: 'ja-JP',
+      group: 'guides', sourceCheckpointSha: manifest.sourceCheckpointSha, counts: {}, files: {
+        'content/en/guides/t.md': {reportFile: 'reports/000001.json', seededUnits: 1},
+        'content/en/guides/gone.md': {reportFile: 'reports/000002.json', seededUnits: 1},
+      },
+    }))
+    const index = loadSemanticSeedIndex(seedDir, manifest)
+    // The report is parsed up front, before any agent session starts, so a
+    // later deletion of the seed tree cannot crash a running provider.
+    fs.rmSync(path.join(seedDir, 'reports'), {recursive: true, force: true})
+    assert.deepEqual(index.reportContentsBySourcePath.get('content/en/guides/t.md'), report)
+    // A report listed in the summary but unreadable on disk is recorded and
+    // skipped instead of failing the whole index.
+    assert.equal(index.reportContentsBySourcePath.has('content/en/guides/gone.md'), false)
+    assert.equal(index.ignoredReports.length, 1)
+    assert.equal(index.ignoredReports[0].sourcePath, 'content/en/guides/gone.md')
+    assert.match(index.ignoredReports[0].reason, /ENOENT/)
+  })
+})

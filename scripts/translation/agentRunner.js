@@ -1727,6 +1727,8 @@ function loadSemanticSeedIndex(seedDir, manifest) {
     if (summary[key] !== manifest[key]) throw new Error(`Semantic seed summary ${key} does not match the current manifest`)
   }
   const reportsBySourcePath = new Map()
+  const reportContentsBySourcePath = new Map()
+  const ignoredReports = []
   const pendingBySourcePath = new Map()
   for (const [sourcePath, record] of Object.entries(summary.files || {})) {
     if (typeof record?.reportFile !== 'string' || !record.reportFile) continue
@@ -1734,6 +1736,16 @@ function loadSemanticSeedIndex(seedDir, manifest) {
       throw new Error(`Semantic seed report file is unsafe: ${record.reportFile}`)
     }
     reportsBySourcePath.set(sourcePath, record.reportFile)
+    // Eagerly parse every report here, before any agent session starts: agent
+    // processes run with write access to the workspace, and a report file
+    // deleted mid-run must degrade that one file to a fresh translation
+    // instead of crashing the whole provider with an unexpected ENOENT. A
+    // report that cannot be read is recorded and skipped for the same reason.
+    try {
+      reportContentsBySourcePath.set(sourcePath, JSON.parse(fs.readFileSync(path.join(seedDir, record.reportFile), 'utf8')))
+    } catch (error) {
+      ignoredReports.push({sourcePath, reportFile: record.reportFile, reason: String(error?.message || error)})
+    }
     if (record.pending !== undefined) {
       // Fail closed on malformed classification: the summary is planner-owned,
       // and silently coercing a broken shape to empty sets would misroute
@@ -1755,7 +1767,7 @@ function loadSemanticSeedIndex(seedDir, manifest) {
       pendingBySourcePath.set(sourcePath, {filtered, fresh: new Set(pending.new)})
     }
   }
-  return {summary, reportsBySourcePath, pendingBySourcePath}
+  return {summary, reportsBySourcePath, reportContentsBySourcePath, ignoredReports, pendingBySourcePath}
 }
 
 function mergeSeedAndRecoveryReports(seedReport, recoveryReport) {
@@ -2050,6 +2062,9 @@ async function main() {
   const work = partitionRecoveryWork(manifest, recovery.restored, recovery.pending)
   const semanticSeedsDir = args.get('--semantic-seeds') || ''
   const semanticSeeds = semanticSeedsDir ? loadSemanticSeedIndex(path.resolve(siteDir, semanticSeedsDir), manifest) : null
+  for (const ignored of semanticSeeds?.ignoredReports || []) {
+    console.warn(`[translation-agent] seed report ignored for ${ignored.sourcePath} (${ignored.reportFile}): ${ignored.reason}; translating fresh`)
+  }
   const callModel = work.pending.length > 0
     ? await createProviderCall(loadAgentConfigsFromEnv(), {
         maxRetries: maxProviderRetries,
@@ -2084,10 +2099,7 @@ async function main() {
       processItem: async entry => {
         const item = entry.item
         console.log(`[translation-agent] ${item.sourcePath}`)
-        const seedReportFile = semanticSeeds?.reportsBySourcePath.get(item.sourcePath)
-        const seedReport = seedReportFile
-          ? JSON.parse(fs.readFileSync(path.join(path.resolve(siteDir, semanticSeedsDir), seedReportFile), 'utf8'))
-          : null
+        const seedReport = semanticSeeds?.reportContentsBySourcePath.get(item.sourcePath) ?? null
         const targetItem = {...item, target: manifest.target, ...(seedReport ? {semanticSeedUnits: seedReport.entries.length} : {})}
         const result = await processItemWithRetry(targetItem, {
           maxRetries: fileRetries,
