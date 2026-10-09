@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "eac0e548e42a0b0ae9b6c9417c0aaba0c5944d9d",
+  "sourceCommit": "c4a497930886ed350797db058ef2f1764712bfcf",
   "records": [
     {
       "manual": "cli",
@@ -2430,37 +2430,12 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Collections-Function.md",
-      "sourceHash": "0908837998a1b705b56763ad745ee32a4b40856377d70e724419240773c5998e"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-BoostRanker.md",
-      "sourceHash": "8efa12ba9205d02c8f240f5a56efda2f9a47a84ab02a75fefcd7a4b62220e15b"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-DecayRanker.md",
-      "sourceHash": "38fb6c84dc569c30ea0d07d64427cd49cd5f452db5b39b883a0973f1e1393731"
+      "sourceHash": "f3a35767f59b2d463f13c432ed0d4ccfb091068fe53fc66bcb9987e7006d1df4"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-FunctionType.md",
-      "sourceHash": "6e13bb666641a2175e5e1f5d8ed61546d0b1eebc4d4a04547d477aa15f840019"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-ModelRanker.md",
-      "sourceHash": "6b1065fe79b037a1bf7c85803ff290dbeebadce95d1b5a01041f4c7c8c7fda5a"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-RRFRanker.md",
-      "sourceHash": "26b0f0046a633bd7c43a0b372426d9e8b08b6984cfdc3e549e06bbf1f96a731f"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-WeightedRanker.md",
-      "sourceHash": "b468866ec0bfaa17f2b0519444168abdddc2591c2b35266bd0f7caa5fb29c1a8"
+      "sourceHash": "9120f52b2cce228ffdcaa1fd1ed4edf609d8414fb5e4dd880372643598adf973"
     },
     {
       "manual": "java",
@@ -2625,27 +2600,27 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Function-BoostRanker.md",
-      "sourceHash": "12ab60bfd458de0dd02b4ce994527a21acbb5b015530f2eaf3b3cb966751efde"
+      "sourceHash": "8429d5ef7b164dbc5b4983078fe3c143be140970b9c39198edf6c702880527f3"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Function-DecayRanker.md",
-      "sourceHash": "63854dcbeb76cb74e11debc42a76c4e4eb631de9f9c9f6b5a39bdfd7004e5fcc"
+      "sourceHash": "292de3eb1cf6cf3cc28b1138992e8b2975cf0d1e2f9da5412062c7dbb4c36b31"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Function-ModelRanker.md",
-      "sourceHash": "9493a4d76d0cc7a4e4275858cb0d5e561ddaef873955f0e9b1ac63ee8df90621"
+      "sourceHash": "5832440717c82f5745f7fd982b7285b1459381f0653a3ca2f761dcb4ee73cbd8"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Function-RRFRanker.md",
-      "sourceHash": "dee77430e4e01d7780e0f3346ef942f8a2191f95629145427029f0e57cd4fe26"
+      "sourceHash": "9f5ab85232bccdfc9b50eab611897c07fc2f812acc678623dfed21daeab1ec20"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Function-WeightedRanker.md",
-      "sourceHash": "7f9ccb4062e6418da65534593ebfb0c3e6496fdc6552436e055645c5dd89c38c"
+      "sourceHash": "0093d985383fbcf108ad247ef628d2299785b9a690aa2bcd16f4f36f3ed29c21"
     },
     {
       "manual": "java",
@@ -4971,6 +4946,31 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-AggregationHit.md",
       "sourceHash": "3e20bbd76b4085f6a8ec2dadfcc8b5d23ac54833a21d27d38bf1ab5baa26ac0d"
+    },
+    {
+      "manual": "python",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/FieldOp-FieldOpType.md",
+      "sourceHash": "95843e5b2ad09debd872a59e57ab2396bec6ddbe5c822de81b3f1e6333bf4c82"
+    },
+    {
+      "manual": "python",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/FieldOp-array_append.md",
+      "sourceHash": "094e212c1de3cfaf919be0e3143df30b3339f04d22bba9efe1f3c813cfa3e2a7"
+    },
+    {
+      "manual": "python",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/FieldOp-array_remove.md",
+      "sourceHash": "5a20e93037cc07511b00b16a6314f19c394f7f92d0239be7aa104f8ba49a29c9"
+    },
+    {
+      "manual": "python",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/FieldOp-replace.md",
+      "sourceHash": "10f863b3596a0cef34cde86c305039ece7127cf6e068865a6d3a5695069b62f5"
+    },
+    {
+      "manual": "python",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-FieldOp/Vector-FieldOp.md",
+      "sourceHash": "dc5a93f512a2ed3fccf8c458e5a7fb354f724b424c2834b934b16a08dca55c7c"
     },
     {
       "manual": "python",
