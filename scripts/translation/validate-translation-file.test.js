@@ -118,3 +118,28 @@ test('flags a draft that flipped a <NextChannel> action polarity', () => {
 
   assert.ok(errors.some(error => /<NextChannel> parity mismatch: source include=1/.test(error)))
 })
+
+test('CLI accepts absolute source and draft paths outside the site directory', () => {
+  const fs = require('node:fs')
+  const os = require('node:os')
+  const path = require('node:path')
+  const {spawnSync} = require('node:child_process')
+  const siteDir = fs.mkdtempSync(path.join(os.tmpdir(), 'validator-site-'))
+  const scratchDir = fs.mkdtempSync(path.join(os.tmpdir(), 'validator-scratch-'))
+  try {
+    fs.writeFileSync(path.join(scratchDir, 'source.md'), SOURCE)
+    fs.writeFileSync(path.join(scratchDir, 'draft.md'), FULLY_TRANSLATED)
+    const result = spawnSync(process.execPath, [
+      path.join(__dirname, 'validate-translation-file.js'),
+      '--site-dir', siteDir, '--target', 'ja-JP',
+      '--source', path.join(scratchDir, 'source.md'),
+      '--draft', path.join(scratchDir, 'draft.md'),
+      '--write-back', 'false',
+    ], {encoding: 'utf8'})
+    assert.equal(result.status, 0, `validator must accept absolute inputs: ${result.stdout}\n${result.stderr}`)
+    assert.match(result.stdout, /OK/)
+  } finally {
+    fs.rmSync(siteDir, {recursive: true, force: true})
+    fs.rmSync(scratchDir, {recursive: true, force: true})
+  }
+})
