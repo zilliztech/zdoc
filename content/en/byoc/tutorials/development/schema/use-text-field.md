@@ -55,7 +55,7 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
-// Note: DataType.Text is not supported in milvus-sdk-go as of client/v3.0.0-beta.
+// Note: DataType.Text is not supported in milvus-sdk-go as of client/v3.0.0.
 ```
 
 </TabItem>
@@ -245,7 +245,7 @@ schema.addFunction(CreateCollectionReq.Function.builder()
 <TabItem value='go'>
 
 ```go
-// Note: DataType.Text is not supported in milvus-sdk-go as of client/v3.0.0-beta.
+// Note: DataType.Text is not supported in milvus-sdk-go as of client/v3.0.0.
 ```
 
 </TabItem>
@@ -421,7 +421,7 @@ client.createCollection(requestCreate);
 <TabItem value='go'>
 
 ```go
-// Note: DataType.Text is not supported in milvus-sdk-go as of client/v3.0.0-beta.
+// Note: DataType.Text is not supported in milvus-sdk-go as of client/v3.0.0.
 ```
 
 </TabItem>
@@ -573,7 +573,7 @@ client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
-// Note: DataType.Text is not supported in milvus-sdk-go as of client/v3.0.0-beta.
+// Note: DataType.Text is not supported in milvus-sdk-go as of client/v3.0.0.
 ```
 
 </TabItem>
@@ -720,7 +720,7 @@ SearchResp searchResp = client.search(SearchReq.builder()
 <TabItem value='go'>
 
 ```go
-// Note: DataType.Text is not supported in milvus-sdk-go as of client/v3.0.0-beta.
+// Note: DataType.Text is not supported in milvus-sdk-go as of client/v3.0.0.
 ```
 
 </TabItem>
@@ -828,7 +828,7 @@ for (List<SearchResp.SearchResult> hits : searchResp.getSearchResults()) {
 <TabItem value='go'>
 
 ```go
-// Note: DataType.Text is not supported in milvus-sdk-go as of client/v3.0.0-beta.
+// Note: DataType.Text is not supported in milvus-sdk-go as of client/v3.0.0.
 ```
 
 </TabItem>
@@ -864,8 +864,8 @@ for (auto& result : search_results.Results()) {
 
 ```javascript
 for (const hit of res.results) {
-    console.log(`id: ${hit.id}, score: ${hit.distance}`);
-    console.log(hit.entity?.content ?? hit.content);
+    console.log(`id: ${hit.id}, score: ${hit.score}`);
+    console.log(hit.content);
 }
 ```
 

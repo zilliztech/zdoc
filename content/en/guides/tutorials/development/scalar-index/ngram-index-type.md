@@ -523,33 +523,52 @@ Supported query types:
 
 - **Prefix match**
 
-```python # Match any string that starts with the substring "database" filter = 'text LIKE "database%"'` ``
+    ```python
+    # Match any string that starts with the substring "database" 
+    filter = 'text LIKE "database%"'
+    ```
 
 - **Suffix match**
 
-```python # Match any string that ends with the substring "database" filter = 'text LIKE "%database"'` ``
+    ```python
+    # Match any string that ends with the substring "database" 
+    filter = 'text LIKE "%database"'
+    ```
 
 - **Infix match**
 
-```python # Match any string that contains the substring "database" anywhere filter = 'text LIKE "%database%"'` ``
+    ```python
+    # Match any string that contains the substring "database" anywhere 
+    filter = 'text LIKE "%database%"'
+    ```
 
 - **Wildcard match**
 
-Zilliz Cloud supports both `%` (zero or more characters) and `_` (exactly one character).
+    Zilliz Cloud supports both `%` (zero or more characters) and `_` (exactly one character).
 
-```python # Match any string where "st" appears first, and "um" appears later in the text filter = 'text LIKE "%st%um%"'` ``
+    ```python
+    # Match any string where "st" appears first, and "um" appears later in the text 
+    filter = 'text LIKE "%st%um%"'
+    ```
 
 - **JSON path queries**
 
-```python filter = 'json_field["body"] LIKE "%database%"'` ``
+    ```python
+    filter = 'json_field["body"] LIKE "%database%"'
+    ```
 
 - **Regex filter**
 
-```python # Match log messages that contain "error" followed later by "timeout" filter = 'text =~ "error.*timeout"'` ``
+    ```python
+    # Match log messages that contain "error" followed later by "timeout" 
+    filter = 'text =~ "error.*timeout"'
+    ```
 
 - **Regex filter on a JSON path**
 
-```python filter = 'json_field["body"] =~ "error.*timeout"'` ``
+    ```python
+    filter = 'json_field["body"] =~ "error.*timeout"'
+    ```
 
 For more information on filter expression syntax, refer to [Pattern Matching](./pattern-match).
 

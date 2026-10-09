@@ -1,107 +1,87 @@
 # guides Incremental Fetch Plan
 
-Generated: 2026-10-09T10:30:05.425Z
+Generated: 2026-10-09T18:33:33.554Z
 Mode: incremental
 Build env: uat
 Source dir: `packages/docs-tooling/src/lark/meta/sources/guides`
-Previous snapshot: 2026-10-09T02:45:50.954Z
+Previous snapshot: 2026-10-09T10:35:21.017Z
 
 ## Summary
 
-- Changed docs: 8
-- Expanded docs: 76
+- Changed docs: 9
+- Expanded docs: 55
 - Removed docs: 0
 - Warnings: 0
 
 ## Changed Docs
 
-- Quickstart to External Data Lake Search (KdwFwQnDNisT4skHH6Hc16uInji): wiki node revision changed
-- FAQs (EV41wG08BiOWW8kbo9xcTGoPnKd): wiki node revision changed
-- Basic Operators (LBbUwOGcwi1UMak3eE2cM1gvnUe): wiki node revision changed
-- Use Snapshot as Data Source (JfJvwdGz0iD9LpkrCMccZ2ypn0g): wiki node revision changed
-- Insert Data into StructArray Fields (WTPbww9GkifmAvkuRWLcVd4jnnh): wiki node revision changed
-- Index StructArray Fields (VvkEwug9ciPZYVk6hM1chLydnib): wiki node revision changed
-- Cohere Ranker (Mtxfwvu2fiOLwXkcURCcJxDPnLd): wiki node revision changed
-- Cluster Resource Privileges & Privilege Groups (NitBwKVzzi0hXBkjdDFcfwRsngb): wiki node revision changed
+- Modify Collection (WMh8w3tbKiBhukk3ICMc4ctznEg): wiki node revision changed
+- Set Collection TTL (GthGwnrpEiGpClkV5JXcgWUgn8c): wiki node revision changed
+- Load & Release (CemEwKryciMUepkgYWZcOw6wncb): wiki node revision changed
+- Text Field (GBynwwkyBihIHukvJXfc76dMnth): wiki node revision changed
+- Alter Collection Schema (UR9SwucAIiQ2TYkc9EucsgvSnng): wiki node revision changed
+- NGRAM (Q0wpw4xZiimaUsk4GvScAg2un1d): wiki node revision changed
+- Jieba (JGURwBQNOijp2DkspFFctbAGnLh): wiki node revision changed
+- Stop (ScncwBnDBiVoLjksXAwcUgrgnod): wiki node revision changed
+- Decompounder (DDrHwdsb7idJa9kVU6zc2VwInBf): wiki node revision changed
 
 ## Expanded Tokens
 
-- AIb1wNAE3iiKVSk8MHAcVA4QnJb: incoming reference to LBbUwOGcwi1UMak3eE2cM1gvnUe
-- B1cSwfWcri4VJLkCR20cHIs6nCf: outgoing reference from Mtxfwvu2fiOLwXkcURCcJxDPnLd
-- BTrNwoEfYii1e9kf0BScWDpcnA2: outgoing reference from EV41wG08BiOWW8kbo9xcTGoPnKd
-- CPLrwghdWiSvGBkdeEecGjgLnSb: outgoing reference from EV41wG08BiOWW8kbo9xcTGoPnKd
-- CmR5wFcybi3iMokOJBxcXDQcntg: outgoing reference from EV41wG08BiOWW8kbo9xcTGoPnKd
-- CpBbwcJ87irHp0k9oCSc2RNIn3d: incoming reference to LBbUwOGcwi1UMak3eE2cM1gvnUe
-- DEUuwEwM4iMLOikU7XpcpNnKnGd: outgoing reference from EV41wG08BiOWW8kbo9xcTGoPnKd
-- DjROwgK6ziCf7Rkoji6ccyEUnsg: outgoing reference from LBbUwOGcwi1UMak3eE2cM1gvnUe
-- EA2twSf5oiERMDkriKScU9GInc4: outgoing reference from EV41wG08BiOWW8kbo9xcTGoPnKd
-- EDzFwzb7Sifsz4kFYZIcAF9Pn1p: outgoing reference from VvkEwug9ciPZYVk6hM1chLydnib
-- EV41wG08BiOWW8kbo9xcTGoPnKd: wiki node revision changed
-- EqSpwh9BaiEISgkG5YVcDbCUnpe: incoming reference to VvkEwug9ciPZYVk6hM1chLydnib
-- FNlcdU22Loec6BxE8uEcjFK9npd: outgoing reference from EV41wG08BiOWW8kbo9xcTGoPnKd
-- GBynwwkyBihIHukvJXfc76dMnth: outgoing reference from LBbUwOGcwi1UMak3eE2cM1gvnUe
-- GMdhwQQCRi2QaLkimNOcc3qNnbh: outgoing reference from EV41wG08BiOWW8kbo9xcTGoPnKd
-- GOCJwJktXizGTXkRfCEc9GGLnsb: outgoing reference from EV41wG08BiOWW8kbo9xcTGoPnKd
-- GanXwLnJkiymKVkNPhecdi9MnGf: incoming reference to LBbUwOGcwi1UMak3eE2cM1gvnUe
-- Ghq9wEiOOivgeIkmj2HcHC9onXe: outgoing reference from EV41wG08BiOWW8kbo9xcTGoPnKd
-- GsofwhPKqi0Bfkkk7YqcRzndnah: incoming reference to NitBwKVzzi0hXBkjdDFcfwRsngb
-- GthGwnrpEiGpClkV5JXcgWUgn8c: outgoing reference from EV41wG08BiOWW8kbo9xcTGoPnKd
-- I5qmw4fxDiBxBQksrNwcLHQpnTc: outgoing reference from EV41wG08BiOWW8kbo9xcTGoPnKd
-- I60hwuYrSiVSWBkYq9RcqRcpnFh: incoming reference to VvkEwug9ciPZYVk6hM1chLydnib
-- INoRwFTjfiindPkaNlwc9XAgnkh: outgoing reference from KdwFwQnDNisT4skHH6Hc16uInji
-- IzXPwUlJ5isTa4kH9KTcC6SfnvZ: outgoing reference from KdwFwQnDNisT4skHH6Hc16uInji
-- JCMPwIyVciCT4Hk4O20c96MEnch: outgoing reference from EV41wG08BiOWW8kbo9xcTGoPnKd
-- JaLdw76LPiX003kLpKHcA0n8n2d: outgoing reference from KdwFwQnDNisT4skHH6Hc16uInji
-- JfJvwdGz0iD9LpkrCMccZ2ypn0g: wiki node revision changed
-- KdwFwQnDNisT4skHH6Hc16uInji: wiki node revision changed
-- LBbUwOGcwi1UMak3eE2cM1gvnUe: wiki node revision changed
-- LDlOweEzmiLkdQkvPFec5lrcnbf: outgoing reference from EV41wG08BiOWW8kbo9xcTGoPnKd
-- LMfdwRwKIiJtywkwbHVcGnOFnRf: outgoing reference from EV41wG08BiOWW8kbo9xcTGoPnKd
-- MTqjwwUKhiyns4kGV7Lc7PRlnwb: outgoing reference from EV41wG08BiOWW8kbo9xcTGoPnKd
-- MUL3wkn7Yi3YoFkYk59csf8bnNc: incoming reference to KdwFwQnDNisT4skHH6Hc16uInji
-- Mf7GwGwgQiLCcykOi69cvaD8ncz: incoming reference to VvkEwug9ciPZYVk6hM1chLydnib
-- Mtxfwvu2fiOLwXkcURCcJxDPnLd: wiki node revision changed
-- N0RmwUtmqinQvokWdYLc3yV5nJh: outgoing reference from LBbUwOGcwi1UMak3eE2cM1gvnUe
-- NRF1wGr3AiWWC1kVfWucZD6Xneb: incoming reference to KdwFwQnDNisT4skHH6Hc16uInji
-- NXypwJ2ySiv7RAkyKb5cZ9SKnvf: outgoing reference from EV41wG08BiOWW8kbo9xcTGoPnKd
-- NitBwKVzzi0hXBkjdDFcfwRsngb: wiki node revision changed
-- NmFBwTRj9iFuC8kXno6cqRbmnfh: incoming reference to NitBwKVzzi0hXBkjdDFcfwRsngb
-- OFl9wHXpriM8aEkoONScpU1lnIf: incoming reference to LBbUwOGcwi1UMak3eE2cM1gvnUe
-- OJVrwOiE4i3fFjk2J3NcneLznfh: incoming reference to NitBwKVzzi0hXBkjdDFcfwRsngb
-- PAViwMSb3iVMzuk56z3c1zfRnwh: outgoing reference from KdwFwQnDNisT4skHH6Hc16uInji
-- PBZwwNqWjiikeYkXgHPcGhLznTh: outgoing reference from NitBwKVzzi0hXBkjdDFcfwRsngb
-- PFbNwB7Mli18n6k6VWScGcpWndc: outgoing reference from LBbUwOGcwi1UMak3eE2cM1gvnUe
-- PNj2w5fY9ifr82kbX8ucKgXAn0r: outgoing reference from EV41wG08BiOWW8kbo9xcTGoPnKd
-- PharwAysCiBzvgkuqqecmNzunQf: outgoing reference from EV41wG08BiOWW8kbo9xcTGoPnKd
-- PuxkwMWvbiHxvTkHsVkcMZP9n5f: outgoing reference from EV41wG08BiOWW8kbo9xcTGoPnKd
-- Q0wpw4xZiimaUsk4GvScAg2un1d: outgoing reference from LBbUwOGcwi1UMak3eE2cM1gvnUe
-- Q7wIwcnrEiVDofk5G4Fc7vlonPh: outgoing reference from VvkEwug9ciPZYVk6hM1chLydnib
-- QWqiwrgJViA5AJkv64VcgQX2nKd: outgoing reference from EV41wG08BiOWW8kbo9xcTGoPnKd
-- RsGAwmgAYiE6fgkOiokcijsBnEg: outgoing reference from JfJvwdGz0iD9LpkrCMccZ2ypn0g
-- RxUiwJ77WiFKZGkC8rEcLeopnTf: incoming reference to LBbUwOGcwi1UMak3eE2cM1gvnUe
-- RzSBwW7dUizQeekka9CcZ3Etnyg: outgoing reference from VvkEwug9ciPZYVk6hM1chLydnib
-- SFPlwOh8cigh8wkm9xLcXHlfnVh: outgoing reference from EV41wG08BiOWW8kbo9xcTGoPnKd
-- SsGkwyGJDirNDwk170rcHbUjnVe: outgoing reference from LBbUwOGcwi1UMak3eE2cM1gvnUe
-- TumJwDYrhiDYcUkKsUIcuSnbnCf: outgoing reference from LBbUwOGcwi1UMak3eE2cM1gvnUe
-- UR9SwucAIiQ2TYkc9EucsgvSnng: incoming reference to LBbUwOGcwi1UMak3eE2cM1gvnUe
-- UgqvwKh2QiKE1kkYNLJcaHt0nkg: outgoing reference from EV41wG08BiOWW8kbo9xcTGoPnKd
-- Uk0Nw1ZdbiOEBtkAOKacLTf8nGe: outgoing reference from EV41wG08BiOWW8kbo9xcTGoPnKd
-- VlAlwAJvEiVVW6k0RBvcvkpWnhK: incoming reference to VvkEwug9ciPZYVk6hM1chLydnib
-- VmGMwsTliiGZdFkzzeBckRNlnCh: outgoing reference from LBbUwOGcwi1UMak3eE2cM1gvnUe
-- VsLcwDK6SiGs0CkJ7i0cmRYWnof: outgoing reference from EV41wG08BiOWW8kbo9xcTGoPnKd
-- VvkEwug9ciPZYVk6hM1chLydnib: wiki node revision changed
-- WDjyw7hO3i26RckEgqIcf36snMh: outgoing reference from VvkEwug9ciPZYVk6hM1chLydnib
-- WMh8w3tbKiBhukk3ICMc4ctznEg: outgoing reference from EV41wG08BiOWW8kbo9xcTGoPnKd
-- WRuXwuBYli07B5kudtCc1Omanyh: outgoing reference from EV41wG08BiOWW8kbo9xcTGoPnKd
-- WTPbww9GkifmAvkuRWLcVd4jnnh: wiki node revision changed
-- WTsmwWdgOiKnwpkdZdScp093njh: outgoing reference from Mtxfwvu2fiOLwXkcURCcJxDPnLd
-- XvTLwH1TEiEHdJksnyIcMCixnic: outgoing reference from EV41wG08BiOWW8kbo9xcTGoPnKd
-- Y6Qqw4a3XiWPlCkQYMqcLEORnAU: outgoing reference from EV41wG08BiOWW8kbo9xcTGoPnKd
-- Y8nwwbi0KiwtVZkMaSQcsPcwnkf: outgoing reference from EV41wG08BiOWW8kbo9xcTGoPnKd
-- YHG0wCYxfiZILvkZ2VLclmvsn7g: outgoing reference from NitBwKVzzi0hXBkjdDFcfwRsngb
-- YmsVwIzOBinv4OklCfmc2nyznAe: outgoing reference from EV41wG08BiOWW8kbo9xcTGoPnKd
-- ZBEiwpvlbijhYDkmnNScc7zyn5d: incoming reference to Mtxfwvu2fiOLwXkcURCcJxDPnLd
-- ZR1bwJFFSio2jkkabd7c1YAYncf: incoming reference to VvkEwug9ciPZYVk6hM1chLydnib
+- A9lowWdneiCQbZkgwrocKkT2nxW: outgoing reference from UR9SwucAIiQ2TYkc9EucsgvSnng
+- BaGlwzDmyiyVvVk6NurcFclInCd: incoming reference to UR9SwucAIiQ2TYkc9EucsgvSnng
+- CK0ewQWC2iz6lakP0kscqogbnGh: incoming reference to WMh8w3tbKiBhukk3ICMc4ctznEg
+- CemEwKryciMUepkgYWZcOw6wncb: wiki node revision changed
+- CmR5wFcybi3iMokOJBxcXDQcntg: incoming reference to GthGwnrpEiGpClkV5JXcgWUgn8c
+- D2ctwKZhNilLY0ke1vpcHL62n5G: incoming reference to WMh8w3tbKiBhukk3ICMc4ctznEg
+- DDrHwdsb7idJa9kVU6zc2VwInBf: wiki node revision changed
+- DjROwgK6ziCf7Rkoji6ccyEUnsg: outgoing reference from GBynwwkyBihIHukvJXfc76dMnth
+- EAwdw2ZbtiBKttk66FTctUebn7f: outgoing reference from UR9SwucAIiQ2TYkc9EucsgvSnng
+- EV41wG08BiOWW8kbo9xcTGoPnKd: incoming reference to GthGwnrpEiGpClkV5JXcgWUgn8c
+- EhXXwmJzBi8pg9kJcC4ccm9OnDe: incoming reference to JGURwBQNOijp2DkspFFctbAGnLh
+- GAX8wkC1QiTZhXkLBocc1GoTnke: outgoing reference from DDrHwdsb7idJa9kVU6zc2VwInBf
+- GBynwwkyBihIHukvJXfc76dMnth: wiki node revision changed
+- GthGwnrpEiGpClkV5JXcgWUgn8c: wiki node revision changed
+- H8MVwnjdgihp0hkRHHKcjBe9n5e: outgoing reference from DDrHwdsb7idJa9kVU6zc2VwInBf
+- IO4fwm5fJiroaoktKeIcbdkDnRb: incoming reference to CemEwKryciMUepkgYWZcOw6wncb
+- IxO5wZ1meiYrTckUPkQca9JOnbS: incoming reference to CemEwKryciMUepkgYWZcOw6wncb
+- JGURwBQNOijp2DkspFFctbAGnLh: wiki node revision changed
+- L5jawEj7FiBXWZkGhLgcQCWQnDd: incoming reference to UR9SwucAIiQ2TYkc9EucsgvSnng
+- LBbUwOGcwi1UMak3eE2cM1gvnUe: incoming reference to GBynwwkyBihIHukvJXfc76dMnth
+- MBVVww2Zii8k6Bk77GJcXbZJnpf: outgoing reference from Q0wpw4xZiimaUsk4GvScAg2un1d
+- MTqjwwUKhiyns4kGV7Lc7PRlnwb: incoming reference to CemEwKryciMUepkgYWZcOw6wncb
+- MUL3wkn7Yi3YoFkYk59csf8bnNc: incoming reference to GthGwnrpEiGpClkV5JXcgWUgn8c
+- NRF1wGr3AiWWC1kVfWucZD6Xneb: incoming reference to GthGwnrpEiGpClkV5JXcgWUgn8c
+- Neq4wR0EdiXokRkhXwbcMPfanCd: incoming reference to Q0wpw4xZiimaUsk4GvScAg2un1d
+- OVxRwZWxNi4pYrkdKxCcOuY2nf1: incoming reference to CemEwKryciMUepkgYWZcOw6wncb
+- OZtawoDUci0CKokf9RlchvInnMf: incoming reference to UR9SwucAIiQ2TYkc9EucsgvSnng
+- Of8PwuunCihBfxksNJJcSCRYnsf: incoming reference to JGURwBQNOijp2DkspFFctbAGnLh
+- P3wrwSMNNihy8Vkf9p6cTsWYnTb: outgoing reference from Q0wpw4xZiimaUsk4GvScAg2un1d
+- PFbNwB7Mli18n6k6VWScGcpWndc: outgoing reference from Q0wpw4xZiimaUsk4GvScAg2un1d
+- PLjFwlcT8ilFBakYXyfcg6S2n7d: outgoing reference from UR9SwucAIiQ2TYkc9EucsgvSnng
+- PlX3wo82Di6oWVkg2ercRWCUnvV: incoming reference to CemEwKryciMUepkgYWZcOw6wncb
+- PmaowiSUaiTa8ckPMYJcqdRYnQg: incoming reference to UR9SwucAIiQ2TYkc9EucsgvSnng
+- Pulhw06e5iXJTFkidFXcGbylnod: incoming reference to DDrHwdsb7idJa9kVU6zc2VwInBf
+- PuxkwMWvbiHxvTkHsVkcMZP9n5f: outgoing reference from UR9SwucAIiQ2TYkc9EucsgvSnng
+- PvwZwtu3FiBQNqkPa5VcqH6qnmg: incoming reference to JGURwBQNOijp2DkspFFctbAGnLh
+- Q0wpw4xZiimaUsk4GvScAg2un1d: wiki node revision changed
+- QBXVwP7oiiuEovkprDnckJlEnoK: incoming reference to GBynwwkyBihIHukvJXfc76dMnth
+- QWqiwrgJViA5AJkv64VcgQX2nKd: outgoing reference from WMh8w3tbKiBhukk3ICMc4ctznEg
+- R3r7wFHUbi8KxUk2t2FcUXoJnic: incoming reference to JGURwBQNOijp2DkspFFctbAGnLh
+- R7F7wY8pCiJ5Q4kbntxcMsE6nLf: incoming reference to UR9SwucAIiQ2TYkc9EucsgvSnng
+- RQTRwhOVPiwnwokqr4scAtyfnBf: outgoing reference from GBynwwkyBihIHukvJXfc76dMnth
+- RxUiwJ77WiFKZGkC8rEcLeopnTf: outgoing reference from WMh8w3tbKiBhukk3ICMc4ctznEg
+- ScncwBnDBiVoLjksXAwcUgrgnod: wiki node revision changed
+- TVfnwtCEQico7Bk9bngcnV1cnGb: outgoing reference from JGURwBQNOijp2DkspFFctbAGnLh
+- UR9SwucAIiQ2TYkc9EucsgvSnng: wiki node revision changed
+- VlAlwAJvEiVVW6k0RBvcvkpWnhK: outgoing reference from UR9SwucAIiQ2TYkc9EucsgvSnng
+- Vs4YwNnvzitoQ8kunlGcWMJInbf: incoming reference to GBynwwkyBihIHukvJXfc76dMnth
+- W0WhwqRyciRMRLklcsdca1U2nae: incoming reference to ScncwBnDBiVoLjksXAwcUgrgnod
+- WMh8w3tbKiBhukk3ICMc4ctznEg: wiki node revision changed
+- WZe4w7lNji6RVHkR5alcrTw8nQ2: incoming reference to CemEwKryciMUepkgYWZcOw6wncb
+- X16rw3C4giUT6bkPLXAcsBapnpe: incoming reference to JGURwBQNOijp2DkspFFctbAGnLh
+- YbChwcPMBim5ryk1EQocEbDenDd: outgoing reference from UR9SwucAIiQ2TYkc9EucsgvSnng
+- Z9AMwNkVLiog0jkXxNscuMpJnjL: incoming reference to CemEwKryciMUepkgYWZcOw6wncb
+- ZBEiwpvlbijhYDkmnNScc7zyn5d: incoming reference to GthGwnrpEiGpClkV5JXcgWUgn8c
 
 ## Removed Docs
 

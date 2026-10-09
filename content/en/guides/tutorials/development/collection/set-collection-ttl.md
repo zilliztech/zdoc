@@ -312,8 +312,36 @@ await client.createCollection({
 <TabItem value='bash'>
 
 ```bash
+export schema='{
+        "autoId": false,
+        "enableDynamicField": false,
+        "fields": [
+            {
+                "fieldName": "id",
+                "dataType": "Int64",
+                "isPrimary": true
+            },
+            {
+                "fieldName": "vector",
+                "dataType": "FloatVector",
+                "elementTypeParams": {
+                    "dim": "128"
+                }
+            }
+        ]
+    }'
+
+export indexParams='[
+        {
+            "fieldName": "vector",
+            "metricType": "COSINE",
+            "indexName": "vector",
+            "indexType": "AUTOINDEX"
+        }
+    ]'
+
 export params='{
-    "ttlSeconds": 1209600
+    "ttlSeconds": "1209600"
 }'
 
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
@@ -327,6 +355,7 @@ curl --request POST \
 -d "{
     \"collectionName\": \"my_collection\",
     \"schema\": $schema,
+    \"indexParams\": $indexParams,
     \"params\": $params
 }"
 ```
@@ -648,7 +677,7 @@ curl --request POST \
 -d "{
     \"collectionName\": \"my_collection\",
     \"properties\": {
-        \"collection.ttl.seconds\": 1209600
+        \"collection.ttl.seconds\": \"1209600\"
     }
 }"
 ```
@@ -789,6 +818,9 @@ await client.dropCollectionProperties({
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/drop_properties" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -2005,9 +2037,11 @@ export TOKEN="YOUR_CLUSTER_TOKEN"
 # Step 1 — add a TIMESTAMPTZ column to the schema
 curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/fields/add" --header "Authorization: Bearer ${TOKEN}" --header "Content-Type: application/json" --header "Request-Timeout: 10" -d "{
     \"collectionName\": \"my_collection\",
-    \"fieldName\": \"expire_at\",
-    \"dataType\": \"Timestamptz\",
-    \"nullable\": true
+    \"schema\": {
+        \"fieldName\": \"expire_at\",
+        \"dataType\": \"Timestamptz\",
+        \"nullable\": true
+    }
 }"
 
 # Step 2 — mark the new column as the TTL field
@@ -2505,10 +2539,37 @@ await client.upsert({
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
 export TOKEN="YOUR_CLUSTER_TOKEN"
 
+# Step 1 — disable collection-level TTL (mandatory; the two modes are mutually exclusive)
+curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/drop_properties" --header "Authorization: Bearer ${TOKEN}" --header "Content-Type: application/json" --header "Request-Timeout: 10" -d "{
+    \"collectionName\": \"my_collection\",
+    \"propertyKeys\": [
+        \"collection.ttl.seconds\"
+    ]
+}"
+
+# Step 2 — add a TIMESTAMPTZ column to the schema
+curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/fields/add" --header "Authorization: Bearer ${TOKEN}" --header "Content-Type: application/json" --header "Request-Timeout: 10" -d "{
+    \"collectionName\": \"my_collection\",
+    \"schema\": {
+        \"fieldName\": \"expire_at\",
+        \"dataType\": \"Timestamptz\",
+        \"nullable\": true
+    }
+}"
+
+# Step 3 — set the ttl_field property on the column you just added
+curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/alter_properties" --header "Authorization: Bearer ${TOKEN}" --header "Content-Type: application/json" --header "Request-Timeout: 10" -d "{
+    \"collectionName\": \"my_collection\",
+    \"properties\": {
+        \"ttl_field\": \"expire_at\"
+    }
+}"
+
+# Step 4 (optional) — backfill expiration timestamps for historical entities
 curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/upsert" --header "Authorization: Bearer ${TOKEN}" --header "Content-Type: application/json" --header "Request-Timeout: 10" -d "{
     \"collectionName\": \"my_collection\",
     \"data\": [
-        {\"id\": 2, \"vector\": [0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8], \"expire_at\": \"2028-01-01T00:00:00Z\"}
+        {\"id\": 1, \"vector\": [0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8], \"expire_at\": \"2026-12-31T00:00:00Z\"}
     ]
 }"
 ```
@@ -2693,35 +2754,20 @@ await client.alterCollectionProperties({
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
 export TOKEN="YOUR_CLUSTER_TOKEN"
 
-# Step 1 — disable collection-level TTL (mandatory; the two modes are mutually exclusive)
+# Step 1 — drop the ttl_field property (mandatory; the two modes are mutually exclusive)
 curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/drop_properties" --header "Authorization: Bearer ${TOKEN}" --header "Content-Type: application/json" --header "Request-Timeout: 10" -d "{
     \"collectionName\": \"my_collection\",
     \"propertyKeys\": [
-        \"collection.ttl.seconds\"
+        \"ttl_field\"
     ]
 }"
 
-# Step 2 — add a TIMESTAMPTZ column to the schema
-curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/fields/add" --header "Authorization: Bearer ${TOKEN}" --header "Content-Type: application/json" --header "Request-Timeout: 10" -d "{
-    \"collectionName\": \"my_collection\",
-    \"fieldName\": \"expire_at\",
-    \"dataType\": \"Timestamptz\",
-    \"nullable\": true
-}"
-
-# Step 3 — set the ttl_field property on the column you just added
+# Step 2 — set a collection-level TTL for all entities
 curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/alter_properties" --header "Authorization: Bearer ${TOKEN}" --header "Content-Type: application/json" --header "Request-Timeout: 10" -d "{
     \"collectionName\": \"my_collection\",
     \"properties\": {
-        \"ttl_field\": \"expire_at\"
+        \"collection.ttl.seconds\": \"1209600\"
     }
-}"
-# Step 3 (optional) — backfill expiration timestamps for historical rows
-curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/upsert" --header "Authorization: Bearer ${TOKEN}" --header "Content-Type: application/json" --header "Request-Timeout: 10" -d "{
-    \"collectionName\": \"my_collection\",
-    \"data\": [
-        {\"id\": 1, \"vector\": [0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55, 0.55], \"expire_at\": \"2026-12-31T00:00:00Z\"}
-    ]
 }"
 ```
 

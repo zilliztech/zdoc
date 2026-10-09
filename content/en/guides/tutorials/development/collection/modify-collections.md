@@ -81,6 +81,7 @@ import (
     "context"
     "fmt"
 
+    "github.com/milvus-io/milvus/client/v3/common"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
@@ -126,6 +127,7 @@ client.rename_collection(
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
@@ -469,6 +471,9 @@ client.alter_collection_properties(
 <TabItem value='java'>
 
 ```java
+import io.milvus.param.Constant;
+import io.milvus.v2.service.collection.request.AlterCollectionPropertiesReq;
+
 AlterCollectionPropertiesReq alterCollectionReq = AlterCollectionPropertiesReq.builder()
         .collectionName("my_collection")
         .property(Constant.MMAP_ENABLED, "True")
@@ -574,6 +579,8 @@ client.alter_collection_properties(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.collection.request.AlterCollectionPropertiesReq;
+
 AlterCollectionPropertiesReq alterCollectionReq = AlterCollectionPropertiesReq.builder()
         .collectionName("my_collection")
         .property("partitionkey.isolation", "True")
@@ -679,6 +686,8 @@ client.alter_collection_properties(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.collection.request.AlterCollectionPropertiesReq;
+
 AlterCollectionPropertiesReq alterCollectionReq = AlterCollectionPropertiesReq.builder()
         .collectionName("my_collection")
         .property("dynamicfield.enabled", "True")
@@ -773,6 +782,8 @@ The example below shows how to enable `allow_insert_auto_id`:
 <TabItem value='python'>
 
 ```python
+from pymilvus import MilvusClient
+
 client.alter_collection_properties(
     collection_name="my_collection",
     # highlight-next-line
@@ -786,6 +797,8 @@ client.alter_collection_properties(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.collection.request.AlterCollectionPropertiesReq;
+
 AlterCollectionPropertiesReq alterCollectionReq = AlterCollectionPropertiesReq.builder()
         .collectionName("my_collection")
         .property("allow_insert_auto_id", "True")
@@ -882,6 +895,8 @@ The example below shows how to set the collection time zone to **Asia/Shanghai**
 <TabItem value='python'>
 
 ```python
+from pymilvus import MilvusClient
+
 client.alter_collection_properties(
     collection_name="my_collection",
     # highlight-next-line
@@ -894,6 +909,8 @@ client.alter_collection_properties(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.collection.request.AlterCollectionPropertiesReq;
+
 AlterCollectionPropertiesReq alterCollectionReq = AlterCollectionPropertiesReq.builder()
         .collectionName("my_collection")
         .property("timezone", "Asia/Shanghai")
@@ -986,6 +1003,8 @@ You can also reset a collection property by dropping it as follows.
 <TabItem value='python'>
 
 ```python
+from pymilvus import MilvusClient
+
 client.drop_collection_properties(
     collection_name="my_collection",
     property_keys=[
@@ -999,6 +1018,9 @@ client.drop_collection_properties(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.collection.request.DropCollectionPropertiesReq;
+import java.util.Collections;
+
 client.dropCollectionProperties(DropCollectionPropertiesReq.builder()
         .collectionName("my_collection")
         .propertyKeys(Collections.singletonList("collection.ttl.seconds"))
@@ -1060,6 +1082,9 @@ client.dropCollectionProperties({
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/drop_properties" \
 --header "Authorization: Bearer ${TOKEN}" \

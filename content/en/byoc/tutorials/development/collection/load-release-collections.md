@@ -96,14 +96,14 @@ ConnectConfig connectConfig = ConnectConfig.builder()
 
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
-// 6. Load the collection
+// 7. Load the collection
 LoadCollectionReq loadCollectionReq = LoadCollectionReq.builder()
         .collectionName("my_collection")
         .build();
 
 client.loadCollection(loadCollectionReq);
 
-// 7. Get load state of the collection
+// Get load state of the collection
 GetLoadStateReq loadStateReq = GetLoadStateReq.builder()
         .collectionName("my_collection")
         .build();
@@ -244,7 +244,7 @@ const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
 
 // 7. Load the collection
-res = await client.loadCollection({
+let res = await client.loadCollection({
     collection_name: "my_collection"
 })
 
@@ -348,7 +348,7 @@ print(res)
 ```java
 import java.util.Arrays;
 
-// 6. Load the collection
+// Load the collection
 LoadCollectionReq loadCollectionReq = LoadCollectionReq.builder()
         .collectionName("my_collection")
         .loadFields(Arrays.asList("my_id", "my_vector"))
@@ -357,7 +357,7 @@ LoadCollectionReq loadCollectionReq = LoadCollectionReq.builder()
 
 client.loadCollection(loadCollectionReq);
 
-// 7. Get load state of the collection
+// Get load state of the collection
 GetLoadStateReq loadStateReq = GetLoadStateReq.builder()
         .collectionName("my_collection")
         .build();
@@ -606,7 +606,7 @@ std::cout << std::to_string(response.State()) << std::endl;
 
 ```javascript
 // 8. Release the collection
-res = await client.releaseCollection({
+let res = await client.releaseCollection({
     collection_name: "my_collection"
 })
 

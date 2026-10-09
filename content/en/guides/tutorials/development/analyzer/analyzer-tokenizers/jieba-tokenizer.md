@@ -623,24 +623,12 @@ console.log(result.results);
 
 ```bash
 curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/common/run" \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/common/run_analyzer" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data '{
-  "text": "milvus结巴分词器中文测试",
-  "analyzerParams": {
-    "tokenizer": {
-      "type": "jieba",
-      "dict": ["_default_"],
-      "mode": "exact",
-      "hmm": false,
-      "extra_dict_file": {
-        "type": "remote",
-        "resourceName": "zh_terms",
-        "fileName": "zh_terms.txt"
-      }
-    }
-  }
+  "text": ["milvus结巴分词器中文测试"],
+  "analyzerParams": "{\"tokenizer\":{\"type\":\"jieba\",\"dict\":[\"_default_\"],\"mode\":\"exact\",\"hmm\":false,\"extra_dict_file\":{\"type\":\"remote\",\"resource_name\":\"zh_terms\",\"file_name\":\"zh_terms.txt\"}}}"
 }'
 ```
 
@@ -802,6 +790,8 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
+import java.util.ArrayList;
+import java.util.List;
 
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -843,7 +833,7 @@ if err != nil {
 
 bs, _ := json.Marshal(analyzerParams)
 texts := []string{"milvus结巴分词器中文测试"}
-option := milvusclient.NewRunAnalyzerOption(texts).
+option := milvusclient.NewRunAnalyzerOption(texts...).
     WithAnalyzerParamsStr(string(bs))
 
 result, err := client.RunAnalyzer(ctx, option)
@@ -919,19 +909,12 @@ console.log(result.results);
 
 ```bash
 curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/common/run" \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/common/run_analyzer" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data '{
-  "text": "milvus结巴分词器中文测试",
-  "analyzerParams": {
-    "tokenizer": {
-      "type": "jieba",
-      "dict": ["结巴分词器"],
-      "mode": "exact",
-      "hmm": false
-    }
-  }
+  "text": ["milvus结巴分词器中文测试"],
+  "analyzerParams": "{\"tokenizer\":{\"type\":\"jieba\",\"dict\":[\"结巴分词器\"],\"mode\":\"exact\",\"hmm\":false}}"
 }'
 ```
 

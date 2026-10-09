@@ -304,8 +304,36 @@ await client.createCollection({
 <TabItem value='bash'>
 
 ```bash
+export schema='{
+        "autoId": false,
+        "enableDynamicField": false,
+        "fields": [
+            {
+                "fieldName": "id",
+                "dataType": "Int64",
+                "isPrimary": true
+            },
+            {
+                "fieldName": "vector",
+                "dataType": "FloatVector",
+                "elementTypeParams": {
+                    "dim": "128"
+                }
+            }
+        ]
+    }'
+
+export indexParams='[
+        {
+            "fieldName": "vector",
+            "metricType": "COSINE",
+            "indexName": "vector",
+            "indexType": "AUTOINDEX"
+        }
+    ]'
+
 export params='{
-    "ttlSeconds": 1209600
+    "ttlSeconds": "1209600"
 }'
 
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
@@ -319,6 +347,7 @@ curl --request POST \
 -d "{
     \"collectionName\": \"my_collection\",
     \"schema\": $schema,
+    \"indexParams\": $indexParams,
     \"params\": $params
 }"
 ```
@@ -640,7 +669,7 @@ curl --request POST \
 -d "{
     \"collectionName\": \"my_collection\",
     \"properties\": {
-        \"collection.ttl.seconds\": 1209600
+        \"collection.ttl.seconds\": \"1209600\"
     }
 }"
 ```
@@ -781,6 +810,9 @@ await client.dropCollectionProperties({
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/drop_properties" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -1997,9 +2029,11 @@ export TOKEN="YOUR_CLUSTER_TOKEN"
 # Step 1 — add a TIMESTAMPTZ column to the schema
 curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/fields/add" --header "Authorization: Bearer ${TOKEN}" --header "Content-Type: application/json" --header "Request-Timeout: 10" -d "{
     \"collectionName\": \"my_collection\",
-    \"fieldName\": \"expire_at\",
-    \"dataType\": \"Timestamptz\",
-    \"nullable\": true
+    \"schema\": {
+        \"fieldName\": \"expire_at\",
+        \"dataType\": \"Timestamptz\",
+        \"nullable\": true
+    }
 }"
 
 # Step 2 — mark the new column as the TTL field
