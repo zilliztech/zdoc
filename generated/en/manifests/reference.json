@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "16c0194e2b40a78f5eafbed2ccfea03cd486ad5e",
+  "sourceCommit": "eac0e548e42a0b0ae9b6c9417c0aaba0c5944d9d",
   "records": [
     {
       "manual": "cli",
@@ -2720,7 +2720,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-appendRow.md",
-      "sourceHash": "a78527874e415e436a76489ae12d05015ab092e29bff4f954fc50a86f3f9c207"
+      "sourceHash": "a39c64b6e6c305fd940ac8affb6c3b58caee8905b34850d6a035036ffea14366"
     },
     {
       "manual": "java",
@@ -2750,7 +2750,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-appendRow.md",
-      "sourceHash": "983e53371a18c2ba1704ae9ada8691f968fe2ca72cc683f4e0b37e33d62ddc83"
+      "sourceHash": "63b3853ba538c4942db8180123767bd1b661979a9933037b3835ecda1cc260a2"
     },
     {
       "manual": "java",
@@ -2760,7 +2760,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-commit.md",
-      "sourceHash": "429e02cd5bab2372cd44c27db01f518e8408a3b7aa065d220834ea5b7780729e"
+      "sourceHash": "2817e944b5c49a5a367235e37dfa41f36d58b657ddf3e91401f047cb3305c692"
     },
     {
       "manual": "java",
@@ -2770,12 +2770,12 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-getTotalRowCount.md",
-      "sourceHash": "3ff8e8b147bf6545b050b783a469671b948386533db9a65f3c5f33fa9df3d4ba"
+      "sourceHash": "045489433d2258eb8a5b5aaac974a932264fd7cfb68dd9d2f094645b83b9e24a"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-getVolumeUploadResult.md",
-      "sourceHash": "84e5ddbf3f4c08bec5689aa72d216d1fa523b1aa5e782f7e7b1261e7990da960"
+      "sourceHash": "4bee2fe6a53857a898d506f7e90fba3c35aaa4df687619024c478c97bcd6cd34"
     },
     {
       "manual": "java",
@@ -3130,7 +3130,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-SearchIteratorV2.md",
-      "sourceHash": "2c1ae71c3dff86a387aa8b4c837903b25f9770724d1fa31d69b6a53833dc6e4e"
+      "sourceHash": "849527b31626738d17db64b90449ba41cb284abfb24217334cd76150d84cefee"
     },
     {
       "manual": "java",
@@ -3160,22 +3160,22 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-insert.md",
-      "sourceHash": "ac77d774fac7c6d7d16825b48d88ee241937d16fbe46f5b4a85d11551f9be684"
+      "sourceHash": "73547d4720b7d94044a78a7133211123d6d8bd312e6a28b8303b1dd6a2a0b076"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-query.md",
-      "sourceHash": "fe666b1955ce72a9b7580708614ae2101235e38ccf0b57f6d595dad2ccec3e7e"
+      "sourceHash": "509bc1b0bf1982223c183724960fd904051cc0a622daa8b7de14b1a83e63e474"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-queryAsync.md",
-      "sourceHash": "c78d24e35f5cfa1a7226ea6cf4c9be8a1d132733e1c1e6cf49ad5cb1d3d8feda"
+      "sourceHash": "e821bfa8b3e9dac7f11b82624893de6666834b9c46bdaae189cfeb1faa2a68a7"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-queryIterator.md",
-      "sourceHash": "59cf86acf29e22777224b6ddeded07ea363836a3463fc75dcebdd3c40a845acd"
+      "sourceHash": "327cd27ace65254a7f5836e61cbf9cf2a10f00c80610fb076b7031c83df7453b"
     },
     {
       "manual": "java",
@@ -3185,47 +3185,47 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-search.md",
-      "sourceHash": "b68b3042ca3b0a58d5a63086c6df03bbfd1ae007ee60268510237ebe06096dc3"
+      "sourceHash": "d81835469b8885e6bd5b23984053fdfc252dcb6a5414c8d6bbee8af62258b14b"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-searchAsync.md",
-      "sourceHash": "7fafe52115bde08f1fbc8f15885dd48543f5a7d15f55024d57f6771f948e829f"
+      "sourceHash": "e389f8bfbc7125fa089c35dc1b7a86a1fd5a74f5ab7ceb3142b9aa56bf07ab9e"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-searchIterator.md",
-      "sourceHash": "2f406c049766e32819b2c343fb5e9a98f08147b0e178b172bef2cad870d8ccbd"
+      "sourceHash": "cb6217057cfd1dd177e03ecd21fa7c5744652c9f8a44d657fdbbea7316e89264"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-upsert.md",
-      "sourceHash": "9db199bd44eef31032233a38a7c75d3617fda2e8f1f59161fc805102f12fdbc2"
+      "sourceHash": "612afffcfad96afcd41cd6b1733aa91e94585fe910d5a7cb741c30fd7bad6eb4"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-Volume-VolumeFileManager.md",
-      "sourceHash": "b4535b33ccab91a1ac45be194cad06ae4da4bc1335b1b1ad3153caaf9ef8f96d"
+      "sourceHash": "0202a268bec668bb4dbeb0e2132ba81b3359b9d0686af921c516aca8099f5174"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-VolumeFileManager-shutdownGracefully.md",
-      "sourceHash": "2dc8c2c3fed1966e8a62bdfac1f2b70673e6121aeaa42960e8ead370fd8ca34b"
+      "sourceHash": "c66b58c371b9ff4c17e57eaab5084b32519e3db7309542fe8ff2f9496af25086"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-VolumeFileManager-uploadFiles.md",
-      "sourceHash": "56c27003ff4a612b0c32a7cd74d3bdf35663423ae80f2baa4aa24f5ae1b49d56"
+      "sourceHash": "30262e5cd52041c69aae9db4921d1af81d3ca05cd874967cdb77931719cbbf66"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-VolumeFileManager-uploadFilesAsync.md",
-      "sourceHash": "c2db3177b0b2ef41a5383fdfa75646979888e81abe19aa7ae5fb149a90fd6095"
+      "sourceHash": "2771eca7d2c0c2eb9d2c12c834e7f52f8b321e1059efb8253d262493a4d886fd"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-Volume-VolumeManager.md",
-      "sourceHash": "f1001986e8bccd2ee295d1a6cc9ad7ddc4d9337843b226eccfd237b84e7393bc"
+      "sourceHash": "ae102dc50d2765235ba1067f8c93d40e888b1c7dd711d80e9b4ff535fb8824c8"
     },
     {
       "manual": "java",
@@ -3235,7 +3235,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-VolumeManager-deleteVolume.md",
-      "sourceHash": "ea73acc256d48b9b130c47063cae3b326d9c3888a556091288df16a87a8d9e53"
+      "sourceHash": "99b83e34eeebf598a0b92be01de126ce1790471f1660c296c19d568a29b66132"
     },
     {
       "manual": "java",
