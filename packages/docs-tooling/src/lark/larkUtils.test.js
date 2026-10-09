@@ -777,6 +777,126 @@ function testDriveFallbackReplacesStaleUnfetchedSiblingWhenSlugPairIsMaterialize
   });
 }
 
+function testDriveFallbackDropsChildFolderRelocatedToAnotherParent() {
+  withTempSourceDirs((sourceDir, fallbackDir) => {
+    writeJson(sourceDir, 'V3_ROOT', {
+      token: 'V3_ROOT', name: 'v3.0.x', children: [
+        { name: 'Management', token: 'NEW_MGMT_FOLDER', parent_token: 'V3_ROOT', type: 'folder' },
+        { name: 'Index', token: 'NEW_INDEX_FOLDER', parent_token: 'V3_ROOT', type: 'folder' },
+      ],
+    });
+    writeJson(sourceDir, 'NEW_MGMT_FOLDER', {
+      token: 'NEW_MGMT_FOLDER', name: 'Management', slug: 'Management', type: 'folder',
+      parent_token: 'V3_ROOT', children: [
+        { name: 'Flush()', token: 'NEW_FLUSH_DOC', parent_token: 'NEW_MGMT_FOLDER', type: 'docx' },
+      ],
+    });
+    writeJson(sourceDir, 'NEW_FLUSH_DOC', {
+      token: 'NEW_FLUSH_DOC', name: 'Flush()', slug: 'Flush', type: 'docx',
+      parent_token: 'NEW_MGMT_FOLDER', blocks: { items: [{ block_id: 'source-flush-page', block_type: 1 }] },
+    });
+    writeJson(sourceDir, 'NEW_INDEX_FOLDER', {
+      token: 'NEW_INDEX_FOLDER', name: 'Index', slug: 'Index', type: 'folder',
+      parent_token: 'V3_ROOT', children: [
+        { name: 'NewNgramIndex', token: 'NEW_NGRAM_DOC', parent_token: 'NEW_INDEX_FOLDER', type: 'docx' },
+      ],
+    });
+    writeJson(sourceDir, 'NEW_NGRAM_DOC', {
+      token: 'NEW_NGRAM_DOC', name: 'NewNgramIndex', slug: 'NewNgramIndex', type: 'docx',
+      parent_token: 'NEW_INDEX_FOLDER', blocks: { items: [{ block_id: 'source-ngram-page', block_type: 1 }] },
+    });
+
+    writeJson(fallbackDir, 'V26_ROOT', {
+      token: 'V26_ROOT', name: 'v2.6.x', children: [
+        { name: 'Management', token: 'OLD_MGMT_FOLDER', parent_token: 'V26_ROOT', type: 'folder' },
+      ],
+    });
+    writeJson(fallbackDir, 'OLD_MGMT_FOLDER', {
+      token: 'OLD_MGMT_FOLDER', name: 'Management', slug: 'Management', type: 'folder',
+      parent_token: 'V26_ROOT', children: [
+        { name: 'Index', token: 'OLD_INDEX_FOLDER', parent_token: 'OLD_MGMT_FOLDER', type: 'folder' },
+        { name: 'Flush()', token: 'OLD_FLUSH_DOC', parent_token: 'OLD_MGMT_FOLDER', type: 'docx' },
+      ],
+    });
+    writeJson(fallbackDir, 'OLD_INDEX_FOLDER', {
+      token: 'OLD_INDEX_FOLDER', name: 'Index', slug: 'Index', type: 'folder',
+      parent_token: 'OLD_MGMT_FOLDER', children: [
+        { name: 'CreateIndex()', token: 'OLD_CREATE_INDEX_DOC', parent_token: 'OLD_INDEX_FOLDER', type: 'docx' },
+      ],
+    });
+    writeJson(fallbackDir, 'OLD_FLUSH_DOC', {
+      token: 'OLD_FLUSH_DOC', name: 'Flush()', slug: 'Flush', type: 'docx',
+      parent_token: 'OLD_MGMT_FOLDER', blocks: { items: [{ block_id: 'fallback-flush-page', block_type: 1 }] },
+    });
+    writeJson(fallbackDir, 'OLD_CREATE_INDEX_DOC', {
+      token: 'OLD_CREATE_INDEX_DOC', name: 'CreateIndex()', slug: 'CreateIndex', type: 'docx',
+      parent_token: 'OLD_INDEX_FOLDER', blocks: { items: [{ block_id: 'fallback-create-index-page', block_type: 1 }] },
+    });
+
+    new larkUtils().fetch_fallback_sources(sourceDir, fallbackDir, 'drive', 'V3_ROOT');
+
+    const root = readJson(sourceDir, 'V3_ROOT');
+    assert.deepEqual(
+      root.children.map(child => child.token).sort(),
+      ['NEW_INDEX_FOLDER', 'NEW_MGMT_FOLDER']
+    );
+
+    const management = readJson(sourceDir, 'NEW_MGMT_FOLDER');
+    assert.deepEqual(management.children.map(child => child.token), ['NEW_FLUSH_DOC']);
+
+    const index = readJson(sourceDir, 'NEW_INDEX_FOLDER');
+    assert.equal(index.parent_token, 'V3_ROOT');
+    assert.deepEqual(
+      index.children.map(child => child.token).sort(),
+      ['NEW_NGRAM_DOC', 'OLD_CREATE_INDEX_DOC']
+    );
+
+    const carriedDocument = readJson(sourceDir, 'OLD_CREATE_INDEX_DOC');
+    assert.equal(carriedDocument.parent_token, 'NEW_INDEX_FOLDER');
+
+    assert.equal(fs.existsSync(path.join(sourceDir, 'OLD_MGMT_FOLDER.json')), false);
+    assert.equal(fs.existsSync(path.join(sourceDir, 'OLD_INDEX_FOLDER.json')), false);
+  });
+}
+
+function testDriveFallbackDropsRootChildRelocatedDeeperInTree() {
+  withTempSourceDirs((sourceDir, fallbackDir) => {
+    writeJson(sourceDir, 'V3_ROOT', {
+      token: 'V3_ROOT', name: 'v3.0.x', children: [
+        { name: 'Wrapper', token: 'NEW_WRAPPER_FOLDER', parent_token: 'V3_ROOT', type: 'folder' },
+      ],
+    });
+    writeJson(sourceDir, 'NEW_WRAPPER_FOLDER', {
+      token: 'NEW_WRAPPER_FOLDER', name: 'Wrapper', slug: 'Wrapper', type: 'folder',
+      parent_token: 'V3_ROOT', children: [
+        { name: 'Deep', token: 'NEW_NESTED_FOLDER', parent_token: 'NEW_WRAPPER_FOLDER', type: 'folder' },
+      ],
+    });
+    writeJson(sourceDir, 'NEW_NESTED_FOLDER', {
+      token: 'NEW_NESTED_FOLDER', name: 'Deep', slug: 'Deep', type: 'folder',
+      parent_token: 'NEW_WRAPPER_FOLDER', children: [],
+    });
+
+    writeJson(fallbackDir, 'V26_ROOT', {
+      token: 'V26_ROOT', name: 'v2.6.x', children: [
+        { name: 'Deep', token: 'OLD_DEEP_FOLDER', parent_token: 'V26_ROOT', type: 'folder' },
+      ],
+    });
+    writeJson(fallbackDir, 'OLD_DEEP_FOLDER', {
+      token: 'OLD_DEEP_FOLDER', name: 'Deep', slug: 'Deep', type: 'folder',
+      parent_token: 'V26_ROOT', children: [],
+    });
+
+    new larkUtils().fetch_fallback_sources(sourceDir, fallbackDir, 'drive', 'V3_ROOT');
+
+    const root = readJson(sourceDir, 'V3_ROOT');
+    assert.deepEqual(root.children.map(child => child.token), ['NEW_WRAPPER_FOLDER']);
+    assert.equal(root.children.some(child => child.token === 'OLD_DEEP_FOLDER'), false);
+
+    assert.equal(fs.existsSync(path.join(sourceDir, 'OLD_DEEP_FOLDER.json')), false);
+  });
+}
+
 function testPreProcessRemovesRootMarkdownFiles() {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-utils-preprocess-'));
 
@@ -847,6 +967,8 @@ function run() {
   testDriveFallbackPairsRenamedRootChildBySlug();
   testDriveFallbackPairsRenamedFolderChildBySlug();
   testDriveFallbackReplacesStaleUnfetchedSiblingWhenSlugPairIsMaterialized();
+  testDriveFallbackDropsChildFolderRelocatedToAnotherParent();
+  testDriveFallbackDropsRootChildRelocatedDeeperInTree();
   testPreProcessRemovesRootMarkdownFiles();
   testPreProcessPreservesSelectedFiles();
   testPreProcessPreservesHomeByDefault();

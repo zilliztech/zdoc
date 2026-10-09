@@ -299,9 +299,29 @@ class larkUtils {
                 return expectFolder ? folderSource(full) : docSource(full)
             }) || null
         }
+        // A fallback child whose slug-matched successor lives under a different
+        // parent has been relocated in the live tree (e.g. a subfolder promoted
+        // to a top-level sibling). Gluing the stale entry back under its old
+        // folder would contradict the successor's own parent_token and fail the
+        // touched-folder integrity check, so callers must drop it instead.
+        const materializedSlugSuccessorElsewhere = (fallbackChild, folderToken) => {
+            if (!fallbackChild || !hasSlug(fallbackChild)) return null
+            const expectFolder = folderSource(fallbackChild)
+            return sources.find(source => {
+                if (source[PARENT] === folderToken) return false
+                if (source.slug !== fallbackChild.slug) return false
+                return expectFolder ? folderSource(source) : docSource(source)
+            }) || null
+        }
+        const dropRelocatedChild = (child, fallbackChildren, folderToken, successor) => {
+            recordReplacement(child[TOKEN], successor[TOKEN])
+            const droppedIndex = fallbackChildren.indexOf(child)
+            if (droppedIndex !== -1) fallbackChildren.splice(droppedIndex, 1)
+            console.warn(`[fallback-source] Dropped relocated child ${child[TITLE]}(${child[TOKEN]}) from ${folderToken}; materialized as ${successor[TOKEN]} under ${successor[PARENT]}`)
+        }
 
         if (sourceRoot?.children?.length > 0 && fallbackRoot?.children?.length > 0) {
-            fallbackRoot.children.forEach(child => {
+            fallbackRoot.children.slice().forEach(child => {
                 const pairIndex = sourceRoot.children.findIndex(s => s[TITLE] === child[TITLE])
                 const pair = pairIndex === -1 ? null : sourceRoot.children[pairIndex]
                 var fallbackChildSource = fallbackSourcesByToken.get(child[TOKEN])
@@ -320,14 +340,19 @@ class larkUtils {
                             touchedFolderTokens.add(sourceRoot[TOKEN])
                         }
                     } else {
-                        child[PARENT] = sourceRoot[TOKEN]
-                        if (fallbackChildSource) {
-                            fallbackChildSource[PARENT] = sourceRoot[TOKEN]
+                        const relocatedSuccessor = materializedSlugSuccessorElsewhere(fallbackChildSource, sourceRoot[TOKEN])
+                        if (relocatedSuccessor) {
+                            dropRelocatedChild(child, fallbackRoot.children, sourceRoot[TOKEN], relocatedSuccessor)
+                        } else {
+                            child[PARENT] = sourceRoot[TOKEN]
+                            if (fallbackChildSource) {
+                                fallbackChildSource[PARENT] = sourceRoot[TOKEN]
+                            }
+                            if (pairIndex === -1) sourceRoot.children.push(child)
+                            else sourceRoot.children.splice(pairIndex, 1, child)
+                            touchedFolderTokens.add(sourceRoot[TOKEN])
+                            // fallbackSources.find(fb => fb.token === child.token).parent_token = sourceRoot.token
                         }
-                        if (pairIndex === -1) sourceRoot.children.push(child)
-                        else sourceRoot.children.splice(pairIndex, 1, child)
-                        touchedFolderTokens.add(sourceRoot[TOKEN])
-                        // fallbackSources.find(fb => fb.token === child.token).parent_token = sourceRoot.token
                     }
                 }
             })
@@ -352,7 +377,7 @@ class larkUtils {
                 fallback.slug = source.slug
                 fallback.url = source.url
 
-                fallback.children.forEach(child => {
+                fallback.children.slice().forEach(child => {
                     const pairIndex = source.children.findIndex(s => s[TITLE] === child[TITLE])
                     const pair = pairIndex === -1 ? null : source.children[pairIndex]
 
@@ -374,11 +399,16 @@ class larkUtils {
                             child[TOKEN] = slugPair[TOKEN]
                             touchedFolderTokens.add(source[TOKEN])
                         } else {
-                            child[PARENT] = source[TOKEN]
-                            if (pairIndex === -1) source.children.push(child)
-                            else source.children.splice(pairIndex, 1, child)
-                            touchedFolderTokens.add(source[TOKEN])
-                            // fallbackSources.find(fb => fb.token === child.token).parent_token = source.token
+                            const relocatedSuccessor = materializedSlugSuccessorElsewhere(fallbackSourcesByToken.get(child[TOKEN]), source[TOKEN])
+                            if (relocatedSuccessor) {
+                                dropRelocatedChild(child, fallback.children, source[TOKEN], relocatedSuccessor)
+                            } else {
+                                child[PARENT] = source[TOKEN]
+                                if (pairIndex === -1) source.children.push(child)
+                                else source.children.splice(pairIndex, 1, child)
+                                touchedFolderTokens.add(source[TOKEN])
+                                // fallbackSources.find(fb => fb.token === child.token).parent_token = source.token
+                            }
                         }
                     }
                 })
