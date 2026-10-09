@@ -37,9 +37,19 @@ This operation returns the total number of rows written by this VolumeBulkWriter
 public Long getTotalRowCount()
 ```
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *Long*
+
+**RETURNS:**
+
+The total number of rows appended so far.
+
+**PARAMETERS:**
+
+- **totalRowCount** (*Long*) -
+
+    The total number of rows appended so far.
 
 **EXCEPTIONS:**
 
@@ -55,4 +65,3 @@ VolumeBulkWriter writer = new VolumeBulkWriter(config);
 Long totalRows = writer.getTotalRowCount();
 System.out.println("Total rows written: " + totalRows);
 ```
-

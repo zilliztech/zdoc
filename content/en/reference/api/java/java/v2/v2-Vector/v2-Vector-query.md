@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "Queries entities by primary key or filter, with optional ordering through `orderByFields`. | Java | v2"
+description: "This operation queries entities by primary key or filter, with optional ordering through `orderByFields`. | Java | v2"
 type: docx
 token: U7eQdBzB0opJOXxRUcncnRDInSf
 sidebar_position: 5
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # query()
 
-Queries entities by primary key or filter, with optional ordering through `orderByFields`.
+This operation queries entities by primary key or filter, with optional ordering through `orderByFields`.
 
 ```java
 public QueryResp query(QueryReq request)
@@ -131,13 +131,13 @@ Contains query rows ordered according to orderByFields when provided, along with
 
     A list of query results, each of which contains the following fields:
 
-    - **entity** (*Map&lt;String,Object&gt;*) -
+- **entity** (*Map&lt;String,Object&gt;*) -
 
-        A map that contains the field names and values of the matched entity.
+    A map that contains the field names and values of the matched entity.
 
-    - **elementOffset** (*Long*) -
+- **elementOffset** (*Long*) -
 
-        For struct-array element-level queries, the matched element's index within the array. Null for ordinary queries.
+    For struct-array element-level queries, the matched element's index within the array. Null for ordinary queries.
 
 - **sessionTs** (*long*) -
 

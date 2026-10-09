@@ -7,7 +7,7 @@ added_since: false
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "Asynchronously uploads a file or directory to a Zilliz Cloud volume with configurable retry, concurrency, multipart, and progress reporting. | Java | v2"
+description: "This operation asynchronously uploads a file or directory to a Zilliz Cloud volume with configurable retry, concurrency, multipart, and progress reporting. | Java | v2"
 type: docx
 token: Op8ydBXyZo2rlZxhgfNcaC3unRg
 sidebar_position: 1
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # uploadFilesAsync()
 
-Asynchronously uploads a file or directory to a Zilliz Cloud volume with configurable retry, concurrency, multipart, and progress reporting.
+This operation asynchronously uploads a file or directory to a Zilliz Cloud volume with configurable retry, concurrency, multipart, and progress reporting.
 
 ```java
 public CompletableFuture<UploadFilesResult> uploadFilesAsync(UploadFilesRequest request)
@@ -81,11 +81,23 @@ UploadFilesRequest.builder()
 
     The multipart upload part size in bytes. Non-positive values enable automatic sizing.
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *CompletableFuture&lt;UploadFilesResult&gt;*
 
-Identifies the target volume and uploaded path.
+**RETURNS:**
+
+A **CompletableFuture** that completes with an **UploadFilesResult** once all files have been uploaded, identifying the target volume and the uploaded path, with the following fields:
+
+**PARAMETERS:**
+
+- **volumeName** (*String*) -
+
+    The name of the volume to which the files were uploaded.
+
+- **path** (*String*) -
+
+    The path of the uploaded files within the volume.
 
 **EXCEPTIONS:**
 

@@ -37,10 +37,6 @@ This operation retrieves the result of the update to the specified volume.
 public UploadFilesResult getVolumeUploadResult()
 ```
 
-**PARAMETERS:**
-
-*None*
-
 **RETURN TYPE:**
 
 *UploadFilesResult*
@@ -69,6 +65,18 @@ An UploadFilesResult instance that has the following methods:
 
     Strigifies the UploadFilesResult instance.
 
+    An **UploadFilesResult** object contains the following fields:
+
+**PARAMETERS:**
+
+- **volumeName** (*String*) -
+
+    The name of the volume to which the files were uploaded.
+
+- **path** (*String*) -
+
+    The path of the uploaded files within the volume.
+
 ## Example\{#example}
 
 ```java
@@ -79,4 +87,3 @@ UploadFilesResult result = writer.getVolumeUploadResult();
 System.out.println("Target volume: " + result.getVolumeName());
 System.out.println("Target paths: " + result.getPath());
 ```
-

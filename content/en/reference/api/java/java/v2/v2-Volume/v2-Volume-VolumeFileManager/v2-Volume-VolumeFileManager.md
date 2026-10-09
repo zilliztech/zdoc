@@ -37,12 +37,6 @@ A `VolumeFileManager` instance maintains a connection to a specific volume on Zi
 io.milvus.bulkwriter.VolumeFileManager
 ```
 
-<Admonition type="info" title="Notes">
-
-A volume is an intermediate storage spot where you can hold your data for further processing, such as data merging, migration, or importing. For details, refer to Managed Volumes and External Volumes.
-
-</Admonition>
-
 ## Constructor\{#constructor}
 
 This constructor initializes a new `VolumeFileManager` instance designed to maintain a connection to a specific volume on Zilliz Cloud's Volume service.
@@ -79,11 +73,29 @@ VolumeFileManager(
 
 **RETURN TYPE:**
 
-`VolumeFileManager`
+*VolumeFileManager*
 
 **RETURNS:**
 
-A `VolumeFileManager` instance.
+A `VolumeFileManager` instance that holds the connection settings for the target volume, with the following fields:
+
+**PARAMETERS:**
+
+- **cloudEndpoint** (*String*) -
+
+    The Zilliz Cloud endpoint used to apply for the volume and refresh temporary storage credentials.
+
+- **apiKey** (*String*) -
+
+    The Zilliz Cloud API key used to authenticate volume access.
+
+- **volumeName** (*String*) -
+
+    The name of the target Zilliz Cloud volume.
+
+- **connectType** (*ConnectType*) -
+
+    The connection strategy used to access the volume. The value defaults to `ConnectType.AUTO`.
 
 ## Examples\{#examples}
 
@@ -99,4 +111,3 @@ VolumeFileManagerParam volumeFileManagerParam = VolumeFileManagerParam.newBuilde
 
 VolumeFileManager volumeFileManager = new VolumeFileManager(volumeFileManagerParam);
 ```
-

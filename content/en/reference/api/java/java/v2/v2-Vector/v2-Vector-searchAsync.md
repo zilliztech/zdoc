@@ -7,7 +7,7 @@ added_since: v3.0.7
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "Performs a vector search asynchronously and returns a future. | Java | v2"
+description: "This operation performs a vector search asynchronously and returns a future. | Java | v2"
 type: docx
 token: DONndM4QbouPN1xdGujcWedRnXb
 sidebar_position: 17
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # searchAsync()
 
-Performs a vector search asynchronously and returns a future.
+This operation performs a vector search asynchronously and returns a future.
 
 ```java
 public CompletableFuture<SearchResp> searchAsync(SearchReq request)
@@ -50,7 +50,7 @@ CompletableFuture<SearchResp> future = client.searchAsync(SearchReq.builder()
     .build());
 ```
 
-For the full list of `SearchReq` builder methods, refer to [search()](./v2-Vector-search).
+For the full list of `SearchReq` builder methods, refer to search().
 
 **RETURN TYPE:**
 
@@ -66,25 +66,25 @@ A future completed with a `SearchResp`, or completed exceptionally when the oper
 
     A list of search result batches, one per query vector, each containing **SearchResult** entries with the following fields:
 
-    - **id** (*Object*) -
+- **id** (*Object*) -
 
-        The primary key value of the matched entity.
+    The primary key value of the matched entity.
 
-    - **score** (*Float*) -
+- **score** (*Float*) -
 
-        The relevance score of the match.
+    The relevance score of the match.
 
-    - **entity** (*Map&lt;String,Object&gt;*) -
+- **entity** (*Map&lt;String,Object&gt;*) -
 
-        A map that contains the field names and values of the matched entity.
+    A map that contains the field names and values of the matched entity.
 
-    - **primaryKey** (*String*) -
+- **primaryKey** (*String*) -
 
-        The name of the primary key field.
+    The name of the primary key field.
 
-    - **highlightResults** (*Map&lt;String,HighlightResult&gt;*) -
+- **highlightResults** (*Map&lt;String,HighlightResult&gt;*) -
 
-        The highlight results keyed by field name, when highlighting is requested.
+    The highlight results keyed by field name, when highlighting is requested.
 
 - **sessionTs** (*long*) -
 

@@ -7,7 +7,7 @@ added_since: v3.0.7
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "Queries entities in a collection asynchronously and returns a future. | Java | v2"
+description: "This operation queries entities in a collection asynchronously and returns a future. | Java | v2"
 type: docx
 token: PWzJdbh5ZoT8K7xo1j4cbvNsnWe
 sidebar_position: 16
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # queryAsync()
 
-Queries entities in a collection asynchronously and returns a future.
+This operation queries entities in a collection asynchronously and returns a future.
 
 ```java
 public CompletableFuture<QueryResp> queryAsync(QueryReq request)
@@ -49,7 +49,7 @@ CompletableFuture<QueryResp> future = client.queryAsync(QueryReq.builder()
     .build());
 ```
 
-For the full list of `QueryReq` builder methods, refer to [query()](./v2-Vector-query).
+For the full list of `QueryReq` builder methods, refer to query().
 
 **RETURN TYPE:**
 
@@ -65,13 +65,13 @@ A future completed with a `QueryResp`, or completed exceptionally when the opera
 
     A list of query results, each of which contains the following fields:
 
-    - **entity** (*Map&lt;String,Object&gt;*) -
+- **entity** (*Map&lt;String,Object&gt;*) -
 
-        A map that contains the field names and values of the matched entity.
+    A map that contains the field names and values of the matched entity.
 
-    - **elementOffset** (*Long*) -
+- **elementOffset** (*Long*) -
 
-        For struct-array element-level queries, the matched element's index within the array. Null for ordinary queries.
+    For struct-array element-level queries, the matched element's index within the array. Null for ordinary queries.
 
 - **sessionTs** (*long*) -
 

@@ -7,7 +7,7 @@ added_since: false
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "Closes the current Volume storage session and releases its resources. | Java | v2"
+description: "This operation closes the current Volume storage session and releases its resources. | Java | v2"
 type: docx
 token: F1GvdNp0rosDfCxonr7cJpzcn9w
 sidebar_position: 3
@@ -31,17 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # shutdownGracefully()
 
-Closes the current Volume storage session and releases its resources.
+This operation closes the current Volume storage session and releases its resources.
 
 ```java
 public void shutdownGracefully()
 ```
-
-**RETURNS:**
-
-*void*
-
-This operation does not return a value.
 
 **EXCEPTIONS:**
 

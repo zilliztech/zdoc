@@ -54,14 +54,6 @@ deleteVolume(DeleteVolumeRequest.builder()
 
     The name of the volume to delete.
 
-**RETURN TYPE**
-
-*void*
-
-**RETURNS**
-
-None
-
 ## Example\{#example}
 
 ```java
@@ -86,4 +78,3 @@ System.out.printf("\nVolume %s deleted%n", "my_volume");
 
 // Volume my_volume deleted
 ```
-

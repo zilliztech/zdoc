@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "Synchronously uploads a file or directory to a Zilliz Cloud volume with retry, concurrency, multipart, and progress controls. | Java | v2"
+description: "This operation synchronously uploads a file or directory to a Zilliz Cloud volume with retry, concurrency, multipart, and progress controls. | Java | v2"
 type: docx
 token: FiyGdmoSHoDbrPxhSdncsMWbnhc
 sidebar_position: 4
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # uploadFiles()
 
-Synchronously uploads a file or directory to a Zilliz Cloud volume with retry, concurrency, multipart, and progress controls.
+This operation synchronously uploads a file or directory to a Zilliz Cloud volume with retry, concurrency, multipart, and progress controls.
 
 ```java
 public UploadFilesResult uploadFiles(UploadFilesRequest request)
@@ -81,11 +81,23 @@ UploadFilesRequest.builder()
 
     The multipart upload part size in bytes. Non-positive values enable automatic sizing.
 
-**RETURNS:**
+**RETURN TYPE:**
 
 *UploadFilesResult*
 
-Identifies the target volume and uploaded path.
+**RETURNS:**
+
+An **UploadFilesResult** object that identifies the target volume and the uploaded path, with the following fields:
+
+**PARAMETERS:**
+
+- **volumeName** (*String*) -
+
+    The name of the volume to which the files were uploaded.
+
+- **path** (*String*) -
+
+    The path of the uploaded files within the volume.
 
 **EXCEPTIONS:**
 

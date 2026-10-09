@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "Validates and appends one row to the writer. When buffered data exceeds the configured `chunkSize`, the writer commits the current file automatically. | Java | v2"
+description: "This operation validates and appends one row to the writer. When buffered data exceeds the configured `chunkSize`, the writer commits the current file automatically. | Java | v2"
 type: docx
 token: IBAFdWOAKogmCIxHzVIc4NaDn4g
 sidebar_position: 1
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # appendRow()
 
-Validates and appends one row to the writer. When buffered data exceeds the configured `chunkSize`, the writer commits the current file automatically.
+This operation validates and appends one row to the writer. When buffered data exceeds the configured `chunkSize`, the writer commits the current file automatically.
 
 [`StructFieldSchema`](./v2-Collections-StructFieldSchema) fields can contain binary, float16, bfloat16, and int8 vector values.
 
@@ -39,11 +39,11 @@ Validates and appends one row to the writer. When buffered data exceeds the conf
 public void appendRow(JsonObject rowData)
 ```
 
-**RETURNS:**
+**PARAMETERS:**
 
-*void*
+- **rowData** (*JsonObject*) -
 
-This operation does not return a value.
+    The row data to append, as a JSON object. Each row maps column names to values and must validate against the target schema.
 
 **EXCEPTIONS:**
 

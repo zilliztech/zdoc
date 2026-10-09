@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "Performs vector search with optional result ordering, aggregation requests and buckets, and execution metrics. | Java | v2"
+description: "This operation performs vector search with optional result ordering, aggregation requests and buckets, and execution metrics. | Java | v2"
 type: docx
 token: ANw4d8gGEo46B4xxde3cC0xqndf
 sidebar_position: 7
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # search()
 
-Performs vector search with optional result ordering, aggregation requests and buckets, and execution metrics.
+This operation performs vector search with optional result ordering, aggregation requests and buckets, and execution metrics.
 
 ```java
 public SearchResp search(SearchReq request)
@@ -208,25 +208,25 @@ Contains search results, recalls, cost, scanned byte counts, cache hit ratio, an
 
     A list of search result batches, one per query vector, each containing **SearchResult** entries with the following fields:
 
-    - **id** (*Object*) -
+- **id** (*Object*) -
 
-        The primary key value of the matched entity.
+    The primary key value of the matched entity.
 
-    - **score** (*Float*) -
+- **score** (*Float*) -
 
-        The relevance score of the match.
+    The relevance score of the match.
 
-    - **entity** (*Map&lt;String,Object&gt;*) -
+- **entity** (*Map&lt;String,Object&gt;*) -
 
-        A map that contains the field names and values of the matched entity.
+    A map that contains the field names and values of the matched entity.
 
-    - **primaryKey** (*String*) -
+- **primaryKey** (*String*) -
 
-        The name of the primary key field.
+    The name of the primary key field.
 
-    - **highlightResults** (*Map&lt;String,HighlightResult&gt;*) -
+- **highlightResults** (*Map&lt;String,HighlightResult&gt;*) -
 
-        The highlight results keyed by field name, when highlighting is requested.
+    The highlight results keyed by field name, when highlighting is requested.
 
 - **sessionTs** (*long*) -
 

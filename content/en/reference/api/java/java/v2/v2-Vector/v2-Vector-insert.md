@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "Aligns insert-row validation for auto-ID fields, function output fields, dynamic fields, and Struct values. | Java | v2"
+description: "This operation inserts rows into a collection. | Java | v2"
 type: docx
 token: DKs7dzHI5oaJvlxezuAcuMVzn9c
 sidebar_position: 4
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # insert()
 
-Aligns insert-row validation for auto-ID fields, function output fields, dynamic fields, and Struct values.
+This operation inserts rows into a collection.
 
 ```java
 public InsertResp insert(InsertReq request)

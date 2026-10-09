@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "This method returns a search iterator to iterate search results. | Java | v2"
+description: "This operation returns a search iterator to iterate search results. | Java | v2"
 type: docx
 token: X7Ybdk6yRoVRPZxeHklct1i2n8c
 sidebar_position: 8
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # searchIterator()
 
-This method returns a search iterator to iterate search results.
+This operation returns a search iterator to iterate search results.
 
 ```java
 public SearchIterator searchIterator(SearchIteratorReq request)
@@ -139,7 +139,9 @@ searchIterator(SearchIteratorReq.builder()
 
 A **SearchIterator** object to iterate search results, which offers the following methods:
 
-- **next()** (*List&lt;SearchResp.SearchResult&gt;*) -
+**PARAMETERS:**
+
+- **next()** (*List&lt;QueryResultsWrapper.RowRecord&gt;*) -
 
     Returns the next batch of results matching the search expression.
 

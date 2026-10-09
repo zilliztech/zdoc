@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "This method returns a query iterator to iterate data. | Java | v2"
+description: "This operation returns a query iterator to iterate data. | Java | v2"
 type: docx
 token: HnxQdhvGQotpwfxgo4pcviKNn4g
 sidebar_position: 6
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # queryIterator()
 
-This method returns a query iterator to iterate data.
+This operation returns a query iterator to iterate data.
 
 ```java
 public QueryIterator queryIterator(QueryIteratorReq request)
@@ -124,6 +124,8 @@ queryIterator(QueryIteratorReq.builder()
 **RETURNS:**
 
 A **QueryIterator** object to iterate query results page by page, which offers the following methods:
+
+**PARAMETERS:**
 
 - **next()** (*List&lt;QueryResultsWrapper.RowRecord&gt;*) -
 

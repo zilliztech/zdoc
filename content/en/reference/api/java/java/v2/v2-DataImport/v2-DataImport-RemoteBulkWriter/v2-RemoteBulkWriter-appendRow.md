@@ -39,6 +39,12 @@ This operation validates and appends one row to the writer. When buffered data e
 public void appendRow(JsonObject rowData)
 ```
 
+**PARAMETERS:**
+
+- **rowData** (*JsonObject*) -
+
+    The row data to append, as a JSON object. Each row maps column names to values and must validate against the target schema.
+
 **EXCEPTIONS:**
 
 - **Exception**

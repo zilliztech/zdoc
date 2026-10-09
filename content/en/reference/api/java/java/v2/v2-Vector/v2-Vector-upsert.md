@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "Upserts rows into a collection. Partial updates can apply field operations, and each row is validated against the collection schema. | Java | v2"
+description: "This operation upserts rows into a collection. Partial updates can apply field operations, and each row is validated against the collection schema. | Java | v2"
 type: docx
 token: I7UWdVnAJobbSSxSPdHc024unMe
 sidebar_position: 9
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # upsert()
 
-Upserts rows into a collection. Partial updates can apply field operations, and each row is validated against the collection schema.
+This operation upserts rows into a collection. Partial updates can apply field operations, and each row is validated against the collection schema.
 
 ```java
 public UpsertResp upsert(UpsertReq request)

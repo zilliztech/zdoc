@@ -137,11 +137,19 @@ searchIteratorV2(SearchIteratorReqV2.builder()
 
     A map of template variable values for parameterized filters.
 
+**RETURN TYPE:**
+
+*SearchIteratorV2*
+
 **RETURNS:**
 
-*SearchIteratorV2*
+A **SearchIteratorV2** iterator that you can use to iterate over the search results.
 
-*SearchIteratorV2*
+**PARAMETERS:**
+
+- **searchIterator** (*SearchIteratorV2*) -
+
+    The iterator instance returned by this operation. Call `next()` to fetch the next batch of results; when it returns an empty list, call `close()` to release the iterator.
 
 **EXCEPTIONS:**
 
