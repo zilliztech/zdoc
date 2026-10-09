@@ -39,7 +39,7 @@ const {collectCurrentUnits} = require('./semanticSeeds')
 const {filterUsableSemanticCheckpoints, loadSemanticCheckpoints} = require('./semanticRecovery')
 const {patchSemanticUnits, protectSemanticUnits} = require('./semanticUnits')
 const {validateWithRuntimeChecks} = require('./validate-translation-file')
-const {buildRecoveryIdentity, loadChunkLimits, loadRecoveryAnalysis, loadProgressState, loadSemanticSeedIndex, updateProgressState, updateFailedReferenceProgressState, writeProgressState} = require('./agentRunner')
+const {buildRecoveryIdentity, loadChunkLimits, loadRecoveryAnalysis, loadProgressState, loadSemanticSeedIndex, updateProgressState, updateFailedReferenceProgressState, validateTranslatedContent, writeProgressState} = require('./agentRunner')
 
 const DEFAULT_MAX_REPAIR_TURNS = 4
 const MAX_FAILURE_ERROR_LENGTH = 2000
@@ -262,6 +262,37 @@ async function runAgenticFile({item, target, siteDir, callCodex, validate, maxRe
   const sourceContent = fs.readFileSync(path.join(siteDir, item.sourcePath), 'utf8')
   const draftPath = path.join(siteDir, item.targetPath)
   fs.mkdirSync(path.dirname(draftPath), {recursive: true})
+  // A failed candidate must leave its target byte-identical to the batch
+  // baseline (assertFailedCandidatePreserved in validate-translation-batch-
+  // outputs.js): snapshot whatever the materialized baseline holds before the
+  // first draft write and restore it on every failed exit.
+  const baselineDraftBytes = fs.existsSync(draftPath) ? fs.readFileSync(draftPath) : null
+  const restoreBaselineDraft = () => {
+    if (baselineDraftBytes === null) fs.rmSync(draftPath, {force: true})
+    else fs.writeFileSync(draftPath, baselineDraftBytes)
+  }
+  // Zero-cost source preflight: run the content-intrinsic deterministic gates
+  // (MDX compile + structure) on the raw source. A source that cannot pass
+  // them byte-identical to itself — e.g. malformed fences whose first opening
+  // runs to a distant bare closer and swallows <Tabs> openers, making tag
+  // parity unsatisfiable while protected bytes must be preserved — can never
+  // be satisfied by any translation, so the agent (translate + up to 4 repair
+  // turns) is skipped entirely and the file fails with source evidence.
+  const preflightErrors = await (validate || validateTranslatedContent)(sourceContent)
+  if (preflightErrors.length) {
+    restoreBaselineDraft()
+    const error = `source preflight: source cannot pass the deterministic content gates even byte-identical to itself (${preflightErrors.length} violation(s)); fix the source document, retranslation cannot succeed: ${preflightErrors.join('; ').slice(0, 400)}`.slice(0, MAX_FAILURE_ERROR_LENGTH)
+    log.log(`[agentic-provider] source preflight failed ${item.sourcePath} without a model call: ${String(preflightErrors[0]).slice(0, 200)}`)
+    return {
+      ...item,
+      target,
+      attempts: [],
+      status: 'failed',
+      failureCategory: classifyFailure(new Error(preflightErrors[0])),
+      error,
+      validationErrors: preflightErrors.slice(0, 10).map(violation => String(violation).slice(0, 400)),
+    }
+  }
   const attempts = []
   let seeded = null
   if (seedReport) {
@@ -275,35 +306,43 @@ async function runAgenticFile({item, target, siteDir, callCodex, validate, maxRe
   }
   const writeDraft = content => fs.writeFileSync(draftPath, content.endsWith('\n') ? content : `${content}\n`)
   if (seeded) {
-    writeDraft(seeded.draft)
-    // Verified-current fast path: when every pending unit is "filtered" — the
-    // published translation exists and its English is unchanged, but the
-    // stricter per-unit seed gate rejected it while the whole-file validator
-    // accepts it (protected-span content such as fenced-table column names) —
-    // the assembled draft may already satisfy the full deterministic gate. In
-    // that case there is nothing to translate and the agent is skipped. Drafts
-    // with "new" (changed or added) English units, and legacy seed summaries
-    // without classification metadata, always go to the agent: passing the
-    // gate alone would risk publishing untranslated prose.
-    const allPendingFiltered = seeded.pendingUnits.length === 0 ||
-      (pendingInfo !== null && seeded.pendingUnits.every(unit => pendingInfo.filtered.has(unit.id)))
-    if (allPendingFiltered) {
-      let outcome = await validateWithRuntimeChecks({sourceContent, draftContent: fs.readFileSync(draftPath, 'utf8'), relPath: item.sourcePath, target, validate})
-      if (outcome.repaired !== fs.readFileSync(draftPath, 'utf8')) fs.writeFileSync(draftPath, outcome.repaired)
-      if (!outcome.errors.length) {
-        if (seeded.pendingUnits.length === 0) {
-          log.log(`[agentic-provider] seeded ${item.sourcePath} without a model call (${seeded.usableCount}/${seeded.totalUnits} units reused)`)
-          return {...item, target, attempts, status: 'translated', review: successfulReview(), validationErrors: [], semanticSeedUnits: seeded.usableCount}
+    // The fast path writes the seeded draft and its gate-repaired bytes
+    // before the agent section's try begins; an infra-level throw here (for
+    // example the validator failing to load) owes the same baseline rollback.
+    try {
+      writeDraft(seeded.draft)
+      // Verified-current fast path: when every pending unit is "filtered" — the
+      // published translation exists and its English is unchanged, but the
+      // stricter per-unit seed gate rejected it while the whole-file validator
+      // accepts it (protected-span content such as fenced-table column names) —
+      // the assembled draft may already satisfy the full deterministic gate. In
+      // that case there is nothing to translate and the agent is skipped. Drafts
+      // with "new" (changed or added) English units, and legacy seed summaries
+      // without classification metadata, always go to the agent: passing the
+      // gate alone would risk publishing untranslated prose.
+      const allPendingFiltered = seeded.pendingUnits.length === 0 ||
+        (pendingInfo !== null && seeded.pendingUnits.every(unit => pendingInfo.filtered.has(unit.id)))
+      if (allPendingFiltered) {
+        let outcome = await validateWithRuntimeChecks({sourceContent, draftContent: fs.readFileSync(draftPath, 'utf8'), relPath: item.sourcePath, target, validate})
+        if (outcome.repaired !== fs.readFileSync(draftPath, 'utf8')) fs.writeFileSync(draftPath, outcome.repaired)
+        if (!outcome.errors.length) {
+          if (seeded.pendingUnits.length === 0) {
+            log.log(`[agentic-provider] seeded ${item.sourcePath} without a model call (${seeded.usableCount}/${seeded.totalUnits} units reused)`)
+            return {...item, target, attempts, status: 'translated', review: successfulReview(), validationErrors: [], semanticSeedUnits: seeded.usableCount}
+          }
+          log.log(`[agentic-provider] verified-current ${item.sourcePath} without a model call (${seeded.usableCount}/${seeded.totalUnits} units reused, ${seeded.pendingUnits.length} pending unit(s) already satisfy the gate)`)
+          return {...item, target, attempts: ['verified-current'], status: 'translated', review: successfulReview(), validationErrors: [], semanticSeedUnits: seeded.usableCount}
         }
-        log.log(`[agentic-provider] verified-current ${item.sourcePath} without a model call (${seeded.usableCount}/${seeded.totalUnits} units reused, ${seeded.pendingUnits.length} pending unit(s) already satisfy the gate)`)
-        return {...item, target, attempts: ['verified-current'], status: 'translated', review: successfulReview(), validationErrors: [], semanticSeedUnits: seeded.usableCount}
+        if (seeded.pendingUnits.length === 0) {
+          log.log(`[agentic-provider] fully seeded draft failed the current gate; retranslating ${item.sourcePath}`)
+          seeded = null
+        } else {
+          log.log(`[agentic-provider] seeded draft failed the current gate; handing ${item.sourcePath} to the agent`)
+        }
       }
-      if (seeded.pendingUnits.length === 0) {
-        log.log(`[agentic-provider] fully seeded draft failed the current gate; retranslating ${item.sourcePath}`)
-        seeded = null
-      } else {
-        log.log(`[agentic-provider] seeded draft failed the current gate; handing ${item.sourcePath} to the agent`)
-      }
+    } catch (error) {
+      restoreBaselineDraft()
+      throw error
     }
   }
   // The agent never works in the repository: it gets a per-file scratch
@@ -364,6 +403,7 @@ async function runAgenticFile({item, target, siteDir, callCodex, validate, maxRe
     }
     const error = violations.join('; ').slice(0, MAX_FAILURE_ERROR_LENGTH)
     log.log(`[agentic-provider] failed ${item.sourcePath} attempts=${attempts.join(',')}: ${error.slice(0, 200)}`)
+    restoreBaselineDraft()
     return {
       ...base,
       status: 'failed',
@@ -371,6 +411,11 @@ async function runAgenticFile({item, target, siteDir, callCodex, validate, maxRe
       error,
       validationErrors: violations.slice(0, 10).map(violation => String(violation).slice(0, 400)),
     }
+  } catch (error) {
+    // Rethrown agent failures are recorded as bounded failed results by the
+    // coordinator; they owe the same baseline rollback as explicit failures.
+    restoreBaselineDraft()
+    throw error
   } finally {
     fs.rmSync(workspace.dir, {recursive: true, force: true})
     if (!scratchRoot) fs.rmSync(workspaceRoot, {recursive: true, force: true})
@@ -473,7 +518,8 @@ async function runAgenticTranslation({siteDir, manifest, callCodex, validate, ma
   const verifiedCurrent = results.filter(result => result?.status === 'translated' && Array.isArray(result.attempts) && result.attempts.length === 1 && result.attempts[0] === 'verified-current').length
   const agentFiles = results.filter(result => Array.isArray(result?.attempts) && result.attempts.some(attempt => attempt === 'translate' || String(attempt).startsWith('repair'))).length
   const repairTurns = results.reduce((total, result) => total + (Array.isArray(result?.attempts) ? result.attempts.filter(attempt => String(attempt).startsWith('repair')).length : 0), 0)
-  log.log(`[agentic-provider] summary translated=${translated} failed=${failed} seeded-full=${seededFull} verified-current=${verifiedCurrent} agent-files=${agentFiles} repair-turns=${repairTurns}`)
+  const sourcePreflightFailed = results.filter(result => result?.status === 'failed' && typeof result.error === 'string' && result.error.startsWith('source preflight:')).length
+  log.log(`[agentic-provider] summary translated=${translated} failed=${failed} seeded-full=${seededFull} verified-current=${verifiedCurrent} agent-files=${agentFiles} repair-turns=${repairTurns} source-preflight-failed=${sourcePreflightFailed}`)
   if (usageTracker) {
     const usage = usageTracker.snapshot()
     log.log(`[agentic-provider] tokens turns=${usage.turns} input=${usage.inputTokens} cached=${usage.cachedInputTokens} cache-write=${usage.cacheWriteInputTokens} output=${usage.outputTokens} reasoning=${usage.reasoningOutputTokens}`)
@@ -663,6 +709,7 @@ async function main() {
   const usage = usageTracker.snapshot()
   const seededFull = report.results.filter(result => result?.status === 'translated' && result.semanticSeedUnits && Array.isArray(result.attempts) && result.attempts.length === 0).length
   const verifiedCurrent = report.results.filter(result => result?.status === 'translated' && Array.isArray(result.attempts) && result.attempts.length === 1 && result.attempts[0] === 'verified-current').length
+  const sourcePreflightFailed = report.results.filter(result => result?.status === 'failed' && typeof result.error === 'string' && result.error.startsWith('source preflight:')).length
   if (process.env.GITHUB_OUTPUT) {
     fs.appendFileSync(process.env.GITHUB_OUTPUT, [
       `translated_count=${report.checkpoint.translated}`,
@@ -677,7 +724,7 @@ async function main() {
   if (process.env.GITHUB_STEP_SUMMARY) {
     fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, [
       '### Agentic translation cost', '',
-      `- Files: ${report.checkpoint.processed} (fully seeded: ${seededFull}, verified-current: ${verifiedCurrent} — both without a model call)`,
+      `- Files: ${report.checkpoint.processed} (fully seeded: ${seededFull}, verified-current: ${verifiedCurrent} — both without a model call; source-preflight failed: ${sourcePreflightFailed} — skipped the model because the source itself cannot pass the gates)`,
       `- Agent turns: ${usage.turns} (cached input: ${Math.round(usage.cachedInputTokens / 1000)}K tokens)`,
       `- Input tokens: **${usage.inputTokens.toLocaleString('en-US')}**`,
       `- Output tokens: **${usage.outputTokens.toLocaleString('en-US')}** (reasoning: ${usage.reasoningOutputTokens.toLocaleString('en-US')})`,
