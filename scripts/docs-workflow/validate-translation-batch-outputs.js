@@ -116,10 +116,8 @@ function assertRealDirectory(directory, label) {
   return resolved
 }
 
-function resolveWithoutSymlinks(workspace, relativePath, label, finalType) {
-  assertSafeRelativePath(relativePath, label)
-  const segments = relativePath.split('/')
-  let current = workspace
+function walkPathSegments(startDirectory, segments, label, displayPath, finalType) {
+  let current = startDirectory
   let finalStat
   for (const [index, segment] of segments.entries()) {
     current = path.join(current, segment)
@@ -127,15 +125,38 @@ function resolveWithoutSymlinks(workspace, relativePath, label, finalType) {
     try {
       stat = fs.lstatSync(current)
     } catch (error) {
-      fail(`${label} ${relativePath} is missing: ${error.message}`)
+      fail(`${label} ${displayPath} is missing: ${error.message}`)
     }
-    if (stat.isSymbolicLink()) fail(`${label} ${relativePath} has a symbolic-link path component`)
-    if (index < segments.length - 1 && !stat.isDirectory()) fail(`${label} ${relativePath} has a non-directory ancestor`)
-    if (index === segments.length - 1 && finalType === 'file' && !stat.isFile()) fail(`${label} ${relativePath} is not a regular file`)
+    if (stat.isSymbolicLink()) fail(`${label} ${displayPath} has a symbolic-link path component`)
+    if (index < segments.length - 1 && !stat.isDirectory()) fail(`${label} ${displayPath} has a non-directory ancestor`)
+    if (index === segments.length - 1 && finalType === 'file' && !stat.isFile()) fail(`${label} ${displayPath} is not a regular file`)
     finalStat = stat
   }
-  if (fs.realpathSync(current) !== current) fail(`${label} ${relativePath} has a symbolic-link path component`)
   return { filePath: current, stat: finalStat }
+}
+
+function resolveWithoutSymlinks(workspace, relativePath, label, finalType) {
+  assertSafeRelativePath(relativePath, label)
+  const pinned = walkPathSegments(workspace, relativePath.split('/'), label, relativePath, finalType)
+  if (fs.realpathSync(pinned.filePath) !== pinned.filePath) fail(`${label} ${relativePath} has a symbolic-link path component`)
+  return pinned
+}
+
+// The canonical batch input lives under RUNNER_TEMP (outside the repository
+// workspace) so the danger-full-access translation agent cannot reach it; this
+// resolver reads such absolute paths with the same symlink protections the
+// workspace-relative resolver enforces.
+function resolveAbsoluteWithoutSymlinks(absolutePath, label) {
+  if (typeof absolutePath !== 'string' || absolutePath.length === 0 || absolutePath.includes('\\') || /[\0\r\n]/.test(absolutePath) || !path.isAbsolute(absolutePath)) {
+    fail(`${label} must be a sanitized absolute path`)
+  }
+  const resolved = path.resolve(absolutePath)
+  const {root} = path.parse(resolved)
+  const segments = resolved.slice(root.length).split(path.sep).filter(Boolean)
+  if (segments.length === 0) fail(`${label} must reference a file, not the filesystem root`)
+  const pinned = walkPathSegments(root, segments, label, resolved, 'file')
+  if (fs.realpathSync(pinned.filePath) !== pinned.filePath) fail(`${label} ${resolved} has a symbolic-link path component`)
+  return pinned
 }
 
 function sameDescriptorIdentity(before, after) {
@@ -201,7 +222,14 @@ function readOptionalPinnedBytes(workspace, relativePath, label) {
 }
 
 function readPinnedJson(workspace, relativePath, label, testHooks) {
-  const pinned = resolveWithoutSymlinks(workspace, relativePath, label, 'file')
+  return readPinnedJsonAt(resolveWithoutSymlinks(workspace, relativePath, label, 'file'), label, testHooks)
+}
+
+function readPinnedAbsoluteJson(absolutePath, label, testHooks) {
+  return readPinnedJsonAt(resolveAbsoluteWithoutSymlinks(absolutePath, label), label, testHooks)
+}
+
+function readPinnedJsonAt(pinned, label, testHooks) {
   const { filePath } = pinned
   testHooks?.afterJsonLstat?.({ label, filePath, stat: pinned.stat })
   const noFollow = fs.constants.O_NOFOLLOW || 0
@@ -430,7 +458,11 @@ function validateTranslationBatchOutputs(options) {
   const workspace = assertRealDirectory(options.workspace, 'workspace')
   const baseline = assertRealDirectory(options.baseline, 'baseline')
   const manifest = readPinnedJson(workspace, options.manifestPath, 'manifest', options.testHooks)
-  const batchInput = validateBatchInput(readPinnedJson(workspace, options.batchInputPath, 'batch input', options.testHooks))
+  const batchInput = validateBatchInput(
+    path.isAbsolute(options.batchInputPath)
+      ? readPinnedAbsoluteJson(options.batchInputPath, 'batch input', options.testHooks)
+      : readPinnedJson(workspace, options.batchInputPath, 'batch input', options.testHooks)
+  )
   const reconciliationPlan = options.reconciliationPlanPath
     ? readPinnedJson(workspace, options.reconciliationPlanPath, 'reconciliation plan', options.testHooks)
     : null
@@ -493,7 +525,9 @@ module.exports = {
     assertSafeRelativePath,
     readCacheFiles,
     readOptionalPinnedBytes,
+    readPinnedAbsoluteJson,
     readPinnedJson,
+    resolveAbsoluteWithoutSymlinks,
     resolveWithoutSymlinks,
     validateTerminalResultSet,
   }),

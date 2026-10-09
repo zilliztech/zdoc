@@ -364,11 +364,11 @@ async function authenticatePublicationEvidence({client, selectedAttempt, selecti
   if (publisherMatches.length > 1) throw new Error('publish_ready job identity must exist at most once')
   const publisherRow = publisherMatches[0] || null
   // A skipped publish_ready never ran and never produced publication
-  // evidence: publish-enabled standalone runs route publication through
-  // authenticate_publication_ready + dispatch_publication instead, so when a
-  // failed producer run skips the inline publication lane the skipped job row
-  // must be treated exactly like an absent producer rather than failing
-  // timestamp validation (run 37898506986 recovery hit this).
+  // evidence: publish-enabled standalone runs ALWAYS skip the inline
+  // publication lane (success or failure) and route publication through
+  // authenticate_publication_ready + dispatch_publication instead, so the
+  // skipped job row must be treated exactly like an absent producer rather
+  // than failing timestamp validation (run 37898506986 recovery hit this).
   const publisher = publisherRow && publisherRow.conclusion !== 'skipped' ? publisherRow : null
   let publisherTimestamps = null
   if (publisher) {

@@ -970,10 +970,11 @@ test('halts recovery planning after an orchestrator failure with unknown remote 
 test('treats a skipped publish_ready as an absent publisher for publish-enabled failed producers', async t => {
   const value = fixture(t)
   // Publish-enabled standalone runs route publication through
-  // authenticate_publication_ready + dispatch_publication; when the producer
-  // fails mid-batch the inline publish_ready row is skipped and carries no
-  // timestamps, which must authenticate as "no publisher ran" instead of
-  // failing recovery planning (production run 37898506986).
+  // authenticate_publication_ready + dispatch_publication, so the inline
+  // publish_ready row is ALWAYS skipped (whether the producer run ultimately
+  // succeeds or fails) and carries no timestamps; it must authenticate as
+  // "no publisher ran" instead of failing recovery planning (production run
+  // 37898506986).
   const skippedPublisherJob = {
     id: 93046385599,
     name: 'publish_ready',
@@ -993,6 +994,20 @@ test('treats a skipped publish_ready as an absent publisher for publish-enabled 
   })
   assert.equal(planned.plan.provenance.publicationEvidence.publisherJob, null)
   assert.equal(planned.plan.provenance.publicationEvidence.resultsAbsenceReason, 'publish_ready-skipped')
+
+  // Treating the skipped row as absent must not weaken tamper detection:
+  // publication evidence attributed to a run whose only publisher row never
+  // executed still fails closed, exactly like an absent publisher.
+  const tampered = fixture(t)
+  tampered.addArtifact(`publication-progress-translation-${RUN_ID}-2-1`, directory => writeJson(directory, 'publication-progress.json', {schemaVersion: 1, document: 'publication-progress'}))
+  await assert.rejects(() => planTranslationRecovery({
+    repository: 'zilliztech/zdoc',
+    previousRunId: RUN_ID,
+    outputRoot: path.join(tampered.root, 'skipped-publisher-tampered'),
+    targetBaselineSha: SHA('8'),
+    executionToolingSha: EXECUTION_TOOLING_SHA,
+    client: {...tampered.client, listJobs: async () => [...tampered.jobs, skippedPublisherJob]},
+  }), /publication progress or results identity has no publish_ready producer job/i)
 })
 
 test('canonicalizes seconds-precision publisher timestamps before binding post-cutover recovery provenance', async t => {
