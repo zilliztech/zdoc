@@ -109,35 +109,31 @@ function protectedBytesRules() {
   ].join('\n')
 }
 
-function buildAgenticTaskPrompt({item, target, siteDir, stylePromptPath, validatorCommand}) {
+function buildAgenticTaskPrompt({item, target, validatorCommand, styleStaged = false}) {
   const contract = formatLocaleContract(loadLocaleContract(target))
-  const styleLine = stylePromptPath
-    ? `The workspace file ${path.join(siteDir, '.github', 'prompts', stylePromptPath)} is the authoritative ${target} house style guide. Read it before translating and follow it.`
-    : `No ${target} style guide is registered; follow the locale contract and natural ${target} developer-documentation style.`
+  const styleLine = stylePromptLine(target, styleStaged)
   return `${contract}
 
 ${styleLine}
 
 Translate one ${target} documentation page.
 
-- Source file (read-only, never modify): ${item.sourcePath}
-- Write the complete translation to: ${item.targetPath}
+- Source file (read-only, never modify): source.md
+- Write the complete translation to: draft.md
 
 Rules:
 - Output the full document: same headings and heading levels, same list nesting, same tables, same MDX/JSX elements.
 ${protectedBytesRules()}
 
 Verification loop (best effort — the external validator gates this file either way):
-1. After writing ${item.targetPath}, try to run: ${validatorCommand}
+1. After writing draft.md, try to run: ${validatorCommand}
 2. If the command runs, fix every VIOLATIONS entry and repeat until it prints OK, then reply with exactly: DONE.
-3. If you cannot run commands in this environment, do NOT stop: writing your best complete translation to ${item.targetPath} is mandatory. Reply with exactly: DRAFT_COMPLETE. An external deterministic validator will check the file and send corrections back if needed. Never leave the file unwritten, and never fabricate a validator result.`
+3. If you cannot run commands in this environment, do NOT stop: writing your best complete translation to draft.md is mandatory. Reply with exactly: DRAFT_COMPLETE. An external deterministic validator will check the file and send corrections back if needed. Never leave the file unwritten, and never fabricate a validator result.`
 }
 
-function buildSeededTaskPrompt({item, target, siteDir, stylePromptPath, validatorCommand, pendingUnits, seededUnits}) {
+function buildSeededTaskPrompt({item, target, validatorCommand, pendingUnits, seededUnits, styleStaged = false}) {
   const contract = formatLocaleContract(loadLocaleContract(target))
-  const styleLine = stylePromptPath
-    ? `The workspace file ${path.join(siteDir, '.github', 'prompts', stylePromptPath)} is the authoritative ${target} house style guide. Read it before translating and follow it.`
-    : `No ${target} style guide is registered; follow the locale contract and natural ${target} developer-documentation style.`
+  const styleLine = stylePromptLine(target, styleStaged)
   const boundedUnits = pendingUnits.slice(0, 60).map(unit => `- [${unit.id}] (${unit.kind}) ${String(unit.source).slice(0, 120).replaceAll('\n', ' ')}`).join('\n')
   const overflow = pendingUnits.length > 60 ? `\n(… ${pendingUnits.length - 60} more; every part of the draft that is still English must be translated.)` : ''
   return `${contract}
@@ -146,8 +142,8 @@ ${styleLine}
 
 Finish translating one ${target} documentation page from a pre-seeded draft.
 
-- Source file (read-only, never modify): ${item.sourcePath}
-- Draft file to finish: ${item.targetPath}
+- Source file (read-only, never modify): source.md
+- Draft file to finish: draft.md
 - ${seededUnits} semantic unit(s) in the draft are reused published translations. Keep them byte-identical — do not edit, reformat, or re-translate them, even for style consistency.
 - The remaining units are still English. Translate only those, in place, keeping the document structure: same headings and heading levels, same list nesting, same tables, same MDX/JSX elements.
 
@@ -158,9 +154,9 @@ Rules:
 ${protectedBytesRules()}
 
 Verification loop (best effort — the external validator gates this file either way):
-1. After editing ${item.targetPath}, try to run: ${validatorCommand}
+1. After editing draft.md, try to run: ${validatorCommand}
 2. If the command runs, fix every VIOLATIONS entry and repeat until it prints OK, then reply with exactly: DONE.
-3. If you cannot run commands in this environment, do NOT stop: writing your best complete translation to ${item.targetPath} is mandatory. Reply with exactly: DRAFT_COMPLETE. An external deterministic validator will check the file and send corrections back if needed. Never leave the file unwritten, and never fabricate a validator result.`
+3. If you cannot run commands in this environment, do NOT stop: writing your best complete translation to draft.md is mandatory. Reply with exactly: DRAFT_COMPLETE. An external deterministic validator will check the file and send corrections back if needed. Never leave the file unwritten, and never fabricate a validator result.`
 }
 
 // Assemble a draft from the current source by splicing seeded translations into
@@ -208,12 +204,43 @@ function resolveSeededDraft({item, target, siteDir, chunkOptions, seedReport}) {
   }
 }
 
+// Agents translate inside a per-file scratch workspace outside the repository
+// checkout: the codex thread's working directory anchors its context (codex
+// auto-loads AGENTS.md and freely explores the tree it starts in), so a
+// repository-rooted thread both bloats every paid turn with unrelated repo
+// content and exposes pipeline state (tmp/translation-batch-input.json, seed
+// reports) to accidental destruction by agent shell commands. The scratch
+// workspace holds only staged copies of the source, the pre-seeded draft, and
+// the style guide; the provider copies the finished draft back into the
+// repository and runs the deterministic gates itself.
+function createAgentWorkspace({scratchRoot, sourceContent, seededDraft = null, styleContent = null}) {
+  const root = path.resolve(scratchRoot)
+  fs.mkdirSync(root, {recursive: true})
+  const dir = fs.mkdtempSync(path.join(root, 'agentic-file-'))
+  fs.writeFileSync(path.join(dir, 'source.md'), sourceContent)
+  if (seededDraft !== null) fs.writeFileSync(path.join(dir, 'draft.md'), seededDraft)
+  if (styleContent !== null) fs.writeFileSync(path.join(dir, 'style.md'), styleContent)
+  return {dir, sourcePath: path.join(dir, 'source.md'), draftPath: path.join(dir, 'draft.md')}
+}
+
+function styleGuideContent(siteDir, stylePromptPath) {
+  if (!stylePromptPath) return null
+  const stylePath = path.join(siteDir, '.github', 'prompts', stylePromptPath)
+  return fs.existsSync(stylePath) ? fs.readFileSync(stylePath, 'utf8') : null
+}
+
+function stylePromptLine(target, styleStaged) {
+  return styleStaged
+    ? `The workspace file style.md is the authoritative ${target} house style guide. Read it before translating and follow it.`
+    : `No ${target} style guide is registered; follow the locale contract and natural ${target} developer-documentation style.`
+}
+
 function buildRepairPrompt({item, target, violations, validatorCommand}) {
   const bounded = violations.slice(0, 30).map(violation => `- ${violation}`).join('\n')
   return `A ${target} translation draft failed deterministic validation. Fix it.
 
-- Source file (read-only, never modify): ${item.sourcePath}
-- Draft file to fix: ${item.targetPath}
+- Source file (read-only, never modify): source.md
+- Draft file to fix: draft.md
 - Validator: ${validatorCommand}
 
 Violations reported by the validator just now:
@@ -221,21 +248,20 @@ ${bounded}
 
 ${protectedBytesRules()}
 
-Edit ${item.targetPath} so the listed violations are gone. If you can run the validator, iterate until it prints OK and reply with exactly: DONE. If you cannot run commands, still apply your best fix to ${item.targetPath} and reply with exactly: DRAFT_COMPLETE — the external validator will re-check the file. Never fabricate a validator result.`
+Edit draft.md so the listed violations are gone. If you can run the validator, iterate until it prints OK and reply with exactly: DONE. If you cannot run commands, still apply your best fix to draft.md and reply with exactly: DRAFT_COMPLETE — the external validator will re-check the file. Never fabricate a validator result.`
 }
 
-function validatorCommandFor(siteDir, target, item) {
-  return `node ${path.join('scripts', 'translation', 'validate-translation-file.js')} --site-dir ${siteDir} --target ${target} --source ${item.sourcePath} --draft ${item.targetPath} --write-back false`
+function validatorCommandFor(siteDir, target, workspace) {
+  return `node ${path.join(siteDir, 'scripts', 'translation', 'validate-translation-file.js')} --site-dir ${siteDir} --target ${target} --source "${workspace.sourcePath}" --draft "${workspace.draftPath}" --write-back false`
 }
 
-async function runAgenticFile({item, target, siteDir, callCodex, validate, maxRepairTurns = DEFAULT_MAX_REPAIR_TURNS, stylePromptPath = stylePromptPathFor(target), model = null, log = console, seedReport = null, chunkOptions = null, pendingInfo = null}) {
+async function runAgenticFile({item, target, siteDir, callCodex, validate, maxRepairTurns = DEFAULT_MAX_REPAIR_TURNS, stylePromptPath = stylePromptPathFor(target), model = null, log = console, seedReport = null, chunkOptions = null, pendingInfo = null, scratchRoot = null}) {
   if (!item || typeof item.sourcePath !== 'string' || typeof item.targetPath !== 'string') {
     throw new Error('Agentic translation requires manifest item source and target paths')
   }
   const sourceContent = fs.readFileSync(path.join(siteDir, item.sourcePath), 'utf8')
   const draftPath = path.join(siteDir, item.targetPath)
   fs.mkdirSync(path.dirname(draftPath), {recursive: true})
-  const validatorCommand = validatorCommandFor(siteDir, target, item)
   const attempts = []
   let seeded = null
   if (seedReport) {
@@ -280,48 +306,70 @@ async function runAgenticFile({item, target, siteDir, callCodex, validate, maxRe
       }
     }
   }
-  const runTurn = async (phase, prompt) => {
-    const reply = await callCodex({phase, prompt, item})
-    if (!fs.existsSync(draftPath)) {
-      log.log(`[agentic-provider] reply ${item.sourcePath} ${phase}: ${String(reply || '').slice(0, 2000)}`)
-      throw new Error(`agentic ${phase} turn completed without writing ${item.targetPath}; agent reply tail: ${String(reply || '').slice(-800)}`)
+  // The agent never works in the repository: it gets a per-file scratch
+  // workspace holding staged copies (source.md, the pre-seeded draft.md, and
+  // the style guide) and hands its result back through draft.md, which the
+  // provider copies into the repository target path. Under the
+  // workspace-write sandbox the agent cannot write outside this scratch dir,
+  // so pipeline state under the repository tmp/ tree is structurally out of
+  // reach instead of merely unmentioned.
+  const workspaceRoot = scratchRoot ? path.resolve(scratchRoot) : fs.mkdtempSync(path.join(os.tmpdir(), 'agentic-workspace-'))
+  const styleContent = styleGuideContent(siteDir, stylePromptPath)
+  const workspace = createAgentWorkspace({
+    scratchRoot: workspaceRoot,
+    sourceContent,
+    seededDraft: seeded ? seeded.draft : null,
+    styleContent,
+  })
+  const validatorCommand = validatorCommandFor(siteDir, target, workspace)
+  try {
+    const runTurn = async (phase, prompt) => {
+      const reply = await callCodex({phase, prompt, item, workingDirectory: workspace.dir})
+      if (!fs.existsSync(workspace.draftPath)) {
+        log.log(`[agentic-provider] reply ${item.sourcePath} ${phase}: ${String(reply || '').slice(0, 2000)}`)
+        throw new Error(`agentic ${phase} turn completed without writing the workspace draft (expected draft.md in ${workspace.dir}); agent reply tail: ${String(reply || '').slice(-800)}`)
+      }
+      writeDraft(fs.readFileSync(workspace.draftPath, 'utf8'))
+      return reply
     }
-    return reply
-  }
-  const seededDraftBytes = seeded ? fs.readFileSync(draftPath, 'utf8') : null
-  const taskPrompt = seeded
-    ? buildSeededTaskPrompt({item, target, siteDir, stylePromptPath, validatorCommand, pendingUnits: seeded.pendingUnits, seededUnits: seeded.usableCount})
-    : buildAgenticTaskPrompt({item, target, siteDir, stylePromptPath, validatorCommand})
-  await runTurn('translate', taskPrompt)
-  attempts.push('translate')
-  log.log(`[agentic-provider] turn translate ${item.sourcePath}${seeded ? ` seeded=${seeded.usableCount}/${seeded.totalUnits}` : ''}`)
-  if (seededDraftBytes !== null && fs.readFileSync(draftPath, 'utf8') === seededDraftBytes) {
-    throw new Error(`agentic translate turn left the seeded draft of ${item.targetPath} unchanged; ${seeded.pendingUnits.length} unit(s) remain untranslated`)
-  }
-  let outcome = await validateWithRuntimeChecks({sourceContent, draftContent: fs.readFileSync(draftPath, 'utf8'), relPath: item.sourcePath, target, validate})
-  if (outcome.repaired !== fs.readFileSync(draftPath, 'utf8')) fs.writeFileSync(draftPath, outcome.repaired)
-  let violations = outcome.errors
-  while (violations.length && attempts.length <= maxRepairTurns) {
-    await runTurn(`repair${attempts.length}`, buildRepairPrompt({item, target, violations, validatorCommand}))
-    attempts.push(`repair${attempts.length}`)
-    log.log(`[agentic-provider] turn ${attempts.at(-1)} ${item.sourcePath}`)
-    outcome = await validateWithRuntimeChecks({sourceContent, draftContent: fs.readFileSync(draftPath, 'utf8'), relPath: item.sourcePath, target, validate})
+    const seededDraftBytes = seeded ? fs.readFileSync(draftPath, 'utf8') : null
+    const taskPrompt = seeded
+      ? buildSeededTaskPrompt({item, target, validatorCommand, pendingUnits: seeded.pendingUnits, seededUnits: seeded.usableCount, styleStaged: styleContent !== null})
+      : buildAgenticTaskPrompt({item, target, validatorCommand, styleStaged: styleContent !== null})
+    await runTurn('translate', taskPrompt)
+    attempts.push('translate')
+    log.log(`[agentic-provider] turn translate ${item.sourcePath}${seeded ? ` seeded=${seeded.usableCount}/${seeded.totalUnits}` : ''}`)
+    if (seededDraftBytes !== null && fs.readFileSync(draftPath, 'utf8') === seededDraftBytes) {
+      throw new Error(`agentic translate turn left the seeded draft of ${item.targetPath} unchanged; ${seeded.pendingUnits.length} unit(s) remain untranslated`)
+    }
+    let outcome = await validateWithRuntimeChecks({sourceContent, draftContent: fs.readFileSync(draftPath, 'utf8'), relPath: item.sourcePath, target, validate})
     if (outcome.repaired !== fs.readFileSync(draftPath, 'utf8')) fs.writeFileSync(draftPath, outcome.repaired)
-    violations = outcome.errors
-  }
-  const base = {...item, target, attempts, ...(model ? {model} : {}), ...(seeded ? {semanticSeedUnits: seeded.usableCount} : {})}
-  if (!violations.length) {
-    log.log(`[agentic-provider] translated ${item.sourcePath} attempts=${attempts.join(',')}`)
-    return {...base, status: 'translated', review: successfulReview(), validationErrors: []}
-  }
-  const error = violations.join('; ').slice(0, MAX_FAILURE_ERROR_LENGTH)
-  log.log(`[agentic-provider] failed ${item.sourcePath} attempts=${attempts.join(',')}: ${error.slice(0, 200)}`)
-  return {
-    ...base,
-    status: 'failed',
-    failureCategory: classifyFailure(new Error(violations[0])),
-    error,
-    validationErrors: violations.slice(0, 10).map(violation => String(violation).slice(0, 400)),
+    let violations = outcome.errors
+    while (violations.length && attempts.length <= maxRepairTurns) {
+      await runTurn(`repair${attempts.length}`, buildRepairPrompt({item, target, violations, validatorCommand}))
+      attempts.push(`repair${attempts.length}`)
+      log.log(`[agentic-provider] turn ${attempts.at(-1)} ${item.sourcePath}`)
+      outcome = await validateWithRuntimeChecks({sourceContent, draftContent: fs.readFileSync(draftPath, 'utf8'), relPath: item.sourcePath, target, validate})
+      if (outcome.repaired !== fs.readFileSync(draftPath, 'utf8')) fs.writeFileSync(draftPath, outcome.repaired)
+      violations = outcome.errors
+    }
+    const base = {...item, target, attempts, ...(model ? {model} : {}), ...(seeded ? {semanticSeedUnits: seeded.usableCount} : {})}
+    if (!violations.length) {
+      log.log(`[agentic-provider] translated ${item.sourcePath} attempts=${attempts.join(',')}`)
+      return {...base, status: 'translated', review: successfulReview(), validationErrors: []}
+    }
+    const error = violations.join('; ').slice(0, MAX_FAILURE_ERROR_LENGTH)
+    log.log(`[agentic-provider] failed ${item.sourcePath} attempts=${attempts.join(',')}: ${error.slice(0, 200)}`)
+    return {
+      ...base,
+      status: 'failed',
+      failureCategory: classifyFailure(new Error(violations[0])),
+      error,
+      validationErrors: violations.slice(0, 10).map(violation => String(violation).slice(0, 400)),
+    }
+  } finally {
+    fs.rmSync(workspace.dir, {recursive: true, force: true})
+    if (!scratchRoot) fs.rmSync(workspaceRoot, {recursive: true, force: true})
   }
 }
 
@@ -353,9 +401,12 @@ async function reuseRestoredTranslation({item, restored, target, siteDir, valida
   }
 }
 
-async function runAgenticTranslation({siteDir, manifest, callCodex, validate, maxRepairTurns, model, concurrency = 2, now = () => Date.now(), onResult = null, log = console, recovery = null, semanticSeedsDir = null, chunkOptions = null, usageTracker = null}) {
+async function runAgenticTranslation({siteDir, manifest, callCodex, validate, maxRepairTurns, model, concurrency = 2, now = () => Date.now(), onResult = null, log = console, recovery = null, semanticSeedsDir = null, chunkOptions = null, usageTracker = null, scratchRoot = null}) {
   if (!Array.isArray(manifest?.items)) throw new Error('Agentic translation requires a manifest with items')
   const seedIndex = semanticSeedsDir ? loadSemanticSeedIndex(semanticSeedsDir, manifest) : null
+  for (const ignored of seedIndex?.ignoredReports || []) {
+    log.log(`[agentic-provider] seed report ignored for ${ignored.sourcePath} (${ignored.reportFile}): ${ignored.reason}; translating fresh`)
+  }
   const restoredByIdentity = new Map()
   for (const restored of recovery?.restored || []) {
     restoredByIdentity.set(`${restored.sourcePath}\0${restored.targetPath}`, restored)
@@ -387,12 +438,9 @@ async function runAgenticTranslation({siteDir, manifest, callCodex, validate, ma
           results[index] = reused
         } else {
           if (restored) log.log(`[agentic-provider] recovered draft for ${item.sourcePath} failed the current validation gate; retranslating`)
-          const seedReportFile = seedIndex?.reportsBySourcePath.get(item.sourcePath)
-          const seedReport = seedReportFile
-            ? JSON.parse(fs.readFileSync(path.join(semanticSeedsDir, seedReportFile), 'utf8'))
-            : null
+          const seedReport = seedIndex?.reportContentsBySourcePath.get(item.sourcePath) ?? null
           const pendingInfo = seedIndex?.pendingBySourcePath.get(item.sourcePath) || null
-          results[index] = await runAgenticFile({item, target: manifest.target, siteDir, callCodex, validate, maxRepairTurns, model, log, seedReport, chunkOptions, pendingInfo})
+          results[index] = await runAgenticFile({item, target: manifest.target, siteDir, callCodex, validate, maxRepairTurns, model, log, seedReport, chunkOptions, pendingInfo, scratchRoot})
         }
       } catch (error) {
         // One broken file (or one agent session that failed to act) must not
@@ -464,8 +512,8 @@ async function createCodexCall({model, baseUrl, apiKey, workingDirectory, timeou
       AGENTIC_PROVIDER_KEY: apiKey,
     }).filter(([, value]) => value !== undefined)),
   })
-  return async ({phase, prompt, item}) => {
-    const thread = codex.startThread({model, sandboxMode, workingDirectory, approvalPolicy: 'never', skipGitRepoCheck: true})
+  return async ({phase, prompt, item, workingDirectory: turnWorkingDirectory = workingDirectory}) => {
+    const thread = codex.startThread({model, sandboxMode, workingDirectory: turnWorkingDirectory, approvalPolicy: 'never', skipGitRepoCheck: true})
     const controller = new AbortController()
     const timer = setTimeout(() => controller.abort(new Error('agentic turn timeout')), timeoutMs)
     try {
@@ -481,19 +529,21 @@ async function createCodexCall({model, baseUrl, apiKey, workingDirectory, timeou
 // Preflight: one minimal agent round-trip plus file write and validator run
 // on a throwaway file. Catches runner-level blockers (sandbox namespace
 // failures, missing binaries) before any paid translation turn is spent.
-async function preflightAgent({siteDir, callCodex, target, log = console}) {
-  const token = `agentic-preflight-${Date.now()}`
-  const sourcePath = path.join(siteDir, 'tmp', 'agentic-preflight', `${token}.md`)
-  const draftPath = path.join(siteDir, 'tmp', 'agentic-preflight', `${token}.out.md`)
-  fs.mkdirSync(path.dirname(sourcePath), {recursive: true})
-  // Deliberately term-free sample: the preflight proves write/execute/report
-  // mechanics, must not depend on any locale's terminology contract, and must
-  // pass the deterministic gates for every target.
-  fs.writeFileSync(sourcePath, `---\ntitle: Preflight\n---\n\n# Preflight\n\nThe sentinel word is zebra.\n`)
+async function preflightAgent({siteDir, callCodex, target, log = console, scratchRoot = null}) {
+  // The preflight mirrors the production turn shape: the agent works in an
+  // isolated scratch workspace (never the repository), writes draft.md there,
+  // and validates it through the repository validator with absolute input
+  // paths — so a sandbox-restricted runner fails here, before any paid
+  // translation turn is spent.
+  const workspace = createAgentWorkspace({
+    scratchRoot: scratchRoot ? path.join(path.resolve(scratchRoot), 'preflight') : fs.mkdtempSync(path.join(os.tmpdir(), 'agentic-preflight-')),
+    sourceContent: `---\ntitle: Preflight\n---\n\n# Preflight\n\nThe sentinel word is zebra.\n`,
+  })
+  const ownsRoot = !scratchRoot
   try {
-    const validatorCommand = `node ${path.join('scripts', 'translation', 'validate-translation-file.js')} --site-dir ${siteDir} --target ${target} --source tmp/agentic-preflight/${token}.md --draft tmp/agentic-preflight/${token}.out.md --write-back false`
+    const validatorCommand = validatorCommandFor(siteDir, target, workspace)
     const prompt = `Environment smoke test.
-1. Create the file ${path.relative(siteDir, draftPath)} with exactly this content:
+1. Create the file draft.md in this workspace with exactly this content:
 ---
 title: Preflight output
 ---
@@ -503,14 +553,14 @@ title: Preflight output
 The sentinel word is still zebra.
 2. Run: ${validatorCommand}
 3. Reply with exactly: OK if the validator printed OK, otherwise reply with the failure output.`
-    const reply = String(await callCodex({phase: 'preflight', prompt, item: {sourcePath: path.relative(siteDir, sourcePath), targetPath: path.relative(siteDir, draftPath)}}) || '')
-    if (!fs.existsSync(draftPath)) {
+    const reply = String(await callCodex({phase: 'preflight', prompt, item: {sourcePath: 'source.md', targetPath: 'draft.md'}, workingDirectory: workspace.dir}) || '')
+    if (!fs.existsSync(workspace.draftPath)) {
       throw new Error(`preflight agent did not write the draft; reply: ${reply.slice(0, 600)}`)
     }
     const {errors} = await validateWithRuntimeChecks({
-      sourceContent: fs.readFileSync(sourcePath, 'utf8'),
-      draftContent: fs.readFileSync(draftPath, 'utf8'),
-      relPath: path.relative(siteDir, sourcePath),
+      sourceContent: fs.readFileSync(workspace.sourcePath, 'utf8'),
+      draftContent: fs.readFileSync(workspace.draftPath, 'utf8'),
+      relPath: 'preflight.md',
       target,
     })
     if (errors.length) throw new Error(`preflight draft failed validation: ${errors.join('; ').slice(0, 400)}`)
@@ -524,12 +574,13 @@ The sentinel word is still zebra.
     log.log(`[agentic-provider] preflight FAILED: ${message}`)
     return {ok: false, error: message}
   } finally {
-    fs.rmSync(path.dirname(sourcePath), {recursive: true, force: true})
+    fs.rmSync(workspace.dir, {recursive: true, force: true})
+    if (ownsRoot) fs.rmSync(path.dirname(workspace.dir), {recursive: true, force: true})
   }
 }
 
 function usage() {
-  return 'Usage: node scripts/translation/agenticProvider.js run --site-dir <absolute-dir> --manifest <file> --report <file> --model <id> --base-url <url> --api-key-env <name> [--concurrency 2] [--max-repair-turns 4] [--codex-home <dir>] [--sandbox-mode <workspace-write|danger-full-access>] [--skip-preflight true] [--recovery-analysis <file>] [--semantic-seeds <dir>]'
+  return 'Usage: node scripts/translation/agenticProvider.js run --site-dir <absolute-dir> --manifest <file> --report <file> --model <id> --base-url <url> --api-key-env <name> [--concurrency 2] [--max-repair-turns 4] [--codex-home <dir>] [--sandbox-mode <workspace-write|danger-full-access>] [--skip-preflight true] [--recovery-analysis <file>] [--semantic-seeds <dir>] [--agent-scratch-root <dir>]'
 }
 
 function parseCliArgs(argv) {
@@ -561,6 +612,7 @@ function parseCliArgs(argv) {
     skipPreflight: args.get('skip-preflight') === 'true',
     recoveryAnalysis: args.get('recovery-analysis') || '',
     semanticSeeds: args.get('semantic-seeds') || '',
+    agentScratchRoot: args.get('agent-scratch-root') || null,
   }
 }
 
@@ -586,7 +638,7 @@ async function main() {
   // unit collection, so a fully seeded run still pays this one bounded turn.
   const pendingWork = manifest.items.filter(item => !recovery?.restored?.some(restored => restored.sourcePath === item.sourcePath && restored.targetPath === item.targetPath && restored.sourceHash === item.sourceHash))
   if (options.skipPreflight !== true && pendingWork.length > 0) {
-    const preflight = await preflightAgent({siteDir: options.siteDir, callCodex, target: manifest.target})
+    const preflight = await preflightAgent({siteDir: options.siteDir, callCodex, target: manifest.target, ...(options.agentScratchRoot ? {scratchRoot: options.agentScratchRoot} : {})})
     if (!preflight.ok) throw new Error(`agentic preflight failed; refusing to spend translation turns. ${preflight.error}`)
   }
   const report = await runAgenticTranslation({
@@ -598,6 +650,7 @@ async function main() {
     model: options.model,
     recovery,
     usageTracker,
+    ...(options.agentScratchRoot ? {scratchRoot: options.agentScratchRoot} : {}),
     ...(options.semanticSeeds ? {semanticSeedsDir: path.resolve(options.siteDir, options.semanticSeeds), chunkOptions: loadChunkLimits()} : {}),
   })
   fs.mkdirSync(path.dirname(path.resolve(options.reportPath)), {recursive: true})
@@ -641,12 +694,14 @@ module.exports = {
   buildSeededTaskPrompt,
   protectedBytesRules,
   buildRepairPrompt,
+  createAgentWorkspace,
   createCodexCall,
   parseCliArgs,
   resolveSeededDraft,
   reuseRestoredTranslation,
   runAgenticFile,
   runAgenticTranslation,
+  stylePromptLine,
   stylePromptPathFor,
   validatorCommandFor,
 }
