@@ -967,6 +967,34 @@ test('halts recovery planning after an orchestrator failure with unknown remote 
   }), /orchestrator failure|unknown remote state/i)
 })
 
+test('treats a skipped publish_ready as an absent publisher for publish-enabled failed producers', async t => {
+  const value = fixture(t)
+  // Publish-enabled standalone runs route publication through
+  // authenticate_publication_ready + dispatch_publication; when the producer
+  // fails mid-batch the inline publish_ready row is skipped and carries no
+  // timestamps, which must authenticate as "no publisher ran" instead of
+  // failing recovery planning (production run 37898506986).
+  const skippedPublisherJob = {
+    id: 93046385599,
+    name: 'publish_ready',
+    run_attempt: 2,
+    status: 'completed',
+    conclusion: 'skipped',
+    started_at: null,
+    completed_at: null,
+  }
+  const planned = await planTranslationRecovery({
+    repository: 'zilliztech/zdoc',
+    previousRunId: RUN_ID,
+    outputRoot: path.join(value.root, 'skipped-publisher'),
+    targetBaselineSha: SHA('8'),
+    executionToolingSha: EXECUTION_TOOLING_SHA,
+    client: {...value.client, listJobs: async () => [...value.jobs, skippedPublisherJob]},
+  })
+  assert.equal(planned.plan.provenance.publicationEvidence.publisherJob, null)
+  assert.equal(planned.plan.provenance.publicationEvidence.resultsAbsenceReason, 'publish_ready-skipped')
+})
+
 test('canonicalizes seconds-precision publisher timestamps before binding post-cutover recovery provenance', async t => {
   const value = fixture(t)
   const publisherJob = {
