@@ -1,13 +1,13 @@
 ---
-title: "Dynamic Field | Cloud"
+title: "動的フィールド | Cloud"
 slug: /enable-dynamic-field
-sidebar_label: "Dynamic Field"
+sidebar_label: "動的フィールド"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud では、dynamic field と呼ばれる特別な機能を使用して、柔軟で進化する構造を持つエンティティを挿入できます。このフィールドは `$meta` という名前の非表示の JSON フィールドとして実装されており、コレクションスキーマで明示的に定義されていないデータ内のフィールドを自動的に保存します。 | Cloud"
+description: "Zilliz Cloud では、動的フィールドと呼ばれる特別な機能を通じて、柔軟で進化し続ける構造を持つエンティティを挿入できます。このフィールドは `$meta` という名前の非表示の JSON フィールドとして実装されており、コレクションスキーマで明示的に定義されていないデータ内の任意のフィールドを自動的に格納します。 | Cloud"
 type: origin
 token: OVxRwZWxNi4pYrkdKxCcOuY2nf1
 sidebar_position: 14
@@ -19,19 +19,19 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Dynamic Field
+# 動的フィールド
 
-Zilliz Cloud では、**dynamic field** と呼ばれる特別な機能を使用して、柔軟で進化する構造を持つエンティティを挿入できます。このフィールドは `$meta` という名前の非表示の JSON フィールドとして実装されており、コレクションスキーマで**明示的に定義されていない**データ内のフィールドを自動的に保存します。
+Zilliz Cloud では、**動的フィールド**と呼ばれる特別な機能を通じて、柔軟で進化し続ける構造を持つエンティティを挿入できます。このフィールドは `$meta` という名前の非表示の JSON フィールドとして実装されており、コレクションスキーマで**明示的に定義されていない**データ内の任意のフィールドを自動的に格納します。
 
 ## 仕組み\{#how-it-works}
 
-dynamic field が有効になると、Zilliz Cloud は各エンティティに非表示の `$meta` フィールドを追加します。このフィールドは JSON 型であるため、JSON と互換性のある任意のデータ構造を保存でき、JSON path 構文を使用してインデックスを作成できます。
+動的フィールドを有効にすると、Zilliz Cloud は各エンティティに非表示の `$meta` フィールドを追加します。このフィールドは JSON 型であるため、JSON 互換の任意のデータ構造を格納でき、JSON パス構文を使用してインデックスを作成できます。
 
-データ挿入時には、スキーマで宣言されていないフィールドはすべて、この dynamic field 内にキーと値のペアとして自動的に保存されます。
+データ挿入時、スキーマで宣言されていないフィールドは、この動的フィールド内にキーと値のペアとして自動的に格納されます。
 
 `$meta` を手動で管理する必要はありません。Zilliz Cloud が透過的に処理します。
 
-たとえば、コレクションスキーマで `id` と `vector` のみを定義していて、次のエンティティを挿入するとします。
+たとえば、コレクションスキーマが `id` と `vector` のみを定義していて、次のエンティティを挿入するとします。
 
 ```json
 {
@@ -42,7 +42,7 @@ dynamic field が有効になると、Zilliz Cloud は各エンティティに�
 }
 ```
 
-dynamic field 機能を有効にすると、Zilliz Cloud は内部的に次のように保存します。
+動的フィールド機能を有効にすると、Zilliz Cloud は内部的に次のように格納します。
 
 ```json
 {
@@ -57,21 +57,21 @@ dynamic field 機能を有効にすると、Zilliz Cloud は内部的に次の�
 }
 ```
 
-これにより、スキーマを変更することなくデータ構造を進化させることができます。
+これにより、スキーマを変更せずにデータ構造を進化させることができます。
 
-一般的なユースケースは次のとおりです。
+一般的なユースケースには次のものがあります。
 
-- オプションのフィールドや取得頻度の低いフィールドの保存
+- オプションのフィールドや取得頻度の低いフィールドを格納する
 
-- エンティティごとに異なるメタデータの取り込み
+- エンティティごとに異なるメタデータをキャプチャする
 
-- 特定の dynamic field キーに対するインデックスによる柔軟なフィルタリングのサポート
+- 特定の動的フィールドキーのインデックスを介して柔軟なフィルタリングをサポートする
 
-## サポートされるデータ型\{#supported-data-types}
+## サポートされているデータ型\{#supported-data-types}
 
-dynamic field は、単純な値と複雑な値の両方を含め、Zilliz Cloud が提供するすべてのスカラーデータ型をサポートします。これらのデータ型は、**`$meta` に保存されるキーの値**に適用されます。
+動的フィールドは、Zilliz Cloud が提供するすべてのスカラーデータ型をサポートしており、単純な値と複雑な値の両方を含みます。これらのデータ型は、**`$meta` に格納されるキーの値**に適用されます。
 
-**サポートされる型は次のとおりです:**
+**サポートされている型は次のとおりです:**
 
 - 文字列（`VARCHAR`）
 
@@ -100,13 +100,13 @@ dynamic field は、単純な値と複雑な値の両方を含め、Zilliz Cloud
 }
 ```
 
-上記の各キーと値は、`$meta` フィールド内に保存されます。
+上記の各キーと値は、`$meta` フィールド内に格納されます。
 
-## dynamic field を有効にする\{#enable-dynamic-field}
+## 動的フィールドを有効にする\{#enable-dynamic-field}
 
-dynamic field 機能を使用するには、コレクションスキーマの作成時に `enable_dynamic_field=True` を設定します。
+動的フィールド機能を使用するには、コレクションスキーマの作成時に `enable_dynamic_field=True` を設定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -138,7 +138,9 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.*;
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.common.DataType;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 
@@ -170,45 +172,14 @@ client.createCollection(requestCreate);
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-import { MilvusClient, DataType, CreateCollectionReq } from '@zilliz/milvus2-sdk-node';
-
-// Initialize client
-const client = new MilvusClient({ address: 'YOUR_CLUSTER_ENDPOINT' });
-
-// Create collection
-const res = await client.createCollection({
-  collection_name: 'my_collection',
-  schema:  [
-      {
-        name: 'my_id',
-        data_type: DataType.Int64,
-        is_primary_key: true,
-        autoID: false,
-      },
-      {
-        name: 'my_vector',
-        data_type: DataType.FloatVector,
-        type_params: {
-          dim: '5',
-      }
-   ],
-   enable_dynamic_field: true
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
 import (
     "context"
 
-    "github.com/milvus-io/milvus/client/v2/entity"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -223,7 +194,7 @@ if err != nil {
 
 schema := entity.NewSchema().WithDynamicFieldEnabled(true)
 schema.WithField(entity.NewField().
-    WithName("my_id").pk
+    WithName("my_id").
     WithDataType(entity.FieldTypeInt64).
     WithIsPrimaryKey(true),
 ).WithField(entity.NewField().
@@ -236,6 +207,103 @@ err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("my_co
 if err != nil {
     return err
 }
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+// Initialize client
+let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT")).await?;
+
+// Create schema with dynamic field enabled
+let schema = CollectionSchema::new()
+    .enable_dynamic_field(true)
+    .add_field(
+        FieldSchema::new()
+            .name("my_id")
+            .data_type(DataType::Int64)
+            .primary_key(true),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("my_vector")
+            .data_type(DataType::FloatVector)
+            .dimension(5),
+    );
+
+// Create the collection
+client
+    .create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name("my_collection")
+            .schema(schema)
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->SetEnableDynamicField(true);
+schema->AddField({"my_id", milvus::DataType::INT64, "", true, false});
+schema->AddField(milvus::FieldSchema("my_vector", milvus::DataType::FLOAT_VECTOR).WithDimension(5));
+
+status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                    .WithCollectionName("my_collection")
+                                    .WithCollectionSchema(schema));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient, DataType } from '@zilliz/milvus2-sdk-node';
+
+// Initialize client
+const client = new MilvusClient({ address: 'YOUR_CLUSTER_ENDPOINT' });
+
+// Create collection
+const res = await client.createCollection({
+  collection_name: 'my_collection',
+  schema: [
+    {
+      name: 'my_id',
+      data_type: DataType.Int64,
+      is_primary_key: true,
+      autoID: false,
+    },
+    {
+      name: 'my_vector',
+      data_type: DataType.FloatVector,
+      type_params: {
+        dim: '5',
+      },
+    },
+  ],
+  enable_dynamic_field: true,
+});
 ```
 
 </TabItem>
@@ -283,41 +351,13 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
-auto status = client->Connect(connect_param);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
-schema->SetEnableDynamicField(true);
-schema->AddField({"my_id", milvus::DataType::INT64, "", true, false});
-schema->AddField(milvus::FieldSchema("my_vector", milvus::DataType::FLOAT_VECTOR).WithDimension(5));
-
-status = client->CreateCollection(milvus::CreateCollectionRequest()
-                                    .WithCollectionName("my_collection")
-                                    .WithCollectionSchema(schema));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
 
 ## コレクションにエンティティを挿入する\{#insert-entities-to-the-collection}
 
-dynamic field を使用すると、スキーマで定義されていない追加のフィールドをコレクションに挿入できます。これらのフィールドは自動的に `$meta` に保存されます。
+動的フィールドを使用すると、スキーマで定義されていない追加のフィールドを挿入できます。これらのフィールドは `$meta` に自動的に格納されます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -347,8 +387,9 @@ client.insert(collection_name="my_collection", data=entities)
 ```java
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-
 import io.milvus.v2.service.vector.request.InsertReq;
+import java.util.Arrays;
+import java.util.Collections;
 
 Gson gson = new Gson();
 JsonObject row = new JsonObject();
@@ -375,6 +416,90 @@ client.insert(InsertReq.builder()
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+import (
+    "github.com/milvus-io/milvus/client/v3/column"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+_, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("my_collection").
+    WithInt64Column("my_id", []int64{1}).
+    WithFloatVectorColumn("my_vector", 5, [][]float32{
+        {0.1, 0.2, 0.3, 0.4, 0.5},
+    }).WithColumns(
+    column.NewColumnVarChar("overview", []string{"Great product"}),
+    column.NewColumnInt32("words", []int32{150}),
+    column.NewColumnJSONBytes("dynamic_json", [][]byte{
+        []byte(`{"varchar":"some text","nested":{"value":42.5},"string_price":"99.99"}`),
+    }),
+))
+if err != nil {
+    return err
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
+
+let insert = client
+    .insert(
+        InsertRequest::builder()
+            .collection_name("my_collection")
+            .columns(vec![
+                FieldData::int64("my_id", vec![1]),
+                FieldData::float_vector("my_vector", vec![vec![0.1, 0.2, 0.3, 0.4, 0.5]]),
+                FieldData::varchar("overview", vec!["Great product".to_string()]),
+                FieldData::int32("words", vec![150]),
+                FieldData::json(
+                    "dynamic_json",
+                    vec![json!({"varchar": "some text", "nested": {"value": 42.5}, "string_price": "99.99"})],
+                ),
+            ])
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::EntityRows data = {
+    {
+        {"my_id", 1},
+        {"my_vector", std::vector<float>{0.1, 0.2, 0.3, 0.4, 0.5}},
+        {"overview", "Great product"},
+        {"words", 150},
+        {"dynamic_json", {
+                {"varchar", "some text"},
+                {"nested", {"value", 42.5}},
+                {"string_price", "99.99"},
+            }
+        }
+    }
+};
+
+milvus::InsertResponse response;
+auto status = client->Insert(milvus::InsertRequest()
+                                .WithCollectionName("my_collection")
+                                .WithRowsData(std::move(data)),
+                             response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -397,33 +522,6 @@ const res = await client.insert({
     collection_name: 'my_collection',
     data: entities,
 });
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-_, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("my_collection").
-    WithInt64Column("my_id", []int64{1}).
-    WithFloatVectorColumn("my_vector", 5, [][]float32{
-        {0.1, 0.2, 0.3, 0.4, 0.5},
-    }).WithColumns(
-    column.NewColumnVarChar("overview", []string{"Great product"}),
-    column.NewColumnInt32("words", []int32{150}),
-    column.NewColumnJSONBytes("dynamic_json", [][]byte{
-        []byte(`{
-            varchar: 'some text',
-            nested: {
-                value: 42.5,
-            },
-            string_price: '99.99',
-        }`),
-    }),
-))
-if err != nil {
-    return err
-}
 ```
 
 </TabItem>
@@ -458,75 +556,45 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-milvus::EntityRows data = {
-    {
-        {"my_id", 1},
-        {"my_vector", std::vector<float>{0.1, 0.2, 0.3, 0.4, 0.5}},
-        {"overview", "Great product"},
-        {"words", 150},
-        {"dynamic_json", {
-                {"varchar", "some text"},
-                {"nested", {"value", 42.5}},
-                {"string_price", "99.99"},
-            }
-        }
-    }
-};
-
-milvus::InsertResponse response;
-auto status = client->Insert(milvus::InsertRequest()
-                                .WithCollectionName("my_collection")
-                                .WithRowsData(std::move(data)),
-                             response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
 
-## dynamic field 内のキーにインデックスを作成する\{#index-keys-in-the-dynamic-field}
+## 動的フィールド内のキーにインデックスを作成する\{#index-keys-in-the-dynamic-field}
 
-Zilliz Cloud では、**JSON path indexing** を使用して、dynamic field 内の特定のキーにインデックスを作成できます。対象となるのは、スカラー値または JSON オブジェクト内のネストされた値です。
+Zilliz Cloud では、**JSON パスインデックス**を使用して、動的フィールド内の特定のキーにインデックスを作成できます。これらは、スカラー値または JSON オブジェクト内のネストされた値です。
 
 <Admonition type="info" title="Notes">
 
-dynamic field のキーに対するインデックス作成は**任意**です。インデックスがなくても dynamic field のキーでクエリやフィルターを実行できますが、総当たり検索になるためパフォーマンスが低下する可能性があります。
+動的フィールドキーのインデックス作成は**任意**です。インデックスがなくても動的フィールドキーでクエリやフィルタリングを実行できますが、ブルートフォース検索のためパフォーマンスが低下する可能性があります。
 
 </Admonition>
 
-### JSON path インデックス構文\{#json-path-indexing-syntax}
+### JSON パスインデックスの構文\{#json-path-indexing-syntax}
 
-JSON path インデックスを作成するには、次の項目を指定します。
+JSON パスインデックスを作成するには、次の項目を指定します。
 
-- **JSON path**（`json_path`）: インデックスを作成する対象の、JSON オブジェクト内のキーまたはネストされたフィールドへのパス。
+- **JSON パス**（`json_path`）: インデックスを作成する JSON オブジェクト内のキーまたはネストされたフィールドへのパスです。
 
     - 例: `metadata["category"]`
 
-        これは、インデックス作成エンジンが JSON 構造内のどこを参照すべきかを定義します。
+        これは、インデックスエンジンが JSON 構造内のどこを参照すべきかを定義します。
 
-- **JSON cast type**（`json_cast_type`）: 指定されたパスの値を解釈してインデックスを作成する際に Zilliz Cloud が使用するデータ型。
+- **JSON キャスト型**（`json_cast_type`）: 指定されたパスの値を解釈してインデックスを作成するときに Zilliz Cloud が使用するデータ型です。
 
-    - この型は、インデックスを作成するフィールドの実際のデータ型と一致している必要があります。
+    - この型は、インデックスを作成するフィールドの実際のデータ型と一致する必要があります。
 
-    - 完全なリストについては、[サポートされている JSON cast type](./json-field-overview) を参照してください。
+    - 完全なリストについては、[サポートされている JSON キャスト型](./json-field-overview) を参照してください。
 
-### JSON path を使用して dynamic field のキーにインデックスを作成する\{#use-json-path-to-index-dynamic-field-keys}
+### JSON パスを使用して動的フィールドキーにインデックスを作成する\{#use-json-path-to-index-dynamic-field-keys}
 
-dynamic field は JSON フィールドであるため、JSON path 構文を使用してその内部の任意のキーにインデックスを作成できます。これは、単純なスカラー値と複雑なネスト構造の両方で機能します。
+動的フィールドは JSON フィールドであるため、JSON パス構文を使用してその中の任意のキーにインデックスを作成できます。これは、単純なスカラー値と複雑なネスト構造の両方で機能します。
 
-**JSON path の例:**
+**JSON パスの例:**
 
 - 単純なキーの場合: `overview`、`words`
 
 - ネストされたキーの場合: `dynamic_json['varchar']`、`dynamic_json['nested']['value']`
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -595,6 +663,12 @@ index_params.add_index(
 
 ```java
 import io.milvus.v2.common.IndexParam;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+List<IndexParam> indexParams = new ArrayList<>();
 
 Map<String,Object> extraParams1 = new HashMap<>();
 extraParams1.put("json_path", "overview");
@@ -635,6 +709,98 @@ indexParams.add(IndexParam.builder()
         .indexType(IndexParam.IndexType.AUTOINDEX)
         .extraParams(extraParams4)
         .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "github.com/milvus-io/milvus/client/v3/index"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+jsonIndex1 := index.NewJSONPathIndex(index.AUTOINDEX, "varchar", "overview").
+    WithIndexName("overview_index")
+jsonIndex2 := index.NewJSONPathIndex(index.AUTOINDEX, "double", "words").
+    WithIndexName("words_index")
+jsonIndex3 := index.NewJSONPathIndex(index.AUTOINDEX, "varchar", `dynamic_json['varchar']`).
+    WithIndexName("json_varchar_index")
+jsonIndex4 := index.NewJSONPathIndex(index.AUTOINDEX, "double", `dynamic_json['nested']['value']`).
+    WithIndexName("json_nested_index")
+
+indexOpt1 := milvusclient.NewCreateIndexOption("my_collection", "overview", jsonIndex1)
+indexOpt2 := milvusclient.NewCreateIndexOption("my_collection", "words", jsonIndex2)
+indexOpt3 := milvusclient.NewCreateIndexOption("my_collection", "dynamic_json", jsonIndex3)
+indexOpt4 := milvusclient.NewCreateIndexOption("my_collection", "dynamic_json", jsonIndex4)
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+use std::collections::HashMap;
+
+let mut index_params = vec![
+    IndexParam::new()
+        .field_name("overview")
+        .index_name("overview_index")
+        .index_type(IndexType::AutoIndex)
+        .extra_params(HashMap::from([
+            ("json_cast_type".to_string(), "varchar".to_string()),
+            ("json_path".to_string(), "overview".to_string()),
+        ])),
+    IndexParam::new()
+        .field_name("words")
+        .index_name("words_index")
+        .index_type(IndexType::AutoIndex)
+        .extra_params(HashMap::from([
+            ("json_cast_type".to_string(), "double".to_string()),
+            ("json_path".to_string(), "words".to_string()),
+        ])),
+    IndexParam::new()
+        .field_name("dynamic_json")
+        .index_name("json_varchar_index")
+        .index_type(IndexType::AutoIndex)
+        .extra_params(HashMap::from([
+            ("json_cast_type".to_string(), "varchar".to_string()),
+            ("json_path".to_string(), "dynamic_json['varchar']".to_string()),
+        ])),
+    IndexParam::new()
+        .field_name("dynamic_json")
+        .index_name("json_nested_index")
+        .index_type(IndexType::AutoIndex)
+        .extra_params(HashMap::from([
+            ("json_cast_type".to_string(), "double".to_string()),
+            ("json_path".to_string(), "dynamic_json['nested']['value']".to_string()),
+        ])),
+];
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::IndexDesc overview_index("overview", "overview_index", milvus::IndexType::AUTOINDEX);
+overview_index.AddExtraParam("json_cast_type", "varchar");
+overview_index.AddExtraParam("json_path", "overview");
+
+milvus::IndexDesc words_index("words", "words_index", milvus::IndexType::AUTOINDEX);
+words_index.AddExtraParam("json_cast_type", "double");
+words_index.AddExtraParam("json_path", "words");
+
+milvus::IndexDesc json_varchar_index("dynamic_json", "json_varchar_index", milvus::IndexType::AUTOINDEX);
+json_varchar_index.AddExtraParam("json_cast_type", "varchar");
+json_varchar_index.AddExtraParam("json_path", "dynamic_json['varchar']");
+
+milvus::IndexDesc json_nested_index("dynamic_json", "json_nested_index", milvus::IndexType::AUTOINDEX);
+json_nested_index.AddExtraParam("json_cast_type", "double");
+json_nested_index.AddExtraParam("json_path", "dynamic_json['nested']['value']");
 ```
 
 </TabItem>
@@ -692,30 +858,6 @@ const indexParams = [
 
 </TabItem>
 
-<TabItem value='go'>
-
-```go
-import (
-    "github.com/milvus-io/milvus/client/v2/index"
-)
-
-jsonIndex1 := index.NewJSONPathIndex(index.AUTOINDEX, "varchar", "overview")
-    .WithIndexName("overview_index")
-jsonIndex2 := index.NewJSONPathIndex(index.AUTOINDEX, "double", "words")
-    .WithIndexName("words_index")
-jsonIndex3 := index.NewJSONPathIndex(index.AUTOINDEX, "varchar", `dynamic_json['varchar']`)
-    .WithIndexName("json_varchar_index")
-jsonIndex4 := index.NewJSONPathIndex(index.AUTOINDEX, "double", `dynamic_json['nested']['value']`)
-    .WithIndexName("json_nested_index")
-
-indexOpt1 := milvusclient.NewCreateIndexOption("my_collection", "overview", jsonIndex1)
-indexOpt2 := milvusclient.NewCreateIndexOption("my_collection", "words", jsonIndex2)
-indexOpt3 := milvusclient.NewCreateIndexOption("my_collection", "dynamic_json", jsonIndex3)
-indexOpt4 := milvusclient.NewCreateIndexOption("my_collection", "dynamic_json", jsonIndex4)
-```
-
-</TabItem>
-
 <TabItem value='bash'>
 
 ```bash
@@ -723,22 +865,22 @@ export TOKEN="YOUR_CLUSTER_TOKEN"
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
 
 export overviewIndex='{
-  "fieldName": "dynamic_json",
+  "fieldName": "overview",
   "indexName": "overview_index",
   "params": {
     "index_type": "AUTOINDEX",
     "json_cast_type": "varchar",
-    "json_path": "dynamic_json[\"overview\"]"
+    "json_path": "overview"
   }
 }'
 
 export wordsIndex='{
-  "fieldName": "dynamic_json",
+  "fieldName": "words",
   "indexName": "words_index",
   "params": {
     "index_type": "AUTOINDEX",
     "json_cast_type": "double",
-    "json_path": "dynamic_json[\"words\"]"
+    "json_path": "words"
   }
 }'
 
@@ -748,7 +890,7 @@ export varcharIndex='{
   "params": {
     "index_type": "AUTOINDEX",
     "json_cast_type": "varchar",
-    "json_path": "dynamic_json[\"varchar\"]"
+    "json_path": "dynamic_json["varchar"]"
   }
 }'
 
@@ -758,46 +900,19 @@ export nestedIndex='{
   "params": {
     "index_type": "AUTOINDEX",
     "json_cast_type": "double",
-          "json_path": "dynamic_json[\"nested\"][\"value\"]"
-    }
-  }'
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-milvus::IndexDesc overview_index("overview", "overview_index", milvus::IndexType::AUTOINDEX);
-overview_index.AddExtraParam("json_cast_type", "varchar");
-overview_index.AddExtraParam("json_path", "overview");
-
-milvus::IndexDesc words_index("words", "words_index", milvus::IndexType::AUTOINDEX);
-words_index.AddExtraParam("json_cast_type", "double");
-words_index.AddExtraParam("json_path", "words");
-
-milvus::IndexDesc json_nested_index("dynamic_json", "json_nested_index", milvus::IndexType::AUTOINDEX);
-json_nested_index.AddExtraParam("json_cast_type", "double");
-json_nested_index.AddExtraParam("json_path", "dynamic_json['nested']['value']");
-
-auto status = client->CreateIndex(milvus::CreateIndexRequest()
-                                     .WithCollectionName(collection_name)
-                                     .AddIndex(std::move(overview_index))
-                                     .AddIndex(std::move(words_index))
-                                     .AddIndex(std::move(json_nested_index)));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
+    "json_path": "dynamic_json["nested"]["value"]"
+  }
+}'
 ```
 
 </TabItem>
 </Tabs>
 
-### JSON cast 関数を使用して型を変換する\{#use-json-cast-functions-for-type-conversion}
+### 型変換に JSON キャスト関数を使用する\{#use-json-cast-functions-for-type-conversion}
 
-dynamic field のキーに正しくない形式の値（たとえば、文字列として保存された数値）が含まれている場合は、cast 関数を使用して変換できます。
+動的フィールドキーに不正な形式の値（たとえば文字列として格納された数値）が含まれている場合は、キャスト関数を使用して変換できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -820,15 +935,61 @@ index_params.add_index(
 <TabItem value='java'>
 
 ```java
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String,Object> extraParams5 = new HashMap<>();
 extraParams5.put("json_path", "dynamic_json['string_price']");
 extraParams5.put("json_cast_type", "double");
+extraParams5.put("json_cast_function", "STRING_TO_DOUBLE");
 indexParams.add(IndexParam.builder()
         .fieldName("dynamic_json")
         .indexName("json_string_price_index")
         .indexType(IndexParam.IndexType.AUTOINDEX)
         .extraParams(extraParams5)
         .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+jsonIndex5 := index.NewJSONPathIndex(index.AUTOINDEX, "double", `dynamic_json['string_price']`).
+    WithIndexName("json_string_price_index")
+// Note: json_cast_function (STRING_TO_DOUBLE) is not supported in milvus-sdk-go as of client/v3.0.0.
+indexOpt5 := milvusclient.NewCreateIndexOption("my_collection", "dynamic_json", jsonIndex5)
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use std::collections::HashMap;
+
+index_params.push(
+    IndexParam::new()
+        .field_name("dynamic_json")
+        .index_name("json_string_price_index")
+        .index_type(IndexType::AutoIndex)
+        .extra_params(HashMap::from([
+            ("json_cast_type".to_string(), "double".to_string()),
+            ("json_path".to_string(), "dynamic_json['string_price']".to_string()),
+            ("json_cast_function".to_string(), "STRING_TO_DOUBLE".to_string()),
+        ])),
+);
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::IndexDesc string_price_index("dynamic_json", "json_string_price_index", milvus::IndexType::AUTOINDEX);
+string_price_index.AddExtraParam("json_cast_type", "double");
+string_price_index.AddExtraParam("json_path", "dynamic_json['string_price']");
+string_price_index.AddExtraParam("json_cast_function", "STRING_TO_DOUBLE");
 ```
 
 </TabItem>
@@ -852,16 +1013,6 @@ indexParams.push({
 
 </TabItem>
 
-<TabItem value='go'>
-
-```go
-jsonIndex5 := index.NewJSONPathIndex(index.AUTOINDEX, "double", `dynamic_json['string_price']`)
-    .WithIndexName("json_string_price_index")
-indexOpt5 := milvusclient.NewCreateIndexOption("my_collection", "dynamic_json", jsonIndex5)
-```
-
-</TabItem>
-
 <TabItem value='bash'>
 
 ```bash
@@ -881,32 +1032,21 @@ export stringPriceIndex='{
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-milvus::IndexDesc string_price_index("dynamic_json", "json_string_price_index", milvus::IndexType::AUTOINDEX);
-string_price_index.AddExtraParam("json_cast_type", "double");
-string_price_index.AddExtraParam("json_path", "dynamic_json['string_price']");
-string_price_index.AddExtraParam("json_cast_function", "STRING_TO_DOUBLE");
-```
-
-</TabItem>
 </Tabs>
 
 <Admonition type="info" title="Notes">
 
-- 型変換に失敗した場合（たとえば、値 `"not_a_number"` を数値に変換できない場合）、その値はスキップされ、インデックスに登録されません。
+- 型変換が失敗した場合（たとえば値 `"not_a_number"` を数値に変換できない場合）、その値はスキップされ、インデックスが作成されません。
 
-- cast 関数のパラメーターの詳細については、[JSON フィールドの概要](./json-field-overview) を参照してください。
+- キャスト関数のパラメーターの詳細については、[JSON フィールドの概要](./json-field-overview) を参照してください。
 
 </Admonition>
 
-### インデックスをコレクションに適用する\{#apply-indexes-to-the-collection}
+### コレクションにインデックスを適用する\{#apply-indexes-to-the-collection}
 
-インデックスパラメーターを定義したら、`create_index()` を使用してそれらをコレクションに適用できます。
+インデックスパラメーターを定義した後、`create_index()` を使用してそれらをコレクションに適用できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -927,14 +1067,6 @@ client.createIndex(CreateIndexReq.builder()
         .collectionName("my_collection")
         .indexParams(indexParams)
         .build());
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-  await client.createIndex(indexParams);
 ```
 
 </TabItem>
@@ -966,6 +1098,46 @@ if err != nil {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+client
+    .create_index(
+        CreateIndexRequest::builder()
+            .collection_name("my_collection")
+            .index_params(index_params)
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto status = client->CreateIndex(milvus::CreateIndexRequest()
+                                     .WithCollectionName("my_collection")
+                                     .AddIndex(std::move(overview_index))
+                                     .AddIndex(std::move(words_index))
+                                     .AddIndex(std::move(json_varchar_index))
+                                     .AddIndex(std::move(json_nested_index))
+                                     .AddIndex(std::move(string_price_index)));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+  await client.createIndex(indexParams);
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -990,35 +1162,19 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto status = client->CreateIndex(milvus::CreateIndexRequest()
-                                     .WithCollectionName(collection_name)
-                                     .AddIndex(std::move(overview_index))
-                                     .AddIndex(std::move(words_index))
-                                     .AddIndex(std::move(json_nested_index))
-                                     .AddIndex(std::move(string_price_index)));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
 
-## dynamic field のキーでフィルターする\{#filter-by-dynamic-field-keys}
+## 動的フィールドキーでフィルタリングする\{#filter-by-dynamic-field-keys}
 
-dynamic field のキーを持つエンティティを挿入した後は、標準のフィルター式を使用してそれらをフィルタリングできます。
+動的フィールドキーを含むエンティティを挿入した後、標準のフィルター式を使用してそれらをフィルタリングできます。
 
 - JSON 以外のキー（文字列、数値、ブール値など）の場合は、キー名で直接参照できます。
 
-- JSON オブジェクトを保存するキーの場合は、JSON path 構文を使用してネストされた値にアクセスします。
+- JSON オブジェクトを格納するキーの場合は、JSON パス構文を使用してネストされた値にアクセスします。
 
-前のセクションの[例](./enable-dynamic-field#insert-entities-to-the-collection)の[エンティティ](./enable-dynamic-field#insert-entities-to-the-collection)に基づくと、有効なフィルター式には次のものがあります。
+前のセクションの[例](./enable-dynamic-field#insert-entities-to-the-collection)の[エンティティ](./enable-dynamic-field#insert-entities-to-the-collection)に基づくと、有効なフィルター式には次のものが含まれます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1032,9 +1188,39 @@ filter = 'dynamic_json["nested"]["value"] < 50'       # JSON object key
 <TabItem value='java'>
 
 ```java
-String filter = 'overview == "Great product"';
-String filter = 'words >= 100';
-String filter = 'dynamic_json["nested"]["value"] < 50';
+String filter = "overview == \"Great product\"";                // Non-JSON key
+String filter1 = "words >= 100";                               // Non-JSON key
+String filter2 = "dynamic_json[\"nested\"][\"value\"] < 50";       // JSON object key
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := `overview == "Great product"`                // Non-JSON key
+filter1 := "words >= 100"                               // Non-JSON key
+filter2 := `dynamic_json["nested"]["value"] < 50`       // JSON object key
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let filter = r#"overview == "Great product""#;  // Non-JSON key
+let filter1 = "words >= 100";                  // Non-JSON key
+let filter2 = r#"dynamic_json["nested"]["value"] < 50"#;  // JSON object key
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::string filter = R"(overview == "Great product")";   // Non-JSON key
+std::string filter1 = R"(words >= 100)";                  // Non-JSON key
+std::string filter2 = R"(dynamic_json["nested"]["value"] < 50)";  // JSON object key
 ```
 
 </TabItem>
@@ -1049,16 +1235,6 @@ filter = 'dynamic_json["nested"]["value"] < 50'       // JSON object key
 
 </TabItem>
 
-<TabItem value='go'>
-
-```go
-filter := 'overview == "Great product"'
-filter := 'words >= 100'
-filter := 'dynamic_json["nested"]["value"] < 50'
-```
-
-</TabItem>
-
 <TabItem value='bash'>
 
 ```bash
@@ -1069,21 +1245,11 @@ export filter='dynamic_json["nested"]["value"] < 50'
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-std::string filter = R"(overview == "Great product")";
-std::string filter = R"(words >= 100)";
-std::string filter = R"(dynamic_json["nested"]["value"] < 50)";
-```
-
-</TabItem>
 </Tabs>
 
-**dynamic field のキーの取得**: 検索またはクエリの結果で dynamic field のキーを返すには、フィルタリングと同じ JSON path 構文を使用して、`output_fields` パラメーターで明示的に指定する必要があります。
+**動的フィールドキーの取得**: 検索またはクエリの結果で動的フィールドキーを返すには、フィルタリングと同じ JSON パス構文を使用して、`output_fields` パラメーターで明示的に指定する必要があります。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1109,47 +1275,27 @@ results = client.search(
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.SearchReq
+import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
-import io.milvus.v2.service.vector.response.SearchResp
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Arrays;
+import java.util.Collections;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .token("YOUR_CLUSTER_TOKEN")
         .build());
 
-FloatVec queryVector = new FloatVec(new float[]{0.1, 0.2, 0.3, 0.4, 0.5});
+FloatVec queryVector = new FloatVec(new float[]{0.1f, 0.2f, 0.3f, 0.4f, 0.5f});
 SearchReq searchReq = SearchReq.builder()
         .collectionName("my_collection")
         .data(Collections.singletonList(queryVector))
-        .topK(5)
+        .topK(10)
         .filter(filter)
         .outputFields(Arrays.asList("overview", "dynamic_json"))
         .build();
 
 SearchResp searchResp = client.search(searchReq);
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
-
-const address = "YOUR_CLUSTER_ENDPOINT";
-const token = "YOUR_CLUSTER_TOKEN";
-const client = new MilvusClient({address, token});
-
-const query_vector = [0.1, 0.2, 0.3, 0.4, 0.5]
-
-const res = await client.search({
-    collection_name: "my_collection",
-    data: [query_vector],
-    limit: 5,
-    filters: filter,
-    output_fields: ["overview", "dynamic_json"]
-})
 ```
 
 </TabItem>
@@ -1161,8 +1307,8 @@ import (
     "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/entity"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -1171,7 +1317,7 @@ defer cancel()
 milvusAddr := "YOUR_CLUSTER_ENDPOINT"
 token := "YOUR_CLUSTER_TOKEN"
 
-client, err := client.New(ctx, &client.ClientConfig{
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: milvusAddr,
     APIKey:  token,
 })
@@ -1185,7 +1331,7 @@ queryVector := []float32{0.1, 0.2, 0.3, 0.4, 0.5}
 
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
     "my_collection", // collectionName
-    5,               // limit
+    10,              // limit
     []entity.Vector{entity.FloatVector(queryVector)},
 ).WithConsistencyLevel(entity.ClStrong).
     WithANNSField("my_vector").
@@ -1199,28 +1345,21 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
-export TOKEN="YOUR_CLUSTER_TOKEN"
-export FILTER='color like "red%" and likes > 50'
-
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
---header "Request-Timeout: 10" \
---data "{
-  \"collectionName\": \"my_collection\",
-  \"data\": [
-    [0.1, 0.2, 0.3, 0.4, 0.5]
-  ],
-  \"annsField\": \"my_vector\",
-  \"filter\": \"${FILTER}\",
-  \"limit\": 5,
-  \"outputFields\": [\"overview\", \"dynamic_json\"]
-}"
+```rust
+let search = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("my_collection")
+            .vector_field("my_vector")
+            .vectors(SearchVectors::Float(vec![vec![0.1, 0.2, 0.3, 0.4, 0.5]]))
+            .filter(filter)
+            .output_fields(["overview", "dynamic_json"])
+            .limit(10)
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -1232,7 +1371,7 @@ std::vector<float> query_vector = {0.1, 0.2, 0.3, 0.4, 0.5};
 auto request = milvus::SearchRequest()
                    .WithCollectionName("my_collection")
                    .WithAnnsField("my_vector")
-                   .WithLimit(5)
+                   .WithLimit(10)
                    .WithFilter(filter)
                    .AddOutputField("overview")
                    .AddOutputField("dynamic_json")
@@ -1255,66 +1394,109 @@ for (auto& result : search_results.Results()) {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const query_vector = [0.1, 0.2, 0.3, 0.4, 0.5];
+
+const res = await client.search({
+    collection_name: "my_collection",
+    data: [query_vector],
+    limit: 10,
+    filter: filter,
+    output_fields: ["overview", "dynamic_json"]
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+export FILTER='overview == "Great product"'
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+--data "{
+  \"collectionName\": \"my_collection\",
+  \"data\": [
+    [0.1, 0.2, 0.3, 0.4, 0.5]
+  ],
+  \"annsField\": \"my_vector\",
+  \"filter\": \"${FILTER}\",
+  \"limit\": 10,
+  \"outputFields\": [\"overview\", \"dynamic_json\"]
+}"
+```
+
+</TabItem>
 </Tabs>
 
 <Admonition type="info" title="Notes">
 
-dynamic field のキーはデフォルトでは結果に含まれないため、明示的に要求する必要があります。
+動的フィールドキーは既定では結果に含まれないため、明示的に要求する必要があります。
 
 </Admonition>
 
-サポートされている演算子とフィルター式の完全なリストについては、[フィルタ付き検索](./filtered-search) を参照してください。
+サポートされている演算子とフィルター式の完全なリストについては、[フィルター検索](./filtered-search) を参照してください。
 
 ## まとめ\{#put-it-all-together}
 
-ここまでで、dynamic field を使用して、スキーマで定義されていないキーを柔軟に保存し、インデックスを作成する方法を学びました。dynamic field のキーを挿入した後は、特別な構文を使用することなく、フィルター式内で他のフィールドと同じように使用できます。
+ここまでで、動的フィールドを使用して、スキーマで定義されていないキーを柔軟に格納し、インデックスを作成する方法を学びました。動的フィールドキーを挿入すると、特別な構文を使用せずに、他のフィールドと同じようにフィルター式で使用できます。
 
-実際のアプリケーションでワークフローを完成させるには、次のことも必要です。
+実際のアプリケーションでワークフローを完了するには、次のことも必要です。
 
-- **ベクトルフィールドにインデックスを作成する**（各コレクションで必須）  
+- **ベクトルフィールドにインデックスを作成する**（各コレクションで必須）
 
-    詳細は、[AUTOINDEX の解説](./autoindex-explained) およびその関連ページを参照してください。
+    [AUTOINDEX の説明](./autoindex-explained) とその関連ページを参照してください。
 
 - **コレクションをロードする**
 
-    詳細は、[ロードと解放](./load-release-collections) を参照してください。
+    [ロードとリリース](./load-release-collections) を参照してください。
 
-- **JSON path フィルターを使用して検索またはクエリする**  
+- **JSON パスフィルターを使用して検索またはクエリを実行する**
 
-    詳細は、[フィルタ付き検索](./filtered-search) および [JSON 演算子](./json-filtering-operators) を参照してください。
+    [フィルター検索](./filtered-search) と [JSON オペレーター](./json-filtering-operators) を参照してください。
 
 ## FAQ\{#faq}
 
-### dynamic field のキーを使用するのではなく、スキーマでフィールドを明示的に定義するのはどのような場合ですか？\{#when-should-i-define-a-field-explicitly-in-the-schema-instead-of-using-a-dynamic-field-key}
+### 動的フィールドキーを使用する代わりに、スキーマでフィールドを明示的に定義する必要があるのはどのような場合ですか？\{#when-should-i-define-a-field-explicitly-in-the-schema-instead-of-using-a-dynamic-field-key}
 
-次のような場合は、dynamic field のキーを使用するのではなく、スキーマでフィールドを明示的に定義する必要があります。
+次の場合は、動的フィールドキーを使用する代わりに、スキーマでフィールドを明示的に定義する必要があります。
 
-- **フィールドを output_fields に頻繁に含める場合**: `output_fields` を通じて効率的に取得できることが保証されるのは、明示的に定義されたフィールドだけです。dynamic field のキーは高頻度の取得向けに最適化されていないため、パフォーマンスのオーバーヘッドが発生する可能性があります。
+- **フィールドが output_fields に頻繁に含まれる場合**: `output_fields` を通じて効率的に取得できることが保証されるのは、明示的に定義されたフィールドだけです。動的フィールドキーは高頻度の取得に最適化されていないため、パフォーマンスのオーバーヘッドが発生する可能性があります。
 
-- **フィールドへのアクセスやフィルタリングが頻繁に行われる場合**: dynamic field のキーにインデックスを作成すると、固定スキーマのフィールドと同様のフィルタリングパフォーマンスが得られますが、明示的に定義されたフィールドの方が構造が明確で保守性に優れています。
+- **フィールドへのアクセスやフィルタリングが頻繁に行われる場合**: 動的フィールドキーにインデックスを作成すると、固定スキーマのフィールドと同様のフィルタリングパフォーマンスが得られますが、明示的に定義されたフィールドの方が構造が明確で保守性にも優れています。
 
-- **フィールドの動作を完全に制御する必要がある場合**: 明示的なフィールドは、スキーマレベルの制約、検証、より明確な型指定をサポートしているため、データの整合性と一貫性の管理に役立ちます。
+- **フィールドの動作を完全に制御する必要がある場合**: 明示的なフィールドは、スキーマレベルの制約、検証、より明確な型指定をサポートしており、データの整合性と一貫性の管理に役立ちます。
 
-- **インデックス作成の不整合を避けたい場合**: dynamic field のキー内のデータは、型や構造が不整合になりがちです。固定スキーマを使用すると、特にインデックス作成やキャストを使用する予定がある場合に、データ品質を確保しやすくなります。
+- **インデックス作成の不整合を回避したい場合**: 動的フィールドキーのデータは、型や構造の不整合が発生しやすくなります。固定スキーマを使用すると、特にインデックス作成やキャストを使用する予定がある場合に、データ品質を確保しやすくなります。
 
-dynamic field のキーを既存のコレクションの明示的なスカラーフィールドにする場合は、[コレクションスキーマの変更](./add-fields-to-an-existing-collection) を参照してください。既存のコレクションレベルの dynamic field 設定はコレクションプロパティで管理されます。詳細は、[コレクションの変更](./modify-collections) を参照してください。
+既存のコレクションで動的フィールドキーを明示的なスカラーフィールドにする場合は、[コレクションスキーマの変更](./add-fields-to-an-existing-collection) を参照してください。既存のコレクションレベルの動的フィールド設定は、コレクションプロパティを通じて管理されます。詳細については、[コレクションの変更](./modify-collections) を参照してください。
 
-### 同じ dynamic field のキーに、異なるデータ型で複数のインデックスを作成できますか？\{#can-i-create-multiple-indexes-on-the-same-dynamic-field-key-with-different-data-types}
+### 同じ動的フィールドキーに対して、異なるデータ型で複数のインデックスを作成できますか？\{#can-i-create-multiple-indexes-on-the-same-dynamic-field-key-with-different-data-types}
 
-いいえ、作成できるのは **JSON path ごとに 1 つのインデックス**のみです。dynamic field のキーに混在した型の値（文字列と数値が混在している場合など）が含まれていても、そのパスにインデックスを作成する際には単一の `json_cast_type` を選択する必要があります。現時点では、同じキーに異なる型で複数のインデックスを作成することはサポートされていません。
+いいえ、**JSON パスごとに作成できるインデックスは 1 つだけ**です。動的フィールドキーに混合型の値（文字列と数値など）が含まれている場合でも、そのパスにインデックスを作成するときは単一の `json_cast_type` を選択する必要があります。同じキーに対して異なる型で複数のインデックスを作成することは、現時点ではサポートされていません。
 
-### dynamic field のキーにインデックスを作成するときにデータのキャストが失敗した場合はどうなりますか？\{#when-indexing-a-dynamic-field-key-what-if-the-data-casting-fails}
+### 動的フィールドキーにインデックスを作成するときに、データのキャストが失敗した場合はどうなりますか？\{#when-indexing-a-dynamic-field-key-what-if-the-data-casting-fails}
 
-dynamic field のキーにインデックスを作成していて、データのキャストが失敗した場合、たとえば `double` にキャストされるはずの値が `"abc"` のような数値以外の文字列である場合、それらの値は**インデックスの作成中に通知されることなくスキップされます**。これらの値はインデックスに含まれないため、インデックスに依存する**フィルターベースの検索やクエリの結果では返されません**。
+動的フィールドキーにインデックスを作成した後、データのキャストが失敗した場合（たとえば、`double` にキャストされるはずの値が `"abc"` のような数値以外の文字列である場合）、それらの特定の値は**インデックスの作成時に通知されることなくスキップされます**。それらはインデックスに現れないため、インデックスに依存する**フィルターベースの検索やクエリの結果には返されません**。
 
-これにはいくつかの重要な影響があります。
+これにはいくつかの重要な意味があります。
 
-- **フルスキャンへのフォールバックはなし**: ほとんどのエンティティが正常にインデックス化されると、フィルタリングクエリはインデックスに完全に依存します。キャストに失敗したエンティティは、フィルター条件に論理的に一致していても、結果セットから除外されます。
+- **フルスキャンへのフォールバックはない**: 大部分のエンティティのインデックス作成が成功した場合、フィルタリングクエリは完全にインデックスに依存します。キャストが失敗したエンティティは、論理的にフィルター条件に一致していても、結果セットから除外されます。
 
-- **検索精度のリスク**: データ品質が一貫していない大規模なデータセット（特に dynamic field のキー）では、この動作によって予期しない結果の欠落が発生する可能性があります。インデックスを作成する前に、一貫性のある有効なデータ形式を確保することが重要です。
+- **検索精度のリスク**: データ品質が一貫していない大規模なデータセット（特に動的フィールドキー）では、この動作によって予期しない結果の欠落が生じる可能性があります。インデックスを作成する前に、一貫性のある有効なデータ形式を確保することが重要です。
 
-- **キャスト関数は慎重に使用する**: インデックス作成時に `json_cast_function` を使用して文字列を数値に変換する場合は、文字列の値を確実に変換できるようにしてください。`json_cast_type` と実際に変換された型が一致しないと、エラーが発生したり、エントリがスキップされたりします。
+- **キャスト関数は慎重に使用する**: インデックス作成時に `json_cast_function` を使用して文字列を数値に変換する場合は、文字列の値が確実に変換可能であることを確認してください。`json_cast_type` と実際に変換された型が一致しない場合、エラーが発生したり、エントリがスキップされたりします。
 
-### クエリでインデックス作成時の cast type とは異なるデータ型を使用するとどうなりますか？\{#what-happens-if-my-query-uses-a-different-data-type-than-the-indexed-cast-type}
+### クエリで使用するデータ型が、インデックス作成時のキャスト型と異なる場合はどうなりますか？\{#what-happens-if-my-query-uses-a-different-data-type-than-the-indexed-cast-type}
 
-クエリで dynamic field のキーを比較する際に、インデックスで使用された型とは**異なるデータ型**を使用すると（たとえば、インデックスが `double` にキャストされているのに文字列比較でクエリする場合）、システムは**インデックスを使用しません**。また、*可能な場合に限り*フルスキャンにフォールバックすることがあります。最高のパフォーマンスと精度を得るには、クエリの型をインデックス作成時に使用した `json_cast_type` と一致させてください。
+クエリが、インデックスで使用された型とは**異なるデータ型**を使用して動的フィールドキーを比較する場合（たとえば、インデックスが `double` にキャストされているのに文字列の比較でクエリを実行する場合）、システムは**インデックスを使用せず**、*可能な場合に限り*フルスキャンにフォールバックすることがあります。最高のパフォーマンスと精度を得るには、クエリの型がインデックス作成時に使用した `json_cast_type` と一致することを確認してください。
