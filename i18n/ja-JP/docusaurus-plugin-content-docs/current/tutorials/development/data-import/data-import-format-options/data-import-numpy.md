@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`.npy` 形式は、単一の配列を保存するための NumPy の標準バイナリ形式](https//numpy.org/devdocs/reference/generated/numpy.lib.format.html) であり、その shape と dtype 情報を含むため、異なるマシン上でも正しく再構築できます。生データを Parquet ファイルに準備するには、[BulkWriter ツールを使用することを推奨します。以下の図は、生データを一連の `.npy` ファイルにどのようにマッピングできるかを示しています。 | Cloud"
+description: "`.npy` 形式は、配列の形状と dtype 情報を含む単一の配列を保存するための NumPy 標準のバイナリ形式](https//numpy.org/devdocs/reference/generated/numpy.lib.format.html) であり、異なるマシンでも正しく再構築できることを保証します。生データを Parquet ファイルに準備するには、[BulkWriter ツールを使用することをお勧めします。次の図は、生データを一連の `.npy` ファイルにマッピングする方法を示しています。 | Cloud"
 type: origin
 token: FOwZwuxaWiuthnkZdedcGbJOnZf
 sidebar_position: 3
@@ -20,11 +20,11 @@ import Admonition from '@theme/Admonition';
 
 # NumPy ファイルからインポート
 
-`.npy` 形式は、単一の配列を保存するための [NumPy の標準バイナリ形式](https://numpy.org/devdocs/reference/generated/numpy.lib.format.html) であり、その shape と dtype 情報を含むため、異なるマシン上でも正しく再構築できます。  生データを Parquet ファイルに準備するには、[BulkWriter ツール](./use-bulkwriter) の使用を推奨します。以下の図は、生データを一連の `.npy` ファイルにどのようにマッピングできるかを示しています。
+`.npy` 形式は、形状と dtype 情報を含む単一の配列を保存するための [NumPy 標準のバイナリ形式](https://numpy.org/devdocs/reference/generated/numpy.lib.format.html) であり、異なるマシンでも正しく再構築できることを保証します。 生データを Parquet ファイルに準備するには、[BulkWriter ツール](./use-bulkwriter) の使用をお勧めします。次の図は、生データを一連の `.npy` ファイルにマッピングする方法を示しています。
 
 <Admonition type="warning" title="Caution">
 
-この機能は非推奨になりました。本番環境での使用は推奨されません。
+この機能は非推奨です。本番環境での使用は推奨されません。
 
 </Admonition>
 
@@ -34,15 +34,15 @@ import Admonition from '@theme/Admonition';
 
 - **AutoID を有効にするかどうか**
 
-    **id** フィールドはコレクションのプライマリフィールドとして機能します。プライマリフィールドを自動インクリメントにするには、スキーマで **AutoID** を有効にできます。この場合、ソースデータの各行から **id** フィールドを除外する必要があります。
+    **id** フィールドはコレクションの主フィールドとして機能します。主フィールドを自動インクリメントにするには、スキーマで **AutoID** を有効にできます。この場合、ソースデータの各行から **id** フィールドを除外してください。
 
 - **動的フィールドを有効にするかどうか**
 
-    対象のコレクションで動的フィールドが有効になっている場合、事前定義されたスキーマに含まれていないフィールドを保存する必要があるときは、書き込み時に **&#36;meta** 列を指定し、対応するキーと値のデータを提供できます。
+    ターゲットコレクションで動的フィールドが有効になっている場合、事前定義されたスキーマに含まれていないフィールドを格納する必要があるときは、書き込み操作中に **&#36;meta** 列を指定し、対応するキーと値のデータを提供できます。
 
 - **大文字と小文字の区別**
 
-    辞書のキーとコレクションのフィールド名は大文字と小文字を区別します。データ内の辞書キーが対象コレクションのフィールド名と完全に一致していることを確認してください。対象コレクションに **id** という名前のフィールドがある場合、各エンティティの辞書には **id.** という名前のキーが必要です。**ID** や **Id** を使用するとエラーになります。
+    辞書のキーとコレクションのフィールド名では大文字と小文字が区別されます。データ内の辞書のキーがターゲットコレクションのフィールド名と完全に一致することを確認してください。ターゲットコレクションに **id** という名前のフィールドがある場合、各エンティティ辞書には **id.** という名前のキーが必要です。**ID** や **Id** を使用するとエラーになります。
 
 </Admonition>
 
@@ -68,25 +68,27 @@ import Admonition from '@theme/Admonition';
 
 ## データのインポート\{#import-data}
 
-データの準備ができたら、以下のいずれかの方法を使用して、Zilliz Cloud のコレクションにインポートできます。
+データの準備ができたら、次のいずれかの方法で Zilliz Cloud コレクションにインポートできます。
 
-- [NumPy ファイルフォルダーのリストからファイルをインポート（推奨）](./data-import-numpy#import-files-from-a-list-of-numpy-file-folders-recommended)
+- [NumPy ファイルフォルダーのリストからファイルをインポートする（推奨）](./data-import-numpy#import-files-from-a-list-of-numpy-file-folders-recommended)
 
-- [NumPy ファイルフォルダーからファイルをインポート](./data-import-numpy#import-files-from-a-numpy-file-folder)
+- [NumPy ファイルフォルダーからファイルをインポートする](./data-import-numpy#import-files-from-a-numpy-file-folder)
 
 <Admonition type="info" title="Notes">
 
-ファイルが比較的小さい場合は、フォルダーまたは複数パスの方法を使用して一度にすべてインポートすることを推奨します。この方法では、インポート処理中に内部最適化が可能になり、後続のリソース消費を抑えるのに役立ちます。
+ファイルが比較的小さい場合は、フォルダーまたは複数パスの方法を使用してすべてを一度にインポートすることをお勧めします。このアプローチにより、インポートプロセス中に内部最適化が可能になり、その後のリソース消費を削減できます。
 
 </Admonition>
 
-Milvus SDK を使用して Zilliz Cloud コンソール上でデータをインポートすることもできます。詳細については、[データのインポート（コンソール）](./import-data-on-web-ui) および [データのインポート（SDK）](./import-data-via-sdks) を参照してください。
+Zilliz Cloud コンソールで Milvus SDK を使用してデータをインポートすることもできます。詳細については、[データのインポート（コンソール）](./import-data-on-web-ui) および [データのインポート（SDK）](./import-data-via-sdks) を参照してください。
 
-### NumPy ファイルフォルダーのリストからファイルをインポート（推奨）\{#import-files-from-a-list-of-numpy-file-folders-recommended}
+### NumPy ファイルフォルダーのリストからファイルをインポートする（推奨）\{#import-files-from-a-list-of-numpy-file-folders-recommended}
 
 複数のパスからファイルをインポートする場合は、各 NumPy ファイルフォルダーのパスを個別のリストに含め、次に以下のコード例のように、すべてのリストを上位レベルのリストにまとめます。
 
 ```bash
+export TOKEN="YOUR_API_KEY"
+
 curl --request POST \
      --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/create" \
      --header "Authorization: Bearer ${TOKEN}" \
@@ -101,16 +103,18 @@ curl --request POST \
             ["s3://bucket-name/numpy-folder-2/1/"],
             ["s3://bucket-name/numpy-folder-3/1/"]
          ],
-        "accessKey": "",
-        "secretKey": ""
+        "accessKey": "YOUR_ACCESS_KEY",
+        "secretKey": "YOUR_SECRET_KEY"
     }'
 ```
 
-### NumPy ファイルフォルダーからファイルをインポート\{#import-files-from-a-numpy-file-folder}
+### NumPy ファイルフォルダーからファイルをインポートする\{#import-files-from-a-numpy-file-folder}
 
-ソースフォルダーにインポート対象の NumPy ファイルフォルダーのみが含まれている場合は、以下のようにリクエストにそのソースフォルダーを含めるだけで済みます。
+ソースフォルダーに、インポートする NumPy ファイルフォルダーのみが含まれている場合は、次のようにリクエストにソースフォルダーを含めるだけです。
 
 ```bash
+export TOKEN="YOUR_API_KEY"
+
 curl --request POST \
      --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/create" \
      --header "Authorization: Bearer ${TOKEN}" \
@@ -123,22 +127,22 @@ curl --request POST \
         "objectUrls": [
             ["s3://bucket-name/numpy-folder/1/"]
          ],
-        "accessKey": "",
-        "secretKey": ""
+        "accessKey": "YOUR_ACCESS_KEY",
+        "secretKey": "YOUR_SECRET_KEY"
     }'
 ```
 
 <Admonition type="info" title="Notes">
 
-フォルダーに複数形式のファイルが含まれている場合、リクエストは失敗します。
+フォルダーに複数の形式のファイルが含まれている場合、リクエストは失敗します。
 
 </Admonition>
 
 ## ストレージパス\{#storage-paths}
 
-Zilliz Cloud は、お使いのクラウドストレージからのデータインポートをサポートしています。以下の表に、データファイルで使用できるストレージパスを示します。
+Zilliz Cloud は、お使いのクラウドストレージからのデータインポートをサポートしています。以下の表に、データファイルに使用できるストレージパスを示します。
 
-| **Cloud** | **Quick Examples** |
+| **クラウド** | **簡単な例** |
 | --- | --- |
 | **AWS S3** | s3://*bucket-name*/*numpy-folder*/ |
 | **Google Cloud Storage** | gs://*bucket-name*/*numpy-folder*/ |
@@ -146,11 +150,11 @@ Zilliz Cloud は、お使いのクラウドストレージからのデータイ�
 
 ## 制限事項\{#limits}
 
-クラウドストレージから NumPy ファイルでデータをインポートする際には、守る必要がある制限がいくつかあります。
+クラウドストレージから NumPy ファイルでデータをインポートする際に守る必要があるいくつかの制限があります。
 
 <Admonition type="info" title="Notes">
 
-有効な NumPy ファイルのセットは、対象コレクションのスキーマ内のフィールドにちなんで命名する必要があり、それらのデータは対応するフィールド定義と一致している必要があります。
+有効な NumPy ファイルのセットは、ターゲットコレクションのスキーマ内のフィールドにちなんで命名する必要があり、その中のデータは対応するフィールド定義と一致している必要があります。
 
 </Admonition>
 
@@ -160,7 +164,7 @@ Zilliz Cloud は、お使いのクラウドストレージからのデータイ�
      <th><p><strong>クラスタープラン</strong></p></th>
      <th><p><strong>インポートあたりの最大サブディレクトリ数</strong></p></th>
      <th><p><strong>サブディレクトリあたりの最大サイズ</strong></p></th>
-     <th><p><strong>インポートの最大合計サイズ</strong></p></th>
+     <th><p><strong>最大合計インポートサイズ</strong></p></th>
    </tr>
    <tr>
      <td><p>ローカルファイルから</p></td>
@@ -181,4 +185,4 @@ Zilliz Cloud は、お使いのクラウドストレージからのデータイ�
    </tr>
 </table>
 
-[Prepare the data file](https://milvus.io/docs/bulk_insert.md#Prepare-the-data-file) を参照してデータを自分で再構築するか、[BulkWriter ツール](./use-bulkwriter) を使用してソースデータファイルを生成できます。[上の図のスキーマに基づいて準備されたサンプルデータをダウンロードするには、ここをクリックしてください](https://assets.zilliz.com/prepared_numpy_data.zip)。
+[データファイルの準備](https://milvus.io/docs/bulk_insert.md#Prepare-the-data-file) を参照して自分でデータを再構築するか、[BulkWriter ツール](./use-bulkwriter) を使用してソースデータファイルを生成できます。[上の図のスキーマに基づいて準備されたサンプルデータをダウンロードするには、ここをクリックしてください](https://assets.zilliz.com/prepared_numpy_data.zip)。

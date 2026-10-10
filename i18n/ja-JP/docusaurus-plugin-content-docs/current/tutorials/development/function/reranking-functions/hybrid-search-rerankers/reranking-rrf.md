@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Reciprocal Rank Fusion (RRF) Ranker は、Zilliz Cloud の hybrid search 向けの reranking 戦略であり、生の類似度スコアではなくランキング位置に基づいて複数の vector 検索パスの結果をバランスさせます。個々の統計ではなく選手の順位を考慮するスポーツトーナメントのように、RRF Ranker は異なる検索パスで各アイテムがどれだけ上位にランクされているかに基づいて検索結果を結合し、公平でバランスの取れた最終ランキングを作成します。 | Cloud"
+description: "Reciprocal Rank Fusion (RRF) Ranker is a reranking strategy for Zilliz Cloud hybrid search that balances results from multiple ベクトル search paths based on their ranking positions rather than their raw similarity scores. Like a sports tournament that considers players' rankings rather than individual statistics, RRF Ranker combines search results based on how highly each item ranks in different search paths, creating a fair and balanced final ranking. | Cloud"
 type: origin
 token: Nqguwf6ikiKrHEkGKgAc8g7Lnnh
 sidebar_position: 2
@@ -21,16 +21,16 @@ import TabItem from '@theme/TabItem';
 
 # RRF Ranker
 
-Reciprocal Rank Fusion (RRF) Ranker は、Zilliz Cloud の hybrid search 向けの reranking 戦略であり、生の類似度スコアではなくランキング位置に基づいて複数の vector 検索パスの結果をバランスさせます。個々の統計ではなく選手の順位を考慮するスポーツトーナメントのように、RRF Ranker は異なる検索パスで各アイテムがどれだけ上位にランクされているかに基づいて検索結果を結合し、公平でバランスの取れた最終ランキングを作成します。
+Reciprocal Rank Fusion (RRF) Ranker is a reranking strategy for Zilliz Cloud hybrid search that balances results from multiple ベクトル search paths based on their ranking positions rather than their raw similarity scores. Like a sports tournament that considers players' rankings rather than individual statistics, RRF Ranker combines search results based on how highly each item ranks in different search paths, creating a fair and balanced final ranking.
 
 ## RRF Ranker を使用する場面\{#when-to-use-rrf-ranker}
 
-RRF Ranker は、明示的な重要度の重みを割り当てることなく、複数の vector 検索パスからの結果をバランスさせたい hybrid search シナリオ向けに特化して設計されています。特に次のようなケースで効果的です。
+RRF Ranker is specifically designed for hybrid search scenarios where you want to balance results from multiple ベクトル search paths without assigning explicit importance weights. It's particularly effective for:
 
 | ユースケース | 例 | RRF Ranker が適している理由 |
 | --- | --- | --- |
 | 同等の重要性を持つマルチモーダル検索 | 画像とテキストの両方が同等に重要な画像-テキスト検索 | 任意の重み付けを必要とせずに結果をバランスできるため |
-| アンサンブル vector 検索 | 異なる埋め込みモデルからの結果を組み合わせる | 特定のモデルのスコア分布を優遇することなく、ランキングを民主的に統合するため |
+| Ensemble ベクトル search | 異なる埋め込みモデルからの結果を組み合わせる | 特定のモデルのスコア分布を優遇することなく、ランキングを民主的に統合するため |
 | クロスリンガル検索 | 複数言語にまたがってドキュメントを見つける | 言語固有の埋め込み特性に関係なく、公平に結果をランク付けするため |
 | 専門家による推薦 | 複数の専門家システムからの推薦を組み合わせる | 異なるシステムが比較不可能なスコアリング手法を使っている場合でも、コンセンサスランキングを作成できるため |
 
@@ -40,7 +40,7 @@ RRF Ranker は、明示的な重要度の重みを割り当てることなく、
 
 RRFRanker 戦略の主なワークフローは次のとおりです。
 
-1. **検索ランキングの収集**: 各 vector 検索パスからの結果のランキングを収集します（rank_1、rank_2）。
+1. **Collect Search Rankings**: Collect the rankings of results from each path of ベクトル search (rank_1, rank_2).
 
 1. **ランキングの統合**: 各パスからのランキング（rank_rrf_1、rank_rrf_2）を数式に従って変換します。
 
@@ -52,9 +52,9 @@ RRFRanker 戦略の主なワークフローは次のとおりです。
 
 ## RRF Ranker の例\{#example-of-rrf-ranker}
 
-この例では、sparse-dense vectors に対する Hybrid Search（topK=5）を示し、RRFRanker 戦略が 2 つの ANN 検索からの結果をどのように rerank するかを説明します。
+This example demonstrates a Hybrid Search (topK=5) on sparse-dense ベクトル and illustrates how the RRFRanker strategy reranks the results from two ANN searches.
 
-- テキストの sparse vector に対する ANN 検索の結果（topK=5）：
+- Results of ANN search on sparse ベクトル of texts （topK=5)：
 
     | **ID** | **Rank (sparse)** |
     | --- | --- |
@@ -64,7 +64,7 @@ RRFRanker 戦略の主なワークフローは次のとおりです。
     | 198 | 4 |
     | 175 | 5 |
 
-- テキストの dense vector に対する ANN 検索の結果（topK=5）：
+- Results of ANN search on dense ベクトル of texts （topK=5)：
 
     | **ID** | **Rank (dense)** |
     | --- | --- |
@@ -99,13 +99,13 @@ RRFRanker 戦略の主なワークフローは次のとおりです。
 
 ## RRF Ranker の使用方法\{#usage-of-rrf-ranker}
 
-RRF reranking 戦略を使用する際は、パラメータ `k` を設定する必要があります。これは平滑化パラメータであり、全文検索と vector 検索の相対的な重みを効果的に変更できます。このパラメータのデフォルト値は 60 で、(0, 16384) の範囲内で調整できます。値は浮動小数点数である必要があります。推奨値は [10, 100] の範囲です。`k=60` は一般的な選択ですが、最適な `k` の値はアプリケーションやデータセットによって異なる場合があります。最適なパフォーマンスを得るために、具体的なユースケースに基づいてこのパラメータをテストおよび調整することを推奨します。
+When using the RRF reranking strategy, you need to configure the parameter `k`. It is a smoothing parameter that can effectively alter the relative weights of full-text search versus ベクトル search. The default value of this parameter is 60, and it can be adjusted within a range of (0, 16384). The value should be floating-point numbers. The recommended value is between [10, 100]. While `k=60` is a common choice, the optimal `k` value can vary depending on your specific applications and datasets. We recommend testing and adjusting this parameter based on your specific use case to achieve the best performance.
 
 ### RRF Ranker を作成する\{#create-an-rrf-ranker}
 
-collection が複数の vector field でセットアップされたら、適切な平滑化パラメータを指定して RRF Ranker を作成します。
+After your コレクション is set up with multiple ベクトル fields, create an RRF Ranker with an appropriate smoothing parameter:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -140,6 +140,52 @@ CreateCollectionReq.Function rerank = CreateCollectionReq.Function.builder()
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
+rerank := entity.NewFunction().
+
+    WithName("rrf").
+
+    WithType(entity.FunctionTypeRerank).
+
+    WithInputFields().
+
+    WithParam("reranker", "rrf").
+
+    WithParam("k", 100)
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let rerank = Function::new()
+
+    .name("rrf")
+
+    .function_type(FunctionType::Rerank)
+
+    .param("reranker", "rrf")
+
+    .param("k", "100");
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto rerank = std::make_shared<milvus::Function>("rrf", milvus::FunctionType::RERANK);
+rerank->AddParam("reranker", "rrf");
+rerank->AddParam("k", "100");
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -158,28 +204,24 @@ const rerank = {
 
 </TabItem>
 
-<TabItem value='go'>
-
-```go
-// Go
-```
-
-</TabItem>
-
 <TabItem value='bash'>
 
 ```bash
-# Restful
-```
+# restful
 
-</TabItem>
+functions='[
 
-<TabItem value='c++'>
+  {
+    "name": "rrf",
+    "type": "Rerank",
+    "inputFieldNames": [],
+    "params": {
+      "reranker": "rrf",
+      "k": 100
+    }
+  }
 
-```c++
-auto rerank = std::make_shared<milvus::Function>("rrf", milvus::FunctionType::RERANK);
-rerank->AddParam("reranker", "rrf");
-rerank->AddParam("k", "100");
+]'
 ```
 
 </TabItem>
@@ -188,16 +230,16 @@ rerank->AddParam("k", "100");
 | Parameter | Required? | Description | Value/Example |
 | --- | --- | --- | --- |
 | `name` | Yes | この Function の一意の識別子 | `"rrf"` |
-| `input_field_names` | Yes | Function を適用する vector field のリスト（RRF Ranker の場合は空である必要があります） | [] |
+| `input_field_names` | Yes | List of ベクトル fields to apply the function to (must be empty for RRF Ranker) | [] |
 | `function_type` | Yes | 呼び出す Function のタイプ。reranking 戦略を指定するには `RERANK` を使用します | `FunctionType.RERANK` |
 | `params.reranker` | Yes | 使用する reranking メソッドを指定します。<br/>RRF Ranker を使用するには `rrf` に設定する必要があります。 | `"weighted"` |
 | `params.k` | No | ドキュメント順位の影響を制御する平滑化パラメータ。`k` が大きいほど上位順位への感度が低くなります。範囲: (0, 16384)、デフォルト: `60`。<br/>詳細は [RRF Ranker の仕組み](./reranking-rrf#mechanism-of-rrf-ranker) を参照してください。 | `100` |
 
 ### hybrid search に適用する\{#apply-to-hybrid-search}
 
-RRF Ranker は、複数の vector field を組み合わせる hybrid search 操作向けに特別に設計されています。hybrid search での使用方法は次のとおりです。
+RRF Ranker is designed specifically for hybrid search operations that combine multiple ベクトル fields. Here's how to use it in a hybrid search:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -248,31 +290,194 @@ import io.milvus.v2.service.vector.request.HybridSearchReq;
 import io.milvus.v2.service.vector.response.SearchResp;
 import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.request.data.FloatVec;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
+
         .uri("YOUR_CLUSTER_ENDPOINT")
+
         .build());
-        
+
 List<AnnSearchReq> searchRequests = new ArrayList<>();
+
 searchRequests.add(AnnSearchReq.builder()
+
         .vectorFieldName("text_vector")
-        .vectors(Collections.singletonList(new EmbeddedText("\"modern dining table\"")))
+
+        .vectors(Collections.singletonList(new EmbeddedText("modern dining table")))
+
         .limit(10)
+
         .build());
+
 searchRequests.add(AnnSearchReq.builder()
+
         .vectorFieldName("image_vector")
+
         .vectors(Collections.singletonList(new FloatVec(imageEmbedding)))
+
         .limit(10)
+
         .build());
-        
+
 HybridSearchReq hybridSearchReq = HybridSearchReq.builder()
-                .collectionName(COLLECTION_NAME)
-                .searchRequests(searchRequests)
-                .ranker(rerank)
-                .limit(10)
-                .outputFields(Arrays.asList("product_name", "price", "category"))
-                .build();
+
+        .collectionName(collectionName)
+
+        .searchRequests(searchRequests)
+
+        .ranker(rerank)
+
+        .limit(10)
+
+        .outFields(Arrays.asList("product_name", "price", "category"))
+
+        .build();
+
 SearchResp searchResp = client.hybridSearch(hybridSearchReq);
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
+
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+})
+
+if err != nil {
+    fmt.Println(err.Error())
+
+    // handle error
+}
+
+// Define text vector search request
+
+textSearch := milvusclient.NewAnnRequest("text_vector", 10, entity.FloatVector(textEmbedding))
+
+// Define image vector search request
+
+imageSearch := milvusclient.NewAnnRequest("image_vector", 10, entity.FloatVector(imageEmbedding))
+
+// Apply RRF Ranker to product hybrid search
+
+resultSets, err := client.HybridSearch(ctx, milvusclient.NewHybridSearchOption(
+
+    collectionName, 10, textSearch, imageSearch,
+).WithReranker(milvusclient.NewRRFReranker()))
+
+if err != nil {
+    fmt.Println(err.Error())
+
+    // handle error
+}
+
+fmt.Println(resultSets)
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
+
+let client = ClientV2::new(&config).await?;
+
+// Define text vector search request
+
+let text_search = SubSearchRequest::builder()
+
+    .vector_field("text_vector")
+
+    .vectors(SearchVectors::EmbeddedText(vec!["modern dining table".to_string()]))
+
+    .limit(10)
+
+    .build()?;
+
+// Define image vector search request
+
+let image_search = SubSearchRequest::builder()
+
+    .vector_field("image_vector")
+
+    .vectors(SearchVectors::Float(vec![image_embedding]))
+
+    .limit(10)
+
+    .build()?;
+
+// Apply RRF Ranker to product hybrid search
+
+let hybrid_results = client
+
+    .hybrid_search(
+
+        HybridSearchRequest::builder()
+
+            .collection_name(collection_name)
+
+            .sub_requests(vec![text_search, image_search])
+
+            .rerank(RRFRerank::new().k(100))
+
+            .limit(10)
+
+            .output_fields(["product_name", "price", "category"])
+
+            .build()?,
+    )
+
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto text_search = milvus::SubSearchRequest()
+                    .WithLimit(10)
+                    .WithAnnsField("text_vector")
+                    .AddEmbeddedText("modern dining table");
+
+auto image_search = milvus::SubSearchRequest()
+                    .WithLimit(10)
+                    .WithAnnsField("image_vector")
+                    .AddFloatVector(image_embedding);
+
+auto request = milvus::HybridSearchRequest()
+                    .WithCollectionName(collection_name)
+                    .WithLimit(10)
+                    .AddSubRequest(std::make_shared<milvus::SubSearchRequest>(std::move(text_search)))
+                    .AddSubRequest(std::make_shared<milvus::SubSearchRequest>(std::move(image_search)))
+                    .WithRerank(rerank)
+                    .AddOutputField("product_name")
+                    .AddOutputField("price")
+                    .AddOutputField("category");
+
+milvus::SearchResponse response;
+auto status = client->HybridSearch(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -309,53 +514,47 @@ const search = await milvusClient.search({
 
 </TabItem>
 
-<TabItem value='go'>
-
-```go
-// go
-```
-
-</TabItem>
-
 <TabItem value='bash'>
 
 ```bash
-# restful
-```
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
 
-</TabItem>
+export TOKEN="YOUR_CLUSTER_TOKEN"
 
-<TabItem value='c++'>
+curl --request POST \
 
-```c++
-auto text_search = milvus::SubSearchRequest()
-                    .WithLimit(10)
-                    .WithAnnsField("text_vector")
-                    .AddEmbeddedText("modern dining table");
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/hybrid_search" \
 
-auto image_search = milvus::SubSearchRequest()
-                    .WithLimit(10)
-                    .WithAnnsField("image_vector")
-                    .AddFloatVector(image_embedding);
+--header "Authorization: Bearer ${TOKEN}" \
 
-auto request = milvus::HybridSearchRequest()
-                    .WithCollectionName(collection_name)
-                    .WithLimit(10)
-                    .AddSubRequest(std::make_shared<milvus::SubSearchRequest>(std::move(text_search)))
-                    .AddSubRequest(std::make_shared<milvus::SubSearchRequest>(std::move(image_search)))
-                    .WithRerank(rerank)
-                    .AddOutputField("product_name")
-                    .AddOutputField("price")
-                    .AddOutputField("category");
+--header "Content-Type: application/json" \
 
-milvus::SearchResponse response;
-auto status = client->HybridSearch(request, response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
+-d '{
+    "collectionName": "collection_name",
+    "data": [
+        {
+            "data": ["modern dining table"],
+            "annsField": "text_vector",
+            "limit": 10
+        },
+        {
+            "data": [image_embedding],
+            "annsField": "image_vector",
+            "limit": 10
+        }
+    ],
+    "rerank": {
+        "strategy": "rrf",
+        "params": {
+            "k": 100
+        }
+    },
+    "limit": 10,
+    "outputFields": ["product_name", "price", "category"]
+}'
 ```
 
 </TabItem>
 </Tabs>
 
-hybrid search の詳細については、[Multi-Vector Hybrid Search](./hybrid-search) を参照してください。
+For more information on hybrid search, refer to [Multi-ベクトル Hybrid Search](./hybrid-search).

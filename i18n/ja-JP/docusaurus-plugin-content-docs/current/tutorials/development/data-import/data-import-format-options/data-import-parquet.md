@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Apache Parquet は、効率的なデータ保存と取得のために設計された、オープンソースの列指向データファイル形式です。複雑なデータを一括で管理するための高性能な圧縮およびエンコード方式を提供し、さまざまなプログラミング言語や分析ツールでサポートされています。 | Cloud"
+description: "Apache Parquet は、効率的なデータ保存と取得のために設計された、オープンソースの列指向データファイル形式です。複雑なデータを大量に管理するための高性能な圧縮およびエンコーディング方式を備えており、さまざまなプログラミング言語や分析ツールでサポートされています。 | Cloud"
 type: origin
 token: WtkSwXgDdiB0eTkEkorcDCFlnme
 sidebar_position: 1
@@ -20,31 +20,31 @@ import Admonition from '@theme/Admonition';
 
 # Parquet ファイルからインポート
 
-[Apache Parquet](https://parquet.apache.org/docs/overview/) は、効率的なデータ保存と取得のために設計された、オープンソースの列指向データファイル形式です。複雑なデータを一括で管理するための高性能な圧縮およびエンコード方式を提供し、さまざまなプログラミング言語や分析ツールでサポートされています。
+[Apache Parquet](https://parquet.apache.org/docs/overview/) は、効率的なデータ保存と取得のために設計された、オープンソースの列指向データファイル形式です。複雑なデータを大量に管理するための高性能な圧縮およびエンコーディング方式を備えており、さまざまなプログラミング言語や分析ツールでサポートされています。
 
-生データを Parquet ファイルに準備するには、[BulkWriter ツール](./use-bulkwriter)を使用することを推奨します。次の図は、生データを Parquet ファイルにどのようにマッピングできるかを示しています。
+生データを Parquet ファイルとして準備するには、[BulkWriter ツール](./use-bulkwriter)を使用することをお勧めします。以下の図は、生データを Parquet ファイルにどのようにマッピングできるかを示しています。
 
-![parquet_file_structure_en](https://zdoc-images.s3.us-west-2.amazonaws.com/parquet_file_structure_en.png "parquet_file_structure_en")
+![parquet_file_structure_en](https://zdoc-images.s3.us-west-2.amazonaws.com/parquetfilestructureen.png "parquet_file_structure_en")
 
 <Admonition type="info" title="Notes">
 
 - **AutoID を有効にするかどうか**
 
-    **id** フィールドはコレクションのプライマリフィールドとして機能します。プライマリフィールドを自動インクリメントにするには、スキーマで **AutoID** を有効にできます。この場合、ソースデータの各行から **id** フィールドを除外する必要があります。
+    **id** フィールドはコレクションの主フィールドとして機能します。主フィールドを自動的にインクリメントさせるには、スキーマで **AutoID** を有効にできます。この場合、ソースデータ内の各行から **id** フィールドを除外する必要があります。
 
 - **動的フィールドを有効にするかどうか**
 
-    対象のコレクションで動的フィールドが有効になっている場合、事前定義されたスキーマに含まれていないフィールドを保存する必要があるときは、書き込み時に **&#36;meta** 列を指定し、対応するキーと値のデータを提供できます。
+    ターゲットコレクションで動的フィールドが有効になっている場合、事前定義されたスキーマに含まれていないフィールドを保存する必要があるときは、書き込み操作中に **&#36;meta** 列を指定し、対応するキー・バリューデータを提供できます。
 
 - **大文字と小文字を区別**
 
-    辞書のキーとコレクションのフィールド名は大文字と小文字を区別します。データ内の辞書キーが対象コレクションのフィールド名と完全に一致していることを確認してください。対象コレクションに **id** という名前のフィールドがある場合、各エンティティの辞書には **id.** という名前のキーが必要です。**ID** や **Id** を使用するとエラーになります。
+    ディクショナリのキーとコレクションのフィールド名は大文字と小文字を区別します。データ内のディクショナリキーが、ターゲットコレクションのフィールド名と完全に一致していることを確認してください。ターゲットコレクションに **id** という名前のフィールドがある場合、各エンティティディクショナリには **id.** という名前のキーが必要です。**ID** や **Id** を使用するとエラーになります。 
 
 </Admonition>
 
 ## ディレクトリ構造\{#directory-structure}
 
-データを Parquet ファイルとして準備する場合は、以下のツリー図のように、すべての Parquet ファイルをソースデータフォルダ直下に配置してください。
+データを Parquet ファイルとして準備する場合は、以下のツリー図に示すように、すべての Parquet ファイルをソースデータフォルダに直接配置します。
 
 ```plaintext
 ├── parquet-folder
@@ -52,11 +52,11 @@ import Admonition from '@theme/Admonition';
 │       └── 2.parquet 
 ```
 
-## データをインポート\{#import-data}
+## データのインポート\{#import-data}
 
-データの準備ができたら、次のいずれかの方法を使用して Zilliz Cloud コレクションにインポートできます。
+データの準備ができたら、以下のいずれかの方法で Zilliz Cloud コレクションにインポートできます。
 
-- [複数パスからファイルをインポート（推奨）](./data-import-parquet#import-files-from-multiple-paths-recommended)
+- [複数のパスからファイルをインポート（推奨）](./data-import-parquet#import-files-from-multiple-paths-recommended)
 
 - [ソースフォルダからファイルをインポート](./data-import-parquet#import-files-from-a-folder)
 
@@ -64,17 +64,17 @@ import Admonition from '@theme/Admonition';
 
 <Admonition type="info" title="Notes">
 
-ファイルが比較的小さい場合は、フォルダまたは複数パスの方法を使用して一度にまとめてインポートすることを推奨します。この方法ではインポート処理中に内部最適化が行われるため、その後のリソース消費を減らすのに役立ちます。
+ファイルが比較的小さい場合は、フォルダ方式または複数パス方式を使用して一度にすべてインポートすることをお勧めします。この方式では、インポート処理中に内部最適化を行えるため、後続のリソース消費を抑えるのに役立ちます。
 
 </Admonition>
 
-Milvus SDK を使用して Zilliz Cloud コンソール上でデータをインポートすることもできます。詳細については、[Import Data (Console)](./import-data-on-web-ui) および [Import Data (SDK)](./import-data-via-sdks) を参照してください。
+Milvus SDK を使用すると、Zilliz Cloud コンソール上でデータをインポートすることもできます。詳細は、[データのインポート（コンソール）](./import-data-on-web-ui) および [データのインポート（SDK）](./import-data-via-sdks) を参照してください。
 
-### 複数パスからファイルをインポート（推奨）\{#import-files-from-multiple-paths-recommended}
+### 複数のパスからファイルをインポート（推奨）\{#import-files-from-multiple-paths-recommended}
 
-複数パスからファイルをインポートする場合は、各 Parquet ファイルのパスを個別のリストに含め、それらすべてのリストを次のコード例のように上位レベルのリストにまとめます。
+複数のパスからファイルをインポートする場合は、各 Parquet ファイルのパスを個別のリストに含め、それらのすべてのリストを、以下のコード例のように上位レベルのリストにまとめます。
 
-```python
+```bash
 curl --request POST \
      --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/create" \
      --header "Authorization: Bearer ${TOKEN}" \
@@ -96,9 +96,9 @@ curl --request POST \
 
 ### フォルダからファイルをインポート\{#import-files-from-a-folder}
 
-ソースフォルダにインポート対象の Parquet ファイルのみが含まれている場合は、次のようにリクエストにソースフォルダを含めるだけで済みます。
+ソースフォルダにインポート対象の Parquet ファイルのみが含まれている場合は、以下のようにリクエストにソースフォルダを含めるだけで済みます。
 
-```python
+```bash
 curl --request POST \
      --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/create" \
      --header "Authorization: Bearer ${TOKEN}" \
@@ -118,15 +118,15 @@ curl --request POST \
 
 <Admonition type="info" title="Notes">
 
-フォルダに複数形式のファイルが含まれている場合、リクエストは失敗します。
+フォルダに複数の形式のファイルが含まれている場合、リクエストは失敗します。
 
 </Admonition>
 
 ### 単一ファイルをインポート\{#import-a-single-file}
 
-準備したデータファイルが単一の Parquet ファイルである場合は、次のコード例のようにインポートします。
+準備したデータファイルが単一の Parquet ファイルの場合は、以下のコード例に示すようにインポートします。
 
-```python
+```bash
 curl --request POST \
      --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/create" \
      --header "Authorization: Bearer ${TOKEN}" \
@@ -146,9 +146,9 @@ curl --request POST \
 
 ## ストレージパス\{#storage-paths}
 
-Zilliz Cloud は、クラウドストレージからのデータインポートをサポートしています。以下の表は、データファイルに使用可能なストレージパスを示しています。
+Zilliz Cloud は、クラウドストレージからのデータインポートをサポートしています。以下の表に、データファイルに使用できるストレージパスを示します。
 
-| **Cloud** | **簡単な例** |
+| **クラウド** | **簡単な例** |
 | --- | --- |
 | **AWS S3** | s3://*bucket-name*/*parquet-folder*/<br/>s3://*bucket-name*/*parquet-folder*/*data.parquet* |
 | **Google Cloud Storage** | gs://*bucket-name*/*parquet-folder*/<br/>gs://*bucket-name*/*parquet-folder*/*data.parquet* |
@@ -156,7 +156,7 @@ Zilliz Cloud は、クラウドストレージからのデータインポート�
 
 ## 制限\{#limits}
 
-ローカルの Parquet ファイル、またはクラウドストレージ上の Parquet ファイルからデータをインポートする際には、いくつかの制限を守る必要があります。
+ローカルの Parquet ファイル、またはクラウドストレージ上の Parquet ファイルからデータをインポートする際には、いくつかの制限に従う必要があります。
 
 <table>
    <tr>
@@ -188,4 +188,4 @@ Zilliz Cloud は、クラウドストレージからのデータインポート�
    </tr>
 </table>
 
-生データを parquet ファイルに準備するには、[BulkWriter ツール](./use-bulkwriter)を使用することを推奨します。[上の図のスキーマに基づいて準備されたサンプルデータをダウンロードするには、ここをクリックしてください](https://assets.zilliz.com/prepared_parquet_data.parquet)。
+生データを parquet ファイルとして準備するには、[BulkWriter ツール](./use-bulkwriter)を使用することをお勧めします。[上記の図のスキーマに基づいて準備されたサンプルデータをダウンロードするには、ここをクリックしてください](https://assets.zilliz.com/prepared_parquet_data.parquet)。

@@ -25,11 +25,11 @@ import TabItem from '@theme/TabItem';
 
 ## 概要\{#overview}
 
-**BulkWriter** は、生のデータセットを、Zilliz Cloud コンソール、Milvus SDK の **BulkInsert** API、または RESTful 形式の **Import** API など、さまざまな方法でインポートするのに適した形式へ変換するためのスクリプトです。2 種類の writer を提供します。
+**BulkWriter** は、生のデータセットを、Zilliz Cloud コンソール、Milvus SDK の **BulkInsert** API、または RESTful 形式の **Import** API など、さまざまな方法でインポートするのに適した形式へ変換するために設計されたスクリプトです。2 種類のライターを提供します。
 
 - **LocalBulkWriter**: 指定されたデータセットを読み取り、使いやすい形式に変換します。
 
-- **RemoteBulkWriter**: **LocalBulkWriter** と同じ処理を行いますが、変換後のデータファイルを指定したリモートオブジェクトストレージバケットに転送する点が異なります。
+- **RemoteBulkWriter**: **LocalBulkWriter** と同じタスクを実行しますが、さらに変換後のデータファイルを指定したリモートオブジェクトストレージバケットに転送します。
 
 ## 手順\{#procedure}
 
@@ -49,20 +49,20 @@ pip install --upgrade pymilvus
 
 <TabItem value='java'>
 
-Apache Maven の場合は、以下を **pom.xml** の dependencies に追加します。
+Apache Maven の場合は、以下を **pom.xml** の依存関係に追加します。
 
 ```java
 <dependency>
   <groupId>io.milvus</groupId>
-  <artifactId>milvus-sdk-java</artifactId>
-  <version>2.4.8</version>
+  <artifactId>milvus-sdk-java-bulkwriter</artifactId>
+  <version>3.0.10</version>
 </dependency>
 ```
 
-- Gradle/Grails, の場合は、以下を実行します。
+- Gradle/Grails, の場合は、以下を実行します
 
 ```shell
-compile 'io.milvus:milvus-sdk-java:2.4.8'
+compile 'io.milvus:milvus-sdk-java-bulkwriter:3.0.10'
 ```
 
 </TabItem>
@@ -89,22 +89,22 @@ schema = MilvusClient.create_schema(
 
 DIM = 512
 
-schema.add_field(field_name="id", datatype=DataType.INT64, is_primary=True),
-schema.add_field(field_name="bool", datatype=DataType.BOOL),
-schema.add_field(field_name="int8", datatype=DataType.INT8),
-schema.add_field(field_name="int16", datatype=DataType.INT16),
-schema.add_field(field_name="int32", datatype=DataType.INT32),
-schema.add_field(field_name="int64", datatype=DataType.INT64),
-schema.add_field(field_name="float", datatype=DataType.FLOAT),
-schema.add_field(field_name="double", datatype=DataType.DOUBLE),
-schema.add_field(field_name="varchar", datatype=DataType.VARCHAR, max_length=512),
-schema.add_field(field_name="json", datatype=DataType.JSON),
+schema.add_field(field_name="id", datatype=DataType.INT64, is_primary=True)
+schema.add_field(field_name="bool", datatype=DataType.BOOL)
+schema.add_field(field_name="int8", datatype=DataType.INT8)
+schema.add_field(field_name="int16", datatype=DataType.INT16)
+schema.add_field(field_name="int32", datatype=DataType.INT32)
+schema.add_field(field_name="int64", datatype=DataType.INT64)
+schema.add_field(field_name="float", datatype=DataType.FLOAT)
+schema.add_field(field_name="double", datatype=DataType.DOUBLE)
+schema.add_field(field_name="varchar", datatype=DataType.VARCHAR, max_length=512)
+schema.add_field(field_name="json", datatype=DataType.JSON)
 schema.add_field(field_name="array_str", datatype=DataType.ARRAY, max_capacity=100, element_type=DataType.VARCHAR, max_length=128)
 schema.add_field(field_name="array_int", datatype=DataType.ARRAY, max_capacity=100, element_type=DataType.INT64)
-schema.add_field(field_name="float_vector", datatype=DataType.FLOAT_VECTOR, dim=DIM),
-schema.add_field(field_name="binary_vector", datatype=DataType.BINARY_VECTOR, dim=DIM),
-schema.add_field(field_name="float16_vector", datatype=DataType.FLOAT16_VECTOR, dim=DIM),
-# schema.add_field(field_name="bfloat16_vector", datatype=DataType.BFLOAT16_VECTOR, dim=DIM),
+schema.add_field(field_name="float_vector", datatype=DataType.FLOAT_VECTOR, dim=DIM)
+schema.add_field(field_name="binary_vector", datatype=DataType.BINARY_VECTOR, dim=DIM)
+schema.add_field(field_name="float16_vector", datatype=DataType.FLOAT16_VECTOR, dim=DIM)
+# schema.add_field(field_name="bfloat16_vector", datatype=DataType.BFLOAT16_VECTOR, dim=DIM)
 schema.add_field(field_name="sparse_vector", datatype=DataType.SPARSE_FLOAT_VECTOR)
 
 schema.verify()
@@ -115,9 +115,13 @@ schema.verify()
 <TabItem value='java'>
 
 ```java
-import io.milvus.param.collection.CollectionSchemaParam;
-import io.milvus.param.collection.FieldType;
-import io.milvus.grpc.DataType;
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import java.nio.ByteBuffer;
+import java.util.Random;
+
+private static final int DIM = 512;
 
 private static CreateCollectionReq.CollectionSchema createSchema() {
     CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder()
@@ -125,7 +129,7 @@ private static CreateCollectionReq.CollectionSchema createSchema() {
         .build();
     schema.addField(AddFieldReq.builder()
             .fieldName("id")
-            .dataType(io.milvus.v2.common.DataType.Int64)
+            .dataType(DataType.Int64)
             .isPrimaryKey(Boolean.TRUE)
             .autoID(false)
             .build());
@@ -164,41 +168,40 @@ private static CreateCollectionReq.CollectionSchema createSchema() {
             .build());
     schema.addField(AddFieldReq.builder()
             .fieldName("json")
-            .dataType(io.milvus.v2.common.DataType.JSON)
+            .dataType(DataType.JSON)
             .build());
     schema.addField(AddFieldReq.builder()
             .fieldName("array_int")
-            .dataType(io.milvus.v2.common.DataType.Array)
+            .dataType(DataType.Array)
             .maxCapacity(100)
-            .elementType(io.milvus.v2.common.DataType.Int64)
+            .elementType(DataType.Int64)
             .build());
     schema.addField(AddFieldReq.builder()
             .fieldName("array_str")
-            .dataType(io.milvus.v2.common.DataType.Array)
+            .dataType(DataType.Array)
             .maxCapacity(100)
-            .elementType(io.milvus.v2.common.DataType.VarChar)
+            .elementType(DataType.VarChar)
             .maxLength(128)
             .build());
     schema.addField(AddFieldReq.builder()
             .fieldName("float_vector")
-            .dataType(io.milvus.v2.common.DataType.FloatVector)
+            .dataType(DataType.FloatVector)
             .dimension(DIM)
             .build());
     schema.addField(AddFieldReq.builder()
             .fieldName("binary_vector")
-            .dataType(io.milvus.v2.common.DataType.BinaryVector)
+            .dataType(DataType.BinaryVector)
             .dimension(DIM)
             .build());
     schema.addField(AddFieldReq.builder()
             .fieldName("float16_vector")
-            .dataType(io.milvus.v2.common.DataType.Float16Vector)
+            .dataType(DataType.Float16Vector)
             .dimension(DIM)
             .build());
     schema.addField(AddFieldReq.builder()
             .fieldName("sparse_vector")
-            .dataType(io.milvus.v2.common.DataType.SparseFloatVector)
+            .dataType(DataType.SparseFloatVector)
             .build());
-    
     return schema;
 }
 
@@ -243,7 +246,7 @@ private static byte[] genBinaryVector() {
 
     **LocalBulkWriter** を作成する際は、以下を行ってください。
 
-    - **schema** に作成したスキーマを指定します。
+    - **スキーマ** に作成したスキーマを指定します。
 
     - **local_path** に出力ディレクトリを設定します。
 
@@ -251,13 +254,13 @@ private static byte[] genBinaryVector() {
 
     - データセットに多数のレコードが含まれている場合は、**segment_size** に適切な値を設定してデータを分割することを推奨します。
 
-    パラメータ設定の詳細については、SDK リファレンスの **LocalBulkWriter** を参照してください。
+    パラメーター設定の詳細については、SDK リファレンスの **LocalBulkWriter** を参照してください。
 
     <Admonition type="info" title="Notes">
 
-    **LocalBulkWriter** を使用して生成した JSON ファイルおよび Parquet ファイルは、Zilliz Cloud コンソール上で直接 Zilliz Cloud にインポートできます。
+    **LocalBulkWriter** を使用して生成した JSON ファイルおよび Parquet ファイルは、Zilliz Cloud コンソールで Zilliz Cloud に直接インポートできます。
     
-    その他の形式のファイルは、インポートする前にいずれかのバケットにアップロードしてください。ファイルは、ターゲットクラスターと同じクラウドリージョンにあるバケットにアップロードすることを推奨します。
+    その他の形式のファイルは、インポートする前にいずれかのバケットにアップロードしてください。ファイルは、対象のクラスターと同じクラウドリージョンにあるバケットにアップロードすることを推奨します。
 
     </Admonition>
 
@@ -404,6 +407,7 @@ private static byte[] genBinaryVector() {
     AZURE_CREDENTIAL = ""
     
     conn = RemoteBulkWriter.AzureConnectParam(
+        conn_str=AZURE_CONNECT_STRING,
         account_url=AZURE_ACCOUNT_URL,
         credential=AZURE_CREDENTIAL,
         container_name=BUCKET_NAME
@@ -418,13 +422,13 @@ private static byte[] genBinaryVector() {
     import io.milvus.bulkwriter.connect.AzureConnectParam;
     import io.milvus.bulkwriter.connect.StorageConnectParam;
     
-    String AZURE_CONNECT_STRING = ""
-    String AZURE_CONTAINER = ""
+    String AZURE_CONNECT_STRING = "";
+    String AZURE_CONTAINER = "";
     
     StorageConnectParam storageConnectParam = AzureConnectParam.newBuilder()
             .withConnStr(AZURE_CONNECT_STRING)
             .withContainerName(AZURE_CONTAINER)
-            .build()
+            .build();
     ```
 
     </TabItem>
@@ -434,7 +438,7 @@ private static byte[] genBinaryVector() {
 
     </Tabs>
 
-    接続パラメータの準備ができたら、以下のように **RemoteBulkWriter** で参照できます。
+    接続パラメーターの準備ができたら、以下のように **RemoteBulkWriter** で参照できます。
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
     <TabItem value='python'>
@@ -468,14 +472,14 @@ private static byte[] genBinaryVector() {
             .withConnectParam(storageConnectParam)
             .withFileType(BulkFileType.PARQUET)
             .build();
-            
+    
     RemoteBulkWriter remoteBulkWriter = new RemoteBulkWriter(remoteBulkWriterParam);
     ```
 
     </TabItem>
     </Tabs>
 
-    **RemoteBulkWriter** を作成するためのパラメータは、**connect_param** を除けば **LocalBulkWriter** のものとほぼ同じです。パラメータ設定の詳細については、SDK リファレンスの **RemoteBulkWriter** および **ConnectParam** を参照してください。
+    **RemoteBulkWriter** を作成するためのパラメーターは、**connect_param** を除けば **LocalBulkWriter** のものとほぼ同じです。パラメーター設定の詳細については、SDK リファレンスの **RemoteBulkWriter** および **ConnectParam** を参照してください。
 
 ### 書き込みを開始する\{#start-writing}
 
@@ -490,12 +494,11 @@ private static byte[] genBinaryVector() {
 ```python
 import random, string, json
 import numpy as np
-import tensorflow as tf
 
 def generate_random_str(length=5):
     letters = string.ascii_uppercase
     digits = string.digits
-    
+
     return ''.join(random.choices(letters + digits, k=length))
 
 # optional input for binary vector:
@@ -589,18 +592,18 @@ for i in range(10000):
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import io.milvus.common.utils.Float16Utils;
-
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+
+private static final Gson GSON_INSTANCE = new Gson();
 
 private static List<List<String>> uploadData() throws Exception {
     CreateCollectionReq.CollectionSchema collectionSchema = createSchema();
     try (RemoteBulkWriter remoteBulkWriter = createRemoteBulkWriter(collectionSchema)) {
         for (int i = 0; i < 10000; ++i) {
             JsonObject rowObject = new JsonObject();
-
             rowObject.addProperty("id", i);
             rowObject.addProperty("bool", i % 3 == 0);
             rowObject.addProperty("int8", i % 128);
@@ -618,9 +621,7 @@ private static List<List<String>> uploadData() throws Exception {
             rowObject.add("float16_vector", GSON_INSTANCE.toJsonTree(genFloat16Vector()));
             rowObject.add("sparse_vector", GSON_INSTANCE.toJsonTree(genSparseVector()));
             rowObject.addProperty("dynamic", "dynamic_" + i);
-
             remoteBulkWriter.appendRow(rowObject);
-
             if ((i+1)%1000 == 0) {
                 remoteBulkWriter.commit(false);
             }
@@ -705,7 +706,7 @@ private static List<Long> genIntArray(int length) {
 
 ## 動的スキーマのサポート\{#dynamic-schema-support}
 
-[前のセクション](./use-bulkwriter#set-up-a-collection-schema)では、writer で動的フィールドを許可するスキーマを参照しました。このスキーマにより、行を追加する際に未定義のフィールドを含めることができます。
+[前のセクション](./use-bulkwriter#set-up-a-collection-schema)では、ライターで動的フィールドを許可するスキーマを参照しました。これにより、行を追加する際に未定義のフィールドを含めることができます。
 
 デモ用として、以下のコードではランダムに生成したデータを追加します。
 
@@ -719,7 +720,7 @@ import string
 def generate_random_string(length=5):
     letters = string.ascii_uppercase
     digits = string.digits
-    
+
     return ''.join(random.choices(letters + digits, k=length))
 
 for i in range(10000):
@@ -729,7 +730,7 @@ for i in range(10000):
         "dynamic_field_1": random.choice([True, False]),
         "dynamic_field_2": random.randint(0, 100)
     })
-    
+
 writer.commit()
 ```
 
@@ -741,44 +742,42 @@ writer.commit()
 <TabItem value='java'>
 
 ```java
-import java.util.Random
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
-List<JSONObject> data = new ArrayList<>();
+private static final Gson GSON_INSTANCE = new Gson();
 
-for (int i=0; i<10000; i++) {
-    Random rand = new Random();
-    JSONObject row = new JSONObject();
-    
-    row.put("id", Long.valueOf(i));
-    row.put("vector", generateFloatVectors(768);
-    row.put("dynamic_field_1", rand.nextBoolean());
-    row.put("dynamic_field_2", rand.nextInt(100));
+for (int i = 0; i < 10000; i++) {
+    JsonObject row = new JsonObject();
+    row.addProperty("id", Long.valueOf(i));
+    row.add("vector", GSON_INSTANCE.toJsonTree(generateFloatVectors(768)));
+    row.addProperty("dynamic_field_1", new Random().nextBoolean());
+    row.addProperty("dynamic_field_2", new Random().nextInt(100));
     remoteBulkWriter.appendRow(row);
 }
 
-remoteBulkWriter.commit()
+remoteBulkWriter.commit(false);
 ```
 
 </TabItem>
 <TabItem value='java_1'>
 
 ```java
-private static List<float> generateFloatVectors(int dimension) {
-    List<float> vector = new ArrayList();
-    
-    for (int i=0; i< dimension; i++) {
-        Random rand = new Random();
-        vector.add(rand.nextFloat())
+private static List<Float> generateFloatVectors(int dimension) {
+    List<Float> vector = new ArrayList<>();
+    for (int i = 0; i < dimension; i++) {
+        vector.add(new Random().nextFloat());
     }
-    
-    return vector
+    return vector;
 }
 
-private static String generateString(length) {
+private static String generateString(int length) {
     byte[] array = new byte[length];
     new Random().nextBytes(array);
-    
-    return new String(array, Charset.forName("UTF-8"));
+    return new String(array, java.nio.charset.StandardCharsets.UTF_8);
 }
 ```
 
@@ -789,13 +788,13 @@ private static String generateString(length) {
 
 ## 結果を確認する\{#verify-the-result}
 
-結果を確認するには、writer の **data_path** プロパティを出力して実際の出力パスを取得できます。
+結果を確認するには、ライターの **data_path** プロパティを出力して実際の出力パスを取得できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
 
 ```python
-print(writer.batch_files)
+print(writer.data_path)
 
 # PosixPath('/folder/5868ba87-743e-4d9e-8fa6-e07b39229425')
 ```
@@ -816,9 +815,9 @@ System.out.println(batchFiles);
 </TabItem>
 </Tabs>
 
-BulkWriter は UUID を生成し、指定された出力ディレクトリ内にその UUID を使用したサブフォルダを作成して、生成されたすべてのファイルをそのサブフォルダに配置します。[準備済みのサンプルデータはこちらからダウンロードできます](https://assets.zilliz.com/bulk_writer.zip)。
+BulkWriter は UUID を生成し、指定された出力ディレクトリ内にその UUID を使用したサブフォルダーを作成して、生成されたすべてのファイルをそのサブフォルダーに配置します。[準備済みのサンプルデータはこちらからダウンロードできます](https://assets.zilliz.com/bulk_writer.zip)。
 
-考えられるフォルダ構成は以下のとおりです。
+考えられるフォルダー構成は以下のとおりです。
 
 - 生成されたファイルが指定されたセグメントサイズを超えない場合
 

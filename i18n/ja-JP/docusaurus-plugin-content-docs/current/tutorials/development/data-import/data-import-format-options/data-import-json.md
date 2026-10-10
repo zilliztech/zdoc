@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "JSON は、機械が容易に解析・生成できる軽量で人間が読みやすいデータ形式です。言語に依存せず、C 系言語のプログラマーに馴染みのある規則に従っているため、データ交換形式として最適です。 | Cloud"
+description: "JSON は軽量で人間が読みやすく、マシンが容易に解析・生成できるデータ形式です。言語に依存せず、C 系言語のプログラマーにとって馴染みのある規約に従うため、データ交換形式として理想的です。 | Cloud"
 type: origin
 token: EHmOwLz5qi3tPDkb0gZcb5ExnJb
 sidebar_position: 2
@@ -20,11 +20,11 @@ import Admonition from '@theme/Admonition';
 
 # JSON/JSON Lines ファイルからのインポート
 
-[JSON](https://www.json.org/json-en.html)（JavaScript Object Notation）は、機械が容易に解析・生成できる軽量で人間が読みやすいデータ形式です。言語に依存せず、C 系言語のプログラマーに馴染みのある規則に従っているため、データ交換形式として最適です。
+[JSON](https://www.json.org/json-en.html)（JavaScript Object Notation）は、軽量で人間が読みやすく、マシンが容易に解析・生成できるデータ形式です。言語に依存せず、C 系言語のプログラマーにとって馴染みのある規約に従うため、データ交換形式として理想的です。
 
-JSON Line は、各行が完全かつ有効な JSON オブジェクトであるテキスト形式で、標準的なテキストツールを使ってデータストリームを段階的に処理しやすくします。
+JSON Line は、各行が完全で有効な JSON オブジェクトであるテキスト形式であり、標準的なテキストツールを使ってデータストリームを段階的に処理しやすくします。
 
-次の表に、JSON または JSON Line ファイルのデータ例を示します。
+以下の表に、JSON ファイルまたは JSON Line ファイルのデータ例を示します。
 
 <table>
    <tr>
@@ -41,7 +41,7 @@ JSON Line は、各行が完全かつ有効な JSON オブジェクトである�
    </tr>
 </table>
 
-生データを JSON ファイルとして準備するには、[BulkWriter ツール](./use-bulkwriter) の使用をお勧めします。次の図は、生データを JSON ファイルにマッピングする方法を示しています。
+生データを JSON ファイルに準備するには、[the BulkWriter tool](./use-bulkwriter) の使用をお勧めします。以下の図は、生データをどのように JSON ファイルにマッピングできるかを示しています。
 
 ![json_data_structure](https://zdoc-images.s3.us-west-2.amazonaws.com/jsondatastructure.png "json_data_structure")
 
@@ -49,49 +49,49 @@ JSON Line は、各行が完全かつ有効な JSON オブジェクトである�
 
 - **AutoID を有効にするかどうか**
 
-    **id** フィールドはコレクションのプライマリフィールドとして機能します。プライマリフィールドを自動インクリメントにするには、スキーマで **AutoID** を有効にします。この場合、ソースデータの各行から **id** フィールドを除外する必要があります。
+    **id** フィールドはコレクションの主フィールドとして機能します。主フィールドを自動インクリメントにするには、スキーマで **AutoID** を有効にします。この場合、ソースデータの各行から **id** フィールドを除外する必要があります。
 
 - **動的フィールドを有効にするかどうか**
 
-    対象のコレクションで動的フィールドが有効になっている場合、事前定義されたスキーマに含まれないフィールドを保存する必要があるときは、書き込み時に **&#36;meta** 列を指定し、対応するキーと値のデータを渡します。
+    ターゲットコレクションで動的フィールドが有効になっている場合、事前定義されたスキーマに含まれないフィールドを保存する必要があるときは、書き込み操作時に **&#36;meta** 列を指定し、対応するキーと値のデータを指定できます。
 
 - **大文字と小文字の区別**
 
-    辞書キーとコレクションのフィールド名は大文字と小文字が区別されます。データ内の辞書キーが、対象コレクションのフィールド名と完全に一致していることを確認してください。対象コレクションに **id** という名前のフィールドがある場合、各エンティティの辞書には **id.** という名前のキーが必要です。**ID** または **Id** を使用するとエラーになります。 
+    ディクショナリのキーとコレクションのフィールド名は大文字と小文字を区別します。データ内のディクショナリのキーが、ターゲットコレクションのフィールド名と完全に一致することを確認してください。ターゲットコレクションに **id** という名前のフィールドがある場合、各エンティティのディクショナリには **id** という名前のキーが必要です。**ID** または **Id** を使用するとエラーになります。
 
 </Admonition>
 
 ## ディレクトリ構造\{#directory-structure}
 
-データを JSON または JSON Lines ファイルとして準備する場合は、以下のツリー図に示すように、すべてのファイルをソースデータフォルダーに直接配置してください。
+データを JSON ファイルまたは JSON Lines ファイルとして準備する場合は、以下のツリー図に示すように、すべてのファイルをソースデータフォルダーに直接配置します。
 
 ```plaintext
 ├── json-folder
-│       ├── 1.json
-│       └── 2.json 
+│   ├── 1.json
+│   └── 2.json
 ```
 
 ## データのインポート\{#import-data}
 
 データの準備ができたら、以下のいずれかの方法で Zilliz Cloud コレクションにインポートできます。
 
-- [複数のパスからファイルをインポート（推奨）](./data-import-json#import-files-from-multiple-paths-recommended)
+- [複数のパスからのファイルのインポート（推奨）](./data-import-json#import-files-from-multiple-paths-recommended)
 
-- [フォルダーからファイルをインポート](./data-import-json#import-files-from-a-folder)
+- [フォルダーからのファイルのインポート](./data-import-json#import-files-from-a-folder)
 
-- [単一ファイルをインポート](./data-import-json#import-a-single-file)
+- [単一ファイルのインポート](./data-import-json#import-a-single-file)
 
 <Admonition type="info" title="Notes">
 
-ファイルサイズが比較的小さい場合は、フォルダーまたは複数パスの方法を使用して、すべてを一括でインポートすることをお勧めします。この方法では、インポート処理中に内部的な最適化が行われるため、その後のリソース消費を抑えるのに役立ちます。
+ファイルが比較的小さい場合は、フォルダーまたは複数パスの方法を使用してすべてを一度にインポートすることをお勧めします。この方法により、インポートプロセス中に内部的な最適化が可能になり、その後のリソース消費を抑えるのに役立ちます。
 
 </Admonition>
 
-Milvus SDK を使用して Zilliz Cloud コンソール上でデータをインポートすることもできます。詳細については、[データのインポート（コンソール）](./import-data-on-web-ui) および [データのインポート（SDK）](./import-data-via-sdks) を参照してください。
+Milvus SDK を使用して Zilliz Cloud コンソールでデータをインポートすることもできます。詳細については、[Import Data (Console)](./import-data-on-web-ui) および [Import Data (SDK)](./import-data-via-sdks) を参照してください。
 
-### 複数のパスからファイルをインポート（推奨）\{#import-files-from-multiple-paths-recommended}
+### 複数のパスからのファイルのインポート（推奨）\{#import-files-from-multiple-paths-recommended}
 
-複数のパスからファイルをインポートする場合は、各 JSON ファイルのパスを個別のリストに含め、次のコード例のように、それらのリストをすべて上位レベルのリストにまとめます。
+複数のパスからファイルをインポートする場合は、以下のコード例のように、各 JSON ファイルのパスを個別のリストに含め、その後ですべてのリストを上位のリストにまとめます。
 
 ```bash
 curl --request POST \
@@ -113,9 +113,9 @@ curl --request POST \
     }'
 ```
 
-### フォルダーからファイルをインポート\{#import-files-from-a-folder}
+### フォルダーからのファイルのインポート\{#import-files-from-a-folder}
 
-ソースフォルダーにインポート対象のファイルが含まれている場合は、次のようにリクエストにソースフォルダーを含めることができます。
+ソースフォルダーにインポートするファイルが含まれている場合は、以下のようにリクエストにソースフォルダーを含めることができます。
 
 ```bash
 curl --request POST \
@@ -141,9 +141,9 @@ curl --request POST \
 
 </Admonition>
 
-### 単一ファイルをインポート\{#import-a-single-file}
+### 単一ファイルのインポート\{#import-a-single-file}
 
-準備したデータファイルが単一の JSON ファイルである場合は、次のコード例に示すようにインポートします。
+準備したデータファイルが単一の JSON ファイルである場合は、以下のコード例に示すようにインポートします。
 
 ```bash
 curl --request POST \
@@ -167,7 +167,7 @@ curl --request POST \
 
 Zilliz Cloud は、お使いのクラウドストレージからのデータインポートをサポートしています。以下の表に、データファイルに使用できるストレージパスを示します。
 
-| **クラウド** | **クイック例** |
+| **Cloud** | **Quick Examples** |
 | --- | --- |
 | **AWS S3** | s3://*bucket-name*/*json-folder*/<br/>s3://*bucket-name*/*json-folder*/*data.json* |
 | **Google Cloud Storage** | gs://*bucket-name*/*json-folder*/<br/>gs://*bucket-name*/*json-folder*/*data.json* |
@@ -175,11 +175,11 @@ Zilliz Cloud は、お使いのクラウドストレージからのデータイ�
 
 ## 制限事項\{#limits}
 
-ローカルの JSON ファイルまたはクラウドストレージ上の JSON ファイルからデータをインポートする際には、いくつか守るべき制限事項があります。 
+ローカルの JSON ファイルまたはクラウドストレージの JSON ファイルからデータをインポートする際には、守る必要があるいくつかの制限があります。
 
 <Admonition type="info" title="Notes">
 
-有効な JSON ファイルには **rows** というルートキーがあり、その値は辞書のリストです。各辞書は、対象コレクションのスキーマに一致するエンティティを表します。
+有効な JSON ファイルには **rows** という名前のルートキーがあり、その対応する値はディクショナリのリストで、各ディクショナリはターゲットコレクションのスキーマに一致するエンティティを表します。
 
 </Admonition>
 
@@ -187,7 +187,7 @@ Zilliz Cloud は、お使いのクラウドストレージからのデータイ�
    <tr>
      <th><p><strong>インポート方法</strong></p></th>
      <th><p><strong>クラスタープラン</strong></p></th>
-     <th><p><strong>インポートごとの最大ファイル数</strong></p></th>
+     <th><p><strong>1 回のインポートあたりの最大ファイル数</strong></p></th>
      <th><p><strong>最大ファイルサイズ</strong></p></th>
      <th><p><strong>最大合計インポートサイズ</strong></p></th>
    </tr>
@@ -213,4 +213,4 @@ Zilliz Cloud は、お使いのクラウドストレージからのデータイ�
    </tr>
 </table>
 
-[データファイルの準備](https://milvus.io/docs/bulk_insert.md#Prepare-the-data-file) を参照して自分でデータを再構築するか、[BulkWriter ツール](./use-bulkwriter) を使用してソースデータファイルを生成することもできます。[上の図のスキーマに基づいて準備されたサンプルデータをダウンロードするには、ここをクリックしてください](https://assets.zilliz.com/prepared_json_data.json)。
+[Prepare the data file](https://milvus.io/docs/bulk_insert.md#Prepare-the-data-file) を参照してデータを自分で再構築するか、[the BulkWriter tool](./use-bulkwriter) を使用してソースデータファイルを生成できます。[上の図のスキーマに基づいて準備されたサンプルデータをダウンロードするには、ここをクリックしてください](https://assets.zilliz.com/prepared_json_data.json)。

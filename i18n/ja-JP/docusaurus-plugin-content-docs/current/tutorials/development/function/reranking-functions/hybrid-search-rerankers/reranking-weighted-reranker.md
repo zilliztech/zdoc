@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Weighted Ranker は、各検索パスに異なる重要度の重みを割り当てることで、複数の検索パスからの結果をインテリジェントに結合し、優先順位付けします。熟練したシェフが完璧な料理を作るために複数の材料のバランスを取るように、Weighted Ranker は異なる検索結果のバランスを取り、最も関連性の高い統合結果を提供します。このアプローチは、複数の vector field やモダリティをまたいで検索する際に、特定の field が最終ランキングに他よりも大きく寄与すべき場合に最適です。 | Cloud"
+description: "Weighted Ranker intelligently combines and prioritizes results from multiple search paths by assigning different importance weights to each. Similar to how a skilled chef balances multiple ingredients to create the perfect dish, Weighted Ranker balances different search results to deliver the most relevant combined outcomes. This approach is ideal when searching across multiple ベクトル fields or modalities where certain fields should contribute more significantly to the final ranking than others. | Cloud"
 type: origin
 token: Oyy6w5DYJiVCMYkdduEc6eD9nZg
 sidebar_position: 1
@@ -21,11 +21,11 @@ import TabItem from '@theme/TabItem';
 
 # Weighted Ranker
 
-Weighted Ranker は、各検索パスに異なる重要度の重みを割り当てることで、複数の検索パスからの結果をインテリジェントに結合し、優先順位付けします。熟練したシェフが完璧な料理を作るために複数の材料のバランスを取るように、Weighted Ranker は異なる検索結果のバランスを取り、最も関連性の高い統合結果を提供します。このアプローチは、複数の vector field やモダリティをまたいで検索する際に、特定の field が最終ランキングに他よりも大きく寄与すべき場合に最適です。
+Weighted Ranker intelligently combines and prioritizes results from multiple search paths by assigning different importance weights to each. Similar to how a skilled chef balances multiple ingredients to create the perfect dish, Weighted Ranker balances different search results to deliver the most relevant combined outcomes. This approach is ideal when searching across multiple ベクトル fields or modalities where certain fields should contribute more significantly to the final ranking than others.
 
 ## Weighted Ranker を使うべき場合\{#when-to-use-weighted-ranker}
 
-Weighted Ranker は、複数の vector search パスからの結果を組み合わせる必要がある hybrid search シナリオ向けに特化して設計されています。特に、次のような用途で効果的です。
+Weighted Ranker is specifically designed for hybrid search scenarios where you need to combine results from multiple ベクトル search paths. It's particularly effective for:
 
 | ユースケース | 例 | Weighted Ranker がうまく機能する理由 |
 | --- | --- | --- |
@@ -39,11 +39,11 @@ hybrid search アプリケーションで、複数の検索パスを組み合わ
 
 WeightedRanker 戦略の主なワークフローは次のとおりです。
 
-1. **検索スコアの収集**: 各 vector search パスの結果とスコア（score_1、score_2）を収集します。
+1. **Collect Search Scores**: Gather the results and scores from each path of ベクトル search (score_1, score_2).
 
 1. **スコアの正規化**: 各検索では異なる類似度メトリクスを使用する場合があり、その結果としてスコア分布も異なります。たとえば、類似度タイプとして Inner Product (IP) を使用するとスコア範囲は [−∞,+∞] になる可能性があり、Euclidean distance (L2) を使用するとスコア範囲は [0,+∞] になります。異なる検索からのスコア範囲は異なり、直接比較できないため、各検索パスのスコアを正規化する必要があります。通常は `arctan` 関数を適用して、スコアを [0, 1] の範囲（score_1_normalized、score_2_normalized）に変換します。1 に近いスコアほど、類似度が高いことを示します。
 
-1. **重みの割り当て**: 異なる vector field に割り当てられた重要度に基づいて、正規化されたスコア（score_1_normalized、score_2_normalized）に重み（**wi**）を割り当てます。各パスの重みは [0,1] の範囲である必要があります。結果として得られる重み付きスコアは score_1_weighted および score_2_weighted です。
+1. **Assign Weights**: Based on the importance assigned to different ベクトル fields, weights (**wi**) are allocated to the normalized scores (score_1_normalized, score_2_normalized). The weights of each path should range between [0,1]. The resulting weighted scores are score_1_weighted and score_2_weighted.
 
 1. **スコアの統合**: 重み付きスコア（score_1_weighted、score_2_weighted）を高い順に並べて、最終スコアの集合（score_final）を生成します。
 
@@ -103,7 +103,7 @@ WeightedRanker 戦略を使用する場合は、重みの値を入力する必�
 
 たとえば、Hybrid Search に 2 つの基本 ANN search リクエスト（テキスト検索と画像検索）があるとします。テキスト検索の方が重要と見なされる場合は、より大きな重みを割り当てる必要があります。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -140,6 +140,54 @@ CreateCollectionReq.Function rerank = CreateCollectionReq.Function.builder()
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+)
+
+rerank := entity.NewFunction().
+    WithName("weight").
+    WithType(entity.FunctionTypeRerank).
+    WithInputFields().
+    WithParam("reranker", "weighted").
+    WithParam("weights", "[0.1, 0.9]").
+    WithParam("norm_score", "true")
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+use std::collections::HashMap;
+
+let rerank = Function::new()
+    .name("weight")
+    .function_type(FunctionType::Rerank)
+    .input_fields([])
+    .params(HashMap::from([
+        ("reranker".into(), "weighted".into()),
+        ("weights".into(), "[0.1, 0.9]".into()),
+        ("norm_score".into(), "true".into()),
+    ]));
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto rerank = std::make_shared<milvus::Function>("weight", milvus::FunctionType::RERANK);
+rerank->AddParam("reranker", "weighted");
+rerank->AddParam("weights", "[0.1, 0.9]");
+rerank->AddParam("norm_score", "true");
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -159,29 +207,20 @@ const rerank = {
 
 </TabItem>
 
-<TabItem value='go'>
-
-```go
-// Go
-```
-
-</TabItem>
-
 <TabItem value='bash'>
 
 ```bash
 # Restful
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto rerank = std::make_shared<milvus::Function>("weight", milvus::FunctionType::RERANK);
-rerank->AddParam("reranker", "weighted");
-rerank->AddParam("weights", "[0.1, 0.9]");
-rerank->AddParam("norm_score", "true");
+export rerank='{
+  "name": "weight",
+  "inputFieldNames": [],
+  "functionType": "RERANK",
+  "params": {
+    "reranker": "weighted",
+    "weights": "[0.1, 0.9]",
+    "norm_score": "true"
+  }
+}'
 ```
 
 </TabItem>
@@ -190,7 +229,7 @@ rerank->AddParam("norm_score", "true");
 | Parameter | Required? | Description | Value/Example |
 | --- | --- | --- | --- |
 | `name` | Yes | この Function の一意な識別子 | `"weight"` |
-| `input_field_names` | Yes | function を適用する vector field のリスト（Weighted Ranker の場合は空でなければなりません） | [] |
+| `input_field_names` | Yes | List of ベクトル fields to apply the function to (must be empty for Weighted Ranker) | [] |
 | `function_type` | Yes | 呼び出す Function のタイプ。reranking 戦略を指定するには `RERANK` を使用します | `FunctionType.RERANK` |
 | `params.reranker` | Yes | 使用する reranking メソッドを指定します。<br/>Weighted Ranker を使用するには `weighted` に設定する必要があります。 | `"weighted"` |
 | `params.weights` | Yes | 各検索パスに対応する重みの配列。値 ∈ [0,1]。<br/>詳細は [Weighted Ranker の仕組み](./reranking-weighted-reranker#mechanism-of-weighted-ranker) を参照してください。 | `[0.1, 0.9]` |
@@ -198,9 +237,9 @@ rerank->AddParam("norm_score", "true");
 
 ### hybrid search に適用する\{#apply-to-hybrid-search}
 
-Weighted Ranker は、複数の vector field を組み合わせる hybrid search 操作向けに特化して設計されています。hybrid search を実行する際は、各検索パスの重みを指定する必要があります。
+Weighted Ranker is designed specifically for hybrid search operations that combine multiple ベクトル fields. When performing hybrid search, you must specify the weights for each search path:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -259,11 +298,11 @@ MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .token("YOUR_CLUSTER_TOKEN")
         .build());
-        
+
 List<AnnSearchReq> searchRequests = new ArrayList<>();
 searchRequests.add(AnnSearchReq.builder()
         .vectorFieldName("text_vector")
-        .vectors(Collections.singletonList(new EmbeddedText("\"modern dining table\"")))
+        .vectors(Collections.singletonList(new EmbeddedText("modern dining table")))
         .limit(10)
         .build());
 searchRequests.add(AnnSearchReq.builder()
@@ -271,50 +310,14 @@ searchRequests.add(AnnSearchReq.builder()
         .vectors(Collections.singletonList(new FloatVec(imageEmbedding)))
         .limit(10)
         .build());
-        
+
 HybridSearchReq hybridSearchReq = HybridSearchReq.builder()
-                .collectionName(COLLECTION_NAME)
-                .searchRequests(searchRequests)
-                .ranker(ranker)
-                .limit(10)
-                .outputFields(Arrays.asList("product_name", "price", "category"))
-                .build();
+        .collectionName(COLLECTION_NAME)
+        .searchRequests(searchRequests)
+        .ranker(rerank)
+        .limit(10)
+        .build();
 SearchResp searchResp = client.hybridSearch(hybridSearchReq);
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-import { MilvusClient, FunctionType } from "@zilliz/milvus2-sdk-node";
-
-const milvusClient = new MilvusClient({ 
-    address: "YOUR_CLUSTER_ENDPOINT",
-    token: "YOUR_CLUSTER_TOKEN"
-});
-
-const text_search = {
-  data: ["modern dining table"],
-  anns_field: "text_vector",
-  param: {},
-  limit: 10,
-};
-
-const image_search = {
-  data: [image_embedding],
-  anns_field: "image_vector",
-  param: {},
-  limit: 10,
-};
-
-const search = await milvusClient.search({
-  collection_name: collection_name,
-  limit: 10,
-  data: [text_search, image_search],
-  rerank: rerank,
-  output_fields = ["product_name", "price", "category"],
-});
 ```
 
 </TabItem>
@@ -322,15 +325,65 @@ const search = await milvusClient.search({
 <TabItem value='go'>
 
 ```go
-// go
+import (
+    "context"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
+
+// Define two ANN sub-search requests
+textSearch := milvusclient.NewAnnRequest("text_vector", 10, []entity.Vector{textEmbedding}...).WithSearchParam("metric_type", "COSINE")
+imageSearch := milvusclient.NewAnnRequest("image_vector", 10, []entity.Vector{imageEmbedding}...).WithSearchParam("metric_type", "IP")
+
+// Apply Weighted Ranker: text search has 0.8 weight, image search has 0.3 weight
+rerank := milvusclient.NewWeightedReranker([]float64{0.8, 0.3})
+
+hybridResults, err := cli.HybridSearch(ctx, milvusclient.NewHybridSearchOption(collectionName, 10, textSearch, imageSearch).
+    WithReranker(rerank).
+    WithOutputFields("product_name", "price", "category"))
+if err != nil {
+    log.Fatal(err)
+}
 ```
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+use milvus::v2::prelude::*;
+
+// Define two ANN sub-search requests
+let text_search = SubSearchRequest::builder()
+    .vector_field("text_vector")
+    .vectors(SearchVectors::Float(vec![text_embedding]))
+    .metric_type(MetricType::Cosine)
+    .limit(10)
+    .build()?;
+let image_search = SubSearchRequest::builder()
+    .vector_field("image_vector")
+    .vectors(SearchVectors::Float(vec![image_embedding]))
+    .metric_type(MetricType::Ip)
+    .limit(10)
+    .build()?;
+
+// Apply Weighted Ranker: text search has 0.8 weight, image search has 0.3 weight
+let rerank = WeightedRerank::new().weights(vec![0.8, 0.3]);
+
+let response = client
+    .hybrid_search(
+        HybridSearchRequest::builder()
+            .collection_name(collection_name)
+            .sub_requests(vec![text_search, image_search])
+            .rerank(rerank)
+            .limit(10)
+            .output_fields(["product_name", "price", "category"])
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -366,6 +419,72 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const milvusClient = new MilvusClient({ 
+    address: "YOUR_CLUSTER_ENDPOINT",
+    token: "YOUR_CLUSTER_TOKEN"
+});
+
+const text_search = {
+  data: ["modern dining table"],
+  anns_field: "text_vector",
+  params: {},
+};
+
+const image_search = {
+  data: [image_embedding],
+  anns_field: "image_vector",
+  params: {},
+};
+
+const search = await milvusClient.search({
+  collection_name: collection_name,
+  limit: 10,
+  data: [text_search, image_search],
+  rerank: rerank,
+  output_fields: ["product_name", "price", "category"],
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/hybrid_search" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+--data "{
+    \"collectionName\": \"${COLLECTION_NAME}\",
+    \"search\": [
+        {
+            \"annsField\": \"text_vector\",
+            \"data\": [\"modern dining table\"],
+            \"params\": { \"metric_type\": \"COSINE\" },
+            \"limit\": 10
+        },
+        {
+            \"annsField\": \"image_vector\",
+            \"data\": [${IMAGE_EMBEDDING}],
+            \"params\": { \"metric_type\": \"IP\" },
+            \"limit\": 10
+        }
+    ],
+    \"rerank\": ${rerank},
+    \"limit\": 10,
+    \"outputFields\": [\"product_name\", \"price\", \"category\"]
+}"
+```
+
+</TabItem>
 </Tabs>
 
-hybrid search の詳細については、[Multi-Vector Hybrid Search](./hybrid-search) を参照してください。
+For more information on hybrid search, refer to [Multi-ベクトル Hybrid Search](./hybrid-search).
