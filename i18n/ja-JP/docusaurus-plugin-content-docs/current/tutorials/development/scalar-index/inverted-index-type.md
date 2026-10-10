@@ -16,7 +16,8 @@ displayed_sidebar: default
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # INVERTED
 
@@ -24,7 +25,7 @@ import Admonition from '@theme/Admonition';
 
 ## INVERTED インデックスを使用する場面\{#when-to-use-inverted-indexes}
 
-次のような場合は INVERTED インデックスを使用します。
+次のような場合に INVERTED インデックスを使用します。
 
 - **特定の値でフィルタする**: フィールドが特定の値に等しいすべてのレコードを見つける（例: `category == "electronics"`）
 
@@ -38,7 +39,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud の **INVERTED インデックス** は、各一意のフィールド値（term）を、その値が出現するドキュメント ID の集合にマッピングします。この構造により、繰り返し現れる値やカテゴリ値を持つフィールドに対して高速なルックアップが可能になります。
 
-図に示すように、この処理は 2 つのステップで動作します。
+図に示すように、この処理は 2つのステップで動作します。
 
 1. **順方向マッピング（ID → Term）:** 各ドキュメント ID は、それが保持するフィールド値を指します。
 
@@ -125,12 +126,130 @@ client.create_index(
 
 </Admonition>
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 client.drop_index(
     collection_name="my_collection",   # Name of the collection
     index_name="category_index" # Name of the index to drop
 )
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.index.request.DropIndexReq;
+
+MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build());
+
+client.dropIndex(DropIndexReq.builder()
+        .collectionName("my_collection")
+        .indexName("category_index")
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
+err := client.DropIndex(ctx, milvusclient.NewDropIndexOption("my_collection", "category_index"))
+if err != nil {
+    log.Fatal(err)
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN")).await?;
+
+client
+    .drop_index(
+        DropIndexRequest::builder()
+            .collection_name("my_collection")
+            .index_name("category_index")
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->DropIndex(milvus::DropIndexRequest()
+                           .WithCollectionName("my_collection")
+                           .WithIndexName("category_index"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({
+    address: "YOUR_CLUSTER_ENDPOINT",
+    token: "YOUR_CLUSTER_TOKEN"
+});
+
+await client.dropIndex({
+    collection_name: "my_collection",
+    index_name: "category_index"
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/indexes/drop" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "collectionName": "my_collection",
+    "indexName": "category_index"
+}'
+```
+
+</TabItem>
+</Tabs>
 
 ## ベストプラクティス\{#best-practices}
 
@@ -147,4 +266,3 @@ client.drop_index(
 - [AUTOINDEX](./autoindex-explained) について学ぶ
 
 - 高度な JSON インデックス化シナリオについては [JSON Indexing](./json-indexing) を参照する
-

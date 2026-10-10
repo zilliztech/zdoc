@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このトピックでは、Milvus で Cohere 埋め込み関数を設定して使用する方法について説明します。 | Cloud"
+description: "このトピックでは、Milvus で Cohere 埋め込み関数を構成して使用する方法について説明します。 | Cloud"
 type: origin
 token: WVaVw8J7UiYZ52kaqVUcktqAnAf
 sidebar_position: 3
@@ -21,63 +21,63 @@ import TabItem from '@theme/TabItem';
 
 # Cohere
 
-このトピックでは、Milvus で Cohere 埋め込み関数を設定して使用する方法について説明します。
+このトピックでは、Milvus で Cohere 埋め込み関数を構成して使用する方法について説明します。
 
-## Model choices\{#model-choices}
+## モデルの選択肢\{#model-choices}
 
-Milvus は Cohere が提供する埋め込みモデルをサポートしています。以下は、すぐに参照できるよう現在利用可能な埋め込みモデルです。
+Milvus は、Cohere が提供する埋め込みモデルをサポートしています。以下は、すぐに参照できるように現在利用可能な埋め込みモデルの一覧です：
 
-| Model Name | Dimensions | Max Tokens | Description |
+| モデル名 | 次元数 | 最大トークン数 | 説明 |
 | --- | --- | --- | --- |
-| embed-english-v3.0 | 1,024 | 512 | テキストを分類したり埋め込みに変換したりできるモデルです。英語のみ対応です。 |
-| embed-multilingual-v3.0 | 1,024 | 512 | 多言語の分類および埋め込みをサポートします。[サポートされている言語はこちら](https://docs.cohere.com/docs/supported-languages)。 |
-| embed-english-light-v3.0 | 384 | 512 | `embed-english-v3.0` のより小さく高速なバージョンです。機能はほぼ同等ですが、はるかに高速です。英語のみ対応です。 |
-| embed-multilingual-light-v3.0 | 384 | 512 | `embed-multilingual-v3.0` のより小さく高速なバージョンです。機能はほぼ同等ですが、はるかに高速です。複数言語をサポートします。 |
-| embed-english-v2.0 | 4,096 | 512 | テキストを分類したり埋め込みに変換したりできる旧版の埋め込みモデルです。英語のみ対応です。 |
-| embed-english-light-v2.0 | 1,024 | 512 | embed-english-v2.0 のより小さく高速なバージョンです。機能はほぼ同等ですが、はるかに高速です。英語のみ対応です。 |
-| embed-multilingual-v2.0 | 768 | 256 | 多言語の分類および埋め込みをサポートします。[サポートされている言語はこちら](https://docs.cohere.com/docs/supported-languages)。 |
+| embed-english-v3.0 | 1,024 | 512 | テキストを分類したり埋め込みに変換したりできるモデルです。英語のみに対応しています。 |
+| embed-multilingual-v3.0 | 1,024 | 512 | 多言語の分類と埋め込みをサポートします。[サポートされている言語はこちら](https://docs.cohere.com/docs/supported-languages) を参照してください。 |
+| embed-english-light-v3.0 | 384 | 512 | `embed-english-v3.0` のより小さく高速なバージョンです。ほぼ同等の性能ですが、大幅に高速です。英語のみに対応しています。 |
+| embed-multilingual-light-v3.0 | 384 | 512 | `embed-multilingual-v3.0` のより小さく高速なバージョンです。ほぼ同等の性能ですが、大幅に高速です。複数の言語をサポートします。 |
+| embed-english-v2.0 | 4,096 | 512 | テキストを分類したり埋め込みに変換したりできる旧バージョンの埋め込みモデルです。英語のみに対応しています。 |
+| embed-english-light-v2.0 | 1,024 | 512 | embed-english-v2.0 のより小さく高速なバージョンです。ほぼ同等の性能ですが、大幅に高速です。英語のみに対応しています。 |
+| embed-multilingual-v2.0 | 768 | 256 | 多言語の分類と埋め込みをサポートします。[サポートされている言語はこちら](https://docs.cohere.com/docs/supported-languages) を参照してください。 |
 
-詳細については、[Cohere の Embed Models](https://docs.cohere.com/docs/cohere-embed) を参照してください。
+詳細は、[Cohere の埋め込みモデル](https://docs.cohere.com/docs/cohere-embed) を参照してください。
 
-## Before you start\{#before-you-start}
+## 事前準備\{#before-you-start}
 
-テキスト埋め込み関数を使用する前に、次の前提条件を満たしていることを確認してください。
+テキスト埋め込み関数を使用する前に、以下の前提条件を満たしていることを確認してください。
 
 - **埋め込みモデルを選択する**
 
-    使用する埋め込みモデルを決定してください。この選択によって、埋め込みの動作と出力形式が決まります。詳細は [埋め込みモデルを選択する](./cohere#model-choices) を参照してください。
+    使用する埋め込みモデルを決定します。この選択によって埋め込みの動作と出力形式が決まります。詳細は、[埋め込みモデルの選択](./cohere#model-choices) を参照してください。
 
-- **Cohere と統合し、integration ID を取得する**
+- **Cohere と統合して統合 ID を取得する**
 
-    Cohere を使用する前に、その埋め込みモデルを利用するための model provider integration を作成し、integration ID を取得する必要があります。詳細は [Integrate with Model Providers](./integrate-with-model-providers) を参照してください。
+    Cohere が提供する埋め込みモデルを使用する前に、Cohere とのモデルプロバイダー統合を作成し、統合 ID を取得する必要があります。詳細は、[モデルプロバイダーとの統合](./integrate-with-model-providers) を参照してください。
 
-- **互換性のある collection schema を設計する**
+- **互換性のあるコレクションスキーマを設計する**
 
-    collection schema には以下を含めるように計画してください。
+    コレクションスキーマに以下を含めるように計画します：
 
     - 生の入力テキスト用のテキストフィールド（`VARCHAR`）
 
-    - 選択した埋め込みモデルに一致するデータ型と次元を持つ dense vector フィールド
+    - データ型と次元数が選択した埋め込みモデルと一致する高密度ベクトルフィールド
 
-- **挿入時および検索時に生テキストを扱う準備をする**
+- **挿入時と検索時に生テキストを扱う準備をする**
 
     テキスト埋め込み関数を有効にすると、生テキストを直接挿入およびクエリできます。埋め込みはシステムによって自動的に生成されます。
 
-## Step 1: Create a collection with a text embedding function\{#step-1-create-a-collection-with-a-text-embedding-function}
+## ステップ 1: テキスト埋め込み関数を使用してコレクションを作成する\{#step-1-create-a-collection-with-a-text-embedding-function}
 
-### Define schema fields\{#define-schema-fields}
+### スキーマフィールドを定義する\{#define-schema-fields}
 
-埋め込み関数を使用するには、特定の schema を持つ collection を作成します。この schema には、少なくとも次の 3 つの必須フィールドを含める必要があります。
+埋め込み関数を使用するには、特定のスキーマを持つコレクションを作成します。このスキーマには、少なくとも次の 3 つの必須フィールドを含める必要があります：
 
-- collection 内の各 entity を一意に識別する primary field。
+- コレクション内の各エンティティを一意に識別するプライマリフィールド。
 
-- 埋め込む生データを格納する `VARCHAR` フィールド。
+- 埋め込み対象の生データを格納する `VARCHAR` フィールド。
 
-- テキスト埋め込み関数が `VARCHAR` フィールドに対して生成する dense vector 埋め込みを格納するために確保された vector フィールド。
+- テキスト埋め込み関数が `VARCHAR` フィールドに対して生成する高密度ベクトル埋め込みを格納するために予約されたベクトルフィールド。
 
-次の例では、テキストデータを格納する 1 つの scalar field `"document"` と、Function モジュールによって生成される埋め込みを格納する 1 つの vector field `"dense"` を持つ schema を定義しています。vector dimension (`dim`) は、選択した埋め込みモデルの出力に一致するように設定してください。
+次の例では、テキストデータを格納する 1 つのスカラーフィールド `"document"` と、Function モジュールによって生成される埋め込みを格納する 1 つのベクトルフィールド `"dense"` を持つスキーマを定義します。選択した埋め込みモデルの出力に合わせてベクトルの次元（`dim`）を設定することを忘れないでください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -138,7 +138,7 @@ schema.addField(AddFieldReq.builder()
         .dataType(DataType.VarChar)
         .maxLength(9000)
         .build());
-        
+
 schema.addField(AddFieldReq.builder()
         .fieldName("dense")
         .dataType(DataType.FloatVector)
@@ -148,26 +148,26 @@ schema.addField(AddFieldReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// nodejs
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
-// go
+schema := entity.NewSchema().
+    WithField(entity.NewField().WithName("id").WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true).WithIsAutoID(false)).
+    WithField(entity.NewField().WithName("document").WithDataType(entity.FieldTypeVarChar).WithMaxLength(9000)).
+    WithField(entity.NewField().WithName("dense").WithDataType(entity.FieldTypeFloatVector).WithDim(1024))
 ```
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+use milvus::v2::prelude::*;
+
+let schema = CollectionSchema::new()
+    .add_field(FieldSchema::new().name("id").data_type(DataType::Int64).primary_key(true).auto_id(false))
+    .add_field(FieldSchema::new().name("document").data_type(DataType::VarChar).max_length(9000))
+    .add_field(FieldSchema::new().name("dense").data_type(DataType::FloatVector).dimension(1024));
 ```
 
 </TabItem>
@@ -192,17 +192,53 @@ schema->AddField(milvus::FieldSchema("dense", milvus::DataType::FLOAT_VECTOR).Wi
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient, DataType } from '@zilliz/milvus2-sdk-node';
+
+const client = new MilvusClient({
+  address: 'YOUR_CLUSTER_ENDPOINT',
+});
+
+// Define the collection schema
+const schema = {
+  fields: [
+    { name: 'id', data_type: DataType.Int64, is_primary_key: true, autoID: false },
+    { name: 'document', data_type: DataType.VarChar, max_length: 9000 },
+    { name: 'dense', data_type: DataType.FloatVector, dim: 1024 },
+  ],
+};
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# Define the collection schema
+SCHEMA='{
+  "fields": [
+    { "fieldName": "id", "dataType": "Int64", "isPrimary": true },
+    { "fieldName": "document", "dataType": "VarChar", "elementTypeParams": { "max_length": "9000" } },
+    { "fieldName": "dense", "dataType": "FloatVector", "elementTypeParams": { "dim": "1024" } }
+  ]
+}' 
+```
+
+</TabItem>
 </Tabs>
 
-### Define the text embedding function\{#define-the-text-embedding-function}
+### テキスト埋め込み関数を定義する\{#define-the-text-embedding-function}
 
-Milvus の Function モジュールは、scalar field に格納された生データを自動的に埋め込みへ変換し、明示的に定義された vector field に保存します。
+Milvus の Function モジュールは、スカラーフィールドに格納された生データを自動的に埋め込みに変換し、明示的に定義されたベクトルフィールドに格納します。
 
-以下の例では、scalar field `"document"` を埋め込みに変換し、その結果の vector を先ほど定義した `"dense"` vector field に格納する Function モジュール（`cohere_func`）を追加しています。
+次の例では、スカラーフィールド `"document"` を埋め込みに変換し、生成されたベクトルを先に定義した `"dense"` ベクトルフィールドに格納する Function モジュール（`cohere_func`）を追加します。
 
-埋め込み関数を定義したら、それを collection schema に追加します。これにより、Milvus は指定した埋め込み関数を使用して、テキストデータから埋め込みを処理および保存するようになります。
+埋め込み関数を定義したら、それをコレクションスキーマに追加します。これにより、Milvus は指定された埋め込み関数を使用して、テキストデータから埋め込みを処理して格納するようになります。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -230,7 +266,9 @@ schema.add_function(text_embedding_function)
 <TabItem value='java'>
 
 ```java
+import io.milvus.common.clientenum.FunctionType;
 import io.milvus.v2.service.collection.request.CreateCollectionReq.Function;
+import java.util.Collections;
 
 Function function = Function.builder()
         .functionType(FunctionType.TEXTEMBEDDING)
@@ -246,26 +284,41 @@ schema.addFunction(function);
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// nodejs
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
-// go
+function := entity.NewFunction().
+    WithName("cohere_func").
+    WithType(entity.FunctionTypeTextEmbedding).
+    WithInputFields("document").
+    WithOutputFields("dense").
+    WithParam("provider", "cohere").
+    WithParam("model_name", "embed-english-v3.0")
+function = function.WithParam("integration_id", "YOUR_INTEGRATION_ID")
+
+schema.WithFunction(function)
 ```
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+use milvus::v2::prelude::*;
+use std::collections::HashMap;
+
+let function = Function::new()
+    .name("cohere_func")
+    .function_type(FunctionType::TextEmbedding)
+    .input_fields(["document"])
+    .output_fields(["dense"])
+    .params(HashMap::from([
+        ("provider".into(), "cohere".into()),
+        ("model_name".into(), "embed-english-v3.0".into()),
+        ("integration_id".into(), "YOUR_INTEGRATION_ID".into()),
+    ]));
+
+schema.add_function(function);
 ```
 
 </TabItem>
@@ -279,17 +332,54 @@ function->AddOutputFieldName("dense");
 function->AddParam("provider", "cohere");
 function->AddParam("model_name", "embed-english-v3.0");
 function->AddParam("integration_id", "YOUR_INTEGRATION_ID");
-collection_schema->AddFunction(function);
+schema->AddFunction(function);
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const cohereFunc = {
+  name: 'cohere_func',
+  type: 'TextEmbedding',
+  input_field_names: ['document'],
+  output_field_names: ['dense'],
+  params: {
+    provider: 'cohere',
+    model_name: 'embed-english-v3.0',
+    integration_id: 'YOUR_INTEGRATION_ID',
+  },
+};
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# Define the text embedding function
+FUNCTION='{
+  "name": "cohere_func",
+  "type": "TextEmbedding",
+  "inputFieldNames": ["document"],
+  "outputFieldNames": ["dense"],
+  "params": {
+    "provider": "cohere",
+    "model_name": "embed-english-v3.0"
+    ,"integration_id": "YOUR_INTEGRATION_ID"
+  }
+}' 
 ```
 
 </TabItem>
 </Tabs>
 
-### Configure the index\{#configure-the-index}
+### インデックスを構成する\{#configure-the-index}
 
-必要なフィールドと組み込み関数を含む schema を定義した後、collection の index を設定します。このプロセスを簡素化するには、`index_type` として `AUTOINDEX` を使用します。これは、データ構造に基づいて Zilliz Cloud が最適な index type を選択し、設定するオプションです。
+必要なフィールドと組み込み関数を含むスキーマを定義したら、コレクションのインデックスを設定します。このプロセスを簡素化するには、`index_type` として `AUTOINDEX` を使用します。これは、データの構造に基づいて Zilliz Cloud が最適なインデックスタイプを選択して構成できるようにするオプションです。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -310,6 +400,8 @@ index_params.add_index(
 
 ```java
 import io.milvus.v2.common.IndexParam;
+import java.util.ArrayList;
+import java.util.List;
 
 List<IndexParam> indexes = new ArrayList<>();
 indexes.add(IndexParam.builder()
@@ -321,26 +413,23 @@ indexes.add(IndexParam.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// nodejs
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
-// go
+indexOption := milvusclient.NewCreateIndexOption("demo", "dense", index.NewAutoIndex(entity.COSINE))
 ```
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+let index_params = vec![
+    IndexParam::new()
+        .field_name("dense")
+        .index_type(IndexType::AutoIndex)
+        .metric_type(MetricType::Cosine),
+];
 ```
 
 </TabItem>
@@ -350,17 +439,44 @@ indexes.add(IndexParam.builder()
 ```c++
 std::vector<milvus::IndexDesc> indexes = {
     milvus::IndexDesc("dense", "", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE)
-}
+};
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// Prepare index parameters
+const indexParams = {
+  field_name: 'dense',
+  index_type: 'AUTOINDEX',
+  metric_type: 'COSINE',
+};
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# Define the index parameters
+indexParams='{
+  "fieldName": "dense",
+  "indexName": "dense_index",
+  "indexType": "AUTOINDEX",
+  "metricType": "COSINE"
+}' 
 ```
 
 </TabItem>
 </Tabs>
 
-### Create the collection\{#create-the-collection}
+### コレクションを作成する\{#create-the-collection}
 
-それでは、定義した schema と index parameter を使用して collection を作成します。
+次に、定義したスキーマとインデックスパラメーターを使用してコレクションを作成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -389,26 +505,29 @@ client.createCollection(requestCreate);
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// nodejs
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
-// go
+err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("demo", schema).WithIndexOptions(indexOption))
+if err != nil {
+    log.Fatal(err)
+}
 ```
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+client
+    .create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name("demo")
+            .schema(schema)
+            .index_params(index_params)
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -416,23 +535,82 @@ client.createCollection(requestCreate);
 <TabItem value='c++'>
 
 ```c++
-auto status = client->CreateCollection(milvus::CreateCollectionRequest()
-                                    .WithCollectionName("demo")
-                                    .WithIndexes(std::move(indexes))
-                                    .WithCollectionSchema(schema));
+status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                .WithCollectionName("demo")
+                                .WithIndexes(std::move(indexes))
+                                .WithCollectionSchema(schema));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.createCollection({
+  collection_name: 'demo',
+  fields: schema.fields,
+  functions: [openaiFunc],
+});
+
+// Create the index on the dense vector field
+await client.createIndex({
+  collection_name: 'demo',
+  ...indexParams,
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+  --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/create" \
+  --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "collectionName": "demo",
+    "schema": {
+      "fields": [
+        { "fieldName": "id", "dataType": "Int64", "isPrimary": true },
+        { "fieldName": "document", "dataType": "VarChar", "elementTypeParams": { "max_length": "9000" } },
+        { "fieldName": "dense", "dataType": "FloatVector", "elementTypeParams": { "dim": "1536" } }
+      ],
+      "functions": [
+        {
+          "name": "openai_embedding",
+          "type": "TextEmbedding",
+          "inputFieldNames": ["document"],
+          "outputFieldNames": ["dense"],
+          "params": {
+            "provider": "openai",
+            "model_name": "text-embedding-3-small"
+          }
+        }
+      ]
+    },
+    "indexParams": [
+      {
+        "fieldName": "dense",
+        "indexName": "dense_index",
+        "indexType": "AUTOINDEX",
+        "metricType": "COSINE"
+      }
+    ]
+  }' 
+```
+
+</TabItem>
 </Tabs>
 
-## Step 2: Insert data\{#step-2-insert-data}
+## ステップ 2: データを挿入する\{#step-2-insert-data}
 
-collection と index の設定が完了したら、生データを挿入する準備が整いました。このプロセスでは、生テキストを提供するだけで済みます。先ほど定義した Function モジュールが、各テキストエントリに対応する sparse vector を自動的に生成します。
+コレクションとインデックスを設定したら、生データを挿入する準備が整います。このプロセスでは、生テキストを提供するだけで済みます。先ほど定義した Function モジュールが、各テキストエントリに対応するスパースベクトルを自動的に生成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -452,12 +630,14 @@ client.insert('demo', [
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import io.milvus.v2.service.vector.request.InsertReq;
+import java.util.Arrays;
+import java.util.List;
 
 Gson gson = new Gson();
 List<JsonObject> rows = Arrays.asList(
         gson.fromJson("{\"id\": 0, \"document\": \"Milvus simplifies semantic search through embeddings.\"}", JsonObject.class),
         gson.fromJson("{\"id\": 1, \"document\": \"Vector embeddings convert text into searchable numeric data.\"}", JsonObject.class),
-        gson.fromJson("{\"id\": 2, \"document\": \"Semantic search helps users find relevant information quickly.\"}", JsonObject.class),
+        gson.fromJson("{\"id\": 2, \"document\": \"Semantic search helps users find relevant information quickly.\"}", JsonObject.class)
 );
 
 client.insert(InsertReq.builder()
@@ -468,26 +648,40 @@ client.insert(InsertReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// nodejs
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
-// go
+_, err = client.Insert(ctx, milvusclient.NewRowBasedInsertOption("demo",
+    map[string]any{"id": int64(1), "document": "Milvus simplifies semantic search through embeddings."},
+    map[string]any{"id": int64(2), "document": "Vector embeddings convert text into searchable numeric data."},
+    map[string]any{"id": int64(3), "document": "Semantic search helps users find relevant information quickly."},
+))
+if err != nil {
+    log.Fatal(err)
+}
 ```
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+use serde_json::json;
+
+let rows = vec![
+    json!({"id": 1, "document": "Milvus simplifies semantic search through embeddings."}),
+    json!({"id": 2, "document": "Vector embeddings convert text into searchable numeric data."}),
+    json!({"id": 3, "document": "Semantic search helps users find relevant information quickly."}),
+];
+
+client
+    .insert(
+        InsertRequest::builder()
+            .collection_name("demo")
+            .rows(rows)
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -501,24 +695,58 @@ milvus::EntityRows data = {
     {{"id", 3}, {"document", "Semantic search helps users find relevant information quickly."}}
 };
 
-milvus::InsertResponse response;
-auto status = client->Insert(milvus::InsertRequest()
-                                .WithCollectionName("demo")
-                                .WithRowsData(std::move(data))
-                                , response);
+milvus::InsertResponse insert_response;
+status = client->Insert(milvus::InsertRequest()
+                            .WithCollectionName("demo")
+                            .WithRowsData(std::move(data)),
+                        insert_response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.insert({
+  collection_name: 'demo',
+  fields_data: [
+    { id: 1, document: 'Milvus simplifies semantic search through embeddings.' },
+    { id: 2, document: 'Vector embeddings convert text into searchable numeric data.' },
+    { id: 3, document: 'Semantic search helps users find relevant information quickly.' },
+  ],
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+  --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/insert" \
+  --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "collectionName": "demo",
+    "data": [
+      { "id": 1, "document": "Milvus simplifies semantic search through embeddings." },
+      { "id": 2, "document": "Vector embeddings convert text into searchable numeric data." },
+      { "id": 3, "document": "Semantic search helps users find relevant information quickly." }
+    ]
+  }' 
+```
+
+</TabItem>
 </Tabs>
 
-## Step 3: Search with text\{#step-3-search-with-text}
+## ステップ 3: テキストで検索する\{#step-3-search-with-text}
 
-データ挿入後、生のクエリテキストを使用してセマンティック検索を実行します。Milvus はクエリを自動的に埋め込み vector に変換し、類似度に基づいて関連ドキュメントを取得し、最も一致する上位の結果を返します。
+データを挿入したら、生のクエリテキストを使用してセマンティック検索を実行します。Milvus はクエリを自動的に埋め込みベクトルに変換し、類似度に基づいて関連するドキュメントを取得して、最も一致する結果を返します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -542,6 +770,8 @@ print(results)
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Collections;
+import java.util.List;
 
 SearchResp searchResp = client.search(SearchReq.builder()
         .collectionName("demo")
@@ -559,26 +789,40 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// nodejs
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
-// go
+searchResults, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "demo",
+    1,
+    []entity.Vector{entity.Text("How does Milvus handle semantic search?")},
+).
+    WithANNSField("dense").
+    WithOutputFields("document"))
+if err != nil {
+    log.Fatal(err)
+}
+for _, rs := range searchResults {
+    fmt.Println(rs.Fields)
+}
 ```
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+let response = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("demo")
+            .vector_field("dense")
+            .vectors(SearchVectors::EmbeddedText(vec!["How does Milvus handle semantic search?".into()]))
+            .limit(1)
+            .output_fields(["document"])
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -587,17 +831,50 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 
 ```c++
 auto request = milvus::SearchRequest()
-                   .WithCollectionName("demo")
-                   .AddEmbeddedText("How does Milvus handle semantic search?")
-                   .WithLimit(1)
-                   .WithAnnsField("dense")
-                   .AddOutputField("document");
+               .WithCollectionName("demo")
+               .AddEmbeddedText("How does Milvus handle semantic search?")
+               .WithLimit(1)
+               .WithAnnsField("dense")
+               .AddOutputField("document");
 
-milvus::SearchResponse response;
-auto status = client->Search(request, response);
+milvus::SearchResponse search_response;
+status = client->Search(request, search_response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const results = await client.search({
+  collection_name: 'demo',
+  data: ['How does Milvus handle semantic search?'],
+  anns_field: 'dense',
+  limit: 1,
+  output_fields: ['document'],
+});
+console.log(results);
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+  --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
+  --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "collectionName": "demo",
+    "data": ["How does Milvus handle semantic search?"],
+    "annsField": "dense",
+    "limit": 1,
+    "outputFields": ["document"]
+  }' 
 ```
 
 </TabItem>

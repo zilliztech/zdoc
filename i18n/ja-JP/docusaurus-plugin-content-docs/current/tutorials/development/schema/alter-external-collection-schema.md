@@ -1,13 +1,13 @@
 ---
-title: "External Collection スキーマの変更 | Cloud"
+title: "Alter External コレクション スキーマ | Cloud"
 slug: /alter-external-collection-schema
-sidebar_label: "スキーマの変更（External Collection）"
+sidebar_label: "Alter スキーマ (External コレクション)"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "External data source は、external collection を作成した後に変更されることがよくあります。たとえば、すでに embedding を保存している lakehouse テーブルに、後から score、category、timestamp などの新しい scalar field が追加され、クエリ結果で返したりフィルターで使用したりしたい場合があります。 | Cloud"
+description: "External data sources often evolve after you create an external コレクション. For example, a lakehouse table that already stores embeddings might later include a new スカラー field, such as a score, category, or timestamp, that you want to return in query results or use in filters. | Cloud"
 type: origin
 token: A9lowWdneiCQbZkgwrocKkT2nxW
 sidebar_position: 19
@@ -16,33 +16,37 @@ displayed_sidebar: default
 ---
 
 import Admonition from '@theme/Admonition';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
+# Alter External コレクション スキーマ
 
-# External Collection スキーマの変更
+External data sources often evolve after you create an external コレクション. For example, a lakehouse table that already stores embeddings might later include a new スカラー field, such as a score, category, or timestamp, that you want to return in query results or use in filters.
 
-external collection を作成した後、External data source は変更されることがよくあります。たとえば、すでに embedding を保存している lakehouse テーブルに、後から score、category、timestamp などの新しい scalar field が追加され、クエリ結果で返したりフィルターで使用したりしたい場合があります。
-
-external collection を再作成したり、ソースデータを Zilliz Cloud にコピーしたりする代わりに、既存の External data source 内の field にマッピングする Zilliz Cloud field を追加します。field を追加した後、external collection を refresh すると、新しい field をクエリや検索で使用できるようになります。
+Instead of recreating the external コレクション or copying the source data into Zilliz Cloud, add a Zilliz Cloud field that maps to the existing field in the external data source. After adding the field, refresh the external コレクション so the new field can be used in queries and searches.
 
 ## Limits\{#limits}
 
-- 現在、external collection では作成後に field を追加することのみサポートされています。field の削除、field 名の変更、field のデータ型の変更、vector dimension の変更、`external_field` の再マッピングなど、その他のスキーマ変更はサポートされていません。
+- External コレクション currently support adding fields after creation. Other スキーマ changes, such as dropping fields, renaming fields, changing field data types, changing ベクトル dimensions, or remapping `external_field`, are not supported.
 
 - 追加できるのは、External data source にすでに存在する field のみです。この操作は、既存の external field を Zilliz Cloud field にマッピングします。External data source に新しい field を作成したり、ソースデータを backfill したりするものではありません。
 
-- 既存の external collection に `SPARSE_FLOAT_VECTOR` field を追加することはサポートされていません。
+- Adding `SPARSE_FLOAT_VECTOR` fields to an existing external コレクション is not supported.
 
-- 既存の external collection に StructArray field を追加することはサポートされていません。external collection で StructArray field が必要な場合は、collection の作成時に collection schema で定義してください。
+- Adding StructArray fields to an existing external コレクション is not supported. If your external コレクション needs a StructArray field, define it in the コレクション スキーマ when you create the コレクション.
 
 ## field の追加\{#add-a-field}
 
-external collection に field を追加する前に、その field が External data source にすでに存在していることを確認してください。次に、`add_collection_field()` を呼び出し、`external_field` を External data source 内の field 名に設定して、その field を Zilliz Cloud で公開します。`data_type` には、External data source 内の field に一致する Zilliz Cloud のデータ型を設定します。たとえば、マッピング先の field が倍精度の値を保存している場合は、`DataType.DOUBLE` を使用します。
+Before adding a field to an external コレクション, verify that the field already exists in the external data source. Then call `add_collection_field()` to expose that field in Zilliz Cloud by setting `external_field` to the field name in the external data source. Set `data_type` to the Zilliz Cloud data type that matches the field in the external data source. For example, if the mapped field stores double-precision values, use `DataType.DOUBLE`.
 
-managed collection とは異なり、追加した field の値は、external collection を refresh した後に External data source から読み取られます。
+Unlike managed コレクション, values for the added field are read from the external data source after you refresh the external コレクション.
 
-### scalar field の追加\{#add-a-scalar-field}
+### Add a スカラー field\{#add-a-scalar-field}
 
-クエリ結果で field を返したり、フィルターで使用したりしたい場合は、`add_collection_field()` を使用して scalar field を追加します。次の例では、External data source 内の `score` field にマッピングされる `score` field を追加します。
+Use `add_collection_field()` to add a スカラー field when you want to return the field in query results or use it in filters. The following example adds a `score` field that maps to the `score` field in the external data source.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 from pymilvus import DataType, MilvusClient
@@ -62,13 +66,114 @@ client.add_collection_field(
 )
 ```
 
-この例では、`score` が Zilliz Cloud field 名であり、`external_field="score"` によって External data source 内の `score` field にマッピングされます。collection はすでに作成済みのため、`nullable=True` を設定します。
+</TabItem>
 
-### vector field の追加\{#add-a-vector-field}
+<TabItem value='java'>
 
-External data source にすでに vector 値が含まれている場合は、vector field を追加することもできます。vector の `data_type` と `dim` は、External data source 内の vector field に一致するように設定してください。
+```java
+// Note: milvus-sdk-java does not support adding a field to an
+// external collection as of v3.0.10 (addCollectionField() routes through
+// AlterCollectionSchema, which rejects external collections).
+```
 
-次の例では、`image_embedding_v2` という名前の dense vector field を追加します。
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// Note: The Go SDK does not support adding a field to an external
+// collection as of client/v3.0.0 (AddCollectionField() routes through
+// AlterCollectionSchema, which rejects external collections).
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2 as sdk;
+use milvus::v2::error::Result;
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let client = ClientV2::new(
+        &ConnectConfig::new()
+            .uri("YOUR_CLUSTER_ENDPOINT")
+            .token("YOUR_CLUSTER_TOKEN"),
+    ).await?;
+
+    client.add_collection_field(
+        sdk::request::collection::AddCollectionFieldRequest::builder()
+            .collection_name("product_embeddings")
+            .field(
+                sdk::FieldSchema::new()
+                    .name("score")
+                    .data_type(sdk::DataType::Double)
+                    .nullable(true)
+                    .external_field("score"),
+            )
+            .build()?,
+    ).await?;
+    Ok(())
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// Note: milvus-sdk-cpp does not support adding a field to an external
+// collection as of v3.0.3 (AddCollectionField() routes through
+// AlterCollectionSchema, which rejects external collections).
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node");
+
+const address = "YOUR_CLUSTER_ENDPOINT";
+const token = "YOUR_CLUSTER_TOKEN";
+const client = new MilvusClient({address, token});
+
+await client.addCollectionField({
+   collection_name: 'product_embeddings',
+   field: {
+     name: 'score',
+     data_type: DataType.Double,
+     nullable: true,
+     external_field: 'score',
+   },
+ });
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# Note: The RESTful API does not support adding a field to an external
+# collection (POST /v2/vectordb/collections/fields/add routes through
+# AlterCollectionSchema, which rejects external collections).
+```
+
+</TabItem>
+</Tabs>
+
+In this example, `score` is the Zilliz Cloud field name and `external_field="score"` maps it to the `score` field in the external data source. Set `nullable=True` because the field is added after the コレクション has already been created.
+
+### Add a ベクトル field\{#add-a-vector-field}
+
+You can also add a ベクトル field if the external data source already contains the ベクトル values. Set the ベクトル `data_type` and `dim` to match the ベクトル field in the external data source.
+
+The following example adds a dense ベクトル field named `image_embedding_v2`.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 from pymilvus import DataType, MilvusClient
@@ -89,7 +194,110 @@ client.add_collection_field(
 )
 ```
 
-追加した vector field に対して vector search を実行する予定がある場合は、external collection を refresh する前に、その field の index を作成してください。
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// Note: milvus-sdk-java does not support adding a field to an
+// external collection as of v3.0.10 (addCollectionField() routes through
+// AlterCollectionSchema, which rejects external collections).
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// Note: The Go SDK does not support adding a field to an external
+// collection as of client/v3.0.0 (AddCollectionField() routes through
+// AlterCollectionSchema, which rejects external collections).
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2 as sdk;
+use milvus::v2::error::Result;
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let client = ClientV2::new(
+        &ConnectConfig::new()
+            .uri("YOUR_CLUSTER_ENDPOINT")
+            .token("YOUR_CLUSTER_TOKEN"),
+    ).await?;
+
+    client.add_collection_field(
+        sdk::request::collection::AddCollectionFieldRequest::builder()
+            .collection_name("product_embeddings")
+            .field(
+                sdk::FieldSchema::new()
+                    .name("image_embedding_v2")
+                    .data_type(sdk::DataType::FloatVector)
+                    .dimension(768)
+                    .nullable(true)
+                    .external_field("image_embedding_v2"),
+            )
+            .build()?,
+    ).await?;
+    Ok(())
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// Note: milvus-sdk-cpp does not support adding a field to an external
+// collection as of v3.0.3 (AddCollectionField() routes through
+// AlterCollectionSchema, which rejects external collections).
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node");
+
+const address = "YOUR_CLUSTER_ENDPOINT";
+const token = "YOUR_CLUSTER_TOKEN";
+const client = new MilvusClient({address, token});
+
+await client.addCollectionField({
+   collection_name: 'product_embeddings',
+   field: {
+     name: 'image_embedding_v2',
+     data_type: DataType.FloatVector,
+     dim: 768,
+     nullable: true,
+     external_field: 'image_embedding_v2',
+   },
+ });
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# Note: The RESTful API does not support adding a field to an external
+# collection (POST /v2/vectordb/collections/fields/add routes through
+# AlterCollectionSchema, which rejects external collections).
+```
+
+</TabItem>
+</Tabs>
+
+If you plan to run ベクトル search on the added ベクトル field, create an インデックス for the field before refreshing the external コレクション.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 index_params = client.prepare_index_params()
@@ -106,12 +314,316 @@ client.create_index(
 )
 ```
 
-## external collection の refresh\{#refresh-the-external-collection}
+</TabItem>
 
-external collection schema を変更した後は、external collection を refresh して、Zilliz Cloud が external collection metadata を更新し、クエリ、検索、フィルター結果にスキーマ変更を反映できるようにします。
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.index.request.CreateIndexReq;
+import java.util.Collections;
+
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+IndexParam indexParam = IndexParam.builder()
+        .fieldName("image_embedding_v2")
+        .indexType(IndexParam.IndexType.AUTOINDEX)
+        .metricType(IndexParam.MetricType.COSINE)
+        .build();
+client.createIndex(CreateIndexReq.builder()
+        .collectionName("product_embeddings")
+        .indexParams(Collections.singletonList(indexParam))
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
+
+_, err = client.CreateIndex(ctx, milvusclient.NewCreateIndexOption(
+    "product_embeddings", "image_embedding_v2",
+    index.NewAutoIndex(index.MetricType(entity.COSINE))))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2 as sdk;
+use milvus::v2::error::Result;
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let client = ClientV2::new(
+        &ConnectConfig::new()
+            .uri("YOUR_CLUSTER_ENDPOINT")
+            .token("YOUR_CLUSTER_TOKEN"),
+    ).await?;
+
+    client.create_index(
+        sdk::request::index::CreateIndexRequest::builder()
+            .collection_name("product_embeddings")
+            .index_param(
+                sdk::IndexParam::new()
+                    .field_name("image_embedding_v2")
+                    .index_type(sdk::IndexType::AutoIndex)
+                    .metric_type(sdk::MetricType::Cosine),
+            )
+            .build()?,
+    ).await?;
+    Ok(())
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::IndexDesc index_desc("image_embedding_v2", "", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE);
+status = client->CreateIndex(milvus::CreateIndexRequest()
+                                 .WithCollectionName("product_embeddings")
+                                 .AddIndex(std::move(index_desc)));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const { MilvusClient } = require("@zilliz/milvus2-sdk-node");
+
+const address = "YOUR_CLUSTER_ENDPOINT";
+const token = "YOUR_CLUSTER_TOKEN";
+const client = new MilvusClient({address, token});
+
+await client.createIndex({
+   collection_name: 'product_embeddings',
+   field_name: 'image_embedding_v2',
+   index_type: 'AUTOINDEX',
+   metric_type: 'COSINE',
+ });
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/indexes/create" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "collectionName": "product_embeddings",
+    "indexParams": [
+        {
+            "fieldName": "image_embedding_v2",
+            "indexType": "AUTOINDEX",
+            "metricType": "COSINE"
+        }
+    ]
+}' 
+```
+
+</TabItem>
+</Tabs>
+
+## Refresh the external コレクション\{#refresh-the-external-collection}
+
+After altering an external コレクション スキーマ, refresh the external コレクション so Zilliz Cloud updates the external コレクション metadata and makes the スキーマ change effective in query, search, and filter results.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 client.refresh_external_collection(
     collection_name="product_embeddings"
 )
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.utility.request.RefreshExternalCollectionReq;
+import io.milvus.v2.service.utility.response.RefreshExternalCollectionResp;
+
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+RefreshExternalCollectionResp resp = client.refreshExternalCollection(
+        RefreshExternalCollectionReq.builder()
+                .collectionName("product_embeddings")
+                .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
+
+res, err := client.RefreshExternalCollection(ctx, milvusclient.NewRefreshExternalCollectionOption("product_embeddings"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2 as sdk;
+use milvus::v2::error::Result;
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let client = ClientV2::new(
+        &ConnectConfig::new()
+            .uri("YOUR_CLUSTER_ENDPOINT")
+            .token("YOUR_CLUSTER_TOKEN"),
+    ).await?;
+
+    let response = client.refresh_external_collection(
+        sdk::request::utility::RefreshExternalCollectionRequest::builder()
+            .collection_name("product_embeddings")
+            .build()?,
+    ).await?;
+    println!("job_id: {}", response.job_id());
+    Ok(())
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::RefreshExternalCollectionRequest request;
+request.WithCollectionName("product_embeddings");
+milvus::RefreshExternalCollectionResponse response;
+status = client->RefreshExternalCollection(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const { MilvusClient } = require("@zilliz/milvus2-sdk-node");
+
+const address = "YOUR_CLUSTER_ENDPOINT";
+const token = "YOUR_CLUSTER_TOKEN";
+const client = new MilvusClient({address, token});
+
+await client.refreshExternalCollection({
+   collection_name: 'product_embeddings',
+ });
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/jobs/external_collection/refresh" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "collectionName": "product_embeddings"
+}' 
+```
+
+</TabItem>
+</Tabs>

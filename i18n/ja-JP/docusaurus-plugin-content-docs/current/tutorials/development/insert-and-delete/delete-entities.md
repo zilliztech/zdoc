@@ -27,7 +27,7 @@ import TabItem from '@theme/TabItem';
 
 複数のエンティティがいくつかの属性を共有しており、それらを一括で削除する場合は、フィルタ式を使用できます。以下のコード例では、**in** 演算子を使用して、**color** フィールドが **red** と **purple** の値に設定されているすべてのエンティティを一括削除しています。要件に応じたフィルタ式を構築するために、他の演算子を使用することもできます。フィルタ式の詳細については、[Filtering Explained](./filtering-overview) を参照してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -60,7 +60,7 @@ import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.DeleteReq;
 import io.milvus.v2.service.vector.response.DeleteResp;
 
-ilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
+MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .token("YOUR_CLUSTER_TOKEN")
         .build());
@@ -73,32 +73,6 @@ DeleteResp deleteResp = client.delete(DeleteReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
-
-const address = "YOUR_CLUSTER_ENDPOINT";
-const token = "YOUR_CLUSTER_TOKEN";
-const client = new MilvusClient({address, token});
-
-// 7. Delete entities
-res = await client.delete({
-    collection_name: "quick_setup",
-    // highlight-next-line
-    filter: "color in ['red_7025', 'purple_4976]"
-})
-
-console.log(res.delete_cnt)
-
-// Output
-// 
-// 3
-// 
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -106,9 +80,7 @@ import (
     "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/column"
-    "github.com/milvus-io/milvus/client/v2/entity"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -133,21 +105,25 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
-export TOKEN="YOUR_CLUSTER_TOKEN"
+```rust
+use milvus::v2::prelude::*;
 
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/delete" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
---header "Request-Timeout: 10" \
--d '{
-    "collectionName": "quick_setup",
-    "filter": "color in [\"red_7025\", \"purple_4976\"]"
-}'
+#[tokio::main]
+async fn main() -> Result<()> {
+    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+    let client = ClientV2::new(&config).await?;
+
+    let request = DeleteRequest::builder()
+        .collection_name("quick_setup")
+        .filter("color in ['red_7025', 'purple_4976']")
+        .build()?;
+    let response = client.delete(request).await?;
+    println!("{:?}", response.delete_count());
+
+    Ok(())
+}
 ```
 
 </TabItem>
@@ -176,13 +152,58 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
+
+const address = "YOUR_CLUSTER_ENDPOINT";
+const token = "YOUR_CLUSTER_TOKEN";
+const client = new MilvusClient({address, token});
+
+// 7. Delete entities
+res = await client.delete({
+    collection_name: "quick_setup",
+    // highlight-next-line
+    filter: "color in ['red_7025', 'purple_4976']"
+})
+
+console.log(res.delete_cnt)
+
+// Output
+// 
+// 3
+// 
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/delete" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d '{
+    "collectionName": "quick_setup",
+    "filter": "color in [\"red_7025\", \"purple_4976\"]"
+}'
+```
+
+</TabItem>
 </Tabs>
 
 ## 主キーによるエンティティの削除\{#delete-entities-by-primary-keys}
 
 ほとんどの場合、主キーはエンティティを一意に識別します。削除リクエストで主キーを設定することで、エンティティを削除できます。以下のコード例は、主キー **18** と **19** を持つ 2 つのエンティティを削除する方法を示しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -216,6 +237,47 @@ DeleteResp deleteResp = client.delete(DeleteReq.builder()
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+_, err = client.Delete(ctx, milvusclient.NewDeleteOption("quick_setup").
+    WithInt64IDs("id", []int64{18, 19}))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle err
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+    let request = DeleteRequest::builder()
+        .collection_name("quick_setup")
+        .ids(Ids::Int64(vec![18, 19]))
+        .build()?;
+    let response = client.delete(request).await?;
+    println!("{:?}", response.delete_count());
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::DeleteResponse response;
+auto status = client->Delete(milvus::DeleteRequest()
+                                .WithCollectionName("quick_setup")
+                                .WithIDs(std::vector<int64_t>{18, 19}),
+                             response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -232,19 +294,6 @@ console.log(res.delete_cnt)
 // 
 // 2
 // 
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-_, err = client.Delete(ctx, milvusclient.NewDeleteOption("quick_setup").
-    WithInt64IDs("id", []int64{18, 19}))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle err
-}
 ```
 
 </TabItem>
@@ -268,28 +317,13 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-milvus::DeleteResponse response;
-auto status = client->Delete(milvus::DeleteRequest()
-                                .WithCollectionName("quick_setup")
-                                .WithIDs(std::vector<int64_t>{18, 19}),
-                             response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
 
 ## パーティションからのエンティティの削除\{#delete-entities-from-partitions}
 
 特定のパーティションに保存されているエンティティを削除することもできます。以下のコードスニペットでは、コレクション内に **PartitionA** という名前のパーティションがあることを前提としています。 
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -324,6 +358,50 @@ DeleteResp deleteResp = client.delete(DeleteReq.builder()
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+_, err = client.Delete(ctx, milvusclient.NewDeleteOption("quick_setup").
+    WithInt64IDs("id", []int64{18, 19}).
+    WithPartition("partitionA"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle err
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+    let request = DeleteRequest::builder()
+        .collection_name("quick_setup")
+        .ids(Ids::Int64(vec![18, 19]))
+        .partition_name("partitionA")
+        .build()?;
+    let response = client.delete(request).await?;
+    println!("{:?}", response.delete_count());
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::DeleteResponse response;
+auto status = client->Delete(milvus::DeleteRequest()
+                                .WithCollectionName("quick_setup")
+                                .WithPartitionName("partitionA")
+                                .WithIDs(std::vector<int64_t>{18, 19}),
+                             response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -341,20 +419,6 @@ console.log(res.delete_cnt)
 // 
 // 2
 // 
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-_, err = client.Delete(ctx, milvusclient.NewDeleteOption("quick_setup").
-    WithInt64IDs("id", []int64{18, 19}).
-    WithPartition("partitionA"))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle err
-}
 ```
 
 </TabItem>
@@ -381,22 +445,6 @@ curl --request POST \
 #     "cost": 0,
 #     "data": {}
 # }
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-milvus::DeleteResponse response;
-auto status = client->Delete(milvus::DeleteRequest()
-                                .WithCollectionName("quick_setup")
-                                .AddPartitionName("partitionA")
-                                .WithIDs(std::vector<int64_t>{18, 19}),
-                             response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
 ```
 
 </TabItem>
