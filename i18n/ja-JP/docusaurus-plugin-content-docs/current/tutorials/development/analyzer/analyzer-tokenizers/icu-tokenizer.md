@@ -33,7 +33,7 @@ import TabItem from '@theme/TabItem';
 
 `icu` トークナイザーを使用してアナライザーを構成するには、`analyzer_params` 内で `tokenizer` を `icu` に設定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -53,14 +53,6 @@ analyzerParams.put("tokenizer", "icu");
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// node
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -69,10 +61,13 @@ analyzerParams = map[string]any{"tokenizer": "icu"}
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# curl
+```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
+
+let analyzer_params = json!({ "tokenizer": "icu" });
 ```
 
 </TabItem>
@@ -86,11 +81,32 @@ nlohmann::json analyzer_params = {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+    tokenizer: "icu",
+};
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+analyzerParams='{
+  "tokenizer": "icu"
+}'
+```
+
+</TabItem>
 </Tabs>
 
 `icu` トークナイザーは、1 つ以上のフィルターと組み合わせて使用できます。たとえば、次のコードは `icu` トークナイザーと [remove punct filter](./remove-punct-filter) を使用するアナライザーを定義しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -112,14 +128,6 @@ analyzerParams.put("filter", Collections.singletonList("removepunct"));
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// node
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -128,10 +136,16 @@ analyzerParams = map[string]any{"tokenizer": "icu", "filter": []string{"removepu
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# curl
+```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
+
+let analyzer_params = json!({
+    "tokenizer": "icu",
+    "filter": ["removepunct"]
+});
 ```
 
 </TabItem>
@@ -146,6 +160,29 @@ nlohmann::json analyzer_params = {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+    tokenizer: "icu",
+    filter: ["removepunct"],
+};
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+analyzerParams='{
+  "tokenizer": "icu",
+  "filter": ["removepunct"]
+}'
+```
+
+</TabItem>
 </Tabs>
 
 `analyzer_params` を定義した後、コレクションスキーマを定義する際にそれらを `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを実現できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
@@ -156,7 +193,7 @@ nlohmann::json analyzer_params = {
 
 ### アナライザー設定\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -176,14 +213,6 @@ analyzerParams.put("tokenizer", "icu");
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// node
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -192,10 +221,13 @@ analyzerParams = map[string]any{"tokenizer": "icu"}
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# curl
+```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
+
+let analyzer_params = json!({ "tokenizer": "icu" });
 ```
 
 </TabItem>
@@ -209,11 +241,32 @@ nlohmann::json analyzer_params = {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+    tokenizer: "icu",
+};
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+analyzerParams='{
+  "tokenizer": "icu"
+}'
+```
+
+</TabItem>
 </Tabs>
 
 ### `run_analyzer` による検証\{#verification-using-runanalyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -229,9 +282,9 @@ client = MilvusClient(
 # Sample text to analyze
 sample_text = "Привет! Как дела?"
 
-# Run the standard analyzer with the defined configuration
+# Run the icu analyzer with the defined configuration
 result = client.run_analyzer(sample_text, analyzer_params)
-print("Standard analyzer output:", result)
+print("ICU analyzer output:", result)
 ```
 
 </TabItem>
@@ -262,23 +315,14 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// javascript
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
 import (
     "context"
-    "encoding/json"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
@@ -290,10 +334,9 @@ if err != nil {
     // handle error
 }
 
-bs, _ := json.Marshal(analyzerParams)
 texts := []string{"Привет! Как дела?"}
-option := milvusclient.NewRunAnalyzerOption(texts).
-    WithAnalyzerParams(string(bs))
+option := milvusclient.NewRunAnalyzerOption(texts...).
+    WithAnalyzerParams(analyzerParams)
 
 result, err := client.RunAnalyzer(ctx, option)
 if err != nil {
@@ -304,10 +347,21 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
+
+let analyzer_params = json!({ "tokenizer": "icu" });
+let result = client
+    .run_analyzer(
+        RunAnalyzerRequest::builder()
+            .texts(vec!["Привет! Как дела?"])
+            .analyzer_params(analyzer_params)
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -338,10 +392,42 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const sample_text = "Привет! Как дела?";
+
+// Run the icu analyzer with the defined configuration
+const result = await client.runAnalyzer({
+    text: sample_text,
+    analyzer_params,
+});
+console.log("ICU analyzer output:", result);
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+curl --request POST \
+     --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/common/run_analyzer" \
+     --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+     --header "Content-Type: application/json" \
+     -d '{
+        "text": ["Привет! Как дела?"],
+        "analyzerParams": "{\"tokenizer\": \"icu\"}"
+     }'
+```
+
+</TabItem>
 </Tabs>
 
 ### 期待される出力\{#expected-output}
 
-```sql
+```plaintext
 ['Привет', '!', ' ', 'Как', ' ', 'дела', '?']
 ```
+

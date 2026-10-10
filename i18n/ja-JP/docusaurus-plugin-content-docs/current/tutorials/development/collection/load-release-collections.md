@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "collection のロードは、その中で類似性検索やクエリを実行するための前提条件です。このページでは、collection のロードと解放の手順に焦点を当てます。 | Cloud"
+description: "Loading a コレクション is a prerequisite for conducting similarity searches and queries within it. This page focuses on the procedures for loading and releasing a コレクション. | Cloud"
 type: origin
 token: CemEwKryciMUepkgYWZcOw6wncb
 sidebar_position: 8
@@ -21,32 +21,32 @@ import TabItem from '@theme/TabItem';
 
 # ロードと解放
 
-collection のロードは、その中で類似性検索やクエリを実行するための前提条件です。このページでは、collection のロードと解放の手順に焦点を当てます。
+Loading a コレクション is a prerequisite for conducting similarity searches and queries within it. This page focuses on the procedures for loading and releasing a コレクション.
 
 ## 前提条件\{#prerequisites}
 
-collection をロードする前に、次の点を確認してください。
+Before loading a コレクション, verify the following:
 
-- 外部 collection の場合、index を作成する前に、collection とボリューム間でデータを同期するためにサブ秒リフレッシュを呼び出していることを確認してください。
+- For external コレクション, ensure you have called the sub-second refresh to synchronize data between the コレクション and the volume before creating インデックス.
 
-- 少なくともすべての vector フィールドに index を作成しており、必要に応じて一部の scalar フィールドにも index を作成しています。
+- You have at least indexed all ベクトル fields, and optionally certain スカラー fields.
 
 ## ロード動作\{#loading-behaviors}
 
-同じロードリクエストが外部 collection とマネージド collection の両方に適用されますが、外部 collection のロード戦略はターゲットアーキテクチャによって異なります。
+Although the same load request applies to both external and managed コレクション, the strategy for loading external コレクション depends on the target architecture:
 
 | 環境 | メモリ動作 | 実行の詳細 |
 | --- | --- | --- |
-| サービング cluster 内のマネージド collection | フルロード | 高パフォーマンスなアクセスのために、すべての index とデータ（vector および scalar フィールド）を直接メモリにロードします。 |
-| スタンドアロンデータベース内の外部 collection | index のみロード | index のみをメモリにロードします。生データは、アクティブな検索やクエリ中に必要に応じてディスクから取得されます。 |
+| Managed コレクション in serving クラスター | フルロード | Loads all インデックス and data (ベクトル and スカラー fields) directly into memory for high-performance access. |
+| External コレクション in standalone データベース | インデックス-only Load | Loads only the インデックス into memory. Raw data is retrieved from disk on demand during active searches or queries. |
 
-## Collection のロード\{#load-collection}
+## Load コレクション\{#load-collection}
 
-collection をロードすると、Zilliz Cloud は検索やクエリに迅速に応答するために、index ファイルとすべてのフィールドの生データをメモリにロードします。collection のロード後に挿入されたエンティティは、自動的に index 作成およびロードされます。
+When you load a コレクション, Zilliz Cloud loads the インデックス files and the raw data of all fields into memory for rapid response to searches and queries. Entities inserted after a コレクション load are automatically indexed and loaded.
 
-次のコードスニペットは、collection をロードする方法を示しています。
+The following code snippets demonstrate how to load a コレクション.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -96,14 +96,14 @@ ConnectConfig connectConfig = ConnectConfig.builder()
 
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
-// 6. Load the collection
+// 7. Load the collection
 LoadCollectionReq loadCollectionReq = LoadCollectionReq.builder()
         .collectionName("my_collection")
         .build();
 
 client.loadCollection(loadCollectionReq);
 
-// 7. Get load state of the collection
+// Get load state of the collection
 GetLoadStateReq loadStateReq = GetLoadStateReq.builder()
         .collectionName("my_collection")
         .build();
@@ -117,41 +117,6 @@ System.out.println(res);
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
-
-const address = "YOUR_CLUSTER_ENDPOINT";
-const token = "YOUR_CLUSTER_TOKEN";
-const client = new MilvusClient({address, token});
-
-// 7. Load the collection
-res = await client.loadCollection({
-    collection_name: "my_collection"
-})
-
-console.log(res.error_code)
-
-// Output
-// 
-// Success
-// 
-
-res = await client.getLoadState({
-    collection_name: "my_collection"
-})
-
-console.log(res.state)
-
-// Output
-// 
-// LoadStateLoaded
-// 
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -159,7 +124,7 @@ import (
     "context"
     "fmt"
     
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
@@ -193,6 +158,113 @@ if err != nil {
     // handle error
 }
 fmt.Println(state)
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let client = ClientV2::new(
+        &ConnectConfig::new()
+            .uri("YOUR_CLUSTER_ENDPOINT")
+            .token("YOUR_CLUSTER_TOKEN"),
+    )
+    .await?;
+
+    // 7. Load the collection
+    client
+        .load_collection(
+            LoadCollectionRequest::builder()
+                .collection_name("my_collection")
+                .build()?,
+        )
+        .await?;
+
+    let res = client
+        .get_load_state(
+            GetLoadStateRequest::builder()
+                .collection_name("my_collection")
+                .build()?,
+        )
+        .await?;
+
+    println!("{:?}", res.state());
+
+    Ok(())
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->LoadCollection(milvus::LoadCollectionRequest()
+                                    .WithCollectionName("my_collection"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::GetLoadStateResponse response;
+status = client->GetLoadState(milvus::GetLoadStateRequest()
+                                .WithCollectionName("my_collection"),
+                              response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+std::cout << std::to_string(response.State()) << std::endl;
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+
+const address = "YOUR_CLUSTER_ENDPOINT";
+const token = "YOUR_CLUSTER_TOKEN";
+const client = new MilvusClient({address, token});
+
+// 7. Load the collection
+let res = await client.loadCollection({
+    collection_name: "my_collection"
+})
+
+console.log(res.error_code)
+
+// Output
+// 
+// Success
+// 
+
+res = await client.getLoadState({
+    collection_name: "my_collection"
+})
+
+console.log(res.state)
+
+// Output
+// 
+// LoadStateLoaded
+// 
 ```
 
 </TabItem>
@@ -237,53 +309,22 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-auto status = client->Connect(connect_param);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-status = client->LoadCollection(milvus::LoadCollectionRequest()
-                                    .WithCollectionName("my_collection"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-milvus::GetLoadStateResponse response;
-status = client->GetLoadState(milvus::GetLoadStateRequest()
-                                .WithCollectionName("my_collection"),
-                              response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-std::cout << std::to_string(response.State()) << std::endl;
-```
-
-</TabItem>
 </Tabs>
 
 ## 特定フィールドのロード\{#load-specific-fields}
 
 Zilliz Cloud は、検索やクエリに関与するフィールドのみをロードできるため、メモリ使用量を削減し、検索パフォーマンスを向上させます。
 
-次のコードスニペットは、**my_collection** という名前の collection を作成済みで、その collection に **my_id** と **my_vector** という 2 つのフィールドがあることを前提としています。
+The following code snippet assumes that you have created a コレクション named **my_collection**, and there are two fields named **my_id** and **my_vector** in the コレクション.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 client.load_collection(
     collection_name="my_collection",
     # highlight-next-line
-    load_fields=["my_id", "my_vector"] # Load only the specified fields
+    load_fields=["my_id", "my_vector"], # Load only the specified fields
     skip_load_dynamic_field=True # Skip loading the dynamic field
 )
 
@@ -305,7 +346,9 @@ print(res)
 <TabItem value='java'>
 
 ```java
-// 6. Load the collection
+import java.util.Arrays;
+
+// Load the collection
 LoadCollectionReq loadCollectionReq = LoadCollectionReq.builder()
         .collectionName("my_collection")
         .loadFields(Arrays.asList("my_id", "my_vector"))
@@ -314,7 +357,7 @@ LoadCollectionReq loadCollectionReq = LoadCollectionReq.builder()
 
 client.loadCollection(loadCollectionReq);
 
-// 7. Get load state of the collection
+// Get load state of the collection
 GetLoadStateReq loadStateReq = GetLoadStateReq.builder()
         .collectionName("my_collection")
         .build();
@@ -325,29 +368,12 @@ System.out.println(res);
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-await client.load_collection({
-  collection_name: "my_collection",
-  load_fields: ["my_id", "my_vector"], // Load only the specified fields
-  skip_load_dynamic_field: true //Skip loading the dynamic field
-});
-
-const loadState = client.getCollectionLoadState({
-    collection_name: "my_collection",
-})
-
-console.log(loadState);
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
 loadTask, err := client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection").
-        WithLoadFields("my_id", "my_vector"))
+        WithLoadFields("my_id", "my_vector").
+        WithSkipLoadDynamicField(true))
 if err != nil {
     fmt.Println(err.Error())
     // handle error
@@ -370,11 +396,28 @@ fmt.Println(state)
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# REST
-# Not supported yet
+```rust
+client
+    .load_collection(
+        LoadCollectionRequest::builder()
+            .collection_name("my_collection")
+            .load_fields(["my_id", "my_vector"])
+            .skip_load_dynamic_field(true)
+            .build()?,
+    )
+    .await?;
+
+let res = client
+    .get_load_state(
+        GetLoadStateRequest::builder()
+            .collection_name("my_collection")
+            .build()?,
+    )
+    .await?;
+
+println!("{:?}", res.state());
 ```
 
 </TabItem>
@@ -402,21 +445,51 @@ std::cout << std::to_string(response.State()) << std::endl;
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.loadCollection({
+  collection_name: "my_collection",
+  load_fields: ["my_id", "my_vector"], // Load only the specified fields
+  skip_load_dynamic_field: true // Skip loading the dynamic field
+});
+
+const res = await client.getLoadState({
+    collection_name: "my_collection",
+});
+
+console.log(res.state);
+
+// Output
+// LoadStateLoaded
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# REST
+# Not supported yet
+```
+
+</TabItem>
 </Tabs>
 
-特定のフィールドをロードすることを選択した場合、`load_fields` に含まれるフィールドのみを、検索やクエリのフィルターおよび出力フィールドとして使用できる点に注意してください。`load_fields` には、常にプライマリフィールドの名前と少なくとも 1 つの vector フィールドを含める必要があります。
+If you choose to load specific fields, it is worth noting that only the fields included in `load_fields` can be used as filters and output fields in searches and queries. You should always include the names of the primary field and at least one ベクトル field in `load_fields`.
 
 また、`skip_load_dynamic_field` を使用して、dynamic field をロードするかどうかを決定できます。dynamic field は **\&#36;meta** という名前の予約済み JSON フィールドであり、スキーマで定義されていないすべてのフィールドとその値をキーと値のペアで保存します。dynamic field をロードすると、フィールド内のすべてのキーがロードされ、フィルタリングと出力に使用できるようになります。dynamic field 内のすべてのキーがメタデータのフィルタリングと出力に関与しない場合は、`skip_load_dynamic_field` を `True` に設定します。
 
-collection のロード後にさらにフィールドをロードするには、index の変更によって発生する可能性のあるエラーを避けるため、まず collection を解放する必要があります。
+To load more fields after the コレクション load, you need to release the コレクション first to avoid possible errors prompted because of インデックス changes.
 
-## Collection の解放\{#release-collection}
+## Release コレクション\{#release-collection}
 
-検索とクエリはメモリを大量に消費する操作です。コストを節約するため、現在使用していない collection を解放することをお勧めします。
+Searches and queries are memory-intensive operations. To save the cost, you are advised to release the コレクション that are currently not in use.
 
-次のコードスニペットは、collection を解放する方法を示しています。
+The following code snippet demonstrates how to release a コレクション.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -464,11 +537,76 @@ System.out.println(res);
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+err = client.ReleaseCollection(ctx, milvusclient.NewReleaseCollectionOption("my_collection"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+state, err := client.GetLoadState(ctx, milvusclient.NewGetLoadStateOption("my_collection"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+fmt.Println(state)
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+// 8. Release the collection
+client
+    .release_collection(
+        ReleaseCollectionRequest::builder()
+            .collection_name("my_collection")
+            .build()?,
+    )
+    .await?;
+
+let res = client
+    .get_load_state(
+        GetLoadStateRequest::builder()
+            .collection_name("my_collection")
+            .build()?,
+    )
+    .await?;
+
+println!("{:?}", res.state());
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto status = client->ReleaseCollection(milvus::ReleaseCollectionRequest()
+                                            .WithCollectionName("my_collection"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::GetLoadStateResponse response;
+status = client->GetLoadState(milvus::GetLoadStateRequest()
+                                .WithCollectionName("my_collection"),
+                              response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+std::cout << std::to_string(response.State()) << std::endl;
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
 // 8. Release the collection
-res = await client.releaseCollection({
+let res = await client.releaseCollection({
     collection_name: "my_collection"
 })
 
@@ -489,25 +627,6 @@ console.log(res.state)
 // 
 // LoadStateNotLoad
 // 
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-err = client.ReleaseCollection(ctx, milvusclient.NewReleaseCollectionOption("my_collection"))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-
-state, err := client.GetLoadState(ctx, milvusclient.NewGetLoadStateOption("my_collection"))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-fmt.Println(state)
 ```
 
 </TabItem>
@@ -544,32 +663,9 @@ curl --request POST \
 # {
 #     "code": 0,
 #     "data": {
-#         "loadProgress": 0,
-#         "loadState": "LoadStateNotLoaded",
-#         "message": ""
+#         "loadState": "LoadStateNotLoad"
 #     }
 # }
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto status = client->ReleaseCollection(milvus::ReleaseCollectionRequest()
-                                            .WithCollectionName("my_collection"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-milvus::GetLoadStateResponse response;
-status = client->GetLoadState(milvus::GetLoadStateRequest()
-                                .WithCollectionName("my_collection"),
-                              response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-std::cout << std::to_string(response.State()) << std::endl;
 ```
 
 </TabItem>

@@ -1,5 +1,5 @@
 ---
-title: "Analyzer の概要 | Cloud"
+title: "アナライザーの概要 | Cloud"
 slug: /analyzer-overview
 sidebar_label: "概要"
 beta: FALSE
@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "テキスト処理において、analyzer は生のテキストを構造化された検索可能な形式に変換する重要なコンポーネントです。各 analyzer は通常、tokenizer と filter という 2 つの主要な要素で構成されます。これらが連携して入力テキストをトークンに変換・加工し、効率的なインデックス作成と検索に備えます。 | Cloud"
+description: "テキスト処理において、アナライザーは生テキストを構造化された検索可能な形式に変換する重要なコンポーネントです。各アナライザーは通常、トークナイザーとフィルターという 2 つの中核要素で構成されます。これらが連携して入力テキストをトークンに変換し、トークンを整形して、効率的なインデックス作成と検索の準備を整えます。 | Cloud"
 type: origin
 token: H8MVwnjdgihp0hkRHHKcjBe9n5e
 sidebar_position: 1
@@ -21,63 +21,63 @@ import TabItem from '@theme/TabItem';
 
 import Supademo from '@site/src/components/Supademo';
 
-# Analyzer の概要
+# アナライザーの概要
 
-テキスト処理において、**analyzer** は生のテキストを構造化された検索可能な形式に変換する重要なコンポーネントです。各 analyzer は通常、**tokenizer** と **filter** という 2 つの主要な要素で構成されます。これらが連携して入力テキストをトークンに変換・加工し、効率的なインデックス作成と検索に備えます。
+テキスト処理において、**アナライザー**は生テキストを構造化された検索可能な形式に変換する重要なコンポーネントです。各アナライザーは通常、**トークナイザー**と**フィルター**という 2 つの中核要素で構成されます。これらが連携して入力テキストをトークンに変換し、それらのトークンを整形して、効率的なインデックス作成と検索の準備を整えます。
 
-Zilliz Cloud では、analyzer はコレクション作成時にコレクションスキーマへ `VARCHAR` フィールドを追加する際に設定されます。analyzer によって生成されたトークンは、キーワードマッチング用のインデックス構築や、全文検索用のスパース埋め込みへの変換に使用できます。詳細については、[全文検索](./full-text-search) または [テキストマッチ](./text-match) を参照してください。
-
-<Admonition type="info" title="Notes">
-
-analyzer の使用はパフォーマンスに影響を与える可能性があります。
-
-- **全文検索:** 全文検索では、**DataNode** と **QueryNode** のチャネルがトークン化の完了を待つ必要があるため、データの消費速度が低下します。その結果、新しく取り込まれたデータが検索可能になるまでに時間がかかります。
-
-- **キーワードマッチ:** キーワードマッチングでも、インデックス構築の前にトークン化を完了する必要があるため、インデックス作成に時間がかかります。
-
-</Admonition>
-
-## analyzer の構造\{#anatomy-of-an-analyzer}
-
-Zilliz Cloud の analyzer は、必ず 1 つの **tokenizer** と **0 個以上**の filter で構成されます。
-
-- **Tokenizer**: tokenizer は入力テキストをトークンと呼ばれる個別の単位に分割します。生成されるトークンは単語やフレーズなど、tokenizer の種類によって異なります。
-
-- **Filters**: filter を適用することで、トークンの小文字化や一般的な単語の除去など、トークンをさらに加工できます。
+Zilliz Cloud では、アナライザーはコレクションの作成時に、コレクションスキーマに `VARCHAR` フィールドを追加する際に構成します。アナライザーが生成するトークンは、キーワードマッチング用のインデックスを構築したり、全文検索用のスパースベクトルに変換したりするために使用できます。詳細については、[全文検索](./full-text-search) または [テキストマッチ](./text-match) を参照してください。
 
 <Admonition type="info" title="Notes">
 
-tokenizer がサポートするのは UTF-8 形式のみです。その他の形式への対応は今後のリリースで追加される予定です。
+アナライザーを使用すると、パフォーマンスに影響する可能性があります。
+
+- **全文検索:** 全文検索では、**DataNode** と **QueryNode** のチャネルがトークン化の完了を待つ必要があるため、データの消費が遅くなります。その結果、新しく取り込まれたデータが検索可能になるまでの時間が長くなります。
+
+- **キーワードマッチ:** キーワードマッチングでは、インデックスを構築する前にトークン化を完了させる必要があるため、インデックスの作成も遅くなります。
 
 </Admonition>
 
-以下のワークフローは、analyzer によるテキスト処理の流れを示しています。
+## アナライザーの構造\{#anatomy-of-an-analyzer}
+
+Zilliz Cloud のアナライザーは、厳密に 1 つの **トークナイザー**と **0 個以上**のフィルターで構成されます。
+
+- **トークナイザー**: トークナイザーは、入力テキストをトークンと呼ばれる個別の単位に分割します。これらのトークンは、トークナイザーの種類に応じて、単語またはフレーズになります。
+
+- **フィルター**: フィルターはトークンに適用してさらに整形できます。たとえば、小文字に変換したり、一般的な単語を削除したりします。
+
+<Admonition type="info" title="Notes">
+
+トークナイザーは UTF-8 形式のみをサポートします。その他の形式のサポートは将来のリリースで追加される予定です。
+
+</Admonition>
+
+以下のワークフローは、アナライザーがテキストを処理する方法を示しています。
 
 ![Ke6jw8437hjR8hbZCvEcQtIIn1e](https://zdoc-images.s3.us-west-2.amazonaws.com/Ke6jw8437hjR8hbZCvEcQtIIn1e.png)
 
-## analyzer の種類\{#analyzer-types}
+## アナライザーの種類\{#analyzer-types}
 
-Zilliz Cloud は、さまざまなテキスト処理ニーズに対応するため、2 種類の analyzer を提供しています。
+Zilliz Cloud は、さまざまなテキスト処理のニーズに応えるために 2 種類のアナライザーを提供しています。
 
-- **組み込み analyzer**: 最小限の設定で一般的なテキスト処理タスクをカバーする事前定義済みの構成です。複雑な設定が不要なため、汎用的な検索に最適です。
+- **組み込みアナライザー**: 最小限の設定で一般的なテキスト処理タスクを網羅する、あらかじめ定義された構成です。組み込みアナライザーは複雑な構成が不要なため、汎用的な検索に最適です。
 
-- **カスタム analyzer**: より高度な要件には、tokenizer と 0 個以上の filter の両方を指定して独自の構成を定義できます。このカスタマイズは、テキスト処理を細かく制御する必要がある特殊なユースケースで特に有効です。
+- **カスタムアナライザー**: より高度な要件の場合、カスタムアナライザーでは、トークナイザーと 0 個以上のフィルターの両方を指定して独自の構成を定義できます。このレベルのカスタマイズは、テキスト処理を正確に制御する必要がある特殊なユースケースに特に役立ちます。
 
 <Admonition type="info" title="Notes">
 
-- コレクション作成時に analyzer の設定を省略した場合、Zilliz Cloud はデフォルトで `standard` analyzer をすべてのテキスト処理に使用します。詳細については、[Standard](./standard-analyzer) を参照してください。
+- コレクションの作成時にアナライザーの構成を省略した場合、Zilliz Cloud はすべてのテキスト処理にデフォルトで `standard` アナライザーを使用します。詳細については、[Standard](./standard-analyzer) を参照してください。
 
-- 最適な検索およびクエリパフォーマンスを得るには、テキストデータの言語に適した analyzer を選択してください。たとえば、`standard` analyzer は汎用性が高いものの、中国語、日本語、韓国語など独自の文法構造を持つ言語には不向きな場合があります。このような場合は、正確なトークン化と検索精度の向上のため、[`chinese`](./chinese-analyzer) のような言語固有の analyzer や、専用の tokenizer（[`lindera`](./lindera-tokenizer)、[`icu`](./icu-tokenizer) など）と filter を組み合わせたカスタム analyzer の使用を強く推奨します。
+- 最適な検索およびクエリのパフォーマンスを得るには、テキストデータの言語に合ったアナライザーを選択してください。たとえば、`standard` アナライザーは汎用性がありますが、中国語、日本語、韓国語など、独自の文法構造を持つ言語には最適な選択ではない場合があります。そのような場合は、[`chinese`](./chinese-analyzer) のような言語固有のアナライザーや、特殊なトークナイザー（[`lindera`](./lindera-tokenizer)、[`icu`](./icu-tokenizer) など）とフィルターを組み合わせたカスタムアナライザーを使用して、正確なトークン化とより良い検索結果を確保することを強くお勧めします。
 
 </Admonition>
 
-### 組み込み analyzer\{#built-in-analyzer}
+### 組み込みアナライザー\{#built-in-analyzer}
 
-Zilliz Cloud クラスターの組み込み analyzer には、特定の tokenizer と filter が事前に設定されているため、これらのコンポーネントを自分で定義しなくてもすぐに利用できます。各組み込み analyzer は、プリセットの tokenizer と filter を含むテンプレートとして機能し、カスタマイズ用のオプションパラメーターも用意されています。
+Zilliz Cloud クラスターの組み込みアナライザーは、特定のトークナイザーとフィルターが事前構成されているため、これらのコンポーネントを定義することなくすぐに使用できます。各組み込みアナライザーは、プリセットのトークナイザーとフィルター、およびカスタマイズ用のオプションパラメーターを含むテンプレートとして機能します。
 
-たとえば、`standard` 組み込み analyzer を使用するには、その名前 `standard` を `type` として指定するだけで済みます。必要に応じて、`stop_words` など、この analyzer タイプ固有の追加設定を含めることもできます。
+たとえば、`standard` 組み込みアナライザーを使用するには、その名前 `standard` を `type` として指定し、必要に応じて、`stop_words` などこのアナライザーの種類に固有の追加構成を含めます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -99,17 +99,6 @@ analyzerParams.put("stop_words", Arrays.asList("a", "an", "for"));
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-const analyzer_params = {
-    "type": "standard", // Uses the standard built-in analyzer
-    "stop_words": ["a", "an", "for"] // Defines a list of common words (stop words) to exclude from tokenization
-};
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -118,13 +107,15 @@ analyzerParams := map[string]any{"type": "standard", "stop_words": []string{"a",
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-export analyzerParams='{
-       "type": "standard",
-       "stop_words": ["a", "an", "for"]
-    }'
+```rust
+use milvus::v2::prelude::*;
+
+let analyzer_params = serde_json::json!({
+    "type": "standard",
+    "stop_words": ["a", "an", "for"]
+});
 ```
 
 </TabItem>
@@ -139,11 +130,33 @@ nlohmann::json analyzer_params = {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+    "type": "standard", // Uses the standard built-in analyzer
+    "stop_words": ["a", "an", "for"] // Defines a list of common words (stop words) to exclude from tokenization
+};
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export analyzerParams='{
+       "type": "standard",
+       "stop_words": ["a", "an", "for"]
+    }'
+```
+
+</TabItem>
 </Tabs>
 
-analyzer の実行結果を確認するには、`run_analyzer` メソッドを使用します。
+アナライザーの実行結果を確認するには、`run_analyzer` メソッドを使用します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -177,36 +190,19 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// javascrip# Sample text to analyze
-const text = "An efficient system relies on a robust analyzer to correctly process text for various applications."
-
-// Run analyzer
-const result = await client.run_analyzer({
-    text,
-    analyzer_params
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
 import (
     "context"
-    "encoding/json"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-bs, _ := json.Marshal(analyzerParams)
 texts := []string{"An efficient system relies on a robust analyzer to correctly process text for various applications."}
-option := milvusclient.NewRunAnalyzerOption(texts).
-    WithAnalyzerParams(string(bs))
+option := milvusclient.NewRunAnalyzerOption(texts...).
+    WithAnalyzerParams(analyzerParams)
 
 result, err := client.RunAnalyzer(ctx, option)
 if err != nil {
@@ -217,19 +213,19 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
-export MILVUS_HOST="YOUR_CLUSTER_ENDPOINT"
-export TEXT_TO_ANALYZE="An efficient system relies on a robust analyzer to correctly process text for various applications."
-curl -X POST "http://${MILVUS_HOST}/v2/vectordb/common/run_analyzer" \
-  -H "Content-Type: application/json" \
-  -H "Request-Timeout: 10" \
-  -d '{
-    "text": ["'"${TEXT_TO_ANALYZE}"'"],
-    "analyzerParams": "{\"type\":\"standard\",\"stop_words\":[\"a\",\"an\",\"for\"]}"
-  }'
+```rust
+let sample_text = "An efficient system relies on a robust analyzer to correctly process text for various applications.";
+let response = client
+    .run_analyzer(
+        RunAnalyzerRequest::builder()
+            .texts([sample_text])
+            .analyzer_params(analyzer_params.clone())
+            .build()?,
+    )
+    .await?;
+println!("{:?}", response);
 ```
 
 </TabItem>
@@ -251,19 +247,51 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// Sample text to analyze
+const text = "An efficient system relies on a robust analyzer to correctly process text for various applications."
+
+// Run analyzer
+const result = await client.runAnalyzer({
+    text,
+    analyzer_params
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+export MILVUS_HOST="YOUR_CLUSTER_ENDPOINT"
+export TEXT_TO_ANALYZE="An efficient system relies on a robust analyzer to correctly process text for various applications."
+curl -X POST "http://${MILVUS_HOST}/v2/vectordb/common/run_analyzer" \
+  -H "Content-Type: application/json" \
+  -H "Request-Timeout: 10" \
+  -d '{
+    "text": ["'"${TEXT_TO_ANALYZE}"'"],
+    "analyzerParams": "{\"type\":\"standard\",\"stop_words\":[\"a\",\"an\",\"for\"]}"
+  }'
+```
+
+</TabItem>
 </Tabs>
 
-出力は以下のようになります。
+出力は次のとおりです。
 
 ```sql
 ['efficient', 'system', 'relies', 'on', 'robust', 'analyzer', 'to', 'correctly', 'process', 'text', 'various', 'applications']
 ```
 
-この結果は、analyzer がストップワードである `"a"`、`"an"`、`"for"` を除外して入力テキストを適切にトークン化し、意味のあるトークンのみを返していることを示しています。
+これは、アナライザーがストップワード `"a"`、`"an"`、`"for"` を除外して入力テキストを適切にトークン化し、残りの意味のあるトークンを返すことを示しています。
 
-上記の `standard` 組み込み analyzer の設定は、[カスタム analyzer](./analyzer-overview#custom-analyzer) を以下のパラメーターで構築する場合と同等です。ここでは、同様の機能を実現するために `tokenizer` と `filter` のオプションが明示的に定義されています。
+上記の `standard` 組み込みアナライザーの構成は、次のパラメーターを使用して [カスタムアナライザー](./analyzer-overview#custom-analyzer) を設定するのと同等です。ここでは、同様の機能を実現するために `tokenizer` と `filter` オプションが明示的に定義されています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -296,6 +324,40 @@ analyzerParams.put("filter",
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+analyzerParams = map[string]any{"tokenizer": "standard",
+    "filter": []any{"lowercase", map[string]any{
+        "type":       "stop",
+        "stop_words": []string{"a", "an", "for"},
+    }}}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let analyzer_params = serde_json::json!({
+    "tokenizer": "standard",
+    "filter": ["lowercase", {"type": "stop", "stop_words": ["a", "an", "for"]}]
+});
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"tokenizer", "standard"},
+    {"filter", {"lowercase", {{"type", "stop"}, {"stop_words", {"a", "an", "for"}}}}},
+};
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -313,23 +375,11 @@ const analyzer_params = {
 
 </TabItem>
 
-<TabItem value='go'>
-
-```go
-analyzerParams = map[string]any{"tokenizer": "standard",
-    "filter": []any{"lowercase", map[string]any{
-        "type":       "stop",
-        "stop_words": []string{"a", "an", "for"},
-    }}}
-```
-
-</TabItem>
-
 <TabItem value='bash'>
 
 ```bash
 export analyzerParams='{
-       "type": "standard",
+       "tokenizer": "standard",
        "filter":  [
        "lowercase",
        {
@@ -341,44 +391,33 @@ export analyzerParams='{
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-nlohmann::json analyzer_params = {
-    {"type", "standard"},
-    {"filter", {"lowercase", {{"type", "stop"}, {"stop_words", {"a", "an", "for"}}}}},
-};
-```
-
-</TabItem>
 </Tabs>
 
-Zilliz Cloud では、それぞれ特定のテキスト処理ニーズに合わせて設計された以下の組み込み analyzer を提供しています。
+Zilliz Cloud は、それぞれ特定のテキスト処理ニーズに合わせて設計された次の組み込みアナライザーを提供しています。
 
-- `standard`: 標準的なトークン化と小文字化フィルタリングを適用する、汎用的なテキスト処理に適しています。
+- `standard`: 汎用的なテキスト処理に適しており、標準的なトークン化と小文字化フィルターを適用します。
 
-- `english`: 英語のストップワードに対応しており、英語テキストの処理に最適化されています。
+- `english`: 英語テキスト用に最適化されており、英語のストップワードをサポートします。
 
-- `chinese`: 中国語の言語構造に適したトークン化など、中国語テキストの処理に特化しています。
+- `chinese`: 中国語テキストの処理に特化しており、中国語の言語構造に適応したトークン化を含みます。
 
-### カスタム analyzer\{#custom-analyzer}
+### カスタムアナライザー\{#custom-analyzer}
 
-より高度なテキスト処理を行う場合、Zilliz Cloud のカスタム analyzer を使用すると、**tokenizer** と **filters** の両方を指定して、目的に合わせたテキスト処理パイプラインを構築できます。この構成は、細かな制御が求められる特殊なユースケースに最適です。
+より高度なテキスト処理のために、Zilliz Cloud のカスタムアナライザーでは、**トークナイザー**と**フィルター**の両方を指定して、カスタマイズされたテキスト処理パイプラインを構築できます。この設定は、正確な制御が必要な特殊なユースケースに最適です。
 
-#### Tokenizer\{#tokenizer}
+#### トークナイザー\{#tokenizer}
 
-**tokenizer** はカスタム analyzer に**必須**のコンポーネントであり、入力テキストを個別の単位（**トークン**）に分割して analyzer パイプラインを開始します。トークン化は、tokenizer の種類に応じて、空白や句読点で区切るなど特定のルールに従って行われます。この処理により、各単語やフレーズをより精密かつ独立して扱えるようになります。
+**トークナイザー**はカスタムアナライザーの**必須**コンポーネントであり、入力テキストを個別の単位、つまり**トークン**に分割してアナライザーパイプラインを開始します。トークン化は、トークナイザーの種類に応じて、空白や句読点で分割するなど、特定の規則に従って行われます。このプロセスにより、各単語やフレーズをより正確かつ独立して処理できます。
 
-たとえば、tokenizer はテキスト `"Vector Database Built for Scale"` を個別のトークンに変換します。
+たとえば、トークナイザーはテキスト `"Vector Database Built for Scale"` を個別のトークンに変換します。
 
 ```plaintext
 ["Vector", "Database", "Built", "for", "Scale"]
 ```
 
-**tokenizer の指定例**:
+**トークナイザーを指定する例**:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -398,6 +437,32 @@ analyzerParams.put("tokenizer", "whitespace");
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+analyzerParams = map[string]any{"tokenizer": "whitespace"}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let analyzer_params = serde_json::json!({"tokenizer": "whitespace"});
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"tokenizer", "whitespace"}
+};
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -408,62 +473,44 @@ const analyzer_params = {
 
 </TabItem>
 
-<TabItem value='go'>
-
-```go
-analyzerParams = map[string]any{"tokenizer": "whitespace"}
-```
-
-</TabItem>
-
 <TabItem value='bash'>
 
 ```bash
 export analyzerParams='{
-       "type": "whitespace"
+       "tokenizer": "whitespace"
     }'
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-nlohmann::json analyzer_params = {
-    {"type", "whitespace"}
-};
 ```
 
 </TabItem>
 </Tabs>
 
-#### Filter\{#filter}
+#### フィルター\{#filter}
 
-**filter** は、tokenizer が生成したトークンを処理する**オプション**のコンポーネントであり、必要に応じてトークンの変換や調整を行います。たとえば、トークン化された語句 `["Vector", "Database", "Built", "for", "Scale"]` に `lowercase` filter を適用すると、結果は以下のようになります。
+**フィルター**は、トークナイザーが生成したトークンを処理し、必要に応じて変換または整形する**オプション**のコンポーネントです。たとえば、トークン化された語 `["Vector", "Database", "Built", "for", "Scale"]` に `lowercase` フィルターを適用すると、結果は次のようになります。
 
 ```sql
 ["vector", "database", "built", "for", "scale"]
 ```
 
-カスタム analyzer で使用できる filter には、設定のニーズに応じて**組み込み**または**カスタム**のものがあります。
+カスタムアナライザーのフィルターは、構成のニーズに応じて**組み込み**または**カスタム**のいずれかになります。
 
-- **組み込み filter**: Zilliz Cloud によって事前設定されており、最小限のセットアップで利用できます。名前を指定するだけでそのまま使用でき、以下はそのまま使用できる組み込みの filter です。
+- **組み込みフィルター**: Zilliz Cloud によって事前構成されており、最小限の設定で済みます。名前を指定するだけで、これらのフィルターをそのまま使用できます。以下は、そのまま使用できる組み込みフィルターです。
 
-    - `lowercase`: テキストを小文字に変換し、大文字・小文字を区別しないマッチングを実現します。詳細は [Lowercase](./lowercase-filter) を参照してください。
+    - `lowercase`: テキストを小文字に変換し、大文字と小文字を区別しないマッチングを可能にします。詳細については、[Lowercase](./lowercase-filter) を参照してください。
 
-    - `asciifolding`: 非 ASCII 文字を対応する ASCII 文字に変換し、多言語テキストの処理を簡素化します。詳細は [ASCII folding](./ascii-folding-filter) を参照してください。
+    - `asciifolding`: 非 ASCII 文字を ASCII 相当の文字に変換し、多言語テキストの処理を簡素化します。詳細については、[ASCII folding](./ascii-folding-filter) を参照してください。
 
-    - `alphanumonly`: 英数字以外の文字を除去し、英数字のみを保持します。詳細は [Alphanumonly](./alphanumonly-filter) を参照してください。
+    - `alphanumonly`: 英数字以外の文字を削除して、英数字のみを保持します。詳細については、[Alphanumonly](./alphanumonly-filter) を参照してください。
 
-    - `cnalphanumonly`: 中国語文字、英字、数字以外の文字を含むトークンを削除します。詳細は [Cnalphanumonly](./cnalphanumonly-filter) を参照してください。
+    - `cnalphanumonly`: 中国語の文字、英字、数字以外の文字を含むトークンを削除します。詳細については、[Cnalphanumonly](./cnalphanumonly-filter) を参照してください。
 
-    - `cncharonly`: 中国語以外の文字を含むトークンを削除します。詳細は [Cncharonly](./cncharonly-filter) を参照してください。
+    - `cncharonly`: 中国語以外の文字を含むトークンを削除します。詳細については、[Cncharonly](./cncharonly-filter) を参照してください。
 
-    - `pinyin`: 中国語トークンにピンイン表記を追加し、ピンインによる中国語テキストのマッチングを可能にします。詳細は [Pinyin](./pinyin-filter) を参照してください。
+    - `pinyin`: 中国語トークンにピンインのトークン形式を追加し、中国語テキストのピンインベースのマッチングを可能にします。詳細については、[Pinyin](./pinyin-filter) を参照してください。
 
-    **組み込み filter の使用例:**
+    **組み込みフィルターを使用する例:**
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -485,6 +532,34 @@ nlohmann::json analyzer_params = {
 
     </TabItem>
 
+    <TabItem value='go'>
+
+    ```go
+    analyzerParams = map[string]any{"tokenizer": "standard",
+            "filter": []any{"lowercase"}}
+    ```
+
+    </TabItem>
+
+    <TabItem value='rust'>
+
+    ```rust
+    let analyzer_params = serde_json::json!({"tokenizer": "standard", "filter": ["lowercase"]});
+    ```
+
+    </TabItem>
+
+    <TabItem value='c++'>
+
+    ```c++
+    nlohmann::json analyzer_params = {
+        {"tokenizer", "standard"},
+        {"filter", {"lowercase"}},
+    };
+    ```
+
+    </TabItem>
+
     <TabItem value='javascript'>
 
     ```javascript
@@ -496,49 +571,29 @@ nlohmann::json analyzer_params = {
 
     </TabItem>
 
-    <TabItem value='go'>
-
-    ```go
-    analyzerParams = map[string]any{"tokenizer": "standard",
-            "filter": []any{"lowercase"}}
-    ```
-
-    </TabItem>
-
     <TabItem value='bash'>
 
     ```bash
     export analyzerParams='{
-           "type": "standard",
+           "tokenizer": "standard",
            "filter":  ["lowercase"]
         }'
     ```
 
     </TabItem>
-
-    <TabItem value='c++'>
-
-    ```c++
-    nlohmann::json analyzer_params = {
-        {"type", "standard"},
-        {"filter", {"lowercase"}},
-    };
-    ```
-
-    </TabItem>
     </Tabs>
 
-- **カスタム filter**: カスタム filter では独自の設定が可能です。有効な filter タイプ（`filter.type`）を選択し、各タイプに応じた設定を追加することで定義できます。カスタマイズ可能な filter タイプの例は以下のとおりです。
+- **カスタムフィルター**: カスタムフィルターでは、特殊な構成が可能です。有効なフィルタータイプ（`filter.type`）を選択し、フィルタータイプごとに固有の設定を追加して、カスタムフィルターを定義できます。カスタマイズをサポートするフィルタータイプの例は次のとおりです。
 
-    - `stop`: ストップワードリスト（例: `"stop_words": ["of", "to"]`）を設定し、指定された一般的な単語を削除します。詳細は [Stop](./stop-filter) を参照してください。
+    - `stop`: ストップワードのリストを設定して、指定した一般的な単語を削除します（例：`"stop_words": ["of", "to"]`）。詳細については、[Stop](./stop-filter) を参照してください。
 
-    - `length`: トークンの最大長など、長さの条件に基づいてトークンを除外します。詳細は [Length](./length-filter) を参照してください。
+    - `length`: トークンの最大長を設定するなど、長さの基準に基づいてトークンを除外します。詳細については、[Length](./length-filter) を参照してください。
 
-    - `stemmer`: 単語を語幹に還元し、柔軟なマッチングを実現します。詳細は [Stemmer](./stemmer-filter) を参照してください。
+    - `stemmer`: 単語を語幹に還元して、より柔軟なマッチングを可能にします。詳細については、[Stemmer](./stemmer-filter) を参照してください。
 
-    **カスタム filter の設定例:**
+    **カスタムフィルターを構成する例:**
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -563,8 +618,42 @@ nlohmann::json analyzer_params = {
     analyzerParams.put("filter",
             Collections.singletonList(new HashMap<String, Object>() {{
                 put("type", "stop");
-                put("stop_words", Arrays.asList("a", "an", "for"));
+                put("stop_words", Arrays.asList("of", "to"));
             }}));
+    ```
+
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    analyzerParams = map[string]any{"tokenizer": "standard",
+        "filter": []any{map[string]any{
+            "type":       "stop",
+            "stop_words": []string{"of", "to"},
+        }}}
+    ```
+
+    </TabItem>
+
+    <TabItem value='rust'>
+
+    ```rust
+    let analyzer_params = serde_json::json!({
+        "tokenizer": "standard",
+        "filter": [{"type": "stop", "stop_words": ["of", "to"]}]
+    });
+    ```
+
+    </TabItem>
+
+    <TabItem value='c++'>
+
+    ```c++
+    nlohmann::json analyzer_params = {
+        {"tokenizer", "standard"},
+        {"filter", {{{"type", "stop"}, {"stop_words", {"of", "to"}}}}},
+    };
     ```
 
     </TabItem>
@@ -585,41 +674,18 @@ nlohmann::json analyzer_params = {
 
     </TabItem>
 
-    <TabItem value='go'>
-
-    ```go
-    analyzerParams = map[string]any{"tokenizer": "standard",
-        "filter": []any{map[string]any{
-            "type":       "stop",
-            "stop_words": []string{"of", "to"},
-        }}}
-    ```
-
-    </TabItem>
-
     <TabItem value='bash'>
 
     ```bash
     export analyzerParams='{
-           "type": "standard",
+           "tokenizer": "standard",
            "filter":  [
            {
                 "type": "stop",
-                "stop_words": ["a", "an", "for"]
+                "stop_words": ["of", "to"]
            }
         ]
     }'
-    ```
-
-    </TabItem>
-
-    <TabItem value='c++'>
-
-    ```c++
-    nlohmann::json analyzer_params = {
-        {"type", "standard"},
-        {"filter", {{{"type", "stop"}, {"stop_words", {"a", "an", "for"}}}}},
-    };
     ```
 
     </TabItem>
@@ -631,19 +697,19 @@ nlohmann::json analyzer_params = {
 
 - 埋め込み用のベクトルフィールド。
 
-- テキスト処理用の 2 つの `VARCHAR` フィールド:
+- テキスト処理用の 2 つの `VARCHAR` フィールド：
 
-    - 一方のフィールドは組み込み analyzer を使用します。
+    - 1 つのフィールドは組み込みアナライザーを使用します。
 
-    - もう一方のフィールドはカスタム analyzer を使用します。
+    - もう 1 つのフィールドはカスタムアナライザーを使用します。
 
-これらの設定をコレクションに適用する前に、`run_analyzer` メソッドを使って各 analyzer を検証します。
+これらの構成をコレクションに組み込む前に、`run_analyzer` メソッドを使用して各アナライザーを検証します。
 
-### ステップ 1: MilvusClient の初期化とスキーマの作成\{#step-1-initialize-milvusclient-and-create-schema}
+### ステップ 1: MilvusClient を初期化してスキーマを作成する\{#step-1-initialize-milvusclient-and-create-schema}
 
-まず、Milvus クライアントをセットアップし、新しいスキーマを作成します。
+まず、Milvus クライアントを設定し、新しいスキーマを作成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -651,7 +717,7 @@ from pymilvus import MilvusClient, DataType
 
 # Set up a Milvus client
 client = MilvusClient(
-    uri="YOUR_CLUSTER_ENDPOINT"，
+    uri="YOUR_CLUSTER_ENDPOINT",
     token="YOUR_CLUSTER_TOKEN"
 )
 
@@ -670,6 +736,7 @@ import io.milvus.v2.common.DataType;
 import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import java.util.*;
 
 // Set up a Milvus client
 ConnectConfig config = ConnectConfig.builder()
@@ -686,6 +753,65 @@ CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSche
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle err
+}
+defer client.Close(ctx)
+
+schema := entity.NewSchema().WithAutoID(true).WithDynamicFieldEnabled(false)
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN")).await?;
+let schema = CollectionSchema::new().enable_dynamic_field(false);
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->SetEnableDynamicField(false);
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -695,38 +821,7 @@ import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 const client = new MilvusClient({
     address: "YOUR_CLUSTER_ENDPOINT",
     token: "YOUR_CLUSTER_TOKEN"
-);
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v2/column"
-    "github.com/milvus-io/milvus/client/v2/entity"
-    "github.com/milvus-io/milvus/client/v2/index"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
-)  
-
-ctx, cancel := context.WithCancel(context.Background())
-defer cancel()
-
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_CLUSTER_ENDPOINT",
-    token: "YOUR_CLUSTER_TOKEN"
-})
-if err != nil {
-    fmt.Println(err.Error())
-    // handle err
-}
-defer client.Close(ctx)
-
-schema := entity.NewSchema().WithAutoID(true).WithDynamicFieldEnabled(false)
+});
 ```
 
 </TabItem>
@@ -752,36 +847,17 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-auto status = client->Connect(connect_param);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
-schema->SetEnableDynamicField(false);
-```
-
-</TabItem>
 </Tabs>
 
-### ステップ 2: analyzer 設定の定義と検証\{#step-2-define-and-verify-analyzer-configurations}
+### ステップ 2: アナライザー構成を定義して検証する\{#step-2-define-and-verify-analyzer-configurations}
 
-1. **組み込み analyzer の設定と検証** (`english`)**:**
+1. **組み込みアナライザーを構成して検証する**（`english`）**:**
 
-    - **設定:** 組み込みの英語 analyzer のパラメーターを定義します。
+    - **構成:** 組み込み英語アナライザーのアナライザーパラメーターを定義します。
 
-    - **検証:** `run_analyzer` を使用して、設定により期待どおりのトークン化が得られることを確認します。
+    - **検証:** `run_analyzer` を使用して、構成が期待どおりのトークン化を生成することを確認します。
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -818,6 +894,63 @@ schema->SetEnableDynamicField(false);
 
     </TabItem>
 
+    <TabItem value='go'>
+
+    ```go
+    analyzerParamsBuiltin := map[string]any{"type": "english"}
+    
+    texts := []string{"Milvus simplifies text analysis for search."}
+    option := milvusclient.NewRunAnalyzerOption(texts...).
+        WithAnalyzerParams(analyzerParamsBuiltin)
+    
+    result, err := client.RunAnalyzer(ctx, option)
+    if err != nil {
+        fmt.Println(err.Error())
+        // handle error
+    }
+    ```
+
+    </TabItem>
+
+    <TabItem value='rust'>
+
+    ```rust
+    let analyzer_params_built_in = serde_json::json!({"type": "english"});
+    let sample_text = "Milvus simplifies text analysis for search.";
+    let response = client
+        .run_analyzer(
+            RunAnalyzerRequest::builder()
+                .texts([sample_text])
+                .analyzer_params(analyzer_params_built_in)
+                .build()?,
+        )
+        .await?;
+    println!("{:?}", response);
+    ```
+
+    </TabItem>
+
+    <TabItem value='c++'>
+
+    ```c++
+    nlohmann::json analyzer_params_built_in = {
+            {"type", "english"}
+    };
+    
+    std::string sample_text = "Milvus simplifies text analysis for search.";
+    auto request = milvus::RunAnalyzerRequest()
+                       .AddText(sample_text)
+                       .WithAnalyzerParams(analyzer_params_built_in);
+    
+    milvus::RunAnalyzerResponse response;
+    auto status = client->RunAnalyzer(request, response);
+    if (!status.IsOk()) {
+        std::cout << status.Message() << std::endl;
+    }
+    ```
+
+    </TabItem>
+
     <TabItem value='javascript'>
 
     ```javascript
@@ -827,29 +960,10 @@ schema->SetEnableDynamicField(false);
     };
     
     const sample_text = "Milvus simplifies text analysis for search.";
-    const result = await client.run_analyzer({
-        text: sample_text, 
+    const result = await client.runAnalyzer({
+        text: sample_text,
         analyzer_params: analyzer_params_built_in
     });
-    ```
-
-    </TabItem>
-
-    <TabItem value='go'>
-
-    ```go
-    analyzerParamsBuiltin := map[string]any{"type": "english"}
-    
-    bs, _ := json.Marshal(analyzerParamsBuiltin)
-    texts := []string{"Milvus simplifies text analysis for search."}
-    option := milvusclient.NewRunAnalyzerOption(texts).
-        WithAnalyzerParams(string(bs))
-    
-    result, err := client.RunAnalyzer(ctx, option)
-    if err != nil {
-        fmt.Println(err.Error())
-        // handle error
-    }
     ```
 
     </TabItem>
@@ -870,36 +984,15 @@ schema->SetEnableDynamicField(false);
     ```
 
     </TabItem>
-
-    <TabItem value='c++'>
-
-    ```c++
-    nlohmann::json analyzer_params_built_in = {
-            {"type", "standard"}
-    };
-    
-    std::string sample_text = "Milvus simplifies text analysis for search.";
-    auto request = milvus::RunAnalyzerRequest()
-                       .AddText(sample_text)
-                       .WithAnalyzerParams(analyzer_params_built_in);
-    
-    milvus::RunAnalyzerResponse response;
-    auto status = client->RunAnalyzer(request, response);
-    if (!status.IsOk()) {
-        std::cout << status.Message() << std::endl;
-    }
-    ```
-
-    </TabItem>
     </Tabs>
 
-1. **カスタム analyzer の設定と検証:**
+1. **カスタムアナライザーを構成して検証する:**
 
-    - **設定:** 標準 tokenizer に加え、組み込みの小文字化 filter およびトークン長・ストップワード用のカスタム filter を使用するカスタム analyzer を定義します。
+    - **構成:** 標準のトークナイザーと、組み込みの小文字化フィルター、およびトークン長とストップワード用のカスタムフィルターを使用するカスタムアナライザーを定義します。
 
-    - **検証:** `run_analyzer` を使用して、カスタム設定が意図どおりにテキストを処理することを確認します。
+    - **検証:** `run_analyzer` を使用して、カスタム構成が意図したとおりにテキストを処理することを確認します。
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -961,6 +1054,83 @@ schema->SetEnableDynamicField(false);
 
     </TabItem>
 
+    <TabItem value='go'>
+
+    ```go
+    analyzerParamsCustom := map[string]any{"tokenizer": "standard",
+        "filter": []any{"lowercase",
+            map[string]any{
+                "type": "length",
+                "max":  40,
+            },
+            map[string]any{
+                "type":       "stop",
+                "stop_words": []string{"of", "for"},
+            }}}
+    
+    texts := []string{"Milvus provides flexible, customizable analyzers for robust text processing."}
+    option := milvusclient.NewRunAnalyzerOption(texts...).
+        WithAnalyzerParams(analyzerParamsCustom)
+    
+    result, err := client.RunAnalyzer(ctx, option)
+    if err != nil {
+        fmt.Println(err.Error())
+        // handle error
+    }
+    ```
+
+    </TabItem>
+
+    <TabItem value='rust'>
+
+    ```rust
+    let analyzer_params_custom = serde_json::json!({
+        "tokenizer": "standard",
+        "filter": ["lowercase", {"type": "length", "max": 40}, {"type": "stop", "stop_words": ["of", "for"]}]
+    });
+    let sample_text = "Milvus provides flexible, customizable analyzers for robust text processing.";
+    let response = client
+        .run_analyzer(
+            RunAnalyzerRequest::builder()
+                .texts([sample_text])
+                .analyzer_params(analyzer_params_custom)
+                .build()?,
+        )
+        .await?;
+    println!("{:?}", response);
+    ```
+
+    </TabItem>
+
+    <TabItem value='c++'>
+
+    ```c++
+    nlohmann::json analyzer_params_custom = {
+        {"tokenizer", "standard"},
+        {"filter", {
+            "lowercase",
+            {{"type", "length"}, {"max", 40}},
+            {{"type", "stop"}, {"stop_words", {"of", "for"}}}
+        }},
+    };
+    
+    const std::vector<std::string> texts = {
+            "Milvus provides flexible, customizable analyzers for robust text processing."
+    };
+    
+    auto request = milvus::RunAnalyzerRequest()
+                           .WithTexts(texts)
+                           .WithAnalyzerParams(analyzer_params_custom);
+    
+    milvus::RunAnalyzerResponse response;
+    auto status = client->RunAnalyzer(request, response);
+    if (!status.IsOk()) {
+        std::cout << status.Message() << std::endl;
+    }
+    ```
+
+    </TabItem>
+
     <TabItem value='javascript'>
 
     ```javascript
@@ -975,42 +1145,15 @@ schema->SetEnableDynamicField(false);
         },
         {
           type: "stop",
-          stop_words: ["of", "to"],
+          stop_words: ["of", "for"],
         },
       ],
     };
     const sample_text = "Milvus provides flexible, customizable analyzers for robust text processing.";
-    const result = await client.run_analyzer({
-        text: sample_text, 
+    const result = await client.runAnalyzer({
+        text: sample_text,
         analyzer_params: analyzer_params_custom
     });
-    ```
-
-    </TabItem>
-
-    <TabItem value='go'>
-
-    ```go
-    analyzerParamsCustom = map[string]any{"tokenizer": "standard",
-        "filter": []any{"lowercase", 
-        map[string]any{
-            "type": "length",
-            "max":  40,
-        map[string]any{
-            "type": "stop",
-            "stop_words": []string{"of", "to"},
-        }}}
-        
-    bs, _ := json.Marshal(analyzerParamsCustom)
-    texts := []string{"Milvus provides flexible, customizable analyzers for robust text processing."}
-    option := milvusclient.NewRunAnalyzerOption(texts).
-        WithAnalyzerParams(string(bs))
-    
-    result, err := client.RunAnalyzer(ctx, option)
-    if err != nil {
-        fmt.Println(err.Error())
-        // handle error
-    }
     ```
 
     </TabItem>
@@ -1032,42 +1175,13 @@ schema->SetEnableDynamicField(false);
     ```
 
     </TabItem>
-
-    <TabItem value='c++'>
-
-    ```c++
-    nlohmann::json analyzer_params_custom = {
-        {"tokenizer", "standard"},
-        {"filter", {
-            "lowercase", 
-            {{"type", "length"}, {"max", 40}},
-            {{"type", "stop"}, {"stop_words", {"of", "to"}}}
-        }},
-    };
-    
-    const std::vector<std::string> texts = {
-            "Milvus provides flexible, customizable analyzers for robust text processing."
-    };
-    
-    auto request = milvus::RunAnalyzerRequest()
-                           .WithTexts(text_content)
-                           .WithAnalyzerParams(analyzer_params_custom);
-    
-    milvus::RunAnalyzerResponse response;
-    auto status = client->RunAnalyzer(request, response);
-    if (!status.IsOk()) {
-        std::cout << status.Message() << std::endl;
-    }
-    ```
-
-    </TabItem>
     </Tabs>
 
-### ステップ 3: スキーマフィールドに analyzer を追加する\{#step-3-add-analyzer-to-schema-field}
+### ステップ 3: スキーマフィールドにアナライザーを追加する\{#step-3-add-analyzer-to-schema-field}
 
-analyzer 設定の検証が完了したら、スキーマフィールドに追加します。
+アナライザーの構成を検証したので、それらをスキーマフィールドに追加します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1138,45 +1252,6 @@ schema.addField(AddFieldReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// Create schema
-const schema = {
-  auto_id: true,
-  fields: [
-    {
-      name: "id",
-      type: DataType.INT64,
-      is_primary: true,
-    },
-    {
-      name: "title_en",
-      data_type: DataType.VARCHAR,
-      max_length: 1000,
-      enable_analyzer: true,
-      analyzer_params: analyzerParamsBuiltIn,
-      enable_match: true,
-    },
-    {
-      name: "title",
-      data_type: DataType.VARCHAR,
-      max_length: 1000,
-      enable_analyzer: true,
-      analyzer_params: analyzerParamsCustom,
-      enable_match: true,
-    },
-    {
-      name: "embedding",
-      data_type: DataType.FLOAT_VECTOR,
-      dim: 4,
-    },
-  ],
-};
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -1208,12 +1283,74 @@ schema.WithField(entity.NewField().
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+let schema = schema
+    .add_field(FieldSchema::new().name("id").data_type(DataType::Int64).primary_key(true).auto_id(true))
+    .add_field(FieldSchema::new().name("title_en").data_type(DataType::VarChar).max_length(1000).enable_analyzer(true).enable_match(true).analyzer_params(analyzer_params_built_in))
+    .add_field(FieldSchema::new().name("title").data_type(DataType::VarChar).max_length(1000).enable_analyzer(true).enable_match(true).analyzer_params(analyzer_params_custom))
+    .add_field(FieldSchema::new().name("embedding").data_type(DataType::FloatVector).dimension(3));
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+schema->AddField({"id", milvus::DataType::INT64, "", true, false});
+schema->AddField(milvus::FieldSchema("title_en", milvus::DataType::VARCHAR).WithMaxLength(1000)
+                    .EnableAnalyzer(true).EnableMatch(true).WithAnalyzerParams(analyzer_params_built_in));
+schema->AddField(milvus::FieldSchema("title", milvus::DataType::VARCHAR).WithMaxLength(1000)
+                    .EnableAnalyzer(true).EnableMatch(true).WithAnalyzerParams(analyzer_params_custom));
+schema->AddField(milvus::FieldSchema("embedding", milvus::DataType::FLOAT_VECTOR).WithDimension(3));
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// Create schema
+const schema = [
+  {
+    name: "id",
+    data_type: DataType.Int64,
+    is_primary_key: true,
+    autoID: true,
+  },
+  {
+    name: "title_en",
+    data_type: DataType.VarChar,
+    max_length: 1000,
+    enable_analyzer: true,
+    analyzer_params: analyzer_params_built_in,
+    enable_match: true,
+  },
+  {
+    name: "title",
+    data_type: DataType.VarChar,
+    max_length: 1000,
+    enable_analyzer: true,
+    analyzer_params: analyzer_params_custom,
+    enable_match: true,
+  },
+  {
+    name: "embedding",
+    data_type: DataType.FloatVector,
+    dim: 3,
+  },
+];
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
 # restful
 export SCHEMA_CONFIG='{
-  "autoId": false,
+  "autoId": true,
   "enableDynamicField": false,
   "fields": [
     {
@@ -1249,28 +1386,15 @@ export SCHEMA_CONFIG='{
       }
     }
   ]
-}'
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-schema->AddField({"id", milvus::DataType::INT64, "", true, false});
-schema->AddField(milvus::FieldSchema("title_en", milvus::DataType::VARCHAR).WithMaxLength(1000)
-                    .EnableAnalyzer(true).EnableMatch(true).WithAnalyzerParams(analyzer_params_built_in));
-schema->AddField(milvus::FieldSchema("title", milvus::DataType::VARCHAR).WithMaxLength(1000)
-                    .EnableAnalyzer(true).EnableMatch(true).WithAnalyzerParams(analyzer_params_custom));
-schema->AddField(milvus::FieldSchema("embedding", milvus::DataType::FLOAT_VECTOR).WithDimension(3));
+}' 
 ```
 
 </TabItem>
 </Tabs>
 
-### ステップ 4: インデックスパラメーターの準備とコレクションの作成\{#step-4-prepare-index-parameters-and-create-the-collection}
+### ステップ 4: インデックスパラメーターを準備してコレクションを作成する\{#step-4-prepare-index-parameters-and-create-the-collection}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1310,13 +1434,75 @@ client.createCollection(requestCreate);
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/index"
+)
+
+idx := index.NewAutoIndex(index.MetricType(entity.COSINE))
+indexOption := milvusclient.NewCreateIndexOption("my_collection", "embedding", idx)
+
+err = client.CreateCollection(ctx,
+    milvusclient.NewCreateCollectionOption("my_collection", schema).
+        WithIndexOptions(indexOption))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+client
+    .create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name("my_collection")
+            .schema(schema)
+            .index_param(
+                IndexParam::new()
+                    .field_name("embedding")
+                    .index_type(IndexType::AutoIndex)
+                    .metric_type(MetricType::Cosine),
+            )
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::vector<milvus::IndexDesc> indexes = {
+    milvus::IndexDesc("embedding", "", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE)
+};
+
+auto status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                    .WithCollectionName("my_collection")
+                                    .WithIndexes(std::move(indexes))
+                                    .WithCollectionSchema(schema));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
 // Set up index params for vector field
 const indexParams = [
   {
-    name: "embedding",
+    field_name: "embedding",
     metric_type: "COSINE",
     index_type: "AUTOINDEX",
   },
@@ -1330,23 +1516,6 @@ await client.createCollection({
 });
 
 console.log("Collection created successfully!");
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-idx := index.NewAutoIndex(index.MetricType(entity.COSINE))
-indexOption := milvusclient.NewCreateIndexOption("my_collection", "embedding", idx)
-
-err = client.CreateCollection(ctx,
-    milvusclient.NewCreateCollectionOption("my_collection", schema).
-        WithIndexOptions(indexOption))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
 ```
 
 </TabItem>
@@ -1367,47 +1536,28 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/create" \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-std::vector<milvus::IndexDesc> indexes = {
-    milvus::IndexDesc("embedding", "", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE)
-}
-
-auto status = client->CreateCollection(milvus::CreateCollectionRequest()
-                                    .WithCollectionName("my_collection")
-                                    .WithIndexes(std::move(indexes))
-                                    .WithCollectionSchema(schema));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
 
 ## Zilliz Cloud コンソールでの使用例\{#example-use-on-the-zilliz-cloud-console}
 
-上記の操作は、Zilliz Cloud コンソールでも実行できます。詳しくは以下のデモをご覧ください。
+Zilliz Cloud コンソールを使用して上記の操作を実行することもできます。詳細については、以下のデモを再生してください。
 
 <Supademo id="cmfxfue5c41ld10k86la66x1v" title=""  />
 
 <Admonition type="info" title="Note">
 
-analyzer の設定は、コレクションの作成後は変更できません。設定を変更する場合は、目的の設定で新しいコレクションを作成し、データを[移行](./migrate-between-clusters)してください。
+アナライザーの構成は、コレクションの作成後に変更できません。アナライザーの構成を変更するには、目的の設定で新しいコレクションを作成し、データを [移行](./migrate-between-clusters) してください。
 
 </Admonition>
 
 ## 次のステップ\{#whats-next}
 
-analyzer を設定する際は、ユースケースに最適な構成を検討するため、以下のベストプラクティス記事をご参照ください。
+アナライザーを構成する際は、ユースケースに最適な構成を判断するために、以下のベストプラクティス記事を読むことをお勧めします。
 
-- [ユースケースに適した analyzer を選ぶ](./choose-the-right-analyzer-for-your-use-case)
+- [ユースケースに適したアナライザーの選択](./choose-the-right-analyzer-for-your-use-case)
 
-analyzer の設定後、Zilliz Cloud が提供するテキスト検索機能を利用できます。詳細については以下をご覧ください。
+アナライザーを構成した後は、Zilliz Cloud が提供するテキスト検索機能と連携できます。詳細については、以下のとおりです。
 
 - [全文検索](./full-text-search)
 
 - [テキストマッチ](./text-match)
-

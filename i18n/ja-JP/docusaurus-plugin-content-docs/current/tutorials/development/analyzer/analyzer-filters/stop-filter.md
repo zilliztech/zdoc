@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`stop` フィルターは、トークン化されたテキストから指定されたストップワードを除去し、一般的で意味の薄い単語を取り除くのに役立ちます。ストップワードのリストは `stopwords` パラメーターで設定できます。 | Cloud"
+description: "`stop` フィルターは、トークン化されたテキストから指定したストップワードを削除し、一般的で意味の薄い単語の除去に役立ちます。ストップワードのリストは、`stopwords` パラメーターを使用して設定できます。 | Cloud"
 type: origin
 token: ScncwBnDBiVoLjksXAwcUgrgnod
 sidebar_position: 8
@@ -21,17 +21,17 @@ import TabItem from '@theme/TabItem';
 
 # Stop
 
-`stop` フィルターは、トークン化されたテキストから指定されたストップワードを除去し、一般的で意味の薄い単語を取り除くのに役立ちます。ストップワードのリストは `stop_words` パラメーターで設定できます。
+`stop` フィルターは、トークン化されたテキストから指定したストップワードを削除し、一般的で意味の薄い単語の除去に役立ちます。ストップワードのリストは、`stop_words` パラメーターを使用して設定できます。
 
-## 設定\{#configuration}
+## 構成\{#configuration}
 
-`stop` フィルターのストップワードリストは、`stop_words` パラメーターでインラインに指定するか、登録済みのファイルリソースから `stop_words_file` パラメーターで指定できます。
+`stop` フィルターは、ストップワードリストを `stop_words` パラメーターによるインラインで受け取るか、`stop_words_file` パラメーターによる登録済みファイルリソースから受け取ります。
 
 ### インラインのストップワードリスト\{#inline-stop-words-list}
 
-`stop` フィルターをインラインリストで使用するには、フィルター設定で `"type": "stop"` を指定し、ストップワードのリストを含む `stop_words` パラメーターを併せて指定します。
+インラインリストで `stop` フィルターを使用するには、フィルター構成で `"type": "stop"` を指定し、ストップワードのリストを提供する `stop_words` パラメーターを併せて指定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -63,20 +63,6 @@ analyzerParams.put("filter",
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-const analyzer_params = {
-    "tokenizer": "standard",
-    "filter":[{
-        "type": "stop", # Specifies the filter type as stop
-        "stop_words": ["of", "to", "_english_"], # Defines custom stop words and includes the English stop word list
-    }],
-};
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -85,6 +71,50 @@ analyzerParams = map[string]any{"tokenizer": "standard",
         "type":       "stop",
         "stop_words": []string{"of", "to", "_english_"},
     }}}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
+
+let analyzer_params = json!({
+    "tokenizer": "standard",
+    "filter": [{
+        "type": "stop",
+        "stop_words": ["of", "to", "_english_"]
+    }]
+});
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"tokenizer", "standard"},
+    {"filter", {
+        {{"type", "stop"}, {"stop_words", {"of", "to", "_english_"}}}
+    }}
+};
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+    tokenizer: "standard",
+    filter: [{
+        type: "stop",  // Specifies the filter type as stop
+        stop_words: ["of", "to", "_english_"],  // Custom stop words + built-in English list
+    }],
+};
 ```
 
 </TabItem>
@@ -109,22 +139,9 @@ analyzerParams='{
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-nlohmann::json analyzer_params = {
-    {"tokenizer", "standard"},
-    {"filter", {
-        {{"type", "stop"}, {"stop_words", {"of", "to", "_english_"}}}
-    }}
-};
-```
-
-</TabItem>
 </Tabs>
 
-`stop` フィルターでは、以下のパラメーターを設定できます。
+`stop` フィルターは、以下の構成可能なパラメーターを受け取ります。
 
 <table>
    <tr>
@@ -133,21 +150,21 @@ nlohmann::json analyzer_params = {
    </tr>
    <tr>
      <td><p><code>stop_words</code></p></td>
-     <td><p>トークン化の対象から除外する単語のリストです。デフォルトでは、組み込みの <code>_english_</code> 辞書が使用されます。この辞書は次の3つの方法で上書きまたは拡張できます。</p><ul><li><p><strong>組み込み辞書</strong> – 事前定義された辞書を使用するには、次の言語エイリアスのいずれかを指定します。</p><p><code>&quot;_english_&quot;</code>、<code>&quot;_danish_&quot;</code>、<code>&quot;_dutch_&quot;</code>、<code>&quot;_finnish_&quot;</code>、<code>&quot;_french_&quot;</code>、<code>&quot;_german_&quot;</code>、<code>&quot;_hungarian_&quot;</code>、<code>&quot;_italian_&quot;</code>、<code>&quot;_norwegian_&quot;</code>、<code>&quot;_portuguese_&quot;</code>、<code>&quot;_russian_&quot;</code>、<code>&quot;_spanish_&quot;</code>、<code>&quot;_swedish_&quot;</code></p></li><li><p><strong>カスタムリスト</strong> – 独自の用語の配列を渡します（例: <code>[&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;]</code>）。</p></li><li><p><strong>混合リスト</strong> – エイリアスとカスタム用語を組み合わせます（例: <code>[&quot;of&quot;, &quot;to&quot;, &quot;_english_&quot;]</code>）。</p></li></ul><p>各事前定義辞書の正確な内容については、<a href="https://github.com/milvus-io/milvus/blob/master/internal/core/thirdparty/tantivy/tantivy-binding/src/analyzer/filter/stop_words.rs">stop_words</a> を参照してください。</p></td>
+     <td><p>トークン化から削除する単語のリストです。デフォルトでは、フィルターは組み込みの <code>_english_</code> 辞書を使用します。上書きまたは拡張する方法は3つあります：</p><ul><li><p><strong>組み込み辞書</strong> – これらの言語エイリアスのいずれかを指定すると、定義済みの辞書を使用できます：</p><p><code>&quot;_english_&quot;</code>, <code>&quot;_danish_&quot;</code>, <code>&quot;_dutch_&quot;</code>, <code>&quot;_finnish_&quot;</code>, <code>&quot;_french_&quot;</code>, <code>&quot;_german_&quot;</code>, <code>&quot;_hungarian_&quot;</code>, <code>&quot;_italian_&quot;</code>, <code>&quot;_norwegian_&quot;</code>, <code>&quot;_portuguese_&quot;</code>, <code>&quot;_russian_&quot;</code>, <code>&quot;_spanish_&quot;</code>, <code>&quot;_swedish_&quot;</code></p></li><li><p><strong>カスタムリスト</strong> – 独自の用語の配列を渡します（例：<code>[&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;]</code>）。</p></li><li><p><strong>混在リスト</strong> – エイリアスとカスタム用語を組み合わせます（例：<code>[&quot;of&quot;, &quot;to&quot;, &quot;_english_&quot;]</code>）。</p></li></ul><p>各定義済み辞書の正確な内容の詳細については、<a href="https://github.com/milvus-io/milvus/blob/master/internal/core/thirdparty/tantivy/tantivy-binding/src/analyzer/filter/stop_words.rs">stop_words</a> を参照してください。</p></td>
    </tr>
 </table>
 
-`stop` フィルターはトークナイザーが生成した語に対して動作するため、トークナイザーと組み合わせて使用する必要があります。Zilliz Cloud で利用可能なトークナイザーの一覧については、[Standard Tokenizer](./standard-tokenizer) およびその関連ページを参照してください。
+`stop` フィルターはトークナイザーが生成した用語に対して動作するため、トークナイザーと組み合わせて使用する必要があります。Zilliz Cloud で利用可能なトークナイザーの一覧については、[Standard Tokenizer](./standard-tokenizer) およびその関連ページを参照してください。
 
-`analyzer_params` を定義した後、コレクションスキーマの定義時に `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud が指定されたアナライザーを使用して当該フィールドのテキストを処理し、効率的なトークン化とフィルタリングを行えます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後、コレクションスキーマを定義するときにそれを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定したアナライザーを使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを行えます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
 ## 例\{#examples}
 
-アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用して動作を確認してください。
+アナライザー構成をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を検証します。
 
-### アナライザーの設定\{#analyzer-configuration}
+### アナライザー構成\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -179,14 +196,6 @@ analyzerParams.put("filter",
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// javascript
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -199,10 +208,19 @@ analyzerParams = map[string]any{"tokenizer": "standard",
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
+
+let analyzer_params = json!({
+    "tokenizer": "standard",
+    "filter": [{
+        "type": "stop",
+        "stop_words": ["of", "to", "_english_"]
+    }]
+});
 ```
 
 </TabItem>
@@ -219,11 +237,46 @@ nlohmann::json analyzer_params = {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+    tokenizer: "standard",
+    filter: [{
+        type: "stop",  // Specifies the filter type as stop
+        stop_words: ["of", "to", "_english_"],  // Custom stop words + built-in English list
+    }],
+};
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+analyzerParams='{
+  "tokenizer": "standard",
+  "filter": [
+    {
+      "type": "stop",
+      "stop_words": [
+        "of",
+        "to",
+        "_english_"
+      ]
+    }
+  ]
+}'
+```
+
+</TabItem>
 </Tabs>
 
-### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
+### Verification using `run_analyzer`\{#verification-using-runanalyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -250,6 +303,10 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -268,23 +325,14 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// javascript
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
 import (
     "context"
-    "encoding/json"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
@@ -296,10 +344,9 @@ if err != nil {
     // handle error
 }
 
-bs, _ := json.Marshal(analyzerParams)
 texts := []string{"The stop filter allows control over common stop words for text processing."}
-option := milvusclient.NewRunAnalyzerOption(texts).
-    WithAnalyzerParams(string(bs))
+option := milvusclient.NewRunAnalyzerOption(texts...).
+    WithAnalyzerParams(analyzerParams)
 
 result, err := client.RunAnalyzer(ctx, option)
 if err != nil {
@@ -310,10 +357,27 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
+
+let analyzer_params = json!({
+    "tokenizer": "standard",
+    "filter": [{
+        "type": "stop",
+        "stop_words": ["of", "to", "_english_"]
+    }]
+});
+let result = client
+    .run_analyzer(
+        RunAnalyzerRequest::builder()
+            .texts(vec!["The stop filter allows control over common stop words for text processing."])
+            .analyzer_params(analyzer_params)
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -322,6 +386,8 @@ if err != nil {
 
 ```c++
 #include "milvus/MilvusClientV2.h"
+#include <iostream>
+#include <string>
 
 auto client = milvus::MilvusClientV2::Create();
 
@@ -344,11 +410,42 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const sample_text = "The stop filter allows control over common stop words for text processing.";
+
+// Run the standard analyzer with the defined configuration
+const result = await client.runAnalyzer({
+    text: sample_text,
+    analyzer_params,
+});
+console.log("Standard analyzer output:", result);
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+curl --request POST \
+     --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/common/run_analyzer" \
+     --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+     --header "Content-Type: application/json" \
+     -d '{
+        "text": ["The stop filter allows control over common stop words for text processing."],
+        "analyzerParams": "{\"tokenizer\": \"standard\", \"filter\": [{\"type\": \"stop\", \"stop_words\": [\"of\", \"to\", \"_english_\"]}]}"
+     }'
+```
+
+</TabItem>
 </Tabs>
 
 ### 期待される出力\{#expected-output}
 
-```python
+```plaintext
 ['The', 'stop', 'filter', 'allows', 'control', 'over', 'common', 'stop', 'words', 'text', 'processing']
 ```
 

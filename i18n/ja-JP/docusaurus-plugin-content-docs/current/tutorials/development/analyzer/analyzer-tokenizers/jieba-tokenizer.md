@@ -25,19 +25,19 @@ import TabItem from '@theme/TabItem';
 
 <Admonition type="info" title="Notes">
 
-`jieba` トークナイザーは、句読点を個別のトークンとして出力に保持します。たとえば、`"你好！世界。"` は `["你好", "！", "世界", "。"]` となります。これらの単独の句読点トークンを除去するには、[`removepunct`](./remove-punct-filter) フィルターを使用してください。
+`jieba` トークナイザーは、出力時に句読点を個別のトークンとして保持します。たとえば、`"你好！世界。"` は `["你好", "！", "世界", "。"]` となります。これらの単独の句読点トークンを除去するには、[`removepunct`](./remove-punct-filter) フィルターを使用してください。
 
 </Admonition>
 
 ## 設定\{#configuration}
 
-Milvus では、`jieba` トークナイザーの設定方法として、シンプル設定とカスタム設定の 2 つがサポートされています。
+Milvus では、`jieba` トークナイザーに対してシンプル設定とカスタム設定の 2 通りの設定方法がサポートされています。
 
 ### シンプル設定\{#simple-configuration}
 
 シンプル設定では、トークナイザーを `"jieba"` に指定するだけです。例:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -58,20 +58,45 @@ analyzerParams.put("tokenizer", "jieba");
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+analyzerParams := map[string]any{"tokenizer": "jieba"}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let analyzer_params = serde_json::json!({"tokenizer": "jieba"});
+
+    Ok(())
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"tokenizer", "jieba"}
+};
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
 const analyzer_params = {
     "tokenizer": "jieba",
 };
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-analyzerParams = map[string]any{"tokenizer": "jieba"}
 ```
 
 </TabItem>
@@ -86,30 +111,22 @@ analyzerParams='{
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-nlohmann::json analyzer_params = {
-    {"tokenizer", "jieba"}
-};
-```
-
-</TabItem>
 </Tabs>
 
 このシンプル設定は、以下のカスタム設定と同等です。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 # Custom configuration equivalent to the simple configuration above
 analyzer_params = {
-    "type": "jieba",          # Tokenizer type, fixed as "jieba"
-    "dict": ["_default_"],     # Use the default dictionary
-    "mode": "search",          # Use search mode for improved recall (see mode details below)
-    "hmm": True                # Enable HMM for probabilistic segmentation
+    "tokenizer": {                 # Tokenizer configuration
+        "type": "jieba",           # Tokenizer type, fixed as "jieba"
+        "dict": ["_default_"],     # Use the default dictionary
+        "mode": "search",          # Use search mode for improved recall (see mode details below)
+        "hmm": True                # Enable HMM for probabilistic segmentation
+    }
 }
 ```
 
@@ -119,18 +136,12 @@ analyzer_params = {
 
 ```java
 Map<String, Object> analyzerParams = new HashMap<>();
-analyzerParams.put("type", "jieba");
-analyzerParams.put("dict", Collections.singletonList("_default_"));
-analyzerParams.put("mode", "search");
-analyzerParams.put("hmm", true);
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-// javascript
+analyzerParams.put("tokenizer", new HashMap<String, Object>() {{
+  put("type", "jieba");
+  put("dict", Collections.singletonList("_default_"));
+  put("mode", "search");
+  put("hmm", true);
+}});
 ```
 
 </TabItem>
@@ -138,15 +149,29 @@ analyzerParams.put("hmm", true);
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"type": "jieba", "dict": []any{"_default_"}, "mode": "search", "hmm": true}
+analyzerParams := map[string]any{
+  "tokenizer": map[string]any{
+    "type": "jieba",
+    "dict": []any{"_default_"},
+    "mode": "search",
+    "hmm":  true,
+  },
+}
 ```
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+    let analyzer_params = serde_json::json!({
+        "tokenizer": {
+            "type": "jieba",
+            "dict": ["_default_"],
+            "mode": "search",
+            "hmm": true
+        }
+    });
 ```
 
 </TabItem>
@@ -155,11 +180,44 @@ analyzerParams = map[string]any{"type": "jieba", "dict": []any{"_default_"}, "mo
 
 ```c++
 nlohmann::json analyzer_params = {
-    {"tokenizer", "jieba"},
-    {"dict", {"_default_"}},
-    {"mode", "search"},
-    {"hmm", true}
+    {"tokenizer", {
+        {"type", "jieba"},
+        {"dict", {"_default_"}},
+        {"mode", "search"},
+        {"hmm", true}
+    }}
 };
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+  tokenizer: {
+    type: "jieba",
+    dict: ["_default_"],
+    mode: "search",
+    hmm: true,
+  },
+};
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+export analyzerParams='{
+  "tokenizer": {
+    "type": "jieba",
+    "dict": ["_default_"],
+    "mode": "search",
+    "hmm": true
+  }
+}'
 ```
 
 </TabItem>
@@ -169,9 +227,9 @@ nlohmann::json analyzer_params = {
 
 ### カスタム設定\{#custom-configuration}
 
-より詳細な制御が必要な場合は、カスタム辞書の指定、セグメンテーションモードの選択、Hidden Markov Model（HMM）の有効化・無効化を行えるカスタム設定を利用できます。例:
+より詳細に制御するには、カスタム辞書の指定、分割モードの選択、Hidden Markov Model（HMM）の有効化・無効化が可能なカスタム設定を指定できます。例:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -202,14 +260,6 @@ analyzerParams.put("tokenizer", new HashMap<String, Object>() {{
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// javascript
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -225,10 +275,17 @@ analyzerParams := map[string]interface{}{
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+    let analyzer_params = serde_json::json!({
+        "tokenizer": {
+            "type": "jieba",
+            "dict": ["customDictionary"],
+            "mode": "exact",
+            "hmm": false
+        }
+    });
 ```
 
 </TabItem>
@@ -247,6 +304,37 @@ nlohmann::json analyzerParams = {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+  tokenizer: {
+    type: "jieba",
+    dict: ["customDictionary"],
+    mode: "exact",
+    hmm: false,
+  },
+};
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+export analyzerParams='{
+  "tokenizer": {
+    "type": "jieba",
+    "dict": ["customDictionary"],
+    "mode": "exact",
+    "hmm": false
+  }
+}'
+```
+
+</TabItem>
 </Tabs>
 
 <table>
@@ -257,44 +345,44 @@ nlohmann::json analyzerParams = {
    </tr>
    <tr>
      <td><p><code>type</code></p></td>
-     <td><p>トークナイザーの種類です。<code>&quot;jieba&quot;</code> に固定されています。</p></td>
+     <td><p>トークナイザーのタイプ。これは <code>&quot;jieba&quot;</code> に固定されています。</p></td>
      <td><p><code>&quot;jieba&quot;</code></p></td>
    </tr>
    <tr>
      <td><p><code>dict</code></p></td>
-     <td><p>アナライザーが語彙ソースとして読み込む辞書のリストです。組み込みオプションは以下のとおりです。</p><ul><li><p><code>&quot;_default_&quot;</code>: エンジンに組み込まれた簡体字中国語辞書を読み込みます。詳細は <a href="https://github.com/messense/jieba-rs/blob/v0.6.8/src/data/dict.txt">dict.txt</a> を参照してください。</p></li><li><p><code>&quot;_extend_default_&quot;</code>: <code>&quot;_default_&quot;</code> に加え、繁体字中国語の補足辞書も読み込みます。詳細は <a href="https://github.com/milvus-io/milvus/blob/v2.5.11/internal/core/thirdparty/tantivy/tantivy-binding/src/analyzer/data/jieba/dict.txt.big">dict.txt.big</a> を参照してください。</p></li></ul><p>組み込み辞書と任意の数のカスタム辞書を組み合わせることも可能です。例: <code>[&quot;_default_&quot;, &quot;结巴分词器&quot;]</code>。</p></td>
+     <td><p>アナライザーが語彙ソースとして読み込む辞書のリストです。組み込みオプション:</p><ul><li><p><code>&quot;_default_&quot;</code>: エンジン組み込みの簡体字中国語辞書を読み込みます。詳細については、<a href="https://github.com/messense/jieba-rs/blob/v0.6.8/src/data/dict.txt">dict.txt</a> を参照してください。</p></li><li><p><code>&quot;_extend_default_&quot;</code>: <code>&quot;_default_&quot;</code> の内容に加えて、繁体字中国語の補足辞書を読み込みます。詳細については、<a href="https://github.com/milvus-io/milvus/blob/v2.5.11/internal/core/thirdparty/tantivy/tantivy-binding/src/analyzer/data/jieba/dict.txt.big">dict.txt.big</a> を参照してください。</p></li></ul><p>組み込み辞書と任意の数のカスタム辞書を組み合わせることもできます。例: <code>[&quot;_default_&quot;, &quot;结巴分词器&quot;]</code>。</p></td>
      <td><p><code>[&quot;_default_&quot;]</code></p></td>
    </tr>
    <tr>
      <td><p><code>mode</code></p></td>
-     <td><p>セグメンテーションモードです。指定可能な値は以下のとおりです。</p><ul><li><p><code>&quot;exact&quot;</code>: 文を最も正確に分割するため、テキスト分析に適しています。</p></li><li><p><code>&quot;search&quot;</code>: exact モードを基に長い単語をさらに分割して再現率を高めるため、検索エンジンのトークン化に適しています。</p></li></ul><p>詳細については、<a href="https://github.com/fxsjy/jieba">Jieba GitHub Project</a> を参照してください。</p></td>
+     <td><p>分割モード。指定可能な値:</p><ul><li><p><code>&quot;exact&quot;</code>: 文を可能な限り正確に分割しようとします。テキスト分析に最適です。</p></li><li><p><code>&quot;search&quot;</code>: exact モードを基に、長い単語をさらに分割して再現率を高めます。検索エンジンのトークン化に適しています。</p></li></ul><p>詳細については、<a href="https://github.com/fxsjy/jieba">Jieba GitHub Project</a> を参照してください。</p></td>
      <td><p><code>&quot;search&quot;</code></p></td>
    </tr>
    <tr>
      <td><p><code>hmm</code></p></td>
-     <td><p>辞書に登録されていない単語に対して Hidden Markov Model（HMM）による確率的なセグメンテーションを有効にするかどうかを示すブール値フラグです。</p></td>
+     <td><p>辞書に見つからない単語を確率的に分割するために Hidden Markov Model（HMM）を有効にするかどうかを示すブール値のフラグです。</p></td>
      <td><p><code>true</code></p></td>
    </tr>
 </table>
 
-`dict` でインライン指定する代わりに、外部ファイルから大規模なカスタム語彙を読み込む場合は、後述の [辞書ファイルによるカスタム設定](./jieba-tokenizer#custom-configuration-with-a-dictionary-file) を参照してください。
+大規模なカスタム語彙を `dict` でインライン展開する代わりに外部ファイルから読み込むには、後述の [辞書ファイルを使ったカスタム設定](./jieba-tokenizer#custom-configuration-with-a-dictionary-file) を参照してください。
 
-`analyzer_params` を定義した後、コレクションスキーマの定義時にそれらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud が指定されたアナライザーを使用して該当フィールドのテキストを処理し、効率的なトークン化とフィルタリングを実行できるようになります。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後は、コレクションスキーマを定義する際に `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定したアナライザーを使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを実現します。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
-### 辞書ファイルによるカスタム設定 | PRIVATE\{#custom-configuration-with-a-dictionary-file}
+### 辞書ファイルを使ったカスタム設定 | PRIVATE\{#custom-configuration-with-a-dictionary-file}
 
-ドメイン用語集、製品用語、固有名詞リストなど大規模なカスタム語彙がある場合は、単語をファイルに保存してリモートファイルリソースとして登録し、トークナイザーから `extra_dict_file` パラメーターで参照します。アナライザーは組み込み辞書に加えて、これらの単語を語彙として読み込みます。
+大規模なカスタム語彙（ドメイン用語集、製品用語、固有名詞リストなど）では、単語をファイルに格納し、そのファイルをリモートファイルリソースとして登録してから、`extra_dict_file` パラメーターを介してトークナイザーから参照します。アナライザーはこれらの単語を、組み込み辞書に加えて語彙に読み込みます。
 
-ファイルは UTF-8 のプレーンテキストで、1 行に 1 つの用語を記述します。例:
+ファイルはプレーンな UTF-8 テキストで、1 行に 1 つの用語を記述します。例:
 
 ```plaintext
 结巴分词器
 向量数据库
 ```
 
-Milvus クラスターで使用するように設定されているオブジェクトストアにファイルをアップロードし、登録します。
+ファイルを、Milvus クラスターが使用するように構成されているオブジェクトストアにアップロードしてから、登録します:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -314,15 +402,12 @@ client.add_file_resource(
 <TabItem value='java'>
 
 ```java
-// java
-```
+import io.milvus.v2.service.utility.request.AddFileResourceReq;
 
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-// nodejs
+client.addFileResource(AddFileResourceReq.builder()
+        .name("zh_terms")
+        .path("file/zh_terms.txt")
+        .build());
 ```
 
 </TabItem>
@@ -330,15 +415,22 @@ client.add_file_resource(
 <TabItem value='go'>
 
 ```go
-// go
+err = client.AddFileResource(ctx, milvusclient.NewAddFileResourceOption("zh_terms", "file/zh_terms.txt"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+    client.add_file_resource(AddFileResourceRequest::builder()
+        .name("zh_terms")
+        .path("file/zh_terms.txt")
+        .build()?).await?;
 ```
 
 </TabItem>
@@ -346,15 +438,40 @@ client.add_file_resource(
 <TabItem value='c++'>
 
 ```c++
-// cpp
+milvus::AddFileResourceRequest add_file_request;
+add_file_request.WithName("zh_terms");
+add_file_request.WithPath("file/zh_terms.txt");
+status = client->AddFileResource(add_file_request);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.addFileResource({
+  name: "zh_terms",
+  path: "file/zh_terms.txt",
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# Note: The RESTful API does not expose the add_file_resource operation as of Milvus v3.0.x.
 ```
 
 </TabItem>
 </Tabs>
 
-登録したリソースを、トークナイザーの `extra_dict_file` で参照します。
+`extra_dict_file` を介して、登録済みのリソースをトークナイザーで参照します:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -381,15 +498,25 @@ client.run_analyzer(["milvus结巴分词器中文测试"], analyzer_params)
 <TabItem value='java'>
 
 ```java
-// java
-```
+Map<String, Object> analyzerParams = new HashMap<>();
+analyzerParams.put("tokenizer", new HashMap<String, Object>() {{
+  put("type", "jieba");
+  put("dict", Collections.singletonList("_default_"));
+  put("mode", "exact");
+  put("hmm", false);
+  put("extra_dict_file", new HashMap<String, Object>() {{
+    put("type", "remote");
+    put("resource_name", "zh_terms");
+    put("file_name", "zh_terms.txt");
+  }});
+}});
 
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-// nodejs
+List<String> texts = new ArrayList<>();
+texts.add("milvus结巴分词器中文测试");
+client.runAnalyzer(RunAnalyzerReq.builder()
+        .texts(texts)
+        .analyzerParams(analyzerParams)
+        .build());
 ```
 
 </TabItem>
@@ -397,15 +524,41 @@ client.run_analyzer(["milvus结巴分词器中文测试"], analyzer_params)
 <TabItem value='go'>
 
 ```go
-// go
+bs, _ := json.Marshal(analyzerParams)
+texts := []string{"milvus结巴分词器中文测试"}
+option := milvusclient.NewRunAnalyzerOption(texts...).
+    WithAnalyzerParamsStr(string(bs))
+
+result, err := client.RunAnalyzer(ctx, option)
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+    let analyzer_params = serde_json::json!({
+        "tokenizer": {
+            "type": "jieba",
+            "dict": ["_default_"],
+            "mode": "exact",
+            "hmm": false,
+            "extra_dict_file": {
+                "type": "remote",
+                "resource_name": "zh_terms",
+                "file_name": "zh_terms.txt"
+            }
+        }
+    });
+    let resp = client.run_analyzer(RunAnalyzerRequest::builder()
+        .texts(vec!["milvus结巴分词器中文测试"])
+        .analyzer_params(analyzer_params)
+        .build()?).await?;
+    println!("{:?}", resp.results());
 ```
 
 </TabItem>
@@ -413,29 +566,92 @@ client.run_analyzer(["milvus结巴分词器中文测试"], analyzer_params)
 <TabItem value='c++'>
 
 ```c++
-// cpp
+nlohmann::json analyzer_params = {
+    {"tokenizer", {
+        {"type", "jieba"},
+        {"dict", {"_default_"}},
+        {"mode", "exact"},
+        {"hmm", false},
+        {"extra_dict_file", {
+            {"type", "remote"},
+            {"resource_name", "zh_terms"},
+            {"file_name", "zh_terms.txt"}
+        }}
+    }}
+};
+
+milvus::RunAnalyzerRequest request;
+request.WithAnalyzerParams(analyzer_params);
+request.AddText("milvus结巴分词器中文测试");
+
+milvus::RunAnalyzerResponse response;
+status = client->RunAnalyzer(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+  tokenizer: {
+    type: "jieba",
+    dict: ["_default_"],
+    mode: "exact",
+    hmm: false,
+    extra_dict_file: {
+      type: "remote",
+      resource_name: "zh_terms",
+      file_name: "zh_terms.txt",
+    },
+  },
+};
+
+const result = await client.runAnalyzer({
+  text: "milvus结巴分词器中文测试",
+  analyzer_params,
+});
+console.log(result.results);
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/common/run_analyzer" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--data '{
+  "text": ["milvus结巴分词器中文测试"],
+  "analyzerParams": "{\"tokenizer\":{\"type\":\"jieba\",\"dict\":[\"_default_\"],\"mode\":\"exact\",\"hmm\":false,\"extra_dict_file\":{\"type\":\"remote\",\"resource_name\":\"zh_terms\",\"file_name\":\"zh_terms.txt\"}}}"
+}'
 ```
 
 </TabItem>
 </Tabs>
 
-`extra_dict_file` パラメーターには、以下のフィールドを持つオブジェクトを指定します。
+`extra_dict_file` パラメーターは、以下のフィールドを持つオブジェクトを受け入れます:
 
 | フィールド | 説明 |
 | --- | --- |
-| `type` | リソースの種類です。`add_file_resource` で登録したファイルの場合は `"remote"` を指定します。 |
-| `resource_name` | `add_file_resource` でファイルを登録する際に指定した名前です。 |
-| `file_name` | 登録済みリソースのオブジェクトストアパスのうち、ファイル名部分です（例: リソースを `path="file/zh_terms.txt"` で登録した場合の `"zh_terms.txt"`）。 |
+| `type` | リソースのタイプ。`add_file_resource` で登録したファイルには `"remote"` を使用します。 |
+| `resource_name` | `add_file_resource` でファイルを登録した際に使用した名前。 |
+| `file_name` | 登録済みリソースのオブジェクトストアパスのファイル名部分（たとえば、リソースを `path="file/zh_terms.txt"` で登録した場合は `"zh_terms.txt"`）。 |
 
-`extra_dict_file` で追加された単語は組み込み辞書とマージされるため、jieba のセグメンテーションアルゴリズムはこれらの単語を既存のエントリと同列に認識します。特定の用語が単独のトークンとして扱われるかどうかは、jieba の確率重み付き DAG 選択に依存します。例えば `向量数据库` のような長いカスタム用語でも、組み込み辞書内の短いエントリの頻度が高い場合には、`向量` + `数据库` に分割される可能性があります。
+`extra_dict_file` を介して追加された単語は組み込み辞書とマージされるため、jieba の分割アルゴリズムは既存のエントリーとともにそれらを認識します。特定の用語が単独のトークンとして現れるかどうかは、jieba の確率重み付き DAG 選択に依存します。`向量数据库` のような長いカスタム用語でも、より短い `向量` と `数据库` のエントリーが組み込み辞書内で高い頻度を持つ場合は、依然としてそれらに分割されることがあります。
 
 ## 例\{#examples}
 
-コレクションスキーマにアナライザー設定を適用する前に、`run_analyzer` メソッドを使って動作を確認してください。
+アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使ってその動作を確認してください。
 
-### アナライザーの設定\{#analyzer-configuration}
+### アナライザー設定\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -465,14 +681,6 @@ analyzerParams.put("tokenizer", new HashMap<String, Object>() {{
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// javascript
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -488,10 +696,17 @@ analyzerParams := map[string]interface{}{
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+    let analyzer_params = serde_json::json!({
+        "tokenizer": {
+            "type": "jieba",
+            "dict": ["结巴分词器"],
+            "mode": "exact",
+            "hmm": false
+        }
+    });
 ```
 
 </TabItem>
@@ -510,11 +725,42 @@ nlohmann::json analyzerParams = {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+  tokenizer: {
+    type: "jieba",
+    dict: ["结巴分词器"],
+    mode: "exact",
+    hmm: false,
+  },
+};
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+export analyzerParams='{
+  "tokenizer": {
+    "type": "jieba",
+    "dict": ["结巴分词器"],
+    "mode": "exact",
+    "hmm": false
+  }
+}'
+```
+
+</TabItem>
 </Tabs>
 
 ### `run_analyzer` を使った検証\{#verification-using-runanalyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -544,6 +790,8 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
+import java.util.ArrayList;
+import java.util.List;
 
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -563,14 +811,6 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// javascript
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -579,7 +819,7 @@ import (
     "encoding/json"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
@@ -593,8 +833,8 @@ if err != nil {
 
 bs, _ := json.Marshal(analyzerParams)
 texts := []string{"milvus结巴分词器中文测试"}
-option := milvusclient.NewRunAnalyzerOption(texts).
-    WithAnalyzerParams(string(bs))
+option := milvusclient.NewRunAnalyzerOption(texts...).
+    WithAnalyzerParamsStr(string(bs))
 
 result, err := client.RunAnalyzer(ctx, option)
 if err != nil {
@@ -605,10 +845,14 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+    let resp = client.run_analyzer(RunAnalyzerRequest::builder()
+        .texts(vec!["milvus结巴分词器中文测试"])
+        .analyzer_params(analyzer_params)
+        .build()?).await?;
+    println!("{:?}", resp.results());
 ```
 
 </TabItem>
@@ -636,6 +880,42 @@ status = client->RunAnalyzer(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+  tokenizer: {
+    type: "jieba",
+    dict: ["结巴分词器"],
+    mode: "exact",
+    hmm: false,
+  },
+};
+
+const result = await client.runAnalyzer({
+  text: "milvus结巴分词器中文测试",
+  analyzer_params,
+});
+console.log(result.results);
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/common/run_analyzer" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--data '{
+  "text": ["milvus结巴分词器中文测试"],
+  "analyzerParams": "{\"tokenizer\":{\"type\":\"jieba\",\"dict\":[\"结巴分词器\"],\"mode\":\"exact\",\"hmm\":false}}"
+}'
 ```
 
 </TabItem>
