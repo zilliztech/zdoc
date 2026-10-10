@@ -1,13 +1,13 @@
 ---
-title: "Serving Clusters への接続 | BYOC"
+title: "サービングクラスターへの接続 | BYOC"
 slug: /connect-to-serving-cluster
-sidebar_label: "Serving Clusters への接続"
+sidebar_label: "サービングクラスターへの接続"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud は、さまざまなビジネスニーズに対応するために、多様な serving cluster デプロイオプションを提供します。 | BYOC"
+description: "Zilliz Cloud は、さまざまなビジネスニーズに対応するために、多様なサービングクラスターのデプロイオプションを提供します。 | BYOC"
 type: origin
 token: SFPlwOh8cigh8wkm9xLcXHlfnVh
 sidebar_position: 1
@@ -19,28 +19,28 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Serving Clusters への接続
+# サービングクラスターへの接続
 
-Zilliz Cloud は、さまざまなビジネスニーズに対応するために、多様な serving cluster デプロイオプションを提供します。 
+Zilliz Cloud は、さまざまなビジネスニーズに対応するために、多様なサービングクラスターのデプロイオプションを提供します。
 
-- **Free**: ストレージ、vCU 消費量、および collection 数に制限はあるものの、学習や個人プロジェクトの出発点を提供します。
+- **Free**: ストレージ、vCU 消費量、およびコレクション数に制限がありますが、学習や個人プロジェクトの出発点を提供します。
 
-- **Serverless**: ワークロードに応じて自動的にスケールする共有環境を提供します。リソースをプロビジョニングする必要はありません。このオプションは、予測しにくいトラフィックやスパイク的なトラフィックに対して、優れたコスト効率と伸縮性を実現します。
+- **Serverless**: ワークロードに合わせて自動的にスケールする共有環境を提供します。リソースをプロビジョニングする必要はありません。このオプションは、予測しにくいトラフィックやスパイク状のトラフィックに対して、優れたコスト効率と伸縮性を実現します。
 
-- **Dedicated**: 一貫した予測可能なパフォーマンスが求められる本番ワークロード向けに、分離された予約済み環境を提供します。このオプションは、継続的な高スループットやレイテンシに敏感なアプリケーションに最適です。
+- **Dedicated**: 一貫した予測可能なパフォーマンスを必要とする本番ワークロード向けに、分離された予約済み環境を提供します。このオプションは、持続的な高スループットやレイテンシに敏感なアプリケーションに最適です。
 
-## Endpoint formats\{#endpoint-formats}
+## エンドポイント形式\{#endpoint-formats}
 
-| Cluster type | Endpoint pattern | Notes |
+| クラスタータイプ | エンドポイントパターン | 注記 |
 | --- | --- | --- |
-| Free/Serverless | `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com` | Free/Serverless cluster は、専用ポートなしのリアルタイム serving endpoint を使用します。 |
-| Dedicated | `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530` | Dedicated cluster は、ポート `19530` を使用するリアルタイム serving endpoint を使用します。 |
+| Free/Serverless | `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com` | Free/Serverless クラスターは、専用ポートなしのリアルタイムサービングエンドポイントを使用します。 |
+| Dedicated | `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530` | Dedicated クラスターは、ポート `19530` のリアルタイムサービングエンドポイントを使用します。 |
 
-## Free/Serverless cluster への接続\{#connect-to-freeserverless-clusters}
+## Free/Serverless クラスターへの接続\{#connect-to-freeserverless-clusters}
 
-cluster 詳細ページの **Connect** カードから cluster public endpoint をコピーします。cluster へのアクセス権を持つ API key、または `username:password` 形式の cluster credential のいずれかを token として使用します。
+クラスターの詳細ページの **Connect** カードから、クラスターのパブリックエンドポイントをコピーします。トークンには、そのクラスターにアクセスできる API キー、または `username:password` 形式のクラスター認証情報のいずれかを使用します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -79,7 +79,7 @@ MilvusClientV2 client = new MilvusClientV2(connectConfig);
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v2/milvusclient"
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
@@ -89,10 +89,38 @@ client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let config = ConnectConfig::new()
+    .uri("YOUR_CLUSTER_ENDPOINT")
+    .token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient } = require("@zilliz/milvus2-sdk-node");
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 
 const address = "YOUR_CLUSTER_ENDPOINT";
 const token = "YOUR_CLUSTER_TOKEN";
@@ -106,7 +134,7 @@ const client = new MilvusClient({ address, token });
 
 ```bash
 curl --request POST \
-  --url "YOUR_CLUSTER_ENDPOINT" \
+  --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/list" \
   --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
   --header "Content-Type: application/json" \
   --data '{"dbName": "default"}'
@@ -115,18 +143,18 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-接続を確認するには、collection の一覧表示などの軽量な操作を実行します。
+接続を確認するには、コレクションの一覧表示のような軽量な操作を実行します。
 
 ```python
 collections = client.list_collections()
 print(collections)
 ```
 
-## Dedicated cluster への接続\{#connect-to-dedicated-clusters}
+## Dedicated クラスターへの接続\{#connect-to-dedicated-clusters}
 
-すべての SDK で cluster endpoint と token を一貫して使用します。`YOUR_CLUSTER_ENDPOINT` は cluster の **Connect** カードからコピーした public endpoint であり、`YOUR_CLUSTER_TOKEN` は対象 cluster へのアクセス権を持つ API key、または `username:password` 形式の cluster credential のいずれかです。
+SDK 間でクラスターエンドポイントとトークンを一貫して使用します。`YOUR_CLUSTER_ENDPOINT` はクラスターの **Connect** カードからコピーしたパブリックエンドポイント、`YOUR_CLUSTER_TOKEN` は対象クラスターにアクセスできる API キー、または `username:password` 形式のクラスター認証情報です。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -165,7 +193,7 @@ MilvusClientV2 client = new MilvusClientV2(connectConfig);
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v2/milvusclient"
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
@@ -175,10 +203,38 @@ client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let config = ConnectConfig::new()
+    .uri("YOUR_CLUSTER_ENDPOINT")
+    .token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient } = require("@zilliz/milvus2-sdk-node");
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 
 const address = "YOUR_CLUSTER_ENDPOINT";
 const token = "YOUR_CLUSTER_TOKEN";
@@ -192,7 +248,7 @@ const client = new MilvusClient({ address, token });
 
 ```bash
 curl --request POST \
-  --url "YOUR_CLUSTER_ENDPOINT" \
+  --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/list" \
   --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
   --header "Content-Type: application/json" \
   --data '{"dbName": "default"}'
@@ -201,9 +257,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## 接続の確認\{#verify-the-connection}
-
-SDK で接続した後、collection の一覧表示などの軽量な操作を実行します。
+接続を確認するには、コレクションの一覧表示のような軽量な操作を実行します。
 
 ```python
 collections = client.list_collections()

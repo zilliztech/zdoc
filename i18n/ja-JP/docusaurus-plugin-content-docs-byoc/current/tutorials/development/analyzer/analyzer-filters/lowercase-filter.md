@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`lowercase` フィルターは、tokenizer によって生成された用語を小文字に変換し、検索で大文字と小文字を区別しないようにします。たとえば、`[\"High\", \"Performance\", \"Vector\", \"Database\"]` を `[\"high\", \"performance\", \"vector\", \"database\"]` に変換できます。 | BYOC"
+description: "`lowercase` フィルターは、トークナイザーによって生成された用語を小文字に変換し、検索で大文字と小文字を区別しないようにします。たとえば、`[\"High\", \"Performance\", \"Vector\", \"Database\"]` を `[\"high\", \"performance\", \"vector\", \"database\"]` に変換できます。 | BYOC"
 type: origin
 token: AhAhw08MFiB9OpkDjbPcVUTVnlg
 sidebar_position: 1
@@ -21,13 +21,13 @@ import TabItem from '@theme/TabItem';
 
 # Lowercase
 
-`lowercase` フィルターは、tokenizer によって生成された用語を小文字に変換し、検索で大文字と小文字を区別しないようにします。たとえば、`["High", "Performance", "Vector", "Database"]` を `["high", "performance", "vector", "database"]` に変換できます。
+`lowercase` フィルターは、トークナイザーによって生成された用語を小文字に変換し、検索で大文字と小文字を区別しないようにします。たとえば、`["High", "Performance", "Vector", "Database"]` を `["high", "performance", "vector", "database"]` に変換できます。
 
-## Configuration\{#configuration}
+## 設定\{#configuration}
 
 `lowercase` フィルターは Zilliz Cloud に組み込まれています。使用するには、`analyzer_params` 内の `filter` セクションでその名前を指定するだけです。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -49,6 +49,38 @@ analyzerParams.put("filter", Collections.singletonList("lowercase"));
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+analyzerParams := map[string]any{"tokenizer": "standard", "filter": []any{"lowercase"}}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use serde_json::json;
+
+let analyzer_params = json!({
+    "tokenizer": "standard",
+    "filter": ["lowercase"]
+});
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"tokenizer", "standard"},
+    {"filter", {"lowercase"}}
+};
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -56,14 +88,6 @@ const analyzer_params = {
     "tokenizer": "standard",
     "filter": ["lowercase"],
 };
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-analyzerParams = map[string]any{"tokenizer": "standard", "filter": []any{"lowercase"}}
 ```
 
 </TabItem>
@@ -81,30 +105,19 @@ analyzerParams='{
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-nlohmann::json analyzer_params = {
-    {"tokenizer", "standard"},
-    {"filter", {"lowercase"}}
-};
-```
-
-</TabItem>
 </Tabs>
 
-`lowercase` フィルターは tokenizer によって生成された用語に対して動作するため、tokenizer と組み合わせて使用する必要があります。
+`lowercase` フィルターはトークナイザーによって生成された用語に対して動作するため、トークナイザーと組み合わせて使用する必要があります。
 
-`analyzer_params` を定義した後、collection schema を定義する際にそれらを `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud は指定された analyzer を使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを実現できます。詳細は、[使用例](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後、コレクションスキーマを定義するときにそれらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを実現できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
-## Examples\{#examples}
+## 例\{#examples}
 
-analyzer の設定を collection schema に適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
-### Analyzer configuration\{#analyzer-configuration}
+### アナライザーの設定\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -126,14 +139,6 @@ analyzerParams.put("filter", Collections.singletonList("lowercase"));
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// javascript
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -142,10 +147,15 @@ analyzerParams := map[string]any{"tokenizer": "standard", "filter": []any{"lower
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+use serde_json::json;
+
+let analyzer_params = json!({
+    "tokenizer": "standard",
+    "filter": ["lowercase"]
+});
 ```
 
 </TabItem>
@@ -160,11 +170,36 @@ nlohmann::json analyzer_params = {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+    "tokenizer": "standard",
+    "filter": ["lowercase"],
+}
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+analyzerParams='{
+  "tokenizer": "standard",
+  "filter": [
+    "lowercase"
+  ]
+}' 
+```
+
+</TabItem>
 </Tabs>
 
-### Verification using `run_analyzer`\{#verification-using-runanalyzer}
+### `run_analyzer` を使った検証\{#verification-using-runanalyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -194,6 +229,8 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
+import java.util.ArrayList;
+import java.util.List;
 
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -213,23 +250,14 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// javascript
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
 import (
     "context"
-    "encoding/json"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
@@ -241,10 +269,9 @@ if err != nil {
     // handle error
 }
 
-bs, _ := json.Marshal(analyzerParams)
 texts := []string{"The Lowercase Filter Ensures Uniformity In Text Processing."}
-option := milvusclient.NewRunAnalyzerOption(texts).
-    WithAnalyzerParams(string(bs))
+option := milvusclient.NewRunAnalyzerOption(texts...).
+    WithAnalyzerParams(analyzerParams)
 
 result, err := client.RunAnalyzer(ctx, option)
 if err != nil {
@@ -255,10 +282,25 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+use milvus::v2::prelude::*;
+
+let response = client
+    .run_analyzer(
+        RunAnalyzerRequest::builder()
+            .texts(["The Lowercase Filter Ensures Uniformity In Text Processing."])
+            .analyzer_params(analyzer_params)
+            .build()?,
+    )
+    .await?;
+
+for result in response.results() {
+    for token in result.get_tokens() {
+        println!("Standard analyzer output: {}", token.get_text());
+    }
+}
 ```
 
 </TabItem>
@@ -289,9 +331,44 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
+
+const client = new MilvusClient({
+  address: 'YOUR_CLUSTER_ENDPOINT',
+});
+
+const sample_text = 'The Lowercase Filter Ensures Uniformity In Text Processing.';
+const result = await client.runAnalyzer({
+  text: sample_text,
+  analyzer_params,
+});
+const tokens = result.results.flatMap(r => r.tokens.map(t => t.token));
+console.log('Standard analyzer output:', tokens);
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+  --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/common/run_analyzer" \
+  --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+  --header "Content-Type: application/json" \
+  --data-raw '{
+    "analyzerParams": "{\"tokenizer\": \"standard\", \"filter\": [\"lowercase\"]}",
+    "text": ["The Lowercase Filter Ensures Uniformity In Text Processing."]
+  }' 
+```
+
+</TabItem>
 </Tabs>
 
-### Expected output\{#expected-output}
+### 期待される出力\{#expected-output}
 
 ```python
 ['the', 'lowercase', 'filter', 'ensures', 'uniformity', 'in', 'text', 'processing']

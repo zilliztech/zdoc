@@ -27,7 +27,7 @@ import TabItem from '@theme/TabItem';
 
 以下のコードスニペットは、**my_collection** という名前のコレクションがあることを前提としています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -63,35 +63,11 @@ ConnectConfig connectConfig = ConnectConfig.builder()
 
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
-DropCollectionReq dropQuickSetupParam = DropCollectionReq.builder()
+DropCollectionReq dropCollectionParam = DropCollectionReq.builder()
         .collectionName("my_collection")
         .build();
 
-client.dropCollection(dropQuickSetupParam);
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
-
-const address = "YOUR_CLUSTER_ENDPOINT";
-const token = "YOUR_CLUSTER_TOKEN";
-const client = new MilvusClient({address, token});
-
-// 10. Drop the collection
-res = await client.dropCollection({
-    collection_name: "my_collection"
-})
-
-console.log(res.error_code)
-
-// Output
-// 
-// Success
-// 
+client.dropCollection(dropCollectionParam);
 ```
 
 </TabItem>
@@ -102,9 +78,8 @@ console.log(res.error_code)
 import (
     "context"
     "fmt"
-    "log"
 
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -132,6 +107,79 @@ if err != nil {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let client = ClientV2::new(
+        &ConnectConfig::new()
+            .uri("YOUR_CLUSTER_ENDPOINT")
+            .token("YOUR_CLUSTER_TOKEN"),
+    )
+    .await?;
+
+    client
+        .drop_collection(
+            DropCollectionRequest::builder()
+                .collection_name("my_collection")
+                .build()?,
+        )
+        .await?;
+
+    Ok(())
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->DropCollection(milvus::DropCollectionRequest()
+                                    .WithCollectionName("my_collection"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const address = "YOUR_CLUSTER_ENDPOINT";
+const token = "YOUR_CLUSTER_TOKEN";
+const client = new MilvusClient({address, token});
+
+const res = await client.dropCollection({
+    collection_name: "my_collection"
+});
+
+console.log(res.error_code);
+
+// Output
+//
+// Success
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -151,28 +199,6 @@ curl --request POST \
 #     "code": 0,
 #     "data": {}
 # }
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-auto status = client->Connect(connect_param);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-status = client->DropCollection(milvus::DropCollectionRequest()
-                                    .WithCollectionName("my_collection"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
 ```
 
 </TabItem>

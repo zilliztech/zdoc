@@ -51,7 +51,7 @@ Zilliz Cloud では、エイリアスはコレクションの二次的で変更�
 
 次のコードスニペットは、コレクションに対してエイリアスを作成する方法を示しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -115,6 +115,106 @@ client.createAlias(createAliasReq);
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: milvusAddr,
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
+
+err = client.CreateAlias(ctx, milvusclient.NewCreateAliasOption("my_collection_1", "bob"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+err = client.CreateAlias(ctx, milvusclient.NewCreateAliasOption("my_collection_1", "alice"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let config = ConnectConfig::new()
+    .uri("YOUR_CLUSTER_ENDPOINT")
+    .token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
+
+client
+    .create_alias(
+        CreateAliasRequest::builder()
+            .collection_name("my_collection_1")
+            .alias("bob")
+            .build()?,
+    )
+    .await?;
+
+client
+    .create_alias(
+        CreateAliasRequest::builder()
+            .collection_name("my_collection_1")
+            .alias("alice")
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->CreateAlias(milvus::CreateAliasRequest()
+                                .WithCollectionName("my_collection_1")
+                                .WithAlias("bob"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->CreateAlias(milvus::CreateAliasRequest()
+                                .WithCollectionName("my_collection_1")
+                                .WithAlias("alice"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -123,6 +223,7 @@ import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 const address = "YOUR_CLUSTER_ENDPOINT";
 const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
+var res;
 
 // 9. Manage aliases
 // 9.1 Create aliases
@@ -149,43 +250,6 @@ console.log(res.error_code)
 // 
 // Success
 // 
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-import (
-    "context"
-    "fmt"
-    
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
-)
-ctx, cancel := context.WithCancel(context.Background())
-defer cancel()
-
-milvusAddr := "YOUR_CLUSTER_ENDPOINT"
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: milvusAddr,
-})
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-defer client.Close(ctx)
-
-err = client.CreateAlias(ctx, milvusclient.NewCreateAliasOption("my_collection_1", "bob"))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-
-err = client.CreateAlias(ctx, milvusclient.NewCreateAliasOption("my_collection_1", "alice"))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
 ```
 
 </TabItem>
@@ -228,43 +292,13 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-auto status = client->Connect(connect_param);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-status = client->CreateAlias(milvus::CreateAliasRequest()
-                                .WithCollectionName("my_collection_1")
-                                .WithAlias("bob"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-status = client->CreateAlias(milvus::CreateAliasRequest()
-                                .WithCollectionName("my_collection_1")
-                                .WithAlias("alice"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
 
 ## エイリアスを一覧表示する\{#list-aliases}
 
 次のコードスニペットは、特定のコレクションに割り当てられたエイリアスを一覧表示する手順を示しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -295,7 +329,7 @@ print(res)
 import io.milvus.v2.service.utility.request.ListAliasesReq;
 import io.milvus.v2.service.utility.response.ListAliasResp;
 
-// 9.2 List alises
+// 9.2 List aliases
 ListAliasesReq listAliasesReq = ListAliasesReq.builder()
     .collectionName("my_collection_1")
     .build();
@@ -306,6 +340,51 @@ System.out.println(listAliasRes.getAlias());
 
 // Output:
 // [bob, alice]
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+aliases, err := client.ListAliases(ctx, milvusclient.NewListAliasesOption("my_collection_1"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+fmt.Println(aliases)
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let aliases = client
+    .list_aliases(
+        ListAliasesRequest::builder()
+            .collection_name("my_collection_1")
+            .build()?,
+    )
+    .await?;
+println!("{:?}", aliases.aliases());
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::ListAliasesResponse response;
+auto status = client->ListAliases(milvus::ListAliasesRequest()
+                                    .WithCollectionName("my_collection_1"),
+                                  response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+for (auto alias : response.Aliases()) {
+    std::cout << "\t" << alias << std::endl;
+}
 ```
 
 </TabItem>
@@ -328,19 +407,6 @@ console.log(res.aliases)
 
 </TabItem>
 
-<TabItem value='go'>
-
-```go
-aliases, err := client.ListAliases(ctx, milvusclient.NewListAliasesOption("my_collection_1"))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-fmt.Println(aliases)
-```
-
-</TabItem>
-
 <TabItem value='bash'>
 
 ```bash
@@ -352,7 +418,9 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --header "Request-Timeout: 10" \
--d '{}'
+-d '{
+    "collectionName": "my_collection_1"
+}'
 
 # {
 #     "code": 0,
@@ -364,30 +432,13 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-milvus::ListAliasesResponse response;
-auto status = client->ListAliases(milvus::ListAliasesRequest()
-                                    .WithCollectionName("my_collection_1"),
-                                  response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-for (auto alias : response.Aliases()) {
-    std::cout << "\t" << alias << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
 
 ## エイリアスの詳細を確認する\{#describe-alias}
 
 次のコードスニペットは、割り当て先のコレクション名を含めて、特定のエイリアスの詳細を示します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -430,6 +481,49 @@ System.out.println(describeAliasRes);
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+alias, err := client.DescribeAlias(ctx, milvusclient.NewDescribeAliasOption("bob"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+fmt.Println(alias)
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let alias = client
+    .describe_alias(
+        DescribeAliasRequest::builder()
+            .alias("bob")
+            .build()?,
+    )
+    .await?;
+println!("{:?}", alias);
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::DescribeAliasResponse response;
+auto status = client->DescribeAlias(milvus::DescribeAliasRequest().WithAlias("bob"),
+                                    response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+std::cout << "Collection name: " << response.Desc().CollectionName() << std::endl;
+std::cout << "Database name: " << response.Desc().DatabaseName() << std::endl;
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -461,19 +555,6 @@ console.log(res)
 
 </TabItem>
 
-<TabItem value='go'>
-
-```go
-alias, err := client.DescribeAlias(ctx, milvusclient.NewDescribeAliasOption("bob"))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-fmt.Println(alias)
-```
-
-</TabItem>
-
 <TabItem value='bash'>
 
 ```bash
@@ -500,28 +581,13 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-milvus::DescribeAliasResponse response;
-auto status = client->DescribeAlias(milvus::DescribeAliasRequest().WithAlias("bob"),
-                                    response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-std::cout << "Collection name: " << response.Desc().CollectionName() << std::endl;
-std::cout << "Database name: " << response.Desc().DatabaseName() << std::endl;
-```
-
-</TabItem>
 </Tabs>
 
 ## エイリアスを変更する\{#alter-alias}
 
 特定のコレクションにすでに割り当てられているエイリアスを別のコレクションに再割り当てできます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -596,7 +662,103 @@ listAliasRes = client.listAliases(listAliasesReq);
 System.out.println(listAliasRes.getAlias());
 
 // Output:
+// [alice]
 // [bob]
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+err = client.AlterAlias(ctx, milvusclient.NewAlterAliasOption("alice", "my_collection_2"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+aliases, err := client.ListAliases(ctx, milvusclient.NewListAliasesOption("my_collection_2"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+fmt.Println(aliases)
+
+aliases, err = client.ListAliases(ctx, milvusclient.NewListAliasesOption("my_collection_1"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+fmt.Println(aliases)
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+client
+    .alter_alias(
+        AlterAliasRequest::builder()
+            .collection_name("my_collection_2")
+            .alias("alice")
+            .build()?,
+    )
+    .await?;
+
+let mut aliases = client
+    .list_aliases(
+        ListAliasesRequest::builder()
+            .collection_name("my_collection_2")
+            .build()?,
+    )
+    .await?;
+println!("{:?}", aliases.aliases());
+
+aliases = client
+    .list_aliases(
+        ListAliasesRequest::builder()
+            .collection_name("my_collection_1")
+            .build()?,
+    )
+    .await?;
+println!("{:?}", aliases.aliases());
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto status = client->AlterAlias(milvus::AlterAliasRequest()
+                                    .WithAlias("alice")
+                                    .WithCollectionName("my_collection_2"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::ListAliasesResponse response;
+status = client->ListAliases(milvus::ListAliasesRequest()
+                                .WithCollectionName("my_collection_2"),
+                             response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+std::cout << "aliases of my_collection_2" << std::endl;
+for (auto alias : response.Aliases()) {
+    std::cout << "\t" << alias << std::endl;
+}
+
+status = client->ListAliases(milvus::ListAliasesRequest()
+                                .WithCollectionName("my_collection_1"),
+                             response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+std::cout << "aliases of my_collection_1" << std::endl;
+for (auto alias : response.Aliases()) {
+    std::cout << "\t" << alias << std::endl;
+}
 ```
 
 </TabItem>
@@ -642,32 +804,6 @@ console.log(res.aliases)
 
 </TabItem>
 
-<TabItem value='go'>
-
-```go
-err = client.AlterAlias(ctx, milvusclient.NewAlterAliasOption("alice", "my_collection_2"))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-
-aliases, err := client.ListAliases(ctx, milvusclient.NewListAliasesOption("my_collection_2"))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-fmt.Println(aliases)
-
-aliases, err = client.ListAliases(ctx, milvusclient.NewListAliasesOption("my_collection_1"))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-fmt.Println(aliases)
-```
-
-</TabItem>
-
 <TabItem value='bash'>
 
 ```bash
@@ -690,76 +826,36 @@ curl --request POST \
 # }
 
 curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/aliases/describe" \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/aliases/list" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --header "Request-Timeout: 10" \
 -d '{
-    "aliasName": "alice"
+    "collectionName": "my_collection_2"
 }'
 
 # {
 #     "code": 0,
-#     "data": {
-#         "aliasName": "alice",
-#         "collectionName": "my_collection_2",
-#         "dbName": "default"
-#     }
+#     "data": [
+#         "alice"
+#     ]
 # }
 
 curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/aliases/describe" \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/aliases/list" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --header "Request-Timeout: 10" \
 -d '{
-    "aliasName": "bob"
+    "collectionName": "my_collection_1"
 }'
 
 # {
 #     "code": 0,
-#     "data": {
-#         "aliasName": "alice",
-#         "collectionName": "my_collection_1",
-#         "dbName": "default"
-#     }
+#     "data": [
+#         "bob"
+#     ]
 # }
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto status = client->AlterAlias(milvus::AlterAliasRequest()
-                                    .WithAlias("alice")
-                                    .WithCollectionName("my_collection_2"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-milvus::ListAliasesResponse response;
-status = client->ListAliases(milvus::ListAliasesRequest()
-                                .WithCollectionName("my_collection_2"),
-                             response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-std::cout << "aliases of my_collection_2" << std::endl;
-for (auto alias : response.Aliases()) {
-    std::cout << "\t" << alias << std::endl;
-}
-
-status = client->ListAliases(milvus::ListAliasesRequest()
-                                .WithCollectionName("my_collection_1"),
-                             response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-std::cout << "aliases of my_collection_1" << std::endl;
-for (auto alias : response.Aliases()) {
-    std::cout << "\t" << alias << std::endl;
-}
 ```
 
 </TabItem>
@@ -769,7 +865,7 @@ for (auto alias : response.Aliases()) {
 
 次のコードスニペットは、エイリアスを削除する手順を示しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -806,6 +902,62 @@ client.dropAlias(dropAliasReq);
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+err = client.DropAlias(ctx, milvusclient.NewDropAliasOption("bob"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+err = client.DropAlias(ctx, milvusclient.NewDropAliasOption("alice"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+client
+    .drop_alias(
+        DropAliasRequest::builder()
+            .alias("bob")
+            .build()?,
+    )
+    .await?;
+
+client
+    .drop_alias(
+        DropAliasRequest::builder()
+            .alias("alice")
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto status = client->DropAlias(milvus::DropAliasRequest().WithAlias("bob"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->DropAlias(milvus::DropAliasRequest().WithAlias("alice"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -831,24 +983,6 @@ console.log(res.error_code)
 // 
 // Success
 // 
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-err = client.DropAlias(ctx, milvusclient.NewDropAliasOption("bob"))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-
-err = client.DropAlias(ctx, milvusclient.NewDropAliasOption("alice"))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
 ```
 
 </TabItem>
@@ -886,22 +1020,6 @@ curl --request POST \
 #     "code": 0,
 #     "data": {}
 # }
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto status = client->DropAlias(milvus::DropAliasRequest().WithAlias("bob"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-status = client->DropAlias(milvus::DropAliasRequest().WithAlias("alice"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
 ```
 
 </TabItem>

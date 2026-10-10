@@ -43,7 +43,7 @@ Truncate は、テスト環境のリフレッシュ、パイプラインステ�
 
 以下のコード例では、すでに `my_collection` という名前のコレクションが存在していることを前提としています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -102,7 +102,7 @@ import (
     "fmt"
     "log"
 
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 func main() {
@@ -110,7 +110,7 @@ func main() {
 
     client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
             Address: "YOUR_CLUSTER_ENDPOINT",
-            APIKey: "YOUR_CLUSTER_TOKEN"
+            APIKey: "YOUR_CLUSTER_TOKEN",
     })
     if err != nil {
             log.Fatal("failed to connect:", err)
@@ -128,17 +128,75 @@ func main() {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let client = ClientV2::new(
+        &ConnectConfig::new()
+            .uri("YOUR_CLUSTER_ENDPOINT")
+            .token("YOUR_CLUSTER_TOKEN"),
+    )
+    .await?;
+
+    client
+        .truncate_collection(
+            TruncateCollectionRequest::builder()
+                .collection_name("my_collection")
+                .build()?,
+        )
+        .await?;
+
+    println!("collection truncated successfully");
+
+    Ok(())
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// C++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
+int main() {
+    auto client = milvus::MilvusClientV2::Create();
+    auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
+    if (!status.IsOk()) {
+        std::cout << status.Message() << std::endl;
+    }
+
+    status = client->TruncateCollection(milvus::TruncateCollectionRequest().WithCollectionName("my_collection"));
+    if (!status.IsOk()) {
+        std::cout << status.Message() << std::endl;
+    }
+
+    std::cout << "collection truncated successfully" << std::endl;
+    return 0;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
-const milvusClient = new MilvusClient({ 
-    address: 'YOUR_CLUSTER_ENDPOINT', 
-    token: 'YOUR_CLUSTER_TOKEN'
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const milvusClient = new MilvusClient({
+    address: "YOUR_CLUSTER_ENDPOINT",
+    token: "YOUR_CLUSTER_TOKEN"
 });
 
 const res = await milvusClient.truncateCollection({
-    collection_name: my_collection,
- });
+    collection_name: "my_collection"
+});
 ```
 
 </TabItem>
@@ -158,14 +216,6 @@ curl -X POST "${CLUSTER_ENDPOINT}/v2/vectordb/collections/truncate" \
     "dbName": "default",
     "collectionName": "my_collection"
   }'
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-// C++
 ```
 
 </TabItem>
