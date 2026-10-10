@@ -103,6 +103,7 @@ describe('ChatProvider request debugging', () => {
   beforeEach(() => {
     siteState.current = 'en';
     localStorage.clear();
+    localStorage.setItem('zd-user-id', '550e8400-e29b-41d4-a716-446655440000');
     let uuidCount = 0;
     vi.stubGlobal('crypto', {
       randomUUID: vi.fn(() => {
@@ -147,6 +148,7 @@ describe('ChatProvider request debugging', () => {
     });
     expect(JSON.parse((init as RequestInit).body as string)).toEqual({
       message: 'secret user prompt',
+      user_id: 'browser:v1:550e8400-e29b-41d4-a716-446655440000',
       session_id: null,
       conversationId: 'client-conversation-1',
       streaming_mode: 'token',
@@ -154,6 +156,41 @@ describe('ChatProvider request debugging', () => {
       agent_config: {agent_config_code: 'zilliz_docs_agent'},
       page_context: {url: 'http://localhost:3000/docs/home', content: '# Test page'},
     });
+  });
+
+  it('keeps visitor identity across new chats and provider remounts', async () => {
+    routeChatFetch([]);
+    const first = renderHook(() => useChatContext(), {wrapper: wrapper(false)});
+    await act(async () => first.result.current.send('first question'));
+    act(() => first.result.current.newChat());
+    await act(async () => first.result.current.send('new session question'));
+    first.unmount();
+    const next = renderHook(() => useChatContext(), {wrapper: wrapper(false)});
+    await act(async () => next.result.current.send('after refresh'));
+    const bodies = vi.mocked(fetch).mock.calls
+      .filter(([url]) => url === '/api/chat')
+      .map(([, init]) => JSON.parse(init?.body as string));
+    expect(bodies).toHaveLength(3);
+    expect(bodies.map(body => body.user_id)).toEqual(Array(3).fill('browser:v1:550e8400-e29b-41d4-a716-446655440000'));
+    expect(bodies.map(body => body.session_id)).toEqual([null, null, null]);
+  });
+
+  it('uses the same UUID for chat correlation and the existing feedback contract', async () => {
+    const {result} = renderHook(() => useChatContext(), {wrapper: wrapper(false)});
+    await act(async () => result.current.send('question'));
+    act(() => result.current.rateFeedback(1, 'up'));
+    const feedback = vi.mocked(fetch).mock.calls.find(([url]) => String(url).endsWith('/feedback'));
+    expect(feedback).toBeDefined();
+    expect(JSON.parse(feedback?.[1]?.body as string).userId).toBe('550e8400-e29b-41d4-a716-446655440000');
+  });
+
+  it('continues chatting without identity when storage is unavailable', async () => {
+    vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {throw new Error('blocked');});
+    const {result} = renderHook(() => useChatContext(), {wrapper: wrapper(false)});
+    await act(async () => result.current.send('anonymous question'));
+    const body = JSON.parse(vi.mocked(fetch).mock.calls[1][1]?.body as string);
+    expect(body).not.toHaveProperty('user_id');
+    expect(result.current.messages.at(-1)?.text).toBe('assistant secret answer');
   });
 
   it('uses the Chinese docs contract for the Chinese site', async () => {
