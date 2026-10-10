@@ -2,12 +2,12 @@
 title: "Spark バッチジョブの管理 | Cloud"
 slug: /manage-spark-batch-jobs
 sidebar_label: "Spark バッチジョブの管理"
-beta: PUBLIC
+beta: PRIVATE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Spark バッチジョブは非同期で実行され、送信から完了までの間に複数の状態を遷移します。このページでは、ジョブのライフサイクルについて説明したうえで、ジョブの一覧表示、ジョブの詳細の取得、およびキャンセル可能な状態にあるジョブをキャンセルする方法を説明します。 | Cloud"
+description: "Spark バッチジョブは非同期で実行され、送信から完了までにいくつかの状態を遷移します。このページでは、ジョブのライフサイクルについて説明し、その後、ジョブの一覧表示、ジョブ詳細の取得、およびキャンセル可能な状態にあるジョブのキャンセル方法について説明します。 | Cloud"
 type: origin
 token: LYncwOT8Mi9Lfqk9asdcNPvFnWe
 sidebar_position: 7
@@ -22,11 +22,11 @@ import Admonition from '@theme/Admonition';
 
 <FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
 
-この機能は AWS us-west-2 リージョンでのみ利用できます。Google Cloud および Microsoft Azure では利用できません。
+この機能は AWS us-west-2 リージョンでのみ利用できます。Google Cloud と Microsoft Azure では利用できません。
 
 </FeatureNote>
 
-Spark バッチジョブは非同期で実行され、送信から完了までの間に複数の状態を遷移します。このページでは、ジョブのライフサイクルについて説明したうえで、ジョブの一覧表示、ジョブの詳細の取得、およびキャンセル可能な状態にあるジョブをキャンセルする方法を説明します。
+Spark バッチジョブは非同期で実行され、送信から完了までにいくつかの状態を遷移します。このページでは、ジョブのライフサイクルについて説明し、その後、ジョブの一覧表示、ジョブ詳細の取得、およびキャンセル可能な状態にあるジョブのキャンセル方法について説明します。
 
 ## ジョブの状態を理解する\{#understand-job-states}
 
@@ -34,17 +34,17 @@ Spark バッチジョブは非同期で実行され、送信から完了まで�
 
 ![SWfawcEqhhLaP2bltqkcy9bUn8g](https://zdoc-images.s3.us-west-2.amazonaws.com/SWfawcEqhhLaP2bltqkcy9bUn8g.png)
 
-通常、ジョブは `PENDING` から `PREPARING`、次に `RUNNING` へと進み、最終状態に到達します。
+ジョブは通常、`PENDING` から `PREPARING`、そして `RUNNING` へと進み、その後、終了状態に到達します。 
 
-`PENDING`、`PREPARING`、または `RUNNING` の状態にあるジョブはキャンセルリクエストを受け付けますが、`SUCCEEDED`、`FAILED`、または `TIMEOUT` に到達したジョブはキャンセルできません。すでにキャンセルフローにあるジョブに対する重複したキャンセルリクエストは、冪等に処理されます。
+`PENDING`、`PREPARING`、または `RUNNING` のジョブはキャンセル要求を受け付けますが、`SUCCEEDED`、`FAILED`、または `TIMEOUT` に到達したジョブはキャンセルできなくなります。すでにキャンセルフローにあるジョブに対する繰り返しのキャンセル要求は、冪等に処理されます。
 
 ## リージョン内の Spark バッチジョブを一覧表示する\{#list-spark-batch-jobs-in-a-region}
 
-特定のリージョン内の Spark バッチジョブを一覧表示すると、アクセス権限のあるプロジェクト全体で送信されたジョブを検索できます。リクエストにはリージョン ID と `type=SPARK` が必要です。オプションのフィルターを組み合わせて、状態、ジョブ名のプレフィックス、または作成時刻で結果を絞り込むことができます。
+特定のリージョン内の Spark バッチジョブを一覧表示して、アクセス可能なプロジェクト全体で送信されたジョブを見つけます。要求にはリージョン ID と `type=SPARK` が必要です。オプションのフィルターを組み合わせて、状態、ジョブ名のプレフィックス、または作成時間で結果を絞り込むことができます。
 
-### リクエストの例\{#request-examples}
+### リクエスト例\{#request-examples}
 
-次の例では、`aws-us-west-2` 内でアクセスできるすべてのプロジェクトにわたるすべての Spark バッチジョブを一覧表示します。
+次の例では、`aws-us-west-2` でアクセス可能な全プロジェクトの Spark バッチジョブを一覧表示します。
 
 ```bash
 export API_KEY="xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
@@ -54,7 +54,7 @@ curl --request GET \
   --header "Authorization: Bearer ${API_KEY}"
 ```
 
-結果を絞り込むには、1 つ以上のオプションのフィルターを追加します。次の例では、**`aws-us-west-2`** 内で名前が **`pk-dedup`** で始まる **実行中** の Spark バッチジョブを一覧表示します。1 ページあたり最大 **50** 件のジョブを返します。
+結果を絞り込むには、1 つ以上のオプションのフィルターを追加します。次の例では、名前が **`pk-dedup`** で始まる **`aws-us-west-2`** の**実行中**の Spark バッチジョブを一覧表示します。1 ページあたり最大 **50** 件のジョブを返します。
 
 ```bash
 export API_KEY="xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
@@ -69,18 +69,18 @@ curl --request GET \
   --header "Authorization: Bearer ${API_KEY}"
 ```
 
-### 結果をフィルタリングする\{#filter-the-results}
+### 結果をフィルターする\{#filter-the-results}
 
-次の表に、ジョブ一覧リクエストに適用できるフィルターを示します。
+次の表は、ジョブ一覧表示リクエストに適用できるフィルターを示しています。
 
 | パラメーター | 必須 | 説明 |
 | --- | --- | --- |
-| `type` | はい | ジョブの種類です。このパラメーターには `SPARK` を設定します。 |
+| `type` | はい | ジョブの種類です。このパラメーターには `SPARK` を指定します。 |
 | `regionId` | はい | Spark バッチジョブを一覧表示するリージョンの ID です。 |
 | `status` | いいえ | `PENDING`、`RUNNING`、`SUCCEEDED` などの状態でジョブを絞り込みます。 |
-| `createdAfter` | いいえ | `2026-07-30T00:00:00Z` など、指定した ISO 8601 タイムスタンプより後に作成されたジョブを返します。 |
+| `createdAfter` | いいえ | 指定した ISO 8601 タイムスタンプ（例: `2026-07-30T00:00:00Z`）より後に作成されたジョブを返します。 |
 | `createdBefore` | いいえ | 指定した ISO 8601 タイムスタンプより前に作成されたジョブを返します。 |
-| `pageSize` | いいえ | 1 ページあたりに返すジョブの数です。デフォルトは `20` で、有効な範囲は `1` から `100` です。 |
+| `pageSize` | いいえ | 1 ページあたりに返すジョブ数です。デフォルトは `20` で、有効範囲は `1` から `100` です。 |
 | `pageToken` | いいえ | 前回のレスポンスで `nextPageToken` として返されたページネーショントークンです。 |
 
 オプションのフィルターは、上記のリクエスト例に示すように、同じリクエスト内で組み合わせることができます。
@@ -132,21 +132,21 @@ curl --request GET \
 }
 ```
 
-レスポンスには以下が含まれます。
+レスポンスには次のものが含まれます。
 
-- `total`: リクエストのフィルターに一致するジョブの総数です。
+- `total`: リクエストのフィルターに一致するジョブの総数。
 
-- `items`: 現在のページで返された Spark バッチジョブです。
+- `items`: 現在のページで返された Spark バッチジョブ。
 
-- `nextPageToken`: 次のページを取得するために使用するトークンです。これ以上結果がない場合、このフィールドは存在しないか空になります。
+- `nextPageToken`: 次のページを取得するために使用するトークン。これ以上結果がない場合、このフィールドは存在しないか空です。
 
-レスポンス内のパラメーターの詳細については、リファレンスページ [List Spark batch jobs](/reference/restful/list-spark-jobs-v2) を参照してください。
+レスポンスのパラメーターの詳細については、リファレンスページ [List Spark batch jobs](/reference/restful/list-spark-jobs-v2) を参照してください。
 
 ## プロジェクト内の Spark バッチジョブの詳細を表示する\{#view-a-spark-batch-job-details-in-a-project}
 
-ジョブ ID と、そのジョブが送信されたプロジェクトのプロジェクト ID を指定することで、Spark バッチジョブの詳細を取得できます。
+ジョブ ID とジョブが送信されたプロジェクト ID を指定することで、Spark バッチジョブの詳細を取得できます。
 
-### リクエストの例\{#request-example}
+### リクエスト例\{#request-example}
 
 ```bash
 export PROJECT_ID="proj-xxxxxxxxxxxxxxxxxxxxxxx"
@@ -208,37 +208,37 @@ curl --request GET \
 }
 ```
 
-レスポンスには以下が含まれます。
+レスポンスには次のものが含まれます。
 
-- **ジョブの状態と識別情報**: `jobId`、`jobName`、`status`、`regionId`、および Spark アプリケーションの識別子です。
+- **ジョブの状態と識別情報**: `jobId`、`jobName`、`status`、`regionId`、および Spark アプリケーション識別子。
 
-- **診断情報**: `failureReason`、Spark 履歴のリンク、および利用可能な場合はドライバーログの URI です。
+- **診断情報**: `failureReason`、Spark 履歴リンク、および利用可能な場合はドライバーログ URI。
 
-- **出力コントラクト**: オペレーター、出力形式、書き込みモード、入力列が保持されるかどうか、およびジョブによって生成される列です。
+- **出力コントラクト**: オペレーター、出力形式、書き込みモード、入力列が保持されるかどうか、およびジョブによって生成された列。
 
-- **タイミング情報**: ジョブの作成、キューイング、送信、実行、完了のタイムスタンプです。
+- **タイミング情報**: ジョブの作成、キューイング、送信、実行、および完了のタイムスタンプ。
 
-ジョブが失敗した場合は、まず `failureReason` を確認し、その後、より詳細なトラブルシューティングを行うために Spark 履歴またはドライバーログのリンクを使用します。
+失敗したジョブについては、まず `failureReason` を確認し、その後、より詳細なトラブルシューティングのために Spark 履歴またはドライバーログのリンクを使用します。
 
 ### 出力コントラクトを理解する\{#understand-the-output-contract}
 
-次の表に、`outputContract` エンベロープ内のフィールドを示します。
+次の表は、`outputContract` エンベロープ内のフィールドを示しています。
 
 | フィールド | 説明 |
 | --- | --- |
-| `operator` | Spark バッチジョブによって実行される組み込みオペレーターです。たとえば、`kmeans`、`pk_deduplicate`、`vector_deduplicate`、`anomaly_detection` などです。 |
-| `outputFormat` | 生成される出力の実際の形式です。通常は、ジョブリクエスト内の `output.format` と一致します。 |
-| `writeMode` | 設定された出力パスがすでに存在する場合に使用される動作です。 |
-| `preservesInputColumns` | 出力に入力データセットの元の列が保持されるかどうかを示します。 |
-| `generatedColumns` | ジョブによって追加される列です。たとえば、K-Means クラスタリングの場合は `cluster_id`、異常検知の場合は `outlier_score` です。 |
+| `operator` | Spark バッチジョブによって実行される組み込みオペレーター（例: `kmeans`、`pk_deduplicate`、`vector_deduplicate`、`anomaly_detection`）。 |
+| `outputFormat` | 生成された出力の実際の形式。通常、ジョブリクエストの `output.format` と一致します。 |
+| `writeMode` | 設定された出力パスがすでに存在する場合に使用される動作。 |
+| `preservesInputColumns` | 出力が入力データセットの元の列を保持するかどうかを示します。 |
+| `generatedColumns` | ジョブによって追加された列（例: K-Means クラスタリングの `cluster_id`、異常検出の `outlier_score`）。 |
 
-たとえば、`preservesInputColumns` が `true` に設定され、`generatedColumns` に `cluster_id` が含まれる K-Means ジョブは、元のデータセットにクラスター割り当て列を追加したものを生成します。
+たとえば、`preservesInputColumns` が `true` に設定され、`generatedColumns` に `cluster_id` が含まれる K-Means ジョブは、元のデータセットに加えて、追加のクラスター割り当て列を生成します。
 
 ## Spark バッチジョブをキャンセルする\{#cancel-a-spark-batch-job}
 
-`PENDING`、`PREPARING`、または `RUNNING` の状態にあるジョブに対しては、キャンセルリクエストを送信できます。
+`PENDING`、`PREPARING`、または `RUNNING` のジョブに対してキャンセル要求を送信できます。
 
-### リクエストの例\{#request-example}
+### リクエスト例\{#request-example}
 
 ```bash
 export PROJECT_ID="proj-xxxxxxxxxxxxxxxxxxxxxxx"
@@ -250,13 +250,13 @@ curl --request POST \
   --header "Authorization: Bearer ${API_KEY}"
 ```
 
-### キャンセルリクエストの動作を理解する\{#understand-the-cancel-request-behaviors}
+### キャンセル要求の動作を理解する\{#understand-the-cancel-request-behaviors}
 
-キャンセルの動作は、ジョブの現在の状態によって異なります。非終端状態にあるジョブはキャンセルリクエストを受け付けます。次の表に、ジョブの状態と、これらの状態でキャンセルリクエストを受信したときに対応する動作を示します。
+キャンセルの動作は、ジョブの現在の状態によって異なります。終了状態にないジョブはキャンセル要求を受け付けます。次の表は、ジョブの状態と、これらの状態でキャンセル要求を受信したときの対応する動作を示しています。
 
-| 現在の状態 | キャンセルリクエストの動作 |
+| 現在の状態 | キャンセル要求の動作 |
 | --- | --- |
 | `PENDING`, `PREPARING`, `RUNNING` | `202 Accepted` を返し、ジョブをキャンセルフローに移行します。 |
-| `CANCELLING` | 既存のキャンセル処理を継続します。 |
-| `CANCELED` | 新たなキャンセル操作を開始せずに、現在のジョブを返します。 |
-| `SUCCEEDED`, `FAILED`, `TIMEOUT` | 状態エラーでリクエストを拒否します。 |
+| `CANCELLING` | 既存のキャンセルプロセスを続行します。 |
+| `CANCELED` | 別のキャンセル操作を開始せずに、現在のジョブを返します。 |
+| `SUCCEEDED`, `FAILED`, `TIMEOUT` | 状態エラーで要求を拒否します。 |

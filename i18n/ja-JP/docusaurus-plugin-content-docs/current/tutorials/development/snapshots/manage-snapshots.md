@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このガイドでは、スナップショットの作成と管理の方法について学習します。内容には以下が含まれます | Cloud"
+description: "このガイドでは、スナップショットの作成と管理の方法について説明します。以下を含みます | Cloud"
 type: origin
 token: J0jDwYQb8il1biknRo4cazHPn5d
 sidebar_position: 1
@@ -21,35 +21,35 @@ import TabItem from '@theme/TabItem';
 
 # スナップショットの管理
 
-このガイドでは、以下を含むスナップショットの作成と管理方法を学びます。
+このガイドでは、スナップショットの作成と管理の方法について説明します。以下を含みます。
 
-- [スナップショットの作成](./manage-snapshots#create-snapshot),
+- [スナップショットを作成する](./manage-snapshots#create-snapshot),
 
-- [スナップショットの一覧表示](./manage-snapshots#list-snapshots),
+- [スナップショットを一覧表示する](./manage-snapshots#list-snapshots),
 
-- [スナップショットの詳細表示](./manage-snapshots#describe-snapshot),
+- [スナップショットの詳細を取得する](./manage-snapshots#describe-snapshot),
 
-- [スナップショットデータの pin/unpin](./manage-snapshots#pinunpin-snapshot-data),
+- [Pin/unpin スナップショット](./manage-snapshots#pinunpin-snapshot-data),
 
-- [スナップショットの復元](./manage-snapshots#restore-snapshot),
+- [スナップショットをリストアする](./manage-snapshots#restore-snapshot),
 
-- [スナップショットの削除](./manage-snapshots#drop-snapshot),
+- [スナップショットをドロップする](./manage-snapshots#drop-snapshot),
 
-- [復元ジョブの一覧表示](./manage-snapshots#list-restoration-jobs), および
+- [リストアジョブを一覧表示する](./manage-snapshots#list-restoration-jobs), および
 
-- [復元状態の取得](./manage-snapshots#get-restoration-state)。
+- [リストア状態を取得する](./manage-snapshots#get-restoration-state).
 
-## スナップショットの作成\{#create-snapshot}
+## スナップショットを作成する\{#create-snapshot}
 
-スナップショットを作成する前に、データ損失の可能性を避けるため、対象の collection へのデータ書き込みを停止し、`flush()` を呼び出すことを推奨します。
+スナップショットを作成する前に、データ損失の可能性を回避するため、対象コレクションへのデータの書き込みを停止して `flush()` を呼び出すことをお勧めします。
 
-`flush()` の呼び出しは必須ではありませんが、データ損失を避けるため強く推奨されます。これをスキップした場合、スナップショットにはすでに flush 済みのデータのみが含まれます。
+`flush()` の呼び出しは必須ではありませんが、データ損失を回避するために強く推奨されます。これを省略した場合、スナップショットにはすでにフラッシュされたデータのみが含まれます。
 
-スナップショットに名前を付ける際は、`"daily_backup_20240101"` や `"v2.1_production_release"` のような明確で説明的な名前を使用し、`"backup1"` や `"test"` のような汎用的な用語は避けてください。バージョン、環境、段階をまたいでスナップショットを区別できるよう、スナップショット名を適切に使用してください。
+スナップショットに名前を付けるときは、`"daily_backup_20240101"` や `"v2.1_production_release"` のような明確で説明的な名前を使用し、`"backup1"` や `"test"` のような一般的な用語は避けてください。バージョン、環境、ステージをまたいでスナップショットを区別できるよう、スナップショット名を賢く使用してください。
 
-以下のコード例では、すでに `my_collection` という名前の collection が存在していることを前提としています。
+以下に示すコード例では、`my_collection` という名前のコレクションがすでに存在することを前提としています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -76,7 +76,29 @@ client.create_snapshot(
 <TabItem value='java'>
 
 ```java
-// java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.utility.request.FlushReq;
+import java.util.Collections;
+import io.milvus.v2.service.snapshot.request.CreateSnapshotReq;
+
+ConnectConfig config = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+MilvusClientV2 client = new MilvusClientV2(config);
+
+// Recommended: Flush data before creating snapshot to ensure all data is included
+client.flush(FlushReq.builder()
+        .collectionNames(Collections.singletonList("my_collection"))
+        .build());
+
+// Create snapshot for entire collection
+client.createSnapshot(CreateSnapshotReq.builder()
+        .collectionName("my_collection")
+        .snapshotName("backup_20240101")
+        .description("Daily backup for January 1st, 2024")
+        .build());
 ```
 
 </TabItem>
@@ -86,16 +108,22 @@ client.create_snapshot(
 ```go
 import (
     "context"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 client, err := milvusclient.New(context.Background(), &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
-    Token: "YOUR_CLUSTER_TOKEN",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
 })
+if err != nil {
+    log.Fatal(err)
+}
+defer client.Close(context.Background())
 
 // Recommended: Flush data before creating snapshot to ensure all data is included
-err = client.Flush(context.Background(), milvusclient.NewFlushOption("my_collection"))
+_, err = client.Flush(context.Background(), milvusclient.NewFlushOption("my_collection"))
 if err != nil {
     log.Fatal(err)
 }
@@ -105,6 +133,73 @@ createOpt := milvusclient.NewCreateSnapshotOption("backup_20240101", "my_collect
     WithDescription("Daily backup for January 1st, 2024")
 
 err = client.CreateSnapshot(context.Background(), createOpt)
+if err != nil {
+    log.Fatal(err)
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::error::Result;
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+    let client = ClientV2::new(&config).await?;
+
+    // Recommended: Flush data before creating snapshot to ensure all data is included
+    client.flush(
+        FlushRequest::builder()
+            .collection_names(["my_collection"])
+            .build()?,
+    ).await?;
+
+    // Create snapshot for entire collection
+    client.create_snapshot(
+        CreateSnapshotRequest::builder()
+            .collection_name("my_collection")
+            .snapshot_name("backup_20240101")
+            .description("Daily backup for January 1st, 2024")
+            .build()?,
+    ).await?;
+    Ok(())
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+#include <memory>
+
+auto client = milvus::MilvusClientV2::Create();
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+// Recommended: Flush data before creating snapshot to ensure all data is included
+status = client->Flush(milvus::FlushRequest().WithCollectionNames({"my_collection"}));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+// Create snapshot for entire collection
+status = client->CreateSnapshot(milvus::CreateSnapshotRequest()
+                                    .WithCollectionName("my_collection")
+                                    .WithSnapshotName("backup_20240101")
+                                    .WithDescription("Daily backup for January 1st, 2024"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -113,6 +208,22 @@ err = client.CreateSnapshot(context.Background(), createOpt)
 
 ```javascript
 // node.js
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
+
+const client = new MilvusClient({
+  address: 'YOUR_CLUSTER_ENDPOINT',
+  token: 'YOUR_CLUSTER_TOKEN'
+});
+
+// Recommended: Flush data before creating snapshot to ensure all data is included
+await client.flush({ collection_names: ['my_collection'] });
+
+// Create snapshot for entire collection
+await client.createSnapshot({
+  collection_name: 'my_collection',
+  snapshot_name: 'backup_20240101',
+  description: 'Daily backup for January 1st, 2024'
+});
 ```
 
 </TabItem>
@@ -121,16 +232,33 @@ err = client.CreateSnapshot(context.Background(), createOpt)
 
 ```bash
 # restful
+curl --request POST \
+  --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/flush" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "Content-Type: application/json" \
+  -d '{
+    "collectionNames": ["my_collection"]
+  }'
+
+curl --request POST \
+  --url "${CLUSTER_ENDPOINT}/v2/vectordb/snapshots/create" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "Content-Type: application/json" \
+  -d '{
+    "collectionName": "my_collection",
+    "snapshotName": "backup_20240101",
+    "description": "Daily backup for January 1st, 2024"
+  }'
 ```
 
 </TabItem>
 </Tabs>
 
-## スナップショットの一覧表示\{#list-snapshots}
+## スナップショットを一覧表示する\{#list-snapshots}
 
 既存のスナップショットの名前を一覧表示できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -145,7 +273,12 @@ snapshots = client.list_snapshots(
 <TabItem value='java'>
 
 ```java
-// java
+import io.milvus.v2.service.snapshot.request.ListSnapshotsReq;
+
+// List all snapshots for a collection
+client.listSnapshots(ListSnapshotsReq.builder()
+        .collectionName("my_collection")
+        .build());
 ```
 
 </TabItem>
@@ -154,10 +287,41 @@ snapshots = client.list_snapshots(
 
 ```go
 // List snapshots for collection
-listOpt := milvusclient.NewListSnapshotsOption().
-    WithCollectionName("my_collection")
+listOpt := milvusclient.NewListSnapshotsOption("my_collection")
 
 snapshots, err := client.ListSnapshots(context.Background(), listOpt)
+if err != nil {
+    log.Fatal(err)
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+// List all snapshots for a collection
+let snapshots = client.list_snapshots(
+    ListSnapshotsRequest::builder()
+        .collection_name("my_collection")
+        .build()?,
+).await?;
+println!("{:?}", snapshots);
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// List snapshots for collection
+milvus::ListSnapshotsResponse snapshots;
+status = client->ListSnapshots(milvus::ListSnapshotsRequest()
+                                    .WithCollectionName("my_collection"),
+                               snapshots);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -166,6 +330,11 @@ snapshots, err := client.ListSnapshots(context.Background(), listOpt)
 
 ```javascript
 // node.js
+// List all snapshots for a collection
+const snapshots = await client.listSnapshots({
+  collection_name: 'my_collection'
+});
+console.log(snapshots);
 ```
 
 </TabItem>
@@ -173,26 +342,34 @@ snapshots, err := client.ListSnapshots(context.Background(), listOpt)
 <TabItem value='bash'>
 
 ```bash
-# bash
+# restful
+curl --request POST \
+  --url "${CLUSTER_ENDPOINT}/v2/vectordb/snapshots/list" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "Content-Type: application/json" \
+  -d '{
+    "collectionName": "my_collection"
+  }'
 ```
 
 </TabItem>
 </Tabs>
 
-## スナップショットの詳細表示\{#describe-snapshot}
+## スナップショットの詳細を取得する\{#describe-snapshot}
 
-特定のスナップショットに関する詳細情報を取得できます。
+特定のスナップショットの詳細情報を取得できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 snapshot_info = client.describe_snapshot(
     snapshot_name="backup_20240101",
+    collection_name="my_collection",
     include_collection_info=True
 )
 
-print(f"Snapshot ID: {snapshot_info.id}")
+print(f"Snapshot name: {snapshot_info.name}")
 print(f"Collection: {snapshot_info.collection_name}")
 print(f"Created: {snapshot_info.create_ts}")
 print(f"Description: {snapshot_info.description}")
@@ -203,7 +380,13 @@ print(f"Description: {snapshot_info.description}")
 <TabItem value='java'>
 
 ```java
-// java
+import io.milvus.v2.service.snapshot.request.DescribeSnapshotReq;
+
+// Describe a snapshot
+client.describeSnapshot(DescribeSnapshotReq.builder()
+        .collectionName("my_collection")
+        .snapshotName("backup_20240101")
+        .build());
 ```
 
 </TabItem>
@@ -211,11 +394,54 @@ print(f"Description: {snapshot_info.description}")
 <TabItem value='go'>
 
 ```go
-describeOpt := milvusclient.NewDescribeSnapshotOption("backup_20240101")
-resp, err := client.DescribeSnapshot(context.Background(), describeOpt)
+import (
+    "context"
+    "fmt"
+    "log"
 
-fmt.Printf("Snapshot ID: %d\n", resp.GetSnapshotInfo().GetId())
-fmt.Printf("Collection: %s\n", resp.GetSnapshotInfo().GetCollectionName())
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+describeOpt := milvusclient.NewDescribeSnapshotOption("backup_20240101", "my_collection")
+
+resp, err := client.DescribeSnapshot(context.Background(), describeOpt)
+if err != nil {
+    log.Fatal(err)
+}
+
+fmt.Printf("Snapshot ID: %s\n", resp.GetName())
+fmt.Printf("Collection: %s\n", resp.GetCollectionName())
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+// Describe a snapshot
+let snapshot_info = client.describe_snapshot(
+    DescribeSnapshotRequest::builder()
+        .collection_name("my_collection")
+        .snapshot_name("backup_20240101")
+        .build()?,
+).await?;
+println!("{:?}", snapshot_info);
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// Describe a snapshot
+milvus::DescribeSnapshotResponse snapshot_info;
+status = client->DescribeSnapshot(milvus::DescribeSnapshotRequest()
+                                      .WithCollectionName("my_collection")
+                                      .WithSnapshotName("backup_20240101"),
+                                  snapshot_info);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -224,6 +450,12 @@ fmt.Printf("Collection: %s\n", resp.GetSnapshotInfo().GetCollectionName())
 
 ```javascript
 // node.js
+// Describe a snapshot
+const snapshot_info = await client.describeSnapshot({
+  collection_name: 'my_collection',
+  snapshot_name: 'backup_20240101'
+});
+console.log(snapshot_info);
 ```
 
 </TabItem>
@@ -232,18 +464,26 @@ fmt.Printf("Collection: %s\n", resp.GetSnapshotInfo().GetCollectionName())
 
 ```bash
 # restful
+curl --request POST \
+  --url "${CLUSTER_ENDPOINT}/v2/vectordb/snapshots/describe" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "Content-Type: application/json" \
+  -d '{
+    "collectionName": "my_collection",
+    "snapshotName": "backup_20240101"
+  }'
 ```
 
 </TabItem>
 </Tabs>
 
-## スナップショットデータの pin/unpin\{#pinunpin-snapshot-data}
+## Pin/unpin スナップショットデータ\{#pinunpin-snapshot-data}
 
-復元中は、スナップショットを pin して、その基盤となるデータをガベージコレクションから一時的に保護し、unpin してデータを解放できます。
+リストア中にスナップショットをピン留めすると、基になるデータをガベージコレクションから一時的に保護でき、ピン留めを解除するとデータが解放されます。
 
-また、pin 操作に対して有効期限（TTL）を設定することもでき、その期間が切れると pin されたデータは解放されます。
+また、ピン操作に time-to-live（TTL）の期間を設定すると、期間の満了時にピン留めされたデータが解放されます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -263,7 +503,18 @@ client.unpin_snapshot_data(
 <TabItem value='java'>
 
 ```java
-// java
+import io.milvus.v2.service.snapshot.request.PinSnapshotDataReq;
+import io.milvus.v2.service.snapshot.request.UnpinSnapshotDataReq;
+
+Long pinId = client.pinSnapshotData(PinSnapshotDataReq.builder()
+        .collectionName("my_collection")
+        .snapshotName("backup_20240101")
+        .ttlSeconds(3600L)
+        .build()).getPinId();
+
+client.unpinSnapshotData(UnpinSnapshotDataReq.builder()
+        .pinId(pinId)
+        .build());
 ```
 
 </TabItem>
@@ -271,20 +522,65 @@ client.unpin_snapshot_data(
 <TabItem value='go'>
 
 ```go
-pinID, err := cli.PinSnapshotData(
-    ctx,
-    client.NewPinSnapshotDataOption("backup_20240101", "my_collection").WithTTLSeconds(3600),
+pinID, err := client.PinSnapshotData(
+    context.Background(),
+    milvusclient.NewPinSnapshotDataOption("backup_20240101", "my_collection").WithTTL(3600),
 )
-
 if err != nil {
-    return err
+    log.Fatal(err)
 }
 
 defer func() {
-    _ = cli.UnpinSnapshotData(ctx, client.NewUnpinSnapshotDataOption(pinID))
+    _ = client.UnpinSnapshotData(context.Background(), milvusclient.NewUnpinSnapshotDataOption(pinID))
 }()
 
 // do work with pinned snapshot data
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+// Pin snapshot data
+let pin_id = client.pin_snapshot_data(
+    PinSnapshotDataRequest::builder()
+        .collection_name("my_collection")
+        .snapshot_name("backup_20240101")
+        .ttl_seconds(3600)
+        .build()?,
+).await?.pin_id();
+
+// Unpin snapshot data
+client.unpin_snapshot_data(
+    UnpinSnapshotDataRequest::builder()
+        .pin_id(pin_id)
+        .build()?,
+).await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// Pin snapshot data
+milvus::PinSnapshotDataResponse pin_resp;
+status = client->PinSnapshotData(milvus::PinSnapshotDataRequest()
+                                     .WithCollectionName("my_collection")
+                                     .WithSnapshotName("backup_20240101")
+                                     .WithTtlSeconds(3600),
+                                 pin_resp);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+// Unpin snapshot data
+status = client->UnpinSnapshotData(milvus::UnpinSnapshotDataRequest()
+                                        .WithPinID(pin_resp.PinID()));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -293,6 +589,17 @@ defer func() {
 
 ```javascript
 // node.js
+// Pin snapshot data
+const pin_resp = await client.pinSnapshotData({
+  collection_name: 'my_collection',
+  snapshot_name: 'backup_20240101',
+  ttl_seconds: 3600
+});
+
+// Unpin snapshot data
+await client.unpinSnapshotData({
+  pin_id: pin_resp.pin_id
+});
 ```
 
 </TabItem>
@@ -301,35 +608,45 @@ defer func() {
 
 ```bash
 # restful
+curl --request POST \
+  --url "${CLUSTER_ENDPOINT}/v2/vectordb/snapshots/pin" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "Content-Type: application/json" \
+  -d '{
+    "collectionName": "my_collection",
+    "snapshotName": "backup_20240101",
+    "ttlSeconds": 3600
+  }'
 ```
 
 </TabItem>
 </Tabs>
 
-## スナップショットの復元\{#restore-snapshot}
+## スナップショットをリストアする\{#restore-snapshot}
 
-スナップショットを新しい collection に復元できます。この操作は非同期で実行され、復元の進行状況を追跡するためのジョブ ID が返されます。
+スナップショットを新しいコレクションにリストアできます。この操作は非同期で実行され、リストアの進行状況を追跡するためのジョブ ID を返します。
 
-復元ではデータ import の代わりに **copy-segment** メカニズムを使用します。これは、以下の理由によりより効率的です。
+リストアでは、データインポートではなく **copy-segment** メカニズムが使用され、次の理由からより効率的です。
 
-- スナップショットストレージから segment ファイル（binlogs、deltalogs、index ファイル）を直接コピーする
+- スナップショットストレージからセグメントファイル（binlog、deltalog、インデックスファイル）を直接コピーします。
 
-- 既存のデータファイルとの互換性を確保するため、field ID と index ID を保持する
+- 既存のデータファイルとの互換性を確保するために、フィールド ID とインデックス ID を保持します。
 
-- データの再書き込みや index の再構築を回避し、復元時間を大幅に短縮する、および
+- データの書き換えとインデックスの再構築を回避し、リストア時間を大幅に短縮します。
 
-- 従来のバックアップおよび復元方法と比較して、10 倍から 100 倍の性能向上を実現する
+- 従来のバックアップおよびリストア方法と比較して、10～100 倍のパフォーマンス向上を実現します。
 
-スナップショットを復元するには、以下の手順を実行します。
+スナップショットをリストアするには、次のように操作します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 # Restore snapshot to new collection
 job_id = client.restore_snapshot(
     snapshot_name="backup_20240101",
-    collection_name="restored_collection",
+    source_collection_name="my_collection",
+    target_collection_name="restored_collection",
 )
 ```
 
@@ -338,7 +655,14 @@ job_id = client.restore_snapshot(
 <TabItem value='java'>
 
 ```java
-// java
+import io.milvus.v2.service.snapshot.request.RestoreSnapshotReq;
+
+// Restore snapshot to new collection
+client.restoreSnapshot(RestoreSnapshotReq.builder()
+        .sourceCollectionName("my_collection")
+        .targetCollectionName("restored_collection")
+        .snapshotName("backup_20240101")
+        .build());
 ```
 
 </TabItem>
@@ -347,8 +671,9 @@ job_id = client.restore_snapshot(
 
 ```go
 restoreOpt := milvusclient.NewRestoreSnapshotOption(
-    "backup_20240101", 
-    "restored_collection"
+    "backup_20240101",
+    "my_collection",
+    "restored_collection",
 )
 
 jobID, err := client.RestoreSnapshot(context.Background(), restoreOpt)
@@ -359,10 +684,50 @@ if err != nil {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+// Restore snapshot to new collection
+let job_id = client.restore_snapshot(
+    RestoreSnapshotRequest::builder()
+        .snapshot_name("backup_20240101")
+        .source_collection_name("my_collection")
+        .target_collection_name("restored_collection")
+        .build()?,
+).await?.job_id();
+println!("job id: {}", job_id);
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// Restore snapshot to new collection
+milvus::RestoreSnapshotResponse restore_resp;
+status = client->RestoreSnapshot(milvus::RestoreSnapshotRequest()
+                                      .WithSourceCollectionName("my_collection")
+                                      .WithSnapshotName("backup_20240101")
+                                      .WithTargetCollectionName("restored_collection"),
+                                  restore_resp);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
 // node.js
+// Restore snapshot to new collection
+const restore_resp = await client.restoreSnapshot({
+  source_collection_name: 'my_collection',
+  target_collection_name: 'restored_collection',
+  snapshot_name: 'backup_20240101'
+});
+console.log(restore_resp);
 ```
 
 </TabItem>
@@ -371,23 +736,33 @@ if err != nil {
 
 ```bash
 # restful
+curl --request POST \
+  --url "${CLUSTER_ENDPOINT}/v2/vectordb/snapshots/restore" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "Content-Type: application/json" \
+  -d '{
+    "sourceCollectionName": "my_collection",
+    "targetCollectionName": "restored_collection",
+    "snapshotName": "backup_20240101"
+  }'
 ```
 
 </TabItem>
 </Tabs>
 
-復元ジョブの進行状況の監視に関する詳細については、「Monitor restoration progress」を参照してください。
+For details on monitoring the progress of a restoration job, refer to Monitor restoration progress.
 
-## スナップショットの削除\{#drop-snapshot}
+## スナップショットをドロップする\{#drop-snapshot}
 
-不要になったスナップショットは削除できます。ストレージを節約するため、古いスナップショットは定期的に削除することを推奨します。
+不要になったスナップショットはドロップできます。ストレージを節約するために、古いスナップショットを定期的に削除することをお勧めします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 client.drop_snapshot(
-    snapshot_name="backup_20240101"
+    snapshot_name="backup_20240101",
+    collection_name="my_collection"
 )
 ```
 
@@ -396,7 +771,12 @@ client.drop_snapshot(
 <TabItem value='java'>
 
 ```java
-// java
+import io.milvus.v2.service.snapshot.request.DropSnapshotReq;
+
+client.dropSnapshot(DropSnapshotReq.builder()
+        .collectionName("my_collection")
+        .snapshotName("backup_20240101")
+        .build());
 ```
 
 </TabItem>
@@ -404,8 +784,38 @@ client.drop_snapshot(
 <TabItem value='go'>
 
 ```go
-dropOpt := milvusclient.NewDropSnapshotOption("backup_20240101")
+dropOpt := milvusclient.NewDropSnapshotOption("backup_20240101", "my_collection")
+
 err := client.DropSnapshot(context.Background(), dropOpt)
+if err != nil {
+    log.Fatal(err)
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+client.drop_snapshot(
+    DropSnapshotRequest::builder()
+        .collection_name("my_collection")
+        .snapshot_name("backup_20240101")
+        .build()?,
+).await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+status = client->DropSnapshot(milvus::DropSnapshotRequest()
+                                     .WithCollectionName("my_collection")
+                                     .WithSnapshotName("backup_20240101"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -414,6 +824,10 @@ err := client.DropSnapshot(context.Background(), dropOpt)
 
 ```javascript
 // node.js
+await client.dropSnapshot({
+  collection_name: 'my_collection',
+  snapshot_name: 'backup_20240101'
+});
 ```
 
 </TabItem>
@@ -422,16 +836,24 @@ err := client.DropSnapshot(context.Background(), dropOpt)
 
 ```bash
 # restful
+curl --request POST \
+  --url "${CLUSTER_ENDPOINT}/v2/vectordb/snapshots/drop" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "Content-Type: application/json" \
+  -d '{
+    "collectionName": "my_collection",
+    "snapshotName": "backup_20240101"
+  }'
 ```
 
 </TabItem>
 </Tabs>
 
-## 復元ジョブの一覧表示\{#list-restoration-jobs}
+## リストアジョブを一覧表示する\{#list-restoration-jobs}
 
-この API を使用して、対象の collection に対してすでに作成されたスナップショットの一覧を取得できます。
+この API を使用すると、対象コレクションに対してすでに作成されたスナップショットの一覧を取得できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -439,7 +861,7 @@ err := client.DropSnapshot(context.Background(), dropOpt)
 jobs = client.list_restore_snapshot_jobs()
 
 for job in jobs:
-    print(f"Job {job.job_id}: {job.snapshot_name} -> Collection {job.collection_id}")
+    print(f"Job {job.job_id}: {job.snapshot_name} -> Collection {job.collection_name}")
     print(f"  State: {job.state}, Progress: {job.progress}%")
 
 # List restore jobs for a specific collection
@@ -451,7 +873,12 @@ jobs = client.list_restore_snapshot_jobs(collection_name="my_collection")
 <TabItem value='java'>
 
 ```java
-// java
+import io.milvus.v2.service.snapshot.request.ListRestoreSnapshotJobsReq;
+
+// List all restore jobs
+client.listRestoreSnapshotJobs(ListRestoreSnapshotJobsReq.builder()
+        .collectionName("my_collection")
+        .build());
 ```
 
 </TabItem>
@@ -461,15 +888,16 @@ jobs = client.list_restore_snapshot_jobs(collection_name="my_collection")
 ```go
 // List all restore jobs
 listOpt := milvusclient.NewListRestoreSnapshotJobsOption()
+
 jobs, err := client.ListRestoreSnapshotJobs(context.Background(), listOpt)
 if err != nil {
     log.Fatal(err)
 }
 
 for _, job := range jobs {
-    fmt.Printf("Job %d: %s -> Collection %d\n", 
-        job.GetJobId(), job.GetSnapshotName(), job.GetCollectionId())
-    fmt.Printf("  State: %s, Progress: %d%%\n", 
+    fmt.Printf("Job %d: %s -> Collection %d\n",
+        job.GetJobId(), job.GetSnapshotName(), job.GetCollectionName())
+    fmt.Printf("  State: %s, Progress: %d%%\n",
         job.GetState(), job.GetProgress())
 }
 
@@ -477,6 +905,41 @@ for _, job := range jobs {
 listOpt = milvusclient.NewListRestoreSnapshotJobsOption().
     WithCollectionName("my_collection")
 jobs, err = client.ListRestoreSnapshotJobs(context.Background(), listOpt)
+if err != nil {
+    log.Fatal(err)
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+// List all restore jobs
+let jobs = client.list_restore_snapshot_jobs(
+    ListRestoreSnapshotJobsRequest::builder()
+        .collection_name("my_collection")
+        .build()?,
+).await?;
+for job in &jobs {
+    println!("Job {}: {} -> Collection {}", job.job_id(), job.snapshot_name(), job.collection_name());
+    println!("  State: {}, Progress: {}%", job.state(), job.progress());
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// List all restore jobs
+milvus::ListRestoreSnapshotJobsResponse jobs;
+status = client->ListRestoreSnapshotJobs(milvus::ListRestoreSnapshotJobsRequest()
+                                             .WithCollectionName("my_collection"),
+                                         jobs);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -485,6 +948,11 @@ jobs, err = client.ListRestoreSnapshotJobs(context.Background(), listOpt)
 
 ```javascript
 // node.js
+// List all restore jobs
+const jobs = await client.listRestoreSnapshotJobs({
+  collection_name: 'my_collection'
+});
+console.log(jobs);
 ```
 
 </TabItem>
@@ -493,16 +961,23 @@ jobs, err = client.ListRestoreSnapshotJobs(context.Background(), listOpt)
 
 ```bash
 # restful
+curl --request POST \
+  --url "${CLUSTER_ENDPOINT}/v2/vectordb/jobs/snapshot/list" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "Content-Type: application/json" \
+  -d '{
+    "collectionName": "my_collection"
+  }'
 ```
 
 </TabItem>
 </Tabs>
 
-## 復元状態の取得\{#get-restoration-state}
+## リストア状態を取得する\{#get-restoration-state}
 
-復元ジョブ ID を取得したら、それを使用して復元の進行状況を取得できます。
+リストアジョブ ID を取得したら、それを使用してリストアの進行状況を取得できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -510,7 +985,7 @@ state = client.get_restore_snapshot_state(job_id=12345)
 
 print(f"Job ID: {state.job_id}")
 print(f"Snapshot Name: {state.snapshot_name}")
-print(f"Collection ID: {state.collection_id}")
+print(f"Collection: {state.collection_name}")
 print(f"State: {state.state}")
 print(f"Progress: {state.progress}%")
 if state.state == "RestoreSnapshotFailed":
@@ -523,7 +998,12 @@ print(f"Time Cost: {state.time_cost}ms")
 <TabItem value='java'>
 
 ```java
-// java
+import io.milvus.v2.service.snapshot.request.GetRestoreSnapshotStateReq;
+
+// Get restoration state
+client.getRestoreSnapshotState(GetRestoreSnapshotStateReq.builder()
+        .jobId(12345L)
+        .build());
 ```
 
 </TabItem>
@@ -531,7 +1011,16 @@ print(f"Time Cost: {state.time_cost}ms")
 <TabItem value='go'>
 
 ```go
+import (
+    "context"
+    "fmt"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 stateOpt := milvusclient.NewGetRestoreSnapshotStateOption(12345)
+
 state, err := client.GetRestoreSnapshotState(context.Background(), stateOpt)
 if err != nil {
     log.Fatal(err)
@@ -539,13 +1028,42 @@ if err != nil {
 
 fmt.Printf("Job ID: %d\n", state.GetJobId())
 fmt.Printf("Snapshot Name: %s\n", state.GetSnapshotName())
-fmt.Printf("Collection ID: %d\n", state.GetCollectionId())
-fmt.Printf("State: %s\n", state.GetState())
+fmt.Printf("Collection: %s\n", state.GetCollectionName())
+fmt.Printf("State: %s\n", state.GetState().String())
 fmt.Printf("Progress: %d%%\n", state.GetProgress())
-if state.GetState() == milvuspb.RestoreSnapshotState_RestoreSnapshotFailed {
-    fmt.Printf("Failure Reason: %s\n", state.GetReason())
-}
 fmt.Printf("Time Cost: %dms\n", state.GetTimeCost())
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+// Get restoration state
+let state = client.get_restore_snapshot_state(
+    GetRestoreSnapshotStateRequest::builder()
+        .job_id(12345)
+        .build()?,
+).await?;
+println!("Job ID: {}", state.job_id());
+println!("Snapshot Name: {}", state.snapshot_name());
+println!("State: {:?}", state.state());
+println!("Progress: {}%", state.progress());
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// Get restoration state
+milvus::GetRestoreSnapshotStateResponse state;
+status = client->GetRestoreSnapshotState(milvus::GetRestoreSnapshotStateRequest()
+                                              .WithJobId(12345),
+                                          state);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -554,6 +1072,11 @@ fmt.Printf("Time Cost: %dms\n", state.GetTimeCost())
 
 ```javascript
 // node.js
+// Get restoration state
+const state = await client.getRestoreSnapshotState({
+  job_id: 12345
+});
+console.log(state);
 ```
 
 </TabItem>
@@ -562,6 +1085,13 @@ fmt.Printf("Time Cost: %dms\n", state.GetTimeCost())
 
 ```bash
 # restful
+curl --request POST \
+  --url "${CLUSTER_ENDPOINT}/v2/vectordb/jobs/snapshot/describe" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "Content-Type: application/json" \
+  -d '{
+    "jobId": 12345
+  }'
 ```
 
 </TabItem>

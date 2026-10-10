@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud は JSON フィールドのクエリおよびフィルタリングのための高度な演算子をサポートしており、複雑で構造化されたデータの管理に最適です。これらの演算子により JSON ドキュメントに対する非常に効果的なクエリが可能になり、JSON フィールド内の特定の要素、値、または条件に基づいてエンティティを取得できます。このセクションでは、Zilliz Cloud で JSON 固有の演算子を使用する方法を、実用的な例を交えながら説明します。 | Cloud"
+description: "Zilliz Cloud は、JSON フィールドのクエリとフィルタリングのための高度な演算子をサポートしており、複雑で構造化されたデータの管理に最適です。これらの演算子により、JSON ドキュメントを効率的にクエリでき、JSON フィールド内の特定の要素、値、条件に基づいてエンティティを取得できます。このセクションでは、Zilliz Cloud で JSON 固有の演算子を使用する方法を、機能を説明する実践的な例とともに説明します。 | Cloud"
 type: origin
 token: Py6zwu6r4iPMqVkKAYXcUYLEnXg
 sidebar_position: 5
@@ -16,71 +16,252 @@ displayed_sidebar: default
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # JSON 演算子
 
-Zilliz Cloud は JSON フィールドのクエリおよびフィルタリングのための高度な演算子をサポートしており、複雑で構造化されたデータの管理に最適です。これらの演算子により JSON ドキュメントに対する非常に効果的なクエリが可能になり、JSON フィールド内の特定の要素、値、または条件に基づいてエンティティを取得できます。このセクションでは、Zilliz Cloud で JSON 固有の演算子を使用する方法を、実用的な例を交えながら説明します。
+Zilliz Cloud は、JSON フィールドのクエリとフィルタリングのための高度な演算子をサポートしており、複雑で構造化されたデータの管理に最適です。これらの演算子により、JSON ドキュメントを効率的にクエリでき、JSON フィールド内の特定の要素、値、条件に基づいてエンティティを取得できます。このセクションでは、Zilliz Cloud で JSON 固有の演算子を使用する方法を、機能を説明する実践的な例とともに説明します。
 
 <Admonition type="info" title="Notes">
 
-JSON フィールドは複雑でネストされた構造を扱うことができず、すべてのネスト構造を単なる文字列として扱います。そのため、JSON フィールドを使用する場合は、過度に深いネストを避け、最適なパフォーマンスのためにできるだけフラットなデータ構造にすることをおすすめします。
+JSON フィールドは複雑でネストされた構造を扱うことができず、ネストされた構造をすべてプレーン文字列として扱います。そのため、JSON フィールドを扱う場合は、過度に深いネストを避け、最適なパフォーマンスを得るためにデータ構造をできるだけフラットに保つことをお勧めします。
 
 </Admonition>
 
 ## 利用可能な JSON 演算子\{#available-json-operators}
 
-Zilliz Cloud は JSON データのフィルタリングとクエリに役立つ強力な JSON 演算子をいくつか提供しており、以下の演算子があります。
+Zilliz Cloud は、JSON データのフィルタリングとクエリに役立つ強力な JSON 演算子をいくつか提供しています。これらの演算子は次のとおりです。
 
-- [`JSON_CONTAINS(identifier, expr)`](./json-filtering-operators#jsoncontains): 指定した JSON 式がフィールド内に見つかるエンティティをフィルタリングします。
+- [`JSON_CONTAINS(identifier, expr)`](./json-filtering-operators#jsoncontains): 指定された JSON 式がフィールド内に見つかったエンティティをフィルタリングします。
 
-- [`JSON_CONTAINS_ALL(identifier, expr)`](./json-filtering-operators#jsoncontainsall): 指定した JSON 式のすべての要素がフィールド内に存在することを保証します。
+- [`JSON_CONTAINS_ALL(identifier, expr)`](./json-filtering-operators#jsoncontainsall): 指定された JSON 式のすべての要素がフィールドに存在することを保証します。
 
 - [`JSON_CONTAINS_ANY(identifier, expr)`](./json-filtering-operators#jsoncontainsany): JSON 式の少なくとも 1 つのメンバーがフィールド内に存在するエンティティをフィルタリングします。
 
-これらの演算子が実際のシナリオでどのように適用できるか、例を使って見ていきましょう。
+これらの演算子を実際のシナリオでどのように適用できるかを、例を交えて見ていきましょう。
 
 ## JSON_CONTAINS\{#jsoncontains}
 
-`json_contains` 演算子は、特定の要素または部分配列が JSON フィールド内に存在するかどうかを確認します。JSON 配列またはオブジェクトに特定の値が含まれていることを確認したい場合に便利です。
+`json_contains` 演算子は、特定の要素またはサブ配列が JSON フィールド内に存在するかどうかをチェックします。JSON 配列またはオブジェクトに特定の値が含まれていることを確認したい場合に便利です。
 
 **例**
 
-`["electronics", "sale", "new"]` のような文字列の JSON 配列を含む `tags` フィールドを持つ商品のコレクションがあるとします。タグ `"sale"` を持つ商品をフィルタリングしたいとします。
+製品のコレクションがあり、各製品に `["electronics", "sale", "new"]` などの文字列の JSON 配列を含む `tags` フィールドがあるとします。タグ `"sale"` を持つ製品をフィルタリングしたいとします。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 # JSON data: {"tags": ["electronics", "sale", "new"]}
 filter = 'json_contains(product["tags"], "sale")'
 ```
 
-この例では、Zilliz Cloud は `tags` フィールドに `"sale"` 要素を含むすべての商品を返します。
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// JSON data: {"tags": ["electronics", "sale", "new"]}
+String filter = "json_contains(product[\"tags\"], \"sale\")";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// JSON data: {"tags": ["electronics", "sale", "new"]}
+filter := "json_contains(product[\"tags\"], \"sale\")"
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+// JSON data: {"tags": ["electronics", "sale", "new"]}
+let filter = "json_contains(product[\"tags\"], \"sale\")";
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// JSON data: {"tags": ["electronics", "sale", "new"]}
+std::string filter = "json_contains(product[\"tags\"], \"sale\")";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// JSON data: {"tags": ["electronics", "sale", "new"]}
+const filter = 'json_contains(product["tags"], "sale")';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# JSON data: {"tags": ["electronics", "sale", "new"]}
+filter='json_contains(product["tags"], "sale")'
+```
+
+</TabItem>
+</Tabs>
+
+この例では、Zilliz Cloud は `tags` フィールドに要素 `"sale"` を含むすべての製品を返します。
 
 ## JSON_CONTAINS_ALL\{#jsoncontainsall}
 
-`json_contains_all` 演算子は、指定した JSON 式のすべての要素が対象フィールド内に存在することを保証します。JSON 配列内で複数の値を一致させる必要がある場合に特に便利です。
+`json_contains_all` 演算子は、指定された JSON 式のすべての要素が対象フィールドに存在することを保証します。JSON 配列内で複数の値に一致させる必要がある場合に特に便利です。
 
 **例**
 
-商品のタグのシナリオを続けると、タグ `"electronics"`、`"sale"`、`"new"` を持つすべての商品を見つけたい場合は、`json_contains_all` 演算子を使用できます。
+製品タグのシナリオを引き続き使用して、タグ `"electronics"`、`"sale"`、`"new"` を持つすべての製品を検索する場合は、`json_contains_all` 演算子を使用できます。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 # JSON data: {"tags": ["electronics", "sale", "new", "discount"]}
 filter = 'json_contains_all(product["tags"], ["electronics", "sale", "new"])'
 ```
 
-このクエリは、`tags` 配列に指定した 3 つの要素 `"electronics"`、`"sale"`、`"new"` がすべて含まれているすべての商品を返します。
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// JSON data: {"tags": ["electronics", "sale", "new", "discount"]}
+String filter = "json_contains_all(product[\"tags\"], [\"electronics\", \"sale\", \"new\"])";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// JSON data: {"tags": ["electronics", "sale", "new", "discount"]}
+filter := "json_contains_all(product[\"tags\"], [\"electronics\", \"sale\", \"new\"])"
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+// JSON data: {"tags": ["electronics", "sale", "new", "discount"]}
+let filter = "json_contains_all(product[\"tags\"], [\"electronics\", \"sale\", \"new\"])";
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// JSON data: {"tags": ["electronics", "sale", "new", "discount"]}
+std::string filter = "json_contains_all(product[\"tags\"], [\"electronics\", \"sale\", \"new\"])";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// JSON data: {"tags": ["electronics", "sale", "new", "discount"]}
+const filter = 'json_contains_all(product["tags"], ["electronics", "sale", "new"])';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# JSON data: {"tags": ["electronics", "sale", "new", "discount"]}
+filter='json_contains_all(product["tags"], ["electronics", "sale", "new"])'
+```
+
+</TabItem>
+</Tabs>
+
+このクエリは、`tags` 配列に指定された 3 つの要素 `"electronics"`、`"sale"`、`"new"` をすべて含むすべての製品を返します。
 
 ## JSON_CONTAINS_ANY\{#jsoncontainsany}
 
-`json_contains_any` 演算子は、JSON 式の少なくとも 1 つのメンバーがフィールド内に存在するエンティティをフィルタリングします。いくつかの候補値のうちいずれか 1 つに基づいてエンティティを一致させたい場合に便利です。
+`json_contains_any` 演算子は、JSON 式の少なくとも 1 つのメンバーがフィールド内に存在するエンティティをフィルタリングします。複数の候補値のいずれかに基づいてエンティティを一致させたい場合に便利です。
 
 **例**
 
-少なくとも `"electronics"`、`"sale"`、`"new"` のいずれか 1 つのタグを持つ商品をフィルタリングしたいとします。これを実現するために `json_contains_any` 演算子を使用できます。
+タグ `"electronics"`、`"sale"`、`"new"` の少なくとも 1 つを持つ製品をフィルタリングしたいとします。これは `json_contains_any` 演算子を使用して実現できます。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 # JSON data: {"tags": ["electronics", "sale", "new"]}
-filter = 'json_contains_any(tags, ["electronics", "new", "clearance"])'
+filter = 'json_contains_any(product["tags"], ["electronics", "new", "clearance"])'
 ```
 
-この場合、Zilliz Cloud はリスト `["electronics", "new", "clearance"]` 内のタグを少なくとも 1 つ持つすべての商品を返します。商品がこれらのタグのうち 1 つしか持っていなくても、結果に含まれます。
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// JSON data: {"tags": ["electronics", "sale", "new"]}
+String filter = "json_contains_any(product[\"tags\"], [\"electronics\", \"new\", \"clearance\"])";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// JSON data: {"tags": ["electronics", "sale", "new"]}
+filter := "json_contains_any(product[\"tags\"], [\"electronics\", \"new\", \"clearance\"])"
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+// JSON data: {"tags": ["electronics", "sale", "new"]}
+let filter = "json_contains_any(product[\"tags\"], [\"electronics\", \"new\", \"clearance\"])";
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// JSON data: {"tags": ["electronics", "sale", "new"]}
+std::string filter = "json_contains_any(product[\"tags\"], [\"electronics\", \"new\", \"clearance\"])";
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// JSON data: {"tags": ["electronics", "sale", "new"]}
+const filter = 'json_contains_any(product["tags"], ["electronics", "new", "clearance"])';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# JSON data: {"tags": ["electronics", "sale", "new"]}
+filter='json_contains_any(product["tags"], ["electronics", "new", "clearance"])'
+```
+
+</TabItem>
+</Tabs>
+
+この場合、Zilliz Cloud は、リスト `["electronics", "new", "clearance"]` 内のタグの少なくとも 1 つを持つすべての製品を返します。製品がこれらのタグの 1 つだけを持つ場合でも、結果に含まれます。

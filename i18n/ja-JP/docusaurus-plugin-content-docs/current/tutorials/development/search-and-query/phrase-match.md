@@ -385,7 +385,26 @@ await client.createCollection(schema);
 <TabItem value='go'>
 
 ```go
-// go
+import "github.com/milvus-io/milvus/client/v2/entity"
+
+// Create a schema for a new collection
+schema := entity.NewSchema().WithDynamicFieldEnabled(false)
+schema.WithField(entity.NewField().
+    WithName("id").
+    WithDataType(entity.FieldTypeInt64).
+    WithIsPrimaryKey(true).
+    WithIsAutoID(true),
+).WithField(entity.NewField().
+    WithName("text").                      // Name of the field
+    WithDataType(entity.FieldTypeVarChar). // Field data type set as VARCHAR (string)
+    WithMaxLength(1000).                   // Maximum length of the string
+    WithEnableAnalyzer(true).              // Enables text analysis (tokenization)
+    WithEnableMatch(true),                 // Enables inverted indexing for phrase matching
+).WithField(entity.NewField().
+    WithName("embeddings").
+    WithDataType(entity.FieldTypeFloatVector).
+    WithDim(5),
+)
 ```
 
 </TabItem>
@@ -554,35 +573,11 @@ client.load_collection(collection_name=COLLECTION_NAME)
 
 ```java
 // Insert sample data with text containing "machine learning" phrases
-List<JsonObject> sampleData = Arrays.asList(
-    createSample("Machine learning is a subset of artificial intelligence that focuses on algorithms.", new float[]{0.1f, 0.2f, 0.3f, 0.4f, 0.5f}),
-    createSample("Deep learning machine algorithms require large datasets for training.", new float[]{0.2f, 0.3f, 0.4f, 0.5f, 0.6f}),
-    createSample("The machine learning model showed excellent performance on the test set.", new float[]{0.3f, 0.4f, 0.5f, 0.6f, 0.7f}),
-    createSample("Natural language processing and machine learning go hand in hand.", new float[]{0.4f, 0.5f, 0.6f, 0.7f, 0.8f}),
-    createSample("This article discusses various learning machine techniques and applications.", new float[]{0.5f, 0.6f, 0.7f, 0.8f, 0.9f})
-);
-
-client.insert(InsertReq.builder()
-        .collectionName(COLLECTION_NAME)
-        .data(sampleData)
-        .build());
-
-// Index the vector field and load the collection
-IndexParam indexParam = IndexParam.builder()
-        .fieldName("embeddings")
-        .indexType(IndexParam.IndexType.AUTOINDEX)
-        .indexName("embeddings_index")
-        .metricType(IndexParam.MetricType.COSINE)
-        .build();
-
-client.createIndex(CreateIndexReq.builder()
-        .collectionName(COLLECTION_NAME)
-        .indexParams(Collections.singletonList(indexParam))
-        .build());
-
-client.loadCollection(LoadCollectionReq.builder()
-        .collectionName(COLLECTION_NAME)
-        .build());
+List<JSONObject> data = new ArrayList<>();
+data.add(new JSONObject().fluentPut("text", "machine learning boosts efficiency").fluentPut("embeddings", Arrays.asList(0.1f, 0.2f, 0.3f, 0.4f, 0.5f)));
+data.add(new JSONObject().fluentPut("text", "learning machine is fun").fluentPut("embeddings", Arrays.asList(0.2f, 0.3f, 0.4f, 0.5f, 0.6f)));
+data.add(new JSONObject().fluentPut("text", "machine quickly boosts learning").fluentPut("embeddings", Arrays.asList(0.3f, 0.4f, 0.5f, 0.6f, 0.7f)));
+client.insert(InsertReq.builder().collectionName(COLLECTION_NAME).data(data).build());
 ```
 
 </TabItem>
@@ -639,7 +634,18 @@ await client.loadCollection({
 <TabItem value='go'>
 
 ```go
-// go
+// Define analyzer parameters for English-language tokenization
+analyzerParams := map[string]any{"type": "english"}
+
+// Add the VARCHAR field with the English analyzer enabled
+schema.WithField(entity.NewField().
+    WithName("text").                      // Name of the field
+    WithDataType(entity.FieldTypeVarChar). // Field data type set as VARCHAR
+    WithMaxLength(1000).                   // Maximum length of the string
+    WithEnableAnalyzer(true).              // Enables text analysis
+    WithAnalyzerParams(analyzerParams).    // Specifies the analyzer configuration
+    WithEnableMatch(true),                 // Enables inverted indexing for phrase matching
+)
 ```
 
 </TabItem>
@@ -799,7 +805,7 @@ PHRASE_MATCH(field_name, phrase, slop)
 <TabItem value='go'>
 
 ```go
-// go
+PHRASE_MATCH(field_name, phrase, slop)
 ```
 
 </TabItem>
@@ -909,7 +915,16 @@ const result = await client.query({
 <TabItem value='go'>
 
 ```go
-// go
+// Match documents containing exactly "machine learning"
+filter := "PHRASE_MATCH(text, 'machine learning')"
+
+resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("tech_articles").
+    WithFilter(filter).
+    WithOutputFields("id", "text"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -1044,7 +1059,21 @@ const result_slop1 = await client.search({
 <TabItem value='go'>
 
 ```go
-// go
+// Example: Filter documents containing "learning machine" with slop=1
+filter := "PHRASE_MATCH(text, 'learning machine', 1)"
+
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "tech_articles", // collectionName
+    10,              // limit
+    []entity.Vector{entity.FloatVector(queryVector)},
+).WithANNSField("embeddings").
+    WithFilter(filter).
+    WithSearchParam("nprobe", "10").
+    WithOutputFields("id", "text"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -1147,22 +1176,16 @@ print("Slop 2 result: ", result_slop2)
 
 ```java
 // Example: Filter documents containing "machine learning" with slop=2
-String filterSlop2 = "PHRASE_MATCH(text, 'machine learning', 2)";
-
-SearchReq searchReqSlop2 = SearchReq.builder()
-        .collectionName(COLLECTION_NAME)
-        .annsField("embeddings")             // Vector field name
-        .data(queryVector)                   // Query vector
-        // highlight-next-line
-        .filter(filterSlop2)                 // Filter expression
-        .searchParams(new HashMap<>())
-        .topK(10)                            // Maximum results to return
+String filter_slop2 = "PHRASE_MATCH(text, 'machine learning', 2)";
+SearchResp searchResp = client.search(SearchReq.builder()
+        .collectionName("tech_articles")
+        .annsField("embeddings")
+        .data(Collections.singletonList(new FloatVec(new float[]{0.1f, 0.2f, 0.3f, 0.4f, 0.5f})))
+        .filter(filter_slop2)
+        .searchParams(Collections.singletonMap("nprobe", "10"))
+        .limit(10)
         .outputFields(Arrays.asList("id", "text"))
-        .build();
-
-SearchResp resultSlop2 = client.search(searchReqSlop2);
-
-System.out.println("Slop 2 result: " + resultSlop2);
+        .build());
 ```
 
 </TabItem>
@@ -1187,7 +1210,21 @@ const result_slop2 = await client.search({
 <TabItem value='go'>
 
 ```go
-// go
+// Example: Filter documents containing "machine learning" with slop=2
+filter := "PHRASE_MATCH(text, 'machine learning', 2)"
+
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "tech_articles", // collectionName
+    10,              // limit, maximum results to return
+    []entity.Vector{entity.FloatVector(queryVector)}, // query vector
+).WithANNSField("embeddings"). // vector field name
+    WithFilter(filter).        // filter expression
+    WithSearchParam("nprobe", "10").
+    WithOutputFields("id", "text"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -1284,21 +1321,16 @@ print("Slop 3 result: ", result_slop3)
 
 ```java
 // Example: Filter documents containing "machine learning" with slop=3
-String filterSlop3 = String.format("PHRASE_MATCH(text, '%s', %d)", "machine learning", 3);
-
-SearchResp resultSlop3 = client.search(
-    SearchReq.builder()
-        .collectionName(COLLECTION_NAME)
-        .annsField("embeddings") // Vector field name
-        .data(queryVector)       // Query vector
-        .filter(filterSlop3)     // Filter expression
-        .searchParams(new HashMap<>())
-        .topK(10)                // Maximum results to return
+String filter_slop3 = "PHRASE_MATCH(text, 'machine learning', 3)";
+SearchResp searchResp = client.search(SearchReq.builder()
+        .collectionName("tech_articles")
+        .annsField("embeddings")
+        .data(Collections.singletonList(new FloatVec(new float[]{0.1f, 0.2f, 0.3f, 0.4f, 0.5f})))
+        .filter(filter_slop3)
+        .searchParams(Collections.singletonMap("nprobe", "10"))
+        .limit(10)
         .outputFields(Arrays.asList("id", "text"))
-        .build()
-);
-
-System.out.printf("Slop 3 result: %s%n", resultSlop3);
+        .build());
 ```
 
 </TabItem>
@@ -1323,7 +1355,21 @@ const result_slop3 = await client.search({
 <TabItem value='go'>
 
 ```go
-// go
+// Example: Filter documents containing "machine learning" with slop=3
+filter := "PHRASE_MATCH(text, 'machine learning', 3)"
+
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "tech_articles", // collectionName
+    10,              // limit, maximum results to return
+    []entity.Vector{entity.FloatVector(queryVector)}, // query vector
+).WithANNSField("embeddings"). // vector field name
+    WithFilter(filter).        // filter expression
+    WithSearchParam("nprobe", "10").
+    WithOutputFields("id", "text"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -1401,3 +1447,4 @@ zilliz collection search --collection-name tech_articles --vector-field embeddin
     - 文字列定数が一重引用符で囲まれている場合、定数内の一重引用符は `\\'` として表現する必要があります。一方、二重引用符は `"` または `\\"` のいずれかで表現できます。例：`'It\\'s milvus'`。
 
     - 文字列定数が二重引用符で囲まれている場合、定数内の二重引用符は `\\"` として表現する必要があります。一方、一重引用符は `'` または `\\'` のいずれかで表現できます。例：`"He said \\"Hi\\""`。
+

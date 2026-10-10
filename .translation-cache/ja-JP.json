@@ -1991,9 +1991,9 @@
       "translatedAt": "2026-10-10T05:34:30.460Z"
     },
     "content/en/guides/tutorials/development/search-and-query/filtering/array-filtering-operators.md": {
-      "sourceHash": "1380ef377fd6e5d26c617a98acf5294062c96256868fc6b99e23f50d31739e61",
+      "sourceHash": "5462328685b98dffd3d82ed6a8d1c991485df229e766c6dccdb40c0f7a7061df",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/filtering/array-filtering-operators.md",
-      "translatedAt": "2026-08-25T08:09:48.138Z"
+      "translatedAt": "2026-10-10T05:55:32.018Z"
     },
     "content/en/guides/tutorials/development/search-and-query/filtering/basic-filtering-operators.md": {
       "sourceHash": "3a8c27e7d52ab57d556dc424464234331c5ced9776797d6172060de79c611a8c",
@@ -2001,9 +2001,9 @@
       "translatedAt": "2026-10-10T05:34:30.460Z"
     },
     "content/en/guides/tutorials/development/search-and-query/filtering/filtering-overview.md": {
-      "sourceHash": "d1b13189eab99297b10e49ef7458631a469fe3b987d73010b8f31b61c4748c98",
+      "sourceHash": "1bc4704b1ec071de1ae0a6b4ed0d734f129b9a892b4f1927b6f3b2bb23dc32c9",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/filtering/filtering-overview.md",
-      "translatedAt": "2026-09-19T14:10:49.557Z"
+      "translatedAt": "2026-10-10T05:55:32.018Z"
     },
     "content/en/guides/tutorials/development/search-and-query/filtering/filtering-templating.md": {
       "sourceHash": "60858bfd4cd6a34837adcc5276dce9c8445976dabbabb8bf1fd22c05f6896c99",
@@ -2016,9 +2016,9 @@
       "translatedAt": "2026-10-10T05:34:30.460Z"
     },
     "content/en/guides/tutorials/development/search-and-query/filtering/json-filtering-operators.md": {
-      "sourceHash": "6e438bb1c4452315d27506175882bce886db1603539e7c1962039ba555db0c23",
+      "sourceHash": "3fb0a00f4b3c60677a79913ba12b7452fb485604120c1fc7d6d42cdf345e3c00",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/filtering/json-filtering-operators.md",
-      "translatedAt": "2026-09-19T14:10:49.557Z"
+      "translatedAt": "2026-10-10T05:55:32.018Z"
     },
     "content/en/guides/tutorials/development/search-and-query/filtering/pattern-match.md": {
       "sourceHash": "c96bd0b582e82d53201ef03190b60a818709ec68c671ee55da84a0f1f0daae5e",
@@ -2056,9 +2056,9 @@
       "translatedAt": "2026-09-19T14:10:49.557Z"
     },
     "content/en/guides/tutorials/development/search-and-query/phrase-match.md": {
-      "sourceHash": "b8382af40128d7d01adfc3da1880f6eb25be61c54c10bfdda62626111132d48a",
+      "sourceHash": "6626107d6f6375174fcf05addcb1e41987d113ac4deafb6c77f449b05628261d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/phrase-match.md",
-      "translatedAt": "2026-09-19T13:43:11.314Z"
+      "translatedAt": "2026-10-10T05:55:32.018Z"
     },
     "content/en/guides/tutorials/development/search-and-query/primary-key-search.md": {
       "sourceHash": "98bd2159ccadffa3a433d66f93520dfeb580138e26ff9e344bb0415cdadcd53b",
@@ -2086,14 +2086,14 @@
       "translatedAt": "2026-10-10T05:41:19.585Z"
     },
     "content/en/guides/tutorials/development/search-and-query/struct-array-search/filtered-search-with-struct-arrays.md": {
-      "sourceHash": "c6e35be1132e51d8307c6ff31e86488b0676f958d9a509938bda11b1527eaa1d",
+      "sourceHash": "7da216dadaf970a3daa3635d09f5c58b5a76ffb29f5b4de93a99e29aacf00ce8",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/struct-array-search/filtered-search-with-struct-arrays.md",
-      "translatedAt": "2026-09-19T14:12:08.171Z"
+      "translatedAt": "2026-10-10T05:55:32.018Z"
     },
     "content/en/guides/tutorials/development/search-and-query/struct-array-search/grouping-search-with-struct-array.md": {
-      "sourceHash": "60dca317bfd9ecd47e7c8a8d4cabb18a2178a53c596795f08ba405228e36925a",
+      "sourceHash": "ca1660318da420ab2d52821881a3ee3ec2eb854b696c83a11ec23ccccedb26c0",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/struct-array-search/grouping-search-with-struct-array.md",
-      "translatedAt": "2026-09-19T14:12:08.171Z"
+      "translatedAt": "2026-10-10T05:55:32.018Z"
     },
     "content/en/guides/tutorials/development/search-and-query/struct-array-search/hybrid-search-with-struct-array.md": {
       "sourceHash": "d4ce8008e5518db12cc0785380cb4f03b373e88c82ff5edff2941f8b6ba8d697",
@@ -2106,9 +2106,9 @@
       "translatedAt": "2026-10-10T05:41:19.585Z"
     },
     "content/en/guides/tutorials/development/search-and-query/struct-array-search/search-with-struct-array.md": {
-      "sourceHash": "5258d7ac4990cad29ae685a8ae537922cb576aae2c089b30bc83b75e6996202e",
+      "sourceHash": "f8504aa74f0bdffbe2b320448c8b8d79fc436d6e5e51569eb9a431c644151feb",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/struct-array-search/search-with-struct-array.md",
-      "translatedAt": "2026-09-19T14:12:08.171Z"
+      "translatedAt": "2026-10-10T05:55:32.018Z"
     },
     "content/en/guides/tutorials/development/search-and-query/struct-array-search/tutorial-colbert-colpali.md": {
       "sourceHash": "e3782e6c4dac5ff89b9f96d0014538616d6aea2119530c3afccdf51a505fe360",
@@ -2121,19 +2121,19 @@
       "translatedAt": "2026-10-10T05:41:19.585Z"
     },
     "content/en/guides/tutorials/development/search-and-query/text-match.md": {
-      "sourceHash": "b36d62bff6f50adfdc67a0ca98bbb8bb5f032579e8e867758c42e4b9349c174e",
+      "sourceHash": "ef9eff2a32158418f0643d210fd09ffb2609f33439fb14099ac122d7ea6fcb5c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/text-match.md",
-      "translatedAt": "2026-09-19T14:12:08.171Z"
+      "translatedAt": "2026-10-10T05:55:32.018Z"
     },
     "content/en/guides/tutorials/development/search-and-query/tune-recall-rate.md": {
-      "sourceHash": "ce23d8ee250454915cbffb84a06061b1eda7b359ed7a12799240042aa7c8c4fd",
+      "sourceHash": "dedffc5078e1efa1473985c23cdcc55a925fbef0e5a631f8f17e8828324b940b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/tune-recall-rate.md",
-      "translatedAt": "2026-09-19T14:12:08.171Z"
+      "translatedAt": "2026-10-10T05:55:32.018Z"
     },
     "content/en/guides/tutorials/development/search-and-query/use-mmap.md": {
-      "sourceHash": "b446829a3cf5ee32bd905c59a1a93c76ce075706ad1742bdea405b87bdc09f83",
+      "sourceHash": "f0d7bf75b2e89c9349c6e80dc7af235e531dce28e6e74e2bac4dcd33295b3826",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/use-mmap.md",
-      "translatedAt": "2026-09-19T14:12:08.171Z"
+      "translatedAt": "2026-10-10T05:55:32.018Z"
     },
     "content/en/guides/tutorials/development/search-and-query/use-partition-key.md": {
       "sourceHash": "cd4b829ade9e6c898bd0b9ade9631addbc65f47f008d8757371e368e28c80212",
@@ -2146,9 +2146,9 @@
       "translatedAt": "2026-10-10T05:41:19.585Z"
     },
     "content/en/guides/tutorials/development/snapshots/manage-snapshots.md": {
-      "sourceHash": "4a770f3c4b84d4a4558ea5de61c9f62ae5e1a6555a3ae5a7a381f25be005d02b",
+      "sourceHash": "13370ec7ec01f96f81d26cf1d4a502fde8cee3bc345b426b88dc8a64f5b22fb5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/snapshots/manage-snapshots.md",
-      "translatedAt": "2026-08-04T05:05:04.705Z"
+      "translatedAt": "2026-10-10T05:55:32.018Z"
     },
     "content/en/guides/tutorials/development/snapshots/snapshots.md": {
       "sourceHash": "b10c810f1c1e978a17f8d66925541a3be32376b9286aa371ed2d99b976af6955",
@@ -2156,24 +2156,24 @@
       "translatedAt": "2026-08-25T08:25:57.060Z"
     },
     "content/en/guides/tutorials/development/spark-batch-jobs/anomaly-detection.md": {
-      "sourceHash": "b1d4897510e4c7069309be391f9e50b035c1335239492f63cfb67748b88fb4c0",
+      "sourceHash": "222d40587b430b87b294efa7ece807c21236d72aa5525e7a5ff3b4ab7cf179bd",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/spark-batch-jobs/anomaly-detection.md",
-      "translatedAt": "2026-09-19T14:12:08.171Z"
+      "translatedAt": "2026-10-10T05:55:32.018Z"
     },
     "content/en/guides/tutorials/development/spark-batch-jobs/data-backfill.md": {
-      "sourceHash": "8f31db348cd4b5507c823ace259047a50e9b74509081541051731c0fbed5b01f",
+      "sourceHash": "dc078c219a0dc2026c053d89c072e8796c4ec91f1c72ae7bb9daf50d2b4fc045",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/spark-batch-jobs/data-backfill.md",
-      "translatedAt": "2026-09-19T14:12:08.171Z"
+      "translatedAt": "2026-10-10T05:55:32.018Z"
     },
     "content/en/guides/tutorials/development/spark-batch-jobs/k-means-clustering.md": {
-      "sourceHash": "4a973b1b985a0ca8ca6bf1bbdbf7965e03e945034f6fad4378d5378a93658337",
+      "sourceHash": "7f9c9c1cf580f4cdb5a1093c1dfc21e1cd2590922cbc26fa75d93ea24ff8c44e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/spark-batch-jobs/k-means-clustering.md",
-      "translatedAt": "2026-09-19T14:13:27.901Z"
+      "translatedAt": "2026-10-10T05:55:32.018Z"
     },
     "content/en/guides/tutorials/development/spark-batch-jobs/manage-spark-batch-jobs.md": {
-      "sourceHash": "dcae4d27b973f63d0d0e9d25fd3fbe3f862fef1b3f6288b78e14c88bb40cd01a",
+      "sourceHash": "0d48b150ac426faabf154f182c7b7ac8239dad0b8c92a78c52eb08c124017166",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/spark-batch-jobs/manage-spark-batch-jobs.md",
-      "translatedAt": "2026-09-19T14:13:27.901Z"
+      "translatedAt": "2026-10-10T05:55:32.018Z"
     },
     "content/en/guides/tutorials/development/spark-batch-jobs/primary-key-dedup.md": {
       "sourceHash": "6cf0447b52ea20cf2d690d46a9f46381154299e57df0d92815244aa29c0eec47",
