@@ -335,6 +335,8 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
+ctx := context.Background()
+
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
@@ -353,6 +355,7 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
+fmt.Println(result)
 ```
 
 </TabItem>
@@ -362,6 +365,9 @@ if err != nil {
 ```rust
 use milvus::v2::prelude::*;
 use serde_json::json;
+
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
 let analyzer_params = json!({
     "tokenizer": "standard",
@@ -414,6 +420,13 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({
+    address: "YOUR_CLUSTER_ENDPOINT",
+    token: "YOUR_CLUSTER_TOKEN",
+});
+
 const sample_text = "The stop filter allows control over common stop words for text processing.";
 
 // Run the standard analyzer with the defined configuration

@@ -144,6 +144,7 @@ SearchReq searchReq = SearchReq.builder()
         .collectionName("my_collection")
         .data(Collections.singletonList(new EmbeddedText("How is the weather in Jamaica?")))
         .annsField("message_sparse")
+        .topK(10)
         .outputFields(Arrays.asList("id", "message"))
         .build();
 
@@ -155,7 +156,9 @@ SearchResp searchResp = client.search(searchReq);
 <TabItem value='go'>
 
 ```go
-// Note: this feature is not yet supported in milvus-sdk-go.
+client.Search(ctx, milvusclient.NewSearchOption("my_collection", 10, []entity.Vector{entity.Text("How is the weather in Jamaica?")}).
+    WithANNSField("message_sparse").
+    WithOutputFields("id", "message"))
 ```
 
 </TabItem>
@@ -285,12 +288,21 @@ import io.milvus.v2.service.vector.request.QueryReq;
 import io.milvus.v2.service.vector.response.QueryResp;
 import java.util.*;
 
+// Use the filter parameter
 QueryReq queryReq = QueryReq.builder()
         .collectionName("my_collection")
         .filter("id in [1, 4, 100]")
         .outputFields(Arrays.asList("id", "title"))
         .build();
 QueryResp queryResp = client.query(queryReq);
+
+// Use the ids parameter
+queryReq = QueryReq.builder()
+        .collectionName("my_collection")
+        .ids(Arrays.asList(1, 4, 100))
+        .outputFields(Arrays.asList("id", "title"))
+        .build();
+queryResp = client.query(queryReq);
 ```
 
 </TabItem>
@@ -298,8 +310,14 @@ QueryResp queryResp = client.query(queryReq);
 <TabItem value='go'>
 
 ```go
+// Use the filter parameter
 client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter("id in [1, 4, 100]").
+    WithOutputFields("id", "title"))
+
+// Use the ids parameter
+client.Query(ctx, milvusclient.NewQueryOption("my_collection").
+    WithIDs(column.NewColumnInt64("id", []int64{1, 4, 100})).
     WithOutputFields("id", "title"))
 ```
 
@@ -308,11 +326,23 @@ client.Query(ctx, milvusclient.NewQueryOption("my_collection").
 <TabItem value='rust'>
 
 ```rust
+// Use the filter parameter
 client
     .query(
         QueryRequest::builder()
             .collection_name("my_collection")
             .filter("id in [1, 4, 100]")
+            .output_fields(["id", "title"])
+            .build()?,
+    )
+    .await?;
+
+// Use the ids parameter
+client
+    .query(
+        QueryRequest::builder()
+            .collection_name("my_collection")
+            .ids(Ids::Int64(vec![1, 4, 100]))
             .output_fields(["id", "title"])
             .build()?,
     )
@@ -324,6 +354,7 @@ client
 <TabItem value='c++'>
 
 ```c++
+// Use the filter parameter
 auto request = milvus::QueryRequest()
     .WithCollectionName("my_collection")
     .WithFilter("id in [1, 4, 100]")
@@ -332,6 +363,15 @@ auto request = milvus::QueryRequest()
 ;
 milvus::QueryResponse response;
 auto status = client->Query(request, response);
+
+// Use the ids parameter
+request = milvus::QueryRequest()
+    .WithCollectionName("my_collection")
+    .WithIDs(std::vector<int64_t>{1, 4, 100})
+    .AddOutputField("id")
+    .AddOutputField("title")
+;
+status = client->Query(request, response);
 ```
 
 </TabItem>
@@ -339,9 +379,17 @@ auto status = client->Query(request, response);
 <TabItem value='javascript'>
 
 ```javascript
+// Use the filter parameter
 const res = await client.query({
     collection_name: "my_collection",
     filter: 'id in [1, 4, 100]',
+    output_fields: ["id", "title"],
+});
+
+// Use the ids parameter
+const res2 = await client.query({
+    collection_name: "my_collection",
+    ids: [1, 4, 100],
     output_fields: ["id", "title"],
 });
 ```
@@ -670,12 +718,21 @@ import io.milvus.v2.service.vector.request.QueryReq;
 import io.milvus.v2.service.vector.response.QueryResp;
 import java.util.*;
 
+// use ==
 QueryReq queryReq = QueryReq.builder()
         .collectionName("my_collection")
         .filter("status==\"retired\"")
         .outputFields(Arrays.asList("id", "user", "status"))
         .build();
 QueryResp queryResp = client.query(queryReq);
+
+// use TEXT_MATCH
+queryReq = QueryReq.builder()
+        .collectionName("my_collection")
+        .filter("TEXT_MATCH(status, \"retired\")")
+        .outputFields(Arrays.asList("id", "user", "status"))
+        .build();
+queryResp = client.query(queryReq);
 ```
 
 </TabItem>
@@ -683,8 +740,14 @@ QueryResp queryResp = client.query(queryReq);
 <TabItem value='go'>
 
 ```go
+// use ==
 client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter("status==\"retired\"").
+    WithOutputFields("id", "user", "status"))
+
+// use TEXT_MATCH
+client.Query(ctx, milvusclient.NewQueryOption("my_collection").
+    WithFilter("TEXT_MATCH(status, \"retired\")").
     WithOutputFields("id", "user", "status"))
 ```
 
@@ -693,11 +756,23 @@ client.Query(ctx, milvusclient.NewQueryOption("my_collection").
 <TabItem value='rust'>
 
 ```rust
+// use ==
 client
     .query(
         QueryRequest::builder()
             .collection_name("my_collection")
             .filter("status==\"retired\"")
+            .output_fields(["id", "user", "status"])
+            .build()?,
+    )
+    .await?;
+
+// use TEXT_MATCH
+client
+    .query(
+        QueryRequest::builder()
+            .collection_name("my_collection")
+            .filter("TEXT_MATCH(status, \"retired\")")
             .output_fields(["id", "user", "status"])
             .build()?,
     )
@@ -709,6 +784,7 @@ client
 <TabItem value='c++'>
 
 ```c++
+// use ==
 auto request = milvus::QueryRequest()
     .WithCollectionName("my_collection")
     .WithFilter("status==\"retired\"")
@@ -718,6 +794,16 @@ auto request = milvus::QueryRequest()
 ;
 milvus::QueryResponse response;
 auto status = client->Query(request, response);
+
+// use TEXT_MATCH
+request = milvus::QueryRequest()
+    .WithCollectionName("my_collection")
+    .WithFilter("TEXT_MATCH(status, \"retired\")")
+    .AddOutputField("id")
+    .AddOutputField("user")
+    .AddOutputField("status")
+;
+status = client->Query(request, response);
 ```
 
 </TabItem>
@@ -725,9 +811,17 @@ auto status = client->Query(request, response);
 <TabItem value='javascript'>
 
 ```javascript
+// use ==
 const res = await client.query({
     collection_name: "my_collection",
     filter: 'status=="retired"',
+    output_fields: ["id", "user", "status"],
+});
+
+// use TEXT_MATCH
+const res2 = await client.query({
+    collection_name: "my_collection",
+    filter: 'TEXT_MATCH(status, "retired")',
     output_fields: ["id", "user", "status"],
 });
 ```
@@ -737,6 +831,7 @@ const res = await client.query({
 <TabItem value='bash'>
 
 ```bash
+# use ==
 curl --request POST \
   --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \
   --header "Authorization: Bearer ${TOKEN}" \
@@ -744,6 +839,17 @@ curl --request POST \
   --data '{
       "collectionName": "my_collection",
       "filter": "status==\"retired\"",
+      "outputFields": ["id", "user", "status"]
+  }'
+
+# use TEXT_MATCH
+curl --request POST \
+  --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data '{
+      "collectionName": "my_collection",
+      "filter": "TEXT_MATCH(status, \"retired\")",
       "outputFields": ["id", "user", "status"]
   }'
 ```
@@ -805,12 +911,21 @@ import io.milvus.v2.service.vector.request.QueryReq;
 import io.milvus.v2.service.vector.response.QueryResp;
 import java.util.*;
 
+// use in
 QueryReq queryReq = QueryReq.builder()
         .collectionName("my_collection")
         .filter("degree in [\"graduate\", \"post-graduate\"]")
         .outputFields(Arrays.asList("id", "user", "degree"))
         .build();
 QueryResp queryResp = client.query(queryReq);
+
+// use TEXT_MATCH
+queryReq = QueryReq.builder()
+        .collectionName("my_collection")
+        .filter("TEXT_MATCH(degree, \"graduate post-graduate\")")
+        .outputFields(Arrays.asList("id", "user", "degree"))
+        .build();
+queryResp = client.query(queryReq);
 ```
 
 </TabItem>
@@ -818,8 +933,14 @@ QueryResp queryResp = client.query(queryReq);
 <TabItem value='go'>
 
 ```go
+// use in
 client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter("degree in [\"graduate\", \"post-graduate\"]").
+    WithOutputFields("id", "user", "degree"))
+
+// use TEXT_MATCH
+client.Query(ctx, milvusclient.NewQueryOption("my_collection").
+    WithFilter("TEXT_MATCH(degree, \"graduate post-graduate\")").
     WithOutputFields("id", "user", "degree"))
 ```
 
@@ -828,11 +949,23 @@ client.Query(ctx, milvusclient.NewQueryOption("my_collection").
 <TabItem value='rust'>
 
 ```rust
+// use in
 client
     .query(
         QueryRequest::builder()
             .collection_name("my_collection")
             .filter("degree in [\"graduate\", \"post-graduate\"]")
+            .output_fields(["id", "user", "degree"])
+            .build()?,
+    )
+    .await?;
+
+// use TEXT_MATCH
+client
+    .query(
+        QueryRequest::builder()
+            .collection_name("my_collection")
+            .filter("TEXT_MATCH(degree, \"graduate post-graduate\")")
             .output_fields(["id", "user", "degree"])
             .build()?,
     )
@@ -844,6 +977,7 @@ client
 <TabItem value='c++'>
 
 ```c++
+// use in
 auto request = milvus::QueryRequest()
     .WithCollectionName("my_collection")
     .WithFilter("degree in [\"graduate\", \"post-graduate\"]")
@@ -853,6 +987,16 @@ auto request = milvus::QueryRequest()
 ;
 milvus::QueryResponse response;
 auto status = client->Query(request, response);
+
+// use TEXT_MATCH
+request = milvus::QueryRequest()
+    .WithCollectionName("my_collection")
+    .WithFilter("TEXT_MATCH(degree, \"graduate post-graduate\")")
+    .AddOutputField("id")
+    .AddOutputField("user")
+    .AddOutputField("degree")
+;
+status = client->Query(request, response);
 ```
 
 </TabItem>
@@ -860,9 +1004,17 @@ auto status = client->Query(request, response);
 <TabItem value='javascript'>
 
 ```javascript
+// use in
 const res = await client.query({
     collection_name: "my_collection",
     filter: 'degree in ["graduate", "post-graduate"]',
+    output_fields: ["id", "user", "degree"],
+});
+
+// use TEXT_MATCH
+const res2 = await client.query({
+    collection_name: "my_collection",
+    filter: 'TEXT_MATCH(degree, "graduate post-graduate")',
     output_fields: ["id", "user", "degree"],
 });
 ```
@@ -872,6 +1024,7 @@ const res = await client.query({
 <TabItem value='bash'>
 
 ```bash
+# use in
 curl --request POST \
   --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \
   --header "Authorization: Bearer ${TOKEN}" \
@@ -879,6 +1032,17 @@ curl --request POST \
   --data '{
       "collectionName": "my_collection",
       "filter": "degree in [\"graduate\", \"post-graduate\"]",
+      "outputFields": ["id", "user", "degree"]
+  }'
+
+# use TEXT_MATCH
+curl --request POST \
+  --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data '{
+      "collectionName": "my_collection",
+      "filter": "TEXT_MATCH(degree, \"graduate post-graduate\")",
       "outputFields": ["id", "user", "degree"]
   }'
 ```
@@ -1181,7 +1345,7 @@ A similar equivalence to the above vector query in Mlivus goes like this:
 ```python
 res = client.search(
     collection_name="my_collection",
-    anns_field="image-vector",
+    anns_field="image_vector",
     data=[[-5, 9, -12]],
     limit=10
 )
@@ -1201,7 +1365,7 @@ import java.util.*;
 SearchReq searchReq = SearchReq.builder()
         .collectionName("my_collection")
         .data(Collections.singletonList(new FloatVec(new float[]{-5, 9, -12})))
-        .annsField("image-vector")
+        .annsField("image_vector")
         .topK(10)
         .build();
 
@@ -1213,7 +1377,8 @@ SearchResp searchResp = client.search(searchReq);
 <TabItem value='go'>
 
 ```go
-// Note: this feature is not yet supported in milvus-sdk-go.
+client.Search(ctx, milvusclient.NewSearchOption("my_collection", 10, []entity.Vector{entity.FloatVector{-5, 9, -12}}).
+    WithANNSField("image_vector"))
 ```
 
 </TabItem>
@@ -1225,7 +1390,7 @@ client
     .search(
         SearchRequest::builder()
             .collection_name("my_collection")
-            .vector_field("image-vector")
+            .vector_field("image_vector")
             .vectors(SearchVectors::Float(vec![vec![-5.0, 9.0, -12.0]]))
             .limit(10)
             .build()?,
@@ -1240,7 +1405,7 @@ client
 ```c++
 auto request = milvus::SearchRequest()
     .WithCollectionName("my_collection")
-    .WithAnnsField("image-vector")
+    .WithAnnsField("image_vector")
     .WithLimit(10)
     .AddFloatVector({-5, 9, -12});
 
@@ -1256,7 +1421,7 @@ auto status = client->Search(request, response);
 const res = await client.search({
     collection_name: "my_collection",
     data: [[-5, 9, -12]],
-    anns_field: "image-vector",
+    anns_field: "image_vector",
     limit: 10,
 });
 ```
@@ -1273,7 +1438,7 @@ curl --request POST \
   --data '{
       "collectionName": "my_collection",
       "data": [[-5, 9, -12]],
-      "annsField": "image-vector",
+      "annsField": "image_vector",
       "limit": 10
   }'
 ```
@@ -1408,7 +1573,12 @@ SearchResp searchResp = client.hybridSearch(hybridSearchReq);
 <TabItem value='go'>
 
 ```go
-// See the hybrid search guide for the milvus-sdk-go equivalent.
+client.HybridSearch(ctx, milvusclient.NewHybridSearchOption(
+    "my_collection",
+    10,
+    milvusclient.NewAnnRequest("vector", 100, entity.FloatVector{1.25, 2, 3.5}),
+    milvusclient.NewAnnRequest("text_sparse", 100, entity.Text("shoes")),
+).WithReranker(milvusclient.NewRRFReranker()))
 ```
 
 </TabItem>

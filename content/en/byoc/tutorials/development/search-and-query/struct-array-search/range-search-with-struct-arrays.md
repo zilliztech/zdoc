@@ -114,6 +114,15 @@ In this example, `COSINE` is a similarity-style metric, so the result range is g
 You can combine element-level range search with StructArray scalar filtering. Use a top-level predicate for parent-entity fields, and use `element_filter` to constrain which Struct elements participate in the vector range search.
 
 ```python
+from pymilvus import MilvusClient
+
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN",
+)
+
+query_vector = [0.19, 0.24, 0.30, 0.37]
+
 filter_expr = (
     'category == "search" && '
     'element_filter(chunks, '
@@ -151,7 +160,14 @@ The top-level predicate selects candidate entities. The `element_filter` predica
 StructArray element-level vector fields support range search in hybrid search. Add `radius` and, optionally, `range_filter` to the `AnnSearchRequest` that targets the StructArray element-level vector field.
 
 ```python
-from pymilvus import AnnSearchRequest, RRFRanker
+from pymilvus import MilvusClient, AnnSearchRequest, RRFRanker
+
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN",
+)
+
+query_vector = [0.19, 0.24, 0.30, 0.37]
 
 title_req = AnnSearchRequest(
     data=[query_vector],
