@@ -46,7 +46,7 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        **[2026年9月](./release-notes-2609)[3日](./release-notes-2609)**
+        **2026年9月3日**
 
     </div>
 
@@ -924,7 +924,7 @@ import Grid from '@site/src/components/Grid';
 
             - [コサインメトリックタイプ](./search-metrics-explained)
 
-            - [アクセス制御](./access-control-overview)
+            - アクセス制御
 
             - 戻り値の生ベクトル
 
@@ -1010,7 +1010,7 @@ import Grid from '@site/src/components/Grid';
 
         - [💰  Zilliz Cloud のプランティアが導入されました](https://zilliz.com/pricing)
 
-        - 👥  組織、コラボレーション、および [アクセス制御](./access-control-overview) のための RBAC
+        - 👥  組織、コラボレーション、およびアクセス制御のための RBAC
 
         - 🏷️  名前空間用のパーティションキーが導入されました
 

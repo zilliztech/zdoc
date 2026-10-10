@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud は、AWS、Google Cloud、Microsoft Azure にまたがる複数のクラウドプロバイダーとリージョンをサポートしています。 | Cloud"
+description: "Zilliz Cloud は、AWS、Google Cloud、Microsoft Azure にわたる複数のクラウドプロバイダーとリージョンをサポートしています。 | Cloud"
 type: origin
 token: CPLrwghdWiSvGBkdeEecGjgLnSb
 sidebar_position: 6
@@ -20,19 +20,19 @@ import Admonition from '@theme/Admonition';
 
 # クラウドプロバイダーとリージョン
 
-Zilliz Cloud は、AWS、Google Cloud、Microsoft Azure にまたがる複数のクラウドプロバイダーとリージョンをサポートしています。
+Zilliz Cloud は、AWS、Google Cloud、Microsoft Azure にわたる複数のクラウドプロバイダーとリージョンをサポートしています。
 
-リージョンのサポートは、ワークロードタイプ、デプロイオプション、および機能によって異なる場合があります。[プロジェクトを作成](./manage-projects#create-a-project)する前に、このページを参考にリージョンを選択してください。
+リージョンのサポート状況は、ワークロードの種類、デプロイオプション、機能によって異なる場合があります。[プロジェクトを作成する](./manage-projects#create-a-project)前に、このページを使用してリージョンを選択してください。
 
-## クラウドリージョンの選び方\{#how-to-choose-a-cloud-region}
+## クラウドリージョンの選択方法\{#how-to-choose-a-cloud-region}
 
-- アプリケーションまたはユーザーに近いリージョンを選択してください。
+- アプリケーションまたはユーザーに近いリージョンを選択します。
 
-- データレジデンシーとコンプライアンスの要件を考慮してください。
+- データレジデンシーとコンプライアンスの要件を考慮します。
 
-- レイテンシーとリージョン間のデータ転送の影響を考慮してください。
+- レイテンシとリージョン間のデータ転送の影響を考慮します。
 
-- 目的の機能が対象リージョンでサポートされているかどうかを確認してください。
+- 目的の機能が対象リージョンでサポートされているかどうかを確認します。
 
 - 必要なリージョンまたは機能が利用できない場合は、[お問い合わせください](https://zilliz.com/all-regions#region-request)。
 
@@ -44,20 +44,20 @@ Zilliz Cloud は、AWS、Google Cloud、Microsoft Azure にまたがる複数の
    <tr>
      <th><p><strong>大陸</strong></p></th>
      <th><p><strong>リージョン</strong></p></th>
-     <th><p><strong>場所</strong></p></th>
+     <th><p><strong>ロケーション</strong></p></th>
    </tr>
    <tr>
      <td rowspan="4"><p>北米</p></td>
      <td><p>us-west-2</p></td>
-     <td><p>米国、オレゴン</p></td>
+     <td><p>米国オレゴン</p></td>
    </tr>
    <tr>
      <td><p>us-east-1</p></td>
-     <td><p>米国、バージニア北部</p></td>
+     <td><p>米国バージニア北部</p></td>
    </tr>
    <tr>
      <td><p>us-east-2</p></td>
-     <td><p>米国、オハイオ</p></td>
+     <td><p>米国オハイオ</p></td>
    </tr>
    <tr>
      <td><p>ca-central-1</p></td>
@@ -66,7 +66,7 @@ Zilliz Cloud は、AWS、Google Cloud、Microsoft Azure にまたがる複数の
    <tr>
      <td rowspan="3"><p>ヨーロッパ</p></td>
      <td><p>eu-central-1</p></td>
-     <td><p>ドイツ、フランクフルト</p></td>
+     <td><p>ドイツ フランクフルト</p></td>
    </tr>
    <tr>
      <td><p>eu-west-1</p></td>
@@ -74,12 +74,12 @@ Zilliz Cloud は、AWS、Google Cloud、Microsoft Azure にまたがる複数の
    </tr>
    <tr>
      <td><p>eu-west-2</p></td>
-     <td><p>英国、ロンドン</p></td>
+     <td><p>英国ロンドン</p></td>
    </tr>
    <tr>
      <td rowspan="3"><p>アジア</p></td>
      <td><p>ap-northeast-1</p></td>
-     <td><p>日本、東京</p></td>
+     <td><p>日本東京</p></td>
    </tr>
    <tr>
      <td><p>ap-southeast-1</p></td>
@@ -87,12 +87,12 @@ Zilliz Cloud は、AWS、Google Cloud、Microsoft Azure にまたがる複数の
    </tr>
    <tr>
      <td><p>ap-northeast-2</p></td>
-     <td><p>韓国、ソウル</p></td>
+     <td><p>韓国ソウル</p></td>
    </tr>
    <tr>
      <td><p>オセアニア</p></td>
      <td><p>ap-southeast-2</p></td>
-     <td><p>オーストラリア、シドニー</p></td>
+     <td><p>オーストラリア シドニー</p></td>
    </tr>
 </table>
 
@@ -102,25 +102,25 @@ Zilliz Cloud は、AWS、Google Cloud、Microsoft Azure にまたがる複数の
    <tr>
      <th><p><strong>大陸</strong></p></th>
      <th><p><strong>リージョン</strong></p></th>
-     <th><p><strong>場所</strong></p></th>
+     <th><p><strong>ロケーション</strong></p></th>
    </tr>
    <tr>
      <td rowspan="3"><p>北米</p></td>
      <td><p>us-west1</p></td>
-     <td><p>米国、オレゴン</p></td>
+     <td><p>米国オレゴン</p></td>
    </tr>
    <tr>
      <td><p>us-east4</p></td>
-     <td><p>米国、バージニア</p></td>
+     <td><p>米国バージニア</p></td>
    </tr>
    <tr>
      <td><p>us-central1</p></td>
-     <td><p>米国、アイオワ</p></td>
+     <td><p>米国アイオワ</p></td>
    </tr>
    <tr>
      <td><p>ヨーロッパ</p></td>
      <td><p>europe-west3</p></td>
-     <td><p>ドイツ、フランクフルト</p></td>
+     <td><p>ドイツ フランクフルト</p></td>
    </tr>
    <tr>
      <td rowspan="2"><p>アジア</p></td>
@@ -129,7 +129,7 @@ Zilliz Cloud は、AWS、Google Cloud、Microsoft Azure にまたがる複数の
    </tr>
    <tr>
      <td><p>asia-northeast1</p></td>
-     <td><p>日本、東京</p></td>
+     <td><p>日本東京</p></td>
    </tr>
 </table>
 
@@ -139,25 +139,25 @@ Zilliz Cloud は、AWS、Google Cloud、Microsoft Azure にまたがる複数の
    <tr>
      <th><p><strong>大陸</strong></p></th>
      <th><p><strong>リージョン</strong></p></th>
-     <th><p><strong>場所</strong></p></th>
+     <th><p><strong>ロケーション</strong></p></th>
    </tr>
    <tr>
      <td rowspan="3"><p>北米</p></td>
      <td><p>East US</p></td>
-     <td><p>米国、バージニア</p></td>
+     <td><p>米国バージニア</p></td>
    </tr>
    <tr>
      <td><p>East US 2</p></td>
-     <td><p>米国、バージニア</p></td>
+     <td><p>米国バージニア</p></td>
    </tr>
    <tr>
      <td><p>Central US</p></td>
-     <td><p>米国、アイオワ</p></td>
+     <td><p>米国アイオワ</p></td>
    </tr>
    <tr>
      <td rowspan="2"><p>ヨーロッパ</p></td>
      <td><p>Germany West Central</p></td>
-     <td><p>ドイツ、フランクフルト</p></td>
+     <td><p>ドイツ フランクフルト</p></td>
    </tr>
    <tr>
      <td><p>North Europe</p></td>
@@ -166,38 +166,38 @@ Zilliz Cloud は、AWS、Google Cloud、Microsoft Azure にまたがる複数の
    <tr>
      <td><p>アジア</p></td>
      <td><p>Central India</p></td>
-     <td><p>インド、プネー</p></td>
+     <td><p>インド プネー</p></td>
    </tr>
 </table>
 
-## クラウドリージョンごとの機能サポート\{#feature-support-by-cloud-region}
+## クラウドリージョン別の機能サポート\{#feature-support-by-cloud-region}
 
-### コンピュートタイプのサポート\{#compute-type-support}
+### コンピューティングタイプのサポート\{#compute-type-support}
 
 <table>
    <tr>
-     <th><p><strong>コンピュートタイプ</strong></p></th>
+     <th><p><strong>コンピューティングタイプ</strong></p></th>
      <th><p><strong>AWS</strong></p></th>
      <th><p><strong>Google Cloud</strong></p></th>
      <th><p><strong>Microsoft Azure</strong></p></th>
    </tr>
    <tr>
-     <td><p>常時稼働コンピュート（<a href="./manage-cluster">Serving クラスター</a>）</p></td>
+     <td><p>常時稼働コンピューティング（<a href="./manage-cluster">Serving クラスター</a>）</p></td>
      <td><p>✅ すべてのリージョン</p></td>
      <td><p>✅ すべてのリージョン</p></td>
      <td><p>✅ すべてのリージョン</p></td>
    </tr>
    <tr>
-     <td><p><a href="./on-demand-cluster">オンデマンドコンピュート</a></p></td>
+     <td><p><a href="./on-demand-cluster">オンデマンドコンピューティング</a></p></td>
      <td><p>✅ すべてのリージョン</p></td>
      <td><p>❌</p></td>
-     <td><p>ℹ️  一部のリージョン：</p><ul><li>East US</li></ul></td>
+     <td><p>ℹ️  一部のリージョン:</p><ul><li>East US</li></ul></td>
    </tr>
 </table>
 
 <Admonition type="info" title="Note">
 
-一覧にないリージョンでオンデマンドコンピュートが必要な場合は、[お問い合わせください](http://zilliz.com/contact-sales)。
+一覧にないリージョンでオンデマンドコンピューティングが必要な場合は、[お問い合わせください](http://zilliz.com/contact-sales)。
 
 </Admonition>
 
@@ -212,8 +212,8 @@ Zilliz Cloud は、AWS、Google Cloud、Microsoft Azure にまたがる複数の
    </tr>
    <tr>
      <td><p>SaaS (Free & Serverless)</p></td>
-     <td><p>ℹ️  一部のリージョン：</p><ul><li>eu-central-1</li></ul></td>
-     <td><p>ℹ️   一部のリージョン：</p><ul><li>us-west1</li></ul></td>
+     <td><p>ℹ️  一部のリージョン:</p><ul><li>eu-central-1</li></ul></td>
+     <td><p>ℹ️   一部のリージョン:</p><ul><li>us-west1</li></ul></td>
      <td><p>❌</p></td>
    </tr>
    <tr>
@@ -224,9 +224,9 @@ Zilliz Cloud は、AWS、Google Cloud、Microsoft Azure にまたがる複数の
    </tr>
    <tr>
      <td><p>BYOC</p></td>
-     <td><p>✅ すべてのリージョン</p><p>さらに：</p><ul><li><p>ap-east-1（香港特別行政区）</p></li><li><p>ap-southeast-7（タイ）</p></li></ul></td>
-     <td><p>✅ すべてのリージョン</p><p>さらに：</p><ul><li>europe-west9（フランス、パリ）</li></ul></td>
-     <td><p>✅ すべてのリージョン</p></td>
+     <td><p>✅ すべてのリージョン</p><p>さらに:</p><ul><li><p>ap-east-1（香港特別行政区）</p></li><li><p>ap-southeast-7（タイ）</p></li></ul></td>
+     <td><p>✅ すべてのリージョン</p><p>さらに:</p><ul><li>europe-west9（フランス パリ）</li></ul></td>
+     <td><p>✅ すべてのリージョン</p> <NextChannel action="include"><p>さらに:</p><ul><li>Malaysia West（マレーシア クアラルンプール）</li></ul> </NextChannel></td>
    </tr>
 </table>
 
@@ -236,7 +236,7 @@ BYOC デプロイが必要な場合は、[お問い合わせください](http:/
 
 </Admonition>
 
-### 機能サポート\{#feature-support}
+### 機能のサポート\{#feature-support}
 
 <table>
    <tr>
@@ -260,11 +260,11 @@ BYOC デプロイが必要な場合は、[お問い合わせください](http:/
    <tr>
      <td><p><a href="./global-cluster-explained">グローバルクラスター</a></p></td>
      <td><p>✅ すべてのリージョン</p></td>
-     <td><p>ℹ️   一部のリージョン：</p><ul><li><p>gcp-us-central1</p></li><li><p>gcp-us-east4</p></li></ul><Admonition type="info" title="Note"> Google Cloud リージョンでこの機能を使用する必要がある場合は、[お問い合わせください](http://support.zilliz.com)。 </Admonition></td>
+     <td><p>ℹ️   一部のリージョン:</p><ul><li><p>gcp-us-central1</p></li><li><p>gcp-us-east4</p></li></ul><Admonition type="info" title="Note"> Google Cloud リージョンでこの機能を使用する必要がある場合は、[お問い合わせください](http://support.zilliz.com)。 </Admonition></td>
      <td><p>❌</p></td>
    </tr>
    <tr>
-     <td><p><a href="./backup-to-other-regions">リージョン間バックアップ </a></p></td>
+     <td><p><a href="./backup-to-other-regions">クロスリージョンバックアップ</a></p></td>
      <td><p>✅ すべてのリージョン</p></td>
      <td><p>✅ すべてのリージョン</p></td>
      <td><p>❌</p></td>
@@ -277,7 +277,7 @@ BYOC デプロイが必要な場合は、[お問い合わせください](http:/
    </tr>
    <tr>
      <td><p><a href="/docs/spark-batch-jobs">Spark バッチジョブ</a></p></td>
-     <td><p>ℹ️   一部のリージョン：</p><ul><li>us-west-2</li></ul></td>
+     <td><p>ℹ️   一部のリージョン:</p><ul><li>us-west-2</li></ul></td>
      <td><p>❌</p></td>
      <td><p>❌</p></td>
    </tr>
@@ -285,6 +285,6 @@ BYOC デプロイが必要な場合は、[お問い合わせください](http:/
 
 <Admonition type="info" title="Note">
 
-一部の機能は、追加の構成、プロジェクトプラン、またはデプロイモードによって異なります。詳細については、[デプロイメントとプランの比較](./select-zilliz-cloud-service-plans) を参照してください。
+一部の機能は、追加の構成、プロジェクトプラン、またはデプロイモードによって異なります。詳細については、[デプロイとプランの比較](./select-zilliz-cloud-service-plans) を参照してください。
 
 </Admonition>

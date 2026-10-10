@@ -28,41 +28,41 @@ import Admonition from '@theme/Admonition';
 
 - **Private Preview:** 
 
-    - **定義:** Private Preview の機能は現在活発に開発中であり、変更される可能性があります。Zilliz Cloud 内で実装およびテストされていますが、使いやすさ、安定性、およびコーナーケースへの対応が完全ではない場合があります。
+    - **Definition:** Private Preview の機能は現在活発に開発中であり、変更される可能性があります。Zilliz Cloud 内で実装およびテストされていますが、使いやすさ、安定性、およびコーナーケースへの対応が完全ではない場合があります。
 
-    - **アクセス**: デフォルトでは利用できません。アクセスを希望する場合は、[Zilliz Support](http://support.zilliz.com) にお問い合わせください。
+    - **Access**: デフォルトでは利用できません。アクセスを希望する場合は、[Zilliz Support](http://support.zilliz.com) にお問い合わせください。
 
-    - **使用**: 本番ワークロードを対象としたものではありません。
+    - **Usage**: 本番ワークロードを対象としたものではありません。
 
 - **Public Preview:** 
 
-    - **定義:** Public Preview の機能は本番環境で利用できる状態に近く、General Availability（GA）に到達する前に大幅に変更される可能性はほとんどありません。
+    - **Definition:** Public Preview の機能は本番環境で利用できる状態に近く、General Availability（GA）に到達する前に大幅に変更される可能性はほとんどありません。
 
-    - **アクセス**: 通常、クラスターの Milvus バージョンをアップグレードするとデフォルトで有効になります。クラスターで古いバージョンの Milvus を実行している場合、一部の機能を利用できないことがあります。そのような場合は、クラスターをアップグレードするために [サポートにお問い合わせください](http://support.zilliz.com)。
+    - **Access**: 通常、クラスターの Milvus バージョンをアップグレードするとデフォルトで有効になります。クラスターで古いバージョンの Milvus を実行している場合、一部の機能を利用できないことがあります。そのような場合は、クラスターをアップグレードするために [サポートにお問い合わせください](http://support.zilliz.com)。
 
-    - **使用:** 本番環境での使用は推奨されません。
+    - **Usage:** 本番環境での使用は推奨されません。
 
 - **General Availability (GA):** 
 
-    - <strong>定義:</strong> GA の機能は完全にリリースされ、本番環境に対応しており、積極的にサポートされています。
+    - <strong>Definition:</strong> GA の機能は完全にリリースされ、本番環境に対応しており、積極的にサポートされています。
 
-    - **アクセス**: ほとんどのユーザーに対してデフォルトで有効になっていますが、価格に関する考慮事項があるエンタープライズ機能など、一部の機能については有効化のために [営業担当者へのお問い合わせ](https://zilliz.com/contact-sales) が必要です。
+    - **Access**: ほとんどのユーザーに対してデフォルトで有効になっていますが、価格に関する考慮事項があるエンタープライズ機能など、一部の機能については有効化のために [営業担当者へのお問い合わせ](https://zilliz.com/contact-sales) が必要です。
 
-    - **使用**: 本番環境で使用するためのものです。
+    - **Usage**: 本番環境で使用するためのものです。
 
 - **Deprecation Notice:** 
 
-    - <strong>定義:</strong> このフェーズの機能は引き続き動作しアクセスできますが、重大なバグ修正を除き、積極的な開発は行われていません。
+    - <strong>Definition:</strong> このフェーズの機能は引き続き動作しアクセスできますが、重大なバグ修正を除き、積極的な開発は行われていません。
 
-    - **アクセス**: 引き続き利用できますが、正式な非推奨の告知がメールで発行されています。
+    - **Access**: 引き続き利用できますが、正式な非推奨の告知がメールで発行されています。
 
-    - **使用**: この機能は将来の日付で削除される予定であるため、新しいソリューションへの移行を開始するには [専門家にご相談ください](https://zilliz.com/contact-sales)。
+    - **Usage**: この機能は将来の日付で削除される予定であるため、新しいソリューションへの移行を開始するには [専門家にご相談ください](https://zilliz.com/contact-sales)。
 
 - **Deprecated:** 
 
-    - <strong>定義:</strong> この機能は Zilliz Cloud から完全に削除されており、アクセスもサポートもされていません。
+    - <strong>Definition:</strong> この機能は Zilliz Cloud から完全に削除されており、アクセスもサポートもされていません。
 
-    - **アクセス**: 利用できません。
+    - **Access**: 利用できません。
 
 ## 機能の提供フェーズを識別する方法\{#how-to-identify-a-features-availability-phase}
 
@@ -76,6 +76,8 @@ import Admonition from '@theme/Admonition';
 
 - Hosted models
 
+- [Spark バッチジョブ](./spark-batch-jobs)
+
 <Admonition type="info" title="Notes">
 
 これらの機能へのアクセスを希望する場合は、[Zilliz Support](http://support.zilliz.com) にお問い合わせください。 
@@ -84,19 +86,13 @@ import Admonition from '@theme/Admonition';
 
 ### Public preview\{#public-preview}
 
-- Embedding（[OpenAI](./openai)、[Voyage AI](./voyage-ai)、および [Cohere](./cohere)）と Rerank Functions（[Cohere reranker](./cohere-model-ranker) および [Voyage AI reranker](./voyage-ai-model-ranker)）
-
 <Admonition type="info" title="Notes">
 
 これらの機能にアクセスするには、クラスターの Milvus バージョンをアップグレードしてください。
 
 </Admonition>
 
-- [Access Logs の概要](./access-log-overview)
-
 - [オンデマンドコンピュート](./on-demand-cluster)
-
-- [Spark バッチジョブ](./spark-batch-jobs)
 
 <Admonition type="info" title="Notes">
 
