@@ -32,13 +32,13 @@ StructArray は以下のスカラーフィルタリングパターンをサポ�
 | `element_filter` | スカラー述語を満たす Struct 要素を一致させます。 | 要素レベル検索では、一致したヒットに要素オフセットを含めることができます。行レベルのクエリまたはフィルタ付き検索では、結果の形状は API と出力フィールドに依存します。 |
 | `MATCH_*` | スカラー述語を満たす Struct 要素の数に基づいて entity を選択します。 | entity レベルのフィルタリング。これらの演算子自体では要素オフセットは返しません。 |
 
-StructArray 演算子ではスカラーサブフィールドを使用してください。vector サブフィールドは vector 検索パスで使用され、スカラー述語の入力にはなりません。
+Use スカラー subfields in StructArray operators. ベクトル subfields are used by ベクトル search paths and are not スカラー predicate inputs.
 
 ## どの演算子を使うべきか\{#when-to-use-which-operator}
 
 | 目的 | 使用するもの |
 | --- | --- |
-| 要素レベル vector 検索を、スカラー条件に一致する要素のみに制約する。 | `element_filter` |
+| Constrain element-level ベクトル search to elements that match スカラー conditions. | `element_filter` |
 | 同じ Struct 要素内で複数のスカラー条件を一致させる。 | `element_filter` |
 | struct サブフィールドに指定した値が含まれる entity のみを返す。 | `ARRAY_CONTAINS` |
 | struct サブフィールドが指定した数の要素を持つ entity のみを返す。 | `ARRAY_LENGTH` |
@@ -143,7 +143,7 @@ ARRAY_CONTAINS(chunks[quality_score], 0.74)
 上記の式は、entity のすべての要素にまたがる `quality_score` サブフィールドのいずれかが `0.74` の値を持つ場合、その entity が一致することを示します。[データ例](./struct-array-filtering#example-data) の 2 つの entity では、この式に一致するのは **Entity A** のみです。
 
 ```python
-ARRAY_LENGTH(chunks[quality_score], 3)
+ARRAY_LENGTH(chunks[quality_score]) == 3
 ```
 
 上記の式は、`quality_score` サブフィールドが 3 つの値を含む場合、その entity が一致することを示します。[データ例](./struct-array-filtering#example-data) の 2 つの entity では、この式に一致するのは **Entity B** のみです。
@@ -192,7 +192,7 @@ element_filter(chunks, $[quality_score] > 0.9) && category == "index"
 | `MATCH_MOST(field, predicate, threshold=N)` | 高々 `N` 個の Struct 要素が述語を満たします。 |
 | `MATCH_EXACT(field, predicate, threshold=N)` | ちょうど `N` 個の Struct 要素が述語を満たします。 |
 
-`MATCH_ANY` と `element_filter` は、どちらも少なくとも 1 つの Struct 要素が述語を満たすことを表現できます。行レベルのフィルタリングだけが必要な場合は `MATCH_ANY` を使用してください。どの Struct 要素が要素レベル vector 検索に参加するかをフィルタリングするなど、要素レベルの制約が必要な場合は `element_filter` を使用してください。
+`MATCH_ANY` and `element_filter` can both express that at least one Struct element satisfies a predicate. Use `MATCH_ANY` when you only need row-level filtering. Use `element_filter` when you need element-level constraints, such as filtering which Struct elements participate in element-level ベクトル search.
 
 ### MATCH_ANY\{#matchany}
 
@@ -264,7 +264,7 @@ MATCH_EXACT(chunks, $[section] == "filter", threshold=1)
 | `INT8`, `INT16`, `INT32`, `INT64` | 比較、連鎖範囲、`in`、`not in`、`+`、`-`、`*`、`/`、または `%` を使った算術式の後に比較を行う式、および論理結合。 |
 | `FLOAT`, `DOUBLE` | 比較、連鎖範囲、`in`、`not in`、`+`、`-`、`*`、または `/` を使った算術式の後に比較を行う式、および論理結合。浮動小数点サブフィールドでは `%` 演算子はサポートされません。 |
 | `VARCHAR` | 文字列比較、連鎖範囲、`in`、`not in`、`like`、`=&#126;`、`!&#126;`、および論理結合。 |
-| Vector サブフィールド | `$[...]` スカラー述語入力としてはサポートされません。代わりに、EmbeddingList search または要素レベル vector 検索を通じて vector サブフィールドを使用してください。 |
+| ベクトル subfields | Not supported as `$[...]` スカラー predicate inputs. Use ベクトル subfields through EmbeddingList search or element-level ベクトル search instead. |
 
 `&&`、`||`、`!` などの論理演算子は述語式に適用されます。たとえば、`!$[has_code]` ではなく `!($[has_code] == true)` と記述してください。
 
@@ -286,7 +286,7 @@ MATCH_EXACT(chunks, $[section] == "filter", threshold=1)
 
 - `random_sample(...)`。
 
-- フィールドレベル vector 述語。
+- Field-level ベクトル predicates.
 
 - 特定の関数シグネチャと実行パスが StructArray 要素レベル述語を明示的にサポートしている場合を除き、汎用フィルタ関数呼び出し。
 
@@ -296,7 +296,7 @@ MATCH_EXACT(chunks, $[section] == "filter", threshold=1)
 
 - `$[subfield]` は `element_filter` または `MATCH_*` 述語の内部でのみ使用してください。
 
-- `$[subfield]` を JSON パス、配列コンテナ、または vector フィールド参照として使用しないでください。
+- Do not use `$[subfield]` as a JSON path, array container, or ベクトル field reference.
 
 - 別の StructArray 演算子の中に `element_filter` や `MATCH_*` をネストしないでください。
 
@@ -310,7 +310,7 @@ MATCH_EXACT(chunks, $[section] == "filter", threshold=1)
 
 - [StructArray を使ったフィルタ付き検索](./filtered-search-with-struct-arrays)
 
-- [StructArray を使った基本 vector 検索](./search-with-struct-array)
+- [Basic ベクトル Search with StructArray](./search-with-struct-array)
 
 - [StructArray フィールドにインデックスを付与する](./index-struct-array)
 

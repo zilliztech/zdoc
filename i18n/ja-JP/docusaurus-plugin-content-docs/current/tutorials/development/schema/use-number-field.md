@@ -1,13 +1,13 @@
 ---
-title: "ブール値と数値 | Cloud"
+title: "ブール型と数値型 | Cloud"
 slug: /use-number-field
-sidebar_label: "ブール値と数値"
+sidebar_label: "ブール型と数値型"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "ブール値または数値フィールドは、ブール値または数値を格納するスカラーフィールドです。これらの値は、2 つの可能な値のいずれか、または整数（整数型）や小数（浮動小数点数）です。通常、数量、測定値、または論理的・数学的に処理する必要があるあらゆるデータを表すために使用されます。 | Cloud"
+description: "ブール型または数値型のフィールドは、ブール値または数値を格納するスカラーフィールドです。これらの値は、2 つの値のいずれか、または整数（integers）と小数（floating-point numbers）のいずれかになります。通常、数量、測定値、または論理的あるいは数学的に処理する必要があるデータを表すために使用されます。 | Cloud"
 type: origin
 token: EwArwXCOPip15hkSvvpciAMJnSe
 sidebar_position: 8
@@ -19,47 +19,47 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# ブール値と数値
+# ブール型と数値型
 
-ブール値または数値フィールドは、ブール値または数値を格納するスカラーフィールドです。これらの値は、2 つの可能な値のいずれか、または整数（**integers**）や小数（**floating-point numbers**）です。通常、数量、測定値、または論理的・数学的に処理する必要があるあらゆるデータを表すために使用されます。
+ブール型または数値型のフィールドは、ブール値または数値を格納するスカラーフィールドです。これらの値は、2 つの値のいずれか、または整数（**integers**）と小数（**floating-point numbers**）のいずれかになります。通常、数量、測定値、または論理的あるいは数学的に処理する必要があるデータを表すために使用されます。
 
-以下の表は、Zilliz Cloud クラスターで利用可能な数値フィールドのデータ型を示しています。
+以下の表は、Zilliz Cloud クラスターで利用可能な数値型フィールドのデータ型について説明します。
 
-| フィールドタイプ | 説明 |
+| フィールド型 | 説明 |
 | --- | --- |
-| `BOOL` | `true` または `false` を格納するブール型で、二値状態の記述に適しています。 |
-| `INT8` | 8 ビット整数で、小さな範囲の整数データの格納に適しています。 |
-| `INT16` | 16 ビット整数で、中程度の範囲の整数データ向けです。 |
-| `INT32` | 32 ビット整数で、商品数量やユーザー ID など、一般的な整数データの保存に最適です。 |
-| `INT64` | 64 ビット整数で、タイムスタンプや識別子のような大きな範囲のデータの格納に適しています。 |
-| `FLOAT` | 32 ビット浮動小数点数で、評価値や温度など、一般的な精度が必要なデータ向けです。 |
-| `DOUBLE` | 64 ビット倍精度浮動小数点数で、金融情報や科学計算のような高精度データ向けです。 |
+| `BOOL` | `true` または `false` を格納するブール型で、バイナリ状態の記述に適しています。 |
+| `INT8` | 8 ビット整数。小範囲の整数データの格納に適しています。 |
+| `INT16` | 16 ビット整数。中範囲の整数データ用です。 |
+| `INT32` | 32 ビット整数。製品の数量やユーザー ID など、一般的な整数データの格納に最適です。 |
+| `INT64` | 64 ビット整数。タイムスタンプや識別子など、大範囲のデータの格納に適しています。 |
+| `FLOAT` | 32 ビット浮動小数点数。評価や気温など、一般的な精度を要するデータ用です。 |
+| `DOUBLE` | 64 ビット倍精度浮動小数点数。財務情報や科学計算など、高精度データ用です。 |
 
-ブール値フィールドを宣言するには、`datatype` を `BOOL` に設定するだけです。数値フィールドを宣言するには、利用可能な数値データ型のいずれかに設定するだけです。たとえば、整数フィールドには `DataType.INT64`、浮動小数点フィールドには `DataType.FLOAT` を使用します。
-
-<Admonition type="info" title="Notes">
-
-Zilliz Cloud は、ブール値フィールドおよび数値フィールドの null 値とデフォルト値をサポートしています。これらの機能を有効にするには、`nullable` を `True` に、`default_value` を数値に設定します。詳細については、[Nullable & Default](./nullable-fields) を参照してください。
-
-</Admonition>
-
-## ブール値フィールドと数値フィールドの追加\{#add-boolean-and-number-fields}
-
-ブール値または数値データを保存するには、コレクションスキーマに対応する型のフィールドを定義します。以下は、2 つの数値フィールドを含むコレクションスキーマの例です。
-
-- `age`: 整数データを保存し、null 値を許可し、デフォルト値は `18` です。
-
-- `broken`: ブール値データを保存し、null 値を許可しますが、デフォルト値はありません。
-
-- `price`: 浮動小数点データを保存し、null 値を許可しますが、デフォルト値はありません。
+ブール型フィールドを宣言するには、`datatype` を `BOOL` に設定するだけです。数値型フィールドを宣言するには、利用可能な数値データ型のいずれかに設定するだけです。たとえば、整数フィールドには `DataType.INT64`、浮動小数点フィールドには `DataType.FLOAT` を指定します。
 
 <Admonition type="info" title="Notes">
 
-スキーマを定義する際に `enable_dynamic_fields=True` を設定すると、Zilliz Cloud では事前定義されていないスカラーフィールドを挿入できます。ただし、これによりクエリや管理の複雑さが増し、パフォーマンスに影響する可能性があります。詳細については、[Dynamic Field](./enable-dynamic-field) を参照してください。
+Zilliz Cloud は、ブール型および数値型フィールドの null 値とデフォルト値をサポートしています。これらの機能を有効にするには、`nullable` を `True` に、`default_value` を数値に設定します。詳細については、[Nullable & Default](./nullable-fields) を参照してください。
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+## ブール型および数値型フィールドを追加する\{#add-boolean-and-number-fields}
+
+ブール値または数値データを格納するには、コレクションスキーマで対応する型のフィールドを定義します。以下は、2 つの数値フィールドを持つコレクションスキーマの例です：
+
+- `age`: 整数データを格納し、null 値を許可し、デフォルト値は `18` です。
+
+- `broken`: ブール値データを格納し、null 値を許可しますが、デフォルト値はありません。
+
+- `price`: 浮動小数点データを格納し、null 値を許可しますが、デフォルト値はありません。
+
+<Admonition type="info" title="Notes">
+
+スキーマを定義するときに `enable_dynamic_fields=True` を設定すると、Zilliz Cloud では事前に定義されていないスカラーフィールドを挿入できるようになります。ただし、これによりクエリと管理が複雑になり、パフォーマンスに影響を与える可能性があります。詳細については、[Dynamic Field](./enable-dynamic-field) を参照してください。
+
+</Admonition>
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -94,7 +94,6 @@ schema.add_field(field_name="embedding", datatype=DataType.FLOAT_VECTOR, dim=3)
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
-
 import io.milvus.v2.common.DataType;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
@@ -102,8 +101,8 @@ import io.milvus.v2.service.collection.request.CreateCollectionReq;
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .build());
-        
-CreateCollectionReq.CollectionSchema schema = client.createSchema();
+
+CreateCollectionReq.CollectionSchema schema = MilvusClientV2.CreateSchema();
 schema.setEnableDynamicField(true);
 
 schema.addField(AddFieldReq.builder()
@@ -112,7 +111,7 @@ schema.addField(AddFieldReq.builder()
         .isNullable(true)
         .defaultValue(18)
         .build());
-        
+
 schema.addField(AddFieldReq.builder()
         .fieldName("broken")
         .dataType(DataType.BOOL)
@@ -140,6 +139,127 @@ schema.addField(AddFieldReq.builder()
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
+
+schema := entity.NewSchema().
+    WithField(entity.NewField().
+        WithName("pk").
+        WithDataType(entity.FieldTypeInt64).
+        WithIsPrimaryKey(true)).
+    WithField(entity.NewField().
+        WithName("embedding").
+        WithDataType(entity.FieldTypeFloatVector).
+        WithDim(3)).
+    WithField(entity.NewField().
+        WithName("price").
+        WithDataType(entity.FieldTypeFloat).
+        WithNullable(true)).
+    WithField(entity.NewField().
+        WithName("age").
+        WithDataType(entity.FieldTypeInt64).
+        WithNullable(true).
+        WithDefaultValueLong(18)).
+    WithField(entity.NewField().
+        WithName("broken").
+        WithDataType(entity.FieldTypeBool).
+        WithNullable(true))
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+)
+.await?;
+
+let mut schema = CollectionSchema::new().enable_dynamic_field(true);
+schema = schema
+    .add_field(
+        FieldSchema::new()
+            .name("pk")
+            .data_type(DataType::Int64)
+            .primary_key(true),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("embedding")
+            .data_type(DataType::FloatVector)
+            .dimension(3),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("price")
+            .data_type(DataType::Float)
+            .nullable(true),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("age")
+            .data_type(DataType::Int64)
+            .nullable(true),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("broken")
+            .data_type(DataType::Bool)
+            .nullable(true),
+    );
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->AddField({"pk", milvus::DataType::INT64, "", true, false});
+schema->AddField(milvus::FieldSchema("embedding", milvus::DataType::FLOAT_VECTOR).WithDimension(3));
+schema->AddField(milvus::FieldSchema("price", milvus::DataType::FLOAT).WithNullable(true));
+schema->AddField(milvus::FieldSchema("age", milvus::DataType::INT64).WithNullable(true).WithDefaultValue(18));
+schema->AddField(milvus::FieldSchema("broken", milvus::DataType::BOOL).WithNullable(true));
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -148,14 +268,18 @@ const schema = [
   {
     name: "age",
     data_type: DataType.Int64,
+    nullable: true,
+    default_value: 18,
   },
   {
     name: "broken",
     data_type: DataType.Bool,
+    nullable: true,
   },
   {
     name: "price",
     data_type: DataType.Float,
+    nullable: true,
   },
   {
     name: "pk",
@@ -172,75 +296,26 @@ const schema = [
 
 </TabItem>
 
-<TabItem value='go'>
-
-```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v2/column"
-    "github.com/milvus-io/milvus/client/v2/entity"
-    "github.com/milvus-io/milvus/client/v2/index"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
-)
-
-ctx, cancel := context.WithCancel(context.Background())
-defer cancel()
-
-milvusAddr := "YOUR_CLUSTER_ENDPOINT"
-
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: milvusAddr,
-})
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-defer client.Close(ctx)
-
-schema := entity.NewSchema()
-schema.WithField(entity.NewField().
-    WithName("pk").
-    WithDataType(entity.FieldTypeInt64).
-    WithIsPrimaryKey(true),
-).WithField(entity.NewField().
-    WithName("embedding").
-    WithDataType(entity.FieldTypeFloatVector).
-    WithDim(3),
-).WithField(entity.NewField().
-    WithName("price").
-    WithDataType(entity.FieldTypeFloat).
-    WithNullable(true),
-).WithField(entity.NewField().
-    WithName("age").
-    WithDataType(entity.FieldTypeInt64).
-    WithNullable(true).
-    WithDefaultValueLong(18),
-).WithField(entity.NewField().
-    WithName("broken").
-    WithDataType(entity.FieldTypeBool).
-    WithNullable(true),
-```
-
-</TabItem>
-
 <TabItem value='bash'>
 
 ```bash
-export int64Field='{
+export ageField='{
     "fieldName": "age",
-    "dataType": "Int64"
+    "dataType": "Int64",
+    "nullable": true,
+    "defaultValue": 18
 }'
 
 export boolField='{
     "fieldName": "broken",
-    "dataType": "Bool"
+    "dataType": "Bool",
+    "nullable": true
 }'
 
 export floatField='{
     "fieldName": "price",
-    "dataType": "Float"
+    "dataType": "Float",
+    "nullable": true
 }'
 
 export pkField='{
@@ -260,7 +335,7 @@ export vectorField='{
 export schema="{
     \"autoID\": false,
     \"fields\": [
-        $int64Field,
+        $ageField,
         $boolField,
         $floatField,
         $pkField,
@@ -270,38 +345,15 @@ export schema="{
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
-auto status = client->Connect(connect_param);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
-schema->AddField({"pk", milvus::DataType::INT64, "", true, false});
-schema->AddField(milvus::FieldSchema("embedding", milvus::DataType::FLOAT_VECTOR).WithDimension(3));
-schema->AddField(milvus::FieldSchema("price", milvus::DataType::FLOAT).WithNullable(true));
-schema->AddField(milvus::FieldSchema("age", milvus::DataType::INT64).WithNullable(true).WithDefaultValue(18));
-schema->AddField(milvus::FieldSchema("broken", milvus::DataType::BOOL).WithNullable(true));
-```
-
-</TabItem>
 </Tabs>
 
-## インデックスパラメータの設定\{#set-index-params}
+## インデックスパラメーターを設定する\{#set-index-params}
 
-インデックス作成は、検索およびクエリのパフォーマンス向上に役立ちます。Zilliz Cloud クラスターでは、ベクトルフィールドに対するインデックス作成は必須ですが、スカラーフィールドに対しては任意です。
+インデックス作成は、検索およびクエリのパフォーマンス向上に役立ちます。Zilliz Cloud クラスターでは、ベクトルフィールドのインデックス作成は必須ですが、スカラーフィールドでは任意です。
 
-次の例では、ベクトルフィールド `embedding` とスカラーフィールド `age` の両方に `AUTOINDEX` インデックスタイプを使用してインデックスを作成します。このタイプでは、Milvus がデータ型に基づいて最も適切なインデックスを自動的に選択します。詳細については、[AUTOINDEX Explained](./autoindex-explained) を参照してください。
+次の例では、ベクトルフィールド `embedding` とスカラーフィールド `age` にインデックスを作成します。どちらも `AUTOINDEX` インデックスタイプを使用します。このタイプでは、Milvus がデータ型に基づいて最適なインデックスを自動的に選択します。詳細については、[AUTOINDEX Explained](./autoindex-explained) を参照してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -347,6 +399,45 @@ indexes.add(IndexParam.builder()
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+indexOption1 := milvusclient.NewCreateIndexOption("my_collection", "embedding",
+    index.NewAutoIndex(entity.COSINE))
+indexOption2 := milvusclient.NewCreateIndexOption("my_collection", "age",
+    index.NewAutoIndex(entity.L2))
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let index_params = vec![
+    IndexParam::new()
+        .field_name("age")
+        .index_name("age_index")
+        .index_type(IndexType::AutoIndex),
+    IndexParam::new()
+        .field_name("embedding")
+        .index_type(IndexType::AutoIndex)
+        .metric_type(MetricType::Cosine),
+];
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::vector<milvus::IndexDesc> indexes = {
+    milvus::IndexDesc("age", "age_index", milvus::IndexType::AUTOINDEX),
+    milvus::IndexDesc("embedding", "", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE)
+};
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -363,17 +454,6 @@ const indexParams = [
     index_type: IndexType.AUTOINDEX,
   },
 ];
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-indexOption1 := milvusclient.NewCreateIndexOption("my_collection", "embedding",
-    index.NewAutoIndex(index.MetricType(entity.IP)))
-indexOption2 := milvusclient.NewCreateIndexOption("my_collection", "age",
-    index.NewInvertedIndex())
 ```
 
 </TabItem>
@@ -396,24 +476,13 @@ export indexParams='[
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-std::vector<milvus::IndexDesc> indexes = {
-    milvus::IndexDesc("age", "inverted_index", milvus::IndexType::AUTOINDEX),
-    milvus::IndexDesc("embedding", "", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE)
-}
-```
-
-</TabItem>
 </Tabs>
 
-## コレクションの作成\{#create-collection}
+## コレクションを作成する\{#create-collection}
 
-スキーマとインデックスを定義したら、数値フィールドを含むコレクションを作成します。
+スキーマとインデックスを定義したら、数値型フィールドを含むコレクションを作成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -440,18 +509,6 @@ client.createCollection(requestCreate);
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-client.create_collection({
-    collection_name: "my_collection",
-    schema: schema,
-    index_params: indexParams
-})
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -462,6 +519,48 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+client
+    .create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name("my_collection")
+            .schema(schema)
+            .index_params(index_params)
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                        .WithCollectionName("my_collection")
+                                        .WithIndexes(std::move(indexes))
+                                        .WithCollectionSchema(schema));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.createCollection({
+    collection_name: "my_collection",
+    schema: schema,
+    index_params: indexParams
+});
 ```
 
 </TabItem>
@@ -482,27 +581,13 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto status = client->CreateCollection(milvus::CreateCollectionRequest()
-                                        .WithCollectionName("my_collection")
-                                        .WithIndexes(std::move(indexes))
-                                        .WithCollectionSchema(schema));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
 
-## データの挿入\{#insert-data}
+## データを挿入する\{#insert-data}
 
 コレクションを作成したら、スキーマに一致するエンティティを挿入します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -550,32 +635,20 @@ InsertResp insertR = client.insert(InsertReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-const data = [
-  { age: 25, price: 99.99, pk: 1, embedding: [0.1, 0.2, 0.3] },
-  { age: 30, price: 149.5, pk: 2, embedding: [0.4, 0.5, 0.6] },
-  { age: 35, price: 199.99, pk: 3, embedding: [0.7, 0.8, 0.9] },
-];
-
-client.insert({
-  collection_name: "my_collection",
-  data: data,
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
-column1, _ := column.NewNullableColumnFloat("price",
-    []float32{99.99, 59.99},
-    []bool{true, false, false, false, true, false})
-column2, _ := column.NewNullableColumnInt64("age",
-    []int64{25, 30, 45, 60},
-    []bool{true, true, false, true, false, true})
+priceValues := []float32{99.99, 149.50, 199.99, 0, 59.99, 0}
+priceValid := []bool{true, true, true, false, true, false}
+priceCol, _ := column.NewNullableColumnFloat("price", priceValues, priceValid)
+
+ageValues := []int64{25, 30, 0, 45, 0, 60}
+ageValid := []bool{true, true, false, true, false, true}
+ageCol, _ := column.NewNullableColumnInt64("age", ageValues, ageValid)
+
+brokenValues := []bool{false, true, false, true, false, false}
+brokenValid := []bool{true, true, true, true, true, true}
+brokenCol, _ := column.NewNullableColumnBool("broken", brokenValues, brokenValid)
 
 _, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("my_collection").
     WithInt64Column("pk", []int64{1, 2, 3, 4, 5, 6}).
@@ -587,12 +660,97 @@ _, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("my_collecti
         {0.8, 0.5, 0.3},
         {0.1, 0.6, 0.9},
     }).
-    WithColumns(column1, column2),
+    WithColumns(priceCol, ageCol, brokenCol),
 )
 if err != nil {
     fmt.Println(err.Error())
     // handle err
 }
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let price_col = FieldData::float(
+    "price",
+    vec![99.99, 149.50, 199.99, 0.0, 59.99, 0.0],
+).nullable(vec![true, true, true, false, true, false]);
+let age_col = FieldData::int64(
+    "age",
+    vec![25, 30, 0, 45, 0, 60],
+).nullable(vec![true, true, false, true, false, true]);
+let broken_col = FieldData::bool(
+    "broken",
+    vec![false, true, false, true, false, false],
+).nullable(vec![true, true, true, true, true, true]);
+
+client
+    .insert(
+        InsertRequest::builder()
+            .collection_name("my_collection")
+            .columns(vec![
+                FieldData::int64("pk", vec![1, 2, 3, 4, 5, 6]),
+                FieldData::float_vector("embedding", vec![
+                    vec![0.1, 0.2, 0.3],
+                    vec![0.4, 0.5, 0.6],
+                    vec![0.2, 0.3, 0.1],
+                    vec![0.9, 0.1, 0.4],
+                    vec![0.8, 0.5, 0.3],
+                    vec![0.1, 0.6, 0.9],
+                ]),
+                price_col,
+                age_col,
+                broken_col,
+            ])
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::EntityRows data = {
+    {{"age", int64_t(25)}, {"price", float(99.99)}, {"pk", int64_t(1)}, {"embedding", std::vector<float>{0.1, 0.2, 0.3}}},
+    {{"age", int64_t(30)}, {"price", float(149.50)}, {"pk", int64_t(2)}, {"embedding", std::vector<float>{0.4, 0.5, 0.6}}},
+    {{"age", int64_t(35)}, {"price", float(199.99)}, {"pk", int64_t(3)}, {"embedding", std::vector<float>{0.2, 0.3, 0.1}}},
+    {{"age", int64_t(45)}, {"pk", int64_t(4)}, {"embedding", std::vector<float>{0.9, 0.1, 0.4}}},
+    {{"price", float(59.99)}, {"pk", int64_t(5)}, {"embedding", std::vector<float>{0.8, 0.5, 0.3}}},
+    {{"age", int64_t(60)}, {"pk", int64_t(6)}, {"embedding", std::vector<float>{0.1, 0.6, 0.9}}}
+};
+
+milvus::InsertResponse response;
+auto status = client->Insert(milvus::InsertRequest()
+                                .WithCollectionName("my_collection")
+                                .WithRowsData(std::move(data)),
+                             response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const data = [
+  { age: 25, price: 99.99, pk: 1, embedding: [0.1, 0.2, 0.3] },
+  { age: 30, price: 149.5, pk: 2, embedding: [0.4, 0.5, 0.6] },
+  { age: 35, price: 199.99, pk: 3, embedding: [0.2, 0.3, 0.1] },
+  { age: 45, price: null, pk: 4, embedding: [0.9, 0.1, 0.4] },
+  { age: null, price: 59.99, pk: 5, embedding: [0.8, 0.5, 0.3] },
+  { age: 60, price: null, pk: 6, embedding: [0.1, 0.6, 0.9] },
+];
+
+await client.insert({
+  collection_name: "my_collection",
+  data: data,
+});
 ```
 
 </TabItem>
@@ -607,46 +765,27 @@ curl --request POST \
 --header "Request-Timeout: 10" \
 -d '{
     "data": [
-        {"age": 25, "price": 99.99, "pk": 1, "embedding": [0.1, 0.2, 0.3]},
-        {"age": 30, "price": 149.50, "pk": 2, "embedding": [0.4, 0.5, 0.6]},
-        {"age": 35, "price": 199.99, "pk": 3, "embedding": [0.7, 0.8, 0.9]}       
+        {"age": 25, "broken": false, "price": 99.99, "pk": 1, "embedding": [0.1, 0.2, 0.3]},
+        {"age": 30, "broken": true, "price": 149.50, "pk": 2, "embedding": [0.4, 0.5, 0.6]},
+        {"age": 35, "broken": false, "price": 199.99, "pk": 3, "embedding": [0.2, 0.3, 0.1]},
+        {"age": 45, "broken": true, "price": null, "pk": 4, "embedding": [0.9, 0.1, 0.4]},
+        {"age": null, "broken": false, "price": 59.99, "pk": 5, "embedding": [0.8, 0.5, 0.3]},
+        {"age": 60, "broken": false, "price": null, "pk": 6, "embedding": [0.1, 0.6, 0.9]}
     ],
     "collectionName": "my_collection"
 }'
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-milvus::EntityRows data = {{{"age", 25}, {"price", 99.99}, {"pk", 1}, {"embedding", std::vector<float>{0.1, 0.2, 0.3}}},
-                            {{"age", 30}, {"pk", 2}, {"embedding", std::vector<float>{0.4, 0.5, 0.6}}},
-                            {{"age", nullptr}, {"price", nullptr}, {"pk", 3}, {"embedding", std::vector<float>{0.2, 0.3, 0.1}},
-                            {{"age", 45}, {"price", nullptr}, {"pk", 4}, {"embedding", std::vector<float>{0.9, 0.1, 0.4}}},
-                            {{"age", nullptr}, {"price", 59.99}, {"pk", 5}, {"embedding", std::vector<float>{0.8, 0.5, 0.3}},
-                            {{"age", 60}, {"price", nullptr}, {"pk", 6}, {"embedding", std::vector<float>{0.1, 0.6, 0.9}}};
-
-milvus::InsertResponse response;
-auto status = client->Insert(milvus::InsertRequest()
-                                .WithCollectionName("my_collection")
-                                .WithRowsData(std::move(data)),
-                             response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
 
-## フィルター式を使用したクエリ\{#query-with-filter-expressions}
+## フィルター式を使用してクエリする\{#query-with-filter-expressions}
 
-エンティティを挿入した後、`query` メソッドを使用して、指定したフィルター式に一致するエンティティを取得します。
+エンティティを挿入したら、`query` メソッドを使用して、指定したフィルター式に一致するエンティティを取得します。
 
-`age` が 30 より大きいエンティティを取得するには、次のようにします。
+`age` が 30 より大きいエンティティを取得するには：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -694,18 +833,6 @@ System.out.println(resp.getQueryResults());
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-client.query({
-    collection_name: 'my_collection',
-    filter: 'age > 30',
-    output_fields: ['age', 'price', 'pk']
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -717,9 +844,63 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
-fmt.Println("pk", queryResult.GetColumn("pk").FieldData().GetScalars())
-fmt.Println("age", queryResult.GetColumn("age").FieldData().GetScalars())
-fmt.Println("price", queryResult.GetColumn("price").FieldData().GetScalars())
+fmt.Println("pk", queryResult.GetColumn("pk"))
+fmt.Println("age", queryResult.GetColumn("age"))
+fmt.Println("price", queryResult.GetColumn("price"))
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let results = client
+    .query(
+        QueryRequest::builder()
+            .collection_name("my_collection")
+            .filter("age > 30")
+            .output_fields(vec!["age", "price", "pk"])
+            .build()?,
+    )
+    .await?;
+for row in results.rows()? {
+    println!("{:?}", row);
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto request = milvus::QueryRequest()
+                       .WithCollectionName("my_collection")
+                       .WithFilter("age > 30")
+                       .AddOutputField("age")
+                       .AddOutputField("price")
+                       .AddOutputField("pk");
+
+milvus::QueryResponse response;
+auto status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+for (const auto& row : response.Results()) {
+    std::cout << "\t" << row << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+client.query({
+    collection_name: 'my_collection',
+    filter: 'age > 30',
+    output_fields: ['age', 'price', 'pk']
+});
 ```
 
 </TabItem>
@@ -742,36 +923,11 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto request = milvus::QueryRequest()
-                       .WithCollectionName("my_collection")
-                       .WithFilter("age > 30")
-                       .AddOutputField("age")
-                       .AddOutputField("price")
-                       .AddOutputField("pk");
-
-milvus::QueryResponse response;
-auto status = client->Query(request, response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-milvus::EntityRows output_rows;
-status = query_results.OutputRows(output_rows);
-for (const auto& row : output_rows) {
-    std::cout << "\t" << row << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
 
-`price` が null のエンティティを取得するには、次のようにします。
+`price` が null であるエンティティを取得するには：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -819,34 +975,11 @@ System.out.println(resp.getQueryResults());
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// node
-const filter = 'price is null';
-
-const res = await client.query({
-    collection_name:"my_collection",
-    filter:filter,
-    output_fields=["age", "price", "pk"]
-});
-
-console.log(res);
-
-// Example output:
-// data: [
-//     "{'age': 18, 'price': None, 'pk': 3}",
-//     "{'age': 18, 'price': 59.99, 'pk': 5}"
-// ]
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
-filter = "price is null"
-queryResult, err = client.Query(ctx, milvusclient.NewQueryOption("my_collection").
+filter := "price is null"
+queryResult, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter(filter).
     WithOutputFields("pk", "age", "price"))
 if err != nil {
@@ -856,6 +989,64 @@ if err != nil {
 fmt.Println("pk", queryResult.GetColumn("pk"))
 fmt.Println("age", queryResult.GetColumn("age"))
 fmt.Println("price", queryResult.GetColumn("price"))
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let results = client
+    .query(
+        QueryRequest::builder()
+            .collection_name("my_collection")
+            .filter("price is null")
+            .output_fields(vec!["age", "price", "pk"])
+            .build()?,
+    )
+    .await?;
+for row in results.rows()? {
+    println!("{:?}", row);
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto request = milvus::QueryRequest()
+                       .WithCollectionName("my_collection")
+                       .WithFilter("price is null")
+                       .AddOutputField("age")
+                       .AddOutputField("price")
+                       .AddOutputField("pk");
+
+milvus::QueryResponse response;
+auto status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+for (const auto& row : response.Results()) {
+    std::cout << "\t" << row << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'price is null';
+
+const res = await client.query({
+    collection_name: "my_collection",
+    filter: filter,
+    output_fields: ["age", "price", "pk"]
+});
+
+console.log(res);
 ```
 
 </TabItem>
@@ -877,36 +1068,11 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto request = milvus::QueryRequest()
-                       .WithCollectionName("my_collection")
-                       .WithFilter("price IS NULL")
-                       .AddOutputField("age")
-                       .AddOutputField("price")
-                       .AddOutputField("pk");
-
-milvus::QueryResponse response;
-auto status = client->Query(request, response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-milvus::EntityRows output_rows;
-status = query_results.OutputRows(output_rows);
-for (const auto& row : output_rows) {
-    std::cout << "\t" << row << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
 
-`age` の値が `18` のエンティティを取得するには、以下の式を使用します。`age` のデフォルト値は `18` であるため、期待される結果には、`age` が明示的に `18` に設定されているエンティティ、または `age` が null に設定されているエンティティが含まれるはずです。
+`age` の値が `18` であるエンティティを取得するには、以下の式を使用します。`age` のデフォルト値は `18` であるため、期待される結果には、`age` を明示的に `18` に設定したエンティティ、または `age` を null に設定したエンティティが含まれます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -950,6 +1116,66 @@ System.out.println(resp.getQueryResults());
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+filter = "age == 18"
+queryResult, err = client.Query(ctx, milvusclient.NewQueryOption("my_collection").
+    WithFilter(filter).
+    WithOutputFields("pk", "age", "price"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+fmt.Println("pk", queryResult.GetColumn("pk"))
+fmt.Println("age", queryResult.GetColumn("age"))
+fmt.Println("price", queryResult.GetColumn("price"))
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let results = client
+    .query(
+        QueryRequest::builder()
+            .collection_name("my_collection")
+            .filter("age == 18")
+            .output_fields(vec!["age", "price", "pk"])
+            .build()?,
+    )
+    .await?;
+for row in results.rows()? {
+    println!("{:?}", row);
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto request = milvus::QueryRequest()
+                       .WithCollectionName("my_collection")
+                       .WithFilter("age == 18")
+                       .AddOutputField("age")
+                       .AddOutputField("price")
+                       .AddOutputField("pk");
+
+milvus::QueryResponse response;
+auto status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+for (const auto& row : response.Results()) {
+    std::cout << "\t" << row << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -973,24 +1199,6 @@ console.log(res);
 
 </TabItem>
 
-<TabItem value='go'>
-
-```go
-filter = "age == 18"
-queryResult, err = client.Query(ctx, milvusclient.NewQueryOption("my_collection").
-    WithFilter(filter).
-    WithOutputFields("pk", "age", "price"))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-fmt.Println("pk", queryResult.GetColumn("pk"))
-fmt.Println("age", queryResult.GetColumn("age"))
-fmt.Println("price", queryResult.GetColumn("price"))
-```
-
-</TabItem>
-
 <TabItem value='bash'>
 
 ```bash
@@ -1008,32 +1216,13 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto request = milvus::QueryRequest()
-                       .WithCollectionName("my_collection")
-                       .WithFilter("age == 18")
-                       .AddOutputField("age")
-                       .AddOutputField("price")
-                       .AddOutputField("pk");
-
-milvus::QueryResponse response;
-auto status = client->Query(request, response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
 
 ## フィルター式を使用したベクトル検索\{#vector-search-with-filter-expressions}
 
-基本的な数値フィールドのフィルタリングに加えて、ベクトル類似度検索と数値フィールドフィルターを組み合わせることもできます。たとえば、次のコードはベクトル検索に数値フィールドフィルターを追加する方法を示しています。
+基本的な数値フィールドのフィルタリングに加えて、ベクトル類似検索と数値フィールドフィルターを組み合わせることができます。たとえば、次のコードは、ベクトル検索に数値フィールドフィルターを追加する方法を示しています：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1090,20 +1279,6 @@ System.out.println(resp.getSearchResults());
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-await client.search({
-    collection_name: 'my_collection',
-    data: [0.3, -0.6, 0.1],
-    limit: 5,
-    output_fields: ['age', 'price'],
-    filter: '25 <= age <= 35'
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -1135,6 +1310,70 @@ for _, resultSet := range resultSets {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+let results = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("my_collection")
+            .vector_field("embedding")
+            .vectors(SearchVectors::Float(vec![vec![0.3, -0.6, 0.1]]))
+            .limit(5)
+            .filter("25 <= age <= 35")
+            .output_fields(vec!["age", "price"])
+            .build()?,
+    )
+    .await?;
+println!("{:?}", results.results());
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::vector<float> query_vector = {0.3, -0.6, 0.1};
+auto request = milvus::SearchRequest()
+                   .WithCollectionName("my_collection")
+                   .WithAnnsField("embedding")
+                   .WithLimit(5)
+                   .WithFilter("25 <= age <= 35")
+                   .AddOutputField("age")
+                   .AddOutputField("price")
+                   .AddFloatVector(query_vector);
+
+milvus::SearchResponse response;
+auto status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+auto search_results = response.Results();
+for (auto& result : search_results.Results()) {
+    milvus::EntityRows output_rows;
+    status = result.OutputRows(output_rows);
+    for (const auto& row : output_rows) {
+        std::cout << "\t" << row << std::endl;
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.search({
+    collection_name: 'my_collection',
+    data: [0.3, -0.6, 0.1],
+    limit: 5,
+    output_fields: ['age', 'price'],
+    filter: '25 <= age <= 35'
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1157,35 +1396,6 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-std::vector<float> query_vector = {0.3, -0.6, 0.1};
-auto request = milvus::SearchRequest()
-                   .WithCollectionName("my_collection")
-                   .WithAnnsField("embedding")
-                   .WithLimit(5)
-                   .AddOutputField("age")
-                   .AddOutputField("price")
-                   .AddFloatVector(query_vector);
-
-milvus::SearchResponse response;
-auto status = client->Search(request, response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-auto search_results = response.Results();
-for (auto& result : search_results.Results()) {
-    milvus::EntityRows output_rows;
-    status = result.OutputRows(output_rows);
-    for (const auto& row : output_rows) {
-        std::cout << "\t" << row << std::endl;
-    }
-}
-```
-
-</TabItem>
 </Tabs>
 
-この例では、まずクエリベクトルを定義し、検索時にフィルター条件 `25 <= age <= 35` を追加します。これにより、検索結果はクエリベクトルに類似しているだけでなく、指定した年齢範囲も満たすことが保証されます。詳細については、[Filtering Explained](./filtering-overview) を参照してください。
+この例では、まずクエリベクトルを定義し、検索時にフィルター条件 `25 <= age <= 35` を追加します。これにより、検索結果がクエリベクトルに類似しているだけでなく、指定した年齢範囲も満たすことが保証されます。詳細については、[Filtering Explained](./filtering-overview) を参照してください。
