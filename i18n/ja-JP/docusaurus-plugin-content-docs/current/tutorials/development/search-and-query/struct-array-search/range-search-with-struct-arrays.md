@@ -156,6 +156,7 @@ from pymilvus import AnnSearchRequest, RRFRanker
 title_req = AnnSearchRequest(
     data=[query_vector],
     anns_field="title_vector",
+    param={},
     limit=10,
 )
 
@@ -228,3 +229,4 @@ results = client.hybrid_search(
 1. サポートされている場合に親エンティティごとに最大 1 件の結果を返すには、[StructArray を使ったグルーピング検索](./grouping-search-with-struct-array) を参照してください。
 
 1. バージョン固有の検索制限を確認するには、[StructArray の制限](./struct-array-limits) を参照してください。
+
