@@ -232,6 +232,8 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
+import java.util.ArrayList;
+import java.util.List;
 
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -345,15 +347,12 @@ console.log(result.results);
 ```bash
 # restful
 curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/common/run" \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/common/run_analyzer" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
---data '{
-  "text": "Milvus 是 LF AI & Data Foundation 下的一个开源项目，以 Apache 2.0 许可发布。",
-  "analyzerParams": {
-    "tokenizer": "jieba",
-    "filter": ["cncharonly"]
-  }
+--data-raw '{
+  "analyzerParams": "{\"tokenizer\": \"jieba\", \"filter\": [\"cncharonly\"]}",
+  "text": ["Milvus 是 LF AI & Data Foundation 下的一个开源项目，以 Apache 2.0 许可发布。"]
 }'
 ```
 

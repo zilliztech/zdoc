@@ -749,7 +749,12 @@ result, err := client.RunAnalyzer(ctx, option)
 if err != nil {
     fmt.Println(err.Error())
 }
-fmt.Println(result)
+
+for _, r := range result {
+    for _, token := range r.Tokens {
+        fmt.Println("Analyzer output:", token.Text)
+    }
+}
 ```
 
 </TabItem>
@@ -769,6 +774,9 @@ fmt.Println(result)
 <TabItem value='c++'>
 
 ```c++
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+
 milvus::RunAnalyzerRequest request;
 request.WithAnalyzerParams(analyzer_params);
 request.AddText("The Milvus vector database is built for scale!");
@@ -802,14 +810,12 @@ console.log(result.results);
 
 ```bash
 curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/common/run" \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/common/run_analyzer" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 --data '{
-  "text": "The Milvus vector database is built for scale!",
-  "analyzerParams": {
-    "type": "english"
-  }
+  "text": ["The Milvus vector database is built for scale!"],
+  "analyzerParams": "{\"type\": \"english\"}"
 }'
 ```
 

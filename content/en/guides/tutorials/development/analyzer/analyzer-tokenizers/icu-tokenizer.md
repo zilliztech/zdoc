@@ -282,9 +282,9 @@ client = MilvusClient(
 # Sample text to analyze
 sample_text = "Привет! Как дела?"
 
-# Run the standard analyzer with the defined configuration
+# Run the icu analyzer with the defined configuration
 result = client.run_analyzer(sample_text, analyzer_params)
-print("Standard analyzer output:", result)
+print("ICU analyzer output:", result)
 ```
 
 </TabItem>

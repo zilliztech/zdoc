@@ -349,7 +349,7 @@ const client = new MilvusClient({
 });
 
 const result = await client.runAnalyzer({
-  analyzer_params: analyzerParams,
+  analyzer_params: analyzer_params,
   text: sampleText,
 });
 ```

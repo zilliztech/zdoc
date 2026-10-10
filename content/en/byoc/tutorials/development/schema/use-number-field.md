@@ -403,9 +403,9 @@ indexes.add(IndexParam.builder()
 
 ```go
 indexOption1 := milvusclient.NewCreateIndexOption("my_collection", "embedding",
-    index.NewAutoIndex(index.MetricType(index.COSINE)))
+    index.NewAutoIndex(entity.COSINE))
 indexOption2 := milvusclient.NewCreateIndexOption("my_collection", "age",
-    index.NewAutoIndex())
+    index.NewAutoIndex(entity.L2))
 ```
 
 </TabItem>

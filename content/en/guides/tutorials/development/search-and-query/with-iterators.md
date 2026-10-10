@@ -39,7 +39,7 @@ Specifically, you can use the SearchIterators as follows:
 
 The following code snippet demonstrates how to create a SearchIterator.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -55,7 +55,7 @@ query_vectors = [
     [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]]
 
 iterator = client.search_iterator(
-    collection_name="iterator_collection"
+    collection_name="iterator_collection",
     data=query_vectors,
     anns_field="vector",
     # highlight-next-line
@@ -75,9 +75,10 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.orm.iterator.SearchIterator;
 import io.milvus.v2.common.IndexParam.MetricType;
+import io.milvus.v2.service.vector.request.SearchIteratorReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
-
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -89,8 +90,9 @@ SearchIterator searchIterator = client.searchIterator(SearchIteratorReq.builder(
         .collectionName("iterator_collection")
         .vectors(Collections.singletonList(queryVector))
         .vectorFieldName("vector")
+        .metricType(MetricType.L2)
         .batchSize(500L)
-        .outputFields(Lists.newArrayList("color"))
+        .outputFields(Collections.singletonList("color"))
         .topK(20000)
         .build());
 ```
@@ -102,24 +104,22 @@ SearchIterator searchIterator = client.searchIterator(SearchIteratorReq.builder(
 ```go
 import (
     "context"
-    "errors"
     "fmt"
-    "io"
-    "log"
-    "strings"
-    "time"
 
-    "golang.org/x/exp/rand"
-
-    "github.com/milvus-io/milvus/client/v2/entity"
-    "github.com/milvus-io/milvus/client/v2/index"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
+
+ctx := context.Background()
 
 c, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: milvusAddr,
     APIKey:  "YOUR_CLUSTER_TOKEN",
 })
+if err != nil {
+    fmt.Println(err.Error())
+}
 
 vec := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
 iter, err := c.SearchIterator(ctx, milvusclient.NewSearchIteratorOption("iterator_collection", entity.FloatVector(vec)).
@@ -130,6 +130,72 @@ iter, err := c.SearchIterator(ctx, milvusclient.NewSearchIteratorOption("iterato
     WithIteratorLimit(20000))
 if err != nil {
     // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN")).await?;
+
+    let query_vectors = vec![vec![0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]];
+    let iterator = client
+        .search_iterator(
+            SearchIteratorRequest::builder()
+                .search(
+                    SearchRequest::builder()
+                        .collection_name("iterator_collection")
+                        .vector_field("vector")
+                        .vectors(SearchVectors::Float(query_vectors))
+                        .output_fields(["color"])
+                        .build()?,
+                )
+                .batch_size(50)
+                .limit(20000)
+                .build()?,
+        )
+        .await?;
+
+    Ok(())
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::SearchIteratorRequest request;
+request.SetCollectionName("iterator_collection");
+request.SetBatchSize(50);
+request.SetLimit(20000);
+request.SetAnnsField("vector");
+request.AddOutputField("color");
+request.SetMetricType(milvus::MetricType::L2);
+
+std::vector<float> vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
+request.AddFloatVector(vector);
+
+milvus::SearchIteratorPtr iterator;
+auto status = client->SearchIterator(request, iterator);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
 }
 ```
 
@@ -192,39 +258,6 @@ curl --request POST \
 
 </TabItem>
 
-<TabItem value='c++'>
-
-```c++
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-auto status = client->Connect(connect_param);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-milvus::SearchIteratorRequest request;
-request.SetCollectionName("iterator_collection");
-request.SetBatchSize(50);
-request.SetLimit(20000);
-request.SetAnnsField("vector");
-request.AddOutputField("color");
-request.SetMetricType(milvus::MetricType::L2);
-
-std::vector<float> vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
-request.AddFloatVector(vector);
-
-milvus::SearchIteratorPtr iterator;
-auto status = client->SearchIterator(request, iterator);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-```
-
-</TabItem>
-
 <TabItem value='shell'>
 
 ```shell
@@ -244,7 +277,7 @@ In the above examples, you have set the number of entities to return per search 
 
 Once the SearchIterator is ready, you can call its next() method to get the search results in a paginated manner.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -285,6 +318,12 @@ while (true) {
 <TabItem value='go'>
 
 ```go
+import (
+    "errors"
+    "fmt"
+    "io"
+)
+
 for {
     rs, err := iter.Next(ctx)
     // end of iterator
@@ -295,6 +334,50 @@ for {
         // handler error
     }
     fmt.Println(rs)
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+loop {
+    let Some(batch) = iterator.next().await? else {
+        iterator.close().await?;
+        break;
+    };
+    for result in batch.results() {
+        for row in result.rows()? {
+            println!("{:?}", row.to_entity_row()?);
+        }
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+while (true) {
+    milvus::SingleResult batch_results;
+    auto status = iterator->Next(batch_results);
+    if (!status.IsOk()) {
+        std::cout << status.Message() << std::endl;
+        break;
+    }
+
+    if (batch_results.GetRowCount() == 0) {
+        std::cout << "search iteration finished" << std::endl;
+        break;
+    }
+
+    milvus::EntityRows rows;
+    status = batch_results.OutputRows(rows);
+    for (const auto& row : rows) {
+        std::cout << row.dump() << std::endl;
+    }
 }
 ```
 
@@ -354,32 +437,6 @@ while [ "$offset" -lt "$limit" ]; do
     echo "$response" | jq -r '.data[]'
     offset=$((offset + batch_size))
 done
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-while (true) {
-    milvus::SingleResult batch_results;
-    auto status = iterator->Next(batch_results);
-    if (!status.IsOk()) {
-        std::cout << status.Message() << std::endl;
-        break;
-    }
-
-    if (batch_results.GetRowCount() == 0) {
-        std::cout << "search iteration finished" << std::endl;
-        break;
-    }
-
-    milvus::EntityRows rows;
-    status = batch_results.OutputRows(rows);
-    for (const auto& row : rows) {
-        std::cout << row.dump() << std::endl;
-    }
-}
 ```
 
 </TabItem>

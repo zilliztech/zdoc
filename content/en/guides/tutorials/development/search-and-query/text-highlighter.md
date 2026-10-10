@@ -1242,7 +1242,7 @@ results = client.search(
 )
 
 for hit in results[0]:
-    print(f"  {hit.get('highlight', {}).get('text', [])}")
+    print(f"  {hit.get('highlight', {}).get('text', {}).get('fragments', [])}")
 print()
 ```
 
@@ -1256,6 +1256,7 @@ import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.response.SearchResp;
 import io.milvus.v2.service.vector.request.highlighter.LexicalHighlighter;
 import java.util.*;
+String COLLECTION_NAME = "highlighter_demo";
 
 LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .preTags(Arrays.asList("{"))
@@ -1314,6 +1315,8 @@ let res = client
 <TabItem value='c++'>
 
 ```c++
+const std::string COLLECTION_NAME = "highlighter_demo";
+
 auto highlighter = std::make_shared<milvus::LexicalHighlighter>();
 highlighter->WithPreTags({"{"});
 highlighter->WithPostTags({"}"});
@@ -1337,6 +1340,7 @@ auto status = client->Search(request, response);
 
 ```javascript
 import { HighlightType } from "@zilliz/milvus2-sdk-node";
+const COLLECTION_NAME = "highlighter_demo";
 
 const highlighter = {
     type: HighlightType.Lexical,
@@ -1424,7 +1428,7 @@ results = client.search(
 )
 
 for hit in results[0]:
-    print(f"  {hit.get('highlight', {}).get('text', [])}")
+    print(f"  {hit.get('highlight', {}).get('text', {}).get('fragments', [])}")
 print()
 ```
 
@@ -1438,6 +1442,7 @@ import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.response.SearchResp;
 import io.milvus.v2.service.vector.request.highlighter.LexicalHighlighter;
 import java.util.*;
+String COLLECTION_NAME = "highlighter_demo";
 
 LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .preTags(Arrays.asList("{"))
@@ -1501,6 +1506,8 @@ let res = client
 <TabItem value='c++'>
 
 ```c++
+const std::string COLLECTION_NAME = "highlighter_demo";
+
 auto highlighter = std::make_shared<milvus::LexicalHighlighter>();
 highlighter->WithPreTags({"{"});
 highlighter->WithPostTags({"}"});
@@ -1525,6 +1532,7 @@ auto status = client->Search(request, response);
 
 ```javascript
 import { HighlightType } from "@zilliz/milvus2-sdk-node";
+const COLLECTION_NAME = "highlighter_demo";
 
 const highlighter = {
     type: HighlightType.Lexical,
@@ -1614,7 +1622,7 @@ results = client.search(
 )
 
 for i, hit in enumerate(results[0]):
-    frags = hit.get('highlight', {}).get('text', [])
+    frags = hit.get('highlight', {}).get('text', {}).get('fragments', [])
     print(f"  Doc {i+1}: {frags}")
 print()
 ```
@@ -1629,6 +1637,7 @@ import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.response.SearchResp;
 import io.milvus.v2.service.vector.request.highlighter.LexicalHighlighter;
 import java.util.*;
+String COLLECTION_NAME = "highlighter_demo";
 
 LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .preTags(Arrays.asList("{"))
@@ -1691,6 +1700,8 @@ let res = client
 <TabItem value='c++'>
 
 ```c++
+const std::string COLLECTION_NAME = "highlighter_demo";
+
 auto highlighter = std::make_shared<milvus::LexicalHighlighter>();
 highlighter->WithPreTags({"{"});
 highlighter->WithPostTags({"}"});
@@ -1716,6 +1727,7 @@ auto status = client->Search(request, response);
 
 ```javascript
 import { HighlightType } from "@zilliz/milvus2-sdk-node";
+const COLLECTION_NAME = "highlighter_demo";
 
 const highlighter = {
     type: HighlightType.Lexical,
@@ -1803,7 +1815,7 @@ for nq_idx, hits in enumerate(results):
     query_term = ["test", "Milvus"][nq_idx]
     print(f"  Query '{query_term}':")
     for hit in hits:
-        print(f"    {hit.get('highlight', {}).get('text', [])}")
+        print(f"    {hit.get('highlight', {}).get('text', {}).get('fragments', [])}")
 print()
 ```
 
@@ -1817,6 +1829,7 @@ import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.response.SearchResp;
 import io.milvus.v2.service.vector.request.highlighter.LexicalHighlighter;
 import java.util.*;
+String COLLECTION_NAME = "highlighter_demo";
 
 LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .preTags(Arrays.asList("{"))
@@ -1875,6 +1888,8 @@ let res = client
 <TabItem value='c++'>
 
 ```c++
+const std::string COLLECTION_NAME = "highlighter_demo";
+
 auto highlighter = std::make_shared<milvus::LexicalHighlighter>();
 highlighter->WithPreTags({"{"});
 highlighter->WithPostTags({"}"});
@@ -1899,6 +1914,7 @@ auto status = client->Search(request, response);
 
 ```javascript
 import { HighlightType } from "@zilliz/milvus2-sdk-node";
+const COLLECTION_NAME = "highlighter_demo";
 
 const highlighter = {
     type: HighlightType.Lexical,
@@ -1979,7 +1995,7 @@ results = client.search(
 )
 
 for hit in results[0]:
-    print(f"  {hit.get('highlight', {}).get('text', [])}")
+    print(f"  {hit.get('highlight', {}).get('text', {}).get('fragments', [])}")
 print()
 ```
 
@@ -1993,6 +2009,7 @@ import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.response.SearchResp;
 import io.milvus.v2.service.vector.request.highlighter.LexicalHighlighter;
 import java.util.*;
+String COLLECTION_NAME = "highlighter_demo";
 
 LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .preTags(Arrays.asList("<mark>"))
@@ -2051,6 +2068,8 @@ let res = client
 <TabItem value='c++'>
 
 ```c++
+const std::string COLLECTION_NAME = "highlighter_demo";
+
 auto highlighter = std::make_shared<milvus::LexicalHighlighter>();
 highlighter->WithPreTags({"<mark>"});
 highlighter->WithPostTags({"</mark>"});
@@ -2074,6 +2093,7 @@ auto status = client->Search(request, response);
 
 ```javascript
 import { HighlightType } from "@zilliz/milvus2-sdk-node";
+const COLLECTION_NAME = "highlighter_demo";
 
 const highlighter = {
     type: HighlightType.Lexical,

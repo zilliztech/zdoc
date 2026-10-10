@@ -351,7 +351,7 @@ let analyzer_params = serde_json::json!({
 
 ```c++
 nlohmann::json analyzer_params = {
-    {"type", "standard"},
+    {"tokenizer", "standard"},
     {"filter", {"lowercase", {{"type", "stop"}, {"stop_words", {"a", "an", "for"}}}}},
 };
 ```
@@ -379,7 +379,7 @@ const analyzer_params = {
 
 ```bash
 export analyzerParams='{
-       "type": "standard",
+       "tokenizer": "standard",
        "filter":  [
        "lowercase",
        {
@@ -457,7 +457,7 @@ let analyzer_params = serde_json::json!({"tokenizer": "whitespace"});
 
 ```c++
 nlohmann::json analyzer_params = {
-    {"type", "whitespace"}
+    {"tokenizer", "whitespace"}
 };
 ```
 
@@ -477,7 +477,7 @@ const analyzer_params = {
 
 ```bash
 export analyzerParams='{
-       "type": "whitespace"
+       "tokenizer": "whitespace"
     }'
 ```
 
@@ -553,7 +553,7 @@ Filters in a custom analyzer can be either **built-in** or **custom**, depending
 
     ```c++
     nlohmann::json analyzer_params = {
-        {"type", "standard"},
+        {"tokenizer", "standard"},
         {"filter", {"lowercase"}},
     };
     ```
@@ -575,7 +575,7 @@ Filters in a custom analyzer can be either **built-in** or **custom**, depending
 
     ```bash
     export analyzerParams='{
-           "type": "standard",
+           "tokenizer": "standard",
            "filter":  ["lowercase"]
         }'
     ```
@@ -651,7 +651,7 @@ Filters in a custom analyzer can be either **built-in** or **custom**, depending
 
     ```c++
     nlohmann::json analyzer_params = {
-        {"type", "standard"},
+        {"tokenizer", "standard"},
         {"filter", {{{"type", "stop"}, {"stop_words", {"of", "to"}}}}},
     };
     ```
@@ -678,14 +678,14 @@ Filters in a custom analyzer can be either **built-in** or **custom**, depending
 
     ```bash
     export analyzerParams='{
-           "type": "standard",
+           "tokenizer": "standard",
            "filter":  [
            {
                 "type": "stop",
                 "stop_words": ["of", "to"]
            }
         ]
-    }' 
+    }'
     ```
 
     </TabItem>
@@ -1065,7 +1065,7 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
             },
             map[string]any{
                 "type":       "stop",
-                "stop_words": []string{"of", "to"},
+                "stop_words": []string{"of", "for"},
             }}}
     
     texts := []string{"Milvus provides flexible, customizable analyzers for robust text processing."}
@@ -1086,7 +1086,7 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
     ```rust
     let analyzer_params_custom = serde_json::json!({
         "tokenizer": "standard",
-        "filter": ["lowercase", {"type": "length", "max": 40}, {"type": "stop", "stop_words": ["of", "to"]}]
+        "filter": ["lowercase", {"type": "length", "max": 40}, {"type": "stop", "stop_words": ["of", "for"]}]
     });
     let sample_text = "Milvus provides flexible, customizable analyzers for robust text processing.";
     let response = client
@@ -1110,7 +1110,7 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
         {"filter", {
             "lowercase",
             {{"type", "length"}, {"max", 40}},
-            {{"type", "stop"}, {"stop_words", {"of", "to"}}}
+            {{"type", "stop"}, {"stop_words", {"of", "for"}}}
         }},
     };
     
@@ -1145,7 +1145,7 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
         },
         {
           type: "stop",
-          stop_words: ["of", "to"],
+          stop_words: ["of", "for"],
         },
       ],
     };
@@ -1437,6 +1437,12 @@ client.createCollection(requestCreate);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/index"
+)
+
 idx := index.NewAutoIndex(index.MetricType(entity.COSINE))
 indexOption := milvusclient.NewCreateIndexOption("my_collection", "embedding", idx)
 
@@ -1477,7 +1483,7 @@ client
 ```c++
 std::vector<milvus::IndexDesc> indexes = {
     milvus::IndexDesc("embedding", "", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE)
-}
+};
 
 auto status = client->CreateCollection(milvus::CreateCollectionRequest()
                                     .WithCollectionName("my_collection")

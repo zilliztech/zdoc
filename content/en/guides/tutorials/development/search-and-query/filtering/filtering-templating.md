@@ -64,7 +64,10 @@ filterTemplateValues.put("city", Arrays.asList("北京", "上海"));
 
 ```go
 filter := "age > {age} AND city IN {city}"
-// Note: filter expression templating is not yet supported in milvus-sdk-go.
+filterTemplates := map[string]any{
+    "age":  25,
+    "city": []string{"北京", "上海"},
+}
 ```
 
 </TabItem>
@@ -108,6 +111,10 @@ const exprValues = { age: 25, city: ["北京", "上海"] };
 <TabItem value='bash'>
 
 ```bash
+# restful
+export TOKEN="YOUR_CLUSTER_TOKEN"
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+
 filter="age > {age} AND city IN {city}"
 filter_params='{"age": 25, "city": ["北京", "上海"]}'
 ```
@@ -137,7 +144,7 @@ expr = "age > {age} AND city IN {city}"
 filter_params = {"age": 25, "city": ["北京", "上海"]}
 res = client.search(
     "hello_milvus",
-    vectors[:nq],
+    [[0.1, 0.2]],
     filter=expr,
     limit=10,
     output_fields=["age", "city"],
@@ -179,7 +186,29 @@ SearchResp searchResp = client.search(searchReq);
 <TabItem value='go'>
 
 ```go
-// Note: filter expression templating is not yet supported in milvus-sdk-go.
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+expr := "age > {age} AND city IN {city}"
+
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "hello_milvus", // collectionName
+    10,             // limit
+    []entity.Vector{entity.FloatVector([]float32{0.1, 0.2})},
+).WithANNSField("vector").
+    WithFilter(expr).
+    WithTemplateParam("age", 25).
+    WithTemplateParam("city", []string{"北京", "上海"}).
+    WithOutputFields("age", "city"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -329,7 +358,24 @@ QueryResp queryResp = client.query(queryReq);
 <TabItem value='go'>
 
 ```go
-// Note: filter expression templating is not yet supported in milvus-sdk-go.
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+expr := "age > {age} AND city IN {city}"
+
+resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("hello_milvus").
+    WithFilter(expr).
+    WithTemplateParam("age", 25).
+    WithTemplateParam("city", []string{"北京", "上海"}).
+    WithOutputFields("age", "city"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -465,7 +511,23 @@ client.delete(deleteReq);
 <TabItem value='go'>
 
 ```go
-// Note: filter expression templating is not yet supported in milvus-sdk-go.
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+expr := "age > {age} AND city IN {city}"
+
+result, err := client.Delete(ctx, milvusclient.NewDeleteOption("hello_milvus").
+    WithFilter(expr).
+    WithTemplateParam("age", 25).
+    WithTemplateParam("city", []string{"北京", "上海"}))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -599,7 +661,23 @@ QueryResp queryResp = client.query(queryReq);
 <TabItem value='go'>
 
 ```go
-// Note: filter expression templating is not yet supported in milvus-sdk-go.
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+expr := "message =~ {pattern}"
+
+resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("hello_milvus").
+    WithFilter(expr).
+    WithTemplateParam("pattern", "E[0-9]{4}").
+    WithOutputFields("message"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -714,7 +792,9 @@ filterTemplateValues.put("pattern", "^DEBUG");
 
 ```go
 expr := "message !~ {pattern}"
-// Note: filter expression templating is not yet supported in milvus-sdk-go.
+filterTemplates := map[string]any{
+    "pattern": "^DEBUG",
+}
 ```
 
 </TabItem>

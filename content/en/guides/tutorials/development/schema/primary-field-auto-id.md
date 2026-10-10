@@ -155,6 +155,7 @@ client.createCollection(requestCreate);
 // go
 import (
     "context"
+    "fmt"
     "log"
 
     "github.com/milvus-io/milvus/client/v3/entity"
@@ -632,6 +633,7 @@ client.createCollection(requestCreate);
 // go
 import (
     "context"
+    "fmt"
     "log"
 
     "github.com/milvus-io/milvus/client/v3/entity"

@@ -547,5 +547,5 @@ curl --request POST \
 ### Expected output\{#expected-output}
 
 ```sql
-Standard analyzer output: ['the', 'milvus', 'vector', 'database', 'is', 'built', 'scale']
+Standard analyzer output: ['the', 'milvus', 'vector', 'database', 'is', 'built', 'for', 'scale']
 ```

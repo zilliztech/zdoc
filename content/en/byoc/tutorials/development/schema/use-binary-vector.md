@@ -333,12 +333,12 @@ std::vector<milvus::IndexDesc> indexes = {
 ```javascript
 import { MetricType, IndexType } from "@zilliz/milvus2-sdk-node";
 
-const indexParams = {
+const indexParams = [{
   indexName: "binary_vector_index",
   field_name: "binary_vector",
   metric_type: MetricType.HAMMING,
   index_type: IndexType.AUTOINDEX
-};
+}];
 ```
 
 </TabItem>
@@ -630,6 +630,11 @@ await client.insert({
 <TabItem value='bash'>
 
 ```bash
+export data='[
+    {"binary_vector": "2SoAAAAAAAAAAAAAAAAAAA=="},
+    {"binary_vector": "KrMAAAAAAAAAAAAAAAAAAA=="}
+]'
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -813,6 +818,10 @@ await client.search({
 export searchParams='{
         "params":{"nprobe":10}
     }'
+
+export data='[
+    {"binary_vector": "2SoAAAAAAAAAAAAAAAAAAA=="}
+]'
 
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \

@@ -341,7 +341,11 @@ if err != nil {
     // handle error
 }
 
-fmt.Println(result)
+for _, r := range result {
+    for _, token := range r.Tokens {
+        fmt.Println("Standard analyzer output:", token.Text)
+    }
+}
 ```
 
 </TabItem>
@@ -349,22 +353,35 @@ fmt.Println(result)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
-let client = ClientV2::new(&config).await?;
+#[tokio::main]
+async fn main() -> Result<()> {
+    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
+    let client = ClientV2::new(&config).await?;
 
-let sample_text = "testItem apple testCase banana";
-let result = client
-    .run_analyzer(
-        RunAnalyzerRequest::builder()
-            .texts(vec![sample_text])
-            .analyzer_params(analyzer_params)
-            .build()?,
-    )
-    .await?;
+    let analyzer_params = serde_json::json!({
+        "tokenizer": "standard",
+        "filter": [{
+            "type": "regex",
+            "expr": "^(?!test)"
+        }]
+    });
 
-println!("Standard analyzer output: {:?}", result);
+    let sample_text = "testItem apple testCase banana";
+    let result = client
+        .run_analyzer(
+            RunAnalyzerRequest::builder()
+                .texts(vec![sample_text])
+                .analyzer_params(analyzer_params)
+                .build()?,
+        )
+        .await?;
+
+    println!("Standard analyzer output: {:?}", result);
+    Ok(())
+}
 ```
 
 </TabItem>
@@ -373,6 +390,8 @@ println!("Standard analyzer output: {:?}", result);
 
 ```c++
 #include "milvus/MilvusClientV2.h"
+#include <iostream>
+#include <string>
 
 auto client = milvus::MilvusClientV2::Create();
 

@@ -596,7 +596,7 @@ fmt.Println(indexDesc.IndexType())
 ```rust
     let resp = client.describe_index(DescribeIndexRequest::builder()
         .collection_name("tech_articles").index_name("chunks_emb_cosine").build()?).await?;
-    println!("{:?}", resp.index_type());
+    println!("{:?}", resp.indexes()[0].get_index_type());
 ```
 
 </TabItem>

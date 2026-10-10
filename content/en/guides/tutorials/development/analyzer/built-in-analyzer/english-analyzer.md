@@ -52,7 +52,7 @@ analyzer_params = {
                         "language": "english"
                 }, {
                         "type": "stop",
-                        "stop_words": "_english_"
+                        "stop_words": ["_english_"]
                 }
         ]
 }
@@ -84,13 +84,13 @@ analyzerParams.put("filter",
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"tokenizer": "standard",
+analyzerParams := map[string]any{"tokenizer": "standard",
         "filter": []any{"lowercase", map[string]any{
             "type":     "stemmer",
             "language": "english",
         }, map[string]any{
             "type":       "stop",
-            "stop_words": "_english_",
+            "stop_words": []string{"_english_"},
         }}}
 ```
 
@@ -106,7 +106,7 @@ let analyzer_params = json!({
     "filter": [
         "lowercase",
         { "type": "stemmer", "language": "english" },
-        { "type": "stop", "stop_words": "_english_" }
+        { "type": "stop", "stop_words": ["_english_"] }
     ]
 });
 ```
@@ -119,9 +119,9 @@ let analyzer_params = json!({
 nlohmann::json analyzer_params = {
     {"tokenizer", "standard"},
     {"filter", {
-        "lowercase", 
+        "lowercase",
         {{"type", "stemmer"}, {"language", "english"}},
-        {{"type", "stop"}, {"stop_words", "_english_"}}
+        {{"type", "stop"}, {"stop_words", {"_english_"}}}
     }}
 };
 ```
@@ -136,7 +136,7 @@ const analyzer_params = {
     "filter": [
         "lowercase",
         { "type": "stemmer", "language": "english" },
-        { "type": "stop", "stop_words": "_english_" }
+        { "type": "stop", "stop_words": ["_english_"] }
     ]
 }
 ```
@@ -157,7 +157,9 @@ analyzerParams='{
     },
     {
       "type": "stop",
-      "stop_words": "_english_"
+      "stop_words": [
+        "_english_"
+      ]
     }
   ]
 }'
@@ -193,7 +195,7 @@ analyzerParams.put("type", "english");
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"type": "english"}
+analyzerParams := map[string]any{"type": "english"}
 ```
 
 </TabItem>
@@ -275,7 +277,7 @@ analyzerParams.put("stop_words", Arrays.asList("a", "an", "the"));
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"type": "english", "stop_words": []string{"a", "an", "the"}}
+analyzerParams := map[string]any{"type": "english", "stop_words": []string{"a", "an", "the"}}
 ```
 
 </TabItem>
@@ -365,7 +367,7 @@ analyzerParams.put("stop_words", Arrays.asList("a", "an", "the"));
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"type": "english", "stop_words": []string{"a", "an", "the"}}
+analyzerParams := map[string]any{"type": "english", "stop_words": []string{"a", "an", "the"}}
 ```
 
 </TabItem>
@@ -455,7 +457,10 @@ import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -503,6 +508,12 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
+
+for _, r := range result {
+    for _, token := range r.Tokens {
+        fmt.Println("English analyzer output:", token.Text)
+    }
+}
 ```
 
 </TabItem>
@@ -510,21 +521,34 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-let response = client
-    .run_analyzer(
-        RunAnalyzerRequest::builder()
-            .texts(["Milvus is a vector database built for scale!"])
-            .analyzer_params(analyzer_params)
-            .build()?,
-    )
-    .await?;
+#[tokio::main]
+async fn main() -> Result<()> {
+    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+    let client = ClientV2::new(&config).await?;
 
-for result in response.results() {
-    for token in result.get_tokens() {
-        println!("English analyzer output: {}", token.get_text());
+    let analyzer_params = serde_json::json!({
+        "type": "english",
+        "stop_words": ["a", "an", "the"]
+    });
+
+    let response = client
+        .run_analyzer(
+            RunAnalyzerRequest::builder()
+                .texts(["Milvus is a vector database built for scale!"])
+                .analyzer_params(analyzer_params)
+                .build()?,
+        )
+        .await?;
+
+    for result in response.results() {
+        for token in result.get_tokens() {
+            println!("English analyzer output: {}", token.get_text());
+        }
     }
+    Ok(())
 }
 ```
 
@@ -534,6 +558,8 @@ for result in response.results() {
 
 ```c++
 #include "milvus/MilvusClientV2.h"
+#include <iostream>
+#include <string>
 
 auto client = milvus::MilvusClientV2::Create();
 
@@ -564,6 +590,7 @@ import { MilvusClient } from '@zilliz/milvus2-sdk-node';
 
 const client = new MilvusClient({
   address: 'YOUR_CLUSTER_ENDPOINT',
+  token: 'YOUR_CLUSTER_TOKEN',
 });
 
 const sample_text = 'Milvus is a vector database built for scale!';

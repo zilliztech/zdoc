@@ -232,9 +232,7 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-ctx, cancel := context.WithCancel(context.Background())
-
-defer cancel()
+ctx := context.Background()
 
 milvusAddr := "YOUR_CLUSTER_ENDPOINT"
 
@@ -374,19 +372,19 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
 const address = "YOUR_CLUSTER_ENDPOINT";
 const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
 
-data = [
+const data = [
     {id: 0, vector: [-0.619954382375778, 0.4479436794798608, -0.17493894838751745, -0.4248030059917294, -0.8648452746018911], title: "Artificial Intelligence in Real Life", issue: "vol.12"},
     {id: 1, vector: [0.4762662251462588, -0.6942502138717026, -0.4490002642657902, -0.628696575798281, 0.9660395877041965], title: "Hollow Man", issue: "vol.19"},
     {id: 2, vector: [-0.8864122635045097, 0.9260170474445351, 0.801326976181461, 0.6383943392381306, 0.7563037341572827], title: "Treasure Hunt in Missouri", issue: "vol.12"},
 ]
 
-res = await client.upsert({
+const res = await client.upsert({
     collection_name: "my_collection",
     data: data,
 })
@@ -541,9 +539,7 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-ctx, cancel := context.WithCancel(context.Background())
-
-defer cancel()
+ctx := context.Background()
 
 milvusAddr := "YOUR_CLUSTER_ENDPOINT"
 
@@ -696,16 +692,16 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
 // 6. Upsert data in partitions
-data = [
+const data = [
     {id: 10, vector: [0.06998888224297328, 0.8582816610326578, -0.9657938677934292, 0.6527905683627726, -0.8668460657158576], title: "Layour Design Reference", issue: "vol.34"},
     {id: 11, vector: [0.6060703043917468, -0.3765080534566074, -0.7710758854987239, 0.36993888322346136, 0.5507513364206531], title: "Doraemon and His Friends", issue: "vol.2"},
     {id: 12, vector: [-0.9041813104515337, -0.9610546012461163, 0.20033003106083358, 0.11842506351635174, 0.8327356724591011], title: "Pikkachu and Pokemon", issue: "vol.12"},
 ]
 
-res = await client.upsert({
+const res = await client.upsert({
     collection_name: "my_collection",
     data: data,
     partition_name: "partitionA"
@@ -857,9 +853,7 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-ctx, cancel := context.WithCancel(context.Background())
-
-defer cancel()
+ctx := context.Background()
 
 milvusAddr := "YOUR_CLUSTER_ENDPOINT"
 
@@ -1081,6 +1075,9 @@ import com.google.gson.JsonObject;
 import io.milvus.v2.service.vector.request.UpsertReq;
 import java.util.Collections;
 import java.util.List;
+import com.google.gson.Gson;
+
+Gson gson = new Gson();
 
 List<JsonObject> replacementData = Collections.singletonList(
 
@@ -1115,9 +1112,7 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-ctx, cancel := context.WithCancel(context.Background())
-
-defer cancel()
+ctx := context.Background()
 
 milvusAddr := "YOUR_CLUSTER_ENDPOINT"
 
@@ -1236,7 +1231,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient } = require("@zilliz/milvus2-sdk-node");
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 
 const address = "YOUR_CLUSTER_ENDPOINT";
 
@@ -1317,6 +1312,9 @@ import com.google.gson.JsonObject;
 import io.milvus.v2.service.vector.request.UpsertReq;
 import java.util.Collections;
 import java.util.List;
+import com.google.gson.Gson;
+
+Gson gson = new Gson();
 
 List<JsonObject> appendData = Collections.singletonList(
 
@@ -1359,9 +1357,7 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-ctx, cancel := context.WithCancel(context.Background())
-
-defer cancel()
+ctx := context.Background()
 
 milvusAddr := "YOUR_CLUSTER_ENDPOINT"
 
@@ -1487,7 +1483,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient } = require("@zilliz/milvus2-sdk-node");
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 
 const address = "YOUR_CLUSTER_ENDPOINT";
 
@@ -1788,9 +1784,7 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-ctx, cancel := context.WithCancel(context.Background())
-
-defer cancel()
+ctx := context.Background()
 
 milvusAddr := "YOUR_CLUSTER_ENDPOINT"
 
@@ -1850,6 +1844,8 @@ defer client.Close(ctx)
         fmt.Println(err.Error())
         // handle error
     }
+
+    client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("users"))
 
     res, err := client.Query(ctx, milvusclient.NewQueryOption("users").WithFilter("pk in [1, 2]").WithOutputFields("pk", "tags"))
 
@@ -1964,6 +1960,10 @@ let client = ClientV2::new(&config).await?;
                 .build()?,
         )
 
+        .await?;
+
+    client
+        .load_collection(LoadCollectionRequest::builder().collection_name("users").build()?)
         .await?;
 
     // 2. Seed two entities
@@ -2175,6 +2175,11 @@ if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 
+status = client->LoadCollection(milvus::LoadCollectionRequest().WithCollectionName("users"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
 // 2. Seed two entities
 
 milvus::EntityRows seed = {
@@ -2358,6 +2363,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import io.milvus.v2.service.vector.request.UpsertReq;
 import java.util.Collections;
+import com.google.gson.Gson;
+
+Gson gson = new Gson();
 
 // Build the StructArray value with all subfields
 
@@ -2425,9 +2433,7 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-ctx, cancel := context.WithCancel(context.Background())
-
-defer cancel()
+ctx := context.Background()
 
 milvusAddr := "YOUR_CLUSTER_ENDPOINT"
 
@@ -2446,15 +2452,12 @@ defer client.Close(ctx)
 // Build the StructArray column with all subfields
 
 chunksColumn := column.NewColumnStructArray("chunks", []column.Column{
-    column.NewColumnVarChar("text", []string{
-        "Use HNSW efSearch to trade recall for latency.",
-        "Range search returns vectors within a distance boundary.",
-    }),
-    column.NewColumnVarChar("section", []string{"index", "search"}),
-    column.NewColumnInt64("page", []int64{1, 2}),
-    column.NewColumnFloat("quality_score", []float32{0.92, 0.86}),
-    column.NewColumnBool("has_code", []bool{true, false}),
-    column.NewColumnFloatVector("emb_list_vector", 4, [][]float32{{0.11, 0.21, 0.31, 0.41}, {0.18, 0.23, 0.29, 0.36}}),
+    column.NewColumnVarCharArray("text", [][]string{{"Use HNSW efSearch to trade recall for latency.", "Range search returns vectors within a distance boundary."}}),
+    column.NewColumnVarCharArray("section", [][]string{{"index", "search"}}),
+    column.NewColumnInt64Array("page", [][]int64{{1, 2}}),
+    column.NewColumnDoubleArray("quality_score", [][]float64{{0.92, 0.86}}),
+    column.NewColumnBoolArray("has_code", [][]bool{{true, false}}),
+    column.NewColumnFloatVectorArray("emb_list_vector", 4, [][][]float32{{{0.11, 0.21, 0.31, 0.41}, {0.18, 0.23, 0.29, 0.36}}}),
 })
 
 _, err = client.Upsert(ctx, milvusclient.NewColumnBasedInsertOption("books").
@@ -2589,7 +2592,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient } = require("@zilliz/milvus2-sdk-node");
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 
 const address = "YOUR_CLUSTER_ENDPOINT";
 

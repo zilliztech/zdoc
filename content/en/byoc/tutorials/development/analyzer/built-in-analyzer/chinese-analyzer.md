@@ -295,9 +295,9 @@ client = MilvusClient(
 # Sample text to analyze
 sample_text = "Milvus 是一个高性能、可扩展的向量数据库！"
 
-# Run the standard analyzer with the defined configuration
+# Run the Chinese analyzer with the defined configuration
 result = client.run_analyzer(sample_text, analyzer_params)
-print("English analyzer output:", result)
+print("Chinese analyzer output:", result)
 ```
 
 </TabItem>

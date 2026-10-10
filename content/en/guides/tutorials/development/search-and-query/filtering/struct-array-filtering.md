@@ -143,7 +143,7 @@ ARRAY_CONTAINS(chunks[quality_score], 0.74)
 The above expression indicates that an entity will match if any `quality_score` subfield across all elements of the entity has a value of `0.74`.  With the two entities in the [example data](./struct-array-filtering#example-data), this expression matches only **Entity A**.
 
 ```python
-ARRAY_LENGTH(chunks[quality_score], 3)
+ARRAY_LENGTH(chunks[quality_score]) == 3
 ```
 
 The above expression indicates that an entity will match if the `quality_score` subfield contains 3 values. With the two entities in the [example data](./struct-array-filtering#example-data), this expression matches only **Entity B**.

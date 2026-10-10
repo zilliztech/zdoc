@@ -253,7 +253,7 @@ Find all geometric objects within a given polygon:
 <TabItem value='python'>
 
 ```python
-filter_expr = "ST_CONTAINS(geo, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')"
+filter_expr = "ST_WITHIN(geo, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')"
 
 res = client.query(
     collection_name="geo_demo",
@@ -273,7 +273,7 @@ import io.milvus.v2.service.vector.request.QueryReq;
 import io.milvus.v2.service.vector.response.QueryResp;
 import java.util.Arrays;
 
-String filter_expr = "ST_CONTAINS(geo, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')";
+String filter_expr = "ST_WITHIN(geo, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')";
 
 QueryResp resp = client.query(QueryReq.builder()
         .collectionName("geo_demo")
@@ -289,7 +289,7 @@ System.out.println(resp);
 <TabItem value='go'>
 
 ```go
-filter_expr := "ST_CONTAINS(geo, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')"
+filter_expr := "ST_WITHIN(geo, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')"
 
 _, err = cli.Query(ctx, milvusclient.NewQueryOption("geo_demo").
     WithFilter(filter_expr).
@@ -307,7 +307,7 @@ if err != nil {
 ```rust
 use milvus::v2::prelude::*;
 
-let filter_expr = "ST_CONTAINS(geo, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')";
+let filter_expr = "ST_WITHIN(geo, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')";
 
 let query_req = QueryRequest::builder()
     .collection_name("geo_demo")
@@ -328,7 +328,7 @@ println!("{:?}", res.results());
 #include <iostream>
 #include <string>
 
-std::string filter_expr = "ST_CONTAINS(geo, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')";
+std::string filter_expr = "ST_WITHIN(geo, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')";
 
 milvus::QueryResponse response;
 status = client->Query(milvus::QueryRequest()
@@ -347,7 +347,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const filter_expr = "ST_CONTAINS(geo, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')";
+const filter_expr = "ST_WITHIN(geo, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')";
 
 const res = await client.query({
     collection_name: "geo_demo",
@@ -373,7 +373,7 @@ curl --request POST \
 -d @- <<'EOF'
 {
     "collectionName": "geo_demo",
-    "filter": "ST_CONTAINS(geo, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')",
+    "filter": "ST_WITHIN(geo, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')",
     "outputFields": ["id", "geo"],
     "limit": 10
 }

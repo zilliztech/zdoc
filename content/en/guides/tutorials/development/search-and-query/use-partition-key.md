@@ -445,10 +445,10 @@ The following examples demonstrate Partition-Key-based filtering based on a spec
 
 ```python
 # Filter based on a single partition key value, or
-filter='partition_key == "x" && <other conditions>'
+filter='my_varchar == "x" && <other conditions>'
 
 # Filter based on multiple partition key values
-filter='partition_key in ["x", "y", "z"] && <other conditions>'
+filter='my_varchar in ["x", "y", "z"] && <other conditions>'
 ```
 
 </TabItem>
@@ -457,10 +457,10 @@ filter='partition_key in ["x", "y", "z"] && <other conditions>'
 
 ```java
 // Filter based on a single partition key value, or
-String filter = "partition_key == 'x' && <other conditions>";
+String filter = "my_varchar == 'x' && <other conditions>";
 
 // Filter based on multiple partition key values
-filter = "partition_key in ['x', 'y', 'z'] && <other conditions>";
+filter = "my_varchar in ['x', 'y', 'z'] && <other conditions>";
 ```
 
 </TabItem>
@@ -469,10 +469,10 @@ filter = "partition_key in ['x', 'y', 'z'] && <other conditions>";
 
 ```go
 // Filter based on a single partition key value, or
-filter := "partition_key == 'x' && <other conditions>"
+filter := "my_varchar == 'x' && <other conditions>"
 
 // Filter based on multiple partition key values
-filter = "partition_key in ['x', 'y', 'z'] && <other conditions>"
+filter = "my_varchar in ['x', 'y', 'z'] && <other conditions>"
 ```
 
 </TabItem>
@@ -481,10 +481,10 @@ filter = "partition_key in ['x', 'y', 'z'] && <other conditions>"
 
 ```rust
 // Filter based on a single partition key value, or
-let filter = "partition_key == 'x' && <other conditions>";
+let filter = "my_varchar == 'x' && <other conditions>";
 
 // Filter based on multiple partition key values
-let filter = "partition_key in ['x', 'y', 'z'] && <other conditions>";
+let filter = "my_varchar in ['x', 'y', 'z'] && <other conditions>";
 ```
 
 </TabItem>
@@ -493,10 +493,10 @@ let filter = "partition_key in ['x', 'y', 'z'] && <other conditions>";
 
 ```c++
 // Filter based on a single partition key value, or
-std::string filter = R"(partition_key == 'x' && <other conditions>)";
+std::string filter = R"(my_varchar == 'x' && <other conditions>)";
 
 // Filter based on multiple partition key values
-filter = R"(partition_key in ['x', 'y', 'z'] && <other conditions>)";
+filter = R"(my_varchar in ['x', 'y', 'z'] && <other conditions>)";
 ```
 
 </TabItem>
@@ -505,10 +505,10 @@ filter = R"(partition_key in ['x', 'y', 'z'] && <other conditions>)";
 
 ```javascript
 // Filter based on a single partition key value, or
-let filter = 'partition_key == "x" && <other conditions>'
+let filter = 'my_varchar == "x" && <other conditions>'
 
 // Filter based on multiple partition key values
-filter = 'partition_key in ["x", "y", "z"] && <other conditions>' 
+filter = 'my_varchar in ["x", "y", "z"] && <other conditions>' 
 ```
 
 </TabItem>
@@ -517,10 +517,10 @@ filter = 'partition_key in ["x", "y", "z"] && <other conditions>'
 
 ```bash
 # Filter based on a single partition key value, or
-export filter='partition_key == "x" && <other conditions>'
+export filter='my_varchar == "x" && <other conditions>'
 
 # Filter based on multiple partition key values
-export filter='partition_key in ["x", "y", "z"] && <other conditions>'
+export filter='my_varchar in ["x", "y", "z"] && <other conditions>'
 ```
 
 </TabItem>

@@ -482,7 +482,7 @@ Once the schema and index are defined, create a collection that includes string 
 
 ```python
 # Create Collection
-client.createCollection(
+client.create_collection(
     collection_name="my_collection",
     schema=schema,
     index_params=index_params
@@ -510,6 +510,12 @@ client.createCollection(requestCreate);
 err = client.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("my_collection", schema).
         WithIndexOptions(indexOption1, indexOption2))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+_, err = client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection"))
 if err != nil {
     fmt.Println(err.Error())
     // handle error
@@ -554,7 +560,7 @@ if (!status.IsOk()) {
 await client.createCollection({
     collection_name: "my_collection",
     schema: schema,
-    index_params: index_params
+    index_params: indexParams
 });
 ```
 
@@ -752,15 +758,38 @@ const data = [
   },
   {
     varchar_field1: "Product B",
-    varchar_field2: "Affordable price",
     pk: 2,
     embedding: [0.4, 0.5, 0.6],
   },
   {
-    varchar_field1: "Product C",
-    varchar_field2: "Best seller",
+    varchar_field1: null,
+    varchar_field2: null,
     pk: 3,
-    embedding: [0.7, 0.8, 0.9],
+    embedding: [0.2, 0.3, 0.1],
+  },
+  {
+    varchar_field1: "Product C",
+    varchar_field2: null,
+    pk: 4,
+    embedding: [0.5, 0.7, 0.2],
+  },
+  {
+    varchar_field1: null,
+    varchar_field2: "Exclusive deal",
+    pk: 5,
+    embedding: [0.6, 0.4, 0.8],
+  },
+  {
+    varchar_field1: "Unknown",
+    varchar_field2: null,
+    pk: 6,
+    embedding: [0.8, 0.5, 0.3],
+  },
+  {
+    varchar_field1: "",
+    varchar_field2: "Best seller",
+    pk: 7,
+    embedding: [0.8, 0.5, 0.3],
   },
 ];
 
@@ -784,16 +813,16 @@ curl --request POST \
     "data": [
         {"varchar_field1": "Product A", "varchar_field2": "High quality product", "pk": 1, "embedding": [0.1, 0.2, 0.3]},
         {"varchar_field1": "Product B", "pk": 2, "embedding": [0.4, 0.5, 0.6]},
-        {"varchar_field1": null, "varchar_field2": null, "pk": 3, "embedding": [0.2, 0.3, 0.1]},  
-        {"varchar_field1": "Product C", "varchar_field2": null, "pk": 4, "embedding": [0.5, 0.7, 0.2]},  
-        {"varchar_field1": null, "varchar_field2": "Exclusive deal", "pk": 5, "embedding": [0.6, 0.4, 0.8]},  
-        {"varchar_field1": "Unknown", "varchar_field2": null, "pk": 6, "embedding": [0.8, 0.5, 0.3]},  
-        {"varchar_field1": "", "varchar_field2": "Best seller", "pk": 7, "embedding": [0.8, 0.5, 0.3]}  
+        {"varchar_field1": null, "varchar_field2": null, "pk": 3, "embedding": [0.2, 0.3, 0.1]},
+        {"varchar_field1": "Product C", "varchar_field2": null, "pk": 4, "embedding": [0.5, 0.7, 0.2]},
+        {"varchar_field1": null, "varchar_field2": "Exclusive deal", "pk": 5, "embedding": [0.6, 0.4, 0.8]},
+        {"varchar_field1": "Unknown", "varchar_field2": null, "pk": 6, "embedding": [0.8, 0.5, 0.3]},
+        {"varchar_field1": "", "varchar_field2": "Best seller", "pk": 7, "embedding": [0.8, 0.5, 0.3]}
     ],
     "collectionName": "my_collection"
 }'
 
-## {"code":0,"cost":0,"data":{"insertCount":3,"insertIds":[1,2,3]}}
+## {"code":0,"cost":0,"data":{"insertCount":7,"insertIds":[1,2,3,4,5,6,7]}}
 ```
 
 </TabItem>
@@ -1263,6 +1292,7 @@ print(res)
 
 ```java
 import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
 
 String filter = "varchar_field2 == \"Best seller\"";
@@ -1405,7 +1435,7 @@ curl --request POST \
     "filter": "varchar_field2 == \"Best seller\""
 }'
 
-## {"code":0,"cost":0,"data":[{"distance":-0.2364331,"id":1,"varchar_field1":"Product A","varchar_field2":"High quality product"}]}
+## {"code":0,"cost":0,"data":[{"distance":-0.044681635,"pk":7,"varchar_field1":"","varchar_field2":"Best seller"}]}
 ```
 
 </TabItem>

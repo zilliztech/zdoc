@@ -1374,29 +1374,30 @@ res = client.hybrid_search(
 ```java
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.HybridSearchReq;
-import io.milvus.v2.service.vector.request.rerank.RRFRanker;
-import io.milvus.v2.service.vector.request.ranker.AnnSearchRequest;
+import io.milvus.v2.service.vector.request.ranker.RRFRanker;
+import io.milvus.v2.service.vector.request.AnnSearchReq;
 import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
 import java.util.*;
 
-List<AnnSearchRequest> searchRequests = new ArrayList<>();
-searchRequests.add(AnnSearchRequest.builder()
-        .data(Collections.singletonList(new FloatVec(new float[]{1.25f, 2.0f, 3.5f})))
-        .annsField("vector")
+List<AnnSearchReq> searchRequests = new ArrayList<>();
+searchRequests.add(AnnSearchReq.builder()
+        .vectors(Collections.singletonList(new FloatVec(new float[]{1.25f, 2.0f, 3.5f})))
+        .vectorFieldName("vector")
         .topK(100)
         .build());
-searchRequests.add(AnnSearchRequest.builder()
-        .data(Collections.singletonList(new EmbeddedText("shoes")))
-        .annsField("text_sparse")
+searchRequests.add(AnnSearchReq.builder()
+        .vectors(Collections.singletonList(new EmbeddedText("shoes")))
+        .vectorFieldName("text_sparse")
         .topK(100)
         .build());
 
 HybridSearchReq hybridSearchReq = HybridSearchReq.builder()
         .collectionName("my_collection")
         .searchRequests(searchRequests)
-        .ranker(new RRFRanker())
+        .ranker(new RRFRanker(60))
+        .limit(10)
         .build();
 
 SearchResp searchResp = client.hybridSearch(hybridSearchReq);
@@ -1415,23 +1416,25 @@ SearchResp searchResp = client.hybridSearch(hybridSearchReq);
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let res = client
     .hybrid_search(
         HybridSearchRequest::builder()
             .collection_name("my_collection")
             .sub_requests(vec![
-                SearchRequest::builder()
+                SubSearchRequest::builder()
                     .vector_field("vector")
                     .vectors(SearchVectors::Float(vec![vec![1.25, 2.0, 3.5]]))
                     .limit(100)
                     .build()?,
-                SearchRequest::builder()
+                SubSearchRequest::builder()
                     .vector_field("text_sparse")
                     .vectors(SearchVectors::EmbeddedText(vec!["shoes".to_string()]))
                     .limit(100)
                     .build()?,
             ])
-            .rerank(RRFRanker::new())
+            .rerank(RRFRerank::new())
             .build()?,
     )
     .await?;
@@ -1442,14 +1445,27 @@ let res = client
 <TabItem value='c++'>
 
 ```c++
+milvus::HybridSearchResponse response;
 milvus::HybridSearchRequest request;
 request.WithCollectionName("my_collection");
-request.AddRequest(milvus::SearchRequest().WithAnnsField("vector").WithLimit(100).AddFloatVector({1.25f, 2.0f, 3.5f}));
-request.AddRequest(milvus::SearchRequest().WithAnnsField("text_sparse").WithLimit(100).AddEmbeddedText("shoes"));
-request.WithReranker(milvus::RRFRanker());
+request.WithLimit(10);
 
-milvus::HybridSearchResponse response;
+auto dense_sub = std::make_shared<milvus::SubSearchRequest>();
+dense_sub->WithAnnsField("vector").WithLimit(100);
+dense_sub->AddFloatVector({1.25f, 2.0f, 3.5f});
+
+auto sparse_sub = std::make_shared<milvus::SubSearchRequest>();
+sparse_sub->WithAnnsField("text_sparse").WithLimit(100);
+sparse_sub->AddEmbeddedText("shoes");
+
+request.AddSubRequest(dense_sub);
+request.AddSubRequest(sparse_sub);
+request.WithRerank(std::make_shared<milvus::RRFRerank>(60));
+
 auto status = client->HybridSearch(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -1457,13 +1473,17 @@ auto status = client->HybridSearch(request, response);
 <TabItem value='javascript'>
 
 ```javascript
+import { MilvusClient, RRFRanker } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
+
 const res = await client.hybridSearch({
     collection_name: "my_collection",
-    search: [
+    data: [
         { data: [[1.25, 2, 3.5]], anns_field: "vector", limit: 100 },
         { data: ["shoes"], anns_field: "text_sparse", limit: 100 },
     ],
-    rerank: { strategy: "rrf" },
+    rerank: RRFRanker(),
     limit: 10,
 });
 ```

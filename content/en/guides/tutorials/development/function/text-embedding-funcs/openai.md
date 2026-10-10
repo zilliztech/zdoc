@@ -533,10 +533,10 @@ client
 <TabItem value='c++'>
 
 ```c++
-auto status = client->CreateCollection(milvus::CreateCollectionRequest()
-                                    .WithCollectionName("demo")
-                                    .WithIndexes(std::move(indexes))
-                                    .WithCollectionSchema(schema));
+status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                .WithCollectionName("demo")
+                                .WithIndexes(std::move(indexes))
+                                .WithCollectionSchema(schema));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
@@ -693,11 +693,11 @@ milvus::EntityRows data = {
     {{"id", 3}, {"document", "Semantic search helps users find relevant information quickly."}}
 };
 
-milvus::InsertResponse response;
-auto status = client->Insert(milvus::InsertRequest()
-                                .WithCollectionName("demo")
-                                .WithRowsData(std::move(data))
-                                , response);
+milvus::InsertResponse insert_response;
+status = client->Insert(milvus::InsertRequest()
+                            .WithCollectionName("demo")
+                            .WithRowsData(std::move(data)),
+                        insert_response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
@@ -829,14 +829,14 @@ let response = client
 
 ```c++
 auto request = milvus::SearchRequest()
-                   .WithCollectionName("demo")
-                   .AddEmbeddedText("How does Milvus handle semantic search?")
-                   .WithLimit(1)
-                   .WithAnnsField("dense")
-                   .AddOutputField("document");
+               .WithCollectionName("demo")
+               .AddEmbeddedText("How does Milvus handle semantic search?")
+               .WithLimit(1)
+               .WithAnnsField("dense")
+               .AddOutputField("document");
 
-milvus::SearchResponse response;
-auto status = client->Search(request, response);
+milvus::SearchResponse search_response;
+status = client->Search(request, search_response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }

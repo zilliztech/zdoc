@@ -106,22 +106,17 @@ fmt.Println(collectionNames)
 ```rust
 use milvus::v2::prelude::*;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let client = ClientV2::new(
-        &ConnectConfig::new()
-            .uri("YOUR_CLUSTER_ENDPOINT")
-            .token("YOUR_CLUSTER_TOKEN"),
-    )
+let client = ClientV2::new(
+    &ConnectConfig::new()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN"),
+)
+.await?;
+
+let collections = client
+    .list_collections(ListCollectionsRequest::builder().build()?)
     .await?;
-
-    let collections = client
-        .list_collections(ListCollectionsRequest::builder().build()?)
-        .await?;
-    println!("{:?}", collections.collection_names());
-
-    Ok(())
-}
+println!("{:?}", collections.collection_names());
 ```
 
 </TabItem>

@@ -305,7 +305,6 @@ private static JsonObject product(long id, float[] embedding, String name, Strin
 ```go
 import (
     "context"
-    "fmt"
     "log"
 
     "github.com/milvus-io/milvus/client/v3/entity"
@@ -346,14 +345,17 @@ if err != nil {
     log.Fatal(err)
 }
 
-rows := []entity.Row{
-    entity.NewRow().WithFields(
-        entity.RowField("id", 1), entity.RowField("embedding", []float32{0.12, 0.42, 0.18, 0.66, 0.31}),
-        entity.RowField("name", "Runner A1"), entity.RowField("brand", "Brand A"),
-        entity.RowField("category", "running_shoes"), entity.RowField("color", "black"),
-        entity.RowField("price", 129.99), entity.RowField("rating", 4.7), entity.RowField("in_stock", true)),
+rows := []any{
+    map[string]any{"id": int64(1), "embedding": []float32{0.12, 0.42, 0.18, 0.66, 0.31}, "name": "Runner A1", "brand": "Brand A", "category": "running_shoes", "color": "black", "price": 129.99, "rating": 4.7, "in_stock": true},
+    map[string]any{"id": int64(2), "embedding": []float32{0.10, 0.39, 0.20, 0.61, 0.29}, "name": "Trail A2", "brand": "Brand A", "category": "running_shoes", "color": "blue", "price": 139.99, "rating": 4.6, "in_stock": true},
+    map[string]any{"id": int64(3), "embedding": []float32{0.14, 0.44, 0.19, 0.68, 0.33}, "name": "Runner B1", "brand": "Brand B", "category": "running_shoes", "color": "white", "price": 159.99, "rating": 4.8, "in_stock": true},
+    map[string]any{"id": int64(4), "embedding": []float32{0.16, 0.41, 0.22, 0.62, 0.30}, "name": "Runner C1", "brand": "Brand C", "category": "running_shoes", "color": "red", "price": 119.99, "rating": 4.4, "in_stock": false},
+    map[string]any{"id": int64(5), "embedding": []float32{0.48, 0.20, 0.59, 0.15, 0.71}, "name": "Jacket A1", "brand": "Brand A", "category": "jackets", "color": "black", "price": 99.99, "rating": 4.5, "in_stock": true},
+    map[string]any{"id": int64(6), "embedding": []float32{0.45, 0.18, 0.55, 0.17, 0.69}, "name": "Jacket B1", "brand": "Brand B", "category": "jackets", "color": "blue", "price": 89.99, "rating": 4.3, "in_stock": true},
+    map[string]any{"id": int64(7), "embedding": []float32{0.09, 0.38, 0.17, 0.60, 0.27}, "name": "Runner A3", "brand": "Brand A", "category": "running_shoes", "color": "black", "price": 159.99, "rating": 4.8, "in_stock": true},
+    map[string]any{"id": int64(8), "embedding": []float32{0.13, 0.43, 0.21, 0.65, 0.32}, "name": "Runner A4", "brand": "Brand A", "category": "running_shoes", "color": "black", "price": 149.99, "rating": 4.9, "in_stock": true},
 }
-_, err = client.Insert(context.Background(), milvusclient.NewRowBasedInsertOption(collectionName, rows))
+_, err = client.Insert(context.Background(), milvusclient.NewRowBasedInsertOption(collectionName, rows...))
 if err != nil {
     log.Fatal(err)
 }
@@ -395,10 +397,16 @@ async fn main() -> Result<()> {
         .add_field(FieldSchema::new().name("rating").data_type(DataType::Double))
         .add_field(FieldSchema::new().name("in_stock").data_type(DataType::Bool));
 
+    let index_param = IndexParam::new()
+        .field_name("embedding")
+        .index_type(IndexType::AutoIndex)
+        .metric_type(MetricType::Cosine);
+
     client.create_collection(
         CreateCollectionRequest::builder()
             .collection_name(collection_name)
             .schema(schema)
+            .index_param(index_param)
             .build()?,
     ).await?;
     Ok(())
@@ -432,9 +440,12 @@ schema->AddField(milvus::FieldSchema("price", milvus::DataType::DOUBLE));
 schema->AddField(milvus::FieldSchema("rating", milvus::DataType::DOUBLE));
 schema->AddField(milvus::FieldSchema("in_stock", milvus::DataType::BOOL));
 
+milvus::IndexDesc index("embedding", "", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE);
+
 status = client->CreateCollection(milvus::CreateCollectionRequest()
                                       .WithCollectionName("product_search_aggregation")
-                                      .WithCollectionSchema(schema));
+                                      .WithCollectionSchema(schema)
+                                      .WithIndexes({std::move(index)}));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }

@@ -702,9 +702,9 @@ client.insert(InsertReq.builder()
 
 ```go
 _, err = client.Insert(ctx, milvusclient.NewRowBasedInsertOption("hugging_face_demo",
-    map[string]any{"id": 1, "document": "Milvus simplifies semantic search through embeddings."},
-    map[string]any{"id": 2, "document": "Vector embeddings convert text into searchable numeric data."},
-    map[string]any{"id": 3, "document": "Semantic search helps users find relevant information quickly."},
+    map[string]any{"id": int64(1), "document": "Milvus simplifies semantic search through embeddings."},
+    map[string]any{"id": int64(2), "document": "Vector embeddings convert text into searchable numeric data."},
+    map[string]any{"id": int64(3), "document": "Semantic search helps users find relevant information quickly."},
 ))
 if err != nil {
     log.Fatal(err)

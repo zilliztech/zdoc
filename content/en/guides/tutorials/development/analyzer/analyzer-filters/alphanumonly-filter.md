@@ -305,7 +305,11 @@ if err != nil {
     // handle error
 }
 
-fmt.Println(result)
+for _, r := range result {
+    for _, token := range r.Tokens {
+        fmt.Println("Standard analyzer output:", token.Text)
+    }
+}
 ```
 
 </TabItem>
@@ -313,30 +317,33 @@ fmt.Println(result)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 
-let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+#[tokio::main]
+async fn main() -> Result<()> {
+    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+    let client = ClientV2::new(&config).await?;
 
-let client = ClientV2::new(&config).await?;
+    let analyzer_params = serde_json::json!({
+        "tokenizer": "standard",
+        "filter": ["alphanumonly"]
+    });
 
-let sample_text = "Milvus 2.0 @ Scale! #AI #Vector_Databasé";
+    let sample_text = "Milvus 2.0 @ Scale! #AI #Vector_Databasé";
 
-let result = client
+    let result = client
+        .run_analyzer(
+            RunAnalyzerRequest::builder()
+                .texts(vec![sample_text])
+                .analyzer_params(analyzer_params)
+                .build()?,
+        )
+        .await?;
 
-    .run_analyzer(
-
-        RunAnalyzerRequest::builder()
-
-            .texts(vec![sample_text])
-
-            .analyzer_params(analyzer_params)
-
-            .build()?,
-    )
-
-    .await?;
-
-println!("Standard analyzer output: {:?}", result);
+    println!("Standard analyzer output: {:?}", result.results());
+    Ok(())
+}
 ```
 
 </TabItem>
@@ -345,6 +352,8 @@ println!("Standard analyzer output: {:?}", result);
 
 ```c++
 #include "milvus/MilvusClientV2.h"
+#include <iostream>
+#include <string>
 
 auto client = milvus::MilvusClientV2::Create();
 
@@ -391,19 +400,13 @@ console.log("Standard analyzer output:", result);
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
-
 export TOKEN="YOUR_CLUSTER_TOKEN"
 
 curl --request POST \
-
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/common/run_analyzer" \
-
 --header "Authorization: Bearer ${TOKEN}" \
-
 --header "Content-Type: application/json" \
-
 --header "Request-Timeout: 10" \
-
 -d '{
     "text": ["Milvus 2.0 @ Scale! #AI #Vector_Databasé"],
     "analyzerParams": "{\"tokenizer\": \"standard\", \"filter\": [\"alphanumonly\"]}"

@@ -286,6 +286,7 @@ from pymilvus import MilvusClient, DataType, Function, FunctionType
 # Initialize client
 client = MilvusClient(
     uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN",
 )
 
 # Initialize a new schema
@@ -337,26 +338,29 @@ import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
 import io.milvus.v2.service.collection.request.DropCollectionReq;
+import io.milvus.v2.service.collection.request.LoadCollectionReq;
 import io.milvus.v2.service.utility.request.FlushReq;
 import io.milvus.v2.service.vector.request.InsertReq;
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.*;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build());
-        
+
 CreateCollectionReq.CollectionSchema collectionSchema = CreateCollectionReq.CollectionSchema.builder()
         .build();
-        
+
 collectionSchema.addField(AddFieldReq.builder()
         .fieldName("id")
         .dataType(DataType.Int64)
         .isPrimaryKey(true)
         .autoID(true)
         .build());
-        
+
 collectionSchema.addField(AddFieldReq.builder()
         .fieldName("language")
         .dataType(DataType.VarChar)
@@ -370,7 +374,7 @@ collectionSchema.addField(AddFieldReq.builder()
         .enableAnalyzer(true)
         .multiAnalyzerParams(analyzerParams)
         .build());
-        
+
 collectionSchema.addField(AddFieldReq.builder()
         .fieldName("sparse")
         .dataType(DataType.SparseFloatVector)
@@ -451,6 +455,7 @@ schema.WithField(entity.NewField().
 auto client = milvus::MilvusClientV2::Create();
 
 milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
+connect_param.WithToken("YOUR_CLUSTER_TOKEN");
 auto status = client->Connect(connect_param);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -477,6 +482,7 @@ import { MilvusClient, DataType, FunctionType } from "@zilliz/milvus2-sdk-node";
 // Initialize client
 const client = new MilvusClient({
   address: "YOUR_CLUSTER_ENDPOINT",
+  token: "YOUR_CLUSTER_TOKEN",
 });
 
 // Initialize schema array
@@ -485,7 +491,7 @@ const schema = [
     name: "id",
     data_type: DataType.Int64,
     is_primary_key: true,
-    auto_id: true,
+    autoID: true,
   },
   {
     name: "language",
@@ -497,14 +503,13 @@ const schema = [
     data_type: DataType.VarChar,
     max_length: 8192,
     enable_analyzer: true,
-    analyzer_params: multi_analyzer_params,
+    multi_analyzer_params: multi_analyzer_params,
   },
   {
     name: "sparse",
     data_type: DataType.SparseFloatVector,
   },
 ];
-
 ```
 
 </TabItem>
@@ -538,7 +543,7 @@ export textField='{
     "max_length": 8192,
     "enable_analyzer": true,
     "multi_analyzer_params": '"$multi_analyzer_params"'
-  },
+  }
 }'
 
 export sparseField='{
@@ -1090,7 +1095,7 @@ const result = await client.insert({
 });
 
 // Print results
-const inserted = result.insert_count;
+const inserted = result.insert_cnt;
 console.log(`Successfully inserted ${inserted} documents`);
 console.log("Documents by language: 2 English, 2 Chinese");
 
@@ -1226,17 +1231,14 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='go'>
 
 ```go
-annSearchParams := index.NewCustomAnnParam()
-annSearchParams.WithExtraParam("metric_type", "BM25")
-annSearchParams.WithExtraParam("analyzer_name", "english")
-annSearchParams.WithExtraParam("drop_ratio_search", 0)
-
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
     "multilingual_documents", // collectionName
     3,                        // limit
     []entity.Vector{entity.Text("artificial intelligence")},
 ).WithANNSField("sparse").
-    WithAnnParam(annSearchParams).
+    WithSearchParam("metric_type", "BM25").
+    WithSearchParam("analyzer_name", "english").
+    WithSearchParam("drop_ratio_search", "0").
     WithOutputFields("text", "language"))
 if err != nil {
     fmt.Println(err.Error())
@@ -1326,8 +1328,8 @@ const english_results = await client.search({
 console.log("\n=== English Search Results ===");
 english_results.results.forEach((hit, i) => {
   console.log(
-    `${i + 1}. [${hit.score.toFixed(4)}] ${hit.entity.text} ` +
-      `(Language: ${hit.entity.language})`
+    `${i + 1}. [${hit.score.toFixed(4)}] ${hit.text} ` +
+      `(Language: ${hit.language})`
   );
 });
 ```
@@ -1419,14 +1421,14 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='go'>
 
 ```go
-annSearchParams.WithExtraParam("analyzer_name", "cn")
-
 resultSets, err = client.Search(ctx, milvusclient.NewSearchOption(
     "multilingual_documents", // collectionName
     3,                        // limit
     []entity.Vector{entity.Text("人工智能")},
 ).WithANNSField("sparse").
-    WithAnnParam(annSearchParams).
+    WithSearchParam("metric_type", "BM25").
+    WithSearchParam("analyzer_name", "cn").
+    WithSearchParam("drop_ratio_search", "0").
     WithOutputFields("text", "language"))
 if err != nil {
     fmt.Println(err.Error())
@@ -1516,8 +1518,8 @@ const cn_results = await client.search({
 console.log("\n=== Chinese Search Results ===");
 cn_results.results.forEach((hit, i) => {
   console.log(
-    `${i + 1}. [${hit.score.toFixed(4)}] ${hit.entity.text} ` +
-      `(Language: ${hit.entity.language})`
+    `${i + 1}. [${hit.score.toFixed(4)}] ${hit.text} ` +
+      `(Language: ${hit.language})`
   );
 });
 ```
@@ -1538,7 +1540,9 @@ curl --request POST \
   "annsField": "sparse",
   "limit": 3,
   "searchParams": {
-    "analyzer_name": "cn"
+    "metric_type": "BM25",
+    "analyzer_name": "cn",
+    "drop_ratio_search": "0"
   },
   "outputFields": ["text", "language"],
   "consistencyLevel": "Strong"

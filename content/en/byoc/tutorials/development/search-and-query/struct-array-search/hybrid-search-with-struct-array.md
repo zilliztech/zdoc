@@ -604,8 +604,8 @@ const code_query_vector = [0.20, 0.25, 0.31, 0.38];
 const results = await client.search({
   collection_name: "tech_articles",
   data: [
-    { anns_field: "chunks[emb]", data: [query_vector], limit: 10, expr: "element_filter(chunks, $[section] == \"index\")" },
-    { anns_field: "chunks[code_emb]", data: [code_query_vector], limit: 10, expr: "element_filter(chunks, $[has_code] == true)" },
+    { anns_field: "chunks[emb]", data: query_vector, limit: 10, expr: "element_filter(chunks, $[section] == \"index\")" },
+    { anns_field: "chunks[code_emb]", data: code_query_vector, limit: 10, expr: "element_filter(chunks, $[has_code] == true)" },
   ],
   rerank: { strategy: "rrf", params: { k: 60 } },
   limit: 5,
@@ -841,7 +841,6 @@ async fn main() -> Result<()> {
 #include <iostream>
 #include <memory>
 #include <vector>
-
 #include "milvus/MilvusClientV2.h"
 #include "milvus/request/dql/HybridSearchRequest.h"
 #include "milvus/types/SubSearchRequest.h"
@@ -861,7 +860,7 @@ title_req->AddFloatVector(query_vector);
 auto chunk_req = std::make_shared<milvus::SubSearchRequest>();
 chunk_req->WithAnnsField("chunks[emb]").WithLimit(30);
 chunk_req->WithFilter("element_filter(chunks, $[quality_score] > 0.8)");
-// Note: element_scope collapse is not yet supported in milvus-sdk-cpp as of v3.0.3.
+chunk_req->AddExtraParam("params", "{\"element_scope\": {\"collapse\": {\"strategy\": \"topk_sum\", \"topk\": 3}}}");
 chunk_req->AddFloatVector(query_vector);
 
 milvus::HybridSearchRequest request;
@@ -892,7 +891,7 @@ const results = await client.search({
     { anns_field: "title_vector", data: [query_vector], limit: 10 },
     {
       anns_field: "chunks[emb]",
-      data: [query_vector],
+      data: query_vector,
       limit: 30,
       expr: "element_filter(chunks, $[quality_score] > 0.8)",
       params: { element_scope: { collapse: { strategy: "topk_sum", topk: 3 } } },

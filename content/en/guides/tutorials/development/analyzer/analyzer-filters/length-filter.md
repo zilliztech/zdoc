@@ -369,29 +369,34 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
 use serde_json::json;
 
-let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
-let client = ClientV2::new(&config).await?;
+#[tokio::main]
+async fn main() -> Result<()> {
+    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
+    let client = ClientV2::new(&config).await?;
 
-let analyzer_params = json!({
-    "tokenizer": "standard",
-    "filter": [
-        {
-            "type": "length",
-            "max": 10
-        }
-    ]
-});
+    let analyzer_params = json!({
+        "tokenizer": "standard",
+        "filter": [
+            {
+                "type": "length",
+                "max": 10
+            }
+        ]
+    });
 
-let run_analyzer_req = RunAnalyzerRequest::builder()
-    .texts(vec!["The length filter allows control over token length requirements for text processing."])
-    .analyzer_params(analyzer_params)
-    .build()?;
+    let run_analyzer_req = RunAnalyzerRequest::builder()
+        .texts(vec!["The length filter allows control over token length requirements for text processing."])
+        .analyzer_params(analyzer_params)
+        .build()?;
 
-let res = client.run_analyzer(run_analyzer_req).await?;
-println!("{:?}", res.results());
+    let res = client.run_analyzer(run_analyzer_req).await?;
+    println!("{:?}", res.results());
+    Ok(())
+}
 ```
 
 </TabItem>
@@ -401,6 +406,7 @@ println!("{:?}", res.results());
 ```c++
 #include "milvus/MilvusClientV2.h"
 #include <iostream>
+#include <string>
 
 auto client = milvus::MilvusClientV2::Create();
 

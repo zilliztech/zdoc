@@ -127,7 +127,7 @@ import com.google.gson.JsonObject;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
 
 JsonObject externalSpec = new JsonObject();
-eexternalSpec.addProperty("format", "parquet");
+externalSpec.addProperty("format", "parquet");
 CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder()
         .externalSource("volume://my_volume/path/to/a/folder/")
         .externalSpec(externalSpec)
@@ -426,6 +426,9 @@ client.createCollection(createReq);
 
 ```go
 import (
+    "context"
+    "fmt"
+
     "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
@@ -438,10 +441,13 @@ client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: milvusAddr,
     APIKey: token
 })
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("test_collection", schema).
     WithDBName("my_database").
     WithIndexOptions(indexOptions...))
-    
 if err != nil {
     fmt.Println(err.Error())
     // handle error
@@ -595,23 +601,33 @@ client.createIndex(createIndexReq);
 
 ```go
 import (
+    "context"
+    "fmt"
+
     "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/index"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 collectionName := "test_collection"
-indexOptions := []milvusclient.CreateIndexOption{
-    milvusclient.NewCreateIndexOption(collectionName, "embedding", index.NewAutoIndex(entity.COSINE)),
-    milvusclient.NewCreateIndexOption(collectionName, "product_name", index.NewAutoIndex(index.AUTOINDEX)),
-}
-indexTask, err := client.CreateIndex(ctx, indexOptions)
+
+indexTask, err := client.CreateIndex(ctx,
+    milvusclient.NewCreateIndexOption(collectionName, "embedding", index.NewAutoIndex(entity.COSINE)))
 if err != nil {
-    // handler err
+    fmt.Println(err.Error())
+    // handle err
 }
 err = indexTask.Await(ctx)
 if err != nil {
-    // handler err
+    fmt.Println(err.Error())
+    // handle err
+}
+
+_, err = client.CreateIndex(ctx,
+    milvusclient.NewCreateIndexOption(collectionName, "product_name", index.NewAutoIndex(entity.L2)))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle err
 }
 ```
 

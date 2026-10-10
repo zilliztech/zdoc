@@ -152,7 +152,7 @@ Imagine you have a collection of city districts and want to find a specific poin
 
 ```python
 # The filter expression to find geometries completely within a specific polygon.
-filter = "ST_CONTAINS(geo_field, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')"
+filter = "ST_WITHIN(geo_field, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')"
 ```
 
 </TabItem>
@@ -161,7 +161,7 @@ filter = "ST_CONTAINS(geo_field, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')"
 
 ```java
 // The filter expression to find geometries completely within a specific polygon.
-String filter = "ST_CONTAINS(geo_field, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')";
+String filter = "ST_WITHIN(geo_field, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')";
 ```
 
 </TabItem>
@@ -170,7 +170,7 @@ String filter = "ST_CONTAINS(geo_field, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))
 
 ```go
 // The filter expression to find geometries completely within a specific polygon.
-filter := "ST_CONTAINS(geo_field, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')"
+filter := "ST_WITHIN(geo_field, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')"
 ```
 
 </TabItem>
@@ -179,7 +179,7 @@ filter := "ST_CONTAINS(geo_field, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')"
 
 ```rust
 // The filter expression to find geometries completely within a specific polygon.
-let filter = "ST_CONTAINS(geo_field, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')";
+let filter = "ST_WITHIN(geo_field, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')";
 ```
 
 </TabItem>
@@ -188,7 +188,7 @@ let filter = "ST_CONTAINS(geo_field, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')"
 
 ```c++
 // The filter expression to find geometries completely within a specific polygon.
-std::string filter = "ST_CONTAINS(geo_field, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')";
+std::string filter = "ST_WITHIN(geo_field, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')";
 ```
 
 </TabItem>
@@ -197,7 +197,7 @@ std::string filter = "ST_CONTAINS(geo_field, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 
 
 ```javascript
 // The filter expression to find geometries completely within a specific polygon.
-const filter = "ST_CONTAINS(geo_field, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')";
+const filter = "ST_WITHIN(geo_field, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')";
 ```
 
 </TabItem>
@@ -206,7 +206,7 @@ const filter = "ST_CONTAINS(geo_field, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))'
 
 ```bash
 # The filter expression to find geometries completely within a specific polygon.
-filter="ST_CONTAINS(geo_field, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')"
+filter="ST_WITHIN(geo_field, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')"
 ```
 
 </TabItem>

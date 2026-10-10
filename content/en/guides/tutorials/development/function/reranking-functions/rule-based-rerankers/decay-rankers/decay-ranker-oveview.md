@@ -178,6 +178,7 @@ To implement decay ranking, first define a `Function` object with the appropriat
 
 ```python
 from pymilvus import Function, FunctionType
+import datetime
 
 # Create a decay function for timestamp-based decay
 # Note: All time parameters must use the same unit as your collection data

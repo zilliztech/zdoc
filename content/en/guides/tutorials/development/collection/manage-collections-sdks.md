@@ -527,7 +527,7 @@ std::cout << std::to_string(response.State()) << std::endl;
 
 ```javascript
 // 3.5 Create a collection with fields and index parameters
-res = await client.createCollection({
+let res = await client.createCollection({
     collection_name: "customized_setup_1",
     fields: fields,
     enable_dynamic_field: true,
@@ -689,7 +689,7 @@ std::cout << std::to_string(response.State()) << std::endl;
 
 ```javascript
 // 3.6 Create a collection and index it separately
-res = await client.createCollection({
+let res = await client.createCollection({
     collection_name: "customized_setup_2",
     fields: fields,
     enable_dynamic_field: true,
