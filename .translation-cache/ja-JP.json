@@ -3041,9 +3041,9 @@
       "translatedAt": "2026-09-19T14:25:42.714Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-milvus/via-endpoint.md": {
-      "sourceHash": "0b81fc2199d01e10f21608f16824f9f6c2f14bd5e5ca7a19c2ddc6b3804b76ae",
+      "sourceHash": "7a07c9a4b432dd92bdc4ea73ca1745bd34e9343250aabbf71d639a3c22797e82",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-milvus/via-endpoint.md",
-      "translatedAt": "2026-09-19T14:25:42.714Z"
+      "translatedAt": "2026-10-10T06:00:20.188Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-milvus/via-stage.md": {
       "sourceHash": "edb2318d48e9fb97d1cad99ddae82fd59e7f41eedefef3e873e08be8d436d3b4",
@@ -3081,9 +3081,9 @@
       "translatedAt": "2026-09-19T14:25:42.714Z"
     },
     "content/en/guides/tutorials/management/projects/manage-projects.md": {
-      "sourceHash": "1458ff903c84fbd155501876ab274d540a82f233dca2b9e55ac8644e13395fc2",
+      "sourceHash": "c4cc0556f3cfce42b671080ed008325eeb64263745847221d810cfc570e0a3ac",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/projects/manage-projects.md",
-      "translatedAt": "2026-09-19T14:25:42.714Z"
+      "translatedAt": "2026-10-10T06:00:20.188Z"
     },
     "content/en/guides/tutorials/management/slow-logs/configure-slow-logs.md": {
       "sourceHash": "e8a0defab30a6d6595f279298c374bb82e27956743a9508890f4fb5ec67097f8",
@@ -3096,9 +3096,9 @@
       "translatedAt": "2026-09-19T14:25:42.714Z"
     },
     "content/en/guides/tutorials/solution/schema-evolution/schema-evolution.md": {
-      "sourceHash": "60c06b12f3f734baab1ab325202bf79e107d5b1ad05291e05d5904c3bdba7cf2",
+      "sourceHash": "f71ee241b670ca85430106eefed8038b77bc5c18298ddfde2f54ce7a34c5aaf9",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/solution/schema-evolution/schema-evolution.md",
-      "translatedAt": "2026-09-19T14:25:42.714Z"
+      "translatedAt": "2026-10-10T06:00:20.188Z"
     },
     "content/en/guides/tutorials/tools/agents-and-prompts/agents-and-prompts.md": {
       "sourceHash": "e881131f6ef8ca6416f7b01dfbb37ece2cd0d7fef7a5ea54342ebcf2eb80c5a6",

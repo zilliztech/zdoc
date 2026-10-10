@@ -1,5 +1,5 @@
 ---
-title: "エンドポイント経由で Milvus から Zilliz Cloud に移行 | Cloud"
+title: "エンドポイント経由で Milvus から Zilliz Cloud に移行する | Cloud"
 slug: /via-endpoint
 sidebar_label: "エンドポイント経由"
 beta: FALSE
@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud は、Milvus ベクトルデータベースを自分でインフラ管理することなく利用したいユーザー向けに、フルマネージドなクラウドホスト型ソリューションとして Milvus を提供します。このトピックでは、データベースのエンドポイントを介して Milvus から移行する方法を説明します。 | Cloud"
+description: "Zilliz Cloud は、インフラストラクチャを自身で管理することなく Milvus ベクトルデータベースを利用したいユーザー向けに、完全マネージドのクラウドホスト型ソリューションとして Milvus を提供しています。このトピックでは、データベースエンドポイント経由で Milvus から移行する方法について説明します。 | Cloud"
 type: origin
 token: PlX3wo82Di6oWVkg2ercRWCUnvV
 sidebar_position: 1
@@ -22,11 +22,11 @@ import Supademo from '@site/src/components/Supademo';
 
 import Procedures from '@site/src/components/Procedures';
 
-# エンドポイント経由で Milvus から Zilliz Cloud に移行
+# エンドポイント経由で Milvus から Zilliz Cloud に移行する
 
-Zilliz Cloud は、[Milvus](https://milvus.io/) を、Milvus ベクトルデータベースを自分でインフラ管理することなく利用したいユーザー向けのフルマネージドなクラウドホスト型ソリューションとして提供します。このトピックでは、データベースのエンドポイントを介して Milvus から移行する方法を説明します。 
+Zilliz Cloud は、インフラストラクチャを自身で管理することなく Milvus ベクトルデータベースを利用したいユーザー向けに、完全マネージドのクラウドホスト型ソリューションとして [Milvus](https://milvus.io/) を提供しています。このトピックでは、データベースエンドポイント経由で Milvus から移行する方法について説明します。 
 
-## 前提条件\{#prerequisites}
+## 事前準備\{#prerequisites}
 
 Milvus から Zilliz Cloud への移行を開始する前に、以下の要件を満たしていることを確認してください。
 
@@ -35,16 +35,16 @@ Milvus から Zilliz Cloud への移行を開始する前に、以下の要件�
 | 要件 | 詳細 |
 | --- | --- |
 | バージョン互換性 | Milvus 2.3.6 以降 |
-| ネットワークアクセス | ソース Milvus インスタンスがパブリックインターネットからアクセス可能であること |
-| 認証資格情報 | 認証が有効な場合はユーザー名とパスワード（[Authenticate User Access](https://milvus.io/docs/authenticate.md?tab=docker#Authenticate-User-Access) を参照） |
+| ネットワークアクセス | ソースの Milvus インスタンスがパブリックインターネットからアクセス可能である必要があります。 |
+| 認証情報 | 認証が有効になっている場合はユーザー名とパスワード（[Authenticate User Access](https://milvus.io/docs/authenticate.md?tab=docker#Authenticate-User-Access) を参照） |
 
 ### Zilliz Cloud の要件\{#zilliz-cloud-requirements}
 
 | 要件 | 詳細 |
 | --- | --- |
 | ユーザーロール | Organization Owner または Project Admin |
-| クラスター容量 | 十分なストレージおよびコンピュートリソース（CU サイズの見積もりには [CU calculator](https://zilliz.com/pricing#calculator) を使用） |
-| ネットワークアクセス | ネットワーク制限を使用している場合は、許可リストに [Zilliz Cloud IPs](./zilliz-cloud-ips) を追加 |
+| クラスター容量 | 十分なストレージとコンピューティングリソース（[CU 計算ツール](https://zilliz.com/pricing#calculator) を使用して CU サイズを見積もります） |
+| ネットワークアクセス | ネットワーク制限を使用している場合は、[Zilliz Cloud IPs](./zilliz-cloud-ips) を許可リストに追加します。 |
 
 ## はじめに\{#getting-started}
 
@@ -54,35 +54,55 @@ Milvus から Zilliz Cloud への移行を開始する前に、以下の要件�
 
 <Admonition type="info" title="Notes">
 
-- ソースコレクションですでに全文検索が有効になっている場合、Zilliz Cloud は移行後のターゲットコレクションにその Function 設定を保持します。これらの継承された設定は変更できません。
+- ソースコレクションで全文検索がすでに有効になっている場合、Zilliz Cloud は移行後にターゲットコレクションへその Function 設定を保持します。これらの継承された設定は変更できません。
 
-- 移行中に他の VARCHAR フィールドに対して全文検索を有効にすることもできます。詳細は、[Full Text Search](./full-text-search) を参照してください。
+- 移行中に、他の VARCHAR フィールドに対して全文検索を有効にすることもできます。詳細については、[Full Text Search](./full-text-search) を参照してください。
 
 </Admonition>
 
+### インデックス設定\{#index-settings}
+
+最終確認ステップでは、**インデックス settings** を使用して、この移行ジョブがターゲットコレクションのインデックスをどのように処理するかを選択します。
+
+- **Create インデックス after migration** はデフォルトで有効になっています。既存の移行ルールに従ってインデックスを自動的に作成するには、これをオンのままにします。
+
+- インデックスの作成をスキップして、後でインデックスを構築する（たとえば計画メンテナンス時間帯など）には、これをオフにします。
+
+<Admonition type="info" title="Note">
+
+Create インデックス after migration をオフにすると、移行ジョブによってベクトルインデックスもスカラーインデックスも作成されません。移行されたコレクションは Unloaded のままとなり、手動でインデックスを作成してコレクションをロードするまで、検索やクエリを実行できません。
+
+</Admonition>
+
+**Migrate** をクリックする前に、確認情報でインデックス設定を確認します。
+
 ## 移行プロセスを監視する\{#monitor-the-migration-process}
 
-**Migrate** をクリックすると、移行ジョブが生成されます。移行の進行状況は [Jobs](./job-center) ページで確認できます。ジョブステータスが **In Progress** から **Successful** に切り替わると、移行は完了です。
+一度 **Migrate** をクリックすると、移行ジョブが生成されます。[Jobs](./job-center) ページで移行の進捗を確認できます。ジョブのステータスが **In Progress** から **Successful** に変わると、移行は完了です。
+
+インデックスの作成をスキップした場合、移行が成功するとジョブの詳細に **Indexes skipped** と表示されます。インデックスを作成してコレクションをロードするには、[post-migration steps](./via-endpoint#post-migration) の手順に従ってください。
 
 ![RGsvb7oFpo7uzbxjSSFc6owNn0c](https://zdoc-images.s3.us-west-2.amazonaws.com/rgsvb7ofpo7uzbxjssfc6ownn0c.png "RGsvb7oFpo7uzbxjSSFc6owNn0c")
 
 ## 移行後\{#post-migration}
 
-移行ジョブの完了後は、以下の点に注意してください。
+移行ジョブが正常に完了したら、ターゲットコレクションを検索とクエリに備えて準備します。
 
-- **インデックスの作成**: 移行プロセスでは、移行されたコレクションに対して [AUTOINDEX](./autoindex-explained) が自動的に作成されます。
+- **自動インデックス作成が有効:** 移行ジョブは、既存の Milvus 移行ルールに従って [AUTOINDEX](./autoindex-explained) を作成します。ジョブの詳細でインデックスの作成が成功したことを確認してください。
 
-- **手動でのロードが必要**: 自動的にインデックスが作成されても、移行されたコレクションはすぐには検索またはクエリ操作に利用できません。検索およびクエリ機能を有効にするには、Zilliz Cloud でコレクションを手動でロードする必要があります。詳細は、[Load & Release](./load-release-collections) を参照してください。
+- **インデックス作成をスキップ:** 移行ジョブはベクトルインデックスもスカラーインデックスも作成しません。すべてのベクトルフィールドに手動でインデックスを作成し、ワークロードに応じて必要に応じてスカラーインデックスを作成します。REST API の例については、[Create Index (V2)](/reference/restful/create-index-v2) を参照してください。
+
+- **手動でのロードが必要:** インデックスの作成が完了したら、各コレクションを手動でロードし、検索やクエリを実行する前にロードが完了するまで待ちます。このステップは、インデックスが自動で作成されたか手動で作成されたかに関係なく必要です。[Load & Release](./load-release-collections) を参照してください。
 
 <Admonition type="info" title="Notes">
 
-コレクションがロードされたら、ターゲットクラスター内のコレクション数およびエンティティ数がデータソースと一致していることを確認してください。不一致が見つかった場合は、エンティティが不足しているコレクションを削除し、再度移行してください。
+コレクションがロードされたら、ターゲットクラスター内のコレクション数とエンティティ数がデータソースと一致していることを確認してください。不一致が見つかった場合は、エンティティが欠落しているコレクションを削除し、それらを再移行します。
 
 </Admonition>
 
 ## 移行ジョブをキャンセルする\{#cancel-migration-job}
 
-移行プロセスで問題が発生した場合は、以下の手順でトラブルシューティングを行い、移行を再開できます。
+移行プロセスで問題が発生した場合は、次の手順でトラブルシューティングを行い、移行を再開できます。
 
 <Procedures>
 
