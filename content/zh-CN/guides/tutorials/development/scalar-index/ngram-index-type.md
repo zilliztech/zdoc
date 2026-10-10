@@ -31,6 +31,10 @@ import TabItem from '@theme/TabItem';
 
 - `path LIKE "%json"`
 
+- `message =~ "error.*timeout"`
+
+- `url =~ "/api/v[0-9]+/users"`
+
 <Admonition type="info" title="说明">
 
 有关更多 LIKE 关键字或过滤表达式的信息，请参考 [模式匹配](./pattern-match)。
@@ -38,6 +42,10 @@ import TabItem from '@theme/TabItem';
 </Admonition>
 
 ## 工作原理\{#how-it-works}
+
+<details>
+
+<summary>展开查看 NGRAM 工作原理</summary>
 
 Zilliz Cloud 以两阶段流程实现 NGRAM 索引：
 
@@ -111,11 +119,15 @@ Zilliz Cloud 以两阶段流程实现 NGRAM 索引：
 
 1. **验证与返回**：对候选集应用原始 LIKE 过滤，得到最终精确结果
 
+</details>
+
 ## 创建 NGRAM 索引\{#create-ngram-index}
 
 可以在 VARCHAR 字段或 JSON 路径上创建 NGRAM 索引。
 
 ### 示例 1：在 VARCHAR 字段上\{#example-1-create-on-a-varchar-field}
+
+对于 `VARCHAR` 字段，只需指定 `field_name`，并配置 `min_gram` 和 `max_gram`。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -322,6 +334,12 @@ curl --request POST \
 
 ### 示例 2：在 JSON 路径上\{#example-2-create-on-a-json-field}
 
+对于 `JSON` 字段，除了配置 gram 参数外，还必须指定：
+
+- `params.json_path`：指向要建立索引的值的 JSON 路径。
+
+- `params.json_cast_type`：必须为 `"varchar"`（不区分大小写），因为 NGRAM 索引针对字符串进行操作。
+
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
@@ -501,19 +519,59 @@ NGRAM 索引会被应用于：
 
 - LIKE 模式中的字面部分长度 ≥ min_gram
 
+    *（例如，如果预计最短的查询词为 2 个字符，则在创建索引时设置 `min_gram=2`。）*
+
 支持的查询类型：
 
 - 前缀匹配
 
+    ```python
+    # Match any string that starts with the substring "database" 
+    filter = 'text LIKE "database%"'
+    ```
+
 - 后缀匹配
+
+    ```python
+    # Match any string that ends with the substring "database" 
+    filter = 'text LIKE "%database"'
+    ```
 
 - 中缀匹配
 
+    ```python
+    # Match any string that contains the substring "database" anywhere 
+    filter = 'text LIKE "%database%"'
+    ```
+
 - 通配符匹配
+
+    ```python
+    # Match any string where "st" appears first, and "um" appears later in the text 
+    filter = 'text LIKE "%st%um%"'
+    ```
 
 - JSON 路径查询
 
-有关更多信息，请参考[基本操作符](./basic-filtering-operators)。
+    ```python
+    # Match any string where "st" appears first, and "um" appears later in the text 
+    filter = 'text LIKE "%st%um%"'
+    ```
+
+- 正则表达式匹配
+
+    ```python
+    # Match log messages that contain "error" followed later by "timeout" 
+    filter = 'text =~ "error.*timeout"'
+    ```
+
+- 针对 JSON 路径的正则表达式匹配
+
+    ```python
+    filter = 'json_field["body"] =~ "error.*timeout"'
+    ```
+
+有关更多信息，请参考[模式匹配](./pattern-match)。
 
 ## 删除索引\{#delete-an-index}
 
@@ -612,13 +670,19 @@ curl --request POST \
 
 ## 使用须知\{#usage-notes}
 
-- **字段类型**：支持 VARCHAR 与 JSON 字段。JSON 必须提供 `params.json_path` 且 `json_cast_type="varchar"`
+- **字段类型**：支持 `VARCHAR` 和 `JSON` 字段。对于 JSON 字段，需同时提供 `params.json_path` 和 `params.json_cast_type="varchar"`。
 
-- **Unicode 支持**：基于字符分解，与语言无关，包括空格和标点
+- **正则表达式加速**：仅当 Zilliz Cloud 能从正则表达式中提取固定的字面子串时，`NGRAM` 才能加速正则表达式过滤。像 `[a-z]+` 这样的表达式不包含固定的字面子串，因此可能回退到扫描。
 
-- **空间–时间权衡**：范围越大 `[min_gram, max_gram]` → gram 越多 → 索引越大。若内存紧张，可启用 **mmap 模式**
+- **不区分大小写的正则表达式**：支持包含 `(?i)` 的正则表达式，但由于索引保留原始大小写，这类表达式可能无法使用 `NGRAM` 优化。
 
-- **不可变性**：min_gram 和 max_gram 无法就地修改，需重建索引
+- **验证步骤**：对于正则表达式过滤，`NGRAM` 会生成候选结果，随后由 Zilliz Cloud 使用完整的 RE2 正则表达式进行验证，因此索引加速不会改变匹配结果。
+
+- **Unicode**：NGRAM 按字符进行拆分，与语言无关，空白字符和标点符号也会参与拆分。
+
+- **空间与时间的权衡**：gram 范围 `[min_gram, max_gram]` 越宽，生成的 gram 越多，索引也越大。如果内存紧张，可考虑对大型倒排列表使用 `mmap` 模式。有关更多信息，请参阅[使用 mmap](./use-mmap)。
+
+- **不可变性**：`min_gram` 和 `max_gram` 无法直接修改；如需调整，必须重建索引。
 
 ## 最佳实践\{#best-practices}
 
