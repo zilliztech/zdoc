@@ -270,7 +270,7 @@ export RANKER='{
         "random_score": {"seed": 126, "field": "id"},
         "weight": 0.5
     }
-}' 
+}'
 ```
 
 </TabItem>
@@ -534,7 +534,7 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/entities/search" \
             }
         ]
     }
-  }' 
+  }'
 ```
 
 </TabItem>
@@ -869,7 +869,7 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/entities/search" \
             "function_mode": "Sum"
         }
     }
-  }' 
+  }'
 ```
 
 </TabItem>

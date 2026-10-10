@@ -1254,6 +1254,18 @@ module.exports = [
                 "id": "tutorials/development/analyzer/built-in-analyzer/chinese-analyzer",
                 "label": "Chinese",
                 "key": "doc:tutorials/development/analyzer/built-in-analyzer/chinese-analyzer"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/development/analyzer/built-in-analyzer/arabic-analyzer",
+                "label": "Arabic",
+                "key": "doc:tutorials/development/analyzer/built-in-analyzer/arabic-analyzer"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/development/analyzer/built-in-analyzer/thai-analyzer",
+                "label": "Thai",
+                "key": "doc:tutorials/development/analyzer/built-in-analyzer/thai-analyzer"
               }
             ]
           },
@@ -1297,6 +1309,12 @@ module.exports = [
                 "id": "tutorials/development/analyzer/analyzer-tokenizers/language-identifier-tokenizer",
                 "label": "Language Identifier",
                 "key": "doc:tutorials/development/analyzer/analyzer-tokenizers/language-identifier-tokenizer"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/development/analyzer/analyzer-tokenizers/thai-tokenizer",
+                "label": "Thai",
+                "key": "doc:tutorials/development/analyzer/analyzer-tokenizers/thai-tokenizer"
               }
             ]
           },
@@ -1376,6 +1394,12 @@ module.exports = [
                 "id": "tutorials/development/analyzer/analyzer-filters/regex-filter",
                 "label": "Regex Analyzer Filter",
                 "key": "doc:tutorials/development/analyzer/analyzer-filters/regex-filter"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/development/analyzer/analyzer-filters/arabic-normalization",
+                "label": "Arabic Normalization",
+                "key": "doc:tutorials/development/analyzer/analyzer-filters/arabic-normalization"
               }
             ]
           },

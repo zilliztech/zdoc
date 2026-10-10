@@ -960,7 +960,7 @@ if (!status.IsOk()) {
 milvus::EntityRows output_rows;
 status = query_response.Results().OutputRows(output_rows);
 for (const auto& row : output_rows) {
-    std::cout << "	" << row << std::endl;
+    std::cout << "        " << row << std::endl;
 }
 ```
 
@@ -1087,7 +1087,7 @@ if (!status.IsOk()) {
 
 status = query_response.Results().OutputRows(output_rows);
 for (const auto& row : output_rows) {
-    std::cout << "	" << row << std::endl;
+    std::cout << "        " << row << std::endl;
 }
 ```
 
@@ -1255,7 +1255,7 @@ for (const auto& result : search_results.Results()) {
     milvus::EntityRows result_rows;
     status = result.OutputRows(result_rows);
     for (const auto& row : result_rows) {
-        std::cout << "	" << row << std::endl;
+        std::cout << "        " << row << std::endl;
     }
 }
 ```

@@ -204,14 +204,15 @@ let origin = std::time::SystemTime::now()
     .unwrap()
     .as_secs();
 let rerank = {
-    let mut rerank = DecayRerank::new()
+    let rerank = DecayRerank::new()
         .name("news_recency")
         .decay_function("exp")
         .origin(origin)
         .offset(3 * 60 * 60)
         .decay(0.5)
         .scale(24 * 60 * 60);
-    rerank.function(rerank.get_function().clone().input_fields(["publish_time"]))
+    let value = rerank.get_function().clone().input_fields(["publish_time"]);
+    rerank.function(value)
 };
 ```
 

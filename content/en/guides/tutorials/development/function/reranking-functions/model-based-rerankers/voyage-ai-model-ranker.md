@@ -534,7 +534,7 @@ let voyage_ranker = Function::new()
     .param("model_name", "rerank-2.5")
     .param("queries", "[\"renewable energy developments\"]")
     .param("truncation", "true")
-    .param("integration_id", "YOUR_INTEGRATION_ID")
+    .param("integration_id", "YOUR_INTEGRATION_ID");
 ```
 
 </TabItem>

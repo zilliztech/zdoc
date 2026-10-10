@@ -134,6 +134,7 @@ rerank = Function(
 
 ```java
 import io.milvus.v2.service.vector.request.ranker.DecayRanker;
+import java.util.Collections;
 
 DecayRanker rerank = DecayRanker.builder()
         .name("restaurant_distance_decay")

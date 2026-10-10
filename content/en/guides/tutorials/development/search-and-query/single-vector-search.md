@@ -63,7 +63,7 @@ In ANN searches, a single-vector search refers to a search that involves only on
 
 In this section, you will learn how to conduct a single-vector search. The search request carries a single query vector and asks Zilliz Cloud to use Inner Product (IP) to calculate the similarity between query vectors and vectors in the collection and returns the three most similar ones.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -200,6 +200,83 @@ for _, resultSet := range resultSets {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+    let client = ClientV2::new(&config).await?;
+
+    // 4. Single vector search
+    let query_vector = vec![0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
+    let response = client
+        .search(
+            SearchRequest::builder()
+                .collection_name("quick_setup")
+                .vector_field("vector")
+                .vectors(SearchVectors::Float(vec![query_vector]))
+                .limit(3)
+                .build()?,
+        )
+        .await?;
+
+    for result in response.results() {
+        for row in result.rows()? {
+            println!("{:?}", row.to_entity_row()?);
+        }
+    }
+    Ok(())
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include <vector>
+
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"));
+if (!status.IsOk()) {
+    std::cerr << "Failed to connect: " << status.Message() << std::endl;
+    return;
+}
+
+std::vector<float> queryVector = {
+    0.35803764F, -0.60234958F, 0.18414013F, -0.26286206F, 0.90294385F
+};
+
+auto searchRequest = milvus::SearchRequest()
+                         .WithCollectionName("quick_setup")
+                         .WithAnnsField("vector")
+                         .WithLimit(3)
+                         .WithMetricType(milvus::MetricType::IP)
+                         .AddFloatVector(queryVector);
+
+milvus::SearchResponse searchResponse;
+status = client->Search(searchRequest, searchResponse);
+if (!status.IsOk()) {
+    std::cerr << "Search failed: " << status.Message() << std::endl;
+    return;
+}
+
+for (const auto& result : searchResponse.Results().Results()) {
+    const auto ids = result.Ids().IntIDArray();
+    for (size_t i = 0; i < result.Scores().size(); ++i) {
+        std::cout << "id=" << ids[i] << ", score=" << result.Scores()[i] << std::endl;
+    }
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -270,49 +347,6 @@ curl --request POST \
 
 </TabItem>
 
-<TabItem value='c++'>
-
-```c++
-#include <iostream>
-#include <vector>
-
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"));
-if (!status.IsOk()) {
-    std::cerr << "Failed to connect: " << status.Message() << std::endl;
-    return;
-}
-
-std::vector<float> queryVector = {
-    0.35803764F, -0.60234958F, 0.18414013F, -0.26286206F, 0.90294385F
-};
-
-auto searchRequest = milvus::SearchRequest()
-                         .WithCollectionName("quick_setup")
-                         .WithAnnsField("vector")
-                         .WithLimit(3)
-                         .WithMetricType(milvus::MetricType::IP)
-                         .AddFloatVector(queryVector);
-
-milvus::SearchResponse searchResponse;
-status = client->Search(searchRequest, searchResponse);
-if (!status.IsOk()) {
-    std::cerr << "Search failed: " << status.Message() << std::endl;
-    return;
-}
-
-for (const auto& result : searchResponse.Results().Results()) {
-    const auto ids = result.Ids().IntIDArray();
-    for (size_t i = 0; i < result.Scores().size(); ++i) {
-        std::cout << "id=" << ids[i] << ", score=" << result.Scores()[i] << std::endl;
-    }
-}
-```
-
-</TabItem>
-
 <TabItem value='shell'>
 
 ```shell
@@ -353,7 +387,7 @@ The following table lists the applicable metric types and the corresponding dist
 
 Similarly, you can include multiple query vectors in a search request. Zilliz Cloud will conduct ANN searches for the query vectors in parallel and return two sets of results.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -486,6 +520,72 @@ for _, resultSet := range resultSets {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+// 7. Search with multiple vectors
+// 7.1. Prepare query vectors
+let query_vectors = vec![
+    vec![0.041732933, 0.013779674, -0.027564144, -0.013061441, 0.009748648],
+    vec![0.0039737443, 0.003020432, -0.0006188639, 0.03913546, -0.00089768134],
+];
+
+// 7.2. Start search
+let response = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("quick_setup")
+            .vector_field("vector")
+            .vectors(SearchVectors::Float(query_vectors))
+            .limit(3)
+            .build()?,
+    )
+    .await?;
+
+for result in response.results() {
+    println!("TopK results:");
+    for row in result.rows()? {
+        println!("{:?}", row.to_entity_row()?);
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::vector<std::vector<float>> queryVectors = {
+    {0.041732933F, 0.013779674F, -0.027564144F, -0.013061441F, 0.009748648F},
+    {0.0039737443F, 0.003020432F, -0.0006188639F, 0.03913546F, -0.00089768134F},
+};
+
+auto searchRequest = milvus::SearchRequest()
+                         .WithCollectionName("quick_setup")
+                         .WithAnnsField("vector")
+                         .WithLimit(3)
+                         .WithFloatVectors(std::move(queryVectors));
+
+milvus::SearchResponse searchResponse;
+auto status = client->Search(searchRequest, searchResponse);
+if (!status.IsOk()) {
+    std::cerr << "Search failed: " << status.Message() << std::endl;
+    return;
+}
+
+for (const auto& result : searchResponse.Results().Results()) {
+    std::cout << "TopK results:" << std::endl;
+    const auto ids = result.Ids().IntIDArray();
+    for (size_t i = 0; i < result.Scores().size(); ++i) {
+        std::cout << "id=" << ids[i] << ", score=" << result.Scores()[i] << std::endl;
+    }
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -580,38 +680,6 @@ curl --request POST \
 
 </TabItem>
 
-<TabItem value='c++'>
-
-```c++
-std::vector<std::vector<float>> queryVectors = {
-    {0.041732933F, 0.013779674F, -0.027564144F, -0.013061441F, 0.009748648F},
-    {0.0039737443F, 0.003020432F, -0.0006188639F, 0.03913546F, -0.00089768134F},
-};
-
-auto searchRequest = milvus::SearchRequest()
-                         .WithCollectionName("quick_setup")
-                         .WithAnnsField("vector")
-                         .WithLimit(3)
-                         .WithFloatVectors(std::move(queryVectors));
-
-milvus::SearchResponse searchResponse;
-auto status = client->Search(searchRequest, searchResponse);
-if (!status.IsOk()) {
-    std::cerr << "Search failed: " << status.Message() << std::endl;
-    return;
-}
-
-for (const auto& result : searchResponse.Results().Results()) {
-    std::cout << "TopK results:" << std::endl;
-    const auto ids = result.Ids().IntIDArray();
-    for (size_t i = 0; i < result.Scores().size(); ++i) {
-        std::cout << "id=" << ids[i] << ", score=" << result.Scores()[i] << std::endl;
-    }
-}
-```
-
-</TabItem>
-
 <TabItem value='shell'>
 
 ```shell
@@ -647,7 +715,7 @@ zilliz vector search \
 
 Instead of setting query vectors, you can use primary keys if the query vectors already exist in the target collection.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -691,24 +759,6 @@ System.out.println(searchResp.getSearchResults());
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-const res = await client.search({
-    collection_name: "quick_setup",
-    anns_field: "vector",
-    // highlight-start
-    ids: [551, 296, 43],
-    // highlight-end
-    limit: 3,
-    metric_type: "IP",
-})
-
-console.log(res.results)
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -739,20 +789,28 @@ for _, resultSet := range resultSets {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
-curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
-  -H "Request-Timeout: 10" \
-  -d '{
-    "collectionName": "quick_setup",
-    "annsField": "vector",
-    "ids": [551, 296, 43],
-    "limit": 3
-  }'
+```rust
+use milvus::v2::prelude::*;
+
+let response = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("quick_setup")
+            .vector_field("vector")
+            .ids(Ids::Int64(vec![551, 296, 43]))
+            .limit(3)
+            .metric_type(MetricType::Ip)
+            .build()?,
+    )
+    .await?;
+
+for result in response.results() {
+    for row in result.rows()? {
+        println!("{:?}", row.to_entity_row()?);
+    }
+}
 ```
 
 </TabItem>
@@ -786,6 +844,42 @@ for (const auto& result : searchResponse.Results().Results()) {
 
 </TabItem>
 
+<TabItem value='javascript'>
+
+```javascript
+const res = await client.search({
+    collection_name: "quick_setup",
+    anns_field: "vector",
+    // highlight-start
+    ids: [551, 296, 43],
+    // highlight-end
+    limit: 3,
+    metric_type: "IP",
+})
+
+console.log(res.results)
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+  -H "Request-Timeout: 10" \
+  -d '{
+    "collectionName": "quick_setup",
+    "annsField": "vector",
+    "ids": [551, 296, 43],
+    "limit": 3
+  }'
+```
+
+</TabItem>
+
 <TabItem value='shell'>
 
 ```shell
@@ -813,7 +907,7 @@ Suppose you have created multiple partitions in a collection, and you can narrow
 
 The following code snippet assumes a partition named **PartitionA** in your collection.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -914,6 +1008,63 @@ for _, resultSet := range resultSets {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+// 4. Single vector search
+let query_vector = vec![0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
+let response = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("quick_setup")
+            .vector_field("vector")
+            .vectors(SearchVectors::Float(vec![query_vector]))
+            .partition_names(["partitionA"])
+            .limit(3)
+            .build()?,
+    )
+    .await?;
+
+for result in response.results() {
+    println!("TopK results:");
+    for row in result.rows()? {
+        println!("{:?}", row.to_entity_row()?);
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto searchRequest = milvus::SearchRequest()
+                         .WithCollectionName("quick_setup")
+                         .WithAnnsField("vector")
+                         // highlight-next-line
+                         .AddPartitionName("partitionA")
+                         .WithLimit(3)
+                         .AddFloatVector(queryVector);
+
+milvus::SearchResponse searchResponse;
+auto status = client->Search(searchRequest, searchResponse);
+if (!status.IsOk()) {
+    std::cerr << "Search failed: " << status.Message() << std::endl;
+    return;
+}
+
+for (const auto& result : searchResponse.Results().Results()) {
+    const auto ids = result.Ids().IntIDArray();
+    for (size_t i = 0; i < result.Scores().size(); ++i) {
+        std::cout << "id=" << ids[i] << ", score=" << result.Scores()[i] << std::endl;
+    }
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -982,34 +1133,6 @@ curl --request POST \
 
 </TabItem>
 
-<TabItem value='c++'>
-
-```c++
-auto searchRequest = milvus::SearchRequest()
-                         .WithCollectionName("quick_setup")
-                         .WithAnnsField("vector")
-                         // highlight-next-line
-                         .AddPartitionName("partitionA")
-                         .WithLimit(3)
-                         .AddFloatVector(queryVector);
-
-milvus::SearchResponse searchResponse;
-auto status = client->Search(searchRequest, searchResponse);
-if (!status.IsOk()) {
-    std::cerr << "Search failed: " << status.Message() << std::endl;
-    return;
-}
-
-for (const auto& result : searchResponse.Results().Results()) {
-    const auto ids = result.Ids().IntIDArray();
-    for (size_t i = 0; i < result.Scores().size(); ++i) {
-        std::cout << "id=" << ids[i] << ", score=" << result.Scores()[i] << std::endl;
-    }
-}
-```
-
-</TabItem>
-
 <TabItem value='shell'>
 
 ```shell
@@ -1041,7 +1164,7 @@ zilliz vector search \
 
 In a search result, Zilliz Cloud includes the primary field values and similarity distances/scores of the entities that contain the top-K vector embeddings by default. You can include the names of the target fields, including both the vector and scalar fields, in a search request as the output fields to make the search results carry the values from other fields in these entities.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1121,6 +1244,65 @@ for _, resultSet := range resultSets {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+// 4. Single vector search
+let query_vector = vec![0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
+let response = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("quick_setup")
+            .vector_field("vector")
+            .vectors(SearchVectors::Float(vec![query_vector]))
+            .output_fields(["color"])
+            .limit(3)
+            .build()?,
+    )
+    .await?;
+
+for result in response.results() {
+    for row in result.rows()? {
+        println!("{:?}", row.to_entity_row()?);
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto searchRequest = milvus::SearchRequest()
+                         .WithCollectionName("quick_setup")
+                         .WithAnnsField("vector")
+                         .WithLimit(3)
+                         .WithMetricType(milvus::MetricType::IP)
+                         // highlight-next-line
+                         .AddOutputField("color")
+                         .AddFloatVector(queryVector);
+
+milvus::SearchResponse searchResponse;
+auto status = client->Search(searchRequest, searchResponse);
+if (!status.IsOk()) {
+    std::cerr << "Search failed: " << status.Message() << std::endl;
+    return;
+}
+
+for (const auto& result : searchResponse.Results().Results()) {
+    const auto ids = result.Ids().IntIDArray();
+    const auto colors = result.OutputField<milvus::VarCharFieldData>("color");
+    for (size_t i = 0; i < result.Scores().size(); ++i) {
+        std::cout << "id=" << ids[i] << ", score=" << result.Scores()[i]
+                  << ", color=" << colors->Data()[i] << std::endl;
+    }
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -1192,37 +1374,6 @@ curl --request POST \
 
 </TabItem>
 
-<TabItem value='c++'>
-
-```c++
-auto searchRequest = milvus::SearchRequest()
-                         .WithCollectionName("quick_setup")
-                         .WithAnnsField("vector")
-                         .WithLimit(3)
-                         .WithMetricType(milvus::MetricType::IP)
-                         // highlight-next-line
-                         .AddOutputField("color")
-                         .AddFloatVector(queryVector);
-
-milvus::SearchResponse searchResponse;
-auto status = client->Search(searchRequest, searchResponse);
-if (!status.IsOk()) {
-    std::cerr << "Search failed: " << status.Message() << std::endl;
-    return;
-}
-
-for (const auto& result : searchResponse.Results().Results()) {
-    const auto ids = result.Ids().IntIDArray();
-    const auto colors = result.OutputField<milvus::VarCharFieldData>("color");
-    for (size_t i = 0; i < result.Scores().size(); ++i) {
-        std::cout << "id=" << ids[i] << ", score=" << result.Scores()[i]
-                  << ", color=" << colors->Data()[i] << std::endl;
-    }
-}
-```
-
-</TabItem>
-
 <TabItem value='shell'>
 
 ```shell
@@ -1258,7 +1409,7 @@ Each item in `order_by_fields` specifies a scalar field and a sort direction. Us
 
 The following example sorts search results by `price` from low to high. Include the sort field in `output_fields` if you want to inspect the field value in the response.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1312,27 +1463,6 @@ System.out.println(searchResp.getSearchResults());
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-const res = await client.search({
-    collection_name: "product_catalog",
-    data: query_vector,
-    anns_field: "embedding",
-    limit: 20,
-    output_fields: ["id", "price", "rating", "category"],
-    // highlight-start
-    order_by_fields: [
-        { field: "price", order: "asc" }
-    ],
-    // highlight-end
-})
-
-console.log(res.results)
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -1364,10 +1494,30 @@ for _, resultSet := range resultSets {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+use milvus::v2::prelude::*;
+
+let query_vector = vec![0.35803764, -0.6023496, 0.18414013, -0.26286206, 0.90294385];
+let response = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("product_catalog")
+            .vector_field("embedding")
+            .vectors(SearchVectors::Float(vec![query_vector]))
+            .limit(20)
+            .output_fields(["id", "price", "rating", "category"])
+            .order_by_fields(vec![OrderByField::new().field_name("price").direction(AggDirection::Asc)])
+            .build()?,
+    )
+    .await?;
+
+for result in response.results() {
+    for row in result.rows()? {
+        println!("{:?}", row.to_entity_row()?);
+    }
+}
 ```
 
 </TabItem>
@@ -1404,6 +1554,35 @@ for (const auto& result : searchResponse.Results().Results()) {
 
 </TabItem>
 
+<TabItem value='javascript'>
+
+```javascript
+const res = await client.search({
+    collection_name: "product_catalog",
+    data: query_vector,
+    anns_field: "embedding",
+    limit: 20,
+    output_fields: ["id", "price", "rating", "category"],
+    // highlight-start
+    order_by_fields: [
+        { field: "price", order: "asc" }
+    ],
+    // highlight-end
+})
+
+console.log(res.results)
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+
 <TabItem value='shell'>
 
 ```shell
@@ -1436,7 +1615,7 @@ zilliz vector search \
 
 You can also sort by multiple scalar fields. Zilliz Cloud applies the fields in the order that you specify. In the following example, Zilliz Cloud sorts results by `price` in ascending order. For entities with the same `price`, Zilliz Cloud then sorts by `rating` in descending order.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1495,28 +1674,6 @@ System.out.println(searchResp.getSearchResults());
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-const res = await client.search({
-    collection_name: "product_catalog",
-    data: query_vector,
-    anns_field: "embedding",
-    limit: 20,
-    output_fields: ["id", "price", "rating", "category"],
-    // highlight-start
-    order_by_fields: [
-        { field: "price", order: "asc" },
-        { field: "rating", order: "desc" },
-    ],
-    // highlight-end
-})
-
-console.log(res.results)
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -1549,10 +1706,33 @@ for _, resultSet := range resultSets {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+use milvus::v2::prelude::*;
+
+let query_vector = vec![0.35803764, -0.6023496, 0.18414013, -0.26286206, 0.90294385];
+let response = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("product_catalog")
+            .vector_field("embedding")
+            .vectors(SearchVectors::Float(vec![query_vector]))
+            .limit(20)
+            .output_fields(["id", "price", "rating", "category"])
+            .order_by_fields(vec![
+                OrderByField::new().field_name("price").direction(AggDirection::Asc),
+                OrderByField::new().field_name("rating").direction(AggDirection::Desc),
+            ])
+            .build()?,
+    )
+    .await?;
+
+for result in response.results() {
+    for row in result.rows()? {
+        println!("{:?}", row.to_entity_row()?);
+    }
+}
 ```
 
 </TabItem>
@@ -1589,6 +1769,36 @@ for (const auto& result : searchResponse.Results().Results()) {
                   << ", rating=" << ratings->Data()[i] << std::endl;
     }
 }
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const res = await client.search({
+    collection_name: "product_catalog",
+    data: query_vector,
+    anns_field: "embedding",
+    limit: 20,
+    output_fields: ["id", "price", "rating", "category"],
+    // highlight-start
+    order_by_fields: [
+        { field: "price", order: "asc" },
+        { field: "rating", order: "desc" },
+    ],
+    // highlight-end
+})
+
+console.log(res.results)
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
 ```
 
 </TabItem>
@@ -1644,7 +1854,7 @@ The table below outlines how to set the **Limit** and **Offset** parameters for 
 
 Note that, the sum of `limit` and `offset` in a single ANN search should be less than 16,384.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1723,6 +1933,62 @@ for _, resultSet := range resultSets {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+// 4. Single vector search
+let query_vector = vec![0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
+let response = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("quick_setup")
+            .vector_field("vector")
+            .vectors(SearchVectors::Float(vec![query_vector]))
+            .limit(3)
+            .offset(10)
+            .build()?,
+    )
+    .await?;
+
+for result in response.results() {
+    for row in result.rows()? {
+        println!("{:?}", row.to_entity_row()?);
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto searchRequest = milvus::SearchRequest()
+                         .WithCollectionName("quick_setup")
+                         .WithAnnsField("vector")
+                         .WithLimit(3)
+                         // highlight-next-line
+                         .WithOffset(10)
+                         .AddFloatVector(queryVector);
+
+milvus::SearchResponse searchResponse;
+auto status = client->Search(searchRequest, searchResponse);
+if (!status.IsOk()) {
+    std::cerr << "Search failed: " << status.Message() << std::endl;
+    return;
+}
+
+for (const auto& result : searchResponse.Results().Results()) {
+    const auto ids = result.Ids().IntIDArray();
+    for (size_t i = 0; i < result.Scores().size(); ++i) {
+        std::cout << "id=" << ids[i] << ", score=" << result.Scores()[i] << std::endl;
+    }
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -1764,34 +2030,6 @@ curl --request POST \
 
 </TabItem>
 
-<TabItem value='c++'>
-
-```c++
-auto searchRequest = milvus::SearchRequest()
-                         .WithCollectionName("quick_setup")
-                         .WithAnnsField("vector")
-                         .WithLimit(3)
-                         // highlight-next-line
-                         .WithOffset(10)
-                         .AddFloatVector(queryVector);
-
-milvus::SearchResponse searchResponse;
-auto status = client->Search(searchRequest, searchResponse);
-if (!status.IsOk()) {
-    std::cerr << "Search failed: " << status.Message() << std::endl;
-    return;
-}
-
-for (const auto& result : searchResponse.Results().Results()) {
-    const auto ids = result.Ids().IntIDArray();
-    for (size_t i = 0; i < result.Scores().size(); ++i) {
-        std::cout << "id=" << ids[i] << ", score=" << result.Scores()[i] << std::endl;
-    }
-}
-```
-
-</TabItem>
-
 <TabItem value='shell'>
 
 ```shell
@@ -1829,7 +2067,7 @@ The `level`  parameter is still in **Public Preview**. If you cannot set it to a
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1912,6 +2150,65 @@ for _, resultSet := range resultSets {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+use std::collections::HashMap;
+
+// 4. Single vector search
+let query_vector = vec![0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
+let response = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("quick_setup")
+            .vector_field("vector")
+            .vectors(SearchVectors::Float(vec![query_vector]))
+            .limit(3)
+            .extra_params(HashMap::from([("level".into(), "10".into())]))
+            .build()?,
+    )
+    .await?;
+
+for result in response.results() {
+    println!("TopK results:");
+    for row in result.rows()? {
+        println!("{:?}", row.to_entity_row()?);
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
+auto request = milvus::SearchRequest()
+                   .WithCollectionName("quick_setup")
+                   .WithLimit(3)
+                   .WithAnnsField("vector")
+                   .AddFloatVector(query_vector)
+                   .AddExtraParam("level", "10");
+
+milvus::SearchResponse response;
+auto status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+for (auto& result : response.Results().Results()) {
+    std::cout << "TopK results:" << std::endl;
+    milvus::EntityRows output_rows;
+    status = result.OutputRows(output_rows);
+    for (const auto& row : output_rows) {
+        std::cout << "\t" << row << std::endl;
+    }
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -1962,35 +2259,6 @@ curl --request POST \
 
 </TabItem>
 
-<TabItem value='c++'>
-
-```c++
-std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
-auto request = milvus::SearchRequest()
-                   .WithCollectionName("quick_setup")
-                   .WithLimit(3)
-                   .WithAnnsField("vector")
-                   .AddFloatVector(query_vector)
-                   .AddExtraParam("level", "10");
-
-milvus::SearchResponse response;
-auto status = client->Search(request, response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-for (auto& result : response.Results().Results()) {
-    std::cout << "TopK results:" << std::endl;
-    milvus::EntityRows output_rows;
-    status = result.OutputRows(output_rows);
-    for (const auto& row : output_rows) {
-        std::cout << "\t" << row << std::endl;
-    }
-}
-```
-
-</TabItem>
-
 <TabItem value='shell'>
 
 ```shell
@@ -2028,7 +2296,7 @@ The `enable_recall_calculation`  parameter is still in **Public Preview**, and y
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -2113,6 +2381,69 @@ for _, resultSet := range resultSets {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+use std::collections::HashMap;
+
+// 4. Single vector search
+let query_vector = vec![0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
+let response = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("quick_setup")
+            .vector_field("vector")
+            .vectors(SearchVectors::Float(vec![query_vector]))
+            .limit(3)
+            .extra_params(HashMap::from([
+                ("level".into(), "10".into()),
+                ("enable_recall_calculation".into(), "true".into()),
+            ]))
+            .build()?,
+    )
+    .await?;
+
+for result in response.results() {
+    println!("TopK results:");
+    for row in result.rows()? {
+        println!("{:?}", row.to_entity_row()?);
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
+auto request = milvus::SearchRequest()
+                   .WithCollectionName("quick_setup")
+                   .WithLimit(3)
+                   .WithAnnsField("vector")
+                   .AddFloatVector(query_vector)
+                   .AddExtraParam("level", "10")
+                   .AddExtraParam("enable_recall_calculation", "true");
+
+milvus::SearchResponse response;
+auto status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+for (auto& result : response.Results().Results()) {
+    std::cout << "TopK results:" << std::endl;
+    milvus::EntityRows output_rows;
+    status = result.OutputRows(output_rows);
+    for (const auto& row : output_rows) {
+        std::cout << "\t" << row << std::endl;
+    }
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -2165,36 +2496,6 @@ curl --request POST \
 
 </TabItem>
 
-<TabItem value='c++'>
-
-```c++
-std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
-auto request = milvus::SearchRequest()
-                   .WithCollectionName("quick_setup")
-                   .WithLimit(3)
-                   .WithAnnsField("vector")
-                   .AddFloatVector(query_vector)
-                   .AddExtraParam("level", "10")
-                   .AddExtraParam("enable_recall_calculation", "true");
-
-milvus::SearchResponse response;
-auto status = client->Search(request, response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-for (auto& result : response.Results().Results()) {
-    std::cout << "TopK results:" << std::endl;
-    milvus::EntityRows output_rows;
-    status = result.OutputRows(output_rows);
-    for (const auto& row : output_rows) {
-        std::cout << "\t" << row << std::endl;
-    }
-}
-```
-
-</TabItem>
-
 <TabItem value='shell'>
 
 ```shell
@@ -2213,7 +2514,7 @@ The value of `timezone` must be a valid [IANA time zone identifier](https://en.w
 
 The example below shows how to temporarily set a timezone for a search operation:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -2255,24 +2556,6 @@ System.out.println(searchResp.getSearchResults());
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-const res = await client.search({
-    collection_name: "quick_setup",
-    anns_field: "vector",
-    data: query_vector,
-    limit: 3,
-    metric_type: "IP",
-    // highlight-next-line
-    params: { timezone: "America/Havana" },
-})
-
-console.log(res.results)
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -2305,24 +2588,29 @@ for _, resultSet := range resultSets {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
-export QUERY_VECTOR='[0.1, 0.2, 0.3, 0.4]'                                                                                                                                                                                                              
-                                                                                                                                                                                                                                                          
-curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \                                                                                                                                                                                     
--H "Content-Type: application/json" \  
--H "Request-Timeout: 10" \                                                                                                                                                                                                               
--d '{                                                                                                                                                                                                                                                 
-  "collectionName": "quick_setup",                                                                                                                                                                                                                    
-  "annsField": "vector",                                                                                                                                                                                                                              
-  "data": ['"$QUERY_VECTOR"'],                                                                                                                                                                                                                        
-  "limit": 3,                                                                                                                                                                                                                                         
-  "searchParams": {                                                                                                                                                                                                                                                                                                                                                                                                                                                                
-    "timezone": "America/Havana"                                                                                                                                                                                                                      
-  }                                                                                                                                                                                                                                                   
-}'
+```rust
+use milvus::v2::prelude::*;
+
+let query_vector = vec![0.35803764, -0.6023496, 0.18414013, -0.26286206, 0.90294385];
+let response = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("quick_setup")
+            .vector_field("vector")
+            .vectors(SearchVectors::Float(vec![query_vector]))
+            .limit(3)
+            .timezone("America/Havana")
+            .build()?,
+    )
+    .await?;
+
+for result in response.results() {
+    for row in result.rows()? {
+        println!("{:?}", row.to_entity_row()?);
+    }
+}
 ```
 
 </TabItem>
@@ -2354,6 +2642,46 @@ for (const auto& result : searchResponse.Results().Results()) {
         std::cout << "id=" << ids[i] << ", event_time=" << eventTimes->Data()[i] << std::endl;
     }
 }
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const res = await client.search({
+    collection_name: "quick_setup",
+    anns_field: "vector",
+    data: query_vector,
+    limit: 3,
+    metric_type: "IP",
+    // highlight-next-line
+    params: { timezone: "America/Havana" },
+})
+
+console.log(res.results)
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+export QUERY_VECTOR='[0.1, 0.2, 0.3, 0.4]'                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                          
+curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \                                                                                                                                                                                     
+-H "Content-Type: application/json" \  
+-H "Request-Timeout: 10" \                                                                                                                                                                                                               
+-d '{                                                                                                                                                                                                                                                 
+  "collectionName": "quick_setup",                                                                                                                                                                                                                    
+  "annsField": "vector",                                                                                                                                                                                                                              
+  "data": ['"$QUERY_VECTOR"'],                                                                                                                                                                                                                        
+  "limit": 3,                                                                                                                                                                                                                                         
+  "searchParams": {                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+    "timezone": "America/Havana"                                                                                                                                                                                                                      
+  }                                                                                                                                                                                                                                                   
+}'
 ```
 
 </TabItem>

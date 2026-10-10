@@ -90,8 +90,8 @@ The following setup creates a collection with three fields: `id` as the primary 
 from pymilvus import DataType, MilvusClient
 
 client = MilvusClient(
-    uri="YOUR_ZILLIZ_CLOUD_URI",
-    token="YOUR_ZILLIZ_CLOUD_TOKEN",
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN",
 )
 
 collection_name = "hugging_face_rerank_demo"
@@ -301,8 +301,7 @@ client.create_collection(
         .index_params(vec![IndexParam::new()
             .field_name("dense")
             .index_type(IndexType::AutoIndex)
-            .metric_type(MetricType::Cosine)
-            .build()?])
+            .metric_type(MetricType::Cosine)])
         .build()?,
 )
 .await?;
@@ -318,10 +317,10 @@ client.insert(
     InsertRequest::builder()
         .collection_name(collection_name)
         .rows(vec![
-            serde_json::json!({"id": int64(1), "document": "Recent renewable energy developments include improved solar efficiency.", "dense": [0.10, 0.20, 0.30, 0.40]}),
-            serde_json::json!({"id": int64(2), "document": "Climate policy and carbon markets have evolved rapidly in recent years.", "dense": [0.11, 0.19, 0.28, 0.39]}),
-            serde_json::json!({"id": int64(3), "document": "New battery technology helps stabilize wind and solar power generation.", "dense": [0.90, 0.10, 0.05, 0.02]}),
-            serde_json::json!({"id": int64(4), "document": "Vector databases support similarity search for machine learning applications.", "dense": [0.01, 0.02, 0.03, 0.04]}),
+            serde_json::json!({"id": 1, "document": "Recent renewable energy developments include improved solar efficiency.", "dense": [0.10, 0.20, 0.30, 0.40]}),
+            serde_json::json!({"id": 2, "document": "Climate policy and carbon markets have evolved rapidly in recent years.", "dense": [0.11, 0.19, 0.28, 0.39]}),
+            serde_json::json!({"id": 3, "document": "New battery technology helps stabilize wind and solar power generation.", "dense": [0.90, 0.10, 0.05, 0.02]}),
+            serde_json::json!({"id": 4, "document": "Vector databases support similarity search for machine learning applications.", "dense": [0.01, 0.02, 0.03, 0.04]}),
         ])
         .build()?,
 )
@@ -399,7 +398,7 @@ const collectionName = 'hugging_face_rerank_demo';
 
 const schema = {
   fields: [
-    { name: 'id', data_type: DataType.Int64, is_primary_key: true, auto_id: false },
+    { name: 'id', data_type: DataType.Int64, is_primary_key: true, autoID: false },
     { name: 'document', data_type: DataType.VarChar, max_length: 1000 },
     { name: 'dense', data_type: DataType.FloatVector, dim: 4 },
   ],
@@ -473,10 +472,10 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/entities/insert" \
   -d '{
     "collectionName": "hugging_face_rerank_demo",
     "data": [
-        {"id": int64(1), "document": "Recent renewable energy developments include improved solar efficiency.", "dense": [0.10, 0.20, 0.30, 0.40]},
-        {"id": int64(2), "document": "Climate policy and carbon markets have evolved rapidly in recent years.", "dense": [0.11, 0.19, 0.28, 0.39]},
-        {"id": int64(3), "document": "New battery technology helps stabilize wind and solar power generation.", "dense": [0.90, 0.10, 0.05, 0.02]},
-        {"id": int64(4), "document": "Vector databases support similarity search for machine learning applications.", "dense": [0.01, 0.02, 0.03, 0.04]}
+        {"id": 1, "document": "Recent renewable energy developments include improved solar efficiency.", "dense": [0.10, 0.20, 0.30, 0.40]},
+        {"id": 2, "document": "Climate policy and carbon markets have evolved rapidly in recent years.", "dense": [0.11, 0.19, 0.28, 0.39]},
+        {"id": 3, "document": "New battery technology helps stabilize wind and solar power generation.", "dense": [0.90, 0.10, 0.05, 0.02]},
+        {"id": 4, "document": "Vector databases support similarity search for machine learning applications.", "dense": [0.01, 0.02, 0.03, 0.04]}
     ]
   }'
 ```
@@ -689,6 +688,7 @@ print(results)
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Collections;
 
 SearchResp searchResp = client.search(SearchReq.builder()
         .collectionName(collectionName)

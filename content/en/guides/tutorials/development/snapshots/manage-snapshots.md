@@ -237,7 +237,7 @@ curl --request POST \
   --header "Authorization: Bearer ${TOKEN}" \
   --header "Content-Type: application/json" \
   -d '{
-    "collectionNames": ["my_collection"]
+    "collectionName": "my_collection"
   }'
 
 curl --request POST \
@@ -366,7 +366,6 @@ You can get the detailed information about a specific snapshot.
 snapshot_info = client.describe_snapshot(
     snapshot_name="backup_20240101",
     collection_name="my_collection",
-    include_collection_info=True
 )
 
 print(f"Snapshot name: {snapshot_info.name}")
@@ -921,9 +920,9 @@ let jobs = client.list_restore_snapshot_jobs(
         .collection_name("my_collection")
         .build()?,
 ).await?;
-for job in &jobs {
-    println!("Job {}: {} -> Collection {}", job.job_id(), job.snapshot_name(), job.collection_name());
-    println!("  State: {}, Progress: {}%", job.state(), job.progress());
+for job in jobs.jobs() {
+    println!("Job {}: {} -> Collection {}", job.get_job_id(), job.get_snapshot_name(), job.get_collection_name());
+    println!("  State: {:?}, Progress: {}%", job.get_state(), job.get_progress());
 }
 ```
 
@@ -1045,10 +1044,10 @@ let state = client.get_restore_snapshot_state(
         .job_id(12345)
         .build()?,
 ).await?;
-println!("Job ID: {}", state.job_id());
-println!("Snapshot Name: {}", state.snapshot_name());
-println!("State: {:?}", state.state());
-println!("Progress: {}%", state.progress());
+println!("Job ID: {}", state.job_info().get_job_id());
+println!("Snapshot Name: {}", state.job_info().get_snapshot_name());
+println!("State: {:?}", state.job_info().get_state());
+println!("Progress: {}%", state.job_info().get_progress());
 ```
 
 </TabItem>
@@ -1059,7 +1058,7 @@ println!("Progress: {}%", state.progress());
 // Get restoration state
 milvus::GetRestoreSnapshotStateResponse state;
 status = client->GetRestoreSnapshotState(milvus::GetRestoreSnapshotStateRequest()
-                                              .WithJobId(12345),
+                                              .WithJobID(12345),
                                           state);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -1090,7 +1089,7 @@ curl --request POST \
   --header "Authorization: Bearer ${TOKEN}" \
   --header "Content-Type: application/json" \
   -d '{
-    "jobId": 12345
+    "jobId": "12345"
   }'
 ```
 

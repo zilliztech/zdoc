@@ -453,7 +453,7 @@ const functions = [{
 # restful
 export functionSchema='{
   "name": "voya",
-  "type": "TextEmbedding",
+  "type": "TEXTEMBEDDING",
   "inputFieldNames": [
     "document"
   ],

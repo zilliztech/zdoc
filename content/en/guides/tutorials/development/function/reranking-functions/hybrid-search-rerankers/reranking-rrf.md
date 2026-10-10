@@ -194,7 +194,7 @@ import { FunctionType } from "@zilliz/milvus2-sdk-node";
 const rerank = {
   name: "rrf",
   input_field_names: [],
-  function_type: FunctionType.RERANK,
+  type: FunctionType.RERANK,
   params: {
     reranker: "rrf",
     k: 100,
@@ -213,7 +213,7 @@ functions='[
 
   {
     "name": "rrf",
-    "type": "Rerank",
+    "type": "RERANK",
     "inputFieldNames": [],
     "params": {
       "reranker": "rrf",
@@ -378,7 +378,7 @@ imageSearch := milvusclient.NewAnnRequest("image_vector", 10, entity.FloatVector
 resultSets, err := client.HybridSearch(ctx, milvusclient.NewHybridSearchOption(
 
     collectionName, 10, textSearch, imageSearch,
-).WithReranker(milvusclient.NewRRFReranker()))
+).WithReranker(rerank))
 
 if err != nil {
     fmt.Println(err.Error())
@@ -485,7 +485,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, FunctionType } from "@zilliz/milvus2-sdk-node";
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 
 const milvusClient = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
 
