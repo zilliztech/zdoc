@@ -2341,9 +2341,9 @@
       "translatedAt": "2026-09-19T14:14:40.742Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-200.md": {
-      "sourceHash": "3af17cf9a0a57dd3f112d23a6c81b7519ff3a1025c4db0e14b306a2939d0ae06",
+      "sourceHash": "7a85055acf6e40f591cc8965fdda2792060705944072dbff8c20dbd97cc74258",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-200.md",
-      "translatedAt": "2026-09-19T14:14:40.742Z"
+      "translatedAt": "2026-10-10T05:57:57.258Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-210.md": {
       "sourceHash": "f4a5e5d5084652c47ace21cee9594397871d92cd025d4d65f9dbff2b18dff28e",
@@ -2411,14 +2411,14 @@
       "translatedAt": "2026-09-19T14:15:50.698Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-240.md": {
-      "sourceHash": "a90c5e7886e91370b938f2fc1c0a5519b5532f2f259bd9aa2853909c893cc8d8",
+      "sourceHash": "aaf718b06bc6d71a4133e6f4d3a52508000d06c73fb1017ee24dc71ef358e4a5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-240.md",
-      "translatedAt": "2026-09-19T14:15:50.698Z"
+      "translatedAt": "2026-10-10T05:57:57.258Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-250.md": {
-      "sourceHash": "221fe8830296f27f806cab18f015fc09d9e0468106af60fea9fa49ffb6a2773c",
+      "sourceHash": "5a70b5d003ffa890c91b227496dc8fd8e923e83f334491205f94d8a21b06cb73",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-250.md",
-      "translatedAt": "2026-09-19T14:15:50.698Z"
+      "translatedAt": "2026-10-10T05:57:57.258Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-2508.md": {
       "sourceHash": "b513ebae83237b4501ccd8504279401b67d2994977afc739902ec1529d64344e",
@@ -2501,9 +2501,9 @@
       "translatedAt": "2026-09-19T14:17:06.722Z"
     },
     "content/en/guides/tutorials/get-started/select-zilliz-cloud-service-plans.md": {
-      "sourceHash": "56a46000fe1c5b1c29da0a5acc76442f5ddfafc986a69c3abef743b886af6859",
+      "sourceHash": "0ec8657ccea3c1582d54336968c853ac28a3042dddc5c0c00ccd7a677517b30b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/select-zilliz-cloud-service-plans.md",
-      "translatedAt": "2026-09-19T14:18:28.626Z"
+      "translatedAt": "2026-10-10T05:57:57.258Z"
     },
     "content/en/guides/tutorials/home.md": {
       "sourceHash": "07f4aaec526bfd71e60e70f945f014396c491aa00c9a06a973a03058ba1f1744",
@@ -2516,9 +2516,9 @@
       "translatedAt": "2026-09-19T14:18:28.626Z"
     },
     "content/en/guides/tutorials/management/access-control/manage-cluster-roles/cluster-roles-sdk.md": {
-      "sourceHash": "caf9843fb1c6bb5f0a2d0f02d28819f9a374b037717f500e8fd54c73a448d098",
+      "sourceHash": "c9e2d05ebcf55a686e333a81ac26d8a4072902bceee09c9cd5732814955fd72f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/access-control/manage-cluster-roles/cluster-roles-sdk.md",
-      "translatedAt": "2026-09-19T14:18:28.626Z"
+      "translatedAt": "2026-10-10T05:57:57.258Z"
     },
     "content/en/guides/tutorials/management/access-control/manage-cluster-roles/cluster-roles.md": {
       "sourceHash": "51898fd5af62aae5e6bbf4104547527bf2f3b489605ed8534814aa03ae523073",
@@ -2541,19 +2541,19 @@
       "translatedAt": "2026-09-19T14:18:28.626Z"
     },
     "content/en/guides/tutorials/management/access-logs/access-log-overview.md": {
-      "sourceHash": "3f0974d699a1b60624131e236de7971e598ea8de8908ab2d53e671a18c31df26",
+      "sourceHash": "d6037debe1c62167c781e92b0612c98ac14379e53b94d35c0e19c76d35c8a5d2",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/access-logs/access-log-overview.md",
-      "translatedAt": "2026-09-19T14:18:28.626Z"
+      "translatedAt": "2026-10-10T05:57:57.258Z"
     },
     "content/en/guides/tutorials/management/access-logs/access-log-reference.md": {
-      "sourceHash": "cd218f688726ac65207b157a2b95a022c500dd8e33128b91e3aeb5bf30901af4",
+      "sourceHash": "c13fd3d458e343f64f6b3e2720212535f89396f9cd9bf08422f014fd29151cab",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/access-logs/access-log-reference.md",
-      "translatedAt": "2026-09-19T14:18:28.626Z"
+      "translatedAt": "2026-10-10T05:57:57.258Z"
     },
     "content/en/guides/tutorials/management/access-logs/configure-access-logs.md": {
-      "sourceHash": "d61abf6dbec07482e8ab322dadd028a69b9ce8365b3ac8c9243dadaade055e1d",
+      "sourceHash": "e42acbbbdcfd7732080f4a4302098bb731e87841e8484ef9c4f4431d04099194",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/access-logs/configure-access-logs.md",
-      "translatedAt": "2026-09-19T14:18:28.626Z"
+      "translatedAt": "2026-10-10T05:57:57.258Z"
     },
     "content/en/guides/tutorials/management/auditing/audit-logs-ref.md": {
       "sourceHash": "c16ac69ee9e6b458ed04f2ae76c6892e6d7dd1bc9dd5b8a91b88584b0d3ce3d3",
@@ -2570,15 +2570,20 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/auditing/view-activities.md",
       "translatedAt": "2026-09-19T13:43:11.314Z"
     },
+    "content/en/guides/tutorials/management/authentication/cluster-credentials.md": {
+      "sourceHash": "188f8fd2bfc86943c26169231bf5034028fee9d06272149115e01414f3a25dcf",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/authentication/cluster-credentials.md",
+      "translatedAt": "2026-10-10T05:57:57.258Z"
+    },
     "content/en/guides/tutorials/management/authentication/email-accounts.md": {
       "sourceHash": "9d52dc0c246e79a6f73127671c78b9313d3ac93c880480fd03621f600fe5b05c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/authentication/email-accounts.md",
       "translatedAt": "2026-09-19T14:18:28.626Z"
     },
     "content/en/guides/tutorials/management/authentication/manage-api-keys.md": {
-      "sourceHash": "23bf42c58aef723ec43dee8e5cacb72c866e86af7f367c67e4f848dd6a328407",
+      "sourceHash": "9b8cb310a9d365091bc95bbb0fc4e2026381eeeaf876d77934f4f514d22b7f4e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/authentication/manage-api-keys.md",
-      "translatedAt": "2026-09-19T14:18:28.626Z"
+      "translatedAt": "2026-10-10T05:57:57.258Z"
     },
     "content/en/guides/tutorials/management/authentication/multi-factor-auth.md": {
       "sourceHash": "dd5048851c6c2b4241a8c8df0d73a80f1d89d43f35c3b506c2e755c25e1bbb85",
@@ -2586,9 +2591,9 @@
       "translatedAt": "2026-09-19T14:18:28.626Z"
     },
     "content/en/guides/tutorials/management/backup-and-restore/backup-to-other-regions.md": {
-      "sourceHash": "a04b323e2875a99e948361471659790c485ee9bc10681988eacb47c51c7eb770",
+      "sourceHash": "cf5f2e50f331b6a5e2d1e9d8d8e3a5d42f5e73c0e419203fb73a08eb4588e1ab",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/backup-and-restore/backup-to-other-regions.md",
-      "translatedAt": "2026-09-19T14:19:41.492Z"
+      "translatedAt": "2026-10-10T05:57:57.258Z"
     },
     "content/en/guides/tutorials/management/backup-and-restore/create-backup.md": {
       "sourceHash": "91cd57d02f94eab04c4f31c78acb28b9f87e4b008ab3513a951550c2429acfe0",
@@ -2711,14 +2716,14 @@
       "translatedAt": "2026-09-19T14:20:52.976Z"
     },
     "content/en/guides/tutorials/management/clusters/dedicated-cluster/connect-to-clusters.md": {
-      "sourceHash": "5bf1b5b1e8b3a32071b013424689612d53236bcdf4558dabff2a6d22ce77e12c",
+      "sourceHash": "48047069a348eb1133cbe3392df88653754e5d375e205f973f2013306092bee2",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/dedicated-cluster/connect-to-clusters.md",
-      "translatedAt": "2026-09-19T14:20:52.976Z"
+      "translatedAt": "2026-10-10T05:57:57.258Z"
     },
     "content/en/guides/tutorials/management/clusters/dedicated-cluster/create-cluster.md": {
-      "sourceHash": "e2079378fc038cc299a979a628b67bb0f580ff9ce0c26c79b3dffc472aafaf7e",
+      "sourceHash": "ce18bbf3187772acef448305d7eaba6cf74f8e28413187983c793540f4bf4717",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/dedicated-cluster/create-cluster.md",
-      "translatedAt": "2026-09-19T14:20:52.976Z"
+      "translatedAt": "2026-10-10T05:57:57.258Z"
     },
     "content/en/guides/tutorials/management/clusters/dedicated-cluster/manage-cluster.md": {
       "sourceHash": "a41719601f6d314c2aa6bab5b76691709951132426a194e175c39db5251b478f",
@@ -2756,14 +2761,14 @@
       "translatedAt": "2026-09-19T14:22:01.285Z"
     },
     "content/en/guides/tutorials/management/clusters/free-and-serverless-clusters.md": {
-      "sourceHash": "ab13496a3603d8b495476caf1a64107055660955d2f47d669fe298f3b9cbb940",
+      "sourceHash": "4cae10ed69f1ea5186d03ffdafb3d81e7f369c2e7eccfae3f1ee51979c2d3fba",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/free-and-serverless-clusters.md",
-      "translatedAt": "2026-09-19T14:22:01.285Z"
+      "translatedAt": "2026-10-10T05:57:57.258Z"
     },
     "content/en/guides/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md": {
-      "sourceHash": "9e6892cb82b58be9f0e3b3504df532d78e77e41198ae50b7c71887f5227d7a9c",
+      "sourceHash": "cf21d7b394e4726d00072d901e2a2b638c26224f6ecf3b3e903ba8ef69e5a6af",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md",
-      "translatedAt": "2026-09-19T14:22:01.285Z"
+      "translatedAt": "2026-10-10T05:57:57.258Z"
     },
     "content/en/guides/tutorials/management/clusters/global-cluster/create-global-cluster.md": {
       "sourceHash": "ca4f0cf9f4f4098e886746c49ea7e955a208466ac52678e78d3b397e58541b0a",

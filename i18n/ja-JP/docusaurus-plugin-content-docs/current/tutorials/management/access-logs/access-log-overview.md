@@ -2,12 +2,12 @@
 title: "Access Logs の概要 | Cloud"
 slug: /access-log-overview
 sidebar_label: "Access Logs の概要"
-beta: PUBLIC
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "In high-volume workloads, understanding which data is accessed most frequently is critical for optimization decisions such as インデックス tuning or partition strategy. Without visibility into query patterns, these decisions rely on guesswork. | Cloud"
+description: "高ボリュームのワークロードでは、どのデータに最も頻繁にアクセスされているかを把握することが、インデックスのチューニングやパーティション戦略などの最適化判断に不可欠です。クエリパターンを可視化できない場合、これらの判断は推測に頼ることになります。 | Cloud"
 type: origin
 token: PIfLwbrMmiOZKAkqtpScjnhinXf
 sidebar_position: 1
@@ -22,41 +22,41 @@ import Admonition from '@theme/Admonition';
 
 <FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
 
-この機能は Enterprise プラン以上、および BYOC デプロイメントでのみ利用できます。
+この機能は、Enterprise プラン以上および BYOC デプロイメントでのみ利用できます。
 
 </FeatureNote>
 
-In high-volume workloads, understanding which data is accessed most frequently is critical for optimization decisions such as インデックス tuning or partition strategy. Without visibility into query patterns, these decisions rely on guesswork.
+高ボリュームのワークロードでは、どのデータに最も頻繁にアクセスされているかを把握することが、インデックスのチューニングやパーティション戦略などの最適化判断に不可欠です。クエリパターンを可視化できない場合、こうした判断は推測に頼ることになります。
 
-Access Logs give you that visibility. When enabled on a Zilliz Cloud クラスター, the access log pipeline captures query activities and delivers it as structured log files to your own object storage. You can then load these logs into a data warehouse and aggregate by entity ID to identify hot data, slow queries, and usage trends.
+Access Logs はその可視性を提供します。Zilliz Cloud クラスターで有効にすると、アクセスログパイプラインがクエリ活動を収集し、構造化されたログファイルとしてお客様自身のオブジェクトストレージに配信します。その後、これらのログをデータウェアハウスに読み込み、エンティティ ID ごとに集計することで、ホットデータ、遅いクエリ、利用傾向を特定できます。
 
 <Admonition type="info" title="Notes">
 
-- このリリースでは、search または query クラスのアクションのみが記録されます: Search、HybridSearch、Query。完全なアクション一覧のサポートは、今後のリリースで予定されています。
+- このリリースでは、検索またはクエリクラスのアクション（Search、HybridSearch、Query）のみがログに記録されます。完全なアクション一覧のサポートは、今後のリリースで予定されています。
 
-- このリリースでは、audit log と access log は相互排他的です。一度に有効化できるのはどちらか一方のみです。
+- このリリースでは、監査ログとアクセスログは相互排他的であり、一度に有効化できるのはどちらか一方のみです。
 
 </Admonition>
 
 ## パイプラインの仕組み\{#how-the-pipeline-works}
 
-The access log pipeline has two phases: コレクション on the Zilliz Cloud side and analysis on yours.
+アクセスログパイプラインには、Zilliz Cloud 側でのコレクションと、お客様側での分析という 2 つのフェーズがあります。
 
 ![TWlbbeheTo3aOnxE5t5cEYgcnbb](https://zdoc-images.s3.us-west-2.amazonaws.com/twlbbeheto3aonxe5t5ceygcnbb.png "TWlbbeheTo3aOnxE5t5cEYgcnbb")
 
 ### Zilliz Cloud によるログの収集と配信\{#zilliz-cloud-collects-and-delivers-logs}
 
-When you enable Access Logs on a クラスター, Zilliz Cloud begins capturing query activities at the proxy layer. You configure two settings at the クラスター level:
+クラスターで Access Logs を有効にすると、Zilliz Cloud はプロキシレイヤーでクエリ活動の収集を開始します。クラスターレベルでは 2 つの設定を構成します。
 
-- **Sample rate**: どの割合のリクエストを記録するかを制御します。値の範囲は 0 から 100 で、ランダムにサンプリングされて access log に書き込まれるリクエストの割合を表します。たとえば、sample rate を 1 に設定すると、約 1% のリクエストで access log エントリが生成されます。高ボリュームのワークロードでは、sample rate を低くすることで、アクセスパターンの分析に十分なデータを維持しつつ、ログ保存コストを削減できます。
+- **サンプルレート**: ログに記録するリクエストの割合を制御します。値の範囲は 0 から 100 で、ランダムにサンプリングされてアクセスログに書き込まれるリクエストの割合を表します。たとえば、サンプルレートを 1 に設定すると、約 1% のリクエストでアクセスログエントリが生成されます。高ボリュームのワークロードでは、サンプルレートを低くすることで、アクセスパターンの分析に十分なデータを維持しつつ、ログ保存コストを削減できます。
 
-- **Output fields**: 各 access log エントリに含める追加のレスポンスフィールドを制御します。一般的なオプションは次のとおりです。
+- **出力フィールド**: 各アクセスログエントリに含める追加のレスポンスフィールドを制御します。一般的なオプションは次のとおりです。
 
-    - `params.result_pks`: クエリ結果で返された primary key ID のリストを記録します。これにより、後で entity ごとに集計してホットデータやアクセス頻度を特定できます。
+    - `params.result_pks`: クエリ結果で返されたプライマリキー ID のリストを記録します。これにより、後でエンティティごとに集計して、ホットデータやアクセス頻度を特定できます。
 
-    - `params.result_scores`: `params.result_pks` 内の各 ID に対応する類似度スコアを記録します。これにより、どの結果が高信頼な一致で、どの結果が境界的な一致だったかを把握できます。
+    - `params.result_scores`: `params.result_pks` 内の各 ID の類似度スコアを記録します。これにより、どの結果が高信頼の一致で、どの結果が境界的な一致だったかを把握できます。
 
-ログは **JSON Lines** 形式（1 行に 1 つの JSON オブジェクト）で書き込まれ、セットアップ時に構成したオブジェクトストレージ bucket に自動的に配信されます。各ファイルは、予測可能なパス規則に従います。
+ログは **JSON Lines** 形式（1 行に 1 つの JSON オブジェクト）で書き込まれ、セットアップ時に構成したオブジェクトストレージバケットに自動的に配信されます。各ファイルは、予測可能なパス規則に従います。
 
 ```plaintext
 /<Cluster ID>/<Log type>/<Date>/<HH:MM:SS>-<UUID>.log
@@ -64,11 +64,11 @@ When you enable Access Logs on a クラスター, Zilliz Cloud begins capturing 
 
 例: `/inxx-xxxxxxxxxxxxxxx/access/2024-12-20/09:16:53-jz5l7D8Q.log`
 
-パラメーターの詳細については、[Access Log リファレンス](./access-log-reference)を参照してください。
+パラメーターの詳細については、[Access Log Reference](./access-log-reference) を参照してください。
 
 ### お客様によるログの分析\{#you-analyze-the-logs}
 
-ログはお客様自身の bucket に標準的な JSON Lines ファイルとして届くため、JSON を読み取れる任意のツールで処理できます。各ログエントリには、`action`、`cluster_id`、`timestamp`、`params.result_pks`（クエリ結果内の primary key のリスト）などの構造化フィールドが含まれています。
+ログはお客様自身のバケットに標準的な JSON Lines ファイルとして届くため、JSON を読み取れる任意のツールで処理できます。各ログエントリには、`action`、`cluster_id`、`timestamp`、`params.result_pks`（クエリ結果内のプライマリキーのリスト）などの構造化フィールドが含まれます。
 
 一般的な分析アプローチは次のとおりです。
 
@@ -76,25 +76,24 @@ When you enable Access Logs on a クラスター, Zilliz Cloud begins capturing 
 
 1. 各エントリから `action` フィールドと `params.result_pks` フィールドを解析します。
 
-1. 一定の時間枠で primary key ごとに集計し、アクセス頻度を明らかにします。
+1. 一定の時間枠でプライマリキーごとに集計し、アクセス頻度を明らかにします。
 
-その結果、データのヒートマップが得られます。どの entity が最も頻繁にクエリされているか、どのアクション経由か、そしてどの時間帯に行われているかを把握できます。
+その結果、データのヒートマップが得られます。どのエンティティが最も頻繁にクエリされ、どのアクションを通じて、どの時間帯にアクセスされているかを把握できます。
 
 ## 信頼性と課金\{#reliability-and-billing}
 
-access log パイプラインは、1 つの中核原則に基づいて設計されています。ログ記録によってクエリ性能が低下することはありません。
+アクセスログパイプラインは、ログ記録がクエリ性能を決して低下させないという中核原則に基づいて設計されています。
 
 ### 非ブロッキング保証\{#non-blocking-guarantee}
 
-Access log コレクション never delays or blocks user requests. If the system must choose between completing a query and writing a log entry, the query always wins.
+アクセスログのコレクションがユーザーリクエストを遅延させたりブロックしたりすることはありません。クエリの完了とログエントリの書き込みのどちらかをシステムが選択しなければならない場合は、常にクエリが優先されます。
 
 ### グレースフルデグラデーション\{#graceful-degradation}
 
-極端な高負荷時には、クエリスループットを維持するために、システムが access log エントリを破棄する場合があります。これは、access log が保証された完全な記録ではなく、クエリ活動のベストエフォートな記録を提供することを意味します。
+極端な高負荷時には、クエリスループットを維持するために、システムがアクセスログエントリを破棄する場合があります。これは、アクセスログが完全な記録を保証するものではなく、クエリ活動のベストエフォートな記録を提供することを意味します。
 
 ## 次のステップ\{#whats-next}
 
-- [Access Logs を構成する](./configure-access-logs): access log を有効化し、sampling rate と output params を調整するか、ログ記録を無効化します。
+- [Access Logs の構成](./configure-access-logs): アクセスログを有効化し、サンプリングレートと出力パラメーターを調整するか、ログ記録を無効化します。
 
-- [Access Log リファレンス](./access-log-reference): 完全なフィールドスキーマ、完全なアクション一覧、ファイルパス規則を確認できます。
-
+- [Access Log Reference](./access-log-reference): 完全なフィールドスキーマ、完全なアクション一覧、ファイルパス規則を確認できます。

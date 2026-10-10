@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Free および Serverless クラスターは serving クラスターです。作成、接続、管理という基本的なライフサイクルについては、このページを参照してください。 | Cloud"
+description: "Free および Serverless クラスターはサービングクラスターです。作成、接続、管理という基本的なライフサイクルについては、このページを参照してください。 | Cloud"
 type: origin
 token: EO58wVRLpiTBXQkceRjccN28nrh
 sidebar_position: 1
@@ -21,21 +21,21 @@ import TabItem from '@theme/TabItem';
 
 # Free & Serverless クラスター
 
-Free および Serverless クラスターは serving クラスターです。作成、接続、管理という基本的なライフサイクルについては、このページを参照してください。
+Free および Serverless クラスターはサービングクラスターです。作成、接続、管理という基本的なライフサイクルについては、このページを参照してください。
 
 <Admonition type="info" title="Note">
 
-For Dedicated クラスター, see [Dedicated クラスター](./manage-cluster). For on-demand search through a project endpoint, see [Connect for On-Demand Search](./connect-for-on-demand-search).
+Dedicated クラスターについては、[Dedicated クラスター](./manage-cluster) を参照してください。プロジェクトエンドポイントを介したオンデマンド検索については、[オンデマンド検索への接続](./connect-for-on-demand-search) を参照してください。
 
 </Admonition>
 
 ## Create\{#create}
 
-Free または Serverless クラスターを作成する前に、Zilliz Cloud に登録済みであり、クラスターを作成する organization または project の所有権を持っていることを確認してください。
+Free または Serverless クラスターを作成する前に、Zilliz Cloud に登録済みであり、クラスターを作成する組織またはプロジェクトの所有権を持っていることを確認してください。
 
 <Admonition type="info" title="Note">
 
-各 organization では、作成できる Free クラスターは 1 つのみです。追加の serving クラスターが必要な場合は、Serverless または Dedicated を使用してください。
+各組織で作成できる Free クラスターは 1 つのみです。追加のサービングクラスターが必要な場合は、Serverless または Dedicated を使用してください。
 
 </Admonition>
 
@@ -73,24 +73,24 @@ curl --request POST \
     }'
 ```
 
-| Parameter | 説明 |
+| パラメーター | 説明 |
 | --- | --- |
-| `API_KEY` | コントロールプレーン API リクエストの認証に使用する API key。 |
+| `API_KEY` | control-plane API リクエストの認証に使用する API キー。 |
 | `clusterName` | 作成するクラスターの名前。 |
-| `projectId` | クラスターを作成する project の ID。 |
+| `projectId` | クラスターを作成するプロジェクトの ID。 |
 | `regionId` | クラスターを作成するクラウドリージョンの ID。 |
 
 ## Connect\{#connect}
 
-Free および Serverless クラスターでは、以下の serving エンドポイントパターンを使用します。
+Free および Serverless クラスターでは、以下のサービングエンドポイントパターンを使用します。
 
 ```bash
 https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com
 ```
 
-クラスター詳細ページの **Connect** カードから、クラスターのパブリックエンドポイントをコピーします。トークンとしては、クラスターへのアクセス権を持つ API key、または `username:password` 形式のクラスター認証情報のいずれかを使用します。
+クラスターの詳細ページの **Connect** カードから、クラスターのパブリックエンドポイントをコピーします。トークンには、そのクラスターにアクセスできる API キー、または `username:password` 形式のクラスター認証情報のいずれかを使用します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -129,7 +129,7 @@ MilvusClientV2 client = new MilvusClientV2(connectConfig);
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v2/milvusclient"
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
@@ -139,10 +139,38 @@ client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let config = ConnectConfig::new()
+    .uri("YOUR_CLUSTER_ENDPOINT")
+    .token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT").WithToken("YOUR_CLUSTER_TOKEN"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient } = require("@zilliz/milvus2-sdk-node");
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 
 const address = "YOUR_CLUSTER_ENDPOINT";
 const token = "YOUR_CLUSTER_TOKEN";
@@ -156,7 +184,7 @@ const client = new MilvusClient({ address, token });
 
 ```bash
 curl --request POST \
-  --url "YOUR_CLUSTER_ENDPOINT" \
+  --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/list" \
   --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
   --header "Content-Type: application/json" \
   --data '{"dbName": "default"}'
@@ -165,7 +193,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-To verify the connection, run a lightweight operation such as listing コレクション.
+接続を確認するには、コレクションの一覧表示のような軽量な操作を実行します。
 
 ```python
 collections = client.list_collections()
@@ -176,18 +204,18 @@ print(collections)
 
 Free および Serverless クラスターは、クラスター詳細ページから管理できます。
 
-| Operation | Free クラスター | Serverless クラスター |
+| 操作 | Free クラスター | Serverless クラスター |
 | --- | --- | --- |
 | Rename | サポートされています。 | サポートされています。 |
 | Resume | Free クラスターは、7 日間連続で非アクティブな場合に自動的に一時停止され、いつでも再開できます。 | Serverless クラスターは一時停止および再開操作をサポートしていません。 |
 | Upgrade deployment option | Serverless または Dedicated にアップグレードできます。Free から Dedicated へのアップグレードでは、新しい Dedicated クラスターが作成され、Free クラスターからデータが移行されます。 | Dedicated にアップグレードできます。Serverless から Dedicated へのアップグレードでは、新しい Dedicated クラスターが作成され、Serverless クラスターからデータが移行されます。 |
-| Drop | サポートされています。Free クラスターは削除後、recycle bin から復元できません。 | サポートされています。 |
+| Drop | サポートされています。Free クラスターは、削除後にごみ箱から復元できません。 | サポートされています。 |
 
 アップグレードによって新しい Dedicated クラスターが作成される場合は、アプリケーションコード内のクラスターエンドポイントを忘れずに更新してください。
 
 ## Drop\{#drop}
 
-To drop a クラスター programmatically, call the drop クラスター API with the クラスター ID.
+プログラムからクラスターを削除するには、クラスター ID を指定してクラスター削除 API を呼び出します。
 
 ```bash
 curl --request POST \

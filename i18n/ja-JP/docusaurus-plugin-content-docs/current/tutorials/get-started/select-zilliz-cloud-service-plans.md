@@ -1,13 +1,13 @@
 ---
 title: "デプロイとプランの比較 | Cloud"
 slug: /select-zilliz-cloud-service-plans
-sidebar_label: "プラン比較"
+sidebar_label: "プランの比較"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud は、さまざまなワークロード、信頼性、コンプライアンス、データ主権、インフラストラクチャの要件に合わせて、複数のデプロイとプロジェクトプランのオプションを提供しています。 | Cloud"
+description: "Zilliz Cloud は、さまざまなワークロード、信頼性、コンプライアンス、データ主権、インフラストラクチャの要件に合わせて、複数のデプロイおよびプロジェクトプランのオプションを提供します。 | Cloud"
 type: origin
 token: Ghq9wEiOOivgeIkmj2HcHC9onXe
 sidebar_position: 4
@@ -20,43 +20,43 @@ import Admonition from '@theme/Admonition';
 
 # デプロイとプランの比較
 
-Zilliz Cloud は、さまざまなワークロード、信頼性、コンプライアンス、データ主権、インフラストラクチャの要件に合わせて、複数のデプロイとプロジェクトプランのオプションを提供しています。
+Zilliz Cloud は、さまざまなワークロード、信頼性、コンプライアンス、データ主権、インフラストラクチャの要件に合わせて、複数のデプロイおよびプロジェクトプランのオプションを提供します。
 
-リソースをデプロイする前に、まず **SaaS** と **BYOC** のどちらを使用するかを決定する必要があります。これにより、インフラストラクチャを誰が運用するか、およびデータプレーン環境がどこで実行されるかが決まります。
+リソースをデプロイする前に、まず **SaaS** と **BYOC** のどちらを使用するかを決定する必要があります。これにより、インフラストラクチャを運用する主体と、データプレーン環境が実行される場所が決まります。 
 
-- SaaS を選択した場合は、その後、そのプロジェクト内のリソースで利用できる機能、SLA、コンプライアンス機能を定義するプロジェクトプランを選択します。
+- SaaS を選択した場合は、そのプロジェクト内のリソースで利用できる機能、SLA、コンプライアンス機能を定義するプロジェクトプランを選択します。
 
 - BYOC を選択した場合、機能サポートは SaaS の Business Critical プランと一致します。
 
-このガイドを使用して、Zilliz Cloud のプランを比較し、[プロジェクトを作成する](./manage-projects#create-a-project)前に適切なプランを選択してください。
+このガイドを使用して Zilliz Cloud のプランを比較し、[プロジェクトを作成する](./manage-projects#create-a-project) 前に適切なプランを選択してください。
 
-## デプロイの選択（SaaS vs. BYOC）\{#select-deployment-saas-vs-byoc}
+## デプロイの選択（SaaS と BYOC）\{#select-deployment-saas-vs-byoc}
 
-| **判断要素** | **SaaS を選択する場合...** | **BYOC を選択する場合...** |
+| **判断基準** | **SaaS を選択する場合** | **BYOC を選択する場合** |
 | --- | --- | --- |
-| インフラストラクチャの所有権 | Zilliz にインフラストラクチャの運用を任せたい場合。 | 組織がクラウドアカウント、VPC/VNet, およびデータプレーン環境を所有する必要がある場合。 |
-| データ主権 | リージョンレベルの制御で十分な場合。 | データを自社のクラウドアカウント内に保持する必要がある場合。 |
-| ネットワーキング | パブリックエンドポイントまたは標準的なプライベートネットワーキングで問題ない場合。 | 顧客の VPC/VNet-local アクセスと、プライベートエンドポイントのパターンが必要な場合。 |
-| コンプライアンス | SaaS プランの制御で要件を満たせる場合。 | 顧客管理のインフラストラクチャや、より厳格なクラウドガバナンスが要件として求められる場合。 |
-| コストモデル | パッケージ化された SaaS の課金を希望する場合。 | Zilliz BYOC の料金と、自社のクラウドプロバイダーの割引やコミットメントを組み合わせたい場合。 |
-| 運用 | 運用負荷を最小限にしたい場合。 | 共有のクラウド、ネットワーク、ストレージ、およびセキュリティの責任を管理できる場合。 |
+| インフラストラクチャの所有権 | Zilliz がインフラストラクチャを運用することを希望する場合。 | 組織がクラウドアカウント、VPC/VNet, データプレーン環境を所有する必要がある場合。 |
+| データ主権 | リージョンレベルの制御で十分な場合。 | データを自社のクラウドアカウントに留めておく必要がある場合。 |
+| ネットワーキング | パブリックエンドポイントまたは標準的なプライベートネットワーキングで許容できる場合。 | 顧客の VPC/VNet-local アクセスとプライベートエンドポイントのパターンが必要な場合。 |
+| コンプライアンス | SaaS プランの制御が要件を満たしている場合。 | 要件が顧客管理のインフラストラクチャまたはより厳格なクラウドガバナンスを求める場合。 |
+| コストモデル | パッケージ化された SaaS の請求を希望する場合。 | Zilliz BYOC の料金と自社のクラウドプロバイダーの割引およびコミットメントを組み合わせたい場合。 |
+| 運用 | 運用負担を最小限にしたい場合。 | 共有されるクラウド、ネットワーク、ストレージ、セキュリティの責任を管理できる場合。 |
 
 ## プランの選択\{#select-plan}
 
-BYOC を選択した場合は、プランをさらに選択する必要はありません。BYOC の機能サポートは SaaS の Business Critical プランと同じです。SaaS デプロイを選択した場合は、以下のオプションからプランを選択する必要があります。
+BYOC を選択した場合は、プランをさらに選択する必要はありません。BYOC の機能サポートは SaaS の Business Critical プランと同じです。SaaS デプロイを選択した場合は、次のオプションからプランを選択する必要があります。
 
-- **Standard:** Standard プランは、重要度の低いワークロード向けに調整されています。プロトタイプやテスト環境に最適です。詳細は [Zilliz Cloud Pricing](https://zilliz.com/pricing) を参照してください。
+- **Standard:** Standard プランは、重要度の低いワークロード向けに調整されています。プロトタイプやテスト環境に最適です。詳細については、[Zilliz Cloud の料金](https://zilliz.com/pricing) を参照してください。
 
-- **Enterprise:** Enterprise プランは、エンタープライズグレードの信頼性と制御機能を提供します。本番アプリケーションに最適です。詳細は [Zilliz Cloud Pricing](https://zilliz.com/pricing) を参照してください。
+- **Enterprise:** Enterprise プランは、エンタープライズグレードの信頼性と制御を提供します。本番アプリケーションに最適です。詳細については、[Zilliz Cloud の料金](https://zilliz.com/pricing) を参照してください。
 
-- **Business Critical**: Business Critical プランは、規制要件に対応できるよう準備されており、最大限のレジリエンスを備えています。医療、金融、ミッションクリティカルなシステムに最適です。Business Critical プランを選択するには、[営業担当者にお問い合わせください](http://zilliz.com/contact-sales)。
+- **Business Critical**: Business Critical プランは、最大限の回復性を備え、規制にも対応しています。ヘルスケア、金融、ミッションクリティカルシステムに最適です。Business Critical プランを選択するには、[営業担当者にお問い合わせください](http://zilliz.com/contact-sales)。
 
 <table>
    <tr>
      <th><p><strong>機能</strong></p></th>
-     <th><p><strong>Standard（SaaS）</strong></p></th>
-     <th><p><strong>Enterprise（SaaS）</strong></p></th>
-     <th><p><strong>Business Critical（SaaS）および BYOC</strong></p></th>
+     <th><p><strong>Standard (SaaS)</strong></p></th>
+     <th><p><strong>Enterprise (SaaS)</strong></p></th>
+     <th><p><strong>Business Critical (SaaS) および BYOC</strong></p></th>
    </tr>
    <tr>
      <td><p>稼働率 SLA</p></td>
@@ -101,7 +101,7 @@ BYOC を選択した場合は、プランをさらに選択する必要はあり
      <td><p>✅</p></td>
    </tr>
    <tr>
-     <td><p>移行</p></td>
+     <td><p>マイグレーション</p></td>
      <td><p>✅</p></td>
      <td><p>✅</p></td>
      <td><p>✅</p></td>
@@ -113,7 +113,7 @@ BYOC を選択した場合は、プランをさらに選択する必要はあり
      <td><p>✅</p></td>
    </tr>
    <tr>
-     <td><p>可観測性の統合（<a href="./integrate-with-datadog">Datadog</a>、<a href="./prometheus-monitoring">Prometheus</a>）</p></td>
+     <td><p>オブザーバビリティ統合（<a href="./integrate-with-datadog">Datadog</a>、<a href="./prometheus-monitoring">Prometheus</a>）</p></td>
      <td><p>❌</p></td>
      <td><p>✅</p></td>
      <td><p>✅</p></td>
@@ -131,10 +131,10 @@ BYOC を選択した場合は、プランをさらに選択する必要はあり
      <td><p>✅</p></td>
    </tr>
    <tr>
-     <td><p>クロスリージョンバックアップ</p></td>
+     <td><p>リージョン間バックアップ</p></td>
      <td><p>❌</p></td>
      <td><p>❌</p></td>
-     <td><p>✅</p><Admonition type="info" title="Note"> クロスリージョンバックアップは現在 BYOC ではサポートされていません。 </Admonition></td>
+     <td><p>✅</p><Admonition type="info" title="Note"> リージョン間バックアップは現在 BYOC ではサポートされていません。 </Admonition></td>
    </tr>
    <tr>
      <td><p>ストレージ統合（AWS S3、Google Cloud Storage、Azure Blob Storage）</p></td>
@@ -150,6 +150,12 @@ BYOC を選択した場合は、プランをさらに選択する必要はあり
    </tr>
    <tr>
      <td><p><a href="./single-sign-on">シングルサインオン（SSO）</a></p></td>
+     <td><p>❌</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+   </tr>
+   <tr>
+     <td><p><a href="./scim-provisioning-overview">SCIM（System for Cross-domain Identity Management）</a></p></td>
      <td><p>❌</p></td>
      <td><p>✅</p></td>
      <td><p>✅</p></td>
@@ -173,7 +179,7 @@ BYOC を選択した場合は、プランをさらに選択する必要はあり
      <td><p>✅</p></td>
    </tr>
    <tr>
-     <td><p><a href="./cmek">カスタマー管理の暗号化キー（CMEK）</a></p></td>
+     <td><p><a href="./cmek">顧客管理の暗号化キー（CMEK）</a></p></td>
      <td><p>❌</p></td>
      <td><p>❌</p></td>
      <td><p>✅</p></td>
@@ -191,3 +197,4 @@ BYOC を選択した場合は、プランをさらに選択する必要はあり
      <td><p>✅</p></td>
    </tr>
 </table>
+

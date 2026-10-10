@@ -1,13 +1,13 @@
 ---
-title: "API Keys | Cloud"
+title: "API キー | Cloud"
 slug: /manage-api-keys
-sidebar_label: "API Keys"
+sidebar_label: "API キー"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "API key は、Zilliz Cloud の control plane および data plane リソースにアクセスするための API または SDK 呼び出しを行うユーザーまたはアプリケーションを認証するために使用されます。API key は、名前や ID などの独自のプロパティを持つ英数字の文字列です。 | Cloud"
+description: "API キーは、Zilliz Cloud のコントロールプレーンおよびデータプレーンのリソースにアクセスするために API 呼び出しや SDK 呼び出しを行うユーザーまたはアプリケーションを認証するために使用されます。API キーは、名前や ID などの独自のプロパティを持つ英数字の文字列です。 | Cloud"
 type: origin
 token: BRsZwqOUTiBbrPk9b5WcvFgTnze
 sidebar_position: 2
@@ -20,67 +20,67 @@ import Admonition from '@theme/Admonition';
 
 import Procedures from '@site/src/components/Procedures';
 
-# API Keys
+# API キー
 
-API key は、Zilliz Cloud の control plane および data plane リソースにアクセスするための API または SDK 呼び出しを行うユーザーまたはアプリケーションを認証するために使用されます。API key は、名前や ID などの独自のプロパティを持つ英数字の文字列です。
+API キーは、Zilliz Cloud のコントロールプレーンおよびデータプレーンのリソースにアクセスするために API 呼び出しや SDK 呼び出しを行うユーザーまたはアプリケーションを認証するために使用されます。API キーは、名前や ID などの独自のプロパティを持つ英数字の文字列です。
 
-## API key の概要\{#overview-of-api-keys}
+## API キーの概要\{#overview-of-api-keys}
 
-Zilliz Cloud では、多様なユーザー要件に対応するために 2 種類の API key を提供しています。
+Zilliz Cloud では、多様なユーザーの要件に応えるために 2 種類の API キーを提供しています。
 
-- **Personal API keys**: ユーザー登録時に自動生成され、各 key はユーザーのアカウントに紐付けられ、そのユーザーが所属する organization および project におけるロールの権限を継承します。アカウントユーザーが organization を離れると、関連する personal key は自動的に削除されます。[Organization Owner](./manage-platform-roles#predefined-organization-roles) または [Project Admin](./manage-platform-roles#predefined-project-roles) として、Zilliz Cloud Web コンソールでは次の 2 種類の personal API key を確認できます。
+- **パーソナル API キー**：ユーザー登録時に自動的に生成され、各キーはユーザーのアカウントにリンクされて、ユーザーが所属する組織およびプロジェクト内でのユーザーのロールの権限を継承します。アカウントユーザーが組織を離れた場合、関連付けられたパーソナルキーは自動的に削除されます。[Organization Owner](./manage-platform-roles#predefined-organization-roles) または [Project Admin](./manage-platform-roles#predefined-project-roles) として、Zilliz Cloud Web コンソールで 2 種類のパーソナル API キーを確認できます。
 
-    - **Your own personal API key**: 自分専用の personal key です。この API key は表示およびコピーできます。
+    - **自分のパーソナル API キー**：自分だけに属するパーソナルキーです。この API キーを表示およびコピーできます。
 
-    - **Member's personal API key**: organization または project 内の他のユーザーに属する既存の personal key の一覧です。これらの key 自体は表示できず、名前と ID のみ表示できます。
+    - **メンバーのパーソナル API キー**：組織またはプロジェクト内の他のユーザーに属する既存のパーソナルキーの一覧です。これらのキーの名前と ID は表示できますが、キー自体は表示できません。
 
-- **Customized API keys**: Zilliz Cloud アカウントを持たないアプリケーションまたは外部ユーザー向けに、**Organization Owners** と **Project Admins** が手動で作成する key です。これらの key は長期的なアクセス要件に最適で、API key の最初の作成者が organization を離れた場合でもサービス継続性を確保できます。
+- **カスタマイズされた API キー**：Zilliz Cloud アカウントを持たないアプリケーションまたは外部ユーザー向けに、**Organization Owners** および **Project Admins** が手動で作成します。これらのキーは長期的なアクセス要件に最適で、API キーの最初の作成者が組織を離れた場合でもサービスの継続性を保証します。
 
 <Admonition type="info" title="Notes">
 
-本番環境では、代わりに customized key を使用してください。Personal API key はユーザーアカウントとともに削除されます。
+本番環境では、代わりにカスタマイズされたキーを使用してください。パーソナル API キーは、ユーザーアカウントとともに削除されます。
 
 </Admonition>
 
-以下の図は、API Key のロールとリソースアクセスを示しています。
+次の図は、API キーのロールとリソースアクセスを示しています。
 
 ![Ec7wwrAnFhGIZFbJTWwc57bVn0f](https://zdoc-images.s3.us-west-2.amazonaws.com/Ec7wwrAnFhGIZFbJTWwc57bVn0f.png)
 
-次の表は、割り当てられたロールに基づく API key のアクセス範囲を示しています。ロールと権限の詳細については、[Access Control Explained](./access-control-overview) を参照してください。
+次の表では、割り当てられたロールに基づく API キーのアクセススコープについて詳しく説明します。ロールと権限の詳細については、アクセス制御の解説を参照してください。
 
 <table>
    <tr>
-     <th colspan="2"><p><strong>API Key ロール</strong></p></th>
+     <th colspan="2"><p><strong>API キーのロール</strong></p></th>
      <th><p><strong>アクセスレベル</strong></p></th>
    </tr>
    <tr>
      <td colspan="2"><p>Organization Owner</p></td>
-     <td><p>organization 内のすべてのリソース（project、クラスター、volume を含む）に対する完全な管理者アクセス。</p></td>
+     <td><p>組織内のすべてのリソース（プロジェクト、クラスター、ボリュームなど）に対する完全な管理者アクセスです。</p></td>
    </tr>
    <tr>
      <td colspan="2"><p>Organization Billing Admin</p></td>
-     <td><p>organization の請求に対する管理者アクセスのみ。organization 内の project、クラスター、volume にはアクセス不可。</p></td>
+     <td><p>組織の請求のみに対する管理者アクセスです。組織内のプロジェクト、クラスター、ボリュームにはアクセスできません。</p></td>
    </tr>
    <tr>
      <td rowspan="3"><p>Organization Member</p></td>
      <td><p>Project Admin</p></td>
-     <td><p>指定された project に対する完全な管理者アクセス。デフォルトで、その project 内のすべての クラスター と volume に対しても完全な管理者アクセス。</p></td>
+     <td><p>指定されたプロジェクトに対する完全な管理者アクセスと、デフォルトでそのプロジェクト内のすべてのクラスターおよびボリュームに対する完全な管理者アクセスです。</p></td>
    </tr>
    <tr>
      <td><p>Project Read-Write</p></td>
-     <td><p>指定された project に対する読み取りおよび書き込みアクセス。デフォルトで、その project 内のすべての クラスター と volume に対しても読み取りおよび書き込みアクセス。</p></td>
+     <td><p>指定されたプロジェクトへの読み取りおよび書き込みアクセスと、デフォルトでそのプロジェクト内のすべてのクラスターおよびボリュームへの読み取りおよび書き込みアクセスです。</p></td>
    </tr>
    <tr>
      <td><p>Project Read-Only</p></td>
-     <td><p>指定された project に対する読み取り専用アクセス。デフォルトで、その project 内のすべての クラスター と volume に対しても読み取り専用アクセス。</p></td>
+     <td><p>指定されたプロジェクトへの読み取り専用アクセスと、デフォルトでそのプロジェクト内のすべてのクラスターおよびボリュームへの読み取り専用アクセスです。</p></td>
    </tr>
 </table>
 
-### 上限と制限\{#limits-and-restrictions}
+### 制限と制約\{#limits-and-restrictions}
 
-- 各 organization には、最大 100 個の customized API key を含めることができます。
+- 各組織には最大 100 個のカスタマイズされた API キーを含めることができます。
 
-- API key の管理権限は、organization および project 内でのユーザーのロールの影響を受けます。具体的な権限は次のとおりです。
+- API キーの管理権限は、組織およびプロジェクト内でのユーザーのロールによって異なります。具体的な権限は次のとおりです。
 
     <table>
        <tr>
@@ -95,7 +95,7 @@ Zilliz Cloud では、多様なユーザー要件に対応するために 2 種�
          <td><p><strong>Project Read-Only</strong></p></td>
        </tr>
        <tr>
-         <td colspan="6"><p><strong>あなた自身の Personal API Key</strong></p></td>
+         <td colspan="6"><p><strong>自分のパーソナル API キー</strong></p></td>
        </tr>
        <tr>
          <td><p>作成</p></td>
@@ -131,14 +131,14 @@ Zilliz Cloud では、多様なユーザー要件に対応するために 2 種�
        </tr>
        <tr>
          <td><p>削除</p></td>
-         <td><p>ユーザーが organization を離れると自動削除</p></td>
-         <td><p>ユーザーが organization を離れると自動削除</p></td>
-         <td><p>ユーザーが organization を離れると自動削除</p></td>
-         <td><p>ユーザーが organization を離れると自動削除</p></td>
-         <td><p>ユーザーが organization を離れると自動削除</p></td>
+         <td><p>ユーザーが組織を離れると自動的に削除されます</p></td>
+         <td><p>ユーザーが組織を離れると自動的に削除されます</p></td>
+         <td><p>ユーザーが組織を離れると自動的に削除されます</p></td>
+         <td><p>ユーザーが組織を離れると自動的に削除されます</p></td>
+         <td><p>ユーザーが組織を離れると自動的に削除されます</p></td>
        </tr>
        <tr>
-         <td colspan="6"><p><strong>メンバーの Personal API Key</strong></p></td>
+         <td colspan="6"><p><strong>メンバーのパーソナル API キー</strong></p></td>
        </tr>
        <tr>
          <td><p>作成</p></td>
@@ -149,7 +149,7 @@ Zilliz Cloud では、多様なユーザー要件に対応するために 2 種�
          <td><p>自動生成</p></td>
        </tr>
        <tr>
-         <td><p>名前と ID の表示</p></td>
+         <td><p>名前と ID を表示</p></td>
          <td><p>✔️</p></td>
          <td><p>✘</p></td>
          <td><p>✔️</p></td>
@@ -182,14 +182,14 @@ Zilliz Cloud では、多様なユーザー要件に対応するために 2 種�
        </tr>
        <tr>
          <td><p>削除</p></td>
-         <td><p>メンバーが organization を離れると自動削除</p></td>
-         <td><p>メンバーが organization を離れると自動削除</p></td>
-         <td><p>メンバーが organization を離れると自動削除</p></td>
-         <td><p>メンバーが organization を離れると自動削除</p></td>
-         <td><p>メンバーが organization を離れると自動削除</p></td>
+         <td><p>メンバーが組織を離れると自動的に削除されます</p></td>
+         <td><p>メンバーが組織を離れると自動的に削除されます</p></td>
+         <td><p>メンバーが組織を離れると自動的に削除されます</p></td>
+         <td><p>メンバーが組織を離れると自動的に削除されます</p></td>
+         <td><p>メンバーが組織を離れると自動的に削除されます</p></td>
        </tr>
        <tr>
-         <td colspan="6"><p><strong>Customized API Key</strong></p></td>
+         <td colspan="6"><p><strong>カスタマイズされた API キー</strong></p></td>
        </tr>
        <tr>
          <td><p>作成</p></td>
@@ -233,107 +233,107 @@ Zilliz Cloud では、多様なユーザー要件に対応するために 2 種�
        </tr>
     </table>
 
-## API key を作成する\{#create-an-api-key}
+## API キーを作成する\{#create-an-api-key}
 
-Zilliz Cloud が各 organization ユーザーに対して自動生成する personal key とは別に、customized key を作成できます。customized API key を作成できるのは **Organization Owners** と **Project Admins** のみです。
+Zilliz Cloud が各組織ユーザーに対して自動的に生成するパーソナルキーとは別に、カスタマイズされたキーを作成できます。カスタマイズされた API キーを作成できるのは、**Organization Owners** と **Project Admins** のみです。
 
 <Procedures>
 
-1. organization の **API Keys** ページに移動します。**+ API Key** をクリックします。
+1. 組織の **API Keys** ページに移動します。**+ API Key** をクリックします。
 
     ![create-api-key](https://zdoc-images.s3.us-west-2.amazonaws.com/create-api-key.png "create-api-key")
 
-1. **API Key Name** を入力し、**API Key Access** を設定します。
+1. **API Key Name** を入力し、**API Key Access** を構成します。
 
     ![Td6mboU99oiRhVxvbYecZJf1nGC](https://zdoc-images.s3.us-west-2.amazonaws.com/td6mbou99oirhvxvbyeczjf1ngc.png "Td6mboU99oiRhVxvbYecZJf1nGC")
 
-    - **API Key Name:** 名前は 64 文字以内である必要があります。
+    - **API Key Name：**名前は 64 文字以内にする必要があります。
 
-    - **API Key Description (optional)**: 作成する API key の説明です。最大 255 文字です。
+    - **API Key Description（任意）**：作成する API キーの説明です。最大 255 文字です。
 
-    - **API Key Access**: 適切な organization ロールおよび project ロールを割り当てて、現在の customized API key のアクセス範囲を定義します。よりきめ細かなアクセス制御のために、**Restrict Access to Specific クラスター and Volumes** をチェックして、この key がアクセスできる クラスター と volume を制限できます。
+    - **API Key Access**：適切な組織ロールおよびプロジェクトロールを割り当てて、現在のカスタマイズされた API キーのアクセススコープを定義します。より詳細なアクセス制御を行うには、**Restrict Access to Specific クラスター and Volumes** をオンにして、キーがアクセスできるクラスターとボリュームを制限できます。
 
         <Admonition type="info" title="Notes">
 
-        [Project Admins](./manage-platform-roles#predefined-project-roles) の場合、このユーザーが API key に付与できる権限は、そのユーザー自身の権限範囲に制限されます。 
+        [Project Admins](./manage-platform-roles#predefined-project-roles) の場合、このユーザーが API キーに付与できる権限は、ユーザー自身の権限スコープに限定されます。 
 
         </Admonition>
 
 </Procedures>
 
-## API key を表示する\{#view-api-keys}
+## API キーを表示する\{#view-api-keys}
 
-organization の **API Keys** ページに移動します。表示内容は、あなたの[ロール](./manage-api-keys#limits-and-restrictions)によって異なる場合があります。
+組織の **API Keys** ページに移動します。表示内容は、[ロール](./manage-api-keys#limits-and-restrictions) によって異なる場合があります。
 
-- **Organization Owner** の場合、自分自身の personal key、すべてのメンバーの personal key、そしてすべての customized key を表示できます。 
+- **Organization Owner** の場合は、自分のパーソナルキー、すべてのメンバーのパーソナルキー、およびすべてのカスタマイズされたキーを表示できます。 
 
-- **Project Admin** の場合、自分自身の personal key に加えて、自分の権限範囲内にあるメンバーの personal key と customized key を表示できます。たとえば、*User 1* が *Project A* の Project Admin のみであり、*Key 1* が *Projects A*、*B*、*C* に対する Admin アクセスを持っている場合、*Key 1* のアクセス範囲は *User 1* の権限を超えているため、*User 1* には *Key 1* は表示されません。
+- **Project Admin** の場合は、自分のパーソナルキー、メンバーのパーソナルキー、および権限スコープ内にあるカスタマイズされたキーを表示できます。たとえば、*User 1* が *Project A* の Project Admin のみであり、*Key 1* が *Projects A*、*B*、*C* への管理者アクセスを持っている場合、*Key 1* のアクセススコープは *User 1* の権限を超えているため、*Key 1* は *User 1* には表示されません。
 
-- **Organization Billing Admin**、**Project Read-Write**、または **Project Read-Only** の場合、自分自身の personal API key のみ表示できます。
+- **Organization Billing Admin**、**Project Read-Write**、または **Project Read-Only** の場合は、自分のパーソナル API キーのみを表示できます。
 
-以下のスクリーンショットは、**Organization Owner** から見た API key の表示を示しています。
+次のスクリーンショットは、**Organization Owner** の API キー表示を示しています。
 
 ![KKONbcCa3o4qr9xJlhlcQMwinRd](https://zdoc-images.s3.us-west-2.amazonaws.com/kkonbcca3o4qr9xjlhlcqmwinrd.png "KKONbcCa3o4qr9xJlhlcQMwinRd")
 
-## API key を編集する\{#edit-an-api-key}
+## API キーを編集する\{#edit-an-api-key}
 
-現在、編集できるのは customized API key のみです。Personal key はアカウントユーザーに紐付いているため編集できません。personal key のアクセス範囲を変更するには、まずユーザーの organization ロールおよび project ロールを調整する必要があります。ユーザーのロールに対する変更は、key のアクセス権限に自動的に反映されます。
+現在、編集できるのはカスタマイズされた API キーのみです。パーソナルキーはアカウントユーザーに紐付けられているため、編集できません。パーソナルキーのアクセススコープを変更するには、まずユーザーの組織ロールおよびプロジェクトロールを調整する必要があります。ユーザーのロールへの変更は、キーのアクセス権限に自動的に反映されます。
 
-以下の手順では、customized API key を編集する方法を説明します。
+以下の手順では、カスタマイズされた API キーを編集する方法について説明します。
 
 <Procedures>
 
-1. organization の **API Keys** ページに移動します。操作列の **...** をクリックし、**Edit** をクリックします。
+1. 組織の **API Keys** ページに移動します。操作列の **...** をクリックし、**Edit** をクリックします。
 
     ![edit-api-key](https://zdoc-images.s3.us-west-2.amazonaws.com/edit-api-key.png "edit-api-key")
 
-1. API Key の **API Key Name** と **API Key Access** を編集します。
+1. API キーの **API Key Name** と **API Key Access** を編集します。
 
     ![JXeubHidbokaTax90eZcrmA9nIg](https://zdoc-images.s3.us-west-2.amazonaws.com/jxeubhidbokatax90ezcrma9nig.png "JXeubHidbokaTax90eZcrmA9nIg")
 
-    - **API Key Name:** 名前は 64 文字以内である必要があります。
+    - **API Key Name：**名前は 64 文字以内にする必要があります。
 
-    - **API Key Access**:  適切な organization ロールおよび project ロールを割り当てて、現在の customized API key のアクセス範囲を定義します。よりきめ細かなアクセス制御のために、**Restrict Access to Specific クラスター and Volumes** をチェックして、この key がアクセスできる クラスター と volume を制限できます。
+    - **API Key Access**：適切な組織ロールおよびプロジェクトロールを割り当てて、現在のカスタマイズされた API キーのアクセススコープを定義します。より詳細なアクセス制御を行うには、**Restrict Access to Specific クラスター and Volumes** をオンにして、キーがアクセスできるクラスターとボリュームを制限できます。
 
         <Admonition type="info" title="Notes">
 
-        [Project Admins](./manage-platform-roles#predefined-project-roles) の場合、このユーザーが API key に付与できる権限は、そのユーザー自身の権限範囲に制限されます。 
+        [Project Admins](./manage-platform-roles#predefined-project-roles) の場合、このユーザーが API キーに付与できる権限は、ユーザー自身の権限スコープに限定されます。 
 
         </Admonition>
 
 </Procedures>
 
-## API key をリセットする\{#reset-an-api-key}
+## API キーをリセットする\{#reset-an-api-key}
 
-personal API key または customized API key が漏洩した可能性がある場合は、直ちにリセットする必要があります。 
+パーソナル API キーまたはカスタマイズされた API キーが漏洩したと思われる場合は、直ちにリセットする必要があります。 
 
 <Admonition type="warning" title="Warning">
 
-この操作により、現在の API key はリセットされて無効になります。この key を使用しているアプリケーションコードは、新しい key の値で関連コードを更新するまで動作しなくなります。
+この操作により、現在の API キーがリセットされ、無効になります。このキーを使用しているアプリケーションコードは、新しいキー値で関連するコードを更新するまで機能しなくなります。
 
 </Admonition>
 
-key の種類によって、手順は異なります。
+キーの種類によって、手順は異なります。
 
-- **Personal API key をリセットする**: ロールに関係なく、自分自身の personal API key のみリセットできます。 
+- **パーソナル API キーのリセット**：ロールに関係なく、自分のパーソナル API キーのみをリセットできます。 
 
     ![reset-personal-api-keys](https://zdoc-images.s3.us-west-2.amazonaws.com/reset-personal-api-keys.png "reset-personal-api-keys")
 
-- **Customized API key をリセットする**: customized API key をリセットできるのは Organization Owners と Project Admins のみです。
+- **カスタマイズされた API キーのリセット**：カスタマイズされた API キーをリセットできるのは、Organization Owners と Project Admins のみです。
 
     ![reset-customized-api-keys](https://zdoc-images.s3.us-west-2.amazonaws.com/reset-customized-api-keys.png "reset-customized-api-keys")
 
-## API key を削除する\{#delete-an-api-key}
+## API キーを削除する\{#delete-an-api-key}
 
-customized API key が不要になった場合は、できるだけ早く削除してください。customized API key を削除できるのは **Organization Owners** と **Project Admins** のみです。
+カスタマイズされた API キーが使用されなくなった場合は、できるだけ早く削除する必要があります。カスタマイズされた API キーを削除できるのは、**Organization Owners** と **Project Admins** のみです。
 
-personal key は手動で削除できません。ただし、対応するユーザーが organization を離れると、自動的に無効化され削除されます。 
+パーソナルキーは手動で削除できません。ただし、対応するユーザーが組織を離れると、自動的に無効化されて削除されます。 
 
-以下のスクリーンショットは、customized API key を削除する方法を示しています。
+次のスクリーンショットは、カスタマイズされた API キーを削除する方法を示しています。
 
 <Admonition type="warning" title="Warning">
 
-API key を削除すると、その key を使用しているすべてのサービスの Zilliz Cloud リソースへのアクセスは不可逆的に終了します。
+API キーを削除すると、そのキーを使用しているすべてのサービスについて、Zilliz Cloud リソースへのアクセスが不可逆的に終了します。
 
 </Admonition>
 
@@ -341,9 +341,9 @@ API key を削除すると、その key を使用しているすべてのサー�
 
 ## FAQ\{#faq}
 
-**本番環境で personal API key を使用すべきですか？**  
+**本番環境で自分のパーソナル API キーを使用してもよいですか？**  
 
-いいえ。**Personal API keys** は個々のユーザーアカウントに紐付いており、ユーザーが organization を離れると自動的に削除されます。key の所有者のアカウントが削除されると、その key に依存しているアプリケーションやサービスは、Zilliz Cloud リソースへのアクセスを即座に失います。 
+いいえ。**パーソナル API キー**は個々のユーザーアカウントに紐付けられており、ユーザーが組織を離れると自動的に削除されます。キーの所有者のアカウントが削除されると、そのキーに依存しているアプリケーションまたはサービスは直ちに Zilliz Cloud リソースへのアクセスを失います。 
 
-本番環境では、代わりに **customized API keys** を使用してください。customized key は特定の個人ユーザーアカウントに依存しないため、チームメンバーが organization を離れた場合でもサービス継続性を確保できます。    
+本番環境では、代わりに**カスタマイズされた API キー**を使用してください。カスタマイズされたキーは個々のユーザーアカウントから独立しているため、チームメンバーが組織を離れてもサービスの継続性を保証します。    
 

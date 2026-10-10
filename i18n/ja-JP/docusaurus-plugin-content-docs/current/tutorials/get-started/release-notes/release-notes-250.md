@@ -46,7 +46,7 @@ Operation Layer では、Zilliz Cloud は 4 種類のロールをサポートし
 
 - Project Member: プロジェクト内のすべてのクラスターに対する読み取りおよび書き込み権限を持ち、クラスターの詳細を表示し、コレクションとインデックスを管理できます。
 
-Data Layer では、Zilliz Cloud は、データの管理、書き込み、読み取りの権限を制御するために、Admin、Read-Only、Read-Write の 3つの組み込みロールを提供しています。Zilliz Cloud では、ユーザーがカスタムロールを作成できます。これらのカスタムロールでは、特定のコレクション、パーティション、または操作に対する権限を定義できるため、Zilliz Cloud の使用時にデータの最小権限の原則を確保できます。詳細は、[アクセス制御の概要](./access-control-overview) を参照してください。
+Data Layer では、Zilliz Cloud は、データの管理、書き込み、読み取りの権限を制御するために、Admin、Read-Only、Read-Write の 3つの組み込みロールを提供しています。Zilliz Cloud では、ユーザーがカスタムロールを作成できます。これらのカスタムロールでは、特定のコレクション、パーティション、または操作に対する権限を定義できるため、Zilliz Cloud の使用時にデータの最小権限の原則を確保できます。詳細は、Access Control Explained を参照してください。
 
 ## メトリクスとアラート\{#metrics-and-alert}
 

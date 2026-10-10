@@ -1,7 +1,7 @@
 ---
-title: "Cluster Credentials | Cloud"
+title: "クラスター Credentials | Cloud"
 slug: /cluster-credentials
-sidebar_label: "Cluster Credentials"
+sidebar_label: "クラスター Credentials"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -19,7 +19,7 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Cluster Credentials
+# クラスター Credentials
 
 Zilliz Cloud はトークンを使用してユーザーのIDを認証します。トークンはクラスター認証情報または API キーのいずれかです。このガイドではクラスター認証情報を使用した認証について紹介します。
 
@@ -35,7 +35,7 @@ Zilliz Cloud はトークンを使用してユーザーのIDを認証します�
 
 - **コンソールでユーザー パスワードをリセットする**
 
-    ![reset-cluster-user-password](https://zdoc-images.s3.us-west-2.amazonaws.com/reset-cluster-user-password.png "reset-cluster-user-password")
+    ![reset-クラスター-user-password](https://zdoc-images.s3.us-west-2.amazonaws.com/reset-cluster-user-password.png "reset-クラスター-user-password")
 
 - **プログラムでユーザー パスワードをリセットする**
 
@@ -90,6 +90,7 @@ Zilliz Cloud はトークンを使用してユーザーのIDを認証します�
     ```go
     import (
        "context"
+    
        "google.golang.org/grpc"
        "github.com/milvus-io/milvus/v2/milvusclient"
     )
