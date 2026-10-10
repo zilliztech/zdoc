@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 Linear decay は、検索結果内で絶対的なゼロ地点で終わる直線的な減衰を作成します。今後予定されているイベントのカウントダウンのように、イベントが過ぎるまで関連性が徐々に薄れていくのと同様に、Linear decay は、アイテムが理想点から離れるにつれて、完全に消えるまで予測可能で一定の関連性低下を適用します。このアプローチは、明確なカットオフを伴う一貫した減衰率が必要な場合に理想的であり、特定の境界を超えたアイテムが結果から完全に除外されることを保証します。
 
-他の decay 関数とは異なり、次のとおりです。
+他の decay 関数とは次の点が異なります。
 
 - Gaussian decay は、徐々にゼロに近づくものの決してゼロにはならないベルカーブに従います
 
@@ -38,9 +38,9 @@ Linear decay が特に効果的なのは次のような場合です。
 | ユースケース | 例 | Linear が効果的な理由 |
 | --- | --- | --- |
 | イベント一覧 | コンサートチケットプラットフォーム | 未来すぎるイベントに対して明確なカットオフを作成できる |
-| 期間限定オファー | フラッシュセール、プロモーション | 期限切れまたは間もなく期限切れになるオファーが表示されないようにできる |
+| 期間限定オファー | フラッシュセール、プロモーション | 期限切れまたはまもなく期限切れになるオファーが表示されないようにできる |
 | 配達半径 | フードデリバリー、宅配サービス | 厳密な地理的境界を適用できる |
-| 年齢制限コンテンツ | マッチングプラットフォーム、メディアサービス | 明確な年齢しきい値を設定できる |
+| 年齢制限コンテンツ | マッチングプラットフォーム、メディアサービス | 厳格な年齢しきい値を設定できる |
 
 次のような場合は Linear decay を選択してください。
 
@@ -50,7 +50,7 @@ Linear decay が特に効果的なのは次のような場合です。
 
 - 予測可能で一貫した関連性低下率が必要である
 
-- ユーザーに関連性のあるアイテムとないアイテムの明確な境界を見せたい
+- ユーザーが関連性のあるアイテムと関連性のないアイテムを明確に区別できる
 
 ## 一定の低下の原理\{#steady-decline-principle}
 
@@ -112,7 +112,7 @@ Linear decay は、Zilliz Cloud における標準的なベクトル検索とハ
 
 <Admonition type="info" title="Notes">
 
-decay 関数を使用する前に、まず decay 計算に使用される適切な数値フィールド（タイムスタンプ、距離など）を持つコレクションを作成する必要があります。コレクションのセットアップ、スキーマ定義、データ挿入を含む完全な動作例については、[Decay Ranker チュートリアル](./tutorial-implement-time-based-ranking) を参照してください。
+decay 関数を使用する前に、まず decay 計算に使用する適切な数値フィールド（タイムスタンプ、距離など）を持つコレクションを作成する必要があります。コレクションのセットアップ、スキーマ定義、データ挿入を含む完全な動作例については、[Decay Ranker チュートリアル](./tutorial-implement-time-based-ranking) を参照してください。
 
 </Admonition>
 
@@ -126,7 +126,7 @@ decay 関数を使用する前に、まず decay 計算に使用される適切�
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -173,6 +173,69 @@ DecayRanker rerank = DecayRanker.builder()
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+import "time"
+
+currentTime := time.Now().Unix()
+
+rerank := entity.NewFunction().
+    WithName("event_relevance").
+    WithInputFields("event_date").
+    WithType(entity.FunctionTypeRerank).
+    WithParam("reranker", "decay").
+    WithParam("function", "linear").
+    WithParam("origin", currentTime).
+    WithParam("scale", 7*24*60*60).
+    WithParam("offset", 12*60*60).
+    WithParam("decay", 0.5)
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+    let client = ClientV2::new(&config).await?;
+
+    let rerank = DecayRerank::new()
+        .function(Function::new()
+            .name("event_relevance")
+            .input_fields(["event_date"])
+            .function_type(FunctionType::Rerank)
+            .param("reranker", "decay"))
+        .decay_function("linear")
+        .origin(std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_secs())
+        .scale(7 * 24 * 60 * 60)
+        .offset(12 * 60 * 60)
+        .decay(0.5);
+
+    Ok(())
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto rerank = std::make_shared<milvus::DecayRerank>("event_relevance");
+rerank->AddInputFieldName("event_date");
+rerank->SetFunction("linear");
+rerank->SetOrigin(1736870400);
+rerank->SetScale(7 * 24 * 60 * 60);
+rerank->SetOffset(12 * 60 * 60);
+rerank->SetDecay(0.5);
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -195,32 +258,10 @@ const rerank = {
 
 </TabItem>
 
-<TabItem value='go'>
-
-```go
-// go
-```
-
-</TabItem>
-
 <TabItem value='bash'>
 
 ```bash
-# restful
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto rerank = std::make_shared<milvus::DecayRerank>("event_relevance");
-rerank->AddInputFieldName("event_date");
-rerank->SetFunction("exp");
-rerank->SetOrigin(1736870400);
-rerank->SetScale(7 * 24 * 60 * 60);
-rerank->SetOffset(12 * 60 * 60);
-rerank->SetDecay(0.5);
+# Note: The RESTful API does not expose the decay/rerank operation as of Milvus v3.0.x.
 ```
 
 </TabItem>
@@ -230,7 +271,7 @@ rerank->SetDecay(0.5);
 
 decay ranker を定義した後、それを `ranker` パラメータに渡すことで検索操作中に適用できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -273,34 +314,39 @@ SearchResp searchResp = client.search(searchReq);
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-const result = await milvusClient.search({
-  collection_name: collection_name,
-  data: [your_query_vector], // Replace with your query vector
-  anns_field: "dense",
-  limit: 10,
-  output_fields: ["title", "venue", "event_date"],
-  rerank: rerank,
-  consistency_level: "Strong",
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
-// go
+functionScore := entity.NewFunctionScore().AddFunction(rerank)
+
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+    collection_name, // collection name
+    10,              // limit
+    []entity.Vector{your_query_vector}, // query vector
+).WithANNSField("dense").
+    WithFunctionScore(functionScore).
+    WithOutputFields("title", "venue", "event_date"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+    let function_score = FunctionScore::new().add_function(rerank);
+    let request = SearchRequest::builder()
+        .collection_name(collection_name)
+        .vectors(SearchVectors::Float(vec![your_query_vector]))
+        .vector_field("dense")
+        .limit(10)
+        .output_fields(vec!["title", "venue", "event_date"])
+        .rerank(function_score)
+        .build()?;
+    let resp = client.search(request).await?;
 ```
 
 </TabItem>
@@ -323,10 +369,34 @@ auto request = milvus::SearchRequest()
                    .WithConsistencyLevel(milvus::ConsistencyLevel::BOUNDED);
 
 milvus::SearchResponse response;
-auto status = client->Search(request, response);
+status = client->Search(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const result = await milvusClient.search({
+  collection_name: collection_name,
+  data: [your_query_vector], // Replace with your query vector
+  anns_field: "dense",
+  limit: 10,
+  output_fields: ["title", "venue", "event_date"],
+  rerank: rerank,
+  consistency_level: "Strong",
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# Note: The RESTful API does not expose the decay/rerank operation as of Milvus v3.0.x.
 ```
 
 </TabItem>

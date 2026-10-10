@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "MinHash 関数は、生テキストをドキュメント間の Jaccard 類似度を近似するバイナリベクトルに変換します。テキストシングリングと複数のハッシュ関数を適用して固定長のシグネチャベクトルを生成し、大規模なニアデュープ検出やドキュメントの重複排除を高速に行えます。 | BYOC"
+description: "MinHash 関数は、生のテキストを、ドキュメント間の Jaccard 類似度を近似するバイナリベクトルに変換します。テキストのシングリングと複数のハッシュ関数を適用して固定長のシグネチャベクトルを生成し、大規模なほぼ重複するドキュメントの検出とドキュメントの重複排除を高速に実現します。 | BYOC"
 type: origin
 token: EAwdw2ZbtiBKttk66FTctUebn7f
 sidebar_position: 4
@@ -21,17 +21,17 @@ import TabItem from '@theme/TabItem';
 
 # MinHash 関数
 
-**MinHash 関数**は、生テキストをドキュメント間の [Jaccard 類似度](https://en.wikipedia.org/wiki/Jaccard_index) を近似する**バイナリベクトル**に変換します。テキストシングリングと複数のハッシュ関数を適用して固定長のシグネチャベクトルを生成し、大規模なニアデュープ検出やドキュメントの重複排除を高速に行えます。
+**MinHash 関数**は、生のテキストを、ドキュメント間の [Jaccard 類似度](https://en.wikipedia.org/wiki/Jaccard_index) を近似する **バイナリベクトル**に変換します。テキストのシングリングと複数のハッシュ関数を適用して固定長のシグネチャベクトルを生成し、大規模なほぼ重複するドキュメントの検出とドキュメントの重複排除を高速に実現します。
 
-MinHash は組み込み関数として Zilliz Cloud 内で実行されるため、外部モデルによる推論や前処理は不要です。生テキストを挿入するだけで、Zilliz Cloud が MinHash シグネチャベクトルを自動的に生成します。
+MinHash は組み込み関数として Zilliz Cloud 内で実行され、外部のモデル推論や前処理を必要としません。生のテキストを挿入すると、Zilliz Cloud が MinHash シグネチャベクトルを自動的に生成します。
 
 ## 制限事項\{#limits}
 
-- 各 MinHash シグネチャは 32 ビットのハッシュ値であるため、出力フィールドには次元が `dim % 32 == 0` を満たす `BINARY_VECTOR` を指定する必要があります。
+- 出力フィールドは、`dim % 32 == 0` を満たす次元を持つ `BINARY_VECTOR` である必要があります。各 MinHash シグネチャは 32 ビットのハッシュ値だからです。
 
-- バイナリベクトルフィールドの `dim` は `32 * num_hashes` と一致している必要があります。一致しない場合はエラーが発生します。
+- バイナリベクトルフィールドの `dim` は `32 * num_hashes` と等しくなければなりません。一致しない場合はエラーになります。
 
-- MinHash 関数の出力に対して `MINHASH_LSH` インデックスを使用する場合、`mh_element_bit_width` を `32` に設定する必要があります。
+- MinHash 関数の出力で `MINHASH_LSH` インデックスを使用する場合、`mh_element_bit_width` を `32` に設定する必要があります。
 
 ## MinHash の仕組み\{#how-minhash-works}
 
@@ -39,69 +39,68 @@ MinHash は組み込み関数として Zilliz Cloud 内で実行されるため�
 
 <summary>展開して仕組みを確認する</summary>
 
-[MinHash](https://en.wikipedia.org/wiki/MinHash) は、集合間の [Jaccard 類似度](https://en.wikipedia.org/wiki/Jaccard_index) を推定するための局所性鋭敏ハッシュ手法です。Zilliz Cloud における MinHash 関数のパイプラインは次のとおりです。生テキストを入力すると、中間処理がすべて内部で行われ、Zilliz Cloud からバイナリベクトルが出力されます。
+[MinHash](https://en.wikipedia.org/wiki/MinHash) は、集合間の [Jaccard 類似度](https://en.wikipedia.org/wiki/Jaccard_index) を推定する局所性鋭敏型ハッシュ手法です。Zilliz Cloud では、MinHash 関数は次のパイプラインに従います。生のテキストを入力として渡すと、Zilliz Cloud がバイナリベクトルを出力として生成し、中間ステップはすべて内部で処理されます。
 
-全体のワークフローは、ドキュメントの取り込みとクエリ処理の両方で共通の**共有テキスト処理パイプライン**と、その後に続く格納・検索用のフェーズ固有の処理で構成されます。
+ワークフロー全体は、ドキュメントの取り込みとクエリ処理の両方で使用される **共通のテキスト処理パイプライン**と、それに続く保存および取得のフェーズ固有の処理で構成されます。
 
 ![IaqkbFEh8oQgGSx6NsocFoSOnDo](https://zdoc-images.s3.us-west-2.amazonaws.com/iaqkbfeh8oqggsx6nsocfosondo.png "IaqkbFEh8oQgGSx6NsocFoSOnDo")
 
-### 共有テキスト処理パイプライン\{#shared-text-processing-pipeline}
+### 共通のテキスト処理パイプライン\{#shared-text-processing-pipeline}
 
-ドキュメントの取り込みとクエリ処理では、どちらも生テキストに対して同じ 4 段階の変換処理を行います。
+ドキュメントの取り込みとクエリ処理はどちらも、生のテキストを同じ 4 段階の変換に通します。
 
-1. **テキスト分析**: `token_level` が `"word"` の場合は [アナライザー](./analyzer-overview) によってテキストが処理され、`token_level` が `"char"` の場合はテキストがそのまま使用されます。単語レベルのトークン化では、入力フィールドに設定されたアナライザーを使用してテキストをタームに分割します。たとえば、`"milvus is vector db"` は `["milvus", "is", "vector", "db"]` となります。
+1. **テキスト解析**：テキストは [アナライザー](./analyzer-overview) によって処理され（`token_level` が `"word"` の場合）、またはそのまま使用されます（`token_level` が `"char"` の場合）。単語レベルのトークン化では、入力フィールドに構成されたアナライザーを適用してテキストをタームに分割します。たとえば、`"milvus is vector db"` は `["milvus", "is", "vector", "db"]` になります。
 
-1. **シングリング**: トークンをサイズ `shingle_size` の重複する n-gram（シングル）に分割します。たとえば、単語レベルの 3-gram の場合、トークン `["information", "retrieval", "is", "a", "field"]` は `["information retrieval is", "retrieval is a", "is a field"]` などのシングルになります。
+1. **シングリング**：トークンは、サイズ `shingle_size` のオーバーラップする n-gram（シングル）に分割されます。たとえば、単語レベルで 3-gram を使用する場合、トークン `["information", "retrieval", "is", "a", "field"]` は `["information retrieval is", "retrieval is a", "is a field"]` のようなシングルになります。
 
-1. **MinHash シグネチャ生成**: 複数のハッシュ関数(H1、H2、...、Hn、ここで n = `num_hashes`)がシングル集合に適用されます。各ハッシュ関数について、すべてのシングルにわたる最小ハッシュ値が選択されます。これらの最小値のコレクションが MinHash シグネチャを形成します。これは、元のドキュメントの Jaccard 類似度を近似する固定長の表現です。
+1. **MinHash シグネチャの生成**：複数のハッシュ関数（H1、H2、...、Hn。ここで n = `num_hashes`）がシングルの集合に適用されます。各ハッシュ関数について、すべてのシングルにわたる最小ハッシュ値が選択されます。これらの最小値のコレクションが MinHash シグネチャを形成します。これは、元のドキュメントの Jaccard 類似度を近似する固定長の表現です。
 
-1. **バイナリベクトルへのエンコード**: 各シグネチャ値は 32 ビットのハッシュ値であり、シグネチャ全体が次元 `32 * num_hashes` の `BINARY_VECTOR` にパックされます。
+1. **バイナリベクトルのエンコーディング**：各シグネチャ値は 32 ビットのハッシュであり、シグネチャ全体は次元 `32 * num_hashes` の `BINARY_VECTOR` にパックされます。
 
 ### ドキュメントの取り込み\{#document-ingestion}
 
-データ挿入時、共有パイプラインで生成されたバイナリベクトルが `MINHASH_LSH` インデックスに格納されます。このインデックスは LSH（Locality-Sensitive Hashing）テーブルを管理しており、類似したシグネチャを同じバケットにグループ化することで、クエリ時の候補取得を高速化します。
+挿入時には、共通パイプラインで生成されたバイナリベクトルが `MINHASH_LSH` インデックスに格納されます。このインデックスは、類似するシグネチャを同じバケットにグループ化する LSH（Locality-Sensitive Hashing）テーブルを維持し、クエリ時の候補の取得を高速化します。
 
-### クエリ処理\{#query-processing}
+### クエリの処理\{#query-processing}
 
-検索時、クエリテキストも同じ共有パイプラインを通じてバイナリベクトルに変換されます。このベクトルを用いて `MINHASH_LSH` インデックス上で LSH 検索が行われ、類似性の高い候補ペアが迅速に特定されます。Jaccard リファインメントが無効の場合、Zilliz Cloud は推定 Jaccard 類似度によるランキングを行わずに LSH 候補を返します。有効の場合は、Zilliz Cloud が格納済みの MinHash シグネチャに基づいて候補を推定 Jaccard 類似度で並べ替え、上位 K 件の結果を返します。
+検索時には、クエリテキストが同じ共通パイプラインを通過してバイナリベクトルを生成します。このベクトルを使用して `MINHASH_LSH` インデックスで LSH ルックアップを実行し、類似している可能性が高い候補ペアをすばやく特定します。Jaccard 絞り込みを行わない場合、Zilliz Cloud は、推定 Jaccard 類似度で順位付けされていない LSH 候補を返します。Jaccard 絞り込みを有効にすると、Zilliz Cloud は格納された生の MinHash シグネチャを使用して、候補を推定 Jaccard 類似度で順位付けし、上位 K 件の結果を返します。
 
-どちらの経路でも同じ変換ロジックが使われるため、内容が大きく重複する 2 つのドキュメントからは類似した MinHash シグネチャが生成されます。これにより、語順、書式、細かな言い回しの違いがあっても、ニアデュープを効果的に検出できます。
+両方のパスが同じ変換ロジックを共有するため、内容が大きく重複する 2 つのドキュメントは類似した MinHash シグネチャを生成します。このため、ドキュメント間で語順、書式、わずかな言い回しが異なる場合でも、ほぼ重複するドキュメントを効果的に見つけられます。
 
 </details>
 
 ## 事前準備\{#before-you-start}
 
-MinHash 関数を使用する前に、コレクションスキーマに以下の要素を含めるよう設計してください。
+MinHash 関数を使用する前に、コレクションのスキーマに以下を含めるように計画してください。
 
-- **生テキスト用のテキストフィールド**
+- **生のコンテンツ用のテキストフィールド**
 
-    コレクションには、生テキストを格納するための `VARCHAR` フィールドが必要です。このフィールドが MinHash 関数の入力となります。
+    コレクションには、生のテキストを格納するための `VARCHAR` フィールドを含める必要があります。このフィールドは、MinHash 関数への入力として機能します。
 
 - **テキストフィールド用のアナライザー**（単語レベルのトークン化を使用する場合）
 
-    `token_level` が `"word"`（デフォルト）に設定されている場合、テキストフィールドでアナライザーを有効にする必要があります。アナライザーは、シングリング前のテキストのトークン化方法を定義します。デフォルトでは Zilliz Cloud は `standard` アナライザーを使用します。別のアナライザーを設定する場合は、「[ユースケースに適したアナライザーの選択](./choose-the-right-analyzer-for-your-use-case)」を参照してください。
+    `token_level` が `"word"`（デフォルト）に設定されている場合、テキストフィールドでアナライザーを有効にする必要があります。アナライザーは、シングリングの前にテキストをどのようにトークン化するかを定義します。デフォルトでは、Zilliz Cloud は `standard` アナライザーを使用します。別のアナライザーを構成するには、[ユースケースに適したアナライザーの選択](./choose-the-right-analyzer-for-your-use-case) を参照してください。
 
 - **MinHash 出力用のバイナリベクトルフィールド**
 
-    コレクションには、MinHash 関数で生成されたバイナリベクトルを格納する `BINARY_VECTOR` フィールドが必要です。次元は `32 * num_hashes` に設定してください。
+    コレクションには、MinHash 関数によって生成されたバイナリベクトルを格納するための `BINARY_VECTOR` フィールドを含める必要があります。次元は `32 * num_hashes` と等しくなければなりません。
 
-## ステップ 1: MinHash 関数付きコレクションの作成\{#step-1-create-a-collection-with-a-minhash-function}
+## ステップ 1：MinHash 関数を使用してコレクションを作成する\{#step-1-create-a-collection-with-a-minhash-function}
 
-MinHash 関数を使用するには、コレクション作成時に関数を定義します。関数はコレクションスキーマの一部となり、データの挿入時や検索時に自動的に適用されます。
+MinHash 関数を使用するには、コレクションの作成時に定義します。この関数はコレクションスキーマの一部となり、データの挿入時と検索時に自動的に適用されます。
 
-### スキーマフィールドの定義\{#define-schema-fields}
+### スキーマフィールドを定義する\{#define-schema-fields}
 
-コレクションスキーマには、少なくとも次の 3 つのフィールドが必要です。
+コレクションスキーマには、少なくとも 3 つのフィールドを含める必要があります。
 
-- **プライマリフィールド**: コレクション内の各エンティティを一意に識別します。
+- **プライマリフィールド**：コレクション内の各エンティティを一意に識別します。
 
-- **テキストフィールド**（`VARCHAR`）: 生テキストドキュメントを格納します。Zilliz Cloud が MinHash シグネチャ生成のためにテキストを処理できるよう、`enable_analyzer=True` を設定してください。デフォルトでは、Zilliz Cloud はテキスト分析に `standard` アナライザーを使用します。別のアナライザーを設定する場合は、「[ユースケースに適したアナライザーの選択](./choose-the-right-analyzer-for-your-use-case)」を参照してください。
+- **テキストフィールド**（`VARCHAR`）：生のテキストドキュメントを格納します。Zilliz Cloud が MinHash シグネチャの生成のためにテキストを処理できるように、`enable_analyzer=True` を設定します。デフォルトでは、Zilliz Cloud はテキスト解析に `standard` アナライザーを使用します。別のアナライザーを構成するには、[ユースケースに適したアナライザーの選択](./choose-the-right-analyzer-for-your-use-case) を参照してください。
 
-- **バイナリベクトルフィールド**（`BINARY_VECTOR`）: MinHash 関数によって自動生成されたバイナリベクトルを格納します。次元は `32 * num_hashes` に設定してください。
+- **バイナリベクトルフィールド**（`BINARY_VECTOR`）：MinHash 関数によって自動的に生成されたバイナリベクトルを格納します。次元は `32 * num_hashes` と等しくなければなりません。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
-
 ```python
 from pymilvus import MilvusClient, DataType, Function, FunctionType
 
@@ -119,15 +118,35 @@ schema.add_field(field_name="binary_vector", datatype=DataType.BINARY_VECTOR, di
 <TabItem value='java'>
 
 ```java
-// java
-```
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
 
-</TabItem>
+MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build());
 
-<TabItem value='javascript'>
-
-```javascript
-// nodejs
+CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder().build();
+schema.addField(AddFieldReq.builder()
+        .fieldName("id")
+        .dataType(DataType.Int64)
+        .isPrimaryKey(true)
+        .autoID(true)
+        .build());
+schema.addField(AddFieldReq.builder()
+        .fieldName("document_content")
+        .dataType(DataType.VarChar)
+        .maxLength(9000)
+        .enableAnalyzer(true)
+        .build());
+schema.addField(AddFieldReq.builder()
+        .fieldName("binary_vector")
+        .dataType(DataType.BinaryVector)
+        .dimension(8192)
+        .build());
 ```
 
 </TabItem>
@@ -135,15 +154,43 @@ schema.add_field(field_name="binary_vector", datatype=DataType.BINARY_VECTOR, di
 <TabItem value='go'>
 
 ```go
-// go
+import (
+    "context"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    log.Fatal(err)
+}
+
+schema := entity.NewSchema().
+    WithField(entity.NewField().WithName("id").WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true).WithIsAutoID(true)).
+    WithField(entity.NewField().WithName("document_content").WithDataType(entity.FieldTypeVarChar).WithMaxLength(9000).WithEnableAnalyzer(true)).
+    WithField(entity.NewField().WithName("binary_vector").WithDataType(entity.FieldTypeBinaryVector).WithDim(8192))
 ```
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+use milvus::v2::prelude::*;
+
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
+let client = ClientV2::new(&config).await?;
+
+let schema = CollectionSchema::new()
+    .add_field(FieldSchema::new().name("id").data_type(DataType::Int64).primary_key(true).auto_id(true))
+    .add_field(FieldSchema::new().name("document_content").data_type(DataType::VarChar).max_length(9000).enable_analyzer(true))
+    .add_field(FieldSchema::new().name("binary_vector").data_type(DataType::BinaryVector).dimension(8192));
 ```
 
 </TabItem>
@@ -151,21 +198,61 @@ schema.add_field(field_name="binary_vector", datatype=DataType.BINARY_VECTOR, di
 <TabItem value='c++'>
 
 ```c++
-// cpp
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+
+auto client = milvus::MilvusClientV2::Create();
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+auto schema = std::make_shared<milvus::CollectionSchema>();
+schema->AddField(milvus::FieldSchema("id", milvus::DataType::INT64).WithPrimaryKey(true).WithAutoID(true));
+schema->AddField(milvus::FieldSchema("document_content", milvus::DataType::VARCHAR).WithMaxLength(9000).EnableAnalyzer(true));
+schema->AddField(milvus::FieldSchema("binary_vector", milvus::DataType::BINARY_VECTOR).WithDimension(8192));
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient, DataType, FunctionType, IndexType, MetricType } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
+
+const fields = [
+  { name: "id", data_type: DataType.Int64, is_primary_key: true, autoID: true },
+  { name: "document_content", data_type: DataType.VarChar, max_length: 9000, enable_analyzer: true },
+  { name: "binary_vector", data_type: DataType.BinaryVector, dim: 8192 },
+];
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+fields='[
+  {"fieldName": "id", "dataType": "Int64", "isPrimary": true},
+  {"fieldName": "document_content", "dataType": "VarChar", "elementTypeParams": {"max_length": 9000, "enable_analyzer": true}},
+  {"fieldName": "binary_vector", "dataType": "BinaryVector", "elementTypeParams": {"dim": 8192}}
+]' 
 ```
 
 </TabItem>
 </Tabs>
 
-### MinHash 関数の定義\{#define-the-minhash-function}
+### MinHash 関数を定義する\{#define-the-minhash-function}
 
-MinHash 関数は、解析済みのテキストを、ドキュメント間の Jaccard 類似度を近似するバイナリベクトルに変換します。
+MinHash 関数は、解析されたテキストを、ドキュメント間の Jaccard 類似度を近似するバイナリベクトルに変換します。
 
-関数を定義してスキーマに追加します。
+関数を定義し、スキーマに追加します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
-
 ```python
 minhash_function = Function(
     name="minhash_function",
@@ -186,15 +273,17 @@ schema.add_function(minhash_function)
 <TabItem value='java'>
 
 ```java
-// java
-```
+import io.milvus.common.clientenum.FunctionType;
+import java.util.Collections;
 
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-// nodejs
+schema.addFunction(CreateCollectionReq.Function.builder()
+        .name("minhash_function")
+        .functionType(FunctionType.MINHASH)
+        .inputFieldNames(Collections.singletonList("document_content"))
+        .outputFieldNames(Collections.singletonList("binary_vector"))
+        .param("num_hashes", "256")
+        .param("shingle_size", "3")
+        .build());
 ```
 
 </TabItem>
@@ -202,15 +291,31 @@ schema.add_function(minhash_function)
 <TabItem value='go'>
 
 ```go
-// go
+function := entity.NewFunction().
+    WithName("minhash_function").
+    WithType(entity.FunctionTypeMinHash).
+    WithInputFields("document_content").
+    WithOutputFields("binary_vector").
+    WithParam("num_hashes", "256").
+    WithParam("shingle_size", "3")
+
+schema = schema.WithFunction(function)
 ```
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+let schema = schema.add_function(
+    Function::new()
+        .name("minhash_function")
+        .function_type(FunctionType::MinHash)
+        .input_fields(vec!["document_content"])
+        .output_fields(vec!["binary_vector"])
+        .param("num_hashes", "256")
+        .param("shingle_size", "3"),
+);
 ```
 
 </TabItem>
@@ -218,15 +323,50 @@ schema.add_function(minhash_function)
 <TabItem value='c++'>
 
 ```c++
-// cpp
+auto function = std::make_shared<milvus::Function>("minhash_function", milvus::FunctionType::MINHASH);
+function->AddInputFieldName("document_content");
+function->AddOutputFieldName("binary_vector");
+function->AddParam("num_hashes", "256");
+function->AddParam("shingle_size", "3");
+schema->AddFunction(function);
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const functions = [
+  {
+    name: "minhash_function",
+    type: FunctionType.MINHASH,
+    input_field_names: ["document_content"],
+    output_field_names: ["binary_vector"],
+    params: { num_hashes: 256, shingle_size: 3 },
+  },
+];
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+function='{
+  "name": "minhash_function",
+  "type": "MinHash",
+  "inputFieldNames": ["document_content"],
+  "outputFieldNames": ["binary_vector"],
+  "params": {"num_hashes": 256, "shingle_size": 3}
+}' 
 ```
 
 </TabItem>
 </Tabs>
 
-**設定オプション**
+**構成オプション**
 
-MinHash 関数の `params` 辞書では、以下のパラメーターを指定できます。すべてのパラメーター名は**大文字・小文字を区別しません**。
+MinHash 関数の `params` ディクショナリは、次のパラメーターを受け付けます。すべてのパラメーター名は **大文字と小文字を区別しません**。
 
 <table>
    <tr>
@@ -238,42 +378,41 @@ MinHash 関数の `params` 辞書では、以下のパラメーターを指定�
    <tr>
      <td><p><code>num_hashes</code></p></td>
      <td><p>int</p></td>
-     <td><p><code>dim / 32</code> から導出</p></td>
-     <td><p>シグネチャ生成に使用するハッシュ関数の数です。出力されるバイナリベクトルの次元は <code>32 &ast; num_hashes</code> になります。値を大きくすると類似度推定の分散は小さくなりますが、計算量が増加します。推奨値: <code>256</code> (dim = 8192)。</p></td>
+     <td><p><code>dim / 32</code> から導出されます</p></td>
+     <td><p>シグネチャ生成に使用するハッシュ関数の数。出力バイナリベクトルの次元は <code>32 &ast; num_hashes</code> と等しくなります。値を大きくすると類似度推定の分散は減少しますが、計算量が増加します。推奨値：<code>256</code>（dim = 8192）。</p></td>
    </tr>
    <tr>
      <td><p><code>shingle_size</code></p></td>
      <td><p>int</p></td>
      <td><p><code>3</code></p></td>
-     <td><p>シングリングに用いる N-gram のサイズです。単語レベルの場合は 1〜3、文字レベルの場合は 2〜6 が一般的です。</p></td>
+     <td><p>シングリングの n-gram サイズ。単語レベルでは 1-3 が一般的です。文字レベルでは 2-6 が一般的です。</p></td>
    </tr>
    <tr>
      <td><p><code>hash_function</code></p></td>
      <td><p>str</p></td>
      <td><p><code>&quot;xxhash&quot;</code></p></td>
-     <td><p>使用するハッシュ関数です。選択肢:</p><ul><li><p><code>&quot;xxhash&quot;</code> (高速)</p></li><li><p><code>&quot;sha1&quot;</code> (低速だが衝突耐性が高い)。</p></li></ul></td>
+     <td><p>使用するハッシュ関数。オプション：</p><ul><li><p><code>&quot;xxhash&quot;</code>（高速）</p></li><li><p><code>&quot;sha1&quot;</code>（低速ですが、衝突耐性が高くなります）。</p></li></ul></td>
    </tr>
    <tr>
      <td><p><code>token_level</code></p></td>
      <td><p>str</p></td>
      <td><p><code>&quot;word&quot;</code></p></td>
-     <td><p>トークン化のレベルです。選択肢:</p><ul><li><p><code>&quot;word&quot;</code>: フィールドのアナライザーでトークン化を行った後、N-gram シングリングを適用します。</p></li><li><p><code>&quot;char&quot;</code> / <code>&quot;character&quot;</code>: 生の文字列に直接 N-gram シングリングを適用します（アナライザーは使用しません）。</p></li></ul><p>単語レベルは意味的な強度と効率に優れていますが、言語固有のトークン化に依存します。文字レベルは言語に依存しない一方、より高次元のシングルが生成され、意味的な強度は弱くなります。</p></td>
+     <td><p>トークン化のレベル。オプション：</p><ul><li><p><code>&quot;word&quot;</code>：トークン化にフィールドのアナライザーを使用し、その後 n-gram シングリングを適用します。</p></li><li><p><code>&quot;char&quot;</code> / <code>&quot;character&quot;</code>：生の文字に対して直接 n-gram シングリングを適用します（アナライザーなし）。</p></li></ul><p>単語レベルはより強力なセマンティクスと高い効率を提供しますが、言語固有のトークン化に依存します。文字レベルは言語に依存しませんが、より高次元のシングルを生成し、セマンティクスは弱くなります。</p></td>
    </tr>
    <tr>
      <td><p><code>seed</code></p></td>
      <td><p>int</p></td>
      <td><p><code>1234</code></p></td>
-     <td><p>MinHash 関数の初期化に使用するランダムシードです。</p></td>
+     <td><p>MinHash 関数の初期化に使用するランダムシード。</p></td>
    </tr>
 </table>
 
-### インデックスの設定\{#configure-the-index}
+### インデックスを構成する\{#configure-the-index}
 
-MinHash バイナリベクトルには、インデックスタイプ `MINHASH_LSH`、メトリックタイプ `MHJACCARD` の使用を推奨します。
+MinHash バイナリベクトルに推奨されるインデックスタイプは `MINHASH_LSH` で、メトリクスタイプは `MHJACCARD` です。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
-
 ```python
 index_params = client.prepare_index_params()
 
@@ -294,15 +433,19 @@ index_params.add_index(
 <TabItem value='java'>
 
 ```java
-// java
-```
+import io.milvus.v2.common.IndexParam;
+import java.util.HashMap;
 
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-// nodejs
+IndexParam indexParam = IndexParam.builder()
+        .fieldName("binary_vector")
+        .indexType(IndexParam.IndexType.MINHASH_LSH)
+        .metricType(IndexParam.MetricType.MHJACCARD)
+        .extraParams(new HashMap<String, Object>() {{
+            put("mh_lsh_band", 128);
+            put("mh_element_bit_width", 32);
+            put("with_raw_data", true);
+        }})
+        .build();
 ```
 
 </TabItem>
@@ -310,15 +453,36 @@ index_params.add_index(
 <TabItem value='go'>
 
 ```go
-// go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+indexOption := milvusclient.NewCreateIndexOption("dedup_collection", "binary_vector", index.NewMinHashLSHIndex(entity.MHJACCARD, 128).
+    WithElementBitWidth(32).
+    WithRawData(true)).
+    WithIndexName("minhash_index")
 ```
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+use std::collections::HashMap;
+
+let index_param = IndexParam::new()
+    .field_name("binary_vector")
+    .index_name("minhash_index")
+    .index_type(IndexType::MinhashLsh)
+    .metric_type(MetricType::MhJaccard)
+    .extra_params(HashMap::from([
+        ("mh_lsh_band".to_string(), "128".to_string()),
+        ("mh_element_bit_width".to_string(), "32".to_string()),
+        ("with_raw_data".to_string(), "true".to_string()),
+    ]));
 ```
 
 </TabItem>
@@ -326,21 +490,46 @@ index_params.add_index(
 <TabItem value='c++'>
 
 ```c++
-// cpp
+milvus::IndexDesc index("binary_vector", "minhash_index", milvus::IndexType::MINHASH_LSH, milvus::MetricType::MHJACCARD);
+index.AddExtraParam("mh_lsh_band", "128");
+index.AddExtraParam("mh_element_bit_width", "32");
+index.AddExtraParam("with_raw_data", "true");
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const indexParam = {
+  field_name: "binary_vector",
+  index_type: IndexType.MINHASH_LSH,
+  metric_type: MetricType.MHJACCARD,
+  params: { mh_lsh_band: 128, mh_element_bit_width: 32, with_raw_data: true },
+};
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+indexParams='[
+  {"fieldName": "binary_vector", "indexType": "MINHASH_LSH", "metricType": "MHJACCARD", "params": {"mh_lsh_band": 128, "mh_element_bit_width": 32, "with_raw_data": true}}
+]' 
 ```
 
 </TabItem>
 </Tabs>
 
-検索時に Jaccard リファインメントを使用する場合は、`with_raw_data` を `True` に設定してください。LSH ルックアップで取得した候補に対して推定 Jaccard 類似度を算出するには、生の MinHash シグネチャが必要です。
+検索で Jaccard 絞り込みを使用する場合は、`with_raw_data` を `True` に設定します。LSH ルックアップで返された候補の推定 Jaccard 類似度を計算するには、生の MinHash シグネチャが必要です。
 
-### コレクションの作成\{#create-the-collection}
+### コレクションを作成する\{#create-the-collection}
 
-上記で定義したスキーマとインデックスのパラメーターを使用して、コレクションを作成します。
+上記で定義したスキーマとインデックスパラメーターを使用してコレクションを作成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
-
 ```python
 client.create_collection(
     collection_name="dedup_collection",
@@ -354,15 +543,13 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
-// java
-```
+import java.util.Collections;
 
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-// nodejs
+client.createCollection(CreateCollectionReq.builder()
+        .collectionName("dedup_collection")
+        .collectionSchema(schema)
+        .indexParams(Collections.singletonList(indexParam))
+        .build());
 ```
 
 </TabItem>
@@ -370,15 +557,24 @@ client.create_collection(
 <TabItem value='go'>
 
 ```go
-// go
+err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("dedup_collection", schema).
+    WithIndexOptions(indexOption))
+if err != nil {
+    log.Fatal(err)
+}
 ```
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+client.create_collection(CreateCollectionRequest::builder()
+    .collection_name("dedup_collection")
+    .schema(schema)
+    .index_params(vec![index_param])
+    .build()?)
+.await?;
 ```
 
 </TabItem>
@@ -386,19 +582,71 @@ client.create_collection(
 <TabItem value='c++'>
 
 ```c++
-// cpp
+status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                 .WithCollectionName("dedup_collection")
+                                 .WithCollectionSchema(schema));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.createCollection({
+  collection_name: "dedup_collection",
+  fields: fields,
+  functions: functions,
+});
+
+await client.createIndex({
+  collection_name: "dedup_collection",
+  ...indexParam,
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/create" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "collectionName": "dedup_collection",
+    "schema": {
+        "fields": [
+            {"fieldName": "id", "dataType": "Int64", "isPrimary": true},
+            {"fieldName": "document_content", "dataType": "VarChar", "elementTypeParams": {"max_length": 9000, "enable_analyzer": true}},
+            {"fieldName": "binary_vector", "dataType": "BinaryVector", "elementTypeParams": {"dim": 8192}}
+        ],
+        "functions": [
+            {"name": "minhash_function", "type": "MinHash", "inputFieldNames": ["document_content"], "outputFieldNames": ["binary_vector"], "params": {"num_hashes": 256, "shingle_size": 3}}
+        ],
+        "autoID": true
+    },
+    "indexParams": [
+        {"fieldName": "binary_vector", "indexType": "MINHASH_LSH", "metricType": "MHJACCARD", "params": {"mh_lsh_band": 128, "mh_element_bit_width": 32, "with_raw_data": true}}
+    ]
+}' 
 ```
 
 </TabItem>
 </Tabs>
 
-## ステップ 2: ドキュメントの挿入\{#step-2-insert-documents}
+## ステップ 2：ドキュメントを挿入する\{#step-2-insert-documents}
 
-コレクションの準備ができたら、テキストデータを挿入します。生のテキストを指定するだけで、MinHash 関数が各ドキュメントのバイナリベクトルを自動的に生成します。
+コレクションを設定したら、テキストデータを挿入します。生のテキストを指定するだけで、MinHash 関数が各ドキュメントのバイナリベクトルを自動的に生成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
-
 ```python
 client.insert(
     "dedup_collection",
@@ -415,15 +663,29 @@ client.insert(
 <TabItem value='java'>
 
 ```java
-// java
-```
+import com.google.gson.JsonObject;
+import io.milvus.v2.service.vector.request.InsertReq;
+import java.util.ArrayList;
+import java.util.List;
 
-</TabItem>
+List<JsonObject> data = new ArrayList<>();
 
-<TabItem value='javascript'>
+JsonObject row1 = new JsonObject();
+row1.addProperty("document_content", "information retrieval is a field of study that helps users find relevant information in large datasets");
+data.add(row1);
 
-```javascript
-// nodejs
+JsonObject row2 = new JsonObject();
+row2.addProperty("document_content", "information retrieval is a research field focused on helping users find relevant data in large collections");
+data.add(row2);
+
+JsonObject row3 = new JsonObject();
+row3.addProperty("document_content", "information retrieval is a field of research helping users search for relevant information in large datasets");
+data.add(row3);
+
+client.insert(InsertReq.builder()
+        .collectionName("dedup_collection")
+        .data(data)
+        .build());
 ```
 
 </TabItem>
@@ -431,15 +693,34 @@ client.insert(
 <TabItem value='go'>
 
 ```go
-// go
+_, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("dedup_collection").
+    WithVarcharColumn("document_content", []string{
+        "information retrieval is a field of study that helps users find relevant information in large datasets",
+        "information retrieval is a research field focused on helping users find relevant data in large collections",
+        "information retrieval is a field of research helping users search for relevant information in large datasets",
+    }))
+if err != nil {
+    log.Fatal(err)
+}
 ```
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+use serde_json::json;
+
+let insert_req = InsertRequest::builder()
+    .collection_name("dedup_collection")
+    .rows(vec![
+        json!({"document_content": "information retrieval is a field of study that helps users find relevant information in large datasets"}),
+        json!({"document_content": "information retrieval is a research field focused on helping users find relevant data in large collections"}),
+        json!({"document_content": "information retrieval is a field of research helping users search for relevant information in large datasets"}),
+    ])
+    .build()?;
+
+client.insert(insert_req).await?;
 ```
 
 </TabItem>
@@ -447,19 +728,67 @@ client.insert(
 <TabItem value='c++'>
 
 ```c++
-// cpp
+milvus::EntityRows rows;
+rows.emplace_back(milvus::EntityRow{{"document_content", "information retrieval is a field of study that helps users find relevant information in large datasets"}});
+rows.emplace_back(milvus::EntityRow{{"document_content", "information retrieval is a research field focused on helping users find relevant data in large collections"}});
+rows.emplace_back(milvus::EntityRow{{"document_content", "information retrieval is a field of research helping users search for relevant information in large datasets"}});
+
+milvus::InsertResponse insert_response;
+status = client->Insert(milvus::InsertRequest()
+                            .WithCollectionName("dedup_collection")
+                            .WithRowsData(std::move(rows)),
+                        insert_response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.insert({
+  collection_name: "dedup_collection",
+  data: [
+    { document_content: "information retrieval is a field of study that helps users find relevant information in large datasets" },
+    { document_content: "information retrieval is a research field focused on helping users find relevant data in large collections" },
+    { document_content: "information retrieval is a field of research helping users search for relevant information in large datasets" },
+  ],
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "collectionName": "dedup_collection",
+    "data": [
+        {"document_content": "information retrieval is a field of study that helps users find relevant information in large datasets"},
+        {"document_content": "information retrieval is a research field focused on helping users find relevant data in large collections"},
+        {"document_content": "information retrieval is a field of research helping users search for relevant information in large datasets"}
+    ]
+}' 
 ```
 
 </TabItem>
 </Tabs>
 
-## ステップ 3: MinHash による検索\{#step-3-search-with-minhash}
+## ステップ 3：MinHash で検索する\{#step-3-search-with-minhash}
 
-データの挿入後、生のテキストクエリを指定して類似ドキュメントを検索できます。Zilliz Cloud が各クエリを MinHash バイナリベクトルに自動変換します。Jaccard リファインメントを有効にすると、推定 Jaccard 類似度に基づいて LSH 候補のランキングが行われます。
+データを挿入したら、生のテキストクエリを指定して、ほぼ重複するドキュメントを検索します。Zilliz Cloud は各クエリを MinHash バイナリベクトルに自動的に変換します。Jaccard 絞り込みを有効にすると、LSH 候補が推定 Jaccard 類似度で順位付けされます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
-
 ```python
 search_params = {
     "metric_type": "MHJACCARD",
@@ -489,15 +818,31 @@ for hits in results:
 <TabItem value='java'>
 
 ```java
-// java
-```
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.EmbeddedText;
+import io.milvus.v2.service.vector.response.SearchResp;
+import io.milvus.v2.common.IndexParam;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 
-</TabItem>
+SearchResp resp = client.search(SearchReq.builder()
+        .collectionName("dedup_collection")
+        .annsField("binary_vector")
+        .data(Collections.singletonList(new EmbeddedText("information retrieval is a research field focused on helping users find relevant data in large collections")))
+        .metricType(IndexParam.MetricType.MHJACCARD)
+        .searchParams(new HashMap<String, Object>() {{
+            put("mh_search_with_jaccard", true);
+            put("refine_k", 3);
+        }})
+        .limit(3)
+        .outputFields(Collections.singletonList("document_content"))
+        .build());
 
-<TabItem value='javascript'>
-
-```javascript
-// nodejs
+for (SearchResp.SearchResult hit : resp.getSearchResults().get(0)) {
+    System.out.println("ID: " + hit.getEntity().get("id") + ", Distance: " + hit.getScore());
+    System.out.println("Document: " + hit.getEntity().get("document_content"));
+}
 ```
 
 </TabItem>
@@ -505,15 +850,51 @@ for hits in results:
 <TabItem value='go'>
 
 ```go
-// go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+)
+
+results, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "dedup_collection", 3,
+    []entity.Vector{entity.Text("information retrieval is a research field focused on helping users find relevant data in large collections")}).
+    WithANNSField("binary_vector").
+    WithOutputFields("document_content").
+    WithSearchParam("metric_type", "MHJACCARD").
+    WithSearchParam("mh_search_with_jaccard", "true").
+    WithSearchParam("refine_k", "3"))
+if err != nil {
+    log.Fatal(err)
+}
+
+for _, rs := range results {
+    fmt.Printf("ID: %v, Distance: %v\n", rs.IDs, rs.Scores)
+}
 ```
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+use std::collections::HashMap;
+
+let search_req = SearchRequest::builder()
+    .collection_name("dedup_collection")
+    .vector_field("binary_vector")
+    .vectors(SearchVectors::EmbeddedText(vec!["information retrieval is a research field focused on helping users find relevant data in large collections".to_string()]))
+    .metric_type(MetricType::MhJaccard)
+    .extra_params(HashMap::from([
+        ("mh_search_with_jaccard".to_string(), "true".to_string()),
+        ("refine_k".to_string(), "3".to_string()),
+    ]))
+    .output_fields(vec!["document_content"])
+    .limit(3)
+    .build()?;
+
+let res = client.search(search_req).await?;
+println!("{:?}", res.results());
 ```
 
 </TabItem>
@@ -521,19 +902,72 @@ for hits in results:
 <TabItem value='c++'>
 
 ```c++
-// cpp
+milvus::SearchResponse response;
+status = client->Search(milvus::SearchRequest()
+                            .WithCollectionName("dedup_collection")
+                            .WithAnnsField("binary_vector")
+                            .AddEmbeddedText("information retrieval is a research field focused on helping users find relevant data in large collections")
+                            .WithMetricType(milvus::MetricType::MHJACCARD)
+                            .AddExtraParam("mh_search_with_jaccard", "true")
+                            .AddExtraParam("refine_k", "3")
+                            .WithLimit(3)
+                            .AddOutputField("document_content"),
+                        response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const results = await client.search({
+  collection_name: "dedup_collection",
+  anns_field: "binary_vector",
+  data: ["information retrieval is a research field focused on helping users find relevant data in large collections"],
+  output_fields: ["document_content"],
+  search_params: {
+    metric_type: "MHJACCARD",
+    topk: 3,
+    params: JSON.stringify({ mh_search_with_jaccard: true, refine_k: 3 }),
+  },
+});
+console.log(results);
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "collectionName": "dedup_collection",
+    "annsField": "binary_vector",
+    "data": ["information retrieval is a research field focused on helping users find relevant data in large collections"],
+    "limit": 3,
+    "outputFields": ["document_content"],
+    "searchParams": {"metric_type": "MHJACCARD", "params": {"mh_search_with_jaccard": true, "refine_k": 3}}
+}' 
 ```
 
 </TabItem>
 </Tabs>
 
-Jaccard リファインメントを有効にするには、`mh_search_with_jaccard` を `True` に設定します。`refine_k` は、リファインメントに使用する候補プールのサイズを制御します。Zilliz Cloud はこのサイズとして `max(refine_k, limit)` を使用しますが、LSH ルックアップの結果が少ない場合は、実際にリファインメントされる候補数も少なくなることがあります。`refine_k` を大きくすると、計算コストは増えますが、結果の品質を向上できる可能性があります。
+Jaccard 絞り込みを有効にするには、`mh_search_with_jaccard` を `True` に設定します。`refine_k` は、絞り込みに使用する候補プールの容量を制御します。Zilliz Cloud は `max(refine_k, limit)` を容量として使用しますが、LSH ルックアップで返される一致が少ない場合は、絞り込む候補が少なくなることがあります。`refine_k` を大きくすると、計算量が増える代わりに結果の品質を向上させられます。
 
 ## 次のステップ\{#whats-next}
 
-- [Full Text Search](./full-text-search): 近似重複検出ではなく、BM25 を用いた語彙レベルの関連性ランキングを行います。
+- [全文検索](./full-text-search)：ほぼ重複するドキュメントの検出ではなく、BM25 を字句的な関連性ランキングに使用します。
 
-- [Analyzer Overview](./analyzer-overview): テキストのトークン化に使用するカスタムアナライザーを設定します。
+- [アナライザーの概要](./analyzer-overview)：テキストのトークン化用にカスタムアナライザーを構成します。
 
-- [MINHASH_LSH インデックス](./minhash-lsh): 再現率とパフォーマンスのための LSH パラメーターの調整について学びます。
-
+- [MINHASH_LSH インデックス](./minhash-lsh)：再現率とパフォーマンスのために LSH パラメーターをチューニングする方法を学びます。

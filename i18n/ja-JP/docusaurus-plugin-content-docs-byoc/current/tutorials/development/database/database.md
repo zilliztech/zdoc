@@ -53,7 +53,7 @@ Dedicated クラスターを作成すると、デフォルトのデータベー�
 
 Zilliz Cloud コンソールから、またはプログラムからデータベースを作成できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -97,6 +97,14 @@ client.createDatabase(request);
 <TabItem value='go'>
 
 ```go
+import (
+    "context"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
+
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
@@ -108,6 +116,55 @@ if err != nil {
 err = client.CreateDatabase(ctx, milvusclient.NewCreateDatabaseOption("my_database_1"))
 if err != nil {
     // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let client = ClientV2::new(
+        &ConnectConfig::new()
+            .uri("YOUR_CLUSTER_ENDPOINT")
+            .token("YOUR_CLUSTER_TOKEN"),
+    )
+    .await?;
+
+    client
+        .create_database(
+            CreateDatabaseRequest::builder()
+                .database_name("my_database_1")
+                .build()?,
+        )
+        .await?;
+
+    Ok(())
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+
+auto client = milvus::MilvusClientV2::Create();
+auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"));
+if (!status.IsOk()) {
+    std::cerr << status.Message() << std::endl;
+}
+
+auto request = milvus::CreateDatabaseRequest().WithDatabaseName("my_database_1");
+status = client->CreateDatabase(request);
+if (!status.IsOk()) {
+    std::cerr << status.Message() << std::endl;
 }
 ```
 
@@ -147,7 +204,7 @@ curl --request POST \
 
 データベースの作成時にプロパティを設定することもできます。次の例では、レプリカ数を設定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -195,6 +252,39 @@ if err != nil {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use std::collections::HashMap;
+
+client
+    .create_database(
+        CreateDatabaseRequest::builder()
+            .database_name("my_database_2")
+            .properties(HashMap::from([
+                ("database.replica.number".into(), "3".into()),
+            ]))
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto request = milvus::CreateDatabaseRequest()
+    .WithDatabaseName("my_database_2")
+    .AddProperty("database.replica.number", "3");
+status = client->CreateDatabase(request);
+if (!status.IsOk()) {
+    std::cerr << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -230,7 +320,7 @@ curl --request POST \
 
 データベースを一覧表示するか、特定のデータベースの詳細を取得します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -281,6 +371,46 @@ log.Println(database)
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+let databases = client
+    .list_databases(ListDatabasesRequest::builder().build()?)
+    .await?;
+println!("{:?}", databases);
+
+let database = client
+    .describe_database(
+        DescribeDatabaseRequest::builder()
+            .database_name("default")
+            .build()?,
+    )
+    .await?;
+println!("{:?}", database);
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::ListDatabasesResponse listResponse;
+status = client->ListDatabases(milvus::ListDatabasesRequest(), listResponse);
+if (!status.IsOk()) {
+    std::cerr << status.Message() << std::endl;
+}
+
+milvus::DescribeDatabaseResponse describeResponse;
+status = client->DescribeDatabase(
+    milvus::DescribeDatabaseRequest().WithDatabaseName("default"),
+    describeResponse);
+if (!status.IsOk()) {
+    std::cerr << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -325,7 +455,7 @@ curl --request POST \
 
 次の例では、データベース内に作成できるコレクション数を制限します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -369,6 +499,35 @@ if err != nil {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+client
+    .alter_database_properties(
+        AlterDatabasePropertiesRequest::builder()
+            .database_name("my_database_1")
+            .property("database.max.collections", "10")
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto request = milvus::AlterDatabasePropertiesRequest()
+    .WithDatabaseName("my_database_1")
+    .AddProperty("database.max.collections", "10");
+status = client->AlterDatabaseProperties(request);
+if (!status.IsOk()) {
+    std::cerr << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -404,7 +563,7 @@ curl --request POST \
 
 次の例では、データベースからコレクション数の上限を削除します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -443,6 +602,35 @@ err = client.DropDatabaseProperties(
 )
 if err != nil {
     // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+client
+    .drop_database_properties(
+        DropDatabasePropertiesRequest::builder()
+            .database_name("my_database_1")
+            .property_keys(["database.max.collections"])
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto request = milvus::DropDatabasePropertiesRequest()
+    .WithDatabaseName("my_database_1")
+    .AddPropertyKey("database.max.collections");
+status = client->DropDatabaseProperties(request);
+if (!status.IsOk()) {
+    std::cerr << status.Message() << std::endl;
 }
 ```
 
@@ -487,7 +675,7 @@ RESTful API では、持続接続上でのデータベースの切り替えは�
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -517,6 +705,25 @@ if err != nil {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+client.use_database("my_database_2").await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+status = client->UseDatabase("my_database_2");
+if (!status.IsOk()) {
+    std::cerr << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -541,7 +748,7 @@ await client.useDatabase({
 
 デフォルトのデータベースは削除できません。データベースを削除する前に、まずそのデータベース内のすべてのコレクションを削除してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -572,6 +779,32 @@ client.dropDatabase(
 err = client.DropDatabase(ctx, milvusclient.NewDropDatabaseOption("my_database_2"))
 if err != nil {
     // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+client
+    .drop_database(
+        DropDatabaseRequest::builder()
+            .database_name("my_database_2")
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto request = milvus::DropDatabaseRequest().WithDatabaseName("my_database_2");
+status = client->DropDatabase(request);
+if (!status.IsOk()) {
+    std::cerr << status.Message() << std::endl;
 }
 ```
 

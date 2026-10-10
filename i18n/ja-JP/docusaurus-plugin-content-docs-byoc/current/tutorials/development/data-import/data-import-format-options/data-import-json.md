@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "JSON は、機械が容易に解析・生成できる軽量で人間が読みやすいデータ形式です。言語に依存せず、C 系言語のプログラマーに馴染みのある規則に従っているため、理想的なデータ交換形式です。 | BYOC"
+description: "JSON は、機械が容易に解析および生成できる、軽量で人間が読みやすいデータ形式です。言語に依存せず、C 系言語のプログラマーに馴染みのある規則に従っているため、理想的なデータ交換形式です。 | BYOC"
 type: origin
 token: EHmOwLz5qi3tPDkb0gZcb5ExnJb
 sidebar_position: 2
@@ -67,8 +67,8 @@ JSON Line は、各行が完全かつ有効な JSON オブジェクトである�
 
 ```plaintext
 ├── json-folder
-│       ├── 1.json
-│       └── 2.json 
+│   ├── 1.json
+│   └── 2.json
 ```
 
 ## データのインポート\{#import-data}
@@ -83,7 +83,7 @@ JSON Line は、各行が完全かつ有効な JSON オブジェクトである�
 
 <Admonition type="info" title="Notes">
 
-ファイルが比較的小さい場合は、フォルダー方式または複数パス方式を使用して一度にすべてインポートすることをお勧めします。この方法では、インポート処理中に内部的な最適化が行われるため、後続のリソース消費を抑えるのに役立ちます。
+ファイルが比較的小さい場合は、フォルダーまたは複数パスの方法を使用して一度にすべてをインポートすることをお勧めします。このアプローチでは、インポートプロセス中に内部的な最適化が行われるため、その後のリソース消費を抑えられます。
 
 </Admonition>
 
@@ -175,7 +175,7 @@ Zilliz Cloud は、クラウドストレージからのデータインポート�
 
 ## 制限\{#limits}
 
-ローカルの JSON ファイル、またはクラウドストレージ上の JSON ファイルからデータをインポートする際には、いくつかの制限に従う必要があります。 
+ローカルの JSON ファイル、またはクラウドストレージの JSON ファイルからデータをインポートする際には、いくつかの制限に従う必要があります。 
 
 <Admonition type="info" title="Notes">
 
