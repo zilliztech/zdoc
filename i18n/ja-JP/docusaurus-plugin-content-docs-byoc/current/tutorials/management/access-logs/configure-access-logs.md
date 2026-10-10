@@ -2,7 +2,7 @@
 title: "アクセスログを設定する | BYOC"
 slug: /configure-access-logs
 sidebar_label: "アクセスログを設定する"
-beta: PUBLIC
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -40,11 +40,11 @@ import Procedures from '@site/src/components/Procedures';
 
 </Admonition>
 
-## 始める前に\{#before-you-start}
+## 事前準備\{#before-you-start}
 
-- 対象クラスターと同じリージョンに設定されたオブジェクトストレージ統合（AWS S3、Google Cloud Storage、または Azure Blob Storage）。
+- 対象クラスターと同じリージョンに構成されたオブジェクトストレージ統合（AWS S3、Google Cloud Storage、または Azure Blob Storage）があること。
 
-- プロジェクトに対する **Organization Owner**、**Project Admin**、または **クラスター Admin** 権限を持っていること。必要な権限がない場合は、Zilliz Cloud の管理者にお問い合わせください。
+- プロジェクトに対する **Organization Owner**、**Project Admin**、または **クラスター Admin** の権限を持っていること。必要な権限がない場合は、Zilliz Cloud の管理者にお問い合わせください。
 
 ## アクセスログを有効にする\{#enable-access-logs}
 
@@ -52,7 +52,7 @@ import Procedures from '@site/src/components/Procedures';
 
 <Procedures>
 
-1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login)を開き、対象のクラスターに移動します。
+1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) を開き、対象のクラスターに移動します。
 
 1. クラスター設定ページで **Access Log** タブをクリックし、**Enable** をクリックします。
 
@@ -78,7 +78,7 @@ import Procedures from '@site/src/components/Procedures';
 
 <Procedures>
 
-1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login)を開き、クラスターに移動します。
+1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) を開き、クラスターに移動します。
 
 1. クラスター設定ページで **Access Log** タブをクリックします。
 
@@ -94,7 +94,7 @@ import Procedures from '@site/src/components/Procedures';
 
 <Procedures>
 
-1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login)を開き、クラスターに移動します。
+1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) を開き、クラスターに移動します。
 
 1. クラスター設定ページで **Access Log** タブをクリックします。
 

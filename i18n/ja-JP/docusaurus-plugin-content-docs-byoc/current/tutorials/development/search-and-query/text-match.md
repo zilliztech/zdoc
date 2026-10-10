@@ -213,6 +213,36 @@ schema->AddField(milvus::FieldSchema("embeddings", milvus::DataType::FLOAT_VECTO
 
 ```shell
 # Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+# Create a collection with a VARCHAR field configured for text matching
+zilliz collection create --collection-name my_collection --schema '{
+  "autoId": true,
+  "enabledDynamicField": false,
+  "fields": [
+    {
+      "fieldName": "id",
+      "dataType": "Int64",
+      "isPrimary": true
+    },
+    {
+      "fieldName": "text",
+      "dataType": "VarChar",
+      "elementTypeParams": {
+        "max_length": 1000,
+        "enable_analyzer": true,
+        "enable_match": true
+      }
+    },
+    {
+      "fieldName": "embeddings",
+      "dataType": "FloatVector",
+      "elementTypeParams": {
+        "dim": 5
+      }
+    }
+  ]
+}' 
 ```
 
 </TabItem>
@@ -358,6 +388,39 @@ schema->AddField(milvus::FieldSchema("embeddings", milvus::DataType::FLOAT_VECTO
 
 ```shell
 # Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+# Create a collection with English analyzer for text matching
+zilliz collection create --collection-name my_collection --schema '{
+  "autoId": true,
+  "enabledDynamicField": false,
+  "fields": [
+    {
+      "fieldName": "id",
+      "dataType": "Int64",
+      "isPrimary": true
+    },
+    {
+      "fieldName": "text",
+      "dataType": "VarChar",
+      "elementTypeParams": {
+        "max_length": 1000,
+        "enable_analyzer": true,
+        "enable_match": true,
+        "analyzer_params": {
+          "type": "english"
+        }
+      }
+    },
+    {
+      "fieldName": "embeddings",
+      "dataType": "FloatVector",
+      "elementTypeParams": {
+        "dim": 5
+      }
+    }
+  ]
+}' 
 ```
 
 </TabItem>
@@ -373,55 +436,9 @@ Zilliz Cloud は、さまざまな言語やシナリオに適した他のアナ�
 
 `TEXT_MATCH` 式は、検索対象のフィールドと用語を指定するために使用します。構文は次のとおりです。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
-<TabItem value='python'>
-
-```python
+```plaintext
 TEXT_MATCH(field_name, text)
 ```
-
-</TabItem>
-
-<TabItem value='java'>
-
-```java
-// java
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-// go
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-// nodejs
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-# restful
-```
-
-</TabItem>
-
-<TabItem value='shell'>
-
-```shell
-# Zilliz CLI
-```
-
-</TabItem>
-</Tabs>
 
 - `field_name`: 検索対象の VARCHAR フィールドの名前。
 
@@ -482,6 +499,10 @@ const auto filter = R"(TEXT_MATCH(text, "machine deep"))";
 
 ```shell
 # Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+# Query documents containing both "machine" and "deep"
+zilliz collection query --collection-name my_collection --filter "TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'deep')" --output-fields "id,text" 
 ```
 
 </TabItem>
@@ -544,6 +565,10 @@ const auto filter = R"(TEXT_MATCH(text, "machine deep"))";
 
     ```shell
     # Zilliz CLI
+    # Prerequisite: run zilliz login and select your cluster with zilliz context set.
+    
+    # Query documents containing "machine" and "learning" but not "deep"
+    zilliz collection query --collection-name my_collection --filter "not TEXT_MATCH(text, 'deep') and TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'learning')" --output-fields "id,text" 
     ```
 
     </TabItem>
@@ -604,10 +629,90 @@ const auto filter = R"(TEXT_MATCH(text, "machine deep"))";
 
     ```shell
     # Zilliz CLI
+    # Prerequisite: run zilliz login and select your cluster with zilliz context set.
+    
+    # Query documents containing "keyword1" or "keyword2"
+    zilliz collection query --collection-name my_collection --filter "TEXT_MATCH(text, 'keyword1 keyword2')" --output-fields "id,text" 
     ```
 
     </TabItem>
     </Tabs>
+
+### TEXT_MATCH_FUZZY 式の構文\{#textmatchfuzzy-expression-syntax}
+
+`TEXT_MATCH_FUZZY` を使用すると、クエリトークンとインデックスされたトークンの間のスペルの違いを許容できます。Milvus は、フィールドのアナライザーでクエリテキストを解析し、得られた各トークンにファジーマッチングを適用します。クエリが複数のトークンを生成する場合、いずれかのトークンが構成された編集距離を満たすと、式はエンティティに一致します。
+
+構文は次のとおりです。
+
+```plaintext
+TEXT_MATCH_FUZZY(field_name, text, max_edit_distance = 1)
+```
+
+- `field_name`: 検索対象の、マッチングが有効な `VARCHAR` または `TEXT` フィールドの名前。
+
+- `text`: 解析し、インデックスされたトークンと照合するクエリテキスト。
+
+- `max_edit_distance`: 各クエリトークンに許可される最大編集距離。オプション名は正確に `max_edit_distance` である必要があり、その値は `0`、`1`、または `2` のいずれかである必要があります。値 `0` は完全一致のトークンマッチングを実行し、`TEXT_MATCH` と同等です。
+
+たとえば、次の式は、`machne` から編集距離 1 以内のトークン（`machine` を含む）に一致します。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<TabItem value='python'>
+
+```python
+filter = "TEXT_MATCH_FUZZY(text, 'machne', max_edit_distance = 1)"
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "TEXT_MATCH_FUZZY(text, 'machne', max_edit_distance = 1)";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "TEXT_MATCH_FUZZY(text, 'machne', max_edit_distance = 1)"
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = "TEXT_MATCH_FUZZY(text, 'machne', max_edit_distance = 1)";
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export filter="\"TEXT_MATCH_FUZZY(text, 'machne', max_edit_distance = 1)\""
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::string filter = "TEXT_MATCH_FUZZY(text, 'machne', max_edit_distance = 1)";
+```
+
+</TabItem>
+
+<TabItem value='shell'>
+
+```shell
+# Zilliz CLI
+```
+
+</TabItem>
+</Tabs>
 
 ### テキストマッチを使用した検索\{#search-with-text-match}
 
@@ -753,6 +858,10 @@ if (!status.IsOk()) {
 
 ```shell
 # Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+# Query documents with fuzzy matching (tolerates spelling differences)
+zilliz collection query --collection-name my_collection --filter "TEXT_MATCH_FUZZY(text, 'machne', max_edit_distance = 1)" --output-fields "id,text" 
 ```
 
 </TabItem>
@@ -874,6 +983,10 @@ if (!status.IsOk()) {
 
 ```shell
 # Zilliz CLI
+# Prerequisite: run zilliz login and select your cluster with zilliz context set.
+
+# Search documents containing "machine deep" with vector similarity
+zilliz collection search --collection-name my_collection --vector-field embeddings --vectors '[[0.1,0.2,0.3,0.4,0.5]]' --filter "TEXT_MATCH(text, 'machine deep')" --limit 10 --output-fields "id,text" 
 ```
 
 </TabItem>
@@ -894,4 +1007,3 @@ if (!status.IsOk()) {
     - 文字列定数を一重引用符で囲む場合、定数内の一重引用符は `\\'` として表現し、二重引用符は `"` または `\\"` のいずれかで表現できます。例: `'It\\'s milvus'`。
 
     - 文字列定数を二重引用符で囲む場合、定数内の二重引用符は `\\"` として表現し、一重引用符は `'` または `\\'` のいずれかで表現できます。例: `"He said \\"Hi\\""`。
-
