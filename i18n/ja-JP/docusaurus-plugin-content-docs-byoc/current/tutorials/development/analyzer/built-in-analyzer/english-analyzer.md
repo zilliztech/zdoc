@@ -39,7 +39,7 @@ Zilliz Cloud の `english` analyzer は、英語テキストを処理するた�
 
 `english` analyzer の機能は、次のカスタム analyzer 設定と同等です。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -52,7 +52,7 @@ analyzer_params = {
                         "language": "english"
                 }, {
                         "type": "stop",
-                        "stop_words": "_english_"
+                        "stop_words": ["_english_"]
                 }
         ]
 }
@@ -81,28 +81,64 @@ analyzerParams.put("filter",
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-const analyzer_params = {
-    "type": "standard", // Specifies the standard analyzer type
-    "stop_words", ["of"] // Optional: List of words to exclude from tokenization
-}
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"tokenizer": "standard",
+analyzerParams := map[string]any{"tokenizer": "standard",
         "filter": []any{"lowercase", map[string]any{
             "type":     "stemmer",
             "language": "english",
         }, map[string]any{
             "type":       "stop",
-            "stop_words": "_english_",
+            "stop_words": []string{"_english_"},
         }}}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use serde_json::json;
+
+let analyzer_params = json!({
+    "tokenizer": "standard",
+    "filter": [
+        "lowercase",
+        { "type": "stemmer", "language": "english" },
+        { "type": "stop", "stop_words": ["_english_"] }
+    ]
+});
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"tokenizer", "standard"},
+    {"filter", {
+        "lowercase",
+        {{"type", "stemmer"}, {"language", "english"}},
+        {{"type", "stop"}, {"stop_words", {"_english_"}}}
+    }}
+};
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+    "tokenizer": "standard",
+    "filter": [
+        "lowercase",
+        { "type": "stemmer", "language": "english" },
+        { "type": "stop", "stop_words": ["_english_"] }
+    ]
+}
 ```
 
 </TabItem>
@@ -121,25 +157,12 @@ analyzerParams='{
     },
     {
       "type": "stop",
-      "stop_words": "_english_"
+      "stop_words": [
+        "_english_"
+      ]
     }
   ]
 }'
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-nlohmann::json analyzer_params = {
-    {"tokenizer", "standard"},
-    {"filter", {
-        "lowercase", 
-        {{"type", "stemmer"}, {"language", "english"}},
-        {{"type", "stop"}, {"stop_words", "_english_"}}
-    }}
-};
 ```
 
 </TabItem>
@@ -149,7 +172,7 @@ nlohmann::json analyzer_params = {
 
 `english` analyzer を field に適用するには、`analyzer_params` で `type` を `english` に設定し、必要に応じてオプションのパラメータを含めるだけです。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -169,20 +192,42 @@ analyzerParams.put("type", "english");
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+analyzerParams := map[string]any{"type": "english"}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use serde_json::json;
+
+let analyzer_params = json!({
+    "type": "english"
+});
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"type", "english"}
+};
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
 const analyzer_params = {
     "type": "english",
 }
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-analyzerParams = map[string]any{"type": "english"}
 ```
 
 </TabItem>
@@ -197,16 +242,6 @@ analyzerParams='{
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-nlohmann::json analyzer_params = {
-    {"type", "english"}
-};
-```
-
-</TabItem>
 </Tabs>
 
 `english` analyzer は次のオプションパラメータを受け入れます。 
@@ -217,7 +252,7 @@ nlohmann::json analyzer_params = {
 
 カスタム stop words を使用した設定例:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -235,6 +270,38 @@ analyzer_params = {
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "english");
 analyzerParams.put("stop_words", Arrays.asList("a", "an", "the"));
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+analyzerParams := map[string]any{"type": "english", "stop_words": []string{"a", "an", "the"}}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use serde_json::json;
+
+let analyzer_params = json!({
+    "type": "english",
+    "stop_words": ["a", "an", "the"]
+});
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"type", "english"},
+    {"stop_words", {"a", "an", "the"}}
+};
 ```
 
 </TabItem>
@@ -250,14 +317,6 @@ const analyzer_params = {
 
 </TabItem>
 
-<TabItem value='go'>
-
-```go
-analyzerParams = map[string]any{"type": "english", "stop_words": []string{"a", "an", "the"}}
-```
-
-</TabItem>
-
 <TabItem value='bash'>
 
 ```bash
@@ -273,28 +332,17 @@ analyzerParams='{
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-nlohmann::json analyzer_params = {
-    {"type", "english"},
-    {"stop_words", {"a", "an", "the"}}
-};
-```
-
-</TabItem>
 </Tabs>
 
-`analyzer_params` を定義した後、collection schema を定義する際にそれらを `VARCHAR` field に適用できます。これにより、Zilliz Cloud は効率的な tokenization と filtering のために、指定された analyzer を使用してその field 内のテキストを処理できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
+After defining `analyzer_params`, you can apply them to a `VARCHAR` field when defining a コレクション スキーマ. This allows Zilliz Cloud to process the text in that field using the specified analyzer for efficient tokenization and filtering. For details, refer to [Example use](./analyzer-overview#example-use).
 
 ## 例\{#examples}
 
-analyzer 設定を collection schema に適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+Before applying the analyzer configuration to your コレクション スキーマ, verify its behavior using the `run_analyzer` method.
 
 ### Analyzer 設定\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -316,18 +364,45 @@ analyzerParams.put("stop_words", Arrays.asList("a", "an", "the"));
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='go'>
 
-```javascript
-// javascript
+```go
+analyzerParams := map[string]any{"type": "english", "stop_words": []string{"a", "an", "the"}}
 ```
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='rust'>
 
-```go
-analyzerParams = map[string]any{"type": "english", "stop_words": []string{"a", "an", "the"}}
+```rust
+use serde_json::json;
+
+let analyzer_params = json!({
+    "type": "english",
+    "stop_words": ["a", "an", "the"]
+});
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"type", "english"},
+    {"stop_words", {"a", "an", "the"}}
+};
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+    "type": "english",
+    "stop_words": ["a", "an", "the"]
+}
 ```
 
 </TabItem>
@@ -347,22 +422,11 @@ analyzerParams='{
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-nlohmann::json analyzer_params = {
-    {"type", "english"},
-    {"stop_words", {"a", "an", "the"}}
-};
-```
-
-</TabItem>
 </Tabs>
 
 ### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -392,6 +456,11 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -411,23 +480,14 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// javascript
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
 import (
     "context"
-    "encoding/json"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
@@ -439,24 +499,57 @@ if err != nil {
     // handle error
 }
 
-bs, _ := json.Marshal(analyzerParams)
 texts := []string{"Milvus is a vector database built for scale!"}
-option := milvusclient.NewRunAnalyzerOption(texts).
-    WithAnalyzerParams(string(bs))
+option := milvusclient.NewRunAnalyzerOption(texts...).
+    WithAnalyzerParams(analyzerParams)
 
 result, err := client.RunAnalyzer(ctx, option)
 if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
+
+for _, r := range result {
+    for _, token := range r.Tokens {
+        fmt.Println("English analyzer output:", token.Text)
+    }
+}
 ```
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+use milvus::v2::error::Result;
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+    let client = ClientV2::new(&config).await?;
+
+    let analyzer_params = serde_json::json!({
+        "type": "english",
+        "stop_words": ["a", "an", "the"]
+    });
+
+    let response = client
+        .run_analyzer(
+            RunAnalyzerRequest::builder()
+                .texts(["Milvus is a vector database built for scale!"])
+                .analyzer_params(analyzer_params)
+                .build()?,
+        )
+        .await?;
+
+    for result in response.results() {
+        for token in result.get_tokens() {
+            println!("English analyzer output: {}", token.get_text());
+        }
+    }
+    Ok(())
+}
 ```
 
 </TabItem>
@@ -465,6 +558,8 @@ if err != nil {
 
 ```c++
 #include "milvus/MilvusClientV2.h"
+#include <iostream>
+#include <string>
 
 auto client = milvus::MilvusClientV2::Create();
 
@@ -484,6 +579,42 @@ status = client->RunAnalyzer(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
+
+const client = new MilvusClient({
+  address: 'YOUR_CLUSTER_ENDPOINT',
+  token: 'YOUR_CLUSTER_TOKEN',
+});
+
+const sample_text = 'Milvus is a vector database built for scale!';
+const result = await client.runAnalyzer({
+  text: sample_text,
+  analyzer_params,
+});
+const tokens = result.results.flatMap(r => r.tokens.map(t => t.token));
+console.log('English analyzer output:', tokens);
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+  --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/common/run_analyzer" \
+  --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+  --header "Content-Type: application/json" \
+  --data-raw '{
+    "analyzerParams": "{\"type\": \"english\", \"stop_words\": [\"a\", \"an\", \"the\"]}",
+    "text": ["Milvus is a vector database built for scale!"]
+  }' 
 ```
 
 </TabItem>

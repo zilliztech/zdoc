@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`cncharonly` フィルターは、中国語以外の文字を含むトークンを削除します。このフィルターは、中国語テキストのみに焦点を当て、他の文字体系、数字、記号を含むトークンを除外したい場合に役立ちます。 | BYOC"
+description: "`cncharonly` フィルターは、中国語以外の文字を含むトークンを除去します。このフィルターは、中国語のテキストのみに焦点を当て、他の文字体系、数字、記号を含むトークンを除外したい場合に便利です。 | BYOC"
 type: origin
 token: X16rw3C4giUT6bkPLXAcsBapnpe
 sidebar_position: 5
@@ -21,13 +21,13 @@ import TabItem from '@theme/TabItem';
 
 # Cncharonly
 
-`cncharonly` フィルターは、中国語以外の文字を含むトークンを削除します。このフィルターは、中国語テキストのみに焦点を当て、他の文字体系、数字、記号を含むトークンを除外したい場合に役立ちます。
+`cncharonly` フィルターは、中国語以外の文字を含むトークンを除去します。このフィルターは、中国語のテキストのみに焦点を当て、他の文字体系、数字、記号を含むトークンを除外したい場合に便利です。
 
-## Configuration\{#configuration}
+## 設定\{#configuration}
 
-`cncharonly` フィルターは Zilliz Cloud に組み込まれています。これを使用するには、`analyzer_params` 内の `filter` セクションでその名前を指定するだけです。
+`cncharonly` フィルターは Zilliz Cloud に組み込まれています。使用するには、`analyzer_params` 内の `filter` セクションでその名前を指定するだけです。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -49,6 +49,46 @@ analyzerParams.put("filter", Collections.singletonList("cncharonly"));
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+analyzerParams := map[string]any{"tokenizer": "jieba", "filter": []any{"cncharonly"}}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+    let client = ClientV2::new(&config).await?;
+
+    let analyzer_params = serde_json::json!({
+        "tokenizer": "jieba",
+        "filter": ["cncharonly"]
+    });
+
+    Ok(())
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"tokenizer", "jieba"},
+    {"filter", {"cncharonly"}}
+};
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -56,14 +96,6 @@ const analyzer_params = {
     "tokenizer": "jieba",
     "filter": ["cncharonly"],
 };
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-analyzerParams = map[string]any{"tokenizer": "jieba", "filter": []any{"cncharonly"}}
 ```
 
 </TabItem>
@@ -81,30 +113,19 @@ analyzerParams='{
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-nlohmann::json analyzer_params = {
-    {"tokenizer", "jieba"},
-    {"filter", {"cncharonly"}}
-};
-```
-
-</TabItem>
 </Tabs>
 
-`cncharonly` フィルターは tokenizer によって生成された用語に対して動作するため、tokenizer と組み合わせて使用する必要があります。Zilliz Cloud で利用可能な tokenizer の一覧については、[Jieba](./jieba-tokenizer) およびその関連ページを参照してください。
+`cncharonly` フィルターはトークナイザーによって生成された用語に対して動作するため、トークナイザーと組み合わせて使用する必要があります。Zilliz Cloud で使用できるトークナイザーの一覧については、[Jieba](./jieba-tokenizer) とその関連ページを参照してください。
 
-`analyzer_params` を定義した後、collection schema の定義時にそれらを `VARCHAR` フィールドへ適用できます。これにより Zilliz Cloud は、指定された analyzer を使用してそのフィールド内のテキストを処理し、効率的な tokenization とフィルタリングを行えます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後、コレクションスキーマを定義する際にそれらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールドのテキストを処理し、効率的なトークン化とフィルタリングを行えます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
-## Examples\{#examples}
+## 例\{#examples}
 
-analyzer 設定を collection schema に適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
-### Analyzer configuration\{#analyzer-configuration}
+### アナライザー設定\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -126,26 +147,21 @@ analyzerParams.put("filter", Collections.singletonList("cncharonly"));
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// javascript
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"tokenizer": "jieba", "filter": []any{"cncharonly"}}
+analyzerParams := map[string]any{"tokenizer": "jieba", "filter": []any{"cncharonly"}}
 ```
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+    let analyzer_params = serde_json::json!({
+        "tokenizer": "jieba",
+        "filter": ["cncharonly"]
+    });
 ```
 
 </TabItem>
@@ -160,11 +176,36 @@ nlohmann::json analyzer_params = {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+  tokenizer: "jieba",
+  filter: ["cncharonly"],
+};
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+export analyzerParams='{
+  "tokenizer": "jieba",
+  "filter": [
+    "cncharonly"
+  ]
+}'
+```
+
+</TabItem>
 </Tabs>
 
-### Verification using `run_analyzer`\{#verification-using-runanalyzer}
+### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -191,6 +232,8 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
+import java.util.ArrayList;
+import java.util.List;
 
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -209,14 +252,6 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// javascript
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -225,7 +260,7 @@ import (
     "encoding/json"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
@@ -240,7 +275,7 @@ if err != nil {
 bs, _ := json.Marshal(analyzerParams)
 texts := []string{"Milvus 是 LF AI & Data Foundation 下的一个开源项目，以 Apache 2.0 许可发布。"}
 option := milvusclient.NewRunAnalyzerOption(texts).
-    WithAnalyzerParams(string(bs))
+    WithAnalyzerParamsStr(string(bs))
 
 result, err := client.RunAnalyzer(ctx, option)
 if err != nil {
@@ -251,10 +286,14 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+    let resp = client.run_analyzer(RunAnalyzerRequest::builder()
+        .texts(vec!["Milvus 是 LF AI & Data Foundation 下的一个开源项目，以 Apache 2.0 许可发布。"])
+        .analyzer_params(analyzer_params)
+        .build()?).await?;
+    println!("{:?}", resp.results());
 ```
 
 </TabItem>
@@ -285,10 +324,43 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+  tokenizer: "jieba",
+  filter: ["cncharonly"],
+};
+
+const result = await client.runAnalyzer({
+  text: "Milvus 是 LF AI & Data Foundation 下的一个开源项目，以 Apache 2.0 许可发布。",
+  analyzer_params,
+});
+console.log(result.results);
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/common/run_analyzer" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--data-raw '{
+  "analyzerParams": "{\"tokenizer\": \"jieba\", \"filter\": [\"cncharonly\"]}",
+  "text": ["Milvus 是 LF AI & Data Foundation 下的一个开源项目，以 Apache 2.0 许可发布。"]
+}'
+```
+
+</TabItem>
 </Tabs>
 
-### Expected output\{#expected-output}
+### 期待される出力\{#expected-output}
 
 ```python
-['是', '下的一个开源项目', '以', '许可发布']
+['是', '下', '的', '一个', '开源', '项目', '以', '许可', '发布']
 ```

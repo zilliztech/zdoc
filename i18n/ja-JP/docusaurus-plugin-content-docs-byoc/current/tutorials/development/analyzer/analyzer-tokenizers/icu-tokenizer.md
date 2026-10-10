@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`icu` tokenizer は、ソフトウェアの国際化に不可欠なツールを提供する Internationalization Components of Unicode オープンソースプロジェクトを基盤として構築されています。ICU の単語分割アルゴリズムを利用することで、この tokenizer は世界の大多数の言語のテキストを単語に正確に分割できます。 | BYOC"
+description: "`icu` トークナイザーは、ソフトウェアの国際化のための主要なツールを提供する Internationalization Components of Unicode オープンソースプロジェクトに基づいて構築されています。ICU の word-break アルゴリズムを使用することで、トークナイザーは世界の大多数の言語にわたるテキストを正確に単語へ分割できます。 | BYOC"
 type: origin
 token: Q3gKwc5lkilAbKkalCWcW2AbnLe
 sidebar_position: 5
@@ -21,19 +21,19 @@ import TabItem from '@theme/TabItem';
 
 # ICU
 
-`icu` tokenizer は、ソフトウェアの国際化に不可欠なツールを提供する [Internationalization Components of Unicode](http://site.icu-project.org/)（ICU）オープンソースプロジェクトを基盤として構築されています。ICU の単語分割アルゴリズムを利用することで、この tokenizer は世界の大多数の言語のテキストを単語に正確に分割できます。
+`icu` トークナイザーは、ソフトウェアの国際化のための主要なツールを提供する [Internationalization Components of Unicode](http://site.icu-project.org/)（ICU）オープンソースプロジェクトに基づいて構築されています。ICU の word-break アルゴリズムを使用することで、トークナイザーは世界の大多数の言語にわたってテキストを正確に単語に分割できます。
 
 <Admonition type="info" title="Notes">
 
-`icu` tokenizer は、句読点と空白を出力内で個別の token として保持します。たとえば、`"Привет! Как дела?"` は `["Привет", "!", " ", "Как", " ", "дела", "?"]` になります。これらの独立した句読点 token を削除するには、[`removepunct`](./remove-punct-filter) filter を使用してください。
+`icu` トークナイザーは、出力内で句読点とスペースを個別のトークンとして保持します。たとえば、`"Привет! Как дела?"` は `["Привет", "!", " ", "Как", " ", "дела", "?"]` になります。これらの単独の句読点トークンを削除するには、[`removepunct`](./remove-punct-filter) フィルターを使用します。
 
 </Admonition>
 
-## Configuration\{#configuration}
+## 構成\{#configuration}
 
-`icu` tokenizer を使用して analyzer を設定するには、`analyzer_params` で `tokenizer` を `icu` に設定します。
+`icu` トークナイザーを使用してアナライザーを構成するには、`analyzer_params` で `tokenizer` を `icu` に設定します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -53,14 +53,6 @@ analyzerParams.put("tokenizer", "icu");
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// node
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -69,10 +61,13 @@ analyzerParams = map[string]any{"tokenizer": "icu"}
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# curl
+```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
+
+let analyzer_params = json!({ "tokenizer": "icu" });
 ```
 
 </TabItem>
@@ -86,11 +81,32 @@ nlohmann::json analyzer_params = {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+    tokenizer: "icu",
+};
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+analyzerParams='{
+  "tokenizer": "icu"
+}'
+```
+
+</TabItem>
 </Tabs>
 
-`icu` tokenizer は 1 つ以上の filter と組み合わせて使用できます。たとえば、次のコードは `icu` tokenizer と [remove punct filter](./remove-punct-filter) を使用する analyzer を定義しています。
+`icu` トークナイザーは、1 つ以上のフィルターと組み合わせて使用できます。たとえば、次のコードは `icu` トークナイザーと [remove punct filter](./remove-punct-filter) を使用するアナライザーを定義します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -112,14 +128,6 @@ analyzerParams.put("filter", Collections.singletonList("removepunct"));
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// node
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -128,10 +136,16 @@ analyzerParams = map[string]any{"tokenizer": "icu", "filter": []string{"removepu
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# curl
+```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
+
+let analyzer_params = json!({
+    "tokenizer": "icu",
+    "filter": ["removepunct"]
+});
 ```
 
 </TabItem>
@@ -146,17 +160,40 @@ nlohmann::json analyzer_params = {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+    tokenizer: "icu",
+    filter: ["removepunct"],
+};
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+analyzerParams='{
+  "tokenizer": "icu",
+  "filter": ["removepunct"]
+}'
+```
+
+</TabItem>
 </Tabs>
 
-`analyzer_params` を定義した後、コレクションスキーマを定義する際にそれらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud はそのフィールド内のテキストを、指定された analyzer を使用して処理し、効率的な tokenization と filtering を実行できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義したら、コレクションスキーマを定義するときにそれを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールドのテキストを処理し、効率的にトークン化とフィルタリングを行えます。詳細については、[Example use](./analyzer-overview#example-use) を参照してください。
 
-## Examples\{#examples}
+## 例\{#examples}
 
-analyzer 設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+アナライザーの構成をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
-### Analyzer configuration\{#analyzer-configuration}
+### アナライザーの構成\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -176,14 +213,6 @@ analyzerParams.put("tokenizer", "icu");
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// node
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -192,10 +221,13 @@ analyzerParams = map[string]any{"tokenizer": "icu"}
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# curl
+```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
+
+let analyzer_params = json!({ "tokenizer": "icu" });
 ```
 
 </TabItem>
@@ -209,11 +241,32 @@ nlohmann::json analyzer_params = {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+    tokenizer: "icu",
+};
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+analyzerParams='{
+  "tokenizer": "icu"
+}'
+```
+
+</TabItem>
 </Tabs>
 
-### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
+### `run_analyzer` を使用した確認\{#verification-using-runanalyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -229,9 +282,9 @@ client = MilvusClient(
 # Sample text to analyze
 sample_text = "Привет! Как дела?"
 
-# Run the standard analyzer with the defined configuration
+# Run the icu analyzer with the defined configuration
 result = client.run_analyzer(sample_text, analyzer_params)
-print("Standard analyzer output:", result)
+print("ICU analyzer output:", result)
 ```
 
 </TabItem>
@@ -262,23 +315,14 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// javascript
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
 import (
     "context"
-    "encoding/json"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
@@ -290,10 +334,9 @@ if err != nil {
     // handle error
 }
 
-bs, _ := json.Marshal(analyzerParams)
 texts := []string{"Привет! Как дела?"}
-option := milvusclient.NewRunAnalyzerOption(texts).
-    WithAnalyzerParams(string(bs))
+option := milvusclient.NewRunAnalyzerOption(texts...).
+    WithAnalyzerParams(analyzerParams)
 
 result, err := client.RunAnalyzer(ctx, option)
 if err != nil {
@@ -304,10 +347,21 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
+
+let analyzer_params = json!({ "tokenizer": "icu" });
+let result = client
+    .run_analyzer(
+        RunAnalyzerRequest::builder()
+            .texts(vec!["Привет! Как дела?"])
+            .analyzer_params(analyzer_params)
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -338,11 +392,42 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const sample_text = "Привет! Как дела?";
+
+// Run the icu analyzer with the defined configuration
+const result = await client.runAnalyzer({
+    text: sample_text,
+    analyzer_params,
+});
+console.log("ICU analyzer output:", result);
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+curl --request POST \
+     --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/common/run_analyzer" \
+     --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+     --header "Content-Type: application/json" \
+     -d '{
+        "text": ["Привет! Как дела?"],
+        "analyzerParams": "{\"tokenizer\": \"icu\"}"
+     }'
+```
+
+</TabItem>
 </Tabs>
 
 ### 期待される出力\{#expected-output}
 
-```sql
+```plaintext
 ['Привет', '!', ' ', 'Как', ' ', 'дела', '?']
 ```
 

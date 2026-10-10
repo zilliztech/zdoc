@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`standard` analyzer は Zilliz Cloud のデフォルト analyzer であり、analyzer が指定されていない場合にテキストフィールドへ自動的に適用されます。文法ベースの tokenization を使用するため、ほとんどの言語で効果的です。 | BYOC"
+description: "`standard` analyzer は Zilliz Cloud のデフォルト analyzer であり、analyzer が指定されていない場合はテキストフィールドに自動的に適用されます。標準の tokenizer と lowercase filter を組み合わせたものです。 | BYOC"
 type: origin
 token: WMSvwXXz4iR7mZkGmUscF3Y1nxs
 sidebar_position: 1
@@ -21,25 +21,25 @@ import TabItem from '@theme/TabItem';
 
 # Standard Analyzer
 
-`standard` analyzer は Zilliz Cloud のデフォルト analyzer であり、analyzer が指定されていない場合にテキストフィールドへ自動的に適用されます。文法ベースの tokenization を使用するため、ほとんどの言語で効果的です。
+`standard` analyzer は Zilliz Cloud のデフォルト analyzer であり、analyzer が指定されていない場合はテキストフィールドに自動的に適用されます。標準の tokenizer と lowercase filter を組み合わせたものです。
 
 <Admonition type="info" title="Notes">
 
-`standard` analyzer は、単語境界に区切り文字（スペースや句読点など）を用いる言語に適しています。ただし、中国語、日本語、韓国語のような言語では辞書ベースの tokenization が必要です。そのような場合は、正確な tokenization とより良い検索結果を実現するために、[`chinese`](./chinese-analyzer) のような言語固有の analyzer や、専用 tokenizer（[`lindera`](./lindera-tokenizer)、[`icu`](./icu-tokenizer) など）および filter を組み合わせたカスタム analyzer の使用を強く推奨します。
+`standard` analyzer は、単語境界に区切り文字（スペースや句読点など）を使用する言語に適しています。ただし、中国語、日本語、韓国語のような言語では辞書ベースの tokenization が必要です。そのような場合は、正確な tokenization とより良い検索結果を実現するために、[`chinese`](./chinese-analyzer) のような言語固有の analyzer、または専用の tokenizer（[`lindera`](./lindera-tokenizer)、[`icu`](./icu-tokenizer) など）と filter を組み合わせたカスタム analyzer の使用を強く推奨します。
 
 </Admonition>
 
 ## 定義\{#definition}
 
-`standard` analyzer は、以下で構成されます。
+`standard` analyzer は、次のコンポーネントで構成されます。
 
-- **Tokenizer**: `standard` tokenizer を使用して、文法ルールに基づいてテキストを個別の単語単位に分割します。詳細については、[Standard Tokenizer](./standard-tokenizer) を参照してください。
+- **Tokenizer**: `standard` tokenizer を使用して、連続する Unicode の文字と数字を token に含め、それ以外の文字で分割します。正確な文字のルールについては、[Standard Tokenizer](./standard-tokenizer) を参照してください。
 
-- **Filter**: `lowercase` filter を使用して、すべての token を小文字に変換し、大文字・小文字を区別しない検索を可能にします。詳細については、[Lowercase](./lowercase-filter) を参照してください。
+- **Filter**: `lowercase` filter を使用して、すべての token を小文字に変換し、大文字と小文字を区別しない検索を可能にします。詳細については、[Lowercase](./lowercase-filter) を参照してください。
 
 `standard` analyzer の機能は、次のカスタム analyzer 設定と同等です。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -61,6 +61,36 @@ analyzerParams.put("filter", Collections.singletonList("lowercase"));
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+analyzerParams := map[string]any{"tokenizer": "standard", "filter": []any{"lowercase"}}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let analyzer_params = serde_json::json!({
+    "tokenizer": "standard",
+    "filter": ["lowercase"]
+});
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"tokenizer", "standard"},
+    {"filter", {"lowercase"}},
+};
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -68,14 +98,6 @@ const analyzer_params = {
     "tokenizer": "standard",
     "filter": ["lowercase"]
 };
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-analyzerParams := map[string]any{"tokenizer": "standard", "filter": []any{"lowercase"}}
 ```
 
 </TabItem>
@@ -93,24 +115,13 @@ analyzerParams='{
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-nlohmann::json analyzer_params = {
-    {"tokenizer", "standard"},
-    {"filter", {"lowercase"}},
-};
-```
-
-</TabItem>
 </Tabs>
 
 ## 設定\{#configuration}
 
-`standard` analyzer をフィールドに適用するには、`analyzer_params` の `type` を `standard` に設定し、必要に応じてオプションのパラメータを含めるだけです。
+`standard` analyzer をフィールドに適用するには、`analyzer_params` で `type` を `standard` に設定し、必要に応じてオプションのパラメーターを含めるだけです。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -130,20 +141,40 @@ analyzerParams.put("type", "standard");
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+analyzerParams = map[string]any{"type": "standard"}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let analyzer_params = serde_json::json!({
+    "type": "standard"
+});
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"type", "standard"},
+};
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
 const analyzer_params = {
     "type": "standard", // Specifies the standard analyzer type
 }
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-analyzerParams = map[string]any{"type": "standard"}
 ```
 
 </TabItem>
@@ -158,33 +189,23 @@ analyzerParams='{
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-nlohmann::json analyzer_params = {
-    {"tokenizer", "standard"},
-};
-```
-
-</TabItem>
 </Tabs>
 
-`standard` analyzer は、次のオプションパラメータを受け付けます。
+`standard` analyzer は、次のオプションのパラメーターを受け付けます。
 
 | パラメーター | 説明 |
 | --- | --- |
-| `stop_words` | tokenization から除外される stop word のリストを含む配列です。 |
+| `stop_words` | tokenization から削除される stop word のリストを含む配列です。 |
 
 カスタム stop word の設定例：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 analyzer_params = {
     "type": "standard", # Specifies the standard analyzer type
-    "stop_words", ["of"] # Optional: List of words to exclude from tokenization
+    "stop_words": ["of"] # Optional: List of words to exclude from tokenization
 }
 ```
 
@@ -200,21 +221,43 @@ analyzerParams.put("stop_words", Collections.singletonList("of"));
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+analyzerParams = map[string]any{"type": "standard", "stop_words": []string{"of"}}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let analyzer_params = serde_json::json!({
+    "type": "standard",
+    "stop_words": ["of"]
+});
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"type", "standard"},
+    {"stop_words", {"of"}},
+};
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
 analyzer_params = {
     "type": "standard", // Specifies the standard analyzer type
-    "stop_words", ["of"] // Optional: List of words to exclude from tokenization
+    "stop_words": ["of"] // Optional: List of words to exclude from tokenization
 }
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-analyzerParams = map[string]any{"type": "standard", "stop_words": []string{"of"}}
 ```
 
 </TabItem>
@@ -232,20 +275,9 @@ analyzerParams='{
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-nlohmann::json analyzer_params = {
-    {"type", "standard"},
-    {"stop_words", {"of"}},
-};
-```
-
-</TabItem>
 </Tabs>
 
-`analyzer_params` を定義した後、コレクションスキーマを定義する際にそれらを `VARCHAR` フィールドへ適用できます。これにより Zilliz Cloud は、指定された analyzer を使用してそのフィールド内のテキストを処理し、効率的な tokenization と filtering を実現できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後、コレクションスキーマを定義する際にそれらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定された analyzer を使用してそのフィールド内のテキストを処理し、効率的な tokenization と filtering を実現できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
 ## 例\{#examples}
 
@@ -253,7 +285,7 @@ analyzer 設定をコレクションスキーマに適用する前に、`run_ana
 
 ### Analyzer 設定\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -275,22 +307,44 @@ analyzerParams.put("stop_words", Collections.singletonList("for"));
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+analyzerParams = map[string]any{"type": "standard", "stop_words": []string{"for"}}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let analyzer_params = serde_json::json!({
+    "type": "standard",
+    "stop_words": ["for"]
+});
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"type", "standard"},
+    {"stop_words", {"for"}},
+};
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
 // javascript
 analyzer_params = {
     "type": "standard", // Specifies the standard analyzer type
-    "stop_words", ["for"] // Optional: List of words to exclude from tokenization
+    "stop_words": ["for"] // Optional: List of words to exclude from tokenization
 }
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-analyzerParams = map[string]any{"type": "standard", "stop_words": []string{"for"}}
 ```
 
 </TabItem>
@@ -308,22 +362,11 @@ analyzerParams='{
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-nlohmann::json analyzer_params = {
-    {"type", "standard"},
-    {"stop_words", {"for"}},
-};
-```
-
-</TabItem>
 </Tabs>
 
 ### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -353,6 +396,10 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -372,14 +419,6 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// javascript
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -388,7 +427,7 @@ import (
     "encoding/json"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
@@ -402,8 +441,8 @@ if err != nil {
 
 bs, _ := json.Marshal(analyzerParams)
 texts := []string{"The Milvus vector database is built for scale!"}
-option := milvusclient.NewRunAnalyzerOption(texts).
-    WithAnalyzerParams(string(bs))
+option := milvusclient.NewRunAnalyzerOption(texts...).
+    WithAnalyzerParamsStr(string(bs))
 
 result, err := client.RunAnalyzer(ctx, option)
 if err != nil {
@@ -414,10 +453,33 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+use milvus::v2::error::Result;
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+    let client = ClientV2::new(&config).await?;
+
+    let texts = ["The Milvus vector database is built for scale!".to_string()];
+    let analyzer_params = serde_json::json!({
+        "type": "standard",
+        "stop_words": ["for"]
+    });
+
+    let result = client.run_analyzer(
+        RunAnalyzerRequest::builder()
+            .texts(texts)
+            .analyzer_params(analyzer_params)
+            .build()?,
+    ).await?;
+
+    println!("{:?}", result.results());
+    Ok(())
+}
 ```
 
 </TabItem>
@@ -426,6 +488,8 @@ if err != nil {
 
 ```c++
 #include "milvus/MilvusClientV2.h"
+#include <iostream>
+#include <string>
 
 auto client = milvus::MilvusClientV2::Create();
 
@@ -448,10 +512,40 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// javascript
+const res = await client.runAnalyzer({
+    text: 'The Milvus vector database is built for scale!',
+    analyzer_params: analyzer_params
+});
+
+console.log(res);
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+curl --request POST \
+  --url "${CLUSTER_ENDPOINT}/v2/vectordb/common/run_analyzer" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "analyzerParams": "{\"type\":\"standard\",\"stop_words\":[\"for\"]}",
+    "text": ["The Milvus vector database is built for scale!"]
+  }'
+```
+
+</TabItem>
 </Tabs>
 
 ### 期待される出力\{#expected-output}
 
 ```sql
-Standard analyzer output: ['the', 'milvus', 'vector', 'database', 'is', 'built', 'scale']
+Standard analyzer output: ['the', 'milvus', 'vector', 'database', 'is', 'built', 'for', 'scale']
 ```

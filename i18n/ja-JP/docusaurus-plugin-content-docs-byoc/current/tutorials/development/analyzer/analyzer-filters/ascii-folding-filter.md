@@ -1,13 +1,13 @@
 ---
-title: "ASCII folding | BYOC"
+title: "ASCII フォールディング | BYOC"
 slug: /ascii-folding-filter
-sidebar_label: "ASCII folding"
+sidebar_label: "ASCII フォールディング"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`asciifolding` フィルターは、Basic Latin Unicode block 外の文字を対応する ASCII 文字に変換します。たとえば、`í` のような文字を `i` に変換し、特に多言語コンテンツにおけるテキスト処理をよりシンプルで一貫性のあるものにします。 | BYOC"
+description: "`asciifolding` フィルターは、Basic Latin Unicode ブロック外の文字を ASCII 相当の文字に変換します。たとえば、`í` のような文字を `i` に変換し、テキスト処理をよりシンプルかつ一貫性のあるものにします。これは特に多言語コンテンツで効果を発揮します。 | BYOC"
 type: origin
 token: SFLCweOuaiChuVkjazqcqyE7neb
 sidebar_position: 2
@@ -19,15 +19,15 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# ASCII folding
+# ASCII フォールディング
 
-`asciifolding` フィルターは、[Basic Latin Unicode block](https://en.wikipedia.org/wiki/Basic_Latin_(Unicode_block))（最初の 127 個の ASCII 文字）外の文字を対応する ASCII 文字に変換します。たとえば、`í` のような文字を `i` に変換し、特に多言語コンテンツにおけるテキスト処理をよりシンプルで一貫性のあるものにします。
+`asciifolding` フィルターは、[Basic Latin Unicode ブロック](https://en.wikipedia.org/wiki/Basic_Latin_(Unicode_block))（最初の 127 文字の ASCII 文字）外の文字を ASCII 相当の文字に変換します。たとえば、`í` のような文字を `i` に変換し、テキスト処理をよりシンプルかつ一貫性のあるものにします。これは特に多言語コンテンツで効果を発揮します。
 
-## Configuration\{#configuration}
+## 構成\{#configuration}
 
-`asciifolding` フィルターは Zilliz Cloud に組み込まれています。使用するには、`analyzer_params` 内の `filter` セクションでその名前を指定するだけです。
+`asciifolding` フィルターは Zilliz Cloud に組み込まれています。使用するには、`analyzer_params` 内の `filter` セクションにその名前を指定するだけです。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -49,6 +49,38 @@ analyzerParams.put("filter", Collections.singletonList("asciifolding"));
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+analyzerParams := map[string]any{"tokenizer": "standard", "filter": []any{"asciifolding"}}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use serde_json::json;
+
+let analyzer_params = json!({
+    "tokenizer": "standard",
+    "filter": ["asciifolding"]
+});
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"tokenizer", "standard"},
+    {"filter", {"asciifolding"}}
+};
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -56,14 +88,6 @@ const analyzer_params = {
     "tokenizer": "standard",
     "filter": ["asciifolding"],
 };
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-analyzerParams = map[string]any{"tokenizer": "standard", "filter": []any{"asciifolding"}}
 ```
 
 </TabItem>
@@ -81,30 +105,19 @@ analyzerParams='{
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-nlohmann::json analyzer_params = {
-    {"tokenizer", "standard"},
-    {"filter", {"asciifolding"}}
-};
-```
-
-</TabItem>
 </Tabs>
 
-`asciifolding` フィルターは tokenizer によって生成された term に対して動作するため、tokenizer と組み合わせて使用する必要があります。Zilliz Cloud で使用可能な tokenizer の一覧については、[Standard Tokenizer](./standard-tokenizer) および関連ページを参照してください。
+`asciifolding` フィルターはトークナイザーが生成した用語に対して動作するため、トークナイザーと組み合わせて使用する必要があります。Zilliz Cloud で利用可能なトークナイザーの一覧については、[Standard Tokenizer](./standard-tokenizer) とその関連ページを参照してください。
 
-`analyzer_params` を定義した後、collection schema を定義する際にそれらを `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud は指定された analyzer を使用してそのフィールド内のテキストを処理し、効率的な tokenization と filtering を実行できます。詳細については、[Example use](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義したら、コレクションスキーマを定義するときに、それらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定したアナライザーを使用してそのフィールド内のテキストを処理し、効率的にトークン化とフィルタリングを行えます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
-## Examples\{#examples}
+## 例\{#examples}
 
-analyzer 設定を collection schema に適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+アナライザー構成をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を検証してください。
 
-### Analyzer configuration\{#analyzer-configuration}
+### アナライザー構成\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -126,26 +139,23 @@ analyzerParams.put("filter", Collections.singletonList("asciifolding"));
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// javascript
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"tokenizer": "standard", "filter": []any{"asciifolding"}}
+analyzerParams := map[string]any{"tokenizer": "standard", "filter": []any{"asciifolding"}}
 ```
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+use serde_json::json;
+
+let analyzer_params = json!({
+    "tokenizer": "standard",
+    "filter": ["asciifolding"]
+});
 ```
 
 </TabItem>
@@ -160,11 +170,36 @@ nlohmann::json analyzer_params = {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+    "tokenizer": "standard",
+    "filter": ["asciifolding"],
+};
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+analyzerParams='{
+  "tokenizer": "standard",
+  "filter": [
+    "asciifolding"
+  ]
+}'
+```
+
+</TabItem>
 </Tabs>
 
-### Verification using `run_analyzer`\{#verification-using-runanalyzer}
+### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -194,6 +229,8 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
+import java.util.ArrayList;
+import java.util.List;
 
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -213,24 +250,17 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// javascript
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
 import (
     "context"
-    "encoding/json"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
+
+ctx := context.Background()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
@@ -241,24 +271,47 @@ if err != nil {
     // handle error
 }
 
-bs, _ := json.Marshal(analyzerParams)
 texts := []string{"Café Möller serves crème brûlée and piñatas."}
-option := milvusclient.NewRunAnalyzerOption(texts).
-    WithAnalyzerParams(string(bs))
+option := milvusclient.NewRunAnalyzerOption(texts...).
+    WithAnalyzerParams(analyzerParams)
 
 result, err := client.RunAnalyzer(ctx, option)
 if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
+
+for _, r := range result {
+    for _, token := range r.Tokens {
+        fmt.Println(token.Text)
+    }
+}
 ```
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
+
+let text = "Café Möller serves crème brûlée and piñatas.";
+
+let response = client
+    .run_analyzer(
+        RunAnalyzerRequest::builder()
+            .texts([text])
+            .analyzer_params(json!({"tokenizer": "standard", "filter": ["asciifolding"]}))
+            .build()?,
+    )
+    .await?;
+
+for result in response.results() {
+    for token in result.get_tokens() {
+        println!("{}", token.get_text());
+    }
+}
 ```
 
 </TabItem>
@@ -267,6 +320,8 @@ if err != nil {
 
 ```c++
 #include "milvus/MilvusClientV2.h"
+#include <iostream>
+#include <string>
 
 auto client = milvus::MilvusClientV2::Create();
 
@@ -289,9 +344,43 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const sampleText = "Café Möller serves crème brûlée and piñatas.";
+
+const client = new MilvusClient({
+  address: "YOUR_CLUSTER_ENDPOINT",
+});
+
+const result = await client.runAnalyzer({
+  analyzer_params: analyzer_params,
+  text: sampleText,
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/common/run_analyzer" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+  -d '{
+    "analyzerParams": "{\"tokenizer\": \"standard\", \"filter\": [\"asciifolding\"]}",
+    "text": ["Café Möller serves crème brûlée and piñatas."]
+  }'
+```
+
+</TabItem>
 </Tabs>
 
-### Expected output\{#expected-output}
+### 期待される出力\{#expected-output}
 
 ```python
 ['Cafe', 'Moller', 'serves', 'creme', 'brulee', 'and', 'pinatas']

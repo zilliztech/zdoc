@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`alphanumonly` フィルターは、非 ASCII 文字を含むトークンを削除し、英数字の用語のみを保持します。このフィルターは、基本的な文字と数字のみが関連し、特殊文字や記号を除外したいテキストの処理に役立ちます。 | BYOC"
+description: "`alphanumonly` フィルターは、非 ASCII 文字を含むトークンを削除し、英数字の用語のみを保持します。このフィルターは、基本的な文字と数字のみが関連するテキストを扱う際に、特殊文字や記号を除外するのに役立ちます。 | BYOC"
 type: origin
 token: BZkiw99tkiDkLXktLhqcJtjKnmb
 sidebar_position: 3
@@ -21,13 +21,13 @@ import TabItem from '@theme/TabItem';
 
 # Alphanumonly
 
-`alphanumonly` フィルターは、非 ASCII 文字を含むトークンを削除し、英数字の用語のみを保持します。このフィルターは、基本的な文字と数字のみが関連し、特殊文字や記号を除外したいテキストの処理に役立ちます。
+`alphanumonly` フィルターは、非 ASCII 文字を含むトークンを削除し、英数字の用語のみを保持します。このフィルターは、基本的な文字と数字のみが関連するテキストを扱う際に、特殊文字や記号を除外するのに役立ちます。
 
-## Configuration\{#configuration}
+## 設定\{#configuration}
 
 `alphanumonly` フィルターは Zilliz Cloud に組み込まれています。これを使用するには、`analyzer_params` 内の `filter` セクションでその名前を指定するだけです。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -42,9 +42,45 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
+
 analyzerParams.put("tokenizer", "standard");
+
 analyzerParams.put("filter", Collections.singletonList("alphanumonly"));
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+analyzerParams := map[string]any{"tokenizer": "standard", "filter": []any{"alphanumonly"}}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let analyzer_params = serde_json::json!({
+    "tokenizer": "standard",
+    "filter": ["alphanumonly"]
+});
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"tokenizer", "standard"},
+    {"filter", {"alphanumonly"}}
+};
 ```
 
 </TabItem>
@@ -56,14 +92,6 @@ const analyzer_params = {
     "tokenizer": "standard",
     "filter": ["alphanumonly"],
 };
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-analyzerParams = map[string]any{"tokenizer": "standard", "filter": []any{"alphanumonly"}}
 ```
 
 </TabItem>
@@ -81,30 +109,19 @@ analyzerParams='{
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-nlohmann::json analyzer_params = {
-    {"tokenizer", "standard"},
-    {"filter", {"alphanumonly"}}
-};
-```
-
-</TabItem>
 </Tabs>
 
 `alphanumonly` フィルターは tokenizer によって生成された用語に対して動作するため、tokenizer と組み合わせて使用する必要があります。Zilliz Cloud で利用可能な tokenizer の一覧については、[Standard Tokenizer](./standard-tokenizer) およびその関連ページを参照してください。
 
-`analyzer_params` を定義した後、collection schema を定義する際にそれらを `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud は効率的なトークン化とフィルタリングのために、指定された analyzer を使用してそのフィールド内のテキストを処理できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後は、コレクションスキーマを定義する際にそれらを `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud は効率的なトークン化とフィルタリングのために、そのフィールド内のテキストを指定されたアナライザーを使用して処理できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
-## Examples\{#examples}
+## 例\{#examples}
 
-analyzer 設定を collection schema に適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
-### Analyzer configuration\{#analyzer-configuration}
+### アナライザー設定\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -119,17 +136,15 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
+
 analyzerParams.put("tokenizer", "standard");
+
 analyzerParams.put("filter", Collections.singletonList("alphanumonly"));
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-// javascript
 ```
 
 </TabItem>
@@ -137,15 +152,18 @@ analyzerParams.put("filter", Collections.singletonList("alphanumonly"));
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"tokenizer": "standard", "filter": []any{"alphanumonly"}}
+analyzerParams := map[string]any{"tokenizer": "standard", "filter": []any{"alphanumonly"}}
 ```
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+let analyzer_params = serde_json::json!({
+    "tokenizer": "standard",
+    "filter": ["alphanumonly"]
+});
 ```
 
 </TabItem>
@@ -160,11 +178,37 @@ nlohmann::json analyzer_params = {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+    "tokenizer": "standard",
+    "filter": ["alphanumonly"],
+};
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+
+analyzerParams='{
+  "tokenizer": "standard",
+  "filter": [
+    "alphanumonly"
+  ]
+}'
+```
+
+</TabItem>
 </Tabs>
 
 ### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -194,29 +238,32 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
+import java.util.ArrayList;
+import java.util.List;
 
 ConnectConfig config = ConnectConfig.builder()
+
         .uri("YOUR_CLUSTER_ENDPOINT")
+
         .token("YOUR_CLUSTER_TOKEN")
+
         .build();
+
 MilvusClientV2 client = new MilvusClientV2(config);
 
 List<String> texts = new ArrayList<>();
+
 texts.add("Milvus 2.0 @ Scale! #AI #Vector_Databasé");
 
 RunAnalyzerResp resp = client.runAnalyzer(RunAnalyzerReq.builder()
+
         .texts(texts)
+
         .analyzerParams(analyzerParams)
+
         .build());
+
 List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-// javascript
 ```
 
 </TabItem>
@@ -226,39 +273,77 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 ```go
 import (
     "context"
-    "encoding/json"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
+
+ctx := context.Background()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
 })
+
 if err != nil {
     fmt.Println(err.Error())
+
     // handle error
 }
 
-bs, _ := json.Marshal(analyzerParams)
 texts := []string{"Milvus 2.0 @ Scale! #AI #Vector_Databasé"}
-option := milvusclient.NewRunAnalyzerOption(texts).
-    WithAnalyzerParams(string(bs))
+
+option := milvusclient.NewRunAnalyzerOption(texts...).
+
+    WithAnalyzerParams(analyzerParams)
 
 result, err := client.RunAnalyzer(ctx, option)
+
 if err != nil {
     fmt.Println(err.Error())
+
     // handle error
+}
+
+for _, r := range result {
+    for _, token := range r.Tokens {
+        fmt.Println("Standard analyzer output:", token.Text)
+    }
 }
 ```
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+use milvus::v2::error::Result;
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+    let client = ClientV2::new(&config).await?;
+
+    let analyzer_params = serde_json::json!({
+        "tokenizer": "standard",
+        "filter": ["alphanumonly"]
+    });
+
+    let sample_text = "Milvus 2.0 @ Scale! #AI #Vector_Databasé";
+
+    let result = client
+        .run_analyzer(
+            RunAnalyzerRequest::builder()
+                .texts(vec![sample_text])
+                .analyzer_params(analyzer_params)
+                .build()?,
+        )
+        .await?;
+
+    println!("Standard analyzer output: {:?}", result.results());
+    Ok(())
+}
 ```
 
 </TabItem>
@@ -267,6 +352,8 @@ if err != nil {
 
 ```c++
 #include "milvus/MilvusClientV2.h"
+#include <iostream>
+#include <string>
 
 auto client = milvus::MilvusClientV2::Create();
 
@@ -286,6 +373,44 @@ status = client->RunAnalyzer(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
+
+const sampleText = "Milvus 2.0 @ Scale! #AI #Vector_Databasé";
+
+const result = await client.runAnalyzer({
+    text: sampleText,
+    analyzer_params,
+});
+
+console.log("Standard analyzer output:", result);
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/common/run_analyzer" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d '{
+    "text": ["Milvus 2.0 @ Scale! #AI #Vector_Databasé"],
+    "analyzerParams": "{\"tokenizer\": \"standard\", \"filter\": [\"alphanumonly\"]}"
+}'
 ```
 
 </TabItem>
