@@ -2791,9 +2791,9 @@
       "translatedAt": "2026-09-19T14:22:01.285Z"
     },
     "content/en/guides/tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters.md": {
-      "sourceHash": "0e014792143d3993aff547b5dee7277cb3e36450db9990935cbd6dde8375027a",
+      "sourceHash": "94c2dcdfb6660405e5c5bbfbc4c1d4dcd8124ab0ff651a2d259c9a79ff6f07c7",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters.md",
-      "translatedAt": "2026-09-19T14:22:01.285Z"
+      "translatedAt": "2026-10-10T05:59:09.018Z"
     },
     "content/en/guides/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md": {
       "sourceHash": "879e3b79563d1c8aa82f8d1a729189fcf07d9fbae83d4d7b51fffc53c7691515",
@@ -2801,9 +2801,9 @@
       "translatedAt": "2026-08-25T18:21:07.555Z"
     },
     "content/en/guides/tutorials/management/cmek/aws-kms.md": {
-      "sourceHash": "61d2e031c1037d225e0f26ee3090f49cf17a8ca1bcf77933892e97727339a9c5",
+      "sourceHash": "78cc66af47d14f33eb539b9b1339d50ad6f5a3f8bd21b184dccb450c9c5946e2",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cmek/aws-kms.md",
-      "translatedAt": "2026-09-19T14:22:01.285Z"
+      "translatedAt": "2026-10-10T05:59:09.018Z"
     },
     "content/en/guides/tutorials/management/cmek/cmek.md": {
       "sourceHash": "f69eba143e42c4ad45f83a943e0531b769c6aa9a62fde4bfe40df089fe88805f",
@@ -2816,14 +2816,14 @@
       "translatedAt": "2026-10-10T05:41:19.585Z"
     },
     "content/en/guides/tutorials/management/cost-management/analyze-cost.md": {
-      "sourceHash": "0141bf9ba2090ff8dbcf2b6a66210ef02ef69c0c572349d3a6179bb38157866e",
+      "sourceHash": "7b81386233030798a2ff801480215d346fc6e873a9e35484ef70d2ba556032c2",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cost-management/analyze-cost.md",
-      "translatedAt": "2026-09-19T14:22:01.285Z"
+      "translatedAt": "2026-10-10T05:59:09.018Z"
     },
     "content/en/guides/tutorials/management/cost-management/cost-optimization.md": {
-      "sourceHash": "7b80c8cf21696b4b3626ab89a680f0e3d4622cf0e6b355deb1b5addfaef81fc5",
+      "sourceHash": "59e0122f1d178f5f28d61d96841c1aa41bff248b91e65df42b538425a61d6fbb",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cost-management/cost-optimization.md",
-      "translatedAt": "2026-09-19T14:22:01.285Z"
+      "translatedAt": "2026-10-10T05:59:09.018Z"
     },
     "content/en/guides/tutorials/management/cost-management/understand-cost/data-transfer-cost.md": {
       "sourceHash": "30f26524e99ee48815d5043c870e2e9c79261f25656bf0a1af68f48d2c6e65e7",
@@ -2856,9 +2856,9 @@
       "translatedAt": "2026-09-19T14:23:03.631Z"
     },
     "content/en/guides/tutorials/management/identity-management/manage-cluster-users/cluster-users-sdk.md": {
-      "sourceHash": "cb5687d75d620bb0a45ead80d09a8bfb295fa8b929bc9f4639dd9b5b8abd6be7",
+      "sourceHash": "3f692b157c6a330ac53eca10548d4e462302535a7cd7561bebcb39bb99e5ce33",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/manage-cluster-users/cluster-users-sdk.md",
-      "translatedAt": "2026-09-19T14:23:03.631Z"
+      "translatedAt": "2026-10-10T05:59:09.018Z"
     },
     "content/en/guides/tutorials/management/identity-management/manage-cluster-users/cluster-users.md": {
       "sourceHash": "b1a4de18294531848bb53b75363887cb530a95df95da74d36c828cd8e7c1711f",
@@ -2891,9 +2891,9 @@
       "translatedAt": "2026-09-19T14:23:03.631Z"
     },
     "content/en/guides/tutorials/management/identity-management/single-sign-on/enforce-sso-in-your-organization.md": {
-      "sourceHash": "5551331f4adfe89d552c06d2ba66b2c7ce7e3b2a191650f0b155f2e5f618f509",
+      "sourceHash": "4ef115e9d9c313ddbf830985b95c3ae5e0ce5cbfde595650a1ec487147b9e2c7",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/single-sign-on/enforce-sso-in-your-organization.md",
-      "translatedAt": "2026-09-19T14:23:03.631Z"
+      "translatedAt": "2026-10-10T05:59:09.018Z"
     },
     "content/en/guides/tutorials/management/identity-management/single-sign-on/openid-connect.md": {
       "sourceHash": "cdb84bba7cd25410e1eee898ac1f8cc168e00b8ff641b52267eea473b2e9ec18",
@@ -2941,9 +2941,9 @@
       "translatedAt": "2026-09-19T14:24:19.670Z"
     },
     "content/en/guides/tutorials/management/limits/limits.md": {
-      "sourceHash": "62b3d97ad729be80e4b1e5908bdec591cad33317637acce8f1a52578154387bf",
+      "sourceHash": "b991d6caaae5effac598696ed2cc49d6c42357688c290e9cc2f111163e43436f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/limits/limits.md",
-      "translatedAt": "2026-09-19T14:24:19.670Z"
+      "translatedAt": "2026-10-10T05:59:09.018Z"
     },
     "content/en/guides/tutorials/management/metrics-alerts/manage-notification-channels.md": {
       "sourceHash": "0cc80544a2d098f4dc56c46d61fe6ea5ba275f272965b7c4b60dd47bcbfad7c9",
@@ -2991,44 +2991,49 @@
       "translatedAt": "2026-09-19T14:24:19.670Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/external-migration-basics.md": {
-      "sourceHash": "188bc84639fb74025da0a816cfcba0197bad14edd4b250d33a71b54ff453e739",
+      "sourceHash": "0390817f85fd9ab97faa7ddcaabcf055639bb483e895c2ce70ed9ad43f9d5354",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/external-migration-basics.md",
-      "translatedAt": "2026-08-04T05:11:24.817Z"
+      "translatedAt": "2026-10-10T05:59:09.018Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-elasticsearch.md": {
-      "sourceHash": "b5b2c7562f3db6e47054d08ec7214fba13546e242a4eab4016e6595648492a3b",
+      "sourceHash": "0bc14ab22f1dbad663fdaaa0e1d855c6689d9118b7a5b05cf4a3bc127cad793c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/migrate-from-elasticsearch.md",
-      "translatedAt": "2026-08-04T05:08:37.398Z"
+      "translatedAt": "2026-10-10T05:59:09.018Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-opensearch.md": {
-      "sourceHash": "7d2a4352e9fc511621fef28f84b61c0003927fb045e179da31d2e6633ba754bf",
+      "sourceHash": "46c244cc3cfced1c93fc359b7b570379057f9f3fd6e41a1af6732ce92e35d489",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/migrate-from-opensearch.md",
-      "translatedAt": "2026-08-04T05:09:23.839Z"
+      "translatedAt": "2026-10-10T05:59:09.018Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-pgvector.md": {
-      "sourceHash": "c72ca07b308fa3af3c6df4df31c2dea4292e05c7af3217a98e746db4712f162e",
+      "sourceHash": "0358dcbe20c870e5890041c55f36bd721fa78210d853795e7bdaff4bf7547cac",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/migrate-from-pgvector.md",
-      "translatedAt": "2026-08-25T09:23:01.605Z"
+      "translatedAt": "2026-10-10T05:59:09.018Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-pinecone.md": {
-      "sourceHash": "e80e9ec7752bf6c2235462f44f9af89799cb7dd107185dc735024242cf473e81",
+      "sourceHash": "85c2a1d18d9c603ff5f416ef21b50822427e5baff829a9c9ccedbb6b6b10d127",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/migrate-from-pinecone.md",
-      "translatedAt": "2026-09-19T14:24:19.670Z"
+      "translatedAt": "2026-10-10T05:59:09.018Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-qdrant.md": {
-      "sourceHash": "63c065a48d1af25b39628a19ebef83ecfd8000540a332efcd5f00a081d0fb622",
+      "sourceHash": "82395fa4535276bf5b8f057a04c102c656928208c0277abb2ec3698992488682",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/migrate-from-qdrant.md",
-      "translatedAt": "2026-09-19T14:24:19.670Z"
+      "translatedAt": "2026-10-10T05:59:09.018Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-tencent-cloud.md": {
-      "sourceHash": "ccfb183fe279ea2394554cd6ae851c5485a24ce43e72448f7df1c5b7a2e5a6b1",
+      "sourceHash": "3ef12d276ff1481376c9efd0824952892d725c3807c87d2cf291742be9fd6781",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/migrate-from-tencent-cloud.md",
-      "translatedAt": "2026-09-19T14:25:42.714Z"
+      "translatedAt": "2026-10-10T05:59:09.018Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips.md": {
       "sourceHash": "2a7a91addb51ed459cc640417f2473248fcb67e97c34f60b469344aed33713a2",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips.md",
       "translatedAt": "2026-08-25T09:24:49.503Z"
+    },
+    "content/en/guides/tutorials/management/migrations/migrate-from-milvus/migrate-from-milvus.md": {
+      "sourceHash": "e6a0b123b8c38d0f778536298b756775b1a0de08063b112bb7f676cc0168a3fd",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-milvus/migrate-from-milvus.md",
+      "translatedAt": "2026-10-10T05:59:09.018Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-milvus/via-backup-files.md": {
       "sourceHash": "847e8eb8e6b0f05d4929f3eebd5c080b5577deadda2a9f4242e53760838fd142",

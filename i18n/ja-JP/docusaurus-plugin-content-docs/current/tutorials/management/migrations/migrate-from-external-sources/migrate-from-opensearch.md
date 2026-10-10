@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このトピックでは、OpenSearch から移行する際のデータ型マッピング、collection の命名規則、および考慮事項について説明します。 | Cloud"
+description: "このトピックでは、OpenSearch から移行する際に Zilliz Cloud がデータ型マッピング、コレクションの命名規則、および考慮事項について説明します。 | Cloud"
 type: origin
 token: VFMLwxpsniVGKYkE3DecmpQ2nrg
 sidebar_position: 7
@@ -20,9 +20,11 @@ import Admonition from '@theme/Admonition';
 
 # OpenSearch から Zilliz Cloud への移行
 
-このトピックでは、[OpenSearch](https://opensearch.org/) から移行する際に、Zilliz Cloud がデータ型マッピング、collection の命名規則、および考慮事項をどのように扱うかについて説明します。
+このトピックでは、[OpenSearch](https://opensearch.org/) から移行する際に、Zilliz Cloud がデータ型マッピング、コレクションの命名規則、および考慮事項をどのように扱うかについて説明します。
 
-## 前提条件\{#prerequisites}
+インデックス設定と移行後の手順については、[External Migration Basics](./external-migration-basics#index-settings) を参照してください。
+
+## 事前準備\{#prerequisites}
 
 OpenSearch から Zilliz Cloud への移行を開始する前に、以下の要件を満たしていることを確認してください。
 
@@ -30,17 +32,17 @@ OpenSearch から Zilliz Cloud への移行を開始する前に、以下の要�
 
 | 要件 | 詳細 |
 | --- | --- |
-| ネットワークアクセス | ソース OpenSearch cluster はパブリックインターネットからアクセス可能である必要があります |
-| 認証 | 必要な権限を持つ有効な cluster endpoint、ユーザー名、およびパスワード |
-| vector フィールド要件 | 各ソース index には少なくとも 1 つの k-NN vector フィールドが含まれている必要があります |
-| データ可用性 | ソース index にはデータが含まれている必要があります。空の index は移行できません。 |
+| ネットワークアクセス | ソース OpenSearch クラスターはパブリックインターネットからアクセス可能である必要があります |
+| 認証 | 必要な権限を持つ有効なクラスターエンドポイント、ユーザー名、およびパスワード |
+| ベクトルフィールド要件 | 各ソースインデックスには少なくとも 1 つの k-NN ベクトルフィールドが含まれている必要があります |
+| データ可用性 | ソースインデックスにはデータが含まれている必要があります。空のインデックスは移行できません。 |
 
 ### Zilliz Cloud の要件\{#zilliz-cloud-requirements}
 
 | 要件 | 詳細 |
 | --- | --- |
 | ユーザーロール | Organization Owner または Project Admin |
-| cluster 容量 | 十分なストレージおよびコンピュートリソース（CU サイズの見積もりには [CU calculator](https://zilliz.com/pricing#calculator) を使用してください） |
+| クラスター容量 | 十分なストレージおよびコンピュートリソース（CU サイズの見積もりには [CU calculator](https://zilliz.com/pricing#calculator) を使用してください） |
 | ネットワークアクセス | ネットワーク制限を使用している場合は、[Zilliz Cloud IPs](./zilliz-cloud-ips) を許可リストに追加してください |
 
 ## データ型マッピング\{#data-type-mapping}
@@ -49,8 +51,8 @@ OpenSearch から Zilliz Cloud への移行を開始する前に、以下の要�
 
 | **OpenSearch フィールド型** | **Zilliz Cloud フィールド型** | **説明** |
 | --- | --- | --- |
-| Primary key | Primary key | OpenSearch の primary key（[_id](https://opensearch.org/docs/latest/field-types/metadata-fields/id/)）は、Zilliz Cloud で自動的に primary key としてマッピングされます。<br/>データの移行時に Auto ID を有効にできます。ただし、有効にすると、ソーステーブルの元の primary key 値は破棄されます。 |
-| [k-NN vector](https://opensearch.org/docs/latest/field-types/supported-field-types/knn-vector/) | FLOAT_VECTOR | OpenSearch の `float` vector 型は、Zilliz Cloud では `FLOAT_VECTOR` にマッピングされます。OpenSearch の Byte/Binary vector は移行でサポートされていません。<br/>vector 次元は変更されません。 |
+| プライマリキー | プライマリキー | OpenSearch のプライマリキー（[_id](https://opensearch.org/docs/latest/field-types/metadata-fields/id/)）は、Zilliz Cloud で自動的にプライマリキーとしてマッピングされます。<br/>データの移行時に Auto ID を有効にできます。ただし、有効にすると、ソーステーブルの元のプライマリキー値は破棄されます。 |
+| [k-NN ベクトル](https://opensearch.org/docs/latest/field-types/supported-field-types/knn-vector/) | FLOAT_VECTOR | OpenSearch の `float` ベクトル型は、Zilliz Cloud では `FLOAT_VECTOR` にマッピングされます。OpenSearch の Byte/Binary ベクトルは移行でサポートされていません。<br/>ベクトルの次元は変更されません。 |
 | [Alias](https://opensearch.org/docs/latest/field-types/supported-field-types/alias/) | サポートされていません | Alias フィールドはサポートされていません。 |
 | [Binary](https://opensearch.org/docs/latest/field-types/supported-field-types/binary/) | VARCHAR | Binary データは Zilliz Cloud では文字列として保存されます。 |
 | [Numeric](https://opensearch.org/docs/latest/field-types/supported-field-types/numeric/) |  |  |
@@ -89,15 +91,15 @@ OpenSearch から Zilliz Cloud への移行を開始する前に、以下の要�
 
 ## OpenSearch 固有の処理ルール\{#opensearch-specific-handling-rules}
 
-### Collection の命名規則\{#collection-naming-rules}
+### コレクションの命名規則\{#collection-naming-rules}
 
-OpenSearch の index 名は、以下の点を考慮して Zilliz Cloud に引き継がれます。
+OpenSearch のインデックス名は、以下の点を考慮して Zilliz Cloud に引き継がれます。
 
 | シナリオ | 影響 | 解決策 |
 | --- | --- | --- |
-| デフォルトの命名 | collection 名はソース index 名と完全に一致します | 名前は OpenSearch からそのまま保持されます |
-| 特殊文字 | ハイフン（-）またはドット（.）を含む index 名はエラーの原因となり、ジョブを送信できません | index 名をアンダースコアまたはその他の有効な文字を使用するよう手動で変更してください |
-| 命名の競合 | 同じ名前の collection がすでに存在する場合、ジョブを送信できません | 既存の collection を削除するか、別の database を選択するか、移行設定時に名前を変更してください |
+| デフォルトの命名 | コレクション名はソースインデックス名と完全に一致します | 名前は OpenSearch からそのまま保持されます |
+| 特殊文字 | ハイフン（-）またはドット（.）を含むインデックス名はエラーの原因となり、ジョブを送信できません | インデックス名を手動で変更して、アンダースコアまたはその他の有効な文字を使用してください |
+| 命名の競合 | 同じ名前のコレクションがすでに存在する場合、ジョブを送信できません | 既存のコレクションを削除するか、別のデータベースを選択するか、移行設定時に名前を変更してください |
 
 ### 移行時の考慮事項\{#migration-considerations}
 
@@ -107,4 +109,4 @@ OpenSearch の index 名は、以下の点を考慮して Zilliz Cloud に引き
 | --- | --- | --- |
 | Dynamic から fixed フィールドへの変換 | 既存の dynamic フィールドを fixed 型に変換できません | フィールドは元の dynamic な性質を維持します |
 | フィールドの追加 | 移行中に新しいフィールドを追加できません | 既存の Elasticsearch フィールドのみが移行されます |
-| Sparse vectors | 現在のリリースではサポートされていません | dense vector の代替を検討するか、ロードマップについてサポートにお問い合わせください |
+| Sparse ベクトル | 現在のリリースではサポートされていません | dense ベクトルの代替を検討するか、ロードマップについてサポートにお問い合わせください |
