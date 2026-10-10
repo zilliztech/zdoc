@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud クラスターでは、テキストのスカラーデータを `VARCHAR` フィールドと `TEXT` フィールドに格納できます。このページでは、名前、タグ、カテゴリ、外部 ID などの短く長さが制限された文字列メタデータ向けに設計された `VARCHAR` について説明します。 | BYOC"
+description: "Zilliz Cloud クラスターでは、テキスト形式のスカラーデータを `VARCHAR` フィールドと `TEXT` フィールドで保存できます。本ページでは `VARCHAR` について説明します。これは、名前、タグ、カテゴリ、外部 ID などの短く上限のある文字列メタデータを対象としています。 | BYOC"
 type: origin
 token: QBXVwP7oiiuEovkprDnckJlEnoK
 sidebar_position: 6
@@ -21,37 +21,37 @@ import TabItem from '@theme/TabItem';
 
 # VarChar フィールド
 
-Zilliz Cloud クラスターでは、テキストのスカラーデータを `VARCHAR` フィールドと `TEXT` フィールドに格納できます。このページでは、名前、タグ、カテゴリ、外部 ID などの短く長さが制限された文字列メタデータ向けに設計された `VARCHAR` について説明します。
+Zilliz Cloud クラスターでは、テキスト形式のスカラーデータを `VARCHAR` フィールドと `TEXT` フィールドで保存できます。本ページでは `VARCHAR` について説明します。これは、名前、タグ、カテゴリ、外部 ID などの短く上限のある文字列メタデータを対象としています。
 
-より長いソーステキスト、ドキュメントの一節、記事本文、チケット、ログなど、エンティティとともに保存および取得する必要がある場合は、代わりに `TEXT` フィールドを使用してください。詳細については、[TEXT Field](./use-text-field) を参照してください。
+エンティティとともに保存して返す必要がある、より長いソーステキスト、ドキュメントの一節、記事本文、チケット、ログなどには、代わりに `TEXT` フィールドを使用してください。詳細については、[TEXT フィールド](./use-text-field) を参照してください。
 
-`VARCHAR` フィールドを定義する場合、次の 2つのパラメータが必須です。
+`VARCHAR` フィールドを定義する際には、2つのパラメーターが必須です：
 
 - `datatype` を `DataType.VARCHAR` に設定します。
 
-- `max_length` を指定します。これは `VARCHAR` フィールドが格納できる最大バイト数を定義します。`max_length` の有効範囲は 1 ～ 65,535 です。
+- `VARCHAR` フィールドが保存できる最大バイト数を定義する `max_length` を指定します。`max_length` の有効範囲は 1～65,535 です。
 
 <Admonition type="info" title="Notes">
 
-Zilliz Cloud は、`VARCHAR` フィールドの null 値とデフォルト値をサポートしています。これらの機能を有効にするには、`nullable` を `True` に設定し、`default_value` を文字列値に設定します。詳細については、[Nullable & Default](./nullable-fields) を参照してください。
+Zilliz Cloud は `VARCHAR` フィールドの null 値とデフォルト値をサポートしています。これらの機能を有効にするには、`nullable` を `True` に、`default_value` を文字列値に設定します。詳細については、[Null 許容とデフォルト](./nullable-fields) を参照してください。
 
 </Admonition>
 
-## VARCHAR フィールドの追加\{#add-varchar-field}
+## VARCHAR フィールドを追加する\{#add-varchar-field}
 
-Zilliz Cloud クラスターで短く長さが制限された文字列メタデータを格納するには、コレクションスキーマで `VARCHAR` フィールドを定義します。以下は、2つの `VARCHAR` フィールドを含むコレクションスキーマを定義する例です。
+Zilliz Cloud クラスターで短く上限のある文字列メタデータを保存するには、コレクションスキーマで `VARCHAR` フィールドを定義します。以下は、2つの `VARCHAR` フィールドを持つコレクションスキーマを定義する例です：
 
-- `varchar_field1`: 最大 100 バイトを格納し、null 値を許可し、デフォルト値は `"Unknown"` です。
+- `varchar_field1`: 最大 100 バイトを保存でき、null 値を許可し、デフォルト値は `"Unknown"` です。
 
-- `varchar_field2`: 最大 200 バイトを格納し、null 値を許可しますが、デフォルト値はありません。
+- `varchar_field2`: 最大 200 バイトを保存でき、null 値を許可しますが、デフォルト値はありません。
 
 <Admonition type="info" title="Notes">
 
-スキーマを定義する際に `enable_dynamic_fields=True` を設定すると、Zilliz Cloud では事前に定義していないスカラーフィールドを挿入できます。ただし、これによりクエリと管理の複雑さが増し、パフォーマンスに影響を与える可能性があります。詳細については、[Dynamic Field](./enable-dynamic-field) を参照してください。
+スキーマを定義する際に `enable_dynamic_field=True` を設定すると、Zilliz Cloud では事前に定義されていないスカラーフィールドを挿入できます。ただし、これによりクエリと管理の複雑さが増し、パフォーマンスに影響を与える可能性があります。詳細については、[ダイナミックフィールド](./enable-dynamic-field) を参照してください。
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -67,7 +67,7 @@ client = MilvusClient(uri=SERVER_ADDR)
 # Define the collection schema
 schema = client.create_schema(
     auto_id=False,
-    enable_dynamic_fields=True,
+    enable_dynamic_field=True,
 )
 
 # Add `varchar_field1` that supports null values with default value "Unknown"
@@ -127,40 +127,6 @@ schema.addField(AddFieldReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
-
-const client = new MilvusClient({
-  address: `YOUR_CLUSTER_ENDPOINT`
-});
-
-const schema = [
-  {
-    name: "metadata",
-    data_type: DataType.JSON,
-  },
-  {
-    name: "pk",
-    data_type: DataType.Int64,
-    is_primary_key: true,
-  },
-  {
-    name: "varchar_field2",
-    data_type: DataType.VarChar,
-    max_length: 200,
-  },
-  {
-    name: "varchar_field1",
-    data_type: DataType.VarChar,
-    max_length: 100,
-  },
-];
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -168,10 +134,10 @@ import (
     "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/column"
-    "github.com/milvus-io/milvus/client/v2/entity"
-    "github.com/milvus-io/milvus/client/v2/index"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/column"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -213,6 +179,118 @@ schema.WithField(entity.NewField().
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let client = ClientV2::new(
+        &ConnectConfig::new()
+            .uri("YOUR_CLUSTER_ENDPOINT")
+            .token("YOUR_CLUSTER_TOKEN"),
+    )
+    .await?;
+
+    let schema = CollectionSchema::new()
+        .add_field(
+            FieldSchema::new()
+                .name("varchar_field1")
+                .data_type(DataType::VarChar)
+                .max_length(100)
+                .nullable(true)
+                .default_value(DefaultValue::String("Unknown".to_string())),
+        )
+        .add_field(
+            FieldSchema::new()
+                .name("varchar_field2")
+                .data_type(DataType::VarChar)
+                .max_length(200)
+                .nullable(true),
+        )
+        .add_field(
+            FieldSchema::new()
+                .name("pk")
+                .data_type(DataType::Int64)
+                .primary_key(true),
+        )
+        .add_field(
+            FieldSchema::new()
+                .name("embedding")
+                .data_type(DataType::FloatVector)
+                .dimension(3),
+        );
+
+    Ok(())
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include <memory>
+
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->AddField({"pk", milvus::DataType::INT64, "", true, false});
+schema->AddField(milvus::FieldSchema("embedding", milvus::DataType::FLOAT_VECTOR).WithDimension(3));
+schema->AddField(milvus::FieldSchema("varchar_field1", milvus::DataType::VARCHAR).WithMaxLength(100).WithNullable(true).WithDefaultValue("Unknown"));
+schema->AddField(milvus::FieldSchema("varchar_field2", milvus::DataType::VARCHAR).WithMaxLength(200).WithNullable(true));
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({
+  address: `YOUR_CLUSTER_ENDPOINT`
+});
+
+const schema = [
+  {
+    name: "varchar_field1",
+    data_type: DataType.VarChar,
+    max_length: 100,
+    nullable: true,
+    default_value: "Unknown",
+  },
+  {
+    name: "varchar_field2",
+    data_type: DataType.VarChar,
+    max_length: 200,
+    nullable: true,
+  },
+  {
+    name: "pk",
+    data_type: DataType.Int64,
+    is_primary_key: true,
+  },
+  {
+    name: "embedding",
+    data_type: DataType.FloatVector,
+    dim: 3,
+  },
+];
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -222,7 +300,8 @@ export varcharField1='{
     "elementTypeParams": {
         "max_length": 100
     },
-    "nullable": true
+    "nullable": true,
+    "defaultValue": "Unknown"
 }'
 
 export varcharField2='{
@@ -260,37 +339,15 @@ export schema="{
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
-auto status = client->Connect(connect_param);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
-schema->AddField({"pk", milvus::DataType::INT64, "", true, false});
-schema->AddField(milvus::FieldSchema("embedding", milvus::DataType::FLOAT_VECTOR,).WithDimension(3));
-schema->AddField(milvus::FieldSchema("varchar_field1", milvus::DataType::VARCHAR).WithMaxLength(100).WithNullable(true));
-schema->AddField(milvus::FieldSchema("varchar_field2", milvus::DataType::VARCHAR).WithMaxLength(200).WithNullable(true));
-```
-
-</TabItem>
 </Tabs>
 
-## インデックスパラメータの設定\{#set-index-params}
+## インデックスパラメーターを設定する\{#set-index-params}
 
-インデックスを作成すると、検索およびクエリのパフォーマンスが向上します。Zilliz Cloud クラスターでは、ベクトルフィールドのインデックス作成は必須ですが、スカラーフィールドでは任意です。
+インデックスを作成すると、検索とクエリのパフォーマンスが向上します。Zilliz Cloud クラスターでは、ベクトルフィールドのインデックス作成は必須ですが、スカラーフィールドでは任意です。
 
-次の例では、ベクトルフィールド `embedding` とスカラーフィールド `varchar_field1` に、どちらも `AUTOINDEX` インデックスタイプを使用してインデックスを作成します。このタイプでは、Milvus がデータ型に基づいて最適なインデックスを自動的に選択します。
+次の例では、ベクトルフィールド `embedding` とスカラーフィールド `varchar_field1` にインデックスを作成します。どちらも `AUTOINDEX` インデックスタイプを使用します。このタイプでは、Milvus がデータ型に基づいて最適なインデックスを自動的に選択します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -341,9 +398,37 @@ indexes.add(IndexParam.builder()
 
 ```go
 indexOption1 := milvusclient.NewCreateIndexOption("my_collection", "embedding",
-    index.NewAutoIndex(index.MetricType(entity.IP)))
+    index.NewAutoIndex(index.MetricType(entity.COSINE)))
 indexOption2 := milvusclient.NewCreateIndexOption("my_collection", "varchar_field1",
     index.NewInvertedIndex())
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let indexes = vec![
+    IndexParam::new()
+        .field_name("varchar_field1")
+        .index_name("varchar_index")
+        .index_type(IndexType::AutoIndex),
+    IndexParam::new()
+        .field_name("embedding")
+        .index_type(IndexType::AutoIndex)
+        .metric_type(MetricType::Cosine),
+];
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::vector<milvus::IndexDesc> indexes = {
+    milvus::IndexDesc("varchar_field1", "varchar_index", milvus::IndexType::AUTOINDEX),
+    milvus::IndexDesc("embedding", "", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE)
+};
 ```
 
 </TabItem>
@@ -351,14 +436,15 @@ indexOption2 := milvusclient.NewCreateIndexOption("my_collection", "varchar_fiel
 <TabItem value='javascript'>
 
 ```javascript
+import { IndexType, MetricType } from "@zilliz/milvus2-sdk-node";
+
 const indexParams = [{
     index_name: 'varchar_index',
     field_name: 'varchar_field1',
     index_type: IndexType.AUTOINDEX,
-)];
+}];
 
 indexParams.push({
-    index_name: 'embedding_index',
     field_name: 'embedding',
     metric_type: MetricType.COSINE,
     index_type: IndexType.AUTOINDEX,
@@ -375,42 +461,23 @@ export indexParams='[
             "fieldName": "varchar_field1",
             "indexName": "varchar_index",
             "indexType": "AUTOINDEX"
-        }
-    ]'
-    
-export indexParams='[
-        {
-            "fieldName": "varchar_field1",
-            "indexName": "varchar_index",
-            "indexType": "AUTOINDEX"
         },
         {
             "fieldName": "embedding",
             "metricType": "COSINE",
             "indexType": "AUTOINDEX"
         }
-    ]'
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-std::vector<milvus::IndexDesc> indexes = {
-    milvus::IndexDesc("varchar_field1", "varchar_index", milvus::IndexType::AUTOINDEX),
-    milvus::IndexDesc("embedding", "", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE)
-}
+    ]' 
 ```
 
 </TabItem>
 </Tabs>
 
-## コレクションの作成\{#create-collection}
+## コレクションを作成する\{#create-collection}
 
 スキーマとインデックスを定義したら、文字列フィールドを含むコレクションを作成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -447,6 +514,42 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
+
+_, err = client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+client
+    .create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name("my_collection")
+            .schema(schema)
+            .index_params(indexes)
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                        .WithCollectionName("my_collection")
+                                        .WithIndexes(std::move(indexes))
+                                        .WithCollectionSchema(schema));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -454,10 +557,10 @@ if err != nil {
 <TabItem value='javascript'>
 
 ```javascript
-await client.create_collection({
+await client.createCollection({
     collection_name: "my_collection",
     schema: schema,
-    index_params: index_params
+    index_params: indexParams
 });
 ```
 
@@ -480,27 +583,13 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto status = client->CreateCollection(milvus::CreateCollectionRequest()
-                                        .WithCollectionName("my_collection")
-                                        .WithIndexes(std::move(indexes))
-                                        .WithCollectionSchema(schema));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
 
-## データの挿入\{#insert-data}
+## データを挿入する\{#insert-data}
 
 コレクションを作成したら、スキーマに一致するエンティティを挿入します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -581,60 +670,55 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='rust'>
 
-```javascript
-const data = [
-  {
-    varchar_field1: "Product A",
-    varchar_field2: "High quality product",
-    pk: 1,
-    embedding: [0.1, 0.2, 0.3],
-  },
-  {
-    varchar_field1: "Product B",
-    varchar_field2: "Affordable price",
-    pk: 2,
-    embedding: [0.4, 0.5, 0.6],
-  },
-  {
-    varchar_field1: "Product C",
-    varchar_field2: "Best seller",
-    pk: 3,
-    embedding: [0.7, 0.8, 0.9],
-  },
-];
-
-await client.insert({
-  collection_name: "my_collection",
-  data: data,
-});
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
---header "Request-Timeout: 10" \
---data '{
-    "data": [
-        {"varchar_field1": "Product A", "varchar_field2": "High quality product", "pk": 1, "embedding": [0.1, 0.2, 0.3]},
-        {"varchar_field1": "Product B", "pk": 2, "embedding": [0.4, 0.5, 0.6]},
-        {"varchar_field1": null, "varchar_field2": null, "pk": 3, "embedding": [0.2, 0.3, 0.1]},  
-        {"varchar_field1": "Product C", "varchar_field2": null, "pk": 4, "embedding": [0.5, 0.7, 0.2]},  
-        {"varchar_field1": null, "varchar_field2": "Exclusive deal", "pk": 5, "embedding": [0.6, 0.4, 0.8]},  
-        {"varchar_field1": "Unknown", "varchar_field2": null, "pk": 6, "embedding": [0.8, 0.5, 0.3]},  
-        {"varchar_field1": "", "varchar_field2": "Best seller", "pk": 7, "embedding": [0.8, 0.5, 0.3]}  
-    ],
-    "collectionName": "my_collection"
-}'
-
-## {"code":0,"cost":0,"data":{"insertCount":3,"insertIds":[1,2,3]}}
+```rust
+client
+    .insert(
+        InsertRequest::builder()
+            .collection_name("my_collection")
+            .columns(vec![
+                FieldData::nullable(
+                    FieldData::varchar(
+                        "varchar_field1",
+                        vec![
+                            "Product A".to_string(),
+                            "Product B".to_string(),
+                            "Product C".to_string(),
+                            "Unknown".to_string(),
+                            "".to_string(),
+                        ],
+                    ),
+                    vec![true, true, false, true, false, true, true],
+                )?,
+                FieldData::nullable(
+                    FieldData::varchar(
+                        "varchar_field2",
+                        vec![
+                            "High quality product".to_string(),
+                            "Exclusive deal".to_string(),
+                            "Best seller".to_string(),
+                        ],
+                    ),
+                    vec![true, false, false, false, true, false, true],
+                )?,
+                FieldData::int64("pk", vec![1, 2, 3, 4, 5, 6, 7]),
+                FieldData::float_vector(
+                    "embedding",
+                    vec![
+                        vec![0.1, 0.2, 0.3],
+                        vec![0.4, 0.5, 0.6],
+                        vec![0.2, 0.3, 0.1],
+                        vec![0.5, 0.7, 0.2],
+                        vec![0.6, 0.4, 0.8],
+                        vec![0.8, 0.5, 0.3],
+                        vec![0.8, 0.5, 0.3],
+                    ],
+                ),
+            ])
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -661,15 +745,96 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const data = [
+  {
+    varchar_field1: "Product A",
+    varchar_field2: "High quality product",
+    pk: 1,
+    embedding: [0.1, 0.2, 0.3],
+  },
+  {
+    varchar_field1: "Product B",
+    pk: 2,
+    embedding: [0.4, 0.5, 0.6],
+  },
+  {
+    varchar_field1: null,
+    varchar_field2: null,
+    pk: 3,
+    embedding: [0.2, 0.3, 0.1],
+  },
+  {
+    varchar_field1: "Product C",
+    varchar_field2: null,
+    pk: 4,
+    embedding: [0.5, 0.7, 0.2],
+  },
+  {
+    varchar_field1: null,
+    varchar_field2: "Exclusive deal",
+    pk: 5,
+    embedding: [0.6, 0.4, 0.8],
+  },
+  {
+    varchar_field1: "Unknown",
+    varchar_field2: null,
+    pk: 6,
+    embedding: [0.8, 0.5, 0.3],
+  },
+  {
+    varchar_field1: "",
+    varchar_field2: "Best seller",
+    pk: 7,
+    embedding: [0.8, 0.5, 0.3],
+  },
+];
+
+await client.insert({
+  collection_name: "my_collection",
+  data: data,
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+--data '{
+    "data": [
+        {"varchar_field1": "Product A", "varchar_field2": "High quality product", "pk": 1, "embedding": [0.1, 0.2, 0.3]},
+        {"varchar_field1": "Product B", "pk": 2, "embedding": [0.4, 0.5, 0.6]},
+        {"varchar_field1": null, "varchar_field2": null, "pk": 3, "embedding": [0.2, 0.3, 0.1]},
+        {"varchar_field1": "Product C", "varchar_field2": null, "pk": 4, "embedding": [0.5, 0.7, 0.2]},
+        {"varchar_field1": null, "varchar_field2": "Exclusive deal", "pk": 5, "embedding": [0.6, 0.4, 0.8]},
+        {"varchar_field1": "Unknown", "varchar_field2": null, "pk": 6, "embedding": [0.8, 0.5, 0.3]},
+        {"varchar_field1": "", "varchar_field2": "Best seller", "pk": 7, "embedding": [0.8, 0.5, 0.3]}
+    ],
+    "collectionName": "my_collection"
+}'
+
+## {"code":0,"cost":0,"data":{"insertCount":7,"insertIds":[1,2,3,4,5,6,7]}}
+```
+
+</TabItem>
 </Tabs>
 
-## フィルター式を使ったクエリ\{#query-with-filter-expressions}
+## フィルター式を使用したクエリ\{#query-with-filter-expressions}
 
-エンティティを挿入した後、`query` メソッドを使用して、指定したフィルター式に一致するエンティティを取得します。
+エンティティを挿入したら、`query` メソッドを使用して、指定したフィルター式に一致するエンティティを取得します。
 
-`varchar_field1` が文字列 `"Product A"` と一致するエンティティを取得するには、次のようにします。
+`varchar_field1` が文字列 `"Product A"` に一致するエンティティを取得するには：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -736,6 +901,48 @@ fmt.Println("varchar_field2", queryResult.GetColumn("varchar_field2").FieldData(
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+let res = client
+    .query(
+        QueryRequest::builder()
+            .collection_name("my_collection")
+            .filter(r#"varchar_field1 == "Product A""#)
+            .output_fields(["varchar_field1", "varchar_field2"])
+            .build()?,
+    )
+    .await?;
+
+println!("{:?}", res.results());
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto request = milvus::QueryRequest()
+                       .WithCollectionName("my_collection")
+                       .WithFilter(R"(varchar_field1 == "Product A")")
+                       .AddOutputField("varchar_field1")
+                       .AddOutputField("varchar_field2");
+
+milvus::QueryResponse response;
+auto status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::EntityRows output_rows;
+status = response.Results().OutputRows(output_rows);
+for (const auto& row : output_rows) {
+    std::cout << "\t" << row << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -765,35 +972,11 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto request = milvus::QueryRequest()
-                       .WithCollectionName("my_collection")
-                       .WithFilter(R"(varchar_field1 == "Product A")")
-                       .AddOutputField("varchar_field1")
-                       .AddOutputField("varchar_field2");
-
-milvus::QueryResponse response;
-auto status = client->Query(request, response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-milvus::EntityRows output_rows;
-status = response.Results().OutputRows(output_rows);
-for (const auto& row : output_rows) {
-    std::cout << "\t" << row << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
 
-`varchar_field2` が null であるエンティティを取得するには、次のようにします。
+`varchar_field2` が null であるエンティティを取得するには：
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -860,6 +1043,48 @@ fmt.Println("varchar_field2", queryResult.GetColumn("varchar_field2"))
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+let res = client
+    .query(
+        QueryRequest::builder()
+            .collection_name("my_collection")
+            .filter("varchar_field2 is null")
+            .output_fields(["varchar_field1", "varchar_field2"])
+            .build()?,
+    )
+    .await?;
+
+println!("{:?}", res.results());
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto request = milvus::QueryRequest()
+                       .WithCollectionName("my_collection")
+                       .WithFilter("varchar_field2 IS NULL")
+                       .AddOutputField("varchar_field1")
+                       .AddOutputField("varchar_field2");
+
+milvus::QueryResponse response;
+auto status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::EntityRows output_rows;
+status = response.Results().OutputRows(output_rows);
+for (const auto& row : output_rows) {
+    std::cout << "\t" << row << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -889,35 +1114,11 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto request = milvus::QueryRequest()
-                       .WithCollectionName("my_collection")
-                       .WithFilter("varchar_field2 IS NULL")
-                       .AddOutputField("varchar_field1")
-                       .AddOutputField("varchar_field2");
-
-milvus::QueryResponse response;
-auto status = client->Query(request, response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-milvus::EntityRows output_rows;
-status = response.Results().OutputRows(output_rows);
-for (const auto& row : output_rows) {
-    std::cout << "\t" << row << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
 
-`varchar_field1` の値が `"Unknown"` であるエンティティを取得するには、以下の式を使用します。`varchar_field1` のデフォルト値は `"Unknown"` であるため、想定される結果には、`varchar_field1` が明示的に `"Unknown"` に設定されているエンティティ、または `varchar_field1` が null に設定されているエンティティが含まれます。
+`varchar_field1` が値 `"Unknown"` を持つエンティティを取得するには、次の式を使用します。`varchar_field1` のデフォルト値は `"Unknown"` であるため、期待される結果には、`varchar_field1` が明示的に `"Unknown"` に設定されたエンティティ、または `varchar_field1` が null に設定されたエンティティが含まれます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -982,6 +1183,47 @@ fmt.Println("varchar_field2", queryResult.GetColumn("varchar_field2"))
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+let res = client
+    .query(
+        QueryRequest::builder()
+            .collection_name("my_collection")
+            .filter(r#"varchar_field1 == "Unknown""#)
+            .output_fields(["varchar_field1", "varchar_field2"])
+            .build()?,
+    )
+    .await?;
+
+println!("{:?}", res.results());
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto request = milvus::QueryRequest()
+                       .WithCollectionName("my_collection")
+                       .WithFilter(R"(varchar_field1 == "Unknown")")
+                       .AddOutputField("varchar_field1")
+                       .AddOutputField("varchar_field2");
+
+milvus::QueryResponse response;
+auto status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+milvus::EntityRows output_rows;
+status = response.Results().OutputRows(output_rows);
+for (const auto& row : output_rows) {
+    std::cout << "\t" << row << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -1012,36 +1254,13 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto request = milvus::QueryRequest()
-                       .WithCollectionName("my_collection")
-                       .WithFilter(R"(varchar_field1 == "Unknown")")
-                       .AddOutputField("varchar_field1")
-                       .AddOutputField("varchar_field2");
-
-milvus::QueryResponse response;
-auto status = client->Query(request, response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-milvus::EntityRows output_rows;
-status = response.Results().OutputRows(output_rows);
-for (const auto& row : output_rows) {
-    std::cout << "\t" << row << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
 
-## フィルター式を使ったベクトル検索\{#vector-search-with-filter-expressions}
+## フィルター式を使用したベクトル検索\{#vector-search-with-filter-expressions}
 
-基本的なスカラーフィールドのフィルタリングに加えて、ベクトル類似検索とスカラーフィールドのフィルターを組み合わせることができます。たとえば、次のコードは、ベクトル検索にスカラーフィールドのフィルターを追加する方法を示しています。
+基本的なスカラーフィールドのフィルタリングに加えて、ベクトル類似検索とスカラーフィールドフィルターを組み合わせることができます。たとえば、次のコードは、ベクトル検索にスカラーフィールドフィルターを追加する方法を示しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1073,6 +1292,7 @@ print(res)
 
 ```java
 import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
 
 String filter = "varchar_field2 == \"Best seller\"";
@@ -1125,45 +1345,23 @@ for _, resultSet := range resultSets {
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='rust'>
 
-```javascript
-await client.search({
-    collection_name: 'my_collection',
-    data: [0.3, -0.6, 0.1],
-    limit: 5,
-    output_fields: ['varchar_field1', 'varchar_field2'],
-    filter: 'varchar_field2 == "Best seller"'
-    params: {
-       nprobe:10
-    }
-});
-```
+```rust
+let res = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("my_collection")
+            .vector_field("embedding")
+            .vectors(SearchVectors::Float(vec![vec![0.3, -0.6, 0.1]]))
+            .filter(r#"varchar_field2 == "Best seller""#)
+            .output_fields(["varchar_field1", "varchar_field2"])
+            .limit(5)
+            .build()?,
+    )
+    .await?;
 
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
---header "Request-Timeout: 10" \
--d '{
-    "collectionName": "my_collection",
-    "data": [
-        [0.3, -0.6, 0.1]
-    ],
-    "limit": 5,
-    "searchParams":{
-        "params":{"nprobe":10}
-    },
-    "outputFields": ["varchar_field1", "varchar_field2"],
-    "filter": "varchar_field2 == \"Best seller\""
-}'
-
-## {"code":0,"cost":0,"data":[{"distance":-0.2364331,"id":1,"varchar_field1":"Product A","varchar_field2":"High quality product"}]}
+println!("{:?}", res.results());
 ```
 
 </TabItem>
@@ -1195,6 +1393,49 @@ for (auto& result : search_results.Results()) {
         std::cout << "\t" << row << std::endl;
     }
 }
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.search({
+    collection_name: 'my_collection',
+    data: [0.3, -0.6, 0.1],
+    limit: 5,
+    output_fields: ['varchar_field1', 'varchar_field2'],
+    filter: 'varchar_field2 == "Best seller"',
+    params: {
+       nprobe: 10
+    }
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d '{
+    "collectionName": "my_collection",
+    "data": [
+        [0.3, -0.6, 0.1]
+    ],
+    "limit": 5,
+    "searchParams":{
+        "params":{"nprobe":10}
+    },
+    "outputFields": ["varchar_field1", "varchar_field2"],
+    "filter": "varchar_field2 == \"Best seller\""
+}'
+
+## {"code":0,"cost":0,"data":[{"distance":-0.044681635,"pk":7,"varchar_field1":"","varchar_field2":"Best seller"}]}
 ```
 
 </TabItem>

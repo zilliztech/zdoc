@@ -143,7 +143,7 @@ ARRAY_CONTAINS(chunks[quality_score], 0.74)
 上記の式は、エンティティ内のすべての要素にまたがるいずれかの `quality_score` サブフィールドの値が `0.74` である場合、そのエンティティが一致することを示します。[サンプルデータ](./struct-array-filtering#example-data) の 2 つのエンティティでは、この式に一致するのは **Entity A** のみです。
 
 ```python
-ARRAY_LENGTH(chunks[quality_score], 3)
+ARRAY_LENGTH(chunks[quality_score]) == 3
 ```
 
 上記の式は、`quality_score` サブフィールドが 3 つの値を含む場合、そのエンティティが一致することを示します。[サンプルデータ](./struct-array-filtering#example-data) の 2 つのエンティティでは、この式に一致するのは **Entity B** のみです。
