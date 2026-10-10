@@ -153,26 +153,12 @@ Zilliz Cloud は、コレクション、データベース、クラスターの�
 
 次の例では、`privilege_group_1` という名前の権限グループを作成する方法を示します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Go","value":"go"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 from pymilvus import MilvusClient
-client.create_privilege_group(group_name='privilege_group_1'）
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-import "github.com/milvus-io/milvus/client/v2/milvusclient"
-
-err = client.CreatePrivilegeGroup(ctx, milvusclient.NewCreatePrivilegeGroupOption("privilege_group_1"))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
+client.create_privilege_group(group_name='privilege_group_1')
 ```
 
 </TabItem>
@@ -185,6 +171,50 @@ import io.milvus.v2.service.rbac.request.CreatePrivilegeGroupReq;
 client.createPrivilegeGroup(CreatePrivilegeGroupReq.builder()
         .groupName("privilege_group_1")
         .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
+err = client.CreatePrivilegeGroup(ctx, milvusclient.NewCreatePrivilegeGroupOption("privilege_group_1"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+client
+    .create_privilege_group(
+        CreatePrivilegeGroupRequest::builder()
+            .group_name("privilege_group_1")
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
+auto status = client->CreatePrivilegeGroup(milvus::CreatePrivilegeGroupRequest().WithGroupName("privilege_group_1"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -220,27 +250,12 @@ curl --request POST \
 
 次の例では、作成したばかりの権限グループ `privilege_group_1` に権限 `PrivilegeBackupRBAC` と `PrivilegeRestoreRBAC` を追加する方法を示します。Zilliz Cloud で利用可能なすべての権限の詳細については、[すべての権限](./cluster-privileges#all-privileges)を参照してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Go","value":"go"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 from pymilvus import MilvusClient
 client.add_privileges_to_group(group_name='privilege_group_1', privileges=['Query', 'Search'])
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-import "github.com/milvus-io/milvus/client/v2/milvusclient"
-
-privileges := []string{"Query", "Search"}
-err = client.AddPrivilegesToGroup(ctx, milvusclient.NewAddPrivilegesToGroupOption("privilege_group_1", privileges...))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
 ```
 
 </TabItem>
@@ -258,12 +273,60 @@ client.addPrivilegesToGroup(AddPrivilegesToGroupReq.builder()
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
+privileges := []string{"Query", "Search"}
+err = client.AddPrivilegesToGroup(ctx, milvusclient.NewAddPrivilegesToGroupOption("privilege_group_1", privileges...))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+client
+    .add_privileges_to_group(
+        AddPrivilegesToGroupRequest::builder()
+            .group_name("privilege_group_1")
+            .privileges(["Query", "Search"])
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
+auto status = client->AddPrivilegesToGroup(milvus::AddPrivilegesToGroupRequest()
+                                              .WithGroupName("privilege_group_1")
+                                              .WithPrivileges({"Query", "Search"}));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
 await client.addPrivilegesToGroup({
-  group_name: privilege_group_1,
-  privileges: ['Query', 'Search'],
+  group_name: "privilege_group_1",
+  privileges: ["Query", "Search"],
 });
 ```
 
@@ -291,26 +354,12 @@ curl --request POST \
 
 次の例では、権限グループ `privilege_group_1` から権限 `PrivilegeRestoreRBAC` を削除する方法を示します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Go","value":"go"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 from pymilvus import MilvusClient
-client.remove_privileges_from_group(group_name='privilege_group_1', privileges='Search')
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-import "github.com/milvus-io/milvus/client/v2/milvusclient"
-
-err = client.RemovePrivilegesFromGroup(ctx, milvusclient.NewRemovePrivilegesFromGroupOption("privilege_group_1", []string{"Search"}...))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
+client.remove_privileges_from_group(group_name='privilege_group_1', privileges=['Search'])
 ```
 
 </TabItem>
@@ -324,6 +373,53 @@ client.removePrivilegesFromGroup(RemovePrivilegesFromGroupReq.builder()
         .groupName("privilege_group_1")
         .privileges(Collections.singletonList("Search"))
         .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
+err = client.RemovePrivilegesFromGroup(ctx, milvusclient.NewRemovePrivilegesFromGroupOption("privilege_group_1", []string{"Search"}...))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+client
+    .remove_privileges_from_group(
+        RemovePrivilegesFromGroupRequest::builder()
+            .group_name("privilege_group_1")
+            .privileges(["Search"])
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
+auto status = client->RemovePrivilegesFromGroup(milvus::RemovePrivilegesFromGroupRequest()
+                                                    .WithGroupName("privilege_group_1")
+                                                    .WithPrivileges({"Search"}));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -359,26 +455,12 @@ curl --request POST \
 
 次の例では、既存のすべての権限グループを一覧表示する方法を示します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Go","value":"go"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 from pymilvus import MilvusClient
 client.list_privilege_groups()
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-import "github.com/milvus-io/milvus/client/v2/milvusclient"
-
-groups, err := client.ListPrivilegeGroups(ctx, milvusclient.NewListPrivilegeGroupsOption())
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
 ```
 
 </TabItem>
@@ -393,6 +475,53 @@ import io.milvus.v2.service.rbac.response.ListPrivilegeGroupsResp;
 ListPrivilegeGroupsResp resp = client.listPrivilegeGroups(ListPrivilegeGroupsReq.builder()
         .build());
 List<PrivilegeGroup> groups = resp.getPrivilegeGroups();
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
+groups, err := client.ListPrivilegeGroups(ctx, milvusclient.NewListPrivilegeGroupsOption())
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+for _, group := range groups {
+    fmt.Println(group.GroupName, group.Privileges)
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+let resp = client
+    .list_privilege_groups(ListPrivilegeGroupsRequest::builder().build()?)
+    .await?;
+for group in resp.groups() {
+    println!("{}: {:?}", group.get_group_name(), group.get_privileges());
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
+milvus::ListPrivilegeGroupsResponse resp;
+auto status = client->ListPrivilegeGroups(milvus::ListPrivilegeGroupsRequest(), resp);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -428,26 +557,12 @@ PrivilegeGroupItem: <privilege_group:privilege_group_1>, <privileges:('Search', 
 
 次の例では、権限グループ `privilege_group_1` を削除する方法を示します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Go","value":"go"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 from pymilvus import MilvusClient
 client.drop_privilege_group(group_name='privilege_group_1')
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-import "github.com/milvus-io/milvus/client/v2/milvusclient"
-
-err = client.DropPrivilegeGroup(ctx, milvusclient.NewDropPrivilegeGroupOption("privilege_group_1"))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
 ```
 
 </TabItem>
@@ -460,6 +575,50 @@ import io.milvus.v2.service.rbac.request.DropPrivilegeGroupReq;
 client.dropPrivilegeGroup(DropPrivilegeGroupReq.builder()
         .groupName("privilege_group_1")
         .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
+err = client.DropPrivilegeGroup(ctx, milvusclient.NewDropPrivilegeGroupOption("privilege_group_1"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+client
+    .drop_privilege_group(
+        DropPrivilegeGroupRequest::builder()
+            .group_name("privilege_group_1")
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
+auto status = client->DropPrivilegeGroup(milvus::DropPrivilegeGroupRequest().WithGroupName("privilege_group_1"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>

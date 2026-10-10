@@ -156,6 +156,7 @@ from pymilvus import AnnSearchRequest, RRFRanker
 title_req = AnnSearchRequest(
     data=[query_vector],
     anns_field="title_vector",
+    param={},
     limit=10,
 )
 
