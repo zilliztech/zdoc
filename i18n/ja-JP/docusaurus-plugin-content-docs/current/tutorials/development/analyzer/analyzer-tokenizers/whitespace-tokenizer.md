@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`whitespace` tokenizer は、単語間にスペースがあるたびにテキストを語に分割します。 | Cloud"
+description: "`whitespace` トークナイザーは、タブ、改行、フォームフィード、キャリッジリターン、スペースの 5 つの ASCII 空白文字でテキストを分割します。 | Cloud"
 type: origin
 token: F2QrwjFSziSUkJkyXzbcwovUnCg
 sidebar_position: 2
@@ -21,13 +21,40 @@ import TabItem from '@theme/TabItem';
 
 # Whitespace
 
-`whitespace` tokenizer は、単語間にスペースがあるたびにテキストを語に分割します。
+`whitespace` トークナイザーは、タブ、改行、フォームフィード、キャリッジリターン、スペースの 5 つの ASCII 空白文字でテキストを分割します。
 
-## Configuration\{#configuration}
+## トークン化のルール\{#tokenization-rules}
 
-`whitespace` tokenizer を使用して analyzer を構成するには、`analyzer_params` で `tokenizer` を `whitespace` に設定します。
+`whitespace` トークナイザーは、次の 5 つの ASCII 空白文字でのみテキストを分割します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+| 文字 | 名前 | Unicode コードポイント |
+| --- | --- | --- |
+| `\t` | 水平タブ | U+0009 |
+| `\n` | 改行 | U+000A |
+| `\x0C` または `\f` | フォームフィード | U+000C |
+| `\r` | キャリッジリターン | U+000D |
+| `' '` | スペース | U+0020 |
+
+これらの区切り文字は破棄され、連続する区切り文字は空のトークンを生成しません。句読点やその他の文字はトークンに残ります。特に、垂直タブ（`\x0B`、U+000B）、ノーブレークスペース（`\u00A0`）、および全角スペース（`\u3000`）は分割のトリガーにはなりません。
+
+このセットは Rust の [`char::is_ascii_whitespace()`](https://doc.rust-lang.org/std/primitive.char.html#method.is_ascii_whitespace) に従っており、他の Unicode 空白文字は除外されます。
+
+次の例では、`{"tokenizer": "whitespace"}` をフィルターなしで使用します。入力と出力は Python の文字列表記を使用します。`\t` や `\u00A0` などのエスケープシーケンスは実際の文字を表します。
+
+| 入力 | 出力トークン |
+| --- | --- |
+| `"a\tb\nc\x0Cd\re f"` | `["a", "b", "c", "d", "e", "f"]` |
+| `"Hello,World! foo_bar"` | `["Hello,World!", "foo_bar"]` |
+| `"a\x0Bb"` | `["a\x0Bb"]` |
+| `"a\u00A0b"` | `["a\u00A0b"]` |
+| `"a\u3000b"` | `["a\u3000b"]` |
+| `"\x20a\x20\x20b\x20"` | `["a", "b"]` |
+
+## 設定\{#configuration}
+
+`whitespace` トークナイザーを使用するアナライザーを設定するには、`analyzer_params` で `tokenizer` を `whitespace` に設定します。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -47,20 +74,38 @@ analyzerParams.put("tokenizer", "whitespace");
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+analyzerParams := map[string]any{"tokenizer": "whitespace"}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let analyzer_params = serde_json::json!({"tokenizer": "whitespace"});
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"tokenizer", "whitespace"}
+};
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
 const analyzer_params = {
     "tokenizer": "whitespace"
 };
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-analyzerParams = map[string]any{"tokenizer": "whitespace"}
 ```
 
 </TabItem>
@@ -75,21 +120,11 @@ analyzerParams='{
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-nlohmann::json analyzer_params = {
-    {"tokenizer", "whitespace"}
-};
-```
-
-</TabItem>
 </Tabs>
 
-whitespace tokenizer は、1 つ以上の filter と組み合わせて動作させることができます。たとえば、次のコードは `whitespace` tokenizer と [`lowercase`](./lowercase-filter)[ filter](./lowercase-filter) を使用する analyzer を定義しています。
+whitespace トークナイザーは、1つ以上のフィルターと組み合わせて使用できます。たとえば、次のコードは `whitespace` トークナイザーと [`lowercase`](./lowercase-filter)[ フィルター](./lowercase-filter) を使用するアナライザーを定義しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -111,6 +146,33 @@ analyzerParams.put("filter", Collections.singletonList("lowercase"));
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+analyzerParams = map[string]any{"tokenizer": "whitespace", "filter": []any{"lowercase"}}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let analyzer_params = serde_json::json!({"tokenizer": "whitespace", "filter": ["lowercase"]});
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"tokenizer", "whitespace"},
+    {"filter", {"lowercase"}}
+};
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -118,14 +180,6 @@ const analyzer_params = {
     "tokenizer": "whitespace",
     "filter": ["lowercase"]
 };
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-analyzerParams = map[string]any{"tokenizer": "whitespace", "filter": []any{"lowercase"}}
 ```
 
 </TabItem>
@@ -143,28 +197,17 @@ analyzerParams='{
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-nlohmann::json analyzer_params = {
-    {"tokenizer", "whitespace"},
-    {"filter", {"lowercase"}}
-};
-```
-
-</TabItem>
 </Tabs>
 
-`analyzer_params` を定義した後、collection schema を定義する際にそれらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は効率的な tokenization と filtering のために、指定した analyzer を使用してそのフィールド内のテキストを処理できます。詳細については、[Example use](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後、コレクションスキーマを定義する際にそれらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールドのテキストを処理し、効率的なトークン化とフィルタリングを実行できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
-## Examples\{#examples}
+## 例\{#examples}
 
-analyzer 構成を collection schema に適用する前に、`run_analyzer` メソッドを使用してその動作を検証してください。
+アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使ってその動作を確認してください。
 
-### Analyzer configuration\{#analyzer-configuration}
+### アナライザーの設定\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -186,14 +229,6 @@ analyzerParams.put("filter", Collections.singletonList("lowercase"));
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// javascript
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -202,10 +237,10 @@ analyzerParams = map[string]any{"tokenizer": "whitespace", "filter": []any{"lowe
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+let analyzer_params = serde_json::json!({"tokenizer": "whitespace", "filter": ["lowercase"]});
 ```
 
 </TabItem>
@@ -220,11 +255,36 @@ nlohmann::json analyzer_params = {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+    "tokenizer": "whitespace",
+    "filter": ["lowercase"]
+};
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+analyzerParams='{
+  "tokenizer": "whitespace",
+  "filter": [
+    "lowercase"
+  ]
+}' 
+```
+
+</TabItem>
 </Tabs>
 
-### Verification using `run_analyzer`\{#verification-using-runanalyzer}
+### `run_analyzer` を使った検証\{#verification-using-runanalyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -240,9 +300,9 @@ client = MilvusClient(
 # Sample text to analyze
 sample_text = "The Milvus vector database is built for scale!"
 
-# Run the standard analyzer with the defined configuration
+# Run the whitespace analyzer with the defined configuration
 result = client.run_analyzer(sample_text, analyzer_params)
-print("Standard analyzer output:", result)
+print("Whitespace analyzer output:", result)
 ```
 
 </TabItem>
@@ -254,6 +314,7 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
+import java.util.*;
 
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -273,25 +334,17 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// javascript
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
 import (
     "context"
-    "encoding/json"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
+ctx := context.Background()
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
@@ -301,10 +354,9 @@ if err != nil {
     // handle error
 }
 
-bs, _ := json.Marshal(analyzerParams)
 texts := []string{"The Milvus vector database is built for scale!"}
-option := milvusclient.NewRunAnalyzerOption(texts).
-    WithAnalyzerParams(string(bs))
+option := milvusclient.NewRunAnalyzerOption(texts...).
+    WithAnalyzerParams(analyzerParams)
 
 result, err := client.RunAnalyzer(ctx, option)
 if err != nil {
@@ -315,10 +367,22 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-# restful
+```rust
+use milvus::v2::prelude::*;
+
+let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN")).await?;
+
+let sample_text = "The Milvus vector database is built for scale!";
+client
+    .run_analyzer(
+        RunAnalyzerRequest::builder()
+            .texts([sample_text])
+            .analyzer_params(analyzer_params.clone())
+            .build()?,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -326,6 +390,7 @@ if err != nil {
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
@@ -349,9 +414,48 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({
+    address: "YOUR_CLUSTER_ENDPOINT",
+    token: "YOUR_CLUSTER_TOKEN"
+});
+
+// Sample text to analyze
+const sample_text = "The Milvus vector database is built for scale!";
+
+// Run the whitespace analyzer with the defined configuration
+const result = await client.runAnalyzer({
+    text: sample_text,
+    analyzer_params: analyzer_params
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+export MILVUS_HOST="YOUR_CLUSTER_ENDPOINT"
+export SAMPLE_TEXT="The Milvus vector database is built for scale!"
+curl -X POST "http://${MILVUS_HOST}/v2/vectordb/common/run_analyzer" \
+  -H "Content-Type: application/json" \
+  -H "Request-Timeout: 10" \
+  -d '{
+    "text": ["'"${SAMPLE_TEXT}"'"],
+    "analyzerParams": "{\"tokenizer\":\"whitespace\",\"filter\":[\"lowercase\"]}"
+  }' 
+```
+
+</TabItem>
 </Tabs>
 
-### Expected output\{#expected-output}
+### 期待される出力\{#expected-output}
 
 ```sql
 ['the', 'milvus', 'vector', 'database', 'is', 'built', 'for', 'scale!']

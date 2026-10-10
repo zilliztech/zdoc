@@ -33,7 +33,7 @@ import TabItem from '@theme/TabItem';
 
 コレクションを作成すると、Zilliz Cloud はそのコレクション内に **_default** という名前のパーティションも作成します。他のパーティションを追加しない場合、コレクションに挿入されたすべてのエンティティはデフォルトパーティションに入り、すべての検索とクエリもデフォルトパーティション内で実行されます。
 
-さらに partition を追加し、特定の条件に基づいてエンティティをそれらに挿入できます。その後、検索とクエリを特定の partition 内に制限することで、検索パフォーマンスを向上させることができます。
+さらにパーティションを追加し、特定の条件に基づいてエンティティをそれらに挿入できます。その後、検索とクエリを特定のパーティション内に制限することで、検索パフォーマンスを向上させることができます。
 
 1 つのコレクションには最大 1,024 個のパーティションを作成できます。
 
@@ -49,7 +49,7 @@ import TabItem from '@theme/TabItem';
 
 コレクションを作成すると、Zilliz Cloud はそのコレクション内に **_default** という名前のパーティションも作成します。コレクション内のパーティションは次のように一覧表示できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -106,6 +106,108 @@ System.out.println(partitionNames);
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: milvusAddr,
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
+
+partitionNames, err := client.ListPartitions(ctx, milvusclient.NewListPartitionOption("my_collection"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+fmt.Println(partitionNames)
+
+// Output
+//
+// ["_default"]
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let client = ClientV2::new(
+        &ConnectConfig::new()
+            .uri("YOUR_CLUSTER_ENDPOINT")
+            .token("YOUR_CLUSTER_TOKEN"),
+    )
+    .await?;
+
+    let partitions = client
+        .list_partitions(
+            ListPartitionsRequest::builder()
+                .collection_name("my_collection")
+                .build()?,
+        )
+        .await?;
+    println!("{:?}", partitions.partition_names());
+
+    Ok(())
+}
+
+// Output
+//
+// ["_default"]
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::ListPartitionsResponse response;
+status = client->ListPartitions(milvus::ListPartitionsRequest()
+                                    .WithCollectionName("my_collection"),
+                                response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+for (auto& info : response.PartitionInfos()) {
+    std::cout << "\t" << info.Name() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -123,40 +225,6 @@ console.log(res);
 
 // Output
 // ["_default"]
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-import (
-    "context"
-    
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
-)
-
-ctx, cancel := context.WithCancel(context.Background())
-defer cancel()
-
-milvusAddr := "YOUR_CLUSTER_ENDPOINT"
-
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: milvusAddr,
-})
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-defer client.Close(ctx)
-
-partitionNames, err := client.ListPartitions(ctx, milvusclient.NewListPartitionOption("my_collection"))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-
-fmt.Println(partitionNames)
 ```
 
 </TabItem>
@@ -185,41 +253,13 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-auto status = client->Connect(connect_param);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-milvus::ListPartitionsResponse response;
-status = client->ListPartitions(milvus::ListPartitionsRequest()
-                                    .WithCollectionName("my_collection"),
-                                response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-for (auto& info : response.PartitionInfos()) {
-    std::cout << "\t" << info.Name() << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
 
 ## Partition の作成\{#create-partition}
 
 コレクションにさらにパーティションを追加し、特定の条件に基づいてこれらのパーティションにエンティティを挿入できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -266,37 +306,14 @@ System.out.println(partitionNames);
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-await client.createPartition({
-    collection_name: "my_collection",
-    partition_name: "partitionA"
-})
-
-res = await client.listPartitions({
-    collection_name: "my_collection"
-})
-
-console.log(res)
-
-// Output
-// ["_default", "partitionA"]
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
 import (
     "fmt"
-    
-    client "github.com/milvus-io/milvus/client/v2/milvusclient"
-)
 
-ctx, cancel := context.WithCancel(context.Background())
-defer cancel()
+    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
 
 err = client.CreatePartition(ctx, milvusclient.NewCreatePartitionOption("my_collection", "partitionA"))
 if err != nil {
@@ -311,6 +328,77 @@ if err != nil {
 }
 
 fmt.Println(partitionNames)
+// Output
+// ["_default", "partitionA"]
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+client
+    .create_partition(
+        CreatePartitionRequest::builder()
+            .collection_name("my_collection")
+            .partition_name("partitionA")
+            .build()?,
+    )
+    .await?;
+
+let partitions = client
+    .list_partitions(
+        ListPartitionsRequest::builder()
+            .collection_name("my_collection")
+            .build()?,
+    )
+    .await?;
+println!("{:?}", partitions.partition_names());
+
+// Output
+//
+// ["_default", "partitionA"]
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto status = client->CreatePartition(milvus::CreatePartitionRequest()
+                                         .WithCollectionName("my_collection")
+                                         .WithPartitionName("partitionA"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::ListPartitionsResponse response;
+status = client->ListPartitions(milvus::ListPartitionsRequest().WithCollectionName("my_collection"), response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+for (auto& info : response.PartitionInfos()) {
+    std::cout << "\t" << info.Name() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.createPartition({
+    collection_name: "my_collection",
+    partition_name: "partitionA"
+})
+
+res = await client.listPartitions({
+    collection_name: "my_collection"
+})
+
+console.log(res)
+
 // Output
 // ["_default", "partitionA"]
 ```
@@ -357,36 +445,13 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto status = client->CreatePartition(milvus::CreatePartitionRequest()
-                                         .WithCollectionName("my_collection")
-                                         .WithPartitionName("partitionA"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-milvus::ListPartitionsResponse response;
-status = client->ListPartitions(milvus::ListPartitionsRequest().WithCollectionName("my_collection"), response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-for (auto& info : response.PartitionInfos()) {
-    std::cout << "\t" << info.Name() << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
 
 ## 特定の Partition の確認\{#check-for-a-specific-partition}
 
 次のコードスニペットは、特定のコレクションにパーティションが存在するかどうかを確認する方法を示しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -423,22 +488,6 @@ System.out.println(hasPartitionRes);
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-res = await client.hasPartition({
-    collection_name: "my_collection",
-    partition_name: "partitionA"
-})
-
-console.log(res.value)
-
-// Output
-// true
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -451,6 +500,55 @@ if err != nil {
 fmt.Println(result)
 
 // Output:
+// true
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let has = client
+    .has_partition(
+        HasPartitionRequest::builder()
+            .collection_name("my_collection")
+            .partition_name("partitionA")
+            .build()?,
+    )
+    .await?;
+println!("{}", has.exists());
+
+// Output
+//
+// true
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::HasPartitionResponse response;
+auto status = client->HasPartition(milvus::HasPartitionRequest()
+                                    .WithCollectionName("my_collection")
+                                    .WithPartitionName("partitionA"),
+                                   response);
+std::cout << response.Has() << std::endl;
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+res = await client.hasPartition({
+    collection_name: "my_collection",
+    partition_name: "partitionA"
+})
+
+console.log(res.value)
+
+// Output
 // true
 ```
 
@@ -481,30 +579,17 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-milvus::HasPartitionResponse response;
-auto status = client->HasPartition(milvus::HasPartitionRequest()
-                                    .WithCollectionName("my_collection")
-                                    .WithPartitionName("partitionA"),
-                                   response);
-std::cout << response.Has() << std::endl;
-```
-
-</TabItem>
 </Tabs>
 
 ## Partitions の読み込みと解放\{#load-and-release-partitions}
 
-1 つまたは特定の partition を個別に読み込んだり解放したりできます。
+1 つまたは特定のパーティションを個別に読み込んだり解放したりできます。
 
 ### Partitions の読み込み\{#load-partitions}
 
 コレクション内の特定のパーティションを個別に読み込むことができます。コレクション内に読み込まれていないパーティションがある場合、コレクションの読み込み状態は未ロードのままになる点に注意してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -554,29 +639,6 @@ System.out.println(getLoadStateRes);
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-await client.loadPartitions({
-    collection_name: "my_collection",
-    partition_names: ["partitionA"]
-})
-
-res = await client.getLoadState({
-    collection_name: "my_collection",
-    partition_name: "partitionA"
-})
-
-console.log(res)
-
-// Output
-// 
-// LoadStateLoaded
-// 
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -599,6 +661,81 @@ if err != nil {
     // handle error
 }
 fmt.Println(state)
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+client
+    .load_partitions(
+        LoadPartitionsRequest::builder()
+            .collection_name("my_collection")
+            .partition_names(["partitionA"])
+            .build()?,
+    )
+    .await?;
+
+let state = client
+    .get_load_state(
+        GetLoadStateRequest::builder()
+            .collection_name("my_collection")
+            .partition_names(["partitionA"])
+            .build()?,
+    )
+    .await?;
+println!("{:?}", state.state());
+
+// Output
+//
+// Loaded
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto status = client->LoadPartitions(milvus::LoadPartitionsRequest()
+                                        .WithCollectionName("my_collection")
+                                        .AddPartitionName("partitionA"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::GetLoadStateResponse response;
+status = client->GetLoadState(milvus::GetLoadStateRequest()
+                                .WithCollectionName("my_collection")
+                                .AddPartitionName("partitionA"),
+                              response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+std::cout << std::to_string(response.State()) << std::endl;
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.loadPartitions({
+    collection_name: "my_collection",
+    partition_names: ["partitionA"]
+})
+
+res = await client.getLoadState({
+    collection_name: "my_collection",
+    partition_name: "partitionA"
+})
+
+console.log(res)
+
+// Output
+// 
+// LoadStateLoaded
+// 
 ```
 
 </TabItem>
@@ -645,36 +782,13 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto status = client->LoadPartitions(milvus::LoadPartitionsRequest()
-                                        .WithCollectionName("my_collection")
-                                        .AddPartitionName("partitionA"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-milvus::GetLoadStateResponse response;
-status = client->GetLoadState(milvus::GetLoadStateRequest()
-                                .WithCollectionName("my_collection")
-                                .AddPartitionName("partitionA"),
-                              response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-std::cout << std::to_string(response.State()) << std::endl;
-```
-
-</TabItem>
 </Tabs>
 
 ### Partitions の解放\{#release-partitions}
 
-特定の partition を解放することもできます。
+特定のパーティションを解放することもできます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -693,7 +807,7 @@ print(res)
 # Output
 #
 # {
-#     "state": "<LoadState: NotLoaded>"
+#     "state": "<LoadState: NotLoad>"
 # }
 ```
 
@@ -724,6 +838,77 @@ System.out.println(getLoadStateRes);
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+err = client.ReleasePartitions(ctx, milvusclient.NewReleasePartitionsOptions("my_collection", "partitionA"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+state, err := client.GetLoadState(ctx, milvusclient.NewGetLoadStateOption("my_collection", "partitionA"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+fmt.Println(state)
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+client
+    .release_partitions(
+        ReleasePartitionsRequest::builder()
+            .collection_name("my_collection")
+            .partition_names(["partitionA"])
+            .build()?,
+    )
+    .await?;
+
+let state = client
+    .get_load_state(
+        GetLoadStateRequest::builder()
+            .collection_name("my_collection")
+            .partition_names(["partitionA"])
+            .build()?,
+    )
+    .await?;
+println!("{:?}", state.state());
+
+// Output
+//
+// NotLoad
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto status = client->ReleasePartitions(milvus::ReleasePartitionsRequest()
+                                .WithCollectionName("my_collection")
+                                .AddPartitionName("partitionA"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::GetLoadStateResponse response;
+status = client->GetLoadState(milvus::GetLoadStateRequest()
+                                .WithCollectionName("my_collection")
+                                .AddPartitionName("partitionA"),
+                              response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+std::cout << std::to_string(response.State()) << std::endl;
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -741,27 +926,8 @@ console.log(res)
 
 // Output
 // 
-// LoadStateNotLoaded
+// LoadStateNotLoad
 // 
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-err = client.ReleasePartitions(ctx, milvusclient.NewReleasePartitionsOptions("my_collection", "partitionA"))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-
-state, err := client.GetLoadState(ctx, milvusclient.NewGetLoadStateOption("my_collection", "partitionA"))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-fmt.Println(state)
 ```
 
 </TabItem>
@@ -801,33 +967,10 @@ curl --request POST \
 #     "code": 0,
 #     "data": {
 #         "loadProgress": 0,
-#         "loadState": "LoadStateNotLoaded",
+#         "loadState": "LoadStateNotLoad",
 #         "message": ""
 #     }
 # }
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto status = client->ReleasePartitions(milvus::ReleasePartitionsRequest()
-                                .WithCollectionName("my_collection")
-                                .AddPartitionName("partitionA"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-milvus::GetLoadStateResponse response;
-status = client->GetLoadState(milvus::GetLoadStateRequest()
-                                .WithCollectionName("my_collection")
-                                .AddPartitionName("partitionA"),
-                              response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-std::cout << std::to_string(response.State()) << std::endl;
 ```
 
 </TabItem>
@@ -837,7 +980,7 @@ std::cout << std::to_string(response.State()) << std::endl;
 
 ### エンティティの挿入と削除\{#insert-and-delete-entities}
 
-特定の partition で insert、upsert、delete 操作を実行できます。詳細については、以下を参照してください。
+特定のパーティションで insert、upsert、delete 操作を実行できます。詳細については、以下を参照してください。
 
 - [Partition へのエンティティの挿入](./insert-entities#insert-entities-into-a-partition)
 
@@ -847,7 +990,7 @@ std::cout << std::to_string(response.State()) << std::endl;
 
 ### 検索とクエリ\{#search-and-query}
 
-特定の partition 内で検索とクエリを実行できます。詳細については、以下を参照してください。 
+特定のパーティション内で検索とクエリを実行できます。詳細については、以下を参照してください。 
 
 - [Partition 内で ANN 検索を実行する](./single-vector-search#ann-search-in-partition)
 
@@ -855,9 +998,9 @@ std::cout << std::to_string(response.State()) << std::endl;
 
 ## Partition の削除\{#drop-partition}
 
-不要になった partition を削除できます。partition を削除する前に、partition が解放されていることを確認してください。
+不要になったパーティションを削除できます。パーティションを削除する前に、パーティションが解放されていることを確認してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -916,31 +1059,6 @@ System.out.println(partitionNames);
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-await client.releasePartitions({
-    collection_name: "my_collection",
-    partition_names: ["partitionA"]
-})
-
-await client.dropPartition({
-    collection_name: "my_collection",
-    partition_name: "partitionA"
-})
-
-res = await client.listPartitions({
-    collection_name: "my_collection"
-})
-
-console.log(res)
-
-// Output
-// ["_default"]
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -962,6 +1080,100 @@ if err != nil {
     // handle error
 }
 fmt.Println(partitionNames)
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+client
+    .release_partitions(
+        ReleasePartitionsRequest::builder()
+            .collection_name("my_collection")
+            .partition_names(["partitionA"])
+            .build()?,
+    )
+    .await?;
+
+client
+    .drop_partition(
+        DropPartitionRequest::builder()
+            .collection_name("my_collection")
+            .partition_name("partitionA")
+            .build()?,
+    )
+    .await?;
+
+let partitions = client
+    .list_partitions(
+        ListPartitionsRequest::builder()
+            .collection_name("my_collection")
+            .build()?,
+    )
+    .await?;
+println!("{:?}", partitions.partition_names());
+
+// Output
+//
+// ["_default"]
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto status = client->ReleasePartitions(milvus::ReleasePartitionsRequest()
+                                            .WithCollectionName("my_collection")
+                                            .AddPartitionName("partitionA"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->DropPartition(milvus::DropPartitionRequest()
+                                .WithCollectionName("my_collection")
+                                .WithPartitionName("partitionA"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::ListPartitionsResponse response;
+status = client->ListPartitions(milvus::ListPartitionsRequest()
+                                    .WithCollectionName("my_collection"),
+                                response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+for (auto& info : response.PartitionInfos()) {
+    std::cout << "\t" << info.Name() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.releasePartitions({
+    collection_name: "my_collection",
+    partition_names: ["partitionA"]
+})
+
+await client.dropPartition({
+    collection_name: "my_collection",
+    partition_name: "partitionA"
+})
+
+res = await client.listPartitions({
+    collection_name: "my_collection"
+})
+
+console.log(res)
+
+// Output
+// ["_default"]
 ```
 
 </TabItem>
@@ -1017,38 +1229,6 @@ curl --request POST \
 #         "_default"
 #     ]
 # }
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto status = client->ReleasePartitions(milvus::ReleasePartitionsRequest()
-                                            .WithCollectionName("my_collection")
-                                            .AddPartitionName("partitionA"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-status = client->DropPartition(milvus::DropPartitionRequest()
-                                .WithCollectionName("my_collection")
-                                .WithPartitionName("partitionA"));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-milvus::ListPartitionsResponse response;
-status = client->ListPartitions(milvus::ListPartitionsRequest()
-                                    .WithCollectionName("my_collection"),
-                                response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-for (auto& info : response.PartitionInfos()) {
-    std::cout << "\t" << info.Name() << std::endl;
-}
 ```
 
 </TabItem>

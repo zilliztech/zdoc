@@ -1426,9 +1426,9 @@
       "translatedAt": "2026-10-10T04:58:13.613Z"
     },
     "content/en/guides/tutorials/development/analyzer/analyzer-filters/cnalphanumonly-filter.md": {
-      "sourceHash": "f920268583f021fc363c0fd13a77f689e3dacb6bfc6063017bf1dd33f5ab3191",
+      "sourceHash": "42ef687c4175444da05840c5570ca95ad8dd8b4e67237a805cf2cb7d3110aa23",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/analyzer/analyzer-filters/cnalphanumonly-filter.md",
-      "translatedAt": "2026-08-04T05:06:55.819Z"
+      "translatedAt": "2026-10-10T05:50:25.999Z"
     },
     "content/en/guides/tutorials/development/analyzer/analyzer-filters/cncharonly-filter.md": {
       "sourceHash": "adc7e23d3b5ec3451800523bf53499d6bce573e79f1eaa9a7c11c4255a4b6ac6",
@@ -1436,9 +1436,9 @@
       "translatedAt": "2026-10-10T04:58:13.613Z"
     },
     "content/en/guides/tutorials/development/analyzer/analyzer-filters/decompounder-filter.md": {
-      "sourceHash": "837085fd15fdfb4015f81f4beb7b80208ece46cb0994ae375296bea95efb02d9",
+      "sourceHash": "c27ad110598ada1e2a87c41b115765b86eafb2cbc9e2b99471e5f37d7e0f4987",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/analyzer/analyzer-filters/decompounder-filter.md",
-      "translatedAt": "2026-08-04T05:07:07.050Z"
+      "translatedAt": "2026-10-10T05:50:25.999Z"
     },
     "content/en/guides/tutorials/development/analyzer/analyzer-filters/length-filter.md": {
       "sourceHash": "e6eb025ef2f67bde062852c585744dd7d36700801874056e06b584df8c29e5fa",
@@ -1446,14 +1446,14 @@
       "translatedAt": "2026-10-10T04:58:13.613Z"
     },
     "content/en/guides/tutorials/development/analyzer/analyzer-filters/lowercase-filter.md": {
-      "sourceHash": "7b2d9f7bba1e7bc397ffae563db161e6b2cbe3c82d9eac16a75993d3afb82720",
+      "sourceHash": "eb0cfa547ee1c21267e89460b72f3893b5ce7861dbadc6a7848f88ff9954bbf8",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/analyzer/analyzer-filters/lowercase-filter.md",
-      "translatedAt": "2026-08-04T05:07:37.044Z"
+      "translatedAt": "2026-10-10T05:50:25.999Z"
     },
     "content/en/guides/tutorials/development/analyzer/analyzer-filters/pinyin-filter.md": {
-      "sourceHash": "5697b7287c3ccabafa0a0b813c68807ab7fba542913fdb471b0e3c5b0bc95e16",
+      "sourceHash": "5fdf693ee1f81fc8bc1baabccedc5198d55870c75691b7759f76d03697a67077",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/analyzer/analyzer-filters/pinyin-filter.md",
-      "translatedAt": "2026-08-04T05:07:40.782Z"
+      "translatedAt": "2026-10-10T05:50:25.999Z"
     },
     "content/en/guides/tutorials/development/analyzer/analyzer-filters/regex-filter.md": {
       "sourceHash": "7f06774f79131b43fb4bdab12def6ac21ca8fd689d397c87aec7b4bc95edfc54",
@@ -1466,9 +1466,9 @@
       "translatedAt": "2026-10-10T05:11:05.389Z"
     },
     "content/en/guides/tutorials/development/analyzer/analyzer-filters/stemmer-filter.md": {
-      "sourceHash": "edc783e55d208e35f68ccac42c0a5899e847beff31b59c042224fef9a8419046",
+      "sourceHash": "72472b091b272094a1d03c6638727478eae52c1bfc51b4cdaaee9e9d55cca2f4",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/analyzer/analyzer-filters/stemmer-filter.md",
-      "translatedAt": "2026-08-04T05:08:29.582Z"
+      "translatedAt": "2026-10-10T05:50:25.999Z"
     },
     "content/en/guides/tutorials/development/analyzer/analyzer-filters/stop-filter.md": {
       "sourceHash": "c2a8adf99d1871a8daae434ddbba4bccf6aeb4524aa836aad233a3f558cb72e0",
@@ -1491,24 +1491,24 @@
       "translatedAt": "2026-10-10T05:11:05.389Z"
     },
     "content/en/guides/tutorials/development/analyzer/analyzer-tokenizers/language-identifier-tokenizer.md": {
-      "sourceHash": "61ed123ea01e9f9fe944216a460d22ab1302a5bb905179877db0052c955bbce7",
+      "sourceHash": "4df1d2f0eda91fc9220c8a227194c093ffe8de820549da8b29265a2c9241fff9",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/analyzer/analyzer-tokenizers/language-identifier-tokenizer.md",
-      "translatedAt": "2026-09-19T14:03:19.679Z"
+      "translatedAt": "2026-10-10T05:50:25.999Z"
     },
     "content/en/guides/tutorials/development/analyzer/analyzer-tokenizers/lindera-tokenizer.md": {
-      "sourceHash": "618e86c05131bbbfaa710e65fcccd09640607c1b56969cbf43a4ba9fd7a3bb50",
+      "sourceHash": "16815fb65f667d0c7368c6493d203c8fd550af1ae0b2d682eb753cbd7e4a2b62",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/analyzer/analyzer-tokenizers/lindera-tokenizer.md",
-      "translatedAt": "2026-09-19T14:04:43.571Z"
+      "translatedAt": "2026-10-10T05:50:25.999Z"
     },
     "content/en/guides/tutorials/development/analyzer/analyzer-tokenizers/standard-tokenizer.md": {
-      "sourceHash": "76adfd40f8806d9cf5dfe7f57c6f7857c8776643bb846b4da1ccf5b54f909492",
+      "sourceHash": "88323dcce0f809293a59771f67ab1cb53f954c987d249b8df9d8eb7262298ef9",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/analyzer/analyzer-tokenizers/standard-tokenizer.md",
-      "translatedAt": "2026-09-19T14:04:43.571Z"
+      "translatedAt": "2026-10-10T05:50:25.999Z"
     },
     "content/en/guides/tutorials/development/analyzer/analyzer-tokenizers/whitespace-tokenizer.md": {
-      "sourceHash": "e52d5fc27a459f70255f41ce4f24f4fbfd32139902edb79d6f442c971305d73b",
+      "sourceHash": "c803ff8805dec5f86de82753b5dd660020a57d149300e467a0eec550f05f80b2",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/analyzer/analyzer-tokenizers/whitespace-tokenizer.md",
-      "translatedAt": "2026-08-04T05:16:10.307Z"
+      "translatedAt": "2026-10-10T05:50:25.999Z"
     },
     "content/en/guides/tutorials/development/analyzer/built-in-analyzer/chinese-analyzer.md": {
       "sourceHash": "b042e4e022947de773c612a84dedf6493c5bc19dbcf2bb5dee97f86cf019763e",
@@ -1556,9 +1556,9 @@
       "translatedAt": "2026-10-10T05:11:05.389Z"
     },
     "content/en/guides/tutorials/development/collection/drop-collection.md": {
-      "sourceHash": "a39635a0d23cc9de4bd07b154dbed26496f194ffc24c93d6146102365ce34448",
+      "sourceHash": "42d7c44423a32014c048fd380fe0ea1f3082ed11fb1dab6609ade5e2001cff12",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/drop-collection.md",
-      "translatedAt": "2026-09-19T14:04:43.571Z"
+      "translatedAt": "2026-10-10T05:50:25.999Z"
     },
     "content/en/guides/tutorials/development/collection/external-collection-limits.md": {
       "sourceHash": "e602d56e71c9d71955c55b924bb2241db1838ba103740ff132dc1a17008d2695",
@@ -1570,15 +1570,20 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/load-release-collections.md",
       "translatedAt": "2026-10-10T05:11:05.389Z"
     },
+    "content/en/guides/tutorials/development/collection/manage-aliases.md": {
+      "sourceHash": "2df76a2fb994c999ec45eefe8811492fc7a97b6b6a5792398a07030370c9825e",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/manage-aliases.md",
+      "translatedAt": "2026-10-10T05:50:25.999Z"
+    },
     "content/en/guides/tutorials/development/collection/manage-collections-sdks.md": {
       "sourceHash": "be93112bd2977564c493585c10d08948977b9c19f5201e3366c538ed2c765106",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/manage-collections-sdks.md",
       "translatedAt": "2026-10-10T05:11:05.389Z"
     },
     "content/en/guides/tutorials/development/collection/manage-partitions.md": {
-      "sourceHash": "0de10679125f9d130ab8d97dbd77dd7b36c80036762f304afae0acd2e6824bb7",
+      "sourceHash": "251dbe35e5b9c060b9137baaae00c137788c8043e8b81275315d5e1eda97d82c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/manage-partitions.md",
-      "translatedAt": "2026-09-19T14:04:43.571Z"
+      "translatedAt": "2026-10-10T05:50:25.999Z"
     },
     "content/en/guides/tutorials/development/collection/modify-collections.md": {
       "sourceHash": "73db20dffe36a2287cf7eac956669a7cbd8bd370d9f6016941b25248dca6cec8",
@@ -1591,14 +1596,14 @@
       "translatedAt": "2026-10-10T05:24:59.064Z"
     },
     "content/en/guides/tutorials/development/collection/truncate-collection.md": {
-      "sourceHash": "62f3716ab7429a103d73bb08939e104a6f8ac31a205b144aaa2c2551d83a6f6f",
+      "sourceHash": "6a7a9f34defa79cbb1517fe7f0d6843e413ee277d0ae6ecf3ac84718de58099e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/truncate-collection.md",
-      "translatedAt": "2026-09-19T14:05:52.293Z"
+      "translatedAt": "2026-10-10T05:50:25.999Z"
     },
     "content/en/guides/tutorials/development/collection/use-large-topk.md": {
-      "sourceHash": "d0c68f684dbfcc5703198e46dd927091ce0041cbdc1010f43cd4ba2a8e61d771",
+      "sourceHash": "bb5d04f3df8f1c20108dab287a6e12275c78126006c8f9cbe682b5fb08a1027f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/collection/use-large-topk.md",
-      "translatedAt": "2026-09-19T14:05:52.293Z"
+      "translatedAt": "2026-10-10T05:50:25.999Z"
     },
     "content/en/guides/tutorials/development/collection/view-collections.md": {
       "sourceHash": "6b9ba7538438769792b6f17ab7f55ead62d865625225888e1cab2d5d101287d4",
@@ -1606,9 +1611,9 @@
       "translatedAt": "2026-10-10T05:24:59.064Z"
     },
     "content/en/guides/tutorials/development/connect-for-on-demand-search.md": {
-      "sourceHash": "6cbc59d7d2541ce567822f3f41f05dddc92f5b702da6ab48791248951f91b95f",
+      "sourceHash": "05a06b24f52e9ac61d1c6fe88f9b775b14795e09485251e84e9c6323ec96387a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/connect-for-on-demand-search.md",
-      "translatedAt": "2026-09-19T14:05:52.293Z"
+      "translatedAt": "2026-10-10T05:50:25.999Z"
     },
     "content/en/guides/tutorials/development/data-export/export-data-iterators.md": {
       "sourceHash": "790bdebe2440bdb4cb3b5af4d134016427aab88d2afa65bee80215eaea9c0041",
