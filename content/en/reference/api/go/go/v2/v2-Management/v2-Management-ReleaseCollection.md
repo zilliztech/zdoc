@@ -1,25 +1,25 @@
 ---
-title: "ReleaseCollection() | Go | v2"
+title: "ReleaseCollection | Go | v2"
 slug: /go/go/v2-Management-ReleaseCollection
-sidebar_label: "ReleaseCollection()"
+sidebar_label: "ReleaseCollection"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation releases a collection from memory to free up resources. | Go | v2"
 type: docx
-token: YMxDdZUXfoCEPtxBhN8clGxDnUd
-sidebar_position: 24
+token: VQTgdYK3yoNZPxxt9dfct0M4nze
+sidebar_position: 23
 keywords: 
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
   - zilliz
   - zilliz cloud
   - cloud
-  - ReleaseCollection()
+  - ReleaseCollection
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# ReleaseCollection()
+# ReleaseCollection
 
 This operation releases a collection from memory to free up resources.
 
@@ -39,6 +39,8 @@ func (c *Client) ReleaseCollection(ctx context.Context, option ReleaseCollection
 
 ## Request Syntax\{#request-syntax}
 
+Creates the request for ReleaseCollection().
+
 ```go
 option := milvusclient.NewReleaseCollectionOption(collectionName)
 
@@ -47,9 +49,17 @@ err := client.ReleaseCollection(ctx, option)
 
 **PARAMETERS:**
 
-- **collectionName** (*string*)
+- **collectionName** (*string*) -
+
+    **[REQUIRED]**
 
     The name of the target collection.
+
+**BUILDER METHODS:**
+
+- `NewReleaseCollectionOption(collectionName string)`
+
+    Creates the request for ReleaseCollection().
 
 **RETURN TYPE:**
 
@@ -59,20 +69,22 @@ err := client.ReleaseCollection(ctx, option)
 
 Returns nil on success, or an error describing what went wrong.
 
-**EXCEPTIONS:**
+**ERROR HANDLING:**
 
 - **error**
 
-    Check `err != nil` for failure details.
+    The operation fails. Check `err != nil` for failure details.
 
 ## Example\{#example}
+
+Demonstrates ReleaseCollection() usage.
 
 ```go
 import (
 	"context"
 	"log"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

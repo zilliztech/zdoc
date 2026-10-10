@@ -10,7 +10,7 @@ notebook: false
 description: "Describes an index including its type, parameters, build state, and row counts. | Go | v2"
 type: docx
 token: Wyvhd3725onAmAxegk1caOHonQg
-sidebar_position: 15
+sidebar_position: 14
 keywords: 
   - What are vector embeddings
   - vector database tutorial

@@ -7,10 +7,10 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "Upserts rows or columns with struct-array and field-level array operations, and records client telemetry for the operation. | Go | v2"
+description: "This operation upserts rows or columns with struct-array and field-level array operations, and records client telemetry for the operation. | Go | v2"
 type: docx
 token: PB5kdtzs8ok748xwRWacJbEUnze
-sidebar_position: 19
+sidebar_position: 18
 keywords: 
   - milvus vector database
   - milvus db
@@ -31,10 +31,21 @@ import Admonition from '@theme/Admonition';
 
 # Upsert()
 
-Upserts rows or columns with struct-array and field-level array operations, and records client telemetry for the operation.
+This operation upserts rows or columns with struct-array and field-level array operations, and records client telemetry for the operation.
 
 ```go
 func (c *Client) Upsert(ctx context.Context, option UpsertOption, callOptions ...grpc.CallOption) (UpsertResult, error)
+```
+
+## Request Syntax\{#request-syntax}
+
+Creates the request for Upsert().
+
+```go
+result, err := cli.Upsert(ctx, milvusclient.NewColumnBasedInsertOption("books").
+	WithInt64Column("id", []int64{1}).
+	WithVarcharColumn("tags", []string{"featured"}).
+	WithArrayAppend("tags"))
 ```
 
 **PARAMETERS:**
@@ -52,6 +63,14 @@ func (c *Client) Upsert(ctx context.Context, option UpsertOption, callOptions ..
     One or more row values to insert or update.
 
 **BUILDER METHODS:**
+
+- `NewColumnBasedInsertOption(collName string, columns ...column.Column)`
+
+    This creates an upsert option from columns. Build the request with the `With*Column` methods below.
+
+- `NewRowBasedInsertOption(collName string, rows ...any)`
+
+    This creates an upsert option from row values. Chain `WithPartition`, `WithNamespace`, `WithPartialUpdate`, `WithArrayAppend`, `WithArrayRemove`, `WithFieldPartialOp`, or `WithKeepAutoIDPk`.
 
 - `WithColumns(columns ...column.Column)`
 
@@ -80,6 +99,10 @@ func (c *Client) Upsert(ctx context.Context, option UpsertOption, callOptions ..
 - `WithVarcharColumn(colName string, data []string)`
 
     This appends a VarChar scalar column with the specified name and values.
+
+- `WithTextColumn(colName string, data []string)`
+
+    This appends a Text scalar column with the specified name and values.
 
 - `WithFloatVectorColumn(colName string, dim int, data [][]float32)`
 
@@ -141,11 +164,28 @@ func (c *Client) Upsert(ctx context.Context, option UpsertOption, callOptions ..
 
 Returns the affected row count and primary keys, plus an error when request construction or the RPC fails.
 
+```go
+type UpsertResult struct {
+    UpsertCount int64
+    IDs column.Column
+}
+```
+
+**PARAMETERS:**
+
+- **UpsertCount** (*int64*) -
+
+    The number of affected entities.
+
+- **IDs** (*column.Column*) -
+
+    The IDs of the affected entities.
+
 **ERROR HANDLING:**
 
 - **error**
 
-    Validation, request construction, or the RPC fails. Check the returned error for failure details.
+    The operation fails. Validation, request construction, or the RPC fails. Check the returned error for failure details.
 
 ## Example\{#example}
 

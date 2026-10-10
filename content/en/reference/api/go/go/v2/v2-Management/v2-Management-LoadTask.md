@@ -10,7 +10,7 @@ notebook: false
 description: "An async task returned by LoadCollection/LoadPartitions. Call Await() to block until loading completes. | Go | v2"
 type: docx
 token: U9w7dQeEBom2UBxJZM1cJAIYniL
-sidebar_position: 21
+sidebar_position: 20
 keywords: 
   - Zilliz
   - milvus vector database

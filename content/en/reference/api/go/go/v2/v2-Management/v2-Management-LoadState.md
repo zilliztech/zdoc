@@ -10,7 +10,7 @@ notebook: false
 description: "Represents the load state of a collection or partition, including progress percentage. | Go | v2"
 type: docx
 token: XWSAdFkdDoaDPnxOtkEcuFETngL
-sidebar_position: 20
+sidebar_position: 19
 keywords: 
   - Question answering system
   - llm-as-a-judge

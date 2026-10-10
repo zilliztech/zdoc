@@ -1,25 +1,25 @@
 ---
-title: "DropIndexProperties() | Go | v2"
+title: "DropIndexProperties | Go | v2"
 slug: /go/go/v2-Management-DropIndexProperties
-sidebar_label: "DropIndexProperties()"
+sidebar_label: "DropIndexProperties"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "This operation removes specified properties from an index. | Go | v2"
+description: "This operation removes one or more properties from an existing index. | Go | v2"
 type: docx
-token: VuYydaf7loMiRAxkB3scXzA1nPb
+token: DdDQdWN3OoSwZbxFTebctTRFnZf
 sidebar_position: 8
 keywords: 
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud
-  - DropIndexProperties()
+  - DropIndexProperties
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,9 +29,9 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# DropIndexProperties()
+# DropIndexProperties
 
-This operation removes specified properties from an index.
+This operation removes one or more properties from an existing index.
 
 ```go
 func (c *Client) DropIndexProperties(ctx context.Context, opt DropIndexPropertiesOption, callOptions ...grpc.CallOption) error
@@ -39,25 +39,39 @@ func (c *Client) DropIndexProperties(ctx context.Context, opt DropIndexPropertie
 
 ## Request Syntax\{#request-syntax}
 
+Creates the request for DropIndexProperties().
+
 ```go
-option := milvusclient.NewDropIndexPropertiesOption(collectionName, indexName, keys)
+option := milvusclient.NewDropIndexPropertiesOption(collectionName, indexName, keys...)
 
 err := client.DropIndexProperties(ctx, option)
 ```
 
 **PARAMETERS:**
 
-- **collectionName** (*string*)
+- **collectionName** (*string*) -
+
+    **[REQUIRED]**
 
     The name of the target collection.
 
-- **indexName** (*string*)
+- **indexName** (*string*) -
+
+    **[REQUIRED]**
 
     The name of the index.
 
-- **keys** (*...string*)
+- **keys** (*...string*) -
 
-    The keys.
+    **[REQUIRED]**
+
+    The keys for DropIndexProperties.
+
+**BUILDER METHODS:**
+
+- `NewDropIndexPropertiesOption(collectionName string, indexName string, keys ...string)`
+
+    Creates options to drop index properties. `collectionName` specifies the collection, `indexName` specifies the index, and `keys` lists the property keys to remove.
 
 **RETURN TYPE:**
 
@@ -65,36 +79,36 @@ err := client.DropIndexProperties(ctx, option)
 
 **RETURNS:**
 
-Returns nil on success, or an error describing what went wrong.
+Returns nil after the index properties are dropped. Returns an error if the operation fails.
 
-**EXCEPTIONS:**
+**ERROR HANDLING:**
 
 - **error**
 
-    Check `err != nil` for failure details.
+    The operation fails. Request construction or the RPC fails. Check `err != nil` for failure details.
 
 ## Example\{#example}
+
+Demonstrates DropIndexProperties() usage.
 
 ```go
 import (
 	"context"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-	Address: milvusAddr,
-})
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{Address: "YOUR_CLUSTER_ENDPOINT"})
 if err != nil {
-	// handle err
+	// handle error
 }
 defer cli.Close(ctx)
 
-err = cli.DropIndexProperties(ctx, milvusclient.NewDropIndexPropertiesOption("my_collection", "my_index", "mmap.enabled"))
+err = cli.DropIndexProperties(ctx, milvusclient.NewDropIndexPropertiesOption("books", "vector_index", "mmap.enabled"))
 if err != nil {
-	// handle err
+	// handle error
 }
 ```

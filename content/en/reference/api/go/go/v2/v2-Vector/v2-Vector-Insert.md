@@ -7,10 +7,10 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "Inserts rows or columns, supports struct-array input, and records client telemetry for the operation. | Go | v2"
+description: "This operation inserts rows or columns, supports struct-array input, and records client telemetry for the operation. | Go | v2"
 type: docx
 token: NQsbdUsP8oIAbOxSnEEcKUBMnkg
-sidebar_position: 11
+sidebar_position: 10
 keywords: 
   - vector database tutorial
   - how do vector databases work
@@ -31,10 +31,20 @@ import Admonition from '@theme/Admonition';
 
 # Insert()
 
-Inserts rows or columns, supports struct-array input, and records client telemetry for the operation.
+This operation inserts rows or columns, supports struct-array input, and records client telemetry for the operation.
 
 ```go
 func (c *Client) Insert(ctx context.Context, option InsertOption, callOptions ...grpc.CallOption) (InsertResult, error)
+```
+
+## Request Syntax\{#request-syntax}
+
+Creates the request for Insert().
+
+```go
+result, err := cli.Insert(ctx, milvusclient.NewColumnBasedInsertOption("books").
+	WithInt64Column("id", []int64{1}).
+	WithStructArrayColumn("chunks", structSchema, rows))
 ```
 
 **PARAMETERS:**
@@ -52,6 +62,14 @@ func (c *Client) Insert(ctx context.Context, option InsertOption, callOptions ..
     One or more row values to insert.
 
 **BUILDER METHODS:**
+
+- `NewColumnBasedInsertOption(collName string, columns ...column.Column)`
+
+    This creates an insert option from columns. Build the request with the `With*Column` methods below.
+
+- `NewRowBasedInsertOption(collName string, rows ...any)`
+
+    This creates an insert option from row values. Chain `WithPartition`, `WithNamespace`, `WithPartialUpdate`, `WithArrayAppend`, `WithArrayRemove`, `WithFieldPartialOp`, or `WithKeepAutoIDPk`.
 
 - `WithColumns(columns ...column.Column)`
 
@@ -80,6 +98,10 @@ func (c *Client) Insert(ctx context.Context, option InsertOption, callOptions ..
 - `WithVarcharColumn(colName string, data []string)`
 
     This appends a VarChar scalar column with the specified name and values.
+
+- `WithTextColumn(colName string, data []string)`
+
+    This appends a Text scalar column with the specified name and values.
 
 - `WithFloatVectorColumn(colName string, dim int, data [][]float32)`
 
@@ -141,11 +163,28 @@ func (c *Client) Insert(ctx context.Context, option InsertOption, callOptions ..
 
 Returns the inserted row count and generated or supplied primary keys, plus an error when request construction or the RPC fails.
 
+```go
+type InsertResult struct {
+    InsertCount int64
+    IDs column.Column
+}
+```
+
+**PARAMETERS:**
+
+- **InsertCount** (*int64*) -
+
+    The number of affected entities.
+
+- **IDs** (*column.Column*) -
+
+    The IDs of the affected entities.
+
 **ERROR HANDLING:**
 
 - **error**
 
-    Validation, request construction, or the RPC fails. Check the returned error for failure details.
+    The operation fails. Validation, request construction, or the RPC fails. Check the returned error for failure details.
 
 ## Example\{#example}
 

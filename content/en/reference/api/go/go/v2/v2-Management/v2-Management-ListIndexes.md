@@ -1,25 +1,25 @@
 ---
-title: "ListIndexes() | Go | v2"
+title: "ListIndexes | Go | v2"
 slug: /go/go/v2-Management-ListIndexes
-sidebar_label: "ListIndexes()"
+sidebar_label: "ListIndexes"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation lists all indexes built on a specified collection. | Go | v2"
 type: docx
-token: S8NxdJc1gom2SVxxNYkc5lHxnMg
-sidebar_position: 17
+token: R53fdYWNAorBuUxdrF7cSuovnnf
+sidebar_position: 16
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
   - zilliz
   - zilliz cloud
   - cloud
-  - ListIndexes()
+  - ListIndexes
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# ListIndexes()
+# ListIndexes
 
 This operation lists all indexes built on a specified collection.
 
@@ -38,6 +38,8 @@ func (c *Client) ListIndexes(ctx context.Context, opt ListIndexOption, callOptio
 ```
 
 ## Request Syntax\{#request-syntax}
+
+Creates the request for ListIndexes().
 
 ```go
 option := milvusclient.NewListIndexOption(collectionName).
@@ -48,11 +50,17 @@ result, err := client.ListIndexes(ctx, option)
 
 **PARAMETERS:**
 
-- **collectionName** (*string*)
+- **collectionName** (*string*) -
+
+    **[REQUIRED]**
 
     The name of the target collection.
 
-**OPTION METHODS:**
+**BUILDER METHODS:**
+
+- `NewListIndexOption(collectionName string)`
+
+    Creates the request for ListIndexes().
 
 - `WithFieldName(fieldName string)`
 
@@ -64,22 +72,30 @@ result, err := client.ListIndexes(ctx, option)
 
 **RETURNS:**
 
-A list of names. Returns an error if the operation fails.
+A list of index names. Returns an error if the operation fails.
 
-**EXCEPTIONS:**
+**PARAMETERS:**
+
+- **result** (*[]string*) -
+
+    The []string value returned by ListIndexes().
+
+**ERROR HANDLING:**
 
 - **error**
 
-    Check `err != nil` for failure details.
+    The operation fails. Check `err != nil` for failure details.
 
 ## Example\{#example}
+
+Demonstrates ListIndexes() usage.
 
 ```go
 import (
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

@@ -1,25 +1,25 @@
 ---
-title: "SearchIterator() | Go | v2"
+title: "SearchIterator | Go | v2"
 slug: /go/go/v2-Vector-SearchIterator
-sidebar_label: "SearchIterator()"
+sidebar_label: "SearchIterator"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "This operation creates an iterator for paginating through large search result sets. | Go | v2"
+description: "This operation creates a search iterator that retrieves ANN search results in batches. Use this for large result sets that should not be loaded into memory all at once. | Go | v2"
 type: docx
-token: K6obdWvXyoNLbMxNkggc9JyMnPd
-sidebar_position: 18
+token: O8iodvuRpoZswVxoC8Ncq2Wlnqf
+sidebar_position: 17
 keywords: 
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
   - zilliz
   - zilliz cloud
   - cloud
-  - SearchIterator()
+  - SearchIterator
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,9 +29,9 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# SearchIterator()
+# SearchIterator
 
-This operation creates an iterator for paginating through large search result sets.
+This operation creates a search iterator that retrieves ANN search results in batches. Use this for large result sets that should not be loaded into memory all at once.
 
 ```go
 func (c *Client) SearchIterator(ctx context.Context, option SearchIteratorOption, callOptions ...grpc.CallOption) (SearchIterator, error)
@@ -39,50 +39,60 @@ func (c *Client) SearchIterator(ctx context.Context, option SearchIteratorOption
 
 ## Request Syntax\{#request-syntax}
 
+Creates the request for SearchIterator().
+
 ```go
-option := milvusclient.NewSearchIteratorOption(collectionName, vector).
+client.SearchIterator(ctx, milvusclient.NewSearchIteratorOption(collectionName, vector).
     WithBatchSize(batchSize).
-    WithPartitions(partitionNames).
+    WithIteratorLimit(limit).
+    WithPartitions(partitionNames...).
     WithFilter(expr).
-    WithTemplateParam(key, val).
-    WithOffset(offset).
-    WithOutputFields(fieldNames).
+    WithOutputFields(fieldNames...).
     WithConsistencyLevel(consistencyLevel).
     WithANNSField(annsField).
-    WithGroupByField(groupByField).
-    WithGroupSize(groupSize).
-    WithStrictGroupSize(strictGroupSize).
-    WithIgnoreGrowing(ignoreGrowing).
-    WithAnnParam(ap).
-    WithSearchParam(key, value).
-    WithIteratorLimit(limit)
-
-result, err := client.SearchIterator(ctx, option)
+    WithAnnParam(ap),
+)
 ```
 
 **PARAMETERS:**
 
-- **collectionName** (*string*)
+- **collectionName** (*string*) -
+
+    **[REQUIRED]**
 
     The name of the target collection.
 
-- **[vector](./v2-Vector)** (*entity.Vector*)
+- **vector** (*entity.Vector*) -
 
-    The query vectors for similarity search.
+    **[REQUIRED]**
 
-**OPTION METHODS:**
+    The query vector to search with.
+
+**BUILDER METHODS:**
+
+- `NewSearchIteratorOption(collectionName string, vector entity.Vector)`
+
+    **[REQUIRED]** Creates a new search iterator option for the specified collection and query vector.
 
 - `WithBatchSize(batchSize int)`
 
-    Sets the number of entities to fetch per iteration batch.
+    The number of entities to return per iteration batch. Default: `1000`.
+
+- `WithIteratorLimit(limit int64)`
+
+    The maximum total number of entities to iterate over. A negative value means unlimited. Default: `Unlimited` (-1).
 
 - `WithPartitions(partitionNames ...string)`
 
-    Limits the operation to the specified partitions.
+    The partitions to search. If not specified, all partitions are searched.
+
+- `WithNamespace(namespace string)`
+
+    Scopes the search iterator to a collection namespace.
 
 - `WithFilter(expr string)`
 
-    Applies a boolean filter expression to narrow results.
+    A boolean expression to filter entities. Only entities matching the expression are returned.
 
 - `WithTemplateParam(key string, val any)`
 
@@ -94,33 +104,33 @@ result, err := client.SearchIterator(ctx, option)
 
 - `WithOutputFields(fieldNames ...string)`
 
-    Specifies which fields to include in the returned results.
+    The fields to include in the returned entities.
 
-- `WithConsistencyLevel(consistencyLevel [entity.ConsistencyLevel](./v2-Collection-ConsistencyLevel))`
+- `WithConsistencyLevel(consistencyLevel entity.ConsistencyLevel)`
 
-    Sets the consistency level for the operation (Strong, Bounded, Session, or Eventually).
+    The consistency level for the search. Default: `Bounded`.
 
 - `WithANNSField(annsField string)`
 
-    Specifies which vector field to search against.
+    Specifies the vector field to search on when a collection has multiple vector fields.
 
 - `WithGroupByField(groupByField string)`
 
-    Groups search results by a scalar field value.
+    Groups search results by the specified field.
 
 - `WithGroupSize(groupSize int)`
 
-    Sets the number of results to return per group.
+    Sets the number of results to return per group when grouping is enabled.
 
 - `WithStrictGroupSize(strictGroupSize bool)`
 
-    Enforces exact group size for each group in results.
+    Enforces strict group size limits.
 
 - `WithIgnoreGrowing(ignoreGrowing bool)`
 
-    Skips searching in growing segments for faster but potentially incomplete results.
+    Ignores growing segments during the search.
 
-- `WithAnnParam(ap [index.AnnParam](./v2-Vector-AnnParam))`
+- `WithAnnParam(ap index.AnnParam)`
 
     Sets the approximate nearest neighbor search parameters (e.g., nprobe, ef).
 
@@ -128,25 +138,29 @@ result, err := client.SearchIterator(ctx, option)
 
     Sets a custom search parameter key-value pair.
 
-- `WithIteratorLimit(limit int64)`
-
-    WithIteratorLimit sets the limit of entries to iterate if limit < 0, then it will be set to Unlimited
-
 **RETURN TYPE:**
 
-*[SearchIterator](./v2-Vector-SearchIterator), error*
+**SearchIterator, error**
 
 **RETURNS:**
 
-A SearchIterator for paginating through search results. Returns an error if the operation fails.
+*SearchIterator, error* The SearchIterator interface provides paginated access to search results. Call `Next()` repeatedly until `io.EOF` is returned.
 
-**EXCEPTIONS:**
+**PARAMETERS:**
+
+- **result** (&ast;*SearchIterator*) -
+
+    The &ast;SearchIterator value returned by SearchIterator().
+
+**ERROR HANDLING:**
 
 - **error**
 
-    Check `err != nil` for failure details.
+    The operation fails. The specified collection does not exist, the server does not support search iterators, invalid parameters, or the server is unreachable.
 
 ## Example\{#example}
+
+Demonstrates SearchIterator() usage.
 
 ```go
 import (
@@ -154,14 +168,12 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/milvus-io/milvus/client/v2/entity"
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/entity"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
-
-milvusAddr := "YOUR_CLUSTER_ENDPOINT"
 
 cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
 	Address: milvusAddr,
@@ -169,29 +181,26 @@ cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
 if err != nil {
 	// handle error
 }
-
 defer cli.Close(ctx)
 
-queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
+queryVector := entity.FloatVector([]float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835})
 
-iter, err := cli.SearchIterator(ctx, milvusclient.NewSearchIteratorOption(
-	"quick_setup",
-	entity.FloatVector(queryVector),
-).WithOutputFields("id", "color"))
+iter, err := cli.SearchIterator(ctx, milvusclient.NewSearchIteratorOption("quick_setup", queryVector).
+	WithBatchSize(500).
+	WithIteratorLimit(1000),
+)
 if err != nil {
 	// handle error
 }
 
 for {
-	resultSet, err := iter.Next(ctx)
+	rs, err := iter.Next(ctx)
 	if err == io.EOF {
 		break
 	}
 	if err != nil {
 		// handle error
 	}
-	for i := 0; i < resultSet.Len(); i++ {
-		fmt.Println(resultSet.IDs, resultSet.Scores)
-	}
+	fmt.Printf("Got %d results\n", rs.Len())
 }
 ```

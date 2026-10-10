@@ -1,25 +1,25 @@
 ---
-title: "DropPartition() | Go | v2"
+title: "DropPartition | Go | v2"
 slug: /go/go/v2-Partition-DropPartition
-sidebar_label: "DropPartition()"
+sidebar_label: "DropPartition"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation drops a partition and all its data permanently. | Go | v2"
 type: docx
-token: XnbJdLilXobGn1x1Uq6cvhKTnhf
+token: FYzrd2bUkosyWexZwKpcWp8znLC
 sidebar_position: 2
 keywords: 
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
   - zilliz
   - zilliz cloud
   - cloud
-  - DropPartition()
+  - DropPartition
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# DropPartition()
+# DropPartition
 
 This operation drops a partition and all its data permanently.
 
@@ -39,6 +39,8 @@ func (c *Client) DropPartition(ctx context.Context, opt DropPartitionOption, cal
 
 ## Request Syntax\{#request-syntax}
 
+Creates the request for DropPartition().
+
 ```go
 option := milvusclient.NewDropPartitionOption(collectionName, partitionName)
 
@@ -47,13 +49,19 @@ err := client.DropPartition(ctx, option)
 
 **PARAMETERS:**
 
-- **collectionName** (*string*)
+- **collectionName** (*string*) -
 
-The name of the target collection.
+    The name of the target collection.
 
-- **partitionName** (*string*)
+- **partitionName** (*string*) -
 
-The name of the partition to drop.
+    The name of the partition to drop.
+
+**BUILDER METHODS:**
+
+- `NewDropPartitionOption(collectionName string, partitionName string)`
+
+    Creates the request for DropPartition().
 
 **RETURN TYPE:**
 
@@ -63,19 +71,21 @@ The name of the partition to drop.
 
 Returns nil on success, or an error describing what went wrong.
 
-**EXCEPTIONS:**
+**ERROR HANDLING:**
 
 - **error**
 
-    Check `err != nil` for failure details.
+    The operation fails. Check `err != nil` for failure details.
 
 ## Example\{#example}
+
+Demonstrates DropPartition() usage.
 
 ```go
 import (
 	"context"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

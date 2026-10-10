@@ -1,25 +1,25 @@
 ---
-title: "Compact() | Go | v2"
+title: "Compact | Go | v2"
 slug: /go/go/v2-Management-Compact
-sidebar_label: "Compact()"
+sidebar_label: "Compact"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation triggers compaction to merge small data segments into larger ones for better performance. | Go | v2"
 type: docx
-token: VJKcdlljXofguixcGe5c2CwwnEf
+token: Tex5dSQ3FoaEWGxTo7xcMPISndc
 sidebar_position: 2
 keywords: 
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
   - zilliz
   - zilliz cloud
   - cloud
-  - Compact()
+  - Compact
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# Compact()
+# Compact
 
 This operation triggers compaction to merge small data segments into larger ones for better performance.
 
@@ -39,6 +39,8 @@ func (c *Client) Compact(ctx context.Context, option CompactOption, callOptions 
 
 ## Request Syntax\{#request-syntax}
 
+Creates the request for Compact().
+
 ```go
 option := milvusclient.NewCompactOption(collectionName)
 
@@ -47,9 +49,17 @@ result, err := client.Compact(ctx, option)
 
 **PARAMETERS:**
 
-- **collectionName** (*string*)
+- **collectionName** (*string*) -
+
+    **[REQUIRED]**
 
     The name of the target collection.
+
+**BUILDER METHODS:**
+
+- `NewCompactOption(collectionName string)`
+
+    Creates the request for Compact().
 
 **RETURN TYPE:**
 
@@ -59,20 +69,28 @@ result, err := client.Compact(ctx, option)
 
 The numeric result value. Returns an error if the operation fails.
 
-**EXCEPTIONS:**
+**PARAMETERS:**
+
+- **result** (*int64*) -
+
+    The int64 value returned by Compact().
+
+**ERROR HANDLING:**
 
 - **error**
 
-    Check `err != nil` for failure details.
+    The operation fails. Check `err != nil` for failure details.
 
 ## Example\{#example}
+
+Demonstrates Compact() usage.
 
 ```go
 import (
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

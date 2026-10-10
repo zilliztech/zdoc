@@ -4,13 +4,13 @@ slug: /go/go/v2-Snapshot-GetRestoreSnapshotState
 sidebar_label: "GetRestoreSnapshotState()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation queries the status and progress of an asynchronous restore snapshot job. | Go | v2"
 type: docx
 token: SxMgdp3ThoMYHaxkKtKc9EWvnZd
-sidebar_position: 4
+sidebar_position: 5
 keywords: 
   - what is vector db
   - what are vector databases
@@ -39,6 +39,8 @@ func (c *Client) GetRestoreSnapshotState(ctx context.Context, opt GetRestoreSnap
 
 ## Request Syntax\{#request-syntax}
 
+Creates the request for GetRestoreSnapshotState().
+
 ```go
 option := client.NewGetRestoreSnapshotStateOption(jobID)
 
@@ -47,9 +49,11 @@ result, err := client.GetRestoreSnapshotState(option)
 
 **PARAMETERS:**
 
-- **JobId** (*int64*) -
+- **jobID** (*int64*) -
 
-    The job ID returned by `RestoreSnapshot()`.
+    **[REQUIRED]**
+
+    The restore job ID.
 
 **RETURN TYPE:**
 
@@ -75,56 +79,27 @@ type RestoreSnapshotInfo struct {
 
 **PARAMETERS:**
 
-- **jobID** (*int64*)
+- **result** (*milvuspb.RestoreSnapshotInfo*) -
 
-    The restore job ID.
+    The RestoreSnapshotInfo object recording the details of the specified restore snapshot job.
 
-- **SnapshotName** (*string*) -
-
-    The snapshot name being restored.
-
-- **DbName** (*string*) -
-
-    The target database name.
-
-- **CollectionName** (*string*) -
-
-    The target collection name.
-
-- **State** (*RestoreSnapshotState*) -
-
-    Current state. Possible values: *RestoreSnapshotNone*, *RestoreSnapshotPending*, *RestoreSnapshotExecuting*, *RestoreSnapshotCompleted*, *RestoreSnapshotFailed*.
-
-- **Progress** (*int64*) -
-
-    Progress percentage (0-100).
-
-- **Reason** (*string*) -
-
-    Error reason if the job failed.
-
-- **StartTime** (*int64*) -
-
-    Start timestamp in milliseconds.
-
-- **TimeCost** (*int64*) -
-
-    Time cost in milliseconds.
-
-**EXCEPTIONS:**
+**ERROR HANDLING:**
 
 - **error**
 
-    Check err != nil for failure details.
+    The operation fails. Check err != nil for failure details.
 
 ## Example\{#example}
 
+Demonstrates GetRestoreSnapshotState() usage.
+
 ```go
 import (
+	"log"
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

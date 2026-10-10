@@ -1,25 +1,25 @@
 ---
-title: "GetCompactionState() | Go | v2"
+title: "GetCompactionState | Go | v2"
 slug: /go/go/v2-Management-GetCompactionState
-sidebar_label: "GetCompactionState()"
+sidebar_label: "GetCompactionState"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation returns the current state of a compaction operation. | Go | v2"
 type: docx
-token: LLYvdMBa6osxRQx90sHcm02Kn2b
+token: Uql8dQNxAoemIOxWgoLcORJenKe
 sidebar_position: 11
 keywords: 
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
   - zilliz
   - zilliz cloud
   - cloud
-  - GetCompactionState()
+  - GetCompactionState
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# GetCompactionState()
+# GetCompactionState
 
 This operation returns the current state of a compaction operation.
 
@@ -39,6 +39,8 @@ func (c *Client) GetCompactionState(ctx context.Context, option GetCompactionSta
 
 ## Request Syntax\{#request-syntax}
 
+Creates the request for GetCompactionState().
+
 ```go
 option := milvusclient.NewGetCompactionStateOption(compactionID)
 
@@ -47,9 +49,17 @@ result, err := client.GetCompactionState(ctx, option)
 
 **PARAMETERS:**
 
-- **compactionID** (*int64*)
+- **compactionID** (*int64*) -
 
-    The compaction i d value.
+    **[REQUIRED]**
+
+    The compaction ID value.
+
+**BUILDER METHODS:**
+
+- `NewGetCompactionStateOption(compactionID int64)`
+
+    Creates the request for GetCompactionState().
 
 **RETURN TYPE:**
 
@@ -59,20 +69,32 @@ result, err := client.GetCompactionState(ctx, option)
 
 The current state of the compaction operation. Returns an error if the operation fails.
 
-**EXCEPTIONS:**
+**PARAMETERS:**
+
+- **CompactionStateRunning** (*entity.CompactionState*) -
+
+    Compaction is currently executing (maps to the underlying CompactionState_Executing state).
+
+- **CompactionStateCompleted** (*entity.CompactionState*) -
+
+    Compaction has completed (maps to the underlying CompactionState_Completed state).
+
+**ERROR HANDLING:**
 
 - **error**
 
-    Check `err != nil` for failure details.
+    The operation fails. Check `err != nil` for failure details.
 
 ## Example\{#example}
+
+Demonstrates GetCompactionState() usage.
 
 ```go
 import (
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

@@ -1,25 +1,25 @@
 ---
-title: "RefreshLoad() | Go | v2"
+title: "RefreshLoad | Go | v2"
 slug: /go/go/v2-Management-RefreshLoad
-sidebar_label: "RefreshLoad()"
+sidebar_label: "RefreshLoad"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation reloads a collection to include newly inserted data in search results. | Go | v2"
 type: docx
-token: VtZWdaMz6o9iYrxcEaMcsnJin0e
-sidebar_position: 23
+token: Ava5d8VRjo9lM2x0fJccDqi5nHd
+sidebar_position: 22
 keywords: 
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
   - zilliz
   - zilliz cloud
   - cloud
-  - RefreshLoad()
+  - RefreshLoad
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# RefreshLoad()
+# RefreshLoad
 
 This operation reloads a collection to include newly inserted data in search results.
 
@@ -39,6 +39,8 @@ func (c *Client) RefreshLoad(ctx context.Context, option RefreshLoadOption, call
 
 ## Request Syntax\{#request-syntax}
 
+Creates the request for RefreshLoad().
+
 ```go
 option := milvusclient.NewRefreshLoadOption(collectionName)
 
@@ -47,9 +49,17 @@ result, err := client.RefreshLoad(ctx, option)
 
 **PARAMETERS:**
 
-- **collectionName** (*string*)
+- **collectionName** (*string*) -
+
+    **[REQUIRED]**
 
     The name of the target collection.
+
+**BUILDER METHODS:**
+
+- `NewRefreshLoadOption(collectionName string)`
+
+    Creates the request for RefreshLoad().
 
 **RETURN TYPE:**
 
@@ -59,19 +69,27 @@ result, err := client.RefreshLoad(ctx, option)
 
 A LoadTask that can be used to wait for the load operation to complete. Returns an error if the operation fails.
 
-**EXCEPTIONS:**
+**METHODS:**
+
+- **Await** (*error*) -
+
+    Blocks until the refreshed load is confirmed complete, polling the server at the task's check interval until the refresh progress reports 100 or the context is cancelled.
+
+**ERROR HANDLING:**
 
 - **error**
 
-    Check `err != nil` for failure details.
+    The operation fails. Check `err != nil` for failure details.
 
 ## Example\{#example}
+
+Demonstrates RefreshLoad() usage.
 
 ```go
 import (
 	"context"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

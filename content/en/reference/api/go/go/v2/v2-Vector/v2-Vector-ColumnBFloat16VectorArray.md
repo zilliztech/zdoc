@@ -4,13 +4,13 @@ slug: /go/go/v2-Vector-ColumnBFloat16VectorArray
 sidebar_label: "ColumnBFloat16VectorArray"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "Represents an ArrayOfVector column whose rows contain BFloat16 values with a shared dimension. | Go | v2"
+description: "A ColumnBFloat16VectorArray instance represents an ArrayOfVector bfloat16-vector column whose rows contain bfloat16-vector values with a shared dimension. Nullable semantics are enforced in v3.0.0 nullability flags and valid-value bookkeeping are real operations instead of stubs. | Go | v2"
 type: docx
 token: OG2HdyPMzoO7y7xob6HcX1V0n7b
-sidebar_position: 2
+sidebar_position: 1
 keywords: 
   - LLMs
   - Machine Learning
@@ -31,34 +31,42 @@ import Admonition from '@theme/Admonition';
 
 # ColumnBFloat16VectorArray
 
-Represents an ArrayOfVector column whose rows contain BFloat16 values with a shared dimension.
+A ColumnBFloat16VectorArray instance represents an ArrayOfVector bfloat16-vector column whose rows contain bfloat16-vector values with a shared dimension. Nullable semantics are enforced in v3.0.0: nullability flags and valid-value bookkeeping are real operations instead of stubs.
 
 ```go
 type ColumnBFloat16VectorArray struct {
 }
 ```
 
-## Request Syntax\{#request-syntax}
-
-Creates a ColumnBFloat16VectorArray from row-oriented vector-array data.
-
-```go
-column.NewColumnBFloat16VectorArray(fieldName string, dim int, data [][][]byte) *ColumnBFloat16VectorArray
-```
-
-**METHODS:**
+**BUILDER METHODS:**
 
 - `AppendValue(value any) error`
 
     This appends one row supplied as []entity.BFloat16Vector or [][]byte.
 
-**RETURN TYPE:**
+- `IsNull(idx int) (bool, error)`
 
-*ColumnBFloat16VectorArray*
+    This reports whether the row at the given index is null.
 
-**RETURNS:**
+- `Nullable() bool`
 
-Column type for ArrayOfVector bfloat16-vector data in struct array fields.
+    This reports whether the column accepts null values.
+
+- `SetNullable(nullable bool)`
+
+    This sets whether the column accepts null values.
+
+- `ValidCount() int`
+
+    This returns the number of non-null rows.
+
+- `ValidateNullable() error`
+
+    This verifies the internal nullable bookkeeping and returns an error on mismatch.
+
+**METHODS:**
+
+- `Slice(start, end int) Column`
 
 ## Example\{#example}
 

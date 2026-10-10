@@ -1,25 +1,25 @@
 ---
-title: "HasPartition() | Go | v2"
+title: "HasPartition | Go | v2"
 slug: /go/go/v2-Partition-HasPartition
-sidebar_label: "HasPartition()"
+sidebar_label: "HasPartition"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation checks whether a partition exists in a collection. | Go | v2"
 type: docx
-token: Cased8tfhoZ25Sx4VALcy4gZnbh
+token: Qn1ddXN3ho1R9ixA2qRcr0JanJb
 sidebar_position: 4
 keywords: 
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
   - zilliz
   - zilliz cloud
   - cloud
-  - HasPartition()
+  - HasPartition
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# HasPartition()
+# HasPartition
 
 This operation checks whether a partition exists in a collection.
 
@@ -39,6 +39,8 @@ func (c *Client) HasPartition(ctx context.Context, opt HasPartitionOption, callO
 
 ## Request Syntax\{#request-syntax}
 
+Creates the request for HasPartition().
+
 ```go
 option := milvusclient.NewHasPartitionOption(collectionName, partitionName)
 
@@ -47,13 +49,19 @@ result, err := client.HasPartition(ctx, option)
 
 **PARAMETERS:**
 
-- **collectionName** (*string*)
+- **collectionName** (*string*) -
 
-The name of the target collection.
+    The name of the target collection.
 
-- **partitionName** (*string*)
+- **partitionName** (*string*) -
 
-The name of the partition to check.
+    The name of the partition to check.
+
+**BUILDER METHODS:**
+
+- `NewHasPartitionOption(collectionName string, partitionName string)`
+
+    Creates the request for HasPartition().
 
 **RETURN TYPE:**
 
@@ -63,20 +71,28 @@ The name of the partition to check.
 
 A boolean indicating whether the resource exists. Returns an error if the operation fails.
 
-**EXCEPTIONS:**
+**PARAMETERS:**
+
+- **result** (*has bool*) -
+
+    The has bool value returned by HasPartition().
+
+**ERROR HANDLING:**
 
 - **error**
 
-    Check `err != nil` for failure details.
+    The operation fails. Check `err != nil` for failure details.
 
 ## Example\{#example}
+
+Demonstrates HasPartition() usage.
 
 ```go
 import (
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

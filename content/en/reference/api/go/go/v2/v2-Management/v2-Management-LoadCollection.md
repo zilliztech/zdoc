@@ -1,25 +1,25 @@
 ---
-title: "LoadCollection() | Go | v2"
+title: "LoadCollection | Go | v2"
 slug: /go/go/v2-Management-LoadCollection
-sidebar_label: "LoadCollection()"
+sidebar_label: "LoadCollection"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation loads a collection into memory for search and query operations. | Go | v2"
 type: docx
-token: B5w2dyWunogsmAxlJfQcQp8qnRg
-sidebar_position: 18
+token: RGDUdquTToKBJJxdGwlcltJYncd
+sidebar_position: 17
 keywords: 
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
   - zilliz
   - zilliz cloud
   - cloud
-  - LoadCollection()
+  - LoadCollection
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# LoadCollection()
+# LoadCollection
 
 This operation loads a collection into memory for search and query operations.
 
@@ -38,6 +38,8 @@ func (c *Client) LoadCollection(ctx context.Context, option LoadCollectionOption
 ```
 
 ## Request Syntax\{#request-syntax}
+
+Creates the request for LoadCollection().
 
 ```go
 option := milvusclient.NewLoadCollectionOption(collectionName).
@@ -52,11 +54,17 @@ result, err := client.LoadCollection(ctx, option)
 
 **PARAMETERS:**
 
-- **collectionName** (*string*)
+- **collectionName** (*string*) -
+
+    **[REQUIRED]**
 
     The name of the target collection.
 
-**OPTION METHODS:**
+**BUILDER METHODS:**
+
+- `NewLoadCollectionOption(collectionName string)`
+
+    Creates the request for LoadCollection().
 
 - `WithReplica(num int)`
 
@@ -80,26 +88,34 @@ result, err := client.LoadCollection(ctx, option)
 
 **RETURN TYPE:**
 
-*[LoadTask](./v2-Management-LoadTask), error*
+*LoadTask, error*
 
 **RETURNS:**
 
 A LoadTask that can be used to wait for the load operation to complete. Returns an error if the operation fails.
 
-**EXCEPTIONS:**
+**METHODS:**
+
+- **Await** (*error*) -
+
+    Blocks until the load is confirmed complete, polling the server at the task's check interval until the collection or partitions report fully loaded or the context is cancelled.
+
+**ERROR HANDLING:**
 
 - **error**
 
-    Check `err != nil` for failure details.
+    The operation fails. Check `err != nil` for failure details.
 
 ## Example\{#example}
+
+Demonstrates LoadCollection() usage.
 
 ```go
 import (
 	"context"
 	"log"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

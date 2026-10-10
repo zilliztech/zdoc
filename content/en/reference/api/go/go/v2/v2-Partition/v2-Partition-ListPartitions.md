@@ -1,25 +1,25 @@
 ---
-title: "ListPartitions() | Go | v2"
+title: "ListPartitions | Go | v2"
 slug: /go/go/v2-Partition-ListPartitions
-sidebar_label: "ListPartitions()"
+sidebar_label: "ListPartitions"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation lists all partitions in a collection. | Go | v2"
 type: docx
-token: ZNvXd7eldozvRHxpHOcc5CPAnug
+token: YMkedZlN9ozHlVx28ERcGYzEn6f
 sidebar_position: 5
 keywords: 
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
-  - ListPartitions()
+  - ListPartitions
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# ListPartitions()
+# ListPartitions
 
 This operation lists all partitions in a collection.
 
@@ -39,6 +39,8 @@ func (c *Client) ListPartitions(ctx context.Context, opt ListPartitionsOption, c
 
 ## Request Syntax\{#request-syntax}
 
+Creates the request for ListPartitions().
+
 ```go
 option := milvusclient.NewListPartitionOption(collectionName)
 
@@ -47,9 +49,15 @@ result, err := client.ListPartitions(ctx, option)
 
 **PARAMETERS:**
 
-- **collectionName** (*string*)
+- **collectionName** (*string*) -
 
-The name of the target collection.
+    The name of the target collection.
+
+**BUILDER METHODS:**
+
+- `NewListPartitionOption(collectionName string)`
+
+    Creates the request for ListPartitions().
 
 **RETURN TYPE:**
 
@@ -59,20 +67,28 @@ The name of the target collection.
 
 A list of names. Returns an error if the operation fails.
 
-**EXCEPTIONS:**
+**PARAMETERS:**
+
+- **result** (*partitionNames []string*) -
+
+    The partitionNames []string value returned by ListPartitions().
+
+**ERROR HANDLING:**
 
 - **error**
 
-    Check `err != nil` for failure details.
+    The operation fails. Check `err != nil` for failure details.
 
 ## Example\{#example}
+
+Demonstrates ListPartitions() usage.
 
 ```go
 import (
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

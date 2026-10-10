@@ -4,7 +4,7 @@ slug: /go/go/v2-Snapshot-DescribeSnapshot
 sidebar_label: "DescribeSnapshot()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation retrieves detailed metadata about a specific snapshot, including the source collection, partition names, creation timestamp, and storage location. | Go | v2"
@@ -39,6 +39,8 @@ func (c *Client) DescribeSnapshot(ctx context.Context, opt DescribeSnapshotOptio
 
 ## Request Syntax\{#request-syntax}
 
+Creates the request for DescribeSnapshot().
+
 ```go
 option := client.NewDescribeSnapshotOption(snapshotName, collectionName).
     WithDbName(dbName string)
@@ -48,19 +50,21 @@ result, err := client.DescribeSnapshot(option)
 
 **PARAMETERS:**
 
-- **snapshotName** (*string*) - 
+- **name** (*string*) -
+
+    **[REQUIRED]**
 
     The name of the snapshot to describe.
 
-- **collectionName** (*string*) - 
+- **collectionName** (*string*) -
+
+    **[REQUIRED]**
 
     The name of the collection the snapshot belongs to.
 
 **BUILDER METHODS:**
 
 - `WithDbName(dbName string)`
-
-    This sets the database to which the specified collection belongs.
 
 **RETURN TYPE:**
 
@@ -81,46 +85,29 @@ type DescribeSnapshotResponse struct {
 }
 ```
 
-**BUILDER METHODS:**
+**PARAMETERS:**
 
-- **Name** (*string*) -
+- **result** (*milvuspb.DescribeSnapshotResponse*) -
 
-    The snapshot name.
+    The DescribeSnapshotResponse object containing detailed snapshot metadata.
 
-- **Description** (*string*) -
-
-    The snapshot description.
-
-- **CollectionName** (*string*) -
-
-    The source collection name.
-
-- **CreateTs** (*int64*) -
-
-    Creation timestamp in milliseconds.
-
-- **S3Location** (*string*) -
-
-    S3 storage location of the snapshot data.
-
-- **PartitionNames** (*[]string*) -
-
-    List of partition names included in the snapshot.
-
-**EXCEPTIONS:**
+**ERROR HANDLING:**
 
 - **error**
 
-    Check err != nil for failure details.
+    The operation fails. Check err != nil for failure details.
 
 ## Example\{#example}
 
+Demonstrates DescribeSnapshot() usage.
+
 ```go
 import (
+	"log"
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

@@ -4,13 +4,13 @@ slug: /go/go/v2-Vector-Search
 sidebar_label: "Search()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation performs an approximate nearest neighbor (ANN) search on a specified collection. You can use `NewSearchOption` for vector-based search or `NewSearchByIDsOption` to search by primary key IDs. | Go | v2"
 type: docx
 token: YKm9dpXcVoy277xHVT2cIymfnRj
-sidebar_position: 17
+sidebar_position: 16
 keywords: 
   - Vector index
   - vector database open source
@@ -39,7 +39,7 @@ func (c *Client) Search(ctx context.Context, option SearchOption, callOptions ..
 
 ## Request Syntax\{#request-syntax}
 
-**Vector search:**
+Creates the request for Search().
 
 ```go
 option := milvusclient.NewSearchOption(collectionName, limit, vectors).
@@ -59,11 +59,6 @@ option := milvusclient.NewSearchOption(collectionName, limit, vectors).
     WithFunctionReranker(fr)
 
 resultSets, err := cli.Search(ctx, option)
-```
-
-**Search by primary key IDs:**
-
-```go
 option := milvusclient.NewSearchByIDsOption(collectionName, limit, ids).
     WithPartitions(partitionNames).
     WithFilter(expr).
@@ -74,59 +69,101 @@ resultSets, err := cli.Search(ctx, option)
 
 **PARAMETERS:**
 
-- **option** (*SearchOption*) -
+- **collectionName** (*string*) -
 
-    The search options. Use `NewSearchOption` for vector search or `NewSearchByIDsOption` for PK-based search.
+    **[REQUIRED]**
+
+    The name of the target collection.
+
+- **limit** (*int*) -
+
+    **[REQUIRED]**
+
+    The maximum number of results to return after reranking.
+
+- **ids** (*column.Column*) -
+
+    **[REQUIRED]**
+
+    The vectors for Search.
 
 **BUILDER METHODS:**
 
-- `NewSearchOption(collectionName string, limit int, vectors []entity.Vector)`<br/>
-  This creates a search option for vector-based ANN search.
+- `NewSearchOption(collectionName string, limit int, vectors []entity.Vector)`
 
-- `NewSearchByIDsOption(collectionName string, limit int, ids column.Column)`<br/>
-  This creates a search option to find entities by their primary key IDs.
+    This creates a search option for vector-based ANN search.
 
-- `WithPartitions(partitionNames ...string)`<br/>
-  This restricts the search to the specified partition names.
+- `NewSearchByIDsOption(collectionName string, limit int, ids column.Column)`
 
-- `WithFilter(expr string)`<br/>
-  This applies a boolean expression filter to the search results.
+    This creates a search option to find entities by their primary key IDs.
 
-- `WithTemplateParam(key string, val any)`<br/>
-  This sets a template parameter for expression evaluation.
+- `WithPartitions(partitionNames ...string)`
 
-- `WithOffset(offset int)`<br/>
-  This sets the number of results to skip before returning matches.
+    This restricts the search to the specified partition names.
 
-- `WithOutputFields(fieldNames ...string)`<br/>
-  This specifies which fields to return in the result sets.
+- `WithNamespace(namespace string)`
 
-- `WithConsistencyLevel(consistencyLevel entity.ConsistencyLevel)`<br/>
-  This sets the consistency level for the search.
+    This scopes the search to a collection namespace.
 
-- `WithANNSField(annsField string)`<br/>
-  This specifies the vector field to search on when a collection has multiple vector fields.
+- `WithFilter(expr string)`
 
-- `WithGroupByField(groupByField string)`<br/>
-  This groups search results by the specified field.
+    This applies a boolean expression filter to the search results.
 
-- `WithGroupSize(groupSize int)`<br/>
-  This sets the number of results to return per group when grouping is enabled.
+- `WithTemplateParam(key string, val any)`
 
-- `WithStrictGroupSize(strictGroupSize bool)`<br/>
-  This enforces strict group size limits.
+    This sets a template parameter for expression evaluation.
 
-- `WithIgnoreGrowing(ignoreGrowing bool)`<br/>
-  This ignores growing segments during the search.
+- `WithOffset(offset int)`
 
-- `WithAnnParam(ap index.AnnParam)`<br/>
-  This sets the approximate nearest neighbor search parameters (e.g., nprobe, ef).
+    This sets the number of results to skip before returning matches.
 
-- `WithSearchParam(key, value string)`<br/>
-  This sets a custom search parameter key-value pair.
+- `WithOutputFields(fieldNames ...string)`
 
-- `WithFunctionReranker(fr *entity.Function)`<br/>
-  This applies a function-based reranker to the search results.
+    This specifies which fields to return in the result sets.
+
+- `WithConsistencyLevel(consistencyLevel entity.ConsistencyLevel)`
+
+    This sets the consistency level for the search.
+
+- `WithANNSField(annsField string)`
+
+    This specifies the vector field to search on when a collection has multiple vector fields.
+
+- `WithGroupByField(groupByField string)`
+
+    This groups search results by the specified field.
+
+- `WithGroupSize(groupSize int)`
+
+    This sets the number of results to return per group when grouping is enabled.
+
+- `WithStrictGroupSize(strictGroupSize bool)`
+
+    This enforces strict group size limits.
+
+- `WithIgnoreGrowing(ignoreGrowing bool)`
+
+    This ignores growing segments during the search.
+
+- `WithAnnParam(ap index.AnnParam)`
+
+    This sets the approximate nearest neighbor search parameters (e.g., nprobe, ef).
+
+- `WithSearchParam(key, value string)`
+
+    This sets a custom search parameter key-value pair.
+
+- `WithFunctionReranker(fr *entity.Function)`
+
+    This applies a function-based reranker to the search results.
+
+- `WithFunctionScore(fs *entity.FunctionScore)`
+
+    This sets the search [FunctionScore](./v2-Collection-FunctionScore) (functions plus score options such as boost mode).
+
+- `WithSearchAggregation(agg *SearchAggregation)`
+
+    This sets a [SearchAggregation(https://zilliverse.feishu.cn/docx/MSU5d8sIDonFYFxLv0Cc88dvnqL) spec for the search. Mutually exclusive with group-by and offset settings.
 
 **RETURN TYPE:**
 
@@ -136,21 +173,70 @@ resultSets, err := cli.Search(ctx, option)
 
 The search or query results containing matched entities with scores and fields. Returns an error if the operation fails.
 
-**EXCEPTIONS:**
+```go
+type ResultSet struct {
+    ResultCount  int
+    GroupByValue column.Column
+    IDs          column.Column
+    Fields       DataSet
+    AggregationBuckets []AggregationBucket
+    Scores       []float32
+    Recall       float32
+    Err          error
+}
+```
+
+**PARAMETERS:**
+
+- **ResultCount** (*int*) -
+
+    The number of returned entries.
+
+- **GroupByValue** (*column.Column*) -
+
+    The group-by column value when the search/query used grouping.
+
+- **IDs** (*column.Column*) -
+
+    The primary-key column of the matched entities.
+
+- **Fields** (*DataSet*) -
+
+    The output field columns.
+
+- **AggregationBuckets** (*[]AggregationBucket*) -
+
+    Search aggregation results for this query, when an aggregation was requested.
+
+- **Scores** (*[]float32*) -
+
+    The distance to the target vector for each match.
+
+- **Recall** (*float32*) -
+
+    The estimated recall of the search result (estimated by Zilliz Cloud).
+
+- **Err** (*error*) -
+
+    The search error, if any.
+
+**ERROR HANDLING:**
 
 - **error**
 
-    Check err != nil for failure details.
+    The operation fails. Check err != nil for failure details.
 
 ## Example\{#example}
+
+Demonstrates Search() usage.
 
 ```go
 import (
 	"context"
 	"log"
 
-	"github.com/milvus-io/milvus/client/v2/entity"
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/entity"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

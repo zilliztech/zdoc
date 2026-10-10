@@ -1,25 +1,25 @@
 ---
-title: "RunAnalyzer() | Go | v2"
+title: "RunAnalyzer | Go | v2"
 slug: /go/go/v2-Vector-RunAnalyzer
-sidebar_label: "RunAnalyzer()"
+sidebar_label: "RunAnalyzer"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation runs a text analyzer on input text and returns the tokenized output. | Go | v2"
 type: docx
-token: CnuHdninQoBoJXxWe2pczq7snGd
-sidebar_position: 16
+token: FMtsdyToloE8zxx6CR2cSycTndd
+sidebar_position: 15
 keywords: 
+  - Zilliz
+  - milvus vector database
+  - milvus db
   - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
   - zilliz
   - zilliz cloud
   - cloud
-  - RunAnalyzer()
+  - RunAnalyzer
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# RunAnalyzer()
+# RunAnalyzer
 
 This operation runs a text analyzer on input text and returns the tokenized output.
 
@@ -38,6 +38,8 @@ func (c *Client) RunAnalyzer(ctx context.Context, option RunAnalyzerOption, call
 ```
 
 ## Request Syntax\{#request-syntax}
+
+Creates the request for RunAnalyzer().
 
 ```go
 option := milvusclient.NewRunAnalyzerOption(text).
@@ -53,11 +55,17 @@ result, err := client.RunAnalyzer(ctx, option)
 
 **PARAMETERS:**
 
-- **text** (*...string*)
+- **text** (*...string*) -
+
+    **[REQUIRED]**
 
     The text.
 
-**OPTION METHODS:**
+**BUILDER METHODS:**
+
+- `NewRunAnalyzerOption(text ...string)`
+
+    Creates the request for RunAnalyzer().
 
 - `WithAnalyzerParamsStr(params string)`
 
@@ -91,22 +99,56 @@ result, err := client.RunAnalyzer(ctx, option)
 
 The analyzer output showing how the input text is tokenized. Returns an error if the operation fails.
 
-**EXCEPTIONS:**
+```go
+type AnalyzerResult struct {
+    Tokens []*Token
+}
+```
+
+**PARAMETERS:**
+
+- **Text** (*string*) -
+
+    The text of the token.
+
+- **StartOffset** (*int64*) -
+
+    The start offset of the token in the input text.
+
+- **EndOffset** (*int64*) -
+
+    The end offset of the token in the input text.
+
+- **Position** (*int64*) -
+
+    The position of the token.
+
+- **PositionLength** (*int64*) -
+
+    The length of the token position.
+
+- **Hash** (*uint32*) -
+
+    The hash of the token.
+
+**ERROR HANDLING:**
 
 - **error**
 
-    Check `err != nil` for failure details.
+    The operation fails. Check `err != nil` for failure details.
 
 ## Example\{#example}
+
+Demonstrates RunAnalyzer() usage.
 
 ```go
 import (
 	"context"
 	"log"
 
-	"github.com/milvus-io/milvus/client/v2/entity"
-	"github.com/milvus-io/milvus/client/v2/index"
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/entity"
+	"github.com/milvus-io/milvus/client/v3/index"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

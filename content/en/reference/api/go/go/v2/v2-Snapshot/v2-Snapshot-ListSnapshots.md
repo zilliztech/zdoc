@@ -4,13 +4,13 @@ slug: /go/go/v2-Snapshot-ListSnapshots
 sidebar_label: "ListSnapshots()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation lists all snapshot names for a specified collection. | Go | v2"
 type: docx
 token: Bs3OdQ56zohZEbx9KaHcInM4nHh
-sidebar_position: 6
+sidebar_position: 7
 keywords: 
   - Natural language search
   - Similarity Search
@@ -39,6 +39,8 @@ func (c *Client) ListSnapshots(ctx context.Context, opt ListSnapshotsOption, cal
 
 ## Request Syntax\{#request-syntax}
 
+Creates the request for ListSnapshots().
+
 ```go
 option := client.NewListSnapshotsOption(collectionName).
     WithDbName(dbName string)
@@ -49,6 +51,8 @@ result, err := client.ListSnapshots(option)
 **PARAMETERS:**
 
 - **collectionName** (*string*) -
+
+    **[REQUIRED]**
 
     The name of the target collection.
 
@@ -66,20 +70,29 @@ result, err := client.ListSnapshots(option)
 
 A list of snapshot names. Returns an error if the operation fails.
 
-**EXCEPTIONS:**
+**PARAMETERS:**
+
+- **result** (*[]string*) -
+
+    The []string value returned by ListSnapshots().
+
+**ERROR HANDLING:**
 
 - **error**
 
-    Check err != nil for failure details.
+    The operation fails. Check err != nil for failure details.
 
 ## Example\{#example}
 
+Demonstrates ListSnapshots() usage.
+
 ```go
 import (
+	"log"
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

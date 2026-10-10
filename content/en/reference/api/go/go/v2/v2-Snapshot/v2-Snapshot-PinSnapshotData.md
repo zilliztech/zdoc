@@ -4,13 +4,13 @@ slug: /go/go/v2-Snapshot-PinSnapshotData
 sidebar_label: "PinSnapshotData()"
 beta: false
 added_since: v3.0.0
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation pins snapshot data for a collection, preventing it from being garbage collected. Returns a pin ID that can be used to unpin the data later. | Go | v2"
 type: docx
 token: HmEkdVsmRoc2TbxEjtkcKChfnEf
-sidebar_position: 7
+sidebar_position: 8
 keywords: 
   - milvus db
   - milvus vector db
@@ -39,6 +39,8 @@ func (c *Client) PinSnapshotData(ctx context.Context, opt PinSnapshotDataOption,
 
 ## Request Syntax\{#request-syntax}
 
+Creates the request for PinSnapshotData().
+
 ```go
 option := milvusclient.NewPinSnapshotDataOption("my_snapshot", "my_collection").
     WithDbName("my_db").
@@ -49,20 +51,31 @@ pinID, err := cli.PinSnapshotData(ctx, option)
 
 **PARAMETERS:**
 
-- **opt** (*PinSnapshotDataOption*) -
+- **name** (*string*) -
 
-    The options for pinning snapshot data.
+    **[REQUIRED]**
+
+    The name of the collection to create.
+
+- **collectionName** (*string*) -
+
+    **[REQUIRED]**
+
+    The name of the target collection.
 
 **BUILDER METHODS:**
 
-- `NewPinSnapshotDataOption(name string, collectionName string)`<br/>
-  This creates an option to pin snapshot data for the specified collection.
+- `NewPinSnapshotDataOption(name string, collectionName string)`
 
-- `WithDbName(dbName string)`<br/>
-  This sets the database name for the collection.
+    This creates an option to pin snapshot data for the specified collection.
 
-- `WithTTL(ttlSeconds int64)`<br/>
-  This sets the time-to-live for the pin in seconds.
+- `WithDbName(dbName string)`
+
+    This sets the database name for the collection.
+
+- `WithTTL(ttlSeconds int64)`
+
+    This sets the time-to-live for the pin in seconds.
 
 **RETURN TYPE:**
 
@@ -72,13 +85,21 @@ pinID, err := cli.PinSnapshotData(ctx, option)
 
 The pin ID on success, or an error if the operation fails.
 
-**EXCEPTIONS:**
+**PARAMETERS:**
+
+- **result** (*int64*) -
+
+    The int64 value returned by PinSnapshotData().
+
+**ERROR HANDLING:**
 
 - **error**
 
-    Check err != nil for failure details.
+    The operation fails. Check err != nil for failure details.
 
 ## Example\{#example}
+
+Demonstrates PinSnapshotData() usage.
 
 ```go
 import (
@@ -86,7 +107,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

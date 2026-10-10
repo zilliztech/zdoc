@@ -4,12 +4,12 @@ slug: /go/go/v2-DataImport-GetImportProgressResponse
 sidebar_label: "GetImportProgressResponse"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "This class represents the response returned by the `GetImportProgress()` package function. It embeds `ResponseBase` and exposes the detailed progress payload through `ImportProgressData`, which includes both overall job statistics and a per-file `Details` slice. | Go | v2"
+description: "A GetImportProgressResponse instance is the response returned by the `GetImportProgress()` package function. It embeds `ResponseBase` and exposes the detailed progress payload through `ImportProgressData`, which includes both overall job statistics and a per-file `Details` slice. | Go | v2"
 type: docx
-token: ZasGdw9Szo9TQbxzHlYcLh1Rnyf
+token: UATqdiZsKo3HahxZYhQcZp6GnKg
 sidebar_position: 6
 keywords: 
   - cheap vector database
@@ -31,78 +31,94 @@ import Admonition from '@theme/Admonition';
 
 # GetImportProgressResponse
 
-This class represents the response returned by the `GetImportProgress()` package function. It embeds `ResponseBase` and exposes the detailed progress payload through `ImportProgressData`, which includes both overall job statistics and a per-file `Details` slice.
+A GetImportProgressResponse instance is the response returned by the `GetImportProgress()` package function. It embeds `ResponseBase` and exposes the detailed progress payload through `ImportProgressData`, which includes both overall job statistics and a per-file `Details` slice.
 
 ```go
 type GetImportProgressResponse struct {
     ResponseBase
-    Data *ImportProgressData `json:"data"`
-}
-
-type ImportProgressData struct {
-    CollectionName string                  `json:"collectionName"`
-    JobID          string                  `json:"jobId"`
-    CompleteTime   string                  `json:"completeTime"`
-    State          string                  `json:"state"`
-    Progress       int64                   `json:"progress"`
-    ImportedRows   int64                   `json:"importedRows"`
-    TotalRows      int64                   `json:"totalRows"`
-    Reason         string                  `json:"reason"`
-    FileSize       int64                   `json:"fileSize"`
-    Details        []*ImportProgressDetail `json:"details"`
-}
-
-type ImportProgressDetail struct {
-    FileName     string `json:"fileName"`
-    FileSize     int64  `json:"fileSize"`
-    Progress     int64  `json:"progress"`
-    CompleteTime string `json:"completeTime"`
-    State        string `json:"state"`
-    ImportedRows int64  `json:"importedRows"`
-    TotalRows    int64  `json:"totalRows"`
+    Data *ImportProgressData
 }
 ```
 
 **FIELDS:**
 
-- **Status** (*int*) -<br/>
-  Inherited from `ResponseBase`. A value of `0` indicates success.
+- **Status** (*int*) -
 
-- **Message** (*string*) -<br/>
-  Inherited from `ResponseBase`. Error description when `Status` is non-zero.
+    Inherited from `ResponseBase`. A value of `0` indicates success.
 
-- **Data** (&lt;em>\</em>ImportProgressData&ast;) -<br/>
-  The progress payload for the requested job.
+- **Message** (*string*) -
 
-**ImportProgressData fields:**
+    Inherited from `ResponseBase`. Error description when `Status` is non-zero.
 
-- **CollectionName** (*string*) -<br/>
-  The collection the job targets.
+- **Data** (&ast;*ImportProgressData*) -
 
-- **JobID** (*string*) -<br/>
-  The unique identifier of the import job.
+    The progress payload for the requested job. **ImportProgressData fields:**.
 
-- **State** (*string*) -<br/>
-  The current job state. Common values include `Pending`, `Importing`, `Completed`, and `Failed`.
+- **CollectionName** (*string*) -
 
-- **Progress** (*int64*) -<br/>
-  The overall completion percentage in the range `[0, 100]`.
+    The collection the job targets.
 
-- **ImportedRows** (*int64*) -<br/>
-  The number of rows already imported into the collection.
+- **JobID** (*string*) -
 
-- **TotalRows** (*int64*) -<br/>
-  The total number of rows expected from all source files.
+    The unique identifier of the import job.
 
-- **FileSize** (*int64*) -<br/>
-  The aggregate size in bytes of all source files.
+- **State** (*string*) -
 
-- **CompleteTime** (*string*) -<br/>
-  The job completion timestamp; empty until the job reaches a terminal state.
+    The current job state. Common values include `Pending`, `Importing`, `Completed`, and `Failed`.
 
-- **Reason** (*string*) -<br/>
-  Failure reason when `State == "Failed"`; empty otherwise.
+- **Progress** (*int64*) -
 
-- **Details** (*[]\ImportProgressDetail*) -<br/>
-  Per-file progress entries with the same shape as the parent fields, scoped to one source file each.
+    The overall completion percentage in the range `[0, 100]`.
 
+- **ImportedRows** (*int64*) -
+
+    The number of rows already imported into the collection.
+
+- **TotalRows** (*int64*) -
+
+    The total number of rows expected from all source files.
+
+- **FileSize** (*int64*) -
+
+    The aggregate size in bytes of all source files.
+
+- **CompleteTime** (*string*) -
+
+    The job completion timestamp; empty until the job reaches a terminal state.
+
+- **Reason** (*string*) -
+
+    Failure reason when `State == "Failed"`; empty otherwise.
+
+- **Details** (*[]\ImportProgressDetail*) -
+
+    Per-file progress entries with the same shape as the parent fields, scoped to one source file each.
+
+## Example\{#example}
+
+Demonstrates GetImportProgressResponse usage.
+
+```go
+import (
+	"context"
+
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: "YOUR_CLUSTER_ENDPOINT",
+})
+if err != nil {
+	// handle error
+}
+defer cli.Close(ctx)
+
+progress, err := milvusclient.GetImportProgress(ctx, milvusclient.NewGetImportProgressOption("<jobId>"))
+if err != nil {
+	// handle error
+}
+fmt.Println(progress.Data.State, progress.Data.ImportedRows, progress.Data.TotalRows)
+```

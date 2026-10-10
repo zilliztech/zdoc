@@ -4,7 +4,7 @@ slug: /go/go/v2-Snapshot-DropSnapshot
 sidebar_label: "DropSnapshot()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation permanently deletes a snapshot. Once dropped, the snapshot data cannot be recovered. | Go | v2"
@@ -39,6 +39,8 @@ func (c *Client) DropSnapshot(ctx context.Context, opt DropSnapshotOption, callO
 
 ## Request Syntax\{#request-syntax}
 
+Creates the request for DropSnapshot().
+
 ```go
 option := client.NewDropSnapshotOption(snapshotName, collectionName).
     WithDbName(dbName string)
@@ -48,11 +50,15 @@ err := client.DropSnapshot(option)
 
 **PARAMETERS:**
 
-- **snapshotName** (*string*) - 
+- **name** (*string*) -
+
+    **[REQUIRED]**
 
     The name of the snapshot to drop.
 
-- **collectionName** (*string*) - 
+- **collectionName** (*string*) -
+
+    **[REQUIRED]**
 
     The name of the collection the snapshot belongs to.
 
@@ -70,20 +76,23 @@ err := client.DropSnapshot(option)
 
 Returns nil on success. Returns an error if the snapshot does not exist or the operation fails.
 
-**EXCEPTIONS:**
+**ERROR HANDLING:**
 
 - **error**
 
-    Check err != nil for failure details.
+    The operation fails. Check err != nil for failure details.
 
 ## Example\{#example}
 
+Demonstrates DropSnapshot() usage.
+
 ```go
 import (
+	"log"
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

@@ -1,25 +1,25 @@
 ---
-title: "CreateIndex() | Go | v2"
+title: "CreateIndex | Go | v2"
 slug: /go/go/v2-Management-CreateIndex
-sidebar_label: "CreateIndex()"
+sidebar_label: "CreateIndex"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "This operation creates an index on a specified field to accelerate vector similarity search or scalar filtering. | Go | v2"
+description: "This operation creates an index on a specified field of a collection and returns a task to track its progress. | Go | v2"
 type: docx
-token: KLrMdFtVko5QGwxyIs9ckmtUn0c
+token: Rrx1dlCBVocbLIxGCBycLTScnUg
 sidebar_position: 4
 keywords: 
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
   - zilliz
   - zilliz cloud
   - cloud
-  - CreateIndex()
+  - CreateIndex
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,9 +29,9 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# CreateIndex()
+# CreateIndex
 
-This operation creates an index on a specified field to accelerate vector similarity search or scalar filtering.
+This operation creates an index on a specified field of a collection and returns a task to track its progress.
 
 ```go
 func (c *Client) CreateIndex(ctx context.Context, option CreateIndexOption, callOptions ...grpc.CallOption) (*CreateIndexTask, error)
@@ -39,76 +39,102 @@ func (c *Client) CreateIndex(ctx context.Context, option CreateIndexOption, call
 
 ## Request Syntax\{#request-syntax}
 
+Creates the request for CreateIndex().
+
 ```go
-option := milvusclient.NewCreateIndexOption(collectionName, fieldName, index).
+option := milvusclient.NewCreateIndexOption(collectionName, fieldName, idx).
     WithIndexName(indexName)
 
-result, err := client.CreateIndex(ctx, option)
+task, err := client.CreateIndex(ctx, option)
 ```
 
 **PARAMETERS:**
 
-- **collectionName** (*string*)
+- **collectionName** (*string*) -
+
+    **[REQUIRED]**
 
     The name of the target collection.
 
-- **fieldName** (*string*)
+- **fieldName** (*string*) -
 
-    The name of the field.
+    **[REQUIRED]**
 
-- **[index](./v2-Management-Index)** (*[index.Index](./v2-Management-Index)*)
+    The fieldName for CreateIndex.
 
-    The index.
+- **index** (*index.Index*) -
 
-**OPTION METHODS:**
+    **[REQUIRED]**
+
+    The index for CreateIndex.
+
+**BUILDER METHODS:**
+
+- `NewCreateIndexOption(collectionName string, fieldName string, index index.Index)`
+
+    Creates options to build an index. `collectionName` specifies the collection, `fieldName` specifies the field to index, and `index` defines the index type and parameters.
 
 - `WithIndexName(indexName string)`
 
-    Sets the name of the index.
+    Sets the name of the index to create.
+
+- `WithExtraParam(key string, value any)`
+
+    Adds an extra index build parameter key-value pair. This method mutates the option in place and does not return the option, so it cannot be chained.
 
 **RETURN TYPE:**
 
-&ast;*[CreateIndexTask](./v2-Management-CreateIndexTask), error*
+*CreateIndexTask, error*
 
 **RETURNS:**
 
 A CreateIndexTask that can be used to wait for the index build to complete. Returns an error if the operation fails.
 
-**EXCEPTIONS:**
+**PARAMETERS:**
+
+- **result** ([CreateIndexTask](./v2-Management-CreateIndexTask)) -
+
+    The CreateIndexTask value returned by CreateIndex().
+
+**ERROR HANDLING:**
 
 - **error**
 
-    Check `err != nil` for failure details.
+    The operation fails. Check `err != nil` for failure details.
 
 ## Example\{#example}
+
+Demonstrates CreateIndex() usage.
 
 ```go
 import (
 	"context"
 
-	"github.com/milvus-io/milvus/client/v2/entity"
-	"github.com/milvus-io/milvus/client/v2/index"
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/entity"
+	"github.com/milvus-io/milvus/client/v3/index"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-	Address: milvusAddr,
-})
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{Address: "YOUR_CLUSTER_ENDPOINT"})
 if err != nil {
-	// handle err
+	// handle error
+}
+defer cli.Close(ctx)
+
+idx := index.NewAutoIndex(entity.COSINE)
+
+task, err := cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption("books", "vector", idx).
+	WithIndexName("vector_index"))
+if err != nil {
+	// handle error
 }
 
-index := index.NewHNSWIndex(entity.COSINE, 32, 128)
-indexTask, err := cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption("my_collection", "vector", index))
+// sync wait index to be created
+err = task.Await(ctx)
 if err != nil {
-	// handler err
-}
-
-err = indexTask.Await(ctx)
-if err != nil {
-	// handler err
+	// handle error
 }
 ```

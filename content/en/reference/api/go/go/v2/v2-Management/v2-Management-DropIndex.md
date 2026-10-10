@@ -1,25 +1,25 @@
 ---
-title: "DropIndex() | Go | v2"
+title: "DropIndex | Go | v2"
 slug: /go/go/v2-Management-DropIndex
-sidebar_label: "DropIndex()"
+sidebar_label: "DropIndex"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation drops an index from a collection field. | Go | v2"
 type: docx
-token: DzchdYLEYomSrzxOys8c1mbanhg
+token: Fjo3dPXt5o62BPxPefHcUFbtnoc
 sidebar_position: 7
 keywords: 
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud
-  - DropIndex()
+  - DropIndex
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# DropIndex()
+# DropIndex
 
 This operation drops an index from a collection field.
 
@@ -39,6 +39,8 @@ func (c *Client) DropIndex(ctx context.Context, opt DropIndexOption, callOptions
 
 ## Request Syntax\{#request-syntax}
 
+Creates the request for DropIndex().
+
 ```go
 option := milvusclient.NewDropIndexOption(collectionName, indexName)
 
@@ -47,13 +49,23 @@ err := client.DropIndex(ctx, option)
 
 **PARAMETERS:**
 
-- **collectionName** (*string*)
+- **collectionName** (*string*) -
+
+    **[REQUIRED]**
 
     The name of the target collection.
 
-- **indexName** (*string*)
+- **indexName** (*string*) -
+
+    **[REQUIRED]**
 
     The name of the index.
+
+**BUILDER METHODS:**
+
+- `NewDropIndexOption(collectionName string, indexName string)`
+
+    Creates the request for DropIndex().
 
 **RETURN TYPE:**
 
@@ -63,19 +75,21 @@ err := client.DropIndex(ctx, option)
 
 Returns nil on success, or an error describing what went wrong.
 
-**EXCEPTIONS:**
+**ERROR HANDLING:**
 
 - **error**
 
-    Check `err != nil` for failure details.
+    The operation fails. Check `err != nil` for failure details.
 
 ## Example\{#example}
+
+Demonstrates DropIndex() usage.
 
 ```go
 import (
 	"context"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

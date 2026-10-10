@@ -1,25 +1,25 @@
 ---
-title: "DescribeIndex() | Go | v2"
+title: "DescribeIndex | Go | v2"
 slug: /go/go/v2-Management-DescribeIndex
-sidebar_label: "DescribeIndex()"
+sidebar_label: "DescribeIndex"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation returns detailed information about an index, including its type and parameters. | Go | v2"
 type: docx
-token: PjAddPiH8oyRNpxqafBc1ZGknSd
+token: PcKJdVvSkolLwnxpiQUcHO9Mnfh
 sidebar_position: 6
 keywords: 
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
   - zilliz
   - zilliz cloud
   - cloud
-  - DescribeIndex()
+  - DescribeIndex
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# DescribeIndex()
+# DescribeIndex
 
 This operation returns detailed information about an index, including its type and parameters.
 
@@ -39,6 +39,8 @@ func (c *Client) DescribeIndex(ctx context.Context, opt DescribeIndexOption, cal
 
 ## Request Syntax\{#request-syntax}
 
+Creates the request for DescribeIndex().
+
 ```go
 option := milvusclient.NewDescribeIndexOption(collectionName, indexName)
 
@@ -47,36 +49,76 @@ result, err := client.DescribeIndex(ctx, option)
 
 **PARAMETERS:**
 
-- **collectionName** (*string*)
+- **collectionName** (*string*) -
+
+    **[REQUIRED]**
 
     The name of the target collection.
 
-- **indexName** (*string*)
+- **indexName** (*string*) -
+
+    **[REQUIRED]**
 
     The name of the index.
 
+**BUILDER METHODS:**
+
+- `NewDescribeIndexOption(collectionName string, indexName string)`
+
+    Creates the request for DescribeIndex().
+
 **RETURN TYPE:**
 
-*[IndexDescription](./v2-Management-IndexDescription), error*
+*IndexDescription, error*
 
 **RETURNS:**
 
 The index details including type, metric, and parameters. Returns an error if the operation fails.
 
-**EXCEPTIONS:**
+```go
+type IndexDescription struct {
+    index.Index
+    State index.IndexState
+    PendingIndexRows int64
+    TotalRows int64
+    IndexedRows int64
+}
+```
+
+**PARAMETERS:**
+
+- **State** (*index.IndexState*) -
+
+    The current state.
+
+- **PendingIndexRows** (*int64*) -
+
+    The number of rows pending indexing.
+
+- **TotalRows** (*int64*) -
+
+    The total number of rows.
+
+- **IndexedRows** (*int64*) -
+
+    The number of indexed rows.
+
+**ERROR HANDLING:**
 
 - **error**
 
-    Check `err != nil` for failure details.
+    The operation fails. Check `err != nil` for failure details.
 
 ## Example\{#example}
+
+Demonstrates DescribeIndex() usage.
 
 ```go
 import (
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

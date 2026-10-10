@@ -4,13 +4,13 @@ slug: /go/go/v2-Snapshot-UnpinSnapshotData
 sidebar_label: "UnpinSnapshotData()"
 beta: false
 added_since: v3.0.0
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "This operation unpins previously pinned snapshot data, allowing it to be garbage collected. | Go | v2"
+description: "This operation unpins previously pinned snapshot data, allowing garbage collection to reclaim the files. | Go | v2"
 type: docx
 token: NgKmd79aSob0ruxRuUEcZba7nge
-sidebar_position: 9
+sidebar_position: 11
 keywords: 
   - milvus benchmark
   - managed milvus
@@ -31,13 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # UnpinSnapshotData()
 
-This operation unpins previously pinned snapshot data, allowing it to be garbage collected.
+This operation unpins previously pinned snapshot data, allowing garbage collection to reclaim the files.
 
 ```go
 func (c *Client) UnpinSnapshotData(ctx context.Context, opt UnpinSnapshotDataOption, callOptions ...grpc.CallOption) error
 ```
 
 ## Request Syntax\{#request-syntax}
+
+Creates the request for UnpinSnapshotData().
 
 ```go
 option := milvusclient.NewUnpinSnapshotDataOption(pinID)
@@ -47,15 +49,17 @@ err := cli.UnpinSnapshotData(ctx, option)
 
 **PARAMETERS:**
 
-- **opt** (*UnpinSnapshotDataOption*) -
+- **pinID** (*int64*) -
 
-    The options for unpinning snapshot data.
+    **[REQUIRED]**
+
+    The pin ID returned by `PinSnapshotData()`.
 
 **BUILDER METHODS:**
 
 - `NewUnpinSnapshotDataOption(pinID int64)`
 
-    This creates an option to unpin snapshot data using the pin ID returned by `PinSnapshotData()`.
+    Creates a new option for the pin to release.
 
 **RETURN TYPE:**
 
@@ -65,20 +69,21 @@ err := cli.UnpinSnapshotData(ctx, option)
 
 Returns nil on success, or an error if the operation fails.
 
-**EXCEPTIONS:**
+**ERROR HANDLING:**
 
 - **error**
 
-    Check err != nil for failure details.
+    The operation fails. Check `err != nil` for failure details.
 
 ## Example\{#example}
+
+Demonstrates UnpinSnapshotData() usage.
 
 ```go
 import (
 	"context"
-	"log"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -90,15 +95,13 @@ cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
 	Address: milvusAddr,
 })
 if err != nil {
-	log.Fatal("failed to connect to milvus server: ", err.Error())
+	// handle error
 }
 
 defer cli.Close(ctx)
 
-pinID := int64(12345)
-
 err = cli.UnpinSnapshotData(ctx, milvusclient.NewUnpinSnapshotDataOption(pinID))
 if err != nil {
-	log.Fatal("failed to unpin snapshot data: ", err.Error())
+	// handle error
 }
 ```

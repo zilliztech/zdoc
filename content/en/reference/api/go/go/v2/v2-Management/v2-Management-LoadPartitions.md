@@ -1,25 +1,25 @@
 ---
-title: "LoadPartitions() | Go | v2"
+title: "LoadPartitions | Go | v2"
 slug: /go/go/v2-Management-LoadPartitions
-sidebar_label: "LoadPartitions()"
+sidebar_label: "LoadPartitions"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation loads specific partitions of a collection into memory. | Go | v2"
 type: docx
-token: LMXGdDnueontIFxuqAIcS8D6nJc
-sidebar_position: 19
+token: R4nBdOWqtoi6rGx2r4ccEkQ7nl3
+sidebar_position: 18
 keywords: 
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
   - zilliz
   - zilliz cloud
   - cloud
-  - LoadPartitions()
+  - LoadPartitions
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,7 +29,7 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# LoadPartitions()
+# LoadPartitions
 
 This operation loads specific partitions of a collection into memory.
 
@@ -38,6 +38,8 @@ func (c *Client) LoadPartitions(ctx context.Context, option LoadPartitionsOption
 ```
 
 ## Request Syntax\{#request-syntax}
+
+Creates the request for LoadPartitions().
 
 ```go
 option := milvusclient.NewLoadPartitionsOption(collectionName, partitionsNames).
@@ -52,15 +54,23 @@ result, err := client.LoadPartitions(ctx, option)
 
 **PARAMETERS:**
 
-- **collectionName** (*string*)
+- **collectionName** (*string*) -
+
+    **[REQUIRED]**
 
     The name of the target collection.
 
-- **partitionsNames** (*...string*)
+- **partitionsNames** (*...string*) -
+
+    **[REQUIRED]**
 
     The partitions names.
 
-**OPTION METHODS:**
+**BUILDER METHODS:**
+
+- `NewLoadPartitionsOption(collectionName string, partitionsNames ...string)`
+
+    Creates the request for LoadPartitions().
 
 - `WithReplica(num int)`
 
@@ -84,25 +94,33 @@ result, err := client.LoadPartitions(ctx, option)
 
 **RETURN TYPE:**
 
-*[LoadTask](./v2-Management-LoadTask), error*
+*LoadTask, error*
 
 **RETURNS:**
 
 A LoadTask that can be used to wait for the load operation to complete. Returns an error if the operation fails.
 
-**EXCEPTIONS:**
+**METHODS:**
+
+- **Await** (*error*) -
+
+    Blocks until the partitions are confirmed fully loaded, polling the server at the task's check interval until the load progress reports 100 or the context is cancelled.
+
+**ERROR HANDLING:**
 
 - **error**
 
-    Check `err != nil` for failure details.
+    The operation fails. Check `err != nil` for failure details.
 
 ## Example\{#example}
+
+Demonstrates LoadPartitions() usage.
 
 ```go
 import (
 	"context"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

@@ -4,7 +4,7 @@ slug: /go/go/v2-Snapshot-CreateSnapshot
 sidebar_label: "CreateSnapshot()"
 beta: false
 added_since: v3.0.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation creates a point-in-time snapshot of a collection. Use snapshots to back up collection data and metadata for disaster recovery or migration. | Go | v2"
@@ -39,6 +39,8 @@ func (c *Client) CreateSnapshot(ctx context.Context, opt CreateSnapshotOption, c
 
 ## Request Syntax\{#request-syntax}
 
+Creates the request for CreateSnapshot().
+
 ```go
 option := client.NewCreateSnapshotOption(snapshotName, collectionName).
     WithDescription(description string).
@@ -49,11 +51,15 @@ err := client.CreateSnapshot(option)
 
 **PARAMETERS:**
 
-- **snapshotName** (*string*) - 
+- **name** (*string*) -
+
+    **[REQUIRED]**
 
     The name of the snapshot to create. This must be unique within the collection.
 
-- **collectionName** (*string*) - 
+- **collectionName** (*string*) -
+
+    **[REQUIRED]**
 
     The name of the collection to snapshot.
 
@@ -75,20 +81,23 @@ err := client.CreateSnapshot(option)
 
 Returns nil on success. Returns an error if the collection does not exist, the snapshot name is already taken, or the operation fails for any other reason.
 
-**EXCEPTIONS:**
+**ERROR HANDLING:**
 
 - **error**
 
-    Check err != nil for failure details.
+    The operation fails. Check err != nil for failure details.
 
 ## Example\{#example}
 
+Demonstrates CreateSnapshot() usage.
+
 ```go
 import (
+	"log"
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

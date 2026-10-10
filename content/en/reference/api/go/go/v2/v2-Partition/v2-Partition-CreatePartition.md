@@ -1,25 +1,25 @@
 ---
-title: "CreatePartition() | Go | v2"
+title: "CreatePartition | Go | v2"
 slug: /go/go/v2-Partition-CreatePartition
-sidebar_label: "CreatePartition()"
+sidebar_label: "CreatePartition"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation creates a new partition in a collection for organizing data. | Go | v2"
 type: docx
-token: Pp0KdUrYGoX4PbxXNFvczjePn4f
+token: J1U2dUEpqo8RiBxWNKZctY72nZs
 sidebar_position: 1
 keywords: 
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
   - zilliz
   - zilliz cloud
   - cloud
-  - CreatePartition()
+  - CreatePartition
   - gov230
 displayed_sidebar: goSidebar
 
@@ -29,13 +29,29 @@ displayed_sidbar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# CreatePartition()
+# CreatePartition
 
 This operation creates a new partition in a collection for organizing data.
 
 ```go
 func (c *Client) CreatePartition(ctx context.Context, opt CreatePartitionOption, callOptions ...grpc.CallOption) error
 ```
+
+## Request Syntax\{#request-syntax}
+
+Creates the request for CreatePartition().
+
+```go
+option := milvusclient.NewCreatePartitionOption("quick_setup", "partitionA")
+
+ := client.CreatePartition(ctx, option)
+```
+
+**BUILDER METHODS:**
+
+- `NewCreatePartitionOption(collectionName string, partitionName string)`
+
+    Creates the request for CreatePartition().
 
 **RETURN TYPE:**
 
@@ -45,20 +61,22 @@ func (c *Client) CreatePartition(ctx context.Context, opt CreatePartitionOption,
 
 Returns nil on success, or an error describing what went wrong.
 
-**EXCEPTIONS:**
+**ERROR HANDLING:**
 
 - **error**
 
-    Check `err != nil` for failure details.
+    The operation fails. Check `err != nil` for failure details.
 
 ## Example\{#example}
+
+Demonstrates CreatePartition() usage.
 
 ```go
 import (
 	"context"
 	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())

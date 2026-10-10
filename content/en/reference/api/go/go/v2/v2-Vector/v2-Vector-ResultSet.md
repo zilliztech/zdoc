@@ -4,13 +4,13 @@ slug: /go/go/v2-Vector-ResultSet
 sidebar_label: "ResultSet"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "Contains search or query results including matched entity IDs, scores, and field values. | Go | v2"
+description: "A ResultSet instance is a search or query result set returned by `Search()`, `HybridSearch()`, `Query()`, and `Get()`. It holds the returned entry count, primary keys, output fields, and scores. | Go | v2"
 type: docx
-token: CCWrdPlSao0pOTx9oIgcA64Nnjd
-sidebar_position: 15
+token: N4dudTInDoPuE4xPup5c0a60ngO
+sidebar_position: 14
 keywords: 
   - hybrid vector search
   - Video deduplication
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # ResultSet
 
-Contains search or query results including matched entity IDs, scores, and field values.
+A ResultSet instance is a search or query result set returned by `Search()`, `HybridSearch()`, `Query()`, and `Get()`. It holds the returned entry count, primary keys, output fields, and scores.
 
 ```go
 type ResultSet struct {
@@ -39,6 +39,7 @@ type ResultSet struct {
     GroupByValue column.Column
     IDs column.Column
     Fields DataSet
+    AggregationBuckets []AggregationBucket
     Scores []float32
     Recall float32
     Err error
@@ -47,44 +48,82 @@ type ResultSet struct {
 
 **FIELDS:**
 
-- **ResultCount** (*int*)
+- **ResultCount** (*int*) -
 
-    the returning entry count
+    The number of returned entries.
 
-- **GroupByValue** (*column.Column*)
+- **GroupByValue** (*column.Column*) -
 
-    The group-by column used for grouped results.
+    The group-by column value when the search/query used grouping.
 
-- **IDs** (*column.Column*)
+- **IDs** (*column.Column*) -
 
-    auto generated id, can be mapped to the columns from `Insert` API
+    The primary-key column of the matched entities.
 
-- **Fields** (*DataSet*)
+- **Fields** (*DataSet*) -
 
-    output field data
+    The output field columns.
 
-- **Scores** (*[]float32*)
+- **AggregationBuckets** (*[]AggregationBucket*) -
 
-    distance to the target vector
+    Search aggregation results for this query, when an aggregation was requested.
 
-- **Recall** (*float32*)
+- **Scores** (*[]float32*) -
 
-    recall of the query vector's search result (estimated by zilliz cloud)
+    The distance to the target vector for each match.
 
-- **Err** (*error*)
+- **Recall** (*float32*) -
 
-    search error if any
+    The estimated recall of the search result (estimated by Zilliz Cloud).
 
-**METHODS:**
+- **Err** (*error*) -
+
+    The search error, if any.
+
+**BUILDER METHODS:**
 
 - `GetColumn(fieldName string) column.Column`
 
-    GetColumn returns column with provided field name.
+    Returns the column with the provided field name.
 
 - `Len() int`
 
-    Returns the number of results.
+    Returns the number of returned entries.
 
 - `Slice(start, end int) ResultSet`
 
-    Returns a subset of the results within the specified range.
+    Returns a sub-set of the result between the given start and end indexes.
+
+- `Unmarshal(receiver any) error`
+
+    Unmarshals the data set into a slice of pointers to model structs in a row-based way. Note that distance/score is not unmarshaled here.
+
+## Example\{#example}
+
+Demonstrates ResultSet usage.
+
+```go
+import (
+	"context"
+
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: "YOUR_CLUSTER_ENDPOINT",
+})
+if err != nil {
+	// handle error
+}
+defer cli.Close(ctx)
+
+resultSets, err := cli.Search(ctx, milvusclient.NewSearchOption("books", 10, vectors))
+if err != nil {
+	// handle error
+}
+resultSet := resultSets[0]
+fmt.Println(resultSet.ResultCount, resultSet.Scores)
+```
