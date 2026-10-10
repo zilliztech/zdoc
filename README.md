@@ -407,13 +407,13 @@ Both sites measure user actions (Ask-AI chat funnel, code copy, TOC navigation, 
 
 ### Search-origin 404 report
 
-`GA4 Search 404 Report` (`.github/workflows/ga4-search-404-report.yml`) lists the pages that Google search results still point at which now return 404 — the `page_not_found` events whose referrer was Google, per site, for a sliding window. It is dispatch-only until the GA4 access is configured:
+`GA4 Search 404 Report` (`.github/workflows/ga4-search-404-report.yml`) lists the pages that Google search results still point at which now return 404 — the `page_not_found` events whose referrer was Google, per site, for a sliding window. It is scheduled daily at 03:17 UTC and can also be dispatched manually. Until the GA4 access below is configured, every run degrades to a notice instead of failing:
 
 1. Create a service account with read-only access to both GA4 properties and store its JSON key in the repository secret `GA4_SERVICE_ACCOUNT_JSON`.
-2. Add the repository variables `GA4_PROPERTY_ID_EN` and `GA4_PROPERTY_ID_ZH_CN` (numeric GA4 property IDs).
-3. Dispatch the workflow once and verify the Feishu card and the report artifact, then uncomment the schedule in the workflow.
+2. Add the repository variables `GA4_PROPERTY_ID_EN` and `GA4_PROPERTY_ID_ZH_CN` (numeric GA4 property IDs); at least one is required.
+3. Dispatch the workflow once and verify the Feishu card and the report artifact — the daily schedule then picks up the same configuration automatically.
 
-Without the secret the run degrades to a notice instead of failing. Remediation for recurring paths is an nginx `return 301` in `deploy/{en,zh-CN}/nginx.conf` with a matching redirect assertion in `deploy/contracts/container.test.mjs` — the same pattern as the existing "Analytics-derived 404 cleanup" blocks.
+Without the secret and property variables the run degrades to a notice instead of failing. Remediation for recurring paths is an nginx `return 301` in `deploy/{en,zh-CN}/nginx.conf` with a matching redirect assertion in `deploy/contracts/container.test.mjs` — the same pattern as the existing "Analytics-derived 404 cleanup" blocks.
 
 ## Containers
 
