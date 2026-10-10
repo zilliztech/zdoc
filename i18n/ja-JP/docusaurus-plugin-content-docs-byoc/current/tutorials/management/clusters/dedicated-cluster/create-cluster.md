@@ -43,7 +43,7 @@ Dedicated クラスターは、一貫性があり予測可能なパフォーマ�
 
     - [Microsoft Azure に BYOC-I をデプロイ](./deploy-byoc-i-azure)
 
-- クラスターを作成する組織またはプロジェクトの所有権を持っていること。ロールと権限の詳細については、[アクセス制御の概要](./access-control-overview) を参照してください。
+- クラスターを作成する組織またはプロジェクトの所有権を持っていること。ロールと権限の詳細については、アクセス制御の概要を参照してください。
 
 ## クラスターを作成する\{#create-a-cluster}
 
@@ -53,17 +53,17 @@ Dedicated クラスターは、一貫性があり予測可能なパフォーマ�
 
 1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) にログインします。
 
-1. 目的の組織とプロジェクトを選択します。
+1. 目的の組織とプロジェクトを入力します。
 
 1. **Create クラスター** をクリックします。
 
     ![create-クラスター-byoc](https://zdoc-images.s3.us-west-2.amazonaws.com/create-cluster-byoc.png "create-クラスター-byoc")
 
-1. **Create New クラスター** ページで、関連するパラメータを入力します。
+1. **Create New クラスター** ページで、関連するパラメーターを入力します。
 
     ![クラスター-クラスター-byoc](https://zdoc-images.s3.us-west-2.amazonaws.com/cluster-cluster-byoc.png "クラスター-クラスター-byoc")
 
-    - **クラスター Name**: クラスターの一意の識別子を設定します。
+    - **クラスター Name**: クラスターの一意の識別子を割り当てます。
 
     - （任意）**クラスター Description**: クラスターの説明を入力します。
 
@@ -87,11 +87,11 @@ Dedicated クラスターは、一貫性があり予測可能なパフォーマ�
 
 1. **Create クラスター** をクリックします。
 
-    プロジェクトのリソースクォータを確認するよう求められます。リソースが十分であれば、確認が完了するとダイアログボックスは閉じます。そうでない場合は、次のいずれかを実行できます。
+    プロジェクトのリソースクォータを確認するよう求められます。リソースが十分であれば、確認が完了するとダイアログボックスは消えます。そうでない場合は、次のいずれかを実行できます。
 
     - **Go To Project Resource Settings** をクリックして、プロジェクトのリソース設定を編集する、または
 
-    - **Back to Last Step** をクリックして、クラスター設定を変更する。
+    - **Back to Last Step** をクリックして、クラスター設定を変更します。
 
     ![ZHZqbofKioaBqNxkeSYcXgtnnwc](https://zdoc-images.s3.us-west-2.amazonaws.com/zhzqbofkioabqnxkesycxgtnnwc.png "ZHZqbofKioaBqNxkeSYcXgtnnwc")
 

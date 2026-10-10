@@ -46,7 +46,7 @@ Zilliz Cloud では、多様なユーザー要件に対応するために 2 種�
 
 ![Ec7wwrAnFhGIZFbJTWwc57bVn0f](https://zdoc-images.s3.us-west-2.amazonaws.com/Ec7wwrAnFhGIZFbJTWwc57bVn0f.png)
 
-以下の表は、割り当てられたロールに基づく API キーのアクセス範囲を詳しく示しています。ロールと権限の詳細については、[アクセス制御の概要](./access-control-overview) を参照してください。
+以下の表は、割り当てられたロールに基づく API キーのアクセス範囲を詳しく示しています。ロールと権限の詳細については、アクセス制御の概要を参照してください。
 
 <table>
    <tr>

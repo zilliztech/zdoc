@@ -1,13 +1,13 @@
 ---
-title: "Cluster Credentials | BYOC"
+title: "クラスター Credentials | BYOC"
 slug: /cluster-credentials
-sidebar_label: "Cluster Credentials"
+sidebar_label: "クラスター Credentials"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud はトークンを使用してユーザーの ID を認証します。トークンには cluster credential または API key を使用できます。このガイドでは、cluster credential による認証を紹介します。 | BYOC"
+description: "Zilliz Cloud authenticates your identity using a token. A token can be either the クラスター credential or an API key. This guide introduces authentication with クラスター credentials. | BYOC"
 type: origin
 token: YmsVwIzOBinv4OklCfmc2nyznAe
 sidebar_position: 3
@@ -19,15 +19,15 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Cluster Credentials
+# クラスター Credentials
 
-Zilliz Cloud はトークンを使用してユーザーの ID を認証します。トークンには cluster credential または API key を使用できます。このガイドでは、cluster credential による認証を紹介します。
+Zilliz Cloud authenticates your identity using a token. A token can be either the クラスター credential or an API key. This guide introduces authentication with クラスター credentials.
 
-cluster credential は、クラスターとのやり取りに対するリクエストを認証および認可するために使用される、ユーザー名とパスワードの組み合わせ（`user:password`）で構成されます。
+A クラスター credential consists of a username and password pair (`user:password`), utilized to authenticate and authorize your requests for クラスター interaction.
 
-クラスターのセットアップ時に、Zilliz Cloud は `Admin` ロールを持つデフォルトの cluster user `db_admin` を作成し、クラスターへのフルアクセスを付与します。デフォルトユーザーのパスワードはクラスター作成時に一度だけ表示されるため、必ずメモを取り、適切な場所に安全に保管することが重要です。
+When setting up a クラスター, Zilliz Cloud creates the default クラスター user `db_admin` with the `Admin` role, granting full クラスター access. The password of the default user will only be shown once during クラスター creation, so it is crucial to note it down and securely store it in an appropriate location.
 
-デフォルトの `db_admin` ユーザーに加えて、認証用の対応するパスワードを持つ cluster user をさらに[作成](./cluster-users#create-a-cluster-user)することもできます。
+Beyond the default `db_admin` user, you can also [create](./cluster-users#create-a-cluster-user) more クラスター users with corresponding password for authentication.
 
 ## Reset Password\{#reset-password}
 
@@ -35,7 +35,7 @@ cluster credential は、クラスターとのやり取りに対するリクエ�
 
 - **コンソールでユーザーパスワードをリセットする**
 
-    ![reset-cluster-user-password](https://zdoc-images.s3.us-west-2.amazonaws.com/reset-cluster-user-password.png "reset-cluster-user-password")
+    ![reset-クラスター-user-password](https://zdoc-images.s3.us-west-2.amazonaws.com/reset-cluster-user-password.png "reset-クラスター-user-password")
 
 - **プログラムでユーザーパスワードをリセットする**
 
@@ -90,6 +90,7 @@ cluster credential は、クラスターとのやり取りに対するリクエ�
     ```go
     import (
        "context"
+    
        "google.golang.org/grpc"
        "github.com/milvus-io/milvus/v2/milvusclient"
     )

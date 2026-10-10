@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud は、マネージド Milvus ベクトルデータベースをサービスとして提供します。クラスター接続を容易にする SDK オプションは 4つあります Python](./install-sdks#install-pymilvus-python-sdk), [Java](./install-sdks#install-java-sdk), [Go](./install-sdks#install-go-sdk), または [Node.js。 | Cloud"
+description: "Zilliz Cloud は、マネージド Milvus ベクトルデータベースをサービスとして提供します。クラスター接続を容易にする SDK オプションは 6つあります Python](./install-sdks#install-pymilvus-python-sdk), [Java](./install-sdks#install-java-sdk), [Go](./install-sdks#install-go-sdk), [Node.js](./install-sdks#install-nodejs-sdk), [C++](./install-sdks#install-c-sdk), および [Rust。 | Cloud"
 type: origin
 token: J274wT61xiEM4fkYeL8cMb4Pnbd
 sidebar_position: 1
@@ -16,11 +16,12 @@ displayed_sidebar: default
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # SDK のインストール
 
-Zilliz Cloud は、マネージド Milvus ベクトルデータベースをサービスとして提供します。クラスター接続を容易にする SDK オプションには、[Python](./install-sdks#install-pymilvus-python-sdk)、[Java](./install-sdks#install-java-sdk)、[Go](./install-sdks#install-go-sdk)、[Node.js](./install-sdks#install-nodejs-sdk) の 4つがあります。
+Zilliz Cloud は、マネージド Milvus ベクトルデータベースをサービスとして提供します。クラスター接続を容易にする SDK オプションには、[Python](./install-sdks#install-pymilvus-python-sdk)、[Java](./install-sdks#install-java-sdk)、[Go](./install-sdks#install-go-sdk)、[Node.js](./install-sdks#install-nodejs-sdk)、[C++](./install-sdks#install-c-sdk)、[Rust](./install-sdks#install-rust-sdk) の 6つがあります。
 
 <Admonition type="info" title="Notes">
 
@@ -34,11 +35,11 @@ Zilliz Cloud は、マネージド Milvus ベクトルデータベースをサ�
 
 次の表は、各 Milvus バージョンと互換性のある SDK バージョンを示しています。
 
-| **Milvus バージョン** | **Python SDK** | **Node.js SDK** | **Java SDK** | **Go SDK** | **C++** |
-| --- | --- | --- | --- | --- | --- |
-| `3.0.x` | `3.0.1` | `3.0.5` | `3.0.8` | `3.0.0-beta` | `3.0.2` |
-| `2.6.x` | `2.6.17` | `2.6.17` | `2.6.24` | `2.6.5` | `2.6.6` |
-| `2.5.x` | `2.5.18` | `2.5.13` | `2.5.15` | `2.5.6` | -- |
+| **Milvus バージョン** | **Python SDK** | **Node.js SDK** | **Java SDK** | **Go SDK** | **C++** | **Rust SDK** |
+| --- | --- | --- | --- | --- | --- | --- |
+| `3.0.x` | `3.0.1` | `3.0.6` | `3.0.10` | `3.0.0` | `3.0.3` | `3.0.2` |
+| `2.6.x` | `2.6.17` | `2.6.17` | `2.6.24` | `2.6.5` | `2.6.6` | `2.6.1` |
+| `2.5.x` | `2.5.18` | `2.5.13` | `2.5.15` | `2.5.6` | -- | -- |
 
 ## PyMilvus のインストール: Python SDK\{#install-pymilvus-python-sdk}
 
@@ -51,14 +52,14 @@ PyMilvus は Milvus の Python SDK です。[GitHub のソースコード](https
 </Admonition>
 
 ```bash
-# Install pymilvus
-python -m pip install pymilvus
+# Install or update PyMilvus to the latest v3.0.x
+pip install --upgrade pymilvus==v3.0.1
 
-# Update PyMilvus to the newest version
-python -m pip install --upgrade pymilvus
+# Install the Model library for embedding operations (optional)
+pip install pymilvus[model]
 
-# Verify installation success
-python -m pip list | grep pymilvus
+# Verify the installed version
+python -c "from pymilvus import __version__; print(__version__)"
 ```
 
 ## Node.js SDK のインストール\{#install-nodejs-sdk}
@@ -104,41 +105,47 @@ SDK を取得するには、Apache Maven または Gradle/Grails を使用しま
 - Apache Maven の場合は、次の内容を `pom.xml` の依存関係に追加します。
 
     ```xml
-    <!-- Install Java SDK compatible with Milvus v2.5.x -->
+    <!-- Install the Java SDK compatible with Milvus v3.0.x -->
     <dependency>
-         <groupId>io.milvus</groupId>
-         <artifactId>milvus-sdk-java</artifactId>
-         <version>2.6.24</version>
-     </dependency>
+        <groupId>io.milvus</groupId>
+        <artifactId>milvus-sdk-java</artifactId>
+        <version>3.0.10</version>
+    </dependency>
+    <!-- Optional: to use BulkWriter, also add -->
+    <dependency>
+        <groupId>io.milvus</groupId>
+        <artifactId>milvus-sdk-java-bulkwriter</artifactId>
+        <version>3.0.10</version>
+    </dependency>
     ```
 
 - Gradle/Grails, の場合は、次を実行します。
 
     ```bash
-    # Install Java SDK compatible with Milvus v2.5.x
-    compile 'io.milvus:milvus-sdk-java:2.6.24'
+    # Install the Java SDK compatible with Milvus v3.0.x
+    implementation 'io.milvus:milvus-sdk-java:3.0.10'
+    # Optional: to use BulkWriter, also add
+    implementation 'io.milvus:milvus-sdk-java-bulkwriter:3.0.10' 
     ```
-
-クラスターが **Milvus v3.0.x（Public Preview）** と互換性がある場合は、上記のコマンドの `2.6.24` を `3.0.8` に変更してください。
 
 ## Go SDK のインストール\{#install-go-sdk}
 
 Go SDK は `go get` で利用できます。[GitHub のソースコード](https://github.com/milvus-io/milvus-sdk-go) を参照してください。
 
 ```bash
-# Install Go SDK compatible with Milvus v2.5.x
-go get -u github.com/milvus-io/milvus-sdk-go/v2@v2.6.5
+# Install the Go SDK compatible with Milvus v3.0.x
+go get -u github.com/milvus-io/milvus/client/v3
 ```
-
-クラスターが **Milvus v3.0.x（Public Preview）** と互換性がある場合は、上記のコマンドの `2.6.5` を `3.0.0-beta` に変更してください。
 
 ## C++ SDK のインストール\{#install-c-sdk}
 
 C++ SDK は次のようにして利用できます。[GitHub のソースコード](https://github.com/milvus-io/milvus-sdk-cpp) を参照してください。
 
 ```shell
+# Install the C++ SDK (Milvus 3.0.x, release v3.0.3) from source
 git clone https://github.com/milvus-io/milvus-sdk-cpp.git
 cd milvus-sdk-cpp
+git checkout v3.0.3
 bash scripts/install_deps.sh
 make
 
@@ -146,4 +153,33 @@ make
 make install       # install to /usr/local
 ```
 
-クラスターが **Milvus v3.0.x（Public Preview）** と互換性がある場合は、`3.0.2` リリースを使用してください。
+## Rust SDK のインストール\{#install-rust-sdk}
+
+Milvus の Rust SDK を使用するには、[Cargo](https://crates.io/crates/milvus-sdk-rust) を使用します。ソースコードは [GitHub](https://github.com/milvus-io/milvus-sdk-rust) で確認できます。
+
+<Tabs groupId="code" defaultValue='shell' values={[{"label":"Zilliz CLI","value":"shell"},{"label":"Rust","value":"rust"}]}>
+<TabItem value='shell'>
+
+```shell
+# Add the Rust SDK to your Cargo.toml
+[dependencies]
+milvus-sdk-rust = "3.0.2"
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+// Connect to Milvus
+#[tokio::main]
+async fn main() -> Result<()> {
+    let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT")).await?;
+    Ok(())
+}
+```
+
+</TabItem>
+</Tabs>

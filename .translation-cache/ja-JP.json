@@ -970,15 +970,20 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/auditing/view-activities.md",
       "translatedAt": "2026-09-19T13:43:11.314Z"
     },
+    "content/en/byoc/tutorials/management/authentication/cluster-credentials.md": {
+      "sourceHash": "cf1ae0587d22dae8c606e95296974ecbf47aaa97dee2e97e7c4a110e29ccdaf5",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/authentication/cluster-credentials.md",
+      "translatedAt": "2026-10-10T05:49:11.808Z"
+    },
     "content/en/byoc/tutorials/management/authentication/email-accounts.md": {
       "sourceHash": "3f39484d197a28bdc9a711fb6f6e14c2480f2edf3646a76aef1e4bc7ba1c82bd",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/authentication/email-accounts.md",
       "translatedAt": "2026-09-19T13:57:10.436Z"
     },
     "content/en/byoc/tutorials/management/authentication/manage-api-keys.md": {
-      "sourceHash": "bc847f439fa9ac17dcb076f0713097121dec624c519eb8ab3d71b9ed9d249870",
+      "sourceHash": "1b52b28ac6e1f13fae9c12398b973634ecf22ae67ca8882b5f442683aad80f29",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/authentication/manage-api-keys.md",
-      "translatedAt": "2026-09-19T13:57:10.436Z"
+      "translatedAt": "2026-10-10T05:49:11.808Z"
     },
     "content/en/byoc/tutorials/management/authentication/multi-factor-auth.md": {
       "sourceHash": "15b7ce8b513c7e945097b3a617f61f579021ab5abf8eff4dc4d410e103f2b532",
@@ -1071,14 +1076,14 @@
       "translatedAt": "2026-09-19T13:58:15.656Z"
     },
     "content/en/byoc/tutorials/management/clusters/dedicated-cluster/connect-to-clusters.md": {
-      "sourceHash": "5ef7c02b546e1818bb7175c350f39a53b7339402980e902bc238f24bc4722388",
+      "sourceHash": "c70f0133a18ff6d78004b5bbc40c119d9d065b10709140fa45106d0696103785",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/dedicated-cluster/connect-to-clusters.md",
-      "translatedAt": "2026-09-19T13:58:15.656Z"
+      "translatedAt": "2026-10-10T05:49:11.808Z"
     },
     "content/en/byoc/tutorials/management/clusters/dedicated-cluster/create-cluster.md": {
-      "sourceHash": "89fea643544249a7a847ab1044420e51c3963f8790de780c15a086edef60b42c",
+      "sourceHash": "51feabbeff85f676db17bd9a1fa4963f0059c967a5a54e248f0f5d0e0a781425",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/dedicated-cluster/create-cluster.md",
-      "translatedAt": "2026-09-19T13:59:24.026Z"
+      "translatedAt": "2026-10-10T05:49:11.808Z"
     },
     "content/en/byoc/tutorials/management/clusters/dedicated-cluster/manage-cluster.md": {
       "sourceHash": "9e0ade649ff796d74712c5801430fd2fdcdd197129049525697865448298b407",
@@ -1116,14 +1121,14 @@
       "translatedAt": "2026-09-19T13:59:24.026Z"
     },
     "content/en/byoc/tutorials/management/clusters/free-and-serverless-clusters.md": {
-      "sourceHash": "0a109049cf4bb585b9e438a849f16e1c2a705936af1b16c8d5f32c099e25b37b",
+      "sourceHash": "a8df8ba7986eaa7946f2d8d4b927785e600c8975ef70ae068c19b042c92419e4",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/free-and-serverless-clusters.md",
-      "translatedAt": "2026-09-19T13:59:24.026Z"
+      "translatedAt": "2026-10-10T05:49:11.808Z"
     },
     "content/en/byoc/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md": {
-      "sourceHash": "dc3e591fd7513817e4ed723dc3b196191bab296cbd7846a9f822db65563e419c",
+      "sourceHash": "5ae72f77ee030df279554d17a1e415d343109fdddde3fd388e13fbc23170d380",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md",
-      "translatedAt": "2026-09-19T13:59:24.026Z"
+      "translatedAt": "2026-10-10T05:49:11.808Z"
     },
     "content/en/byoc/tutorials/management/clusters/global-cluster/create-global-cluster.md": {
       "sourceHash": "a0f9b050369b94dbe5ba1e5dd9f6dee057b1f6cb2aad665d0e355aad1887c931",
@@ -1156,9 +1161,9 @@
       "translatedAt": "2026-09-19T13:59:24.026Z"
     },
     "content/en/byoc/tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters.md": {
-      "sourceHash": "19c2c6afa4c6e72dde92bfc740bae9ae81ebd41e1d19707463cee7e053c31e27",
+      "sourceHash": "003272df79870deb233dcfce47f3cace5a3e3c0021415dd451b601ea705f54c0",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters.md",
-      "translatedAt": "2026-09-19T13:59:24.026Z"
+      "translatedAt": "2026-10-10T05:49:11.808Z"
     },
     "content/en/byoc/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md": {
       "sourceHash": "ea7048aa9ed25f4d38b38c13feeea46c10d44aaa31205aaae2f039a5c95f4858",
@@ -1166,9 +1171,9 @@
       "translatedAt": "2026-08-25T16:58:23.572Z"
     },
     "content/en/byoc/tutorials/management/cmek/aws-kms.md": {
-      "sourceHash": "3dd2ce30d86aa794d99f9ae24e6712b07050595d0d877567a5429206add5f77b",
+      "sourceHash": "29f1386f4ed0189f30438c469defcd0530f64d81f27b17a445b8c87be590ffa5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/cmek/aws-kms.md",
-      "translatedAt": "2026-09-19T14:00:37.142Z"
+      "translatedAt": "2026-10-10T05:49:11.808Z"
     },
     "content/en/byoc/tutorials/management/cmek/cmek.md": {
       "sourceHash": "a7396ad63ead85a854ba20f7f137b9a65f0310387e3974d6a8cc81ad5edf88ef",
@@ -1181,9 +1186,9 @@
       "translatedAt": "2026-10-10T05:41:19.585Z"
     },
     "content/en/byoc/tutorials/management/cost-management/analyze-cost.md": {
-      "sourceHash": "30ff9cf4d8d3be6fb59a53436ba19712537dad5f58106028d694d517c4b81e9a",
+      "sourceHash": "fec18c112502ef5be8c189276c14e0f6dfcc498578ffeb409baf6332d8a7489f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/cost-management/analyze-cost.md",
-      "translatedAt": "2026-09-19T14:00:37.142Z"
+      "translatedAt": "2026-10-10T05:49:11.808Z"
     },
     "content/en/byoc/tutorials/management/identity-management/identity-management-overview.md": {
       "sourceHash": "069fd4fcdb90bb4639efabfa2a1459c5f3feb775d746c0dcaac8e9a91bab0a27",
@@ -1191,9 +1196,9 @@
       "translatedAt": "2026-09-19T14:00:37.142Z"
     },
     "content/en/byoc/tutorials/management/identity-management/manage-cluster-users/cluster-users-sdk.md": {
-      "sourceHash": "df696804224c539307e6b46fbf4d9ff4cc00b129474eea81c90dea22af12ed31",
+      "sourceHash": "38aa9ee64c2d01d8b8ed06c051da2f25c163dad246401f793035cd043df2af5a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/identity-management/manage-cluster-users/cluster-users-sdk.md",
-      "translatedAt": "2026-09-19T14:00:37.142Z"
+      "translatedAt": "2026-10-10T05:49:11.808Z"
     },
     "content/en/byoc/tutorials/management/identity-management/manage-cluster-users/cluster-users.md": {
       "sourceHash": "a5b51f58e760b4468417f9dad30a2720f88675e176a3e3bf6800af6cf0680331",
@@ -1226,9 +1231,9 @@
       "translatedAt": "2026-09-19T14:00:37.142Z"
     },
     "content/en/byoc/tutorials/management/identity-management/single-sign-on/enforce-sso-in-your-organization.md": {
-      "sourceHash": "4142db5ce7fc361b3295d2c3975e57905f52606401d18eb2180978cab75325f8",
+      "sourceHash": "e3f33b976a0a234a0214b03bf4ea805ae8e7954a3f16bc381acdfdebeedfa518",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/identity-management/single-sign-on/enforce-sso-in-your-organization.md",
-      "translatedAt": "2026-09-19T14:00:37.142Z"
+      "translatedAt": "2026-10-10T05:49:11.808Z"
     },
     "content/en/byoc/tutorials/management/identity-management/single-sign-on/openid-connect.md": {
       "sourceHash": "c4240a88e9cbfcdd3875927dc08767831ac55c807a81943401e81ff9ab5debee",
@@ -1271,9 +1276,9 @@
       "translatedAt": "2026-09-19T14:01:58.853Z"
     },
     "content/en/byoc/tutorials/management/limits/limits.md": {
-      "sourceHash": "9da3ba69f14e9bed164121e959dbb6109e8db916d864957fe3283e89862ecbd3",
+      "sourceHash": "c16ae2d785972de74eb3030a90f204edd99ea4297894e7cd0c33fd518e419bfe",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/limits/limits.md",
-      "translatedAt": "2026-09-19T14:01:58.853Z"
+      "translatedAt": "2026-10-10T05:49:11.808Z"
     },
     "content/en/byoc/tutorials/management/metrics-alerts/manage-notification-channels.md": {
       "sourceHash": "bcad2e810440f0020c1b4ef8f6abce51dc135bcb0212e12e30529eaf15410eaa",
@@ -1319,6 +1324,11 @@
       "sourceHash": "753c2e1de506a3355a40450e280dd4eadb065c54ab6c5c67fd005759a48a874a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips.md",
       "translatedAt": "2026-08-25T07:15:02.148Z"
+    },
+    "content/en/byoc/tutorials/management/migrations/migrate-from-milvus/migrate-from-milvus.md": {
+      "sourceHash": "7d99fd3fc038af77d2ec7012e023730f8cf41c2be578d6c56fce0a1f85956007",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/migrations/migrate-from-milvus/migrate-from-milvus.md",
+      "translatedAt": "2026-10-10T05:49:11.808Z"
     },
     "content/en/byoc/tutorials/management/migrations/migrate-from-milvus/via-backup-files.md": {
       "sourceHash": "7507056a965a95d10e84114c73bca7d91683e47198af57c17f283cd3f8b477e3",
@@ -1396,14 +1406,14 @@
       "translatedAt": "2026-09-19T14:03:19.679Z"
     },
     "content/en/guides/tutorials/architecture/data-security.md": {
-      "sourceHash": "e2078ee1b460aa651390faf99e1f6200861efa283091906987102c7fcdba00de",
+      "sourceHash": "26ccbae9cc279287cf3d025a8c2c198a875e93b0bfe2c41eda650131a835990f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/architecture/data-security.md",
-      "translatedAt": "2026-09-19T14:03:19.679Z"
+      "translatedAt": "2026-10-10T05:49:11.808Z"
     },
     "content/en/guides/tutorials/client-libraries/install-sdks.md": {
-      "sourceHash": "239ba675ac37b6d67e8ebb4a8d12774c12c62e1de3eca119d7115737ce57642a",
+      "sourceHash": "095173ecdb1d4ca2ab1f4b4895a2bfbf85ba101d350c8019fee8350e52a9ada1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/client-libraries/install-sdks.md",
-      "translatedAt": "2026-09-19T14:03:19.679Z"
+      "translatedAt": "2026-10-10T05:49:11.808Z"
     },
     "content/en/guides/tutorials/development/analyzer/analyzer-filters/alphanumonly-filter.md": {
       "sourceHash": "187128ef64235b4f71de9c65d7ce12e8d85392cffa5f39139bc6c90dc2fbaa51",
