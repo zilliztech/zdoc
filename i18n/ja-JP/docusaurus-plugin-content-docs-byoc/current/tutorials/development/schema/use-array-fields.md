@@ -60,7 +60,7 @@ ARRAY フィールドを含むコレクションスキーマを定義する方�
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -79,7 +79,7 @@ schema = client.create_schema(
     enable_dynamic_fields=True,
 )
 
-#  Add `tags` and `ratings` ARRAY fields with nullable=True
+# Add `tags` and `ratings` ARRAY fields with nullable=True
 schema.add_field(field_name="tags", datatype=DataType.ARRAY, element_type=DataType.VARCHAR, max_capacity=10, max_length=65535, nullable=True)
 schema.add_field(field_name="ratings", datatype=DataType.ARRAY, element_type=DataType.INT64, max_capacity=5, nullable=True)
 schema.add_field(field_name="pk", datatype=DataType.INT64, is_primary=True)
@@ -100,7 +100,7 @@ import io.milvus.v2.service.collection.request.CreateCollectionReq;
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .build());
-        
+
 CreateCollectionReq.CollectionSchema schema = client.createSchema();
 schema.setEnableDynamicField(true);
 
@@ -143,10 +143,8 @@ import (
     "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/column"
-    "github.com/milvus-io/milvus/client/v2/entity"
-    "github.com/milvus-io/milvus/client/v2/index"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -165,14 +163,6 @@ defer client.Close(ctx)
 
 schema := entity.NewSchema()
 schema.WithField(entity.NewField().
-    WithName("pk").
-    WithDataType(entity.FieldTypeInt64).
-    WithIsPrimaryKey(true),
-).WithField(entity.NewField().
-    WithName("embedding").
-    WithDataType(entity.FieldTypeFloatVector).
-    WithDim(3),
-).WithField(entity.NewField().
     WithName("tags").
     WithDataType(entity.FieldTypeArray).
     WithElementType(entity.FieldTypeVarChar).
@@ -185,7 +175,94 @@ schema.WithField(entity.NewField().
     WithElementType(entity.FieldTypeInt64).
     WithMaxCapacity(5).
     WithNullable(true),
+).WithField(entity.NewField().
+    WithName("pk").
+    WithDataType(entity.FieldTypeInt64).
+    WithIsPrimaryKey(true),
+).WithField(entity.NewField().
+    WithName("embedding").
+    WithDataType(entity.FieldTypeFloatVector).
+    WithDim(3),
 )
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::error::Result;
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+    let client = ClientV2::new(&config).await?;
+
+    let schema = CollectionSchema::new()
+        .enable_dynamic_field(true)
+        .add_field(
+            FieldSchema::new()
+                .name("tags")
+                .data_type(DataType::Array)
+                .element_type(DataType::VarChar)
+                .max_capacity(10)
+                .max_length(65535)
+                .nullable(true),
+        )
+        .add_field(
+            FieldSchema::new()
+                .name("ratings")
+                .data_type(DataType::Array)
+                .element_type(DataType::Int64)
+                .max_capacity(5)
+                .nullable(true),
+        )
+        .add_field(
+            FieldSchema::new()
+                .name("pk")
+                .data_type(DataType::Int64)
+                .primary_key(true),
+        )
+        .add_field(
+            FieldSchema::new()
+                .name("embedding")
+                .data_type(DataType::FloatVector)
+                .dimension(3),
+        );
+    Ok(())
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+#include <memory>
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->AddField(milvus::FieldSchema("tags", milvus::DataType::ARRAY)
+                                    .WithMaxCapacity(10)
+                                    .WithElementType(milvus::DataType::VARCHAR)
+                                    .WithMaxLength(65535)
+                                    .WithNullable(true));
+schema->AddField(milvus::FieldSchema("ratings", milvus::DataType::ARRAY)
+                                    .WithMaxCapacity(5)
+                                    .WithElementType(milvus::DataType::INT64)
+                                    .WithNullable(true));
+schema->AddField(milvus::FieldSchema("pk", milvus::DataType::INT64).WithPrimaryKey(true));
+schema->AddField(milvus::FieldSchema("embedding", milvus::DataType::FLOAT_VECTOR).WithDimension(3));
 ```
 
 </TabItem>
@@ -194,30 +271,35 @@ schema.WithField(entity.NewField().
 
 ```javascript
 import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT", token: "YOUR_CLUSTER_TOKEN" });
+
 const schema = [
-  {
-    name: "tags",
-    data_type: DataType.Array,
-    element_type: DataType.VarChar,
-    max_capacity: 10,
-    max_length: 65535
-  },
-  {
-    name: "rating",
-    data_type: DataType.Array,
-    element_type: DataType.Int64,
-    max_capacity: 5,
-  },
-  {
-    name: "pk",
-    data_type: DataType.Int64,
-    is_primary_key: true,
-  },
-  {
-    name: "embedding",
-    data_type: DataType.FloatVector,
-    dim: 3,
-  },
+    {
+        name: "tags",
+        data_type: DataType.Array,
+        element_type: DataType.VarChar,
+        max_capacity: 10,
+        max_length: 65535,
+        nullable: true
+    },
+    {
+        name: "ratings",
+        data_type: DataType.Array,
+        element_type: DataType.Int64,
+        max_capacity: 5,
+        nullable: true
+    },
+    {
+        name: "pk",
+        data_type: DataType.Int64,
+        is_primary_key: true
+    },
+    {
+        name: "embedding",
+        data_type: DataType.FloatVector,
+        dim: 3
+    }
 ];
 ```
 
@@ -233,7 +315,8 @@ export arrayField1='{
     "elementTypeParams": {
         "max_capacity": 10,
         "max_length": 65535
-    }
+    },
+    "nullable": true
 }'
 
 export arrayField2='{
@@ -242,7 +325,8 @@ export arrayField2='{
     "elementDataType": "Int64",
     "elementTypeParams": {
         "max_capacity": 5
-    }
+    },
+    "nullable": true
 }'
 
 export pkField='{
@@ -261,6 +345,7 @@ export vectorField='{
 
 export schema="{
     \"autoID\": false,
+    \"enableDynamicField\": true,
     \"fields\": [
         $arrayField1,
         $arrayField2,
@@ -268,33 +353,6 @@ export schema="{
         $vectorField
     ]
 }"
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
-auto status = client->Connect(connect_param);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
-schema->AddField({"pk", milvus::DataType::INT64, "", true, false});
-schema->AddField(milvus::FieldSchema("embedding", milvus::DataType::FLOAT_VECTOR).WithDimension(3));
-schema->AddField(milvus::FieldSchema("tags", milvus::DataType::ARRAY)
-                                    .WithMaxCapacity(10)
-                                    .WithElementType(milvus::DataType::VARCHAR)
-                                    .WithMaxLength(65535));
-schema->AddField(milvus::FieldSchema("ratings", milvus::DataType::ARRAY)
-                                    .WithMaxCapacity(10)
-                                    .WithElementType(milvus::DataType::INT64));
 ```
 
 </TabItem>
@@ -306,15 +364,14 @@ schema->AddField(milvus::FieldSchema("ratings", milvus::DataType::ARRAY)
 
 次の例では、ベクトルフィールド `embedding` と ARRAY フィールド `tags` の両方に、`AUTOINDEX` インデックスタイプを使用してインデックスを作成します。このタイプを使用すると、Milvus がデータ型に基づいて最適なインデックスを自動的に選択します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 # Set index params
-
 index_params = client.prepare_index_params()
 
-# Index `age` with AUTOINDEX
+# Index `tags` with AUTOINDEX
 index_params.add_index(
     field_name="tags",
     index_type="AUTOINDEX",
@@ -343,7 +400,7 @@ indexes.add(IndexParam.builder()
         .indexName("tags_index")
         .indexType(IndexParam.IndexType.AUTOINDEX)
         .build());
-        
+
 indexes.add(IndexParam.builder()
         .fieldName("embedding")
         .indexType(IndexParam.IndexType.AUTOINDEX)
@@ -356,8 +413,45 @@ indexes.add(IndexParam.builder()
 <TabItem value='go'>
 
 ```go
-indexOpt1 := milvusclient.NewCreateIndexOption("my_collection", "tags", index.NewInvertedIndex())
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+indexOpt1 := milvusclient.NewCreateIndexOption("my_collection", "tags", index.NewInvertedIndex()).WithIndexName("tags_index")
 indexOpt2 := milvusclient.NewCreateIndexOption("my_collection", "embedding", index.NewAutoIndex(entity.COSINE))
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let tags_index = IndexParam::new()
+    .field_name("tags")
+    .index_name("tags_index")
+    .index_type(IndexType::AutoIndex);
+
+let embedding_index = IndexParam::new()
+    .field_name("embedding")
+    .index_type(IndexType::AutoIndex)
+    .metric_type(MetricType::Cosine);
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+#include <vector>
+
+std::vector<milvus::IndexDesc> indexes = {
+    milvus::IndexDesc("tags", "tags_index", milvus::IndexType::AUTOINDEX),
+    milvus::IndexDesc("embedding", "", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE)
+};
 ```
 
 </TabItem>
@@ -365,17 +459,17 @@ indexOpt2 := milvusclient.NewCreateIndexOption("my_collection", "embedding", ind
 <TabItem value='javascript'>
 
 ```javascript
-const indexParams = [{
-    index_name: 'inverted_index',
-    field_name: 'tags',
-    index_type: IndexType.AUTOINDEX,
-)];
+import { IndexType, MetricType } from "@zilliz/milvus2-sdk-node";
 
-indexParams.push({
-    index_name: 'embedding_index',
+const indexParams = [{
+    index_name: 'tags_index',
+    field_name: 'tags',
+    index_type: IndexType.AUTOINDEX
+}, {
     field_name: 'embedding',
     index_type: IndexType.AUTOINDEX,
-});
+    metric_type: MetricType.COSINE
+}];
 ```
 
 </TabItem>
@@ -386,7 +480,7 @@ indexParams.push({
 export indexParams='[
         {
             "fieldName": "tags",
-            "indexName": "inverted_index",
+            "indexName": "tags_index",
             "indexType": "AUTOINDEX"
         },
         {
@@ -398,24 +492,13 @@ export indexParams='[
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-std::vector<milvus::IndexDesc> indexes = {
-    milvus::IndexDesc("tags", "inverted_index", milvus::IndexType::AUTOINDEX,),
-    milvus::IndexDesc("embedding", "", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE)
-}
-```
-
-</TabItem>
 </Tabs>
 
 ## コレクションを作成する\{#create-collection}
 
 スキーマとインデックスを定義したら、ARRAY フィールドを含むコレクションを作成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -424,6 +507,9 @@ client.create_collection(
     schema=schema,
     index_params=index_params
 )
+
+# Load the collection into memory before performing searches and queries
+client.load_collection(collection_name="my_collection")
 ```
 
 </TabItem>
@@ -431,12 +517,19 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import io.milvus.v2.service.collection.request.LoadCollectionReq;
+
 CreateCollectionReq requestCreate = CreateCollectionReq.builder()
         .collectionName("my_collection")
         .collectionSchema(schema)
         .indexParams(indexes)
         .build();
 client.createCollection(requestCreate);
+
+client.loadCollection(LoadCollectionReq.builder()
+        .collectionName("my_collection")
+        .build());
 ```
 
 </TabItem>
@@ -448,7 +541,61 @@ err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("my_co
     WithIndexOptions(indexOpt1, indexOpt2))
 if err != nil {
     fmt.Println(err.Error())
-    // handler err
+    // handle err
+}
+
+_, err = client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle err
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+client.create_collection(
+    CreateCollectionRequest::builder()
+        .collection_name("my_collection")
+        .schema(schema)
+        .build()?,
+).await?;
+
+// Rust creates indexes with separate create_index calls after creating the collection
+client.create_index(
+    CreateIndexRequest::builder()
+        .collection_name("my_collection")
+        .index_param(tags_index)
+        .index_param(embedding_index)
+        .build()?,
+).await?;
+
+client.load_collection(
+    LoadCollectionRequest::builder()
+        .collection_name("my_collection")
+        .build()?,
+).await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                    .WithCollectionName("my_collection")
+                                    .WithIndexes(std::move(indexes))
+                                    .WithCollectionSchema(schema));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->LoadCollection(milvus::LoadCollectionRequest()
+                                .WithCollectionName("my_collection"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
 }
 ```
 
@@ -457,11 +604,15 @@ if err != nil {
 <TabItem value='javascript'>
 
 ```javascript
-client.create_collection({
+await client.createCollection({
     collection_name: "my_collection",
     schema: schema,
     index_params: indexParams
-})
+});
+
+await client.loadCollection({
+    collection_name: "my_collection"
+});
 ```
 
 </TabItem>
@@ -479,20 +630,15 @@ curl --request POST \
     \"schema\": $schema,
     \"indexParams\": $indexParams
 }"
-```
 
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto status = client->CreateCollection(milvus::CreateCollectionRequest()
-                                        .WithCollectionName("my_collection")
-                                        .WithIndexes(std::move(indexes))
-                                        .WithCollectionSchema(schema));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/load" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d '{
+    "collectionName": "my_collection"
+}'
 ```
 
 </TabItem>
@@ -502,7 +648,7 @@ if (!status.IsOk()) {
 
 コレクションを作成したら、ARRAY フィールドを含むデータを挿入できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -540,7 +686,6 @@ client.insert(
 ```java
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-
 import io.milvus.v2.service.vector.request.InsertReq;
 import io.milvus.v2.service.vector.response.InsertResp;
 
@@ -561,12 +706,15 @@ InsertResp insertR = client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
-column1, _ := column.NewNullableColumnVarCharArray("tags",
-    [][]string{{"pop", "rock", "classic"}},
-    []bool{true, false, false})
-column2, _ := column.NewNullableColumnInt64Array("ratings",
-    [][]int64{{5, 4, 3}, {4, 5}, {9, 5}},
-    []bool{true, true, true})
+import (
+    "github.com/milvus-io/milvus/client/v3/column"
+)
+
+column1 := column.NewColumnVarCharArray("tags", [][]string{{"pop", "rock", "classic"}})
+column1.SetNullable(true)
+column1.AppendNull()
+column1.AppendNull()
+column2 := column.NewColumnInt64Array("ratings", [][]int64{{5, 4, 3}, {4, 5}, {9, 5}})
 
 _, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("my_collection").
     WithInt64Column("pk", []int64{1, 2, 3}).
@@ -583,6 +731,64 @@ if err != nil {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+use serde_json::json;
+
+let rows = vec![
+    json!({
+        "tags": ["pop", "rock", "classic"],
+        "ratings": [5, 4, 3],
+        "pk": 1,
+        "embedding": [0.12, 0.34, 0.56]
+    }),
+    json!({
+        "tags": None::<String>,
+        "ratings": [4, 5],
+        "pk": 2,
+        "embedding": [0.78, 0.91, 0.23]
+    }),
+    json!({
+        "ratings": [9, 5],
+        "pk": 3,
+        "embedding": [0.18, 0.11, 0.23]
+    }),
+];
+
+client.insert(
+    InsertRequest::builder()
+        .collection_name("my_collection")
+        .rows(rows)
+        .build()?,
+).await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+#include <string>
+#include <vector>
+
+milvus::EntityRows data = {{{"pk", 1}, {"tags", std::vector<std::string>{"pop", "rock", "classic"}}, {"ratings", std::vector<int64_t>{5, 4, 3}}, {"embedding", std::vector<float>{0.12, 0.34, 0.56}}},
+                           {{"pk", 2}, {"tags", nullptr}, {"ratings", std::vector<int64_t>{4, 5}}, {"embedding", std::vector<float>{0.78, 0.91, 0.23}}},
+                           {{"pk", 3}, {"ratings", std::vector<int64_t>{9, 5}}, {"embedding", std::vector<float>{0.18, 0.11, 0.23}}}};
+
+milvus::InsertResponse insert_response;
+status = client->Insert(milvus::InsertRequest()
+                            .WithCollectionName("my_collection")
+                            .WithRowsData(std::move(data)),
+                        insert_response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -594,20 +800,19 @@ const data = [
         "embedding": [0.12, 0.34, 0.56]
     },
     {
-        "tags": ["jazz", "blues"],
+        "tags": null,
         "ratings": [4, 5],
         "pk": 2,
         "embedding": [0.78, 0.91, 0.23]
     },
     {
-        "tags": ["electronic", "dance"],
-        "ratings": [3, 3, 4],
+        "ratings": [9, 5],
         "pk": 3,
-        "embedding": [0.67, 0.45, 0.89]
+        "embedding": [0.18, 0.11, 0.23]
     }
 ];
 
-client.insert({
+await client.insert({
   collection_name: "my_collection",
   data: data,
 });
@@ -626,45 +831,25 @@ curl --request POST \
 -d '{
     "data": [
         {
-        "tags": ["pop", "rock", "classic"],
-        "ratings": [5, 4, 3],
-        "pk": 1,
-        "embedding": [0.12, 0.34, 0.56]
-    },
-    {
-        "tags": ["jazz", "blues"],
-        "ratings": [4, 5],
-        "pk": 2,
-        "embedding": [0.78, 0.91, 0.23]
-    },
-    {
-        "tags": ["electronic", "dance"],
-        "ratings": [3, 3, 4],
-        "pk": 3,
-        "embedding": [0.67, 0.45, 0.89]
-    }       
+            "tags": ["pop", "rock", "classic"],
+            "ratings": [5, 4, 3],
+            "pk": 1,
+            "embedding": [0.12, 0.34, 0.56]
+        },
+        {
+            "tags": null,
+            "ratings": [4, 5],
+            "pk": 2,
+            "embedding": [0.78, 0.91, 0.23]
+        },
+        {
+            "ratings": [9, 5],
+            "pk": 3,
+            "embedding": [0.18, 0.11, 0.23]
+        }
     ],
     "collectionName": "my_collection"
 }'
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-milvus::EntityRows data = {{{"pk", 1}, {"tags", std::vector<std::string>{"pop", "rock", "classic"}}, {"ratings", std::vector<int64_t>{5, 4, 3}}, {"embedding", std::vector<float>{0.12, 0.34, 0.56}}},
-                           {{"pk", 2}, {"tags", std::vector<std::string>{"jazz", "blues"}}, {"ratings", std::vector<int64_t>{4, 5}}, {"embedding", std::vector<float>{0.78, 0.91, 0.23}}},
-                           {{"pk", 3}, {"tags", std::vector<std::string>{"electronic", "dance"}}, {"ratings", std::vector<int64_t>{3, 3, 4}}, {"embedding", std::vector<float>{0.67, 0.45, 0.89}}}};
-                           
-milvus::InsertResponse response;
-auto status = client->Insert(milvus::InsertRequest()
-                                .WithCollectionName("my_collection")
-                                .WithRowsData(std::move(data)),
-                             response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
 ```
 
 </TabItem>
@@ -682,12 +867,11 @@ if (!status.IsOk()) {
 
 `tags` が null でないエンティティを取得するには、次のようにします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-# Query to exclude entities where `tags` is not null
-
+# Query entities where `tags` is not null
 filter = 'tags IS NOT NULL'
 
 res = client.query(
@@ -697,11 +881,6 @@ res = client.query(
 )
 
 print(res)
-
-# Example output:
-# data: [
-#     "{'tags': ['pop', 'rock', 'classic'], 'ratings': [5, 4, 3], 'pk': 1}"
-# ]
 ```
 
 </TabItem>
@@ -711,6 +890,7 @@ print(res)
 ```java
 import io.milvus.v2.service.vector.request.QueryReq;
 import io.milvus.v2.service.vector.response.QueryResp;
+import java.util.Arrays;
 
 String filter = "tags IS NOT NULL";
 QueryResp resp = client.query(QueryReq.builder()
@@ -720,10 +900,6 @@ QueryResp resp = client.query(QueryReq.builder()
         .build());
 
 System.out.println(resp.getQueryResults());
-
-// Output
-//
-// [QueryResp.QueryResult(entity={ratings=[5, 4, 3], pk=1, tags=[pop, rock, classic]})]
 ```
 
 </TabItem>
@@ -747,14 +923,59 @@ fmt.Println("ratings", rs.GetColumn("ratings").FieldData().GetScalars())
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+let query_results = client
+    .query(
+        QueryRequest::builder()
+            .collection_name("my_collection")
+            .filter("tags IS NOT NULL")
+            .output_fields(["tags", "ratings", "pk"])
+            .build()?,
+    )
+    .await?;
+for row in query_results.results().get_output_rows()? {
+    println!("{:?}", row);
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::QueryResponse query_response;
+status = client->Query(milvus::QueryRequest()
+                        .WithCollectionName("my_collection")
+                        .WithFilter("tags IS NOT NULL")
+                        .AddOutputField("tags")
+                        .AddOutputField("ratings")
+                        .AddOutputField("pk"),
+                        query_response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::EntityRows output_rows;
+status = query_response.Results().OutputRows(output_rows);
+for (const auto& row : output_rows) {
+    std::cout << "	" << row << std::endl;
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
-client.query({
+const res = await client.query({
     collection_name: 'my_collection',
     filter: 'tags IS NOT NULL',
-    output_fields: ['tags', 'ratings', 'embedding']
+    output_fields: ['tags', 'ratings', 'pk']
 });
+
+console.log(res);
 ```
 
 </TabItem>
@@ -770,33 +991,8 @@ curl --request POST \
 -d '{
     "collectionName": "my_collection",
     "filter": "tags IS NOT NULL",
-    "outputFields": ["tags", "ratings", "embedding"]
+    "outputFields": ["tags", "ratings", "pk"]
 }'
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto request = milvus::QueryRequest()
-                       .WithCollectionName("my_collection")
-                       .WithFilter("tags IS NOT NULL")
-                       .AddOutputField("tags")
-                       .AddOutputField("ratings")
-                       .AddOutputField("embedding");
-
-milvus::QueryResponse response;
-auto status = client->Query(request, response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-milvus::EntityRows output_rows;
-status = query_results.OutputRows(output_rows);
-for (const auto& row : output_rows) {
-    std::cout << "\t" << row << std::endl;
-}
 ```
 
 </TabItem>
@@ -804,7 +1000,7 @@ for (const auto& row : output_rows) {
 
 `ratings` の最初の要素の値が 4 より大きいエンティティを取得するには、次のようにします。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -817,12 +1013,6 @@ res = client.query(
 )
 
 print(res)
-
-# Example output:
-# data: [
-#     "{'tags': ['pop', 'rock', 'classic'], 'ratings': [5, 4, 3], 'embedding': [0.12, 0.34, 0.56], 'pk': 1}",
-#     "{'tags': None, 'ratings': [9, 5], 'embedding': [0.18, 0.11, 0.23], 'pk': 3}"
-# ]
 ```
 
 </TabItem>
@@ -830,21 +1020,15 @@ print(res)
 <TabItem value='java'>
 
 ```java
-String filter = "ratings[0] > 4"
+String filter = "ratings[0] > 4";
 
 QueryResp resp = client.query(QueryReq.builder()
         .collectionName("my_collection")
         .filter(filter)
-        .outputFields(Arrays.asList("tags", "ratings", "pk"))
+        .outputFields(Arrays.asList("tags", "ratings", "embedding"))
         .build());
 
 System.out.println(resp.getQueryResults());
-
-// Output
-// [
-//    QueryResp.QueryResult(entity={ratings=[5, 4, 3], pk=1, tags=[pop, rock, classic]}), 
-//    QueryResp.QueryResult(entity={ratings=[9, 5], pk=3, tags=[]})
-// ]
 ```
 
 </TabItem>
@@ -855,15 +1039,56 @@ System.out.println(resp.getQueryResults());
 filter = "ratings[0] > 4"
 rs, err = client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter(filter).
-    WithOutputFields("tags", "ratings", "pk"))
+    WithOutputFields("tags", "ratings", "embedding"))
 if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
 
-fmt.Println("pk", rs.GetColumn("pk"))
-fmt.Println("tags", rs.GetColumn("tags"))
-fmt.Println("ratings", rs.GetColumn("ratings"))
+fmt.Println("pk", rs.GetColumn("pk").FieldData().GetScalars())
+fmt.Println("tags", rs.GetColumn("tags").FieldData().GetScalars())
+fmt.Println("ratings", rs.GetColumn("ratings").FieldData().GetScalars())
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let query_results = client
+    .query(
+        QueryRequest::builder()
+            .collection_name("my_collection")
+            .filter("ratings[0] > 4")
+            .output_fields(["tags", "ratings", "embedding"])
+            .build()?,
+    )
+    .await?;
+for row in query_results.results().get_output_rows()? {
+    println!("{:?}", row);
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+status = client->Query(milvus::QueryRequest()
+                        .WithCollectionName("my_collection")
+                        .WithFilter("ratings[0] > 4")
+                        .AddOutputField("tags")
+                        .AddOutputField("ratings")
+                        .AddOutputField("embedding"),
+                        query_response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = query_response.Results().OutputRows(output_rows);
+for (const auto& row : output_rows) {
+    std::cout << "	" << row << std::endl;
+}
 ```
 
 </TabItem>
@@ -871,22 +1096,15 @@ fmt.Println("ratings", rs.GetColumn("ratings"))
 <TabItem value='javascript'>
 
 ```javascript
-// node
 const filter = 'ratings[0] > 4';
 
 const res = await client.query({
-    collection_name:"my_collection",
-    filter:filter,
+    collection_name: "my_collection",
+    filter: filter,
     output_fields: ["tags", "ratings", "embedding"]
 });
 
-console.log(res)
-
-// Example output:
-// data: [
-//     "{'tags': ['pop', 'rock', 'classic'], 'ratings': [5, 4, 3], 'embedding': [0.12, 0.34, 0.56], 'pk': 1}",
-//     "{'tags': None, 'ratings': [9, 5], 'embedding': [0.18, 0.11, 0.23], 'pk': 3}"
-// ]
+console.log(res);
 ```
 
 </TabItem>
@@ -908,38 +1126,13 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto request = milvus::QueryRequest()
-                       .WithCollectionName("my_collection")
-                       .WithFilter("ratings[0] > 4")
-                       .AddOutputField("tags")
-                       .AddOutputField("ratings")
-                       .AddOutputField("embedding");
-
-milvus::QueryResponse response;
-auto status = client->Query(request, response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-milvus::EntityRows output_rows;
-status = query_results.OutputRows(output_rows);
-for (const auto& row : output_rows) {
-    std::cout << "\t" << row << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
 
 ## フィルター式を使ったベクトル検索\{#vector-search-with-filter-expressions}
 
 基本的なスカラーフィールドのフィルタリングに加えて、ベクトル類似度検索とスカラーフィールドフィルターを組み合わせることもできます。たとえば、次のコードは、ベクトル検索にスカラーフィールドフィルターを追加する方法を示しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -955,11 +1148,6 @@ res = client.search(
 )
 
 print(res)
-
-# Example output:
-# data: [
-#     "[{'id': 1, 'distance': -0.2479381263256073, 'entity': {'tags': ['pop', 'rock', 'classic'], 'ratings': [5, 4, 3], 'embedding': [0.11999999731779099, 0.3400000035762787, 0.5600000023841858]}}]"
-# ]
 ```
 
 </TabItem>
@@ -968,7 +1156,9 @@ print(res)
 
 ```java
 import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.*;
 
 String filter = "tags[0] == \"pop\"";
 SearchResp resp = client.search(SearchReq.builder()
@@ -981,10 +1171,6 @@ SearchResp resp = client.search(SearchReq.builder()
         .build());
 
 System.out.println(resp.getSearchResults());
-
-// Output
-//
-// [[SearchResp.SearchResult(entity={ratings=[5, 4, 3], embedding=[0.12, 0.34, 0.56], tags=[pop, rock, classic]}, score=-0.24793813, id=1)]]
 ```
 
 </TabItem>
@@ -1021,14 +1207,69 @@ for _, resultSet := range resultSets {
 
 </TabItem>
 
+<TabItem value='rust'>
+
+```rust
+let search_results = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("my_collection")
+            .vector_field("embedding")
+            .vectors(SearchVectors::Float(vec![vec![0.3f32, -0.6, 0.1]]))
+            .filter("tags[0] == \"pop\"")
+            .output_fields(["tags", "ratings", "embedding"])
+            .limit(5)
+            .build()?,
+    )
+    .await?;
+for result in search_results.results().iter() {
+    for row in result.get_output_rows()? {
+        println!("{:?}", row);
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::vector<float> query_vector = {0.3, -0.6, 0.1};
+milvus::SearchResponse search_response;
+status = client->Search(milvus::SearchRequest()
+                            .WithCollectionName("my_collection")
+                            .WithAnnsField("embedding")
+                            .WithLimit(5)
+                            .WithFilter(R"(tags[0] == "pop")")
+                            .AddOutputField("tags")
+                            .AddOutputField("ratings")
+                            .AddOutputField("embedding")
+                            .AddFloatVector(query_vector),
+                        search_response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+auto search_results = search_response.Results();
+for (const auto& result : search_results.Results()) {
+    milvus::EntityRows result_rows;
+    status = result.OutputRows(result_rows);
+    for (const auto& row : result_rows) {
+        std::cout << "	" << row << std::endl;
+    }
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
-client.search({
+await client.search({
     collection_name: 'my_collection',
     data: [0.3, -0.6, 0.1],
     limit: 5,
-    output_fields: ['tags', 'ratings', 'embdding'],
+    output_fields: ['tags', 'ratings', 'embedding'],
     filter: 'tags[0] == "pop"'
 });
 ```
@@ -1053,40 +1294,6 @@ curl --request POST \
     "filter": "tags[0] == \"pop\"",
     "outputFields": ["tags", "ratings", "embedding"]
 }'
-
-# {"code":0,"cost":0,"data":[{"distance":-0.24793813,"embedding":[0.12,0.34,0.56],"id":1,"ratings":{"Data":{"LongData":{"data":[5,4,3]}}},"tags":{"Data":{"StringData":{"data":["pop","rock","classic"]}}}}]}
-```
-
-</TabItem>
-
-<TabItem value='c++'>
-
-```c++
-std::vector<float> query_vector = {0.3, -0.6, 0.1};
-auto request = milvus::SearchRequest()
-                   .WithCollectionName("my_collection")
-                   .WithAnnsField("embedding")
-                   .WithLimit(5)
-                   .WithFilter(R"(tags[0] == "pop")")
-                   .AddOutputField("tags")
-                   .AddOutputField("ratings")
-                   .AddOutputField("embedding")
-                   .AddFloatVector(query_vector);
-
-milvus::SearchResponse response;
-auto status = client->Search(request, response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-auto search_results = response.Results();
-for (auto& result : search_results.Results()) {
-    milvus::EntityRows output_rows;
-    status = result.OutputRows(output_rows);
-    for (const auto& row : output_rows) {
-        std::cout << "\t" << row << std::endl;
-    }
-}
 ```
 
 </TabItem>

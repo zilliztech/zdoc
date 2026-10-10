@@ -23,23 +23,23 @@ import TabItem from '@theme/TabItem';
 
 密ベクトルは、機械学習やデータ分析で広く使用される数値データ表現です。実数の配列で構成され、そのほとんどまたはすべての要素がゼロではありません。スパースベクトルと比較して、密ベクトルは同じ次元レベルでより多くの情報を含みます。これは、各次元が意味のある値を保持しているためです。この表現は、複雑なパターンや関係性を効果的に捉えることができ、高次元空間でのデータの分析や処理を容易にします。密ベクトルは通常、固定された次元数を持ち、その数は特定のアプリケーションや要件に応じて、数十から数百、場合によっては数千に及びます。
 
-密ベクトルは主に、セマンティック検索やレコメンデーションシステムなど、データの意味を理解する必要があるシナリオで使用されます。セマンティック検索では、密ベクトルはクエリとドキュメントの間にある基盤的なつながりを捉えるのに役立ち、検索結果の関連性を向上させます。レコメンデーションシステムでは、ユーザーとアイテムの類似性を特定し、よりパーソナライズされた提案を提供するのに役立ちます。
+密ベクトルは主に、セマンティック検索やレコメンデーションシステムなど、データの意味を理解する必要があるシナリオで使用されます。セマンティック検索では、密ベクトルはクエリとドキュメントの間にある根本的なつながりを捉えるのに役立ち、検索結果の関連性を向上させます。レコメンデーションシステムでは、ユーザーとアイテムの間の類似性を特定するのに役立ち、よりパーソナライズされた提案を提供します。
 
 ## 概要\{#overview}
 
-密ベクトルは通常、固定長の浮動小数点数配列として表されます（例: `[0.2, 0.7, 0.1, 0.8, 0.3, ..., 0.5]`）。このようなベクトルの次元数は通常、128、256、768、1024 のように数百から数千に及びます。各次元はオブジェクトの特定のセマンティック特徴を捉えており、類似度計算を通じてさまざまなシナリオに適用できます。
+密ベクトルは通常、`[0.2, 0.7, 0.1, 0.8, 0.3, ..., 0.5]` のような固定長の浮動小数点数配列として表されます。これらのベクトルの次元数は通常、128、256、768、1024 のように数百から数千の範囲です。各次元はオブジェクトの特定の意味的特徴を捉えており、類似度計算を通じてさまざまなシナリオに適用できます。
 
 ![QOgMwbrhLhvvtbbk5TxcarhEn8i](https://zdoc-images.s3.us-west-2.amazonaws.com/QOgMwbrhLhvvtbbk5TxcarhEn8i.png)
 
-上の図は、2D 空間における密ベクトルの表現を示しています。実際のアプリケーションにおける密ベクトルははるかに高次元であることが多いですが、この 2D 図は以下のいくつかの重要な概念を効果的に伝えています。
+上の図は、2D 空間における密ベクトルの表現を示しています。実際のアプリケーションにおける密ベクトルは多くの場合はるかに高次元ですが、この 2D の図解はいくつかの重要な概念を効果的に伝えています。
 
 - **多次元表現:** 各点は概念的なオブジェクト（**Milvus**、**ベクトルデータベース**、**検索システム** など）を表し、その位置は各次元の値によって決まります。
 
-- **セマンティックな関係:** 点間の距離は、概念間のセマンティック類似度を反映します。近い点ほど、意味的に関連性の高い概念を示します。
+- **意味的関係:** 点同士の距離は、概念間の意味的な類似性を反映しています。点が近いほど、概念同士の意味的な関連性が高いことを示します。
 
-- **クラスタリング効果:** 関連する概念（**Milvus**、**ベクトルデータベース**、**検索システム**）は空間内で互いに近くに配置され、セマンティッククラスターを形成します。
+- **クラスタリング効果:** 関連する概念（**Milvus**、**ベクトルデータベース**、**検索システム**）は空間内で互いに近くに配置され、意味的なクラスターを形成します。
 
-以下は、`"Milvus is an efficient vector database"` を表す実際の密ベクトルの例です。
+以下は、`"Milvus is an efficient vector database"` というテキストを表す実際の密ベクトルの例です。
 
 ```json
 [
@@ -55,31 +55,31 @@ import TabItem from '@theme/TabItem';
 ]
 ```
 
-密ベクトルは、さまざまな [embedding](https://en.wikipedia.org/wiki/Embedding) モデルを使用して生成できます。たとえば、画像向けの CNN モデル（[ResNet](https://pytorch.org/hub/pytorch_vision_resnet/)、[VGG](https://pytorch.org/vision/stable/models/vgg.html)）や、テキスト向けの言語モデル（[BERT](https://en.wikipedia.org/wiki/BERT_(language_model))、[Word2Vec](https://en.wikipedia.org/wiki/Word2vec)）などがあります。これらのモデルは、生データを高次元空間内の点に変換し、データのセマンティック特徴を捉えます。さらに、Zilliz Cloud は、ユーザーが密ベクトルを生成および処理するのに役立つ便利な方法を提供しています。詳細は Embeddings で説明しています。
+密ベクトルは、さまざまな [embedding](https://en.wikipedia.org/wiki/Embedding) モデルを使用して生成できます。たとえば、画像向けの CNN モデル（[ResNet](https://pytorch.org/hub/pytorch_vision_resnet/)、[VGG](https://pytorch.org/vision/stable/models/vgg.html)）や、テキスト向けの言語モデル（[BERT](https://en.wikipedia.org/wiki/BERT_(language_model))、[Word2Vec](https://en.wikipedia.org/wiki/Word2vec)）などがあります。これらのモデルは、生データを高次元空間内の点に変換し、データの意味的特徴を捉えます。さらに、Zilliz Cloud は、ユーザーが密ベクトルを生成および処理するのに役立つ便利な方法を提供しています。詳細は Embeddings で説明しています。
 
-データがベクトル化されると、管理およびベクトル検索のために Zilliz Cloud クラスターに保存できます。以下の図は基本的なプロセスを示しています。
+データがベクトル化されると、管理とベクトル検索のために Zilliz Cloud クラスターに保存できます。以下の図は、その基本的な流れを示しています。
 
 ![No8KwR6wPhTIP6bKEqGcbBDWngc](https://zdoc-images.s3.us-west-2.amazonaws.com/No8KwR6wPhTIP6bKEqGcbBDWngc.png)
 
 <Admonition type="info" title="Notes">
 
-密ベクトルに加えて、Zilliz Cloud はスパースベクトルとバイナリベクトルもサポートしています。スパースベクトルは、キーワード検索や用語一致など、特定の用語に基づく正確な一致に適しています。一方、バイナリベクトルは、画像パターンマッチングや特定のハッシュアプリケーションなど、二値化されたデータを効率的に処理するためによく使用されます。詳細については、[バイナリベクトル](./use-binary-vector) および [スパースベクトル](./use-sparse-vector) を参照してください。
+密ベクトルに加えて、Zilliz Cloud はスパースベクトルとバイナリベクトルもサポートしています。スパースベクトルは、キーワード検索や用語一致など、特定の用語に基づく正確な一致に適しています。一方、バイナリベクトルは、画像パターンマッチングや特定のハッシュアプリケーションなど、二値化されたデータを効率的に処理するためによく使用されます。詳細は [バイナリベクトル](./use-binary-vector) および [スパースベクトル](./use-sparse-vector) を参照してください。
 
 </Admonition>
 
 ## 密ベクトルを使用する\{#use-dense-vectors}
 
-### ベクトルフィールドの追加\{#add-vector-field}
+### ベクトルフィールドを追加する\{#add-vector-field}
 
-Zilliz Cloud クラスターで密ベクトルを使用するには、まずコレクションを作成するときに密ベクトルを保存するためのベクトルフィールドを定義します。このプロセスには以下が含まれます。
+Zilliz Cloud クラスターで密ベクトルを使用するには、まずコレクション作成時に密ベクトルを保存するためのベクトルフィールドを定義します。このプロセスには以下が含まれます。
 
 1. `datatype` を、サポートされている密ベクトルのデータ型に設定します。サポートされている密ベクトルのデータ型については、Data Types を参照してください。
 
-1. `dim` パラメーターを使用して、密ベクトルの次元数を指定します。
+1. `dim` パラメータを使用して、密ベクトルの次元数を指定します。
 
-次の例では、密ベクトルを保存するために `dense_vector` という名前のベクトルフィールドを追加します。このフィールドのデータ型は `FLOAT_VECTOR`、次元数は `4` です。
+以下の例では、密ベクトルを保存するために `dense_vector` という名前のベクトルフィールドを追加します。このフィールドのデータ型は `FLOAT_VECTOR`、次元数は `4` です。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -131,58 +131,114 @@ schema.addField(AddFieldReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-import { DataType } from "@zilliz/milvus2-sdk-node";
-
-schema.push({
-  name: "dense_vector",
-  data_type: DataType.FloatVector,
-  dim: 4,
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v2/column"
-    "github.com/milvus-io/milvus/client/v2/entity"
-    "github.com/milvus-io/milvus/client/v2/index"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
-)
-
-ctx, cancel := context.WithCancel(context.Background())
-defer cancel()
-
-milvusAddr := "YOUR_CLUSTER_ENDPOINT"
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: milvusAddr,
-})
+err = client.CreateCollection(ctx,
+    milvusclient.NewCreateCollectionOption("my_collection", schema).
+        WithIndexOptions(indexOption))
 if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
-defer client.Close(ctx)
 
-schema := entity.NewSchema()
-schema.WithField(entity.NewField().
-    WithName("pk").
-    WithDataType(entity.FieldTypeVarChar).
-    WithIsPrimaryKey(true).
-    WithIsAutoID(true).
-    WithMaxLength(100),
-).WithField(entity.NewField().
-    WithName("dense_vector").
-    WithDataType(entity.FieldTypeFloatVector).
-    WithDim(4),
-)
+// CreateCollection does not implicitly load the collection; load it before search.
+loadTask, err := client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+if err := loadTask.Await(ctx); err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+use milvus::v2::prelude::*;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    let client = ClientV2::new(
+        &ConnectConfig::new()
+            .uri("YOUR_CLUSTER_ENDPOINT")
+            .token("YOUR_CLUSTER_TOKEN"),
+    )
+    .await?;
+
+    let schema = CollectionSchema::new()
+        .enable_dynamic_field(true)
+        .add_field(
+            FieldSchema::new()
+                .name("pk")
+                .data_type(DataType::VarChar)
+                .primary_key(true)
+                .auto_id(true)
+                .max_length(100),
+        )
+        .add_field(
+            FieldSchema::new()
+                .name("dense_vector")
+                .data_type(DataType::FloatVector)
+                .dimension(4),
+        );
+
+    Ok(())
+}
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <iostream>
+#include <memory>
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->SetEnableDynamicField(true);
+schema->AddField(milvus::FieldSchema("pk", milvus::DataType::VARCHAR, "", true, true).WithMaxLength(100));
+schema->AddField(milvus::FieldSchema("dense_vector", milvus::DataType::FLOAT_VECTOR).WithDimension(4));
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({
+    address: "YOUR_CLUSTER_ENDPOINT"
+});
+
+const schema = [
+    {
+        name: "pk",
+        data_type: DataType.VarChar,
+        is_primary_key: true,
+        autoID: true,
+        max_length: 100
+    },
+    {
+        name: "dense_vector",
+        data_type: DataType.FloatVector,
+        dim: 4
+    }
+];
 ```
 
 </TabItem>
@@ -217,27 +273,6 @@ export schema="{
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-#include "milvus/MilvusClientV2.h"
-
-auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
-auto status = client->Connect(connect_param);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
-schema->SetEnableDynamicField(true);
-schema->AddField(milvus::FieldSchema("pk", milvus::DataType::VARCHAR, "", true, true).WithMaxLength(100));
-schema->AddField(milvus::FieldSchema("dense_vector", milvus::DataType::FLOAT_VECTOR).WithDimension(4));
-```
-
-</TabItem>
 </Tabs>
 
 **密ベクトルフィールドでサポートされているデータ型**:
@@ -253,7 +288,7 @@ schema->AddField(milvus::FieldSchema("dense_vector", milvus::DataType::FLOAT_VEC
 
 セマンティック検索を高速化するには、ベクトルフィールドにインデックスを作成する必要があります。インデックスを作成すると、大規模なベクトルデータの検索効率を大幅に向上できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -279,9 +314,43 @@ List<IndexParam> indexes = new ArrayList<>();
 
 indexes.add(IndexParam.builder()
         .fieldName("dense_vector")
+        .indexName("dense_vector_index")
         .indexType(IndexParam.IndexType.AUTOINDEX)
         .metricType(IndexParam.MetricType.IP)
         .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+idx := index.NewAutoIndex(index.MetricType(entity.IP))
+indexOption := milvusclient.NewCreateIndexOption("my_collection", "dense_vector", idx)
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+let index_params = vec![IndexParam::new()
+    .field_name("dense_vector")
+    .index_name("dense_vector_index")
+    .index_type(IndexType::AutoIndex)
+    .metric_type(MetricType::Ip)];
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <vector>
+
+std::vector<milvus::IndexDesc> indexes = {
+    milvus::IndexDesc("dense_vector", "dense_vector_index", milvus::IndexType::AUTOINDEX, milvus::MetricType::IP)
+};
 ```
 
 </TabItem>
@@ -301,15 +370,6 @@ const indexParams = {
 
 </TabItem>
 
-<TabItem value='go'>
-
-```go
-idx := index.NewAutoIndex(index.MetricType(entity.IP))
-indexOption := milvusclient.NewCreateIndexOption("my_collection", "dense_vector", idx)
-```
-
-</TabItem>
-
 <TabItem value='bash'>
 
 ```bash
@@ -324,27 +384,17 @@ export indexParams='[
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-std::vector<milvus::IndexDesc> indexes = {
-    milvus::IndexDesc("dense_vector", "dense_vector_index", milvus::IndexType::AUTOINDEX, milvus::MetricType::IP)
-}
-```
-
-</TabItem>
 </Tabs>
 
 上記の例では、`dense_vector_index` という名前のインデックスが、`dense_vector` フィールドに `AUTOINDEX` インデックスタイプを使用して作成されます。`metric_type` は `IP` に設定されており、距離メトリクスとして内積が使用されることを示します。
 
-Zilliz Cloud は他のメトリクスタイプもサポートしています。詳細については、[メトリクスタイプ](./search-metrics-explained)。
+Zilliz Cloud は他のメトリクスタイプもサポートしています。詳細については、[メトリクスタイプ](./search-metrics-explained) を参照してください。
 
 ### コレクションの作成\{#create-collection}
 
-密ベクトルとインデックスパラメーターの設定が完了したら、密ベクトルを含むコレクションを作成できます。次の例では、`create_collection` メソッドを使用して、`my_collection` という名前のコレクションを作成します。
+密ベクトルとインデックスパラメーターの設定が完了したら、密ベクトルを含むコレクションを作成できます。以下の例では、`create_collection` メソッドを使用して、`my_collection` という名前のコレクションを作成します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -372,20 +422,6 @@ client.createCollection(requestCreate);
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-import { MilvusClient } from "@zilliz/milvus2-sdk-node";
-
-await client.createCollection({
-    collection_name: 'my_collection',
-    schema: schema,
-    index_params: indexParams
-});
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -396,6 +432,61 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
+
+loadTask, err := client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+if err := loadTask.Await(ctx); err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+client
+    .create_collection(
+        CreateCollectionRequest::builder()
+            .collection_name("my_collection")
+            .schema(schema)
+            .index_params(index_params)
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// CreateCollection creates the configured indexes and loads the collection automatically.
+auto status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                            .WithCollectionName("my_collection")
+                                            .WithIndexes(std::move(indexes))
+                                            .WithCollectionSchema(schema));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const res = await client.createCollection({
+    collection_name: "my_collection",
+    schema: schema,
+    index_params: indexParams
+});
+
+console.log(res);
 ```
 
 </TabItem>
@@ -403,6 +494,9 @@ if err != nil {
 <TabItem value='bash'>
 
 ```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/create" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -416,27 +510,13 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto status = client->CreateCollection(milvus::CreateCollectionRequest()
-                                            .WithCollectionName("my_collection")
-                                            .WithIndexes(std::move(indexes))
-                                            .WithCollectionSchema(schema));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
 
 ### データの挿入\{#insert-data}
 
-コレクションを作成したら、`insert` メソッドを使用して、密ベクトルを含むデータを追加します。挿入する密ベクトルの次元数が、密ベクトルフィールドを追加したときに定義した `dim` の値と一致していることを確認してください。
+コレクションを作成したら、`insert` メソッドを使用して密ベクトルを含むデータを追加します。挿入する密ベクトルの次元数が、密ベクトルフィールドを追加するときに定義した `dim` の値と一致していることを確認してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -463,29 +543,13 @@ import io.milvus.v2.service.vector.response.InsertResp;
 
 List<JsonObject> rows = new ArrayList<>();
 Gson gson = new Gson();
-rows.add(gson.fromJson("{\"dense_vector\": [0.1, 0.2, 0.3, 0.4]}", JsonObject.class));
-rows.add(gson.fromJson("{\"dense_vector\": [0.2, 0.3, 0.4, 0.5]}", JsonObject.class));
+rows.add(gson.fromJson("{\"dense_vector\": [0.1, 0.2, 0.3, 0.7]}", JsonObject.class));
+rows.add(gson.fromJson("{\"dense_vector\": [0.2, 0.3, 0.4, 0.8]}", JsonObject.class));
 
 InsertResp insertR = client.insert(InsertReq.builder()
         .collectionName("my_collection")
         .data(rows)
         .build());
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-const data = [
-  { dense_vector: [0.1, 0.2, 0.3, 0.7] },
-  { dense_vector: [0.2, 0.3, 0.4, 0.8] },
-];
-
-client.insert({
-  collection_name: "my_collection",
-  data: data,
-});
 ```
 
 </TabItem>
@@ -503,27 +567,37 @@ if err != nil {
     fmt.Println(err.Error())
     // handle err
 }
+
+flushTask, err := client.Flush(ctx, milvusclient.NewFlushOption("my_collection"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle err
+}
+if err := flushTask.Await(ctx); err != nil {
+    fmt.Println(err.Error())
+    // handle err
+}
 ```
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
---header "Request-Timeout: 10" \
--d '{
-    "data": [
-        {"dense_vector": [0.1, 0.2, 0.3, 0.4]},
-        {"dense_vector": [0.2, 0.3, 0.4, 0.5]}        
-    ],
-    "collectionName": "my_collection"
-}'
+```rust
+let rows = vec![
+    serde_json::json!({"dense_vector": [0.1, 0.2, 0.3, 0.7]}),
+    serde_json::json!({"dense_vector": [0.2, 0.3, 0.4, 0.8]}),
+];
 
-## {"code":0,"cost":0,"data":{"insertCount":2,"insertIds":["453577185629572531","453577185629572532"]}}
+let insert = client
+    .insert(
+        InsertRequest::builder()
+            .collection_name("my_collection")
+            .rows(rows)
+            .build()?,
+    )
+    .await?;
+println!("{} rows inserted", insert.insert_count());
 ```
 
 </TabItem>
@@ -531,8 +605,8 @@ curl --request POST \
 <TabItem value='c++'>
 
 ```c++
-milvus::EntityRows data = {{{"dense_vector", std::vector<float>{0.1, 0.2, 0.3, 0.4}}},
-                           {{"dense_vector", std::vector<float>{0.2, 0.3, 0.4, 0.5}}}};
+milvus::EntityRows data = {{{"dense_vector", std::vector<float>{0.1, 0.2, 0.3, 0.7}}},
+                           {{"dense_vector", std::vector<float>{0.2, 0.3, 0.4, 0.8}}}};
 
 milvus::InsertResponse response;
 auto status = client->Insert(milvus::InsertRequest()
@@ -542,6 +616,53 @@ auto status = client->Insert(milvus::InsertRequest()
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
+
+status = client->Flush(milvus::FlushRequest().AddCollectionName("my_collection"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const data = [
+    { dense_vector: [0.1, 0.2, 0.3, 0.7] },
+    { dense_vector: [0.2, 0.3, 0.4, 0.8] }
+];
+
+const res = await client.insert({
+    collection_name: "my_collection",
+    data: data
+});
+
+console.log(res);
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d '{
+    "data": [
+        {"dense_vector": [0.1, 0.2, 0.3, 0.7]},
+        {"dense_vector": [0.2, 0.3, 0.4, 0.8]}
+    ],
+    "collectionName": "my_collection"
+}'
+
+## {"code":0,"cost":0,"data":{"insertCount":2,"insertIds":["453577185629572531","453577185629572532"]}}
 ```
 
 </TabItem>
@@ -551,7 +672,7 @@ if (!status.IsOk()) {
 
 密ベクトルに基づくセマンティック検索は、Zilliz Cloud クラスターの中核的な機能の 1 つであり、ベクトル間の距離に基づいて、クエリベクトルに最も類似したデータをすばやく見つけることができます。類似検索を実行するには、クエリベクトルと検索パラメーターを準備し、`search` メソッドを呼び出します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -581,12 +702,14 @@ print(res)
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
 
 Map<String,Object> searchParams = new HashMap<>();
-searchParams.put("nprobe",10);
+searchParams.put("nprobe", 10);
 
-FloatVec queryVector = new FloatVec(new float[]{0.1f, 0.3f, 0.3f, 0.4f});
+FloatVec queryVector = new FloatVec(new float[]{0.1f, 0.2f, 0.3f, 0.7f});
 
 SearchResp searchR = client.search(SearchReq.builder()
         .collectionName("my_collection")
@@ -596,30 +719,8 @@ SearchResp searchR = client.search(SearchReq.builder()
         .topK(5)
         .outputFields(Collections.singletonList("pk"))
         .build());
-        
+
 System.out.println(searchR.getSearchResults());
-
-// Output
-//
-// [[SearchResp.SearchResult(entity={pk=453444327741536779}, score=0.65, id=453444327741536779), SearchResp.SearchResult(entity={pk=453444327741536778}, score=0.65, id=453444327741536778)]]
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-query_vector = [0.1, 0.2, 0.3, 0.7];
-
-client.search({
-    collection_name: 'my_collection',
-    data: query_vector,
-    limit: 5,
-    output_fields: ['pk'],
-    params: {
-        nprobe: 10
-    }
-});
 ```
 
 </TabItem>
@@ -652,28 +753,27 @@ for _, resultSet := range resultSets {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
---header "Request-Timeout: 10" \
--d '{
-    "collectionName": "my_collection",
-    "data": [
-        [0.1, 0.2, 0.3, 0.7]
-    ],
-    "annsField": "dense_vector",
-    "limit": 5,
-    "searchParams":{
-        "params":{"nprobe":10}
-    },
-    "outputFields": ["pk"]
-}'
+```rust
+use std::collections::HashMap;
 
-## {"code":0,"cost":0,"data":[{"distance":0.55,"id":"453577185629572532","pk":"453577185629572532"},{"distance":0.42,"id":"453577185629572531","pk":"453577185629572531"}]}
+let query_vector = vec![0.1, 0.2, 0.3, 0.7];
+
+let search = client
+    .search(
+        SearchRequest::builder()
+            .collection_name("my_collection")
+            .vector_field("dense_vector")
+            .vectors(SearchVectors::Float(vec![query_vector]))
+            .extra_params(HashMap::from([("nprobe".to_string(), "10".to_string())]))
+            .limit(5)
+            .output_fields(["pk"])
+            .build()?,
+    )
+    .await?;
+
+println!("{:?}", search.results());
 ```
 
 </TabItem>
@@ -706,6 +806,56 @@ for (auto& result : search_results.Results()) {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const query_vector = [0.1, 0.2, 0.3, 0.7];
+
+const res = await client.search({
+    collection_name: "my_collection",
+    data: query_vector,
+    anns_field: "dense_vector",
+    limit: 5,
+    output_fields: ["pk"],
+    params: {
+        nprobe: 10
+    }
+});
+
+console.log(res);
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d '{
+    "collectionName": "my_collection",
+    "data": [
+        [0.1, 0.2, 0.3, 0.7]
+    ],
+    "annsField": "dense_vector",
+    "limit": 5,
+    "searchParams":{
+        "params":{"nprobe":10}
+    },
+    "outputFields": ["pk"]
+}'
+
+## {"code":0,"cost":0,"data":[{"distance":0.55,"id":"453577185629572532","pk":"453577185629572532"},{"distance":0.42,"id":"453577185629572531","pk":"453577185629572531"}]}
+```
+
+</TabItem>
 </Tabs>
 
-類似検索パラメーターの詳細については、[基本ベクトル検索](./single-vector-search)。
+類似検索パラメーターの詳細については、[基本 ANN 検索](./single-vector-search) を参照してください。

@@ -69,7 +69,7 @@ Zilliz Cloud は、デフォルトの整合性レベルとして Bounded Stalene
 
 コレクションを作成するときに、そのコレクション内での検索およびクエリの整合性レベルを設定できます。以下のコード例では、整合性レベルを **Bounded** に設定しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -90,7 +90,7 @@ CreateCollectionReq createCollectionReq = CreateCollectionReq.builder()
         .collectionName("my_collection")
         .collectionSchema(schema)
         // highlight-next-line
-        .consistencyLevel(ConsistencyLevel.Bounded)
+        .consistencyLevel(ConsistencyLevel.BOUNDED)
         .build();
 client.createCollection(createCollectionReq);
 ```
@@ -107,6 +107,47 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+client.create_collection(
+    CreateCollectionRequest::builder()
+        .collection_name("my_collection")
+        .schema(schema)
+        .consistency_level(ConsistencyLevel::Bounded)
+        .build()?,
+)
+.await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                          .WithCollectionName("my_collection")
+                                          .WithCollectionSchema(schema)
+                                          .WithConsistencyLevel(milvus::ConsistencyLevel::BOUNDED));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.createCollection({
+    collection_name: "my_collection",
+    schema,
+    consistency_level: "Bounded",
+});
 ```
 
 </TabItem>
@@ -157,36 +198,22 @@ curl --request POST \
 ```
 
 </TabItem>
-
-<TabItem value='c++'>
-
-```c++
-auto status = client->CreateCollection(milvus::CreateSimpleCollectionRequest()
-                                          .WithCollectionName("my_collection")
-                                          .WithCollectionSchema(schema)
-                                          .WithConsistencyLevel(milvus::ConsistencyLevel::BOUNDED));
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-```
-
-</TabItem>
 </Tabs>
 
-`consistency_level` パラメータに指定可能な値は、`Strong`、`Bounded`、`Eventually`、`Session` です。
+`consistency_level` パラメーターに指定可能な値は、`Strong`、`Bounded`、`Eventually`、`Session` です。
 
 ### Search で整合性レベルを設定する\{#set-consistency-level-in-search}
 
 特定の検索に対して整合性レベルはいつでも変更できます。以下のコード例では、整合性レベルを **Bounded** に戻しています。この変更は現在の Search リクエストにのみ適用されます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 res = client.search(
     collection_name="my_collection",
     data=[query_vector],
-    limit=3
+    limit=3,
     # highlight-start
     consistency_level="Bounded",
     # highlight-next
@@ -202,7 +229,6 @@ SearchReq searchReq = SearchReq.builder()
         .collectionName("my_collection")
         .data(Collections.singletonList(queryVector))
         .topK(3)
-        .searchParams(params)
         .consistencyLevel(ConsistencyLevel.BOUNDED)
         .build();
 
@@ -228,21 +254,19 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
--d '{
-    "collectionName": "my_collection",
-    "data": [
-        [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
-    ],
-    "limit": 3,
-    "consistencyLevel": "Bounded"
-}'
+```rust
+client.search(
+    SearchRequest::builder()
+        .collection_name("my_collection")
+        .vector_field("vector")
+        .vectors(SearchVectors::Float(vec![query_vector]))
+        .limit(3)
+        .consistency_level(ConsistencyLevel::Bounded)
+        .build()?,
+)
+.await?;
 ```
 
 </TabItem>
@@ -265,15 +289,47 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const res = await client.search({
+    collection_name: "my_collection",
+    data: [query_vector],
+    limit: 3,
+    consistency_level: "Bounded",
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "collectionName": "my_collection",
+    "data": [
+        [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
+    ],
+    "limit": 3,
+    "consistencyLevel": "Bounded"
+}'
+```
+
+</TabItem>
 </Tabs>
 
-このパラメータは、ハイブリッド検索および search iterator でも使用できます。`consistency_level` パラメータに指定可能な値は、`Strong`、`Bounded`、`Eventually`、`Session` です。
+このパラメーターは、ハイブリッド検索および search iterator でも使用できます。`consistency_level` パラメーターに指定可能な値は、`Strong`、`Bounded`、`Eventually`、`Session` です。
 
 ### Query で整合性レベルを設定する\{#set-consistency-level-in-query}
 
 特定の検索に対して整合性レベルはいつでも変更できます。以下のコード例では、整合性レベルを **Eventually** に設定しています。この設定は現在のクエリリクエストにのみ適用されます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -281,7 +337,7 @@ res = client.query(
     collection_name="my_collection",
     filter="color like \"red%\"",
     output_fields=["vector", "color"],
-    limit=3，
+    limit=3,
     # highlight-start
     consistency_level="Bounded",
     # highlight-next
@@ -298,10 +354,10 @@ QueryReq queryReq = QueryReq.builder()
         .filter("color like \"red%\"")
         .outputFields(Arrays.asList("vector", "color"))
         .limit(3)
-        .consistencyLevel(ConsistencyLevel.Bounded)
+        .consistencyLevel(ConsistencyLevel.BOUNDED)
         .build();
-        
- QueryResp getResp = client.query(queryReq);
+
+QueryResp getResp = client.query(queryReq);
 ```
 
 </TabItem>
@@ -322,19 +378,19 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='rust'>
 
-```bash
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
--d '{
-    "collectionName": "my_collection",
-    "filter": "color like \"red_%\"",
-    "consistencyLevel": "Bounded",
-    "limit": 3
-}'
+```rust
+client.query(
+    QueryRequest::builder()
+        .collection_name("my_collection")
+        .filter(r#"color like "red%""#)
+        .output_fields(["vector", "color"])
+        .limit(3)
+        .consistency_level(ConsistencyLevel::Bounded)
+        .build()?,
+)
+.await?;
 ```
 
 </TabItem>
@@ -345,6 +401,7 @@ curl --request POST \
 auto request = milvus::QueryRequest()
                        .WithCollectionName("my_collection")
                        .WithFilter(R"(color like "red%")")
+                       .WithOutputFields({"vector", "color"})
                        .WithLimit(3)
                        .WithConsistencyLevel(milvus::ConsistencyLevel::BOUNDED);
 
@@ -356,6 +413,38 @@ if (!status.IsOk()) {
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const res = await client.query({
+    collection_name: "my_collection",
+    filter: 'color like "red%"',
+    output_fields: ["vector", "color"],
+    limit: 3,
+    consistency_level: "Bounded",
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "collectionName": "my_collection",
+    "filter": "color like \"red%\"",
+    "outputFields": ["vector", "color"],
+    "consistencyLevel": "Bounded",
+    "limit": 3
+}'
+```
+
+</TabItem>
 </Tabs>
 
-このパラメータは query iterator でも使用できます。`consistency_level` パラメータに指定可能な値は、`Strong`、`Bounded`、`Eventually`、`Session` です。
+このパラメーターは query iterator でも使用できます。`consistency_level` パラメーターに指定可能な値は、`Strong`、`Bounded`、`Eventually`、`Session` です。
