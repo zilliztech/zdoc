@@ -1,37 +1,39 @@
 # guides Incremental Fetch Plan
 
-Generated: 2026-10-11T02:45:19.776Z
+Generated: 2026-10-11T10:29:54.584Z
 Mode: incremental
 Build env: uat
 Source dir: `packages/docs-tooling/src/lark/meta/sources/guides`
-Previous snapshot: 2026-10-10T18:36:29.011Z
+Previous snapshot: 2026-10-11T02:46:08.115Z
 
 ## Summary
 
 - Changed docs: 2
-- Expanded docs: 12
+- Expanded docs: 14
 - Removed docs: 0
 - Warnings: 0
 
 ## Changed Docs
 
-- INVERTED (YNczwtWpFiN0CckMvDVcn0pvnEb): wiki node revision changed
-- NGRAM (Q0wpw4xZiimaUsk4GvScAg2un1d): wiki node revision changed
+- Range Search with StructArray (ZR1bwJFFSio2jkkabd7c1YAYncf): wiki node revision changed
+- Stop (ScncwBnDBiVoLjksXAwcUgrgnod): wiki node revision changed
 
 ## Expanded Tokens
 
-- EA2twSf5oiERMDkriKScU9GInc4: outgoing reference from YNczwtWpFiN0CckMvDVcn0pvnEb
-- GanXwLnJkiymKVkNPhecdi9MnGf: incoming reference to YNczwtWpFiN0CckMvDVcn0pvnEb
-- JbPDwHqd0iZZSuk5tYicGqKbn9c: incoming reference to YNczwtWpFiN0CckMvDVcn0pvnEb
-- LBbUwOGcwi1UMak3eE2cM1gvnUe: incoming reference to Q0wpw4xZiimaUsk4GvScAg2un1d
-- MBVVww2Zii8k6Bk77GJcXbZJnpf: outgoing reference from Q0wpw4xZiimaUsk4GvScAg2un1d
-- MUL3wkn7Yi3YoFkYk59csf8bnNc: incoming reference to YNczwtWpFiN0CckMvDVcn0pvnEb
-- Neq4wR0EdiXokRkhXwbcMPfanCd: incoming reference to Q0wpw4xZiimaUsk4GvScAg2un1d
-- P3wrwSMNNihy8Vkf9p6cTsWYnTb: outgoing reference from Q0wpw4xZiimaUsk4GvScAg2un1d
-- PFbNwB7Mli18n6k6VWScGcpWndc: outgoing reference from Q0wpw4xZiimaUsk4GvScAg2un1d
-- Q0wpw4xZiimaUsk4GvScAg2un1d: wiki node revision changed
-- QBXVwP7oiiuEovkprDnckJlEnoK: incoming reference to Q0wpw4xZiimaUsk4GvScAg2un1d
-- YNczwtWpFiN0CckMvDVcn0pvnEb: wiki node revision changed
+- EDzFwzb7Sifsz4kFYZIcAF9Pn1p: outgoing reference from ZR1bwJFFSio2jkkabd7c1YAYncf
+- EqSpwh9BaiEISgkG5YVcDbCUnpe: incoming reference to ZR1bwJFFSio2jkkabd7c1YAYncf
+- GAX8wkC1QiTZhXkLBocc1GoTnke: outgoing reference from ScncwBnDBiVoLjksXAwcUgrgnod
+- H8MVwnjdgihp0hkRHHKcjBe9n5e: outgoing reference from ScncwBnDBiVoLjksXAwcUgrgnod
+- I60hwuYrSiVSWBkYq9RcqRcpnFh: outgoing reference from ZR1bwJFFSio2jkkabd7c1YAYncf
+- Pulhw06e5iXJTFkidFXcGbylnod: incoming reference to ScncwBnDBiVoLjksXAwcUgrgnod
+- Q7wIwcnrEiVDofk5G4Fc7vlonPh: outgoing reference from ZR1bwJFFSio2jkkabd7c1YAYncf
+- RzSBwW7dUizQeekka9CcZ3Etnyg: outgoing reference from ZR1bwJFFSio2jkkabd7c1YAYncf
+- ScncwBnDBiVoLjksXAwcUgrgnod: wiki node revision changed
+- VlAlwAJvEiVVW6k0RBvcvkpWnhK: incoming reference to ZR1bwJFFSio2jkkabd7c1YAYncf
+- VvkEwug9ciPZYVk6hM1chLydnib: outgoing reference from ZR1bwJFFSio2jkkabd7c1YAYncf
+- W0WhwqRyciRMRLklcsdca1U2nae: incoming reference to ScncwBnDBiVoLjksXAwcUgrgnod
+- WDjyw7hO3i26RckEgqIcf36snMh: outgoing reference from ZR1bwJFFSio2jkkabd7c1YAYncf
+- ZR1bwJFFSio2jkkabd7c1YAYncf: wiki node revision changed
 
 ## Removed Docs
 
