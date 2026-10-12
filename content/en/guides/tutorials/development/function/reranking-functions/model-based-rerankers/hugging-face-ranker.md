@@ -705,6 +705,13 @@ SearchResp searchResp = client.search(SearchReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 resultSet, err := cli.Search(ctx, milvusclient.NewSearchOption(collectionName, 3, []entity.Vector{
     entity.FloatVector{0.12, 0.21, 0.29, 0.41},
 }).
@@ -721,6 +728,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let query_vector = vec![0.12, 0.21, 0.29, 0.41];
 
 let response = client

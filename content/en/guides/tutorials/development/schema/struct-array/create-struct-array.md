@@ -630,6 +630,9 @@ schema.add_field(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+
 schema.addField(AddFieldReq.builder()
         .fieldName("chunks")
         .dataType(DataType.Array)
@@ -649,6 +652,8 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 schema.WithField(entity.NewField().
         WithName("chunks").
         WithDataType(entity.FieldTypeArray).
@@ -663,6 +668,8 @@ schema.WithField(entity.NewField().
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 StructFieldSchema::new()
     .name("chunks")
     .max_capacity(1000)
@@ -675,6 +682,9 @@ StructFieldSchema::new()
 <TabItem value='c++'>
 
 ```c++
+#include <utility>
+#include "milvus/MilvusClientV2.h"
+
 milvus::StructFieldSchema struct_schema =
     milvus::StructFieldSchema()
         .WithName("chunks")
@@ -689,6 +699,8 @@ collection_schema->AddStructField(std::move(struct_schema));
 <TabItem value='javascript'>
 
 ```javascript
+import { DataType } from "@zilliz/milvus2-sdk-node";
+
 const chunksField = {
   name: "chunks",
   data_type: DataType.Array,
@@ -808,7 +820,9 @@ client.add_collection_struct_field(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.DataType;
 import io.milvus.v2.service.collection.request.AddCollectionStructFieldReq;
+import io.milvus.v2.service.collection.request.AddFieldReq;
 
 client.addCollectionStructField(AddCollectionStructFieldReq.builder()
         .collectionName("tech_articles")
@@ -830,6 +844,13 @@ client.addCollectionStructField(AddCollectionStructFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 chunkSchema := entity.NewStructSchema()
 chunkSchema.WithField(entity.NewField().
         WithName("text").
@@ -877,6 +898,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let chunk_schema = StructFieldSchema::new()
     .name("chunks")
     .max_capacity(1000)
@@ -904,6 +927,10 @@ client
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include <utility>
+#include "milvus/MilvusClientV2.h"
+
 milvus::StructFieldSchema struct_schema =
     milvus::StructFieldSchema()
         .WithName("chunks")
@@ -1011,6 +1038,9 @@ client.add_collection_struct_field(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddCollectionStructFieldReq;
+import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.DropCollectionFieldReq;
 
 client.dropCollectionField(DropCollectionFieldReq.builder()
@@ -1038,6 +1068,12 @@ client.addCollectionStructField(AddCollectionStructFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = cli.DropCollectionField(ctx, milvusclient.NewDropCollectionFieldOption("tech_articles", "chunks"))
 if err != nil {
     fmt.Println(err)
@@ -1056,6 +1092,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .drop_collection_field(
         DropCollectionFieldRequest::builder()
@@ -1080,6 +1118,10 @@ client
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include <utility>
+#include "milvus/MilvusClientV2.h"
+
 status = client->DropCollectionField(milvus::DropCollectionFieldRequest()
                                          .WithCollectionName("tech_articles")
                                          .WithFieldName("chunks"));

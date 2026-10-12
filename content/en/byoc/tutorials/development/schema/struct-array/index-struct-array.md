@@ -119,6 +119,14 @@ client.createIndex(CreateIndexReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 _, err = cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption("tech_articles", "chunks[emb_list_vector]", index.NewAutoIndex(entity.MaxSimCosine)).WithIndexName("chunks_emb_list_auto"))
 if err != nil {
     fmt.Println(err.Error())
@@ -135,6 +143,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
     let request = CreateIndexRequest::builder()
         .collection_name("tech_articles")
         .index_params(vec![
@@ -156,6 +166,9 @@ if err != nil {
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
 milvus::IndexDesc emb_list_index("chunks[emb_list_vector]", "chunks_emb_list_auto",
     milvus::IndexType::AUTOINDEX, milvus::MetricType::MAX_SIM_COSINE);
 milvus::IndexDesc emb_index("chunks[emb]", "chunks_emb_auto",
@@ -300,6 +313,14 @@ client.createIndex(CreateIndexReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 _, err = cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption("tech_articles", "chunks[section]", index.NewAutoIndex(entity.MetricType(""))).WithIndexName("chunks_section_auto"))
 if err != nil {
     fmt.Println(err.Error())
@@ -326,6 +347,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
     let request = CreateIndexRequest::builder()
         .collection_name("tech_articles")
         .index_params(vec![
@@ -343,6 +366,9 @@ if err != nil {
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
 milvus::IndexDesc section_index("chunks[section]", "chunks_section_auto",
     milvus::IndexType::AUTOINDEX);
 milvus::IndexDesc has_code_index("chunks[has_code]", "chunks_has_code_auto",
@@ -489,6 +515,12 @@ System.out.println(indexes);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 indexes, err := cli.ListIndexes(ctx, milvusclient.NewListIndexOption("tech_articles"))
 if err != nil {
     fmt.Println(err.Error())
@@ -501,6 +533,8 @@ fmt.Println(indexes)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
     let resp = client.list_indexes(ListIndexesRequest::builder()
         .collection_name("tech_articles").build()?).await?;
     println!("{:?}", resp.index_names());
@@ -511,6 +545,9 @@ fmt.Println(indexes)
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
 milvus::ListIndexesResponse list_resp;
 status = client->ListIndexes(milvus::ListIndexesRequest()
                                 .WithCollectionName("tech_articles"),
@@ -582,6 +619,12 @@ System.out.println(index);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 indexDesc, err := cli.DescribeIndex(ctx, milvusclient.NewDescribeIndexOption("tech_articles", "chunks_emb_cosine"))
 if err != nil {
     fmt.Println(err.Error())
@@ -594,6 +637,8 @@ fmt.Println(indexDesc.IndexType())
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
     let resp = client.describe_index(DescribeIndexRequest::builder()
         .collection_name("tech_articles").index_name("chunks_emb_cosine").build()?).await?;
     println!("{:?}", resp.indexes()[0].get_index_type());
@@ -604,6 +649,9 @@ fmt.Println(indexDesc.IndexType())
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
 milvus::DescribeIndexResponse desc_resp;
 status = client->DescribeIndex(milvus::DescribeIndexRequest()
                                    .WithCollectionName("tech_articles")

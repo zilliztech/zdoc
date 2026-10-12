@@ -203,9 +203,9 @@ rerank = Function(
 
 ```java
 import io.milvus.v2.service.vector.request.ranker.DecayRanker;
-
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Collections;
 
 ZonedDateTime zdt = ZonedDateTime.of(2025, 1, 25, 0, 0, 0, 0, ZoneId.systemDefault());
 
@@ -225,6 +225,8 @@ DecayRanker rerank = DecayRanker.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 rerank := entity.NewFunction().
     WithName("time_decay").
     WithInputFields("timestamp").
@@ -401,9 +403,12 @@ results = milvus_client.search(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.FunctionScore;
 import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.response.SearchResp;
 import io.milvus.v2.service.vector.request.data.EmbeddedText;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Arrays;
+import java.util.Collections;
 
 SearchReq searchReq = SearchReq.builder()
         .collectionName(COLLECTION_NAME)
@@ -423,6 +428,13 @@ SearchResp searchResp = client.search(searchReq);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 functionScore := entity.NewFunctionScore().AddFunction(rerank)
 
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
@@ -443,16 +455,18 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
-    let function_score = FunctionScore::new().add_function(rerank);
-    let request = SearchRequest::builder()
-        .collection_name(collection_name)
-        .vectors(SearchVectors::Float(vec![your_query_vector]))
-        .vector_field("vector_field")
-        .limit(10)
-        .output_fields(vec!["document", "timestamp"])
-        .rerank(function_score)
-        .build()?;
-    let resp = client.search(request).await?;
+use milvus::v2::prelude::*;
+
+let function_score = FunctionScore::new().add_function(rerank);
+let request = SearchRequest::builder()
+    .collection_name(collection_name)
+    .vectors(SearchVectors::Float(vec![your_query_vector]))
+    .vector_field("vector_field")
+    .limit(10)
+    .output_fields(vec!["document", "timestamp"])
+    .rerank(function_score)
+    .build()?;
+let resp = client.search(request).await?;
 ```
 
 </TabItem>

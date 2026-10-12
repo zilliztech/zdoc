@@ -212,6 +212,8 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 analyzerParams := map[string]any{"type": "english"}
 
 schema.WithField(entity.NewField().
@@ -227,6 +229,9 @@ schema.WithField(entity.NewField().
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
+
 let analyzer_params = serde_json::json!({"type": "english"});
 let schema = CollectionSchema::new().add_field(FieldSchema::new()
     .name("text")
@@ -253,6 +258,8 @@ schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR)
 <TabItem value='javascript'>
 
 ```javascript
+import { DataType } from "@zilliz/milvus2-sdk-node";
+
 const analyzer_params = { type: "english" };
 
 const schema = [
@@ -594,6 +601,8 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 analyzerParams := map[string]any{
     "tokenizer": "whitespace",
     "filter": []any{"lowercase", "alphanumonly"},
@@ -612,6 +621,9 @@ schema.WithField(entity.NewField().
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
+
 let analyzer_params = serde_json::json!({
     "tokenizer": "whitespace",
     "filter": ["lowercase", "alphanumonly"]
@@ -644,6 +656,8 @@ schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR)
 <TabItem value='javascript'>
 
 ```javascript
+import { DataType } from "@zilliz/milvus2-sdk-node";
+
 const analyzer_params = {
   tokenizer: "whitespace",
   filter: ["lowercase", "alphanumonly"],
@@ -762,6 +776,8 @@ for _, r := range result {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
     let resp = client.run_analyzer(RunAnalyzerRequest::builder()
         .texts(vec!["The Milvus vector database is built for scale!"])
         .analyzer_params(analyzer_params)
@@ -1128,6 +1144,8 @@ analyzerParams := map[string]any{
 <TabItem value='rust'>
 
 ```rust
+use serde_json::json;
+
 let analyzer_params = serde_json::json!({
     "tokenizer": "icu",
     "filter": ["lowercase", "asciifolding"]

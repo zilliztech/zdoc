@@ -286,6 +286,13 @@ client.listSnapshots(ListSnapshotsReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "context"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 // List snapshots for collection
 listOpt := milvusclient.NewListSnapshotsOption("my_collection")
 
@@ -300,6 +307,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 // List all snapshots for a collection
 let snapshots = client.list_snapshots(
     ListSnapshotsRequest::builder()
@@ -417,6 +426,8 @@ fmt.Printf("Collection: %s\n", resp.GetCollectionName())
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 // Describe a snapshot
 let snapshot_info = client.describe_snapshot(
     DescribeSnapshotRequest::builder()
@@ -521,6 +532,13 @@ client.unpinSnapshotData(UnpinSnapshotDataReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "context"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 pinID, err := client.PinSnapshotData(
     context.Background(),
     milvusclient.NewPinSnapshotDataOption("backup_20240101", "my_collection").WithTTL(3600),
@@ -541,6 +559,8 @@ defer func() {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 // Pin snapshot data
 let pin_id = client.pin_snapshot_data(
     PinSnapshotDataRequest::builder()
@@ -669,6 +689,13 @@ client.restoreSnapshot(RestoreSnapshotReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "context"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 restoreOpt := milvusclient.NewRestoreSnapshotOption(
     "backup_20240101",
     "my_collection",
@@ -686,6 +713,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 // Restore snapshot to new collection
 let job_id = client.restore_snapshot(
     RestoreSnapshotRequest::builder()
@@ -783,6 +812,13 @@ client.dropSnapshot(DropSnapshotReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "context"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 dropOpt := milvusclient.NewDropSnapshotOption("backup_20240101", "my_collection")
 
 err := client.DropSnapshot(context.Background(), dropOpt)
@@ -796,6 +832,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client.drop_snapshot(
     DropSnapshotRequest::builder()
         .collection_name("my_collection")
@@ -885,6 +923,14 @@ client.listRestoreSnapshotJobs(ListRestoreSnapshotJobsReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "context"
+    "fmt"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 // List all restore jobs
 listOpt := milvusclient.NewListRestoreSnapshotJobsOption()
 
@@ -914,6 +960,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 // List all restore jobs
 let jobs = client.list_restore_snapshot_jobs(
     ListRestoreSnapshotJobsRequest::builder()
@@ -1038,6 +1086,8 @@ fmt.Printf("Time Cost: %dms\n", state.GetTimeCost())
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 // Get restoration state
 let state = client.get_restore_snapshot_state(
     GetRestoreSnapshotStateRequest::builder()

@@ -155,6 +155,8 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 schema.WithField(entity.NewField().WithName("my_id").
     WithDataType(entity.FieldTypeInt64).
     // highlight-start
@@ -169,6 +171,8 @@ schema.WithField(entity.NewField().WithName("my_id").
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 schema = schema.add_field(
     FieldSchema::new()
         .name("my_id")
@@ -191,6 +195,8 @@ schema->AddField(milvus::FieldSchema("my_id", milvus::DataType::INT64, "", true,
 <TabItem value='javascript'>
 
 ```javascript
+import { DataType } from "@zilliz/milvus2-sdk-node";
+
 schema.push({
     name: "my_id",
     data_type: DataType.Int64,
@@ -256,6 +262,9 @@ schema.add_field(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+
 schema.addField(AddFieldReq.builder()
         .fieldName("my_vector")
         .dataType(DataType.FloatVector)
@@ -269,6 +278,8 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 schema.WithField(entity.NewField().WithName("my_vector").
     WithDataType(entity.FieldTypeFloatVector).
     // highlight-next-line
@@ -281,6 +292,8 @@ schema.WithField(entity.NewField().WithName("my_vector").
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 schema = schema.add_field(
     FieldSchema::new()
         .name("my_vector")
@@ -302,6 +315,8 @@ schema->AddField(milvus::FieldSchema("my_vector", milvus::DataType::FLOAT_VECTOR
 <TabItem value='javascript'>
 
 ```javascript
+import { DataType } from "@zilliz/milvus2-sdk-node";
+
 schema.push({
     name: "my_vector",
     data_type: DataType.FloatVector,
@@ -382,6 +397,9 @@ schema.add_field(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+
 schema.addField(AddFieldReq.builder()
         .fieldName("my_varchar")
         .dataType(DataType.VarChar)
@@ -395,6 +413,8 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 schema.WithField(entity.NewField().WithName("my_varchar").
     WithDataType(entity.FieldTypeVarChar).
     WithMaxLength(512),
@@ -406,6 +426,8 @@ schema.WithField(entity.NewField().WithName("my_varchar").
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 schema = schema.add_field(
     FieldSchema::new()
         .name("my_varchar")
@@ -427,6 +449,8 @@ schema->AddField(milvus::FieldSchema("my_varchar", milvus::DataType::VARCHAR).Wi
 <TabItem value='javascript'>
 
 ```javascript
+import { DataType } from "@zilliz/milvus2-sdk-node";
+
 schema.push({
     name: "my_varchar",
     data_type: DataType.VarChar,
@@ -480,6 +504,9 @@ schema.add_field(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+
 schema.addField(AddFieldReq.builder()
         .fieldName("my_text")
         .dataType(DataType.Text)
@@ -491,6 +518,8 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 schema.WithField(entity.NewField().WithName("my_text").
     WithDataType(entity.FieldTypeText),
 )
@@ -517,6 +546,8 @@ schema->AddField(milvus::FieldSchema("my_text", milvus::DataType::TEXT));
 <TabItem value='javascript'>
 
 ```javascript
+import { DataType } from "@zilliz/milvus2-sdk-node";
+
 schema.push({
     name: "my_text",
     data_type: DataType.Text
@@ -566,6 +597,9 @@ schema.add_field(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+
 schema.addField(AddFieldReq.builder()
         .fieldName("my_int64")
         .dataType(DataType.Int64)
@@ -577,6 +611,8 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 schema.WithField(entity.NewField().WithName("my_int64").
     WithDataType(entity.FieldTypeInt64),
 )
@@ -587,6 +623,8 @@ schema.WithField(entity.NewField().WithName("my_int64").
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 schema = schema.add_field(
     FieldSchema::new()
         .name("my_int64")
@@ -607,6 +645,8 @@ schema->AddField(milvus::FieldSchema("my_int64", milvus::DataType::INT64));
 <TabItem value='javascript'>
 
 ```javascript
+import { DataType } from "@zilliz/milvus2-sdk-node";
+
 schema.push({
     name: "my_int64",
     data_type: DataType.Int64,
@@ -657,6 +697,9 @@ schema.add_field(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+
 schema.addField(AddFieldReq.builder()
         .fieldName("my_bool")
         .dataType(DataType.Bool)
@@ -668,6 +711,8 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 schema.WithField(entity.NewField().WithName("my_bool").
     WithDataType(entity.FieldTypeBool),
 )
@@ -678,6 +723,8 @@ schema.WithField(entity.NewField().WithName("my_bool").
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 schema = schema.add_field(
     FieldSchema::new()
         .name("my_bool")
@@ -698,6 +745,8 @@ schema->AddField(milvus::FieldSchema("my_bool", milvus::DataType::BOOL));
 <TabItem value='javascript'>
 
 ```javascript
+import { DataType } from "@zilliz/milvus2-sdk-node";
+
 schema.push({
     name: "my_bool",
     data_type: DataType.Bool
@@ -753,6 +802,9 @@ schema.add_field(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+
 schema.addField(AddFieldReq.builder()
         .fieldName("my_json")
         .dataType(DataType.JSON)
@@ -764,6 +816,8 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 schema.WithField(entity.NewField().WithName("my_json").
     WithDataType(entity.FieldTypeJSON),
 )
@@ -774,6 +828,8 @@ schema.WithField(entity.NewField().WithName("my_json").
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 schema = schema.add_field(
     FieldSchema::new()
         .name("my_json")
@@ -794,6 +850,8 @@ schema->AddField(milvus::FieldSchema("my_json", milvus::DataType::JSON));
 <TabItem value='javascript'>
 
 ```javascript
+import { DataType } from "@zilliz/milvus2-sdk-node";
+
 schema.push({
     name: "my_json",
     data_type: DataType.JSON,
@@ -849,6 +907,9 @@ schema.add_field(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+
 schema.addField(AddFieldReq.builder()
         .fieldName("my_array")
         .dataType(DataType.Array)
@@ -863,6 +924,8 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 schema.WithField(entity.NewField().WithName("my_array").
     WithDataType(entity.FieldTypeArray).
     WithElementType(entity.FieldTypeVarChar).
@@ -876,6 +939,8 @@ schema.WithField(entity.NewField().WithName("my_array").
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 schema = schema.add_field(
     FieldSchema::new()
         .name("my_array")
@@ -902,6 +967,8 @@ schema->AddField(milvus::FieldSchema("my_array", milvus::DataType::ARRAY)
 <TabItem value='javascript'>
 
 ```javascript
+import { DataType } from "@zilliz/milvus2-sdk-node";
+
 schema.push({
     name: "my_array",
     data_type: DataType.Array,

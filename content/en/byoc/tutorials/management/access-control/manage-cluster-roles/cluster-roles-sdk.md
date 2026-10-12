@@ -111,6 +111,9 @@ client
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
 auto status = client->CreateRole(milvus::CreateRoleRequest()
                                      .WithRoleName("role_a")
                                      .WithDescription("a cluster read only role"));
@@ -229,6 +232,9 @@ println!("{:?}", roles.role_names());
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
 milvus::ListRolesResponse resp;
 auto status = client->ListRoles(milvus::ListRolesRequest(), resp);
 if (!status.IsOk()) {
@@ -320,7 +326,7 @@ client.grant_privilege_v2(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.rbac.request.GrantPrivilegeReqV2
+import io.milvus.v2.service.rbac.request.GrantPrivilegeReqV2;
 
 client.grantPrivilegeV2(GrantPrivilegeReqV2.builder()
         .roleName("role_a")
@@ -409,6 +415,9 @@ client
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
 milvus::GrantPrivilegeV2Request grant_req;
 grant_req.WithRoleName("role_a")
          .WithPrivilege("privilege_group_1")
@@ -546,8 +555,9 @@ client.describe_role(role_name="role_a")
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.rbac.request.DescribeRoleReq;
 import io.milvus.v2.service.rbac.response.DescribeRoleResp;
-import io.milvus.v2.service.rbac.request.DescribeRoleReq
+import java.util.List;
 
 DescribeRoleReq describeRoleReq = DescribeRoleReq.builder()
         .roleName("role_a")
@@ -610,6 +620,9 @@ println!("{:?}", role.role_name());
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
 milvus::DescribeRoleResponse resp;
 auto status = client->DescribeRole(milvus::DescribeRoleRequest().WithRoleName("role_a"), resp);
 if (!status.IsOk()) {
@@ -691,7 +704,7 @@ client.revoke_privilege_v2(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.rbac.request.RevokePrivilegeReqV2
+import io.milvus.v2.service.rbac.request.RevokePrivilegeReqV2;
 
 client.revokePrivilegeV2(RevokePrivilegeReqV2.builder()
         .roleName("role_a")
@@ -713,6 +726,12 @@ client.revokePrivilegeV2(RevokePrivilegeReqV2.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.RevokePrivilegeV2(ctx, milvusclient.NewRevokePrivilegeV2Option("role_a", "privilege_group_1", "collection_01").
     WithDbName("default"))
 if err != nil {
@@ -763,6 +782,9 @@ client
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
 milvus::RevokePrivilegeV2Request revoke_req;
 revoke_req.WithRoleName("role_a")
            .WithPrivilege("privilege_group_1")
@@ -859,7 +881,7 @@ client.drop_role(role_name="role_a")
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.rbac.request.DropRoleReq
+import io.milvus.v2.service.rbac.request.DropRoleReq;
 
 DropRoleReq dropRoleReq = DropRoleReq.builder()
         .roleName("role_a")
@@ -872,6 +894,12 @@ client.dropRole(dropRoleReq);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.DropRole(ctx, milvusclient.NewDropRoleOption("role_a"))
 if err != nil {
     fmt.Println(err.Error())
@@ -900,6 +928,9 @@ client
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
 auto status = client->DropRole(milvus::DropRoleRequest().WithRoleName("role_a"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -1010,6 +1041,9 @@ println!("{:?}", roles.role_names());
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
 milvus::ListRolesResponse resp;
 auto status = client->ListRoles(milvus::ListRolesRequest(), resp);
 if (!status.IsOk()) {

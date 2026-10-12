@@ -152,6 +152,8 @@ DecayRanker rerank = DecayRanker.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 rerank := entity.NewFunction().
     WithName("restaurant_distance_decay").
     WithType(entity.FunctionTypeRerank).
@@ -295,7 +297,12 @@ SearchResp searchResp = client.search(searchReq);
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/entity"
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
 
 results, err := client.Search(ctx, milvusclient.NewSearchOption(
     "restaurant_db", 10,

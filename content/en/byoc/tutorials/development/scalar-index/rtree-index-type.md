@@ -289,6 +289,13 @@ System.out.println(resp);
 <TabItem value='go'>
 
 ```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 filter_expr := "ST_WITHIN(geo, 'POLYGON ((0 0, 10 0, 10 10, 0 10, 0 0))')"
 
 _, err = cli.Query(ctx, milvusclient.NewQueryOption("geo_demo").
@@ -434,7 +441,13 @@ System.out.println(resp);
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/entity"
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
 
 query_vec := []entity.Vector{entity.FloatVector{0.1, 0.2, 0.3, 0.4, 0.5}}
 filter_expr := "ST_INTERSECTS(geo, 'LINESTRING (1 1, 2 2)')"
@@ -582,6 +595,13 @@ client.dropIndex(DropIndexReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = cli.DropIndex(ctx, milvusclient.NewDropIndexOption("geo_demo", "rtree_geo"))
 if err != nil {
     fmt.Println(err.Error())

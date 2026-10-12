@@ -285,6 +285,8 @@ print(res)
 
 ```java
 import io.milvus.v2.service.partition.request.CreatePartitionReq;
+import io.milvus.v2.service.partition.request.ListPartitionsReq;
+import java.util.List;
 
 CreatePartitionReq createPartitionReq = CreatePartitionReq.builder()
         .collectionName("my_collection")
@@ -337,6 +339,8 @@ fmt.Println(partitionNames)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .create_partition(
         CreatePartitionRequest::builder()
@@ -491,6 +495,12 @@ System.out.println(hasPartitionRes);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 result, err := client.HasPartition(ctx, milvusclient.NewHasPartitionOption("my_collection", "partitionA"))
 if err != nil {
     fmt.Println(err.Error())
@@ -508,6 +518,8 @@ fmt.Println(result)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let has = client
     .has_partition(
         HasPartitionRequest::builder()
@@ -618,6 +630,7 @@ print(res)
 ```java
 import io.milvus.v2.service.partition.request.LoadPartitionsReq;
 import io.milvus.v2.service.collection.request.GetLoadStateReq;
+import java.util.Collections;
 
 LoadPartitionsReq loadPartitionsReq = LoadPartitionsReq.builder()
         .collectionName("my_collection")
@@ -642,6 +655,12 @@ System.out.println(getLoadStateRes);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 task, err := client.LoadPartitions(ctx, milvusclient.NewLoadPartitionsOption("my_collection", "partitionA"))
 if err != nil {
     fmt.Println(err.Error())
@@ -668,6 +687,8 @@ fmt.Println(state)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .load_partitions(
         LoadPartitionsRequest::builder()
@@ -817,6 +838,8 @@ print(res)
 
 ```java
 import io.milvus.v2.service.partition.request.ReleasePartitionsReq;
+import io.milvus.v2.service.collection.request.GetLoadStateReq;
+import java.util.Collections;
 
 ReleasePartitionsReq releasePartitionsReq = ReleasePartitionsReq.builder()
         .collectionName("my_collection")
@@ -841,6 +864,12 @@ System.out.println(getLoadStateRes);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.ReleasePartitions(ctx, milvusclient.NewReleasePartitionsOptions("my_collection", "partitionA"))
 if err != nil {
     fmt.Println(err.Error())
@@ -860,6 +889,8 @@ fmt.Println(state)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .release_partitions(
         ReleasePartitionsRequest::builder()
@@ -1031,6 +1062,8 @@ print(res)
 import io.milvus.v2.service.partition.request.DropPartitionReq;
 import io.milvus.v2.service.partition.request.ReleasePartitionsReq;
 import io.milvus.v2.service.partition.request.ListPartitionsReq;
+import java.util.Collections;
+import java.util.List;
 
 ReleasePartitionsReq releasePartitionsReq = ReleasePartitionsReq.builder()
         .collectionName("my_collection")
@@ -1062,6 +1095,12 @@ System.out.println(partitionNames);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.ReleasePartitions(ctx, milvusclient.NewReleasePartitionsOptions("my_collection", "partitionA"))
 if err != nil {
     fmt.Println(err.Error())
@@ -1087,6 +1126,8 @@ fmt.Println(partitionNames)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .release_partitions(
         ReleasePartitionsRequest::builder()

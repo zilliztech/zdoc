@@ -224,6 +224,12 @@ List<String> resp = client.listUsers();
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 users, err := client.ListUsers(ctx, milvusclient.NewListUserOption())
 if err != nil {
     fmt.Println(err.Error())
@@ -236,6 +242,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2 as sdk;
+
 let users = client.list_users(
     sdk::request::rbac::ListUsersRequest::builder().build()?,
 ).await?;
@@ -478,6 +486,12 @@ DescribeUserResp describeUserResp = client.describeUser(describeUserReq);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 user, err := client.DescribeUser(ctx, milvusclient.NewDescribeUserOption("user_1"))
 if err != nil {
     fmt.Println(err.Error())
@@ -490,6 +504,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2 as sdk;
+
 let user = client.describe_user(
     sdk::request::rbac::DescribeUserRequest::builder()
         .username("user_1")
@@ -577,6 +593,12 @@ client.revokeRole(RevokeRoleReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.RevokeRole(ctx, milvusclient.NewRevokeRoleOption("user_1", "role_a"))
 if err != nil {
     fmt.Println(err.Error())
@@ -589,6 +611,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2 as sdk;
+
 client.revoke_role(
     sdk::request::rbac::RevokeRoleRequest::builder()
         .username("user_1")
@@ -824,6 +848,12 @@ List<String> resp = client.listUsers();
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 users, err := client.ListUsers(ctx, milvusclient.NewListUserOption())
 if err != nil {
     fmt.Println(err.Error())
@@ -836,6 +866,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2 as sdk;
+
 let users = client.list_users(
     sdk::request::rbac::ListUsersRequest::builder().build()?,
 ).await?;

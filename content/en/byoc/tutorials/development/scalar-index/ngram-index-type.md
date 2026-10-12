@@ -401,6 +401,14 @@ client.createIndex(CreateIndexReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 opt := milvusclient.NewCreateIndexOption("Documents", "json_field", index.NewNgramIndex(2, 4)).
     WithIndexName("json_ngram_index")
 opt.WithExtraParam("json_path", `json_field["body"]`)
@@ -417,6 +425,9 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+use std::collections::HashMap;
+
     let request = CreateIndexRequest::builder()
         .collection_name("Documents")
         .index_params(vec![IndexParam::new()
@@ -608,6 +619,12 @@ client.dropIndex(DropIndexReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = cli.DropIndex(ctx, milvusclient.NewDropIndexOption("Documents", "ngram_index"))
 if err != nil {
     fmt.Println(err)
@@ -619,6 +636,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
     let request = DropIndexRequest::builder()
         .collection_name("Documents")
         .index_name("ngram_index")

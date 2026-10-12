@@ -222,6 +222,12 @@ System.out.println(resp);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 collection, err := client.DescribeCollection(ctx, milvusclient.NewDescribeCollectionOption("quick_setup"))
 if err != nil {
     fmt.Println(err.Error())
@@ -236,6 +242,8 @@ fmt.Println(collection)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let description = client
     .describe_collection(
         DescribeCollectionRequest::builder()

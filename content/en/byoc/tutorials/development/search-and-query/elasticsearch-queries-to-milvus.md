@@ -156,6 +156,12 @@ SearchResp searchResp = client.search(searchReq);
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 client.Search(ctx, milvusclient.NewSearchOption("my_collection", 10, []entity.Vector{entity.Text("How is the weather in Jamaica?")}).
     WithANNSField("message_sparse").
     WithOutputFields("id", "message"))
@@ -166,6 +172,8 @@ client.Search(ctx, milvusclient.NewSearchOption("my_collection", 10, []entity.Ve
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .search(
         SearchRequest::builder()
@@ -310,6 +318,12 @@ queryResp = client.query(queryReq);
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/column"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 // Use the filter parameter
 client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter("id in [1, 4, 100]").
@@ -326,6 +340,8 @@ client.Query(ctx, milvusclient.NewQueryOption("my_collection").
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 // Use the filter parameter
 client
     .query(
@@ -471,6 +487,8 @@ QueryResp queryResp = client.query(queryReq);
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter("user like \"ki%\"").
     WithOutputFields("id", "user"))
@@ -481,6 +499,8 @@ client.Query(ctx, milvusclient.NewQueryOption("my_collection").
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .query(
         QueryRequest::builder()
@@ -597,6 +617,8 @@ QueryResp queryResp = client.query(queryReq);
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter("10 <= age <= 20").
     WithOutputFields("id", "user", "age"))
@@ -607,6 +629,8 @@ client.Query(ctx, milvusclient.NewQueryOption("my_collection").
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .query(
         QueryRequest::builder()
@@ -740,6 +764,8 @@ queryResp = client.query(queryReq);
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 // use ==
 client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter("status==\"retired\"").
@@ -756,6 +782,8 @@ client.Query(ctx, milvusclient.NewQueryOption("my_collection").
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 // use ==
 client
     .query(
@@ -933,6 +961,8 @@ queryResp = client.query(queryReq);
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 // use in
 client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter("degree in [\"graduate\", \"post-graduate\"]").
@@ -949,6 +979,8 @@ client.Query(ctx, milvusclient.NewQueryOption("my_collection").
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 // use in
 client
     .query(
@@ -1108,6 +1140,8 @@ QueryResp queryResp = client.query(queryReq);
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter("user like \"ki%\" AND user like \"%y\"").
     WithOutputFields("id", "user"))
@@ -1118,6 +1152,8 @@ client.Query(ctx, milvusclient.NewQueryOption("my_collection").
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .query(
         QueryRequest::builder()
@@ -1238,6 +1274,8 @@ QueryResp queryResp = client.query(queryReq);
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter("user like \"%kimchy%\" AND ARRAY_CONTAINS(tags, \"production\")").
     WithOutputFields("id", "user", "age", "tags"))
@@ -1248,6 +1286,8 @@ client.Query(ctx, milvusclient.NewQueryOption("my_collection").
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .query(
         QueryRequest::builder()
@@ -1377,6 +1417,12 @@ SearchResp searchResp = client.search(searchReq);
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 client.Search(ctx, milvusclient.NewSearchOption("my_collection", 10, []entity.Vector{entity.FloatVector{-5, 9, -12}}).
     WithANNSField("image_vector"))
 ```
@@ -1386,6 +1432,8 @@ client.Search(ctx, milvusclient.NewSearchOption("my_collection", 10, []entity.Ve
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .search(
         SearchRequest::builder()
@@ -1573,6 +1621,12 @@ SearchResp searchResp = client.hybridSearch(hybridSearchReq);
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 client.HybridSearch(ctx, milvusclient.NewHybridSearchOption(
     "my_collection",
     10,

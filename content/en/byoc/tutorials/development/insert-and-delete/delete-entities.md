@@ -240,6 +240,12 @@ DeleteResp deleteResp = client.delete(DeleteReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 _, err = client.Delete(ctx, milvusclient.NewDeleteOption("quick_setup").
     WithInt64IDs("id", []int64{18, 19}))
 if err != nil {
@@ -253,6 +259,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
     let request = DeleteRequest::builder()
         .collection_name("quick_setup")
         .ids(Ids::Int64(vec![18, 19]))
@@ -361,6 +369,12 @@ DeleteResp deleteResp = client.delete(DeleteReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 _, err = client.Delete(ctx, milvusclient.NewDeleteOption("quick_setup").
     WithInt64IDs("id", []int64{18, 19}).
     WithPartition("partitionA"))
@@ -375,6 +389,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
     let request = DeleteRequest::builder()
         .collection_name("quick_setup")
         .ids(Ids::Int64(vec![18, 19]))

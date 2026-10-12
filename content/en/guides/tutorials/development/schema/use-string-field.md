@@ -397,6 +397,13 @@ indexes.add(IndexParam.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 indexOption1 := milvusclient.NewCreateIndexOption("my_collection", "embedding",
     index.NewAutoIndex(index.MetricType(entity.COSINE)))
 indexOption2 := milvusclient.NewCreateIndexOption("my_collection", "varchar_field1",
@@ -408,6 +415,8 @@ indexOption2 := milvusclient.NewCreateIndexOption("my_collection", "varchar_fiel
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let indexes = vec![
     IndexParam::new()
         .field_name("varchar_field1")
@@ -494,6 +503,8 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+
 CreateCollectionReq requestCreate = CreateCollectionReq.builder()
         .collectionName("my_collection")
         .collectionSchema(schema)
@@ -507,6 +518,12 @@ client.createCollection(requestCreate);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("my_collection", schema).
         WithIndexOptions(indexOption1, indexOption2))
@@ -527,6 +544,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .create_collection(
         CreateCollectionRequest::builder()
@@ -642,6 +661,13 @@ InsertResp insertR = client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/column"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 column1, _ := column.NewNullableColumnVarChar("varchar_field1",
     []string{"Product A", "Product B", "Product C", "Unknown", ""},
     []bool{true, true, false, true, false, true, true})
@@ -673,6 +699,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .insert(
         InsertRequest::builder()
@@ -862,6 +890,9 @@ print(res)
 ```java
 import io.milvus.v2.service.vector.request.QueryReq;
 import io.milvus.v2.service.vector.response.QueryResp;
+import java.util.Arrays;
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
 
 String filter = "varchar_field1 == \"Product A\"";
 QueryResp resp = client.query(QueryReq.builder()
@@ -882,6 +913,12 @@ System.out.println(resp.getQueryResults());
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 filter := "varchar_field1 == \"Product A\""
 queryResult, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter(filter).
@@ -904,6 +941,8 @@ fmt.Println("varchar_field2", queryResult.GetColumn("varchar_field2").FieldData(
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let res = client
     .query(
         QueryRequest::builder()
@@ -1005,6 +1044,10 @@ print(res)
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
+import java.util.Arrays;
+
 String filter = "varchar_field2 is null";
 QueryResp resp = client.query(QueryReq.builder()
         .collectionName("my_collection")
@@ -1029,6 +1072,12 @@ System.out.println(resp.getQueryResults());
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 filter = "varchar_field2 is null"
 queryResult, err = client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter(filter).
@@ -1046,6 +1095,8 @@ fmt.Println("varchar_field2", queryResult.GetColumn("varchar_field2"))
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let res = client
     .query(
         QueryRequest::builder()
@@ -1146,6 +1197,10 @@ print(res)
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
+import java.util.Arrays;
+
 String filter = "varchar_field1 == \"Unknown\"";
 QueryResp resp = client.query(QueryReq.builder()
         .collectionName("my_collection")
@@ -1169,6 +1224,12 @@ System.out.println(resp.getQueryResults());
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 filter = "varchar_field1 == \"Unknown\""
 queryResult, err = client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter(filter).
@@ -1186,6 +1247,8 @@ fmt.Println("varchar_field2", queryResult.GetColumn("varchar_field2"))
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let res = client
     .query(
         QueryRequest::builder()
@@ -1294,6 +1357,8 @@ print(res)
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Arrays;
+import java.util.Collections;
 
 String filter = "varchar_field2 == \"Best seller\"";
 SearchResp resp = client.search(SearchReq.builder()
@@ -1317,6 +1382,15 @@ System.out.println(resp.getSearchResults());
 <TabItem value='go'>
 
 ```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 queryVector := []float32{0.3, -0.6, 0.1}
 filter = "varchar_field2 == \"Best seller\""
 
@@ -1348,6 +1422,8 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let res = client
     .search(
         SearchRequest::builder()

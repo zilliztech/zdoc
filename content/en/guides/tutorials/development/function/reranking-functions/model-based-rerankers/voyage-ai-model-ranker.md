@@ -508,6 +508,8 @@ CreateCollectionReq.Function voyage_ranker = CreateCollectionReq.Function.builde
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 voyage_ranker := entity.NewFunction().
     WithName("voyage_semantic_ranker").
     WithType(entity.FunctionTypeRerank).
@@ -525,6 +527,8 @@ voyage_ranker := entity.NewFunction().
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let voyage_ranker = Function::new()
     .name("voyage_semantic_ranker")
     .function_type(FunctionType::Rerank)
@@ -645,6 +649,13 @@ System.out.println(results.getSearchResults());
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 results, err := cli.Search(ctx, milvusclient.NewSearchOption("voyage_rerank_demo", 3,
     []entity.Vector{entity.FloatVector{0.12, 0.21, 0.29, 0.41}}).
     WithANNSField("dense").
@@ -662,6 +673,8 @@ fmt.Println(results)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let query_vector = vec![0.12, 0.21, 0.29, 0.41];
 
 let results = client

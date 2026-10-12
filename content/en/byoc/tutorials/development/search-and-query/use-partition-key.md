@@ -347,6 +347,12 @@ CreateCollectionReq createCollectionReq = CreateCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("my_collection", schema).
         WithNumPartitions(128))
@@ -361,6 +367,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client.create_collection(
     CreateCollectionRequest::builder()
         .collection_name("my_collection")
@@ -376,6 +384,9 @@ client.create_collection(
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
 status = client->CreateCollection(milvus::CreateCollectionRequest()
                                       .WithCollectionName("my_collection")
                                       .WithCollectionSchema(schema)
@@ -591,6 +602,12 @@ client.createCollection(createCollectionReq);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("my_collection", schema).
         WithProperty("partitionkey.isolation", true))
@@ -605,6 +622,7 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
 use std::collections::HashMap;
 
 client.create_collection(
@@ -625,6 +643,9 @@ client.create_collection(
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
 status = client->CreateCollection(milvus::CreateCollectionRequest()
                                       .WithCollectionName("my_collection")
                                       .WithCollectionSchema(schema)

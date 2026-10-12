@@ -293,6 +293,8 @@ To create an index on a non-JSON field, follow these steps:
     <TabItem value='go'>
 
     ```go
+    import "github.com/milvus-io/milvus/client/v3/milvusclient"
+    
     // Create the index
     _, err = client.CreateIndex(ctx, milvusclient.NewCreateIndexOption("my_collection", "category", idx)) // Replace with your collection name
     if err != nil {
@@ -399,6 +401,7 @@ client.create_index(
 
 ```java
 import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.index.request.CreateIndexReq;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -429,6 +432,7 @@ client.createIndex(CreateIndexReq.builder()
 ```go
 import (
     "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 // Build index params

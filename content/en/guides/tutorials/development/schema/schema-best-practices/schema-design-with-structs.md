@@ -637,6 +637,10 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
     <TabItem value='java'>
 
     ```java
+    import io.milvus.v2.common.DataType;
+    import io.milvus.v2.service.collection.request.CreateCollectionReq;
+    import java.util.Arrays;
+    
     // create the schema for the front car struct
     CreateCollectionReq.StructFieldSchema schemaForFrontCar = CreateCollectionReq.StructFieldSchema.builder()
             .name("front_cars")
@@ -666,6 +670,8 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
     <TabItem value='go'>
 
     ```go
+    import "github.com/milvus-io/milvus/client/v3/entity"
+    
     // create the schema for the front car struct
     frontCarSchema := entity.NewStructSchema().
         WithField(entity.NewField().WithName("frame_id").WithDataType(entity.FieldTypeInt64).
@@ -689,6 +695,8 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
     <TabItem value='rust'>
 
     ```rust
+    use milvus::v2::prelude::*;
+    
         // create the schema for the front car struct
         let front_car_schema = StructFieldSchema::new()
             .name("front_cars")
@@ -735,6 +743,8 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
     <TabItem value='javascript'>
 
     ```javascript
+    import { DataType } from "@zilliz/milvus2-sdk-node";
+    
     // create the schema for the front car struct
     const frontCarStructFields = [
         { name: "frame_id", data_type: DataType.Int64, description: "ID of the frame to which the ego vehicle's behavior belongs" },
@@ -812,6 +822,8 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
     <TabItem value='java'>
 
     ```java
+    import io.milvus.v2.common.DataType;
+    import io.milvus.v2.service.collection.request.CreateCollectionReq;
     import java.util.Arrays;
     
     CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder()
@@ -831,6 +843,8 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
     <TabItem value='go'>
 
     ```go
+    import "github.com/milvus-io/milvus/client/v3/entity"
+    
     schema := entity.NewSchema().
         WithField(entity.NewField().WithName("video_id").WithDataType(entity.FieldTypeVarChar).WithMaxLength(16).
             WithIsPrimaryKey(true).WithIsAutoID(false).WithDescription("primary key")).
@@ -857,6 +871,8 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
     <TabItem value='rust'>
 
     ```rust
+    use milvus::v2::prelude::*;
+    
         let schema = CollectionSchema::new()
             .add_field(FieldSchema::new().name("video_id").data_type(DataType::VarChar).max_length(16)
                 .primary_key(true).auto_id(false).description("primary key"))
@@ -889,6 +905,8 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
     <TabItem value='javascript'>
 
     ```javascript
+    import { DataType } from "@zilliz/milvus2-sdk-node";
+    
     const schema = [
         { name: "video_id", data_type: DataType.VarChar, is_primary_key: true, autoID: false,
           max_length: 16, description: "primary key" },
@@ -999,6 +1017,8 @@ indexes := []milvusclient.CreateIndexOption{
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
     let index_params = vec![
         IndexParam::new().field_name("captions[plain_cap_vector]")
             .index_name("captions_plain_cap_vector_idx")
@@ -1076,6 +1096,8 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+
 client.createCollection(CreateCollectionReq.builder()
         .collectionName("covla_dataset")
         .collectionSchema(schema)
@@ -1088,6 +1110,12 @@ client.createCollection(CreateCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = cli.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("covla_dataset", schema).
         WithIndexOptions(indexes...))
@@ -1101,6 +1129,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
     let request = CreateCollectionRequest::builder()
         .collection_name("covla_dataset")
         .schema(schema)
@@ -1328,8 +1358,8 @@ import (
     "log"
 
     "github.com/milvus-io/milvus/client/v3/column"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
-
 trafficLights, err := json.Marshal([]map[string]any{
     {"index": 0, "class": "red", "bbox": []float32{1, 2, 3, 4}},
     {"index": 1, "class": "green", "bbox": []float32{5, 6, 7, 8}},
@@ -1399,6 +1429,9 @@ fmt.Println("insert OK, ids:", ins.IDs)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+use serde_json;
+
     let request = InsertRequest::builder()
         .collection_name("covla_dataset")
         .columns(vec![

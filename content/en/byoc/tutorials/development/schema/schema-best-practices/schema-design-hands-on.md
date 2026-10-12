@@ -295,6 +295,8 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 schema.WithField(entity.NewField().
     WithName("article_id").
     WithDataType(entity.FieldTypeInt64).
@@ -335,6 +337,8 @@ schema.WithField(entity.NewField().
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let schema = schema
     .add_field(FieldSchema::new()
         .name("article_id")
@@ -390,6 +394,8 @@ schema->AddField(milvus::FieldSchema("text_sparse_vector", milvus::DataType::SPA
 <TabItem value='javascript'>
 
 ```javascript
+import { DataType } from "@zilliz/milvus2-sdk-node";
+
 const fields = [
     {
         name: "article_id",
@@ -530,6 +536,8 @@ schema.addFunction(Function.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 function := entity.NewFunction().
     WithName("text_bm25").
     WithInputFields("text").
@@ -543,6 +551,8 @@ schema.WithFunction(function)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let schema = schema.add_function(
     Function::new()
         .name("text_bm25")

@@ -354,6 +354,12 @@ results = client.search(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Arrays;
+import java.util.Collections;
+
 FloatVec queryVector = new FloatVec(new float[]{0.19f, 0.24f, 0.30f, 0.37f});
 
 String filterExpr = "category == \"search\" && "
@@ -379,6 +385,13 @@ SearchResp searchResp = client.search(SearchReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 queryVector := []float32{0.19, 0.24, 0.30, 0.37}
 
 filterExpr := "category == \"search\" && " +
@@ -611,6 +624,13 @@ SearchResp searchResp = client.hybridSearch(HybridSearchReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 queryVector := []float32{0.19, 0.24, 0.30, 0.37}
 codeQueryVector := []float32{0.18, 0.23, 0.29, 0.36}
 

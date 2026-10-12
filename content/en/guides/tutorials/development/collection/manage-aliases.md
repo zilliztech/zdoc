@@ -347,6 +347,12 @@ System.out.println(listAliasRes.getAlias());
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 aliases, err := client.ListAliases(ctx, milvusclient.NewListAliasesOption("my_collection_1"))
 if err != nil {
     fmt.Println(err.Error())
@@ -360,6 +366,8 @@ fmt.Println(aliases)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let aliases = client
     .list_aliases(
         ListAliasesRequest::builder()
@@ -484,6 +492,12 @@ System.out.println(describeAliasRes);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 alias, err := client.DescribeAlias(ctx, milvusclient.NewDescribeAliasOption("bob"))
 if err != nil {
     fmt.Println(err.Error())
@@ -497,6 +511,8 @@ fmt.Println(alias)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let alias = client
     .describe_alias(
         DescribeAliasRequest::builder()
@@ -636,6 +652,8 @@ print(res)
 
 ```java
 import io.milvus.v2.service.utility.request.AlterAliasReq;
+import io.milvus.v2.service.utility.request.ListAliasesReq;
+import io.milvus.v2.service.utility.response.ListAliasResp;
 
 // 9.4 Reassign alias to other collections
 AlterAliasReq alterAliasReq = AlterAliasReq.builder()
@@ -671,6 +689,12 @@ System.out.println(listAliasRes.getAlias());
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.AlterAlias(ctx, milvusclient.NewAlterAliasOption("alice", "my_collection_2"))
 if err != nil {
     fmt.Println(err.Error())
@@ -697,6 +721,8 @@ fmt.Println(aliases)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .alter_alias(
         AlterAliasRequest::builder()
@@ -905,6 +931,12 @@ client.dropAlias(dropAliasReq);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.DropAlias(ctx, milvusclient.NewDropAliasOption("bob"))
 if err != nil {
     fmt.Println(err.Error())
@@ -923,6 +955,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .drop_alias(
         DropAliasRequest::builder()

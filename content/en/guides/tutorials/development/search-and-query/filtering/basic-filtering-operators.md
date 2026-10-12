@@ -1305,6 +1305,14 @@ System.out.println(queryResp.getQueryResults());
 <TabItem value='go'>
 
 ```go
+import (
+    "context"
+    "fmt"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 ctx := context.Background()
 cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",

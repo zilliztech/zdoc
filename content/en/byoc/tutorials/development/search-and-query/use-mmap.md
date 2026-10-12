@@ -128,8 +128,11 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.common.DataType;
 import io.milvus.v2.common.IndexParam;
-import io.milvus.v2.service.collection.request.*;
-import io.milvus.v2.service.index.request.*;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+import io.milvus.v2.service.collection.request.AlterCollectionFieldReq;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+
+import java.util.*;
 
 import java.util.*;
 
@@ -488,6 +491,17 @@ client.alter_index_properties(
 <TabItem value='java'>
 
 ```java
+import io.milvus.param.Constant;
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+import io.milvus.v2.service.index.request.AlterIndexPropertiesReq;
+import io.milvus.v2.service.index.request.CreateIndexReq;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 schema.addField(AddFieldReq.builder()
         .fieldName("title")
         .dataType(DataType.VarChar)
@@ -521,6 +535,15 @@ client.alterIndexProperties(AlterIndexPropertiesReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/common"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 schema.WithField(entity.NewField().
     WithName("title").
     WithDataType(entity.FieldTypeVarChar).
@@ -550,6 +573,9 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+use std::collections::HashMap;
+
 let schema = schema.add_field(
     FieldSchema::new().name("title").data_type(DataType::VarChar).max_length(512),
 );
@@ -695,6 +721,9 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
+import io.milvus.param.Constant;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+
 CreateCollectionReq req = CreateCollectionReq.builder()
         .collectionName("my_collection")
         .collectionSchema(schema)
@@ -708,6 +737,13 @@ client.createCollection(req);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/common"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("my_collection", schema).
         WithProperty(common.MmapEnabledKey, "false"))
@@ -722,6 +758,9 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+use std::collections::HashMap;
+
 client
     .create_collection(
         CreateCollectionRequest::builder()
@@ -808,6 +847,11 @@ client.load_collection("my_collection")
 <TabItem value='java'>
 
 ```java
+import io.milvus.param.Constant;
+import io.milvus.v2.service.collection.request.AlterCollectionPropertiesReq;
+import io.milvus.v2.service.collection.request.LoadCollectionReq;
+import io.milvus.v2.service.collection.request.ReleaseCollectionReq;
+
 client.releaseCollection(ReleaseCollectionReq.builder()
         .collectionName("my_collection")
         .build());
@@ -827,6 +871,13 @@ client.loadCollection(LoadCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/common"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.ReleaseCollection(ctx, milvusclient.NewReleaseCollectionOption("my_collection"))
 if err != nil {
     fmt.Println(err.Error())
@@ -852,6 +903,9 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+use std::collections::HashMap;
+
 client.release_collection(ReleaseCollectionRequest::builder().collection_name("my_collection").build()?).await?;
 
 client

@@ -86,6 +86,9 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.ConsistencyLevel;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+
 CreateCollectionReq createCollectionReq = CreateCollectionReq.builder()
         .collectionName("my_collection")
         .collectionSchema(schema)
@@ -100,6 +103,11 @@ client.createCollection(createCollectionReq);
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("my_collection", schema).
         WithConsistencyLevel(entity.ClBounded))
@@ -114,6 +122,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client.create_collection(
     CreateCollectionRequest::builder()
         .collection_name("my_collection")
@@ -225,6 +235,10 @@ res = client.search(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.ConsistencyLevel;
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.response.SearchResp;
+
 SearchReq searchReq = SearchReq.builder()
         .collectionName("my_collection")
         .data(Collections.singletonList(queryVector))
@@ -240,6 +254,11 @@ SearchResp searchResp = client.search(searchReq);
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
     "my_collection", // collectionName
     3,               // limit
@@ -257,6 +276,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client.search(
     SearchRequest::builder()
         .collection_name("my_collection")
@@ -349,6 +370,10 @@ res = client.query(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.ConsistencyLevel;
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
+
 QueryReq queryReq = QueryReq.builder()
         .collectionName("my_collection")
         .filter("color like \"red%\"")
@@ -365,6 +390,11 @@ QueryResp getResp = client.query(queryReq);
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter("color like \"red%\"").
     WithOutputFields("vector", "color").
@@ -381,6 +411,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client.query(
     QueryRequest::builder()
         .collection_name("my_collection")

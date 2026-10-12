@@ -178,6 +178,8 @@ client.createDatabase(CreateDatabaseReq.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 err = client.CreateDatabase(ctx, milvusclient.NewCreateDatabaseOption("my_database"))
 if err != nil {
     // handle error
@@ -189,6 +191,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .create_database(CreateDatabaseRequest::builder()
         .database_name("my_database")
@@ -675,6 +679,8 @@ client.createCollection(createReq);
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 err = client.UseDatabase(ctx, milvusclient.NewUseDatabaseOption("my_database"))
 if err != nil {
     // handle error
@@ -691,6 +697,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client.use_database("my_database").await?;
 
 client
@@ -851,6 +859,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .create_index(CreateIndexRequest::builder()
         .collection_name("my_collection")
@@ -963,6 +973,8 @@ long jobId = refreshResp.getJobId();
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 refreshResult, err := client.RefreshExternalCollection(ctx,
     milvusclient.NewRefreshExternalCollectionOption("my_collection"))
 if err != nil {
@@ -976,6 +988,8 @@ jobID := refreshResult.JobID
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let resp = client
     .refresh_external_collection(RefreshExternalCollectionRequest::builder()
         .collection_name("my_collection")
@@ -1057,6 +1071,8 @@ GetRefreshExternalCollectionProgressResp progressResp = client.getRefreshExterna
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 progress, err := client.GetRefreshExternalCollectionProgress(ctx,
     milvusclient.NewGetRefreshExternalCollectionProgressOption(jobID))
 if err != nil {
@@ -1069,6 +1085,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let progress = client
     .get_refresh_external_collection_progress(GetRefreshExternalCollectionProgressRequest::builder()
         .job_id(job_id)
@@ -1209,6 +1227,8 @@ SearchResp searchResp = session.search(SearchReq.builder()
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let session = client.session("inxx-xxxxxxxxxxxxx")?;
 
 let query_vector = vec![

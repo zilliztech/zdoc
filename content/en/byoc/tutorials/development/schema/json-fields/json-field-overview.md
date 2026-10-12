@@ -429,6 +429,7 @@ import (
     "log"
 
     "github.com/milvus-io/milvus/client/v3/column"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 // Insert data
@@ -685,6 +686,7 @@ import (
 
     "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 // Create an index on the vector field
@@ -884,6 +886,7 @@ import (
     "log"
 
     "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 // Define filter expression
@@ -1047,6 +1050,7 @@ import (
     "log"
 
     "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 // Define filter expression
@@ -1220,6 +1224,7 @@ import (
     "log"
 
     "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 // Define filter expression
@@ -1383,6 +1388,7 @@ import (
     "log"
 
     "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 // Define filter expression

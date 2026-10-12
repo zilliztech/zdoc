@@ -159,6 +159,7 @@ rerank = Function(
 
 ```java
 import io.milvus.v2.service.vector.request.ranker.DecayRanker;
+import java.util.Collections;
 
 DecayRanker rerank = DecayRanker.builder()
         .name("event_relevance")
@@ -176,7 +177,11 @@ DecayRanker rerank = DecayRanker.builder()
 <TabItem value='go'>
 
 ```go
-import "time"
+import (
+    "time"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+)
 
 currentTime := time.Now().Unix()
 
@@ -294,9 +299,12 @@ result = milvus_client.search(
 
 ```java
 import io.milvus.v2.common.ConsistencyLevel;
+import io.milvus.v2.service.vector.request.FunctionScore;
 import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.response.SearchResp;
 import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Arrays;
+import java.util.Collections;
 
 SearchReq searchReq = SearchReq.builder()
         .collectionName(COLLECTION_NAME)
@@ -317,6 +325,13 @@ SearchResp searchResp = client.search(searchReq);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 functionScore := entity.NewFunctionScore().AddFunction(rerank)
 
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
@@ -337,6 +352,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
     let function_score = FunctionScore::new().add_function(rerank);
     let request = SearchRequest::builder()
         .collection_name(collection_name)

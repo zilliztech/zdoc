@@ -829,6 +829,7 @@ client.insert(
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import io.milvus.v2.service.vector.request.InsertReq;
 import java.util.Collections;
 
 JsonObject row = new JsonObject();
@@ -849,6 +850,12 @@ client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 _, err = cli.Insert(ctx, milvusclient.NewRowBasedInsertOption("tech_articles",
     map[string]any{"doc_id": int64(10), "title": "Article without chunks yet", "category": "draft",
         "title_vector": []float32{0.05, 0.10, 0.15, 0.20}, "chunks": nil}))
@@ -862,6 +869,9 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+use serde_json::json;
+
 let row = json!({
     "doc_id": 10,
     "title": "Article without chunks yet",
@@ -1003,6 +1013,12 @@ System.out.println(resp.getQueryResults());
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 if _, err := cli.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("tech_articles")); err != nil {
     fmt.Println(err.Error())
 }
@@ -1021,6 +1037,8 @@ fmt.Printf("query returned %d rows\n", rs.ResultCount)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client.load_collection(LoadCollectionRequest::builder().collection_name("tech_articles").build()?).await?;
 
 let resp = client.query(QueryRequest::builder()

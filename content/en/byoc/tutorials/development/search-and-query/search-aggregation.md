@@ -594,6 +594,8 @@ SearchAggregation aggregation = SearchAggregation.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 aggregation := milvusclient.NewSearchAggregation([]string{"brand"}, 3).
     WithMetric("product_count", "count", "*").
     WithMetric("avg_price", "avg", "price").
@@ -607,6 +609,8 @@ aggregation := milvusclient.NewSearchAggregation([]string{"brand"}, 3).
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let aggregation = SearchAggregation::new()
     .fields(["brand"])
     .size(3)
@@ -708,6 +712,14 @@ result = client.search(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
+import io.milvus.v2.service.vector.response.aggregation.AggregationBucket;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 SearchResp result = client.search(SearchReq.builder()
         .collectionName(collectionName)
         .data(Collections.singletonList(new FloatVec(queryVector)))
@@ -726,6 +738,14 @@ List<AggregationBucket> buckets = result.getAggregationBuckets().get(0);
 <TabItem value='go'>
 
 ```go
+import (
+    "context"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 resultSets, err := client.Search(context.Background(), milvusclient.NewSearchOption(
     collectionName,
     10,
@@ -746,6 +766,8 @@ buckets := resultSets[0].AggregationBuckets
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let result = client.search(
     SearchRequest::builder()
         .collection_name("product_search_aggregation")
@@ -947,6 +969,13 @@ aggregation = SearchAggregation(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.aggregation.AggDirection;
+import io.milvus.v2.service.vector.request.aggregation.MetricOps;
+import io.milvus.v2.service.vector.request.aggregation.MetricSpec;
+import io.milvus.v2.service.vector.request.aggregation.OrderSpec;
+import io.milvus.v2.service.vector.request.aggregation.SearchAggregation;
+import java.util.Collections;
+
 SearchAggregation aggregation = SearchAggregation.builder()
         .fields(Collections.singletonList("brand"))
         .size(3)
@@ -960,6 +989,8 @@ SearchAggregation aggregation = SearchAggregation.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 aggregation := milvusclient.NewSearchAggregation([]string{"brand"}, 3).
     WithMetric("max_score", "max", "_score").
     WithOrder("max_score", "desc")
@@ -970,6 +1001,8 @@ aggregation := milvusclient.NewSearchAggregation([]string{"brand"}, 3).
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let aggregation = SearchAggregation::new()
     .fields(["brand"])
     .size(3)
@@ -1047,6 +1080,9 @@ aggregation = SearchAggregation(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.aggregation.SearchAggregation;
+import java.util.Arrays;
+
 SearchAggregation aggregation = SearchAggregation.builder()
         .fields(Arrays.asList("brand", "color"))
         .size(6)
@@ -1058,6 +1094,8 @@ SearchAggregation aggregation = SearchAggregation.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 aggregation := milvusclient.NewSearchAggregation([]string{"brand", "color"}, 6)
 ```
 
@@ -1066,6 +1104,8 @@ aggregation := milvusclient.NewSearchAggregation([]string{"brand", "color"}, 6)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let aggregation = SearchAggregation::new()
     .fields(["brand", "color"])
     .size(6);
@@ -1151,6 +1191,12 @@ aggregation = SearchAggregation(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.aggregation.AggDirection;
+import io.milvus.v2.service.vector.request.aggregation.SearchAggregation;
+import io.milvus.v2.service.vector.request.aggregation.SortSpec;
+import io.milvus.v2.service.vector.request.aggregation.TopHitsSpec;
+import java.util.Collections;
+
 SearchAggregation aggregation = SearchAggregation.builder().fields(Collections.singletonList("brand")).size(3)
         .topHits(TopHitsSpec.builder().size(2)
                 .addSort(SortSpec.builder().fieldName("rating").direction(AggDirection.DESC).build())
@@ -1163,6 +1209,8 @@ SearchAggregation aggregation = SearchAggregation.builder().fields(Collections.s
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 aggregation := milvusclient.NewSearchAggregation([]string{"brand"}, 3).
     WithTopHits(milvusclient.NewTopHits(2).
         WithSort("rating", "desc").
@@ -1174,6 +1222,8 @@ aggregation := milvusclient.NewSearchAggregation([]string{"brand"}, 3).
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let aggregation = SearchAggregation::new()
     .fields(["brand"])
     .size(3)
@@ -1357,6 +1407,15 @@ aggregation = SearchAggregation(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.aggregation.AggDirection;
+import io.milvus.v2.service.vector.request.aggregation.MetricOps;
+import io.milvus.v2.service.vector.request.aggregation.MetricSpec;
+import io.milvus.v2.service.vector.request.aggregation.OrderSpec;
+import io.milvus.v2.service.vector.request.aggregation.SearchAggregation;
+import io.milvus.v2.service.vector.request.aggregation.SortSpec;
+import io.milvus.v2.service.vector.request.aggregation.TopHitsSpec;
+import java.util.Collections;
+
 SearchAggregation aggregation = SearchAggregation.builder().fields(Collections.singletonList("category")).size(2)
         .addMetric("product_count", MetricSpec.builder().op(MetricOps.COUNT).fieldName("*").build())
         .addMetric("avg_price", MetricSpec.builder().op(MetricOps.AVG).fieldName("price").build())
@@ -1374,6 +1433,8 @@ SearchAggregation aggregation = SearchAggregation.builder().fields(Collections.s
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 aggregation := milvusclient.NewSearchAggregation([]string{"category"}, 2).
     WithMetric("product_count", "count", "*").
     WithMetric("avg_price", "avg", "price").
@@ -1390,6 +1451,8 @@ aggregation := milvusclient.NewSearchAggregation([]string{"category"}, 2).
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let aggregation = SearchAggregation::new()
     .fields(["category"])
     .size(2)
