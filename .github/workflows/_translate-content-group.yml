@@ -462,7 +462,7 @@ jobs:
             # canonical batch input lives in RUNNER_TEMP only to keep it out
             # of the repository tree. Treat repository tmp/ state as
             # agent-reachable; do not rely on it surviving a turn.
-            agentic_args=(--site-dir "$GITHUB_WORKSPACE" --manifest tmp/translation-manifest.json --report tmp/translation-report.json --model "$AGENTIC_TRANSLATION_MODEL" --base-url "$AGENTIC_BASE_URL" --api-key-env AGENTIC_PROVIDER_API_KEY --concurrency "$AGENTIC_CONCURRENCY" --codex-home "$RUNNER_TEMP/agentic-codex-home" --sandbox-mode danger-full-access --agent-scratch-root "$RUNNER_TEMP/agentic-work" --skip-preflight false)
+            agentic_args=(--site-dir "$GITHUB_WORKSPACE" --manifest tmp/translation-manifest.json --report tmp/translation-report.json --model "$AGENTIC_TRANSLATION_MODEL" --base-url "$AGENTIC_BASE_URL" --api-key-env AGENTIC_PROVIDER_API_KEY --reasoning-effort "$AGENTIC_REASONING_EFFORT" --concurrency "$AGENTIC_CONCURRENCY" --codex-home "$RUNNER_TEMP/agentic-codex-home" --sandbox-mode danger-full-access --agent-scratch-root "$RUNNER_TEMP/agentic-work" --skip-preflight false)
             if [[ -f "$RECOVERY_ANALYSIS" ]]; then
               agentic_args+=(--recovery-analysis "$RECOVERY_ANALYSIS")
             fi
@@ -489,6 +489,7 @@ jobs:
           AGENTIC_PROVIDER_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
           AGENTIC_BASE_URL: ${{ vars.DEEPSEEK_BASE_URL }}
           AGENTIC_TRANSLATION_MODEL: ${{ vars.AGENTIC_TRANSLATION_MODEL || 'deepseek-flash' }}
+          AGENTIC_REASONING_EFFORT: ${{ vars.AGENTIC_REASONING_EFFORT || 'medium' }}
           AGENTIC_CONCURRENCY: ${{ inputs.group == 'guides' && '2' || '4' }}
           TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
           TRANSLATION_AGENT_BASE_URL: ${{ vars.TRANSLATION_AGENT_BASE_URL }}

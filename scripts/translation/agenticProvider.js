@@ -44,6 +44,30 @@ const {buildRecoveryIdentity, loadChunkLimits, loadRecoveryAnalysis, loadProgres
 const DEFAULT_MAX_REPAIR_TURNS = 4
 const MAX_FAILURE_ERROR_LENGTH = 2000
 
+// Reasoning efforts accepted by both codex and the DeepSeek native API
+// (responses gateways translate the Responses `reasoning` object into
+// DeepSeek's `reasoning_effort` enum). litellm releases up to v1.100 forward
+// the whole `reasoning` dict whenever it carries a `summary` key, which
+// DeepSeek rejects with 422 "unknown variant `summary`" — so the wire shape
+// must be `reasoning: {effort: <value>}` with summaries disabled.
+// 'none' is accepted by the codex binary even though the SDK .d.ts omits it;
+// codex's own 'persistent' effort is excluded (it maps to a nonstandard wire
+// value DeepSeek would reject).
+const AGENTIC_REASONING_EFFORTS = Object.freeze(['none', 'minimal', 'low', 'medium', 'high', 'xhigh', 'ultra', 'max'])
+const DEFAULT_REASONING_EFFORT = 'medium'
+
+function codexThreadConfig({baseUrl, reasoningEffort}) {
+  if (!AGENTIC_REASONING_EFFORTS.includes(reasoningEffort)) throw new Error(`reasoning effort must be one of ${AGENTIC_REASONING_EFFORTS.join(', ')}`)
+  return {
+    model_provider: 'agenticgateway',
+    model_reasoning_effort: reasoningEffort,
+    model_reasoning_summary: 'none',
+    model_providers: {
+      agenticgateway: {name: 'agentic gateway', base_url: baseUrl, env_key: 'AGENTIC_PROVIDER_KEY', wire_api: 'responses', query_params: {}},
+    },
+  }
+}
+
 // The unit pipeline records every successful translation into the target's
 // progress state through its coordinator; the agentic provider bypasses that
 // coordinator, so it applies the same progress updates itself. Cache-type
@@ -540,19 +564,15 @@ async function runAgenticTranslation({siteDir, manifest, callCodex, validate, ma
 }
 
 // Network adapter over the Codex SDK. Kept separate from the tested library
-// surface above so tests inject a fake callCodex and never touch the network.
-async function createCodexCall({model, baseUrl, apiKey, workingDirectory, timeoutMs = 20 * 60 * 1000, codexHome, sandboxMode = 'workspace-write', usageTracker = null}) {
+// surface above so tests inject a fake callCodex and never touch the network;
+// loadSdk exists so a test can pin this adapter's config assembly the same way.
+async function createCodexCall({model, baseUrl, apiKey, workingDirectory, timeoutMs = 20 * 60 * 1000, codexHome, sandboxMode = 'workspace-write', usageTracker = null, reasoningEffort = DEFAULT_REASONING_EFFORT, loadSdk = () => import('@openai/codex-sdk')}) {
   if (!['read-only', 'workspace-write', 'danger-full-access'].includes(sandboxMode)) throw new Error('Unsupported agentic sandbox mode')
 
-  const {Codex} = await import('@openai/codex-sdk')
+  const {Codex} = await loadSdk()
   if (codexHome) fs.mkdirSync(path.resolve(codexHome), {recursive: true})
   const codex = new Codex({
-    config: {
-      model_provider: 'agenticgateway',
-      model_providers: {
-        agenticgateway: {name: 'agentic gateway', base_url: baseUrl, env_key: 'AGENTIC_PROVIDER_KEY', wire_api: 'responses', query_params: {}},
-      },
-    },
+    config: codexThreadConfig({baseUrl, reasoningEffort}),
     env: Object.fromEntries(Object.entries({
       PATH: process.env.PATH || '/usr/local/bin:/usr/bin:/bin',
       HOME: process.env.HOME || path.join(os.tmpdir(), 'agentic-provider-home'),
@@ -630,7 +650,7 @@ The sentinel word is still zebra.
 }
 
 function usage() {
-  return 'Usage: node scripts/translation/agenticProvider.js run --site-dir <absolute-dir> --manifest <file> --report <file> --model <id> --base-url <url> --api-key-env <name> [--concurrency 2] [--max-repair-turns 4] [--codex-home <dir>] [--sandbox-mode <workspace-write|danger-full-access>] [--skip-preflight true] [--recovery-analysis <file>] [--semantic-seeds <dir>] [--agent-scratch-root <dir>]'
+  return `Usage: node scripts/translation/agenticProvider.js run --site-dir <absolute-dir> --manifest <file> --report <file> --model <id> --base-url <url> --api-key-env <name> [--concurrency 2] [--max-repair-turns 4] [--codex-home <dir>] [--sandbox-mode <workspace-write|danger-full-access>] [--skip-preflight true] [--recovery-analysis <file>] [--semantic-seeds <dir>] [--agent-scratch-root <dir>] [--reasoning-effort <${AGENTIC_REASONING_EFFORTS.join('|')}>]`
 }
 
 function parseCliArgs(argv) {
@@ -648,6 +668,8 @@ function parseCliArgs(argv) {
   if (!path.isAbsolute(args.get('site-dir')) || siteDir !== args.get('site-dir')) {
     throw new Error('--site-dir must be an absolute normalized path')
   }
+  const reasoningEffort = args.get('reasoning-effort') || DEFAULT_REASONING_EFFORT
+  if (!AGENTIC_REASONING_EFFORTS.includes(reasoningEffort)) throw new Error(`--reasoning-effort must be one of ${AGENTIC_REASONING_EFFORTS.join(', ')}`)
   return {
     siteDir,
     manifestPath: args.get('manifest'),
@@ -663,6 +685,7 @@ function parseCliArgs(argv) {
     recoveryAnalysis: args.get('recovery-analysis') || '',
     semanticSeeds: args.get('semantic-seeds') || '',
     agentScratchRoot: args.get('agent-scratch-root') || null,
+    reasoningEffort,
   }
 }
 
@@ -681,7 +704,7 @@ async function main() {
     })
     : null
   const usageTracker = createUsageTracker()
-  const callCodex = await createCodexCall({model: options.model, baseUrl: options.baseUrl, apiKey, workingDirectory: process.cwd(), codexHome: options.codexHome, sandboxMode: options.sandboxMode, usageTracker})
+  const callCodex = await createCodexCall({model: options.model, baseUrl: options.baseUrl, apiKey, workingDirectory: process.cwd(), codexHome: options.codexHome, sandboxMode: options.sandboxMode, usageTracker, reasoningEffort: options.reasoningEffort})
   // The preflight spends one paid agent turn; skip it when recovery already
   // covers every manifest item and no model call remains. Semantic seeds can
   // also eliminate every model call, but that is only knowable after per-file
@@ -737,6 +760,9 @@ async function main() {
 
 module.exports = {
   DEFAULT_MAX_REPAIR_TURNS,
+  AGENTIC_REASONING_EFFORTS,
+  DEFAULT_REASONING_EFFORT,
+  codexThreadConfig,
   createUsageTracker,
   mergeTranslatedResultsIntoProgressState,
   preflightAgent,
