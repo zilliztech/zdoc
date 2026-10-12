@@ -81,3 +81,16 @@ test('fails unsupported locale and group combinations before translation', () =>
   assert.throws(() => buildTranslationSelection({locale: 'zh-CN', group: 'guides'}), /unsupported/i);
   assert.throws(() => buildTranslationSelection({locale: 'ja-JP', group: 'tools'}), /unsupported/i);
 });
+
+test('comma group lists select a canonical-order subset and fail closed on unknown tokens', () => {
+  assert.deepEqual(
+    buildTranslationSelection({locale: 'all', group: 'python,guides'}).map(item => `${item.target}/${item.group}`),
+    ['ja-JP/guides', 'ja-JP/python', 'zh-CN-reference/python'],
+  );
+  assert.deepEqual(
+    buildTranslationSelection({locale: 'all', group: 'guides'}).map(item => item.publicationOrder),
+    buildTranslationSelection({locale: 'all', group: 'guides,guides'}).map(item => item.publicationOrder),
+    'duplicate tokens collapse',
+  );
+  assert.throws(() => buildTranslationSelection({locale: 'all', group: ',,'}), /Unsupported translation selection/);
+});

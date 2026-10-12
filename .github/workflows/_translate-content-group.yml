@@ -267,10 +267,17 @@ jobs:
         run: |
           batch_args=()
           reconciliation_args=(--reconciliation-plan tmp/reconciliation-plan.json --reconciliation-plan-artifact "translation-reconciliation-plan-$TRANSLATION_TARGET-$GROUP-${{ github.run_id }}")
+          manifest_max_files='${{ inputs.max_files }}'
+          if (( ${{ inputs.batch_number }} > 0 )) && [[ "$EFFECTIVE_TRANSLATION_MODE" != "incremental" ]]; then
+            # Mirror _prepare-translation-batches: a pending-file cap only
+            # binds in incremental mode, and both sides must pass the same
+            # value so the rebuilt pending set matches the hashed one.
+            manifest_max_files=0
+          fi
           if (( ${{ inputs.batch_number }} > 0 )); then
             batch_args=(--batch-index "${{ inputs.batch_index }}" --batch-size "${{ inputs.batch_size }}" --expected-pending-set-sha256 "${{ inputs.pending_set_sha256 }}")
           fi
-          node scripts/translation/manifest.js --target "$TRANSLATION_TARGET" --output tmp/translation-manifest.json --max-files "${{ inputs.max_files }}" --group "$GROUP" --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" --source-changes tmp/source-changes.json --mode "$EFFECTIVE_TRANSLATION_MODE" "${batch_args[@]}" "${reconciliation_args[@]}"
+          node scripts/translation/manifest.js --target "$TRANSLATION_TARGET" --output tmp/translation-manifest.json --max-files "$manifest_max_files" --group "$GROUP" --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" --source-changes tmp/source-changes.json --mode "$EFFECTIVE_TRANSLATION_MODE" "${batch_args[@]}" "${reconciliation_args[@]}"
           # Atomic initial report: if the producer crashes before the agents
           # write any result, the always() archive still uploads a strict,
           # machine-certifiable zero-progress JSON instead of a Markdown-only

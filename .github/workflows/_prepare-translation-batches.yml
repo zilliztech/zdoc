@@ -10,6 +10,7 @@ on:
       source_checkpoint_sha: { required: true, type: string }
       target_baseline_sha: { required: false, type: string, default: '' }
       mode: { required: false, type: string, default: auto }
+      max_files: { required: false, type: string, default: '0' }
     outputs:
       matrix: { value: '${{ jobs.prepare.outputs.matrix }}' }
       pending_count: { value: '${{ jobs.prepare.outputs.pending_count }}' }
@@ -42,6 +43,7 @@ jobs:
       SOURCE_CHECKPOINT_SHA: ${{ inputs.source_checkpoint_sha }}
       TARGET_BASELINE_SHA: ${{ inputs.target_baseline_sha || inputs.source_checkpoint_sha }}
       TOOLING_SHA: ${{ inputs.tooling_sha }}
+      MAX_FILES: ${{ inputs.max_files || '0' }}
     steps:
       - uses: actions/checkout@v5
         with: { ref: '${{ inputs.tooling_sha }}', fetch-depth: 0 }
@@ -102,7 +104,14 @@ jobs:
           # explicit mode=full request must not hash an incremental manifest.
           effective_mode=$(node scripts/translation/bootstrap-state.js resolve --target "$TRANSLATION_TARGET" --group "$GROUP" --mode "$REQUESTED_TRANSLATION_MODE" --summary-file tmp/bootstrap-decision.json)
           echo "EFFECTIVE_TRANSLATION_MODE=$effective_mode" >> "$GITHUB_ENV"
-          node scripts/translation/manifest.js --target "$TRANSLATION_TARGET" --output tmp/translation-manifest.json --group "$GROUP" --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" --source-changes tmp/source-changes.json --mode "$effective_mode" --reconciliation-plan tmp/reconciliation-plan.json --reconciliation-plan-artifact "translation-reconciliation-plan-$TRANSLATION_TARGET-$GROUP-${{ github.run_id }}"
+          # A pending-file cap only binds in incremental mode: a capped full
+          # retranslation would reselect the same prefix every run and stall.
+          # The per-batch producer applies the same rule so both sides rebuild
+          # the identical (possibly capped) pending set and its sha256 matches.
+          effective_max_files=0
+          if [[ "$effective_mode" == "incremental" ]]; then effective_max_files="$MAX_FILES"; fi
+          echo "effective max_files=$effective_max_files (requested=$MAX_FILES, mode=$effective_mode)"
+          node scripts/translation/manifest.js --target "$TRANSLATION_TARGET" --output tmp/translation-manifest.json --group "$GROUP" --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" --source-changes tmp/source-changes.json --mode "$effective_mode" --max-files "$effective_max_files" --reconciliation-plan tmp/reconciliation-plan.json --reconciliation-plan-artifact "translation-reconciliation-plan-$TRANSLATION_TARGET-$GROUP-${{ github.run_id }}"
           node - <<'NODE'
           const fs = require('node:fs')
           const { getContentGroup } = require('./scripts/docs-workflow/content-groups')

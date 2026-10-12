@@ -1,0 +1,102 @@
+name: translation dispatcher
+
+on:
+  schedule:
+    # Hourly, offset from the busy top of the hour (Fetch runs every 8h).
+    - cron: "30 * * * *"
+  workflow_dispatch:
+    inputs:
+      dispatch:
+        description: Dispatch the selected producer run (leave false for a dry run)
+        type: boolean
+        default: false
+      budget:
+        description: Maximum pending files per dispatched producer run
+        type: string
+        default: '300'
+      guides_max_files:
+        description: Per-run pending-file cap for incremental Guides translation
+        type: string
+        default: '150'
+
+# The dispatcher never owns the production queue: it only reads repository
+# state and dispatches at most one translate-codex producer run per cycle;
+# the dispatched producer publishes through its own short-lock publisher.
+concurrency:
+  group: translation-dispatcher
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  FEISHU_NOTIFICATIONS_DISABLED: ${{ vars.FEISHU_NOTIFICATIONS_DISABLED || '' }}
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
+        with: { node-version: '22.6', cache: pnpm }
+      - name: Install tooling
+        run: pnpm install --frozen-lockfile
+      - name: Fetch the content branch
+        run: |
+          set -euo pipefail
+          node -e 'require("./scripts/docs-workflow/resolve-docs-refs").assertSafeGitRef(process.env.SOURCE_BRANCH)'
+          git fetch --no-tags origin '+refs/heads/dev:refs/remotes/origin/dev'
+        env:
+          SOURCE_BRANCH: dev
+      - name: Resolve the latest dispatch plan
+        id: plan
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/dispatch-plan" "$RUNNER_TEMP/dispatch-plan-out"
+          latest=$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/translation-dispatcher.yml/runs?status=success&branch=master&per_page=1" --jq '.workflow_runs[0].id // empty' || true)
+          if [[ -n "${latest:-}" ]]; then
+            gh run download "$latest" --repo "$GITHUB_REPOSITORY" --name "translation-dispatch-plan-$latest" --dir "$RUNNER_TEMP/dispatch-plan" \
+              || echo "run $latest uploaded no dispatch plan; starting a fresh plan"
+          fi
+          plan_file="$RUNNER_TEMP/dispatch-plan/translation-dispatch-plan.json"
+          if [[ -f "$plan_file" ]]; then
+            printf 'previous=%s\n' "$plan_file" >> "$GITHUB_OUTPUT"
+          else
+            printf 'previous=-\n' >> "$GITHUB_OUTPUT"
+          fi
+      - name: Run the translation dispatcher
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          DISPATCH_INPUT: ${{ github.event_name == 'workflow_dispatch' && inputs.dispatch || '' }}
+          DISPATCH_VAR: ${{ vars.TRANSLATION_DISPATCHER_DISPATCH }}
+          BUDGET: ${{ inputs.budget || '300' }}
+          GUIDES_MAX_FILES: ${{ inputs.guides_max_files || '150' }}
+        run: |
+          set -euo pipefail
+          armed=false
+          if [[ "$DISPATCH_VAR" == "true" || "$DISPATCH_INPUT" == "true" ]]; then armed=true; fi
+          node scripts/docs-workflow/translation-dispatcher.js \
+            --repository "$GITHUB_WORKSPACE" \
+            --previous-plan "${{ steps.plan.outputs.previous }}" \
+            --output-plan "$RUNNER_TEMP/dispatch-plan-out/translation-dispatch-plan.json" \
+            --budget "$BUDGET" \
+            --guides-max-files "$GUIDES_MAX_FILES" \
+            --dispatch "$armed"
+      - name: Upload the dispatch plan
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v6
+        with:
+          name: translation-dispatch-plan-${{ github.run_id }}
+          path: ${{ runner.temp }}/dispatch-plan-out/translation-dispatch-plan.json
+          if-no-files-found: error

@@ -136,9 +136,12 @@ function resolveGroupSelector(group) {
   // the content branch.
   if (group === 'reference-landings') return 'reference-landings';
   if (typeof group !== 'string' || group === '' || group !== group.trim()) throw new Error('Selected translation group is empty');
-  if (group.includes(',')) throw new Error('Select a single source group or all; comma subsets are not yet supported for manual translation');
-  if (!TRANSLATABLE_SOURCE_GROUPS.includes(group)) throw new Error(`Unknown or non-translatable source group: ${group}`);
-  return group;
+  // Comma subsets select several groups in one handoff (the hourly dispatcher
+  // dispatches a budgeted group set per producer run); duplicates collapse and
+  // the selection itself orders units canonically.
+  const tokens = [...new Set(group.split(',').map(part => part.trim()).filter(Boolean))];
+  if (tokens.length === 0 || tokens.some(token => !TRANSLATABLE_SOURCE_GROUPS.includes(token))) throw new Error(`Unknown or non-translatable source group: ${group}`);
+  return tokens.join(',');
 }
 
 function buildManualTranslationHandoff({repository, sourceBranch, group = 'all', locale = 'all'}) {

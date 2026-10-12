@@ -6,7 +6,7 @@ const { spawnSync } = require('node:child_process')
 const { getContentGroup } = require('../docs-workflow/content-groups')
 const { getGroupPaths } = require('../docs-workflow/group-paths')
 const { loadTypeScript } = require('../lib/load-typescript')
-const { selectManifestBatch } = require('./batches')
+const { countCandidateReasons, selectManifestBatch } = require('./batches')
 const {
   evaluateReconciliationPolicy,
   loadReconciliationPolicy,
@@ -303,19 +303,36 @@ function main() {
   const reconciliationPlanPath = args.get('--reconciliation-plan') || null
   const reconciliationPlanArtifact = args.get('--reconciliation-plan-artifact') || null
   const mode = args.get('--mode') || process.env.TRANSLATION_MODE || 'incremental'
+  const countOnly = args.get('--count-only') === 'true'
   const sourceChanges = sourceChangesPath ? JSON.parse(fs.readFileSync(path.join(siteDir, sourceChangesPath), 'utf8')) : null
   const batchFlags = ['--batch-index', '--batch-size', '--expected-pending-set-sha256']
   const presentBatchFlags = batchFlags.filter(flag => args.has(flag))
   if (presentBatchFlags.length !== 0 && presentBatchFlags.length !== batchFlags.length) throw new Error('Batch manifest flags must be provided together')
+  if (countOnly && presentBatchFlags.length) throw new Error('--count-only cannot be combined with batch selection flags')
   let manifest
   try {
     const reconciliation = reconciliationPlanPath ? {
       plan: JSON.parse(fs.readFileSync(path.join(siteDir, reconciliationPlanPath), 'utf8')),
       planArtifact: reconciliationPlanArtifact,
     } : null
-    manifest = buildManifest({siteDir, target, locale, maxFiles: presentBatchFlags.length ? 0 : maxFiles, group, sourceCheckpointSha, sourceChanges, mode, reconciliation})
+    // Batch jobs used to force maxFiles to 0 so every batch rebuilt the full
+    // pending set; a capped run now rebuilds the same capped set as
+    // _prepare-translation-batches, so both sides hash one canonical set.
+    manifest = buildManifest({siteDir, target, locale, maxFiles, group, sourceCheckpointSha, sourceChanges, mode, reconciliation})
   } catch (error) {
     throw error
+  }
+  if (countOnly) {
+    console.log(`[translation-manifest-count] ${JSON.stringify({
+      target,
+      group,
+      locale,
+      mode,
+      maxFiles,
+      pendingCount: manifest.items.length,
+      candidateCounts: countCandidateReasons(manifest),
+    })}`)
+    return
   }
   if (presentBatchFlags.length) {
     manifest = selectManifestBatch(manifest, {

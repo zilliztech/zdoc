@@ -298,7 +298,8 @@
       ],
       "focusedTests": [
         "pnpm test:translation-workflow",
-        "pnpm test:translation"
+        "pnpm test:translation",
+        "node --test scripts/docs-workflow/translation-dispatcher-workflow.test.js"
       ],
       "harnesses": [
         "pnpm test:replay:translation"
@@ -978,6 +979,28 @@
         "git diff --check"
       ],
       "reason": "The manual translation entry builds the schema-v3 handoff that dispatches the paid Codex translation producer; fetch-source groups anchor to their latest fetch publish commit while reference-landings anchors to the content branch tip."
+    },
+    {
+      "id": "translation-dispatcher",
+      "paths": [
+        ".github/workflows/translation-dispatcher.yml",
+        "scripts/docs-workflow/translation-dispatcher.js",
+        "scripts/docs-workflow/translation-dispatcher.test.js",
+        "scripts/docs-workflow/translation-dispatch-plan.js",
+        "scripts/docs-workflow/translation-dispatch-plan.test.js",
+        "scripts/docs-workflow/translation-dispatcher-workflow.test.js",
+        "scripts/docs-workflow/translation-pending-count.js"
+      ],
+      "focusedTests": [
+        "node --test scripts/docs-workflow/translation-dispatcher.test.js scripts/docs-workflow/translation-dispatch-plan.test.js scripts/docs-workflow/translation-dispatcher-workflow.test.js"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm test:workflow-policy",
+        "pnpm test:workflow-matrix",
+        "git diff --check"
+      ],
+      "reason": "The hourly dispatcher counts pending translation work through the producer's own selection mechanism, keeps a task-list artifact, and dispatches at most one budgeted producer run per cycle; it never owns the production queue and stops without dispatching on any ambiguity."
     },
     {
       "id": "site-validation-watchdog",
