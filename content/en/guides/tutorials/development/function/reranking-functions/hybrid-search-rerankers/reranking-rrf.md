@@ -163,6 +163,8 @@ rerank := entity.NewFunction().
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let rerank = Function::new()
 
     .name("rrf")
@@ -179,6 +181,9 @@ let rerank = Function::new()
 <TabItem value='c++'>
 
 ```c++
+#include <memory>
+#include "milvus/MilvusClientV2.h"
+
 auto rerank = std::make_shared<milvus::Function>("rrf", milvus::FunctionType::RERANK);
 rerank->AddParam("reranker", "rrf");
 rerank->AddParam("k", "100");
@@ -453,6 +458,11 @@ let hybrid_results = client
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include <memory>
+#include <utility>
+#include "milvus/MilvusClientV2.h"
+
 auto text_search = milvus::SubSearchRequest()
                     .WithLimit(10)
                     .WithAnnsField("text_vector")

@@ -423,6 +423,8 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 analyzerParams := map[string]any{
     "tokenizer": "jieba",
     "filter":    []string{"pinyin"},
@@ -579,6 +581,8 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 analyzerParams := map[string]any{
     "tokenizer": "jieba",
     "filter": []map[string]any{
@@ -767,6 +771,8 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 analyzerParams := map[string]any{
     "tokenizer": "jieba",
     "filter": []map[string]any{

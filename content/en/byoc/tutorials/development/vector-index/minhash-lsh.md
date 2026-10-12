@@ -450,6 +450,8 @@ schema->AddField(milvus::FieldSchema("document", milvus::DataType::VARCHAR).With
 <TabItem value='javascript'>
 
 ```javascript
+import { DataType } from '@zilliz/milvus2-sdk-node';
+
 const VECTOR_DIM = 256 * 64; // 256 × 64 = 16384 bits
 
 const schema = [

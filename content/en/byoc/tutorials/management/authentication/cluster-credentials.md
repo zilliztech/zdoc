@@ -41,7 +41,7 @@ If you forget a user's password or suspect it has been leaked, you can reset the
 
     You can use the RESTful API or SDKs to reset user password programmatically.
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -63,24 +63,13 @@ If you forget a user's password or suspect it has been leaked, you can reset the
     <TabItem value='java'>
 
     ```java
+    import io.milvus.v2.service.rbac.request.UpdatePasswordReq;
     UpdatePasswordReq updatePasswordReq = UpdatePasswordReq.builder()
             .userName("user_1")
             .password("P@ssw0rd")
             .newPassword("NewP@ssw0rd")
             .build();
     client.updatePassword(updatePasswordReq);
-    ```
-
-    </TabItem>
-
-    <TabItem value='javascript'>
-
-    ```javascript
-    milvusClient.updateUser({
-       username: 'user_1',
-       newPassword: 'NewP@ssw0rd',
-       oldPassword: 'P@ssw0rd',
-     })
     ```
 
     </TabItem>
@@ -111,6 +100,64 @@ If you forget a user's password or suspect it has been leaked, you can reset the
     callOption := grpc.OnFinish(onFinish)
     
     err := mclient.UpdatePassword(context.Background(), opts, callOpts)
+    ```
+
+    </TabItem>
+
+    <TabItem value='rust'>
+
+    ```rust
+    use milvus::v2::prelude::*;
+    
+    let client = ClientV2::new(&ConnectConfig::new()
+        .uri("https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530")
+        .token("user:password")).await?;
+    
+    client.update_password(UpdatePasswordRequest::builder()
+        .username("user_1")
+        .old_password("P@ssw0rd")
+        .new_password("NewP@ssw0rd")
+        .build()?).await?;
+    ```
+
+    </TabItem>
+
+    <TabItem value='c++'>
+
+    ```c++
+    #include <iostream>
+    #include "milvus/MilvusClientV2.h"
+    
+    auto client = milvus::MilvusClientV2::Create();
+    
+    milvus::ConnectParam connect_param{"https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530", "user:password"};
+    auto status = client->Connect(connect_param);
+    if (!status.IsOk()) {
+        std::cout << status.Message() << std::endl;
+    }
+    
+    status = client->UpdatePassword(
+        milvus::UpdatePasswordRequest()
+            .WithUserName("user_1")
+            .WithOldPassword("P@ssw0rd")
+            .WithNewPassword("NewP@ssw0rd")
+    );
+    
+    if (!status.IsOk()) {
+        std::cout << status.Message() << std::endl;
+    }
+    ```
+
+    </TabItem>
+
+    <TabItem value='javascript'>
+
+    ```javascript
+    milvusClient.updateUser({
+       username: 'user_1',
+       newPassword: 'NewP@ssw0rd',
+       oldPassword: 'P@ssw0rd',
+     })
     ```
 
     </TabItem>

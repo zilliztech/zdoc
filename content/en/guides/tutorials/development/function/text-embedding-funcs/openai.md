@@ -149,6 +149,8 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 schema := entity.NewSchema().
     WithField(entity.NewField().WithName("id").WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true).WithIsAutoID(false)).
     WithField(entity.NewField().WithName("document").WithDataType(entity.FieldTypeVarChar).WithMaxLength(9000)).
@@ -285,6 +287,8 @@ schema.addFunction(function);
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 function := entity.NewFunction().
     WithName("openai_embedding").
     WithType(entity.FunctionTypeTextEmbedding).
@@ -414,6 +418,13 @@ indexes.add(IndexParam.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 indexOption := milvusclient.NewCreateIndexOption("demo", "dense", index.NewAutoIndex(entity.COSINE))
 ```
 
@@ -422,6 +433,8 @@ indexOption := milvusclient.NewCreateIndexOption("demo", "dense", index.NewAutoI
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let index_params = vec![
     IndexParam::new()
         .field_name("dense")
@@ -506,6 +519,8 @@ client.createCollection(requestCreate);
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("demo", schema).WithIndexOptions(indexOption))
 if err != nil {
     log.Fatal(err)
@@ -517,6 +532,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .create_collection(
         CreateCollectionRequest::builder()
@@ -649,6 +666,8 @@ client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 _, err = client.Insert(ctx, milvusclient.NewRowBasedInsertOption("demo",
     map[string]any{"id": int64(1), "document": "Milvus simplifies semantic search through embeddings."},
     map[string]any{"id": int64(2), "document": "Vector embeddings convert text into searchable numeric data."},
@@ -664,6 +683,7 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
 use serde_json::json;
 
 let rows = vec![
@@ -790,6 +810,12 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 searchResults, err := client.Search(ctx, milvusclient.NewSearchOption(
     "demo",
     1,
@@ -810,6 +836,8 @@ for _, rs := range searchResults {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let response = client
     .search(
         SearchRequest::builder()

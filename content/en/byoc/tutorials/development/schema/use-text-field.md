@@ -43,6 +43,9 @@ schema.add_field(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+
 schema.addField(AddFieldReq.builder()
         .fieldName("content")
         .dataType(DataType.Text)
@@ -71,6 +74,8 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='c++'>
 
 ```c++
+#include "milvus/MilvusClientV2.h"
+
 milvus::FieldSchema content_field("content", milvus::DataType::TEXT);
 content_field.EnableAnalyzer(true);
 ```
@@ -80,6 +85,8 @@ content_field.EnableAnalyzer(true);
 <TabItem value='javascript'>
 
 ```javascript
+import { DataType } from "@zilliz/milvus2-sdk-node";
+
 schema.push({
     name: "content",
     data_type: DataType.Text,
@@ -393,6 +400,7 @@ client.create_collection(
 
 ```java
 import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
 import java.util.*;
 
 List<IndexParam> indexParams = new ArrayList<>();
@@ -437,6 +445,11 @@ client.createCollection(requestCreate);
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include <utility>
+#include <vector>
+#include "milvus/MilvusClientV2.h"
+
 std::vector<milvus::IndexDesc> indexes = {
     milvus::IndexDesc("sparse", "sparse_bm25_index", milvus::IndexType::SPARSE_INVERTED_INDEX, milvus::MetricType::BM25)
 };
@@ -554,6 +567,8 @@ client.load_collection(collection_name=COLLECTION_NAME)
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import io.milvus.v2.service.vector.request.InsertReq;
+import java.util.Arrays;
+import java.util.List;
 
 Gson gson = new Gson();
 List<JsonObject> rows = Arrays.asList(
@@ -589,6 +604,10 @@ client.insert(InsertReq.builder()
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include <utility>
+#include "milvus/MilvusClientV2.h"
+
 milvus::EntityRows rows = {
     {{"id", static_cast<int64_t>(1)},
      {"content", "Milvus stores vector embeddings and scalar fields in collections. It supports vector search, full text search, and metadata filtering for retrieval applications."}},
@@ -705,6 +724,7 @@ results = client.search(
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Collections;
 
 SearchResp searchResp = client.search(SearchReq.builder()
         .collectionName("text_bm25_collection")
@@ -736,6 +756,10 @@ SearchResp searchResp = client.search(SearchReq.builder()
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include <string>
+#include "milvus/MilvusClientV2.h"
+
 std::string query_text = "how does Milvus store source text for retrieval";
 auto request = milvus::SearchRequest()
                    .WithCollectionName("text_bm25_collection")
@@ -815,6 +839,9 @@ for hit in results[0]:
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.List;
+
 for (List<SearchResp.SearchResult> hits : searchResp.getSearchResults()) {
     for (SearchResp.SearchResult hit : hits) {
         System.out.println("id: " + hit.getId() + ", score: " + hit.getScore());
@@ -844,6 +871,9 @@ for (List<SearchResp.SearchResult> hits : searchResp.getSearchResults()) {
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
 auto search_results = response.Results();
 for (auto& result : search_results.Results()) {
     milvus::EntityRows output_rows;

@@ -168,9 +168,9 @@ Once configuration is complete, execute the migration and track progress:
 
 ## Post-migration\{#post-migration}
 
-If you skip index creation, the job details show **Indexes skipped** after a successful migration. Complete the following steps before running searches or queries:
+After the migration completes successfully, follow the steps below before running searches or queries. If you skipped index creation, the job details show **Indexes skipped**.
 
-1. **Check indexes.** If you left **Create indexes after migration** on, verify that automatic index creation succeeded. If you turned it off, manually create indexes on all vector fields. Create scalar indexes as needed for your workload. For index configuration, see [AUTOINDEX Explained](./autoindex-explained); for a REST API example, see [Create Index (V2)](/reference/restful/create-index-v2).
+1. **Check indexes.** If you left **Create indexes after migration** on, verify that automatic index creation succeeded. If you turned it off, manually create indexes on all vector fields. Create scalar indexes as needed for your workload. For index configuration, see [AUTOINDEX Explained](./autoindex-explained).
 
 1. **Load the collection.** Once index creation is complete, manually load the collection and wait until it is loaded. This step is required whether indexes were created automatically or manually. See [Load & Release](./load-release-collections).
 

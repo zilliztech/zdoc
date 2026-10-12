@@ -429,6 +429,8 @@ indexOpt2 := milvusclient.NewCreateIndexOption("my_collection", "embedding", ind
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let tags_index = IndexParam::new()
     .field_name("tags")
     .index_name("tags_index")
@@ -537,6 +539,12 @@ client.loadCollection(LoadCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("my_collection", schema).
     WithIndexOptions(indexOpt1, indexOpt2))
 if err != nil {
@@ -556,6 +564,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client.create_collection(
     CreateCollectionRequest::builder()
         .collection_name("my_collection")
@@ -734,6 +744,7 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
 use serde_json::json;
 
 let rows = vec![
@@ -926,6 +937,8 @@ fmt.Println("ratings", rs.GetColumn("ratings").FieldData().GetScalars())
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let query_results = client
     .query(
         QueryRequest::builder()
@@ -1020,6 +1033,10 @@ print(res)
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
+import java.util.Arrays;
+
 String filter = "ratings[0] > 4";
 
 QueryResp resp = client.query(QueryReq.builder()
@@ -1055,6 +1072,8 @@ fmt.Println("ratings", rs.GetColumn("ratings").FieldData().GetScalars())
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let query_results = client
     .query(
         QueryRequest::builder()
@@ -1178,6 +1197,14 @@ System.out.println(resp.getSearchResults());
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 queryVector := []float32{0.3, -0.6, 0.1}
 filter = "tags[0] == \"pop\""
 
@@ -1210,6 +1237,8 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let search_results = client
     .search(
         SearchRequest::builder()

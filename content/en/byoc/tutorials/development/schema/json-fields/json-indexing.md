@@ -695,6 +695,10 @@ index_params.add_index(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.IndexParam;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> extraParams = new HashMap<>();
 extraParams.put("json_path", "metadata[\"category\"]");
 extraParams.put("json_cast_type", "VARCHAR");
@@ -711,6 +715,12 @@ indexParams.add(IndexParam.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/index"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 jsonIndex1 := index.NewJSONPathIndex(index.AUTOINDEX, "varchar", `metadata["category"]`).
     WithIndexName("category_index")
 indexOpts = append(indexOpts, milvusclient.NewCreateIndexOption("your_collection_name", "metadata", jsonIndex1))
@@ -721,6 +731,9 @@ indexOpts = append(indexOpts, milvusclient.NewCreateIndexOption("your_collection
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+use std::collections::HashMap;
+
 index_params.push(
     IndexParam::new()
         .field_name("metadata")
@@ -738,6 +751,9 @@ index_params.push(
 <TabItem value='c++'>
 
 ```c++
+#include <utility>
+#include "milvus/MilvusClientV2.h"
+
 milvus::IndexDesc category_index("metadata", "category_index", milvus::IndexType::AUTOINDEX);
 category_index.AddExtraParam("json_path", "metadata[\"category\"]");
 category_index.AddExtraParam("json_cast_type", "VARCHAR");
@@ -805,6 +821,10 @@ index_params.add_index(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.IndexParam;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> extraParams = new HashMap<>();
 extraParams.put("json_path", "metadata[\"supplier\"][\"contact\"][\"email\"]");
 extraParams.put("json_cast_type", "VARCHAR");
@@ -821,6 +841,12 @@ indexParams.add(IndexParam.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/index"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 jsonIndex2 := index.NewJSONPathIndex(index.AUTOINDEX, "varchar", `metadata["supplier"]["contact"]["email"]`).
     WithIndexName("email_index")
 indexOpts = append(indexOpts, milvusclient.NewCreateIndexOption("your_collection_name", "metadata", jsonIndex2))
@@ -831,6 +857,9 @@ indexOpts = append(indexOpts, milvusclient.NewCreateIndexOption("your_collection
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+use std::collections::HashMap;
+
 index_params.push(
     IndexParam::new()
         .field_name("metadata")
@@ -848,6 +877,9 @@ index_params.push(
 <TabItem value='c++'>
 
 ```c++
+#include <utility>
+#include "milvus/MilvusClientV2.h"
+
 milvus::IndexDesc email_index("metadata", "email_index", milvus::IndexType::AUTOINDEX);
 email_index.AddExtraParam("json_path", "metadata[\"supplier\"][\"contact\"][\"email\"]");
 email_index.AddExtraParam("json_cast_type", "VARCHAR");
@@ -915,6 +947,10 @@ index_params.add_index(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.IndexParam;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> extraParams = new HashMap<>();
 extraParams.put("json_path", "metadata[\"price\"]");
 extraParams.put("json_cast_type", "DOUBLE");
@@ -931,6 +967,12 @@ indexParams.add(IndexParam.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/index"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 jsonIndex3 := index.NewJSONPathIndex(index.Sorted, "double", `metadata["price"]`).
     WithIndexName("price_index")
 indexOpts = append(indexOpts, milvusclient.NewCreateIndexOption("your_collection_name", "metadata", jsonIndex3))
@@ -941,6 +983,9 @@ indexOpts = append(indexOpts, milvusclient.NewCreateIndexOption("your_collection
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+use std::collections::HashMap;
+
 index_params.push(
     IndexParam::new()
         .field_name("metadata")
@@ -958,6 +1003,9 @@ index_params.push(
 <TabItem value='c++'>
 
 ```c++
+#include <utility>
+#include "milvus/MilvusClientV2.h"
+
 milvus::IndexDesc price_index("metadata", "price_index", milvus::IndexType::STL_SORT);
 price_index.AddExtraParam("json_path", "metadata[\"price\"]");
 price_index.AddExtraParam("json_cast_type", "DOUBLE");
@@ -1027,6 +1075,10 @@ index_params.add_index(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.IndexParam;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> extraParams = new HashMap<>();
 extraParams.put("json_path", "metadata[\"in_stock\"]");
 extraParams.put("json_cast_type", "BOOL");
@@ -1043,6 +1095,12 @@ indexParams.add(IndexParam.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/index"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 jsonIndex4 := index.NewJSONPathIndex(index.BITMAP, "bool", `metadata["in_stock"]`).
     WithIndexName("in_stock_index")
 indexOpts = append(indexOpts, milvusclient.NewCreateIndexOption("your_collection_name", "metadata", jsonIndex4))
@@ -1053,6 +1111,9 @@ indexOpts = append(indexOpts, milvusclient.NewCreateIndexOption("your_collection
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+use std::collections::HashMap;
+
 index_params.push(
     IndexParam::new()
         .field_name("metadata")
@@ -1070,6 +1131,9 @@ index_params.push(
 <TabItem value='c++'>
 
 ```c++
+#include <utility>
+#include "milvus/MilvusClientV2.h"
+
 milvus::IndexDesc in_stock_index("metadata", "in_stock_index", milvus::IndexType::BITMAP);
 in_stock_index.AddExtraParam("json_path", "metadata[\"in_stock\"]");
 in_stock_index.AddExtraParam("json_cast_type", "BOOL");
@@ -1141,6 +1205,10 @@ index_params.add_index(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.IndexParam;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> extraParams = new HashMap<>();
 extraParams.put("json_path", "metadata[\"string_price\"]");
 extraParams.put("json_cast_type", "DOUBLE");
@@ -1158,6 +1226,12 @@ indexParams.add(IndexParam.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/index"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 jsonIndex5 := index.NewJSONPathIndex(index.AUTOINDEX, "double", `metadata["string_price"]`).
     WithIndexName("string_to_double_index")
 indexOpts = append(indexOpts, milvusclient.NewCreateIndexOption("your_collection_name", "metadata", jsonIndex5).
@@ -1169,6 +1243,9 @@ indexOpts = append(indexOpts, milvusclient.NewCreateIndexOption("your_collection
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+use std::collections::HashMap;
+
 index_params.push(
     IndexParam::new()
         .field_name("metadata")
@@ -1187,6 +1264,9 @@ index_params.push(
 <TabItem value='c++'>
 
 ```c++
+#include <utility>
+#include "milvus/MilvusClientV2.h"
+
 milvus::IndexDesc string_to_double_index("metadata", "string_to_double_index", milvus::IndexType::AUTOINDEX);
 string_to_double_index.AddExtraParam("json_path", "metadata[\"string_price\"]");
 string_to_double_index.AddExtraParam("json_cast_type", "DOUBLE");
@@ -1269,6 +1349,10 @@ index_params.add_index(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.IndexParam;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> extraParams = new HashMap<>();
 extraParams.put("json_path", "metadata");
 extraParams.put("json_cast_type", "JSON");
@@ -1285,6 +1369,12 @@ indexParams.add(IndexParam.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/index"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 jsonIndex6 := index.NewJSONPathIndex(index.AUTOINDEX, "json", `metadata`).
     WithIndexName("metadata_full_index")
 indexOpts = append(indexOpts, milvusclient.NewCreateIndexOption("your_collection_name", "metadata", jsonIndex6))
@@ -1295,6 +1385,9 @@ indexOpts = append(indexOpts, milvusclient.NewCreateIndexOption("your_collection
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+use std::collections::HashMap;
+
 index_params.push(
     IndexParam::new()
         .field_name("metadata")
@@ -1312,6 +1405,9 @@ index_params.push(
 <TabItem value='c++'>
 
 ```c++
+#include <utility>
+#include "milvus/MilvusClientV2.h"
+
 milvus::IndexDesc metadata_full_index("metadata", "metadata_full_index", milvus::IndexType::AUTOINDEX);
 metadata_full_index.AddExtraParam("json_path", "metadata");
 metadata_full_index.AddExtraParam("json_cast_type", "JSON");
@@ -1377,6 +1473,10 @@ index_params.add_index(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.IndexParam;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> extraParams = new HashMap<>();
 extraParams.put("json_path", "metadata[\"supplier\"]");
 extraParams.put("json_cast_type", "JSON");
@@ -1393,6 +1493,12 @@ indexParams.add(IndexParam.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/index"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 jsonIndex7 := index.NewJSONPathIndex(index.AUTOINDEX, "json", `metadata["supplier"]`).
     WithIndexName("supplier_index")
 indexOpts = append(indexOpts, milvusclient.NewCreateIndexOption("your_collection_name", "metadata", jsonIndex7))
@@ -1403,6 +1509,9 @@ indexOpts = append(indexOpts, milvusclient.NewCreateIndexOption("your_collection
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+use std::collections::HashMap;
+
 index_params.push(
     IndexParam::new()
         .field_name("metadata")
@@ -1420,6 +1529,9 @@ index_params.push(
 <TabItem value='c++'>
 
 ```c++
+#include <utility>
+#include "milvus/MilvusClientV2.h"
+
 milvus::IndexDesc supplier_index("metadata", "supplier_index", milvus::IndexType::AUTOINDEX);
 supplier_index.AddExtraParam("json_path", "metadata[\"supplier\"]");
 supplier_index.AddExtraParam("json_cast_type", "JSON");
@@ -1483,6 +1595,8 @@ client.create_index(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.index.request.CreateIndexReq;
+
 client.createIndex(CreateIndexReq.builder()
         .collectionName("your_collection_name")
         .indexParams(indexParams)
@@ -1494,6 +1608,8 @@ client.createIndex(CreateIndexReq.builder()
 <TabItem value='go'>
 
 ```go
+import "log"
+
 for _, opt := range indexOpts {
     _, err := cli.CreateIndex(ctx, opt)
     if err != nil {
@@ -1507,6 +1623,8 @@ for _, opt := range indexOpts {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client.create_index(
     CreateIndexRequest::builder()
         .collection_name("your_collection_name")
@@ -1521,6 +1639,10 @@ client.create_index(
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include <utility>
+#include "milvus/MilvusClientV2.h"
+
 status = client->CreateIndex(milvus::CreateIndexRequest()
     .WithCollectionName("your_collection_name")
     .WithIndexes(std::move(index_params))
@@ -1582,6 +1704,9 @@ client.describe_index(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.index.request.DescribeIndexReq;
+import io.milvus.v2.service.index.response.DescribeIndexResp;
+
 DescribeIndexResp descResp = client.describeIndex(DescribeIndexReq.builder()
         .collectionName("your_collection_name")
         .indexName("category_index")
@@ -1594,6 +1719,12 @@ System.out.println(descResp);
 <TabItem value='go'>
 
 ```go
+import (
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 desc, err := cli.DescribeIndex(ctx, milvusclient.NewDescribeIndexOption("your_collection_name", "category_index"))
 if err != nil {
     log.Fatal(err)
@@ -1606,6 +1737,8 @@ log.Printf("state=%s totalRows=%d indexedRows=%d", desc.State, desc.TotalRows, d
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let desc = client
     .describe_index(
         DescribeIndexRequest::builder()
@@ -1622,6 +1755,9 @@ println!("{:?}", desc);
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
 milvus::DescribeIndexRequest describe_req;
 describe_req.WithCollectionName("your_collection_name");
 describe_req.WithIndexName("category_index");
@@ -1730,6 +1866,10 @@ index_params.add_index(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.IndexParam;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> extraParams = new HashMap<>();
 extraParams.put("json_path", "metadata[\"category\"]");
 extraParams.put("json_cast_type", "VARCHAR");
@@ -1747,6 +1887,12 @@ indexParams.add(IndexParam.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/index"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 jsonIndex8 := index.NewJSONPathIndex(index.AUTOINDEX, "varchar", `metadata["category"]`).
     WithIndexName("category_index")
 indexOpts = append(indexOpts, milvusclient.NewCreateIndexOption("your_collection_name", "metadata", jsonIndex8).
@@ -1758,6 +1904,9 @@ indexOpts = append(indexOpts, milvusclient.NewCreateIndexOption("your_collection
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+use std::collections::HashMap;
+
 index_params.push(
     IndexParam::new()
         .field_name("metadata")
@@ -1776,6 +1925,9 @@ index_params.push(
 <TabItem value='c++'>
 
 ```c++
+#include <utility>
+#include "milvus/MilvusClientV2.h"
+
 milvus::IndexDesc category_limit_index("metadata", "category_index", milvus::IndexType::AUTOINDEX);
 category_limit_index.AddExtraParam("json_path", "metadata[\"category\"]");
 category_limit_index.AddExtraParam("json_cast_type", "VARCHAR");

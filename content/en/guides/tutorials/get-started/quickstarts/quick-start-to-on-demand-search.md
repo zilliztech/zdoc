@@ -70,6 +70,13 @@ MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "context"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 ctx := context.Background()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
@@ -171,6 +178,12 @@ client.createDatabase(CreateDatabaseReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.CreateDatabase(ctx, milvusclient.NewCreateDatabaseOption("my_database"))
 if err != nil {
     log.Fatal(err)
@@ -182,6 +195,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .create_database(
         CreateDatabaseRequest::builder()
@@ -196,6 +211,9 @@ client
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
 milvus::CreateDatabaseRequest request;
 request.WithDatabaseName("my_database");
 
@@ -330,6 +348,8 @@ schema := entity.NewSchema().
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let schema = CollectionSchema::new()
     .add_field(
         FieldSchema::new()
@@ -356,6 +376,9 @@ let schema = CollectionSchema::new()
 <TabItem value='c++'>
 
 ```c++
+#include <memory>
+#include "milvus/MilvusClientV2.h"
+
 auto schema = std::make_shared<milvus::CollectionSchema>();
 
 schema->AddField(milvus::FieldSchema("product_id", milvus::DataType::INT64)
@@ -479,6 +502,8 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+
 client.useDatabase("my_database");
 
 client.createCollection(CreateCollectionReq.builder()
@@ -492,6 +517,12 @@ client.createCollection(CreateCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.UseDatabase(ctx, milvusclient.NewUseDatabaseOption("my_database"))
 if err != nil {
     log.Fatal(err)
@@ -509,6 +540,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .use_database("my_database")
     .await?;
@@ -528,6 +561,9 @@ client
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
 auto status = client->UseDatabase("my_database");
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
@@ -655,8 +691,11 @@ client.createIndex(CreateIndexReq.builder()
 
 ```go
 import (
+    "log"
+
     "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 vectorIndex := index.NewAutoIndex(entity.COSINE)
@@ -686,6 +725,8 @@ if err := scalarIndexTask.Await(ctx); err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .create_index(
         CreateIndexRequest::builder()
@@ -709,6 +750,8 @@ client
 <TabItem value='c++'>
 
 ```c++
+#include "milvus/MilvusClientV2.h"
+
 milvus::CreateIndexRequest request;
 request.WithDatabaseName("my_database")
        .WithCollectionName("prod_collection")
@@ -1209,6 +1252,13 @@ SearchResp res = session.search(SearchReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 // Note: on-demand sessions (client.session) are not supported in
 // milvus-sdk-go as of client/v3.0.0; the search below runs on the
 // default connection of the client.
@@ -1230,6 +1280,8 @@ _ = resultSets
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let session = client.session("inxx-xxxxxxxxxxxxxxx")?;
 
 let query_vector = vec![0.3580376395471989f32, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592 /* ...remaining dims */];
@@ -1252,6 +1304,11 @@ let search = session
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include <utility>
+#include <vector>
+#include "milvus/MilvusClientV2.h"
+
 milvus::MilvusClientV2SessionPtr session;
 auto status = client->Session("inxx-xxxxxxxxxxxxxxx", session);
 if (!status.IsOk()) {

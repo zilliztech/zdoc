@@ -428,6 +428,10 @@ print(f"Found {len(result)} electronics products in sample")
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
+import java.util.Arrays;
+
 String filter = "category == \"electronics\" AND price > 100 AND RANDOM_SAMPLE(0.005)";
 
 QueryReq queryReq = QueryReq.builder()
@@ -445,6 +449,12 @@ QueryResp queryResp = client.query(queryReq);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 filter := "category == \"electronics\" AND price > 100 AND RANDOM_SAMPLE(0.005)"
 
 resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("product_catalog").
@@ -575,6 +585,10 @@ if result:
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
+import java.util.Arrays;
+
 String filter = "customer_tier == \"premium\" AND region == \"North America\" AND RANDOM_SAMPLE(0.001)";
 
 QueryReq queryReq = QueryReq.builder()
@@ -592,6 +606,12 @@ QueryResp queryResp = client.query(queryReq);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 filter := "customer_tier == \"premium\" AND region == \"North America\" AND RANDOM_SAMPLE(0.001)"
 
 resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("customer_profiles").
@@ -765,6 +785,13 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 queryVector := []float32{0.1, 0.2, 0.3, 0.4, 0.5}
 
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(

@@ -172,6 +172,8 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 schema := entity.NewSchema().
     WithField(entity.NewField().WithName("id").WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true).WithIsAutoID(false)).
     WithField(entity.NewField().WithName("document").WithDataType(entity.FieldTypeVarChar).WithMaxLength(9000)).
@@ -306,6 +308,8 @@ schema.addFunction(function);
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 function := entity.NewFunction().
     WithName("hugging_face_embedding").
     WithType(entity.FunctionTypeTextEmbedding).
@@ -440,6 +444,8 @@ index_params.add_index(
 
 ```java
 import io.milvus.v2.common.IndexParam;
+import java.util.ArrayList;
+import java.util.List;
 
 List<IndexParam> indexes = new ArrayList<>();
 indexes.add(IndexParam.builder()
@@ -454,6 +460,13 @@ indexes.add(IndexParam.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 indexOption := milvusclient.NewCreateIndexOption("hugging_face_demo", "dense", index.NewAutoIndex(entity.COSINE))
 ```
 
@@ -462,6 +475,8 @@ indexOption := milvusclient.NewCreateIndexOption("hugging_face_demo", "dense", i
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let index_params = vec![
     IndexParam::new()
         .field_name("dense")
@@ -475,6 +490,9 @@ let index_params = vec![
 <TabItem value='c++'>
 
 ```c++
+#include <vector>
+#include "milvus/MilvusClientV2.h"
+
 std::vector<milvus::IndexDesc> indexes = {
     milvus::IndexDesc("dense", "", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE)
 };
@@ -544,6 +562,12 @@ client.createCollection(requestCreate);
 <TabItem value='go'>
 
 ```go
+import (
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("hugging_face_demo", schema).WithIndexOptions(indexOption))
 if err != nil {
     log.Fatal(err)
@@ -555,6 +579,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .create_collection(
         CreateCollectionRequest::builder()
@@ -571,6 +597,10 @@ client
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include <utility>
+#include "milvus/MilvusClientV2.h"
+
 auto status = client->CreateCollection(milvus::CreateCollectionRequest()
                                     .WithCollectionName("hugging_face_demo")
                                     .WithIndexes(std::move(indexes))
@@ -682,6 +712,8 @@ client.insert(
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import io.milvus.v2.service.vector.request.InsertReq;
+import java.util.Arrays;
+import java.util.List;
 
 Gson gson = new Gson();
 List<JsonObject> rows = Arrays.asList(
@@ -701,6 +733,12 @@ client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 _, err = client.Insert(ctx, milvusclient.NewRowBasedInsertOption("hugging_face_demo",
     map[string]any{"id": int64(1), "document": "Milvus simplifies semantic search through embeddings."},
     map[string]any{"id": int64(2), "document": "Vector embeddings convert text into searchable numeric data."},
@@ -716,6 +754,7 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
 use serde_json::json;
 
 let rows = vec![
@@ -739,6 +778,10 @@ client
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include <utility>
+#include "milvus/MilvusClientV2.h"
+
 milvus::EntityRows data = {
     {{"id", 1}, {"document", "Milvus simplifies semantic search through embeddings."}},
     {{"id", 2}, {"document", "Vector embeddings convert text into searchable numeric data."}},
@@ -821,6 +864,8 @@ print(results)
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Collections;
+import java.util.List;
 
 SearchResp searchResp = client.search(SearchReq.builder()
         .collectionName("hugging_face_demo")
@@ -842,6 +887,14 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 searchResults, err := client.Search(ctx, milvusclient.NewSearchOption(
     "hugging_face_demo",
     3,
@@ -862,6 +915,8 @@ for _, rs := range searchResults {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let response = client
     .search(
         SearchRequest::builder()
@@ -880,6 +935,9 @@ let response = client
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include "milvus/MilvusClientV2.h"
+
 auto request = milvus::SearchRequest()
                    .WithCollectionName("hugging_face_demo")
                    .AddEmbeddedText("How does Milvus handle semantic search?")

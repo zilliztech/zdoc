@@ -146,8 +146,8 @@ import (
 
 schema := entity.NewSchema().
     WithName("product_embeddings").
-    WithExternalSource("volume://my_volume/path/to/a/folder/"). 
-    WithExternalSpec(\`{"format": "parquet"}\`)
+    WithExternalSource("volume://my_volume/path/to/a/folder/").
+    WithExternalSpec(`{"format": "parquet"}`)
 ```
 
 </TabItem>
@@ -155,8 +155,8 @@ schema := entity.NewSchema().
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
 use serde_json::json;
-
 let schema = CollectionSchema::new()
     .external_source("volume://my_volume/path/to/a/folder/")
     .external_spec(json!({"format": "parquet"}));
@@ -167,6 +167,7 @@ let schema = CollectionSchema::new()
 <TabItem value='c++'>
 
 ```c++
+#include "milvus/MilvusClientV2.h"
 milvus::CollectionSchema schema;
 schema.SetExternalSource("volume://my_volume/path/to/a/folder/");
 schema.SetExternalSpec(nlohmann::json{{"format", "parquet"}});
@@ -309,6 +310,7 @@ schema = schema.
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
 let schema = CollectionSchema::new()
     .add_field(
         FieldSchema::new()
@@ -337,6 +339,7 @@ let schema = CollectionSchema::new()
 <TabItem value='c++'>
 
 ```c++
+#include "milvus/MilvusClientV2.h"
 schema.AddField(milvus::FieldSchema("product_id", milvus::DataType::INT64, "").WithExternalField("id"));
 schema.AddField(milvus::FieldSchema("product_name", milvus::DataType::VARCHAR, "").WithExternalField("name"));
 schema.AddField(milvus::FieldSchema("embedding", milvus::DataType::FLOAT_VECTOR, "").WithExternalField("vector"));
@@ -406,7 +409,7 @@ client.create_collection(
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
-
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
 ConnectConfig connectConfig = ConnectConfig.builder()
         .uri("https://{project-id}.{region}.vectordb.zillizcloud.com")
         .token("YOUR_API_KEY")
@@ -490,9 +493,9 @@ async fn main() -> Result<()> {
 <TabItem value='c++'>
 
 ```c++
+#include "milvus/MilvusClientV2.h"
 auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("https://{project-id}.{region}.vectordb.zillizcloud.com", "YOUR_API_KEY"));
-
 status = client->UseDatabase("my_database");
 status = client->CreateCollection(milvus::CreateCollectionRequest()
     .WithDatabaseName("my_database")
@@ -636,6 +639,7 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
 client
     .create_index(
         CreateIndexRequest::builder()
@@ -661,6 +665,7 @@ client
 <TabItem value='c++'>
 
 ```c++
+#include "milvus/MilvusClientV2.h"
 milvus::CreateIndexRequest indexRequest;
 indexRequest.WithCollectionName("test_collection");
 indexRequest.AddIndex(milvus::IndexSchema("embedding", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE));
@@ -786,19 +791,38 @@ while (true) {
 <TabItem value='go'>
 
 ```go
-refreshResult, err := milvusclient.RefreshExternalCollection(ctx,
+import (
+    "context"
+    "fmt"
+    "time"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+refreshResult, err := client.RefreshExternalCollection(ctx,
     milvusclient.NewRefreshExternalCollectionOption("test_collection"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 jobID := refreshResult.JobID
 for {
-    progress, _ := milvusclient.GetRefreshExternalCollectionProgress(ctx,
+    progress, err := client.GetRefreshExternalCollectionProgress(ctx,
         milvusclient.NewGetRefreshExternalCollectionProgressOption(jobID))
-    fmt.Printf("State: %s\n", progress.State)
+    if err != nil {
+        fmt.Println(err.Error())
+        // handle error
+    }
+    fmt.Printf("State: %s
+", progress.State)
     if progress.State == entity.RefreshStateCompleted {
         fmt.Println("Refresh completed!")
         break
     }
     if progress.State == entity.RefreshStateFailed {
-        fmt.Printf("Refresh failed: %s\n", progress.Reason)
+        fmt.Printf("Refresh failed: %s
+", progress.Reason)
         break
     }
     time.Sleep(2 * time.Second)
@@ -810,6 +834,7 @@ for {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
 let refresh = client
     .refresh_external_collection(
         RefreshExternalCollectionRequest::builder()
@@ -817,7 +842,6 @@ let refresh = client
             .build()?,
     )
     .await?;
-
 loop {
     let progress = client
         .get_refresh_external_collection_progress(
@@ -847,11 +871,14 @@ loop {
 <TabItem value='c++'>
 
 ```c++
+#include "milvus/MilvusClientV2.h"
+#include <iostream>
+#include <thread>
+#include <chrono>
 milvus::RefreshExternalCollectionRequest refreshRequest;
 refreshRequest.WithCollectionName("test_collection");
 milvus::RefreshExternalCollectionResponse refreshResponse;
 status = client->RefreshExternalCollection(refreshRequest, refreshResponse);
-
 while (true) {
     milvus::GetRefreshExternalCollectionProgressRequest progressRequest;
     progressRequest.WithJobID(refreshResponse.JobID());

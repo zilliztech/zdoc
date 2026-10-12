@@ -326,8 +326,16 @@ res = client.query(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.QueryReq
-import io.milvus.v2.service.vector.request.QueryResp
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
+import java.util.*;
+
+MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build());
 
 QueryReq queryReq = QueryReq.builder()
         .collectionName("my_collection")
@@ -356,7 +364,8 @@ for (QueryResp.QueryResult result : results) {
 ```go
 resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter("color like \"red%\"").
-    WithOutputFields("vector", "color"))
+    WithOutputFields("vector", "color").
+    WithLimit(3))
 if err != nil {
     fmt.Println(err.Error())
     // handle error
@@ -549,10 +558,10 @@ import (
 )
 
 resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
-    WithFilter("color like \\"red%\\"").
+    WithFilter("color like \"red%\"").
     WithOutputFields("vector", "color").
     WithLimit(3).
-    WithOrderBy("id:asc"))
+    WithOrderByFields("id:asc"))
 if err != nil {
     fmt.Println(err.Error())
     // handle error
@@ -602,7 +611,7 @@ auto request = milvus::QueryRequest()
                    .WithLimit(3)
                    .AddOutputField("vector")
                    .AddOutputField("color")
-                   .WithOrderBy("id:asc");
+                   .AddOrderByField(milvus::OrderByField("id", milvus::AggregationDirection::ASC));
 
 milvus::QueryResponse response;
 status = client->Query(request, response);
@@ -725,7 +734,7 @@ resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection")
     WithFilter("").
     WithOutputFields("color", "rating", "price").
     WithLimit(10).
-    WithOrderBy("rating:desc,price:asc"))
+    WithOrderByFields("rating:desc", "price:asc"))
 if err != nil {
     fmt.Println(err.Error())
     // handle error
@@ -778,7 +787,8 @@ auto request = milvus::QueryRequest()
                    .AddOutputField("color")
                    .AddOutputField("rating")
                    .AddOutputField("price")
-                   .WithOrderBy("rating:desc,price:asc");
+                   .AddOrderByField(milvus::OrderByField("rating", milvus::AggregationDirection::DESC))
+                   .AddOrderByField(milvus::OrderByField("price", milvus::AggregationDirection::ASC));
 
 milvus::QueryResponse response;
 status = client->Query(request, response);
@@ -919,22 +929,22 @@ import (
 )
 
 page1, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
-    WithFilter("color like \\"red%\\"").
+    WithFilter("color like \"red%\"").
     WithOutputFields("color", "price").
     WithLimit(5).
     WithOffset(0).
-    WithOrderBy("price:asc"))
+    WithOrderByFields("price:asc"))
 if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
 
 page2, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
-    WithFilter("color like \\"red%\\"").
+    WithFilter("color like \"red%\"").
     WithOutputFields("color", "price").
     WithLimit(5).
     WithOffset(5).
-    WithOrderBy("price:asc"))
+    WithOrderByFields("price:asc"))
 if err != nil {
     fmt.Println(err.Error())
     // handle error
@@ -997,7 +1007,7 @@ auto page1Req = milvus::QueryRequest()
                     .WithOffset(0)
                     .AddOutputField("color")
                     .AddOutputField("price")
-                    .WithOrderBy("price:asc");
+                    .AddOrderByField(milvus::OrderByField("price", milvus::AggregationDirection::ASC));
 
 milvus::QueryResponse page1;
 status = client->Query(page1Req, page1);
@@ -1012,7 +1022,7 @@ auto page2Req = milvus::QueryRequest()
                     .WithOffset(5)
                     .AddOutputField("color")
                     .AddOutputField("price")
-                    .WithOrderBy("price:asc");
+                    .AddOrderByField(milvus::OrderByField("price", milvus::AggregationDirection::ASC));
 
 milvus::QueryResponse page2;
 status = client->Query(page2Req, page2);
@@ -1187,24 +1197,8 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
-    WithFilter("").
-    WithOutputFields("color", "count(*)", "avg(price)", "max(rating)").
-    WithGroupByFields("color").
-    WithLimit(5))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-
-fmt.Println("color: ", resultSet.GetColumn("color").FieldData().GetScalars())
+// Note: Query-level group-by aggregation is not supported in milvus-sdk-go as of client/v3.0.0.
+// Use client.Search(...) with WithGroupByField(...) instead.
 ```
 
 </TabItem>
@@ -1221,31 +1215,7 @@ fmt.Println("color: ", resultSet.GetColumn("color").FieldData().GetScalars())
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-#include <iostream>
-
-auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-auto status = client->Connect(connect_param);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-auto request = milvus::QueryRequest()
-                   .WithCollectionName("my_collection")
-                   .WithFilter("")
-                   .WithLimit(5)
-                   .AddOutputField("color")
-                   .AddOutputField("avg(price)")
-                   .AddOutputField("count(*)")
-                   .AddGroupByField("color");
-
-milvus::QueryResponse response;
-status = client->Query(request, response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
+// Note: Query-level group-by aggregation is not supported in milvus-sdk-cpp as of v3.0.3.
 ```
 
 </TabItem>
@@ -1262,9 +1232,8 @@ const client = new MilvusClient({address, token});
 const res = await client.query({
     collection_name: "my_collection",
     filter: "",
-    output_fields: ["color", "avg(price)", "count(*)"],
-    limit: 5,
-    group_by_field: "color"
+    output_fields: ["color", "count(*)"],
+    group_by_fields: ["color"]
 });
 
 console.log(res.data);
@@ -1359,24 +1328,8 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
-    WithFilter("").
-    WithOutputFields("color", "count(*)", "avg(price)", "max(rating)").
-    WithGroupByFields("color").
-    WithLimit(5))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-
-fmt.Println("color: ", resultSet.GetColumn("color").FieldData().GetScalars())
+// Note: Query-level group-by aggregation is not supported in milvus-sdk-go as of client/v3.0.0.
+// Use client.Search(...) with WithGroupByField(...) instead.
 ```
 
 </TabItem>
@@ -1393,31 +1346,7 @@ fmt.Println("color: ", resultSet.GetColumn("color").FieldData().GetScalars())
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-#include <iostream>
-
-auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-auto status = client->Connect(connect_param);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-auto request = milvus::QueryRequest()
-                   .WithCollectionName("my_collection")
-                   .WithFilter("")
-                   .WithLimit(5)
-                   .AddOutputField("color")
-                   .AddOutputField("avg(price)")
-                   .AddOutputField("count(*)")
-                   .AddGroupByField("color");
-
-milvus::QueryResponse response;
-status = client->Query(request, response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
+// Note: Query-level group-by aggregation is not supported in milvus-sdk-cpp as of v3.0.3.
 ```
 
 </TabItem>
@@ -1434,9 +1363,8 @@ const client = new MilvusClient({address, token});
 const res = await client.query({
     collection_name: "my_collection",
     filter: "",
-    output_fields: ["color", "avg(price)", "count(*)"],
-    limit: 5,
-    group_by_field: "color"
+    output_fields: ["color", "count(*)", "avg(price)", "max(rating)"],
+    group_by_fields: ["color"]
 });
 
 console.log(res.data);
@@ -1533,24 +1461,8 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
-    WithFilter("").
-    WithOutputFields("color", "count(*)", "avg(price)", "max(rating)").
-    WithGroupByFields("color").
-    WithLimit(5))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-
-fmt.Println("color: ", resultSet.GetColumn("color").FieldData().GetScalars())
+// Note: Query-level group-by aggregation is not supported in milvus-sdk-go as of client/v3.0.0.
+// Use client.Search(...) with WithGroupByField(...) instead.
 ```
 
 </TabItem>
@@ -1567,31 +1479,7 @@ fmt.Println("color: ", resultSet.GetColumn("color").FieldData().GetScalars())
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-#include <iostream>
-
-auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-auto status = client->Connect(connect_param);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-auto request = milvus::QueryRequest()
-                   .WithCollectionName("my_collection")
-                   .WithFilter("")
-                   .WithLimit(5)
-                   .AddOutputField("color")
-                   .AddOutputField("avg(price)")
-                   .AddOutputField("count(*)")
-                   .AddGroupByField("color");
-
-milvus::QueryResponse response;
-status = client->Query(request, response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
+// Note: Query-level group-by aggregation is not supported in milvus-sdk-cpp as of v3.0.3.
 ```
 
 </TabItem>
@@ -1608,9 +1496,8 @@ const client = new MilvusClient({address, token});
 const res = await client.query({
     collection_name: "my_collection",
     filter: "",
-    output_fields: ["color", "avg(price)", "count(*)"],
-    limit: 5,
-    group_by_field: "color"
+    output_fields: ["color", "rating", "min(price)", "max(price)"],
+    group_by_fields: ["color", "rating"]
 });
 
 console.log(res.data);
@@ -1706,24 +1593,8 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
-    WithFilter("").
-    WithOutputFields("color", "count(*)", "avg(price)", "max(rating)").
-    WithGroupByFields("color").
-    WithLimit(5))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-
-fmt.Println("color: ", resultSet.GetColumn("color").FieldData().GetScalars())
+// Note: Query-level group-by aggregation is not supported in milvus-sdk-go as of client/v3.0.0.
+// Use client.Search(...) with WithGroupByField(...) instead.
 ```
 
 </TabItem>
@@ -1740,31 +1611,7 @@ fmt.Println("color: ", resultSet.GetColumn("color").FieldData().GetScalars())
 <TabItem value='c++'>
 
 ```c++
-#include "milvus/MilvusClientV2.h"
-#include <iostream>
-
-auto client = milvus::MilvusClientV2::Create();
-
-milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
-auto status = client->Connect(connect_param);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-
-auto request = milvus::QueryRequest()
-                   .WithCollectionName("my_collection")
-                   .WithFilter("")
-                   .WithLimit(5)
-                   .AddOutputField("color")
-                   .AddOutputField("avg(price)")
-                   .AddOutputField("count(*)")
-                   .AddGroupByField("color");
-
-milvus::QueryResponse response;
-status = client->Query(request, response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
+// Note: Query-level group-by aggregation is not supported in milvus-sdk-cpp as of v3.0.3.
 ```
 
 </TabItem>
@@ -1783,7 +1630,7 @@ const res = await client.query({
     filter: "",
     output_fields: ["color", "avg(price)", "count(*)"],
     limit: 5,
-    group_by_field: "color"
+    group_by_fields: ["color"]
 });
 
 console.log(res.data);
@@ -1858,6 +1705,7 @@ import io.milvus.orm.iterator.QueryIterator;
 import io.milvus.response.QueryResultsWrapper;
 import io.milvus.v2.common.ConsistencyLevel;
 import io.milvus.v2.service.vector.request.QueryIteratorReq;
+import java.util.*;
 
 QueryIteratorReq req = QueryIteratorReq.builder()
         .collectionName("my_collection")
@@ -1898,7 +1746,7 @@ import (
 )
 
 iterator, err := client.QueryIterator(ctx, milvusclient.NewQueryIteratorOption("my_collection").
-    WithFilter("color like \\"red%\\"").
+    WithFilter("color like \"red%\"").
     WithBatchSize(10).
     WithOutputFields("color"))
 if err != nil {
@@ -2041,7 +1889,7 @@ You can also perform queries within one or multiple partitions by including the 
 res = client.get(
     collection_name="my_collection",
     # highlight-next-line
-    partitionNames=["partitionA"],
+    partition_names=["partitionA"],
     ids=[10, 11, 12],
     output_fields=["vector", "color"]
 )
@@ -2049,7 +1897,7 @@ res = client.get(
 res = client.query(
     collection_name="my_collection",
     # highlight-next-line
-    partitionNames=["partitionA"],
+    partition_names=["partitionA"],
     filter="color like \"red%\"",
     output_fields=["vector", "color"],
     limit=3
@@ -2639,25 +2487,7 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
-    WithFilter("id <= 10").
-    WithOutputFields("id", "tsz", "vec").
-    WithLimit(2).
-    WithTimezone("America/Havana"))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-
-fmt.Println("id: ", resultSet.GetColumn("id").FieldData().GetScalars())
-fmt.Println("tsz: ", resultSet.GetColumn("tsz").FieldData().GetScalars())
+// Note: The timezone query parameter is not supported in milvus-sdk-go as of client/v3.0.0.
 ```
 
 </TabItem>
@@ -2703,21 +2533,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient } from "@zilliz/milvus2-sdk-node";
-
-const address = "YOUR_CLUSTER_ENDPOINT";
-const token = "YOUR_CLUSTER_TOKEN";
-const client = new MilvusClient({address, token});
-
-const res = await client.query({
-    collection_name: "my_collection",
-    filter: "id <= 10",
-    output_fields: ["id", "tsz", "vec"],
-    limit: 2,
-    timezone: "America/Havana"
-});
-
-console.log(res.data);
+// Note: The timezone query parameter is not supported in @zilliz/milvus2-sdk-node as of v3.0.6.
 ```
 
 </TabItem>
@@ -2725,21 +2541,7 @@ console.log(res.data);
 <TabItem value='bash'>
 
 ```bash
-export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
-export TOKEN="YOUR_CLUSTER_TOKEN"
-
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
---header "Request-Timeout: 10" \
--d '{
-    "collectionName": "my_collection",
-    "filter": "id <= 10",
-    "limit": 2,
-    "outputFields": ["id", "tsz", "vec"],
-    "timezone": "America/Havana"
-}' 
+# Note: The timezone query parameter is not supported in the RESTful API as of v3.0.0.
 ```
 
 </TabItem>

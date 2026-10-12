@@ -570,6 +570,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
     let resp = client.run_analyzer(RunAnalyzerRequest::builder()
         .texts(vec!["milvus结巴分词器中文测试"])
         .analyzer_params(analyzer_params)
@@ -582,6 +584,8 @@ if err != nil {
 <TabItem value='c++'>
 
 ```c++
+#include <iostream>
+#include <string>
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();

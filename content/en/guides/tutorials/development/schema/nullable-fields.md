@@ -347,6 +347,9 @@ schema.add_field(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+
 schema.addField(AddFieldReq.builder()
         .fieldName("age")
         .dataType(DataType.Int64)
@@ -360,6 +363,8 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 schema.WithField(entity.NewField().
     WithName("age").
     WithDataType(entity.FieldTypeInt64).
@@ -373,6 +378,8 @@ schema.WithField(entity.NewField().
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let schema = schema.add_field(
     FieldSchema::new()
         .name("age")
@@ -395,6 +402,8 @@ schema->AddField(milvus::FieldSchema("age", milvus::DataType::INT64).WithNullabl
 <TabItem value='javascript'>
 
 ```javascript
+import { DataType } from "@zilliz/milvus2-sdk-node";
+
 const ageField = {
   name: 'age',
   data_type: DataType.Int64,
@@ -522,6 +531,7 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
 use serde_json::json;
 
 let rows = vec![
@@ -731,6 +741,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client.create_index(
     CreateIndexRequest::builder()
         .collection_name("my_collection")
@@ -909,6 +921,8 @@ fmt.Println(resultSets)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let search_results = client.search(
     SearchRequest::builder()
         .collection_name("my_collection")

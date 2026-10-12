@@ -216,6 +216,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let sample_text = "An efficient system relies on a robust analyzer to correctly process text for various applications.";
 let response = client
     .run_analyzer(
@@ -879,6 +881,13 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
     <TabItem value='java'>
 
     ```java
+    import io.milvus.v2.service.vector.request.RunAnalyzerReq;
+    import io.milvus.v2.service.vector.response.RunAnalyzerResp;
+    import java.util.ArrayList;
+    import java.util.HashMap;
+    import java.util.List;
+    import java.util.Map;
+    
     Map<String, Object> analyzerParamsBuiltin = new HashMap<>();
     analyzerParamsBuiltin.put("type", "english");
     
@@ -897,6 +906,12 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
     <TabItem value='go'>
 
     ```go
+    import (
+        "fmt"
+    
+        "github.com/milvus-io/milvus/client/v3/milvusclient"
+    )
+    
     analyzerParamsBuiltin := map[string]any{"type": "english"}
     
     texts := []string{"Milvus simplifies text analysis for search."}
@@ -915,6 +930,8 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
     <TabItem value='rust'>
 
     ```rust
+    use milvus::v2::prelude::*;
+    
     let analyzer_params_built_in = serde_json::json!({"type": "english"});
     let sample_text = "Milvus simplifies text analysis for search.";
     let response = client
@@ -1026,6 +1043,14 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
     <TabItem value='java'>
 
     ```java
+    import io.milvus.v2.service.vector.request.RunAnalyzerReq;
+    import io.milvus.v2.service.vector.response.RunAnalyzerResp;
+    import java.util.ArrayList;
+    import java.util.Arrays;
+    import java.util.HashMap;
+    import java.util.List;
+    import java.util.Map;
+    
     // Configure a custom analyzer
     Map<String, Object> analyzerParamsCustom = new HashMap<>();
     analyzerParamsCustom.put("tokenizer", "standard");
@@ -1057,6 +1082,12 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
     <TabItem value='go'>
 
     ```go
+    import (
+        "fmt"
+    
+        "github.com/milvus-io/milvus/client/v3/milvusclient"
+    )
+    
     analyzerParamsCustom := map[string]any{"tokenizer": "standard",
         "filter": []any{"lowercase",
             map[string]any{
@@ -1084,6 +1115,8 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
     <TabItem value='rust'>
 
     ```rust
+    use milvus::v2::prelude::*;
+    
     let analyzer_params_custom = serde_json::json!({
         "tokenizer": "standard",
         "filter": ["lowercase", {"type": "length", "max": 40}, {"type": "stop", "stop_words": ["of", "for"]}]
@@ -1217,6 +1250,9 @@ schema.add_field(field_name="id", datatype=DataType.INT64, is_primary=True)
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+
 schema.addField(AddFieldReq.builder()
         .fieldName("title_en")
         .dataType(DataType.VarChar)
@@ -1234,7 +1270,7 @@ schema.addField(AddFieldReq.builder()
         .analyzerParams(analyzerParamsCustom)
         .enableMatch(true) // must enable this if you use TextMatch
         .build());
-        
+
 // Add vector field
 schema.addField(AddFieldReq.builder()
         .fieldName("embedding")
@@ -1255,6 +1291,8 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 schema.WithField(entity.NewField().
     WithName("id").
     WithDataType(entity.FieldTypeInt64).
@@ -1286,6 +1324,8 @@ schema.WithField(entity.NewField().
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let schema = schema
     .add_field(FieldSchema::new().name("id").data_type(DataType::Int64).primary_key(true).auto_id(true))
     .add_field(FieldSchema::new().name("title_en").data_type(DataType::VarChar).max_length(1000).enable_analyzer(true).enable_match(true).analyzer_params(analyzer_params_built_in))
@@ -1311,6 +1351,8 @@ schema->AddField(milvus::FieldSchema("embedding", milvus::DataType::FLOAT_VECTOR
 <TabItem value='javascript'>
 
 ```javascript
+import { DataType } from "@zilliz/milvus2-sdk-node";
+
 // Create schema
 const schema = [
   {
@@ -1415,6 +1457,11 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import java.util.ArrayList;
+import java.util.List;
+
 // Set up index params for vector field
 List<IndexParam> indexes = new ArrayList<>();
 indexes.add(IndexParam.builder()
@@ -1440,7 +1487,9 @@ client.createCollection(requestCreate);
 import (
     "fmt"
 
+    "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 idx := index.NewAutoIndex(index.MetricType(entity.COSINE))
@@ -1460,6 +1509,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .create_collection(
         CreateCollectionRequest::builder()

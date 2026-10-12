@@ -435,6 +435,8 @@ schema.WithField(entity.NewField().
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
     let schema = CollectionSchema::new()
         .add_field(FieldSchema::new().name("id").data_type(DataType::Int64).primary_key(true).auto_id(true))
         .add_field(FieldSchema::new().name("language").data_type(DataType::VarChar).max_length(255))
@@ -580,6 +582,10 @@ schema.add_function(bm25_function)
 <TabItem value='java'>
 
 ```java
+import io.milvus.common.clientenum.FunctionType;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import java.util.Collections;
+
 CreateCollectionReq.Function function = CreateCollectionReq.Function.builder()
         .functionType(FunctionType.BM25)
         .name("text_to_vector")
@@ -594,6 +600,8 @@ collectionSchema.addFunction(function);
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 function := entity.NewFunction()
 schema.WithFunction(function.WithName("text_to_vector").
     WithType(entity.FunctionTypeBM25).
@@ -606,6 +614,8 @@ schema.WithFunction(function.WithName("text_to_vector").
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
     let function = Function::new()
         .name("text_to_vector")
         .function_type(FunctionType::Bm25)
@@ -698,6 +708,10 @@ index_params.add_index(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.IndexParam;
+import java.util.ArrayList;
+import java.util.List;
+
 List<IndexParam> indexes = new ArrayList<>();
 indexes.add(IndexParam.builder()
         .fieldName("sparse")
@@ -711,6 +725,12 @@ indexes.add(IndexParam.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 idx := index.NewAutoIndex(index.MetricType(entity.BM25))
 indexOption := milvusclient.NewCreateIndexOption("multilingual_documents", "sparse", idx)
 ```
@@ -720,6 +740,8 @@ indexOption := milvusclient.NewCreateIndexOption("multilingual_documents", "spar
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
     let index_params = vec![IndexParam::new()
         .field_name("sparse")
         .index_type(IndexType::AutoIndex)
@@ -804,6 +826,10 @@ client.load_collection(COLLECTION_NAME)
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import io.milvus.v2.service.collection.request.DropCollectionReq;
+import io.milvus.v2.service.collection.request.LoadCollectionReq;
+
 client.dropCollection(DropCollectionReq.builder()
         .collectionName("multilingual_documents")
         .build());
@@ -824,6 +850,12 @@ client.loadCollection(LoadCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("multilingual_documents", schema).
         WithIndexOptions(indexOption))
@@ -844,6 +876,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
     let _ = client.drop_collection(DropCollectionRequest::builder()
         .collection_name("multilingual_documents").build()?).await;
     client.create_collection(CreateCollectionRequest::builder()
@@ -972,6 +1006,12 @@ print("Documents by language: 2 English, 2 Chinese")
 <TabItem value='java'>
 
 ```java
+import com.google.gson.JsonObject;
+import io.milvus.v2.service.vector.request.InsertReq;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 List<String> texts = Arrays.asList(
         "Artificial intelligence is transforming technology",
         "Machine learning models require large datasets",
@@ -1024,6 +1064,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
     let documents = vec![
         serde_json::json!({"text": "Artificial intelligence is transforming technology", "language": "english"}),
         serde_json::json!({"text": "Machine learning models require large datasets", "language": "en"}),
@@ -1204,6 +1246,11 @@ for i, hit in enumerate(english_results[0]):
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.EmbeddedText;
+import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.*;
+
 Map<String,Object> searchParams = new HashMap<>();
 searchParams.put("metric_type", "BM25");
 searchParams.put("analyzer_name", "english");
@@ -1231,6 +1278,13 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
     "multilingual_documents", // collectionName
     3,                        // limit
@@ -1259,6 +1313,9 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+use std::collections::HashMap;
+
     let request = SearchRequest::builder()
         .collection_name("multilingual_documents")
         .vectors(SearchVectors::EmbeddedText(vec!["artificial intelligence".to_string()]))

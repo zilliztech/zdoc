@@ -438,8 +438,6 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
     ```rust
     use milvus::v2::prelude::*;
     
-    #[tokio::main]
-    async fn main() -> Result<()> {
         let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
         let client = ClientV2::new(&config).await?;
     
@@ -980,7 +978,11 @@ List<IndexParam> indexParams = Arrays.asList(
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/index"
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
 
 indexes := []milvusclient.CreateIndexOption{
     milvusclient.NewCreateIndexOption("covla_dataset", "captions[plain_cap_vector]", index.NewAutoIndex(entity.MaxSimCosine)).
@@ -1322,6 +1324,8 @@ client.insert(InsertReq.builder()
 ```go
 import (
     "encoding/json"
+    "fmt"
+    "log"
 
     "github.com/milvus-io/milvus/client/v3/column"
 )
@@ -1468,7 +1472,6 @@ milvus::EntityRows rows = {{
     {"video_id", "0a0fc7a5db365174"},
     {"video_url", "https://your-storage.com/0a0fc7a5db365174"},
     {"captions", nlohmann::json::array({{
-        {{
             {"frame_id", 0},
             {"plain_caption", "Merge left while yielding to oncoming traffic"},
             {"plain_cap_vector", std::vector<float>(768, 0.1f)},
@@ -1489,13 +1492,11 @@ milvus::EntityRows rows = {{
             {"has_pedestrian", true},
             {"has_pedestrian_yes_rate", 0.6},
             {"has_carrier_car", false}
-        }}
     }})},
     {"traffic_lights", nlohmann::json::array({{
-        {{"index", 0}, {"class", "red"}, {"bbox", std::vector<float>{1, 2, 3, 4}}}
+        {"index", 0}, {"class", "red"}, {"bbox", std::vector<float>{1, 2, 3, 4}}
     }})},
     {"front_cars", nlohmann::json::array({{
-        {{
             {"frame_id", 0},
             {"has_lead", true},
             {"lead_prob", 0.9},
@@ -1503,7 +1504,6 @@ milvus::EntityRows rows = {{
             {"lead_y", 0.5},
             {"lead_speed_kmh", 60.0},
             {"lead_a", 0.2}
-        }}
     }})}
 }};
 

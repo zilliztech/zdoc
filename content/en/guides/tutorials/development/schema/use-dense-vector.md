@@ -134,6 +134,12 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("my_collection", schema).
         WithIndexOptions(indexOption))
@@ -325,6 +331,13 @@ indexes.add(IndexParam.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 idx := index.NewAutoIndex(index.MetricType(entity.IP))
 indexOption := milvusclient.NewCreateIndexOption("my_collection", "dense_vector", idx)
 ```
@@ -334,6 +347,8 @@ indexOption := milvusclient.NewCreateIndexOption("my_collection", "dense_vector"
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let index_params = vec![IndexParam::new()
     .field_name("dense_vector")
     .index_name("dense_vector_index")
@@ -425,6 +440,12 @@ client.createCollection(requestCreate);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("my_collection", schema).
         WithIndexOptions(indexOption))
@@ -449,6 +470,8 @@ if err := loadTask.Await(ctx); err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .create_collection(
         CreateCollectionRequest::builder()
@@ -557,6 +580,12 @@ InsertResp insertR = client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 _, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("my_collection").
     WithFloatVectorColumn("dense_vector", 4, [][]float32{
         {0.1, 0.2, 0.3, 0.7},
@@ -584,6 +613,8 @@ if err := flushTask.Await(ctx); err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let rows = vec![
     serde_json::json!({"dense_vector": [0.1, 0.2, 0.3, 0.7]}),
     serde_json::json!({"dense_vector": [0.2, 0.3, 0.4, 0.8]}),
@@ -728,6 +759,14 @@ System.out.println(searchR.getSearchResults());
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 queryVector := []float32{0.1, 0.2, 0.3, 0.7}
 
 annParam := index.NewCustomAnnParam()
@@ -756,6 +795,7 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
 use std::collections::HashMap;
 
 let query_vector = vec![0.1, 0.2, 0.3, 0.7];

@@ -49,7 +49,7 @@ The following steps repurpose the code to connect to a Zilliz Cloud cluster, qui
 
 ### Step 1: Create a collection\{#step-1-create-a-collection}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -207,11 +207,19 @@ await client.createCollection({
 ```
 
 </TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# Note: The Milvus RESTful API does not support iterator-based data export. Use the SDK APIs above instead.
+```
+
+</TabItem>
 </Tabs>
 
 ### Step 2: Insert randomly generated entities\{#step-2-insert-randomly-generated-entities}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -502,6 +510,14 @@ await client.insert({
 ```
 
 </TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# Note: The Milvus RESTful API does not support iterator-based data export. Use the SDK APIs above instead.
+```
+
+</TabItem>
 </Tabs>
 
 ## Export data using iterators\{#export-data-using-iterators}
@@ -520,7 +536,7 @@ To export data using iterators, do as follows:
 
 The following code snippets demonstrate how to append the exported data into a file using the **QueryIterator** API.  
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -809,6 +825,14 @@ for await (const batch of iterator) {
   count += batch.length;
 }
 console.log("exported " + count + " rows");
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# Note: The Milvus RESTful API does not support iterator-based data export. Use the SDK APIs above instead.
 ```
 
 </TabItem>

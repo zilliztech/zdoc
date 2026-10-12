@@ -346,6 +346,8 @@ print(res)
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.collection.request.GetLoadStateReq;
+import io.milvus.v2.service.collection.request.LoadCollectionReq;
 import java.util.Arrays;
 
 // Load the collection
@@ -371,6 +373,12 @@ System.out.println(res);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 loadTask, err := client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection").
         WithLoadFields("my_id", "my_vector").
         WithSkipLoadDynamicField(true))
@@ -399,6 +407,8 @@ fmt.Println(state)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .load_collection(
         LoadCollectionRequest::builder()
@@ -516,6 +526,7 @@ print(res)
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.collection.request.GetLoadStateReq;
 import io.milvus.v2.service.collection.request.ReleaseCollectionReq;
 
 // 8. Release the collection
@@ -540,6 +551,12 @@ System.out.println(res);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.ReleaseCollection(ctx, milvusclient.NewReleaseCollectionOption("my_collection"))
 if err != nil {
     fmt.Println(err.Error())
@@ -559,6 +576,8 @@ fmt.Println(state)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 // 8. Release the collection
 client
     .release_collection(

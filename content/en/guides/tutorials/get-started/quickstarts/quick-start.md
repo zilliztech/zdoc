@@ -194,6 +194,8 @@ client.createDatabase(CreateDatabaseReq.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 err = cli.CreateDatabase(ctx, milvusclient.NewCreateDatabaseOption("my_database"))
 if err != nil {
     panic(err)
@@ -205,6 +207,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .create_database(
         CreateDatabaseRequest::builder()
@@ -334,6 +338,8 @@ schema := entity.NewSchema().
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let schema = CollectionSchema::new()
     .add_field(
         FieldSchema::new()
@@ -437,6 +443,8 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+
 client.useDatabase("my_database");
 
 client.createCollection(CreateCollectionReq.builder()
@@ -450,6 +458,8 @@ client.createCollection(CreateCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 err = cli.UseDatabase(ctx, milvusclient.NewUseDatabaseOption("my_database"))
 if err != nil {
     panic(err)
@@ -466,6 +476,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .use_database("my_database")
     .await?;
@@ -595,7 +607,12 @@ client.createIndex(CreateIndexReq.builder()
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/index"
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
 
 task, err := cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption(
     "prod_collection",
@@ -627,6 +644,8 @@ if err = task.Await(ctx); err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .create_index(
         CreateIndexRequest::builder()
@@ -752,6 +771,8 @@ client.loadCollection(LoadCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 loadTask, err := cli.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("prod_collection"))
 if err != nil {
     panic(err)
@@ -766,6 +787,8 @@ if err = loadTask.Await(ctx); err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .load_collection(
         LoadCollectionRequest::builder()
@@ -1189,6 +1212,12 @@ SearchResp searchResp = client.search(SearchReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 queryVector := []float32{0.35803764, -0.6023496, 0.18414013, -0.26286206, 0.90294385 /* ...remaining dims */}
 resultSets, err := cli.Search(ctx, milvusclient.NewSearchOption(
     "prod_collection",
@@ -1206,6 +1235,8 @@ _ = resultSets
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let query_vector = vec![0.3580376395471989f32, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592 /* ...remaining dims */];
 
 let search = client

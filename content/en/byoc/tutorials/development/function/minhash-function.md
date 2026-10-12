@@ -276,6 +276,7 @@ schema.add_function(minhash_function)
 
 ```java
 import io.milvus.common.clientenum.FunctionType;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
 import java.util.Collections;
 
 schema.addFunction(CreateCollectionReq.Function.builder()
@@ -293,6 +294,8 @@ schema.addFunction(CreateCollectionReq.Function.builder()
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/entity"
+
 function := entity.NewFunction().
     WithName("minhash_function").
     WithType(entity.FunctionTypeMinHash).
@@ -309,6 +312,8 @@ schema = schema.WithFunction(function)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let schema = schema.add_function(
     Function::new()
         .name("minhash_function")
@@ -338,6 +343,8 @@ schema->AddFunction(function);
 <TabItem value='javascript'>
 
 ```javascript
+import { FunctionType } from "@zilliz/milvus2-sdk-node";
+
 const functions = [
   {
     name: "minhash_function",
@@ -474,6 +481,7 @@ indexOption := milvusclient.NewCreateIndexOption("dedup_collection", "binary_vec
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
 use std::collections::HashMap;
 
 let index_param = IndexParam::new()
@@ -504,6 +512,8 @@ index.AddExtraParam("with_raw_data", "true");
 <TabItem value='javascript'>
 
 ```javascript
+import { IndexType, MetricType } from "@zilliz/milvus2-sdk-node";
+
 const indexParam = {
   field_name: "binary_vector",
   index_type: IndexType.MINHASH_LSH,
@@ -547,6 +557,7 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
 import java.util.Collections;
 
 client.createCollection(CreateCollectionReq.builder()
@@ -561,6 +572,12 @@ client.createCollection(CreateCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("dedup_collection", schema).
     WithIndexOptions(indexOption))
 if err != nil {
@@ -573,6 +590,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client.create_collection(CreateCollectionRequest::builder()
     .collection_name("dedup_collection")
     .schema(schema)
@@ -698,6 +717,12 @@ client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 _, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("dedup_collection").
     WithVarcharColumn("document_content", []string{
         "information retrieval is a field of study that helps users find relevant information in large datasets",
@@ -714,6 +739,7 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
 use serde_json::json;
 
 let insert_req = InsertRequest::builder()
@@ -858,8 +884,10 @@ for (SearchResp.SearchResult hit : resp.getSearchResults().get(0)) {
 ```go
 import (
     "fmt"
+    "log"
 
     "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 results, err := client.Search(ctx, milvusclient.NewSearchOption(
@@ -884,6 +912,7 @@ for _, rs := range results {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
 use std::collections::HashMap;
 
 let search_req = SearchRequest::builder()

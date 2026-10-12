@@ -108,6 +108,8 @@ bool has = client->HasCollection("my_collection");
 <TabItem value='javascript'>
 
 ```javascript
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
 const client = new MilvusClient({
     address: "https://{project-id}.{region}.vectordb.zillizcloud.com",
     token: "YOUR_API_KEY"
@@ -269,6 +271,8 @@ SearchResp searchResp = session.search(searchReq);
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let query_vector = vec![0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
 
 let res = session

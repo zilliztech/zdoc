@@ -221,6 +221,7 @@ client.create_database(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.database.request.CreateDatabaseReq;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -240,6 +241,8 @@ client.createDatabase(request);
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 err = client.CreateDatabase(
     ctx,
     milvusclient.NewCreateDatabaseOption("my_database_2").
@@ -255,6 +258,7 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
 use std::collections::HashMap;
 
 client
@@ -356,6 +360,12 @@ DescribeDatabaseResp database = client.describeDatabase(
 <TabItem value='go'>
 
 ```go
+import (
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 databases, err := client.ListDatabase(ctx, milvusclient.NewListDatabaseOption())
 if err != nil {
     // handle error
@@ -374,6 +384,8 @@ log.Println(database)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let databases = client
     .list_databases(ListDatabasesRequest::builder().build()?)
     .await?;
@@ -487,6 +499,8 @@ client.alterDatabaseProperties(
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 err = client.AlterDatabaseProperties(
     ctx,
     milvusclient.NewAlterDatabasePropertiesOption("my_database_1").
@@ -502,6 +516,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .alter_database_properties(
         AlterDatabasePropertiesRequest::builder()
@@ -596,6 +612,8 @@ client.dropDatabaseProperties(
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 err = client.DropDatabaseProperties(
     ctx,
     milvusclient.NewDropDatabasePropertiesOption("my_database_1", "database.max.collections"),
@@ -610,6 +628,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .drop_database_properties(
         DropDatabasePropertiesRequest::builder()
@@ -697,6 +717,8 @@ client.useDatabase("my_database_2");
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 err = client.UseDatabase(ctx, milvusclient.NewUseDatabaseOption("my_database_2"))
 if err != nil {
     // handle error
@@ -776,6 +798,8 @@ client.dropDatabase(
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 err = client.DropDatabase(ctx, milvusclient.NewDropDatabaseOption("my_database_2"))
 if err != nil {
     // handle error
@@ -787,6 +811,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .drop_database(
         DropDatabaseRequest::builder()

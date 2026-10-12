@@ -402,6 +402,12 @@ indexes.add(IndexParam.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 indexOption1 := milvusclient.NewCreateIndexOption("my_collection", "embedding",
     index.NewAutoIndex(entity.COSINE))
 indexOption2 := milvusclient.NewCreateIndexOption("my_collection", "age",
@@ -413,6 +419,8 @@ indexOption2 := milvusclient.NewCreateIndexOption("my_collection", "age",
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let index_params = vec![
     IndexParam::new()
         .field_name("age")
@@ -499,6 +507,8 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+
 CreateCollectionReq requestCreate = CreateCollectionReq.builder()
         .collectionName("my_collection")
         .collectionSchema(schema)
@@ -512,6 +522,12 @@ client.createCollection(requestCreate);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("my_collection", schema).
         WithIndexOptions(indexOption1, indexOption2))
@@ -526,6 +542,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .create_collection(
         CreateCollectionRequest::builder()
@@ -638,6 +656,13 @@ InsertResp insertR = client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/column"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 priceValues := []float32{99.99, 149.50, 199.99, 0, 59.99, 0}
 priceValid := []bool{true, true, true, false, true, false}
 priceCol, _ := column.NewNullableColumnFloat("price", priceValues, priceValid)
@@ -673,6 +698,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let price_col = FieldData::float(
     "price",
     vec![99.99, 149.50, 199.99, 0.0, 59.99, 0.0],
@@ -836,6 +863,12 @@ System.out.println(resp.getQueryResults());
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 filter := "age > 30"
 queryResult, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter(filter).
@@ -854,6 +887,8 @@ fmt.Println("price", queryResult.GetColumn("price"))
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let results = client
     .query(
         QueryRequest::builder()
@@ -955,6 +990,10 @@ print(res)
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
+import java.util.Arrays;
+
 String filter = "price is null";
 
 QueryResp resp = client.query(QueryReq.builder()
@@ -978,6 +1017,12 @@ System.out.println(resp.getQueryResults());
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 filter := "price is null"
 queryResult, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter(filter).
@@ -996,6 +1041,8 @@ fmt.Println("price", queryResult.GetColumn("price"))
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let results = client
     .query(
         QueryRequest::builder()
@@ -1098,6 +1145,10 @@ print(res)
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
+import java.util.Arrays;
+
 String filter = "age == 18";
 
 QueryResp resp = client.query(QueryReq.builder()
@@ -1119,6 +1170,12 @@ System.out.println(resp.getQueryResults());
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 filter = "age == 18"
 queryResult, err = client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter(filter).
@@ -1137,6 +1194,8 @@ fmt.Println("price", queryResult.GetColumn("price"))
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let results = client
     .query(
         QueryRequest::builder()
@@ -1253,6 +1312,8 @@ print(res)
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
+import java.util.Arrays;
+import java.util.Collections;
 
 String filter = "25 <= age <= 35";
 
@@ -1282,6 +1343,14 @@ System.out.println(resp.getSearchResults());
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 queryVector := []float32{0.3, -0.6, 0.1}
 filter = "25 <= age <= 35"
 
@@ -1313,6 +1382,8 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let results = client
     .search(
         SearchRequest::builder()
