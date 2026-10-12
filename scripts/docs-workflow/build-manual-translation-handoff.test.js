@@ -206,3 +206,19 @@ test('all-group selection still excludes reference-landings', t => {
   });
   assert.ok(handoff.units.every(unit => unit.group !== 'reference-landings'));
 });
+
+test('comma group selection yields the subset in canonical order with renumbered publication order', t => {
+  const setup = fixture(t);
+  const handoff = buildManualTranslationHandoff({
+    repository: setup.repository, sourceBranch: 'dev', group: 'python,guides', locale: 'all',
+  });
+  assert.equal(handoff.group, 'python,guides');
+  assert.deepEqual(handoff.units.map(unit => `${unit.target}/${unit.group}`), [
+    'ja-JP/guides', 'ja-JP/python', 'zh-CN-reference/python',
+  ]);
+  assert.deepEqual(handoff.units.map(unit => unit.publicationOrder), [0, 1, 2]);
+  assert.throws(
+    () => buildManualTranslationHandoff({repository: setup.repository, sourceBranch: 'dev', group: 'guides,rest', locale: 'all'}),
+    /Unknown or non-translatable source group/,
+  );
+});

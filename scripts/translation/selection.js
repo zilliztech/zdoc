@@ -38,12 +38,28 @@ function targetsFor(group, locale) {
 
 function buildTranslationSelection({locale, group}) {
   if (!['all', 'ja-JP', 'zh-CN'].includes(locale)) throw new Error(`Unsupported translation locale: ${locale}`);
-  if (group !== 'all' && group !== 'reference-landings' && !GROUPS.includes(group)) {
+  let groups;
+  if (group === 'all') {
+    groups = [...GROUPS];
+  } else if (group.includes(',')) {
+    // Comma lists select a subset in canonical group order (the dispatcher
+    // dispatches several groups in one producer run); unknown tokens and
+    // empty selections fail closed exactly like a single unknown group.
+    const requested = new Set(group.split(',').map(part => part.trim()).filter(Boolean));
+    // Comma lists are dispatch-group sets for budgeted producer runs; the
+    // landings-only selector stays a single-token form, matching the manual
+    // handoff builder which rejects landings inside comma lists.
+    if (requested.size === 0 || [...requested].some(token => !GROUPS.includes(token) || token === 'rest')) {
+      throw new Error(`Unsupported translation selection: ${locale}/${group}`);
+    }
+    groups = GROUPS.filter(candidate => requested.has(candidate));
+  } else if (group === 'reference-landings' || GROUPS.includes(group)) {
+    groups = [group];
+  } else {
     throw new Error(`Unsupported translation selection: ${locale}/${group}`);
   }
 
   const selected = [];
-  const groups = group === 'all' ? GROUPS : [group];
   for (const selectedGroup of groups) {
     for (const selectedLocale of targetsFor(selectedGroup, locale)) {
       selected.push(selectionItem(selectedLocale, selectedGroup, selected.length));

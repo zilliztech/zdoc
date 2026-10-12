@@ -10,6 +10,7 @@ on:
       recovery_run_ids_json: { description: Recovery run IDs by target/group, required: false, type: string, default: '{}' }
       request_id: { description: Parent workflow correlation ID, required: false, type: string, default: '' }
       semantic_seeds: { description: Reuse unchanged published semantic units in incremental runs, required: false, type: boolean, default: false }
+      guides_max_files: { description: Per-run pending-file cap for incremental Guides translation (0 = uncapped), required: false, type: string, default: '0' }
   workflow_call:
     inputs:
       handoff_json: { description: Complete schema-v3 translation handoff, required: true, type: string }
@@ -23,6 +24,7 @@ on:
       production_queue_owned: { required: false, type: boolean, default: false }
       allow_full_retranslate: { required: false, type: boolean, default: false }
       semantic_seeds: { required: false, type: boolean, default: false }
+      guides_max_files: { required: false, type: string, default: '0' }
     secrets:
       TRANSLATION_AGENT_API_KEY: { required: true }
       REVIEW_AGENT_API_KEY: { required: true }
@@ -250,6 +252,7 @@ jobs:
       source_baseline_sha: ${{ fromJSON(needs.prepare.outputs.guides_unit_json).sourceBaselineSha }}
       source_checkpoint_sha: ${{ fromJSON(needs.prepare.outputs.guides_unit_json).sourceCheckpointSha }}
       target_baseline_sha: ${{ needs.prepare.outputs.target_branch_sha }}
+      max_files: ${{ inputs.guides_max_files || '0' }}
 
   translate_guides_batches:
     needs: [prepare, prepare_guides_batches]
@@ -270,7 +273,7 @@ jobs:
       source_checkpoint_sha: ${{ fromJSON(needs.prepare.outputs.guides_unit_json).sourceCheckpointSha }}
       target_baseline_sha: ${{ needs.prepare.outputs.target_branch_sha }}
       should_translate: true
-      max_files: '500'
+      max_files: ${{ inputs.guides_max_files || '0' }}
       mode: ${{ inputs.mode }}
       recovery_run_id: ${{ needs.prepare.outputs.guides_recovery_run_id }}
       recovery_bundle_artifact_name: ${{ inputs.recovery_bundle_artifact_name || '' }}
