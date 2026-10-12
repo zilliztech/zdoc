@@ -12,10 +12,10 @@ type: docx
 token: Ja99dnnaOoncwbx2zIPc4PjunXx
 sidebar_position: 3
 keywords: 
-  - vector databases comparison
+  - ベクトルデータベースの比較
   - Faiss
-  - Video search
-  - AI Hallucination
+  - 動画検索
+  - AI ハルシネーション
   - zilliz
   - zilliz cloud
   - cloud
@@ -37,9 +37,9 @@ import Admonition from '@theme/Admonition';
 await milvusClient.dropDatabase(data?)
 ```
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-このメソッドは dedicated cluster にのみ適用されます。
+このメソッドは専用クラスターにのみ適用されます。
 
 </Admonition>
 
@@ -101,4 +101,3 @@ const milvusClient = new MilvusClient({
 });
 const resStatus = await milvusClient.dropDatabase({ db_name: 'db_to_drop' });
 ```
-

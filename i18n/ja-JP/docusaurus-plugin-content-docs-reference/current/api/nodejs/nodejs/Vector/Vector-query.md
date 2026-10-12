@@ -7,14 +7,14 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、指定されたブール式を使用して scalar フィルタリングを実行します。 | Node.js"
+description: "この操作は、指定されたブール式を使用してスカラーフィルタリングを実行します。 | Node.js"
 type: docx
 token: Nle5dNFMuoy3MgxGIFGcJDWtnpg
 sidebar_position: 6
 keywords: 
   - 質問応答システム
   - llm-as-a-judge
-  - ハイブリッド vector 検索
+  - ハイブリッドベクトル検索
   - 動画重複排除
   - zilliz
   - zilliz cloud
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # query()
 
-この操作は、指定されたブール式を使用して scalar フィルタリングを実行します。
+この操作は、指定されたブール式を使用してスカラーフィルタリングを実行します。
 
 ```javascript
 await milvusClient.query(data)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```javascript
  milvusClient.query({
@@ -58,33 +58,33 @@ await milvusClient.query(data)
 
 - **db_name** (*string*) -
 
-    対象の collection を保持するデータベースの名前です。
+    対象のコレクションを保持するデータベースの名前です。
 
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    既存の collection の名前です。
+    既存のコレクションの名前です。
 
 - **partition_names** (*string[]*) -
 
-    クエリ対象の partition の名前です。
+    クエリ対象のパーティションの名前です。
 
 - **output_fields** (*string[]*) -
 
-    戻り値として各 entity に含めるフィールド名のリストです。
+    戻り値の各エンティティに含めるフィールド名のリストです。
 
     デフォルト値は **None** です。指定しない場合、すべてのフィールドが出力フィールドとして選択されます。
 
 - **ids** (*string[]* | *number[]*) - 
 
-    クエリ対象の entity の ID です。
+    クエリ対象のエンティティの ID です。
 
 - **filter** (*string*) -
 
-    一致する entity を絞り込むための scalar フィルタリング条件です。 
+    一致するエンティティを絞り込むためのスカラーフィルタリング条件です。 
 
-    scalar フィルタリングをスキップするには、このパラメータを空文字列に設定できます。scalar フィルタリング条件を構築するには、[Boolean Expression Rules](https://milvus.io/docs/boolean.md) を参照してください。 
+    スカラーフィルタリングをスキップするには、このパラメータを空文字列に設定できます。スカラーフィルタリング条件を構築するには、[Boolean Expression Rules](https://milvus.io/docs/boolean.md) を参照してください。 
 
 - **offset** (*number*) -
 
@@ -104,19 +104,19 @@ await milvusClient.query(data)
 
 - **consistency_level** (*ConsistencyLevelEnum*) -
 
-    対象 collection の整合性レベルです。
+    対象のコレクションの整合性レベルです。
 
-    デフォルト値は現在の collection 作成時に指定したものです。指定可能な値は **Strong** (**0**)、**Bounded** (**1**)、**Session** (**2**)、**Eventually** (**3**) です。
+    デフォルト値は、現在のコレクションを作成したときに指定した値です。指定できる値は **Strong** (**0**)、**Bounded** (**1**)、**Session** (**2**)、**Eventually** (**3**) です。
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     整合性レベルとは何ですか？
     
-        分散データベースにおける整合性とは、特定の時点でデータの書き込みまたは読み取りを行う際に、すべてのノードまたはレプリカが同じデータビューを持つことを保証する性質を指します。
+        分散データベースにおける整合性とは、特定の時点でデータを書き込んだり読み取ったりする際に、すべてのノードまたはレプリカが同じデータビューを持つことを保証する性質を指します。
     
         Zilliz Cloud は、**Strong**、**Bounded Staleness**、**Eventually** の 3 つの整合性レベルを提供しており、デフォルトは **Bounded Staleness** です。
     
-        vector 類似検索やクエリを実行する際に整合性レベルを簡単に調整して、アプリケーションに最適な設定にできます。
+        ベクトル類似検索やクエリを実行する際に整合性レベルを簡単に調整して、アプリケーションに最適な設定にできます。
 
     </Admonition>
 
@@ -126,7 +126,7 @@ await milvusClient.query(data)
 
 - **order_by_fields** (*OrderByFields*) -
 
-    クエリ結果の並び順を指定するフィールドです。任意です。
+    クエリ結果を並べ替える基準となるフィールドです。任意です。
 
 - **order_by** (*OrderByFields*) -
 
@@ -146,7 +146,7 @@ await milvusClient.query(data)
 **PARAMETERS:**
 
 - **data** (*Record&lt;string, any&gt;[]*) -<br/>
-  一致した行です。各エントリはフィールド名をキーとし、要求された **output_fields** の各エントリに対応する値に加えて、主キーを保持します。collection で **enable_dynamic_field** が **true** の場合、動的フィールドの値は宣言済みフィールドと並んでインラインで表示されます。
+  一致した行です。各エントリはフィールド名をキーとし、要求された **output_fields** の各エントリの値と主キーを保持します。コレクションで **enable_dynamic_field** が **true** の場合、動的フィールドの値は宣言済みのフィールドと並んでインラインで表示されます。
 
 - **ResStatus**<br/>
   **ResStatus** オブジェクトです。
@@ -163,7 +163,7 @@ await milvusClient.query(data)
 
         報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
 
-## Example\{#example}
+## 例\{#example}
 
 ```java
 const milvusClient = new MilvusClient({

@@ -12,8 +12,8 @@ type: docx
 token: HSIDdxQGEoPdyaxkMDjcAWGQnpd
 sidebar_position: 17
 keywords: 
-  - vector databases とは
-  - vector databases の比較
+  - ベクトル データベース とは
+  - ベクトル データベース の比較
   - Faiss
   - Video search
   - zilliz
@@ -57,7 +57,7 @@ await milvusClient.listGrant(data)
 
 - **object** (*string*)
 
-    有効な権限オブジェクトグループの名前です。指定可能な値は **Global**、**Collection**、**User** です。
+    有効な権限オブジェクトグループの名前です。指定可能な値は **Global**、**コレクション**、**User** です。
 
 - **objectName** (*string*)
 

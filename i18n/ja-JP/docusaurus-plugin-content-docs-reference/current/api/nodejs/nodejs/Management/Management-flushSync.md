@@ -7,12 +7,12 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、segment を手動で seal し、データをディスクに永続化します。すべてのデータが collection に挿入された後にこの操作を呼び出すことを推奨します。これは、関数が戻る前に flush 操作が完了していることを保証する同期関数です。 | Node.js"
+description: "この操作は、セグメントを手動でシールし、データをディスクに永続化します。すべてのデータをコレクションに挿入した後にこの操作を呼び出すことを推奨します。これは、関数が戻る前に flush 操作が完了していることを保証する同期関数です。 | Node.js"
 type: docx
 token: QsTwdUbgyoZPV1xzCBxchX8Fnid
 sidebar_position: 8
 keywords: 
-  - マルチモーダル vector database retrieval
+  - マルチモーダルベクトルデータベース検索
   - Retrieval Augmented Generation
   - 大規模言語モデル
   - ベクトル化
@@ -31,19 +31,19 @@ import Admonition from '@theme/Admonition';
 
 # flushSync()
 
-この操作は、segment を手動で seal し、データをディスクに永続化します。すべてのデータが collection に挿入された後にこの操作を呼び出すことを推奨します。これは、関数が戻る前に flush 操作が完了していることを保証する同期関数です。
+この操作は、セグメントを手動でシールし、データをディスクに永続化します。すべてのデータをコレクションに挿入した後にこの操作を呼び出すことを推奨します。これは、関数が戻る前に flush 操作が完了していることを保証する同期関数です。
 
 ```javascript
 await milvusClient.flushSync(data)
 ```
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 Milvus は一定間隔でデータを永続ストレージに自動的に flush します。この自動データ永続化メカニズムに依存することを推奨します。
 
 </Admonition>
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```javascript
 await milvusClient.flushSync({
@@ -53,25 +53,25 @@ await milvusClient.flushSync({
 })
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **db_name** (*string*) -
 
-    対象の collection が属する対象データベースの名前。
+    対象のコレクションが属する対象データベースの名前です。
 
 - **collection_names** (*string[]*) -
 
     **[REQUIRED]**
 
-    対象 collection 名のリスト。
+    対象のコレクション名のリストです。
 
 - **timeout** (*number*)  
 
-    この操作のタイムアウト時間。 
+    この操作のタイムアウト時間です。 
 
-    これを **None** に設定すると、何らかの応答が到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点で、この操作がタイムアウトすることを示します。
 
-**RETURNS** *Promise&lt;GetFlushStateResponse&gt;*
+**戻り値** *Promise&lt;GetFlushStateResponse&gt;*
 
 このメソッドは、**GetFlushStateResponse** オブジェクトに解決される promise を返します。
 
@@ -82,27 +82,27 @@ await milvusClient.flushSync({
 }
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **flushed** (*boolean*) -<br/>
-  対象のすべての segment が永続ストレージに flush されているかどうか。`flushSync()` は flush の完了までブロックするため、成功時にはこの値は **true** です。
+  対象のすべてのセグメントが永続ストレージに flush されているかどうかです。`flushSync()` は flush が完了するまでブロックするため、成功時にはこの値は **true** です。
 
 - **ResStatus**<br/>
-  **ResStatus** オブジェクト。
+  **ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
-        操作結果を示すコード。この操作が成功した場合は **0** のままです。
+        操作結果を示すコードです。この操作が成功した場合は **0** のままです。
 
     - **error_code** (*string* | *number*) -
 
-        発生したエラーを示すエラーコード。この操作が成功した場合は **Success** のままです。
+        発生したエラーを示すエラーコードです。この操作が成功した場合は **Success** のままです。
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
 
-## Example\{#example}
+## 例\{#example}
 
 ```java
 const milvusClient = new MilvusClient({

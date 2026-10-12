@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、segment を手動でシールし、データをディスクに永続化します。すべてのデータが collection に挿入された後にこの操作を呼び出すことを推奨します。 | Node.js"
+description: "この操作は、セグメントを手動でシールし、データをディスクに永続化します。すべてのデータがコレクションに挿入された後にこの操作を呼び出すことを推奨します。 | Node.js"
 type: docx
 token: E2XJd4ZHvoc7QlxyrEJcrOJOn9f
 sidebar_position: 7
@@ -31,19 +31,19 @@ import Admonition from '@theme/Admonition';
 
 # flush()
 
-この操作は、segment を手動でシールし、データをディスクに永続化します。すべてのデータが collection に挿入された後にこの操作を呼び出すことを推奨します。
+この操作は、セグメントを手動でシールし、データをディスクに永続化します。すべてのデータがコレクションに挿入された後にこの操作を呼び出すことを推奨します。
 
 ```javascript
 await milvusClient.flush(data)
 ```
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-Milvus は一定間隔でデータを自動的に永続ストレージへ flush します。この自動データ永続化メカニズムに依存することを推奨します。
+Milvus は一定間隔でデータを永続ストレージに自動的に flush します。この自動データ永続化メカニズムに依存することを推奨します。
 
 </Admonition>
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```javascript
 await milvusClient.flush({
@@ -53,27 +53,27 @@ await milvusClient.flush({
 })
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
 - **db_name** (*string*) -
 
-    対象の collection が属する対象データベースの名前。
+    対象のコレクションが属する対象データベースの名前。
 
 - **collection_names** (*string[]*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    対象 collection 名のリスト。
+    対象のコレクション名のリスト。
 
 - **timeout** (*number*)  
 
     この操作のタイムアウト時間。 
 
-    これを **None** に設定すると、いずれかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、何らかの応答が到着するかエラーが発生した時点で、この操作はタイムアウトします。
 
-**RETURNS** *Promise&lt;FlushResult&gt;*
+**戻り値** *Promise&lt;FlushResult&gt;*
 
-このメソッドは **FlushResult** オブジェクトに解決される promise を返します。
+このメソッドは、**FlushResult** オブジェクトに解決される promise を返します。
 
 ```typescript
 {
@@ -82,10 +82,10 @@ await milvusClient.flush({
 }
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
 - **coll_segIDs** (*Record&lt;string, \{ data: number[] }&gt;*) -<br/>
-  collection 名から、この flush によってシールされた segment ID へのマッピングです。永続化を確認するには、返された ID を `getFlushState()` とともに使用します。
+  コレクション名から、この flush によってシールされたセグメント ID へのマッピングです。永続化を確認するには、返された ID を `getFlushState()` とともに使用します。
 
 - **ResStatus**<br/>
   **ResStatus** オブジェクト。
@@ -100,9 +100,9 @@ await milvusClient.flush({
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示す文字列です。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
 
-## Example\{#example}
+## 例\{#example}
 
 ```java
 const milvusClient = new MilvusClient({

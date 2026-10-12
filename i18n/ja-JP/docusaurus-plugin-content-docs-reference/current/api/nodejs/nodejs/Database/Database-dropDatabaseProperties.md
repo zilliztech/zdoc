@@ -37,13 +37,13 @@ import Admonition from '@theme/Admonition';
 await milvusClient.dropDatabaseProperties(data)
 ```
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-このメソッドは dedicated cluster にのみ適用されます。
+このメソッドは Dedicated クラスターにのみ適用されます。
 
 </Admonition>
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```javascript
 await milvusClient.dropDatabaseProperties({
@@ -53,51 +53,51 @@ await milvusClient.dropDatabaseProperties({
 })
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
 - **db_name** (*string*) -
 
-    プロパティを削除する対象のデータベース名。
+    プロパティを削除する対象のデータベースの名前です。
 
-    指定された名前のデータベースが存在している必要があります。そうでない場合、例外が発生します。
+    指定された名前のデータベースが存在している必要があります。存在しない場合、例外が発生します。
 
 - **delete_properties** (*string[]*) -
 
-    削除するプロパティ名の配列。使用可能なデータベースプロパティは次のとおりです。
+    削除するプロパティの名前を配列で指定します。使用可能なデータベースプロパティは次のとおりです。
 
-    - **database.replica.number** (*int*) -
+    - **データベース.replica.number** (*int*) -
 
-        データベースのレプリカ数。
+        データベースのレプリカ数です。
 
-    - **database.resource_groups** (*[]str*) -
+    - **データベース.resource_groups** (*[]str*) -
 
-        データベース専用の resource group。
+        データベース専用のリソースグループです。
 
-    - **database.diskQuota.mb** (*int*) -
+    - **データベース.diskQuota.mb** (*int*) -
 
-        データベースに割り当てられたディスククォータ（メガバイト（**MB**）単位）。
+        データベースに割り当てられたディスククォータです（単位はメガバイト（**MB**））。
 
-    - **database.max.collections** (*int*) -
+    - **データベース.max.コレクション** (*int*) -
 
-        データベースで許可される collection の最大数。
+        データベースで許可されるコレクションの最大数です。
 
-    - **database.force.deny.writing** (*bool*) -
+    - **データベース.force.deny.writing** (*bool*) -
 
-        データベース内のすべての書き込み操作を拒否するかどうか。
+        データベース内のすべての書き込み操作を拒否するかどうかです。
 
-    - **database.force.deny.reading** (*bool*) -
+    - **データベース.force.deny.reading** (*bool*) -
 
-        データベース内のすべての読み取り操作を拒否するかどうか。
+        データベース内のすべての読み取り操作を拒否するかどうかです。
 
 - **timeout** (*number*) -
 
-    この操作のタイムアウト時間。 
+    この操作のタイムアウト時間です。 
 
     これを **None** に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
-**RETURNS** *Promise |&lt;ResStatus&gt;*
+**戻り値** *Promise |&lt;ResStatus&gt;*
 
-このメソッドは **ResStatus** オブジェクトに解決される promise を返します。
+このメソッドは、**ResStatus** オブジェクトに解決される promise を返します。
 
 ```javascript
 {
@@ -107,21 +107,21 @@ await milvusClient.dropDatabaseProperties({
 }
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
 - **code** (*number*) -
 
-    操作結果を示すコード。この操作が成功した場合は **0** のままです。
+    操作の結果を示すコードです。この操作が成功した場合は **0** のままです。
 
 - **error_code** (*string* | *number*) -
 
-    発生したエラーを示すエラーコード。この操作が成功した場合は **Success** のままです。 
+    発生したエラーを示すエラーコードです。この操作が成功した場合は **Success** のままです。 
 
 - **reason** (*string*) - 
 
-    報告されたエラーの理由を示す内容。この操作が成功した場合は空文字列のままです。
+    報告されたエラーの理由を示します。この操作が成功した場合は空の文字列のままです。
 
-## Example\{#example}
+## 例\{#example}
 
 ```javascript
 const milvusClient = new MilvusClient({

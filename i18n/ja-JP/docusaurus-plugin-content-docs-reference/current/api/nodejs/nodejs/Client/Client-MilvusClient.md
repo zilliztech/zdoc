@@ -75,7 +75,7 @@ new MilvusClient(config: ClientConfig)
 
         gRPC の追加チャネルオプション。
 
-    - **database** (*string*) -
+    - **データベース** (*string*) -
 
         接続先のクラスターデータベース名。
 
@@ -131,7 +131,7 @@ new MilvusClient(config: ClientConfig)
 
         - **milvus** (*string*) -
 
-        - **schema** (*string*) -
+        - **スキーマ** (*string*) -
 
     - **retryDelay** (*number*) -
 
@@ -227,9 +227,9 @@ new MilvusClient(config: ClientConfig)
 new MilvusClient(config: ClientConfig)
 ```
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-- **configOrAddress** をクラスターエンドポイントに設定してください。該当する情報は、Zilliz Cloud コンソールの Cluster details で確認できます。
+- **configOrAddress** をクラスターエンドポイントに設定してください。該当する情報は、Zilliz Cloud コンソールの クラスター details で確認できます。
 
 </Admonition>
 

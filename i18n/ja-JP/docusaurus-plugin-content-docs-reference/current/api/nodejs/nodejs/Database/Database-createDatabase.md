@@ -12,7 +12,7 @@ type: docx
 token: UouKd4h01oL9Rqx73jjcHM3enSh
 sidebar_position: 2
 keywords: 
-  - milvus database
+  - milvus データベース
   - milvus lite
   - milvus benchmark
   - managed milvus
@@ -37,9 +37,9 @@ import Admonition from '@theme/Admonition';
 await milvusClient.createDatabase(data)
 ```
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-このメソッドは Dedicated Cluster にのみ適用されます。
+このメソッドは Dedicated クラスターにのみ適用されます。
 
 </Admonition>
 
@@ -59,35 +59,35 @@ await milvusClient.createDatabase({
 
     作成するデータベースの名前です。
 
-    指定した名前のデータベースが存在してはいけません。存在する場合は、例外が発生します。
+    指定した名前のデータベースが存在していてはいけません。存在する場合は、例外が発生します。
 
 - **properties** (*Object*) -
 
-    データベースの作成とともに設定するプロパティです。使用可能なデータベースプロパティは次のとおりです。
+    データベースの作成とともに設定するプロパティです。設定可能なデータベースプロパティは次のとおりです。
 
-    - **database.replica.number** (*int*) -
+    - **データベース.replica.number** (*int*) -
 
-        データベースのレプリカ数。
+        データベースのレプリカ数です。
 
-    - **database.resource_groups** (*[]str*) -
+    - **データベース.resource_groups** (*[]str*) -
 
-        データベース専用のリソースグループ。
+        データベース専用のリソースグループです。
 
-    - **database.diskQuota.mb** (*int*) -
+    - **データベース.diskQuota.mb** (*int*) -
 
-        データベースに割り当てられるディスククォータ（メガバイト（**MB**）単位）。
+        データベースに割り当てられるディスククォータ（メガバイト（**MB**）単位）です。
 
-    - **database.max.collections** (*int*) -
+    - **データベース.max.コレクション** (*int*) -
 
-        データベースで許可される collection の最大数。
+        データベースで許可されるコレクションの最大数です。
 
-    - **database.force.deny.writing** (*bool*) -
+    - **データベース.force.deny.writing** (*bool*) -
 
-        データベース内のすべての書き込み操作を拒否するかどうか。
+        データベース内のすべての書き込み操作を拒否するかどうかです。
 
-    - **database.force.deny.reading** (*bool*) -
+    - **データベース.force.deny.reading** (*bool*) -
 
-        データベース内のすべての読み取り操作を拒否するかどうか。
+        データベース内のすべての読み取り操作を拒否するかどうかです。
 
 - **timeout** (*number*) -
 

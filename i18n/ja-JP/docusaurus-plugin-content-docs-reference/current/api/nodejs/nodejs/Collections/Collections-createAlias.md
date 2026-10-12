@@ -12,10 +12,10 @@ type: docx
 token: MPuIdwujBoXM6rx7Okfc3lhZnUd
 sidebar_position: 4
 keywords: 
-  - Annoy vector search
+  - Annoy ベクトル search
   - milvus
   - Zilliz
-  - milvus vector database
+  - milvus ベクトル データベース
   - zilliz
   - zilliz cloud
   - cloud
@@ -56,7 +56,7 @@ await milvusClient.createAlias({
 
     コレクションのエイリアスです。この操作の前に、エイリアスがまだ存在していないことを確認してください。すでに存在する場合、例外が発生します。
 
-    <Admonition type="info" icon="📘" title="注">
+    <Admonition type="info" title="Note">
 
     コレクションエイリアスとは何ですか？
     

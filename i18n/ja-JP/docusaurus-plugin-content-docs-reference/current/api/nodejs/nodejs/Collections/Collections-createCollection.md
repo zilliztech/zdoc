@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、デフォルト設定またはカスタマイズ設定で collection を作成します。 | Node.js"
+description: "この操作は、デフォルト設定またはカスタマイズ設定でコレクションを作成します。 | Node.js"
 type: docx
 token: KPZZd2TiAodSeWxUdlJciHGcnbg
 sidebar_position: 5
@@ -15,7 +15,7 @@ keywords:
   - 動画類似検索
   - ベクトル検索
   - 音声類似検索
-  - Elastic vector database
+  - Elastic ベクトルデータベース
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,19 +31,19 @@ import Admonition from '@theme/Admonition';
 
 # createCollection()
 
-この操作は、デフォルト設定またはカスタマイズ設定で collection を作成します。 
+この操作は、デフォルト設定またはカスタマイズ設定でコレクションを作成します。 
 
 ```javascript
 await milvusClient.createCollection(data)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 このメソッドには以下の代替形式があります。
 
 ### With CreateColReq\{#with-createcolreq}
 
-このリクエストボディを使用すると、collection 名と vector field の次元を指定するだけで、簡単に collection を作成できます。
+このリクエストボディを使用すると、コレクション名とベクトルフィールドの次元を指定するだけで、簡単にコレクションを作成できます。
 
 ```javascript
 await milvusClient.createCollection({
@@ -71,33 +71,33 @@ await milvusClient.createCollection({
 
 - **db_name** (*string*) -
 
-    対象の collection が属するデータベースの名前です。
+    対象のコレクションが属するデータベースの名前です。
 
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    作成する collection の名前です。
+    作成するコレクションの名前です。
 
 - **dimension** (*number*) -
 
-    vector embeddings の次元数です。値は 1 より大きい整数である必要があります。collection schema をカスタマイズする必要がある場合は、これを省略してください。
+    ベクトル埋め込みの次元数です。値は 1 より大きい整数である必要があります。コレクションスキーマをカスタマイズする必要がある場合は、これを省略してください。
 
 - **auto_id** (*boolean*) - 
 
-    この collection へのデータ挿入時に、primary field を自動的にインクリメントするかどうかです。
+    このコレクションへのデータ挿入時に、プライマリフィールドを自動的にインクリメントするかどうかです。
 
-    デフォルト値は **False** です。これを **True** に設定すると、primary field は自動的にインクリメントされます。この場合、エラーを避けるため、挿入するデータに primary field を含めてはいけません。自動生成される ID は固定長であり、変更できません。
+    デフォルト値は **False** です。これを **True** に設定すると、プライマリフィールドは自動的にインクリメントされます。この場合、エラーを避けるため、挿入するデータにプライマリフィールドを含めてはいけません。自動生成される ID は固定長であり、変更できません。
 
-    このパラメータは collection をすばやくセットアップするためのもので、**schema** が **None** でない場合は無視されます。
+    このパラメータはコレクションをすばやくセットアップするためのもので、**スキーマ** が **None** でない場合は無視されます。
 
 - **consistency_level** (*number* | *string*)
 
-    対象 collection の整合性レベルです。
+    対象コレクションの整合性レベルです。
 
     デフォルト値は **Bounded** で、**Strong**、**Bounded**、**Session**、**Eventually**、**Customized** のいずれかを指定できます。
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     整合性レベルとは何ですか？
     
@@ -105,39 +105,39 @@ await milvusClient.createCollection({
     
         Zilliz Cloud は、**Strong**、**Bounded Staleness**、**Eventually** の 3 つの整合性レベルを提供しており、デフォルトは **Bounded Staleness** です。
     
-        vector 類似検索またはクエリを実行する際に、アプリケーションに最適になるよう整合性レベルを簡単に調整できます。
+        ベクトル類似検索またはクエリを実行する際に、アプリケーションに最適になるよう整合性レベルを簡単に調整できます。
 
     </Admonition>
 
 - **description** (*string)* -
 
-    作成する collection の説明です。
+    作成するコレクションの説明です。
 
 - **enable_dynamic_field** (*boolean)* -
 
-    予約済み JSON field **&#36;meta** を使用して、未定義の field とその値をキーと値のペアで保存するかどうかです。
+    予約済み JSON フィールド **&#36;meta** を使用して、未定義のフィールドとその値をキーと値のペアで保存するかどうかです。
 
-    デフォルト値は **True** で、meta field が使用されることを示します。
+    デフォルト値は **True** で、メタフィールドが使用されることを示します。
 
 - **id_type** (*Int64* | *VarChar*) -
 
-    primary field のデータ型です。
+    プライマリフィールドのデータ型です。
 
 - **index_params** (*CreatIndexParam*) -
 
-    作成する collection の index パラメータです。
+    作成するコレクションのインデックスパラメータです。
 
 - **metric_type** (*string*) -
 
-    metric type は、vector embeddings 間の類似性をどのように測定するかを決定します。
+    メトリクスタイプは、ベクトル埋め込み間の類似性をどのように測定するかを決定します。
 
 - **primary_field_name** (*string*) -
 
-    primary field のカスタム名です。
+    プライマリフィールドのカスタム名です。
 
 - **vector_field_name** (*string*) -
 
-    vector field のカスタム名です。
+    ベクトルフィールドのカスタム名です。
 
 - **timeout** (number) -
 
@@ -145,23 +145,23 @@ await milvusClient.createCollection({
 
 - **external_source** (*string*) -
 
-    外部ソースパスです。これは external collection の作成に適用されます。
+    外部ソースパスです。これは外部コレクションの作成に適用されます。
 
 - **external_spec** (*string*) -
 
-    external spec 設定です。これは external collection の作成に適用されます。
+    外部スペック設定です。これは外部コレクションの作成に適用されます。
 
 - **do_physical_backfill** (*boolean*) -
 
-    外部データを物理的にバックフィルするかどうかです。これは external collection の作成に適用されます。
+    外部データを物理的にバックフィルするかどうかです。これは外部コレクションの作成に適用されます。
 
 - **file_resource_ids** (*Array&lt;number | string&gt;*) -
 
-    外部ファイルリソース ID です。これは external collection の作成に適用されます。
+    外部ファイルリソース ID です。これは外部コレクションの作成に適用されます。
 
 ### With CreateCollectionReq\{#with-createcollectionreq}
 
-このリクエストボディを使用すると、collection の schema 設定をカスタマイズできます。
+このリクエストボディを使用すると、コレクションのスキーマ設定をカスタマイズできます。
 
 ```javascript
 await milvusClient.createCollection({
@@ -220,21 +220,21 @@ await milvusClient.createCollection({
 
 - **db_name** (*string*) -
 
-    対象の collection が属するデータベースの名前です。
+    対象のコレクションが属するデータベースの名前です。
 
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    作成する collection の名前です。
+    作成するコレクションの名前です。
 
 - **consistency_level** (*number* | *string*)
 
-    対象 collection の整合性レベルです。
+    対象コレクションの整合性レベルです。
 
     デフォルト値は **Bounded** で、**Strong**、**Bounded**、**Session**、**Eventually**、**Customized** のいずれかを指定できます。
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     整合性レベルとは何ですか？
     
@@ -242,89 +242,89 @@ await milvusClient.createCollection({
     
         Zilliz Cloud は、**Strong**、**Bounded Staleness**、**Eventually** の 3 つの整合性レベルを提供しており、デフォルトは **Bounded Staleness** です。
     
-        vector 類似検索またはクエリを実行する際に、アプリケーションに最適になるよう整合性レベルを簡単に調整できます。
+        ベクトル類似検索またはクエリを実行する際に、アプリケーションに最適になるよう整合性レベルを簡単に調整できます。
 
     </Admonition>
 
 - **description** (*string)* -
 
-    作成する collection の説明です。
+    作成するコレクションの説明です。
 
 - **enable_dynamic_field** (*boolean)* -
 
-    予約済み JSON field **&#36;meta** を使用して、未定義の field とその値をキーと値のペアで保存するかどうかです。
+    予約済み JSON フィールド **&#36;meta** を使用して、未定義のフィールドとその値をキーと値のペアで保存するかどうかです。
 
-    デフォルト値は **True** で、meta field が使用されることを示します。
+    デフォルト値は **True** で、メタフィールドが使用されることを示します。
 
-- **schema** (*FieldType[]*) -
+- **スキーマ** (*FieldType[]*) -
 
     - **name** (*string)* -
 
-        field の名前です。
+        フィールドの名前です。
 
     - **data_type** (*string)* -
 
-        field のデータ型です。使用可能なすべてのデータ型の一覧については、[DataType](./Collections-DataType) を参照してください。
+        フィールドのデータ型です。使用可能なすべてのデータ型の一覧については、[DataType](./Collections-DataType) を参照してください。
 
     - **description** (*string)* -
 
-        field の説明です。
+        フィールドの説明です。
 
     - **is_partition_key** (*boolean)* -
 
-        この field が partition key field として機能するかどうかを示すブール値です。
+        このフィールドがパーティションキーフィールドとして機能するかどうかを示すブール値です。
 
     - **is_primary_key** (*boolean)* -
 
-        この field が primary key として機能するかどうかです。
+        このフィールドがプライマリキーとして機能するかどうかです。
 
-        デフォルト値は **False** です。これを **True** に設定すると、この field は collection 全体で一意の primary key field になります。
+        デフォルト値は **False** です。これを **True** に設定すると、このフィールドはコレクション全体で一意のプライマリキーフィールドになります。
 
     - **is_function_output** (boolean) -
 
-        この field が関数の出力 field として機能するかどうかです。
+        このフィールドが関数の出力フィールドとして機能するかどうかです。
 
     - **type_params** (*string* | *number)* -
 
-        field のその他のパラメータです。
+        フィールドのその他のパラメータです。
 
         - **dim** (*string* | *number*) -
 
-            vector embeddings を保持する collection field の次元数です。 
+            ベクトル埋め込みを保持するコレクションフィールドの次元数です。 
 
-            値は 1 より大きい整数である必要があり、通常は vector embeddings の生成に使用するモデルによって決まります。
+            値は 1 より大きい整数である必要があり、通常はベクトル埋め込みの生成に使用するモデルによって決まります。
 
         - **element_type** (string) -
 
             配列内の要素のデータ型です。 
 
-            このパラメータは、現在の field が array field の場合に適用されます。
+            このパラメータは、現在のフィールドが配列フィールドの場合に適用されます。
 
         - **max_capacity** (*string* | *number)* -
 
             配列内の要素数です。
 
-            このパラメータは、現在の field が array field の場合に適用されます。
+            このパラメータは、現在のフィールドが配列フィールドの場合に適用されます。
 
         - **max_length** (*string*) -
 
-            この field 内の文字列の最大長です。
+            このフィールド内の文字列の最大長です。
 
-            この field の **data_type** が **VarChar** の場合は必須です。
+            このフィールドの **data_type** が **VarChar** の場合は必須です。
 
         - **enable_analyzer** (*boolean*) -
 
-            指定された `VarChar` field に対してテキスト解析を有効にするかどうかです。`true` に設定すると、Milvus にテキストアナライザーの使用を指示し、field のテキスト内容をトークン化およびフィルタリングします。
+            指定された `VarChar` フィールドに対してテキスト解析を有効にするかどうかです。`true` に設定すると、Milvus にテキストアナライザーの使用を指示し、フィールドのテキスト内容をトークン化およびフィルタリングします。
 
         - **enable_match** (*boolean*)
 
-            指定された `VarChar` field に対してキーワードマッチングを有効にするかどうかです。`true` に設定すると、Milvus はその field に inverted index を作成し、高速かつ効率的なキーワード検索を可能にします。`enable_match` は `enable_analyzer` と連携して動作し、`enable_analyzer` がトークン化を担当し、`enable_match` がそれらのトークンに対する検索操作を担当することで、構造化された用語ベースのテキスト検索を提供します。
+            指定された `VarChar` フィールドに対してキーワードマッチングを有効にするかどうかです。`true` に設定すると、Milvus はそのフィールドに転置インデックスを作成し、高速かつ効率的なキーワード検索を可能にします。`enable_match` は `enable_analyzer` と連携して動作し、`enable_analyzer` がトークン化を担当し、`enable_match` がそれらのトークンに対する検索操作を担当することで、構造化された用語ベースのテキスト検索を提供します。
 
         - **analyzer_params** (*object*)
 
-            テキスト処理用の analyzer を設定します。特に `VarChar` fields を対象とします。このパラメータは、主に [keyword matching](https://milvus.io/docs/keyword-match.md) または [full text search](https://milvus.io/docs/full-text-search.md) に使用されるテキスト field の tokenizer と filter の設定を構成します。analyzer の種類に応じて、次のいずれかの方法で設定できます。
+            テキスト処理用のアナライザーを設定します。特に `VarChar` フィールドを対象とします。このパラメータは、主に [keyword matching](https://milvus.io/docs/keyword-match.md) または [full text search](https://milvus.io/docs/full-text-search.md) に使用されるテキストフィールドのトークナイザーとフィルターの設定を構成します。アナライザーの種類に応じて、次のいずれかの方法で設定できます。
 
-            - Built-in analyzer
+            - 組み込みアナライザー
 
                 ```javascript
                 const analyzer_params: { type: 'english' };
@@ -332,9 +332,9 @@ await milvusClient.createCollection({
 
                 - `type` (*string*) -
 
-                    Milvus に組み込まれた事前設定済み analyzer type です。名前を指定するだけですぐに使用できます。指定可能な値: `standard`, `english`, `chinese`。詳細は [Standard Analyzer](https://milvus.io/docs/standard-analyzer.md)、[English Analyzer](https://milvus.io/docs/english-analyzer.md)、[Chinese Analyzer](https://milvus.io/docs/chinese-analyzer.md) を参照してください。
+                    Milvus に組み込まれた事前設定済みアナライザータイプです。名前を指定するだけですぐに使用できます。指定可能な値: `standard`, `english`, `chinese`。詳細は [Standard Analyzer](https://milvus.io/docs/standard-analyzer.md)、[English Analyzer](https://milvus.io/docs/english-analyzer.md)、[Chinese Analyzer](https://milvus.io/docs/chinese-analyzer.md) を参照してください。
 
-            - Custom analyzer
+            - カスタムアナライザー
 
                 ```javascript
                 const analyzer_params: {
@@ -345,15 +345,15 @@ await milvusClient.createCollection({
 
                 - `tokenizer` (*string*) -
 
-                    tokenizer type を定義します。指定可能な値: `standard` (デフォルト)、`whitespace`、`jieba`。詳細は [Standard Tokenizer](https://milvus.io/docs/standard-tokenizer.md)、[Whitespace Tokenizer](https://milvus.io/docs/whitespace-tokenizer.md)、[Jieba Tokenizer](https://milvus.io/docs/jieba-tokenizer.md) を参照してください。
+                    トークナイザータイプを定義します。指定可能な値: `standard` （デフォルト）、`whitespace`、`jieba`。詳細は [Standard Tokenizer](https://milvus.io/docs/standard-tokenizer.md)、[Whitespace Tokenizer](https://milvus.io/docs/whitespace-tokenizer.md)、[Jieba Tokenizer](https://milvus.io/docs/jieba-tokenizer.md) を参照してください。
 
                 - `filter` (*list*) -
 
-                    tokenizer によって生成されたトークンを絞り込むための filter の一覧で、組み込み filter とカスタム filter のオプションがあります。詳細は [Alphanumonly Filter](https://milvus.io/docs/alphanumonly-filer.md) などを参照してください。
+                    トークナイザーによって生成されたトークンを絞り込むためのフィルターの一覧で、組み込みフィルターとカスタムフィルターのオプションがあります。詳細は [Alphanumonly Filter](https://milvus.io/docs/alphanumonly-filer.md) などを参照してください。
 
         - **multi_analyzer_params** (*object*) -
 
-            テキスト処理のために複数の analyzer を設定します。このパラメータの値は単一の JSON オブジェクトで、Milvus が各エンティティに対して適切な analyzer をどのように選択するかを決定します。
+            テキスト処理のために複数のアナライザーを設定します。このパラメータの値は単一の JSON オブジェクトで、Milvus が各エンティティに対して適切なアナライザーをどのように選択するかを決定します。
 
             ```javascript
             const multi_analyzer_params = {
@@ -374,31 +374,31 @@ await milvusClient.createCollection({
 
     - **autoID** (*boolean)* -
 
-        この collection へのデータ挿入時に、primary field を自動的にインクリメントするかどうかです。
+        このコレクションへのデータ挿入時に、プライマリフィールドを自動的にインクリメントするかどうかです。
 
-        デフォルト値は **False** です。これを **True** に設定すると、primary field は自動的にインクリメントされます。カスタマイズした schema で collection をセットアップする必要がある場合は、このパラメータを省略してください。
+        デフォルト値は **False** です。これを **True** に設定すると、プライマリフィールドは自動的にインクリメントされます。カスタマイズしたスキーマでコレクションをセットアップする必要がある場合は、このパラメータを省略してください。
 
     - **nullable** (*boolean*) -
 
-        この field が null 値を受け入れられるかどうかを指定するブールパラメータです。有効な値は次のとおりです。
+        このフィールドが null 値を受け入れられるかどうかを指定するブールパラメータです。有効な値は次のとおりです。
 
-        - **true**: field は null 値を含むことができ、field が任意であり、エントリに欠損データが許可されることを示します。
+        - **true**: フィールドは null 値を含むことができ、フィールドが任意であり、エントリに欠損データが許可されることを示します。
 
-        - **false** (デフォルト): field は各エンティティに対して有効な値を含まなければならず、欠損データは許可されないため、field は必須になります。
+        - **false** （デフォルト）: フィールドは各エンティティに対して有効な値を含まなければならず、欠損データは許可されないため、フィールドは必須になります。
 
         詳細は [Nullable & Default](https://milvus.io/docs/nullable-and-default.md) を参照してください。
 
     - **default_value** (*object*)
 
-        collection schema の作成時に、特定の field にデフォルト値を設定します。これは、データ挿入時に値が明示的に指定されていなくても、特定の field に初期値を持たせたい場合に特に便利です。
+        コレクションスキーマの作成時に、特定のフィールドにデフォルト値を設定します。これは、データ挿入時に値が明示的に指定されていなくても、特定のフィールドに初期値を持たせたい場合に特に便利です。
 
 - **functions** (*list*)
 
-    データを vector embeddings に変換します。この関数は collection の schema に追加されます。
+    データをベクトル埋め込みに変換します。この関数はコレクションのスキーマに追加されます。
 
     - **name** (*string*)
 
-        関数の名前です。この識別子は、クエリおよび collection 内で関数を参照するために使用されます。
+        関数の名前です。この識別子は、クエリおよびコレクション内で関数を参照するために使用されます。
 
     - **description** (*string*)
 
@@ -408,79 +408,79 @@ await milvusClient.createCollection({
 
         生データを処理する関数のタイプです。指定可能な値:
 
-        - `FunctionType.BM25`: `VARCHAR` field から sparse embeddings を生成するために BM25 アルゴリズムを使用します。
+        - `FunctionType.BM25`: `VARCHAR` フィールドからスパース埋め込みを生成するために BM25 アルゴリズムを使用します。
 
     - **input_field_names** (*string[]*)
 
-        vector 表現への変換が必要な生データを含む field の名前です。`FunctionType.BM25` を使用する関数では、このパラメータは 1 つの field 名のみを受け付けます。
+        ベクトル表現への変換が必要な生データを含むフィールドの名前です。`FunctionType.BM25` を使用する関数では、このパラメータは 1 つのフィールド名のみを受け付けます。
 
     - **output_field_names** (*string[]*)
 
-        生成された embeddings が保存される field の名前です。これは collection schema で定義された vector field に対応している必要があります。`FunctionType.BM25` を使用する関数では、このパラメータは 1 つの field 名のみを受け付けます。
+        生成された埋め込みが保存されるフィールドの名前です。これはコレクションスキーマで定義されたベクトルフィールドに対応している必要があります。`FunctionType.BM25` を使用する関数では、このパラメータは 1 つのフィールド名のみを受け付けます。
 
 - **num_partitions** (*number)* -
 
-    collection に作成する partition 数です。
+    コレクションに作成するパーティション数です。
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
-    partitioning とは何ですか？
+    パーティショニングとは何ですか？
     
-        データ partitioning は、特定の基準に基づいてデータを整理するために使用される手法です。データ partitioning を使用すると、partitions を個別に作成、ロード、解放、削除できるほか、それらの中で検索やクエリを実行できます。
+        データパーティショニングは、特定の基準に基づいてデータを整理するために使用される手法です。データパーティショニングを使用すると、パーティションを個別に作成、ロード、解放、削除できるほか、それらの中で検索やクエリを実行できます。
 
     </Admonition>
 
 - **partition_key_field** (*string*) -
 
-    partition key として機能する field の名前です。
+    パーティションキーとして機能するフィールドの名前です。
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
-    partition key とは何ですか？
+    パーティションキーとは何ですか？
     
-        partition key は、キー値に基づいてエンティティを異なる partitions に保存するために使用されます。言い換えると、partition key は同じキーを持つエンティティをまとめ、キー field でフィルタリングする際に無関係な partitions のスキャンを回避できます。partition keys は、従来のフィルタリング方法と比較してクエリ性能を大幅に向上させることができます。
+        パーティションキーは、キー値に基づいてエンティティを異なるパーティションに保存するために使用されます。言い換えると、パーティションキーは同じキーを持つエンティティをまとめ、キーフィールドでフィルタリングする際に無関係なパーティションのスキャンを回避できます。パーティションキーは、従来のフィルタリング方法と比較してクエリ性能を大幅に向上させることができます。
 
     </Admonition>
 
 - **shards_num** (*number)* -
 
-    この collection の作成とあわせて作成する shards の数です。 
+    このコレクションの作成とあわせて作成するシャードの数です。 
 
-    デフォルト値は **1** で、この collection とともに 1 つの shard が作成されることを示します。
+    デフォルト値は **1** で、このコレクションとともに 1 つのシャードが作成されることを示します。
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
-    sharding とは何ですか？
+    シャーディングとは何ですか？
     
-        sharding とは、データ書き込みにおける Milvus cluster の並列計算能力を最大限活用するために、書き込み操作を異なるノードに分散することを指します。
+        シャーディングとは、データ書き込みにおける Milvus クラスターの並列計算能力を最大限活用するために、書き込み操作を異なるノードに分散することを指します。
     
-        デフォルトでは、1 つの collection は 1 つの shard を含みます。
+        デフォルトでは、1 つのコレクションは 1 つのシャードを含みます。
 
     </Admonition>
 
 - **properties** (Record&lt;string, string | number | boolean&gt;) 
 
-    collection の追加プロパティをキーと値のペアで指定します。指定可能な値は次のとおりです。
+    コレクションの追加プロパティをキーと値のペアで指定します。指定可能な値は次のとおりです。
 
-    - **collection.ttl.seconds** (*number*) -
+    - **コレクション.ttl.seconds** (*number*) -
 
-        現在の collection の有効期限（TTL）を秒単位で指定します。
+        現在のコレクションの有効期限（TTL）を秒単位で指定します。
 
     - **mmap.enabled** (*boolean*) -
 
-        collection 全体で mmap を有効にするかどうかです。
+        コレクション全体で mmap を有効にするかどうかです。
 
     - **partitionkey.isolation** (*boolean*) -
 
-        partition key の分離を有効にするかどうかです。
+        パーティションキーの分離を有効にするかどうかです。
 
     - **dynamicfield.enabled** (*boolean*) -
 
-        dynamic field を有効にするかどうかです。
+        動的フィールドを有効にするかどうかです。
 
     - **allow_insert_auto_id** (*boolean*) -
 
-        autoID が有効なときに primary key の挿入を許可するかどうかです。
+        autoID が有効なときにプライマリキーの挿入を許可するかどうかです。
 
 - **timeout** (*float* | *None*) -
 
@@ -488,23 +488,23 @@ await milvusClient.createCollection({
 
 - **external_source** (*string*) -
 
-    外部ソースパスです。これは external collection の作成に適用されます。
+    外部ソースパスです。これは外部コレクションの作成に適用されます。
 
 - **external_spec** (*string*) -
 
-    external spec 設定です。これは external collection の作成に適用されます。
+    外部スペック設定です。これは外部コレクションの作成に適用されます。
 
 - **do_physical_backfill** (*boolean*) -
 
-    外部データを物理的にバックフィルするかどうかです。これは external collection の作成に適用されます。
+    外部データを物理的にバックフィルするかどうかです。これは外部コレクションの作成に適用されます。
 
 - **file_resource_ids** (*Array&lt;number | string&gt;*) -
 
-    外部ファイルリソース ID です。これは external collection の作成に適用されます。
+    外部ファイルリソース ID です。これは外部コレクションの作成に適用されます。
 
 ### With CreateCollectionWithSchemaAndIndexParamsReq\{#with-createcollectionwithschemaandindexparamsreq}
 
-このリクエストボディを使用すると、collection の schema と index 設定をカスタマイズできます。作成時に、collection は自動的にロードされます。
+このリクエストボディを使用すると、コレクションのスキーマとインデックス設定をカスタマイズできます。作成時に、コレクションは自動的にロードされます。
 
 ```javascript
 await milvusClient.createCollection({
@@ -567,21 +567,21 @@ await milvusClient.createCollection({
 
 - **db_name** (*string*) -
 
-    対象 collection が属する database の名前です。
+    対象コレクションが属するデータベースの名前です。
 
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    作成する collection の名前です。
+    作成するコレクションの名前です。
 
 - **consistency_level** (*number* | *string*)
 
-    対象 collection の整合性レベルです。
+    対象コレクションの整合性レベルです。
 
     デフォルト値は **Bounded** で、**Strong**、**Bounded**、**Session**、**Eventually**、**Customized** を指定できます。
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
     整合性レベルとは何ですか？
     
@@ -595,47 +595,47 @@ await milvusClient.createCollection({
 
 - **description** (*string)* -
 
-    作成する collection の説明です。
+    作成するコレクションの説明です。
 
 - **enable_dynamic_field** (*boolean)* -
 
-    **&#36;meta** という名前の予約済み JSON field を使用して、未定義の field とその値をキーと値のペアで保存するかどうかです。
+    **&#36;meta** という名前の予約済み JSON フィールドを使用して、未定義のフィールドとその値をキーと値のペアで保存するかどうかです。
 
-    デフォルト値は **True** で、meta field が使用されることを示します。
+    デフォルト値は **True** で、メタフィールドが使用されることを示します。
 
-- **schema** (*FieldType[]*) -
+- **スキーマ** (*FieldType[]*) -
 
     - **name** (*string)* -
 
-        field の名前です。
+        フィールドの名前です。
 
     - **data_type** (*string)* -
 
-        field のデータ型です。使用可能なすべてのデータ型の一覧については、[DataType](./Collections-DataType) を参照してください。
+        フィールドのデータ型です。使用可能なすべてのデータ型の一覧については、[DataType](./Collections-DataType) を参照してください。
 
     - **description** (*string)* -
 
-        field の説明です。
+        フィールドの説明です。
 
     - **is_partition_key** (*boolean)* -
 
-        この field を partition key field として使用するかどうかを示す真偽値です。
+        このフィールドをパーティションキーフィールドとして使用するかどうかを示す真偽値です。
 
     - **is_primary_key** (*boolean)* -
 
-        この field を主キーとして使用するかどうかです。
+        このフィールドを主キーとして使用するかどうかです。
 
     - **is_function_output** (boolean) -
 
-        この field が関数の出力 field として機能するかどうかです。
+        このフィールドが関数の出力フィールドとして機能するかどうかです。
 
     - **type_params** (*string* | *number)* -
 
-        field のその他のパラメーターです。
+        フィールドのその他のパラメーターです。
 
         - **dim** (*string* | *number*) -
 
-            ベクトル埋め込みを保持する collection field の次元数です。 
+            ベクトル埋め込みを保持するコレクションフィールドの次元数です。 
 
             値は 1 より大きい整数である必要があり、通常はベクトル埋め込みの生成に使用するモデルによって決まります。
 
@@ -643,33 +643,33 @@ await milvusClient.createCollection({
 
             配列内の要素のデータ型です。 
 
-            このパラメーターは、現在の field が配列 field の場合に適用されます。
+            このパラメーターは、現在のフィールドが配列フィールドの場合に適用されます。
 
         - **max_capacity** (*string* | *number)* -
 
             配列内の要素数です。
 
-            このパラメーターは、現在の field が配列 field の場合に適用されます。
+            このパラメーターは、現在のフィールドが配列フィールドの場合に適用されます。
 
         - **max_length** (*string*) -
 
-            この field 内の文字列の最大長です。
+            このフィールド内の文字列の最大長です。
 
-            この field の **data_type** が **VarChar** の場合に必須です。
+            このフィールドの **data_type** が **VarChar** の場合に必須です。
 
         - **enable_analyzer** (*boolean*) -
 
-            指定した `VarChar` field に対してテキスト解析を有効にするかどうかです。`true` に設定すると、Milvus はテキスト analyzer を使用して、その field のテキスト内容をトークン化およびフィルタリングします。
+            指定した `VarChar` フィールドに対してテキスト解析を有効にするかどうかです。`true` に設定すると、Milvus はテキストアナライザーを使用して、そのフィールドのテキスト内容をトークン化およびフィルタリングします。
 
         - **enable_match** (*boolean*)
 
-            指定した `VarChar` field に対してキーワードマッチングを有効にするかどうかです。`true` に設定すると、Milvus はその field に対して inverted index を作成し、高速かつ効率的なキーワード検索を可能にします。`enable_match` は `enable_analyzer` と連携して、構造化された用語ベースのテキスト検索を提供します。`enable_analyzer` がトークン化を処理し、`enable_match` がそれらのトークンに対する検索操作を処理します。
+            指定した `VarChar` フィールドに対してキーワードマッチングを有効にするかどうかです。`true` に設定すると、Milvus はそのフィールドに対して転置インデックスを作成し、高速かつ効率的なキーワード検索を可能にします。`enable_match` は `enable_analyzer` と連携して、構造化された用語ベースのテキスト検索を提供します。`enable_analyzer` がトークン化を処理し、`enable_match` がそれらのトークンに対する検索操作を処理します。
 
         - **analyzer_params** (*object*)
 
-            テキスト処理用の analyzer を設定します。特に `VarChar` fields に対して使用されます。このパラメーターは tokenizer と filter の設定を構成し、とくに [keyword matching](https://milvus.io/docs/keyword-match.md) や [full text search](https://milvus.io/docs/full-text-search.md) で使用されるテキスト field に適用されます。analyzer の種類に応じて、次のいずれかの方法で設定できます。
+            テキスト処理用のアナライザーを設定します。特に `VarChar` フィールドに対して使用されます。このパラメーターはトークナイザーとフィルターの設定を構成し、とくに [keyword matching](https://milvus.io/docs/keyword-match.md) や [full text search](https://milvus.io/docs/full-text-search.md) で使用されるテキストフィールドに適用されます。アナライザーの種類に応じて、次のいずれかの方法で設定できます。
 
-            - 組み込み analyzer
+            - 組み込みアナライザー
 
                 ```javascript
                 const analyzer_params: { type: 'english' };
@@ -677,9 +677,9 @@ await milvusClient.createCollection({
 
                 - `type` (*string*) -
 
-                    Milvus に組み込まれた事前設定済みの analyzer タイプで、名前を指定するだけですぐに使用できます。指定可能な値: `standard`, `english`, `chinese`。詳細は [Standard Analyzer](https://milvus.io/docs/standard-analyzer.md)、[English Analyzer](https://milvus.io/docs/english-analyzer.md)、[Chinese Analyzer](https://milvus.io/docs/chinese-analyzer.md) を参照してください。
+                    Milvus に組み込まれた事前設定済みのアナライザータイプで、名前を指定するだけですぐに使用できます。指定可能な値: `standard`, `english`, `chinese`。詳細は [Standard Analyzer](https://milvus.io/docs/standard-analyzer.md)、[English Analyzer](https://milvus.io/docs/english-analyzer.md)、[Chinese Analyzer](https://milvus.io/docs/chinese-analyzer.md) を参照してください。
 
-            - カスタム analyzer
+            - カスタムアナライザー
 
                 ```javascript
                 const analyzer_params: {
@@ -690,15 +690,15 @@ await milvusClient.createCollection({
 
                 - `tokenizer` (*string*) -
 
-                    tokenizer のタイプを定義します。指定可能な値: `standard` (デフォルト)、`whitespace`、`jieba`。詳細は [Standard Tokenizer](https://milvus.io/docs/standard-tokenizer.md)、[Whitespace Tokenizer](https://milvus.io/docs/whitespace-tokenizer.md)、[Jieba Tokenizer](https://milvus.io/docs/jieba-tokenizer.md) を参照してください。
+                    トークナイザーのタイプを定義します。指定可能な値: `standard` （デフォルト）、`whitespace`、`jieba`。詳細は [Standard Tokenizer](https://milvus.io/docs/standard-tokenizer.md)、[Whitespace Tokenizer](https://milvus.io/docs/whitespace-tokenizer.md)、[Jieba Tokenizer](https://milvus.io/docs/jieba-tokenizer.md) を参照してください。
 
                 - `filter` (*list*) -
 
-                    tokenizer によって生成されたトークンを絞り込むための filters を一覧表示します。組み込み filter とカスタム filter を使用できます。詳細は [Alphanumonly Filter](https://milvus.io/docs/alphanumonly-filer.md) などを参照してください。
+                    トークナイザーによって生成されたトークンを絞り込むためのフィルターを一覧表示します。組み込みフィルターとカスタムフィルターを使用できます。詳細は [Alphanumonly Filter](https://milvus.io/docs/alphanumonly-filer.md) などを参照してください。
 
         - **multi_analyzer_params** (*object*) -
 
-            テキスト処理用に複数の analyzer を設定します。このパラメーターの値は単一の JSON object で、Milvus が各 entity に対して適切な analyzer をどのように選択するかを決定します。
+            テキスト処理用に複数のアナライザーを設定します。このパラメーターの値は単一の JSON オブジェクト で、Milvus が各エンティティに対して適切なアナライザーをどのように選択するかを決定します。
 
             ```javascript
             const multi_analyzer_params = {
@@ -719,31 +719,31 @@ await milvusClient.createCollection({
 
     - **autoID** (*boolean)* -
 
-        この collection へのデータ挿入時に、primary field を自動インクリメントするかどうかです。
+        このコレクションへのデータ挿入時に、プライマリフィールドを自動インクリメントするかどうかです。
 
-        デフォルト値は **False** です。これを **True** に設定すると、primary field は自動インクリメントされます。カスタマイズされた schema を持つ collection を設定する必要がある場合は、このパラメーターをスキップしてください。
+        デフォルト値は **False** です。これを **True** に設定すると、プライマリフィールドは自動インクリメントされます。カスタマイズされたスキーマを持つコレクションを設定する必要がある場合は、このパラメーターをスキップしてください。
 
     - **nullable** (*boolean*) -
 
-        field が null 値を受け入れられるかどうかを指定する Boolean パラメーターです。有効な値は次のとおりです。
+        フィールドが null 値を受け入れられるかどうかを指定するブール値のパラメーターです。有効な値は次のとおりです。
 
-        - **true**: field は null 値を含むことができます。これは field がオプションであり、エントリに欠損データが許可されることを示します。
+        - **true**: フィールドは null 値を含むことができます。これはフィールドがオプションであり、エントリに欠損データが許可されることを示します。
 
-        - **false** (デフォルト): field は各 entity に対して有効な値を含む必要があります。欠損データは許可されず、field は必須になります。
+        - **false** （デフォルト）: フィールドは各エンティティに対して有効な値を含む必要があります。欠損データは許可されず、フィールドは必須になります。
 
         詳細は [Nullable & Default](https://milvus.io/docs/nullable-and-default.md) を参照してください。
 
     - **default_value** (*[DataType](./Collections-DataType)*)
 
-        collection schema の作成時に、特定の field にデフォルト値を設定します。これは、データ挿入時に明示的に値が指定されない場合でも、特定の field に初期値を持たせたい場合に特に便利です。
+        コレクションスキーマの作成時に、特定のフィールドにデフォルト値を設定します。これは、データ挿入時に明示的に値が指定されない場合でも、特定のフィールドに初期値を持たせたい場合に特に便利です。
 
 - **functions** (*list*)
 
-    データをベクトル埋め込みに変換します。この関数は collection の schema に追加されます。
+    データをベクトル埋め込みに変換します。この関数はコレクションのスキーマに追加されます。
 
     - **name** (*string*)
 
-        関数の名前です。この識別子は、クエリおよび collection 内で関数を参照するために使用されます。
+        関数の名前です。この識別子は、クエリおよびコレクション内で関数を参照するために使用されます。
 
     - **description** (*string*)
 
@@ -753,103 +753,103 @@ await milvusClient.createCollection({
 
         生データを処理する関数の種類です。指定可能な値:
 
-        - `FunctionType.BM25`: `VARCHAR` field から sparse embeddings を生成するために BM25 アルゴリズムを使用します。
+        - `FunctionType.BM25`: `VARCHAR` フィールドからスパース埋め込みを生成するために BM25 アルゴリズムを使用します。
 
     - **input_field_names** (*string[]*)
 
-        ベクトル表現への変換が必要な生データを含む field の名前です。`FunctionType.BM25` を使用する関数では、このパラメーターは 1 つの field 名のみを受け入れます。
+        ベクトル表現への変換が必要な生データを含むフィールドの名前です。`FunctionType.BM25` を使用する関数では、このパラメーターは 1 つのフィールド名のみを受け入れます。
 
     - **output_field_names** (*string[]*)
 
-        生成された埋め込みが保存される field の名前です。これは collection schema で定義された vector field に対応している必要があります。`FunctionType.BM25` を使用する関数では、このパラメーターは 1 つの field 名のみを受け入れます。
+        生成された埋め込みが保存されるフィールドの名前です。これはコレクションスキーマで定義されたベクトルフィールドに対応している必要があります。`FunctionType.BM25` を使用する関数では、このパラメーターは 1 つのフィールド名のみを受け入れます。
 
 - **num_partitions** (*number)* -
 
-    collection に作成する partitions の数です。
+    コレクションに作成するパーティションの数です。
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
-    partitioning とは何ですか？
+    パーティショニングとは何ですか？
     
-        データ partitioning は、特定の基準に基づいてデータを整理するための手法です。データ partitioning を使用すると、partitions を個別に作成、ロード、解放、削除できるほか、その中で検索やクエリを実行できます。
+        データパーティショニングは、特定の基準に基づいてデータを整理するための手法です。データパーティショニングを使用すると、パーティションを個別に作成、ロード、解放、削除できるほか、その中で検索やクエリを実行できます。
 
     </Admonition>
 
 - **partition_key_field** (*boolean)* -
 
-    partition key を有効にするかどうかを示す真偽値です。
+    パーティションキーを有効にするかどうかを示す真偽値です。
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
-    partition key とは何ですか？
+    パーティションキーとは何ですか？
     
-        partition key は、その key 値に基づいて entities を異なる partitions に格納するために使用されます。つまり、partition key は同じ key を持つ entities をまとめ、key field でフィルタリングする際には無関係な partitions のスキャンを回避できます。partition keys は、従来のフィルタリング方法と比較してクエリ性能を大幅に向上させることができます。
+        パーティションキーは、そのキー値に基づいてエンティティを異なるパーティションに格納するために使用されます。つまり、パーティションキーは同じキーを持つエンティティをまとめ、キーフィールドでフィルタリングする際には無関係なパーティションのスキャンを回避できます。パーティションキーは、従来のフィルタリング方法と比較してクエリ性能を大幅に向上させることができます。
 
     </Admonition>
 
 - **shards_num** (*number)* -
 
-    この collection の作成と同時に作成する shards の数です。 
+    このコレクションの作成に合わせて作成するシャードの数です。 
 
-    デフォルト値は **1** で、この collection とともに 1 つの shard が作成されることを示します。
+    デフォルト値は **1** で、このコレクションとともに 1 つのシャードが作成されることを示します。
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" title="Note">
 
-    sharding とは何ですか？
+    シャーディングとは何ですか？
     
-        sharding とは、データ書き込みのために Milvus cluster の並列計算能力を最大限に活用できるよう、書き込み操作を異なるノードに分散することを指します。
+        シャーディングとは、データ書き込みのために Milvus クラスターの並列計算能力を最大限に活用できるよう、書き込み操作を異なるノードに分散することを指します。
     
-        デフォルトでは、collection には 1 つの shard が含まれます。
+        デフォルトでは、コレクションには 1 つのシャードが含まれます。
 
     </Admonition>
 
 - **properties** (Record&lt;string, string | number | boolean&gt;) 
 
-    collection の追加プロパティをキーと値のペアで指定します。指定可能な値は次のとおりです。
+    コレクションの追加プロパティをキーと値のペアで指定します。指定可能な値は次のとおりです。
 
-    - **collection.ttl.seconds** (*number*) -
+    - **コレクション.ttl.seconds** (*number*) -
 
-        現在の collection の有効期限（秒）です。
+        現在のコレクションの有効期限（秒）です。
 
     - **mmap.enabled** (*boolean*) -
 
-        collection 全体で mmap を有効にするかどうかです。
+        コレクション全体で mmap を有効にするかどうかです。
 
     - **partitionkey.isolation** (*boolean*) -
 
-        partition key isolation を有効にするかどうかです。
+        パーティションキーの分離を有効にするかどうかです。
 
     - **dynamicfield.enabled** (*boolean*) -
 
-        dynamic field を有効にするかどうかです。
+        動的フィールドを有効にするかどうかです。
 
     - **allow_insert_auto_id** (*boolean*) -
 
-        autoID が有効な場合に primary key の挿入を許可するかどうかです。
+        autoID が有効な場合にプライマリキーの挿入を許可するかどうかです。
 
 - **index_params** (*CreateIndexSimpleReq[]* | *CreateIndexSimpleReq*)
 
-    index パラメーターです。
+    インデックスパラメーターです。
 
     - **field_name** (*string*) -
 
-        index を作成する field の名前です。
+        インデックスを作成するフィールドの名前です。
 
     - **index_name** (*string*) -
 
-        生成する index ファイルの名前です。
+        生成するインデックスファイルの名前です。
 
     - **index_type** (*string*) -
 
-        使用する index アルゴリズムの種類です。
+        使用するインデックスアルゴリズムの種類です。
 
     - **metric_type** (*string*) -
 
-        ベクトル埋め込み間の類似度を測定するために使用される metric タイプです。
+        ベクトル埋め込み間の類似度を測定するために使用されるメトリクスタイプです。
 
     - **params** (*KeyValueObj*) -
 
-        index 関連の追加パラメーターをキーと値のペアで指定します。
+        インデックス関連の追加パラメーターをキーと値のペアで指定します。
 
 - **timeout** (*number*) -
 
@@ -857,23 +857,23 @@ await milvusClient.createCollection({
 
 - **external_source** (*string*) -
 
-    外部ソースのパスです。これは external collections の作成に適用されます。
+    外部ソースのパスです。これは外部コレクションの作成に適用されます。
 
 - **external_spec** (*string*) -
 
-    外部 spec の設定です。これは external collections の作成に適用されます。
+    外部スペックの設定です。これは外部コレクションの作成に適用されます。
 
 - **do_physical_backfill** (*boolean*) -
 
-    外部データを物理的にバックフィルするかどうかです。これは external collections の作成に適用されます。
+    外部データを物理的にバックフィルするかどうかです。これは外部コレクションの作成に適用されます。
 
 - **file_resource_ids** (*Array&lt;number | string&gt;*) -
 
-    外部ファイルリソース ID です。これは external collections の作成に適用されます。
+    外部ファイルリソース ID です。これは外部コレクションの作成に適用されます。
 
 **RETURNS** *Promise\<ResStatus>*
 
-このメソッドは **ResStatus** object に解決される promise を返します。
+このメソッドは **ResStatus** オブジェクトに解決される promise を返します。
 
 ```javascript
 {
@@ -897,7 +897,7 @@ await milvusClient.createCollection({
 
     報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
 
-## Example\{#example}
+## 例\{#example}
 
 ```java
 const milvusClient = new MilvusClient({

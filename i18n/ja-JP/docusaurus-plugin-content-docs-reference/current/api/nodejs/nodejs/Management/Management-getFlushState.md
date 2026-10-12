@@ -37,9 +37,9 @@ import Admonition from '@theme/Admonition';
 await milvusClient.getFlushState(data)
 ```
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-Milvus は一定間隔でデータを永続ストレージに自動的に flush します。この自動データ永続化メカニズムに依存することを推奨します。
+Milvus は一定間隔でデータを永続ストレージに自動的にフラッシュします。この自動データ永続化メカニズムに依存することを推奨します。
 
 </Admonition>
 
@@ -58,13 +58,13 @@ await milvusClient.getFlushState({
 
     **[必須]**
 
-    対象 segment ID のリスト。
+    対象の segment ID のリスト。
 
 - **timeout** (*number*)  
 
     この操作のタイムアウト時間。 
 
-    これを **None** に設定すると、応答が到着した時点またはエラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、任意の応答が到着したとき、または任意のエラーが発生したときにこの操作はタイムアウトします。
 
 **戻り値** *Promise&lt;GetFlushStateResponse&gt;*
 
@@ -80,14 +80,14 @@ await milvusClient.getFlushState({
 **パラメータ:**
 
 - **flushed** (*boolean*) -<br/>
-  対象のすべての segment が永続ストレージに flush 済みかどうか。要求されたすべての segment ID が sealed され永続化されている場合は **true**、それ以外の場合は **false** です。
+  対象となるすべての segment が永続ストレージにフラッシュされたかどうか。要求されたすべての segment ID が sealed されて永続化されている場合は **true**、それ以外の場合は **false** です。
 
 - **ResStatus**<br/>
   **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
-        操作結果を示すコード。この操作が成功した場合は **0** のままです。
+        この操作の結果を示すコード。この操作が成功した場合は **0** のままです。
 
     - **error_code** (*string* | *number*) -
 
@@ -95,7 +95,7 @@ await milvusClient.getFlushState({
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示す理由。この操作が成功した場合は空の文字列のままです。
 
 ## Example\{#example}
 
@@ -108,4 +108,3 @@ const flushState = await milvusClient.getFlushState({
     segmentIDs: [1,2,3,4],
 });
 ```
-

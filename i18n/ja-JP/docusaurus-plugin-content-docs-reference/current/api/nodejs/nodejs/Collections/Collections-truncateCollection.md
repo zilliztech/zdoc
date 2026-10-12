@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、collection からすべてのデータを削除しますが、collection の schema と構造は保持します。 | Node.js"
+description: "この操作はコレクションからすべてのデータを削除しますが、コレクションのスキーマと構造は保持します。 | Node.js"
 type: docx
 token: J0IBdbw3Voyqw9xnInUcn9EonTe
 sidebar_position: 28
@@ -31,21 +31,21 @@ import Admonition from '@theme/Admonition';
 
 # truncateCollection()
 
-この操作は、collection からすべてのデータを削除しますが、collection の schema と構造は保持します。
+この操作はコレクションからすべてのデータを削除しますが、コレクションのスキーマと構造は保持します。
 
 ```javascript
 await milvusClient.truncateCollection(data: TruncateCollectionRequest)
 ```
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
 - **元に戻せない操作**
 
-    collection を truncate すると、すべてのデータが完全に削除されます。
+    コレクションを truncate すると、すべてのデータが完全に削除されます。
 
-- **Schema は保持されます**
+- **スキーマは保持されます**
 
-    collection の構造、fields、indexes、および properties はそのまま保持されます。
+    コレクションの構造、フィールド、インデックス、およびプロパティはそのまま保持されます。
 
 </Admonition>
 
@@ -63,13 +63,13 @@ truncateCollection({
 
 - **db_name** (*string*) -
 
-    collection を含む database の名前。
+    コレクションを含むデータベースの名前。
 
 - **collection_name** (*string*) -
 
     **[必須]**
 
-    対象 collection の名前。
+    対象コレクションの名前。
 
 - **timeout** (*number*) -
 
@@ -93,15 +93,15 @@ truncateCollection({
 
 - **code** (*number*) -
 
-    操作結果を示すコード。この操作が成功した場合は **0** のままです。
+    操作の結果を示すコードです。この操作が成功した場合は **0** のままです。
 
 - **error_code** (*string* | *number*) -
 
-    発生したエラーを示すエラーコード。この操作が成功した場合は **Success** のままです。 
+    発生したエラーを示すエラーコードです。この操作が成功した場合は **Success** のままです。 
 
 - **reason** (*string*) - 
 
-    報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
+    報告されたエラーの理由を示す理由です。この操作が成功した場合は空の文字列のままです。
 
 ## 例\{#example}
 
@@ -124,7 +124,7 @@ console.log(res);
 // Output: { error_code: 'Success', reason: '' }
 ```
 
-### database を指定する場合\{#with-database-specified}
+### データベースを指定する場合\{#with-database-specified}
 
 ```javascript
 const res = await milvusClient.truncateCollection({

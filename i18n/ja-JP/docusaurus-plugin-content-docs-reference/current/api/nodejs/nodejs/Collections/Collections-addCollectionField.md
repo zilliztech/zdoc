@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、既存の collection を再作成することなく新しい scalar field を追加します。field は内部スキーマ同期により最小限の遅延でほぼ即座に利用可能になります。 | Node.js"
+description: "この操作は、既存のコレクションを再作成することなく新しいスカラーフィールドを追加します。このフィールドは、内部でのスキーマ同期により最小限の遅延でほぼ即座に利用可能になります。 | Node.js"
 type: docx
 token: BKqIdIm0cop2s0xYjtQcSZL5nth
 sidebar_position: 19
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # addCollectionField()
 
-この操作は、既存の collection を再作成することなく新しい scalar field を追加します。field は内部スキーマ同期により最小限の遅延でほぼ即座に利用可能になります。
+この操作は、既存のコレクションを再作成することなく新しいスカラーフィールドを追加します。このフィールドは、内部でのスキーマ同期により最小限の遅延でほぼ即座に利用可能になります。
 
 ```javascript
 await milvusClient.addCollectionField(data: AddCollectionFieldReq)
 ```
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-collection で dynamic field が有効になっている状態で、既存の dynamic field キーと同じ名前の static field を追加すると、その static field が dynamic field キーをマスクします。元の dynamic 値には `$meta['field_name']` 構文で引き続きアクセスできます。
+コレクションで動的フィールドが有効になっており、既存の動的フィールドキーと同じ名前の静的フィールドを追加すると、その静的フィールドが動的フィールドキーをマスクします。元の動的値には `$meta['field_name']` 構文で引き続きアクセスできます。
 
 </Admonition>
 
@@ -58,105 +58,105 @@ await milvusClient.addCollectionField({
 
 - **collection_name** (*string*) -
 
-    対象 collection の名前。
+    対象コレクションの名前。
 
 - **db_name** (*string*) -
 
-    対象 database の名前。
+    対象データベースの名前。
 
 - **field** (*FieldType*) -
 
-    追加する field の設定です。これは以下のフィールドを持つ **FieldType** オブジェクトです。
+    追加するフィールドの構成。以下のフィールドを持つ **FieldType** オブジェクトです。
 
     - **name** (*string)* -
 
-        field の名前。
+        フィールドの名前。
 
     - **data_type** (*string)* -
 
-        field のデータ型。利用可能なすべてのデータ型の一覧については、[DataType](./Collections-DataType) を参照してください。
+        フィールドのデータ型。利用可能なすべてのデータ型の一覧については、[DataType](./Collections-DataType) を参照してください。
 
     - **description** (*string)* -
 
-        field の説明。
+        フィールドの説明。
 
     - **is_clustering_key** (*boolean*) -
 
-        この field が clustering key として機能するかどうかを示すブール値。
+        このフィールドがクラスタリングキーとして機能するかどうかを示すブール値。
 
-    - **is_partition_key** (*boolean)* -
+    - **is_partition_key** (*boolean*) -
 
-        この field が partition key field として機能するかどうかを示すブール値。
+        このフィールドがパーティションキーフィールドとして機能するかどうかを示すブール値。
 
-    - **is_primary_key** (*boolean)* -
+    - **is_primary_key** (*boolean*) -
 
-        この field が primary key として機能するかどうか。
+        このフィールドがプライマリキーとして機能するかどうか。
 
-        デフォルト値は **False** です。これを **True** に設定すると、その field は collection 全体で一意な primary key field になります。
+        値のデフォルトは **False** です。これを **True** に設定すると、そのフィールドはコレクション全体で一意なプライマリキーフィールドになります。
 
     - **type_params** (*string* | *number)* -
 
-        field のその他のパラメータ。
+        フィールドのその他のパラメーター。
 
         - **auto_id** (*boolean)* -
 
-            この collection へのデータ挿入時に primary field が自動的に増分するかどうか。
+            このコレクションへのデータ挿入時にプライマリフィールドが自動的にインクリメントされるかどうか。
 
-            デフォルト値は **False** です。これを **True** に設定すると、primary field は自動的に増分します。カスタマイズされたスキーマで collection をセットアップする必要がある場合は、このパラメータをスキップしてください。
+            値のデフォルトは **False** です。これを **True** に設定すると、プライマリフィールドが自動的にインクリメントされます。カスタマイズしたスキーマでコレクションをセットアップする必要がある場合は、このパラメーターをスキップしてください。
 
         - **dim** (*string* | *number*) -
 
-            vector embeddings を保持する collection field の次元数。 
+            ベクトル埋め込みを保持するコレクションフィールドの次元数。 
 
-            値は 1 より大きい整数である必要があり、通常は vector embeddings の生成に使用するモデルによって決まります。
+            値は 1 より大きい整数である必要があり、通常はベクトル埋め込みの生成に使用するモデルによって決まります。
 
         - **element_type** (string) -
 
             array 内の要素のデータ型。 
 
-            このパラメータは、現在の field が array field の場合に適用されます。
+            このパラメーターは、現在のフィールドが array フィールドの場合に適用されます。
 
         - **max_capacity** (*string* | *number)* -
 
             array 内の要素数。
 
-            このパラメータは、現在の field が array field の場合に適用されます。
+            このパラメーターは、現在のフィールドが array フィールドの場合に適用されます。
 
         - **max_length** (*string*) -
 
-            この field 内の文字列の最大長。
+            このフィールド内の文字列の最大長。
 
-            これは、この field の **data_type** が **VarChar** の場合に必須です。
+            これは、このフィールドの **data_type** が **VarChar** の場合に必須です。
 
         - **type_params** (*object*) -
 
-            現在の field に対する追加パラメータ（キーと値のペア）。
+            現在のフィールドの追加パラメーター（キーと値のペア）。
 
     - **nullable** (*boolean*) -
 
-        field が null 値を受け入れられるかどうかを指定するブールパラメータ。有効な値:
+        フィールドが null 値を受け入れられるかどうかを指定するブール値のパラメーター。有効な値:
 
-        - **true**: field は null 値を含むことができ、field がオプションであり、エントリに対して欠損データが許可されることを示します。
+        - **true**: フィールドは null 値を含むことができ、そのフィールドが省略可能であり、エントリに対してデータの欠落が許可されることを示します。
 
-        - **false** (default): field は各 entity に対して有効な値を含む必要があります。欠損データは許可されず、field は必須になります。
+        - **false**（デフォルト）: フィールドは各エンティティに対して有効な値を含む必要があり、データの欠落は許可されないため、フィールドは必須になります。
 
         詳細については、[Nullable & Default](https://milvus.io/docs/nullable-and-default.md) を参照してください。
 
     - **default_value** (*object*)
 
-        collection schema の作成時に、schema 内の特定の field にデフォルト値を設定します。これは、データ挿入時に明示的に値が指定されなくても、特定の field に初期値を持たせたい場合に特に便利です。
+        コレクションスキーマの作成時に、スキーマ内の特定のフィールドにデフォルト値を設定します。これは、データ挿入時に値が明示的に指定されなくても、特定のフィールドに初期値を持たせたい場合に特に便利です。
 
     - **enable_analyzer** (*boolean*) -
 
-        指定した `VarChar` field に対してテキスト解析を有効にするかどうか。`true` に設定すると、Milvus に対してテキストアナライザーを使用し、field のテキスト内容をトークン化およびフィルタリングするよう指示します。
+        指定した `VarChar` フィールドに対してテキスト解析を有効にするかどうか。`true` に設定すると、Milvus に対してテキストアナライザーを使用するよう指示し、フィールドのテキストコンテンツをトークン化してフィルタリングします。
 
     - **enable_match** (*boolean*)
 
-        指定した `VarChar` field に対してキーワードマッチングを有効にするかどうか。`true` に設定すると、Milvus はその field に対して inverted index を作成し、高速かつ効率的なキーワード検索を可能にします。`enable_match` は `enable_analyzer` と連携して構造化された用語ベースのテキスト検索を提供し、`enable_analyzer` がトークン化を処理し、`enable_match` がそれらのトークンに対する検索操作を処理します。
+        指定した `VarChar` フィールドに対してキーワードマッチングを有効にするかどうか。`true` に設定すると、Milvus はそのフィールドに対する転置インデックスを作成し、高速で効率的なキーワード検索を可能にします。`enable_match` は `enable_analyzer` と連携して、構造化された用語ベースのテキスト検索を提供します。`enable_analyzer` がトークン化を処理し、`enable_match` がこれらのトークンに対する検索操作を処理します。
 
     - **analyzer_params** (*object*)
 
-        テキスト処理用の analyzer を設定します。特に `VarChar` field 用です。このパラメータは、主に [keyword matching](https://milvus.io/docs/keyword-match.md) または [full text search](https://milvus.io/docs/full-text-search.md) に使用されるテキスト field の tokenizer および filter 設定を構成します。analyzer の種類に応じて、次のいずれかの方法で設定できます。
+        テキスト処理用のアナライザーを設定します。特に `VarChar` フィールド用です。このパラメーターは、[keyword matching](https://milvus.io/docs/keyword-match.md) や [full text search](https://milvus.io/docs/full-text-search.md) で使用されるテキストフィールドのトークナイザーとフィルターの設定を行います。アナライザーの種類に応じて、次のいずれかの方法で設定できます。
 
         - Built-in analyzer
 
@@ -166,7 +166,7 @@ await milvusClient.addCollectionField({
 
             - `type` (*string*) -
 
-                Milvus に組み込まれた事前設定済みの analyzer タイプで、名前を指定するだけですぐに使用できます。可能な値: `standard`, `english`, `chinese`。詳細については、[Standard Analyzer](https://milvus.io/docs/standard-analyzer.md)、[English Analyzer](https://milvus.io/docs/english-analyzer.md)、および [Chinese Analyzer](https://milvus.io/docs/chinese-analyzer.md) を参照してください。
+                Milvus に組み込まれた事前構成済みのアナライザータイプで、名前を指定するだけでそのまま使用できます。指定可能な値: `standard`、`english`、`chinese`。詳細については、[Standard Analyzer](https://milvus.io/docs/standard-analyzer.md)、[English Analyzer](https://milvus.io/docs/english-analyzer.md)、[Chinese Analyzer](https://milvus.io/docs/chinese-analyzer.md) を参照してください。
 
         - Custom analyzer
 
@@ -179,23 +179,23 @@ await milvusClient.addCollectionField({
 
             - `tokenizer` (*string*) -
 
-                tokenizer の種類を定義します。可能な値: `standard` (default), `whitespace`, `jieba`。詳細については、[Standard Tokenizer](https://milvus.io/docs/standard-tokenizer.md)、[Whitespace Tokenizer](https://milvus.io/docs/whitespace-tokenizer.md)、および [Jieba Tokenizer](https://milvus.io/docs/jieba-tokenizer.md) を参照してください。
+                トークナイザーの種類を定義します。指定可能な値: `standard`（デフォルト）、`whitespace`、`jieba`。詳細については、[Standard Tokenizer](https://milvus.io/docs/standard-tokenizer.md)、[Whitespace Tokenizer](https://milvus.io/docs/whitespace-tokenizer.md)、[Jieba Tokenizer](https://milvus.io/docs/jieba-tokenizer.md) を参照してください。
 
             - `filter` (*list*) -
 
-                tokenizer によって生成されたトークンを絞り込むための filter を一覧表示します。組み込み filter とカスタム filter のオプションがあります。詳細については、[Alphanumonly Filter](https://milvus.io/docs/alphanumonly-filer.md) などを参照してください。
+                トークナイザーによって生成されたトークンを絞り込むフィルターを一覧表示します。組み込みフィルターとカスタムフィルターのオプションがあります。詳細については、[Alphanumonly Filter](https://milvus.io/docs/alphanumonly-filer.md) などを参照してください。
 
     - **external_field** (*string*) -
 
-        この field がマッピングされる外部ソースファイル内の field 名。このパラメータは external collections に適用されます。
+        このフィールドがマッピングされる外部ソースファイル内のフィールドの名前。このパラメーターは外部コレクションに適用されます。
 
 - **timeout** (*number*) -  
 
-    この操作のタイムアウト時間。これを **None** に設定すると、何らかのレスポンスが到着した時点、または何らかのエラーが発生した時点でこの操作がタイムアウトすることを示します。
+    この操作のタイムアウト期間。これを **None** に設定すると、何らかのレスポンスが到着したとき、または何らかのエラーが発生したときに、この操作がタイムアウトすることを示します。
 
 **RETURNS** *Promise\<ResStatus>*
 
-このメソッドは **ResStatus** オブジェクトに解決される promise を返します。
+このメソッドは、**ResStatus** オブジェクトに解決される promise を返します。
 
 ```javascript
 {
@@ -217,7 +217,7 @@ await milvusClient.addCollectionField({
 
 - **reason** (*string*) - 
 
-    報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
+    報告されたエラーの理由を示す理由。この操作が成功した場合は空の文字列のままです。
 
 ## Example\{#example}
 

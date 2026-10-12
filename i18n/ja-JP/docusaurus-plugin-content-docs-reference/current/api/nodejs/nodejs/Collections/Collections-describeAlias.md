@@ -14,7 +14,7 @@ sidebar_position: 7
 keywords: 
   - k nearest neighbor algorithm
   - ANNS
-  - Vector search
+  - ベクトル検索
   - knn algorithm
   - zilliz
   - zilliz cloud
@@ -59,7 +59,7 @@ await milvusClient.describeAlias({
 
     コレクションのエイリアスです。エイリアスは事前に存在している必要があります。
 
-    <Admonition type="info" icon="📘" title="注記">
+    <Admonition type="info" title="Note">
 
     コレクションエイリアスとは何ですか？
     
@@ -75,7 +75,7 @@ await milvusClient.describeAlias({
     
         - `collection_2` のエイリアス = []
     
-        `alter_alias("collection_2", "bob")` を呼び出した後:
+        `alter_alias("collection_2", "bob")` を呼び出した後：
     
         - `collection_1` のエイリアス = []
     

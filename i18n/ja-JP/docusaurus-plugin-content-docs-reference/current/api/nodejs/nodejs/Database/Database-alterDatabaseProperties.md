@@ -37,13 +37,13 @@ import Admonition from '@theme/Admonition';
 await milvusClient.alterDatabaseProperties(data)
 ```
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" title="Notes">
 
-このメソッドは Dedicated Cluster にのみ適用されます。
+このメソッドは Dedicated クラスターにのみ適用されます。
 
 </Admonition>
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```javascript
 await milvusClient.alterDatabaseProperties({
@@ -66,27 +66,27 @@ await milvusClient.alterDatabaseProperties({
 
     削除するプロパティ名を配列で指定します。使用可能なデータベースプロパティは次のとおりです。
 
-    - **database.replica.number** (*int*) -
+    - **データベース.replica.number** (*int*) -
 
         データベースのレプリカ数。
 
-    - **database.resource_groups** (*[]str*) -
+    - **データベース.resource_groups** (*[]str*) -
 
         データベース専用のリソースグループ。
 
-    - **database.diskQuota.mb** (*int*) -
+    - **データベース.diskQuota.mb** (*int*) -
 
         データベースに割り当てられるディスククォータ（メガバイト（**MB**）単位）。
 
-    - **database.max.collections** (*int*) -
+    - **データベース.max.コレクション** (*int*) -
 
         データベースで許可されるコレクションの最大数。
 
-    - **database.force.deny.writing** (*bool*) -
+    - **データベース.force.deny.writing** (*bool*) -
 
         データベース内のすべての書き込み操作を拒否するかどうか。
 
-    - **database.force.deny.reading** (*bool*) -
+    - **データベース.force.deny.reading** (*bool*) -
 
         データベース内のすべての読み取り操作を拒否するかどうか。
 
@@ -94,27 +94,27 @@ await milvusClient.alterDatabaseProperties({
 
     キーと値のペアで指定するプロパティとその値。
 
-    - **database.replica.number** (*int*) -
+    - **データベース.replica.number** (*int*) -
 
         データベースのレプリカ数。
 
-    - **database.resource_groups** (*[]str*) -
+    - **データベース.resource_groups** (*[]str*) -
 
         データベース専用のリソースグループ。
 
-    - **database.diskQuota.mb** (*int*) -
+    - **データベース.diskQuota.mb** (*int*) -
 
         データベースに割り当てられるディスククォータ（メガバイト（**MB**）単位）。
 
-    - **database.max.collections** (*int*) -
+    - **データベース.max.コレクション** (*int*) -
 
         データベースで許可されるコレクションの最大数。
 
-    - **database.force.deny.writing** (*bool*) -
+    - **データベース.force.deny.writing** (*bool*) -
 
         データベース内のすべての書き込み操作を拒否するかどうか。
 
-    - **database.force.deny.reading** (*bool*) -
+    - **データベース.force.deny.reading** (*bool*) -
 
         データベース内のすべての読み取り操作を拒否するかどうか。
 
@@ -150,7 +150,7 @@ await milvusClient.alterDatabaseProperties({
 
     報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
 
-## Example\{#example}
+## 例\{#example}
 
 ```javascript
 const milvusClient = new MilvusClient({
@@ -162,4 +162,3 @@ const resStatus = await milvusClient.alterDatabaseProperties({
     delete_properties: {'database.replica.number': 3} 
 });
 ```
-
