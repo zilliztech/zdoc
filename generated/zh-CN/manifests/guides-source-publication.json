@@ -1442,7 +1442,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/vector-index/tune-index-build-level.md",
-      "sha256": "9051a667dc12003a238da2d4f0fb35b18a72cdc010452a1fbbfafff83f07cafd",
+      "sha256": "8587b4b614ac7aaed915eee85c5c9d686a9bbb27936271c80d8052c685448ad5",
       "docToken": "KCIawSSnKiuwBWk0PJ9ci5TYnBS",
       "revisionId": "312"
     },
@@ -3044,7 +3044,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/vector-index/tune-index-build-level.md",
-      "sha256": "faa2288ae8351f699138ae923e37a25d087a4c6ed1fed74db73624560eb552be",
+      "sha256": "217f259a42124ba1b8322b517efe4c0a9cbc8dbea5e2d33b686f237cce48c442",
       "docToken": "KCIawSSnKiuwBWk0PJ9ci5TYnBS",
       "revisionId": "312"
     },
