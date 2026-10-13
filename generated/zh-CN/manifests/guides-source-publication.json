@@ -1442,7 +1442,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/vector-index/tune-index-build-level.md",
-      "sha256": "8587b4b614ac7aaed915eee85c5c9d686a9bbb27936271c80d8052c685448ad5",
+      "sha256": "9051a667dc12003a238da2d4f0fb35b18a72cdc010452a1fbbfafff83f07cafd",
       "docToken": "KCIawSSnKiuwBWk0PJ9ci5TYnBS",
       "revisionId": "312"
     },
@@ -3044,7 +3044,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/vector-index/tune-index-build-level.md",
-      "sha256": "217f259a42124ba1b8322b517efe4c0a9cbc8dbea5e2d33b686f237cce48c442",
+      "sha256": "faa2288ae8351f699138ae923e37a25d087a4c6ed1fed74db73624560eb552be",
       "docToken": "KCIawSSnKiuwBWk0PJ9ci5TYnBS",
       "revisionId": "312"
     },
@@ -3722,9 +3722,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters.md",
-      "sha256": "06654330561c3eecbf3fc70d8b1277ce1255db941eea4300752a8851aac327d2",
+      "sha256": "c96c1a63528c62e8871942b9d3245880fb2dff5f51d71d7281c5b23c4821f18a",
       "docToken": "ETznwYhvpitgrtk4Y7dcLSv0nLc",
-      "revisionId": "78"
+      "revisionId": "223"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md",
