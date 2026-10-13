@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "cc05b35fdc91c2c2e104ec10a03695703a9576f4",
+  "sourceCommit": "6b2fed8a1d000cbff88c5f4e5b064253f6ce88ee",
   "records": [
     {
       "manual": "cli",
@@ -3359,6 +3359,11 @@
     },
     {
       "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-alterRole.md",
+      "sourceHash": "363834a66a1c7543e7b42c07629054551f193dd991d1e081ddea02195023ccf1"
+    },
+    {
+      "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-createRole.md",
       "sourceHash": "8bbd25eed41643ee55f56940ec8b88e8d5364cf1d0c946d1f4db7f013d301edc"
     },
@@ -3530,7 +3535,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-addCollectionFunction.md",
-      "sourceHash": "2e1d4e1713f170dd53a87d5bcce42f8c3d8e36785a077f72ec0e93b499e9dd4b"
+      "sourceHash": "efa20ff355067dcd7c5f4b9eba7d62e3457958081c304d08aceaffbf4d785c72"
     },
     {
       "manual": "node",
@@ -3545,7 +3550,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-alterCollectionFunction.md",
-      "sourceHash": "9ca04e1bdfae5f99df3890c31768a504261ccdc44523722dfe950d60dd9be15e"
+      "sourceHash": "f5e7a951771a346a2b7481e76e2f06bf7dd245ad0a51ce5d3b024a3fafde24cc"
     },
     {
       "manual": "node",
@@ -3599,6 +3604,11 @@
     },
     {
       "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-dropFunctionField.md",
+      "sourceHash": "7159449cf3b673dc0354fdb9af1391d126a1acd318650f670c3b0cef735f343b"
+    },
+    {
+      "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-getCollectionStatistics.md",
       "sourceHash": "00b59f749adc747aa037e719821bfde9b7a0da4f6581a3a44e3db935c5bb3e2d"
     },
@@ -3620,7 +3630,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-getRefreshExternalCollectionProgress.md",
-      "sourceHash": "99dda266d5e49288ad67c435d74544a9daefb8e7167d84ee2dd68f5c0844b568"
+      "sourceHash": "ac39b0fcf8f8abeed95d9bd1ee5c317a10e654781f29a2b4cfb5a25a3707bf28"
     },
     {
       "manual": "node",
@@ -3640,12 +3650,12 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-listRefreshExternalCollectionJobs.md",
-      "sourceHash": "d4ceb0bf980d5bc288d439f24c9984b567c39a33ca6eb2430816e94ae77e2446"
+      "sourceHash": "7f18bef3db500cd1ce7e487d38083b8117b6769a703f22b68b4fdda6cf93c361"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-refreshExternalCollection.md",
-      "sourceHash": "56411cbadbca4e5a1b1440a52eca8a10fc0f781a84753ab62c34bc899eb28bf3"
+      "sourceHash": "2fb71dae073df06d70f42393e4781d05ee60d0108b449a47f988b91328771c02"
     },
     {
       "manual": "node",
@@ -3661,11 +3671,6 @@
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-truncateCollection.md",
       "sourceHash": "e09779e78b039898a475caa6e5eb59f0128f02feeb5238da665e9eb968a1823f"
-    },
-    {
-      "manual": "node",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-BulkWriter.md",
-      "sourceHash": "a2e1ce52188dea82c3eed0e7093322c57ab53c97c8bc5dc1465dd7fa3b461120"
     },
     {
       "manual": "node",
