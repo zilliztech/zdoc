@@ -545,10 +545,10 @@ import io.milvus.bulkwriter.connect.StorageConnectParam;
 String AZURE_CONNECT_STRING = "";
 String AZURE_CONTAINER = "";
 
-StorageConnectParam storageConnectParam = AzureConnectParam.newBuilder()
+storageConnectParam = AzureConnectParam.newBuilder()
         .withConnStr(AZURE_CONNECT_STRING)
         .withContainerName(AZURE_CONTAINER)
-        .build()
+        .build();
 ```
 
 </TabItem>

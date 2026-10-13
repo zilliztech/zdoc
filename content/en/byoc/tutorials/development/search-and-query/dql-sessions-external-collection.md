@@ -52,13 +52,13 @@ client.has_collection(
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.collection.request.HasCollectionReq;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("https://{project-id}.{region}.vectordb.zillizcloud.com")
         .token("YOUR_API_KEY")
         .build());
-
-client.hasCollection("my_collection");
+client.hasCollection(HasCollectionReq.builder().collectionName("my_collection").build());
 ```
 
 </TabItem>

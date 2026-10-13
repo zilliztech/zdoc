@@ -52,10 +52,13 @@ client.create_role(role_name="role_a", description="a cluster read only role")
 
 ```java
 import io.milvus.v2.service.rbac.request.CreateRoleReq;
+
 CreateRoleReq createRoleReq = CreateRoleReq.builder()
         .roleName("role_a")
         .description("a cluster read only role")
         .build();
+
+client.createRole(createRoleReq);
 ```
 
 </TabItem>
@@ -179,6 +182,8 @@ client.list_roles()
 <TabItem value='java'>
 
 ```java
+import java.util.List;
+
 List<String> roles = client.listRoles();
 ```
 
@@ -988,6 +993,8 @@ client.list_roles()
 <TabItem value='java'>
 
 ```java
+import java.util.List;
+
 List<String> resp = client.listRoles();
 ```
 

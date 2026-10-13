@@ -114,7 +114,7 @@ schema.addField(AddFieldReq.builder()
 
 schema.addField(AddFieldReq.builder()
         .fieldName("broken")
-        .dataType(DataType.BOOL)
+        .dataType(DataType.Bool)
         .isNullable(true)
         .build());
 

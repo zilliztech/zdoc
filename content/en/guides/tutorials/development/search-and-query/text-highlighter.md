@@ -188,12 +188,16 @@ LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .highlightSearchText(true)
         .build();
 
+Map<String, Object> searchParams = new HashMap<>();
+searchParams.put("metric_type", "BM25");
+
 SearchReq searchReq = SearchReq.builder()
         .collectionName("highlighter_demo")
         .data(Collections.singletonList(new EmbeddedText("BM25")))
         .annsField("sparse_vector")
         .topK(10)
         .outputFields(Collections.singletonList("text"))
+        .searchParams(searchParams)
         .highlighter(highlighter)
         .build();
 
@@ -480,6 +484,9 @@ LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .addHighlightQuery(new LexicalHighlighter.HighlightQuery("TextMatch", "text", "text filtering"))
         .build();
 
+Map<String, Object> searchParams = new HashMap<>();
+searchParams.put("metric_type", "BM25");
+
 SearchReq searchReq = SearchReq.builder()
         .collectionName("highlighter_demo")
         .data(Collections.singletonList(new EmbeddedText("BM25")))
@@ -487,6 +494,7 @@ SearchReq searchReq = SearchReq.builder()
         .filter("TEXT_MATCH(text, \"text filtering\")")
         .topK(10)
         .outputFields(Collections.singletonList("text"))
+        .searchParams(searchParams)
         .highlighter(highlighter)
         .build();
 
@@ -781,12 +789,16 @@ LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .highlightSearchText(true)
         .build();
 
+Map<String, Object> searchParams = new HashMap<>();
+searchParams.put("metric_type", "BM25");
+
 SearchReq searchReq = SearchReq.builder()
         .collectionName("highlighter_demo")
         .data(Collections.singletonList(new EmbeddedText("BM25")))
         .annsField("sparse_vector")
         .topK(10)
         .outputFields(Collections.singletonList("text"))
+        .searchParams(searchParams)
         .highlighter(highlighter)
         .build();
 
@@ -1004,10 +1016,14 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.common.DataType;
 import io.milvus.v2.common.IndexParam;
+import io.milvus.common.clientenum.FunctionType;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq.Function;
-import io.milvus.v2.service.collection.request.CreateCollectionReq.FunctionType;
+import io.milvus.v2.service.collection.request.DropCollectionReq;
+import io.milvus.v2.service.collection.request.HasCollectionReq;
+import io.milvus.v2.service.vector.request.InsertReq;
+import com.google.gson.JsonObject;
 import java.util.*;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
@@ -1015,8 +1031,8 @@ MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .build());
 String COLLECTION_NAME = "highlighter_demo";
 
-if (client.hasCollection(COLLECTION_NAME)) {
-    client.dropCollection(COLLECTION_NAME);
+if (client.hasCollection(HasCollectionReq.builder().collectionName(COLLECTION_NAME).build())) {
+    client.dropCollection(DropCollectionReq.builder().collectionName(COLLECTION_NAME).build());
 }
 
 CreateCollectionReq.CollectionSchema schema = client.createSchema();
@@ -1052,7 +1068,7 @@ IndexParam indexParam = IndexParam.builder()
 
 client.createCollection(CreateCollectionReq.builder()
         .collectionName(COLLECTION_NAME)
-        .schema(schema)
+        .collectionSchema(schema)
         .indexParams(Collections.singletonList(indexParam))
         .build());
 
@@ -1062,10 +1078,16 @@ List<String> docs = Arrays.asList(
         "my first test doc. Milvus is an open-source vector database built for GenAI applications.",
         "my second test doc. Milvus is an open-source vector database that suits AI applications of every size from running a demo chatbot to building web-scale search."
 );
-client.insert(COLLECTION_NAME, docs);
+List<JsonObject> rows = new ArrayList<>();
+for (String doc : docs) {
+    JsonObject row = new JsonObject();
+    row.addProperty("text", doc);
+    rows.add(row);
+}
+client.insert(InsertReq.builder().collectionName(COLLECTION_NAME).data(rows).build());
 
 Map<String, Object> searchParams = new HashMap<>();
-searchParams.put("params", new HashMap<String, Object>() {{ put("drop_ratio_search", 0.0); }});
+searchParams.put("metric_type", "BM25");
 ```
 
 </TabItem>
@@ -1264,12 +1286,16 @@ LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .highlightSearchText(true)
         .build();
 
+Map<String, Object> searchParams = new HashMap<>();
+searchParams.put("metric_type", "BM25");
+
 SearchReq searchReq = SearchReq.builder()
         .collectionName(COLLECTION_NAME)
         .data(Collections.singletonList(new EmbeddedText("test")))
         .annsField("sparse_vector")
         .topK(10)
         .outputFields(Collections.singletonList("text"))
+        .searchParams(searchParams)
         .highlighter(highlighter)
         .build();
 
@@ -1451,12 +1477,16 @@ LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .addHighlightQuery(new LexicalHighlighter.HighlightQuery("TextMatch", "text", "my doc"))
         .build();
 
+Map<String, Object> searchParams = new HashMap<>();
+searchParams.put("metric_type", "BM25");
+
 SearchReq searchReq = SearchReq.builder()
         .collectionName(COLLECTION_NAME)
         .data(Collections.singletonList(new EmbeddedText("test")))
         .annsField("sparse_vector")
         .topK(10)
         .outputFields(Collections.singletonList("text"))
+        .searchParams(searchParams)
         .highlighter(highlighter)
         .build();
 
@@ -1647,12 +1677,16 @@ LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .fragmentSize(60)
         .build();
 
+Map<String, Object> searchParams = new HashMap<>();
+searchParams.put("metric_type", "BM25");
+
 SearchReq searchReq = SearchReq.builder()
         .collectionName(COLLECTION_NAME)
         .data(Collections.singletonList(new EmbeddedText("Milvus")))
         .annsField("sparse_vector")
         .topK(10)
         .outputFields(Collections.singletonList("text"))
+        .searchParams(searchParams)
         .highlighter(highlighter)
         .build();
 
@@ -1837,12 +1871,16 @@ LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .highlightSearchText(true)
         .build();
 
+Map<String, Object> searchParams = new HashMap<>();
+searchParams.put("metric_type", "BM25");
+
 SearchReq searchReq = SearchReq.builder()
         .collectionName(COLLECTION_NAME)
         .data(Arrays.asList(new EmbeddedText("test"), new EmbeddedText("Milvus")))
         .annsField("sparse_vector")
         .topK(10)
         .outputFields(Collections.singletonList("text"))
+        .searchParams(searchParams)
         .highlighter(highlighter)
         .build();
 
@@ -2017,12 +2055,16 @@ LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .highlightSearchText(true)
         .build();
 
+Map<String, Object> searchParams = new HashMap<>();
+searchParams.put("metric_type", "BM25");
+
 SearchReq searchReq = SearchReq.builder()
         .collectionName(COLLECTION_NAME)
         .data(Collections.singletonList(new EmbeddedText("test")))
         .annsField("sparse_vector")
         .topK(10)
         .outputFields(Collections.singletonList("text"))
+        .searchParams(searchParams)
         .highlighter(highlighter)
         .build();
 

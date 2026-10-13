@@ -320,7 +320,7 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.collection.request.AlterCollectionPropertiesReq;
-import io.milvus.v2.service.collection.request.CreateIndexReq;
+import io.milvus.v2.service.index.request.CreateIndexReq;
 import io.milvus.v2.service.collection.request.LoadCollectionReq;
 
 import java.util.Arrays;

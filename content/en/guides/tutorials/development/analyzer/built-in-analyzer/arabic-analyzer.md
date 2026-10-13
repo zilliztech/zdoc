@@ -43,6 +43,9 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "arabic");
 ```
@@ -122,6 +125,10 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "arabic");
 analyzerParams.put("stop_words", Collections.singletonList("ميلفوس"));
@@ -205,7 +212,7 @@ analyzer_params = {
         },
         {
             "type": "stop",
-            "stop_words": "_arabic_",
+            "stop_words": ["_arabic_"],
         },
     ],
 }
@@ -216,6 +223,11 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "standard");
 analyzerParams.put("filter", Arrays.asList(
@@ -228,7 +240,7 @@ analyzerParams.put("filter", Arrays.asList(
         }},
         new HashMap<String, Object>() {{
             put("type", "stop");
-            put("stop_words", "_arabic_");
+            put("stop_words", Collections.singletonList("_arabic_"));
         }}
 ));
 ```
@@ -356,6 +368,9 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "arabic");
 ```

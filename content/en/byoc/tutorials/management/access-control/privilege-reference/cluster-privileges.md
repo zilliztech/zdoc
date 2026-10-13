@@ -264,6 +264,7 @@ client.add_privileges_to_group(group_name='privilege_group_1', privileges=['Quer
 
 ```java
 import io.milvus.v2.service.rbac.request.AddPrivilegesToGroupReq;
+import java.util.Arrays;
 
 client.addPrivilegesToGroup(AddPrivilegesToGroupReq.builder()
         .groupName("privilege_group_1")
@@ -368,6 +369,7 @@ client.remove_privileges_from_group(group_name='privilege_group_1', privileges=[
 
 ```java
 import io.milvus.v2.service.rbac.request.RemovePrivilegesFromGroupReq;
+import java.util.Collections;
 
 client.removePrivilegesFromGroup(RemovePrivilegesFromGroupReq.builder()
         .groupName("privilege_group_1")
@@ -471,6 +473,7 @@ client.list_privilege_groups()
 import io.milvus.v2.service.rbac.PrivilegeGroup;
 import io.milvus.v2.service.rbac.request.ListPrivilegeGroupsReq;
 import io.milvus.v2.service.rbac.response.ListPrivilegeGroupsResp;
+import java.util.List;
 
 ListPrivilegeGroupsResp resp = client.listPrivilegeGroups(ListPrivilegeGroupsReq.builder()
         .build());
