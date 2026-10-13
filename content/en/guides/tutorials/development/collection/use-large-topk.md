@@ -1526,7 +1526,7 @@ volume_file_manager.upload_file_to_volume(
 <TabItem value='java'>
 
 ```java
-Note: Zilliz Cloud Managed Volume upload is not available in milvus-sdk-java as of v3.0.10.
+// Note: Zilliz Cloud Managed Volume upload is not available in milvus-sdk-java as of v3.0.10.
 ```
 
 </TabItem>

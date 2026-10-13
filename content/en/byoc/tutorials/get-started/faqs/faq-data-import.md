@@ -60,28 +60,26 @@ To solve this problem, please follow the steps below.
 1. Add channelOptions manually.
 
     ```javascript
-    import { ChannelOptions } from '@grpc/grpc-js';
-    
-    const channelOptions: ChannelOptions = {
-    // Send keepalive pings every 10 seconds, default is 2 hours.
-    'grpc.keepalive_time_ms': 10 * 1000,
-    // Keepalive ping timeout after 5 seconds, default is 20 seconds.
-    'grpc.keepalive_timeout_ms': 5 * 1000,
-    // Allow keepalive pings when there are no gRPC calls.
-    'grpc.keepalive_permit_without_calls': 1,
+    const channelOptions = {
+      // Send keepalive pings every 10 seconds, default is 2 hours.
+      'grpc.keepalive_time_ms': 10 * 1000,
+      // Keepalive ping timeout after 5 seconds, default is 20 seconds.
+      'grpc.keepalive_timeout_ms': 5 * 1000,
+      // Allow keepalive pings when there are no gRPC calls.
+      'grpc.keepalive_permit_without_calls': 1,
     };
     ```
 
 1. Initialize the client with the channelOptions.
 
     ```javascript
-    import { MilvusClient, DataType } from '@zilliz/milvus2-sdk-node';
+    import { MilvusClient } from '@zilliz/milvus2-sdk-node';
     
     new MilvusClient({
       address: 'your-zilliz-cloud-address',
       ssl: true,
       username: 'username',
       password: 'your-pass',
-      channelOptions: channel options
-    })
+      channelOptions: channelOptions
+    });
     ```

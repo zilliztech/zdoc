@@ -78,6 +78,8 @@ The availability phase of each feature is indicated in the Zilliz Cloud document
 
 - [Spark Batch Jobs](./spark-batch-jobs)
 
+- External Collections and External Volumes in Azure regions.
+
 <Admonition type="info" title="Notes">
 
 Contact [Zilliz Support](http://support.zilliz.com) to request access to these features. 

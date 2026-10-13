@@ -500,7 +500,7 @@ status = client->UseDatabase("my_database");
 status = client->CreateCollection(milvus::CreateCollectionRequest()
     .WithDatabaseName("my_database")
     .WithCollectionName("test_collection")
-    .WithSchema(schema));
+    .WithCollectionSchema(std::make_shared<milvus::CollectionSchema>(schema)));
 ```
 
 </TabItem>

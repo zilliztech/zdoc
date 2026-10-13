@@ -164,7 +164,7 @@ Once the Highlighter object is created, apply its configuration to your BM25 ful
 
 ```python
 results = client.search(
-    ...,
+    collection_name="highlighter_demo",
     data=["BM25"],      # Search term used in BM25 full text search
     # highlight-next-line
     highlighter=highlighter # Pass highlighter config here
@@ -189,7 +189,7 @@ LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .build();
 
 SearchReq searchReq = SearchReq.builder()
-        .collectionName(...)
+        .collectionName("highlighter_demo")
         .data(Collections.singletonList(new EmbeddedText("BM25")))
         .annsField("sparse_vector")
         .topK(10)
@@ -223,7 +223,7 @@ let highlighter = LexicalHighlighter::new()
 let res = client
     .search(
         SearchRequest::builder()
-            .collection_name(...)
+            .collection_name("highlighter_demo")
             .vector_field("sparse_vector")
             .vectors(SearchVectors::EmbeddedText(vec!["BM25".to_string()]))
             .limit(10)
@@ -245,7 +245,7 @@ highlighter->WithPostTags({"}"});
 highlighter->WithHighlightSearchText(true);
 
 auto request = milvus::SearchRequest()
-    .WithCollectionName(...)
+    .WithCollectionName("highlighter_demo")
     .WithAnnsField("sparse_vector")
     .WithLimit(10)
     .AddOutputField("text")
@@ -271,7 +271,7 @@ const highlighter = {
 };
 
 const res = await client.search({
-    collection_name: ...,
+    collection_name: "highlighter_demo",
     data: ["BM25"],
     anns_field: "sparse_vector",
     limit: 10,
@@ -456,7 +456,7 @@ Once the Highlighter object is created, apply the same filtering expression and 
 
 ```python
 results = client.search(
-    ...,
+    collection_name="highlighter_demo",
     filter='TEXT_MATCH(text, "text filtering")',
     # highlight-next-line
     highlighter=highlighter # Pass highlighter config here
@@ -481,7 +481,7 @@ LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .build();
 
 SearchReq searchReq = SearchReq.builder()
-        .collectionName(...)
+        .collectionName("highlighter_demo")
         .data(Collections.singletonList(new EmbeddedText("BM25")))
         .annsField("sparse_vector")
         .filter("TEXT_MATCH(text, \"text filtering\")")
@@ -519,7 +519,7 @@ let highlighter = LexicalHighlighter::new()
 let res = client
     .search(
         SearchRequest::builder()
-            .collection_name(...)
+            .collection_name("highlighter_demo")
             .vector_field("sparse_vector")
             .vectors(SearchVectors::EmbeddedText(vec!["BM25".to_string()]))
             .filter(r#"TEXT_MATCH(text, "text filtering")"#)
@@ -542,7 +542,7 @@ highlighter->WithPostTags({"}"});
 highlighter->AddHighlightQuery("TextMatch", "text", "text filtering");
 
 auto request = milvus::SearchRequest()
-    .WithCollectionName(...)
+    .WithCollectionName("highlighter_demo")
     .WithAnnsField("sparse_vector")
     .WithFilter(R"(TEXT_MATCH(text, "text filtering"))")
     .WithLimit(10)
@@ -571,7 +571,7 @@ const highlighter = {
 };
 
 const res = await client.search({
-    collection_name: ...,
+    collection_name: "highlighter_demo",
     data: ["BM25"],
     anns_field: "sparse_vector",
     filter: 'TEXT_MATCH(text, "text filtering")',
@@ -757,7 +757,7 @@ Once the Highlighter object is created, apply the highlighter configuration to y
 
 ```python
 results = client.search(
-    ...,
+    collection_name="highlighter_demo",
     data=["BM25"],
     # highlight-next-line
     highlighter=highlighter # Pass highlighter config here
@@ -782,7 +782,7 @@ LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .build();
 
 SearchReq searchReq = SearchReq.builder()
-        .collectionName(...)
+        .collectionName("highlighter_demo")
         .data(Collections.singletonList(new EmbeddedText("BM25")))
         .annsField("sparse_vector")
         .topK(10)
@@ -816,7 +816,7 @@ let highlighter = LexicalHighlighter::new()
 let res = client
     .search(
         SearchRequest::builder()
-            .collection_name(...)
+            .collection_name("highlighter_demo")
             .vector_field("sparse_vector")
             .vectors(SearchVectors::EmbeddedText(vec!["BM25".to_string()]))
             .limit(10)
@@ -838,7 +838,7 @@ highlighter->WithPostTags({"}"});
 highlighter->WithHighlightSearchText(true);
 
 auto request = milvus::SearchRequest()
-    .WithCollectionName(...)
+    .WithCollectionName("highlighter_demo")
     .WithAnnsField("sparse_vector")
     .WithLimit(10)
     .AddOutputField("text")
@@ -864,7 +864,7 @@ const highlighter = {
 };
 
 const res = await client.search({
-    collection_name: ...,
+    collection_name: "highlighter_demo",
     data: ["BM25"],
     anns_field: "sparse_vector",
     limit: 10,

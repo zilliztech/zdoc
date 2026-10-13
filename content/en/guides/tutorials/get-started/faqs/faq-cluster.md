@@ -130,7 +130,7 @@ If you fail to connect to Zilliz Cloud with the Node.js SDK, please try the foll
 
 1. Ensure you initialize the client correctly.
 
-    ```bash
+    ```javascript
     const client = new MilvusClient('https://your-db-address-with-port', true, 'your-db-user', 'your-db-pasword');
     ```
 

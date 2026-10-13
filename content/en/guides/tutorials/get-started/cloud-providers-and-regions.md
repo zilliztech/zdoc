@@ -249,18 +249,18 @@ Region support can vary by workload type, deployment option, and feature. Use th
      <td><p><a href="./managed-volume">Volume</a></p></td>
      <td><p>✅ All regions</p></td>
      <td><p>✅ All regions</p></td>
-     <td><p>❌</p></td>
+     <td><p>✅ All regions</p><p><a href="http://support.zilliz.com">Contact us</a> if you need to use this feature in Azure regions.</p></td>
    </tr>
    <tr>
      <td><p><a href="./manage-external-collections-console">External collection</a></p></td>
      <td><p>✅ All regions</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
+     <td><p>✅ All regions</p></td>
+     <td><p>✅ All regions</p><p><a href="http://support.zilliz.com">Contact us</a> if you need to use this feature in Azure regions.</p></td>
    </tr>
    <tr>
      <td><p><a href="./global-cluster-explained">Global cluster</a></p></td>
      <td><p>✅ All regions</p></td>
-     <td><p>ℹ️   Part of the regions:</p><ul><li><p>gcp-us-central1</p></li><li><p>gcp-us-east4</p></li></ul><Admonition type="info" title="Note"> [Contact us](http://support.zilliz.com) if you need to use this feature in Google Cloud regions. </Admonition></td>
+     <td><p>ℹ️   Part of the regions:</p><ul><li><p>gcp-us-central1</p></li><li><p>gcp-us-east4</p></li></ul><p><a href="http://support.zilliz.com">Contact us</a> if you need to use this feature in Google Cloud regions.</p></td>
      <td><p>❌</p></td>
    </tr>
    <tr>

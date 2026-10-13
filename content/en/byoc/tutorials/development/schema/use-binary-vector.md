@@ -141,7 +141,7 @@ if err != nil {
 }
 defer client.Close(ctx)
 
-schema := entity.NewSchema().WithEnableDynamicField(true).
+schema := entity.NewSchema().WithDynamicFieldEnabled(true).
     WithField(entity.NewField().
         WithName("pk").
         WithDataType(entity.FieldTypeVarChar).

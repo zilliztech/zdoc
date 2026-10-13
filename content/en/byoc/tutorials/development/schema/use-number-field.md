@@ -1242,9 +1242,9 @@ for (const auto& row : response.Results()) {
 const filter = 'age == 18';
 
 const res = await client.query({
-    collection_name:"my_collection",
-    filter:filter,
-    output_fields=["age", "price", "pk"]
+    collection_name: "my_collection",
+    filter: filter,
+    output_fields: ["age", "price", "pk"]
 });
 
 console.log(res);

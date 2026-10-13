@@ -307,26 +307,53 @@ To suspend an on-demand cluster during a keep-warm window, disable or delete the
 
 </Admonition>
 
-Each on-demand cluster can have one keep-warm schedule. A schedule can contain 1 to 5 weekly rules. Each rule uses the organization's system time zone and includes the days of the week, a start time, and an end time.
+Each on-demand cluster can have one keep-warm schedule. A schedule can contain 1 to 10 weekly rules. Each rule uses the organization's system time zone and includes the days of the week, a start time, and an end time.
 
 ### Via RESTful API\{#via-restful-api}
 
-You can create, update, view, enable, disable, or delete the keep-warm schedule of an on-demand cluster.
+Use the existing on-demand cluster APIs to configure keep-warm schedules. The keep-warm configuration is carried by the `keepWarm` object in the create, describe, and update APIs.
 
-#### Create or update a keep-warm schedule\{#create-or-update-a-keep-warm-schedule}
+#### Create a keep-warm schedule\{#create-a-keep-warm-schedule}
 
-When you create or update a keep-warm schedule, submit the complete list of rules. Zilliz Cloud replaces the existing rules with the submitted rules in a single operation.
+To configure a keep-warm schedule when creating an on-demand cluster, include `keepWarm` in the create request.
 
-The following example creates a keep-warm schedule for weekdays from `09:00` to `18:00`.
+The following example creates an on-demand cluster with a keep-warm schedule for weekdays from `09:00` to `18:00`.
 
 ```bash
-
+curl --request POST \
+  --url "${BASE_URL}/v2/clusters/createOnDemandCluster" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "OrgId: org-xxxxxxxxxxxxxxxxxxx" \
+  --header "Content-Type: application/json" \
+  -d '{
+    "projectId": "proj-xxxxxxxxxxxxxxxxxxx",
+    "regionId": "aws-us-west-2",
+    "cuSize": 8,
+    "clusterName": "my-on-demand-cluster",
+    "autoSuspend": "5m",
+    "keepWarm": {
+      "enabled": true,
+      "schedules": [
+        {
+          "daysOfWeek": [1, 2, 3, 4, 5],
+          "startTime": "09:00",
+          "endTime": "18:00"
+        }
+      ]
+    }
+  }'
 ```
 
 Example response:
 
-```bash
-
+```json
+{
+  "code": 0,
+  "data": {
+    "clusterId": "inxx-xxxxxxxxxxxxxxx",
+    "prompt": "successfully submitted. Cluster is being created."
+  }
+}
 ```
 
 #### View a keep-warm schedule\{#view-a-keep-warm-schedule}
@@ -334,20 +361,83 @@ Example response:
 The following example checks the keep-warm schedule of an on-demand cluster.
 
 ```bash
-
+curl --request GET \
+  --url "${BASE_URL}/v2/clusters/onDemandClusters/${CLUSTER_ID}" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "OrgId: org-xxxxxxxxxxxxxxxxxxx" \
+  --header "Accept: application/json"
 ```
 
 Example response:
 
 ```json
-
+{
+  "code": 0,
+  "data": {
+    "clusterId": "inxx-xxxxxxxxxxxxxxx",
+    "clusterName": "my-on-demand-cluster",
+    "status": "RUNNING",
+    "autoSuspend": 300,
+    "keepWarmActive": true,
+    "keepWarm": {
+      "enabled": true,
+      "systemTimezone": "Asia/Shanghai",
+      "schedules": [
+        {
+          "daysOfWeek": [1, 2, 3, 4, 5],
+          "startTime": "09:00",
+          "endTime": "18:00"
+        }
+      ],
+      "nextTransitionAt": "2026-09-15T10:00:00Z",
+      "nextTransitionType": "END"
+    }
+  }
+}
 ```
 
-If no schedule is configured, the request succeeds and returns `configured` as `false`.
+If no schedule is configured, `keepWarm` is `null` and `keepWarmActive` is `false`.
 
-#### Enable or disable a keep-warm schedule\{#enable-or-disable-a-keep-warm-schedule}
+#### Update a keep-warm schedule\{#update-a-keep-warm-schedule}
 
-To enable or disable a keep-warm schedule, send a PUT request with the full rule set and the desired `enabled` value.
+To update a keep-warm schedule, send a `PATCH` request with the complete `keepWarm` object. Zilliz Cloud replaces the existing schedule with the submitted schedules.
+
+The following example updates the keep-warm schedule of an existing on-demand cluster.
+
+```bash
+curl --request PATCH \
+  --url "${BASE_URL}/v2/clusters/onDemandClusters/${CLUSTER_ID}" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "OrgId: org-xxxxxxxxxxxxxxxxxxx" \
+  --header "Content-Type: application/json" \
+  -d '{
+    "keepWarm": {
+      "enabled": true,
+      "schedules": [
+        {
+          "daysOfWeek": [1, 2, 3, 4, 5],
+          "startTime": "09:00",
+          "endTime": "18:00"
+        }
+      ]
+    }
+  }'
+```
+
+Example response:
+
+```json
+{
+  "code": 0,
+  "data": {
+    "clusterId": "inxx-xxxxxxxxxxxxxxx"
+  }
+}
+```
+
+#### Disable a keep-warm schedule\{#disable-a-keep-warm-schedule}
+
+To disable a keep-warm schedule, send a `PATCH` request with the complete `keepWarm` object and set `enabled` to `false`.
 
 <Admonition type="info" title="Note">
 
@@ -358,27 +448,65 @@ Disabling a schedule keeps all configured rules. If the on-demand cluster is in 
 The following example disables an existing keep-warm schedule.
 
 ```bash
-
+curl --request PATCH \
+  --url "${BASE_URL}/v2/clusters/onDemandClusters/${CLUSTER_ID}" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "OrgId: org-xxxxxxxxxxxxxxxxxxx" \
+  --header "Content-Type: application/json" \
+  -d '{
+    "keepWarm": {
+      "enabled": false,
+      "schedules": [
+        {
+          "daysOfWeek": [1, 2, 3, 4, 5],
+          "startTime": "09:00",
+          "endTime": "18:00"
+        }
+      ]
+    }
+  }'
 ```
 
 Example response:
 
-```bash
-
+```json
+{
+  "code": 0,
+  "data": {
+    "clusterId": "inxx-xxxxxxxxxxxxxxx"
+  }
+}
 ```
 
 #### Delete a keep-warm schedule\{#delete-a-keep-warm-schedule}
 
 Deleting a keep-warm schedule removes the schedule and all rules. It does not delete the on-demand cluster, data, events, or audit records.
 
-```bash
+To delete a keep-warm schedule, send a `PATCH` request with an empty `schedules` list.
 
+```bash
+curl --request PATCH \
+  --url "${BASE_URL}/v2/clusters/onDemandClusters/${CLUSTER_ID}" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "OrgId: org-xxxxxxxxxxxxxxxxxxx" \
+  --header "Content-Type: application/json" \
+  -d '{
+    "keepWarm": {
+      "enabled": false,
+      "schedules": []
+    }
+  }'
 ```
 
 Example response:
 
 ```json
-
+{
+  "code": 0,
+  "data": {
+    "clusterId": "inxx-xxxxxxxxxxxxxxx"
+  }
+}
 ```
 
 ### Via web console\{#via-web-console}
@@ -389,7 +517,7 @@ Example response:
 
 1. Navigate to your target on-demand cluster.
 
-1. Open the **Actions** menu and click **Manage Keep-warm Schedule**.
+1. Open the **Actions** menu and click **Manage Keep-warm**.
 
 1. Turn on **Enable Keep-warm Schedule**.
 
@@ -403,7 +531,7 @@ Example response:
 
 </Procedures>
 
-The cluster details page shows the keep-warm schedule status as **On**, **Off**, **Not configured**, or **Schedule unavailable**. If a schedule is configured, it also shows the rule count, the system time zone, and the next transition time.
+The cluster details page shows the keep-warm schedule status. If a schedule is configured, it also shows the next transition time.
 
 If the on-demand cluster is currently in a keep-warm window, the page shows a secondary **Keep-warm** tag next to the primary cluster status.
 
@@ -412,10 +540,6 @@ If the on-demand cluster is currently in a keep-warm window, the page shows a se
 Disabling a schedule keeps all configured rules. If the on-demand cluster is in a keep-warm window, Zilliz Cloud exits keep-warm mode immediately. The schedule does not suspend the on-demand cluster. To disable a keep-warm schedule, turn off **Enable Keep-warm Schedule** and click **Save** as shown below.
 
 ![OzydwQkLjhVsoBbckHzciUAbnmc](https://zdoc-images.s3.us-west-2.amazonaws.com/OzydwQkLjhVsoBbckHzciUAbnmc.png)
-
-Deleting a schedule permanently removes all rules. To delete a keep-warm schedule, click **Delete Schedule** and confirm the operation as shown below. 
-
-![SBkEwV2bihQXhDbdTlIcnnYknSd](https://zdoc-images.s3.us-west-2.amazonaws.com/SBkEwV2bihQXhDbdTlIcnnYknSd.png)
 
 </NextChannel>
 

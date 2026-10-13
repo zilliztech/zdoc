@@ -47,7 +47,7 @@ filter = "RANDOM_SAMPLE(sampling_factor)"
 <TabItem value='java'>
 
 ```java
-String filter = "RANDOM_SAMPLE(sampling_factor)"
+String filter = "RANDOM_SAMPLE(sampling_factor)";
 ```
 
 </TabItem>
@@ -131,7 +131,7 @@ String filter = "color == \"red\" AND RANDOM_SAMPLE(0.001)";
 // Processing: Find all red items → Sample 0.1% of those red items
 
 // Incorrect: OR doesn't make logical sense
-String filter = "color == \"red\" OR RANDOM_SAMPLE(0.001)";  // ❌ Invalid logic
+String filterIncorrect = "color == \"red\" OR RANDOM_SAMPLE(0.001)";  // ❌ Invalid logic
 // This would mean: "Either red items OR sample everything" - which is meaningless
 ```
 
