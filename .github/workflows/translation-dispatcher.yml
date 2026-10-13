@@ -36,7 +36,9 @@ env:
 jobs:
   dispatch:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    # Counting (~2 min) plus the armed-only source build gate (fresh dev
+    # worktree install + build:en, 10-25 min); dry cycles stay near two.
+    timeout-minutes: 75
     permissions:
       contents: read
       actions: write
@@ -90,9 +92,42 @@ jobs:
             --repository "$GITHUB_WORKSPACE" \
             --previous-plan "${{ steps.plan.outputs.previous }}" \
             --output-plan "$RUNNER_TEMP/dispatch-plan-out/translation-dispatch-plan.json" \
+            --alerts-output tmp/dispatch-alerts/alerts.json \
             --budget "$BUDGET" \
             --guides-max-files "$GUIDES_MAX_FILES" \
             --dispatch "$armed"
+      - name: Send dispatcher guard alerts
+        # Guard alerts are rare, high-signal operator decisions — the opposite
+        # of the routine card noise the global kill switch silences — so this
+        # step alone re-points FEISHU_NOTIFICATIONS_DISABLED at its own
+        # default-off variable instead of inheriting the repo-wide mute.
+        if: ${{ always() }}
+        continue-on-error: true
+        env:
+          FEISHU_NOTIFICATIONS_DISABLED: ${{ vars.TRANSLATION_DISPATCHER_ALERTS_DISABLED || '' }}
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+        run: |
+          set -euo pipefail
+          alerts="tmp/dispatch-alerts/alerts.json"
+          plan="$RUNNER_TEMP/dispatch-plan-out/translation-dispatch-plan.json"
+          if [[ ! -f "$alerts" ]]; then
+            echo 'no dispatcher guard alerts this cycle'
+            exit 0
+          fi
+          if [[ "${FEISHU_NOTIFICATIONS_DISABLED:-}" == "true" || "${FEISHU_NOTIFICATIONS_DISABLED:-}" == "1" ]]; then
+            # report-card exits 0 without delivering while muted; marking the
+            # ledger then would permanently swallow these alerts on unmute.
+            echo 'dispatcher alerts are muted; leaving the dedup ledger unmarked so unmute replays them'
+            exit 0
+          fi
+          note="tmp/dispatch-alerts/note.md"
+          node scripts/docs-workflow/translation-dispatch-alerts.js note --alerts "$alerts" --output "$note"
+          card_id=$(node scripts/docs-tooling.js report-card create --title "Translation dispatcher guard" --stages "Guards" | tail -n 1)
+          node scripts/docs-tooling.js report-card note --file "$note"
+          node scripts/docs-tooling.js report-card finish --message-id "$card_id" --status failure
+          node scripts/docs-workflow/translation-dispatch-alerts.js mark --alerts "$alerts" --plan "$plan"
       - name: Upload the dispatch plan
         if: ${{ always() }}
         uses: actions/upload-artifact@v6

@@ -13,6 +13,15 @@ function createDispatchPlan({generatedAt}) {
   return {schemaVersion: PLAN_SCHEMA_VERSION, generatedAt, units: {}}
 }
 
+// Cycle-scoped caches (the build-gate verdict and the alert dedup ledger)
+// ride through merges untouched: they key on dev HEADs and event identities,
+// not on unit observations, so a merge must never drop them.
+function carryCycleCaches({from, onto}) {
+  if (from.buildGate !== undefined) onto.buildGate = from.buildGate
+  if (from.alerts !== undefined) onto.alerts = from.alerts
+  return onto
+}
+
 function assertObservation(observation) {
   if (!observation || typeof observation !== 'object') throw new Error('Dispatch observation must be an object')
   if (typeof observation.unitKey !== 'string' || !observation.unitKey.startsWith('translation/')) throw new Error(`Dispatch observation has an invalid unit key: ${observation.unitKey}`)
@@ -26,9 +35,11 @@ function isOpenStatus(status) {
 
 // One active entry per unit plus a bounded history of closed entries.
 // Statuses: open (needs a dispatch), dispatched (a producer run was started;
-// still counts as open work until pending reaches zero), cleared (checked
-// off — pending hit zero at this checkpoint), superseded (a newer source
-// checkpoint replaced this entry while it was still open).
+// still counts as open work until pending reaches zero), blocked (the
+// per-checkpoint dispatch-attempt budget was exhausted; not open work — the
+// dispatcher stops re-dispatching it until the checkpoint moves), cleared
+// (checked off — pending hit zero at this checkpoint), superseded (a newer
+// source checkpoint replaced this entry while it was still open).
 function mergeDispatchPlan({plan, observations, now}) {
   if (plan.schemaVersion !== PLAN_SCHEMA_VERSION) throw new Error(`Unsupported dispatch plan schema version: ${plan.schemaVersion}`)
   if (typeof now !== 'string' || !now) throw new Error('A merge timestamp is required')
@@ -36,7 +47,7 @@ function mergeDispatchPlan({plan, observations, now}) {
     assertObservation(observation)
     return [observation.unitKey, observation]
   }))
-  const merged = createDispatchPlan({generatedAt: now})
+  const merged = carryCycleCaches({from: plan, onto: createDispatchPlan({generatedAt: now})})
   for (const [unitKey, unit] of Object.entries(plan.units || {})) {
     merged.units[unitKey] = {current: unit.current ? {...unit.current} : null, history: [...(unit.history || [])]}
   }
@@ -57,11 +68,21 @@ function mergeDispatchPlan({plan, observations, now}) {
         unit.current = {...next, status: 'cleared', clearedAt: now, lastDispatch: current.lastDispatch || null}
       } else if (current && current.status === 'cleared') {
         unit.current = {...current, lastCheckedAt: now}
+      } else if (current && current.status === 'blocked') {
+        unit.current = {...next, status: 'cleared', clearedAt: now, lastDispatch: current.lastDispatch || null}
       }
     } else if (current && isOpenStatus(current.status) && current.sourceCheckpointSha === observation.sourceCheckpointSha) {
-      unit.current = {...next, status: current.status, lastDispatch: current.lastDispatch || null}
+      // dispatchFailures is the backoff budget for THIS checkpoint; merges
+      // must carry it (a fresh merge shape would otherwise reset the budget
+      // every cycle) and any newer checkpoint naturally starts without it.
+      unit.current = {...next, status: current.status, lastDispatch: current.lastDispatch || null, dispatchFailures: current.dispatchFailures || 0}
+    } else if (current && current.status === 'blocked' && current.sourceCheckpointSha === observation.sourceCheckpointSha) {
+      // A blocked entry is carried verbatim except for the refreshed count:
+      // firstSeenAt and dispatchFailures belong to the blocked checkpoint's
+      // story and must not drift while the block stands.
+      unit.current = {...next, firstSeenAt: current.firstSeenAt, dispatchFailures: current.dispatchFailures || 0, status: 'blocked', blockedAt: current.blockedAt, blockedReason: current.blockedReason || null, lastDispatch: current.lastDispatch || null}
     } else {
-      if (current && isOpenStatus(current.status)) {
+      if (current && (isOpenStatus(current.status) || current.status === 'blocked')) {
         unit.history.push({...current, status: 'superseded', supersededAt: now})
       } else if (current && current.status === 'cleared') {
         // A newer checkpoint is new work; the checkpoint that cleared went
@@ -84,15 +105,37 @@ function markDispatched({plan, unitKeys, runId, requestId, dispatchedAt}) {
   for (const [unitKey, unit] of Object.entries(plan.units)) {
     if (wanted.has(unitKey)) {
       // Re-dispatch (a producer run ended with work remaining) replaces the
-      // previous dispatch evidence; cleared units are never re-marked.
+      // previous dispatch evidence but keeps the per-checkpoint attempt count
+      // growing, so the backoff budget survives evidence replacement; cleared
+      // units are never re-marked.
       if (!unit.current || !isOpenStatus(unit.current.status)) throw new Error(`Cannot mark unit dispatched that has no open work: ${unitKey}`)
-      merged.units[unitKey] = {...unit, current: {...unit.current, status: 'dispatched', lastDispatch: {runId, requestId, dispatchedAt}}}
+      merged.units[unitKey] = {...unit, current: {...unit.current, status: 'dispatched', lastDispatch: {runId, requestId, dispatchedAt, attempts: (unit.current.lastDispatch?.attempts || 0) + 1}}}
       wanted.delete(unitKey)
     } else {
       merged.units[unitKey] = unit
     }
   }
   if (wanted.size) throw new Error(`Cannot mark unknown units dispatched: ${[...wanted].join(', ')}`)
+  return merged
+}
+
+// Backoff terminal state: the unit keeps its dispatch evidence for triage but
+// stops counting as open work. Any newer source checkpoint reopens the unit
+// through the normal merge (supersede), which is the budget reset — the
+// dispatcher never unblocks a unit on its own.
+function markBlocked({plan, unitKeys, blockedAt, reason}) {
+  const merged = {...plan, units: {}}
+  const wanted = new Set(unitKeys)
+  for (const [unitKey, unit] of Object.entries(plan.units)) {
+    if (wanted.has(unitKey)) {
+      if (!unit.current || unit.current.status !== 'dispatched') throw new Error(`Cannot block a unit that has no dispatched work: ${unitKey}`)
+      merged.units[unitKey] = {...unit, current: {...unit.current, status: 'blocked', blockedAt, blockedReason: reason || null}}
+      wanted.delete(unitKey)
+    } else {
+      merged.units[unitKey] = unit
+    }
+  }
+  if (wanted.size) throw new Error(`Cannot mark unknown units blocked: ${[...wanted].join(', ')}`)
   return merged
 }
 
@@ -126,6 +169,7 @@ function summarizePlan(plan) {
   return {
     open: rows.filter(row => row.status === 'open').length,
     dispatched: rows.filter(row => row.status === 'dispatched').length,
+    blocked: rows.filter(row => row.status === 'blocked').length,
     cleared: rows.filter(row => row.status === 'cleared').length,
     rows: rows.map(row => ({unitKey: row.unitKey, status: row.status, pendingCount: row.pendingCount, lastDispatch: row.lastDispatch ? row.lastDispatch.runId : null})),
   }
@@ -144,6 +188,7 @@ module.exports = {
   isOpenStatus,
   mergeDispatchPlan,
   markDispatched,
+  markBlocked,
   selectDispatchUnits,
   summarizePlan,
   parseDispatchPlan,

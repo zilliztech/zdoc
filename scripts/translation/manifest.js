@@ -304,6 +304,8 @@ function main() {
   const reconciliationPlanArtifact = args.get('--reconciliation-plan-artifact') || null
   const mode = args.get('--mode') || process.env.TRANSLATION_MODE || 'incremental'
   const countOnly = args.get('--count-only') === 'true'
+  const printFiles = args.get('--print-files') === 'true'
+  if (printFiles && !countOnly) throw new Error('--print-files requires --count-only')
   const sourceChanges = sourceChangesPath ? JSON.parse(fs.readFileSync(path.join(siteDir, sourceChangesPath), 'utf8')) : null
   const batchFlags = ['--batch-index', '--batch-size', '--expected-pending-set-sha256']
   const presentBatchFlags = batchFlags.filter(flag => args.has(flag))
@@ -323,7 +325,7 @@ function main() {
     throw error
   }
   if (countOnly) {
-    console.log(`[translation-manifest-count] ${JSON.stringify({
+    const summary = {
       target,
       group,
       locale,
@@ -331,7 +333,12 @@ function main() {
       maxFiles,
       pendingCount: manifest.items.length,
       candidateCounts: countCandidateReasons(manifest),
-    })}`)
+    }
+    // The dispatcher's build gate attributes site build failures to the exact
+    // files a dispatch would translate; the paths come from the same manifest
+    // selection so the gate and the producer can never disagree on the set.
+    if (printFiles) summary.files = manifest.items.map(item => ({sourcePath: item.sourcePath, targetPath: item.targetPath}))
+    console.log(`[translation-manifest-count] ${JSON.stringify(summary)}`)
     return
   }
   if (presentBatchFlags.length) {

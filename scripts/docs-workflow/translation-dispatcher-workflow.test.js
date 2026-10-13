@@ -52,6 +52,7 @@ test('the dispatcher workflow stays off the production queue and arms only throu
   assert.equal(doc.jobs.dispatch.permissions.actions, 'write')
   assert.equal(doc.jobs.dispatch.permissions.contents, 'read')
   assert.ok(doc.on.schedule.some(entry => entry.cron === '30 * * * *'), 'hourly schedule at :30')
+  assert.equal(doc.jobs.dispatch['timeout-minutes'], 75, 'counting plus the armed-only build gate fits the cycle')
   const source = workflowSource('translation-dispatcher.yml')
   assert.match(source, /TRANSLATION_DISPATCHER_DISPATCH/, 'arming must flow through the repo variable')
   assert.match(source, /--dispatch "\$armed"/, 'the armed flag must reach the dispatcher CLI')
@@ -63,7 +64,28 @@ test('the dispatcher dispatches with the producer selection semantics, not hand-
   assert.match(source, /guidesMaxFiles/, 'dispatches carry the Guides cap')
   assert.match(source, /mode: 'auto'/, 'the dispatcher never requests a full retranslation')
   assert.match(source, /publish: true/, 'dispatched producers publish through their own short-lock publisher')
-  assert.match(source, /buildHandoff\(\{groups: selection\.groups\.join\(','\)\}\)/, 'handoffs come from the group selector, not unit filtering')
+  assert.match(source, /buildHandoff\(\{groups: dispatchSelection\.groups\.join\(','\)\}\)/, 'handoffs come from the group selector, not unit filtering')
+  assert.match(source, /selection\.groups\.filter\(group => !blockedGroups\.includes\(group\)\)/, 'the build gate drops whole groups, never single units or locales')
+})
+
+test('dispatcher guard alerts bypass the global Feishu mute through their own variable', () => {
+  const doc = workflow('translation-dispatcher.yml')
+  const steps = doc.jobs.dispatch.steps
+  const alertIndex = steps.findIndex(step => step.name === 'Send dispatcher guard alerts')
+  const uploadIndex = steps.findIndex(step => step.name === 'Upload the dispatch plan')
+  assert.ok(alertIndex > -1, 'the alert step exists')
+  assert.ok(alertIndex > -1 && alertIndex < uploadIndex, 'delivery marks the plan notified before the plan is uploaded, so a failed send retries next cycle')
+  assert.equal(steps[alertIndex]['continue-on-error'], true, 'a failed card delivery never fails the dispatcher cycle')
+  assert.equal(steps[alertIndex].env.FEISHU_NOTIFICATIONS_DISABLED, "${{ vars.TRANSLATION_DISPATCHER_ALERTS_DISABLED || '' }}", 'alerts use their own default-off mute, never the repo-wide kill switch')
+  assert.equal(steps[alertIndex].env.APP_ID, '${{ secrets.APP_ID }}')
+  assert.match(workflowSource('translation-dispatcher.yml'), /--alerts-output tmp\/dispatch-alerts\/alerts\.json/, 'the dispatcher hands unseen guard events to the card step')
+  // The mute guard must read the variable the step actually injects — a bare
+  // vars.* name in bash is always empty, and a dead guard would let the muted
+  // path silently ledger-consume undelivered alerts.
+  const alertStepSource = workflowSource('translation-dispatcher.yml').split('- name: Send dispatcher guard alerts')[1].split('- name:')[0]
+  assert.match(alertStepSource, /if \[\[ "\$\{FEISHU_NOTIFICATIONS_DISABLED:-\}" == "true" \|\| "\$\{FEISHU_NOTIFICATIONS_DISABLED:-\}" == "1" \]\]/, 'the mute guard reads the injected mute variable')
+  assert.doesNotMatch(alertStepSource, /TRANSLATION_DISPATCHER_ALERTS_DISABLED:-\}/, 'vars.* names never reach bash without an env mapping')
+  assert.match(alertStepSource, /leaving the dedup ledger unmarked so unmute replays them/, 'muting must skip ledger marking: report-card exits 0 without delivering while muted')
 })
 
 test('comma group selectors stay subset-strict in the canonical order', () => {
