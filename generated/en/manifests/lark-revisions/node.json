@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "group": "node",
   "complete": true,
-  "generatedAt": "2026-08-05T16:46:31.509Z",
-  "sourceRunId": "31025531547",
+  "generatedAt": "2026-10-13T03:02:42.364Z",
+  "sourceRunId": "38337851916",
   "records": [
     {
       "canonicalToken": "AG5zdQCpXoy11MxWgD0ciYBRnJb",
@@ -18,6 +18,15 @@
       "canonicalToken": "AKpldMJPTo6MfuxxrpicBKRInCh",
       "title": "getPkFieldType()",
       "contentPath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-getPkFieldType.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ANWZdmEMkocWK3xo2ZxcnqtLnUh",
+      "title": "dropCollectionField()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -105,6 +114,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "BjKLdh2SFouRSbxELaqc9b4tnts",
+      "title": "addFunctionField()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "Bx6FdwVlUoqZjVxZwSFcnUr2nDe",
       "title": "pinSnapshotData()",
       "contentPath": "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-pinSnapshotData.md",
@@ -180,15 +198,6 @@
       "canonicalToken": "CpQndB70LowyUgxKxUzcxGc0nxf",
       "title": "dropResourceGroup()",
       "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "DBEFdVorMomen0x4xNEcKkM1n8O",
-      "title": "alterCollectionFunction()",
-      "contentPath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-alterCollectionFunction.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -402,6 +411,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "Fvw0dyRalo2ceVxdY4Fcf9uTnBg",
+      "title": "alterRole()",
+      "contentPath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-alterRole.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "FzoQdCtWIoOKb4x2hiJcEavXnUb",
       "title": "getQuerySegmentInfo()",
       "contentPath": null,
@@ -423,6 +441,15 @@
       "canonicalToken": "GIeMdvjlMoLwGrxUOu3cFw7bnWc",
       "title": "listRoles()",
       "contentPath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-listRoles.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "GK8hdiDs8olcOtxu0BKc89Vxn0b",
+      "title": "listFileResources()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -753,6 +780,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "LMSCdLflPoeX27xgsbocsSsHn2d",
+      "title": "getTelemetry()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "LPJsdEnvwo6apcxjhZgc3rpDnuc",
       "title": "grantRole()",
       "contentPath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-grantRole.md",
@@ -837,6 +873,24 @@
       "canonicalToken": "MUzJdvT3LoZz65xpAPMcnvo2nbb",
       "title": "HttpImportCreateReq",
       "contentPath": "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-HttpImportCreateReq.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "McjWdWlspoubE4x3atYc4Fn9n3c",
+      "title": "alterCollectionFunction()",
+      "contentPath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-alterCollectionFunction.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "MmABd2rdooxiLZxYzwEciyTanOg",
+      "title": "dropFunctionField()",
+      "contentPath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-dropFunctionField.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1079,7 +1133,16 @@
     {
       "canonicalToken": "RSrRdD4fLoy50Bx5s2xcQ6lMnVd",
       "title": "BulkWriter",
-      "contentPath": "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-BulkWriter.md",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "RnyUdtGbFoIC7AxyhmNcbudYnhb",
+      "title": "addFileResource()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1116,15 +1179,6 @@
       "canonicalToken": "SkLsdMpB7oiZLMx8T04cCd9Knqf",
       "title": "connect()",
       "contentPath": "content/en/reference/api/nodejs/nodejs/Client/Client-connect.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "SmI4dGF4qoAjbKxamfhcndjxnCc",
-      "title": "addCollectionFunction()",
-      "contentPath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-addCollectionFunction.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1257,6 +1311,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "VD1AddhBlo14dnxad79cWBEinMe",
+      "title": "alterCollectionSchema()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "VGofdSRi0o6EagxNkokc9Iinndf",
       "title": "loadPartitionsSync()",
       "contentPath": "content/en/reference/api/nodejs/nodejs/Partitions/Partitions-loadPartitionsSync.md",
@@ -1278,6 +1341,15 @@
       "canonicalToken": "Vq2VdsWJaoufsGx5stJcTuyPnDb",
       "title": "FunctionType",
       "contentPath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-FunctionType.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "VyADdglU4ohvGTxHuwTc6yBRnTe",
+      "title": "addCollectionFunction()",
+      "contentPath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-addCollectionFunction.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,

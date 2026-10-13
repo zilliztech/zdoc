@@ -4,12 +4,12 @@ slug: /node/node/Collections-alterCollectionFunction
 sidebar_label: "alterCollectionFunction()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "This operation modifies a custom function in an existing collection. | Node.js"
+description: "This operation alters an existing function on a collection. | Node.js"
 type: docx
-token: DBEFdVorMomen0x4xNEcKkM1n8O
+token: McjWdWlspoubE4x3atYc4Fn9n3c
 sidebar_position: 22
 keywords: 
   - knn
@@ -31,82 +31,70 @@ import Admonition from '@theme/Admonition';
 
 # alterCollectionFunction()
 
-This operation modifies a custom function in an existing collection.
-
-```typescript
-await milvusClient.alterCollectionFunction(data: AlterCollectionFunctionReq)
-```
+This operation alters an existing function on a collection.
 
 ## Request Syntax\{#request-syntax}
 
 ```typescript
-await milvusClient.alterCollectionFunction({
-    collection_name: string,
-    function_name: string,
-    function: FunctionObject,
-    db_name?: string,
-    timeout?: number,
-})
+milvusClient.alterCollectionFunction({ collection_name, function_name, function, db_name?, timeout? })
 ```
 
 **PARAMETERS:**
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
-
-    The name of the collection containing the function to modify.
+    The name of an existing collection.
 
 - **function_name** (*string*) -
-
-    **[REQUIRED]**
 
     The name of the function to alter.
 
 - **function** (*FunctionObject*) -
 
-    **[REQUIRED]**
-
-    The updated function schema. For the full FunctionObject field reference, refer to `addCollectionFunction()`.
+    The replacement function schema.
 
 - **db_name** (*string*) -
 
-    The name of the database where the collection resides.
+    The name of the database that holds the collection.
 
 - **timeout** (*number*) -
 
-    The timeout duration in milliseconds for this operation.
+    An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or error occurs. Default is undefined.
 
 **RETURNS:**
 
-*Promise\<ResStatus\>*
+*ResStatus*
+
+The response status of the operation has the shape of `{error_code, reason}`.
+
+**PARAMETERS:**
+
+- **error_code** (*number*) -
+
+    The error code number: 0 means success.
+
+- **reason** (*string*) -
+
+    The cause of the error, if any.
 
 **EXCEPTIONS:**
 
 - **MilvusError**
 
-    This exception will be raised when any error occurs during this operation.
+    Raised when the server rejects the request or the RPC fails. Inspect the server error message for the exact failure reason.
 
 ## Example\{#example}
 
 ```javascript
-import { MilvusClient, FunctionType } from '@zilliz/milvus2-sdk-node';
-
-const milvusClient = new MilvusClient({
-    address: 'YOUR_CLUSTER_ENDPOINT',
-    token: 'YOUR_CLUSTER_TOKEN',
-});
-
-const resStatus = await milvusClient.alterCollectionFunction({
-    collection_name: 'my_collection',
-    function_name: 'my_bm25_function',
-    function: {
-        name: 'my_bm25_function',
-        description: 'Updated BM25 sparse embedding function',
-        type: FunctionType.BM25,
-        input_field_names: ['text'],
-        output_field_names: ['sparse_vector'],
-        params: {},
-    },
+await milvusClient.alterCollectionFunction({
+  collection_name: 'my_collection',
+  function_name: 'bm25_fn',
+  function: {
+    name: 'bm25_fn',
+    type: 'BM25',
+    input_field_names: ['text'],
+    output_field_names: ['sparse_vector'],
+    params: {},
+  },
 });
 ```

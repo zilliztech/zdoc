@@ -140,6 +140,12 @@ module.exports = [
         "id": "api/nodejs/nodejs/Authentication/Authentication-hasRole",
         "label": "hasRole()",
         "key": "doc:api/nodejs/nodejs/Authentication/authentication-hasrole"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Authentication/Authentication-alterRole",
+        "label": "alterRole()",
+        "key": "doc:api/nodejs/nodejs/Authentication/authentication-alterrole"
       }
     ]
   },
@@ -379,6 +385,12 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/nodejs/nodejs/Collections/Collections-dropFunctionField",
+        "label": "dropFunctionField()",
+        "key": "doc:api/nodejs/nodejs/Collections/collections-dropfunctionfield"
+      },
+      {
+        "type": "doc",
         "id": "api/nodejs/nodejs/Collections/Collections-getRefreshExternalCollectionProgress",
         "label": "getRefreshExternalCollectionProgress()",
         "key": "doc:api/nodejs/nodejs/Collections/collections-getrefreshexternalcollectionprogress"
@@ -451,10 +463,10 @@ module.exports = [
         "key": "doc:api/nodejs/nodejs/DataImport/dataimport-bulkinsert"
       },
       {
-        "type": "doc",
-        "id": "api/nodejs/nodejs/DataImport/DataImport-BulkWriter",
+        "type": "category",
         "label": "BulkWriter",
-        "key": "doc:api/nodejs/nodejs/DataImport/dataimport-bulkwriter"
+        "key": "category:api/nodejs/nodejs/DataImport/dataimport-bulkwriter",
+        "items": []
       },
       {
         "type": "doc",
@@ -499,6 +511,12 @@ module.exports = [
         "key": "doc:api/nodejs/nodejs/DataImport/dataimport-getimportstate"
       }
     ]
+  },
+  {
+    "type": "category",
+    "label": "FileResources",
+    "key": "category:api/nodejs/nodejs/fileresources",
+    "items": []
   },
   {
     "type": "category",
