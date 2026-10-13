@@ -989,10 +989,14 @@
         "scripts/docs-workflow/translation-dispatch-plan.js",
         "scripts/docs-workflow/translation-dispatch-plan.test.js",
         "scripts/docs-workflow/translation-dispatcher-workflow.test.js",
-        "scripts/docs-workflow/translation-pending-count.js"
+        "scripts/docs-workflow/translation-pending-count.js",
+        "scripts/docs-workflow/translation-build-gate.js",
+        "scripts/docs-workflow/translation-build-gate.test.js",
+        "scripts/docs-workflow/translation-dispatch-alerts.js",
+        "scripts/docs-workflow/translation-dispatch-alerts.test.js"
       ],
       "focusedTests": [
-        "node --test scripts/docs-workflow/translation-dispatcher.test.js scripts/docs-workflow/translation-dispatch-plan.test.js scripts/docs-workflow/translation-dispatcher-workflow.test.js"
+        "node --test scripts/docs-workflow/translation-dispatcher.test.js scripts/docs-workflow/translation-dispatch-plan.test.js scripts/docs-workflow/translation-dispatcher-workflow.test.js scripts/docs-workflow/translation-build-gate.test.js scripts/docs-workflow/translation-dispatch-alerts.test.js"
       ],
       "harnesses": [],
       "gates": [
@@ -1000,7 +1004,7 @@
         "pnpm test:workflow-matrix",
         "git diff --check"
       ],
-      "reason": "The hourly dispatcher counts pending translation work through the producer's own selection mechanism, keeps a task-list artifact, and dispatches at most one budgeted producer run per cycle; it never owns the production queue and stops without dispatching on any ambiguity."
+      "reason": "The hourly dispatcher counts pending translation work through the producer's own selection mechanism, keeps a task-list artifact, and dispatches at most one budgeted producer run per cycle; armed cycles gate on a source build of current dev (blocking only on dispatch-set source attribution), back off units after repeated failed dispatches, and alert through their own Feishu mute variable. It never owns the production queue and stops without dispatching on any ambiguity."
     },
     {
       "id": "site-validation-watchdog",

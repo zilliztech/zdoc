@@ -30,7 +30,7 @@ function parseArguments(argv) {
   for (let i = 0; i < argv.length; i += 2) args.set(argv[i], argv[i + 1])
   const required = ['--repository', '--target', '--group', '--source-baseline-sha', '--source-checkpoint-sha', '--target-baseline-sha']
   for (const flag of required) {
-    if (!args.has(flag)) throw new Error(`Usage: translation-pending-count.js ${required.join(' ')} [--mode auto]`)
+    if (!args.has(flag)) throw new Error(`Usage: translation-pending-count.js ${required.join(' ')} [--mode auto] [--print-files true]`)
   }
   const sha = /^[0-9a-f]{40}$/
   for (const flag of ['--source-baseline-sha', '--source-checkpoint-sha', '--target-baseline-sha']) {
@@ -45,7 +45,7 @@ function restoreExceptForTarget(target) {
   throw new Error(`Unsupported translation target: ${target}`)
 }
 
-function countPendingUnit({repository, target, group, sourceBaselineSha, sourceCheckpointSha, targetBaselineSha, mode = 'auto'}) {
+function countPendingUnit({repository, target, group, sourceBaselineSha, sourceCheckpointSha, targetBaselineSha, mode = 'auto', printFiles = false}) {
   const repositoryRoot = path.resolve(repository)
   // The baseline worktree must live OUTSIDE the counting repository —
   // materialize-translation-baseline refuses overlapping trees (the producer
@@ -96,10 +96,13 @@ function countPendingUnit({repository, target, group, sourceBaselineSha, sourceC
       '--source-changes', 'tmp/dispatch-source-changes.json',
       '--mode', effectiveMode,
       '--count-only', 'true',
+      ...(printFiles ? ['--print-files', 'true'] : []),
     ]).trim().split('\n').filter(line => line.startsWith('[translation-manifest-count] ')).pop()
     if (!countLine) throw new Error('manifest --count-only produced no count line')
     const summary = JSON.parse(countLine.slice('[translation-manifest-count] '.length))
-    return {unitKey: `translation/${target}/${group}`, target, group, effectiveMode, pendingCount: summary.pendingCount, candidateCounts: summary.candidateCounts}
+    const counted = {unitKey: `translation/${target}/${group}`, target, group, effectiveMode, pendingCount: summary.pendingCount, candidateCounts: summary.candidateCounts}
+    if (summary.files) counted.files = summary.files
+    return counted
   } finally {
     run('git', ['worktree', 'remove', '--force', baselineWorktree], {cwd: repositoryRoot})
   }
@@ -115,6 +118,7 @@ function main() {
     sourceCheckpointSha: args.get('--source-checkpoint-sha'),
     targetBaselineSha: args.get('--target-baseline-sha'),
     mode: args.get('--mode') || 'auto',
+    printFiles: args.get('--print-files') === 'true',
   })
   console.log(`[translation-pending-count] ${JSON.stringify(summary)}`)
 }
