@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "This operation conducts a vector similarity search with an optional scalar filtering expression. | Node.js"
+description: "This operation performs a vector similarity search in a collection. | Node.js"
 type: docx
 token: HYv3d0NiRoc09Bx4rz0cIhqknb5
 sidebar_position: 7
@@ -31,330 +31,179 @@ import Admonition from '@theme/Admonition';
 
 # search()
 
-This operation conducts a vector similarity search with an optional scalar filtering expression.
-
-```javascript
-await milvusClient.search(data)
-```
+This operation performs a vector similarity search in a collection.
 
 ## Request Syntax\{#request-syntax}
 
-```javascript
-await milvusClient.search({
-  db_name?: string,
-  collection_name: string,
-  partition_names?: string[];
-  anns_field?: string; 
-  data?: SearchDataType;
-  output_fields?: string[];
-  limit?: number;
-  offset?: number;
-  filter?: string;
-  exprValues?: keyValueObj;
-  params?: keyValueObj;
-  consistency_level?: ConsistencyLevelEnum;
-  ignore_growing?: boolean;
-  group_by_field?: string;
-  group_size?: number;
-  strict_group_size?: boolean;
-  hints?: string;
-  round_decimal?: number;
-  transformers?: OutputTransformers;
-  rerank?: RankerObj | FunctionObject | FunctionScore;
-})
+```typescript
+milvusClient.search({ collection_name, data, ... })
 ```
 
 **PARAMETERS:**
-
-- **db_name** (*string*) -
-
-    The name of the database to which the target collection belongs.
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    The name of the collection.
 
-    The name of the collection to search
+- **db_name** (*string*) -
+
+    The name of the database (optional).
+
+- **data** (*SearchData | SearchData[]*) -
+
+    Vector or text to search. Not required when ids is provided.
+
+- **vector** (*SearchData | SearchData[]*) -
+
+    Alias for data (optional).
+
+- **ids** (*number[] | string[]*) -
+
+    Primary key IDs for Search By PK. When provided, vector data is not required.
 
 - **partition_names** (*string[]*) -
 
-    A list of the names of the partitions to search.
+    Array of partition names (optional).
 
 - **anns_field** (*string*) -
 
-    The name of the target vector field for this operation. It is mandatory if you are searching in a collection with multiple vector fields.
-
-- **data** (*number[]* | *number[][]*) -
-
-    A list of vector embeddings.
-
-    Zilliz Cloud searches for the most similar vector embeddings to the specified ones.
+    Vector field name, required for multi-vector collections (optional).
 
 - **output_fields** (*string[]*) -
 
-    A list of field names to include in each entity in return.
+    Fields to return (optional).
 
-    The value defaults to **None**. If left unspecified, only the primary field is included.
+- **limit** (*number*) -
 
-- **limit** (*number*) - 
+    Number of results to return (optional).
 
-    The total number of entities to return.
+- **topk** (*number*) -
 
-    You can use this parameter in combination with **offset** in **param** to enable pagination.
+    Alias for limit (optional).
 
-    The sum of this value and **offset** in **param** should be less than 16,384. 
+- **offset** (*number*) -
 
-    In a grouping search, however, `limit` specifies the maximum number of groups to return, rather than individual entities. Each group is formed based on the specified `group_by_field`.
-
-- **offset** (*number*) - 
-
-    The number of records to skip in the search result. 
-
-    You can use this parameter in combination with `limit` to enable pagination.
-
-    The sum of this value and `limit` should be less than 16,384. 
+    Number of results to skip (optional).
 
 - **filter** (*string*) -
 
-    A scalar filtering condition to filter matching entities. 
+    Filter expression (optional).
 
-    The value defaults to an empty string, indicating that no condition applies.
+- **expr** (*string*) -
 
-    You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md). 
+    Alias for filter (optional).
 
 - **exprValues** (*keyValueObj*) -
 
-    If you choose to use placeholders in `filter` as stated in [Filtering Templating](/docs/filtering-templating), then you can specify the actual values for these placeholders as key-value pairs as the value of this parameter.
+    Template values for the filter expression (optional).
 
-- **params** (*KeyValueObj*) -
+- **params** (*keyValueObj*) -
 
-    The additional search parameters in key-value pairs.
+    Extra search parameters (optional).
 
-    - **radius** (*number*) -
+- **metric_type** (*string*) -
 
-        Determines the threshold of least similarity. When setting `metric_type` to `L2`, ensure that this value is greater than that of **range_filter**. Otherwise, this value should be lower than that of **range_filter**. 
-
-    - **range_filter**  (*number*) -  
-
-        Refines the search to vectors within a specific similarity range. When setting `metric_type` to `IP` or `COSINE`, ensure that this value is greater than that of **radius**. Otherwise, this value should be lower than that of **radius**.
-
-    - **level** (*number*)
-
-        Zilliz Cloud uses a unified parameter to simplify search parameter tuning instead of leaving you to work with a bunch of search parameters specific to various index algorithms.
-
-        The value defaults to **1**, and ranges from **1** to **5**. Increasing the value results in a higher recall rate with degraded search performance.
-
-    - **page_retain_order** (*bool*) -
-
-        Whether to retain the order of the search result when `offset` is provided. 
-
-        This parameter applies only when you also set `radius`.
+    Distance metric type (optional).
 
 - **consistency_level** (*ConsistencyLevelEnum*) -
 
-    The consistency level of the target collection. The value defaults to **Bounded** (**1**) with options of **Strong** (**0**), **Bounded** (**1**), **Session** (**2**), and **Eventually** (**3**).
+    Consistency level (optional).
 
 - **ignore_growing** (*boolean*) -
 
-    A boolean value indicating whether to skip the search in growing segments.
+    Whether to ignore growing segments (optional).
 
 - **group_by_field** (*string*) -
 
-    Groups search results by a specified field to ensure diversity and avoid returning multiple results from the same group.
+    Field to group results by (optional).
 
 - **group_size** (*number*) -
 
-    The target number of entities to return within each group in a grouping search. For example, setting `group_size=2` instructs the system to return up to 2 of the most similar entities (e.g., document passages or vector representations) within each group. Without setting `group_size`, the system defaults to returning only 1 entity per group.
+    Size of each group (optional).
 
 - **strict_group_size** (*boolean*) -
 
-    This Boolean parameter dictates whether `group_size` should be strictly enforced. When `group_size=true`, the system will attempt to fill each group with exactly `group_size` results, as long as sufficient data exists within each group. If there is an insufficient number of entities in a group, it will return only the available entities, ensuring that groups with adequate data meet the specified `group_size`.
-
-- **hints** (*string*) -
-
-    A hints string to improve search performance.
-
-- **round_decimal** (*number*) -
-
-    The number of decimal places to keep in the final results.
-
-- **transformers** (*OutputTransformers*) -
-
-    A custom function to convert data for the following data types:
-
-    - BFloat16Vector (`(bf16bytes: Uint8Array) => BFloat16Vector;`)
-
-    - Float16Vector (`(f16: Uint8Array) => Float16Vector;`)
-
-    - SparseFloatVector (`(sparse: SparseVectorDic) => SparseFloatVector;`)
-
-- **rerank** (*RerankerObj* | *FunctionObject \ FunctionScore*) -
-
-    A reranking strategy with its custom parameters. You can either use a **RerankerObj**, a **FunctionObject**, or a **FunctionScore**.
-
-    A **RerankerObj** has the following parameters:
-
-    - **strategy** (*string*) -
-
-        A re-ranking strategy. Possible values are:
-
-        - **RRF** ("rrf")
-
-            This strategy is recommended when there is no specific emphasis. The RRF can effectively balance the importance of each vector field.
-
-        - **WEIGHTED** ("weighted")
-
-            This strategy is recommended if you require the results to emphasize a particular vector field. The WeightedRanker allows you to assign higher weights to certain vector fields, emphasizing them more. For instance, in multimodal searches, textual descriptions of an image might be considered more important than the colors in this image.
-
-    - **params** (*keyValueObj*) -
-
-        The parameters are specific to reranking strategies.
-
-        - When using the RRFRanker strategy, you need to input the parameter value `k` into the RRFRanker. The default value of `k` is 60. This parameter helps to determine how the ranks are combined from different ANN searches, aiming to balance and blend the importance across all searches.
-
-        - When using the WeightedRanker strategy, you need to input weight values into the `WeightedRanker` function. The number of basic ANN searches in a Hybrid Search corresponds to the number of values that need to be inputted. The input values should be in the range [0,1], with values closer to 1 indicating greater importance.
-
-    A **FunctionObject** has the following structure.
-
-    - **name** (*string*)
-
-        The name of the function. This identifier is used to reference the function within queries and collections.
-
-    - **description** (*string*)
-
-        A brief description of the function’s purpose. This can be useful for documentation or clarity in larger projects and defaults to an empty string.
-
-    - **type** (*[FunctionType](./Collections-FunctionType)*)
-
-        The type of function for processing raw data. Possible values for this parameter is`FunctionType.RERANK`.
-
-    - **input_field_names** (*string[]*)
-
-        Leave this parameter value as an empty array.
-
-    A **FunctionScore** has the following structure.
-
-    - **functions** (*FunctionObject[]*) -
-
-        A list of **FunctionObject** objects.
-
-    - **params** (*keyValueObj*) -  
-
-        Specifies how the specified functions work together. It has the following structure:
-
-        - **boost_mode** (*string*) -
-
-            Specifies how the specified weights influence the scores of any matching entities. Possible values are:
-
-            - `Multiply`
-
-                Indicates that the weighted value is equal to the original score of a matching entity multiplied by the specified weight.
-
-                This is the default value.
-
-            - `Sum`
-
-                Indicates that the weighted value is equal to the sum of the original score of a matching entity and the specified weight
-
-        - **function_mode** (*string*) -
-
-            Specifies how the weighted values from various Boost Rankers are processed. Possible values are:
-
-            - `Multiply`
-
-                Indicates that the final score of a matching entity is equal to the product of the weighted values from all Boost Rankers.
-
-                This is the default value.
-
-            - `Sum`
-
-                Indicates that the final score of a matching entity is equal to the sum of the weighted values from all Boost Rankers.
+    Whether to enforce strict group size (optional).
 
 - **order_by_fields** (*OrderByFields*) -
 
-    The fields to order the search results by. Optional.
+    Fields to sort search results by, for example `price:asc` or `[{ field: "price", order: "asc" }]` (optional).
 
-**RETURNS** *Promise&lt;SearchResults&lt;T&gt;&gt;*
+- **hints** (*string*) -
 
-This method returns a promise that resolves to a **SearchResults&lt;T&gt;** object.
+    Hints to improve search performance (optional).
 
-```typescript
-{
-    results: SearchResultData[] | SearchResultData[][],
-    recalls: number[],
-    session_ts: number,
-    collection_name: string,
-    all_search_count?: number,
-    status:  ResStatus
-}
-```
+- **round_decimal** (*number*) -
+
+    Number of decimal places to round scores to (optional).
+
+- **transformers** (*OutputTransformers*) -
+
+    Custom data transformers for bf16/f16 vectors (optional).
+
+- **rerank** (*RerankerObj | FunctionObject*) -
+
+    Reranker configuration (optional).
+
+- **nq** (*number*) -
+
+    Number of query vectors (optional).
+
+- **timeout** (*number*) -
+
+    An optional duration of time in milliseconds to allow for the RPC. Default is undefined.
+
+**RETURN TYPE:**
+
+*SearchResults&lt;T&gt;*
+
+**RETURNS:**
+
+The search results with status, recalls, session_ts, collection_name, and result entries.
 
 **PARAMETERS:**
 
-- **results** (*SearchResultData[]* | *SearchResultData[][]*) -<br/>
-  The hits returned for each query vector. When a single query vector is supplied, this is a flat **SearchResultData[]**. When a batch of query vectors is supplied, this is a nested **SearchResultData[][]** with one inner list per query.
+- **status** (*ResStatus*) -
 
-    - **id** (*string*) -
+    The response status: `{error_code, reason}`.
 
-        The primary key of the matched row.
+- **recalls** (*number[]*) -
 
-    - **score** (*number*) -
+    The recalls of the search operation.
 
-        The similarity score, scaled by the configured metric type.
+- **session_ts** (*number*) -
 
-    - **offset** (*number* | *string*) -
+    The timestamp of the search session.
 
-        The zero-based offset of this hit within its query group.
+- **collection_name** (*string*) -
 
-    - **group_by_field_values** (*Record&lt;string, FieldData&gt;*) -
+    The name of the collection that was searched.
 
-        Set when **group_by_field** was supplied; carries the values of the grouping field for the hit.
+- **results** (*DetermineResultsType&lt;T&gt;*) -
 
-    - **highlight** (*HighlightResult*) -
+    Array of search results; the shape depends on the input parameters.
 
-        Set when a **highlighter** was supplied on the request; carries the highlighted fragments for matching fields.
+- **all_search_count** (*number*) -
 
-    - **&lt;output_field&gt;** (*FieldData*) -
+    The total number of search operations (optional).
 
-        Each requested **output_fields** entry is added as a key on the hit, carrying the value from the matched row.
+- **search_iterator_v2_results** (*Record&lt;string, any&gt;*) -
 
-- **recalls** (*number[]*) -<br/>
-  The estimated recall score for each query, when the search engine produced one.
+    Search iterator v2 results (optional).
 
-- **session_ts** (*number*) -<br/>
-  The session timestamp Milvus used to evaluate the search.
+**EXCEPTIONS:**
 
-- **collection_name** (*string*) -<br/>
-  The collection that was searched.
+- **MilvusError**
 
-- **all_search_count** (*number*) -<br/>
-  Optional. Set when the search reports the total candidate count examined.
-
-- **ResStatus**<br/>
-  A **ResStatus** object.
-
-    - **code** (*number*) -
-
-        A code that indicates the operation result. It remains **0** if this operation succeeds.
-
-    - **error_code** (*string* | *number*) -
-
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds.
-
-    - **reason** (*string*) -
-
-        The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+    Raised when the server rejects the request or the RPC fails. Inspect the server error message for the exact failure reason.
 
 ## Example\{#example}
 
-```markdown
-const milvusClient = new MilvusClient({
-    address: 'YOUR_CLUSTER_ENDPOINT',
-    token: 'YOUR_CLUSTER_TOKEN',
-});
+```javascript
+const milvusClient = new MilvusClient(MILVUS_ADDRESS);
 const searchResults = await milvusClient.search({
-   collection_name: 'my_collection',
-   vector: [1, 2, 3, 4],
+  collection_name: 'my_collection',
+  data: [1, 2, 3, 4],
+  limit: 10,
 });
 ```
-

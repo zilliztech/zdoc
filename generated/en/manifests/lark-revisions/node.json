@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "group": "node",
   "complete": true,
-  "generatedAt": "2026-10-13T03:02:42.364Z",
-  "sourceRunId": "38337851916",
+  "generatedAt": "2026-10-14T02:41:32.250Z",
+  "sourceRunId": "38500890117",
   "records": [
     {
       "canonicalToken": "AG5zdQCpXoy11MxWgD0ciYBRnJb",
@@ -1233,6 +1233,15 @@
       "canonicalToken": "TVWPdTw2WoPAJYxsbGMc7MX6nEf",
       "title": "hasPartition()",
       "contentPath": "content/en/reference/api/nodejs/nodejs/Partitions/Partitions-hasPartition.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "TfFQdwR7borsLfxiwdCcXoKvnth",
+      "title": "removeFileResource()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
