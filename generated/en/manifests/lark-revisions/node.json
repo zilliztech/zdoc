@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "group": "node",
   "complete": true,
-  "generatedAt": "2026-10-14T10:40:17.205Z",
-  "sourceRunId": "38548770113",
+  "generatedAt": "2026-10-14T18:41:51.943Z",
+  "sourceRunId": "38614706314",
   "records": [
     {
       "canonicalToken": "AG5zdQCpXoy11MxWgD0ciYBRnJb",
@@ -96,6 +96,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "BTfudvz2jojKXKx8KZ4c9LwpnUd",
+      "title": "Formatter",
+      "contentPath": "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-Formatter.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "Beq1d1hDUoTzIsxJ6WTcVtlpnah",
       "title": "hasRole()",
       "contentPath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-hasRole.md",
@@ -162,15 +171,6 @@
       "canonicalToken": "CdK7dr8pyo36PZxpGFKcrZsjnEf",
       "title": "listImportJobs()",
       "contentPath": "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-listImportJobs.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "CkuWdW6EXo8o9nxZsIrcBiSGn4d",
-      "title": "Formatter",
-      "contentPath": "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-Formatter.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -746,7 +746,7 @@
     {
       "canonicalToken": "L4tGd5KqLoLtp2xQRyhcaXjsnL5",
       "title": "updateUser()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-updateUser.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -890,7 +890,7 @@
     {
       "canonicalToken": "MtHHdvQ36oZcM8xEDpwcCUBynmb",
       "title": "createUser()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-createUser.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1131,15 +1131,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "RSrRdD4fLoy50Bx5s2xcQ6lMnVd",
-      "title": "BulkWriter",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "RnyUdtGbFoIC7AxyhmNcbudYnhb",
       "title": "addFileResource()",
       "contentPath": "content/en/reference/api/nodejs/nodejs/FileResources/FileResources-addFileResource.md",
@@ -1223,7 +1214,7 @@
     {
       "canonicalToken": "TR8xdMnzEo85sLxAtizcJWZdn6b",
       "title": "createRole()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-createRole.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1449,6 +1440,15 @@
       "canonicalToken": "XKRWdKvQVolmduxrtrDc0dhjnzc",
       "title": "getReplicas()",
       "contentPath": "content/en/reference/api/nodejs/nodejs/Management/Management-getReplicas.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "XTa5d642Aotj7GxLmwSc66xOnUc",
+      "title": "BulkWriter",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,

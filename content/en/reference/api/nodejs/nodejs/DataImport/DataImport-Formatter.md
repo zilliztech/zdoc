@@ -4,12 +4,12 @@ slug: /node/node/DataImport-Formatter
 sidebar_label: "Formatter"
 beta: false
 added_since: v2.6.12
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "Serializes buffered BulkWriter columns into one or more import files through the JSON or Parquet formatter implementation. | Node.js"
+description: "A Formatter instance serializes buffered column data into the output format the writer chose. | Node.js"
 type: docx
-token: CkuWdW6EXo8o9nxZsIrcBiSGn4d
+token: BTfudvz2jojKXKx8KZ4c9LwpnUd
 sidebar_position: 14
 keywords: 
   - lexical search
@@ -31,67 +31,97 @@ import Admonition from '@theme/Admonition';
 
 # Formatter
 
-Serializes buffered BulkWriter columns into one or more import files through the JSON or Parquet formatter implementation.
+A Formatter instance serializes buffered column data into the output format the writer chose.
 
 ```typescript
 interface Formatter
 ```
 
-**IMPLEMENTATIONS:**
+The Formatter base is implemented by two classes: JsonFormatter for JSON row files, and ParquetFormatter for Parquet output.
 
-- `class JsonFormatter implements Formatter`
+## JsonFormatter\{#jsonformatter}
 
-    Writes buffered rows to a JSON file whose top-level rows property contains the serialized entities, including dynamic fields when enabled.
+The JSON implementation of the Formatter interface: serializes each chunk into a single `data.json` row file, normalizing vector payloads into the wire format. This is the default formatter — BulkWriter uses it unless `format` is set to `parquet`.
 
-    - `extension` -
+```typescript
+class JsonFormatter implements Formatter {
+  readonly extension = '.json';
 
-        **[REQUIRED]**
+  async persist(
+    columns: Map<string, any[]>,
+    dynamicRows: Record<string, any>[],
+    rowCount: number,
+    dir: string,
+    schema: BulkWriterSchema
+  ): Promise<string[]>
+}
+```
 
-        Returns .json for generated files.
+**PARAMETERS:**
 
-    - `persist` -
+- **columns** (*Map&lt;string, any[]&gt;*) -
 
-        **[REQUIRED]**
+    The columnar batch the writer buffered: one array per Milvus field name, indexed by row position.
 
-        Serializes the buffered columns and returns the generated JSON file paths.
+- **dynamicRows** (*Record&lt;string, any&gt;[]*) -
 
-- `class ParquetFormatter implements Formatter`
+    The dynamic-field rows for the chunk, serialized as the `$meta` column when the schema enables dynamic fields.
 
-    Writes buffered rows to Parquet files using @shanghaikid/parquetjs and converts Milvus scalar, vector, array, and dynamic-field values to Parquet-compatible representations.
+- **rowCount** (*number*) -
 
-    - `extension` -
+    The number of rows in the batch; persist walks the column arrays from index 0 to rowCount minus one.
 
-        **[REQUIRED]**
+- **dir** (*string*) -
 
-        Returns .parquet for generated files.
+    The output directory; persist creates it when missing and writes `data.json` under it.
 
-    - `persist` -
+- **schema** (*[BulkWriterSchema](./DataImport-BulkWriterSchema)*) -
 
-        **[REQUIRED]**
+    The collection schema the writer validated rows against; fields flagged autoID or function outputs are skipped.
 
-        Serializes the buffered columns and returns the generated Parquet file paths.
+## ParquetFormatter\{#parquetformatter}
+
+The Parquet implementation of the Formatter interface: serializes each chunk into a single `data.parquet` file with `persist(columns, dynamicRows, rowCount, dir, schema)`; Milvus field types map to Parquet types the same way the Python SDK bulk writer maps them, and dynamic fields land in a `$meta` column.
+
+```typescript
+class ParquetFormatter implements Formatter {
+  readonly extension = '.parquet';
+
+  async persist(
+    columns: Map<string, any[]>,
+    dynamicRows: Record<string, any>[],
+    rowCount: number,
+    dir: string,
+    schema: BulkWriterSchema
+  ): Promise<string[]>
+}
+```
+
+**PARAMETERS:**
+
+- **columns** (*Map&lt;string, any[]&gt;*) -
+
+    The columnar batch the writer buffered: one array per Milvus field name, indexed by row position.
+
+- **dynamicRows** (*Record&lt;string, any&gt;[]*) -
+
+    The dynamic-field rows for the chunk, serialized as the `$meta` column when the schema enables dynamic fields.
+
+- **rowCount** (*number*) -
+
+    The number of rows in the batch; persist walks the column arrays from index 0 to rowCount minus one.
+
+- **dir** (*string*) -
+
+    The output directory; persist creates it when missing and writes `data.parquet` under it.
+
+- **schema** (*[BulkWriterSchema](./DataImport-BulkWriterSchema)*) -
+
+    The collection schema the writer validated rows against; fields flagged autoID or function outputs are skipped.
 
 ## Example\{#example}
 
-### Choose a formatter implementation\{#choose-a-formatter-implementation}
-
-Creates the JSON and Parquet implementations exposed by the SDK.
-
 ```javascript
-import { JsonFormatter, ParquetFormatter } from '@zilliz/milvus2-sdk-node';
-
-const jsonFormatter = new JsonFormatter();
-const parquetFormatter = new ParquetFormatter();
-
-console.log(jsonFormatter.extension); // .json
-console.log(parquetFormatter.extension); // .parquet
+const formatter = new ParquetFormatter();
+console.log(formatter.extension); // '.parquet'
 ```
-
-## Notes\{#notes}
-
-- The Formatter interface exposes the readonly `extension` field and the `persist(columns, dynamicRows, rowCount, dir, schema)` method, which returns the generated local file paths.
-
-- BulkWriter selects JsonFormatter when `format` is `json` and ParquetFormatter when `format` is `parquet`.
-
-- Parquet output requires the SDK dependency `@shanghaikid/parquetjs`.
-
