@@ -72,7 +72,7 @@ function summarizeClientText(text: string): {chars: number; bytes: number} {
 /** The 404 page embeds the same chat surface as the docs shell; the body class
  * its layout effect sets is the only signal distinguishing the two, and it is
  * present well before any query can be submitted. */
-function chatSurface(): 'notfound' | 'panel' {
+export function chatSurface(): 'notfound' | 'panel' {
   return document.body.classList.contains('zd-notfound-page') ? 'notfound' : 'panel';
 }
 

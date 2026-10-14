@@ -10,6 +10,7 @@ import {ChatProvider, useChatContext} from '../../../components/ChatPanel/ChatCo
 import {DEFAULT_CHAT_ENDPOINT} from '../../../components/ChatPanel/endpoints';
 import {useDocsUiText} from '../../../i18n/uiText';
 import {trackEvent} from '../../../utils/analytics';
+import {trackAiSourceClick} from '../../../components/ChatPanel/sourceAnalytics';
 import styles from '../styles.module.css';
 
 /* The panel's watermark bolt, for the card's empty middle — same path and
@@ -187,6 +188,7 @@ function NotFoundChat() {
                         rel="noopener noreferrer"
                         className={styles.sourceChip}
                         title={src.title}
+                        onClick={() => trackAiSourceClick(src.url, j)}
                       >
                         <FileText size={12} />
                         <span>{src.title}</span>

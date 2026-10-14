@@ -23,6 +23,7 @@ import {
 import '@zdoc/chat-ui/dist/style.css';
 import {ConfidenceDot, SourceTag, GroundedMarkdown, isExternalUrl} from '@zdoc/chat-ui';
 import {useChatContext} from './ChatContext';
+import {trackAiSourceClick} from './sourceAnalytics';
 import type {ChatHistoryEntry} from './types';
 import type {ConfidenceLevel, Source, GroundingCitation} from '@zdoc/chat-ui';
 import IconButton from '../IconButton';
@@ -435,7 +436,10 @@ export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}:
                           <li key={j}>
                             <a
                               href={src.url}
-                              onClick={e => handleSourceClick(e, src.url)}
+                              onClick={e => {
+                              handleSourceClick(e, src.url);
+                              trackAiSourceClick(src.url, j);
+                            }}
                               className={styles.sourceLink}
                               title={src.title}
                               {...(isExternalUrl(src.url) ? {target: '_blank', rel: 'noopener noreferrer'} : {})}
