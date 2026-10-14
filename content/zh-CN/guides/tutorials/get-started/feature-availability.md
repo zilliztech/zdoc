@@ -86,19 +86,7 @@ Zilliz Cloud 文档中，每个功能会以标签形式标注其当前支持阶�
 
 ### 公测版\{#public-preview}
 
-<Admonition type="info" title="说明">
-
-如需使用上述功能，请升级集群的 Milvus 版本。
-
-</Admonition>
-
 - [按需计算](./on-demand-cluster)
-
-<Admonition type="info" title="说明">
-
-如果您项目所在的云地域不支持此功能，请[联系我们](http://zilliz.com.cn/contact-sales)。
-
-</Admonition>
 
 ### 停用预告\{#deprecation-notice}
 

@@ -3074,9 +3074,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/cloud-providers-and-regions.md",
-      "sha256": "29e60aca4405c24b7821b77469ba3a168b44178a681c5f840f3f823ea38ec2ec",
+      "sha256": "7d3eb271a072e0fa4a7cccfe0f1c9725b5f74b4ed22d2308f50dfdb187c01d0c",
       "docToken": "BErdww1kOirndzkHrKoc2ibynlb",
-      "revisionId": "425"
+      "revisionId": "432"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/cu-types-explained.md",
@@ -3170,9 +3170,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/feature-availability.md",
-      "sha256": "7cdc9f7c7fedb470136295fab9fb28fa6364de9b50544dc2d615967fc88e6d74",
+      "sha256": "b353e355b5bc906c3c8ec3bc19bd34751a73ed006a130940ae5cf615393460f7",
       "docToken": "EZ2jwCJD7iazqKkmSGRcBfjWnCh",
-      "revisionId": "399"
+      "revisionId": "403"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/free-trials.md",
@@ -3728,9 +3728,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md",
-      "sha256": "c83ca31e2c608ed2f83985227f3cacafd7eace30336471d17938871081b40e3e",
+      "sha256": "98dd8a02988923c834c7f35d52654a4c04654c864e25949477abce657206ce76",
       "docToken": "MwLkwFEC3ioojzkBVygc5lGNnuh",
-      "revisionId": "22"
+      "revisionId": "23"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/cost-management/analyze-cost.md",
@@ -3782,9 +3782,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/cost-management/understand-cost/storage-request-cost.md",
-      "sha256": "917387ee115fd48def559f187064683409b437fb7d33627d91be1b702200435b",
+      "sha256": "ddb40759cfe9f4dffa23422a19270cfb903874569849d9ab8734e44185b2de4b",
       "docToken": "LuNmwpQRKiOz4ZkEkl4cTkNtnpk",
-      "revisionId": "190"
+      "revisionId": "191"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/identity-management/identity-management-overview.md",

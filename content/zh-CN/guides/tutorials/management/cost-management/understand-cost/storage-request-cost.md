@@ -36,8 +36,6 @@ Zilliz Cloud 中以下操作会产生存储请求费用：
 
 - 在 On-demand 场景的 Database 中，当仅加载索引时，对 Managed Collection 执行 Search。这会产生 Class 2 请求费用。
 
-- 在分层存储的 Serving 集群上执行 Search，且需要从对象存储读取冷数据时。这会产生 Class 2 请求费用。
-
 - Volume 文件操作，包括读取和写入。这会同时产生 Class 1 和 Class 2 请求费用。
 
 以下操作不会产生存储请求费用：
