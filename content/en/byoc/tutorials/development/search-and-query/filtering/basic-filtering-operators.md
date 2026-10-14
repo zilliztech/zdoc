@@ -1337,6 +1337,7 @@ for i := 0; i < ids.Len(); i++ {
     result = append(result, v)
 }
 fmt.Println(result)
+// Expected: [2]
 ```
 
 </TabItem>

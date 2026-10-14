@@ -30,12 +30,6 @@ This feature is available only with the Enterprise plan or higher.
 
 </FeatureNote>
 
-<FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
-
-This feature is currently available only in AWS us-west-2 and Azure East US regions. To use on-demand clusters in other regions, [contact us](http://zilliz.com/contact-sales).
-
-</FeatureNote>
-
 An on-demand cluster provides compute resources for on-demand search and query workloads. It spins up when requests arrive and scales back to zero when idle, so it is a good fit for batch search, validation, exploration, and workloads that do not require always-on serving.
 
 ## Prerequisites\{#prerequisites}

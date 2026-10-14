@@ -298,7 +298,7 @@ function := entity.NewFunction().
     WithOutputFields("dense").
     WithParam("provider", "cohere").
     WithParam("model_name", "embed-english-v3.0")
-function = function.WithParam("integration_id", "YOUR_INTEGRATION_ID")
+// Zilliz Cloud only: function = function.WithParam("integration_id", "YOUR_INTEGRATION_ID")
 
 schema.WithFunction(function)
 ```
@@ -521,7 +521,11 @@ client.createCollection(requestCreate);
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/milvusclient"
+import (
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
 
 err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("demo", schema).WithIndexOptions(indexOption))
 if err != nil {
@@ -668,7 +672,11 @@ client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/milvusclient"
+import (
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
 
 _, err = client.Insert(ctx, milvusclient.NewRowBasedInsertOption("demo",
     map[string]any{"id": int64(1), "document": "Milvus simplifies semantic search through embeddings."},
@@ -813,8 +821,10 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 
 ```go
 import (
-    "github.com/milvus-io/milvus/client/v3/entity"
+    "fmt"
+    "log"
 
+    "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 

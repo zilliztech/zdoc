@@ -543,9 +543,11 @@ client.createCollection(CreateCollectionReq.builder()
 
 ```go
 import (
-    "github.com/milvus-io/milvus/client/v3/entity"
+    "log"
 
+    "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 denseIndex := milvusclient.NewCreateIndexOption(collectionName, "dense", index.NewAutoIndex(entity.L2)).
@@ -771,16 +773,45 @@ import (
 
 currentTime := time.Now().Unix()
 
-articles := []map[string]any{
-    {
+articles := []any{
+    map[string]any{
         "headline":     "AI Breakthrough Enables Medical Diagnosis Advancement",
         "content":      "Researchers announced a major breakthrough in AI-based medical diagnostics, enabling faster and more accurate detection of rare diseases.",
-        "publish_date": currentTime - 120*24*60*60,
+        "publish_date": currentTime - 120*24*60*60, // ~4 months ago
     },
-    // ... add the other sample articles the same way
+    map[string]any{
+        "headline":     "Tech Giants Compete in New AI Race",
+        "content":      "Major technology companies are investing billions in a new race to develop the most advanced artificial intelligence systems.",
+        "publish_date": currentTime - 60*24*60*60, // ~2 months ago
+    },
+    map[string]any{
+        "headline":     "AI Ethics Guidelines Released by International Body",
+        "content":      "A consortium of international organizations has released new guidelines addressing ethical concerns in artificial intelligence development and deployment.",
+        "publish_date": currentTime - 30*24*60*60, // 1 month ago
+    },
+    map[string]any{
+        "headline":     "Latest Deep Learning Models Show Remarkable Progress",
+        "content":      "The newest generation of deep learning models demonstrates unprecedented capabilities in language understanding and generation.",
+        "publish_date": currentTime - 15*24*60*60, // 15 days ago
+    },
+    map[string]any{
+        "headline":     "AI Research Advancements Published in January",
+        "content":      "Breakthrough research in artificial intelligence shows remarkable advancements in multiple domains.",
+        "publish_date": currentTime - 90*24*60*60, // ~3 months ago
+    },
+    map[string]any{
+        "headline":     "New AI Research Results Released This Week",
+        "content":      "Breakthrough research in artificial intelligence shows remarkable advancements in multiple domains.",
+        "publish_date": currentTime - 5*24*60*60, // Very recent - 5 days ago
+    },
+    map[string]any{
+        "headline":     "AI Development Updates Released Yesterday",
+        "content":      "Recent developments in artificial intelligence research are showing promising results across various applications.",
+        "publish_date": currentTime - 1*24*60*60, // Just yesterday
+    },
 }
 
-_, err = client.Insert(ctx, milvusclient.NewRowBasedInsertOption(collectionName, articles))
+_, err = client.Insert(ctx, milvusclient.NewRowBasedInsertOption(collectionName, articles...))
 if err != nil {
     log.Fatal(err)
 }
@@ -979,12 +1010,9 @@ DecayRanker linearRanker = DecayRanker.builder()
 ```go
 import (
     "fmt"
-    "time"
 
     "github.com/milvus-io/milvus/client/v3/entity"
 )
-
-currentTime := time.Now().Unix()
 
 gaussianRanker := entity.NewFunction().
     WithName("time_decay_gaussian").
@@ -1325,15 +1353,20 @@ private static void printSearchResults(SearchResp resp, String title) {
 ```go
 import (
     "fmt"
+    "time"
 
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 func printSearchResults(results []milvusclient.ResultSet, title string) {
     fmt.Printf("\n=== %s ===\n", title)
-    for i, rs := range results {
+    for _, rs := range results {
         for j := 0; j < rs.ResultCount; j++ {
-            fmt.Printf("%d. %v\n", i+1, rs.Scores[j])
+            headline, _ := rs.GetColumn("headline").GetAsString(j)
+            publishDate, _ := rs.GetColumn("publish_date").GetAsInt64(j)
+            fmt.Printf("%d. %s\n", j+1, headline)
+            fmt.Printf("   Published: %s\n", time.Unix(publishDate, 0).Format("2006-01-02"))
+            fmt.Printf("   Score: %.4f\n", rs.Scores[j])
         }
     }
 }
@@ -1537,6 +1570,7 @@ standard, err := client.Search(ctx, milvusclient.NewSearchOption(collectionName,
     WithOutputFields("headline", "content", "publish_date").
     WithConsistencyLevel(entity.ClStrong))
 if err != nil { log.Fatal(err) }
+printSearchResults(standard, "SEARCH RESULTS WITHOUT DECAY RANKING")
 
 // 2. Search with Gaussian decay
 gaussian, err := client.Search(ctx, milvusclient.NewSearchOption(collectionName, 7, []entity.Vector{entity.Text(query)}).
@@ -1545,6 +1579,7 @@ gaussian, err := client.Search(ctx, milvusclient.NewSearchOption(collectionName,
     WithFunctionReranker(gaussianRanker).
     WithConsistencyLevel(entity.ClStrong))
 if err != nil { log.Fatal(err) }
+printSearchResults(gaussian, "SEARCH RESULTS WITH GAUSSIAN DECAY RANKING")
 
 // 3. Search with exponential decay
 exponential, err := client.Search(ctx, milvusclient.NewSearchOption(collectionName, 7, []entity.Vector{entity.Text(query)}).
@@ -1553,6 +1588,7 @@ exponential, err := client.Search(ctx, milvusclient.NewSearchOption(collectionNa
     WithFunctionReranker(exponentialRanker).
     WithConsistencyLevel(entity.ClStrong))
 if err != nil { log.Fatal(err) }
+printSearchResults(exponential, "SEARCH RESULTS WITH EXPONENTIAL DECAY RANKING")
 
 // 4. Search with linear decay
 linear, err := client.Search(ctx, milvusclient.NewSearchOption(collectionName, 7, []entity.Vector{entity.Text(query)}).
@@ -1561,6 +1597,7 @@ linear, err := client.Search(ctx, milvusclient.NewSearchOption(collectionName, 7
     WithFunctionReranker(linearRanker).
     WithConsistencyLevel(entity.ClStrong))
 if err != nil { log.Fatal(err) }
+printSearchResults(linear, "SEARCH RESULTS WITH LINEAR DECAY RANKING")
 ```
 
 </TabItem>
@@ -1856,13 +1893,45 @@ System.out.println("Expected final score = Original x Decay: " + expectedScore);
 <TabItem value='go'>
 
 ```go
-daysAgo := (currentTime - publishDate) / (24 * 60 * 60)
-decayFactor := 1.0
-if daysAgo > 7 {
-    decayFactor = math.Pow(0.5, float64(daysAgo-7)/14.0)
+import (
+    "fmt"
+    "math"
+    "time"
+)
+
+// Collect the original relevance scores from the standard search results
+originalScores := make(map[string]float32)
+for _, rs := range standard {
+    for j := 0; j < rs.ResultCount; j++ {
+        headline, _ := rs.GetColumn("headline").GetAsString(j)
+        originalScores[headline] = rs.Scores[j]
+    }
 }
-expectedScore := originalScore * decayFactor
-fmt.Printf("Expected final score = Original x Decay: %.4f\n", expectedScore)
+
+// Add a detailed breakdown for the first 3 results from Gaussian decay
+fmt.Println("\n=== SCORE CALCULATION BREAKDOWN (GAUSSIAN DECAY) ===")
+for _, rs := range gaussian[:1] {
+    for j := 0; j < rs.ResultCount && j < 3; j++ {
+        headline, _ := rs.GetColumn("headline").GetAsString(j)
+        publishDate, _ := rs.GetColumn("publish_date").GetAsInt64(j)
+        daysAgo := (currentTime - publishDate) / (24 * 60 * 60)
+
+        originalScore := float64(originalScores[headline])
+
+        decayFactor := 1.0
+        if daysAgo > 7 {
+            decayFactor = math.Pow(0.5, float64(daysAgo-7)/14.0)
+        }
+
+        fmt.Printf("Item: %s\n", headline)
+        fmt.Printf("  Published: %s (%d days ago)\n", time.Unix(publishDate, 0).Format("2006-01-02"), daysAgo)
+        fmt.Printf("  Original relevance score: %.4f\n", originalScore)
+        fmt.Printf("  Decay factor (Gaussian): %.4f\n", decayFactor)
+        fmt.Printf("  Expected final score = Original x Decay: %.4f\n", originalScore*decayFactor)
+        fmt.Printf("  Actual final score: %.4f\n", rs.Scores[j])
+        fmt.Println()
+    }
+}
 ```
 
 </TabItem>
@@ -2019,7 +2088,8 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-hybrid, err := client.HybridSearch(ctx, milvusclient.NewHybridSearchOption(
+// Set up hybrid search (combining dense and sparse vectors)
+hybridGaussian, err := client.HybridSearch(ctx, milvusclient.NewHybridSearchOption(
     collectionName, 7,
     milvusclient.NewAnnRequest("dense", 7, entity.Text(query)),
     milvusclient.NewAnnRequest("sparse_vector", 7, entity.Text(query)),
@@ -2027,6 +2097,18 @@ hybrid, err := client.HybridSearch(ctx, milvusclient.NewHybridSearchOption(
     WithOutputFields("headline", "content", "publish_date").
     WithConsistencyLevel(entity.ClStrong))
 if err != nil { log.Fatal(err) }
+printSearchResults(hybridGaussian, "HYBRID SEARCH RESULTS WITH GAUSSIAN DECAY RANKING")
+
+// Exponential decay
+hybridExponential, err := client.HybridSearch(ctx, milvusclient.NewHybridSearchOption(
+    collectionName, 7,
+    milvusclient.NewAnnRequest("dense", 7, entity.Text(query)),
+    milvusclient.NewAnnRequest("sparse_vector", 7, entity.Text(query)),
+).WithFunctionRerankers(exponentialRanker).
+    WithOutputFields("headline", "content", "publish_date").
+    WithConsistencyLevel(entity.ClStrong))
+if err != nil { log.Fatal(err) }
+printSearchResults(hybridExponential, "HYBRID SEARCH RESULTS WITH EXPONENTIAL DECAY RANKING")
 ```
 
 </TabItem>

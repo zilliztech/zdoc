@@ -71,7 +71,7 @@ analyzerParams.put("filter",
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"tokenizer": "standard",
+analyzerParams := map[string]any{"tokenizer": "standard",
     "filter": []any{map[string]any{
         "type":       "stop",
         "stop_words": []string{"of", "to", "_english_"},
@@ -209,7 +209,7 @@ analyzerParams.put("filter",
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"tokenizer": "standard",
+analyzerParams := map[string]any{"tokenizer": "standard",
     "filter": []any{map[string]any{
         "type":       "stop",
         "stop_words": []string{"of", "to", "_english_"},

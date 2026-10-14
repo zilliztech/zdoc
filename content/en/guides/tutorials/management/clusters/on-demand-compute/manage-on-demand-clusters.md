@@ -28,12 +28,6 @@ This feature is available only with the Enterprise plan or higher.
 
 </FeatureNote>
 
-<FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
-
-This feature is currently available only in AWS us-west-2 and Azure East US regions. To use on-demand clusters in other regions, [contact us](http://zilliz.com/contact-sales).
-
-</FeatureNote>
-
 This guide describes how to view, inspect, and drop on-demand clusters in Zilliz Cloud.
 
 On-demand clusters provide compute for on-demand search workloads. They spin up when requests arrive and scale back to zero when idle, based on the auto-suspend timeout configured when the cluster is created.

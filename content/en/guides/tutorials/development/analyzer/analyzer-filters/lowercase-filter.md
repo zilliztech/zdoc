@@ -268,6 +268,8 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
+ctx := context.Background()
+
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
@@ -285,6 +287,12 @@ result, err := client.RunAnalyzer(ctx, option)
 if err != nil {
     fmt.Println(err.Error())
     // handle error
+}
+
+for _, r := range result {
+    for _, token := range r.Tokens {
+        fmt.Println("Standard analyzer output:", token.Text)
+    }
 }
 ```
 

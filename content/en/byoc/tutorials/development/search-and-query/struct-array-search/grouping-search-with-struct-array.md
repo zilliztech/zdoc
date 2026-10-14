@@ -636,11 +636,13 @@ codeQueryVector := []float32{0.18, 0.23, 0.29, 0.36}
 
 annReq1 := milvusclient.NewAnnRequest("chunks[emb]", 10, entity.FloatVector(queryVector)).
     WithFilter("element_filter(chunks, $[section] == \"index\")").
-    WithSearchParam("metric_type", "COSINE")
+    WithSearchParam("metric_type", "COSINE").
+    WithGroupByField("doc_id")
 
 annReq2 := milvusclient.NewAnnRequest("chunks[code_emb]", 10, entity.FloatVector(codeQueryVector)).
     WithFilter("element_filter(chunks, $[has_code] == true)").
-    WithSearchParam("metric_type", "COSINE")
+    WithSearchParam("metric_type", "COSINE").
+    WithGroupByField("doc_id")
 
 resultSets, err := cli.HybridSearch(ctx, milvusclient.NewHybridSearchOption(
     "tech_articles",

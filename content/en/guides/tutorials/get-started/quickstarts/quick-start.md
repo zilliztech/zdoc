@@ -77,6 +77,7 @@ import (
 
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
+
 SERVING_CLUSTER_ENDPOINT := "https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530"
 TOKEN := "YOUR_ZILLIZ_API_KEY"
 

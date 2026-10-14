@@ -141,6 +141,7 @@ CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSche
 ```go
 import (
     "github.com/milvus-io/milvus/client/v3/entity"
+
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
@@ -279,6 +280,7 @@ schema.addField(AddFieldReq.builder()
 ```go
 import (
     "github.com/milvus-io/milvus/client/v3/entity"
+
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
@@ -287,7 +289,7 @@ schema = schema.
         entity.NewField().
             WithName("product_id").
             WithDataType(entity.FieldTypeInt64).
-            WithExternalField("id"), 
+            WithExternalField("id"),
     ).
     WithField(
         entity.NewField().
@@ -442,15 +444,19 @@ milvusAddr := "https://{project-id}.{region}.vectordb.zillizcloud.com"
 token := "YOUR_API_KEY"
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: milvusAddr,
-    APIKey: token
+    APIKey: token,
 })
 if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
-err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("test_collection", schema).
-    WithDBName("my_database").
-    WithIndexOptions(indexOptions...))
+err = client.UseDatabase(ctx, milvusclient.NewUseDatabaseOption("my_database"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("test_collection", schema))
 if err != nil {
     fmt.Println(err.Error())
     // handle error
@@ -814,15 +820,13 @@ for {
         fmt.Println(err.Error())
         // handle error
     }
-    fmt.Printf("State: %s
-", progress.State)
+    fmt.Printf("State: %s\n", progress.State)
     if progress.State == entity.RefreshStateCompleted {
         fmt.Println("Refresh completed!")
         break
     }
     if progress.State == entity.RefreshStateFailed {
-        fmt.Printf("Refresh failed: %s
-", progress.Reason)
+        fmt.Printf("Refresh failed: %s\n", progress.Reason)
         break
     }
     time.Sleep(2 * time.Second)

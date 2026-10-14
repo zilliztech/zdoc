@@ -116,22 +116,24 @@ Map<String, Object> analyzerParams = new HashMap<>();
 <TabItem value='go'>
 
 ```go
-analyzerParams := map[string]interface{}{                                             
-      "tokenizer": map[string]interface{}{     
-          "type":      "lindera",                                                       
-          "dict_kind": "ko-dic",                                  
-          "filter": []interface{}{                                                      
-              map[string]interface{}{                             
-                  "kind": "korean_stop_tags",
-                  "tags": []string{
-                      "SP", "SSC", "SSO", "SC", "SE", "SF",
-                      "JKS", "JKC", "JKG", "JKO", "JKB", "JKV", "JKQ",
-                      "JX", "JC", "UNK", "EP", "ETM",
-                  },
-              },
-          },
-      },
-  }
+import "fmt"
+
+analyzerParams := map[string]interface{}{
+    "tokenizer": map[string]interface{}{
+        "type":      "lindera",
+        "dict_kind": "ko-dic",
+        "filter": []interface{}{
+            map[string]interface{}{
+                "kind": "korean_stop_tags",
+                "tags": []string{
+                    "SP", "SSC", "SSO", "SC", "SE", "SF",
+                    "JKS", "JKC", "JKG", "JKO", "JKB", "JKV", "JKQ",
+                    "JX", "JC", "UNK", "EP", "ETM",
+                },
+            },
+        },
+    },
+}
 
 fmt.Println(analyzerParams)
 ```

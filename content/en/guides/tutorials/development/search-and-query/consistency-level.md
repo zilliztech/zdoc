@@ -104,6 +104,8 @@ client.createCollection(createCollectionReq);
 
 ```go
 import (
+    "fmt"
+
     "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
@@ -255,6 +257,8 @@ SearchResp searchResp = client.search(searchReq);
 
 ```go
 import (
+    "fmt"
+
     "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
@@ -391,6 +395,8 @@ QueryResp getResp = client.query(queryReq);
 
 ```go
 import (
+    "fmt"
+
     "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )

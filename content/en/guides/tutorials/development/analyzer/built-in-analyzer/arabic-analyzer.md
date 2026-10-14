@@ -256,7 +256,7 @@ analyzerParams = map[string]any{"tokenizer": "standard",
         "language": "arabic",
     }, map[string]any{
         "type":       "stop",
-        "stop_words": "_arabic_",
+        "stop_words": []string{"_arabic_"},
     }}}
 ```
 
@@ -483,6 +483,8 @@ import (
 
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
+
+ctx := context.Background()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",

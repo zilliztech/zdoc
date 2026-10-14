@@ -572,6 +572,8 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
+ctx := context.Background()
+
 // Configuration
 analyzerParams := map[string]any{
     "tokenizer": map[string]any{
@@ -885,6 +887,8 @@ import (
 
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
+
+ctx := context.Background()
 
 // Configuration for French, German, Spanish, etc.
 analyzerParams := map[string]any{

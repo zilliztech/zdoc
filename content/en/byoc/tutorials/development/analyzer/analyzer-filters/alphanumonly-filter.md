@@ -284,24 +284,18 @@ client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
 })
-
 if err != nil {
     fmt.Println(err.Error())
-
     // handle error
 }
 
 texts := []string{"Milvus 2.0 @ Scale! #AI #Vector_Databasé"}
-
 option := milvusclient.NewRunAnalyzerOption(texts...).
-
     WithAnalyzerParams(analyzerParams)
 
 result, err := client.RunAnalyzer(ctx, option)
-
 if err != nil {
     fmt.Println(err.Error())
-
     // handle error
 }
 

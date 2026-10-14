@@ -271,6 +271,8 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
+ctx := context.Background()
+
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
@@ -282,7 +284,7 @@ if err != nil {
 
 bs, _ := json.Marshal(analyzerParams)
 texts := []string{"Milvus 是 LF AI & Data Foundation 下的一个开源项目，以 Apache 2.0 许可发布。"}
-option := milvusclient.NewRunAnalyzerOption(texts).
+option := milvusclient.NewRunAnalyzerOption(texts...).
     WithAnalyzerParamsStr(string(bs))
 
 result, err := client.RunAnalyzer(ctx, option)

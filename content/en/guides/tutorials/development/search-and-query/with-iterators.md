@@ -114,7 +114,7 @@ import (
 ctx := context.Background()
 
 c, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: milvusAddr,
+    Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
 })
 if err != nil {

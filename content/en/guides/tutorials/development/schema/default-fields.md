@@ -199,7 +199,6 @@ schema := entity.NewSchema().WithDynamicFieldEnabled(true).
         WithName("vector").
         WithDataType(entity.FieldTypeFloatVector).
         WithDim(5)).
-    // highlight-start
     WithField(entity.NewField().
         WithName("age").
         WithDataType(entity.FieldTypeInt64).
@@ -209,7 +208,6 @@ schema := entity.NewSchema().WithDynamicFieldEnabled(true).
         WithDataType(entity.FieldTypeVarChar).
         WithDefaultValueString("active").
         WithMaxLength(10))
-    // highlight-end
 
 indexOption := milvusclient.NewCreateIndexOption(
     collectionName,
@@ -595,10 +593,11 @@ import (
     "log"
 
     "github.com/milvus-io/milvus/client/v3/column"
+
     milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-collectionName := "my_collection"
+collectionName = "my_collection"
 
 ageColumn, err := column.NewNullableColumnInt64(
     "age",
@@ -864,10 +863,11 @@ import (
 
     "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/index"
+
     milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-collectionName := "my_collection"
+collectionName = "my_collection"
 
 annParam := index.NewCustomAnnParam()
 annParam.WithExtraParam("nprobe", 16)
@@ -1114,10 +1114,11 @@ import (
     "log"
 
     "github.com/milvus-io/milvus/client/v3/entity"
+
     milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-collectionName := "my_collection"
+collectionName = "my_collection"
 
 // Query entities where age equals the default value (18)
 defaultAgeResults, err := client.Query(ctx, milvusclient.NewQueryOption(collectionName).

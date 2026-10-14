@@ -147,6 +147,7 @@ import (
     "fmt"
 
     "github.com/milvus-io/milvus/client/v3/entity"
+
     milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
@@ -404,6 +405,7 @@ indexes.add(IndexParam.builder()
 ```go
 import (
     "github.com/milvus-io/milvus/client/v3/entity"
+
     "github.com/milvus-io/milvus/client/v3/index"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
@@ -663,16 +665,16 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-priceValues := []float32{99.99, 149.50, 199.99, 0, 59.99, 0}
-priceValid := []bool{true, true, true, false, true, false}
+priceValues := []float32{99.99, 59.99}
+priceValid := []bool{true, false, false, false, true, false}
 priceCol, _ := column.NewNullableColumnFloat("price", priceValues, priceValid)
 
-ageValues := []int64{25, 30, 0, 45, 0, 60}
+ageValues := []int64{25, 30, 45, 60}
 ageValid := []bool{true, true, false, true, false, true}
 ageCol, _ := column.NewNullableColumnInt64("age", ageValues, ageValid)
 
-brokenValues := []bool{false, true, false, true, false, false}
-brokenValid := []bool{true, true, true, true, true, true}
+brokenValues := []bool{}
+brokenValid := []bool{false, false, false, false, false, false}
 brokenCol, _ := column.NewNullableColumnBool("broken", brokenValues, brokenValid)
 
 _, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("my_collection").

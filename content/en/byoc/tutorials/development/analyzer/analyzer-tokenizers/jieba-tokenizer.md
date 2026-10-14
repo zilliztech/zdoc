@@ -544,6 +544,8 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
+ctx := context.Background()
+
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",

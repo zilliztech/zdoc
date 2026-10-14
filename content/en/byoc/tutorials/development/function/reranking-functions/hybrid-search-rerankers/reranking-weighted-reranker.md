@@ -327,6 +327,7 @@ SearchResp searchResp = client.hybridSearch(hybridSearchReq);
 ```go
 import (
     "context"
+    "log"
 
     "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/milvusclient"

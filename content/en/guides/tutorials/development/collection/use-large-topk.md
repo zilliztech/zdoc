@@ -1526,7 +1526,26 @@ volume_file_manager.upload_file_to_volume(
 <TabItem value='java'>
 
 ```java
-// Note: Zilliz Cloud Managed Volume upload is not available in milvus-sdk-java as of v3.0.10.
+import io.milvus.bulkwriter.VolumeFileManager;
+import io.milvus.bulkwriter.VolumeFileManagerParam;
+import io.milvus.bulkwriter.common.clientenum.ConnectType;
+import io.milvus.bulkwriter.model.UploadFilesResult;
+import io.milvus.bulkwriter.request.volume.UploadFilesRequest;
+
+// Configure a Zilliz Cloud Managed Volume client as volumeFileManager.
+VolumeFileManagerParam param = VolumeFileManagerParam.newBuilder()
+        .withCloudEndpoint("https://api.cloud.zilliz.com")
+        .withApiKey("YOUR_API_KEY")
+        .withVolumeName("YOUR_VOLUME_NAME")
+        .withConnectType(ConnectType.AUTO)
+        .build();
+VolumeFileManager volumeFileManager = new VolumeFileManager(param);
+
+UploadFilesRequest request = UploadFilesRequest.builder()
+        .sourceFilePath("/tmp/results.parquet")
+        .targetVolumePath("results/batch.parquet")
+        .build();
+UploadFilesResult result = volumeFileManager.uploadFilesAsync(request).get();
 ```
 
 </TabItem>
@@ -1534,7 +1553,7 @@ volume_file_manager.upload_file_to_volume(
 <TabItem value='go'>
 
 ```go
-// Note: Zilliz Cloud Managed Volume upload is not available in the Go SDK as of client/v3.0.0-beta.
+// Note: Zilliz Cloud Managed Volume upload is not available in the Go SDK as of client/v3.0.0.
 ```
 
 </TabItem>

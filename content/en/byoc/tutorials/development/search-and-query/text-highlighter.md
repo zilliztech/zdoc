@@ -180,6 +180,7 @@ import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.response.SearchResp;
 import io.milvus.v2.service.vector.request.highlighter.LexicalHighlighter;
+import io.milvus.v2.common.IndexParam;
 import java.util.*;
 
 LexicalHighlighter highlighter = LexicalHighlighter.builder()
@@ -188,16 +189,13 @@ LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .highlightSearchText(true)
         .build();
 
-Map<String, Object> searchParams = new HashMap<>();
-searchParams.put("metric_type", "BM25");
-
 SearchReq searchReq = SearchReq.builder()
         .collectionName("highlighter_demo")
         .data(Collections.singletonList(new EmbeddedText("BM25")))
         .annsField("sparse_vector")
         .topK(10)
         .outputFields(Collections.singletonList("text"))
-        .searchParams(searchParams)
+        .metricType(IndexParam.MetricType.BM25)
         .highlighter(highlighter)
         .build();
 
@@ -476,6 +474,7 @@ import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.response.SearchResp;
 import io.milvus.v2.service.vector.request.highlighter.LexicalHighlighter;
+import io.milvus.v2.common.IndexParam;
 import java.util.*;
 
 LexicalHighlighter highlighter = LexicalHighlighter.builder()
@@ -484,9 +483,6 @@ LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .addHighlightQuery(new LexicalHighlighter.HighlightQuery("TextMatch", "text", "text filtering"))
         .build();
 
-Map<String, Object> searchParams = new HashMap<>();
-searchParams.put("metric_type", "BM25");
-
 SearchReq searchReq = SearchReq.builder()
         .collectionName("highlighter_demo")
         .data(Collections.singletonList(new EmbeddedText("BM25")))
@@ -494,7 +490,7 @@ SearchReq searchReq = SearchReq.builder()
         .filter("TEXT_MATCH(text, \"text filtering\")")
         .topK(10)
         .outputFields(Collections.singletonList("text"))
-        .searchParams(searchParams)
+        .metricType(IndexParam.MetricType.BM25)
         .highlighter(highlighter)
         .build();
 
@@ -781,6 +777,7 @@ import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.response.SearchResp;
 import io.milvus.v2.service.vector.request.highlighter.LexicalHighlighter;
+import io.milvus.v2.common.IndexParam;
 import java.util.*;
 
 LexicalHighlighter highlighter = LexicalHighlighter.builder()
@@ -789,16 +786,13 @@ LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .highlightSearchText(true)
         .build();
 
-Map<String, Object> searchParams = new HashMap<>();
-searchParams.put("metric_type", "BM25");
-
 SearchReq searchReq = SearchReq.builder()
         .collectionName("highlighter_demo")
         .data(Collections.singletonList(new EmbeddedText("BM25")))
         .annsField("sparse_vector")
         .topK(10)
         .outputFields(Collections.singletonList("text"))
-        .searchParams(searchParams)
+        .metricType(IndexParam.MetricType.BM25)
         .highlighter(highlighter)
         .build();
 
@@ -1085,9 +1079,6 @@ for (String doc : docs) {
     rows.add(row);
 }
 client.insert(InsertReq.builder().collectionName(COLLECTION_NAME).data(rows).build());
-
-Map<String, Object> searchParams = new HashMap<>();
-searchParams.put("metric_type", "BM25");
 ```
 
 </TabItem>
@@ -1277,7 +1268,9 @@ import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.response.SearchResp;
 import io.milvus.v2.service.vector.request.highlighter.LexicalHighlighter;
+import io.milvus.v2.common.IndexParam;
 import java.util.*;
+
 String COLLECTION_NAME = "highlighter_demo";
 
 LexicalHighlighter highlighter = LexicalHighlighter.builder()
@@ -1286,16 +1279,13 @@ LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .highlightSearchText(true)
         .build();
 
-Map<String, Object> searchParams = new HashMap<>();
-searchParams.put("metric_type", "BM25");
-
 SearchReq searchReq = SearchReq.builder()
         .collectionName(COLLECTION_NAME)
         .data(Collections.singletonList(new EmbeddedText("test")))
         .annsField("sparse_vector")
         .topK(10)
         .outputFields(Collections.singletonList("text"))
-        .searchParams(searchParams)
+        .metricType(IndexParam.MetricType.BM25)
         .highlighter(highlighter)
         .build();
 
@@ -1467,7 +1457,9 @@ import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.response.SearchResp;
 import io.milvus.v2.service.vector.request.highlighter.LexicalHighlighter;
+import io.milvus.v2.common.IndexParam;
 import java.util.*;
+
 String COLLECTION_NAME = "highlighter_demo";
 
 LexicalHighlighter highlighter = LexicalHighlighter.builder()
@@ -1477,16 +1469,13 @@ LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .addHighlightQuery(new LexicalHighlighter.HighlightQuery("TextMatch", "text", "my doc"))
         .build();
 
-Map<String, Object> searchParams = new HashMap<>();
-searchParams.put("metric_type", "BM25");
-
 SearchReq searchReq = SearchReq.builder()
         .collectionName(COLLECTION_NAME)
         .data(Collections.singletonList(new EmbeddedText("test")))
         .annsField("sparse_vector")
         .topK(10)
         .outputFields(Collections.singletonList("text"))
-        .searchParams(searchParams)
+        .metricType(IndexParam.MetricType.BM25)
         .highlighter(highlighter)
         .build();
 
@@ -1666,7 +1655,9 @@ import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.response.SearchResp;
 import io.milvus.v2.service.vector.request.highlighter.LexicalHighlighter;
+import io.milvus.v2.common.IndexParam;
 import java.util.*;
+
 String COLLECTION_NAME = "highlighter_demo";
 
 LexicalHighlighter highlighter = LexicalHighlighter.builder()
@@ -1677,16 +1668,13 @@ LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .fragmentSize(60)
         .build();
 
-Map<String, Object> searchParams = new HashMap<>();
-searchParams.put("metric_type", "BM25");
-
 SearchReq searchReq = SearchReq.builder()
         .collectionName(COLLECTION_NAME)
         .data(Collections.singletonList(new EmbeddedText("Milvus")))
         .annsField("sparse_vector")
         .topK(10)
         .outputFields(Collections.singletonList("text"))
-        .searchParams(searchParams)
+        .metricType(IndexParam.MetricType.BM25)
         .highlighter(highlighter)
         .build();
 
@@ -1862,7 +1850,9 @@ import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.response.SearchResp;
 import io.milvus.v2.service.vector.request.highlighter.LexicalHighlighter;
+import io.milvus.v2.common.IndexParam;
 import java.util.*;
+
 String COLLECTION_NAME = "highlighter_demo";
 
 LexicalHighlighter highlighter = LexicalHighlighter.builder()
@@ -1871,16 +1861,13 @@ LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .highlightSearchText(true)
         .build();
 
-Map<String, Object> searchParams = new HashMap<>();
-searchParams.put("metric_type", "BM25");
-
 SearchReq searchReq = SearchReq.builder()
         .collectionName(COLLECTION_NAME)
         .data(Arrays.asList(new EmbeddedText("test"), new EmbeddedText("Milvus")))
         .annsField("sparse_vector")
         .topK(10)
         .outputFields(Collections.singletonList("text"))
-        .searchParams(searchParams)
+        .metricType(IndexParam.MetricType.BM25)
         .highlighter(highlighter)
         .build();
 
@@ -2046,7 +2033,9 @@ import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.response.SearchResp;
 import io.milvus.v2.service.vector.request.highlighter.LexicalHighlighter;
+import io.milvus.v2.common.IndexParam;
 import java.util.*;
+
 String COLLECTION_NAME = "highlighter_demo";
 
 LexicalHighlighter highlighter = LexicalHighlighter.builder()
@@ -2055,16 +2044,13 @@ LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .highlightSearchText(true)
         .build();
 
-Map<String, Object> searchParams = new HashMap<>();
-searchParams.put("metric_type", "BM25");
-
 SearchReq searchReq = SearchReq.builder()
         .collectionName(COLLECTION_NAME)
         .data(Collections.singletonList(new EmbeddedText("test")))
         .annsField("sparse_vector")
         .topK(10)
         .outputFields(Collections.singletonList("text"))
-        .searchParams(searchParams)
+        .metricType(IndexParam.MetricType.BM25)
         .highlighter(highlighter)
         .build();
 

@@ -71,7 +71,7 @@ analyzerParams.put("filter",
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"tokenizer": "standard",
+analyzerParams := map[string]any{"tokenizer": "standard",
     "filter": []any{map[string]any{
         "type":       "decompounder",
         "word_list": []string{"dampf", "schiff", "fahrt", "brot", "backen", "automat"},
@@ -206,7 +206,7 @@ analyzerParams.put("filter",
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"tokenizer": "standard",
+analyzerParams := map[string]any{"tokenizer": "standard",
     "filter": []any{map[string]any{
         "type":       "decompounder",
         "word_list": []string{"dampf", "schiff", "fahrt", "brot", "backen", "automat"},
@@ -346,6 +346,8 @@ import (
 
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
+
+ctx := context.Background()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",

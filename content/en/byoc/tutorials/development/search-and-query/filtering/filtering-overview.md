@@ -448,7 +448,10 @@ filterTemplateValues.put("city", Arrays.asList("北京", "上海"));
 
 ```go
 filter := "age > {age} AND city in {city}"
-// Note: filter expression templating is not yet supported in milvus-sdk-go.
+filterTemplates := map[string]any{
+    "age":  25,
+    "city": []string{"北京", "上海"},
+}
 ```
 
 </TabItem>

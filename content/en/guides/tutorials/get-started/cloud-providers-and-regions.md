@@ -174,32 +174,10 @@ Region support can vary by workload type, deployment option, and feature. Use th
 
 ### Compute type support\{#compute-type-support}
 
-<table>
-   <tr>
-     <th><p><strong>Compute type</strong></p></th>
-     <th><p><strong>AWS</strong></p></th>
-     <th><p><strong>Google Cloud</strong></p></th>
-     <th><p><strong>Microsoft Azure</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Always-on compute (<a href="./manage-cluster">Serving cluster</a>)</p></td>
-     <td><p>✅ All regions</p></td>
-     <td><p>✅ All regions</p></td>
-     <td><p>✅ All regions</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="./on-demand-cluster">On-demand compute</a></p></td>
-     <td><p>✅ All regions</p></td>
-     <td><p>❌</p></td>
-     <td><p>ℹ️  Part of the regions:</p><ul><li>East US</li></ul></td>
-   </tr>
-</table>
-
-<Admonition type="info" title="Note">
-
-[Contact us](http://zilliz.com/contact-sales) if you need on-demand compute in a region that is not listed.
-
-</Admonition>
+| **Compute type** | **AWS** | **Google Cloud** | **Microsoft Azure** |
+| --- | --- | --- | --- |
+| Always-on compute ([Serving cluster](./manage-cluster)) | ✅ All regions | ✅ All regions | ✅ All regions |
+| [On-demand compute](./on-demand-cluster) | ✅ All regions | ✅ All regions | ✅ All regions |
 
 ### Deployment option support\{#deployment-option-support}
 

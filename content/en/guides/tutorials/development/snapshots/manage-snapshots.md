@@ -923,35 +923,11 @@ client.listRestoreSnapshotJobs(ListRestoreSnapshotJobsReq.builder()
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-    "log"
-
-    "github.com/milvus-io/milvus/client/v3/milvusclient"
-)
-
-// List all restore jobs
-listOpt := milvusclient.NewListRestoreSnapshotJobsOption()
-
-jobs, err := client.ListRestoreSnapshotJobs(context.Background(), listOpt)
-if err != nil {
-    log.Fatal(err)
-}
-
 for _, job := range jobs {
-    fmt.Printf("Job %d: %s -> Collection %d\n",
+    fmt.Printf("Job %d: %s -> Collection %s\n",
         job.GetJobId(), job.GetSnapshotName(), job.GetCollectionName())
     fmt.Printf("  State: %s, Progress: %d%%\n",
-        job.GetState(), job.GetProgress())
-}
-
-// List restore jobs for a specific collection
-listOpt = milvusclient.NewListRestoreSnapshotJobsOption().
-    WithCollectionName("my_collection")
-jobs, err = client.ListRestoreSnapshotJobs(context.Background(), listOpt)
-if err != nil {
-    log.Fatal(err)
+        job.GetState().String(), job.GetProgress())
 }
 ```
 

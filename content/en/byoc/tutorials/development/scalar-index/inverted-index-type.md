@@ -200,7 +200,6 @@ To create an index on a non-JSON field, follow these steps:
     
     // Add the INVERTED index
     idx := index.NewInvertedIndex() // Specify INVERTED index type
-    idx.WithIndexName("category_index") // Give your index a name
     ```
 
     </TabItem>
@@ -293,10 +292,15 @@ To create an index on a non-JSON field, follow these steps:
     <TabItem value='go'>
 
     ```go
-    import "github.com/milvus-io/milvus/client/v3/milvusclient"
+    import (
+        "fmt"
+    
+        "github.com/milvus-io/milvus/client/v3/milvusclient"
+    )
     
     // Create the index
-    _, err = client.CreateIndex(ctx, milvusclient.NewCreateIndexOption("my_collection", "category", idx)) // Replace with your collection name
+    _, err = client.CreateIndex(ctx, milvusclient.NewCreateIndexOption("my_collection", "category", idx).
+        WithIndexName("category_index")) // Replace with your collection name
     if err != nil {
         fmt.Println(err.Error())
         // handle error
@@ -431,6 +435,8 @@ client.createIndex(CreateIndexReq.builder()
 
 ```go
 import (
+    "fmt"
+
     "github.com/milvus-io/milvus/client/v3/index"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
@@ -592,9 +598,13 @@ client.dropIndex(DropIndexReq.builder()
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/milvusclient"
+import (
+    "log"
 
-err := client.DropIndex(ctx, milvusclient.NewDropIndexOption("my_collection", "category_index"))
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+err = client.DropIndex(ctx, milvusclient.NewDropIndexOption("my_collection", "category_index"))
 if err != nil {
     log.Fatal(err)
 }

@@ -144,7 +144,7 @@ String filterIncorrect = "color == \"red\" OR RANDOM_SAMPLE(0.001)";  // ❌ Inv
 filter := "color == \"red\" AND RANDOM_SAMPLE(0.001)"
 // Processing: Find all red items → Sample 0.1% of those red items
 
-filter := "color == \"red\" OR RANDOM_SAMPLE(0.001)" // ❌ Invalid logic
+filter = "color == \"red\" OR RANDOM_SAMPLE(0.001)" // ❌ Invalid logic
 // This would mean: "Either red items OR sample everything" - which is meaningless
 ```
 
@@ -457,7 +457,7 @@ import (
 
 filter := "category == \"electronics\" AND price > 100 AND RANDOM_SAMPLE(0.005)"
 
-resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("product_catalog").
+_, err := client.Query(ctx, milvusclient.NewQueryOption("product_catalog").
     WithFilter(filter).
     WithOutputFields("product_name", "price", "rating"))
 if err != nil {
@@ -614,7 +614,7 @@ import (
 
 filter := "customer_tier == \"premium\" AND region == \"North America\" AND RANDOM_SAMPLE(0.001)"
 
-resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("customer_profiles").
+_, err := client.Query(ctx, milvusclient.NewQueryOption("customer_profiles").
     WithFilter(filter).
     WithOutputFields("purchase_amount", "satisfaction_score", "last_purchase_date"))
 if err != nil {

@@ -78,28 +78,29 @@ If you forget a user's password or suspect it has been leaked, you can reset the
 
     ```go
     import (
-       "context"
+        "context"
+        "fmt"
     
-       "google.golang.org/grpc"
-       "github.com/milvus-io/milvus/v2/milvusclient"
+        "github.com/milvus-io/milvus/client/v3/milvusclient"
     )
     
-    userName := "user_1"
-    oldpass := "P@ssw0rd"
-    newpass := "NewP@ssw0rd"
-    opts := client.NewUpdatePasswordOption(userName, oldpass, newpass)
+    ctx := context.Background()
     
-    onFinish := func(ctx context.Context, err error) {
-        if err != nil {
-            fmt.Printf("gRPC call finished with error: %v\n", err)
-        } else {
-            fmt.Printf("gRPC call finished successfully")
-        }
+    client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+        Address: "https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
+        APIKey:  "user:password",
+    })
+    if err != nil {
+        fmt.Println(err.Error())
+        // handle error
     }
+    defer client.Close(ctx)
     
-    callOption := grpc.OnFinish(onFinish)
-    
-    err := mclient.UpdatePassword(context.Background(), opts, callOpts)
+    err = client.UpdatePassword(ctx, milvusclient.NewUpdatePasswordOption("user_1", "P@ssw0rd", "NewP@ssw0rd"))
+    if err != nil {
+        fmt.Println(err.Error())
+        // handle error
+    }
     ```
 
     </TabItem>

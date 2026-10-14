@@ -378,7 +378,7 @@ func main() {
     if err != nil {
         log.Fatal(err)
     }
-    log.Printf("inserted %d rows", result.InsertCount())
+    log.Printf("inserted %d rows", result.InsertCount)
 }
 ```
 
@@ -723,7 +723,8 @@ import (
 
 jsonIndex1 := index.NewJSONPathIndex(index.AUTOINDEX, "varchar", `metadata["category"]`).
     WithIndexName("category_index")
-indexOpts = append(indexOpts, milvusclient.NewCreateIndexOption("your_collection_name", "metadata", jsonIndex1))
+indexOpts = append(indexOpts, milvusclient.NewCreateIndexOption("your_collection_name", "metadata", jsonIndex1).
+    WithIndexName("category_index"))
 ```
 
 </TabItem>
@@ -849,7 +850,8 @@ import (
 
 jsonIndex2 := index.NewJSONPathIndex(index.AUTOINDEX, "varchar", `metadata["supplier"]["contact"]["email"]`).
     WithIndexName("email_index")
-indexOpts = append(indexOpts, milvusclient.NewCreateIndexOption("your_collection_name", "metadata", jsonIndex2))
+indexOpts = append(indexOpts, milvusclient.NewCreateIndexOption("your_collection_name", "metadata", jsonIndex2).
+    WithIndexName("email_index"))
 ```
 
 </TabItem>
@@ -975,7 +977,8 @@ import (
 
 jsonIndex3 := index.NewJSONPathIndex(index.Sorted, "double", `metadata["price"]`).
     WithIndexName("price_index")
-indexOpts = append(indexOpts, milvusclient.NewCreateIndexOption("your_collection_name", "metadata", jsonIndex3))
+indexOpts = append(indexOpts, milvusclient.NewCreateIndexOption("your_collection_name", "metadata", jsonIndex3).
+    WithIndexName("price_index"))
 ```
 
 </TabItem>
@@ -1103,7 +1106,8 @@ import (
 
 jsonIndex4 := index.NewJSONPathIndex(index.BITMAP, "bool", `metadata["in_stock"]`).
     WithIndexName("in_stock_index")
-indexOpts = append(indexOpts, milvusclient.NewCreateIndexOption("your_collection_name", "metadata", jsonIndex4))
+indexOpts = append(indexOpts, milvusclient.NewCreateIndexOption("your_collection_name", "metadata", jsonIndex4).
+    WithIndexName("in_stock_index"))
 ```
 
 </TabItem>
@@ -1234,8 +1238,10 @@ import (
 
 jsonIndex5 := index.NewJSONPathIndex(index.AUTOINDEX, "double", `metadata["string_price"]`).
     WithIndexName("string_to_double_index")
-indexOpts = append(indexOpts, milvusclient.NewCreateIndexOption("your_collection_name", "metadata", jsonIndex5).
-    WithExtraParam("json_cast_function", "STRING_TO_DOUBLE"))
+opt5 := milvusclient.NewCreateIndexOption("your_collection_name", "metadata", jsonIndex5).
+    WithIndexName("string_to_double_index")
+opt5.WithExtraParam("json_cast_function", "STRING_TO_DOUBLE")
+indexOpts = append(indexOpts, opt5)
 ```
 
 </TabItem>
@@ -1377,7 +1383,8 @@ import (
 
 jsonIndex6 := index.NewJSONPathIndex(index.AUTOINDEX, "json", `metadata`).
     WithIndexName("metadata_full_index")
-indexOpts = append(indexOpts, milvusclient.NewCreateIndexOption("your_collection_name", "metadata", jsonIndex6))
+indexOpts = append(indexOpts, milvusclient.NewCreateIndexOption("your_collection_name", "metadata", jsonIndex6).
+    WithIndexName("metadata_full_index"))
 ```
 
 </TabItem>
@@ -1501,7 +1508,8 @@ import (
 
 jsonIndex7 := index.NewJSONPathIndex(index.AUTOINDEX, "json", `metadata["supplier"]`).
     WithIndexName("supplier_index")
-indexOpts = append(indexOpts, milvusclient.NewCreateIndexOption("your_collection_name", "metadata", jsonIndex7))
+indexOpts = append(indexOpts, milvusclient.NewCreateIndexOption("your_collection_name", "metadata", jsonIndex7).
+    WithIndexName("supplier_index"))
 ```
 
 </TabItem>
@@ -1895,8 +1903,10 @@ import (
 
 jsonIndex8 := index.NewJSONPathIndex(index.AUTOINDEX, "varchar", `metadata["category"]`).
     WithIndexName("category_index")
-indexOpts = append(indexOpts, milvusclient.NewCreateIndexOption("your_collection_name", "metadata", jsonIndex8).
-    WithExtraParam("bitmap_cardinality_limit", "200"))
+opt8 := milvusclient.NewCreateIndexOption("your_collection_name", "metadata", jsonIndex8).
+    WithIndexName("category_index")
+opt8.WithExtraParam("bitmap_cardinality_limit", "200")
+indexOpts = append(indexOpts, opt8)
 ```
 
 </TabItem>

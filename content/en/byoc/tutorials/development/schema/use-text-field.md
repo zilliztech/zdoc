@@ -58,7 +58,12 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
-// Note: DataType.Text is not supported in milvus-sdk-go as of client/v3.0.0.
+import "github.com/milvus-io/milvus/client/v3/entity"
+
+schema.WithField(entity.NewField().
+    WithName("content").
+    WithDataType(entity.FieldTypeText).
+    WithEnableAnalyzer(true))
 ```
 
 </TabItem>
@@ -252,7 +257,37 @@ schema.addFunction(CreateCollectionReq.Function.builder()
 <TabItem value='go'>
 
 ```go
-// Note: DataType.Text is not supported in milvus-sdk-go as of client/v3.0.0.
+import (
+    "context"
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+const COLLECTION_NAME = "text_bm25_collection"
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+})
+if err != nil {
+    log.Fatal(err)
+}
+defer cli.Close(ctx)
+
+if has, _ := cli.HasCollection(ctx, milvusclient.NewHasCollectionOption(COLLECTION_NAME)); has {
+    _ = cli.DropCollection(ctx, milvusclient.NewDropCollectionOption(COLLECTION_NAME))
+}
+
+schema := entity.NewSchema().WithDynamicFieldEnabled(false).
+    WithField(entity.NewField().WithName("id").WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true)).
+    WithField(entity.NewField().WithName("content").WithDataType(entity.FieldTypeText).WithEnableAnalyzer(true)).
+    WithField(entity.NewField().WithName("sparse").WithDataType(entity.FieldTypeSparseVector)).
+    WithFunction(entity.NewFunction().
+        WithName("content_bm25").
+        WithType(entity.FunctionTypeBM25).
+        WithInputFields("content").
+        WithOutputFields("sparse"))
 ```
 
 </TabItem>
@@ -429,7 +464,29 @@ client.createCollection(requestCreate);
 <TabItem value='go'>
 
 ```go
-// Note: DataType.Text is not supported in milvus-sdk-go as of client/v3.0.0.
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+sparseIndex := milvusclient.NewCreateIndexOption("text_bm25_collection", "sparse",
+    index.NewGenericIndex("sparse", map[string]string{
+        index.IndexTypeKey:     string(index.SparseInverted),
+        index.MetricTypeKey:    string(entity.BM25),
+        "inverted_index_algo":  "DAAT_MAXSCORE",
+        "bm25_k1":              "1.2",
+        "bm25_b":               "0.75",
+    })).WithIndexName("sparse_bm25_index")
+
+err = cli.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("text_bm25_collection", schema).
+    WithIndexOptions(sparseIndex))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -588,7 +645,30 @@ client.insert(InsertReq.builder()
 <TabItem value='go'>
 
 ```go
-// Note: DataType.Text is not supported in milvus-sdk-go as of client/v3.0.0.
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/column"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+_, err = cli.Insert(ctx, milvusclient.NewColumnBasedInsertOption("text_bm25_collection").
+    WithInt64Column("id", []int64{1, 2, 3}).
+    WithColumns(column.NewColumnText("content", []string{
+        "Milvus stores vector embeddings and scalar fields in collections. It supports vector search, full text search, and metadata filtering for retrieval applications.",
+        "Long documents are often split into passages before embedding. Store each passage in a TEXT field so search results can return the source text.",
+        "Operational logs and support tickets often contain long natural-language text. TEXT fields can store these values without a fixed max_length setting.",
+    })))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+_, err = cli.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("text_bm25_collection"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -740,7 +820,23 @@ SearchResp searchResp = client.search(SearchReq.builder()
 <TabItem value='go'>
 
 ```go
-// Note: DataType.Text is not supported in milvus-sdk-go as of client/v3.0.0.
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+resultSets, err := cli.Search(ctx, milvusclient.NewSearchOption(
+    "text_bm25_collection",
+    2,
+    []entity.Vector{entity.Text("how does Milvus store source text for retrieval")},
+).WithANNSField("sparse").
+    WithOutputFields("content"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -855,7 +951,17 @@ for (List<SearchResp.SearchResult> hits : searchResp.getSearchResults()) {
 <TabItem value='go'>
 
 ```go
-// Note: DataType.Text is not supported in milvus-sdk-go as of client/v3.0.0.
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+for _, resultSet := range resultSets {
+    fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
+    fmt.Println("Scores: ", resultSet.Scores)
+    fmt.Println("content: ", resultSet.GetColumn("content"))
+}
 ```
 
 </TabItem>

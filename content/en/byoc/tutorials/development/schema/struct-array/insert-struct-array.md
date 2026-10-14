@@ -310,6 +310,8 @@ import (
     "fmt"
     "log"
 
+    "github.com/milvus-io/milvus/client/v3/entity"
+
     milvusclient "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
@@ -323,58 +325,51 @@ if err != nil {
     log.Fatal(err)
 }
 
-data := []map[string]any{
-    map[string]any{
-        "doc_id": int64(1), "title": "StructArray indexing patterns", "category": "index",
-        "title_vector": []float32{0.12, 0.08, 0.32, 0.48},
-        "chunks": []map[string]any{
-            map[string]any{
-                "text": "Create one index for each vector subfield.", "section": "index", "page": int64(1),
-                "quality_score": float32(0.96), "has_code": false,
-                "emb_list_vector": []float32{0.1, 0.2, 0.3, 0.4}, "emb": []float32{0.1, 0.2, 0.3, 0.4},
-            },
-            map[string]any{
-                "text": "Use MAX_SIM metrics for EmbeddingList search.", "section": "index", "page": int64(2),
-                "quality_score": float32(0.91), "has_code": true,
-                "emb_list_vector": []float32{0.16, 0.24, 0.35, 0.45}, "emb": []float32{0.16, 0.24, 0.35, 0.45},
-            },
-        },
+chunksSchema := entity.NewStructSchema().
+    WithField(entity.NewField().WithName("text").WithDataType(entity.FieldTypeVarChar).WithMaxLength(500)).
+    WithField(entity.NewField().WithName("section").WithDataType(entity.FieldTypeVarChar).WithMaxLength(50)).
+    WithField(entity.NewField().WithName("page").WithDataType(entity.FieldTypeInt64)).
+    WithField(entity.NewField().WithName("quality_score").WithDataType(entity.FieldTypeFloat)).
+    WithField(entity.NewField().WithName("has_code").WithDataType(entity.FieldTypeBool)).
+    WithField(entity.NewField().WithName("emb_list_vector").WithDataType(entity.FieldTypeFloatVector).WithDim(4)).
+    WithField(entity.NewField().WithName("emb").WithDataType(entity.FieldTypeFloatVector).WithDim(4))
+
+chunksRows := []map[string]any{
+    {
+        "text":            []string{"Create one index for each vector subfield.", "Use MAX_SIM metrics for EmbeddingList search."},
+        "section":         []string{"index", "index"},
+        "page":            []int64{1, 2},
+        "quality_score":   []float32{0.96, 0.91},
+        "has_code":        []bool{false, true},
+        "emb_list_vector": [][]float32{{0.1, 0.2, 0.3, 0.4}, {0.16, 0.24, 0.35, 0.45}},
+        "emb":             [][]float32{{0.1, 0.2, 0.3, 0.4}, {0.16, 0.24, 0.35, 0.45}},
     },
-    map[string]any{
-        "doc_id": int64(2), "title": "Filtered StructArray search", "category": "filter",
-        "title_vector": []float32{0.2, 0.18, 0.22, 0.4},
-        "chunks": []map[string]any{
-            map[string]any{
-                "text": "Use element_filter to match scalar conditions within the same Struct element.", "section": "filter", "page": int64(1),
-                "quality_score": float32(0.93), "has_code": true,
-                "emb_list_vector": []float32{0.21, 0.18, 0.33, 0.44}, "emb": []float32{0.21, 0.18, 0.33, 0.44},
-            },
-            map[string]any{
-                "text": "MATCH_LEAST checks how many elements satisfy a predicate.", "section": "filter", "page": int64(2),
-                "quality_score": float32(0.88), "has_code": false,
-                "emb_list_vector": []float32{0.24, 0.22, 0.31, 0.39}, "emb": []float32{0.24, 0.22, 0.31, 0.39},
-            },
-        },
+    {
+        "text":            []string{"Use element_filter to match scalar conditions within the same Struct element.", "MATCH_LEAST checks how many elements satisfy a predicate."},
+        "section":         []string{"filter", "filter"},
+        "page":            []int64{1, 2},
+        "quality_score":   []float32{0.93, 0.88},
+        "has_code":        []bool{true, false},
+        "emb_list_vector": [][]float32{{0.21, 0.18, 0.33, 0.44}, {0.24, 0.22, 0.31, 0.39}},
+        "emb":             [][]float32{{0.21, 0.18, 0.33, 0.44}, {0.24, 0.22, 0.31, 0.39}},
     },
-    map[string]any{
-        "doc_id": int64(3), "title": "Element-level search with offsets", "category": "search",
-        "title_vector": []float32{0.33, 0.11, 0.29, 0.37},
-        "chunks": []map[string]any{
-            map[string]any{
-                "text": "Element-level search can return the offset of the matched Struct element.", "section": "search", "page": int64(1),
-                "quality_score": float32(0.95), "has_code": false,
-                "emb_list_vector": []float32{0.32, 0.14, 0.28, 0.41}, "emb": []float32{0.32, 0.14, 0.28, 0.41},
-            },
-        },
+    {
+        "text":            []string{"Element-level search can return the offset of the matched Struct element."},
+        "section":         []string{"search"},
+        "page":            []int64{1},
+        "quality_score":   []float32{0.95},
+        "has_code":        []bool{false},
+        "emb_list_vector": [][]float32{{0.32, 0.14, 0.28, 0.41}},
+        "emb":             [][]float32{{0.32, 0.14, 0.28, 0.41}},
     },
 }
 
-rows := make([]any, 0, len(data))
-for _, r := range data {
-    rows = append(rows, r)
-}
-
-result, err := cli.Insert(ctx, milvusclient.NewRowBasedInsertOption("tech_articles", rows...))
+result, err := cli.Insert(ctx, milvusclient.NewColumnBasedInsertOption("tech_articles").
+    WithInt64Column("doc_id", []int64{1, 2, 3}).
+    WithVarcharColumn("title", []string{"StructArray indexing patterns", "Filtered StructArray search", "Element-level search with offsets"}).
+    WithVarcharColumn("category", []string{"index", "filter", "search"}).
+    WithFloatVectorColumn("title_vector", 4, [][]float32{{0.12, 0.08, 0.32, 0.48}, {0.2, 0.18, 0.22, 0.4}, {0.33, 0.11, 0.29, 0.37}}).
+    WithStructArrayColumn("chunks", chunksSchema, chunksRows))
 if err != nil {
     fmt.Println(err.Error())
 }
@@ -853,12 +848,22 @@ client.insert(InsertReq.builder()
 import (
     "fmt"
 
+    "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-_, err = cli.Insert(ctx, milvusclient.NewRowBasedInsertOption("tech_articles",
-    map[string]any{"doc_id": int64(10), "title": "Article without chunks yet", "category": "draft",
-        "title_vector": []float32{0.05, 0.10, 0.15, 0.20}, "chunks": nil}))
+_, err = cli.Insert(ctx, milvusclient.NewColumnBasedInsertOption("tech_articles").
+    WithInt64Column("doc_id", []int64{10}).
+    WithVarcharColumn("title", []string{"Article without chunks yet"}).
+    WithVarcharColumn("category", []string{"draft"}).
+    WithFloatVectorColumn("title_vector", 4, [][]float32{{0.05, 0.10, 0.15, 0.20}}).
+    WithStructArrayColumn("chunks", chunksSchema, []map[string]any{
+        {
+            "text": []string{}, "section": []string{}, "page": []int64{},
+            "quality_score": []float32{}, "has_code": []bool{},
+            "emb_list_vector": [][]float32{}, "emb": [][]float32{},
+        },
+    }))
 if err != nil {
     fmt.Println(err.Error())
 }

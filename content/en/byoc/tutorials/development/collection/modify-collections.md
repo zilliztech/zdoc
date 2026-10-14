@@ -81,7 +81,6 @@ import (
     "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v3/common"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 

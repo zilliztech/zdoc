@@ -199,7 +199,7 @@ You can create a volume on the web console or via SDK.
     <TabItem value='go'>
 
     ```go
-    // Note: Managed Volume management is not supported by milvus-sdk-go as of client/v3.0.0-beta.
+    // Note: Managed Volume management is not supported by milvus-sdk-go as of client/v3.0.0.
     ```
 
     </TabItem>
@@ -386,7 +386,7 @@ You can view all existing volumes in a project.
     <TabItem value='go'>
 
     ```go
-    // Note: External Volume management with VolumeManager is not supported by milvus-sdk-go as of client/v3.0.0-beta.
+    // Note: External Volume management with VolumeManager is not supported by milvus-sdk-go as of client/v3.0.0.
     ```
 
     </TabItem>
@@ -526,7 +526,7 @@ You can also check the details of a specific managed volume.
     <TabItem value='go'>
 
     ```go
-    // Note: Managed Volume management is not supported by milvus-sdk-go as of client/v3.0.0-beta.
+    // Note: Managed Volume management is not supported by milvus-sdk-go as of client/v3.0.0.
     ```
 
     </TabItem>
@@ -965,7 +965,7 @@ Deleted volumes **cannot be recovered**. Proceed with caution.
     <TabItem value='go'>
 
     ```go
-    // Note: Managed Volume management is not supported by milvus-sdk-go as of client/v3.0.0-beta.
+    // Note: Managed Volume management is not supported by milvus-sdk-go as of client/v3.0.0.
     ```
 
     </TabItem>

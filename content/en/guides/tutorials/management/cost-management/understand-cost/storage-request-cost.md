@@ -36,8 +36,6 @@ The following operations incur storage request costs on Zilliz Cloud:
 
 - Run search on a managed collection in a database used for on-demand scenarios when only indexes are loaded. This incurs Class 2 request costs.
 
-- Run search on a tiered-storage serving cluster when cold data is read from object storage. This incurs Class 2 request costs.
-
 - Volume file operations including reads and writes. This incurs both Class 1 and Class 2 request costs.
 
 The following operations do not incur storage request costs:

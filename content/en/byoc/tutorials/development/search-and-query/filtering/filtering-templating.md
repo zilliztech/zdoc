@@ -521,7 +521,7 @@ import (
 expr := "age > {age} AND city IN {city}"
 
 result, err := client.Delete(ctx, milvusclient.NewDeleteOption("hello_milvus").
-    WithFilter(expr).
+    WithExpr(expr).
     WithTemplateParam("age", 25).
     WithTemplateParam("city", []string{"北京", "上海"}))
 if err != nil {

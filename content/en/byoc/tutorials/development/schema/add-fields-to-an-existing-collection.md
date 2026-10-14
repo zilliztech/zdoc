@@ -179,13 +179,9 @@ if err != nil {
 }
 
 newField := entity.NewField().
-
     WithName("source").
-
     WithDataType(entity.FieldTypeVarChar).
-
     WithNullable(true).
-
     WithMaxLength(128)
 
 err = cli.AddCollectionField(ctx, milvusclient.NewAddCollectionFieldOption("product_catalog", newField))
@@ -398,15 +394,10 @@ if err != nil {
 }
 
 newField := entity.NewField().
-
     WithName("review_status").
-
     WithDataType(entity.FieldTypeVarChar).
-
     WithNullable(true).
-
     WithMaxLength(32).
-
     WithDefaultValueString("unreviewed")
 
 err = cli.AddCollectionField(ctx, milvusclient.NewAddCollectionFieldOption("product_catalog", newField))
@@ -667,27 +658,17 @@ if err != nil {
 // add a vector subfield with mmap enabled
 
 structSchema := entity.NewStructSchema().
-
     WithField(entity.NewField().WithName("text").WithDataType(entity.FieldTypeVarChar).WithMaxLength(65535)).
-
     WithField(entity.NewField().WithName("chapter").WithDataType(entity.FieldTypeVarChar).WithMaxLength(512)).
-
     WithField(entity.NewField().WithName("text_vector").WithDataType(entity.FieldTypeFloatVector).WithDim(5).WithTypeParams("mmap.enabled", "true")).
-
     WithField(entity.NewField().WithName("chapter_vector").WithDataType(entity.FieldTypeFloatVector).WithDim(5).WithTypeParams("mmap.enabled", "true"))
 
 newField := entity.NewField().
-
     WithName("chunks").
-
     WithDataType(entity.FieldTypeArray).
-
     WithElementType(entity.FieldTypeStruct).
-
     WithNullable(true).
-
     WithMaxCapacity(1024).
-
     WithStructSchema(structSchema)
 
 err = cli.AddCollectionStructField(ctx, milvusclient.NewAddCollectionStructFieldOption("books", newField))

@@ -96,12 +96,6 @@ Upgrade your cluster Milvus version to access these features.
 
 - [On-demand compute](./on-demand-cluster)
 
-<Admonition type="info" title="Notes">
-
-If your region does support this feature, [contact us](http://support.zilliz.com) to request more regions
-
-</Admonition>
-
 ### Deprecation notice\{#deprecation-notice}
 
 - [Import Data from NumPy Files](./data-import-numpy)

@@ -127,7 +127,7 @@ Before creating an external volume, you need to integrate your [AWS S3 bucket](.
     <TabItem value='go'>
 
     ```go
-    // Note: External Volume management with VolumeManager is not supported by milvus-sdk-go as of client/v3.0.0-beta.
+    // Note: External Volume management with VolumeManager is not supported by milvus-sdk-go as of client/v3.0.0.
     ```
 
     </TabItem>
@@ -303,7 +303,7 @@ You can view all existing volumes in a project.
     <TabItem value='go'>
 
     ```go
-    // Note: External Volume management with VolumeManager is not supported by milvus-sdk-go as of client/v3.0.0-beta.
+    // Note: External Volume management with VolumeManager is not supported by milvus-sdk-go as of client/v3.0.0.
     ```
 
     </TabItem>
@@ -425,7 +425,7 @@ You can check the details of a specific volume.
     <TabItem value='go'>
 
     ```go
-    // Note: External Volume management with VolumeManager is not supported by milvus-sdk-go as of client/v3.0.0-beta.
+    // Note: External Volume management with VolumeManager is not supported by milvus-sdk-go as of client/v3.0.0.
     ```
 
     </TabItem>
@@ -560,7 +560,7 @@ Deleting an external volume removes only the volume metadata from Zilliz Cloud; 
     <TabItem value='go'>
 
     ```go
-    // Note: External Volume management with VolumeManager is not supported by milvus-sdk-go as of client/v3.0.0-beta.
+    // Note: External Volume management with VolumeManager is not supported by milvus-sdk-go as of client/v3.0.0.
     ```
 
     </TabItem>

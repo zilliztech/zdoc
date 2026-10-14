@@ -110,12 +110,21 @@ MilvusClientV2 client = new MilvusClientV2(connectConfig);
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/milvusclient"
+import (
+    "context"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
 })
+if err != nil {
+    // handle error
+}
 ```
 
 </TabItem>

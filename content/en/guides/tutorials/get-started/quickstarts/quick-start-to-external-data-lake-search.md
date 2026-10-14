@@ -79,6 +79,7 @@ MilvusClientV2 client = new MilvusClientV2(connectConfig);
 ```go
 import (
     "context"
+
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
@@ -826,6 +827,7 @@ client.createIndex(CreateIndexReq.builder()
 ```go
 import (
     "github.com/milvus-io/milvus/client/v3/entity"
+
     "github.com/milvus-io/milvus/client/v3/index"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
@@ -1219,7 +1221,7 @@ SearchResp searchResp = session.search(SearchReq.builder()
 
 ```go
 // Note: session-based search (client.session + cluster-scoped search) is not
-// supported in the Go SDK as of client/v3.0.0-beta.
+// supported in the Go SDK as of client/v3.0.0.
 ```
 
 </TabItem>

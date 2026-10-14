@@ -1910,20 +1910,12 @@ if err != nil {
 }
 
 for {
-    resultSet, err := iterator.Next()
+    resultSet, err := iterator.Next(ctx)
     if err != nil {
         fmt.Println(err.Error())
         break
     }
-    if resultSet == nil {
-        break
-    }
     fmt.Println("color: ", resultSet.GetColumn("color").FieldData().GetScalars())
-}
-
-err = iterator.Close()
-if err != nil {
-    fmt.Println(err.Error())
 }
 ```
 
