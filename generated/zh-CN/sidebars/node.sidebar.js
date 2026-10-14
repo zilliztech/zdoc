@@ -17,18 +17,6 @@ module.exports = [
       },
       {
         "type": "doc",
-        "id": "api/nodejs/nodejs/Authentication/Authentication-createRole",
-        "label": "createRole()",
-        "key": "doc:api/nodejs/nodejs/Authentication/authentication-createrole"
-      },
-      {
-        "type": "doc",
-        "id": "api/nodejs/nodejs/Authentication/Authentication-createUser",
-        "label": "createUser()",
-        "key": "doc:api/nodejs/nodejs/Authentication/authentication-createuser"
-      },
-      {
-        "type": "doc",
         "id": "api/nodejs/nodejs/Authentication/Authentication-deleteUser",
         "label": "deleteUser()",
         "key": "doc:api/nodejs/nodejs/Authentication/authentication-deleteuser"
@@ -128,12 +116,6 @@ module.exports = [
         "id": "api/nodejs/nodejs/Authentication/Authentication-revokeRole",
         "label": "revokeRole()",
         "key": "doc:api/nodejs/nodejs/Authentication/authentication-revokerole"
-      },
-      {
-        "type": "doc",
-        "id": "api/nodejs/nodejs/Authentication/Authentication-updateUser",
-        "label": "updateUser()",
-        "key": "doc:api/nodejs/nodejs/Authentication/authentication-updateuser"
       },
       {
         "type": "doc",

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "f3855d52d9c9bbe5673520d102e717eb017519e6",
+  "sourceCommit": "fe7b4dfcd3dc8993b5db77e80b7e8b49e6acac06",
   "records": [
     {
       "manual": "cli",
@@ -3364,16 +3364,6 @@
     },
     {
       "manual": "node",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-createRole.md",
-      "sourceHash": "8bbd25eed41643ee55f56940ec8b88e8d5364cf1d0c946d1f4db7f013d301edc"
-    },
-    {
-      "manual": "node",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-createUser.md",
-      "sourceHash": "9121a7cf6f39cbc7c2049cfc4874e3b74ee41feaf0847072caba946abb5ed09e"
-    },
-    {
-      "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-deleteUser.md",
       "sourceHash": "c453faaeefc2744474c18c7235fdac56be59331404187a83c4690291582e3283"
     },
@@ -3464,11 +3454,6 @@
     },
     {
       "manual": "node",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-updateUser.md",
-      "sourceHash": "611a37910e3d1ab3e3c0b0fe288238e1a757874baf6fceb41b0200645c6b5155"
-    },
-    {
-      "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Client/Client-MilvusClient.md",
       "sourceHash": "06b15431d8f2f6fb887306fc2fd65818cc105324890a3f5a757ae60777996946"
     },
@@ -3496,6 +3481,11 @@
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Client/Client-connect.md",
       "sourceHash": "ec9ca6eaeb9896571763ea941b47c282243f6105ad1d9a9134de8f42e9e50aee"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Client/Client-getTelemetry.md",
+      "sourceHash": "78b4b8957fabfb806de7261b2d59ffb19179fb9218d05af05b9122f5a836c8a3"
     },
     {
       "manual": "node",
@@ -3539,6 +3529,11 @@
     },
     {
       "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-addFunctionField.md",
+      "sourceHash": "2631636cae9798d453311040ef15e73e33d87639a6603528ea15496cabc431bc"
+    },
+    {
+      "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-alterAlias.md",
       "sourceHash": "d8262d5037788c27be93cba6aa23d7811fb9488e060d36a91602975b5da8d2a3"
     },
@@ -3556,6 +3551,11 @@
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-alterCollectionProperties.md",
       "sourceHash": "0902d072b69b41756c1499a437ca9653734ad97f6d04f87327a2cd7fcbb981f6"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-alterCollectionSchema.md",
+      "sourceHash": "75b261e700c7acba15b7311eb177a890f8132804fa25be8540ac3290eac6423a"
     },
     {
       "manual": "node",
@@ -3591,6 +3591,11 @@
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-dropCollection.md",
       "sourceHash": "2b58167888494bb4eb7dc20c0c5d1d64e927c68fe3a0c2f48b94c1f5882e6eae"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-dropCollectionField.md",
+      "sourceHash": "759d89dfbb10bbc4d1f24312b2967fd8650e01cdb8077341866a0ddc4d279417"
     },
     {
       "manual": "node",
@@ -3786,6 +3791,21 @@
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Database/Database-useDatabase.md",
       "sourceHash": "85156a10d034e328101dab1e1d615d703bb384488e03c13d1adeb6e3f78aeb5b"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/FileResources/FileResources-addFileResource.md",
+      "sourceHash": "34cf4c8eea794c6f9db868fd34fa3b7bc8cd7d84a3742d4c86a036b12251690d"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/FileResources/FileResources-listFileResources.md",
+      "sourceHash": "1d67c8579d182f1cf54e09bcdd31d82c1187310139e8c739426532995becca40"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/FileResources/FileResources-removeFileResource.md",
+      "sourceHash": "21dedc159e0f8eb7c9bbdcf397080f21f8a13e694cf1d0edaeeb085464b4520d"
     },
     {
       "manual": "node",
