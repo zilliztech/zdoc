@@ -154,6 +154,7 @@ for _, resultSet := range resultSets {
 
 ```rust
 use milvus::v2::prelude::*;
+use std::collections::HashMap;
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -408,6 +409,7 @@ for _, resultSet := range resultSets {
 
 ```rust
 use milvus::v2::prelude::*;
+use std::collections::HashMap;
 
 #[tokio::main]
 async fn main() -> Result<()> {

@@ -322,7 +322,7 @@ async fn main() -> Result<()> {
         )
         .await?;
 
-    println!("Sampled {} products from collection", res.results().len());
+    println!("Sampled {} products from collection", res.results().get_row_count());
     Ok(())
 }
 ```
@@ -485,7 +485,7 @@ let res = client
     )
     .await?;
 
-println!("Found {} electronics products in sample", res.results().len());
+println!("Found {} electronics products in sample", res.results().get_row_count());
 ```
 
 </TabItem>
@@ -642,7 +642,7 @@ let res = client
     )
     .await?;
 
-println!("Sample size: {}", res.results().len());
+println!("Sample size: {}", res.results().get_row_count());
 ```
 
 </TabItem>

@@ -85,7 +85,9 @@ async fn main() -> Result<()> {
     )
     .await?;
 
-    let has = client.has_collection("my_collection").await?;
+    let has = client
+        .has_collection(HasCollectionRequest::builder().collection_name("my_collection").build()?)
+        .await?;
     Ok(())
 }
 ```

@@ -355,6 +355,9 @@ if err != nil {
 use milvus::v2::prelude::*;
 use serde_json::json;
 
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
+
 let analyzer_params = json!({ "tokenizer": "icu" });
 let result = client
     .run_analyzer(
@@ -364,6 +367,8 @@ let result = client
             .build()?,
     )
     .await?;
+
+println!("ICU analyzer output: {:?}", result.results());
 ```
 
 </TabItem>

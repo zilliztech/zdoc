@@ -617,7 +617,7 @@ let role = client
             .build()?,
     )
     .await?;
-println!("{:?}", role.role_name());
+println!("{:?}", role.description().get_role_name());
 ```
 
 </TabItem>

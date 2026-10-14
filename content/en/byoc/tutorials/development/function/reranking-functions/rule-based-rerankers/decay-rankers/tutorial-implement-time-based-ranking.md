@@ -1380,7 +1380,7 @@ func printSearchResults(results []milvusclient.ResultSet, title string) {
 fn print_search_results(results: &[SingleResult], title: &str) {
     println!("\n=== {} ===", title);
     for hit in results {
-        println!("Score: {:?}", hit.scores());
+        println!("Score: {:?}", hit.get_scores());
     }
 }
 ```
@@ -2132,7 +2132,7 @@ let hybrid_req = HybridSearchRequest::builder()
             .limit(7)
             .build()?,
     ])
-    .rerank(FunctionScore::new().add_function(gaussian_ranker))
+    .rerank(gaussian_ranker.clone())
     .limit(7)
     .output_fields(vec!["headline", "content", "publish_date"])
     .build()?;

@@ -302,6 +302,15 @@ for _, r := range result {
 
 ```rust
 use milvus::v2::prelude::*;
+use serde_json::json;
+
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
+
+let analyzer_params = json!({
+    "tokenizer": "standard",
+    "filter": ["lowercase"]
+});
 
 let response = client
     .run_analyzer(

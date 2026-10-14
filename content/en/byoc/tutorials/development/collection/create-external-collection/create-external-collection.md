@@ -158,7 +158,9 @@ schema := entity.NewSchema().
 ```rust
 use milvus::v2::prelude::*;
 use serde_json::json;
+
 let schema = CollectionSchema::new()
+    .enable_dynamic_field(false)
     .external_source("volume://my_volume/path/to/a/folder/")
     .external_spec(json!({"format": "parquet"}));
 ```
@@ -313,11 +315,13 @@ schema = schema.
 
 ```rust
 use milvus::v2::prelude::*;
-let schema = CollectionSchema::new()
+
+let schema = schema
     .add_field(
         FieldSchema::new()
             .name("product_id")
             .data_type(DataType::Int64)
+            .primary_key(true)
             .external_field("id"),
     )
     .add_field(

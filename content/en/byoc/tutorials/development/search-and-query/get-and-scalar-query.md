@@ -1233,11 +1233,15 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 
 ```rust
 use milvus::v2::prelude::*;
+use std::collections::HashMap;
+
 let res = client.query(
     QueryRequest::builder()
         .collection_name("my_collection")
         .filter("")
-        .group_by_fields(["color"])
+        .extra_params(HashMap::from([
+            ("group_by_fields".to_string(), "color".to_string()),
+        ]))
         .output_fields(["color", "count(*)"])
         .build()?,
 )
@@ -1396,11 +1400,15 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 
 ```rust
 use milvus::v2::prelude::*;
+use std::collections::HashMap;
+
 let res = client.query(
     QueryRequest::builder()
         .collection_name("my_collection")
         .filter("")
-        .group_by_fields(["color"])
+        .extra_params(HashMap::from([
+            ("group_by_fields".to_string(), "color".to_string()),
+        ]))
         .output_fields(["color", "count(*)", "avg(price)", "max(rating)"])
         .build()?,
 )
@@ -1563,11 +1571,15 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 
 ```rust
 use milvus::v2::prelude::*;
+use std::collections::HashMap;
+
 let res = client.query(
     QueryRequest::builder()
         .collection_name("my_collection")
         .filter("")
-        .group_by_fields(["color", "rating"])
+        .extra_params(HashMap::from([
+            ("group_by_fields".to_string(), "color,rating".to_string()),
+        ]))
         .output_fields(["color", "rating", "min(price)", "max(price)"])
         .build()?,
 )
@@ -1729,11 +1741,15 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 
 ```rust
 use milvus::v2::prelude::*;
+use std::collections::HashMap;
+
 let res = client.query(
     QueryRequest::builder()
         .collection_name("my_collection")
         .filter("")
-        .group_by_fields(["color"])
+        .extra_params(HashMap::from([
+            ("group_by_fields".to_string(), "color".to_string()),
+        ]))
         .output_fields(["color", "avg(price)", "count(*)"])
         .limit(5)
         .build()?,

@@ -226,7 +226,8 @@ schema = schema
         FieldSchema::new()
             .name("age")
             .data_type(DataType::Int64)
-            .nullable(true),
+            .nullable(true)
+            .default_value(DefaultValue::Int64(18)),
     )
     .add_field(
         FieldSchema::new()
@@ -702,18 +703,12 @@ if err != nil {
 ```rust
 use milvus::v2::prelude::*;
 
-let price_col = FieldData::float(
-    "price",
-    vec![99.99, 149.50, 199.99, 0.0, 59.99, 0.0],
-).nullable(vec![true, true, true, false, true, false]);
-let age_col = FieldData::int64(
-    "age",
-    vec![25, 30, 0, 45, 0, 60],
-).nullable(vec![true, true, false, true, false, true]);
-let broken_col = FieldData::bool(
-    "broken",
-    vec![false, true, false, true, false, false],
-).nullable(vec![true, true, true, true, true, true]);
+let price_col = FieldData::float("price", vec![99.99, 59.99])
+    .with_validity(vec![true, false, false, false, true, false])?;
+let age_col = FieldData::int64("age", vec![25, 30, 45, 60])
+    .with_validity(vec![true, true, false, true, false, true])?;
+let broken_col = FieldData::boolean("broken", vec![false, true, false, true, false, false])
+    .with_validity(vec![true, true, true, true, true, true])?;
 
 client
     .insert(
@@ -900,7 +895,7 @@ let results = client
             .build()?,
     )
     .await?;
-for row in results.rows()? {
+for row in results.results().rows()? {
     println!("{:?}", row);
 }
 ```
@@ -1054,7 +1049,7 @@ let results = client
             .build()?,
     )
     .await?;
-for row in results.rows()? {
+for row in results.results().rows()? {
     println!("{:?}", row);
 }
 ```
@@ -1207,7 +1202,7 @@ let results = client
             .build()?,
     )
     .await?;
-for row in results.rows()? {
+for row in results.results().rows()? {
     println!("{:?}", row);
 }
 ```

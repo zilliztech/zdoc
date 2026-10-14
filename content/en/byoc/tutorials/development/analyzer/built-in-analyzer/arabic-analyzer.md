@@ -272,7 +272,7 @@ let analyzer_params = serde_json::json!({
         "decimaldigit",
         "arabic_normalization",
         {"type": "stemmer", "language": "arabic"},
-        {"type": "stop", "stop_words": "_arabic_"}
+        {"type": "stop", "stop_words": ["_arabic_"]}
     ]
 });
 ```

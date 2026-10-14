@@ -320,7 +320,7 @@ let function = Function::new()
         ("integration_id".into(), "YOUR_INTEGRATION_ID".into()),
     ]));
 
-schema.add_function(function);
+let schema = schema.add_function(function);
 ```
 
 </TabItem>

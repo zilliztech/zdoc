@@ -456,11 +456,13 @@ let insert = client
             .columns(vec![
                 FieldData::int64("my_id", vec![1]),
                 FieldData::float_vector("my_vector", vec![vec![0.1, 0.2, 0.3, 0.4, 0.5]]),
-                FieldData::varchar("overview", vec!["Great product".to_string()]),
-                FieldData::int32("words", vec![150]),
                 FieldData::json(
-                    "dynamic_json",
-                    vec![json!({"varchar": "some text", "nested": {"value": 42.5}, "string_price": "99.99"})],
+                    "$meta",
+                    vec![json!({
+                        "overview": "Great product",
+                        "words": 150,
+                        "dynamic_json": {"varchar": "some text", "nested": {"value": 42.5}, "string_price": "99.99"},
+                    })],
                 ),
             ])
             .build()?,

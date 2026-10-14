@@ -167,7 +167,7 @@ use std::collections::HashMap;
 let rerank = Function::new()
     .name("weight")
     .function_type(FunctionType::Rerank)
-    .input_fields([])
+    .input_fields(Vec::<String>::new())
     .params(HashMap::from([
         ("reranker".into(), "weighted".into()),
         ("weights".into(), "[0.1, 0.9]".into()),

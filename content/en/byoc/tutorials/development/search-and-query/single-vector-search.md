@@ -814,7 +814,6 @@ let response = client
             .vector_field("vector")
             .ids(Ids::Int64(vec![551, 296, 43]))
             .limit(3)
-            .metric_type(MetricType::Ip)
             .build()?,
     )
     .await?;

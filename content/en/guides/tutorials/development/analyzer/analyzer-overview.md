@@ -938,7 +938,7 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
         .run_analyzer(
             RunAnalyzerRequest::builder()
                 .texts([sample_text])
-                .analyzer_params(analyzer_params_built_in)
+                .analyzer_params(analyzer_params_built_in.clone())
                 .build()?,
         )
         .await?;
@@ -1126,7 +1126,7 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
         .run_analyzer(
             RunAnalyzerRequest::builder()
                 .texts([sample_text])
-                .analyzer_params(analyzer_params_custom)
+                .analyzer_params(analyzer_params_custom.clone())
                 .build()?,
         )
         .await?;
