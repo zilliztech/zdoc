@@ -17,18 +17,6 @@ module.exports = [
       },
       {
         "type": "doc",
-        "id": "api/nodejs/nodejs/Authentication/Authentication-createRole",
-        "label": "createRole()",
-        "key": "doc:api/nodejs/nodejs/Authentication/authentication-createrole"
-      },
-      {
-        "type": "doc",
-        "id": "api/nodejs/nodejs/Authentication/Authentication-createUser",
-        "label": "createUser()",
-        "key": "doc:api/nodejs/nodejs/Authentication/authentication-createuser"
-      },
-      {
-        "type": "doc",
         "id": "api/nodejs/nodejs/Authentication/Authentication-deleteUser",
         "label": "deleteUser()",
         "key": "doc:api/nodejs/nodejs/Authentication/authentication-deleteuser"
@@ -131,12 +119,6 @@ module.exports = [
       },
       {
         "type": "doc",
-        "id": "api/nodejs/nodejs/Authentication/Authentication-updateUser",
-        "label": "updateUser()",
-        "key": "doc:api/nodejs/nodejs/Authentication/authentication-updateuser"
-      },
-      {
-        "type": "doc",
         "id": "api/nodejs/nodejs/Authentication/Authentication-hasRole",
         "label": "hasRole()",
         "key": "doc:api/nodejs/nodejs/Authentication/authentication-hasrole"
@@ -207,6 +189,12 @@ module.exports = [
         "id": "api/nodejs/nodejs/Client/Client-use",
         "label": "use()",
         "key": "doc:api/nodejs/nodejs/Client/client-use"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Client/Client-getTelemetry",
+        "label": "getTelemetry()",
+        "key": "doc:api/nodejs/nodejs/Client/client-gettelemetry"
       }
     ]
   },
@@ -385,6 +373,24 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/nodejs/nodejs/Collections/Collections-addFunctionField",
+        "label": "addFunctionField()",
+        "key": "doc:api/nodejs/nodejs/Collections/collections-addfunctionfield"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Collections/Collections-alterCollectionSchema",
+        "label": "alterCollectionSchema()",
+        "key": "doc:api/nodejs/nodejs/Collections/collections-altercollectionschema"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Collections/Collections-dropCollectionField",
+        "label": "dropCollectionField()",
+        "key": "doc:api/nodejs/nodejs/Collections/collections-dropcollectionfield"
+      },
+      {
+        "type": "doc",
         "id": "api/nodejs/nodejs/Collections/Collections-dropFunctionField",
         "label": "dropFunctionField()",
         "key": "doc:api/nodejs/nodejs/Collections/collections-dropfunctionfield"
@@ -516,7 +522,26 @@ module.exports = [
     "type": "category",
     "label": "FileResources",
     "key": "category:api/nodejs/nodejs/fileresources",
-    "items": []
+    "items": [
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/FileResources/FileResources-addFileResource",
+        "label": "addFileResource()",
+        "key": "doc:api/nodejs/nodejs/FileResources/fileresources-addfileresource"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/FileResources/FileResources-listFileResources",
+        "label": "listFileResources()",
+        "key": "doc:api/nodejs/nodejs/FileResources/fileresources-listfileresources"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/FileResources/FileResources-removeFileResource",
+        "label": "removeFileResource()",
+        "key": "doc:api/nodejs/nodejs/FileResources/fileresources-removefileresource"
+      }
+    ]
   },
   {
     "type": "category",

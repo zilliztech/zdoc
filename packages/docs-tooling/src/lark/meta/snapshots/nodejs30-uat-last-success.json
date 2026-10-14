@@ -8,7 +8,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-10-14T02:41:32.075Z",
+  "generated_at": "2026-10-14T10:40:16.977Z",
   "source_dir": "./packages/docs-tooling/src/lark/meta/sources/node/v3.0.x",
   "base_app_token": "LlrPbysPZau2dGsSVuicHmvCn0e",
   "records": [
@@ -126,27 +126,25 @@
       "placement_type": "canonical",
       "title": "createRole()",
       "slug": "Authentication-createRole",
-      "doc_token": "SDoYdccLWo1W3PxkNFncibwDnch",
-      "doc_link": "https://zilliverse.feishu.cn/docx/SDoYdccLWo1W3PxkNFncibwDnch",
-      "source_file": "SDoYdccLWo1W3PxkNFncibwDnch.json",
-      "source_hash": "261d090a8ce86d8f8628c7a453fb7d6d6ea2c89db13d8049cca293daf6fea493",
+      "doc_token": "TR8xdMnzEo85sLxAtizcJWZdn6b",
+      "doc_link": "https://zilliverse.feishu.cn/docx/TR8xdMnzEo85sLxAtizcJWZdn6b",
+      "source_file": "TR8xdMnzEo85sLxAtizcJWZdn6b.json",
+      "source_hash": "bf4f0318039a90aa6aafaaac11abd849e49c51f8cdd3e769c20f2832a4235c2e",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": "66",
+      "revision_id": "9",
       "publish_targets": [
         "Milvus",
         "Zilliz"
       ],
-      "publish_status": "Draft",
+      "publish_status": "WIP",
       "release_channel": "current",
       "outgoing_tokens": [],
-      "output_paths": [
-        "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-createRole.md"
-      ]
+      "output_paths": []
     },
     {
       "record_id": "recu4NXew1micl",
@@ -155,27 +153,25 @@
       "placement_type": "canonical",
       "title": "createUser()",
       "slug": "Authentication-createUser",
-      "doc_token": "JNZxdKEX3ohBl2xud7Wckhq7nVh",
-      "doc_link": "https://zilliverse.feishu.cn/docx/JNZxdKEX3ohBl2xud7Wckhq7nVh",
-      "source_file": "JNZxdKEX3ohBl2xud7Wckhq7nVh.json",
-      "source_hash": "2a327c20766000138d8a3b0565e40435c97a99723f2a4a0911d286e8319966fe",
+      "doc_token": "MtHHdvQ36oZcM8xEDpwcCUBynmb",
+      "doc_link": "https://zilliverse.feishu.cn/docx/MtHHdvQ36oZcM8xEDpwcCUBynmb",
+      "source_file": "MtHHdvQ36oZcM8xEDpwcCUBynmb.json",
+      "source_hash": "b9955cf7a61929280033ceb100e807ef3d81abe5405fd14f15df54df4f789477",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": "68",
+      "revision_id": "10",
       "publish_targets": [
         "Milvus",
         "Zilliz"
       ],
-      "publish_status": "Draft",
+      "publish_status": "WIP",
       "release_channel": "current",
       "outgoing_tokens": [],
-      "output_paths": [
-        "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-createUser.md"
-      ]
+      "output_paths": []
     },
     {
       "record_id": "recu4NXgXRsUkX",
@@ -755,27 +751,25 @@
       "placement_type": "canonical",
       "title": "updateUser()",
       "slug": "Authentication-updateUser",
-      "doc_token": "BCGKdCttdotF32xUJTec8UFlndg",
-      "doc_link": "https://zilliverse.feishu.cn/docx/BCGKdCttdotF32xUJTec8UFlndg",
-      "source_file": "BCGKdCttdotF32xUJTec8UFlndg.json",
-      "source_hash": "9e3fee8f1cc2965022a35c6ec119e2da105cd87d7d5e72ad6ca1f3f89c2b2928",
+      "doc_token": "L4tGd5KqLoLtp2xQRyhcaXjsnL5",
+      "doc_link": "https://zilliverse.feishu.cn/docx/L4tGd5KqLoLtp2xQRyhcaXjsnL5",
+      "source_file": "L4tGd5KqLoLtp2xQRyhcaXjsnL5.json",
+      "source_hash": "875d1ac90d62875bb51b0252f1d4fb8bc35db62556a887f8e96bae26c5b6bbc4",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": "43",
+      "revision_id": "11",
       "publish_targets": [
         "Milvus",
         "Zilliz"
       ],
-      "publish_status": "Draft",
+      "publish_status": "WIP",
       "release_channel": "current",
       "outgoing_tokens": [],
-      "output_paths": [
-        "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-updateUser.md"
-      ]
+      "output_paths": []
     },
     {
       "record_id": "recvaTzFDYMh0d",
@@ -1114,11 +1108,16 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": "17",
-      "publish_targets": [],
-      "publish_status": "WIP",
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "release_channel": "current",
       "outgoing_tokens": [],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/nodejs/nodejs/Client/Client-getTelemetry.md"
+      ]
     },
     {
       "record_id": "recu4NXDjp9RgU",
@@ -2044,11 +2043,16 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": "25",
-      "publish_targets": [],
-      "publish_status": "WIP",
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "release_channel": "current",
       "outgoing_tokens": [],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/nodejs/nodejs/Collections/Collections-addFunctionField.md"
+      ]
     },
     {
       "record_id": "reczz28MVpvBCAXj",
@@ -2068,11 +2072,16 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": "21",
-      "publish_targets": [],
-      "publish_status": "WIP",
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "release_channel": "current",
       "outgoing_tokens": [],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/nodejs/nodejs/Collections/Collections-alterCollectionSchema.md"
+      ]
     },
     {
       "record_id": "reczz28MVqRsskFs",
@@ -2092,11 +2101,16 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": "19",
-      "publish_targets": [],
-      "publish_status": "WIP",
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "release_channel": "current",
       "outgoing_tokens": [],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/nodejs/nodejs/Collections/Collections-dropCollectionField.md"
+      ]
     },
     {
       "record_id": "reczz28MVqygR1Dz",
@@ -4832,11 +4846,16 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": "17",
-      "publish_targets": [],
-      "publish_status": "WIP",
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "release_channel": "current",
       "outgoing_tokens": [],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/nodejs/nodejs/FileResources/FileResources-addFileResource.md"
+      ]
     },
     {
       "record_id": "reczz28MVudWAs5O",
@@ -4856,11 +4875,16 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": "24",
-      "publish_targets": [],
-      "publish_status": "WIP",
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "release_channel": "current",
       "outgoing_tokens": [],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/nodejs/nodejs/FileResources/FileResources-listFileResources.md"
+      ]
     },
     {
       "record_id": "reczz28MmhLvsS1P",
@@ -4880,11 +4904,16 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": "7",
-      "publish_targets": [],
-      "publish_status": "WIP",
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "release_channel": "current",
       "outgoing_tokens": [],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/nodejs/nodejs/FileResources/FileResources-removeFileResource.md"
+      ]
     }
   ]
 }
