@@ -128,6 +128,12 @@ export interface DocsUiText {
     sourceUnavailable: string;
   };
   toc: {onThisPage: string};
+  docFeedback: {
+    question: string;
+    helpful: string;
+    notHelpful: string;
+    thanks: string;
+  };
   image: {preview: string; closePreview: string};
   docMeta: {versionInformation: string; minimumSdkVersion: string};
   releaseChannel: {
@@ -310,6 +316,12 @@ const english: DocsUiText = {
     sourceUnavailable: 'Source view is unavailable for this page.',
   },
   toc: {onThisPage: 'On this page'},
+  docFeedback: {
+    question: 'Was this page helpful?',
+    helpful: 'Helpful',
+    notHelpful: 'Not helpful',
+    thanks: 'Thanks for your feedback!',
+  },
   image: {preview: 'Image preview', closePreview: 'Close image preview'},
   docMeta: {versionInformation: 'Version information', minimumSdkVersion: 'Minimum SDK version'},
   releaseChannel: {
@@ -489,6 +501,12 @@ const chinese: DocsUiText = {
     sourceUnavailable: '此页面暂不支持查看源文件。',
   },
   toc: {onThisPage: '本页内容'},
+  docFeedback: {
+    question: '本页内容对您有帮助吗？',
+    helpful: '有帮助',
+    notHelpful: '没有帮助',
+    thanks: '感谢您的反馈！',
+  },
   image: {preview: '图片预览', closePreview: '关闭图片预览'},
   docMeta: {versionInformation: '版本信息', minimumSdkVersion: '最低 SDK 版本'},
   releaseChannel: {
@@ -673,6 +691,12 @@ const japanese: DocsUiText = {
     sourceUnavailable: 'このページではソース表示を利用できません。',
   },
   toc: {onThisPage: 'このページの内容'},
+  docFeedback: {
+    question: 'このページは役に立ちましたか？',
+    helpful: '役に立った',
+    notHelpful: '役に立たなかった',
+    thanks: 'フィードバックありがとうございます！',
+  },
   image: {preview: '画像プレビュー', closePreview: '画像プレビューを閉じる'},
   docMeta: {versionInformation: 'バージョン情報', minimumSdkVersion: '最小 SDK バージョン'},
   releaseChannel: {
