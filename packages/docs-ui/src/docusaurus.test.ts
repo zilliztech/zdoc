@@ -191,6 +191,7 @@ describe('docs UI Docusaurus integration', () => {
       'utf8',
     );
     expect(source).toContain('<html lang="zh-CN">');
+    expect(source).toContain('<link rel="icon" href="../icons/favicon.svg">');
     expect(source).toContain('Zilliz Cloud 开发者中心');
     expect(source).toContain('查找使用 Zilliz Cloud 所需的文档');
     expect(source).toContain('开发指南');
