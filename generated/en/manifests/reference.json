@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "fe7b4dfcd3dc8993b5db77e80b7e8b49e6acac06",
+  "sourceCommit": "f7efb1e7cbd5f9ba0144bd8c08a03646bf479673",
   "records": [
     {
       "manual": "cli",
@@ -3364,6 +3364,16 @@
     },
     {
       "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-createRole.md",
+      "sourceHash": "881ba65e4ef0dbacfe2bfd7d80b2f0ad2afb470a4f77984635cafdd68bcc815c"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-createUser.md",
+      "sourceHash": "21dfbd7e0847aae8a647e7b8be267999d94c53334461a08705bd9b21ca0615bf"
+    },
+    {
+      "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-deleteUser.md",
       "sourceHash": "c453faaeefc2744474c18c7235fdac56be59331404187a83c4690291582e3283"
     },
@@ -3451,6 +3461,11 @@
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-revokeRole.md",
       "sourceHash": "f0a6d8000c6eb1f14d118a8996f7776c4e5e250ecc1541eae847481c8ce1cd25"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-updateUser.md",
+      "sourceHash": "9da2751f9b209f27caaeffacecfe6db537a8d696cc1e9bec6b4e71a98baa40f3"
     },
     {
       "manual": "node",
@@ -3695,7 +3710,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-Formatter.md",
-      "sourceHash": "01c847c74b971b0a13c51f8dc29881276207f492516abd549050019a10ee9345"
+      "sourceHash": "cae84c9721dd23d47a8b683bef6d1ccc6e829e336d83cb1dc556f9c6745ea03b"
     },
     {
       "manual": "node",
