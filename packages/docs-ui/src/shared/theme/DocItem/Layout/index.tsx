@@ -14,6 +14,7 @@ import DocItemTOCDesktop from '@theme/DocItem/TOC/Desktop';
 import NotFoundContent from '@theme/NotFound/Content';
 import CopyPageButton from '../../Heading/CopyPageButton';
 import DocMetaTags, {hasDocMetaTags} from '../../Heading/DocMetaTags';
+import DocFeedback from '../../DocFeedback';
 import {contactSalesUrl} from '../../Heading/tagLinks';
 import NextChannelToast from '../../../components/NextChannelToast';
 import {useDocsUiText, type DocsUiText} from '../../../i18n/uiText';
@@ -264,6 +265,7 @@ export default function DocItemLayout({children}: Props): ReactNode {
             <div className={styles.tocScroll}>
               <DocItemTOCDesktop />
             </div>
+            <DocFeedback />
           </div>
         )}
       </div>

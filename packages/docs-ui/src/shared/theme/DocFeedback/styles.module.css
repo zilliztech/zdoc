@@ -1,0 +1,45 @@
+/* Bare widget at the foot of the TOC column — no card frame; the question
+ * sits directly on the background and the icon chips use the same surface
+ * tokens as the rest of the right rail. */
+.docFeedback {
+  flex: 0 0 auto;
+  margin-top: 1.25rem;
+  color: #444c56;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.question {
+  display: block;
+  color: #6b7280;
+}
+
+.buttons {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.voteBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  background: var(--zd-surface-2);
+  border: none;
+  border-radius: 8px;
+  color: #444c56;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.voteBtn:hover {
+  background: var(--zd-surface-3);
+}
+
+.thanks {
+  display: block;
+  color: #6b7280;
+}
