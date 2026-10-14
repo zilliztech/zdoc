@@ -28,6 +28,30 @@ export default function SearchModal({onClose}: Props): ReactNode {
   const {query, setQuery, results, loading} = useSearch(searchEndpoint);
   const {recent, add: addRecent, remove: removeRecent, clear: clearRecent} = useRecentSearches();
 
+  // The search funnel's missing first link: a query executed and settled.
+  // Fires once per distinct query string per modal-open (as-you-type must not
+  // emit per debounce tick), only for a query that actually went through
+  // loading — pendingRef guards the frame where the query has changed but the
+  // debounced search has not started yet and stale results are still mounted.
+  const performedRef = useRef<Set<string>>(new Set());
+  const pendingRef = useRef<string | null>(null);
+  useEffect(() => {
+    if (loading) {
+      pendingRef.current = query.trim();
+      return;
+    }
+    const term = query.trim();
+    if (!term || pendingRef.current !== term) return;
+    pendingRef.current = null;
+    if (performedRef.current.has(term)) return;
+    performedRef.current.add(term);
+    trackEvent('search_performed', {
+      search_term: term,
+      result_count: results.length,
+      surface: 'modal',
+    });
+  }, [query, loading, results]);
+
   const displayResults = useMemo(() => {
     const base = query.trim() ? results : text.search.popular;
     const grouped = groupBySection(base);

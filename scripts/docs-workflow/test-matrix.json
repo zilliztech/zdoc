@@ -129,7 +129,7 @@
         ".claude/specs/2026-10-14-docs-behavior-analytics-phase2.md"
       ],
       "focusedTests": [
-        "pnpm vitest run packages/docs-ui/src/shared/utils/analytics.test.ts packages/docs-ui/src/shared/components/ChatPanel/ChatContext.test.tsx packages/docs-ui/src/shared/theme/Search/index.test.tsx packages/docs-ui/src/shared/theme/DocFeedback/index.test.tsx"
+        "pnpm vitest run packages/docs-ui/src/shared/utils/analytics.test.ts packages/docs-ui/src/shared/components/ChatPanel/ChatContext.test.tsx packages/docs-ui/src/shared/components/ChatPanel/sourceAnalytics.test.ts packages/docs-ui/src/shared/theme/Search/index.test.tsx packages/docs-ui/src/shared/theme/DocFeedback/index.test.tsx"
       ],
       "harnesses": [],
       "gates": [
