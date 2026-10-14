@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "c3e617f27efaf220c1bc270e7971869aa7d2efe6",
+  "sourceCommit": "f3855d52d9c9bbe5673520d102e717eb017519e6",
   "records": [
     {
       "manual": "cli",
@@ -4020,7 +4020,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-hybridSearch.md",
-      "sourceHash": "d152929ee9bb99ff24fd652bedf6239173ad8a771502a2e8b4cc853438248ffc"
+      "sourceHash": "9ef85b55f7f49e7d105e2ff3000fbb5f44b82fe795a6921770fcbd14ec2e0580"
     },
     {
       "manual": "node",
@@ -4040,7 +4040,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-search.md",
-      "sourceHash": "ded3b9dae344032c6685e65cbdc1ec6fe0929b8e5884a234872b7127f9e1ad30"
+      "sourceHash": "907b90cfcab3f1bca9ecfc1df02bd6f9c6e6e1f29d308990dbc0b335ff2f3f1c"
     },
     {
       "manual": "node",
