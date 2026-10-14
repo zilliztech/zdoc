@@ -909,6 +909,21 @@
       "reason": "Docs UI text dictionary drives navbar, sidebar, search, and chat copy per site and locale; keep locale selection, secondary navbar label mapping, and Japanese copy deterministic."
     },
     {
+      "id": "docs-ui-docusaurus-plugin",
+      "paths": [
+        "packages/docs-ui/src/docusaurus*"
+      ],
+      "focusedTests": [
+        "pnpm vitest run packages/docs-ui/src/docusaurus.test.ts"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm test:workflow-matrix",
+        "git diff --check"
+      ],
+      "reason": "The docs-ui Docusaurus plugin registers shared and Chinese UI modules and pins the standalone Chinese developer hub page, including its favicon declaration and localized copy."
+    },
+    {
       "id": "translation-quality-assets",
       "paths": [
         "scripts/translation/tm-retrieve*",

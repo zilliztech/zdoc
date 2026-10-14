@@ -178,6 +178,11 @@ export function createDocusaurusConfig(
   return {
     title: profile.title,
     tagline: profile.tagline,
+    // Served from static/shared/icons/ and static/zh-CN/icons/. Without this
+    // declaration Docusaurus emits no <link rel="icon"> at all, browsers fall
+    // back to /favicon.ico, and nginx's inherited `return 204` tombstone leaves
+    // them with a generic tab icon.
+    favicon: 'icons/favicon.svg',
     url: profile.url,
     baseUrl: profile.baseUrl,
     trailingSlash: false,

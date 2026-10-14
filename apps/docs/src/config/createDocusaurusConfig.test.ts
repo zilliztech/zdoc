@@ -1005,6 +1005,13 @@ describe('createDocusaurusConfig', () => {
     )).toBe(false);
   });
 
+  it('declares the favicon shipped by both site static roots', () => {
+    expect(createDocusaurusConfig(profile({}), {}).favicon).toBe('icons/favicon.svg');
+    for (const staticRoot of ['apps/docs/static/shared', 'apps/docs/static/zh-CN']) {
+      expect(existsSync(path.join(process.cwd(), staticRoot, 'icons/favicon.svg'))).toBe(true);
+    }
+  });
+
   it('keeps the application bootstrap thin and exact', () => {
     const bootstrap = readFileSync(
       path.join(process.cwd(), 'apps/docs/docusaurus.config.ts'),
