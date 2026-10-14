@@ -16,8 +16,11 @@ function stepNamed(name) {
   return steps.find(step => step.name === name)
 }
 
-test('report has only the manual trigger with read-only permissions until operators enable the schedule', () => {
-  assert.deepEqual(workflow.on, {workflow_dispatch: null})
+test('report is manually triggerable and scheduled daily with read-only permissions', () => {
+  assert.deepEqual(workflow.on, {
+    workflow_dispatch: null,
+    schedule: [{cron: '17 3 * * *'}],
+  })
   assert.deepEqual(workflow.permissions, {contents: 'read'})
   assert.deepEqual(workflow.concurrency, {
     group: 'ga4-search-404-report',
@@ -25,17 +28,20 @@ test('report has only the manual trigger with read-only permissions until operat
   })
   assert.equal(jobs.length, 1)
   assert.doesNotMatch(source, /^  (?:push|pull_request):/m)
-  assert.doesNotMatch(source, /^  schedule:/m)
-  assert.match(source, /# schedule:/)
 })
 
-test('the credential gate writes the secret to a temp file and skips every report step when absent', () => {
+test('the credential gate writes the secret to a temp file and skips every report step when GA4 access is incomplete', () => {
   const credentials = stepNamed('Resolve GA4 credentials')
   assert.equal(credentials.id, 'credentials')
   assert.equal(credentials.env.GA4_SERVICE_ACCOUNT_JSON, '${{ secrets.GA4_SERVICE_ACCOUNT_JSON }}')
+  assert.equal(credentials.env.GA4_PROPERTY_ID_EN, '${{ vars.GA4_PROPERTY_ID_EN }}')
+  assert.equal(credentials.env.GA4_PROPERTY_ID_ZH_CN, '${{ vars.GA4_PROPERTY_ID_ZH_CN }}')
   assert.match(credentials.run, /\$RUNNER_TEMP\/ga4-service-account\.json/)
   assert.match(credentials.run, /has_credentials=false/)
-  assert.match(credentials.run, /::notice::GA4_SERVICE_ACCOUNT_JSON is not configured/)
+  assert.match(credentials.run, /::notice::GA4 search-origin 404 reporting is not configured/)
+  // The report script throws when every property variable is missing, so the
+  // gate must require the secret plus at least one property variable.
+  assert.match(credentials.run, /\[ -n "\$GA4_SERVICE_ACCOUNT_JSON" \] && \{ \[ -n "\$GA4_PROPERTY_ID_EN" \] \|\| \[ -n "\$GA4_PROPERTY_ID_ZH_CN" \]; \}/)
 
   const gate = "${{ steps.credentials.outputs.has_credentials == 'true' }}"
   for (const name of [
