@@ -296,9 +296,9 @@ test('smoke label validation rejects missing, placeholder, whitespace, and wrong
 test('Chinese chat uses the same-site API proxy required by the frontend endpoint', () => {
   assert.match(read('packages/docs-ui/src/shared/components/ChatPanel/endpoints.ts'), /DEFAULT_CHAT_ENDPOINT\s*=\s*['"]\/api\/chat['"]/);
   const nginx = read('deploy/zh-CN/nginx.conf');
-  assert.match(nginx, /location \/api\/\s*\{/);
-  assert.match(nginx, /proxy_pass http:\/\/\$chat_proxy_upstream/);
-  assert.match(nginx, /chat-proxy\.zdocs\.svc\.cluster\.local:9000/);
+  assert.match(nginx, /location = \/api\/chat\s*\{/);
+  assert.doesNotMatch(nginx, /location \/api\/\s*\{/);
+  assert.doesNotMatch(nginx, /chat-proxy/);
 });
 
 test('Chinese nginx redirects retired standalone Agents routes to translated Guides pages', () => {
@@ -378,9 +378,10 @@ test('both site-owned images route chat directly to the private agent runtime', 
     assert.match(nginx, /location = \/api\/chat\s*\{[\s\S]*?proxy_pass http:\/\/docs_agent\/api\/chat\/stream;/);
     assert.match(nginx, /location = \/api\/chat\/interrupt\s*\{[\s\S]*?proxy_pass http:\/\/docs_agent\/api\/chat\/interrupt;/);
     assert.equal((nginx.match(/proxy_set_header Authorization "";/g) ?? []).length, 2);
-    assert.ok(nginx.indexOf('location = /api/chat') < nginx.indexOf('location /api/'));
-    assert.match(nginx, /location \/api\/\s*\{[\s\S]*?proxy_pass http:\/\/\$chat_proxy_upstream/);
-    assert.match(nginx, /chat-proxy\.zdocs\.svc\.cluster\.local:9000/);
+    // The retired chat-proxy catch-all is gone: only the two exact agent
+    // locations above may proxy anything under /api/.
+    assert.doesNotMatch(nginx, /location \/api\/\s*\{/);
+    assert.doesNotMatch(nginx, /chat-proxy/);
   }
 });
 

@@ -175,13 +175,15 @@ describe('ChatProvider request debugging', () => {
     expect(bodies.map(body => body.session_id)).toEqual([null, null, null]);
   });
 
-  it('uses the same UUID for chat correlation and the existing feedback contract', async () => {
+  it('correlates chat with the visitor UUID and rates feedback without any network call', async () => {
     const {result} = renderHook(() => useChatContext(), {wrapper: wrapper(false)});
     await act(async () => result.current.send('question'));
     act(() => result.current.rateFeedback(1, 'up'));
-    const feedback = vi.mocked(fetch).mock.calls.find(([url]) => String(url).endsWith('/feedback'));
-    expect(feedback).toBeDefined();
-    expect(JSON.parse(feedback?.[1]?.body as string).userId).toBe('550e8400-e29b-41d4-a716-446655440000');
+    const chatBodies = vi.mocked(fetch).mock.calls
+      .filter(([url]) => url === '/api/chat')
+      .map(([, init]) => JSON.parse(init?.body as string));
+    expect(chatBodies.at(-1).user_id).toBe('browser:v1:550e8400-e29b-41d4-a716-446655440000');
+    expect(vi.mocked(fetch).mock.calls.some(([url]) => String(url).endsWith('/feedback'))).toBe(false);
   });
 
   it('continues chatting without identity when storage is unavailable', async () => {

@@ -198,7 +198,10 @@ test('routes chat and interrupt directly to the private agent with affinity', ()
   assert.match(nginx, /proxy_pass http:\/\/docs_agent\/api\/chat\/stream;/);
   assert.match(nginx, /location = \/api\/chat\/interrupt\s*{/);
   assert.match(nginx, /proxy_pass http:\/\/docs_agent\/api\/chat\/interrupt;/);
-  assert.ok(nginx.indexOf('location = /api/chat') < nginx.indexOf('location /api/'));
+  // The retired chat-proxy catch-all is gone: only the two exact agent
+  // locations above may proxy anything under /api/.
+  assert.doesNotMatch(nginx, /location\s+\/api\/\s*\{/);
+  assert.doesNotMatch(nginx, /chat-proxy/);
   assert.ok(entrypoint.includes('hash \\$http_x_conversation_id consistent;'));
   assert.match(entrypoint, /zone docs_agent 64k;/);
   for (const pod of [0, 1, 2]) {
@@ -290,12 +293,8 @@ test('rejects quoted text impersonating exact chat location blocks', () => {
   const impersonatedLocations = `${fakeLocations}${nginx
     .replace(/^\s*proxy_set_header Authorization "";\n/gm, '')
     .replace(
-      '    location /api/ {',
-      '    location /api/ {\n        proxy_set_header Authorization "";',
-    )
-    .replace(
       '    location / {',
-      '    location / {\n        proxy_set_header Authorization "";',
+      '    location / {\n        proxy_set_header Authorization "";\n        proxy_set_header Authorization "";',
     )}`;
 
   assert.throws(

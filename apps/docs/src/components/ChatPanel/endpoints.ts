@@ -4,5 +4,4 @@ export const {
   DEFAULT_CHAT_ENDPOINT,
   getChatApiBase,
   getSearchEndpoint,
-  getFeedbackEndpoint,
 } = chatEndpoints;

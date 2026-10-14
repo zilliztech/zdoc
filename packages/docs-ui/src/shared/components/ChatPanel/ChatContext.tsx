@@ -2,7 +2,6 @@ import React, {createContext, useContext, useState, useRef, useCallback, useEffe
 import {useLocation} from '@docusaurus/router';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import type {Source, ChatMessage, ChatHistoryEntry, AgentType, ConfidenceLevel, GroundingCitation} from './types';
-import {getFeedbackEndpoint} from './endpoints';
 import {getVisitorId} from './visitorIdentity';
 import {createAgentStreamState, parseAgentStreamEvent, type AgentStreamUpdate} from './agentStream';
 import {getChatAgentConfig} from './agentConfig';
@@ -500,30 +499,18 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: Cha
   }, [chatDebug, chatEndpoint, location.pathname, siteConfig.customFields?.site, uiText.chat]);
 
   const rateFeedback = useCallback((messageIndex: number, rating: 'up' | 'down') => {
+    // Feedback is analytics-only since the chat-proxy /api/feedback backend
+    // was retired; ask_ai_feedback in GA4 is the durable record. Fired outside
+    // the state updater so StrictMode double-invocation cannot double-count it.
+    trackEvent('ask_ai_feedback', {rating, surface: chatSurface()});
     setMessages(prev => {
       const updated = [...prev];
       const msg = updated[messageIndex];
       if (!msg || msg.role !== 'assistant') return prev;
-      const newRating = msg.feedback === rating ? null : rating;
-      updated[messageIndex] = {...msg, feedback: newRating};
-
-      trackEvent('ask_ai_feedback', {rating, surface: chatSurface()});
-      const endpoint = getFeedbackEndpoint(chatEndpoint);
-      fetch(endpoint, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          sessionId: sessionIdRef.current,
-          messageIndex,
-          rating: newRating || rating,
-          pageUrl: location.pathname,
-          userId: getVisitorId()?.slice('browser:v1:'.length),
-        }),
-      }).catch(() => {});
-
+      updated[messageIndex] = {...msg, feedback: msg.feedback === rating ? null : rating};
       return updated;
     });
-  }, [chatEndpoint, location.pathname]);
+  }, []);
 
   const stop = useCallback(() => {
     const sessionId = sessionIdRef.current;
