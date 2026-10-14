@@ -503,6 +503,7 @@ print(indexes)
 
 ```java
 import io.milvus.v2.service.index.request.ListIndexesReq;
+import java.util.List;
 
 List<String> indexes = client.listIndexes(ListIndexesReq.builder()
         .collectionName("tech_articles")
