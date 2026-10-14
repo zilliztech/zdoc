@@ -1063,6 +1063,8 @@
         "deploy/zh-CN/nginx.conf",
         "deploy/contracts/container.test.mjs",
         "deploy/contracts/en-redirect-target-routes.json",
+        "scripts/chat-agent-nginx.test.js",
+        "scripts/architecture/verify-retired-layout.test.mjs",
         "apps/docs/plugins/release-channel-routes*",
         "packages/docs-ui/src/shared/components/NextChannel/**",
         "packages/docs-ui/src/shared/components/NextChannelToast/**",
@@ -1094,6 +1096,8 @@
         "node --test packages/docs-tooling/src/lark/codeVariantFilter.test.js",
         "pnpm vitest run packages/docs-ui/src/shared/theme/TOCItems/filterGatedHeadings.test.ts",
         "pnpm test:containers",
+        "pnpm test:chat-agent-config",
+        "pnpm test:retirement",
         "pnpm vitest run packages/docs-ui/src/shared/components/NextChannelToast/index.test.tsx"
       ],
       "harnesses": [],

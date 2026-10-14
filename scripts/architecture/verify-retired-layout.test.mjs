@@ -130,8 +130,8 @@ test('keeps the live Chat and site-owned deployment architecture', async () => {
     readFile(path.join(repositoryRoot, 'deploy/zh-CN/nginx.conf'), 'utf8'),
   ]);
   assert.doesNotMatch(workspace, /^\s*- ['"]?chat-proxy['"]?\s*$/m);
-  assert.match(englishNginx, /chat-proxy\.zdocs\.svc\.cluster\.local/);
-  assert.match(chineseNginx, /chat-proxy\.zdocs\.svc\.cluster\.local/);
+  assert.doesNotMatch(englishNginx, /chat-proxy/);
+  assert.doesNotMatch(chineseNginx, /chat-proxy/);
 });
 
 test('rejects production control-file references to retired layout', async () => {

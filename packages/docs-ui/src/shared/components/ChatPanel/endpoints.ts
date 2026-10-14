@@ -9,7 +9,3 @@ export function getChatApiBase(chatEndpoint: string): string {
 export function getSearchEndpoint(chatEndpoint: string): string {
   return `${getChatApiBase(chatEndpoint)}/search`;
 }
-
-export function getFeedbackEndpoint(chatEndpoint: string): string {
-  return `${getChatApiBase(chatEndpoint)}/feedback`;
-}
