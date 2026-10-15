@@ -26,7 +26,7 @@ Zilliz Cloud 提供多样的项目版本类型以满足不同的用户需求。�
 
 - **Dedicated**：提供企业级稳定性与安全合规，适用于生产环境应用开发。详情请查看 [Zilliz 定价页面](https://zilliz.com.cn/pricing)。
 
-- **BYOC (Bring Your Own Cloud)**：适用于需要在自有云环境中部署，且高度注重数据隐私和合规的场景。如需选择 BYOC 版本，请[联系销售](https://zilliz.com.cn/contact-sales)。
+- **BYOC (Bring Your Own Cloud)**：适用于需要在自有云环境中部署，且高度注重数据隐私和合规的场景。如需选择 BYOC 版本，请[联系销售](http://zilliz.com.cn/contact-sales)。
 
 ## 选择版本类型\{#select-a-cluster-plan}
 
@@ -61,7 +61,7 @@ Zilliz Cloud 提供多样的项目版本类型以满足不同的用户需求。�
      <td><p>阿里云</p></td>
      <td><p>阿里云</p></td>
      <td><p>阿里云、腾讯云、亚马逊云科技</p><Admonition type="info" title="Note"> 详情请参考[云服务提供商和地域](https://docs.zilliz.com.cn/docs/cloud-providers-and-regions)。 </Admonition></td>
-     <td><p>阿里云、腾讯云、亚马逊云科技</p><Admonition type="info" title="Note"> 详情请参考[云服务提供商和地域](https://docs.zilliz.com.cn/docs/cloud-providers-and-regions)或[联系我们](https://zilliz.com.cn/contact-sales)。 </Admonition></td>
+     <td><p>阿里云、腾讯云、亚马逊云科技</p><Admonition type="info" title="Note"> 详情请参考[云服务提供商和地域](https://docs.zilliz.com.cn/docs/cloud-providers-and-regions)或[联系我们](http://zilliz.com.cn/contact-sales)。 </Admonition></td>
    </tr>
    <tr>
      <td><p>Query CU 数量</p></td>
@@ -93,7 +93,7 @@ Zilliz Cloud 提供多样的项目版本类型以满足不同的用户需求。�
 | 可用区 |  | 单个 | 多个 | 多个 |
 | 多副本（Replica） |  |  | ✔ | ✔ |
 | 快照 Snapshot |  |  | ✔ | ✔ |
-| Global Cluster |  |  | [联系我们](https://zilliz.com.cn/contact-sales) | [联系我们](https://zilliz.com.cn/contact-sales) |
+| Global Cluster |  |  | [联系我们](http://zilliz.com.cn/contact-sales) | [联系我们](http://zilliz.com.cn/contact-sales) |
 
 ### 数据管理\{#data-management}
 
@@ -110,16 +110,16 @@ Zilliz Cloud 提供多样的项目版本类型以满足不同的用户需求。�
 
 |  | **Free** | **Serverless** | **Dedicated 企业版** | **Bring Your Own Cloud (BYOC)** |
 | --- | --- | --- | --- | --- |
-| CMEK |  |  | [联系我们](https://zilliz.com.cn/contact-sales) | [联系我们](https://zilliz.com.cn/contact-sales) |
+| CMEK |  |  | [联系我们](http://zilliz.com.cn/contact-sales) | [联系我们](http://zilliz.com.cn/contact-sales) |
 | [MFA](./multi-factor-auth) |  | ✔ | ✔ | ✔ |
 | [审计系统](./audit-logs-ref) |  |  | ✔ | ✔ |
 | [API 密钥管理](./manage-api-keys) |  | ✔ | ✔ | ✔ |
 | 数据传输加密和静态加密 | ✔ | ✔ | ✔ | ✔ |
 | [备份与恢复](./create-backup) |  |  | ✔ | ✔ |
 | 跨地域备份 |  |  | ✔<br/>详情请参考[跨地域备份](https://docs.zilliz.com.cn/docs/backup-to-other-regions)。 |  |
-| 持续数据保护 |  |  | [联系我们](https://zilliz.com.cn/contact-sales) | [联系我们](https://zilliz.com.cn/contact-sales) |
-| PITR |  |  | [联系我们](https://zilliz.com.cn/contact-sales) | [联系我们](https://zilliz.com.cn/contact-sales) |
-| 数据脱敏（Tokenization） |  |  | [联系我们](https://zilliz.com.cn/contact-sales) | [联系我们](https://zilliz.com.cn/contact-sales) |
+| 持续数据保护 |  |  | [联系我们](http://zilliz.com.cn/contact-sales) | [联系我们](http://zilliz.com.cn/contact-sales) |
+| PITR |  |  | [联系我们](http://zilliz.com.cn/contact-sales) | [联系我们](http://zilliz.com.cn/contact-sales) |
+| 数据脱敏（Tokenization） |  |  | [联系我们](http://zilliz.com.cn/contact-sales) | [联系我们](http://zilliz.com.cn/contact-sales) |
 | 集群 IP 地址白名单 |  |  | ✔<br/>详情请参考[设置集群 IP 白名单](https://docs.zilliz.com.cn/docs/setup-whitelist)。 |  |
 | [控制台 IP 地址白名单](./setup-console-ip-allowlist) |  |  | ✔ | ✔ |
 | VPC 私网连接（Private Link） |  |  | ✔<br/>详情请参考[创建阿里云私网连接（Private Link）](https://docs.zilliz.com.cn/docs/setup-a-private-link-alicloud)、[创建腾讯云私有连接（Private Link）](https://docs.zilliz.com.cn/docs/setup-a-private-link-tencent-cloud)和[创建亚马逊云科技 PrivateLink](https://docs.zilliz.com.cn/docs/setup-a-private-link-amazon-cloud)。 | ✔ |
