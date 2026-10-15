@@ -1121,8 +1121,8 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-client.dropCollectionProperties({
-    collection_name:"my_collection",
+await client.dropCollectionProperties({
+    collection_name: "my_collection",
     properties: ['collection.ttl.seconds'],
 });
 ```

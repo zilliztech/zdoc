@@ -181,10 +181,8 @@ schema.SetExternalSpec(nlohmann::json{{"format", "parquet"}});
 <TabItem value='javascript'>
 
 ```javascript
-const schema = {
-    external_source: 'volume://my_volume/path/to/a/folder/',
-    external_spec: '{"format": "parquet"}'
-};
+const external_source = 'volume://my_volume/path/to/a/folder/';
+const external_spec = '{"format": "parquet"}';
 ```
 
 </TabItem>
@@ -357,9 +355,9 @@ schema.AddField(milvus::FieldSchema("embedding", milvus::DataType::FLOAT_VECTOR,
 
 ```javascript
 const schema = [
-    { field_name: 'product_id', data_type: 'Int64', external_field: 'id' },
-    { field_name: 'product_name', data_type: 'VarChar', max_length: 512, external_field: 'name' },
-    { field_name: 'embedding', data_type: 'FloatVector', dim: 768, external_field: 'vector' },
+    { name: 'product_id', data_type: 'Int64', external_field: 'id' },
+    { name: 'product_name', data_type: 'VarChar', max_length: 512, external_field: 'name' },
+    { name: 'embedding', data_type: 'FloatVector', dim: 768, external_field: 'vector' },
 ];
 ```
 
@@ -530,6 +528,8 @@ await client.useDatabase({ db_name: "my_database" });
 await client.createCollection({
     collection_name: "test_collection",
     schema,
+    external_source,
+    external_spec,
 });
 ```
 
@@ -915,8 +915,8 @@ const job = await client.refreshExternalCollection({
 });
 while (true) {
     const progress = await client.getRefreshExternalCollectionProgress({ job_id: job.job_id });
-    console.log(`${progress.state}: ${progress.progress}%`);
-    if (progress.state === "RefreshCompleted" || progress.state === "RefreshFailed") break;
+    console.log(`${progress.job_info.state}: ${progress.job_info.progress}%`);
+    if (progress.job_info.state === "RefreshCompleted" || progress.job_info.state === "RefreshFailed") break;
     await new Promise((resolve) => setTimeout(resolve, 2000));
 }
 ```

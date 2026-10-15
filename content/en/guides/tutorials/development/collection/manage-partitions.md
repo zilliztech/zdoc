@@ -748,15 +748,15 @@ await client.loadPartitions({
 
 res = await client.getLoadState({
     collection_name: "my_collection",
-    partition_name: "partitionA"
+    partition_names: ["partitionA"]
 })
 
 console.log(res)
 
 // Output
-// 
+//
 // LoadStateLoaded
-// 
+//
 ```
 
 </TabItem>
@@ -950,15 +950,15 @@ await client.releasePartitions({
 
 res = await client.getLoadState({
     collection_name: "my_collection",
-    partition_name: "partitionA"
+    partition_names: ["partitionA"]
 })
 
 console.log(res)
 
 // Output
-// 
+//
 // LoadStateNotLoad
-// 
+//
 ```
 
 </TabItem>

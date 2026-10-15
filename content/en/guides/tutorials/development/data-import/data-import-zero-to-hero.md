@@ -407,6 +407,10 @@ import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
 import java.util.List;
 
+String CLUSTER_ENDPOINT = "";
+String API_KEY = "";
+String COLLECTION_NAME = "zero_to_hero";
+
 // 1. Set up a Milvus client
 MilvusClientV2 milvusClient = new MilvusClientV2(ConnectConfig.builder()
         .uri(CLUSTER_ENDPOINT)
@@ -419,19 +423,16 @@ IndexParam floatVectorIndex = IndexParam.builder()
         .indexType(IndexParam.IndexType.AUTOINDEX)
         .metricType(IndexParam.MetricType.IP)
         .build();
-
 IndexParam binaryVectorIndex = IndexParam.builder()
         .fieldName("binary_vector")
         .indexType(IndexParam.IndexType.AUTOINDEX)
         .metricType(IndexParam.MetricType.HAMMING)
         .build();
-
 IndexParam float16VectorIndex = IndexParam.builder()
         .fieldName("float16_vector")
         .indexType(IndexParam.IndexType.AUTOINDEX)
         .metricType(IndexParam.MetricType.IP)
         .build();
-
 IndexParam sparseVectorIndex = IndexParam.builder()
         .fieldName("sparse_vector")
         .indexType(IndexParam.IndexType.AUTOINDEX)
@@ -442,8 +443,7 @@ List<IndexParam> indexParamList = Lists.newArrayList(
         floatVectorIndex,
         binaryVectorIndex,
         float16VectorIndex,
-        sparseVectorIndex
-);
+        sparseVectorIndex);
 
 // 3. Create collection
 CreateCollectionReq.CollectionSchema schema = createSchema();
@@ -526,6 +526,10 @@ conn = RemoteBulkWriter.AzureConnectParam(
 import io.milvus.bulkwriter.connect.S3ConnectParam;
 import io.milvus.bulkwriter.connect.StorageConnectParam;
 
+String BUCKET_NAME = "";
+String ACCESS_KEY = "";
+String SECRET_KEY = "";
+
 // Create a remote bucket writer.
 StorageConnectParam storageConnectParam = S3ConnectParam.newBuilder()
         .withEndpoint("s3.amazonaws.com") // Use "storage.googleapis.com" for Google Cloud Storage
@@ -539,12 +543,10 @@ StorageConnectParam storageConnectParam = S3ConnectParam.newBuilder()
 <TabItem value='java_1'>
 
 ```java
-import io.milvus.bulkwriter.connect.AzureConnectParam;
 import io.milvus.bulkwriter.connect.StorageConnectParam;
 
 String AZURE_CONNECT_STRING = "";
 String AZURE_CONTAINER = "";
-
 storageConnectParam = AzureConnectParam.newBuilder()
         .withConnStr(AZURE_CONNECT_STRING)
         .withContainerName(AZURE_CONTAINER)
@@ -769,7 +771,6 @@ import io.milvus.bulkwriter.connect.S3ConnectParam;
 import io.milvus.bulkwriter.connect.StorageConnectParam;
 import io.milvus.common.utils.Float16Utils;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
-
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -777,6 +778,11 @@ import java.util.List;
 import java.util.Random;
 import java.util.SortedMap;
 import java.util.TreeMap;
+
+String BUCKET_NAME = "";
+String ACCESS_KEY = "";
+String SECRET_KEY = "";
+String STORAGE_ENDPOINT = "s3.amazonaws.com";
 
 private static byte[] genBinaryVector() {
     Random ran = new Random();
@@ -787,7 +793,6 @@ private static byte[] genBinaryVector() {
     }
     return vector.array();
 }
-
 private static List<Float> genFloatVector() {
     Random ran = new Random();
     List<Float> vector = new ArrayList<>();
@@ -796,12 +801,10 @@ private static List<Float> genFloatVector() {
     }
     return vector;
 }
-
 private static byte[] genFloat16Vector() {
     List<Float> originalVector = genFloatVector();
     return Float16Utils.f32VectorToFp16Buffer(originalVector).array();
 }
-
 private static SortedMap<Long, Float> genSparseVector() {
     Random ran = new Random();
     SortedMap<Long, Float> sparse = new TreeMap<>();
@@ -811,7 +814,6 @@ private static SortedMap<Long, Float> genSparseVector() {
     }
     return sparse;
 }
-
 private static List<String> genStringArray(int length) {
     List<String> arr = new ArrayList<>();
     for (int i = 0; i < length; i++) {
@@ -819,7 +821,6 @@ private static List<String> genStringArray(int length) {
     }
     return arr;
 }
-
 private static List<Long> genIntArray(int length) {
     List<Long> arr = new ArrayList<>();
     for (long i = 0; i < length; i++) {
@@ -827,7 +828,6 @@ private static List<Long> genIntArray(int length) {
     }
     return arr;
 }
-
 private static RemoteBulkWriter createRemoteBulkWriter(CreateCollectionReq.CollectionSchema collectionSchema) throws IOException {
     StorageConnectParam connectParam = S3ConnectParam.newBuilder()
             .withEndpoint(STORAGE_ENDPOINT)
@@ -844,13 +844,11 @@ private static RemoteBulkWriter createRemoteBulkWriter(CreateCollectionReq.Colle
             .build();
     return new RemoteBulkWriter(bulkWriterParam);
 }
-
 private static List<List<String>> uploadData() throws Exception {
     CreateCollectionReq.CollectionSchema collectionSchema = createSchema();
     try (RemoteBulkWriter remoteBulkWriter = createRemoteBulkWriter(collectionSchema)) {
         for (int i = 0; i < 2000; ++i) {
             JsonObject rowObject = new JsonObject();
-
             rowObject.addProperty("id", i);
             rowObject.addProperty("bool", i % 3 == 0);
             rowObject.addProperty("int8", i % 128);
@@ -868,14 +866,11 @@ private static List<List<String>> uploadData() throws Exception {
             rowObject.add("float16_vector", GSON_INSTANCE.toJsonTree(genFloat16Vector()));
             rowObject.add("sparse_vector", GSON_INSTANCE.toJsonTree(genSparseVector()));
             rowObject.addProperty("dynamic", "dynamic_" + i);
-
             remoteBulkWriter.appendRow(rowObject);
-
             if ((i+1)%1000 == 0) {
                 remoteBulkWriter.commit(false);
             }
         }
-
         List<List<String>> batchFiles = remoteBulkWriter.getBatchFiles();
         System.out.println(batchFiles);
         return batchFiles;
@@ -883,7 +878,6 @@ private static List<List<String>> uploadData() throws Exception {
         throw e;
     }
 }
-
 public static void main(String[] args) throws Exception {
     List<List<String>> batchFiles = uploadData();
 }
@@ -995,10 +989,17 @@ print(job_id)
 import io.milvus.bulkwriter.request.import_.CloudImportRequest;
 import io.milvus.bulkwriter.restful.BulkImportUtils;
 
+String BUCKET_NAME = "";
+String API_KEY = "";
+String CLUSTER_ID = "";
+String COLLECTION_NAME = "zero_to_hero";
+String ACCESS_KEY = "";
+String SECRET_KEY = "";
+String CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
+
 // Insert the data into the collection
 String prefix = batchFiles.get(0).get(0).split("/")[0];
 String OBJECT_URL = String.format("s3://%s/%s/", BUCKET_NAME, prefix);
-
 CloudImportRequest cloudImportRequest = CloudImportRequest.builder()
         .apiKey(API_KEY)
         .clusterId(CLUSTER_ID)
@@ -1008,7 +1009,6 @@ CloudImportRequest cloudImportRequest = CloudImportRequest.builder()
         .secretKey(SECRET_KEY)
         .build();
 String bulkImportResult = BulkImportUtils.bulkImport(CLOUD_API_ENDPOINT, cloudImportRequest);
-
 JsonObject bulkImportObject = new Gson().fromJson(bulkImportResult, JsonObject.class);
 String jobId = bulkImportObject.getAsJsonObject("data").get("jobId").getAsString();
 System.out.println(jobId);
@@ -1075,10 +1075,13 @@ while res.json()["data"]["progress"] < 100:
 import io.milvus.bulkwriter.request.describe.CloudDescribeImportRequest;
 import io.milvus.bulkwriter.restful.BulkImportUtils;
 
+String API_KEY = "";
+String CLUSTER_ID = "";
+String CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
+
 while (true) {
     System.out.println("Wait 5 second to check bulkInsert job state...");
     TimeUnit.SECONDS.sleep(5);
-
     CloudDescribeImportRequest request = CloudDescribeImportRequest.builder()
         .apiKey(API_KEY)
         .clusterId(CLUSTER_ID)
@@ -1088,7 +1091,6 @@ while (true) {
     JsonObject getImportProgressObject = GSON_INSTANCE.fromJson(getImportProgressResult, JsonObject.class);
     String importProgressState = getImportProgressObject.getAsJsonObject("data").get("state").getAsString();
     String progress = getImportProgressObject.getAsJsonObject("data").get("progress").getAsString();
-
     if ("Failed".equals(importProgressState)) {
         String reason = getImportProgressObject.getAsJsonObject("data").get("reason").getAsString();
         System.out.printf("The job %s failed, reason: %s%n", jobId, reason);
@@ -1100,7 +1102,6 @@ while (true) {
         System.out.printf("The job %s is running, state:%s progress:%s%n", jobId, importProgressState, progress);
     }
 }
-
 // The job job-01f36d8fd67u94avjfnxi0 is running, state:Importing progress:0
 // The job job-01f36d8fd67u94avjfnxi0 is running, state:Importing progress:49
 // The job 0f7fe853-d93e-4681-99f2-4719c63585cc completed.
@@ -1156,6 +1157,10 @@ print(res.json())
 ```java
 import io.milvus.bulkwriter.request.list.CloudListImportJobsRequest;
 import io.milvus.bulkwriter.restful.BulkImportUtils;
+
+String API_KEY = "";
+String CLUSTER_ID = "";
+String CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
 
 CloudListImportJobsRequest listImportJobsRequest = CloudListImportJobsRequest.builder()
         .apiKey(API_KEY)

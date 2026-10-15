@@ -172,5 +172,5 @@ If you need to enable the global cluster feature for an existing cluster, see [M
             "replica": 1
           }
         ]
-      }
+      }'
     ```

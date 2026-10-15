@@ -871,6 +871,7 @@ const createCollectionReq = {
     // highlight-next-line
     shards_num: 1
 }
+client.createCollection(createCollectionReq);
 ```
 
 </TabItem>
@@ -1132,6 +1133,7 @@ const createCollectionReq = {
     }
     // highlight-end
 }
+client.createCollection(createCollectionReq);
 ```
 
 </TabItem>

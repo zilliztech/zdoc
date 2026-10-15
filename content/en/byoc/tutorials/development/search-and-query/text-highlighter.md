@@ -166,6 +166,7 @@ Once the Highlighter object is created, apply its configuration to your BM25 ful
 results = client.search(
     collection_name="highlighter_demo",
     data=["BM25"],      # Search term used in BM25 full text search
+    search_params={"metric_type": "BM25"},
     # highlight-next-line
     highlighter=highlighter # Pass highlighter config here
 )
@@ -460,7 +461,9 @@ Once the Highlighter object is created, apply the same filtering expression and 
 ```python
 results = client.search(
     collection_name="highlighter_demo",
+    data=["BM25"],
     filter='TEXT_MATCH(text, "text filtering")',
+    search_params={"metric_type": "BM25"},
     # highlight-next-line
     highlighter=highlighter # Pass highlighter config here
 )
@@ -765,6 +768,7 @@ Once the Highlighter object is created, apply the highlighter configuration to y
 results = client.search(
     collection_name="highlighter_demo",
     data=["BM25"],
+    search_params={"metric_type": "BM25"},
     # highlight-next-line
     highlighter=highlighter # Pass highlighter config here
 )

@@ -764,8 +764,8 @@ if (!status.IsOk()) {
 ```javascript
 const data = [
   { age: 25, price: 99.99, pk: 1, embedding: [0.1, 0.2, 0.3] },
-  { age: 30, price: 149.5, pk: 2, embedding: [0.4, 0.5, 0.6] },
-  { age: 35, price: 199.99, pk: 3, embedding: [0.2, 0.3, 0.1] },
+  { age: 30, pk: 2, embedding: [0.4, 0.5, 0.6] },
+  { age: null, price: null, pk: 3, embedding: [0.2, 0.3, 0.1] },
   { age: 45, price: null, pk: 4, embedding: [0.9, 0.1, 0.4] },
   { age: null, price: 59.99, pk: 5, embedding: [0.8, 0.5, 0.3] },
   { age: 60, price: null, pk: 6, embedding: [0.1, 0.6, 0.9] },
@@ -928,11 +928,21 @@ for (const auto& row : response.Results()) {
 <TabItem value='javascript'>
 
 ```javascript
-client.query({
-    collection_name: 'my_collection',
-    filter: 'age > 30',
-    output_fields: ['age', 'price', 'pk']
+const filter = 'age > 30';
+
+const res = await client.query({
+    collection_name: "my_collection",
+    filter: filter,
+    output_fields: ["age", "price", "pk"]
 });
+
+console.log(res);
+
+// Example output:
+// data: [
+//     "{'age': 45, 'price': None, 'pk': 4}",
+//     "{'age': 60, 'price': None, 'pk': 6}"
+// ]
 ```
 
 </TabItem>
@@ -1431,13 +1441,22 @@ for (auto& result : search_results.Results()) {
 <TabItem value='javascript'>
 
 ```javascript
-await client.search({
-    collection_name: 'my_collection',
+const filter = '25 <= age <= 35';
+
+const res = await client.search({
+    collection_name: "my_collection",
     data: [0.3, -0.6, 0.1],
     limit: 5,
-    output_fields: ['age', 'price'],
-    filter: '25 <= age <= 35'
+    output_fields: ["age", "price"],
+    filter: filter
 });
+
+console.log(res);
+
+// Example output:
+// data: [
+//     "[{'id': 2, 'distance': -0.2016308456659317, 'entity': {'age': 30, 'price': None}}, {'id': 1, 'distance': -0.23643313348293304, 'entity': {'age': 25, 'price': 99.98999786376953}}]"
+// ]
 ```
 
 </TabItem>

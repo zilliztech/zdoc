@@ -503,13 +503,13 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const res = await client.createCollection({
+const createRes = await client.createCollection({
     collection_name: "my_collection",
     schema: schema,
     index_params: indexParams
 });
 
-console.log(res);
+console.log(createRes);
 ```
 
 </TabItem>
@@ -664,12 +664,12 @@ const data = [
     { dense_vector: [0.2, 0.3, 0.4, 0.8] }
 ];
 
-const res = await client.insert({
+const insertRes = await client.insert({
     collection_name: "my_collection",
     data: data
 });
 
-console.log(res);
+console.log(insertRes);
 ```
 
 </TabItem>
@@ -852,7 +852,7 @@ for (auto& result : search_results.Results()) {
 ```javascript
 const query_vector = [0.1, 0.2, 0.3, 0.7];
 
-const res = await client.search({
+const searchRes = await client.search({
     collection_name: "my_collection",
     data: query_vector,
     anns_field: "dense_vector",
@@ -863,7 +863,7 @@ const res = await client.search({
     }
 });
 
-console.log(res);
+console.log(searchRes);
 ```
 
 </TabItem>

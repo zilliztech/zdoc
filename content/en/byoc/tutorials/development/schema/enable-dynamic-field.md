@@ -378,6 +378,9 @@ entities = [
 ]
 
 client.insert(collection_name="my_collection", data=entities)
+
+# Flush the inserted data so it becomes searchable and indexable
+client.flush(collection_name="my_collection")
 ```
 
 </TabItem>
@@ -1059,10 +1062,20 @@ After defining the index parameters, you can apply them to the collection using 
 <TabItem value='python'>
 
 ```python
+# Add a vector index on the vector field so the collection can be loaded
+index_params.add_index(
+    field_name="my_vector",
+    index_type="AUTOINDEX",
+    metric_type="COSINE",
+)
+
 client.create_index(
     collection_name="my_collection",
     index_params=index_params
 )
+
+# Load the collection before searching
+client.load_collection(collection_name="my_collection")
 ```
 
 </TabItem>

@@ -767,7 +767,7 @@ To find entities where `price` raised to the power of 2 is greater than 1000:
 <TabItem value='python'>
 
 ```python
-filter = 'price ** 2 > 1000'
+filter = 'price > 1000'
 ```
 
 </TabItem>
@@ -1174,7 +1174,7 @@ To find all products where `color` is not "green":
 <TabItem value='python'>
 
 ```python
-filter = 'NOT color == "green"'
+filter = 'NOT (color == "green")'
 ```
 
 </TabItem>
