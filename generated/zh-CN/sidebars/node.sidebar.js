@@ -452,6 +452,12 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/nodejs/nodejs/DataImport/DataImport-BulkWriter",
+        "label": "BulkWriter",
+        "key": "doc:api/nodejs/nodejs/DataImport/dataimport-bulkwriter"
+      },
+      {
+        "type": "doc",
         "id": "api/nodejs/nodejs/DataImport/DataImport-BulkWriterOptions",
         "label": "BulkWriterOptions",
         "key": "doc:api/nodejs/nodejs/DataImport/dataimport-bulkwriteroptions"

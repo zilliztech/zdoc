@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "f7efb1e7cbd5f9ba0144bd8c08a03646bf479673",
+  "sourceCommit": "6516e72b27c998b79ab156ffd7249aade09fb30f",
   "records": [
     {
       "manual": "cli",
@@ -3691,6 +3691,11 @@
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-truncateCollection.md",
       "sourceHash": "e09779e78b039898a475caa6e5eb59f0128f02feeb5238da665e9eb968a1823f"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-BulkWriter.md",
+      "sourceHash": "48d0288ae9cefb3042ebfac571b86ef12fd5cadb9d7608224bf0ba0c89ec8f4a"
     },
     {
       "manual": "node",
