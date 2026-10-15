@@ -96,7 +96,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+let analyzer_params = {
     "tokenizer": "jieba",
     "filter": ["cncharonly"],
 };
@@ -188,7 +188,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+analyzer_params = {
   tokenizer: "jieba",
   filter: ["cncharonly"],
 };
@@ -338,7 +338,13 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({
+  address: "YOUR_CLUSTER_ENDPOINT",
+});
+
+analyzer_params = {
   tokenizer: "jieba",
   filter: ["cncharonly"],
 };

@@ -113,7 +113,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+let analyzer_params = {
     tokenizer: "standard",
     filter: [{
         type: "stop",  // Specifies the filter type as stop
@@ -251,7 +251,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+analyzer_params = {
     tokenizer: "standard",
     filter: [{
         type: "stop",  // Specifies the filter type as stop

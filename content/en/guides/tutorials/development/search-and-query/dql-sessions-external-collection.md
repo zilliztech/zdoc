@@ -117,7 +117,7 @@ const client = new MilvusClient({
     token: "YOUR_API_KEY"
 });
 
-client.has_collection({
+client.hasCollection({
     collection_name: "my_collection"
 });
 ```

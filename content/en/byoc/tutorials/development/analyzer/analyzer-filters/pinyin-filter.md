@@ -95,7 +95,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+let analyzer_params = {
     tokenizer: "jieba",
     filter: ["pinyin"],
 };
@@ -225,7 +225,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+analyzer_params = {
     tokenizer: "jieba",
     filter: [
         {
@@ -501,16 +501,16 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+analyzer_params = {
     tokenizer: "jieba",
     filter: ["pinyin"],
 };
 
-const result = await client.runAnalyzer({
+const char_result = await client.runAnalyzer({
     text: sample_text,
     analyzer_params,
 });
-console.log(result.results);
+console.log(char_result.results);
 ```
 
 </TabItem>
@@ -686,7 +686,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+analyzer_params = {
     tokenizer: "jieba",
     filter: [
         {
@@ -699,11 +699,11 @@ const analyzer_params = {
     ],
 };
 
-const result = await client.runAnalyzer({
+const joined_result = await client.runAnalyzer({
     text: sample_text,
     analyzer_params,
 });
-console.log(result.results);
+console.log(joined_result.results);
 ```
 
 </TabItem>
@@ -879,7 +879,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+analyzer_params = {
     tokenizer: "jieba",
     filter: [
         {
@@ -892,11 +892,11 @@ const analyzer_params = {
     ],
 };
 
-const result = await client.runAnalyzer({
+const initials_result = await client.runAnalyzer({
     text: sample_text,
     analyzer_params,
 });
-console.log(result.results);
+console.log(initials_result.results);
 ```
 
 </TabItem>

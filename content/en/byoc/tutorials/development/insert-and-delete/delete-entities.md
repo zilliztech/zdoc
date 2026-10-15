@@ -172,9 +172,9 @@ res = await client.delete({
 console.log(res.delete_cnt)
 
 // Output
-// 
-// 3
-// 
+//
+// 2
+//
 ```
 
 </TabItem>

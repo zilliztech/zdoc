@@ -470,7 +470,7 @@ const filter_expr = 'category == "search" && element_filter(chunks, $[section] =
 
 const results = await client.search({
   collection_name: "tech_articles",
-  data: [query_vector],
+  data: query_vector,
   anns_field: "chunks[emb]",
   filter: filter_expr,
   limit: 5,
@@ -985,7 +985,7 @@ const results = await client.search({
     { anns_field: "title_vector", data: [query_vector], limit: 10, expr: 'category == "search"' },
     {
       anns_field: "chunks[emb]",
-      data: [query_vector],
+      data: query_vector,
       limit: 10,
       expr: 'category == "search" && element_filter(chunks, $[section] == "index" && $[quality_score] > 0.9)',
     },

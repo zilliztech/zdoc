@@ -196,7 +196,7 @@ import { FunctionType } from '@zilliz/milvus2-sdk-node';
 const rerank = {
     name: "weight",
     input_field_names: [],
-    function_type: FunctionType.RERANK,
+    type: FunctionType.RERANK,
     params: {
         reranker: "weighted",
         weights: [0.1, 0.9],

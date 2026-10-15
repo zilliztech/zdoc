@@ -1182,9 +1182,9 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
         },
       ],
     };
-    const sample_text = "Milvus provides flexible, customizable analyzers for robust text processing.";
-    const result = await client.runAnalyzer({
-        text: sample_text,
+    const sample_text_custom = "Milvus provides flexible, customizable analyzers for robust text processing.";
+    const result_custom = await client.runAnalyzer({
+        text: sample_text_custom,
         analyzer_params: analyzer_params_custom
     });
     ```

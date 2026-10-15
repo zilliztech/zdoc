@@ -216,15 +216,14 @@ const queryVectors = [
 ];
 const collectionName = 'iterator_collection';
 
-const iterator = milvusClient.searchIterator({
+const iterator = await milvusClient.searchIterator({
     collection_name: collectionName,
     vectors: queryVectors,
     anns_field: 'vector',
-    batch_size: 50,
+    batchSize: 50,
     output_fields: ['color'],
     limit: 20000,
 });
-
 ```
 
 </TabItem>

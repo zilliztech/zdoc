@@ -721,10 +721,6 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { DataType, MilvusClient } from '@zilliz/milvus2-sdk-node';
-
-const collectionName = 'my_collection';
-
 const data = [
   // All fields provided explicitly
   { id: 1, vector: [0.1, 0.2, 0.3, 0.4, 0.5], age: 30, status: 'premium' },
@@ -968,10 +964,6 @@ for (auto& result : response.Results().Results()) {
 <TabItem value='javascript'>
 
 ```javascript
-import { DataType, MilvusClient } from '@zilliz/milvus2-sdk-node';
-
-const collectionName = 'my_collection';
-
 const searchResults = await client.search({
   collection_name: collectionName,
   data: [[0.1, 0.2, 0.4, 0.3, 0.5]],
@@ -1247,10 +1239,6 @@ for (const auto& row : output_rows2) {
 <TabItem value='javascript'>
 
 ```javascript
-import { DataType, MilvusClient } from '@zilliz/milvus2-sdk-node';
-
-const collectionName = 'my_collection';
-
 // Query entities where age equals the default value (18)
 const defaultAgeResults = await client.query({
   collection_name: collectionName,

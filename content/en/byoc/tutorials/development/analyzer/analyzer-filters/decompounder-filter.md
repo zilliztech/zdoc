@@ -114,7 +114,7 @@ nlohmann::json analyzer_params = {
 
 ```javascript
 // javascript
-const analyzer_params = {
+let analyzer_params = {
     "tokenizer": "standard",
     "filter":[{
         "type": "decompounder", // Specifies the filter type as decompounder
@@ -249,7 +249,7 @@ nlohmann::json analyzer_params = {
 
 ```javascript
 // javascript
-const analyzer_params = {
+analyzer_params = {
     "tokenizer": "standard",
     "filter":[{
         "type": "decompounder", // Specifies the filter type as decompounder

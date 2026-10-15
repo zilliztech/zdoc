@@ -389,6 +389,11 @@ await client.createIndex({
   metric_type: "COSINE",
 });
 
+// Load the collection
+await client.loadCollection({
+  collection_name,
+});
+
 const data = [
   { id: 1, document: "Recent renewable energy developments include improved solar efficiency.", dense: [0.10, 0.20, 0.30, 0.40] },
   { id: 2, document: "Climate policy and carbon markets have evolved rapidly in recent years.", dense: [0.11, 0.19, 0.28, 0.39] },

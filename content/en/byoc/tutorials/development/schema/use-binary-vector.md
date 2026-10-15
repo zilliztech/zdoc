@@ -213,13 +213,26 @@ schema->AddField(milvus::FieldSchema("binary_vector", milvus::DataType::BINARY_V
 <TabItem value='javascript'>
 
 ```javascript
-import { DataType } from "@zilliz/milvus2-sdk-node";
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
-schema.push({
-  name: "binary_vector",
-  data_type: DataType.BinaryVector,
-  dim: 128,
+const client = new MilvusClient({
+  address: "YOUR_CLUSTER_ENDPOINT",
 });
+
+const schema = [
+  {
+    name: "pk",
+    data_type: DataType.VarChar,
+    is_primary_key: true,
+    autoID: true,
+    max_length: 100,
+  },
+  {
+    name: "binary_vector",
+    data_type: DataType.BinaryVector,
+    dim: 128,
+  },
+];
 ```
 
 </TabItem>
@@ -342,7 +355,7 @@ std::vector<milvus::IndexDesc> indexes = {
 import { MetricType, IndexType } from "@zilliz/milvus2-sdk-node";
 
 const indexParams = [{
-  indexName: "binary_vector_index",
+  index_name: "binary_vector_index",
   field_name: "binary_vector",
   metric_type: MetricType.HAMMING,
   index_type: IndexType.AUTOINDEX

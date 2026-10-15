@@ -202,16 +202,15 @@ import { MilvusClient, DataType } from '@zilliz/milvus2-sdk-node';
 
 const client = new MilvusClient({
   address: 'YOUR_CLUSTER_ENDPOINT',
+  token: 'YOUR_CLUSTER_TOKEN',
 });
 
 // Define the collection schema
-const schema = {
-  fields: [
-    { name: 'id', data_type: DataType.Int64, is_primary_key: true, autoID: false },
-    { name: 'document', data_type: DataType.VarChar, max_length: 9000 },
-    { name: 'dense', data_type: DataType.FloatVector, dim: 1024 },
-  ],
-};
+const schema = [
+  { name: 'id', data_type: DataType.Int64, is_primary_key: true, autoID: false },
+  { name: 'document', data_type: DataType.VarChar, max_length: 9000 },
+  { name: 'dense', data_type: DataType.FloatVector, dim: 1024 },
+];
 ```
 
 </TabItem>
@@ -344,9 +343,11 @@ schema->AddFunction(function);
 <TabItem value='javascript'>
 
 ```javascript
-const cohereFunc = {
+import { FunctionType } from '@zilliz/milvus2-sdk-node';
+
+const functions = [{
   name: 'cohere_func',
-  type: 'TextEmbedding',
+  type: FunctionType.TEXTEMBEDDING,
   input_field_names: ['document'],
   output_field_names: ['dense'],
   params: {
@@ -354,7 +355,7 @@ const cohereFunc = {
     model_name: 'embed-english-v3.0',
     integration_id: 'YOUR_INTEGRATION_ID',
   },
-};
+}];
 ```
 
 </TabItem>

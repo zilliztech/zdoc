@@ -98,7 +98,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+let analyzer_params = {
     "tokenizer": "standard",
     "filter": ["lowercase"]
 };
@@ -179,7 +179,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+analyzer_params = {
     "type": "standard", // Specifies the standard analyzer type
 }
 ```
@@ -533,7 +533,13 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-// javascript
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
+
+const client = new MilvusClient({
+  address: 'YOUR_CLUSTER_ENDPOINT',
+  token: 'YOUR_CLUSTER_TOKEN',
+});
+
 const res = await client.runAnalyzer({
     text: 'The Milvus vector database is built for scale!',
     analyzer_params: analyzer_params

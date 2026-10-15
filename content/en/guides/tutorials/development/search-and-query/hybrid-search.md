@@ -251,7 +251,7 @@ schema->AddField(milvus::FieldSchema("image_dense", milvus::DataType::FLOAT_VECT
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+import { MilvusClient, DataType, FunctionType } from "@zilliz/milvus2-sdk-node";
 
 const address = "YOUR_CLUSTER_ENDPOINT";
 const token = "YOUR_CLUSTER_TOKEN";
@@ -269,7 +269,7 @@ const fields = [
         name: "text",
         data_type: DataType.VarChar,
         max_length: 1000,
-        enable_match: true
+        enable_analyzer: true
     },
     {
         name: "text_dense",
@@ -505,10 +505,10 @@ const index_params = [{
 },{
     field_name: "text_sparse",
     index_name: "text_sparse_index",
-    index_type: "IndexType.SPARSE_INVERTED_INDEX",
+    index_type: "SPARSE_INVERTED_INDEX",
     metric_type: "BM25",
     params: {
-      inverted_index_algo: "DAAT_MAXSCORE", 
+      inverted_index_algo: "DAAT_MAXSCORE",
     }
 },{
     field_name: "image_dense",
@@ -625,7 +625,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-res = await client.createCollection({
+const res = await client.createCollection({
     collection_name: "my_collection",
     fields: fields,
     index_params: index_params,
@@ -846,7 +846,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
 var data = [
     {id: 0, text: "Red cotton t-shirt with round neck" , text_dense: [0.3580376395471989, -0.6023495712049978, 0.18414012509913835 /* ...remaining dims */], image_dense: [0.6366019600530924, -0.09323198122475052 /* ...remaining dims */]},
@@ -1318,9 +1318,9 @@ for (auto& result : response.Results().Results()) {
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
-res = await client.loadCollection({
+await client.loadCollection({
     collection_name: "my_collection"
 })
 

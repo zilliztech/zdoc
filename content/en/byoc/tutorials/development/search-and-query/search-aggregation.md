@@ -456,7 +456,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const { DataType, MilvusClient } = require('@zilliz/milvus2-sdk-node');
+import { DataType, MilvusClient } from '@zilliz/milvus2-sdk-node';
 
 const client = new MilvusClient({
   address: 'YOUR_CLUSTER_ENDPOINT', username: 'root', password: 'Milvus',

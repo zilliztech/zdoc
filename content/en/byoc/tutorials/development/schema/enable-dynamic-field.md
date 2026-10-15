@@ -378,9 +378,6 @@ entities = [
 ]
 
 client.insert(collection_name="my_collection", data=entities)
-
-# Flush the inserted data so it becomes searchable and indexable
-client.flush(collection_name="my_collection")
 ```
 
 </TabItem>
@@ -604,6 +601,13 @@ Since the dynamic field is a JSON field, you can index any key within it using J
 
 ```python
 index_params = client.prepare_index_params()
+
+# Add a vector index on the vector field so the collection can be loaded
+index_params.add_index(
+    field_name="my_vector",
+    index_type="AUTOINDEX",
+    metric_type="COSINE",
+)
 
 # Index a simple string key
 index_params.add_index(
@@ -895,7 +899,7 @@ export varcharIndex='{
   "params": {
     "index_type": "AUTOINDEX",
     "json_cast_type": "varchar",
-    "json_path": "dynamic_json["varchar"]"
+    "json_path": "dynamic_json[\"varchar\"]"
   }
 }'
 
@@ -905,7 +909,7 @@ export nestedIndex='{
   "params": {
     "index_type": "AUTOINDEX",
     "json_cast_type": "double",
-    "json_path": "dynamic_json["nested"]["value"]"
+    "json_path": "dynamic_json[\"nested\"][\"value\"]"
   }
 }'
 ```
@@ -1062,13 +1066,6 @@ After defining the index parameters, you can apply them to the collection using 
 <TabItem value='python'>
 
 ```python
-# Add a vector index on the vector field so the collection can be loaded
-index_params.add_index(
-    field_name="my_vector",
-    index_type="AUTOINDEX",
-    metric_type="COSINE",
-)
-
 client.create_index(
     collection_name="my_collection",
     index_params=index_params
@@ -1083,11 +1080,25 @@ client.load_collection(collection_name="my_collection")
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.collection.request.LoadCollectionReq;
 import io.milvus.v2.service.index.request.CreateIndexReq;
+
+// Add a vector index on the vector field so the collection can be loaded
+indexParams.add(IndexParam.builder()
+        .fieldName("my_vector")
+        .indexType(IndexParam.IndexType.AUTOINDEX)
+        .metricType(IndexParam.MetricType.COSINE)
+        .build());
 
 client.createIndex(CreateIndexReq.builder()
         .collectionName("my_collection")
         .indexParams(indexParams)
+        .build());
+
+// Load the collection before searching
+client.loadCollection(LoadCollectionReq.builder()
+        .collectionName("my_collection")
         .build());
 ```
 
@@ -1096,6 +1107,16 @@ client.createIndex(CreateIndexReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "github.com/milvus-io/milvus/client/v3/entity"
+
+    "github.com/milvus-io/milvus/client/v3/index"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+// Add a vector index on the vector field so the collection can be loaded
+indexOptVec := milvusclient.NewCreateIndexOption("my_collection", "my_vector", index.NewAutoIndex(entity.COSINE))
+
 indexTask1, err := client.CreateIndex(ctx, indexOpt1)
 if err != nil {
     return err
@@ -1116,6 +1137,16 @@ indexTask5, err := client.CreateIndex(ctx, indexOpt5)
 if err != nil {
     return err
 }
+indexTaskVec, err := client.CreateIndex(ctx, indexOptVec)
+if err != nil {
+    return err
+}
+
+// Load the collection before searching
+err = client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection"))
+if err != nil {
+    return err
+}
 ```
 
 </TabItem>
@@ -1125,11 +1156,29 @@ if err != nil {
 ```rust
 use milvus::v2::prelude::*;
 
+// Add a vector index on the vector field so the collection can be loaded
+index_params.push(
+    IndexParam::new()
+        .field_name("my_vector")
+        .index_name("my_vector_index")
+        .index_type(IndexType::AutoIndex)
+        .metric_type(MetricType::Cosine),
+);
+
 client
     .create_index(
         CreateIndexRequest::builder()
             .collection_name("my_collection")
             .index_params(index_params)
+            .build()?,
+    )
+    .await?;
+
+// Load the collection before searching
+client
+    .load_collection(
+        LoadCollectionRequest::builder()
+            .collection_name("my_collection")
             .build()?,
     )
     .await?;
@@ -1140,13 +1189,22 @@ client
 <TabItem value='c++'>
 
 ```c++
+milvus::IndexDesc my_vector_index("my_vector", "my_vector_index", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE);
+
 auto status = client->CreateIndex(milvus::CreateIndexRequest()
                                      .WithCollectionName("my_collection")
                                      .AddIndex(std::move(overview_index))
                                      .AddIndex(std::move(words_index))
                                      .AddIndex(std::move(json_varchar_index))
                                      .AddIndex(std::move(json_nested_index))
-                                     .AddIndex(std::move(string_price_index)));
+                                     .AddIndex(std::move(string_price_index))
+                                     .AddIndex(std::move(my_vector_index)));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+// Load the collection before searching
+status = client->LoadCollection(milvus::LoadCollectionRequest().WithCollectionName("my_collection"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
@@ -1157,7 +1215,19 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-  await client.createIndex(indexParams);
+// Add a vector index on the vector field so the collection can be loaded
+indexParams.push({
+  collection_name: 'my_collection',
+  field_name: 'my_vector',
+  index_name: 'my_vector_index',
+  index_type: 'AUTOINDEX',
+  metric_type: 'COSINE',
+});
+
+await client.createIndex(indexParams);
+
+// Load the collection before searching
+await client.loadCollection({ collection_name: 'my_collection' });
 ```
 
 </TabItem>
@@ -1166,12 +1236,22 @@ if (!status.IsOk()) {
 
 ```bash
 # restful
+export myVectorIndex='{
+  "fieldName": "my_vector",
+  "indexName": "my_vector_index",
+  "params": {
+    "index_type": "AUTOINDEX",
+    "metric_type": "COSINE"
+  }
+}'
+
 export indexParams="[
   $varcharIndex,
   $nestedIndex,
   $overviewIndex,
   $wordsIndex,
-  $stringPriceIndex
+  $stringPriceIndex,
+  $myVectorIndex
 ]"
 
 curl --request POST \
@@ -1182,6 +1262,16 @@ curl --request POST \
 --data "{
   \"collectionName\": \"my_collection\",
   \"indexParams\": $indexParams
+}"
+
+# Load the collection before searching
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/load" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+--data "{
+  \"collectionName\": \"my_collection\"
 }"
 ```
 

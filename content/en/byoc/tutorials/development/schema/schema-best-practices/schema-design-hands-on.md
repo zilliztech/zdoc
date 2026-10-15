@@ -401,7 +401,7 @@ const fields = [
         name: "article_id",
         data_type: DataType.Int64,
         is_primary_key: true,
-        auto_id: true
+        autoID: true
     },
     {
         name: "title",

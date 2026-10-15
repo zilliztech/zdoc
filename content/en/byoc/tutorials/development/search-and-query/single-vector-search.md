@@ -859,7 +859,7 @@ for (const auto& result : searchResponse.Results().Results()) {
 <TabItem value='javascript'>
 
 ```javascript
-const res = await client.search({
+res = await client.search({
     collection_name: "quick_setup",
     anns_field: "vector",
     // highlight-start
@@ -1583,7 +1583,7 @@ for (const auto& result : searchResponse.Results().Results()) {
 <TabItem value='javascript'>
 
 ```javascript
-const res = await client.search({
+res = await client.search({
     collection_name: "product_catalog",
     data: query_vector,
     anns_field: "embedding",
@@ -1802,7 +1802,7 @@ for (const auto& result : searchResponse.Results().Results()) {
 <TabItem value='javascript'>
 
 ```javascript
-const res = await client.search({
+res = await client.search({
     collection_name: "product_catalog",
     data: query_vector,
     anns_field: "embedding",
@@ -2696,7 +2696,7 @@ for (const auto& result : searchResponse.Results().Results()) {
 <TabItem value='javascript'>
 
 ```javascript
-const res = await client.search({
+res = await client.search({
     collection_name: "quick_setup",
     anns_field: "vector",
     data: query_vector,

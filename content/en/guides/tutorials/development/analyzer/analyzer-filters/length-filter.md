@@ -106,7 +106,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+let analyzer_params = {
     "tokenizer": "standard",
     "filter":[{
         "type": "length", // Specifies the filter type as length
@@ -242,7 +242,7 @@ nlohmann::json analyzer_params = {
 <TabItem value='javascript'>
 
 ```javascript
-const analyzer_params = {
+analyzer_params = {
     "tokenizer": "standard",
     "filter":[{
         "type": "length", // Specifies the filter type as length
@@ -446,7 +446,7 @@ const client = new MilvusClient({
   address: "YOUR_CLUSTER_ENDPOINT",
 });
 
-const analyzer_params = {
+analyzer_params = {
     "tokenizer": "standard",
     "filter":[{
         "type": "length",

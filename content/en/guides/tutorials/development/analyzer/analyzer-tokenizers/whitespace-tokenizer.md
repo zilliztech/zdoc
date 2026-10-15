@@ -433,6 +433,8 @@ const result = await client.runAnalyzer({
     text: sample_text,
     analyzer_params: analyzer_params
 });
+
+console.log("Whitespace analyzer output:", result);
 ```
 
 </TabItem>

@@ -362,6 +362,12 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({
+  address: "YOUR_CLUSTER_ENDPOINT",
+});
+
 const res = await client.runAnalyzer({
     text: 'آدم أحمد إسلام مدرسة كبرى كِتَابٌ عـــربي',
     analyzer_params: analyzer_params

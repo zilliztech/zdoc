@@ -281,7 +281,7 @@ const queryVector = [0.19, 0.24, 0.30, 0.37];
 
 const results = await client.search({
   collection_name: "tech_articles",
-  data: [queryVector],
+  data: queryVector,
   anns_field: "chunks[emb]",
   params: {
     radius: 0.80,
@@ -558,7 +558,7 @@ const filterExpr = 'category == "search" && element_filter(chunks, $[section] ==
 
 const results = await client.search({
   collection_name: "tech_articles",
-  data: [queryVector],
+  data: queryVector,
   anns_field: "chunks[emb]",
   params: {
     radius: 0.80,
@@ -880,7 +880,7 @@ const results = await client.search({
     },
     {
       anns_field: "chunks[emb]",
-      data: [queryVector],
+      data: queryVector,
       params: { radius: 0.80, range_filter: 0.95 },
       filter: 'element_filter(chunks, $[section] == "index")',
       limit: 10,

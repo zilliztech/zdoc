@@ -291,7 +291,7 @@ import {FunctionType } from "@zilliz/milvus2-sdk-node";
 const rerank = {
   name: "time_decay",
   input_field_names: ["timestamp"],
-  function_type: FunctionType.RERANK,
+  type: FunctionType.RERANK,
   params: {
     reranker: "decay",
     function: "gauss",

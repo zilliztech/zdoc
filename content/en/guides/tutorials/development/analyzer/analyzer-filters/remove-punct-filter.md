@@ -362,6 +362,8 @@ const result = await client.runAnalyzer({
   analyzer_params: analyzer_params,
   text: sampleText,
 });
+
+console.log("Standard analyzer output:", result);
 ```
 
 </TabItem>

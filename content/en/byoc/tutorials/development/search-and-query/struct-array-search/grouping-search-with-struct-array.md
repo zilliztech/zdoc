@@ -273,7 +273,7 @@ const query_vector = [0.19, 0.24, 0.30, 0.37];
 
 const res = await client.search({
   collection_name: "tech_articles",
-  data: [query_vector],
+  data: query_vector,
   anns_field: "chunks[emb]",
   limit: 5,
   group_by_field: "doc_id",
@@ -494,7 +494,7 @@ const filter_expr = 'category == "search" && element_filter(chunks, $[section] =
 
 const res = await client.search({
   collection_name: "tech_articles",
-  data: [query_vector],
+  data: query_vector,
   anns_field: "chunks[emb]",
   filter: filter_expr,
   limit: 5,
@@ -756,13 +756,13 @@ const res = await client.hybridSearch({
   data: [
     {
       anns_field: "chunks[emb]",
-      data: [query_vector],
+      data: query_vector,
       limit: 10,
       expr: 'element_filter(chunks, $[section] == "index")',
     },
     {
       anns_field: "chunks[code_emb]",
-      data: [code_query_vector],
+      data: code_query_vector,
       limit: 10,
       expr: 'element_filter(chunks, $[has_code] == true)',
     },

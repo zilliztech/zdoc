@@ -873,7 +873,7 @@ const res = await client.search({
     output_fields: ["title", "author", "price"]
 });
 
-console.log(`Found ${res.results[0].length} similar books in sample`);
+console.log(`Found ${res.results.length} similar books in sample`);
 ```
 
 </TabItem>
