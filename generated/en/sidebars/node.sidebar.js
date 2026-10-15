@@ -487,10 +487,10 @@ module.exports = [
         "key": "doc:api/nodejs/nodejs/DataImport/dataimport-bulkinsert"
       },
       {
-        "type": "category",
+        "type": "doc",
+        "id": "api/nodejs/nodejs/DataImport/DataImport-BulkWriter",
         "label": "BulkWriter",
-        "key": "category:api/nodejs/nodejs/DataImport/dataimport-bulkwriter",
-        "items": []
+        "key": "doc:api/nodejs/nodejs/DataImport/dataimport-bulkwriter"
       },
       {
         "type": "doc",

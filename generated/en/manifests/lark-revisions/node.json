@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "group": "node",
   "complete": true,
-  "generatedAt": "2026-10-14T18:41:51.943Z",
-  "sourceRunId": "38614706314",
+  "generatedAt": "2026-10-15T02:46:42.513Z",
+  "sourceRunId": "38670872486",
   "records": [
     {
       "canonicalToken": "AG5zdQCpXoy11MxWgD0ciYBRnJb",
@@ -1448,7 +1448,7 @@
     {
       "canonicalToken": "XTa5d642Aotj7GxLmwSc66xOnUc",
       "title": "BulkWriter",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-BulkWriter.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,

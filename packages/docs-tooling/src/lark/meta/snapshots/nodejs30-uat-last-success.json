@@ -8,7 +8,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-10-14T18:41:51.707Z",
+  "generated_at": "2026-10-15T02:46:42.225Z",
   "source_dir": "./packages/docs-tooling/src/lark/meta/sources/node/v3.0.x",
   "base_app_token": "LlrPbysPZau2dGsSVuicHmvCn0e",
   "records": [
@@ -4437,14 +4437,14 @@
       "doc_token": "XTa5d642Aotj7GxLmwSc66xOnUc",
       "doc_link": "https://zilliverse.feishu.cn/docx/XTa5d642Aotj7GxLmwSc66xOnUc",
       "source_file": "XTa5d642Aotj7GxLmwSc66xOnUc.json",
-      "source_hash": "65c18e187fe811abec750fc71e5503cabf0d34f730175b9bd3df134a9265265f",
+      "source_hash": "dead9fe7d0e81048e201bcc0de3ee739f5e19cec60363a0dc81afd283ec15144",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
       "obj_token": null,
       "obj_type": null,
       "obj_edit_time": null,
-      "revision_id": "12",
+      "revision_id": "8",
       "publish_targets": [
         "Milvus",
         "Zilliz"
@@ -4455,7 +4455,9 @@
         "DsLHde5AWomjFhxD3K7c4Yklnlh",
         "U7w6d4gUioGzw2xmYqvcFz1Jnub"
       ],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-BulkWriter.md"
+      ]
     },
     {
       "record_id": "recvmMHcW7Clc1",
