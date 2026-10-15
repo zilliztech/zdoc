@@ -161,7 +161,7 @@ if err != nil {
 }
 defer client.Close(ctx)
 
-schema := entity.NewSchema()
+schema := entity.NewSchema().WithDynamicFieldEnabled(true)
 schema.WithField(entity.NewField().
     WithName("tags").
     WithDataType(entity.FieldTypeArray).
@@ -420,7 +420,7 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
-indexOpt1 := milvusclient.NewCreateIndexOption("my_collection", "tags", index.NewInvertedIndex()).WithIndexName("tags_index")
+indexOpt1 := milvusclient.NewCreateIndexOption("my_collection", "tags", index.NewAutoIndex(entity.COSINE)).WithIndexName("tags_index")
 indexOpt2 := milvusclient.NewCreateIndexOption("my_collection", "embedding", index.NewAutoIndex(entity.COSINE))
 ```
 
@@ -1062,9 +1062,9 @@ if err != nil {
     // handle error
 }
 
-fmt.Println("pk", rs.GetColumn("pk").FieldData().GetScalars())
 fmt.Println("tags", rs.GetColumn("tags").FieldData().GetScalars())
 fmt.Println("ratings", rs.GetColumn("ratings").FieldData().GetScalars())
+fmt.Println("embedding", rs.GetColumn("embedding").FieldData().GetVectors())
 ```
 
 </TabItem>
