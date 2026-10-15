@@ -34,7 +34,7 @@ Zilliz Cloud 2.0.0 的发布为向量数据库管理设立了新的标准。它�
 
 - **专有部署**是注重数据安全与合规管理的企业的理想选择。Zilliz Cloud 可在你的虚拟私有云（VPC）内提供完全由您管理的向量数据库服务。
 
-前往[定价](https://zilliz.com/pricing)页面了解更多。
+前往[定价](https://zilliz.com.cn/pricing)页面了解更多。
 
 ## 全新的 CU 类型\{#cost-optimized-compute-unit-cu}
 
