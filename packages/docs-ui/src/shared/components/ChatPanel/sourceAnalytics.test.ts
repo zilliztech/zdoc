@@ -6,7 +6,7 @@ vi.mock('@docusaurus/useDocusaurusContext', () => ({
   default: () => ({siteConfig: {customFields: {}}, i18n: {currentLocale: 'en'}}),
 }));
 
-import {trackAiSourceClick} from './sourceAnalytics';
+import {trackAiSourceClick, trackChatMessageCopy} from './sourceAnalytics';
 
 describe('trackAiSourceClick', () => {
   beforeEach(() => {
@@ -43,6 +43,20 @@ describe('trackAiSourceClick', () => {
     // An empty host is dropped by the params contract (GA4 shows (not set)).
     expect(window.dataLayer).toEqual([
       {event: 'ai_source_click', surface: 'panel', source_index: '1'},
+    ]);
+  });
+});
+
+describe('trackChatMessageCopy', () => {
+  beforeEach(() => {
+    window.dataLayer = [];
+    document.body.classList.remove('zd-notfound-page');
+  });
+
+  it('sends only the surface — message content stays out of GA4', () => {
+    trackChatMessageCopy();
+    expect(window.dataLayer).toEqual([
+      {event: 'chat_message_copy', surface: 'panel'},
     ]);
   });
 });
