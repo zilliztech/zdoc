@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Last updated Sept 3, 2026 | Cloud"
+description: "Last updated Sept 22, 2026 | Cloud"
 type: origin
 token: MUL3wkn7Yi3YoFkYk59csf8bnNc
 sidebar_position: 1
@@ -22,7 +22,7 @@ import Grid from '@site/src/components/Grid';
 
 # Changelogs
 
-**Last updated:** Sept 3, 2026
+**Last updated:** Sept 22, 2026
 
 <Grid columnSize="2" widthRatios="25,74">
 
@@ -41,6 +41,38 @@ import Grid from '@site/src/components/Grid';
 </Grid>
 
 ## 2026\{#2026}
+
+<Grid columnSize="2" widthRatios="25,74">
+
+    <div>
+
+        **Sept 22, 2026**
+
+    </div>
+
+    <div>
+
+        🐦 **Serverless and Free clusters are now compatible with Milvus v3.0.x** — Zilliz Cloud has upgraded Serverless clusters to Milvus v3.0.x, so you can use the following features with no action on your side:
+
+        - [Search aggregation](/docs/search-aggregation)
+
+        - Order by for [searches](/docs/single-vector-search#sort-search-results-by-scalar-fields) and [queries](/docs/get-and-scalar-query#sort-query-results)
+
+        - [Query aggregation](/docs/get-and-scalar-query#aggregate-query-results)
+
+        - [Regular expression filtering](/docs/pattern-match#use-regex)
+
+        - [Element-level search](/docs/search-with-struct-array#run-element-level-search) and [match operators](/docs/struct-array-filtering) for StructArray fields
+
+        - [MinHash function](/docs/minhash-function)
+
+        - [Entity-level TTL](/docs/set-collection-ttl#set-entity-level-ttl)
+
+        - [Dropping fields and functions](/docs/add-fields-to-an-existing-collection#drop-fields-and-functions-from-an-existing-collection) from existing collections
+
+    </div>
+
+</Grid>
 
 <Grid columnSize="2" widthRatios="25,74">
 
