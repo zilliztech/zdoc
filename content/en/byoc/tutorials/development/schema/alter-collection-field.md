@@ -260,9 +260,6 @@ if err != nil {
 ```rust
 use milvus::v2::prelude::*;
 
-let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-let client = ClientV2::new(&config).await?;
-
 client
     .alter_collection_field_properties(
         AlterCollectionFieldPropertiesRequest::builder()
@@ -385,9 +382,6 @@ if err != nil {
 
 ```rust
 use milvus::v2::prelude::*;
-
-let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
-let client = ClientV2::new(&config).await?;
 
 client
     .alter_collection_field_properties(
