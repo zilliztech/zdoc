@@ -6,6 +6,7 @@
   "exports": {
     ".": "./src/index.ts",
     "./docusaurus": "./src/docusaurus.ts",
+    "./links": "./src/shared/links/index.ts",
     "./runtime": "./src/runtime.ts"
   },
   "dependencies": {

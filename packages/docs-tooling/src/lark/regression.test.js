@@ -57,7 +57,6 @@ async function testConvertLinkResolvesWikiByOriginTokenForBackwardCompatibility(
 
 async function testConvertLinkCanonicalizesCliOverviewRoute() {
   const writer = new larkDocWriter('', '', '', '/tmp');
-
   assert.equal(
     await writer.__convert_link('/reference/cli/overview'),
     '/reference/cli/cli/overview'
@@ -65,6 +64,24 @@ async function testConvertLinkCanonicalizesCliOverviewRoute() {
   assert.equal(
     await writer.__convert_link('https://docs.zilliz.com/reference/cli/overview'),
     '/reference/cli/cli/overview'
+  );
+}
+
+async function testConvertLinkStripsChineseDocsHost() {
+  const writer = new larkDocWriter('', '', '', '/tmp');
+  assert.equal(
+    await writer.__convert_link('https://docs.zilliz.com.cn/docs/enterprise-certification'),
+    '/docs/enterprise-certification'
+  );
+  assert.equal(
+    await writer.__convert_link('https://docs.zilliz.com.cn/reference/cli/overview'),
+    '/reference/cli/cli/overview'
+  );
+  // Host-only and lookalike hosts must pass through untouched.
+  assert.equal(await writer.__convert_link('https://docs.zilliz.com.cn'), 'https://docs.zilliz.com.cn');
+  assert.equal(
+    await writer.__convert_link('https://docs.zilliz.com.cn.evil.com/docs/x'),
+    'https://docs.zilliz.com.cn.evil.com/docs/x'
   );
 }
 
@@ -230,6 +247,7 @@ async function run() {
   await testConvertLinkResolvesWikiByNodeTokenWhenOriginMissing();
   await testConvertLinkResolvesWikiByOriginTokenForBackwardCompatibility();
   await testConvertLinkCanonicalizesCliOverviewRoute();
+  await testConvertLinkStripsChineseDocsHost();
   testWikiSourceFileTokenFallback();
   await testTableDropsColumnsThatAreEmptyInEveryRow();
   await testSheetCellConvertsFeishuWikiUrl();

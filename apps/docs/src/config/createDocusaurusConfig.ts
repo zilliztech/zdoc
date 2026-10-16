@@ -170,7 +170,7 @@ export function createDocusaurusConfig(
   profile: DeepReadonly<SiteProfile>,
   environment: BuildEnvironment = process.env,
 ): Config {
-  const markdownPolicy = resolveMarkdownPolicy(profile.markdown);
+  const markdownPolicy = resolveMarkdownPolicy(profile.markdown, profile.id);
   const uiModules = profile.id === 'en'
     ? [...sharedUiModules, ...englishUiModules]
     : [...sharedUiModules, ...chineseUiModules];

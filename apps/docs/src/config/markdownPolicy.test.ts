@@ -4,6 +4,7 @@ import {
   rehypeEmojiMarks,
   rehypeWrapTables,
   remarkMathFix,
+  remarkRewriteDocLinks,
   resolveMarkdownPolicy,
 } from './markdownPolicy';
 
@@ -12,7 +13,7 @@ describe('English Markdown renderer policy', () => {
     const policy = resolveMarkdownPolicy({
       remarkPlugins: ['math', 'math-brace-fix'],
       rehypePlugins: ['katex', 'wrap-tables', 'emoji-marks'],
-    });
+    }, 'en');
 
     expect(policy.remarkPlugins).toHaveLength(2);
     expect(policy.rehypePlugins).toHaveLength(3);
@@ -42,7 +43,7 @@ describe('English Markdown renderer policy', () => {
     const policy = resolveMarkdownPolicy({
       remarkPlugins: ['math', 'math-brace-fix'],
       rehypePlugins: ['katex'],
-    });
+    }, 'en');
     const legacyFormula = String.raw`$$
 S(doc) = \exp\left( -\frac\{\left( \max\left(0, \left|fieldvalue_\{doc\} - origin\right| - offset \right) \right)^2\}\{2\sigma^2\} \right)
 $$`;
@@ -76,5 +77,90 @@ $$`;
     });
     expect(tree.children[1].children.filter((node: {type: string}) => node.type === 'element')).toHaveLength(2);
     expect(tree.children[2].children).toEqual([{type: 'text', value: '✅'}]);
+  });
+});
+
+describe('doc-links Markdown policy', () => {
+  it('resolves doc-links for both sites and rewrites links during MDX compilation', async () => {
+    const chinese = resolveMarkdownPolicy({
+      remarkPlugins: ['doc-links'],
+      rehypePlugins: [],
+    }, 'zh-CN');
+    expect(chinese.remarkPlugins).toHaveLength(1);
+
+    const english = resolveMarkdownPolicy({
+      remarkPlugins: ['doc-links'],
+      rehypePlugins: [],
+    }, 'en');
+    expect(english.remarkPlugins).toHaveLength(1);
+
+    const source = [
+      'See [计划对比](https://docs.zilliz.com/docs/select-zilliz-cloud-service-plans#deployment)',
+      'and [企业认证](https://docs.zilliz.com.cn/docs/enterprise-certification)',
+      'and [模式匹配](https://milvus.io/docs/pattern-matching.md).',
+      '',
+      '<p>Hand-authored anchor: <a href="https://milvus.io/docs/boolean.md">Scalar Filtering Rules</a>.</p>',
+    ].join('\n');
+
+    const compiled = String(await compile(source, {remarkPlugins: chinese.remarkPlugins}));
+    expect(compiled).toContain('/docs/select-zilliz-cloud-service-plans#deployment');
+    expect(compiled).toContain('/docs/enterprise-certification');
+    expect(compiled).toContain('https://milvus.io/docs/zh/pattern-matching.md');
+    expect(compiled).toContain('https://milvus.io/docs/zh/boolean.md');
+    expect(compiled).not.toContain('docs.zilliz.com');
+
+    const englishCompiled = String(await compile(source, {remarkPlugins: english.remarkPlugins}));
+    expect(englishCompiled).toContain('https://milvus.io/docs/pattern-matching.md');
+  });
+
+  it('rewrites hand-authored HTML blocks and MDX JSX href attributes directly', () => {
+    const expressionValue = {type: 'mdxJsxAttributeValueExpression', value: '{href}'};
+    const tree = {
+      type: 'root',
+      children: [
+        {type: 'html', value: '<td><a href="https://milvus.io/docs/boolean.md">rules</a></td>'},
+        {type: 'mdxJsxTextElement', name: 'a', attributes: [{name: 'href', value: 'https://docs.zilliz.com/docs/limits'}], children: []},
+        {type: 'mdxJsxTextElement', name: 'a', attributes: [{name: 'href', value: expressionValue}], children: []},
+      ],
+    };
+
+    remarkRewriteDocLinks({site: 'zh-CN'})(tree, {path: '/repo/content/zh-CN/guides/x.md'});
+
+    expect(tree.children[0].value).toBe('<td><a href="https://milvus.io/docs/zh/boolean.md">rules</a></td>');
+    expect(tree.children[1].attributes?.[0].value).toBe('/docs/limits');
+    expect(tree.children[2].attributes?.[0].value).toEqual(expressionValue);
+  });
+
+  it('keeps English-site builds in the ja-JP locale for i18n files', () => {
+    const tree = {
+      type: 'root',
+      children: [
+        {type: 'link', url: 'https://docs.zilliz.com/docs/limits#ingestion', children: []},
+        {type: 'link', url: 'https://milvus.io/blog/2022-2-21-compact.md', children: []},
+        {type: 'link', url: 'https://example.com/untouched', children: []},
+      ],
+    };
+    const vfile = {path: '/repo/i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/hybrid-search.md'};
+
+    remarkRewriteDocLinks({site: 'en'})(tree, vfile);
+
+    expect(tree.children.map(node => node.url)).toEqual([
+      '/ja-JP/docs/limits#ingestion',
+      'https://milvus.io/ja/blog/2022-2-21-compact.md',
+      'https://example.com/untouched',
+    ]);
+  });
+
+  it('leaves code spans untouched and skips files outside the i18n root on the English site', () => {
+    const tree = {
+      type: 'root',
+      children: [
+        {type: 'link', url: 'https://docs.zilliz.com/docs/limits', children: []},
+      ],
+    };
+
+    remarkRewriteDocLinks({site: 'en'})(tree, {path: '/repo/content/en/guides/quick-start.md'});
+
+    expect(tree.children[0].url).toBe('/docs/limits');
   });
 });
