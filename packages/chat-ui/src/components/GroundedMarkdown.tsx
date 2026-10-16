@@ -42,10 +42,19 @@ const markdownComponents = {
   },
 };
 
-function makeCitedComponents(sourceIndices: number[], sources: Source[]) {
+function makeCitedComponents(
+  sourceIndices: number[],
+  sources: Source[],
+  onCitationClick?: (sourceIndex: number, url?: string) => void,
+) {
   const sups = sourceIndices.map(si => (
     <sup key={`cite-${si}`} className={styles.citationSup}>
-      <a href={sources[si]?.url} className={styles.citationLink} title={sources[si]?.title}>
+      <a
+        href={sources[si]?.url}
+        className={styles.citationLink}
+        title={sources[si]?.title}
+        onClick={() => onCitationClick?.(si, sources[si]?.url)}
+      >
         {si + 1}
       </a>
     </sup>
@@ -65,9 +74,13 @@ export interface GroundedMarkdownProps {
   text: string;
   sources?: Source[];
   grounding?: GroundingCitation[];
+  /** Fired when the user clicks an inline citation superscript. Receives the
+   * 0-based index into `sources` (the badge shows index + 1) and that source's
+   * URL. Navigation is not intercepted — the link opens normally. */
+  onCitationClick?: (sourceIndex: number, url?: string) => void;
 }
 
-export function GroundedMarkdown({ text, sources, grounding }: GroundedMarkdownProps): React.ReactElement {
+export function GroundedMarkdown({text, sources, grounding, onCitationClick}: GroundedMarkdownProps): React.ReactElement {
   if (!grounding || !sources || grounding.length === 0) {
     return <Markdown remarkPlugins={[remarkGfm]} components={markdownComponents}>{text}</Markdown>;
   }
@@ -84,7 +97,7 @@ export function GroundedMarkdown({ text, sources, grounding }: GroundedMarkdownP
       {paragraphs.map((para, pi) => {
         const cites = citationMap.get(pi);
         const components = cites && cites.length > 0
-          ? makeCitedComponents(cites, sources)
+          ? makeCitedComponents(cites, sources, onCitationClick)
           : markdownComponents;
         return <Markdown key={pi} remarkPlugins={[remarkGfm]} components={components}>{para}</Markdown>;
       })}

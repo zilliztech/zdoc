@@ -125,3 +125,40 @@ nobody opens the cited doc" is the strongest doc-gap compound signal.
 - Merge PR #723 (404 report daily schedule) — repo-side leftover from phase 1.
 - Optional GTM tier for remaining 6 phase-1 events (`cta_click`,
   `lang_switch`, `toc_click`, `ask_ai_open/query/completed`) — same recipe.
+
+## Phase 2b (2026-10-16): search events move to the Inkeep bridge + chat copy/citation coverage
+
+Production verification after phase 2 shipped found a structural break: the
+docs-ui `theme/Search` modal swizzle — the only emitter of `search_performed`
+and `search_result_clicked` — is tree-shaken from both production builds. The
+English build registers no local-search plugin (`searchProvider: 'inkeep'`), so
+nothing imports `@theme/Search`; the Chinese build's easyops SearchBar is
+self-contained and never uses the slot either. Both GTM tags therefore sat idle.
+
+- **Inkeep bridge**: `packages/docs-ui/src/en/inkeepEventBridge.ts` forwards the
+  Inkeep modal's widget events (`baseSettings.onEvent`, wired in
+  `inkeep.config.ts`) onto the dataLayer:
+  `search_query_response_received` → `search_performed` (`search_term`,
+  `result_count`, `surface=modal`), `search_result_clicked` →
+  `search_result_clicked` (`search_term`, `result_path` = full URL, external
+  sources included). Chat/form/widget events are dropped — we never use
+  Inkeep's assistant; Ask-AI is the docs-ui panel on our own backend.
+  `search_query_submitted` is intentionally unmapped: every submitted query
+  also produced a response event, so it would double-count.
+- **`chat_message_copy`**: the panel's per-message copy button now fires
+  `{surface}` only (message content stays out of GA4).
+- **Citation superscript clicks**: chat-ui `GroundedMarkdown` gained
+  `onCitationClick(sourceIndex, url)`; the panel routes it to the existing
+  `ai_source_click` helper, so inline `[1]`-style citations and the source
+  chips share one event and dimension set.
+
+Operator config for 2b: GTM needs one Custom Event trigger + one GA4 Event tag
+for `chat_message_copy` (reuse the existing `surface` DLV; G-KKMVYG8YF2);
+GA4 needs nothing new — `surface` is registered and `search_performed`'s
+`result_count` metric was already part of the phase-2 checklist. The two
+search-event tags published on 2026-10-14 start receiving data once this code
+deploys.
+
+Retirement candidate (follow-up, not in this change): the dead `theme/Search`
+swizzle and its tests can be deleted once the Inkeep bridge is verified in
+production.

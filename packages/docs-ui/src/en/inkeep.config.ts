@@ -1,13 +1,14 @@
 import { defineConfig } from "@inkeep/cxkit-docusaurus";
 import { zodToJsonSchema } from "zod-to-json-schema";
 import {
-    answerConfidence, 
+    answerConfidence,
     salesSignalType,
-    detectedSalesSignal, 
+    detectedSalesSignal,
     supportSignalType,
     detectedSupportSignal,
-    provideAnswerConfidenceSchema 
+    provideAnswerConfidenceSchema
 } from './Inkeep';
+import {handleInkeepSearchEvent} from './inkeepEventBridge';
 
 const validSalesSignalTypes = salesSignalType.options.map(
   option => option.value
@@ -21,6 +22,9 @@ export const inkeepSettings ={
   baseSettings: {
     primaryBrandColor: "#175fff",
     organizationDisplayName: "Zilliz",
+    // The production search analytics events (search_performed,
+    // search_result_clicked) ride on this callback — see inkeepEventBridge.ts.
+    onEvent: handleInkeepSearchEvent,
     theme: {
       styles: [
         {

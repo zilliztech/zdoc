@@ -23,7 +23,7 @@ import {
 import '@zdoc/chat-ui/dist/style.css';
 import {ConfidenceDot, SourceTag, GroundedMarkdown, isExternalUrl} from '@zdoc/chat-ui';
 import {useChatContext} from './ChatContext';
-import {trackAiSourceClick} from './sourceAnalytics';
+import {trackAiSourceClick, trackChatMessageCopy} from './sourceAnalytics';
 import type {ChatHistoryEntry} from './types';
 import type {ConfidenceLevel, Source, GroundingCitation} from '@zdoc/chat-ui';
 import IconButton from '../IconButton';
@@ -254,6 +254,7 @@ export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}:
   };
 
   const copyMessage = (idx: number, text: string) => {
+    trackChatMessageCopy();
     navigator.clipboard.writeText(text).then(() => {
       setCopiedIdx(idx);
       setTimeout(() => setCopiedIdx(c => (c === idx ? null : c)), 1500);
@@ -413,7 +414,12 @@ export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}:
                       </span>
                   ) : (
                     <>
-                      <GroundedMarkdown text={msg.text} sources={msg.sources} grounding={msg.grounding} />
+                      <GroundedMarkdown
+                        text={msg.text}
+                        sources={msg.sources}
+                        grounding={msg.grounding}
+                        onCitationClick={(si, url) => url && trackAiSourceClick(url, si)}
+                      />
                       {isStreaming && i === messages.length - 1 && showStreamPauseIndicator && msg.text && (
                         <span className={`${styles.thinkingRow} ${styles.trailingThinkingRow}`}>
                           <ThinkingGlyph />

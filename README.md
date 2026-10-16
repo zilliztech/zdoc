@@ -407,7 +407,7 @@ For workflow changes, keep the local replay root, artifact identities, logs, fin
 
 ## Analytics
 
-Both sites measure user actions (Ask-AI chat funnel, code copy, TOC navigation, console CTA clicks, 404 landings) through GTM into GA4. Theme code only pushes events to `window.dataLayer` via `trackEvent` in `packages/docs-ui/src/shared/utils/analytics.ts`; consent gating, trigger/tag wiring, custom definitions, and key events live in the GTM containers (en `GTM-MBBF2KR`, zh-CN `GTM-MBBL6Z9Q`) and the GA4 properties. The full event schema, the GA4/GTM setup steps, and the container-side Consent Mode decision are specified in `.claude/specs/2026-09-20-docs-analytics-and-search-404-design.md`.
+Both sites measure user actions (Ask-AI chat funnel, code copy, TOC navigation, console CTA clicks, 404 landings) through GTM into GA4. Theme code only pushes events to `window.dataLayer` via `trackEvent` in `packages/docs-ui/src/shared/utils/analytics.ts`; consent gating, trigger/tag wiring, custom definitions, and key events live in the GTM containers (en `GTM-MBBF2KR`, zh-CN `GTM-MBBL6Z9Q`) and the GA4 properties. The English site's search events (`search_performed`, `search_result_clicked`) come from Inkeep's modal through the `baseSettings.onEvent` bridge in `packages/docs-ui/src/en/inkeepEventBridge.ts` — the docs-ui search modal swizzle is not part of either production bundle. The full event schema, the GA4/GTM setup steps, and the container-side Consent Mode decision are specified in `.claude/specs/2026-09-20-docs-analytics-and-search-404-design.md` and `.claude/specs/2026-10-14-docs-behavior-analytics-phase2.md`.
 
 ### Search-origin 404 report
 

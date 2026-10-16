@@ -126,17 +126,22 @@
         "packages/docs-ui/src/shared/theme/Search/**",
         ".claude/specs/2026-09-20-docs-analytics-and-search-404-design.md",
         "packages/docs-ui/src/shared/theme/DocFeedback/**",
-        ".claude/specs/2026-10-14-docs-behavior-analytics-phase2.md"
+        ".claude/specs/2026-10-14-docs-behavior-analytics-phase2.md",
+        "packages/docs-ui/src/en/inkeepEventBridge*",
+        "packages/docs-ui/src/en/inkeep.config.ts",
+        "packages/chat-ui/src/components/GroundedMarkdown*",
+        "packages/chat-ui/dist/**",
+        "packages/chat-ui/tsconfig.json"
       ],
       "focusedTests": [
-        "pnpm vitest run packages/docs-ui/src/shared/utils/analytics.test.ts packages/docs-ui/src/shared/components/ChatPanel/ChatContext.test.tsx packages/docs-ui/src/shared/components/ChatPanel/sourceAnalytics.test.ts packages/docs-ui/src/shared/theme/Search/index.test.tsx packages/docs-ui/src/shared/theme/DocFeedback/index.test.tsx"
+        "pnpm vitest run packages/docs-ui/src/shared/utils/analytics.test.ts packages/docs-ui/src/shared/components/ChatPanel/ChatContext.test.tsx packages/docs-ui/src/shared/components/ChatPanel/sourceAnalytics.test.ts packages/docs-ui/src/shared/theme/Search/index.test.tsx packages/docs-ui/src/shared/theme/DocFeedback/index.test.tsx packages/docs-ui/src/en/inkeepEventBridge.test.ts packages/chat-ui/src/components/GroundedMarkdown.test.tsx"
       ],
       "harnesses": [],
       "gates": [
         "pnpm test:workflow-matrix",
         "git diff --check"
       ],
-      "reason": "GA4 event instrumentation rides on the shared dataLayer helper and the chat/code/toc/search/404 interaction points; the helper contract and the chat and search surfaces must keep emitting the documented analytics events."
+      "reason": "GA4 event instrumentation rides on the shared dataLayer helper and the chat/code/toc/search/404 interaction points; the helper contract and the chat and search surfaces must keep emitting the documented analytics events. The production search surface is Inkeep's modal, so the en-side Inkeep event bridge (inkeep.config.ts onEvent + inkeepEventBridge) must keep translating search_query_response_received/search_result_clicked into search_performed/search_result_clicked; chat-ui's GroundedMarkdown citation clicks feed ai_source_click through the panel wiring. The chat-ui dist output and tsconfig build exclusions are tracked inputs of the citation-click surface (docs-ui typechecks against the built dist)."
     },
     {
       "id": "rest-reference-fragments",
@@ -1148,6 +1153,22 @@
         "git diff --check"
       ],
       "reason": "Workspace dependency manifests and the shared lockfile can shift every workflow tooling runtime (overrides, transitive upgrades, engine constraints); the replay harnesses must prove the installed toolchain still passes."
+    },
+    {
+      "id": "frontend-test-harness",
+      "paths": [
+        "vitest.config.ts",
+        "src/test-setup.ts"
+      ],
+      "focusedTests": [
+        "pnpm test:frontend"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm test:workflow-matrix",
+        "git diff --check"
+      ],
+      "reason": "The root vitest configuration owns which workspace packages contribute component tests and the shared jsdom setup (matchers, localStorage shim); a glob or setup change can silently exclude a package's tests, so the full frontend suite must run green from the changed checkout."
     }
   ]
 }
