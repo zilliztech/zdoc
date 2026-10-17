@@ -1,50 +1,17 @@
 {
-  "generated_at": "2026-10-16T18:31:51.648Z",
+  "generated_at": "2026-10-17T02:33:26.547Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
-  "changed_records": [
-    {
-      "record_id": "recvlPtzpXFjxH",
-      "table_id": "tblWv7PjNDsexddH",
-      "table_name": "Development",
-      "title": "Alter Collection Field",
-      "labels": "Alter Field",
-      "slug": "alter-collection-field",
-      "release_channel": "current",
-      "doc_token": "PLjFwlcT8ilFBakYXyfcg6S2n7d",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/PLjFwlcT8ilFBakYXyfcg6S2n7d",
-      "reasons": [
-        "wiki node revision changed"
-      ]
-    }
-  ],
-  "changed_tokens": [
-    "PLjFwlcT8ilFBakYXyfcg6S2n7d"
-  ],
-  "expanded_tokens": [
-    "PLjFwlcT8ilFBakYXyfcg6S2n7d",
-    "PV2bwNENViEjXWkOgzZcXoKHnce",
-    "UR9SwucAIiQ2TYkc9EucsgvSnng"
-  ],
+  "changed_records": [],
+  "changed_tokens": [],
+  "expanded_tokens": [],
   "removed_records": [],
   "removed_tokens": [],
-  "reasons_by_token": {
-    "PLjFwlcT8ilFBakYXyfcg6S2n7d": [
-      "wiki node revision changed"
-    ],
-    "UR9SwucAIiQ2TYkc9EucsgvSnng": [
-      "outgoing reference from PLjFwlcT8ilFBakYXyfcg6S2n7d"
-    ],
-    "PV2bwNENViEjXWkOgzZcXoKHnce": [
-      "incoming reference to PLjFwlcT8ilFBakYXyfcg6S2n7d"
-    ]
-  },
+  "reasons_by_token": {},
   "warnings": [],
-  "affected_tables": [
-    "tblWv7PjNDsexddH"
-  ],
+  "affected_tables": [],
   "current_table_targets": {
     "tbl9BeCMjBmalJVb": [
       "zilliz.paas",
@@ -138,7 +105,7 @@
     "tblZMzoITXNsyKmQ": "Management"
   },
   "snapshot_basis": {
-    "generated_at": "2026-10-16T10:39:56.492Z",
+    "generated_at": "2026-10-16T18:32:07.187Z",
     "records": 400
   },
   "source_scope": "partial"
