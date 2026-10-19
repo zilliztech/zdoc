@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "オンデマンドクラスターのコンピューティングを使用してオンデマンド検索またはクエリのワークロードを実行する場合は、プロジェクトエンドポイントを使用します。 | BYOC"
+description: "オンデマンド検索またはクエリのワークロードを、オンデマンドクラスターのコンピュートで実行する場合は、プロジェクトエンドポイントを使用します。 | BYOC"
 type: origin
 token: BTrNwoEfYii1e9kf0BScWDpcnA2
 sidebar_position: 2
@@ -21,33 +21,33 @@ import TabItem from '@theme/TabItem';
 
 # オンデマンド検索のための接続
 
-オンデマンドクラスターのコンピューティングを使用してオンデマンド検索またはクエリのワークロードを実行する場合は、プロジェクトエンドポイントを使用します。
+オンデマンド検索やクエリのワークロードを、オンデマンドクラスターのコンピュートで実行する場合は、プロジェクトエンドポイントを使用します。
 
 <Admonition type="info" title="Note">
 
-このページは、オンデマンド検索用のプロジェクトエンドポイントに接続するためのものです。Free、Serverless、Dedicated のサービングクラスターに接続する場合は、[サービングクラスターへの接続](./connect-to-clusters) を参照してください。
+このページは、オンデマンド検索用にプロジェクトエンドポイントへ接続するためのものです。Free、Serverless、または Dedicated のサービングクラスターに接続する場合は、[サービングクラスターへの接続](./connect-to-clusters) を参照してください。
 
 </Admonition>
 
 ## エンドポイント形式\{#endpoint-format}
 
-| エンドポイントタイプ | エンドポイントパターン | 用途 |
+| エンドポイントタイプ | エンドポイントのパターン | 用途 |
 | --- | --- | --- |
-| プロジェクトエンドポイント | `https://{project-id}.{region}.api.zillizcloud.com` | オンデマンドクラスターを介したデータインポート、バッチ検索、クエリ、get、検索、ハイブリッド検索 |
+| プロジェクトエンドポイント | `https://{project-id}.{region}.api.zillizcloud.com` | オンデマンドクラスターを介したデータインポート、バッチ検索、クエリ、get、検索、ハイブリッド検索。 |
 
 ## 事前準備\{#before-you-begin}
 
 - Zilliz Cloud コンソールからプロジェクトエンドポイントを取得すること。
 
-- 検索ワークロードにコンピューティングリソースを提供するオンデマンドクラスター ID を取得すること。
+- 検索ワークロードにコンピュートリソースを提供するオンデマンドクラスターの ID を取得すること。
 
-- プロジェクトと対象データに対する十分な権限を持つ API キーを作成すること。
+- プロジェクトおよび対象データに対して十分な権限を持つ API キーを作成すること。
 
-- ユースケースに合った Milvus SDK をインストールすること。詳細については、[SDK のインストール](./install-sdks) を参照してください。
+- 用途に応じた Milvus SDK をインストールすること。詳細については、[SDK のインストール](./install-sdks) を参照してください。
 
-## プロジェクトエンドポイントに接続する\{#connect-to-a-project-endpoint}
+## プロジェクトエンドポイントへの接続\{#connect-to-a-project-endpoint}
 
-プロジェクトエンドポイントを指定して `MilvusClient` を作成し、リクエストを処理するオンデマンドクラスターを指定します。
+プロジェクトエンドポイントを使用して `MilvusClient` を作成し、リクエストを処理するオンデマンドクラスターを指定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -140,9 +140,9 @@ const client = new MilvusClient({
 </TabItem>
 </Tabs>
 
-## 検索セッションを作成する\{#create-a-search-session}
+## 検索セッションの作成\{#create-a-search-session}
 
-Use a session object to attach your operations to the on-demand クラスター.
+セッションオブジェクトを使用して、操作をオンデマンドクラスターに関連付けます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -208,7 +208,7 @@ const session = client.session("inxx-xxxxxxxxxxxxxxx");
 </TabItem>
 </Tabs>
 
-次に、セッションを使用して、`query`、`get`、`search`、`hybrid_search` などの DQL 操作を実行します。
+次に、セッションを使用して `query`、`get`、`search`、`hybrid_search` などの DQL 操作を実行します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -259,6 +259,8 @@ System.out.println(results.getSearchResults());
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let results = session
     .search(SearchRequest::builder()
         .collection_name("my_collection")
@@ -320,10 +322,10 @@ console.log(results);
 
 プロジェクトエンドポイントに接続する場合は、有効な API キーを認証トークンとして使用します。
 
-`username:password` 形式のクラスター認証情報は、サービングクラスターエンドポイント用です。プロジェクトエンドポイントを介したオンデマンド検索では、必要なプロジェクト権限を持つ API キーを使用してください。
+`username:password` 形式のクラスター認証情報は、サービングクラスターエンドポイント用です。プロジェクトエンドポイントを介したオンデマンド検索では、必要なプロジェクト権限を持つ API キーを使用します。
 
 ## この接続を使用する場合\{#when-to-use-this-connection}
 
-バッチ処理、探索、検証、実験など、常時稼働のサービングよりもオンデマンドコンピューティングの方が適しているワークロードには、プロジェクトエンドポイントを使用します。
+バッチ処理、探索、検証、実験など、常時稼働のサービングよりもオンデマンドコンピュートの方が適しているワークロードには、プロジェクトエンドポイントを使用します。
 
-完全なコレクション API と常時稼働の低レイテンシサービングを必要とする本番アプリケーションでは、代わりに Free、Serverless、Dedicated のサービングクラスターに接続してください。サービングクラスターのエンドポイント形式と接続例については、[サービングクラスターへの接続](./connect-to-clusters) を参照してください。
+完全なコレクション API と常時稼働の低レイテンシサービングを必要とする本番アプリケーションでは、代わりに Free、Serverless、または Dedicated のサービングクラスターに接続してください。サービングクラスターのエンドポイント形式と接続例については、[サービングクラスターへの接続](./connect-to-clusters) を参照してください。

@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "現在接続しているデータベース内のすべてのコレクションの名前リストを取得し、特定のコレクションの詳細を確認できます。 | BYOC"
+description: "現在接続されているデータベース内のすべてのコレクションの名前リストを取得し、特定のコレクションの詳細を確認できます。 | BYOC"
 type: origin
 token: VAirw0c7ZiKCSqkjtDscAsC4nAf
 sidebar_position: 4
@@ -21,11 +21,11 @@ import TabItem from '@theme/TabItem';
 
 # コレクションの表示
 
-現在接続しているデータベース内のすべてのコレクションの名前リストを取得し、特定のコレクションの詳細を確認できます。
+現在接続されているデータベース内のすべてのコレクションの名前リストを取得し、特定のコレクションの詳細を確認できます。
 
 ## コレクションの一覧表示\{#list-collections}
 
-次の例では、現在接続しているデータベース内のすべてのコレクションの名前リストを取得する方法を示します。
+次の例では、現在接続されているデータベース内のすべてのコレクションの名前リストを取得する方法を示します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -181,15 +181,15 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-`quick_setup` という名前のコレクションをすでに作成している場合、上記の例の結果は以下のようになります。
+`quick_setup` という名前のコレクションをすでに作成している場合、上記の例の結果は次のようになります。
 
 ```json
 ["quick_setup"]
 ```
 
-## コレクションの詳細の表示\{#describe-collection}
+## コレクションの詳細表示\{#describe-collection}
 
-特定のコレクションの詳細を取得することもできます。次の例では、quick_setup という名前のコレクションをすでに作成していることを前提としています。
+特定のコレクションの詳細も取得できます。次の例では、quick_setup という名前のコレクションをすでに作成していることを前提としています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -222,6 +222,12 @@ System.out.println(resp);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 collection, err := client.DescribeCollection(ctx, milvusclient.NewDescribeCollectionOption("quick_setup"))
 if err != nil {
     fmt.Println(err.Error())
@@ -236,6 +242,8 @@ fmt.Println(collection)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let description = client
     .describe_collection(
         DescribeCollectionRequest::builder()
@@ -299,7 +307,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-上記の例の結果は以下のようになります。
+上記の例の結果は次のようになります。
 
 ```sql
 {
@@ -333,4 +341,3 @@ curl --request POST \
     'enable_dynamic_field': True
 }
 ```
-

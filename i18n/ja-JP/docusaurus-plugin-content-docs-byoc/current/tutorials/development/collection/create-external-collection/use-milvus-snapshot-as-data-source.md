@@ -1,13 +1,13 @@
 ---
 title: "スナップショットをデータソースとして使用する | BYOC"
 slug: /use-milvus-snapshot-as-data-source
-sidebar_label: "Snapshot as Source"
+sidebar_label: "スナップショットをソースとして使用"
 beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "スナップショットのメタデータ JSON パスを `externalsource` として使用し、`externalspec.format` を `\"milvus-table\"` に設定することで、Milvus スナップショットから外部コレクションを作成できます。 | BYOC"
+description: "スナップショットメタデータの JSON パスを `externalsource` として使用し、`externalspec.format` を `\"milvus-table\"` に設定することで、Milvus スナップショットから外部コレクションを作成できます。 | BYOC"
 type: origin
 token: JfJvwdGz0iD9LpkrCMccZ2ypn0g
 sidebar_position: 1
@@ -21,33 +21,33 @@ import TabItem from '@theme/TabItem';
 
 # スナップショットをデータソースとして使用する
 
-スナップショットのメタデータ JSON パスを `external_source` として使用し、`external_spec.format` を `"milvus-table"` に設定することで、Milvus スナップショットから外部コレクションを作成できます。
+スナップショットメタデータの JSON パスを `external_source` として使用し、`external_spec.format` を `"milvus-table"` に設定することで、Milvus スナップショットから外部コレクションを作成できます。
 
-外部コレクションをリフレッシュすると、Milvus はソースセグメントのマニフェストをターゲットの外部セグメントにマッピングします。主要なカラムデータはスナップショットソースから参照されたまま維持され、生成された関数出力や変換された削除ログなどターゲットが所有するデータはターゲットコレクション配下に書き込まれます。
+外部コレクションを更新すると、Milvus はソースセグメントのマニフェストをターゲットの外部セグメントにマッピングします。メイン列のデータはスナップショットソースから参照されたままになり、生成関数の出力や変換された削除ログなど、ターゲットが所有するデータはターゲットコレクションの下に書き込まれます。
 
-## 開始前に\{#before-you-start}
+## 事前準備\{#before-you-start}
 
-外部コレクションを作成する前に、以下の点を確認してください。
+外部コレクションを作成する前に、以下の条件を満たしていることを確認してください。
 
 - ソーススナップショットが、Milvus v3.0.x サーバーと互換性のある Zilliz Cloud クラスター内のコレクションから作成されていること。
 
 - ソースコレクション自体が外部コレクションではないこと。
 
-- `external_source` が具体的なスナップショットメタデータ JSON ファイル（例: `s3://bucket/snapshots/{source_collection_id}/metadata/{snapshot_id}.json`）を指していること。
+- `external_source` が、具体的なスナップショットメタデータ JSON ファイル（たとえば `s3://bucket/snapshots/{source_collection_id}/metadata/{snapshot_id}.json`）を指していること。
 
-- 各ターゲットデータフィールドの `external_field` が対応するソースフィールド名に設定されていること。
+- 各ターゲットデータフィールドの `external_field` を、対応するソースフィールド名に設定していること。
 
-- ターゲットスキーマが、マッピング対象のデータフィールドについてソーススナップショットのスキーマと一致していること。
+- ターゲットスキーマが、マッピング対象のデータフィールドについてソーススナップショットスキーマと一致していること。
 
-ソーススナップショットが v3.0.x リリースの Milvus インスタンスと互換性のある Zilliz Cloud クラスター上のコレクションから作成されていない場合、ソーススキーマがターゲットスキーマと一致しない場合、スナップショットメタデータ JSON にマニフェスト情報がない場合、またはソースが別の外部コレクションである場合は、作成またはリフレッシュに失敗します。
+ソーススナップショットが、v3.0.x リリースの Milvus インスタンスと互換性のある Zilliz Cloud クラスターで作成されたコレクションのものではない場合、ソーススキーマがターゲットスキーマと一致しない場合、スナップショットメタデータ JSON にマニフェスト情報がない場合、またはソースが別の外部コレクションである場合は、作成または更新に失敗します。
 
 ## Milvus スナップショットから外部コレクションを作成する\{#create-an-external-collection-from-a-milvus-snapshot}
 
-以下の例では、既存のスナップショットから `milvus-table` 外部コレクションを作成し、それをリフレッシュします。
+次の例では、既存のスナップショットから `milvus-table` 外部コレクションを作成し、更新します。
 
-### ステップ 1: スナップショットメタデータのパスを取得する\{#step-1-get-the-snapshot-metadata-path}
+### ステップ 1: スナップショットメタデータパスを取得する\{#step-1-get-the-snapshot-metadata-path}
 
-通常の Milvus コレクションからスナップショットを作成または選択し、describe コマンドを実行してオブジェクトストレージ上の場所を取得します。
+通常の Milvus コレクションからスナップショットを作成または選択し、スナップショットの詳細を取得して、そのオブジェクトストレージの場所を取得します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -103,6 +103,8 @@ import (
 
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
+
+ctx := context.Background()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
@@ -209,9 +211,9 @@ curl 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/snapshots/describe' \
 </TabItem>
 </Tabs>
 
-### ステップ 2: `milvus-table` 外部コレクションの作成とリフレッシュ\{#step-2-create-and-refresh-a-milvus-table-external-collection}
+### ステップ 2: `milvus-table` 外部コレクションを作成して更新する\{#step-2-create-and-refresh-a-milvus-table-external-collection}
 
-スナップショットのソースコレクションと一致するスキーマを持つ外部コレクションを作成します。`external_spec.format` を `"milvus-table"` に設定し、各ターゲットデータフィールドの `external_field` を対応するソースフィールド名に設定します。
+スナップショットのソースコレクションとスキーマが一致する外部コレクションを作成します。`external_spec.format` を `"milvus-table"` に設定し、各ターゲットデータフィールドの `external_field` を対応するソースフィールド名に設定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -288,6 +290,8 @@ import (
     "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
+
+ctx := context.Background()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
@@ -461,7 +465,6 @@ curl 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/create' \
 </TabItem>
 </Tabs>
 
-## データをリフレッシュする\{#refresh-data}
+## データを更新する\{#refresh-data}
 
-コレクションの準備ができたら、リフレッシュを実行してデータのメタデータとインデックスを作成します。詳細については、「[外部コレクションの作成](./create-external-collection#step-5-refresh-data)」を参照してください。
-
+コレクションの準備ができたら、それを更新して、データのメタデータとインデックスを作成します。詳細は、[Create an External コレクション](./create-external-collection#step-5-refresh-data) を参照してください。

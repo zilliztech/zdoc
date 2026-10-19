@@ -51,7 +51,7 @@ Dedicated クラスターを作成すると、デフォルトのデータベー�
 
 ## データベースの作成\{#create-database}
 
-Zilliz Cloud コンソールから、またはプログラムからデータベースを作成できます。
+Zilliz Cloud コンソールまたはプログラムからデータベースを作成できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -221,6 +221,7 @@ client.create_database(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.service.database.request.CreateDatabaseReq;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -240,6 +241,8 @@ client.createDatabase(request);
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 err = client.CreateDatabase(
     ctx,
     milvusclient.NewCreateDatabaseOption("my_database_2").
@@ -255,6 +258,7 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
 use std::collections::HashMap;
 
 client
@@ -356,6 +360,12 @@ DescribeDatabaseResp database = client.describeDatabase(
 <TabItem value='go'>
 
 ```go
+import (
+    "log"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 databases, err := client.ListDatabase(ctx, milvusclient.NewListDatabaseOption())
 if err != nil {
     // handle error
@@ -374,6 +384,8 @@ log.Println(database)
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 let databases = client
     .list_databases(ListDatabasesRequest::builder().build()?)
     .await?;
@@ -446,14 +458,14 @@ curl --request POST \
 
 | プロパティ | 説明 |
 | --- | --- |
-| `database.replica.number` | データベースのレプリカ数。 |
-| `database.max.collections` | データベース内で許可されるコレクションの最大数。 |
-| `database.force.deny.writing` | データベースの書き込み操作を拒否するかどうか。 |
-| `database.force.deny.reading` | データベースの読み取り操作を拒否するかどうか。 |
+| `database.replica.number` | データベースのレプリカ数です。 |
+| `database.max.collections` | データベース内で許可されるコレクションの最大数です。 |
+| `database.force.deny.writing` | データベースの書き込み操作を拒否するかどうかを指定します。 |
+| `database.force.deny.reading` | データベースの読み取り操作を拒否するかどうかを指定します。 |
 
 ### データベースプロパティの変更\{#alter-database-properties}
 
-次の例では、データベース内に作成できるコレクション数を制限します。
+次の例では、データベース内で作成できるコレクション数を制限します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -487,6 +499,8 @@ client.alterDatabaseProperties(
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 err = client.AlterDatabaseProperties(
     ctx,
     milvusclient.NewAlterDatabasePropertiesOption("my_database_1").
@@ -502,6 +516,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .alter_database_properties(
         AlterDatabasePropertiesRequest::builder()
@@ -596,6 +612,8 @@ client.dropDatabaseProperties(
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 err = client.DropDatabaseProperties(
     ctx,
     milvusclient.NewDropDatabasePropertiesOption("my_database_1", "database.max.collections"),
@@ -610,6 +628,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .drop_database_properties(
         DropDatabasePropertiesRequest::builder()
@@ -671,7 +691,7 @@ SDK を使用する場合は、再接続することなく、あるデータベ�
 
 <Admonition type="info" title="Note">
 
-RESTful API では、持続接続上でのデータベースの切り替えはサポートされていません。RESTful API リクエストでは、操作が dbName をサポートしている場合、各リクエストボディで対象のデータベースを指定してください。
+RESTful API では、永続接続上でのデータベースの切り替えはサポートされていません。RESTful API リクエストでは、操作が dbName をサポートしている場合、各リクエストボディで対象のデータベースを指定してください。
 
 </Admonition>
 
@@ -697,6 +717,8 @@ client.useDatabase("my_database_2");
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 err = client.UseDatabase(ctx, milvusclient.NewUseDatabaseOption("my_database_2"))
 if err != nil {
     // handle error
@@ -776,6 +798,8 @@ client.dropDatabase(
 <TabItem value='go'>
 
 ```go
+import "github.com/milvus-io/milvus/client/v3/milvusclient"
+
 err = client.DropDatabase(ctx, milvusclient.NewDropDatabaseOption("my_database_2"))
 if err != nil {
     // handle error
@@ -787,6 +811,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2::prelude::*;
+
 client
     .drop_database(
         DropDatabaseRequest::builder()
@@ -840,4 +866,3 @@ curl --request POST \
 - [データベースの概要](./database-concept)
 
 - [オンデマンド検索用データベース](./on-demand-database)
-
