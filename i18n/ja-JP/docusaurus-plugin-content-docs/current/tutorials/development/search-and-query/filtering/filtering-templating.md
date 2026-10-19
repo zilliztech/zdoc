@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud では、要素の多い複雑なフィルター式、特に CJK 文字などの非 ASCII 文字を含むフィルター式は、クエリのパフォーマンスに大きな影響を与える可能性があります。これに対処するため、Zilliz Cloud は、複雑な式の解析にかかる時間を削減して効率を高めるフィルター式テンプレートの仕組みを導入しました。このページでは、検索、クエリ、削除の各操作でフィルター式テンプレートを使用する方法について説明します。 | Cloud"
+description: "Zilliz Cloud では、多数の要素を含む複雑なフィルター式、特に CJK 文字などの非 ASCII 文字を含む式がクエリパフォーマンスに大きく影響する可能性があります。この問題に対処するため、Zilliz Cloud は、複雑な式の解析に費やす時間を削減して効率を向上させるフィルター式テンプレートの仕組みを導入しています。このページでは、検索、クエリ、削除の各操作でフィルター式テンプレートを使用する方法について説明します。 | Cloud"
 type: origin
 token: TumJwDYrhiDYcUkKsUIcuSnbnCf
 sidebar_position: 4
@@ -21,11 +21,11 @@ import TabItem from '@theme/TabItem';
 
 # フィルターテンプレート
 
-Zilliz Cloud では、要素の多い複雑なフィルター式、特に CJK 文字などの非 ASCII 文字を含むフィルター式は、クエリのパフォーマンスに大きく影響する可能性があります。これに対処するため、Zilliz Cloud では、複雑な式の解析にかかる時間を削減して効率を高めるフィルター式テンプレートの仕組みを導入しています。このページでは、検索、クエリ、削除の各操作でフィルター式テンプレートを使用する方法について説明します。
+Zilliz Cloud では、多数の要素を含む複雑なフィルター式、特に CJK 文字などの非 ASCII 文字を含む式は、クエリパフォーマンスに大きく影響する可能性があります。この問題に対処するため、Zilliz Cloud は、複雑な式の解析に費やす時間を削減して効率を向上させるフィルター式テンプレートの仕組みを導入しています。このページでは、検索、クエリ、削除の各操作でフィルター式テンプレートを使用する方法について説明します。
 
 <Admonition type="info" title="Notes">
 
-フィルター式の左辺のリテラルには、以下の例で使用されている `age`、`city` などのコレクションのフィールド名、または `filter = 'struct[0][subfield] > {var}'` のように特定の要素インデックスにある StructArray サブフィールドの名前を指定できます。 
+フィルター式の左辺のリテラルには、以下の例で使用されている `age`、`city` などのコレクションフィールド名、または `filter = 'struct[0][subfield] > {var}'` のように特定の要素インデックスにある StructArray サブフィールドの名前を指定できます。
 
 StructArray フィールドでのスカラーフィルタリングの詳細については、[StructArray Operators](./struct-array-filtering) を参照してください。
 
@@ -33,9 +33,9 @@ StructArray フィールドでのスカラーフィルタリングの詳細に�
 
 ## 概要\{#overview}
 
-フィルター式テンプレートを使用すると、クエリ実行時に値が動的に置き換えられるプレースホルダーを含むフィルター式を作成できます。テンプレートを使用することで、大きな配列や複雑な式をフィルターに直接埋め込むことを避けられ、解析時間を短縮してクエリのパフォーマンスを向上させます。
+フィルター式テンプレートを使用すると、クエリ実行時に値が動的に置き換えられるプレースホルダーを含むフィルター式を作成できます。テンプレートを使用することで、大きな配列や複雑な式をフィルターに直接埋め込む必要がなくなり、解析時間を短縮してクエリパフォーマンスを向上できます。
 
-`age` と `city` の 2 つのフィールドを含むフィルター式があり、年齢が 25 より大きく、「北京」（Beijing）または「上海」（Shanghai）に住んでいるすべての人を検索したいとします。値をフィルター式に直接埋め込む代わりに、テンプレートを使用できます：
+`age` と `city` の 2 つのフィールドを含むフィルター式で、年齢が 25 より大きく、かつ「北京」（Beijing）または「上海」（Shanghai）に住んでいるすべての人を検索するとします。値をフィルター式に直接埋め込む代わりに、次のようなテンプレートを使用できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -124,17 +124,17 @@ filter_params='{"age": 25, "city": ["北京", "上海"]}'
 
 ここで、`{age}` と `{city}` は、クエリの実行時に `filter_params` 内の実際の値に置き換えられるプレースホルダーです。
 
-Zilliz Cloud でフィルター式テンプレートを使用すると、いくつかの主な利点があります：
+Zilliz Cloud でフィルター式テンプレートを使用すると、次のようないくつかの主な利点があります。
 
-- **解析時間の短縮**: 大きな、または複雑なフィルター式をプレースホルダーに置き換えることで、システムがフィルターの解析と処理に費やす時間が短くなります。
+- **解析時間の短縮**: 大きなまたは複雑なフィルター式をプレースホルダーに置き換えることで、システムがフィルターの解析と処理に費やす時間が短くなります。
 
-- **クエリパフォーマンスの向上**: 解析のオーバーヘッドが減ることでクエリのパフォーマンスが向上し、QPS の増加と応答時間の短縮につながります。
+- **クエリパフォーマンスの向上**: 解析のオーバーヘッドが削減されるとクエリパフォーマンスが向上し、QPS が高まり、応答時間が短縮されます。
 
-- **スケーラビリティ**: データセットが増大し、フィルター式がより複雑になっても、テンプレート化によってパフォーマンスを効率的かつスケーラブルに保つことができます。
+- **スケーラビリティ**: データセットが拡大し、フィルター式がより複雑になっても、テンプレートによってパフォーマンスを効率的かつスケーラブルに維持できます。
 
 ## 検索操作\{#search-operations}
 
-Zilliz Cloud の検索操作では、`filter` 式を使用してフィルター条件を定義し、`filter_params` パラメーターを使用してプレースホルダーの値を指定します。`filter_params` ディクショナリーには、Zilliz Cloud がフィルター式に代入するために使用する動的な値が含まれます。
+Zilliz Cloud の検索操作では、`filter` 式を使用してフィルター条件を定義し、`filter_params` パラメーターを使用してプレースホルダーの値を指定します。`filter_params` 辞書には、Zilliz Cloud がフィルター式への代入に使用する動的な値が格納されます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -308,11 +308,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-この例では、Zilliz Cloud は検索の実行時に `{age}` を `25` に、`{city}` を `["北京", "上海"]` に動的に置き換えます。
+この例では、検索の実行時に、Zilliz Cloud が `{age}` を `25` に、`{city}` を `["北京", "上海"]` に動的に置き換えます。
 
 ## クエリ操作\{#query-operations}
 
-同じテンプレートの仕組みは、Zilliz Cloud のクエリ操作にも適用できます。`query` 関数では、フィルター式を定義し、`filter_params` を使用して代入する値を指定します。
+同じテンプレートの仕組みは、Zilliz Cloud のクエリ操作にも適用できます。`query` 関数でフィルター式を定義し、`filter_params` を使用して代入する値を指定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -521,7 +521,7 @@ import (
 expr := "age > {age} AND city IN {city}"
 
 result, err := client.Delete(ctx, milvusclient.NewDeleteOption("hello_milvus").
-    WithFilter(expr).
+    WithExpr(expr).
     WithTemplateParam("age", 25).
     WithTemplateParam("city", []string{"北京", "上海"}))
 if err != nil {
@@ -612,11 +612,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-このアプローチにより、特に複雑なフィルター条件を扱う場合に、削除操作のパフォーマンスが向上します。
+この方法により、特に複雑なフィルター条件を扱う場合に、削除操作のパフォーマンスが向上します。
 
 ## 正規表現フィルターテンプレート\{#regex-filter-templates}
 
-フィルター式テンプレートは、正規表現フィルターと組み合わせて使用できます。これは、リクエスト時に正規表現パターンが指定される場合に便利です。
+フィルター式テンプレートは、正規表現フィルターと組み合わせて使用できます。これは、正規表現パターンがリクエスト時に指定される場合に役立ちます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -764,7 +764,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-`!~` と組み合わせてテンプレートパラメーターを使用することもできます：
+`!~` でテンプレートパラメーターを使用することもできます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -845,8 +845,8 @@ filter_params='{"pattern": "^DEBUG"}'
 
 テンプレートの値は、有効な RE2 正規表現パターンを含む文字列である必要があります。Zilliz Cloud は、フィルターを実行する前にパターンを検証します。
 
-フィルターテンプレートは、正規表現パターンをフィルター式に連結するのではなく、値として渡します。これにより、式の解析オーバーヘッドが減り、パターンに引用符や演算子が含まれる場合にフィルター構造を誤って変更することを防ぎます。
+フィルターテンプレートは、正規表現パターンをフィルター式に連結するのではなく、値として渡します。これにより、式の解析オーバーヘッドが削減され、パターンに引用符や演算子が含まれている場合にフィルター構造が誤って変更されることを防ぎます。
 
 ## まとめ\{#conclusion}
 
-フィルター式テンプレートは、Zilliz Cloud でクエリのパフォーマンスを最適化するための不可欠なツールです。プレースホルダーと `filter_params` ディクショナリーを使用することで、複雑なフィルター式の解析にかかる時間を大幅に削減できます。これにより、クエリの実行が高速化され、全体的なパフォーマンスが向上します。
+フィルター式テンプレートは、Zilliz Cloud でクエリパフォーマンスを最適化するための不可欠なツールです。プレースホルダーと `filter_params` 辞書を使用することで、複雑なフィルター式の解析に費やす時間を大幅に短縮できます。これにより、クエリの実行が高速化され、全体的なパフォーマンスが向上します。

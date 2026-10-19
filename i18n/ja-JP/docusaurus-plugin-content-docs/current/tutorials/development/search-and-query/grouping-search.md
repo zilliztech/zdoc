@@ -25,9 +25,9 @@ Grouping Search を使用すると、Zilliz Cloud は検索結果を指定され
 
 ## 概要\{#overview}
 
-検索結果内のエンティティがスカラーフィールドで同じ値を共有している場合、それらが特定の属性において類似していることを示しており、検索結果に悪影響を与える可能性があります。
+検索結果内のエンティティがスカラーフィールドで同じ値を共有している場合、それらは特定の属性において類似していることを示しており、検索結果に悪影響を与える可能性があります。
 
-あるコレクションに複数のドキュメント（**docId** で示す）が保存されているとします。ドキュメントをベクトルに変換する際にできるだけ多くの意味情報を保持するため、各ドキュメントはより小さく扱いやすい段落（または **chunks**）に分割され、個別のエンティティとして保存されます。ドキュメントがより小さなセクションに分割されていても、ユーザーは多くの場合、どのドキュメントが自分のニーズに最も関連しているかを特定したいと考えています。
+あるコレクションに複数のドキュメント（**docId** で示す）が保存されているとします。ドキュメントをベクトルに変換する際にできるだけ多くの意味情報を保持するため、各ドキュメントはより小さく扱いやすい段落（または **チャンク**）に分割され、個別のエンティティとして保存されます。ドキュメントがより小さなセクションに分割されていても、ユーザーは多くの場合、どのドキュメントが自分のニーズに最も関連しているかを特定したいと考えています。
 
 ![LhJEwzWiphLWxobMaiCcbVDPnNb](https://zdoc-images.s3.us-west-2.amazonaws.com/LhJEwzWiphLWxobMaiCcbVDPnNb.png)
 
@@ -70,7 +70,7 @@ Grouping Search を使用すると、Zilliz Cloud は検索結果を指定され
 
 検索リクエストでは、`group_by_field` と `output_fields` の両方を `docId` に設定します。Zilliz Cloud は結果を指定されたフィールドでグループ化し、各グループで最も類似したエンティティを、返される各エンティティの `docId` の値を含めて返します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -148,8 +148,8 @@ import (
     "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/entity"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -184,57 +184,6 @@ for _, resultSet := range resultSets {
     fmt.Println("Scores: ", resultSet.Scores)
     fmt.Println("docId: ", resultSet.GetColumn("docId").FieldData().GetScalars())
 }
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
-
-const address = "YOUR_CLUSTER_ENDPOINT";
-const token = "YOUR_CLUSTER_TOKEN";
-const client = new MilvusClient({address, token});
-
-var query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
-
-res = await client.search({
-    collection_name: "my_collection",
-    data: [query_vector],
-    limit: 3,
-    // highlight-start
-    group_by_field: "docId"
-    // highlight-end
-})
-
-// Retrieve the values in the `docId` column
-var docIds = res.results.map(result => result.entity.docId)
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
-export TOKEN="YOUR_CLUSTER_TOKEN"
-
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
---header "Request-Timeout: 10" \
--d '{
-    "collectionName": "my_collection",
-    "data": [
-        [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
-    ],
-    "annsField": "vector",
-    "limit": 3,
-    "groupingField": "docId",
-    "outputFields": ["docId"]
-}'
 ```
 
 </TabItem>
@@ -279,6 +228,57 @@ for (auto& result : response.Results().Results()) {
 
 </TabItem>
 
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+
+const address = "YOUR_CLUSTER_ENDPOINT";
+const token = "YOUR_CLUSTER_TOKEN";
+const client = new MilvusClient({address, token});
+
+var query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
+
+const res = await client.search({
+    collection_name: "my_collection",
+    data: [query_vector],
+    limit: 3,
+    // highlight-start
+    group_by_field: "docId"
+    // highlight-end
+})
+
+// Retrieve the values in the `docId` column
+var docIds = res.results.map(result => result.docId)
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d '{
+    "collectionName": "my_collection",
+    "data": [
+        [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
+    ],
+    "annsField": "vector",
+    "limit": 3,
+    "groupingField": "docId",
+    "outputFields": ["docId"]
+}'
+```
+
+</TabItem>
+
 <TabItem value='shell'>
 
 ```shell
@@ -315,7 +315,7 @@ zilliz vector search \
 
 デフォルトでは、Grouping Search は各グループにつき 1 つのエンティティのみを返します。グループごとに複数の結果が必要な場合は、`group_size` と `strict_group_size` パラメーターを調整します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -377,8 +377,8 @@ import (
     "context"
     "fmt"
 
-    "github.com/milvus-io/milvus/client/v2/entity"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
@@ -415,58 +415,6 @@ for _, resultSet := range resultSets {
     fmt.Println("Scores: ", resultSet.Scores)
     fmt.Println("docId: ", resultSet.GetColumn("docId").FieldData().GetScalars())
 }
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
-
-const address = "YOUR_CLUSTER_ENDPOINT";
-const token = "YOUR_CLUSTER_TOKEN";
-const client = new MilvusClient({address, token});
-
-var query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
-
-res = await client.search({
-    collection_name: "my_collection",
-    data: [query_vector],
-    limit: 5,
-    group_by_field: "docId",
-    // highlight-start
-    group_size: 2,
-    strict_group_size: true
-    // highlight-end
-})
-
-// Retrieve the values in the `docId` column
-var docIds = res.results.map(result => result.entity.docId)
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
---header "Request-Timeout: 10" \
--d '{
-    "collectionName": "my_collection",
-    "data": [
-        [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
-    ],
-    "annsField": "vector",
-    "limit": 5,
-    "groupingField": "docId",
-    "groupSize":2,
-    "strictGroupSize":true,
-    "outputFields": ["docId"]
-}'
 ```
 
 </TabItem>
@@ -513,6 +461,58 @@ for (auto& result : response.Results().Results()) {
 
 </TabItem>
 
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+
+const address = "YOUR_CLUSTER_ENDPOINT";
+const token = "YOUR_CLUSTER_TOKEN";
+const client = new MilvusClient({address, token});
+
+var query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
+
+const res = await client.search({
+    collection_name: "my_collection",
+    data: [query_vector],
+    limit: 5,
+    group_by_field: "docId",
+    // highlight-start
+    group_size: 2,
+    strict_group_size: true
+    // highlight-end
+})
+
+// Retrieve the values in the `docId` column
+var docIds = res.results.map(result => result.docId)
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d '{
+    "collectionName": "my_collection",
+    "data": [
+        [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
+    ],
+    "annsField": "vector",
+    "limit": 5,
+    "groupingField": "docId",
+    "groupSize":2,
+    "strictGroupSize":true,
+    "outputFields": ["docId"]
+}'
+```
+
+</TabItem>
+
 <TabItem value='shell'>
 
 ```shell
@@ -545,21 +545,21 @@ zilliz vector search \
 </TabItem>
 </Tabs>
 
-上記の例では：
+上記の例では、次のとおりです。
 
-- `group_size`: グループごとに返すエンティティ数を指定します。たとえば、`group_size=2` に設定すると、各グループ（または各 `docId`）は理想的には最も類似した 2 つの段落（または **chunks**）を返す必要があります。`group_size` が設定されていない場合、システムはデフォルトでグループごとに 1 件の結果を返します。
+- `group_size`: グループごとに返すエンティティ数を指定します。たとえば、`group_size=2` に設定すると、各グループ（または各 `docId`）は理想的には最も類似した 2 つの段落（または **チャンク**）を返す必要があります。`group_size` が設定されていない場合、システムはデフォルトでグループごとに 1 件の結果を返します。
 
 - `strict_group_size`: このブール値のパラメーターは、システムが `group_size` で設定された件数を厳密に適用するかどうかを制御します。`strict_group_size=True` の場合、システムは、そのグループに十分なデータがない場合を除き、各グループに `group_size` で指定された正確な数のエンティティ（たとえば 2 つの段落）を含めようとします。デフォルト（`strict_group_size=False`）では、システムは各グループに `group_size` 個のエンティティが含まれることを保証するよりも、`limit` パラメーターで指定されたグループ数を満たすことを優先します。このアプローチは、データ分布が不均一な場合に一般的により効率的です。
 
-追加のパラメーターの詳細については、[search](/reference/python/python/Vector-search) を参照してください。
+パラメーターの詳細については、[search](/reference/python/python/Vector-search) を参照してください。
 
 ## スカラーフィールドでグループを並べ替える | ONDEMAND\{#order-groups-by-a-scalar-field}
 
-Grouping Search を `order_by_fields` と組み合わせることで、スカラーフィールドによってグループを並べ替えることができます。これは、グループ間で多様な結果を得たい一方で、価格や評価のようなビジネス上重要な順序に従ってグループを並べ替えたい場合に役立ちます。
+Grouping Search を `order_by_fields` と組み合わせることで、スカラーフィールドによってグループを並べ替えることができます。これは、グループ間で多様な結果を得ながら、価格や評価などビジネス上有意味な順序にグループを従わせたい場合に役立ちます。
 
 次の例では、検索結果を `category` でグループ化し、各グループにつき最大 3 つのエンティティを返し、返されたグループを `price` の低い順に並べ替えます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"},{"label":"Zilliz CLI","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -614,29 +614,6 @@ System.out.println(response.getSearchResults());
 
 </TabItem>
 
-<TabItem value='javascript'>
-
-```javascript
-// Prerequisite: client is connected to the project endpoint;
-// clusterId identifies the on-demand cluster containing product_catalog.
-const session = client.session(clusterId);
-const queryVector = [0.14529211512077012, 0.9147257273453546, 0.7965055218724449, 0.7009258593102812, 0.5605206522382088];
-const response = await session.search({
-  collection_name: "product_catalog",
-  data: [queryVector],
-  anns_field: "embedding",
-  limit: 20,
-  group_by_field: "category",
-  group_size: 3,
-  strict_group_size: true,
-  output_fields: ["category", "price", "rating"],
-  order_by_fields: [{ field: "price", order: "asc" }],
-});
-console.log(response.results);
-```
-
-</TabItem>
-
 <TabItem value='go'>
 
 ```go
@@ -666,29 +643,6 @@ for _, result := range results {
     fmt.Println(result.IDs, result.Scores)
     fmt.Println(result.GetColumn("category"), result.GetColumn("price"), result.GetColumn("rating"))
 }
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-# Prerequisite: set PROJECT_ENDPOINT, TOKEN, and CLUSTER_ID for your on-demand cluster.
-curl --request POST \
-  --url "${PROJECT_ENDPOINT}/v2/vectordb/entities/search?cluster_id=${CLUSTER_ID}" \
-  --header "Authorization: Bearer ${TOKEN}" \
-  --header "Content-Type: application/json" \
-  --data '{
-    "collectionName": "product_catalog",
-    "data": [[0.14529211512077012, 0.9147257273453546, 0.7965055218724449, 0.7009258593102812, 0.5605206522382088]],
-    "annsField": "embedding",
-    "limit": 20,
-    "groupingField": "category",
-    "groupSize": 3,
-    "strictGroupSize": true,
-    "outputFields": ["category", "price", "rating"],
-    "orderByFields": ["price:asc"]
-  }'
 ```
 
 </TabItem>
@@ -727,6 +681,52 @@ for (const auto& result : response.Results().Results()) {
     if (!status.IsOk()) { throw std::runtime_error(status.Message()); }
     std::cout << rows << std::endl;
 }
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// Prerequisite: client is connected to the project endpoint;
+// clusterId identifies the on-demand cluster containing product_catalog.
+const session = client.session(clusterId);
+const queryVector = [0.14529211512077012, 0.9147257273453546, 0.7965055218724449, 0.7009258593102812, 0.5605206522382088];
+const response = await session.search({
+  collection_name: "product_catalog",
+  data: [queryVector],
+  anns_field: "embedding",
+  limit: 20,
+  group_by_field: "category",
+  group_size: 3,
+  strict_group_size: true,
+  output_fields: ["category", "price", "rating"],
+  order_by_fields: [{ field: "price", order: "asc" }],
+});
+console.log(response.results);
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# Prerequisite: set PROJECT_ENDPOINT, TOKEN, and CLUSTER_ID for your on-demand cluster.
+curl --request POST \
+  --url "${PROJECT_ENDPOINT}/v2/vectordb/entities/search?cluster_id=${CLUSTER_ID}" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "collectionName": "product_catalog",
+    "data": [[0.14529211512077012, 0.9147257273453546, 0.7965055218724449, 0.7009258593102812, 0.5605206522382088]],
+    "annsField": "embedding",
+    "limit": 20,
+    "groupingField": "category",
+    "groupSize": 3,
+    "strictGroupSize": true,
+    "outputFields": ["category", "price", "rating"],
+    "orderByFields": ["price:asc"]
+  }'
 ```
 
 </TabItem>
@@ -771,7 +771,7 @@ zilliz vector search \
 
 上記のリクエストでは、`limit=20` は、Zilliz Cloud が最大 20 個のグループを選択することを意味し、20 個のエンティティを選択することを意味するものではありません。`group_size=3` であるため、フラットな結果リストには合計で最大 60 個のエンティティを含めることができます。
 
-`group_by_field` とあわせて `order_by_fields` を使用すると、Zilliz Cloud は各グループの先頭エンティティの指定されたスカラーフィールド値に基づいてグループを並べ替えます。各グループ内では、エンティティはクエリベクトルに対する類似度スコアの順に保たれます。
+`group_by_field` とあわせて `order_by_fields` を使用すると、Zilliz Cloud は各グループの最上位エンティティの指定されたスカラーフィールド値に基づいてグループを並べ替えます。各グループ内では、エンティティはクエリベクトルに対する類似度スコアの順に保たれます。
 
 ## 考慮事項\{#considerations}
 
