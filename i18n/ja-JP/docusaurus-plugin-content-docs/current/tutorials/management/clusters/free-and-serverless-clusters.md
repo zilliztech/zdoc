@@ -25,11 +25,11 @@ Free および Serverless クラスターはサービングクラスターです
 
 <Admonition type="info" title="Note">
 
-Dedicated クラスターについては、[Dedicated クラスター](./manage-cluster) を参照してください。プロジェクトエンドポイントを介したオンデマンド検索については、[オンデマンド検索への接続](./connect-for-on-demand-search) を参照してください。
+Dedicated クラスターについては、[Dedicated クラスター](./manage-cluster) を参照してください。プロジェクトエンドポイントを介したオンデマンド検索については、[オンデマンド検索のための接続](./connect-for-on-demand-search) を参照してください。
 
 </Admonition>
 
-## Create\{#create}
+## 作成\{#create}
 
 Free または Serverless クラスターを作成する前に、Zilliz Cloud に登録済みであり、クラスターを作成する組織またはプロジェクトの所有権を持っていることを確認してください。
 
@@ -39,7 +39,7 @@ Free または Serverless クラスターを作成する前に、Zilliz Cloud �
 
 </Admonition>
 
-Zilliz Cloud コンソールから Free または Serverless クラスターを作成できます。クラスターのステータスが **Running** に変わると、クラスターの準備は完了です。作成時に表示されるクラスター認証情報は保存してください。パスワードは一度しか表示されません。
+Zilliz Cloud コンソールから Free または Serverless クラスターを作成できます。クラスターのステータスが **Running** に変わると、クラスターの準備が整います。パスワードは一度しか表示されないため、作成時に表示されるクラスター認証情報を保存してください。
 
 RESTful API を使用してクラスターを作成することもできます。
 
@@ -80,15 +80,15 @@ curl --request POST \
 | `projectId` | クラスターを作成するプロジェクトの ID。 |
 | `regionId` | クラスターを作成するクラウドリージョンの ID。 |
 
-## Connect\{#connect}
+## 接続\{#connect}
 
-Free および Serverless クラスターでは、以下のサービングエンドポイントパターンを使用します。
+Free および Serverless クラスターでは、以下のサービングエンドポイントのパターンを使用します。
 
 ```bash
 https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com
 ```
 
-クラスターの詳細ページの **Connect** カードから、クラスターのパブリックエンドポイントをコピーします。トークンには、そのクラスターにアクセスできる API キー、または `username:password` 形式のクラスター認証情報のいずれかを使用します。
+クラスターの詳細ページの **Connect** カードから、クラスターのパブリックエンドポイントをコピーします。トークンには、クラスターへのアクセス権を持つ API キー、または `username:password` 形式のクラスター認証情報のいずれかを使用します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -129,12 +129,21 @@ MilvusClientV2 client = new MilvusClientV2(connectConfig);
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v3/milvusclient"
+import (
+    "context"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
+ctx := context.Background()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
 })
+if err != nil {
+    panic(err)
+}
 ```
 
 </TabItem>
@@ -193,27 +202,27 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-接続を確認するには、コレクションの一覧表示のような軽量な操作を実行します。
+接続を確認するには、コレクションの一覧表示などの軽量な操作を実行します。
 
 ```python
 collections = client.list_collections()
 print(collections)
 ```
 
-## Manage\{#manage}
+## 管理\{#manage}
 
 Free および Serverless クラスターは、クラスター詳細ページから管理できます。
 
 | 操作 | Free クラスター | Serverless クラスター |
 | --- | --- | --- |
 | Rename | サポートされています。 | サポートされています。 |
-| Resume | Free クラスターは、7 日間連続で非アクティブな場合に自動的に一時停止され、いつでも再開できます。 | Serverless クラスターは一時停止および再開操作をサポートしていません。 |
+| Resume | Free クラスターは、7 日間連続で非アクティブになると自動的に一時停止され、いつでも再開できます。 | Serverless クラスターは一時停止および再開操作をサポートしていません。 |
 | Upgrade deployment option | Serverless または Dedicated にアップグレードできます。Free から Dedicated へのアップグレードでは、新しい Dedicated クラスターが作成され、Free クラスターからデータが移行されます。 | Dedicated にアップグレードできます。Serverless から Dedicated へのアップグレードでは、新しい Dedicated クラスターが作成され、Serverless クラスターからデータが移行されます。 |
 | Drop | サポートされています。Free クラスターは、削除後にごみ箱から復元できません。 | サポートされています。 |
 
-アップグレードによって新しい Dedicated クラスターが作成される場合は、アプリケーションコード内のクラスターエンドポイントを忘れずに更新してください。
+アップグレードによって新しい Dedicated クラスターが作成された場合は、アプリケーションコード内のクラスターエンドポイントを忘れずに更新してください。
 
-## Drop\{#drop}
+## 削除\{#drop}
 
 プログラムからクラスターを削除するには、クラスター ID を指定してクラスター削除 API を呼び出します。
 

@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud では、クラスターユーザーを作成し、クラスターロールを割り当てて権限を定義することで、データセキュリティを実現できます。 | Cloud"
+description: "Zilliz Cloud では、クラスターユーザーを作成してクラスターロールを割り当てることで、権限を定義し、データセキュリティを実現できます。 | Cloud"
 type: origin
 token: I2CHwfDHKilTMukoZ13cR2M4nzb
 sidebar_position: 2
@@ -21,19 +21,19 @@ import TabItem from '@theme/TabItem';
 
 # クラスターユーザーの管理（SDK）
 
-Zilliz Cloud では、クラスターユーザーを作成し、クラスターロールを割り当てて権限を定義することで、データセキュリティを実現できます。
+Zilliz Cloud では、クラスターユーザーを作成してクラスターロールを割り当てることで、権限を定義し、データセキュリティを実現できます。
 
-このガイドでは、クラスターユーザーの作成、ユーザーへのロールの付与、ユーザーからのロールの取り消し、最後にユーザーの削除という一連の手順を説明します。クラスターロールの詳細については、[クラスターロールの管理（コンソール）](./cluster-roles) を参照してください。
+このガイドでは、クラスターユーザーの作成、ユーザーへのロールの付与、ユーザーからのロールの取り消し、最後にユーザーの削除の手順を説明します。クラスターロールの詳細については、[クラスターロールの管理（コンソール）](./cluster-roles) を参照してください。
 
 ## ユーザーを作成する\{#create-a-user}
 
-次の例は、ユーザー名 `user_1` とパスワード `P@ssw0rd` でユーザーを作成する方法を示しています。ユーザーのユーザー名とパスワードは、次のルールに従う必要があります。
+次の例では、ユーザー名が `user_1`、パスワードが `P@ssw0rd` のユーザーを作成する方法を示します。ユーザーのユーザー名とパスワードは、次のルールに従う必要があります：
 
-- ユーザー名：英字で始まる必要があり、大文字または小文字の英字、数字、アンダースコアのみを含めることができます。
+- ユーザー名：英字で始まり、大文字または小文字の英字、数字、アンダースコアのみを含める必要があります。
 
-- パスワード：長さが 8-64 文字である必要があり、大文字の英字、小文字の英字、数字、特殊文字のうち 3 種類以上を含める必要があります。
+- パスワード：8-64 文字で、大文字英字、小文字英字、数字、特殊文字のうち 3 種類を含める必要があります。
 
-- （任意）説明：最大 1024（UTF-8 バイト単位）。
+- （任意）説明：最大 1024（UTF-8 バイト単位）です。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -224,6 +224,12 @@ List<String> resp = client.listUsers();
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 users, err := client.ListUsers(ctx, milvusclient.NewListUserOption())
 if err != nil {
     fmt.Println(err.Error())
@@ -236,6 +242,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2 as sdk;
+
 let users = client.list_users(
     sdk::request::rbac::ListUsersRequest::builder().build()?,
 ).await?;
@@ -285,7 +293,7 @@ curl --request POST \
 
 ## ユーザーにロールを付与する\{#grant-a-role-to-a-user}
 
-次の例は、ユーザー `user_1` にロール `role_a` を付与する方法を示しています。
+次の例では、ユーザー `user_1` にロール `role_a` を付与する方法を示します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -444,11 +452,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ユーザーを記述する\{#describe-user}
+## ユーザーの詳細を表示する\{#describe-user}
 
 ユーザーにロールを付与した後、`describe_user()` メソッドを使用して、付与操作が成功したかどうかを確認できます。
 
-次の例は、ユーザー `user_1` のロールを確認する方法を示しています。
+次の例では、ユーザー `user_1` のロールを確認する方法を示します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -478,6 +486,12 @@ DescribeUserResp describeUserResp = client.describeUser(describeUserReq);
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 user, err := client.DescribeUser(ctx, milvusclient.NewDescribeUserOption("user_1"))
 if err != nil {
     fmt.Println(err.Error())
@@ -490,6 +504,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2 as sdk;
+
 let user = client.describe_user(
     sdk::request::rbac::DescribeUserRequest::builder()
         .username("user_1")
@@ -545,7 +561,7 @@ curl --request POST \
 
 ユーザーに割り当てられたロールを取り消すこともできます。
 
-次の例は、ユーザー `user_1` に割り当てられたロール `role_a` を取り消す方法を示しています。
+次の例では、ユーザー `user_1` に割り当てられたロール `role_a` を取り消す方法を示します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -577,6 +593,12 @@ client.revokeRole(RevokeRoleReq.builder()
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 err = client.RevokeRole(ctx, milvusclient.NewRevokeRoleOption("user_1", "role_a"))
 if err != nil {
     fmt.Println(err.Error())
@@ -589,6 +611,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2 as sdk;
+
 client.revoke_role(
     sdk::request::rbac::RevokeRoleRequest::builder()
         .username("user_1")
@@ -641,7 +665,7 @@ curl --request POST \
 
 ## ユーザーを削除する\{#drop-user}
 
-次の例は、ユーザー `user_1` を削除する方法を示しています。 
+次の例では、ユーザー `user_1` を削除する方法を示します。 
 
 <Admonition type="info" title="Notes">
 
@@ -824,6 +848,12 @@ List<String> resp = client.listUsers();
 <TabItem value='go'>
 
 ```go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v3/milvusclient"
+)
+
 users, err := client.ListUsers(ctx, milvusclient.NewListUserOption())
 if err != nil {
     fmt.Println(err.Error())
@@ -836,6 +866,8 @@ if err != nil {
 <TabItem value='rust'>
 
 ```rust
+use milvus::v2 as sdk;
+
 let users = client.list_users(
     sdk::request::rbac::ListUsersRequest::builder().build()?,
 ).await?;
@@ -877,7 +909,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-以下は出力例です。リストに `user_1` は存在しません。削除操作は成功しています。
+以下は出力例です。一覧に `user_1` はありません。削除操作は成功しました。
 
 ```bash
 ['root']

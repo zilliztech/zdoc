@@ -24,57 +24,55 @@ import Admonition from '@theme/Admonition';
 
 ## ストレージリクエストコストの発生源\{#sources-of-storage-request-cost}
 
-リクエストは 2 つのクラスに分類されます。    
+リクエストは、次の 2 つのクラスに分類されます：
 
-- **Class 1**: `PUT`, `COPY`, `POST`, `LIST`
+- **クラス 1**：`PUT`、`COPY`、`POST`、`LIST`
 
-- **Class 2**: `GET`, `SELECT`
+- **クラス 2**：`GET`、`SELECT`
 
-Zilliz Cloud では、次の操作でストレージリクエストコストが発生します。
+Zilliz Cloud では、次の操作でストレージリクエストコストが発生します：
 
-- オンデマンドシナリオで使用されるデータベース内の管理対象 collection に対してインデックスを構築する。この場合、Class 1 と Class 2 の両方のリクエストコストが発生します。
+- オンデマンドシナリオ向けのデータベース内のマネージドコレクションでインデックスを構築します。これにより、クラス 1 とクラス 2 の両方のリクエストコストが発生します。
 
-- インデックスのみがロードされている場合に、オンデマンドシナリオで使用されるデータベース内の管理対象 collection に対して search を実行する。この場合、Class 2 のリクエストコストが発生します。
+- オンデマンドシナリオ向けのデータベース内のマネージドコレクションで、インデックスのみがロードされている状態で検索を実行します。これにより、クラス 2 のリクエストコストが発生します。
 
-- コールドデータが object storage から読み取られる場合に、tiered-storage serving cluster で search を実行する。この場合、Class 2 のリクエストコストが発生します。
+- 読み取りと書き込みを含むボリュームファイル操作です。これにより、クラス 1 とクラス 2 の両方のリクエストコストが発生します。
 
-- 読み取りおよび書き込みを含むボリュームファイル操作。この場合、Class 1 と Class 2 の両方のリクエストコストが発生します。
+次の操作では、ストレージリクエストコストは発生しません：
 
-次の操作ではストレージリクエストコストは発生しません。
+- 外部コレクションに対するすべての操作です。
 
-- external collection に対するすべての操作。
+- オブジェクトストレージからオンデマンドシナリオ向けのデータベースにデータをインポートします。
 
-- object storage からオンデマンドシナリオで使用されるデータベースへのデータのインポート。
+- パフォーマンス最適化または容量最適化されたサービングクラスターでインデックスの構築/search を実行します。
 
-- performance-optimized または capacity-optimized serving cluster でのインデックス構築/search。
-
-### コスト計算\{#cost-calculation}
+### コストの計算\{#cost-calculation}
 
 ```plaintext
 Storage Requests Cost = (Class 1 Request Count x Class 1 Unit Price)
                       + (Class 2 Request Count x Class 2 Unit Price)
 ```
 
-- **Class 1 Request Count**: Class 1 リクエスト数。
+- **クラス 1 リクエスト数**：クラス 1 のリクエスト数です。
 
-- **Class 2 Request Count**: Class 2 リクエスト数。
+- **クラス 2 リクエスト数**：クラス 2 のリクエスト数です。
 
-- **Unit Price**: クラウドリージョンおよびリクエストクラスによって決まります。詳細については、[Zilliz Cloud Pricing](https://zilliz.com/pricing/pricing-guide) を参照してください。
+- **単価**：クラウドリージョンとリクエストクラスによって決まります。詳細は、[Zilliz Cloud Pricing](https://zilliz.com/pricing/pricing-guide) を参照してください。
 
 ## 例\{#example}
 
-1 回の請求期間における使用量が次のとおりであるとします。
+1 回の請求期間内の使用量が次の通りであるとします：
 
-- **Region**: AWS us-east-1
+- **リージョン**：AWS us-east-1
 
-- **Class 1 Request Count**: 200,000
+- **クラス 1 リクエスト数**：200,000
 
-- **Class 2 Request Count**: 1,200,000
+- **クラス 2 リクエスト数**：1,200,000
 
-単価は次のとおりです。
+単価は次の通りです：
 
-- **Class 1 Unit Price** = 100 万リクエストあたり &#36;5.00
+- **クラス 1 単価** = &#36;5.00／1M リクエスト
 
-- **Class 2 Unit Price** = 100 万リクエストあたり &#36;0.4
+- **クラス 2 単価** = &#36;0.4／1M リクエスト
 
-この場合、ストレージリクエストコストの合計は `(0.2 x 5.00) + (1.2 x 0.40) = $1.48` です。
+この場合、ストレージリクエストコストの合計は `(0.2 x 5.00) + (1.2 x 0.40) = $1.48` になります。

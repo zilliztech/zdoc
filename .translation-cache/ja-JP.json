@@ -2811,9 +2811,9 @@
       "translatedAt": "2026-09-19T14:22:01.285Z"
     },
     "content/en/guides/tutorials/management/clusters/free-and-serverless-clusters.md": {
-      "sourceHash": "4cae10ed69f1ea5186d03ffdafb3d81e7f369c2e7eccfae3f1ee51979c2d3fba",
+      "sourceHash": "cf964d922b4d1fa2f76d91e86bf1d4eb24274765fdf3487a6108cae9c3345f88",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/free-and-serverless-clusters.md",
-      "translatedAt": "2026-10-10T05:57:57.258Z"
+      "translatedAt": "2026-10-19T17:54:52.956Z"
     },
     "content/en/guides/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md": {
       "sourceHash": "cf21d7b394e4726d00072d901e2a2b638c26224f6ecf3b3e903ba8ef69e5a6af",
@@ -2821,9 +2821,9 @@
       "translatedAt": "2026-10-10T05:57:57.258Z"
     },
     "content/en/guides/tutorials/management/clusters/global-cluster/create-global-cluster.md": {
-      "sourceHash": "ca4f0cf9f4f4098e886746c49ea7e955a208466ac52678e78d3b397e58541b0a",
+      "sourceHash": "1bd54477de13d88cfd866beeefbbcb88e7873dde7ffb0b578357b3c8fc9f194a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/global-cluster/create-global-cluster.md",
-      "translatedAt": "2026-08-25T09:00:57.089Z"
+      "translatedAt": "2026-10-19T17:54:52.956Z"
     },
     "content/en/guides/tutorials/management/clusters/global-cluster/global-cluster-explained.md": {
       "sourceHash": "969200dc710bfe7564ba680059bbfc81aa1c9c0d79d42fad1a8a2c0c3b19bb43",
@@ -2846,9 +2846,9 @@
       "translatedAt": "2026-10-19T15:23:50.045Z"
     },
     "content/en/guides/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md": {
-      "sourceHash": "879e3b79563d1c8aa82f8d1a729189fcf07d9fbae83d4d7b51fffc53c7691515",
+      "sourceHash": "98ee1574eb78ab1e66a29f8d2ed6e0d177aeeb804fe39ed94e87c161dd407bd1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md",
-      "translatedAt": "2026-08-25T18:21:07.555Z"
+      "translatedAt": "2026-10-19T17:54:52.956Z"
     },
     "content/en/guides/tutorials/management/cmek/aws-kms.md": {
       "sourceHash": "78cc66af47d14f33eb539b9b1339d50ad6f5a3f8bd21b184dccb450c9c5946e2",
@@ -2900,15 +2900,20 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cost-management/understand-cost/storage-cost.md",
       "translatedAt": "2026-09-19T14:23:03.631Z"
     },
+    "content/en/guides/tutorials/management/cost-management/understand-cost/storage-request-cost.md": {
+      "sourceHash": "f6d423fd7c4c60962b1ae627c3cf3134c08032b87e0d4ab0276b64d618381a3e",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cost-management/understand-cost/storage-request-cost.md",
+      "translatedAt": "2026-10-19T17:54:52.956Z"
+    },
     "content/en/guides/tutorials/management/identity-management/identity-management-overview.md": {
       "sourceHash": "025c7296504d1332820984ba1459bc4171470bd396ea7a804eff0303e230c020",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/identity-management-overview.md",
       "translatedAt": "2026-09-19T14:23:03.631Z"
     },
     "content/en/guides/tutorials/management/identity-management/manage-cluster-users/cluster-users-sdk.md": {
-      "sourceHash": "3f692b157c6a330ac53eca10548d4e462302535a7cd7561bebcb39bb99e5ce33",
+      "sourceHash": "dd4d263253fc9c22e33e094e01e7df26ba66fa4e140bf1fe0cc18de53975c298",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/identity-management/manage-cluster-users/cluster-users-sdk.md",
-      "translatedAt": "2026-10-10T05:59:09.018Z"
+      "translatedAt": "2026-10-19T17:54:52.956Z"
     },
     "content/en/guides/tutorials/management/identity-management/manage-cluster-users/cluster-users.md": {
       "sourceHash": "b1a4de18294531848bb53b75363887cb530a95df95da74d36c828cd8e7c1711f",
@@ -3046,9 +3051,9 @@
       "translatedAt": "2026-10-19T15:32:03.235Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/external-migration-basics.md": {
-      "sourceHash": "0390817f85fd9ab97faa7ddcaabcf055639bb483e895c2ce70ed9ad43f9d5354",
+      "sourceHash": "72737deee5d9c6992c8db866514f37f3ec547455713bc3cf5453fb6bc45fc5d9",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-from-external-sources/external-migration-basics.md",
-      "translatedAt": "2026-10-10T05:59:09.018Z"
+      "translatedAt": "2026-10-19T17:54:52.956Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-from-external-sources/migrate-from-elasticsearch.md": {
       "sourceHash": "0bc14ab22f1dbad663fdaaa0e1d855c6689d9118b7a5b05cf4a3bc127cad793c",

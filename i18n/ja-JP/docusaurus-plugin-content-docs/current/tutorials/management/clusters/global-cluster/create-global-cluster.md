@@ -30,21 +30,21 @@ import Procedures from '@site/src/components/Procedures';
 
 <FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
 
-この機能は、すべての AWS リージョンおよび Google Cloud の gcp-us-central1 と gcp-us-east4 リージョンで利用可能です。Microsoft Azure では利用できません。
+この機能は、すべての AWS リージョンと、Google Cloud の gcp-us-central1 および gcp-us-east4 リージョンで利用できます。Microsoft Azure では利用できません。
 
 </FeatureNote>
 
 このガイドでは、グローバルクラスターの作成方法について説明します。
 
-既存のクラスターでグローバルクラスター機能を有効にする場合は、[クラスターの管理](./manage-cluster#convert-to-a-global-cluster) を参照してください。
+既存のクラスターでグローバルクラスター機能を有効にする必要がある場合は、[クラスターの管理](./manage-cluster#convert-to-a-global-cluster) を参照してください。
 
 ## 事前準備\{#before-you-start}
 
-- **Project Admin** 権限を持っていることを確認してください。
+- **Project Admin** であること。
 
 - 現在、この機能はすべての AWS リージョンと、Google Cloud の us-central1 および us-east4 リージョンで利用できます。Google Cloud リージョンでグローバルクラスターを作成する場合は、[お問い合わせ](http://support.zilliz.com) ください。
 
-- グローバルクラスターは Milvus 2.6.x にのみ対応しています。
+- グローバルクラスターは Milvus 2.6.x とのみ互換性があります。
 
 ## グローバルクラスターの作成\{#create-a-global-cluster}
 
@@ -52,7 +52,7 @@ import Procedures from '@site/src/components/Procedures';
 
     <Procedures>
 
-    1. **クラスター設定** で **グローバルクラスター** の横にあるスイッチをオンにします。
+    1. **Cluster Settings** で **Global Cluster** の横にあるスイッチをオンにします。
 
     1. グローバルクラスターの名前を入力します。
 
@@ -62,47 +62,47 @@ import Procedures from '@site/src/components/Procedures';
 
         ![MkZTwsJhfhpKzUbCKcRcJscdnXe](https://zdoc-images.s3.us-west-2.amazonaws.com/MkZTwsJhfhpKzUbCKcRcJscdnXe.png)
 
-        各パラメーターの説明は以下の通りです。
+        以下の表でパラメーターについて説明します。
 
         | **パラメーター** | **説明** |
         | --- | --- |
         | クラスター名 | プライマリクラスターの名前です。 |
-        | リージョン | プライマリクラスターをデプロイするリージョンです。 |
-        | クラスタータイプ | プライマリクラスターのクラスタータイプ。すべてのセカンダリクラスターは、プライマリクラスターと同じクラスタータイプを使用します。 |
-        | Query CU | 自動スケーリングはデフォルトで有効です。入力ボックスに値を入力するかスライダーをドラッグして、自動スケーリング時の Query CU の最小値と最大値を設定できます。詳細については、[自動スケーリング](./auto-scaling) を参照してください。<br/>自動スケーリングを無効にすることも可能です。<br/>セカンダリクラスターの Query CU 数は、プライマリクラスターの設定に連動します。 |
-        | レプリカ | プライマリクラスターのレプリカ数です。プライマリクラスターと各セカンダリクラスターで異なるレプリカ数を設定できます。 |
+        | リージョン | プライマリクラスターがデプロイされるリージョンです。 |
+        | クラスタータイプ | プライマリクラスターのクラスタータイプです。すべてのセカンダリクラスターは、プライマリクラスターと同じクラスタータイプを使用します。 |
+        | Query CU | 自動スケーリングはデフォルトで有効です。入力ボックスに値を入力するか、スライダーをドラッグして、自動スケーリングの Query CU の最小値と最大値を設定できます。自動スケーリングの詳細については、[自動スケーリング](./auto-scaling) を参照してください。<br/>自動スケーリングを無効にすることもできます。<br/>セカンダリクラスターの Query CU 数は、プライマリクラスターの Query CU 数に従います。 |
+        | レプリカ | プライマリクラスターのレプリカ数です。プライマリクラスターと各セカンダリクラスターのレプリカ数は異なる場合があります。 |
 
-    1. セカンダリクラスターを設定します。セカンダリクラスターは **最大 5 つ** まで作成できます。
+    1. セカンダリクラスターを設定します。セカンダリクラスターは **最大5つ** 作成できます。
 
         ![NjNUwjHuKhGRwObLoyQc1FKxnVh](https://zdoc-images.s3.us-west-2.amazonaws.com/NjNUwjHuKhGRwObLoyQc1FKxnVh.png)
 
-        各パラメーターの説明は以下の通りです。
+        以下の表でパラメーターについて説明します。
 
         | **パラメーター** | **説明** |
         | --- | --- |
         | クラスター名 | セカンダリクラスターの名前です。 |
-        | リージョン | セカンダリクラスターをデプロイするリージョンです。 |
-        | レプリカ | セカンダリクラスターのレプリカ数です。プライマリクラスターと各セカンダリクラスターで異なるレプリカ数を設定できます。 |
+        | リージョン | セカンダリクラスターがデプロイされるリージョンです。 |
+        | レプリカ | セカンダリクラスターのレプリカ数です。プライマリクラスターと各セカンダリクラスターのレプリカ数は異なる場合があります。 |
 
-    1. **作成** をクリックします。
+    1. **Create** をクリックします。
 
         ![Z9xYwy7dKhQMGob52EzcFpAnnmh](https://zdoc-images.s3.us-west-2.amazonaws.com/Z9xYwy7dKhQMGob52EzcFpAnnmh.png)
 
     </Procedures>
 
-    グローバルクラスターを作成すると、Zilliz Cloud が以下の処理を実行します:
+    グローバルクラスターを作成すると、Zilliz Cloud は以下の処理を実行します：
 
-    1. グローバルクラスター、およびそのプライマリクラスターとセカンダリクラスターのプロビジョニングを開始します。プロビジョニング中、すべてのクラスターは **CREATING** ステータスで表示されます。
+    1. グローバルクラスターと、そのプライマリクラスターおよびセカンダリクラスターをプロビジョニングします。すべてのプライマリクラスターとセカンダリクラスターは **CREATING** ステータスで表示されます。
 
-    1. プライマリクラスターとセカンダリクラスターの両方のプロビジョニングが完了すると、ステータスが **RUNNING** に変わり、データレプリケーションが開始されます。
+    1. プライマリクラスターとセカンダリクラスターの両方のプロビジョニングが完了すると、クラスターは **RUNNING** ステータスで表示され、データレプリケーションをサポートします。
 
-    **グローバルクラスター** ページの **グローバルトポロジー** タブから、データ同期のステータスと遅延状況を確認できます。
+    **Global Cluster** ページの **Global Topology** タブで、データ同期のステータスと遅延を監視できます。
 
     ![CLpZwH1e3hd3F1bIXisc6u7GnDg](https://zdoc-images.s3.us-west-2.amazonaws.com/CLpZwH1e3hd3F1bIXisc6u7GnDg.png)
 
 - **RESTful API を使用する場合**
 
-    以下の例では、AWS us-west-2 にプライマリクラスター、AWS eu-west-1 にセカンダリクラスターを配置したグローバルクラスターを作成します。API の詳細については、[グローバルクラスターの作成](/reference/restful/create-global-cluster-v2) を参照してください。
+    次の例では、AWS us-west-2 に 1つのプライマリクラスター、AWS eu-west-1 に 1つのセカンダリクラスターをデプロイしたグローバルクラスターを作成します。API の詳細については、[Create Global Cluster](/reference/restful/create-global-cluster-v2) を参照してください。
 
     ```bash
     curl --request POST \
@@ -142,7 +142,7 @@ import Procedures from '@site/src/components/Procedures';
     }
     ```
 
-    グローバルクラスターの作成時に、Query CU の自動スケーリングや、プライマリ・セカンダリクラスターそれぞれのレプリカ数を個別に設定することも可能です。以下に設定例を示します。
+    グローバルクラスターの作成時に、Query CU の自動スケーリングを設定し、プライマリクラスターとセカンダリクラスターのレプリカ数を個別に設定することもできます。以下に例を示します。
 
     ```bash
     curl --request POST \
@@ -172,5 +172,5 @@ import Procedures from '@site/src/components/Procedures';
             "replica": 1
           }
         ]
-      }
+      }'
     ```
