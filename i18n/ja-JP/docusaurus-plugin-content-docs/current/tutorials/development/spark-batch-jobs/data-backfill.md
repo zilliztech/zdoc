@@ -2,7 +2,7 @@
 title: "データバックフィル  | Cloud"
 slug: /data-backfill
 sidebar_label: "データバックフィル "
-beta: PRIVATE
+beta: ON REQUEST
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -20,7 +20,13 @@ import Admonition from '@theme/Admonition';
 
 import Procedures from '@site/src/components/Procedures';
 
-# データバックフィル
+# データバックフィル 
+
+<FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
+
+この機能は、該当するすべての AWS リージョンでのみ使用できます。Google Cloud および Microsoft Azure では使用できません。有効にするには、[お問い合わせ](https://support.zilliz.com/hc/en-us)ください。
+
+</FeatureNote>
 
 データバックフィルを使用すると、Zilliz Cloud ボリューム上の Parquet ファイルに保存されたデータを使用して、Zilliz Cloud コレクション内の既存エンティティの選択したフィールドを更新できます。バックフィルジョブは、プライマリキーによって入力レコードを既存のエンティティと照合し、指定されたフィールドの値をコレクションに書き戻します。新しく追加されたフィールドへのデータ投入、欠損値の補完、既存フィールド値の大規模な置き換えに使用できます。
 

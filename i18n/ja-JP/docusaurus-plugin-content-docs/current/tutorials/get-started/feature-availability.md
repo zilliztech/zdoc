@@ -28,45 +28,45 @@ import Admonition from '@theme/Admonition';
 
 - **Private Preview:** 
 
-    - **Definition:** Private Preview の機能は現在活発に開発中であり、変更される可能性があります。Zilliz Cloud 内で実装およびテストされていますが、使いやすさ、安定性、およびコーナーケースへの対応が完全ではない場合があります。
+    - **定義:** Private Preview の機能は現在活発に開発中であり、変更される可能性があります。Zilliz Cloud 内で実装およびテストされていますが、使いやすさ、安定性、およびコーナーケースへの対応が完全ではない場合があります。
 
-    - **Access**: デフォルトでは利用できません。アクセスを希望する場合は、[Zilliz Support](http://support.zilliz.com) にお問い合わせください。
+    - **アクセス**: デフォルトでは利用できません。アクセスを希望する場合は、[Zilliz サポート](http://support.zilliz.com) にお問い合わせください。
 
-    - **Usage**: 本番ワークロードを対象としたものではありません。
+    - **用途**: 本番ワークロードを対象としていません。
 
 - **Public Preview:** 
 
-    - **Definition:** Public Preview の機能は本番環境で利用できる状態に近く、General Availability（GA）に到達する前に大幅に変更される可能性はほとんどありません。
+    - **定義:** Public Preview の機能は本番環境で利用できる状態に近く、General Availability（GA）に到達する前に大幅に変更される可能性はほとんどありません。
 
-    - **Access**: 通常、クラスターの Milvus バージョンをアップグレードするとデフォルトで有効になります。クラスターで古いバージョンの Milvus を実行している場合、一部の機能を利用できないことがあります。そのような場合は、クラスターをアップグレードするために [サポートにお問い合わせください](http://support.zilliz.com)。
+    - **アクセス**: 通常、クラスターの Milvus バージョンをアップグレードするとデフォルトで有効になります。クラスターで古いバージョンの Milvus を実行している場合、一部の機能を利用できないことがあります。そのような場合は、クラスターをアップグレードするために [サポートにお問い合わせください](http://support.zilliz.com)。
 
-    - **Usage:** 本番環境での使用は推奨されません。
+    - **用途:** 本番環境での使用は推奨されません。
 
 - **General Availability (GA):** 
 
-    - <strong>Definition:</strong> GA の機能は完全にリリースされ、本番環境に対応しており、積極的にサポートされています。
+    - <strong>定義:</strong> GA の機能は完全にリリースされ、本番環境に対応しており、積極的にサポートされています。
 
-    - **Access**: ほとんどのユーザーに対してデフォルトで有効になっていますが、価格に関する考慮事項があるエンタープライズ機能など、一部の機能については有効化のために [営業担当者へのお問い合わせ](https://zilliz.com/contact-sales) が必要です。
+    - **アクセス**: ほとんどのユーザーに対してデフォルトで有効になっています。ただし、価格に関する考慮事項があるエンタープライズ機能など、一部の機能では、有効化するために[営業担当者へのお問い合わせ](https://zilliz.com/contact-sales)が必要です。
 
-    - **Usage**: 本番環境で使用するためのものです。
+    - **用途**: 本番環境で使用するためのものです。
 
 - **Deprecation Notice:** 
 
-    - <strong>Definition:</strong> このフェーズの機能は引き続き動作しアクセスできますが、重大なバグ修正を除き、積極的な開発は行われていません。
+    - <strong>定義:</strong> このフェーズの機能は引き続き動作し、アクセスできますが、重大なバグ修正を除き、活発な開発は行われていません。
 
-    - **Access**: 引き続き利用できますが、正式な非推奨の告知がメールで発行されています。
+    - **アクセス**: 引き続き利用できますが、正式な非推奨の告知がメールで送信されています。
 
-    - **Usage**: この機能は将来の日付で削除される予定であるため、新しいソリューションへの移行を開始するには [専門家にご相談ください](https://zilliz.com/contact-sales)。
+    - **用途**: この機能は将来の日付で削除される予定であるため、新しいソリューションへの移行を開始するには[専門家にご相談ください](https://zilliz.com/contact-sales)。
 
 - **Deprecated:** 
 
-    - <strong>Definition:</strong> この機能は Zilliz Cloud から完全に削除されており、アクセスもサポートもされていません。
+    - <strong>定義:</strong> この機能は Zilliz Cloud から完全に削除されており、アクセスもサポートも提供されていません。
 
-    - **Access**: 利用できません。
+    - **アクセス**: 利用できません。
 
 ## 機能の提供フェーズを識別する方法\{#how-to-identify-a-features-availability-phase}
 
-各機能の提供フェーズは、Zilliz Cloud ドキュメント内で対応するラベルによって示されます。特に明記されていない限り、その機能は General Availability であると見なされます。
+各機能の提供フェーズは、Zilliz Cloud のドキュメントで対応するラベルによって示されます。特に明記されていない限り、その機能は General Availability であると見なされます。
 
 ## 現在の機能の提供状況\{#current-feature-availability}
 
@@ -74,13 +74,11 @@ import Admonition from '@theme/Admonition';
 
 - [バックアップファイルのエクスポート](./export-backup-files)
 
-- Hosted models
-
-- [Spark バッチジョブ](./spark-batch-jobs)
+- Azure リージョンでの外部コレクションと外部ボリューム。
 
 <Admonition type="info" title="Notes">
 
-これらの機能へのアクセスを希望する場合は、[Zilliz Support](http://support.zilliz.com) にお問い合わせください。 
+これらの機能へのアクセスを希望する場合は、[Zilliz サポート](http://support.zilliz.com) にお問い合わせください。 
 
 </Admonition>
 
@@ -92,13 +90,7 @@ import Admonition from '@theme/Admonition';
 
 </Admonition>
 
-- [オンデマンドコンピュート](./on-demand-cluster)
-
-<Admonition type="info" title="Notes">
-
-お使いのリージョンがこの機能をサポートしている場合は、より多くのリージョンについて [お問い合わせください](http://support.zilliz.com)
-
-</Admonition>
+- [オンデマンドコンピューティング](./on-demand-cluster)
 
 ### Deprecation notice\{#deprecation-notice}
 

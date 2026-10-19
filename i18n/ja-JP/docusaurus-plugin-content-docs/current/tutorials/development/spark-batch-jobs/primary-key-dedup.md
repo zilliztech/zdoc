@@ -2,7 +2,7 @@
 title: "主キー重複排除 | Cloud"
 slug: /primary-key-dedup
 sidebar_label: "主キー重複排除"
-beta: PRIVATE
+beta: ON REQUEST
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 <FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
 
-この機能は AWS us-west-2 リージョンでのみ利用できます。Google Cloud および Microsoft Azure では利用できません。
+この機能は、対象となるすべての AWS リージョンでのみ利用できます。Google Cloud および Microsoft Azure では利用できません。有効にするには、[お問い合わせ](https://support.zilliz.com/hc/en-us)ください。
 
 </FeatureNote>
 

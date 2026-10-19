@@ -2,7 +2,7 @@
 title: "Spark バッチジョブ | Cloud"
 slug: /spark-batch-jobs
 sidebar_label: "Spark バッチジョブ"
-beta: PRIVATE
+beta: ON REQUEST
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 <FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
 
-この機能は AWS us-west-2 リージョンでのみ利用できます。Google Cloud および Microsoft Azure では利用できません。
+この機能は、該当するすべての AWS リージョンでのみ利用できます。Google Cloud および Microsoft Azure では利用できません。有効にするには、[お問い合わせください](https://support.zilliz.com/hc/en-us)。
 
 </FeatureNote>
 

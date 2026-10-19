@@ -2,7 +2,7 @@
 title: "ベクトル類似度による重複排除 | Cloud"
 slug: /vector-similarity-dedup
 sidebar_label: "ベクトル類似度による重複排除"
-beta: PRIVATE
+beta: ON REQUEST
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 <FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
 
-この機能は AWS us-west-2 リージョンでのみ使用できます。Google Cloud および Microsoft Azure では使用できません。
+この機能は、該当するすべての AWS リージョンでのみ利用できます。Google Cloud および Microsoft Azure では利用できません。有効にするには、[お問い合わせください](https://support.zilliz.com/hc/en-us)。
 
 </FeatureNote>
 
@@ -309,4 +309,3 @@ import Procedures from '@site/src/components/Procedures';
 ## 次のステップ\{#next-step}
 
 まだ実施していない場合は、[プライマリキーによる重複排除](./primary-key-dedup) を使用して、プライマリキーの値が同じレコードを識別してください。モデルトレーニングや大規模なデータ分析には、[K-Means クラスタリング](./k-means-clustering) を使用して埋め込みの分布を調べ、[異常検知](./anomaly-detection) を使用して、さらに確認が必要となる可能性のある異常なレコードを見つけてください。 
-

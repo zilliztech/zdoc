@@ -2191,39 +2191,39 @@
       "translatedAt": "2026-08-25T08:25:57.060Z"
     },
     "content/en/guides/tutorials/development/spark-batch-jobs/anomaly-detection.md": {
-      "sourceHash": "222d40587b430b87b294efa7ece807c21236d72aa5525e7a5ff3b4ab7cf179bd",
+      "sourceHash": "71803ea6d7f5b21979eb6bc65dbd08958117c20b454ef4f8727b689263988680",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/spark-batch-jobs/anomaly-detection.md",
-      "translatedAt": "2026-10-10T05:55:32.018Z"
+      "translatedAt": "2026-10-19T15:23:50.045Z"
     },
     "content/en/guides/tutorials/development/spark-batch-jobs/data-backfill.md": {
-      "sourceHash": "dc078c219a0dc2026c053d89c072e8796c4ec91f1c72ae7bb9daf50d2b4fc045",
+      "sourceHash": "273f3fd53f35e4e7d84484861566811225062f3632616f631d4395a13d380f90",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/spark-batch-jobs/data-backfill.md",
-      "translatedAt": "2026-10-10T05:55:32.018Z"
+      "translatedAt": "2026-10-19T15:23:50.045Z"
     },
     "content/en/guides/tutorials/development/spark-batch-jobs/k-means-clustering.md": {
-      "sourceHash": "7f9c9c1cf580f4cdb5a1093c1dfc21e1cd2590922cbc26fa75d93ea24ff8c44e",
+      "sourceHash": "e3498f27637a4b34c36a380e9c1a9b2efa22ce16c610d998bcc114a768cbf3a5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/spark-batch-jobs/k-means-clustering.md",
-      "translatedAt": "2026-10-10T05:55:32.018Z"
+      "translatedAt": "2026-10-19T15:23:50.045Z"
     },
     "content/en/guides/tutorials/development/spark-batch-jobs/manage-spark-batch-jobs.md": {
-      "sourceHash": "0d48b150ac426faabf154f182c7b7ac8239dad0b8c92a78c52eb08c124017166",
+      "sourceHash": "3ef673839c9ba69d8f1b522b4aafee0b141bd30805dad65f0b6a235ef8ce7a9c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/spark-batch-jobs/manage-spark-batch-jobs.md",
-      "translatedAt": "2026-10-10T05:55:32.018Z"
+      "translatedAt": "2026-10-19T15:23:50.045Z"
     },
     "content/en/guides/tutorials/development/spark-batch-jobs/primary-key-dedup.md": {
-      "sourceHash": "e45bc4eb9280919872038bb95cbdafed72718a1be776ab05841fabccc5c7e89b",
+      "sourceHash": "45e47e861bdeeb6445cba03253e9b0c00d7939f470975a8f8b552bfa2d0655b9",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/spark-batch-jobs/primary-key-dedup.md",
-      "translatedAt": "2026-10-10T05:56:46.316Z"
+      "translatedAt": "2026-10-19T15:23:50.045Z"
     },
     "content/en/guides/tutorials/development/spark-batch-jobs/spark-batch-jobs.md": {
-      "sourceHash": "b22d391e6745ef117c97e012b4aef4baa37e84ec8b4b3361244eaa42c197b5f4",
+      "sourceHash": "35d0a587bf665ec490f9d59f4f96add54ace125c3e0580efe08d583b3ca403c7",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/spark-batch-jobs/spark-batch-jobs.md",
-      "translatedAt": "2026-10-10T05:56:46.316Z"
+      "translatedAt": "2026-10-19T15:23:50.045Z"
     },
     "content/en/guides/tutorials/development/spark-batch-jobs/vector-similarity-dedup.md": {
-      "sourceHash": "4a4ae81f7fc7fda90e7789f9410411778e0e1155cf64a7f3fa67cc493351fe75",
+      "sourceHash": "5378aad0928e7af6350381e64e66976b527f99e56a02e41671627dfdc1fe707a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/spark-batch-jobs/vector-similarity-dedup.md",
-      "translatedAt": "2026-10-10T05:56:46.316Z"
+      "translatedAt": "2026-10-19T15:23:50.045Z"
     },
     "content/en/guides/tutorials/development/vector-index/autoindex-explained.md": {
       "sourceHash": "97b46b3cb3566efbc38a0aa4456ee9cabcab180d745ee3a6564c4928f19632ac",
@@ -2241,14 +2241,14 @@
       "translatedAt": "2026-10-10T05:56:46.316Z"
     },
     "content/en/guides/tutorials/development/volume/external-volume.md": {
-      "sourceHash": "a6dc2fc56ba18e2e1cf07a2b2ae78fcfe6ba321c7b8acf1c979a969f6b856448",
+      "sourceHash": "ae8758204a0f3e311e00f51b68c4e4c915da4c338c56664438094c223c5e242a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/volume/external-volume.md",
-      "translatedAt": "2026-10-10T05:56:46.316Z"
+      "translatedAt": "2026-10-19T15:23:50.045Z"
     },
     "content/en/guides/tutorials/development/volume/managed-volume.md": {
-      "sourceHash": "274f7f1cfaf63a36a9a35ed97e3b11b951070f73623e209478fc5e82c41cd412",
+      "sourceHash": "b951a860867b6b3a25c940fc1f2dba60d38aa0ccce1126b4e9a7d0565831d2e5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/volume/managed-volume.md",
-      "translatedAt": "2026-10-10T05:56:46.316Z"
+      "translatedAt": "2026-10-19T15:23:50.045Z"
     },
     "content/en/guides/tutorials/development/volume/storage-integration/integrate-with-aws-s3.md": {
       "sourceHash": "d4e2123bc561bc520b28fd21d2f13939393df6a9d557c15e13958a1880209c23",
@@ -2266,9 +2266,9 @@
       "translatedAt": "2026-10-10T05:56:46.316Z"
     },
     "content/en/guides/tutorials/get-started/cloud-providers-and-regions.md": {
-      "sourceHash": "d8a1885d79a4f225606dfefd8aca969f274c309da134e250b1ea31a78708c3f5",
+      "sourceHash": "f9e368793801431ecbaf9b5f3e459cd1597d0ff93e77a11fcaca21910b9eebf1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/cloud-providers-and-regions.md",
-      "translatedAt": "2026-10-10T05:56:46.316Z"
+      "translatedAt": "2026-10-19T15:23:50.045Z"
     },
     "content/en/guides/tutorials/get-started/faqs/faq-authentication.md": {
       "sourceHash": "3ae91e19944e6c14e61fd0b3ad71e99c1e34afdbdc517cf9b6ecccf352b2a0f7",
@@ -2306,9 +2306,9 @@
       "translatedAt": "2026-08-25T17:44:56.620Z"
     },
     "content/en/guides/tutorials/get-started/feature-availability.md": {
-      "sourceHash": "7cf8f1d23aabd840d7bc1010dc1f501e23df8d41530825ea21b46b92e444173d",
+      "sourceHash": "13cddde614c3f3c8847f87d96be3d92c36b1eb66e6fcaea4f68cd6a086209ae3",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/feature-availability.md",
-      "translatedAt": "2026-10-10T05:56:46.316Z"
+      "translatedAt": "2026-10-19T15:23:50.045Z"
     },
     "content/en/guides/tutorials/get-started/free-trials.md": {
       "sourceHash": "c2d0c72b75f885bd0affe63ac2b66d52063e837f18e086c46a870c0ee39209a8",
@@ -2341,9 +2341,9 @@
       "translatedAt": "2026-09-19T14:14:40.742Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/changelogs.md": {
-      "sourceHash": "5ac248153866715d1348450487a8aeb41344053b03e6d940cf9590d1381fa5aa",
+      "sourceHash": "edf41d44fe3d12ad75058e03cb424e8c52272940c8027aab18689b2a32af3d40",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/changelogs.md",
-      "translatedAt": "2026-10-10T05:56:46.316Z"
+      "translatedAt": "2026-10-19T15:23:50.045Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-008.md": {
       "sourceHash": "b6adc041c8ac8abfa04f0fda237b0a4c249624d58ecfa3ef620910458b44dd27",
@@ -2514,6 +2514,11 @@
       "sourceHash": "c128ec80f14e93ca202c53a2d704f68ee529e7f02d04fc4e457b8d15558a6b07",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-2609.md",
       "translatedAt": "2026-09-19T14:17:06.722Z"
+    },
+    "content/en/guides/tutorials/get-started/release-notes/release-notes-2610.md": {
+      "sourceHash": "94f1c8b2896946096404aaf7a36156257d664a387690612d0e048d19db2443a6",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/release-notes-2610.md",
+      "translatedAt": "2026-10-19T15:23:50.045Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-270.md": {
       "sourceHash": "b34781046b65a14fb2944cacaae3ed0512f782210c7674b8c45e1c22990dbac6",
@@ -2826,9 +2831,9 @@
       "translatedAt": "2026-09-19T14:22:01.285Z"
     },
     "content/en/guides/tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters.md": {
-      "sourceHash": "94c2dcdfb6660405e5c5bbfbc4c1d4dcd8124ab0ff651a2d259c9a79ff6f07c7",
+      "sourceHash": "b8ab51d57a5d0a6cfb26aeec7e19a994bfe38e048da15dfcb6176bf24d13e3c3",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters.md",
-      "translatedAt": "2026-10-10T05:59:09.018Z"
+      "translatedAt": "2026-10-19T15:23:50.045Z"
     },
     "content/en/guides/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md": {
       "sourceHash": "879e3b79563d1c8aa82f8d1a729189fcf07d9fbae83d4d7b51fffc53c7691515",
@@ -2846,9 +2851,9 @@
       "translatedAt": "2026-09-19T14:22:01.285Z"
     },
     "content/en/guides/tutorials/management/cmek/gcp-kms.md": {
-      "sourceHash": "20c3302200a6eceb572a878f5c593d0b674d2645aec162c15b3b1443e4e1d699",
+      "sourceHash": "b416c35c3e36e3a2485ab9aac0d12f793300b3ddfce41637e643ee8910f8ade3",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cmek/gcp-kms.md",
-      "translatedAt": "2026-10-10T05:41:19.585Z"
+      "translatedAt": "2026-10-19T15:23:50.045Z"
     },
     "content/en/guides/tutorials/management/cost-management/analyze-cost.md": {
       "sourceHash": "7b81386233030798a2ff801480215d346fc6e873a9e35484ef70d2ba556032c2",
