@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`removepunct` フィルターは、トークンストリームから、句読点または空白文字を含むトークンを削除します。句読点ではなく意味のある内容語に焦点を当てた、よりクリーンなテキスト処理を行いたい場合に使用します。 | BYOC"
+description: "`removepunct` フィルターは、トークンストリームから句読点または空白を含むトークンを削除します。句読点ではなく意味のある内容語に焦点を当てた、よりクリーンなテキスト処理を行いたい場合に使用します。 | BYOC"
 type: origin
 token: TVfnwtCEQico7Bk9bngcnV1cnGb
 sidebar_position: 11
@@ -21,11 +21,11 @@ import TabItem from '@theme/TabItem';
 
 # Remove Punct
 
-`removepunct` フィルターは、トークンストリームから、句読点または空白文字を含むトークンを削除します。句読点ではなく意味のある内容語に焦点を当てた、よりクリーンなテキスト処理を行いたい場合に使用します。
+`removepunct` フィルターは、トークンストリームから句読点または空白を含むトークンを削除します。句読点ではなく意味のある内容語に焦点を当てた、よりクリーンなテキスト処理を行いたい場合に使用します。
 
 <Admonition type="info" title="Notes">
 
-このフィルターは、句読点を個別のトークンとして保持する `jieba`、`lindera`、`icu` tokenizer で最も効果を発揮します（例：`"Hello!"` → `["Hello", "!"]`）。`standard` tokenizer はトークン化の際に句読点を破棄します。`whitespace` tokenizer は、トークン内の句読点も含めて句読点を保持します。`whitespace` と組み合わせた場合、`removepunct` は、トークンに句読点または空白文字が含まれていればトークン全体を削除し、トークンから個々の文字を除去するわけではありません。
+このフィルターは、句読点を個別のトークンとして保持する `jieba`、`lindera`、`icu` tokenizer で最も効果的です（例: `"Hello!"` → `["Hello", "!"]`）。`standard` tokenizer はトークン化時に句読点を破棄します。`whitespace` tokenizer は、トークン内の句読点も含めて句読点を保持します。`whitespace` と組み合わせた場合、`removepunct` はトークンに句読点または空白が含まれていればトークン全体を削除します。トークンから個々の文字を削除するわけではありません。
 
 </Admonition>
 
@@ -48,6 +48,10 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "jieba");
 analyzerParams.put("filter", Collections.singletonList("removepunct"));
@@ -115,7 +119,7 @@ analyzerParams='{
 
 `removepunct` フィルターは tokenizer によって生成された用語に対して動作するため、tokenizer と組み合わせて使用する必要があります。
 
-`analyzer_params` を定義した後、コレクションスキーマを定義する際に、それらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定された analyzer を使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを行えます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後は、コレクションスキーマを定義する際に、それらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定した analyzer を使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを行えます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
 ## 例\{#examples}
 
@@ -138,6 +142,10 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "icu");
 analyzerParams.put("filter", Collections.singletonList("removepunct"));
@@ -232,6 +240,8 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.RunAnalyzerReq;
 import io.milvus.v2.service.vector.response.RunAnalyzerResp;
+import java.util.ArrayList;
+import java.util.List;
 
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -352,6 +362,8 @@ const result = await client.runAnalyzer({
   analyzer_params: analyzer_params,
   text: sampleText,
 });
+
+console.log("Standard analyzer output:", result);
 ```
 
 </TabItem>

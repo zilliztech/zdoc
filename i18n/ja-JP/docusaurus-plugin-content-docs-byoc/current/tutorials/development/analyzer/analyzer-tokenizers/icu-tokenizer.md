@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`icu` トークナイザーは、ソフトウェアの国際化のための主要なツールを提供する Internationalization Components of Unicode オープンソースプロジェクトに基づいて構築されています。ICU の word-break アルゴリズムを使用することで、トークナイザーは世界の大多数の言語にわたるテキストを正確に単語へ分割できます。 | BYOC"
+description: "`icu` トークナイザーは、ソフトウェアの国際化に必要な主要ツールを提供する Internationalization Components of Unicode オープンソースプロジェクトに基づいて構築されています。ICU の単語分割アルゴリズムを使用することで、このトークナイザーは世界の大多数の言語のテキストを正確に単語へ分割できます。 | BYOC"
 type: origin
 token: Q3gKwc5lkilAbKkalCWcW2AbnLe
 sidebar_position: 5
@@ -21,17 +21,17 @@ import TabItem from '@theme/TabItem';
 
 # ICU
 
-`icu` トークナイザーは、ソフトウェアの国際化のための主要なツールを提供する [Internationalization Components of Unicode](http://site.icu-project.org/)（ICU）オープンソースプロジェクトに基づいて構築されています。ICU の word-break アルゴリズムを使用することで、トークナイザーは世界の大多数の言語にわたってテキストを正確に単語に分割できます。
+`icu` トークナイザーは、ソフトウェアの国際化に必要な主要ツールを提供する [Internationalization Components of Unicode](http://site.icu-project.org/)（ICU）オープンソースプロジェクトに基づいて構築されています。ICU の単語分割アルゴリズムを使用することで、このトークナイザーは世界の大多数の言語のテキストを正確に単語へ分割できます。
 
 <Admonition type="info" title="Notes">
 
-`icu` トークナイザーは、出力内で句読点とスペースを個別のトークンとして保持します。たとえば、`"Привет! Как дела?"` は `["Привет", "!", " ", "Как", " ", "дела", "?"]` になります。これらの単独の句読点トークンを削除するには、[`removepunct`](./remove-punct-filter) フィルターを使用します。
+`icu` トークナイザーは、出力内で句読点とスペースを個別のトークンとして保持します。たとえば、`"Привет! Как дела?"` は `["Привет", "!", " ", "Как", " ", "дела", "?"]` になります。これらの独立した句読点トークンを削除するには、[`removepunct`](./remove-punct-filter) フィルターを使用します。
 
 </Admonition>
 
 ## 構成\{#configuration}
 
-`icu` トークナイザーを使用してアナライザーを構成するには、`analyzer_params` で `tokenizer` を `icu` に設定します。
+`icu` トークナイザーを使用するアナライザーを構成するには、`analyzer_params` で `tokenizer` を `icu` に設定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -104,7 +104,7 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-`icu` トークナイザーは、1 つ以上のフィルターと組み合わせて使用できます。たとえば、次のコードは `icu` トークナイザーと [remove punct filter](./remove-punct-filter) を使用するアナライザーを定義します。
+`icu` トークナイザーは、1つ以上のフィルターと組み合わせて使用できます。たとえば、次のコードは、`icu` トークナイザーと [句読点削除フィルター](./remove-punct-filter) を使用するアナライザーを定義します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -185,7 +185,7 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-`analyzer_params` を定義したら、コレクションスキーマを定義するときにそれを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールドのテキストを処理し、効率的にトークン化とフィルタリングを行えます。詳細については、[Example use](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後、コレクションスキーマを定義するときにそれを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定したアナライザーを使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを行えます。詳細は、[使用例](./analyzer-overview#example-use) を参照してください。
 
 ## 例\{#examples}
 
@@ -325,6 +325,8 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
+ctx := context.Background()
+
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
@@ -353,6 +355,9 @@ if err != nil {
 use milvus::v2::prelude::*;
 use serde_json::json;
 
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
+
 let analyzer_params = json!({ "tokenizer": "icu" });
 let result = client
     .run_analyzer(
@@ -362,6 +367,8 @@ let result = client
             .build()?,
     )
     .await?;
+
+println!("ICU analyzer output: {:?}", result.results());
 ```
 
 </TabItem>
@@ -425,7 +432,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### 期待される出力\{#expected-output}
+### 想定される出力\{#expected-output}
 
 ```plaintext
 ['Привет', '!', ' ', 'Как', ' ', 'дела', '?']

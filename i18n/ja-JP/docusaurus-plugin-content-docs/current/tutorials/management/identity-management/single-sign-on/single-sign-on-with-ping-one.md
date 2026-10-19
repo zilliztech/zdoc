@@ -7,9 +7,6 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-channel: next
-sidebar_custom_props:
-  channel: next
 description: "このトピックでは、SAML 2.0 プロトコルを使用して Ping Identity（PingOne）とのシングルサインオン（SSO）を構成する方法について説明します。 | Cloud"
 type: origin
 token: KIPiw0RqSieKkjkACwGcvgfLnSe

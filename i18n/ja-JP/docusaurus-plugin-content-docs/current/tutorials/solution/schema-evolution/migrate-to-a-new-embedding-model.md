@@ -2,7 +2,7 @@
 title: "新しい埋め込みモデルへの移行 | Cloud"
 slug: /migrate-to-a-new-embedding-model
 sidebar_label: "新しい埋め込みモデルへの移行"
-beta: FALSE
+beta: ON REQUEST
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

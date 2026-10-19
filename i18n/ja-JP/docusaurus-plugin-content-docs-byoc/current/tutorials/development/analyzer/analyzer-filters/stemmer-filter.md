@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`stemmer` フィルターは、単語をその基本形または語根形（ステミングと呼ばれます）に還元し、異なる活用形であっても類似した意味を持つ単語を照合しやすくします。`stemmer` フィルターは複数の言語をサポートしているため、さまざまな言語コンテキストでの効果的な検索とインデックス作成を可能にします。 | BYOC"
+description: "`stemmer` フィルターは、単語を基本形または語根形（ステミングとして知られています）に還元し、異なる活用形にまたがる類似した意味の単語を照合しやすくします。`stemmer` フィルターは複数の言語をサポートしているため、さまざまな言語コンテキストで効果的な検索とインデックス作成が可能です。 | BYOC"
 type: origin
 token: JksSwTwJPidjsnk18Olc2TjWnZe
 sidebar_position: 10
@@ -21,11 +21,11 @@ import TabItem from '@theme/TabItem';
 
 # Stemmer
 
-`stemmer` フィルターは、単語をその基本形または語根形（ステミングと呼ばれます）に還元し、異なる活用形であっても類似した意味を持つ単語を照合しやすくします。`stemmer` フィルターは複数の言語をサポートしているため、さまざまな言語コンテキストでの効果的な検索とインデックス作成を可能にします。
+`stemmer` フィルターは、単語を基本形または語根形（ステミングとして知られています）に還元し、異なる活用形にまたがる類似した意味の単語を照合しやすくします。`stemmer` フィルターは複数の言語をサポートしているため、さまざまな言語コンテキストで効果的な検索とインデックス作成が可能です。
 
-## 構成\{#configuration}
+## 設定\{#configuration}
 
-`stemmer` フィルターは、Zilliz Cloud のカスタムフィルターです。使用するには、フィルター構成で `"type": "stemmer"` を指定し、あわせて、ステミングに使用する言語を選択するための `language` パラメーターを指定します。
+`stemmer` フィルターは、Zilliz Cloud のカスタムフィルターです。使用するには、フィルター構成で `"type": "stemmer"` を指定し、ステミングに使用する言語を選択する `language` パラメーターを指定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -45,6 +45,10 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "standard");
 analyzerParams.put("filter",
@@ -134,15 +138,15 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-`stemmer` フィルターは、以下の構成可能なパラメーターを受け付けます。
+`stemmer` フィルターは、次の構成可能なパラメーターを受け入れます。
 
 | パラメーター | 説明 |
 | --- | --- |
-| `language` | ステミング処理に使用する言語を指定します。サポートされている言語は、`"arabic"`、`"danish"`、`"dutch"`、`"english"`、`"finnish"`、`"french"`、`"german"`、`"greek"`、`"hungarian"`、`"italian"`、`"norwegian"`、`"portuguese"`、`"romanian"`、`"russian"`、`"spanish"`、`"swedish"`、`"tamil"`、`"turkish"` です。 |
+| `language` | ステミング処理に使用する言語を指定します。サポートされる言語は、`"arabic"`、`"danish"`、`"dutch"`、`"english"`、`"finnish"`、`"french"`、`"german"`、`"greek"`、`"hungarian"`、`"italian"`、`"norwegian"`、`"portuguese"`、`"romanian"`、`"russian"`、`"spanish"`、`"swedish"`、`"tamil"`、`"turkish"` です。 |
 
-`stemmer` フィルターは、トークナイザーによって生成された用語に対して動作するため、トークナイザーと組み合わせて使用する必要があります。
+`stemmer` フィルターはトークナイザーによって生成された用語を処理するため、トークナイザーと組み合わせて使用する必要があります。
 
-`analyzer_params` を定義した後、コレクションスキーマを定義する際にそれらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを実行できます。詳細については、[Example use](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後、コレクションスキーマを定義する際に、それらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを実行できます。詳細は、[使用例](./analyzer-overview#example-use) を参照してください。
 
 ## 例\{#examples}
 
@@ -168,6 +172,10 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "standard");
 analyzerParams.put("filter",
@@ -257,7 +265,7 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-### `run_analyzer` を使用した確認\{#verification-using-runanalyzer}
+### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -315,6 +323,8 @@ import (
 
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
+
+ctx := context.Background()
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
@@ -429,4 +439,3 @@ curl --request POST \
 ```python
 ['run', 'run', 'look', 'ran', 'runner']
 ```
-

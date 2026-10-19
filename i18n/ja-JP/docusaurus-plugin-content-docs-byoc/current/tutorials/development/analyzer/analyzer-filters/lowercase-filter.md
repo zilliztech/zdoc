@@ -1,13 +1,13 @@
 ---
-title: "Lowercase | BYOC"
+title: "小文字フィルター | BYOC"
 slug: /lowercase-filter
-sidebar_label: "Lowercase"
+sidebar_label: "小文字フィルター"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`lowercase` フィルターは、トークナイザーによって生成された用語を小文字に変換し、検索で大文字と小文字を区別しないようにします。たとえば、`[\"High\", \"Performance\", \"Vector\", \"Database\"]` を `[\"high\", \"performance\", \"vector\", \"database\"]` に変換できます。 | BYOC"
+description: "`lowercase` フィルターは、トークナイザーが生成した用語を小文字に変換し、検索で大文字と小文字を区別しないようにします。たとえば、`[\"High\", \"Performance\", \"Vector\", \"Database\"]` を `[\"high\", \"performance\", \"vector\", \"database\"]` に変換できます。 | BYOC"
 type: origin
 token: AhAhw08MFiB9OpkDjbPcVUTVnlg
 sidebar_position: 1
@@ -19,9 +19,9 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Lowercase
+# 小文字フィルター
 
-`lowercase` フィルターは、トークナイザーによって生成された用語を小文字に変換し、検索で大文字と小文字を区別しないようにします。たとえば、`["High", "Performance", "Vector", "Database"]` を `["high", "performance", "vector", "database"]` に変換できます。
+`lowercase` フィルターは、トークナイザーが生成した用語を小文字に変換し、検索で大文字と小文字を区別しないようにします。たとえば、`["High", "Performance", "Vector", "Database"]` を `["high", "performance", "vector", "database"]` に変換できます。
 
 ## 設定\{#configuration}
 
@@ -42,6 +42,10 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "standard");
 analyzerParams.put("filter", Collections.singletonList("lowercase"));
@@ -107,15 +111,15 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-`lowercase` フィルターはトークナイザーによって生成された用語に対して動作するため、トークナイザーと組み合わせて使用する必要があります。
+`lowercase` フィルターはトークナイザーが生成した用語を処理するため、トークナイザーと組み合わせて使用する必要があります。
 
-`analyzer_params` を定義した後、コレクションスキーマを定義するときにそれらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを実現できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後、コレクションスキーマを定義するときに、それらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールド内のテキストを処理し、効率的にトークン化とフィルタリングを実行できます。詳細は、[使用例](./analyzer-overview#example-use) を参照してください。
 
 ## 例\{#examples}
 
 アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
-### アナライザーの設定\{#analyzer-configuration}
+### アナライザー設定\{#analyzer-configuration}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -132,6 +136,10 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "standard");
 analyzerParams.put("filter", Collections.singletonList("lowercase"));
@@ -197,7 +205,7 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-### `run_analyzer` を使った検証\{#verification-using-runanalyzer}
+### `run_analyzer` を使用した確認\{#verification-using-runanalyzer}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -260,6 +268,8 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
+ctx := context.Background()
+
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
@@ -278,6 +288,12 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
+
+for _, r := range result {
+    for _, token := range r.Tokens {
+        fmt.Println("Standard analyzer output:", token.Text)
+    }
+}
 ```
 
 </TabItem>
@@ -286,6 +302,9 @@ if err != nil {
 
 ```rust
 use milvus::v2::prelude::*;
+
+let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
+let client = ClientV2::new(&config).await?;
 
 let response = client
     .run_analyzer(

@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`cnalphanumonly` フィルターは、中国語の文字、英字、または数字以外の文字を含むトークンを削除します。 | BYOC"
+description: "`cnalphanumonly` フィルターは、中国語の文字、英字、数字以外の文字を含むトークンを削除します。 | BYOC"
 type: origin
 token: R3r7wFHUbi8KxUk2t2FcUXoJnic
 sidebar_position: 4
@@ -21,9 +21,9 @@ import TabItem from '@theme/TabItem';
 
 # Cnalphanumonly
 
-`cnalphanumonly` フィルターは、中国語の文字、英字、または数字以外の文字を含むトークンを削除します。
+`cnalphanumonly` フィルターは、中国語の文字、英字、数字以外の文字を含むトークンを削除します。
 
-## 構成\{#configuration}
+## 設定\{#configuration}
 
 `cnalphanumonly` フィルターは Zilliz Cloud に組み込まれています。使用するには、`analyzer_params` 内の `filter` セクションでその名前を指定するだけです。
 
@@ -42,6 +42,10 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "jieba");
 analyzerParams.put("filter", Collections.singletonList("cnalphanumonly"));
@@ -102,15 +106,15 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-`cnalphanumonly` フィルターはトークナイザーによって生成されたタームに対して動作するため、トークナイザーと組み合わせて使用する必要があります。Zilliz Cloud で利用可能なトークナイザーの一覧については、[Jieba](./jieba-tokenizer) とその関連ページを参照してください。
+`cnalphanumonly` フィルターはトークナイザーによって生成されたタームに対して動作するため、トークナイザーと組み合わせて使用する必要があります。Zilliz Cloud で使用できるトークナイザーの一覧については、[Jieba](./jieba-tokenizer) とその関連ページを参照してください。
 
-`analyzer_params` を定義したら、コレクションスキーマを定義する際にそれらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを行うことができます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義したら、コレクションスキーマを定義する際に、それらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを行えます。詳細は、[Example use](./analyzer-overview#example-use) を参照してください。
 
 ## 例\{#examples}
 
-アナライザー構成をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
-### アナライザー構成\{#analyzer-configuration}
+### アナライザー設定\{#analyzer-configuration}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -127,6 +131,10 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("tokenizer", "jieba");
 analyzerParams.put("filter", Collections.singletonList("cnalphanumonly"));
@@ -249,6 +257,8 @@ import (
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
+ctx := context.Background()
+
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
@@ -359,9 +369,8 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/common/run_analyzer" \
 </TabItem>
 </Tabs>
 
-### 想定される出力\{#expected-output}
+### 期待される出力\{#expected-output}
 
 ```python
 ['Milvus', '是', 'LF', 'AI', 'Data', 'Foundation', '下', '的', '一个', '开源', '项目', '以', 'Apache', '2.0', '许可', '发布']
 ```
-
